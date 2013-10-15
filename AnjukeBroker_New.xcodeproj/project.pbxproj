@@ -498,6 +498,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AnjukeBroker_New/AnjukeBroker_New-Prefix.pch";
 				INFOPLIST_FILE = "AnjukeBroker_New/AnjukeBroker_New-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -520,6 +521,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AnjukeBroker_New/AnjukeBroker_New-Prefix.pch";
 				INFOPLIST_FILE = "AnjukeBroker_New/AnjukeBroker_New-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
