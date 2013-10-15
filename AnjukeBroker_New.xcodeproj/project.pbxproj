@@ -23,6 +23,24 @@
 		9741057C180CDFE1004DAE95 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9741057A180CDFE1004DAE95 /* InfoPlist.strings */; };
 		9741057E180CDFE1004DAE95 /* AnjukeBroker_NewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9741057D180CDFE1004DAE95 /* AnjukeBroker_NewTests.m */; };
 		97410589180CE0FC004DAE95 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97410588180CE0FC004DAE95 /* RootViewController.m */; };
+		97AED104180D21790072611B /* libRTCoreService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED0FD180D20110072611B /* libRTCoreService.a */; };
+		97AED106180D21BD0072611B /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED105180D21BD0072611B /* AdSupport.framework */; };
+		97AED108180D21DB0072611B /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED107180D21DB0072611B /* libicucore.dylib */; };
+		97AED10A180D21F40072611B /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED109180D21F40072611B /* libstdc++.dylib */; };
+		97AED10C180D221B0072611B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED10B180D221B0072611B /* Security.framework */; };
+		97AED10E180D22AE0072611B /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED10D180D22AE0072611B /* CoreTelephony.framework */; };
+		97AED110180D22E20072611B /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED10F180D22E20072611B /* libz.1.2.5.dylib */; };
+		97AED112180D22FE0072611B /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED111180D22FE0072611B /* CFNetwork.framework */; };
+		97AED114180D23100072611B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED113180D23100072611B /* MobileCoreServices.framework */; };
+		97AED116180D23210072611B /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED115180D23210072611B /* libsqlite3.0.dylib */; };
+		97AED118180D23300072611B /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED117180D23300072611B /* CoreText.framework */; };
+		97AED11A180D233F0072611B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED119180D233F0072611B /* MessageUI.framework */; };
+		97AED11C180D234D0072611B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED11B180D234D0072611B /* MapKit.framework */; };
+		97AED11E180D235D0072611B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED11D180D235D0072611B /* QuartzCore.framework */; };
+		97AED120180D236B0072611B /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED11F180D236B0072611B /* AssetsLibrary.framework */; };
+		97AED122180D237B0072611B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED121180D237B0072611B /* SystemConfiguration.framework */; };
+		97AED124180D23870072611B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED123180D23870072611B /* CoreLocation.framework */; };
+		97AED126180D24730072611B /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED125180D24730072611B /* TencentOpenAPI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +50,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 9741054E180CDFE0004DAE95;
 			remoteInfo = AnjukeBroker_New;
+		};
+		97AED0FC180D20110072611B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97AED0F5180D20100072611B /* RTCoreService.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 57411EEA16E586C600C20452;
+			remoteInfo = RTCoreService;
+		};
+		97AED0FE180D20340072611B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97AED0F5180D20100072611B /* RTCoreService.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 57411EE916E586C600C20452;
+			remoteInfo = RTCoreService;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -56,6 +88,24 @@
 		9741057D180CDFE1004DAE95 /* AnjukeBroker_NewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnjukeBroker_NewTests.m; sourceTree = "<group>"; };
 		97410587180CE0FC004DAE95 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		97410588180CE0FC004DAE95 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		97AED0F5180D20100072611B /* RTCoreService.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RTCoreService.xcodeproj; path = ../RTCoreService/RTCoreService.xcodeproj; sourceTree = "<group>"; };
+		97AED105180D21BD0072611B /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		97AED107180D21DB0072611B /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		97AED109180D21F40072611B /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		97AED10B180D221B0072611B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		97AED10D180D22AE0072611B /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		97AED10F180D22E20072611B /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
+		97AED111180D22FE0072611B /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		97AED113180D23100072611B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		97AED115180D23210072611B /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		97AED117180D23300072611B /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		97AED119180D233F0072611B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		97AED11B180D234D0072611B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		97AED11D180D235D0072611B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		97AED11F180D236B0072611B /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		97AED121180D237B0072611B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		97AED123180D23870072611B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		97AED125180D24730072611B /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = "../../GitCorp/i-anjuke_5.1/RTCoreService/RTCoreService/RT3rdSDK/TencentSDK/TencentOpenAPI.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +113,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97AED126180D24730072611B /* TencentOpenAPI.framework in Frameworks */,
+				97AED124180D23870072611B /* CoreLocation.framework in Frameworks */,
+				97AED122180D237B0072611B /* SystemConfiguration.framework in Frameworks */,
+				97AED120180D236B0072611B /* AssetsLibrary.framework in Frameworks */,
+				97AED11E180D235D0072611B /* QuartzCore.framework in Frameworks */,
+				97AED11C180D234D0072611B /* MapKit.framework in Frameworks */,
+				97AED11A180D233F0072611B /* MessageUI.framework in Frameworks */,
+				97AED118180D23300072611B /* CoreText.framework in Frameworks */,
+				97AED116180D23210072611B /* libsqlite3.0.dylib in Frameworks */,
+				97AED114180D23100072611B /* MobileCoreServices.framework in Frameworks */,
+				97AED112180D22FE0072611B /* CFNetwork.framework in Frameworks */,
+				97AED110180D22E20072611B /* libz.1.2.5.dylib in Frameworks */,
+				97AED10E180D22AE0072611B /* CoreTelephony.framework in Frameworks */,
+				97AED10C180D221B0072611B /* Security.framework in Frameworks */,
+				97AED10A180D21F40072611B /* libstdc++.dylib in Frameworks */,
+				97AED108180D21DB0072611B /* libicucore.dylib in Frameworks */,
+				97AED106180D21BD0072611B /* AdSupport.framework in Frameworks */,
+				97AED104180D21790072611B /* libRTCoreService.a in Frameworks */,
 				97410555180CDFE0004DAE95 /* CoreGraphics.framework in Frameworks */,
 				97410559180CDFE0004DAE95 /* CoreData.framework in Frameworks */,
 				97410557180CDFE0004DAE95 /* UIKit.framework in Frameworks */,
@@ -87,6 +155,7 @@
 		97410546180CDFE0004DAE95 = {
 			isa = PBXGroup;
 			children = (
+				97AED0F5180D20100072611B /* RTCoreService.xcodeproj */,
 				9741055A180CDFE0004DAE95 /* AnjukeBroker_New */,
 				97410577180CDFE1004DAE95 /* AnjukeBroker_NewTests */,
 				97410551180CDFE0004DAE95 /* Frameworks */,
@@ -106,6 +175,23 @@
 		97410551180CDFE0004DAE95 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				97AED125180D24730072611B /* TencentOpenAPI.framework */,
+				97AED123180D23870072611B /* CoreLocation.framework */,
+				97AED121180D237B0072611B /* SystemConfiguration.framework */,
+				97AED11F180D236B0072611B /* AssetsLibrary.framework */,
+				97AED11D180D235D0072611B /* QuartzCore.framework */,
+				97AED11B180D234D0072611B /* MapKit.framework */,
+				97AED119180D233F0072611B /* MessageUI.framework */,
+				97AED117180D23300072611B /* CoreText.framework */,
+				97AED115180D23210072611B /* libsqlite3.0.dylib */,
+				97AED113180D23100072611B /* MobileCoreServices.framework */,
+				97AED111180D22FE0072611B /* CFNetwork.framework */,
+				97AED10F180D22E20072611B /* libz.1.2.5.dylib */,
+				97AED10D180D22AE0072611B /* CoreTelephony.framework */,
+				97AED10B180D221B0072611B /* Security.framework */,
+				97AED109180D21F40072611B /* libstdc++.dylib */,
+				97AED107180D21DB0072611B /* libicucore.dylib */,
+				97AED105180D21BD0072611B /* AdSupport.framework */,
 				97410552180CDFE0004DAE95 /* Foundation.framework */,
 				97410554180CDFE0004DAE95 /* CoreGraphics.framework */,
 				97410556180CDFE0004DAE95 /* UIKit.framework */,
@@ -158,6 +244,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		97AED0F6180D20100072611B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				97AED0FD180D20110072611B /* libRTCoreService.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -172,6 +266,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				97AED0FF180D20340072611B /* PBXTargetDependency */,
 			);
 			name = AnjukeBroker_New;
 			productName = AnjukeBroker_New;
@@ -220,6 +315,12 @@
 			mainGroup = 97410546180CDFE0004DAE95;
 			productRefGroup = 97410550180CDFE0004DAE95 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 97AED0F6180D20100072611B /* Products */;
+					ProjectRef = 97AED0F5180D20100072611B /* RTCoreService.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				9741054E180CDFE0004DAE95 /* AnjukeBroker_New */,
@@ -227,6 +328,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		97AED0FD180D20110072611B /* libRTCoreService.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRTCoreService.a;
+			remoteRef = 97AED0FC180D20110072611B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9741054D180CDFE0004DAE95 /* Resources */ = {
@@ -275,6 +386,11 @@
 			isa = PBXTargetDependency;
 			target = 9741054E180CDFE0004DAE95 /* AnjukeBroker_New */;
 			targetProxy = 97410575180CDFE1004DAE95 /* PBXContainerItemProxy */;
+		};
+		97AED0FF180D20340072611B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RTCoreService;
+			targetProxy = 97AED0FE180D20340072611B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -375,10 +491,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/wusicong/Desktop/GitCorp/i-anjuke_5.1/RTCoreService/RTCoreService/RT3rdSDK/TencentSDK",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AnjukeBroker_New/AnjukeBroker_New-Prefix.pch";
 				INFOPLIST_FILE = "AnjukeBroker_New/AnjukeBroker_New-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../RTNetwork/** $(PROJECT_DIR)/../RTApiProxy/** $(PROJECT_DIR)/../RTCoreService/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -388,10 +513,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/wusicong/Desktop/GitCorp/i-anjuke_5.1/RTCoreService/RTCoreService/RT3rdSDK/TencentSDK",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AnjukeBroker_New/AnjukeBroker_New-Prefix.pch";
 				INFOPLIST_FILE = "AnjukeBroker_New/AnjukeBroker_New-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../RTNetwork/** $(PROJECT_DIR)/../RTApiProxy/** $(PROJECT_DIR)/../RTCoreService/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -457,6 +591,7 @@
 				97410583180CDFE1004DAE95 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		97410584180CDFE1004DAE95 /* Build configuration list for PBXNativeTarget "AnjukeBroker_NewTests" */ = {
 			isa = XCConfigurationList;
@@ -465,6 +600,7 @@
 				97410586180CDFE1004DAE95 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
