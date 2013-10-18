@@ -41,6 +41,8 @@
 		97AED122180D237B0072611B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED121180D237B0072611B /* SystemConfiguration.framework */; };
 		97AED124180D23870072611B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED123180D23870072611B /* CoreLocation.framework */; };
 		97AED126180D24730072611B /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED125180D24730072611B /* TencentOpenAPI.framework */; };
+		97C97B461810DD34006E538B /* AJK_TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C97B451810DD34006E538B /* AJK_TabBarViewController.m */; };
+		97CD8D44180E6D6E00185C9D /* AJK_RTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CD8D43180E6D6E00185C9D /* AJK_RTViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +108,10 @@
 		97AED121180D237B0072611B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		97AED123180D23870072611B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		97AED125180D24730072611B /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = "../../GitCorp/i-anjuke_5.1/RTCoreService/RTCoreService/RT3rdSDK/TencentSDK/TencentOpenAPI.framework"; sourceTree = "<group>"; };
+		97C97B441810DD34006E538B /* AJK_TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJK_TabBarViewController.h; sourceTree = "<group>"; };
+		97C97B451810DD34006E538B /* AJK_TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJK_TabBarViewController.m; sourceTree = "<group>"; };
+		97CD8D42180E6D6E00185C9D /* AJK_RTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJK_RTViewController.h; sourceTree = "<group>"; };
+		97CD8D43180E6D6E00185C9D /* AJK_RTViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJK_RTViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,8 +212,7 @@
 			children = (
 				97410563180CDFE0004DAE95 /* AppDelegate.h */,
 				97410564180CDFE0004DAE95 /* AppDelegate.m */,
-				97410587180CE0FC004DAE95 /* RootViewController.h */,
-				97410588180CE0FC004DAE95 /* RootViewController.m */,
+				97CD8D40180E6D0D00185C9D /* ViewController */,
 				97410569180CDFE0004DAE95 /* Images.xcassets */,
 				97410566180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld */,
 				9741055B180CDFE0004DAE95 /* Supporting Files */,
@@ -250,6 +255,19 @@
 				97AED0FD180D20110072611B /* libRTCoreService.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		97CD8D40180E6D0D00185C9D /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				97410587180CE0FC004DAE95 /* RootViewController.h */,
+				97410588180CE0FC004DAE95 /* RootViewController.m */,
+				97CD8D42180E6D6E00185C9D /* AJK_RTViewController.h */,
+				97CD8D43180E6D6E00185C9D /* AJK_RTViewController.m */,
+				97C97B441810DD34006E538B /* AJK_TabBarViewController.h */,
+				97C97B451810DD34006E538B /* AJK_TabBarViewController.m */,
+			);
+			name = ViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -366,8 +384,10 @@
 			files = (
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,
 				97410565180CDFE0004DAE95 /* AppDelegate.m in Sources */,
+				97CD8D44180E6D6E00185C9D /* AJK_RTViewController.m in Sources */,
 				97410589180CE0FC004DAE95 /* RootViewController.m in Sources */,
 				97410561180CDFE0004DAE95 /* main.m in Sources */,
+				97C97B461810DD34006E538B /* AJK_TabBarViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

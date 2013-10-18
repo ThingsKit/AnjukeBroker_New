@@ -9,6 +9,9 @@
 #import "AppDelegate.h"
 #import "RootViewController.h"
 
+#define coreDataName @"AnjukeBroker"
+#define code_AppName @"i-broker"
+
 @implementation AppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -23,10 +26,15 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
+    //初始化底层库
+    [self initRTManager];
+    
     //set root viewController
     RootViewController *rc = [[RootViewController alloc] init];
     self.rootViewController = rc;
     self.window.rootViewController = self.rootViewController;
+    
+    [self checkVersion];
     
     return YES;
 }
@@ -152,6 +160,29 @@
 - (NSURL *)applicationDocumentsDirectory
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+#pragma mark - Private Method
+
+- (void)initRTManager {
+    //数据库初始化
+    [[RTCoreDataManager sharedInstance] setModelName:coreDataName];
+    
+    //appLog初始化：app name, channelid, umeng key
+    [[RTLogger sharedInstance] setLogAppName:code_AppName];
+#ifdef DEBUG
+    [[RTLogger sharedInstance] setUmengKey:@"4fb9c2c0527015056a00001a" channelID:@"A01"];
+#else
+    [[RTLogger sharedInstance] setUmengKey:@"4fb9c2875270150573000023" channelID:@"A01"];
+#endif
+    
+    [[RTRequestProxy sharedInstance] setAppName:code_AppName];
+    [[RTRequestProxy sharedInstance] setChannelID:@"A01"];
+
+}
+
+- (void)checkVersion { // 新版本更新检查
+    
 }
 
 @end
