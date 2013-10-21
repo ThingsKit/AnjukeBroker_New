@@ -1,18 +1,18 @@
 //
-//  AJK_TabBarViewController.m
+//  AJK_AnjukeHomeViewController.m
 //  AnjukeBroker_New
 //
-//  Created by Wu sicong on 13-10-18.
+//  Created by Wu sicong on 13-10-21.
 //  Copyright (c) 2013年 Wu sicong. All rights reserved.
 //
 
-#import "AJK_TabBarViewController.h"
+#import "AnjukeHomeViewController.h"
 
-@interface AJK_TabBarViewController ()
+@interface AnjukeHomeViewController ()
 
 @end
 
-@implementation AJK_TabBarViewController
+@implementation AnjukeHomeViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,6 +27,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    self.view.backgroundColor = [UIColor yellowColor];
 }
 
 - (void)didReceiveMemoryWarning

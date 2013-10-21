@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TabBarViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -20,5 +21,8 @@
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
+
+//private method
++ (AppDelegate *)sharedAppDelegate;
 
 @end

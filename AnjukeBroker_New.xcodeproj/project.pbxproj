@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		972C101A1814D4FF00552C9B /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972C10191814D4FF00552C9B /* TencentOpenAPI.framework */; };
+		972C10291814FCD300552C9B /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10281814FCD300552C9B /* HomeViewController.m */; };
+		972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C102B1814FD4500552C9B /* AnjukeHomeViewController.m */; };
+		972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C102E1814FD5900552C9B /* HaozuHomeViewController.m */; };
+		972C10321814FDC400552C9B /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10311814FDC400552C9B /* MoreViewController.m */; };
 		97410553180CDFE0004DAE95 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410552180CDFE0004DAE95 /* Foundation.framework */; };
 		97410555180CDFE0004DAE95 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410554180CDFE0004DAE95 /* CoreGraphics.framework */; };
 		97410557180CDFE0004DAE95 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410556180CDFE0004DAE95 /* UIKit.framework */; };
@@ -41,8 +45,8 @@
 		97AED120180D236B0072611B /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED11F180D236B0072611B /* AssetsLibrary.framework */; };
 		97AED122180D237B0072611B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED121180D237B0072611B /* SystemConfiguration.framework */; };
 		97AED124180D23870072611B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED123180D23870072611B /* CoreLocation.framework */; };
-		97C97B461810DD34006E538B /* AJK_TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C97B451810DD34006E538B /* AJK_TabBarViewController.m */; };
-		97CD8D44180E6D6E00185C9D /* AJK_RTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CD8D43180E6D6E00185C9D /* AJK_RTViewController.m */; };
+		97C97B461810DD34006E538B /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C97B451810DD34006E538B /* TabBarViewController.m */; };
+		97CD8D44180E6D6E00185C9D /* RTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CD8D43180E6D6E00185C9D /* RTViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +75,14 @@
 
 /* Begin PBXFileReference section */
 		972C10191814D4FF00552C9B /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = ../RTCoreService/RTCoreService/RT3rdSDK/TencentSDK/TencentOpenAPI.framework; sourceTree = "<group>"; };
+		972C10271814FCD300552C9B /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		972C10281814FCD300552C9B /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		972C102A1814FD4500552C9B /* AnjukeHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukeHomeViewController.h; sourceTree = "<group>"; };
+		972C102B1814FD4500552C9B /* AnjukeHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukeHomeViewController.m; sourceTree = "<group>"; };
+		972C102D1814FD5900552C9B /* HaozuHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HaozuHomeViewController.h; sourceTree = "<group>"; };
+		972C102E1814FD5900552C9B /* HaozuHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HaozuHomeViewController.m; sourceTree = "<group>"; };
+		972C10301814FDC400552C9B /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreViewController.h; sourceTree = "<group>"; };
+		972C10311814FDC400552C9B /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreViewController.m; sourceTree = "<group>"; };
 		9741054F180CDFE0004DAE95 /* AnjukeBroker_New.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnjukeBroker_New.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97410552180CDFE0004DAE95 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		97410554180CDFE0004DAE95 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -108,10 +120,10 @@
 		97AED11F180D236B0072611B /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		97AED121180D237B0072611B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		97AED123180D23870072611B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		97C97B441810DD34006E538B /* AJK_TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJK_TabBarViewController.h; sourceTree = "<group>"; };
-		97C97B451810DD34006E538B /* AJK_TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJK_TabBarViewController.m; sourceTree = "<group>"; };
-		97CD8D42180E6D6E00185C9D /* AJK_RTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJK_RTViewController.h; sourceTree = "<group>"; };
-		97CD8D43180E6D6E00185C9D /* AJK_RTViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJK_RTViewController.m; sourceTree = "<group>"; };
+		97C97B441810DD34006E538B /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
+		97C97B451810DD34006E538B /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
+		97CD8D42180E6D6E00185C9D /* RTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTViewController.h; sourceTree = "<group>"; };
+		97CD8D43180E6D6E00185C9D /* RTViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +170,70 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		972C10231814FC3800552C9B /* 首页+发房 */ = {
+			isa = PBXGroup;
+			children = (
+				972C10271814FCD300552C9B /* HomeViewController.h */,
+				972C10281814FCD300552C9B /* HomeViewController.m */,
+			);
+			name = "首页+发房";
+			sourceTree = "<group>";
+		};
+		972C10241814FC4C00552C9B /* 二手房业务管理 */ = {
+			isa = PBXGroup;
+			children = (
+				972C102A1814FD4500552C9B /* AnjukeHomeViewController.h */,
+				972C102B1814FD4500552C9B /* AnjukeHomeViewController.m */,
+			);
+			name = "二手房业务管理";
+			sourceTree = "<group>";
+		};
+		972C10251814FC7500552C9B /* 租房业务管理 */ = {
+			isa = PBXGroup;
+			children = (
+				972C102D1814FD5900552C9B /* HaozuHomeViewController.h */,
+				972C102E1814FD5900552C9B /* HaozuHomeViewController.m */,
+			);
+			name = "租房业务管理";
+			sourceTree = "<group>";
+		};
+		972C10261814FC8800552C9B /* 更多 */ = {
+			isa = PBXGroup;
+			children = (
+				972C10301814FDC400552C9B /* MoreViewController.h */,
+				972C10311814FDC400552C9B /* MoreViewController.m */,
+			);
+			name = "更多";
+			sourceTree = "<group>";
+		};
+		972C1033181504FE00552C9B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				972C10351815053100552C9B /* Images */,
+				97410569180CDFE0004DAE95 /* Images.xcassets */,
+				97410566180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		972C10341815051A00552C9B /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				97410563180CDFE0004DAE95 /* AppDelegate.h */,
+				97410564180CDFE0004DAE95 /* AppDelegate.m */,
+				97C97B441810DD34006E538B /* TabBarViewController.h */,
+				97C97B451810DD34006E538B /* TabBarViewController.m */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		972C10351815053100552C9B /* Images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		97410546180CDFE0004DAE95 = {
 			isa = PBXGroup;
 			children = (
@@ -210,11 +286,9 @@
 		9741055A180CDFE0004DAE95 /* AnjukeBroker_New */ = {
 			isa = PBXGroup;
 			children = (
-				97410563180CDFE0004DAE95 /* AppDelegate.h */,
-				97410564180CDFE0004DAE95 /* AppDelegate.m */,
-				97CD8D40180E6D0D00185C9D /* ViewController */,
-				97410569180CDFE0004DAE95 /* Images.xcassets */,
-				97410566180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld */,
+				972C10341815051A00552C9B /* AppDelegate */,
+				97CD8D40180E6D0D00185C9D /* ViewControllers */,
+				972C1033181504FE00552C9B /* Resources */,
 				9741055B180CDFE0004DAE95 /* Supporting Files */,
 			);
 			path = AnjukeBroker_New;
@@ -257,17 +331,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		97CD8D40180E6D0D00185C9D /* ViewController */ = {
+		97CD8D40180E6D0D00185C9D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				972C10231814FC3800552C9B /* 首页+发房 */,
+				972C10251814FC7500552C9B /* 租房业务管理 */,
+				972C10241814FC4C00552C9B /* 二手房业务管理 */,
+				972C10261814FC8800552C9B /* 更多 */,
 				97410587180CE0FC004DAE95 /* RootViewController.h */,
 				97410588180CE0FC004DAE95 /* RootViewController.m */,
-				97CD8D42180E6D6E00185C9D /* AJK_RTViewController.h */,
-				97CD8D43180E6D6E00185C9D /* AJK_RTViewController.m */,
-				97C97B441810DD34006E538B /* AJK_TabBarViewController.h */,
-				97C97B451810DD34006E538B /* AJK_TabBarViewController.m */,
+				97CD8D42180E6D6E00185C9D /* RTViewController.h */,
+				97CD8D43180E6D6E00185C9D /* RTViewController.m */,
 			);
-			name = ViewController;
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -382,12 +458,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				972C10321814FDC400552C9B /* MoreViewController.m in Sources */,
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,
 				97410565180CDFE0004DAE95 /* AppDelegate.m in Sources */,
-				97CD8D44180E6D6E00185C9D /* AJK_RTViewController.m in Sources */,
+				97CD8D44180E6D6E00185C9D /* RTViewController.m in Sources */,
 				97410589180CE0FC004DAE95 /* RootViewController.m in Sources */,
+				972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */,
+				972C10291814FCD300552C9B /* HomeViewController.m in Sources */,
 				97410561180CDFE0004DAE95 /* main.m in Sources */,
-				97C97B461810DD34006E538B /* AJK_TabBarViewController.m in Sources */,
+				972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */,
+				97C97B461810DD34006E538B /* TabBarViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -513,9 +593,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/wusicong/Desktop/GitCorp/i-anjuke_5.1/RTCoreService/RTCoreService/RT3rdSDK/TencentSDK",
-					/Users/wusicong/Desktop,
-					/Users/wusicong/Desktop/BrokerProject/RTCoreService/RTCoreService/RT3rdSDK/TencentSDK,
+					"$(PROJECT_DIR)/../RTCoreService/RTCoreService/RT3rdSDK/TencentSDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AnjukeBroker_New/AnjukeBroker_New-Prefix.pch";
@@ -538,9 +616,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/wusicong/Desktop/GitCorp/i-anjuke_5.1/RTCoreService/RTCoreService/RT3rdSDK/TencentSDK",
-					/Users/wusicong/Desktop,
-					/Users/wusicong/Desktop/BrokerProject/RTCoreService/RTCoreService/RT3rdSDK/TencentSDK,
+					"$(PROJECT_DIR)/../RTCoreService/RTCoreService/RT3rdSDK/TencentSDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AnjukeBroker_New/AnjukeBroker_New-Prefix.pch";

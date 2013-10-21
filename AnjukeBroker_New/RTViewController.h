@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AJK_RTViewController : UIViewController
+@interface RTViewController : UIViewController
 
 @end

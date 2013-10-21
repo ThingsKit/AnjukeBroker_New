@@ -1,18 +1,18 @@
 //
-//  AJK_RTViewController.m
+//  AJK_MoreViewController.m
 //  AnjukeBroker_New
 //
-//  Created by Wu sicong on 13-10-16.
+//  Created by Wu sicong on 13-10-21.
 //  Copyright (c) 2013年 Wu sicong. All rights reserved.
 //
 
-#import "AJK_RTViewController.h"
+#import "MoreViewController.h"
 
-@interface AJK_RTViewController ()
+@interface MoreViewController ()
 
 @end
 
-@implementation AJK_RTViewController
+@implementation MoreViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,6 +27,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    self.view.backgroundColor = [UIColor cyanColor];
 }
 
 - (void)didReceiveMemoryWarning

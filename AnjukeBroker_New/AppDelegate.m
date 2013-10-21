@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "RootViewController.h"
 
 #define coreDataName @"AnjukeBroker"
 #define code_AppName @"i-broker"
@@ -19,6 +18,10 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize rootViewController;
 
++ (AppDelegate *)sharedAppDelegate {
+    return (AppDelegate *) [UIApplication sharedApplication].delegate;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -29,10 +32,8 @@
     //初始化底层库
     [self initRTManager];
     
-    //set root viewController
-    RootViewController *rc = [[RootViewController alloc] init];
-    self.rootViewController = rc;
-    self.window.rootViewController = self.rootViewController;
+    //add root viewController
+    [self addRootTabBarController];
     
     [self checkVersion];
     
@@ -182,6 +183,14 @@
 }
 
 - (void)checkVersion { // 新版本更新检查
+    
+}
+
+- (void)addRootTabBarController { //初始化tabBarViewController
+    
+    TabBarViewController *tv = [[TabBarViewController alloc] init];
+    self.rootViewController = tv;
+    self.window.rootViewController = self.rootViewController;
     
 }
 
