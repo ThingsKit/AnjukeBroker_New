@@ -58,25 +58,25 @@
         [controllerArrays addObject:nav4];
         
         //set tabBarItems
-        UITabBarItem *tb1 = [[UITabBarItem alloc] initWithTitle:@"首页" image:nil selectedImage:nil];
+        UITabBarItem *tb1 = [[UITabBarItem alloc] initWithTitle:@"首页" image:nil tag:1];
         tb1.imageInsets = tabItemInsertsMake;
         nav1.tabBarItem = tb1;
         
-        UITabBarItem *tb2 = [[UITabBarItem alloc] initWithTitle:@"二手房" image:nil selectedImage:nil];
+        UITabBarItem *tb2 = [[UITabBarItem alloc] initWithTitle:@"二手房" image:nil tag:2];
         tb2.imageInsets = tabItemInsertsMake;
         nav2.tabBarItem = tb2;
         
-        UITabBarItem *tb3 = [[UITabBarItem alloc] initWithTitle:@"租房" image:nil selectedImage:nil];
+        UITabBarItem *tb3 = [[UITabBarItem alloc] initWithTitle:@"租房" image:nil tag:3];
         tb3.imageInsets = tabItemInsertsMake;
         nav3.tabBarItem = tb3;
         
-        UITabBarItem *tb4 = [[UITabBarItem alloc] initWithTitle:@"更多" image:nil selectedImage:nil];
+        UITabBarItem *tb4 = [[UITabBarItem alloc] initWithTitle:@"更多" image:nil tag:4];
         tb4.imageInsets = tabItemInsertsMake;
         nav4.tabBarItem = tb4;
 
         
         self.viewControllers = controllerArrays;
-        [self.tabBar setBarStyle:UIBarStyleDefault];
+//        [self.tabBar setBarStyle:UIBarStyleDefault];
     }
     
     return self;

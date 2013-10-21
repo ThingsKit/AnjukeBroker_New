@@ -27,12 +27,34 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - private method
+
+- (void)initModel {
+    
+}
+
+- (void)initDisplay {
+    
+}
+
+- (NSInteger)windowHeight {
+    //扣除状态栏20像素
+    return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height;
+
+}
+
+- (NSInteger)windowWidth {
+    return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.width;
 }
 
 @end

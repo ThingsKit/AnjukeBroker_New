@@ -8,6 +8,6 @@
 
 #import "RTViewController.h"
 
-@interface HomeViewController : RTViewController
+@interface HomeViewController : RTViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end
