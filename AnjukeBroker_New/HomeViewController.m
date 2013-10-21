@@ -36,8 +36,6 @@
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor clearColor];
     
-    [self initModel];
-    [self initDisplay];
 }
 
 - (void)didReceiveMemoryWarning
@@ -108,6 +106,8 @@
         {
             AnjukeEditPropertyViewController *ae = [[AnjukeEditPropertyViewController alloc] init];
             [self.navigationController pushViewController:ae animated:YES];
+            
+            [self.tabBarController hidesBottomBarWhenPushed];
         }
             break;
             

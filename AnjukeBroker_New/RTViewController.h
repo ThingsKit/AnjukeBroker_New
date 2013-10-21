@@ -14,8 +14,11 @@
 #define FRAME_BETWEEN_NAV_TAB CGRectMake(0, 0, [self windowWidth], [self windowHeight]-44)
 #define FRAME_WITH_NAV CGRectMake(0, 0, [self windowWidth], [self windowHeight] -44)
 
+#define ITEM_BTN_FRAME CGRectMake(0, 0, 55, 31)
+
 @interface RTViewController : UIViewController
 
+- (void)setTitleViewWithString:(NSString *)titleStr;
 - (void)initModel;
 - (void)initDisplay;
 - (NSInteger)windowHeight;

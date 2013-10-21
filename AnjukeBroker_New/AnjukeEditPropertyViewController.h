@@ -8,6 +8,6 @@
 
 #import "RTViewController.h"
 
-@interface AnjukeEditPropertyViewController : RTViewController
+@interface AnjukeEditPropertyViewController : RTViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end

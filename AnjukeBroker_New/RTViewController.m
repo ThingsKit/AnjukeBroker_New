@@ -29,6 +29,9 @@
 	// Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    [self initModel];
+    [self initDisplay];
 }
 
 - (void)didReceiveMemoryWarning
@@ -38,6 +41,15 @@
 }
 
 #pragma mark - private method
+
+- (void)setTitleViewWithString:(NSString *)titleStr { //设置标题栏
+    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
+    lb.backgroundColor = [UIColor clearColor];
+    lb.font = [UIFont systemFontOfSize:21];
+    lb.text = titleStr;
+    lb.textAlignment = NSTextAlignmentCenter;
+    self.navigationItem.titleView = lb;
+}
 
 - (void)initModel {
     
