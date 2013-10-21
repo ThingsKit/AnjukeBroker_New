@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		972C10181814BB5A00552C9B /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972C10171814BB5A00552C9B /* TencentOpenAPI.framework */; };
+		972C101A1814D4FF00552C9B /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972C10191814D4FF00552C9B /* TencentOpenAPI.framework */; };
 		97410553180CDFE0004DAE95 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410552180CDFE0004DAE95 /* Foundation.framework */; };
 		97410555180CDFE0004DAE95 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410554180CDFE0004DAE95 /* CoreGraphics.framework */; };
 		97410557180CDFE0004DAE95 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410556180CDFE0004DAE95 /* UIKit.framework */; };
@@ -70,7 +70,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		972C10171814BB5A00552C9B /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = ../../TencentOpenAPI.framework; sourceTree = "<group>"; };
+		972C10191814D4FF00552C9B /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = ../RTCoreService/RTCoreService/RT3rdSDK/TencentSDK/TencentOpenAPI.framework; sourceTree = "<group>"; };
 		9741054F180CDFE0004DAE95 /* AnjukeBroker_New.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnjukeBroker_New.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97410552180CDFE0004DAE95 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		97410554180CDFE0004DAE95 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -119,7 +119,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				972C10181814BB5A00552C9B /* TencentOpenAPI.framework in Frameworks */,
+				972C101A1814D4FF00552C9B /* TencentOpenAPI.framework in Frameworks */,
 				97AED124180D23870072611B /* CoreLocation.framework in Frameworks */,
 				97AED122180D237B0072611B /* SystemConfiguration.framework in Frameworks */,
 				97AED120180D236B0072611B /* AssetsLibrary.framework in Frameworks */,
@@ -181,7 +181,7 @@
 		97410551180CDFE0004DAE95 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				972C10171814BB5A00552C9B /* TencentOpenAPI.framework */,
+				972C10191814D4FF00552C9B /* TencentOpenAPI.framework */,
 				97AED123180D23870072611B /* CoreLocation.framework */,
 				97AED121180D237B0072611B /* SystemConfiguration.framework */,
 				97AED11F180D236B0072611B /* AssetsLibrary.framework */,
@@ -515,6 +515,7 @@
 					"$(inherited)",
 					"/Users/wusicong/Desktop/GitCorp/i-anjuke_5.1/RTCoreService/RTCoreService/RT3rdSDK/TencentSDK",
 					/Users/wusicong/Desktop,
+					/Users/wusicong/Desktop/BrokerProject/RTCoreService/RTCoreService/RT3rdSDK/TencentSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AnjukeBroker_New/AnjukeBroker_New-Prefix.pch";
@@ -539,6 +540,7 @@
 					"$(inherited)",
 					"/Users/wusicong/Desktop/GitCorp/i-anjuke_5.1/RTCoreService/RTCoreService/RT3rdSDK/TencentSDK",
 					/Users/wusicong/Desktop,
+					/Users/wusicong/Desktop/BrokerProject/RTCoreService/RTCoreService/RT3rdSDK/TencentSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AnjukeBroker_New/AnjukeBroker_New-Prefix.pch";
