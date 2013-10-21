@@ -7,6 +7,7 @@
 //
 
 #import "HomeViewController.h"
+#import "AnjukeEditPropertyViewController.h"
 
 #define cellHeight 45
 #define headerHeight 180
@@ -101,6 +102,18 @@
 #pragma mark - tableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    switch (indexPath.row) {
+        case 0:
+        {
+            AnjukeEditPropertyViewController *ae = [[AnjukeEditPropertyViewController alloc] init];
+            [self.navigationController pushViewController:ae animated:YES];
+        }
+            break;
+            
+        default:
+            break;
+    }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

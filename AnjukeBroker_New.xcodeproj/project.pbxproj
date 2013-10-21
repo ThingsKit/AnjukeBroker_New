@@ -12,6 +12,7 @@
 		972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C102B1814FD4500552C9B /* AnjukeHomeViewController.m */; };
 		972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C102E1814FD5900552C9B /* HaozuHomeViewController.m */; };
 		972C10321814FDC400552C9B /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10311814FDC400552C9B /* MoreViewController.m */; };
+		972C10391815351900552C9B /* AnjukeEditPropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */; };
 		97410553180CDFE0004DAE95 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410552180CDFE0004DAE95 /* Foundation.framework */; };
 		97410555180CDFE0004DAE95 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410554180CDFE0004DAE95 /* CoreGraphics.framework */; };
 		97410557180CDFE0004DAE95 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410556180CDFE0004DAE95 /* UIKit.framework */; };
@@ -83,6 +84,8 @@
 		972C102E1814FD5900552C9B /* HaozuHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HaozuHomeViewController.m; sourceTree = "<group>"; };
 		972C10301814FDC400552C9B /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreViewController.h; sourceTree = "<group>"; };
 		972C10311814FDC400552C9B /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreViewController.m; sourceTree = "<group>"; };
+		972C10371815351900552C9B /* AnjukeEditPropertyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukeEditPropertyViewController.h; sourceTree = "<group>"; };
+		972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukeEditPropertyViewController.m; sourceTree = "<group>"; };
 		9741054F180CDFE0004DAE95 /* AnjukeBroker_New.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnjukeBroker_New.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97410552180CDFE0004DAE95 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		97410554180CDFE0004DAE95 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -175,6 +178,7 @@
 			children = (
 				972C10271814FCD300552C9B /* HomeViewController.h */,
 				972C10281814FCD300552C9B /* HomeViewController.m */,
+				972C10361815311700552C9B /* 二手房发房 */,
 			);
 			name = "首页+发房";
 			sourceTree = "<group>";
@@ -232,6 +236,15 @@
 			children = (
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		972C10361815311700552C9B /* 二手房发房 */ = {
+			isa = PBXGroup;
+			children = (
+				972C10371815351900552C9B /* AnjukeEditPropertyViewController.h */,
+				972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */,
+			);
+			name = "二手房发房";
 			sourceTree = "<group>";
 		};
 		97410546180CDFE0004DAE95 = {
@@ -462,6 +475,7 @@
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,
 				97410565180CDFE0004DAE95 /* AppDelegate.m in Sources */,
 				97CD8D44180E6D6E00185C9D /* RTViewController.m in Sources */,
+				972C10391815351900552C9B /* AnjukeEditPropertyViewController.m in Sources */,
 				97410589180CE0FC004DAE95 /* RootViewController.m in Sources */,
 				972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */,
 				972C10291814FCD300552C9B /* HomeViewController.m in Sources */,
