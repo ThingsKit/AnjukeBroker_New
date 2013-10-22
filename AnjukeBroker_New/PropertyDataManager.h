@@ -12,4 +12,9 @@
 
 + (NSArray *)getPropertyTitleArrayForAnjuke:(BOOL)isAnjuke;
 
+//户型——室、厅、卫
++ (NSMutableArray *)getPropertyHuxingArray_Shi;
++ (NSMutableArray *)getPropertyHuxingArray_Ting;
++ (NSMutableArray *)getPropertyHuxingArray_Wei;
+
 @end

@@ -105,9 +105,8 @@
         case 0:
         {
             AnjukeEditPropertyViewController *ae = [[AnjukeEditPropertyViewController alloc] init];
+            [ae setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:ae animated:YES];
-            
-            [self.tabBarController hidesBottomBarWhenPushed];
         }
             break;
             

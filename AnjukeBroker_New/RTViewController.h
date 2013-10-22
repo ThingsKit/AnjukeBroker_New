@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BrokerLineView.h"
 
 #define OriginH_WithNav 20+44
 #define OriginH_WithoutNav 20
 
 #define FRAME_BETWEEN_NAV_TAB CGRectMake(0, 0, [self windowWidth], [self windowHeight]-44)
-#define FRAME_WITH_NAV CGRectMake(0, 0, [self windowWidth], [self windowHeight] -44)
+#define FRAME_WITH_NAV CGRectMake(0, 0, [self windowWidth], [self windowHeight])
 
 #define ITEM_BTN_FRAME CGRectMake(0, 0, 55, 31)
 
