@@ -48,5 +48,37 @@
     return arr;
 }
 
++ (NSArray *)getPropertyZhuangxiu {
+    NSArray *arr = [NSArray array];
+    arr = [NSArray arrayWithObjects:@"毛胚",@"普通装修",@"精装修",@"豪华装修", nil];
+    return arr;
+}
+
++ (NSArray *)getPropertyChaoXiang {
+    NSArray *arr = [NSArray array];
+    arr = [NSArray arrayWithObjects:@"东",@"南",@"西",@"北",@"东南",@"西南",@"西北",@"东北",@"南北",@"东西", nil];
+    return arr;
+}
+
++ (NSMutableArray *)getPropertyLou_Number {
+    NSMutableArray *arr = [NSMutableArray array];
+    for (int i = 0; i < 103; i ++) {
+        NSString *str = [NSString stringWithFormat:@"%d楼", i-3];
+        if (i - 3 != 0) { //0楼不保存
+            [arr addObject:str];
+        }
+    }
+    return arr;
+}
+
++ (NSMutableArray *)getPropertyCeng_Number {
+    NSMutableArray *arr = [NSMutableArray array];
+    for (int i = 0; i < 100; i ++) {
+        NSString *str = [NSString stringWithFormat:@"%d层", i+1];
+        [arr addObject:str];
+    }
+    return arr;
+}
+
 @end
 

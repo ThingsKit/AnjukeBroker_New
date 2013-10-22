@@ -17,4 +17,14 @@
 + (NSMutableArray *)getPropertyHuxingArray_Ting;
 + (NSMutableArray *)getPropertyHuxingArray_Wei;
 
+//装修情况
++ (NSArray *)getPropertyZhuangxiu;
+
+//朝向
++ (NSArray *)getPropertyChaoXiang;
+
+//楼层
++ (NSMutableArray *)getPropertyLou_Number;
++ (NSMutableArray *)getPropertyCeng_Number;
+
 @end

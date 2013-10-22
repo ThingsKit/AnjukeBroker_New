@@ -18,6 +18,8 @@ typedef NS_ENUM(NSInteger, PickerType){
 @protocol BrokerPickerDelegate <NSObject>
 
 - (void)finishBtnClicked; //完成按钮点击delegate
+- (void)preBtnClicked;
+- (void)nextBtnClicked;
 
 @end
 
@@ -31,5 +33,8 @@ typedef NS_ENUM(NSInteger, PickerType){
 @property (nonatomic, strong) UIPickerView *picker;
 
 @property (nonatomic, assign) id <BrokerPickerDelegate> brokerPickerDelegate;
+
+- (void)pickerHide:(BOOL)hide;
+- (void)reloadPickerWithRow:(int)row; //******
 
 @end

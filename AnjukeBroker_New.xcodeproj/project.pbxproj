@@ -31,6 +31,7 @@
 		97410589180CE0FC004DAE95 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97410588180CE0FC004DAE95 /* RootViewController.m */; };
 		97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A0F0211816227A00C31D83 /* BrokerLineView.m */; };
 		97A0F028181653A600C31D83 /* BrokerPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A0F027181653A600C31D83 /* BrokerPicker.m */; };
+		97A606811816C2A50041B367 /* InputOrderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A606801816C2A50041B367 /* InputOrderManager.m */; };
 		97AED104180D21790072611B /* libRTCoreService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED0FD180D20110072611B /* libRTCoreService.a */; };
 		97AED106180D21BD0072611B /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED105180D21BD0072611B /* AdSupport.framework */; };
 		97AED108180D21DB0072611B /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED107180D21DB0072611B /* libicucore.dylib */; };
@@ -113,6 +114,8 @@
 		97A0F0211816227A00C31D83 /* BrokerLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerLineView.m; sourceTree = "<group>"; };
 		97A0F026181653A600C31D83 /* BrokerPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerPicker.h; sourceTree = "<group>"; };
 		97A0F027181653A600C31D83 /* BrokerPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerPicker.m; sourceTree = "<group>"; };
+		97A6067F1816C2A50041B367 /* InputOrderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputOrderManager.h; sourceTree = "<group>"; };
+		97A606801816C2A50041B367 /* InputOrderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputOrderManager.m; sourceTree = "<group>"; };
 		97AED0F5180D20100072611B /* RTCoreService.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RTCoreService.xcodeproj; path = ../RTCoreService/RTCoreService.xcodeproj; sourceTree = "<group>"; };
 		97AED105180D21BD0072611B /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		97AED107180D21DB0072611B /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
@@ -358,6 +361,17 @@
 			name = "UIView&Util";
 			sourceTree = "<group>";
 		};
+		97A606831816D0A30041B367 /* 发布房源Model */ = {
+			isa = PBXGroup;
+			children = (
+				97FD0B6018157BEC0072FB5E /* PropertyDataManager.h */,
+				97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */,
+				97A6067F1816C2A50041B367 /* InputOrderManager.h */,
+				97A606801816C2A50041B367 /* InputOrderManager.m */,
+			);
+			name = "发布房源Model";
+			sourceTree = "<group>";
+		};
 		97AED0F6180D20100072611B /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -384,8 +398,7 @@
 		97FD0B5E18157BB50072FB5E /* DataManager */ = {
 			isa = PBXGroup;
 			children = (
-				97FD0B6018157BEC0072FB5E /* PropertyDataManager.h */,
-				97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */,
+				97A606831816D0A30041B367 /* 发布房源Model */,
 			);
 			name = DataManager;
 			sourceTree = "<group>";
@@ -503,6 +516,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				97A0F028181653A600C31D83 /* BrokerPicker.m in Sources */,
+				97A606811816C2A50041B367 /* InputOrderManager.m in Sources */,
 				972C10321814FDC400552C9B /* MoreViewController.m in Sources */,
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,
 				97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */,

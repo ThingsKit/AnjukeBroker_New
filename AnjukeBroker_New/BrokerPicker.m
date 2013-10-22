@@ -7,6 +7,7 @@
 //
 
 #import "BrokerPicker.h"
+#import "PropertyDataManager.h"
 
 @implementation BrokerPicker
 @synthesize pickerType;
@@ -61,6 +62,8 @@
 }
 */
 
+#pragma mark - method
+
 - (void)initModel {
     self.firstArray = [NSArray array];
     self.secondArray = [NSArray array];
@@ -74,10 +77,63 @@
 }
 
 - (void)doPrevious {
-    
+    if ([self.brokerPickerDelegate respondsToSelector:@selector(preBtnClicked)]) {
+        [self.brokerPickerDelegate preBtnClicked];
+    }
 }
 
 - (void)doNext {
+    if ([self.brokerPickerDelegate respondsToSelector:@selector(nextBtnClicked)]) {
+        [self.brokerPickerDelegate nextBtnClicked];
+    }
+}
+
+- (void)pickerHide:(BOOL)hide{ //根据是否需要显示滚轮控制picker的显示
+    if (hide) {
+        [self.picker removeFromSuperview];
+    }
+    else
+        [self addSubview:self.picker];
+}
+
+//***根据当前输入的内容（第几行）判断所需提供的输入dataSource***
+- (void)reloadPickerWithRow:(int)row {
+    self.firstArray = [NSArray array];
+    self.secondArray = [NSArray array];
+    self.thirdArray = [NSArray array];
+    
+    //get data
+    switch (row) { //户型
+        case 1:
+        {
+            self.firstArray = [PropertyDataManager getPropertyHuxingArray_Shi];
+            self.secondArray = [PropertyDataManager getPropertyHuxingArray_Ting];
+            self.thirdArray = [PropertyDataManager getPropertyHuxingArray_Wei];
+        }
+            break;
+        case 4: //装修
+        {
+            self.firstArray = [PropertyDataManager getPropertyZhuangxiu];
+        }
+            break;
+            
+        case 5: //朝向
+        {
+            self.firstArray = [PropertyDataManager getPropertyChaoXiang];
+        }
+            break;
+        case 6: //楼层
+        {
+            self.firstArray = [PropertyDataManager getPropertyLou_Number];
+            self.secondArray = [PropertyDataManager getPropertyCeng_Number];
+        }
+            break;
+
+        default:
+            break;
+    }
+    //reload
+    [self.picker reloadAllComponents];
     
 }
 
