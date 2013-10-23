@@ -76,7 +76,7 @@
     }
 }
 
-#pragma mark - private method
+#pragma mark - init Method
 
 - (void)initModel {
     self.titleArray = [NSArray arrayWithArray:[PropertyDataManager getPropertyTitleArrayForAnjuke:YES]];
@@ -137,12 +137,14 @@
 
 }
 
+#pragma mark - Input Method
+
 //根据输入焦点行更改输入组件样式、数据
 - (void)checkInputTypeWithIndex:(int)index {
     //移动tableView并修改高亮cell
     [self tableVIewMoveWithIndex:index];
     
-//    [self.tvList selectRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+    [self.tvList selectRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
     
     if ([InputOrderManager isKeyBoardInputWithIndex:index]) { //键盘输入，隐藏滚轮
         [self.pickerView pickerHide:[InputOrderManager isKeyBoardInputWithIndex:index]];
@@ -166,6 +168,8 @@
         }
     }
     else { //滚轮输入，收起键盘
+        [self.pickerView pickerHide:[InputOrderManager isKeyBoardInputWithIndex:index]];
+        
         [self textFieldAllResign];
         [self.pickerView reloadPickerWithRow:self.selectedRow];
     }
@@ -175,7 +179,7 @@
 - (void)tableVIewMoveWithIndex:(NSInteger)index {
     //    [self.tvList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     
-    [self.tvList setContentOffset:CGPointMake(0, cellHeight* index) animated:YES];
+    [self.tvList setContentOffset:CGPointMake(0, cellHeight* index*0.8) animated:YES];
 }
 
 #pragma mark - Broker Picker Delegate
@@ -221,20 +225,22 @@
 #pragma mark - Picker Button Method
 
 - (void)pickerDisappear {
-    [UIView animateWithDuration: 0.3
-                          delay: 0.0
-                        options: UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         self.pickerView.alpha = 0.1 ;
-                     }
-                     completion:^(BOOL finished){
-                         if (finished) {
-                             //
-                             [self.pickerView removeFromSuperview];
-//                             self.pickerView = nil;
-                         }
-                     }];
+//    [UIView animateWithDuration: 0.02
+//                          delay: 0.0
+//                        options: UIViewAnimationOptionCurveEaseInOut
+//                     animations:^{
+//                         self.pickerView.alpha = 0.1 ;
+//                     }
+//                     completion:^(BOOL finished){
+//                         if (finished) {
+//                             //
+//                             [self.pickerView removeFromSuperview];
+//                             self.pickerView.alpha = 1;
+////                             self.pickerView = nil;
+//                         }
+//                     }];
     
+    [self.pickerView removeFromSuperview];
     [self textFieldAllResign];
     
     [self.tvList deselectRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedRow inSection:0] animated:YES];
@@ -362,6 +368,10 @@
 }
 
 #pragma mark - TextField Delegate & Method
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    
+}
 
 - (void)textFieldAllResign { //全部收起键盘
     [self.areaTextF resignFirstResponder];
