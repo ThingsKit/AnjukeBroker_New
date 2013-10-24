@@ -9,6 +9,6 @@
 #import "RTViewController.h"
 #import "BrokerPicker.h"
 
-@interface AnjukeEditPropertyViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, BrokerPickerDelegate, UITextFieldDelegate>
+@interface AnjukeEditPropertyViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, BrokerPickerDelegate, UITextFieldDelegate ,UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @end

@@ -32,6 +32,9 @@
     
     [self initModel];
     [self initDisplay];
+    
+    //监听键盘切换
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -60,13 +63,31 @@
 }
 
 - (NSInteger)windowHeight {
-    //扣除状态栏20像素
-    return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height;
-
+    CGFloat H = 0;
+    
+    if (!self.navigationController) {
+        H = ([[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height - STATUS_BAR_H);
+    }
+    else
+        H = ([[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height - STATUS_BAR_H -NAV_BAT_H);
+    DLog(@"H [%f]", H);
+    
+    return H;
 }
 
 - (NSInteger)windowWidth {
     return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.width;
+}
+
+#pragma mark - Keyboard notification
+- (void)keyboardWillShow:(NSNotification*)notification {
+    NSDictionary *userInfo = [notification userInfo];
+    
+    NSValue* aValue = [userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey];
+    CGRect keyboardRect = [aValue CGRectValue];
+    CGRect keyboardFrame = [self.view convertRect:keyboardRect fromView:[[UIApplication sharedApplication] keyWindow]];
+    
+    DLog(@"keyBoardH [%f]", keyboardFrame.size.height);
 }
 
 @end

@@ -14,9 +14,11 @@
 
 #define photoHeaderH 100
 #define photoHeaderH_RecNum 100 +cellHeight
-#define Input_H 216 + 44
+#define Input_H 260
 
 #define LimitRow_INPUT 1 //从row=1行开始输入，即最小输入行数(第一行为小区无需输入，从户型行开始输入)
+
+#define TagOfImg_Base 1000
 
 @interface AnjukeEditPropertyViewController ()
 @property (nonatomic, strong) NSArray *titleArray;
@@ -29,6 +31,10 @@
 @property (nonatomic, strong) UITextField *priceTextF;
 @property (nonatomic, strong) UITextField *titleTextF;
 @property (nonatomic, strong) UITextField *contentTextF;
+
+@property BOOL isTakePhoto; //是否拍照，区别拍照和从相册取图
+@property (nonatomic, strong) NSMutableArray *imgArray;
+
 @end
 
 @implementation AnjukeEditPropertyViewController
@@ -37,6 +43,8 @@
 @synthesize pickerView;
 @synthesize selectedRow;
 @synthesize areaTextF, priceTextF, titleTextF, contentTextF;
+@synthesize isTakePhoto;
+@synthesize imgArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -80,6 +88,7 @@
 
 - (void)initModel {
     self.titleArray = [NSArray arrayWithArray:[PropertyDataManager getPropertyTitleArrayForAnjuke:YES]];
+    self.imgArray = [NSMutableArray array];
 }
 
 - (void)initDisplay {
@@ -125,6 +134,13 @@
     [photoBtn addTarget:self action:@selector(addPhoto) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:photoBtn];
     
+    //for test
+    UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(200, photoBtn.frame.origin.y, pBtnH, pBtnH)];
+    img.tag = TagOfImg_Base;
+    img.backgroundColor = [UIColor whiteColor];
+    img.contentMode = UIViewContentModeScaleAspectFill;
+    [headerView addSubview:img];
+    
     //备案号
     if (self.needRecordNum) {
         //
@@ -162,7 +178,7 @@
             case 8: //描述
                 [self.contentTextF becomeFirstResponder];
                 break;
-                
+            
             default:
                 break;
         }
@@ -179,7 +195,11 @@
 - (void)tableVIewMoveWithIndex:(NSInteger)index {
     //    [self.tvList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     
-    [self.tvList setContentOffset:CGPointMake(0, cellHeight* index*0.8) animated:YES];
+    [self.tvList setContentOffset:CGPointMake(0, cellHeight* index*0.85) animated:YES];
+}
+
+- (void)doInput {
+    
 }
 
 #pragma mark - Broker Picker Delegate
@@ -252,7 +272,10 @@
 }
 
 - (void)addPhoto {
+    DLog(@"add photo");
     
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从手机相册选择", @"选择在线房形图", nil];
+    [sheet showInView:self.view];
 }
 
 #pragma mark - tableView Datasource
@@ -272,6 +295,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITextField *cellTextField = nil;
+    UIButton *textF_BG = nil; //输入框遮罩，用于屏蔽输入点击
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:nil];
     if (cell == nil) {
@@ -288,9 +312,17 @@
         cellTextField.text = @"";
         cellTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
         [cell.contentView addSubview:cellTextField];
+        
+        textF_BG = [UIButton buttonWithType:UIButtonTypeCustom];
+        textF_BG.frame = cellTextField.bounds;
+        textF_BG.backgroundColor = [UIColor clearColor];
+        textF_BG.tag = 103;
+        [textF_BG addTarget:self action:@selector(doInput) forControlEvents:UIControlEventTouchDragInside];
+        [cellTextField addSubview:textF_BG];
     }
     else {
         cellTextField = (UITextField *)[cell.contentView viewWithTag:102];
+        textF_BG = (UIButton *)[cell.contentView viewWithTag:103];
     }
     
     if (indexPath.row == 2) { //面积输入
@@ -351,10 +383,11 @@
     
     //输入
     if (!self.pickerView) {
-        BrokerPicker *bp = [[BrokerPicker alloc] initWithFrame:CGRectMake(0, 290, [self windowWidth], [self windowHeight] - 290)];
-        bp.layer.borderColor = [UIColor blackColor].CGColor;
-        bp.layer.borderWidth = 1;
+        BrokerPicker *bp = [[BrokerPicker alloc] initWithFrame:CGRectMake(0, [self windowHeight] - Input_H, [self windowWidth], Input_H)];
+//        bp.layer.borderColor = [UIColor blackColor].CGColor;
+//        bp.layer.borderWidth = 1;
         bp.brokerPickerDelegate = self;
+        DLog(@"bpH [%f] [%f]", bp.frame.origin.y, bp.frame.size.height );
         self.pickerView = bp;
     }
     [self checkInputTypeWithIndex:self.selectedRow];
@@ -378,6 +411,105 @@
     [self.priceTextF resignFirstResponder];
     [self.titleTextF resignFirstResponder];
     [self.contentTextF resignFirstResponder];
+}
+
+#pragma mark - UIActionSheet Delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 0: //拍照
+        {
+            self.isTakePhoto = YES;
+        }
+            break;
+        case 1: //手机相册
+        {
+            self.isTakePhoto = NO;
+            
+            UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+            ipc.sourceType = UIImagePickerControllerSourceTypePhotoLibrary; //拍照
+            ipc.delegate = self;
+            ipc.allowsEditing = NO;
+            [self presentViewController:ipc animated:YES completion:nil];
+        }
+            break;
+        case 2: //在线房形图
+        {
+            
+        }
+            break;
+ 
+        default:
+            break;
+    }
+}
+
+#pragma mark - UIImagePickerControllerDelegate method
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImageView *pickerImg = (UIImageView *)[self.view viewWithTag:TagOfImg_Base];
+    
+    for (NSString *str  in [info allKeys]) {
+        DLog(@"pickerInfo Keys %@",str);
+    }
+    
+    if (self.isTakePhoto) {
+        pickerImg.image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+        //        pickerImg.image = [UtilText unrotateImage:pickerImg.image]; //调整照片方向
+    }
+    else {
+        pickerImg.image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    }
+    
+//    //压缩图片
+//    if (pickerImg.image.size.width >960 || pickerImg.image.size.height > 960 || self.isTakePhoto) {
+//        CGSize coreSize;
+//        if (pickerImg.image.size.width > pickerImg.image.size.height) {
+//            coreSize = CGSizeMake(960, 960*(pickerImg.image.size.height /pickerImg.image.size.width));
+//        }
+//        else if (pickerImg.image.size.width < pickerImg.image.size.height){
+//            coreSize = CGSizeMake(960*(pickerImg.image.size.width /pickerImg.image.size.height), 960);
+//        }
+//        else {
+//            coreSize = CGSizeMake(960, 960);
+//        }
+//        
+//        UIGraphicsBeginImageContext(coreSize);
+//        [pickerImg.image drawInRect:[UtilText frameSize:pickerImg.image.size inSize:coreSize]];
+//        UIImage *newimg = UIGraphicsGetImageFromCurrentImageContext();
+//        UIGraphicsEndImageContext();
+//        
+//        pickerImg.image = newimg;
+//    }
+    
+    DLog(@"editedSize [%f,%f]",pickerImg.image.size.width,pickerImg.image.size.height);
+    
+    
+    //写入相册
+    if (self.isTakePhoto) {
+        UIImageWriteToSavedPhotosAlbum(pickerImg.image, self, @selector(errorCheck:didFinishSavingWithError:contextInfo:), nil);
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:^(void){
+        //
+    }];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [self dismissViewControllerAnimated:YES completion:^(void){
+        //
+    }];
+}
+
+- (void)errorCheck:(NSString *)imgPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
+	
+	if(error) {
+        DLog(@"fail...");
+    }
+	else
+	{
+        DLog(@"success");
+	}
 }
 
 @end

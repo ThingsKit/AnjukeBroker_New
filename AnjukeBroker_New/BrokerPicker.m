@@ -133,9 +133,7 @@
             break;
             
     }
-    
-    DLog(@"1st[%@] 2ed[%@] 3ed[%@]", self.firstArray, self.secondArray, self.thirdArray);
-    
+        
     //reload
     [self.picker reloadAllComponents];
     

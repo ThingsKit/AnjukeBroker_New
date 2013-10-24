@@ -41,21 +41,25 @@
         self.page1 = hv;
         UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:self.page1];
         [controllerArrays addObject:nav1];
+        nav1.navigationBar.translucent = NO;
         
         AnjukeHomeViewController *av = [[AnjukeHomeViewController alloc] init];
         self.page2 = av;
         UINavigationController *nav2 = [[UINavigationController alloc] initWithRootViewController:self.page2];
         [controllerArrays addObject:nav2];
+        nav1.navigationBar.translucent = NO;
         
         HaozuHomeViewController *hhv = [[HaozuHomeViewController alloc] init];
         self.page3 = hhv;
         UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:self.page3];
         [controllerArrays addObject:nav3];
+        nav1.navigationBar.translucent = NO;
         
         MoreViewController *mv = [[MoreViewController alloc] init];
         self.page4 = mv;
         UINavigationController *nav4 = [[UINavigationController alloc] initWithRootViewController:self.page4];
         [controllerArrays addObject:nav4];
+        nav1.navigationBar.translucent = NO;
         
         //set tabBarItems
         UITabBarItem *tb1 = [[UITabBarItem alloc] initWithTitle:@"首页" image:nil tag:1];
