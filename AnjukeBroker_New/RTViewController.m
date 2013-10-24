@@ -62,7 +62,7 @@
     
 }
 
-- (NSInteger)windowHeight {
+- (NSInteger)currentViewHeight {
     CGFloat H = 0;
     
     if (!self.navigationController) {
@@ -70,13 +70,17 @@
     }
     else
         H = ([[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height - STATUS_BAR_H -NAV_BAT_H);
-    DLog(@"H [%f]", H);
+//    DLog(@"H [%f]", H);
     
     return H;
 }
 
 - (NSInteger)windowWidth {
     return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.width;
+}
+
+- (NSInteger)windowHeight {
+    return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height;
 }
 
 #pragma mark - Keyboard notification

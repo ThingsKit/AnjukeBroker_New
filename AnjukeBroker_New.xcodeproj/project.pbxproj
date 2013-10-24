@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		97192EE71818FEF7007971BA /* PhotoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 97192EE61818FEF7007971BA /* PhotoButton.m */; };
 		972C101A1814D4FF00552C9B /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972C10191814D4FF00552C9B /* TencentOpenAPI.framework */; };
 		972C10291814FCD300552C9B /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10281814FCD300552C9B /* HomeViewController.m */; };
 		972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C102B1814FD4500552C9B /* AnjukeHomeViewController.m */; };
@@ -79,6 +80,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		97192EE51818FEF7007971BA /* PhotoButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoButton.h; sourceTree = "<group>"; };
+		97192EE61818FEF7007971BA /* PhotoButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoButton.m; sourceTree = "<group>"; };
 		972C10191814D4FF00552C9B /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = ../RTCoreService/RTCoreService/RT3rdSDK/TencentSDK/TencentOpenAPI.framework; sourceTree = "<group>"; };
 		972C10271814FCD300552C9B /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		972C10281814FCD300552C9B /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
@@ -190,7 +193,7 @@
 			children = (
 				972C10271814FCD300552C9B /* HomeViewController.h */,
 				972C10281814FCD300552C9B /* HomeViewController.m */,
-				972C10361815311700552C9B /* 二手房发房 */,
+				972C10361815311700552C9B /* 发房 */,
 			);
 			name = "首页+发房";
 			sourceTree = "<group>";
@@ -250,13 +253,15 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
-		972C10361815311700552C9B /* 二手房发房 */ = {
+		972C10361815311700552C9B /* 发房 */ = {
 			isa = PBXGroup;
 			children = (
 				972C10371815351900552C9B /* AnjukeEditPropertyViewController.h */,
 				972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */,
+				97192EE51818FEF7007971BA /* PhotoButton.h */,
+				97192EE61818FEF7007971BA /* PhotoButton.m */,
 			);
-			name = "二手房发房";
+			name = "发房";
 			sourceTree = "<group>";
 		};
 		97410546180CDFE0004DAE95 = {
@@ -529,6 +534,7 @@
 				97410561180CDFE0004DAE95 /* main.m in Sources */,
 				972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */,
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
+				97192EE71818FEF7007971BA /* PhotoButton.m in Sources */,
 				97C97B461810DD34006E538B /* TabBarViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

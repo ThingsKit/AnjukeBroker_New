@@ -9,6 +9,7 @@
 #import "AnjukeEditPropertyViewController.h"
 #import "PropertyDataManager.h"
 #import "InputOrderManager.h"
+#import "PhotoButton.h"
 
 #define cellHeight 50
 
@@ -17,8 +18,11 @@
 #define Input_H 260
 
 #define LimitRow_INPUT 1 //从row=1行开始输入，即最小输入行数(第一行为小区无需输入，从户型行开始输入)
-
 #define TagOfImg_Base 1000
+
+#define PhotoImg_H 80
+#define PhotoImg_Gap 10
+#define PhotoImg_MAX_COUNT 8 //最多上传照片数
 
 @interface AnjukeEditPropertyViewController ()
 @property (nonatomic, strong) NSArray *titleArray;
@@ -34,6 +38,8 @@
 
 @property BOOL isTakePhoto; //是否拍照，区别拍照和从相册取图
 @property (nonatomic, strong) NSMutableArray *imgArray;
+@property (nonatomic, strong) UIScrollView *photoSV;
+@property (nonatomic, strong) NSMutableArray *imgBtnArray;
 
 @end
 
@@ -45,6 +51,7 @@
 @synthesize areaTextF, priceTextF, titleTextF, contentTextF;
 @synthesize isTakePhoto;
 @synthesize imgArray;
+@synthesize photoSV, imgBtnArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -89,6 +96,7 @@
 - (void)initModel {
     self.titleArray = [NSArray arrayWithArray:[PropertyDataManager getPropertyTitleArrayForAnjuke:YES]];
     self.imgArray = [NSMutableArray array];
+    self.imgBtnArray = [NSMutableArray array];
 }
 
 - (void)initDisplay {
@@ -124,22 +132,45 @@
         headerView.frame = CGRectMake(0, 0, [self windowWidth], photoHeaderH);
     headerView.backgroundColor = [UIColor clearColor];
     
+    // photo sv
+    UIScrollView *sv = [[UIScrollView alloc] initWithFrame:headerView.bounds];
+    self.photoSV = sv;
+    sv.backgroundColor = [UIColor clearColor];
+    sv.contentSize = CGSizeMake(headerView.frame.size.width, headerView.frame.size.height);
+    [headerView addSubview:sv];
+    
     //phtot btn
     int pBtnH = 80;
     UIButton *photoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    photoBtn.frame = CGRectMake(([self windowWidth] -pBtnH)/2, (headerView.frame.size.height - pBtnH)/2, pBtnH, pBtnH);
+    photoBtn.frame = CGRectMake(([self windowWidth] -pBtnH)/2, (sv.frame.size.height - pBtnH)/2, pBtnH, pBtnH);
     photoBtn.backgroundColor = [UIColor clearColor];
     photoBtn.layer.borderColor = [UIColor blackColor].CGColor;
     photoBtn.layer.borderWidth = 0.5;
+    [photoBtn setTitle:@"+" forState:UIControlStateNormal];
     [photoBtn addTarget:self action:@selector(addPhoto) forControlEvents:UIControlEventTouchUpInside];
-    [headerView addSubview:photoBtn];
+    [sv addSubview:photoBtn];
+    
+    photoBtn.frame = CGRectMake( PhotoImg_Gap , PhotoImg_Gap, PhotoImg_H, PhotoImg_H);
+    
+    for (int i = 0; i< PhotoImg_MAX_COUNT; i ++) {
+        PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(PhotoImg_Gap +(i +1) * (PhotoImg_Gap + PhotoImg_H), PhotoImg_Gap, PhotoImg_H, PhotoImg_H)];
+        pBtn.tag = TagOfImg_Base + i;
+        [pBtn addTarget:self action:@selector(showPhoto:) forControlEvents:UIControlEventTouchUpInside];
+        pBtn.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        pBtn.layer.borderWidth = 0.5;
+        [self.photoSV addSubview:pBtn];
+        
+        [self.imgBtnArray addObject:pBtn];
+    }
+    
+    self.photoSV.contentSize = CGSizeMake(PhotoImg_Gap +(PhotoImg_Gap+ PhotoImg_H) * (PhotoImg_MAX_COUNT +1), headerView.frame.size.height);
     
     //for test
-    UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(200, photoBtn.frame.origin.y, pBtnH, pBtnH)];
-    img.tag = TagOfImg_Base;
-    img.backgroundColor = [UIColor whiteColor];
-    img.contentMode = UIViewContentModeScaleAspectFill;
-    [headerView addSubview:img];
+//    UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(200, photoBtn.frame.origin.y, pBtnH, pBtnH)];
+//    img.tag = TagOfImg_Base;
+//    img.backgroundColor = [UIColor whiteColor];
+//    img.contentMode = UIViewContentModeScaleAspectFill;
+//    [headerView addSubview:img];
     
     //备案号
     if (self.needRecordNum) {
@@ -242,7 +273,7 @@
     [self checkInputTypeWithIndex:self.selectedRow];
 }
 
-#pragma mark - Picker Button Method
+#pragma mark - Image Picker Button Method
 
 - (void)pickerDisappear {
 //    [UIView animateWithDuration: 0.02
@@ -268,14 +299,27 @@
 }
 
 - (void)doSave {
-    
+    //for test
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)addPhoto {
     DLog(@"add photo");
     
+    if (self.imgArray.count > PhotoImg_MAX_COUNT) {
+        DLog(@"最多上传8张照片");
+        return;
+    }
+    
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从手机相册选择", @"选择在线房形图", nil];
     [sheet showInView:self.view];
+}
+
+- (void)showPhoto:(id)sender {
+    PhotoButton *pBtn = (PhotoButton *)sender;
+    
+    int photoIndex = pBtn.tag - TagOfImg_Base;
+    DLog(@"photo Index [%d]", photoIndex);
 }
 
 #pragma mark - tableView Datasource
@@ -383,7 +427,7 @@
     
     //输入
     if (!self.pickerView) {
-        BrokerPicker *bp = [[BrokerPicker alloc] initWithFrame:CGRectMake(0, [self windowHeight] - Input_H, [self windowWidth], Input_H)];
+        BrokerPicker *bp = [[BrokerPicker alloc] initWithFrame:CGRectMake(0, [self currentViewHeight] - Input_H, [self windowWidth], Input_H)];
 //        bp.layer.borderColor = [UIColor blackColor].CGColor;
 //        bp.layer.borderWidth = 1;
         bp.brokerPickerDelegate = self;
@@ -420,6 +464,12 @@
         case 0: //拍照
         {
             self.isTakePhoto = YES;
+            
+            UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+            ipc.sourceType = UIImagePickerControllerSourceTypeCamera; //拍照
+            ipc.delegate = self;
+            ipc.allowsEditing = NO;
+            [self presentViewController:ipc animated:YES completion:nil];
         }
             break;
         case 1: //手机相册
@@ -444,22 +494,41 @@
     }
 }
 
+#pragma mark - Photo ScrollView method
+
+- (void)setPhotoSVContentSize {
+    
+}
+
+- (PhotoButton *)getPhotoIMG_VIEW {
+    PhotoButton *pBtn = [self.imgBtnArray objectAtIndex:self.imgArray.count -1];
+    return pBtn;
+}
+
 #pragma mark - UIImagePickerControllerDelegate method
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImageView *pickerImg = (UIImageView *)[self.view viewWithTag:TagOfImg_Base];
     
+    UIImage *image = nil;
     for (NSString *str  in [info allKeys]) {
         DLog(@"pickerInfo Keys %@",str);
     }
     
     if (self.isTakePhoto) {
-        pickerImg.image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+        image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
         //        pickerImg.image = [UtilText unrotateImage:pickerImg.image]; //调整照片方向
     }
     else {
-        pickerImg.image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+        image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     }
+    
+    if (self.imgArray.count >= PhotoImg_MAX_COUNT) {
+        return;
+    }
+    [self.imgArray addObject:image];
+    
+    PhotoButton *pBtn = [self getPhotoIMG_VIEW];
+    pBtn.photoImg.image = image;
     
 //    //压缩图片
 //    if (pickerImg.image.size.width >960 || pickerImg.image.size.height > 960 || self.isTakePhoto) {
@@ -482,12 +551,12 @@
 //        pickerImg.image = newimg;
 //    }
     
-    DLog(@"editedSize [%f,%f]",pickerImg.image.size.width,pickerImg.image.size.height);
+    DLog(@"editedSize [%f,%f]",pBtn.photoImg.image.size.width, pBtn.photoImg.image.size.height);
     
     
     //写入相册
     if (self.isTakePhoto) {
-        UIImageWriteToSavedPhotosAlbum(pickerImg.image, self, @selector(errorCheck:didFinishSavingWithError:contextInfo:), nil);
+        UIImageWriteToSavedPhotosAlbum(pBtn.imageView.image, self, @selector(errorCheck:didFinishSavingWithError:contextInfo:), nil);
     }
     
     [self dismissViewControllerAnimated:YES completion:^(void){
