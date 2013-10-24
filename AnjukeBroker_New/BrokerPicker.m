@@ -142,14 +142,16 @@
 #pragma mark - UIPickerView DataSource & Delegate
 
 - (NSInteger) numberOfComponentsInPickerView:(UIPickerView *)pickerView{
-    switch (self.pickerType) {
-        case PickerTypeHuXing:
-            return 3;
-            break;
-            
-        default:
-            break;
+    if (self.thirdArray.count > 0) {
+        return 3;
     }
+    else if (self.secondArray.count > 0) {
+        return 2;
+    }
+    else if (self.firstArray.count > 0) {
+        return 1;
+    }
+    
     return 0;
 }
 
