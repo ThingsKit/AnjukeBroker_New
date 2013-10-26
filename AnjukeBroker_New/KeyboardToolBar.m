@@ -22,7 +22,7 @@
         preBtn.frame = CGRectMake(5, (frame.size.height - itemH)/2, itemW, itemH);
         [preBtn setTitle:@"上一项" forState:UIControlStateNormal];
         [preBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        preBtn.backgroundColor = [UIColor whiteColor];
+        preBtn.backgroundColor = [UIColor clearColor];
         [preBtn addTarget:self action:@selector(doPre) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:preBtn];
         
@@ -30,7 +30,7 @@
         nextBtn.frame = CGRectMake(5*2 + itemW, (frame.size.height - itemH)/2, itemW, itemH);
         [nextBtn setTitle:@"下一项" forState:UIControlStateNormal];
         [nextBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        nextBtn.backgroundColor = [UIColor whiteColor];
+        nextBtn.backgroundColor = [UIColor clearColor];
         [nextBtn addTarget:self action:@selector(doNext) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:nextBtn];
         

@@ -182,8 +182,6 @@
     //移动tableView并修改高亮cell
     [self tableVIewMoveWithIndex:index];
     
-    [self.tvList selectRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-    
 //    if ([InputOrderManager isKeyBoardInputWithIndex:index]) { //键盘输入，隐藏滚轮
 //        [self.pickerView pickerHide:[InputOrderManager isKeyBoardInputWithIndex:index]];
 //        
@@ -244,7 +242,7 @@
     [tf becomeFirstResponder];
     
     //修改输入组件数据/修改输入框焦点 //tableView移动
-    [self checkInputTypeWithIndex:self.selectedRow];
+    [self tableVIewMoveWithIndex:self.selectedRow];
     
 }
 
@@ -263,7 +261,7 @@
     [tf becomeFirstResponder];
     
     //修改输入组件数据/修改输入框焦点 //tableView移动
-    [self checkInputTypeWithIndex:self.selectedRow];
+    [self tableVIewMoveWithIndex:self.selectedRow];
 }
 
 #pragma mark - Image Picker Button Method
@@ -339,7 +337,7 @@
         
         cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(150, 1,  150, cellHeight - 1*2)];
         cellTextField.returnKeyType = UIReturnKeyDone;
-        cellTextField.backgroundColor = [UIColor lightGrayColor];
+        cellTextField.backgroundColor = [UIColor clearColor];
         cellTextField.borderStyle = UITextBorderStyleNone;
         cellTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         cellTextField.delegate = self;
@@ -432,7 +430,11 @@
         //弹出滚轮
         textField.inputAccessoryView = self.toolBar;
         textField.inputView = self.pickerView;
+        
+        [self.pickerView reloadPickerWithRow:self.selectedRow];
     }
+    
+    [self tableVIewMoveWithIndex:self.selectedRow];
 }
 
 - (void)textFieldAllResign { //全部收起键盘

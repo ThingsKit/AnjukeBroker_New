@@ -83,6 +83,8 @@
             break;
             
     }
+    
+    [self reloadAllComponents];
 }
 
 #pragma mark - UIPickerView DataSource & Delegate
