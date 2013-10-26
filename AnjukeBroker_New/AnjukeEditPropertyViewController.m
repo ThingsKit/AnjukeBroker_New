@@ -177,49 +177,11 @@
 
 #pragma mark - Input Method
 
-//根据输入焦点行更改输入组件样式、数据
-- (void)checkInputTypeWithIndex:(int)index {
-    //移动tableView并修改高亮cell
-    [self tableVIewMoveWithIndex:index];
-    
-//    if ([InputOrderManager isKeyBoardInputWithIndex:index]) { //键盘输入，隐藏滚轮
-//        [self.pickerView pickerHide:[InputOrderManager isKeyBoardInputWithIndex:index]];
-//        
-//        switch (index) {
-//            case 2: //产证面积
-//                [self.areaTextF becomeFirstResponder];
-//                break;
-//            case 3: //价格
-//                [self.priceTextF becomeFirstResponder];
-//                break;
-//            case 7: //标题
-//                [self.titleTextF becomeFirstResponder];
-//                break;
-//            case 8: //描述
-//                [self.contentTextF becomeFirstResponder];
-//                break;
-//            
-//            default:
-//                break;
-//        }
-//    }
-//    else { //滚轮输入，收起键盘
-//        [self.pickerView pickerHide:[InputOrderManager isKeyBoardInputWithIndex:index]];
-//        
-//        [self textFieldAllResign];
-//        [self.pickerView reloadPickerWithRow:self.selectedRow];
-//    }
-}
-
 //**根据当前输入焦点行移动tableView显示
 - (void)tableVIewMoveWithIndex:(NSInteger)index {
     //    [self.tvList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     
     [self.tvList setContentOffset:CGPointMake(0, cellHeight* index*0.85) animated:YES];
-}
-
-- (void)doInput {
-    
 }
 
 #pragma mark - Broker Picker Delegate
@@ -285,7 +247,6 @@
     [self.pickerView removeFromSuperview];
     [self textFieldAllResign];
     
-    [self.tvList deselectRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedRow inSection:0] animated:YES];
     [self.tvList setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
@@ -371,11 +332,13 @@
     
     if (indexPath.row == 0) { //小区
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
     }
-    else
+    else {
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
 }
@@ -383,13 +346,15 @@
 #pragma mark - tableView Delegate & Method
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
     if (indexPath.row == 0) {
         //小区 push
         
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
+    
+    UITextField *tf = (UITextField *)[self.view viewWithTag:TagOfTextField_Base + indexPath.row];
+    [tf becomeFirstResponder];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
