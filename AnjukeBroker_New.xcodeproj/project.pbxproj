@@ -30,8 +30,9 @@
 		9741057C180CDFE1004DAE95 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9741057A180CDFE1004DAE95 /* InfoPlist.strings */; };
 		9741057E180CDFE1004DAE95 /* AnjukeBroker_NewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9741057D180CDFE1004DAE95 /* AnjukeBroker_NewTests.m */; };
 		97410589180CE0FC004DAE95 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97410588180CE0FC004DAE95 /* RootViewController.m */; };
+		975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 975D9DE0181B69A700A421AF /* KeyboardToolBar.m */; };
 		97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A0F0211816227A00C31D83 /* BrokerLineView.m */; };
-		97A0F028181653A600C31D83 /* BrokerPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A0F027181653A600C31D83 /* BrokerPicker.m */; };
+		97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A0F027181653A600C31D83 /* RTInputPickerView.m */; };
 		97A606811816C2A50041B367 /* InputOrderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A606801816C2A50041B367 /* InputOrderManager.m */; };
 		97AED104180D21790072611B /* libRTCoreService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED0FD180D20110072611B /* libRTCoreService.a */; };
 		97AED106180D21BD0072611B /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED105180D21BD0072611B /* AdSupport.framework */; };
@@ -113,10 +114,12 @@
 		9741057D180CDFE1004DAE95 /* AnjukeBroker_NewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnjukeBroker_NewTests.m; sourceTree = "<group>"; };
 		97410587180CE0FC004DAE95 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		97410588180CE0FC004DAE95 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		975D9DDF181B69A700A421AF /* KeyboardToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardToolBar.h; sourceTree = "<group>"; };
+		975D9DE0181B69A700A421AF /* KeyboardToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardToolBar.m; sourceTree = "<group>"; };
 		97A0F0201816227A00C31D83 /* BrokerLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerLineView.h; sourceTree = "<group>"; };
 		97A0F0211816227A00C31D83 /* BrokerLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerLineView.m; sourceTree = "<group>"; };
-		97A0F026181653A600C31D83 /* BrokerPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerPicker.h; sourceTree = "<group>"; };
-		97A0F027181653A600C31D83 /* BrokerPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerPicker.m; sourceTree = "<group>"; };
+		97A0F026181653A600C31D83 /* RTInputPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTInputPickerView.h; sourceTree = "<group>"; };
+		97A0F027181653A600C31D83 /* RTInputPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTInputPickerView.m; sourceTree = "<group>"; };
 		97A6067F1816C2A50041B367 /* InputOrderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputOrderManager.h; sourceTree = "<group>"; };
 		97A606801816C2A50041B367 /* InputOrderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputOrderManager.m; sourceTree = "<group>"; };
 		97AED0F5180D20100072611B /* RTCoreService.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RTCoreService.xcodeproj; path = ../RTCoreService/RTCoreService.xcodeproj; sourceTree = "<group>"; };
@@ -360,8 +363,10 @@
 			children = (
 				97A0F0201816227A00C31D83 /* BrokerLineView.h */,
 				97A0F0211816227A00C31D83 /* BrokerLineView.m */,
-				97A0F026181653A600C31D83 /* BrokerPicker.h */,
-				97A0F027181653A600C31D83 /* BrokerPicker.m */,
+				97A0F026181653A600C31D83 /* RTInputPickerView.h */,
+				97A0F027181653A600C31D83 /* RTInputPickerView.m */,
+				975D9DDF181B69A700A421AF /* KeyboardToolBar.h */,
+				975D9DE0181B69A700A421AF /* KeyboardToolBar.m */,
 			);
 			name = "UIView&Util";
 			sourceTree = "<group>";
@@ -520,9 +525,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97A0F028181653A600C31D83 /* BrokerPicker.m in Sources */,
+				97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */,
 				97A606811816C2A50041B367 /* InputOrderManager.m in Sources */,
 				972C10321814FDC400552C9B /* MoreViewController.m in Sources */,
+				975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */,
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,
 				97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */,
 				97410565180CDFE0004DAE95 /* AppDelegate.m in Sources */,

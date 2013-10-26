@@ -19,6 +19,7 @@
 
 #define LimitRow_INPUT 1 //从row=1行开始输入，即最小输入行数(第一行为小区无需输入，从户型行开始输入)
 #define TagOfImg_Base 1000
+#define TagOfTextField_Base 2000 //用于区分各输入框
 
 #define PhotoImg_H 80
 #define PhotoImg_Gap 10
@@ -28,13 +29,10 @@
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) UITableView *tvList;
 @property BOOL needRecordNum; //是否需要备案号，部分城市需要备案号（北京）
-@property (nonatomic, strong) BrokerPicker *pickerView; //定制的输入框
+@property (nonatomic, strong) RTInputPickerView *pickerView; //定制的输入框
+@property (nonatomic, strong) KeyboardToolBar *toolBar;
+@property (nonatomic, strong) UITextField *inputingTextF; //正在输入的textField，用于指向后关闭键盘
 @property int selectedRow; //记录当前点选的row
-
-@property (nonatomic, strong) UITextField *areaTextF;
-@property (nonatomic, strong) UITextField *priceTextF;
-@property (nonatomic, strong) UITextField *titleTextF;
-@property (nonatomic, strong) UITextField *contentTextF;
 
 @property BOOL isTakePhoto; //是否拍照，区别拍照和从相册取图
 @property (nonatomic, strong) NSMutableArray *imgArray;
@@ -46,12 +44,12 @@
 @implementation AnjukeEditPropertyViewController
 @synthesize titleArray, tvList;
 @synthesize needRecordNum;
-@synthesize pickerView;
+@synthesize pickerView, toolBar, inputingTextF;
 @synthesize selectedRow;
-@synthesize areaTextF, priceTextF, titleTextF, contentTextF;
 @synthesize isTakePhoto;
 @synthesize imgArray;
 @synthesize photoSV, imgBtnArray;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -165,13 +163,6 @@
     
     self.photoSV.contentSize = CGSizeMake(PhotoImg_Gap +(PhotoImg_Gap+ PhotoImg_H) * (PhotoImg_MAX_COUNT +1), headerView.frame.size.height);
     
-    //for test
-//    UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(200, photoBtn.frame.origin.y, pBtnH, pBtnH)];
-//    img.tag = TagOfImg_Base;
-//    img.backgroundColor = [UIColor whiteColor];
-//    img.contentMode = UIViewContentModeScaleAspectFill;
-//    [headerView addSubview:img];
-    
     //备案号
     if (self.needRecordNum) {
         //
@@ -193,33 +184,33 @@
     
     [self.tvList selectRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
     
-    if ([InputOrderManager isKeyBoardInputWithIndex:index]) { //键盘输入，隐藏滚轮
-        [self.pickerView pickerHide:[InputOrderManager isKeyBoardInputWithIndex:index]];
-        
-        switch (index) {
-            case 2: //产证面积
-                [self.areaTextF becomeFirstResponder];
-                break;
-            case 3: //价格
-                [self.priceTextF becomeFirstResponder];
-                break;
-            case 7: //标题
-                [self.titleTextF becomeFirstResponder];
-                break;
-            case 8: //描述
-                [self.contentTextF becomeFirstResponder];
-                break;
-            
-            default:
-                break;
-        }
-    }
-    else { //滚轮输入，收起键盘
-        [self.pickerView pickerHide:[InputOrderManager isKeyBoardInputWithIndex:index]];
-        
-        [self textFieldAllResign];
-        [self.pickerView reloadPickerWithRow:self.selectedRow];
-    }
+//    if ([InputOrderManager isKeyBoardInputWithIndex:index]) { //键盘输入，隐藏滚轮
+//        [self.pickerView pickerHide:[InputOrderManager isKeyBoardInputWithIndex:index]];
+//        
+//        switch (index) {
+//            case 2: //产证面积
+//                [self.areaTextF becomeFirstResponder];
+//                break;
+//            case 3: //价格
+//                [self.priceTextF becomeFirstResponder];
+//                break;
+//            case 7: //标题
+//                [self.titleTextF becomeFirstResponder];
+//                break;
+//            case 8: //描述
+//                [self.contentTextF becomeFirstResponder];
+//                break;
+//            
+//            default:
+//                break;
+//        }
+//    }
+//    else { //滚轮输入，收起键盘
+//        [self.pickerView pickerHide:[InputOrderManager isKeyBoardInputWithIndex:index]];
+//        
+//        [self textFieldAllResign];
+//        [self.pickerView reloadPickerWithRow:self.selectedRow];
+//    }
 }
 
 //**根据当前输入焦点行移动tableView显示
@@ -248,8 +239,9 @@
     
     DLog(@"index-[%d]", self.selectedRow);
     
-    //修改输入组件样式
-    [self.pickerView pickerHide:[InputOrderManager isKeyBoardInputWithIndex:self.selectedRow]];
+    //前一个输入框
+    UITextField *tf = (UITextField *)[self.view viewWithTag:TagOfTextField_Base + self.selectedRow];
+    [tf becomeFirstResponder];
     
     //修改输入组件数据/修改输入框焦点 //tableView移动
     [self checkInputTypeWithIndex:self.selectedRow];
@@ -266,8 +258,9 @@
     
     DLog(@"index-[%d]", self.selectedRow);
     
-    //修改输入组件样式
-    [self.pickerView pickerHide:[InputOrderManager isKeyBoardInputWithIndex:self.selectedRow]];
+    //前一个输入框
+    UITextField *tf = (UITextField *)[self.view viewWithTag:TagOfTextField_Base + self.selectedRow];
+    [tf becomeFirstResponder];
     
     //修改输入组件数据/修改输入框焦点 //tableView移动
     [self checkInputTypeWithIndex:self.selectedRow];
@@ -339,69 +332,43 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITextField *cellTextField = nil;
-    UIButton *textF_BG = nil; //输入框遮罩，用于屏蔽输入点击
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:nil];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         
-        cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(180, 5,  100, cellHeight - 5*2)];
+        cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(150, 1,  150, cellHeight - 1*2)];
         cellTextField.returnKeyType = UIReturnKeyDone;
-        cellTextField.backgroundColor = [UIColor yellowColor];
+        cellTextField.backgroundColor = [UIColor lightGrayColor];
         cellTextField.borderStyle = UITextBorderStyleNone;
         cellTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        cellTextField.keyboardType = UIKeyboardTypeNumberPad;
         cellTextField.delegate = self;
-        cellTextField.tag = 102;
         cellTextField.text = @"";
+        cellTextField.tag = TagOfTextField_Base;
         cellTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        cellTextField.placeholder = @"";
+		cellTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+		cellTextField.font = [UIFont systemFontOfSize:17];
+        cellTextField.secureTextEntry = NO;
         [cell.contentView addSubview:cellTextField];
         
-        textF_BG = [UIButton buttonWithType:UIButtonTypeCustom];
-        textF_BG.frame = cellTextField.bounds;
-        textF_BG.backgroundColor = [UIColor clearColor];
-        textF_BG.tag = 103;
-        [textF_BG addTarget:self action:@selector(doInput) forControlEvents:UIControlEventTouchDragInside];
-        [cellTextField addSubview:textF_BG];
     }
     else {
-        cellTextField = (UITextField *)[cell.contentView viewWithTag:102];
-        textF_BG = (UIButton *)[cell.contentView viewWithTag:103];
+        cellTextField = (UITextField *)[cell.contentView viewWithTag:TagOfTextField_Base];
     }
     
-    if (indexPath.row == 2) { //面积输入
-		cellTextField.placeholder = @"";
-		cellTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-		cellTextField.font = [UIFont systemFontOfSize:15];
-        cellTextField.secureTextEntry = NO;
-        self.areaTextF = cellTextField;
+    if (indexPath.row == 0) {
+        [cellTextField removeFromSuperview];
     }
-    else if (indexPath.row == 3) { //价格输入
-        cellTextField.placeholder = @"";
-		cellTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-		cellTextField.font = [UIFont systemFontOfSize:15];
-        cellTextField.secureTextEntry = NO;
-        self.priceTextF = cellTextField;
-    }
-    else if (indexPath.row == 7){ //标题
-        cellTextField.placeholder = @"";
-		cellTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-		cellTextField.font = [UIFont systemFontOfSize:15];
-        cellTextField.secureTextEntry = NO;
-        cellTextField.keyboardType = UIKeyboardTypeDefault;
-        self.titleTextF = cellTextField;
-    }
-    else if (indexPath.row == 8){ //内容
-        cellTextField.placeholder = @"";
-		cellTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-		cellTextField.font = [UIFont systemFontOfSize:15];
-        cellTextField.secureTextEntry = NO;
-        cellTextField.keyboardType = UIKeyboardTypeDefault;
-        self.contentTextF = cellTextField;
-    }
-    else
-        [cellTextField removeFromSuperview]; //不需要输入框
     
+    if (indexPath.row == 2 || indexPath.row == 3) {
+        cellTextField.keyboardType = UIKeyboardTypeNumberPad;
+    }
+    else if (indexPath.row == 7 || indexPath.row == 8) {
+        cellTextField.keyboardType = UIKeyboardTypeDefault;
+    }
+    
+    cellTextField.tag = TagOfTextField_Base + indexPath.row;
     cell.textLabel.text = [self.titleArray objectAtIndex:indexPath.row];
     
     if (indexPath.row == 0) { //小区
@@ -410,34 +377,21 @@
     else
         cell.accessoryType = UITableViewCellAccessoryNone;
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return cell;
 }
 
 #pragma mark - tableView Delegate & Method
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.selectedRow = indexPath.row;
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.row == 0) {
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         //小区 push
         
         return;
     }
-    
-    //输入
-    if (!self.pickerView) {
-        BrokerPicker *bp = [[BrokerPicker alloc] initWithFrame:CGRectMake(0, [self currentViewHeight] - Input_H, [self windowWidth], Input_H)];
-//        bp.layer.borderColor = [UIColor blackColor].CGColor;
-//        bp.layer.borderWidth = 1;
-        bp.brokerPickerDelegate = self;
-        DLog(@"bpH [%f] [%f]", bp.frame.origin.y, bp.frame.size.height );
-        self.pickerView = bp;
-    }
-    [self checkInputTypeWithIndex:self.selectedRow];
-    
-    [self.view addSubview:self.pickerView];
-    [self.view bringSubviewToFront:self.pickerView];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -446,15 +400,43 @@
 
 #pragma mark - TextField Delegate & Method
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
+- (BOOL)isKeyboardShowWithRow:(NSInteger)row {
+    if (row == 2 || row == 3 || row == 7 || row == 8) {
+        return YES; //弹出键盘
+    }
     
+    return NO; //弹出滚轮
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.inputingTextF = textField;
+    
+    self.selectedRow = textField.tag - TagOfTextField_Base;
+    DLog(@"index - [%d]", self.selectedRow);
+    
+    if (!self.pickerView) {
+        self.pickerView = [[RTInputPickerView alloc] initWithFrame:CGRectMake(0, [self currentViewHeight] - RT_PICKERVIEW_H - 0, [self windowWidth], RT_PICKERVIEW_H)];
+    }
+    
+    if ((!self.toolBar)) {
+        self.toolBar = [[KeyboardToolBar alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], NAV_BAT_H)];
+        self.toolBar.clickDelagate = self;
+    }
+    
+    if ([self isKeyboardShowWithRow:self.selectedRow]) {
+        //弹出键盘
+        textField.inputAccessoryView = self.toolBar;
+        textField.inputView = nil;
+    }
+    else {
+        //弹出滚轮
+        textField.inputAccessoryView = self.toolBar;
+        textField.inputView = self.pickerView;
+    }
 }
 
 - (void)textFieldAllResign { //全部收起键盘
-    [self.areaTextF resignFirstResponder];
-    [self.priceTextF resignFirstResponder];
-    [self.titleTextF resignFirstResponder];
-    [self.contentTextF resignFirstResponder];
+    [self.inputingTextF resignFirstResponder];
 }
 
 #pragma mark - UIActionSheet Delegate

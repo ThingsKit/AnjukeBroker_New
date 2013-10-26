@@ -7,8 +7,9 @@
 //
 
 #import "RTViewController.h"
-#import "BrokerPicker.h"
+#import "RTInputPickerView.h"
+#import "KeyboardToolBar.h"
 
-@interface AnjukeEditPropertyViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, BrokerPickerDelegate, UITextFieldDelegate ,UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface AnjukeEditPropertyViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, BrokerPickerDelegate, UITextFieldDelegate ,UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, KeyboardBarClickDelegate>
 
 @end

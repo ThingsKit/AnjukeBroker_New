@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define RT_PICKERVIEW_H 180.0
+
 typedef NS_ENUM(NSInteger, PickerType){
     PickerTypeHuXing = 0,
     PickerTypeZhuangXiu,
@@ -17,24 +19,15 @@ typedef NS_ENUM(NSInteger, PickerType){
 
 @protocol BrokerPickerDelegate <NSObject>
 
-- (void)finishBtnClicked; //完成按钮点击delegate
-- (void)preBtnClicked;
-- (void)nextBtnClicked;
-
 @end
 
-@interface BrokerPicker : UIView <UIPickerViewDataSource, UIPickerViewDelegate>
+@interface RTInputPickerView : UIPickerView  <UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (nonatomic, assign) PickerType pickerType;
 @property (nonatomic, strong) NSArray *firstArray;
 @property (nonatomic, strong) NSArray *secondArray;
 @property (nonatomic, strong) NSArray *thirdArray;
 
-@property (nonatomic, strong) UIPickerView *picker;
-
 @property (nonatomic, assign) id <BrokerPickerDelegate> brokerPickerDelegate;
-
-- (void)pickerHide:(BOOL)hide;
-- (void)reloadPickerWithRow:(int)row; //******
 
 @end

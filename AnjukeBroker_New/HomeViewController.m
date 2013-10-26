@@ -9,7 +9,7 @@
 #import "HomeViewController.h"
 #import "AnjukeEditPropertyViewController.h"
 
-#define cellHeight 45
+#define cellHeight 50
 #define headerHeight 180
 
 @interface HomeViewController ()
