@@ -40,7 +40,7 @@
         finishBtn.frame = CGRectMake(frame.size.width- finishBtn_W*1.2, (frame.size.height-finishBtn_H)/2, finishBtn_W, finishBtn_H);
         finishBtn.backgroundColor = [UIColor clearColor];
         [finishBtn setTitle:@"完成" forState:UIControlStateNormal];
-        [finishBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        [finishBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [finishBtn addTarget:self action:@selector(doDone) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:finishBtn];
         

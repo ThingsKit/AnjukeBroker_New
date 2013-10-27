@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define RT_PICKERVIEW_H 180.0
+#define RT_PICKERVIEW_H 216.0 //180.0
 
 typedef NS_ENUM(NSInteger, PickerType){
     PickerTypeHuXing = 0,
