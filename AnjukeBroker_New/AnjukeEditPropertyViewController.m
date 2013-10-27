@@ -181,7 +181,9 @@
 - (void)tableVIewMoveWithIndex:(NSInteger)index {
     //    [self.tvList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     
-    [self.tvList setContentOffset:CGPointMake(0, cellHeight* index*0.85) animated:YES];
+    [self.tvList setFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight] - self.pickerView.frame.size.height)];
+    [self.tvList setContentOffset:CGPointMake(0, cellHeight* index*1) animated:YES];
+
 }
 
 #pragma mark - Broker Picker Delegate
@@ -229,24 +231,9 @@
 #pragma mark - Image Picker Button Method
 
 - (void)pickerDisappear {
-//    [UIView animateWithDuration: 0.02
-//                          delay: 0.0
-//                        options: UIViewAnimationOptionCurveEaseInOut
-//                     animations:^{
-//                         self.pickerView.alpha = 0.1 ;
-//                     }
-//                     completion:^(BOOL finished){
-//                         if (finished) {
-//                             //
-//                             [self.pickerView removeFromSuperview];
-//                             self.pickerView.alpha = 1;
-////                             self.pickerView = nil;
-//                         }
-//                     }];
-    
-    [self.pickerView removeFromSuperview];
     [self textFieldAllResign];
     
+    [self.tvList setFrame:FRAME_WITH_NAV];
     [self.tvList setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
@@ -373,6 +360,7 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     self.inputingTextF = textField;
     
+    [textField becomeFirstResponder];
     self.selectedRow = textField.tag - TagOfTextField_Base;
     DLog(@"index - [%d]", self.selectedRow);
     
