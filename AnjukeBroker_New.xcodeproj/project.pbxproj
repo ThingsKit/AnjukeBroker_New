@@ -607,6 +607,8 @@
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
 				B76E5977181E5676005B6A8C /* NoPlanController.m in Sources */,
 				B76E5988181E5AD1005B6A8C /* NoPlanListCell.m in Sources */,
+				974E5C7F181E417F000246D1 /* RTListCell.m in Sources */,
+				97192EE71818FEF7007971BA /* PhotoButton.m in Sources */,
 				97C97B461810DD34006E538B /* TabBarViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
