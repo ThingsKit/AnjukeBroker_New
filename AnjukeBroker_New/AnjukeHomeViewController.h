@@ -8,6 +8,10 @@
 
 #import "RTViewController.h"
 
-@interface AnjukeHomeViewController : RTViewController
+@interface AnjukeHomeViewController : RTViewController <UITableViewDataSource, UITableViewDelegate>
+{
+    UITableView *myTable;
+    NSMutableArray *myArray;
 
+}
 @end

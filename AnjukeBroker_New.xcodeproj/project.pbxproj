@@ -54,6 +54,12 @@
 		97C97B461810DD34006E538B /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C97B451810DD34006E538B /* TabBarViewController.m */; };
 		97CD8D44180E6D6E00185C9D /* RTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CD8D43180E6D6E00185C9D /* RTViewController.m */; };
 		97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */; };
+		B76E5977181E5676005B6A8C /* NoPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = B76E5976181E5676005B6A8C /* NoPlanController.m */; };
+		B76E5982181E5A3F005B6A8C /* agent_btn17_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = B76E597E181E5A3F005B6A8C /* agent_btn17_normal.png */; };
+		B76E5983181E5A3F005B6A8C /* agent_btn17_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B76E597F181E5A3F005B6A8C /* agent_btn17_normal@2x.png */; };
+		B76E5984181E5A3F005B6A8C /* agent_btn17_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = B76E5980181E5A3F005B6A8C /* agent_btn17_selected.png */; };
+		B76E5985181E5A3F005B6A8C /* agent_btn17_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B76E5981181E5A3F005B6A8C /* agent_btn17_selected@2x.png */; };
+		B76E5988181E5AD1005B6A8C /* NoPlanListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B76E5987181E5AD1005B6A8C /* NoPlanListCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,6 +151,14 @@
 		97CD8D43180E6D6E00185C9D /* RTViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTViewController.m; sourceTree = "<group>"; };
 		97FD0B6018157BEC0072FB5E /* PropertyDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDataManager.h; sourceTree = "<group>"; };
 		97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDataManager.m; sourceTree = "<group>"; };
+		B76E5975181E5676005B6A8C /* NoPlanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoPlanController.h; sourceTree = "<group>"; };
+		B76E5976181E5676005B6A8C /* NoPlanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoPlanController.m; sourceTree = "<group>"; };
+		B76E597E181E5A3F005B6A8C /* agent_btn17_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = agent_btn17_normal.png; sourceTree = "<group>"; };
+		B76E597F181E5A3F005B6A8C /* agent_btn17_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "agent_btn17_normal@2x.png"; sourceTree = "<group>"; };
+		B76E5980181E5A3F005B6A8C /* agent_btn17_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = agent_btn17_selected.png; sourceTree = "<group>"; };
+		B76E5981181E5A3F005B6A8C /* agent_btn17_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "agent_btn17_selected@2x.png"; sourceTree = "<group>"; };
+		B76E5986181E5AD1005B6A8C /* NoPlanListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoPlanListCell.h; sourceTree = "<group>"; };
+		B76E5987181E5AD1005B6A8C /* NoPlanListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoPlanListCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +220,10 @@
 			children = (
 				972C102A1814FD4500552C9B /* AnjukeHomeViewController.h */,
 				972C102B1814FD4500552C9B /* AnjukeHomeViewController.m */,
+				B76E5975181E5676005B6A8C /* NoPlanController.h */,
+				B76E5976181E5676005B6A8C /* NoPlanController.m */,
+				B76E5986181E5AD1005B6A8C /* NoPlanListCell.h */,
+				B76E5987181E5AD1005B6A8C /* NoPlanListCell.m */,
 			);
 			name = "二手房业务管理";
 			sourceTree = "<group>";
@@ -252,6 +270,7 @@
 		972C10351815053100552C9B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B76E597D181E5A27005B6A8C /* Temp */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -413,6 +432,17 @@
 			name = DataManager;
 			sourceTree = "<group>";
 		};
+		B76E597D181E5A27005B6A8C /* Temp */ = {
+			isa = PBXGroup;
+			children = (
+				B76E597E181E5A3F005B6A8C /* agent_btn17_normal.png */,
+				B76E597F181E5A3F005B6A8C /* agent_btn17_normal@2x.png */,
+				B76E5980181E5A3F005B6A8C /* agent_btn17_selected.png */,
+				B76E5981181E5A3F005B6A8C /* agent_btn17_selected@2x.png */,
+			);
+			name = Temp;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -505,8 +535,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B76E5983181E5A3F005B6A8C /* agent_btn17_normal@2x.png in Resources */,
 				9741055F180CDFE0004DAE95 /* InfoPlist.strings in Resources */,
+				B76E5985181E5A3F005B6A8C /* agent_btn17_selected@2x.png in Resources */,
 				9741056A180CDFE0004DAE95 /* Images.xcassets in Resources */,
+				B76E5982181E5A3F005B6A8C /* agent_btn17_normal.png in Resources */,
+				B76E5984181E5A3F005B6A8C /* agent_btn17_selected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,7 +574,9 @@
 				97410561180CDFE0004DAE95 /* main.m in Sources */,
 				972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */,
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
+				B76E5977181E5676005B6A8C /* NoPlanController.m in Sources */,
 				97192EE71818FEF7007971BA /* PhotoButton.m in Sources */,
+				B76E5988181E5AD1005B6A8C /* NoPlanListCell.m in Sources */,
 				97C97B461810DD34006E538B /* TabBarViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
