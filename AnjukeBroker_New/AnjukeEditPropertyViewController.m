@@ -10,11 +10,10 @@
 #import "PropertyDataManager.h"
 #import "InputOrderManager.h"
 #import "PhotoButton.h"
-
-#define cellHeight 50
+#import "AnjukeEditableTV_DataSource.h"
 
 #define photoHeaderH 100
-#define photoHeaderH_RecNum 100 +cellHeight
+#define photoHeaderH_RecNum 100 +50
 #define Input_H 260
 
 #define LimitRow_INPUT 1 //从row=1行开始输入，即最小输入行数(第一行为小区无需输入，从户型行开始输入)
@@ -39,6 +38,8 @@
 @property (nonatomic, strong) UIScrollView *photoSV;
 @property (nonatomic, strong) NSMutableArray *imgBtnArray;
 
+@property (nonatomic, strong) AnjukeEditableTV_DataSource *dataSource;
+
 @end
 
 @implementation AnjukeEditPropertyViewController
@@ -49,7 +50,7 @@
 @synthesize isTakePhoto;
 @synthesize imgArray;
 @synthesize photoSV, imgBtnArray;
-
+@synthesize dataSource;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -95,6 +96,7 @@
     self.titleArray = [NSArray arrayWithArray:[PropertyDataManager getPropertyTitleArrayForAnjuke:YES]];
     self.imgArray = [NSMutableArray array];
     self.imgBtnArray = [NSMutableArray array];
+    
 }
 
 - (void)initDisplay {
@@ -109,11 +111,15 @@
     self.navigationItem.rightBarButtonItem = rButton;
     
     //draw tableView list
+    self.dataSource = [[AnjukeEditableTV_DataSource alloc] init];
+    self.dataSource.superViewController = self;
+    [self.dataSource createCells:self.titleArray];
+    
     UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.tvList = tv;
     tv.backgroundColor = [UIColor clearColor];
     tv.delegate = self;
-    tv.dataSource = self;
+    tv.dataSource = self.dataSource;
     [self.view addSubview:tv];
     
     //draw tableView header
@@ -181,9 +187,8 @@
 - (void)tableVIewMoveWithIndex:(NSInteger)index {
     //    [self.tvList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     
-    [self.tvList setFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight] - self.pickerView.frame.size.height)];
-    [self.tvList setContentOffset:CGPointMake(0, cellHeight* index*1) animated:YES];
-
+    [self.tvList setFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight] - self.pickerView.frame.size.height - self.toolBar.frame.size.height)];
+    [self.tvList setContentOffset:CGPointMake(0, CELL_HEIGHT* index*1) animated:YES];
 }
 
 #pragma mark - Broker Picker Delegate
@@ -193,6 +198,8 @@
 }
 
 - (void)preBtnClicked { //点击”上一个“，检查输入样式并做转换，tableView下移
+//    self.view.userInteractionEnabled = NO; //锁住主线程操作
+    
     self.selectedRow --; //当前输入行数-1
     if (self.selectedRow < LimitRow_INPUT) {
         self.selectedRow = LimitRow_INPUT;
@@ -201,16 +208,20 @@
     
     DLog(@"index-[%d]", self.selectedRow);
     
-    //前一个输入框
-    UITextField *tf = (UITextField *)[self.view viewWithTag:TagOfTextField_Base + self.selectedRow];
-    [tf becomeFirstResponder];
-    
     //修改输入组件数据/修改输入框焦点 //tableView移动
     [self tableVIewMoveWithIndex:self.selectedRow];
     
+//    UITextField *tf = [(AnjukeEditableCell *)[self.dataSource.cellArray objectAtIndex:self.selectedRow] text_Field];
+//    self.inputingTextF = tf;
+    [self getTextFieldWithIndex:self.selectedRow];
+    [self textFieldShowWithIndex:self.selectedRow];
+    
+    self.view.userInteractionEnabled = YES; //锁住主线程操作
 }
 
 - (void)nextBtnClicked { //点击”下一个“，检查输入样式并做转换，tableView上移
+//    self.view.userInteractionEnabled = NO; //锁住主线程操作
+    
     self.selectedRow ++; //当前输入行数+1
     if (self.selectedRow > self.titleArray.count -1) {
         DLog(@"max row -%d", self.selectedRow);
@@ -220,12 +231,15 @@
     
     DLog(@"index-[%d]", self.selectedRow);
     
-    //前一个输入框
-    UITextField *tf = (UITextField *)[self.view viewWithTag:TagOfTextField_Base + self.selectedRow];
-    [tf becomeFirstResponder];
-    
     //修改输入组件数据/修改输入框焦点 //tableView移动
     [self tableVIewMoveWithIndex:self.selectedRow];
+    
+//    UITextField *tf = [(AnjukeEditableCell *)[self.dataSource.cellArray objectAtIndex:self.selectedRow] text_Field];
+//    self.inputingTextF = tf;
+    [self getTextFieldWithIndex:self.selectedRow];
+    [self textFieldShowWithIndex:self.selectedRow];
+    
+    self.view.userInteractionEnabled = YES; //锁住主线程操作
 }
 
 #pragma mark - Image Picker Button Method
@@ -261,74 +275,6 @@
     DLog(@"photo Index [%d]", photoIndex);
 }
 
-#pragma mark - tableView Datasource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.titleArray.count;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return cellHeight;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    UITextField *cellTextField = nil;
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:nil];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-        
-        cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(150, 1,  150, cellHeight - 1*2)];
-        cellTextField.returnKeyType = UIReturnKeyDone;
-        cellTextField.backgroundColor = [UIColor clearColor];
-        cellTextField.borderStyle = UITextBorderStyleNone;
-        cellTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        cellTextField.delegate = self;
-        cellTextField.text = @"";
-        cellTextField.tag = TagOfTextField_Base;
-        cellTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        cellTextField.placeholder = @"";
-		cellTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-		cellTextField.font = [UIFont systemFontOfSize:17];
-        cellTextField.secureTextEntry = NO;
-        [cell.contentView addSubview:cellTextField];
-        
-    }
-    else {
-        cellTextField = (UITextField *)[cell.contentView viewWithTag:TagOfTextField_Base];
-    }
-    
-    if (indexPath.row == 0) {
-        [cellTextField removeFromSuperview];
-    }
-    
-    if (indexPath.row == 2 || indexPath.row == 3) {
-        cellTextField.keyboardType = UIKeyboardTypeNumberPad;
-    }
-    else if (indexPath.row == 7 || indexPath.row == 8) {
-        cellTextField.keyboardType = UIKeyboardTypeDefault;
-    }
-    
-    cellTextField.tag = TagOfTextField_Base + indexPath.row;
-    cell.textLabel.text = [self.titleArray objectAtIndex:indexPath.row];
-    
-    if (indexPath.row == 0) { //小区
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleGray;
-    }
-    else {
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-    
-    return cell;
-}
-
 #pragma mark - tableView Delegate & Method
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -339,15 +285,28 @@
         return;
     }
     
-    UITextField *tf = (UITextField *)[self.view viewWithTag:TagOfTextField_Base + indexPath.row];
-    [tf becomeFirstResponder];
+    self.selectedRow = indexPath.row;
+    
+//    UITextField *tf = [(AnjukeEditableCell *)[self.dataSource.cellArray objectAtIndex:self.selectedRow] text_Field];
+//    self.inputingTextF = tf;
+    [self getTextFieldWithIndex:self.selectedRow];
+    [self textFieldShowWithIndex:self.selectedRow];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    [self pickerDisappear];
+    
 }
 
-#pragma mark - TextField Delegate & Method
+#pragma mark - EDIT_CELL Delegate
+
+- (void)textFieldBeginEdit:(UITextField *)textField {
+    
+    [self getTextFieldIndexWithTF:textField];
+    
+    [self textFieldShowWithIndex:self.selectedRow];
+}
+
+#pragma mark - TextField Method
 
 - (BOOL)isKeyboardShowWithRow:(NSInteger)row {
     if (row == 2 || row == 3 || row == 7 || row == 8) {
@@ -357,13 +316,23 @@
     return NO; //弹出滚轮
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    self.inputingTextF = textField;
+- (void)getTextFieldIndexWithTF:(UITextField *)tf {
+    self.inputingTextF = tf;
     
-    [textField becomeFirstResponder];
-    self.selectedRow = textField.tag - TagOfTextField_Base;
+    AnjukeEditableCell *cell = (AnjukeEditableCell *)[[[tf superview] superview] superview];
+    self.selectedRow = [[self.tvList indexPathForCell:cell] row];
     DLog(@"index - [%d]", self.selectedRow);
     
+}
+
+- (void)getTextFieldWithIndex:(int)index {
+    
+    UITextField *tf = [(AnjukeEditableCell *)[self.dataSource.cellArray objectAtIndex:self.selectedRow] text_Field];
+    self.inputingTextF = tf;
+    
+}
+
+- (void)textFieldShowWithIndex:(int)index {
     if (!self.pickerView) {
         self.pickerView = [[RTInputPickerView alloc] initWithFrame:CGRectMake(0, [self currentViewHeight] - RT_PICKERVIEW_H - 0, [self windowWidth], RT_PICKERVIEW_H)];
     }
@@ -375,18 +344,20 @@
     
     if ([self isKeyboardShowWithRow:self.selectedRow]) {
         //弹出键盘
-        textField.inputAccessoryView = self.toolBar;
-        textField.inputView = nil;
+        self.inputingTextF.inputAccessoryView = self.toolBar;
+        self.inputingTextF.inputView = nil;
     }
     else {
         //弹出滚轮
-        textField.inputAccessoryView = self.toolBar;
-        textField.inputView = self.pickerView;
+        self.inputingTextF.inputAccessoryView = self.toolBar;
+        self.inputingTextF.inputView = self.pickerView;
         
         [self.pickerView reloadPickerWithRow:self.selectedRow];
     }
     
     [self tableVIewMoveWithIndex:self.selectedRow];
+    
+    [self.inputingTextF becomeFirstResponder];
 }
 
 - (void)textFieldAllResign { //全部收起键盘

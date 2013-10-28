@@ -30,6 +30,10 @@
 		9741057C180CDFE1004DAE95 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9741057A180CDFE1004DAE95 /* InfoPlist.strings */; };
 		9741057E180CDFE1004DAE95 /* AnjukeBroker_NewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9741057D180CDFE1004DAE95 /* AnjukeBroker_NewTests.m */; };
 		97410589180CE0FC004DAE95 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97410588180CE0FC004DAE95 /* RootViewController.m */; };
+		974E5C7F181E417F000246D1 /* RTListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 974E5C7E181E417F000246D1 /* RTListCell.m */; };
+		974E5C82181E4210000246D1 /* AnjukeEditableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 974E5C81181E4210000246D1 /* AnjukeEditableCell.m */; };
+		974E5C89181E4B00000246D1 /* AnjukeEditableTV_DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 974E5C88181E4B00000246D1 /* AnjukeEditableTV_DataSource.m */; };
+		974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 974E5C8B181E4D45000246D1 /* AnjukeNormalCell.m */; };
 		975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 975D9DE0181B69A700A421AF /* KeyboardToolBar.m */; };
 		97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A0F0211816227A00C31D83 /* BrokerLineView.m */; };
 		97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A0F027181653A600C31D83 /* RTInputPickerView.m */; };
@@ -114,6 +118,14 @@
 		9741057D180CDFE1004DAE95 /* AnjukeBroker_NewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnjukeBroker_NewTests.m; sourceTree = "<group>"; };
 		97410587180CE0FC004DAE95 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		97410588180CE0FC004DAE95 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		974E5C7D181E417F000246D1 /* RTListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTListCell.h; sourceTree = "<group>"; };
+		974E5C7E181E417F000246D1 /* RTListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTListCell.m; sourceTree = "<group>"; };
+		974E5C80181E4210000246D1 /* AnjukeEditableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukeEditableCell.h; sourceTree = "<group>"; };
+		974E5C81181E4210000246D1 /* AnjukeEditableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukeEditableCell.m; sourceTree = "<group>"; };
+		974E5C87181E4B00000246D1 /* AnjukeEditableTV_DataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukeEditableTV_DataSource.h; sourceTree = "<group>"; };
+		974E5C88181E4B00000246D1 /* AnjukeEditableTV_DataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukeEditableTV_DataSource.m; sourceTree = "<group>"; };
+		974E5C8A181E4D45000246D1 /* AnjukeNormalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukeNormalCell.h; sourceTree = "<group>"; };
+		974E5C8B181E4D45000246D1 /* AnjukeNormalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukeNormalCell.m; sourceTree = "<group>"; };
 		975D9DDF181B69A700A421AF /* KeyboardToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardToolBar.h; sourceTree = "<group>"; };
 		975D9DE0181B69A700A421AF /* KeyboardToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardToolBar.m; sourceTree = "<group>"; };
 		97A0F0201816227A00C31D83 /* BrokerLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerLineView.h; sourceTree = "<group>"; };
@@ -261,6 +273,8 @@
 			children = (
 				972C10371815351900552C9B /* AnjukeEditPropertyViewController.h */,
 				972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */,
+				974E5C87181E4B00000246D1 /* AnjukeEditableTV_DataSource.h */,
+				974E5C88181E4B00000246D1 /* AnjukeEditableTV_DataSource.m */,
 				97192EE51818FEF7007971BA /* PhotoButton.h */,
 				97192EE61818FEF7007971BA /* PhotoButton.m */,
 			);
@@ -358,6 +372,19 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		974E5C7B181E4129000246D1 /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				974E5C7D181E417F000246D1 /* RTListCell.h */,
+				974E5C7E181E417F000246D1 /* RTListCell.m */,
+				974E5C8A181E4D45000246D1 /* AnjukeNormalCell.h */,
+				974E5C8B181E4D45000246D1 /* AnjukeNormalCell.m */,
+				974E5C80181E4210000246D1 /* AnjukeEditableCell.h */,
+				974E5C81181E4210000246D1 /* AnjukeEditableCell.m */,
+			);
+			name = TableViewCell;
+			sourceTree = "<group>";
+		};
 		97A0F01E181621AA00C31D83 /* UIView&Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -367,6 +394,7 @@
 				97A0F027181653A600C31D83 /* RTInputPickerView.m */,
 				975D9DDF181B69A700A421AF /* KeyboardToolBar.h */,
 				975D9DE0181B69A700A421AF /* KeyboardToolBar.m */,
+				974E5C7B181E4129000246D1 /* TableViewCell */,
 			);
 			name = "UIView&Util";
 			sourceTree = "<group>";
@@ -533,13 +561,17 @@
 				97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */,
 				97410565180CDFE0004DAE95 /* AppDelegate.m in Sources */,
 				97CD8D44180E6D6E00185C9D /* RTViewController.m in Sources */,
+				974E5C89181E4B00000246D1 /* AnjukeEditableTV_DataSource.m in Sources */,
 				972C10391815351900552C9B /* AnjukeEditPropertyViewController.m in Sources */,
 				97410589180CE0FC004DAE95 /* RootViewController.m in Sources */,
 				972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */,
+				974E5C82181E4210000246D1 /* AnjukeEditableCell.m in Sources */,
 				972C10291814FCD300552C9B /* HomeViewController.m in Sources */,
 				97410561180CDFE0004DAE95 /* main.m in Sources */,
 				972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */,
+				974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */,
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
+				974E5C7F181E417F000246D1 /* RTListCell.m in Sources */,
 				97192EE71818FEF7007971BA /* PhotoButton.m in Sources */,
 				97C97B461810DD34006E538B /* TabBarViewController.m in Sources */,
 			);
