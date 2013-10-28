@@ -188,7 +188,9 @@
     //    [self.tvList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     
     [self.tvList setFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight] - self.pickerView.frame.size.height - self.toolBar.frame.size.height)];
-    [self.tvList setContentOffset:CGPointMake(0, CELL_HEIGHT* index*1) animated:YES];
+    
+//    [self.tvList setContentOffset:CGPointMake(0, CELL_HEIGHT* index*1) animated:YES];
+    [self.tvList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
 }
 
 #pragma mark - Broker Picker Delegate
