@@ -10,6 +10,7 @@
 
 @implementation PhotoButton
 @synthesize photoImg;
+@synthesize deletelBtn;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -25,6 +26,14 @@
         img.contentMode = UIViewContentModeScaleAspectFill;
         img.userInteractionEnabled = NO;
         [self addSubview:img];
+        
+//        CGFloat dBtnW = 20;
+//        
+//        UIButton *deleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        self.deletelBtn = deleBtn;
+//        deleBtn.frame = CGRectMake(frame.size.width - dBtnW, 0, dBtnW, dBtnW);
+//        deleBtn.backgroundColor = [UIColor redColor];
+//        [self addSubview:deleBtn];
         
     }
     return self;

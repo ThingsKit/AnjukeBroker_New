@@ -163,7 +163,6 @@
         pBtn.layer.borderColor = [UIColor lightGrayColor].CGColor;
         pBtn.layer.borderWidth = 0.5;
         [self.photoSV addSubview:pBtn];
-        
         [self.imgBtnArray addObject:pBtn];
     }
     
@@ -181,26 +180,60 @@
 
 }
 
-#pragma mark - Input Method
+#pragma mark - Private Method
 
 //**根据当前输入焦点行移动tableView显示
 - (void)tableVIewMoveWithIndex:(NSInteger)index {
-    //    [self.tvList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    
     [self.tvList setFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight] - self.pickerView.frame.size.height - self.toolBar.frame.size.height)];
     
-//    [self.tvList setContentOffset:CGPointMake(0, CELL_HEIGHT* index*1) animated:YES];
     [self.tvList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+}
+
+- (NSMutableString *)getInputString {
+    NSMutableString *string = [NSMutableString string];
+    
+    int index1 = [self.pickerView selectedRowInComponent:0];
+    NSString *string1 = [[self.pickerView firstArray] objectAtIndex:index1];
+    [string appendString:string1];
+    
+    if ([self.pickerView.secondArray count] > 0) {
+        int index2 = [self.pickerView selectedRowInComponent:1];
+        NSString *string2 = [[self.pickerView secondArray] objectAtIndex:index2];
+        [string appendString:string2];
+    }
+    
+    if ([self.pickerView.thirdArray count] > 0) {
+        int index3 = [self.pickerView selectedRowInComponent:2];
+        NSString *string3 = [[self.pickerView thirdArray] objectAtIndex:index3];
+        [string appendString:string3];
+    }
+    
+    DLog(@"string-[%@]", string);
+    
+    return string;
+}
+
+- (void)pickerDisappear {
+    [self textFieldAllResign];
+    
+    [self.tvList setFrame:FRAME_WITH_NAV];
+    [self.tvList setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
 #pragma mark - Broker Picker Delegate
 
 - (void)finishBtnClicked { //点击完成，输入框组件消失
+    if (![self isKeyboardShowWithRow:self.selectedRow]) {
+        self.inputingTextF.text = [self getInputString]; //当前输入框为滚轮输入，则切换前输入
+    }
+    
     [self pickerDisappear];
 }
 
 - (void)preBtnClicked { //点击”上一个“，检查输入样式并做转换，tableView下移
-//    self.view.userInteractionEnabled = NO; //锁住主线程操作
+    if (![self isKeyboardShowWithRow:self.selectedRow]) {
+        self.inputingTextF.text = [self getInputString]; //当前输入框为滚轮输入，则切换前输入
+    }
     
     self.selectedRow --; //当前输入行数-1
     if (self.selectedRow < LimitRow_INPUT) {
@@ -218,11 +251,13 @@
     [self getTextFieldWithIndex:self.selectedRow];
     [self textFieldShowWithIndex:self.selectedRow];
     
-    self.view.userInteractionEnabled = YES; //锁住主线程操作
 }
 
 - (void)nextBtnClicked { //点击”下一个“，检查输入样式并做转换，tableView上移
-//    self.view.userInteractionEnabled = NO; //锁住主线程操作
+    //得到前一条的输入数据，并显示下一条的输入框
+    if (![self isKeyboardShowWithRow:self.selectedRow]) {
+        self.inputingTextF.text = [self getInputString]; //当前输入框为滚轮输入，则切换前输入
+    }
     
     self.selectedRow ++; //当前输入行数+1
     if (self.selectedRow > self.titleArray.count -1) {
@@ -236,22 +271,12 @@
     //修改输入组件数据/修改输入框焦点 //tableView移动
     [self tableVIewMoveWithIndex:self.selectedRow];
     
-//    UITextField *tf = [(AnjukeEditableCell *)[self.dataSource.cellArray objectAtIndex:self.selectedRow] text_Field];
-//    self.inputingTextF = tf;
     [self getTextFieldWithIndex:self.selectedRow];
     [self textFieldShowWithIndex:self.selectedRow];
     
-    self.view.userInteractionEnabled = YES; //锁住主线程操作
 }
 
 #pragma mark - Image Picker Button Method
-
-- (void)pickerDisappear {
-    [self textFieldAllResign];
-    
-    [self.tvList setFrame:FRAME_WITH_NAV];
-    [self.tvList setContentOffset:CGPointMake(0, 0) animated:YES];
-}
 
 - (void)doSave {
     //for test
@@ -277,6 +302,10 @@
     DLog(@"photo Index [%d]", photoIndex);
 }
 
+- (void)deleteImg:(UILongPressGestureRecognizer *)gesture {
+    
+}
+
 #pragma mark - tableView Delegate & Method
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -289,8 +318,6 @@
     
     self.selectedRow = indexPath.row;
     
-//    UITextField *tf = [(AnjukeEditableCell *)[self.dataSource.cellArray objectAtIndex:self.selectedRow] text_Field];
-//    self.inputingTextF = tf;
     [self getTextFieldWithIndex:self.selectedRow];
     [self textFieldShowWithIndex:self.selectedRow];
 }
@@ -302,9 +329,7 @@
 #pragma mark - EDIT_CELL Delegate
 
 - (void)textFieldBeginEdit:(UITextField *)textField {
-    
     [self getTextFieldIndexWithTF:textField];
-    
     [self textFieldShowWithIndex:self.selectedRow];
 }
 
@@ -324,14 +349,11 @@
     AnjukeEditableCell *cell = (AnjukeEditableCell *)[[[tf superview] superview] superview];
     self.selectedRow = [[self.tvList indexPathForCell:cell] row];
     DLog(@"index - [%d]", self.selectedRow);
-    
 }
 
 - (void)getTextFieldWithIndex:(int)index {
-    
     UITextField *tf = [(AnjukeEditableCell *)[self.dataSource.cellArray objectAtIndex:self.selectedRow] text_Field];
     self.inputingTextF = tf;
-    
 }
 
 - (void)textFieldShowWithIndex:(int)index {

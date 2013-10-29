@@ -11,5 +11,6 @@
 @interface PhotoButton : UIButton
 
 @property (nonatomic, strong) UIImageView *photoImg;
+@property (nonatomic, strong) UIButton *deletelBtn;
 
 @end

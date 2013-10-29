@@ -89,7 +89,7 @@
 
 #pragma mark - UIPickerView DataSource & Delegate
 
-- (NSInteger) numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
     if (self.thirdArray.count > 0) {
         return 3;
     }
@@ -103,7 +103,7 @@
     return 0;
 }
 
-- (NSInteger) pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
     if (component == 0) {
         return [self.firstArray count];
     }
@@ -134,6 +134,12 @@
     }
     
     return @"";
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+//    NSMutableString *string = [NSMutableString string];
+    
+    DLog(@"r[%d] c[%d]", row, component);
 }
 
 @end
