@@ -91,12 +91,14 @@
     
     UIButton *delete = [UIButton buttonWithType:UIButtonTypeCustom];
     [delete setTitle:@"删除" forState:UIControlStateNormal];
-    delete.frame = CGRectMake(20, 10, 80, 35);
+    delete.frame = CGRectMake(20, 10, 130, 40);
+    [delete addTarget:self action:@selector(delete) forControlEvents:UIControlEventTouchDown];
     [contentView addSubview:delete];
     
     UIButton *multiSelect = [UIButton buttonWithType:UIButtonTypeCustom];
-    multiSelect.frame = CGRectMake(190, 10, 80, 35);
+    multiSelect.frame = CGRectMake(190, 10, 130, 40);
     [multiSelect setTitle:@"定价推广" forState:UIControlStateNormal];
+    [multiSelect addTarget:self action:@selector(multiSelect) forControlEvents:UIControlEventTouchDown];
     [contentView addSubview:multiSelect];
     
     return contentView;
@@ -107,5 +109,12 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+#pragma mark -- PrivateMethod
+-(void)delete{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+-(void)multiSelect{
+    [self.navigationController popViewControllerAnimated:YES];
 
+}
 @end
