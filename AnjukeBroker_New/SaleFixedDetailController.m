@@ -13,6 +13,8 @@
 #import "NoPlanController.h"
 #import "ModifyFixedCostController.h"
 #import "SalePropertyDetailController.h"
+#import "AnjukeEditPropertyViewController.h"
+#import "SaleBidPlanController.h"
 
 @interface SaleFixedDetailController ()
 
@@ -37,10 +39,10 @@
     [self setTitleViewWithString:@"定价房源"];
     UIButton *action = [UIButton buttonWithType:UIButtonTypeCustom];
     [action setTitle:@"操作" forState:UIControlStateNormal];
+    [action setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [action addTarget:self action:@selector(action) forControlEvents:UIControlEventTouchDown];
-    [action setBackgroundColor:[UIColor lightGrayColor]];
+//    [action setBackgroundColor:[UIColor lightGrayColor]];
     [action setFrame:CGRectMake(0, 0, 60, 40)];
-   
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:action];
 
     myTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 480) style:UITableViewStylePlain];
@@ -55,32 +57,32 @@
     
     PropertyObject *property1 = [[PropertyObject alloc] init];
     property1.title = @"昨天最好的房子";
-    property1.communityName = @"天涯社区";
-    property1.price = @"1万";
+    property1.communityName = @"2室1厅  33平";
+    property1.price = @"345万";
     [myArray addObject:property1];
     
     PropertyObject *property2 = [[PropertyObject alloc] init];
     property2.title = @"今天最好的房子";
-    property2.communityName = @"明日论坛";
-    property2.price = @"2万";
+    property2.communityName = @"2室1厅  120平";
+    property2.price = @"567万";
     [myArray addObject:property2];
     
     PropertyObject *property3 = [[PropertyObject alloc] init];
     property3.title = @"明天最好的房子";
-    property3.communityName = @"黄浦江";
-    property3.price = @"3.05万";
+    property3.communityName = @"2室1厅  340平";
+    property3.price = @"7896万";
     [myArray addObject:property3];
     
     PropertyObject *property4 = [[PropertyObject alloc] init];
     property4.title = @"未来天最好的房子";
-    property4.communityName = @"东方明珠";
-    property4.price = @"6万";
+    property4.communityName = @"2室1厅  200平";
+    property4.price = @"6435万";
     [myArray addObject:property4];
     
     PropertyObject *property = [[PropertyObject alloc] init];
     property.title = @"上海最好的房子";
-    property.communityName = @"上海电视台";
-    property.price = @"1.9亿";
+    property.communityName = @"2室1厅  80平";
+    property.price = @"234万";
     [myArray addObject:property];
     
     
@@ -92,10 +94,14 @@
     if([indexPath row] == 0){
     
     }else{
-        SalePropertyDetailController *controller = [[SalePropertyDetailController alloc] init];
-        controller.propertyObject = [myArray objectAtIndex:[indexPath row]];
-        controller.fixedObject = [myArray objectAtIndex:0];
-        [self.navigationController pushViewController:controller animated:YES];
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"取消定价推广", @"竞价推广本房源", nil];
+        [action showInView:self.view];
+        
+        
+//        SalePropertyDetailController *controller = [[SalePropertyDetailController alloc] init];
+//        controller.propertyObject = [myArray objectAtIndex:[indexPath row]];
+//        controller.fixedObject = [myArray objectAtIndex:0];
+//        [self.navigationController pushViewController:controller animated:YES];
     
     }
 //    if(![selected containsObject:[myArray objectAtIndex:[indexPath row]]]){
@@ -136,12 +142,12 @@
     }
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UILabel *headerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 15)];
-    headerLab.backgroundColor = [UIColor grayColor];
-    headerLab.text = fixedStatus;
-    return headerLab;
-}
+//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+//    UILabel *headerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 15)];
+//    headerLab.backgroundColor = [UIColor grayColor];
+//    headerLab.text = fixedStatus;
+//    return headerLab;
+//}
 //-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
 //    return 55;
 //}
@@ -164,23 +170,40 @@
 #pragma mark -- privateMethod
 -(void)action{
     UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"添加房源", @"停止推广", @"修改限额", nil];
+    action.tag = 100;
     [action showInView:self.view];
 
 }
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if(buttonIndex == 0){
-        NoPlanController *controller = [[NoPlanController alloc] init];
-        [self.navigationController pushViewController:controller animated:YES];
-        
-    }else if (buttonIndex == 1){
-        fixedStatus = @"已停止推广     房源数：3套";
-        [myTable reloadData];
-    }else if (buttonIndex == 2){
-        ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
-        [self.navigationController pushViewController:controller animated:YES];
-    }
 
+#pragma mark -- UIActionSheetDelegate
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+
+    if(actionSheet.tag == 100){
+        if(buttonIndex == 0){
+            NoPlanController *controller = [[NoPlanController alloc] init];
+            [self.navigationController pushViewController:controller animated:YES];
+            
+        }else if (buttonIndex == 1){
+            fixedStatus = @"已停止推广     房源数：3套";
+            [myTable reloadData];
+        }else if (buttonIndex == 2){
+            ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
+            [self.navigationController pushViewController:controller animated:YES];
+        }
+    }else{
+        if(buttonIndex == 0){
+            AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+            [self.navigationController pushViewController:controller animated:YES];
+            
+        }else if (buttonIndex == 1){
+//            [self.navigationController popToRootViewControllerAnimated:YES];
+        }else if (buttonIndex == 2){
+            SaleBidPlanController *controller = [[SaleBidPlanController alloc] init];
+            [self.navigationController pushViewController:controller animated:YES];
+        }
+    }
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

@@ -8,6 +8,9 @@
 
 #import "RTViewController.h"
 
-@interface HaozuHomeViewController : RTViewController
-
+@interface HaozuHomeViewController : RTViewController <UITableViewDelegate, UITableViewDataSource>
+{
+    UITableView *myTable;
+    NSMutableArray *myArray;
+}
 @end

@@ -10,6 +10,7 @@
 #import "NoPlanController.h"
 #import "SaleFixedDetailController.h"
 #import "SaleBidDetailController.h"
+#import "PPCGroupCell.h"
 
 @interface AnjukeHomeViewController ()
 
@@ -29,11 +30,36 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    myArray = [NSMutableArray arrayWithObjects:@"竞价房源(12)", @"定价房源(10)", @"未推广房源(12)", nil];
+    [self setTitleViewWithString:@"二手房"];
+    myArray = [NSMutableArray array];
     myTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 480) style:UITableViewStylePlain];
+//    myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     myTable.delegate = self;
     myTable.dataSource = self;
     [self.view addSubview:myTable];
+    
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    [dic setValue:@"竞价房源" forKey:@"title"];
+    [dic setValue:@"房源数：10套" forKey:@"detail"];
+    [dic setValue:@"" forKey:@"status"];
+    [dic setValue:@"1" forKey:@"type"];
+    [myArray addObject:dic];
+    
+    dic = [[NSMutableDictionary alloc] init];
+    [dic setValue:@"定价房源" forKey:@"title"];
+    [dic setValue:@"分组名称  房源数：10套" forKey:@"detail"];
+    [dic setValue:@"推广中" forKey:@"status"];
+    [dic setValue:@"2" forKey:@"type"];
+    [myArray addObject:dic];
+    
+    dic = [[NSMutableDictionary alloc] init];
+    [dic setValue:@"待推广房源" forKey:@"title"];
+    [dic setValue:@"房源数：10套" forKey:@"detail"];
+    [dic setValue:@"" forKey:@"status"];
+    [dic setValue:@"3" forKey:@"type"];
+    [myArray addObject:dic];
+    
+    
 	// Do any additional setup after loading the view.
     
 //    self.view.backgroundColor = [UIColor yellowColor];
@@ -49,6 +75,7 @@
         [self.navigationController pushViewController:controller animated:YES];
     }else if ([indexPath row] == 0){
         SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
+        [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     
     }else{
@@ -62,52 +89,53 @@
     return [myArray count];
 }
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 55.0f;
+    return 75.0f;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdent = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+    PPCGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == Nil){
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
+        cell = [[NSClassFromString(@"PPCGroupCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        [cell setValueForCellByDictinary:[myArray objectAtIndex:[indexPath row]]];
     }
-    cell.textLabel.text = [myArray objectAtIndex:[indexPath row]];
     return cell;
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *content = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-    content.backgroundColor = [UIColor lightGrayColor];
-    
-    UILabel *headerLab = [[UILabel alloc] initWithFrame:CGRectMake(30, 10, 50, 20)];
-    headerLab.backgroundColor = [UIColor clearColor];
-    headerLab.text = @"10";
-    [content addSubview:headerLab];
-    
-    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(20, 45, 320, 20)];
-    headerLab.text = @"在线房源";
-    [content addSubview:headerLab];
-    
-    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(130, 10, 50, 20)];
-    headerLab.text = @"100";
-    [content addSubview:headerLab];
-    
-    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(120, 45, 320, 20)];
-    headerLab.text = @"今日已点击";
-    [content addSubview:headerLab];
-    
-    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(230, 10, 50, 20)];
-    headerLab.text = @"99.0";
-    [content addSubview:headerLab];
-    
-    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(220, 45, 320, 20)];
-    headerLab.text = @"今日花费(元)";
-    [content addSubview:headerLab];
-    
-    return content;
-}
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 100;
-}
+//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+//    UIView *content = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
+//    content.backgroundColor = [UIColor lightGrayColor];
+//    
+//    UILabel *headerLab = [[UILabel alloc] initWithFrame:CGRectMake(30, 10, 50, 20)];
+//    headerLab.backgroundColor = [UIColor clearColor];
+//    headerLab.text = @"10";
+//    [content addSubview:headerLab];
+//    
+//    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(20, 45, 320, 20)];
+//    headerLab.text = @"在线房源";
+//    [content addSubview:headerLab];
+//    
+//    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(130, 10, 50, 20)];
+//    headerLab.text = @"100";
+//    [content addSubview:headerLab];
+//    
+//    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(120, 45, 320, 20)];
+//    headerLab.text = @"今日已点击";
+//    [content addSubview:headerLab];
+//    
+//    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(230, 10, 50, 20)];
+//    headerLab.text = @"99.0";
+//    [content addSubview:headerLab];
+//    
+//    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(220, 45, 320, 20)];
+//    headerLab.text = @"今日花费(元)";
+//    [content addSubview:headerLab];
+//    
+//    return content;
+//}
+//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+//    return 100;
+//}
 
 - (void)didReceiveMemoryWarning
 {

@@ -15,25 +15,27 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        tapNum = [[UILabel alloc] initWithFrame:CGRectMake(30, 10, 50, 20)];
+        tapNum = [[UILabel alloc] initWithFrame:CGRectMake(200, 10, 100, 20)];
         tapNum.backgroundColor = [UIColor clearColor];
-        tapNum.text = @"10";
+        tapNum.textColor = [UIColor grayColor];
+        tapNum.font = [UIFont systemFontOfSize:12];
+        tapNum.text = @"点击：50";
         [self.contentView addSubview:tapNum];
         
-        tapNumStr = [[UILabel alloc] initWithFrame:CGRectMake(20, 45, 320, 20)];
+        tapNumStr = [[UILabel alloc] initWithFrame:CGRectMake(220, 45, 320, 20)];
         tapNumStr.backgroundColor = [UIColor clearColor];
         tapNumStr.font = [UIFont systemFontOfSize:12];
         tapNumStr.text = @"今日点击";
-        [self.contentView addSubview:tapNumStr];
+//        [self.contentView addSubview:tapNumStr];
 
         
-        title = [[UILabel alloc] initWithFrame:CGRectMake(90, 10, 250, 20)];
+        title = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 250, 20)];
         title.text = @"最好的房子";
-        communityName = [[UILabel alloc] initWithFrame:CGRectMake(90, 45, 150, 20)];
+        communityName = [[UILabel alloc] initWithFrame:CGRectMake(20, 45, 150, 20)];
         communityName.textColor = [UIColor grayColor];
         communityName.text = @"明日社区";
         communityName.font = [UIFont systemFontOfSize:12];
-        price = [[UILabel alloc] initWithFrame:CGRectMake(210, 45, 150, 20)];
+        price = [[UILabel alloc] initWithFrame:CGRectMake(110, 45, 150, 20)];
         price.textColor = [UIColor grayColor];
         price.text = @"-190万";
         price.font = [UIFont systemFontOfSize:12];

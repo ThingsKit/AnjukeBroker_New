@@ -78,6 +78,7 @@
 		B769E481181F86D300A2FF50 /* BidPropertyDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E480181F86D300A2FF50 /* BidPropertyDetailController.m */; };
 		B769E484181F8F7000A2FF50 /* BasePropertyListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E483181F8F7000A2FF50 /* BasePropertyListController.m */; };
 		B769E487181F8F9300A2FF50 /* SalePropertyListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E486181F8F9300A2FF50 /* SalePropertyListController.m */; };
+		B769E48C181FA89000A2FF50 /* PPCGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E48B181FA89000A2FF50 /* PPCGroupCell.m */; };
 		B76E5977181E5676005B6A8C /* NoPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = B76E5976181E5676005B6A8C /* NoPlanController.m */; };
 		B76E5982181E5A3F005B6A8C /* agent_btn17_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = B76E597E181E5A3F005B6A8C /* agent_btn17_normal.png */; };
 		B76E5983181E5A3F005B6A8C /* agent_btn17_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B76E597F181E5A3F005B6A8C /* agent_btn17_normal@2x.png */; };
@@ -223,6 +224,8 @@
 		B769E483181F8F7000A2FF50 /* BasePropertyListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasePropertyListController.m; sourceTree = "<group>"; };
 		B769E485181F8F9300A2FF50 /* SalePropertyListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalePropertyListController.h; sourceTree = "<group>"; };
 		B769E486181F8F9300A2FF50 /* SalePropertyListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalePropertyListController.m; sourceTree = "<group>"; };
+		B769E48A181FA89000A2FF50 /* PPCGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPCGroupCell.h; sourceTree = "<group>"; };
+		B769E48B181FA89000A2FF50 /* PPCGroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPCGroupCell.m; sourceTree = "<group>"; };
 		B76E5975181E5676005B6A8C /* NoPlanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoPlanController.h; sourceTree = "<group>"; };
 		B76E5976181E5676005B6A8C /* NoPlanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoPlanController.m; sourceTree = "<group>"; };
 		B76E597E181E5A3F005B6A8C /* agent_btn17_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = agent_btn17_normal.png; sourceTree = "<group>"; };
@@ -581,6 +584,8 @@
 				B769E468181F680D00A2FF50 /* PropertyDetailCell.m */,
 				B769E479181F82B000A2FF50 /* BidPropertyListCell.h */,
 				B769E47A181F82B000A2FF50 /* BidPropertyListCell.m */,
+				B769E48A181FA89000A2FF50 /* PPCGroupCell.h */,
+				B769E48B181FA89000A2FF50 /* PPCGroupCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -667,6 +672,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Wu sicong";
 				TargetAttributes = {
+					9741054E180CDFE0004DAE95 = {
+						DevelopmentTeam = D23ZWZQP84;
+					};
 					9741056E180CDFE1004DAE95 = {
 						TestTargetID = 9741054E180CDFE0004DAE95;
 					};
@@ -756,6 +764,7 @@
 				B769E47E181F864200A2FF50 /* BaseBidPropertyController.m in Sources */,
 				97410589180CE0FC004DAE95 /* RootViewController.m in Sources */,
 				B769E472181F805F00A2FF50 /* BaseBidDetailController.m in Sources */,
+				B769E48C181FA89000A2FF50 /* PPCGroupCell.m in Sources */,
 				972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */,
 				B769E466181F62DB00A2FF50 /* SalePropertyDetailController.m in Sources */,
 				974E5C82181E4210000246D1 /* AnjukeEditableCell.m in Sources */,
@@ -903,6 +912,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/../RTCoreService/RTCoreService/RT3rdSDK/TencentSDK",
@@ -916,6 +926,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../RTNetwork/** $(PROJECT_DIR)/../RTApiProxy/** $(PROJECT_DIR)/../RTCoreService/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -928,6 +939,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/../RTCoreService/RTCoreService/RT3rdSDK/TencentSDK",
@@ -941,6 +953,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../RTNetwork/** $(PROJECT_DIR)/../RTApiProxy/** $(PROJECT_DIR)/../RTCoreService/**";
 				WRAPPER_EXTENSION = app;
 			};

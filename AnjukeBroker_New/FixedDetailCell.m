@@ -15,7 +15,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         UIView *content = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-        content.backgroundColor = [UIColor clearColor];
+        content.backgroundColor = [UIColor lightGrayColor];
         
         tapNum = [[UILabel alloc] initWithFrame:CGRectMake(30, 10, 50, 20)];
         tapNum.backgroundColor = [UIColor clearColor];
@@ -25,7 +25,7 @@
         tapNumStr = [[UILabel alloc] initWithFrame:CGRectMake(20, 45, 320, 20)];
         tapNumStr.backgroundColor = [UIColor clearColor];
         tapNumStr.font = [UIFont systemFontOfSize:12];
-        tapNumStr.text = @"在线房源";
+        tapNumStr.text = @"总点击";
         [content addSubview:tapNumStr];
         
         totalCost = [[UILabel alloc] initWithFrame:CGRectMake(130, 10, 50, 20)];
@@ -44,9 +44,9 @@
         topCost.text = @"99.0";
         [content addSubview:topCost];
         
-        topCostStr = [[UILabel alloc] initWithFrame:CGRectMake(220, 45, 320, 20)];
+        topCostStr = [[UILabel alloc] initWithFrame:CGRectMake(225, 45, 320, 20)];
         topCostStr.backgroundColor = [UIColor clearColor];
-        topCostStr.text = @"今日最高消费(元)";
+        topCostStr.text = @"日限额";
         topCostStr.font = [UIFont systemFontOfSize:12];
         [content addSubview:topCostStr];
         [self.contentView addSubview:content];
