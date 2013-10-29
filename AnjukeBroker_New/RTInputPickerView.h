@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, PickerType){
 };
 
 @protocol BrokerPickerDelegate <NSObject>
-- (void)pickerDidSelectWithString:(NSString *)string;
+
 @end
 
 @interface RTInputPickerView : UIPickerView  <UIPickerViewDataSource, UIPickerViewDelegate>

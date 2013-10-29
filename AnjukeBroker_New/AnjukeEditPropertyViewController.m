@@ -11,10 +11,13 @@
 #import "InputOrderManager.h"
 #import "PhotoButton.h"
 #import "AnjukeEditableTV_DataSource.h"
+#import "Util_UI.h"
 
 #define photoHeaderH 100
 #define photoHeaderH_RecNum 100 +50
 #define Input_H 260
+
+#define IMAGE_MAXSIZE_WIDTH 1280 //上传图片的最大分辨率
 
 #define LimitRow_INPUT 1 //从row=1行开始输入，即最小输入行数(第一行为小区无需输入，从户型行开始输入)
 #define TagOfImg_Base 1000
@@ -441,6 +444,8 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
     UIImage *image = nil;
+    UIImage *newSizeImage = nil;
+    
     for (NSString *str  in [info allKeys]) {
         DLog(@"pickerInfo Keys %@",str);
     }
@@ -459,35 +464,37 @@
     [self.imgArray addObject:image];
     
     PhotoButton *pBtn = [self getPhotoIMG_VIEW];
-    pBtn.photoImg.image = image;
     
-//    //压缩图片
-//    if (pickerImg.image.size.width >960 || pickerImg.image.size.height > 960 || self.isTakePhoto) {
-//        CGSize coreSize;
-//        if (pickerImg.image.size.width > pickerImg.image.size.height) {
-//            coreSize = CGSizeMake(960, 960*(pickerImg.image.size.height /pickerImg.image.size.width));
-//        }
-//        else if (pickerImg.image.size.width < pickerImg.image.size.height){
-//            coreSize = CGSizeMake(960*(pickerImg.image.size.width /pickerImg.image.size.height), 960);
-//        }
-//        else {
-//            coreSize = CGSizeMake(960, 960);
-//        }
-//        
-//        UIGraphicsBeginImageContext(coreSize);
-//        [pickerImg.image drawInRect:[UtilText frameSize:pickerImg.image.size inSize:coreSize]];
-//        UIImage *newimg = UIGraphicsGetImageFromCurrentImageContext();
-//        UIGraphicsEndImageContext();
-//        
-//        pickerImg.image = newimg;
-//    }
+    //压缩图片
+    if (image.size.width > IMAGE_MAXSIZE_WIDTH || image.size.height > IMAGE_MAXSIZE_WIDTH || self.isTakePhoto) {
+        CGSize coreSize;
+        if (image.size.width > image.size.height) {
+            coreSize = CGSizeMake(IMAGE_MAXSIZE_WIDTH, IMAGE_MAXSIZE_WIDTH*(image.size.height /image.size.width));
+        }
+        else if (image.size.width < image.size.height){
+            coreSize = CGSizeMake(IMAGE_MAXSIZE_WIDTH *(image.size.width /image.size.height), IMAGE_MAXSIZE_WIDTH);
+        }
+        else {
+            coreSize = CGSizeMake(IMAGE_MAXSIZE_WIDTH, IMAGE_MAXSIZE_WIDTH);
+        }
+        
+        UIGraphicsBeginImageContext(coreSize);
+        [image drawInRect:[Util_UI frameSize:image.size inSize:coreSize]];
+        newSizeImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        pBtn.photoImg.image = newSizeImage;
+    }
+    else {
+        pBtn.photoImg.image = image;
+    }
     
     DLog(@"editedSize [%f,%f]",pBtn.photoImg.image.size.width, pBtn.photoImg.image.size.height);
     
     
     //写入相册
     if (self.isTakePhoto) {
-        UIImageWriteToSavedPhotosAlbum(pBtn.imageView.image, self, @selector(errorCheck:didFinishSavingWithError:contextInfo:), nil);
+        UIImageWriteToSavedPhotosAlbum(pBtn.photoImg.image, self, @selector(errorCheck:didFinishSavingWithError:contextInfo:), nil);
     }
     
     [self dismissViewControllerAnimated:YES completion:^(void){

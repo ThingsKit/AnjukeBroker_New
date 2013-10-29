@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */ = {isa = PBXBuildFile; fileRef = 970B78DB182010EE00C8E3C6 /* Util_UI.m */; };
 		97192EE71818FEF7007971BA /* PhotoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 97192EE61818FEF7007971BA /* PhotoButton.m */; };
 		972C101A1814D4FF00552C9B /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972C10191814D4FF00552C9B /* TencentOpenAPI.framework */; };
 		972C10291814FCD300552C9B /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10281814FCD300552C9B /* HomeViewController.m */; };
@@ -112,6 +113,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		970B78DA182010EE00C8E3C6 /* Util_UI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util_UI.h; sourceTree = "<group>"; };
+		970B78DB182010EE00C8E3C6 /* Util_UI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util_UI.m; sourceTree = "<group>"; };
 		97192EE51818FEF7007971BA /* PhotoButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoButton.h; sourceTree = "<group>"; };
 		97192EE61818FEF7007971BA /* PhotoButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoButton.m; sourceTree = "<group>"; };
 		972C10191814D4FF00552C9B /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = ../RTCoreService/RTCoreService/RT3rdSDK/TencentSDK/TencentOpenAPI.framework; sourceTree = "<group>"; };
@@ -280,6 +283,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		970B78D8182010B600C8E3C6 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				970B78DA182010EE00C8E3C6 /* Util_UI.h */,
+				970B78DB182010EE00C8E3C6 /* Util_UI.m */,
+			);
+			name = Util;
+			sourceTree = "<group>";
+		};
 		972C10231814FC3800552C9B /* 首页+发房 */ = {
 			isa = PBXGroup;
 			children = (
@@ -367,8 +379,6 @@
 				972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */,
 				974E5C87181E4B00000246D1 /* AnjukeEditableTV_DataSource.h */,
 				974E5C88181E4B00000246D1 /* AnjukeEditableTV_DataSource.m */,
-				97192EE51818FEF7007971BA /* PhotoButton.h */,
-				97192EE61818FEF7007971BA /* PhotoButton.m */,
 			);
 			name = "发房";
 			sourceTree = "<group>";
@@ -481,12 +491,15 @@
 		97A0F01E181621AA00C31D83 /* UIView&Util */ = {
 			isa = PBXGroup;
 			children = (
+				970B78D8182010B600C8E3C6 /* Util */,
 				97A0F0201816227A00C31D83 /* BrokerLineView.h */,
 				97A0F0211816227A00C31D83 /* BrokerLineView.m */,
 				97A0F026181653A600C31D83 /* RTInputPickerView.h */,
 				97A0F027181653A600C31D83 /* RTInputPickerView.m */,
 				975D9DDF181B69A700A421AF /* KeyboardToolBar.h */,
 				975D9DE0181B69A700A421AF /* KeyboardToolBar.m */,
+				97192EE51818FEF7007971BA /* PhotoButton.h */,
+				97192EE61818FEF7007971BA /* PhotoButton.m */,
 				974E5C7B181E4129000246D1 /* TableViewCell */,
 			);
 			name = "UIView&Util";
@@ -751,6 +764,7 @@
 				97A606811816C2A50041B367 /* InputOrderManager.m in Sources */,
 				B769E46C181F76A600A2FF50 /* BaseBidPlanController.m in Sources */,
 				972C10321814FDC400552C9B /* MoreViewController.m in Sources */,
+				970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */,
 				975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */,
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,
 				B769E469181F680D00A2FF50 /* PropertyDetailCell.m in Sources */,
