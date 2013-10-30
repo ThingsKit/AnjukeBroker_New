@@ -30,4 +30,8 @@
     return NO;
 }
 
+- (void)initUI {
+    
+}
+
 @end

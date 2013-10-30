@@ -13,6 +13,7 @@
 
 @interface RTListCell : UITableViewCell
 
+- (void)initUI; // init UI for cell reuse
 - (BOOL)configureCell:(id)dataModel; //传递cell数据
 
 @end

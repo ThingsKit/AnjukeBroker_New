@@ -12,6 +12,7 @@
 #import "PhotoButton.h"
 #import "AnjukeEditableTV_DataSource.h"
 #import "Util_UI.h"
+#import "PropertyGroupListViewController.h"
 
 #define photoHeaderH 100
 #define photoHeaderH_RecNum 100 +50
@@ -21,7 +22,8 @@
 
 #define LimitRow_INPUT 1 //从row=1行开始输入，即最小输入行数(第一行为小区无需输入，从户型行开始输入)
 #define TagOfImg_Base 1000
-#define TagOfTextField_Base 2000 //用于区分各输入框
+#define TagOfActionSheet_Img 901
+#define TagOfActionSheet_Save 902
 
 #define PhotoImg_H 80
 #define PhotoImg_Gap 10
@@ -189,7 +191,7 @@
 - (void)tableVIewMoveWithIndex:(NSInteger)index {
     [self.tvList setFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight] - self.pickerView.frame.size.height - self.toolBar.frame.size.height)];
     
-    [self.tvList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    [self.tvList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO]; //animated
 }
 
 - (NSMutableString *)getInputString {
@@ -283,7 +285,11 @@
 
 - (void)doSave {
     //for test
-    [self.navigationController popViewControllerAnimated:YES];
+//    [self.navigationController popViewControllerAnimated:YES];
+    
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"定价且竞价推广", @"暂不推广", nil];
+    sheet.tag = TagOfActionSheet_Save;
+    [sheet showInView:self.view];
 }
 
 - (void)addPhoto {
@@ -295,6 +301,7 @@
     }
     
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从手机相册选择", @"选择在线房形图", nil];
+    sheet.tag = TagOfActionSheet_Img;
     [sheet showInView:self.view];
 }
 
@@ -379,7 +386,13 @@
         self.inputingTextF.inputAccessoryView = self.toolBar;
         self.inputingTextF.inputView = self.pickerView;
         
+        //重置pickerView数据
         [self.pickerView reloadPickerWithRow:self.selectedRow];
+        
+        //根据输入数据滑动到当前row
+        if (![self.inputingTextF.text isEqualToString:@""]) {
+            //
+        }
     }
     
     [self tableVIewMoveWithIndex:self.selectedRow];
@@ -394,38 +407,66 @@
 #pragma mark - UIActionSheet Delegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    switch (buttonIndex) {
-        case 0: //拍照
-        {
-            self.isTakePhoto = YES;
-            
-            UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
-            ipc.sourceType = UIImagePickerControllerSourceTypeCamera; //拍照
-            ipc.delegate = self;
-            ipc.allowsEditing = NO;
-            [self presentViewController:ipc animated:YES completion:nil];
+    DLog(@"actionSheet tag [%d]", actionSheet.tag);
+    
+    if (actionSheet.tag == TagOfActionSheet_Img) {
+        switch (buttonIndex) {
+            case 0: //拍照
+            {
+                self.isTakePhoto = YES;
+                
+                UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+                ipc.sourceType = UIImagePickerControllerSourceTypeCamera; //拍照
+                ipc.delegate = self;
+                ipc.allowsEditing = NO;
+                [self presentViewController:ipc animated:YES completion:nil];
+            }
+                break;
+            case 1: //手机相册
+            {
+                self.isTakePhoto = NO;
+                
+                UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+                ipc.sourceType = UIImagePickerControllerSourceTypePhotoLibrary; //拍照
+                ipc.delegate = self;
+                ipc.allowsEditing = NO;
+                [self presentViewController:ipc animated:YES completion:nil];
+            }
+                break;
+            case 2: //在线房形图
+            {
+                
+            }
+                break;
+                
+            default:
+                break;
         }
-            break;
-        case 1: //手机相册
-        {
-            self.isTakePhoto = NO;
-            
-            UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
-            ipc.sourceType = UIImagePickerControllerSourceTypePhotoLibrary; //拍照
-            ipc.delegate = self;
-            ipc.allowsEditing = NO;
-            [self presentViewController:ipc animated:YES completion:nil];
-        }
-            break;
-        case 2: //在线房形图
-        {
-            
-        }
-            break;
- 
-        default:
-            break;
     }
+    else if (actionSheet.tag == TagOfActionSheet_Save) {
+        switch (buttonIndex) {
+            case 0: //定价
+            {
+                PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
+                [self.navigationController pushViewController:pv animated:YES];
+            }
+                break;
+            case 1: //定价+竞价
+            {
+                
+            }
+                break;
+            case 2: //暂不推广
+            {
+                
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
 }
 
 #pragma mark - Photo ScrollView method
