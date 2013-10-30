@@ -13,6 +13,7 @@
 #import "AnjukeEditableTV_DataSource.h"
 #import "Util_UI.h"
 #import "PropertyGroupListViewController.h"
+#import "PropertyBigImageViewController.h"
 
 #define photoHeaderH 100
 #define photoHeaderH_RecNum 100 +50
@@ -42,6 +43,7 @@
 @property (nonatomic, strong) NSMutableArray *imgArray;
 @property (nonatomic, strong) UIScrollView *photoSV;
 @property (nonatomic, strong) NSMutableArray *imgBtnArray;
+@property int imageSelectIndex; //记录选择的第几个image
 
 @property (nonatomic, strong) AnjukeEditableTV_DataSource *dataSource;
 
@@ -56,6 +58,7 @@
 @synthesize imgArray;
 @synthesize photoSV, imgBtnArray;
 @synthesize dataSource;
+@synthesize imageSelectIndex;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -309,11 +312,38 @@
     PhotoButton *pBtn = (PhotoButton *)sender;
     
     int photoIndex = pBtn.tag - TagOfImg_Base;
+    
+    self.imageSelectIndex = photoIndex;
+    if (pBtn.photoImg.image == nil) {
+        return;
+    }
+    
     DLog(@"photo Index [%d]", photoIndex);
+    
+    //模态弹出图片播放器
+    PropertyBigImageViewController *pb = [[PropertyBigImageViewController alloc] init];
+    pb.btnDelegate = self;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pb];
+    navController.navigationBar.translucent = NO;
+    navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+        pb.contentImgView.image = pBtn.photoImg.image;
+    }];
 }
 
-- (void)deleteImg:(UILongPressGestureRecognizer *)gesture {
+#pragma mark - BigImageView Delegate
+- (void)deletebtnClick {
+    [self.imgArray removeObjectAtIndex:self.imageSelectIndex];
     
+    for (PhotoButton *btn in self.imgBtnArray) {
+        btn.photoImg.image = nil;
+    }
+    DLog(@"img count [%d]", self.imgArray.count);
+    //redraw header img scroll
+    for (int i = 0; i < self.imgArray.count; i ++) {
+        PhotoButton *imgBtn = (PhotoButton *)[self.imgBtnArray objectAtIndex:i];
+        [imgBtn.photoImg setImage:[self.imgArray objectAtIndex:i]];
+    }
 }
 
 #pragma mark - tableView Delegate & Method
@@ -473,12 +503,18 @@
 
 #pragma mark - Photo ScrollView method
 
-- (void)setPhotoSVContentSize {
+//得到需要在第几个预览图显示
+- (int)getPhotoImgShowIndex {
+    if (self.imgArray.count == 0) {
+        return 0;
+    }
     
+    int index = self.imgArray.count;
+    return index;
 }
 
 - (PhotoButton *)getPhotoIMG_VIEW {
-    PhotoButton *pBtn = [self.imgBtnArray objectAtIndex:self.imgArray.count -1];
+    PhotoButton *pBtn = [self.imgBtnArray objectAtIndex:[self getPhotoImgShowIndex]];
     return pBtn;
 }
 
@@ -504,8 +540,6 @@
     if (self.imgArray.count >= PhotoImg_MAX_COUNT) {
         return;
     }
-    [self.imgArray addObject:image];
-    
     PhotoButton *pBtn = [self getPhotoIMG_VIEW];
     
     //压缩图片
@@ -532,6 +566,7 @@
         pBtn.photoImg.image = image;
     }
     
+    [self.imgArray addObject:pBtn.photoImg.image];
     DLog(@"editedSize [%f,%f]",pBtn.photoImg.image.size.width, pBtn.photoImg.image.size.height);
     
     
