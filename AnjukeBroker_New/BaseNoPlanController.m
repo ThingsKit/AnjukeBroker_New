@@ -79,34 +79,34 @@
     return cell;
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UILabel *headerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 15)];
-    headerLab.backgroundColor = [UIColor grayColor];
-    headerLab.text = @"总共12套";
-    
-    return headerLab;
-}
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 55;
-}
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 55)];
-    contentView.backgroundColor = [UIColor grayColor];
-    
-    UIButton *delete = [UIButton buttonWithType:UIButtonTypeCustom];
-    [delete setTitle:@"删除" forState:UIControlStateNormal];
-    delete.frame = CGRectMake(20, 10, 130, 40);
-    [delete addTarget:self action:@selector(delete) forControlEvents:UIControlEventTouchDown];
-    [contentView addSubview:delete];
-    
-    UIButton *multiSelect = [UIButton buttonWithType:UIButtonTypeCustom];
-    multiSelect.frame = CGRectMake(190, 10, 130, 40);
-    [multiSelect setTitle:@"定价推广" forState:UIControlStateNormal];
-    [multiSelect addTarget:self action:@selector(multiSelect) forControlEvents:UIControlEventTouchDown];
-    [contentView addSubview:multiSelect];
-    
-    return contentView;
-}
+//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+//    UILabel *headerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 15)];
+//    headerLab.backgroundColor = [UIColor grayColor];
+//    headerLab.text = @"总共12套";
+//    
+//    return headerLab;
+//}
+//-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+//    return 55;
+//}
+//-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+//    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 55)];
+//    contentView.backgroundColor = [UIColor grayColor];
+//    
+//    UIButton *delete = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [delete setTitle:@"删除" forState:UIControlStateNormal];
+//    delete.frame = CGRectMake(20, 10, 130, 40);
+//    [delete addTarget:self action:@selector(delete) forControlEvents:UIControlEventTouchDown];
+//    [contentView addSubview:delete];
+//    
+//    UIButton *multiSelect = [UIButton buttonWithType:UIButtonTypeCustom];
+//    multiSelect.frame = CGRectMake(190, 10, 130, 40);
+//    [multiSelect setTitle:@"定价推广" forState:UIControlStateNormal];
+//    [multiSelect addTarget:self action:@selector(multiSelect) forControlEvents:UIControlEventTouchDown];
+//    [contentView addSubview:multiSelect];
+//    
+//    return contentView;
+//}
 
 - (void)didReceiveMemoryWarning
 {

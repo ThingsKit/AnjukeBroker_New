@@ -51,7 +51,7 @@
     }
     
     if([self.selected containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
-        cell.imageView.image = [UIImage imageNamed:@"agent_btn17_self.selected.png"];
+        cell.imageView.image = [UIImage imageNamed:@"agent_btn17_selected.png"];
     }else{
         cell.imageView.image = [UIImage imageNamed:@"agent_btn17_normal.png"];
     }
