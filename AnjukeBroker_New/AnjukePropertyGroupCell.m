@@ -54,7 +54,7 @@
     
     UILabel *lb3 = [[UILabel alloc] initWithFrame:CGRectMake(320 - TITLE_OFFESTX-65, (PROPERTY_GROUP_CELL-15)/2, 47, 15)];
     lb3.backgroundColor = [UIColor clearColor];
-    lb3.font = [UIFont boldSystemFontOfSize:13];
+    lb3.font = [UIFont boldSystemFontOfSize:12];
     lb3.textColor = [UIColor whiteColor];
     lb3.layer.cornerRadius = 3;
     lb3.textAlignment = NSTextAlignmentCenter;
@@ -85,7 +85,7 @@
     self.groupNameLb.text = @"定价组1（20）";
     self.limitPriceLb.text = @"每日限额30元";
     
-    self.statusLb.backgroundColor = [UIColor greenColor];
+    self.statusLb.backgroundColor = [UIColor colorWithRed:0.36 green:0.8 blue:0.25 alpha:1];
     self.statusLb.text = @"推广中";
     
     return YES;

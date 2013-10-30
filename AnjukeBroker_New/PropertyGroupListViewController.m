@@ -8,6 +8,7 @@
 
 #import "PropertyGroupListViewController.h"
 #import "AnjukePropertyGroupCell.h"
+#import "PropertyAuctionViewController.h"
 
 @interface PropertyGroupListViewController ()
 @property (nonatomic, strong) UITableView *tvList;
@@ -90,6 +91,9 @@
 #pragma mark - tableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    //test
+    PropertyAuctionViewController *pa = [[PropertyAuctionViewController alloc] init];
+    [self.navigationController pushViewController:pa animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
