@@ -11,8 +11,9 @@
 
 @interface BidPropertyDetailController : BaseBidPropertyController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
 {
-    UITableView *myTable;
-    NSMutableArray *myArray;
+
 }
+@property (strong, nonatomic) UITableView *myTable;
+@property (strong, nonatomic) NSMutableArray *myArray;
 @property (strong, nonatomic) PropertyObject *propertyObject;
 @end

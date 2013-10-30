@@ -17,6 +17,8 @@
 @end
 
 @implementation SalePropertyDetailController
+@synthesize myArray;
+@synthesize myTable;
 @synthesize propertyObject;
 @synthesize fixedObject;
 
@@ -33,15 +35,16 @@
 {
     [super viewDidLoad];
     
-    myTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 480) style:UITableViewStylePlain];
-    myTable.delegate = self;
-    myTable.dataSource = self;
-    [self.view addSubview:myTable];
+    self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+    self.myTable.delegate = self;
+    self.myTable.dataSource = self;
+    [self.view addSubview:self.myTable];
     
     UIButton *action = [UIButton buttonWithType:UIButtonTypeCustom];
     [action setTitle:@"操作" forState:UIControlStateNormal];
+    [action setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [action addTarget:self action:@selector(action) forControlEvents:UIControlEventTouchDown];
-    [action setBackgroundColor:[UIColor lightGrayColor]];
+//    [action setBackgroundColor:[UIColor lightGrayColor]];
     [action setFrame:CGRectMake(0, 0, 60, 40)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:action];
 

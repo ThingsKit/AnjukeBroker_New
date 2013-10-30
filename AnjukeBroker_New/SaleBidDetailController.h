@@ -8,10 +8,12 @@
 
 #import "BaseBidDetailController.h"
 
-@interface SaleBidDetailController : BaseBidDetailController <UITableViewDataSource, UITableViewDelegate>
+@interface SaleBidDetailController : BaseBidDetailController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate>
 {
-    UITableView *myTablel;
+    UITableView *myTable;
     NSMutableArray *myArray;
 
 }
+@property (strong, nonatomic) UITableView *myTable;
+@property (strong, nonatomic) NSMutableArray *myArray;
 @end

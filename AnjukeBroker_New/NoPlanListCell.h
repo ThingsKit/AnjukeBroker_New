@@ -13,6 +13,7 @@
     UILabel *title;
     UILabel *communityName;
     UILabel *price;
+    UIButton *mutableSelect;
 }
 -(void)setValueForTableCell;
 @end

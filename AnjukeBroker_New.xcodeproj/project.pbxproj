@@ -80,12 +80,14 @@
 		B769E484181F8F7000A2FF50 /* BasePropertyListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E483181F8F7000A2FF50 /* BasePropertyListController.m */; };
 		B769E487181F8F9300A2FF50 /* SalePropertyListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E486181F8F9300A2FF50 /* SalePropertyListController.m */; };
 		B769E48C181FA89000A2FF50 /* PPCGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E48B181FA89000A2FF50 /* PPCGroupCell.m */; };
-		B76E5977181E5676005B6A8C /* NoPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = B76E5976181E5676005B6A8C /* NoPlanController.m */; };
+		B76E5977181E5676005B6A8C /* BaseNoPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = B76E5976181E5676005B6A8C /* BaseNoPlanController.m */; };
 		B76E5982181E5A3F005B6A8C /* agent_btn17_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = B76E597E181E5A3F005B6A8C /* agent_btn17_normal.png */; };
 		B76E5983181E5A3F005B6A8C /* agent_btn17_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B76E597F181E5A3F005B6A8C /* agent_btn17_normal@2x.png */; };
 		B76E5984181E5A3F005B6A8C /* agent_btn17_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = B76E5980181E5A3F005B6A8C /* agent_btn17_selected.png */; };
 		B76E5985181E5A3F005B6A8C /* agent_btn17_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B76E5981181E5A3F005B6A8C /* agent_btn17_selected@2x.png */; };
 		B76E5988181E5AD1005B6A8C /* NoPlanListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B76E5987181E5AD1005B6A8C /* NoPlanListCell.m */; };
+		B7E803ED1820DD8000775C6F /* SaleSelectNoPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E803EC1820DD8000775C6F /* SaleSelectNoPlanController.m */; };
+		B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E803EF1820E14000775C6F /* SaleNoPlanGroupController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -229,14 +231,18 @@
 		B769E486181F8F9300A2FF50 /* SalePropertyListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalePropertyListController.m; sourceTree = "<group>"; };
 		B769E48A181FA89000A2FF50 /* PPCGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPCGroupCell.h; sourceTree = "<group>"; };
 		B769E48B181FA89000A2FF50 /* PPCGroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPCGroupCell.m; sourceTree = "<group>"; };
-		B76E5975181E5676005B6A8C /* NoPlanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoPlanController.h; sourceTree = "<group>"; };
-		B76E5976181E5676005B6A8C /* NoPlanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoPlanController.m; sourceTree = "<group>"; };
+		B76E5975181E5676005B6A8C /* BaseNoPlanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNoPlanController.h; sourceTree = "<group>"; };
+		B76E5976181E5676005B6A8C /* BaseNoPlanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNoPlanController.m; sourceTree = "<group>"; };
 		B76E597E181E5A3F005B6A8C /* agent_btn17_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = agent_btn17_normal.png; sourceTree = "<group>"; };
 		B76E597F181E5A3F005B6A8C /* agent_btn17_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "agent_btn17_normal@2x.png"; sourceTree = "<group>"; };
 		B76E5980181E5A3F005B6A8C /* agent_btn17_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = agent_btn17_selected.png; sourceTree = "<group>"; };
 		B76E5981181E5A3F005B6A8C /* agent_btn17_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "agent_btn17_selected@2x.png"; sourceTree = "<group>"; };
 		B76E5986181E5AD1005B6A8C /* NoPlanListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoPlanListCell.h; sourceTree = "<group>"; };
 		B76E5987181E5AD1005B6A8C /* NoPlanListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoPlanListCell.m; sourceTree = "<group>"; };
+		B7E803EB1820DD8000775C6F /* SaleSelectNoPlanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleSelectNoPlanController.h; sourceTree = "<group>"; };
+		B7E803EC1820DD8000775C6F /* SaleSelectNoPlanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaleSelectNoPlanController.m; sourceTree = "<group>"; };
+		B7E803EE1820E14000775C6F /* SaleNoPlanGroupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleNoPlanGroupController.h; sourceTree = "<group>"; };
+		B7E803EF1820E14000775C6F /* SaleNoPlanGroupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaleNoPlanGroupController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -309,6 +315,8 @@
 				B769E450181F4CCB00A2FF50 /* View */,
 				972C102A1814FD4500552C9B /* AnjukeHomeViewController.h */,
 				972C102B1814FD4500552C9B /* AnjukeHomeViewController.m */,
+				B76E5975181E5676005B6A8C /* BaseNoPlanController.h */,
+				B76E5976181E5676005B6A8C /* BaseNoPlanController.m */,
 				B769E43F181F45AF00A2FF50 /* BaseFixedDetailController.h */,
 				B769E440181F45AF00A2FF50 /* BaseFixedDetailController.m */,
 				B769E461181F629B00A2FF50 /* BasePropertyDetailController.h */,
@@ -606,8 +614,6 @@
 		B769E488181F968900A2FF50 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				B76E5975181E5676005B6A8C /* NoPlanController.h */,
-				B76E5976181E5676005B6A8C /* NoPlanController.m */,
 				B769E443181F462C00A2FF50 /* SaleFixedDetailController.h */,
 				B769E444181F462C00A2FF50 /* SaleFixedDetailController.m */,
 				B769E45E181F5F1200A2FF50 /* ModifyFixedCostController.h */,
@@ -622,6 +628,10 @@
 				B769E480181F86D300A2FF50 /* BidPropertyDetailController.m */,
 				B769E485181F8F9300A2FF50 /* SalePropertyListController.h */,
 				B769E486181F8F9300A2FF50 /* SalePropertyListController.m */,
+				B7E803EB1820DD8000775C6F /* SaleSelectNoPlanController.h */,
+				B7E803EC1820DD8000775C6F /* SaleSelectNoPlanController.m */,
+				B7E803EE1820E14000775C6F /* SaleNoPlanGroupController.h */,
+				B7E803EF1820E14000775C6F /* SaleNoPlanGroupController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -776,6 +786,7 @@
 				974E5C89181E4B00000246D1 /* AnjukeEditableTV_DataSource.m in Sources */,
 				972C10391815351900552C9B /* AnjukeEditPropertyViewController.m in Sources */,
 				B769E47E181F864200A2FF50 /* BaseBidPropertyController.m in Sources */,
+				B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */,
 				97410589180CE0FC004DAE95 /* RootViewController.m in Sources */,
 				B769E472181F805F00A2FF50 /* BaseBidDetailController.m in Sources */,
 				B769E48C181FA89000A2FF50 /* PPCGroupCell.m in Sources */,
@@ -794,9 +805,10 @@
 				972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */,
 				974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */,
 				B769E475181F807500A2FF50 /* SaleBidDetailController.m in Sources */,
+				B7E803ED1820DD8000775C6F /* SaleSelectNoPlanController.m in Sources */,
 				B769E481181F86D300A2FF50 /* BidPropertyDetailController.m in Sources */,
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
-				B76E5977181E5676005B6A8C /* NoPlanController.m in Sources */,
+				B76E5977181E5676005B6A8C /* BaseNoPlanController.m in Sources */,
 				B76E5988181E5AD1005B6A8C /* NoPlanListCell.m in Sources */,
 				974E5C7F181E417F000246D1 /* RTListCell.m in Sources */,
 				97192EE71818FEF7007971BA /* PhotoButton.m in Sources */,

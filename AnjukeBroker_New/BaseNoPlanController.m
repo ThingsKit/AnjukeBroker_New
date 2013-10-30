@@ -6,19 +6,24 @@
 //  Copyright (c) 2013 Wu sicong. All rights reserved.
 //
 
-#import "NoPlanController.h"
+#import "BaseNoPlanController.h"
 #import "NoPlanListCell.h"
 
-@interface NoPlanController ()
+@interface BaseNoPlanController ()
 
 @end
 
-@implementation NoPlanController
+@implementation BaseNoPlanController
+@synthesize myArray;
+@synthesize myTable;
+@synthesize selected;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.myArray = [NSMutableArray arrayWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", nil];
+        self.selected = [NSMutableArray array];
         // Custom initialization
     }
     return self;
@@ -28,28 +33,27 @@
 {
     [super viewDidLoad];
     [self setTitleViewWithString:@"未推广房源"];
-    myArray = [NSMutableArray arrayWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", nil];
-    selected = [[NSMutableArray alloc] initWithCapacity:16];
+
+    self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+    self.myTable.delegate = self;
+    self.myTable.dataSource = self;
     
-    myTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 480) style:UITableViewStylePlain];
-    myTable.delegate = self;
-    myTable.dataSource = self;
-    [self.view addSubview:myTable];
+    [self.view addSubview:self.myTable];
 	// Do any additional setup after loading the view.
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(![selected containsObject:[myArray objectAtIndex:[indexPath row]]]){
-        [selected addObject:[myArray objectAtIndex:[indexPath row]]];
+    if(![self.selected containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
+        [self.selected addObject:[self.myArray objectAtIndex:[indexPath row]]];
         
     }else{
-        [selected removeObject:[myArray objectAtIndex:[indexPath row]]];
+        [self.selected removeObject:[self.myArray objectAtIndex:[indexPath row]]];
         
     }
-    [myTable reloadData];
+    [self.myTable reloadData];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [myArray count];
+    return [self.myArray count];
 }
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 55.0f;
@@ -57,21 +61,21 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdent = @"cell";
     NoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
-    if(cell == Nil){
+    if(cell == nil){
         cell = [[NoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
         cell.imageView.image = [UIImage imageNamed:@"agent_btn17_normal.png"];
         [cell setValueForTableCell];
-        //        iamge = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 20, 20)];
-        //        iamge.image = [UIImage imageNamed:@"2leftarrow.png"];
-        //        [cell addSubview:iamge];
+//        iamge = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 20, 20)];
+//        iamge.image = [UIImage imageNamed:@"2leftarrow.png"];
+//        [cell addSubview:iamge];
     }
     
-    if([selected containsObject:[myArray objectAtIndex:[indexPath row]]]){
+    if([self.selected containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
         cell.imageView.image = [UIImage imageNamed:@"agent_btn17_selected.png"];
     }else{
         cell.imageView.image = [UIImage imageNamed:@"agent_btn17_normal.png"];
     }
-//    cell.textLabel.text = [myArray objectAtIndex:[indexPath row]];
+//    cell.textLabel.text = [self.myArray objectAtIndex:[indexPath row]];
     return cell;
 }
 

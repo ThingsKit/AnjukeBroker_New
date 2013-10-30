@@ -10,8 +10,9 @@
 
 @interface AnjukeHomeViewController : RTViewController <UITableViewDataSource, UITableViewDelegate>
 {
-    UITableView *myTable;
-    NSMutableArray *myArray;
+
 
 }
+@property (strong, nonatomic) UITableView *myTable;
+@property (strong, nonatomic) NSMutableArray *myArray;
 @end

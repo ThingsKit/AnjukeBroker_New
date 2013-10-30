@@ -15,6 +15,8 @@
     UITableView *myTable;
     NSMutableArray *myArray;
 }
+@property (strong, nonatomic) UITableView *myTable;
+@property (strong, nonatomic) NSMutableArray *myArray;
 @property (strong, nonatomic) PropertyObject *propertyObject;
 @property (strong, nonatomic) FixedObject *fixedObject;
 @end

@@ -9,28 +9,55 @@
 #import "BidPropertyListCell.h"
 
 @implementation BidPropertyListCell
+@synthesize title;
+@synthesize price;
+@synthesize string;
+@synthesize stringNum;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        UILabel *bidStatus = [[UILabel alloc] initWithFrame:CGRectMake(90, 75, 60, 20)];
-        bidStatus.text = @"排队中";
-        bidStatus.font = [UIFont systemFontOfSize:12];
-        bidStatus.layer.cornerRadius = 6;
-        [bidStatus setBackgroundColor:[UIColor grayColor]];
-        [self.contentView addSubview:bidStatus];
+        title = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 200, 20)];
+        title.text = @"汤臣一品";
+        title.font = [UIFont systemFontOfSize:16];
+        title.layer.cornerRadius = 6;
+        [self.contentView addSubview:title];
         
-        UILabel *bidValue = [[UILabel alloc] initWithFrame:CGRectMake(160, 75, 100, 20)];
-        bidValue.text = @"当前排名：第5名";
-        [bidValue setBackgroundColor:[UIColor clearColor]];
-        bidValue.font = [UIFont systemFontOfSize:12];
-        [self.contentView addSubview:bidValue];
+        price = [[UILabel alloc] initWithFrame:CGRectMake(20, 30, 200, 20)];
+        price.textColor = [UIColor grayColor];
+        price.text = @"3室2厅 120平 400万";
+        price.font = [UIFont systemFontOfSize:12];
+        price.layer.cornerRadius = 6;
+        [self.contentView addSubview:price];
+        
+        UILabel *contentView = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, 320, 50)];
+        [contentView setBackgroundColor:[UIColor lightTextColor]];
+        
+        string = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 280, 20)];
+        string.textColor = [UIColor grayColor];
+        string.text = @"当前排名       今日点击       出价(元)      预算余额(元)";
+        string.font = [UIFont systemFontOfSize:12];
+        string.layer.cornerRadius = 6;
+        [contentView addSubview:string];
+        
+        stringNum = [[UILabel alloc] initWithFrame:CGRectMake(20, 25, 280, 20)];
+        stringNum.text = @"   1                  10                  2.0             18.00";
+        stringNum.font = [UIFont systemFontOfSize:12];
+        stringNum.layer.cornerRadius = 6;
+        [contentView addSubview:stringNum];
+        [self.contentView addSubview:contentView];
+
         // Initialization code
     }
     return self;
 }
-
+-(void)setValueForCellByDictinary:(NSDictionary *) dic{
+    title.text = [dic objectForKey:@"title"];
+    price.text = [dic objectForKey:@"price"];
+    string.text = [dic objectForKey:@"string"];
+    stringNum.text = [dic objectForKey:@"stringNum"];
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

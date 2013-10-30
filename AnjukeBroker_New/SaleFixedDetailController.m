@@ -10,23 +10,27 @@
 #import "FixedDetailCell.h"
 #import "PropertyObject.h"
 #import "PropertyListCell.h"
-#import "NoPlanController.h"
+#import "BaseNoPlanController.h"
 #import "ModifyFixedCostController.h"
 #import "SalePropertyDetailController.h"
 #import "AnjukeEditPropertyViewController.h"
 #import "SaleBidPlanController.h"
-
+#import "SaleSelectNoPlanController.h"
 @interface SaleFixedDetailController ()
-
+{
+    NSString *fixedStatus;
+}
 @end
 
 @implementation SaleFixedDetailController
+@synthesize myTable;
+@synthesize myArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        myArray = [NSMutableArray array];
+        self.myArray = [NSMutableArray array];
         fixedStatus = @"推广中     房源数：3套";
         // Custom initialization
     }
@@ -45,45 +49,45 @@
     [action setFrame:CGRectMake(0, 0, 60, 40)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:action];
 
-    myTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 480) style:UITableViewStylePlain];
-    myTable.delegate = self;
-    myTable.dataSource = self;
-    [self.view addSubview:myTable];
+    self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+    self.myTable.delegate = self;
+    self.myTable.dataSource = self;
+    [self.view addSubview:self.myTable];
     FixedObject *fixed = [[FixedObject alloc] init];
     fixed.tapNum = @"10";
     fixed.topCost = @"100";
     fixed.totalCost = @"30";
-    [myArray addObject:fixed];
+    [self.myArray addObject:fixed];
     
     PropertyObject *property1 = [[PropertyObject alloc] init];
     property1.title = @"昨天最好的房子";
     property1.communityName = @"2室1厅  33平";
     property1.price = @"345万";
-    [myArray addObject:property1];
+    [self.myArray addObject:property1];
     
     PropertyObject *property2 = [[PropertyObject alloc] init];
     property2.title = @"今天最好的房子";
     property2.communityName = @"2室1厅  120平";
     property2.price = @"567万";
-    [myArray addObject:property2];
+    [self.myArray addObject:property2];
     
     PropertyObject *property3 = [[PropertyObject alloc] init];
     property3.title = @"明天最好的房子";
     property3.communityName = @"2室1厅  340平";
     property3.price = @"7896万";
-    [myArray addObject:property3];
+    [self.myArray addObject:property3];
     
     PropertyObject *property4 = [[PropertyObject alloc] init];
     property4.title = @"未来天最好的房子";
     property4.communityName = @"2室1厅  200平";
     property4.price = @"6435万";
-    [myArray addObject:property4];
+    [self.myArray addObject:property4];
     
     PropertyObject *property = [[PropertyObject alloc] init];
     property.title = @"上海最好的房子";
     property.communityName = @"2室1厅  80平";
     property.price = @"234万";
-    [myArray addObject:property];
+    [self.myArray addObject:property];
     
     
     
@@ -99,22 +103,22 @@
         
         
 //        SalePropertyDetailController *controller = [[SalePropertyDetailController alloc] init];
-//        controller.propertyObject = [myArray objectAtIndex:[indexPath row]];
-//        controller.fixedObject = [myArray objectAtIndex:0];
+//        controller.propertyObject = [self.myArray objectAtIndex:[indexPath row]];
+//        controller.fixedObject = [self.myArray objectAtIndex:0];
 //        [self.navigationController pushViewController:controller animated:YES];
     
     }
-//    if(![selected containsObject:[myArray objectAtIndex:[indexPath row]]]){
-//        [selected addObject:[myArray objectAtIndex:[indexPath row]]];
+//    if(![selected containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
+//        [selected addObject:[self.myArray objectAtIndex:[indexPath row]]];
 //        
 //    }else{
-//        [selected removeObject:[myArray objectAtIndex:[indexPath row]]];
+//        [selected removeObject:[self.myArray objectAtIndex:[indexPath row]]];
 //        
 //    }
-//    [myTable reloadData];
+//    [self.myTable reloadData];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [myArray count];
+    return [self.myArray count];
 }
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 75.0f;
@@ -126,7 +130,7 @@
         FixedDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == Nil){
             cell = [[NSClassFromString(@"FixedDetailCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FixedDetailCell"];
-            [cell setValueForCellByObject:[myArray objectAtIndex:[indexPath row]]];
+            [cell setValueForCellByObject:[self.myArray objectAtIndex:[indexPath row]]];
         }
         return cell;
     }else{
@@ -136,7 +140,7 @@
         if(cell == Nil){
             cell = [[NSClassFromString(@"PropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"PropertyListCell"];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            [cell setValueForCellByObject:[myArray objectAtIndex:[indexPath row]]];
+            [cell setValueForCellByObject:[self.myArray objectAtIndex:[indexPath row]]];
         }
         return cell;
     }
@@ -180,12 +184,12 @@
 
     if(actionSheet.tag == 100){
         if(buttonIndex == 0){
-            NoPlanController *controller = [[NoPlanController alloc] init];
+            SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
             [self.navigationController pushViewController:controller animated:YES];
             
         }else if (buttonIndex == 1){
             fixedStatus = @"已停止推广     房源数：3套";
-            [myTable reloadData];
+            [self.myTable reloadData];
         }else if (buttonIndex == 2){
             ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
             [self.navigationController pushViewController:controller animated:YES];

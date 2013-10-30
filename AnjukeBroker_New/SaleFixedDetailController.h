@@ -12,6 +12,9 @@
 {
     UITableView *myTable;
     NSMutableArray *myArray;
-    NSString *fixedStatus;
+    
 }
+@property (strong, nonatomic) UITableView *myTable;
+@property (strong, nonatomic) NSMutableArray *myArray;
+
 @end
