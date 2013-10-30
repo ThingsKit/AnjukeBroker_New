@@ -32,6 +32,10 @@
         AnjukeEditableCell *cell = [[AnjukeEditableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         cell.editDelegate = self.superViewController;
         [cell configureCell:[dataArray objectAtIndex:i]];
+        //调整键盘type
+        if (i == 2 || i == 3) {
+            cell.text_Field.keyboardType = UIKeyboardTypeNumberPad;
+        }
         [self.cellArray addObject:cell];
     }
 }

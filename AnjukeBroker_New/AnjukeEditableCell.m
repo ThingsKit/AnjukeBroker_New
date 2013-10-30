@@ -28,9 +28,30 @@
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryNone;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        [self initUI];
 
     }
     return self;
+}
+
+- (void)initUI {
+    //text field
+    UITextField *cellTextField = nil;
+    cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(150, 1,  150, CELL_HEIGHT - 1*2)];
+    cellTextField.returnKeyType = UIReturnKeyDone;
+    cellTextField.backgroundColor = [UIColor clearColor];
+    cellTextField.borderStyle = UITextBorderStyleNone;
+    cellTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    cellTextField.text = @"";
+    cellTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    cellTextField.placeholder = @"";
+    cellTextField.delegate = self;
+    cellTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    cellTextField.font = [UIFont systemFontOfSize:17];
+    cellTextField.secureTextEntry = NO;
+    self.text_Field = cellTextField;
+    [self.contentView addSubview:cellTextField];
 }
 
 /*
@@ -52,23 +73,6 @@
     //title
     self.textLabel.text = title;
 //    self.textLabel.font = [UIFont systemFontOfSize:CELL_TITLE_FONT];
-    
-    //text field
-    UITextField *cellTextField = nil;
-    cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(150, 1,  150, CELL_HEIGHT - 1*2)];
-    cellTextField.returnKeyType = UIReturnKeyDone;
-    cellTextField.backgroundColor = [UIColor clearColor];
-    cellTextField.borderStyle = UITextBorderStyleNone;
-    cellTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    cellTextField.text = @"";
-    cellTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    cellTextField.placeholder = @"";
-    cellTextField.delegate = self;
-    cellTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    cellTextField.font = [UIFont systemFontOfSize:17];
-    cellTextField.secureTextEntry = NO;
-    self.text_Field = cellTextField;
-    [self.contentView addSubview:cellTextField];
     
     return YES;
 }
