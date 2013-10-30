@@ -12,6 +12,7 @@
 #import "PhotoButton.h"
 #import "AnjukeEditableTV_DataSource.h"
 #import "Util_UI.h"
+#import "PropertyGroupListViewController.h"
 
 #define photoHeaderH 100
 #define photoHeaderH_RecNum 100 +50
@@ -446,7 +447,8 @@
         switch (buttonIndex) {
             case 0: //定价
             {
-                
+                PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
+                [self.navigationController pushViewController:pv animated:YES];
             }
                 break;
             case 1: //定价+竞价

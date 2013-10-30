@@ -56,6 +56,8 @@
 		97AED120180D236B0072611B /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED11F180D236B0072611B /* AssetsLibrary.framework */; };
 		97AED122180D237B0072611B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED121180D237B0072611B /* SystemConfiguration.framework */; };
 		97AED124180D23870072611B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED123180D23870072611B /* CoreLocation.framework */; };
+		97B422571820D9A600A2E9E6 /* PropertyGroupListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B422561820D9A600A2E9E6 /* PropertyGroupListViewController.m */; };
+		97B4225A1820DB8300A2E9E6 /* AnjukePropertyGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B422591820DB8300A2E9E6 /* AnjukePropertyGroupCell.m */; };
 		97C97B461810DD34006E538B /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C97B451810DD34006E538B /* TabBarViewController.m */; };
 		97CD8D44180E6D6E00185C9D /* RTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CD8D43180E6D6E00185C9D /* RTViewController.m */; };
 		97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */; };
@@ -183,6 +185,10 @@
 		97AED11F180D236B0072611B /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		97AED121180D237B0072611B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		97AED123180D23870072611B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		97B422551820D9A600A2E9E6 /* PropertyGroupListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyGroupListViewController.h; sourceTree = "<group>"; };
+		97B422561820D9A600A2E9E6 /* PropertyGroupListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyGroupListViewController.m; sourceTree = "<group>"; };
+		97B422581820DB8300A2E9E6 /* AnjukePropertyGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukePropertyGroupCell.h; sourceTree = "<group>"; };
+		97B422591820DB8300A2E9E6 /* AnjukePropertyGroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukePropertyGroupCell.m; sourceTree = "<group>"; };
 		97C97B441810DD34006E538B /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
 		97C97B451810DD34006E538B /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
 		97CD8D42180E6D6E00185C9D /* RTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTViewController.h; sourceTree = "<group>"; };
@@ -383,6 +389,7 @@
 		972C10361815311700552C9B /* 发房 */ = {
 			isa = PBXGroup;
 			children = (
+				97B422531820B6E700A2E9E6 /* 定价组List */,
 				972C10371815351900552C9B /* AnjukeEditPropertyViewController.h */,
 				972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */,
 				974E5C87181E4B00000246D1 /* AnjukeEditableTV_DataSource.h */,
@@ -492,6 +499,8 @@
 				974E5C8B181E4D45000246D1 /* AnjukeNormalCell.m */,
 				974E5C80181E4210000246D1 /* AnjukeEditableCell.h */,
 				974E5C81181E4210000246D1 /* AnjukeEditableCell.m */,
+				97B422581820DB8300A2E9E6 /* AnjukePropertyGroupCell.h */,
+				97B422591820DB8300A2E9E6 /* AnjukePropertyGroupCell.m */,
 			);
 			name = TableViewCell;
 			sourceTree = "<group>";
@@ -530,6 +539,15 @@
 				97AED0FD180D20110072611B /* libRTCoreService.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		97B422531820B6E700A2E9E6 /* 定价组List */ = {
+			isa = PBXGroup;
+			children = (
+				97B422551820D9A600A2E9E6 /* PropertyGroupListViewController.h */,
+				97B422561820D9A600A2E9E6 /* PropertyGroupListViewController.m */,
+			);
+			name = "定价组List";
 			sourceTree = "<group>";
 		};
 		97CD8D40180E6D0D00185C9D /* ViewControllers */ = {
@@ -772,6 +790,7 @@
 				B769E445181F462C00A2FF50 /* SaleFixedDetailController.m in Sources */,
 				97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */,
 				97A606811816C2A50041B367 /* InputOrderManager.m in Sources */,
+				97B4225A1820DB8300A2E9E6 /* AnjukePropertyGroupCell.m in Sources */,
 				B769E46C181F76A600A2FF50 /* BaseBidPlanController.m in Sources */,
 				972C10321814FDC400552C9B /* MoreViewController.m in Sources */,
 				970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */,
@@ -807,6 +826,7 @@
 				B769E475181F807500A2FF50 /* SaleBidDetailController.m in Sources */,
 				B7E803ED1820DD8000775C6F /* SaleSelectNoPlanController.m in Sources */,
 				B769E481181F86D300A2FF50 /* BidPropertyDetailController.m in Sources */,
+				97B422571820D9A600A2E9E6 /* PropertyGroupListViewController.m in Sources */,
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
 				B76E5977181E5676005B6A8C /* BaseNoPlanController.m in Sources */,
 				B76E5988181E5AD1005B6A8C /* NoPlanListCell.m in Sources */,
