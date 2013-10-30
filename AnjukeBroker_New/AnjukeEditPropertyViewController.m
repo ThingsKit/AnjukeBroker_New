@@ -453,7 +453,9 @@
                 break;
             case 1: //定价+竞价
             {
-                
+                PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
+                pv.isBid = YES;
+                [self.navigationController pushViewController:pv animated:YES];
             }
                 break;
             case 2: //暂不推广

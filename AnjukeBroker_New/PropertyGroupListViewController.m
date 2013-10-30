@@ -18,6 +18,7 @@
 @implementation PropertyGroupListViewController
 @synthesize tvList;
 @synthesize groupArray;
+@synthesize isBid;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -91,9 +92,14 @@
 #pragma mark - tableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //test
-    PropertyAuctionViewController *pa = [[PropertyAuctionViewController alloc] init];
-    [self.navigationController pushViewController:pa animated:YES];
+    if (self.isBid) { //去竞价页面
+        PropertyAuctionViewController *pa = [[PropertyAuctionViewController alloc] init];
+        [self.navigationController pushViewController:pa animated:YES];
+    }
+    else { //去定价房源列表页面-结果页
+        //test
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

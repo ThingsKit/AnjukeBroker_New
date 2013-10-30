@@ -78,6 +78,7 @@
     CGFloat BG_H = 40;
     NSString *title = nil;
     NSString *placeStr = nil;
+    
     if (index == 0) {
         title = @"预算";
         placeStr = @"最低20元";
