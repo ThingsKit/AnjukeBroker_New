@@ -7,7 +7,7 @@
 //
 
 #import "BaseNoPlanController.h"
-#import "NoPlanListCell.h"
+#import "BaseNoPlanListCell.h"
 
 @interface BaseNoPlanController ()
 
@@ -60,9 +60,9 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdent = @"cell";
-    NoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+    BaseNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == nil){
-        cell = [[NoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
+        cell = [[BaseNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
         cell.imageView.image = [UIImage imageNamed:@"agent_btn17_normal.png"];
         [cell setValueForTableCell];
 //        iamge = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 20, 20)];
