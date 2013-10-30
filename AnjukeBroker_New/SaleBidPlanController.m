@@ -7,6 +7,7 @@
 //
 
 #import "SaleBidPlanController.h"
+#import "SaleBidDetailController.h"
 
 @interface SaleBidPlanController ()
 {
@@ -35,8 +36,9 @@
     
     UIButton *action = [UIButton buttonWithType:UIButtonTypeCustom];
     [action setTitle:@"确定" forState:UIControlStateNormal];
+    [action setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [action addTarget:self action:@selector(action) forControlEvents:UIControlEventTouchDown];
-    [action setBackgroundColor:[UIColor lightGrayColor]];
+//    [action setBackgroundColor:[UIColor lightGrayColor]];
     [action setFrame:CGRectMake(0, 0, 60, 40)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:action];
 
@@ -85,7 +87,13 @@
     [budgetValue resignFirstResponder];
     [priceValue resignFirstResponder];
 }
+
 -(void)action{
-    [self.navigationController popViewControllerAnimated:YES];
+    for (UIViewController *tempController in self.navigationController.viewControllers) {
+        if([tempController isKindOfClass:[SaleBidDetailController class]]){
+        [self.navigationController popToViewController:tempController animated:YES];
+        }
+    }
 }
+
 @end

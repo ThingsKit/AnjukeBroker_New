@@ -7,7 +7,7 @@
 //
 
 #import "AnjukeHomeViewController.h"
-#import "NoPlanController.h"
+#import "SaleNoPlanGroupController.h"
 #import "SaleFixedDetailController.h"
 #import "SaleBidDetailController.h"
 #import "PPCGroupCell.h"
@@ -17,6 +17,8 @@
 @end
 
 @implementation AnjukeHomeViewController
+@synthesize myTable;
+@synthesize myArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -31,33 +33,33 @@
 {
     [super viewDidLoad];
     [self setTitleViewWithString:@"二手房"];
-    myArray = [NSMutableArray array];
-    myTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 480) style:UITableViewStylePlain];
-//    myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
-    myTable.delegate = self;
-    myTable.dataSource = self;
-    [self.view addSubview:myTable];
+    self.myArray = [NSMutableArray array];
+    self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+//    self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.myTable.delegate = self;
+    self.myTable.dataSource = self;
+    [self.view addSubview:self.myTable];
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     [dic setValue:@"竞价房源" forKey:@"title"];
     [dic setValue:@"房源数：10套" forKey:@"detail"];
     [dic setValue:@"" forKey:@"status"];
     [dic setValue:@"1" forKey:@"type"];
-    [myArray addObject:dic];
+    [self.myArray addObject:dic];
     
     dic = [[NSMutableDictionary alloc] init];
     [dic setValue:@"定价房源" forKey:@"title"];
     [dic setValue:@"分组名称  房源数：10套" forKey:@"detail"];
     [dic setValue:@"推广中" forKey:@"status"];
     [dic setValue:@"2" forKey:@"type"];
-    [myArray addObject:dic];
+    [self.myArray addObject:dic];
     
     dic = [[NSMutableDictionary alloc] init];
     [dic setValue:@"待推广房源" forKey:@"title"];
     [dic setValue:@"房源数：10套" forKey:@"detail"];
     [dic setValue:@"" forKey:@"status"];
     [dic setValue:@"3" forKey:@"type"];
-    [myArray addObject:dic];
+    [self.myArray addObject:dic];
     
     
 	// Do any additional setup after loading the view.
@@ -79,14 +81,14 @@
         [self.navigationController pushViewController:controller animated:YES];
     
     }else{
-        NoPlanController *controller = [[NoPlanController alloc] init];
+        SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     }
     
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [myArray count];
+    return [self.myArray count];
 }
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 75.0f;
@@ -97,7 +99,8 @@
     if(cell == Nil){
         cell = [[NSClassFromString(@"PPCGroupCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        [cell setValueForCellByDictinary:[myArray objectAtIndex:[indexPath row]]];
+        cell.selectionStyle = 0;
+        [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
     }
     return cell;
 }

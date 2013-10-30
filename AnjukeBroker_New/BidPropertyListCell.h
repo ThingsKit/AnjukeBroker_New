@@ -8,6 +8,13 @@
 
 #import "PropertyListCell.h"
 
-@interface BidPropertyListCell : PropertyListCell
+@interface BidPropertyListCell : UITableViewCell
+{
 
+}
+@property (strong, nonatomic) UILabel *title;
+@property (strong, nonatomic) UILabel *price;
+@property (strong, nonatomic) UILabel *string;
+@property (strong, nonatomic) UILabel *stringNum;
+-(void)setValueForCellByDictinary:(NSDictionary *) dic;
 @end
