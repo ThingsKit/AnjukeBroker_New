@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NoPlanListCell : UITableViewCell
+@interface BaseNoPlanListCell : UITableViewCell
 {
     UILabel *title;
     UILabel *communityName;

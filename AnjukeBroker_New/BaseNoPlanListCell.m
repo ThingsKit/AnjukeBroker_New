@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Wu sicong. All rights reserved.
 //
 
-#import "NoPlanListCell.h"
+#import "BaseNoPlanListCell.h"
 
-@implementation NoPlanListCell
+@implementation BaseNoPlanListCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

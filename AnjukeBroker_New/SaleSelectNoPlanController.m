@@ -7,7 +7,7 @@
 //
 
 #import "SaleSelectNoPlanController.h"
-#import "NoPlanListCell.h"
+#import "BaseNoPlanListCell.h"
 
 @interface SaleSelectNoPlanController ()
 
@@ -39,9 +39,9 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdent = @"cell";
-    NoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+    BaseNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == Nil){
-        cell = [[NoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
+        cell = [[BaseNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
         
         cell.imageView.image = [UIImage imageNamed:@"agent_btn17_normal.png"];
         [cell setValueForTableCell];
