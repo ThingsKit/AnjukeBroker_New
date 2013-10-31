@@ -27,13 +27,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIButton *action = [UIButton buttonWithType:UIButtonTypeCustom];
-    [action setTitle:@"操作" forState:UIControlStateNormal];
-    [action setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [action addTarget:self action:@selector(action) forControlEvents:UIControlEventTouchDown];
-//    [action setBackgroundColor:[UIColor lightGrayColor]];
-    [action setFrame:CGRectMake(0, 0, 60, 40)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:action];
+    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
+                                   initWithTitle:@"确定"
+                                   style:UIBarButtonItemStyleBordered
+                                   target:self
+                                   action:@selector(action)];
+    self.navigationItem.rightBarButtonItem = editButton;
 	// Do any additional setup after loading the view.
 }
 
@@ -50,7 +49,7 @@
         //        [cell addSubview:iamge];
     }
     
-    if([self.selected containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
+    if([self.selectedArray containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
         cell.imageView.image = [UIImage imageNamed:@"agent_btn17_selected.png"];
     }else{
         cell.imageView.image = [UIImage imageNamed:@"agent_btn17_normal.png"];

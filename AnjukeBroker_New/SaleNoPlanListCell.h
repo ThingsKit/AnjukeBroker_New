@@ -10,7 +10,11 @@
 
 @interface SaleNoPlanListCell : BaseNoPlanListCell
 {
-
+//    SEL _selecter;
+//    id _target;
 }
 @property (strong, nonatomic) UIButton *mutableBtn;
+//@property (assign, nonatomic) SEL selecter;
+//@property (strong, nonatomic) id target;
+//- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier target:(id) target action:(SEL) selecte;
 @end

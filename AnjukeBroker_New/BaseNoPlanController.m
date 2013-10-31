@@ -16,14 +16,14 @@
 @implementation BaseNoPlanController
 @synthesize myArray;
 @synthesize myTable;
-@synthesize selected;
+@synthesize selectedArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.myArray = [NSMutableArray arrayWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", nil];
-        self.selected = [NSMutableArray array];
+        self.myArray = [NSMutableArray arrayWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17", nil];
+        self.selectedArray = [NSMutableArray array];
         // Custom initialization
     }
     return self;
@@ -37,21 +37,21 @@
     self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
-    
+//    self.myTable.tableFooterView.hidden = YES;
     [self.view addSubview:self.myTable];
 	// Do any additional setup after loading the view.
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(![self.selected containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
-        [self.selected addObject:[self.myArray objectAtIndex:[indexPath row]]];
-        
-    }else{
-        [self.selected removeObject:[self.myArray objectAtIndex:[indexPath row]]];
-        
-    }
-    [self.myTable reloadData];
-}
+//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    if(![self.selected containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
+//        [self.selected addObject:[self.myArray objectAtIndex:[indexPath row]]];
+//        
+//    }else{
+//        [self.selected removeObject:[self.myArray objectAtIndex:[indexPath row]]];
+//        
+//    }
+//    [self.myTable reloadData];
+//}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.myArray count];
 }
@@ -70,7 +70,7 @@
 //        [cell addSubview:iamge];
     }
     
-    if([self.selected containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
+    if([self.selectedArray containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
         cell.imageView.image = [UIImage imageNamed:@"agent_btn17_selected.png"];
     }else{
         cell.imageView.image = [UIImage imageNamed:@"agent_btn17_normal.png"];
