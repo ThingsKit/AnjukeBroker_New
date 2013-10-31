@@ -41,8 +41,8 @@
 		97958362182229AF005EA48A /* Util_TEXT.m in Sources */ = {isa = PBXBuildFile; fileRef = 97958361182229AF005EA48A /* Util_TEXT.m */; };
 		9795837A18224ABF005EA48A /* TabAnjuke_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9795837118224ABF005EA48A /* TabAnjuke_normal@2x.png */; };
 		9795837C18224ABF005EA48A /* TabHaozu_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9795837318224ABF005EA48A /* TabHaozu_normal@2x.png */; };
-		9795837D18224ABF005EA48A /* TabMore_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9795837418224ABF005EA48A /* TabMore_normal@2x.png */; };
 		9795837E18224ABF005EA48A /* TabHome_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9795837518224ABF005EA48A /* TabHome_normal@2x.png */; };
+		9795838418224F35005EA48A /* TabMore_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9795838318224F35005EA48A /* TabMore_normal@2x.png */; };
 		97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A0F0211816227A00C31D83 /* BrokerLineView.m */; };
 		97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A0F027181653A600C31D83 /* RTInputPickerView.m */; };
 		97A606811816C2A50041B367 /* InputOrderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A606801816C2A50041B367 /* InputOrderManager.m */; };
@@ -183,8 +183,8 @@
 		97958361182229AF005EA48A /* Util_TEXT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util_TEXT.m; sourceTree = "<group>"; };
 		9795837118224ABF005EA48A /* TabAnjuke_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TabAnjuke_normal@2x.png"; sourceTree = "<group>"; };
 		9795837318224ABF005EA48A /* TabHaozu_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TabHaozu_normal@2x.png"; sourceTree = "<group>"; };
-		9795837418224ABF005EA48A /* TabMore_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TabMore_normal@2x.png"; sourceTree = "<group>"; };
 		9795837518224ABF005EA48A /* TabHome_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TabHome_normal@2x.png"; sourceTree = "<group>"; };
+		9795838318224F35005EA48A /* TabMore_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TabMore_normal@2x.png"; sourceTree = "<group>"; };
 		97A0F0201816227A00C31D83 /* BrokerLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerLineView.h; sourceTree = "<group>"; };
 		97A0F0211816227A00C31D83 /* BrokerLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerLineView.m; sourceTree = "<group>"; };
 		97A0F026181653A600C31D83 /* RTInputPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTInputPickerView.h; sourceTree = "<group>"; };
@@ -417,9 +417,9 @@
 		972C10351815053100552C9B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				9795838318224F35005EA48A /* TabMore_normal@2x.png */,
 				9795837118224ABF005EA48A /* TabAnjuke_normal@2x.png */,
 				9795837318224ABF005EA48A /* TabHaozu_normal@2x.png */,
-				9795837418224ABF005EA48A /* TabMore_normal@2x.png */,
 				9795837518224ABF005EA48A /* TabHome_normal@2x.png */,
 				B76E597D181E5A27005B6A8C /* Temp */,
 			);
@@ -845,10 +845,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9795838418224F35005EA48A /* TabMore_normal@2x.png in Resources */,
 				B76E5983181E5A3F005B6A8C /* agent_btn17_normal@2x.png in Resources */,
 				9795837A18224ABF005EA48A /* TabAnjuke_normal@2x.png in Resources */,
 				9795837C18224ABF005EA48A /* TabHaozu_normal@2x.png in Resources */,
-				9795837D18224ABF005EA48A /* TabMore_normal@2x.png in Resources */,
 				9741055F180CDFE0004DAE95 /* InfoPlist.strings in Resources */,
 				B76E5985181E5A3F005B6A8C /* agent_btn17_selected@2x.png in Resources */,
 				9741056A180CDFE0004DAE95 /* Images.xcassets in Resources */,
