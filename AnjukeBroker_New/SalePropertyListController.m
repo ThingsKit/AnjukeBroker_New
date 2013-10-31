@@ -41,31 +41,31 @@
     
     PropertyObject *property1 = [[PropertyObject alloc] init];
     property1.title = @"昨天最好的房子";
-    property1.communityName = @"天涯社区";
+    property1.communityName = @"3室1厅 66平 125万";
     property1.price = @"1万";
     [self.myArray addObject:property1];
     
     PropertyObject *property2 = [[PropertyObject alloc] init];
     property2.title = @"今天最好的房子";
-    property2.communityName = @"明日论坛";
+    property2.communityName = @"3室1厅 66平 125万";
     property2.price = @"2万";
     [self.myArray addObject:property2];
     
     PropertyObject *property3 = [[PropertyObject alloc] init];
     property3.title = @"明天最好的房子";
-    property3.communityName = @"黄浦江";
+    property3.communityName = @"3室1厅 66平 125万";
     property3.price = @"3.05万";
     [self.myArray addObject:property3];
     
     PropertyObject *property4 = [[PropertyObject alloc] init];
     property4.title = @"未来天最好的房子";
-    property4.communityName = @"东方明珠";
+    property4.communityName = @"3室1厅 66平 125万";
     property4.price = @"6万";
     [self.myArray addObject:property4];
     
     PropertyObject *property = [[PropertyObject alloc] init];
     property.title = @"上海最好的房子";
-    property.communityName = @"上海电视台";
+    property.communityName = @"3室1厅 66平 125万";
     property.price = @"1.9亿";
     [self.myArray addObject:property];
     
@@ -81,7 +81,7 @@
     return [self.myArray count];
 }
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 75.0f;
+    return 66.0f;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
         static NSString *cellIdent = @"PropertyDetailCell";

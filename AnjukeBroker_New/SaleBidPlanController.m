@@ -35,7 +35,7 @@
     [self setTitleViewWithString:@"设置竞价"];
     
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"操作"
+                                   initWithTitle:@"确定"
                                    style:UIBarButtonItemStyleBordered
                                    target:self
                                    action:@selector(action)];

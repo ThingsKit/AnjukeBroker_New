@@ -33,8 +33,7 @@
 {
     [super viewDidLoad];
     [self setTitleViewWithString:@"未推广房源"];
-
-    self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+    self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
 //    self.myTable.tableFooterView.hidden = YES;
@@ -42,28 +41,18 @@
 	// Do any additional setup after loading the view.
 }
 
-//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    if(![self.selected containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
-//        [self.selected addObject:[self.myArray objectAtIndex:[indexPath row]]];
-//        
-//    }else{
-//        [self.selected removeObject:[self.myArray objectAtIndex:[indexPath row]]];
-//        
-//    }
-//    [self.myTable reloadData];
-//}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.myArray count];
 }
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 55.0f;
+    return 67.0f;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdent = @"cell";
     BaseNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == nil){
         cell = [[BaseNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
-        cell.imageView.image = [UIImage imageNamed:@"agent_btn17_normal.png"];
+        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
         [cell setValueForTableCell];
 //        iamge = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 20, 20)];
 //        iamge.image = [UIImage imageNamed:@"2leftarrow.png"];
@@ -71,9 +60,9 @@
     }
     
     if([self.selectedArray containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
-        cell.imageView.image = [UIImage imageNamed:@"agent_btn17_selected.png"];
+        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_selected@2x.png"];
     }else{
-        cell.imageView.image = [UIImage imageNamed:@"agent_btn17_normal.png"];
+        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
     }
 //    cell.textLabel.text = [self.myArray objectAtIndex:[indexPath row]];
     return cell;

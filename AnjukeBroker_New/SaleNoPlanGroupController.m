@@ -10,6 +10,7 @@
 #import "SaleNoPlanListCell.h"
 #import "AnjukeEditPropertyViewController.h"
 #import "SaleFixedDetailController.h"
+#import "Util_UI.h"
 
 @interface SaleNoPlanGroupController ()
 {
@@ -31,30 +32,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.myTable.frame = FRAME_WITH_NAV;
-    contentView = [[UIView alloc] initWithFrame:CGRectMake(0, self.myTable.frame.size.height, 320, 65)];
-    contentView.backgroundColor = [UIColor lightGrayColor];
+    self.myTable.frame = FRAME_BETWEEN_NAV_TAB;
+    contentView = [[UIView alloc] initWithFrame:CGRectMake(0, self.myTable.frame.size.height, 320, 64)];
+    contentView.backgroundColor = SYSTEM_LIGHT_GRAY;
     
     UIButton *mutableSelect = [UIButton buttonWithType:UIButtonTypeCustom];
     [mutableSelect setTitle:@"全选" forState:UIControlStateNormal];
-    mutableSelect.frame = CGRectMake(10, 10, 90, 40);
+    mutableSelect.frame = CGRectMake(10, 0, 90, 44);
     [mutableSelect addTarget:self action:@selector(mutableAction:) forControlEvents:UIControlEventTouchDown];
     [contentView addSubview:mutableSelect];
     
     UIButton *delete = [UIButton buttonWithType:UIButtonTypeCustom];
     [delete setTitle:@"删除" forState:UIControlStateNormal];
-    delete.frame = CGRectMake(110, 10, 90, 40);
+    delete.frame = CGRectMake(110, 0, 90, 44);
     [delete addTarget:self action:@selector(delete) forControlEvents:UIControlEventTouchDown];
     [contentView addSubview:delete];
     
     UIButton *multiSelect = [UIButton buttonWithType:UIButtonTypeCustom];
-    multiSelect.frame = CGRectMake(210, 10, 90, 40);
+    multiSelect.frame = CGRectMake(210, 0, 90, 44);
     [multiSelect setTitle:@"定价推广" forState:UIControlStateNormal];
     [multiSelect addTarget:self action:@selector(mutableFixed) forControlEvents:UIControlEventTouchDown];
     [contentView addSubview:multiSelect];
     [self.view addSubview:contentView];
-//    self.myTable.tableFooterView.hidden = YES;
 	// Do any additional setup after loading the view.
 }
 
@@ -63,14 +62,17 @@
     SaleNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == nil){
         cell = [[SaleNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
-        cell.imageView.image = [UIImage imageNamed:@"agent_btn17_normal.png"];
+        [cell.mutableBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon06_select@2x.png"] forState:UIControlStateNormal];
+//        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
         [cell setValueForTableCell];
     }
     
     if([self.selectedArray containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
-        cell.imageView.image = [UIImage imageNamed:@"agent_btn17_selected.png"];
+        [cell.mutableBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon06_selected@2x.png"] forState:UIControlStateNormal];
+//        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_selected@2x.png"];
     }else{
-        cell.imageView.image = [UIImage imageNamed:@"agent_btn17_normal.png"];
+        [cell.mutableBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon06_select@2x.png"] forState:UIControlStateNormal];
+//        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
     }
     [cell.mutableBtn addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchDown];
     cell.mutableBtn.tag = [indexPath row];
