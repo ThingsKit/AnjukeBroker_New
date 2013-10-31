@@ -9,6 +9,7 @@
 #import "RTListCell.h"
 
 @implementation RTListCell
+@synthesize selectRow;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -27,6 +28,10 @@
 }
 
 - (BOOL)configureCell:(id)dataModel {
+    return NO;
+}
+
+- (BOOL)configureCell:(id)dataModel withIndex:(int)index {
     return NO;
 }
 

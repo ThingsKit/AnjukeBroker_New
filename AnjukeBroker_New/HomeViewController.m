@@ -8,6 +8,7 @@
 
 #import "HomeViewController.h"
 #import "AnjukeEditPropertyViewController.h"
+#import "SystemMessageViewController.h"
 
 #define cellHeight 50
 #define headerHeight 180
@@ -105,6 +106,18 @@
         case 0:
         {
             AnjukeEditPropertyViewController *ae = [[AnjukeEditPropertyViewController alloc] init];
+            [ae setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:ae animated:YES];
+        }
+            break;
+        case 1:
+        {
+            
+        }
+            break;
+        case 2:
+        {
+            SystemMessageViewController *ae = [[SystemMessageViewController alloc] init];
             [ae setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:ae animated:YES];
         }

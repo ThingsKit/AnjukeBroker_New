@@ -67,7 +67,7 @@
     deleteBtn.frame = CGRectMake([self windowWidth] - btnW*3, btnW, btnW*2, btnW);
     deleteBtn.layer.cornerRadius = 5;
     deleteBtn.backgroundColor = [UIColor lightGrayColor];
-    [deleteBtn setTitle:@"删除图片" forState:UIControlStateNormal];
+    [deleteBtn setTitle:@"删" forState:UIControlStateNormal];
 //    deleteBtn.layer.borderColor = [UIColor lightGrayColor].CGColor;
 //    deleteBtn.layer.borderWidth = 1;
     [deleteBtn addTarget:self action:@selector(doDelete) forControlEvents:UIControlEventTouchUpInside];

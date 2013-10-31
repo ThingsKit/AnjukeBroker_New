@@ -36,6 +36,9 @@
 		974E5C89181E4B00000246D1 /* AnjukeEditableTV_DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 974E5C88181E4B00000246D1 /* AnjukeEditableTV_DataSource.m */; };
 		974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 974E5C8B181E4D45000246D1 /* AnjukeNormalCell.m */; };
 		975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 975D9DE0181B69A700A421AF /* KeyboardToolBar.m */; };
+		979583581821FF2B005EA48A /* SystemMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 979583571821FF2B005EA48A /* SystemMessageViewController.m */; };
+		9795835D1822014A005EA48A /* SystemMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9795835C1822014A005EA48A /* SystemMessageCell.m */; };
+		97958362182229AF005EA48A /* Util_TEXT.m in Sources */ = {isa = PBXBuildFile; fileRef = 97958361182229AF005EA48A /* Util_TEXT.m */; };
 		97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A0F0211816227A00C31D83 /* BrokerLineView.m */; };
 		97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A0F027181653A600C31D83 /* RTInputPickerView.m */; };
 		97A606811816C2A50041B367 /* InputOrderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A606801816C2A50041B367 /* InputOrderManager.m */; };
@@ -166,6 +169,12 @@
 		974E5C8B181E4D45000246D1 /* AnjukeNormalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukeNormalCell.m; sourceTree = "<group>"; };
 		975D9DDF181B69A700A421AF /* KeyboardToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardToolBar.h; sourceTree = "<group>"; };
 		975D9DE0181B69A700A421AF /* KeyboardToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardToolBar.m; sourceTree = "<group>"; };
+		979583561821FF2B005EA48A /* SystemMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMessageViewController.h; sourceTree = "<group>"; };
+		979583571821FF2B005EA48A /* SystemMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemMessageViewController.m; sourceTree = "<group>"; };
+		9795835B1822014A005EA48A /* SystemMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMessageCell.h; sourceTree = "<group>"; };
+		9795835C1822014A005EA48A /* SystemMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemMessageCell.m; sourceTree = "<group>"; };
+		97958360182229AF005EA48A /* Util_TEXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util_TEXT.h; sourceTree = "<group>"; };
+		97958361182229AF005EA48A /* Util_TEXT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util_TEXT.m; sourceTree = "<group>"; };
 		97A0F0201816227A00C31D83 /* BrokerLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerLineView.h; sourceTree = "<group>"; };
 		97A0F0211816227A00C31D83 /* BrokerLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerLineView.m; sourceTree = "<group>"; };
 		97A0F026181653A600C31D83 /* RTInputPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTInputPickerView.h; sourceTree = "<group>"; };
@@ -312,6 +321,8 @@
 			children = (
 				970B78DA182010EE00C8E3C6 /* Util_UI.h */,
 				970B78DB182010EE00C8E3C6 /* Util_UI.m */,
+				97958360182229AF005EA48A /* Util_TEXT.h */,
+				97958361182229AF005EA48A /* Util_TEXT.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -321,6 +332,7 @@
 			children = (
 				972C10271814FCD300552C9B /* HomeViewController.h */,
 				972C10281814FCD300552C9B /* HomeViewController.m */,
+				9795835A18220045005EA48A /* 系统消息 */,
 				972C10361815311700552C9B /* 发房 */,
 			);
 			name = "首页+发房";
@@ -512,6 +524,17 @@
 				97B422591820DB8300A2E9E6 /* AnjukePropertyGroupCell.m */,
 			);
 			name = TableViewCell;
+			sourceTree = "<group>";
+		};
+		9795835A18220045005EA48A /* 系统消息 */ = {
+			isa = PBXGroup;
+			children = (
+				979583561821FF2B005EA48A /* SystemMessageViewController.h */,
+				979583571821FF2B005EA48A /* SystemMessageViewController.m */,
+				9795835B1822014A005EA48A /* SystemMessageCell.h */,
+				9795835C1822014A005EA48A /* SystemMessageCell.m */,
+			);
+			name = "系统消息";
 			sourceTree = "<group>";
 		};
 		97A0F01E181621AA00C31D83 /* UIView&Util */ = {
@@ -830,6 +853,7 @@
 				97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */,
 				97410565180CDFE0004DAE95 /* AppDelegate.m in Sources */,
 				B769E47B181F82B000A2FF50 /* BidPropertyListCell.m in Sources */,
+				979583581821FF2B005EA48A /* SystemMessageViewController.m in Sources */,
 				B769E45D181F54DE00A2FF50 /* PropertyObject.m in Sources */,
 				97B4225D1820E36600A2E9E6 /* PropertyAuctionViewController.m in Sources */,
 				97CD8D44180E6D6E00185C9D /* RTViewController.m in Sources */,
@@ -844,6 +868,7 @@
 				B769E466181F62DB00A2FF50 /* SalePropertyDetailController.m in Sources */,
 				974E5C82181E4210000246D1 /* AnjukeEditableCell.m in Sources */,
 				B769E463181F629B00A2FF50 /* BasePropertyDetailController.m in Sources */,
+				9795835D1822014A005EA48A /* SystemMessageCell.m in Sources */,
 				B769E453181F4D0100A2FF50 /* FixedDetailCell.m in Sources */,
 				972C10291814FCD300552C9B /* HomeViewController.m in Sources */,
 				B769E44F181F4C3E00A2FF50 /* FixedObject.m in Sources */,
@@ -858,6 +883,7 @@
 				B769E475181F807500A2FF50 /* SaleBidDetailController.m in Sources */,
 				B7E803ED1820DD8000775C6F /* SaleSelectNoPlanController.m in Sources */,
 				B769E481181F86D300A2FF50 /* BidPropertyDetailController.m in Sources */,
+				97958362182229AF005EA48A /* Util_TEXT.m in Sources */,
 				97B422571820D9A600A2E9E6 /* PropertyGroupListViewController.m in Sources */,
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
 				B76E5977181E5676005B6A8C /* BaseNoPlanController.m in Sources */,
