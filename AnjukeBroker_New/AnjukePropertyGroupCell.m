@@ -7,8 +7,9 @@
 //
 
 #import "AnjukePropertyGroupCell.h"
+#import "Util_UI.h"
 
-#define TITLE_OFFESTX 13
+#define TITLE_OFFESTX 17
 
 @implementation AnjukePropertyGroupCell
 @synthesize groupNameLb, limitPriceLb, statusLb;
@@ -36,19 +37,19 @@
 
 - (void)initUI {
     CGFloat lbW = 150;
-    CGFloat lbFont = 17;
+    CGFloat lbFont = 15;
     
-    UILabel *lb1 = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFESTX, 5, lbW, 30)];
+    UILabel *lb1 = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFESTX, 5, lbW, 20)];
     lb1.backgroundColor = [UIColor clearColor];
     lb1.font = [UIFont systemFontOfSize:lbFont];
-    lb1.textColor = [UIColor blackColor];
+    lb1.textColor = SYSTEM_BLACK;
     self.groupNameLb = lb1;
     [self.contentView addSubview:lb1];
 
-    UILabel *lb2 = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFESTX, 5 *2 + lb1.frame.size.height, lbW, 30)];
+    UILabel *lb2 = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFESTX, 5 *2 + lb1.frame.size.height, 250, 20)];
     lb2.backgroundColor = [UIColor clearColor];
     lb2.font = [UIFont systemFontOfSize:lbFont];
-    lb2.textColor = [UIColor lightGrayColor];
+    lb2.textColor = SYSTEM_LIGHT_GRAY;
     self.limitPriceLb = lb2;
     [self.contentView addSubview:lb2];
     
@@ -83,9 +84,9 @@
     
     //test
     self.groupNameLb.text = @"定价组1（20）";
-    self.limitPriceLb.text = @"每日限额30元";
+    self.limitPriceLb.text = @"房源数:20套    每日限额30元";
     
-    self.statusLb.backgroundColor = [UIColor colorWithRed:0.36 green:0.8 blue:0.25 alpha:1];
+    self.statusLb.backgroundColor = SYSTEM_GREEN;
     self.statusLb.text = @"推广中";
     
     return YES;

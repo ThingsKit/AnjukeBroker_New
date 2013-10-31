@@ -44,7 +44,7 @@
     
 }
 
-- (void)initDisplay {    
+- (void)initDisplay {
     UIBarButtonItem *rButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(doBack)];
     self.navigationItem.leftBarButtonItem = rButton;
     

@@ -7,6 +7,7 @@
 //
 
 #import "RTViewController.h"
+#import "Util_UI.h"
 
 @interface RTViewController ()
 
@@ -46,9 +47,10 @@
 - (void)setTitleViewWithString:(NSString *)titleStr { //设置标题栏
     UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
     lb.backgroundColor = [UIColor clearColor];
-    lb.font = [UIFont systemFontOfSize:21];
+    lb.font = [UIFont systemFontOfSize:19];
     lb.text = titleStr;
     lb.textAlignment = NSTextAlignmentCenter;
+    lb.textColor = [Util_UI colorWithHexString:@"000000"];
     self.navigationItem.titleView = lb;
 }
 
