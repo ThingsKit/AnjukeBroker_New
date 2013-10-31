@@ -156,11 +156,15 @@
     int pBtnH = 76;
     UIButton *photoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     photoBtn.frame = CGRectMake(([self windowWidth] -pBtnH)/2, (sv.frame.size.height - pBtnH)/2, pBtnH, pBtnH);
-    photoBtn.backgroundColor = [UIColor clearColor];
-    photoBtn.layer.borderColor = [UIColor blackColor].CGColor;
-    photoBtn.layer.borderWidth = 0.5;
+    photoBtn.backgroundColor = [UIColor whiteColor];
+//    [photoBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon05_photo"] forState:UIControlStateNormal];
     [photoBtn addTarget:self action:@selector(addPhoto) forControlEvents:UIControlEventTouchUpInside];
     [sv addSubview:photoBtn];
+    
+    UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon05_photo"]];
+    icon.frame = CGRectMake((photoBtn.frame.size.width - 65/2)/2, (photoBtn.frame.size.width - 50/2)/2, 65/2, 50/2);
+    [icon setUserInteractionEnabled:YES];
+    [photoBtn addSubview:icon];
     
     photoBtn.frame = CGRectMake( PhotoImg_Gap , PhotoImg_Gap, PhotoImg_H, PhotoImg_H);
     

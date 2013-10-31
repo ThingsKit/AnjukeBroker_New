@@ -50,7 +50,7 @@
 
 + (NSArray *)getPropertyZhuangxiu {
     NSArray *arr = [NSArray array];
-    arr = [NSArray arrayWithObjects:@"毛胚",@"普通装修",@"精装修",@"豪华装修", nil];
+    arr = [NSArray arrayWithObjects:@"毛坯",@"普通装修",@"精装修",@"豪华装修", nil];
     return arr;
 }
 
