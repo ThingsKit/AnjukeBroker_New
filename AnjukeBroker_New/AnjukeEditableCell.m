@@ -7,10 +7,12 @@
 //
 
 #import "AnjukeEditableCell.h"
+#import "Util_UI.h"
 
 @implementation AnjukeEditableCell
 @synthesize text_Field;
 @synthesize editDelegate;
+@synthesize unitLb;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -38,7 +40,7 @@
 - (void)initUI {
     //text field
     UITextField *cellTextField = nil;
-    cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(150, 1,  150, CELL_HEIGHT - 1*2)];
+    cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(224/2, 1,  150, CELL_HEIGHT - 1*2)];
     cellTextField.returnKeyType = UIReturnKeyDone;
     cellTextField.backgroundColor = [UIColor clearColor];
     cellTextField.borderStyle = UITextBorderStyleNone;
@@ -50,8 +52,17 @@
     cellTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     cellTextField.font = [UIFont systemFontOfSize:17];
     cellTextField.secureTextEntry = NO;
+    cellTextField.textColor = SYSTEM_LIGHT_GRAY;
     self.text_Field = cellTextField;
     [self.contentView addSubview:cellTextField];
+    
+    CGFloat unitLbW = 40;
+    UILabel *lb2 = [[UILabel alloc] initWithFrame:CGRectMake(320 - 25-unitLbW, (CELL_HEIGHT - 20)/2, unitLbW, 20)];
+    lb2.backgroundColor = [UIColor clearColor];
+    lb2.font = [UIFont systemFontOfSize:17];
+    lb2.textColor = SYSTEM_LIGHT_GRAY;
+    self.unitLb = lb2;
+    [self.contentView addSubview:lb2];
 }
 
 /*

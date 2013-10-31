@@ -520,12 +520,6 @@
 			children = (
 				974E5C7D181E417F000246D1 /* RTListCell.h */,
 				974E5C7E181E417F000246D1 /* RTListCell.m */,
-				974E5C8A181E4D45000246D1 /* AnjukeNormalCell.h */,
-				974E5C8B181E4D45000246D1 /* AnjukeNormalCell.m */,
-				974E5C80181E4210000246D1 /* AnjukeEditableCell.h */,
-				974E5C81181E4210000246D1 /* AnjukeEditableCell.m */,
-				97B422581820DB8300A2E9E6 /* AnjukePropertyGroupCell.h */,
-				97B422591820DB8300A2E9E6 /* AnjukePropertyGroupCell.m */,
 			);
 			name = TableViewCell;
 			sourceTree = "<group>";
@@ -539,6 +533,26 @@
 				9795835C1822014A005EA48A /* SystemMessageCell.m */,
 			);
 			name = "系统消息";
+			sourceTree = "<group>";
+		};
+		97958367182231EE005EA48A /* 发房cell */ = {
+			isa = PBXGroup;
+			children = (
+				974E5C8A181E4D45000246D1 /* AnjukeNormalCell.h */,
+				974E5C8B181E4D45000246D1 /* AnjukeNormalCell.m */,
+				974E5C80181E4210000246D1 /* AnjukeEditableCell.h */,
+				974E5C81181E4210000246D1 /* AnjukeEditableCell.m */,
+			);
+			name = "发房cell";
+			sourceTree = "<group>";
+		};
+		9795836818223210005EA48A /* 定价竞价cell */ = {
+			isa = PBXGroup;
+			children = (
+				97B422581820DB8300A2E9E6 /* AnjukePropertyGroupCell.h */,
+				97B422591820DB8300A2E9E6 /* AnjukePropertyGroupCell.m */,
+			);
+			name = "定价竞价cell";
 			sourceTree = "<group>";
 		};
 		97A0F01E181621AA00C31D83 /* UIView&Util */ = {
@@ -580,6 +594,7 @@
 		97B422531820B6E700A2E9E6 /* 定价组List&竞价&结果页 */ = {
 			isa = PBXGroup;
 			children = (
+				9795836818223210005EA48A /* 定价竞价cell */,
 				97B422551820D9A600A2E9E6 /* PropertyGroupListViewController.h */,
 				97B422561820D9A600A2E9E6 /* PropertyGroupListViewController.m */,
 				97B4225B1820E36600A2E9E6 /* PropertyAuctionViewController.h */,
@@ -593,12 +608,13 @@
 		97B42264182107B700A2E9E6 /* 房源编辑 */ = {
 			isa = PBXGroup;
 			children = (
+				97958367182231EE005EA48A /* 发房cell */,
 				972C10371815351900552C9B /* AnjukeEditPropertyViewController.h */,
 				972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */,
-				974E5C87181E4B00000246D1 /* AnjukeEditableTV_DataSource.h */,
-				974E5C88181E4B00000246D1 /* AnjukeEditableTV_DataSource.m */,
 				97B422661821087600A2E9E6 /* PropertyBigImageViewController.h */,
 				97B422671821087600A2E9E6 /* PropertyBigImageViewController.m */,
+				974E5C87181E4B00000246D1 /* AnjukeEditableTV_DataSource.h */,
+				974E5C88181E4B00000246D1 /* AnjukeEditableTV_DataSource.m */,
 			);
 			name = "房源编辑";
 			sourceTree = "<group>";

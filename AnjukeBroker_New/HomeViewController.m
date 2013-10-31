@@ -9,9 +9,10 @@
 #import "HomeViewController.h"
 #import "AnjukeEditPropertyViewController.h"
 #import "SystemMessageViewController.h"
+#import "Util_UI.h"
 
 #define cellHeight 50
-#define headerHeight 180
+#define headerHeight (200+150)/2
 
 @interface HomeViewController ()
 @property (nonatomic, strong) NSArray *taskArray;
@@ -62,7 +63,7 @@
     [self.view addSubview:tv];
     
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], headerHeight)];
-    headerView.backgroundColor = [UIColor lightGrayColor];
+    headerView.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
     tv.tableHeaderView = headerView;
     
 }
@@ -93,6 +94,7 @@
     }
     
     cell.textLabel.text = [self.taskArray objectAtIndex:indexPath.row];
+    
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;

@@ -35,6 +35,12 @@
         //调整键盘type
         if (i == 2 || i == 3) {
             cell.text_Field.keyboardType = UIKeyboardTypeNumberPad;
+            if (i ==2) {
+                cell.unitLb.text = @"平米";
+            }
+            else if (i == 3) {
+                cell.unitLb.text = @"万元";
+            }
         }
         [self.cellArray addObject:cell];
     }

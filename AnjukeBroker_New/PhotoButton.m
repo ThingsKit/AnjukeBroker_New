@@ -21,7 +21,6 @@
         //用于显示照片的控件
         UIImageView *img = [[UIImageView alloc] initWithFrame:self.bounds];
         self.photoImg = img;
-        img.backgroundColor = [UIColor lightGrayColor];
         img.clipsToBounds = YES;
         img.contentMode = UIViewContentModeScaleAspectFill;
         img.userInteractionEnabled = NO;

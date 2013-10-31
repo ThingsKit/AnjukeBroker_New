@@ -27,7 +27,7 @@
 #define TagOfActionSheet_Img 901
 #define TagOfActionSheet_Save 902
 
-#define PhotoImg_H 80
+#define PhotoImg_H 76
 #define PhotoImg_Gap 10
 #define PhotoImg_MAX_COUNT 8 //最多上传照片数
 
@@ -113,7 +113,7 @@
     UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     saveBtn.frame = ITEM_BTN_FRAME;
     [saveBtn setTitle:@"保存" forState:UIControlStateNormal];
-    [saveBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [saveBtn setTitleColor:SYSTEM_BLUE forState:UIControlStateNormal];
     [saveBtn addTarget:self action:@selector(doSave) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem *rButton = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
@@ -143,7 +143,7 @@
     }
     else
         headerView.frame = CGRectMake(0, 0, [self windowWidth], photoHeaderH);
-    headerView.backgroundColor = [UIColor clearColor];
+    headerView.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
     
     // photo sv
     UIScrollView *sv = [[UIScrollView alloc] initWithFrame:headerView.bounds];
@@ -153,13 +153,12 @@
     [headerView addSubview:sv];
     
     //phtot btn
-    int pBtnH = 80;
+    int pBtnH = 76;
     UIButton *photoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     photoBtn.frame = CGRectMake(([self windowWidth] -pBtnH)/2, (sv.frame.size.height - pBtnH)/2, pBtnH, pBtnH);
     photoBtn.backgroundColor = [UIColor clearColor];
     photoBtn.layer.borderColor = [UIColor blackColor].CGColor;
     photoBtn.layer.borderWidth = 0.5;
-    [photoBtn setTitle:@"+" forState:UIControlStateNormal];
     [photoBtn addTarget:self action:@selector(addPhoto) forControlEvents:UIControlEventTouchUpInside];
     [sv addSubview:photoBtn];
     
@@ -169,7 +168,7 @@
         PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(PhotoImg_Gap +(i +1) * (PhotoImg_Gap + PhotoImg_H), PhotoImg_Gap, PhotoImg_H, PhotoImg_H)];
         pBtn.tag = TagOfImg_Base + i;
         [pBtn addTarget:self action:@selector(showPhoto:) forControlEvents:UIControlEventTouchUpInside];
-        pBtn.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        pBtn.layer.borderColor = SYSTEM_BLUE.CGColor;
         pBtn.layer.borderWidth = 0.5;
         [self.photoSV addSubview:pBtn];
         [self.imgBtnArray addObject:pBtn];

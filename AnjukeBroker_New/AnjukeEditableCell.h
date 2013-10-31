@@ -18,5 +18,6 @@
 
 @property (nonatomic, strong) UITextField *text_Field;
 @property (nonatomic, assign) id <CellTextFieldEditDelegate> editDelegate;
+@property (nonatomic, strong) UILabel *unitLb;
 
 @end
