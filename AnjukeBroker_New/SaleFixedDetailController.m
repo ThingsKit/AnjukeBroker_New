@@ -41,14 +41,18 @@
 {
     [super viewDidLoad];
     [self setTitleViewWithString:@"定价房源"];
-    UIButton *action = [UIButton buttonWithType:UIButtonTypeCustom];
-    [action setTitle:@"操作" forState:UIControlStateNormal];
-    [action setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [action addTarget:self action:@selector(action) forControlEvents:UIControlEventTouchDown];
-//    [action setBackgroundColor:[UIColor lightGrayColor]];
-    [action setFrame:CGRectMake(0, 0, 60, 40)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:action];
-
+    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
+                                    initWithTitle:@"操作"
+                                    style:UIBarButtonItemStyleBordered
+                                    target:self
+                                    action:@selector(action)];
+    self.navigationItem.rightBarButtonItem = editButton;
+    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc]
+                                   initWithTitle:@"返回"
+                                   style:UIBarButtonItemStyleBordered
+                                   target:self
+                                action:@selector(back:)];
+    self.navigationItem.leftBarButtonItem = backBtn;
     self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
@@ -88,9 +92,7 @@
     property.communityName = @"2室1厅  80平";
     property.price = @"234万";
     [self.myArray addObject:property];
-    
-    
-    
+
 	// Do any additional setup after loading the view.
 }
 
@@ -171,14 +173,21 @@
 //    
 //    return contentView;
 //}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert;
+}
+
 #pragma mark -- privateMethod
 -(void)action{
     UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"添加房源", @"停止推广", @"修改限额", nil];
     action.tag = 100;
     [action showInView:self.view];
-
 }
-
+-(void)back:(id) sender{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 #pragma mark -- UIActionSheetDelegate
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
 

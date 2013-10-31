@@ -14,5 +14,5 @@
 }
 @property (strong, nonatomic) UITableView *myTable;
 @property (strong, nonatomic) NSMutableArray *myArray;
-@property (strong, nonatomic) NSMutableArray *selected;
+@property (strong, nonatomic) NSMutableArray *selectedArray;
 @end

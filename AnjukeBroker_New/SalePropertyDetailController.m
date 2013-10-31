@@ -40,13 +40,12 @@
     self.myTable.dataSource = self;
     [self.view addSubview:self.myTable];
     
-    UIButton *action = [UIButton buttonWithType:UIButtonTypeCustom];
-    [action setTitle:@"操作" forState:UIControlStateNormal];
-    [action setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [action addTarget:self action:@selector(action) forControlEvents:UIControlEventTouchDown];
-//    [action setBackgroundColor:[UIColor lightGrayColor]];
-    [action setFrame:CGRectMake(0, 0, 60, 40)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:action];
+    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
+                                   initWithTitle:@"操作"
+                                   style:UIBarButtonItemStyleBordered
+                                   target:self
+                                   action:@selector(action)];
+    self.navigationItem.rightBarButtonItem = editButton;
 
 	// Do any additional setup after loading the view.
 }

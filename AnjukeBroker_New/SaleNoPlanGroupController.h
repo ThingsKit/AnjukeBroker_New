@@ -8,6 +8,6 @@
 
 #import "BaseNoPlanController.h"
 
-@interface SaleNoPlanGroupController : BaseNoPlanController
+@interface SaleNoPlanGroupController : BaseNoPlanController <UIActionSheetDelegate, UIAlertViewDelegate>
 
 @end
