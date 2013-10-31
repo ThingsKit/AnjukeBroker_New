@@ -18,7 +18,7 @@
 
         mutableBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 //        mutableBtn.backgroundColor = [UIColor greenColor];
-        mutableBtn.frame = CGRectMake(5, 5, 40, 40);
+        mutableBtn.frame = CGRectMake(15, 20, 22, 22);
         [self.contentView addSubview:mutableBtn];
     // Initialization code
     }

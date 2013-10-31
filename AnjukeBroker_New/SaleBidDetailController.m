@@ -37,10 +37,10 @@
     [super viewDidLoad];
     [self setTitleViewWithString:@"竞价推广"];
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"操作"
+                                   initWithTitle:@"新增"
                                    style:UIBarButtonItemStyleBordered
                                    target:self
-                                   action:@selector(action)];
+                                   action:@selector(addProperty)];
     self.navigationItem.rightBarButtonItem = editButton;
 
     
@@ -53,36 +53,30 @@
     [tempDic setValue:@"汤臣一品" forKey:@"title"];
     [tempDic setValue:@"3室3厅 125平 200万" forKey:@"price"];
     [tempDic setValue:@"当前排名       今日点击       出价(元)      预算余额(元)" forKey:@"string"];
-    [tempDic setValue:@"   3                  100                  4.0             180.00" forKey:@"stringNum"];
+    [tempDic setValue:@"   3                  100               4.0             180.00" forKey:@"stringNum"];
     [self.myArray addObject:tempDic];
 
     tempDic = [NSMutableDictionary dictionary];
     [tempDic setValue:@"东方城市花园" forKey:@"title"];
     [tempDic setValue:@"1室1厅 33平 100万" forKey:@"price"];
     [tempDic setValue:@"当前排名       今日点击       出价(元)      预算余额(元)" forKey:@"string"];
-    [tempDic setValue:@"   2                  312                  5.0             180.00" forKey:@"stringNum"];
+    [tempDic setValue:@"   2                  312              5.0             180.00" forKey:@"stringNum"];
     [self.myArray addObject:tempDic];
 
     tempDic = [NSMutableDictionary dictionary];
     [tempDic setValue:@"塘桥小区" forKey:@"title"];
     [tempDic setValue:@"4室2厅 78平 300万" forKey:@"price"];
     [tempDic setValue:@"当前排名       今日点击       出价(元)      预算余额(元)" forKey:@"string"];
-    [tempDic setValue:@"   1                  34                  2.0             32.00" forKey:@"stringNum"];
+    [tempDic setValue:@"   1                  34               2.0             32.00" forKey:@"stringNum"];
     [self.myArray addObject:tempDic];
 
     tempDic = [NSMutableDictionary dictionary];
     [tempDic setValue:@"崂山一村" forKey:@"title"];
     [tempDic setValue:@"3室1厅 66平 125万" forKey:@"price"];
     [tempDic setValue:@"当前排名       今日点击       出价(元)      预算余额(元)" forKey:@"string"];
-    [tempDic setValue:@"   1                  56                  2.0             24.00" forKey:@"stringNum"];
+    [tempDic setValue:@"   1                  56              2.0             24.00" forKey:@"stringNum"];
     [self.myArray addObject:tempDic];
 
-    tempDic = [NSMutableDictionary dictionary];
-    [tempDic setValue:@"世纪花园一期" forKey:@"title"];
-    [tempDic setValue:@"2室1厅 67平 123万" forKey:@"price"];
-    [tempDic setValue:@"当前排名       今日点击       出价(元)      预算余额(元)" forKey:@"string"];
-    [tempDic setValue:@"   1                  15                  2.0             15.00" forKey:@"stringNum"];
-    [self.myArray addObject:tempDic];
     
 	// Do any additional setup after loading the view.
 }
@@ -96,12 +90,15 @@
     
     
 }
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.myArray count];
 }
+
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 100.0f;
+    return 114.0f;
 }
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
         static NSString *cellIdent = @"BidPropertyListCell";
@@ -114,6 +111,7 @@
         }
         return cell;
 }
+
 //
 //-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
 //    UILabel *headerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 15)];
@@ -140,11 +138,12 @@
     }else{
     
     }
-
 }
+
 #pragma mark -- PrivateMethod
 -(void)addProperty{
     SalePropertyListController *controller = [[SalePropertyListController alloc] init];
     [self.navigationController pushViewController:controller animated:YES];
 }
+
 @end

@@ -8,6 +8,7 @@
 
 #import "SaleSelectNoPlanController.h"
 #import "BaseNoPlanListCell.h"
+#import "SaleNoPlanListCell.h"
 
 @interface SaleSelectNoPlanController ()
 
@@ -35,26 +36,35 @@
     self.navigationItem.rightBarButtonItem = editButton;
 	// Do any additional setup after loading the view.
 }
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(![self.selectedArray containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
+        [self.selectedArray addObject:[self.myArray objectAtIndex:[indexPath row]]];
 
+    }else{
+        [self.selectedArray removeObject:[self.myArray objectAtIndex:[indexPath row]]];
+
+    }
+    [self.myTable reloadData];
+}
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdent = @"cell";
-    BaseNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
-    if(cell == Nil){
-        cell = [[BaseNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
-        
-        cell.imageView.image = [UIImage imageNamed:@"agent_btn17_normal.png"];
+    SaleNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+    if(cell == nil){
+        cell = [[SaleNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
+        [cell.mutableBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon06_select@2x.png"] forState:UIControlStateNormal];
+        //        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
         [cell setValueForTableCell];
-        //        iamge = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 20, 20)];
-        //        iamge.image = [UIImage imageNamed:@"2leftarrow.png"];
-        //        [cell addSubview:iamge];
     }
     
     if([self.selectedArray containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
-        cell.imageView.image = [UIImage imageNamed:@"agent_btn17_selected.png"];
+        [cell.mutableBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon06_selected@2x.png"] forState:UIControlStateNormal];
+        //        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_selected@2x.png"];
     }else{
-        cell.imageView.image = [UIImage imageNamed:@"agent_btn17_normal.png"];
+        [cell.mutableBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon06_select@2x.png"] forState:UIControlStateNormal];
+        //        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
     }
-    //    cell.textLabel.text = [self.myArray objectAtIndex:[indexPath row]];
+//    [cell.mutableBtn addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchDown];
+    cell.mutableBtn.tag = [indexPath row];
     return cell;
 }
 - (void)didReceiveMemoryWarning

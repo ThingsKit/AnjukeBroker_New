@@ -7,6 +7,7 @@
 //
 
 #import "BidPropertyListCell.h"
+#import "Util_UI.h"
 
 @implementation BidPropertyListCell
 @synthesize title;
@@ -20,24 +21,24 @@
     if (self) {
         title = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 200, 20)];
         title.text = @"汤臣一品";
+        title.textColor = SYSTEM_BLACK;
         title.font = [UIFont systemFontOfSize:16];
-        title.layer.cornerRadius = 6;
         [self.contentView addSubview:title];
         
-        price = [[UILabel alloc] initWithFrame:CGRectMake(20, 30, 200, 20)];
-        price.textColor = [UIColor grayColor];
+        price = [[UILabel alloc] initWithFrame:CGRectMake(20, 35, 200, 20)];
+        price.textColor = [Util_UI colorWithHexString:@"666666"];
         price.text = @"3室2厅 120平 400万";
         price.font = [UIFont systemFontOfSize:12];
         price.layer.cornerRadius = 6;
         [self.contentView addSubview:price];
         
-        UILabel *contentView = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, 320, 50)];
-        [contentView setBackgroundColor:[UIColor lightTextColor]];
+        UILabel *contentView = [[UILabel alloc] initWithFrame:CGRectMake(0, 62, 320, 50)];
+        [contentView setBackgroundColor:[Util_UI colorWithHexString:@"#F9F9F9"]];
         
         string = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 280, 20)];
-        string.textColor = [UIColor grayColor];
+        string.textColor = [Util_UI colorWithHexString:@"#666666"];
         string.text = @"当前排名       今日点击       出价(元)      预算余额(元)";
-        string.font = [UIFont systemFontOfSize:12];
+        string.font = [UIFont systemFontOfSize:11];
         string.layer.cornerRadius = 6;
         [contentView addSubview:string];
         

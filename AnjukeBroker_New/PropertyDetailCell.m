@@ -7,6 +7,7 @@
 //
 
 #import "PropertyDetailCell.h"
+#import "Util_UI.h"
 
 @implementation PropertyDetailCell
 
@@ -17,8 +18,9 @@
 
         title = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 250, 20)];
         title.text = @"最好的房子";
+        title.textColor = [Util_UI colorWithHexString:@"#333333"];
         communityName = [[UILabel alloc] initWithFrame:CGRectMake(20, 45, 150, 20)];
-        communityName.textColor = [UIColor grayColor];
+        communityName.textColor = [Util_UI colorWithHexString:@"#666666"];
         communityName.text = @"明日社区";
         communityName.font = [UIFont systemFontOfSize:12];
         price = [[UILabel alloc] initWithFrame:CGRectMake(210, 45, 150, 20)];
@@ -28,7 +30,7 @@
         
         [self.contentView addSubview:title];
         [self.contentView addSubview:communityName];
-        [self.contentView addSubview:price];
+//        [self.contentView addSubview:price];
     }
     return self;
 }
