@@ -16,5 +16,6 @@
 @property (strong, nonatomic) UILabel *price;
 @property (strong, nonatomic) UILabel *string;
 @property (strong, nonatomic) UILabel *stringNum;
+@property (strong, nonatomic) UILabel *stage;
 -(void)setValueForCellByDictinary:(NSDictionary *) dic;
 @end

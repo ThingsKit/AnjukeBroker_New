@@ -33,7 +33,7 @@
         title = [[UILabel alloc] initWithFrame:CGRectMake(27, 10, 250, 20)];
         title.text = @"最好的房子";
         title.font = [UIFont systemFontOfSize:16];
-        communityName = [[UILabel alloc] initWithFrame:CGRectMake(20, 45, 150, 20)];
+        communityName = [[UILabel alloc] initWithFrame:CGRectMake(27, 45, 150, 20)];
         communityName.textColor = [Util_UI colorWithHexString:@"#666666"];
         communityName.text = @"明日社区";
         communityName.font = [UIFont systemFontOfSize:12];
