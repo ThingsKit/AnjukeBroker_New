@@ -8,7 +8,7 @@
 
 #import "RTListCell.h"
 
-#define PROPERTY_GROUP_CELL 75
+#define PROPERTY_GROUP_CELL 65
 
 @interface AnjukePropertyGroupCell : RTListCell
 
