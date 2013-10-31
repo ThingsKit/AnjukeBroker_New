@@ -13,7 +13,10 @@
 
 @interface RTListCell : UITableViewCell
 
+@property int selectRow; //当前此cell所在row
+
 - (void)initUI; // init UI for cell reuse
 - (BOOL)configureCell:(id)dataModel; //传递cell数据
+- (BOOL)configureCell:(id)dataModel withIndex:(int)index; //传递cell数据_with Index
 
 @end

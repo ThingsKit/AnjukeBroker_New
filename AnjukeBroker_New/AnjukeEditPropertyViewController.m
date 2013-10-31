@@ -14,6 +14,7 @@
 #import "Util_UI.h"
 #import "PropertyGroupListViewController.h"
 #import "PropertyBigImageViewController.h"
+#import "BrokerLineView.h"
 
 #define photoHeaderH 100
 #define photoHeaderH_RecNum 100 +50

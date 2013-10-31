@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BrokerLineView.h"
 
 #define STATUS_BAR_H 20
 #define NAV_BAT_H 44
