@@ -96,6 +96,7 @@
 		B76E5988181E5AD1005B6A8C /* BaseNoPlanListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B76E5987181E5AD1005B6A8C /* BaseNoPlanListCell.m */; };
 		B7E38A00182238CF002C6E8A /* anjuke_icon06_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E389FE182238CF002C6E8A /* anjuke_icon06_select@2x.png */; };
 		B7E38A01182238CF002C6E8A /* anjuke_icon06_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E389FF182238CF002C6E8A /* anjuke_icon06_selected@2x.png */; };
+		B7E38A0A18225FEC002C6E8A /* anjuke_icon07_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E38A0918225FEC002C6E8A /* anjuke_icon07_arrow@2x.png */; };
 		B7E803ED1820DD8000775C6F /* SaleSelectNoPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E803EC1820DD8000775C6F /* SaleSelectNoPlanController.m */; };
 		B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E803EF1820E14000775C6F /* SaleNoPlanGroupController.m */; };
 		B7E803F31820F24400775C6F /* SaleNoPlanListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E803F21820F24400775C6F /* SaleNoPlanListCell.m */; };
@@ -268,6 +269,7 @@
 		B76E5987181E5AD1005B6A8C /* BaseNoPlanListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNoPlanListCell.m; sourceTree = "<group>"; };
 		B7E389FE182238CF002C6E8A /* anjuke_icon06_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon06_select@2x.png"; sourceTree = "<group>"; };
 		B7E389FF182238CF002C6E8A /* anjuke_icon06_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon06_selected@2x.png"; sourceTree = "<group>"; };
+		B7E38A0918225FEC002C6E8A /* anjuke_icon07_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon07_arrow@2x.png"; sourceTree = "<group>"; };
 		B7E803EB1820DD8000775C6F /* SaleSelectNoPlanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleSelectNoPlanController.h; sourceTree = "<group>"; };
 		B7E803EC1820DD8000775C6F /* SaleSelectNoPlanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaleSelectNoPlanController.m; sourceTree = "<group>"; };
 		B7E803EE1820E14000775C6F /* SaleNoPlanGroupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleNoPlanGroupController.h; sourceTree = "<group>"; };
@@ -409,6 +411,7 @@
 		972C10351815053100552C9B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B7E38A0918225FEC002C6E8A /* anjuke_icon07_arrow@2x.png */,
 				9795838318224F35005EA48A /* TabMore_normal@2x.png */,
 				9795837118224ABF005EA48A /* TabAnjuke_normal@2x.png */,
 				9795837318224ABF005EA48A /* TabHaozu_normal@2x.png */,
@@ -834,13 +837,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				9795838418224F35005EA48A /* TabMore_normal@2x.png in Resources */,
-				B76E5983181E5A3F005B6A8C /* agent_btn17_normal@2x.png in Resources */,
 				9795837A18224ABF005EA48A /* TabAnjuke_normal@2x.png in Resources */,
 				9795837C18224ABF005EA48A /* TabHaozu_normal@2x.png in Resources */,
 				9741055F180CDFE0004DAE95 /* InfoPlist.strings in Resources */,
 				9741056A180CDFE0004DAE95 /* Images.xcassets in Resources */,
 				B7E38A01182238CF002C6E8A /* anjuke_icon06_selected@2x.png in Resources */,
 				B7E38A00182238CF002C6E8A /* anjuke_icon06_select@2x.png in Resources */,
+				B7E38A0A18225FEC002C6E8A /* anjuke_icon07_arrow@2x.png in Resources */,
 				9795837E18224ABF005EA48A /* TabHome_normal@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,6 +14,7 @@
 @synthesize price;
 @synthesize string;
 @synthesize stringNum;
+@synthesize stage;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -45,10 +46,16 @@
         stringNum = [[UILabel alloc] initWithFrame:CGRectMake(20, 25, 280, 20)];
         stringNum.text = @"   1                  10                  2.0             18.00";
         stringNum.font = [UIFont systemFontOfSize:12];
-        stringNum.layer.cornerRadius = 6;
         [contentView addSubview:stringNum];
         [self.contentView addSubview:contentView];
-
+        
+        stage = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 40, 30)];
+        stage.backgroundColor = [Util_UI colorWithHexString:@"#F9F9F9"];
+        stage.text = @"   3";
+        stage.textColor = [UIColor redColor];
+        stage.font = [UIFont systemFontOfSize:16];
+        [contentView addSubview:stage];
+        [self.contentView addSubview:contentView];
         // Initialization code
     }
     return self;
