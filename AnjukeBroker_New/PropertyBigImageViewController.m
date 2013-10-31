@@ -7,6 +7,7 @@
 //
 
 #import "PropertyBigImageViewController.h"
+#import "Util_UI.h"
 
 @interface PropertyBigImageViewController ()
 
@@ -43,14 +44,8 @@
     
 }
 
-- (void)initDisplay {
-    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    backBtn.frame = ITEM_BTN_FRAME;
-    [backBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [backBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [backBtn addTarget:self action:@selector(doBack) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIBarButtonItem *rButton = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+- (void)initDisplay {    
+    UIBarButtonItem *rButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(doBack)];
     self.navigationItem.leftBarButtonItem = rButton;
     
     UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight])];
@@ -62,16 +57,8 @@
     self.contentImgView = img;
     [self.view addSubview:img];
     
-    CGFloat btnW = 30;
-    UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    deleteBtn.frame = CGRectMake([self windowWidth] - btnW*3, btnW, btnW*2, btnW);
-    deleteBtn.layer.cornerRadius = 5;
-    deleteBtn.backgroundColor = [UIColor lightGrayColor];
-    [deleteBtn setTitle:@"删" forState:UIControlStateNormal];
-//    deleteBtn.layer.borderColor = [UIColor lightGrayColor].CGColor;
-//    deleteBtn.layer.borderWidth = 1;
-    [deleteBtn addTarget:self action:@selector(doDelete) forControlEvents:UIControlEventTouchUpInside];
-    [img addSubview:deleteBtn];
+    UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(doDelete)];
+    self.navigationItem.rightBarButtonItem = deleteItem;
 }
 
 - (void)doBack {

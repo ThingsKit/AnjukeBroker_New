@@ -11,6 +11,7 @@
 #define SYSTEM_BLUE [Util_UI colorWithHexString:@"2087fc"]
 #define SYSTEM_BLACK [Util_UI colorWithHexString:@"333333"]
 #define SYSTEM_LIGHT_GRAY [Util_UI colorWithHexString:@"999999"]
+#define SYSTEM_LIGHT_GRAY_BG [Util_UI colorWithHexString:@"EFEFF4"]
 
 @interface Util_UI : NSObject
 
