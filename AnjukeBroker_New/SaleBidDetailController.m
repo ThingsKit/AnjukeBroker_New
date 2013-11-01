@@ -132,11 +132,13 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 0){
         AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+        controller.backType = RTSelectorBackTypeDismiss;
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
         nav.navigationBar.translucent = NO;
         [self presentViewController:nav animated:YES completion:nil];
     }else if (buttonIndex == 1){
         PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
+        controller.backType = RTSelectorBackTypeDismiss;
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
         nav.navigationBar.translucent = NO;
         [self presentViewController:nav animated:YES completion:nil];

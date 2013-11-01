@@ -15,6 +15,7 @@
 
 @implementation RTViewController
 @synthesize backType;
+@synthesize isHome;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -31,7 +32,7 @@
 	// Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
-    
+    [self addBackButton];
     [self initModel];
     [self initDisplay];
 
@@ -57,6 +58,10 @@
 
 - (void)addBackButton {    
     //save btn
+    if (self.isHome) {
+        return;
+    }
+    
     UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     saveBtn.frame = ITEM_BTN_FRAME;
     [saveBtn setTitle:@"返回" forState:UIControlStateNormal];
@@ -64,7 +69,7 @@
     [saveBtn addTarget:self action:@selector(doBack:) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem *rButton = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
-    self.navigationItem.rightBarButtonItem = rButton;
+    self.navigationItem.leftBarButtonItem = rButton;
 }
 
 - (void)doBack:(id)sender {

@@ -32,6 +32,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.backType = RTSelectorBackTypePopToRoot;
         self.myArray = [NSMutableArray array];
         fixedStatus = @"推广中     房源数：3套";
         // Custom initialization
@@ -49,12 +50,12 @@
                                     target:self
                                     action:@selector(action)];
     self.navigationItem.rightBarButtonItem = editButton;
-    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"返回"
-                                   style:UIBarButtonItemStyleBordered
-                                   target:self
-                                action:@selector(back:)];
-    self.navigationItem.leftBarButtonItem = backBtn;
+//    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc]
+//                                   initWithTitle:@"返回"
+//                                   style:UIBarButtonItemStyleBordered
+//                                   target:self
+//                                action:@selector(back:)];
+//    self.navigationItem.leftBarButtonItem = backBtn;
     self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
@@ -190,15 +191,14 @@
     action.tag = 100;
     [action showInView:self.view];
 }
--(void)back:(id) sender{
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
+
 #pragma mark -- UIActionSheetDelegate
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
 
     if(actionSheet.tag == 100){
         if(buttonIndex == 0){
             SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
+            controller.backType = RTSelectorBackTypeDismiss;
             UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:controller];
             navi.navigationBar.translucent = NO;
             [self presentViewController:navi animated:YES completion:nil];
@@ -209,6 +209,7 @@
             [self.myTable reloadData];
         }else if (buttonIndex == 2){
             ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
+            controller.backType = RTSelectorBackTypeDismiss;
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
             nav.navigationBar.translucent = NO;
             [self presentViewController:nav animated:YES completion:nil];
@@ -217,6 +218,7 @@
     }else{
         if(buttonIndex == 0){
             AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+            controller.backType = RTSelectorBackTypeDismiss;
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
             nav.navigationBar.translucent = NO;
             [self presentViewController:nav animated:YES completion:nil];
@@ -224,6 +226,7 @@
 //            [self.navigationController popToRootViewControllerAnimated:YES];
         }else if (buttonIndex == 2){
             PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
+            controller.backType = RTSelectorBackTypeDismiss;
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
             nav.navigationBar.translucent = NO;
             [self presentViewController:nav animated:YES completion:nil];
