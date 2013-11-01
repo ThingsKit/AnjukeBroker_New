@@ -13,6 +13,7 @@
 #import "SalePropertyListController.h"
 #import "AnjukeEditPropertyViewController.h"
 #import "SaleBidPlanController.h"
+#import "PropertyAuctionViewController.h"
 
 @interface SaleBidDetailController ()
 
@@ -101,11 +102,13 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
-        static NSString *cellIdent = @"BidPropertyListCell";
-        BidPropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+    static NSString *cellIdent = @"BidPropertyListCell";
+    BidPropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+
         if(cell == Nil){
             cell = [[NSClassFromString(@"BidPropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BidPropertyListCell"];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.selectionStyle = 0;
+            cell.accessoryType = UITableViewCellAccessoryNone;
             [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
 //            [cell setValueForCellByObject:[self.myArray objectAtIndex:[indexPath row]]];
         }
@@ -131,7 +134,7 @@
         AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
     }else if (buttonIndex == 1){
-        SaleBidPlanController *controller = [[SaleBidPlanController alloc] init];
+        PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
     }else if (buttonIndex == 2){
     

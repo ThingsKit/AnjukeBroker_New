@@ -14,6 +14,7 @@
 //    id _target;
 }
 @property (strong, nonatomic) UIButton *mutableBtn;
+@property (strong, nonatomic) UIImageView *btnImage;
 //@property (assign, nonatomic) SEL selecter;
 //@property (strong, nonatomic) id target;
 //- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier target:(id) target action:(SEL) selecte;

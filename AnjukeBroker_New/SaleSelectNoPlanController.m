@@ -51,19 +51,16 @@
     SaleNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == nil){
         cell = [[SaleNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
-        [cell.mutableBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon06_select@2x.png"] forState:UIControlStateNormal];
-        //        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
+        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
         [cell setValueForTableCell];
     }
     
     if([self.selectedArray containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
-        [cell.mutableBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon06_selected@2x.png"] forState:UIControlStateNormal];
-        //        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_selected@2x.png"];
+        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_selected@2x.png"];
     }else{
-        [cell.mutableBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon06_select@2x.png"] forState:UIControlStateNormal];
-        //        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
+        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
     }
-//    [cell.mutableBtn addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchDown];
+    [cell.mutableBtn addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchDown];
     cell.mutableBtn.tag = [indexPath row];
     return cell;
 }
@@ -75,5 +72,15 @@
 #pragma mark -- PrivateMethod
 -(void)action{
     [self.navigationController popViewControllerAnimated:YES];
+}
+-(void)clickButton:(id) sender{
+    UIButton *but = (UIButton *)sender;
+    if(![self.selectedArray containsObject:[self.myArray objectAtIndex:but.tag]]){
+        [self.selectedArray addObject:[self.myArray objectAtIndex:but.tag]];
+        
+    }else{
+        [self.selectedArray removeObject:[self.myArray objectAtIndex:but.tag]];
+    }
+    [self.myTable reloadData];
 }
 @end
