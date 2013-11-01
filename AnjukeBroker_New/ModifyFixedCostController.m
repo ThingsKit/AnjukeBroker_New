@@ -29,8 +29,8 @@
     [super viewDidLoad];
     [self setTitleViewWithString:@"调整限额"];
     UILabel *content = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-    content.layer.borderWidth = 1;
-    content.layer.borderColor = [Util_UI colorWithHexString:@"#666666"].CGColor;
+    content.layer.borderWidth = 2;
+    content.layer.borderColor = [Util_UI colorWithHexString:@"#F9F9F9"].CGColor;
     
     UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 50, 40)];
     tips.text = @"限额";
