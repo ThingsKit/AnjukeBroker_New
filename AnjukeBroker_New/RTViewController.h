@@ -18,8 +18,8 @@
 #define ITEM_BTN_FRAME CGRectMake(0, 0, 55, 31)
 
 typedef enum {
-    RTSelectorBackTypeDismiss = 0,
-    RTSelectorBackTypePopBack,
+    RTSelectorBackTypePopBack = 0,
+    RTSelectorBackTypeDismiss,
     RTSelectorBackTypePopToRoot
 } RTSelectorBackType;
 
