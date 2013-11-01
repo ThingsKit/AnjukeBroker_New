@@ -13,6 +13,7 @@
 #import "MoreViewController.h"
 
 #define tabItemInsertsMake UIEdgeInsetsMake(0, 0, 0, 0)
+#define NAVITATION_BAR_TINITCOLOR [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1]
 
 @interface TabBarViewController ()
 
@@ -40,24 +41,28 @@
         HomeViewController *hv = [[HomeViewController alloc] init];
         self.page1 = hv;
         UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:self.page1];
-        [controllerArrays addObject:nav1];
+        nav1.navigationBar.barTintColor = NAVITATION_BAR_TINITCOLOR;
         nav1.navigationBar.translucent = NO;
+        [controllerArrays addObject:nav1];
         
         AnjukeHomeViewController *av = [[AnjukeHomeViewController alloc] init];
         self.page2 = av;
         UINavigationController *nav2 = [[UINavigationController alloc] initWithRootViewController:self.page2];
+        nav2.navigationBar.barTintColor = NAVITATION_BAR_TINITCOLOR;
         nav2.navigationBar.translucent = NO;
         [controllerArrays addObject:nav2];
         
         HaozuHomeViewController *hhv = [[HaozuHomeViewController alloc] init];
         self.page3 = hhv;
         UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:self.page3];
+        nav3.navigationBar.barTintColor = NAVITATION_BAR_TINITCOLOR;
         nav3.navigationBar.translucent = NO;
         [controllerArrays addObject:nav3];
         
         MoreViewController *mv = [[MoreViewController alloc] init];
         self.page4 = mv;
         UINavigationController *nav4 = [[UINavigationController alloc] initWithRootViewController:self.page4];
+        nav4.navigationBar.barTintColor = NAVITATION_BAR_TINITCOLOR;
         nav4.navigationBar.translucent = NO;
         [controllerArrays addObject:nav4];
         
