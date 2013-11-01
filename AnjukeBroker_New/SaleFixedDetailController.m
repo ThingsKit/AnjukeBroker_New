@@ -16,6 +16,8 @@
 #import "AnjukeEditPropertyViewController.h"
 #import "SaleBidPlanController.h"
 #import "SaleSelectNoPlanController.h"
+#import "PropertyAuctionViewController.h"
+
 @interface SaleFixedDetailController ()
 {
     NSString *fixedStatus;
@@ -197,25 +199,34 @@
     if(actionSheet.tag == 100){
         if(buttonIndex == 0){
             SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
-            [self.navigationController pushViewController:controller animated:YES];
+            UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:controller];
+            navi.navigationBar.translucent = NO;
+            [self presentViewController:navi animated:YES completion:nil];
+//            [self.navigationController pushViewController:controller animated:YES];
             
         }else if (buttonIndex == 1){
             fixedStatus = @"已停止推广     房源数：3套";
             [self.myTable reloadData];
         }else if (buttonIndex == 2){
             ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
-            [self.navigationController pushViewController:controller animated:YES];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+            nav.navigationBar.translucent = NO;
+            [self presentViewController:nav animated:YES completion:nil];
+//            [self.navigationController pushViewController:controller animated:YES];
         }
     }else{
         if(buttonIndex == 0){
             AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
-            [self.navigationController pushViewController:controller animated:YES];
-            
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+            nav.navigationBar.translucent = NO;
+            [self presentViewController:nav animated:YES completion:nil];
         }else if (buttonIndex == 1){
 //            [self.navigationController popToRootViewControllerAnimated:YES];
         }else if (buttonIndex == 2){
-            SaleBidPlanController *controller = [[SaleBidPlanController alloc] init];
-            [self.navigationController pushViewController:controller animated:YES];
+            PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+            nav.navigationBar.translucent = NO;
+            [self presentViewController:nav animated:YES completion:nil];
         }
     }
 }

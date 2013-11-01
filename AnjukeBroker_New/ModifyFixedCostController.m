@@ -7,6 +7,7 @@
 //
 
 #import "ModifyFixedCostController.h"
+#import "Util_UI.h"
 
 @interface ModifyFixedCostController ()
 
@@ -27,9 +28,9 @@
 {
     [super viewDidLoad];
     [self setTitleViewWithString:@"调整限额"];
-    UILabel *content = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 320, 40)];
+    UILabel *content = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
     content.layer.borderWidth = 1;
-    content.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    content.layer.borderColor = [Util_UI colorWithHexString:@"#666666"].CGColor;
     
     UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 50, 40)];
     tips.text = @"限额";
@@ -49,7 +50,7 @@
     [self.view addSubview:content];
     
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"操作"
+                                   initWithTitle:@"确定"
                                    style:UIBarButtonItemStyleBordered
                                    target:self
                                    action:@selector(action)];
@@ -65,6 +66,7 @@
 }
 #pragma mark -- privateMethods
 -(void)action{
-    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

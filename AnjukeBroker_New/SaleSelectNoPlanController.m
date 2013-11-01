@@ -34,6 +34,8 @@
                                    target:self
                                    action:@selector(action)];
     self.navigationItem.rightBarButtonItem = editButton;
+    
+    self.myTable.frame = FRAME_WITH_NAV;
 	// Do any additional setup after loading the view.
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -71,7 +73,8 @@
 }
 #pragma mark -- PrivateMethod
 -(void)action{
-    [self.navigationController popViewControllerAnimated:YES];
+//    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)clickButton:(id) sender{
     UIButton *but = (UIButton *)sender;

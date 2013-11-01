@@ -132,10 +132,14 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 0){
         AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
-        [self.navigationController pushViewController:controller animated:YES];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+        nav.navigationBar.translucent = NO;
+        [self presentViewController:nav animated:YES completion:nil];
     }else if (buttonIndex == 1){
         PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
-        [self.navigationController pushViewController:controller animated:YES];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+        nav.navigationBar.translucent = NO;
+        [self presentViewController:nav animated:YES completion:nil];
     }else if (buttonIndex == 2){
     
     }else{
@@ -146,7 +150,9 @@
 #pragma mark -- PrivateMethod
 -(void)addProperty{
     SalePropertyListController *controller = [[SalePropertyListController alloc] init];
-    [self.navigationController pushViewController:controller animated:YES];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+    nav.navigationBar.translucent = NO;
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 @end
