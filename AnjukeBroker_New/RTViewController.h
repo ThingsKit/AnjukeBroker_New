@@ -26,6 +26,7 @@ typedef enum {
 @interface RTViewController : UIViewController
 
 @property (nonatomic, assign) RTSelectorBackType backType;
+@property BOOL isHome;//判断是否是首页 是首页没有返回键
 
 - (void)setTitleViewWithString:(NSString *)titleStr;
 - (void)initModel;

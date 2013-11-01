@@ -39,6 +39,7 @@
                 
         //add four nav controllers
         HomeViewController *hv = [[HomeViewController alloc] init];
+        hv.isHome = YES;
         self.page1 = hv;
         UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:self.page1];
         nav1.navigationBar.barTintColor = NAVITATION_BAR_TINITCOLOR;
@@ -47,6 +48,7 @@
         
         AnjukeHomeViewController *av = [[AnjukeHomeViewController alloc] init];
         self.page2 = av;
+        av.isHome = YES;
         UINavigationController *nav2 = [[UINavigationController alloc] initWithRootViewController:self.page2];
         nav2.navigationBar.barTintColor = NAVITATION_BAR_TINITCOLOR;
         nav2.navigationBar.translucent = NO;
@@ -54,6 +56,7 @@
         
         HaozuHomeViewController *hhv = [[HaozuHomeViewController alloc] init];
         self.page3 = hhv;
+        hhv.isHome = YES;
         UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:self.page3];
         nav3.navigationBar.barTintColor = NAVITATION_BAR_TINITCOLOR;
         nav3.navigationBar.translucent = NO;
@@ -61,6 +64,7 @@
         
         MoreViewController *mv = [[MoreViewController alloc] init];
         self.page4 = mv;
+        mv.isHome = YES;
         UINavigationController *nav4 = [[UINavigationController alloc] initWithRootViewController:self.page4];
         nav4.navigationBar.barTintColor = NAVITATION_BAR_TINITCOLOR;
         nav4.navigationBar.translucent = NO;

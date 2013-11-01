@@ -19,6 +19,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.backType = RTSelectorBackTypeDismiss;
         // Custom initialization
     }
     return self;

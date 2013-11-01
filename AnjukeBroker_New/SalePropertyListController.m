@@ -24,6 +24,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.backType = RTSelectorBackTypeDismiss;
         self.myArray = [NSMutableArray array];
         // Custom initialization
     }
@@ -34,12 +35,6 @@
 {
     [super viewDidLoad];
     [self setTitleViewWithString:@"选择房源"];
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"确定"
-                                   style:UIBarButtonItemStyleBordered
-                                   target:self
-                                   action:@selector(action)];
-    self.navigationItem.rightBarButtonItem = editButton;
     
     self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.myTable.delegate = self;
@@ -81,6 +76,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
+    controller.backType = RTSelectorBackTypeDismiss;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
     nav.navigationBar.translucent = NO;
     [self presentViewController:nav animated:YES completion:nil];
@@ -109,7 +105,5 @@
     // Dispose of any resources that can be recreated.
 }
 #pragma mark --PrivateMethod
--(void)action{
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
+
 @end
