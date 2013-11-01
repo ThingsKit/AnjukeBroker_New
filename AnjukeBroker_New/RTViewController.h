@@ -27,6 +27,7 @@ typedef enum {
 
 @property (nonatomic, assign) RTSelectorBackType backType;
 @property BOOL isHome;//判断是否是首页 是首页没有返回键
+@property (nonatomic, assign) id delegateVC;
 
 - (void)setTitleViewWithString:(NSString *)titleStr;
 - (void)initModel;
