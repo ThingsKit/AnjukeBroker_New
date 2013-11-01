@@ -83,6 +83,7 @@
             fixedStatus.layer.cornerRadius = 6;
             fixedStatus.text = @"推广中";
             [cell.contentView addSubview:fixedStatus];
+            
             UILabel *fixed = [[UILabel alloc] initWithFrame:CGRectMake(50, 35, 250, 20)];
             fixed.text = @"10                              10";
             [cell.contentView addSubview:fixed];

@@ -15,6 +15,7 @@
 @synthesize string;
 @synthesize stringNum;
 @synthesize stage;
+@synthesize statusImg;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -33,6 +34,10 @@
         price.layer.cornerRadius = 6;
         [self.contentView addSubview:price];
         
+        statusImg = [[UIImageView alloc] initWithFrame:CGRectMake(295, 26, 8, 13)];
+        statusImg.image = [UIImage imageNamed:@"anjuke_icon07_arrow@2x.png"];
+        [self.contentView addSubview:statusImg];
+        
         UILabel *contentView = [[UILabel alloc] initWithFrame:CGRectMake(0, 62, 320, 50)];
         [contentView setBackgroundColor:[Util_UI colorWithHexString:@"#F9F9F9"]];
         
@@ -48,7 +53,7 @@
         stringNum.font = [UIFont systemFontOfSize:12];
         [contentView addSubview:stringNum];
         [self.contentView addSubview:contentView];
-        
+
         stage = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 40, 30)];
         stage.backgroundColor = [Util_UI colorWithHexString:@"#F9F9F9"];
         stage.text = @"   3";

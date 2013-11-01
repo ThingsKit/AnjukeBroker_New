@@ -57,7 +57,7 @@
     dic = [[NSMutableDictionary alloc] init];
     [dic setValue:@"待推广房源" forKey:@"title"];
     [dic setValue:@"房源数：10套" forKey:@"detail"];
-    [dic setValue:@"" forKey:@"status"];
+    [dic setValue:@"3" forKey:@"status"];
     [dic setValue:@"3" forKey:@"type"];
     [self.myArray addObject:dic];
     

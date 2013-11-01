@@ -62,17 +62,14 @@
     SaleNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == nil){
         cell = [[SaleNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
-        [cell.mutableBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon06_select@2x.png"] forState:UIControlStateNormal];
-//        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
+        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
         [cell setValueForTableCell];
     }
     
     if([self.selectedArray containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
-        [cell.mutableBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon06_selected@2x.png"] forState:UIControlStateNormal];
-//        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_selected@2x.png"];
+        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_selected@2x.png"];
     }else{
-        [cell.mutableBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon06_select@2x.png"] forState:UIControlStateNormal];
-//        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
+        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
     }
     [cell.mutableBtn addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchDown];
     cell.mutableBtn.tag = [indexPath row];
@@ -83,10 +80,6 @@
     UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"编辑房源", @"删除房源", nil];
     [action showInView:self.view];
 }
-
-//-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-//    return 55.0;
-//}
 
 -(void)clickButton:(id) sender{
     UIButton *but = (UIButton *)sender;
@@ -99,15 +92,12 @@
     [self.myTable reloadData];
 }
 
-//-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-//    return contentView;
-//}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 #pragma mark -- PrivateMethod
 -(void)mutableAction:(id) sender{
     UIButton *tempBtn = (UIButton *)sender;
@@ -156,6 +146,7 @@
     
     }
 }
+
 #pragma mark --UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(buttonIndex == 1){

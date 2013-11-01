@@ -10,41 +10,27 @@
 
 @implementation SaleNoPlanListCell
 @synthesize mutableBtn;
+@synthesize btnImage;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-
         mutableBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        mutableBtn.backgroundColor = [UIColor greenColor];
-        mutableBtn.frame = CGRectMake(15, 20, 22, 22);
+        mutableBtn.frame = CGRectMake(0, 0, 48, 67);
+        
+        btnImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, 22, 22, 22)];
+        [mutableBtn addSubview:btnImage];
+        
         [self.contentView addSubview:mutableBtn];
     // Initialization code
     }
     return self;
 }
 
-//-(void)callBack{
-//    
-//    if (_target != nil) {
-//        if ([_target respondsToSelector:_selecter]) {
-//            [_target performSelectorOnMainThread:_selecter withObject:self. waitUntilDone:YES];
-//        }
-//    }
-//}
-
 -(void)clickEvent:(SEL) selecter target:(id) target indexpath:(NSIndexPath *) indexpath{
 
 
 }
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end
