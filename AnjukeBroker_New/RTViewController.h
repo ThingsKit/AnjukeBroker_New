@@ -17,7 +17,15 @@
 
 #define ITEM_BTN_FRAME CGRectMake(0, 0, 55, 31)
 
+typedef enum {
+    RTSelectorBackTypeDismiss = 0,
+    RTSelectorBackTypePopBack,
+    RTSelectorBackTypePopToRoot
+} RTSelectorBackType;
+
 @interface RTViewController : UIViewController
+
+@property (nonatomic, assign) RTSelectorBackType backType;
 
 - (void)setTitleViewWithString:(NSString *)titleStr;
 - (void)initModel;
@@ -26,5 +34,8 @@
 - (NSInteger)windowHeight; //UIWindow高度，宏_Frame使用，精确控制公用Frame
 - (NSInteger)windowWidth;
 - (NSInteger)currentViewHeight;  //******当前UIViewController.view的高度，各继承页面UI组件使用
+
+- (void)addBackButtonWithType:(RTSelectorBackType *)type;
+- (void)doBack:(id)sender;
 
 @end
