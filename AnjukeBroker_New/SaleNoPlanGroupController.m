@@ -131,6 +131,7 @@
         return ;
     }
     SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
+    controller.backType = RTSelectorBackTypePopToRoot;
     [self.navigationController pushViewController:controller animated:YES];
 }
 

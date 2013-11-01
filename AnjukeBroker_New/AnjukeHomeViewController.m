@@ -70,22 +70,22 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
     
-    if([indexPath row] == 1)
+    if([indexPath row] == 0)
     {
-        SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
-        [controller setHidesBottomBarWhenPushed:YES];
-        [self.navigationController pushViewController:controller animated:YES];
-    }else if ([indexPath row] == 0){
         SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
+        controller.backType = RTSelectorBackTypePopToRoot;
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
-    
+    }else if ([indexPath row] == 1){
+        SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
+        controller.backType = RTSelectorBackTypePopToRoot;
+        [controller setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:controller animated:YES];
     }else{
         SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     }
-    
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.myArray count];
