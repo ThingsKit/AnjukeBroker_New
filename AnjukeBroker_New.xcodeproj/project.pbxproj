@@ -75,6 +75,7 @@
 		97DED8A7182343E500D0B82A /* anjuke_icon08_attention@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97DED8A4182343E500D0B82A /* anjuke_icon08_attention@2x.png */; };
 		97DED8A8182343E500D0B82A /* anjuke_icon09_stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97DED8A5182343E500D0B82A /* anjuke_icon09_stop@2x.png */; };
 		97DED8A9182343E500D0B82A /* anjuke_icon09_woking@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97DED8A6182343E500D0B82A /* anjuke_icon09_woking@2x.png */; };
+		97DED8AD18234BB100D0B82A /* MoreListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97DED8AC18234BB100D0B82A /* MoreListCell.m */; };
 		97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */; };
 		B769E441181F45AF00A2FF50 /* BaseFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E440181F45AF00A2FF50 /* BaseFixedDetailController.m */; };
 		B769E445181F462C00A2FF50 /* SaleFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E444181F462C00A2FF50 /* SaleFixedDetailController.m */; };
@@ -229,6 +230,8 @@
 		97DED8A4182343E500D0B82A /* anjuke_icon08_attention@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon08_attention@2x.png"; sourceTree = "<group>"; };
 		97DED8A5182343E500D0B82A /* anjuke_icon09_stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon09_stop@2x.png"; sourceTree = "<group>"; };
 		97DED8A6182343E500D0B82A /* anjuke_icon09_woking@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon09_woking@2x.png"; sourceTree = "<group>"; };
+		97DED8AB18234BB100D0B82A /* MoreListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreListCell.h; sourceTree = "<group>"; };
+		97DED8AC18234BB100D0B82A /* MoreListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreListCell.m; sourceTree = "<group>"; };
 		97FD0B6018157BEC0072FB5E /* PropertyDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDataManager.h; sourceTree = "<group>"; };
 		97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDataManager.m; sourceTree = "<group>"; };
 		B769E43F181F45AF00A2FF50 /* BaseFixedDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseFixedDetailController.h; sourceTree = "<group>"; };
@@ -393,6 +396,8 @@
 			children = (
 				972C10301814FDC400552C9B /* MoreViewController.h */,
 				972C10311814FDC400552C9B /* MoreViewController.m */,
+				97DED8AB18234BB100D0B82A /* MoreListCell.h */,
+				97DED8AC18234BB100D0B82A /* MoreListCell.m */,
 			);
 			name = "更多";
 			sourceTree = "<group>";
@@ -934,6 +939,7 @@
 				97958362182229AF005EA48A /* Util_TEXT.m in Sources */,
 				97B422571820D9A600A2E9E6 /* PropertyGroupListViewController.m in Sources */,
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
+				97DED8AD18234BB100D0B82A /* MoreListCell.m in Sources */,
 				B76E5977181E5676005B6A8C /* BaseNoPlanController.m in Sources */,
 				B76E5988181E5AD1005B6A8C /* BaseNoPlanListCell.m in Sources */,
 				974E5C7F181E417F000246D1 /* RTListCell.m in Sources */,
