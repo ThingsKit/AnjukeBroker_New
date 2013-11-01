@@ -14,6 +14,7 @@
 @end
 
 @implementation RTViewController
+@synthesize backType;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,7 +43,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - private method
+#pragma mark - private UI method
 
 - (void)setTitleViewWithString:(NSString *)titleStr { //设置标题栏
     UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
@@ -52,6 +53,32 @@
     lb.textAlignment = NSTextAlignmentCenter;
     lb.textColor = [Util_UI colorWithHexString:@"000000"];
     self.navigationItem.titleView = lb;
+}
+
+- (void)addBackButtonWithType:(RTSelectorBackType *)type {
+    self.backType = *(type);
+    
+    //save btn
+    UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    saveBtn.frame = ITEM_BTN_FRAME;
+    [saveBtn setTitle:@"返回" forState:UIControlStateNormal];
+    [saveBtn setTitleColor:SYSTEM_BLUE forState:UIControlStateNormal];
+    [saveBtn addTarget:self action:@selector(doBack:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *rButton = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
+    self.navigationItem.rightBarButtonItem = rButton;
+}
+
+- (void)doBack:(id)sender {
+    if (self.backType == RTSelectorBackTypeDismiss) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    else if (self.backType == RTSelectorBackTypePopBack) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else if (self.backType == RTSelectorBackTypePopToRoot) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
 }
 
 - (void)initModel {
