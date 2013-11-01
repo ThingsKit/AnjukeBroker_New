@@ -153,6 +153,7 @@
 #pragma mark -- PrivateMethod
 -(void)addProperty{
     SalePropertyListController *controller = [[SalePropertyListController alloc] init];
+    controller.backType = RTSelectorBackTypeDismiss;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
     nav.navigationBar.translucent = NO;
     [self presentViewController:nav animated:YES completion:nil];
