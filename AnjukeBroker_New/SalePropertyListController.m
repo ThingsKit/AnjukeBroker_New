@@ -24,7 +24,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.backType = RTSelectorBackTypeDismiss;
         self.myArray = [NSMutableArray array];
         // Custom initialization
     }

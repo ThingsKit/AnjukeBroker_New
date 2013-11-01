@@ -32,7 +32,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.backType = RTSelectorBackTypePopToRoot;
         self.myArray = [NSMutableArray array];
         fixedStatus = @"推广中     房源数：3套";
         // Custom initialization
