@@ -10,6 +10,7 @@
 #import "PropertyObject.h"
 #import "PropertyDetailCell.h"
 #import "SaleBidPlanController.h"
+#import "PropertyAuctionViewController.h"
 
 @interface SalePropertyListController ()
 
@@ -33,6 +34,12 @@
 {
     [super viewDidLoad];
     [self setTitleViewWithString:@"选择房源"];
+    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
+                                   initWithTitle:@"确定"
+                                   style:UIBarButtonItemStyleBordered
+                                   target:self
+                                   action:@selector(action)];
+    self.navigationItem.rightBarButtonItem = editButton;
     
     self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.myTable.delegate = self;
@@ -73,8 +80,11 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    SaleBidPlanController *controller = [[SaleBidPlanController alloc] init];
-    [self.navigationController pushViewController:controller animated:YES];
+    PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+    nav.navigationBar.translucent = NO;
+    [self presentViewController:nav animated:YES completion:nil];
+//    [self.navigationController pushViewController:nav animated:YES];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -98,5 +108,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+#pragma mark --PrivateMethod
+-(void)action{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 @end
