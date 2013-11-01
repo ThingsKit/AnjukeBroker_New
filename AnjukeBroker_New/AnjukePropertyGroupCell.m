@@ -12,7 +12,7 @@
 #define TITLE_OFFESTX 17
 
 @implementation AnjukePropertyGroupCell
-@synthesize groupNameLb, limitPriceLb, statusLb;
+@synthesize groupNameLb, limitPriceLb, statusIcon;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -53,13 +53,12 @@
     self.limitPriceLb = lb2;
     [self.contentView addSubview:lb2];
     
-    UILabel *lb3 = [[UILabel alloc] initWithFrame:CGRectMake(320 - TITLE_OFFESTX-65, (PROPERTY_GROUP_CELL-15)/2, 47, 15)];
+    CGFloat imgW = 60/2;
+    CGFloat imgH = 26/2;
+    UIImageView *lb3 = [[UIImageView alloc] initWithFrame:CGRectMake(320 - TITLE_OFFESTX*1.5-imgW, (PROPERTY_GROUP_CELL-imgH)/2, imgW, imgH)];
     lb3.backgroundColor = [UIColor clearColor];
-    lb3.font = [UIFont boldSystemFontOfSize:12];
-    lb3.textColor = [UIColor whiteColor];
-    lb3.layer.cornerRadius = 3;
-    lb3.textAlignment = NSTextAlignmentCenter;
-    self.statusLb = lb3;
+    lb3.contentMode = UIViewContentModeScaleAspectFit;
+    self.statusIcon = lb3;
     [self.contentView addSubview:lb3];
 }
 
@@ -86,8 +85,7 @@
     self.groupNameLb.text = @"定价组1（20）";
     self.limitPriceLb.text = @"房源数:20套    每日限额30元";
     
-    self.statusLb.backgroundColor = SYSTEM_GREEN;
-    self.statusLb.text = @"推广中";
+    self.statusIcon.image = STATUS_OK_ICON;
     
     return YES;
 }
