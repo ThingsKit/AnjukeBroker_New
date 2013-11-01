@@ -13,6 +13,7 @@
 #define SYSTEM_LIGHT_GRAY [Util_UI colorWithHexString:@"999999"]
 #define SYSTEM_LIGHT_GRAY_BG [Util_UI colorWithHexString:@"EFEFF4"]
 #define SYSTEM_GREEN [Util_UI colorWithHexString:@"66cc00"]
+#define SYSTEM_ORANGE [Util_UI colorWithHexString:@"FF6600"]
 
 @interface Util_UI : NSObject
 

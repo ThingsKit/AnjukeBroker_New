@@ -10,6 +10,7 @@
 #import "AnjukeEditPropertyViewController.h"
 #import "SystemMessageViewController.h"
 #import "Util_UI.h"
+#import "BrokerLineView.h"
 
 #define cellHeight 50
 #define headerHeight (200+150)/2
@@ -63,9 +64,72 @@
     [self.view addSubview:tv];
     
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], headerHeight)];
-    headerView.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
+    headerView.backgroundColor = [UIColor clearColor];
     tv.tableHeaderView = headerView;
+    [self drawHeaderWithBG:headerView];
+}
+
+- (void)drawHeaderWithBG:(UIView *)BG_View {
+    //part 1
+    UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 100)];
+    view1.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
+    [BG_View addSubview:view1];
     
+    //photo /name...
+    CGFloat photoW = 124/2;
+    UIImageView *photo = [[UIImageView alloc] initWithFrame:CGRectMake(52/2, (view1.frame.size.height - photoW)/2, photoW, photoW)];
+    photo.backgroundColor = [UIColor whiteColor];
+    [view1 addSubview:photo];
+    
+    //name
+    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(photo.frame.origin.x*2 +photo.frame.size.width, 17, 100, 20)];
+    lb.backgroundColor = [UIColor clearColor];
+    lb.font = [UIFont systemFontOfSize:15];
+    lb.textColor = SYSTEM_BLACK;
+    lb.text = @"梁伟平";
+    [view1 addSubview:lb];
+    
+    //photo number
+    UILabel *lb2 = [[UILabel alloc] initWithFrame:CGRectMake(lb.frame.origin.x, lb.frame.origin.y+ lb.frame.size.height+3, lb.frame.size.width, lb.frame.size.height)];
+    lb2.backgroundColor = [UIColor clearColor];
+    lb2.font = [UIFont systemFontOfSize:15];
+    lb2.textColor = SYSTEM_BLACK;
+    lb2.text = @"13888888888";
+    [view1 addSubview:lb2];
+    
+    //account info
+    UILabel *lb3 = [[UILabel alloc] initWithFrame:CGRectMake(lb.frame.origin.x, lb2.frame.origin.y+ lb2.frame.size.height+3, 70, lb.frame.size.height)];
+    lb3.backgroundColor = [UIColor clearColor];
+    lb3.font = [UIFont systemFontOfSize:15];
+    lb3.textColor = SYSTEM_LIGHT_GRAY;
+    lb3.text = @"账户余额:";
+    [view1 addSubview:lb3];
+    
+    UILabel *lb4 = [[UILabel alloc] initWithFrame:CGRectMake(lb3.frame.origin.x+ lb3.frame.size.width, lb3.frame.origin.y, 80, lb.frame.size.height)];
+    lb4.backgroundColor = [UIColor clearColor];
+    lb4.font = [UIFont systemFontOfSize:15];
+    lb4.textColor = SYSTEM_ORANGE;
+    lb4.textAlignment = NSTextAlignmentCenter;
+    lb4.text = @"1000.00";
+    [view1 addSubview:lb4];
+    
+    UILabel *yuanLb = [[UILabel alloc] initWithFrame:CGRectMake(lb4.frame.origin.x+ lb4.frame.size.width, lb3.frame.origin.y, 20, lb.frame.size.height)];
+    yuanLb.backgroundColor = [UIColor clearColor];
+    yuanLb.font = [UIFont systemFontOfSize:15];
+    yuanLb.textColor = SYSTEM_LIGHT_GRAY;
+    yuanLb.text = @"元";
+    [view1 addSubview:yuanLb];
+    
+    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, view1.frame.size.height - 1, [self windowWidth], 1)];
+    [view1 addSubview:line];
+    
+    //part 2
+    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, 100, [self windowWidth], 75)];
+    view2.backgroundColor = [UIColor clearColor];
+    [BG_View addSubview:view2];
+    
+    BrokerLineView *line2 = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, view2.frame.size.height - 1, [self windowWidth], 1)];
+    [view2 addSubview:line2];
 }
 
 #pragma mark - tableView Datasource
