@@ -16,6 +16,7 @@
 @implementation RTViewController
 @synthesize backType;
 @synthesize isHome;
+@synthesize delegateVC;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

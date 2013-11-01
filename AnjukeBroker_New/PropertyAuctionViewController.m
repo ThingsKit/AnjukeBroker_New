@@ -9,6 +9,9 @@
 #import "PropertyAuctionViewController.h"
 #import "BrokerLineView.h"
 #import "Util_UI.h"
+#import "SalePropertyListController.h"
+#import "SaleFixedDetailController.h"
+#import "SaleBidDetailController.h"
 
 #define TITLE_OFFSETX 15
 #define INPUT_VIEW_HEIGHT 45
@@ -152,7 +155,14 @@
 
 - (void)doSure {
     //test
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    if ([self.delegateVC isKindOfClass:[SaleBidDetailController class]] || [self.delegateVC isKindOfClass:[SaleFixedDetailController class]] || [self.delegateVC isKindOfClass:[SalePropertyListController class]]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    
+    if (self.navigationController) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+
 }
 
 - (void)checkRank {
