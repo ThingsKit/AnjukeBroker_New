@@ -55,9 +55,7 @@
     self.navigationItem.titleView = lb;
 }
 
-- (void)addBackButtonWithType:(RTSelectorBackType *)type {
-    self.backType = *(type);
-    
+- (void)addBackButton {    
     //save btn
     UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     saveBtn.frame = ITEM_BTN_FRAME;

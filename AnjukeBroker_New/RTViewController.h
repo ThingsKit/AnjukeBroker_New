@@ -35,7 +35,7 @@ typedef enum {
 - (NSInteger)windowWidth;
 - (NSInteger)currentViewHeight;  //******当前UIViewController.view的高度，各继承页面UI组件使用
 
-- (void)addBackButtonWithType:(RTSelectorBackType *)type;
+- (void)addBackButton;
 - (void)doBack:(id)sender;
 
 @end
