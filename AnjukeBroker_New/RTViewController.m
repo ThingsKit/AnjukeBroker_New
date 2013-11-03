@@ -64,17 +64,13 @@
         return;
     }
     
-    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(doBack:)];
-    self.navigationItem.leftBarButtonItem = backBtn;
+    NSString *title = @"返回";
+    if (self.backType == RTSelectorBackTypeDismiss) {
+        title = @"取消";
+    }
     
-//    UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    saveBtn.frame = ITEM_BTN_FRAME;
-//    [saveBtn setTitle:@"返回" forState:UIControlStateNormal];
-//    [saveBtn setTitleColor:SYSTEM_BLUE forState:UIControlStateNormal];
-//    [saveBtn addTarget:self action:@selector(doBack:) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    UIBarButtonItem *rButton = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
-//    self.navigationItem.leftBarButtonItem = rButton;
+    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:@selector(doBack:)];
+    self.navigationItem.leftBarButtonItem = backBtn;
 }
 
 - (void)doBack:(id)sender {

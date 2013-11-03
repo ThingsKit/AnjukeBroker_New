@@ -23,18 +23,22 @@
 {
     NSString *fixedStatus;
 }
+@property (nonatomic, strong) RTPopoverTableViewController *popoverTableView;
+@property (nonatomic, strong) UIPopoverController *popoverBG;
+@property (nonatomic, strong) NSArray *titleArr_Popover;
+
 @end
 
 @implementation SaleFixedDetailController
 @synthesize myTable;
 @synthesize myArray;
+@synthesize popoverTableView, popoverBG;
+@synthesize titleArr_Popover;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.myArray = [NSMutableArray array];
-        fixedStatus = @"推广中     房源数：3套";
         // Custom initialization
     }
     return self;
@@ -43,23 +47,33 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self setTitleViewWithString:@"定价房源"];
+    
+    self.myArray = [NSMutableArray array];
+    fixedStatus = @"推广中     房源数：3套";
+    //黑框
+    self.titleArr_Popover= [NSArray arrayWithObjects:@"添加房源", @"停止推广", @"修改限额", nil];
+    
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
                                     initWithTitle:@"操作"
                                     style:UIBarButtonItemStyleBordered
                                     target:self
-                                    action:@selector(action)];
+                                   action:@selector(action:)];
     self.navigationItem.rightBarButtonItem = editButton;
+    
 //    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc]
 //                                   initWithTitle:@"返回"
 //                                   style:UIBarButtonItemStyleBordered
 //                                   target:self
 //                                action:@selector(back:)];
 //    self.navigationItem.leftBarButtonItem = backBtn;
+    
     self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
     [self.view addSubview:self.myTable];
+    
     FixedObject *fixed = [[FixedObject alloc] init];
     fixed.tapNum = @"10";
     fixed.topCost = @"100";
@@ -99,6 +113,13 @@
 	// Do any additional setup after loading the view.
 }
 
+#pragma mark - RTPOPOVER Delegate
+- (void)popoverCellClick:(int)row {
+    
+}
+
+#pragma mark - TableView Delegate && DataSource
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if([indexPath row] == 0){
     
@@ -122,15 +143,18 @@
 //    }
 //    [self.myTable reloadData];
 }
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.myArray count];
 }
+
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if([indexPath row] == 1){
     return 71.0f;
     }
     return 69.0f;
 }
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if([indexPath row] == 0){
@@ -190,14 +214,50 @@
 }
 
 #pragma mark -- privateMethod
--(void)action{
+
+- (void)action:(id)sender {
+//    if (self.popoverBG) {
+//        [self.popoverBG dismissPopoverAnimated:YES];
+//		self.popoverBG = nil;
+//        
+//        return;
+//    }
+//    
+//    RTPopoverTableViewController *ptv = [[RTPopoverTableViewController alloc] init];
+//    self.popoverTableView = ptv;
+//    ptv.view.backgroundColor = [UIColor clearColor];
+//    ptv.popoverDelegate = self;
+//    ptv.titleArray = [NSArray arrayWithArray:self.titleArr_Popover];
+//    [ptv setTableViewWithFrame:CGRectMake(0, 0, 198/2, 3* RT_POPOVER_TV_HEIGHT)];
+//    [self.view addSubview:ptv.view];
+//    
+//    UIPopoverController *pop = [[UIPopoverController alloc] initWithContentViewController:ptv];
+//    self.popoverBG = pop;
+//    self.popoverBG.delegate = self;
+//    self.popoverBG.popoverContentSize = CGSizeMake(198/2, 3* RT_POPOVER_TV_HEIGHT); //popover View 大小
+////    self.popoverBG.passthroughViews = [NSArray arrayWithObject:self.navigationController.navigationBar];
+//    [self.popoverBG presentPopoverFromRect:CGRectMake(0, 0, 20, 20)
+//                                            inView:self.navigationController.navigationBar
+//                          permittedArrowDirections:UIPopoverArrowDirectionUp
+//                                          animated:YES];
+    
     UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"添加房源", @"停止推广", @"修改限额", nil];
     action.tag = 100;
     [action showInView:self.view];
 }
 
-#pragma mark -- UIActionSheetDelegate
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+#pragma mark - UIActionSheetDelegate
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+    self.popoverBG = nil;
+}
+
+- (BOOL)popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController {
+    return YES;
+}
+
+#pragma mark - UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
 
     if(actionSheet.tag == 100){
         if(buttonIndex == 0){

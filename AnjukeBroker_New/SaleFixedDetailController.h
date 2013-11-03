@@ -7,8 +7,9 @@
 //
 
 #import "BaseFixedDetailController.h"
+#import "RTPopoverTableViewController.h"
 
-@interface SaleFixedDetailController : BaseFixedDetailController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
+@interface SaleFixedDetailController : BaseFixedDetailController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, RTPopoverTableViewDelegate, UIPopoverControllerDelegate>
 {
     UITableView *myTable;
     NSMutableArray *myArray;

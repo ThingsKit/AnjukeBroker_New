@@ -16,6 +16,7 @@
 		972C10321814FDC400552C9B /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10311814FDC400552C9B /* MoreViewController.m */; };
 		972C10391815351900552C9B /* AnjukeEditPropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */; };
 		972DDA2A1826A4CA00263F8F /* RTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972DDA291826A4CA00263F8F /* RTNavigationController.m */; };
+		972DDA301826D39500263F8F /* RTPopoverTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972DDA2F1826D39500263F8F /* RTPopoverTableViewController.m */; };
 		97410553180CDFE0004DAE95 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410552180CDFE0004DAE95 /* Foundation.framework */; };
 		97410555180CDFE0004DAE95 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410554180CDFE0004DAE95 /* CoreGraphics.framework */; };
 		97410557180CDFE0004DAE95 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410556180CDFE0004DAE95 /* UIKit.framework */; };
@@ -152,6 +153,8 @@
 		972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukeEditPropertyViewController.m; sourceTree = "<group>"; };
 		972DDA281826A4CA00263F8F /* RTNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTNavigationController.h; sourceTree = "<group>"; };
 		972DDA291826A4CA00263F8F /* RTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTNavigationController.m; sourceTree = "<group>"; };
+		972DDA2E1826D39500263F8F /* RTPopoverTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTPopoverTableViewController.h; sourceTree = "<group>"; };
+		972DDA2F1826D39500263F8F /* RTPopoverTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTPopoverTableViewController.m; sourceTree = "<group>"; };
 		9741054F180CDFE0004DAE95 /* AnjukeBroker_New.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnjukeBroker_New.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97410552180CDFE0004DAE95 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		97410554180CDFE0004DAE95 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -468,6 +471,19 @@
 			name = TabBarController;
 			sourceTree = "<group>";
 		};
+		972DDA2D1826D34600263F8F /* 底层、定制ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				97410587180CE0FC004DAE95 /* RootViewController.h */,
+				97410588180CE0FC004DAE95 /* RootViewController.m */,
+				97CD8D42180E6D6E00185C9D /* RTViewController.h */,
+				97CD8D43180E6D6E00185C9D /* RTViewController.m */,
+				972DDA2E1826D39500263F8F /* RTPopoverTableViewController.h */,
+				972DDA2F1826D39500263F8F /* RTPopoverTableViewController.m */,
+			);
+			name = "底层、定制ViewController";
+			sourceTree = "<group>";
+		};
 		97410546180CDFE0004DAE95 = {
 			isa = PBXGroup;
 			children = (
@@ -667,14 +683,11 @@
 		97CD8D40180E6D0D00185C9D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				972DDA2D1826D34600263F8F /* 底层、定制ViewController */,
 				972C10231814FC3800552C9B /* 首页+发房 */,
 				972C10251814FC7500552C9B /* 租房业务管理 */,
 				972C10241814FC4C00552C9B /* 二手房业务管理 */,
 				972C10261814FC8800552C9B /* 更多 */,
-				97410587180CE0FC004DAE95 /* RootViewController.h */,
-				97410588180CE0FC004DAE95 /* RootViewController.m */,
-				97CD8D42180E6D6E00185C9D /* RTViewController.h */,
-				97CD8D43180E6D6E00185C9D /* RTViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -914,6 +927,7 @@
 				97B4225A1820DB8300A2E9E6 /* AnjukePropertyGroupCell.m in Sources */,
 				97B422681821087600A2E9E6 /* PropertyBigImageViewController.m in Sources */,
 				B769E46C181F76A600A2FF50 /* BaseBidPlanController.m in Sources */,
+				972DDA301826D39500263F8F /* RTPopoverTableViewController.m in Sources */,
 				972C10321814FDC400552C9B /* MoreViewController.m in Sources */,
 				B7E803F31820F24400775C6F /* SaleNoPlanListCell.m in Sources */,
 				970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */,
