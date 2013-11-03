@@ -38,7 +38,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor clearColor];
-    
+    [self setTitleViewWithString:@"我的安居客"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -127,6 +127,43 @@
     UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, 100, [self windowWidth], 75)];
     view2.backgroundColor = [UIColor clearColor];
     [BG_View addSubview:view2];
+    
+    CGFloat lbW_ = 100;
+    NSString *titleStr = [NSString string];
+    for (int i = 0; i < 3; i ++) {
+        //number label
+        UILabel *numLb = [[UILabel alloc] initWithFrame:CGRectMake(10+i *lbW_, 10, lbW_, 25)];
+        numLb.backgroundColor = [UIColor clearColor];
+        numLb.font = [UIFont systemFontOfSize:20];
+        numLb.textColor = SYSTEM_BLACK;
+        numLb.text = @"88"; //for test
+        numLb.textAlignment = NSTextAlignmentCenter;
+        [view2 addSubview:numLb];
+        
+        switch (i) {
+            case 0:
+                titleStr = @"在线房源";
+                break;
+            case 1:
+                titleStr = @"今日花费(元)";
+                break;
+            case 2:
+                titleStr = @"今日点击";
+                break;
+                
+            default:
+                break;
+        }
+        
+        UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(10+i *lbW_, numLb.frame.origin.y + numLb.frame.size.height+5, lbW_, 25)];
+        titleLb.backgroundColor = [UIColor clearColor];
+        titleLb.font = [UIFont systemFontOfSize:14];
+        titleLb.textColor = SYSTEM_LIGHT_GRAY;
+        titleLb.text = titleStr;
+        titleLb.textAlignment = NSTextAlignmentCenter;
+        [view2 addSubview:titleLb];
+
+    }
     
     BrokerLineView *line2 = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, view2.frame.size.height - 1, [self windowWidth], 1)];
     [view2 addSubview:line2];

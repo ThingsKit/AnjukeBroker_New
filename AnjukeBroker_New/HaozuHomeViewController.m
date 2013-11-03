@@ -26,14 +26,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    myArray = [NSMutableArray arrayWithObjects:@"竞价房源(12)", @"定价房源(10)", @"未推广房源(12)", nil];
-    myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
-    myTable.delegate = self;
-    myTable.dataSource = self;
-    [self.view addSubview:myTable];
+    
+//    myArray = [NSMutableArray arrayWithObjects:@"竞价房源(12)", @"定价房源(10)", @"未推广房源(12)", nil];
+//    myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+//    myTable.delegate = self;
+//    myTable.dataSource = self;
+//    [self.view addSubview:myTable];
 	// Do any additional setup after loading the view.
     
-    self.view.backgroundColor = [UIColor redColor];
+    self.view.backgroundColor = [UIColor clearColor];
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
