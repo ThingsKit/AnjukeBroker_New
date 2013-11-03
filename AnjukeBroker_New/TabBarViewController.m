@@ -11,9 +11,9 @@
 #import "AnjukeHomeViewController.h"
 #import "HaozuHomeViewController.h"
 #import "MoreViewController.h"
+#import "RTNavigationController.h"
 
 #define tabItemInsertsMake UIEdgeInsetsMake(0, 0, 0, 0)
-#define NAVITATION_BAR_TINITCOLOR [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1]
 
 @interface TabBarViewController ()
 
@@ -41,33 +41,25 @@
         HomeViewController *hv = [[HomeViewController alloc] init];
         hv.isHome = YES;
         self.page1 = hv;
-        UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:self.page1];
-        nav1.navigationBar.barTintColor = NAVITATION_BAR_TINITCOLOR;
-        nav1.navigationBar.translucent = NO;
+        RTNavigationController *nav1 = [[RTNavigationController alloc] initWithRootViewController:self.page1];
         [controllerArrays addObject:nav1];
         
         AnjukeHomeViewController *av = [[AnjukeHomeViewController alloc] init];
         self.page2 = av;
         av.isHome = YES;
-        UINavigationController *nav2 = [[UINavigationController alloc] initWithRootViewController:self.page2];
-        nav2.navigationBar.barTintColor = NAVITATION_BAR_TINITCOLOR;
-        nav2.navigationBar.translucent = NO;
+        RTNavigationController *nav2 = [[RTNavigationController alloc] initWithRootViewController:self.page2];
         [controllerArrays addObject:nav2];
         
         HaozuHomeViewController *hhv = [[HaozuHomeViewController alloc] init];
         self.page3 = hhv;
         hhv.isHome = YES;
-        UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:self.page3];
-        nav3.navigationBar.barTintColor = NAVITATION_BAR_TINITCOLOR;
-        nav3.navigationBar.translucent = NO;
+        RTNavigationController *nav3 = [[RTNavigationController alloc] initWithRootViewController:self.page3];
         [controllerArrays addObject:nav3];
         
         MoreViewController *mv = [[MoreViewController alloc] init];
         self.page4 = mv;
         mv.isHome = YES;
-        UINavigationController *nav4 = [[UINavigationController alloc] initWithRootViewController:self.page4];
-        nav4.navigationBar.barTintColor = NAVITATION_BAR_TINITCOLOR;
-        nav4.navigationBar.translucent = NO;
+        RTNavigationController *nav4 = [[RTNavigationController alloc] initWithRootViewController:self.page4];
         [controllerArrays addObject:nav4];
         
         //set tabBarItems

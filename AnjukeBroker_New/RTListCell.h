@@ -19,4 +19,6 @@
 - (BOOL)configureCell:(id)dataModel; //传递cell数据
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index; //传递cell数据_with Index
 
+- (void)showUpArrowImg; //定制的cell向下箭头IMG
+
 @end

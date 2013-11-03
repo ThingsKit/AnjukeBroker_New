@@ -45,6 +45,8 @@
         [self.contentView addSubview:title];
         [self.contentView addSubview:communityName];
         [self.contentView addSubview:price];
+        
+        [self showUpArrowImg];
     }
     return self;
 }

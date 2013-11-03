@@ -39,4 +39,14 @@
     
 }
 
+//显示向上箭头
+- (void)showUpArrowImg {
+    CGFloat imgW = 25/2;
+    CGFloat imgH = 16/2;
+    UIImageView *arrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon11_.png"]];
+    arrow.frame = CGRectMake(320 - imgW*2, 15, imgW, imgH);
+    arrow.backgroundColor = [UIColor clearColor];
+    [self.contentView addSubview:arrow];
+}
+
 @end

@@ -27,6 +27,8 @@
 {
     [super viewDidLoad];
     
+    [self setTitleViewWithString:@"租房"];
+    
 //    myArray = [NSMutableArray arrayWithObjects:@"竞价房源(12)", @"定价房源(10)", @"未推广房源(12)", nil];
 //    myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
 //    myTable.delegate = self;

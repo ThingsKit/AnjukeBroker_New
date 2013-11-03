@@ -11,6 +11,7 @@
 #import "PropertyDetailCell.h"
 #import "SaleBidPlanController.h"
 #import "PropertyAuctionViewController.h"
+#import "RTNavigationController.h"
 
 @interface SalePropertyListController ()
 
@@ -77,8 +78,7 @@
     PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
     controller.backType = RTSelectorBackTypeDismiss;
     controller.delegateVC = self;
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
-    nav.navigationBar.translucent = NO;
+    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];
 //    [self.navigationController pushViewController:nav animated:YES];
 }

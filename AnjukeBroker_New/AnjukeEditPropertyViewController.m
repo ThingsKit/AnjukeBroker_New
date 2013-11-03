@@ -15,6 +15,7 @@
 #import "PropertyGroupListViewController.h"
 #import "PropertyBigImageViewController.h"
 #import "BrokerLineView.h"
+#import "RTNavigationController.h"
 
 #define photoHeaderH 100
 #define photoHeaderH_RecNum 100 +50
@@ -163,7 +164,7 @@
     
     UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon05_photo"]];
     icon.frame = CGRectMake((photoBtn.frame.size.width - 65/2)/2, (photoBtn.frame.size.width - 50/2)/2, 65/2, 50/2);
-    [icon setUserInteractionEnabled:YES];
+    [icon setUserInteractionEnabled:NO];
     [photoBtn addSubview:icon];
     
     photoBtn.frame = CGRectMake( PhotoImg_Gap , PhotoImg_Gap, PhotoImg_H, PhotoImg_H);
@@ -327,8 +328,7 @@
     //模态弹出图片播放器
     PropertyBigImageViewController *pb = [[PropertyBigImageViewController alloc] init];
     pb.btnDelegate = self;
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pb];
-    navController.navigationBar.translucent = NO;
+    RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self.navigationController presentViewController:navController animated:YES completion:^(void) {
         pb.contentImgView.image = pBtn.photoImg.image;

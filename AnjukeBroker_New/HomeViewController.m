@@ -11,6 +11,7 @@
 #import "SystemMessageViewController.h"
 #import "Util_UI.h"
 #import "BrokerLineView.h"
+#import "RTNavigationController.h"
 
 #define cellHeight 50
 #define headerHeight (200+150)/2
@@ -208,9 +209,17 @@
     switch (indexPath.row) {
         case 0:
         {
-            AnjukeEditPropertyViewController *ae = [[AnjukeEditPropertyViewController alloc] init];
-            [ae setHidesBottomBarWhenPushed:YES];
-            [self.navigationController pushViewController:ae animated:YES];
+//            AnjukeEditPropertyViewController *ae = [[AnjukeEditPropertyViewController alloc] init];
+//            [ae setHidesBottomBarWhenPushed:YES];
+//            [self.navigationController pushViewController:ae animated:YES];
+            
+            //模态弹出
+            AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+            controller.backType = RTSelectorBackTypeDismiss;
+            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            nav.navigationBar.translucent = NO;
+            [self presentViewController:nav animated:YES completion:nil];
+
         }
             break;
         case 1:

@@ -15,6 +15,7 @@
 		972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C102E1814FD5900552C9B /* HaozuHomeViewController.m */; };
 		972C10321814FDC400552C9B /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10311814FDC400552C9B /* MoreViewController.m */; };
 		972C10391815351900552C9B /* AnjukeEditPropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */; };
+		972DDA2A1826A4CA00263F8F /* RTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972DDA291826A4CA00263F8F /* RTNavigationController.m */; };
 		97410553180CDFE0004DAE95 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410552180CDFE0004DAE95 /* Foundation.framework */; };
 		97410555180CDFE0004DAE95 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410554180CDFE0004DAE95 /* CoreGraphics.framework */; };
 		97410557180CDFE0004DAE95 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410556180CDFE0004DAE95 /* UIKit.framework */; };
@@ -149,6 +150,8 @@
 		972C10311814FDC400552C9B /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreViewController.m; sourceTree = "<group>"; };
 		972C10371815351900552C9B /* AnjukeEditPropertyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukeEditPropertyViewController.h; sourceTree = "<group>"; };
 		972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukeEditPropertyViewController.m; sourceTree = "<group>"; };
+		972DDA281826A4CA00263F8F /* RTNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTNavigationController.h; sourceTree = "<group>"; };
+		972DDA291826A4CA00263F8F /* RTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTNavigationController.m; sourceTree = "<group>"; };
 		9741054F180CDFE0004DAE95 /* AnjukeBroker_New.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnjukeBroker_New.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97410552180CDFE0004DAE95 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		97410554180CDFE0004DAE95 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -419,8 +422,7 @@
 			children = (
 				97410563180CDFE0004DAE95 /* AppDelegate.h */,
 				97410564180CDFE0004DAE95 /* AppDelegate.m */,
-				97C97B441810DD34006E538B /* TabBarViewController.h */,
-				97C97B451810DD34006E538B /* TabBarViewController.m */,
+				972DDA261826A49600263F8F /* TabBarController */,
 			);
 			name = AppDelegate;
 			sourceTree = "<group>";
@@ -453,6 +455,17 @@
 				97B422531820B6E700A2E9E6 /* 定价组List&竞价&结果页 */,
 			);
 			name = "发房";
+			sourceTree = "<group>";
+		};
+		972DDA261826A49600263F8F /* TabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				97C97B441810DD34006E538B /* TabBarViewController.h */,
+				97C97B451810DD34006E538B /* TabBarViewController.m */,
+				972DDA281826A4CA00263F8F /* RTNavigationController.h */,
+				972DDA291826A4CA00263F8F /* RTNavigationController.m */,
+			);
+			name = TabBarController;
 			sourceTree = "<group>";
 		};
 		97410546180CDFE0004DAE95 = {
@@ -926,6 +939,7 @@
 				974E5C82181E4210000246D1 /* AnjukeEditableCell.m in Sources */,
 				B769E463181F629B00A2FF50 /* BasePropertyDetailController.m in Sources */,
 				9795835D1822014A005EA48A /* SystemMessageCell.m in Sources */,
+				972DDA2A1826A4CA00263F8F /* RTNavigationController.m in Sources */,
 				B769E453181F4D0100A2FF50 /* FixedDetailCell.m in Sources */,
 				972C10291814FCD300552C9B /* HomeViewController.m in Sources */,
 				B769E44F181F4C3E00A2FF50 /* FixedObject.m in Sources */,

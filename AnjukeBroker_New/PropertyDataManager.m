@@ -74,7 +74,7 @@
 + (NSMutableArray *)getPropertyCeng_Number {
     NSMutableArray *arr = [NSMutableArray array];
     for (int i = 0; i < 100; i ++) {
-        NSString *str = [NSString stringWithFormat:@"%d层", i+1];
+        NSString *str = [NSString stringWithFormat:@"共%d层", i+1];
         [arr addObject:str];
     }
     return arr;

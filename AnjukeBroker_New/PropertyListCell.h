@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "PropertyObject.h"
+#import "RTListCell.h"
 
-@interface PropertyListCell : UITableViewCell
+@interface PropertyListCell : RTListCell
 {
     UILabel *title;
     UILabel *communityName;

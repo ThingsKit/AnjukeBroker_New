@@ -17,6 +17,7 @@
 #import "SaleBidPlanController.h"
 #import "SaleSelectNoPlanController.h"
 #import "PropertyAuctionViewController.h"
+#import "RTNavigationController.h"
 
 @interface SaleFixedDetailController ()
 {
@@ -135,20 +136,24 @@
     if([indexPath row] == 0){
         static NSString *cellIdent = @"FixedDetailCell";
         FixedDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
-        if(cell == Nil){
+        if(cell == nil){
             cell = [[NSClassFromString(@"FixedDetailCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FixedDetailCell"];
-            [cell setValueForCellByObject:[self.myArray objectAtIndex:[indexPath row]]];
         }
+        
+        [cell setValueForCellByObject:[self.myArray objectAtIndex:[indexPath row]]];
+        
         return cell;
     }else{
         
         static NSString *cellIdent = @"PropertyListCell";
         PropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
-        if(cell == Nil){
+        if(cell == nil){
             cell = [[NSClassFromString(@"PropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"PropertyListCell"];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            [cell setValueForCellByObject:[self.myArray objectAtIndex:[indexPath row]]];
+//            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
+        
+        [cell setValueForCellByObject:[self.myArray objectAtIndex:[indexPath row]]];
+        
         return cell;
     }
 }
@@ -198,8 +203,7 @@
         if(buttonIndex == 0){
             SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
-            UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:controller];
-            navi.navigationBar.translucent = NO;
+            RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:navi animated:YES completion:nil];
 //            [self.navigationController pushViewController:controller animated:YES];
             
@@ -209,8 +213,7 @@
         }else if (buttonIndex == 2){
             ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
-            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
-            nav.navigationBar.translucent = NO;
+            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
 //            [self.navigationController pushViewController:controller animated:YES];
         }
@@ -218,8 +221,7 @@
         if(buttonIndex == 0){
             AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
-            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
-            nav.navigationBar.translucent = NO;
+            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }else if (buttonIndex == 1){
 //            [self.navigationController popToRootViewControllerAnimated:YES];
@@ -227,8 +229,7 @@
             PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.delegateVC = self;
-            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
-            nav.navigationBar.translucent = NO;
+            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }
     }

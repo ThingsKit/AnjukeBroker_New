@@ -7,10 +7,11 @@
 //
 
 #import "PropertyListCell.h"
+#import "RTListCell.h"
 
-@interface BidPropertyListCell : UITableViewCell
+@interface BidPropertyListCell : RTListCell
 {
-
+    
 }
 @property (strong, nonatomic) UILabel *title;
 @property (strong, nonatomic) UILabel *price;

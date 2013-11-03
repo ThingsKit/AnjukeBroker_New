@@ -14,6 +14,7 @@
 #import "AnjukeEditPropertyViewController.h"
 #import "SaleBidPlanController.h"
 #import "PropertyAuctionViewController.h"
+#import "RTNavigationController.h"
 
 @interface SaleBidDetailController ()
 
@@ -105,14 +106,16 @@
     static NSString *cellIdent = @"BidPropertyListCell";
     BidPropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
 
-        if(cell == Nil){
-            cell = [[NSClassFromString(@"BidPropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BidPropertyListCell"];
-            cell.selectionStyle = 0;
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
-//            [cell setValueForCellByObject:[self.myArray objectAtIndex:[indexPath row]]];
-        }
-        return cell;
+    if(cell == nil){
+        cell = [[NSClassFromString(@"BidPropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BidPropertyListCell"];
+     }
+    
+    [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.accessoryType = UITableViewCellAccessoryNone;
+
+    return cell;
 }
 
 //
@@ -133,15 +136,13 @@
     if (buttonIndex == 0){
         AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
         controller.backType = RTSelectorBackTypeDismiss;
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
-        nav.navigationBar.translucent = NO;
+        RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
         [self presentViewController:nav animated:YES completion:nil];
     }else if (buttonIndex == 1){
         PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
         controller.backType = RTSelectorBackTypeDismiss;
         controller.delegateVC = self;
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
-        nav.navigationBar.translucent = NO;
+        RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
         [self presentViewController:nav animated:YES completion:nil];
     }else if (buttonIndex == 2){
     
@@ -154,8 +155,7 @@
 -(void)addProperty{
     SalePropertyListController *controller = [[SalePropertyListController alloc] init];
     controller.backType = RTSelectorBackTypeDismiss;
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
-    nav.navigationBar.translucent = NO;
+    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];
 }
 
