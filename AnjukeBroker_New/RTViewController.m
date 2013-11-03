@@ -33,6 +33,7 @@
 	// Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
+    
     [self addBackButton];
     [self initModel];
     [self initDisplay];
@@ -63,14 +64,17 @@
         return;
     }
     
-    UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    saveBtn.frame = ITEM_BTN_FRAME;
-    [saveBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [saveBtn setTitleColor:SYSTEM_BLUE forState:UIControlStateNormal];
-    [saveBtn addTarget:self action:@selector(doBack:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(doBack:)];
+    self.navigationItem.leftBarButtonItem = backBtn;
     
-    UIBarButtonItem *rButton = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
-    self.navigationItem.leftBarButtonItem = rButton;
+//    UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    saveBtn.frame = ITEM_BTN_FRAME;
+//    [saveBtn setTitle:@"返回" forState:UIControlStateNormal];
+//    [saveBtn setTitleColor:SYSTEM_BLUE forState:UIControlStateNormal];
+//    [saveBtn addTarget:self action:@selector(doBack:) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    UIBarButtonItem *rButton = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
+//    self.navigationItem.leftBarButtonItem = rButton;
 }
 
 - (void)doBack:(id)sender {

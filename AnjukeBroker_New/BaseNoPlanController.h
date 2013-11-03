@@ -10,9 +10,11 @@
 
 @interface BaseNoPlanController : RTViewController <UITableViewDataSource, UITableViewDelegate>
 {
-    UIImageView *iamge;
+    
 }
 @property (strong, nonatomic) UITableView *myTable;
 @property (strong, nonatomic) NSMutableArray *myArray;
 @property (strong, nonatomic) NSMutableArray *selectedArray;
+@property (strong, nonatomic) UIImageView *iamge;
+
 @end

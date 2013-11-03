@@ -32,7 +32,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self setTitleViewWithString:@"二手房"];
+    
     self.myArray = [NSMutableArray array];
     self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
 //    self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -86,6 +88,8 @@
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.myArray count];
@@ -95,13 +99,17 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdent = @"cell";
+    
     PPCGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
-    if(cell == Nil){
+    if(cell == nil){
         cell = [[NSClassFromString(@"PPCGroupCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = 0;
-        [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
     }
+    
+    [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return cell;
 }
 

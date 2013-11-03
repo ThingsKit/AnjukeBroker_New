@@ -33,11 +33,17 @@
     }
     return self;
 }
--(void)setValueForTableCell{
-    title.text = @"绝世好房";
+
+- (BOOL)configureCell:(id)dataModel withIndex:(int)index {
+    self.selectRow = index;
+    
+    title.text = [NSString stringWithFormat:@"%@ %d",@"绝世好房", index];
     communityName.text = @"3室2厅 120平 400万";
-//    price.text = @"250万";
+    //    price.text = @"250万";
+    
+    return YES;
 }
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];

@@ -17,13 +17,12 @@
 @synthesize myArray;
 @synthesize myTable;
 @synthesize selectedArray;
+@synthesize iamge;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.myArray = [NSMutableArray arrayWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17", nil];
-        self.selectedArray = [NSMutableArray array];
         // Custom initialization
     }
     return self;
@@ -32,7 +31,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitleViewWithString:@"未推广房源"];
+    [self setTitleViewWithString:@"待推广房源"];
+    
+    [self initModel_];
+    
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
@@ -41,23 +43,31 @@
 	// Do any additional setup after loading the view.
 }
 
+- (void)initModel_ {
+    self.myArray = [NSMutableArray arrayWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17", nil];
+    self.selectedArray = [NSMutableArray array];
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.myArray count];
 }
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 67.0f;
 }
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdent = @"cell";
+    
     BaseNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == nil){
         cell = [[BaseNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
         cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
-        [cell setValueForTableCell];
 //        iamge = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 20, 20)];
 //        iamge.image = [UIImage imageNamed:@"2leftarrow.png"];
 //        [cell addSubview:iamge];
     }
+    
+    [cell configureCell:nil withIndex:indexPath.row];
     
     if([self.selectedArray containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
         cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_selected@2x.png"];
@@ -103,9 +113,11 @@
     // Dispose of any resources that can be recreated.
 }
 #pragma mark -- PrivateMethod
+
 -(void)delete{
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 -(void)multiSelect{
     [self.navigationController popViewControllerAnimated:YES];
 

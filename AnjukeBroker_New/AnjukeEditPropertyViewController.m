@@ -110,15 +110,18 @@
 }
 
 - (void)initDisplay {
-    //save btn
-    UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    saveBtn.frame = ITEM_BTN_FRAME;
-    [saveBtn setTitle:@"保存" forState:UIControlStateNormal];
-    [saveBtn setTitleColor:SYSTEM_BLUE forState:UIControlStateNormal];
-    [saveBtn addTarget:self action:@selector(doSave) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(doSave)];
+    self.navigationItem.rightBarButtonItem = backBtn;
     
-    UIBarButtonItem *rButton = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
-    self.navigationItem.rightBarButtonItem = rButton;
+//    //save btn
+//    UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    saveBtn.frame = ITEM_BTN_FRAME;
+//    [saveBtn setTitle:@"保存" forState:UIControlStateNormal];
+//    [saveBtn setTitleColor:SYSTEM_BLUE forState:UIControlStateNormal];
+//    [saveBtn addTarget:self action:@selector(doSave) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    UIBarButtonItem *rButton = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
+//    self.navigationItem.rightBarButtonItem = rButton;
     
     //draw tableView list
     self.dataSource = [[AnjukeEditableTV_DataSource alloc] init];

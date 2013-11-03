@@ -8,14 +8,16 @@
 
 #import "BaseNoPlanListCell.h"
 
+@protocol CheckmarkBtnClickDelegate <NSObject>
+
+- (void)checkmarkBtnClickedWithRow:(int)row;
+
+@end
+
 @interface SaleNoPlanListCell : BaseNoPlanListCell
-{
-//    SEL _selecter;
-//    id _target;
-}
+
 @property (strong, nonatomic) UIButton *mutableBtn;
 @property (strong, nonatomic) UIImageView *btnImage;
-//@property (assign, nonatomic) SEL selecter;
-//@property (strong, nonatomic) id target;
-//- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier target:(id) target action:(SEL) selecte;
+@property (nonatomic, assign) id <CheckmarkBtnClickDelegate> clickDelegate;
+
 @end

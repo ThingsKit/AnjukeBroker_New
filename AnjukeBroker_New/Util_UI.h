@@ -14,6 +14,7 @@
 #define SYSTEM_LIGHT_GRAY_BG [Util_UI colorWithHexString:@"EFEFF4"]
 #define SYSTEM_GREEN [Util_UI colorWithHexString:@"66cc00"]
 #define SYSTEM_ORANGE [Util_UI colorWithHexString:@"FF6600"]
+#define SYSTEM_NAVIBAR_COLOR [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1]
 
 @interface Util_UI : NSObject
 

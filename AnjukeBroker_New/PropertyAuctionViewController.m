@@ -56,15 +56,18 @@
 }
 
 - (void)initDisplay {
-    //确认btn
-    UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    saveBtn.frame = ITEM_BTN_FRAME;
-    [saveBtn setTitle:@"确定" forState:UIControlStateNormal];
-    [saveBtn setTitleColor:SYSTEM_BLUE forState:UIControlStateNormal];
-    [saveBtn addTarget:self action:@selector(doSure) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStyleBordered target:self action:@selector(doSure)];
+    self.navigationItem.rightBarButtonItem = backBtn;
     
-    UIBarButtonItem *rButton = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
-    self.navigationItem.rightBarButtonItem = rButton;
+//    //确认btn
+//    UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    saveBtn.frame = ITEM_BTN_FRAME;
+//    [saveBtn setTitle:@"确定" forState:UIControlStateNormal];
+//    [saveBtn setTitleColor:SYSTEM_BLUE forState:UIControlStateNormal];
+//    [saveBtn addTarget:self action:@selector(doSure) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    UIBarButtonItem *rButton = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
+//    self.navigationItem.rightBarButtonItem = rButton;
 
     //draw input view
     for (int i = 0; i < 2; i ++) {
@@ -160,7 +163,9 @@
     }
     
     if (self.navigationController) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
+//        [self.navigationController popToRootViewControllerAnimated:YES];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 
 }

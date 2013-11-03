@@ -7,12 +7,11 @@
 //
 
 #import "RTNavigationController.h"
+#import "Util_UI.h"
 
 @interface RTNavigationController ()
 
 @end
-
-#define NAVITATION_BAR_TINITCOLOR [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1]
 
 @implementation RTNavigationController
 
@@ -22,7 +21,7 @@
     if (self) {
         // Custom initialization
         self.navigationBar.translucent = NO;
-        self.navigationBar.barTintColor = NAVITATION_BAR_TINITCOLOR;
+        self.navigationBar.barTintColor = SYSTEM_NAVIBAR_COLOR;
     }
     return self;
 }

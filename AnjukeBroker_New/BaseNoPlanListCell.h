@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RTListCell.h"
 
-@interface BaseNoPlanListCell : UITableViewCell
+@interface BaseNoPlanListCell : RTListCell
 {
     UILabel *title;
     UILabel *communityName;
     UILabel *price;
     UIButton *mutableSelect;
 }
--(void)setValueForTableCell;
+
 @end
