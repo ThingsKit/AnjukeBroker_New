@@ -216,13 +216,13 @@
 #pragma mark -- privateMethod
 
 - (void)action:(id)sender {
-//    if (self.popoverBG) {
-//        [self.popoverBG dismissPopoverAnimated:YES];
-//		self.popoverBG = nil;
-//        
-//        return;
-//    }
-//    
+    if (self.popoverBG) {
+        [self.popoverBG dismissPopoverAnimated:YES];
+		self.popoverBG = nil;
+        
+        return;
+    }
+    
 //    RTPopoverTableViewController *ptv = [[RTPopoverTableViewController alloc] init];
 //    self.popoverTableView = ptv;
 //    ptv.view.backgroundColor = [UIColor clearColor];
@@ -230,20 +230,21 @@
 //    ptv.titleArray = [NSArray arrayWithArray:self.titleArr_Popover];
 //    [ptv setTableViewWithFrame:CGRectMake(0, 0, 198/2, 3* RT_POPOVER_TV_HEIGHT)];
 //    [self.view addSubview:ptv.view];
-//    
-//    UIPopoverController *pop = [[UIPopoverController alloc] initWithContentViewController:ptv];
-//    self.popoverBG = pop;
-//    self.popoverBG.delegate = self;
-//    self.popoverBG.popoverContentSize = CGSizeMake(198/2, 3* RT_POPOVER_TV_HEIGHT); //popover View 大小
-////    self.popoverBG.passthroughViews = [NSArray arrayWithObject:self.navigationController.navigationBar];
-//    [self.popoverBG presentPopoverFromRect:CGRectMake(0, 0, 20, 20)
-//                                            inView:self.navigationController.navigationBar
-//                          permittedArrowDirections:UIPopoverArrowDirectionUp
-//                                          animated:YES];
     
-    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"添加房源", @"停止推广", @"修改限额", nil];
-    action.tag = 100;
-    [action showInView:self.view];
+    UIPopoverController *pop = nil;
+    pop = [[UIPopoverController alloc] init];
+    self.popoverBG = pop;
+    self.popoverBG.delegate = self;
+    self.popoverBG.popoverContentSize = CGSizeMake(198/2, 3* RT_POPOVER_TV_HEIGHT); //popover View 大小
+//    self.popoverBG.passthroughViews = [NSArray arrayWithObject:self.navigationController.navigationBar];
+    [self.popoverBG presentPopoverFromRect:CGRectMake(0, 0, 20, 20)
+                                            inView:self.navigationController.navigationBar
+                          permittedArrowDirections:UIPopoverArrowDirectionUp
+                                          animated:YES];
+    
+//    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"添加房源", @"停止推广", @"修改限额", nil];
+//    action.tag = 100;
+//    [action showInView:self.view];
 }
 
 #pragma mark - UIActionSheetDelegate
