@@ -30,9 +30,7 @@
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryNone;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        [self initUI];
-        
+                
     }
     return self;
 }

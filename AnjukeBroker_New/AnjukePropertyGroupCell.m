@@ -30,7 +30,6 @@
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         self.selectionStyle = UITableViewCellSelectionStyleGray;
         
-        [self initUI];
     }
     return self;
 }

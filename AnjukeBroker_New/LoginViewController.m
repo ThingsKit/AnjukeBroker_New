@@ -10,9 +10,12 @@
 
 @interface LoginViewController ()
 
+@property (nonatomic, strong) UITextField *nameTF;
+@property (nonatomic, strong) UITextField *passwordTF;
 @end
 
 @implementation LoginViewController
+@synthesize nameTF, passwordTF;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

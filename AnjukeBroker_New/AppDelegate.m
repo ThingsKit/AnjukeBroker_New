@@ -179,6 +179,15 @@
     
     [[RTRequestProxy sharedInstance] setAppName:code_AppName];
     [[RTRequestProxy sharedInstance] setChannelID:@"A01"];
+    
+    //test
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"shtest", @"username", @"anjukeqa", @"password", nil];
+    [[RTRequestProxy sharedInstance] asyncPostWithServiceID:RTAnjukeBrokerServiceID methodName:@"login/" params:params target:self action:@selector(onGetLogin:)];
+}
+
+- (void)onGetLogin:(RTNetworkResponse *) response {
+    DLog(@"response [%@]", [response content]);
+    
 }
 
 - (void)checkVersion { // 新版本更新检查
