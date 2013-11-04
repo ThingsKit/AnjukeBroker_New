@@ -179,7 +179,6 @@
     
     [[RTRequestProxy sharedInstance] setAppName:code_AppName];
     [[RTRequestProxy sharedInstance] setChannelID:@"A01"];
-
 }
 
 - (void)checkVersion { // 新版本更新检查

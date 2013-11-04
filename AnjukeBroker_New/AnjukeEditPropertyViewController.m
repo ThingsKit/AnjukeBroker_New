@@ -200,7 +200,7 @@
 
 //**根据当前输入焦点行移动tableView显示
 - (void)tableVIewMoveWithIndex:(NSInteger)index {
-    [self.tvList setFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight] - self.pickerView.frame.size.height - self.toolBar.frame.size.height)];
+    [self.tvList setFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight] - self.pickerView.frame.size.height - self.toolBar.frame.size.height-25)]; //***减25像素，先保证最后一行输入时不被中文输入法遮挡
     
     [self.tvList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO]; //animated
 }

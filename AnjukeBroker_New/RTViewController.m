@@ -40,6 +40,10 @@
 
 }
 
+- (void)dealloc {
+    [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

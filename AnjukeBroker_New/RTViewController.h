@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RTRequestProxy.h"
 
 #define STATUS_BAR_H 20
 #define NAV_BAT_H 44

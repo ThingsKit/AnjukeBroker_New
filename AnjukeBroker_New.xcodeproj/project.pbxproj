@@ -38,6 +38,7 @@
 		974E5C89181E4B00000246D1 /* AnjukeEditableTV_DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 974E5C88181E4B00000246D1 /* AnjukeEditableTV_DataSource.m */; };
 		974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 974E5C8B181E4D45000246D1 /* AnjukeNormalCell.m */; };
 		975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 975D9DE0181B69A700A421AF /* KeyboardToolBar.m */; };
+		976AC61118278B5C003A2B3A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 976AC61018278B5C003A2B3A /* LoginViewController.m */; };
 		979583581821FF2B005EA48A /* SystemMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 979583571821FF2B005EA48A /* SystemMessageViewController.m */; };
 		9795835D1822014A005EA48A /* SystemMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9795835C1822014A005EA48A /* SystemMessageCell.m */; };
 		97958362182229AF005EA48A /* Util_TEXT.m in Sources */ = {isa = PBXBuildFile; fileRef = 97958361182229AF005EA48A /* Util_TEXT.m */; };
@@ -193,6 +194,8 @@
 		974E5C8B181E4D45000246D1 /* AnjukeNormalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukeNormalCell.m; sourceTree = "<group>"; };
 		975D9DDF181B69A700A421AF /* KeyboardToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardToolBar.h; sourceTree = "<group>"; };
 		975D9DE0181B69A700A421AF /* KeyboardToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardToolBar.m; sourceTree = "<group>"; };
+		976AC60F18278B5C003A2B3A /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		976AC61018278B5C003A2B3A /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		979583561821FF2B005EA48A /* SystemMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMessageViewController.h; sourceTree = "<group>"; };
 		979583571821FF2B005EA48A /* SystemMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemMessageViewController.m; sourceTree = "<group>"; };
 		9795835B1822014A005EA48A /* SystemMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMessageCell.h; sourceTree = "<group>"; };
@@ -451,6 +454,7 @@
 			children = (
 				97410563180CDFE0004DAE95 /* AppDelegate.h */,
 				97410564180CDFE0004DAE95 /* AppDelegate.m */,
+				976AC60D18278B45003A2B3A /* Login */,
 				972DDA261826A49600263F8F /* TabBarController */,
 			);
 			name = AppDelegate;
@@ -609,6 +613,15 @@
 				974E5C7E181E417F000246D1 /* RTListCell.m */,
 			);
 			name = TableViewCell;
+			sourceTree = "<group>";
+		};
+		976AC60D18278B45003A2B3A /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				976AC60F18278B5C003A2B3A /* LoginViewController.h */,
+				976AC61018278B5C003A2B3A /* LoginViewController.m */,
+			);
+			name = Login;
 			sourceTree = "<group>";
 		};
 		9795835A18220045005EA48A /* 系统消息 */ = {
@@ -1028,6 +1041,7 @@
 				B769E45A181F547100A2FF50 /* BasePropertyListCell.m in Sources */,
 				B769E460181F5F1200A2FF50 /* ModifyFixedCostController.m in Sources */,
 				B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */,
+				976AC61118278B5C003A2B3A /* LoginViewController.m in Sources */,
 				97410561180CDFE0004DAE95 /* main.m in Sources */,
 				972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */,
 				B7210948182778C100904FC7 /* RentNoPlanListController.m in Sources */,
