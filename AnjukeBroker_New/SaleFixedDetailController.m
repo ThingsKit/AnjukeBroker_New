@@ -7,9 +7,6 @@
 //
 
 #import "SaleFixedDetailController.h"
-#import "FixedDetailCell.h"
-#import "PropertyObject.h"
-#import "PropertyListCell.h"
 #import "BaseNoPlanController.h"
 #import "ModifyFixedCostController.h"
 #import "SalePropertyDetailController.h"
@@ -19,9 +16,14 @@
 #import "PropertyAuctionViewController.h"
 #import "RTNavigationController.h"
 
+#import "SalePropertyListCell.h"
+#import "SaleFixedCell.h"
+#import "BasePropertyListCell.h"
+
+#import "PropertyObject.h"
+
 @interface SaleFixedDetailController ()
 {
-    NSString *fixedStatus;
 }
 @property (nonatomic, strong) RTPopoverTableViewController *popoverTableView;
 @property (nonatomic, strong) UIPopoverController *popoverBG;
@@ -47,11 +49,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self setTitleViewWithString:@"定价房源"];
-    
-    self.myArray = [NSMutableArray array];
-    fixedStatus = @"推广中     房源数：3套";
     //黑框
     self.titleArr_Popover= [NSArray arrayWithObjects:@"添加房源", @"停止推广", @"修改限额", nil];
     
@@ -61,19 +59,10 @@
                                     target:self
                                    action:@selector(action:)];
     self.navigationItem.rightBarButtonItem = editButton;
-    
-//    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc]
-//                                   initWithTitle:@"返回"
-//                                   style:UIBarButtonItemStyleBordered
-//                                   target:self
-//                                action:@selector(back:)];
-//    self.navigationItem.leftBarButtonItem = backBtn;
-    
-    self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
-    self.myTable.delegate = self;
-    self.myTable.dataSource = self;
-    [self.view addSubview:self.myTable];
-    
+	// Do any additional setup after loading the view.
+}
+-(void)initModel{
+    [super initModel];
     FixedObject *fixed = [[FixedObject alloc] init];
     fixed.tapNum = @"10";
     fixed.topCost = @"100";
@@ -110,9 +99,7 @@
     property.price = @"234万";
     [self.myArray addObject:property];
 
-	// Do any additional setup after loading the view.
 }
-
 #pragma mark - RTPOPOVER Delegate
 - (void)popoverCellClick:(int)row {
     
@@ -144,10 +131,6 @@
 //    [self.myTable reloadData];
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [self.myArray count];
-}
-
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if([indexPath row] == 1){
     return 71.0f;
@@ -158,26 +141,22 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if([indexPath row] == 0){
-        static NSString *cellIdent = @"FixedDetailCell";
-        FixedDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+        static NSString *cellIdent = @"SaleFixedCell";
+        SaleFixedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
-            cell = [[NSClassFromString(@"FixedDetailCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FixedDetailCell"];
+            cell = [[NSClassFromString(@"SaleFixedCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SaleFixedCell"];
         }
-        
-        [cell setValueForCellByObject:[self.myArray objectAtIndex:[indexPath row]]];
-        
+        [cell configureCell:[self.myArray objectAtIndex:[indexPath row]]];
         return cell;
     }else{
-        
-        static NSString *cellIdent = @"PropertyListCell";
-        PropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+        static NSString *cellIdent = @"SalePropertyListCell";
+        SalePropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
-            cell = [[NSClassFromString(@"PropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"PropertyListCell"];
+            cell = [[NSClassFromString(@"SalePropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SalePropertyListCell"];
 //            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
-        
-        [cell setValueForCellByObject:[self.myArray objectAtIndex:[indexPath row]]];
-        
+//        [cell setValueForCellByObject:[self.myArray objectAtIndex:[indexPath row]]];
+        [cell configureCell:[self.myArray objectAtIndex:[indexPath row]]];
         return cell;
     }
 }
@@ -216,12 +195,12 @@
 #pragma mark -- privateMethod
 
 - (void)action:(id)sender {
-    if (self.popoverBG) {
-        [self.popoverBG dismissPopoverAnimated:YES];
-		self.popoverBG = nil;
-        
-        return;
-    }
+//    if (self.popoverBG) {
+//        [self.popoverBG dismissPopoverAnimated:YES];
+//		self.popoverBG = nil;
+//        
+//        return;
+//    }
     
 //    RTPopoverTableViewController *ptv = [[RTPopoverTableViewController alloc] init];
 //    self.popoverTableView = ptv;
@@ -231,20 +210,20 @@
 //    [ptv setTableViewWithFrame:CGRectMake(0, 0, 198/2, 3* RT_POPOVER_TV_HEIGHT)];
 //    [self.view addSubview:ptv.view];
     
-    UIPopoverController *pop = nil;
-    pop = [[UIPopoverController alloc] init];
-    self.popoverBG = pop;
-    self.popoverBG.delegate = self;
-    self.popoverBG.popoverContentSize = CGSizeMake(198/2, 3* RT_POPOVER_TV_HEIGHT); //popover View 大小
-//    self.popoverBG.passthroughViews = [NSArray arrayWithObject:self.navigationController.navigationBar];
-    [self.popoverBG presentPopoverFromRect:CGRectMake(0, 0, 20, 20)
-                                            inView:self.navigationController.navigationBar
-                          permittedArrowDirections:UIPopoverArrowDirectionUp
-                                          animated:YES];
+//    UIPopoverController *pop = nil;
+//    pop = [[UIPopoverController alloc] init];
+//    self.popoverBG = pop;
+//    self.popoverBG.delegate = self;
+//    self.popoverBG.popoverContentSize = CGSizeMake(198/2, 3* RT_POPOVER_TV_HEIGHT); //popover View 大小
+////    self.popoverBG.passthroughViews = [NSArray arrayWithObject:self.navigationController.navigationBar];
+//    [self.popoverBG presentPopoverFromRect:CGRectMake(0, 0, 20, 20)
+//                                            inView:self.navigationController.navigationBar
+//                          permittedArrowDirections:UIPopoverArrowDirectionUp
+//                                          animated:YES];
     
-//    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"添加房源", @"停止推广", @"修改限额", nil];
-//    action.tag = 100;
-//    [action showInView:self.view];
+    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"添加房源", @"停止推广", @"修改限额", nil];
+    action.tag = 100;
+    [action showInView:self.view];
 }
 
 #pragma mark - UIActionSheetDelegate
@@ -269,7 +248,6 @@
 //            [self.navigationController pushViewController:controller animated:YES];
             
         }else if (buttonIndex == 1){
-            fixedStatus = @"已停止推广     房源数：3套";
             [self.myTable reloadData];
         }else if (buttonIndex == 2){
             ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];

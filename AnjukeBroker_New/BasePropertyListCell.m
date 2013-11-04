@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 Wu sicong. All rights reserved.
 //
 
-#import "PropertyListCell.h"
+#import "BasePropertyListCell.h"
 #import "PropertyObject.h"
 #import "Util_UI.h"
 
-@implementation PropertyListCell
+@implementation BasePropertyListCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -54,6 +54,16 @@
     title.text = obj.title;
     communityName.text = obj.communityName;
     price.text = obj.price;
+}
+-(BOOL)configureCell:(id)dataModel{
+    if([dataModel isKindOfClass:[PropertyObject class]]){
+        PropertyObject *obj = (PropertyObject *)dataModel;
+        title.text = obj.title;
+        communityName.text = obj.communityName;
+        price.text = obj.price;
+        return YES;
+    }
+    return NO;
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {

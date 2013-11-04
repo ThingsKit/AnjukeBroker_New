@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Wu sicong. All rights reserved.
 //
 
-#import "PropertyListCell.h"
+#import "BasePropertyListCell.h"
 #import "RTListCell.h"
 
 @interface BidPropertyListCell : RTListCell

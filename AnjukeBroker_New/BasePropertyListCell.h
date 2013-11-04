@@ -10,14 +10,13 @@
 #import "PropertyObject.h"
 #import "RTListCell.h"
 
-@interface PropertyListCell : RTListCell
+@interface BasePropertyListCell : RTListCell
 {
     UILabel *title;
     UILabel *communityName;
     UILabel *price;
     UILabel *tapNum;
     UILabel *tapNumStr;
-    
 }
 -(void)setValueForCellByObject:(PropertyObject *) obj;
 

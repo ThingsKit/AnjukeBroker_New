@@ -9,13 +9,10 @@
 #import "BaseFixedDetailController.h"
 #import "RTPopoverTableViewController.h"
 
-@interface SaleFixedDetailController : BaseFixedDetailController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, RTPopoverTableViewDelegate, UIPopoverControllerDelegate>
+@interface SaleFixedDetailController : BaseFixedDetailController <UIActionSheetDelegate, RTPopoverTableViewDelegate, UIPopoverControllerDelegate>
 {
-    UITableView *myTable;
-    NSMutableArray *myArray;
-    
+
 }
-@property (strong, nonatomic) UITableView *myTable;
-@property (strong, nonatomic) NSMutableArray *myArray;
+
 
 @end

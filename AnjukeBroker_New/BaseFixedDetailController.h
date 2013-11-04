@@ -8,6 +8,10 @@
 
 #import "RTViewController.h"
 
-@interface BaseFixedDetailController : RTViewController
+@interface BaseFixedDetailController : RTViewController <UITableViewDelegate, UITableViewDataSource>
+{
+}
+@property (strong, nonatomic) UITableView *myTable;
+@property (strong, nonatomic) NSMutableArray *myArray;
 
 @end

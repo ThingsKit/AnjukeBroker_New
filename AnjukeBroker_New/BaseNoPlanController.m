@@ -7,7 +7,8 @@
 //
 
 #import "BaseNoPlanController.h"
-#import "BaseNoPlanListCell.h"
+//#import "BaseNoPlanListCell.h"
+#import "SaleNoPlanListCell.h"
 
 @interface BaseNoPlanController ()
 
@@ -58,23 +59,23 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdent = @"cell";
     
-    BaseNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+    SaleNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == nil){
-        cell = [[BaseNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
-        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
-//        iamge = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 20, 20)];
-//        iamge.image = [UIImage imageNamed:@"2leftarrow.png"];
-//        [cell addSubview:iamge];
+        cell = [[SaleNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
+        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
+//        cell.clickDelegate = self;
     }
     
     [cell configureCell:nil withIndex:indexPath.row];
     
     if([self.selectedArray containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
-        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_selected@2x.png"];
+        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_selected@2x.png"];
     }else{
-        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
+        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
     }
-//    cell.textLabel.text = [self.myArray objectAtIndex:[indexPath row]];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return cell;
 }
 

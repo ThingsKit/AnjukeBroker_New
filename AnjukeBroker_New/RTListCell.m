@@ -15,6 +15,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        [self initUI];
         // Initialization code
     }
     return self;

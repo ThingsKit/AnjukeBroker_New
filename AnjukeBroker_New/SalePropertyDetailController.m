@@ -7,7 +7,7 @@
 //
 
 #import "SalePropertyDetailController.h"
-#import "FixedDetailCell.h"
+#import "SaleFixedCell.h"
 #import "PropertyDetailCell.h"
 #import "AnjukeEditPropertyViewController.h"
 #import "SaleBidPlanController.h"
@@ -59,11 +59,12 @@
     
     if([indexPath row] == 1){
         static NSString *cellIdent = @"FixedDetailCell";
-        FixedDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+        SaleFixedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == Nil){
             cell = [[NSClassFromString(@"FixedDetailCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FixedDetailCell"];
-            [cell setValueForCellByObject:self.fixedObject];
+//            [cell setValueForCellByObject:self.fixedObject];
         }
+        [cell configureCell:self.fixedObject];
         return cell;
     }else{
         static NSString *cellIdent = @"PropertyDetailCell";
