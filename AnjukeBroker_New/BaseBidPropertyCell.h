@@ -9,7 +9,7 @@
 #import "BasePropertyListCell.h"
 #import "RTListCell.h"
 
-@interface BidPropertyListCell : RTListCell
+@interface BaseBidPropertyCell : RTListCell
 {
     
 }

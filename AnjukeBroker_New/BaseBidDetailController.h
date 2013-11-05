@@ -8,6 +8,7 @@
 
 #import "RTViewController.h"
 
-@interface BaseBidDetailController : RTViewController
-
+@interface BaseBidDetailController : RTViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
+@property (strong, nonatomic) UITableView *myTable;
+@property (strong, nonatomic) NSMutableArray *myArray;
 @end

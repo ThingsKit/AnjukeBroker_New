@@ -7,12 +7,15 @@
 //
 
 #import "BaseBidDetailController.h"
+#import "BaseBidPropertyCell.h"
 
 @interface BaseBidDetailController ()
 
 @end
 
 @implementation BaseBidDetailController
+@synthesize myArray;
+@synthesize myTable;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,6 +30,50 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+}
+-(void)initModel{
+    self.myArray = [NSMutableArray array];
+}
+-(void)initDisplay{
+    self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+    self.myTable.delegate = self;
+    self.myTable.dataSource = self;
+    [self.view addSubview:self.myTable];
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    //    BidPropertyDetailController *controller = [[BidPropertyDetailController alloc] init];
+    //    controller.propertyObject = [self.myArray objectAtIndex:[indexPath row]];
+    //    [self.navigationController pushViewController:controller animated:YES];
+    
+    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"竞价出价及预算", @"暂停竞价推广", nil];
+    [action showInView:self.view];
+    
+    
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return [self.myArray count];
+}
+
+-(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 114.0f;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static NSString *cellIdent = @"BaseBidPropertyCell";
+    BaseBidPropertyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+    
+    if(cell == nil){
+        cell = [[NSClassFromString(@"BaseBidPropertyCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BaseBidPropertyCell"];
+    }
+    
+    [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    
+    return cell;
 }
 
 - (void)didReceiveMemoryWarning

@@ -1,33 +1,29 @@
 //
-//  SaleBidDetailController.m
+//  RentBidDetailController.m
 //  AnjukeBroker_New
 //
-//  Created by jianzhongliu on 10/29/13.
+//  Created by jianzhongliu on 11/5/13.
 //  Copyright (c) 2013 Wu sicong. All rights reserved.
 //
 
-#import "SaleBidDetailController.h"
-#import "PropertyObject.h"
-#import "BaseBidPropertyCell.h"
-#import "BidPropertyDetailController.h"
-#import "SalePropertyListController.h"
+#import "RentBidDetailController.h"
 #import "AnjukeEditPropertyViewController.h"
-#import "SaleBidPlanController.h"
-#import "PropertyAuctionViewController.h"
 #import "RTNavigationController.h"
+#import "PropertyAuctionViewController.h"
+#import "SalePropertyListController.h"
+#import "BaseBidPropertyCell.h"
 
-@interface SaleBidDetailController ()
+@interface RentBidDetailController ()
 
 @end
 
-@implementation SaleBidDetailController
+@implementation RentBidDetailController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        
     }
     return self;
 }
@@ -75,11 +71,15 @@
     [tempDic setValue:@"   1                  56              2.0             24.00" forKey:@"stringNum"];
     [self.myArray addObject:tempDic];
 }
-
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    BidPropertyDetailController *controller = [[BidPropertyDetailController alloc] init];
-//    controller.propertyObject = [self.myArray objectAtIndex:[indexPath row]];
-//    [self.navigationController pushViewController:controller animated:YES];
+    //    BidPropertyDetailController *controller = [[BidPropertyDetailController alloc] init];
+    //    controller.propertyObject = [self.myArray objectAtIndex:[indexPath row]];
+    //    [self.navigationController pushViewController:controller animated:YES];
     
     UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"竞价出价及预算", @"暂停竞价推广", nil];
     [action showInView:self.view];
@@ -96,34 +96,20 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    
     static NSString *cellIdent = @"BaseBidPropertyCell";
     BaseBidPropertyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
-
+    
     if(cell == nil){
         cell = [[NSClassFromString(@"BaseBidPropertyCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BaseBidPropertyCell"];
-     }
+    }
     
     [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryNone;
-
+    
     return cell;
-}
-
-//
-//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-//    UILabel *headerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 15)];
-//    headerLab.backgroundColor = [UIColor grayColor];
-//    headerLab.text = @"房源数：5套";
-//    return headerLab;
-//}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 #pragma mark -- UIActionSheetDelegate
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -139,9 +125,9 @@
         RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
         [self presentViewController:nav animated:YES completion:nil];
     }else if (buttonIndex == 2){
-    
+        
     }else{
-    
+        
     }
 }
 
@@ -152,5 +138,4 @@
     RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];
 }
-
 @end

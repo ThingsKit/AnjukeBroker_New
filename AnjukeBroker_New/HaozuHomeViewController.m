@@ -9,6 +9,7 @@
 #import "HaozuHomeViewController.h"
 #import "RentNoPlanListController.h"
 #import "RentFixedDetailController.h"
+#import "RentBidDetailController.h"
 #import "PPCGroupCell.h"
 
 @interface HaozuHomeViewController ()
@@ -72,9 +73,9 @@
     
     if([indexPath row] == 0)
     {
-//        SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
-//        [controller setHidesBottomBarWhenPushed:YES];
-//        [self.navigationController pushViewController:controller animated:YES];
+        RentBidDetailController *controller = [[RentBidDetailController alloc] init];
+        [controller setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:controller animated:YES];
     }else if ([indexPath row] == 1){
         RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
         [controller setHidesBottomBarWhenPushed:YES];

@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Wu sicong. All rights reserved.
 //
 
-#import "BidPropertyListCell.h"
+#import "BaseBidPropertyCell.h"
 #import "Util_UI.h"
 
-@implementation BidPropertyListCell
+@implementation BaseBidPropertyCell
 @synthesize title;
 @synthesize price;
 @synthesize string;
