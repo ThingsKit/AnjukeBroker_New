@@ -49,12 +49,7 @@
     
     [self.view addSubview:content];
     
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"确定"
-                                   style:UIBarButtonItemStyleBordered
-                                   target:self
-                                   action:@selector(action)];
-    self.navigationItem.rightBarButtonItem = editButton;
+    [self addRightButton:@"操作" andPossibleTitle:nil];
 
 	// Do any additional setup after loading the view.
 }
