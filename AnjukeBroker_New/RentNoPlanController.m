@@ -28,12 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"确定"
-                                   style:UIBarButtonItemStyleBordered
-                                   target:self
-                                   action:@selector(action)];
-    self.navigationItem.rightBarButtonItem = editButton;
+    [self addRightButton:@"确定" andPossibleTitle:nil];
 	// Do any additional setup after loading the view.
 }
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -95,8 +90,7 @@
     // Dispose of any resources that can be recreated.
 }
 #pragma mark - PrivateMethod
-
--(void)action{
+-(void)rightButtonAction:(id)sender{
     //    [self.navigationController popViewControllerAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
 }

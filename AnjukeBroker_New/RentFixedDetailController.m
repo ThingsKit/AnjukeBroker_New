@@ -37,12 +37,7 @@
 {
     [super viewDidLoad];
     [self setTitleViewWithString:@"定价房源"];
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"操作"
-                                   style:UIBarButtonItemStyleBordered
-                                   target:self
-                                   action:@selector(action:)];
-    self.navigationItem.rightBarButtonItem = editButton;
+    [self addRightButton:@"操作" andPossibleTitle:nil];
 	// Do any additional setup after loading the view.
 }
 -(void)initModel{
@@ -186,7 +181,7 @@
 }
 
 #pragma mark -- privateMethod
-- (void)action:(id)sender {
+-(void)rightButtonAction:(id)sender{
     UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"添加房源", @"停止推广", @"修改限额", nil];
     action.tag = 100;
     [action showInView:self.view];

@@ -40,13 +40,7 @@
     self.myTable.dataSource = self;
     [self.view addSubview:self.myTable];
     
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"操作"
-                                   style:UIBarButtonItemStyleBordered
-                                   target:self
-                                   action:@selector(action)];
-    self.navigationItem.rightBarButtonItem = editButton;
-
+    [self addRightButton:@"操作" andPossibleTitle:nil];
 	// Do any additional setup after loading the view.
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -83,7 +77,7 @@
     // Dispose of any resources that can be recreated.
 }
 #pragma mark -- privateMethod
--(void)action{
+-(void)rightButtonAction:(id)sender{
     UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"取消定价推广", @"竞价推广本房源", nil];
     [action showInView:self.view];
     

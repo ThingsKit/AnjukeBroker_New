@@ -36,12 +36,7 @@
 {
     [super viewDidLoad];
     [self setTitleViewWithString:@"竞价推广"];
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"新增"
-                                   style:UIBarButtonItemStyleBordered
-                                   target:self
-                                   action:@selector(addProperty)];
-    self.navigationItem.rightBarButtonItem = editButton;
+    [self addRightButton:@"新增" andPossibleTitle:nil];
 	// Do any additional setup after loading the view.
 }
 -(void)initModel{
@@ -146,7 +141,7 @@
 }
 
 #pragma mark -- PrivateMethod
--(void)addProperty{
+-(void)rightButtonAction:(id)sender{
     SalePropertyListController *controller = [[SalePropertyListController alloc] init];
     controller.backType = RTSelectorBackTypeDismiss;
     RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];

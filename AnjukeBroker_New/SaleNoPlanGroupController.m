@@ -63,10 +63,7 @@
 
 - (void)initDisplay_ {
     //全选
-    UIBarButtonItem *selectBtn = [[UIBarButtonItem alloc] initWithTitle:SELECT_ALL_STR style:UIBarButtonItemStyleBordered target:self action:@selector(mutableAction:)];
-    self.seleceAllItem = selectBtn;
-    selectBtn.possibleTitles = [NSSet setWithObjects:UNSELECT_ALL_STR, nil];
-    self.navigationItem.rightBarButtonItem = selectBtn;
+    [self addRightButton:@"全选" andPossibleTitle:@"取消全选"];
     
     self.myTable.frame = FRAME_BETWEEN_NAV_TAB;
     
@@ -162,8 +159,7 @@
     UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"编辑房源", @"删除房源", nil];
     [action showInView:self.view];
 }
-
--(void)mutableAction:(id) sender{
+-(void)rightButtonAction:(id)sender{
     if (self.myArray.count == 0) { //未推广房源被清空后不可全选
         return;
     }

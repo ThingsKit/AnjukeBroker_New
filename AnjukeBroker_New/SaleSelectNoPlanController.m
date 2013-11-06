@@ -29,13 +29,7 @@
 {
     [super viewDidLoad];
     
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"确定"
-                                   style:UIBarButtonItemStyleBordered
-                                   target:self
-                                   action:@selector(action)];
-    self.navigationItem.rightBarButtonItem = editButton;
-    
+    [self addRightButton:@"确定" andPossibleTitle:nil];
     self.myTable.frame = FRAME_WITH_NAV;
 	// Do any additional setup after loading the view.
 }
@@ -83,8 +77,7 @@
 }
 
 #pragma mark - PrivateMethod
-
--(void)action{
+-(void)rightButtonAction:(id)sender{
 //    [self.navigationController popViewControllerAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
 }

@@ -34,12 +34,7 @@
 {
     [super viewDidLoad];
     [self setTitleViewWithString:@"房源详情"];
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"操作"
-                                   style:UIBarButtonItemStyleBordered
-                                   target:self
-                                   action:@selector(action)];
-    self.navigationItem.rightBarButtonItem = editButton;
+    [self addRightButton:@"操作" andPossibleTitle:nil];
     
     self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.myTable.delegate = self;
@@ -138,7 +133,7 @@
 }
 
 #pragma mark -- PrivateMethod
--(void)action{
+-(void)rightButtonAction:(id)sender{
     UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源", @"取消定价推广", @"竞价出价及预算", @"取消竞价推广", nil];
     [action showInView:self.view];
 }

@@ -34,12 +34,7 @@
     [super viewDidLoad];
     [self setTitleViewWithString:@"设置竞价"];
     
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"确定"
-                                   style:UIBarButtonItemStyleBordered
-                                   target:self
-                                   action:@selector(action)];
-    self.navigationItem.rightBarButtonItem = editButton;
+    [self addRightButton:@"确定" andPossibleTitle:nil];
 
     
     UILabel *budget = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, 300, 20)];
@@ -87,7 +82,7 @@
     [priceValue resignFirstResponder];
 }
 
--(void)action{
+-(void)rightButtonAction:(id)sender{
     for (UIViewController *tempController in self.navigationController.viewControllers) {
         if([tempController isKindOfClass:[SaleBidDetailController class]]){
         [self.navigationController popToViewController:tempController animated:YES];

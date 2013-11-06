@@ -52,7 +52,7 @@
     [self setTitleViewWithString:@"定价房源"];
     //黑框
     self.titleArr_Popover= [NSArray arrayWithObjects:@"添加房源", @"停止推广", @"修改限额", nil];
-    [self addRightButton:@"操作" andPossibleTitle:@""];
+    [self addRightButton:@"操作" andPossibleTitle:nil];
 	// Do any additional setup after loading the view.
 }
 -(void)initModel{
