@@ -112,7 +112,7 @@
     
     CGFloat labelH = 20;
     
-    UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFSETX, (INPUT_VIEW_HEIGHT - labelH)/2, 100, labelH)];
+    UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFSETX, (INPUT_VIEW_HEIGHT - labelH)/2, 50, labelH)];
     titleLb.backgroundColor = [UIColor clearColor];
     titleLb.text = title;
     titleLb.font = [UIFont systemFontOfSize:17];
@@ -120,7 +120,7 @@
     [BG addSubview:titleLb];
     
     UITextField *cellTextField = nil;
-    cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(200, titleLb.frame.origin.x,  [self windowWidth] - 200-10, labelH)];
+    cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(titleLb.frame.origin.x + titleLb.frame.size.width, 0,  [self windowWidth] - (titleLb.frame.origin.x + titleLb.frame.size.width)-10, BG.frame.size.height)];
     cellTextField.returnKeyType = UIReturnKeyDone;
     cellTextField.backgroundColor = [UIColor clearColor];
     cellTextField.borderStyle = UITextBorderStyleNone;
@@ -134,6 +134,7 @@
     cellTextField.textAlignment = NSTextAlignmentRight;
     cellTextField.secureTextEntry = NO;
     cellTextField.textColor = SYSTEM_LIGHT_GRAY;
+    
     switch (index) {
         case 0:
         {

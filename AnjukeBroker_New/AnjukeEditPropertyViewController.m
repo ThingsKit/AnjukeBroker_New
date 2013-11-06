@@ -16,6 +16,7 @@
 #import "PropertyBigImageViewController.h"
 #import "BrokerLineView.h"
 #import "RTNavigationController.h"
+#import "CommunityListViewController.h"
 
 #define photoHeaderH 100
 #define photoHeaderH_RecNum 100 +50
@@ -358,6 +359,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
         //小区 push
+        CommunityListViewController *cl = [[CommunityListViewController alloc] init];
+        [self.navigationController pushViewController:cl animated:YES];
         
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;

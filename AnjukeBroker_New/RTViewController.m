@@ -41,7 +41,7 @@
 }
 
 - (void)dealloc {
-    [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
+//    [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -77,6 +77,12 @@
     self.navigationItem.leftBarButtonItem = backBtn;
 }
 
+- (void)addRightButton:(NSString *)title andPossibleTitle:(NSString *)possibleTitle {
+    UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:@selector(rightButtonAction:)];
+    rBtn.possibleTitles = [NSSet setWithObject:possibleTitle];
+    self.navigationItem.leftBarButtonItem = rBtn;
+}
+
 - (void)doBack:(id)sender {
     if (self.backType == RTSelectorBackTypeDismiss) {
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -87,6 +93,10 @@
     else if (self.backType == RTSelectorBackTypePopToRoot) {
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
+}
+
+- (void)rightButtonAction:(id)sender {
+    
 }
 
 - (void)initModel {

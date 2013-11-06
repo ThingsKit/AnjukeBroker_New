@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "LoginViewController.h"
+#import "RTNavigationController.h"
+#import "LoginManager.h"
 
 #define coreDataName @"AnjukeBroker"
 #define code_AppName @"i-broker"
@@ -27,13 +30,15 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
     
     //初始化底层库
     [self initRTManager];
     
     //add root viewController
-    [self addRootTabBarController];
+//    [self addRootTabBarController];
+    [self checkLogin];
+    
+    [self.window makeKeyAndVisible];
     
     [self checkVersion];
     
@@ -179,15 +184,15 @@
     
     [[RTRequestProxy sharedInstance] setAppName:code_AppName];
     [[RTRequestProxy sharedInstance] setChannelID:@"A01"];
-    
-    //test
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"shtest", @"username", @"anjukeqa", @"password", nil];
-    [[RTRequestProxy sharedInstance] asyncPostWithServiceID:RTAnjukeBrokerServiceID methodName:@"login/" params:params target:self action:@selector(onGetLogin:)];
+    [[RTRequestProxy sharedInstance] setLogger:[RTLogger sharedInstance]];
 }
 
-- (void)onGetLogin:(RTNetworkResponse *) response {
-    DLog(@"response [%@]", [response content]);
-    
+- (void)checkLogin {
+    //test add login
+    LoginViewController *lb = [[LoginViewController alloc] init];
+    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:lb];
+    nav.navigationBarHidden = YES;
+    self.window.rootViewController = nav;
 }
 
 - (void)checkVersion { // 新版本更新检查
@@ -195,7 +200,6 @@
 }
 
 - (void)addRootTabBarController { //初始化tabBarViewController
-    
     TabBarViewController *tv = [[TabBarViewController alloc] init];
     self.rootViewController = tv;
     self.window.rootViewController = self.rootViewController;

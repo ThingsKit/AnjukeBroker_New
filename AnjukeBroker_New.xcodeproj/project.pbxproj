@@ -39,6 +39,8 @@
 		974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 974E5C8B181E4D45000246D1 /* AnjukeNormalCell.m */; };
 		975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 975D9DE0181B69A700A421AF /* KeyboardToolBar.m */; };
 		976AC61118278B5C003A2B3A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 976AC61018278B5C003A2B3A /* LoginViewController.m */; };
+		977FCA8F182894F000945FB4 /* CommunityListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 977FCA8E182894F000945FB4 /* CommunityListViewController.m */; };
+		977FCA9D1828FAD700945FB4 /* LoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 977FCA9C1828FAD700945FB4 /* LoginManager.m */; };
 		979583581821FF2B005EA48A /* SystemMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 979583571821FF2B005EA48A /* SystemMessageViewController.m */; };
 		9795835D1822014A005EA48A /* SystemMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9795835C1822014A005EA48A /* SystemMessageCell.m */; };
 		97958362182229AF005EA48A /* Util_TEXT.m in Sources */ = {isa = PBXBuildFile; fileRef = 97958361182229AF005EA48A /* Util_TEXT.m */; };
@@ -197,6 +199,10 @@
 		975D9DE0181B69A700A421AF /* KeyboardToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardToolBar.m; sourceTree = "<group>"; };
 		976AC60F18278B5C003A2B3A /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		976AC61018278B5C003A2B3A /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		977FCA8D182894F000945FB4 /* CommunityListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommunityListViewController.h; sourceTree = "<group>"; };
+		977FCA8E182894F000945FB4 /* CommunityListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommunityListViewController.m; sourceTree = "<group>"; };
+		977FCA9B1828FAD700945FB4 /* LoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginManager.h; sourceTree = "<group>"; };
+		977FCA9C1828FAD700945FB4 /* LoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginManager.m; sourceTree = "<group>"; };
 		979583561821FF2B005EA48A /* SystemMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMessageViewController.h; sourceTree = "<group>"; };
 		979583571821FF2B005EA48A /* SystemMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemMessageViewController.m; sourceTree = "<group>"; };
 		9795835B1822014A005EA48A /* SystemMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMessageCell.h; sourceTree = "<group>"; };
@@ -718,6 +724,8 @@
 				97B422671821087600A2E9E6 /* PropertyBigImageViewController.m */,
 				974E5C87181E4B00000246D1 /* AnjukeEditableTV_DataSource.h */,
 				974E5C88181E4B00000246D1 /* AnjukeEditableTV_DataSource.m */,
+				977FCA8D182894F000945FB4 /* CommunityListViewController.h */,
+				977FCA8E182894F000945FB4 /* CommunityListViewController.m */,
 			);
 			name = "房源编辑";
 			sourceTree = "<group>";
@@ -814,6 +822,8 @@
 		B769E449181F4C0B00A2FF50 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				977FCA9B1828FAD700945FB4 /* LoginManager.h */,
+				977FCA9C1828FAD700945FB4 /* LoginManager.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -1021,6 +1031,7 @@
 				97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */,
 				97410565180CDFE0004DAE95 /* AppDelegate.m in Sources */,
 				B769E47B181F82B000A2FF50 /* BaseBidPropertyCell.m in Sources */,
+				977FCA8F182894F000945FB4 /* CommunityListViewController.m in Sources */,
 				979583581821FF2B005EA48A /* SystemMessageViewController.m in Sources */,
 				B769E45D181F54DE00A2FF50 /* PropertyObject.m in Sources */,
 				97B4225D1820E36600A2E9E6 /* PropertyAuctionViewController.m in Sources */,
@@ -1040,6 +1051,7 @@
 				972DDA2A1826A4CA00263F8F /* RTNavigationController.m in Sources */,
 				B769E453181F4D0100A2FF50 /* SaleFixedCell.m in Sources */,
 				972C10291814FCD300552C9B /* HomeViewController.m in Sources */,
+				977FCA9D1828FAD700945FB4 /* LoginManager.m in Sources */,
 				B769E44F181F4C3E00A2FF50 /* FixedObject.m in Sources */,
 				97B422601820E38200A2E9E6 /* PropertyResultListViewController.m in Sources */,
 				B769E484181F8F7000A2FF50 /* BasePropertyListController.m in Sources */,

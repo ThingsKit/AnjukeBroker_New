@@ -8,6 +8,6 @@
 
 #import "RTViewController.h"
 
-@interface LoginViewController : RTViewController
+@interface LoginViewController : RTViewController <UITextFieldDelegate>
 
 @end
