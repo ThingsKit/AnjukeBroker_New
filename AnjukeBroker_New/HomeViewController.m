@@ -21,6 +21,7 @@
 @interface HomeViewController ()
 @property (nonatomic, strong) NSArray *taskArray;
 @property (nonatomic, strong) UITableView *tvList;
+
 @end
 
 @implementation HomeViewController
@@ -82,8 +83,8 @@
     CGFloat photoW = 124/2;
     WebImageView *photo = [[WebImageView alloc] initWithFrame:CGRectMake(52/2, (view1.frame.size.height - photoW)/2, photoW, photoW)];
     photo.backgroundColor = [UIColor whiteColor];
-    photo.imageUrl = [LoginManager getUse_photo_url];
     photo.contentMode = UIViewContentModeScaleAspectFit;
+    photo.imageUrl = [LoginManager getUse_photo_url];
     [view1 addSubview:photo];
     
     //name
