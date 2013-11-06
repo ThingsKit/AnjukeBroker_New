@@ -21,6 +21,7 @@
 @interface HomeViewController ()
 @property (nonatomic, strong) NSArray *taskArray;
 @property (nonatomic, strong) UITableView *tvList;
+@property (nonatomic, strong) WebImageView *photoImg;
 
 @end
 
@@ -85,6 +86,7 @@
     photo.backgroundColor = [UIColor whiteColor];
     photo.contentMode = UIViewContentModeScaleAspectFit;
     photo.imageUrl = [LoginManager getUse_photo_url];
+    self.photoImg = photo;
     [view1 addSubview:photo];
     
     //name
