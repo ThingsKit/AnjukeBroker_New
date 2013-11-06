@@ -7,6 +7,7 @@
 //
 
 #import "SaleNoPlanListCell.h"
+#import "SalePropertyObject.h"
 
 @implementation SaleNoPlanListCell
 @synthesize mutableBtn;
@@ -26,16 +27,14 @@
         [self.mutableBtn addSubview:self.btnImage];
         
         [self.contentView addSubview:self.mutableBtn];
-    // Initialization code
     }
     return self;
 }
 
-//- (BOOL)configureCell:(id)dataModel withIndex:(int)index {
-//    self.selectRow = index;
-//    
-//    return YES;
-//}
+- (BOOL)configureCell:(id)dataModel withIndex:(int)index{
+    [super configureCell:dataModel withIndex:index];
+    return NO;
+}
 
 - (void)btnClicked:(id)sender {
     if ([self.clickDelegate respondsToSelector:@selector(checkmarkBtnClickedWithRow:)]) {

@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "RTListCell.h"
+#import "BasePropertyObject.h"
 
 @interface BaseNoPlanListCell : RTListCell
 {
-    UILabel *title;
-    UILabel *communityName;
-    UILabel *price;
-    UIButton *mutableSelect;
+
 }
+@property (strong, nonatomic) UILabel *title;
+@property (strong, nonatomic) UILabel *detail;
+@property (strong, nonatomic) UILabel *price;
+@property (strong, nonatomic) UIButton *mutableSelect;
 
 @end

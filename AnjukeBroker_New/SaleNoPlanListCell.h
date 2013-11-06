@@ -19,5 +19,4 @@
 @property (strong, nonatomic) UIButton *mutableBtn;
 @property (strong, nonatomic) UIImageView *btnImage;
 @property (nonatomic, assign) id <CheckmarkBtnClickDelegate> clickDelegate;
-
 @end

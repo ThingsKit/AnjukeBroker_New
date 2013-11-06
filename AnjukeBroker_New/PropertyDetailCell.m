@@ -34,7 +34,7 @@
     }
     return self;
 }
--(void)setValueForCellByObject:(PropertyObject *) obj{
+-(void)setValueForCellByObject:(BasePropertyObject *) obj{
     title.text = obj.title;
     communityName.text = obj.communityName;
     price.text = obj.price;

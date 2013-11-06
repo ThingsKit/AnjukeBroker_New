@@ -12,6 +12,7 @@
 #import "PropertyAuctionViewController.h"
 #import "SalePropertyListController.h"
 #import "BaseBidPropertyCell.h"
+#import "LoginManager.h"
 
 @interface RentBidDetailController ()
 
@@ -66,6 +67,7 @@
     [tempDic setValue:@"   1                  56              2.0             24.00" forKey:@"stringNum"];
     [self.myArray addObject:tempDic];
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

@@ -10,6 +10,8 @@
 #import "AnjukeEditPropertyViewController.h"
 #import "SaleFixedDetailController.h"
 #import "Util_UI.h"
+#import "LoginManager.h"
+#import "SaleNoPlanListManager.h"
 
 #define SELECT_ALL_STR @"全选"
 #define UNSELECT_ALL_STR @"取消全选"
@@ -96,8 +98,50 @@
     
     [self setEditBtnEnableStatus];
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self doRequest];
+}
+
+-(void)doRequest{
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/noplanprops/" params:params target:self action:@selector(onGetLogin:)];
+}
+- (void)onGetLogin:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [[response content] JSONRepresentation]);
+    DLog(@"------response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    
+    if (([[resultFromAPI objectForKey:@"propBaseInfo"] count] == 0 || resultFromAPI == nil)) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self.myArray removeAllObjects];
+        [self.myTable reloadData];
+        return;
+    }
+
+    NSMutableArray *result = [SaleNoPlanListManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"propBaseInfo"]];
+    [self.myArray removeAllObjects];
+    [self.myArray addObjectsFromArray:result];
+    [self.myTable reloadData];
+
+}
 
 #pragma mark - TableView Delegate & Datasource
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return [self.myArray count];
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdent = @"cell";
@@ -108,8 +152,7 @@
         cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
         cell.clickDelegate = self;
     }
-    
-    [cell configureCell:nil withIndex:indexPath.row];
+    [cell configureCell:[self.myArray objectAtIndex:indexPath.row] withIndex:indexPath.row];
     
     if([self.selectedArray containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
         cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_selected@2x.png"];

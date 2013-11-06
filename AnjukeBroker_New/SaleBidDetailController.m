@@ -7,7 +7,7 @@
 //
 
 #import "SaleBidDetailController.h"
-#import "PropertyObject.h"
+#import "BasePropertyObject.h"
 #import "BaseBidPropertyCell.h"
 #import "BidPropertyDetailController.h"
 #import "SalePropertyListController.h"

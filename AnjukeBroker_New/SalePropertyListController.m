@@ -7,7 +7,7 @@
 //
 
 #import "SalePropertyListController.h"
-#import "PropertyObject.h"
+#import "BasePropertyObject.h"
 #import "PropertyDetailCell.h"
 #import "SaleBidPlanController.h"
 #import "PropertyAuctionViewController.h"
@@ -41,31 +41,31 @@
     self.myTable.dataSource = self;
     [self.view addSubview:self.myTable];
     
-    PropertyObject *property1 = [[PropertyObject alloc] init];
+    BasePropertyObject *property1 = [[BasePropertyObject alloc] init];
     property1.title = @"昨天最好的房子";
     property1.communityName = @"3室1厅 66平 125万";
     property1.price = @"1万";
     [self.myArray addObject:property1];
     
-    PropertyObject *property2 = [[PropertyObject alloc] init];
+    BasePropertyObject *property2 = [[BasePropertyObject alloc] init];
     property2.title = @"今天最好的房子";
     property2.communityName = @"3室1厅 66平 125万";
     property2.price = @"2万";
     [self.myArray addObject:property2];
     
-    PropertyObject *property3 = [[PropertyObject alloc] init];
+    BasePropertyObject *property3 = [[BasePropertyObject alloc] init];
     property3.title = @"明天最好的房子";
     property3.communityName = @"3室1厅 66平 125万";
     property3.price = @"3.05万";
     [self.myArray addObject:property3];
     
-    PropertyObject *property4 = [[PropertyObject alloc] init];
+    BasePropertyObject *property4 = [[BasePropertyObject alloc] init];
     property4.title = @"未来天最好的房子";
     property4.communityName = @"3室1厅 66平 125万";
     property4.price = @"6万";
     [self.myArray addObject:property4];
     
-    PropertyObject *property = [[PropertyObject alloc] init];
+    BasePropertyObject *property = [[BasePropertyObject alloc] init];
     property.title = @"上海最好的房子";
     property.communityName = @"3室1厅 66平 125万";
     property.price = @"1.9亿";

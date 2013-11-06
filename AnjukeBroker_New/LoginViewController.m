@@ -125,8 +125,8 @@
 #pragma mark - request method
 
 - (void)doRequest {
-    NSString *s1 = @"shtest";
-    NSString *s2 = @"anjukeqa";
+    NSString *s1 = @"ajk_sh";//@"shtest";
+    NSString *s2 = @"anjukeqa";//@"anjukeqa";
     //test
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:s1, @"username", s2, @"password", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"login/" params:params target:self action:@selector(onGetLogin:)];

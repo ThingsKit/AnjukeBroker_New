@@ -8,6 +8,7 @@
 
 #import "BaseNoPlanController.h"
 #import "SaleNoPlanListCell.h"
+#import "SalePropertyObject.h"
 
 @interface SaleNoPlanGroupController : BaseNoPlanController <UIActionSheetDelegate, UIAlertViewDelegate, CheckmarkBtnClickDelegate>
 

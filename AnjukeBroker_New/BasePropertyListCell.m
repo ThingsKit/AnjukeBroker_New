@@ -7,7 +7,7 @@
 //
 
 #import "BasePropertyListCell.h"
-#import "PropertyObject.h"
+#import "BasePropertyObject.h"
 #import "Util_UI.h"
 
 @implementation BasePropertyListCell
@@ -50,14 +50,14 @@
     }
     return self;
 }
--(void)setValueForCellByObject:(PropertyObject *) obj{
+-(void)setValueForCellByObject:(BasePropertyObject *) obj{
     title.text = obj.title;
     communityName.text = obj.communityName;
     price.text = obj.price;
 }
 -(BOOL)configureCell:(id)dataModel{
-    if([dataModel isKindOfClass:[PropertyObject class]]){
-        PropertyObject *obj = (PropertyObject *)dataModel;
+    if([dataModel isKindOfClass:[BasePropertyObject class]]){
+        BasePropertyObject *obj = (BasePropertyObject *)dataModel;
         title.text = obj.title;
         communityName.text = obj.communityName;
         price.text = obj.price;

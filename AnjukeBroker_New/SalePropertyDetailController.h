@@ -7,7 +7,7 @@
 //
 
 #import "BasePropertyDetailController.h"
-#import "PropertyObject.h"
+#import "BasePropertyObject.h"
 #import "FixedObject.h"
 
 @interface SalePropertyDetailController : BasePropertyDetailController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate>
@@ -17,6 +17,6 @@
 }
 @property (strong, nonatomic) UITableView *myTable;
 @property (strong, nonatomic) NSMutableArray *myArray;
-@property (strong, nonatomic) PropertyObject *propertyObject;
+@property (strong, nonatomic) BasePropertyObject *propertyObject;
 @property (strong, nonatomic) FixedObject *fixedObject;
 @end

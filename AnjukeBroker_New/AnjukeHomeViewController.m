@@ -11,6 +11,7 @@
 #import "SaleFixedDetailController.h"
 #import "SaleBidDetailController.h"
 #import "PPCGroupCell.h"
+#import "LoginManager.h"
 
 @interface AnjukeHomeViewController ()
 
@@ -68,7 +69,39 @@
     
 //    self.view.backgroundColor = [UIColor yellowColor];
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self doRequest];
+}
+-(void)doRequest{
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/noplanproptotal/" params:params target:self action:@selector(onGetLogin:)];
 
+}
+
+- (void)onGetLogin:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [[response content] JSONRepresentation]);
+    DLog(@"------response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    NSString *tempDetail = [NSString stringWithFormat:@"房源数：%@套", [resultFromAPI objectForKey:@"total"]];
+    NSMutableDictionary *tempDic = [myArray lastObject];
+    
+    [tempDic setValue:tempDetail forKey:@"detail"];
+    [myArray removeLastObject];
+    [myArray addObject:tempDic];
+    [myTable reloadData];
+}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
     

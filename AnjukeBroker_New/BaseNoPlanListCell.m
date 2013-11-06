@@ -10,40 +10,48 @@
 #import "Util_UI.h"
 
 @implementation BaseNoPlanListCell
+@synthesize title;
+@synthesize detail;
+@synthesize price;
+@synthesize mutableSelect;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        title = [[UILabel alloc] initWithFrame:CGRectMake(48, 10, 250, 20)];
-        title.textColor = SYSTEM_BLACK;
+        self.title = [[UILabel alloc] initWithFrame:CGRectMake(48, 10, 250, 20)];
+        self.title.textColor = SYSTEM_BLACK;
         
-        communityName = [[UILabel alloc] initWithFrame:CGRectMake(48, 40, 150, 20)];
-        communityName.textColor = [Util_UI colorWithHexString:@"#666666"];
-        communityName.font = [UIFont systemFontOfSize:12];
+        self.detail = [[UILabel alloc] initWithFrame:CGRectMake(48, 40, 150, 20)];
+        self.detail.textColor = [Util_UI colorWithHexString:@"#666666"];
+        self.detail.font = [UIFont systemFontOfSize:12];
         
-        price = [[UILabel alloc] initWithFrame:CGRectMake(210, 30, 150, 20)];
-        price.textColor = [UIColor grayColor];
-        price.font = [UIFont systemFontOfSize:12];
+        self.price = [[UILabel alloc] initWithFrame:CGRectMake(210, 30, 150, 20)];
+        self.price.textColor = [UIColor grayColor];
+        self.price.font = [UIFont systemFontOfSize:12];
         
-        [self.contentView addSubview:title];
-        [self.contentView addSubview:communityName];
-        [self.contentView addSubview:price];
+        [self.contentView addSubview:self.title];
+        [self.contentView addSubview:self.detail];
+        [self.contentView addSubview:self.price];
         // Initialization code
     }
     return self;
 }
 
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index {
-    self.selectRow = index;
-    
-    title.text = [NSString stringWithFormat:@"%@ %d",@"绝世好房", index];
-    communityName.text = @"3室2厅 120平 400万";
-    //    price.text = @"250万";
-    
-    return YES;
-}
+    if([dataModel isKindOfClass:[BasePropertyObject class]]){
+        BasePropertyObject *tempProperty = (BasePropertyObject *)dataModel;
+        [self setDetailLableValue:tempProperty];
+        self.title.text = tempProperty.title;
+        return YES;
+    }
 
+    return NO;
+}
+-(void)setDetailLableValue:(BasePropertyObject *) pro{
+    NSString *tempStr = [NSString stringWithFormat:@"%@  0平 %@%@",pro.type, pro.price, pro.priceUnit];
+    self.detail.text = tempStr;
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];

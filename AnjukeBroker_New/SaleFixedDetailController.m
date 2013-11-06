@@ -20,7 +20,7 @@
 #import "SaleFixedCell.h"
 #import "BasePropertyListCell.h"
 
-#import "PropertyObject.h"
+#import "BasePropertyObject.h"
 
 @interface SaleFixedDetailController ()
 {
@@ -63,31 +63,31 @@
     fixed.totalCost = @"30";
     [self.myArray addObject:fixed];
     
-    PropertyObject *property1 = [[PropertyObject alloc] init];
+    BasePropertyObject *property1 = [[BasePropertyObject alloc] init];
     property1.title = @"昨天最好的房子";
     property1.communityName = @"2室1厅  33平";
     property1.price = @"345万";
     [self.myArray addObject:property1];
     
-    PropertyObject *property2 = [[PropertyObject alloc] init];
+    BasePropertyObject *property2 = [[BasePropertyObject alloc] init];
     property2.title = @"今天最好的房子";
     property2.communityName = @"2室1厅  120平";
     property2.price = @"567万";
     [self.myArray addObject:property2];
     
-    PropertyObject *property3 = [[PropertyObject alloc] init];
+    BasePropertyObject *property3 = [[BasePropertyObject alloc] init];
     property3.title = @"明天最好的房子";
     property3.communityName = @"2室1厅  340平";
     property3.price = @"7896万";
     [self.myArray addObject:property3];
     
-    PropertyObject *property4 = [[PropertyObject alloc] init];
+    BasePropertyObject *property4 = [[BasePropertyObject alloc] init];
     property4.title = @"未来天最好的房子";
     property4.communityName = @"2室1厅  200平";
     property4.price = @"6435万";
     [self.myArray addObject:property4];
     
-    PropertyObject *property = [[PropertyObject alloc] init];
+    BasePropertyObject *property = [[BasePropertyObject alloc] init];
     property.title = @"上海最好的房子";
     property.communityName = @"2室1厅  80平";
     property.price = @"234万";

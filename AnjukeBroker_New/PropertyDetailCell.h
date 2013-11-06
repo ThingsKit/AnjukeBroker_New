@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PropertyObject.h"
+#import "BasePropertyObject.h"
 
 @interface PropertyDetailCell : UITableViewCell
 {
@@ -18,5 +18,5 @@
     UILabel *tapNumStr;
     
 }
--(void)setValueForCellByObject:(PropertyObject *) obj;
+-(void)setValueForCellByObject:(BasePropertyObject *) obj;
 @end

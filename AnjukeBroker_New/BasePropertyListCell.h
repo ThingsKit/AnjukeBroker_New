@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PropertyObject.h"
+#import "BasePropertyObject.h"
 #import "RTListCell.h"
 
 @interface BasePropertyListCell : RTListCell
@@ -18,6 +18,6 @@
     UILabel *tapNum;
     UILabel *tapNumStr;
 }
--(void)setValueForCellByObject:(PropertyObject *) obj;
+-(void)setValueForCellByObject:(BasePropertyObject *) obj;
 
 @end
