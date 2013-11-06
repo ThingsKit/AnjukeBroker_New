@@ -56,19 +56,11 @@
 }
 
 - (void)initDisplay {
-    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStyleBordered target:self action:@selector(doSure)];
-    self.navigationItem.rightBarButtonItem = backBtn;
+//    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStyleBordered target:self action:@selector(doSure)];
+//    self.navigationItem.rightBarButtonItem = backBtn;
     
-//    //确认btn
-//    UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    saveBtn.frame = ITEM_BTN_FRAME;
-//    [saveBtn setTitle:@"确定" forState:UIControlStateNormal];
-//    [saveBtn setTitleColor:SYSTEM_BLUE forState:UIControlStateNormal];
-//    [saveBtn addTarget:self action:@selector(doSure) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    UIBarButtonItem *rButton = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
-//    self.navigationItem.rightBarButtonItem = rButton;
-
+    [self addRightButton:@"确定" andPossibleTitle:nil];
+    
     //draw input view
     for (int i = 0; i < 2; i ++) {
         [self drawInputBGWithIndex:i];
@@ -155,6 +147,10 @@
     BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(TITLE_OFFSETX, INPUT_VIEW_HEIGHT - 0.5, [self windowWidth] - TITLE_OFFSETX, 0.5)];
     [BG addSubview:line];
     
+}
+
+- (void)rightButtonAction:(id)sender {
+    [self doSure];
 }
 
 - (void)doSure {
