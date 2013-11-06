@@ -11,7 +11,8 @@
 @implementation LoginManager
 
 + (BOOL)isLogin {
-    if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"isLogin"] isEqualToString:@"YES"]) {
+    if ([[NSUserDefaults standardUserDefaults] valueForKey:@"token"]) {
+        DLog(@"getToken [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"token"]);
         return YES;
     }
     
@@ -23,22 +24,32 @@
 }
 
 + (NSString *)getUserName {
+    DLog(@"getUserName [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"username"]);
+    
     return [[NSUserDefaults standardUserDefaults] valueForKey:@"username"];
 }
 
 + (NSString *)getUse_photo_url {
+    DLog(@"getUse_photo_url [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"userPhoto"]);
+    
     return [[NSUserDefaults standardUserDefaults] valueForKey:@"userPhoto"];
 }
 
 + (NSString *)getUserID {
+    DLog(@"getUserID [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"id"]);
+    
     return [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
 }
 
 + (NSString *)getCity_id {
+    DLog(@"getCity_id [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"city_id"]);
+    
     return [[NSUserDefaults standardUserDefaults] valueForKey:@"city_id"];
 }
 
 + (NSString *)getToken {
+    DLog(@"getToken [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"token"]);
+    
     return [[NSUserDefaults standardUserDefaults] valueForKey:@"token"];
 }
 

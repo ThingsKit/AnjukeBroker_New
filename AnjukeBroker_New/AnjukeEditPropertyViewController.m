@@ -111,18 +111,10 @@
 }
 
 - (void)initDisplay {
-    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(doSave)];
-    self.navigationItem.rightBarButtonItem = backBtn;
+//    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(doSave)];
+//    self.navigationItem.rightBarButtonItem = backBtn;
     
-//    //save btn
-//    UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    saveBtn.frame = ITEM_BTN_FRAME;
-//    [saveBtn setTitle:@"保存" forState:UIControlStateNormal];
-//    [saveBtn setTitleColor:SYSTEM_BLUE forState:UIControlStateNormal];
-//    [saveBtn addTarget:self action:@selector(doSave) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    UIBarButtonItem *rButton = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
-//    self.navigationItem.rightBarButtonItem = rButton;
+    [self addRightButton:@"保存" andPossibleTitle:nil];
     
     //draw tableView list
     self.dataSource = [[AnjukeEditableTV_DataSource alloc] init];
@@ -294,6 +286,10 @@
 }
 
 #pragma mark - Image Picker Button Method
+
+- (void)rightButtonAction:(id)sender {
+    [self doSave];
+}
 
 - (void)doSave {
     //for test

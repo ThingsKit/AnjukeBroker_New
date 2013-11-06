@@ -79,8 +79,10 @@
 
 - (void)addRightButton:(NSString *)title andPossibleTitle:(NSString *)possibleTitle {
     UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:@selector(rightButtonAction:)];
-    rBtn.possibleTitles = [NSSet setWithObject:possibleTitle];
-    self.navigationItem.leftBarButtonItem = rBtn;
+    if (possibleTitle.length > 0 || possibleTitle != nil) {
+        rBtn.possibleTitles = [NSSet setWithObject:possibleTitle];
+    }
+    self.navigationItem.rightBarButtonItem = rBtn;
 }
 
 - (void)doBack:(id)sender {
