@@ -12,6 +12,8 @@
 #import "Util_UI.h"
 #import "BrokerLineView.h"
 #import "RTNavigationController.h"
+#import "WebImageView.h"
+#import "LoginManager.h"
 
 #define cellHeight 50
 #define headerHeight (200+150)/2
@@ -78,8 +80,10 @@
     
     //photo /name...
     CGFloat photoW = 124/2;
-    UIImageView *photo = [[UIImageView alloc] initWithFrame:CGRectMake(52/2, (view1.frame.size.height - photoW)/2, photoW, photoW)];
+    WebImageView *photo = [[WebImageView alloc] initWithFrame:CGRectMake(52/2, (view1.frame.size.height - photoW)/2, photoW, photoW)];
     photo.backgroundColor = [UIColor whiteColor];
+    photo.imageUrl = [LoginManager getUse_photo_url];
+    photo.contentMode = UIViewContentModeScaleAspectFit;
     [view1 addSubview:photo];
     
     //name

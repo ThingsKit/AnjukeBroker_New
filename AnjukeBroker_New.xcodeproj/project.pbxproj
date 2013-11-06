@@ -38,6 +38,7 @@
 		974E5C89181E4B00000246D1 /* AnjukeEditableTV_DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 974E5C88181E4B00000246D1 /* AnjukeEditableTV_DataSource.m */; };
 		974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 974E5C8B181E4D45000246D1 /* AnjukeNormalCell.m */; };
 		975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 975D9DE0181B69A700A421AF /* KeyboardToolBar.m */; };
+		975E7ED01829EDC7008EBC1D /* WebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 975E7ECF1829EDC7008EBC1D /* WebImageView.m */; };
 		976AC61118278B5C003A2B3A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 976AC61018278B5C003A2B3A /* LoginViewController.m */; };
 		977FCA8F182894F000945FB4 /* CommunityListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 977FCA8E182894F000945FB4 /* CommunityListViewController.m */; };
 		977FCA9D1828FAD700945FB4 /* LoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 977FCA9C1828FAD700945FB4 /* LoginManager.m */; };
@@ -197,6 +198,8 @@
 		974E5C8B181E4D45000246D1 /* AnjukeNormalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukeNormalCell.m; sourceTree = "<group>"; };
 		975D9DDF181B69A700A421AF /* KeyboardToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardToolBar.h; sourceTree = "<group>"; };
 		975D9DE0181B69A700A421AF /* KeyboardToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardToolBar.m; sourceTree = "<group>"; };
+		975E7ECE1829EDC7008EBC1D /* WebImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebImageView.h; sourceTree = "<group>"; };
+		975E7ECF1829EDC7008EBC1D /* WebImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebImageView.m; sourceTree = "<group>"; };
 		976AC60F18278B5C003A2B3A /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		976AC61018278B5C003A2B3A /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		977FCA8D182894F000945FB4 /* CommunityListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommunityListViewController.h; sourceTree = "<group>"; };
@@ -624,6 +627,15 @@
 			name = TableViewCell;
 			sourceTree = "<group>";
 		};
+		975E7ED21829EE31008EBC1D /* 图片下载器 */ = {
+			isa = PBXGroup;
+			children = (
+				975E7ECE1829EDC7008EBC1D /* WebImageView.h */,
+				975E7ECF1829EDC7008EBC1D /* WebImageView.m */,
+			);
+			name = "图片下载器";
+			sourceTree = "<group>";
+		};
 		976AC60D18278B45003A2B3A /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -668,6 +680,7 @@
 			isa = PBXGroup;
 			children = (
 				970B78D8182010B600C8E3C6 /* Util */,
+				975E7ED21829EE31008EBC1D /* 图片下载器 */,
 				97A0F0201816227A00C31D83 /* BrokerLineView.h */,
 				97A0F0211816227A00C31D83 /* BrokerLineView.m */,
 				97A0F026181653A600C31D83 /* RTInputPickerView.h */,
@@ -1023,6 +1036,7 @@
 				972C10321814FDC400552C9B /* MoreViewController.m in Sources */,
 				B7210952182785A400904FC7 /* RentFixedCell.m in Sources */,
 				B7E803F31820F24400775C6F /* SaleNoPlanListCell.m in Sources */,
+				975E7ED01829EDC7008EBC1D /* WebImageView.m in Sources */,
 				970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */,
 				975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */,
 				B721095B1827976500904FC7 /* RentNoPlanController.m in Sources */,
