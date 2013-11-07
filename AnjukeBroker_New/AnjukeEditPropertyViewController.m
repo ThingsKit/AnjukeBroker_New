@@ -346,11 +346,9 @@
         btn.photoImg.image = nil;
     }
     DLog(@"img count [%d]", self.imgArray.count);
+    
     //redraw header img scroll
-    for (int i = 0; i < self.imgArray.count; i ++) {
-        PhotoButton *imgBtn = (PhotoButton *)[self.imgBtnArray objectAtIndex:i];
-        [imgBtn.photoImg setImage:[self.imgArray objectAtIndex:i]];
-    }
+    [self refreshPhotoHeader];
 }
 
 #pragma mark - tableView Delegate & Method
@@ -456,7 +454,7 @@
                 
                 UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
                 ipc.sourceType = UIImagePickerControllerSourceTypeCamera; //拍照
-                imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+                self.imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
                 self.imagePicker = ipc;
                 ipc.delegate = self;
                 ipc.allowsEditing = NO;
@@ -483,11 +481,18 @@
             {
                 self.isTakePhoto = NO;
                 
-                UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
-                ipc.sourceType = UIImagePickerControllerSourceTypePhotoLibrary; //拍照
-                ipc.delegate = self;
-                ipc.allowsEditing = NO;
-                [self presentViewController:ipc animated:YES completion:nil];
+//                UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+//                ipc.sourceType = UIImagePickerControllerSourceTypePhotoLibrary; //拍照
+//                ipc.delegate = self;
+//                ipc.allowsEditing = NO;
+//                [self presentViewController:ipc animated:YES completion:nil];
+                
+                ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] init];
+                elcPicker.maximumImagesCount = PhotoImg_MAX_COUNT - self.imgArray.count;
+                elcPicker.imagePickerDelegate = self;
+                
+                [self presentViewController:elcPicker animated:YES completion:nil];
+                
             }
                 break;
             case 2: //在线房形图
@@ -544,10 +549,7 @@
     }];
     
     //redraw header img scroll
-    for (int i = 0; i < self.imgArray.count; i ++) {
-        PhotoButton *imgBtn = (PhotoButton *)[self.imgBtnArray objectAtIndex:i];
-        [imgBtn.photoImg setImage:[self.imgArray objectAtIndex:i]];
-    }
+    [self refreshPhotoHeader];
 }
 
 #pragma mark - Photo ScrollView && ImagePickerOverLay method
@@ -567,6 +569,14 @@
     return pBtn;
 }
 
+- (void)refreshPhotoHeader {
+    //redraw header img scroll
+    for (int i = 0; i < self.imgArray.count; i ++) {
+        PhotoButton *imgBtn = (PhotoButton *)[self.imgBtnArray objectAtIndex:i];
+        [imgBtn.photoImg setImage:[self.imgArray objectAtIndex:i]];
+    }
+}
+
 #pragma mark - UIImagePickerControllerDelegate method
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
@@ -580,13 +590,15 @@
     
     if (self.isTakePhoto) {
         image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-        //        pickerImg.image = [UtilText unrotateImage:pickerImg.image]; //调整照片方向
+        //原片写入相册 for test(调试代码时不写入)
+//        UIImageWriteToSavedPhotosAlbum(image, self, @selector(errorCheck:didFinishSavingWithError:contextInfo:), nil);
     }
     else {
         image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     }
     
     if (self.imgArray.count >= PhotoImg_MAX_COUNT) {
+        DLog(@"照片已到最大值");
         return;
     }
     
@@ -613,11 +625,6 @@
     //拍照界面加入新预览图
     [self.imageOverLay takePhotoWithImage:image];
     
-    //写入相册
-    if (self.isTakePhoto) {
-        UIImageWriteToSavedPhotosAlbum(image, self, @selector(errorCheck:didFinishSavingWithError:contextInfo:), nil);
-    }
-    
 //    [self dismissViewControllerAnimated:YES completion:^(void){
 //        //
 //    }];
@@ -638,6 +645,48 @@
 	{
         DLog(@"success");
 	}
+}
+
+#pragma mark - ELCImagePickerController Delegate
+
+- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+    for (NSDictionary *dict in info) {
+        
+        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
+        UIImage *newSizeImage = nil;
+        //压缩图片
+        if (image.size.width > IMAGE_MAXSIZE_WIDTH || image.size.height > IMAGE_MAXSIZE_WIDTH || self.isTakePhoto) {
+            CGSize coreSize;
+            if (image.size.width > image.size.height) {
+                coreSize = CGSizeMake(IMAGE_MAXSIZE_WIDTH, IMAGE_MAXSIZE_WIDTH*(image.size.height /image.size.width));
+            }
+            else if (image.size.width < image.size.height){
+                coreSize = CGSizeMake(IMAGE_MAXSIZE_WIDTH *(image.size.width /image.size.height), IMAGE_MAXSIZE_WIDTH);
+            }
+            else {
+                coreSize = CGSizeMake(IMAGE_MAXSIZE_WIDTH, IMAGE_MAXSIZE_WIDTH);
+            }
+            
+            UIGraphicsBeginImageContext(coreSize);
+            [image drawInRect:[Util_UI frameSize:image.size inSize:coreSize]];
+            newSizeImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            
+            [self.imgArray addObject:newSizeImage];
+            
+        }
+        else
+            [self.imgArray addObject:image];
+	}
+    
+    [self refreshPhotoHeader];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
+- (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

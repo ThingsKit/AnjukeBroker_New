@@ -77,6 +77,13 @@
 		97B422601820E38200A2E9E6 /* PropertyResultListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B4225F1820E38200A2E9E6 /* PropertyResultListViewController.m */; };
 		97B422681821087600A2E9E6 /* PropertyBigImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B422671821087600A2E9E6 /* PropertyBigImageViewController.m */; };
 		97C97B461810DD34006E538B /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C97B451810DD34006E538B /* TabBarViewController.m */; };
+		97CB0C0C182BEA3500FCCBBD /* ELCAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C01182BEA3500FCCBBD /* ELCAlbumPickerController.m */; };
+		97CB0C0D182BEA3500FCCBBD /* ELCAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C03182BEA3500FCCBBD /* ELCAsset.m */; };
+		97CB0C0E182BEA3500FCCBBD /* ELCAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C05182BEA3500FCCBBD /* ELCAssetCell.m */; };
+		97CB0C0F182BEA3500FCCBBD /* ELCAssetTablePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C09182BEA3500FCCBBD /* ELCAssetTablePicker.m */; };
+		97CB0C10182BEA3500FCCBBD /* ELCImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C0B182BEA3500FCCBBD /* ELCImagePickerController.m */; };
+		97CB0C13182BECA400FCCBBD /* Overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97CB0C12182BECA400FCCBBD /* Overlay@2x.png */; };
+		97CB0C18182BEFFC00FCCBBD /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C17182BEFFC00FCCBBD /* MBProgressHUD.m */; };
 		97CD8D44180E6D6E00185C9D /* RTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CD8D43180E6D6E00185C9D /* RTViewController.m */; };
 		97DED8A7182343E500D0B82A /* anjuke_icon08_attention@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97DED8A4182343E500D0B82A /* anjuke_icon08_attention@2x.png */; };
 		97DED8A8182343E500D0B82A /* anjuke_icon09_stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97DED8A5182343E500D0B82A /* anjuke_icon09_stop@2x.png */; };
@@ -259,6 +266,21 @@
 		97B422671821087600A2E9E6 /* PropertyBigImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyBigImageViewController.m; sourceTree = "<group>"; };
 		97C97B441810DD34006E538B /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
 		97C97B451810DD34006E538B /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
+		97CB0C00182BEA3500FCCBBD /* ELCAlbumPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAlbumPickerController.h; sourceTree = "<group>"; };
+		97CB0C01182BEA3500FCCBBD /* ELCAlbumPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAlbumPickerController.m; sourceTree = "<group>"; };
+		97CB0C02182BEA3500FCCBBD /* ELCAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAsset.h; sourceTree = "<group>"; };
+		97CB0C03182BEA3500FCCBBD /* ELCAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAsset.m; sourceTree = "<group>"; };
+		97CB0C04182BEA3500FCCBBD /* ELCAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAssetCell.h; sourceTree = "<group>"; };
+		97CB0C05182BEA3500FCCBBD /* ELCAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAssetCell.m; sourceTree = "<group>"; };
+		97CB0C06182BEA3500FCCBBD /* ELCAssetPickerFilterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAssetPickerFilterDelegate.h; sourceTree = "<group>"; };
+		97CB0C07182BEA3500FCCBBD /* ELCAssetSelectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAssetSelectionDelegate.h; sourceTree = "<group>"; };
+		97CB0C08182BEA3500FCCBBD /* ELCAssetTablePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAssetTablePicker.h; sourceTree = "<group>"; };
+		97CB0C09182BEA3500FCCBBD /* ELCAssetTablePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAssetTablePicker.m; sourceTree = "<group>"; };
+		97CB0C0A182BEA3500FCCBBD /* ELCImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCImagePickerController.h; sourceTree = "<group>"; };
+		97CB0C0B182BEA3500FCCBBD /* ELCImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCImagePickerController.m; sourceTree = "<group>"; };
+		97CB0C12182BECA400FCCBBD /* Overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Overlay@2x.png"; sourceTree = "<group>"; };
+		97CB0C16182BEFFC00FCCBBD /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		97CB0C17182BEFFC00FCCBBD /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		97CD8D42180E6D6E00185C9D /* RTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTViewController.h; sourceTree = "<group>"; };
 		97CD8D43180E6D6E00185C9D /* RTViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTViewController.m; sourceTree = "<group>"; };
 		97DED8A4182343E500D0B82A /* anjuke_icon08_attention@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon08_attention@2x.png"; sourceTree = "<group>"; };
@@ -535,6 +557,8 @@
 		972DDA2D1826D34600263F8F /* 底层、定制ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				97CB0C11182BEA5200FCCBBD /* 加载黑框 */,
+				97CB0BFE182BE9F200FCCBBD /* 相册多选pickerController */,
 				97410587180CE0FC004DAE95 /* RootViewController.h */,
 				97410588180CE0FC004DAE95 /* RootViewController.m */,
 				97CD8D42180E6D6E00185C9D /* RTViewController.h */,
@@ -763,6 +787,34 @@
 			name = "房源编辑";
 			sourceTree = "<group>";
 		};
+		97CB0BFE182BE9F200FCCBBD /* 相册多选pickerController */ = {
+			isa = PBXGroup;
+			children = (
+				97CB0C00182BEA3500FCCBBD /* ELCAlbumPickerController.h */,
+				97CB0C01182BEA3500FCCBBD /* ELCAlbumPickerController.m */,
+				97CB0C02182BEA3500FCCBBD /* ELCAsset.h */,
+				97CB0C03182BEA3500FCCBBD /* ELCAsset.m */,
+				97CB0C04182BEA3500FCCBBD /* ELCAssetCell.h */,
+				97CB0C05182BEA3500FCCBBD /* ELCAssetCell.m */,
+				97CB0C06182BEA3500FCCBBD /* ELCAssetPickerFilterDelegate.h */,
+				97CB0C07182BEA3500FCCBBD /* ELCAssetSelectionDelegate.h */,
+				97CB0C08182BEA3500FCCBBD /* ELCAssetTablePicker.h */,
+				97CB0C09182BEA3500FCCBBD /* ELCAssetTablePicker.m */,
+				97CB0C0A182BEA3500FCCBBD /* ELCImagePickerController.h */,
+				97CB0C0B182BEA3500FCCBBD /* ELCImagePickerController.m */,
+			);
+			name = "相册多选pickerController";
+			sourceTree = "<group>";
+		};
+		97CB0C11182BEA5200FCCBBD /* 加载黑框 */ = {
+			isa = PBXGroup;
+			children = (
+				97CB0C16182BEFFC00FCCBBD /* MBProgressHUD.h */,
+				97CB0C17182BEFFC00FCCBBD /* MBProgressHUD.m */,
+			);
+			name = "加载黑框";
+			sourceTree = "<group>";
+		};
 		97CD8D40180E6D0D00185C9D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -926,6 +978,7 @@
 		B76E597D181E5A27005B6A8C /* Temp */ = {
 			isa = PBXGroup;
 			children = (
+				97CB0C12182BECA400FCCBBD /* Overlay@2x.png */,
 			);
 			name = Temp;
 			sourceTree = "<group>";
@@ -1049,6 +1102,7 @@
 				B7E38A01182238CF002C6E8A /* anjuke_icon06_selected@2x.png in Resources */,
 				B7E38A00182238CF002C6E8A /* anjuke_icon06_select@2x.png in Resources */,
 				B7E38A0A18225FEC002C6E8A /* anjuke_icon07_arrow@2x.png in Resources */,
+				97CB0C13182BECA400FCCBBD /* Overlay@2x.png in Resources */,
 				97DED8A7182343E500D0B82A /* anjuke_icon08_attention@2x.png in Resources */,
 				9795837E18224ABF005EA48A /* TabHome_normal@2x.png in Resources */,
 			);
@@ -1069,6 +1123,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97CB0C0F182BEA3500FCCBBD /* ELCAssetTablePicker.m in Sources */,
 				B769E487181F8F9300A2FF50 /* SalePropertyListController.m in Sources */,
 				B769E441181F45AF00A2FF50 /* BaseFixedDetailController.m in Sources */,
 				B769E46F181F76C600A2FF50 /* SaleBidPlanController.m in Sources */,
@@ -1087,6 +1142,7 @@
 				975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */,
 				B721095B1827976500904FC7 /* RentNoPlanController.m in Sources */,
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,
+				97CB0C10182BEA3500FCCBBD /* ELCImagePickerController.m in Sources */,
 				B769E469181F680D00A2FF50 /* PropertyDetailCell.m in Sources */,
 				97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */,
 				97410565180CDFE0004DAE95 /* AppDelegate.m in Sources */,
@@ -1104,6 +1160,7 @@
 				B769E47E181F864200A2FF50 /* BaseBidPropertyController.m in Sources */,
 				B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */,
 				97410589180CE0FC004DAE95 /* RootViewController.m in Sources */,
+				97CB0C0E182BEA3500FCCBBD /* ELCAssetCell.m in Sources */,
 				B769E472181F805F00A2FF50 /* BaseBidDetailController.m in Sources */,
 				B769E48C181FA89000A2FF50 /* PPCGroupCell.m in Sources */,
 				B77A960C182A3369007F04E3 /* SaleNoPlanListManager.m in Sources */,
@@ -1121,7 +1178,9 @@
 				B769E484181F8F7000A2FF50 /* BasePropertyListController.m in Sources */,
 				B769E45A181F547100A2FF50 /* BasePropertyListCell.m in Sources */,
 				B769E460181F5F1200A2FF50 /* ModifyFixedCostController.m in Sources */,
+				97CB0C18182BEFFC00FCCBBD /* MBProgressHUD.m in Sources */,
 				B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */,
+				97CB0C0C182BEA3500FCCBBD /* ELCAlbumPickerController.m in Sources */,
 				976AC61118278B5C003A2B3A /* LoginViewController.m in Sources */,
 				97410561180CDFE0004DAE95 /* main.m in Sources */,
 				972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */,
@@ -1141,6 +1200,7 @@
 				B76E5977181E5676005B6A8C /* BaseNoPlanController.m in Sources */,
 				97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */,
 				B76E5988181E5AD1005B6A8C /* BaseNoPlanListCell.m in Sources */,
+				97CB0C0D182BEA3500FCCBBD /* ELCAsset.m in Sources */,
 				B721095818278E6000904FC7 /* RentPropertyListCell.m in Sources */,
 				B721094B18277CE100904FC7 /* RentFixedDetailController.m in Sources */,
 				974E5C7F181E417F000246D1 /* RTListCell.m in Sources */,
