@@ -43,4 +43,5 @@ typedef enum {
 - (void)addRightButton:(NSString *)title andPossibleTitle:(NSString *)possibleTitle;
 - (void)rightButtonAction:(id)sender;
 
+- (BOOL)isNetworkOkay; //***检查网络是否通畅
 @end

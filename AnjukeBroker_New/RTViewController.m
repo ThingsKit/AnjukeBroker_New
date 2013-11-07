@@ -8,6 +8,7 @@
 
 #import "RTViewController.h"
 #import "Util_UI.h"
+#import "Reachability.h"
 
 @interface RTViewController ()
 
@@ -56,6 +57,22 @@
     [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
 }
 
+#pragma mark - Status method
+- (BOOL)isNetworkOkay {
+    if (![[RTApiRequestProxy sharedInstance] isInternetAvailiable]) {
+        [self showInfo:@"网络不给力"];
+        return NO;
+    }
+    
+    Reachability *r = [Reachability reachabilityWithHostName:@"www.baidu.com"];
+    if ([r currentReachabilityStatus] == NotReachable) {
+        [self showInfo:@"网络不给力"];
+        return NO;
+    }
+    
+    return YES;
+}
+
 #pragma mark - private UI method
 
 - (void)setTitleViewWithString:(NSString *)titleStr { //设置标题栏
@@ -80,11 +97,13 @@
     }
     
     UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:@selector(doBack:)];
+    backBtn.tintColor = SYSTEM_ORANGE;
     self.navigationItem.leftBarButtonItem = backBtn;
 }
 
 - (void)addRightButton:(NSString *)title andPossibleTitle:(NSString *)possibleTitle {
     UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:@selector(rightButtonAction:)];
+    rBtn.tintColor = SYSTEM_ORANGE;
     if (possibleTitle.length > 0 || possibleTitle != nil) {
         rBtn.possibleTitles = [NSSet setWithObject:possibleTitle];
     }
