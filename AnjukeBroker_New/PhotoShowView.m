@@ -29,7 +29,6 @@
         // Initialization code
         
         self.backgroundColor = SYSTEM_BLACK;//[UIColor whiteColor];
-        self.alpha = 0.8;
         
         [self initModel];
         [self initDisplayWithFrame:frame];
@@ -44,36 +43,39 @@
 }
 
 - (void)initDisplayWithFrame:(CGRect)frame {
-    CGFloat Whole_H = frame.size.height; //self总高
     CGFloat BtnW = 100;
-    
-    UIButton *takeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    takeBtn.frame = CGRectMake(10+100, Whole_H - PHOTO_BTN_H, BtnW, PHOTO_BTN_H);
-    takeBtn.backgroundColor = [UIColor whiteColor];
-    takeBtn.layer.borderColor = SYSTEM_BLACK.CGColor;
-    takeBtn.layer.borderWidth = 1;
-    [takeBtn setTitle:@"拍照" forState:UIControlStateNormal];
-    [takeBtn setTitleColor:SYSTEM_BLACK forState:UIControlStateNormal];
-    [takeBtn addTarget:self action:@selector(take_Picture:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:takeBtn];
-    
-    UIButton *exitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    exitBtn.frame = CGRectMake(takeBtn.frame.origin.x + BtnW, takeBtn.frame.origin.y, BtnW, PHOTO_BTN_H);
-    exitBtn.backgroundColor = [UIColor whiteColor];
-    exitBtn.layer.borderColor = SYSTEM_BLACK.CGColor;
-    exitBtn.layer.borderWidth = 1;
-    [exitBtn setTitle:@"关闭" forState:UIControlStateNormal];
-    [exitBtn setTitleColor:SYSTEM_BLACK forState:UIControlStateNormal];
-    [exitBtn addTarget:self action:@selector(closePicker:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:exitBtn];
     
     //Image Scroll View
     //photo sv
     UIScrollView *sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, PHOTO_SV_H)];
     self.photoSV = sv;
     sv.backgroundColor = [UIColor clearColor];
-    sv.alpha = 0.8;
     [self addSubview:sv];
+    
+    //bottom BG
+    UIView *bottomBG = [[UIView alloc] initWithFrame:CGRectMake(0, sv.frame.origin.y + sv.frame.size.height, frame.size.width, PHOTO_BTN_H)];
+    bottomBG.backgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1];
+    [self addSubview:bottomBG];
+    
+    UIButton *takeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    takeBtn.frame = CGRectMake(10+100, 0, BtnW, PHOTO_BTN_H);
+    takeBtn.backgroundColor = [UIColor clearColor];
+//    takeBtn.layer.borderColor = SYSTEM_BLACK.CGColor;
+//    takeBtn.layer.borderWidth = 1;
+    [takeBtn setTitle:@"拍照" forState:UIControlStateNormal];
+    [takeBtn setTitleColor:SYSTEM_BLUE forState:UIControlStateNormal];
+    [takeBtn addTarget:self action:@selector(take_Picture:) forControlEvents:UIControlEventTouchUpInside];
+    [bottomBG addSubview:takeBtn];
+    
+    UIButton *exitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    exitBtn.frame = CGRectMake(takeBtn.frame.origin.x + BtnW+10, takeBtn.frame.origin.y, BtnW, PHOTO_BTN_H);
+    exitBtn.backgroundColor = [UIColor clearColor];
+//    exitBtn.layer.borderColor = SYSTEM_BLACK.CGColor;
+//    exitBtn.layer.borderWidth = 1;
+    [exitBtn setTitle:@"完成" forState:UIControlStateNormal];
+    [exitBtn setTitleColor:SYSTEM_BLUE forState:UIControlStateNormal];
+    [exitBtn addTarget:self action:@selector(closePicker:) forControlEvents:UIControlEventTouchUpInside];
+    [bottomBG addSubview:exitBtn];
 }
 
 /*
@@ -95,6 +97,8 @@
     [pBtn addTarget:self action:@selector(deletePhoto:) forControlEvents:UIControlEventTouchUpInside];
     pBtn.tag = TAG_PHOTO_BASE + index;
     pBtn.photoImg.image = image;
+    pBtn.layer.borderColor = [UIColor whiteColor].CGColor;
+    pBtn.layer.borderWidth = 0.5;
     [self.photoSV addSubview:pBtn];
     
     [self.imgBtnArr addObject:pBtn];

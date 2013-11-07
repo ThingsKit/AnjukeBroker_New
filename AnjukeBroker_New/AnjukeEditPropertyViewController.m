@@ -136,6 +136,7 @@
     
     //draw tableView header
     [self drawHeader];
+    
 }
 
 - (void)drawHeader {

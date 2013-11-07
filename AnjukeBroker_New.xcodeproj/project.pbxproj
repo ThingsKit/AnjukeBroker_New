@@ -84,6 +84,7 @@
 		97CB0C10182BEA3500FCCBBD /* ELCImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C0B182BEA3500FCCBBD /* ELCImagePickerController.m */; };
 		97CB0C13182BECA400FCCBBD /* Overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97CB0C12182BECA400FCCBBD /* Overlay@2x.png */; };
 		97CB0C18182BEFFC00FCCBBD /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C17182BEFFC00FCCBBD /* MBProgressHUD.m */; };
+		97CB0C1F182BF28D00FCCBBD /* UIViewController+Loading.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C1E182BF28D00FCCBBD /* UIViewController+Loading.m */; };
 		97CD8D44180E6D6E00185C9D /* RTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CD8D43180E6D6E00185C9D /* RTViewController.m */; };
 		97DED8A7182343E500D0B82A /* anjuke_icon08_attention@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97DED8A4182343E500D0B82A /* anjuke_icon08_attention@2x.png */; };
 		97DED8A8182343E500D0B82A /* anjuke_icon09_stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97DED8A5182343E500D0B82A /* anjuke_icon09_stop@2x.png */; };
@@ -281,6 +282,8 @@
 		97CB0C12182BECA400FCCBBD /* Overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Overlay@2x.png"; sourceTree = "<group>"; };
 		97CB0C16182BEFFC00FCCBBD /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		97CB0C17182BEFFC00FCCBBD /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		97CB0C1D182BF28D00FCCBBD /* UIViewController+Loading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Loading.h"; sourceTree = "<group>"; };
+		97CB0C1E182BF28D00FCCBBD /* UIViewController+Loading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Loading.m"; sourceTree = "<group>"; };
 		97CD8D42180E6D6E00185C9D /* RTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTViewController.h; sourceTree = "<group>"; };
 		97CD8D43180E6D6E00185C9D /* RTViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTViewController.m; sourceTree = "<group>"; };
 		97DED8A4182343E500D0B82A /* anjuke_icon08_attention@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon08_attention@2x.png"; sourceTree = "<group>"; };
@@ -722,6 +725,7 @@
 		97A0F01E181621AA00C31D83 /* UIView&Util */ = {
 			isa = PBXGroup;
 			children = (
+				97CB0C19182BF04600FCCBBD /* Category */,
 				970B78D8182010B600C8E3C6 /* Util */,
 				975E7ED21829EE31008EBC1D /* 图片下载器 */,
 				97A0F0201816227A00C31D83 /* BrokerLineView.h */,
@@ -813,6 +817,15 @@
 				97CB0C17182BEFFC00FCCBBD /* MBProgressHUD.m */,
 			);
 			name = "加载黑框";
+			sourceTree = "<group>";
+		};
+		97CB0C19182BF04600FCCBBD /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				97CB0C1D182BF28D00FCCBBD /* UIViewController+Loading.h */,
+				97CB0C1E182BF28D00FCCBBD /* UIViewController+Loading.m */,
+			);
+			name = Category;
 			sourceTree = "<group>";
 		};
 		97CD8D40180E6D0D00185C9D /* ViewControllers */ = {
@@ -1158,6 +1171,7 @@
 				B79084FA182B490600B2A870 /* SaleFixedManager.m in Sources */,
 				972C10391815351900552C9B /* AnjukeEditPropertyViewController.m in Sources */,
 				B769E47E181F864200A2FF50 /* BaseBidPropertyController.m in Sources */,
+				97CB0C1F182BF28D00FCCBBD /* UIViewController+Loading.m in Sources */,
 				B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */,
 				97410589180CE0FC004DAE95 /* RootViewController.m in Sources */,
 				97CB0C0E182BEA3500FCCBBD /* ELCAssetCell.m in Sources */,

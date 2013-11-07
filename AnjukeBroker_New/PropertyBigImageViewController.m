@@ -49,7 +49,7 @@
     self.navigationItem.leftBarButtonItem = rButton;
     
     UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight])];
-    img.backgroundColor = [UIColor whiteColor];
+    img.backgroundColor = SYSTEM_BLACK;
     img.contentMode = UIViewContentModeScaleAspectFit;
 //    img.layer.borderColor = [UIColor blackColor].CGColor;
 //    img.layer.borderWidth = 1;
