@@ -22,7 +22,7 @@
 #define photoHeaderH_RecNum 100 +50
 #define Input_H 260
 
-#define IMAGE_MAXSIZE_WIDTH 1280/2 //屏幕预览图的最大分辨率，只负责预览显示
+#define IMAGE_MAXSIZE_WIDTH 1280/4 //屏幕预览图的最大分辨率，只负责预览显示
 
 #define LimitRow_INPUT 1 //从row=1行开始输入，即最小输入行数(第一行为小区无需输入，从户型行开始输入)
 #define TagOfImg_Base 1000
