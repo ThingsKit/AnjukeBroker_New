@@ -15,6 +15,8 @@
 #import "SaleBidPlanController.h"
 #import "PropertyAuctionViewController.h"
 #import "RTNavigationController.h"
+#import "LoginManager.h"
+#import "SaleFixedManager.h"
 
 @interface SaleBidDetailController ()
 
@@ -38,6 +40,10 @@
     [self setTitleViewWithString:@"竞价推广"];
     [self addRightButton:@"新增" andPossibleTitle:nil];
 	// Do any additional setup after loading the view.
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self doRequest];
 }
 -(void)initModel{
     [super initModel];
@@ -70,16 +76,43 @@
     [tempDic setValue:@"   1                  56              2.0             24.00" forKey:@"stringNum"];
     [self.myArray addObject:tempDic];
 }
+-(void)doRequest{
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/getplanprops/" params:params target:self action:@selector(onGetLogin:)];
+}
+- (void)onGetLogin:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [[response content] JSONRepresentation]);
+    DLog(@"------response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    
+    if (([[resultFromAPI objectForKey:@"propBaseInfo"] count] == 0 || resultFromAPI == nil)) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据d" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self.myArray removeAllObjects];
+        [self.myTable reloadData];
+        return;
+    }
+    
+    NSMutableArray *result = [SaleFixedManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"plan"]];
+    [self.myArray removeAllObjects];
+    [self.myArray addObjectsFromArray:result];
+    [self.myTable reloadData];
+    
+}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    BidPropertyDetailController *controller = [[BidPropertyDetailController alloc] init];
-//    controller.propertyObject = [self.myArray objectAtIndex:[indexPath row]];
-//    [self.navigationController pushViewController:controller animated:YES];
-    
     UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"竞价出价及预算", @"暂停竞价推广", nil];
     [action showInView:self.view];
-    
-    
+
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

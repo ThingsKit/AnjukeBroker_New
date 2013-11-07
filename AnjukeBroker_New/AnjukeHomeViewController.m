@@ -12,6 +12,7 @@
 #import "SaleBidDetailController.h"
 #import "PPCGroupCell.h"
 #import "LoginManager.h"
+#import "SaleFixedManager.h"
 
 @interface AnjukeHomeViewController ()
 
@@ -36,47 +37,40 @@
     
     [self setTitleViewWithString:@"二手房"];
     
-    self.myArray = [NSMutableArray array];
+
     self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
 //    self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
     [self.view addSubview:self.myTable];
-    
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    [dic setValue:@"竞价房源" forKey:@"title"];
-    [dic setValue:@"房源数：10套" forKey:@"detail"];
-    [dic setValue:@"" forKey:@"status"];
-    [dic setValue:@"1" forKey:@"type"];
-    [self.myArray addObject:dic];
-    
-    dic = [[NSMutableDictionary alloc] init];
-    [dic setValue:@"定价房源" forKey:@"title"];
-    [dic setValue:@"分组名称  房源数：10套" forKey:@"detail"];
-    [dic setValue:@"推广中" forKey:@"status"];
-    [dic setValue:@"2" forKey:@"type"];
-    [self.myArray addObject:dic];
-    
-    dic = [[NSMutableDictionary alloc] init];
-    [dic setValue:@"待推广房源" forKey:@"title"];
-    [dic setValue:@"房源数：10套" forKey:@"detail"];
-    [dic setValue:@"3" forKey:@"status"];
-    [dic setValue:@"3" forKey:@"type"];
-    [self.myArray addObject:dic];
+
     
     
 	// Do any additional setup after loading the view.
     
 //    self.view.backgroundColor = [UIColor yellowColor];
 }
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self reloadData];
     [self doRequest];
+}
+-(void)reloadData{
+    self.myArray = [NSMutableArray array];
+//    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+//    [dic setValue:@"竞价房源" forKey:@"title"];
+//    [dic setValue:@"房源数：0套" forKey:@"detail"];
+//    [dic setValue:@"" forKey:@"status"];
+//    [dic setValue:@"1" forKey:@"type"];
+//    [self.myArray addObject:dic];
+
+
 }
 -(void)doRequest{
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/noplanproptotal/" params:params target:self action:@selector(onGetLogin:)];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/ppc/" params:params target:self action:@selector(onGetLogin:)];
 
 }
 
@@ -85,26 +79,68 @@
     DLog(@"------response [%@]", [response content]);
     
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         return;
     }
-    
+    [self.myArray removeAllObjects];
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-    NSString *tempDetail = [NSString stringWithFormat:@"房源数：%@套", [resultFromAPI objectForKey:@"total"]];
-    NSMutableDictionary *tempDic = [myArray lastObject];
+    NSMutableDictionary *dicPlan = [[NSMutableDictionary alloc] initWithDictionary:[[resultFromAPI objectForKey:@"bidPlan"] objectAtIndex:0]];
+    [self.myArray addObject:dicPlan];
     
-    [tempDic setValue:tempDetail forKey:@"detail"];
-    [myArray removeLastObject];
-    [myArray addObject:tempDic];
-    [myTable reloadData];
+    NSMutableArray *pricePlan = [NSMutableArray array];
+    [pricePlan addObjectsFromArray:[resultFromAPI objectForKey:@"pricPlan"]];
+    [self.myArray addObjectsFromArray:pricePlan];
+    
+    NSMutableDictionary *nodic = [[NSMutableDictionary alloc] init];
+    [nodic setValue:@"待推广房源" forKey:@"title"];
+    [nodic setValue:[resultFromAPI objectForKey:@"unRecommendPropNum"] forKey:@"unRecommendPropNum"];
+    [nodic setValue:@"3" forKey:@"status"];
+    [nodic setValue:@"3" forKey:@"type"];
+    [self.myArray addObject:nodic];
+    
+    [self.myTable reloadData];
 }
+//-(void)doRequestPlans{
+//    
+//    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+//    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/getplans/" params:params target:self action:@selector(onSuccess:)];
+//    
+//}
+//
+//- (void)onSuccess:(RTNetworkResponse *)response {
+//    DLog(@"------response [%@]", [[response content] JSONRepresentation]);
+//    DLog(@"------response [%@]", [response content]);
+//    
+//    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+//        
+//        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+//        
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+//        [alert show];
+//        return;
+//    }
+//    
+//    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+//    if (([[resultFromAPI objectForKey:@"count"] integerValue] == 0 || resultFromAPI == nil)) {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+//        [alert show];
+//        [self.myArray removeAllObjects];
+//        [self.myTable reloadData];
+//        return;
+//    }
+//    NSMutableArray *result = [SaleFixedManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"plan"]];
+//    NSDictionary *dic = [[NSDictionary alloc] initWithDictionary:[self.myArray lastObject]];
+//    [self.myArray removeLastObject];
+//    [self.myArray addObjectsFromArray:result];
+//    [self.myArray addObject:dic];
+//    [self.myTable reloadData];
+////    [self.myTable reloadData];
+//}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    
     if([indexPath row] == 0)
     {
         SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
@@ -137,8 +173,9 @@
     if(cell == nil){
         cell = [[NSClassFromString(@"PPCGroupCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
     }
-    
-    [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
+    [cell setValueForCellByData:self.myArray index:indexPath.row];
+//    [cell setValueForCellByData:[self.myArray objectAtIndex:[indexPath row]]];
+//    [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

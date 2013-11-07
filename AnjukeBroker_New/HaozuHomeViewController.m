@@ -102,7 +102,7 @@
         cell = [[NSClassFromString(@"PPCGroupCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
     }
     
-    [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
+//    [cell setValueForCellByData:[self.myArray objectAtIndex:[indexPath row]]];
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

@@ -7,6 +7,7 @@
 //
 
 #import "PPCGroupCell.h"
+#import "SaleFixedGroupObject.h"
 #import "Util_UI.h"
 
 @implementation PPCGroupCell
@@ -36,28 +37,32 @@
     }
     return self;
 }
--(void)setValueForCellByDictinary:(NSDictionary *) dic{
-    title.text = [dic objectForKey:@"title"];
-    detail.text = [dic objectForKey:@"detail"];
-    if([[dic objectForKey:@"status"] isEqualToString:@"推广中"]){
-        [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_woking@2x.png"]];
-    }else if ([[dic objectForKey:@"status"] isEqualToString:@""]){
-        statueImg.frame = CGRectMake(260, 25, 12, 12);
-        [statueImg setImage:[UIImage imageNamed:@"anjuke_icon08_attention@2x.png"]];
-    }
-//    status.text = [dic objectForKey:@"status"];
-    if([[dic objectForKey:@"type"] isEqualToString:@"1"]){
-//        status.backgroundColor = [UIColor redColor];
+-(void)setValueForCellByData:(id ) data index:(int) index{
+    if([data isKindOfClass:[NSArray class]]){
+        NSArray *tempArray = (NSArray *)data;
+        NSDictionary *dic = [[NSDictionary alloc] initWithDictionary:[tempArray objectAtIndex:index]];
         
-    }else if ([[dic objectForKey:@"type"] isEqualToString:@"2"]){
-        status.backgroundColor = [Util_UI colorWithHexString:@"66CC00"];
-        status.textAlignment = NSTextAlignmentCenter;
-        status.layer.cornerRadius = 4;
-    }
-    else{
-    
+        if(index == 0){
+            title.text = @"竞价房源";
+            detail.text = [NSString stringWithFormat:@"房源数:%@套", [dic objectForKey:@"bidPlanNum"]];
+        } else if (index == [data count] - 1){//未推广
+            title.text = @"未推广房源";
+            detail.text = [NSString stringWithFormat:@"房源数:%@套", [dic objectForKey:@"unRecommendPropNum"]];
+
+        }else{//定价
+            title.text = @"定价房源";
+            detail.text = [NSString stringWithFormat:@"%@ 房源数:%@套", [dic objectForKey:@"pricPlanName"], [dic objectForKey:@"pricPlanPropNum"]];
+            if([[dic objectForKey:@"pricPlanStateDesc"] isEqualToString:@"计划推广中"]){
+                statueImg.frame = CGRectMake(260, 25, 24, 12);
+                [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_woking@2x.png"]];
+            }else if ([[dic objectForKey:@"pricPlanStateDesc"] isEqualToString:@"未推广"]){
+                statueImg.frame = CGRectMake(260, 25, 12, 12);
+                [statueImg setImage:[UIImage imageNamed:@"anjuke_icon08_attention@2x.png"]];
+            }
+        }
     }
 }
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];

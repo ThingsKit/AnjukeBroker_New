@@ -15,5 +15,5 @@
     UILabel *status;
 }
 @property (strong, nonatomic) UIImageView *statueImg;
--(void)setValueForCellByDictinary:(NSDictionary *) dic;
+-(void)setValueForCellByData:(id ) data index:(int) index;
 @end
