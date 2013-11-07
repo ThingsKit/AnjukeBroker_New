@@ -31,6 +31,9 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }
+-(void)dealloc{
+    self.myTable.delegate = nil;
+}
 -(void)initModel{
     self.myArray = [NSMutableArray array];
 }

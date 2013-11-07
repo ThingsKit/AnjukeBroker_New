@@ -43,7 +43,9 @@
     [self.view addSubview:self.myTable];
 	// Do any additional setup after loading the view.
 }
-
+-(void)dealloc{
+    self.myTable.delegate = nil;
+}
 - (void)initModel_ {
     self.myArray = [NSMutableArray array];
     self.selectedArray = [NSMutableArray array];

@@ -32,15 +32,15 @@
 @end
 
 @implementation SaleFixedDetailController
-@synthesize myTable;
-@synthesize myArray;
 @synthesize popoverTableView, popoverBG;
 @synthesize titleArr_Popover;
+@synthesize tempDic;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        tempDic = [[NSMutableDictionary alloc] initWithCapacity:16];
         // Custom initialization
     }
     return self;

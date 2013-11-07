@@ -35,6 +35,9 @@
     
 	// Do any additional setup after loading the view.
 }
+-(void)dealloc{
+    self.myTable.delegate = nil;
+}
 -(void)initDisplay{
     self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.myTable.delegate = self;

@@ -50,7 +50,9 @@
     
 //    self.view.backgroundColor = [UIColor yellowColor];
 }
-
+-(void)dealloc{
+    self.myTable.delegate = nil;
+}
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self reloadData];
@@ -147,13 +149,13 @@
         controller.backType = RTSelectorBackTypePopToRoot;
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
-    }else if ([indexPath row] == 1){
-        SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
-        controller.backType = RTSelectorBackTypePopToRoot;
+    }else if ([indexPath row] == [self.myArray count] - 1){
+        SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     }else{
-        SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
+        SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
+        controller.backType = RTSelectorBackTypePopToRoot;
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     }

@@ -13,6 +13,6 @@
 {
 
 }
-
+@property (strong, nonatomic) NSMutableDictionary *tempDic;
 
 @end
