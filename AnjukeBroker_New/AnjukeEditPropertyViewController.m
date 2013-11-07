@@ -51,7 +51,7 @@
 @property (nonatomic, strong) AnjukeEditableTV_DataSource *dataSource;
 
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
-@property (nonatomic, strong) UIView *imageOverLay;
+@property (nonatomic, strong) PhotoShowView *imageOverLay;
 @end
 
 @implementation AnjukeEditPropertyViewController
@@ -464,8 +464,10 @@
                 ipc.delegate = self;
                 ipc.allowsEditing = NO;
                 ipc.showsCameraControls = NO;
-                imagePicker.cameraViewTransform = CGAffineTransformIdentity;
-                
+                self.imagePicker.cameraViewTransform = CGAffineTransformIdentity;
+                if ( [UIImagePickerController isFlashAvailableForCameraDevice:self.imagePicker.cameraDevice] ) {
+                    self.imagePicker.cameraFlashMode = UIImagePickerControllerCameraFlashModeAuto;
+                }
                 //拍照预览图
                 PhotoShowView *pv = [[PhotoShowView alloc] initWithFrame:CGRectMake(0, [self windowHeight] - PHOTO_SHOW_VIEW_H, [self windowWidth], PHOTO_SHOW_VIEW_H)];
                 self.imageOverLay = pv;
@@ -602,6 +604,9 @@
     }
     
     [self.imgArray addObject:pBtn.photoImg.image];
+    //拍照界面加入新预览图
+    [self.imageOverLay takePhotoWithImage:pBtn.photoImg.image];
+    
     DLog(@"editedSize [%f,%f]",pBtn.photoImg.image.size.width, pBtn.photoImg.image.size.height);
     
     

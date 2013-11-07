@@ -22,4 +22,8 @@
 
 @property (nonatomic, assign) id <PhotoViewClickDelegate> clickDelegate;
 @property (nonatomic, strong) NSMutableArray *imgArray;
+@property (nonatomic, strong) UIScrollView *photoSV;
+@property (nonatomic, strong) NSMutableArray *imgBtnArr;
+
+- (void)takePhotoWithImage:(UIImage *)image; //外部拍照后传递预览图，用以此编辑框显示预览图
 @end
