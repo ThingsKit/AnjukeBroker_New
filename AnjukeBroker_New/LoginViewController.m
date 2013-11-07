@@ -117,6 +117,9 @@
 }
 
 - (void)checkLoginStatus {
+//    [self pushToTab]; //test in Home
+//    return;
+    
     if ([LoginManager isLogin]) {
         [self pushToTab];
     }

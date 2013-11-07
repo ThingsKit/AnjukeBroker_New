@@ -83,6 +83,7 @@
 		97DED8A9182343E500D0B82A /* anjuke_icon09_woking@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97DED8A6182343E500D0B82A /* anjuke_icon09_woking@2x.png */; };
 		97DED8AD18234BB100D0B82A /* MoreListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97DED8AC18234BB100D0B82A /* MoreListCell.m */; };
 		97DED8B81823999700D0B82A /* anjuke_icon11_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97DED8B71823999700D0B82A /* anjuke_icon11_@2x.png */; };
+		97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F5E5E5182B38DA00B5CBCC /* PhotoShowView.m */; };
 		97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */; };
 		B7210948182778C100904FC7 /* RentNoPlanListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7210947182778C100904FC7 /* RentNoPlanListController.m */; };
 		B721094B18277CE100904FC7 /* RentFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B721094A18277CE100904FC7 /* RentFixedDetailController.m */; };
@@ -266,6 +267,8 @@
 		97DED8AB18234BB100D0B82A /* MoreListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreListCell.h; sourceTree = "<group>"; };
 		97DED8AC18234BB100D0B82A /* MoreListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreListCell.m; sourceTree = "<group>"; };
 		97DED8B71823999700D0B82A /* anjuke_icon11_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon11_@2x.png"; sourceTree = "<group>"; };
+		97F5E5E4182B38DA00B5CBCC /* PhotoShowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoShowView.h; sourceTree = "<group>"; };
+		97F5E5E5182B38DA00B5CBCC /* PhotoShowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoShowView.m; sourceTree = "<group>"; };
 		97FD0B6018157BEC0072FB5E /* PropertyDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDataManager.h; sourceTree = "<group>"; };
 		97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDataManager.m; sourceTree = "<group>"; };
 		B7210946182778C100904FC7 /* RentNoPlanListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentNoPlanListController.h; sourceTree = "<group>"; };
@@ -746,6 +749,7 @@
 		97B42264182107B700A2E9E6 /* 房源编辑 */ = {
 			isa = PBXGroup;
 			children = (
+				97F5E5E2182B389900B5CBCC /* 照片编辑 */,
 				97958367182231EE005EA48A /* 发房cell */,
 				972C10371815351900552C9B /* AnjukeEditPropertyViewController.h */,
 				972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */,
@@ -762,13 +766,22 @@
 		97CD8D40180E6D0D00185C9D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				972DDA2D1826D34600263F8F /* 底层、定制ViewController */,
 				972C10231814FC3800552C9B /* 首页+发房 */,
 				972C10251814FC7500552C9B /* 租房业务管理 */,
 				972C10241814FC4C00552C9B /* 二手房业务管理 */,
 				972C10261814FC8800552C9B /* 更多 */,
+				972DDA2D1826D34600263F8F /* 底层、定制ViewController */,
 			);
 			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		97F5E5E2182B389900B5CBCC /* 照片编辑 */ = {
+			isa = PBXGroup;
+			children = (
+				97F5E5E4182B38DA00B5CBCC /* PhotoShowView.h */,
+				97F5E5E5182B38DA00B5CBCC /* PhotoShowView.m */,
+			);
+			name = "照片编辑";
 			sourceTree = "<group>";
 		};
 		97FD0B5E18157BB50072FB5E /* DataManager */ = {
@@ -1126,6 +1139,7 @@
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
 				97DED8AD18234BB100D0B82A /* MoreListCell.m in Sources */,
 				B76E5977181E5676005B6A8C /* BaseNoPlanController.m in Sources */,
+				97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */,
 				B76E5988181E5AD1005B6A8C /* BaseNoPlanListCell.m in Sources */,
 				B721095818278E6000904FC7 /* RentPropertyListCell.m in Sources */,
 				B721094B18277CE100904FC7 /* RentFixedDetailController.m in Sources */,

@@ -50,6 +50,8 @@
 
 @property (nonatomic, strong) AnjukeEditableTV_DataSource *dataSource;
 
+@property (nonatomic, strong) UIImagePickerController *imagePicker;
+@property (nonatomic, strong) UIView *imageOverLay;
 @end
 
 @implementation AnjukeEditPropertyViewController
@@ -62,6 +64,7 @@
 @synthesize photoSV, imgBtnArray;
 @synthesize dataSource;
 @synthesize imageSelectIndex;
+@synthesize imagePicker, imageOverLay;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -98,6 +101,9 @@
     }
     if (self.tvList) {
         self.tvList.delegate = nil;
+    }
+    if (self.imagePicker) {
+        self.imagePicker.delegate = nil;
     }
 }
 
@@ -453,9 +459,23 @@
                 
                 UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
                 ipc.sourceType = UIImagePickerControllerSourceTypeCamera; //拍照
+                imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+                self.imagePicker = ipc;
                 ipc.delegate = self;
                 ipc.allowsEditing = NO;
+                ipc.showsCameraControls = NO;
+                imagePicker.cameraViewTransform = CGAffineTransformIdentity;
+                
+                //拍照预览图
+                PhotoShowView *pv = [[PhotoShowView alloc] initWithFrame:CGRectMake(0, [self windowHeight] - PHOTO_SHOW_VIEW_H, [self windowWidth], PHOTO_SHOW_VIEW_H)];
+                self.imageOverLay = pv;
+                pv.clickDelegate = self;
+                
+                ipc.cameraOverlayView = self.imageOverLay;
+                
                 [self presentViewController:ipc animated:YES completion:nil];
+                
+                DLog(@"ipc,frame : %f %f", ipc.cameraOverlayView.frame.size.width, ipc.cameraOverlayView.frame.size.height);
             }
                 break;
             case 1: //手机相册
@@ -507,7 +527,16 @@
     
 }
 
-#pragma mark - Photo ScrollView method
+#pragma mark - Photo Show View Delegate
+- (void)takePhoto_Click {
+    [self.imagePicker takePicture];
+}
+
+- (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr {
+    [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Photo ScrollView && ImagePickerOverLay method
 
 //得到需要在第几个预览图显示
 - (int)getPhotoImgShowIndex {
@@ -520,7 +549,7 @@
 }
 
 - (PhotoButton *)getPhotoIMG_VIEW {
-    PhotoButton *pBtn = [self.imgBtnArray objectAtIndex:[self getPhotoImgShowIndex]];
+    PhotoButton *pBtn = [self.imgBtnArray objectAtIndex:[ self getPhotoImgShowIndex]];
     return pBtn;
 }
 
@@ -581,9 +610,9 @@
         UIImageWriteToSavedPhotosAlbum(pBtn.photoImg.image, self, @selector(errorCheck:didFinishSavingWithError:contextInfo:), nil);
     }
     
-    [self dismissViewControllerAnimated:YES completion:^(void){
-        //
-    }];
+//    [self dismissViewControllerAnimated:YES completion:^(void){
+//        //
+//    }];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
