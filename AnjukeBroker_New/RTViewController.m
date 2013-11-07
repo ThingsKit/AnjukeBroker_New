@@ -50,6 +50,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
+}
+
 #pragma mark - private UI method
 
 - (void)setTitleViewWithString:(NSString *)titleStr { //设置标题栏
