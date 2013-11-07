@@ -68,7 +68,7 @@
     [self addSubview:exitBtn];
     
     //Image Scroll View
-    // photo sv
+    //photo sv
     UIScrollView *sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, PHOTO_SV_H)];
     self.photoSV = sv;
     sv.backgroundColor = [UIColor clearColor];
@@ -106,6 +106,12 @@
 }
 
 - (void)take_Picture:(id)sender {
+    if (![self canTakePhoto]) {
+        DLog(@"已到最大预览数!");
+        return;
+    }
+    self.currentImgCount ++;
+    
     if ([self.clickDelegate respondsToSelector:@selector(takePhoto_Click)]) {
         [self.clickDelegate takePhoto_Click];
     }
@@ -115,10 +121,10 @@
     if ([self.clickDelegate respondsToSelector:@selector(closePicker_Click_WithImgArr:)]) {
         [self.clickDelegate closePicker_Click_WithImgArr:self.imgArray];
     }
-
 }
 
 - (void)deletePhoto:(id)sender {
+    self.currentImgCount --;
     PhotoButton *pBtn = (PhotoButton *)sender;
     int index = pBtn.tag - TAG_PHOTO_BASE;
     
@@ -170,6 +176,14 @@
                          }
                      }];
     self.userInteractionEnabled = YES;
+}
+
+- (BOOL)canTakePhoto {
+    if (self.currentImgCount >= self.maxImgCount) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 @end

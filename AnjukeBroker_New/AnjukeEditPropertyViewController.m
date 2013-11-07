@@ -22,7 +22,7 @@
 #define photoHeaderH_RecNum 100 +50
 #define Input_H 260
 
-#define IMAGE_MAXSIZE_WIDTH 1280 //上传图片的最大分辨率
+#define IMAGE_MAXSIZE_WIDTH 1280/2 //屏幕预览图的最大分辨率，只负责预览显示
 
 #define LimitRow_INPUT 1 //从row=1行开始输入，即最小输入行数(第一行为小区无需输入，从户型行开始输入)
 #define TagOfImg_Base 1000
@@ -298,9 +298,6 @@
 }
 
 - (void)doSave {
-    //for test
-//    [self.navigationController popViewControllerAnimated:YES];
-    
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"定价且竞价推广", @"暂不推广", nil];
     sheet.tag = TagOfActionSheet_Save;
     [sheet showInView:self.view];
@@ -471,6 +468,8 @@
                 //拍照预览图
                 PhotoShowView *pv = [[PhotoShowView alloc] initWithFrame:CGRectMake(0, [self windowHeight] - PHOTO_SHOW_VIEW_H, [self windowWidth], PHOTO_SHOW_VIEW_H)];
                 self.imageOverLay = pv;
+                pv.maxImgCount = PhotoImg_MAX_COUNT;
+                pv.currentImgCount = self.imgArray.count;
                 pv.clickDelegate = self;
                 
                 ipc.cameraOverlayView = self.imageOverLay;
@@ -526,16 +525,29 @@
                 break;
         }
     }
-    
 }
 
 #pragma mark - Photo Show View Delegate
 - (void)takePhoto_Click {
+    if (self.imgArray.count >= PhotoImg_MAX_COUNT) {
+        DLog(@"已设置了8张图片，请先编辑当前图片组");
+        return;
+    }
     [self.imagePicker takePicture];
 }
 
 - (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr {
-    [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
+    [self.imgArray addObjectsFromArray:arr]; //将新图片加入图片数组
+    
+    [self.imagePicker dismissViewControllerAnimated:YES completion:^(void){
+        //
+    }];
+    
+    //redraw header img scroll
+    for (int i = 0; i < self.imgArray.count; i ++) {
+        PhotoButton *imgBtn = (PhotoButton *)[self.imgBtnArray objectAtIndex:i];
+        [imgBtn.photoImg setImage:[self.imgArray objectAtIndex:i]];
+    }
 }
 
 #pragma mark - Photo ScrollView && ImagePickerOverLay method
@@ -551,7 +563,7 @@
 }
 
 - (PhotoButton *)getPhotoIMG_VIEW {
-    PhotoButton *pBtn = [self.imgBtnArray objectAtIndex:[ self getPhotoImgShowIndex]];
+    PhotoButton *pBtn = [self.imgBtnArray objectAtIndex:[self getPhotoImgShowIndex]];
     return pBtn;
 }
 
@@ -577,7 +589,6 @@
     if (self.imgArray.count >= PhotoImg_MAX_COUNT) {
         return;
     }
-    PhotoButton *pBtn = [self getPhotoIMG_VIEW];
     
     //压缩图片
     if (image.size.width > IMAGE_MAXSIZE_WIDTH || image.size.height > IMAGE_MAXSIZE_WIDTH || self.isTakePhoto) {
@@ -597,22 +608,14 @@
         newSizeImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         
-        pBtn.photoImg.image = newSizeImage;
-    }
-    else {
-        pBtn.photoImg.image = image;
     }
     
-    [self.imgArray addObject:pBtn.photoImg.image];
     //拍照界面加入新预览图
-    [self.imageOverLay takePhotoWithImage:pBtn.photoImg.image];
-    
-    DLog(@"editedSize [%f,%f]",pBtn.photoImg.image.size.width, pBtn.photoImg.image.size.height);
-    
+    [self.imageOverLay takePhotoWithImage:image];
     
     //写入相册
     if (self.isTakePhoto) {
-        UIImageWriteToSavedPhotosAlbum(pBtn.photoImg.image, self, @selector(errorCheck:didFinishSavingWithError:contextInfo:), nil);
+        UIImageWriteToSavedPhotosAlbum(image, self, @selector(errorCheck:didFinishSavingWithError:contextInfo:), nil);
     }
     
 //    [self dismissViewControllerAnimated:YES completion:^(void){

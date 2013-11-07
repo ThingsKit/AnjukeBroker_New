@@ -24,6 +24,8 @@
 @property (nonatomic, strong) NSMutableArray *imgArray;
 @property (nonatomic, strong) UIScrollView *photoSV;
 @property (nonatomic, strong) NSMutableArray *imgBtnArr;
+@property int maxImgCount; //外部传递的最大图片数
+@property int currentImgCount; //外部已有的图片数，用以和自身的imgArray.count想加比较是否可继续拍照
 
 - (void)takePhotoWithImage:(UIImage *)image; //外部拍照后传递预览图，用以此编辑框显示预览图
 @end
