@@ -29,5 +29,29 @@
     
     return nil;
 }
++(FixedObject *)fixedPlanObjectFromDic:(NSDictionary *) dic{
+    FixedObject *fixed = [[FixedObject alloc] init];
+    [fixed setValueFromDictionary:dic];
+    return fixed;
+}
+
++(SalePropertyObject *)salePropertyFromJSONDic:(NSDictionary *) dic{
+    SalePropertyObject *property = [[SalePropertyObject alloc] init];
+    return [property setValueFromDictionary:dic];
+}
+
++(NSMutableArray *)salePropertyObjectArrayFromDicArray:(NSArray *)dicArray{
+    NSMutableArray *noPlanList = [[NSMutableArray alloc] init];
+    
+    for (id tempDic in dicArray)
+        [noPlanList addObject:[self propertyFromJSONDic:(NSDictionary *)tempDic]];
+    
+    if ([noPlanList count] == 0)
+        return nil;
+    else
+        return noPlanList;
+    
+    return nil;
+}
 
 @end

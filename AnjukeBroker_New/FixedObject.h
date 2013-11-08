@@ -13,7 +13,7 @@
  今日花费:   cost (单位：元， 未带）
  总花费:   totalCost (单位：套， 未带）
  每日限额:   topCost (单位：元， 未带）
- 计划状态:   fixedStatus
+ 计划状态:   fixedStatus    1:推广中 3：已停止
  房源总套数:   totalProperty
  
  */

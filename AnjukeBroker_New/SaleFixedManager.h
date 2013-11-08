@@ -8,10 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "SaleFixedGroupObject.h"
+#import "FixedObject.h"
+#import "SalePropertyObject.h"
 
 @interface SaleFixedManager : NSObject
 
 +(SaleFixedGroupObject *)propertyFromJSONDic:(NSDictionary *) dic;
 +(NSMutableArray *)propertyObjectArrayFromDicArray:(NSArray *)dicArray;
+//定价组详情
++(FixedObject *)fixedPlanObjectFromDic:(NSDictionary *) dic;
 
 @end

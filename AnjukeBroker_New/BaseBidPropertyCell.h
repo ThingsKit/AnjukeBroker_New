@@ -20,4 +20,5 @@
 @property (strong, nonatomic) UILabel *stage;
 @property (strong, nonatomic) UIImageView *statusImg;
 -(void)setValueForCellByDictinary:(NSDictionary *) dic;
+-(void)setValueForCellByDataModel:(id) dataModel;
 @end

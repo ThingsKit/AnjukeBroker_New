@@ -48,65 +48,39 @@
 -(void)initModel{
     [super initModel];
     self.myArray = [NSMutableArray array];
-    NSMutableDictionary *tempDic = [NSMutableDictionary dictionary];
-    [tempDic setValue:@"汤臣一品" forKey:@"title"];
-    [tempDic setValue:@"3室3厅 125平 200万" forKey:@"price"];
-    [tempDic setValue:@"当前排名       今日点击       出价(元)      预算余额(元)" forKey:@"string"];
-    [tempDic setValue:@"   3                  100               4.0             180.00" forKey:@"stringNum"];
-    [self.myArray addObject:tempDic];
-    
-    tempDic = [NSMutableDictionary dictionary];
-    [tempDic setValue:@"东方城市花园" forKey:@"title"];
-    [tempDic setValue:@"1室1厅 33平 100万" forKey:@"price"];
-    [tempDic setValue:@"当前排名       今日点击       出价(元)      预算余额(元)" forKey:@"string"];
-    [tempDic setValue:@"   2                  312              5.0             180.00" forKey:@"stringNum"];
-    [self.myArray addObject:tempDic];
-    
-    tempDic = [NSMutableDictionary dictionary];
-    [tempDic setValue:@"塘桥小区" forKey:@"title"];
-    [tempDic setValue:@"4室2厅 78平 300万" forKey:@"price"];
-    [tempDic setValue:@"当前排名       今日点击       出价(元)      预算余额(元)" forKey:@"string"];
-    [tempDic setValue:@"   1                  34               2.0             32.00" forKey:@"stringNum"];
-    [self.myArray addObject:tempDic];
-    
-    tempDic = [NSMutableDictionary dictionary];
-    [tempDic setValue:@"崂山一村" forKey:@"title"];
-    [tempDic setValue:@"3室1厅 66平 125万" forKey:@"price"];
-    [tempDic setValue:@"当前排名       今日点击       出价(元)      预算余额(元)" forKey:@"string"];
-    [tempDic setValue:@"   1                  56              2.0             24.00" forKey:@"stringNum"];
-    [self.myArray addObject:tempDic];
 }
 -(void)doRequest{
-    
+    if(![self isNetworkOkay]){
+        return;
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/getplanprops/" params:params target:self action:@selector(onGetLogin:)];
+    [self showLoadingActivity:YES];
 }
 - (void)onGetLogin:(RTNetworkResponse *)response {
-    DLog(@"------response [%@]", [[response content] JSONRepresentation]);
     DLog(@"------response [%@]", [response content]);
-    
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
+        [self hideLoadWithAnimated:YES];
         return;
     }
     
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     
-    if (([[resultFromAPI objectForKey:@"propBaseInfo"] count] == 0 || resultFromAPI == nil)) {
+    if (([[resultFromAPI objectForKey:@"planProp"] count] == 0 || resultFromAPI == nil)) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据d" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self.myArray removeAllObjects];
         [self.myTable reloadData];
         return;
     }
-    
-    NSMutableArray *result = [SaleFixedManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"plan"]];
     [self.myArray removeAllObjects];
-    [self.myArray addObjectsFromArray:result];
+    [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"planProp"]];
     [self.myTable reloadData];
-    
+    [self hideLoadWithAnimated:YES];
+
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -131,8 +105,8 @@
     if(cell == nil){
         cell = [[NSClassFromString(@"BaseBidPropertyCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BaseBidPropertyCell"];
      }
-    
-    [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
+    [cell setValueForCellByDataModel:[self.myArray objectAtIndex:[indexPath row]]];
+//    [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryNone;

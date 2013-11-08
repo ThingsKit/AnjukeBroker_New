@@ -56,7 +56,7 @@
 
         stage = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 40, 30)];
         stage.backgroundColor = [Util_UI colorWithHexString:@"#F9F9F9"];
-        stage.text = @"   3";
+//        stage.text = @"   3";
         stage.textColor = [UIColor redColor];
         stage.font = [UIFont systemFontOfSize:16];
         [contentView addSubview:stage];
@@ -72,6 +72,17 @@
     price.text = [dic objectForKey:@"price"];
     string.text = [dic objectForKey:@"string"];
     stringNum.text = [dic objectForKey:@"stringNum"];
+}
+-(void)setValueForCellByDataModel:(id) dataModel{
+    if([dataModel isKindOfClass:[NSDictionary class]]){
+        NSDictionary *dic = (NSDictionary *)dataModel;
+        NSDictionary *propInfo = [dic objectForKey:@"propInfo"];
+        title.text = [propInfo objectForKey:@"propTitle"];
+        price.text = [NSString stringWithFormat:@"%@ %@平 %@元", [propInfo objectForKey:@"propModel"], [propInfo objectForKey:@"propArea"], [propInfo objectForKey:@"propPrice"]];
+        stringNum.text = [NSString stringWithFormat:@"   %@                  %@              %@             %@", [dic objectForKey:@"index"], @"缺失", @"缺失", [dic objectForKey:@"balance"]];
+        stage.text = [dic objectForKey:@"index"];
+    }
+    
 }
 /*
 // Only override drawRect: if you perform custom drawing.

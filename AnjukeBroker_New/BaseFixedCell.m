@@ -78,13 +78,15 @@
 -(BOOL)configureCell:(id)dataModel{
     if([dataModel isKindOfClass:[FixedObject class]]){
         FixedObject *obj = (FixedObject *)dataModel;
-        self.tapNum.text = obj.tapNum;
-        self.totalCost.text = obj.totalCost;
-        self.topCost.text = obj.topCost;
+        self.tapNum.text = [NSString stringWithFormat:@"%@", obj.tapNum];
+        self.totalCost.text = [NSString stringWithFormat:@"%@", obj.cost];
+        self.topCost.text = [NSString stringWithFormat:@"%@", obj.topCost];;
         return YES;
     }
     return NO;
 }
+
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

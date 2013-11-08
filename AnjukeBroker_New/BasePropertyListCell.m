@@ -16,7 +16,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        tapNum = [[UILabel alloc] initWithFrame:CGRectMake(200, 10, 100, 20)];
+        tapNum = [[UILabel alloc] initWithFrame:CGRectMake(200, 40, 100, 20)];
         tapNum.backgroundColor = [UIColor clearColor];
         tapNum.textColor = [Util_UI colorWithHexString:@"#666666"];
         tapNum.font = [UIFont systemFontOfSize:12];
@@ -28,7 +28,6 @@
         tapNumStr.font = [UIFont systemFontOfSize:12];
         tapNumStr.text = @"今日点击";
 //        [self.contentView addSubview:tapNumStr];
-
         
         title = [[UILabel alloc] initWithFrame:CGRectMake(27, 10, 250, 20)];
         title.text = @"最好的房子";
@@ -37,7 +36,7 @@
         communityName.textColor = [Util_UI colorWithHexString:@"#666666"];
         communityName.text = @"明日社区";
         communityName.font = [UIFont systemFontOfSize:12];
-        price = [[UILabel alloc] initWithFrame:CGRectMake(110, 45, 150, 20)];
+        price = [[UILabel alloc] initWithFrame:CGRectMake(130, 45, 150, 20)];
         price.textColor = [UIColor grayColor];
         price.text = @"-190万";
         price.font = [UIFont systemFontOfSize:12];
@@ -62,6 +61,11 @@
         communityName.text = obj.communityName;
         price.text = obj.price;
         return YES;
+    }else if ([dataModel isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dic = (NSDictionary *)dataModel;
+        title.text = [dic objectForKey:@"title"];
+        communityName.text = [NSString stringWithFormat:@"%@室%@厅%@卫 %@平", [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"], [dic objectForKey:@"area"]];
+        price.text = [NSString stringWithFormat:@"%d万", [[dic objectForKey:@"price"] intValue]/10000];
     }
     return NO;
 }

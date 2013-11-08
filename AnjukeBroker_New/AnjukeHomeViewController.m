@@ -70,17 +70,22 @@
 
 }
 -(void)doRequest{
+    if(![self isNetworkOkay]){
+        return;
+    }
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/ppc/" params:params target:self action:@selector(onGetLogin:)];
-
+    [self showLoadingActivity:YES];
 }
 
 - (void)onGetLogin:(RTNetworkResponse *)response {
+    
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
+        [self hideLoadWithAnimated:YES];
         return;
     }
     DLog(@"------response [%@]", [response content]);
@@ -101,6 +106,7 @@
     [self.myArray addObject:nodic];
     
     [self.myTable reloadData];
+    [self hideLoadWithAnimated:YES];
 }
 //-(void)doRequestPlans{
 //    

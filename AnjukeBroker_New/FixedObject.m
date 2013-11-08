@@ -19,13 +19,13 @@
 
 - (id)setValueFromDictionary:(NSDictionary *)dic{
     
-    self.fixedId = [dic objectForKey:@"fixedId"];
-    self.tapNum = [dic objectForKey:@"tapNum"];
-    self.cost = [dic objectForKey:@"cost"];
-    self.totalCost = [dic objectForKey:@"totalCost"];
-    self.topCost = [dic objectForKey:@"topCost"];
-    self.fixedStatus = [dic objectForKey:@"fixedStatus"];
-    self.totalProperty = [dic objectForKey:@"totalProperty"];
+    self.fixedId = [dic objectForKey:@"id"];
+    self.tapNum = [dic objectForKey:@"cnum"];
+    self.cost = [dic objectForKey:@"fee"];
+//    self.totalCost = [dic objectForKey:@"totalCost"];
+    self.topCost = [dic objectForKey:@"ceiling"];
+    self.fixedStatus = [dic objectForKey:@"planStatus"];
+//    self.totalProperty = [dic objectForKey:@"totalProperty"];
     
     return self;
 }

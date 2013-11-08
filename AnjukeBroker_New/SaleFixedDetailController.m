@@ -21,6 +21,7 @@
 #import "BasePropertyListCell.h"
 #import "LoginManager.h"
 #import "BasePropertyObject.h"
+#import "SaleFixedManager.h"
 
 @interface SaleFixedDetailController ()
 {
@@ -100,44 +101,31 @@
     [self doRequest];
 }
 -(void)doRequest{
-    
+    if(![self isNetworkOkay]){
+        return;
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"broker_id", @"1", @"resType", [self.tempDic objectForKey:@"pricPlanId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/getplandetail/" params:params target:self action:@selector(onGetLogin:)];
-    
+    [self showLoadingActivity:YES];
 }
 
 - (void)onGetLogin:(RTNetworkResponse *)response {
-    DLog(@"------response [%@]", [[response content] JSONRepresentation]);
     DLog(@"------response [%@]", [response content]);
-    
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
+        [self hideLoadWithAnimated:YES];
         return;
     }
-    FixedObject *fixed = [[FixedObject alloc] init];
-    fixed.tapNum = @"30";
-    fixed.topCost = @"100";
-    fixed.totalCost = @"50";
-    [self.myArray addObject:fixed];
     
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     NSMutableDictionary *dicPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"plan"]];
-    [self.myArray addObject:dicPlan];
-
-    NSMutableArray *pricePlan = [NSMutableArray array];
-    [pricePlan addObjectsFromArray:[resultFromAPI objectForKey:@"pricPlan"]];
-    [self.myArray addObjectsFromArray:pricePlan];
-//
-//    NSMutableDictionary *nodic = [[NSMutableDictionary alloc] init];
-//    [nodic setValue:@"待推广房源" forKey:@"title"];
-//    [nodic setValue:[resultFromAPI objectForKey:@"unRecommendPropNum"] forKey:@"unRecommendPropNum"];
-//    [nodic setValue:@"3" forKey:@"status"];
-//    [nodic setValue:@"3" forKey:@"type"];
-//    [self.myArray addObject:nodic];
-//    
-//    [self.myTable reloadData];
+    [self.myArray removeAllObjects];
+    [self.myArray addObject:[SaleFixedManager fixedPlanObjectFromDic:dicPlan]];
+    [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"property"]];
+    [self.myTable reloadData];
+    [self hideLoadWithAnimated:YES];
 }
 
 #pragma mark - RTPOPOVER Delegate
@@ -154,21 +142,7 @@
         UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"取消定价推广", @"竞价推广本房源", nil];
         [action showInView:self.view];
         
-        
-//        SalePropertyDetailController *controller = [[SalePropertyDetailController alloc] init];
-//        controller.propertyObject = [self.myArray objectAtIndex:[indexPath row]];
-//        controller.fixedObject = [self.myArray objectAtIndex:0];
-//        [self.navigationController pushViewController:controller animated:YES];
-    
     }
-//    if(![selected containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
-//        [selected addObject:[self.myArray objectAtIndex:[indexPath row]]];
-//        
-//    }else{
-//        [selected removeObject:[self.myArray objectAtIndex:[indexPath row]]];
-//        
-//    }
-//    [self.myTable reloadData];
 }
 
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -193,9 +167,7 @@
         SalePropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"SalePropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SalePropertyListCell"];
-//            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
-//        [cell setValueForCellByObject:[self.myArray objectAtIndex:[indexPath row]]];
         [cell configureCell:[self.myArray objectAtIndex:[indexPath row]]];
         return cell;
     }
