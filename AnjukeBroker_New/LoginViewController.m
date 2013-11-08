@@ -136,9 +136,9 @@
 }
 
 - (void)onGetLogin:(RTNetworkResponse *)response {
-    DLog(@"------response [%@]", [[response content] JSONRepresentation]);
-    DLog(@"------response [%@]", [response content]);
 
+    DLog(@"------response [%@]", [response content]);
+    
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];

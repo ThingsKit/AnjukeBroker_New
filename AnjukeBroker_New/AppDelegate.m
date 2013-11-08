@@ -182,9 +182,13 @@
     [[RTLogger sharedInstance] setUmengKey:@"4fb9c2875270150573000023" channelID:@"A01"];
 #endif
     
+    //网络请求初始化
     [[RTRequestProxy sharedInstance] setAppName:code_AppName];
     [[RTRequestProxy sharedInstance] setChannelID:@"A01"];
     [[RTRequestProxy sharedInstance] setLogger:[RTLogger sharedInstance]];
+    
+    //gps定位信息
+    [[RTLocationManager sharedInstance] restartLocation];
 }
 
 - (void)checkLogin {
