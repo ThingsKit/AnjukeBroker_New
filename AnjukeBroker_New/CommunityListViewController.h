@@ -8,6 +8,6 @@
 
 #import "RTViewController.h"
 
-@interface CommunityListViewController : RTViewController <UITextFieldDelegate>
+@interface CommunityListViewController : RTViewController <UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @end
