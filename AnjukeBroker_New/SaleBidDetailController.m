@@ -43,7 +43,19 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self reloadData];
     [self doRequest];
+}
+-(void)reloadData{
+    if(self.myArray == nil){
+        self.myArray = [NSMutableArray array];
+    }else{
+        [self.myArray removeAllObjects];
+        [self.myTable reloadData];
+    }
+}
+-(void)dealloc{
+    self.myTable.delegate = nil;
 }
 -(void)initModel{
     [super initModel];
@@ -58,7 +70,6 @@
     [self showLoadingActivity:YES];
 }
 - (void)onGetLogin:(RTNetworkResponse *)response {
-    DLog(@"------response [%@]", [response content]);
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
@@ -66,11 +77,11 @@
         [self hideLoadWithAnimated:YES];
         return;
     }
-    
+    DLog(@"------response [%@]", [response content]);
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     
     if (([[resultFromAPI objectForKey:@"planProp"] count] == 0 || resultFromAPI == nil)) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据d" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self.myArray removeAllObjects];
         [self.myTable reloadData];

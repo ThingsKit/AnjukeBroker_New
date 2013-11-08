@@ -59,15 +59,12 @@
     [self doRequest];
 }
 -(void)reloadData{
-    self.myArray = [NSMutableArray array];
-//    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-//    [dic setValue:@"竞价房源" forKey:@"title"];
-//    [dic setValue:@"房源数：0套" forKey:@"detail"];
-//    [dic setValue:@"" forKey:@"status"];
-//    [dic setValue:@"1" forKey:@"type"];
-//    [self.myArray addObject:dic];
-
-
+    if(self.myArray == nil){
+        self.myArray = [NSMutableArray array];
+    }else{
+        [self.myArray removeAllObjects];
+        [self.myTable reloadData];
+    }
 }
 -(void)doRequest{
     if(![self isNetworkOkay]){

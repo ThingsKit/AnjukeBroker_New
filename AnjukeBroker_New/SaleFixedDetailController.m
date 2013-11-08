@@ -98,7 +98,19 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self reloadData];
     [self doRequest];
+}
+-(void)reloadData{
+    if(self.myArray == nil){
+        self.myArray = [NSMutableArray array];
+    }else{
+        [self.myArray removeAllObjects];
+        [self.myTable reloadData];
+    }
+}
+-(void)dealloc{
+    self.myTable.delegate = nil;
 }
 -(void)doRequest{
     if(![self isNetworkOkay]){
