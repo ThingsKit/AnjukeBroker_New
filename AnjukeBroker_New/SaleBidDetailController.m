@@ -54,6 +54,7 @@
         [self.myTable reloadData];
     }
 }
+
 -(void)dealloc{
     self.myTable.delegate = nil;
 }

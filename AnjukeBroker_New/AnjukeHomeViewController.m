@@ -66,6 +66,7 @@
         [self.myTable reloadData];
     }
 }
+
 -(void)doRequest{
     if(![self isNetworkOkay]){
         return;

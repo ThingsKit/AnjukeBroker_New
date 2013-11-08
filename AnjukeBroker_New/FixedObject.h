@@ -9,6 +9,7 @@
  定价推广计划对象
  
  定价组编号:    fixedId
+ 定价组名称:    planName
  总点击量:   tapNum
  今日花费:   cost (单位：元， 未带）
  总花费:   totalCost (单位：套， 未带）
@@ -22,6 +23,7 @@
 
 @interface FixedObject : NSObject
 @property (strong, nonatomic) NSString *fixedId;
+@property (strong, nonatomic) NSString *planName;
 @property (strong, nonatomic) NSString *tapNum;
 @property (strong, nonatomic) NSString *cost;
 @property (strong, nonatomic) NSString *totalCost;

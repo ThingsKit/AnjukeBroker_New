@@ -10,6 +10,7 @@
 
 @implementation FixedObject
 @synthesize fixedId;
+@synthesize planName;
 @synthesize tapNum;
 @synthesize cost;
 @synthesize totalCost;
@@ -20,6 +21,7 @@
 - (id)setValueFromDictionary:(NSDictionary *)dic{
     
     self.fixedId = [dic objectForKey:@"id"];
+    self.planName = [dic objectForKey:@"planName"];
     self.tapNum = [dic objectForKey:@"cnum"];
     self.cost = [dic objectForKey:@"fee"];
 //    self.totalCost = [dic objectForKey:@"totalCost"];

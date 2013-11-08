@@ -103,6 +103,7 @@
     [self reloadData];
     [self doRequest];
 }
+
 -(void)reloadData{
     if(self.myArray == nil){
         self.myArray = [NSMutableArray array];
@@ -140,6 +141,7 @@
         [alert show];
         [self.myArray removeAllObjects];
         [self.myTable reloadData];
+        [self hideLoadWithAnimated:YES];
         return;
     }
 
