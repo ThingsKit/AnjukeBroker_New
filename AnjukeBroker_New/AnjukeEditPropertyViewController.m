@@ -150,8 +150,9 @@
     headerView.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
     
     // photo sv
-    UIScrollView *sv = [[UIScrollView alloc] initWithFrame:headerView.bounds];
+    UIScrollView *sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, headerView.frame.size.width, photoHeaderH)];
     self.photoSV = sv;
+    sv.clipsToBounds = YES;
     sv.backgroundColor = [UIColor clearColor];
     sv.contentSize = CGSizeMake(headerView.frame.size.width, headerView.frame.size.height);
     [headerView addSubview:sv];
@@ -161,7 +162,6 @@
     UIButton *photoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     photoBtn.frame = CGRectMake(([self windowWidth] -pBtnH)/2, (sv.frame.size.height - pBtnH)/2, pBtnH, pBtnH);
     photoBtn.backgroundColor = [UIColor whiteColor];
-//    [photoBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon05_photo"] forState:UIControlStateNormal];
     [photoBtn addTarget:self action:@selector(addPhoto) forControlEvents:UIControlEventTouchUpInside];
     [sv addSubview:photoBtn];
     
@@ -176,13 +176,9 @@
         PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(PhotoImg_Gap +(i +1) * (PhotoImg_Gap + PhotoImg_H), PhotoImg_Gap, PhotoImg_H, PhotoImg_H)];
         pBtn.tag = TagOfImg_Base + i;
         [pBtn addTarget:self action:@selector(showPhoto:) forControlEvents:UIControlEventTouchUpInside];
-        pBtn.layer.borderColor = SYSTEM_ORANGE.CGColor;
-        pBtn.layer.borderWidth = 0.5;
         [self.photoSV addSubview:pBtn];
         [self.imgBtnArray addObject:pBtn];
     }
-    
-    self.photoSV.contentSize = CGSizeMake(PhotoImg_Gap +(PhotoImg_Gap+ PhotoImg_H) * (PhotoImg_MAX_COUNT +1), headerView.frame.size.height);
     
     //备案号
     if (self.needRecordNum) {
@@ -193,7 +189,8 @@
     
     BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, headerView.frame.size.height -1, [self windowWidth]-15, 1)];
     [headerView addSubview:line];
-
+    
+    [self refreshPhotoHeader];
 }
 
 #pragma mark - Private Method
@@ -234,6 +231,41 @@
     
     [self.tvList setFrame:FRAME_WITH_NAV];
     [self.tvList setContentOffset:CGPointMake(0, 0) animated:YES];
+}
+
+#pragma mark - Photo ScrollView && ImagePickerOverLay method
+
+//得到需要在第几个预览图显示
+- (int)getPhotoImgShowIndex {
+    if (self.imgArray.count == 0) {
+        return 0;
+    }
+    
+    int index = self.imgArray.count;
+    return index;
+}
+
+- (PhotoButton *)getPhotoIMG_VIEW {
+    PhotoButton *pBtn = [self.imgBtnArray objectAtIndex:[self getPhotoImgShowIndex]];
+    return pBtn;
+}
+
+- (void)refreshPhotoHeader {
+    //redraw header img scroll
+    for (int i = 0; i < self.imgArray.count; i ++) {
+        PhotoButton *imgBtn = (PhotoButton *)[self.imgBtnArray objectAtIndex:i];
+        [imgBtn.photoImg setImage:[self.imgArray objectAtIndex:i]];
+    }
+    
+    for (PhotoButton * imgBtn in self.imgBtnArray) {
+        if (imgBtn.photoImg.image == nil) {
+            imgBtn.hidden = YES;
+        }
+        else
+            imgBtn.hidden = NO;
+    }
+    
+    self.photoSV.contentSize = CGSizeMake(PhotoImg_Gap + (PhotoImg_Gap+ PhotoImg_H)* (self.imgArray.count +1), photoHeaderH);
 }
 
 #pragma mark - Broker Picker Delegate
@@ -551,31 +583,6 @@
     
     //redraw header img scroll
     [self refreshPhotoHeader];
-}
-
-#pragma mark - Photo ScrollView && ImagePickerOverLay method
-
-//得到需要在第几个预览图显示
-- (int)getPhotoImgShowIndex {
-    if (self.imgArray.count == 0) {
-        return 0;
-    }
-    
-    int index = self.imgArray.count;
-    return index;
-}
-
-- (PhotoButton *)getPhotoIMG_VIEW {
-    PhotoButton *pBtn = [self.imgBtnArray objectAtIndex:[self getPhotoImgShowIndex]];
-    return pBtn;
-}
-
-- (void)refreshPhotoHeader {
-    //redraw header img scroll
-    for (int i = 0; i < self.imgArray.count; i ++) {
-        PhotoButton *imgBtn = (PhotoButton *)[self.imgBtnArray objectAtIndex:i];
-        [imgBtn.photoImg setImage:[self.imgArray objectAtIndex:i]];
-    }
 }
 
 #pragma mark - UIImagePickerControllerDelegate method

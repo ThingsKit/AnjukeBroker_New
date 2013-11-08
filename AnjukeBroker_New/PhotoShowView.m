@@ -72,7 +72,7 @@
     UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_takephoto.png"]];
     icon.backgroundColor = [UIColor clearColor];
     icon.frame = CGRectMake((takeBtn.frame.size.width - iconH)/2, (takeBtn.frame.size.height - iconH)/2, iconH, iconH);
-    [icon setUserInteractionEnabled:YES];
+//    [icon setUserInteractionEnabled:YES];
     [takeBtn addSubview:icon];
     
     UIButton *exitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
