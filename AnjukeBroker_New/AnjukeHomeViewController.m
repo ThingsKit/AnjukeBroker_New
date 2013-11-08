@@ -77,15 +77,13 @@
 }
 
 - (void)onGetLogin:(RTNetworkResponse *)response {
-    DLog(@"------response [%@]", [[response content] JSONRepresentation]);
-    DLog(@"------response [%@]", [response content]);
-    
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         return;
     }
+    DLog(@"------response [%@]", [response content]);
     [self.myArray removeAllObjects];
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     NSMutableDictionary *dicPlan = [[NSMutableDictionary alloc] initWithDictionary:[[resultFromAPI objectForKey:@"bidPlan"] objectAtIndex:0]];
@@ -155,6 +153,7 @@
         [self.navigationController pushViewController:controller animated:YES];
     }else{
         SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
+        controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
         controller.backType = RTSelectorBackTypePopToRoot;
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];

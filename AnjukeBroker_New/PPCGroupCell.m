@@ -52,7 +52,7 @@
         }else{//定价
             title.text = @"定价房源";
             detail.text = [NSString stringWithFormat:@"%@ 房源数:%@套", [dic objectForKey:@"pricPlanName"], [dic objectForKey:@"pricPlanPropNum"]];
-            if([[dic objectForKey:@"pricPlanStateDesc"] isEqualToString:@"计划推广中"]){
+            if([[dic objectForKey:@"pricPlanState"] intValue] == 1){
                 statueImg.frame = CGRectMake(260, 25, 24, 12);
                 [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_woking@2x.png"]];
             }else if ([[dic objectForKey:@"pricPlanStateDesc"] isEqualToString:@"未推广"]){

@@ -19,7 +19,7 @@
 #import "SalePropertyListCell.h"
 #import "SaleFixedCell.h"
 #import "BasePropertyListCell.h"
-
+#import "LoginManager.h"
 #import "BasePropertyObject.h"
 
 @interface SaleFixedDetailController ()
@@ -49,6 +49,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    DLog(@"==========%@",self.tempDic);
     [self setTitleViewWithString:@"定价房源"];
     //黑框
     self.titleArr_Popover= [NSArray arrayWithObjects:@"添加房源", @"停止推广", @"修改限额", nil];
@@ -57,43 +58,88 @@
 }
 -(void)initModel{
     [super initModel];
-    FixedObject *fixed = [[FixedObject alloc] init];
-    fixed.tapNum = @"10";
-    fixed.topCost = @"100";
-    fixed.totalCost = @"30";
-    [self.myArray addObject:fixed];
-    
-    BasePropertyObject *property1 = [[BasePropertyObject alloc] init];
-    property1.title = @"昨天最好的房子";
-    property1.communityName = @"2室1厅  33平";
-    property1.price = @"345万";
-    [self.myArray addObject:property1];
-    
-    BasePropertyObject *property2 = [[BasePropertyObject alloc] init];
-    property2.title = @"今天最好的房子";
-    property2.communityName = @"2室1厅  120平";
-    property2.price = @"567万";
-    [self.myArray addObject:property2];
-    
-    BasePropertyObject *property3 = [[BasePropertyObject alloc] init];
-    property3.title = @"明天最好的房子";
-    property3.communityName = @"2室1厅  340平";
-    property3.price = @"7896万";
-    [self.myArray addObject:property3];
-    
-    BasePropertyObject *property4 = [[BasePropertyObject alloc] init];
-    property4.title = @"未来天最好的房子";
-    property4.communityName = @"2室1厅  200平";
-    property4.price = @"6435万";
-    [self.myArray addObject:property4];
-    
-    BasePropertyObject *property = [[BasePropertyObject alloc] init];
-    property.title = @"上海最好的房子";
-    property.communityName = @"2室1厅  80平";
-    property.price = @"234万";
-    [self.myArray addObject:property];
+//    FixedObject *fixed = [[FixedObject alloc] init];
+//    fixed.tapNum = @"30";
+//    fixed.topCost = @"100";
+//    fixed.totalCost = @"50";
+//    [self.myArray addObject:fixed];
+//    
+//    BasePropertyObject *property1 = [[BasePropertyObject alloc] init];
+//    property1.title = @"昨天最好的房子";
+//    property1.communityName = @"2室1厅  33平";
+//    property1.price = @"345万";
+//    [self.myArray addObject:property1];
+//    
+//    BasePropertyObject *property2 = [[BasePropertyObject alloc] init];
+//    property2.title = @"今天最好的房子";
+//    property2.communityName = @"2室1厅  120平";
+//    property2.price = @"567万";
+//    [self.myArray addObject:property2];
+//    
+//    BasePropertyObject *property3 = [[BasePropertyObject alloc] init];
+//    property3.title = @"明天最好的房子";
+//    property3.communityName = @"2室1厅  340平";
+//    property3.price = @"7896万";
+//    [self.myArray addObject:property3];
+//    
+//    BasePropertyObject *property4 = [[BasePropertyObject alloc] init];
+//    property4.title = @"未来天最好的房子";
+//    property4.communityName = @"2室1厅  200平";
+//    property4.price = @"6435万";
+//    [self.myArray addObject:property4];
+//    
+//    BasePropertyObject *property = [[BasePropertyObject alloc] init];
+//    property.title = @"上海最好的房子";
+//    property.communityName = @"2室1厅  80平";
+//    property.price = @"234万";
+//    [self.myArray addObject:property];
 
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self doRequest];
+}
+-(void)doRequest{
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"broker_id", @"1", @"resType", [self.tempDic objectForKey:@"pricPlanId"], @"planId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/getplandetail/" params:params target:self action:@selector(onGetLogin:)];
+    
+}
+
+- (void)onGetLogin:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [[response content] JSONRepresentation]);
+    DLog(@"------response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    FixedObject *fixed = [[FixedObject alloc] init];
+    fixed.tapNum = @"30";
+    fixed.topCost = @"100";
+    fixed.totalCost = @"50";
+    [self.myArray addObject:fixed];
+    
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    NSMutableDictionary *dicPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"plan"]];
+    [self.myArray addObject:dicPlan];
+
+    NSMutableArray *pricePlan = [NSMutableArray array];
+    [pricePlan addObjectsFromArray:[resultFromAPI objectForKey:@"pricPlan"]];
+    [self.myArray addObjectsFromArray:pricePlan];
+//
+//    NSMutableDictionary *nodic = [[NSMutableDictionary alloc] init];
+//    [nodic setValue:@"待推广房源" forKey:@"title"];
+//    [nodic setValue:[resultFromAPI objectForKey:@"unRecommendPropNum"] forKey:@"unRecommendPropNum"];
+//    [nodic setValue:@"3" forKey:@"status"];
+//    [nodic setValue:@"3" forKey:@"type"];
+//    [self.myArray addObject:nodic];
+//    
+//    [self.myTable reloadData];
+}
+
 #pragma mark - RTPOPOVER Delegate
 - (void)popoverCellClick:(int)row {
     
