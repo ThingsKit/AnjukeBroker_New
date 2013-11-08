@@ -17,6 +17,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        self.clipsToBounds = NO;
         
         //用于显示照片的控件
         UIImageView *img = [[UIImageView alloc] initWithFrame:self.bounds];
@@ -26,13 +27,15 @@
         img.userInteractionEnabled = NO;
         [self addSubview:img];
         
-//        CGFloat dBtnW = 20;
-//        
-//        UIButton *deleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        self.deletelBtn = deleBtn;
-//        deleBtn.frame = CGRectMake(frame.size.width - dBtnW, 0, dBtnW, dBtnW);
-//        deleBtn.backgroundColor = [UIColor redColor];
-//        [self addSubview:deleBtn];
+        CGFloat dBtnW = 20;
+        
+        UIButton *deleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.deletelBtn = deleBtn;
+        deleBtn.frame = CGRectMake(frame.size.width - dBtnW +3, -3, dBtnW, dBtnW);
+        deleBtn.backgroundColor = [UIColor clearColor];
+        [deleBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_delete.png"] forState:UIControlStateNormal];
+//        self.deletelBtn.hidden = YES;
+        [self addSubview:deleBtn];
         
     }
     return self;
@@ -46,5 +49,13 @@
     // Drawing code
 }
 */
+
+- (void)setPhotoImage:(UIImage *)image {
+    if (image == nil) {
+        self.deletelBtn.hidden = YES;
+    }
+    else
+        self.deletelBtn.hidden = NO;
+}
 
 @end

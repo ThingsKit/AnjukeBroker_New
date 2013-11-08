@@ -176,7 +176,7 @@
         PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(PhotoImg_Gap +(i +1) * (PhotoImg_Gap + PhotoImg_H), PhotoImg_Gap, PhotoImg_H, PhotoImg_H)];
         pBtn.tag = TagOfImg_Base + i;
         [pBtn addTarget:self action:@selector(showPhoto:) forControlEvents:UIControlEventTouchUpInside];
-        pBtn.layer.borderColor = SYSTEM_BLUE.CGColor;
+        pBtn.layer.borderColor = SYSTEM_ORANGE.CGColor;
         pBtn.layer.borderWidth = 0.5;
         [self.photoSV addSubview:pBtn];
         [self.imgBtnArray addObject:pBtn];

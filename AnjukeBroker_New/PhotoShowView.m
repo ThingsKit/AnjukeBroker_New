@@ -62,10 +62,18 @@
     takeBtn.backgroundColor = [UIColor clearColor];
 //    takeBtn.layer.borderColor = SYSTEM_BLACK.CGColor;
 //    takeBtn.layer.borderWidth = 1;
-    [takeBtn setTitle:@"拍照" forState:UIControlStateNormal];
-    [takeBtn setTitleColor:SYSTEM_BLUE forState:UIControlStateNormal];
+//    [takeBtn setTitle:@"拍照" forState:UIControlStateNormal];
+//    [takeBtn setTitleColor:SYSTEM_BLUE forState:UIControlStateNormal];
+//    [takeBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_takephoto.png"] forState:UIControlStateNormal];
     [takeBtn addTarget:self action:@selector(take_Picture:) forControlEvents:UIControlEventTouchUpInside];
     [bottomBG addSubview:takeBtn];
+    
+    CGFloat iconH = 98/2;
+    UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_takephoto.png"]];
+    icon.backgroundColor = [UIColor clearColor];
+    icon.frame = CGRectMake((takeBtn.frame.size.width - iconH)/2, (takeBtn.frame.size.height - iconH)/2, iconH, iconH);
+    [icon setUserInteractionEnabled:YES];
+    [takeBtn addSubview:icon];
     
     UIButton *exitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     exitBtn.frame = CGRectMake(takeBtn.frame.origin.x + BtnW+10, takeBtn.frame.origin.y, BtnW, PHOTO_BTN_H);
@@ -73,7 +81,7 @@
 //    exitBtn.layer.borderColor = SYSTEM_BLACK.CGColor;
 //    exitBtn.layer.borderWidth = 1;
     [exitBtn setTitle:@"完成" forState:UIControlStateNormal];
-    [exitBtn setTitleColor:SYSTEM_BLUE forState:UIControlStateNormal];
+    [exitBtn setTitleColor:SYSTEM_ORANGE forState:UIControlStateNormal];
     [exitBtn addTarget:self action:@selector(closePicker:) forControlEvents:UIControlEventTouchUpInside];
     [bottomBG addSubview:exitBtn];
 }
@@ -97,8 +105,8 @@
     [pBtn addTarget:self action:@selector(deletePhoto:) forControlEvents:UIControlEventTouchUpInside];
     pBtn.tag = TAG_PHOTO_BASE + index;
     pBtn.photoImg.image = image;
-    pBtn.layer.borderColor = [UIColor whiteColor].CGColor;
-    pBtn.layer.borderWidth = 0.5;
+//    pBtn.layer.borderColor = [UIColor whiteColor].CGColor;
+//    pBtn.layer.borderWidth = 0.5;
     [self.photoSV addSubview:pBtn];
     
     [self.imgBtnArr addObject:pBtn];

@@ -13,4 +13,6 @@
 @property (nonatomic, strong) UIImageView *photoImg;
 @property (nonatomic, strong) UIButton *deletelBtn;
 
+- (void)setPhotoImage:(UIImage *)image;
+
 @end
