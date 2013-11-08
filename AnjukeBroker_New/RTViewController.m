@@ -60,13 +60,13 @@
 #pragma mark - Status method
 - (BOOL)isNetworkOkay {
     if (![[RTApiRequestProxy sharedInstance] isInternetAvailiable]) {
-        [self showInfo:@"网络不给力"];
+        [self showInfo:NONETWORK_STR];
         return NO;
     }
     
     Reachability *r = [Reachability reachabilityWithHostName:@"www.baidu.com"];
     if ([r currentReachabilityStatus] == NotReachable) {
-        [self showInfo:@"网络不给力"];
+        [self showInfo:NONETWORK_STR];
         return NO;
     }
     
