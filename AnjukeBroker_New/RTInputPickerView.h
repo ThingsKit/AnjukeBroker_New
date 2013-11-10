@@ -31,5 +31,6 @@ typedef NS_ENUM(NSInteger, PickerType){
 @property (nonatomic, assign) id <BrokerPickerDelegate> brokerPickerDelegate;
 
 - (void)reloadPickerWithRow:(int)row;
+- (void)pickerScrollToRowAtIndex:(NSInteger)row atCom:(NSInteger)com; //根据是否有第二第三栏移动row
 
 @end

@@ -209,16 +209,23 @@
     NSString *string1 = [[[self.pickerView firstArray] objectAtIndex:index1] objectForKey:@"Title"];
     [string appendString:string1];
     
+    //记录此次输入的数据所在row，方便下一次输入时聚焦
+    [(AnjukeEditableCell *)[[self.dataSource cellArray] objectAtIndex:self.selectedRow] setInputed_RowAtCom0:index1];
+    
     if ([self.pickerView.secondArray count] > 0) {
         int index2 = [self.pickerView selectedRowInComponent:1];
         NSString *string2 = [[[self.pickerView secondArray] objectAtIndex:index2] objectForKey:@"Title"];
         [string appendString:string2];
+        
+        [(AnjukeEditableCell *)[[self.dataSource cellArray] objectAtIndex:self.selectedRow] setInputed_RowAtCom1:index2];
     }
     
     if ([self.pickerView.thirdArray count] > 0) {
         int index3 = [self.pickerView selectedRowInComponent:2];
         NSString *string3 = [[[self.pickerView thirdArray] objectAtIndex:index3] objectForKey:@"Title"];
         [string appendString:string3];
+        
+        [(AnjukeEditableCell *)[[self.dataSource cellArray] objectAtIndex:self.selectedRow] setInputed_RowAtCom2:index3];
     }
     
     DLog(@"string-[%@]", string);
@@ -458,6 +465,15 @@
         
         //重置pickerView数据
         [self.pickerView reloadPickerWithRow:self.selectedRow];
+        
+        //聚焦上一次的输入
+        int pickerIndex1 = [(AnjukeEditableCell *)[[self.dataSource cellArray] objectAtIndex:index] inputed_RowAtCom0];
+        int pickerIndex2 = [(AnjukeEditableCell *)[[self.dataSource cellArray] objectAtIndex:index] inputed_RowAtCom1];
+        int pickerIndex3 = [(AnjukeEditableCell *)[[self.dataSource cellArray] objectAtIndex:index] inputed_RowAtCom2];
+        
+        [self.pickerView pickerScrollToRowAtIndex:pickerIndex1 atCom:0];
+        [self.pickerView pickerScrollToRowAtIndex:pickerIndex2 atCom:1];
+        [self.pickerView pickerScrollToRowAtIndex:pickerIndex3 atCom:2];
         
         //根据输入数据滑动到当前row
         if (![self.inputingTextF.text isEqualToString:@""]) {

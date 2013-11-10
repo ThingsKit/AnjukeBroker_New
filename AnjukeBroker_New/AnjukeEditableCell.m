@@ -13,6 +13,7 @@
 @synthesize text_Field;
 @synthesize editDelegate;
 @synthesize unitLb;
+@synthesize inputed_RowAtCom0, inputed_RowAtCom1, inputed_RowAtCom2;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -35,6 +36,10 @@
 }
 
 - (void)initUI {
+    self.inputed_RowAtCom0 = 0;
+    self.inputed_RowAtCom1 = 0;
+    self.inputed_RowAtCom2 = 0;
+    
     //text field
     UITextField *cellTextField = nil;
     cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(224/2, 1,  150, CELL_HEIGHT - 1*2)];

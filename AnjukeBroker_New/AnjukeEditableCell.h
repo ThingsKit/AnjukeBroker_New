@@ -20,4 +20,8 @@
 @property (nonatomic, assign) id <CellTextFieldEditDelegate> editDelegate;
 @property (nonatomic, strong) UILabel *unitLb;
 
+@property int inputed_RowAtCom0; //上一次选择picke数据的index，用于输入时校对上一次的输入
+@property int inputed_RowAtCom1;
+@property int inputed_RowAtCom2;
+
 @end

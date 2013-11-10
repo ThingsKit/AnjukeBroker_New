@@ -85,6 +85,18 @@
     }
     
     [self reloadAllComponents];
+    
+}
+
+- (void)pickerScrollToRowAtIndex:(NSInteger)row atCom:(NSInteger)com{
+    if (com == 1 && self.secondArray.count == 0) {
+        return;
+    }
+    if (com == 2 && self.thirdArray.count == 0) {
+        return;
+    }
+    
+    [self selectRow:row inComponent:com animated:NO];
 }
 
 #pragma mark - UIPickerView DataSource & Delegate
