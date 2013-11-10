@@ -136,6 +136,35 @@
     return @"";
 }
 
+//- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
+//    CGFloat lbW = 100;
+//    CGFloat lbH = 30;
+//    
+//    UILabel *titleLb = [[UILabel alloc] init];
+//    titleLb.font = [UIFont systemFontOfSize:17];
+//    titleLb.frame = CGRectMake(0, 0, lbW, lbH);
+//    titleLb.textAlignment = NSTextAlignmentCenter;
+//    titleLb.backgroundColor = [UIColor clearColor];
+//    
+//    switch (component) {
+//        case 0:
+//            titleLb.text = [self.firstArray objectAtIndex:row];
+//            break;
+//        case 1:
+//            titleLb.text = [self.secondArray objectAtIndex:row];
+//            break;
+//        case 2:
+//            titleLb.text = [self.thirdArray objectAtIndex:row];
+//            break;
+//            
+//        default:
+//            break;
+//    }
+//    
+//    return titleLb;
+//    
+//}
+
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
 //    NSMutableString *string = [NSMutableString string];
     

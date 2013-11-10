@@ -17,6 +17,8 @@
 		972C10391815351900552C9B /* AnjukeEditPropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */; };
 		972DDA2A1826A4CA00263F8F /* RTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972DDA291826A4CA00263F8F /* RTNavigationController.m */; };
 		972DDA301826D39500263F8F /* RTPopoverTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972DDA2F1826D39500263F8F /* RTPopoverTableViewController.m */; };
+		973727AD182FD1C8007D8501 /* PropertyFitment.plist in Resources */ = {isa = PBXBuildFile; fileRef = 973727AC182FD1C8007D8501 /* PropertyFitment.plist */; };
+		973727AF182FD2CE007D8501 /* PropertyDirection.plist in Resources */ = {isa = PBXBuildFile; fileRef = 973727AE182FD2CE007D8501 /* PropertyDirection.plist */; };
 		97410553180CDFE0004DAE95 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410552180CDFE0004DAE95 /* Foundation.framework */; };
 		97410555180CDFE0004DAE95 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410554180CDFE0004DAE95 /* CoreGraphics.framework */; };
 		97410557180CDFE0004DAE95 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410556180CDFE0004DAE95 /* UIKit.framework */; };
@@ -94,6 +96,7 @@
 		97DED8AD18234BB100D0B82A /* MoreListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97DED8AC18234BB100D0B82A /* MoreListCell.m */; };
 		97DED8B81823999700D0B82A /* anjuke_icon11_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97DED8B71823999700D0B82A /* anjuke_icon11_@2x.png */; };
 		97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F5E5E5182B38DA00B5CBCC /* PhotoShowView.m */; };
+		97FA36A3182F318D00EF714D /* PropertyHouseType.plist in Resources */ = {isa = PBXBuildFile; fileRef = 97FA36A2182F318D00EF714D /* PropertyHouseType.plist */; };
 		97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */; };
 		B7210948182778C100904FC7 /* RentNoPlanListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7210947182778C100904FC7 /* RentNoPlanListController.m */; };
 		B721094B18277CE100904FC7 /* RentFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B721094A18277CE100904FC7 /* RentFixedDetailController.m */; };
@@ -184,6 +187,8 @@
 		972DDA291826A4CA00263F8F /* RTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTNavigationController.m; sourceTree = "<group>"; };
 		972DDA2E1826D39500263F8F /* RTPopoverTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTPopoverTableViewController.h; sourceTree = "<group>"; };
 		972DDA2F1826D39500263F8F /* RTPopoverTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTPopoverTableViewController.m; sourceTree = "<group>"; };
+		973727AC182FD1C8007D8501 /* PropertyFitment.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PropertyFitment.plist; sourceTree = "<group>"; };
+		973727AE182FD2CE007D8501 /* PropertyDirection.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PropertyDirection.plist; sourceTree = "<group>"; };
 		9741054F180CDFE0004DAE95 /* AnjukeBroker_New.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnjukeBroker_New.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97410552180CDFE0004DAE95 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		97410554180CDFE0004DAE95 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -298,6 +303,7 @@
 		97DED8B71823999700D0B82A /* anjuke_icon11_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon11_@2x.png"; sourceTree = "<group>"; };
 		97F5E5E4182B38DA00B5CBCC /* PhotoShowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoShowView.h; sourceTree = "<group>"; };
 		97F5E5E5182B38DA00B5CBCC /* PhotoShowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoShowView.m; sourceTree = "<group>"; };
+		97FA36A2182F318D00EF714D /* PropertyHouseType.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PropertyHouseType.plist; sourceTree = "<group>"; };
 		97FD0B6018157BEC0072FB5E /* PropertyDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDataManager.h; sourceTree = "<group>"; };
 		97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDataManager.m; sourceTree = "<group>"; };
 		B7210946182778C100904FC7 /* RentNoPlanListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentNoPlanListController.h; sourceTree = "<group>"; };
@@ -502,6 +508,7 @@
 		972C1033181504FE00552C9B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				97FA369E182F30E500EF714D /* Plist */,
 				972C10351815053100552C9B /* Images */,
 				97410569180CDFE0004DAE95 /* Images.xcassets */,
 				97410566180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld */,
@@ -856,6 +863,16 @@
 			name = "照片编辑";
 			sourceTree = "<group>";
 		};
+		97FA369E182F30E500EF714D /* Plist */ = {
+			isa = PBXGroup;
+			children = (
+				97FA36A2182F318D00EF714D /* PropertyHouseType.plist */,
+				973727AC182FD1C8007D8501 /* PropertyFitment.plist */,
+				973727AE182FD2CE007D8501 /* PropertyDirection.plist */,
+			);
+			name = Plist;
+			sourceTree = "<group>";
+		};
 		97FD0B5E18157BB50072FB5E /* DataManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -1109,6 +1126,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				97DED8A8182343E500D0B82A /* anjuke_icon09_stop@2x.png in Resources */,
+				97FA36A3182F318D00EF714D /* PropertyHouseType.plist in Resources */,
 				97DED8A9182343E500D0B82A /* anjuke_icon09_woking@2x.png in Resources */,
 				9795838418224F35005EA48A /* TabMore_normal@2x.png in Resources */,
 				9795838D18225B93005EA48A /* anjuke_icon05_photo_selected@2x.png in Resources */,
@@ -1116,6 +1134,7 @@
 				97D752CB182C92690035577F /* anjuke_icon_takephoto@2x.png in Resources */,
 				9795837A18224ABF005EA48A /* TabAnjuke_normal@2x.png in Resources */,
 				9795837C18224ABF005EA48A /* TabHaozu_normal@2x.png in Resources */,
+				973727AF182FD2CE007D8501 /* PropertyDirection.plist in Resources */,
 				9795838E18225B93005EA48A /* anjuke_icon05_photo@2x.png in Resources */,
 				9741055F180CDFE0004DAE95 /* InfoPlist.strings in Resources */,
 				97DED8B81823999700D0B82A /* anjuke_icon11_@2x.png in Resources */,
@@ -1126,6 +1145,7 @@
 				97D752C9182C92690035577F /* Overlay@2x.png in Resources */,
 				97DED8A7182343E500D0B82A /* anjuke_icon08_attention@2x.png in Resources */,
 				9795837E18224ABF005EA48A /* TabHome_normal@2x.png in Resources */,
+				973727AD182FD1C8007D8501 /* PropertyFitment.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
