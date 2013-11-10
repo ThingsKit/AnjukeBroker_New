@@ -206,18 +206,18 @@
     NSMutableString *string = [NSMutableString string];
     
     int index1 = [self.pickerView selectedRowInComponent:0];
-    NSString *string1 = [[self.pickerView firstArray] objectAtIndex:index1];
+    NSString *string1 = [[[self.pickerView firstArray] objectAtIndex:index1] objectForKey:@"Title"];
     [string appendString:string1];
     
     if ([self.pickerView.secondArray count] > 0) {
         int index2 = [self.pickerView selectedRowInComponent:1];
-        NSString *string2 = [[self.pickerView secondArray] objectAtIndex:index2];
+        NSString *string2 = [[[self.pickerView secondArray] objectAtIndex:index2] objectForKey:@"Title"];
         [string appendString:string2];
     }
     
     if ([self.pickerView.thirdArray count] > 0) {
         int index3 = [self.pickerView selectedRowInComponent:2];
-        NSString *string3 = [[self.pickerView thirdArray] objectAtIndex:index3];
+        NSString *string3 = [[[self.pickerView thirdArray] objectAtIndex:index3] objectForKey:@"Title"];
         [string appendString:string3];
     }
     

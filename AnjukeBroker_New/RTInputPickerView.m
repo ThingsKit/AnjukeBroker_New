@@ -120,13 +120,13 @@
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     switch (component) {
         case 0:
-            return [self.firstArray objectAtIndex:row];
+            return [[self.firstArray objectAtIndex:row] objectForKey:@"Title"];
             break;
         case 1:
-            return [self.secondArray objectAtIndex:row];
+            return [[self.secondArray objectAtIndex:row] objectForKey:@"Title"];
             break;
         case 2:
-            return [self.thirdArray objectAtIndex:row];
+            return [[self.thirdArray objectAtIndex:row] objectForKey:@"Title"];
             break;
             
         default:
