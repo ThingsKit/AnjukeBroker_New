@@ -17,14 +17,16 @@
 
 @property (nonatomic, strong) UITableView *tvList;
 @property (nonatomic, strong) NSMutableArray *listDataArray;
-@property BOOL isHistroy; //根据联想词length获取显示数据
 @property (nonatomic, strong) UISearchBar *search_Bar;
+
+@property BOOL requestKeywords; //是否请求关键词，用于解析数据的区分
 @end
 
 @implementation CommunityListViewController
 @synthesize listDataArray;
 @synthesize tvList, search_Bar;
-@synthesize isHistroy;
+@synthesize listType;
+@synthesize requestKeywords;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -64,8 +66,8 @@
     UISearchBar *sb = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 270, 30)];
     sb.delegate = self;
     sb.placeholder = @"请输入小区名或地址";
-    sb.backgroundColor = [UIColor colorWithRed:0.89 green:0.89 blue:0.9 alpha:1];
-    sb.barStyle = UIBarStyleDefault;
+    sb.backgroundColor = [UIColor clearColor];//[UIColor colorWithRed:0.89 green:0.89 blue:0.9 alpha:1];
+    sb.barStyle = UIBarStyleBlackOpaque;
     sb.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.navigationItem.titleView = sb;
     
@@ -90,14 +92,21 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (self.isHistroy) {
+    if (self.listType == DataTypeNearby) {
         return @"你附近的小区";
+    }
+    else if (self.listType == DataTypeHistory) {
+        return @"你的输入历史";
     }
     
     return @"你是否在找";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (self.listDataArray.count == 0) {
+        return 0;
+    }
+    
     return 20;
 }
 
@@ -125,11 +134,11 @@
     
     UIFont *font = [UIFont systemFontOfSize:18];
     
-    if (self.isHistroy) {
-        cell.textLabel.text = [[self.listDataArray objectAtIndex:indexPath.row] objectForKey:@"name"];
-    }
-    else {
+    if (self.listType == DataTypeKeywords) { //关键词
         cell.textLabel.text = [[self.listDataArray objectAtIndex:indexPath.row] objectForKey:@"commName"];
+    }
+    else { //历史、附近
+        cell.textLabel.text = [[self.listDataArray objectAtIndex:indexPath.row] objectForKey:@"name"];
     }
     cell.textLabel.font = font;
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
@@ -144,26 +153,31 @@
     NSString *method = nil;
     
     if (keyword.length == 0) {
-        self.isHistroy = YES;
+        self.requestKeywords = NO;
         
         CLLocationCoordinate2D userCoordinate = [[[RTLocationManager sharedInstance] mapUserLocation] coordinate];
         NSString *lat = [NSString stringWithFormat:@"%f",userCoordinate.latitude];
         NSString *lng = [NSString stringWithFormat:@"%f",userCoordinate.longitude];
         
-        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"city_id", lat, @"lat",lng, @"lng", SEARCH_DISTANCE, @"distance",@"0", @"map_type", nil];
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerid",[LoginManager getCity_id], @"city_id", lat, @"lat", lng, @"lng", @"0", @"map_type", nil];
         
-        method = @"prop/getcommlist/";
+        method = @"anjuke/prop/getcommlist/";
     }
     else {
-        self.isHistroy = NO;
+        self.requestKeywords = YES;
         
         params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getCity_id], @"city_id", keyword, @"keyword", nil];
         
         method = @"comm/getcommbykw/";
+        
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onGetSearch:)];
     }
     
-    
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onGetSearch:)];
+    if ([self isNetworkOkay]) {
+        [self showLoadingActivity:YES];
+        
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onGetSearch:)];
+    }
 }
 
 - (void)onGetSearch:(RTNetworkResponse *)response {
@@ -175,28 +189,44 @@
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"搜索小区失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
+        
+        [self hideLoadWithAnimated:YES];
         return;
     }
     
     self.listDataArray = [NSMutableArray array];
-    if (self.isHistroy) {
-        self.listDataArray = [[response content] objectForKey:@"data"];
+    if (!self.requestKeywords) { //历史+附近
+        NSArray *hisArr = [[[response content] objectForKey:@"data"] objectForKey:@"history"];
+        if (hisArr.count == 0 || hisArr == nil) {
+            //没有历史记录，使用附近小区list
+            self.listDataArray = [[[response content] objectForKey:@"data"] objectForKey:@"nearby"];
+            self.listType = DataTypeNearby;
+        }
+        else {
+            self.listDataArray = [NSMutableArray arrayWithArray:hisArr];
+            self.listType = DataTypeHistory;
+        }
+        
     }
     else {
-        self.listDataArray = [[[response content] objectForKey:@"data"] objectForKey:@"commlist"];
+        self.listType = DataTypeKeywords;
+        NSArray *arr = [[[response content] objectForKey:@"data"] objectForKey:@"commlist"];
+        self.listDataArray = [NSMutableArray arrayWithArray:arr];
     }
     
     [self.tvList reloadData];
+    [self hideLoadWithAnimated:YES];
 }
 
 #pragma mark - TableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.search_Bar resignFirstResponder];
+//    [self.search_Bar resignFirstResponder];
     
-//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    [self.navigationController popViewControllerAnimated:YES];
+//    [self performSelector:@selector(doBack:) withObject:nil afterDelay:2.1];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
 #pragma mark - SearchBar Delegate
