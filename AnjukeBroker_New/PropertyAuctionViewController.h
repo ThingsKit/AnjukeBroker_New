@@ -10,4 +10,6 @@
 
 @interface PropertyAuctionViewController : RTViewController <UITextFieldDelegate>
 
+@property (strong, nonatomic) NSDictionary *proDic;//房源
+
 @end

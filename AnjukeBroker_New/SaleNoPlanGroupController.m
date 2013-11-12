@@ -12,6 +12,7 @@
 #import "Util_UI.h"
 #import "LoginManager.h"
 #import "SaleNoPlanListManager.h"
+#import "BasePropertyObject.h"
 
 #define SELECT_ALL_STR @"全选"
 #define UNSELECT_ALL_STR @"取消全选"
@@ -115,15 +116,16 @@
 -(void)dealloc{
     self.myTable.delegate = nil;
 }
+#pragma mark - Request 未推广列表
 -(void)doRequest{
     if(![self isNetworkOkay]){
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/noplanprops/" params:params target:self action:@selector(onGetLogin:)];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/noplanprops/" params:params target:self action:@selector(onGetSuccess:)];
     [self showLoadingActivity:YES];
 }
-- (void)onGetLogin:(RTNetworkResponse *)response {
+- (void)onGetSuccess:(RTNetworkResponse *)response {
 
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
@@ -135,7 +137,10 @@
     }
     DLog(@"------response [%@]", [response content]);
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-    
+    if([resultFromAPI count] ==  0){
+        [self hideLoadWithAnimated:YES];
+        return ;
+    }
     if (([[resultFromAPI objectForKey:@"propBaseInfo"] count] == 0 || resultFromAPI == nil)) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
@@ -151,7 +156,58 @@
     [self.myTable reloadData];
     [self hideLoadWithAnimated:YES];
 }
+#pragma mark - Request 定价推广
+-(void)doFixed{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  [self getStringFromArray:self.selectedArray], @"proIds", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/addpropstoplan/" params:params target:self action:@selector(onFixedSuccess:)];
+    [self showLoadingActivity:YES];
+}
 
+- (void)onFixedSuccess:(RTNetworkResponse *)response {
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
+    [self hideLoadWithAnimated:YES];
+    DLog(@"------response [%@]", [response content]);
+    SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
+    [self.navigationController pushViewController:controller animated:YES];
+    
+//    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+//    if([resultFromAPI count] ==  0){
+//        [self hideLoadWithAnimated:YES];
+//        return ;
+//    }
+//    if (([[resultFromAPI objectForKey:@"propBaseInfo"] count] == 0 || resultFromAPI == nil)) {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+//        [alert show];
+//        [self.myArray removeAllObjects];
+//        [self.myTable reloadData];
+//        [self hideLoadWithAnimated:YES];
+//        return;
+//    }
+//    
+//    NSMutableArray *result = [SaleNoPlanListManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"propBaseInfo"]];
+//    [self.myArray removeAllObjects];
+//    [self.myArray addObjectsFromArray:result];
+//    [self.myTable reloadData];
+//    [self hideLoadWithAnimated:YES];
+}
+-(NSString *)getStringFromArray:(NSArray *) array{
+    NSMutableString *tempStr = [[NSMutableString alloc] init];
+    for (BasePropertyObject *pro in array) {
+        [tempStr stringByAppendingString: pro.propertyId];
+    }
+    return tempStr;
+}
 #pragma mark - TableView Delegate & Datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.myArray count];
@@ -286,8 +342,8 @@
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(buttonIndex == 0){
-        SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
-        [self.navigationController pushViewController:controller animated:YES];
+        [self doFixed];
+
     }else if (buttonIndex == 1){
         AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];

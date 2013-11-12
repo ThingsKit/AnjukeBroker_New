@@ -89,6 +89,10 @@
     DLog(@"------response [%@]", [response content]);
     [self.myArray removeAllObjects];
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    if([resultFromAPI count] ==  0){
+        [self hideLoadWithAnimated:YES];
+        return ;
+    }
     NSMutableDictionary *dicPlan = [[NSMutableDictionary alloc] initWithDictionary:[[resultFromAPI objectForKey:@"bidPlan"] objectAtIndex:0]];
     [self.myArray addObject:dicPlan];
     
@@ -106,42 +110,6 @@
     [self.myTable reloadData];
     [self hideLoadWithAnimated:YES];
 }
-//-(void)doRequestPlans{
-//    
-//    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
-//    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/getplans/" params:params target:self action:@selector(onSuccess:)];
-//    
-//}
-//
-//- (void)onSuccess:(RTNetworkResponse *)response {
-//    DLog(@"------response [%@]", [[response content] JSONRepresentation]);
-//    DLog(@"------response [%@]", [response content]);
-//    
-//    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-//        
-//        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-//        
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-//        [alert show];
-//        return;
-//    }
-//    
-//    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-//    if (([[resultFromAPI objectForKey:@"count"] integerValue] == 0 || resultFromAPI == nil)) {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-//        [alert show];
-//        [self.myArray removeAllObjects];
-//        [self.myTable reloadData];
-//        return;
-//    }
-//    NSMutableArray *result = [SaleFixedManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"plan"]];
-//    NSDictionary *dic = [[NSDictionary alloc] initWithDictionary:[self.myArray lastObject]];
-//    [self.myArray removeLastObject];
-//    [self.myArray addObjectsFromArray:result];
-//    [self.myArray addObject:dic];
-//    [self.myTable reloadData];
-////    [self.myTable reloadData];
-//}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 

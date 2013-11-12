@@ -12,6 +12,7 @@
 #import "SalePropertyListController.h"
 #import "SaleFixedDetailController.h"
 #import "SaleBidDetailController.h"
+#import "LoginManager.h"
 
 #define TITLE_OFFSETX 15
 #define INPUT_VIEW_HEIGHT 45
@@ -25,6 +26,7 @@
 @implementation PropertyAuctionViewController
 @synthesize textField_1, textField_2;
 @synthesize rangLabel;
+@synthesize proDic;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,7 +54,7 @@
 #pragma mark - private method
 
 - (void)initModel {
-    
+    self.proDic = [[NSDictionary alloc] init];
 }
 
 - (void)initDisplay {
@@ -95,7 +97,7 @@
     }
     else {
         title = @"出价";
-        placeStr = @"底价6.1元";
+        placeStr = @"底价1.1元";
     }
     
     UIView *BG = [[UIView alloc] initWithFrame:CGRectMake(0, 5 +index*(INPUT_VIEW_HEIGHT), [self windowWidth], INPUT_VIEW_HEIGHT)];
@@ -148,12 +150,77 @@
     [BG addSubview:line];
     
 }
+#pragma mark - 设置竞价额度    未调通
+-(void)doRequest{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.proDic objectForKey:@"id"], @"propId", self.textField_1.text, @"budget", self.textField_2.text, @"offer", nil];
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/addproptoplan/" params:params target:self action:@selector(onBidSuccess:)];
+    [self showLoadingActivity:YES];
+}
 
-- (void)rightButtonAction:(id)sender {
+- (void)onBidSuccess:(RTNetworkResponse *)response {
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
+    DLog(@"------response [%@]", [response content]);
+    [self hideLoadWithAnimated:YES];
     [self doSure];
 }
 
+#pragma mark - 根据房源信息估算排名
+-(void)doCheckRank{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerid", [LoginManager getCity_id], @"city_id", [self.proDic objectForKey:@"id"], @"proid", [self.proDic objectForKey:@"commId"], @"comm_id", @"desire", @"act", self.textField_2.text, @"offer", nil];
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/getrank/" params:params target:self action:@selector(onCheckSuccess:)];
+    [self showLoadingActivity:YES];
+}
+
+- (void)onCheckSuccess:(RTNetworkResponse *)response {
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
+    DLog(@"------response [%@]", [response content]);
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    if([resultFromAPI count] == 0){
+        [self hideLoadWithAnimated:YES];
+        return ;
+    }
+    [self hideLoadWithAnimated:YES];
+
+    self.rangLabel.alpha = 0.0;
+    //test
+    self.rangLabel.text = [NSString stringWithFormat:@"预估排名:第%@名",[resultFromAPI objectForKey:@"rank"]];
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:.3];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    self.rangLabel.alpha = 1;
+    [UIView commitAnimations];
+}
+
+- (void)rightButtonAction:(id)sender {
+    [self doRequest];
+}
+
 - (void)doSure {
+
     //test
     if ([self.delegateVC isKindOfClass:[SaleBidDetailController class]] || [self.delegateVC isKindOfClass:[SaleFixedDetailController class]] || [self.delegateVC isKindOfClass:[SalePropertyListController class]]) {
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -168,16 +235,7 @@
 }
 
 - (void)checkRank {
-    self.rangLabel.alpha = 0.0;
-    //test
-    self.rangLabel.text = @"预估排名:第1名";
-    
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:.3];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    self.rangLabel.alpha = 1;
-    [UIView commitAnimations];
-
+    [self doCheckRank];
 }
 
 #pragma mark - Text Field Delegate

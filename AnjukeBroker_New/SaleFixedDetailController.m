@@ -261,7 +261,7 @@
             [self presentViewController:navi animated:YES completion:nil];
 //            [self.navigationController pushViewController:controller animated:YES];
             
-        }else if (buttonIndex == 1){
+        }else if (buttonIndex == 1){//停止推广
             
         }else if (buttonIndex == 2){
             ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
@@ -285,7 +285,9 @@
             controller.backType = RTSelectorBackTypeDismiss;
             controller.delegateVC = self;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:nav animated:YES completion:nil];
+            [self presentViewController:nav animated:YES completion:^(void){
+                controller.proDic = [self.myArray objectAtIndex:selectIndex];
+            }];
         }
     }
 }
