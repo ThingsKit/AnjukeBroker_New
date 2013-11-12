@@ -42,6 +42,7 @@
 		974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 974E5C8B181E4D45000246D1 /* AnjukeNormalCell.m */; };
 		975185F91831D83F00C9A40A /* E_Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 975185F81831D83F00C9A40A /* E_Photo.m */; };
 		975185FF1832085E00C9A40A /* ImageUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 975185FE1832085E00C9A40A /* ImageUploadManager.m */; };
+		9751860218320D5F00C9A40A /* PhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9751860118320D5F00C9A40A /* PhotoManager.m */; };
 		975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 975D9DE0181B69A700A421AF /* KeyboardToolBar.m */; };
 		975E7ED01829EDC7008EBC1D /* WebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 975E7ECF1829EDC7008EBC1D /* WebImageView.m */; };
 		976AC61118278B5C003A2B3A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 976AC61018278B5C003A2B3A /* LoginViewController.m */; };
@@ -226,6 +227,8 @@
 		975185F81831D83F00C9A40A /* E_Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = E_Photo.m; sourceTree = "<group>"; };
 		975185FD1832085E00C9A40A /* ImageUploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUploadManager.h; sourceTree = "<group>"; };
 		975185FE1832085E00C9A40A /* ImageUploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUploadManager.m; sourceTree = "<group>"; };
+		9751860018320D5F00C9A40A /* PhotoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoManager.h; sourceTree = "<group>"; };
+		9751860118320D5F00C9A40A /* PhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoManager.m; sourceTree = "<group>"; };
 		975D9DDF181B69A700A421AF /* KeyboardToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardToolBar.h; sourceTree = "<group>"; };
 		975D9DE0181B69A700A421AF /* KeyboardToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardToolBar.m; sourceTree = "<group>"; };
 		975E7ECE1829EDC7008EBC1D /* WebImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebImageView.h; sourceTree = "<group>"; };
@@ -977,6 +980,8 @@
 				977FCA9C1828FAD700945FB4 /* LoginManager.m */,
 				975185FD1832085E00C9A40A /* ImageUploadManager.h */,
 				975185FE1832085E00C9A40A /* ImageUploadManager.m */,
+				9751860018320D5F00C9A40A /* PhotoManager.h */,
+				9751860118320D5F00C9A40A /* PhotoManager.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -1262,6 +1267,7 @@
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
 				97DED8AD18234BB100D0B82A /* MoreListCell.m in Sources */,
 				B76E5977181E5676005B6A8C /* BaseNoPlanController.m in Sources */,
+				9751860218320D5F00C9A40A /* PhotoManager.m in Sources */,
 				97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */,
 				B76E5988181E5AD1005B6A8C /* BaseNoPlanListCell.m in Sources */,
 				97CB0C0D182BEA3500FCCBBD /* ELCAsset.m in Sources */,
