@@ -26,7 +26,7 @@
 #define photoHeaderH_RecNum 100 +50
 #define Input_H 260
 
-#define IMAGE_MAXSIZE_WIDTH 1280/4/2 //屏幕预览图的最大分辨率，只负责预览显示
+#define IMAGE_MAXSIZE_WIDTH 1280/4 //屏幕预览图的最大分辨率，只负责预览显示
 
 #define LimitRow_INPUT 1 //从row=1行开始输入，即最小输入行数(第一行为小区无需输入，从户型行开始输入)
 #define TagOfImg_Base 1000
@@ -57,6 +57,8 @@
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
 @property (nonatomic, strong) PhotoShowView *imageOverLay;
 
+@property int uploadImgIndex; //上传图片的顺序，每上传一张此index+1
+
 @end
 
 @implementation AnjukeEditPropertyViewController
@@ -70,6 +72,7 @@
 @synthesize dataSource;
 @synthesize imageSelectIndex;
 @synthesize imagePicker, imageOverLay;
+@synthesize uploadImgIndex;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -84,7 +87,6 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-        
     [self setTitleViewWithString:@"房源信息"];
 }
 
@@ -118,6 +120,8 @@
     self.titleArray = [NSArray arrayWithArray:[PropertyDataManager getPropertyTitleArrayForAnjuke:YES]];
     self.imgArray = [NSMutableArray array];
     self.imgBtnArray = [NSMutableArray array];
+    
+    self.uploadImgIndex = 0;
 }
 
 - (void)initDisplay {
@@ -201,18 +205,31 @@
 
 - (void)uploadPhoto {
     if (![self isNetworkOkay]) {
+        [self hideLoadWithAnimated:YES];
         return;
     }
     
-    [self showLoadingActivity:YES];
+    if (self.uploadImgIndex > self.imgArray.count - 1) {
+        [self hideLoadWithAnimated:YES];
+        DLog(@"图片上传完毕");
+        return;
+    }
+    
+    if (self.imgArray.count == 0) {
+        [self hideLoadWithAnimated:YES];
+        return; //没有上传图片
+    }
+    
+    if (self.uploadImgIndex == 0) { //第一张图片开始上传就显示黑框，之后不重复显示，上传流程结束后再消掉黑框
+        [self showLoadingActivity:YES];
+    }
     
     //test
     //上传图片给UFS服务器
-    NSString *photoUrl = [[self.imgArray objectAtIndex:0] photoURL];
-    NSString *path = [PhotoManager getDocumentPath:photoUrl];
+    NSString *photoUrl = [[self.imgArray objectAtIndex:self.uploadImgIndex] photoURL];
 
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:API_PhotoUpload]];
-    [request addFile:path forKey:@"file"];
+    [request addFile:photoUrl forKey:@"file"];
     [request setDelegate:self];
     [request setDidFinishSelector:@selector(uploadPhotoFinish:)];
     [request setDidFailSelector:@selector(uploadPhotoFail:)];
@@ -226,7 +243,12 @@
     
     DLog(@"image upload result[%@]", result);
     
-    [self hideLoadWithAnimated:YES];
+    //保存imageDic
+    
+    //继续上传图片
+    self.uploadImgIndex ++;
+    [self uploadPhoto];
+    
 }
 
 - (void)uploadPhotoFail:(ASIFormDataRequest *)request{
@@ -234,7 +256,10 @@
     RTNetworkResponse *response = [[RTNetworkResponse alloc] init];
     [response setContent:result];
     
+    self.uploadImgIndex = 0;
+    
     [self showInfo:@"图片上传失败，请重试"];
+    [self hideLoadWithAnimated:YES];
 }
 
 #pragma mark - Private Method
@@ -541,7 +566,6 @@
 #pragma mark - UIActionSheet Delegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    DLog(@"actionSheet tag [%d]", actionSheet.tag);
     
     if (actionSheet.tag == TagOfActionSheet_Img) {
         switch (buttonIndex) {
@@ -752,14 +776,12 @@
             newSizeImage = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
             
-//            [self.imgArray addObject:newSizeImage];
             path = [PhotoManager saveImageFile:newSizeImage toFolder:PHOTO_FOLDER_NAME];
             url = [PhotoManager getDocumentPath:path];
             ep.smallPhotoUrl = url;
 
         }
         else {
-//            [self.imgArray addObject:image];
             ep.smallPhotoUrl = url;
         }
         

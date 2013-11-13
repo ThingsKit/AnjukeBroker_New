@@ -21,6 +21,7 @@
 
 - (void)showInfo:(NSString *)info{
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeText;
     hud.labelText = info;
     
     [hud hide:YES afterDelay:2];
