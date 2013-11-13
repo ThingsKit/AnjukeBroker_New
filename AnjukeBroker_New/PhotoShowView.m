@@ -115,6 +115,7 @@
     if (self.imgArray.count >3) {
         [self.photoSV setContentOffset:CGPointMake((IMG_GAP + IMG_H)*(index-3), 0) animated:YES];
     }
+    
 }
 
 - (void)take_Picture:(id)sender {

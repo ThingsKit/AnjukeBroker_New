@@ -11,7 +11,7 @@
 #import "RTNavigationController.h"
 #import "LoginManager.h"
 
-#define coreDataName @"AnjukeBroker"
+#define coreDataName @"AnjukeBroker_New"
 #define code_AppName @"i-broker"
 
 @implementation AppDelegate

@@ -17,12 +17,16 @@
 #import "BrokerLineView.h"
 #import "RTNavigationController.h"
 #import "CommunityListViewController.h"
+#import "E_Photo.h"
+#import "ASIFormDataRequest.h"
+#import "RTCoreDataManager.h"
+#import "PhotoManager.h"
 
 #define photoHeaderH 100
 #define photoHeaderH_RecNum 100 +50
 #define Input_H 260
 
-#define IMAGE_MAXSIZE_WIDTH 1280/4 //屏幕预览图的最大分辨率，只负责预览显示
+#define IMAGE_MAXSIZE_WIDTH 1280/4/2 //屏幕预览图的最大分辨率，只负责预览显示
 
 #define LimitRow_INPUT 1 //从row=1行开始输入，即最小输入行数(第一行为小区无需输入，从户型行开始输入)
 #define TagOfImg_Base 1000
@@ -52,6 +56,7 @@
 
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
 @property (nonatomic, strong) PhotoShowView *imageOverLay;
+
 @end
 
 @implementation AnjukeEditPropertyViewController
@@ -113,7 +118,6 @@
     self.titleArray = [NSArray arrayWithArray:[PropertyDataManager getPropertyTitleArrayForAnjuke:YES]];
     self.imgArray = [NSMutableArray array];
     self.imgBtnArray = [NSMutableArray array];
-    
 }
 
 - (void)initDisplay {
@@ -193,6 +197,46 @@
     [self refreshPhotoHeader];
 }
 
+#pragma mark - Request Method
+
+- (void)uploadPhoto {
+    if (![self isNetworkOkay]) {
+        return;
+    }
+    
+    [self showLoadingActivity:YES];
+    
+    //test
+    //上传图片给UFS服务器
+    NSString *photoUrl = [[self.imgArray objectAtIndex:0] photoURL];
+    NSString *path = [PhotoManager getDocumentPath:photoUrl];
+
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:API_PhotoUpload]];
+    [request addFile:path forKey:@"file"];
+    [request setDelegate:self];
+    [request setDidFinishSelector:@selector(uploadPhotoFinish:)];
+    [request setDidFailSelector:@selector(uploadPhotoFail:)];
+    [request startAsynchronous];
+}
+
+- (void)uploadPhotoFinish:(ASIFormDataRequest *)request{
+    NSDictionary *result = [request.responseString JSONValue];
+    RTNetworkResponse *response = [[RTNetworkResponse alloc] init];
+    [response setContent:result];
+    
+    DLog(@"image upload result[%@]", result);
+    
+    [self hideLoadWithAnimated:YES];
+}
+
+- (void)uploadPhotoFail:(ASIFormDataRequest *)request{
+    NSDictionary *result = [request.responseString JSONValue];
+    RTNetworkResponse *response = [[RTNetworkResponse alloc] init];
+    [response setContent:result];
+    
+    [self showInfo:@"图片上传失败，请重试"];
+}
+
 #pragma mark - Private Method
 
 //**根据当前输入焦点行移动tableView显示
@@ -261,7 +305,8 @@
     //redraw header img scroll
     for (int i = 0; i < self.imgArray.count; i ++) {
         PhotoButton *imgBtn = (PhotoButton *)[self.imgBtnArray objectAtIndex:i];
-        [imgBtn.photoImg setImage:[self.imgArray objectAtIndex:i]];
+        NSString *url = [(E_Photo *)[self.imgArray objectAtIndex:i] smallPhotoUrl];
+        [imgBtn.photoImg setImage:[UIImage imageWithContentsOfFile:url]];
     }
     
     for (PhotoButton * imgBtn in self.imgBtnArray) {
@@ -338,6 +383,9 @@
 }
 
 - (void)doSave {
+    //test upload img
+    [self uploadPhoto];
+    
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"定价且竞价推广", @"暂不推广", nil];
     sheet.tag = TagOfActionSheet_Save;
     [sheet showInView:self.view];
@@ -530,12 +578,6 @@
             {
                 self.isTakePhoto = NO;
                 
-//                UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
-//                ipc.sourceType = UIImagePickerControllerSourceTypePhotoLibrary; //拍照
-//                ipc.delegate = self;
-//                ipc.allowsEditing = NO;
-//                [self presentViewController:ipc animated:YES completion:nil];
-                
                 ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] init];
                 elcPicker.maximumImagesCount = PhotoImg_MAX_COUNT - self.imgArray.count;
                 elcPicker.imagePickerDelegate = self;
@@ -591,7 +633,16 @@
 }
 
 - (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr {
-    [self.imgArray addObjectsFromArray:arr]; //将新图片加入图片数组
+    for (int i = 0; i < arr.count; i ++) {
+        //保存原始图片、得到url
+        E_Photo *ep = [PhotoManager getNewE_Photo];
+        NSString *path = [PhotoManager saveImageFile:(UIImage *)[arr objectAtIndex:i] toFolder:PHOTO_FOLDER_NAME];
+        NSString *url = [PhotoManager getDocumentPath:path];
+        ep.photoURL = url;
+        ep.smallPhotoUrl = url;
+        
+        [self.imgArray addObject:ep];
+    }
     
     [self.imagePicker dismissViewControllerAnimated:YES completion:^(void){
         //
@@ -643,7 +694,6 @@
         [image drawInRect:[Util_UI frameSize:image.size inSize:coreSize]];
         newSizeImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-        
     }
     
     //拍照界面加入新预览图
@@ -677,6 +727,12 @@
     for (NSDictionary *dict in info) {
         
         UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
+        //保存原始图片、得到url
+        E_Photo *ep = [PhotoManager getNewE_Photo];
+        NSString *path = [PhotoManager saveImageFile:image toFolder:PHOTO_FOLDER_NAME];
+        NSString *url = [PhotoManager getDocumentPath:path];
+        ep.photoURL = url;
+        
         UIImage *newSizeImage = nil;
         //压缩图片
         if (image.size.width > IMAGE_MAXSIZE_WIDTH || image.size.height > IMAGE_MAXSIZE_WIDTH || self.isTakePhoto) {
@@ -696,11 +752,18 @@
             newSizeImage = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
             
-            [self.imgArray addObject:newSizeImage];
-            
+//            [self.imgArray addObject:newSizeImage];
+            path = [PhotoManager saveImageFile:newSizeImage toFolder:PHOTO_FOLDER_NAME];
+            url = [PhotoManager getDocumentPath:path];
+            ep.smallPhotoUrl = url;
+
         }
-        else
-            [self.imgArray addObject:image];
+        else {
+//            [self.imgArray addObject:image];
+            ep.smallPhotoUrl = url;
+        }
+        
+        [self.imgArray addObject:ep];
 	}
     
     [self refreshPhotoHeader];
