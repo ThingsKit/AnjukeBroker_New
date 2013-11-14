@@ -47,9 +47,9 @@
     NSString *imageFilePath = [fileDocument stringByAppendingPathComponent:fileName]; //得到当前照片的路径
     
     if ([UIImageJPEGRepresentation(image, 0.96) writeToFile:imageFilePath atomically:YES]) {
-        DLog(@"save bigImage yes");
+//        DLog(@"save bigImage yes");
     }else{
-        DLog(@"save bigImage wrong");
+//        DLog(@"save bigImage wrong");
     }
     
 //    DLog(@"fileName imgUrl--[%@]", fileName);

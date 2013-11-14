@@ -272,31 +272,6 @@
     [self hideLoadWithAnimated:YES];
 }
 
-- (NSString *)getImageJson {
-    NSMutableArray *arr = [NSMutableArray array];
-    
-    for (int i = 0; i < self.imgArray.count; i ++) {
-        NSDictionary *dic = [NSDictionary dictionaryWithDictionary:[(E_Photo *)[self.imgArray objectAtIndex:i] imageDic]];
-        [arr addObject:dic];
-    }
-    
-    NSString *str = [arr JSONRepresentation];
-    DLog(@"image json [%@]", str);
-    
-    return str;
-}
-
-//将输入框内内容赋值到property中
-- (void)setTextFieldForProperty {
-    self.property.area = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_AREA] text_Field] text];
-    
-    NSInteger price = [[[[[self.dataSource cellArray] objectAtIndex:AJK_T_PRICE] text_Field] text] intValue] * 10000;
-    self.property.price = [NSString stringWithFormat:@"%d", price];
-    
-    self.property.title = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_TITLE] text_Field] text];
-    self.property.desc = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_DESC] text_Field] text];
-}
-
 //发房
 - (void)uploadProperty {
     NSMutableDictionary *params = nil;
@@ -326,7 +301,7 @@
     [self.tvList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO]; //animated
 }
 
-- (NSMutableString *)getInputString {
+- (NSMutableString *)getInputStringAndSetProperty {
     NSMutableString *string = [NSMutableString string]; //显示用string
     NSMutableString * idStr = [NSMutableString string]; //上传用string（id）
     
@@ -412,6 +387,31 @@
     [self.tvList setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
+- (NSString *)getImageJson {
+    NSMutableArray *arr = [NSMutableArray array];
+    
+    for (int i = 0; i < self.imgArray.count; i ++) {
+        NSDictionary *dic = [NSDictionary dictionaryWithDictionary:[(E_Photo *)[self.imgArray objectAtIndex:i] imageDic]];
+        [arr addObject:dic];
+    }
+    
+    NSString *str = [arr JSONRepresentation];
+    DLog(@"image json [%@]", str);
+    
+    return str;
+}
+
+//将输入框内内容赋值到property中
+- (void)setTextFieldForProperty {
+    self.property.area = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_AREA] text_Field] text];
+    
+    NSInteger price = [[[[[self.dataSource cellArray] objectAtIndex:AJK_T_PRICE] text_Field] text] intValue] * 10000;
+    self.property.price = [NSString stringWithFormat:@"%d", price];
+    
+    self.property.title = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_TITLE] text_Field] text];
+    self.property.desc = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_DESC] text_Field] text];
+}
+
 #pragma mark - Photo ScrollView && ImagePickerOverLay method
 
 //得到需要在第几个预览图显示
@@ -452,7 +452,7 @@
 
 - (void)finishBtnClicked { //点击完成，输入框组件消失
     if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow]) {
-        self.inputingTextF.text = [self getInputString]; //当前输入框为滚轮输入，则切换前输入
+        self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
     }
     
     [self pickerDisappear];
@@ -460,7 +460,7 @@
 
 - (void)preBtnClicked { //点击”上一个“，检查输入样式并做转换，tableView下移
     if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow]) {
-        self.inputingTextF.text = [self getInputString]; //当前输入框为滚轮输入，则切换前输入
+        self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
     }
     
     self.selectedRow --; //当前输入行数-1
@@ -482,7 +482,7 @@
 - (void)nextBtnClicked { //点击”下一个“，检查输入样式并做转换，tableView上移
     //得到前一条的输入数据，并显示下一条的输入框
     if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow]) {
-        self.inputingTextF.text = [self getInputString]; //当前输入框为滚轮输入，则切换前输入
+        self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
     }
     
     self.selectedRow ++; //当前输入行数+1
@@ -704,7 +704,6 @@
                 
                 [self presentViewController:ipc animated:YES completion:nil];
                 
-                DLog(@"ipc,frame : %f %f", ipc.cameraOverlayView.frame.size.width, ipc.cameraOverlayView.frame.size.height);
             }
                 break;
             case 1: //手机相册

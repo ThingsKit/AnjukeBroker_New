@@ -20,7 +20,7 @@
         self.clipsToBounds = NO;
         
         //用于显示照片的控件
-        UIImageView *img = [[UIImageView alloc] initWithFrame:self.bounds];
+        WebImageView *img = [[WebImageView alloc] initWithFrame:self.bounds];
         self.photoImg = img;
         img.clipsToBounds = YES;
         img.contentMode = UIViewContentModeScaleAspectFill;

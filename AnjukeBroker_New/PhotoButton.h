@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WebImageView.h"
 
 @interface PhotoButton : UIButton
 
-@property (nonatomic, strong) UIImageView *photoImg;
+@property (nonatomic, strong) WebImageView *photoImg;
 @property (nonatomic, strong) UIButton *deletelBtn;
 
 - (void)setPhotoImage:(UIImage *)image;

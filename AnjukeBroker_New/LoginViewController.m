@@ -156,11 +156,13 @@
         return;
     }
     
+    NSDictionary *brokerDic = [[[response content] objectForKey:@"data"] objectForKey:@"broker"];
+    
     //保存用户登录数据
-    [[NSUserDefaults standardUserDefaults] setValue:[[resultFromAPI objectForKey:@"broker"] objectForKey:@"id"] forKey:@"id"]; //用户id
-    [[NSUserDefaults standardUserDefaults] setValue:[[resultFromAPI objectForKey:@"broker"] objectForKey:@"username"] forKey:@"username"]; //用户名
-    [[NSUserDefaults standardUserDefaults] setValue:[[resultFromAPI objectForKey:@"broker"] objectForKey:@"use_photo"] forKey:@"userPhoto"]; //用户头像
-    [[NSUserDefaults standardUserDefaults] setValue:[[resultFromAPI objectForKey:@"broker"] objectForKey:@"city_id"] forKey:@"city_id"]; //city_id
+    [[NSUserDefaults standardUserDefaults] setValue:[brokerDic objectForKey:@"id"] forKey:@"id"]; //用户id
+    [[NSUserDefaults standardUserDefaults] setValue:[brokerDic objectForKey:@"username"] forKey:@"username"]; //用户名
+    [[NSUserDefaults standardUserDefaults] setValue:[brokerDic objectForKey:@"use_photo"] forKey:@"userPhoto"]; //用户头像
+    [[NSUserDefaults standardUserDefaults] setValue:[brokerDic objectForKey:@"city_id"] forKey:@"city_id"]; //city_id
     [[NSUserDefaults standardUserDefaults] setValue:[resultFromAPI objectForKey:@"token"] forKey:@"token"]; //**token
 
     [self pushToTab];
