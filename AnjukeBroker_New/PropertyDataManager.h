@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Property.h"
 
 @interface PropertyDataManager : NSObject
 

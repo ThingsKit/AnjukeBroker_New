@@ -23,5 +23,6 @@
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * desc;
 @property (nonatomic, retain) NSString * imageJson;
+@property (nonatomic, retain) NSString * rentType;
 
 @end

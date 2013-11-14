@@ -22,5 +22,6 @@
 @dynamic title;
 @dynamic desc;
 @dynamic imageJson;
+@dynamic rentType;
 
 @end

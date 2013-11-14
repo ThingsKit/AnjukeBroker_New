@@ -21,6 +21,7 @@
 #import "ASIFormDataRequest.h"
 #import "RTCoreDataManager.h"
 #import "PhotoManager.h"
+#import "Property.h"
 
 #define photoHeaderH 100
 #define photoHeaderH_RecNum 100 +50
