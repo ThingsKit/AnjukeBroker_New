@@ -363,7 +363,7 @@
         [(AnjukeEditableCell *)[[self.dataSource cellArray] objectAtIndex:self.selectedRow] setInputed_RowAtCom2:index3];
     }
     
-    DLog(@"string-[%@]", string);
+//    DLog(@"string-[%@]", string);
     
     //顺便写入传参数值。。。以后优化代码
     switch (self.selectedRow) { //二手房
@@ -451,7 +451,7 @@
 #pragma mark - Broker Picker Delegate
 
 - (void)finishBtnClicked { //点击完成，输入框组件消失
-    if (![self isKeyboardShowWithRow:self.selectedRow]) {
+    if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow]) {
         self.inputingTextF.text = [self getInputString]; //当前输入框为滚轮输入，则切换前输入
     }
     
@@ -459,7 +459,7 @@
 }
 
 - (void)preBtnClicked { //点击”上一个“，检查输入样式并做转换，tableView下移
-    if (![self isKeyboardShowWithRow:self.selectedRow]) {
+    if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow]) {
         self.inputingTextF.text = [self getInputString]; //当前输入框为滚轮输入，则切换前输入
     }
     
@@ -469,13 +469,11 @@
         return;
     }
     
-    DLog(@"index-[%d]", self.selectedRow);
+//    DLog(@"index-[%d]", self.selectedRow);
     
     //修改输入组件数据/修改输入框焦点 //tableView移动
     [self tableVIewMoveWithIndex:self.selectedRow];
     
-//    UITextField *tf = [(AnjukeEditableCell *)[self.dataSource.cellArray objectAtIndex:self.selectedRow] text_Field];
-//    self.inputingTextF = tf;
     [self getTextFieldWithIndex:self.selectedRow];
     [self textFieldShowWithIndex:self.selectedRow];
     
@@ -483,18 +481,18 @@
 
 - (void)nextBtnClicked { //点击”下一个“，检查输入样式并做转换，tableView上移
     //得到前一条的输入数据，并显示下一条的输入框
-    if (![self isKeyboardShowWithRow:self.selectedRow]) {
+    if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow]) {
         self.inputingTextF.text = [self getInputString]; //当前输入框为滚轮输入，则切换前输入
     }
     
     self.selectedRow ++; //当前输入行数+1
     if (self.selectedRow > self.titleArray.count -1) {
-        DLog(@"max row -%d", self.selectedRow);
+//        DLog(@"max row -%d", self.selectedRow);
         self.selectedRow = self.titleArray.count -1;
         return;
     }
     
-    DLog(@"index-[%d]", self.selectedRow);
+//    DLog(@"index-[%d]", self.selectedRow);
     
     //修改输入组件数据/修改输入框焦点 //tableView移动
     [self tableVIewMoveWithIndex:self.selectedRow];
@@ -520,10 +518,8 @@
 }
 
 - (void)addPhoto {
-    DLog(@"add photo");
-    
     if (self.imgArray.count > PhotoImg_MAX_COUNT) {
-        DLog(@"最多上传8张照片");
+        [self showInfo:[NSString stringWithFormat:@"最多上传%d张照片", PhotoImg_MAX_COUNT]];
         return;
     }
     
@@ -542,7 +538,7 @@
         return;
     }
     
-    DLog(@"photo Index [%d]", photoIndex);
+//    DLog(@"photo Index [%d]", photoIndex);
     
     //模态弹出图片播放器
     PropertyBigImageViewController *pb = [[PropertyBigImageViewController alloc] init];
@@ -561,7 +557,7 @@
     for (PhotoButton *btn in self.imgBtnArray) {
         btn.photoImg.image = nil;
     }
-    DLog(@"img count [%d]", self.imgArray.count);
+//    DLog(@"img count [%d]", self.imgArray.count);
     
     //redraw header img scroll
     [self refreshPhotoHeader];
@@ -598,34 +594,7 @@
 }
 
 - (void)textFieldDidEndEdit:(NSString *)text { //暂不可用
-//    //set property
-//    switch (self.selectedRow) {
-//        case AJK_T_AREA:
-//        {
-//            self.property.area = text;
-//        }
-//            break;
-//        case AJK_T_PRICE:
-//        {
-//            self.property.price = text;
-//        }
-//            break;
-//        case AJK_T_TITLE:
-//        {
-//            self.property.title = text;
-//        }
-//            break;
-//        case AJK_T_DESC:
-//        {
-//            self.property.desc = text;
-//        }
-//            break;
-//            
-//        default:
-//            break;
-//    }
-//    
-//    DLog(@"property_set string [%@] index [%d]", text, self.selectedRow);
+    
 }
 
 #pragma mark - Community List Select Delegate
@@ -642,19 +611,12 @@
 
 #pragma mark - TextField Method
 
-- (BOOL)isKeyboardShowWithRow:(NSInteger)row {
-    if (row == AJK_T_AREA || row == AJK_T_PRICE || row == AJK_T_TITLE || row == AJK_T_DESC) {
-        return YES; //弹出键盘
-    }
-    
-    return NO; //弹出滚轮
-}
-
 - (void)getTextFieldIndexWithTF:(UITextField *)tf {
     self.inputingTextF = tf;
     
     AnjukeEditableCell *cell = (AnjukeEditableCell *)[[[tf superview] superview] superview];
     self.selectedRow = [[self.tvList indexPathForCell:cell] row];
+    
     DLog(@"index - [%d]", self.selectedRow);
 }
 
@@ -673,7 +635,7 @@
         self.toolBar.clickDelagate = self;
     }
     
-    if ([self isKeyboardShowWithRow:self.selectedRow]) {
+    if ([InputOrderManager isKeyBoardInputWithIndex:self.selectedRow]) {
         //弹出键盘
         self.inputingTextF.inputAccessoryView = self.toolBar;
         self.inputingTextF.inputView = nil;
