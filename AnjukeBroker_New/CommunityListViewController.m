@@ -27,6 +27,7 @@
 @synthesize tvList, search_Bar;
 @synthesize listType;
 @synthesize requestKeywords;
+@synthesize communityDelegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -221,11 +222,12 @@
 #pragma mark - TableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    [self.search_Bar resignFirstResponder];
+    if ([self.communityDelegate respondsToSelector:@selector(communityDidSelect:)]) {
+        [self.communityDelegate communityDidSelect:[self.listDataArray objectAtIndex:indexPath.row]];
+    }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-//    [self performSelector:@selector(doBack:) withObject:nil afterDelay:2.1];
     [self.navigationController popViewControllerAnimated:NO];
 }
 

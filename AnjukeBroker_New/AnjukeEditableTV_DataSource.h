@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "AnjukeEditPropertyViewController.h"
+#import "AnjukeNormalCell.h"
 
 @interface AnjukeEditableTV_DataSource : NSObject <UITableViewDataSource>
 

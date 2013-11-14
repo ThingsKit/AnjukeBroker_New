@@ -42,7 +42,7 @@
     
     //text field
     UITextField *cellTextField = nil;
-    cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(224/2, 1,  150, CELL_HEIGHT - 1*2)];
+    cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(224/2, 1,  150, CELL_HEIGHT - 1*5)];
     cellTextField.returnKeyType = UIReturnKeyDone;
     cellTextField.backgroundColor = [UIColor clearColor];
     cellTextField.borderStyle = UITextBorderStyleNone;
@@ -95,6 +95,12 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     if ([self.editDelegate respondsToSelector:@selector(textFieldBeginEdit:)]) {
         [self.editDelegate textFieldBeginEdit:textField];
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if ([self.editDelegate respondsToSelector:@selector(textFieldDidEndEdit:)]) {
+        [self.editDelegate textFieldDidEndEdit:text_Field.text];
     }
 }
 

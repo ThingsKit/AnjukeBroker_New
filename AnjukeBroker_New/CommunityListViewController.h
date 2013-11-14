@@ -14,8 +14,14 @@ typedef enum {
     DataTypeNearby //附近小区列表
 } ListDataType;
 
+@protocol CommunitySelectDelegate <NSObject>
+
+- (void)communityDidSelect:(NSDictionary *)commDic;
+
+@end
+
 @interface CommunityListViewController : RTViewController <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, assign) ListDataType listType;
-
+@property (nonatomic, assign) id <CommunitySelectDelegate> communityDelegate;
 @end

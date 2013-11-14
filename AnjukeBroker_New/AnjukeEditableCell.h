@@ -10,7 +10,8 @@
 
 @protocol CellTextFieldEditDelegate <NSObject>
 
-- (void)textFieldBeginEdit:(UITextField *)textField;
+- (void)textFieldBeginEdit:(UITextField *)textField; //textField开始编辑代理
+- (void)textFieldDidEndEdit:(NSString *)text; //textField结束编辑代理，用以记录数值
 
 @end
 

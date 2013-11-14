@@ -102,5 +102,11 @@
     return arr;
 }
 
++ (Property *)getNewPropertyObject {
+    Property *ep = [[Property alloc] initWithEntity:[NSEntityDescription entityForName:@"Property" inManagedObjectContext:[[RTCoreDataManager sharedInstance] managedObjectContext]] insertIntoManagedObjectContext:nil];
+    
+    return ep;
+}
+
 @end
 

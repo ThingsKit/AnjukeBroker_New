@@ -7,8 +7,10 @@
 //
 
 #import "AnjukeNormalCell.h"
+#import "Util_UI.h"
 
 @implementation AnjukeNormalCell
+@synthesize communityDetailLb;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -28,6 +30,15 @@
         
     }
     return self;
+}
+
+- (void)initUI {
+    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(224/2, 1,  150, CELL_HEIGHT - 1*5)];
+    lb.backgroundColor = [UIColor clearColor];
+    lb.textColor = SYSTEM_LIGHT_GRAY;
+    lb.font = [UIFont systemFontOfSize:17];
+    self.communityDetailLb = lb;
+    [self.contentView addSubview:lb];
 }
 
 /*

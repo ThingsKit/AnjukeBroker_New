@@ -8,7 +8,6 @@
 
 #import "AnjukeEditableTV_DataSource.h"
 #import "AnjukeEditableCell.h"
-#import "AnjukeNormalCell.h"
 
 @implementation AnjukeEditableTV_DataSource
 @synthesize cellArray;

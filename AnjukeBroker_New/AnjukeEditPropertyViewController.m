@@ -16,12 +16,12 @@
 #import "PropertyBigImageViewController.h"
 #import "BrokerLineView.h"
 #import "RTNavigationController.h"
-#import "CommunityListViewController.h"
 #import "E_Photo.h"
 #import "ASIFormDataRequest.h"
 #import "RTCoreDataManager.h"
 #import "PhotoManager.h"
 #import "Property.h"
+#import "LoginManager.h"
 
 #define photoHeaderH 100
 #define photoHeaderH_RecNum 100 +50
@@ -60,6 +60,8 @@
 
 @property int uploadImgIndex; //上传图片的顺序，每上传一张此index+1
 
+@property (nonatomic, strong) Property *property;
+
 @end
 
 @implementation AnjukeEditPropertyViewController
@@ -74,6 +76,7 @@
 @synthesize imageSelectIndex;
 @synthesize imagePicker, imageOverLay;
 @synthesize uploadImgIndex;
+@synthesize property;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -123,6 +126,8 @@
     self.imgBtnArray = [NSMutableArray array];
     
     self.uploadImgIndex = 0;
+    
+    self.property = [PropertyDataManager getNewPropertyObject];
 }
 
 - (void)initDisplay {
@@ -212,7 +217,9 @@
     
     if (self.uploadImgIndex > self.imgArray.count - 1) {
         [self hideLoadWithAnimated:YES];
-        DLog(@"图片上传完毕");
+        DLog(@"图片上传完毕，开始发房");
+        
+        [self uploadProperty]; //开始上传房源
         return;
     }
     
@@ -244,7 +251,9 @@
     
     DLog(@"image upload result[%@]", result);
     
-    //保存imageDic
+    //保存imageDic在E_Photo
+    NSDictionary *dic = [result objectForKey:@"image"];
+    [(E_Photo *)[self.imgArray objectAtIndex:self.uploadImgIndex] setImageDic:dic];
     
     //继续上传图片
     self.uploadImgIndex ++;
@@ -263,6 +272,51 @@
     [self hideLoadWithAnimated:YES];
 }
 
+- (NSString *)getImageJson {
+    NSMutableArray *arr = [NSMutableArray array];
+    
+    for (int i = 0; i < self.imgArray.count; i ++) {
+        NSDictionary *dic = [NSDictionary dictionaryWithDictionary:[(E_Photo *)[self.imgArray objectAtIndex:i] imageDic]];
+        [arr addObject:dic];
+    }
+    
+    NSString *str = [arr JSONRepresentation];
+    DLog(@"image json [%@]", str);
+    
+    return str;
+}
+
+//将输入框内内容赋值到property中
+- (void)setTextFieldForProperty {
+    self.property.area = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_AREA] text_Field] text];
+    
+    NSInteger price = [[[[[self.dataSource cellArray] objectAtIndex:AJK_T_PRICE] text_Field] text] intValue] * 10000;
+    self.property.price = [NSString stringWithFormat:@"%d", price];
+    
+    self.property.title = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_TITLE] text_Field] text];
+    self.property.desc = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_DESC] text_Field] text];
+}
+
+//发房
+- (void)uploadProperty {
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+
+    self.property.imageJson = [self getImageJson];
+    [self setTextFieldForProperty];
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerid",[LoginManager getCity_id], @"city_id", self.property.comm_id, @"comm_id", self.property.rooms, @"rooms", self.property.area, @"area", self.property.price, @"price", self.property.fitment, @"fitment", self.property.exposure, @"exposure", self.property.floor, @"floor", self.property.title, @"title", self.property.desc, @"description", self.property.imageJson, @"imageJson", nil];
+    method = @"anjuke/prop/publish/";
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUploadPropertyFinished:)];
+}
+
+- (void)onUploadPropertyFinished:(RTNetworkResponse *)response {
+    DLog(@"--发房结束。。。response [%@]", [response content]);
+
+    
+}
+
 #pragma mark - Private Method
 
 //**根据当前输入焦点行移动tableView显示
@@ -273,11 +327,18 @@
 }
 
 - (NSMutableString *)getInputString {
-    NSMutableString *string = [NSMutableString string];
+    NSMutableString *string = [NSMutableString string]; //显示用string
+    NSMutableString * idStr = [NSMutableString string]; //上传用string（id）
     
+    NSString *strValue1 = [NSString string];
+    NSString *strValue2 = [NSString string];
+    NSString *strValue3 = [NSString string];
+
     int index1 = [self.pickerView selectedRowInComponent:0];
     NSString *string1 = [[[self.pickerView firstArray] objectAtIndex:index1] objectForKey:@"Title"];
     [string appendString:string1];
+    
+    strValue1 = [[[self.pickerView firstArray] objectAtIndex:index1] objectForKey:@"Value"];
     
     //记录此次输入的数据所在row，方便下一次输入时聚焦
     [(AnjukeEditableCell *)[[self.dataSource cellArray] objectAtIndex:self.selectedRow] setInputed_RowAtCom0:index1];
@@ -287,6 +348,8 @@
         NSString *string2 = [[[self.pickerView secondArray] objectAtIndex:index2] objectForKey:@"Title"];
         [string appendString:string2];
         
+        strValue2 = [[[self.pickerView secondArray] objectAtIndex:index2] objectForKey:@"Value"];
+        
         [(AnjukeEditableCell *)[[self.dataSource cellArray] objectAtIndex:self.selectedRow] setInputed_RowAtCom1:index2];
     }
     
@@ -295,10 +358,49 @@
         NSString *string3 = [[[self.pickerView thirdArray] objectAtIndex:index3] objectForKey:@"Title"];
         [string appendString:string3];
         
+        strValue3 = [[[self.pickerView thirdArray] objectAtIndex:index3] objectForKey:@"Value"];
+        
         [(AnjukeEditableCell *)[[self.dataSource cellArray] objectAtIndex:self.selectedRow] setInputed_RowAtCom2:index3];
     }
     
     DLog(@"string-[%@]", string);
+    
+    //顺便写入传参数值。。。以后优化代码
+    switch (self.selectedRow) { //二手房
+        case AJK_P_ROOMS: //户型
+        {
+            [idStr appendString:strValue1];
+            [idStr appendString:[NSString stringWithFormat:@",%@", strValue2]];
+            [idStr appendString:[NSString stringWithFormat:@",%@", strValue3]];
+            self.property.rooms = idStr;
+        }
+            break;
+        case AJK_P_FITMENT: //装修
+        {
+            [idStr appendString:strValue1];
+            self.property.fitment = idStr;
+        }
+            break;
+        case AJK_P_EXPOSURE: //朝向
+        {
+            [idStr appendString:strValue1];
+            self.property.exposure = idStr;
+        }
+            break;
+        case AJK_P_FLOORS: //楼层
+        {
+            [idStr appendString:strValue1];
+            [idStr appendString:[NSString stringWithFormat:@",%@", strValue2]];
+            self.property.floor = idStr;
+        }
+            break;
+            
+        default:
+            break;
+            
+    }
+    
+    DLog(@"id string-[%@]", idStr);
     
     return string;
 }
@@ -471,6 +573,7 @@
     if (indexPath.row == 0) {
         //小区 push
         CommunityListViewController *cl = [[CommunityListViewController alloc] init];
+        cl.communityDelegate = self;
         [self.navigationController pushViewController:cl animated:YES];
         
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -487,17 +590,60 @@
     
 }
 
-#pragma mark - EDIT_CELL Delegate
+#pragma mark - Edit_Cell Delegate
 
 - (void)textFieldBeginEdit:(UITextField *)textField {
     [self getTextFieldIndexWithTF:textField];
     [self textFieldShowWithIndex:self.selectedRow];
 }
 
+- (void)textFieldDidEndEdit:(NSString *)text { //暂不可用
+//    //set property
+//    switch (self.selectedRow) {
+//        case AJK_T_AREA:
+//        {
+//            self.property.area = text;
+//        }
+//            break;
+//        case AJK_T_PRICE:
+//        {
+//            self.property.price = text;
+//        }
+//            break;
+//        case AJK_T_TITLE:
+//        {
+//            self.property.title = text;
+//        }
+//            break;
+//        case AJK_T_DESC:
+//        {
+//            self.property.desc = text;
+//        }
+//            break;
+//            
+//        default:
+//            break;
+//    }
+//    
+//    DLog(@"property_set string [%@] index [%d]", text, self.selectedRow);
+}
+
+#pragma mark - Community List Select Delegate
+
+- (void)communityDidSelect:(NSDictionary *)commDic {
+    [self setCommunityWithText:[commDic objectForKey:@"name"]];
+    
+    [self.property setComm_id:[commDic objectForKey:@"id"]];
+}
+
+- (void)setCommunityWithText:(NSString *)string {
+    [[[[self.dataSource cellArray] objectAtIndex:0] communityDetailLb] setText:string];
+}
+
 #pragma mark - TextField Method
 
 - (BOOL)isKeyboardShowWithRow:(NSInteger)row {
-    if (row == 2 || row == 3 || row == 7 || row == 8) {
+    if (row == AJK_T_AREA || row == AJK_T_PRICE || row == AJK_T_TITLE || row == AJK_T_DESC) {
         return YES; //弹出键盘
     }
     

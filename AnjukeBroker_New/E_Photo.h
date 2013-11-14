@@ -2,7 +2,7 @@
 //  E_Photo.h
 //  AnjukeBroker_New
 //
-//  Created by Wu sicong on 13-11-13.
+//  Created by Wu sicong on 13-11-14.
 //  Copyright (c) 2013年 Wu sicong. All rights reserved.
 //
 
@@ -19,7 +19,8 @@
 @property (nonatomic, retain) NSNumber * lat;
 @property (nonatomic, retain) NSNumber * lng;
 @property (nonatomic, retain) NSString * photoURL;
-@property (nonatomic, retain) NSNumber * style;
 @property (nonatomic, retain) NSString * smallPhotoUrl;
+@property (nonatomic, retain) NSNumber * style;
+@property (nonatomic, retain) id imageDic;
 
 @end

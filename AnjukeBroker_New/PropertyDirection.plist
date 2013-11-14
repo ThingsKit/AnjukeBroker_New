@@ -6,61 +6,61 @@
 		<key>Title</key>
 		<string>东</string>
 		<key>Value</key>
-		<string>0</string>
+		<string>东</string>
 	</dict>
 	<dict>
 		<key>Title</key>
 		<string>南</string>
 		<key>Value</key>
-		<string>1</string>
+		<string>南</string>
 	</dict>
 	<dict>
 		<key>Title</key>
 		<string>西</string>
 		<key>Value</key>
-		<string>2</string>
+		<string>西</string>
 	</dict>
 	<dict>
 		<key>Title</key>
 		<string>北</string>
 		<key>Value</key>
-		<string>3</string>
+		<string>北</string>
 	</dict>
 	<dict>
 		<key>Title</key>
 		<string>东南</string>
 		<key>Value</key>
-		<string>4</string>
+		<string>东南</string>
 	</dict>
 	<dict>
 		<key>Title</key>
 		<string>西南</string>
 		<key>Value</key>
-		<string>5</string>
+		<string>西南</string>
 	</dict>
 	<dict>
 		<key>Title</key>
 		<string>西北</string>
 		<key>Value</key>
-		<string>6</string>
+		<string>西北</string>
 	</dict>
 	<dict>
 		<key>Title</key>
 		<string>东北</string>
 		<key>Value</key>
-		<string>7</string>
+		<string>东北</string>
 	</dict>
 	<dict>
 		<key>Title</key>
 		<string>南北</string>
 		<key>Value</key>
-		<string>8</string>
+		<string>南北</string>
 	</dict>
 	<dict>
 		<key>Title</key>
 		<string>东西</string>
 		<key>Value</key>
-		<string>9</string>
+		<string>东西</string>
 	</dict>
 </array>
 </plist>

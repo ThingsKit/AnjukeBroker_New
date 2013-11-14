@@ -10,4 +10,6 @@
 
 @interface AnjukeNormalCell : RTListCell
 
+@property (nonatomic, strong) UILabel *communityDetailLb;
+
 @end

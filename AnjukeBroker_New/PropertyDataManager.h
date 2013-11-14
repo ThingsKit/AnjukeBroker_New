@@ -28,4 +28,7 @@
 + (NSMutableArray *)getPropertyLou_Number;
 + (NSMutableArray *)getPropertyCeng_Number;
 
+//生成全新房源类
++ (Property *)getNewPropertyObject;
+
 @end
