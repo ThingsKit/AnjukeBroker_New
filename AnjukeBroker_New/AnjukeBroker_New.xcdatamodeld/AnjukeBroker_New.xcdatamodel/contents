@@ -11,7 +11,21 @@
         <attribute name="smallPhotoUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="style" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
+    <entity name="Property" representedClassName="Property" syncable="YES">
+        <attribute name="area" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="comm_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="exposure" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fileNo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fitment" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="floor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imageJson" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="price" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rooms" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <elements>
         <element name="E_Photo" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Property" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>
