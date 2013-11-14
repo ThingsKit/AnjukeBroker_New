@@ -13,6 +13,7 @@
 #import "LoginManager.h"
 #import "SaleNoPlanListManager.h"
 #import "BasePropertyObject.h"
+#import "SaleGroupListController.h"
 
 #define SELECT_ALL_STR @"全选"
 #define UNSELECT_ALL_STR @"取消全选"
@@ -141,7 +142,7 @@
         [self hideLoadWithAnimated:YES];
         return ;
     }
-    if (([[resultFromAPI objectForKey:@"propBaseInfo"] count] == 0 || resultFromAPI == nil)) {
+    if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self.myArray removeAllObjects];
@@ -150,63 +151,11 @@
         return;
     }
 
-    NSMutableArray *result = [SaleNoPlanListManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"propBaseInfo"]];
+    NSMutableArray *result = [SaleNoPlanListManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"propertyList"]];
     [self.myArray removeAllObjects];
     [self.myArray addObjectsFromArray:result];
     [self.myTable reloadData];
     [self hideLoadWithAnimated:YES];
-}
-#pragma mark - Request 定价推广
--(void)doFixed{
-    if(![self isNetworkOkay]){
-        return;
-    }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  [self getStringFromArray:self.selectedArray], @"proIds", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/addpropstoplan/" params:params target:self action:@selector(onFixedSuccess:)];
-    [self showLoadingActivity:YES];
-}
-
-- (void)onFixedSuccess:(RTNetworkResponse *)response {
-    
-    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-        [alert show];
-        [self hideLoadWithAnimated:YES];
-        return;
-    }
-    [self hideLoadWithAnimated:YES];
-    DLog(@"------response [%@]", [response content]);
-    SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
-    [self.navigationController pushViewController:controller animated:YES];
-    
-//    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-//    if([resultFromAPI count] ==  0){
-//        [self hideLoadWithAnimated:YES];
-//        return ;
-//    }
-//    if (([[resultFromAPI objectForKey:@"propBaseInfo"] count] == 0 || resultFromAPI == nil)) {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-//        [alert show];
-//        [self.myArray removeAllObjects];
-//        [self.myTable reloadData];
-//        [self hideLoadWithAnimated:YES];
-//        return;
-//    }
-//    
-//    NSMutableArray *result = [SaleNoPlanListManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"propBaseInfo"]];
-//    [self.myArray removeAllObjects];
-//    [self.myArray addObjectsFromArray:result];
-//    [self.myTable reloadData];
-//    [self hideLoadWithAnimated:YES];
-}
--(NSString *)getStringFromArray:(NSArray *) array{
-    NSMutableString *tempStr = [[NSMutableString alloc] init];
-    for (BasePropertyObject *pro in array) {
-        [tempStr stringByAppendingString: pro.propertyId];
-    }
-    return tempStr;
 }
 #pragma mark - TableView Delegate & Datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -254,7 +203,6 @@
     
     if(![self.selectedArray containsObject:[self.myArray objectAtIndex:row]]){
         [self.selectedArray addObject:[self.myArray objectAtIndex:row]];
-        
     }else{
         [self.selectedArray removeObject:[self.myArray objectAtIndex:row]];
     }
@@ -314,8 +262,8 @@
         return ;
     }
     
-    SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
-    controller.backType = RTSelectorBackTypePopToRoot;
+    SaleGroupListController *controller = [[SaleGroupListController alloc] init];
+    controller.propertyArray = self.selectedArray;
     [self.navigationController pushViewController:controller animated:YES];
 }
 
@@ -342,8 +290,9 @@
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(buttonIndex == 0){
-        [self doFixed];
-
+        SaleGroupListController *controller = [[SaleGroupListController alloc] init];
+        controller.propertyArray = self.selectedArray;
+        [self.navigationController pushViewController:controller animated:YES];
     }else if (buttonIndex == 1){
         AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];

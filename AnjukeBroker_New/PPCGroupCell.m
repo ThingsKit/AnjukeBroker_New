@@ -44,15 +44,15 @@
         
         if(index == 0){
             title.text = @"竞价房源";
-            detail.text = [NSString stringWithFormat:@"房源数:%@套", [dic objectForKey:@"bidPlanNum"]];
+            detail.text = [NSString stringWithFormat:@"房源数:%@套", [dic objectForKey:@"bidPlanPropNum"]];
         } else if (index == [data count] - 1){//未推广
             title.text = @"未推广房源";
             detail.text = [NSString stringWithFormat:@"房源数:%@套", [dic objectForKey:@"unRecommendPropNum"]];
 
         }else{//定价
             title.text = @"定价房源";
-            detail.text = [NSString stringWithFormat:@"%@ 房源数:%@套", [dic objectForKey:@"pricPlanName"], [dic objectForKey:@"pricPlanPropNum"]];
-            if([[dic objectForKey:@"pricPlanState"] intValue] == 1){
+            detail.text = [NSString stringWithFormat:@"%@ 房源数:%@套", [dic objectForKey:@"fixPlanName"], [dic objectForKey:@"fixPlanPropNum"]];
+            if([[dic objectForKey:@"fixPlanState"] intValue] == 1){
                 statueImg.frame = CGRectMake(260, 25, 24, 12);
                 [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_woking@2x.png"]];
             }else if ([[dic objectForKey:@"pricPlanStateDesc"] isEqualToString:@"未推广"]){
@@ -60,6 +60,23 @@
                 [statueImg setImage:[UIImage imageNamed:@"anjuke_icon08_attention@2x.png"]];
             }
         }
+    }
+}
+
+-(void)setFixedGroupValueForCellByData:(id ) data index:(int) index{
+    if([data isKindOfClass:[NSArray class]]){
+        NSArray *tempArray = (NSArray *)data;
+        NSDictionary *dic = [[NSDictionary alloc] initWithDictionary:[tempArray objectAtIndex:index]];
+        
+            title.text = @"定价房源";
+            detail.text = [NSString stringWithFormat:@"%@ 房源数:%@套", [dic objectForKey:@"fixPlanName"], [dic objectForKey:@"fixPlanPropNum"]];
+            if([[dic objectForKey:@"fixPlanState"] intValue] == 1){
+                statueImg.frame = CGRectMake(260, 25, 24, 12);
+                [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_woking@2x.png"]];
+            }else if ([[dic objectForKey:@"pricPlanStateDesc"] isEqualToString:@"未推广"]){
+                statueImg.frame = CGRectMake(260, 25, 12, 12);
+                [statueImg setImage:[UIImage imageNamed:@"anjuke_icon08_attention@2x.png"]];
+            }
     }
 }
 

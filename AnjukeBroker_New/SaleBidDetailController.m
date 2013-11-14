@@ -19,7 +19,9 @@
 #import "SaleFixedManager.h"
 
 @interface SaleBidDetailController ()
-
+{
+    int selectedIndex;
+}
 @end
 
 @implementation SaleBidDetailController
@@ -60,6 +62,7 @@
 }
 -(void)initModel{
     [super initModel];
+    selectedIndex = 0;
     self.myArray = [NSMutableArray array];
 }
 -(void)doRequest{
@@ -86,6 +89,7 @@
         [alert show];
         [self.myArray removeAllObjects];
         [self.myTable reloadData];
+        [self hideLoadWithAnimated:YES];
         return;
     }
     [self.myArray removeAllObjects];
@@ -94,8 +98,32 @@
     [self hideLoadWithAnimated:YES];
 
 }
+-(void)doCancelBid{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"propId"], @"propId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/cancelplan/" params:params target:self action:@selector(onCancelSuccess:)];
+    [self showLoadingActivity:YES];
+}
+- (void)onCancelSuccess:(RTNetworkResponse *)response {
+        DLog(@"------response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
 
+//    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    
+    [self hideLoadWithAnimated:YES];
+    
+}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    selectedIndex = indexPath.row;
     UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"竞价出价及预算", @"暂停竞价推广", nil];
     [action showInView:self.view];
 
@@ -153,7 +181,7 @@
         RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
         [self presentViewController:nav animated:YES completion:nil];
     }else if (buttonIndex == 2){
-    
+        [self doCancelBid];
     }else{
     
     }

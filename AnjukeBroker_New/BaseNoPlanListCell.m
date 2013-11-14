@@ -49,7 +49,7 @@
     return NO;
 }
 -(void)setDetailLableValue:(BasePropertyObject *) pro{
-    NSString *tempStr = [NSString stringWithFormat:@"%@  0平 %@%@",pro.type, pro.price, pro.priceUnit];
+    NSString *tempStr = [NSString stringWithFormat:@"%@室%@厅%@卫  0平 %@%@", pro.roomNum, pro.hallNum, pro.toiletNum, pro.price, pro.priceUnit];
     self.detail.text = tempStr;
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

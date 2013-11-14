@@ -28,17 +28,20 @@
 @synthesize orientation;
 @synthesize price;
 @synthesize priceUnit;
+@synthesize hallNum;
+@synthesize roomNum;
+@synthesize toiletNum;
 
 - (id)setValueFromDictionary:(NSDictionary *)dic{
     
-    self.propertyId = [dic objectForKey:@"propId"];
+    self.propertyId = [dic objectForKey:@"id"];
     self.cpip = [dic objectForKey:@""];
     self.photos = [dic objectForKey:@""];
     self.defaultImgUrl = [dic objectForKey:@"defaultImgUrl"];
     self.communityName = [dic objectForKey:@"commName"];
     self.communityId = [dic objectForKey:@""];
     self.type = [dic objectForKey:@"housUnits"];
-    self.area = [dic objectForKey:@""];
+    self.area = [dic objectForKey:@"Area"];
     self.title = [dic objectForKey:@"title"];
     self.description = [dic objectForKey:@""];
     self.tenement = [dic objectForKey:@""];
@@ -50,6 +53,9 @@
     self.orientation = [dic objectForKey:@""];
     self.price = [dic objectForKey:@"price"];
     self.priceUnit = [dic objectForKey:@"priceUnit"];
+    self.hallNum = [dic objectForKey:@"hallNum"];
+    self.roomNum = [dic objectForKey:@"roomNum"];
+    self.toiletNum = [dic objectForKey:@"toiletNum"];
     return self;
 }
 

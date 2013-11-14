@@ -52,6 +52,9 @@
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *description;
 @property (strong, nonatomic) NSString *mark;
+@property (strong, nonatomic) NSString *hallNum;
+@property (strong, nonatomic) NSString *roomNum;
+@property (strong, nonatomic) NSString *toiletNum;
 
 - (id)setValueFromDictionary:(NSDictionary *)dic;
 

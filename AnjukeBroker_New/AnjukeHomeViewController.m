@@ -93,12 +93,12 @@
         [self hideLoadWithAnimated:YES];
         return ;
     }
-    NSMutableDictionary *dicPlan = [[NSMutableDictionary alloc] initWithDictionary:[[resultFromAPI objectForKey:@"bidPlan"] objectAtIndex:0]];
-    [self.myArray addObject:dicPlan];
+    NSMutableDictionary *bidPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"bidPlan"]];
+    [self.myArray addObject:bidPlan];
     
-    NSMutableArray *pricePlan = [NSMutableArray array];
-    [pricePlan addObjectsFromArray:[resultFromAPI objectForKey:@"pricPlan"]];
-    [self.myArray addObjectsFromArray:pricePlan];
+    NSMutableArray *fixPlan = [NSMutableArray array];
+    [fixPlan addObjectsFromArray:[resultFromAPI objectForKey:@"fixPlan"]];
+    [self.myArray addObjectsFromArray:fixPlan];
     
     NSMutableDictionary *nodic = [[NSMutableDictionary alloc] init];
     [nodic setValue:@"待推广房源" forKey:@"title"];
@@ -146,50 +146,12 @@
     if(cell == nil){
         cell = [[NSClassFromString(@"PPCGroupCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
     }
-    [cell setValueForCellByData:self.myArray index:indexPath.row];
-//    [cell setValueForCellByData:[self.myArray objectAtIndex:[indexPath row]]];
-//    [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
-    
+    [cell setValueForCellByData:self.myArray index:indexPath.row];    
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
 }
-
-//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-//    UIView *content = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-//    content.backgroundColor = [UIColor lightGrayColor];
-//    
-//    UILabel *headerLab = [[UILabel alloc] initWithFrame:CGRectMake(30, 10, 50, 20)];
-//    headerLab.backgroundColor = [UIColor clearColor];
-//    headerLab.text = @"10";
-//    [content addSubview:headerLab];
-//    
-//    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(20, 45, 320, 20)];
-//    headerLab.text = @"在线房源";
-//    [content addSubview:headerLab];
-//    
-//    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(130, 10, 50, 20)];
-//    headerLab.text = @"100";
-//    [content addSubview:headerLab];
-//    
-//    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(120, 45, 320, 20)];
-//    headerLab.text = @"今日已点击";
-//    [content addSubview:headerLab];
-//    
-//    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(230, 10, 50, 20)];
-//    headerLab.text = @"99.0";
-//    [content addSubview:headerLab];
-//    
-//    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(220, 45, 320, 20)];
-//    headerLab.text = @"今日花费(元)";
-//    [content addSubview:headerLab];
-//    
-//    return content;
-//}
-//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-//    return 100;
-//}
 
 - (void)didReceiveMemoryWarning
 {

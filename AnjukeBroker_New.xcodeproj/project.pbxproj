@@ -100,6 +100,7 @@
 		97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F5E5E5182B38DA00B5CBCC /* PhotoShowView.m */; };
 		97FA36A3182F318D00EF714D /* PropertyHouseType.plist in Resources */ = {isa = PBXBuildFile; fileRef = 97FA36A2182F318D00EF714D /* PropertyHouseType.plist */; };
 		97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */; };
+		B70323DC1832115B00DFDB1C /* SaleGroupListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B70323DB1832115B00DFDB1C /* SaleGroupListController.m */; };
 		B7210948182778C100904FC7 /* RentNoPlanListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7210947182778C100904FC7 /* RentNoPlanListController.m */; };
 		B721094B18277CE100904FC7 /* RentFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B721094A18277CE100904FC7 /* RentFixedDetailController.m */; };
 		B721094F18277F8A00904FC7 /* BaseFixedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B721094E18277F8A00904FC7 /* BaseFixedCell.m */; };
@@ -311,6 +312,8 @@
 		97FA36A2182F318D00EF714D /* PropertyHouseType.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PropertyHouseType.plist; sourceTree = "<group>"; };
 		97FD0B6018157BEC0072FB5E /* PropertyDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDataManager.h; sourceTree = "<group>"; };
 		97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDataManager.m; sourceTree = "<group>"; };
+		B70323DA1832115B00DFDB1C /* SaleGroupListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleGroupListController.h; sourceTree = "<group>"; };
+		B70323DB1832115B00DFDB1C /* SaleGroupListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaleGroupListController.m; sourceTree = "<group>"; };
 		B7210946182778C100904FC7 /* RentNoPlanListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentNoPlanListController.h; sourceTree = "<group>"; };
 		B7210947182778C100904FC7 /* RentNoPlanListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentNoPlanListController.m; sourceTree = "<group>"; };
 		B721094918277CE100904FC7 /* RentFixedDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentFixedDetailController.h; sourceTree = "<group>"; };
@@ -1016,6 +1019,8 @@
 				B7E803EC1820DD8000775C6F /* SaleSelectNoPlanController.m */,
 				B7E803EE1820E14000775C6F /* SaleNoPlanGroupController.h */,
 				B7E803EF1820E14000775C6F /* SaleNoPlanGroupController.m */,
+				B70323DA1832115B00DFDB1C /* SaleGroupListController.h */,
+				B70323DB1832115B00DFDB1C /* SaleGroupListController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1187,6 +1192,7 @@
 				972C10321814FDC400552C9B /* MoreViewController.m in Sources */,
 				B7210952182785A400904FC7 /* RentFixedCell.m in Sources */,
 				B7E803F31820F24400775C6F /* SaleNoPlanListCell.m in Sources */,
+				B70323DC1832115B00DFDB1C /* SaleGroupListController.m in Sources */,
 				975E7ED01829EDC7008EBC1D /* WebImageView.m in Sources */,
 				970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */,
 				975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */,
