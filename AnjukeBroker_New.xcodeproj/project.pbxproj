@@ -77,6 +77,7 @@
 		97AED124180D23870072611B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED123180D23870072611B /* CoreLocation.framework */; };
 		97B106481834A7040064AF5F /* Property.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B106471834A7040064AF5F /* Property.m */; };
 		97B1064B1834AB280064AF5F /* E_Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B1064A1834AB280064AF5F /* E_Photo.m */; };
+		97B106501834E5F40064AF5F /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B1064F1834E5F40064AF5F /* AppManager.m */; };
 		97B422571820D9A600A2E9E6 /* PropertyGroupListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B422561820D9A600A2E9E6 /* PropertyGroupListViewController.m */; };
 		97B4225A1820DB8300A2E9E6 /* AnjukePropertyGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B422591820DB8300A2E9E6 /* AnjukePropertyGroupCell.m */; };
 		97B4225D1820E36600A2E9E6 /* PropertyAuctionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B4225C1820E36600A2E9E6 /* PropertyAuctionViewController.m */; };
@@ -274,6 +275,8 @@
 		97B106471834A7040064AF5F /* Property.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Property.m; sourceTree = "<group>"; };
 		97B106491834AB280064AF5F /* E_Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = E_Photo.h; sourceTree = "<group>"; };
 		97B1064A1834AB280064AF5F /* E_Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = E_Photo.m; sourceTree = "<group>"; };
+		97B1064E1834E5F40064AF5F /* AppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppManager.h; sourceTree = "<group>"; };
+		97B1064F1834E5F40064AF5F /* AppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppManager.m; sourceTree = "<group>"; };
 		97B422551820D9A600A2E9E6 /* PropertyGroupListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyGroupListViewController.h; sourceTree = "<group>"; };
 		97B422561820D9A600A2E9E6 /* PropertyGroupListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyGroupListViewController.m; sourceTree = "<group>"; };
 		97B422581820DB8300A2E9E6 /* AnjukePropertyGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukePropertyGroupCell.h; sourceTree = "<group>"; };
@@ -974,6 +977,8 @@
 				977FCA9C1828FAD700945FB4 /* LoginManager.m */,
 				9751860018320D5F00C9A40A /* PhotoManager.h */,
 				9751860118320D5F00C9A40A /* PhotoManager.m */,
+				97B1064E1834E5F40064AF5F /* AppManager.h */,
+				97B1064F1834E5F40064AF5F /* AppManager.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -1245,6 +1250,7 @@
 				97410561180CDFE0004DAE95 /* main.m in Sources */,
 				972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */,
 				B7210948182778C100904FC7 /* RentNoPlanListController.m in Sources */,
+				97B106501834E5F40064AF5F /* AppManager.m in Sources */,
 				974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */,
 				B721095E18279D0800904FC7 /* RentPropertyDetailController.m in Sources */,
 				B769E475181F807500A2FF50 /* SaleBidDetailController.m in Sources */,

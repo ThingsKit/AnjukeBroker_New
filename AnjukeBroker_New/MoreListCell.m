@@ -7,9 +7,11 @@
 //
 
 #import "MoreListCell.h"
+#import "Util_UI.h"
 
 @implementation MoreListCell
 @synthesize messageSwtich;
+@synthesize detailLb;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -29,6 +31,16 @@
         
     }
     return self;
+}
+
+- (void)initUI {
+    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(224/2, 1,  170, CELL_HEIGHT - 1*5)];
+    lb.backgroundColor = [UIColor clearColor];
+    lb.textColor = SYSTEM_ORANGE;
+    lb.textAlignment = NSTextAlignmentRight;
+    lb.font = [UIFont systemFontOfSize:17];
+    self.detailLb = lb;
+    [self.contentView addSubview:lb];
 }
 
 /*
@@ -56,11 +68,16 @@
 }
 
 - (void)showSwitch {
-    UISwitch *sw = [[UISwitch alloc] initWithFrame:CGRectMake(320 - 25 - 35, (MORE_CELL_H - 20)/2-5, 30, 20)];
-    sw.on = YES;
-    self.messageSwtich = sw;
-    [self.contentView addSubview:sw];
-    
+    if (!self.messageSwtich) {
+        UISwitch *sw = [[UISwitch alloc] initWithFrame:CGRectMake(320 - 25 - 35, (MORE_CELL_H - 20)/2-5, 30, 20)];
+        sw.on = YES;
+        self.messageSwtich = sw;
+        [self.contentView addSubview:sw];
+    }
+}
+
+- (void)setDetailText:(NSString *)string {
+    self.detailLb.text = string;
 }
 
 @end

@@ -13,7 +13,9 @@
 @interface MoreListCell : RTListCell
 
 @property (nonatomic, strong) UISwitch *messageSwtich;
+@property (nonatomic, strong) UILabel *detailLb;
 
 - (void)showSwitch;
+- (void)setDetailText:(NSString *)string;
 
 @end

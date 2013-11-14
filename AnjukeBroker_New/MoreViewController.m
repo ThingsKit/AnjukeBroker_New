@@ -8,6 +8,10 @@
 
 #import "MoreViewController.h"
 #import "MoreListCell.h"
+#import "AppManager.h"
+
+#define CALL_ANJUKE_NUMBER @"400-620-9008"
+#define CALL_ANJUKE_ROW 5
 
 @interface MoreViewController ()
 @property (nonatomic, strong) NSArray *taskArray;
@@ -104,6 +108,12 @@
         [cell showSwitch];
         [cell.messageSwtich addTarget:self action:@selector(messageSw:) forControlEvents:UIControlEventValueChanged];
     }
+    else if (indexPath.row == 4) {
+        [cell setDetailText:@"测试"];
+    }
+    else if (indexPath.row == CALL_ANJUKE_ROW) {
+        [cell setDetailText:CALL_ANJUKE_NUMBER];
+    }
     
     if (indexPath.row == 0 || indexPath.row == 2 || indexPath.row == 3) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -118,6 +128,26 @@
 #pragma mark - tableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    switch (indexPath.row) {
+        case CALL_ANJUKE_ROW:
+        {
+            //make call
+            if (![AppManager checkPhoneFunction]) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请检测是否支持电话功能" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确认", nil];
+                [alertView show];
+                return;
+            }
+            else {
+                NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@",CALL_ANJUKE_NUMBER];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:call_url]];
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
