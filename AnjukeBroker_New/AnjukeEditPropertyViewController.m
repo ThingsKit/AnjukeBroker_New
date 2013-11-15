@@ -77,6 +77,7 @@
 @synthesize imagePicker, imageOverLay;
 @synthesize uploadImgIndex;
 @synthesize property;
+@synthesize isHaozu;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -121,7 +122,7 @@
 #pragma mark - init Method
 
 - (void)initModel {
-    self.titleArray = [NSArray arrayWithArray:[PropertyDataManager getPropertyTitleArrayForAnjuke:YES]];
+    self.titleArray = [NSArray arrayWithArray:[PropertyDataManager getPropertyTitleArrayForHaozu:self.isHaozu]];
     self.imgArray = [NSMutableArray array];
     self.imgBtnArray = [NSMutableArray array];
     
@@ -139,7 +140,7 @@
     //draw tableView list
     self.dataSource = [[AnjukeEditableTV_DataSource alloc] init];
     self.dataSource.superViewController = self;
-    [self.dataSource createCells:self.titleArray];
+    [self.dataSource createCells:self.titleArray isHaozu:self.isHaozu];
     
     UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.tvList = tv;
@@ -150,7 +151,6 @@
     
     //draw tableView header
     [self drawHeader];
-    
 }
 
 - (void)drawHeader {
@@ -225,6 +225,10 @@
     
     if (self.imgArray.count == 0) {
         [self hideLoadWithAnimated:YES];
+        
+        //test 无图可上传
+        [self uploadProperty];
+        
         return; //没有上传图片
     }
     
@@ -252,13 +256,14 @@
     DLog(@"image upload result[%@]", result);
     
     //保存imageDic在E_Photo
-    NSDictionary *dic = [result objectForKey:@"image"];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[result objectForKey:@"image"]];
+    [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+    
     [(E_Photo *)[self.imgArray objectAtIndex:self.uploadImgIndex] setImageDic:dic];
     
     //继续上传图片
     self.uploadImgIndex ++;
     [self uploadPhoto];
-    
 }
 
 - (void)uploadPhotoFail:(ASIFormDataRequest *)request{
@@ -289,7 +294,14 @@
 - (void)onUploadPropertyFinished:(RTNetworkResponse *)response {
     DLog(@"--发房结束。。。response [%@]", [response content]);
 
-    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
 }
 
 #pragma mark - Private Method
@@ -451,7 +463,7 @@
 #pragma mark - Broker Picker Delegate
 
 - (void)finishBtnClicked { //点击完成，输入框组件消失
-    if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow]) {
+    if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
         self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
     }
     
@@ -459,7 +471,7 @@
 }
 
 - (void)preBtnClicked { //点击”上一个“，检查输入样式并做转换，tableView下移
-    if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow]) {
+    if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
         self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
     }
     
@@ -481,7 +493,7 @@
 
 - (void)nextBtnClicked { //点击”下一个“，检查输入样式并做转换，tableView上移
     //得到前一条的输入数据，并显示下一条的输入框
-    if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow]) {
+    if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
         self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
     }
     
@@ -511,6 +523,7 @@
 - (void)doSave {
     //test upload img
     [self uploadPhoto];
+//    [self uploadProperty];
     
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"定价且竞价推广", @"暂不推广", nil];
     sheet.tag = TagOfActionSheet_Save;
@@ -563,7 +576,7 @@
     [self refreshPhotoHeader];
 }
 
-#pragma mark - tableView Delegate & Method
+#pragma mark - TableView Delegate & Method
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
@@ -635,7 +648,7 @@
         self.toolBar.clickDelagate = self;
     }
     
-    if ([InputOrderManager isKeyBoardInputWithIndex:self.selectedRow]) {
+    if ([InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
         //弹出键盘
         self.inputingTextF.inputAccessoryView = self.toolBar;
         self.inputingTextF.inputView = nil;
@@ -646,7 +659,7 @@
         self.inputingTextF.inputView = self.pickerView;
         
         //重置pickerView数据
-        [self.pickerView reloadPickerWithRow:self.selectedRow];
+        [self.pickerView reloadPickerWithRow:self.selectedRow isHaozu:self.isHaozu];
         
         //聚焦上一次的输入
         int pickerIndex1 = [(AnjukeEditableCell *)[[self.dataSource cellArray] objectAtIndex:index] inputed_RowAtCom0];

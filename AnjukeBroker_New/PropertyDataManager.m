@@ -10,13 +10,13 @@
 
 @implementation PropertyDataManager
 
-+ (NSArray *)getPropertyTitleArrayForAnjuke:(BOOL)isAnjuke {
++ (NSArray *)getPropertyTitleArrayForHaozu:(BOOL)isHZ {
     NSArray *arr = nil;
-    if (isAnjuke) { //安居客房源描述title
+    if (!isHZ) { //安居客房源描述title
         arr = [NSArray arrayWithObjects:@"小区",@"户型",@"产证面积",@"价格",@"装修",@"朝向",@"楼层",@"房源标题",@"房源描述", nil];
     }
     else { //好租房源描述title
-        arr = [NSArray arrayWithObjects:@"小区",@"户型",@"产证面积",@"价格",@"装修",@"朝向",@"楼层",@"房源标题",@"房源描述", nil];
+        arr = [NSArray arrayWithObjects:@"小区",@"户型",@"产证面积",@"租金", @"出租方式", @"装修",@"朝向",@"楼层",@"房源标题",@"房源描述", nil];
     }
     return arr;
 }
@@ -98,6 +98,13 @@
 //        NSString *str = [NSString stringWithFormat:@"共%d层", i+1];
 //        [arr addObject:str];
 //    }
+    
+    return arr;
+}
+
++ (NSArray *)getPropertyRentType {
+    NSString *strPlistPath = [[NSBundle mainBundle] pathForResource:@"PropertyRentTypeList" ofType:@"plist"];
+    NSMutableArray *arr = [NSMutableArray arrayWithContentsOfFile:strPlistPath];
     
     return arr;
 }

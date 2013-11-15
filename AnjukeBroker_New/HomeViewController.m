@@ -216,11 +216,7 @@
     switch (indexPath.row) {
         case 0:
         {
-//            AnjukeEditPropertyViewController *ae = [[AnjukeEditPropertyViewController alloc] init];
-//            [ae setHidesBottomBarWhenPushed:YES];
-//            [self.navigationController pushViewController:ae animated:YES];
-            
-            //模态弹出
+            //模态弹出 --二手房
             AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
@@ -231,7 +227,13 @@
             break;
         case 1:
         {
-            
+            //模态弹出 --租房
+            AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+            controller.backType = RTSelectorBackTypeDismiss;
+            controller.isHaozu = YES;
+            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            nav.navigationBar.translucent = NO;
+            [self presentViewController:nav animated:YES completion:nil];
         }
             break;
         case 2:

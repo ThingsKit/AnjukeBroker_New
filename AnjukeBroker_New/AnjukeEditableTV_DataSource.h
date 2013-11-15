@@ -15,6 +15,6 @@
 @property (nonatomic, strong) NSMutableArray *cellArray;
 @property (nonatomic, strong) AnjukeEditPropertyViewController *superViewController;
 
-- (void)createCells:(NSArray *)dataArray;
+- (void)createCells:(NSArray *)dataArray isHaozu:(BOOL)isHaozu;
 
 @end

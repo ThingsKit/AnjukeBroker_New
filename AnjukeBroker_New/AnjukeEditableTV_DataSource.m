@@ -8,6 +8,7 @@
 
 #import "AnjukeEditableTV_DataSource.h"
 #import "AnjukeEditableCell.h"
+#import "InputOrderManager.h"
 
 @implementation AnjukeEditableTV_DataSource
 @synthesize cellArray;
@@ -22,27 +23,48 @@
     return self;
 }
 
-- (void)createCells:(NSArray *)dataArray {
+- (void)createCells:(NSArray *)dataArray isHaozu:(BOOL)isHaozu {
     AnjukeNormalCell *cell = [[AnjukeNormalCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     [cell configureCell:[dataArray objectAtIndex:0]];
     [self.cellArray addObject:cell];
     
-    for (int i = 1; i < dataArray.count; i ++) {
-        AnjukeEditableCell *cell = [[AnjukeEditableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-        cell.editDelegate = self.superViewController;
-        [cell configureCell:[dataArray objectAtIndex:i]];
-        //调整键盘type
-        if (i == 2 || i == 3) {
-            cell.text_Field.keyboardType = UIKeyboardTypeNumberPad;
-            if (i ==2) {
-                cell.unitLb.text = @"平米";
+    if (isHaozu) { //租房
+        for (int i = 1; i < dataArray.count; i ++) {
+            AnjukeEditableCell *cell = [[AnjukeEditableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            cell.editDelegate = self.superViewController;
+            [cell configureCell:[dataArray objectAtIndex:i]];
+            //调整键盘type
+            if (i == HZ_T_AREA || i == HZ_T_PRICE) {
+                cell.text_Field.keyboardType = UIKeyboardTypeNumberPad;
+                if (i == HZ_T_AREA) {
+                    cell.unitLb.text = @"平米";
+                }
+                else if (i == HZ_T_PRICE) {
+                    cell.unitLb.text = @"元/月";
+                }
             }
-            else if (i == 3) {
-                cell.unitLb.text = @"万元";
-            }
+            [self.cellArray addObject:cell];
         }
-        [self.cellArray addObject:cell];
     }
+    else { //二手房
+        for (int i = 1; i < dataArray.count; i ++) {
+            AnjukeEditableCell *cell = [[AnjukeEditableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            cell.editDelegate = self.superViewController;
+            [cell configureCell:[dataArray objectAtIndex:i]];
+            //调整键盘type
+            if (i == AJK_T_AREA || i == AJK_T_PRICE) {
+                cell.text_Field.keyboardType = UIKeyboardTypeNumberPad;
+                if (i == AJK_T_AREA) {
+                    cell.unitLb.text = @"平米";
+                }
+                else if (i == AJK_T_PRICE) {
+                    cell.unitLb.text = @"万元";
+                }
+            }
+            [self.cellArray addObject:cell];
+        }
+    }
+    
 }
 
 #pragma mark - Table view data source

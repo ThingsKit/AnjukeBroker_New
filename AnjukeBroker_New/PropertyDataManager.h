@@ -11,7 +11,7 @@
 
 @interface PropertyDataManager : NSObject
 
-+ (NSArray *)getPropertyTitleArrayForAnjuke:(BOOL)isAnjuke;
++ (NSArray *)getPropertyTitleArrayForHaozu:(BOOL)isHZ;
 
 //户型——室、厅、卫
 + (NSMutableArray *)getPropertyHuxingArray_Shi;
@@ -27,6 +27,9 @@
 //楼层
 + (NSMutableArray *)getPropertyLou_Number;
 + (NSMutableArray *)getPropertyCeng_Number;
+
+//整租方式_仅租房
++ (NSArray *)getPropertyRentType;
 
 //生成全新房源类
 + (Property *)getNewPropertyObject;

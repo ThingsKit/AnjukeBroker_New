@@ -8,6 +8,7 @@
 
 #import "RTInputPickerView.h"
 #import "PropertyDataManager.h"
+#import "InputOrderManager.h"
 
 @implementation RTInputPickerView
 @synthesize pickerType;
@@ -47,42 +48,83 @@
 }
 
 //***根据当前输入的内容（第几行）判断所需提供的输入dataSource***
-- (void)reloadPickerWithRow:(int)row {
+- (void)reloadPickerWithRow:(int)row isHaozu:(BOOL)isHaozu {
     self.firstArray = [NSArray array];
     self.secondArray = [NSArray array];
     self.thirdArray = [NSArray array];
     
-    //get data
-    switch (row) { //户型
-        case 1:
-        {
-            self.firstArray = [PropertyDataManager getPropertyHuxingArray_Shi];
-            self.secondArray = [PropertyDataManager getPropertyHuxingArray_Ting];
-            self.thirdArray = [PropertyDataManager getPropertyHuxingArray_Wei];
+    if (isHaozu) {
+        //get data
+        switch (row) { //户型
+            case HZ_P_ROOMS:
+            {
+                self.firstArray = [PropertyDataManager getPropertyHuxingArray_Shi];
+                self.secondArray = [PropertyDataManager getPropertyHuxingArray_Ting];
+                self.thirdArray = [PropertyDataManager getPropertyHuxingArray_Wei];
+            }
+                break;
+            case HZ_P_FITMENT: //装修
+            {
+                self.firstArray = [PropertyDataManager getPropertyZhuangxiu];
+            }
+                break;
+            case HZ_P_RENTTYPE: //出租方式
+            {
+                self.firstArray = [PropertyDataManager getPropertyRentType];
+            }
+                break;
+                
+            case HZ_P_EXPOSURE: //朝向
+            {
+                self.firstArray = [PropertyDataManager getPropertyChaoXiang];
+            }
+                break;
+            case HZ_P_FLOORS: //楼层
+            {
+                self.firstArray = [PropertyDataManager getPropertyLou_Number];
+                self.secondArray = [PropertyDataManager getPropertyCeng_Number];
+            }
+                break;
+                
+            default:
+                break;
+                
         }
-            break;
-        case 4: //装修
-        {
-            self.firstArray = [PropertyDataManager getPropertyZhuangxiu];
-        }
-            break;
-            
-        case 5: //朝向
-        {
-            self.firstArray = [PropertyDataManager getPropertyChaoXiang];
-        }
-            break;
-        case 6: //楼层
-        {
-            self.firstArray = [PropertyDataManager getPropertyLou_Number];
-            self.secondArray = [PropertyDataManager getPropertyCeng_Number];
-        }
-            break;
-
-        default:
-            break;
-            
     }
+    else { //二手房
+        //get data
+        switch (row) { //户型
+            case AJK_P_ROOMS:
+            {
+                self.firstArray = [PropertyDataManager getPropertyHuxingArray_Shi];
+                self.secondArray = [PropertyDataManager getPropertyHuxingArray_Ting];
+                self.thirdArray = [PropertyDataManager getPropertyHuxingArray_Wei];
+            }
+                break;
+            case AJK_P_FITMENT: //装修
+            {
+                self.firstArray = [PropertyDataManager getPropertyZhuangxiu];
+            }
+                break;
+                
+            case AJK_P_EXPOSURE: //朝向
+            {
+                self.firstArray = [PropertyDataManager getPropertyChaoXiang];
+            }
+                break;
+            case AJK_P_FLOORS: //楼层
+            {
+                self.firstArray = [PropertyDataManager getPropertyLou_Number];
+                self.secondArray = [PropertyDataManager getPropertyCeng_Number];
+            }
+                break;
+                
+            default:
+                break;
+                
+        }
+    }
+    
     
     [self reloadAllComponents];
     
