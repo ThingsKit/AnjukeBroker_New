@@ -153,7 +153,11 @@
     [BG addSubview:line];
     
 }
-#pragma mark - 设置竞价额度    未调通
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self doRequestMinoffer];
+}
+#pragma mark - 设置竞价额度
 -(void)doResetBid{
     if(![self isNetworkOkay]){
         return;
@@ -179,6 +183,31 @@
     [self hideLoadWithAnimated:YES];
     [self doSure];
 }
+#pragma mark - 获取竞价底价
+-(void)doRequestMinoffer{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.proDic objectForKey:@"id"], @"propId", nil];
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/minoffer/" params:params target:self action:@selector(onMinSuccess:)];
+    [self showLoadingActivity:YES];
+}
+
+- (void)onMinSuccess:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"获取底价失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
+    
+    [self hideLoadWithAnimated:YES];
+    [self doSure];
+}
+
 #pragma mark - 设置竞价额度
 -(void)doRequest{
     if(![self isNetworkOkay]){
@@ -210,7 +239,7 @@
         return;
     }
     
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"city_id", [self.proDic objectForKey:@"id"], @"proid", [self.proDic objectForKey:@"commId"], @"commId", @"desire", @"act", self.textField_2.text, @"offer", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", [self.proDic objectForKey:@"id"], @"propId", [self.proDic objectForKey:@"commId"], @"commId", self.textField_2.text, @"offer", nil];
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/getrank/" params:params target:self action:@selector(onCheckSuccess:)];
     [self showLoadingActivity:YES];

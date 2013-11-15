@@ -65,7 +65,7 @@
         NSDictionary *dic = (NSDictionary *)dataModel;
         title.text = [dic objectForKey:@"title"];
         communityName.text = [NSString stringWithFormat:@"%@室%@厅%@卫 %@平", [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"], [dic objectForKey:@"area"]];
-        price.text = [NSString stringWithFormat:@"%d万", [[dic objectForKey:@"price"] intValue]/10000];
+        price.text = [NSString stringWithFormat:@"%d万", [[dic objectForKey:@"price"] intValue]];
     }
     return NO;
 }
