@@ -157,6 +157,46 @@
     [self.myTable reloadData];
     [self hideLoadWithAnimated:YES];
 }
+#pragma mark - 批量删除房源
+-(void)doDeleteProperty{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self getStringFromArray:self.selectedArray], @"proids", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/delprops/" params:params target:self action:@selector(onDeleteSuccess:)];
+    [self showLoadingActivity:YES];
+}
+- (void)onDeleteSuccess:(RTNetworkResponse *)response {
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
+    DLog(@"------response [%@]", [response content]);
+
+    [self hideLoadWithAnimated:YES];
+    [self doRequest];
+}
+-(NSString *)getStringFromArray:(NSArray *) array{
+    NSMutableString *tempStr = [NSMutableString string];
+    for (int i=0;i<[array count];i++) {
+        SalePropertyObject *pro = (SalePropertyObject *)[array objectAtIndex:i];
+        if(tempStr.length == 0){
+            [tempStr appendString:[NSString stringWithFormat:@"%@",pro.propertyId]];
+        }else{
+            [tempStr appendString:@","];
+            [tempStr appendString:[NSString stringWithFormat:@"%@",pro.propertyId]];
+        }
+    }
+    
+    DLog(@"====%@",tempStr);
+    return tempStr;
+}
+
 #pragma mark - TableView Delegate & Datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.myArray count];
@@ -251,7 +291,9 @@
     }
     
     UIAlertView *tempView = [[UIAlertView alloc] initWithTitle:@"友情提示" message:@"确定删除房源？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    tempView.tag = 101;
     [tempView show];
+    
     
 }
 
@@ -289,6 +331,7 @@
 #pragma mark --UIActionSheetDelegate
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
     if(buttonIndex == 0){
         SaleGroupListController *controller = [[SaleGroupListController alloc] init];
         controller.propertyArray = self.selectedArray;
@@ -314,15 +357,7 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(buttonIndex == 1){
-        [self.myArray removeObjectsInArray:self.selectedArray];
-        [self.selectedArray removeAllObjects];
-        
-        [self.myTable reloadData];
-        
-        DLog(@"myArr [%d]", self.myArray.count);
-        
-        [self setEditBtnEnableStatus];
-        [self.seleceAllItem setTitle:SELECT_ALL_STR];
+        [self doDeleteProperty];
     }
 }
 @end

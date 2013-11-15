@@ -65,6 +65,7 @@
     selectedIndex = 0;
     self.myArray = [NSMutableArray array];
 }
+#pragma mark - 请求竞价房源列表
 -(void)doRequest{
     if(![self isNetworkOkay]){
         return;
@@ -76,15 +77,15 @@
 - (void)onGetLogin:(RTNetworkResponse *)response {
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
         return;
     }
     DLog(@"------response [%@]", [response content]);
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-    
-    if (([[resultFromAPI objectForKey:@"planProp"] count] == 0 || resultFromAPI == nil)) {
+
+    if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self.myArray removeAllObjects];
@@ -93,25 +94,26 @@
         return;
     }
     [self.myArray removeAllObjects];
-    [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"planProp"]];
+    [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
     [self.myTable reloadData];
     [self hideLoadWithAnimated:YES];
 
 }
--(void)doCancelBid{
+#pragma mark - 取消竞价推广
+-(void)doStopBid{
     if(![self isNetworkOkay]){
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"propId"], @"propId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/cancelplan/" params:params target:self action:@selector(onCancelSuccess:)];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"], @"propId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/spreadstop/" params:params target:self action:@selector(onStopSuccess:)];
     [self showLoadingActivity:YES];
 }
-- (void)onCancelSuccess:(RTNetworkResponse *)response {
+- (void)onStopSuccess:(RTNetworkResponse *)response {
         DLog(@"------response [%@]", [response content]);
     
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
         return;
@@ -120,13 +122,70 @@
 //    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     
     [self hideLoadWithAnimated:YES];
+    [self doRequest];
+    
+}
+//文档缺失
+#pragma mark - 取消竞价推广,(取消后房源不在竞价推广组)
+-(void)doCancelBid{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"], @"propId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/cancelplan/" params:params target:self action:@selector(onCancelSuccess:)];
+    [self showLoadingActivity:YES];
+}
+- (void)onCancelSuccess:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
+    [self hideLoadWithAnimated:YES];
+    [self doRequest];
+
+}
+#pragma mark - 重新开始竞价推广
+-(void)doRestartBid{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"], @"propId", @"30", @"budget", @"1.1", @"bid", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/spreadstart/" params:params target:self action:@selector(onRestartSuccess:)];
+    [self showLoadingActivity:YES];
+}
+- (void)onRestartSuccess:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
+    
+    //    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    
+    [self hideLoadWithAnimated:YES];
     
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     selectedIndex = indexPath.row;
-    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"竞价出价及预算", @"暂停竞价推广", nil];
-    [action showInView:self.view];
-
+    
+    if([[[self.myArray objectAtIndex:selectedIndex] objectForKey:@"bidStatus"] isEqualToString:@"3"]){
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"重新开始竞价", @"取消竞价推广", nil];
+        action.tag = 101;
+        [action showInView:self.view];
+    }else{
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"竞价出价及预算", @"暂停竞价推广", nil];
+        action.tag = 102;
+        [action showInView:self.view];
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -146,7 +205,6 @@
         cell = [[NSClassFromString(@"BaseBidPropertyCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BaseBidPropertyCell"];
      }
     [cell setValueForCellByDataModel:[self.myArray objectAtIndex:[indexPath row]]];
-//    [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryNone;
@@ -169,22 +227,47 @@
 }
 #pragma mark -- UIActionSheetDelegate
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 0){
-        AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
-        controller.backType = RTSelectorBackTypeDismiss;
-        RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-        [self presentViewController:nav animated:YES completion:nil];
-    }else if (buttonIndex == 1){
-        PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
-        controller.backType = RTSelectorBackTypeDismiss;
-        controller.delegateVC = self;
-        RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-        [self presentViewController:nav animated:YES completion:nil];
-    }else if (buttonIndex == 2){
-        [self doCancelBid];
-    }else{
+    if(actionSheet.tag == 101){
+        if (buttonIndex == 0){
+            AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+            controller.backType = RTSelectorBackTypeDismiss;
+            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:nil];
+        }else if (buttonIndex == 1){//重新开始竞价
+            PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
+            controller.proDic = [self.myArray objectAtIndex:selectedIndex];
+            controller.backType = RTSelectorBackTypeDismiss;
+            controller.delegateVC = self;
+            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:^(void){
+            }];
+        }else if (buttonIndex == 2){//取消竞价
+            [self doCancelBid];
+        }else{
+            
+        }
     
+    }else{
+        if (buttonIndex == 0){//修改房源
+            AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+            controller.backType = RTSelectorBackTypeDismiss;
+            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:nil];
+        }else if (buttonIndex == 1){//调整预算
+            PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
+            controller.proDic = [self.myArray objectAtIndex:selectedIndex];
+            controller.backType = RTSelectorBackTypeDismiss;
+            controller.delegateVC = self;
+            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:^{
+            }];
+        }else if (buttonIndex == 2){//手动暂停竞价
+            [self doStopBid];
+        }else{
+            
+        }
     }
+
 }
 
 #pragma mark -- PrivateMethod

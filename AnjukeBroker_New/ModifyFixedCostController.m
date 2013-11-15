@@ -45,7 +45,7 @@
     [content addSubview:per];
     self.totalCost = [[UITextField alloc] initWithFrame:CGRectMake(50, 0, 200, 40)];
     self.totalCost.borderStyle = UITextBorderStyleNone;
-    self.totalCost.text = [NSString stringWithFormat:@"%d", [self.fixedObject.topCost intValue]/100];
+    self.totalCost.text = self.fixedObject.topCost;
 //    totalCost.keyboardType = UIKeyboardTypeNumberPad;
     [self.totalCost becomeFirstResponder];
     [content addSubview:self.totalCost];
@@ -59,7 +59,7 @@
     if(![self isNetworkOkay]){
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.fixedObject.fixedId, @"planId", [NSString stringWithFormat:@"%d",[self.totalCost.text intValue]*100], @"ceiling", self.fixedObject.planName, @"planname", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.fixedObject.fixedId, @"planId", [NSString stringWithFormat:@"%@", self.totalCost.text], @"ceiling", self.fixedObject.planName, @"planName", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/updateplanceiling/" params:params target:self action:@selector(onModifySuccess:)];
     [self showLoadingActivity:YES];
 }

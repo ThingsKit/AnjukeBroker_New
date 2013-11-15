@@ -8,7 +8,8 @@
 
 #import "RTViewController.h"
 #import "BaseNoPlanController.h"
+#import "FixedObject.h"
 
 @interface SaleSelectNoPlanController : BaseNoPlanController
-
+@property (strong, nonatomic) FixedObject *fixedObj;
 @end

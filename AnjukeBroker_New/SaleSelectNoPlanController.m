@@ -7,14 +7,18 @@
 //
 
 #import "SaleSelectNoPlanController.h"
+#import "SaleFixedDetailController.h"
 #import "BaseNoPlanListCell.h"
 #import "SaleNoPlanListCell.h"
+#import "SaleNoPlanListManager.h"
+#import "LoginManager.h"
 
 @interface SaleSelectNoPlanController ()
 
 @end
 
 @implementation SaleSelectNoPlanController
+@synthesize fixedObj;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,6 +43,97 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self doRequest];
+}
+#pragma mark - Request 未推广列表
+-(void)doRequest{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/noplanprops/" params:params target:self action:@selector(onGetSuccess:)];
+    [self showLoadingActivity:YES];
+}
+- (void)onGetSuccess:(RTNetworkResponse *)response {
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
+    DLog(@"------response [%@]", [response content]);
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    if([resultFromAPI count] ==  0){
+        [self hideLoadWithAnimated:YES];
+        return ;
+    }
+    if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self.myArray removeAllObjects];
+        [self.myTable reloadData];
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
+    
+    NSMutableArray *result = [SaleNoPlanListManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"propertyList"]];
+    [self.myArray removeAllObjects];
+    [self.myArray addObjectsFromArray:result];
+    [self.myTable reloadData];
+    [self hideLoadWithAnimated:YES];
+}
+#pragma mark - Request 定价推广
+-(void)doFixed{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    //    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  @"187275101", @"proIds", @"388666", @"planId", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  [self getStringFromArray:self.selectedArray], @"propIds", self.fixedObj.fixedId, @"planId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/addpropstoplan/" params:params target:self action:@selector(onFixedSuccess:)];
+    [self showLoadingActivity:YES];
+}
+
+- (void)onFixedSuccess:(RTNetworkResponse *)response {
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
+    [self hideLoadWithAnimated:YES];
+    DLog(@"------response [%@]", [response content]);
+    
+    SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
+    controller.backType = RTSelectorBackTypePopToRoot;
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:self.fixedObj.fixedId  forKey:@"fixPlanId"];
+    controller.tempDic = dic;
+    [self.navigationController pushViewController:controller animated:YES];
+}
+
+-(NSString *)getStringFromArray:(NSArray *) array{
+    NSMutableString *tempStr = [NSMutableString string];
+    for (int i=0;i<[array count];i++) {
+        SalePropertyObject *pro = (SalePropertyObject *)[array objectAtIndex:i];
+        if(tempStr.length == 0){
+            [tempStr appendString:[NSString stringWithFormat:@"%@",pro.propertyId]];
+        }else{
+            [tempStr appendString:@","];
+            [tempStr appendString:[NSString stringWithFormat:@"%@",pro.propertyId]];
+        }
+    }
+    
+    DLog(@"====%@",tempStr);
+    return tempStr;
+}
 
 #pragma mark - tableView Delegate
 
@@ -51,7 +146,7 @@
         cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
     }
     
-    [cell configureCell:nil withIndex:indexPath.row];
+    [cell configureCell:[self.myArray objectAtIndex:indexPath.row] withIndex:indexPath.row];
     
     if([self.selectedArray containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
         cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_selected@2x.png"];
@@ -78,8 +173,9 @@
 
 #pragma mark - PrivateMethod
 -(void)rightButtonAction:(id)sender{
+    [self doFixed];
 //    [self.navigationController popViewControllerAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)clickButton:(id) sender{

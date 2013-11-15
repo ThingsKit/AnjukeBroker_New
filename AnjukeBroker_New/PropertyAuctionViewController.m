@@ -32,6 +32,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+            [self initModel_];
         // Custom initialization
     }
     return self;
@@ -41,7 +42,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
+
     [self setTitleViewWithString:@"设置竞价"];
 }
 
@@ -53,7 +54,7 @@
 
 #pragma mark - private method
 
-- (void)initModel {
+- (void)initModel_ {
     self.proDic = [[NSDictionary alloc] init];
 }
 
@@ -133,11 +134,13 @@
         case 0:
         {
             self.textField_1 = cellTextField;
+            self.textField_1.text = [self.proDic objectForKey:@"budget"];
         }
             break;
         case 1:
         {
             self.textField_2 = cellTextField;
+            self.textField_2.text = [self.proDic objectForKey:@"offer"];
         }
             break;
             
@@ -151,6 +154,32 @@
     
 }
 #pragma mark - 设置竞价额度    未调通
+-(void)doResetBid{
+    if(![self isNetworkOkay]){
+        return;
+    }
+//    NSString *tempstr = [NSString stringWithFormat:@"%@",[self.proDic objectForKey:@"propId"]];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.proDic objectForKey:@"id"], @"propId", self.textField_1.text, @"budget", self.textField_2.text, @"offer", nil];
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/editplan/" params:params target:self action:@selector(onBidResetSuccess:)];
+    [self showLoadingActivity:YES];
+}
+
+- (void)onBidResetSuccess:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"竞价失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
+    
+    [self hideLoadWithAnimated:YES];
+    [self doSure];
+}
+#pragma mark - 设置竞价额度
 -(void)doRequest{
     if(![self isNetworkOkay]){
         return;
@@ -181,7 +210,7 @@
         return;
     }
     
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerid", [LoginManager getCity_id], @"city_id", [self.proDic objectForKey:@"id"], @"proid", [self.proDic objectForKey:@"commId"], @"comm_id", @"desire", @"act", self.textField_2.text, @"offer", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"city_id", [self.proDic objectForKey:@"id"], @"proid", [self.proDic objectForKey:@"commId"], @"commId", @"desire", @"act", self.textField_2.text, @"offer", nil];
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/getrank/" params:params target:self action:@selector(onCheckSuccess:)];
     [self showLoadingActivity:YES];
@@ -214,9 +243,41 @@
     self.rangLabel.alpha = 1;
     [UIView commitAnimations];
 }
-
+#pragma mark - 重新开始竞价推广
+-(void)doRestartBid{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.proDic objectForKey:@"id"], @"propId", self.textField_1.text, @"budget", self.textField_2.text, @"offer", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/spreadstart/" params:params target:self action:@selector(onRestartSuccess:)];
+    [self showLoadingActivity:YES];
+}
+- (void)onRestartSuccess:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
+    
+    //    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    
+    [self hideLoadWithAnimated:YES];
+    [self doSure];
+}
 - (void)rightButtonAction:(id)sender {
-    [self doRequest];
+    if([self.delegateVC isKindOfClass:[SaleBidDetailController class]]){
+        if([[self.proDic objectForKey:@"bidStatus"] isEqualToString:@"3"]){//当竞价为手动暂停状态时可重新参与竞价
+            [self doRestartBid];
+            return ;
+        }
+        [self doResetBid];//修改竞价出价及额度
+    }else
+    [self doRequest];//定价组房源参与竞价
+    
 }
 
 - (void)doSure {

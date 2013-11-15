@@ -73,16 +73,23 @@
     string.text = [dic objectForKey:@"string"];
     stringNum.text = [dic objectForKey:@"stringNum"];
 }
+
 -(void)setValueForCellByDataModel:(id) dataModel{
     if([dataModel isKindOfClass:[NSDictionary class]]){
-        NSDictionary *dic = (NSDictionary *)dataModel;
-        NSDictionary *propInfo = [dic objectForKey:@"propInfo"];
-        title.text = [propInfo objectForKey:@"propTitle"];
-        price.text = [NSString stringWithFormat:@"%@ %@平 %@元", [propInfo objectForKey:@"propModel"], [propInfo objectForKey:@"propArea"], [propInfo objectForKey:@"propPrice"]];
-        stringNum.text = [NSString stringWithFormat:@"   %@                  %@              %@             %@", [dic objectForKey:@"index"], @"缺失", @"缺失", [dic objectForKey:@"balance"]];
-        stage.text = [dic objectForKey:@"index"];
+        NSDictionary *propInfo = (NSDictionary *)dataModel;
+        title.text = [propInfo objectForKey:@"title"];
+        price.text = [NSString stringWithFormat:@"%@室%@厅%@卫 %@平 %@%@", [propInfo objectForKey:@"roomNum"], [propInfo objectForKey:@"hallNum"], [propInfo objectForKey:@"toiletNum"], [propInfo objectForKey:@"area"], [propInfo objectForKey:@"price"], [propInfo objectForKey:@"priceUnit"]];
+        stringNum.text = [NSString stringWithFormat:@"   %@                  %@              %@             %@", [propInfo objectForKey:@"index"], [propInfo objectForKey:@"clickNum"], [propInfo objectForKey:@"offer"], [self getBudget:propInfo]];
+        DLog(@"===%@",[propInfo objectForKey:@"budget"])
+        stage.text = [propInfo objectForKey:@"index"];
     }
-    
+}
+
+-(NSString *)getBudget:(NSDictionary *) dic{
+    if([[dic objectForKey:@"bidStatus"] isEqualToString:@"3"]){
+    return @"0";
+    }
+    return [dic objectForKey:@"budget"];
 }
 /*
 // Only override drawRect: if you perform custom drawing.
