@@ -236,6 +236,10 @@
         [self showLoadingActivity:YES];
     }
     
+    if (self.isHaozu) {
+        return; //test，暂无请求
+    }
+    
     //test
     //上传图片给UFS服务器
     NSString *photoUrl = [[self.imgArray objectAtIndex:self.uploadImgIndex] photoURL];
@@ -285,10 +289,21 @@
     self.property.imageJson = [self getImageJson];
     [self setTextFieldForProperty];
     
+    
     params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerid",[LoginManager getCity_id], @"city_id", self.property.comm_id, @"comm_id", self.property.rooms, @"rooms", self.property.area, @"area", self.property.price, @"price", self.property.fitment, @"fitment", self.property.exposure, @"exposure", self.property.floor, @"floor", self.property.title, @"title", self.property.desc, @"description", self.property.imageJson, @"imageJson", nil];
     method = @"anjuke/prop/publish/";
     
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUploadPropertyFinished:)];
+    if (self.isHaozu) {
+        [params setObject:self.property.rentType forKey:@"rent_type"];
+        method = @"";
+    }
+    
+    if (self.isHaozu) {
+//        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUploadPropertyFinished:)];
+    }
+    else {
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUploadPropertyFinished:)];
+    }
 }
 
 - (void)onUploadPropertyFinished:(RTNetworkResponse *)response {
@@ -353,38 +368,77 @@
 //    DLog(@"string-[%@]", string);
     
     //顺便写入传参数值。。。以后优化代码
-    switch (self.selectedRow) { //二手房
-        case AJK_P_ROOMS: //户型
-        {
-            [idStr appendString:strValue1];
-            [idStr appendString:[NSString stringWithFormat:@",%@", strValue2]];
-            [idStr appendString:[NSString stringWithFormat:@",%@", strValue3]];
-            self.property.rooms = idStr;
+    if (self.isHaozu) {
+        switch (self.selectedRow) { //二手房
+            case HZ_P_ROOMS: //户型
+            {
+                [idStr appendString:strValue1];
+                [idStr appendString:[NSString stringWithFormat:@",%@", strValue2]];
+                [idStr appendString:[NSString stringWithFormat:@",%@", strValue3]];
+                self.property.rooms = idStr;
+            }
+                break;
+            case HZ_P_FITMENT: //装修
+            {
+                [idStr appendString:strValue1];
+                self.property.fitment = idStr;
+            }
+                break;
+            case HZ_P_RENTTYPE: //出租方式
+            {
+                [idStr appendString:strValue1];
+                self.property.rentType = idStr;
+            }
+                break;
+            case HZ_P_EXPOSURE: //朝向
+            {
+                [idStr appendString:strValue1];
+                self.property.exposure = idStr;
+            }
+                break;
+            case HZ_P_FLOORS: //楼层
+            {
+                [idStr appendString:strValue1];
+                [idStr appendString:[NSString stringWithFormat:@",%@", strValue2]];
+                self.property.floor = idStr;
+            }
+                break;
+            default:
+                break;
         }
-            break;
-        case AJK_P_FITMENT: //装修
-        {
-            [idStr appendString:strValue1];
-            self.property.fitment = idStr;
+    }
+    else {
+        switch (self.selectedRow) { //二手房
+            case AJK_P_ROOMS: //户型
+            {
+                [idStr appendString:strValue1];
+                [idStr appendString:[NSString stringWithFormat:@",%@", strValue2]];
+                [idStr appendString:[NSString stringWithFormat:@",%@", strValue3]];
+                self.property.rooms = idStr;
+            }
+                break;
+            case AJK_P_FITMENT: //装修
+            {
+                [idStr appendString:strValue1];
+                self.property.fitment = idStr;
+            }
+                break;
+            case AJK_P_EXPOSURE: //朝向
+            {
+                [idStr appendString:strValue1];
+                self.property.exposure = idStr;
+            }
+                break;
+            case AJK_P_FLOORS: //楼层
+            {
+                [idStr appendString:strValue1];
+                [idStr appendString:[NSString stringWithFormat:@",%@", strValue2]];
+                self.property.floor = idStr;
+            }
+                break;
+            default:
+                break;
         }
-            break;
-        case AJK_P_EXPOSURE: //朝向
-        {
-            [idStr appendString:strValue1];
-            self.property.exposure = idStr;
-        }
-            break;
-        case AJK_P_FLOORS: //楼层
-        {
-            [idStr appendString:strValue1];
-            [idStr appendString:[NSString stringWithFormat:@",%@", strValue2]];
-            self.property.floor = idStr;
-        }
-            break;
-            
-        default:
-            break;
-            
     }
     
     DLog(@"id string-[%@]", idStr);
@@ -401,27 +455,36 @@
 
 - (NSString *)getImageJson {
     NSMutableArray *arr = [NSMutableArray array];
-    
     for (int i = 0; i < self.imgArray.count; i ++) {
         NSDictionary *dic = [NSDictionary dictionaryWithDictionary:[(E_Photo *)[self.imgArray objectAtIndex:i] imageDic]];
         [arr addObject:dic];
     }
-    
     NSString *str = [arr JSONRepresentation];
-    DLog(@"image json [%@]", str);
-    
+//    DLog(@"image json [%@]", str);
     return str;
 }
 
 //将输入框内内容赋值到property中
 - (void)setTextFieldForProperty {
-    self.property.area = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_AREA] text_Field] text];
-    
-    NSInteger price = [[[[[self.dataSource cellArray] objectAtIndex:AJK_T_PRICE] text_Field] text] intValue] * 10000;
-    self.property.price = [NSString stringWithFormat:@"%d", price];
-    
-    self.property.title = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_TITLE] text_Field] text];
-    self.property.desc = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_DESC] text_Field] text];
+    if (self.isHaozu) {
+        self.property.area = [[[[self.dataSource cellArray] objectAtIndex:HZ_T_AREA] text_Field] text];
+        
+        NSInteger price = [[[[[self.dataSource cellArray] objectAtIndex:HZ_T_PRICE] text_Field] text] intValue];
+        self.property.price = [NSString stringWithFormat:@"%d", price];
+        
+        self.property.title = [[[[self.dataSource cellArray] objectAtIndex:HZ_T_TITLE] text_Field] text];
+        self.property.desc = [[[[self.dataSource cellArray] objectAtIndex:HZ_T_DESC] text_Field] text];
+
+    }
+    else {
+        self.property.area = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_AREA] text_Field] text];
+        
+        NSInteger price = [[[[[self.dataSource cellArray] objectAtIndex:AJK_T_PRICE] text_Field] text] intValue] * 10000;
+        self.property.price = [NSString stringWithFormat:@"%d", price];
+        
+        self.property.title = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_TITLE] text_Field] text];
+        self.property.desc = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_DESC] text_Field] text];
+    }
 }
 
 #pragma mark - Photo ScrollView && ImagePickerOverLay method
