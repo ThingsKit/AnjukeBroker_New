@@ -11,5 +11,6 @@
 @interface PropertyGroupListViewController : RTViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property BOOL isBid; //是否竞价
+@property (nonatomic, copy) NSString *propertyID;
 
 @end

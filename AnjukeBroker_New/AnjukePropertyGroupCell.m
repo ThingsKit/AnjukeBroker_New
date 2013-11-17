@@ -71,20 +71,28 @@
 */
 
 - (BOOL)configureCell:(id)dataModel {
-//    if (![dataModel isKindOfClass:[NSDictionary class]]) {
-//        return NO;
-//    }
-//    
-//    NSDictionary *dic = nil;
-//    if (dataModel != nil) {
-//        dic = (NSDictionary *)dataModel;
-//    }
+    if (![dataModel isKindOfClass:[NSDictionary class]]) {
+        return NO;
+    }
+    
+    NSDictionary *dic = nil;
+    if (dataModel != nil) {
+        dic = (NSDictionary *)dataModel;
+    }
     
     //test
-    self.groupNameLb.text = @"定价组1（20）";
-    self.limitPriceLb.text = @"房源数:20套    每日限额30元";
+    self.groupNameLb.text = [dic objectForKey:@"fixPlanName"];
     
-    self.statusIcon.image = STATUS_OK_ICON;
+    int ceilNum = [[dic objectForKey:@"fixPlanPropCeiling"] intValue] / 100;
+    
+    self.limitPriceLb.text = [NSString stringWithFormat:@"房源数:%@套    每日限额%d元", [dic objectForKey:@"fixPlanPropNum"], ceilNum];
+    
+    if ([[dic objectForKey:@"fixPlanState"] isEqualToString:@"1"]) {
+        self.statusIcon.image = STATUS_OK_ICON;
+    }
+    else {
+        self.statusIcon.image = STATUS_STOP_ICON;
+    }
     
     return YES;
 }

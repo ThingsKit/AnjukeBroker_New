@@ -38,6 +38,12 @@
 #define PhotoImg_Gap 10
 #define PhotoImg_MAX_COUNT 8 //最多上传照片数
 
+typedef enum {
+    Property_DJ = 0, //发房_定价
+    Property_JJ, //发房_竞价
+    Property_WTG //为推广
+}PropertyUploadType;
+
 @interface AnjukeEditPropertyViewController ()
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) UITableView *tvList;
@@ -61,6 +67,7 @@
 @property int uploadImgIndex; //上传图片的顺序，每上传一张此index+1
 
 @property (nonatomic, strong) Property *property;
+@property (nonatomic, assign) PropertyUploadType uploadType;
 
 @end
 
@@ -78,6 +85,7 @@
 @synthesize uploadImgIndex;
 @synthesize property;
 @synthesize isHaozu;
+@synthesize uploadType;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -226,9 +234,6 @@
     if (self.imgArray.count == 0) {
         [self hideLoadWithAnimated:YES];
         
-        //test 无图可上传
-        [self uploadProperty];
-        
         return; //没有上传图片
     }
     
@@ -294,7 +299,7 @@
     method = @"anjuke/prop/publish/";
     
     if (self.isHaozu) {
-        [params setObject:self.property.rentType forKey:@"rent_type"];
+        [params setObject:self.property.rentType forKey:@"shareRent"]; //租房新增出租方式
         method = @"";
     }
     
@@ -317,6 +322,11 @@
         [alert show];
         return;
     }
+    
+    //保存房源id
+    NSString *propertyID = [[[response content] objectForKey:@"data"] objectForKey:@"id"];
+    
+    [self doPushPropertyID:propertyID];
 }
 
 #pragma mark - Private Method
@@ -487,6 +497,38 @@
     }
 }
 
+- (void)doPushPropertyID:(NSString *)propertyID {
+    //do push
+    switch (self.uploadType) {
+        case Property_DJ:
+        {
+            PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
+            pv.propertyID = [NSString stringWithFormat:@"%@", propertyID];
+            [self.navigationController pushViewController:pv animated:YES];
+            
+        }
+            break;
+        case Property_JJ:
+        {
+            PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
+            pv.propertyID = [NSString stringWithFormat:@"%@", propertyID];
+            pv.isBid = YES;
+            [self.navigationController pushViewController:pv animated:YES];
+            
+        }
+            break;
+            
+        case Property_WTG: {
+            //为推广，直接去到房源结果页
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 #pragma mark - Photo ScrollView && ImagePickerOverLay method
 
 //得到需要在第几个预览图显示
@@ -584,10 +626,6 @@
 }
 
 - (void)doSave {
-    //test upload img
-    [self uploadPhoto];
-//    [self uploadProperty];
-    
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"定价且竞价推广", @"暂不推广", nil];
     sheet.tag = TagOfActionSheet_Save;
     [sheet showInView:self.view];
@@ -808,20 +846,26 @@
         switch (buttonIndex) {
             case 0: //定价
             {
-                PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
-                [self.navigationController pushViewController:pv animated:YES];
+                self.uploadType = Property_DJ;
+                
+                //test upload img
+                [self uploadPhoto];
             }
                 break;
             case 1: //定价+竞价
             {
-                PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
-                pv.isBid = YES;
-                [self.navigationController pushViewController:pv animated:YES];
+                self.uploadType = Property_JJ;
+                
+                //test upload img
+                [self uploadPhoto];
             }
                 break;
             case 2: //暂不推广
             {
+                self.uploadType = Property_WTG;
                 
+                //test upload img
+                [self uploadPhoto];
             }
                 break;
                 
