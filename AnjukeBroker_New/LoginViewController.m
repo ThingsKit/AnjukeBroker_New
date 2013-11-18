@@ -128,8 +128,20 @@
 #pragma mark - request method
 
 - (void)doRequest {
-    NSString *s1 = @"ajk_sh";//@"18616099353";//@"shtest";
-    NSString *s2 = @"anjukeqa";//@"mobile123456";//@"anjukeqa";
+    NSString *s1 = self.nameTF.text; //@"ajk_sh";//@"18616099353";//@"shtest";
+    NSString *s2 = self.passwordTF.text; //@"anjukeqa";//@"mobile123456";//@"anjukeqa";
+    
+    if (s1.length == 0) {
+        [self showInfo:@"请输入用户名好伐，谢谢"];
+        return;
+    }
+    else if (s2.length == 0) {
+        [self showInfo:@"请输入密码!谢谢你一家门!"];
+        return;
+    }
+    
+    [self showLoadingActivity:YES];
+    
     //test
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:s1, @"username", s2, @"password", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"login/" params:params target:self action:@selector(onGetLogin:)];
@@ -145,6 +157,9 @@
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
+        
+        [self hideLoadWithAnimated:YES];
+        
         return;
     }
     
@@ -166,6 +181,8 @@
     [[NSUserDefaults standardUserDefaults] setValue:[resultFromAPI objectForKey:@"token"] forKey:@"token"]; //**token
 
     [self pushToTab];
+    
+    [self hideLoadWithAnimated:YES];
 }
 
 @end

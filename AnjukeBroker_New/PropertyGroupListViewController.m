@@ -122,7 +122,6 @@
         //        [self.navigationController popToRootViewControllerAnimated:YES];
         [self dismissViewControllerAnimated:YES completion:nil];
     }
-    
 }
 
 #pragma mark - tableView Datasource
