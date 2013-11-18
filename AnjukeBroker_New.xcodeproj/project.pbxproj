@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9704A4D0183A0FC300CA67BD /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9704A4CE183A0FC300CA67BD /* icon@2x.png */; };
+		9704A4D1183A0FC300CA67BD /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9704A4CF183A0FC300CA67BD /* icon.png */; };
+		9704A4D3183A102E00CA67BD /* icon_80.png in Resources */ = {isa = PBXBuildFile; fileRef = 9704A4D2183A102E00CA67BD /* icon_80.png */; };
+		9704A4D5183A105400CA67BD /* icon_58.png in Resources */ = {isa = PBXBuildFile; fileRef = 9704A4D4183A105400CA67BD /* icon_58.png */; };
 		970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */ = {isa = PBXBuildFile; fileRef = 970B78DB182010EE00C8E3C6 /* Util_UI.m */; };
 		97192EE71818FEF7007971BA /* PhotoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 97192EE61818FEF7007971BA /* PhotoButton.m */; };
 		972C101A1814D4FF00552C9B /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972C10191814D4FF00552C9B /* TencentOpenAPI.framework */; };
@@ -175,6 +179,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9704A4CE183A0FC300CA67BD /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		9704A4CF183A0FC300CA67BD /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		9704A4D2183A102E00CA67BD /* icon_80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_80.png; sourceTree = "<group>"; };
+		9704A4D4183A105400CA67BD /* icon_58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_58.png; sourceTree = "<group>"; };
 		970B78DA182010EE00C8E3C6 /* Util_UI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util_UI.h; sourceTree = "<group>"; };
 		970B78DB182010EE00C8E3C6 /* Util_UI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util_UI.m; sourceTree = "<group>"; };
 		97192EE51818FEF7007971BA /* PhotoButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoButton.h; sourceTree = "<group>"; };
@@ -530,6 +538,10 @@
 				97FA369E182F30E500EF714D /* Plist */,
 				972C10351815053100552C9B /* Images */,
 				97410569180CDFE0004DAE95 /* Images.xcassets */,
+				9704A4D4183A105400CA67BD /* icon_58.png */,
+				9704A4D2183A102E00CA67BD /* icon_80.png */,
+				9704A4CE183A0FC300CA67BD /* icon@2x.png */,
+				9704A4CF183A0FC300CA67BD /* icon.png */,
 				97410566180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld */,
 			);
 			name = Resources;
@@ -1158,6 +1170,7 @@
 				97D752CB182C92690035577F /* anjuke_icon_takephoto@2x.png in Resources */,
 				9795837A18224ABF005EA48A /* TabAnjuke_normal@2x.png in Resources */,
 				9795837C18224ABF005EA48A /* TabHaozu_normal@2x.png in Resources */,
+				9704A4D5183A105400CA67BD /* icon_58.png in Resources */,
 				973727AF182FD2CE007D8501 /* PropertyDirection.plist in Resources */,
 				9795838E18225B93005EA48A /* anjuke_icon05_photo@2x.png in Resources */,
 				9741055F180CDFE0004DAE95 /* InfoPlist.strings in Resources */,
@@ -1165,11 +1178,14 @@
 				9741056A180CDFE0004DAE95 /* Images.xcassets in Resources */,
 				B7E38A01182238CF002C6E8A /* anjuke_icon06_selected@2x.png in Resources */,
 				B7E38A00182238CF002C6E8A /* anjuke_icon06_select@2x.png in Resources */,
+				9704A4D0183A0FC300CA67BD /* icon@2x.png in Resources */,
 				97F43CE61835F56300B8813C /* PropertyRentTypeList.plist in Resources */,
 				B7E38A0A18225FEC002C6E8A /* anjuke_icon07_arrow@2x.png in Resources */,
 				97D752C9182C92690035577F /* Overlay@2x.png in Resources */,
+				9704A4D1183A0FC300CA67BD /* icon.png in Resources */,
 				97DED8A7182343E500D0B82A /* anjuke_icon08_attention@2x.png in Resources */,
 				9795837E18224ABF005EA48A /* TabHome_normal@2x.png in Resources */,
+				9704A4D3183A102E00CA67BD /* icon_80.png in Resources */,
 				973727AD182FD1C8007D8501 /* PropertyFitment.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
