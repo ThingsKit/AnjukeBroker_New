@@ -81,6 +81,7 @@
 -(void)dealloc{
     self.myTable.delegate = nil;
 }
+
 #pragma mark - 请求定价组详情
 -(void)doRequest{
     if(![self isNetworkOkay]){
