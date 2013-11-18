@@ -1420,7 +1420,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "77DECEE6-E3E4-4429-B986-DD6AC8948F9C";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../RTNetwork/** $(PROJECT_DIR)/../RTApiProxy/** $(PROJECT_DIR)/../RTCoreService/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1433,7 +1433,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Ruiting Network Technology (Shanghai) Co., Ltd.";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/../RTCoreService/RTCoreService/RT3rdSDK/TencentSDK",
@@ -1447,7 +1447,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "77DECEE6-E3E4-4429-B986-DD6AC8948F9C";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../RTNetwork/** $(PROJECT_DIR)/../RTApiProxy/** $(PROJECT_DIR)/../RTCoreService/**";
 				WRAPPER_EXTENSION = app;
 			};
