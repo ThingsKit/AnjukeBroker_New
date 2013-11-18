@@ -153,12 +153,12 @@
     
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
+        [self hideLoadWithAnimated:YES];
+        
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
-        
-        [self hideLoadWithAnimated:YES];
         
         return;
     }
@@ -166,6 +166,8 @@
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     
     if ([resultFromAPI count] == 0) {
+        [self hideLoadWithAnimated:YES];
+        
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:@"登录信息出错" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         return;

@@ -294,8 +294,7 @@ typedef enum {
     self.property.imageJson = [self getImageJson];
     [self setTextFieldForProperty];
     
-    
-    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerid",[LoginManager getCity_id], @"city_id", self.property.comm_id, @"comm_id", self.property.rooms, @"rooms", self.property.area, @"area", self.property.price, @"price", self.property.fitment, @"fitment", self.property.exposure, @"exposure", self.property.floor, @"floor", self.property.title, @"title", self.property.desc, @"description", self.property.imageJson, @"imageJson", nil];
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"cityId", self.property.comm_id, @"commId", self.property.rooms, @"rooms", self.property.area, @"area", self.property.price, @"price", self.property.fitment, @"fitment", self.property.exposure, @"exposure", self.property.floor, @"floor", self.property.title, @"title", self.property.desc, @"description", self.property.imageJson, @"imageJson", nil];
     method = @"anjuke/prop/publish/";
     
     if (self.isHaozu) {
@@ -484,7 +483,7 @@ typedef enum {
         
         self.property.title = [[[[self.dataSource cellArray] objectAtIndex:HZ_T_TITLE] text_Field] text];
         self.property.desc = [[[[self.dataSource cellArray] objectAtIndex:HZ_T_DESC] text_Field] text];
-
+        
     }
     else {
         self.property.area = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_AREA] text_Field] text];
