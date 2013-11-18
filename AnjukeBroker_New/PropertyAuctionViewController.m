@@ -203,7 +203,7 @@
         [self hideLoadWithAnimated:YES];
         return;
     }
-    
+    self.textField_2.text = [[response content] objectForKey:@"data"];
     [self hideLoadWithAnimated:YES];
     [self doSure];
 }
@@ -246,7 +246,7 @@
 }
 
 - (void)onCheckSuccess:(RTNetworkResponse *)response {
-    
+    DLog(@"------response [%@]", [response content]);
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
@@ -254,8 +254,7 @@
         [self hideLoadWithAnimated:YES];
         return;
     }
-    DLog(@"------response [%@]", [response content]);
-    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[response content]];
     if([resultFromAPI count] == 0){
         [self hideLoadWithAnimated:YES];
         return ;
@@ -264,7 +263,7 @@
 
     self.rangLabel.alpha = 0.0;
     //test
-    self.rangLabel.text = [NSString stringWithFormat:@"预估排名:第%@名",[resultFromAPI objectForKey:@"rank"]];
+    self.rangLabel.text = [NSString stringWithFormat:@"预估排名:第%@名",[resultFromAPI objectForKey:@"data"]];
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:.3];

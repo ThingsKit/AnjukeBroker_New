@@ -162,12 +162,12 @@
     if(![self isNetworkOkay]){
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self getStringFromArray:self.selectedArray], @"proids", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self getStringFromArray:self.selectedArray], @"propIds", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/delprops/" params:params target:self action:@selector(onDeleteSuccess:)];
     [self showLoadingActivity:YES];
 }
 - (void)onDeleteSuccess:(RTNetworkResponse *)response {
-    
+        DLog(@"------response [%@]", [response content]);
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         
@@ -176,7 +176,6 @@
         [self hideLoadWithAnimated:YES];
         return;
     }
-    DLog(@"------response [%@]", [response content]);
 
     [self hideLoadWithAnimated:YES];
     [self doRequest];
