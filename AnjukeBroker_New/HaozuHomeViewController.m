@@ -110,41 +110,6 @@
     return cell;
 }
 
-//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-//    UIView *content = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-//    content.backgroundColor = [UIColor lightGrayColor];
-//    
-//    UILabel *headerLab = [[UILabel alloc] initWithFrame:CGRectMake(30, 10, 50, 20)];
-//    headerLab.backgroundColor = [UIColor clearColor];
-//    headerLab.text = @"10";
-//    [content addSubview:headerLab];
-//    
-//    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(20, 45, 320, 20)];
-//    headerLab.text = @"在线房源";
-//    [content addSubview:headerLab];
-//    
-//    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(130, 10, 50, 20)];
-//    headerLab.text = @"100";
-//    [content addSubview:headerLab];
-//    
-//    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(120, 45, 320, 20)];
-//    headerLab.text = @"今日已点击";
-//    [content addSubview:headerLab];
-//    
-//    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(230, 10, 50, 20)];
-//    headerLab.text = @"99.0";
-//    [content addSubview:headerLab];
-//    
-//    headerLab = [[UILabel alloc] initWithFrame:CGRectMake(220, 45, 320, 20)];
-//    headerLab.text = @"今日花费(元)";
-//    [content addSubview:headerLab];
-//    
-//    return content;
-//}
-//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-//    return 100;
-//}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

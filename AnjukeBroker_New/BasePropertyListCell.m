@@ -16,18 +16,18 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        tapNum = [[UILabel alloc] initWithFrame:CGRectMake(200, 40, 100, 20)];
+        tapNum = [[UILabel alloc] initWithFrame:CGRectMake(210, 25, 100, 20)];
         tapNum.backgroundColor = [UIColor clearColor];
         tapNum.textColor = [Util_UI colorWithHexString:@"#666666"];
         tapNum.font = [UIFont systemFontOfSize:12];
-        tapNum.text = @"点击：50";
+//        tapNum.text = @"点击：50";
         [self.contentView addSubview:tapNum];
         
-        tapNumStr = [[UILabel alloc] initWithFrame:CGRectMake(220, 45, 320, 20)];
+        tapNumStr = [[UILabel alloc] initWithFrame:CGRectMake(180, 25, 40, 20)];
         tapNumStr.backgroundColor = [UIColor clearColor];
         tapNumStr.font = [UIFont systemFontOfSize:12];
-        tapNumStr.text = @"今日点击";
-//        [self.contentView addSubview:tapNumStr];
+        tapNumStr.text = @"点击:";
+        [self.contentView addSubview:tapNumStr];
         
         title = [[UILabel alloc] initWithFrame:CGRectMake(27, 10, 250, 20)];
         title.text = @"最好的房子";
