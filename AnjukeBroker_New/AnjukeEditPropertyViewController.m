@@ -234,6 +234,8 @@ typedef enum {
     if (self.imgArray.count == 0) {
         [self hideLoadWithAnimated:YES];
         
+        [self uploadProperty]; //......
+        
         [self showInfo:@"请选择房源图片，谢谢"];
         return; //没有上传图片
     }
