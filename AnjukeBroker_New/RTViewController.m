@@ -18,6 +18,7 @@
 @synthesize backType;
 @synthesize isHome;
 @synthesize delegateVC;
+@synthesize isLoading;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -123,7 +124,9 @@
 }
 
 - (void)rightButtonAction:(id)sender {
-    
+    if (self.isLoading) {
+        return;
+    }
 }
 
 - (void)initModel {
