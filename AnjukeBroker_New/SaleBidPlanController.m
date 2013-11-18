@@ -83,6 +83,9 @@
 }
 
 -(void)rightButtonAction:(id)sender{
+    if(self.isLoading){
+        return ;
+    }
     for (UIViewController *tempController in self.navigationController.viewControllers) {
         if([tempController isKindOfClass:[SaleBidDetailController class]]){
         [self.navigationController popToViewController:tempController animated:YES];

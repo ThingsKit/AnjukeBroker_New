@@ -91,6 +91,9 @@
 }
 #pragma mark - PrivateMethod
 -(void)rightButtonAction:(id)sender{
+    if(self.isLoading){
+        return ;
+    }
     //    [self.navigationController popViewControllerAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
 }

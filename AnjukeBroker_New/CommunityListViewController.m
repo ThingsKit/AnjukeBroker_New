@@ -176,6 +176,7 @@
     
     if ([self isNetworkOkay]) {
         [self showLoadingActivity:YES];
+        self.isLoading = YES;
         
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onGetSearch:)];
     }
@@ -192,6 +193,8 @@
         [alert show];
         
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return;
     }
     
@@ -216,7 +219,9 @@
     }
     
     [self.tvList reloadData];
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
 }
 
 #pragma mark - TableView Delegate

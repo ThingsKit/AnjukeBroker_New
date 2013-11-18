@@ -168,6 +168,7 @@
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/editplan/" params:params target:self action:@selector(onBidResetSuccess:)];
     [self showLoadingActivity:YES];
+    self.isLoading = YES;
 }
 
 - (void)onBidResetSuccess:(RTNetworkResponse *)response {
@@ -177,10 +178,14 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"竞价失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return;
     }
     
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
     [self doSure];
 }
 #pragma mark - 获取竞价底价
@@ -192,6 +197,7 @@
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/minoffer/" params:params target:self action:@selector(onMinSuccess:)];
     [self showLoadingActivity:YES];
+    self.isLoading = YES;
 }
 
 - (void)onMinSuccess:(RTNetworkResponse *)response {
@@ -201,10 +207,14 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"获取底价失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return;
     }
     self.textField_2.text = [[response content] objectForKey:@"data"];
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
     [self doSure];
 }
 
@@ -217,6 +227,7 @@
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/addproptoplan/" params:params target:self action:@selector(onBidSuccess:)];
     [self showLoadingActivity:YES];
+    self.isLoading = YES;
 }
 
 - (void)onBidSuccess:(RTNetworkResponse *)response {
@@ -226,10 +237,14 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"竞价失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return;
     }
     
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
     [self doSure];
 }
 
@@ -243,6 +258,7 @@
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/getrank/" params:params target:self action:@selector(onCheckSuccess:)];
     [self showLoadingActivity:YES];
+    self.isLoading = YES;
 }
 
 - (void)onCheckSuccess:(RTNetworkResponse *)response {
@@ -252,14 +268,20 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return;
     }
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[response content]];
     if([resultFromAPI count] == 0){
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return ;
     }
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
 
     self.rangLabel.alpha = 0.0;
     //test
@@ -279,6 +301,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.proDic objectForKey:@"id"], @"propId", self.textField_1.text, @"budget", self.textField_2.text, @"offer", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/spreadstart/" params:params target:self action:@selector(onRestartSuccess:)];
     [self showLoadingActivity:YES];
+    self.isLoading = YES;
 }
 - (void)onRestartSuccess:(RTNetworkResponse *)response {
     DLog(@"------response [%@]", [response content]);
@@ -288,15 +311,22 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return;
     }
     
     //    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
     [self doSure];
 }
 - (void)rightButtonAction:(id)sender {
+    if(self.isLoading){
+        return ;
+    }
     if([self.delegateVC isKindOfClass:[SaleBidDetailController class]]){
         if([[self.proDic objectForKey:@"bidStatus"] isEqualToString:@"3"]){//当竞价为手动暂停状态时可重新参与竞价
             [self doRestartBid];

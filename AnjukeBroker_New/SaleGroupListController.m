@@ -62,6 +62,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  [self getStringFromArray:self.propertyArray], @"propIds", [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"fixPlanId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/addpropstoplan/" params:params target:self action:@selector(onFixedSuccess:)];
     [self showLoadingActivity:YES];
+    self.isLoading = YES;
 }
 
 - (void)onFixedSuccess:(RTNetworkResponse *)response {
@@ -72,9 +73,13 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return;
     }
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
     DLog(@"------response [%@]", [response content]);
 
     SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
@@ -108,6 +113,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/getplans/" params:params target:self action:@selector(onFixedGroupSuccess:)];
     [self showLoadingActivity:YES];
+    self.isLoading = YES;
 }
 
 - (void)onFixedGroupSuccess:(RTNetworkResponse *)response {
@@ -116,9 +122,13 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return;
     }
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
     DLog(@"------response [%@]", [response content]);
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     [self.myArray removeAllObjects];

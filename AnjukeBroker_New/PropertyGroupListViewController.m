@@ -70,6 +70,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/getplans/" params:params target:self action:@selector(getFixPlanFinished:)];
     [self showLoadingActivity:YES];
+    self.isLoading = YES;
 
 }
 
@@ -82,13 +83,17 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return;
     }
     
     self.groupArray = [[[response content] objectForKey:@"data"] objectForKey:@"planList"];
     [self.tvList reloadData];
     
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
 }
 
 -(void)addPropertyToPlanWithGroupID:(NSString *)groupID{
@@ -98,6 +103,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  self.propertyID, @"propIds", groupID, @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/addpropstoplan/" params:params target:self action:@selector(addToFixFinished:)];
     [self showLoadingActivity:YES];
+    self.isLoading = YES;
 }
 
 - (void)addToFixFinished:(RTNetworkResponse *)response {
@@ -109,10 +115,14 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return;
     }
     
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
     [self showInfo:@"房源加入定价组成功!"];
     
     if (self.isBid) { //去竞价页面

@@ -86,16 +86,21 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/bid/getplanprops/" params:params target:self action:@selector(onGetLogin:)];
     [self showLoadingActivity:YES];
+    self.isLoading = YES;
 }
+
 - (void)onGetLogin:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return;
     }
-    DLog(@"------response [%@]", [response content]);
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     
     if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
@@ -104,12 +109,16 @@
         [self.myArray removeAllObjects];
         [self.myTable reloadData];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return;
     }
     [self.myArray removeAllObjects];
     [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
     [self.myTable reloadData];
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
     
 }
 
@@ -170,6 +179,9 @@
 
 #pragma mark -- PrivateMethod
 -(void)rightButtonAction:(id)sender{
+    if(self.isLoading){
+        return ;
+    }
     SalePropertyListController *controller = [[SalePropertyListController alloc] init];
     controller.backType = RTSelectorBackTypeDismiss;
     RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];

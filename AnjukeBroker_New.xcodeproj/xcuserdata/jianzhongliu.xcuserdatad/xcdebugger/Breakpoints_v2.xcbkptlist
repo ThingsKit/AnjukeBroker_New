@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AnjukeBroker_New/RentBidDetailController.m"
-            timestampString = "406462464.623375"
+            filePath = "AnjukeBroker_New/RTViewController.m"
+            timestampString = "406463982.443559"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
-            landmarkName = "-doRequest"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "-rightButtonAction:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

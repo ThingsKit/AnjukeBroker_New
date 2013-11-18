@@ -90,6 +90,8 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", @"1", @"resType", [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/getplandetail/" params:params target:self action:@selector(onGetFixedInfo:)];
     [self showLoadingActivity:YES];
+    self.isLoading = YES;
+    self.isLoading = YES;
 }
 
 - (void)onGetFixedInfo:(RTNetworkResponse *)response {
@@ -98,6 +100,9 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
+        self.isLoading = NO;
         return;
     }
     DLog(@"------response [%@]", [response content]);
@@ -107,7 +112,10 @@
     [self.myArray addObject:[SaleFixedManager fixedPlanObjectFromDic:dicPlan]];
     [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
     [self.myTable reloadData];
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
+    self.isLoading = NO;
 }
 #pragma mark - 取消定价推广房源
 -(void)cancelFixedProperty{
@@ -117,6 +125,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"], @"propId", [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/cancelplan/" params:params target:self action:@selector(onCancelSuccess:)];
     [self showLoadingActivity:YES];
+    self.isLoading = YES;
 }
 
 - (void)onCancelSuccess:(RTNetworkResponse *)response {
@@ -125,11 +134,17 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
+        self.isLoading = NO;
         return;
     }
     DLog(@"------response [%@]", [response content]);
     [self reloadData];
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
+    self.isLoading = NO;
 }
 #pragma mark - 停止定价组计划推广
 -(void)cancelFixedGroup{
@@ -139,6 +154,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/spreadstop/" params:params target:self action:@selector(onCancelGroupSuccess:)];
     [self showLoadingActivity:YES];
+    self.isLoading = YES;
 }
 
 - (void)onCancelGroupSuccess:(RTNetworkResponse *)response {
@@ -147,11 +163,17 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
+        self.isLoading = NO;
         return;
     }
     DLog(@"------response [%@]", [response content]);
     [self reloadData];
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
+    self.isLoading = NO;
 }
 #pragma mark - 重新开始定价推广
 -(void)doRestart{
@@ -161,6 +183,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/spreadstart/" params:params target:self action:@selector(onRestartSuccess:)];
     [self showLoadingActivity:YES];
+    self.isLoading = YES;
 }
 
 - (void)onRestartSuccess:(RTNetworkResponse *)response {
@@ -169,11 +192,17 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
+        self.isLoading = NO;
         return;
     }
     DLog(@"------response [%@]", [response content]);
     [self reloadData];
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
+    self.isLoading = NO;
 }
 
 #pragma mark - RTPOPOVER Delegate
@@ -229,6 +258,10 @@
 
 #pragma mark -- privateMethod
 -(void)rightButtonAction:(id)sender{
+    if(self.isLoading){
+        return ;
+    }
+    
     //    if (self.popoverBG) {
     //        [self.popoverBG dismissPopoverAnimated:YES];
     //		self.popoverBG = nil;

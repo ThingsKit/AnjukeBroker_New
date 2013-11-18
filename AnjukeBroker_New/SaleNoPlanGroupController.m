@@ -125,6 +125,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/noplanprops/" params:params target:self action:@selector(onGetSuccess:)];
     [self showLoadingActivity:YES];
+    self.isLoading = YES;
 }
 - (void)onGetSuccess:(RTNetworkResponse *)response {
 
@@ -134,12 +135,16 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return;
     }
     DLog(@"------response [%@]", [response content]);
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     if([resultFromAPI count] ==  0){
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return ;
     }
     if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
@@ -148,6 +153,8 @@
         [self.myArray removeAllObjects];
         [self.myTable reloadData];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return;
     }
 
@@ -155,7 +162,9 @@
     [self.myArray removeAllObjects];
     [self.myArray addObjectsFromArray:result];
     [self.myTable reloadData];
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
 }
 #pragma mark - 批量删除房源
 -(void)doDeleteProperty{
@@ -165,6 +174,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self getStringFromArray:self.selectedArray], @"propIds", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/delprops/" params:params target:self action:@selector(onDeleteSuccess:)];
     [self showLoadingActivity:YES];
+    self.isLoading = YES;
 }
 - (void)onDeleteSuccess:(RTNetworkResponse *)response {
         DLog(@"------response [%@]", [response content]);
@@ -174,10 +184,14 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return;
     }
 
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
     [self doRequest];
 }
 -(NSString *)getStringFromArray:(NSArray *) array{
@@ -260,6 +274,9 @@
     [action showInView:self.view];
 }
 -(void)rightButtonAction:(id)sender{
+    if(self.isLoading){
+        return ;
+    }
     if (self.myArray.count == 0) { //未推广房源被清空后不可全选
         return;
     }

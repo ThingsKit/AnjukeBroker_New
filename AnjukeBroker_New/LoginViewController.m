@@ -141,7 +141,7 @@
     }
     
     [self showLoadingActivity:YES];
-    
+    self.isLoading = YES;
     //test
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:s1, @"username", s2, @"password", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"login/" params:params target:self action:@selector(onGetLogin:)];
@@ -154,6 +154,8 @@
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         
@@ -167,6 +169,8 @@
     
     if ([resultFromAPI count] == 0) {
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:@"登录信息出错" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
@@ -184,7 +188,9 @@
 
     [self pushToTab];
     
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
 }
 
 @end

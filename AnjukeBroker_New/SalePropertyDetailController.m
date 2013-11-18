@@ -78,6 +78,9 @@
 }
 #pragma mark -- privateMethod
 -(void)rightButtonAction:(id)sender{
+    if(self.isLoading){
+        return ;
+    }
     UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"取消定价推广", @"竞价推广本房源", nil];
     [action showInView:self.view];
     

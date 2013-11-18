@@ -220,11 +220,14 @@ typedef enum {
 - (void)uploadPhoto {
     if (![self isNetworkOkay]) {
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         return;
     }
     
     if (self.uploadImgIndex > self.imgArray.count - 1) {
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         DLog(@"图片上传完毕，开始发房");
         
         [self uploadProperty]; //开始上传房源
@@ -233,6 +236,8 @@ typedef enum {
         
     if (self.imgArray.count == 0) {
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         
         [self uploadProperty]; //......
         
@@ -242,6 +247,7 @@ typedef enum {
     
     if (self.uploadImgIndex == 0) { //第一张图片开始上传就显示黑框，之后不重复显示，上传流程结束后再消掉黑框
         [self showLoadingActivity:YES];
+        self.isLoading = YES;
     }
     
     //test
@@ -282,7 +288,9 @@ typedef enum {
     self.uploadImgIndex = 0;
     
     [self showInfo:@"图片上传失败，请重试"];
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
 }
 
 //发房

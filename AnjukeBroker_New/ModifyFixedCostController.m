@@ -62,6 +62,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.fixedObject.fixedId, @"planId", [NSString stringWithFormat:@"%@", self.totalCost.text], @"ceiling", self.fixedObject.planName, @"planName", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/updateplanceiling/" params:params target:self action:@selector(onModifySuccess:)];
     [self showLoadingActivity:YES];
+    self.isLoading = YES;
 }
 
 - (void)onModifySuccess:(RTNetworkResponse *)response {
@@ -70,9 +71,13 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"操作失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
         return;
     }
-    [self hideLoadWithAnimated:YES];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+
     NSLog(@"-...-----response [%@]", [response content]);
     [self dismissViewControllerAnimated:YES completion:nil];
 
@@ -86,6 +91,9 @@
 #pragma mark -- privateMethods
 
 - (void)rightButtonAction:(id)sender{
+    if(self.isLoading){
+        return ;
+    }
     [self modifyFixedProperty];
 //    [self.navigationController popViewControllerAnimated:YES];
 }
