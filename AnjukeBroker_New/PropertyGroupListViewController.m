@@ -10,6 +10,7 @@
 #import "AnjukePropertyGroupCell.h"
 #import "PropertyAuctionViewController.h"
 #import "LoginManager.h"
+#import "PropertyAuctionPublishViewController.h"
 
 @interface PropertyGroupListViewController ()
 @property (nonatomic, strong) UITableView *tvList;
@@ -21,6 +22,7 @@
 @synthesize groupArray;
 @synthesize isBid;
 @synthesize propertyID;
+@synthesize commID;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -114,7 +116,9 @@
     [self showInfo:@"房源加入定价组成功!"];
     
     if (self.isBid) { //去竞价页面
-        PropertyAuctionViewController *pa = [[PropertyAuctionViewController alloc] init];
+        PropertyAuctionPublishViewController *pa = [[PropertyAuctionPublishViewController alloc] init];
+        pa.propertyID = [NSString stringWithFormat:@"%@", self.propertyID];
+        pa.commID = [NSString stringWithFormat:@"%@", self.commID];
         [self.navigationController pushViewController:pa animated:YES];
     }
     else { //去定价房源列表页面-结果页

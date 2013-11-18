@@ -230,19 +230,16 @@ typedef enum {
         [self uploadProperty]; //开始上传房源
         return;
     }
-    
+        
     if (self.imgArray.count == 0) {
         [self hideLoadWithAnimated:YES];
         
+        [self showInfo:@"请选择房源图片，谢谢"];
         return; //没有上传图片
     }
     
     if (self.uploadImgIndex == 0) { //第一张图片开始上传就显示黑框，之后不重复显示，上传流程结束后再消掉黑框
         [self showLoadingActivity:YES];
-    }
-    
-    if (self.isHaozu) {
-        return; //test，暂无请求
     }
     
     //test
@@ -299,11 +296,11 @@ typedef enum {
     
     if (self.isHaozu) {
         [params setObject:self.property.rentType forKey:@"shareRent"]; //租房新增出租方式
-        method = @"";
+        method = @"zufang/prop/publish/";
     }
     
     if (self.isHaozu) {
-//        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUploadPropertyFinished:)];
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUploadPropertyHZFinished:)];
     }
     else {
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUploadPropertyFinished:)];
@@ -326,6 +323,28 @@ typedef enum {
     NSString *propertyID = [[[response content] objectForKey:@"data"] objectForKey:@"id"];
     
     [self doPushPropertyID:propertyID];
+}
+
+- (void)onUploadPropertyHZFinished:(RTNetworkResponse *)response {
+    DLog(@"--发房结束HZ。。。response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        [self hideLoadWithAnimated:YES];
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    //保存房源id for test 暂无法选定价竞价组
+//    NSString *propertyID = [[[response content] objectForKey:@"data"] objectForKey:@"id"];
+//    
+//    [self doPushPropertyID:propertyID];
+    
+    [self hideLoadWithAnimated:YES];
 }
 
 #pragma mark - Private Method
@@ -503,6 +522,7 @@ typedef enum {
         {
             PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
             pv.propertyID = [NSString stringWithFormat:@"%@", propertyID];
+            pv.commID = [NSString stringWithFormat:@"%@", self.property.comm_id];
             [self.navigationController pushViewController:pv animated:YES];
             
         }
@@ -511,6 +531,7 @@ typedef enum {
         {
             PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
             pv.propertyID = [NSString stringWithFormat:@"%@", propertyID];
+            pv.commID = [NSString stringWithFormat:@"%@", self.property.comm_id];
             pv.isBid = YES;
             [self.navigationController pushViewController:pv animated:YES];
             

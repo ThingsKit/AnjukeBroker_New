@@ -87,6 +87,8 @@
 		97B4225D1820E36600A2E9E6 /* PropertyAuctionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B4225C1820E36600A2E9E6 /* PropertyAuctionViewController.m */; };
 		97B422601820E38200A2E9E6 /* PropertyResultListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B4225F1820E38200A2E9E6 /* PropertyResultListViewController.m */; };
 		97B422681821087600A2E9E6 /* PropertyBigImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B422671821087600A2E9E6 /* PropertyBigImageViewController.m */; };
+		97C6870C183A27E700F449BD /* BaseAuctionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C6870B183A27E700F449BD /* BaseAuctionViewController.m */; };
+		97C6870F183A2BF100F449BD /* PropertyAuctionPublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C6870E183A2BF100F449BD /* PropertyAuctionPublishViewController.m */; };
 		97C97B461810DD34006E538B /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C97B451810DD34006E538B /* TabBarViewController.m */; };
 		97CB0C0C182BEA3500FCCBBD /* ELCAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C01182BEA3500FCCBBD /* ELCAlbumPickerController.m */; };
 		97CB0C0D182BEA3500FCCBBD /* ELCAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C03182BEA3500FCCBBD /* ELCAsset.m */; };
@@ -296,6 +298,10 @@
 		97B4225F1820E38200A2E9E6 /* PropertyResultListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyResultListViewController.m; sourceTree = "<group>"; };
 		97B422661821087600A2E9E6 /* PropertyBigImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyBigImageViewController.h; sourceTree = "<group>"; };
 		97B422671821087600A2E9E6 /* PropertyBigImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyBigImageViewController.m; sourceTree = "<group>"; };
+		97C6870A183A27E700F449BD /* BaseAuctionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseAuctionViewController.h; sourceTree = "<group>"; };
+		97C6870B183A27E700F449BD /* BaseAuctionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseAuctionViewController.m; sourceTree = "<group>"; };
+		97C6870D183A2BF100F449BD /* PropertyAuctionPublishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyAuctionPublishViewController.h; sourceTree = "<group>"; };
+		97C6870E183A2BF100F449BD /* PropertyAuctionPublishViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyAuctionPublishViewController.m; sourceTree = "<group>"; };
 		97C97B441810DD34006E538B /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
 		97C97B451810DD34006E538B /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
 		97CB0C00182BEA3500FCCBBD /* ELCAlbumPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAlbumPickerController.h; sourceTree = "<group>"; };
@@ -807,6 +813,7 @@
 		97B422531820B6E700A2E9E6 /* 定价组List&竞价&结果页 */ = {
 			isa = PBXGroup;
 			children = (
+				97C68709183A275800F449BD /* 竞价ViewController组 */,
 				9795836818223210005EA48A /* 定价竞价cell */,
 				97B422551820D9A600A2E9E6 /* PropertyGroupListViewController.h */,
 				97B422561820D9A600A2E9E6 /* PropertyGroupListViewController.m */,
@@ -833,6 +840,17 @@
 				977FCA8E182894F000945FB4 /* CommunityListViewController.m */,
 			);
 			name = "房源编辑";
+			sourceTree = "<group>";
+		};
+		97C68709183A275800F449BD /* 竞价ViewController组 */ = {
+			isa = PBXGroup;
+			children = (
+				97C6870A183A27E700F449BD /* BaseAuctionViewController.h */,
+				97C6870B183A27E700F449BD /* BaseAuctionViewController.m */,
+				97C6870D183A2BF100F449BD /* PropertyAuctionPublishViewController.h */,
+				97C6870E183A2BF100F449BD /* PropertyAuctionPublishViewController.m */,
+			);
+			name = "竞价ViewController组";
 			sourceTree = "<group>";
 		};
 		97CB0BFE182BE9F200FCCBBD /* 相册多选pickerController */ = {
@@ -1216,6 +1234,7 @@
 				97B422681821087600A2E9E6 /* PropertyBigImageViewController.m in Sources */,
 				B769E46C181F76A600A2FF50 /* BaseBidPlanController.m in Sources */,
 				972DDA301826D39500263F8F /* RTPopoverTableViewController.m in Sources */,
+				97C6870F183A2BF100F449BD /* PropertyAuctionPublishViewController.m in Sources */,
 				972C10321814FDC400552C9B /* MoreViewController.m in Sources */,
 				B7210952182785A400904FC7 /* RentFixedCell.m in Sources */,
 				B7E803F31820F24400775C6F /* SaleNoPlanListCell.m in Sources */,
@@ -1272,6 +1291,7 @@
 				B7210948182778C100904FC7 /* RentNoPlanListController.m in Sources */,
 				97B106501834E5F40064AF5F /* AppManager.m in Sources */,
 				974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */,
+				97C6870C183A27E700F449BD /* BaseAuctionViewController.m in Sources */,
 				B721095E18279D0800904FC7 /* RentPropertyDetailController.m in Sources */,
 				B769E475181F807500A2FF50 /* SaleBidDetailController.m in Sources */,
 				B7E803ED1820DD8000775C6F /* SaleSelectNoPlanController.m in Sources */,
@@ -1379,6 +1399,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = NO;
 			};
 			name = Debug;
 		};

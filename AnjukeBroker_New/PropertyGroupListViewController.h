@@ -12,5 +12,6 @@
 
 @property BOOL isBid; //是否竞价
 @property (nonatomic, copy) NSString *propertyID;
+@property (nonatomic, copy) NSString *commID;
 
 @end
