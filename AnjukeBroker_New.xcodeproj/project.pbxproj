@@ -1523,7 +1523,7 @@
 				97410580180CDFE1004DAE95 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		97410581180CDFE1004DAE95 /* Build configuration list for PBXNativeTarget "AnjukeBroker_New" */ = {
 			isa = XCConfigurationList;
@@ -1532,7 +1532,7 @@
 				97410583180CDFE1004DAE95 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		97410584180CDFE1004DAE95 /* Build configuration list for PBXNativeTarget "AnjukeBroker_NewTests" */ = {
 			isa = XCConfigurationList;
@@ -1541,7 +1541,7 @@
 				97410586180CDFE1004DAE95 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 

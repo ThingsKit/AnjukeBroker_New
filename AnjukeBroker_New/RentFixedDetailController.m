@@ -17,7 +17,8 @@
 #import "BasePropertyObject.h"
 #import "RentFixedCell.h"
 #import "RentPropertyListCell.h"
-
+#import "SaleFixedManager.h"
+#import "LoginManager.h"
 @interface RentFixedDetailController ()
 
 @end
@@ -84,7 +85,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 #pragma mark - UITableView Delegate & DataSource
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

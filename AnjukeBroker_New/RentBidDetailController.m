@@ -73,6 +73,46 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self doRequest];
+}
+#pragma mark - 请求竞价房源列表
+-(void)doRequest{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/bid/getplanprops/" params:params target:self action:@selector(onGetLogin:)];
+    [self showLoadingActivity:YES];
+}
+- (void)onGetLogin:(RTNetworkResponse *)response {
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
+    DLog(@"------response [%@]", [response content]);
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    
+    if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self.myArray removeAllObjects];
+        [self.myTable reloadData];
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
+    [self.myArray removeAllObjects];
+    [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
+    [self.myTable reloadData];
+    [self hideLoadWithAnimated:YES];
+    
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //    BidPropertyDetailController *controller = [[BidPropertyDetailController alloc] init];
     //    controller.propertyObject = [self.myArray objectAtIndex:[indexPath row]];
