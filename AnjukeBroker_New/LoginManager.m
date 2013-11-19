@@ -50,8 +50,8 @@
 + (NSString *)getToken {
     DLog(@"getToken [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"token"]);
     
-//    return [[NSUserDefaults standardUserDefaults] valueForKey:@"token"];
-    return @"14e96260ca470b9afa52a48e3a54fb12";
+    return [[NSUserDefaults standardUserDefaults] valueForKey:@"token"];
+//    return @"14e96260ca470b9afa52a48e3a54fb12";
 }
 
 
