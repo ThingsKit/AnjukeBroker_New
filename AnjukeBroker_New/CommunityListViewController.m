@@ -140,7 +140,7 @@
         cell.textLabel.text = [[self.listDataArray objectAtIndex:indexPath.row] objectForKey:@"commName"];
     }
     else { //历史、附近
-        cell.textLabel.text = [[self.listDataArray objectAtIndex:indexPath.row] objectForKey:@"name"];
+        cell.textLabel.text = [[self.listDataArray objectAtIndex:indexPath.row] objectForKey:@"commName"];
     }
     cell.textLabel.font = font;
     cell.selectionStyle = UITableViewCellSelectionStyleGray;

@@ -750,8 +750,8 @@ typedef enum {
         idStr = [commDic objectForKey:@"commId"];
     }
     else {
-        name = [commDic objectForKey:@"name"];
-        idStr = [commDic objectForKey:@"id"];
+        name = [commDic objectForKey:@"commName"];
+        idStr = [commDic objectForKey:@"commId"];
     }
     
     [self setCommunityWithText:name];
