@@ -9,7 +9,6 @@
 #import "BaseAuctionViewController.h"
 
 @interface BaseAuctionViewController ()
-@property (nonatomic, strong) UILabel *rangLabel;
 
 @end
 

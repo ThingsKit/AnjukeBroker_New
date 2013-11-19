@@ -1,28 +1,31 @@
 //
-//  SaleGroupListController.m
+//  RentGroupListController.m
 //  AnjukeBroker_New
 //
 //  Created by jianzhongliu on 11/19/13.
 //  Copyright (c) 2013 Wu sicong. All rights reserved.
 //
 
-#import "SaleGroupListController.h"
+#import "RentGroupListController.h"
 #import "SaleFixedDetailController.h"
+#import "RentFixedDetailController.h"
 #import "LoginManager.h"
 #import "SalePropertyObject.h"
 
-@interface SaleGroupListController ()
+@interface RentGroupListController ()
 {
     int selectedIndex;
 }
 @end
 
-@implementation SaleGroupListController
+@implementation RentGroupListController
+@synthesize tempArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        tempArray = [NSArray array];
         // Custom initialization
     }
     return self;
@@ -37,18 +40,18 @@
     [super initModel];
     selectedIndex = 0;
 }
-
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self doFixedGroupList];
+    [self doRentFixedGroupList];
 }
+
 #pragma mark - Request 获取定价推广组列表
--(void)doFixedGroupList{
+-(void)doRentFixedGroupList{
     if(![self isNetworkOkay]){
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/getplans/" params:params target:self action:@selector(onFixedGroupSuccess:)];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/getplans/" params:params target:self action:@selector(onFixedGroupSuccess:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
@@ -73,6 +76,7 @@
     [self.myTable reloadData];
 }
 
+
 #pragma mark - Request 定价推广
 -(void)doFixed{
     if(![self isNetworkOkay]){
@@ -80,13 +84,13 @@
     }
     //    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  @"187275101", @"proIds", @"388666", @"planId", nil];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  [self getStringFromArray:self.propertyArray], @"propIds", [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"fixPlanId"], @"planId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/addpropstoplan/" params:params target:self action:@selector(onFixedSuccess:)];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/addpropstoplan/" params:params target:self action:@selector(onFixedSuccess:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
 
 - (void)onFixedSuccess:(RTNetworkResponse *)response {
-    
+    DLog(@"------response [%@]", [response content]);
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         
@@ -99,10 +103,8 @@
     }
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
-    
-    DLog(@"------response [%@]", [response content]);
-    
-    SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
+
+    RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
     controller.backType = RTSelectorBackTypePopToRoot;
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:[[self.myArray objectAtIndex:selectedIndex] objectForKey:@"fixPlanId"] forKey:@"fixPlanId"];
@@ -120,7 +122,6 @@
             [tempStr appendString:[NSString stringWithFormat:@"%@",pro.propertyId]];
         }
     }
-    
     DLog(@"====%@",tempStr);
     return tempStr;
 }
@@ -128,9 +129,7 @@
     selectedIndex = indexPath.row;
     [self doFixed];
 }
--(void)rightButtonAction:(id)sender{
 
-}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

@@ -13,7 +13,7 @@
 #import "AnjukeEditPropertyViewController.h"
 #import "SaleBidPlanController.h"
 #import "SaleSelectNoPlanController.h"
-#import "RentAuctionViewController.h"
+#import "SaleAuctionViewController.h"
 #import "RTNavigationController.h"
 
 #import "SalePropertyListCell.h"
@@ -348,7 +348,7 @@
             [self cancelFixedProperty];
 //            [self.navigationController popToRootViewControllerAnimated:YES];
         }else if (buttonIndex == 2){
-            RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
+            SaleAuctionViewController *controller = [[SaleAuctionViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.delegateVC = self;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];

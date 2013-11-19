@@ -7,6 +7,11 @@
 //
 
 #import "RTViewController.h"
+#import "Util_UI.h"
+#define SELECT_ALL_STR @"全选"
+#define UNSELECT_ALL_STR @"取消全选"
+
+#define TOOL_BAR_HEIGHT 44
 
 @interface BaseNoPlanController : RTViewController <UITableViewDataSource, UITableViewDelegate>
 {

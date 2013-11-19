@@ -10,12 +10,17 @@
 #import "AnjukeEditPropertyViewController.h"
 #import "RTNavigationController.h"
 #import "RentAuctionViewController.h"
+#import "RentBidNoPlanController.h"
+#import "SaleAuctionViewController.h"
 #import "SalePropertyListController.h"
 #import "BaseBidPropertyCell.h"
 #import "LoginManager.h"
+#import "RentBidPropertyCell.h"
 
 @interface RentBidDetailController ()
-
+{
+    int selectedIndex;
+}
 @end
 
 @implementation RentBidDetailController
@@ -24,6 +29,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        selectedIndex = 0;
         // Custom initialization
     }
     return self;
@@ -39,33 +45,6 @@
 -(void)initModel{
     [super initModel];
     self.myArray = [NSMutableArray array];
-    NSMutableDictionary *tempDic = [NSMutableDictionary dictionary];
-    [tempDic setValue:@"汤臣一品" forKey:@"title"];
-    [tempDic setValue:@"3室3厅 125平 200万" forKey:@"price"];
-    [tempDic setValue:@"当前排名       今日点击       出价(元)      预算余额(元)" forKey:@"string"];
-    [tempDic setValue:@"   3                  100               4.0             180.00" forKey:@"stringNum"];
-    [self.myArray addObject:tempDic];
-    
-    tempDic = [NSMutableDictionary dictionary];
-    [tempDic setValue:@"东方城市花园" forKey:@"title"];
-    [tempDic setValue:@"1室1厅 33平 100万" forKey:@"price"];
-    [tempDic setValue:@"当前排名       今日点击       出价(元)      预算余额(元)" forKey:@"string"];
-    [tempDic setValue:@"   2                  312              5.0             180.00" forKey:@"stringNum"];
-    [self.myArray addObject:tempDic];
-    
-    tempDic = [NSMutableDictionary dictionary];
-    [tempDic setValue:@"塘桥小区" forKey:@"title"];
-    [tempDic setValue:@"4室2厅 78平 300万" forKey:@"price"];
-    [tempDic setValue:@"当前排名       今日点击       出价(元)      预算余额(元)" forKey:@"string"];
-    [tempDic setValue:@"   1                  34               2.0             32.00" forKey:@"stringNum"];
-    [self.myArray addObject:tempDic];
-    
-    tempDic = [NSMutableDictionary dictionary];
-    [tempDic setValue:@"崂山一村" forKey:@"title"];
-    [tempDic setValue:@"3室1厅 66平 125万" forKey:@"price"];
-    [tempDic setValue:@"当前排名       今日点击       出价(元)      预算余额(元)" forKey:@"string"];
-    [tempDic setValue:@"   1                  56              2.0             24.00" forKey:@"stringNum"];
-    [self.myArray addObject:tempDic];
 }
 
 - (void)didReceiveMemoryWarning
@@ -83,7 +62,7 @@
     if(![self isNetworkOkay]){
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/bid/getplanprops/" params:params target:self action:@selector(onGetLogin:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
@@ -116,21 +95,71 @@
     [self.myArray removeAllObjects];
     [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
     [self.myTable reloadData];
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+}
+#pragma mark - 取消竞价
+-(void)doCancelBid{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"], @"propId", [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"planId"], @"planId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/bid/cancelplan/" params:params target:self action:@selector(onCancelBidSuccess:)];
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+}
+
+- (void)onCancelBidSuccess:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
+        return;
+    }
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    [self doRequest];
+}
+#pragma mark - 暂停竞价
+-(void)doStopBid{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"], @"propId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/bid/spreadstop/" params:params target:self action:@selector(onStopBidSuccess:)];
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+}
 
-    
+- (void)onStopBidSuccess:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    [self doRequest];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    //    BidPropertyDetailController *controller = [[BidPropertyDetailController alloc] init];
-    //    controller.propertyObject = [self.myArray objectAtIndex:[indexPath row]];
-    //    [self.navigationController pushViewController:controller animated:YES];
-    
-    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"竞价出价及预算", @"暂停竞价推广", nil];
-    [action showInView:self.view];
-    
-    
+    selectedIndex = indexPath.row;
+    if([[[self.myArray objectAtIndex:selectedIndex] objectForKey:@"bidStatus"] isEqualToString:@"3"]){
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"重新开始竞价", @"取消竞价推广", nil];
+        action.tag = 101;
+        [action showInView:self.view];
+    }else{
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"竞价出价及预算", @"暂停竞价推广", nil];
+        action.tag = 102;
+        [action showInView:self.view];
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -143,46 +172,69 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    static NSString *cellIdent = @"BaseBidPropertyCell";
-    BaseBidPropertyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+    static NSString *cellIdent = @"RentBidPropertyCell";
+    RentBidPropertyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     
     if(cell == nil){
-        cell = [[NSClassFromString(@"BaseBidPropertyCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BaseBidPropertyCell"];
+        cell = [[NSClassFromString(@"RentBidPropertyCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RentBidPropertyCell"];
     }
-    
-    [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
-    
+//    [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
+    [cell setValueForCellByDataModel:[self.myArray objectAtIndex:[indexPath row]]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryNone;
-    
     return cell;
 }
+
 #pragma mark -- UIActionSheetDelegate
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 0){
-        AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
-        controller.backType = RTSelectorBackTypeDismiss;
-        RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-        [self presentViewController:nav animated:YES completion:nil];
-    }else if (buttonIndex == 1){
-        RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
-        controller.backType = RTSelectorBackTypeDismiss;
-        controller.delegateVC = self;
-        RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-        [self presentViewController:nav animated:YES completion:nil];
-    }else if (buttonIndex == 2){
+    if(actionSheet.tag == 101){
+        if (buttonIndex == 0){
+            AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+            controller.backType = RTSelectorBackTypeDismiss;
+            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:nil];
+        }else if (buttonIndex == 1){//重新开始竞价
+            RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
+            controller.proDic = [self.myArray objectAtIndex:selectedIndex];
+            controller.backType = RTSelectorBackTypeDismiss;
+            controller.delegateVC = self;
+            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:^(void){
+            }];
+        }else if (buttonIndex == 2){//取消竞价
+            [self doCancelBid];
+        }else{
+            
+        }
         
     }else{
-        
+        if (buttonIndex == 0){//修改房源
+            AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+            controller.backType = RTSelectorBackTypeDismiss;
+            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:nil];
+        }else if (buttonIndex == 1){//调整预算
+            RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
+            controller.proDic = [self.myArray objectAtIndex:selectedIndex];
+            controller.backType = RTSelectorBackTypeDismiss;
+            controller.delegateVC = self;
+            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:^{
+            }];
+        }else if (buttonIndex == 2){//手动暂停竞价
+            [self doStopBid];
+        }else{
+            
+        }
     }
+    
 }
-
 #pragma mark -- PrivateMethod
 -(void)rightButtonAction:(id)sender{
     if(self.isLoading){
         return ;
     }
-    SalePropertyListController *controller = [[SalePropertyListController alloc] init];
+    RentBidNoPlanController *controller = [[RentBidNoPlanController alloc] init];
     controller.backType = RTSelectorBackTypeDismiss;
     RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];

@@ -7,7 +7,8 @@
 //
 
 #import "BaseNoPlanController.h"
+#import "SaleNoPlanListCell.h"
 
-@interface RentNoPlanController : BaseNoPlanController
+@interface RentNoPlanController : BaseNoPlanController <UIActionSheetDelegate, UIAlertViewDelegate, CheckmarkBtnClickDelegate>
 
 @end

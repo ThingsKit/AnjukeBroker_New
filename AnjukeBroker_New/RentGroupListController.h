@@ -1,5 +1,5 @@
 //
-//  SaleGroupListController.h
+//  RentGroupListController.h
 //  AnjukeBroker_New
 //
 //  Created by jianzhongliu on 11/19/13.
@@ -8,6 +8,6 @@
 
 #import "BaseGroupListController.h"
 
-@interface SaleGroupListController : BaseGroupListController
-
+@interface RentGroupListController : BaseGroupListController
+@property (strong,nonatomic) NSArray *tempArray;
 @end

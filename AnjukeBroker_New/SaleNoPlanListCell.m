@@ -35,7 +35,13 @@
     [super configureCell:dataModel withIndex:index];
     return NO;
 }
-
+-(BOOL)configureCellWithDic:(NSDictionary *) dic{
+    self.title.text = [dic objectForKey:@"title"];
+    
+    NSString *tempStr = [NSString stringWithFormat:@"%@室%@厅%@卫  %@平 %@%@", [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"], [dic objectForKey:@"area"], [dic objectForKey:@"price"], [dic objectForKey:@"priceUnit"]];
+    self.detail.text = tempStr;
+    return YES;
+}
 - (void)btnClicked:(id)sender {
     if ([self.clickDelegate respondsToSelector:@selector(checkmarkBtnClickedWithRow:)]) {
         [self.clickDelegate checkmarkBtnClickedWithRow:self.selectRow];

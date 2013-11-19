@@ -21,4 +21,5 @@
 @property (strong, nonatomic) UIImageView *statusImg;
 -(void)setValueForCellByDictinary:(NSDictionary *) dic;
 -(void)setValueForCellByDataModel:(id) dataModel;
+-(NSString *)getBudget:(NSDictionary *) dic;
 @end

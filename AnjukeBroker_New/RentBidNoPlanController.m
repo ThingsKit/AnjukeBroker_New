@@ -1,42 +1,23 @@
 //
-//  RantNoPlanListController.m
+//  RentBidNoPlanController.m
 //  AnjukeBroker_New
 //
-//  Created by jianzhongliu on 11/4/13.
+//  Created by jianzhongliu on 11/19/13.
 //  Copyright (c) 2013 Wu sicong. All rights reserved.
 //
 
-#import "RentNoPlanListController.h"
-#import "AnjukeEditPropertyViewController.h"
-#import "RentFixedDetailController.h"
+#import "RentBidNoPlanController.h"
 #import "SaleNoPlanListCell.h"
-#import "RentGroupListController.h"
-#import "LoginManager.h"
 #import "SaleNoPlanListManager.h"
-#import "SaleFixedManager.h"
-#import "Util_UI.h"
+#import "RentAuctionViewController.h"
+#import "RTNavigationController.h"
+#import "LoginManager.h"
 
-#define SELECT_ALL_STR @"全选"
-#define UNSELECT_ALL_STR @"取消全选"
-
-#define TOOL_BAR_HEIGHT 44
-
-@interface RentNoPlanListController ()
-{
-    
-}
-@property (nonatomic, strong) UIView *contentView;
-//@property (nonatomic, strong) UIBarButtonItem *seleceAllItem; //全选btnItem
-@property int singleSelectBtnRow; //记录最后打勾按钮所在indexPath.row
-@property (nonatomic, strong) UIButton *editBtn; //编辑按钮
+@interface RentBidNoPlanController ()
 
 @end
 
-@implementation RentNoPlanListController
-@synthesize contentView;
-//@synthesize seleceAllItem;
-@synthesize singleSelectBtnRow;
-@synthesize editBtn;
+@implementation RentBidNoPlanController
 @synthesize tempDic;
 @synthesize fixedObj;
 
@@ -44,7 +25,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        [self initModel_];
         // Custom initialization
     }
     return self;
@@ -53,14 +33,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self initDisplay_];
 	// Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 -(void)initModel_{
     self.tempDic = [NSDictionary dictionary];
@@ -68,10 +41,6 @@
 - (void)initDisplay_ {
     self.myTable.frame = FRAME_BETWEEN_NAV_TAB;
     
-    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, [self currentViewHeight] - TOOL_BAR_HEIGHT, [self windowWidth], TOOL_BAR_HEIGHT)];
-    self.contentView.backgroundColor = SYSTEM_NAVIBAR_COLOR;
-    [self addRightButton:@"确定" andPossibleTitle:nil];
-
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -93,17 +62,17 @@
 //    DLog(@"------response [%@]", [response content]);
 //    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
 //        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-//        
+//
 //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
 //        [alert show];
 //        [self hideLoadWithAnimated:YES];
 //        self.isLoading = NO;
-//        
+//
 //        return;
 //    }
 //    [self hideLoadWithAnimated:YES];
 //    self.isLoading = NO;
-//    
+//
 //    RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
 //    controller.backType = RTSelectorBackTypePopToRoot;
 //    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
@@ -131,8 +100,8 @@
     if(![self isNetworkOkay]){
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/prop/getfixprops/" params:params target:self action:@selector(onGetFixedInfo:)];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/getbidprops/" params:params target:self action:@selector(onGetFixedInfo:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
@@ -147,18 +116,12 @@
         self.isLoading = NO;
         return;
     }
-//    NSMutableArray *result = [SaleNoPlanListManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"propertyList"]];
-//    [self.myArray removeAllObjects];
-//    [self.myArray addObjectsFromArray:result];
-//    [self.myTable reloadData];
-//    [self hideLoadWithAnimated:YES];
-//    self.isLoading = NO;
-    
+
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-//    NSMutableDictionary *dicPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"plan"]];
+    //    NSMutableDictionary *dicPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"plan"]];
     [self.myArray removeAllObjects];
-//    [self.myArray addObject:[SaleFixedManager fixedPlanObjectFromDic:dicPlan]];
-    [self.myArray addObjectsFromArray:[SaleNoPlanListManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"propertyList"]]];
+    //    [self.myArray addObject:[SaleFixedManager fixedPlanObjectFromDic:dicPlan]];
+    [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
     [self.myTable reloadData];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
@@ -177,53 +140,24 @@
     if(cell == nil){
         cell = [[SaleNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
         cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
-        cell.clickDelegate = self;
     }
-    [cell configureCell:[self.myArray objectAtIndex:indexPath.row] withIndex:indexPath.row];
-//    [cell configureCellWithDic:[self.myArray objectAtIndex:indexPath.row]];
-//    [cell configureCell:nil withIndex:indexPath.row];
-    if([self.selectedArray containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
-        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_selected@2x.png"];
-    }else{
-        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
-    }
-    
+    [cell configureCellWithDic:[self.myArray objectAtIndex:indexPath.row]];
+//    [cell configureCell:[self.myArray objectAtIndex:indexPath.row] withIndex:indexPath.row];
+    //    [cell configureCellWithDic:[self.myArray objectAtIndex:indexPath.row]];
+    //    [cell configureCell:nil withIndex:indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self doCheckmarkAtRow:indexPath.row];
+    RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
+    controller.backType = RTSelectorBackTypeDismiss;
+    controller.delegateVC = self;
+    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+    [self presentViewController:nav animated:YES completion:^(void){
+        controller.proDic = [self.myArray objectAtIndex:indexPath.row];
+    }];
 }
 
-#pragma mark - Checkmark Btn Delegate
 
-- (void)checkmarkBtnClickedWithRow:(int)row {
-    DLog(@"row -[%d]", row);
-    
-    [self doCheckmarkAtRow:row];
-}
-
-#pragma mark - PrivateMethod
-//***打勾操作***
-- (void)doCheckmarkAtRow:(int)row {
-    self.singleSelectBtnRow = row;
-    
-    if(![self.selectedArray containsObject:[self.myArray objectAtIndex:row]]){
-        [self.selectedArray addObject:[self.myArray objectAtIndex:row]];
-        
-    }else{
-        [self.selectedArray removeObject:[self.myArray objectAtIndex:row]];
-    }
-    [self.myTable reloadData];
-    
-//    [self setEditBtnEnableStatus];
-}
-
--(void)rightButtonAction:(id)sender{
-    RentGroupListController *controller = [[RentGroupListController alloc] init];
-    controller.propertyArray = self.selectedArray;
-    [self.navigationController pushViewController:controller animated:YES];
-}
 @end

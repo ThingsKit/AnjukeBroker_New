@@ -10,7 +10,7 @@
 #import "BasePropertyObject.h"
 #import "PropertyDetailCell.h"
 #import "SaleBidPlanController.h"
-#import "RentAuctionViewController.h"
+#import "SaleAuctionViewController.h"
 #import "RTNavigationController.h"
 
 @interface SalePropertyListController ()
@@ -75,7 +75,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
+    SaleAuctionViewController *controller = [[SaleAuctionViewController alloc] init];
     controller.backType = RTSelectorBackTypeDismiss;
     controller.delegateVC = self;
     RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];

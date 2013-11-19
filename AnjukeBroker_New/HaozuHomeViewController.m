@@ -10,7 +10,9 @@
 #import "RentNoPlanListController.h"
 #import "RentFixedDetailController.h"
 #import "RentBidDetailController.h"
-#import "PPCGroupCell.h"
+#import "RentNoPlanController.h"
+#import "RentPPCGroupCell.h"
+#import "LoginManager.h"
 
 @interface HaozuHomeViewController ()
 
@@ -63,28 +65,102 @@
 
 }
 -(void)initDisplay{
-    myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
-    myTable.delegate = self;
-    myTable.dataSource = self;
+    self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
+    self.myTable.delegate = self;
+    self.myTable.dataSource = self;
     [self.view addSubview:myTable];
 }
+-(void)dealloc{
+    self.myTable.delegate = nil;
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self reloadData];
+    [self doRequest];
+}
+-(void)reloadData{
+    if(self.myArray == nil){
+        self.myArray = [NSMutableArray array];
+    }else{
+        [self.myArray removeAllObjects];
+        [self.myTable reloadData];
+    }
+}
+
+-(void)doRequest{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/prop/ppc/" params:params target:self action:@selector(onGetLogin:)];
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+}
+
+- (void)onGetLogin:(RTNetworkResponse *)response {
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return;
+    }
+    DLog(@"------response [%@]", [response content]);
+    [self.myArray removeAllObjects];
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    if([resultFromAPI count] ==  0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return ;
+    }
+    NSMutableDictionary *bidPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"bidPlan"]];
+    [self.myArray addObject:bidPlan];
+    
+    NSMutableArray *fixPlan = [NSMutableArray array];
+    [fixPlan addObjectsFromArray:[resultFromAPI objectForKey:@"fixPlan"]];
+    [self.myArray addObjectsFromArray:fixPlan];
+    
+    NSMutableDictionary *nodic = [[NSMutableDictionary alloc] init];
+    [nodic setValue:@"待推广房源" forKey:@"title"];
+    [nodic setValue:[resultFromAPI objectForKey:@"unRecommendPropNum"] forKey:@"unRecommendPropNum"];
+    [nodic setValue:@"3" forKey:@"status"];
+    [nodic setValue:@"3" forKey:@"type"];
+    [self.myArray addObject:nodic];
+    
+    [self.myTable reloadData];
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     if([indexPath row] == 0)
     {
         RentBidDetailController *controller = [[RentBidDetailController alloc] init];
+        controller.backType = RTSelectorBackTypePopToRoot;
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
-    }else if ([indexPath row] == 1){
-        RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
+    }else if ([indexPath row] == [self.myArray count] - 1){
+        RentNoPlanController *controller = [[RentNoPlanController alloc] init];
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
-        
     }else{
-        RentNoPlanListController *controller = [[RentNoPlanListController alloc] init];
+        RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
+        controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
+        controller.backType = RTSelectorBackTypePopToRoot;
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [myArray count];
 }
@@ -92,15 +168,13 @@
     return 66.0f;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *cellIdent = @"cell";
+    static NSString *cellIdent = @"RentPPCGroupCell";
     
-    PPCGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+    RentPPCGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == nil){
-        cell = [[NSClassFromString(@"PPCGroupCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
+        cell = [[NSClassFromString(@"RentPPCGroupCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
     }
-    
-//    [cell setValueForCellByData:[self.myArray objectAtIndex:[indexPath row]]];
-    
+    [cell setValueForCellByData:self.myArray index:indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     

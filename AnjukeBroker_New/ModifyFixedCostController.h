@@ -7,8 +7,9 @@
 //
 
 #import "RTViewController.h"
-#import "FixedObject.h"
+#import "BaseModifyCostController.h"
 
-@interface ModifyFixedCostController : RTViewController
-@property (strong, nonatomic) FixedObject *fixedObject;
+
+@interface ModifyFixedCostController : BaseModifyCostController
+
 @end

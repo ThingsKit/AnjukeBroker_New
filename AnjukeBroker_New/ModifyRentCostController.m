@@ -1,27 +1,25 @@
 //
-//  ModifyFixedCostController.m
+//  ModifyRentCostController.m
 //  AnjukeBroker_New
 //
-//  Created by jianzhongliu on 10/29/13.
+//  Created by jianzhongliu on 11/19/13.
 //  Copyright (c) 2013 Wu sicong. All rights reserved.
 //
 
-#import "ModifyFixedCostController.h"
+#import "ModifyRentCostController.h"
 #import "LoginManager.h"
 
-@interface ModifyFixedCostController ()
-{
-}
+
+@interface ModifyRentCostController ()
 
 @end
 
-@implementation ModifyFixedCostController
+@implementation ModifyRentCostController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.fixedObject = [[FixedObject alloc] init];
         // Custom initialization
     }
     return self;
@@ -32,14 +30,13 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }
-
 #pragma mark - 修改定价组限额
 -(void)modifyFixedProperty{
     if(![self isNetworkOkay]){
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.fixedObject.fixedId, @"planId", [NSString stringWithFormat:@"%@", self.totalCost.text], @"ceiling", self.fixedObject.planName, @"planName", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/updateplanceiling/" params:params target:self action:@selector(onModifySuccess:)];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.fixedObject.fixedId, @"planId", [NSString stringWithFormat:@"%@", self.totalCost.text], @"ceiling", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/updateplanceiling/" params:params target:self action:@selector(onModifySuccess:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
@@ -51,15 +48,15 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
+        
         return;
     }
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    
     NSLog(@"-...-----response [%@]", [response content]);
     [self dismissViewControllerAnimated:YES completion:nil];
-
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -72,6 +69,6 @@
 - (void)rightButtonAction:(id)sender{
     [super rightButtonAction:self];
     [self modifyFixedProperty];
-//    [self.navigationController popViewControllerAnimated:YES];
+    //    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

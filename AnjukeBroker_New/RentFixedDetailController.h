@@ -9,5 +9,5 @@
 #import "BaseFixedDetailController.h"
 
 @interface RentFixedDetailController : BaseFixedDetailController <UIActionSheetDelegate>
-
+@property (strong, nonatomic) NSDictionary *tempDic;
 @end

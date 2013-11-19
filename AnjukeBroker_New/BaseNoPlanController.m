@@ -34,8 +34,6 @@
     [super viewDidLoad];
     [self setTitleViewWithString:@"待推广房源"];
     
-    [self initModel_];
-    
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
@@ -46,7 +44,7 @@
 -(void)dealloc{
     self.myTable.delegate = nil;
 }
-- (void)initModel_ {
+-(void)initModel{
     self.myArray = [NSMutableArray array];
     self.selectedArray = [NSMutableArray array];
 }

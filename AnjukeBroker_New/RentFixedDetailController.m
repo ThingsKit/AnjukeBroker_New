@@ -12,6 +12,11 @@
 #import "ModifyFixedCostController.h"
 #import "RTNavigationController.h"
 #import "RentNoPlanController.h"
+#import "ModifyRentCostController.h"
+#import "RentNoPlanListController.h"
+
+#import "SaleSelectNoPlanController.h"
+#import "ModifyFixedCostController.h"
 
 #import "FixedObject.h"
 #import "BasePropertyObject.h"
@@ -20,15 +25,19 @@
 #import "SaleFixedManager.h"
 #import "LoginManager.h"
 @interface RentFixedDetailController ()
-
+{
+    int selectIndex;
+}
 @end
 
 @implementation RentFixedDetailController
+@synthesize tempDic;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        selectIndex = 0;
         // Custom initialization
     }
     return self;
@@ -43,41 +52,7 @@
 }
 -(void)initModel{
     [super initModel];
-    FixedObject *fixed = [[FixedObject alloc] init];
-    fixed.tapNum = @"10";
-    fixed.topCost = @"100";
-    fixed.totalCost = @"30";
-    [self.myArray addObject:fixed];
-    
-    BasePropertyObject *property1 = [[BasePropertyObject alloc] init];
-    property1.title = @"昨天最好的房子";
-    property1.communityName = @"2室1厅  33平";
-    property1.price = @"345万";
-    [self.myArray addObject:property1];
-    
-    BasePropertyObject *property2 = [[BasePropertyObject alloc] init];
-    property2.title = @"今天最好的房子";
-    property2.communityName = @"2室1厅  120平";
-    property2.price = @"567万";
-    [self.myArray addObject:property2];
-    
-    BasePropertyObject *property3 = [[BasePropertyObject alloc] init];
-    property3.title = @"明天最好的房子";
-    property3.communityName = @"2室1厅  340平";
-    property3.price = @"7896万";
-    [self.myArray addObject:property3];
-    
-    BasePropertyObject *property4 = [[BasePropertyObject alloc] init];
-    property4.title = @"未来天最好的房子";
-    property4.communityName = @"2室1厅  200平";
-    property4.price = @"6435万";
-    [self.myArray addObject:property4];
-    
-    BasePropertyObject *property = [[BasePropertyObject alloc] init];
-    property.title = @"上海最好的房子";
-    property.communityName = @"2室1厅  80平";
-    property.price = @"234万";
-    [self.myArray addObject:property];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -85,30 +60,142 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self reloadData];
+}
+-(void)reloadData{
+    
+    if(self.myArray == nil){
+        self.myArray = [NSMutableArray array];
+    }else{
+        [self.myArray removeAllObjects];
+        [self.myTable reloadData];
+    }
+    
+    [self doRequest];
+}
+
+-(void)dealloc{
+    self.myTable.delegate = nil;
+}
+#pragma mark - 请求定价组详情
+-(void)doRequest{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/getplandetail/" params:params target:self action:@selector(onGetFixedInfo:)];
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+}
+
+- (void)onGetFixedInfo:(RTNetworkResponse *)response {
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+    DLog(@"------response [%@]", [response content]);
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    NSMutableDictionary *dicPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"plan"]];
+    [self.myArray removeAllObjects];
+    [self.myArray addObject:[SaleFixedManager fixedPlanObjectFromDic:dicPlan]];
+    [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
+    [self.myTable reloadData];
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+}
+#pragma mark - 取消定价
+-(void)doCancelFixed{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"], @"propId", [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/cancelplan/" params:params target:self action:@selector(onCancelSuccess:)];
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+}
+
+- (void)onCancelSuccess:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    [self doRequest];
+}
+#pragma mark - 取消定价
+-(void)doRestartFixed{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/spreadstart/" params:params target:self action:@selector(onRestartSuccess:)];
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+}
+
+- (void)onRestartSuccess:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    [self doRequest];
+}
+
+#pragma mark - 请求定价组详情
+-(void)doStopFixedGroup{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/spreadstop/" params:params target:self action:@selector(onStopSuccess:)];
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+}
+
+- (void)onStopSuccess:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+}
+
 #pragma mark - UITableView Delegate & DataSource
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    selectIndex = indexPath.row;
     if([indexPath row] == 0){
         
     }else{
         UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"取消定价推广", @"竞价推广本房源", nil];
         [action showInView:self.view];
-        
-        
-        //        SalePropertyDetailController *controller = [[SalePropertyDetailController alloc] init];
-        //        controller.propertyObject = [self.myArray objectAtIndex:[indexPath row]];
-        //        controller.fixedObject = [self.myArray objectAtIndex:0];
-        //        [self.navigationController pushViewController:controller animated:YES];
-        
     }
-    //    if(![selected containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
-    //        [selected addObject:[self.myArray objectAtIndex:[indexPath row]]];
-    //
-    //    }else{
-    //        [selected removeObject:[self.myArray objectAtIndex:[indexPath row]]];
-    //        
-    //    }
-    //    [self.myTable reloadData];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.myArray count];
@@ -142,40 +229,66 @@
         return cell;
     }
 }
+
 #pragma mark - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     
-    if(actionSheet.tag == 100){
+    if(actionSheet.tag == 100){//正在推广中定价组
         if(buttonIndex == 0){
-            RentNoPlanController *controller = [[RentNoPlanController alloc] init];
+            RentNoPlanListController *controller = [[RentNoPlanListController alloc] init];
+            controller.fixedObj = [self.myArray objectAtIndex:0];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:navi animated:YES completion:nil];
             //            [self.navigationController pushViewController:controller animated:YES];
             
-        }else if (buttonIndex == 1){
-            [self.myTable reloadData];
+        }else if (buttonIndex == 1){//停止推广
+            [self doStopFixedGroup];
         }else if (buttonIndex == 2){
-            ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
+            ModifyRentCostController *controller = [[ModifyRentCostController alloc] init];
+            controller.fixedObject = [self.myArray objectAtIndex:0];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
             //            [self.navigationController pushViewController:controller animated:YES];
         }
-    }else{
+    }else if(actionSheet.tag == 101){//当推广已暂停时的操作
+        if(buttonIndex == 0){
+            RentNoPlanListController *controller = [[RentNoPlanListController alloc] init];
+            controller.fixedObj = [self.myArray objectAtIndex:0];
+            controller.backType = RTSelectorBackTypeDismiss;
+            RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:navi animated:YES completion:nil];
+            //            [self.navigationController pushViewController:controller animated:YES];
+            
+        }else if (buttonIndex == 1){//重新开始定价推广
+            [self doRestartFixed];
+        }else if (buttonIndex == 2){
+            ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
+            controller.fixedObject = [self.myArray objectAtIndex:0];
+            controller.backType = RTSelectorBackTypeDismiss;
+            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:nil];
+            //            [self.navigationController pushViewController:controller animated:YES];
+        }
+        
+    }else{//对房源的操作
         if(buttonIndex == 0){
             AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }else if (buttonIndex == 1){
+            [self doCancelFixed];
             //            [self.navigationController popToRootViewControllerAnimated:YES];
         }else if (buttonIndex == 2){
             RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.delegateVC = self;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:nav animated:YES completion:nil];
+            [self presentViewController:nav animated:YES completion:^(void){
+                controller.proDic = [self.myArray objectAtIndex:selectIndex];
+            }];
         }
     }
 }
@@ -185,8 +298,19 @@
     if(self.isLoading){
         return ;
     }
-    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"添加房源", @"停止推广", @"修改限额", nil];
-    action.tag = 100;
-    [action showInView:self.view];
+    FixedObject *fix = [[FixedObject alloc] init];
+    fix = [self.myArray objectAtIndex:0];
+    
+    if([fix.fixedStatus isEqualToString:@"1"]){
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"添加房源", @"停止推广", @"修改限额", nil];
+        action.tag = 100;
+        [action showInView:self.view];
+        
+    }else{
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"添加房源", @"开始推广", @"修改限额", nil];
+        action.tag = 101;
+        [action showInView:self.view];
+        
+    }
 }
 @end
