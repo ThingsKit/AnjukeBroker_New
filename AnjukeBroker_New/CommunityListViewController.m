@@ -199,6 +199,7 @@
     }
     
     self.listDataArray = [NSMutableArray array];
+    
     if (!self.requestKeywords) { //历史+附近
         NSArray *hisArr = [[[response content] objectForKey:@"data"] objectForKey:@"history"];
         if (hisArr.count == 0 || hisArr == nil) {
@@ -219,8 +220,8 @@
     }
     
     [self.tvList reloadData];
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 
 }
 

@@ -13,6 +13,7 @@
 		9704A4D5183A105400CA67BD /* icon_58.png in Resources */ = {isa = PBXBuildFile; fileRef = 9704A4D4183A105400CA67BD /* icon_58.png */; };
 		970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */ = {isa = PBXBuildFile; fileRef = 970B78DB182010EE00C8E3C6 /* Util_UI.m */; };
 		970DB71D183AFFE700DEB455 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 970DB71C183AFFE700DEB455 /* AboutUsViewController.m */; };
+		970FC17E183B19C400D142D5 /* PropertyResetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 970FC17D183B19C400D142D5 /* PropertyResetViewController.m */; };
 		97192EE71818FEF7007971BA /* PhotoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 97192EE61818FEF7007971BA /* PhotoButton.m */; };
 		972C101A1814D4FF00552C9B /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972C10191814D4FF00552C9B /* TencentOpenAPI.framework */; };
 		972C10291814FCD300552C9B /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10281814FCD300552C9B /* HomeViewController.m */; };
@@ -191,6 +192,8 @@
 		970B78DB182010EE00C8E3C6 /* Util_UI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util_UI.m; sourceTree = "<group>"; };
 		970DB71B183AFFE700DEB455 /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
 		970DB71C183AFFE700DEB455 /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
+		970FC17C183B19C400D142D5 /* PropertyResetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyResetViewController.h; sourceTree = "<group>"; };
+		970FC17D183B19C400D142D5 /* PropertyResetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyResetViewController.m; sourceTree = "<group>"; };
 		97192EE51818FEF7007971BA /* PhotoButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoButton.h; sourceTree = "<group>"; };
 		97192EE61818FEF7007971BA /* PhotoButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoButton.m; sourceTree = "<group>"; };
 		972C10191814D4FF00552C9B /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = ../RTCoreService/RTCoreService/RT3rdSDK/TencentSDK/TencentOpenAPI.framework; sourceTree = "<group>"; };
@@ -846,6 +849,8 @@
 				974E5C88181E4B00000246D1 /* AnjukeEditableTV_DataSource.m */,
 				977FCA8D182894F000945FB4 /* CommunityListViewController.h */,
 				977FCA8E182894F000945FB4 /* CommunityListViewController.m */,
+				970FC17C183B19C400D142D5 /* PropertyResetViewController.h */,
+				970FC17D183B19C400D142D5 /* PropertyResetViewController.m */,
 			);
 			name = "房源编辑";
 			sourceTree = "<group>";
@@ -1321,6 +1326,7 @@
 				B76E5988181E5AD1005B6A8C /* BaseNoPlanListCell.m in Sources */,
 				97CB0C0D182BEA3500FCCBBD /* ELCAsset.m in Sources */,
 				B721095818278E6000904FC7 /* RentPropertyListCell.m in Sources */,
+				970FC17E183B19C400D142D5 /* PropertyResetViewController.m in Sources */,
 				97B106481834A7040064AF5F /* Property.m in Sources */,
 				B721094B18277CE100904FC7 /* RentFixedDetailController.m in Sources */,
 				974E5C7F181E417F000246D1 /* RTListCell.m in Sources */,
