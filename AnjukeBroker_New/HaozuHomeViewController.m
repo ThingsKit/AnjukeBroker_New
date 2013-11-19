@@ -63,7 +63,7 @@
 
 }
 -(void)initDisplay{
-    myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+    myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     myTable.delegate = self;
     myTable.dataSource = self;
     [self.view addSubview:myTable];

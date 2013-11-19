@@ -38,7 +38,7 @@
     [self setTitleViewWithString:@"二手房"];
     
 
-    self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+    self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
 //    self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
