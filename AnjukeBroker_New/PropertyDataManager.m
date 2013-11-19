@@ -75,29 +75,50 @@
 }
 
 + (NSMutableArray *)getPropertyLou_Number {
-    NSString *strPlistPath = [[NSBundle mainBundle] pathForResource:@"PropertyFloor" ofType:@"plist"];
-    NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:strPlistPath];
-    NSMutableArray *arr = [dic objectForKey:@"Lou"];
+//    NSString *strPlistPath = [[NSBundle mainBundle] pathForResource:@"PropertyFloor" ofType:@"plist"];
+//    NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:strPlistPath];
+//    NSMutableArray *arr = [dic objectForKey:@"Lou"];
     
-//    for (int i = 0; i < 103; i ++) {
-//        NSString *str = [NSString stringWithFormat:@"%d楼", i-3];
-//        if (i - 3 != 0) { //0楼不保存
-//            [arr addObject:str];
-//        }
-//    }
+    int totalCount = 3+99; //-3,-2,-1,1~99
+    int initIndex = -3;
+    NSMutableArray *arr = [NSMutableArray array];
+    
+    for (int i = 0; i < totalCount; i ++) {
+        NSString *str = [NSString stringWithFormat:@"%d楼", initIndex];
+        NSString *numStr = [NSString stringWithFormat:@"%d", initIndex];
+        
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:str, @"Title",numStr , @"Value", nil];
+        [arr addObject:dic];
+        
+        if (i == 3) { //0楼不保存，换为一楼
+            initIndex = initIndex +2;
+        }
+        else {
+            initIndex ++;
+        }
+    }
     
     return arr;
 }
 
 + (NSMutableArray *)getPropertyCeng_Number {
-    NSString *strPlistPath = [[NSBundle mainBundle] pathForResource:@"PropertyFloor" ofType:@"plist"];
-    NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:strPlistPath];
-    NSMutableArray *arr = [dic objectForKey:@"Ceng"];
+//    NSString *strPlistPath = [[NSBundle mainBundle] pathForResource:@"PropertyFloor" ofType:@"plist"];
+//    NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:strPlistPath];
+//    NSMutableArray *arr = [dic objectForKey:@"Ceng"];
     
-//    for (int i = 0; i < 100; i ++) {
-//        NSString *str = [NSString stringWithFormat:@"共%d层", i+1];
-//        [arr addObject:str];
-//    }
+    int totalCount = 99; //1~99
+    int initIndex = 1;
+    NSMutableArray *arr = [NSMutableArray array];
+    
+    for (int i = 0; i < totalCount; i ++) {
+        NSString *str = [NSString stringWithFormat:@"共%d层", initIndex];
+        NSString *numStr = [NSString stringWithFormat:@"%d", initIndex];
+        
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:str, @"Title",numStr , @"Value", nil];
+        [arr addObject:dic];
+        
+        initIndex ++;
+    }
     
     return arr;
 }

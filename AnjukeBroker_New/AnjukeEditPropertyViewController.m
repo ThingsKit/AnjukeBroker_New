@@ -548,6 +548,7 @@ typedef enum {
         case Property_WTG: {
             //为推广，直接去到房源结果页
             
+            [self dismissViewControllerAnimated:YES completion:nil];
         }
             break;
             
