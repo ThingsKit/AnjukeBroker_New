@@ -69,8 +69,6 @@
     [self.view addSubview:myTable];
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    
     if([indexPath row] == 0)
     {
         RentBidDetailController *controller = [[RentBidDetailController alloc] init];
@@ -86,7 +84,6 @@
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     }
-    
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [myArray count];
