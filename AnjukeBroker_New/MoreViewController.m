@@ -9,9 +9,11 @@
 #import "MoreViewController.h"
 #import "MoreListCell.h"
 #import "AppManager.h"
+#import "AboutUsViewController.h"
 
 #define CALL_ANJUKE_NUMBER @"400-620-9008"
 #define CALL_ANJUKE_ROW 5
+#define ABOUT_US_ROW 3
 
 @interface MoreViewController ()
 @property (nonatomic, strong) NSArray *taskArray;
@@ -142,6 +144,12 @@
                 NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@",CALL_ANJUKE_NUMBER];
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:call_url]];
             }
+        }
+            break;
+        case ABOUT_US_ROW:
+        {
+            AboutUsViewController *av = [[AboutUsViewController alloc] init];
+            [self.navigationController pushViewController:av animated:YES];
         }
             break;
             

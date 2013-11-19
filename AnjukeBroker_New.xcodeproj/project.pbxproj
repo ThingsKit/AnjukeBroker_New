@@ -12,6 +12,7 @@
 		9704A4D3183A102E00CA67BD /* icon_80.png in Resources */ = {isa = PBXBuildFile; fileRef = 9704A4D2183A102E00CA67BD /* icon_80.png */; };
 		9704A4D5183A105400CA67BD /* icon_58.png in Resources */ = {isa = PBXBuildFile; fileRef = 9704A4D4183A105400CA67BD /* icon_58.png */; };
 		970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */ = {isa = PBXBuildFile; fileRef = 970B78DB182010EE00C8E3C6 /* Util_UI.m */; };
+		970DB71D183AFFE700DEB455 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 970DB71C183AFFE700DEB455 /* AboutUsViewController.m */; };
 		97192EE71818FEF7007971BA /* PhotoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 97192EE61818FEF7007971BA /* PhotoButton.m */; };
 		972C101A1814D4FF00552C9B /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972C10191814D4FF00552C9B /* TencentOpenAPI.framework */; };
 		972C10291814FCD300552C9B /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10281814FCD300552C9B /* HomeViewController.m */; };
@@ -188,6 +189,8 @@
 		9704A4D4183A105400CA67BD /* icon_58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_58.png; sourceTree = "<group>"; };
 		970B78DA182010EE00C8E3C6 /* Util_UI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util_UI.h; sourceTree = "<group>"; };
 		970B78DB182010EE00C8E3C6 /* Util_UI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util_UI.m; sourceTree = "<group>"; };
+		970DB71B183AFFE700DEB455 /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
+		970DB71C183AFFE700DEB455 /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
 		97192EE51818FEF7007971BA /* PhotoButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoButton.h; sourceTree = "<group>"; };
 		97192EE61818FEF7007971BA /* PhotoButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoButton.m; sourceTree = "<group>"; };
 		972C10191814D4FF00552C9B /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = ../RTCoreService/RTCoreService/RT3rdSDK/TencentSDK/TencentOpenAPI.framework; sourceTree = "<group>"; };
@@ -537,6 +540,8 @@
 				972C10311814FDC400552C9B /* MoreViewController.m */,
 				97DED8AB18234BB100D0B82A /* MoreListCell.h */,
 				97DED8AC18234BB100D0B82A /* MoreListCell.m */,
+				970DB71B183AFFE700DEB455 /* AboutUsViewController.h */,
+				970DB71C183AFFE700DEB455 /* AboutUsViewController.m */,
 			);
 			name = "更多";
 			sourceTree = "<group>";
@@ -1236,6 +1241,7 @@
 				97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */,
 				97A606811816C2A50041B367 /* InputOrderManager.m in Sources */,
 				97B4225A1820DB8300A2E9E6 /* AnjukePropertyGroupCell.m in Sources */,
+				970DB71D183AFFE700DEB455 /* AboutUsViewController.m in Sources */,
 				97B422681821087600A2E9E6 /* PropertyBigImageViewController.m in Sources */,
 				B769E46C181F76A600A2FF50 /* BaseBidPlanController.m in Sources */,
 				972DDA301826D39500263F8F /* RTPopoverTableViewController.m in Sources */,
