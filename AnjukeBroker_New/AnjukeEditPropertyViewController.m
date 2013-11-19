@@ -987,9 +987,11 @@ typedef enum {
         newSizeImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
     }
+    else
+        newSizeImage = image; //只显示预览图
     
     //拍照界面加入新预览图
-    [self.imageOverLay takePhotoWithImage:image];
+    [self.imageOverLay takePhotoWithImage:newSizeImage];
     
 //    [self dismissViewControllerAnimated:YES completion:^(void){
 //        //
