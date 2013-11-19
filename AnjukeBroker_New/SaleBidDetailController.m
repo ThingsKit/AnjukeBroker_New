@@ -13,7 +13,7 @@
 #import "SalePropertyListController.h"
 #import "AnjukeEditPropertyViewController.h"
 #import "SaleBidPlanController.h"
-#import "PropertyAuctionViewController.h"
+#import "RentAuctionViewController.h"
 #import "RTNavigationController.h"
 #import "LoginManager.h"
 #import "SaleFixedManager.h"
@@ -256,7 +256,7 @@
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }else if (buttonIndex == 1){//重新开始竞价
-            PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
+            RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
             controller.proDic = [self.myArray objectAtIndex:selectedIndex];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.delegateVC = self;
@@ -276,7 +276,7 @@
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }else if (buttonIndex == 1){//调整预算
-            PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
+            RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
             controller.proDic = [self.myArray objectAtIndex:selectedIndex];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.delegateVC = self;

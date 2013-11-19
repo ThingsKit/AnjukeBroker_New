@@ -9,7 +9,7 @@
 #import "RentBidDetailController.h"
 #import "AnjukeEditPropertyViewController.h"
 #import "RTNavigationController.h"
-#import "PropertyAuctionViewController.h"
+#import "RentAuctionViewController.h"
 #import "SalePropertyListController.h"
 #import "BaseBidPropertyCell.h"
 #import "LoginManager.h"
@@ -165,7 +165,7 @@
         RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
         [self presentViewController:nav animated:YES completion:nil];
     }else if (buttonIndex == 1){
-        PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
+        RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
         controller.backType = RTSelectorBackTypeDismiss;
         controller.delegateVC = self;
         RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];

@@ -8,7 +8,7 @@
 
 #import "RentFixedDetailController.h"
 #import "AnjukeEditPropertyViewController.h"
-#import "PropertyAuctionViewController.h"
+#import "RentAuctionViewController.h"
 #import "ModifyFixedCostController.h"
 #import "RTNavigationController.h"
 #import "RentNoPlanController.h"
@@ -171,7 +171,7 @@
         }else if (buttonIndex == 1){
             //            [self.navigationController popToRootViewControllerAnimated:YES];
         }else if (buttonIndex == 2){
-            PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
+            RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.delegateVC = self;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];

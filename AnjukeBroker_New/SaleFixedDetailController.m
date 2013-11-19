@@ -13,7 +13,7 @@
 #import "AnjukeEditPropertyViewController.h"
 #import "SaleBidPlanController.h"
 #import "SaleSelectNoPlanController.h"
-#import "PropertyAuctionViewController.h"
+#import "RentAuctionViewController.h"
 #import "RTNavigationController.h"
 
 #import "SalePropertyListCell.h"
@@ -91,7 +91,6 @@
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/getplandetail/" params:params target:self action:@selector(onGetFixedInfo:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
-    self.isLoading = YES;
 }
 
 - (void)onGetFixedInfo:(RTNetworkResponse *)response {
@@ -100,8 +99,6 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-
         self.isLoading = NO;
         return;
     }
@@ -114,8 +111,6 @@
     [self.myTable reloadData];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
-    self.isLoading = NO;
 }
 #pragma mark - 取消定价推广房源
 -(void)cancelFixedProperty{
@@ -135,16 +130,12 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
-        self.isLoading = NO;
         return;
     }
     DLog(@"------response [%@]", [response content]);
     [self reloadData];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
-    self.isLoading = NO;
 }
 #pragma mark - 停止定价组计划推广
 -(void)cancelFixedGroup{
@@ -164,23 +155,19 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
-        self.isLoading = NO;
         return;
     }
     DLog(@"------response [%@]", [response content]);
     [self reloadData];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
-    self.isLoading = NO;
 }
 #pragma mark - 重新开始定价推广
 -(void)doRestart{
     if(![self isNetworkOkay]){
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"14e96260ca470b9afa52a48e3a54fb12", @"token", [LoginManager getUserID], @"brokerId",  [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/spreadstart/" params:params target:self action:@selector(onRestartSuccess:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
@@ -193,16 +180,12 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
-        self.isLoading = NO;
         return;
     }
     DLog(@"------response [%@]", [response content]);
     [self reloadData];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
-    self.isLoading = NO;
 }
 
 #pragma mark - RTPOPOVER Delegate
@@ -365,7 +348,7 @@
             [self cancelFixedProperty];
 //            [self.navigationController popToRootViewControllerAnimated:YES];
         }else if (buttonIndex == 2){
-            PropertyAuctionViewController *controller = [[PropertyAuctionViewController alloc] init];
+            RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.delegateVC = self;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];

@@ -10,6 +10,7 @@
 
 @interface BaseAuctionViewController ()
 @property (nonatomic, strong) UILabel *rangLabel;
+
 @end
 
 @implementation BaseAuctionViewController
