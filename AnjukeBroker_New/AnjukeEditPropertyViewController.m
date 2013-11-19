@@ -710,6 +710,7 @@ typedef enum {
     if (indexPath.row == 0) {
         //小区 push
         CommunityListViewController *cl = [[CommunityListViewController alloc] init];
+        cl.isHaouzu = self.isHaozu;
         cl.communityDelegate = self;
         [self.navigationController pushViewController:cl animated:YES];
         
@@ -741,9 +742,20 @@ typedef enum {
 #pragma mark - Community List Select Delegate
 
 - (void)communityDidSelect:(NSDictionary *)commDic {
-    [self setCommunityWithText:[commDic objectForKey:@"name"]];
+    NSString *name = [NSString string];
+    NSString *idStr = [NSString string];
     
-    [self.property setComm_id:[commDic objectForKey:@"id"]];
+    if (self.isHaozu) {
+        name = [commDic objectForKey:@"commName"];
+        idStr = [commDic objectForKey:@"commId"];
+    }
+    else {
+        name = [commDic objectForKey:@"name"];
+        idStr = [commDic objectForKey:@"id"];
+    }
+    
+    [self setCommunityWithText:name];
+    [self.property setComm_id:idStr];
 }
 
 - (void)setCommunityWithText:(NSString *)string {

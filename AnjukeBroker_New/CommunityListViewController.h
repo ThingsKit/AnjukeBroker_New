@@ -24,4 +24,6 @@ typedef enum {
 
 @property (nonatomic, assign) ListDataType listType;
 @property (nonatomic, assign) id <CommunitySelectDelegate> communityDelegate;
+@property BOOL isHaouzu; //区分二手房、租房的历史、附近数据
+
 @end

@@ -28,6 +28,7 @@
 @synthesize listType;
 @synthesize requestKeywords;
 @synthesize communityDelegate;
+@synthesize isHaouzu;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -162,7 +163,12 @@
         
         params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerid",[LoginManager getCity_id], @"city_id", lat, @"lat", lng, @"lng", @"0", @"map_type", nil];
         
-        method = @"anjuke/prop/getcommlist/";
+        if (self.isHaouzu) {
+            method = @"zufang/prop/getcommlist/"; //好租
+        }
+        else {
+            method = @"anjuke/prop/getcommlist/"; //二手房
+        }
     }
     else {
         self.requestKeywords = YES;
