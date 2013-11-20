@@ -341,7 +341,7 @@
     }else{
         if(buttonIndex == 0){
             PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
-            controller.propertyID = [[self.myArray objectAtIndex:selectIndex+1] objectForKey:@"id"];
+            controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
