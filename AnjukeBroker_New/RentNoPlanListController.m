@@ -7,7 +7,7 @@
 //
 
 #import "RentNoPlanListController.h"
-#import "AnjukeEditPropertyViewController.h"
+#import "PropertyResetViewController.h"
 #import "RentFixedDetailController.h"
 #import "SaleNoPlanListCell.h"
 #import "RentGroupListController.h"

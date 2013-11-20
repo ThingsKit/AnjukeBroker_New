@@ -9,7 +9,7 @@
 #import "BidPropertyDetailController.h"
 #import "PropertyDetailCell.h"
 #import "FixedObject.h"
-#import "AnjukeEditPropertyViewController.h"
+#import "PropertyResetViewController.h"
 #import "SaleBidPlanController.h"
 
 @interface BidPropertyDetailController ()
@@ -143,7 +143,8 @@
 #pragma mark -- UIActionSheetDelegate
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(buttonIndex == 0){
-        AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+        PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+        
         [self.navigationController pushViewController:controller animated:YES];
     }else if (buttonIndex == 1){
     

@@ -10,7 +10,7 @@
 #import "BaseNoPlanController.h"
 #import "ModifyFixedCostController.h"
 #import "SalePropertyDetailController.h"
-#import "AnjukeEditPropertyViewController.h"
+#import "PropertyResetViewController.h"
 #import "SaleBidPlanController.h"
 #import "SaleSelectNoPlanController.h"
 #import "SaleAuctionViewController.h"
@@ -340,7 +340,8 @@
 
     }else{
         if(buttonIndex == 0){
-            AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+            PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+            controller.propertyID = [[self.myArray objectAtIndex:selectIndex+1] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];

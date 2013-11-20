@@ -7,7 +7,7 @@
 //
 
 #import "RentFixedDetailController.h"
-#import "AnjukeEditPropertyViewController.h"
+#import "PropertyResetViewController.h"
 #import "RentAuctionViewController.h"
 #import "ModifyFixedCostController.h"
 #import "RTNavigationController.h"
@@ -274,7 +274,8 @@
         
     }else{//对房源的操作
         if(buttonIndex == 0){
-            AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+            PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+            controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];

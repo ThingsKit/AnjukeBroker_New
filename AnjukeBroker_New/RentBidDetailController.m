@@ -7,7 +7,7 @@
 //
 
 #import "RentBidDetailController.h"
-#import "AnjukeEditPropertyViewController.h"
+#import "PropertyResetViewController.h"
 #import "RTNavigationController.h"
 #import "RentAuctionViewController.h"
 #import "RentBidNoPlanController.h"
@@ -189,7 +189,8 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(actionSheet.tag == 101){
         if (buttonIndex == 0){
-            AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+            PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+            controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
@@ -209,7 +210,8 @@
         
     }else{
         if (buttonIndex == 0){//修改房源
-            AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+            PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+            controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];

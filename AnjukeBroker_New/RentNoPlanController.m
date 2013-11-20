@@ -13,7 +13,7 @@
 #import "LoginManager.h"
 #import "SaleNoPlanListManager.h"
 #import "RentGroupListController.h"
-#import "AnjukeEditPropertyViewController.h"\
+#import "PropertyResetViewController.h"
 
 @interface RentNoPlanController ()
 @property (nonatomic, strong) UIView *contentView;
@@ -332,7 +332,8 @@
         controller.propertyArray = self.selectedArray;
         [self.navigationController pushViewController:controller animated:YES];
     }else if (buttonIndex == 1){
-        AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+        PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+        controller.propertyID = [[self.selectedArray objectAtIndex:0] objectForKey:@"id"];
         [self.navigationController pushViewController:controller animated:YES];
     }else if (buttonIndex == 2){
         //删除房源

@@ -7,7 +7,7 @@
 //
 
 #import "SaleNoPlanGroupController.h"
-#import "AnjukeEditPropertyViewController.h"
+#import "PropertyResetViewController.h"
 #import "SaleFixedDetailController.h"
 #import "LoginManager.h"
 #import "SaleNoPlanListManager.h"
@@ -347,7 +347,8 @@
         controller.propertyArray = self.selectedArray;
         [self.navigationController pushViewController:controller animated:YES];
     }else if (buttonIndex == 1){
-        AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+        PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+        controller.propertyID = [[self.selectedArray objectAtIndex:0] objectForKey:@"id"];
         [self.navigationController pushViewController:controller animated:YES];
     }else if (buttonIndex == 2){
         //删除房源
