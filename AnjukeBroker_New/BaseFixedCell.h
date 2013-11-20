@@ -18,5 +18,5 @@
 @property (strong, nonatomic) UILabel *tapNumStr;
 @property (strong, nonatomic) UILabel *totalCostStr;
 @property (strong, nonatomic) UILabel *topCostStr;
-
+@property (strong, nonatomic) UIImageView *statusimg;
 @end
