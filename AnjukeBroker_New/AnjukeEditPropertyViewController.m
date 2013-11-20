@@ -20,8 +20,6 @@
 #import "ASIFormDataRequest.h"
 #import "RTCoreDataManager.h"
 #import "PhotoManager.h"
-#import "Property.h"
-#import "LoginManager.h"
 
 #define photoHeaderH 100
 #define photoHeaderH_RecNum 100 +50
@@ -66,7 +64,6 @@ typedef enum {
 
 @property int uploadImgIndex; //上传图片的顺序，每上传一张此index+1
 
-@property (nonatomic, strong) Property *property;
 @property (nonatomic, assign) PropertyUploadType uploadType;
 
 @end

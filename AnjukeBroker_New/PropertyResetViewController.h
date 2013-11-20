@@ -10,4 +10,6 @@
 
 @interface PropertyResetViewController : AnjukeEditPropertyViewController
 
+@property (nonatomic, copy) NSString *propertyID;
+
 @end
