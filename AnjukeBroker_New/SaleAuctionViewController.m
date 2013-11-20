@@ -101,10 +101,9 @@
         
         return;
     }
-    self.textField_2.text = [[response content] objectForKey:@"data"];
+    self.textField_2.placeholder = [NSString stringWithFormat:@"底价%@元",[[response content] objectForKey:@"data"]];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
-    
     [self doSure];
 }
 
