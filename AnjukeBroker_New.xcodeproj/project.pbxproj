@@ -49,6 +49,7 @@
 		975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 975D9DE0181B69A700A421AF /* KeyboardToolBar.m */; };
 		975E7ED01829EDC7008EBC1D /* WebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 975E7ECF1829EDC7008EBC1D /* WebImageView.m */; };
 		976AC61118278B5C003A2B3A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 976AC61018278B5C003A2B3A /* LoginViewController.m */; };
+		976D9354183CC69100C9571B /* ConfigPlistManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 976D9353183CC69100C9571B /* ConfigPlistManager.m */; };
 		977FCA8F182894F000945FB4 /* CommunityListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 977FCA8E182894F000945FB4 /* CommunityListViewController.m */; };
 		977FCA9D1828FAD700945FB4 /* LoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 977FCA9C1828FAD700945FB4 /* LoginManager.m */; };
 		979583581821FF2B005EA48A /* SystemMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 979583571821FF2B005EA48A /* SystemMessageViewController.m */; };
@@ -268,6 +269,8 @@
 		975E7ECF1829EDC7008EBC1D /* WebImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebImageView.m; sourceTree = "<group>"; };
 		976AC60F18278B5C003A2B3A /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		976AC61018278B5C003A2B3A /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		976D9352183CC69100C9571B /* ConfigPlistManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigPlistManager.h; sourceTree = "<group>"; };
+		976D9353183CC69100C9571B /* ConfigPlistManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigPlistManager.m; sourceTree = "<group>"; };
 		977FCA8D182894F000945FB4 /* CommunityListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommunityListViewController.h; sourceTree = "<group>"; };
 		977FCA8E182894F000945FB4 /* CommunityListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommunityListViewController.m; sourceTree = "<group>"; };
 		977FCA9B1828FAD700945FB4 /* LoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginManager.h; sourceTree = "<group>"; };
@@ -1108,6 +1111,8 @@
 				9751860118320D5F00C9A40A /* PhotoManager.m */,
 				97B1064E1834E5F40064AF5F /* AppManager.h */,
 				97B1064F1834E5F40064AF5F /* AppManager.m */,
+				976D9352183CC69100C9571B /* ConfigPlistManager.h */,
+				976D9353183CC69100C9571B /* ConfigPlistManager.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -1374,6 +1379,7 @@
 				97B4225D1820E36600A2E9E6 /* PropertyAuctionViewController.m in Sources */,
 				97CD8D44180E6D6E00185C9D /* RTViewController.m in Sources */,
 				974E5C89181E4B00000246D1 /* AnjukeEditableTV_DataSource.m in Sources */,
+				976D9354183CC69100C9571B /* ConfigPlistManager.m in Sources */,
 				B79084F6182B42AE00B2A870 /* SaleFixedGroupObject.m in Sources */,
 				B79084FA182B490600B2A870 /* SaleFixedManager.m in Sources */,
 				972C10391815351900552C9B /* AnjukeEditPropertyViewController.m in Sources */,

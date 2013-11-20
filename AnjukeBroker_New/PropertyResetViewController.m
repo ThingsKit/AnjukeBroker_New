@@ -15,6 +15,7 @@
 
 @implementation PropertyResetViewController
 @synthesize propertyID;
+@synthesize isHaozu;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,7 +53,12 @@
     
     NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.propertyID, @"propId", nil];
     
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/getpropdetail/" params:params target:self action:@selector(onGetProp:)];
+    if (self.isHaozu) {
+        //
+    }
+    else {
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/getpropdetail/" params:params target:self action:@selector(onGetProp:)];
+    }
 }
 
 - (void)onGetProp:(RTNetworkResponse *)response {
@@ -71,8 +77,27 @@
         return;
     }
     
+    NSDictionary *dic = [[[response content] objectForKey:@"data"] objectForKey:@"propInfo"];
+    
+    //保存房源详情 //映射到房源object，并遍历得到每个数据的index
+    [self setPropertyWithDic:dic];
     
     [self hideLoadWithAnimated:YES];
 }
+
+- (void)setPropertyWithDic:(NSDictionary *)dic {
+    self.property = [PropertyDataManager getNewPropertyObject];
+    
+    //数据赋值，映射，得到显示值 for test
+    //户型
+    self.property.rooms = [NSString stringWithFormat:@"%@,%@,%@", [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"]];
+    
+    self.property.area = [dic objectForKey:@"area"];
+    self.property.comm_id = [dic objectForKey:@"commId"];
+    self.property.price = [dic objectForKey:@"price"];
+    self.property.fitment = [dic objectForKey:@"fitment"];
+    
+}
+
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "PropertyDataManager.h"
+#import "ConfigPlistManager.h"
 
 @implementation PropertyDataManager
 
@@ -60,9 +61,20 @@
     return arr;
 }
 
-+ (NSArray *)getPropertyZhuangxiu {
-    NSString *strPlistPath = [[NSBundle mainBundle] pathForResource:@"PropertyFitment" ofType:@"plist"];
-    NSMutableArray *arr = [NSMutableArray arrayWithContentsOfFile:strPlistPath];
++ (NSArray *)getPropertyFitmentForHaozu:(BOOL)isHZ {
+    
+    NSArray *arr = [NSArray array];
+    if (isHZ) {
+        arr = [ConfigPlistManager getArrayPlistWithName:HZ_FITMENT_PLIST];
+    }
+    else {
+        arr = [ConfigPlistManager getArrayPlistWithName:AJK_FITMENT_PLIST];
+    }
+    
+    if (arr == nil || arr.count == 0) {
+        NSString *strPlistPath = [[NSBundle mainBundle] pathForResource:@"PropertyFitment" ofType:@"plist"];
+        arr = [NSMutableArray arrayWithContentsOfFile:strPlistPath];
+    }
     
     return arr;
 }
@@ -135,6 +147,10 @@
     
     return ep;
 }
+
+#pragma mark - Edit Property Method
+
+
 
 @end
 

@@ -1,0 +1,89 @@
+//
+//  DocPlistManager.m
+//  AnjukeBroker_New
+//
+//  Created by Wu sicong on 13-11-20.
+//  Copyright (c) 2013年 Wu sicong. All rights reserved.
+//
+
+#import "ConfigPlistManager.h"
+
+@implementation ConfigPlistManager
+
+#pragma mark - Standard Method
+
++ (NSDictionary *)getDictionaryPlistWithName:(NSString *)name {
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    NSString *path = [paths objectAtIndex:0];
+    NSString *filename = [path stringByAppendingPathComponent:name];
+    NSDictionary* configData = [NSDictionary dictionaryWithContentsOfFile:filename];
+    
+    DLog(@"confingData [%@]", configData);
+    
+    return configData;
+}
+
++ (NSArray *)getArrayPlistWithName:(NSString *)name {
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    NSString *path = [paths objectAtIndex:0];
+    NSString *filename = [path stringByAppendingPathComponent:name];
+    NSArray* configData = [NSArray arrayWithContentsOfFile:filename];
+    
+    DLog(@"confingData [%@]", configData);
+    
+    return configData;
+}
+
++ (void)savePlistWithDic:(NSDictionary *)dic withName:(NSString *)name { //将数据存入沙箱
+    NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    NSString *path=[paths    objectAtIndex:0];
+    NSString *filename=[path stringByAppendingPathComponent:name];   //获取路径
+    
+    [dic writeToFile:filename atomically:YES];
+}
+
++ (void)savePlistWithArr:(NSArray *)arr withName:(NSString *)name { //将数据存入沙箱
+    NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    NSString *path=[paths    objectAtIndex:0];
+    NSString *filename=[path stringByAppendingPathComponent:name];   //获取路径
+    
+    [arr writeToFile:filename atomically:YES];
+}
+
++ (void)setAnjukeDataPlistWithDic:(NSDictionary *)dic {
+    //装修方式
+    NSDictionary *fitmentDic = [dic objectForKey:@"fitment"];
+    NSArray *valueArr = [fitmentDic allKeys];
+    NSArray *titleArr = [fitmentDic allValues];
+    
+    NSMutableArray *resultArr = [NSMutableArray array];
+    for (int i = 0; i < valueArr.count; i ++) {
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[valueArr objectAtIndex:i], @"Value", [titleArr objectAtIndex:i], @"Title", nil];
+        [resultArr addObject:dic];
+    }
+    
+    DLog(@"resultArr");
+    
+    [self savePlistWithArr:resultArr withName:AJK_FITMENT_PLIST];
+}
+
++ (void)setHaozuDataPlistWithDic:(NSDictionary *)dic {
+    //装修方式
+    NSDictionary *fitmentDic = [dic objectForKey:@"fitment"];
+    NSArray *valueArr = [fitmentDic allKeys];
+    NSArray *titleArr = [fitmentDic allValues];
+    
+    NSMutableArray *resultArr = [NSMutableArray array];
+    for (int i = 0; i < valueArr.count; i ++) {
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[valueArr objectAtIndex:i], @"Value", [titleArr objectAtIndex:i], @"Title", nil];
+        [resultArr addObject:dic];
+    }
+    
+    DLog(@"resultArr");
+    
+    [self savePlistWithArr:resultArr withName:HZ_FITMENT_PLIST];
+}
+
+@end

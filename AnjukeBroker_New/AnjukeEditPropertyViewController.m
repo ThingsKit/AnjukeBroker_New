@@ -98,6 +98,7 @@ typedef enum {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [self setTitleViewWithString:@"房源信息"];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

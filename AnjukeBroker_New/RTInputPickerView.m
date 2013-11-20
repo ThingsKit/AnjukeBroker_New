@@ -65,7 +65,7 @@
                 break;
             case HZ_P_FITMENT: //装修
             {
-                self.firstArray = [PropertyDataManager getPropertyZhuangxiu];
+                self.firstArray = [PropertyDataManager getPropertyFitmentForHaozu:isHaozu];
             }
                 break;
             case HZ_P_RENTTYPE: //出租方式
@@ -103,7 +103,7 @@
                 break;
             case AJK_P_FITMENT: //装修
             {
-                self.firstArray = [PropertyDataManager getPropertyZhuangxiu];
+                self.firstArray = [PropertyDataManager getPropertyFitmentForHaozu:isHaozu];
             }
                 break;
                 

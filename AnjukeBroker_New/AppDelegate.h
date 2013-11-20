@@ -24,9 +24,5 @@
 
 //private method
 + (AppDelegate *)sharedAppDelegate;
-- (void)requestSalePropertyConfig;
-//读取配置文件
--(NSDictionary *)readRentDataFromConfig;
--(NSDictionary *)readSaleDataFromConfig;
 
 @end

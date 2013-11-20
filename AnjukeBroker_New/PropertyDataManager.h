@@ -19,7 +19,7 @@
 + (NSMutableArray *)getPropertyHuxingArray_Wei;
 
 //装修情况
-+ (NSArray *)getPropertyZhuangxiu;
++ (NSArray *)getPropertyFitmentForHaozu:(BOOL)isHZ;
 
 //朝向
 + (NSArray *)getPropertyChaoXiang;

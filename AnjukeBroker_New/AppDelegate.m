@@ -208,65 +208,7 @@
     self.window.rootViewController = self.rootViewController;
     
 }
-//获取房源配置信息
-- (void)requestSalePropertyConfig{
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/getconfig/" params:params target:self action:@selector(onGetSaleSuccess:)];
 
-}
-- (void)onGetSaleSuccess:(RTNetworkResponse *)response {
-    DLog(@"------response [%@]", [response content]);
-    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
-    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-    
-    NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-    NSString *path=[paths    objectAtIndex:0];
-    NSString *filename=[path stringByAppendingPathComponent:@"SalePropertyConfig.plist"];   //获取路径
-    DLog(@"%@",filename);
-    [resultFromAPI writeToFile:filename atomically:YES];
-    [self requestRentPropertyConfig];
-}
-- (void)requestRentPropertyConfig{
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/prop/getconfig/" params:params target:self action:@selector(onGetRentSuccess:)];
-    
-}
-- (void)onGetRentSuccess:(RTNetworkResponse *)response {
-    DLog(@"------response [%@]", [response content]);
-    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
-    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-    
-    NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-    NSString *path=[paths    objectAtIndex:0];
-    NSString *filename=[path stringByAppendingPathComponent:@"RentPropertyConfig.plist"];   //获取路径
-    DLog(@"%@",filename);
-    [resultFromAPI writeToFile:filename atomically:YES];
-    
-}
-//读租房配置文件
--(NSDictionary *)readRentDataFromConfig{
-    NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-    NSString *path=[paths objectAtIndex:0];
-    NSString *filename=[path stringByAppendingPathComponent:@"RentPropertyConfig.plist"];
-    NSDictionary* configData = [NSDictionary dictionaryWithContentsOfFile:filename];
-    return configData;
-}
-//读二手房配置文件
--(NSDictionary *)readSaleDataFromConfig{
-    NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-    NSString *path=[paths objectAtIndex:0];
-    NSString *filename=[path stringByAppendingPathComponent:@"RentPropertyConfig.plist"];
-    NSDictionary* configData = [NSDictionary dictionaryWithContentsOfFile:filename];
-    return configData;
-}
+#pragma mark - Request Method
+
 @end
