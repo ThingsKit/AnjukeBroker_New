@@ -347,7 +347,6 @@
             [self presentViewController:nav animated:YES completion:nil];
         }else if (buttonIndex == 1){
             [self cancelFixedProperty];
-//            [self.navigationController popToRootViewControllerAnimated:YES];
         }else if (buttonIndex == 2){
             SaleAuctionViewController *controller = [[SaleAuctionViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;

@@ -134,7 +134,7 @@
     self.isLoading = NO;
     [self doRequest];
 }
-#pragma mark - 取消定价
+#pragma mark - 重新开始定价
 -(void)doRestartFixed{
     if(![self isNetworkOkay]){
         return;
@@ -264,7 +264,7 @@
         }else if (buttonIndex == 1){//重新开始定价推广
             [self doRestartFixed];
         }else if (buttonIndex == 2){
-            ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
+            ModifyRentCostController *controller = [[ModifyRentCostController alloc] init];
             controller.fixedObject = [self.myArray objectAtIndex:0];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];

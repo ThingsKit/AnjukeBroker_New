@@ -47,18 +47,11 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self reloadData];
-    [self doRequest];
-}
-
--(void)reloadData{
-    if(self.myArray == nil){
-        self.myArray = [NSMutableArray array];
-    }else{
-        [self.myArray removeAllObjects];
-        [self.myTable reloadData];
+    if([self.selectedArray count] == 0){
+        [self doRequest];
     }
 }
+
 -(void)dealloc{
     self.myTable.delegate = nil;
 }

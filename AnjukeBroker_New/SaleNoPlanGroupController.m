@@ -56,7 +56,7 @@
 }
 
 - (void)initModel {
-    
+    [super initModel];
 }
 
 - (void)initDisplay_ {
@@ -96,18 +96,11 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self reloadData];
-    [self doRequest];
-}
-
--(void)reloadData{
-    if(self.myArray == nil){
-        self.myArray = [NSMutableArray array];
-    }else{
-        [self.myArray removeAllObjects];
-        [self.myTable reloadData];
+    if([self.selectedArray count] == 0){
+        [self doRequest];
     }
 }
+
 -(void)dealloc{
     self.myTable.delegate = nil;
 }
@@ -354,13 +347,9 @@
         //删除房源
         [self.myArray removeObjectsInArray:self.selectedArray];
         [self.selectedArray removeAllObjects];
-        
         [self.myTable reloadData];
-        
         DLog(@"myArr [%d]", self.myArray.count);
-        
         [self setEditBtnEnableStatus];
-
     }
 }
 
