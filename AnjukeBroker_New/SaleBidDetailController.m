@@ -166,36 +166,6 @@
     [self doRequest];
 
 }
-#pragma mark - 重新开始竞价推广
--(void)doRestartBid{
-    if(![self isNetworkOkay]){
-        return;
-    }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"], @"propId", @"30", @"budget", @"1.1", @"bid", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/spreadstart/" params:params target:self action:@selector(onRestartSuccess:)];
-    [self showLoadingActivity:YES];
-    self.isLoading = YES;
-}
-- (void)onRestartSuccess:(RTNetworkResponse *)response {
-    DLog(@"------response [%@]", [response content]);
-    
-    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-        [alert show];
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-
-        return;
-    }
-    
-    //    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-    
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-
-    
-}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     selectedIndex = indexPath.row;
     

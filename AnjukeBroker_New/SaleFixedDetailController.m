@@ -109,8 +109,8 @@
     [self.myArray addObject:[SaleFixedManager fixedPlanObjectFromDic:dicPlan]];
     [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
     [self.myTable reloadData];
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 }
 #pragma mark - 取消定价推广房源
 -(void)cancelFixedProperty{
@@ -134,8 +134,9 @@
     }
     DLog(@"------response [%@]", [response content]);
     [self reloadData];
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    [self doRequest];
 }
 #pragma mark - 停止定价组计划推广
 -(void)cancelFixedGroup{
@@ -159,8 +160,9 @@
     }
     DLog(@"------response [%@]", [response content]);
     [self reloadData];
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    [self doRequest];
 }
 #pragma mark - 重新开始定价推广
 -(void)doRestart{
@@ -184,8 +186,9 @@
     }
     DLog(@"------response [%@]", [response content]);
     [self reloadData];
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    [self doRequest];
 }
 
 #pragma mark - RTPOPOVER Delegate

@@ -23,9 +23,9 @@
     self.fixedId = [dic objectForKey:@"fixPlanId"];
     self.planName = [dic objectForKey:@"fixPlanName"];
     self.tapNum = [dic objectForKey:@"fixPlanClickNum"];
-    self.cost = [dic objectForKey:@"fixPlanCosts"];
+    self.cost = [NSString stringWithFormat:@"%d",[[dic objectForKey:@"fixPlanCosts"] integerValue]];
 //    self.totalCost = [dic objectForKey:@"totalCost"];
-    self.topCost = [dic objectForKey:@"fixPlanPropCeiling"];
+    self.topCost = [NSString stringWithFormat:@"%d",[[dic objectForKey:@"fixPlanPropCeiling"] integerValue]];
     self.fixedStatus = [dic objectForKey:@"fixPlanState"];
 //    self.totalProperty = [dic objectForKey:@"totalProperty"];
     

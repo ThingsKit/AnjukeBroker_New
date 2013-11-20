@@ -10,6 +10,7 @@
 #import "Util_UI.h"
 #import "TabBarViewController.h"
 #import "LoginManager.h"
+#import "AppDelegate.h"
 
 @interface LoginViewController ()
 
@@ -155,7 +156,6 @@
         
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         
@@ -170,7 +170,6 @@
     if ([resultFromAPI count] == 0) {
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:@"登录信息出错" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
@@ -188,9 +187,11 @@
 
     [self pushToTab];
     
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    if([[AppDelegate sharedAppDelegate] readRentDataFromConfig] == nil){
+        [[AppDelegate sharedAppDelegate] requestSalePropertyConfig];
+    }
 }
 
 @end

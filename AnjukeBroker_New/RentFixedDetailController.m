@@ -184,6 +184,7 @@
 
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
+    [self doRequest];
 }
 
 #pragma mark - UITableView Delegate & DataSource
