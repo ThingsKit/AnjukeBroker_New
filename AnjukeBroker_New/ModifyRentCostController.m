@@ -28,7 +28,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
 	// Do any additional setup after loading the view.
+}
+- (void)initDisplay{
+    [super initDisplay];
+
+}
+- (void)setCeiling{
+
+
 }
 #pragma mark - 修改定价组限额
 -(void)modifyFixedProperty{

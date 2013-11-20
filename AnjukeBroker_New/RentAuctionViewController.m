@@ -147,6 +147,7 @@
     self.textField_2.placeholder = [NSString stringWithFormat:@"底价%@元",[[response content] objectForKey:@"data"]];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
+    [self doSure];
 }
 #pragma mark - 修改竞价
 -(void)doModifyBid{
@@ -239,7 +240,6 @@
         [self doResetBid];//修改竞价出价及额度
     }else
         [self doBid];//定价组房源参与竞价
-    [self doSure];
 }
 
 - (void)doSure {

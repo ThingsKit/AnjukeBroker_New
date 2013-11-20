@@ -1,23 +1,23 @@
 //
-//  SaleSelectNoPlanController.m
+//  RentSelectNoPlanController.m
 //  AnjukeBroker_New
 //
-//  Created by jianzhongliu on 10/30/13.
+//  Created by jianzhongliu on 11/20/13.
 //  Copyright (c) 2013 Wu sicong. All rights reserved.
 //
 
-#import "SaleSelectNoPlanController.h"
+#import "RentSelectNoPlanController.h"
 #import "SaleFixedDetailController.h"
 #import "BaseNoPlanListCell.h"
 #import "SaleNoPlanListCell.h"
 #import "SaleNoPlanListManager.h"
 #import "LoginManager.h"
 
-@interface SaleSelectNoPlanController ()
+@interface RentSelectNoPlanController ()
 
 @end
 
-@implementation SaleSelectNoPlanController
+@implementation RentSelectNoPlanController
 @synthesize fixedObj;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -32,7 +32,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self addRightButton:@"确定" andPossibleTitle:nil];
     self.myTable.frame = FRAME_WITH_NAV;
 	// Do any additional setup after loading the view.
@@ -47,13 +46,14 @@
     [super viewWillAppear:animated];
     [self doRequest];
 }
+
 #pragma mark - Request 未推广列表
 -(void)doRequest{
     if(![self isNetworkOkay]){
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/getfixprops/" params:params target:self action:@selector(onGetSuccess:)];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/prop/getfixprops/" params:params target:self action:@selector(onGetSuccess:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
@@ -67,32 +67,23 @@
         self.isLoading = NO;
         return;
     }
-
-    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-    if([resultFromAPI count] ==  0){
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-        return ;
-    }
-    if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-        [alert show];
-        [self.myArray removeAllObjects];
-        [self.myTable reloadData];
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-
-        return;
-    }
+    //    NSMutableArray *result = [SaleNoPlanListManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"propertyList"]];
+    //    [self.myArray removeAllObjects];
+    //    [self.myArray addObjectsFromArray:result];
+    //    [self.myTable reloadData];
+    //    [self hideLoadWithAnimated:YES];
+    //    self.isLoading = NO;
     
-    NSMutableArray *result = [SaleNoPlanListManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"propertyList"]];
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    //    NSMutableDictionary *dicPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"plan"]];
     [self.myArray removeAllObjects];
-    [self.myArray addObjectsFromArray:result];
+    //    [self.myArray addObject:[SaleFixedManager fixedPlanObjectFromDic:dicPlan]];
+    [self.myArray addObjectsFromArray:[SaleNoPlanListManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"propertyList"]]];
     [self.myTable reloadData];
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 }
+
 #pragma mark - Request 定价推广
 -(void)doFixed{
     if(![self isNetworkOkay]){
@@ -100,33 +91,27 @@
     }
     //    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  @"187275101", @"proIds", @"388666", @"planId", nil];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  [self getStringFromArray:self.selectedArray], @"propIds", self.fixedObj.fixedId, @"planId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/addpropstoplan/" params:params target:self action:@selector(onFixedSuccess:)];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/addpropstoplan/" params:params target:self action:@selector(onFixedSuccess:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
 
 - (void)onFixedSuccess:(RTNetworkResponse *)response {
-    
+    DLog(@"------response [%@]", [response content]);
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
+        
         return;
     }
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-
-    DLog(@"------response [%@]", [response content]);
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    
     [self dismissViewControllerAnimated:YES completion:nil];
-//    SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
-//    controller.backType = RTSelectorBackTypeDismiss;
-//    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-//    [dic setValue:self.fixedObj.fixedId  forKey:@"fixPlanId"];
-//    controller.tempDic = dic;
-//    [self.navigationController pushViewController:controller animated:YES];
 }
 
 -(NSString *)getStringFromArray:(NSArray *) array{
@@ -182,8 +167,8 @@
         return ;
     }
     [self doFixed];
-//    [self.navigationController popViewControllerAnimated:YES];
-//    [self dismissViewControllerAnimated:YES completion:nil];
+    //    [self.navigationController popViewControllerAnimated:YES];
+    //    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)clickButton:(id) sender{
@@ -196,4 +181,5 @@
     }
     [self.myTable reloadData];
 }
+
 @end

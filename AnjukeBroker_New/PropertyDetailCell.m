@@ -39,6 +39,11 @@
     communityName.text = obj.communityName;
     price.text = obj.price;
 }
+-(void)setValueForCellByDictionar:(NSDictionary *) dic{
+    title.text = [dic objectForKey:@"title"];
+    communityName.text = [dic objectForKey:@"commName"];
+    price.text = [dic objectForKey:@"price"];
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];

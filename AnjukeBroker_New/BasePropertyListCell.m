@@ -11,65 +11,95 @@
 #import "Util_UI.h"
 
 @implementation BasePropertyListCell
+@synthesize title;
+@synthesize comName;
+@synthesize detail;
+@synthesize price;
+@synthesize tapNum;
+@synthesize tapNumStr;
+@synthesize bidStatue;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        tapNum = [[UILabel alloc] initWithFrame:CGRectMake(210, 25, 100, 20)];
-        tapNum.backgroundColor = [UIColor clearColor];
-        tapNum.textColor = [Util_UI colorWithHexString:@"#666666"];
-        tapNum.font = [UIFont systemFontOfSize:12];
+        
+        self.bidStatue = [[UIImageView alloc] init];
+        self.bidStatue.frame = CGRectMake(10, 12, 14, 14);
+        [self.contentView addSubview:self.bidStatue];
+        
+        self.tapNum = [[UILabel alloc] initWithFrame:CGRectMake(270, 45, 100, 20)];
+        self.tapNum.backgroundColor = [UIColor clearColor];
+        self.tapNum.textColor = [Util_UI colorWithHexString:@"#666666"];
+        self.tapNum.font = [UIFont systemFontOfSize:12];
 //        tapNum.text = @"点击：50";
-        [self.contentView addSubview:tapNum];
+        [self.contentView addSubview:self.tapNum];
         
-        tapNumStr = [[UILabel alloc] initWithFrame:CGRectMake(180, 25, 40, 20)];
-        tapNumStr.backgroundColor = [UIColor clearColor];
-        tapNumStr.font = [UIFont systemFontOfSize:12];
-        tapNumStr.text = @"点击:";
-        [self.contentView addSubview:tapNumStr];
+        self.tapNumStr = [[UILabel alloc] initWithFrame:CGRectMake(240, 45, 40, 20)];
+        self.tapNumStr.backgroundColor = [UIColor clearColor];
+        self.tapNumStr.font = [UIFont systemFontOfSize:12];
+        self.tapNumStr.text = @"点击:";
+        [self.contentView addSubview:self.tapNumStr];
         
-        title = [[UILabel alloc] initWithFrame:CGRectMake(27, 10, 250, 20)];
-        title.text = @"最好的房子";
-        title.font = [UIFont systemFontOfSize:16];
-        communityName = [[UILabel alloc] initWithFrame:CGRectMake(27, 45, 150, 20)];
-        communityName.textColor = [Util_UI colorWithHexString:@"#666666"];
-        communityName.text = @"明日社区";
-        communityName.font = [UIFont systemFontOfSize:12];
-        price = [[UILabel alloc] initWithFrame:CGRectMake(130, 45, 150, 20)];
-        price.textColor = [UIColor grayColor];
-        price.text = @"-190万";
-        price.font = [UIFont systemFontOfSize:12];
+        self.title = [[UILabel alloc] initWithFrame:CGRectMake(27, 5, 250, 40)];
+        self.title.numberOfLines = 0;
+        self.title.lineBreakMode = NSLineBreakByWordWrapping;
+        self.title.font = [UIFont systemFontOfSize:14];
         
-        [self.contentView addSubview:title];
-        [self.contentView addSubview:communityName];
-        [self.contentView addSubview:price];
+        self.comName = [[UILabel alloc] initWithFrame:CGRectMake(27, 40, 250, 20)];
+        self.comName.textColor = [Util_UI colorWithHexString:@"#666666"];
+        self.comName.font = [UIFont systemFontOfSize:12];
+        
+        self.detail = [[UILabel alloc] initWithFrame:CGRectMake(27, 60, 150, 20)];
+        self.detail.textColor = [Util_UI colorWithHexString:@"#666666"];
+        self.detail.font = [UIFont systemFontOfSize:12];
+        
+        self.price = [[UILabel alloc] initWithFrame:CGRectMake(140, 60, 150, 20)];
+        self.price.textColor = [UIColor grayColor];
+        self.price.text = @"-190万";
+        self.price.font = [UIFont systemFontOfSize:12];
+        
+        [self.contentView addSubview:self.title];
+        [self.contentView addSubview:self.comName];
+        [self.contentView addSubview:self.detail];
+        [self.contentView addSubview:self.price];
         
         [self showUpArrowImg];
     }
     return self;
 }
 -(void)setValueForCellByObject:(BasePropertyObject *) obj{
-    title.text = obj.title;
-    communityName.text = obj.communityName;
-    price.text = obj.price;
+    self.title.text = obj.title;
+    self.detail.text = obj.communityName;
+    self.price.text = obj.price;
 }
 -(BOOL)configureCell:(id)dataModel{
     if([dataModel isKindOfClass:[BasePropertyObject class]]){
         BasePropertyObject *obj = (BasePropertyObject *)dataModel;
-        title.text = obj.title;
-        communityName.text = obj.communityName;
-        price.text = obj.price;
+        self.title.text = obj.title;
+        self.detail.text = obj.communityName;
+        self.price.text = obj.price;
         return YES;
     }else if ([dataModel isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dic = (NSDictionary *)dataModel;
-        title.text = [dic objectForKey:@"title"];
-        communityName.text = [NSString stringWithFormat:@"%@室%@厅%@卫 %@平", [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"], [dic objectForKey:@"area"]];
-        price.text = [NSString stringWithFormat:@"%d%@", [[dic objectForKey:@"price"] intValue], [dic objectForKey:@"priceUnit"]];
-        tapNum.text = [dic objectForKey:@"clickNum"];
+        self.title.text = [dic objectForKey:@"title"];
+        self.detail.text = [NSString stringWithFormat:@"%@室%@厅%@卫 %@平", [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"], [dic objectForKey:@"area"]];
+        self.price.text = [NSString stringWithFormat:@"%d%@", [[dic objectForKey:@"price"] intValue], [dic objectForKey:@"priceUnit"]];
+        self.tapNum.text = [dic objectForKey:@"clickNum"];
+        self.comName.text = [dic objectForKey:@"commName"];
+        [self setBidStatueImg:dic];
     }
     return NO;
 }
+
+-(void)setBidStatueImg:(NSDictionary *)dic{
+    if([[dic objectForKey:@"isBid"] isEqualToString:@"1"]){
+        self.bidStatue.image = [UIImage imageNamed:@"anjuke_icon_bid@2x.png"];
+    }else {
+        self.bidStatue.image = nil;
+    }
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];

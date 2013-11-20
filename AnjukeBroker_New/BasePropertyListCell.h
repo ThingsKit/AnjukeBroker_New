@@ -12,12 +12,16 @@
 
 @interface BasePropertyListCell : RTListCell
 {
-    UILabel *title;
-    UILabel *communityName;
-    UILabel *price;
-    UILabel *tapNum;
-    UILabel *tapNumStr;
+
 }
+@property (strong, nonatomic) UILabel *title;
+@property (strong, nonatomic) UILabel *comName;
+@property (strong, nonatomic) UILabel *detail;
+@property (strong, nonatomic) UILabel *price;
+@property (strong, nonatomic) UILabel *tapNum;
+@property (strong, nonatomic) UILabel *tapNumStr;
+@property (strong, nonatomic) UIImageView *bidStatue;
+
 -(void)setValueForCellByObject:(SalePropertyObject *) obj;
 
 @end

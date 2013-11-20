@@ -104,16 +104,18 @@
 -(void)dealloc{
     self.myTable.delegate = nil;
 }
+
 #pragma mark - Request 未推广列表
 -(void)doRequest{
     if(![self isNetworkOkay]){
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/noplanprops/" params:params target:self action:@selector(onGetSuccess:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
+
 - (void)onGetSuccess:(RTNetworkResponse *)response {
 
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {

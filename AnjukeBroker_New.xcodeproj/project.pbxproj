@@ -174,6 +174,8 @@
 		B7EF77AD183CBBD20024A5E6 /* agent_icon43@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF77A9183CBBD20024A5E6 /* agent_icon43@2x.png */; };
 		B7EF77AE183CBBD20024A5E6 /* agent_icon44@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF77AA183CBBD20024A5E6 /* agent_icon44@2x.png */; };
 		B7EF77AF183CBBD20024A5E6 /* agent_icon45@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF77AB183CBBD20024A5E6 /* agent_icon45@2x.png */; };
+		B7EF77B5183CE2D90024A5E6 /* RentSelectNoPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EF77B4183CE2D90024A5E6 /* RentSelectNoPlanController.m */; };
+		B7EF77B9183CE82D0024A5E6 /* RentNoPlanListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EF77B8183CE82D0024A5E6 /* RentNoPlanListCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -473,6 +475,10 @@
 		B7EF77A9183CBBD20024A5E6 /* agent_icon43@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "agent_icon43@2x.png"; sourceTree = "<group>"; };
 		B7EF77AA183CBBD20024A5E6 /* agent_icon44@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "agent_icon44@2x.png"; sourceTree = "<group>"; };
 		B7EF77AB183CBBD20024A5E6 /* agent_icon45@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "agent_icon45@2x.png"; sourceTree = "<group>"; };
+		B7EF77B3183CE2D90024A5E6 /* RentSelectNoPlanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentSelectNoPlanController.h; sourceTree = "<group>"; };
+		B7EF77B4183CE2D90024A5E6 /* RentSelectNoPlanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentSelectNoPlanController.m; sourceTree = "<group>"; };
+		B7EF77B7183CE82D0024A5E6 /* RentNoPlanListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentNoPlanListCell.h; sourceTree = "<group>"; };
+		B7EF77B8183CE82D0024A5E6 /* RentNoPlanListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentNoPlanListCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1018,6 +1024,8 @@
 				B7E69BC0183B63480097D5C3 /* RentAuctionViewController.m */,
 				B7E69BC2183B9CEE0097D5C3 /* RentBidNoPlanController.h */,
 				B7E69BC3183B9CEE0097D5C3 /* RentBidNoPlanController.m */,
+				B7EF77B3183CE2D90024A5E6 /* RentSelectNoPlanController.h */,
+				B7EF77B4183CE2D90024A5E6 /* RentSelectNoPlanController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1033,6 +1041,8 @@
 				B7E69BAD183B15430097D5C3 /* RentPPCGroupCell.m */,
 				B7E69BB0183B26A90097D5C3 /* RentBidPropertyCell.h */,
 				B7E69BB1183B26A90097D5C3 /* RentBidPropertyCell.m */,
+				B7EF77B7183CE82D0024A5E6 /* RentNoPlanListCell.h */,
+				B7EF77B8183CE82D0024A5E6 /* RentNoPlanListCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1342,6 +1352,7 @@
 				B7E803F31820F24400775C6F /* SaleNoPlanListCell.m in Sources */,
 				B70323DC1832115B00DFDB1C /* BaseGroupListController.m in Sources */,
 				975E7ED01829EDC7008EBC1D /* WebImageView.m in Sources */,
+				B7EF77B5183CE2D90024A5E6 /* RentSelectNoPlanController.m in Sources */,
 				970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */,
 				975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */,
 				B721095B1827976500904FC7 /* RentNoPlanController.m in Sources */,
@@ -1406,6 +1417,7 @@
 				B7E803ED1820DD8000775C6F /* SaleSelectNoPlanController.m in Sources */,
 				B769E481181F86D300A2FF50 /* BidPropertyDetailController.m in Sources */,
 				97958362182229AF005EA48A /* Util_TEXT.m in Sources */,
+				B7EF77B9183CE82D0024A5E6 /* RentNoPlanListCell.m in Sources */,
 				B77A960F182A389D007F04E3 /* SalePropertyObject.m in Sources */,
 				97B422571820D9A600A2E9E6 /* PropertyGroupListViewController.m in Sources */,
 				B721094F18277F8A00904FC7 /* BaseFixedCell.m in Sources */,

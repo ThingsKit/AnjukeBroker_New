@@ -98,13 +98,11 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        
         return;
     }
     self.textField_2.placeholder = [NSString stringWithFormat:@"底价%@元",[[response content] objectForKey:@"data"]];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
-    [self doSure];
 }
 
 #pragma mark - 设置竞价额度

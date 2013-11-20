@@ -203,17 +203,17 @@
     if([indexPath row] == 0){
     
     }else{
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"取消定价推广", @"竞价推广本房源", nil];
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"竞价推广本房源", @"取消定价推广", @"修改房源信息", nil];
         [action showInView:self.view];
         
     }
 }
 
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if([indexPath row] == 1){
+    if([indexPath row] == 0){
     return 71.0f;
     }
-    return 69.0f;
+    return 85.0f;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -278,12 +278,12 @@
     fix = [self.myArray objectAtIndex:0];
     
     if([fix.fixedStatus isEqualToString:@"1"]){
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"添加房源", @"停止推广", @"修改限额", nil];
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"停止推广", @"修改限额",@"添加房源", nil];
         action.tag = 100;
         [action showInView:self.view];
     
     }else{
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"添加房源", @"开始推广", @"修改限额", nil];
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"开始推广", @"修改限额", @"添加房源", nil];
         action.tag = 101;
         [action showInView:self.view];
     
@@ -302,55 +302,43 @@
 #pragma mark - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
 
-    if(actionSheet.tag == 100){//正在推广中定价组
+    if(actionSheet.tag == 100){//停止推广
         if(buttonIndex == 0){
-            SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
-            controller.fixedObj = [self.myArray objectAtIndex:selectIndex];
-            controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:navi animated:YES completion:nil];
-//            [self.navigationController pushViewController:controller animated:YES];
-            
-        }else if (buttonIndex == 1){//停止推广
             [self cancelFixedGroup];
-        }else if (buttonIndex == 2){
+        }else if (buttonIndex == 1){
             ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
             controller.fixedObject = [self.myArray objectAtIndex:0];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
-//            [self.navigationController pushViewController:controller animated:YES];
+            //            [self.navigationController pushViewController:controller animated:YES];
+        }else if (buttonIndex == 2){//正在推广中定价组
+            SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
+            controller.fixedObj = [self.myArray objectAtIndex:selectIndex];
+            controller.backType = RTSelectorBackTypeDismiss;
+            RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:navi animated:YES completion:nil];
         }
     }else if(actionSheet.tag == 101){//当推广已暂停时的操作
-        if(buttonIndex == 0){
-            SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
-            controller.fixedObj = [self.myArray objectAtIndex:selectIndex];
-            controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:navi animated:YES completion:nil];
-            //            [self.navigationController pushViewController:controller animated:YES];
-            
-        }else if (buttonIndex == 1){//重新开始定价推广
+        if(buttonIndex == 0){//重新开始定价推广
             [self doRestart];
-        }else if (buttonIndex == 2){
+            //            [self.navigationController pushViewController:controller animated:YES];
+        }else if (buttonIndex == 1){
             ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
             controller.fixedObject = [self.myArray objectAtIndex:0];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
-            //            [self.navigationController pushViewController:controller animated:YES];
+        }else if (buttonIndex == 2){
+            SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
+            controller.fixedObj = [self.myArray objectAtIndex:selectIndex];
+            controller.backType = RTSelectorBackTypeDismiss;
+            RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:navi animated:YES completion:nil];
         }
 
     }else{
         if(buttonIndex == 0){
-            PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
-            controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
-            controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:nav animated:YES completion:nil];
-        }else if (buttonIndex == 1){
-            [self cancelFixedProperty];
-        }else if (buttonIndex == 2){
             SaleAuctionViewController *controller = [[SaleAuctionViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.delegateVC = self;
@@ -358,6 +346,14 @@
             [self presentViewController:nav animated:YES completion:^(void){
                 controller.proDic = [self.myArray objectAtIndex:selectIndex];
             }];
+        }else if (buttonIndex == 1){
+            [self cancelFixedProperty];
+        }else if (buttonIndex == 2){
+            PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+            controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
+            controller.backType = RTSelectorBackTypeDismiss;
+            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:nil];
         }
     }
 }

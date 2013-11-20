@@ -19,4 +19,5 @@
     
 }
 -(void)setValueForCellByObject:(BasePropertyObject *) obj;
+-(void)setValueForCellByDictionar:(NSDictionary *) dic;
 @end

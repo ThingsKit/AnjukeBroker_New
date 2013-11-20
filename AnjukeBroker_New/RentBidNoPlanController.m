@@ -7,7 +7,7 @@
 //
 
 #import "RentBidNoPlanController.h"
-#import "SaleNoPlanListCell.h"
+#import "RentNoPlanListCell.h"
 #import "SaleNoPlanListManager.h"
 #import "RentAuctionViewController.h"
 #import "RTNavigationController.h"
@@ -134,17 +134,13 @@
 #pragma mark - TableView Delegate & Datasource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *cellIdent = @"cell";
+    static NSString *cellIdent = @"RentNoPlanListCell";
     
-    SaleNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+    RentNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == nil){
-        cell = [[SaleNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
-        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
+        cell = [[RentNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
     }
     [cell configureCellWithDic:[self.myArray objectAtIndex:indexPath.row]];
-//    [cell configureCell:[self.myArray objectAtIndex:indexPath.row] withIndex:indexPath.row];
-    //    [cell configureCellWithDic:[self.myArray objectAtIndex:indexPath.row]];
-    //    [cell configureCell:nil withIndex:indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -152,11 +148,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
     controller.backType = RTSelectorBackTypeDismiss;
+    controller.proDic = [self.myArray objectAtIndex:indexPath.row];
     controller.delegateVC = self;
-    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-    [self presentViewController:nav animated:YES completion:^(void){
-        controller.proDic = [self.myArray objectAtIndex:indexPath.row];
-    }];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 

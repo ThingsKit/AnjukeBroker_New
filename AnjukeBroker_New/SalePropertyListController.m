@@ -40,47 +40,53 @@
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
     [self.view addSubview:self.myTable];
-    
-    BasePropertyObject *property1 = [[BasePropertyObject alloc] init];
-    property1.title = @"昨天最好的房子";
-    property1.communityName = @"3室1厅 66平 125万";
-    property1.price = @"1万";
-    [self.myArray addObject:property1];
-    
-    BasePropertyObject *property2 = [[BasePropertyObject alloc] init];
-    property2.title = @"今天最好的房子";
-    property2.communityName = @"3室1厅 66平 125万";
-    property2.price = @"2万";
-    [self.myArray addObject:property2];
-    
-    BasePropertyObject *property3 = [[BasePropertyObject alloc] init];
-    property3.title = @"明天最好的房子";
-    property3.communityName = @"3室1厅 66平 125万";
-    property3.price = @"3.05万";
-    [self.myArray addObject:property3];
-    
-    BasePropertyObject *property4 = [[BasePropertyObject alloc] init];
-    property4.title = @"未来天最好的房子";
-    property4.communityName = @"3室1厅 66平 125万";
-    property4.price = @"6万";
-    [self.myArray addObject:property4];
-    
-    BasePropertyObject *property = [[BasePropertyObject alloc] init];
-    property.title = @"上海最好的房子";
-    property.communityName = @"3室1厅 66平 125万";
-    property.price = @"1.9亿";
-    [self.myArray addObject:property];
-    
+
 	// Do any additional setup after loading the view.
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self doRequest];
+}
+#pragma mark - 请求可定价房源列表
+-(void)doRequest{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/getbidprops/" params:params target:self action:@selector(onGetFixedInfo:)];
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+}
+
+- (void)onGetFixedInfo:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+    
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    //    NSMutableDictionary *dicPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"plan"]];
+    [self.myArray removeAllObjects];
+    //    [self.myArray addObject:[SaleFixedManager fixedPlanObjectFromDic:dicPlan]];
+    [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
+    [self.myTable reloadData];
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     SaleAuctionViewController *controller = [[SaleAuctionViewController alloc] init];
+    controller.proDic = [self.myArray objectAtIndex:[indexPath row]];
     controller.backType = RTSelectorBackTypeDismiss;
     controller.delegateVC = self;
-    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-    [self presentViewController:nav animated:YES completion:nil];
-//    [self.navigationController pushViewController:nav animated:YES];
+//    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+//    [self presentViewController:nav animated:YES completion:nil];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -94,8 +100,8 @@
         PropertyDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == Nil){
             cell = [[NSClassFromString(@"PropertyDetailCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"PropertyDetailCell"];
-            [cell setValueForCellByObject:[self.myArray objectAtIndex:[indexPath row]]];
         }
+    [cell setValueForCellByDictionar:[self.myArray objectAtIndex:[indexPath row]]];
         return cell;
 }
 
