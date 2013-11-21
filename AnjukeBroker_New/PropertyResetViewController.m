@@ -15,7 +15,6 @@
 
 @implementation PropertyResetViewController
 @synthesize propertyID;
-@synthesize isHaozu;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -51,14 +50,19 @@
 - (void)doRequestProp {
     [self showLoadingActivity:YES];
     
-    NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.propertyID, @"propId", nil];
+    NSDictionary *params = nil;
+    NSString *methodStr = [NSString string];
     
     if (self.isHaozu) {
-        //
+        methodStr = @"zufang/prop/getpropdetail";
+        params = [NSDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.propertyID, @"propId", nil];
     }
-    else {
-        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/getpropdetail/" params:params target:self action:@selector(onGetProp:)];
+    else { //二手房
+        methodStr = @"anjuke/prop/getpropdetail/";
+        params = [NSDictionary dictionaryWithObjectsAndKeys:self.propertyID, @"propId", nil];
     }
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:methodStr params:params target:self action:@selector(onGetProp:)];
 }
 
 - (void)onGetProp:(RTNetworkResponse *)response {
