@@ -8,6 +8,7 @@
 
 #import "SaleNoPlanGroupController.h"
 #import "PropertyResetViewController.h"
+#import "RTNavigationController.h"
 #import "SaleFixedDetailController.h"
 #import "LoginManager.h"
 #import "SaleNoPlanListManager.h"
@@ -117,7 +118,7 @@
 }
 
 - (void)onGetSuccess:(RTNetworkResponse *)response {
-
+    DLog(@"------response [%@]", [response content]);
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         
@@ -128,7 +129,6 @@
 
         return;
     }
-    DLog(@"------response [%@]", [response content]);
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     if([resultFromAPI count] ==  0){
         [self hideLoadWithAnimated:YES];
@@ -258,9 +258,15 @@
     if (self.selectedArray.count != 1) {
         return;
     }
+    PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+    SalePropertyObject *pro = (SalePropertyObject *)[self.selectedArray objectAtIndex:0];
+    controller.propertyID = pro.propertyId;
+    controller.backType = RTSelectorBackTypeDismiss;
+    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+    [self presentViewController:nav animated:YES completion:nil];
     
-    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"编辑房源", @"删除房源", nil];
-    [action showInView:self.view];
+//    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"编辑房源", @"删除房源", nil];
+//    [action showInView:self.view];
 }
 -(void)rightButtonAction:(id)sender{
     if(self.isLoading){

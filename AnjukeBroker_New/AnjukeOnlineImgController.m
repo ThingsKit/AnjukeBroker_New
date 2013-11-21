@@ -44,7 +44,8 @@
     if(![self isNetworkOkay]){
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"304133", @"commId", @"2", @"rommNum", @"2", @"hallNum", @"1", @"toiletNum", @"南", @"forward", @"1", @"pageNo", @"10", @"pageSize", nil];
+//    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"1849", @"commId", @"2,1,1", @"rooms", @"南", @"forward", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.property.comm_id, @"commId", self.property.rooms, @"rooms", self.property.exposure, @"forward", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"img/gethousemoduleimg/" params:params target:self action:@selector(onGetLogin:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;

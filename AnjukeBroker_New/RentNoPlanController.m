@@ -7,6 +7,7 @@
 //
 
 #import "RentNoPlanController.h"
+#import "RTNavigationController.h"
 #import "BaseNoPlanListCell.h"
 #import "SaleNoPlanListCell.h"
 #import "SalePropertyObject.h"
@@ -242,9 +243,13 @@
     if (self.selectedArray.count != 1) {
         return;
     }
-    
-    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"编辑房源", @"删除房源", nil];
-    [action showInView:self.view];
+    PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+    SalePropertyObject *pro = (SalePropertyObject *)[self.selectedArray objectAtIndex:0];
+    controller.isHaozu = YES;
+    controller.propertyID = pro.propertyId;
+    controller.backType = RTSelectorBackTypeDismiss;
+    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 -(void)rightButtonAction:(id)sender{
     if(self.isLoading){

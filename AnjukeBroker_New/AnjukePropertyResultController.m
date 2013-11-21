@@ -8,7 +8,8 @@
 
 #import "AnjukePropertyResultController.h"
 #import "SaleNoPlanListManager.h"
-
+#import "SaleFixedManager.h"
+#import "SaleNoPlanListCell.h"
 #import "LoginManager.h"
 
 @interface AnjukePropertyResultController ()
@@ -48,6 +49,11 @@
     self.myTable.dataSource = self;
     [self.view addSubview:self.myTable];
 }
+
+- (void)dealloc{
+    self.myTable.delegate = nil;
+}
+
 #pragma mark - Request 二手房未推广列表
 -(void)doSaleRequest{
     if(![self isNetworkOkay]){
@@ -98,6 +104,32 @@
     self.isLoading = NO;
     
 }
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    switch (self.resultType) {
+        case PropertyResultOfRentNoPlan:
+            [self doRentRequest];
+            break;
+        case PropertyResultOfRentFixed:
+            [self doRentFixedRequest];
+            break;
+        case PropertyResultOfRentBid:
+            [self doRentBidRequest];
+            break;
+        case PropertyResultOfSaleNoPlan:
+            [self doSaleRequest];
+            break;
+        case PropertyResultOfSaleFixed:
+            [self doSaleFixedRequest];
+            break;
+        case PropertyResultOfSaleBid:
+            [self doSaleBidRequest];
+            break;
+        default:
+            break;
+    }
+}
+
 #pragma mark - Request 租房未推广列表
 -(void)doRentRequest{
     if(![self isNetworkOkay]){
@@ -108,6 +140,7 @@
     [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
+
 - (void)onGetRentSuccess:(RTNetworkResponse *)response {
     
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
@@ -147,7 +180,7 @@
     self.isLoading = NO;
     
 }
-#pragma mark - 请求租房竞价房源列表
+#pragma mark - Request 请求租房竞价房源列表
 -(void)doRentBidRequest{
     if(![self isNetworkOkay]){
         return;
@@ -188,7 +221,7 @@
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
 }
-#pragma mark - 请求二手房竞价房源列表
+#pragma mark - Request 请求二手房竞价房源列表
 -(void)doSaleBidRequest{
     if(![self isNetworkOkay]){
         return;
@@ -227,7 +260,7 @@
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
 }
-#pragma mark - 请求二手房定价组详情
+#pragma mark - Request 请求二手房定价组详情
 -(void)doSaleFixedRequest{
     if(![self isNetworkOkay]){
         return;
@@ -256,6 +289,36 @@
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
 }
+#pragma mark - Request 请求租房定价组详情
+-(void)doRentFixedRequest{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", self.planId, @"planId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/getplandetail/" params:params target:self action:@selector(onGetRentFixedInfo:)];
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+}
+
+- (void)onGetRentFixedInfo:(RTNetworkResponse *)response {
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+    DLog(@"------response [%@]", [response content]);
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    NSMutableDictionary *dicPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"plan"]];
+    [self.myArray removeAllObjects];
+    [self.myArray addObject:[SaleFixedManager fixedPlanObjectFromDic:dicPlan]];
+    [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
+    [self.myTable reloadData];
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+}
 
 #pragma mark - UITableView Delegate & Datasource
 - (float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -264,7 +327,7 @@
             return 67.0f;
             break;
         case PropertyResultOfRentFixed:
-            return 0.0f;
+            return 85.0f;
             break;
         case PropertyResultOfRentBid:
             return 114.0f;
@@ -273,7 +336,7 @@
             return 67.0f;
             break;
         case PropertyResultOfSaleFixed:
-            return 0.0f;
+            return 85.0f;
             break;
         case PropertyResultOfSaleBid:
             return 114.0f;
@@ -290,12 +353,77 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identify = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
-    if(cell == nil){
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+    switch (self.resultType) {
+        case PropertyResultOfRentNoPlan:
+        {
+            static NSString *cellIdent = @"cell";
+            
+            SaleNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+            if(cell == nil){
+                cell = [[SaleNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
+                cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
+            }
+            [cell configureCell:[self.myArray objectAtIndex:indexPath.row] withIndex:indexPath.row];
+
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            return cell;
+        }
+            break;
+        case PropertyResultOfRentFixed:
+        {
+            static NSString *identify = @"cell";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
+            if(cell == nil){
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+            }
+            return cell;
+        }
+            break;
+        case PropertyResultOfRentBid:
+        {
+            static NSString *identify = @"cell";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
+            if(cell == nil){
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+            }
+            return cell;
+        }
+            break;
+        case PropertyResultOfSaleNoPlan:
+        {
+            static NSString *identify = @"cell";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
+            if(cell == nil){
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+            }
+            return cell;
+        }
+            break;
+        case PropertyResultOfSaleFixed:
+        {
+            static NSString *identify = @"cell";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
+            if(cell == nil){
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+            }
+            return cell;
+        }
+            break;
+        case PropertyResultOfSaleBid:
+        {
+            static NSString *identify = @"cell";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
+            if(cell == nil){
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+            }
+            return cell;
+        }
+            break;
+        default:
+            break;
     }
-    return cell;
+
 }
 
 - (void)didReceiveMemoryWarning
