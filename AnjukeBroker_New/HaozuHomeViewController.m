@@ -142,28 +142,28 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    AnjukeOnlineImgController *controller = [[AnjukeOnlineImgController alloc] init];
-    [self.navigationController pushViewController:controller animated:YES];
+//    AnjukeOnlineImgController *controller = [[AnjukeOnlineImgController alloc] init];
+//    [self.navigationController pushViewController:controller animated:YES];
     
-//    if([indexPath row] == 0)
-//    {
-//        RentBidDetailController *controller = [[RentBidDetailController alloc] init];
-//        controller.backType = RTSelectorBackTypePopToRoot;
-//        [controller setHidesBottomBarWhenPushed:YES];
-//        [self.navigationController pushViewController:controller animated:YES];
-//    }else if ([indexPath row] == [self.myArray count] - 1){
-//        RentNoPlanController *controller = [[RentNoPlanController alloc] init];
-//        [controller setHidesBottomBarWhenPushed:YES];
-//        [self.navigationController pushViewController:controller animated:YES];
-//    }else{
-//        RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
-//        controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
-//        controller.backType = RTSelectorBackTypePopToRoot;
-//        [controller setHidesBottomBarWhenPushed:YES];
-//        [self.navigationController pushViewController:controller animated:YES];
-//    }
-//    
-//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if([indexPath row] == 0)
+    {
+        RentBidDetailController *controller = [[RentBidDetailController alloc] init];
+        controller.backType = RTSelectorBackTypePopToRoot;
+        [controller setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:controller animated:YES];
+    }else if ([indexPath row] == [self.myArray count] - 1){
+        RentNoPlanController *controller = [[RentNoPlanController alloc] init];
+        [controller setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:controller animated:YES];
+    }else{
+        RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
+        controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
+        controller.backType = RTSelectorBackTypePopToRoot;
+        [controller setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
