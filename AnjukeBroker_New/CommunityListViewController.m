@@ -161,7 +161,7 @@
         NSString *lat = [NSString stringWithFormat:@"%f",userCoordinate.latitude];
         NSString *lng = [NSString stringWithFormat:@"%f",userCoordinate.longitude];
         
-        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerid",[LoginManager getCity_id], @"city_id", lat, @"lat", lng, @"lng", @"0", @"map_type", nil];
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"cityId", lat, @"lat", lng, @"lng", @"0", @"mapType", nil];
         
         if (self.isHaouzu) {
             method = @"zufang/prop/getcommlist/"; //好租
@@ -173,7 +173,7 @@
     else {
         self.requestKeywords = YES;
         
-        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getCity_id], @"city_id", keyword, @"keyword", nil];
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getCity_id], @"cityId", keyword, @"keyword", nil];
         
         method = @"comm/getcommbykw/";
         

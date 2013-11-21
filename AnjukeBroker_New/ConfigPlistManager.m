@@ -54,12 +54,20 @@
 
 + (void)setAnjukeDataPlistWithDic:(NSDictionary *)dic {
     //装修方式
-    NSDictionary *fitmentDic = [dic objectForKey:@"fitment"];
-    NSArray *valueArr = [fitmentDic allKeys];
-    NSArray *titleArr = [fitmentDic allValues];
+    NSArray *fitmentsData = [[dic objectForKey:@"fitments"] objectForKey:@"allValue"];
+    
+    NSMutableArray *valueArr = [NSMutableArray array];
+    for (int i = 0; i < fitmentsData.count; i ++) {
+        [valueArr addObject:[[fitmentsData objectAtIndex:i] objectForKey:@"index"]]; //get index for value
+    }
+    
+    NSMutableArray *titleArr = [NSMutableArray array];
+    for (int i = 0; i < fitmentsData.count; i ++) {
+        [titleArr addObject:[[fitmentsData objectAtIndex:i] objectForKey:@"value"]]; //get value for title
+    }
     
     NSMutableArray *resultArr = [NSMutableArray array];
-    for (int i = 0; i < valueArr.count; i ++) {
+    for (int i = 0; i < fitmentsData.count; i ++) {
         NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[valueArr objectAtIndex:i], @"Value", [titleArr objectAtIndex:i], @"Title", nil];
         [resultArr addObject:dic];
     }
