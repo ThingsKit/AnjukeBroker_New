@@ -7,7 +7,6 @@
 //
 
 #import "RentNoPlanListController.h"
-#import "PropertyResetViewController.h"
 #import "RentFixedDetailController.h"
 #import "SaleNoPlanListCell.h"
 #import "RentGroupListController.h"

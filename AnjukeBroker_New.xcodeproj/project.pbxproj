@@ -152,6 +152,8 @@
 		B7E38A00182238CF002C6E8A /* anjuke_icon06_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E389FE182238CF002C6E8A /* anjuke_icon06_select@2x.png */; };
 		B7E38A01182238CF002C6E8A /* anjuke_icon06_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E389FF182238CF002C6E8A /* anjuke_icon06_selected@2x.png */; };
 		B7E38A0A18225FEC002C6E8A /* anjuke_icon07_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E38A0918225FEC002C6E8A /* anjuke_icon07_arrow@2x.png */; };
+		B7E56D0B183DABD300A0F7D2 /* AnjukePropertyResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E56D0A183DABD300A0F7D2 /* AnjukePropertyResultController.m */; };
+		B7E56D0F183DBAD600A0F7D2 /* AnjukeOnlineImgController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E56D0E183DBAD600A0F7D2 /* AnjukeOnlineImgController.m */; };
 		B7E69BAE183B15430097D5C3 /* RentPPCGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E69BAD183B15430097D5C3 /* RentPPCGroupCell.m */; };
 		B7E69BB2183B26A90097D5C3 /* RentBidPropertyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E69BB1183B26A90097D5C3 /* RentBidPropertyCell.m */; };
 		B7E69BB5183B3B040097D5C3 /* RentGroupListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E69BB4183B3B040097D5C3 /* RentGroupListController.m */; };
@@ -442,6 +444,10 @@
 		B7E389FE182238CF002C6E8A /* anjuke_icon06_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon06_select@2x.png"; sourceTree = "<group>"; };
 		B7E389FF182238CF002C6E8A /* anjuke_icon06_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon06_selected@2x.png"; sourceTree = "<group>"; };
 		B7E38A0918225FEC002C6E8A /* anjuke_icon07_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon07_arrow@2x.png"; sourceTree = "<group>"; };
+		B7E56D09183DABD300A0F7D2 /* AnjukePropertyResultController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukePropertyResultController.h; sourceTree = "<group>"; };
+		B7E56D0A183DABD300A0F7D2 /* AnjukePropertyResultController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukePropertyResultController.m; sourceTree = "<group>"; };
+		B7E56D0D183DBAD600A0F7D2 /* AnjukeOnlineImgController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukeOnlineImgController.h; sourceTree = "<group>"; };
+		B7E56D0E183DBAD600A0F7D2 /* AnjukeOnlineImgController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukeOnlineImgController.m; sourceTree = "<group>"; };
 		B7E69BAC183B15430097D5C3 /* RentPPCGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentPPCGroupCell.h; sourceTree = "<group>"; };
 		B7E69BAD183B15430097D5C3 /* RentPPCGroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentPPCGroupCell.m; sourceTree = "<group>"; };
 		B7E69BB0183B26A90097D5C3 /* RentBidPropertyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentBidPropertyCell.h; sourceTree = "<group>"; };
@@ -922,6 +928,10 @@
 				977FCA8E182894F000945FB4 /* CommunityListViewController.m */,
 				970FC17C183B19C400D142D5 /* PropertyResetViewController.h */,
 				970FC17D183B19C400D142D5 /* PropertyResetViewController.m */,
+				B7E56D09183DABD300A0F7D2 /* AnjukePropertyResultController.h */,
+				B7E56D0A183DABD300A0F7D2 /* AnjukePropertyResultController.m */,
+				B7E56D0D183DBAD600A0F7D2 /* AnjukeOnlineImgController.h */,
+				B7E56D0E183DBAD600A0F7D2 /* AnjukeOnlineImgController.m */,
 			);
 			name = "房源编辑";
 			sourceTree = "<group>";
@@ -1343,11 +1353,13 @@
 				B769E46F181F76C600A2FF50 /* SaleBidPlanController.m in Sources */,
 				B769E445181F462C00A2FF50 /* SaleFixedDetailController.m in Sources */,
 				97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */,
+				B7E56D0B183DABD300A0F7D2 /* AnjukePropertyResultController.m in Sources */,
 				B7E69BBE183B5B000097D5C3 /* SaleGroupListController.m in Sources */,
 				97A606811816C2A50041B367 /* InputOrderManager.m in Sources */,
 				97B4225A1820DB8300A2E9E6 /* AnjukePropertyGroupCell.m in Sources */,
 				970DB71D183AFFE700DEB455 /* AboutUsViewController.m in Sources */,
 				97B422681821087600A2E9E6 /* PropertyBigImageViewController.m in Sources */,
+				B7E56D0F183DBAD600A0F7D2 /* AnjukeOnlineImgController.m in Sources */,
 				B769E46C181F76A600A2FF50 /* BaseBidPlanController.m in Sources */,
 				972DDA301826D39500263F8F /* RTPopoverTableViewController.m in Sources */,
 				97C6870F183A2BF100F449BD /* PropertyAuctionPublishViewController.m in Sources */,

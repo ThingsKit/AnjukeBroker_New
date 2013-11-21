@@ -9,6 +9,7 @@
 #import "HaozuHomeViewController.h"
 #import "RentNoPlanListController.h"
 #import "RentFixedDetailController.h"
+#import "AnjukeOnlineImgController.h"
 #import "RentBidDetailController.h"
 #import "RentNoPlanController.h"
 #import "RentPPCGroupCell.h"
@@ -139,6 +140,8 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    AnjukeOnlineImgController *controller = [[AnjukeOnlineImgController alloc] init];
+//    [self.navigationController pushViewController:controller animated:YES];
     
     if([indexPath row] == 0)
     {
@@ -173,11 +176,10 @@
     RentPPCGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == nil){
         cell = [[NSClassFromString(@"RentPPCGroupCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     [cell setValueForCellByData:self.myArray index:indexPath.row];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     return cell;
 }
 

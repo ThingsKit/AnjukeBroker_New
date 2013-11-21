@@ -17,6 +17,7 @@
 @end
 
 @implementation RentAuctionViewController
+@synthesize proDic;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

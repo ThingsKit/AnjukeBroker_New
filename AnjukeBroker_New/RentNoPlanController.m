@@ -41,7 +41,6 @@
 {
     [super viewDidLoad];
     [self initDisplay_];
-    [self addRightButton:@"确定" andPossibleTitle:nil];
 	// Do any additional setup after loading the view.
 }
 
@@ -326,6 +325,7 @@
         [self.navigationController pushViewController:controller animated:YES];
     }else if (buttonIndex == 1){
         PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+        controller.isHaozu = YES;
         controller.propertyID = [[self.selectedArray objectAtIndex:0] objectForKey:@"id"];
         [self.navigationController pushViewController:controller animated:YES];
     }else if (buttonIndex == 2){

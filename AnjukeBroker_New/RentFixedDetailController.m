@@ -272,6 +272,7 @@
     }else{//对房源的操作
         if(buttonIndex == 0){
             RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
+            controller.proDic = [self.myArray objectAtIndex:selectIndex];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.delegateVC = self;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
@@ -283,6 +284,7 @@
             //            [self.navigationController popToRootViewControllerAnimated:YES];
         }else if (buttonIndex == 2){
             PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+            controller.isHaozu = YES;
             controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];

@@ -10,6 +10,7 @@
 #import "SaleNoPlanGroupController.h"
 #import "SaleFixedDetailController.h"
 #import "SaleBidDetailController.h"
+#import "AnjukeOnlineImgController.h"
 #import "PPCGroupCell.h"
 #import "LoginManager.h"
 #import "SaleFixedManager.h"
@@ -147,16 +148,15 @@
     return 66.0f;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *cellIdent = @"cell";
+    static NSString *cellIdent = @"PPCGroupCell";
     
     PPCGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == nil){
         cell = [[NSClassFromString(@"PPCGroupCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     [cell setValueForCellByData:self.myArray index:indexPath.row];    
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     return cell;
 }
 

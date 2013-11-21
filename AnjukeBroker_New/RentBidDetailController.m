@@ -190,6 +190,7 @@
     if(actionSheet.tag == 101){
         if (buttonIndex == 0){
             PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+            controller.isHaozu = YES;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
@@ -211,6 +212,7 @@
     }else{
         if (buttonIndex == 0){//修改房源
             PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+            controller.isHaozu = YES;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];

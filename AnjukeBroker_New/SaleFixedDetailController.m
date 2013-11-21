@@ -340,6 +340,7 @@
     }else{
         if(buttonIndex == 0){
             SaleAuctionViewController *controller = [[SaleAuctionViewController alloc] init];
+            controller.proDic = [self.myArray objectAtIndex:selectIndex];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.delegateVC = self;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
