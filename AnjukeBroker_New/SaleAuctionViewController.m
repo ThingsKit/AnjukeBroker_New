@@ -154,6 +154,7 @@
     [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
+
 - (void)onRestartSuccess:(RTNetworkResponse *)response {
     DLog(@"------response [%@]", [response content]);
     

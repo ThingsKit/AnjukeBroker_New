@@ -21,6 +21,7 @@
     }
     return self;
 }
+
 -(void)setValueForCellByData:(id ) data index:(int) index{
     [super setValueForCellByData:data index:index];
 }

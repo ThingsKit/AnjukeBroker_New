@@ -55,9 +55,9 @@
             if([[dic objectForKey:@"fixPlanState"] intValue] == 1){
                 statueImg.frame = CGRectMake(260, 25, 24, 12);
                 [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_woking@2x.png"]];
-            }else if ([[dic objectForKey:@"pricPlanStateDesc"] isEqualToString:@"未推广"]){
-                statueImg.frame = CGRectMake(260, 25, 12, 12);
-                [statueImg setImage:[UIImage imageNamed:@"anjuke_icon08_attention@2x.png"]];
+            }else{
+                statueImg.frame = CGRectMake(260, 25, 24, 12);
+                [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_stop@2x.png"]];
             }
         }
     }

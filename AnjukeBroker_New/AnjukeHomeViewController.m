@@ -45,8 +45,6 @@
     self.myTable.dataSource = self;
     [self.view addSubview:self.myTable];
 
-    
-    
 	// Do any additional setup after loading the view.
     
 //    self.view.backgroundColor = [UIColor yellowColor];
