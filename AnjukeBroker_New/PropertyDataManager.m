@@ -150,6 +150,20 @@
 
 #pragma mark - Edit Property Method
 
++ (int)getShiIndexWithNum:(NSString *)num{
+    NSArray *arr = [self getPropertyHuxingArray_Shi];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            index = i;
+            break;
+        }
+    }
+    
+    return index;
+}
 
 
 @end
