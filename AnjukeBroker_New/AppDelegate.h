@@ -25,4 +25,6 @@
 //private method
 + (AppDelegate *)sharedAppDelegate;
 
+- (void)requestSalePropertyConfig;
+
 @end

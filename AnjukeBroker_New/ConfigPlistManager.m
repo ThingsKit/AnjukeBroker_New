@@ -64,7 +64,7 @@
         [resultArr addObject:dic];
     }
     
-    DLog(@"resultArr");
+    DLog(@"resultArr [%@]", resultArr);
     
     [self savePlistWithArr:resultArr withName:AJK_FITMENT_PLIST];
 }

@@ -189,75 +189,10 @@
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
     
-    //每次重新登录请求配置数据
-    [self requestSalePropertyConfig];
-}
-
-#pragma mark - Request Method
-
-//获取房源配置信息
-- (void)requestSalePropertyConfig{
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", nil];
-    
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/getconfig/" params:params target:self action:@selector(onGetSaleSuccess:)];
-    
-//    [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/getconfig/" params:params target:self action:@selector(onGetSaleSuccess:)];
-}
-
-- (void)onGetSaleSuccess:(RTNetworkResponse *)response {
-    DLog(@"------response [%@]", [response content]);
-    
-    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-        [alert show];
-        
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-        
-        [self pushToTab];
-        return;
-    }
-    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-    
-    //本地固化，处理二手房发房数据
-    [ConfigPlistManager savePlistWithDic:resultFromAPI withName:AJK_ALL_PLIST];
-    [ConfigPlistManager setAnjukeDataPlistWithDic:resultFromAPI];
-    
-    [self requestRentPropertyConfig];
-}
-
-- (void)requestRentPropertyConfig{
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/prop/getconfig/" params:params target:self action:@selector(onGetRentSuccess:)];
-    
-}
-
-- (void)onGetRentSuccess:(RTNetworkResponse *)response {
-    DLog(@"------response [%@]", [response content]);
-    
-    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-        [alert show];
-        
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-        
-        [self pushToTab];
-        return;
-    }
-    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-    
-    //本地固化
-    [ConfigPlistManager savePlistWithDic:resultFromAPI withName:HZ_ALL_PLIST];
-    [ConfigPlistManager setHaozuDataPlistWithDic:resultFromAPI];
-    
-    [self hideLoadWithAnimated:YES];
-    self.isLoading = NO;
-    
     [self pushToTab];
+    
+    //每次重新登录请求配置数据
+    [[AppDelegate sharedAppDelegate] requestSalePropertyConfig];
 }
 
 @end
