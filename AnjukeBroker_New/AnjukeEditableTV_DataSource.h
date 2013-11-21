@@ -7,13 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AnjukeEditPropertyViewController.h"
 #import "AnjukeNormalCell.h"
 
 @interface AnjukeEditableTV_DataSource : NSObject <UITableViewDataSource>
 
 @property (nonatomic, strong) NSMutableArray *cellArray;
-@property (nonatomic, strong) AnjukeEditPropertyViewController *superViewController;
+@property (nonatomic, assign) id superViewController;
 
 - (void)createCells:(NSArray *)dataArray isHaozu:(BOOL)isHaozu;
 

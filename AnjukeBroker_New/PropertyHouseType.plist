@@ -64,12 +64,6 @@
 			<key>Value</key>
 			<string>9</string>
 		</dict>
-		<dict>
-			<key>Title</key>
-			<string>10室</string>
-			<key>Value</key>
-			<string>10</string>
-		</dict>
 	</array>
 	<key>Ting</key>
 	<array>
@@ -133,12 +127,6 @@
 			<key>Value</key>
 			<string>9</string>
 		</dict>
-		<dict>
-			<key>Title</key>
-			<string>10厅</string>
-			<key>Value</key>
-			<string>10</string>
-		</dict>
 	</array>
 	<key>Wei</key>
 	<array>
@@ -201,12 +189,6 @@
 			<string>9卫</string>
 			<key>Value</key>
 			<string>9</string>
-		</dict>
-		<dict>
-			<key>Title</key>
-			<string>10卫</string>
-			<key>Value</key>
-			<string>10</string>
 		</dict>
 	</array>
 </dict>

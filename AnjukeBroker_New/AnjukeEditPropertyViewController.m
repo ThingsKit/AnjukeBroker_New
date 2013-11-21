@@ -8,9 +8,7 @@
 
 #import "AnjukeEditPropertyViewController.h"
 #import "PropertyDataManager.h"
-#import "InputOrderManager.h"
 #import "PhotoButton.h"
-#import "AnjukeEditableTV_DataSource.h"
 #import "Util_UI.h"
 #import "PropertyGroupListViewController.h"
 #import "PropertyBigImageViewController.h"
@@ -57,7 +55,6 @@ typedef enum {
 @property (nonatomic, strong) NSMutableArray *imgBtnArray;
 @property int imageSelectIndex; //记录选择的第几个image
 
-@property (nonatomic, strong) AnjukeEditableTV_DataSource *dataSource;
 
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
 @property (nonatomic, strong) PhotoShowView *imageOverLay;
