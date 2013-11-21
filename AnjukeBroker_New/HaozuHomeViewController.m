@@ -9,7 +9,6 @@
 #import "HaozuHomeViewController.h"
 #import "RentNoPlanListController.h"
 #import "RentFixedDetailController.h"
-#import "AnjukeOnlineImgController.h"
 #import "AnjukePropertyResultController.h"
 
 #import "RentBidDetailController.h"
@@ -45,27 +44,6 @@
 }
 -(void)initModel{
     myArray = [NSMutableArray array];
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    [dic setValue:@"竞价房源" forKey:@"title"];
-    [dic setValue:@"房源数：10套" forKey:@"detail"];
-    [dic setValue:@"" forKey:@"status"];
-    [dic setValue:@"1" forKey:@"type"];
-    [self.myArray addObject:dic];
-    
-    dic = [[NSMutableDictionary alloc] init];
-    [dic setValue:@"定价房源" forKey:@"title"];
-    [dic setValue:@"分组名称  房源数：10套" forKey:@"detail"];
-    [dic setValue:@"推广中" forKey:@"status"];
-    [dic setValue:@"2" forKey:@"type"];
-    [self.myArray addObject:dic];
-    
-    dic = [[NSMutableDictionary alloc] init];
-    [dic setValue:@"待推广房源" forKey:@"title"];
-    [dic setValue:@"房源数：10套" forKey:@"detail"];
-    [dic setValue:@"3" forKey:@"status"];
-    [dic setValue:@"3" forKey:@"type"];
-    [self.myArray addObject:dic];
-
 }
 -(void)initDisplay{
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
@@ -142,9 +120,6 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    AnjukeOnlineImgController *controller = [[AnjukeOnlineImgController alloc] init];
-//    [self.navigationController pushViewController:controller animated:YES];
-    
     if([indexPath row] == 0)
     {
         RentBidDetailController *controller = [[RentBidDetailController alloc] init];

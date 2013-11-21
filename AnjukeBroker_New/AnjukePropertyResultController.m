@@ -11,6 +11,9 @@
 #import "SaleFixedManager.h"
 #import "SaleNoPlanListCell.h"
 #import "LoginManager.h"
+#import "RentBidPropertyCell.h"
+#import "RentPropertyListCell.h"
+#import "SalePropertyListCell.h"
 
 @interface AnjukePropertyResultController ()
 
@@ -53,57 +56,6 @@
 - (void)dealloc{
     self.myTable.delegate = nil;
 }
-
-#pragma mark - Request 二手房未推广列表
--(void)doSaleRequest{
-    if(![self isNetworkOkay]){
-        return;
-    }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/noplanprops/" params:params target:self action:@selector(onGetSuccess:)];
-    [self showLoadingActivity:YES];
-    self.isLoading = YES;
-}
-
-- (void)onGetSuccess:(RTNetworkResponse *)response {
-    
-    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-        [alert show];
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-        
-        return;
-    }
-    DLog(@"------response [%@]", [response content]);
-    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-    if([resultFromAPI count] ==  0){
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-        
-        return ;
-    }
-    if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-        [alert show];
-        [self.myArray removeAllObjects];
-        [self.myTable reloadData];
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-        
-        return;
-    }
-    
-    NSMutableArray *result = [SaleNoPlanListManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"propertyList"]];
-    [self.myArray removeAllObjects];
-    [self.myArray addObjectsFromArray:result];
-    [self.myTable reloadData];
-    [self hideLoadWithAnimated:YES];
-    self.isLoading = NO;
-    
-}
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     switch (self.resultType) {
@@ -128,6 +80,57 @@
         default:
             break;
     }
+}
+
+#pragma mark - Request 二手房未推广列表
+-(void)doSaleRequest{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/noplanprops/" params:params target:self action:@selector(onGetSaleNoPlanSuccess:)];
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+}
+
+- (void)onGetSaleNoPlanSuccess:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return;
+    }
+
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    if([resultFromAPI count] ==  0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return ;
+    }
+    if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self.myArray removeAllObjects];
+        [self.myTable reloadData];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return;
+    }
+    
+//    NSMutableArray *result = [SaleNoPlanListManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"propertyList"]];
+    [self.myArray removeAllObjects];
+    [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
+    [self.myTable reloadData];
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    
 }
 
 #pragma mark - Request 租房未推广列表
@@ -172,9 +175,9 @@
         return;
     }
     
-    NSMutableArray *result = [SaleNoPlanListManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"propertyList"]];
+//    NSMutableArray *result = [SaleNoPlanListManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"propertyList"]];
     [self.myArray removeAllObjects];
-    [self.myArray addObjectsFromArray:result];
+    [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
     [self.myTable reloadData];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
@@ -186,12 +189,12 @@
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/bid/getplanprops/" params:params target:self action:@selector(onGetRentBidLogin:)];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/bid/getplanprops/" params:params target:self action:@selector(onGetRentBidSuccess:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
 
-- (void)onGetRentBidLogin:(RTNetworkResponse *)response {
+- (void)onGetRentBidSuccess:(RTNetworkResponse *)response {
     DLog(@"------response [%@]", [response content]);
     
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
@@ -311,9 +314,7 @@
     }
     DLog(@"------response [%@]", [response content]);
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-    NSMutableDictionary *dicPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"plan"]];
     [self.myArray removeAllObjects];
-    [self.myArray addObject:[SaleFixedManager fixedPlanObjectFromDic:dicPlan]];
     [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
     [self.myTable reloadData];
     [self hideLoadWithAnimated:YES];
@@ -344,8 +345,7 @@
         default:
             break;
     }
-    
-    return 20;
+
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -353,6 +353,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+
     switch (self.resultType) {
         case PropertyResultOfRentNoPlan:
         {
@@ -361,63 +362,77 @@
             SaleNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
             if(cell == nil){
                 cell = [[SaleNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
-                cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
             }
-            [cell configureCell:[self.myArray objectAtIndex:indexPath.row] withIndex:indexPath.row];
-
+            [cell configureCellWithDic:[self.myArray objectAtIndex:indexPath.row]];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
             return cell;
         }
             break;
         case PropertyResultOfRentFixed:
         {
-            static NSString *identify = @"cell";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
-            if(cell == nil){
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
-            }
-            return cell;
+    static NSString *cellIdent = @"RentPropertyListCell";
+    RentPropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+    if(cell == nil){
+        cell = [[NSClassFromString(@"RentPropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RentPropertyListCell"];
+        //            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    [cell configureCell:[self.myArray objectAtIndex:[indexPath row]]];
+    return cell;
         }
             break;
         case PropertyResultOfRentBid:
         {
-            static NSString *identify = @"cell";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
+            static NSString *cellIdent = @"RentBidPropertyCell";
+            RentBidPropertyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+            
             if(cell == nil){
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+                cell = [[NSClassFromString(@"RentBidPropertyCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RentBidPropertyCell"];
             }
+            //    [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
+            [cell setValueForCellByDataModel:[self.myArray objectAtIndex:[indexPath row]]];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.accessoryType = UITableViewCellAccessoryNone;
             return cell;
         }
             break;
         case PropertyResultOfSaleNoPlan:
         {
-            static NSString *identify = @"cell";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
+            static NSString *cellIdent = @"cell";
+            
+            SaleNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
             if(cell == nil){
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+                cell = [[SaleNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
             }
+            [cell configureCellWithDic:[self.myArray objectAtIndex:indexPath.row]];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
         }
             break;
         case PropertyResultOfSaleFixed:
         {
-            static NSString *identify = @"cell";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
-            if(cell == nil){
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
-            }
-            return cell;
+    static NSString *cellIdent = @"SalePropertyListCell";
+    SalePropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+    if(cell == nil){
+        cell = [[NSClassFromString(@"SalePropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SalePropertyListCell"];
+    }
+    [cell configureCell:[self.myArray objectAtIndex:[indexPath row]]];
+    return cell;
         }
             break;
         case PropertyResultOfSaleBid:
         {
-            static NSString *identify = @"cell";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
-            if(cell == nil){
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
-            }
-            return cell;
+    static NSString *cellIdent = @"BaseBidPropertyCell";
+    BaseBidPropertyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+    
+    if(cell == nil){
+        cell = [[NSClassFromString(@"BaseBidPropertyCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BaseBidPropertyCell"];
+    }
+    [cell setValueForCellByDataModel:[self.myArray objectAtIndex:[indexPath row]]];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    
+    return cell;
         }
             break;
         default:
