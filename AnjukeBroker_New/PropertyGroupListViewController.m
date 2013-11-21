@@ -23,6 +23,7 @@
 @synthesize isBid;
 @synthesize propertyID;
 @synthesize commID;
+@synthesize isHaozu;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -68,7 +69,12 @@
 
 - (void)doRequest { //获得定价推广组
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/getplans/" params:params target:self action:@selector(getFixPlanFinished:)];
+    if (self.isHaozu) {
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/getplans/" params:params target:self action:@selector(getFixPlanFinished:)];
+    }
+    else {
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/getplans/" params:params target:self action:@selector(getFixPlanFinished:)];
+    }
     [self showLoadingActivity:YES];
     self.isLoading = YES;
 
@@ -91,17 +97,24 @@
     self.groupArray = [[[response content] objectForKey:@"data"] objectForKey:@"planList"];
     [self.tvList reloadData];
     
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 }
 
--(void)addPropertyToPlanWithGroupID:(NSString *)groupID{
+- (void)addPropertyToPlanWithGroupID:(NSString *)groupID{
     if(![self isNetworkOkay]){
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  self.propertyID, @"propIds", groupID, @"planId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/addpropstoplan/" params:params target:self action:@selector(addToFixFinished:)];
+    
+    NSString *methodStr = [NSString string];
+    if (self.isHaozu) {
+        methodStr = @"zufang/fix/addpropstoplan/";
+    }
+    else
+        methodStr = @"anjuke/fix/addpropstoplan/";
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:methodStr params:params target:self action:@selector(addToFixFinished:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
@@ -120,14 +133,15 @@
         return;
     }
     
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 
     [self showInfo:@"房源加入定价组成功!"];
     
     if (self.isBid) { //去竞价页面
         PropertyAuctionPublishViewController *pa = [[PropertyAuctionPublishViewController alloc] init];
         pa.propertyID = [NSString stringWithFormat:@"%@", self.propertyID];
+        pa.isHaozu = self.isHaozu;
         pa.commID = [NSString stringWithFormat:@"%@", self.commID];
         [self.navigationController pushViewController:pa animated:YES];
     }

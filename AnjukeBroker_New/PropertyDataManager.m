@@ -102,7 +102,7 @@
         NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:str, @"Title",numStr , @"Value", nil];
         [arr addObject:dic];
         
-        if (i == 3) { //0楼不保存，换为一楼
+        if (i == 2) { //0楼不保存，换为一楼
             initIndex = initIndex +2;
         }
         else {

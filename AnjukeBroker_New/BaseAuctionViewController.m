@@ -81,7 +81,7 @@
     }
     else {
         title = @"出价";
-        placeStr = @"底价1.1元";
+        placeStr = @"";
     }
     
     UIView *BG = [[UIView alloc] initWithFrame:CGRectMake(0, 5 +index*(INPUT_VIEW_HEIGHT), [self windowWidth], INPUT_VIEW_HEIGHT)];

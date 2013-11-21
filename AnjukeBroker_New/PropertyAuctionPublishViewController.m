@@ -14,6 +14,7 @@
 
 @implementation PropertyAuctionPublishViewController
 @synthesize propertyID, commID;
+@synthesize isHaozu;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -28,6 +29,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    [self requestMiniOffer];
 }
 
 - (void)didReceiveMemoryWarning
@@ -47,11 +50,58 @@
 }
 
 #pragma mark - Request Method
+
+- (void)requestMiniOffer {
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.propertyID, @"propId", nil];
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/minoffer/" params:params target:self action:@selector(onMinSuccess:)];
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+
+}
+
+- (void)onMinSuccess:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"获取底价失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return;
+    }
+    
+    NSString *str = [NSString stringWithFormat:@"底价%@元", [[response content] objectForKey:@"data"]];
+    self.textField_2.placeholder = str;
+    
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+}
+
+
 -(void)doRequest{
     if(![self isNetworkOkay]){
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.propertyID, @"propId", self.textField_1.text, @"budget", self.textField_2.text, @"offer", nil];
+    NSMutableDictionary *params = nil;
+    
+    if (self.isHaozu) { //租房
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getCity_id], @"cityId", [LoginManager getUserID], @"brokerId", self.propertyID, @"propId", self.textField_1.text, @"budget", self.textField_2.text, @"offer", nil];
+    }
+    else {
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.propertyID, @"propId", self.textField_1.text, @"budget", self.textField_2.text, @"offer", nil];
+    }
+    
+    NSString *methodStr = [NSString string];
+    if (self.isHaozu) {
+        methodStr = @"zufang/bid/addproptoplan/";
+    }
+    else
+        methodStr = @"anjuke/bid/addproptoplan/";
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/addproptoplan/" params:params target:self action:@selector(onBidSuccess:)];
     [self showLoadingActivity:YES];

@@ -326,8 +326,9 @@ typedef enum {
     
     //保存房源id
     NSString *propertyID = [[[response content] objectForKey:@"data"] objectForKey:@"id"];
-    
     [self doPushPropertyID:propertyID];
+    
+    [self hideLoadWithAnimated:YES];
 }
 
 - (void)onUploadPropertyHZFinished:(RTNetworkResponse *)response {
@@ -345,9 +346,8 @@ typedef enum {
     }
     
     //保存房源id for test 暂无法选定价竞价组
-//    NSString *propertyID = [[[response content] objectForKey:@"data"] objectForKey:@"id"];
-//    
-//    [self doPushPropertyID:propertyID];
+    NSString *propertyID = [[[response content] objectForKey:@"data"] objectForKey:@"id"];
+    [self doPushPropertyID:propertyID];
     
     [self hideLoadWithAnimated:YES];
 }
@@ -527,6 +527,7 @@ typedef enum {
         {
             PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
             pv.propertyID = [NSString stringWithFormat:@"%@", propertyID];
+            pv.isHaozu = self.isHaozu;
             pv.commID = [NSString stringWithFormat:@"%@", self.property.comm_id];
             [self.navigationController pushViewController:pv animated:YES];
             
@@ -537,6 +538,7 @@ typedef enum {
             PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
             pv.propertyID = [NSString stringWithFormat:@"%@", propertyID];
             pv.commID = [NSString stringWithFormat:@"%@", self.property.comm_id];
+            pv.isHaozu = self.isHaozu;
             pv.isBid = YES;
             [self.navigationController pushViewController:pv animated:YES];
             

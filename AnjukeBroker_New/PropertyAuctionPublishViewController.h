@@ -12,5 +12,6 @@
 
 @property (nonatomic, copy) NSString *propertyID;
 @property (nonatomic, copy) NSString *commID;
+@property BOOL isHaozu;
 
 @end
