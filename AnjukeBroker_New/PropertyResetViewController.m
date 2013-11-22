@@ -97,8 +97,6 @@
     self.property.rooms = [NSString stringWithFormat:@"%@,%@,%@", [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"]];
     //面积
     self.property.area = [dic objectForKey:@"area"];
-    
-    self.property.comm_id = [dic objectForKey:@"commId"];
     //价格
     self.property.price = [dic objectForKey:@"price"];
     //装修
@@ -117,6 +115,8 @@
     NSArray *imgArr = [dic objectForKey:@"commImg"];
     
     //设置小区名字
+    //小区
+    self.property.comm_id = [dic objectForKey:@"commId"];
     [self setCommunityWithText:[dic objectForKey:@"commName"]];
     
     if (self.isHaozu) { //租房
@@ -152,6 +152,29 @@
         NSString *floorStr = [NSString stringWithFormat:@"%@楼%@层",[dic objectForKey:@"proFloor"], [dic objectForKey:@"floorNum"]];
         [[[[self.dataSource cellArray] objectAtIndex:HZ_P_FLOORS] text_Field] setText:floorStr];
         
+        //设置各picker展示时，初始数据所在行
+        //户型
+        int roomIndex = [PropertyDataManager getRoomIndexWithNum:[dic objectForKey:@"roomNum"]];
+        [[[self.dataSource cellArray] objectAtIndex:HZ_P_ROOMS] setInputed_RowAtCom0:roomIndex];
+        int hallIndex = [PropertyDataManager getHallIndexWithNum:[dic objectForKey:@"hallNum"]];
+        [[[self.dataSource cellArray] objectAtIndex:HZ_P_ROOMS] setInputed_RowAtCom1:hallIndex];
+        int toiletIndex = [PropertyDataManager getToiletIndexWithNum:[dic objectForKey:@"toiletNum"]];
+        [[[self.dataSource cellArray] objectAtIndex:HZ_P_ROOMS] setInputed_RowAtCom2:toiletIndex];
+        //出租方式
+        int rentIndex = [PropertyDataManager getRentTypeIndexWithNum:self.property.rentType];
+        [[[self.dataSource cellArray] objectAtIndex:HZ_P_RENTTYPE] setInputed_RowAtCom0:rentIndex];
+        //装修
+        int fitmentIndex = [PropertyDataManager getFitmentIndexWithString:self.property.fitment forHaozu:self.isHaozu];
+        [[[self.dataSource cellArray] objectAtIndex:HZ_P_FITMENT] setInputed_RowAtCom0:fitmentIndex];
+        //朝向
+        int exIndex = [PropertyDataManager getExposureIndexWithTitle:self.property.exposure];
+        [[[self.dataSource cellArray] objectAtIndex:HZ_P_EXPOSURE] setInputed_RowAtCom0:exIndex];
+        //楼层
+        int profloorIndex = [PropertyDataManager getProFloorIndexWithNum:[dic objectForKey:@"proFloor"]];
+        [[[self.dataSource cellArray] objectAtIndex:HZ_P_FLOORS] setInputed_RowAtCom0:profloorIndex];
+        int floorIndex = [PropertyDataManager getFloorIndexWithNum:[dic objectForKey:@"floorNum"]];
+        [[[self.dataSource cellArray] objectAtIndex:HZ_P_FLOORS] setInputed_RowAtCom1:floorIndex];
+        
     }
     else { //二手房
         
@@ -179,6 +202,26 @@
         //楼层
         NSString *floorStr = [NSString stringWithFormat:@"%@楼%@层",[dic objectForKey:@"proFloor"], [dic objectForKey:@"floorNum"]];
         [[[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] text_Field] setText:floorStr];
+        
+        //设置各picker展示时，初始数据所在行
+        //户型
+        int roomIndex = [PropertyDataManager getRoomIndexWithNum:[dic objectForKey:@"roomNum"]];
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_ROOMS] setInputed_RowAtCom0:roomIndex];
+        int hallIndex = [PropertyDataManager getHallIndexWithNum:[dic objectForKey:@"hallNum"]];
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_ROOMS] setInputed_RowAtCom1:hallIndex];
+        int toiletIndex = [PropertyDataManager getToiletIndexWithNum:[dic objectForKey:@"toiletNum"]];
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_ROOMS] setInputed_RowAtCom2:toiletIndex];
+        //装修
+        int fitmentIndex = [PropertyDataManager getFitmentIndexWithString:self.property.fitment forHaozu:self.isHaozu];
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FITMENT] setInputed_RowAtCom0:fitmentIndex];
+        //朝向
+        int exIndex = [PropertyDataManager getExposureIndexWithTitle:self.property.exposure];
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_EXPOSURE] setInputed_RowAtCom0:exIndex];
+        //楼层
+        int profloorIndex = [PropertyDataManager getProFloorIndexWithNum:[dic objectForKey:@"proFloor"]];
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom0:profloorIndex];
+        int floorIndex = [PropertyDataManager getFloorIndexWithNum:[dic objectForKey:@"floorNum"]];
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom1:floorIndex];
     }
     
 }

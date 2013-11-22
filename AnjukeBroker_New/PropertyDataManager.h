@@ -18,12 +18,14 @@
 + (NSMutableArray *)getPropertyHuxingArray_Ting;
 + (NSMutableArray *)getPropertyHuxingArray_Wei;
 
-+ (int)getShiIndexWithNum:(NSString *)num;
++ (int)getRoomIndexWithNum:(NSString *)num; //室厅卫所在数据库位置
++ (int)getHallIndexWithNum:(NSString *)num;
++ (int)getToiletIndexWithNum:(NSString *)num;
 
 //装修情况
 + (NSArray *)getPropertyFitmentForHaozu:(BOOL)isHZ;
 
-+ (int)getFitmentIndexWithNum:(NSString *)num forHaozu:(BOOL)isHaozu;
++ (int)getFitmentIndexWithString:(NSString *)string forHaozu:(BOOL)isHaozu;
 + (NSString *)getFitmentTitleWithNum:(NSString *)num forHaozu:(BOOL)isHaozu;
 
 //朝向
@@ -36,10 +38,14 @@
 + (NSMutableArray *)getPropertyLou_Number;
 + (NSMutableArray *)getPropertyCeng_Number;
 
++ (int)getProFloorIndexWithNum:(NSString *)num;
++ (int)getFloorIndexWithNum:(NSString *)num;
+
 //整租方式_仅租房
 + (NSArray *)getPropertyRentType;
 
 + (NSString *)getRentTypeTitleWithNum:(NSString *)num;
++ (int)getRentTypeIndexWithNum:(NSString *)num;
 
 //生成全新房源类
 + (Property *)getNewPropertyObject;

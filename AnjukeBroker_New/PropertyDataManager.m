@@ -151,19 +151,53 @@
 #pragma mark - Edit Property Method
 
 //室
-+ (int)getShiIndexWithNum:(NSString *)num{
++ (int)getRoomIndexWithNum:(NSString *)num{
     NSArray *arr = [self getPropertyHuxingArray_Shi];
     
     int index = 0;
     
     for (int i = 0; i < arr.count; i ++) {
         if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            DLog(@"test room [%@][%@]", num, [[arr objectAtIndex:i] objectForKey:@"Value"]);
             index = i;
-            break;
         }
     }
     
-    DLog(@"edit--index [%d]", index);
+    DLog(@"room--index [%d]", index);
+    
+    return index;
+}
+
+//厅
++ (int)getHallIndexWithNum:(NSString *)num{
+    NSArray *arr = [self getPropertyHuxingArray_Ting];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            index = i;
+        }
+    }
+    
+    DLog(@"hall--index [%d]", index);
+    
+    return index;
+}
+
+//卫
++ (int)getToiletIndexWithNum:(NSString *)num{
+    NSArray *arr = [self getPropertyHuxingArray_Wei];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            index = i;
+        }
+    }
+    
+    DLog(@"toilet--index [%d]", index);
     
     return index;
 }
@@ -177,11 +211,10 @@
     for (int i = 0; i < arr.count; i ++) {
         if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
             index = i;
-            break;
         }
     }
     
-    DLog(@"edit--index [%d]", index);
+    DLog(@"rent--index [%d]", index);
     
     return index;
 }
@@ -194,29 +227,35 @@
     for (int i = 0; i < arr.count; i ++) {
         if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
             str = [[arr objectAtIndex:i] objectForKey:@"Title"];
-            break;
         }
     }
     
-    DLog(@"edit--string [%@]", str);
+    DLog(@"rent--string [%@]", str);
     
     return str;
 }
 
-//装修
-+ (int)getFitmentIndexWithNum:(NSString *)num forHaozu:(BOOL)isHaozu{
+//装修，二手房传title，租房传id
++ (int)getFitmentIndexWithString:(NSString *)string forHaozu:(BOOL)isHaozu{
     NSArray *arr = [self getPropertyFitmentForHaozu:isHaozu];
-    
     int index = 0;
     
-    for (int i = 0; i < arr.count; i ++) {
-        if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
-            index = i;
-            break;
+    if (isHaozu) {
+        for (int i = 0; i < arr.count; i ++) {
+            if ([string isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+                index = i;
+            }
+        }
+    }
+    else {
+        for (int i = 0; i < arr.count; i ++) {
+            if ([string isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Title"]]) {
+                index = i;
+            }
         }
     }
     
-    DLog(@"edit--index [%d]", index);
+    DLog(@"fitment--index [%d]", index);
     
     return index;
 }
@@ -229,11 +268,10 @@
     for (int i = 0; i < arr.count; i ++) {
         if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
             str = [[arr objectAtIndex:i] objectForKey:@"Title"];
-            break;
         }
     }
     
-    DLog(@"edit--string [%@]", str);
+    DLog(@"fitment--string [%@]", str);
     
     return str;
 }
@@ -247,11 +285,10 @@
     for (int i = 0; i < arr.count; i ++) {
         if ([title isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Title"]]) {
             index = i;
-            break;
         }
     }
     
-    DLog(@"edit--index [%d]", index);
+    DLog(@"ex--index [%d]", index);
     
     return index;
 }
@@ -271,6 +308,40 @@
     DLog(@"edit--string [%@]", str);
     
     return str;
+}
+
+//楼层-第几层
++ (int)getFloorIndexWithNum:(NSString *)num {
+    NSArray *arr = [self getPropertyCeng_Number];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            index = i;
+        }
+    }
+    
+    DLog(@"floor--index [%d]", index);
+    
+    return index;
+}
+
+//楼层-共几楼
++ (int)getProFloorIndexWithNum:(NSString *)num {
+    NSArray *arr = [self getPropertyLou_Number];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            index = i;
+        }
+    }
+    
+    DLog(@"pro_floor--index [%d]", index);
+    
+    return index;
 }
 
 @end
