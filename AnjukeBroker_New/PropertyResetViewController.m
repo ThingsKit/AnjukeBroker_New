@@ -226,5 +226,57 @@
     
 }
 
+- (void)doSave {
+    [self showLoadingActivity:YES];
+    
+    //更新房源信息
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    [self setTextFieldForProperty];
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"cityId", self.property.comm_id, @"commId", self.property.rooms, @"rooms", self.property.area, @"area", self.property.price, @"price", self.property.fitment, @"fitment", self.property.exposure, @"exposure", self.property.floor, @"floor", self.property.title, @"title", self.property.desc, @"description", self.propertyID, @"propId",nil];
+    method = @"anjuke/prop/update/";
+    
+    if (self.isHaozu) {
+        [params setObject:self.property.rentType forKey:@"shareRent"]; //租房新增出租方式
+        method = @"zufang/prop/update/";
+    }
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUpdatePropertyFinished:)];
+    
+}
+
+- (void)onUpdatePropertyFinished:(RTNetworkResponse *)response {
+    DLog(@"--更新房源信息结束。。。response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        [self hideLoadWithAnimated:YES];
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    //保存房源id
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [self hideLoadWithAnimated:YES];
+}
+
+//发房与编辑价格格式不同，需要更新
+- (void)setTextFieldForProperty {
+    [super setTextFieldForProperty];
+    
+    if (self.isHaozu) {
+        self.property.price = [[[[self.dataSource cellArray] objectAtIndex:HZ_T_PRICE] text_Field] text];
+    }
+    else
+        self.property.price = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_PRICE] text_Field] text];
+    
+    DLog(@"price [%@]_[%@]", self.property.price, [[[[[self.dataSource cellArray] objectAtIndex:HZ_T_PRICE] text_Field] text] class]);
+}
 
 @end

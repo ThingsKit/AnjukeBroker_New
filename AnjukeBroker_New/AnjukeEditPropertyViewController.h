@@ -26,6 +26,9 @@
 @property (nonatomic, strong) Property *property;
 @property (nonatomic, strong) AnjukeEditableTV_DataSource *dataSource;
 
+//公开函数，仅继承页面使用
 - (void)setCommunityWithText:(NSString *)string; //设置小区名，上次使用
+- (void)doSave;
+- (void)setTextFieldForProperty;
 
 @end
