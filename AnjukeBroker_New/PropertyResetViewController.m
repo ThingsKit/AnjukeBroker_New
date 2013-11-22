@@ -120,10 +120,7 @@
     [self setCommunityWithText:[dic objectForKey:@"commName"]];
     
     if (self.isHaozu) { //租房
-        //出租方式
-        self.property.rentType = [dic objectForKey:@"shareRent"];
-        [[[[self.dataSource cellArray] objectAtIndex:HZ_P_RENTTYPE] text_Field] setText:@""];
-        
+        //Text
         //price
         [[[[self.dataSource cellArray] objectAtIndex:HZ_T_PRICE] text_Field] setText:self.property.price];
         //area
@@ -139,9 +136,16 @@
         NSString *roomStr = [NSString stringWithFormat:@"%@室%@厅%@卫",[dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"]];
         [[[[self.dataSource cellArray] objectAtIndex:HZ_P_ROOMS] text_Field] setText:roomStr];
         
-        //装修
+        //出租方式
+        self.property.rentType = [dic objectForKey:@"shareRent"];
+        NSString *rentStr = [PropertyDataManager getRentTypeTitleWithNum:self.property.rentType];
+        [[[[self.dataSource cellArray] objectAtIndex:HZ_P_RENTTYPE] text_Field] setText:rentStr];
         
-        //朝向
+        //装修
+        NSString *fitmentStr = [PropertyDataManager getFitmentTitleWithNum:self.property.fitment forHaozu:self.isHaozu];
+        [[[[self.dataSource cellArray] objectAtIndex:HZ_P_FITMENT] text_Field] setText:fitmentStr];
+        
+        //朝向 test，租房更改返回信息
         [[[[self.dataSource cellArray] objectAtIndex:HZ_P_EXPOSURE] text_Field] setText:self.property.exposure];
         
         //楼层
@@ -166,7 +170,8 @@
         NSString *roomStr = [NSString stringWithFormat:@"%@室%@厅%@卫",[dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"]];
         [[[[self.dataSource cellArray] objectAtIndex:AJK_P_ROOMS] text_Field] setText:roomStr];
         
-        //装修
+        //装修 test 二手房直接返回title
+        [[[[self.dataSource cellArray] objectAtIndex:AJK_P_FITMENT] text_Field] setText:self.property.fitment];
         
         //朝向
         [[[[self.dataSource cellArray] objectAtIndex:AJK_P_EXPOSURE] text_Field] setText:self.property.exposure];

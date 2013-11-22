@@ -150,6 +150,7 @@
 
 #pragma mark - Edit Property Method
 
+//室
 + (int)getShiIndexWithNum:(NSString *)num{
     NSArray *arr = [self getPropertyHuxingArray_Shi];
     
@@ -162,9 +163,115 @@
         }
     }
     
+    DLog(@"edit--index [%d]", index);
+    
     return index;
 }
 
+//出租方式
++ (int)getRentTypeIndexWithNum:(NSString *)num{
+    NSArray *arr = [self getPropertyRentType];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            index = i;
+            break;
+        }
+    }
+    
+    DLog(@"edit--index [%d]", index);
+    
+    return index;
+}
+
++ (NSString *)getRentTypeTitleWithNum:(NSString *)num{
+    NSArray *arr = [self getPropertyRentType];
+    
+    NSString *str = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            str = [[arr objectAtIndex:i] objectForKey:@"Title"];
+            break;
+        }
+    }
+    
+    DLog(@"edit--string [%@]", str);
+    
+    return str;
+}
+
+//装修
++ (int)getFitmentIndexWithNum:(NSString *)num forHaozu:(BOOL)isHaozu{
+    NSArray *arr = [self getPropertyFitmentForHaozu:isHaozu];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            index = i;
+            break;
+        }
+    }
+    
+    DLog(@"edit--index [%d]", index);
+    
+    return index;
+}
+
++ (NSString *)getFitmentTitleWithNum:(NSString *)num forHaozu:(BOOL)isHaozu{
+    NSArray *arr = [self getPropertyFitmentForHaozu:isHaozu];
+    
+    NSString *str = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            str = [[arr objectAtIndex:i] objectForKey:@"Title"];
+            break;
+        }
+    }
+    
+    DLog(@"edit--string [%@]", str);
+    
+    return str;
+}
+
+//朝向，通过title得到index
++ (int)getExposureIndexWithTitle:(NSString *)title {
+    NSArray *arr = [self getPropertyChaoXiang];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([title isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Title"]]) {
+            index = i;
+            break;
+        }
+    }
+    
+    DLog(@"edit--index [%d]", index);
+    
+    return index;
+}
+
+//朝向仅租房需要，二手房直接返回朝向title
++ (NSString *)getExposureTitleWithNum:(NSString *)num{
+    NSArray *arr = [self getPropertyChaoXiang];
+    
+    NSString *str = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            str = [[arr objectAtIndex:i] objectForKey:@"Title"];
+        }
+    }
+    
+    DLog(@"edit--string [%@]", str);
+    
+    return str;
+}
 
 @end
 
