@@ -236,8 +236,8 @@
     
     if(actionSheet.tag == 100){//正在推广中定价组
         if(buttonIndex == 0){
-            [self doStopFixedGroup];
-            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要停止定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            [alert show];
         }else if (buttonIndex == 1){//停止推广
             ModifyRentCostController *controller = [[ModifyRentCostController alloc] init];
             controller.fixedObject = [self.myArray objectAtIndex:0];
@@ -280,7 +280,9 @@
                 controller.proDic = [self.myArray objectAtIndex:selectIndex];
             }];
         }else if (buttonIndex == 1){
-            [self doCancelFixed];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要取消定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            alert.tag = 105;
+            [alert show];
             //            [self.navigationController popToRootViewControllerAnimated:YES];
         }else if (buttonIndex == 2){
             PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
@@ -310,6 +312,22 @@
         UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"开始推广", @"修改限额", @"添加房源", nil];
         action.tag = 101;
         [action showInView:self.view];
+        
+    }
+}
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if(alertView.tag == 105){
+        if(buttonIndex == 1){
+        [self doCancelFixed];
+        }
+    }else{
+    
+    if(buttonIndex == 1){
+        [self doStopFixedGroup];
+    }else{
+        
+    }
         
     }
 }

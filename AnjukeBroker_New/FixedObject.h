@@ -30,6 +30,7 @@
 @property (strong, nonatomic) NSString *topCost;
 @property (strong, nonatomic) NSString *fixedStatus;
 @property (strong, nonatomic) NSString *totalProperty;
+@property (strong, nonatomic) NSString *isBid;
 
 - (id)setValueFromDictionary:(NSDictionary *)dic;
 

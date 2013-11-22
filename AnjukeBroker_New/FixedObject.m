@@ -17,6 +17,7 @@
 @synthesize topCost;
 @synthesize fixedStatus;
 @synthesize totalProperty;
+@synthesize isBid;
 
 - (id)setValueFromDictionary:(NSDictionary *)dic{
     
@@ -27,9 +28,10 @@
 //    self.totalCost = [dic objectForKey:@"totalCost"];
     self.topCost = [NSString stringWithFormat:@"%d",[[dic objectForKey:@"fixPlanPropCeiling"] integerValue]];
     self.fixedStatus = [dic objectForKey:@"fixPlanState"];
+    self.isBid = [dic objectForKey:@"isBid"];
 //    self.totalProperty = [dic objectForKey:@"totalProperty"];
-    
     return self;
+    
 }
 
 @end

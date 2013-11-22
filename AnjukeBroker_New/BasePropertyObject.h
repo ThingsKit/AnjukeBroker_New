@@ -55,6 +55,8 @@
 @property (strong, nonatomic) NSString *hallNum;
 @property (strong, nonatomic) NSString *roomNum;
 @property (strong, nonatomic) NSString *toiletNum;
+@property (strong, nonatomic) NSString *isMoreImg;
+@property (strong, nonatomic) NSString *isVisible;
 
 - (id)setValueFromDictionary:(NSDictionary *)dic;
 

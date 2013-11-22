@@ -31,6 +31,8 @@
 @synthesize hallNum;
 @synthesize roomNum;
 @synthesize toiletNum;
+@synthesize isMoreImg;
+@synthesize isVisible;
 
 - (id)setValueFromDictionary:(NSDictionary *)dic{
     
@@ -56,6 +58,8 @@
     self.hallNum = [dic objectForKey:@"hallNum"];
     self.roomNum = [dic objectForKey:@"roomNum"];
     self.toiletNum = [dic objectForKey:@"toiletNum"];
+    self.isMoreImg = [dic objectForKey:@"isMoreImg"];
+    self.isVisible = [dic objectForKey:@"isVisible"];
     return self;
 }
 

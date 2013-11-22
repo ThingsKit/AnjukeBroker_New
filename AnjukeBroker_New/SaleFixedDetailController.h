@@ -9,7 +9,7 @@
 #import "BaseFixedDetailController.h"
 #import "RTPopoverTableViewController.h"
 
-@interface SaleFixedDetailController : BaseFixedDetailController <UIActionSheetDelegate, RTPopoverTableViewDelegate, UIPopoverControllerDelegate>
+@interface SaleFixedDetailController : BaseFixedDetailController <UIActionSheetDelegate, RTPopoverTableViewDelegate, UIPopoverControllerDelegate,UIAlertViewDelegate>
 {
 
 }

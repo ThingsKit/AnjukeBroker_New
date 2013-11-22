@@ -18,5 +18,5 @@
 @property (strong, nonatomic) UILabel *detail;
 @property (strong, nonatomic) UILabel *price;
 @property (strong, nonatomic) UIButton *mutableSelect;
-
+@property (strong, nonatomic) UIImageView *proIcon;
 @end

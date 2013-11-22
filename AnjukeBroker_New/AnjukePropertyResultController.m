@@ -357,7 +357,7 @@
     switch (self.resultType) {
         case PropertyResultOfRentNoPlan:
         {
-            static NSString *cellIdent = @"cell";
+            static NSString *cellIdent = @"SaleNoPlanListCell";
             
             SaleNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
             if(cell == nil){
@@ -397,7 +397,7 @@
             break;
         case PropertyResultOfSaleNoPlan:
         {
-            static NSString *cellIdent = @"cell";
+            static NSString *cellIdent = @"SaleNoPlanListCell";
             
             SaleNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
             if(cell == nil){
