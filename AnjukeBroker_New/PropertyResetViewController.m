@@ -532,7 +532,10 @@
 #pragma mark - BigImageView Delegate
 - (void)deletebtnClick {
     //判断index在哪个imgArr中
-    if (self.imageSelectIndex <= self.extImageArray.count) {
+    if (self.extImageArray.count == 0) { //直接从新添加imgArr删除
+        [self.addImageArray removeObjectAtIndex:self.imageSelectIndex];
+    }
+    else if (self.imageSelectIndex <= self.extImageArray.count) {
         //需要请求api交互
         NSString *deleteImgID = [[self.extImageArray objectAtIndex:self.imageSelectIndex] objectForKey:@"imgId"];
         [self doDeleteImgWithImgID:deleteImgID];
