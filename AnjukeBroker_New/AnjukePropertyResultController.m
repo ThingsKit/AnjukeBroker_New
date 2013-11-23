@@ -39,6 +39,8 @@
     [super viewDidLoad];
     
 	// Do any additional setup after loading the view.
+    
+    [self addRightButton:@"确定" andPossibleTitle:@""];
 }
 
 - (void)initModel{
@@ -80,6 +82,24 @@
         default:
             break;
     }
+}
+
+#pragma mark - Private Method
+
+- (void)doBack:(id)sender {
+    if (self.isLoading) {
+        return;
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)rightButtonAction:(id)sender {
+    if (self.isLoading) {
+        return;
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Request 二手房未推广列表
@@ -322,7 +342,7 @@
 }
 
 #pragma mark - UITableView Delegate & Datasource
-- (float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (self.resultType) {
         case PropertyResultOfRentNoPlan:
             return 67.0f;

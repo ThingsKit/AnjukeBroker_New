@@ -72,7 +72,7 @@
     //朝向
     self.property.exposure = [dic objectForKey:@"exposure"];
     //楼层
-    self.property.floor = [NSString stringWithFormat:@"%@,%@", [dic objectForKey:@"proFloor"], [dic objectForKey:@"floorNum"]];
+    self.property.floor = [NSString stringWithFormat:@"%@,%@", [dic objectForKey:@"floor"], [dic objectForKey:@"floorNum"]];
     //title
     self.property.title = [dic objectForKey:@"title"];
     
@@ -124,7 +124,7 @@
         [[[[self.dataSource cellArray] objectAtIndex:HZ_P_EXPOSURE] text_Field] setText:self.property.exposure];
         
         //楼层
-        NSString *floorStr = [NSString stringWithFormat:@"%@楼%@层",[dic objectForKey:@"proFloor"], [dic objectForKey:@"floorNum"]];
+        NSString *floorStr = [NSString stringWithFormat:@"%@楼%@层",[dic objectForKey:@"floor"], [dic objectForKey:@"floorNum"]];
         [[[[self.dataSource cellArray] objectAtIndex:HZ_P_FLOORS] text_Field] setText:floorStr];
         
         //设置各picker展示时，初始数据所在行
@@ -145,7 +145,7 @@
         int exIndex = [PropertyDataManager getExposureIndexWithTitle:self.property.exposure];
         [[[self.dataSource cellArray] objectAtIndex:HZ_P_EXPOSURE] setInputed_RowAtCom0:exIndex];
         //楼层
-        int profloorIndex = [PropertyDataManager getProFloorIndexWithNum:[dic objectForKey:@"proFloor"]];
+        int profloorIndex = [PropertyDataManager getProFloorIndexWithNum:[dic objectForKey:@"floor"]];
         [[[self.dataSource cellArray] objectAtIndex:HZ_P_FLOORS] setInputed_RowAtCom0:profloorIndex];
         int floorIndex = [PropertyDataManager getFloorIndexWithNum:[dic objectForKey:@"floorNum"]];
         [[[self.dataSource cellArray] objectAtIndex:HZ_P_FLOORS] setInputed_RowAtCom1:floorIndex];
@@ -176,7 +176,7 @@
         [[[[self.dataSource cellArray] objectAtIndex:AJK_P_EXPOSURE] text_Field] setText:self.property.exposure];
         
         //楼层
-        NSString *floorStr = [NSString stringWithFormat:@"%@楼%@层",[dic objectForKey:@"proFloor"], [dic objectForKey:@"floorNum"]];
+        NSString *floorStr = [NSString stringWithFormat:@"%@楼%@层",[dic objectForKey:@"floor"], [dic objectForKey:@"floorNum"]];
         [[[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] text_Field] setText:floorStr];
         
         //设置各picker展示时，初始数据所在行
@@ -194,7 +194,7 @@
         int exIndex = [PropertyDataManager getExposureIndexWithTitle:self.property.exposure];
         [[[self.dataSource cellArray] objectAtIndex:AJK_P_EXPOSURE] setInputed_RowAtCom0:exIndex];
         //楼层
-        int profloorIndex = [PropertyDataManager getProFloorIndexWithNum:[dic objectForKey:@"proFloor"]];
+        int profloorIndex = [PropertyDataManager getProFloorIndexWithNum:[dic objectForKey:@"floor"]];
         [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom0:profloorIndex];
         int floorIndex = [PropertyDataManager getFloorIndexWithNum:[dic objectForKey:@"floorNum"]];
         [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom1:floorIndex];
@@ -490,6 +490,66 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     
     [self hideLoadWithAnimated:YES];
+}
+
+- (void)doDeleteImgWithImgID:(NSString *)imgID {
+    if (![self isNetworkOkay]) {
+        return;
+    }
+    
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+    
+    //更新房源信息
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    [self setTextFieldForProperty];
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.propertyID, @"propId", imgID, @"aids", nil];
+    method = @"img/delimg/";
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onDeleteImgFinished:)];
+}
+
+- (void)onDeleteImgFinished:(RTNetworkResponse *)response {
+    DLog(@"--。。。response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        [self hideLoadWithAnimated:YES];
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    [self showInfo:@"删除图片成功"];
+    [self hideLoadWithAnimated:YES];
+}
+
+#pragma mark - BigImageView Delegate
+- (void)deletebtnClick {
+    //判断index在哪个imgArr中
+    if (self.imageSelectIndex <= self.extImageArray.count) {
+        //需要请求api交互
+        NSString *deleteImgID = [[self.extImageArray objectAtIndex:self.imageSelectIndex] objectForKey:@"imgId"];
+        [self doDeleteImgWithImgID:deleteImgID];
+        //删除原房源图片
+        [self.extImageArray removeObjectAtIndex:self.imageSelectIndex];
+    }
+    else { //删除新添加的图片
+        [self.addImageArray removeObjectAtIndex:self.imageSelectIndex+ self.extImageArray.count];
+    }
+    
+    for (PhotoButton *btn in self.imgBtnArray) {
+        btn.photoImg.image = nil;
+    }
+    //    DLog(@"img count [%d]", self.imgArray.count);
+    
+    //redraw header img scroll
+    [self refreshPhotoHeader];
 }
 
 #pragma mark - Photo Show View Delegate

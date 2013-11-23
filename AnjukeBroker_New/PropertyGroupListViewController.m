@@ -11,10 +11,12 @@
 #import "PropertyAuctionViewController.h"
 #import "LoginManager.h"
 #import "PropertyAuctionPublishViewController.h"
+#import "AnjukePropertyResultController.h"
 
 @interface PropertyGroupListViewController ()
 @property (nonatomic, strong) UITableView *tvList;
 @property (nonatomic, strong) NSArray *groupArray;
+@property (nonatomic, copy) NSString *selectPlanID;
 @end
 
 @implementation PropertyGroupListViewController
@@ -24,6 +26,7 @@
 @synthesize propertyID;
 @synthesize commID;
 @synthesize isHaozu;
+@synthesize selectPlanID;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -49,10 +52,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc {
+    self.tvList.delegate = nil;
+}
+
 #pragma mark - private method
 
 - (void)initModel {
     self.groupArray = [NSArray array];
+    self.selectPlanID = [NSString string];
 }
 
 - (void)initDisplay {
@@ -146,9 +154,16 @@
         [self.navigationController pushViewController:pa animated:YES];
     }
     else { //去定价房源列表页面-结果页
-        //test
-        //        [self.navigationController popToRootViewControllerAnimated:YES];
-        [self dismissViewControllerAnimated:YES completion:nil];
+        AnjukePropertyResultController *ap = [[AnjukePropertyResultController alloc] init];
+        if (self.isHaozu) {
+            ap.resultType = PropertyResultOfRentFixed;
+        }
+        else
+            ap.resultType = PropertyResultOfSaleFixed;
+        ap.planId = self.selectPlanID;
+        [self.navigationController pushViewController:ap animated:YES];
+        
+//        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
@@ -186,8 +201,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    NSString *groupID = [[self.groupArray objectAtIndex:indexPath.row] objectForKey:@"fixPlanId"];
-    [self addPropertyToPlanWithGroupID:groupID];
+    self.selectPlanID = [[self.groupArray objectAtIndex:indexPath.row] objectForKey:@"fixPlanId"];
+    [self addPropertyToPlanWithGroupID:self.selectPlanID];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

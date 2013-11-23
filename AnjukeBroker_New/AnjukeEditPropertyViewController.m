@@ -11,13 +11,10 @@
 #import "PropertyGroupListViewController.h"
 #import "PropertyBigImageViewController.h"
 #import "BrokerLineView.h"
-#import "RTNavigationController.h"
 #import "RTCoreDataManager.h"
+#import "AnjukePropertyResultController.h"
 
 #define LimitRow_INPUT 1 //从row=1行开始输入，即最小输入行数(第一行为小区无需输入，从户型行开始输入)
-#define TagOfImg_Base 1000
-#define TagOfActionSheet_Img 901
-#define TagOfActionSheet_Save 902
 
 typedef enum {
     Property_DJ = 0, //发房_定价
@@ -519,7 +516,14 @@ typedef enum {
         case Property_WTG: {
             //为推广，直接去到房源结果页
             
-            [self dismissViewControllerAnimated:YES completion:nil];
+//            [self dismissViewControllerAnimated:YES completion:nil];
+            AnjukePropertyResultController *ap = [[AnjukePropertyResultController alloc] init];
+            if (self.isHaozu) {
+                ap.resultType = PropertyResultOfRentNoPlan;
+            }
+            else
+                ap.resultType = PropertyResultOfSaleNoPlan;
+            [self.navigationController pushViewController:ap animated:YES];
         }
             break;
             

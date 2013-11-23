@@ -10,8 +10,8 @@
 
 typedef enum {
     PropertyResultOfRentNoPlan = 0,
-    PropertyResultOfRentFixed,
-    PropertyResultOfRentBid,
+    PropertyResultOfRentFixed, //定价
+    PropertyResultOfRentBid, //竞价
     PropertyResultOfSaleNoPlan,
     PropertyResultOfSaleFixed,
     PropertyResultOfSaleBid

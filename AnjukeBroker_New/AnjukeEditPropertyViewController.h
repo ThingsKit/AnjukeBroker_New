@@ -24,6 +24,7 @@
 #import "PhotoManager.h"
 #import "Util_UI.h"
 #import "ASIFormDataRequest.h"
+#import "RTNavigationController.h"
 
 #define PhotoImg_MAX_COUNT 8 //最多上传照片数
 
@@ -34,6 +35,10 @@
 #define Input_H 260
 
 #define IMAGE_MAXSIZE_WIDTH 1280/4 //屏幕预览图的最大分辨率，只负责预览显示
+
+#define TagOfImg_Base 1000
+#define TagOfActionSheet_Img 901
+#define TagOfActionSheet_Save 902
 
 @interface AnjukeEditPropertyViewController : RTViewController <UITableViewDelegate, BrokerPickerDelegate, UITextFieldDelegate ,UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, BigImageViewBtnClickDelegate, PhotoViewClickDelegate, ELCImagePickerControllerDelegate, CommunitySelectDelegate>
 
@@ -55,5 +60,6 @@
 - (void)refreshPhotoHeader;
 - (NSString *)getImageJson;
 - (void)doPushToCommunity;
+- (void)showPhoto:(id)sender;
 
 @end
