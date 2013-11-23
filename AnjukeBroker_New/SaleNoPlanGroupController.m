@@ -133,7 +133,6 @@
     if([resultFromAPI count] ==  0){
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
         return ;
     }
     if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {

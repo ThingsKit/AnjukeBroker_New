@@ -15,18 +15,22 @@
 @synthesize price;
 @synthesize mutableSelect;
 @synthesize proIcon;
+@synthesize backView;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.title = [[UILabel alloc] initWithFrame:CGRectMake(48, 5, 260, 40)];
+        self.backView = [[UIView alloc] initWithFrame:CGRectMake(48, 0, 270, self.contentView.frame.size.height)];
+        self.backView.backgroundColor = [UIColor clearColor];
+        
+        self.title = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 260, 40)];
         self.title.numberOfLines = 0;
         self.title.lineBreakMode = NSLineBreakByWordWrapping;
         self.title.textColor = SYSTEM_BLACK;
         self.title.font = [UIFont systemFontOfSize:14];
         
-        self.detail = [[UILabel alloc] initWithFrame:CGRectMake(48, 40, 260, 20)];
+        self.detail = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, 260, 20)];
         self.detail.textColor = [Util_UI colorWithHexString:@"#666666"];
         self.detail.font = [UIFont systemFontOfSize:12];
         
@@ -37,10 +41,10 @@
         self.price.textColor = [UIColor grayColor];
         self.price.font = [UIFont systemFontOfSize:12];
         
-        [self.contentView addSubview:self.title];
-        [self.contentView addSubview:self.detail];
+        [self.backView addSubview:self.title];
+        [self.backView addSubview:self.detail];
         [self.contentView addSubview:self.proIcon];
-        [self.contentView addSubview:self.price];
+        [self.contentView addSubview:self.backView];
         // Initialization code
     }
     return self;

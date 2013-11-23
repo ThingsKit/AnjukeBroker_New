@@ -7,7 +7,6 @@
 //
 
 #import "HaozuHomeViewController.h"
-#import "RentNoPlanListController.h"
 #import "RentFixedDetailController.h"
 #import "AnjukePropertyResultController.h"
 
