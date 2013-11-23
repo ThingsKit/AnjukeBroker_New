@@ -10,39 +10,64 @@
 #import "Util_UI.h"
 
 @implementation PropertyDetailCell
+@synthesize title;
+@synthesize detail;
+@synthesize price;
+@synthesize mutableSelect;
+@synthesize proIcon;
+@synthesize backView;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
 
-        title = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 250, 20)];
-        title.text = @"最好的房子";
-        title.textColor = [Util_UI colorWithHexString:@"#333333"];
-        communityName = [[UILabel alloc] initWithFrame:CGRectMake(20, 45, 150, 20)];
-        communityName.textColor = [Util_UI colorWithHexString:@"#666666"];
-        communityName.text = @"明日社区";
-        communityName.font = [UIFont systemFontOfSize:12];
-        price = [[UILabel alloc] initWithFrame:CGRectMake(210, 45, 150, 20)];
-        price.textColor = [UIColor grayColor];
-        price.text = @"-190万";
-        price.font = [UIFont systemFontOfSize:12];
+        self.backView = [[UIView alloc] initWithFrame:CGRectMake(48, 0, 270, self.contentView.frame.size.height)];
+        self.backView.backgroundColor = [UIColor clearColor];
         
-        [self.contentView addSubview:title];
-        [self.contentView addSubview:communityName];
+        self.title = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 260, 40)];
+        self.title.numberOfLines = 0;
+        self.title.lineBreakMode = NSLineBreakByWordWrapping;
+        self.title.textColor = SYSTEM_BLACK;
+        self.title.font = [UIFont systemFontOfSize:14];
+        
+        self.detail = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, 260, 20)];
+        self.detail.textColor = [Util_UI colorWithHexString:@"#666666"];
+        self.detail.font = [UIFont systemFontOfSize:12];
+        
+        self.proIcon = [[UIImageView alloc] init];
+        self.proIcon.frame = CGRectMake(280, 25, 22, 14);
+        
+        self.price = [[UILabel alloc] initWithFrame:CGRectMake(210, 30, 150, 20)];
+        self.price.textColor = [UIColor grayColor];
+        self.price.font = [UIFont systemFontOfSize:12];
+        
+        [self.backView addSubview:self.title];
+        [self.backView addSubview:self.detail];
+        [self.contentView addSubview:self.proIcon];
+        [self.contentView addSubview:self.backView];
 //        [self.contentView addSubview:price];
     }
     return self;
 }
--(void)setValueForCellByObject:(BasePropertyObject *) obj{
-    title.text = obj.title;
-    communityName.text = obj.communityName;
-    price.text = obj.price;
-}
+
 -(void)setValueForCellByDictionar:(NSDictionary *) dic{
-    title.text = [dic objectForKey:@"title"];
-    communityName.text = [dic objectForKey:@"commName"];
-    price.text = [dic objectForKey:@"price"];
+    self.backView.frame = CGRectMake(10, 0, 320, self.contentView.frame.size.height);
+    self.title.text = [dic objectForKey:@"title"];
+    
+    NSString *tempStr = [NSString stringWithFormat:@"%@ %@室%@厅%@卫  %@平 %@%@", [dic objectForKey:@"commName"], [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"], [dic objectForKey:@"area"], [dic objectForKey:@"price"], [dic objectForKey:@"priceUnit"]];
+    self.detail.text = tempStr;
+    [self setProIconWithPro:dic];
+}
+
+- (void)setProIconWithPro:(NSDictionary *) dic{
+    if([[dic objectForKey:@"isMoreImg"] isEqualToString:@"1"]){
+        self.proIcon.image = [UIImage imageNamed:@"anjuke_icon_mutableimg@2x.png"];
+    }else{
+        // anjuke_icon_draft@2x.png
+        self.proIcon.image = nil;
+    }
+    
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {

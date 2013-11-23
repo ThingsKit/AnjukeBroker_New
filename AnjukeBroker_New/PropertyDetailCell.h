@@ -11,13 +11,14 @@
 
 @interface PropertyDetailCell : UITableViewCell
 {
-    UILabel *title;
-    UILabel *communityName;
-    UILabel *price;
-    UILabel *tapNum;
-    UILabel *tapNumStr;
-    
+
 }
+@property (strong, nonatomic) UILabel *title;
+@property (strong, nonatomic) UILabel *detail;
+@property (strong, nonatomic) UILabel *price;
+@property (strong, nonatomic) UIButton *mutableSelect;
+@property (strong, nonatomic) UIImageView *proIcon;
+@property (strong, nonatomic) UIView *backView;
 -(void)setValueForCellByObject:(BasePropertyObject *) obj;
 -(void)setValueForCellByDictionar:(NSDictionary *) dic;
 @end

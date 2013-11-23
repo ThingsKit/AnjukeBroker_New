@@ -21,13 +21,15 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        title = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 200, 20)];
+        title = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 250, 40)];
+        title.numberOfLines = 0;
+        title.lineBreakMode = NSLineBreakByWordWrapping;
         title.text = @"汤臣一品";
         title.textColor = SYSTEM_BLACK;
         title.font = [UIFont systemFontOfSize:16];
         [self.contentView addSubview:title];
         
-        price = [[UILabel alloc] initWithFrame:CGRectMake(20, 35, 200, 20)];
+        price = [[UILabel alloc] initWithFrame:CGRectMake(20, 40, 250, 20)];
         price.textColor = [Util_UI colorWithHexString:@"666666"];
         price.text = @"3室2厅 120平 400万";
         price.font = [UIFont systemFontOfSize:12];
@@ -78,7 +80,7 @@
     if([dataModel isKindOfClass:[NSDictionary class]]){
         NSDictionary *propInfo = (NSDictionary *)dataModel;
         title.text = [propInfo objectForKey:@"title"];
-        price.text = [NSString stringWithFormat:@"%@室%@厅%@卫 %@平 %@%@", [propInfo objectForKey:@"roomNum"], [propInfo objectForKey:@"hallNum"], [propInfo objectForKey:@"toiletNum"], [propInfo objectForKey:@"area"], [propInfo objectForKey:@"price"], [propInfo objectForKey:@"priceUnit"]];
+        price.text = [NSString stringWithFormat:@"%@ %@室%@厅%@卫 %@平 %@%@", [propInfo objectForKey:@"commName"], [propInfo objectForKey:@"roomNum"], [propInfo objectForKey:@"hallNum"], [propInfo objectForKey:@"toiletNum"], [propInfo objectForKey:@"area"], [propInfo objectForKey:@"price"], [propInfo objectForKey:@"priceUnit"]];
         stringNum.text = [NSString stringWithFormat:@"   %@                  %@              %@             %@", [propInfo objectForKey:@"index"], [propInfo objectForKey:@"clickNum"], [propInfo objectForKey:@"offer"], [self getBudget:propInfo]];
         DLog(@"===%@",[propInfo objectForKey:@"budget"])
         stage.text = [propInfo objectForKey:@"index"];
