@@ -24,9 +24,18 @@
     
     NSString *tempStr = [NSString stringWithFormat:@"%@室%@厅%@卫  %@平 %@%@", [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"], [dic objectForKey:@"area"], [dic objectForKey:@"price"], [dic objectForKey:@"priceUnit"]];
     self.detail.text = tempStr;
+    [self setProIconWithPro:dic];
     return YES;
 }
-
+- (void)setProIconWithPro:(NSDictionary *) dic{
+    if([[dic objectForKey:@"isMoreImg"] isEqualToString:@"1"]){
+        self.proIcon.image = [UIImage imageNamed:@"anjuke_icon_mutableimg@2x.png"];
+    }else{
+        // anjuke_icon_draft@2x.png
+        self.proIcon.image = nil;
+    }
+    
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

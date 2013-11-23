@@ -117,11 +117,14 @@
         case 0:
         {
             self.textField_1 = cellTextField;
+            self.textField_1.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+
         }
             break;
         case 1:
         {
             self.textField_2 = cellTextField;
+            self.textField_2.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         }
             break;
             

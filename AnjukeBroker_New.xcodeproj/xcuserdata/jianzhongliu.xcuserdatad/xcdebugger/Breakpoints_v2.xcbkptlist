@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AnjukeBroker_New/SaleGroupListController.m"
-            timestampString = "406546522.989391"
+            filePath = "AnjukeBroker_New/ModifyFixedCostController.m"
+            timestampString = "406887920.534031"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
-            landmarkName = "-rightButtonAction:"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "-modifyFixedProperty"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

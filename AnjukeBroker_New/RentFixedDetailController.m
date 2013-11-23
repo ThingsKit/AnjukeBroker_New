@@ -194,8 +194,15 @@
     if([indexPath row] == 0){
         
     }else{
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"竞价推广本房源", @"取消定价推广", @"修改房源信息", nil];
-        [action showInView:self.view];
+        if([[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"isBid"] isEqualToString:@"1"]){
+            UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"取消定价推广", @"修改房源信息", nil];
+            action.tag = 102;
+            [action showInView:self.view];
+        }else{
+            UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"竞价推广本房源", @"取消定价推广", @"修改房源信息", nil];
+            action.tag = 103;
+            [action showInView:self.view];
+        }
     }
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

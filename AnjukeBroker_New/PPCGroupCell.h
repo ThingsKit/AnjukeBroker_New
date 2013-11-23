@@ -13,6 +13,7 @@
     UILabel *title;
     UILabel *detail;
     UILabel *status;
+    
 }
 @property (strong, nonatomic) UIImageView *statueImg;
 -(void)setValueForCellByData:(id ) data index:(int) index;

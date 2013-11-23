@@ -128,9 +128,7 @@
     selectedIndex = indexPath.row;
     [self doFixed];
 }
--(void)rightButtonAction:(id)sender{
 
-}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

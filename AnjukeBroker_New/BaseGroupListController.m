@@ -65,7 +65,7 @@
     return 66.0f;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *cellIdent = @"cell";
+    static NSString *cellIdent = @"PPCGroupCell";
     
     PPCGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == nil){

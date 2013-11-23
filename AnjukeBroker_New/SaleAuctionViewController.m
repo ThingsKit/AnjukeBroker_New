@@ -12,11 +12,12 @@
 #import "SalePropertyListController.h"
 
 @interface SaleAuctionViewController ()
-
+@property (strong, nonatomic) NSString *bottomOffer;
 @end
 
 @implementation SaleAuctionViewController
 @synthesize proDic;
+@synthesize bottomOffer;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -176,6 +177,27 @@
     [self doSure];
 }
 - (void)rightButtonAction:(id)sender {
+    if(self.textField_1.text == nil){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请填写预算" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alert show];
+        return ;
+    }else if (self.textField_2.text == nil){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请填写出价" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alert show];
+        return ;
+    }else if ([self.textField_1.text integerValue] < 20){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"预算不得低于20元" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alert show];
+        return ;
+    }else if ([self.textField_2.text integerValue] < [self.bottomOffer integerValue]){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"出价不得低于底价" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alert show];
+        return ;
+    }else if ([self.textField_2.text integerValue] > [self.textField_1.text integerValue]){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"预算不得低于出价" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alert show];
+        return ;
+    }
     if(self.isLoading){
         return ;
     }
