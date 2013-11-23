@@ -281,6 +281,18 @@
     //
 }
 
+//将已有图片数量和新加入图片数量与最大张数对比
+- (BOOL)canAddNewImgWithNewCount:(int)newCount {
+    int count = self.extImageArray.count + self.addImageArray.count + newCount;
+    
+    if (count <= PhotoImg_MAX_COUNT) {
+        DLog(@"可继续添加 [%d]",count);
+        return YES;
+    }
+    DLog(@"不可继续添加 [%d]",count);
+    return NO;
+}
+
 #pragma mark - Request Method
 
 - (void)doRequestProp {
@@ -483,6 +495,12 @@
 #pragma mark - Photo Show View Delegate
 
 - (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr {
+    if (![self canAddNewImgWithNewCount:arr.count]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        [self showInfo:@"超出最大可上传图片数，请重新选取"];
+        return;
+    }
+    
     for (int i = 0; i < arr.count; i ++) {
         //保存原始图片、得到url
         E_Photo *ep = [PhotoManager getNewE_Photo];
@@ -505,6 +523,13 @@
 #pragma mark - ELCImagePickerController Delegate
 
 - (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+    if (![self canAddNewImgWithNewCount:info.count]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        [self showInfo:@"超出最大可上传图片数，请重新选取"];
+        
+        return;
+    }
+    
     for (NSDictionary *dict in info) {
         
         UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
