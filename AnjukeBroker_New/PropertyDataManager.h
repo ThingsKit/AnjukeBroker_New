@@ -27,6 +27,7 @@
 
 + (int)getFitmentIndexWithString:(NSString *)string forHaozu:(BOOL)isHaozu;
 + (NSString *)getFitmentTitleWithNum:(NSString *)num forHaozu:(BOOL)isHaozu;
++ (NSString *)getFitmentVauleWithTitle:(NSString *)title forHaozu:(BOOL)isHaozu;
 
 //朝向
 + (NSArray *)getPropertyChaoXiang;

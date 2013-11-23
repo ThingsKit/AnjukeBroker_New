@@ -276,6 +276,23 @@
     return str;
 }
 
+//二手房装修情况_通过title得到Value
++ (NSString *)getFitmentVauleWithTitle:(NSString *)title forHaozu:(BOOL)isHaozu{
+    NSArray *arr = [self getPropertyFitmentForHaozu:isHaozu];
+    
+    NSString *str = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([title isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Title"]]) {
+            str = [[arr objectAtIndex:i] objectForKey:@"Value"];
+        }
+    }
+    
+    DLog(@"fitment--string [%@]", str);
+    
+    return str;
+}
+
 //朝向，通过title得到index
 + (int)getExposureIndexWithTitle:(NSString *)title {
     NSArray *arr = [self getPropertyChaoXiang];

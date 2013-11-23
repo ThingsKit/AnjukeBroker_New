@@ -8,31 +8,16 @@
 
 #import "AnjukeEditPropertyViewController.h"
 #import "PropertyDataManager.h"
-#import "PhotoButton.h"
-#import "Util_UI.h"
 #import "PropertyGroupListViewController.h"
 #import "PropertyBigImageViewController.h"
 #import "BrokerLineView.h"
 #import "RTNavigationController.h"
-#import "E_Photo.h"
-#import "ASIFormDataRequest.h"
 #import "RTCoreDataManager.h"
-#import "PhotoManager.h"
-
-#define photoHeaderH 100
-#define photoHeaderH_RecNum 100 +50
-#define Input_H 260
-
-#define IMAGE_MAXSIZE_WIDTH 1280/4 //屏幕预览图的最大分辨率，只负责预览显示
 
 #define LimitRow_INPUT 1 //从row=1行开始输入，即最小输入行数(第一行为小区无需输入，从户型行开始输入)
 #define TagOfImg_Base 1000
 #define TagOfActionSheet_Img 901
 #define TagOfActionSheet_Save 902
-
-#define PhotoImg_H 76
-#define PhotoImg_Gap 10
-#define PhotoImg_MAX_COUNT 8 //最多上传照片数
 
 typedef enum {
     Property_DJ = 0, //发房_定价
@@ -49,18 +34,7 @@ typedef enum {
 @property (nonatomic, strong) UITextField *inputingTextF; //正在输入的textField，用于指向后关闭键盘
 @property int selectedRow; //记录当前点选的row
 
-@property BOOL isTakePhoto; //是否拍照，区别拍照和从相册取图
-@property (nonatomic, strong) NSMutableArray *imgArray;
-@property (nonatomic, strong) UIScrollView *photoSV;
-@property (nonatomic, strong) NSMutableArray *imgBtnArray;
-@property int imageSelectIndex; //记录选择的第几个image
-
-
-@property (nonatomic, strong) UIImagePickerController *imagePicker;
 @property (nonatomic, strong) PhotoShowView *imageOverLay;
-
-@property int uploadImgIndex; //上传图片的顺序，每上传一张此index+1
-
 @property (nonatomic, assign) PropertyUploadType uploadType;
 
 @end
@@ -554,6 +528,13 @@ typedef enum {
     }
 }
 
+- (void)doPushToCommunity {
+    CommunityListViewController *cl = [[CommunityListViewController alloc] init];
+    cl.isHaouzu = self.isHaozu;
+    cl.communityDelegate = self;
+    [self.navigationController pushViewController:cl animated:YES];
+}
+
 #pragma mark - Photo ScrollView && ImagePickerOverLay method
 
 //得到需要在第几个预览图显示
@@ -706,11 +687,8 @@ typedef enum {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        //小区 push
-        CommunityListViewController *cl = [[CommunityListViewController alloc] init];
-        cl.isHaouzu = self.isHaozu;
-        cl.communityDelegate = self;
-        [self.navigationController pushViewController:cl animated:YES];
+        //小区 push，仅发房页面可编辑小区，上层编辑房源不可编辑小区
+        [self doPushToCommunity];
         
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
