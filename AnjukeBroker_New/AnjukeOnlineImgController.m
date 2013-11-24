@@ -118,8 +118,8 @@
     [self showLoadingActivity:YES];
     self.isLoading = YES;
     
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"1849", @"commId", @"2,1,1", @"rooms", @"南", @"forward", nil];
-//    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.property.comm_id, @"commId", self.property.rooms, @"rooms", self.property.exposure, @"forward", nil];
+//    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"1849", @"commId", @"2,1,1", @"rooms", @"南", @"forward", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.property.comm_id, @"commId", self.property.rooms, @"rooms", self.property.exposure, @"forward", nil];
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"img/gethousemoduleimg/" params:params target:self action:@selector(onGetLogin:)];
     
@@ -146,6 +146,14 @@
         return ;
     }
     
+    if ([[[resultFromAPI objectForKey:@"houseImg"] objectForKey:@"count"] intValue] == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"很抱歉" message:@"暂无该小区户型房形图，点击可返回" delegate:self cancelButtonTitle:@"我知道了" otherButtonTitles:@"返回", nil];
+        [alert show];
+        
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+    }
+    
     [self.imgArray removeAllObjects];
     [self.imgArray addObjectsFromArray:[[resultFromAPI objectForKey:@"houseImg"] objectForKey:@"imgs"]];
     
@@ -155,6 +163,28 @@
     self.isLoading = NO;
 }
 
+#pragma mark - UIScrollView Delegate
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    int index = scrollView.contentOffset.x / 320;
+    DLog(@"房形图index [%d]", index);
+    
+    self.selectedIndex = index;
+}
+
+#pragma mark - AlertView Delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 1:
+        {
+            [self doBack:self];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
 
 @end

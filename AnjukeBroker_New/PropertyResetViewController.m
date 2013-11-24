@@ -35,6 +35,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    self.hideOnlineImg = YES;
     [self doRequestProp];
 }
 
@@ -296,6 +297,7 @@
 - (void)addPhoto {
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从手机相册选择", nil];
     sheet.tag = TagOfActionSheet_Img;
+    sheet.cancelButtonIndex = 2;
     [sheet showInView:self.view];
 }
 

@@ -56,6 +56,8 @@
 @property int uploadImgIndex; //上传图片的顺序，每上传一张此index+1
 @property (nonatomic, strong) NSMutableArray *houseTypeImgArr; //在线房形图数组，只保存一个imgDic
 
+@property BOOL hideOnlineImg; //是否需要在线房形图功能
+
 //公开函数，仅继承页面使用
 - (void)setCommunityWithText:(NSString *)string; //设置小区名，上次使用
 - (void)doSave;

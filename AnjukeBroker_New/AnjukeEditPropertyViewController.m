@@ -53,6 +53,7 @@ typedef enum {
 @synthesize isHaozu;
 @synthesize uploadType;
 @synthesize houseTypeImgArr;
+@synthesize hideOnlineImg;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -695,7 +696,7 @@ typedef enum {
     [sheet showInView:self.view];
 }
 
-- (void)addPhoto {    
+- (void)addPhoto {
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从手机相册选择", @"选择在线房形图", nil];
     sheet.tag = TagOfActionSheet_Img;
     [sheet showInView:self.view];
@@ -747,7 +748,11 @@ typedef enum {
 - (void)onlineImgDidSelect:(NSDictionary *)imgDic {
     DLog(@"在线房形图Data--[%@]", imgDic);
     
-    if ([self canAddMoreImgWithNewCount:1]) {
+    if ([self onlineHouseTypeImgExit]) { //替换在线房形图
+        [self.houseTypeImgArr removeAllObjects];
+        [self.houseTypeImgArr addObject:imgDic];
+    }
+    else if ([self canAddMoreImgWithNewCount:1]) { //添加在线房形图
         //直接在新加图片后更新房形图
         [self.houseTypeImgArr removeAllObjects];
         [self.houseTypeImgArr addObject:imgDic];
@@ -933,11 +938,27 @@ typedef enum {
                 break;
             case 2: //在线房形图
             {
-                //test
-                AnjukeOnlineImgController *ao = [[AnjukeOnlineImgController alloc] init];
-                ao.imageSelectDelegate = self;
-                [self.navigationController pushViewController:ao animated:YES];
-            }
+                if (!self.hideOnlineImg) {
+                    //check小区、户型、朝向
+                    if ([self.property.comm_id isEqualToString:@""] || self.property.comm_id == nil) {
+                        [self showInfo:@"请选择小区"];
+                        return;
+                    }
+                    else if ([self.property.rooms isEqualToString:@""] || self.property.rooms == nil) {
+                        [self showInfo:@"请选择户型"];
+                        return;
+                    }
+                    else if ([self.property.exposure isEqualToString:@""] || self.property.exposure == nil) {
+                        [self showInfo:@"请选择朝向"];
+                        return;
+                    }
+                    
+                    AnjukeOnlineImgController *ao = [[AnjukeOnlineImgController alloc] init];
+                    ao.imageSelectDelegate = self;
+                    ao.property = self.property;
+                    [self.navigationController pushViewController:ao animated:YES];
+                }
+             }
                 break;
                 
             default:
