@@ -64,5 +64,6 @@
 - (NSString *)getImageJson;
 - (void)doPushToCommunity;
 - (void)showPhoto:(id)sender;
+- (void)addPhoto;
 
 @end

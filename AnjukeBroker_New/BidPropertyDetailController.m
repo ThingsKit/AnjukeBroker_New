@@ -58,10 +58,11 @@
     if([indexPath row] == 0){
         static NSString *cellIdent = @"PropertyDetailCell";
         PropertyDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
-        if(cell == Nil){
+        if(cell == nil){
             cell = [[NSClassFromString(@"PropertyDetailCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"PropertyDetailCell"];
-            [cell setValueForCellByObject:self.propertyObject];
         }
+        [cell setValueForCellByObject:self.propertyObject];
+        
         return cell;
     }else if([indexPath row] == 1){
         static NSString *cellIdent = @"FixedDetailCell";

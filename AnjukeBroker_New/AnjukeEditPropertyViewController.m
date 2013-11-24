@@ -695,12 +695,7 @@ typedef enum {
     [sheet showInView:self.view];
 }
 
-- (void)addPhoto {
-    if (self.imgArray.count > PhotoImg_MAX_COUNT) {
-        [self showInfo:[NSString stringWithFormat:@"最多上传%d张照片", PhotoImg_MAX_COUNT]];
-        return;
-    }
-    
+- (void)addPhoto {    
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从手机相册选择", @"选择在线房形图", nil];
     sheet.tag = TagOfActionSheet_Img;
     [sheet showInView:self.view];

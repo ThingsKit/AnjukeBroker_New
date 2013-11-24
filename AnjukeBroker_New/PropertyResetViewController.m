@@ -293,6 +293,12 @@
     return NO;
 }
 
+- (void)addPhoto {
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从手机相册选择", nil];
+    sheet.tag = TagOfActionSheet_Img;
+    [sheet showInView:self.view];
+}
+
 #pragma mark - Request Method
 
 - (void)doRequestProp {
@@ -560,7 +566,7 @@
 - (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr {
     if (![self canAddNewImgWithNewCount:arr.count]) {
         [self dismissViewControllerAnimated:YES completion:nil];
-        [self showInfo:@"超出最大可上传图片数，请重新选取"];
+        [self showInfo:MAX_PHOTO_ALERT_MESSAGE];
         return;
     }
     
@@ -588,7 +594,7 @@
 - (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
     if (![self canAddNewImgWithNewCount:info.count]) {
         [self dismissViewControllerAnimated:YES completion:nil];
-        [self showInfo:@"超出最大可上传图片数，请重新选取"];
+        [self showInfo:MAX_PHOTO_ALERT_MESSAGE];
         
         return;
     }
