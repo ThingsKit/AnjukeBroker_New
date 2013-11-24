@@ -26,7 +26,7 @@ typedef enum {
 @interface AnjukeEditPropertyViewController ()
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) UITableView *tvList;
-@property BOOL needRecordNum; //是否需要备案号，部分城市需要备案号（北京）
+@property BOOL needFileNO; //是否需要备案号，部分城市需要备案号（北京）
 @property (nonatomic, strong) RTInputPickerView *pickerView; //定制的输入框
 @property (nonatomic, strong) KeyboardToolBar *toolBar;
 @property (nonatomic, strong) UITextField *inputingTextF; //正在输入的textField，用于指向后关闭键盘
@@ -34,12 +34,11 @@ typedef enum {
 
 @property (nonatomic, strong) PhotoShowView *imageOverLay;
 @property (nonatomic, assign) PropertyUploadType uploadType;
-
 @end
 
 @implementation AnjukeEditPropertyViewController
 @synthesize titleArray, tvList;
-@synthesize needRecordNum;
+@synthesize needFileNO;
 @synthesize pickerView, toolBar, inputingTextF;
 @synthesize selectedRow;
 @synthesize isTakePhoto;
@@ -54,6 +53,8 @@ typedef enum {
 @synthesize uploadType;
 @synthesize houseTypeImgArr;
 @synthesize hideOnlineImg;
+@synthesize fileNoTextF;
+@synthesize simToolBar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -69,7 +70,6 @@ typedef enum {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [self setTitleViewWithString:@"房源信息"];
-    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -132,9 +132,11 @@ typedef enum {
 }
 
 - (void)drawHeader {
+    self.needFileNO = [LoginManager needFileNOWithCityID:[LoginManager getCity_id]];
+    
     //根据是否需要备案号调整高度
     UIView *headerView = [[UIView alloc] init];
-    if (self.needRecordNum) {
+    if (self.needFileNO) {
         headerView.frame = CGRectMake(0, 0, [self windowWidth], photoHeaderH_RecNum);
     }
     else
@@ -174,8 +176,36 @@ typedef enum {
     }
     
     //备案号
-    if (self.needRecordNum) {
-        //
+    if (self.needFileNO) {
+        UIView *fileNO_BG = [[UIView alloc] initWithFrame:CGRectMake(0, photoHeaderH, [self windowWidth], photoHeaderH_RecNum - photoHeaderH)];
+        fileNO_BG.backgroundColor = [UIColor whiteColor];
+        [headerView addSubview:fileNO_BG];
+        
+        UILabel *fnLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 80, 20)];
+        fnLb.backgroundColor = [UIColor clearColor];
+        fnLb.textColor = [UIColor blackColor];
+        fnLb.font = [UIFont systemFontOfSize:18];
+        fnLb.text = @"备案号";
+        [fileNO_BG addSubview:fnLb];
+        
+        //text field
+        UITextField *cellTextField = nil;
+        cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(224/2, 1,  150, CELL_HEIGHT - 1*5)];
+        cellTextField.returnKeyType = UIReturnKeyDone;
+        cellTextField.backgroundColor = [UIColor clearColor];
+        cellTextField.borderStyle = UITextBorderStyleNone;
+        cellTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        cellTextField.text = @"";
+        cellTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        cellTextField.placeholder = @"";
+        cellTextField.delegate = self;
+        cellTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        cellTextField.font = [UIFont systemFontOfSize:17];
+        cellTextField.secureTextEntry = NO;
+        cellTextField.textColor = SYSTEM_LIGHT_GRAY;
+        cellTextField.keyboardType = UIKeyboardTypeNumberPad;
+        self.fileNoTextF = cellTextField;
+        [fileNO_BG addSubview:cellTextField];
     }
     
     self.tvList.tableHeaderView = headerView;
@@ -269,7 +299,7 @@ typedef enum {
     self.property.imageJson = [self getImageJson];
     [self setTextFieldForProperty];
     
-    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"cityId", self.property.comm_id, @"commId", self.property.rooms, @"rooms", self.property.area, @"area", self.property.price, @"price", self.property.fitment, @"fitment", self.property.exposure, @"exposure", self.property.floor, @"floor", self.property.title, @"title", self.property.desc, @"description", self.property.imageJson, @"imageJson", nil];
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"cityId", self.property.comm_id, @"commId", self.property.rooms, @"rooms", self.property.area, @"area", self.property.price, @"price", self.property.fitment, @"fitment", self.property.exposure, @"exposure", self.property.floor, @"floor", self.property.title, @"title", self.property.desc, @"description", self.property.imageJson, @"imageJson", self.property.fileNo, @"fileNo",nil];
     method = @"anjuke/prop/publish/";
     
     if (self.isHaozu) {
@@ -630,6 +660,14 @@ typedef enum {
     }
 }
 
+#pragma mark - Simple Toolbar Delegate
+
+- (void)SK_finishBtnClicked {
+    [self.fileNoTextF resignFirstResponder];
+    
+    self.property.fileNo = self.fileNoTextF.text;
+}
+
 #pragma mark - Broker Picker Delegate
 
 - (void)finishBtnClicked { //点击完成，输入框组件消失
@@ -816,6 +854,28 @@ typedef enum {
     [[[[self.dataSource cellArray] objectAtIndex:0] communityDetailLb] setText:string];
 }
 
+#pragma mark - TextField Delegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if ([textField isEqual:self.fileNoTextF]) {
+        if (!self.simToolBar) {
+            self.simToolBar = [[SimpleKeyboardToolBar alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], NAV_BAT_H)];
+            self.simToolBar.clickDelagate = self;
+        }
+        
+        //弹出键盘
+        self.fileNoTextF.inputAccessoryView = self.simToolBar;
+        self.fileNoTextF.inputView = nil;
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (self.needFileNO && [textField isEqual:self.fileNoTextF]) {
+        self.property.fileNo = textField.text;
+        DLog(@"fileNo [%@]", self.property.fileNo);
+    }
+}
+
 #pragma mark - TextField Method
 
 - (void)getTextFieldIndexWithTF:(UITextField *)tf {
@@ -877,6 +937,7 @@ typedef enum {
 
 - (void)textFieldAllResign { //全部收起键盘
     [self.inputingTextF resignFirstResponder];
+    [self.fileNoTextF resignFirstResponder];
 }
 
 #pragma mark - UIActionSheet Delegate

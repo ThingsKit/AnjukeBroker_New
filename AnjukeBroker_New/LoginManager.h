@@ -18,4 +18,7 @@
 + (NSString *)getCity_id;
 + (NSString *)getToken;
 
++ (BOOL)isSeedForAJK:(BOOL)isAJK; //是否是播种城市
++ (BOOL)needFileNOWithCityID:(NSString *)cityID; //发房是否需要备案号
+
 @end

@@ -54,5 +54,29 @@
 //    return @"14e96260ca470b9afa52a48e3a54fb12";
 }
 
++ (BOOL)isSeedForAJK:(BOOL)isAJK {
+    NSString *isSeedStr = [NSString string];
+    
+    if (isAJK) {
+        isSeedStr = [[NSUserDefaults standardUserDefaults] valueForKey:@"isSeed_AJK"];
+    }
+    else
+        isSeedStr = [[NSUserDefaults standardUserDefaults] valueForKey:@"isSeed_HZ"];
+    
+    if ([isSeedStr isEqualToString:@"1"]) {
+        return YES;
+    }
+    
+    return NO;
+}
+
++ (BOOL)needFileNOWithCityID:(NSString *)cityID {
+    //test
+    if ([cityID intValue] == 14) { //默认北京需要备案号
+        return YES;
+    }
+    
+    return NO;
+}
 
 @end

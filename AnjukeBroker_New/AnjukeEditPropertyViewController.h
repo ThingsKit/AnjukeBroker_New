@@ -26,6 +26,7 @@
 #import "ASIFormDataRequest.h"
 #import "RTNavigationController.h"
 #import "AnjukeOnlineImgController.h"
+#import "SimpleKeyboardToolBar.h"
 
 #define PhotoImg_MAX_COUNT 10 //最多上传照片数
 #define MAX_PHOTO_ALERT_MESSAGE @"最多仅可添加10张图亲"
@@ -42,7 +43,7 @@
 #define TagOfActionSheet_Img 901
 #define TagOfActionSheet_Save 902
 
-@interface AnjukeEditPropertyViewController : RTViewController <UITableViewDelegate, BrokerPickerDelegate, UITextFieldDelegate ,UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, BigImageViewBtnClickDelegate, PhotoViewClickDelegate, ELCImagePickerControllerDelegate, CommunitySelectDelegate, OnlineImgSelectDelegate>
+@interface AnjukeEditPropertyViewController : RTViewController <UITableViewDelegate, BrokerPickerDelegate, UITextFieldDelegate ,UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, BigImageViewBtnClickDelegate, PhotoViewClickDelegate, ELCImagePickerControllerDelegate, CommunitySelectDelegate, OnlineImgSelectDelegate, SimpleKeyboardBarClickDelegate>
 
 @property BOOL isHaozu;
 @property (nonatomic, strong) Property *property;
@@ -57,6 +58,8 @@
 @property (nonatomic, strong) NSMutableArray *houseTypeImgArr; //在线房形图数组，只保存一个imgDic
 
 @property BOOL hideOnlineImg; //是否需要在线房形图功能
+@property (nonatomic, strong) UITextField *fileNoTextF; //备案号输入框
+@property (nonatomic, strong) SimpleKeyboardToolBar *simToolBar;
 
 //公开函数，仅继承页面使用
 - (void)setCommunityWithText:(NSString *)string; //设置小区名，上次使用
