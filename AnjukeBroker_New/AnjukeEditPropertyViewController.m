@@ -13,6 +13,7 @@
 #import "BrokerLineView.h"
 #import "RTCoreDataManager.h"
 #import "AnjukePropertyResultController.h"
+#import "AnjukeOnlineImgController.h"
 
 #define LimitRow_INPUT 1 //从row=1行开始输入，即最小输入行数(第一行为小区无需输入，从户型行开始输入)
 
@@ -51,6 +52,7 @@ typedef enum {
 @synthesize property;
 @synthesize isHaozu;
 @synthesize uploadType;
+@synthesize houseTypeImgArr;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -99,6 +101,7 @@ typedef enum {
     self.titleArray = [NSArray arrayWithArray:[PropertyDataManager getPropertyTitleArrayForHaozu:self.isHaozu]];
     self.imgArray = [NSMutableArray array];
     self.imgBtnArray = [NSMutableArray array];
+    self.houseTypeImgArr = [NSMutableArray array];
     
     self.uploadImgIndex = 0;
     
@@ -164,6 +167,7 @@ typedef enum {
         PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(PhotoImg_Gap +(i +1) * (PhotoImg_Gap + PhotoImg_H), PhotoImg_Gap, PhotoImg_H, PhotoImg_H)];
         pBtn.tag = TagOfImg_Base + i;
         [pBtn addTarget:self action:@selector(showPhoto:) forControlEvents:UIControlEventTouchUpInside];
+        pBtn.deleteBtnShow = NO;
         [self.photoSV addSubview:pBtn];
         [self.imgBtnArray addObject:pBtn];
     }
@@ -539,6 +543,41 @@ typedef enum {
     [self.navigationController pushViewController:cl animated:YES];
 }
 
+//检查是否有在线房形图
+- (BOOL)onlineHouseTypeImgExit {
+    if (self.houseTypeImgArr.count > 0) {
+        return YES; //有在线房形图
+    }
+    
+    return NO; //无在线房形图
+}
+
+- (BOOL)canAddMoreImgWithNewCount:(int)newCount {
+    
+    int count = self.imgArray.count + newCount;
+    if ([self onlineHouseTypeImgExit]) {
+        //有户型图
+        count +=1; //先有图片数+1
+    }
+    DLog(@"当前图片数[%d]", count);
+    
+    if (count > PhotoImg_MAX_COUNT) {
+        return NO; //超出最大可上传图片数
+    }
+    
+    return YES;
+}
+
+- (NSString *)getOnlineHouseTypeImgURL {
+    NSString *url = [NSString string];
+    
+    if ([self onlineHouseTypeImgExit]) {
+        url = [[self.houseTypeImgArr objectAtIndex:0] objectForKey:@"url"];
+    }
+    
+    return url;
+}
+
 #pragma mark - Photo ScrollView && ImagePickerOverLay method
 
 //得到需要在第几个预览图显示
@@ -557,6 +596,10 @@ typedef enum {
 }
 
 - (void)refreshPhotoHeader {
+    for (PhotoButton *btn in self.imgBtnArray) {
+        btn.photoImg.image = nil;
+    }
+    
     //redraw header img scroll
     for (int i = 0; i < self.imgArray.count; i ++) {
         PhotoButton *imgBtn = (PhotoButton *)[self.imgBtnArray objectAtIndex:i];
@@ -564,15 +607,26 @@ typedef enum {
         [imgBtn.photoImg setImage:[UIImage imageWithContentsOfFile:url]];
     }
     
-    for (PhotoButton * imgBtn in self.imgBtnArray) {
-        if (imgBtn.photoImg.image == nil) {
-            imgBtn.hidden = YES;
-        }
-        else
-            imgBtn.hidden = NO;
+    if ([self onlineHouseTypeImgExit]) { //最后添加上在线房形图
+        //add online
+        PhotoButton *imgBtn = (PhotoButton *)[self.imgBtnArray objectAtIndex:self.imgArray.count];
+        imgBtn.photoImg.imageUrl = [self getOnlineHouseTypeImgURL];
     }
     
-    self.photoSV.contentSize = CGSizeMake(PhotoImg_Gap + (PhotoImg_Gap+ PhotoImg_H)* (self.imgArray.count +1), photoHeaderH);
+//    for (PhotoButton * imgBtn in self.imgBtnArray) {
+//        if (imgBtn.photoImg.image == nil) {
+//            imgBtn.hidden = YES;
+//        }
+//        else
+//            imgBtn.hidden = NO;
+//    }
+    
+    if ([self onlineHouseTypeImgExit]) {
+        self.photoSV.contentSize = CGSizeMake(PhotoImg_Gap + (PhotoImg_Gap+ PhotoImg_H)* (self.imgArray.count +2), photoHeaderH);
+    }
+    else {
+        self.photoSV.contentSize = CGSizeMake(PhotoImg_Gap + (PhotoImg_Gap+ PhotoImg_H)* (self.imgArray.count +1), photoHeaderH);
+    }
 }
 
 #pragma mark - Broker Picker Delegate
@@ -654,36 +708,56 @@ typedef enum {
 
 - (void)showPhoto:(id)sender {
     PhotoButton *pBtn = (PhotoButton *)sender;
-    
     int photoIndex = pBtn.tag - TagOfImg_Base;
-    
-    self.imageSelectIndex = photoIndex;
-    if (pBtn.photoImg.image == nil) {
-        return;
-    }
-    
-//    DLog(@"photo Index [%d]", photoIndex);
     
     //模态弹出图片播放器
     PropertyBigImageViewController *pb = [[PropertyBigImageViewController alloc] init];
     pb.btnDelegate = self;
     RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    [self.navigationController presentViewController:navController animated:YES completion:^(void) {
-        pb.contentImgView.image = pBtn.photoImg.image;
-    }];
+    
+    if ([self onlineHouseTypeImgExit] && photoIndex == self.imgArray.count) { //选中在线房形图
+        pb.isOnlineImg = YES;
+        
+        [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+            pb.contentImgView.imageUrl = [self getOnlineHouseTypeImgURL];
+        }];
+    }
+    else { //本地图片展示
+        self.imageSelectIndex = photoIndex;
+        if (pBtn.photoImg.image == nil) {
+            return;
+        }
+        
+        [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+            pb.contentImgView.image = pBtn.photoImg.image;
+        }];
+    }
 }
 
 #pragma mark - BigImageView Delegate
-- (void)deletebtnClick {
-    [self.imgArray removeObjectAtIndex:self.imageSelectIndex];
-    
-    for (PhotoButton *btn in self.imgBtnArray) {
-        btn.photoImg.image = nil;
+- (void)deletebtnClickForOnlineImg:(BOOL)isOnlineImg {
+    if (isOnlineImg) {
+        [self.houseTypeImgArr removeAllObjects]; //删除在线房形图
     }
-//    DLog(@"img count [%d]", self.imgArray.count);
+    else //删除本地添加图片
+        [self.imgArray removeObjectAtIndex:self.imageSelectIndex];
     
     //redraw header img scroll
+    [self refreshPhotoHeader];
+}
+
+#pragma mark - Online Img Select Delegate
+
+- (void)onlineImgDidSelect:(NSDictionary *)imgDic {
+    DLog(@"在线房形图Data--[%@]", imgDic);
+    
+    if ([self canAddMoreImgWithNewCount:1]) {
+        //直接在新加图片后更新房形图
+        [self.houseTypeImgArr removeAllObjects];
+        [self.houseTypeImgArr addObject:imgDic];
+    }
+    
     [self refreshPhotoHeader];
 }
 
@@ -810,6 +884,17 @@ typedef enum {
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     if (actionSheet.tag == TagOfActionSheet_Img) {
+        
+        int maxImgCount = PhotoImg_MAX_COUNT - self.imgArray.count;
+        if ([self onlineHouseTypeImgExit]) {
+            maxImgCount -=1;
+        }
+        
+        if (maxImgCount == 0) {
+            [self showInfo:MAX_PHOTO_ALERT_MESSAGE];
+            return;
+        }
+        
         switch (buttonIndex) {
             case 0: //拍照
             {
@@ -844,7 +929,7 @@ typedef enum {
                 self.isTakePhoto = NO;
                 
                 ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] init];
-                elcPicker.maximumImagesCount = PhotoImg_MAX_COUNT - self.imgArray.count;
+                elcPicker.maximumImagesCount = maxImgCount;
                 elcPicker.imagePickerDelegate = self;
                 
                 [self presentViewController:elcPicker animated:YES completion:nil];
@@ -853,7 +938,10 @@ typedef enum {
                 break;
             case 2: //在线房形图
             {
-                
+                //test
+                AnjukeOnlineImgController *ao = [[AnjukeOnlineImgController alloc] init];
+                ao.imageSelectDelegate = self;
+                [self.navigationController pushViewController:ao animated:YES];
             }
                 break;
                 

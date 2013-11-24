@@ -9,7 +9,14 @@
 #import "RTViewController.h"
 #import "Property.h"
 
-@interface AnjukeOnlineImgController : RTViewController
-@property (strong, nonatomic) NSMutableArray *imgArray;
+@protocol OnlineImgSelectDelegate <NSObject>
+
+- (void)onlineImgDidSelect:(NSDictionary *)imgDic;
+
+@end
+
+@interface AnjukeOnlineImgController : RTViewController <UIScrollViewDelegate>
 @property (strong, nonatomic) Property *property;
+@property (nonatomic, assign) id <OnlineImgSelectDelegate> imageSelectDelegate;
+
 @end

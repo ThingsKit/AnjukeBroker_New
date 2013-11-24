@@ -16,6 +16,7 @@
 @implementation PropertyBigImageViewController
 @synthesize contentImgView;
 @synthesize btnDelegate;
+@synthesize isOnlineImg;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -48,7 +49,7 @@
     UIBarButtonItem *rButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(doBack)];
     self.navigationItem.leftBarButtonItem = rButton;
     
-    UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight])];
+    WebImageView *img = [[WebImageView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight])];
     img.backgroundColor = SYSTEM_BLACK;
     img.contentMode = UIViewContentModeScaleAspectFit;
 //    img.layer.borderColor = [UIColor blackColor].CGColor;
@@ -66,8 +67,8 @@
 }
 
 - (void)doDelete {
-    if ([self.btnDelegate respondsToSelector:@selector(deletebtnClick)]) {
-        [self.btnDelegate deletebtnClick];
+    if ([self.btnDelegate respondsToSelector:@selector(deletebtnClickForOnlineImg:)]) {
+        [self.btnDelegate deletebtnClickForOnlineImg:self.isOnlineImg];
     }
     
     [self doBack];

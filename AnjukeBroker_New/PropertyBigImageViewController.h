@@ -7,17 +7,19 @@
 //
 
 #import "RTViewController.h"
+#import "WebImageView.h"
 
 @protocol BigImageViewBtnClickDelegate <NSObject>
 
-- (void)deletebtnClick;
+- (void)deletebtnClickForOnlineImg:(BOOL)isOnlineImg;
 
 @end
 
 @interface PropertyBigImageViewController : RTViewController
 
-@property (nonatomic, strong) UIImageView *contentImgView;
+@property (nonatomic, strong) WebImageView *contentImgView;
 @property (nonatomic, assign) id <BigImageViewBtnClickDelegate> btnDelegate;
+@property BOOL isOnlineImg;
 
 @end
 
