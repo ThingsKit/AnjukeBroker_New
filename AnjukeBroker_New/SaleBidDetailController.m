@@ -11,7 +11,6 @@
 #import "BaseBidPropertyCell.h"
 #import "SalePropertyListController.h"
 #import "PropertyResetViewController.h"
-#import "SaleBidPlanController.h"
 #import "SaleAuctionViewController.h"
 #import "RTNavigationController.h"
 #import "LoginManager.h"
