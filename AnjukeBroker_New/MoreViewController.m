@@ -10,6 +10,7 @@
 #import "MoreListCell.h"
 #import "AppManager.h"
 #import "AboutUsViewController.h"
+#import "LoginManager.h"
 
 #define CALL_ANJUKE_NUMBER @"400-620-9008"
 #define CALL_ANJUKE_ROW 5
@@ -18,6 +19,8 @@
 @interface MoreViewController ()
 @property (nonatomic, strong) NSArray *taskArray;
 @property (nonatomic, strong) UITableView *tvList;
+
+@property (nonatomic, strong) NSDictionary *clientDic;
 @end
 
 @implementation MoreViewController
@@ -39,6 +42,10 @@
     
     self.view.backgroundColor = [UIColor clearColor];
     [self setTitleViewWithString:@"更多"];
+    
+    if (self.clientDic.count == 0) {
+        [self doRequest];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -62,10 +69,20 @@
     tv.delegate = self;
     tv.dataSource = self;
     [self.view addSubview:tv];
-    
 }
 
-#pragma mark - private method
+- (NSString *)getClientName {
+    NSString *str = [NSString string];
+    
+    if (self.clientDic.count == 0) {
+        str = @"";
+    }
+    else {
+        
+    }
+    
+    return str;
+}
 
 - (void)messageSw: (id)sender {
     UISwitch *sw = (UISwitch *)sender;
@@ -76,6 +93,43 @@
     else {
         DLog(@"推送关闭");
     }
+}
+
+#pragma mark - Request Method
+
+- (void)doRequest {
+    if (![self isNetworkOkay]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+    
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getUserID], @"brokerId", nil];
+    method = @"broker/getsalemanager/";
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
+}
+
+- (void)onRequestFinished:(RTNetworkResponse *)response {
+    DLog(@"。。。response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    [self.tvList reloadData];
+    
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    
 }
 
 #pragma mark - tableView Datasource
@@ -110,8 +164,8 @@
         [cell showSwitch];
         [cell.messageSwtich addTarget:self action:@selector(messageSw:) forControlEvents:UIControlEventValueChanged];
     }
-    else if (indexPath.row == 4) {
-        [cell setDetailText:@"测试"];
+    else if (indexPath.row == 4) { //客户主任
+        [cell setDetailText:[self getClientName]];
     }
     else if (indexPath.row == CALL_ANJUKE_ROW) {
         [cell setDetailText:CALL_ANJUKE_NUMBER];

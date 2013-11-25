@@ -24,15 +24,21 @@
 @property (nonatomic, strong) WebImageView *photoImg;
 
 @property (nonatomic, strong) NSMutableDictionary *dataDic;
-@property (nonatomic, strong) UIView *headerView;
+@property (nonatomic, strong) NSMutableDictionary *ppcDataDic;
 
+@property (nonatomic, strong) UILabel *nameLb;
+@property (nonatomic, strong) UILabel *phoneLb;
+@property (nonatomic, strong) UILabel *accountLb;
+@property (nonatomic, strong) UILabel *propNumLb;
+@property (nonatomic, strong) UILabel *costLb;
+@property (nonatomic, strong) UILabel *clickLb;
 @end
 
 @implementation HomeViewController
 @synthesize taskArray;
 @synthesize tvList;
-@synthesize photoImg, dataDic;
-@synthesize headerView;
+@synthesize photoImg, dataDic, ppcDataDic;
+@synthesize nameLb, phoneLb, accountLb, propNumLb, costLb, clickLb;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -65,6 +71,7 @@
     self.taskArray = [NSArray arrayWithObjects:@"发布二手房", @"发布租房", @"系统公告", nil];
     
     self.dataDic = [NSMutableDictionary dictionary];
+    self.ppcDataDic = [NSMutableDictionary dictionary];
 }
 
 - (void)initDisplay {
@@ -80,8 +87,8 @@
     UIView *hView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], headerHeight)];
     hView.backgroundColor = [UIColor clearColor];
     tv.tableHeaderView = hView;
-    self.headerView = hView;
     
+    [self drawHeaderWithBG:hView];
 }
 
 - (void)drawHeaderWithBG:(UIView *)BG_View {
@@ -104,7 +111,8 @@
     lb.backgroundColor = [UIColor clearColor];
     lb.font = [UIFont systemFontOfSize:15];
     lb.textColor = SYSTEM_BLACK;
-    lb.text = [self.dataDic objectForKey:@"brokerName"];
+    self.nameLb = lb;
+    lb.text = @"";
     [view1 addSubview:lb];
     
     //photo number
@@ -112,6 +120,7 @@
     lb2.backgroundColor = [UIColor clearColor];
     lb2.font = [UIFont systemFontOfSize:15];
     lb2.textColor = SYSTEM_BLACK;
+    self.phoneLb = lb2;
     lb2.text = [self.dataDic objectForKey:@"phone"];
     [view1 addSubview:lb2];
     
@@ -128,7 +137,8 @@
     lb4.font = [UIFont systemFontOfSize:15];
     lb4.textColor = SYSTEM_ORANGE;
     lb4.textAlignment = NSTextAlignmentCenter;
-    lb4.text = @"1000";//[self.dataDic objectForKey:@"phone"];
+    self.accountLb = lb4;
+    lb4.text = @"";
     [view1 addSubview:lb4];
     
     UILabel *yuanLb = [[UILabel alloc] initWithFrame:CGRectMake(lb4.frame.origin.x+ lb4.frame.size.width, lb3.frame.origin.y, 20, lb.frame.size.height)];
@@ -159,14 +169,20 @@
         [view2 addSubview:numLb];
         
         switch (i) {
-            case 0:
+            case 0: {
                 titleStr = @"在线房源";
+                self.propNumLb = numLb;
+            }
                 break;
-            case 1:
+            case 1: {
                 titleStr = @"今日花费(元)";
+                self.costLb = numLb;
+            }
                 break;
-            case 2:
+            case 2: {
                 titleStr = @"今日点击";
+                self.clickLb = numLb;
+            }
                 break;
                 
             default:
@@ -186,6 +202,16 @@
     [view2 addSubview:line2];
 }
 
+- (void)setHomeValue {
+    self.nameLb.text = [self.dataDic objectForKey:@"brokerName"];
+    self.phoneLb.text = [self.dataDic objectForKey:@"phone"];
+    
+    self.accountLb.text = [self.ppcDataDic objectForKey:@"balance"];
+    self.propNumLb.text = [self.ppcDataDic objectForKey:@"onLinePropNum"];
+    self.costLb.text = [self.ppcDataDic objectForKey:@"todayAllClicks"];
+    self.clickLb.text = [self.ppcDataDic objectForKey:@"todayAllCosts"];
+}
+
 #pragma mark - Request Method
 
 - (void)doRequest {
@@ -198,8 +224,8 @@
     NSMutableDictionary *params = nil;
     NSString *method = nil;
     
-    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
-    method = @"broker/getinfo/";
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"cityId", nil];
+    method = @"broker/getinfoandppc/";
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
 
@@ -217,8 +243,10 @@
         return;
     }
     
-    self.dataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
-    [self drawHeaderWithBG:self.headerView];
+    self.dataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerBaseInfo"];
+    self.ppcDataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerPPCInfo"];
+    
+    [self setHomeValue];
     
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
