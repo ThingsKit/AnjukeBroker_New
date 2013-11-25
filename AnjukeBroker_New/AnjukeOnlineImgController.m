@@ -71,6 +71,10 @@
 }
 
 - (void)rightButtonAction:(id)sender {
+    if (self.imgArray.count == 0) {
+        [self doBack:self];
+    }
+    
     if ([self.imageSelectDelegate respondsToSelector:@selector(onlineImgDidSelect:)]) {
         [self.imageSelectDelegate onlineImgDidSelect:[self.imgArray objectAtIndex:self.selectedIndex]];
     }
@@ -118,7 +122,6 @@
     [self showLoadingActivity:YES];
     self.isLoading = YES;
     
-//    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"1849", @"commId", @"2,1,1", @"rooms", @"南", @"forward", nil];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.property.comm_id, @"commId", self.property.rooms, @"rooms", self.property.exposure, @"forward", nil];
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"img/gethousemoduleimg/" params:params target:self action:@selector(onGetLogin:)];
@@ -147,7 +150,7 @@
     }
     
     if ([[[resultFromAPI objectForKey:@"houseImg"] objectForKey:@"count"] intValue] == 0) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"很抱歉" message:@"暂无该小区户型房形图，点击可返回" delegate:self cancelButtonTitle:@"我知道了" otherButtonTitles:@"返回", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"很抱歉" message:@"暂无该小区户型房形图，点击可返回" delegate:self cancelButtonTitle:nil otherButtonTitles:@"我知道了", nil];
         [alert show];
         
         [self hideLoadWithAnimated:YES];
@@ -176,7 +179,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     switch (buttonIndex) {
-        case 1:
+        case 0:
         {
             [self doBack:self];
         }

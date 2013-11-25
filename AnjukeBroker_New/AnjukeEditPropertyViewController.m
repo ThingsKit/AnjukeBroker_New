@@ -70,6 +70,8 @@ typedef enum {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [self setTitleViewWithString:@"房源信息"];
+    
+    [self setDefultValue];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -219,6 +221,10 @@ typedef enum {
 #pragma mark - Request Method
 
 - (void)uploadPhoto {
+    if (![self checkUploadProperty]) {
+        return;
+    }
+    
     if (![self isNetworkOkay]) {
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
@@ -295,7 +301,7 @@ typedef enum {
 - (void)uploadProperty {
     NSMutableDictionary *params = nil;
     NSString *method = nil;
-
+    
     self.property.imageJson = [self getImageJson];
     [self setTextFieldForProperty];
     
@@ -590,7 +596,7 @@ typedef enum {
         //有户型图
         count +=1; //先有图片数+1
     }
-    DLog(@"当前图片数[%d]", count);
+    DLog(@"test *** 当前图片数[%d]", count);
     
     if (count > PhotoImg_MAX_COUNT) {
         return NO; //超出最大可上传图片数
@@ -607,6 +613,89 @@ typedef enum {
     }
     
     return url;
+}
+
+- (void)setDefultValue {
+    //房屋装修、朝向
+    if (!self.isHaozu) {
+        [[[[self.dataSource cellArray] objectAtIndex:AJK_P_FITMENT] text_Field] setText:@"精装修"];
+        int index = [PropertyDataManager getFitmentIndexWithString:@"精装修" forHaozu:self.isHaozu];
+        self.property.fitment = [NSString stringWithFormat:@"%d", index];
+        
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FITMENT] setInputed_RowAtCom0:index];
+        
+        [[[[self.dataSource cellArray] objectAtIndex:AJK_P_EXPOSURE] text_Field] setText:@"南北"];
+        int index2 = [PropertyDataManager getExposureIndexWithTitle:@"南北"];
+        self.property.fitment = [NSString stringWithFormat:@"%d", index2];
+        
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_EXPOSURE] setInputed_RowAtCom0:index2];
+    }
+    else {
+        [[[[self.dataSource cellArray] objectAtIndex:HZ_P_FITMENT] text_Field] setText:@"精装修"];
+        int index = [PropertyDataManager getFitmentIndexWithString:@"精装修" forHaozu:self.isHaozu];
+        self.property.fitment = [NSString stringWithFormat:@"%d", index];
+        
+        [[[self.dataSource cellArray] objectAtIndex:HZ_P_FITMENT] setInputed_RowAtCom0:index];
+
+        [[[[self.dataSource cellArray] objectAtIndex:HZ_P_EXPOSURE] text_Field] setText:@"南北"];
+        int index2 = [PropertyDataManager getExposureIndexWithTitle:@"南北"];
+        self.property.fitment = [NSString stringWithFormat:@"%d", index2];
+        
+        [[[self.dataSource cellArray] objectAtIndex:HZ_P_EXPOSURE] setInputed_RowAtCom0:index2];
+    }
+}
+
+- (BOOL)checkUploadProperty {
+    if ([self.property.rooms isEqualToString:@""]) {
+        [self showInfo:@"请选择户型，谢谢"];
+        return NO;
+    }
+    if ([self.property.area length] == 0) {
+        [self showInfo:@"请填写面积，谢谢"];
+        return NO;
+    }
+    if ([self.property.price length] == 0) {
+        [self showInfo:@"请填写价格，谢谢"];
+        return NO;
+    }
+    if ([self.property.fitment isEqualToString:@""]) {
+        [self showInfo:@"请选择装修情况，谢谢"];
+        return NO;
+    }
+    if ([self.property.exposure isEqualToString:@""]) {
+        [self showInfo:@"请选择朝向，谢谢"];
+        return NO;
+    }
+    if ([self.property.floor isEqualToString:@""]) {
+        [self showInfo:@"请选择楼层，谢谢"];
+        return NO;
+    }
+    if ([self.property.title isEqualToString:@""]) {
+        [self showInfo:@"请填写房源标题，谢谢"];
+        return NO;
+    }
+    if ([self.property.desc isEqualToString:@""]) {
+        [self showInfo:@"请填写房源详情，谢谢"];
+        return NO;
+    }
+    if ([self.property.comm_id isEqualToString:@""]) {
+        [self showInfo:@"请选择小区，谢谢"];
+        return NO;
+    }
+
+    
+    if (self.isHaozu) {
+        if ([self.property.area intValue] < 20 || [self.property.area intValue] > 1000) {
+            [self showInfo:@"租房面积范围为20至1000平米，谢谢"];
+            return NO;
+        }
+        if ([self.property.rentType isEqualToString:@""]) {
+            [self showInfo:@"请选择出租类型，谢谢"];
+            return NO;
+        }
+    }
+    
+    return YES;
 }
 
 #pragma mark - Photo ScrollView && ImagePickerOverLay method
@@ -1108,8 +1197,9 @@ typedef enum {
         image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     }
     
-    if (self.imgArray.count >= PhotoImg_MAX_COUNT) {
-        DLog(@"照片已到最大值");
+    int count = [[self.imageOverLay imgArray] count] +1;
+    if (![self canAddMoreImgWithNewCount:count]) {
+        [self showInfo:MAX_PHOTO_ALERT_MESSAGE];
         return;
     }
     
@@ -1162,6 +1252,12 @@ typedef enum {
 #pragma mark - ELCImagePickerController Delegate
 
 - (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+    int count = [info count];
+    if (![self canAddMoreImgWithNewCount:count]) {
+        [self showInfo:MAX_PHOTO_ALERT_MESSAGE];
+        return;
+    }
+    
     for (NSDictionary *dict in info) {
         
         UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];

@@ -13,6 +13,10 @@
 
 @property (nonatomic, strong) NSMutableArray *extImageArray; //得到的旧房源数据数组
 @property (nonatomic, strong) NSMutableArray *addImageArray; //新添加的图片数组
+
+@property (nonatomic, strong) NSMutableArray *commImgArray; //保存小区图、室内图、户型图，用于保存图片时遍历fileName以判断图片类型(type)
+@property (nonatomic, strong) NSMutableArray *roomImgArray;
+@property (nonatomic, strong) NSMutableArray *moduleImgArray;
 @end
 
 #define EDIT__PROPERTY_FINISH @"房源信息已更新"
@@ -20,6 +24,7 @@
 @implementation PropertyResetViewController
 @synthesize propertyID;
 @synthesize extImageArray, addImageArray;
+@synthesize commImgArray, roomImgArray, moduleImgArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,6 +57,10 @@
     
     self.extImageArray = [NSMutableArray array];
     self.addImageArray = [NSMutableArray array];
+    
+    self.commImgArray = [NSMutableArray array];
+    self.roomImgArray = [NSMutableArray array];
+    self.moduleImgArray = [NSMutableArray array];
 }
 
 - (void)setPropertyWithDic:(NSDictionary *)dic {
@@ -81,14 +90,15 @@
     self.property.desc = [dic objectForKey:@"description"];
     
     //image
-    NSArray *roomImgArr = [dic objectForKey:@"roomImg"];
-    NSArray *commImgArr = [dic objectForKey:@"commImg"];
-    if (roomImgArr.count > 0) {
-        [self.extImageArray addObjectsFromArray:roomImgArr];
+    self.roomImgArray = [dic objectForKey:@"roomImg"];
+    self.commImgArray = [dic objectForKey:@"commImg"];
+    self.moduleImgArray = [dic objectForKey:@"moduleImg"];
+    if (self.roomImgArray.count > 0) {
+        [self.extImageArray addObjectsFromArray:self.roomImgArray];
     }
-    if (commImgArr.count > 0) {
-        [self.extImageArray addObjectsFromArray:commImgArr];
-    }
+//    if (self.commImgArray.count > 0) {
+//        [self.extImageArray addObjectsFromArray:self.commImgArray];
+//    }
     
     //设置小区名字
     //小区
@@ -299,6 +309,10 @@
     sheet.tag = TagOfActionSheet_Img;
     sheet.cancelButtonIndex = 2;
     [sheet showInView:self.view];
+}
+
+- (void)setDefultValue {
+    
 }
 
 #pragma mark - Request Method
@@ -538,7 +552,7 @@
 }
 
 #pragma mark - BigImageView Delegate
-- (void)deletebtnClick {
+- (void)deletebtnClickForOnlineImg:(BOOL)isOnlineImg {
     //判断index在哪个imgArr中
     if (self.extImageArray.count == 0) { //直接从新添加imgArr删除
         [self.addImageArray removeObjectAtIndex:self.imageSelectIndex];

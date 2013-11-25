@@ -70,5 +70,6 @@
 - (void)doPushToCommunity;
 - (void)showPhoto:(id)sender;
 - (void)addPhoto;
+- (void)setDefultValue;
 
 @end
