@@ -12,6 +12,7 @@
 #import "LoginManager.h"
 #import "AppDelegate.h"
 #import "ConfigPlistManager.h"
+#import "AccountManager.h"
 
 @interface LoginViewController ()
 
@@ -193,6 +194,7 @@
     
     //每次重新登录请求配置数据
     [[AppDelegate sharedAppDelegate] requestSalePropertyConfig];
+    [[AccountManager sharedInstance] registerNotification];
 }
 
 @end

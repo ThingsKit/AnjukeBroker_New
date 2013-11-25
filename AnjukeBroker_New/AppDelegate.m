@@ -11,6 +11,7 @@
 #import "RTNavigationController.h"
 #import "LoginManager.h"
 #import "ConfigPlistManager.h"
+#import "AccountManager.h"
 
 #define coreDataName @"AnjukeBroker_New"
 #define code_AppName @"i-broker"
@@ -40,6 +41,10 @@
     [self checkLogin];
     
     [self.window makeKeyAndVisible];
+    
+    [self registerRemoteNotification];
+    [self cleanRemoteNotification:application];
+    
     [self checkVersion];
     
     return YES;
@@ -59,6 +64,8 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    [self cleanRemoteNotification:application];
+    
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
@@ -158,6 +165,56 @@
     }    
     
     return _persistentStoreCoordinator;
+}
+
+#pragma mark - Register Method
+
+- (void)registerRemoteNotification {
+    [[UIApplication sharedApplication]
+     registerForRemoteNotificationTypes:
+     (UIRemoteNotificationTypeAlert |
+      UIRemoteNotificationTypeBadge |
+      UIRemoteNotificationTypeSound)];
+}
+
+- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSString *token = [deviceToken description];
+    token = [token stringByReplacingOccurrencesOfString:@"<" withString:@""];
+    token = [token stringByReplacingOccurrencesOfString:@">" withString:@""];
+    token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+    [[AccountManager sharedInstance] setNotificationDeviceToken:token];
+    
+    DLog(@"device token: %@",token);
+    
+    //    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"推送" message:token delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+    //    [alertView show];
+    //    [alertView release];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
+    DLog(@"didFailToRegisterForRemoteNotificationsWithError %@", [error description]);
+    
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"推送" message:[error description] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+//    [alertView show];
+}
+
+- (void)cleanRemoteNotification:(UIApplication *)application{
+    application.applicationIconBadgeNumber = 1;
+    application.applicationIconBadgeNumber = 0;
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+    
+    [self cleanRemoteNotification:application];
+    
+    if (application.applicationState == UIApplicationStateInactive) {
+        DLog(@"userInfo [%@]", userInfo);
+    }
+}
+
+- (void)registerNotificationFinish:(RTNetworkResponse *)response{
+    DLog(@"registerNotificationFinish %@", response.content);
 }
 
 #pragma mark - Application's Documents directory

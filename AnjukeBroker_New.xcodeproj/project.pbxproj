@@ -66,6 +66,7 @@
 		97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A0F0211816227A00C31D83 /* BrokerLineView.m */; };
 		97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A0F027181653A600C31D83 /* RTInputPickerView.m */; };
 		97A606811816C2A50041B367 /* InputOrderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A606801816C2A50041B367 /* InputOrderManager.m */; };
+		97ACD09C1843357E00D88CB6 /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97ACD09B1843357E00D88CB6 /* AccountManager.m */; };
 		97AED104180D21790072611B /* libRTCoreService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED0FD180D20110072611B /* libRTCoreService.a */; };
 		97AED106180D21BD0072611B /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED105180D21BD0072611B /* AdSupport.framework */; };
 		97AED108180D21DB0072611B /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED107180D21DB0072611B /* libicucore.dylib */; };
@@ -298,6 +299,8 @@
 		97A606801816C2A50041B367 /* InputOrderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputOrderManager.m; sourceTree = "<group>"; };
 		97ACD0981843299F00D88CB6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		97ACD0991843299F00D88CB6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		97ACD09A1843357E00D88CB6 /* AccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManager.h; sourceTree = "<group>"; };
+		97ACD09B1843357E00D88CB6 /* AccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManager.m; sourceTree = "<group>"; };
 		97AED0F5180D20100072611B /* RTCoreService.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RTCoreService.xcodeproj; path = ../RTCoreService/RTCoreService.xcodeproj; sourceTree = "<group>"; };
 		97AED105180D21BD0072611B /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		97AED107180D21DB0072611B /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
@@ -1122,6 +1125,8 @@
 			children = (
 				977FCA9B1828FAD700945FB4 /* LoginManager.h */,
 				977FCA9C1828FAD700945FB4 /* LoginManager.m */,
+				97ACD09A1843357E00D88CB6 /* AccountManager.h */,
+				97ACD09B1843357E00D88CB6 /* AccountManager.m */,
 				9751860018320D5F00C9A40A /* PhotoManager.h */,
 				9751860118320D5F00C9A40A /* PhotoManager.m */,
 				97B1064E1834E5F40064AF5F /* AppManager.h */,
@@ -1359,6 +1364,7 @@
 				B7E56D0B183DABD300A0F7D2 /* AnjukePropertyResultController.m in Sources */,
 				B7E69BBE183B5B000097D5C3 /* SaleGroupListController.m in Sources */,
 				97A606811816C2A50041B367 /* InputOrderManager.m in Sources */,
+				97ACD09C1843357E00D88CB6 /* AccountManager.m in Sources */,
 				97B4225A1820DB8300A2E9E6 /* AnjukePropertyGroupCell.m in Sources */,
 				970DB71D183AFFE700DEB455 /* AboutUsViewController.m in Sources */,
 				97B422681821087600A2E9E6 /* PropertyBigImageViewController.m in Sources */,
@@ -1602,7 +1608,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "2BDA9D84-C21F-4243-A01A-47EAFE84AC41";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../RTNetwork/** $(PROJECT_DIR)/../RTApiProxy/** $(PROJECT_DIR)/../RTCoreService/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1629,7 +1635,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "2BDA9D84-C21F-4243-A01A-47EAFE84AC41";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../RTNetwork/** $(PROJECT_DIR)/../RTApiProxy/** $(PROJECT_DIR)/../RTCoreService/**";
 				WRAPPER_EXTENSION = app;
 			};
