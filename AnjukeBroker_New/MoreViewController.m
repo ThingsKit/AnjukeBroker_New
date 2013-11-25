@@ -14,6 +14,8 @@
 
 #define CALL_ANJUKE_NUMBER @"400-620-9008"
 #define CALL_ANJUKE_ROW 5
+#define CALL_CLIENT_ROW 4
+
 #define ABOUT_US_ROW 3
 
 @interface MoreViewController ()
@@ -78,7 +80,7 @@
         str = @"";
     }
     else {
-        
+        str = [self.clientDic objectForKey:@"saleManagerName"];
     }
     
     return str;
@@ -124,6 +126,8 @@
         [alert show];
         return;
     }
+    
+    self.clientDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
     
     [self.tvList reloadData];
     
@@ -200,9 +204,24 @@
             }
         }
             break;
+        case CALL_CLIENT_ROW:
+        {
+            //make call
+            if (![AppManager checkPhoneFunction]) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请检测是否支持电话功能" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确认", nil];
+                [alertView show];
+                return;
+            }
+            else {
+                NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@",[self.clientDic objectForKey:@"saleManagerTel"]];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:call_url]];
+            }
+        }
+            break;
         case ABOUT_US_ROW:
         {
             AboutUsViewController *av = [[AboutUsViewController alloc] init];
+            [av  setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:av animated:YES];
         }
             break;
