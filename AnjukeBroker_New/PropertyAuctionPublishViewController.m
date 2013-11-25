@@ -104,7 +104,7 @@
     else
         methodStr = @"anjuke/bid/addproptoplan/";
     
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/addproptoplan/" params:params target:self action:@selector(onBidSuccess:)];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:methodStr params:params target:self action:@selector(onBidSuccess:)];
     [self showLoadingActivity:YES];
 }
 

@@ -9,7 +9,6 @@
 #import "SaleFixedDetailController.h"
 #import "BaseNoPlanController.h"
 #import "ModifyFixedCostController.h"
-#import "SalePropertyDetailController.h"
 #import "PropertyResetViewController.h"
 #import "SaleBidPlanController.h"
 #import "SaleSelectNoPlanController.h"

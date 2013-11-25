@@ -9,7 +9,6 @@
 #import "SaleBidDetailController.h"
 #import "BasePropertyObject.h"
 #import "BaseBidPropertyCell.h"
-#import "BidPropertyDetailController.h"
 #import "SalePropertyListController.h"
 #import "PropertyResetViewController.h"
 #import "SaleBidPlanController.h"

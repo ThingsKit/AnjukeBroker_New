@@ -44,14 +44,9 @@
     [self.view addSubview:self.myTable];
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    //    BidPropertyDetailController *controller = [[BidPropertyDetailController alloc] init];
-    //    controller.propertyObject = [self.myArray objectAtIndex:[indexPath row]];
-    //    [self.navigationController pushViewController:controller animated:YES];
-    
     UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"竞价出价及预算", @"暂停竞价推广", nil];
     [action showInView:self.view];
-    
-    
+
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

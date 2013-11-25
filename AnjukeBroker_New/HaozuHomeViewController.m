@@ -9,7 +9,7 @@
 #import "HaozuHomeViewController.h"
 #import "RentFixedDetailController.h"
 #import "AnjukePropertyResultController.h"
-
+#import "AnjukeEditPropertyViewController.h"
 #import "RentBidDetailController.h"
 #import "RentNoPlanController.h"
 #import "RentPPCGroupCell.h"
@@ -45,6 +45,7 @@
     myArray = [NSMutableArray array];
 }
 -(void)initDisplay{
+    [self addRightButton:@"发布" andPossibleTitle:nil];
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
@@ -164,5 +165,13 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (void)rightButtonAction:(id)sender{
+    //模态弹出 --租房
+    AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+    controller.backType = RTSelectorBackTypeDismiss;
+    controller.isHaozu = YES;
+    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+    nav.navigationBar.translucent = NO;
+    [self presentViewController:nav animated:YES completion:nil];
+}
 @end

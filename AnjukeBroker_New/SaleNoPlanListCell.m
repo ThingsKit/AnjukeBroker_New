@@ -36,9 +36,10 @@
     return NO;
 }
 -(BOOL)configureCellWithDic:(NSDictionary *) dic{
+    self.backView.frame = CGRectMake(10, 5, 300, self.contentView.frame.size.height);
     self.title.text = [dic objectForKey:@"title"];
     
-    NSString *tempStr = [NSString stringWithFormat:@"%@室%@厅%@卫  %@平 %@%@", [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"], [dic objectForKey:@"area"], [dic objectForKey:@"price"], [dic objectForKey:@"priceUnit"]];
+    NSString *tempStr = [NSString stringWithFormat:@"%@ %@室%@厅%@卫  %@平 %@%@", [dic objectForKey:@"commName"], [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"], [dic objectForKey:@"area"], [dic objectForKey:@"price"], [dic objectForKey:@"priceUnit"]];
     self.detail.text = tempStr;
     return YES;
 }

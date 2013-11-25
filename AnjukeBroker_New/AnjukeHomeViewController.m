@@ -10,6 +10,7 @@
 #import "SaleNoPlanGroupController.h"
 #import "SaleFixedDetailController.h"
 #import "SaleBidDetailController.h"
+#import "AnjukeEditPropertyViewController.h"
 #import "AnjukeOnlineImgController.h"
 #import "PPCGroupCell.h"
 #import "LoginManager.h"
@@ -38,7 +39,7 @@
     
     [self setTitleViewWithString:@"二手房"];
     
-
+    [self addRightButton:@"发布" andPossibleTitle:nil];
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
 //    self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.myTable.delegate = self;
@@ -56,6 +57,7 @@
     [super viewWillAppear:animated];
     [self reloadData];
     [self doRequest];
+//    [self doLog];
 }
 -(void)reloadData{
     if(self.myArray == nil){
@@ -65,7 +67,20 @@
         [self.myTable reloadData];
     }
 }
-
+//-(void)doLog{
+//    if(![self isNetworkOkay]){
+//        return;
+//    }
+//    
+//    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
+//    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"nlog/" params:params target:self action:@selector(onLogSuccess:)];
+//    [self showLoadingActivity:YES];
+//    self.isLoading = YES;
+//}
+//-(void)onLogSuccess:(RTNetworkResponse *)response {
+//    DLog(@"%@",response.content);
+//}
+#pragma mark - 获取计划管理信息
 -(void)doRequest{
     if(![self isNetworkOkay]){
         return;
@@ -78,17 +93,16 @@
 }
 
 - (void)onGetLogin:(RTNetworkResponse *)response {
-    
+        DLog(@"------response [%@]", [response content]);
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
+        
         return;
     }
-    DLog(@"------response [%@]", [response content]);
     [self.myArray removeAllObjects];
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     if([resultFromAPI count] ==  0){
@@ -163,5 +177,12 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void)rightButtonAction:(id)sender{
+    //模态弹出 --二手房
+    AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+    controller.backType = RTSelectorBackTypeDismiss;
+    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+    nav.navigationBar.translucent = NO;
+    [self presentViewController:nav animated:YES completion:nil];
+}
 @end

@@ -20,7 +20,7 @@
 @property (strong, nonatomic) UIImageView *proIcon;
 @property (strong, nonatomic) UIView *backView;
 
--(void)setValueForCellByObject:(BasePropertyObject *) obj;
+//-(void)setValueForCellByObject:(BasePropertyObject *) obj;
 -(void)setValueForCellByDictionar:(NSDictionary *) dic;
 
 @end

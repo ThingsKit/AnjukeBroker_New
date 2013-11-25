@@ -132,7 +132,6 @@
 		B769E45D181F54DE00A2FF50 /* BasePropertyObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E45C181F54DE00A2FF50 /* BasePropertyObject.m */; };
 		B769E460181F5F1200A2FF50 /* ModifyFixedCostController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E45F181F5F1200A2FF50 /* ModifyFixedCostController.m */; };
 		B769E463181F629B00A2FF50 /* BasePropertyDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E462181F629B00A2FF50 /* BasePropertyDetailController.m */; };
-		B769E466181F62DB00A2FF50 /* SalePropertyDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E465181F62DB00A2FF50 /* SalePropertyDetailController.m */; };
 		B769E469181F680D00A2FF50 /* PropertyDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E468181F680D00A2FF50 /* PropertyDetailCell.m */; };
 		B769E46C181F76A600A2FF50 /* BaseBidPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E46B181F76A600A2FF50 /* BaseBidPlanController.m */; };
 		B769E46F181F76C600A2FF50 /* SaleBidPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E46E181F76C600A2FF50 /* SaleBidPlanController.m */; };
@@ -140,7 +139,6 @@
 		B769E475181F807500A2FF50 /* SaleBidDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E474181F807500A2FF50 /* SaleBidDetailController.m */; };
 		B769E47B181F82B000A2FF50 /* BaseBidPropertyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E47A181F82B000A2FF50 /* BaseBidPropertyCell.m */; };
 		B769E47E181F864200A2FF50 /* BaseBidPropertyController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E47D181F864200A2FF50 /* BaseBidPropertyController.m */; };
-		B769E481181F86D300A2FF50 /* BidPropertyDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E480181F86D300A2FF50 /* BidPropertyDetailController.m */; };
 		B769E484181F8F7000A2FF50 /* BasePropertyListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E483181F8F7000A2FF50 /* BasePropertyListController.m */; };
 		B769E487181F8F9300A2FF50 /* SalePropertyListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E486181F8F9300A2FF50 /* SalePropertyListController.m */; };
 		B769E48C181FA89000A2FF50 /* PPCGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E48B181FA89000A2FF50 /* PPCGroupCell.m */; };
@@ -407,8 +405,6 @@
 		B769E45F181F5F1200A2FF50 /* ModifyFixedCostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyFixedCostController.m; sourceTree = "<group>"; };
 		B769E461181F629B00A2FF50 /* BasePropertyDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasePropertyDetailController.h; sourceTree = "<group>"; };
 		B769E462181F629B00A2FF50 /* BasePropertyDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasePropertyDetailController.m; sourceTree = "<group>"; };
-		B769E464181F62DB00A2FF50 /* SalePropertyDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalePropertyDetailController.h; sourceTree = "<group>"; };
-		B769E465181F62DB00A2FF50 /* SalePropertyDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalePropertyDetailController.m; sourceTree = "<group>"; };
 		B769E467181F680D00A2FF50 /* PropertyDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDetailCell.h; sourceTree = "<group>"; };
 		B769E468181F680D00A2FF50 /* PropertyDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDetailCell.m; sourceTree = "<group>"; };
 		B769E46A181F76A600A2FF50 /* BaseBidPlanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseBidPlanController.h; sourceTree = "<group>"; };
@@ -423,8 +419,6 @@
 		B769E47A181F82B000A2FF50 /* BaseBidPropertyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseBidPropertyCell.m; sourceTree = "<group>"; };
 		B769E47C181F864200A2FF50 /* BaseBidPropertyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseBidPropertyController.h; sourceTree = "<group>"; };
 		B769E47D181F864200A2FF50 /* BaseBidPropertyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseBidPropertyController.m; sourceTree = "<group>"; };
-		B769E47F181F86D300A2FF50 /* BidPropertyDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidPropertyDetailController.h; sourceTree = "<group>"; };
-		B769E480181F86D300A2FF50 /* BidPropertyDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidPropertyDetailController.m; sourceTree = "<group>"; };
 		B769E482181F8F7000A2FF50 /* BasePropertyListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasePropertyListController.h; sourceTree = "<group>"; };
 		B769E483181F8F7000A2FF50 /* BasePropertyListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasePropertyListController.m; sourceTree = "<group>"; };
 		B769E485181F8F9300A2FF50 /* SalePropertyListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalePropertyListController.h; sourceTree = "<group>"; };
@@ -1174,14 +1168,10 @@
 				B769E45F181F5F1200A2FF50 /* ModifyFixedCostController.m */,
 				B7E69BB9183B4DDB0097D5C3 /* BaseModifyCostController.h */,
 				B7E69BBA183B4DDB0097D5C3 /* BaseModifyCostController.m */,
-				B769E464181F62DB00A2FF50 /* SalePropertyDetailController.h */,
-				B769E465181F62DB00A2FF50 /* SalePropertyDetailController.m */,
 				B769E46D181F76C600A2FF50 /* SaleBidPlanController.h */,
 				B769E46E181F76C600A2FF50 /* SaleBidPlanController.m */,
 				B7EA1FC0183A437500438CF8 /* SaleAuctionViewController.h */,
 				B7EA1FC1183A437500438CF8 /* SaleAuctionViewController.m */,
-				B769E47F181F86D300A2FF50 /* BidPropertyDetailController.h */,
-				B769E480181F86D300A2FF50 /* BidPropertyDetailController.m */,
 				B769E485181F8F9300A2FF50 /* SalePropertyListController.h */,
 				B769E486181F8F9300A2FF50 /* SalePropertyListController.m */,
 				B7E803EB1820DD8000775C6F /* SaleSelectNoPlanController.h */,
@@ -1421,7 +1411,6 @@
 				B7E69BBB183B4DDB0097D5C3 /* BaseModifyCostController.m in Sources */,
 				B77A960C182A3369007F04E3 /* SaleNoPlanListManager.m in Sources */,
 				972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */,
-				B769E466181F62DB00A2FF50 /* SalePropertyDetailController.m in Sources */,
 				974E5C82181E4210000246D1 /* AnjukeEditableCell.m in Sources */,
 				B769E463181F629B00A2FF50 /* BasePropertyDetailController.m in Sources */,
 				9795835D1822014A005EA48A /* SystemMessageCell.m in Sources */,
@@ -1448,7 +1437,6 @@
 				B721095E18279D0800904FC7 /* RentPropertyDetailController.m in Sources */,
 				B769E475181F807500A2FF50 /* SaleBidDetailController.m in Sources */,
 				B7E803ED1820DD8000775C6F /* SaleSelectNoPlanController.m in Sources */,
-				B769E481181F86D300A2FF50 /* BidPropertyDetailController.m in Sources */,
 				97958362182229AF005EA48A /* Util_TEXT.m in Sources */,
 				B7EF77B9183CE82D0024A5E6 /* RentNoPlanListCell.m in Sources */,
 				B77A960F182A389D007F04E3 /* SalePropertyObject.m in Sources */,
