@@ -87,7 +87,7 @@
     if(![self isNetworkOkay]){
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", @"1", @"resType", [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/getplandetail/" params:params target:self action:@selector(onGetFixedInfo:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
@@ -230,7 +230,8 @@
         if(cell == nil){
             cell = [[NSClassFromString(@"SaleFixedCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SaleFixedCell"];
         }
-        [cell configureCell:[self.myArray objectAtIndex:[indexPath row]]];
+        [cell configureCell:[self.myArray objectAtIndex:[indexPath row]] isAJK:YES];
+//        [cell configureCell:[self.myArray objectAtIndex:[indexPath row]]];
         return cell;
     }else{
         static NSString *cellIdent = @"SalePropertyListCell";
@@ -284,14 +285,30 @@
     fix = [self.myArray objectAtIndex:0];
     
     if([fix.fixedStatus isEqualToString:@"1"]){
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"停止推广", @"修改限额",@"添加房源", nil];
-        action.tag = 100;
-        [action showInView:self.view];
+        if ([LoginManager isSeedForAJK:YES]) {
+            UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"停止推广",@"添加房源", nil];
+            action.tag = 100;
+            [action showInView:self.view];
+        }else{
+            UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"停止推广", @"修改限额",@"添加房源", nil];
+            action.tag = 100;
+            [action showInView:self.view];
+        }
+
     
     }else{
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"开始推广", @"修改限额", @"添加房源", nil];
-        action.tag = 101;
-        [action showInView:self.view];
+        if([LoginManager isSeedForAJK:YES]){
+            UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"开始推广", @"添加房源", nil];
+            action.tag = 101;
+            [action showInView:self.view];
+        
+        }else{
+            UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"开始推广", @"修改限额", @"添加房源", nil];
+            action.tag = 101;
+            [action showInView:self.view];
+        
+        }
+
     
     }
 }
@@ -309,40 +326,73 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
 
     if(actionSheet.tag == 100){//停止推广
-        if(buttonIndex == 0){
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要停止定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            [alert show];
-        }else if (buttonIndex == 1){
-            ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
-            controller.fixedObject = [self.myArray objectAtIndex:0];
-            controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:nav animated:YES completion:nil];
-            //            [self.navigationController pushViewController:controller animated:YES];
-        }else if (buttonIndex == 2){//正在推广中定价组
-            SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
-            controller.fixedObj = [self.myArray objectAtIndex:selectIndex];
-            controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:navi animated:YES completion:nil];
+        if([LoginManager isSeedForAJK:YES]){//是播种城市
+            if(buttonIndex == 0){
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要停止定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                [alert show];
+            }else if (buttonIndex == 1){//正在推广中定价组
+                SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
+                controller.fixedObj = [self.myArray objectAtIndex:selectIndex];
+                controller.backType = RTSelectorBackTypeDismiss;
+                RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+                [self presentViewController:navi animated:YES completion:nil];
+            }else if (buttonIndex == 2){//正在推广中定价组
+
+            }
+        
+        }else{
+            if(buttonIndex == 0){
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要停止定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                [alert show];
+            }else if (buttonIndex == 1){
+                ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
+                controller.fixedObject = [self.myArray objectAtIndex:0];
+                controller.backType = RTSelectorBackTypeDismiss;
+                RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+                [self presentViewController:nav animated:YES completion:nil];
+                //            [self.navigationController pushViewController:controller animated:YES];
+            }else if (buttonIndex == 2){//正在推广中定价组
+                SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
+                controller.fixedObj = [self.myArray objectAtIndex:selectIndex];
+                controller.backType = RTSelectorBackTypeDismiss;
+                RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+                [self presentViewController:navi animated:YES completion:nil];
+            }
         }
+        
     }else if(actionSheet.tag == 101){//当推广已暂停时的操作
-        if(buttonIndex == 0){//重新开始定价推广
-            [self doRestart];
-            //            [self.navigationController pushViewController:controller animated:YES];
-        }else if (buttonIndex == 1){
-            ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
-            controller.fixedObject = [self.myArray objectAtIndex:0];
-            controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:nav animated:YES completion:nil];
-        }else if (buttonIndex == 2){
-            SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
-            controller.fixedObj = [self.myArray objectAtIndex:selectIndex];
-            controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:navi animated:YES completion:nil];
+        if ([LoginManager isSeedForAJK:YES]) {
+            if(buttonIndex == 0){//重新开始定价推广
+                [self doRestart];
+                //            [self.navigationController pushViewController:controller animated:YES];
+            }else if (buttonIndex == 1){
+                SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
+                controller.fixedObj = [self.myArray objectAtIndex:selectIndex];
+                controller.backType = RTSelectorBackTypeDismiss;
+                RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+                [self presentViewController:navi animated:YES completion:nil];
+            }else if (buttonIndex == 2){
+
+            }
+        }else{
+            if(buttonIndex == 0){//重新开始定价推广
+                [self doRestart];
+                //            [self.navigationController pushViewController:controller animated:YES];
+            }else if (buttonIndex == 1){
+                ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
+                controller.fixedObject = [self.myArray objectAtIndex:0];
+                controller.backType = RTSelectorBackTypeDismiss;
+                RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+                [self presentViewController:nav animated:YES completion:nil];
+            }else if (buttonIndex == 2){
+                SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
+                controller.fixedObj = [self.myArray objectAtIndex:selectIndex];
+                controller.backType = RTSelectorBackTypeDismiss;
+                RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+                [self presentViewController:navi animated:YES completion:nil];
+            }
         }
+
 
     }else if(actionSheet.tag == 102) {
         if(buttonIndex == 0){

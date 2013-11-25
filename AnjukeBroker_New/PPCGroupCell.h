@@ -18,4 +18,5 @@
 @property (strong, nonatomic) UIImageView *statueImg;
 -(void)setValueForCellByData:(id ) data index:(int) index;
 -(void)setFixedGroupValueForCellByData:(id ) data index:(int) index;
+-(void)setFixedGroupValueForCellByData:(id ) data index:(int) index isAJK:(BOOL) isAJK;
 @end

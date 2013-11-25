@@ -217,14 +217,14 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    DLog(@"[LoginManager isSeedForAJK:NO]%d",[LoginManager isSeedForAJK:NO]);
     if([indexPath row] == 0){
         static NSString *cellIdent = @"RentFixedCell";
         RentFixedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"RentFixedCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RentFixedCell"];
         }
-        [cell configureCell:[self.myArray objectAtIndex:[indexPath row]]];
+        [cell configureCell:[self.myArray objectAtIndex:[indexPath row]] isAJK:NO];
         return cell;
     }else{
         static NSString *cellIdent = @"RentPropertyListCell";
@@ -242,39 +242,72 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     if(actionSheet.tag == 100){//正在推广中定价组
-        if(buttonIndex == 0){
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要停止定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            [alert show];
-        }else if (buttonIndex == 1){//停止推广
-            ModifyRentCostController *controller = [[ModifyRentCostController alloc] init];
-            controller.fixedObject = [self.myArray objectAtIndex:0];
-            controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:nav animated:YES completion:nil];
-           
-        }else if (buttonIndex == 2){
-            RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
-            controller.fixedObj = [self.myArray objectAtIndex:0];
-            controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:navi animated:YES completion:nil];
+        if ([LoginManager isSeedForAJK:NO]) {
+            if(buttonIndex == 0){
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要停止定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                [alert show];
+            }else if (buttonIndex == 1){//停止推广
+                RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
+                controller.fixedObj = [self.myArray objectAtIndex:0];
+                controller.backType = RTSelectorBackTypeDismiss;
+                RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+                [self presentViewController:navi animated:YES completion:nil];
+                
+            }else if (buttonIndex == 2){
+
+            }
+
+        }else{
+            if(buttonIndex == 0){
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要停止定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                [alert show];
+            }else if (buttonIndex == 1){//停止推广
+                ModifyRentCostController *controller = [[ModifyRentCostController alloc] init];
+                controller.fixedObject = [self.myArray objectAtIndex:0];
+                controller.backType = RTSelectorBackTypeDismiss;
+                RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+                [self presentViewController:nav animated:YES completion:nil];
+                
+            }else if (buttonIndex == 2){
+                RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
+                controller.fixedObj = [self.myArray objectAtIndex:0];
+                controller.backType = RTSelectorBackTypeDismiss;
+                RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+                [self presentViewController:navi animated:YES completion:nil];
+            }
         }
-    }else if(actionSheet.tag == 101){//当推广已暂停时的操作
-        if(buttonIndex == 0){
-            [self doRestartFixed];
-        }else if (buttonIndex == 1){//重新开始定价推广
-            ModifyRentCostController *controller = [[ModifyRentCostController alloc] init];
-            controller.fixedObject = [self.myArray objectAtIndex:0];
-            controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:nav animated:YES completion:nil];
-        }else if (buttonIndex == 2){
-            RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
-            controller.fixedObj = [self.myArray objectAtIndex:0];
-            controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:navi animated:YES completion:nil];
-        }
+            }else if(actionSheet.tag == 101){//当推广已暂停时的操作
+                if([LoginManager isSeedForAJK:NO]){
+                    if(buttonIndex == 0){
+                        [self doRestartFixed];
+                    }else if (buttonIndex == 1){//重新开始定价推广
+                        RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
+                        controller.fixedObj = [self.myArray objectAtIndex:0];
+                        controller.backType = RTSelectorBackTypeDismiss;
+                        RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+                        [self presentViewController:navi animated:YES completion:nil];
+                    }else if (buttonIndex == 2){
+
+                    }
+                
+                }else{
+                    if(buttonIndex == 0){
+                        [self doRestartFixed];
+                    }else if (buttonIndex == 1){//重新开始定价推广
+                        ModifyRentCostController *controller = [[ModifyRentCostController alloc] init];
+                        controller.fixedObject = [self.myArray objectAtIndex:0];
+                        controller.backType = RTSelectorBackTypeDismiss;
+                        RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+                        [self presentViewController:nav animated:YES completion:nil];
+                    }else if (buttonIndex == 2){
+                        RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
+                        controller.fixedObj = [self.myArray objectAtIndex:0];
+                        controller.backType = RTSelectorBackTypeDismiss;
+                        RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+                        [self presentViewController:navi animated:YES completion:nil];
+                    }
+                }
+
         
     }else{//对房源的操作
         if(buttonIndex == 0){
@@ -311,14 +344,28 @@
     fix = [self.myArray objectAtIndex:0];
     
     if([fix.fixedStatus isEqualToString:@"1"]){
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"停止推广", @"修改限额", @"添加房源", nil];
-        action.tag = 100;
-        [action showInView:self.view];
+        if ([LoginManager isSeedForAJK:NO]) {
+            UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"停止推广", @"添加房源", nil];
+            action.tag = 100;
+            [action showInView:self.view];
+        }else{
+            UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"停止推广", @"修改限额", @"添加房源", nil];
+            action.tag = 100;
+            [action showInView:self.view];
+        }
+
         
     }else{
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"开始推广", @"修改限额", @"添加房源", nil];
-        action.tag = 101;
-        [action showInView:self.view];
+        if([LoginManager isSeedForAJK:NO]){
+            UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"开始推广", @"添加房源", nil];
+            action.tag = 101;
+            [action showInView:self.view];
+        }else{
+            UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"开始推广", @"修改限额", @"添加房源", nil];
+            action.tag = 101;
+            [action showInView:self.view];
+        }
+
         
     }
 }

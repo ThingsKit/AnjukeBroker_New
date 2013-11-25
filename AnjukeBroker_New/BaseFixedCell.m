@@ -8,6 +8,7 @@
 
 #import "BaseFixedCell.h"
 #import "FixedObject.h"
+#import "LoginManager.h"
 #import "Util_UI.h"
 
 @implementation BaseFixedCell
@@ -73,19 +74,25 @@
     self.topCostStr = [[UILabel alloc] initWithFrame:CGRectMake(245, 42, 320, 20)];
     self.topCostStr.backgroundColor = [UIColor clearColor];
     self.topCostStr.textColor = SYSTEM_LIGHT_GRAY;
-    self.topCostStr.text = @"日限额";
+//    self.topCostStr.text = @"日限额";
     self.topCostStr.font = [UIFont systemFontOfSize:12];
     [content addSubview:self.topCostStr];
     [self.contentView addSubview:content];
 }
 
--(BOOL)configureCell:(id)dataModel{
+-(BOOL)configureCell:(id)dataModel isAJK:(BOOL) isAJK{
     if([dataModel isKindOfClass:[FixedObject class]]){
         FixedObject *obj = (FixedObject *)dataModel;
         self.tapNum.text = [NSString stringWithFormat:@"%@", obj.tapNum];
         self.totalCost.text = [NSString stringWithFormat:@"%@", obj.cost];
         self.topCost.text = [NSString stringWithFormat:@"%@", obj.topCost];
         [self setFixedImg:obj];
+        if([LoginManager isSeedForAJK:isAJK]){
+        self.topCostStr.text = @"每日最高花费";
+        }else{
+        self.topCostStr.text = @"日限额";
+        }
+        DLog(@"%d",[LoginManager isSeedForAJK:YES]);
         return YES;
     }
     return NO;

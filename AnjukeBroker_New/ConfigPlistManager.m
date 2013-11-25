@@ -102,7 +102,7 @@
     [self savePlistWithArr:resultArr withName:HZ_FITMENT_PLIST];
     
     //保存二手房播种城市
-    if ([[dic objectForKey:@"isSeed"] intValue] == 1) {
+    if ([[dic objectForKey:@"isseed"] intValue] == 1) {
         [[NSUserDefaults standardUserDefaults] setValue:@"1" forKey:@"isSeed_HZ"];
     }
     else {

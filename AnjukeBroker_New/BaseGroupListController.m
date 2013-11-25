@@ -71,7 +71,8 @@
     if(cell == nil){
         cell = [[NSClassFromString(@"PPCGroupCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
     }
-    [cell setFixedGroupValueForCellByData:self.myArray index:indexPath.row];
+    
+//    [cell setFixedGroupValueForCellByData:self.myArray index:indexPath.row];
 
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

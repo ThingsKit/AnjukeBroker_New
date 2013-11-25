@@ -9,6 +9,7 @@
 #import "SaleGroupListController.h"
 #import "SaleFixedDetailController.h"
 #import "LoginManager.h"
+#import "PPCGroupCell.h"
 #import "SalePropertyObject.h"
 
 @interface SaleGroupListController ()
@@ -128,7 +129,21 @@
     selectedIndex = indexPath.row;
     [self doFixed];
 }
-
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *cellIdent = @"PPCGroupCell";
+    
+    PPCGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
+    if(cell == nil){
+        cell = [[NSClassFromString(@"PPCGroupCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
+    }
+    [cell setFixedGroupValueForCellByData:self.myArray index:indexPath.row isAJK:YES];
+    //    [cell setFixedGroupValueForCellByData:self.myArray index:indexPath.row];
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    return cell;
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

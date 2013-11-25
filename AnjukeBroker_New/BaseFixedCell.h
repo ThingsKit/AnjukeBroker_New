@@ -19,4 +19,7 @@
 @property (strong, nonatomic) UILabel *totalCostStr;
 @property (strong, nonatomic) UILabel *topCostStr;
 @property (strong, nonatomic) UIImageView *statusimg;
+
+-(BOOL)configureCell:(id)dataModel isAJK:(BOOL) isAJK;
+
 @end
