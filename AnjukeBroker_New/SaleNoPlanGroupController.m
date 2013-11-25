@@ -63,9 +63,7 @@
 }
 
 - (void)initDisplay_ {
-    //全选
-    [self addRightButton:@"全选" andPossibleTitle:@"取消全选"];
-    
+
     self.myTable.frame = FRAME_BETWEEN_NAV_TAB;
     
     self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, [self currentViewHeight] - TOOL_BAR_HEIGHT, [self windowWidth], TOOL_BAR_HEIGHT)];
@@ -151,6 +149,10 @@
     NSMutableArray *result = [SaleNoPlanListManager propertyObjectArrayFromDicArray:[resultFromAPI objectForKey:@"propertyList"]];
     [self.myArray removeAllObjects];
     [self.myArray addObjectsFromArray:result];
+    if([self.myArray count] >0){
+        //全选
+        [self addRightButton:@"全选" andPossibleTitle:@"取消全选"];
+    }
     [self.myTable reloadData];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;

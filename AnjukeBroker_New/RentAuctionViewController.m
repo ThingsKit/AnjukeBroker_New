@@ -252,6 +252,19 @@
         [alert show];
         return ;
     }
+    
+//    if ([self.textField_2.text integerValue] > [self.textField_1.text integerValue]){
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"预算不得低于出价" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//        [alert show];
+//
+//    }
+    
+    
+//    NSMutableString *email = @"kkk@aaa.com";
+//    [email ]
+//    [email isMatchedByRegex:@"^[0-9]+(.[0-9]{1})?$"];
+    
+
     if(self.isLoading){
         return ;
     }
