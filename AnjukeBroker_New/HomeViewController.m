@@ -23,11 +23,16 @@
 @property (nonatomic, strong) UITableView *tvList;
 @property (nonatomic, strong) WebImageView *photoImg;
 
+@property (nonatomic, strong) NSMutableDictionary *dataDic;
+@property (nonatomic, strong) UIView *headerView;
+
 @end
 
 @implementation HomeViewController
 @synthesize taskArray;
 @synthesize tvList;
+@synthesize photoImg, dataDic;
+@synthesize headerView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -44,6 +49,8 @@
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor clearColor];
     [self setTitleViewWithString:@"我的安居客"];
+    
+    [self doRequest];
 }
 
 - (void)didReceiveMemoryWarning
@@ -55,7 +62,9 @@
 #pragma mark - private method
 
 - (void)initModel {
-    self.taskArray = [NSArray arrayWithObjects:@"发布二手房", @"发布租房", @"系统消息", nil];
+    self.taskArray = [NSArray arrayWithObjects:@"发布二手房", @"发布租房", @"系统公告", nil];
+    
+    self.dataDic = [NSMutableDictionary dictionary];
 }
 
 - (void)initDisplay {
@@ -68,10 +77,11 @@
     tv.dataSource = self;
     [self.view addSubview:tv];
     
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], headerHeight)];
-    headerView.backgroundColor = [UIColor clearColor];
-    tv.tableHeaderView = headerView;
-    [self drawHeaderWithBG:headerView];
+    UIView *hView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], headerHeight)];
+    hView.backgroundColor = [UIColor clearColor];
+    tv.tableHeaderView = hView;
+    self.headerView = hView;
+    
 }
 
 - (void)drawHeaderWithBG:(UIView *)BG_View {
@@ -94,7 +104,7 @@
     lb.backgroundColor = [UIColor clearColor];
     lb.font = [UIFont systemFontOfSize:15];
     lb.textColor = SYSTEM_BLACK;
-    lb.text = @"梁伟平";
+    lb.text = [self.dataDic objectForKey:@"brokerName"];
     [view1 addSubview:lb];
     
     //photo number
@@ -102,7 +112,7 @@
     lb2.backgroundColor = [UIColor clearColor];
     lb2.font = [UIFont systemFontOfSize:15];
     lb2.textColor = SYSTEM_BLACK;
-    lb2.text = @"13888888888";
+    lb2.text = [self.dataDic objectForKey:@"phone"];
     [view1 addSubview:lb2];
     
     //account info
@@ -118,7 +128,7 @@
     lb4.font = [UIFont systemFontOfSize:15];
     lb4.textColor = SYSTEM_ORANGE;
     lb4.textAlignment = NSTextAlignmentCenter;
-    lb4.text = @"1000.00";
+    lb4.text = @"1000";//[self.dataDic objectForKey:@"phone"];
     [view1 addSubview:lb4];
     
     UILabel *yuanLb = [[UILabel alloc] initWithFrame:CGRectMake(lb4.frame.origin.x+ lb4.frame.size.width, lb3.frame.origin.y, 20, lb.frame.size.height)];
@@ -170,11 +180,48 @@
         titleLb.text = titleStr;
         titleLb.textAlignment = NSTextAlignmentCenter;
         [view2 addSubview:titleLb];
-
     }
     
     BrokerLineView *line2 = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, view2.frame.size.height - 1, [self windowWidth], 1)];
     [view2 addSubview:line2];
+}
+
+#pragma mark - Request Method
+
+- (void)doRequest {
+    if (![self isNetworkOkay]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+    method = @"broker/getinfo/";
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
+
+}
+
+- (void)onRequestFinished:(RTNetworkResponse *)response {
+    DLog(@"。。。response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    self.dataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
+    [self drawHeaderWithBG:self.headerView];
+    
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 }
 
 #pragma mark - tableView Datasource
