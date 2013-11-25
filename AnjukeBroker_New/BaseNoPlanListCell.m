@@ -51,6 +51,7 @@
 }
 
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index {
+    [super configureCell:dataModel withIndex:index];
     if([dataModel isKindOfClass:[BasePropertyObject class]]){
         BasePropertyObject *tempProperty = (BasePropertyObject *)dataModel;
         [self setDetailLableValue:tempProperty];

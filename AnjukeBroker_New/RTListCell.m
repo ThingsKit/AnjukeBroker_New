@@ -33,6 +33,7 @@
 }
 
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index {
+    selectRow = index;
     return NO;
 }
 

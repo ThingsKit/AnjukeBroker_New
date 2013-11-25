@@ -50,13 +50,13 @@
         self.comName.textColor = [Util_UI colorWithHexString:@"#666666"];
         self.comName.font = [UIFont systemFontOfSize:12];
         
-        self.detail = [[UILabel alloc] initWithFrame:CGRectMake(27, 60, 150, 20)];
+        self.detail = [[UILabel alloc] initWithFrame:CGRectMake(27, 60, 250, 20)];
         self.detail.textColor = [Util_UI colorWithHexString:@"#666666"];
         self.detail.font = [UIFont systemFontOfSize:12];
         
         self.price = [[UILabel alloc] initWithFrame:CGRectMake(140, 60, 150, 20)];
         self.price.textColor = [UIColor grayColor];
-        self.price.text = @"-190万";
+//        self.price.text = @"-190万";
         self.price.font = [UIFont systemFontOfSize:12];
         
         [self.contentView addSubview:self.title];
@@ -83,8 +83,8 @@
     }else if ([dataModel isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dic = (NSDictionary *)dataModel;
         self.title.text = [dic objectForKey:@"title"];
-        self.detail.text = [NSString stringWithFormat:@"%@ %@室%@厅%@卫 %@平", [dic objectForKey:@"commName"], [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"], [dic objectForKey:@"area"]];
-        self.price.text = [NSString stringWithFormat:@"%d%@", [[dic objectForKey:@"price"] intValue], [dic objectForKey:@"priceUnit"]];
+        self.detail.text = [NSString stringWithFormat:@"%@ %@室%@厅%@卫 %@平 %d%@", [dic objectForKey:@"commName"], [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"], [dic objectForKey:@"area"], [[dic objectForKey:@"price"] intValue], [dic objectForKey:@"priceUnit"]];
+//        self.price.text = [NSString stringWithFormat:@"%d%@", [[dic objectForKey:@"price"] intValue], [dic objectForKey:@"priceUnit"]];
         self.tapNum.text = [dic objectForKey:@"clickNum"];
         self.comName.text = [dic objectForKey:@"commName"];
         [self setBidStatueImg:dic];
