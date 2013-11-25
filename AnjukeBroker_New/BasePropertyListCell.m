@@ -83,6 +83,7 @@
     }else if ([dataModel isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dic = (NSDictionary *)dataModel;
         self.title.text = [dic objectForKey:@"title"];
+        
         self.detail.text = [NSString stringWithFormat:@"%@室%@厅%@卫 %@平 %d%@", [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"], [dic objectForKey:@"area"], [[dic objectForKey:@"price"] intValue], [dic objectForKey:@"priceUnit"]];
 //        self.price.text = [NSString stringWithFormat:@"%d%@", [[dic objectForKey:@"price"] intValue], [dic objectForKey:@"priceUnit"]];
         self.tapNum.text = [dic objectForKey:@"clickNum"];
