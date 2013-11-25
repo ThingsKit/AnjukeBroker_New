@@ -11,6 +11,7 @@
 #import "RTNavigationController.h"
 #import "SaleFixedDetailController.h"
 #import "LoginManager.h"
+#import "SalePropertyObject.h"
 #import "SaleNoPlanListManager.h"
 #import "BasePropertyObject.h"
 #import "SaleGroupListController.h"
@@ -31,6 +32,7 @@
 @synthesize seleceAllItem;
 @synthesize singleSelectBtnRow;
 @synthesize editBtn;
+@synthesize isSeedPid;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -197,6 +199,42 @@
     DLog(@"====%@",tempStr);
     return tempStr;
 }
+#pragma mark - Request 只有一个组时直接定价推广
+-(void)doFixed{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    //    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  @"187275101", @"proIds", @"388666", @"planId", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  ((SalePropertyObject *)[self.selectedArray objectAtIndex:0]).propertyId, @"propIds", self.isSeedPid, @"planId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/addpropstoplan/" params:params target:self action:@selector(onFixedSuccess:)];
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+}
+
+- (void)onFixedSuccess:(RTNetworkResponse *)response {
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return;
+    }
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    
+    DLog(@"------response [%@]", [response content]);
+    
+    SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
+    controller.backType = RTSelectorBackTypePopToRoot;
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:self.isSeedPid forKey:@"fixPlanId"];
+    controller.tempDic = dic;
+    [self.navigationController pushViewController:controller animated:YES];
+}
 
 #pragma mark - TableView Delegate & Datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -303,8 +341,6 @@
     UIAlertView *tempView = [[UIAlertView alloc] initWithTitle:@"友情提示" message:@"确定删除房源？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     tempView.tag = 101;
     [tempView show];
-    
-    
 }
 
 -(void)mutableFixed{
@@ -313,10 +349,13 @@
         [tempView show];
         return ;
     }
-    
-    SaleGroupListController *controller = [[SaleGroupListController alloc] init];
-    controller.propertyArray = self.selectedArray;
-    [self.navigationController pushViewController:controller animated:YES];
+    if(self.isSeedPid){
+        [self doFixed];
+    }else{
+        SaleGroupListController *controller = [[SaleGroupListController alloc] init];
+        controller.propertyArray = self.selectedArray;
+        [self.navigationController pushViewController:controller animated:YES];
+    }
 }
 
 //编辑按钮状态更改

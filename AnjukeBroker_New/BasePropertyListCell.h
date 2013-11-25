@@ -21,7 +21,7 @@
 @property (strong, nonatomic) UILabel *tapNum;
 @property (strong, nonatomic) UILabel *tapNumStr;
 @property (strong, nonatomic) UIImageView *bidStatue;
-
+@property (strong, nonatomic) UIImageView *proIcon;
 -(void)setValueForCellByObject:(SalePropertyObject *) obj;
 
 @end

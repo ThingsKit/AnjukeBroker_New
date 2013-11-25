@@ -15,6 +15,8 @@
 #import "SaleNoPlanListManager.h"
 #import "RentGroupListController.h"
 #import "PropertyResetViewController.h"
+#import "SalePropertyObject.h"
+#import "RentFixedDetailController.h"
 
 @interface RentNoPlanController ()
 @property (nonatomic, strong) UIView *contentView;
@@ -28,6 +30,7 @@
 @synthesize seleceAllItem;
 @synthesize singleSelectBtnRow;
 @synthesize editBtn;
+@synthesize isSeedPid;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -183,6 +186,40 @@
     DLog(@"====%@",tempStr);
     return tempStr;
 }
+#pragma mark - Request 定价推广
+-(void)doFixed{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    //    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  @"187275101", @"proIds", @"388666", @"planId", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  ((SalePropertyObject *)[self.selectedArray objectAtIndex:0]).propertyId, @"propIds", self.isSeedPid, @"planId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/addpropstoplan/" params:params target:self action:@selector(onFixedSuccess:)];
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+}
+
+- (void)onFixedSuccess:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return;
+    }
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    
+    RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
+    controller.backType = RTSelectorBackTypePopToRoot;
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:self.isSeedPid forKey:@"fixPlanId"];
+    controller.tempDic = dic;
+    [self.navigationController pushViewController:controller animated:YES];
+}
 
 #pragma mark - TableView Delegate & Datasource
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -295,10 +332,14 @@
         [tempView show];
         return ;
     }
-    
-    RentGroupListController *controller = [[RentGroupListController alloc] init];
-    controller.propertyArray = self.selectedArray;
-    [self.navigationController pushViewController:controller animated:YES];
+    if(self.isSeedPid){
+        [self doFixed];
+    }else{
+        RentGroupListController *controller = [[RentGroupListController alloc] init];
+        controller.propertyArray = self.selectedArray;
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+
 }
 
 //编辑按钮状态更改

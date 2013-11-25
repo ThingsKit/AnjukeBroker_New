@@ -15,5 +15,5 @@
 }
 @property (strong, nonatomic) UITableView *myTable;
 @property (strong, nonatomic) NSMutableArray *myArray;
-
+@property (strong, nonatomic) NSString *isSeedPid;//当只有一个定价组时，把planId带到定价过程
 @end

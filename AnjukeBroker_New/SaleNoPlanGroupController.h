@@ -11,5 +11,5 @@
 #import "SalePropertyObject.h"
 
 @interface SaleNoPlanGroupController : BaseNoPlanController <UIActionSheetDelegate, UIAlertViewDelegate, CheckmarkBtnClickDelegate>
-
+@property (strong, nonatomic) NSString *isSeedPid;
 @end

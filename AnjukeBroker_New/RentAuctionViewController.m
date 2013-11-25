@@ -32,6 +32,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.textField_1.text = [self.proDic objectForKey:@"budget"];
+    self.textField_2.text = [self.proDic objectForKey:@"offer"];
 	// Do any additional setup after loading the view.
 }
 -(void)viewWillAppear:(BOOL)animated{

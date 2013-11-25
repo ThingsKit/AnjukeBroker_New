@@ -23,6 +23,7 @@
 @implementation AnjukeHomeViewController
 @synthesize myTable;
 @synthesize myArray;
+@synthesize isSeedPid;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -112,17 +113,19 @@
         return ;
     }
     NSMutableDictionary *bidPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"bidPlan"]];
+    [bidPlan setValue:@"1" forKey:@"type"];
     [self.myArray addObject:bidPlan];
     
     NSMutableArray *fixPlan = [NSMutableArray array];
     [fixPlan addObjectsFromArray:[resultFromAPI objectForKey:@"fixPlan"]];
     [self.myArray addObjectsFromArray:fixPlan];
-    
+    if ([fixPlan count] == 1) {
+        self.isSeedPid = [[fixPlan objectAtIndex:0] objectForKey:@"fixPlanId"];
+    }
     NSMutableDictionary *nodic = [[NSMutableDictionary alloc] init];
     [nodic setValue:@"待推广房源" forKey:@"title"];
     [nodic setValue:[resultFromAPI objectForKey:@"unRecommendPropNum"] forKey:@"unRecommendPropNum"];
-    [nodic setValue:@"3" forKey:@"status"];
-    [nodic setValue:@"3" forKey:@"type"];
+    [nodic setValue:@"1" forKey:@"type"];
     [self.myArray addObject:nodic];
     
     [self.myTable reloadData];
@@ -141,6 +144,7 @@
         [self.navigationController pushViewController:controller animated:YES];
     }else if ([indexPath row] == [self.myArray count] - 1){
         SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
+        controller.isSeedPid = self.isSeedPid;
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     }else{

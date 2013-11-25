@@ -119,6 +119,10 @@
 
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     //    NSMutableDictionary *dicPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"plan"]];
+    if([[resultFromAPI objectForKey:@"propertyList"] count] == 0){
+//    UIAlertView *alert = [UIAlertView alloc] initWithTitle:<#(NSString *)#> message:<#(NSString *)#> delegate:<#(id)#> cancelButtonTitle:<#(NSString *)#> otherButtonTitles:<#(NSString *), ...#>, nil
+    
+    }
     [self.myArray removeAllObjects];
     //    [self.myArray addObject:[SaleFixedManager fixedPlanObjectFromDic:dicPlan]];
     [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];

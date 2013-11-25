@@ -10,5 +10,5 @@
 #import "SaleNoPlanListCell.h"
 
 @interface RentNoPlanController : BaseNoPlanController <UIActionSheetDelegate, UIAlertViewDelegate, CheckmarkBtnClickDelegate>
-
+@property (strong, nonatomic) NSString *isSeedPid;
 @end

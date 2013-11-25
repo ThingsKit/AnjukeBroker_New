@@ -172,7 +172,7 @@
         action.tag = 101;
         [action showInView:self.view];
     }else{
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"竞价出价及预算", @"暂停竞价推广", nil];
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"调整预算和出价", @"暂停竞价推广", nil];
         action.tag = 102;
         [action showInView:self.view];
     }

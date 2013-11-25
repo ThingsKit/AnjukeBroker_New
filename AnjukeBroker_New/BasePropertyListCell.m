@@ -18,6 +18,7 @@
 @synthesize tapNum;
 @synthesize tapNumStr;
 @synthesize bidStatue;
+@synthesize proIcon;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -54,6 +55,9 @@
         self.detail.textColor = [Util_UI colorWithHexString:@"#666666"];
         self.detail.font = [UIFont systemFontOfSize:12];
         
+        self.proIcon = [[UIImageView alloc] init];
+        self.proIcon.frame = CGRectMake(280, 25, 22, 14);
+        
         self.price = [[UILabel alloc] initWithFrame:CGRectMake(140, 60, 150, 20)];
         self.price.textColor = [UIColor grayColor];
 //        self.price.text = @"-190万";
@@ -63,7 +67,7 @@
         [self.contentView addSubview:self.comName];
         [self.contentView addSubview:self.detail];
         [self.contentView addSubview:self.price];
-        
+        [self.contentView addSubview:self.proIcon];
         [self showUpArrowImg];
     }
     return self;
@@ -89,6 +93,7 @@
         self.tapNum.text = [dic objectForKey:@"clickNum"];
         self.comName.text = [dic objectForKey:@"commName"];
         [self setBidStatueImg:dic];
+        [self setProIconWithPro:dic];
     }
     return NO;
 }
@@ -100,7 +105,14 @@
         self.bidStatue.image = nil;
     }
 }
-
+- (void)setProIconWithPro:(NSDictionary *) dic{
+    if([[dic objectForKey:@"isMoreImg"] isEqualToString:@"1"]){
+        self.proIcon.image = [UIImage imageNamed:@"anjuke_icon_mutableimg@2x.png"];
+    }else{
+        // anjuke_icon_draft@2x.png
+        self.proIcon.image = nil;
+    }
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
