@@ -227,7 +227,11 @@
         return;
     }
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-    
+    if([resultFromAPI count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return ;
+    }
     if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
@@ -266,7 +270,11 @@
     }
     DLog(@"------response [%@]", [response content]);
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-    
+    if([resultFromAPI count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return ;
+    }
     if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
@@ -306,6 +314,11 @@
     }
     DLog(@"------response [%@]", [response content]);
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    if([resultFromAPI count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return ;
+    }
     [self.myArray removeAllObjects];
 //    [self.myArray addObject:[SaleFixedManager fixedPlanObjectFromDic:dicPlan]];
     [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
@@ -335,6 +348,11 @@
     }
     DLog(@"------response [%@]", [response content]);
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    if([resultFromAPI count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return ;
+    }
     [self.myArray removeAllObjects];
     [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
     [self.myTable reloadData];

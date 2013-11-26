@@ -66,6 +66,7 @@
 #pragma mark - 请求竞价房源列表
 -(void)doRequest{
     if(![self isNetworkOkay]){
+        [self showInfo:NONETWORK_STR];
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
@@ -85,7 +86,11 @@
     }
     DLog(@"------response [%@]", [response content]);
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-
+    if([resultFromAPI count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return ;
+    }
     if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
@@ -107,6 +112,7 @@
 #pragma mark - 取消竞价推广
 -(void)doStopBid{
     if(![self isNetworkOkay]){
+        [self showInfo:NONETWORK_STR];
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"], @"propId", nil];
@@ -139,6 +145,7 @@
 #pragma mark - 取消竞价推广,(取消后房源不在竞价推广组)
 -(void)doCancelBid{
     if(![self isNetworkOkay]){
+        [self showInfo:NONETWORK_STR];
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"], @"propId", nil];

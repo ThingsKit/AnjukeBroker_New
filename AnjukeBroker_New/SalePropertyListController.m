@@ -49,6 +49,7 @@
 #pragma mark - 请求可定价房源列表
 -(void)doRequest{
     if(![self isNetworkOkay]){
+        [self showInfo:NONETWORK_STR];
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
@@ -69,6 +70,11 @@
     }
     
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    if([resultFromAPI count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return ;
+    }
     //    NSMutableDictionary *dicPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"plan"]];
     [self.myArray removeAllObjects];
     //    [self.myArray addObject:[SaleFixedManager fixedPlanObjectFromDic:dicPlan]];

@@ -19,7 +19,7 @@
 @property (nonatomic, strong) UITextField *textField_1;
 @property (nonatomic, strong) UITextField *textField_2;
 @property (nonatomic, strong) UILabel *rangLabel;
-
+@property (nonatomic, strong) id superVC;
 - (void)checkRank;
 - (void)doCheckRankWithPropID:(NSString *)propID commID:(NSString *)commID; //此两方法配合用于请求估算排名
 

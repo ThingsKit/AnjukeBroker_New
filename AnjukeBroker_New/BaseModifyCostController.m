@@ -80,6 +80,8 @@
 #pragma mark -- privateMethods
 
 - (void)rightButtonAction:(id)sender{
+
+    
     if(self.isLoading){
         return ;
     }

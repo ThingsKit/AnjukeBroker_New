@@ -31,7 +31,7 @@
         self.title.textColor = SYSTEM_BLACK;
         self.title.font = [UIFont systemFontOfSize:14];
         
-        self.detail = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, 260, 20)];
+        self.detail = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, 300, 20)];
         self.detail.textColor = [Util_UI colorWithHexString:@"#666666"];
         self.detail.font = [UIFont systemFontOfSize:12];
         
@@ -55,7 +55,7 @@
     self.backView.frame = CGRectMake(10, 0, 320, self.contentView.frame.size.height);
     self.title.text = [dic objectForKey:@"title"];
     
-    NSString *tempStr = [NSString stringWithFormat:@"%@ %@室%@厅%@卫  %@平 %@%@", [dic objectForKey:@"commName"], [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"], [dic objectForKey:@"area"], [dic objectForKey:@"price"], [dic objectForKey:@"priceUnit"]];
+    NSString *tempStr = [NSString stringWithFormat:@"%@ %@室%@厅  %@平 %@%@", [dic objectForKey:@"commName"], [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"area"], [dic objectForKey:@"price"], [dic objectForKey:@"priceUnit"]];
     self.detail.text = tempStr;
     [self setProIconWithPro:dic];
 }

@@ -60,6 +60,7 @@
 #pragma mark - 请求竞价房源列表
 -(void)doRequest{
     if(![self isNetworkOkay]){
+        [self showInfo:NONETWORK_STR];
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
@@ -101,6 +102,7 @@
 #pragma mark - 取消竞价
 -(void)doCancelBid{
     if(![self isNetworkOkay]){
+        [self showInfo:NONETWORK_STR];
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"], @"propId", [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"planId"], @"planId", nil];
@@ -126,6 +128,7 @@
 #pragma mark - 暂停竞价
 -(void)doStopBid{
     if(![self isNetworkOkay]){
+        [self showInfo:NONETWORK_STR];
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"], @"propId", nil];

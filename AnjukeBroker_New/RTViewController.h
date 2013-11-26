@@ -19,6 +19,7 @@
 
 #define ITEM_BTN_FRAME CGRectMake(0, 0, 55, 31)
 #define NONETWORK_STR @"网络不给力"
+#define ACTIONOK_STR @"操作成功"
 
 typedef enum {
     RTSelectorBackTypePopBack = 0,

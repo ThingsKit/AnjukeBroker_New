@@ -82,6 +82,7 @@
 #pragma mark - 请求定价组详情
 -(void)doRequest{
     if(![self isNetworkOkay]){
+        [self showInfo:NONETWORK_STR];
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
@@ -101,6 +102,11 @@
     }
     DLog(@"------response [%@]", [response content]);
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    if([resultFromAPI count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return ;
+    }
     NSMutableDictionary *dicPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"plan"]];
     [self.myArray removeAllObjects];
     [self.myArray addObject:[SaleFixedManager fixedPlanObjectFromDic:dicPlan]];
@@ -112,6 +118,7 @@
 #pragma mark - 取消定价
 -(void)doCancelFixed{
     if(![self isNetworkOkay]){
+        [self showInfo:NONETWORK_STR];
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"], @"propId", [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
@@ -137,6 +144,7 @@
 #pragma mark - 重新开始定价
 -(void)doRestartFixed{
     if(![self isNetworkOkay]){
+        [self showInfo:NONETWORK_STR];
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
@@ -163,6 +171,7 @@
 #pragma mark - 请求定价组详情
 -(void)doStopFixedGroup{
     if(![self isNetworkOkay]){
+        [self showInfo:NONETWORK_STR];
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];

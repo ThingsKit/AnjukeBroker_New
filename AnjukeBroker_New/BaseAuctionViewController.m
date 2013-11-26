@@ -7,6 +7,8 @@
 //
 
 #import "BaseAuctionViewController.h"
+#import "SaleAuctionViewController.h"
+#import "RentAuctionViewController.h"
 
 @interface BaseAuctionViewController ()
 
@@ -15,6 +17,7 @@
 @implementation BaseAuctionViewController
 @synthesize textField_1, textField_2;
 @synthesize rangLabel;
+@synthesize superVC;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -146,6 +149,7 @@
 
 -(void)doCheckRankWithPropID:(NSString *)propID commID:(NSString *)commID {
     if(![self isNetworkOkay]){
+        [self showInfo:NONETWORK_STR];
         return;
     }
     
@@ -167,14 +171,22 @@
     }
     
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[response content]];
-    if([resultFromAPI count] == 0){
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
         [self hideLoadWithAnimated:YES];
-        return ;
+        self.isLoading = NO;
+        return;
     }
     [self hideLoadWithAnimated:YES];
     
     self.rangLabel.alpha = 0.0;
     //test
+    if([self.superVC isKindOfClass:[SaleAuctionViewController class]]){
+    
+    
+    }
     self.rangLabel.text = [NSString stringWithFormat:@"预估排名:第%@名",[resultFromAPI objectForKey:@"data"]];
     
     [UIView beginAnimations:nil context:nil];

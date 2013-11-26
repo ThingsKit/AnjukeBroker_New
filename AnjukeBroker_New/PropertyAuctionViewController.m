@@ -273,11 +273,13 @@
         return;
     }
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[response content]];
-    if([resultFromAPI count] == 0){
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
-        return ;
+        return;
     }
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;

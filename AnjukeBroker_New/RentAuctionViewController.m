@@ -253,13 +253,20 @@
         return ;
     }
     
-//    if ([self.textField_2.text integerValue] > [self.textField_1.text integerValue]){
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"预算不得低于出价" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//    NSString * regex = @"[0-9]?+[.]{0,1}+[0-9]{1}";
+//    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+////    BOOL isValid=  [pred evaluateWithObject:@"34.5"];
+////    BOOL isMatch = [pred evaluateWithObject:self.textField_1.text];
+//    if(![pred evaluateWithObject:self.textField_1.text]){
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"预算格式不对！" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
 //        [alert show];
-//
+//        return ;
+//    }else if (![pred evaluateWithObject:self.textField_2.text]){
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"出价格式不对！" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//        [alert show];
+//        return ;
 //    }
-    
-    
+
 //    NSMutableString *email = @"kkk@aaa.com";
 //    [email ]
 //    [email isMatchedByRegex:@"^[0-9]+(.[0-9]{1})?$"];

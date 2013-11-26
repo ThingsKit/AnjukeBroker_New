@@ -43,7 +43,7 @@
     self.communityName = [dic objectForKey:@"commName"];
     self.communityId = [dic objectForKey:@""];
     self.type = [dic objectForKey:@"housUnits"];
-    self.area = [dic objectForKey:@"Area"];
+    self.area = [NSString stringWithFormat:@"%@", [dic objectForKey:@"area"]];
     self.title = [dic objectForKey:@"title"];
     self.description = [dic objectForKey:@""];
     self.tenement = [dic objectForKey:@""];

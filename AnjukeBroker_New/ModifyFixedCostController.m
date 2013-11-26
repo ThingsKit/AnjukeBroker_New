@@ -36,6 +36,7 @@
 #pragma mark - 修改定价组限额
 -(void)modifyFixedProperty{
     if(![self isNetworkOkay]){
+        [self showInfo:NONETWORK_STR];
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.fixedObject.fixedId, @"planId", [NSString stringWithFormat:@"%@", self.totalCost.text], @"ceiling", self.fixedObject.planName, @"planName", nil];
@@ -70,6 +71,11 @@
 #pragma mark -- privateMethods
 
 - (void)rightButtonAction:(id)sender{
+    if ([self.totalCost.text integerValue] <10 || [self.totalCost.text integerValue]>1000) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"限额为10-1000元" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        [alert show];
+        return ;
+    }
     [super rightButtonAction:self];
     [self modifyFixedProperty];
 //    [self.navigationController popViewControllerAnimated:YES];

@@ -49,6 +49,7 @@
 #pragma mark - Request 获取定价推广组列表
 -(void)doRentFixedGroupList{
     if(![self isNetworkOkay]){
+        [self showInfo:NONETWORK_STR];
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
@@ -72,6 +73,11 @@
     
     DLog(@"------response [%@]", [response content]);
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    if([resultFromAPI count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return ;
+    }
     [self.myArray removeAllObjects];
     [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"planList"]];
     [self.myTable reloadData];
@@ -81,6 +87,7 @@
 #pragma mark - Request 定价推广
 -(void)doFixed{
     if(![self isNetworkOkay]){
+        [self showInfo:NONETWORK_STR];
         return;
     }
     //    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  @"187275101", @"proIds", @"388666", @"planId", nil];

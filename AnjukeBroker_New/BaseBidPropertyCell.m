@@ -80,7 +80,7 @@
     if([dataModel isKindOfClass:[NSDictionary class]]){
         NSDictionary *propInfo = (NSDictionary *)dataModel;
         title.text = [propInfo objectForKey:@"title"];
-        price.text = [NSString stringWithFormat:@"%@ %@室%@厅%@卫 %@平 %@%@", [propInfo objectForKey:@"commName"], [propInfo objectForKey:@"roomNum"], [propInfo objectForKey:@"hallNum"], [propInfo objectForKey:@"toiletNum"], [propInfo objectForKey:@"area"], [propInfo objectForKey:@"price"], [propInfo objectForKey:@"priceUnit"]];
+        price.text = [NSString stringWithFormat:@"%@ %@室%@厅 %@平 %@%@", [propInfo objectForKey:@"commName"], [propInfo objectForKey:@"roomNum"], [propInfo objectForKey:@"hallNum"], [propInfo objectForKey:@"area"], [propInfo objectForKey:@"price"], [propInfo objectForKey:@"priceUnit"]];
         stringNum.text = [NSString stringWithFormat:@"   %@                  %@              %@             %@", [propInfo objectForKey:@"index"], [propInfo objectForKey:@"clickNum"], [propInfo objectForKey:@"offer"], [self getBudget:propInfo]];
         DLog(@"===%@",[propInfo objectForKey:@"budget"])
         stage.text = [propInfo objectForKey:@"index"];

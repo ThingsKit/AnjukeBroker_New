@@ -30,7 +30,7 @@
         self.title.textColor = SYSTEM_BLACK;
         self.title.font = [UIFont systemFontOfSize:14];
         
-        self.detail = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, 260, 20)];
+        self.detail = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, 270, 20)];
         self.detail.textColor = [Util_UI colorWithHexString:@"#666666"];
         self.detail.font = [UIFont systemFontOfSize:12];
         
@@ -63,7 +63,7 @@
     return NO;
 }
 -(void)setDetailLableValue:(BasePropertyObject *) pro{
-    NSString *tempStr = [NSString stringWithFormat:@"%@  %@室%@厅%@卫  0平 %@%@", pro.communityName, pro.roomNum, pro.hallNum, pro.toiletNum, pro.price, pro.priceUnit];
+    NSString *tempStr = [NSString stringWithFormat:@"%@  %@室%@厅  %@平 %@%@", pro.communityName, pro.roomNum, pro.hallNum, pro.area, pro.price, pro.priceUnit];
     self.detail.text = tempStr;
 }
 - (void)setProIconWithPro:(BasePropertyObject *) pro{
