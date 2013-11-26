@@ -88,9 +88,11 @@
         self.topCost.text = [NSString stringWithFormat:@"%@", obj.topCost];
         [self setFixedImg:obj];
         if([LoginManager isSeedForAJK:isAJK]){
-        self.topCostStr.text = @"每日最高花费";
+            self.topCostStr.frame = CGRectMake(225, 42, 320, 20);
+            self.topCostStr.text = @"每日最高花费";
         }else{
-        self.topCostStr.text = @"日限额";
+            self.topCostStr.frame = CGRectMake(245, 42, 320, 20);
+            self.topCostStr.text = @"日限额";
         }
         DLog(@"%d",[LoginManager isSeedForAJK:YES]);
         return YES;

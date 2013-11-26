@@ -51,7 +51,7 @@
         self.comName.textColor = [Util_UI colorWithHexString:@"#666666"];
         self.comName.font = [UIFont systemFontOfSize:12];
         
-        self.detail = [[UILabel alloc] initWithFrame:CGRectMake(27, 60, 250, 20)];
+        self.detail = [[UILabel alloc] initWithFrame:CGRectMake(27, 60, 270, 20)];
         self.detail.textColor = [Util_UI colorWithHexString:@"#666666"];
         self.detail.font = [UIFont systemFontOfSize:12];
         
