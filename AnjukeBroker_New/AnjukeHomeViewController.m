@@ -15,6 +15,7 @@
 #import "PPCGroupCell.h"
 #import "LoginManager.h"
 #import "SaleFixedManager.h"
+#import "BrokerLogger.h"
 
 @interface AnjukeHomeViewController ()
 
@@ -59,6 +60,9 @@
     [self reloadData];
     [self doRequest];
 //    [self doLog];
+//    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+//    [dic setValue:@"1" forKey:@"dt"];
+//    [[BrokerLogger sharedInstance] logWithActionCode:@"dt" note:dic];
 }
 -(void)reloadData{
     if(self.myArray == nil){

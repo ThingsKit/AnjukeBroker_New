@@ -75,7 +75,7 @@
     UILabel *lbBtn2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, showBtn.frame.size.width, showBtn.frame.size.height)];
     lbBtn2.backgroundColor = [UIColor clearColor];
     lbBtn2.font = [UIFont systemFontOfSize:15];
-    lbBtn2.text = @"删除";
+//    lbBtn2.text = @"删除";
     lbBtn2.textColor = SYSTEM_ORANGE;
     [dBtn addSubview:lbBtn2];
 }
@@ -90,13 +90,19 @@
 */
 
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index {
+    NSDictionary *tempDic = [NSDictionary dictionary];
+    if([dataModel isKindOfClass:[NSArray class]]){
+        tempDic = [dataModel objectAtIndex:index];
+    
+    }
+    
     self.selectRow = index;
     
     //test
-    self.contentLb.text = @"投票和评选方式：进入“积微速成”企业文化活动主页http://home.corp.anjuke.com/culture/success/，每位“观众”均可参与投票，点击一次“喜欢”即投了一票；一个人可以喜欢多组微故事，但每人每天只可对一则故事喜欢一次；小伙伴们还可以对作品进行评论哦！截至10月31日17:30，系统自动统计每则故事被“喜欢”的次数，以此作为评奖的依据。（注：若同一人上传了多则故事，则取被“喜欢”次数最多的作品）。";
+    self.contentLb.text = [tempDic objectForKey:@"content"];
     
     self.dataLb.text = [Util_TEXT getDateStrWithDate:[NSDate date]];
-    
+//    self.dataLb.text = [tempDic objectForKey:@"title"];
     return YES;
 }
 

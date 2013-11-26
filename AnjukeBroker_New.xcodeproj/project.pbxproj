@@ -166,6 +166,8 @@
 		B7E803ED1820DD8000775C6F /* SaleSelectNoPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E803EC1820DD8000775C6F /* SaleSelectNoPlanController.m */; };
 		B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E803EF1820E14000775C6F /* SaleNoPlanGroupController.m */; };
 		B7E803F31820F24400775C6F /* SaleNoPlanListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E803F21820F24400775C6F /* SaleNoPlanListCell.m */; };
+		B7EA04A61844D40900AC8842 /* BrokerAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EA04A51844D40900AC8842 /* BrokerAccountController.m */; };
+		B7EA04AA1844DB3700AC8842 /* BrokerAccountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EA04A91844DB3700AC8842 /* BrokerAccountCell.m */; };
 		B7EA1FC2183A437500438CF8 /* SaleAuctionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EA1FC1183A437500438CF8 /* SaleAuctionViewController.m */; };
 		B7EF148E18289CB7000B6016 /* RentBidDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EF148D18289CB6000B6016 /* RentBidDetailController.m */; };
 		B7EF7798183CBAB80024A5E6 /* anjuke_icon_bid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF7797183CBAB80024A5E6 /* anjuke_icon_bid@2x.png */; };
@@ -473,6 +475,10 @@
 		B7E803EF1820E14000775C6F /* SaleNoPlanGroupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaleNoPlanGroupController.m; sourceTree = "<group>"; };
 		B7E803F11820F24400775C6F /* SaleNoPlanListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleNoPlanListCell.h; sourceTree = "<group>"; };
 		B7E803F21820F24400775C6F /* SaleNoPlanListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaleNoPlanListCell.m; sourceTree = "<group>"; };
+		B7EA04A41844D40900AC8842 /* BrokerAccountController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerAccountController.h; sourceTree = "<group>"; };
+		B7EA04A51844D40900AC8842 /* BrokerAccountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerAccountController.m; sourceTree = "<group>"; };
+		B7EA04A81844DB3700AC8842 /* BrokerAccountCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerAccountCell.h; sourceTree = "<group>"; };
+		B7EA04A91844DB3700AC8842 /* BrokerAccountCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerAccountCell.m; sourceTree = "<group>"; };
 		B7EA1FC0183A437500438CF8 /* SaleAuctionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleAuctionViewController.h; sourceTree = "<group>"; };
 		B7EA1FC1183A437500438CF8 /* SaleAuctionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaleAuctionViewController.m; sourceTree = "<group>"; };
 		B7EF148C18289CB6000B6016 /* RentBidDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentBidDetailController.h; sourceTree = "<group>"; };
@@ -618,6 +624,10 @@
 				97DED8AC18234BB100D0B82A /* MoreListCell.m */,
 				970DB71B183AFFE700DEB455 /* AboutUsViewController.h */,
 				970DB71C183AFFE700DEB455 /* AboutUsViewController.m */,
+				B7EA04A41844D40900AC8842 /* BrokerAccountController.h */,
+				B7EA04A51844D40900AC8842 /* BrokerAccountController.m */,
+				B7EA04A81844DB3700AC8842 /* BrokerAccountCell.h */,
+				B7EA04A91844DB3700AC8842 /* BrokerAccountCell.m */,
 			);
 			name = "更多";
 			sourceTree = "<group>";
@@ -1379,6 +1389,7 @@
 				97A606811816C2A50041B367 /* InputOrderManager.m in Sources */,
 				97ACD09C1843357E00D88CB6 /* AccountManager.m in Sources */,
 				97B4225A1820DB8300A2E9E6 /* AnjukePropertyGroupCell.m in Sources */,
+				B7EA04A61844D40900AC8842 /* BrokerAccountController.m in Sources */,
 				970DB71D183AFFE700DEB455 /* AboutUsViewController.m in Sources */,
 				97B422681821087600A2E9E6 /* PropertyBigImageViewController.m in Sources */,
 				B7E56D0F183DBAD600A0F7D2 /* AnjukeOnlineImgController.m in Sources */,
@@ -1463,6 +1474,7 @@
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
 				97DED8AD18234BB100D0B82A /* MoreListCell.m in Sources */,
 				B76E5977181E5676005B6A8C /* BaseNoPlanController.m in Sources */,
+				B7EA04AA1844DB3700AC8842 /* BrokerAccountCell.m in Sources */,
 				9751860218320D5F00C9A40A /* PhotoManager.m in Sources */,
 				97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */,
 				B76E5988181E5AD1005B6A8C /* BaseNoPlanListCell.m in Sources */,

@@ -11,12 +11,14 @@
 #import "Util_UI.h"
 
 @interface SystemMessageViewController ()
-@property (nonatomic, strong) UITableView *tvList;
-@property (nonatomic, strong) NSArray *messageDataArr;
+//@property (nonatomic, strong) UITableView *tvList;
+//@property (nonatomic, strong) NSArray *messageDataArr;
 @end
 
 @implementation SystemMessageViewController
-@synthesize tvList, messageDataArr;
+//@synthesize  messageDataArr;
+@synthesize myTable;
+@synthesize myArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,6 +35,12 @@
 	// Do any additional setup after loading the view.
     
     [self setTitleViewWithString:@"系统消息"];
+    self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
+    //    self.tvList = tv;
+    //    tv.backgroundColor = [UIColor clearColor];
+    self.myTable.delegate = self;
+    self.myTable.dataSource = self;
+    [self.view addSubview:self.myTable];
 }
 
 - (void)didReceiveMemoryWarning
@@ -44,27 +52,69 @@
 #pragma mark - private method
 
 - (void)initModel {
-    self.messageDataArr = [NSArray array];
+//    self.messageDataArr = [NSArray array];
+    self.myArray = [NSMutableArray array];
+}
+-(void)dealloc{
+    self.myTable.delegate = nil;
+}
+- (void)initDisplay {
+
+    
+}
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self doRequest];
+}
+#pragma mark - 获取系统消息
+-(void)doRequest{
+    if(![self isNetworkOkay]){
+        [self showInfo:NONETWORK_STR];
+        return;
+    }
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"announcelist/" params:params target:self action:@selector(onGetSuccess:)];
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
 }
 
-- (void)initDisplay {
-    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
-    self.tvList = tv;
-    tv.backgroundColor = [UIColor clearColor];
-    tv.delegate = self;
-    tv.dataSource = self;
-    [self.view addSubview:tv];
+- (void)onGetSuccess:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return;
+    }
+    [self.myArray removeAllObjects];
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    if([resultFromAPI count] ==  0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return ;
+    }
+    [self.myArray removeAllObjects];
+    [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"announce_list"]];
+    
+    [self.myTable reloadData];
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
     
 }
 
 #pragma mark - tableView Datasource
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+//    return 1;
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;//self.groupArray.count;
+    return [self.myArray count];//self.groupArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -82,7 +132,7 @@
         
     }
     
-    [cell configureCell:nil withIndex:indexPath.row];
+    [cell configureCell:self.myArray withIndex:indexPath.row];
         
     return cell;
 }

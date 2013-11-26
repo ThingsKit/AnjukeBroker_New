@@ -13,12 +13,15 @@
 #import "LoginManager.h"
 #import "Util_UI.h"
 #import "AppDelegate.h"
+#import "BrokerAccountController.h"
 
 #define CALL_ANJUKE_NUMBER @"400-620-9008"
 #define CALL_ANJUKE_ROW 5
 #define CALL_CLIENT_ROW 4
 
 #define ABOUT_US_ROW 3
+
+#define CALL_ACCOUNT_ROW 0
 
 @interface MoreViewController ()
 @property (nonatomic, strong) NSArray *taskArray;
@@ -245,6 +248,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     switch (indexPath.row) {
+        case CALL_ACCOUNT_ROW:
+        {
+            //broker acunt
+            BrokerAccountController *controller = [[BrokerAccountController alloc] init];
+            [self.navigationController pushViewController:controller animated:YES];
+        }
+            break;
         case CALL_ANJUKE_ROW:
         {
             //make call
