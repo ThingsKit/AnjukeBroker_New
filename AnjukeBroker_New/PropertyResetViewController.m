@@ -63,6 +63,26 @@
     self.moduleImgArray = [NSMutableArray array];
 }
 
+- (void)initDisplay {
+    [super initDisplay];
+    
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], CELL_HEIGHT*1.5)];
+    footerView.backgroundColor = [UIColor clearColor];
+    
+    CGFloat btnW = 200;
+    CGFloat btnH = CELL_HEIGHT - 15;
+    UIButton *logoutBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    logoutBtn.frame = CGRectMake((footerView.frame.size.width -btnW)/2, (footerView.frame.size.height - btnH)/2, btnW, btnH);
+    [logoutBtn setBackgroundColor:SYSTEM_ORANGE];
+    [logoutBtn setTitle:@"删 除 房 源" forState:UIControlStateNormal];
+    [logoutBtn addTarget:self action:@selector(doDeleteProperty) forControlEvents:UIControlEventTouchUpInside];
+    logoutBtn.layer.cornerRadius = 5;
+    [footerView addSubview:logoutBtn];
+    
+    self.tvList.tableFooterView = footerView;
+    
+}
+
 - (void)setPropertyWithDic:(NSDictionary *)dic {
     self.property = [PropertyDataManager getNewPropertyObject];
     
@@ -549,6 +569,53 @@
     
     [self showInfo:@"删除图片成功"];
     [self hideLoadWithAnimated:YES];
+}
+
+//删除房源
+- (void)doDeleteProperty {
+    if (![self isNetworkOkay]) {
+        return;
+    }
+    
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+    
+    //更新房源信息
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    if (self.isHaozu) {
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", [LoginManager getUserID], @"brokerId", self.propertyID, @"propIds", nil];
+        method = @"zufang/prop/delprops/";
+    }
+    else {
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.propertyID, @"propIds", nil];
+        method = @"anjuke/prop/delprops/";
+    }
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onDeletePropFinished:)];
+}
+
+- (void)onDeletePropFinished:(RTNetworkResponse *)response {
+    DLog(@"--delete Prop。。。response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        [self hideLoadWithAnimated:YES];
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
+    
+    [self hideLoadWithAnimated:YES];
+    [self showInfo:@"删除房源成功"];
+    
+    [self doBack:self];
+    
 }
 
 #pragma mark - BigImageView Delegate

@@ -28,7 +28,6 @@ typedef enum {
 
 @interface AnjukeEditPropertyViewController ()
 @property (nonatomic, strong) NSArray *titleArray;
-@property (nonatomic, strong) UITableView *tvList;
 @property BOOL needFileNO; //是否需要备案号，部分城市需要备案号（北京）
 @property (nonatomic, strong) RTInputPickerView *pickerView; //定制的输入框
 @property (nonatomic, strong) KeyboardToolBar *toolBar;

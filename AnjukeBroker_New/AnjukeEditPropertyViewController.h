@@ -60,6 +60,7 @@
 @property BOOL hideOnlineImg; //是否需要在线房形图功能
 @property (nonatomic, strong) UITextField *fileNoTextF; //备案号输入框
 @property (nonatomic, strong) SimpleKeyboardToolBar *simToolBar;
+@property (nonatomic, strong) UITableView *tvList;
 
 //公开函数，仅继承页面使用
 - (void)setCommunityWithText:(NSString *)string; //设置小区名，上次使用
