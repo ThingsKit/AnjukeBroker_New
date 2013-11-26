@@ -228,7 +228,7 @@
     method = @"broker/getinfoandppc/";
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
-
+    
 }
 
 - (void)onRequestFinished:(RTNetworkResponse *)response {

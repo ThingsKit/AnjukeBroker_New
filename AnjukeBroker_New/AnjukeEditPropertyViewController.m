@@ -278,7 +278,11 @@ typedef enum {
     
     //保存imageDic在E_Photo
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[result objectForKey:@"image"]];
-    [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+    if (self.isHaozu) {
+        [dic setObject:@"1" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
+    }
+    else //二手房
+        [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
     
     [(E_Photo *)[self.imgArray objectAtIndex:self.uploadImgIndex] setImageDic:dic];
     

@@ -98,6 +98,9 @@
     }
     else {
         str = [self.clientDic objectForKey:@"saleManagerName"];
+        if (str.length == 0) {
+            str = [self.clientDic objectForKey:@"saleManagerTel"];
+        }
     }
     
     return str;
