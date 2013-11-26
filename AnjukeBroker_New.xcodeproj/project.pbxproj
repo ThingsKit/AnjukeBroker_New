@@ -25,6 +25,7 @@
 		972C10391815351900552C9B /* AnjukeEditPropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */; };
 		972DDA2A1826A4CA00263F8F /* RTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972DDA291826A4CA00263F8F /* RTNavigationController.m */; };
 		972DDA301826D39500263F8F /* RTPopoverTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972DDA2F1826D39500263F8F /* RTPopoverTableViewController.m */; };
+		972F70DE1844C7660010CABB /* BrokerLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 972F70DD1844C7660010CABB /* BrokerLogger.m */; };
 		973727AD182FD1C8007D8501 /* PropertyFitment.plist in Resources */ = {isa = PBXBuildFile; fileRef = 973727AC182FD1C8007D8501 /* PropertyFitment.plist */; };
 		973727AF182FD2CE007D8501 /* PropertyDirection.plist in Resources */ = {isa = PBXBuildFile; fileRef = 973727AE182FD2CE007D8501 /* PropertyDirection.plist */; };
 		97410553180CDFE0004DAE95 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410552180CDFE0004DAE95 /* Foundation.framework */; };
@@ -235,6 +236,8 @@
 		972DDA291826A4CA00263F8F /* RTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTNavigationController.m; sourceTree = "<group>"; };
 		972DDA2E1826D39500263F8F /* RTPopoverTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTPopoverTableViewController.h; sourceTree = "<group>"; };
 		972DDA2F1826D39500263F8F /* RTPopoverTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTPopoverTableViewController.m; sourceTree = "<group>"; };
+		972F70DC1844C7660010CABB /* BrokerLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerLogger.h; sourceTree = "<group>"; };
+		972F70DD1844C7660010CABB /* BrokerLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerLogger.m; sourceTree = "<group>"; };
 		973727AC182FD1C8007D8501 /* PropertyFitment.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PropertyFitment.plist; sourceTree = "<group>"; };
 		973727AE182FD2CE007D8501 /* PropertyDirection.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PropertyDirection.plist; sourceTree = "<group>"; };
 		9741054F180CDFE0004DAE95 /* AnjukeBroker_New.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnjukeBroker_New.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -711,6 +714,15 @@
 			name = "底层、定制ViewController";
 			sourceTree = "<group>";
 		};
+		972F70DB1844C7450010CABB /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				972F70DC1844C7660010CABB /* BrokerLogger.h */,
+				972F70DD1844C7660010CABB /* BrokerLogger.m */,
+			);
+			name = Logger;
+			sourceTree = "<group>";
+		};
 		97410546180CDFE0004DAE95 = {
 			isa = PBXGroup;
 			children = (
@@ -1082,6 +1094,7 @@
 		B769E446181F4BE800A2FF50 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				972F70DB1844C7450010CABB /* Logger */,
 				97A606831816D0A30041B367 /* 发布房源Model */,
 				B769E449181F4C0B00A2FF50 /* Manager */,
 				B769E448181F4C0300A2FF50 /* CoreData */,
@@ -1374,6 +1387,7 @@
 				97C6870F183A2BF100F449BD /* PropertyAuctionPublishViewController.m in Sources */,
 				972C10321814FDC400552C9B /* MoreViewController.m in Sources */,
 				B7210952182785A400904FC7 /* RentFixedCell.m in Sources */,
+				972F70DE1844C7660010CABB /* BrokerLogger.m in Sources */,
 				B7E69BC4183B9CEE0097D5C3 /* RentBidNoPlanController.m in Sources */,
 				B7E803F31820F24400775C6F /* SaleNoPlanListCell.m in Sources */,
 				B70323DC1832115B00DFDB1C /* BaseGroupListController.m in Sources */,
