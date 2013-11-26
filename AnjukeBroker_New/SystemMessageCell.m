@@ -100,8 +100,8 @@
     
     //test
     self.contentLb.text = [tempDic objectForKey:@"content"];
-    
-    self.dataLb.text = [Util_TEXT getDateStrWithDate:[NSDate date]];
+    [self transformDate:[[tempDic objectForKey:@"createtime"] doubleValue]];
+//    self.dataLb.text = [Util_TEXT getDateStrWithDate:[NSDate date]];
 //    self.dataLb.text = [tempDic objectForKey:@"title"];
     return YES;
 }
@@ -109,7 +109,17 @@
 - (void)showAll:(id)sender {
     
 }
-
+- (void)transformDate:(double) timeInter{
+    NSDate *postDate = [NSDate dateWithTimeIntervalSince1970:timeInter];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSDateComponents *nowComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:[NSDate date]];
+    NSDateComponents *postComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:postDate];
+    if (nowComponents.year == postComponents.year )
+        [dateFormatter setDateFormat:@"MM-dd"];
+    else
+        [dateFormatter setDateFormat:@"yyyy-MM"];
+self.dataLb.text =  [dateFormatter stringFromDate:postDate];
+}
 - (void)doDelete:(id)sender {
     
 }
