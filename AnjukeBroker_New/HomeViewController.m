@@ -112,7 +112,7 @@
     lb.font = [UIFont systemFontOfSize:15];
     lb.textColor = SYSTEM_BLACK;
     self.nameLb = lb;
-    lb.text = @"";
+    lb.text = [LoginManager getName];
     [view1 addSubview:lb];
     
     //photo number
@@ -121,7 +121,7 @@
     lb2.font = [UIFont systemFontOfSize:15];
     lb2.textColor = SYSTEM_BLACK;
     self.phoneLb = lb2;
-    lb2.text = [self.dataDic objectForKey:@"phone"];
+    lb2.text = [LoginManager getPhone];
     [view1 addSubview:lb2];
     
     //account info
@@ -203,8 +203,8 @@
 }
 
 - (void)setHomeValue {
-    self.nameLb.text = [self.dataDic objectForKey:@"brokerName"];
-    self.phoneLb.text = [self.dataDic objectForKey:@"phone"];
+//    self.nameLb.text = [self.dataDic objectForKey:@"brokerName"];
+//    self.phoneLb.text = [self.dataDic objectForKey:@"phone"];
     
     self.accountLb.text = [self.ppcDataDic objectForKey:@"balance"];
     self.propNumLb.text = [self.ppcDataDic objectForKey:@"onLinePropNum"];

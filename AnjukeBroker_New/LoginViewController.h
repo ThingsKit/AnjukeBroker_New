@@ -10,4 +10,6 @@
 
 @interface LoginViewController : RTViewController <UITextFieldDelegate>
 
+- (void)doLogOut;
+
 @end

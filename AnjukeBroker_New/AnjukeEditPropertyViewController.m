@@ -646,6 +646,8 @@ typedef enum {
 }
 
 - (BOOL)checkUploadProperty {
+    [self setTextFieldForProperty];
+    
     if ([self.property.rooms isEqualToString:@""]) {
         [self showInfo:@"请选择户型，谢谢"];
         return NO;

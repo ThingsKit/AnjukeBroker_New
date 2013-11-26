@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "LoginViewController.h"
 #import "RTNavigationController.h"
 #import "LoginManager.h"
 #import "ConfigPlistManager.h"
@@ -22,6 +21,7 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize rootViewController;
+@synthesize loginVC;
 
 + (AppDelegate *)sharedAppDelegate {
     return (AppDelegate *) [UIApplication sharedApplication].delegate;
@@ -37,7 +37,6 @@
     [self initRTManager];
     
     //add root viewController
-//    [self addRootTabBarController];
     [self checkLogin];
     
     [self.window makeKeyAndVisible];
@@ -251,6 +250,7 @@
 - (void)checkLogin {
     //test add login
     LoginViewController *lb = [[LoginViewController alloc] init];
+    self.loginVC = lb;
     RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:lb];
     nav.navigationBarHidden = YES;
     self.window.rootViewController = nav;
@@ -260,11 +260,10 @@
     
 }
 
-- (void)addRootTabBarController { //初始化tabBarViewController
-    TabBarViewController *tv = [[TabBarViewController alloc] init];
-    self.rootViewController = tv;
-    self.window.rootViewController = self.rootViewController;
+- (void)doLogOut {
+//    [self.window.rootViewController.navigationController popToRootViewControllerAnimated:YES];
     
+    [self.loginVC doLogOut];
 }
 
 #pragma mark - Request Method

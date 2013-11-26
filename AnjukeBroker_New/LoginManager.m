@@ -20,7 +20,7 @@
 }
 
 + (void)doLogout {
-    //
+    [self cleanToken];
 }
 
 + (NSString *)getUserName {
@@ -52,6 +52,23 @@
     
     return [[NSUserDefaults standardUserDefaults] valueForKey:@"token"];
 //    return @"14e96260ca470b9afa52a48e3a54fb12";
+}
+
++ (void)cleanToken {
+    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"token"];
+    DLog(@"clean Token [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"token"]);
+}
+
++ (NSString *)getName {
+    DLog(@"getName [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"name"]);
+    
+    return [[NSUserDefaults standardUserDefaults] valueForKey:@"name"];
+}
+
++ (NSString *)getPhone {
+    DLog(@"getPhone [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"phone"]);
+    
+    return [[NSUserDefaults standardUserDefaults] valueForKey:@"phone"];
 }
 
 + (BOOL)isSeedForAJK:(BOOL)isAJK {

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TabBarViewController.h"
+#import "LoginViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -18,6 +19,7 @@
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 @property (nonatomic, strong) UIViewController *rootViewController;
+@property (nonatomic, strong) LoginViewController *loginVC;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
@@ -26,5 +28,6 @@
 + (AppDelegate *)sharedAppDelegate;
 
 - (void)requestSalePropertyConfig;
+- (void)doLogOut;
 
 @end
