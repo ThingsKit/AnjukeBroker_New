@@ -56,7 +56,7 @@
     }
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.backgroundColor = SYSTEM_BLUE;
+    btn.backgroundColor = SYSTEM_ORANGE;
     btn.frame = CGRectMake(60, INPUT_VIEW_HEIGHT*2 + (42+20), [self windowWidth] - 60*2, 40);
     [btn setTitle:@"估  排  名" forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
