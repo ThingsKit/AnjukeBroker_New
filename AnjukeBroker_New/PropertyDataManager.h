@@ -34,6 +34,7 @@
 
 + (int)getExposureIndexWithTitle:(NSString *)title;
 //+ (NSString *)getExposureTitleWithNum:(NSString *)num; //仅租房用
++ (NSString *)getExposureValueWithTitle:(NSString *)title;
 
 //楼层
 + (NSMutableArray *)getPropertyLou_Number;

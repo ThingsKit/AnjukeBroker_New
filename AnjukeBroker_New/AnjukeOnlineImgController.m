@@ -84,8 +84,10 @@
 
 - (void)drawMain {
     self.mainScrollView.contentSize = CGSizeMake([self windowWidth]* self.imgArray.count, [self currentViewHeight]);
-    //test
     
+    [self setTitleViewWithString:[NSString stringWithFormat:@"在线房型图 %d/%d", self.selectedIndex +1, self.imgArray.count]];
+    
+    //test
     for (int i = 0; i < self.imgArray.count; i ++) {
         WebImageView *wv = [[WebImageView alloc] initWithFrame:CGRectMake(0+ [self windowWidth]*i, 0, [self windowWidth], [self currentViewHeight])];
         wv.contentMode = UIViewContentModeScaleAspectFit;
@@ -122,7 +124,7 @@
     [self showLoadingActivity:YES];
     self.isLoading = YES;
     
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.property.comm_id, @"commId", self.property.rooms, @"rooms", self.property.exposure, @"forward", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.property.comm_id, @"commId", self.property.rooms, @"rooms", nil];
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"img/gethousemoduleimg/" params:params target:self action:@selector(onGetLogin:)];
     
@@ -173,6 +175,8 @@
     DLog(@"房形图index [%d]", index);
     
     self.selectedIndex = index;
+    
+    [self setTitleViewWithString:[NSString stringWithFormat:@"在线房型图 %d/%d", self.selectedIndex +1, self.imgArray.count]];
 }
 
 #pragma mark - AlertView Delegate

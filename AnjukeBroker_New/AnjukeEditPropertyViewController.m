@@ -17,6 +17,9 @@
 
 #define LimitRow_INPUT 1 //从row=1行开始输入，即最小输入行数(第一行为小区无需输入，从户型行开始输入)
 
+#define DEFULT_TITLE_FITMENT @"精装修"
+#define DEFULT_TITLE_EXPOSURE @"南北"
+
 typedef enum {
     Property_DJ = 0, //发房_定价
     Property_JJ, //发房_竞价
@@ -618,28 +621,36 @@ typedef enum {
 - (void)setDefultValue {
     //房屋装修、朝向
     if (!self.isHaozu) {
-        [[[[self.dataSource cellArray] objectAtIndex:AJK_P_FITMENT] text_Field] setText:@"精装修"];
-        int index = [PropertyDataManager getFitmentIndexWithString:@"精装修" forHaozu:self.isHaozu];
-        self.property.fitment = [NSString stringWithFormat:@"%d", index];
+        //fitment
+        [[[[self.dataSource cellArray] objectAtIndex:AJK_P_FITMENT] text_Field] setText:DEFULT_TITLE_FITMENT];
+        int index = [PropertyDataManager getFitmentIndexWithString:DEFULT_TITLE_FITMENT forHaozu:self.isHaozu];
+        NSString *value = [PropertyDataManager getFitmentVauleWithTitle:DEFULT_TITLE_FITMENT forHaozu:self.isHaozu];
+        self.property.fitment = value;
         
         [[[self.dataSource cellArray] objectAtIndex:AJK_P_FITMENT] setInputed_RowAtCom0:index];
         
-        [[[[self.dataSource cellArray] objectAtIndex:AJK_P_EXPOSURE] text_Field] setText:@"南北"];
-        int index2 = [PropertyDataManager getExposureIndexWithTitle:@"南北"];
-        self.property.fitment = [NSString stringWithFormat:@"%d", index2];
+        //exposure
+        [[[[self.dataSource cellArray] objectAtIndex:AJK_P_EXPOSURE] text_Field] setText:DEFULT_TITLE_EXPOSURE];
+        int index2 = [PropertyDataManager getExposureIndexWithTitle:DEFULT_TITLE_EXPOSURE];
+        NSString *value2 = [PropertyDataManager getExposureValueWithTitle:DEFULT_TITLE_EXPOSURE];
+        self.property.exposure = value2;
         
         [[[self.dataSource cellArray] objectAtIndex:AJK_P_EXPOSURE] setInputed_RowAtCom0:index2];
     }
     else {
-        [[[[self.dataSource cellArray] objectAtIndex:HZ_P_FITMENT] text_Field] setText:@"精装修"];
-        int index = [PropertyDataManager getFitmentIndexWithString:@"精装修" forHaozu:self.isHaozu];
-        self.property.fitment = [NSString stringWithFormat:@"%d", index];
+        //fitment
+        [[[[self.dataSource cellArray] objectAtIndex:HZ_P_FITMENT] text_Field] setText:DEFULT_TITLE_FITMENT];
+        int index = [PropertyDataManager getFitmentIndexWithString:DEFULT_TITLE_FITMENT forHaozu:self.isHaozu];
+        NSString *value = [PropertyDataManager getFitmentVauleWithTitle:DEFULT_TITLE_FITMENT forHaozu:self.isHaozu];
+        self.property.fitment = value;
         
         [[[self.dataSource cellArray] objectAtIndex:HZ_P_FITMENT] setInputed_RowAtCom0:index];
-
-        [[[[self.dataSource cellArray] objectAtIndex:HZ_P_EXPOSURE] text_Field] setText:@"南北"];
-        int index2 = [PropertyDataManager getExposureIndexWithTitle:@"南北"];
-        self.property.fitment = [NSString stringWithFormat:@"%d", index2];
+        
+        //exposure
+        [[[[self.dataSource cellArray] objectAtIndex:HZ_P_EXPOSURE] text_Field] setText:DEFULT_TITLE_EXPOSURE];
+        int index2 = [PropertyDataManager getExposureIndexWithTitle:DEFULT_TITLE_EXPOSURE];
+        NSString *value2 = [PropertyDataManager getExposureValueWithTitle:DEFULT_TITLE_EXPOSURE];
+        self.property.exposure = value2;
         
         [[[self.dataSource cellArray] objectAtIndex:HZ_P_EXPOSURE] setInputed_RowAtCom0:index2];
     }
@@ -687,8 +698,8 @@ typedef enum {
 
     
     if (self.isHaozu) {
-        if ([self.property.area intValue] < 20 || [self.property.area intValue] > 1000) {
-            [self showInfo:@"租房面积范围为20至1000平米，谢谢"];
+        if ([self.property.area intValue] < 10 || [self.property.area intValue] > 2000) {
+            [self showInfo:@"面积范围10至2000平米"];
             return NO;
         }
         if ([self.property.rentType isEqualToString:@""]) {
@@ -1093,6 +1104,7 @@ typedef enum {
                 if (!self.hideOnlineImg) {
                     //check小区、户型、朝向
                     if ([self.property.comm_id isEqualToString:@""] || self.property.comm_id == nil) {
+                        [self doPushToCommunity];
                         [self showInfo:@"请选择小区"];
                         return;
                     }
@@ -1100,10 +1112,10 @@ typedef enum {
                         [self showInfo:@"请选择户型"];
                         return;
                     }
-                    else if ([self.property.exposure isEqualToString:@""] || self.property.exposure == nil) {
-                        [self showInfo:@"请选择朝向"];
-                        return;
-                    }
+//                    else if ([self.property.exposure isEqualToString:@""] || self.property.exposure == nil) {
+//                        [self showInfo:@"请选择朝向"];
+//                        return;
+//                    }
                     
                     AnjukeOnlineImgController *ao = [[AnjukeOnlineImgController alloc] init];
                     ao.imageSelectDelegate = self;

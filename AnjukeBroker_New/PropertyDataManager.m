@@ -222,7 +222,7 @@
 + (NSString *)getRentTypeTitleWithNum:(NSString *)num{
     NSArray *arr = [self getPropertyRentType];
     
-    NSString *str = 0;
+    NSString *str = [NSString string];
     
     for (int i = 0; i < arr.count; i ++) {
         if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
@@ -263,7 +263,7 @@
 + (NSString *)getFitmentTitleWithNum:(NSString *)num forHaozu:(BOOL)isHaozu{
     NSArray *arr = [self getPropertyFitmentForHaozu:isHaozu];
     
-    NSString *str = 0;
+    NSString *str = [NSString string];
     
     for (int i = 0; i < arr.count; i ++) {
         if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
@@ -280,7 +280,7 @@
 + (NSString *)getFitmentVauleWithTitle:(NSString *)title forHaozu:(BOOL)isHaozu{
     NSArray *arr = [self getPropertyFitmentForHaozu:isHaozu];
     
-    NSString *str = 0;
+    NSString *str = [NSString string];
     
     for (int i = 0; i < arr.count; i ++) {
         if ([title isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Title"]]) {
@@ -314,11 +314,26 @@
 + (NSString *)getExposureTitleWithNum:(NSString *)num{
     NSArray *arr = [self getPropertyChaoXiang];
     
-    NSString *str = 0;
+    NSString *str = [NSString string];
     
     for (int i = 0; i < arr.count; i ++) {
         if ([num isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
             str = [[arr objectAtIndex:i] objectForKey:@"Title"];
+        }
+    }
+    
+    DLog(@"edit--string [%@]", str);
+    
+    return str;
+}
+
++ (NSString *)getExposureValueWithTitle:(NSString *)title {
+    NSArray *arr = [self getPropertyChaoXiang];
+    NSString *str = [NSString string];
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([title isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Title"]]) {
+            str = [[arr objectAtIndex:i] objectForKey:@"Value"];
         }
     }
     

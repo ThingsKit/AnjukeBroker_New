@@ -27,4 +27,16 @@
     return str;
 }
 
+//去掉string内的' '
++ (NSString *)rmBlankFromString:(NSString *)oldStr {
+    if (oldStr == nil || [oldStr isEqualToString:@""] || [oldStr isEqualToString:@" "]) {
+		return @"";
+	}else {
+		NSString *newStr = [[NSString alloc] initWithString:[oldStr stringByReplacingOccurrencesOfString:@" " withString:@""]];
+		return newStr;
+	}
+    
+    return oldStr;
+}
+
 @end

@@ -83,9 +83,7 @@
     //test
     self.groupNameLb.text = [dic objectForKey:@"fixPlanName"];
     
-    int ceilNum = [[dic objectForKey:@"fixPlanPropCeiling"] intValue] / 100;
-    
-    self.limitPriceLb.text = [NSString stringWithFormat:@"房源数:%@套    每日限额%d元", [dic objectForKey:@"fixPlanPropNum"], ceilNum];
+    self.limitPriceLb.text = [NSString stringWithFormat:@"房源数:%@套    每日限额%@元", [dic objectForKey:@"fixPlanPropNum"], [dic objectForKey:@"fixPlanPropCeiling"]];
     
     if ([[dic objectForKey:@"fixPlanState"] isEqualToString:@"1"]) {
         self.statusIcon.image = STATUS_OK_ICON;

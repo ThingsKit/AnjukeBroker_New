@@ -9,6 +9,7 @@
 #import "CommunityListViewController.h"
 #import "Util_UI.h"
 #import "LoginManager.h"
+#import "Util_TEXT.h"
 
 #define CELL_HEIGHT 45
 #define SEARCH_DISTANCE @"5000"
@@ -245,7 +246,12 @@
 
 #pragma mark - SearchBar Delegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    [self doRequestWithKeyword:searchText];
+    NSString *newStr = [Util_TEXT rmBlankFromString:searchText];
+    DLog(@"联想词 [%@]", newStr);
+    
+    if (newStr.length > 0) {
+        [self doRequestWithKeyword:newStr];
+    }
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
