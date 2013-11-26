@@ -508,8 +508,22 @@ typedef enum {
         NSDictionary *dic = [NSDictionary dictionaryWithDictionary:[(E_Photo *)[self.imgArray objectAtIndex:i] imageDic]];
         [arr addObject:dic];
     }
+    if ([self onlineHouseTypeImgExit]) { //添加在线房形图
+        NSDictionary *houseTypeDic = [self.houseTypeImgArr objectAtIndex:0];
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        [dic setValue:[houseTypeDic objectForKey:@"hash"] forKey:@"hash"];
+        if (self.isHaozu) {
+            [dic setObject:@"2" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
+        }
+        else //二手房
+            [dic setObject:@"3" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+        [dic setValue:@"1" forKey:@"flag"];
+        
+        [arr addObject:dic];
+    }
+    
     NSString *str = [arr JSONRepresentation];
-//    DLog(@"image json [%@]", str);
+    DLog(@"image json [%@]", str);
     return str;
 }
 
