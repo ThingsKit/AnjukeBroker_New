@@ -8,6 +8,7 @@
 
 #import "PropertyAuctionPublishViewController.h"
 #import "AnjukePropertyResultController.h"
+#import "AppDelegate.h"
 
 @interface PropertyAuctionPublishViewController ()
 
@@ -123,15 +124,24 @@
     
     [self showInfo:@"竞价组房源发房成功"];
     
-//    [self dismissViewControllerAnimated:YES completion:nil];
+//    AnjukePropertyResultController *ap = [[AnjukePropertyResultController alloc] init];
+//    if (self.isHaozu) {
+//        ap.resultType = PropertyResultOfRentBid;
+//    }
+//    else
+//        ap.resultType = PropertyResultOfSaleBid;
+//    [self.navigationController pushViewController:ap animated:YES];
     
-    AnjukePropertyResultController *ap = [[AnjukePropertyResultController alloc] init];
+    int tabIndex = 1;
     if (self.isHaozu) {
-        ap.resultType = PropertyResultOfRentBid;
+        tabIndex = 2;
+    }
+    
+    if (self.isHaozu) {
+        [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentBid withPropertyDic:[NSDictionary dictionary]];
     }
     else
-        ap.resultType = PropertyResultOfSaleBid;
-    [self.navigationController pushViewController:ap animated:YES];
+        [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleBid withPropertyDic:[NSDictionary dictionary]];
 }
 
 @end

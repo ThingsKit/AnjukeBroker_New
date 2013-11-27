@@ -62,6 +62,8 @@
 @property (nonatomic, strong) SimpleKeyboardToolBar *simToolBar;
 @property (nonatomic, strong) UITableView *tvList;
 
+@property BOOL inPhotoProcessing;
+
 //公开函数，仅继承页面使用
 - (void)setCommunityWithText:(NSString *)string; //设置小区名，上次使用
 - (void)doSave;

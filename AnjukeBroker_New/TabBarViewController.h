@@ -10,9 +10,6 @@
 
 @interface TabBarViewController : UITabBarController <UITabBarControllerDelegate>
 
-@property (nonatomic, strong) UIViewController *page1;
-@property (nonatomic, strong) UIViewController *page2;
-@property (nonatomic, strong) UIViewController *page3;
-@property (nonatomic, strong) UIViewController *page4;
+@property (nonatomic, strong) NSMutableArray *controllerArrays;
 
 @end

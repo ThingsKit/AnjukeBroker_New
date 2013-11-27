@@ -14,6 +14,7 @@
 #import "RTCoreDataManager.h"
 #import "AnjukePropertyResultController.h"
 #import "AnjukeOnlineImgController.h"
+#import "AppDelegate.h"
 
 #define LimitRow_INPUT 1 //从row=1行开始输入，即最小输入行数(第一行为小区无需输入，从户型行开始输入)
 
@@ -57,6 +58,7 @@ typedef enum {
 @synthesize hideOnlineImg;
 @synthesize fileNoTextF;
 @synthesize simToolBar;
+@synthesize inPhotoProcessing;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -552,6 +554,13 @@ typedef enum {
 }
 
 - (void)doPushPropertyID:(NSString *)propertyID {
+    
+    //tabController切换
+    int tabIndex = 1;
+    if (self.isHaozu) {
+        tabIndex = 2;
+    }
+    
     //do push
     switch (self.uploadType) {
         case Property_DJ:
@@ -559,6 +568,7 @@ typedef enum {
             PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
             pv.propertyID = [NSString stringWithFormat:@"%@", propertyID];
             pv.isHaozu = self.isHaozu;
+            pv.backType = RTSelectorBackTypeDismiss;
             pv.commID = [NSString stringWithFormat:@"%@", self.property.comm_id];
             [self.navigationController pushViewController:pv animated:YES];
             
@@ -570,23 +580,19 @@ typedef enum {
             pv.propertyID = [NSString stringWithFormat:@"%@", propertyID];
             pv.commID = [NSString stringWithFormat:@"%@", self.property.comm_id];
             pv.isHaozu = self.isHaozu;
+            pv.backType = RTSelectorBackTypeDismiss;
             pv.isBid = YES;
             [self.navigationController pushViewController:pv animated:YES];
             
         }
             break;
-            
         case Property_WTG: {
             //为推广，直接去到房源结果页
-            
-//            [self dismissViewControllerAnimated:YES completion:nil];
-            AnjukePropertyResultController *ap = [[AnjukePropertyResultController alloc] init];
             if (self.isHaozu) {
-                ap.resultType = PropertyResultOfRentNoPlan;
+                [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentNoPlan withPropertyDic:[NSDictionary dictionary]];
             }
             else
-                ap.resultType = PropertyResultOfSaleNoPlan;
-            [self.navigationController pushViewController:ap animated:YES];
+                [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleNoPlan withPropertyDic:[NSDictionary dictionary]];
         }
             break;
             
@@ -969,6 +975,10 @@ typedef enum {
     
     [self setCommunityWithText:name];
     [self.property setComm_id:idStr];
+    
+    //删除在线房形图（如果有）
+    [self.houseTypeImgArr removeAllObjects];
+    [self refreshPhotoHeader];
 }
 
 - (void)setCommunityWithText:(NSString *)string {
@@ -1096,7 +1106,7 @@ typedef enum {
                 //拍照预览图
                 PhotoShowView *pv = [[PhotoShowView alloc] initWithFrame:CGRectMake(0, [self windowHeight] - PHOTO_SHOW_VIEW_H, [self windowWidth], PHOTO_SHOW_VIEW_H)];
                 self.imageOverLay = pv;
-                pv.maxImgCount = PhotoImg_MAX_COUNT;
+//                pv.maxImgCount = PhotoImg_MAX_COUNT;
                 pv.currentImgCount = self.imgArray.count;
                 pv.clickDelegate = self;
                 
@@ -1183,10 +1193,20 @@ typedef enum {
 
 #pragma mark - Photo Show View Delegate
 - (void)takePhoto_Click {
-    if (self.imgArray.count >= PhotoImg_MAX_COUNT) {
-        DLog(@"已设置了8张图片，请先编辑当前图片组");
+    //外部控制最大拍照数量，如果到达上限则不继续拍照
+    int count = [[self.imageOverLay imgArray] count]+1;
+    DLog(@"拍摄 [%d]", [[self.imageOverLay imgArray] count]);
+    
+    if (![self canAddMoreImgWithNewCount:count]) {
+        [self showInfo:MAX_PHOTO_ALERT_MESSAGE];
         return;
     }
+    
+    if (self.inPhotoProcessing) { //照片处理过程中不拍照
+        DLog(@"处理照片呢，二逼啊拍那么快");
+        return;
+    }
+    
     [self.imagePicker takePicture];
 }
 
@@ -1213,6 +1233,7 @@ typedef enum {
 #pragma mark - UIImagePickerControllerDelegate method
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    self.inPhotoProcessing = YES;
     
     UIImage *image = nil;
     UIImage *newSizeImage = nil;
@@ -1228,12 +1249,6 @@ typedef enum {
     }
     else {
         image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    }
-    
-    int count = [[self.imageOverLay imgArray] count] +1;
-    if (![self canAddMoreImgWithNewCount:count]) {
-        [self showInfo:MAX_PHOTO_ALERT_MESSAGE];
-        return;
     }
     
     //压缩图片
@@ -1259,6 +1274,8 @@ typedef enum {
     
     //拍照界面加入新预览图
     [self.imageOverLay takePhotoWithImage:newSizeImage];
+    
+    self.inPhotoProcessing = NO;
     
 //    [self dismissViewControllerAnimated:YES completion:^(void){
 //        //

@@ -12,15 +12,21 @@
 #import "HaozuHomeViewController.h"
 #import "MoreViewController.h"
 #import "RTNavigationController.h"
+#import "AppDelegate.h"
 
 #define tabItemInsertsMake UIEdgeInsetsMake(0, 0, 0, 0)
 
 @interface TabBarViewController ()
+@property (nonatomic, strong) UIViewController *page1;
+@property (nonatomic, strong) UIViewController *page2;
+@property (nonatomic, strong) UIViewController *page3;
+@property (nonatomic, strong) UIViewController *page4;
 
 @end
 
 @implementation TabBarViewController
 @synthesize page1, page2 ,page3, page4;
+@synthesize controllerArrays;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,32 +41,32 @@
     self = [super init];
     if (self) {
         self.delegate = self;
-        NSMutableArray *controllerArrays = [NSMutableArray array]; //保留4个首页
+        self.controllerArrays = [NSMutableArray array]; //保留4个首页
                 
         //add four nav controllers
         HomeViewController *hv = [[HomeViewController alloc] init];
         hv.isHome = YES;
         self.page1 = hv;
         RTNavigationController *nav1 = [[RTNavigationController alloc] initWithRootViewController:self.page1];
-        [controllerArrays addObject:nav1];
+        [self.controllerArrays addObject:nav1];
         
         AnjukeHomeViewController *av = [[AnjukeHomeViewController alloc] init];
         self.page2 = av;
         av.isHome = YES;
         RTNavigationController *nav2 = [[RTNavigationController alloc] initWithRootViewController:self.page2];
-        [controllerArrays addObject:nav2];
+        [self.controllerArrays addObject:nav2];
         
         HaozuHomeViewController *hhv = [[HaozuHomeViewController alloc] init];
         self.page3 = hhv;
         hhv.isHome = YES;
         RTNavigationController *nav3 = [[RTNavigationController alloc] initWithRootViewController:self.page3];
-        [controllerArrays addObject:nav3];
+        [self.controllerArrays addObject:nav3];
         
         MoreViewController *mv = [[MoreViewController alloc] init];
         self.page4 = mv;
         mv.isHome = YES;
         RTNavigationController *nav4 = [[RTNavigationController alloc] initWithRootViewController:self.page4];
-        [controllerArrays addObject:nav4];
+        [self.controllerArrays addObject:nav4];
         
         //set tabBarItems
         UITabBarItem *tb1 = nil;

@@ -139,6 +139,7 @@
 
 - (void)pushToTab {
     TabBarViewController *tb = [[TabBarViewController alloc] init];
+    [[AppDelegate sharedAppDelegate] setTabController:tb];
     [self.navigationController pushViewController:tb animated:NO];
 }
 

@@ -12,11 +12,13 @@
 #import "LoginManager.h"
 #import "PropertyAuctionPublishViewController.h"
 #import "AnjukePropertyResultController.h"
+#import "AppDelegate.h"
 
 @interface PropertyGroupListViewController ()
 @property (nonatomic, strong) UITableView *tvList;
 @property (nonatomic, strong) NSArray *groupArray;
 @property (nonatomic, copy) NSString *selectPlanID;
+@property int selectedIndex;
 @end
 
 @implementation PropertyGroupListViewController
@@ -27,6 +29,7 @@
 @synthesize commID;
 @synthesize isHaozu;
 @synthesize selectPlanID;
+@synthesize selectedIndex;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -150,20 +153,31 @@
         PropertyAuctionPublishViewController *pa = [[PropertyAuctionPublishViewController alloc] init];
         pa.propertyID = [NSString stringWithFormat:@"%@", self.propertyID];
         pa.isHaozu = self.isHaozu;
+        pa.backType = RTSelectorBackTypeDismiss;
         pa.commID = [NSString stringWithFormat:@"%@", self.commID];
         [self.navigationController pushViewController:pa animated:YES];
     }
     else { //去定价房源列表页面-结果页
-        AnjukePropertyResultController *ap = [[AnjukePropertyResultController alloc] init];
+//        AnjukePropertyResultController *ap = [[AnjukePropertyResultController alloc] init];
+//        if (self.isHaozu) {
+//            ap.resultType = PropertyResultOfRentFixed;
+//        }
+//        else
+//            ap.resultType = PropertyResultOfSaleFixed;
+//        ap.backType = RTSelectorBackTypeDismiss;
+//        ap.planId = self.selectPlanID;
+//        [self.navigationController pushViewController:ap animated:YES];
+        
+        int tabIndex = 1;
         if (self.isHaozu) {
-            ap.resultType = PropertyResultOfRentFixed;
+            tabIndex = 2;
+        }
+        
+        if (self.isHaozu) {
+            [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentFixed withPropertyDic:[self.groupArray objectAtIndex:self.selectedIndex]];
         }
         else
-            ap.resultType = PropertyResultOfSaleFixed;
-        ap.planId = self.selectPlanID;
-        [self.navigationController pushViewController:ap animated:YES];
-        
-//        [self dismissViewControllerAnimated:YES completion:nil];
+            [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleFixed withPropertyDic:[self.groupArray objectAtIndex:self.selectedIndex]];
     }
 }
 
@@ -200,7 +214,8 @@
 #pragma mark - tableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    self.selectedIndex = indexPath.row;
+    
     self.selectPlanID = [[self.groupArray objectAtIndex:indexPath.row] objectForKey:@"fixPlanId"];
     [self addPropertyToPlanWithGroupID:self.selectPlanID];
     

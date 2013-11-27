@@ -119,10 +119,10 @@
 }
 
 - (void)take_Picture:(id)sender {
-    if (![self canTakePhoto]) {
-        DLog(@"已到最大预览数!");
-        return;
-    }
+//    if (![self canTakePhoto]) {
+//        DLog(@"已到最大预览数!");
+//        return;
+//    }
     self.currentImgCount ++;
     
     if ([self.clickDelegate respondsToSelector:@selector(takePhoto_Click)]) {
