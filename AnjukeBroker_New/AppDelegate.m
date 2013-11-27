@@ -11,6 +11,8 @@
 #import "LoginManager.h"
 #import "ConfigPlistManager.h"
 #import "AccountManager.h"
+#import "AppManager.h"
+#import "AFWelcomeScrollview.h"
 
 #define coreDataName @"AnjukeBroker_New"
 #define code_AppName @"i-broker"
@@ -254,6 +256,14 @@
     RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:lb];
     nav.navigationBarHidden = YES;
     self.window.rootViewController = nav;
+    
+    if ([AppManager isFirstLaunch]) {
+        AFWelcomeScrollview *af = [[AFWelcomeScrollview alloc] initWithFrame:self.window.bounds];
+        NSArray *imgArr = [NSArray arrayWithObjects:[UIImage imageNamed:@"anjuke_icon_yd1.png"],[UIImage imageNamed:@"anjuke_icon_yd2.png"],[UIImage imageNamed:@"anjuke_icon_yd3.png"], nil];
+        [af setImgArray:imgArr];
+        
+        [nav.view addSubview:af];
+    }
 }
 
 - (void)checkVersion { // 新版本更新检查

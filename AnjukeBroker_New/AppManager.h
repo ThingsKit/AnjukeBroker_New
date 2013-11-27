@@ -11,5 +11,7 @@
 @interface AppManager : NSObject
 
 + (BOOL)checkPhoneFunction;
++ (BOOL)isFirstLaunch;
++ (NSString *)getBundleVersion;
 
 @end
