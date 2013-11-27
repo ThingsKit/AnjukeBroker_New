@@ -37,6 +37,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    self.view.backgroundColor = [UIColor colorWithRed:0.89 green:0.89 blue:0.89 alpha:1];
+    
 }
 
 - (void)dealloc {
@@ -59,23 +61,40 @@
         self.navigationController.navigationBarHidden = YES;
     }
     
-    UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(100, 50, [self windowWidth] - 100*2, 30)];
-    titleLb.backgroundColor = [UIColor clearColor];
-    titleLb.textColor = SYSTEM_GREEN;
-    titleLb.text = @"安  居  客";
-    titleLb.textAlignment = NSTextAlignmentCenter;
-    titleLb.font = [UIFont boldSystemFontOfSize:25];
-    [self.view addSubview:titleLb];
+    CGFloat btnW = 530/2;
+    CGFloat btnGap = ([self windowWidth] - btnW)/2;
+    CGFloat btnH = 85/2;
+    
+    CGFloat iconW = 140 /2;
+    CGFloat iconGap = ([self windowWidth] -iconW)/2;
+    
+    CGFloat tfGap = 10;
+    CGFloat tfGapH = 5;
+    CGFloat tfW = btnW - tfGap*2;
+    CGFloat tfH = btnH - tfGapH*2;
+    
+    UIColor *textBGColor = [Util_UI colorWithHexString:@"EFEFF4"];
+    
+    UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_120.png"]];
+    icon.frame = CGRectMake(iconGap, 70, iconW, iconW);
+    icon.backgroundColor = [UIColor clearColor];
+    icon.contentMode = UIViewContentModeScaleAspectFill;
+    icon.layer.cornerRadius = 5;
+    [self.view addSubview:icon];
+    
+    UIView *BG1 = [[UIView alloc] initWithFrame:CGRectMake(btnGap, 150+ 10,  btnW, btnH)];
+    BG1.backgroundColor = textBGColor;
+    [self.view addSubview:BG1];
     
     UITextField *cellTextField = nil;
-    cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(20, titleLb.frame.origin.y + titleLb.frame.size.height+ 10,  [self windowWidth] - 20*2, 30)];
+    cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(tfGap, tfGapH, tfW, tfH)];
     cellTextField.returnKeyType = UIReturnKeyDone;
-    cellTextField.backgroundColor = [UIColor clearColor];
+    cellTextField.backgroundColor = textBGColor;//[UIColor clearColor];
     cellTextField.borderStyle = UITextBorderStyleNone;
     cellTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     cellTextField.text = @"";
     cellTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    cellTextField.placeholder = @"用户名";
+    cellTextField.placeholder = @"手机号";
     cellTextField.delegate = self;
     cellTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     cellTextField.font = [UIFont systemFontOfSize:17];
@@ -83,12 +102,16 @@
     cellTextField.secureTextEntry = NO;
     cellTextField.textColor = SYSTEM_BLACK;
     self.nameTF = cellTextField;
-    [self.view addSubview:cellTextField];
+    [BG1 addSubview:cellTextField];
+    
+    UIView *BG2 = [[UIView alloc] initWithFrame:CGRectMake(btnGap, BG1.frame.size.height+BG1.frame.origin.y+1,  btnW, btnH)];
+    BG2.backgroundColor = textBGColor;
+    [self.view addSubview:BG2];
     
     UITextField *cellTextField2 = nil;
-    cellTextField2 = [[UITextField alloc] initWithFrame:CGRectMake(20, self.nameTF.frame.origin.y + self.nameTF.frame.size.height+ 5,  [self windowWidth] - 20*2, 30)];
+    cellTextField2 = [[UITextField alloc] initWithFrame:CGRectMake(tfGap, tfGapH, tfW, tfH)];
     cellTextField2.returnKeyType = UIReturnKeyDone;
-    cellTextField2.backgroundColor = [UIColor clearColor];
+    cellTextField2.backgroundColor = textBGColor;//[UIColor clearColor];
     cellTextField2.borderStyle = UITextBorderStyleNone;
     cellTextField2.autocapitalizationType = UITextAutocapitalizationTypeNone;
     cellTextField2.text = @"";
@@ -101,11 +124,11 @@
     cellTextField2.secureTextEntry = NO;
     cellTextField2.textColor = SYSTEM_BLACK;
     self.passwordTF = cellTextField2;
-    [self.view addSubview:cellTextField2];
+    [BG2 addSubview:cellTextField2];
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(50, cellTextField2.frame.origin.y + cellTextField2.frame.size.height+ 20, [self windowWidth]- 50*2, 30);
-    [btn setBackgroundColor:SYSTEM_BLUE];
+    btn.frame = CGRectMake(btnGap, BG2.frame.origin.y + BG2.frame.size.height+ 20, btnW, btnH);
+    [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button.png"] stretchableImageWithLeftCapWidth:2 topCapHeight:2] forState:UIControlStateNormal];
     btn.layer.cornerRadius = 3;
     [btn setTitle:@"登    录" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(doRequest) forControlEvents:UIControlEventTouchUpInside];
