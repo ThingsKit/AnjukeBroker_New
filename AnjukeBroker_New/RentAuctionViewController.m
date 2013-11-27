@@ -228,9 +228,11 @@
     [UIView commitAnimations];
 }
 - (void)checkRank {
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_AUCTION_005 note:nil];
     [self doCheckRank];
 }
 - (void)rightButtonAction:(id)sender {
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_AUCTION_004 note:nil];
     if(self.textField_1.text == nil){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请填写预算" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alert show];
@@ -306,5 +308,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (void)doBack:(id)sender{
+    [super doBack:self];
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_AUCTION_003 note:nil];
+}
 @end

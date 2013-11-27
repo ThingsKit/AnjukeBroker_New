@@ -118,6 +118,7 @@
 }
 #pragma mark - 取消定价推广房源
 -(void)cancelFixedProperty{
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_007 note:nil];
     if(![self isNetworkOkay]){
         [self showInfo:NONETWORK_STR];
         return;
@@ -145,6 +146,7 @@
 }
 #pragma mark - 停止定价组计划推广
 -(void)cancelFixedGroup{
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_003 note:nil];
     if(![self isNetworkOkay]){
         [self showInfo:NONETWORK_STR];
         return;
@@ -338,6 +340,8 @@
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要停止定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                 [alert show];
             }else if (buttonIndex == 1){//正在推广中定价组
+                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_005 note:nil];
+                
                 SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
                 controller.fixedObj = [self.myArray objectAtIndex:selectIndex];
                 controller.backType = RTSelectorBackTypeDismiss;
@@ -352,6 +356,7 @@
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要停止定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                 [alert show];
             }else if (buttonIndex == 1){
+                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_004 note:nil];
                 ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
                 controller.fixedObject = [self.myArray objectAtIndex:0];
                 controller.backType = RTSelectorBackTypeDismiss;
@@ -359,6 +364,7 @@
                 [self presentViewController:nav animated:YES completion:nil];
                 //            [self.navigationController pushViewController:controller animated:YES];
             }else if (buttonIndex == 2){//正在推广中定价组
+                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_005 note:nil];
                 SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
                 controller.fixedObj = [self.myArray objectAtIndex:selectIndex];
                 controller.backType = RTSelectorBackTypeDismiss;
@@ -373,6 +379,7 @@
                 [self doRestart];
                 //            [self.navigationController pushViewController:controller animated:YES];
             }else if (buttonIndex == 1){
+                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_005 note:nil];
                 SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
                 controller.fixedObj = [self.myArray objectAtIndex:selectIndex];
                 controller.backType = RTSelectorBackTypeDismiss;
@@ -386,12 +393,14 @@
                 [self doRestart];
                 //            [self.navigationController pushViewController:controller animated:YES];
             }else if (buttonIndex == 1){
+                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_004 note:nil];
                 ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
                 controller.fixedObject = [self.myArray objectAtIndex:0];
                 controller.backType = RTSelectorBackTypeDismiss;
                 RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:nav animated:YES completion:nil];
             }else if (buttonIndex == 2){
+                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_005 note:nil];
                 SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
                 controller.fixedObj = [self.myArray objectAtIndex:selectIndex];
                 controller.backType = RTSelectorBackTypeDismiss;
@@ -405,6 +414,7 @@
         if(buttonIndex == 0){
             [self cancelFixedProperty];
         }else if (buttonIndex == 1){
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_008 note:nil];
             PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
             controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
@@ -413,6 +423,7 @@
         }
     }else if(actionSheet.tag == 103) {
             if(buttonIndex == 0){
+                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_006 note:nil];
                 SaleAuctionViewController *controller = [[SaleAuctionViewController alloc] init];
                 controller.proDic = [self.myArray objectAtIndex:selectIndex];
                 controller.backType = RTSelectorBackTypeDismiss;
@@ -426,6 +437,8 @@
                 alert.tag = 105;
                 [alert show];
             }else if (buttonIndex == 2){
+                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_008 note:nil];
+                
                 PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
                 controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
                 controller.backType = RTSelectorBackTypeDismiss;

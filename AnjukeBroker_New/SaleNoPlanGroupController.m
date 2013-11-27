@@ -296,6 +296,7 @@
 }
 
 - (void)doEdit {
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_NOPLAN_GROUP_006 note:nil];
     //只有单独勾选可对房源进行编辑
     if (self.selectedArray.count != 1) {
         return;
@@ -311,6 +312,8 @@
 //    [action showInView:self.view];
 }
 -(void)rightButtonAction:(id)sender{
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_NOPLAN_GROUP_004 note:nil];
+    
     if(self.isLoading){
         return ;
     }
@@ -337,6 +340,8 @@
 }
 
 -(void)delete{
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_NOPLAN_GROUP_007 note:nil];
+    
     if ([self.selectedArray count] == 0) {
         UIAlertView *tempView = [[UIAlertView alloc] initWithTitle:@"友情提示" message:@"请选择房源" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [tempView show];
@@ -349,6 +354,8 @@
 }
 
 -(void)mutableFixed{
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_NOPLAN_GROUP_005 note:nil];
+    
     if ([self.selectedArray count] == 0) {
         UIAlertView *tempView = [[UIAlertView alloc] initWithTitle:@"友情提示" message:@"请选择房源" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [tempView show];
@@ -410,5 +417,9 @@
     if(buttonIndex == 1){
         [self doDeleteProperty];
     }
+}
+- (void)doBack:(id)sender{
+    [super doBack:self];
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_NOPLAN_GROUP_003 note:nil];
 }
 @end

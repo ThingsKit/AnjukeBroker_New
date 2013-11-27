@@ -67,7 +67,7 @@
     self.detail.text = tempStr;
 }
 - (void)setProIconWithPro:(BasePropertyObject *) pro{
-    if([pro.isMoreImg isEqualToString:@"1"]){
+    if([pro.isMoreImg isEqualToString:@"1"]&&[pro.isVisible isEqualToString:@"1"]){
     self.proIcon.image = [UIImage imageNamed:@"anjuke_icon_mutableimg@2x.png"];
     }else if([pro.isVisible isEqualToString:@"0"]){
     self.proIcon.image = [UIImage imageNamed:@"anjuke_icon_violat@2x.png"];

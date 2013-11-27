@@ -60,6 +60,9 @@
     [self reloadData];
     [self doRequest];
 }
+-(void) viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+}
 -(void)reloadData{
     if(self.myArray == nil){
         self.myArray = [NSMutableArray array];
@@ -128,15 +131,21 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if([indexPath row] == 0)
     {
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_003 note:nil];
+        
         RentBidDetailController *controller = [[RentBidDetailController alloc] init];
         controller.backType = RTSelectorBackTypePopToRoot;
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     }else if ([indexPath row] == [self.myArray count] - 1){
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_005 note:nil];
+        
         RentNoPlanController *controller = [[RentNoPlanController alloc] init];
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     }else{
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_004 note:nil];
+        
         RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
         controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
         controller.backType = RTSelectorBackTypePopToRoot;

@@ -117,6 +117,8 @@
 }
 #pragma mark - 取消定价
 -(void)doCancelFixed{
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_007 note:nil];
+
     if(![self isNetworkOkay]){
         [self showInfo:NONETWORK_STR];
         return;
@@ -170,6 +172,7 @@
 
 #pragma mark - 请求定价组详情
 -(void)doStopFixedGroup{
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_003 note:nil];
     if(![self isNetworkOkay]){
         [self showInfo:NONETWORK_STR];
         return;
@@ -256,6 +259,8 @@
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要停止定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                 [alert show];
             }else if (buttonIndex == 1){//停止推广
+                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
+                
                 RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
                 controller.fixedObj = [self.myArray objectAtIndex:0];
                 controller.backType = RTSelectorBackTypeDismiss;
@@ -271,6 +276,7 @@
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要停止定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                 [alert show];
             }else if (buttonIndex == 1){//停止推广
+                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_004 note:nil];
                 ModifyRentCostController *controller = [[ModifyRentCostController alloc] init];
                 controller.fixedObject = [self.myArray objectAtIndex:0];
                 controller.backType = RTSelectorBackTypeDismiss;
@@ -278,6 +284,8 @@
                 [self presentViewController:nav animated:YES completion:nil];
                 
             }else if (buttonIndex == 2){
+                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
+                
                 RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
                 controller.fixedObj = [self.myArray objectAtIndex:0];
                 controller.backType = RTSelectorBackTypeDismiss;
@@ -290,6 +298,7 @@
                     if(buttonIndex == 0){//重新开始定价推广
                         [self doRestartFixed];
                     }else if (buttonIndex == 1){
+                        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
                         RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
                         controller.fixedObj = [self.myArray objectAtIndex:0];
                         controller.backType = RTSelectorBackTypeDismiss;
@@ -303,12 +312,14 @@
                     if(buttonIndex == 0){//重新开始定价推广
                         [self doRestartFixed];
                     }else if (buttonIndex == 1){
+                        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_004 note:nil];
                         ModifyRentCostController *controller = [[ModifyRentCostController alloc] init];
                         controller.fixedObject = [self.myArray objectAtIndex:0];
                         controller.backType = RTSelectorBackTypeDismiss;
                         RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
                         [self presentViewController:nav animated:YES completion:nil];
                     }else if (buttonIndex == 2){
+                        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
                         RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
                         controller.fixedObj = [self.myArray objectAtIndex:0];
                         controller.backType = RTSelectorBackTypeDismiss;
@@ -322,6 +333,7 @@
                     alert.tag = 105;
                     [alert show];
                 }else if (buttonIndex == 1){
+                    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_008 note:nil];
                     PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
                     controller.isHaozu = YES;
                     controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
@@ -335,6 +347,7 @@
 
             }else if (actionSheet.tag == 103){
                 if(buttonIndex == 0){
+                    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_006 note:nil];
                     RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
                     controller.proDic = [self.myArray objectAtIndex:selectIndex];
                     controller.backType = RTSelectorBackTypeDismiss;
@@ -349,6 +362,7 @@
                     [alert show];
                     //            [self.navigationController popToRootViewControllerAnimated:YES];
                 }else if (buttonIndex == 2){
+                    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_008 note:nil];
                     PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
                     controller.isHaozu = YES;
                     controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
@@ -411,4 +425,5 @@
         
     }
 }
+
 @end

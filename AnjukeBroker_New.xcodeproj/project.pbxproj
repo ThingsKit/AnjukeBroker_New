@@ -132,7 +132,6 @@
 		B721095518278B4E00904FC7 /* SalePropertyListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B721095418278B4E00904FC7 /* SalePropertyListCell.m */; };
 		B721095818278E6000904FC7 /* RentPropertyListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B721095718278E6000904FC7 /* RentPropertyListCell.m */; };
 		B721095B1827976500904FC7 /* RentNoPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = B721095A1827976500904FC7 /* RentNoPlanController.m */; };
-		B721095E18279D0800904FC7 /* RentPropertyDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B721095D18279D0700904FC7 /* RentPropertyDetailController.m */; };
 		B769E441181F45AF00A2FF50 /* BaseFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E440181F45AF00A2FF50 /* BaseFixedDetailController.m */; };
 		B769E445181F462C00A2FF50 /* SaleFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E444181F462C00A2FF50 /* SaleFixedDetailController.m */; };
 		B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E44B181F4C3E00A2FF50 /* CommunityObject.m */; };
@@ -411,8 +410,6 @@
 		B721095718278E6000904FC7 /* RentPropertyListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentPropertyListCell.m; sourceTree = "<group>"; };
 		B72109591827976500904FC7 /* RentNoPlanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentNoPlanController.h; sourceTree = "<group>"; };
 		B721095A1827976500904FC7 /* RentNoPlanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentNoPlanController.m; sourceTree = "<group>"; };
-		B721095C18279D0700904FC7 /* RentPropertyDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentPropertyDetailController.h; sourceTree = "<group>"; };
-		B721095D18279D0700904FC7 /* RentPropertyDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentPropertyDetailController.m; sourceTree = "<group>"; };
 		B769E43F181F45AF00A2FF50 /* BaseFixedDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseFixedDetailController.h; sourceTree = "<group>"; };
 		B769E440181F45AF00A2FF50 /* BaseFixedDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseFixedDetailController.m; sourceTree = "<group>"; };
 		B769E443181F462C00A2FF50 /* SaleFixedDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleFixedDetailController.h; sourceTree = "<group>"; };
@@ -492,6 +489,7 @@
 		B7E803EF1820E14000775C6F /* SaleNoPlanGroupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaleNoPlanGroupController.m; sourceTree = "<group>"; };
 		B7E803F11820F24400775C6F /* SaleNoPlanListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleNoPlanListCell.h; sourceTree = "<group>"; };
 		B7E803F21820F24400775C6F /* SaleNoPlanListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaleNoPlanListCell.m; sourceTree = "<group>"; };
+		B7E90A2C18459D7900045006 /* LogKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogKey.h; sourceTree = "<group>"; };
 		B7EA04A41844D40900AC8842 /* BrokerAccountController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerAccountController.h; sourceTree = "<group>"; };
 		B7EA04A51844D40900AC8842 /* BrokerAccountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerAccountController.m; sourceTree = "<group>"; };
 		B7EA04A81844DB3700AC8842 /* BrokerAccountCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerAccountCell.h; sourceTree = "<group>"; };
@@ -772,6 +770,7 @@
 		972F70DB1844C7450010CABB /* Logger */ = {
 			isa = PBXGroup;
 			children = (
+				B7E90A2C18459D7900045006 /* LogKey.h */,
 				972F70DC1844C7660010CABB /* BrokerLogger.h */,
 				972F70DD1844C7660010CABB /* BrokerLogger.m */,
 			);
@@ -1103,8 +1102,6 @@
 				B7EF148D18289CB6000B6016 /* RentBidDetailController.m */,
 				B72109591827976500904FC7 /* RentNoPlanController.h */,
 				B721095A1827976500904FC7 /* RentNoPlanController.m */,
-				B721095C18279D0700904FC7 /* RentPropertyDetailController.h */,
-				B721095D18279D0700904FC7 /* RentPropertyDetailController.m */,
 				B7E69BB3183B3B040097D5C3 /* RentGroupListController.h */,
 				B7E69BB4183B3B040097D5C3 /* RentGroupListController.m */,
 				B7E69BB6183B4C300097D5C3 /* ModifyRentCostController.h */,
@@ -1512,7 +1509,6 @@
 				97B106501834E5F40064AF5F /* AppManager.m in Sources */,
 				974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */,
 				97C6870C183A27E700F449BD /* BaseAuctionViewController.m in Sources */,
-				B721095E18279D0800904FC7 /* RentPropertyDetailController.m in Sources */,
 				B769E475181F807500A2FF50 /* SaleBidDetailController.m in Sources */,
 				B7E803ED1820DD8000775C6F /* SaleSelectNoPlanController.m in Sources */,
 				97958362182229AF005EA48A /* Util_TEXT.m in Sources */,

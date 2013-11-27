@@ -71,6 +71,7 @@
 #pragma mark -- privateMethods
 
 - (void)rightButtonAction:(id)sender{
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_MODIFY_003 note:nil];
     if ([self.totalCost.text integerValue] <10 || [self.totalCost.text integerValue]>1000) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"限额为10-1000元" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [alert show];
@@ -79,5 +80,9 @@
     [super rightButtonAction:self];
     [self modifyFixedProperty];
 //    [self.navigationController popViewControllerAnimated:YES];
+}
+- (void)doBack:(id)sender{
+    [super doBack:self];
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_MODIFY_004 note:nil];
 }
 @end

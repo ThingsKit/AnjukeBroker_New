@@ -136,6 +136,7 @@
     return tempStr;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_GROUP_LIST_004 note:nil];
     selectedIndex = indexPath.row;
     [self doFixed];
 }
@@ -159,5 +160,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (void)doBack:(id)sender{
+    [super doBack:self];
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_GROUP_LIST_003 note:nil];
+}
 @end

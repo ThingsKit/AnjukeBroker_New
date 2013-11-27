@@ -280,6 +280,7 @@
 }
 
 - (void)doEdit {
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_NO_PLAN_06 note:nil];
     //只有单独勾选可对房源进行编辑
     if (self.selectedArray.count != 1) {
         return;
@@ -293,6 +294,7 @@
     [self presentViewController:nav animated:YES completion:nil];
 }
 -(void)rightButtonAction:(id)sender{
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_NO_PLAN_04 note:nil];
     if(self.isLoading){
         return ;
     }
@@ -319,6 +321,8 @@
 }
 
 -(void)delete{
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_NO_PLAN_07 note:nil];
+    
     if ([self.selectedArray count] == 0) {
         UIAlertView *tempView = [[UIAlertView alloc] initWithTitle:@"友情提示" message:@"请选择房源" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [tempView show];
@@ -331,6 +335,8 @@
 }
 
 -(void)mutableFixed{
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_NO_PLAN_05 note:nil];
+    
     if ([self.selectedArray count] == 0) {
         UIAlertView *tempView = [[UIAlertView alloc] initWithTitle:@"友情提示" message:@"请选择房源" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [tempView show];
@@ -391,7 +397,10 @@
         
     }
 }
-
+- (void)doBack:(id)sender{
+    [super doBack:self];
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_NO_PLAN_03 note:nil];
+}
 #pragma mark --UIAlertViewDelegate
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{

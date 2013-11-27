@@ -192,6 +192,8 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(actionSheet.tag == 101){
         if (buttonIndex == 0){
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_005 note:nil];
+            
             PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
             controller.isHaozu = YES;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
@@ -199,6 +201,7 @@
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }else if (buttonIndex == 1){//重新开始竞价
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_008 note:nil];
             RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
             controller.proDic = [self.myArray objectAtIndex:selectedIndex];
             controller.backType = RTSelectorBackTypeDismiss;
@@ -207,6 +210,7 @@
             [self presentViewController:nav animated:YES completion:^(void){
             }];
         }else if (buttonIndex == 2){//取消竞价
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_009 note:nil];
             [self doCancelBid];
         }else{
             
@@ -214,6 +218,8 @@
         
     }else{
         if (buttonIndex == 0){//修改房源
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_005 note:nil];
+            
             PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
             controller.isHaozu = YES;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
@@ -221,6 +227,7 @@
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }else if (buttonIndex == 1){//调整预算
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_006 note:nil];
             RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
             controller.proDic = [self.myArray objectAtIndex:selectedIndex];
             controller.backType = RTSelectorBackTypeDismiss;
@@ -229,6 +236,7 @@
             [self presentViewController:nav animated:YES completion:^{
             }];
         }else if (buttonIndex == 2){//手动暂停竞价
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_007 note:nil];
             [self doStopBid];
         }else{
             
@@ -238,6 +246,8 @@
 }
 #pragma mark -- PrivateMethod
 -(void)rightButtonAction:(id)sender{
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_004 note:nil];
+    
     if(self.isLoading){
         return ;
     }
@@ -245,5 +255,9 @@
     controller.backType = RTSelectorBackTypeDismiss;
     RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];
+}
+- (void)doBack:(id)sender{
+    [super doBack:self];
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_003 note:nil];
 }
 @end

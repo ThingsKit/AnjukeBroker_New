@@ -171,6 +171,7 @@
 
 #pragma mark - PrivateMethod
 -(void)rightButtonAction:(id)sender{
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_SELECT_003 note:nil];
     if(self.isLoading){
         return ;
     }
@@ -189,5 +190,8 @@
     }
     [self.myTable reloadData];
 }
-
+- (void)doBack:(id)sender{
+    [super doBack:self];
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_SELECT_004 note:nil];
+}
 @end

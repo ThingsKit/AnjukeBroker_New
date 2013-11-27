@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "RTRequestProxy.h"
 #import "UIViewController+Loading.h"
+#import "LogKey.h"
+#import "BrokerLogger.H"
 
 #define STATUS_BAR_H 20
 #define NAV_BAT_H 44

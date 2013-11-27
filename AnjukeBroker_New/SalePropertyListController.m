@@ -85,6 +85,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_PROPERTY_003 note:nil];
     SaleAuctionViewController *controller = [[SaleAuctionViewController alloc] init];
     controller.proDic = [self.myArray objectAtIndex:[indexPath row]];
     controller.backType = RTSelectorBackTypeDismiss;
@@ -116,5 +117,8 @@
     // Dispose of any resources that can be recreated.
 }
 #pragma mark --PrivateMethod
-
+- (void)doBack:(id)sender{
+    [super doBack:self];
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_PROPERTY_004 note:nil];
+}
 @end
