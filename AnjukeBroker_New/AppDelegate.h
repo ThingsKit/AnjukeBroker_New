@@ -19,7 +19,7 @@ typedef enum {
     SwitchType_SaleBid
 } TabSwitchType; //发房结束后tab0跳tab1、2的结果PPC管理请求类型
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
@@ -32,6 +32,9 @@ typedef enum {
 @property (nonatomic, strong) TabBarViewController *tabController;
 
 @property (nonatomic, assign) TabSwitchType tabSwitchType;
+@property BOOL isEnforceUpdate; //是否强制更新
+@property BOOL boolNeedAlert;
+@property (nonatomic, copy) NSString *updateUrl; //升级url
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
@@ -44,5 +47,5 @@ typedef enum {
 
 //用于发房结束后页面跳转到计划管理房源列表页面
 - (void)dismissController:(UIViewController *)dismissController withSwitchIndex:(int)index withSwtichType:(TabSwitchType)switchType withPropertyDic:(NSDictionary *)propDic;
-
+- (void)checkVersion; //检测版本更新
 @end

@@ -20,7 +20,7 @@
 #define CALL_CLIENT_ROW 4
 
 #define ABOUT_US_ROW 3
-
+#define CALL_CHECKVER 2
 #define CALL_ACCOUNT_ROW 0
 
 @interface MoreViewController ()
@@ -267,6 +267,13 @@
                 NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@",CALL_ANJUKE_NUMBER];
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:call_url]];
             }
+        }
+            break;
+        case CALL_CHECKVER:
+        {
+            //make call
+            [[AppDelegate sharedAppDelegate] checkVersion];
+            
         }
             break;
         case CALL_CLIENT_ROW:

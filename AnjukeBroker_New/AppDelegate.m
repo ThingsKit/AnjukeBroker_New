@@ -13,6 +13,8 @@
 #import "AccountManager.h"
 #import "AppManager.h"
 #import "AFWelcomeScrollview.h"
+#import "Reachability.h"
+#import "AppManager.h"
 
 #import "SaleNoPlanGroupController.h"
 #import "RentNoPlanController.h"
@@ -33,6 +35,9 @@
 @synthesize loginVC;
 @synthesize tabController;
 @synthesize tabSwitchType;
+@synthesize updateUrl;
+@synthesize isEnforceUpdate;
+@synthesize boolNeedAlert;
 
 + (AppDelegate *)sharedAppDelegate {
     return (AppDelegate *) [UIApplication sharedApplication].delegate;
@@ -276,9 +281,91 @@
 }
 
 - (void)checkVersion { // 新版本更新检查
+    if (![self checkNetwork]) {
+        return;
+    }
     
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"i" ,@"o" , nil];
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"checkversion/" params:params target:self action:@selector(onGetVersion:)];
+}
+- (void)onGetVersion:(RTNetworkResponse *) response {
+    DLog(@"%@", [response content]);
+    //check network and response
+    if (![self checkNetwork])
+        return;
+    
+    if ([response status] == RTNetworkResponseStatusFailed || ([[[response content] objectForKey:@"status"] isEqualToString:@"error"]))
+        return;
+    
+    NSDictionary *resultFromAPI = [[response content] objectForKey:@"data"];
+    
+    if ([resultFromAPI count] != 0) {
+        self.updateUrl = [NSString stringWithFormat:@"%@",[resultFromAPI objectForKey:@"url"]];
+        //        DLog(@"get message update 返回--[%@] url[%@]",[[response content] objectForKey:@"update"], self.updateUrl);
+        
+        if ([resultFromAPI objectForKey:@"ver"] != nil && ![[resultFromAPI objectForKey:@"ver"] isEqualToString:@""]) {
+            NSString *onlineVer = [resultFromAPI objectForKey:@"ver"];
+            //强制更新
+            if ([[resultFromAPI objectForKey:@"is_enforce"] isEqualToString:@"1"]) {
+                self.isEnforceUpdate = YES;
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"发现新%@版本",onlineVer]
+                                                             message:nil
+                                                            delegate:self
+                                                   cancelButtonTitle:nil
+                                                   otherButtonTitles:@"立即更新", @"退出应用", nil];
+                av.tag = 101;
+                [av show];
+            }else{
+                self.isEnforceUpdate = NO;
+            }
+            
+            DLog(@"appVer[%f] checkVer[%f]",[onlineVer floatValue], [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] floatValue]);
+            
+            NSString *localVer = [AppManager getBundleVersion];
+            
+//            if (![UtilText isNumber:[UtilText rmPointFromString:localVer]]) { //有英文表示为测试版
+//                if (self.boolNeedAlert) {
+//                    UIAlertView *av = [[UIAlertView alloc] initWithTitle:Nil message:@"测试版本" delegate:Nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+//                    [av show];
+//                    self.boolNeedAlert = NO;
+//                }
+//                return;
+//            }else
+                if ([localVer compare:onlineVer options:NSNumericSearch] == NSOrderedAscending) { //有更新
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"发现新%@版本",onlineVer]
+                                                             message:nil
+                                                            delegate:self
+                                                   cancelButtonTitle:@"稍后再说"
+                                                   otherButtonTitles:@"立即更新",nil];
+                av.cancelButtonIndex = 0;
+                    av.tag = 102;
+                [av show];
+            }else{
+                if (self.boolNeedAlert) {
+                    UIAlertView *av = [[UIAlertView alloc] initWithTitle:Nil message:@"没有发现新版本" delegate:Nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+                    [av show];
+                    self.boolNeedAlert = NO;
+                }
+            }
+        }
+    }
 }
 
+- (BOOL)checkNetwork {
+    // check if network is available
+    if (![[RTRequestProxy sharedInstance] isInternetAvailiable]) {
+        return NO;
+    }
+    
+    Reachability *r = [Reachability reachabilityWithHostName:@"www.baidu.com"];
+    
+    if ([r currentReachabilityStatus] == NotReachable) {
+        return NO;
+    }
+    
+    return YES;
+}
 - (void)doLogOut {
     //    [self.window.rootViewController.navigationController popToRootViewControllerAnimated:YES];
     
@@ -420,6 +507,46 @@
             
         default:
             break;
+    }
+}
+#pragma mark - AlertView Delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(alertView.tag == 101){
+        if (buttonIndex == 0) {
+            if (self.isEnforceUpdate) { //更新
+                //            NSString *url = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=582908841&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software";
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateUrl]];
+                
+                exit(0); //强制更新后跳转且退出应用
+            }
+        }
+        if (buttonIndex == 1) {
+            if (self.isEnforceUpdate) { //退出应用
+                exit(0);
+            }
+            else {
+                //            NSString *url = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=582908841&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software";
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateUrl]];
+            }
+        }
+
+    }else if (alertView.tag == 102){
+        if (buttonIndex == 0) {
+
+        }
+        if (buttonIndex == 1) {
+             //更新
+                //            NSString *url = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=582908841&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software";
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateUrl]];
+                
+                exit(0); //强制更新后跳转且退出应用
+            
+        }
+    
+    }else{
+    
+    
     }
 }
 
