@@ -342,7 +342,7 @@
         [tempView show];
         return ;
     }
-    if(self.isSeedPid){
+    if(self.isSeedPid.length >0){
         [self doFixed];
     }else{
         RentGroupListController *controller = [[RentGroupListController alloc] init];

@@ -322,7 +322,7 @@
             
             DLog(@"appVer[%f] checkVer[%f]",[onlineVer floatValue], [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] floatValue]);
             
-            NSString *localVer = [AppManager getBundleVersion];
+            NSString *localVer = @"2.0.1";
             
 //            if (![UtilText isNumber:[UtilText rmPointFromString:localVer]]) { //有英文表示为测试版
 //                if (self.boolNeedAlert) {
@@ -498,8 +498,6 @@
         case SwitchType_SaleNoPlan: //二手房未推广
         {
             SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
-            NSString *isSeedStr = [NSString string]; //??
-            controller.isSeedPid = isSeedStr;
             [controller setHidesBottomBarWhenPushed:YES];
             [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:YES];
         }

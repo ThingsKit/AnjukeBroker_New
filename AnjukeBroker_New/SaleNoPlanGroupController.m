@@ -361,7 +361,7 @@
         [tempView show];
         return ;
     }
-    if(self.isSeedPid){
+    if(self.isSeedPid.length >0){
         [self doFixed];
     }else{
         SaleGroupListController *controller = [[SaleGroupListController alloc] init];
