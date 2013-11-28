@@ -34,8 +34,8 @@
 -(void)initDisplay{
     [self setTitleViewWithString:@"调整限额"];
     self.view.backgroundColor =  [Util_UI colorWithHexString:@"#EFEFF4"];
-    NSString *tempStr = [NSString stringWithFormat:@"当前限额: %@元/天",self.fixedObject.topCost];
-    UILabel *labCurrentCeiling = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 320, 40)];
+    NSString *tempStr = [NSString stringWithFormat:@"当前限额：%@元/天",self.fixedObject.topCost];
+    UILabel *labCurrentCeiling = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 320, 40)];
     labCurrentCeiling.textColor = [UIColor grayColor];
     labCurrentCeiling.backgroundColor = [UIColor clearColor];
     labCurrentCeiling.text = tempStr;
@@ -46,7 +46,7 @@
     content.backgroundColor = [UIColor whiteColor];
 //    content.layer.borderWidth = 2;
 //    content.layer.borderColor = [Util_UI colorWithHexString:@"#F9F9F9"].CGColor;
-    UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 100, 40)];
+    UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 100, 40)];
     tips.text = @"调整限额";
     tips.backgroundColor = [UIColor clearColor];
     [content addSubview:tips];

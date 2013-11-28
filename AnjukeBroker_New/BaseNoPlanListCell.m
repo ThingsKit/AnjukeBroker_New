@@ -24,7 +24,7 @@
         self.backView = [[UIView alloc] initWithFrame:CGRectMake(48, 0, 270, self.contentView.frame.size.height)];
         self.backView.backgroundColor = [UIColor clearColor];
         
-        self.title = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 260, 40)];
+        self.title = [[UILabel alloc] initWithFrame:CGRectZero];
         self.title.numberOfLines = 0;
         self.title.lineBreakMode = NSLineBreakByWordWrapping;
         self.title.textColor = SYSTEM_BLACK;
@@ -35,7 +35,7 @@
         self.detail.font = [UIFont systemFontOfSize:12];
         
         self.proIcon = [[UIImageView alloc] init];
-        self.proIcon.frame = CGRectMake(280, 25, 22, 14);
+//        self.proIcon.frame = CGRectMake(280, self.title.frame.origin.y + 2, 22, 14);
         
         self.price = [[UILabel alloc] initWithFrame:CGRectMake(210, 30, 150, 20)];
         self.price.textColor = [UIColor grayColor];
@@ -56,6 +56,12 @@
         BasePropertyObject *tempProperty = (BasePropertyObject *)dataModel;
         [self setDetailLableValue:tempProperty];
         self.title.text = tempProperty.title;
+        CGSize size = CGSizeMake(240, 40);
+        CGSize si = [tempProperty.title sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+        
+        self.title.frame = CGRectMake(0, 8, si.width, si.height);
+        self.proIcon.frame = CGRectMake(290, self.title.frame.origin.y + 2, 22, 14);
+        self.detail.frame = CGRectMake(0, self.title.frame.size.height + 15, 270, 20);
         [self setProIconWithPro:tempProperty];
         return YES;
     }

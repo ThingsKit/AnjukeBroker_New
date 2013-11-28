@@ -25,7 +25,7 @@
         
         self.labValue = [[UILabel alloc] initWithFrame:CGRectMake(110, 5, 200, 30)];
         self.labValue.textColor = [Util_UI colorWithHexString:@"#333333"];
-        self.labValue.font = [UIFont systemFontOfSize:14];
+        self.labValue.font = [UIFont systemFontOfSize:16];
         
         [self.contentView addSubview:self.img];
         [self.contentView addSubview:self.labKey];

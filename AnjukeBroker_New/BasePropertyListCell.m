@@ -25,11 +25,9 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        self.bidStatue = [[UIImageView alloc] init];
-        self.bidStatue.frame = CGRectMake(10, 12, 14, 14);
-        [self.contentView addSubview:self.bidStatue];
+
         
-        self.tapNum = [[UILabel alloc] initWithFrame:CGRectMake(270, 45, 100, 20)];
+        self.tapNum = [[UILabel alloc] initWithFrame:CGRectMake(275, 45, 100, 20)];
         self.tapNum.backgroundColor = [UIColor clearColor];
         self.tapNum.textColor = [Util_UI colorWithHexString:@"#666666"];
         self.tapNum.font = [UIFont systemFontOfSize:12];
@@ -39,19 +37,23 @@
         self.tapNumStr = [[UILabel alloc] initWithFrame:CGRectMake(240, 45, 40, 20)];
         self.tapNumStr.backgroundColor = [UIColor clearColor];
         self.tapNumStr.font = [UIFont systemFontOfSize:12];
-        self.tapNumStr.text = @"点击:";
+        self.tapNumStr.text = @"点击：";
         [self.contentView addSubview:self.tapNumStr];
         
-        self.title = [[UILabel alloc] initWithFrame:CGRectMake(27, 5, 250, 40)];
+        self.title = [[UILabel alloc] initWithFrame:CGRectZero];
         self.title.numberOfLines = 0;
         self.title.lineBreakMode = NSLineBreakByWordWrapping;
         self.title.font = [UIFont systemFontOfSize:14];
         
-        self.comName = [[UILabel alloc] initWithFrame:CGRectMake(27, 40, 250, 20)];
+        self.bidStatue = [[UIImageView alloc] init];
+        self.bidStatue.frame = CGRectMake(10, self.title.frame.origin.y, 14, 14);
+        [self.contentView addSubview:self.bidStatue];
+        
+        self.comName = [[UILabel alloc] initWithFrame:CGRectMake(27, self.title.frame.size.height + 5, 250, 20)];
         self.comName.textColor = [Util_UI colorWithHexString:@"#666666"];
         self.comName.font = [UIFont systemFontOfSize:12];
         
-        self.detail = [[UILabel alloc] initWithFrame:CGRectMake(27, 60, 270, 20)];
+        self.detail = [[UILabel alloc] initWithFrame:CGRectMake(27, self.comName.frame.size.height + self.title.frame.size.height + 5, 270, 20)];
         self.detail.textColor = [Util_UI colorWithHexString:@"#666666"];
         self.detail.font = [UIFont systemFontOfSize:12];
         
@@ -87,13 +89,18 @@
     }else if ([dataModel isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dic = (NSDictionary *)dataModel;
         self.title.text = [dic objectForKey:@"title"];
+        CGSize size = CGSizeMake(260, 40);
+        CGSize si = [[dic objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+        
+        self.title.frame = CGRectMake(27, 5, si.width, si.height);
+        self.bidStatue.frame = CGRectMake(10, self.title.frame.origin.y+2, 14, 14);
+        self.comName.frame = CGRectMake(27, self.title.frame.size.height + 5, 250, 20);
+        self.detail.frame = CGRectMake(27, self.comName.frame.size.height + self.title.frame.size.height + 5, 270, 20);
         
         self.detail.text = [NSString stringWithFormat:@"%@室%@厅 %@平 %d%@", [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"area"], [[dic objectForKey:@"price"] intValue], [dic objectForKey:@"priceUnit"]];
-//        self.price.text = [NSString stringWithFormat:@"%d%@", [[dic objectForKey:@"price"] intValue], [dic objectForKey:@"priceUnit"]];
         self.tapNum.text = [dic objectForKey:@"clickNum"];
         self.comName.text = [dic objectForKey:@"commName"];
         [self setBidStatueImg:dic];
-        [self setProIconWithPro:dic];
     }
     return NO;
 }

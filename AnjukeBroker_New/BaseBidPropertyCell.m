@@ -59,7 +59,8 @@
         stage = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 40, 30)];
         stage.backgroundColor = [Util_UI colorWithHexString:@"#F9F9F9"];
 //        stage.text = @"   3";
-        stage.textColor = [UIColor redColor];
+        stage.textColor = [Util_UI colorWithHexString:@"#ff6600"];
+        
         stage.font = [UIFont systemFontOfSize:16];
         [contentView addSubview:stage];
         [self.contentView addSubview:contentView];

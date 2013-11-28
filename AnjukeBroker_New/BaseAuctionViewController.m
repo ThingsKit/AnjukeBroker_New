@@ -18,6 +18,7 @@
 @synthesize textField_1, textField_2;
 @synthesize rangLabel;
 @synthesize superVC;
+@synthesize isHaozu;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -155,8 +156,13 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", propID, @"propId", commID, @"commId", self.textField_2.text, @"offer", nil];
     
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/getrank/" params:params target:self action:@selector(onCheckSuccess:)];
+    if (self.isHaozu) {
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/bid/getrank/" params:params target:self action:@selector(onCheckSuccess:)];
+    }
+    else
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/getrank/" params:params target:self action:@selector(onCheckSuccess:)];
     [self showLoadingActivity:YES];
+    self.isLoading = NO;
 }
 
 - (void)onCheckSuccess:(RTNetworkResponse *)response {
@@ -167,6 +173,7 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         return;
     }
     
@@ -180,14 +187,14 @@
         return;
     }
     [self hideLoadWithAnimated:YES];
-    
+    self.isLoading = NO;
     self.rangLabel.alpha = 0.0;
     //test
     if([self.superVC isKindOfClass:[SaleAuctionViewController class]]){
     
     
     }
-    self.rangLabel.text = [NSString stringWithFormat:@"预估排名:第%@名",[resultFromAPI objectForKey:@"data"]];
+    self.rangLabel.text = [NSString stringWithFormat:@"预估排名:第%@位",[resultFromAPI objectForKey:@"data"]];
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:.3];

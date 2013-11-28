@@ -219,7 +219,7 @@
     
     self.rangLabel.alpha = 0.0;
     //test
-    self.rangLabel.text = [NSString stringWithFormat:@"预估排名:第%@名",[resultFromAPI objectForKey:@"data"]];
+    self.rangLabel.text = [NSString stringWithFormat:@"预估排名:第%@位",[resultFromAPI objectForKey:@"data"]];
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:.3];

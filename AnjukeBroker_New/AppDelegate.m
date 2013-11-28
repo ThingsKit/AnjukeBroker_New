@@ -475,7 +475,7 @@
             break;
         case SwitchType_RentBid: //租房竞价
         {
-            RentNoPlanController *controller = [[RentNoPlanController alloc] init];
+            RentBidDetailController *controller = [[RentBidDetailController alloc] init];
             [controller setHidesBottomBarWhenPushed:YES];
             [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:YES];
         }

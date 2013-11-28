@@ -34,6 +34,7 @@
     [super viewDidLoad];
     
     [self addRightButton:@"确定" andPossibleTitle:nil];
+    [self setTitleViewWithString:@"选择房源"];
     self.myTable.frame = FRAME_WITH_NAV;
 	// Do any additional setup after loading the view.
 }

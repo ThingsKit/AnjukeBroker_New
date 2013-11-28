@@ -38,7 +38,7 @@
 - (void)initUI {
     CGFloat lbW = 320 - TITLE_OFFESTX*2;
     
-    UILabel *lb1 = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFESTX, 5, lbW, 55)];
+    UILabel *lb1 = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFESTX, 10, lbW, 55)];
     lb1.backgroundColor = [UIColor clearColor];
     lb1.font = [UIFont systemFontOfSize:15];
     lb1.textColor = SYSTEM_BLACK;
@@ -59,7 +59,7 @@
     lbBtn.textColor = SYSTEM_ORANGE;
     [showBtn addSubview:lbBtn];
     
-    UILabel *lb2 = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFESTX, SYSTEM_MESSAGE_CELL_H - 20-5, 200, 20)];
+    UILabel *lb2 = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFESTX, SYSTEM_MESSAGE_CELL_H - 20-10, 200, 20)];
     lb2.backgroundColor = [UIColor clearColor];
     lb2.font = [UIFont systemFontOfSize:15];
     lb2.textColor = SYSTEM_LIGHT_GRAY;
@@ -67,7 +67,7 @@
     [self.contentView addSubview:lb2];
     
     UIButton *dBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    dBtn.frame = CGRectMake(320 - TITLE_OFFESTX -50, lb2.frame.origin.y-2, 50, 20);
+    dBtn.frame = CGRectMake(320 - TITLE_OFFESTX -30, lb2.frame.origin.y-2, 50, 20);
     dBtn.backgroundColor = [UIColor clearColor];
     [dBtn addTarget:self action:@selector(doDelete:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:dBtn];
@@ -75,7 +75,7 @@
     UILabel *lbBtn2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, showBtn.frame.size.width, showBtn.frame.size.height)];
     lbBtn2.backgroundColor = [UIColor clearColor];
     lbBtn2.font = [UIFont systemFontOfSize:15];
-//    lbBtn2.text = @"删除";
+    lbBtn2.text = @"删除";
     lbBtn2.textColor = SYSTEM_ORANGE;
     [dBtn addSubview:lbBtn2];
 }
@@ -115,9 +115,9 @@
     NSDateComponents *nowComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:[NSDate date]];
     NSDateComponents *postComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:postDate];
     if (nowComponents.year == postComponents.year )
-        [dateFormatter setDateFormat:@"MM-dd"];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
     else
-        [dateFormatter setDateFormat:@"yyyy-MM"];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
 self.dataLb.text =  [dateFormatter stringFromDate:postDate];
 }
 - (void)doDelete:(id)sender {
