@@ -197,6 +197,7 @@
     }
     //    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  @"187275101", @"proIds", @"388666", @"planId", nil];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  ((SalePropertyObject *)[self.selectedArray objectAtIndex:0]).propertyId, @"propIds", self.isSeedPid, @"planId", nil];
+
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/addpropstoplan/" params:params target:self action:@selector(onFixedSuccess:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
@@ -348,6 +349,14 @@
     if(self.isSeedPid.length >0){
         [self doFixed];
     }else{
+        for (int i = 0; i < [self.selectedArray count]; i++) {
+       SalePropertyObject *property = (SalePropertyObject *)[self.selectedArray objectAtIndex:i];
+            if([property.isVisible isEqualToString:@"0"]){
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"房源包含违规房源" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alert show];
+                return ;
+            }
+        }
         RentGroupListController *controller = [[RentGroupListController alloc] init];
         controller.propertyArray = self.selectedArray;
         [self.navigationController pushViewController:controller animated:YES];

@@ -21,6 +21,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+//        UIView 
         title = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 250, 40)];
         title.numberOfLines = 0;
         title.lineBreakMode = NSLineBreakByWordWrapping;
