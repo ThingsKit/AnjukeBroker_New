@@ -141,6 +141,7 @@
         [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_005 note:nil];
         
         RentNoPlanController *controller = [[RentNoPlanController alloc] init];
+        controller.isSeedPid = self.isSeedPid;
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     }else{
