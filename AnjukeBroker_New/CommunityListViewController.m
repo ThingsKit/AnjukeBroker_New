@@ -227,6 +227,8 @@
     }
     
     [self.tvList reloadData];
+    [self.tvList setContentOffset:CGPointMake(0, 0) animated:YES];
+    
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
 
