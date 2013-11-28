@@ -8,7 +8,6 @@
 
 #import "PropertyGroupListViewController.h"
 #import "AnjukePropertyGroupCell.h"
-#import "PropertyAuctionViewController.h"
 #import "LoginManager.h"
 #import "PropertyAuctionPublishViewController.h"
 #import "AnjukePropertyResultController.h"
