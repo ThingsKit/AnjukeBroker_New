@@ -322,7 +322,7 @@
             
             DLog(@"appVer[%f] checkVer[%f]",[onlineVer floatValue], [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] floatValue]);
             
-            NSString *localVer = @"2.0.1";
+            NSString *localVer = [AppManager getBundleVersion];
             
 //            if (![UtilText isNumber:[UtilText rmPointFromString:localVer]]) { //有英文表示为测试版
 //                if (self.boolNeedAlert) {
