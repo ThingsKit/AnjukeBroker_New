@@ -36,6 +36,8 @@
 }
 
 - (void)initUI {
+    self.textLabel.textColor = SYSTEM_DARK_GRAY;
+    
     self.inputed_RowAtCom0 = 0;
     self.inputed_RowAtCom1 = 0;
     self.inputed_RowAtCom2 = 0;
@@ -54,7 +56,7 @@
     cellTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     cellTextField.font = [UIFont systemFontOfSize:17];
     cellTextField.secureTextEntry = NO;
-    cellTextField.textColor = SYSTEM_LIGHT_GRAY;
+    cellTextField.textColor = SYSTEM_BLACK;
     self.text_Field = cellTextField;
     [self.contentView addSubview:cellTextField];
     

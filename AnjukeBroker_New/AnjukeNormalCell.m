@@ -33,9 +33,11 @@
 }
 
 - (void)initUI {
+    self.textLabel.textColor = SYSTEM_DARK_GRAY;
+    
     UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(224/2, 1,  150, CELL_HEIGHT - 1*5)];
     lb.backgroundColor = [UIColor clearColor];
-    lb.textColor = SYSTEM_LIGHT_GRAY;
+    lb.textColor = SYSTEM_BLACK;
     lb.font = [UIFont systemFontOfSize:17];
     self.communityDetailLb = lb;
     [self.contentView addSubview:lb];
