@@ -99,7 +99,6 @@
 		97B106501834E5F40064AF5F /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B1064F1834E5F40064AF5F /* AppManager.m */; };
 		97B422571820D9A600A2E9E6 /* PropertyGroupListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B422561820D9A600A2E9E6 /* PropertyGroupListViewController.m */; };
 		97B4225A1820DB8300A2E9E6 /* AnjukePropertyGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B422591820DB8300A2E9E6 /* AnjukePropertyGroupCell.m */; };
-		97B4225D1820E36600A2E9E6 /* PropertyAuctionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B4225C1820E36600A2E9E6 /* PropertyAuctionViewController.m */; };
 		97B422601820E38200A2E9E6 /* PropertyResultListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B4225F1820E38200A2E9E6 /* PropertyResultListViewController.m */; };
 		97B422681821087600A2E9E6 /* PropertyBigImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B422671821087600A2E9E6 /* PropertyBigImageViewController.m */; };
 		97C6870C183A27E700F449BD /* BaseAuctionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C6870B183A27E700F449BD /* BaseAuctionViewController.m */; };
@@ -351,8 +350,6 @@
 		97B422561820D9A600A2E9E6 /* PropertyGroupListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyGroupListViewController.m; sourceTree = "<group>"; };
 		97B422581820DB8300A2E9E6 /* AnjukePropertyGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukePropertyGroupCell.h; sourceTree = "<group>"; };
 		97B422591820DB8300A2E9E6 /* AnjukePropertyGroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukePropertyGroupCell.m; sourceTree = "<group>"; };
-		97B4225B1820E36600A2E9E6 /* PropertyAuctionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyAuctionViewController.h; sourceTree = "<group>"; };
-		97B4225C1820E36600A2E9E6 /* PropertyAuctionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyAuctionViewController.m; sourceTree = "<group>"; };
 		97B4225E1820E38200A2E9E6 /* PropertyResultListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyResultListViewController.h; sourceTree = "<group>"; };
 		97B4225F1820E38200A2E9E6 /* PropertyResultListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyResultListViewController.m; sourceTree = "<group>"; };
 		97B422661821087600A2E9E6 /* PropertyBigImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyBigImageViewController.h; sourceTree = "<group>"; };
@@ -974,8 +971,6 @@
 				9795836818223210005EA48A /* 定价竞价cell */,
 				97B422551820D9A600A2E9E6 /* PropertyGroupListViewController.h */,
 				97B422561820D9A600A2E9E6 /* PropertyGroupListViewController.m */,
-				97B4225B1820E36600A2E9E6 /* PropertyAuctionViewController.h */,
-				97B4225C1820E36600A2E9E6 /* PropertyAuctionViewController.m */,
 				97B4225E1820E38200A2E9E6 /* PropertyResultListViewController.h */,
 				97B4225F1820E38200A2E9E6 /* PropertyResultListViewController.m */,
 			);
@@ -1472,7 +1467,6 @@
 				B7E69BC1183B63480097D5C3 /* RentAuctionViewController.m in Sources */,
 				B769E45D181F54DE00A2FF50 /* BasePropertyObject.m in Sources */,
 				B7E69BB5183B3B040097D5C3 /* RentGroupListController.m in Sources */,
-				97B4225D1820E36600A2E9E6 /* PropertyAuctionViewController.m in Sources */,
 				97CD8D44180E6D6E00185C9D /* RTViewController.m in Sources */,
 				974E5C89181E4B00000246D1 /* AnjukeEditableTV_DataSource.m in Sources */,
 				976D9354183CC69100C9571B /* ConfigPlistManager.m in Sources */,
