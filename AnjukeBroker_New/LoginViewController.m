@@ -157,6 +157,14 @@
     }
 }
 
+#pragma mark TextField Delegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self doRequest];
+    
+    return YES;
+}
+
 #pragma mark - request method
 
 - (void)doRequest {

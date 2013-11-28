@@ -483,7 +483,6 @@
         case SwitchType_SaleBid: //二手房竞价
         {
             SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
-//            controller.backType = RTSelectorBackTypePopToRoot;
             [controller setHidesBottomBarWhenPushed:YES];
             [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:YES];
         }
