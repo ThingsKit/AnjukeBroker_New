@@ -31,6 +31,25 @@
     return NO;
 }
 
++ (BOOL)isSegmentCellStyle:(int)index isHaozu:(BOOL)isHZ {
+    if (isHZ) { //好租
+        if (index == HZ_P_FLOORS || index == HZ_T_TITLE) { //楼层、title需要分割UI
+            return YES;
+        }
+        else
+            return NO;
+    }
+    else { //二手房
+        if (index == AJK_P_FLOORS || index == AJK_T_TITLE) {
+            return YES;
+        }
+        else
+            return NO;
+    }
+    
+    return NO;
+}
+
 
 
 @end

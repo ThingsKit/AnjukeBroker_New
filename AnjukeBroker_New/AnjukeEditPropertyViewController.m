@@ -37,6 +37,8 @@ typedef enum {
 
 @property (nonatomic, strong) PhotoShowView *imageOverLay;
 @property (nonatomic, assign) PropertyUploadType uploadType;
+
+@property (nonatomic, copy) NSString *propertyPrice; //房源定价价格
 @end
 
 @implementation AnjukeEditPropertyViewController
@@ -368,6 +370,43 @@ typedef enum {
     [self doPushPropertyID:propertyID];
     
     [self hideLoadWithAnimated:YES];
+}
+
+- (void)requestWithPrice {
+    if(![self isNetworkOkay]){
+        [self showAlertViewWithPrice:@""];
+        return;
+    }
+    
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.property.price, @"price", [LoginManager getCity_id], @"cityId", nil];
+    
+    method = @"anjuke/fix/minoffer/";
+    if (self.isHaozu) {
+        method = @"zufang/fix/minoffer/";
+    }
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onGetPrice:)];
+}
+
+- (void)onGetPrice:(RTNetworkResponse *)response {
+    DLog(@"--get price。。。response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        [self hideLoadWithAnimated:YES];
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    self.propertyPrice = [[[response content] objectForKey:@"data"] objectForKey:@"price"];
+    [self showAlertViewWithPrice:self.propertyPrice];
 }
 
 #pragma mark - Private Method
@@ -856,9 +895,15 @@ typedef enum {
 }
 
 - (void)doSave {
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"定价且竞价推广", @"暂不推广", nil];
-    sheet.tag = TagOfActionSheet_Save;
-    [sheet showInView:self.view];
+    if (![self checkUploadProperty]) {
+        return;
+    }
+    
+    if (self.propertyPrice.length > 0) {
+        [self showAlertViewWithPrice:self.propertyPrice];
+    }
+    else
+        [self requestWithPrice];
 }
 
 - (void)addPhoto {
@@ -894,6 +939,19 @@ typedef enum {
             pb.contentImgView.image = pBtn.photoImg.image;
         }];
     }
+}
+
+- (void)showAlertViewWithPrice:(NSString *)price {
+    NSString *title = nil;
+    if (price.length == 0 || price == nil) {
+        title = [NSString stringWithFormat:@"定价：暂无"];
+    }
+    else
+        title = [NSString stringWithFormat:@"定价：%@元一次",price];
+    
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"定价且竞价推广", @"暂不推广", nil];
+    sheet.tag = TagOfActionSheet_Save;
+    [sheet showInView:self.view];
 }
 
 #pragma mark - BigImageView Delegate

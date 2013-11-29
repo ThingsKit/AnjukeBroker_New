@@ -34,5 +34,6 @@
 @interface InputOrderManager : NSObject
 
 + (BOOL)isKeyBoardInputWithIndex:(int)index isHaozu:(BOOL)isHZ;
++ (BOOL)isSegmentCellStyle:(int)index isHaozu:(BOOL)isHZ;
 
 @end
