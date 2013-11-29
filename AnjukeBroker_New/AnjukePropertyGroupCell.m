@@ -38,14 +38,16 @@
     CGFloat lbW = 150;
     CGFloat lbFont = 15;
     
-    UILabel *lb1 = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFESTX, 5, lbW, 20)];
+    CGFloat lbGapH = 8;
+    
+    UILabel *lb1 = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFESTX, lbGapH, lbW, 20)];
     lb1.backgroundColor = [UIColor clearColor];
     lb1.font = [UIFont systemFontOfSize:lbFont];
     lb1.textColor = SYSTEM_BLACK;
     self.groupNameLb = lb1;
     [self.contentView addSubview:lb1];
 
-    UILabel *lb2 = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFESTX, 5 *2 + lb1.frame.size.height, 250, 20)];
+    UILabel *lb2 = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFESTX, lbGapH *2 + lb1.frame.size.height, 250, 20)];
     lb2.backgroundColor = [UIColor clearColor];
     lb2.font = [UIFont systemFontOfSize:lbFont];
     lb2.textColor = SYSTEM_LIGHT_GRAY;
