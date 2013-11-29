@@ -304,8 +304,8 @@ typedef enum {
     self.uploadImgIndex = 0;
     
     [self showInfo:@"图片上传失败，请重试"];
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 }
 
 //发房
@@ -341,6 +341,10 @@ typedef enum {
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
+        
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
         return;
     }
     
@@ -362,6 +366,10 @@ typedef enum {
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
+        
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
         return;
     }
     
