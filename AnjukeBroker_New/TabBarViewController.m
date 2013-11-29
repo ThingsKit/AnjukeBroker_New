@@ -72,6 +72,7 @@
         UITabBarItem *tb1 = nil;
         tb1 = [[UITabBarItem alloc] initWithTitle:@"首页" image:[UIImage imageNamed:@"TabHome_normal"] selectedImage:[UIImage imageNamed:@"anjuke_icon11_home_selected.png"]];
         tb1.imageInsets = tabItemInsertsMake;
+        
         nav1.tabBarItem = tb1;
         
         UITabBarItem *tb2 = nil;
