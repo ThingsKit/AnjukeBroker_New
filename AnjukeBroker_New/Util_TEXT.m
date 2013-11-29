@@ -26,7 +26,12 @@
     
     return str;
 }
-
++ (NSString *)logTime {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:NSLocalizedString(@"yyyy-MM-dd HH:mm:ss.SSS", nil)];
+    NSString *now = [formatter stringFromDate:[NSDate date]];
+    return now;
+}
 //去掉string内的' '
 + (NSString *)rmBlankFromString:(NSString *)oldStr {
     if (oldStr == nil || [oldStr isEqualToString:@""] || [oldStr isEqualToString:@" "]) {

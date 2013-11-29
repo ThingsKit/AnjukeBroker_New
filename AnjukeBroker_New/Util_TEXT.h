@@ -12,6 +12,8 @@
 
 + (NSString *)getDateStrWithDate:(NSDate *)applyDate;
 
++ (NSString *)logTime;
+
 + (NSString *)rmBlankFromString:(NSString *)oldStr;
 
 @end

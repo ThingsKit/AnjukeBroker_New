@@ -11,6 +11,7 @@
 #import "UIViewController+Loading.h"
 #import "LogKey.h"
 #import "BrokerLogger.H"
+#import "Util_TEXT.h"
 
 #define STATUS_BAR_H 20
 #define NAV_BAT_H 44
@@ -44,6 +45,9 @@ typedef enum {
 - (NSInteger)windowHeight; //UIWindow高度，宏_Frame使用，精确控制公用Frame
 - (NSInteger)windowWidth;
 - (NSInteger)currentViewHeight;  //******当前UIViewController.view的高度，各继承页面UI组件使用
+
+-(void) sendAppearLog;
+-(void) sendDisAppearLog;
 
 - (void)doBack:(id)sender;
 - (void)addRightButton:(NSString *)title andPossibleTitle:(NSString *)possibleTitle;

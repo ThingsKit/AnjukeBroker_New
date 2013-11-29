@@ -9,6 +9,44 @@
 #ifndef AnjukeBroker_New_LogKey_h
 #define AnjukeBroker_New_LogKey_h
 
+
+//首页
+#define AJK_HOME @"100000"
+#define AJK_HOME_001 @"100001" //页面可见（即页面打开）
+#define AJK_HOME_002 @"100002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
+#define AJK_HOME_003 @"100003" //点击发布二手房
+#define AJK_HOME_004 @"100004" //点击发布租房
+#define AJK_HOME_005 @"100005" //点击系统消息
+#define AJK_HOME_006 @"100006" //点击账户资料
+
+//二手房发布页
+#define AJK_PROPERTY @"200000"
+#define AJK_PROPERTY_001 @"200001" //
+#define AJK_PROPERTY_002 @"200002" //
+#define AJK_PROPERTY_003 @"200003" //点击取消
+#define AJK_PROPERTY_004 @"200004" //点击保存
+#define AJK_PROPERTY_005 @"200005" //点击拍照
+#define AJK_PROPERTY_006 @"200006" //点击从相册选择
+#define AJK_PROPERTY_007 @"200007" //点击在线房型图
+#define AJK_PROPERTY_008 @"200008" //点击定价推广
+#define AJK_PROPERTY_009 @"200009" //点击定价且竞价推广
+#define AJK_PROPERTY_010 @"200010" //点击暂不推广
+
+//二手房小区选择页
+#define AJK_COMMUNITY @"210000"
+#define AJK_COMMUNITY_001 @"210001" //页面可见（即页面打开）
+#define AJK_COMMUNITY_002 @"210002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
+#define AJK_COMMUNITY_003 @"210003" //输入小区
+#define AJK_COMMUNITY_004 @"210004" //点击附近的小区
+#define AJK_COMMUNITY_005 @"210005" //点击历史小区
+
+//二手房在线房型图选择页
+#define AJK_ONLINE @"220000"
+#define AJK_ONLINE_001 @"220001" //
+#define AJK_ONLINE_002 @"220002" //
+#define AJK_ONLINE_003 @"220003" //点击返回
+#define AJK_ONLINE_004 @"220004" //点击确定
+
 //二手房计划管理
 #define AJK_PPC_HOME @"230000"
 #define AJK_PPC_HOME_001 @"230001"
@@ -39,7 +77,7 @@
 #define AJK_PPC_FIXED_DETAIL_006 @"250006" //点击竞价推广本房源
 #define AJK_PPC_FIXED_DETAIL_007 @"250007" //点击取消定价推广
 #define AJK_PPC_FIXED_DETAIL_008 @"250008" //点击修改房源信息
-
+#define AJK_PPC_FIXED_DETAIL_009 @"250009" //点击开始推广
 
 //二手房未推广房源列表页
 #define AJK_PPC_NOPLAN_GROUP @"260000"
@@ -99,6 +137,33 @@
 #define AJK_PPC_RESET_004 @"320004" //点击保存
 #define AJK_PPC_RESET_005 @"320005" //点击删除
 
+//租房发布页
+#define HZ_PROPERTY @"400000"
+#define HZ_PROPERTY_001 @"400001" //
+#define HZ_PROPERTY_002 @"400002" //
+#define HZ_PROPERTY_003 @"400003" //点击取消
+#define HZ_PROPERTY_004 @"400004" //点击保存
+#define HZ_PROPERTY_005 @"400005" //点击拍照
+#define HZ_PROPERTY_006 @"400006" //点击从相册选择
+#define HZ_PROPERTY_007 @"400007" //点击在线房型图
+#define HZ_PROPERTY_008 @"400008" //点击定价推广
+#define HZ_PROPERTY_009 @"400009" //点击定价且竞价推广
+#define HZ_PROPERTY_010 @"400010" //点击暂不推广
+
+//租房小区选择页
+#define HZ_COMMUNITY @"410000"
+#define HZ_COMMUNITY_001 @"410001" //
+#define HZ_COMMUNITY_002 @"410002" //
+#define HZ_COMMUNITY_003 @"410003" //输入小区
+#define HZ_COMMUNITY_004 @"410004" //点击附近的小区
+#define HZ_COMMUNITY_005 @"410005" //点击历史小区
+
+//租房在线房型图选择页
+#define HZ_ONLINE @"420000"
+#define HZ_ONLINE_001 @"420001" //
+#define HZ_ONLINE_002 @"420002" //
+#define HZ_ONLINE_003 @"420003" //点击返回
+#define HZ_ONLINE_004 @"420004" //点击确定
 
 //租房管理页
 #define HZ_PPC_HOME @"430000"
@@ -185,5 +250,25 @@
 #define HZ_PPC_RESET_003 @"520003" //点击取消
 #define HZ_PPC_RESET_004 @"520004" //点击保存
 #define HZ_PPC_RESET_005 @"520005" //点击删除
+
+//系统消息页
+#define HZ_SYSTEM @"600000"
+#define HZ_SYSTEM_001 @"600001" //
+#define HZ_SYSTEM_002 @"600002" //
+#define HZ_SYSTEM_003 @"600003" //点击返回
+#define HZ_SYSTEM_004 @"600004" //点击全文
+#define HZ_SYSTEM_005 @"600005" //点击删除
+
+//更多
+#define HZ_MORE @"700000"
+#define HZ_MORE_001 @"700001" //
+#define HZ_MORE_002 @"700002" //
+#define HZ_MORE_003 @"700003" //点击账户信息
+#define HZ_MORE_004 @"700004" //提醒设置on到off
+#define HZ_MORE_005 @"700005" //提醒设置off到on
+#define HZ_MORE_006 @"700006" //点击检查更新
+#define HZ_MORE_007 @"700007" //点击关于网络经纪人
+#define HZ_MORE_008 @"700008" //点击联系客户主任
+#define HZ_MORE_009 @"700009" //点击客服热线
 
 #endif
