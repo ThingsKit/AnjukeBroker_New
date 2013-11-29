@@ -8,13 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-#define PHOTO_SHOW_VIEW_H 140
+#define PHOTO_SHOW_VIEW_H 160
 
 @protocol PhotoViewClickDelegate <NSObject>
 
 - (void)takePhoto_Click; //拍照按钮点击
 - (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr; //关闭按钮点击
-//- (void)photoImg_ClickWithIndex:(int)index; //预览图点击（删除）
 
 @end
 

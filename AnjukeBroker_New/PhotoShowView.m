@@ -12,7 +12,7 @@
 
 #define TAG_PHOTO_BASE 9990
 
-#define PHOTO_BTN_H 50                              //拍照按钮高
+#define PHOTO_BTN_H 70                              //拍照按钮高
 #define PHOTO_SV_H PHOTO_SHOW_VIEW_H - PHOTO_BTN_H  //拍照scrollView高
 #define IMG_GAP 5                                   //预览图间距
 #define IMG_H PHOTO_SV_H -IMG_GAP*2
@@ -69,21 +69,28 @@
     [bottomBG addSubview:takeBtn];
     
     CGFloat iconH = 98/2;
+    CGFloat pBtnGap = 0;
+    
     UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_takephoto.png"]];
     icon.backgroundColor = [UIColor clearColor];
     icon.frame = CGRectMake((takeBtn.frame.size.width - iconH)/2, (takeBtn.frame.size.height - iconH)/2, iconH, iconH);
-//    [icon setUserInteractionEnabled:YES];
     [takeBtn addSubview:icon];
     
     UIButton *exitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    exitBtn.frame = CGRectMake(takeBtn.frame.origin.x + BtnW+10, takeBtn.frame.origin.y, BtnW, PHOTO_BTN_H);
+    exitBtn.frame = CGRectMake(320- BtnW+pBtnGap, takeBtn.frame.origin.y, BtnW, PHOTO_BTN_H);
     exitBtn.backgroundColor = [UIColor clearColor];
-//    exitBtn.layer.borderColor = SYSTEM_BLACK.CGColor;
-//    exitBtn.layer.borderWidth = 1;
     [exitBtn setTitle:@"完成" forState:UIControlStateNormal];
     [exitBtn setTitleColor:SYSTEM_ORANGE forState:UIControlStateNormal];
     [exitBtn addTarget:self action:@selector(closePicker:) forControlEvents:UIControlEventTouchUpInside];
     [bottomBG addSubview:exitBtn];
+    
+    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    cancelBtn.frame = CGRectMake(pBtnGap, takeBtn.frame.origin.y, BtnW, PHOTO_BTN_H);
+    cancelBtn.backgroundColor = [UIColor clearColor];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelBtn setTitleColor:SYSTEM_ORANGE forState:UIControlStateNormal];
+    [cancelBtn addTarget:self action:@selector(doCancel:) forControlEvents:UIControlEventTouchUpInside];
+    [bottomBG addSubview:cancelBtn];
 }
 
 /*
@@ -115,7 +122,6 @@
     if (self.imgArray.count >3) {
         [self.photoSV setContentOffset:CGPointMake((IMG_GAP + IMG_H)*(index-3), 0) animated:YES];
     }
-    
 }
 
 - (void)take_Picture:(id)sender {
@@ -131,6 +137,13 @@
 }
 
 - (void)closePicker:(id)sender {
+    if ([self.clickDelegate respondsToSelector:@selector(closePicker_Click_WithImgArr:)]) {
+        [self.clickDelegate closePicker_Click_WithImgArr:self.imgArray];
+    }
+}
+
+- (void)doCancel:(id)sender { //取消拍照及已拍图片
+    [self.imgArray removeAllObjects];
     if ([self.clickDelegate respondsToSelector:@selector(closePicker_Click_WithImgArr:)]) {
         [self.clickDelegate closePicker_Click_WithImgArr:self.imgArray];
     }

@@ -38,6 +38,7 @@ typedef enum {
 @property (nonatomic, strong) PhotoShowView *imageOverLay;
 @property (nonatomic, assign) PropertyUploadType uploadType;
 
+@property (nonatomic, copy) NSString *lastPrice; //记录上一次的价格输入，用于判断是否需要
 @property (nonatomic, copy) NSString *propertyPrice; //房源定价价格
 @end
 
@@ -61,6 +62,7 @@ typedef enum {
 @synthesize fileNoTextF;
 @synthesize simToolBar;
 @synthesize inPhotoProcessing;
+@synthesize lastPrice, propertyPrice;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -113,8 +115,10 @@ typedef enum {
     self.houseTypeImgArr = [NSMutableArray array];
     
     self.uploadImgIndex = 0;
-    
     self.property = [PropertyDataManager getNewPropertyObject];
+    
+    self.lastPrice = [NSString string];
+    self.propertyPrice = [NSString string];
 }
 
 - (void)initDisplay {
@@ -238,9 +242,6 @@ typedef enum {
     }
     
     if (self.uploadImgIndex > self.imgArray.count - 1) {
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-
         DLog(@"图片上传完毕，开始发房");
         
         [self uploadProperty]; //开始上传房源
@@ -248,8 +249,8 @@ typedef enum {
     }
         
     if (self.imgArray.count == 0) {
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
+        [self showLoadingActivity:YES];
+        self.isLoading = YES;
         [self uploadProperty]; //......
 //        [self showInfo:@"请选择房源图片，谢谢"];
         return; //没有上传图片
@@ -260,7 +261,7 @@ typedef enum {
         self.isLoading = YES;
     }
     
-    //test 
+    //test
     //上传图片给UFS服务器
     NSString *photoUrl = [[self.imgArray objectAtIndex:self.uploadImgIndex] photoURL];
 
@@ -305,7 +306,6 @@ typedef enum {
     [self showInfo:@"图片上传失败，请重试"];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
 }
 
 //发房
@@ -899,11 +899,13 @@ typedef enum {
         return;
     }
     
-    if (self.propertyPrice.length > 0) {
+    if ([self.lastPrice isEqualToString:self.property.price]) { //价格未变，无需重心请求
         [self showAlertViewWithPrice:self.propertyPrice];
     }
-    else
+    else {
+        self.lastPrice = [NSString stringWithString:self.property.price];
         [self requestWithPrice];
+    }
 }
 
 - (void)addPhoto {
