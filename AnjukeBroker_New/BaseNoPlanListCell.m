@@ -56,7 +56,7 @@
         BasePropertyObject *tempProperty = (BasePropertyObject *)dataModel;
         [self setDetailLableValue:tempProperty];
         self.title.text = tempProperty.title;
-        CGSize size = CGSizeMake(240, 40);
+        CGSize size = CGSizeMake(250, 40);
         CGSize si = [tempProperty.title sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
         
         self.title.frame = CGRectMake(0, 8, si.width, si.height);

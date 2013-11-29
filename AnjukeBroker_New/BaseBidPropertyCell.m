@@ -61,21 +61,21 @@
         [self.backView addSubview:self.stringNum];
 
 
-        self.stage = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 60, 30)];
+        self.stage = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 50, 30)];
         self.stage.backgroundColor = [Util_UI colorWithHexString:@"#F9F9F9"];
 //        stage.text = @"   3";
-        self.stage.textColor = [Util_UI colorWithHexString:@"#ff6600"];
+//        self.stage.textColor = [Util_UI colorWithHexString:@"#ff6600"];
         self.stage.textAlignment = NSTextAlignmentCenter;
         self.stage.font = [UIFont systemFontOfSize:16];
         [self.backView addSubview:self.stage];
         
-        self.offer = [[UILabel alloc] initWithFrame:CGRectMake(225, 25, 30, 20)];
+        self.offer = [[UILabel alloc] initWithFrame:CGRectMake(155, 25, 30, 20)];
         self.offer.text = @"0";
         self.offer.font = [UIFont systemFontOfSize:12];
         self.offer.textAlignment = NSTextAlignmentCenter;
         [self.backView addSubview:self.offer];
         
-        self.ceiling = [[UILabel alloc] initWithFrame:CGRectMake(155, 25, 30, 20)];
+        self.ceiling = [[UILabel alloc] initWithFrame:CGRectMake(225, 25, 30, 20)];
         self.ceiling.text = @"0";
         self.ceiling.font = [UIFont systemFontOfSize:12];
         self.ceiling.textAlignment = NSTextAlignmentCenter;
@@ -111,15 +111,33 @@
         self.offer.text = [propInfo objectForKey:@"offer"];
         self.ceiling.text = [self getBudget:propInfo];
         DLog(@"===%@",[propInfo objectForKey:@"budget"])
-        self.stage.text = [propInfo objectForKey:@"index"];
+//        self.stage.text = [propInfo objectForKey:@"index"];
+        [self setStageByBidStatus:propInfo];
+        
     }
 }
 
 -(NSString *)getBudget:(NSDictionary *) dic{
     if([[dic objectForKey:@"bidStatus"] isEqualToString:@"3"]){
-    return @"0";
+        return @"0";
     }
     return [dic objectForKey:@"budget"];
+}
+- (void)setStageByBidStatus:(NSDictionary *) dic{
+    if([[dic objectForKey:@"bidStatus"] isEqualToString:@"1"]){
+        self.stage.textColor = [Util_UI colorWithHexString:@"#ff6600"];
+    }else if ([[dic objectForKey:@"bidStatus"] isEqualToString:@"11"]){
+        self.stage.textColor = SYSTEM_BLACK;
+        self.stage.text = @"排队中";
+        return ;
+    }else{
+        self.stage.textColor = SYSTEM_BLACK;
+    }
+    if([[dic objectForKey:@"index"] isEqualToString:@"0"]){
+    self.stage.text = @"已暂停";
+    }else{
+        self.stage.text = [dic objectForKey:@"index"];
+    }
 }
 /*
 // Only override drawRect: if you perform custom drawing.

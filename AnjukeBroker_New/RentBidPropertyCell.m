@@ -7,6 +7,7 @@
 //
 
 #import "RentBidPropertyCell.h"
+#import "Util_UI.h"
 
 @implementation RentBidPropertyCell
 
@@ -20,7 +21,7 @@
     return self;
 }
 -(void)adjustUI{
-    self.stage.frame = CGRectMake(20, 20, 60, 30);
+//    self.stage.frame = CGRectMake(20, 20, 60, 30);
 
 }
 -(void)setValueForCellByDataModel:(id) dataModel{
@@ -39,8 +40,17 @@
         self.offer.text = [propInfo objectForKey:@"offer"];
         self.ceiling.text = [self getBudget:propInfo];
         DLog(@"===%@",[propInfo objectForKey:@"budget"])
-        self.stage.text = [propInfo objectForKey:@"index"];
+        [self setIndex:propInfo];
+        
     }
+}
+- (void)setIndex:(NSDictionary *) dic{
+    if([[dic objectForKey:@"index"] integerValue] <= 5 && ((NSString *)[dic objectForKey:@"index"]).length <2){
+        self.stage.textColor = [Util_UI colorWithHexString:@"#ff6600"];
+    }else{
+        self.stage.textColor = SYSTEM_BLACK;
+    }
+    self.stage.text = [dic objectForKey:@"index"];
 }
 /*
 // Only override drawRect: if you perform custom drawing.
