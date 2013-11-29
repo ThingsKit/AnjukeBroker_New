@@ -251,7 +251,7 @@ typedef enum {
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
         [self uploadProperty]; //......
-        [self showInfo:@"请选择房源图片，谢谢"];
+//        [self showInfo:@"请选择房源图片，谢谢"];
         return; //没有上传图片
     }
     
@@ -552,7 +552,7 @@ typedef enum {
     if ([self onlineHouseTypeImgExit]) { //添加在线房形图
         NSDictionary *houseTypeDic = [self.houseTypeImgArr objectAtIndex:0];
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-        [dic setValue:[houseTypeDic objectForKey:@"hash"] forKey:@"hash"];
+        [dic setValue:[houseTypeDic objectForKey:@"aid"] forKey:@"commPicIds"];
         [dic setObject:@"3" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
 //        if (self.isHaozu) {
 //            [dic setObject:@"2" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
@@ -1191,12 +1191,12 @@ typedef enum {
                 if (!self.hideOnlineImg) {
                     //check小区、户型、朝向
                     if ([self.property.comm_id isEqualToString:@""] || self.property.comm_id == nil) {
-                        [self doPushToCommunity];
-                        [self showInfo:@"请选择小区"];
+//                        [self doPushToCommunity];
+                        [self showInfo:@"查看在线房形图需要选择小区"];
                         return;
                     }
                     else if ([self.property.rooms isEqualToString:@""] || self.property.rooms == nil) {
-                        [self showInfo:@"请选择户型"];
+                        [self showInfo:@"查看在线房形图需要选择户型"];
                         return;
                     }
 //                    else if ([self.property.exposure isEqualToString:@""] || self.property.exposure == nil) {
