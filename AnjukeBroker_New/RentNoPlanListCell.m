@@ -22,7 +22,12 @@
 -(BOOL)configureCellWithDic:(NSDictionary *) dic{
     self.backView.frame = CGRectMake(10, 0, 320, self.contentView.frame.size.height);
     self.title.text = [dic objectForKey:@"title"];
+    CGSize size = CGSizeMake(270, 40);
+    CGSize si = [[dic objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
     
+    self.title.frame = CGRectMake(0, 8, si.width, si.height);
+    self.proIcon.frame = CGRectMake(290, self.title.frame.origin.y + 2, 22, 14);
+    self.detail.frame = CGRectMake(0, self.title.frame.size.height + 15, 270, 20);
     NSString *tempStr = [NSString stringWithFormat:@"%@ %@室%@厅  %@平 %@%@", [dic objectForKey:@"commName"], [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"area"], [dic objectForKey:@"price"], [dic objectForKey:@"priceUnit"]];
     self.detail.text = tempStr;
     [self setProIconWithPro:dic];

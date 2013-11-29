@@ -27,8 +27,17 @@
     if([dataModel isKindOfClass:[NSDictionary class]]){
         NSDictionary *propInfo = (NSDictionary *)dataModel;
         self.title.text = [propInfo objectForKey:@"title"];
+        CGSize size = CGSizeMake(260, 40);
+        CGSize si = [[propInfo objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+        self.title.frame = CGRectMake(20, 5, si.width, si.height);
+        //        self.price.frame = CGRectMake(10, self.title.frame.origin.y+2, 14, 14);
+        self.price.frame = CGRectMake(20, self.title.frame.size.height + 5, 270, 20);
+        //        self.detail.frame = CGRectMake(27, self.comName.frame.size.height + self.title.frame.size.height + 5, 270, 20);
+        self.backView.frame = CGRectMake(0, self.price.frame.origin.y +20, 320, 50);
         self.price.text = [NSString stringWithFormat:@"%@ %@室%@厅 %@平 %@%@", [propInfo objectForKey:@"commName"], [propInfo objectForKey:@"roomNum"], [propInfo objectForKey:@"hallNum"], [propInfo objectForKey:@"area"], [propInfo objectForKey:@"price"], [propInfo objectForKey:@"priceUnit"]];
-        self.stringNum.text = [NSString stringWithFormat:@"%@           %@              %@             %@", [propInfo objectForKey:@"index"], [propInfo objectForKey:@"clickNum"], [propInfo objectForKey:@"offer"], [self getBudget:propInfo]];
+        self.stringNum.text = [NSString stringWithFormat:@"%@", [propInfo objectForKey:@"clickNum"]];
+        self.offer.text = [propInfo objectForKey:@"offer"];
+        self.ceiling.text = [self getBudget:propInfo];
         DLog(@"===%@",[propInfo objectForKey:@"budget"])
         self.stage.text = [propInfo objectForKey:@"index"];
     }

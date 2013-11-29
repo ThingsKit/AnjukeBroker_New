@@ -19,6 +19,9 @@
 @property (strong, nonatomic) UILabel *stringNum;
 @property (strong, nonatomic) UILabel *stage;
 @property (strong, nonatomic) UIImageView *statusImg;
+@property (strong, nonatomic) UILabel *backView;
+@property (strong, nonatomic) UILabel *offer;
+@property (strong, nonatomic) UILabel *ceiling;
 -(void)setValueForCellByDictinary:(NSDictionary *) dic;
 -(void)setValueForCellByDataModel:(id) dataModel;
 -(NSString *)getBudget:(NSDictionary *) dic;
