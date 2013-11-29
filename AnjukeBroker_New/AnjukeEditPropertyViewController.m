@@ -260,7 +260,7 @@ typedef enum {
         self.isLoading = YES;
     }
     
-    //test
+    //test 
     //上传图片给UFS服务器
     NSString *photoUrl = [[self.imgArray objectAtIndex:self.uploadImgIndex] photoURL];
 
