@@ -9,6 +9,7 @@
 #import "BaseAuctionViewController.h"
 #import "SaleAuctionViewController.h"
 #import "RentAuctionViewController.h"
+#import "BigZhenzhenButton.h"
 
 @interface BaseAuctionViewController ()
 
@@ -55,15 +56,11 @@
     for (int i = 0; i < 2; i ++) {
         [self drawInputBGWithIndex:i];
     }
-    
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.backgroundColor = SYSTEM_ORANGE;
-    btn.frame = CGRectMake(60, INPUT_VIEW_HEIGHT*2 + (42+20), [self windowWidth] - 60*2, 40);
-    [btn setTitle:@"估  排  名" forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    btn.layer.cornerRadius = 5;
-    [btn addTarget:self action:@selector(checkRank) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn];
+        
+    BigZhenzhenButton *logoutBtn = [[BigZhenzhenButton alloc] initWithFrame:CGRectMake(60, INPUT_VIEW_HEIGHT*2 + (42+20), [self windowWidth] - 60*2, 40)];
+    [logoutBtn setTitle:@"估排名" forState:UIControlStateNormal];
+    [logoutBtn addTarget:self action:@selector(checkRank) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:logoutBtn];
     
     UILabel *rankLb = [[UILabel alloc] initWithFrame:CGRectMake(60, INPUT_VIEW_HEIGHT*2 + 42/2, [self windowWidth]- 60*2, 20)];
     rankLb.backgroundColor = [UIColor clearColor];

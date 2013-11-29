@@ -8,6 +8,7 @@
 
 #import "PropertyResetViewController.h"
 #import "PropertyDataManager.h"
+#import "BigZhenzhenButton.h"
 
 @interface PropertyResetViewController ()
 
@@ -71,12 +72,9 @@
     
     CGFloat btnW = 200;
     CGFloat btnH = CELL_HEIGHT - 15;
-    UIButton *logoutBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    logoutBtn.frame = CGRectMake((footerView.frame.size.width -btnW)/2, (footerView.frame.size.height - btnH)/2, btnW, btnH);
-    [logoutBtn setBackgroundColor:SYSTEM_ORANGE];
-    [logoutBtn setTitle:@"删 除 房 源" forState:UIControlStateNormal];
+    BigZhenzhenButton *logoutBtn = [[BigZhenzhenButton alloc] initWithFrame:CGRectMake((footerView.frame.size.width -btnW)/2, (footerView.frame.size.height - btnH)/2, btnW, btnH)];
+    [logoutBtn setTitle:@"删除房源" forState:UIControlStateNormal];
     [logoutBtn addTarget:self action:@selector(doDeleteProperty) forControlEvents:UIControlEventTouchUpInside];
-    logoutBtn.layer.cornerRadius = 5;
     [footerView addSubview:logoutBtn];
     
     self.tvList.tableFooterView = footerView;

@@ -14,6 +14,7 @@
 #import "Util_UI.h"
 #import "AppDelegate.h"
 #import "BrokerAccountController.h"
+#import "BigZhenzhenButton.h"
 
 #define CALL_ANJUKE_NUMBER @"400-620-9008"
 #define CALL_ANJUKE_ROW 5
@@ -82,12 +83,9 @@
     
     CGFloat btnW = 200;
     CGFloat btnH = CELL_HEIGHT - 15;
-    UIButton *logoutBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    logoutBtn.frame = CGRectMake((footerView.frame.size.width -btnW)/2, (footerView.frame.size.height - btnH)/2, btnW, btnH);
-    [logoutBtn setBackgroundColor:SYSTEM_ORANGE];
-    [logoutBtn setTitle:@"退  出  登  录" forState:UIControlStateNormal];
+    BigZhenzhenButton *logoutBtn = [[BigZhenzhenButton alloc] initWithFrame:CGRectMake((footerView.frame.size.width -btnW)/2, (footerView.frame.size.height - btnH)/2, btnW, btnH)];
+    [logoutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
     [logoutBtn addTarget:self action:@selector(loginOut) forControlEvents:UIControlEventTouchUpInside];
-    logoutBtn.layer.cornerRadius = 5;
     [footerView addSubview:logoutBtn];
     
     self.tvList.tableFooterView = footerView;

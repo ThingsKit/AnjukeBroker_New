@@ -424,6 +424,8 @@ typedef enum {
     [self.tvList setFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight] - self.pickerView.frame.size.height - self.toolBar.frame.size.height-25)]; //***减25像素，先保证最后一行输入时不被中文输入法遮挡
     
     [self.tvList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO]; //animated
+    
+    [self.tvList setScrollEnabled:NO];
 }
 
 - (NSMutableString *)getInputStringAndSetProperty {
@@ -549,6 +551,8 @@ typedef enum {
     
     [self.tvList setFrame:FRAME_WITH_NAV];
     [self.tvList setContentOffset:CGPointMake(0, 0) animated:YES];
+    
+    [self.tvList setScrollEnabled:YES];
 }
 
 - (NSString *)getImageJson {
@@ -957,7 +961,7 @@ typedef enum {
         title = [NSString stringWithFormat:@"定价：暂无"];
     }
     else
-        title = [NSString stringWithFormat:@"定价：%@元一次",price];
+        title = [NSString stringWithFormat:@"定价：%@元/次",price];
     
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"定价且竞价推广", @"暂不推广", nil];
     sheet.tag = TagOfActionSheet_Save;

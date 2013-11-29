@@ -73,6 +73,7 @@
 		9795838418224F35005EA48A /* TabMore_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9795838318224F35005EA48A /* TabMore_normal@2x.png */; };
 		9795838D18225B93005EA48A /* anjuke_icon05_photo_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9795838B18225B93005EA48A /* anjuke_icon05_photo_selected@2x.png */; };
 		9795838E18225B93005EA48A /* anjuke_icon05_photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9795838C18225B93005EA48A /* anjuke_icon05_photo@2x.png */; };
+		979B083B18488A2800DD697E /* BigZhenzhenButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 979B083A18488A2800DD697E /* BigZhenzhenButton.m */; };
 		97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A0F0211816227A00C31D83 /* BrokerLineView.m */; };
 		97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A0F027181653A600C31D83 /* RTInputPickerView.m */; };
 		97A606811816C2A50041B367 /* InputOrderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A606801816C2A50041B367 /* InputOrderManager.m */; };
@@ -313,6 +314,8 @@
 		9795838318224F35005EA48A /* TabMore_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TabMore_normal@2x.png"; sourceTree = "<group>"; };
 		9795838B18225B93005EA48A /* anjuke_icon05_photo_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon05_photo_selected@2x.png"; sourceTree = "<group>"; };
 		9795838C18225B93005EA48A /* anjuke_icon05_photo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon05_photo@2x.png"; sourceTree = "<group>"; };
+		979B083918488A2800DD697E /* BigZhenzhenButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigZhenzhenButton.h; sourceTree = "<group>"; };
+		979B083A18488A2800DD697E /* BigZhenzhenButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigZhenzhenButton.m; sourceTree = "<group>"; };
 		97A0F0201816227A00C31D83 /* BrokerLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerLineView.h; sourceTree = "<group>"; };
 		97A0F0211816227A00C31D83 /* BrokerLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerLineView.m; sourceTree = "<group>"; };
 		97A0F026181653A600C31D83 /* RTInputPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTInputPickerView.h; sourceTree = "<group>"; };
@@ -940,6 +943,8 @@
 				97A0F0211816227A00C31D83 /* BrokerLineView.m */,
 				97192EE51818FEF7007971BA /* PhotoButton.h */,
 				97192EE61818FEF7007971BA /* PhotoButton.m */,
+				979B083918488A2800DD697E /* BigZhenzhenButton.h */,
+				979B083A18488A2800DD697E /* BigZhenzhenButton.m */,
 				974E5C7B181E4129000246D1 /* TableViewCell */,
 			);
 			name = "UIView&Util";
@@ -1313,7 +1318,7 @@
 				ORGANIZATIONNAME = "Wu sicong";
 				TargetAttributes = {
 					9741054E180CDFE0004DAE95 = {
-						DevelopmentTeam = 52KTBFLJDB;
+						DevelopmentTeam = D23ZWZQP84;
 					};
 					9741056E180CDFE1004DAE95 = {
 						TestTargetID = 9741054E180CDFE0004DAE95;
@@ -1521,6 +1526,7 @@
 				B7EA04AA1844DB3700AC8842 /* BrokerAccountCell.m in Sources */,
 				9751860218320D5F00C9A40A /* PhotoManager.m in Sources */,
 				97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */,
+				979B083B18488A2800DD697E /* BigZhenzhenButton.m in Sources */,
 				B76E5988181E5AD1005B6A8C /* BaseNoPlanListCell.m in Sources */,
 				97CB0C0D182BEA3500FCCBBD /* ELCAsset.m in Sources */,
 				B721095818278E6000904FC7 /* RentPropertyListCell.m in Sources */,
@@ -1672,13 +1678,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AnjukeBroker_New/AnjukeBroker_New-Prefix.pch";
 				INFOPLIST_FILE = "AnjukeBroker_New/AnjukeBroker_New-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "E9EFE1FE-7DA3-4D05-88D8-571143A5A2DE";
+				PROVISIONING_PROFILE = "C26DB707-DD47-44A6-A724-67AC18761511";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../RTNetwork/** $(PROJECT_DIR)/../RTApiProxy/** $(PROJECT_DIR)/../RTCoreService/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1699,13 +1705,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AnjukeBroker_New/AnjukeBroker_New-Prefix.pch";
 				INFOPLIST_FILE = "AnjukeBroker_New/AnjukeBroker_New-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "E9EFE1FE-7DA3-4D05-88D8-571143A5A2DE";
+				PROVISIONING_PROFILE = "C26DB707-DD47-44A6-A724-67AC18761511";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../RTNetwork/** $(PROJECT_DIR)/../RTApiProxy/** $(PROJECT_DIR)/../RTCoreService/**";
 				WRAPPER_EXTENSION = app;
 			};

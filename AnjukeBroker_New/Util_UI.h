@@ -17,6 +17,8 @@
 #define SYSTEM_ORANGE [Util_UI colorWithHexString:@"FF6600"]
 #define SYSTEM_NAVIBAR_COLOR [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1]
 
+#define SYSTEM_ZZ_RED [UIColor colorWithRed:0.93 green:0.24 blue:0.25 alpha:1]
+
 #define BIG_BTN_RED [UIColor colorWithRed:0.93 green:0.24 blue:0.25 alpha:1]
 
 @interface Util_UI : NSObject

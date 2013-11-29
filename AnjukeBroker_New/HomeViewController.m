@@ -55,14 +55,18 @@
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor clearColor];
     [self setTitleViewWithString:@"我的安居客"];
-    
-    [self doRequest];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self doRequest];
 }
 
 #pragma mark - private method
@@ -164,7 +168,7 @@
         numLb.backgroundColor = [UIColor clearColor];
         numLb.font = [UIFont systemFontOfSize:20];
         numLb.textColor = SYSTEM_BLACK;
-        numLb.text = @"88"; //for test
+        numLb.text = @""; //for test
         numLb.textAlignment = NSTextAlignmentCenter;
         [view2 addSubview:numLb];
         
@@ -220,6 +224,9 @@
         self.isLoading = NO;
         return;
     }
+    
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
 
     NSMutableDictionary *params = nil;
     NSString *method = nil;
@@ -228,7 +235,6 @@
     method = @"broker/getinfoandppc/";
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
-    
 }
 
 - (void)onRequestFinished:(RTNetworkResponse *)response {
