@@ -16,7 +16,6 @@
     if (self) {
         // Initialization code
         
-        UIImageView *img = [[UIImageView alloc] initWithImage:<#(UIImage *)#>]
     }
     return self;
 }

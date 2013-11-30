@@ -108,9 +108,14 @@ typedef enum {
     
     [self addPageController];
     
+    CGFloat imgGapH = 50;
+    if ([self getWindowHeight] <= 960) { //iPhone4\4s
+        imgGapH = 10;
+    }
+    
     for (int i = 0; i < imgArray.count; i ++) {
         UIImageView *img = [[UIImageView alloc] initWithImage:[imgArray objectAtIndex:i]];
-        img.frame = CGRectMake(0 + [self getWindowWidth] *i, 50, [self getWindowWidth], [self getWindowHeight]-50);
+        img.frame = CGRectMake(0 + [self getWindowWidth] *i, imgGapH, [self getWindowWidth], [self getWindowHeight]-50);
         img.backgroundColor = [UIColor clearColor];
         img.contentMode = UIViewContentModeTop;
         [self.sv addSubview:img];
