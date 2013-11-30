@@ -58,6 +58,7 @@
     }
         
     BigZhenzhenButton *logoutBtn = [[BigZhenzhenButton alloc] initWithFrame:CGRectMake(60, INPUT_VIEW_HEIGHT*2 + (42+20), [self windowWidth] - 60*2, 40)];
+    logoutBtn.backgroundColor = SYSTEM_ORANGE;
     [logoutBtn setTitle:@"估排名" forState:UIControlStateNormal];
     [logoutBtn addTarget:self action:@selector(checkRank) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:logoutBtn];

@@ -63,6 +63,7 @@
 @property (nonatomic, strong) UITableView *tvList;
 
 @property BOOL inPhotoProcessing;
+@property BOOL isTBBtnPressedToShowKeyboard; //是否是通过上一项、下一项点按控制键盘、滚轮显示，是则屏蔽textField的delegate方法
 
 //公开函数，仅继承页面使用
 - (void)setCommunityWithText:(NSString *)string; //设置小区名，上次使用

@@ -63,6 +63,7 @@ typedef enum {
 @synthesize simToolBar;
 @synthesize inPhotoProcessing;
 @synthesize lastPrice, propertyPrice;
+@synthesize isTBBtnPressedToShowKeyboard;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -421,11 +422,11 @@ typedef enum {
 
 //**根据当前输入焦点行移动tableView显示
 - (void)tableVIewMoveWithIndex:(NSInteger)index {
-    [self.tvList setFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight] - self.pickerView.frame.size.height - self.toolBar.frame.size.height-25)]; //***减25像素，先保证最后一行输入时不被中文输入法遮挡
+    [self.tvList setFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight] - self.pickerView.frame.size.height - self.toolBar.frame.size.height-28)]; //***减28像素，先保证最后一行输入时不被中文输入法遮挡
     
     [self.tvList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO]; //animated
     
-    [self.tvList setScrollEnabled:NO];
+//    [self.tvList setScrollEnabled:NO];
 }
 
 - (NSMutableString *)getInputStringAndSetProperty {
@@ -857,6 +858,8 @@ typedef enum {
 }
 
 - (void)preBtnClicked { //点击”上一个“，检查输入样式并做转换，tableView下移
+    self.isTBBtnPressedToShowKeyboard = YES;
+    
     if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
         self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
     }
@@ -867,17 +870,18 @@ typedef enum {
         return;
     }
     
-//    DLog(@"index-[%d]", self.selectedRow);
-    
-    //修改输入组件数据/修改输入框焦点 //tableView移动
-    [self tableVIewMoveWithIndex:self.selectedRow];
+    DLog(@"上一项index-[%d]", self.selectedRow);
     
     [self getTextFieldWithIndex:self.selectedRow];
+    //修改输入组件数据/修改输入框焦点 //tableView移动
+    [self tableVIewMoveWithIndex:self.selectedRow];
+    //显示弹框
     [self textFieldShowWithIndex:self.selectedRow];
-    
 }
 
 - (void)nextBtnClicked { //点击”下一个“，检查输入样式并做转换，tableView上移
+    self.isTBBtnPressedToShowKeyboard = YES;
+    
     //得到前一条的输入数据，并显示下一条的输入框
     if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
         self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
@@ -885,19 +889,17 @@ typedef enum {
     
     self.selectedRow ++; //当前输入行数+1
     if (self.selectedRow > self.titleArray.count -1) {
-//        DLog(@"max row -%d", self.selectedRow);
         self.selectedRow = self.titleArray.count -1;
         return;
     }
     
-//    DLog(@"index-[%d]", self.selectedRow);
-    
-    //修改输入组件数据/修改输入框焦点 //tableView移动
-    [self tableVIewMoveWithIndex:self.selectedRow];
+    DLog(@"下一项index-[%d]", self.selectedRow);
     
     [self getTextFieldWithIndex:self.selectedRow];
-    [self textFieldShowWithIndex:self.selectedRow];
-    
+    //修改输入组件数据/修改输入框焦点 //tableView移动
+    [self tableVIewMoveWithIndex:self.selectedRow];
+    //显示弹框
+    [self textFieldShowWithIndex:self.selectedRow];    
 }
 
 #pragma mark - Image Picker Button Method
@@ -1022,8 +1024,13 @@ typedef enum {
 #pragma mark - Edit_Cell Delegate
 
 - (void)textFieldBeginEdit:(UITextField *)textField {
-    [self getTextFieldIndexWithTF:textField];
-    [self textFieldShowWithIndex:self.selectedRow];
+    if (self.isTBBtnPressedToShowKeyboard) {
+        self.isTBBtnPressedToShowKeyboard = NO; //锁还原
+    }
+    else {
+        [self getTextFieldIndexWithTF:textField];
+        [self textFieldShowWithIndex:self.selectedRow];
+    }
 }
 
 - (void)textFieldDidEndEdit:(NSString *)text { //暂不可用
@@ -1087,7 +1094,7 @@ typedef enum {
     AnjukeEditableCell *cell = (AnjukeEditableCell *)[[[tf superview] superview] superview];
     self.selectedRow = [[self.tvList indexPathForCell:cell] row];
     
-    DLog(@"index - [%d]", self.selectedRow);
+    DLog(@"修改selectRow index - [%d]", self.selectedRow);
 }
 
 - (void)getTextFieldWithIndex:(int)index {
@@ -1096,6 +1103,8 @@ typedef enum {
 }
 
 - (void)textFieldShowWithIndex:(int)index {
+    DLog(@"传入的index [%d] selectRow[%d]", index, self.selectedRow);
+    
     if (!self.pickerView) {
         self.pickerView = [[RTInputPickerView alloc] initWithFrame:CGRectMake(0, [self currentViewHeight] - RT_PICKERVIEW_H - 0, [self windowWidth], RT_PICKERVIEW_H)];
     }
@@ -1106,11 +1115,17 @@ typedef enum {
     }
     
     if ([InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
+        [self.inputingTextF becomeFirstResponder];
+        
         //弹出键盘
         self.inputingTextF.inputAccessoryView = self.toolBar;
         self.inputingTextF.inputView = nil;
+        
+        DLog(@"显示键盘的index [%d]", index);
     }
     else {
+        DLog(@"显示滚轮的index [%d]", index);
+        
         //弹出滚轮
         self.inputingTextF.inputAccessoryView = self.toolBar;
         self.inputingTextF.inputView = self.pickerView;
@@ -1131,11 +1146,10 @@ typedef enum {
         if (![self.inputingTextF.text isEqualToString:@""]) {
             //
         }
+        [self.inputingTextF becomeFirstResponder];
     }
     
     [self tableVIewMoveWithIndex:self.selectedRow];
-    
-    [self.inputingTextF becomeFirstResponder];
 }
 
 - (void)textFieldAllResign { //全部收起键盘
