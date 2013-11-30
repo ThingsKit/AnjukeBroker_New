@@ -109,7 +109,7 @@ typedef enum {
     [self addPageController];
     
     CGFloat imgGapH = 50;
-    if ([self getWindowHeight] <= 960) { //iPhone4\4s
+    if ([self getWindowHeight] <= 960/2) { //iPhone4\4s
         imgGapH = 10;
     }
     

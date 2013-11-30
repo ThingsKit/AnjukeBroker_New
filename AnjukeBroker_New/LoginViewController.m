@@ -18,10 +18,12 @@
 
 @property (nonatomic, strong) UITextField *nameTF;
 @property (nonatomic, strong) UITextField *passwordTF;
+@property (nonatomic, strong) UIScrollView *mainSV;
 @end
 
 @implementation LoginViewController
 @synthesize nameTF, passwordTF;
+@synthesize mainSV;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -61,6 +63,11 @@
         self.navigationController.navigationBarHidden = YES;
     }
     
+    UIScrollView *sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight])];
+    self.mainSV = sv;
+    sv.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:sv];
+    
     CGFloat btnW = 530/2;
     CGFloat btnGap = ([self windowWidth] - btnW)/2;
     CGFloat btnH = 85/2;
@@ -80,11 +87,11 @@
     icon.backgroundColor = [UIColor clearColor];
     icon.contentMode = UIViewContentModeScaleAspectFill;
     icon.layer.cornerRadius = 5;
-    [self.view addSubview:icon];
+    [sv addSubview:icon];
     
     UIView *BG1 = [[UIView alloc] initWithFrame:CGRectMake(btnGap, 150+ 10,  btnW, btnH)];
     BG1.backgroundColor = textBGColor;
-    [self.view addSubview:BG1];
+    [sv addSubview:BG1];
     
     UITextField *cellTextField = nil;
     cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(tfGap, tfGapH, tfW, tfH)];
@@ -106,7 +113,7 @@
     
     UIView *BG2 = [[UIView alloc] initWithFrame:CGRectMake(btnGap, BG1.frame.size.height+BG1.frame.origin.y+1,  btnW, btnH)];
     BG2.backgroundColor = textBGColor;
-    [self.view addSubview:BG2];
+    [sv addSubview:BG2];
     
     UITextField *cellTextField2 = nil;
     cellTextField2 = [[UITextField alloc] initWithFrame:CGRectMake(tfGap, tfGapH, tfW, tfH)];
@@ -132,7 +139,7 @@
     btn.layer.cornerRadius = 3;
     [btn setTitle:@"登    录" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(doRequest) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn];
+    [sv addSubview:btn];
     
     [self checkLoginStatus];
 }
@@ -157,7 +164,39 @@
     }
 }
 
+- (void)changeScrollViewOffsetWithTF:(UITextField *)textField {
+    [self.mainSV setFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight] -216)];
+    
+    CGFloat offsetY = 10;
+    if ([self windowHeight] <= 960/2) {
+        offsetY = 40;
+    }
+    CGFloat contentOffsetY = 0;
+    
+    if ([textField isEqual:self.nameTF]) {
+        contentOffsetY = offsetY;
+    }
+    else if ([textField isEqual:self.passwordTF]) {
+        contentOffsetY = offsetY*2;
+    }
+    
+    [self.mainSV setContentOffset:CGPointMake(0, contentOffsetY) animated:NO];
+}
+
+- (void)changeScrollViewToNormal {
+    [self.mainSV setFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight])];
+    [self.mainSV setContentOffset:CGPointMake(0, 0) animated:YES];
+}
+
 #pragma mark TextField Delegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    [self changeScrollViewOffsetWithTF:textField];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    
+}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self doRequest];
