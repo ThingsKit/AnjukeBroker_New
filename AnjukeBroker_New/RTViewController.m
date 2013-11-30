@@ -51,26 +51,34 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    DLog(@"Controller Appear: %@",NSStringFromClass(self.class));
+    
     [self sendAppearLog];
 }
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
+    [self hideLoadWithAnimated:NO];
     [self sendDisAppearLog];
-    DLog(@"Controller Disappear: %@",NSStringFromClass(self.class));
+    
     [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
 }
+
 -(void) sendAppearLog
 {
     
 }
+
 -(void) sendDisAppearLog
 {
     
 }
+
 #pragma mark - Status method
+
 - (BOOL)isNetworkOkay {
     if (![[RTApiRequestProxy sharedInstance] isInternetAvailiable]) {
         [self showInfo:NONETWORK_STR];
