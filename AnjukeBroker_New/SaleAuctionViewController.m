@@ -83,11 +83,11 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_AUCTION_004 note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_008 note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
         return;
     }
     if([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]){
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_NOPLAN_GROUP_005 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_008 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
     }
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
@@ -123,7 +123,7 @@
     self.isLoading = NO;
 }
 
-#pragma mark - 设置竞价额度
+#pragma mark - 开始竞价
 -(void)doRequest{
     if(![self isNetworkOkay]){
         [self showInfo:NONETWORK_STR];
@@ -148,7 +148,7 @@
         return;
     }
     if([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]){
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_NOPLAN_GROUP_005 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_AUCTION_004 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
     }
     
     [self hideLoadWithAnimated:YES];
@@ -202,7 +202,6 @@
     [self doSure];
 }
 - (void)rightButtonAction:(id)sender {
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_AUCTION_004 note:nil];
     if(self.textField_1.text == nil){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请填写预算" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alert show];

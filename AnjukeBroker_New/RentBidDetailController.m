@@ -187,7 +187,7 @@
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGSize size = CGSizeMake(250, 40);
     CGSize si = [[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-    return si.height+75.0f;
+    return si.height+78.0f;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -262,7 +262,7 @@
 }
 #pragma mark -- PrivateMethod
 -(void)rightButtonAction:(id)sender{
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_004 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_NOPLAN_003 note:nil];
     
     if(self.isLoading){
         return ;
@@ -274,6 +274,6 @@
 }
 - (void)doBack:(id)sender{
     [super doBack:self];
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_003 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_NOPLAN_004 note:nil];
 }
 @end
