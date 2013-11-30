@@ -9,6 +9,9 @@
 #import "ELCAssetCell.h"
 #import "ELCAsset.h"
 #import "ELCAlbumPickerController.h"
+#import "Util_UI.h"
+
+#define PhotoPickerTitle @"照片选择"
 
 @interface ELCAssetTablePicker ()
 
@@ -43,8 +46,9 @@
         
     } else {
         UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction:)];
+        doneButtonItem.tintColor = SYSTEM_ORANGE;
         [self.navigationItem setRightBarButtonItem:doneButtonItem];
-        [self.navigationItem setTitle:@"Loading..."];
+        [self.navigationItem setTitle:PhotoPickerTitle];
     }
 
 	[self performSelectorInBackground:@selector(preparePhotos) withObject:nil];
@@ -107,7 +111,8 @@
                                                       animated:NO];
             }
             
-            [self.navigationItem setTitle:self.singleSelection ? @"Pick Photo" : @"Pick Photos"];
+//            [self.navigationItem setTitle:self.singleSelection ? @"Pick Photo" : @"Pick Photos"];
+            [self.navigationItem setTitle:PhotoPickerTitle];
         });
     }
 }
