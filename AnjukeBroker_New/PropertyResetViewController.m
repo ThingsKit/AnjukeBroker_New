@@ -526,7 +526,7 @@
         return;
     }
     
-    [self showInfo:@"告诉你一个天大的好消息，，，更新房源信息（带图片的哦）成功了，做死我了尼玛"];
+    [self showInfo:@"房源信息更新成功 "];
     [self dismissViewControllerAnimated:YES completion:nil];
     
     [self hideLoadWithAnimated:YES];
@@ -565,7 +565,7 @@
         return;
     }
     
-    [self showInfo:@"删除图片成功"];
+    [self showInfo:@"图片已删除"];
     [self hideLoadWithAnimated:YES];
 }
 
