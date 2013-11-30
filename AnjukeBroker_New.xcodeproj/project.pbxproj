@@ -20,6 +20,7 @@
 		970DB71D183AFFE700DEB455 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 970DB71C183AFFE700DEB455 /* AboutUsViewController.m */; };
 		970FC17E183B19C400D142D5 /* PropertyResetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 970FC17D183B19C400D142D5 /* PropertyResetViewController.m */; };
 		97192EE71818FEF7007971BA /* PhotoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 97192EE61818FEF7007971BA /* PhotoButton.m */; };
+		971D60921849CEA5006B07C9 /* NoNetworkView.m in Sources */ = {isa = PBXBuildFile; fileRef = 971D60911849CEA5006B07C9 /* NoNetworkView.m */; };
 		9720001A1841BF25003F49A4 /* details_arrow_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 972000181841BF25003F49A4 /* details_arrow_left@2x.png */; };
 		9720001B1841BF25003F49A4 /* details_arrow_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 972000191841BF25003F49A4 /* details_arrow_right@2x.png */; };
 		972C101A1814D4FF00552C9B /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972C10191814D4FF00552C9B /* TencentOpenAPI.framework */; };
@@ -235,6 +236,8 @@
 		970FC17D183B19C400D142D5 /* PropertyResetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyResetViewController.m; sourceTree = "<group>"; };
 		97192EE51818FEF7007971BA /* PhotoButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoButton.h; sourceTree = "<group>"; };
 		97192EE61818FEF7007971BA /* PhotoButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoButton.m; sourceTree = "<group>"; };
+		971D60901849CEA5006B07C9 /* NoNetworkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoNetworkView.h; sourceTree = "<group>"; };
+		971D60911849CEA5006B07C9 /* NoNetworkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoNetworkView.m; sourceTree = "<group>"; };
 		972000181841BF25003F49A4 /* details_arrow_left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "details_arrow_left@2x.png"; sourceTree = "<group>"; };
 		972000191841BF25003F49A4 /* details_arrow_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "details_arrow_right@2x.png"; sourceTree = "<group>"; };
 		972C10191814D4FF00552C9B /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = ../RTCoreService/RTCoreService/RT3rdSDK/TencentSDK/TencentOpenAPI.framework; sourceTree = "<group>"; };
@@ -601,6 +604,15 @@
 			name = "icon+lanchImg";
 			sourceTree = "<group>";
 		};
+		971D60931849D33E006B07C9 /* 无网络图 */ = {
+			isa = PBXGroup;
+			children = (
+				971D60901849CEA5006B07C9 /* NoNetworkView.h */,
+				971D60911849CEA5006B07C9 /* NoNetworkView.m */,
+			);
+			name = "无网络图";
+			sourceTree = "<group>";
+		};
 		972C10231814FC3800552C9B /* 首页+发房 */ = {
 			isa = PBXGroup;
 			children = (
@@ -932,6 +944,7 @@
 		97A0F01E181621AA00C31D83 /* UIView&Util */ = {
 			isa = PBXGroup;
 			children = (
+				971D60931849D33E006B07C9 /* 无网络图 */,
 				970501741845D1FF00A0C181 /* 引导页 */,
 				97CB0C19182BF04600FCCBBD /* Category */,
 				970B78D8182010B600C8E3C6 /* Util */,
@@ -1487,6 +1500,7 @@
 				B769E48C181FA89000A2FF50 /* PPCGroupCell.m in Sources */,
 				B7E69BBB183B4DDB0097D5C3 /* BaseModifyCostController.m in Sources */,
 				B77A960C182A3369007F04E3 /* SaleNoPlanListManager.m in Sources */,
+				971D60921849CEA5006B07C9 /* NoNetworkView.m in Sources */,
 				972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */,
 				974E5C82181E4210000246D1 /* AnjukeEditableCell.m in Sources */,
 				B769E463181F629B00A2FF50 /* BasePropertyDetailController.m in Sources */,
