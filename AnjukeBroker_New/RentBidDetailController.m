@@ -82,7 +82,10 @@
 
 - (void)onGetLogin:(RTNetworkResponse *)response {
     DLog(@"------response [%@]", [response content]);
-
+    if([[response content] count] == 0){
+        [self showInfo:@"操作失败"];
+        return ;
+    }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
@@ -124,6 +127,10 @@
 
 - (void)onCancelBidSuccess:(RTNetworkResponse *)response {
     DLog(@"------response [%@]", [response content]);
+    if([[response content] count] == 0){
+        [self showInfo:@"操作失败"];
+        return ;
+    }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
@@ -154,6 +161,10 @@
 
 - (void)onStopBidSuccess:(RTNetworkResponse *)response {
     DLog(@"------response [%@]", [response content]);
+    if([[response content] count] == 0){
+        [self showInfo:@"操作失败"];
+        return ;
+    }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
@@ -210,7 +221,6 @@
     if(actionSheet.tag == 101){
         if (buttonIndex == 0){
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_005 note:nil];
-            
             PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
             controller.isHaozu = YES;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];

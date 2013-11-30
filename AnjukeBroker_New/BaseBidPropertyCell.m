@@ -54,7 +54,7 @@
         self.string.layer.cornerRadius = 6;
         [self.backView addSubview:self.string];
         
-        self.stringNum = [[UILabel alloc] initWithFrame:CGRectMake(90, 25, 30, 20)];
+        self.stringNum = [[UILabel alloc] initWithFrame:CGRectMake(90, 25, 40, 20)];
 //        self.stringNum.text = @"   1                  10                  2.0             18.00";
         self.stringNum.textAlignment = NSTextAlignmentCenter;
         self.stringNum.font = [UIFont systemFontOfSize:12];
@@ -69,13 +69,13 @@
         self.stage.font = [UIFont systemFontOfSize:16];
         [self.backView addSubview:self.stage];
         
-        self.offer = [[UILabel alloc] initWithFrame:CGRectMake(155, 25, 30, 20)];
+        self.offer = [[UILabel alloc] initWithFrame:CGRectMake(145, 25, 60, 20)];
         self.offer.text = @"0";
         self.offer.font = [UIFont systemFontOfSize:12];
         self.offer.textAlignment = NSTextAlignmentCenter;
         [self.backView addSubview:self.offer];
         
-        self.ceiling = [[UILabel alloc] initWithFrame:CGRectMake(225, 25, 30, 20)];
+        self.ceiling = [[UILabel alloc] initWithFrame:CGRectMake(215, 25, 60, 20)];
         self.ceiling.text = @"0";
         self.ceiling.font = [UIFont systemFontOfSize:12];
         self.ceiling.textAlignment = NSTextAlignmentCenter;

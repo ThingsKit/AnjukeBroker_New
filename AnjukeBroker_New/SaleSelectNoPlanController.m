@@ -71,6 +71,10 @@
 }
 - (void)onGetSuccess:(RTNetworkResponse *)response {
     DLog(@"------response [%@]", [response content]);
+    if([[response content] count] == 0){
+        [self showInfo:@"操作失败"];
+        return ;
+    }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
@@ -119,7 +123,10 @@
 }
 
 - (void)onFixedSuccess:(RTNetworkResponse *)response {
-    
+    if([[response content] count] == 0){
+        [self showInfo:@"操作失败"];
+        return ;
+    }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
