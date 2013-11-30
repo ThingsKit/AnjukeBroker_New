@@ -86,6 +86,8 @@
 }
 - (void)onGetLogin:(RTNetworkResponse *)response {
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -106,7 +108,7 @@
         return ;
     }
     if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到房源" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self.myArray removeAllObjects];
         [self.myTable reloadData];
@@ -137,6 +139,8 @@
 - (void)onStopSuccess:(RTNetworkResponse *)response {
         DLog(@"------response [%@]", [response content]);
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -173,6 +177,8 @@
 - (void)onCancelSuccess:(RTNetworkResponse *)response {
     DLog(@"------response [%@]", [response content]);
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -213,14 +219,14 @@
 }
 
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CGSize size = CGSizeMake(250, 40);
+    CGSize size = CGSizeMake(260, 40);
     CGSize si = [[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
     return si.height+75.0f;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-
     static NSString *cellIdent = @"BaseBidPropertyCell";
+    tableView.separatorColor = [UIColor lightGrayColor];
     BaseBidPropertyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
 
     if(cell == nil){

@@ -104,6 +104,8 @@
 
 - (void)onGetFixedInfo:(RTNetworkResponse *)response {
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -145,6 +147,8 @@
 
 - (void)onCancelSuccess:(RTNetworkResponse *)response {
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -177,6 +181,8 @@
 
 - (void)onCancelGroupSuccess:(RTNetworkResponse *)response {
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -208,6 +214,8 @@
 
 - (void)onRestartSuccess:(RTNetworkResponse *)response {
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -260,9 +268,10 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+
     if([indexPath row] == 0){
         static NSString *cellIdent = @"SaleFixedCell";
+        tableView.separatorColor = [UIColor lightGrayColor];
         SaleFixedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"SaleFixedCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SaleFixedCell"];
@@ -272,6 +281,7 @@
         return cell;
     }else{
         static NSString *cellIdent = @"SalePropertyListCell";
+        tableView.separatorColor = [UIColor lightGrayColor];
         SalePropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"SalePropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SalePropertyListCell"];

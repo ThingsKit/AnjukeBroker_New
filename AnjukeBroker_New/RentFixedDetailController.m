@@ -103,6 +103,8 @@
 
 - (void)onGetFixedInfo:(RTNetworkResponse *)response {
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -146,6 +148,8 @@
 - (void)onCancelSuccess:(RTNetworkResponse *)response {
     DLog(@"------response [%@]", [response content]);
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -176,6 +180,8 @@
 - (void)onRestartSuccess:(RTNetworkResponse *)response {
     DLog(@"------response [%@]", [response content]);
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -208,6 +214,8 @@
 - (void)onStopSuccess:(RTNetworkResponse *)response {
     DLog(@"------response [%@]", [response content]);
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -257,9 +265,11 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+
     DLog(@"[LoginManager isSeedForAJK:NO]%d",[LoginManager isSeedForAJK:NO]);
     if([indexPath row] == 0){
         static NSString *cellIdent = @"RentFixedCell";
+            tableView.separatorColor = [UIColor lightGrayColor];
         RentFixedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"RentFixedCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RentFixedCell"];
@@ -268,6 +278,7 @@
         return cell;
     }else{
         static NSString *cellIdent = @"RentPropertyListCell";
+            tableView.separatorColor = [UIColor lightGrayColor];
         RentPropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"RentPropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RentPropertyListCell"];

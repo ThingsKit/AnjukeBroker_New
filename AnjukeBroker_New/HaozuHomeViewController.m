@@ -60,6 +60,7 @@
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
+    self.myTable.separatorColor = [UIColor whiteColor];
     [self.view addSubview:myTable];
 }
 -(void)dealloc{
@@ -96,6 +97,8 @@
 
 - (void)onGetLogin:(RTNetworkResponse *)response {
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -178,12 +181,13 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdent = @"RentPPCGroupCell";
-    
+    tableView.separatorColor = [UIColor lightGrayColor];
     RentPPCGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == nil){
         cell = [[NSClassFromString(@"RentPPCGroupCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
     }
     [cell setValueForCellByData:self.myArray index:indexPath.row];
     return cell;

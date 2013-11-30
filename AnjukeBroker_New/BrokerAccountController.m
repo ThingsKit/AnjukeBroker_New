@@ -33,24 +33,44 @@
 {
     [super viewDidLoad];
     [self setTitleViewWithString:@"账户信息"];
-    
 	// Do any additional setup after loading the view.
 }
 - (void)initDisplay{
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
+    self.myTable.separatorColor = [UIColor whiteColor];
     [self.view addSubview:self.myTable];
     
     UIView *img = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 82)];
     img.backgroundColor = [UIColor whiteColor];
     self.myTable.tableHeaderView = img;
-    
     CGFloat imgw = 124/2;
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:img.frame];
+    [self drawLine:imageView];
+    [img addSubview:imageView];
     WebImageView *brokerImg = [[WebImageView alloc] initWithFrame:CGRectMake(([self windowWidth] - imgw)/2, (82-imgw)/2, imgw, imgw)];
     brokerImg.imageUrl = [LoginManager getUse_photo_url];
     [img addSubview:brokerImg];
     
+
+}
+
+- (void)drawLine:(UIImageView *) imageView{
+    UIGraphicsBeginImageContext(imageView.frame.size);
+    [imageView.image drawInRect:CGRectMake(0, 0, imageView.frame.size.width, imageView.frame.size.height)];
+    CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);
+    CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 0.1);
+    CGContextSetAllowsAntialiasing(UIGraphicsGetCurrentContext(), YES);
+    CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), 46.0/255, 46.0/255, 46.0/255, 1.0);
+    CGContextBeginPath(UIGraphicsGetCurrentContext());
+    CGContextMoveToPoint(UIGraphicsGetCurrentContext(), 17, 80);
+    CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), 320, 80);
+    CGContextStrokePath(UIGraphicsGetCurrentContext());
+    imageView.image=UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
 }
 - (void)initModel{
     self.dataDic = [NSMutableDictionary dictionary];
@@ -61,6 +81,7 @@
     [self doRequest];
 
 }
+
 #pragma mark - Request Method
 
 - (void)doRequest {
@@ -77,18 +98,26 @@
     method = @"broker/getinfoandppc/";
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
-    
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
 }
 
 - (void)onRequestFinished:(RTNetworkResponse *)response {
     DLog(@"。。。response [%@]", [response content]);
-    
+    if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        [self showInfo:@"操作失败"];
+        return ;
+    }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles: nil];
         [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         return;
     }
     
@@ -109,7 +138,8 @@
 //}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 6;//self.groupArray.count;
+//    return 6;//self.groupArray.count;
+    return [self.dataDic count] - 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -118,7 +148,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellName = @"cell";
-    
+    tableView.separatorColor = [UIColor lightGrayColor];
     BrokerAccountCell *cell = [tableView dequeueReusableCellWithIdentifier:cellName];
     if (cell == nil) {
         cell = [[BrokerAccountCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellName];

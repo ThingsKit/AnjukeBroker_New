@@ -78,6 +78,8 @@
 - (void)onBidResetSuccess:(RTNetworkResponse *)response {
     DLog(@"------response [%@]", [response content]);
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -114,6 +116,8 @@
 - (void)onMinSuccess:(RTNetworkResponse *)response {
     DLog(@"------response [%@]", [response content]);
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -147,6 +151,8 @@
 - (void)onBidSuccess:(RTNetworkResponse *)response {
     DLog(@"------response [%@]", [response content]);
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -194,6 +200,8 @@
 - (void)onRestartSuccess:(RTNetworkResponse *)response {
     DLog(@"------response [%@]", [response content]);
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }

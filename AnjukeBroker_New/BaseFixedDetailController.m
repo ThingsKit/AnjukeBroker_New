@@ -42,6 +42,7 @@
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
+    self.myTable.separatorColor = [UIColor whiteColor];
     [self.view addSubview:self.myTable];
 }
 
@@ -65,7 +66,7 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    tableView.separatorColor = [UIColor whiteColor];
     if([indexPath row] == 0){
         static NSString *cellIdent = @"BaseFixedCell";
         BaseFixedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];

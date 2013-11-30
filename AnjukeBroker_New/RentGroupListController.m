@@ -70,6 +70,8 @@
 
 - (void)onFixedGroupSuccess:(RTNetworkResponse *)response {
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -114,6 +116,8 @@
 - (void)onFixedSuccess:(RTNetworkResponse *)response {
     DLog(@"------response [%@]", [response content]);
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -157,6 +161,7 @@
     [self doFixed];
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    tableView.separatorColor = [UIColor lightGrayColor];
     static NSString *cellIdent = @"PPCGroupCell";
     
     PPCGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];

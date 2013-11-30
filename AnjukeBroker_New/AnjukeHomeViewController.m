@@ -56,6 +56,7 @@
 //    self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
+    self.myTable.separatorColor = [UIColor whiteColor];
     [self.view addSubview:self.myTable];
 
 	// Do any additional setup after loading the view.
@@ -109,6 +110,8 @@
 - (void)onGetSuccess:(RTNetworkResponse *)response {
         DLog(@"------response [%@]", [response content]);
     if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
     }
@@ -189,7 +192,7 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdent = @"PPCGroupCell";
-    
+    tableView.separatorColor = [UIColor lightGrayColor];
     PPCGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == nil){
         cell = [[NSClassFromString(@"PPCGroupCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];

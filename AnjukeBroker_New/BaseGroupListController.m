@@ -48,6 +48,7 @@
     self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
+    self.myTable.separatorColor = [UIColor whiteColor];
     [self.view addSubview:self.myTable];
 }
 
