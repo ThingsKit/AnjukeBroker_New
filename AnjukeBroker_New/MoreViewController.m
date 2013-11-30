@@ -269,9 +269,9 @@
             break;
         case CALL_CHECKVER:
         {
-            //make call
+            //check version
+            [[AppDelegate sharedAppDelegate] setBoolNeedAlert:YES];
             [[AppDelegate sharedAppDelegate] checkVersion];
-            
         }
             break;
         case CALL_CLIENT_ROW:

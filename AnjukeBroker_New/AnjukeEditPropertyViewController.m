@@ -1115,8 +1115,6 @@ typedef enum {
     }
     
     if ([InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
-        [self.inputingTextF becomeFirstResponder];
-        
         //弹出键盘
         self.inputingTextF.inputAccessoryView = self.toolBar;
         self.inputingTextF.inputView = nil;
@@ -1146,10 +1144,10 @@ typedef enum {
         if (![self.inputingTextF.text isEqualToString:@""]) {
             //
         }
-        [self.inputingTextF becomeFirstResponder];
     }
     
     [self tableVIewMoveWithIndex:self.selectedRow];
+    [self.inputingTextF becomeFirstResponder];
 }
 
 - (void)textFieldAllResign { //全部收起键盘

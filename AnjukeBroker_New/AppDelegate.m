@@ -343,7 +343,7 @@
                 [av show];
             }else{
                 if (self.boolNeedAlert) {
-                    UIAlertView *av = [[UIAlertView alloc] initWithTitle:Nil message:@"没有发现新版本" delegate:Nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+                    UIAlertView *av = [[UIAlertView alloc] initWithTitle:nil message:@"没有发现新版本" delegate:Nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
                     [av show];
                     self.boolNeedAlert = NO;
                 }
