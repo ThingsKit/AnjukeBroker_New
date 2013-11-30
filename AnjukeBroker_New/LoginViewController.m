@@ -185,7 +185,7 @@
 
 - (void)changeScrollViewToNormal {
     [self.mainSV setFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight])];
-    [self.mainSV setContentOffset:CGPointMake(0, 0) animated:YES];
+    [self.mainSV setContentOffset:CGPointMake(0, 0) animated:NO];
 }
 
 #pragma mark TextField Delegate
@@ -207,6 +207,10 @@
 #pragma mark - request method
 
 - (void)doRequest {
+    [self changeScrollViewToNormal];
+    [self.nameTF resignFirstResponder];
+    [self.passwordTF resignFirstResponder];
+    
     NSString *s1 = self.nameTF.text; //@"ajk_sh";//@"18616099353";//@"shtest";
     NSString *s2 = self.passwordTF.text; //@"anjukeqa";//@"mobile123456";//@"anjukeqa";
     
