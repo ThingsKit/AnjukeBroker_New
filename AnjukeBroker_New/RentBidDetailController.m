@@ -130,7 +130,11 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_009 note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
         return;
+    }
+    if([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]){
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_009 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
     }
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
@@ -214,7 +218,6 @@
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }else if (buttonIndex == 1){//重新开始竞价
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_008 note:nil];
             RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
             controller.proDic = [self.myArray objectAtIndex:selectedIndex];
             controller.backType = RTSelectorBackTypeDismiss;
@@ -223,7 +226,7 @@
             [self presentViewController:nav animated:YES completion:^(void){
             }];
         }else if (buttonIndex == 2){//取消竞价
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_009 note:nil];
+//            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_009 note:nil];
             [self doCancelBid];
         }else{
             

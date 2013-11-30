@@ -60,7 +60,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-#pragma mark - 设置竞价额度
+#pragma mark - 重新设置竞价额度
 -(void)doResetBid{
     if(![self isNetworkOkay]){
         [self showInfo:NONETWORK_STR];
@@ -83,10 +83,12 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_AUCTION_004 note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
         return;
     }
-    
+    if([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]){
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_NOPLAN_GROUP_005 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
+    }
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
     
@@ -116,6 +118,7 @@
         return;
     }
     self.textField_2.placeholder = [NSString stringWithFormat:@"底价%@元",[[response content] objectForKey:@"data"]];
+    self.bottomOffer = [NSString stringWithFormat:@"%@", [[response content] objectForKey:@"data"]];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
 }
@@ -141,8 +144,11 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_AUCTION_004 note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
         return;
+    }
+    if([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]){
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_NOPLAN_GROUP_005 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
     }
     
     [self hideLoadWithAnimated:YES];
@@ -182,10 +188,12 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_008 note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
         return;
     }
-    
+    if([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]){
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_008 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
+    }
     //    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     
     [self hideLoadWithAnimated:YES];
@@ -246,7 +254,11 @@
 }
 
 - (void)checkRank {
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_AUCTION_005 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_AUCTION_005 note:nil];
+    if([self.textField_2.text floatValue] < [self.bottomOffer floatValue]){
+        [self showInfo:[NSString stringWithFormat:@"出价不得低于底价%@元", self.bottomOffer]];
+        return ;
+    }
     [self doCheckRank];
 }
 - (void)doBack:(id)sender{

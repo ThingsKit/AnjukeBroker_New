@@ -195,6 +195,7 @@
 #define HZ_PPC_FIXED_DETAIL_006 @"450006" //点击竞价推广本房源
 #define HZ_PPC_FIXED_DETAIL_007 @"450007" //点击取消定价推广
 #define HZ_PPC_FIXED_DETAIL_008 @"450008" //点击修改房源信息
+#define HZ_PPC_FIXED_DETAIL_009 @"450009" //开始定价推广
 
 //租房未推广房源列表页
 #define HZ_PPC_NO_PLAN @"460000"

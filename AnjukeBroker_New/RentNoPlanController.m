@@ -222,8 +222,11 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_NO_PLAN_05 note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"dj_s", nil]];
         return;
+    }
+    if([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]){
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_NO_PLAN_05 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"dj_s", nil]];
     }
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;

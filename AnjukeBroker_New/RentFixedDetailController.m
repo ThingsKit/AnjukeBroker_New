@@ -308,6 +308,7 @@
             }else if(actionSheet.tag == 101){//当推广已暂停时的操作
                 if([LoginManager isSeedForAJK:NO]){
                     if(buttonIndex == 0){//重新开始定价推广
+                        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_009 note:nil];
                         [self doRestartFixed];
                     }else if (buttonIndex == 1){
                         [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
@@ -322,6 +323,7 @@
                 
                 }else{
                     if(buttonIndex == 0){//重新开始定价推广
+                        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_009 note:nil];
                         [self doRestartFixed];
                     }else if (buttonIndex == 1){
                         [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_004 note:nil];

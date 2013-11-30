@@ -388,6 +388,7 @@
     }else if(actionSheet.tag == 101){//当推广已暂停时的操作
         if ([LoginManager isSeedForAJK:YES]) {
             if(buttonIndex == 0){//重新开始定价推广
+                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_005 note:nil];
                 [self doRestart];
                 //            [self.navigationController pushViewController:controller animated:YES];
             }else if (buttonIndex == 1){
@@ -402,10 +403,11 @@
             }
         }else{
             if(buttonIndex == 0){//重新开始定价推广
+                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_009 note:nil];
                 [self doRestart];
                 //            [self.navigationController pushViewController:controller animated:YES];
             }else if (buttonIndex == 1){
-                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_004 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_009 note:nil];
                 ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
                 controller.fixedObject = [self.myArray objectAtIndex:0];
                 controller.backType = RTSelectorBackTypeDismiss;
