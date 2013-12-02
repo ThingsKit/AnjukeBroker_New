@@ -97,7 +97,7 @@
 #pragma mark - 获取计划管理信息
 -(void)doRequest{
     if (self.isLoading == YES) {
-        return;
+//        return;
     }
     
     if(![self isNetworkOkay]){
@@ -107,12 +107,14 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/ppc/" params:params target:self action:@selector(onGetSuccess:)];
+    
     [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
 
 - (void)onGetSuccess:(RTNetworkResponse *)response {
-        DLog(@"------response [%@]", [response content]);
+    DLog(@"------response [%@]", [response content]);
+    
     if([[response content] count] == 0){
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;

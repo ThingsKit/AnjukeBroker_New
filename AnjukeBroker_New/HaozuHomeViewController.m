@@ -85,7 +85,7 @@
 
 -(void)doRequest{
     if (self.isLoading == YES) {
-        return;
+//        return;
     }
     
     if(![self isNetworkOkay]){
