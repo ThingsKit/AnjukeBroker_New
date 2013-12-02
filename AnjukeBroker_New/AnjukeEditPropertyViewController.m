@@ -1056,7 +1056,7 @@ typedef enum {
         else if (indexPath.row == HZ_T_DESC) {
             AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
             ae.textFieldModifyDelegate = self;
-            [ae setTitleViewWithString:@"房源详情"];
+            [ae setTitleViewWithString:@"房源描述"];
             [ae setTextFieldDetail:self.property.desc];
             ae.isTitle = NO;
             [self.navigationController pushViewController:ae animated:YES];
@@ -1076,7 +1076,7 @@ typedef enum {
         else if (indexPath.row == AJK_T_DESC) {
             AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
             ae.textFieldModifyDelegate = self;
-            [ae setTitleViewWithString:@"房源详情"];
+            [ae setTitleViewWithString:@"房源描述"];
             [ae setTextFieldDetail:self.property.desc];
             ae.isTitle = NO;
             [self.navigationController pushViewController:ae animated:YES];

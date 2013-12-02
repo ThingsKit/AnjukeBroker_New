@@ -153,8 +153,8 @@
     [self.myArray addObject:nodic];
     
     [self.myTable reloadData];
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 
 }
 
