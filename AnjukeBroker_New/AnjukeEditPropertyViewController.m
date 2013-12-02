@@ -599,12 +599,12 @@ typedef enum {
         NSDictionary *houseTypeDic = [self.houseTypeImgArr objectAtIndex:0];
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         [dic setValue:[houseTypeDic objectForKey:@"aid"] forKey:@"commPicIds"];
-        [dic setObject:@"3" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
-//        if (self.isHaozu) {
-//            [dic setObject:@"2" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
-//        }
-//        else //二手房
-//            [dic setObject:@"3" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+//        [dic setObject:@"3" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+        if (self.isHaozu) {
+            [dic setObject:@"2" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
+        }
+        else //二手房
+            [dic setObject:@"3" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
         [dic setValue:@"1" forKey:@"flag"];
         
         [arr addObject:dic];
