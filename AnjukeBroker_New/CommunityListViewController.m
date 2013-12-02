@@ -59,6 +59,27 @@
     self.tvList.delegate = self;
 }
 
+#pragma mark - log
+- (void)sendAppearLog {
+    NSString *code = [NSString string];
+    if (self.isHaouzu) {
+        code = HZ_COMMUNITY_001;
+    }
+    else
+        code = AJK_COMMUNITY_001;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
+- (void)sendDisAppearLog {
+    NSString *code = [NSString string];
+    if (self.isHaouzu) {
+        code = HZ_COMMUNITY_002;
+    }
+    else
+        code = AJK_COMMUNITY_002;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+}
+
 #pragma mark - private method
 - (void)initModel {
     self.listDataArray = [NSMutableArray array];
@@ -248,6 +269,14 @@
 
 #pragma mark - SearchBar Delegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    NSString *code = [NSString string];
+    if (self.isHaouzu) {
+        code = HZ_COMMUNITY_003;
+    }
+    else
+        code = AJK_COMMUNITY_003;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    
     NSString *newStr = [Util_TEXT rmBlankFromString:searchText];
     DLog(@"联想词 [%@]", newStr);
     

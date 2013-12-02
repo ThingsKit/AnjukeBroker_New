@@ -84,6 +84,10 @@
 }
 
 -(void)doRequest{
+    if (self.isLoading == YES) {
+        return;
+    }
+    
     if(![self isNetworkOkay]){
         [self showInfo:NONETWORK_STR];
         return;
@@ -112,6 +116,7 @@
         return;
     }
     DLog(@"------response [%@]", [response content]);
+    
     [self.myArray removeAllObjects];
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     if([resultFromAPI count] ==  0){

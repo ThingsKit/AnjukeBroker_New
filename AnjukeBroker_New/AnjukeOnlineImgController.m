@@ -53,6 +53,39 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - log
+- (void)sendAppearLog {
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_ONLINE_001;
+    }
+    else
+        code = AJK_ONLINE_001;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
+- (void)sendDisAppearLog {
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_ONLINE_002;
+    }
+    else
+        code = AJK_ONLINE_002;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+}
+
+- (void)doBack:(id)sender {
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_ONLINE_003;
+    }
+    else
+        code = AJK_ONLINE_003;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    
+    [super doBack:self];
+}
+
 #pragma mark - Private Method
 
 - (void)initModel{
@@ -71,6 +104,14 @@
 }
 
 - (void)rightButtonAction:(id)sender {
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_ONLINE_004;
+    }
+    else
+        code = AJK_ONLINE_004;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    
     if (self.imgArray.count == 0) {
         [self doBack:self];
     }

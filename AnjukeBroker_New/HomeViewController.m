@@ -69,6 +69,15 @@
     [self doRequest];
 }
 
+#pragma mark - log
+- (void)sendAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
+- (void)sendDisAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+}
+
 #pragma mark - private method
 
 - (void)initModel {
@@ -297,6 +306,8 @@
     switch (indexPath.row) {
         case 0:
         {
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_003 note:nil];
+            
             //模态弹出 --二手房
             AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
@@ -308,6 +319,8 @@
             break;
         case 1:
         {
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_004 note:nil];
+            
             //模态弹出 --租房
             AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
@@ -319,6 +332,8 @@
             break;
         case 2:
         {
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_005 note:nil];
+            
             SystemMessageViewController *ae = [[SystemMessageViewController alloc] init];
             [ae setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:ae animated:YES];

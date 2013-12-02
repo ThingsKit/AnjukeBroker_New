@@ -96,6 +96,10 @@
 //}
 #pragma mark - 获取计划管理信息
 -(void)doRequest{
+    if (self.isLoading == YES) {
+        return;
+    }
+    
     if(![self isNetworkOkay]){
         [self showInfo:NONETWORK_STR];
         return;

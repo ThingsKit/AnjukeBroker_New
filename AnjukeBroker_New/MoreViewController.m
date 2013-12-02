@@ -62,6 +62,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - log
+- (void)sendAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
+- (void)sendDisAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+}
+
 #pragma mark - private method
 
 - (void)initModel {
@@ -110,12 +119,17 @@
 - (void)messageSw: (id)sender {
     UISwitch *sw = (UISwitch *)sender;
     
+    NSString *code = [NSString string];
     if (sw.on) {
         DLog(@"推送打开");
+        code = HZ_MORE_005;
     }
     else {
         DLog(@"推送关闭");
+        code = HZ_MORE_004;
     }
+    
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
 }
 
 - (void)loginOut {
@@ -248,6 +262,8 @@
     switch (indexPath.row) {
         case CALL_ACCOUNT_ROW:
         {
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_003 note:nil];
+            
             //broker acunt
             BrokerAccountController *controller = [[BrokerAccountController alloc] init];
             [controller setHidesBottomBarWhenPushed:YES];
@@ -256,6 +272,8 @@
             break;
         case CALL_ANJUKE_ROW:
         {
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_009 note:nil];
+            
             //make call
             if (![AppManager checkPhoneFunction]) {
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请检测是否支持电话功能" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确认", nil];
@@ -270,6 +288,8 @@
             break;
         case CALL_CHECKVER:
         {
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_006 note:nil];
+            
             //check version
             [[AppDelegate sharedAppDelegate] setBoolNeedAlert:YES];
             [[AppDelegate sharedAppDelegate] checkVersion];
@@ -277,6 +297,8 @@
             break;
         case CALL_CLIENT_ROW:
         {
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_008 note:nil];
+            
             //make call
             if (![AppManager checkPhoneFunction]) {
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请检测是否支持电话功能" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确认", nil];
@@ -291,8 +313,10 @@
             break;
         case ABOUT_US_ROW:
         {
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_007 note:nil];
+            
             AboutUsViewController *av = [[AboutUsViewController alloc] init];
-            [av  setHidesBottomBarWhenPushed:YES];
+            [av setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:av animated:YES];
         }
             break;

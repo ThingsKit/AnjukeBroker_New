@@ -10,4 +10,6 @@
 
 @interface HomeViewController : RTViewController <UITableViewDataSource, UITableViewDelegate>
 
+- (void)doRequest;
+
 @end

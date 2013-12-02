@@ -18,5 +18,6 @@
 @interface AnjukeOnlineImgController : RTViewController <UIScrollViewDelegate, UIAlertViewDelegate>
 @property (strong, nonatomic) Property *property;
 @property (nonatomic, assign) id <OnlineImgSelectDelegate> imageSelectDelegate;
+@property BOOL isHaozu;
 
 @end

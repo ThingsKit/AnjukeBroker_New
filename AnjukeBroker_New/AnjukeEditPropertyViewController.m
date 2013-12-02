@@ -107,6 +107,39 @@ typedef enum {
     }
 }
 
+#pragma mark - log
+- (void)sendAppearLog {
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_PROPERTY_001;
+    }
+    else
+        code = AJK_PROPERTY_001;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
+- (void)sendDisAppearLog {
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_PROPERTY_002;
+    }
+    else
+        code = AJK_PROPERTY_002;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+}
+
+- (void)doBack:(id)sender {
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_PROPERTY_003;
+    }
+    else
+        code = AJK_PROPERTY_003;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+
+    [super doBack:self];
+}
+
 #pragma mark - init Method
 
 - (void)initModel {
@@ -283,12 +316,12 @@ typedef enum {
     
     //保存imageDic在E_Photo
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[result objectForKey:@"image"]];
-    [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
-//    if (self.isHaozu) {
-//        [dic setObject:@"1" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
-//    }
-//    else //二手房
-//        [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+//    [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+    if (self.isHaozu) {
+        [dic setObject:@"1" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
+    }
+    else //二手房
+        [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
     
     [(E_Photo *)[self.imgArray objectAtIndex:self.uploadImgIndex] setImageDic:dic];
     
@@ -909,6 +942,14 @@ typedef enum {
 }
 
 - (void)doSave {
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_PROPERTY_004;
+    }
+    else
+        code = AJK_PROPERTY_004;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    
     if (![self checkUploadProperty]) {
         return;
     }
@@ -1174,6 +1215,14 @@ typedef enum {
         switch (buttonIndex) {
             case 0: //拍照
             {
+                NSString *code = [NSString string];
+                if (self.isHaozu) {
+                    code = HZ_PROPERTY_005;
+                }
+                else
+                    code = AJK_PROPERTY_005;
+                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                
                 self.isTakePhoto = YES;
                 
                 UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
@@ -1202,6 +1251,14 @@ typedef enum {
                 break;
             case 1: //手机相册
             {
+                NSString *code = [NSString string];
+                if (self.isHaozu) {
+                    code = HZ_PROPERTY_006;
+                }
+                else
+                    code = AJK_PROPERTY_006;
+                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                
                 self.isTakePhoto = NO;
                 
                 ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] init];
@@ -1214,6 +1271,14 @@ typedef enum {
                 break;
             case 2: //在线房形图
             {
+                NSString *code = [NSString string];
+                if (self.isHaozu) {
+                    code = HZ_PROPERTY_007;
+                }
+                else
+                    code = AJK_PROPERTY_007;
+                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                
                 if (!self.hideOnlineImg) {
                     //check小区、户型、朝向
                     if ([self.property.comm_id isEqualToString:@""] || self.property.comm_id == nil) {
@@ -1233,6 +1298,7 @@ typedef enum {
                     AnjukeOnlineImgController *ao = [[AnjukeOnlineImgController alloc] init];
                     ao.imageSelectDelegate = self;
                     ao.property = self.property;
+                    ao.isHaozu = self.isHaozu;
                     [self.navigationController pushViewController:ao animated:YES];
                 }
              }
@@ -1246,6 +1312,14 @@ typedef enum {
         switch (buttonIndex) {
             case 0: //定价
             {
+                NSString *code = [NSString string];
+                if (self.isHaozu) {
+                    code = HZ_PROPERTY_008;
+                }
+                else
+                    code = AJK_PROPERTY_008;
+                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                
                 self.uploadType = Property_DJ;
                 
                 //test upload img
@@ -1254,6 +1328,14 @@ typedef enum {
                 break;
             case 1: //定价+竞价
             {
+                NSString *code = [NSString string];
+                if (self.isHaozu) {
+                    code = HZ_PROPERTY_009;
+                }
+                else
+                    code = AJK_PROPERTY_009;
+                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                
                 self.uploadType = Property_JJ;
                 
                 //test upload img
@@ -1262,6 +1344,14 @@ typedef enum {
                 break;
             case 2: //暂不推广
             {
+                NSString *code = [NSString string];
+                if (self.isHaozu) {
+                    code = HZ_PROPERTY_010;
+                }
+                else
+                    code = AJK_PROPERTY_010;
+                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                
                 self.uploadType = Property_WTG;
                 
                 //test upload img

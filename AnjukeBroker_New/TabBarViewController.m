@@ -112,5 +112,26 @@
 
 #pragma mark - private method
 
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
+{
+    UIViewController *selectedController = ((RTNavigationController *)[tabBarController selectedViewController]).visibleViewController;
+    UIViewController *newController = ((RTNavigationController *)viewController).visibleViewController;
+    
+    //点击tab刷新VC数据
+    if ([newController isKindOfClass:[HomeViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
+        [(HomeViewController *)newController doRequest];
+    }
+    else if ([newController isKindOfClass:[AnjukeHomeViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
+        [(AnjukeHomeViewController *)selectedController doRequest];
+    }
+    else if ([newController isKindOfClass:[HaozuHomeViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
+        [(HaozuHomeViewController *)selectedController doRequest];
+    }
+    else if ([newController isKindOfClass:[MoreViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
+//        [(MoreViewController *)selectedController requestNewsByPageOne];
+    }
+    
+    return YES;
+}
 
 @end
