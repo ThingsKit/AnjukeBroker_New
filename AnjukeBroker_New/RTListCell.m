@@ -10,6 +10,7 @@
 
 @implementation RTListCell
 @synthesize selectRow;
+@synthesize cellHeight;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

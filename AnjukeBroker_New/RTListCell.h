@@ -14,6 +14,7 @@
 @interface RTListCell : UITableViewCell
 
 @property int selectRow; //当前此cell所在row
+@property CGFloat cellHeight;
 
 - (void)initUI; // init UI for cell reuse
 - (BOOL)configureCell:(id)dataModel; //传递cell数据
