@@ -52,6 +52,7 @@
 //    [img addSubview:imageView];
     WebImageView *brokerImg = [[WebImageView alloc] initWithFrame:CGRectMake(([self windowWidth] - imgw)/2, (82-imgw)/2, imgw, imgw)];
     brokerImg.imageUrl = [LoginManager getUse_photo_url];
+    brokerImg.contentMode = UIViewContentModeScaleAspectFit;
     [img addSubview:brokerImg];
     
 
