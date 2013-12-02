@@ -94,7 +94,7 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
+        
         return;
     }
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
@@ -106,7 +106,7 @@
         [self.myTable reloadData];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
+        
         return;
     }
     [self.myArray removeAllObjects];
@@ -216,7 +216,7 @@
     if(cell == nil){
         cell = [[NSClassFromString(@"RentBidPropertyCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RentBidPropertyCell"];
     }
-//    [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
+    //    [cell setValueForCellByDictinary:[self.myArray objectAtIndex:[indexPath row]]];
     [cell setValueForCellByDataModel:[self.myArray objectAtIndex:[indexPath row]]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryNone;
@@ -244,7 +244,7 @@
             [self presentViewController:nav animated:YES completion:^(void){
             }];
         }else if (buttonIndex == 2){//取消竞价
-//            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_009 note:nil];
+            //            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_009 note:nil];
             [self doCancelBid];
         }else{
             

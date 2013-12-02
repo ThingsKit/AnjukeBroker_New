@@ -250,6 +250,7 @@
         {
             //broker acunt
             BrokerAccountController *controller = [[BrokerAccountController alloc] init];
+            [controller setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:controller animated:YES];
         }
             break;

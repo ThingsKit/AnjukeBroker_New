@@ -21,8 +21,8 @@
     return self;
 }
 -(void)adjustUI{
-//    self.stage.frame = CGRectMake(20, 20, 60, 30);
-
+    //    self.stage.frame = CGRectMake(20, 20, 60, 30);
+    
 }
 -(void)setValueForCellByDataModel:(id) dataModel{
     if([dataModel isKindOfClass:[NSDictionary class]]){
@@ -53,12 +53,12 @@
     self.stage.text = [dic objectForKey:@"index"];
 }
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect
+ {
+ // Drawing code
+ }
+ */
 
 @end

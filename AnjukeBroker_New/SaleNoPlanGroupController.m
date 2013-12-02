@@ -273,7 +273,7 @@
 
 #pragma mark - TableView Delegate & Datasource
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CGSize size = CGSizeMake(240, 40);
+    CGSize size = CGSizeMake(250, 40);
     SalePropertyObject *property = (SalePropertyObject *)[self.myArray objectAtIndex:indexPath.row];
     CGSize si = [property.title sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
     return si.height+40.0f;

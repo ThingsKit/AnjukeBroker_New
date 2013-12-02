@@ -259,7 +259,7 @@
     if([indexPath row] == 0){
         return 71.0f;
     }
-    CGSize size = CGSizeMake(250, 40);
+    CGSize size = CGSizeMake(260, 40);
     CGSize si = [[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
     return si.height+50.0f;
 }
