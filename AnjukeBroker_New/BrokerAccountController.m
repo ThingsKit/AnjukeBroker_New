@@ -47,9 +47,9 @@
     self.myTable.tableHeaderView = img;
     CGFloat imgw = 124/2;
     
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:img.frame];
-    [self drawLine:imageView];
-    [img addSubview:imageView];
+//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:img.frame];
+//    [self drawLine:imageView];
+//    [img addSubview:imageView];
     WebImageView *brokerImg = [[WebImageView alloc] initWithFrame:CGRectMake(([self windowWidth] - imgw)/2, (82-imgw)/2, imgw, imgw)];
     brokerImg.imageUrl = [LoginManager getUse_photo_url];
     [img addSubview:brokerImg];
