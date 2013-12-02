@@ -48,7 +48,7 @@
     self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
-    self.myTable.separatorColor = [UIColor whiteColor];
+//    self.myTable.separatorColor = [UIColor whiteColor];
     [self.view addSubview:self.myTable];
 
 	// Do any additional setup after loading the view.
@@ -123,7 +123,7 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
         static NSString *cellIdent = @"PropertyDetailCell";
-    tableView.separatorColor = [UIColor lightGrayColor];
+//    tableView.separatorColor = [UIColor lightGrayColor];
         PropertyDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == Nil){
             cell = [[NSClassFromString(@"PropertyDetailCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"PropertyDetailCell"];

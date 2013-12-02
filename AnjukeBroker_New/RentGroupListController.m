@@ -161,7 +161,7 @@
     [self doFixed];
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    tableView.separatorColor = [UIColor lightGrayColor];
+//    tableView.separatorColor = [UIColor lightGrayColor];
     static NSString *cellIdent = @"PPCGroupCell";
     
     PPCGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];

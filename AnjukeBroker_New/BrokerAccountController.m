@@ -39,7 +39,7 @@
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
-    self.myTable.separatorColor = [UIColor whiteColor];
+//    self.myTable.separatorColor = [UIColor whiteColor];
     [self.view addSubview:self.myTable];
     
     UIView *img = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 82)];
@@ -148,7 +148,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellName = @"cell";
-    tableView.separatorColor = [UIColor lightGrayColor];
+//    tableView.separatorColor = [UIColor lightGrayColor];
     BrokerAccountCell *cell = [tableView dequeueReusableCellWithIdentifier:cellName];
     if (cell == nil) {
         cell = [[BrokerAccountCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellName];

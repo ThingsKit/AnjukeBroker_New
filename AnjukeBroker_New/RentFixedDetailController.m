@@ -269,7 +269,7 @@
     DLog(@"[LoginManager isSeedForAJK:NO]%d",[LoginManager isSeedForAJK:NO]);
     if([indexPath row] == 0){
         static NSString *cellIdent = @"RentFixedCell";
-            tableView.separatorColor = [UIColor lightGrayColor];
+//            tableView.separatorColor = [UIColor lightGrayColor];
         RentFixedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"RentFixedCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RentFixedCell"];
@@ -278,7 +278,7 @@
         return cell;
     }else{
         static NSString *cellIdent = @"RentPropertyListCell";
-            tableView.separatorColor = [UIColor lightGrayColor];
+//            tableView.separatorColor = [UIColor lightGrayColor];
         RentPropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"RentPropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RentPropertyListCell"];

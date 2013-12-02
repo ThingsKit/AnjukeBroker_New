@@ -271,7 +271,7 @@
 
     if([indexPath row] == 0){
         static NSString *cellIdent = @"SaleFixedCell";
-        tableView.separatorColor = [UIColor lightGrayColor];
+//        tableView.separatorColor = [UIColor lightGrayColor];
         SaleFixedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"SaleFixedCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SaleFixedCell"];
@@ -281,7 +281,7 @@
         return cell;
     }else{
         static NSString *cellIdent = @"SalePropertyListCell";
-        tableView.separatorColor = [UIColor lightGrayColor];
+//        tableView.separatorColor = [UIColor lightGrayColor];
         SalePropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"SalePropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SalePropertyListCell"];

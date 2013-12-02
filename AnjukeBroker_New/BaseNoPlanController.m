@@ -38,7 +38,7 @@
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
 //    self.myTable.tableFooterView.hidden = YES;
-    self.myTable.separatorColor = [UIColor whiteColor];
+//    self.myTable.separatorColor = [UIColor whiteColor];
     [self.view addSubview:self.myTable];
 	// Do any additional setup after loading the view.
 }

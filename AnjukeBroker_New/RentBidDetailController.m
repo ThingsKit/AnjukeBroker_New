@@ -210,7 +210,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
     static NSString *cellIdent = @"RentBidPropertyCell";
-    tableView.separatorColor = [UIColor lightGrayColor];
+//    tableView.separatorColor = [UIColor lightGrayColor];
     RentBidPropertyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     
     if(cell == nil){

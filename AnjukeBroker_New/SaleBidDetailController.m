@@ -226,7 +226,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdent = @"BaseBidPropertyCell";
-    tableView.separatorColor = [UIColor lightGrayColor];
+//    tableView.separatorColor = [UIColor lightGrayColor];
     BaseBidPropertyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
 
     if(cell == nil){
