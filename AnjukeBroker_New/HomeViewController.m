@@ -255,6 +255,10 @@
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
+        
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
         return;
     }
     

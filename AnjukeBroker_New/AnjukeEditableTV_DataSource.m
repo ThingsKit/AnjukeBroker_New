@@ -29,7 +29,7 @@
     [self.cellArray addObject:cell];
     
     if (isHaozu) { //租房
-        for (int i = 1; i < dataArray.count; i ++) {
+        for (int i = 1; i < dataArray.count-2; i ++) {
             AnjukeEditableCell *cell = [[AnjukeEditableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
             cell.editDelegate = self.superViewController;
             [cell configureCell:[dataArray objectAtIndex:i]];
@@ -47,7 +47,7 @@
         }
     }
     else { //二手房
-        for (int i = 1; i < dataArray.count; i ++) {
+        for (int i = 1; i < dataArray.count-2; i ++) {
             AnjukeEditableCell *cell = [[AnjukeEditableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
             cell.editDelegate = self.superViewController;
             [cell configureCell:[dataArray objectAtIndex:i]];
@@ -65,6 +65,14 @@
         }
     }
     
+    //标题、详情
+    AnjukeNormalCell *titleCell = [[AnjukeNormalCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    [titleCell configureCell:[dataArray objectAtIndex:dataArray.count -2]];
+    [self.cellArray addObject:titleCell];
+    
+    AnjukeNormalCell *descCell = [[AnjukeNormalCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    [descCell configureCell:[dataArray objectAtIndex:dataArray.count -1]];
+    [self.cellArray addObject:descCell];    
 }
 
 #pragma mark - Table view data source

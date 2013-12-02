@@ -40,6 +40,7 @@ typedef enum {
 
 @property (nonatomic, copy) NSString *lastPrice; //记录上一次的价格输入，用于判断是否需要
 @property (nonatomic, copy) NSString *propertyPrice; //房源定价价格
+
 @end
 
 @implementation AnjukeEditPropertyViewController
@@ -136,7 +137,7 @@ typedef enum {
     else
         code = AJK_PROPERTY_003;
     [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
-
+    
     [super doBack:self];
 }
 
@@ -622,19 +623,12 @@ typedef enum {
         
         NSInteger price = [[[[[self.dataSource cellArray] objectAtIndex:HZ_T_PRICE] text_Field] text] intValue];
         self.property.price = [NSString stringWithFormat:@"%d", price];
-        
-        self.property.title = [[[[self.dataSource cellArray] objectAtIndex:HZ_T_TITLE] text_Field] text];
-        self.property.desc = [[[[self.dataSource cellArray] objectAtIndex:HZ_T_DESC] text_Field] text];
-        
     }
     else {
         self.property.area = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_AREA] text_Field] text];
         
         NSInteger price = [[[[[self.dataSource cellArray] objectAtIndex:AJK_T_PRICE] text_Field] text] intValue] * 10000;
         self.property.price = [NSString stringWithFormat:@"%d", price];
-        
-        self.property.title = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_TITLE] text_Field] text];
-        self.property.desc = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_DESC] text_Field] text];
     }
 }
 
@@ -703,7 +697,6 @@ typedef enum {
 }
 
 - (BOOL)canAddMoreImgWithNewCount:(int)newCount {
-    
     int count = self.imgArray.count + newCount;
     if ([self onlineHouseTypeImgExit]) {
         //有户型图
@@ -921,8 +914,8 @@ typedef enum {
     }
     
     self.selectedRow ++; //当前输入行数+1
-    if (self.selectedRow > self.titleArray.count -1) {
-        self.selectedRow = self.titleArray.count -1;
+    if (self.selectedRow > self.titleArray.count -1-2) {
+        self.selectedRow = self.titleArray.count -1-2; //title、详情跳转输入
         return;
     }
     
@@ -1051,6 +1044,46 @@ typedef enum {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
+    if (self.isHaozu) {
+        if (indexPath.row == HZ_T_TITLE) {
+            AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
+            ae.textFieldModifyDelegate = self;
+            [ae setTitleViewWithString:@"房源标题"];
+            [ae setTextFieldDetail:self.property.title];
+            ae.isTitle = YES;
+            [self.navigationController pushViewController:ae animated:YES];
+        }
+        else if (indexPath.row == HZ_T_DESC) {
+            AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
+            ae.textFieldModifyDelegate = self;
+            [ae setTitleViewWithString:@"房源详情"];
+            [ae setTextFieldDetail:self.property.desc];
+            ae.isTitle = NO;
+            [self.navigationController pushViewController:ae animated:YES];
+        }
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
+    else {
+        if (indexPath.row == AJK_T_TITLE) {
+            AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
+            ae.textFieldModifyDelegate = self;
+            [ae setTitleViewWithString:@"房源标题"];
+            [ae setTextFieldDetail:self.property.title];
+            ae.isTitle = YES;
+            [self.navigationController pushViewController:ae animated:YES];
+        }
+        else if (indexPath.row == AJK_T_DESC) {
+            AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
+            ae.textFieldModifyDelegate = self;
+            [ae setTitleViewWithString:@"房源详情"];
+            [ae setTextFieldDetail:self.property.desc];
+            ae.isTitle = NO;
+            [self.navigationController pushViewController:ae animated:YES];
+        }
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
     
     self.selectedRow = indexPath.row;
     
@@ -1103,6 +1136,29 @@ typedef enum {
 
 - (void)setCommunityWithText:(NSString *)string {
     [[[[self.dataSource cellArray] objectAtIndex:0] communityDetailLb] setText:string];
+}
+
+#pragma mark - EditTextView Input Delegate
+
+- (void)textDidInput:(NSString *)string isTitle:(BOOL)isTitle {
+    if (isTitle) {
+        if (self.isHaozu) {
+            [[[[self.dataSource cellArray] objectAtIndex:HZ_T_TITLE] communityDetailLb] setText:string];
+        }
+        else {
+            [[[[self.dataSource cellArray] objectAtIndex:AJK_T_TITLE] communityDetailLb] setText:string];
+        }
+        self.property.title = string;
+    }
+    else {
+        if (self.isHaozu) {
+            [[[[self.dataSource cellArray] objectAtIndex:HZ_T_DESC] communityDetailLb] setText:string];
+        }
+        else {
+            [[[[self.dataSource cellArray] objectAtIndex:AJK_T_DESC] communityDetailLb] setText:string];
+        }
+        self.property.desc = string;
+    }
 }
 
 #pragma mark - TextField Delegate

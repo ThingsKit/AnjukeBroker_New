@@ -131,9 +131,9 @@
         [[[[self.dataSource cellArray] objectAtIndex:HZ_T_AREA] text_Field] setText:self.property.area];
         
         //title
-        [[[[self.dataSource cellArray] objectAtIndex:HZ_T_TITLE] text_Field] setText:self.property.title];
+        [[[[self.dataSource cellArray] objectAtIndex:HZ_T_TITLE] communityDetailLb] setText:self.property.title];
         //desc
-        [[[[self.dataSource cellArray] objectAtIndex:HZ_T_DESC] text_Field] setText:self.property.desc];
+        [[[[self.dataSource cellArray] objectAtIndex:HZ_T_DESC] communityDetailLb] setText:self.property.desc];
         
         //Picker Data
         //户型
@@ -189,9 +189,9 @@
         [[[[self.dataSource cellArray] objectAtIndex:AJK_T_AREA] text_Field] setText:self.property.area];
         
         //title
-        [[[[self.dataSource cellArray] objectAtIndex:AJK_T_TITLE] text_Field] setText:self.property.title];
+        [[[[self.dataSource cellArray] objectAtIndex:AJK_T_TITLE] communityDetailLb] setText:self.property.title];
         //desc
-        [[[[self.dataSource cellArray] objectAtIndex:AJK_T_DESC] text_Field] setText:self.property.desc];
+        [[[[self.dataSource cellArray] objectAtIndex:AJK_T_DESC] communityDetailLb] setText:self.property.desc];
         
         //Picker Data
         //户型

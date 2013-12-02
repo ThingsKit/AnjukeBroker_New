@@ -27,6 +27,7 @@
 #import "RTNavigationController.h"
 #import "AnjukeOnlineImgController.h"
 #import "SimpleKeyboardToolBar.h"
+#import "AnjukeEditTextViewController.h"
 
 #define PhotoImg_MAX_COUNT 10 //最多上传照片数
 #define MAX_PHOTO_ALERT_MESSAGE @"最多仅可添加10张图亲"
@@ -43,7 +44,7 @@
 #define TagOfActionSheet_Img 901
 #define TagOfActionSheet_Save 902
 
-@interface AnjukeEditPropertyViewController : RTViewController <UITableViewDelegate, BrokerPickerDelegate, UITextFieldDelegate ,UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, BigImageViewBtnClickDelegate, PhotoViewClickDelegate, ELCImagePickerControllerDelegate, CommunitySelectDelegate, OnlineImgSelectDelegate, SimpleKeyboardBarClickDelegate>
+@interface AnjukeEditPropertyViewController : RTViewController <UITableViewDelegate, BrokerPickerDelegate, UITextFieldDelegate ,UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, BigImageViewBtnClickDelegate, PhotoViewClickDelegate, ELCImagePickerControllerDelegate, CommunitySelectDelegate, OnlineImgSelectDelegate, SimpleKeyboardBarClickDelegate, TextFieldModifyDelegate>
 
 @property BOOL isHaozu;
 @property (nonatomic, strong) Property *property;
