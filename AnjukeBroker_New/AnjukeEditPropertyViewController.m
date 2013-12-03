@@ -230,7 +230,7 @@ typedef enum {
         
         UILabel *fnLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 80, 20)];
         fnLb.backgroundColor = [UIColor clearColor];
-        fnLb.textColor = [UIColor blackColor];
+        fnLb.textColor = SYSTEM_DARK_GRAY;
         fnLb.font = [UIFont systemFontOfSize:18];
         fnLb.text = @"备案号";
         [fileNO_BG addSubview:fnLb];
@@ -249,7 +249,7 @@ typedef enum {
         cellTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         cellTextField.font = [UIFont systemFontOfSize:17];
         cellTextField.secureTextEntry = NO;
-        cellTextField.textColor = SYSTEM_LIGHT_GRAY;
+        cellTextField.textColor = SYSTEM_BLACK;
         cellTextField.keyboardType = UIKeyboardTypeNumberPad;
         self.fileNoTextF = cellTextField;
         [fileNO_BG addSubview:cellTextField];

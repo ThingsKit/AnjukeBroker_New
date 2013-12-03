@@ -193,7 +193,7 @@
     }
     
     if ([[[resultFromAPI objectForKey:@"houseImg"] objectForKey:@"count"] intValue] == 0) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"很抱歉" message:@"暂无该小区户型房形图，点击可返回" delegate:self cancelButtonTitle:nil otherButtonTitles:@"我知道了", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"很抱歉" message:@"暂无该小区户型房型图，点击可返回" delegate:self cancelButtonTitle:nil otherButtonTitles:@"我知道了", nil];
         [alert show];
         
         [self hideLoadWithAnimated:YES];

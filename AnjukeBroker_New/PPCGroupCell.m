@@ -53,18 +53,17 @@
         }else{//定价
             title.text = @"定价房源";
             detail.text = [NSString stringWithFormat:@"%@ 房源数:%@套", [dic objectForKey:@"fixPlanName"], [dic objectForKey:@"fixPlanPropNum"]];
-            
-
-            if ([[dic objectForKey:@"type"] intValue] == 1) {
-                statueImg.image = nil;
+        }
+        
+        if ([[dic objectForKey:@"type"] intValue] == 1) {
+            statueImg.image = nil;
+        }else{
+            if([[dic objectForKey:@"fixPlanState"] intValue] == 1){
+                statueImg.frame = CGRectMake(260, 25, 24, 12);
+                [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_woking@2x.png"]];
             }else{
-                if([[dic objectForKey:@"fixPlanState"] intValue] == 1){
-                    statueImg.frame = CGRectMake(260, 25, 24, 12);
-                    [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_woking@2x.png"]];
-                }else{
-                    statueImg.frame = CGRectMake(260, 25, 24, 12);
-                    [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_stop@2x.png"]];
-                }
+                statueImg.frame = CGRectMake(260, 25, 24, 12);
+                [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_stop@2x.png"]];
             }
         }
     }

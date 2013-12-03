@@ -26,6 +26,9 @@
 #define coreDataName @"AnjukeBroker_New"
 #define code_AppName @"i-broker"
 
+#define UMENG_KEY_OFFLINE @"529da42356240b93f001f9b4"
+#define UMENG_KEY_ONLINE @"529da1b856240ba04201a193"
+
 @implementation AppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -250,9 +253,9 @@
     //appLog初始化：app name, channelid, umeng key
     [[RTLogger sharedInstance] setLogAppName:code_AppName];
 #ifdef DEBUG
-    [[RTLogger sharedInstance] setUmengKey:@"4fb9c2c0527015056a00001a" channelID:@"A01"];
+    [[RTLogger sharedInstance] setUmengKey:UMENG_KEY_OFFLINE channelID:@"A01"];
 #else
-    [[RTLogger sharedInstance] setUmengKey:@"4fb9c2875270150573000023" channelID:@"A01"];
+    [[RTLogger sharedInstance] setUmengKey:UMENG_KEY_ONLINE channelID:@"A01"];
 #endif
     
     //网络请求初始化

@@ -85,6 +85,11 @@
 - (void)setPropertyWithDic:(NSDictionary *)dic {
     self.property = [PropertyDataManager getNewPropertyObject];
     
+    if ([LoginManager needFileNOWithCityID:[LoginManager getCity_id]]) {
+        self.property.fileNo = [dic objectForKey:@"fileNo"];
+        self.fileNoTextF.text = [dic objectForKey:@"fileNo"];
+    }
+    
     //数据赋值，映射，得到显示值 for test
     //户型
     self.property.rooms = [NSString stringWithFormat:@"%@,%@,%@", [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"]];
