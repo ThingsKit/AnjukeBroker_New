@@ -133,6 +133,7 @@
     self.passwordTF = cellTextField2;
     [BG2 addSubview:cellTextField2];
     
+    
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(btnGap, BG2.frame.origin.y + BG2.frame.size.height+ 20, btnW, btnH);
     [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button.png"] stretchableImageWithLeftCapWidth:2 topCapHeight:2] forState:UIControlStateNormal];
