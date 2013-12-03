@@ -328,6 +328,9 @@
     //                          permittedArrowDirections:UIPopoverArrowDirectionUp
     //                                          animated:YES];
     
+    if (self.myArray.count == 0) {
+        return;
+    }
     FixedObject *fix = [[FixedObject alloc] init];
     fix = [self.myArray objectAtIndex:0];
     
