@@ -18,6 +18,7 @@
 @implementation BaseFixedDetailController
 @synthesize myTable;
 @synthesize myArray;
+@synthesize planDic;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

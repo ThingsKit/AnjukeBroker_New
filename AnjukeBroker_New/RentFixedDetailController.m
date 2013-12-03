@@ -124,8 +124,9 @@
         return ;
     }
     NSMutableDictionary *dicPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"plan"]];
+    self.planDic = [SaleFixedManager fixedPlanObjectFromDic:dicPlan];
+    
     [self.myArray removeAllObjects];
-    [self.myArray addObject:[SaleFixedManager fixedPlanObjectFromDic:dicPlan]];
     [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
     [self.myTable reloadData];
     [self hideLoadWithAnimated:YES];
@@ -236,11 +237,11 @@
 #pragma mark - UITableView Delegate & DataSource
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    selectIndex = indexPath.row;
+    selectIndex = indexPath.row -1;
     if([indexPath row] == 0){
         
     }else{
-        if([[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"isBid"] isEqualToString:@"1"]){
+        if([[[self.myArray objectAtIndex:indexPath.row -1] objectForKey:@"isBid"] isEqualToString:@"1"]){
             UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"取消定价推广", @"修改房源信息", nil];
             action.tag = 102;
             [action showInView:self.view];
@@ -274,7 +275,7 @@
         if(cell == nil){
             cell = [[NSClassFromString(@"RentFixedCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RentFixedCell"];
         }
-        [cell configureCell:[self.myArray objectAtIndex:[indexPath row]] isAJK:NO];
+        [cell configureCell:self.planDic isAJK:NO];
         return cell;
     }else{
         static NSString *cellIdent = @"RentPropertyListCell";
@@ -284,7 +285,7 @@
             cell = [[NSClassFromString(@"RentPropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RentPropertyListCell"];
             //            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
-        [cell configureCell:[self.myArray objectAtIndex:[indexPath row]]];
+        [cell configureCell:[self.myArray objectAtIndex:[indexPath row] -1]];
         return cell;
     }
 }
@@ -301,7 +302,7 @@
                 [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
                 
                 RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
-                controller.fixedObj = [self.myArray objectAtIndex:0];
+                controller.fixedObj = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
                 RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:navi animated:YES completion:nil];
@@ -317,7 +318,7 @@
             }else if (buttonIndex == 1){//停止推广
                 [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_004 note:nil];
                 ModifyRentCostController *controller = [[ModifyRentCostController alloc] init];
-                controller.fixedObject = [self.myArray objectAtIndex:0];
+                controller.fixedObject = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
                 RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:nav animated:YES completion:nil];
@@ -326,7 +327,7 @@
                 [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
                 
                 RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
-                controller.fixedObj = [self.myArray objectAtIndex:0];
+                controller.fixedObj = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
                 RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:navi animated:YES completion:nil];
@@ -340,7 +341,7 @@
                     }else if (buttonIndex == 1){
                         [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
                         RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
-                        controller.fixedObj = [self.myArray objectAtIndex:0];
+                        controller.fixedObj = self.planDic;
                         controller.backType = RTSelectorBackTypeDismiss;
                         RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
                         [self presentViewController:navi animated:YES completion:nil];
@@ -355,14 +356,14 @@
                     }else if (buttonIndex == 1){
                         [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_004 note:nil];
                         ModifyRentCostController *controller = [[ModifyRentCostController alloc] init];
-                        controller.fixedObject = [self.myArray objectAtIndex:0];
+                        controller.fixedObject = self.planDic;
                         controller.backType = RTSelectorBackTypeDismiss;
                         RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
                         [self presentViewController:nav animated:YES completion:nil];
                     }else if (buttonIndex == 2){
                         [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
                         RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
-                        controller.fixedObj = [self.myArray objectAtIndex:0];
+                        controller.fixedObj = self.planDic;
                         controller.backType = RTSelectorBackTypeDismiss;
                         RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
                         [self presentViewController:navi animated:YES completion:nil];
@@ -426,7 +427,7 @@
         return;
     }
     FixedObject *fix = [[FixedObject alloc] init];
-    fix = [self.myArray objectAtIndex:0];
+    fix = self.planDic;
     
     if([fix.fixedStatus isEqualToString:@"1"]){
         if ([LoginManager isSeedForAJK:NO]) {

@@ -216,9 +216,11 @@
         return;
     }
 
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 
+    [self.selectedArray removeAllObjects];
+    
     [self doRequest];
 }
 -(NSString *)getStringFromArray:(NSArray *) array{
