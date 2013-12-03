@@ -799,6 +799,7 @@ typedef enum {
         return NO;
     }
 
+    DLog(@"rent Type [%@]", self.property.rentType);
     
     if (self.isHaozu) {
         if ([self.property.area intValue] < 10 || [self.property.area intValue] > 2000) {
@@ -1302,7 +1303,6 @@ typedef enum {
                 ipc.cameraOverlayView = self.imageOverLay;
                 
                 [self presentViewController:ipc animated:YES completion:nil];
-                
             }
                 break;
             case 1: //手机相册
@@ -1322,7 +1322,6 @@ typedef enum {
                 elcPicker.imagePickerDelegate = self;
                 
                 [self presentViewController:elcPicker animated:YES completion:nil];
-                
             }
                 break;
             case 2: //在线房形图

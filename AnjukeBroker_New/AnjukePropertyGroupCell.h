@@ -20,4 +20,6 @@
 @property (nonatomic, strong) UILabel *limitPriceLb;
 @property (nonatomic, strong) UIImageView *statusIcon;
 
+- (BOOL)configureCell:(id)dataModel withTitle:(NSString *)title;
+
 @end

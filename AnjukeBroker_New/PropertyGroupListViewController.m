@@ -205,7 +205,13 @@
         
     }
     
-    [cell configureCell:[self.groupArray objectAtIndex:indexPath.row]];
+    NSString *title = [NSString string];
+    if ([LoginManager isSeedForAJK:self.isHaozu]) {
+        title = @"每日最高花费";
+    }
+    else
+        title = @"每日限额";
+    [cell configureCell:[self.groupArray objectAtIndex:indexPath.row] withTitle:title];
     
     return cell;
 }

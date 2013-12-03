@@ -8,6 +8,7 @@
 
 #import "AnjukePropertyGroupCell.h"
 #import "Util_UI.h"
+#import "LoginManager.h"
 
 #define TITLE_OFFESTX 17
 
@@ -72,7 +73,7 @@
 }
 */
 
-- (BOOL)configureCell:(id)dataModel {
+- (BOOL)configureCell:(id)dataModel withTitle:(NSString *)title {
     if (![dataModel isKindOfClass:[NSDictionary class]]) {
         return NO;
     }
@@ -85,7 +86,7 @@
     //test
     self.groupNameLb.text = [dic objectForKey:@"fixPlanName"];
     
-    self.limitPriceLb.text = [NSString stringWithFormat:@"房源数:%@套    每日限额%@元", [dic objectForKey:@"fixPlanPropNum"], [dic objectForKey:@"fixPlanPropCeiling"]];
+    self.limitPriceLb.text = [NSString stringWithFormat:@"房源数:%@套    %@%@元", [dic objectForKey:@"fixPlanPropNum"], title,[dic objectForKey:@"fixPlanPropCeiling"]];
     
     if ([[dic objectForKey:@"fixPlanState"] isEqualToString:@"1"]) {
         self.statusIcon.image = STATUS_OK_ICON;
