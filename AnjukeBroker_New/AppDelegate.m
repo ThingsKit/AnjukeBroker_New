@@ -316,6 +316,7 @@
                                                    otherButtonTitles:@"立即更新", @"退出应用", nil];
                 av.tag = 101;
                 [av show];
+                return ;
             }else{
                 self.isEnforceUpdate = NO;
             }
