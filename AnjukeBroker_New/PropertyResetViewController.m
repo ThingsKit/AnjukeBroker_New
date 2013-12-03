@@ -26,6 +26,7 @@
 @synthesize propertyID;
 @synthesize extImageArray, addImageArray;
 @synthesize commImgArray, roomImgArray, moduleImgArray;
+@synthesize propertyDelegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -614,6 +615,10 @@
     
     [self hideLoadWithAnimated:YES];
     [self showInfo:@"删除房源成功"];
+    
+    if ([self.propertyDelegate respondsToSelector:@selector(propertyDidDelete)]) {
+        [self.propertyDelegate propertyDidDelete];
+    }
     
     [self doBack:self];
     

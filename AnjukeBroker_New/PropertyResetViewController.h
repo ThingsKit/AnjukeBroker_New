@@ -8,8 +8,15 @@
 
 #import "AnjukeEditPropertyViewController.h"
 
+@protocol PropertyDeleteDelegate <NSObject>
+
+- (void)propertyDidDelete;
+
+@end
+
 @interface PropertyResetViewController : AnjukeEditPropertyViewController
 
 @property (nonatomic, copy) NSString *propertyID;
+@property (nonatomic, assign) id <PropertyDeleteDelegate> propertyDelegate;
 
 @end

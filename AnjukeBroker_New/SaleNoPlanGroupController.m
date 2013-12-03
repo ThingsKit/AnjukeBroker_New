@@ -7,7 +7,6 @@
 //
 
 #import "SaleNoPlanGroupController.h"
-#import "PropertyResetViewController.h"
 #import "RTNavigationController.h"
 #import "SaleFixedDetailController.h"
 #import "LoginManager.h"
@@ -116,6 +115,16 @@
     self.myTable.delegate = nil;
 }
 
+#pragma mark - PropertyDelete Delegate
+- (void)propertyDidDelete {
+    [self.selectedArray removeAllObjects];
+    [self.myArray removeAllObjects];
+    [self.myTable reloadData];
+    
+    [self setEditBtnEnableStatus];
+    [self doRequest];
+}
+
 #pragma mark - Request 未推广列表
 -(void)doRequest{
     if(![self isNetworkOkay]){
@@ -171,8 +180,10 @@
         [self addRightButton:@"全选" andPossibleTitle:@"取消全选"];
     }
     [self.myTable reloadData];
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
+    [self setEditBtnEnableStatus];
+    
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 
 }
 #pragma mark - 批量删除房源
@@ -340,6 +351,7 @@
     PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
     SalePropertyObject *pro = (SalePropertyObject *)[self.selectedArray objectAtIndex:0];
     controller.propertyID = pro.propertyId;
+    controller.propertyDelegate = self;
     controller.backType = RTSelectorBackTypeDismiss;
     RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];

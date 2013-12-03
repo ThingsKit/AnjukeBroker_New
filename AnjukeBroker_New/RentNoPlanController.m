@@ -14,7 +14,6 @@
 #import "LoginManager.h"
 #import "SaleNoPlanListManager.h"
 #import "RentGroupListController.h"
-#import "PropertyResetViewController.h"
 #import "SalePropertyObject.h"
 #import "RentFixedDetailController.h"
 
@@ -100,6 +99,17 @@
     
     [self setEditBtnEnableStatus];
 }
+
+#pragma mark - PropertyDelete Delegate
+- (void)propertyDidDelete {
+    [self.selectedArray removeAllObjects];
+    [self.myArray removeAllObjects];
+    [self.myTable reloadData];
+    
+    [self setEditBtnEnableStatus];
+    [self doRequest];
+}
+
 #pragma mark - Request 未推广列表
 -(void)doRequest{
     if(![self isNetworkOkay]){
@@ -155,6 +165,8 @@
         [self addRightButton:@"全选" andPossibleTitle:@"取消全选"];
     }
     [self.myTable reloadData];
+    [self setEditBtnEnableStatus];
+    
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
     
@@ -324,6 +336,7 @@
     SalePropertyObject *pro = (SalePropertyObject *)[self.selectedArray objectAtIndex:0];
     controller.isHaozu = YES;
     controller.propertyID = pro.propertyId;
+    controller.propertyDelegate = self;
     controller.backType = RTSelectorBackTypeDismiss;
     RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];

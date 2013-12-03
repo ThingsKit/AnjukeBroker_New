@@ -9,7 +9,8 @@
 #import "BaseNoPlanController.h"
 #import "SaleNoPlanListCell.h"
 #import "SalePropertyObject.h"
+#import "PropertyResetViewController.h"
 
-@interface SaleNoPlanGroupController : BaseNoPlanController <UIActionSheetDelegate, UIAlertViewDelegate, CheckmarkBtnClickDelegate>
+@interface SaleNoPlanGroupController : BaseNoPlanController <UIActionSheetDelegate, UIAlertViewDelegate, CheckmarkBtnClickDelegate, PropertyDeleteDelegate>
 @property (strong, nonatomic) NSString *isSeedPid;
 @end
