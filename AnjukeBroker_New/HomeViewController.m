@@ -221,8 +221,8 @@
     
     self.accountLb.text = [self.ppcDataDic objectForKey:@"balance"];
     self.propNumLb.text = [self.ppcDataDic objectForKey:@"onLinePropNum"];
-    self.costLb.text = [self.ppcDataDic objectForKey:@"todayAllClicks"];
-    self.clickLb.text = [self.ppcDataDic objectForKey:@"todayAllCosts"];
+    self.costLb.text = [self.ppcDataDic objectForKey:@"todayAllCosts"];
+    self.clickLb.text = [self.ppcDataDic objectForKey:@"todayAllClicks"];
 }
 
 #pragma mark - Request Method
