@@ -23,6 +23,7 @@
 #define ABOUT_US_ROW 3
 #define CALL_CHECKVER 2
 #define CALL_ACCOUNT_ROW 0
+#define NOTIFICATION_ROW 1
 
 @interface MoreViewController ()
 @property (nonatomic, strong) NSArray *taskArray;
@@ -233,19 +234,19 @@
     
     [cell configureCell:self.taskArray withIndex:indexPath.row];
     
-    if (indexPath.row == 1) {
+    if (indexPath.row == NOTIFICATION_ROW) {
         //显示消息提醒
-        [cell showSwitch];
-        [cell.messageSwtich addTarget:self action:@selector(messageSw:) forControlEvents:UIControlEventValueChanged];
+//        [cell showSwitch];
+//        [cell.messageSwtich addTarget:self action:@selector(messageSw:) forControlEvents:UIControlEventValueChanged];
     }
-    else if (indexPath.row == 4) { //客户主任
+    else if (indexPath.row == CALL_CLIENT_ROW) { //客户主任
         [cell setDetailText:[self getClientName]];
     }
     else if (indexPath.row == CALL_ANJUKE_ROW) {
         [cell setDetailText:CALL_ANJUKE_NUMBER];
     }
     
-    if (indexPath.row == 0 || indexPath.row == 2 || indexPath.row == 3) {
+    if (indexPath.row == CALL_ACCOUNT_ROW || indexPath.row == NOTIFICATION_ROW || indexPath.row == 3 || indexPath.row == 2) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     else {
@@ -268,6 +269,17 @@
             BrokerAccountController *controller = [[BrokerAccountController alloc] init];
             [controller setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:controller animated:YES];
+        }
+            break;
+        case NOTIFICATION_ROW:{ //消息提醒
+//            NotificationSetupViewController *controller = [[NotificationSetupViewController alloc] init];
+//            [controller setHidesBottomBarWhenPushed:YES];
+//            [self.navigationController pushViewController:controller animated:YES];
+            
+            NSString *message = @"如需打开/关闭消息推送请到设置-->通知-->通知中心-->移动经纪人进行设置";
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:message delegate:self cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
+            [alert show];
         }
             break;
         case CALL_ANJUKE_ROW:
