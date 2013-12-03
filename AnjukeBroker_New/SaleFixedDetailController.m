@@ -80,8 +80,9 @@
         self.myArray = [NSMutableArray array];
     }else{
         [self.myArray removeAllObjects];
-        [self.myTable reloadData];
     }
+    
+    [self.myTable reloadData];
     
     [self doRequest];
 }
@@ -129,6 +130,7 @@
     
     [self.myArray removeAllObjects];
     [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
+    
     [self.myTable reloadData];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
@@ -165,7 +167,7 @@
     [self reloadData];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
-    [self doRequest];
+//    [self doRequest];
 }
 #pragma mark - 停止定价组计划推广
 -(void)cancelFixedGroup{
@@ -199,7 +201,8 @@
     [self reloadData];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
-    [self doRequest];
+    
+//    [self doRequest];
 }
 #pragma mark - 重新开始定价推广
 -(void)doRestart{
@@ -232,7 +235,8 @@
     [self reloadData];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
-    [self doRequest];
+    
+//    [self doRequest];
 }
 
 #pragma mark - RTPOPOVER Delegate
@@ -264,12 +268,11 @@
     return 71.0f;
     }
     CGSize size = CGSizeMake(260, 40);
-    CGSize si = [[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize si = [[[self.myArray objectAtIndex:indexPath.row -1] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
     return si.height+50.0f;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-
     if([indexPath row] == 0){
         static NSString *cellIdent = @"SaleFixedCell";
 //        tableView.separatorColor = [UIColor lightGrayColor];

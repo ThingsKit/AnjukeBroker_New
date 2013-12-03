@@ -63,7 +63,16 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [self.myArray count];
+    if (self.myArray.count == 0) {
+        if (self.planDic == nil) {
+            return 0;
+        }
+        else
+            return 1;
+    }
+    
+    DLog(@"count [%d]", self.myArray.count);
+    return [self.myArray count] +1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -74,7 +83,7 @@
         if(cell == nil){
             cell = [[NSClassFromString(@"BaseFixedCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BaseFixedCell"];
         }
-        [cell configureCell:[self.myArray objectAtIndex:[indexPath row]]];
+        [cell configureCell:self.planDic];
         
         return cell;
     }else{
@@ -85,7 +94,7 @@
             cell = [[NSClassFromString(@"PropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"PropertyListCell"];
             //            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
-        [cell setValueForCellByObject:[self.myArray objectAtIndex:[indexPath row]]];
+        [cell setValueForCellByObject:[self.myArray objectAtIndex:[indexPath row] +1]];
         
         return cell;
     }
