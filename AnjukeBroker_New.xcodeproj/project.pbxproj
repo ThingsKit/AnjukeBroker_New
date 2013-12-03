@@ -131,6 +131,7 @@
 		97F4D18F184E2ABD00DFC45F /* logo_40.png in Resources */ = {isa = PBXBuildFile; fileRef = 97F4D189184E2ABD00DFC45F /* logo_40.png */; };
 		97F4D190184E2ABD00DFC45F /* logo_29@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97F4D18A184E2ABD00DFC45F /* logo_29@2x.png */; };
 		97F4D191184E2ABD00DFC45F /* logo_29.png in Resources */ = {isa = PBXBuildFile; fileRef = 97F4D18B184E2ABD00DFC45F /* logo_29.png */; };
+		97F4D193184E5C6700DFC45F /* anjuke_icon_login@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97F4D192184E5C6700DFC45F /* anjuke_icon_login@2x.png */; };
 		97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F5E5E5182B38DA00B5CBCC /* PhotoShowView.m */; };
 		97FA36A3182F318D00EF714D /* PropertyHouseType.plist in Resources */ = {isa = PBXBuildFile; fileRef = 97FA36A2182F318D00EF714D /* PropertyHouseType.plist */; };
 		97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */; };
@@ -411,6 +412,7 @@
 		97F4D189184E2ABD00DFC45F /* logo_40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_40.png; sourceTree = "<group>"; };
 		97F4D18A184E2ABD00DFC45F /* logo_29@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_29@2x.png"; sourceTree = "<group>"; };
 		97F4D18B184E2ABD00DFC45F /* logo_29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_29.png; sourceTree = "<group>"; };
+		97F4D192184E5C6700DFC45F /* anjuke_icon_login@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_login@2x.png"; sourceTree = "<group>"; };
 		97F5E5E4182B38DA00B5CBCC /* PhotoShowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoShowView.h; sourceTree = "<group>"; };
 		97F5E5E5182B38DA00B5CBCC /* PhotoShowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoShowView.m; sourceTree = "<group>"; };
 		97FA36A2182F318D00EF714D /* PropertyHouseType.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PropertyHouseType.plist; sourceTree = "<group>"; };
@@ -1126,6 +1128,7 @@
 		97F4D185184E284600DFC45F /* app icon正式版 */ = {
 			isa = PBXGroup;
 			children = (
+				97F4D192184E5C6700DFC45F /* anjuke_icon_login@2x.png */,
 				97F4D186184E2ABD00DFC45F /* logo_60@2x.png */,
 				97F4D187184E2ABD00DFC45F /* logo_60.png */,
 				97F4D188184E2ABD00DFC45F /* logo_40@2x.png */,
@@ -1472,6 +1475,7 @@
 				9720001B1841BF25003F49A4 /* details_arrow_right@2x.png in Resources */,
 				9705017C1845D4A800A0C181 /* anjuke_icon_yd1@2x.png in Resources */,
 				9795837E18224ABF005EA48A /* TabHome_normal@2x.png in Resources */,
+				97F4D193184E5C6700DFC45F /* anjuke_icon_login@2x.png in Resources */,
 				97F4D18E184E2ABD00DFC45F /* logo_40@2x.png in Resources */,
 				9704A4D3183A102E00CA67BD /* icon_80.png in Resources */,
 				972F70F21844EC560010CABB /* anjuke_icon44_more_selected@2x.png in Resources */,

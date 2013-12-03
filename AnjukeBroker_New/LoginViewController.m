@@ -82,7 +82,7 @@
     
     UIColor *textBGColor = [Util_UI colorWithHexString:@"EFEFF4"];
     
-    UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_120.png"]];
+    UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_60.png"]];
     icon.frame = CGRectMake(iconGap, 70, iconW, iconW);
     icon.backgroundColor = [UIColor clearColor];
     icon.contentMode = UIViewContentModeScaleAspectFill;
@@ -128,7 +128,7 @@
     cellTextField2.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     cellTextField2.font = [UIFont systemFontOfSize:17];
     cellTextField2.textAlignment = NSTextAlignmentLeft;
-    cellTextField2.secureTextEntry = NO;
+    cellTextField2.secureTextEntry = YES;
     cellTextField2.textColor = SYSTEM_BLACK;
     self.passwordTF = cellTextField2;
     [BG2 addSubview:cellTextField2];
