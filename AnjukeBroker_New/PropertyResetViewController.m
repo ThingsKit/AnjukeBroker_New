@@ -298,8 +298,13 @@
 - (NSString *)getImageJson {
     NSMutableArray *arr = [NSMutableArray array];
     for (int i = 0; i < self.addImageArray.count; i ++) {
-        NSDictionary *dic = [NSDictionary dictionaryWithDictionary:[(E_Photo *)[self.addImageArray objectAtIndex:i] imageDic]];
+        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[(E_Photo *)[self.addImageArray objectAtIndex:i] imageDic]];
         [arr addObject:dic];
+        if (self.isHaozu) {
+            [dic setObject:@"1" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
+        }
+        else //二手房
+            [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
     }
     NSString *str = [arr JSONRepresentation];
     //    DLog(@"image json [%@]", str);
@@ -419,7 +424,6 @@
     //保存房源id
 //    [self dismissViewControllerAnimated:YES completion:nil];
     [self uploadNewImgToProperty]; //问题信息更新结束，开始新增图片上传
-    
     [self hideLoadWithAnimated:YES];
 }
 
@@ -467,7 +471,6 @@
     [request setDidFinishSelector:@selector(uploadPhotoFinish:)];
     [request setDidFailSelector:@selector(uploadPhotoFail:)];
     [request startAsynchronous];
-
 }
 
 - (void)uploadPhotoFinish:(ASIFormDataRequest *)request{
@@ -622,7 +625,7 @@
     if (self.extImageArray.count == 0) { //直接从新添加imgArr删除
         [self.addImageArray removeObjectAtIndex:self.imageSelectIndex];
     }
-    else if (self.imageSelectIndex <= self.extImageArray.count) {
+    else if (self.imageSelectIndex < self.extImageArray.count) {
         //需要请求api交互
         NSString *deleteImgID = [[self.extImageArray objectAtIndex:self.imageSelectIndex] objectForKey:@"imgId"];
         [self doDeleteImgWithImgID:deleteImgID];
@@ -630,7 +633,7 @@
         [self.extImageArray removeObjectAtIndex:self.imageSelectIndex];
     }
     else { //删除新添加的图片
-        [self.addImageArray removeObjectAtIndex:self.imageSelectIndex+ self.extImageArray.count];
+        [self.addImageArray removeObjectAtIndex:self.imageSelectIndex- self.extImageArray.count];
     }
     
     for (PhotoButton *btn in self.imgBtnArray) {
