@@ -424,7 +424,7 @@ typedef enum {
     NSMutableDictionary *params = nil;
     NSString *method = nil;
     
-    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.property.price, @"price", [LoginManager getCity_id], @"cityId", nil];
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.property.price, @"price", [LoginManager getCity_id], @"cityId", nil];
     
     method = @"anjuke/fix/minoffer/";
     if (self.isHaozu) {

@@ -73,7 +73,7 @@
         return;
     }
     
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"announcelist/" params:params target:self action:@selector(onGetSuccess:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;

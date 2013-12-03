@@ -354,7 +354,7 @@
     
     if (self.isHaozu) {
         methodStr = @"zufang/prop/getpropdetail/";
-        params = [NSDictionary dictionaryWithObjectsAndKeys:self.propertyID, @"propId", nil];
+        params = [NSDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.propertyID, @"propId", nil];
     }
     else { //二手房
         methodStr = @"anjuke/prop/getpropdetail/";
@@ -516,7 +516,7 @@
     
     self.property.imageJson = [self getImageJson];
     
-    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.propertyID, @"propId", self.property.imageJson, @"imageJson", [LoginManager getUserID], @"brokerId", nil];
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.propertyID, @"propId", self.property.imageJson, @"imageJson", [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
     method = @"img/addimg/";
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUpdateNewImageForPeopertyFinished:)];
@@ -592,7 +592,7 @@
     NSString *method = nil;
     
     if (self.isHaozu) {
-        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", [LoginManager getUserID], @"brokerId", self.propertyID, @"propIds", nil];
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.propertyID, @"propIds", nil];
         method = @"zufang/prop/delprops/";
     }
     else {

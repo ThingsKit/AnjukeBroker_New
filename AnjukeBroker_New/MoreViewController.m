@@ -143,7 +143,7 @@
     NSMutableDictionary *params = nil;
     NSString *method = nil;
     
-    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", nil];
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
     method = @"logout/";
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onLoginOutFinished:)];
@@ -161,7 +161,7 @@
     NSMutableDictionary *params = nil;
     NSString *method = nil;
     
-    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getUserID], @"brokerId", nil];
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
     method = @"broker/getsalemanager/";
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];

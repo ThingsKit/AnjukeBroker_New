@@ -165,7 +165,7 @@
     [self showLoadingActivity:YES];
     self.isLoading = YES;
     
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.property.comm_id, @"commId", self.property.rooms, @"rooms", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.property.comm_id, @"commId", self.property.rooms, @"rooms", nil];
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"img/gethousemoduleimg/" params:params target:self action:@selector(onGetLogin:)];
     

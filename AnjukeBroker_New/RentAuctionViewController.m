@@ -132,7 +132,7 @@
     if(![self isNetworkOkay]){
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [self.proDic objectForKey:@"id"], @"propId", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.proDic objectForKey:@"id"], @"propId", nil];
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/bid/minoffer/" params:params target:self action:@selector(onMinSuccess:)];
     [self showLoadingActivity:YES];

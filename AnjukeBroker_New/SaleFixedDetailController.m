@@ -206,7 +206,7 @@
         [self showInfo:NONETWORK_STR];
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"14e96260ca470b9afa52a48e3a54fb12", @"token", [LoginManager getUserID], @"brokerId",  [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/spreadstart/" params:params target:self action:@selector(onRestartSuccess:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;

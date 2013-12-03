@@ -195,7 +195,7 @@
     else {
         self.requestKeywords = YES;
         
-        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getCity_id], @"cityId", keyword, @"keyword", nil];
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", keyword, @"keyword", nil];
         
         method = @"comm/getcommbykw/";
         
