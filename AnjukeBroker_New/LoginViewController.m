@@ -215,11 +215,11 @@
     NSString *s2 = self.passwordTF.text; //@"anjukeqa";//@"mobile123456";//@"anjukeqa";
     
     if (s1.length == 0) {
-        [self showInfo:@"请输入用户名好伐，谢谢"];
+        [self showInfo:@"请输入用户名好伐，谢谢!"];
         return;
     }
     else if (s2.length == 0) {
-        [self showInfo:@"请输入密码!谢谢你一家门!"];
+        [self showInfo:@"请输入密码!谢谢!"];
         return;
     }
     
