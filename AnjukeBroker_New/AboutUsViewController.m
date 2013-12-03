@@ -45,20 +45,20 @@
 }
 
 - (void)initDisplay {
-    UILabel *about = [[UILabel alloc] initWithFrame:CGRectMake(5, 10, [self windowWidth] - 5*2, 250)];
+    UILabel *about = [[UILabel alloc] initWithFrame:CGRectMake(5, 10, [self windowWidth] - 5*2, 230)];
     about.backgroundColor = [UIColor clearColor];
     about.numberOfLines = 0;
     about.lineBreakMode = NSLineBreakByWordWrapping;
-    about.text = @"安居客集团 （Anjuke。Inc）成立于2007年1月的安居客集团是国内首选互联网房产信息服务商，旗下拥有专业二手房网站“安居客”，专业新房网站“爱房网”，专业租房网站“好租”和专业商业地产网站“金铺”，为各领域的不同用户提供“最佳找房体验”。同时，也为开发商、中介公司、经纪人、业主提供高效的网络推广平台。其在北京、上海、广州、深圳等超过30个城市均设有分公司。";
+    about.text = @"安居客是国内优质房地产租售服务平台，专注于房地产租售信息服务。安居客以“帮助人们实现家的梦想”为企业愿景，全面覆盖买房、租房、商业地产三大业务，同时为开发商与经纪人提供高效的网络推广平台。安居客旗下业务网站每月独立访问用户已突破6600万。移动经纪人致力于更好的为经纪人服务，满足经纪人需求，打造经纪人的移动工作平台。";
     about.textColor = SYSTEM_BLACK;
-    about.font = [UIFont systemFontOfSize:17];
+    about.font = [UIFont systemFontOfSize:16];
     [self.view addSubview:about];
     
     //获取版本号
     UILabel *testLb = [[UILabel alloc] initWithFrame:CGRectMake(5, 300, [self windowWidth] - 5*2, 30)];
     testLb.backgroundColor = [UIColor clearColor];
     testLb.textColor = SYSTEM_BLACK;
-    testLb.font = [UIFont systemFontOfSize:17];
+    testLb.font = [UIFont systemFontOfSize:16];
     testLb.text = [self getAppVersion];
     [self.view addSubview:testLb];
     

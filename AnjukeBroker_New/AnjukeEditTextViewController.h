@@ -14,7 +14,7 @@
 
 @end
 
-@interface AnjukeEditTextViewController : RTViewController <UITextViewDelegate>
+@interface AnjukeEditTextViewController : RTViewController <UITextViewDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, copy) NSString *textString;
 @property (nonatomic, assign) id <TextFieldModifyDelegate> textFieldModifyDelegate;

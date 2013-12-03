@@ -8,6 +8,7 @@
 
 #import "AnjukeEditTextViewController.h"
 #import "Util_UI.h"
+#import "Util_TEXT.h"
 
 @interface AnjukeEditTextViewController ()
 
@@ -63,7 +64,7 @@
         [self.textFieldModifyDelegate textDidInput:self.textV.text isTitle:self.isTitle];
     }
     [self.textV resignFirstResponder];
-    [self doBack:self];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)setTextFieldDetail:(NSString *)string {
@@ -89,11 +90,50 @@
     }
 }
 
+- (void)doBack:(id)sender {
+    if (!self.textV) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    
+    if ([[Util_TEXT rmBlankFromString:self.textV.text] isEqualToString:@""]) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"提醒"
+                                                 message:@"是否保存当前输入"
+                                                delegate:self
+                                       cancelButtonTitle:nil
+                                       otherButtonTitles:@"不保存",@"保存并退出",nil];
+    av.tag = 102;
+    [av show];
+}
+
 #pragma mark - Text Field Delegate
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView {
     [textView resignFirstResponder];
     return YES;
+}
+
+#pragma mark - AlertView Delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 0: //不保存
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+            break;
+            
+        case 1: //保存并退出
+        {
+            [self rightButtonAction:self];
+        }
+            break;
+        default:
+            break;
+    }
 }
 
 @end

@@ -57,7 +57,7 @@
     lbBtn.font = [UIFont systemFontOfSize:15];
     lbBtn.text = @"全文";
     lbBtn.textColor = SYSTEM_ORANGE;
-    [showBtn addSubview:lbBtn];
+//    [showBtn addSubview:lbBtn];
     
     UILabel *lb2 = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFESTX, SYSTEM_MESSAGE_CELL_H - 20-10, 200, 20)];
     lb2.backgroundColor = [UIColor clearColor];
@@ -77,7 +77,7 @@
     lbBtn2.font = [UIFont systemFontOfSize:15];
     lbBtn2.text = @"删除";
     lbBtn2.textColor = SYSTEM_ORANGE;
-    [dBtn addSubview:lbBtn2];
+//    [dBtn addSubview:lbBtn2];
 }
 
 /*

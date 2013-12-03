@@ -183,7 +183,7 @@
         
         switch (i) {
             case 0: {
-                titleStr = @"在线房源";
+                titleStr = @"推广房源数";
                 self.propNumLb = numLb;
             }
                 break;
