@@ -12,6 +12,7 @@
 #import "LogKey.h"
 #import "BrokerLogger.H"
 #import "Util_TEXT.h"
+#import "LoginManager.h"
 
 #define STATUS_BAR_H 20
 #define NAV_BAT_H 44

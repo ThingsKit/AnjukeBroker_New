@@ -293,6 +293,7 @@
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"checkversion/" params:params target:self action:@selector(onGetVersion:)];
 }
+
 - (void)onGetVersion:(RTNetworkResponse *) response {
     DLog(@"%@", [response content]);
     //check network and response
