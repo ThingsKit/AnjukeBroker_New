@@ -45,7 +45,7 @@
     [super viewWillAppear:animated];
 }
 -(void)initDisplay{
-    self.myTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+    self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
 //    self.myTable.separatorColor = [UIColor whiteColor];

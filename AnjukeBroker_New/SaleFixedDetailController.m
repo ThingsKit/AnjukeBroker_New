@@ -331,8 +331,7 @@
     //                                            inView:self.navigationController.navigationBar
     //                          permittedArrowDirections:UIPopoverArrowDirectionUp
     //                                          animated:YES];
-    
-    if (self.myArray.count == 0) {
+    if(self.planDic == nil){
         return;
     }
     FixedObject *fix = [[FixedObject alloc] init];
@@ -386,7 +385,7 @@
                 [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_005 note:nil];
                 
                 SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
-                controller.fixedObj = [self.myArray objectAtIndex:selectIndex];
+                controller.fixedObj = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
                 RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:navi animated:YES completion:nil];

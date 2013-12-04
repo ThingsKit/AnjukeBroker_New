@@ -49,7 +49,7 @@
     self.tempDic = [NSDictionary dictionary];
 }
 - (void)initDisplay_ {
-    self.myTable.frame = FRAME_BETWEEN_NAV_TAB;
+    self.myTable.frame = FRAME_WITH_NAV;
     
 }
 -(void)viewWillAppear:(BOOL)animated{
