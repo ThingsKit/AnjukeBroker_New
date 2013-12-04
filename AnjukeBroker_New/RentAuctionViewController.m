@@ -352,7 +352,7 @@
         return ;
     }
     if([self.delegateVC isKindOfClass:[RentBidDetailController class]]){
-        if([self.textField_1.text integerValue] <= [[self.proDic objectForKey:@"yusuan"] integerValue]){
+        if([self.textField_1.text integerValue] < [[self.proDic objectForKey:@"yusuan"] integerValue]){
             NSString *tempStr = [NSString stringWithFormat:@"预算不得低于原预算%@元", [self.proDic objectForKey:@"yusuan"]];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:tempStr delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             [alert show];

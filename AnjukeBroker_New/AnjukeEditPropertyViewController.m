@@ -130,6 +130,10 @@ typedef enum {
 }
 
 - (void)doBack:(id)sender {
+    if (self.isLoading) {
+        return; //请求时不返回
+    }
+    
     NSString *code = [NSString string];
     if (self.isHaozu) {
         code = HZ_PROPERTY_003;
@@ -1103,6 +1107,10 @@ typedef enum {
         self.isTBBtnPressedToShowKeyboard = NO; //锁还原
     }
     else {
+//        if (self.inputingTextF) {
+//            self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
+//        }
+        
         [self getTextFieldIndexWithTF:textField];
         [self textFieldShowWithIndex:self.selectedRow];
     }
