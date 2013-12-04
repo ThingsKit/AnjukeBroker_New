@@ -43,7 +43,7 @@
 {
     [super viewDidLoad];
     [self setTitleViewWithString:@"设置竞价"];
-    self.textField_1.text = [self.proDic objectForKey:@"budget"];
+    self.textField_1.text = [self.proDic objectForKey:@"yusuan"]; //budget为余额，这里显示预算
     self.textField_2.text = [self.proDic objectForKey:@"offer"];
 	// Do any additional setup after loading the view.
 }
