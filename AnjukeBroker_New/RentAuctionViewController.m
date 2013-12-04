@@ -48,12 +48,27 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self initValue];
+//    [self initValue];
     [self doRequestMinoffer];
 }
--(void)initValue{
+//-(void)initValue{
 //    self.textField_1 = [self.proDic objectForKey:@"budget"];
 //    self.textField_2 = [self.proDic objectForKey:@"offer"];
+//}
+- (void)initDisplay{
+    [super initDisplay];
+    [self setTextPlacehold];
+}
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+- (void)setTextPlacehold {
+    if([self.delegateVC isKindOfClass:[RentBidDetailController class]]){
+        self.textField_1.placeholder = [NSString stringWithFormat:@"最低%@元", [self.proDic objectForKey:@"yusuan"]];
+    }
+    
 }
 #pragma mark - 开始竞价
 -(void)doBid{
@@ -337,6 +352,15 @@
         return ;
     }
     if([self.delegateVC isKindOfClass:[RentBidDetailController class]]){
+        if([self.textField_1.text integerValue] <= [[self.proDic objectForKey:@"yusuan"] integerValue]){
+            NSString *tempStr = [NSString stringWithFormat:@"预算不得低于原预算%@元", [self.proDic objectForKey:@"yusuan"]];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:tempStr delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alert show];
+            
+            return;
+            
+        }
+
         if([[self.proDic objectForKey:@"bidStatus"] isEqualToString:@"3"]){//当竞价为手动暂停状态时可重新参与竞价
             [self doRestartBid];
             return ;
@@ -362,11 +386,7 @@
     }
     
 }
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
 - (void)doBack:(id)sender{
     [super doBack:self];
     [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_AUCTION_003 note:nil];

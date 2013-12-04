@@ -420,7 +420,7 @@
         return ;
     }
     
-    if (self.myArray.count == 0) {
+    if (self.planDic == nil) {
         return;
     }
     FixedObject *fix = [[FixedObject alloc] init];
