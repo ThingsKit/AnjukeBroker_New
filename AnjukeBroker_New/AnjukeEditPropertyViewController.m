@@ -187,7 +187,7 @@ typedef enum {
     
     //根据是否需要备案号调整高度
     UIView *headerView = [[UIView alloc] init];
-    if (self.needFileNO && !self.isHaozu) { //仅二手房发房（北京）需要备案号
+    if (self.needFileNO && self.isHaozu == NO) { //仅二手房发房（北京）需要备案号
         headerView.frame = CGRectMake(0, 0, [self windowWidth], photoHeaderH_RecNum);
     }
     else
@@ -227,7 +227,7 @@ typedef enum {
     }
     
     //备案号
-    if (self.needFileNO) {
+    if (self.needFileNO && self.isHaozu == NO) {
         UIView *fileNO_BG = [[UIView alloc] initWithFrame:CGRectMake(0, photoHeaderH, [self windowWidth], photoHeaderH_RecNum - photoHeaderH)];
         fileNO_BG.backgroundColor = [UIColor whiteColor];
         [headerView addSubview:fileNO_BG];

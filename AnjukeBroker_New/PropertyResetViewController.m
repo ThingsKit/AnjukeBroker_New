@@ -403,7 +403,7 @@
     
     [self setTextFieldForProperty];
     
-    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"cityId", self.property.comm_id, @"commId", self.property.rooms, @"rooms", self.property.area, @"area", self.property.price, @"price", self.property.fitment, @"fitment", self.property.exposure, @"exposure", self.property.floor, @"floor", self.property.title, @"title", self.property.desc, @"description", self.propertyID, @"propId",nil];
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"cityId", self.property.comm_id, @"commId", self.property.rooms, @"rooms", self.property.area, @"area", self.property.price, @"price", self.property.fitment, @"fitment", self.property.exposure, @"exposure", self.property.floor, @"floor", self.property.title, @"title", self.property.desc, @"description", self.propertyID, @"propId",self.property.fileNo, @"fileNo", nil];
     method = @"anjuke/prop/update/";
     
     if (self.isHaozu) {
@@ -419,6 +419,7 @@
     
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         
@@ -431,6 +432,7 @@
 //    [self dismissViewControllerAnimated:YES completion:nil];
     [self uploadNewImgToProperty]; //问题信息更新结束，开始新增图片上传
     [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 }
 
 - (void)uploadNewImgToProperty {
@@ -445,6 +447,9 @@
     }
     
     if (![self isNetworkOkay]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
         return;
     }
     
@@ -527,6 +532,7 @@
     
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         
@@ -539,6 +545,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     
     [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 }
 
 - (void)doDeleteImgWithImgID:(NSString *)imgID {
@@ -566,6 +573,7 @@
     
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         
@@ -576,6 +584,7 @@
     
     [self showInfo:@"图片已删除"];
     [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 }
 
 //删除房源
@@ -608,6 +617,7 @@
     
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         
@@ -619,6 +629,7 @@
     }
     
     [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
     [self showInfo:@"删除房源成功"];
     
     if ([self.propertyDelegate respondsToSelector:@selector(propertyDidDelete)]) {
