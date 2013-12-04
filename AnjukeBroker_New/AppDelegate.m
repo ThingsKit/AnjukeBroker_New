@@ -63,7 +63,7 @@
     [self registerRemoteNotification];
     [self cleanRemoteNotification:application];
     
-    [self checkVersion];
+    [self checkVersionForMore:NO];
     
     return YES;
 }
@@ -284,14 +284,19 @@
     }
 }
 
-- (void)checkVersion { // 新版本更新检查
+- (void)checkVersionForMore:(BOOL)forMore { // 新版本更新检查
     if (![self checkNetwork]) {
         return;
     }
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"i" ,@"o" , nil];
     
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"checkversion/" params:params target:self action:@selector(onGetVersion:)];
+    if (forMore) {
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"checkversion/" params:params target:self action:@selector(onGetVersionForMore:)];
+    }
+    else {
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"checkversion/" params:params target:self action:@selector(onGetVersion:)];
+    }
 }
 
 - (void)onGetVersion:(RTNetworkResponse *) response {
@@ -347,6 +352,82 @@
                                                    otherButtonTitles:@"立即更新",nil];
                 av.cancelButtonIndex = 0;
                     av.tag = 102;
+                [av show];
+            }else{
+                if (self.boolNeedAlert) {
+                    UIAlertView *av = [[UIAlertView alloc] initWithTitle:nil message:@"没有发现新版本" delegate:Nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+                    [av show];
+                    self.boolNeedAlert = NO;
+                }
+            }
+        }
+    }
+}
+
+- (void)onGetVersionForMore:(RTNetworkResponse *) response {
+    DLog(@"%@", [response content]);
+    //check network and response
+    if (![self checkNetwork])
+        return;
+    
+    if ([response status] == RTNetworkResponseStatusFailed || ([[[response content] objectForKey:@"status"] isEqualToString:@"error"]))
+        return;
+    
+    //更多中点击检查更新，此处适配版本更新查不到表的情况，api返回空arr数组，弹框提示无新版本
+    id arr = [[response content] objectForKey:@"data"];
+    if ([arr isKindOfClass:[NSArray class]]) {
+        if ([(NSArray *)arr count] == 0) {
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:nil message:@"没有发现新版本" delegate:Nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+            [av show];
+            self.boolNeedAlert = NO;
+            return;
+        }
+    }
+    
+    NSDictionary *resultFromAPI = [[response content] objectForKey:@"data"];
+    
+    if ([resultFromAPI count] != 0) {
+        self.updateUrl = [NSString stringWithFormat:@"%@",[resultFromAPI objectForKey:@"url"]];
+        //        DLog(@"get message update 返回--[%@] url[%@]",[[response content] objectForKey:@"update"], self.updateUrl);
+        
+        if ([resultFromAPI objectForKey:@"ver"] != nil && ![[resultFromAPI objectForKey:@"ver"] isEqualToString:@""]) {
+            NSString *onlineVer = [resultFromAPI objectForKey:@"ver"];
+            //强制更新
+            if ([[resultFromAPI objectForKey:@"is_enforce"] isEqualToString:@"1"]) {
+                self.isEnforceUpdate = YES;
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"发现新%@版本",onlineVer]
+                                                             message:nil
+                                                            delegate:self
+                                                   cancelButtonTitle:nil
+                                                   otherButtonTitles:@"立即更新", @"退出应用", nil];
+                av.tag = 101;
+                [av show];
+                
+                return;
+            }else{
+                self.isEnforceUpdate = NO;
+            }
+            
+            DLog(@"appVer[%f] checkVer[%f]",[onlineVer floatValue], [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] floatValue]);
+            
+            NSString *localVer = [AppManager getBundleVersion];
+            
+            //            if (![UtilText isNumber:[UtilText rmPointFromString:localVer]]) { //有英文表示为测试版
+            //                if (self.boolNeedAlert) {
+            //                    UIAlertView *av = [[UIAlertView alloc] initWithTitle:Nil message:@"测试版本" delegate:Nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+            //                    [av show];
+            //                    self.boolNeedAlert = NO;
+            //                }
+            //                return;
+            //            }else
+            if ([localVer compare:onlineVer options:NSNumericSearch] == NSOrderedAscending) { //有更新
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"发现新%@版本",onlineVer]
+                                                             message:nil
+                                                            delegate:self
+                                                   cancelButtonTitle:@"稍后再说"
+                                                   otherButtonTitles:@"立即更新",nil];
+                av.cancelButtonIndex = 0;
+                av.tag = 102;
                 [av show];
             }else{
                 if (self.boolNeedAlert) {

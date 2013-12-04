@@ -47,5 +47,5 @@ typedef enum {
 
 //用于发房结束后页面跳转到计划管理房源列表页面
 - (void)dismissController:(UIViewController *)dismissController withSwitchIndex:(int)index withSwtichType:(TabSwitchType)switchType withPropertyDic:(NSDictionary *)propDic;
-- (void)checkVersion; //检测版本更新
+- (void)checkVersionForMore:(BOOL)forMore; // 新版本更新检查
 @end

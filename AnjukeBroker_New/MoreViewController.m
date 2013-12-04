@@ -304,7 +304,7 @@
             
             //check version
             [[AppDelegate sharedAppDelegate] setBoolNeedAlert:YES];
-            [[AppDelegate sharedAppDelegate] checkVersion];
+            [[AppDelegate sharedAppDelegate] checkVersionForMore:YES];
         }
             break;
         case CALL_CLIENT_ROW:
