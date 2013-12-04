@@ -183,7 +183,7 @@ typedef enum {
     
     //根据是否需要备案号调整高度
     UIView *headerView = [[UIView alloc] init];
-    if (self.needFileNO) {
+    if (self.needFileNO && !self.isHaozu) { //仅二手房发房（北京）需要备案号
         headerView.frame = CGRectMake(0, 0, [self windowWidth], photoHeaderH_RecNum);
     }
     else
@@ -459,8 +459,6 @@ typedef enum {
     [self.tvList setFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight] - self.pickerView.frame.size.height - self.toolBar.frame.size.height-28)]; //***减28像素，先保证最后一行输入时不被中文输入法遮挡
     
     [self.tvList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO]; //animated
-    
-//    [self.tvList setScrollEnabled:NO];
 }
 
 - (NSMutableString *)getInputStringAndSetProperty {
@@ -587,7 +585,7 @@ typedef enum {
     [self.tvList setFrame:FRAME_WITH_NAV];
     [self.tvList setContentOffset:CGPointMake(0, 0) animated:YES];
     
-    [self.tvList setScrollEnabled:YES];
+    self.isTBBtnPressedToShowKeyboard = NO;
 }
 
 - (NSString *)getImageJson {
@@ -877,6 +875,8 @@ typedef enum {
 #pragma mark - Broker Picker Delegate
 
 - (void)finishBtnClicked { //点击完成，输入框组件消失
+    self.isTBBtnPressedToShowKeyboard = NO; 
+    
     if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
         self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
     }

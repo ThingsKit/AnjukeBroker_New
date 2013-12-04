@@ -85,7 +85,7 @@
 - (void)setPropertyWithDic:(NSDictionary *)dic {
     self.property = [PropertyDataManager getNewPropertyObject];
     
-    if ([LoginManager needFileNOWithCityID:[LoginManager getCity_id]]) {
+    if ([LoginManager needFileNOWithCityID:[LoginManager getCity_id]] && !self.isHaozu) { //仅二手房发房需要备案号
         self.property.fileNo = [dic objectForKey:@"fileNo"];
         self.fileNoTextF.text = [dic objectForKey:@"fileNo"];
     }
