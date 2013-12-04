@@ -116,7 +116,7 @@
     //image
     self.roomImgArray = [dic objectForKey:@"roomImg"];
     self.commImgArray = [dic objectForKey:@"commImg"];
-    self.moduleImgArray = [dic objectForKey:@"moduleImg"];
+//    self.moduleImgArray = [dic objectForKey:@"moduleImg"]; //编辑房源时户型图暂不显示
     if (self.roomImgArray.count > 0) {
         [self.extImageArray addObjectsFromArray:self.roomImgArray];
     }

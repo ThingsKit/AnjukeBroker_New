@@ -590,6 +590,8 @@ typedef enum {
     [self.tvList setContentOffset:CGPointMake(0, 0) animated:YES];
     
     self.isTBBtnPressedToShowKeyboard = NO;
+    
+    
 }
 
 - (NSString *)getImageJson {
@@ -626,7 +628,7 @@ typedef enum {
         NSInteger price = [[[[[self.dataSource cellArray] objectAtIndex:HZ_T_PRICE] text_Field] text] intValue];
         self.property.price = [NSString stringWithFormat:@"%d", price];
     }
-    else {
+    else { //二手房
         self.property.area = [[[[self.dataSource cellArray] objectAtIndex:AJK_T_AREA] text_Field] text];
         
         NSInteger price = [[[[[self.dataSource cellArray] objectAtIndex:AJK_T_PRICE] text_Field] text] intValue] * 10000;
