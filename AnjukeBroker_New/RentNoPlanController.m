@@ -231,7 +231,7 @@
         return;
     }
     //    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  @"187275101", @"proIds", @"388666", @"planId", nil];
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  ((SalePropertyObject *)[self.selectedArray objectAtIndex:0]).propertyId, @"propIds", self.isSeedPid, @"planId", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  [self getStringFromArray:self.selectedArray], @"propIds", self.isSeedPid, @"planId", nil];
 
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/addpropstoplan/" params:params target:self action:@selector(onFixedSuccess:)];
     [self showLoadingActivity:YES];
@@ -269,7 +269,20 @@
     controller.tempDic = dic;
     [self.navigationController pushViewController:controller animated:YES];
 }
-
+//-(NSString *)getStringFromArray:(NSArray *) array{
+//    NSMutableString *tempStr = [NSMutableString string];
+//    for (int i=0;i<[array count];i++) {
+//        SalePropertyObject *pro = (SalePropertyObject *)[array objectAtIndex:i];
+//        if(tempStr.length == 0){
+//            [tempStr appendString:[NSString stringWithFormat:@"%@",pro.propertyId]];
+//        }else{
+//            [tempStr appendString:@","];
+//            [tempStr appendString:[NSString stringWithFormat:@"%@",pro.propertyId]];
+//        }
+//    }
+//    DLog(@"====%@",tempStr);
+//    return tempStr;
+//}
 #pragma mark - TableView Delegate & Datasource
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGSize size = CGSizeMake(250, 40);
