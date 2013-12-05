@@ -34,7 +34,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [self setTitleViewWithString:@"系统消息"];
+    [self setTitleViewWithString:@"系统公告"];
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     //    self.tvList = tv;
     //    tv.backgroundColor = [UIColor clearColor];
