@@ -27,7 +27,7 @@
 #define code_AppName @"i-broker"
 
 #define UMENG_KEY_OFFLINE @"529da42356240b93f001f9b4"
-#define UMENG_KEY_ONLINE @"529da1b856240ba04201a193"
+#define UMENG_KEY_ONLINE @"52a0368c56240ba07800b4c0"
 
 @implementation AppDelegate
 
