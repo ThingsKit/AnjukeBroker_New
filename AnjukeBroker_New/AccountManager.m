@@ -32,7 +32,7 @@
 - (void)registerNotification{
     if ([LoginManager isLogin] && self.NotificationDeviceToken.length>20) {
         NSMutableDictionary *bodys = [NSMutableDictionary dictionary];
-        [bodys setValue:@"i-broker" forKey:@"appName"];
+        [bodys setValue:@"i-broker2" forKey:@"appName"];
         [bodys setValue:[LoginManager getCity_id] forKey:@"cityId"];
         [bodys setValue:[LoginManager getUserID] forKey:@"userId"];
         [bodys setValue:[[UIDevice currentDevice] uuid] forKey:@"uuid"];
