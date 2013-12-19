@@ -8,6 +8,7 @@
 
 #import "BaseBidDetailController.h"
 #import "BaseBidPropertyCell.h"
+#import "Util_UI.h"
 
 @interface BaseBidDetailController ()
 
@@ -41,6 +42,7 @@
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
+    [self.myTable setBackgroundColor:[Util_UI colorWithHexString:@"#F9F9F9"]];
 //    self.myTable.separatorColor = [UIColor whiteColor];
     [self.view addSubview:self.myTable];
 }
