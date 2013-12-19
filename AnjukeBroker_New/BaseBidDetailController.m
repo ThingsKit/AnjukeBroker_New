@@ -42,7 +42,7 @@
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
-    [self.myTable setBackgroundColor:[Util_UI colorWithHexString:@"#F9F9F9"]];
+    [self.myTable setBackgroundColor:[Util_UI colorWithHexString:@"#EFEFF4"]];
 //    self.myTable.separatorColor = [UIColor whiteColor];
     [self.view addSubview:self.myTable];
 }

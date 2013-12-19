@@ -41,6 +41,7 @@
 //    self.myTable.separatorColor = [UIColor whiteColor];
     [self.view addSubview:self.myTable];
 	// Do any additional setup after loading the view.
+    
 }
 -(void)dealloc{
     self.myTable.delegate = nil;

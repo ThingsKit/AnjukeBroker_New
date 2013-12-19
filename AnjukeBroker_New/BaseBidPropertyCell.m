@@ -25,7 +25,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         //        UIView
-        [self.contentView setBackgroundColor:[Util_UI colorWithHexString:@"#F9F9F9"]];
+        [self.contentView setBackgroundColor:[Util_UI colorWithHexString:@"#EFEFF4"]];
         UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 300, 130)];
         [backView setBackgroundColor:[UIColor whiteColor]];
         

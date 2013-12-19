@@ -73,9 +73,9 @@
 
 - (void)initDisplay_ {
 
-    self.myTable.frame = FRAME_BETWEEN_NAV_TAB;
+    self.myTable.frame = FRAME_WITH_NAV;
     
-    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, [self currentViewHeight] - TOOL_BAR_HEIGHT, [self windowWidth], TOOL_BAR_HEIGHT)];
+    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, [self currentViewHeight], [self windowWidth], TOOL_BAR_HEIGHT)];
     self.contentView.backgroundColor = SYSTEM_NAVIBAR_COLOR;
     
     //编辑、删除、定价推广btn
@@ -429,10 +429,27 @@
 //编辑按钮状态更改
 - (void)setEditBtnEnableStatus {
     BOOL enabled = NO;
+    BOOL isShow = NO;
     DLog(@"selectArr [%d]", self.selectedArray.count);
     
     if (self.selectedArray.count == 1) {
+        isShow = YES;
         enabled = YES;
+    }
+    if (self.selectedArray.count > 1) {
+        isShow = YES;
+    }
+    
+    
+    if (isShow) {
+        self.contentView.frame = CGRectMake(self.contentView.frame.origin.x, [self currentViewHeight] - TOOL_BAR_HEIGHT, self.contentView.frame.size.width, self.contentView.frame.size.height);
+        self.myTable.frame = FRAME_BETWEEN_NAV_TAB;
+        [self.myTable reloadData];
+    }
+    else {
+        self.contentView.frame = CGRectMake(self.contentView.frame.origin.x, [self currentViewHeight], self.contentView.frame.size.width, self.contentView.frame.size.height);
+        self.myTable.frame = FRAME_WITH_NAV;
+        [self.myTable reloadData];
     }
     
     if (enabled) {
