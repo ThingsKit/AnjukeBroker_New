@@ -100,13 +100,13 @@
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     
     if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到房源" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到房源" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+//        [alert show];
         [self.myArray removeAllObjects];
         [self.myTable reloadData];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        
+        [self showInfo:@"没有竞价房源"];
         return;
     }
     [self.myArray removeAllObjects];

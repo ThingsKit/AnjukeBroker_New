@@ -128,6 +128,13 @@
     
     [self.myArray removeAllObjects];
     [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
+    if([self.myArray count] == 0) {
+        [self.myTable reloadData];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        [self showInfo:@"该定价组没有房源"];
+        return;
+    }
     [self.myTable reloadData];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
