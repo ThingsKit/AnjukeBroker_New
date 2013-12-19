@@ -25,6 +25,8 @@
 #define DEFULT_TITLE_proFLOORS @"共6层"
 #define DEFULT_TITLE_ROOMS @"1室"
 
+#define ALERT_VIEW_BACK_TAG 2001
+
 typedef enum {
     Property_DJ = 0, //发房_定价
     Property_JJ, //发房_竞价
@@ -134,19 +136,15 @@ typedef enum {
 }
 
 - (void)doBack:(id)sender {
+    
     if (self.isLoading) {
         return; //请求时不返回
     }
     
-    NSString *code = [NSString string];
-    if (self.isHaozu) {
-        code = HZ_PROPERTY_003;
-    }
-    else
-        code = AJK_PROPERTY_003;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
-    
-    [super doBack:self];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"是否要退出发房" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+    alert.tag = ALERT_VIEW_BACK_TAG;
+    [alert show];
+    return;
 }
 
 #pragma mark - init Method
@@ -1509,6 +1507,32 @@ typedef enum {
                 break;
         }
     }
+}
+
+#pragma mark - Alert View Delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == ALERT_VIEW_BACK_TAG) {
+        switch (buttonIndex) {
+            case 1: //确认-返回
+            {
+                NSString *code = [NSString string];
+                if (self.isHaozu) {
+                    code = HZ_PROPERTY_003;
+                }
+                else
+                    code = AJK_PROPERTY_003;
+                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                
+                [super doBack:self];
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
 }
 
 #pragma mark - Photo Show View Delegate
