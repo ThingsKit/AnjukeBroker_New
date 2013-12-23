@@ -47,12 +47,13 @@ typedef enum {
 - (NSInteger)windowWidth;
 - (NSInteger)currentViewHeight;  //******当前UIViewController.view的高度，各继承页面UI组件使用
 
--(void) sendAppearLog;
--(void) sendDisAppearLog;
+-(void)sendAppearLog;
+-(void)sendDisAppearLog;
 
 - (void)doBack:(id)sender;
 - (void)addRightButton:(NSString *)title andPossibleTitle:(NSString *)possibleTitle;
 - (void)rightButtonAction:(id)sender;
+- (void)showTopAlertWithTitle:(NSString *)title; //顶部提示条效果
 
 - (BOOL)isNetworkOkay; //***检查网络是否通畅
 @end

@@ -10,8 +10,10 @@
 #import "Util_UI.h"
 #import "Reachability.h"
 
-@interface RTViewController ()
+#define TOP_ALERT_VIEW_HIDETIME 3
 
+@interface RTViewController ()
+@property (nonatomic, strong) UIView *topAlertView;
 @end
 
 @implementation RTViewController
@@ -19,6 +21,7 @@
 @synthesize isHome;
 @synthesize delegateVC;
 @synthesize isLoading;
+@synthesize topAlertView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -176,6 +179,34 @@
 
 - (NSInteger)windowHeight {
     return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height;
+}
+
+- (void)showTopAlertWithTitle:(NSString *)title {
+    UIView *topAlert = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 28)];
+    topAlert.backgroundColor = [Util_UI colorWithHexString:@"efe0c3"];
+    self.topAlertView = topAlert;
+    [self.view addSubview:topAlert];
+    
+    CGFloat titleW = 120;
+    CGFloat titleH = 20;
+    UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake((topAlert.frame.size.width- titleW)/2, (topAlert.frame.size.height- titleH)/2, titleW, titleH)];
+    titleLb.backgroundColor = [UIColor clearColor];
+    titleLb.text = title;
+    titleLb.textColor = [Util_UI colorWithHexString:@"ff8800"];
+    titleLb.font = [UIFont systemFontOfSize:16];
+    titleLb.textAlignment = NSTextAlignmentCenter;
+    [topAlert addSubview:titleLb];
+    
+    [self performSelector:@selector(hideTopAlertView) withObject:nil afterDelay:TOP_ALERT_VIEW_HIDETIME];
+}
+
+- (void)hideTopAlertView {
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^(void){
+        self.topAlertView.alpha = 0;
+    } completion:^(BOOL finished){
+        [self.topAlertView removeFromSuperview];
+        self.topAlertView = nil;
+    }];
 }
 
 @end
