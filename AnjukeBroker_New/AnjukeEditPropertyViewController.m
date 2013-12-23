@@ -1069,8 +1069,13 @@ typedef enum {
             ae.isTitle = NO;
             [self.navigationController pushViewController:ae animated:YES];
         }
+        else {
+            self.selectedRow = indexPath.row;
+            
+            [self getTextFieldWithIndex:self.selectedRow];
+            [self textFieldShowWithIndex:self.selectedRow];
+        }
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        return;
     }
     else {
         if (indexPath.row == AJK_T_TITLE) {
@@ -1089,14 +1094,15 @@ typedef enum {
             ae.isTitle = NO;
             [self.navigationController pushViewController:ae animated:YES];
         }
+        else {
+            self.selectedRow = indexPath.row;
+            
+            [self getTextFieldWithIndex:self.selectedRow];
+            [self textFieldShowWithIndex:self.selectedRow];
+        }
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        return;
     }
     
-    self.selectedRow = indexPath.row;
-    
-    [self getTextFieldWithIndex:self.selectedRow];
-    [self textFieldShowWithIndex:self.selectedRow];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -1200,7 +1206,12 @@ typedef enum {
 - (void)getTextFieldIndexWithTF:(UITextField *)tf {
     self.inputingTextF = tf;
     
-    AnjukeEditableCell *cell = (AnjukeEditableCell *)[[[tf superview] superview] superview];
+    AnjukeEditableCell *cell = nil;
+    if ([AppManager isIOS6]) {
+        cell = (AnjukeEditableCell *)[[tf superview] superview];
+    }
+    else
+        cell = (AnjukeEditableCell *)[[[tf superview] superview] superview];
     self.selectedRow = [[self.tvList indexPathForCell:cell] row];
     
     DLog(@"修改selectRow index - [%d]", self.selectedRow);

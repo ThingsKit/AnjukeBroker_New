@@ -22,6 +22,7 @@
         // Initialization code
         
         self.backgroundColor = [UIColor whiteColor];
+        self.showsSelectionIndicator = YES;
         [self initModel];
         
         self.dataSource = self;
