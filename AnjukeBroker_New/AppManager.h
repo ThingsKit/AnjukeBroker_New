@@ -14,4 +14,6 @@
 + (BOOL)isFirstLaunch;
 + (NSString *)getBundleVersion;
 
++ (BOOL)isIOS6;
+
 @end

@@ -38,4 +38,16 @@
     DLog(@"BundleVersion %@", [[NSUserDefaults standardUserDefaults] valueForKey:key]);
 }
 
++ (NSString *)currentVersion {
+    return [[UIDevice currentDevice] systemVersion];
+}
+
++ (BOOL)isIOS6 {
+    if ([[self currentVersion] floatValue] < 7) {
+        return YES;
+    }
+    
+    return NO;
+}
+
 @end

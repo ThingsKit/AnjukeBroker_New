@@ -15,17 +15,12 @@
 #import "AnjukePropertyResultController.h"
 #import "AnjukeOnlineImgController.h"
 #import "AppDelegate.h"
+#import "AppManager.h"
 
 #define LimitRow_INPUT 1 //从row=1行开始输入，即最小输入行数(第一行为小区无需输入，从户型行开始输入)
 
 #define DEFULT_TITLE_FITMENT @"精装修"
 #define DEFULT_TITLE_EXPOSURE @"南北"
-
-#define DEFULT_TITLE_FLOORS @"3楼"
-#define DEFULT_TITLE_proFLOORS @"共6层"
-#define DEFULT_TITLE_ROOMS @"1室"
-
-#define ALERT_VIEW_BACK_TAG 2001
 
 typedef enum {
     Property_DJ = 0, //发房_定价
@@ -136,15 +131,19 @@ typedef enum {
 }
 
 - (void)doBack:(id)sender {
-    
     if (self.isLoading) {
         return; //请求时不返回
     }
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"是否要退出发房" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-    alert.tag = ALERT_VIEW_BACK_TAG;
-    [alert show];
-    return;
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_PROPERTY_003;
+    }
+    else
+        code = AJK_PROPERTY_003;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    
+    [super doBack:self];
 }
 
 #pragma mark - init Method
@@ -729,7 +728,7 @@ typedef enum {
 
 - (void)setDefultValue {
     //房屋装修、朝向
-    if (!self.isHaozu) { //二手房
+    if (!self.isHaozu) {
         //fitment
         [[[[self.dataSource cellArray] objectAtIndex:AJK_P_FITMENT] text_Field] setText:DEFULT_TITLE_FITMENT];
         int index = [PropertyDataManager getFitmentIndexWithString:DEFULT_TITLE_FITMENT forHaozu:self.isHaozu];
@@ -745,20 +744,8 @@ typedef enum {
         self.property.exposure = value2;
         
         [[[self.dataSource cellArray] objectAtIndex:AJK_P_EXPOSURE] setInputed_RowAtCom0:index2];
-        
-        //户型
-        int roomIndex = [PropertyDataManager getRoomIndexWithTitle:DEFULT_TITLE_ROOMS];
-        [[[self.dataSource cellArray] objectAtIndex:AJK_P_ROOMS] setInputed_RowAtCom0:roomIndex]; //默认为一室
-        //楼层
-//        int floorIndex = [PropertyDataManager getFloorIndexWithTitle:DEFULT_TITLE_FLOORS];
-//        int proFloorIndex = [PropertyDataManager getProFloorIndexWithTitle:DEFULT_TITLE_proFLOORS];
-//        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom0:floorIndex]; //默认为3楼
-//        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom1:proFloorIndex]; //默认为6层
-        
-        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom0:5]; //默认为3楼
-        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom1:5]; //默认为6层
     }
-    else { //租房
+    else {
         //fitment
         [[[[self.dataSource cellArray] objectAtIndex:HZ_P_FITMENT] text_Field] setText:DEFULT_TITLE_FITMENT];
         int index = [PropertyDataManager getFitmentIndexWithString:DEFULT_TITLE_FITMENT forHaozu:self.isHaozu];
@@ -774,16 +761,6 @@ typedef enum {
         self.property.exposure = value2;
         
         [[[self.dataSource cellArray] objectAtIndex:HZ_P_EXPOSURE] setInputed_RowAtCom0:index2];
-        
-        //户型
-        int roomIndex = [PropertyDataManager getRoomIndexWithTitle:DEFULT_TITLE_ROOMS];
-        [[[self.dataSource cellArray] objectAtIndex:HZ_P_ROOMS] setInputed_RowAtCom0:roomIndex]; //默认为一室
-        //楼层
-//        int floorIndex = [PropertyDataManager getFloorIndexWithTitle:DEFULT_TITLE_FLOORS];
-//        int proFloorIndex = [PropertyDataManager getProFloorIndexWithTitle:DEFULT_TITLE_proFLOORS];
-        
-        [[[self.dataSource cellArray] objectAtIndex:HZ_P_FLOORS] setInputed_RowAtCom0:5]; //默认为3楼
-        [[[self.dataSource cellArray] objectAtIndex:HZ_P_FLOORS] setInputed_RowAtCom1:5]; //默认为6层
     }
 }
 
@@ -826,7 +803,7 @@ typedef enum {
         [self showInfo:@"请选择小区，谢谢"];
         return NO;
     }
-
+    
     DLog(@"rent Type [%@]", self.property.rentType);
     
     if (self.isHaozu) {
@@ -907,11 +884,6 @@ typedef enum {
 - (void)finishBtnClicked { //点击完成，输入框组件消失
     self.isTBBtnPressedToShowKeyboard = NO; 
     
-    if (![self checkRoomsInputOkay]) {
-        [self showInfo:@"户型不能为0室"];
-        return;
-    }
-    
     if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
         self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
     }
@@ -921,11 +893,6 @@ typedef enum {
 
 - (void)preBtnClicked { //点击”上一个“，检查输入样式并做转换，tableView下移
     self.isTBBtnPressedToShowKeyboard = YES;
-    
-    if (![self checkRoomsInputOkay]) {
-        [self showInfo:@"户型不能为0室"];
-        return;
-    }
     
     if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
         self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
@@ -949,11 +916,6 @@ typedef enum {
 - (void)nextBtnClicked { //点击”下一个“，检查输入样式并做转换，tableView上移
     self.isTBBtnPressedToShowKeyboard = YES;
     
-    if (![self checkRoomsInputOkay]) {
-        [self showInfo:@"户型不能为0室"];
-        return;
-    }
-    
     //得到前一条的输入数据，并显示下一条的输入框
     if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
         self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
@@ -972,46 +934,6 @@ typedef enum {
     [self tableVIewMoveWithIndex:self.selectedRow];
     //显示弹框
     [self textFieldShowWithIndex:self.selectedRow];    
-}
-
-- (BOOL)checkRoomsInputOkay {
-    BOOL isOkay = YES;
-    
-    int index1 = [self.pickerView selectedRowInComponent:0];
-    NSString *string1 = [[[self.pickerView firstArray] objectAtIndex:index1] objectForKey:@"Title"];
-    
-    //户型-室是否为0
-    if (self.isHaozu) {
-        switch (self.selectedRow) {
-            case HZ_P_ROOMS:
-            {
-                if ([string1 isEqualToString:@"0室"]) {
-                    isOkay = NO;
-                }
-                
-            }
-                break;
-            default:
-                break;
-        }
-    }
-    else {
-        switch (self.selectedRow) {
-            case AJK_P_ROOMS:
-            {
-                if ([string1 isEqualToString:@"0室"]) {
-                    isOkay = NO;
-                }
-                
-            }
-                break;
-            default:
-                break;
-        }
-    }
-    //楼层 楼是否大于层
-    
-    return isOkay;
 }
 
 #pragma mark - Image Picker Button Method
@@ -1507,32 +1429,6 @@ typedef enum {
                 break;
         }
     }
-}
-
-#pragma mark - Alert View Delegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == ALERT_VIEW_BACK_TAG) {
-        switch (buttonIndex) {
-            case 1: //确认-返回
-            {
-                NSString *code = [NSString string];
-                if (self.isHaozu) {
-                    code = HZ_PROPERTY_003;
-                }
-                else
-                    code = AJK_PROPERTY_003;
-                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
-                
-                [super doBack:self];
-            }
-                break;
-                
-            default:
-                break;
-        }
-    }
-    
 }
 
 #pragma mark - Photo Show View Delegate

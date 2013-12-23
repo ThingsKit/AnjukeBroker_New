@@ -23,6 +23,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeText;
     hud.labelText = info;
+    hud.yOffset = -40;
     
     [hud hide:YES afterDelay:2];
 }

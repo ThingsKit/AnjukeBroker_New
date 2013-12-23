@@ -8,6 +8,7 @@
 
 #import "RTNavigationController.h"
 #import "Util_UI.h"
+#import "AppManager.h"
 
 @interface RTNavigationController ()
 
@@ -21,7 +22,9 @@
     if (self) {
         // Custom initialization
         self.navigationBar.translucent = NO;
-        self.navigationBar.barTintColor = SYSTEM_NAVIBAR_COLOR;
+        if (![AppManager isIOS6]) {
+            self.navigationBar.barTintColor = SYSTEM_NAVIBAR_COLOR;
+        }
     }
     return self;
 }
