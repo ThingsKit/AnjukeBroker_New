@@ -222,7 +222,6 @@ typedef enum {
         PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(PhotoImg_Gap +(i +1) * (PhotoImg_Gap + PhotoImg_H), PhotoImg_Gap, PhotoImg_H, PhotoImg_H)];
         pBtn.tag = TagOfImg_Base + i;
         [pBtn addTarget:self action:@selector(showPhoto:) forControlEvents:UIControlEventTouchUpInside];
-        pBtn.deleteBtnShow = NO;
         [self.photoSV addSubview:pBtn];
         [self.imgBtnArray addObject:pBtn];
     }

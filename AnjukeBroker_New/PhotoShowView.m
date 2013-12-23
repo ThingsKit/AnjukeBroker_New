@@ -112,6 +112,7 @@
     [pBtn addTarget:self action:@selector(deletePhoto:) forControlEvents:UIControlEventTouchUpInside];
     pBtn.tag = TAG_PHOTO_BASE + index;
     pBtn.photoImg.image = image;
+    [pBtn showDeleteBtn];
 //    pBtn.layer.borderColor = [UIColor whiteColor].CGColor;
 //    pBtn.layer.borderWidth = 0.5;
     [self.photoSV addSubview:pBtn];
