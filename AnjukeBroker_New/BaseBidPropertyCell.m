@@ -10,6 +10,7 @@
 #import "Util_UI.h"
 
 @implementation BaseBidPropertyCell
+@synthesize backView;
 @synthesize title;
 @synthesize price;
 @synthesize string;
@@ -26,8 +27,8 @@
     if (self) {
         //        UIView
         [self.contentView setBackgroundColor:[Util_UI colorWithHexString:@"#EFEFF4"]];
-        UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 300, 130)];
-        [backView setBackgroundColor:[UIColor whiteColor]];
+        self.backView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 300, 100)];
+        [self.backView setBackgroundColor:[UIColor whiteColor]];
         
         self.title = [[UILabel alloc] initWithFrame:CGRectZero];
         self.title.numberOfLines = 0;
@@ -83,8 +84,8 @@
         self.ceiling.font = [UIFont systemFontOfSize:12];
         self.ceiling.textAlignment = NSTextAlignmentCenter;
         [self.detailView addSubview:self.ceiling];
-        [backView addSubview:self.detailView];
-        [self.contentView addSubview:backView];
+        [self.backView addSubview:self.detailView];
+        [self.contentView addSubview:self.backView];
         
         // Initialization code
         
@@ -106,7 +107,8 @@
         
         CGSize size = CGSizeMake(260, 40);
         CGSize si = [[propInfo objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-        
+//        si.height+88.0f;
+        self.backView.frame = CGRectMake(10, 10, 300, si.height + 88.0f);
         self.title.frame = CGRectMake(20, 5, si.width, si.height);
         self.price.frame = CGRectMake(20, self.title.frame.size.height + 5, 270, 20);
         

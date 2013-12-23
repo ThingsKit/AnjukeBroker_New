@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface PPCGroupCell : UITableViewCell
+#import "RTListCell.h"
+@interface PPCGroupCell : RTListCell
 {
     UILabel *title;
     UILabel *detail;

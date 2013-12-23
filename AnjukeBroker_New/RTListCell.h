@@ -13,6 +13,7 @@
 
 @interface RTListCell : UITableViewCell
 
+@property (strong, nonatomic) UIImageView *lineView;
 @property int selectRow; //当前此cell所在row
 @property CGFloat cellHeight;
 
@@ -21,5 +22,5 @@
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index; //传递cell数据_with Index
 
 - (void)showUpArrowImg; //定制的cell向下箭头IMG
-
+- (void)drawLine;//画线
 @end

@@ -13,6 +13,7 @@
 {
     
 }
+@property (strong, nonatomic) UIView *backView;
 @property (strong, nonatomic) UILabel *title;
 @property (strong, nonatomic) UILabel *price;
 @property (strong, nonatomic) UILabel *string;

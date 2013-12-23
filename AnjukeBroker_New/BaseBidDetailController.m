@@ -43,7 +43,7 @@
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
     [self.myTable setBackgroundColor:[Util_UI colorWithHexString:@"#EFEFF4"]];
-//    self.myTable.separatorColor = [UIColor whiteColor];
+    self.myTable.separatorColor = [Util_UI colorWithHexString:@"#EFEFF4"];
     [self.view addSubview:self.myTable];
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

@@ -30,7 +30,7 @@
 }
 
 -(void)initUI{
-    UIView *content = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
+    UIView *content = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 71)];
     content.backgroundColor = [Util_UI colorWithHexString:@"#EFEFF4"];
     self.statusimg = [[UIImageView alloc] init];
     self.statusimg.frame = CGRectMake(10, 28, 30, 13);
