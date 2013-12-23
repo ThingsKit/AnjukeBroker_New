@@ -23,6 +23,7 @@
 + (int)getToiletIndexWithNum:(NSString *)num;
 
 + (int)getRoomIndexWithTitle:(NSString *)title;
++ (NSString *)getRoomValueWithIndex:(int)index;
 
 //装修情况
 + (NSArray *)getPropertyFitmentForHaozu:(BOOL)isHZ;
@@ -51,6 +52,9 @@
 
 + (int)getFloorIndexWithValue:(NSString *)value;
 + (int)getProFloorIndexWithValue:(NSString *)value;
+
++ (NSString *)getProFloorValueWithIndex:(int)index;
++ (NSString *)getFloorValueWithIndex:(int)index;
 
 //整租方式_仅租房
 + (NSArray *)getPropertyRentType;

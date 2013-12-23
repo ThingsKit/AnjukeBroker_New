@@ -196,6 +196,13 @@
     return index;
 }
 
++ (NSString *)getRoomValueWithIndex:(int)index{
+    NSArray *arr = [self getPropertyHuxingArray_Shi];
+    
+    NSString *str = [[arr objectAtIndex:index] objectForKey:@"Value"];
+    return str;
+}
+
 //厅
 + (int)getHallIndexWithNum:(NSString *)num{
     NSArray *arr = [self getPropertyHuxingArray_Ting];
@@ -421,6 +428,21 @@
     return index;
 }
 
+//楼层Index-第几层Value
++ (NSString *)getFloorValueWithIndex:(int)index {
+    NSArray *arr = [self getPropertyLou_Number];
+    
+    NSString *value = [NSString string];
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if (i == index) {
+            value = [[arr objectAtIndex:i] objectForKey:@"Value"];
+        }
+    }
+    
+    return value;
+}
+
 //楼层-共几楼
 + (int)getProFloorIndexWithNum:(NSString *)num {
     NSArray *arr = [self getPropertyLou_Number];
@@ -470,6 +492,21 @@
     DLog(@"floor--index [%d]", index);
     
     return index;
+}
+
+//总楼层Index-总楼层Value
++ (NSString *)getProFloorValueWithIndex:(int)index {
+    NSArray *arr = [self getPropertyCeng_Number];
+    
+    NSString *value = [NSString string];
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if (i == index) {
+            value = [[arr objectAtIndex:i] objectForKey:@"Value"];
+        }
+    }
+    
+    return value;
 }
 
 

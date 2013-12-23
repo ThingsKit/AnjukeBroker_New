@@ -905,6 +905,10 @@ typedef enum {
 - (void)finishBtnClicked { //点击完成，输入框组件消失
     self.isTBBtnPressedToShowKeyboard = NO; 
     
+    if (![self isInputOK]) {
+        return;
+    }
+    
     if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
         self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
     }
@@ -914,6 +918,10 @@ typedef enum {
 
 - (void)preBtnClicked { //点击”上一个“，检查输入样式并做转换，tableView下移
     self.isTBBtnPressedToShowKeyboard = YES;
+    
+    if (![self isInputOK]) {
+        return;
+    }
     
     if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
         self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
@@ -937,6 +945,10 @@ typedef enum {
 - (void)nextBtnClicked { //点击”下一个“，检查输入样式并做转换，tableView上移
     self.isTBBtnPressedToShowKeyboard = YES;
     
+    if (![self isInputOK]) {
+        return;
+    }
+    
     //得到前一条的输入数据，并显示下一条的输入框
     if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
         self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
@@ -955,6 +967,76 @@ typedef enum {
     [self tableVIewMoveWithIndex:self.selectedRow];
     //显示弹框
     [self textFieldShowWithIndex:self.selectedRow];    
+}
+
+- (BOOL)isInputOK {
+    BOOL isOkay = YES;
+    
+    int index1 = [self.pickerView selectedRowInComponent:0];
+    NSString *string1 = [NSString string];
+    
+    int index2 = 0;
+    NSString *string2 = [NSString string];
+
+    if (self.isHaozu) {
+        switch (self.selectedRow) {
+            case HZ_P_ROOMS:
+            {
+                string1 = [PropertyDataManager getRoomValueWithIndex:index1];
+                if ([string1 intValue] == 0) {
+                    isOkay = NO;
+                    [self showInfo:@"户型不能选择0室"];
+                }
+            }
+                break;
+            case HZ_P_FLOORS:
+            {
+                string1 = [PropertyDataManager getFloorValueWithIndex:index1];
+                index2 = [self.pickerView selectedRowInComponent:1];
+                string2 = [PropertyDataManager getProFloorValueWithIndex:index2];
+
+                if ([string1 floatValue] > [string2 floatValue]) {
+                    isOkay = NO;
+                    [self showInfo:@"楼层不能大于总楼层"];
+                }
+            }
+                break;
+
+            default:
+                break;
+        }
+
+    }
+    else {
+        switch (self.selectedRow) {
+            case AJK_P_ROOMS:
+            {
+                string1 = [PropertyDataManager getRoomValueWithIndex:index1];
+                if ([string1 intValue] == 0) {
+                    isOkay = NO;
+                    [self showInfo:@"户型不能选择0室"];
+                }
+            }
+                break;
+            case AJK_P_FLOORS:
+            {
+                string1 = [PropertyDataManager getFloorValueWithIndex:index1];
+                index2 = [self.pickerView selectedRowInComponent:1];
+                string2 = [PropertyDataManager getProFloorValueWithIndex:index2];
+                
+                if ([string1 floatValue] > [string2 floatValue]) {
+                    isOkay = NO;
+                    [self showInfo:@"楼层不能大于总楼层"];
+                }
+            }
+                break;
+
+            default:
+                break;
+        }
+    }
+    
+    return isOkay;
 }
 
 #pragma mark - Image Picker Button Method
