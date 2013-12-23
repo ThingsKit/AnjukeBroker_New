@@ -48,6 +48,10 @@
 + (int)getFloorIndexWithTitle:(NSString *)title;
 + (int)getProFloorIndexWithTitle:(NSString *)title;
 
+
++ (int)getFloorIndexWithValue:(NSString *)value;
++ (int)getProFloorIndexWithValue:(NSString *)value;
+
 //整租方式_仅租房
 + (NSArray *)getPropertyRentType;
 

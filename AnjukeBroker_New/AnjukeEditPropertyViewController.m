@@ -21,6 +21,7 @@
 
 #define DEFULT_TITLE_FITMENT @"精装修"
 #define DEFULT_TITLE_EXPOSURE @"南北"
+#define DEFULT_TITLE_ROOM @"1室"
 
 #define TagOfBackAlert 2001
 
@@ -731,6 +732,15 @@ typedef enum {
         self.property.exposure = value2;
         
         [[[self.dataSource cellArray] objectAtIndex:AJK_P_EXPOSURE] setInputed_RowAtCom0:index2];
+        
+        //户型-默认1室
+        int roomIndex = [PropertyDataManager getRoomIndexWithTitle:DEFULT_TITLE_ROOM];
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_ROOMS] setInputed_RowAtCom0:roomIndex];
+        
+        //楼层-默认3楼6层
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom0:5];
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom1:5];
+        
     }
     else {
         //fitment
@@ -748,6 +758,14 @@ typedef enum {
         self.property.exposure = value2;
         
         [[[self.dataSource cellArray] objectAtIndex:HZ_P_EXPOSURE] setInputed_RowAtCom0:index2];
+        
+        //户型-默认1室
+        int roomIndex = [PropertyDataManager getRoomIndexWithTitle:DEFULT_TITLE_ROOM];
+        [[[self.dataSource cellArray] objectAtIndex:HZ_P_ROOMS] setInputed_RowAtCom0:roomIndex];
+        
+        //楼层-默认3楼6层
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom0:5];
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom1:5];
     }
 }
 
