@@ -60,6 +60,19 @@
 }
 
 - (void)rightButtonAction:(id)sender {
+    if (self.isTitle) {
+        if (self.textV.text.length < 10) {
+            [self showInfo:@"房源标题必须至少10个字符"];
+            return;
+        }
+    }
+    else {
+        if (self.textV.text.length < 30) {
+            [self showInfo:@"房源描述必须至少30个字符"];
+            return;
+        }
+    }
+    
     if ([self.textFieldModifyDelegate respondsToSelector:@selector(textDidInput:isTitle:)]) {
         [self.textFieldModifyDelegate textDidInput:self.textV.text isTitle:self.isTitle];
     }
