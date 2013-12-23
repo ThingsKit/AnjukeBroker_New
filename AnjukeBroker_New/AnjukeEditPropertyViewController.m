@@ -22,6 +22,8 @@
 #define DEFULT_TITLE_FITMENT @"精装修"
 #define DEFULT_TITLE_EXPOSURE @"南北"
 
+#define TagOfBackAlert 2001
+
 typedef enum {
     Property_DJ = 0, //发房_定价
     Property_JJ, //发房_竞价
@@ -131,19 +133,9 @@ typedef enum {
 }
 
 - (void)doBack:(id)sender {
-    if (self.isLoading) {
-        return; //请求时不返回
-    }
-    
-    NSString *code = [NSString string];
-    if (self.isHaozu) {
-        code = HZ_PROPERTY_003;
-    }
-    else
-        code = AJK_PROPERTY_003;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
-    
-    [super doBack:self];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"是否退出发房?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+    alert.cancelButtonIndex = 0;
+    [alert show];
 }
 
 #pragma mark - init Method
@@ -1446,6 +1438,28 @@ typedef enum {
             default:
                 break;
         }
+    }
+}
+
+#pragma mark - Alert View Delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 1:
+        {
+            NSString *code = [NSString string];
+            if (self.isHaozu) {
+                code = HZ_PROPERTY_003;
+            }
+            else
+                code = AJK_PROPERTY_003;
+            [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+            
+            [super doBack:self];
+        }
+            break;
+            
+        default:
+            break;
     }
 }
 
