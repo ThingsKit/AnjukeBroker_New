@@ -738,8 +738,10 @@ typedef enum {
         [[[self.dataSource cellArray] objectAtIndex:AJK_P_ROOMS] setInputed_RowAtCom0:roomIndex];
         
         //楼层-默认3楼6层
-        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom0:5];
-        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom1:5];
+        int floorIndex = [PropertyDataManager getFloorIndexWithValue:@"6"];
+        int proFloorIndex = [PropertyDataManager getFloorIndexWithValue:@"6"];
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom0:floorIndex];
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom1:proFloorIndex];
         
     }
     else {
@@ -764,8 +766,10 @@ typedef enum {
         [[[self.dataSource cellArray] objectAtIndex:HZ_P_ROOMS] setInputed_RowAtCom0:roomIndex];
         
         //楼层-默认3楼6层
-        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom0:5];
-        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom1:5];
+        int floorIndex = [PropertyDataManager getFloorIndexWithValue:@"6"];
+        int proFloorIndex = [PropertyDataManager getFloorIndexWithValue:@"6"];
+        [[[self.dataSource cellArray] objectAtIndex:HZ_P_FLOORS] setInputed_RowAtCom0:floorIndex];
+        [[[self.dataSource cellArray] objectAtIndex:HZ_P_FLOORS] setInputed_RowAtCom1:proFloorIndex];
     }
 }
 
