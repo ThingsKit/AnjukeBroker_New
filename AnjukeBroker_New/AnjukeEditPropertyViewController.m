@@ -270,10 +270,6 @@ typedef enum {
 #pragma mark - Request Method
 
 - (void)uploadPhoto {
-    if (![self checkUploadProperty]) {
-        return;
-    }
-    
     if (![self isNetworkOkay]) {
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
@@ -803,15 +799,27 @@ typedef enum {
         return NO;
     }
     
+    //字段判断
+    if ([self.property.area intValue] < 10 || [self.property.area intValue] > 2000) {
+        [self showInfo:@"面积范围10至2000平米"];
+        return NO;
+    }
+    
     DLog(@"rent Type [%@]", self.property.rentType);
     
     if (self.isHaozu) {
-        if ([self.property.area intValue] < 10 || [self.property.area intValue] > 2000) {
-            [self showInfo:@"面积范围10至2000平米"];
+        if ([self.property.rentType isEqualToString:@""]) {
+            [self showInfo:@"请选择出租类型"];
             return NO;
         }
-        if ([self.property.rentType isEqualToString:@""]) {
-            [self showInfo:@"请选择出租类型，谢谢"];
+        if ([self.property.price floatValue] < 200 || [[self.property price] floatValue] > 400000) {
+            [self showInfo:@"租金范围为200到400000元"];
+            return NO;
+        }
+    }
+    else {
+        if ([self.property.price floatValue] < 100000 || [[self.property price] floatValue] > 1000000000) {
+            [self showInfo:@"价格范围为10万到100000万元"];
             return NO;
         }
     }
@@ -942,6 +950,10 @@ typedef enum {
 }
 
 - (void)doSave {
+    if (![self checkUploadProperty]) {
+        return;
+    }
+    
     NSString *code = [NSString string];
     if (self.isHaozu) {
         code = HZ_PROPERTY_004;
@@ -949,10 +961,6 @@ typedef enum {
     else
         code = AJK_PROPERTY_004;
     [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
-    
-    if (![self checkUploadProperty]) {
-        return;
-    }
     
     if ([self.lastPrice isEqualToString:self.property.price]) { //价格未变，无需重心请求
         [self showAlertViewWithPrice:self.propertyPrice];

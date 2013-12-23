@@ -10,7 +10,7 @@
 #import "Util_UI.h"
 #import "Reachability.h"
 
-#define TOP_ALERT_VIEW_HIDETIME 3
+#define TOP_ALERT_VIEW_HIDETIME 2.5
 
 @interface RTViewController ()
 @property (nonatomic, strong) UIView *topAlertView;
