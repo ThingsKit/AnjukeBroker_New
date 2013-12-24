@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20A44DA11869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */; };
+		20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44D9E1869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m */; };
+		20A44DA31869760B008D8CB1 /* SSPullToRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44DA01869760B008D8CB1 /* SSPullToRefreshView.m */; };
+		20A44DB01869799F008D8CB1 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44DAF1869799F008D8CB1 /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */ = {isa = PBXBuildFile; fileRef = 970501761845D21100A0C181 /* AFWelcomeScrollview.m */; };
 		9705017B1845D4A800A0C181 /* anjuke_icon_yd2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 970501781845D4A800A0C181 /* anjuke_icon_yd2@2x.png */; };
 		9705017C1845D4A800A0C181 /* anjuke_icon_yd1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 970501791845D4A800A0C181 /* anjuke_icon_yd1@2x.png */; };
@@ -228,6 +232,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		20A44D9A1869760B008D8CB1 /* SSPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefresh.h; sourceTree = "<group>"; };
+		20A44D9B1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefreshDefaultContentView.h; sourceTree = "<group>"; };
+		20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPullToRefreshDefaultContentView.m; sourceTree = "<group>"; };
+		20A44D9D1869760B008D8CB1 /* SSPullToRefreshSimpleContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefreshSimpleContentView.h; sourceTree = "<group>"; };
+		20A44D9E1869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPullToRefreshSimpleContentView.m; sourceTree = "<group>"; };
+		20A44D9F1869760B008D8CB1 /* SSPullToRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefreshView.h; sourceTree = "<group>"; };
+		20A44DA01869760B008D8CB1 /* SSPullToRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPullToRefreshView.m; sourceTree = "<group>"; };
+		20A44DAE1869799F008D8CB1 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		20A44DAF1869799F008D8CB1 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		970501751845D21100A0C181 /* AFWelcomeScrollview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFWelcomeScrollview.h; sourceTree = "<group>"; };
 		970501761845D21100A0C181 /* AFWelcomeScrollview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFWelcomeScrollview.m; sourceTree = "<group>"; };
 		970501781845D4A800A0C181 /* anjuke_icon_yd2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_yd2@2x.png"; sourceTree = "<group>"; };
@@ -584,6 +597,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		20A44D9118697525008D8CB1 /* 下拉刷新 */ = {
+			isa = PBXGroup;
+			children = (
+				20A44DAD18697993008D8CB1 /* EGO */,
+				20A44DAC18697982008D8CB1 /* SSPull */,
+			);
+			name = "下拉刷新";
+			sourceTree = "<group>";
+		};
+		20A44DAC18697982008D8CB1 /* SSPull */ = {
+			isa = PBXGroup;
+			children = (
+				20A44D9A1869760B008D8CB1 /* SSPullToRefresh.h */,
+				20A44D9B1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.h */,
+				20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */,
+				20A44D9D1869760B008D8CB1 /* SSPullToRefreshSimpleContentView.h */,
+				20A44D9E1869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m */,
+				20A44D9F1869760B008D8CB1 /* SSPullToRefreshView.h */,
+				20A44DA01869760B008D8CB1 /* SSPullToRefreshView.m */,
+			);
+			name = SSPull;
+			sourceTree = "<group>";
+		};
+		20A44DAD18697993008D8CB1 /* EGO */ = {
+			isa = PBXGroup;
+			children = (
+				20A44DAE1869799F008D8CB1 /* EGORefreshTableHeaderView.h */,
+				20A44DAF1869799F008D8CB1 /* EGORefreshTableHeaderView.m */,
+			);
+			name = EGO;
+			sourceTree = "<group>";
+		};
 		970501541845A18E00A0C181 /* 引导页 */ = {
 			isa = PBXGroup;
 			children = (
@@ -963,6 +1008,7 @@
 		97A0F01E181621AA00C31D83 /* UIView&Util */ = {
 			isa = PBXGroup;
 			children = (
+				20A44D9118697525008D8CB1 /* 下拉刷新 */,
 				971D60931849D33E006B07C9 /* 无网络图 */,
 				970501741845D1FF00A0C181 /* 引导页 */,
 				97CB0C19182BF04600FCCBBD /* Category */,
@@ -1549,6 +1595,7 @@
 				B77A9612182A39C1007F04E3 /* RentPropertyObject.m in Sources */,
 				B7E69BC1183B63480097D5C3 /* RentAuctionViewController.m in Sources */,
 				B769E45D181F54DE00A2FF50 /* BasePropertyObject.m in Sources */,
+				20A44DA31869760B008D8CB1 /* SSPullToRefreshView.m in Sources */,
 				B7E69BB5183B3B040097D5C3 /* RentGroupListController.m in Sources */,
 				97CD8D44180E6D6E00185C9D /* RTViewController.m in Sources */,
 				974E5C89181E4B00000246D1 /* AnjukeEditableTV_DataSource.m in Sources */,
@@ -1560,6 +1607,7 @@
 				97CB0C1F182BF28D00FCCBBD /* UIViewController+Loading.m in Sources */,
 				B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */,
 				97410589180CE0FC004DAE95 /* RootViewController.m in Sources */,
+				20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */,
 				97CB0C0E182BEA3500FCCBBD /* ELCAssetCell.m in Sources */,
 				B769E472181F805F00A2FF50 /* BaseBidDetailController.m in Sources */,
 				B769E48C181FA89000A2FF50 /* PPCGroupCell.m in Sources */,
@@ -1569,8 +1617,10 @@
 				972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */,
 				974E5C82181E4210000246D1 /* AnjukeEditableCell.m in Sources */,
 				B769E463181F629B00A2FF50 /* BasePropertyDetailController.m in Sources */,
+				20A44DA11869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m in Sources */,
 				9795835D1822014A005EA48A /* SystemMessageCell.m in Sources */,
 				972DDA2A1826A4CA00263F8F /* RTNavigationController.m in Sources */,
+				20A44DB01869799F008D8CB1 /* EGORefreshTableHeaderView.m in Sources */,
 				B769E453181F4D0100A2FF50 /* SaleFixedCell.m in Sources */,
 				970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */,
 				972C10291814FCD300552C9B /* HomeViewController.m in Sources */,
