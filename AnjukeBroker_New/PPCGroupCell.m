@@ -40,7 +40,6 @@
     status = [[UILabel alloc] initWithFrame:CGRectMake(230, 25, 50, 20)];
     status.textColor = [UIColor whiteColor];
     status.font = [UIFont systemFontOfSize:12];
-    [self drawLine];
 }
 -(void)setValueForCellByData:(id ) data index:(int) index{
     if([data isKindOfClass:[NSArray class]]){
