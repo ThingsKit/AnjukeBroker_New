@@ -50,4 +50,22 @@
     return NO;
 }
 
++ (BOOL)isiPhone4Display { //是否是3.5寸屏幕
+    if ([self getWindowHeight] <= 960/2) { //iPhone4\4s
+        return YES;
+    }
+    
+    return NO;
+}
+
++ (CGFloat)getWindowHeight {
+    UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
+    return window.frame.size.height;
+}
+
++ (CGFloat)getWindowWidth {
+    UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
+    return window.frame.size.width;
+}
+
 @end

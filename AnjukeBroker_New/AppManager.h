@@ -15,5 +15,8 @@
 + (NSString *)getBundleVersion;
 
 + (BOOL)isIOS6;
++ (BOOL)isiPhone4Display;
++ (CGFloat)getWindowHeight;
++ (CGFloat)getWindowWidth;
 
 @end

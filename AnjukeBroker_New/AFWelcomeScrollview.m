@@ -8,6 +8,7 @@
 
 #import "AFWelcomeScrollview.h"
 #import "Util_UI.h"
+#import "AppManager.h"
 
 typedef enum {
     AnimationType_Defult = 0,
@@ -109,7 +110,7 @@ typedef enum {
     [self addPageController];
     
     CGFloat imgGapH = 50;
-    if ([self getWindowHeight] <= 960/2) { //iPhone4\4s
+    if ([AppManager isiPhone4Display]) { //iPhone4\4s
         imgGapH = 10;
     }
     
