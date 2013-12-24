@@ -17,6 +17,11 @@
 
 - (void)showLoadingActivity:(BOOL)activity{
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    if ([AppManager isiPhone4Display]) {
+        hud.yOffset = -45;
+    }
+    else
+        hud.yOffset = -20;
     hud.labelText = @"加载中...";
 }
 
