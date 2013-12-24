@@ -8,12 +8,16 @@
 
 #import "RTViewController.h"
 #import "FixedObject.h"
+#import "EGORefreshTableHeaderView.h"
 
-@interface BaseFixedDetailController : RTViewController <UITableViewDelegate, UITableViewDataSource>
+@interface BaseFixedDetailController : RTViewController <UITableViewDelegate, UITableViewDataSource, EGORefreshTableHeaderDelegate>
 {
 }
 @property (strong, nonatomic) UITableView *myTable;
 @property (strong, nonatomic) NSMutableArray *myArray;
 @property (nonatomic, strong) FixedObject *planDic;
+@property (nonatomic, strong) EGORefreshTableHeaderView *refreshView;
+
+-(void)doRequest;
 
 @end
