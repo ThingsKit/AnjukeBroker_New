@@ -390,6 +390,10 @@
 }
 
 - (void)doSave {
+    if (![self checkUploadProperty]) {
+        return;
+    }
+    
     if (![self isNetworkOkay]) {
         return;
     }

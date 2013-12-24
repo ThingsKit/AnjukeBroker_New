@@ -77,4 +77,5 @@
 - (void)addPhoto;
 - (void)setDefultValue;
 
+- (BOOL)checkUploadProperty;
 @end

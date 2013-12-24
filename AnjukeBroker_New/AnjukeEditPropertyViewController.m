@@ -972,7 +972,7 @@ typedef enum {
 - (BOOL)isInputOK {
     BOOL isOkay = YES;
     
-    int index1 = [self.pickerView selectedRowInComponent:0];
+    int index1 = 0;//[self.pickerView selectedRowInComponent:0];
     NSString *string1 = [NSString string];
     
     int index2 = 0;
@@ -982,6 +982,7 @@ typedef enum {
         switch (self.selectedRow) {
             case HZ_P_ROOMS:
             {
+                index1 = [self.pickerView selectedRowInComponent:0];
                 string1 = [PropertyDataManager getRoomValueWithIndex:index1];
                 if ([string1 intValue] == 0) {
                     isOkay = NO;
@@ -991,6 +992,7 @@ typedef enum {
                 break;
             case HZ_P_FLOORS:
             {
+                index1 = [self.pickerView selectedRowInComponent:0];
                 string1 = [PropertyDataManager getFloorValueWithIndex:index1];
                 index2 = [self.pickerView selectedRowInComponent:1];
                 string2 = [PropertyDataManager getProFloorValueWithIndex:index2];
@@ -1011,6 +1013,7 @@ typedef enum {
         switch (self.selectedRow) {
             case AJK_P_ROOMS:
             {
+                index1 = [self.pickerView selectedRowInComponent:0];
                 string1 = [PropertyDataManager getRoomValueWithIndex:index1];
                 if ([string1 intValue] == 0) {
                     isOkay = NO;
@@ -1020,6 +1023,7 @@ typedef enum {
                 break;
             case AJK_P_FLOORS:
             {
+                index1 = [self.pickerView selectedRowInComponent:0];
                 string1 = [PropertyDataManager getFloorValueWithIndex:index1];
                 index2 = [self.pickerView selectedRowInComponent:1];
                 string2 = [PropertyDataManager getProFloorValueWithIndex:index2];
