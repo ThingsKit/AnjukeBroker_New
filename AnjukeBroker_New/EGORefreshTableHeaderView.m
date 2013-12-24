@@ -72,7 +72,7 @@
 		
 		CALayer *layer = [CALayer layer];
 //		layer.frame = CGRectMake(25.0f, frame.size.height - 65.0f, 30.0f, 55.0f);
-		layer.frame = CGRectMake(95.0f, frame.size.height - 48.0f, 14.0f, 18.0f);
+		layer.frame = CGRectMake(55.0f, frame.size.height - 48.0f, 14.0f, 18.0f);
 		layer.contentsGravity = kCAGravityResizeAspect;
 		layer.contents = (id)[UIImage imageNamed:arrow].CGImage;
 		
