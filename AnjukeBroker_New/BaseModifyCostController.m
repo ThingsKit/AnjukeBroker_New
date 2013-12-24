@@ -59,7 +59,7 @@
     per.text = @"元";
     per.textColor = [UIColor clearColor];
     [content addSubview:per];
-    self.totalCost = [[UITextField alloc] initWithFrame:CGRectMake(120, 0, 200, 40)];
+    self.totalCost = [[UITextField alloc] initWithFrame:CGRectMake(100, 10, 200, 20)];
     self.totalCost.borderStyle = UITextBorderStyleNone;
     self.totalCost.backgroundColor = [UIColor clearColor];
     self.totalCost.text = self.fixedObject.topCost;
