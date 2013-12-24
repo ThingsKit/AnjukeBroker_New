@@ -10,6 +10,7 @@
 #import "Util_UI.h"
 #import "LoginManager.h"
 #import "Util_TEXT.h"
+#import "AppManager.h"
 
 #define CELL_HEIGHT 45
 #define SEARCH_DISTANCE @"5000"
@@ -264,7 +265,11 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    [self.navigationController popViewControllerAnimated:NO];
+    if ([AppManager isIOS6]) { //iOS6下需要做动画以适配crash
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else
+        [self.navigationController popViewControllerAnimated:NO];
 }
 
 #pragma mark - SearchBar Delegate
