@@ -8,8 +8,6 @@
 
 #import "RTListCell.h"
 
-#define SYSTEM_MESSAGE_CELL_H 117
-
 @interface SystemMessageCell : RTListCell
 
 @property (nonatomic, strong) UILabel *contentLb;

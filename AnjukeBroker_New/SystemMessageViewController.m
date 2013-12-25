@@ -7,18 +7,19 @@
 //
 
 #import "SystemMessageViewController.h"
-#import "SystemMessageCell.h"
 #import "Util_UI.h"
+#import "SystemCellManager.h"
+#import "SystemMessageCell.h"
 
 @interface SystemMessageViewController ()
-//@property (nonatomic, strong) UITableView *tvList;
-//@property (nonatomic, strong) NSArray *messageDataArr;
+@property int selectedIndex;
 @end
 
 @implementation SystemMessageViewController
 //@synthesize  messageDataArr;
 @synthesize myTable;
 @synthesize myArray;
+@synthesize selectedIndex; //选中的cell记录
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,12 +36,6 @@
 	// Do any additional setup after loading the view.
     
     [self setTitleViewWithString:@"系统公告"];
-    self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
-    //    self.tvList = tv;
-    //    tv.backgroundColor = [UIColor clearColor];
-    self.myTable.delegate = self;
-    self.myTable.dataSource = self;
-    [self.view addSubview:self.myTable];
 }
 
 - (void)didReceiveMemoryWarning
@@ -49,25 +44,32 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc{
+    self.myTable.delegate = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [self doRequest];
+}
+
 #pragma mark - private method
 
 - (void)initModel {
-//    self.messageDataArr = [NSArray array];
     self.myArray = [NSMutableArray array];
 }
--(void)dealloc{
-    self.myTable.delegate = nil;
-}
-- (void)initDisplay {
 
+- (void)initDisplay {
+    self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
+    self.myTable.delegate = self;
+    self.myTable.dataSource = self;
+    [self.view addSubview:self.myTable];
     
 }
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self doRequest];
-}
+
 #pragma mark - 获取系统消息
--(void)doRequest{
+- (void)doRequest{
     if(![self isNetworkOkay]){
         [self showInfo:NONETWORK_STR];
         return;
@@ -90,7 +92,9 @@
         
         return;
     }
+    
     [self.myArray removeAllObjects];
+    
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     if([resultFromAPI count] ==  0){
         [self hideLoadWithAnimated:YES];
@@ -98,6 +102,7 @@
         
         return ;
     }
+    
     [self.myArray removeAllObjects];
     [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"announce_list"]];
     
@@ -123,7 +128,8 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return SYSTEM_MESSAGE_CELL_H;
+    
+    return [SystemCellManager getCellHeightForExpand:YES withContentStr:[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"content"]];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
