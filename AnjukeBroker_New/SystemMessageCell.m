@@ -41,7 +41,7 @@
     CGFloat lbW = 320 - TITLE_OFFESTX*2;
     
     UILabel *lb1 = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFESTX, 10, lbW, CONTENT_NORMAL_HEIGHT)];
-    lb1.backgroundColor = [UIColor yellowColor];
+    lb1.backgroundColor = [UIColor clearColor];
     lb1.font = [UIFont systemFontOfSize:15];
     lb1.textColor = SYSTEM_BLACK;
     lb1.numberOfLines = 0;
@@ -54,34 +54,6 @@
     lb2.textColor = SYSTEM_LIGHT_GRAY;
     self.dataLb = lb2;
     [self.contentView addSubview:lb2];
-    
-//    UIButton *showBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    showBtn.frame = CGRectMake(TITLE_OFFESTX, self.contentLb.frame.size.height + self.contentLb.frame.origin.x -5, 50, 20);
-//    showBtn.backgroundColor = [UIColor greenColor];
-//    [showBtn addTarget:self action:@selector(showAll:) forControlEvents:UIControlEventTouchUpInside];
-//    self.showButton = showBtn;
-//    [self.contentView addSubview:showBtn];
-//    
-//    UILabel *lbBtn = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, showBtn.frame.size.width, showBtn.frame.size.height)];
-//    lbBtn.backgroundColor = [UIColor clearColor];
-//    lbBtn.font = [UIFont systemFontOfSize:15];
-//    lbBtn.text = Expand_Title;
-//    lbBtn.textColor = SYSTEM_ORANGE;
-//    self.showLb = lbBtn;
-//    [showBtn addSubview:lbBtn];
-//    
-//    UIButton *dBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    dBtn.frame = CGRectMake(320 - TITLE_OFFESTX -30, lb2.frame.origin.y-2, 50, 20);
-//    dBtn.backgroundColor = [UIColor clearColor];
-//    [dBtn addTarget:self action:@selector(doDelete:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.contentView addSubview:dBtn];
-//    
-//    UILabel *lbBtn2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, showBtn.frame.size.width, showBtn.frame.size.height)];
-//    lbBtn2.backgroundColor = [UIColor clearColor];
-//    lbBtn2.font = [UIFont systemFontOfSize:15];
-//    lbBtn2.text = @"删除";
-//    lbBtn2.textColor = SYSTEM_ORANGE;
-//    [dBtn addSubview:lbBtn2];
 }
 
 /*
@@ -113,10 +85,6 @@
     return YES;
 }
 
-- (void)showAll:(id)sender {
-    
-}
-
 - (void)transformDate:(double) timeInter{
     NSDate *postDate = [NSDate dateWithTimeIntervalSince1970:timeInter];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -128,10 +96,6 @@
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
 
     self.dataLb.text =  [dateFormatter stringFromDate:postDate];
-}
-
-- (void)doDelete:(id)sender {
-    
 }
 
 @end
