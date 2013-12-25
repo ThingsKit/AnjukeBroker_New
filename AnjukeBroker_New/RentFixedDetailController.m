@@ -278,6 +278,8 @@
         RentFixedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"RentFixedCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RentFixedCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
         }
         [cell configureCell:self.planDic isAJK:NO];
         return cell;
@@ -287,6 +289,8 @@
         RentPropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"RentPropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RentPropertyListCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
             //            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         [cell configureCell:[self.myArray objectAtIndex:[indexPath row] -1]];

@@ -285,6 +285,8 @@
         SaleFixedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"SaleFixedCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SaleFixedCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
         }
         [cell configureCell:self.planDic isAJK:YES];
 //        [cell configureCell:[self.myArray objectAtIndex:[indexPath row]]];
@@ -295,6 +297,8 @@
         SalePropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"SalePropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SalePropertyListCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
         }
         [cell configureCell:[self.myArray objectAtIndex:[indexPath row] -1]];
         return cell;
