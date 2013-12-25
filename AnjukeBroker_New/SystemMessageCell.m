@@ -118,7 +118,7 @@
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
     else
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
-self.dataLb.text =  [dateFormatter stringFromDate:postDate];
+    self.dataLb.text =  [dateFormatter stringFromDate:postDate];
 }
 - (void)doDelete:(id)sender {
     

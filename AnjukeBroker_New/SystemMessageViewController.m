@@ -102,6 +102,11 @@
     [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"announce_list"]];
     
     [self.myTable reloadData];
+    
+    
+    NSTimeInterval interv = [[NSDate date] timeIntervalSince1970];
+    [[NSUserDefaults standardUserDefaults] setValue:[NSString stringWithFormat:@"%d",(int)interv] forKey:@"datetime"];
+    
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
     

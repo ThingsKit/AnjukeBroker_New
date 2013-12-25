@@ -32,6 +32,9 @@
 @property (nonatomic, strong) UILabel *propNumLb;
 @property (nonatomic, strong) UILabel *costLb;
 @property (nonatomic, strong) UILabel *clickLb;
+
+@property int MSGNum;
+
 @end
 
 @implementation HomeViewController
@@ -39,6 +42,7 @@
 @synthesize tvList;
 @synthesize photoImg, dataDic, ppcDataDic;
 @synthesize nameLb, phoneLb, accountLb, propNumLb, costLb, clickLb;
+@synthesize MSGNum;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -269,6 +273,50 @@
     
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
+    [self doRequestMessageCount];
+}
+- (void)doRequestMessageCount {
+    if (![self isNetworkOkay]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+    
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+    
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[[NSUserDefaults standardUserDefaults] objectForKey:@"datetime"], @"datetime", nil];
+    method = @"msg/announcenum/";
+
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestCountFinished:)];
+}
+
+- (void)onRequestCountFinished:(RTNetworkResponse *)response {
+    DLog(@"。。。response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return;
+    }
+    
+    self.MSGNum = [[[[response content] objectForKey:@"data"] objectForKey:@"newMessage"] integerValue];
+//    self.ppcDataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerPPCInfo"];
+//    
+//    [self setHomeValue];
+    [self.tvList reloadData];
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 }
 
 #pragma mark - tableView Datasource
@@ -289,8 +337,19 @@
     static NSString *cellName = @"cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellName];
+    
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellName];
+        
+        UILabel *labNum = [[UILabel alloc] initWithFrame:CGRectMake(260, 15, 20, 20)];
+        labNum.tag = 101;
+        labNum.textColor = [UIColor whiteColor];
+        labNum.font = [UIFont systemFontOfSize:13];
+        labNum.textAlignment = NSTextAlignmentCenter;
+        labNum.layer.cornerRadius = 10;
+        labNum.layer.masksToBounds = YES;
+        
+        [cell.contentView addSubview:labNum];
     }
     else {
         
@@ -299,7 +358,13 @@
     cell.textLabel.text = [self.taskArray objectAtIndex:indexPath.row];
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
+    if(self.MSGNum > 0 && indexPath.row == 2){
+        ((UILabel *)[cell viewWithTag:101]).text = [NSString stringWithFormat:@"%d", self.MSGNum];
+        [(UILabel *)[cell viewWithTag:101] setBackgroundColor:SYSTEM_ORANGE];
+    }else{
+        ((UILabel *)[cell viewWithTag:101]).text = @"";
+        [(UILabel *)[cell viewWithTag:101] setBackgroundColor:[UIColor clearColor]];
+    }
     return cell;
 }
 
