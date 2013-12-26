@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "BasePropertyObject.h"
+#import "RTListCell.h"
 
-@interface PropertyDetailCell : UITableViewCell
+@interface PropertyDetailCell : RTListCell
 {
 
 }

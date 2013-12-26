@@ -28,7 +28,7 @@
         self.title = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.title setBackgroundColor:[UIColor clearColor]];
         self.title.numberOfLines = 0;
-        self.title.lineBreakMode = NSLineBreakByWordWrapping;
+//        self.title.lineBreakMode = NSLineBreakByWordWrapping;
         self.title.font = [UIFont systemFontOfSize:14];
         
         self.bidStatue = [[UIImageView alloc] init];
@@ -80,9 +80,9 @@
     }else if ([dataModel isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dic = (NSDictionary *)dataModel;
         self.title.text = [dic objectForKey:@"title"];
-        CGSize size = CGSizeMake(260, 40);
-        CGSize si = [[dic objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-        
+//        CGSize size = CGSizeMake(260, 40);
+//        [[dic objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+        CGSize si = [Util_UI sizeOfString:self.title.text maxWidth:260 withFontSize:14];
         self.title.frame = CGRectMake(27, 5, si.width, si.height);
         self.bidStatue.frame = CGRectMake(10, self.title.frame.origin.y+2, 14, 14);
         self.comName.frame = CGRectMake(27, self.title.frame.size.height + 5, 250, 20);

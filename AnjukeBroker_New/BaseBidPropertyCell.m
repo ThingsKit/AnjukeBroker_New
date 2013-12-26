@@ -105,9 +105,10 @@
         NSDictionary *propInfo = (NSDictionary *)dataModel;
         self.title.text = [propInfo objectForKey:@"title"];
         
-        CGSize size = CGSizeMake(260, 40);
-        CGSize si = [[propInfo objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+//        CGSize size = CGSizeMake(260, 40);
+//        CGSize si = [[propInfo objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
 //        si.height+88.0f;
+        CGSize si = [Util_UI sizeOfString:[propInfo objectForKey:@"title"] maxWidth:260 withFontSize:14];
         self.backView.frame = CGRectMake(10, 10, 300, si.height + 88.0f);
         self.title.frame = CGRectMake(20, 5, si.width, si.height);
         self.price.frame = CGRectMake(20, self.title.frame.size.height + 5, 270, 20);
