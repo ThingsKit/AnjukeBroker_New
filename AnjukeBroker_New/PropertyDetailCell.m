@@ -12,7 +12,6 @@
 @implementation PropertyDetailCell
 @synthesize title;
 @synthesize detail;
-@synthesize price;
 @synthesize mutableSelect;
 @synthesize proIcon;
 @synthesize backView;
@@ -38,15 +37,10 @@
         self.proIcon = [[UIImageView alloc] init];
         self.proIcon.frame = CGRectMake(280, 25, 22, 14);
         
-        self.price = [[UILabel alloc] initWithFrame:CGRectMake(210, 30, 150, 20)];
-        self.price.textColor = [UIColor grayColor];
-        self.price.font = [UIFont systemFontOfSize:12];
-        
         [self.backView addSubview:self.title];
         [self.backView addSubview:self.detail];
         [self.contentView addSubview:self.proIcon];
         [self.contentView addSubview:self.backView];
-//        [self.contentView addSubview:price];
     }
     return self;
 }
