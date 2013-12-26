@@ -175,6 +175,7 @@
 		B77A9612182A39C1007F04E3 /* RentPropertyObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B77A9611182A39C1007F04E3 /* RentPropertyObject.m */; };
 		B79084F6182B42AE00B2A870 /* SaleFixedGroupObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B79084F5182B42AE00B2A870 /* SaleFixedGroupObject.m */; };
 		B79084FA182B490600B2A870 /* SaleFixedManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B79084F9182B490600B2A870 /* SaleFixedManager.m */; };
+		B7DC8079186C115800BE6AD0 /* CellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = B7DC8078186C115800BE6AD0 /* CellHeight.m */; };
 		B7E38A00182238CF002C6E8A /* anjuke_icon06_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E389FE182238CF002C6E8A /* anjuke_icon06_select@2x.png */; };
 		B7E38A01182238CF002C6E8A /* anjuke_icon06_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E389FF182238CF002C6E8A /* anjuke_icon06_selected@2x.png */; };
 		B7E38A0A18225FEC002C6E8A /* anjuke_icon07_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E38A0918225FEC002C6E8A /* anjuke_icon07_arrow@2x.png */; };
@@ -504,6 +505,8 @@
 		B79084F5182B42AE00B2A870 /* SaleFixedGroupObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaleFixedGroupObject.m; sourceTree = "<group>"; };
 		B79084F8182B490600B2A870 /* SaleFixedManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleFixedManager.h; sourceTree = "<group>"; };
 		B79084F9182B490600B2A870 /* SaleFixedManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaleFixedManager.m; sourceTree = "<group>"; };
+		B7DC8077186C115800BE6AD0 /* CellHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellHeight.h; sourceTree = "<group>"; };
+		B7DC8078186C115800BE6AD0 /* CellHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellHeight.m; sourceTree = "<group>"; };
 		B7E389FE182238CF002C6E8A /* anjuke_icon06_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon06_select@2x.png"; sourceTree = "<group>"; };
 		B7E389FF182238CF002C6E8A /* anjuke_icon06_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon06_selected@2x.png"; sourceTree = "<group>"; };
 		B7E38A0918225FEC002C6E8A /* anjuke_icon07_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon07_arrow@2x.png"; sourceTree = "<group>"; };
@@ -1273,6 +1276,7 @@
 		B769E446181F4BE800A2FF50 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B7DC8075186C100400BE6AD0 /* CellHeight */,
 				972F70DB1844C7450010CABB /* Logger */,
 				97A606831816D0A30041B367 /* 发布房源Model */,
 				B769E449181F4C0B00A2FF50 /* Manager */,
@@ -1390,6 +1394,15 @@
 				B79084F9182B490600B2A870 /* SaleFixedManager.m */,
 			);
 			name = Manager;
+			sourceTree = "<group>";
+		};
+		B7DC8075186C100400BE6AD0 /* CellHeight */ = {
+			isa = PBXGroup;
+			children = (
+				B7DC8077186C115800BE6AD0 /* CellHeight.h */,
+				B7DC8078186C115800BE6AD0 /* CellHeight.m */,
+			);
+			name = CellHeight;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1673,6 +1686,7 @@
 				970FC17E183B19C400D142D5 /* PropertyResetViewController.m in Sources */,
 				97B106481834A7040064AF5F /* Property.m in Sources */,
 				B721094B18277CE100904FC7 /* RentFixedDetailController.m in Sources */,
+				B7DC8079186C115800BE6AD0 /* CellHeight.m in Sources */,
 				974E5C7F181E417F000246D1 /* RTListCell.m in Sources */,
 				97EF868C1841EACE00315E75 /* SimpleKeyboardToolBar.m in Sources */,
 				97192EE71818FEF7007971BA /* PhotoButton.m in Sources */,
