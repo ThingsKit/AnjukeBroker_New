@@ -12,6 +12,7 @@
 #import "SaleNoPlanListCell.h"
 #import "SaleNoPlanListManager.h"
 #import "LoginManager.h"
+#import "CellHeight.h"
 
 @interface SaleSelectNoPlanController ()
 
@@ -171,10 +172,10 @@
 
 #pragma mark - tableView Delegate
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CGSize size = CGSizeMake(250, 40);
+//    CGSize size = CGSizeMake(250, 40);
     SalePropertyObject *property = (SalePropertyObject *)[self.myArray objectAtIndex:indexPath.row];
-    CGSize si = [property.title sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-    return si.height+40.0f;
+//    CGSize si = [property.title sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+    return [CellHeight getNoPlanCellHeight:property.title];
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdent = @"cell";
@@ -185,6 +186,8 @@
         cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
     }
     [cell configureCell:[self.myArray objectAtIndex:indexPath.row] withIndex:indexPath.row];
+    SalePropertyObject *property = (SalePropertyObject *)[self.myArray objectAtIndex:indexPath.row];
+    [cell showBottonLineWithCellHeight:[CellHeight getNoPlanCellHeight:property.title]];
     if([self.selectedArray containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
         cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_selected@2x.png"];
     }else{

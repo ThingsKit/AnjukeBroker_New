@@ -15,6 +15,8 @@
 #import "RentPPCGroupCell.h"
 #import "LoginManager.h"
 
+#define HaozuHomeCellHeight 66.0f
+
 @interface HaozuHomeViewController ()
 
 @end
@@ -57,10 +59,10 @@
 }
 -(void)initDisplay{
     [self addRightButton:@"发布" andPossibleTitle:nil];
-    self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
+    self.myTable = [[UITableView alloc] initWithFrame:FRAME_BETWEEN_NAV_TAB style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
-//    self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:myTable];
 }
 -(void)dealloc{
@@ -182,7 +184,7 @@
     return [myArray count];
 }
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 66.0f;
+    return HaozuHomeCellHeight;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdent = @"RentPPCGroupCell";
@@ -194,6 +196,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
     }
+    [cell showBottonLineWithCellHeight:HaozuHomeCellHeight];
     [cell setValueForCellByData:self.myArray index:indexPath.row];
     return cell;
 }

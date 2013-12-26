@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface CellHeight : NSObject
-- (CGFloat)getBidCellHeight:(NSString *) title;
-- (CGFloat)getFixedCellHeight:(NSString *) title;
-- (CGFloat)getNoPlanCellHeight:(NSString *) title;
++ (CGFloat)getBidCellHeight:(NSString *) title;
++ (CGFloat)getFixedCellHeight:(NSString *) title;
++ (CGFloat)getNoPlanCellHeight:(NSString *) title;
 
 @end

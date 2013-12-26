@@ -25,14 +25,16 @@
         self.backView.backgroundColor = [UIColor clearColor];
         
         self.title = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.title.backgroundColor = [UIColor clearColor];
         self.title.numberOfLines = 0;
-        self.title.lineBreakMode = NSLineBreakByWordWrapping;
+//        self.title.lineBreakMode = NSLineBreakByWordWrapping;
         self.title.textColor = SYSTEM_BLACK;
         self.title.font = [UIFont systemFontOfSize:14];
         
         self.detail = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, 270, 20)];
         self.detail.textColor = [Util_UI colorWithHexString:@"#666666"];
         self.detail.font = [UIFont systemFontOfSize:12];
+        self.detail.backgroundColor = [UIColor clearColor];
         
         self.proIcon = [[UIImageView alloc] init];
 //        self.proIcon.frame = CGRectMake(280, self.title.frame.origin.y + 2, 22, 14);
@@ -56,8 +58,8 @@
         BasePropertyObject *tempProperty = (BasePropertyObject *)dataModel;
         [self setDetailLableValue:tempProperty];
         self.title.text = tempProperty.title;
-        CGSize size = CGSizeMake(250, 40);
-        CGSize si = [tempProperty.title sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+//        CGSize size = CGSizeMake(250, 40);
+        CGSize si = [Util_UI sizeOfString:tempProperty.title maxWidth:250 withFontSize:14];//[tempProperty.title sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
         
         self.title.frame = CGRectMake(0, 8, si.width, si.height);
         self.proIcon.frame = CGRectMake(290, self.title.frame.origin.y + 2, 22, 14);

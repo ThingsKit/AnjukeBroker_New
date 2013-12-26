@@ -14,6 +14,7 @@
 #import "SaleNoPlanListManager.h"
 #import "BasePropertyObject.h"
 #import "SaleGroupListController.h"
+#import "CellHeight.h"
 
 @interface SaleNoPlanGroupController ()
 {
@@ -74,6 +75,7 @@
 - (void)initDisplay_ {
 
     self.myTable.frame = FRAME_WITH_NAV;
+    self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone; //test
     
     self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, [self currentViewHeight], [self windowWidth], TOOL_BAR_HEIGHT)];
     self.contentView.backgroundColor = SYSTEM_NAVIBAR_COLOR;
@@ -286,10 +288,9 @@
 
 #pragma mark - TableView Delegate & Datasource
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CGSize size = CGSizeMake(250, 40);
+//    CGSize size = CGSizeMake(250, 40);
     SalePropertyObject *property = (SalePropertyObject *)[self.myArray objectAtIndex:indexPath.row];
-    CGSize si = [property.title sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-    return si.height+40.0f;
+    return [CellHeight getNoPlanCellHeight:property.title];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.myArray count];
@@ -311,6 +312,9 @@
     }else{
         cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
     }
+    
+    SalePropertyObject *property = (SalePropertyObject *)[self.myArray objectAtIndex:indexPath.row];
+    [cell showBottonLineWithCellHeight:[CellHeight getNoPlanCellHeight:property.title]];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     

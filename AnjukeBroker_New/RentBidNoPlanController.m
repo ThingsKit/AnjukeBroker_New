@@ -12,6 +12,7 @@
 #import "RentAuctionViewController.h"
 #import "RTNavigationController.h"
 #import "LoginManager.h"
+#import "CellHeight.h"
 
 @interface RentBidNoPlanController ()
 
@@ -155,10 +156,10 @@
 
 #pragma mark - TableView Delegate & Datasource
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CGSize size = CGSizeMake(270, 40);
+//    CGSize size = CGSizeMake(270, 40);
 //    SalePropertyObject *property = (SalePropertyObject *)[self.myArray objectAtIndex:indexPath.row];
-    CGSize si = [[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-    return si.height+40.0f;
+//    CGSize si = [[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+    return [CellHeight getNoPlanCellHeight:[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"]];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -174,6 +175,7 @@
         cell = [[RentNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
     }
     [cell configureCellWithDic:[self.myArray objectAtIndex:indexPath.row]];
+    [cell showBottonLineWithCellHeight:[CellHeight getNoPlanCellHeight:[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"]]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }

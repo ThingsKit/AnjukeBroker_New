@@ -7,15 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BrokerLineView.h"
 
 #define CELL_TITLE_FONT 15
 #define CELL_HEIGHT 50
 
 @interface RTListCell : UITableViewCell
 
-@property (strong, nonatomic) UIImageView *lineView;
 @property int selectRow; //当前此cell所在row
 @property CGFloat cellHeight;
+@property (strong, nonatomic) BrokerLineView *lineView;
 
 - (void)initUI; // init UI for cell reuse
 - (BOOL)configureCell:(id)dataModel; //传递cell数据

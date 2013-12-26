@@ -16,6 +16,7 @@
 #import "RentGroupListController.h"
 #import "SalePropertyObject.h"
 #import "RentFixedDetailController.h"
+#import "CellHeight.h"
 
 @interface RentNoPlanController ()
 @property (nonatomic, strong) UIView *contentView;
@@ -285,10 +286,11 @@
 //}
 #pragma mark - TableView Delegate & Datasource
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CGSize size = CGSizeMake(250, 40);
+//    CGSize size = CGSizeMake(250, 40);
+    //    CGSize si = [property.title sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+
     SalePropertyObject *property = (SalePropertyObject *)[self.myArray objectAtIndex:indexPath.row];
-    CGSize si = [property.title sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-    return si.height+40.0f;
+    return [CellHeight getNoPlanCellHeight:property.title];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
@@ -309,7 +311,8 @@
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+    SalePropertyObject *property = (SalePropertyObject *)[self.myArray objectAtIndex:indexPath.row];
+    [cell showBottonLineWithCellHeight:[CellHeight getNoPlanCellHeight:property.title]];
     return cell;
 
 }

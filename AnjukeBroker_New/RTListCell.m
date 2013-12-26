@@ -7,7 +7,6 @@
 //
 
 #import "RTListCell.h"
-#import "BrokerLineView.h"
 
 @implementation RTListCell
 @synthesize selectRow;
@@ -56,8 +55,13 @@
 }
 
 - (void)showBottonLineWithCellHeight:(CGFloat)cellH {
-    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, cellH -1, 320 - 15, 1)];
-    [self.contentView addSubview:line];
+    if (self.lineView == nil) {
+        self.lineView = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, cellH -1, 320 - 15, 1)];
+        [self.contentView addSubview:self.lineView];
+    }
+    else {
+        self.lineView.frame = CGRectMake(15, cellH -1, 320 - 15, 1);
+    }
 }
 
 @end

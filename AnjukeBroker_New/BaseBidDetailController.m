@@ -46,7 +46,8 @@
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
     [self.myTable setBackgroundColor:[Util_UI colorWithHexString:@"#EFEFF4"]];
-    self.myTable.separatorColor = [Util_UI colorWithHexString:@"#EFEFF4"];
+//    self.myTable.separatorColor = [Util_UI colorWithHexString:@"#EFEFF4"];
+    self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.myTable];
     
     //refresh View

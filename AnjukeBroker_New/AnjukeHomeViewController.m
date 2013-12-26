@@ -52,11 +52,11 @@
     [self setTitleViewWithString:@"二手房"];
     
     [self addRightButton:@"发布" andPossibleTitle:nil];
-    self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
+    self.myTable = [[UITableView alloc] initWithFrame:FRAME_BETWEEN_NAV_TAB style:UITableViewStylePlain];
 //    self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
-//    self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.myTable];
 
 	// Do any additional setup after loading the view.
@@ -205,6 +205,7 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    [cell showBottonLineWithCellHeight:66.0f];
     [cell setValueForCellByData:self.myArray index:indexPath.row];    
     return cell;
 }
