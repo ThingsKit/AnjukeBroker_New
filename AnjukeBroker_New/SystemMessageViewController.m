@@ -64,6 +64,7 @@
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
+    self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.myTable];
     
 }
@@ -138,13 +139,15 @@
     SystemMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:cellName];
     if (cell == nil) {
         cell = [[SystemMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellName];
+        
     }
     else {
         
     }
-    
     [cell configureCell:self.myArray withIndex:indexPath.row];
-        
+    
+    [cell showBottonLineWithCellHeight:[SystemCellManager getCellHeightForExpand:YES withContentStr:[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"content"]]];
+    
     return cell;
 }
 

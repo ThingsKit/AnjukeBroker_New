@@ -22,4 +22,7 @@
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index; //传递cell数据_with Index
 
 - (void)showUpArrowImg; //定制的cell向下箭头IMG
+
+- (void)showBottonLineWithCellHeight:(CGFloat)cellH;
+
 @end

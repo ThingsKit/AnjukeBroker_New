@@ -7,6 +7,7 @@
 //
 
 #import "RTListCell.h"
+#import "BrokerLineView.h"
 
 @implementation RTListCell
 @synthesize selectRow;
@@ -52,6 +53,11 @@
     arrow.frame = CGRectMake(320 - imgW*2, 15, imgW, imgH);
     arrow.backgroundColor = [UIColor clearColor];
     [self.contentView addSubview:arrow];
+}
+
+- (void)showBottonLineWithCellHeight:(CGFloat)cellH {
+    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, cellH -1, 320 - 15, 1)];
+    [self.contentView addSubview:line];
 }
 
 @end
