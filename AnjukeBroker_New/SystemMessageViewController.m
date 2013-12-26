@@ -66,7 +66,6 @@
     self.myTable.dataSource = self;
     self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.myTable];
-    
 }
 
 #pragma mark - 获取系统消息

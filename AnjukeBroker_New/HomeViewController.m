@@ -15,7 +15,7 @@
 #import "WebImageView.h"
 #import "LoginManager.h"
 
-#define cellHeight 50
+#define HOME_cellHeight 50
 #define headerHeight (200+150)/2
 
 @interface HomeViewController ()
@@ -99,6 +99,7 @@
 //    tv.layer.borderWidth = 1;
     tv.delegate = self;
     tv.dataSource = self;
+    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:tv];
     
     UIView *hView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], headerHeight)];
@@ -275,6 +276,7 @@
     self.isLoading = NO;
     [self doRequestMessageCount];
 }
+
 - (void)doRequestMessageCount {
     if (![self isNetworkOkay]) {
         [self hideLoadWithAnimated:YES];
@@ -330,7 +332,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return cellHeight;
+    return HOME_cellHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -365,6 +367,10 @@
         ((UILabel *)[cell viewWithTag:101]).text = @"";
         [(UILabel *)[cell viewWithTag:101] setBackgroundColor:[UIColor clearColor]];
     }
+    
+    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, HOME_cellHeight -1, 320 - 15, 1)];
+    [cell.contentView addSubview:line];
+    
     return cell;
 }
 
