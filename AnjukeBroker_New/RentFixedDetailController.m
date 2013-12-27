@@ -72,21 +72,21 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self reloadData];
-}
--(void)reloadData{
-    
-    if(self.myArray == nil){
-        self.myArray = [NSMutableArray array];
-    }else{
-        [self.myArray removeAllObjects];
-        [self.myTable reloadData];
-    }
-    
-    [self doRequest];
-}
+//-(void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//    [self reloadData];
+//}
+//-(void)reloadData{
+//    
+//    if(self.myArray == nil){
+//        self.myArray = [NSMutableArray array];
+//    }else{
+//        [self.myArray removeAllObjects];
+//        [self.myTable reloadData];
+//    }
+//    
+//    [self doRequest];
+//}
 
 -(void)dealloc{
     self.myTable.delegate = nil;

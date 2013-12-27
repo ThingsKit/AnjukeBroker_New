@@ -16,5 +16,6 @@
 @property (nonatomic, strong) EGORefreshTableHeaderView *refreshView;
 
 -(void)doRequest;
+-(void)reloadData;
 
 @end

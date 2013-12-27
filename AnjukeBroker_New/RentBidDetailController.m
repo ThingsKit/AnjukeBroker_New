@@ -64,11 +64,13 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self doRequest];
-}
+//-(void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//    [self doRequest];
+//}
+
 #pragma mark - 请求竞价房源列表
+
 -(void)doRequest{
     if(![self isNetworkOkay]){
         [self showInfo:NONETWORK_STR];

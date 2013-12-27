@@ -38,9 +38,31 @@
     self.refreshView.delegate = nil;
 
 }
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [self reloadData];
+}
+
+-(void)reloadData{
+    
+    if(self.myArray == nil){
+        self.myArray = [NSMutableArray array];
+    }else{
+        [self.myArray removeAllObjects];
+    }
+    
+    [self.myTable reloadData];
+    
+    //    [self doRequest];
+    [self.myTable setContentOffset:CGPointMake(0, -65) animated:YES];
+}
+
 -(void)initModel{
     self.myArray = [NSMutableArray array];
 }
+
 -(void)initDisplay{
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;

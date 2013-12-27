@@ -71,22 +71,22 @@
 -(void)initModel{
     [super initModel];
 }
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self reloadData];
-}
--(void)reloadData{
-
-    if(self.myArray == nil){
-        self.myArray = [NSMutableArray array];
-    }else{
-        [self.myArray removeAllObjects];
-    }
-    
-    [self.myTable reloadData];
-    
-    [self doRequest];
-}
+//-(void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//    [self reloadData];
+//}
+//-(void)reloadData{
+//
+//    if(self.myArray == nil){
+//        self.myArray = [NSMutableArray array];
+//    }else{
+//        [self.myArray removeAllObjects];
+//    }
+//    
+//    [self.myTable reloadData];
+//    
+//    [self doRequest];
+//}
 
 -(void)dealloc{
     self.myTable.delegate = nil;
@@ -176,6 +176,7 @@
     self.isLoading = NO;
 //    [self doRequest];
 }
+
 #pragma mark - 停止定价组计划推广
 -(void)cancelFixedGroup{
     [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_003 note:nil];
