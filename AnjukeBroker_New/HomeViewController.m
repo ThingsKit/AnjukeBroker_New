@@ -17,6 +17,7 @@
 
 #define HOME_cellHeight 50
 #define headerHeight (200+150)/2
+#define Max_Account_Lb_Width 80
 
 @interface HomeViewController ()
 @property (nonatomic, strong) NSArray *taskArray;
@@ -28,7 +29,9 @@
 
 @property (nonatomic, strong) UILabel *nameLb;
 @property (nonatomic, strong) UILabel *phoneLb;
+@property (nonatomic, strong) UILabel *accountTitleLb;
 @property (nonatomic, strong) UILabel *accountLb;
+@property (nonatomic, strong) UILabel *accountYuanLb;
 @property (nonatomic, strong) UILabel *propNumLb;
 @property (nonatomic, strong) UILabel *costLb;
 @property (nonatomic, strong) UILabel *clickLb;
@@ -43,6 +46,8 @@
 @synthesize photoImg, dataDic, ppcDataDic;
 @synthesize nameLb, phoneLb, accountLb, propNumLb, costLb, clickLb;
 @synthesize MSGNum;
+@synthesize accountTitleLb;
+@synthesize accountYuanLb;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -148,9 +153,10 @@
     lb3.font = [UIFont systemFontOfSize:15];
     lb3.textColor = SYSTEM_LIGHT_GRAY;
     lb3.text = @"账户余额:";
+    self.accountTitleLb = lb3;
     [view1 addSubview:lb3];
     
-    UILabel *lb4 = [[UILabel alloc] initWithFrame:CGRectMake(lb3.frame.origin.x+ lb3.frame.size.width, lb3.frame.origin.y, 80, lb.frame.size.height)];
+    UILabel *lb4 = [[UILabel alloc] initWithFrame:CGRectMake(self.accountTitleLb.frame.origin.x+ self.accountTitleLb.frame.size.width, self.accountTitleLb.frame.origin.y, Max_Account_Lb_Width, self.accountTitleLb.frame.size.height)];
     lb4.backgroundColor = [UIColor clearColor];
     lb4.font = [UIFont systemFontOfSize:15];
     lb4.textColor = SYSTEM_ORANGE;
@@ -159,11 +165,12 @@
     lb4.text = @"";
     [view1 addSubview:lb4];
     
-    UILabel *yuanLb = [[UILabel alloc] initWithFrame:CGRectMake(lb4.frame.origin.x+ lb4.frame.size.width, lb3.frame.origin.y, 20, lb.frame.size.height)];
+    UILabel *yuanLb = [[UILabel alloc] initWithFrame:CGRectMake(self.accountLb.frame.origin.x+ self.accountLb.frame.size.width, self.accountTitleLb.frame.origin.y, 20, 20)];
     yuanLb.backgroundColor = [UIColor clearColor];
     yuanLb.font = [UIFont systemFontOfSize:15];
     yuanLb.textColor = SYSTEM_LIGHT_GRAY;
-    yuanLb.text = @"元";
+//    yuanLb.text = @"元";
+    self.accountYuanLb = yuanLb;
     [view1 addSubview:yuanLb];
     
     BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, view1.frame.size.height - 1, [self windowWidth], 1)];
@@ -224,7 +231,13 @@
 //    self.nameLb.text = [self.dataDic objectForKey:@"brokerName"];
 //    self.phoneLb.text = [self.dataDic objectForKey:@"phone"];
     
+    //账户自适应
     self.accountLb.text = [self.ppcDataDic objectForKey:@"balance"];
+    CGSize size = [Util_UI sizeOfString:[self.ppcDataDic objectForKey:@"balance"] maxWidth:Max_Account_Lb_Width withFontSize:15];
+    self.accountLb.frame = CGRectMake(self.accountTitleLb.frame.origin.x+ self.accountTitleLb.frame.size.width, self.accountTitleLb.frame.origin.y, size.width, self.accountTitleLb.frame.size.height);
+    self.accountYuanLb.frame = CGRectMake(self.accountLb.frame.origin.x+ self.accountLb.frame.size.width, self.accountTitleLb.frame.origin.y, 20, 20);
+    self.accountYuanLb.text = @"元";
+    
     self.propNumLb.text = [self.ppcDataDic objectForKey:@"onLinePropNum"];
     self.costLb.text = [self.ppcDataDic objectForKey:@"todayAllCosts"];
     self.clickLb.text = [self.ppcDataDic objectForKey:@"todayAllClicks"];

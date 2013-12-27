@@ -177,7 +177,13 @@
 
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view
 {
-    [self doRequest];
+    if ([self isNetworkOkay]) {
+        [self doRequest];
+    }
+    else {
+        [self.myTable setContentOffset:CGPointMake(0, 0) animated:YES];
+        [self.refreshView egoRefreshScrollViewDataSourceDidFinishedLoading:self.myTable];
+    }
 }
 
 - (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view
@@ -196,6 +202,7 @@
 {
     if (![self isNetworkOkay]) {
         self.isLoading = NO;
+        [self.myTable setContentOffset:CGPointMake(0, 0) animated:YES];
         return;
     }
     
@@ -206,6 +213,7 @@
 {
     if (![self isNetworkOkay]) {
         self.isLoading = NO;
+        [self.myTable setContentOffset:CGPointMake(0, 0) animated:YES];
         return;
     }
     
