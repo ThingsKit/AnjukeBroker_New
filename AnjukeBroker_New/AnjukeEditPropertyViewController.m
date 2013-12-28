@@ -1467,11 +1467,11 @@ typedef enum {
                     //check小区、户型、朝向
                     if ([self.property.comm_id isEqualToString:@""] || self.property.comm_id == nil) {
 //                        [self doPushToCommunity];
-                        [self showInfo:@"查看在线房形图需要选择小区"];
+                        [self showInfo:@"请先选小区和户型"];
                         return;
                     }
                     else if ([self.property.rooms isEqualToString:@""] || self.property.rooms == nil) {
-                        [self showInfo:@"查看在线房形图需要选择户型"];
+                        [self showInfo:@"请先选小区和户型"];
                         return;
                     }
 //                    else if ([self.property.exposure isEqualToString:@""] || self.property.exposure == nil) {

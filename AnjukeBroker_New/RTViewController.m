@@ -9,6 +9,7 @@
 #import "RTViewController.h"
 #import "Util_UI.h"
 #import "Reachability.h"
+#import "AppManager.h"
 
 #define TOP_ALERT_VIEW_HIDETIME 2.5
 
@@ -121,13 +122,17 @@
     }
     
     UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:@selector(doBack:)];
-    backBtn.tintColor = SYSTEM_ORANGE;
+    if (![AppManager isIOS6]) {
+        backBtn.tintColor = SYSTEM_ORANGE;
+    }
     self.navigationItem.leftBarButtonItem = backBtn;
 }
 
 - (void)addRightButton:(NSString *)title andPossibleTitle:(NSString *)possibleTitle {
     UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:@selector(rightButtonAction:)];
-    rBtn.tintColor = SYSTEM_ORANGE;
+    if (![AppManager isIOS6]) {
+        rBtn.tintColor = SYSTEM_ORANGE;
+    }
     if (possibleTitle.length > 0 || possibleTitle != nil) {
         rBtn.possibleTitles = [NSSet setWithObject:possibleTitle];
     }
