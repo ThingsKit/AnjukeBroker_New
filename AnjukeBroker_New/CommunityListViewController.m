@@ -92,7 +92,11 @@
     sb.delegate = self;
     sb.placeholder = @"请输入小区名或地址";
     sb.backgroundColor = [UIColor clearColor];//[UIColor colorWithRed:0.89 green:0.89 blue:0.9 alpha:1];
-    sb.barStyle = UIBarStyleBlackOpaque;
+    if ([AppManager isIOS6]) {
+        sb.barStyle = UIBarStyleDefault;
+    }
+    else
+        sb.barStyle = UIBarStyleBlackOpaque;
     sb.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.navigationItem.titleView = sb;
     
