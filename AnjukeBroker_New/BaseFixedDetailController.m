@@ -67,7 +67,8 @@
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
-    self.myTable.separatorColor = [UIColor whiteColor];
+//    self.myTable.separatorColor = [UIColor whiteColor];
+    self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.myTable];
     
     //refresh View
