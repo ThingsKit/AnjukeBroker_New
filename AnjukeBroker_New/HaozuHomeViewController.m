@@ -207,6 +207,7 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)rightButtonAction:(id)sender{
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_006 note:nil];
     //模态弹出 --租房
     AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
     controller.backType = RTSelectorBackTypeDismiss;

@@ -54,6 +54,7 @@
 #define AJK_PPC_HOME_003 @"230003" //点击竞价房源
 #define AJK_PPC_HOME_004 @"230004" //点击定价推广组
 #define AJK_PPC_HOME_005 @"230005" //点击未推广房源
+#define AJK_PPC_HOME_006 @"230006" //发布房源
 
 //二手房竞价房源列表页
 #define AJK_PPC_BID_DETAIL @"240000"
@@ -172,6 +173,7 @@
 #define HZ_PPC_HOME_003 @"430003" //点击竞价房源
 #define HZ_PPC_HOME_004 @"430004" //点击定价推广组
 #define HZ_PPC_HOME_005 @"430005" //点击未推广房源
+#define HZ_PPC_HOME_006 @"430006" //发布房源
 
 //租房竞价房源列表页
 #define HZ_PPC_BID_DETAIL @"440000"
