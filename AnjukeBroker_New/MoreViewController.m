@@ -225,6 +225,7 @@
     static NSString *cellName = @"cell";
     
     MoreListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellName];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (cell == nil) {
         cell = [[MoreListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellName];
     }
