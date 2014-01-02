@@ -397,6 +397,13 @@
     if (![self isNetworkOkay]) {
         return;
     }
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_PPC_RESET_004;
+    }
+    else
+        code = AJK_PPC_RESET_004;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
     
     [self showLoadingActivity:YES];
     self.isLoading = YES;
