@@ -506,11 +506,24 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[result objectForKey:@"image"]];
     [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
     
-    [(E_Photo *)[self.addImageArray objectAtIndex:self.uploadImgIndex] setImageDic:dic];
-    
-    //继续上传图片
-    self.uploadImgIndex ++;
-    [self uploadNewImgToProperty];
+    if (self.uploadImgIndex <= self.addImageArray.count -1) { //
+        [(E_Photo *)[self.addImageArray objectAtIndex:self.uploadImgIndex] setImageDic:dic];
+        //继续上传图片
+        self.uploadImgIndex ++;
+        [self uploadNewImgToProperty];
+    }
+    else {
+//        [self hideLoadWithAnimated:YES];
+//        self.isLoading = NO;
+        
+        DLog(@"图片上传服务器完毕，结束");
+        
+        //        [self dismissViewControllerAnimated:YES completion:nil];
+        //调用图片接口更新图片
+        [self updateNewImg];
+        
+        return;
+    }
 }
 
 - (void)uploadPhotoFail:(ASIFormDataRequest *)request{
@@ -521,11 +534,15 @@
     self.uploadImgIndex = 0;
     
     [self showInfo:@"图片上传失败，请重试"];
+    
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
 }
 
 - (void)updateNewImg {
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+    
     //更新图片接口，上传imgJson+房源ID
     NSMutableDictionary *params = nil;
     NSString *method = nil;
