@@ -442,8 +442,8 @@
     //保存房源id
 //    [self dismissViewControllerAnimated:YES completion:nil];
     [self uploadNewImgToProperty]; //问题信息更新结束，开始新增图片上传
-    [self hideLoadWithAnimated:YES];
-    self.isLoading = NO;
+//    [self hideLoadWithAnimated:YES];
+//    self.isLoading = NO;
 }
 
 - (void)uploadNewImgToProperty {
@@ -466,8 +466,8 @@
     
     //上传新添加的图片
     if (self.uploadImgIndex > self.addImageArray.count - 1) {
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
+//        [self hideLoadWithAnimated:YES];
+//        self.isLoading = NO;
         
         DLog(@"图片上传服务器完毕，结束");
         
@@ -479,8 +479,8 @@
     }
     
     if (self.uploadImgIndex == 0) { //第一张图片开始上传就显示黑框，之后不重复显示，上传流程结束后再消掉黑框
-        [self showLoadingActivity:YES];
-        self.isLoading = YES;
+//        [self showLoadingActivity:YES];
+//        self.isLoading = YES;
     }
     
     //test
@@ -540,8 +540,8 @@
 }
 
 - (void)updateNewImg {
-    [self showLoadingActivity:YES];
-    self.isLoading = YES;
+//    [self showLoadingActivity:YES];
+//    self.isLoading = YES;
     
     //更新图片接口，上传imgJson+房源ID
     NSMutableDictionary *params = nil;
@@ -664,8 +664,7 @@
         [self.propertyDelegate propertyDidDelete];
     }
     
-    [self doBack:self];
-    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - BigImageView Delegate
