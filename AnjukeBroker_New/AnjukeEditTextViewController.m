@@ -61,14 +61,14 @@
 
 - (void)rightButtonAction:(id)sender {
     if (self.isTitle) {
-        if (self.textV.text.length < 10) {
-            [self showInfo:@"房源标题必须至少10个字符"];
+        if (self.textV.text.length < 30 || self.textV.text.length > 5) {
+            [self showInfo:@"房源标题必须5到30个字符"];
             return;
         }
     }
     else {
-        if (self.textV.text.length < 30) {
-            [self showInfo:@"房源描述必须至少30个字符"];
+        if (self.textV.text.length < 10) {
+            [self showInfo:@"房源描述必须至少10个字符"];
             return;
         }
     }
