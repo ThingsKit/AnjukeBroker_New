@@ -30,50 +30,56 @@
 }
 
 -(void)initUI{
-    UIView *content = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
+    UIView *content = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 71)];
     content.backgroundColor = [Util_UI colorWithHexString:@"#EFEFF4"];
     self.statusimg = [[UIImageView alloc] init];
     self.statusimg.frame = CGRectMake(10, 28, 30, 13);
     [content addSubview:self.statusimg];
     
-    self.tapNum = [[UILabel alloc] initWithFrame:CGRectMake(60, 15, 50, 20)];
+    self.tapNum = [[UILabel alloc] initWithFrame:CGRectMake(40, 15, 100, 20)];
     self.tapNum.backgroundColor = [UIColor clearColor];
     self.tapNum.textColor = SYSTEM_BLACK;
+    self.tapNum.textAlignment = NSTextAlignmentCenter;
 //    self.tapNum.text = @"10";
     self.tapNum.font = [UIFont systemFontOfSize:20];
     [content addSubview:self.tapNum];
     
-    self.tapNumStr = [[UILabel alloc] initWithFrame:CGRectMake(50, 42, 320, 20)];
+    self.tapNumStr = [[UILabel alloc] initWithFrame:CGRectMake(40, 42, 100, 20)];
     self.tapNumStr.backgroundColor = [UIColor clearColor];
     self.tapNumStr.font = [UIFont systemFontOfSize:12];
     self.tapNumStr.textColor = SYSTEM_LIGHT_GRAY;
-    self.tapNumStr.text = @"总点击";
+    self.tapNumStr.text = @"今日点击";
+    self.tapNumStr.textAlignment = NSTextAlignmentCenter;
     [content addSubview:self.tapNumStr];
     
-    self.totalCost = [[UILabel alloc] initWithFrame:CGRectMake(155, 15, 50, 20)];
+    self.totalCost = [[UILabel alloc] initWithFrame:CGRectMake(135, 15, 100, 20)];
     self.totalCost.backgroundColor = [UIColor clearColor];
     self.totalCost.textColor = SYSTEM_BLACK;
     self.totalCost.font = [UIFont systemFontOfSize:20];
+    self.totalCost.textAlignment = NSTextAlignmentCenter;
 //    self.totalCost.text = @"100";
     [content addSubview:self.totalCost];
     
-    self.totalCostStr = [[UILabel alloc] initWithFrame:CGRectMake(145, 42, 320, 20)];
+    self.totalCostStr = [[UILabel alloc] initWithFrame:CGRectMake(135, 42, 100, 20)];
     self.totalCostStr.backgroundColor = [UIColor clearColor];
     self.totalCostStr.font = [UIFont systemFontOfSize:12];
-    self.totalCostStr.text = @"总花费(元)";
+    self.totalCostStr.text = @"今日花费(元)";
     self.totalCostStr.textColor = SYSTEM_LIGHT_GRAY;
+    self.totalCostStr.textAlignment = NSTextAlignmentCenter;
     [content addSubview:self.totalCostStr];
     
-    self.topCost = [[UILabel alloc] initWithFrame:CGRectMake(250, 15, 50, 20)];
+    self.topCost = [[UILabel alloc] initWithFrame:CGRectMake(230, 15, 100, 20)];
     self.topCost.backgroundColor = [UIColor clearColor];
     self.topCost.textColor = SYSTEM_BLACK;
     self.topCost.font = [UIFont systemFontOfSize:20];
+    self.topCost.textAlignment = NSTextAlignmentCenter;
 //    self.topCost.text = @"99.0";
     [content addSubview:self.topCost];
     
-    self.topCostStr = [[UILabel alloc] initWithFrame:CGRectMake(245, 42, 320, 20)];
+    self.topCostStr = [[UILabel alloc] initWithFrame:CGRectMake(230, 42, 100, 20)];
     self.topCostStr.backgroundColor = [UIColor clearColor];
     self.topCostStr.textColor = SYSTEM_LIGHT_GRAY;
+    self.topCostStr.textAlignment = NSTextAlignmentCenter;
 //    self.topCostStr.text = @"日限额";
     self.topCostStr.font = [UIFont systemFontOfSize:12];
     [content addSubview:self.topCostStr];
@@ -88,10 +94,10 @@
         self.topCost.text = [NSString stringWithFormat:@"%@", obj.topCost];
         [self setFixedImg:obj];
         if([LoginManager isSeedForAJK:isAJK]){
-            self.topCostStr.frame = CGRectMake(225, 42, 320, 20);
+//            self.topCostStr.frame = CGRectMake(225, 42, 100, 20);
             self.topCostStr.text = @"每日最高花费";
         }else{
-            self.topCostStr.frame = CGRectMake(245, 42, 320, 20);
+//            self.topCostStr.frame = CGRectMake(245, 42, 100, 20);
             self.topCostStr.text = @"日限额";
         }
         DLog(@"%d",[LoginManager isSeedForAJK:YES]);

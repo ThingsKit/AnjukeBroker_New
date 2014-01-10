@@ -198,6 +198,8 @@
 
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSString *token = [deviceToken description];
+    [[NSUserDefaults standardUserDefaults] setValue:token forKey:@"deviceToken"]; //deviceToekn
+    
     token = [token stringByReplacingOccurrencesOfString:@"<" withString:@""];
     token = [token stringByReplacingOccurrencesOfString:@">" withString:@""];
     token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -542,6 +544,8 @@
 }
 
 - (void)doHomeNavPushWithSwitchIndex:(int)index withSwtichType:(TabSwitchType)switchType withPropertyDic:(NSDictionary *)propDic {
+    NSString *message = @"发布成功！";
+    
     switch (switchType) {
         case SwitchType_RentFixed: //租房定价
         {
@@ -550,6 +554,7 @@
             controller.backType = RTSelectorBackTypePopToRoot;
             [controller setHidesBottomBarWhenPushed:YES];
             [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:YES];
+            [controller showTopAlertWithTitle:message];
         }
             break;
         case SwitchType_SaleFixed: //二手房定价
@@ -559,6 +564,7 @@
             controller.backType = RTSelectorBackTypePopToRoot;
             [controller setHidesBottomBarWhenPushed:YES];
             [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:YES];
+            [controller showTopAlertWithTitle:message];
         }
             break;
         case SwitchType_RentBid: //租房竞价
@@ -566,6 +572,7 @@
             RentBidDetailController *controller = [[RentBidDetailController alloc] init];
             [controller setHidesBottomBarWhenPushed:YES];
             [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:YES];
+            [controller showTopAlertWithTitle:message];
         }
             break;
         case SwitchType_SaleBid: //二手房竞价
@@ -573,6 +580,7 @@
             SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
             [controller setHidesBottomBarWhenPushed:YES];
             [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:YES];
+            [controller showTopAlertWithTitle:message];
         }
             break;
         case SwitchType_RentNoPlan: //租房未推广
@@ -580,6 +588,7 @@
             RentNoPlanController *controller = [[RentNoPlanController alloc] init];
             [controller setHidesBottomBarWhenPushed:YES];
             [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:YES];
+            [controller showTopAlertWithTitle:message];
         }
             break;
         case SwitchType_SaleNoPlan: //二手房未推广
@@ -587,6 +596,7 @@
             SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
             [controller setHidesBottomBarWhenPushed:YES];
             [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:YES];
+            [controller showTopAlertWithTitle:message];
         }
             break;
             

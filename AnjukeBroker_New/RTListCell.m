@@ -11,12 +11,14 @@
 @implementation RTListCell
 @synthesize selectRow;
 @synthesize cellHeight;
+@synthesize lineView;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        [self initUI];
+        
+    [self initUI];
         // Initialization code
     }
     return self;
@@ -25,7 +27,7 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
@@ -50,6 +52,16 @@
     arrow.frame = CGRectMake(320 - imgW*2, 15, imgW, imgH);
     arrow.backgroundColor = [UIColor clearColor];
     [self.contentView addSubview:arrow];
+}
+
+- (void)showBottonLineWithCellHeight:(CGFloat)cellH {
+    if (self.lineView == nil) {
+        self.lineView = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, cellH -1, 320 - 15, 1)];
+        [self.contentView addSubview:self.lineView];
+    }
+    else {
+        self.lineView.frame = CGRectMake(15, cellH -1, 320 - 15, 1);
+    }
 }
 
 @end

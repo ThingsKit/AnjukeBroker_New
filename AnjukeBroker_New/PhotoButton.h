@@ -13,8 +13,8 @@
 
 @property (nonatomic, strong) WebImageView *photoImg;
 @property (nonatomic, strong) UIButton *deletelBtn;
-@property BOOL deleteBtnShow;
 
 - (void)setPhotoImage:(UIImage *)image;
+- (void)showDeleteBtn;
 
 @end

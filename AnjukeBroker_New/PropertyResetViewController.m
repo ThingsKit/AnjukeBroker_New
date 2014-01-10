@@ -390,9 +390,20 @@
 }
 
 - (void)doSave {
+    if (![self checkUploadProperty]) {
+        return;
+    }
+    
     if (![self isNetworkOkay]) {
         return;
     }
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_PPC_RESET_004;
+    }
+    else
+        code = AJK_PPC_RESET_004;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
     
     [self showLoadingActivity:YES];
     self.isLoading = YES;
@@ -431,8 +442,8 @@
     //保存房源id
 //    [self dismissViewControllerAnimated:YES completion:nil];
     [self uploadNewImgToProperty]; //问题信息更新结束，开始新增图片上传
-    [self hideLoadWithAnimated:YES];
-    self.isLoading = NO;
+//    [self hideLoadWithAnimated:YES];
+//    self.isLoading = NO;
 }
 
 - (void)uploadNewImgToProperty {
@@ -455,8 +466,8 @@
     
     //上传新添加的图片
     if (self.uploadImgIndex > self.addImageArray.count - 1) {
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
+//        [self hideLoadWithAnimated:YES];
+//        self.isLoading = NO;
         
         DLog(@"图片上传服务器完毕，结束");
         
@@ -468,8 +479,8 @@
     }
     
     if (self.uploadImgIndex == 0) { //第一张图片开始上传就显示黑框，之后不重复显示，上传流程结束后再消掉黑框
-        [self showLoadingActivity:YES];
-        self.isLoading = YES;
+//        [self showLoadingActivity:YES];
+//        self.isLoading = YES;
     }
     
     //test
@@ -495,11 +506,24 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[result objectForKey:@"image"]];
     [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
     
-    [(E_Photo *)[self.addImageArray objectAtIndex:self.uploadImgIndex] setImageDic:dic];
-    
-    //继续上传图片
-    self.uploadImgIndex ++;
-    [self uploadNewImgToProperty];
+    if (self.uploadImgIndex <= self.addImageArray.count -1) { //
+        [(E_Photo *)[self.addImageArray objectAtIndex:self.uploadImgIndex] setImageDic:dic];
+        //继续上传图片
+        self.uploadImgIndex ++;
+        [self uploadNewImgToProperty];
+    }
+    else {
+//        [self hideLoadWithAnimated:YES];
+//        self.isLoading = NO;
+        
+        DLog(@"图片上传服务器完毕，结束");
+        
+        //        [self dismissViewControllerAnimated:YES completion:nil];
+        //调用图片接口更新图片
+        [self updateNewImg];
+        
+        return;
+    }
 }
 
 - (void)uploadPhotoFail:(ASIFormDataRequest *)request{
@@ -510,11 +534,15 @@
     self.uploadImgIndex = 0;
     
     [self showInfo:@"图片上传失败，请重试"];
+    
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
 }
 
 - (void)updateNewImg {
+//    [self showLoadingActivity:YES];
+//    self.isLoading = YES;
+    
     //更新图片接口，上传imgJson+房源ID
     NSMutableDictionary *params = nil;
     NSString *method = nil;
@@ -636,8 +664,7 @@
         [self.propertyDelegate propertyDidDelete];
     }
     
-    [self doBack:self];
-    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - BigImageView Delegate

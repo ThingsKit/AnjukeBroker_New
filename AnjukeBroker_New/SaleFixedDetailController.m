@@ -20,6 +20,7 @@
 #import "LoginManager.h"
 #import "BasePropertyObject.h"
 #import "SaleFixedManager.h"
+#import "CellHeight.h"
 
 @interface SaleFixedDetailController ()
 {
@@ -70,22 +71,22 @@
 -(void)initModel{
     [super initModel];
 }
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self reloadData];
-}
--(void)reloadData{
-
-    if(self.myArray == nil){
-        self.myArray = [NSMutableArray array];
-    }else{
-        [self.myArray removeAllObjects];
-    }
-    
-    [self.myTable reloadData];
-    
-    [self doRequest];
-}
+//-(void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//    [self reloadData];
+//}
+//-(void)reloadData{
+//
+//    if(self.myArray == nil){
+//        self.myArray = [NSMutableArray array];
+//    }else{
+//        [self.myArray removeAllObjects];
+//    }
+//    
+//    [self.myTable reloadData];
+//    
+//    [self doRequest];
+//}
 
 -(void)dealloc{
     self.myTable.delegate = nil;
@@ -130,7 +131,13 @@
     
     [self.myArray removeAllObjects];
     [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
-    
+    if([self.myArray count] == 0) {
+        [self.myTable reloadData];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        [self showInfo:@"该定价组没有房源"];
+        return;
+    }
     [self.myTable reloadData];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
@@ -169,6 +176,7 @@
     self.isLoading = NO;
 //    [self doRequest];
 }
+
 #pragma mark - 停止定价组计划推广
 -(void)cancelFixedGroup{
     [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_003 note:nil];
@@ -267,9 +275,7 @@
     if([indexPath row] == 0){
     return 71.0f;
     }
-    CGSize size = CGSizeMake(260, 40);
-    CGSize si = [[[self.myArray objectAtIndex:indexPath.row -1] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-    return si.height+50.0f;
+    return [CellHeight getFixedCellHeight:[[self.myArray objectAtIndex:indexPath.row -1] objectForKey:@"title"]];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -279,6 +285,8 @@
         SaleFixedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"SaleFixedCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SaleFixedCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
         }
         [cell configureCell:self.planDic isAJK:YES];
 //        [cell configureCell:[self.myArray objectAtIndex:[indexPath row]]];
@@ -289,8 +297,11 @@
         SalePropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"SalePropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SalePropertyListCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
         }
         [cell configureCell:[self.myArray objectAtIndex:[indexPath row] -1]];
+        [cell showBottonLineWithCellHeight:[CellHeight getFixedCellHeight:[[self.myArray objectAtIndex:indexPath.row -1] objectForKey:@"title"]]];
         return cell;
     }
 }

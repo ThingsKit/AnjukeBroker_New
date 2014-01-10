@@ -170,7 +170,7 @@
     }
     [cell setFixedGroupValueForCellByData:self.myArray index:indexPath.row isAJK:NO];
 //    [cell setFixedGroupValueForCellByData:self.myArray index:indexPath.row];
-    
+    [cell showBottonLineWithCellHeight:66.f];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     

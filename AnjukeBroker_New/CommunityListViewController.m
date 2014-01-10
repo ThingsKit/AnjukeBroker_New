@@ -10,6 +10,7 @@
 #import "Util_UI.h"
 #import "LoginManager.h"
 #import "Util_TEXT.h"
+#import "AppManager.h"
 
 #define CELL_HEIGHT 45
 #define SEARCH_DISTANCE @"5000"
@@ -91,7 +92,11 @@
     sb.delegate = self;
     sb.placeholder = @"请输入小区名或地址";
     sb.backgroundColor = [UIColor clearColor];//[UIColor colorWithRed:0.89 green:0.89 blue:0.9 alpha:1];
-    sb.barStyle = UIBarStyleBlackOpaque;
+    if ([AppManager isIOS6]) {
+        sb.barStyle = UIBarStyleDefault;
+    }
+    else
+        sb.barStyle = UIBarStyleBlackOpaque;
     sb.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.navigationItem.titleView = sb;
     
@@ -264,7 +269,11 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    [self.navigationController popViewControllerAnimated:NO];
+    if ([AppManager isIOS6]) { //iOS6下需要做动画以适配crash
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else
+        [self.navigationController popViewControllerAnimated:NO];
 }
 
 #pragma mark - SearchBar Delegate

@@ -114,6 +114,7 @@
     
     if (self.imgArray.count == 0) {
         [self doBack:self];
+        return; //修复线上crash，doBack后不执行后续方法
     }
     
     if ([self.imageSelectDelegate respondsToSelector:@selector(onlineImgDidSelect:)]) {

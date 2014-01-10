@@ -7,6 +7,7 @@
 //
 
 #import "UIViewController+Loading.h"
+#import "AppManager.h"
 
 @implementation UIViewController (Loading)
 
@@ -16,6 +17,11 @@
 
 - (void)showLoadingActivity:(BOOL)activity{
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    if ([AppManager isiPhone4Display]) {
+        hud.yOffset = -45;
+    }
+    else
+        hud.yOffset = -20;
     hud.labelText = @"加载中...";
 }
 
@@ -23,6 +29,11 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeText;
     hud.labelText = info;
+    if ([AppManager isiPhone4Display]) {
+        hud.yOffset = -85;
+    }
+    else
+        hud.yOffset = -40;
     
     [hud hide:YES afterDelay:2];
 }

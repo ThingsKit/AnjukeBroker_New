@@ -38,7 +38,7 @@
 #define photoHeaderH_RecNum 100 +50
 #define Input_H 260
 
-#define IMAGE_MAXSIZE_WIDTH 1280/4 //屏幕预览图的最大分辨率，只负责预览显示
+#define IMAGE_MAXSIZE_WIDTH 600 //屏幕预览图的最大分辨率，只负责预览显示
 
 #define TagOfImg_Base 1000
 #define TagOfActionSheet_Img 901
@@ -77,4 +77,5 @@
 - (void)addPhoto;
 - (void)setDefultValue;
 
+- (BOOL)checkUploadProperty;
 @end

@@ -12,7 +12,6 @@
 @implementation PropertyDetailCell
 @synthesize title;
 @synthesize detail;
-@synthesize price;
 @synthesize mutableSelect;
 @synthesize proIcon;
 @synthesize backView;
@@ -38,15 +37,10 @@
         self.proIcon = [[UIImageView alloc] init];
         self.proIcon.frame = CGRectMake(280, 25, 22, 14);
         
-        self.price = [[UILabel alloc] initWithFrame:CGRectMake(210, 30, 150, 20)];
-        self.price.textColor = [UIColor grayColor];
-        self.price.font = [UIFont systemFontOfSize:12];
-        
         [self.backView addSubview:self.title];
         [self.backView addSubview:self.detail];
         [self.contentView addSubview:self.proIcon];
         [self.contentView addSubview:self.backView];
-//        [self.contentView addSubview:price];
     }
     return self;
 }
@@ -54,9 +48,9 @@
 -(void)setValueForCellByDictionar:(NSDictionary *) dic{
     self.backView.frame = CGRectMake(10, 0, 320, self.contentView.frame.size.height);
     self.title.text = [dic objectForKey:@"title"];
-    CGSize size = CGSizeMake(270, 40);
-    CGSize si = [[dic objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-    
+//    CGSize size = CGSizeMake(250, 40);
+//    CGSize si = [[dic objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize si = [Util_UI sizeOfString:self.title.text maxWidth:250 withFontSize:14];
     self.title.frame = CGRectMake(0, 8, si.width, si.height);
     self.proIcon.frame = CGRectMake(290, self.title.frame.origin.y + 2, 22, 14);
     self.detail.frame = CGRectMake(0, self.title.frame.size.height + 15, 270, 20);

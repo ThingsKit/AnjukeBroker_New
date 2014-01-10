@@ -24,25 +24,11 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
 
-        
-        self.tapNum = [[UILabel alloc] initWithFrame:CGRectMake(275, 45, 100, 20)];
-        self.tapNum.backgroundColor = [UIColor clearColor];
-        self.tapNum.textColor = [Util_UI colorWithHexString:@"#666666"];
-        self.tapNum.font = [UIFont systemFontOfSize:12];
-//        tapNum.text = @"点击：50";
-        [self.contentView addSubview:self.tapNum];
-        
-        self.tapNumStr = [[UILabel alloc] initWithFrame:CGRectMake(240, 45, 40, 20)];
-        self.tapNumStr.backgroundColor = [UIColor clearColor];
-        self.tapNumStr.font = [UIFont systemFontOfSize:12];
-        self.tapNumStr.text = @"点击：";
-        [self.contentView addSubview:self.tapNumStr];
-        
         self.title = [[UILabel alloc] initWithFrame:CGRectZero];
+        [self.title setBackgroundColor:[UIColor clearColor]];
         self.title.numberOfLines = 0;
-        self.title.lineBreakMode = NSLineBreakByWordWrapping;
+//        self.title.lineBreakMode = NSLineBreakByWordWrapping;
         self.title.font = [UIFont systemFontOfSize:14];
         
         self.bidStatue = [[UIImageView alloc] init];
@@ -60,16 +46,23 @@
         self.proIcon = [[UIImageView alloc] init];
         self.proIcon.frame = CGRectMake(280, 25, 22, 14);
         
-        self.price = [[UILabel alloc] initWithFrame:CGRectMake(140, 60, 150, 20)];
-        self.price.textColor = [UIColor grayColor];
-//        self.price.text = @"-190万";
-        self.price.font = [UIFont systemFontOfSize:12];
-        
         [self.contentView addSubview:self.title];
         [self.contentView addSubview:self.comName];
         [self.contentView addSubview:self.detail];
-        [self.contentView addSubview:self.price];
         [self.contentView addSubview:self.proIcon];
+        
+        self.tapNum = [[UILabel alloc] initWithFrame:CGRectMake(275, 45, 100, 20)];
+        self.tapNum.backgroundColor = [UIColor clearColor];
+        self.tapNum.textColor = [Util_UI colorWithHexString:@"#666666"];
+        self.tapNum.font = [UIFont systemFontOfSize:12];
+        //        tapNum.text = @"点击：50";
+        [self.contentView addSubview:self.tapNum];
+        
+        self.tapNumStr = [[UILabel alloc] initWithFrame:CGRectMake(240, 45, 40, 20)];
+        self.tapNumStr.backgroundColor = [UIColor clearColor];
+        self.tapNumStr.font = [UIFont systemFontOfSize:12];
+        self.tapNumStr.text = @"点击：";
+        [self.contentView addSubview:self.tapNumStr];
         [self showUpArrowImg];
     }
     return self;
@@ -77,21 +70,19 @@
 -(void)setValueForCellByObject:(BasePropertyObject *) obj{
     self.title.text = obj.title;
     self.detail.text = obj.communityName;
-    self.price.text = obj.price;
 }
 -(BOOL)configureCell:(id)dataModel{
     if([dataModel isKindOfClass:[BasePropertyObject class]]){
         BasePropertyObject *obj = (BasePropertyObject *)dataModel;
         self.title.text = obj.title;
         self.detail.text = obj.communityName;
-        self.price.text = obj.price;
         return YES;
     }else if ([dataModel isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dic = (NSDictionary *)dataModel;
         self.title.text = [dic objectForKey:@"title"];
-        CGSize size = CGSizeMake(260, 40);
-        CGSize si = [[dic objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-        
+//        CGSize size = CGSizeMake(260, 40);
+//        [[dic objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+        CGSize si = [Util_UI sizeOfString:self.title.text maxWidth:260 withFontSize:14];
         self.title.frame = CGRectMake(27, 5, si.width, si.height);
         self.bidStatue.frame = CGRectMake(10, self.title.frame.origin.y+2, 14, 14);
         self.comName.frame = CGRectMake(27, self.title.frame.size.height + 5, 250, 20);

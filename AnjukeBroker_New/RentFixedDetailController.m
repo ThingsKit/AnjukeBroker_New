@@ -24,6 +24,8 @@
 #import "RentPropertyListCell.h"
 #import "SaleFixedManager.h"
 #import "LoginManager.h"
+#import "CellHeight.h"
+
 @interface RentFixedDetailController ()
 {
     int selectIndex;
@@ -70,21 +72,21 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self reloadData];
-}
--(void)reloadData{
-    
-    if(self.myArray == nil){
-        self.myArray = [NSMutableArray array];
-    }else{
-        [self.myArray removeAllObjects];
-        [self.myTable reloadData];
-    }
-    
-    [self doRequest];
-}
+//-(void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//    [self reloadData];
+//}
+//-(void)reloadData{
+//    
+//    if(self.myArray == nil){
+//        self.myArray = [NSMutableArray array];
+//    }else{
+//        [self.myArray removeAllObjects];
+//        [self.myTable reloadData];
+//    }
+//    
+//    [self doRequest];
+//}
 
 -(void)dealloc{
     self.myTable.delegate = nil;
@@ -128,6 +130,13 @@
     
     [self.myArray removeAllObjects];
     [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
+    if([self.myArray count] == 0) {
+        [self.myTable reloadData];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        [self showInfo:@"该定价组没有房源"];
+        return;
+    }
     [self.myTable reloadData];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
@@ -257,9 +266,9 @@
     if([indexPath row] == 0){
         return 71.0f;
     }
-    CGSize size = CGSizeMake(260, 40);
-    CGSize si = [[[self.myArray objectAtIndex:indexPath.row -1] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-    return si.height+50.0f;
+//    CGSize size = CGSizeMake(260, 40);
+//    CGSize si = [[[self.myArray objectAtIndex:indexPath.row -1] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+    return [CellHeight getFixedCellHeight:[[self.myArray objectAtIndex:indexPath.row -1] objectForKey:@"title"]];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -271,6 +280,8 @@
         RentFixedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"RentFixedCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RentFixedCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
         }
         [cell configureCell:self.planDic isAJK:NO];
         return cell;
@@ -280,9 +291,12 @@
         RentPropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"RentPropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RentPropertyListCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
             //            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         [cell configureCell:[self.myArray objectAtIndex:[indexPath row] -1]];
+        [cell showBottonLineWithCellHeight:[CellHeight getFixedCellHeight:[[self.myArray objectAtIndex:indexPath.row -1] objectForKey:@"title"]]];
         return cell;
     }
 }

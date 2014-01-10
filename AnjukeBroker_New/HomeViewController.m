@@ -15,8 +15,9 @@
 #import "WebImageView.h"
 #import "LoginManager.h"
 
-#define cellHeight 50
+#define HOME_cellHeight 50
 #define headerHeight (200+150)/2
+#define Max_Account_Lb_Width 80
 
 @interface HomeViewController ()
 @property (nonatomic, strong) NSArray *taskArray;
@@ -28,10 +29,15 @@
 
 @property (nonatomic, strong) UILabel *nameLb;
 @property (nonatomic, strong) UILabel *phoneLb;
+@property (nonatomic, strong) UILabel *accountTitleLb;
 @property (nonatomic, strong) UILabel *accountLb;
+@property (nonatomic, strong) UILabel *accountYuanLb;
 @property (nonatomic, strong) UILabel *propNumLb;
 @property (nonatomic, strong) UILabel *costLb;
 @property (nonatomic, strong) UILabel *clickLb;
+
+@property int MSGNum;
+
 @end
 
 @implementation HomeViewController
@@ -39,6 +45,9 @@
 @synthesize tvList;
 @synthesize photoImg, dataDic, ppcDataDic;
 @synthesize nameLb, phoneLb, accountLb, propNumLb, costLb, clickLb;
+@synthesize MSGNum;
+@synthesize accountTitleLb;
+@synthesize accountYuanLb;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -95,6 +104,7 @@
 //    tv.layer.borderWidth = 1;
     tv.delegate = self;
     tv.dataSource = self;
+    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:tv];
     
     UIView *hView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], headerHeight)];
@@ -143,9 +153,10 @@
     lb3.font = [UIFont systemFontOfSize:15];
     lb3.textColor = SYSTEM_LIGHT_GRAY;
     lb3.text = @"账户余额:";
+    self.accountTitleLb = lb3;
     [view1 addSubview:lb3];
     
-    UILabel *lb4 = [[UILabel alloc] initWithFrame:CGRectMake(lb3.frame.origin.x+ lb3.frame.size.width, lb3.frame.origin.y, 80, lb.frame.size.height)];
+    UILabel *lb4 = [[UILabel alloc] initWithFrame:CGRectMake(self.accountTitleLb.frame.origin.x+ self.accountTitleLb.frame.size.width, self.accountTitleLb.frame.origin.y, Max_Account_Lb_Width, self.accountTitleLb.frame.size.height)];
     lb4.backgroundColor = [UIColor clearColor];
     lb4.font = [UIFont systemFontOfSize:15];
     lb4.textColor = SYSTEM_ORANGE;
@@ -154,11 +165,12 @@
     lb4.text = @"";
     [view1 addSubview:lb4];
     
-    UILabel *yuanLb = [[UILabel alloc] initWithFrame:CGRectMake(lb4.frame.origin.x+ lb4.frame.size.width, lb3.frame.origin.y, 20, lb.frame.size.height)];
+    UILabel *yuanLb = [[UILabel alloc] initWithFrame:CGRectMake(self.accountLb.frame.origin.x+ self.accountLb.frame.size.width, self.accountTitleLb.frame.origin.y, 20, 20)];
     yuanLb.backgroundColor = [UIColor clearColor];
     yuanLb.font = [UIFont systemFontOfSize:15];
     yuanLb.textColor = SYSTEM_LIGHT_GRAY;
-    yuanLb.text = @"元";
+//    yuanLb.text = @"元";
+    self.accountYuanLb = yuanLb;
     [view1 addSubview:yuanLb];
     
     BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, view1.frame.size.height - 1, [self windowWidth], 1)];
@@ -219,7 +231,13 @@
 //    self.nameLb.text = [self.dataDic objectForKey:@"brokerName"];
 //    self.phoneLb.text = [self.dataDic objectForKey:@"phone"];
     
+    //账户自适应
     self.accountLb.text = [self.ppcDataDic objectForKey:@"balance"];
+    CGSize size = [Util_UI sizeOfString:[self.ppcDataDic objectForKey:@"balance"] maxWidth:Max_Account_Lb_Width withFontSize:15];
+    self.accountLb.frame = CGRectMake(self.accountTitleLb.frame.origin.x+ self.accountTitleLb.frame.size.width, self.accountTitleLb.frame.origin.y, size.width, self.accountTitleLb.frame.size.height);
+    self.accountYuanLb.frame = CGRectMake(self.accountLb.frame.origin.x+ self.accountLb.frame.size.width, self.accountTitleLb.frame.origin.y, 20, 20);
+    self.accountYuanLb.text = @"元";
+    
     self.propNumLb.text = [self.ppcDataDic objectForKey:@"onLinePropNum"];
     self.costLb.text = [self.ppcDataDic objectForKey:@"todayAllCosts"];
     self.clickLb.text = [self.ppcDataDic objectForKey:@"todayAllClicks"];
@@ -269,6 +287,51 @@
     
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
+    [self doRequestMessageCount];
+}
+
+- (void)doRequestMessageCount {
+    if (![self isNetworkOkay]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+    
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+    
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[[NSUserDefaults standardUserDefaults] objectForKey:@"datetime"], @"datetime", nil];
+    method = @"msg/announcenum/";
+
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestCountFinished:)];
+}
+
+- (void)onRequestCountFinished:(RTNetworkResponse *)response {
+    DLog(@"。。。response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return;
+    }
+    
+    self.MSGNum = [[[[response content] objectForKey:@"data"] objectForKey:@"newMessage"] integerValue];
+//    self.ppcDataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerPPCInfo"];
+//    
+//    [self setHomeValue];
+    [self.tvList reloadData];
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 }
 
 #pragma mark - tableView Datasource
@@ -282,15 +345,26 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return cellHeight;
+    return HOME_cellHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellName = @"cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellName];
+    
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellName];
+        
+        UILabel *labNum = [[UILabel alloc] initWithFrame:CGRectMake(260, 15, 20, 20)];
+        labNum.tag = 101;
+        labNum.textColor = [UIColor whiteColor];
+        labNum.font = [UIFont systemFontOfSize:13];
+        labNum.textAlignment = NSTextAlignmentCenter;
+        labNum.layer.cornerRadius = 10;
+        labNum.layer.masksToBounds = YES;
+        
+        [cell.contentView addSubview:labNum];
     }
     else {
         
@@ -299,6 +373,16 @@
     cell.textLabel.text = [self.taskArray objectAtIndex:indexPath.row];
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    if(self.MSGNum > 0 && indexPath.row == 2){
+        ((UILabel *)[cell viewWithTag:101]).text = [NSString stringWithFormat:@"%d", self.MSGNum];
+        [(UILabel *)[cell viewWithTag:101] setBackgroundColor:SYSTEM_ORANGE];
+    }else{
+        ((UILabel *)[cell viewWithTag:101]).text = @"";
+        [(UILabel *)[cell viewWithTag:101] setBackgroundColor:[UIColor clearColor]];
+    }
+    
+    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, HOME_cellHeight -1, 320 - 15, 1)];
+    [cell.contentView addSubview:line];
     
     return cell;
 }

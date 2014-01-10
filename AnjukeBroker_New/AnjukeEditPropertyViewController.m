@@ -15,11 +15,15 @@
 #import "AnjukePropertyResultController.h"
 #import "AnjukeOnlineImgController.h"
 #import "AppDelegate.h"
+#import "AppManager.h"
 
 #define LimitRow_INPUT 1 //从row=1行开始输入，即最小输入行数(第一行为小区无需输入，从户型行开始输入)
 
 #define DEFULT_TITLE_FITMENT @"精装修"
 #define DEFULT_TITLE_EXPOSURE @"南北"
+#define DEFULT_TITLE_ROOM @"1室"
+
+#define TagOfBackAlert 2001
 
 typedef enum {
     Property_DJ = 0, //发房_定价
@@ -130,19 +134,9 @@ typedef enum {
 }
 
 - (void)doBack:(id)sender {
-    if (self.isLoading) {
-        return; //请求时不返回
-    }
-    
-    NSString *code = [NSString string];
-    if (self.isHaozu) {
-        code = HZ_PROPERTY_003;
-    }
-    else
-        code = AJK_PROPERTY_003;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
-    
-    [super doBack:self];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"确认不保存当前内容?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+    alert.cancelButtonIndex = 0;
+    [alert show];
 }
 
 #pragma mark - init Method
@@ -221,7 +215,6 @@ typedef enum {
         PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(PhotoImg_Gap +(i +1) * (PhotoImg_Gap + PhotoImg_H), PhotoImg_Gap, PhotoImg_H, PhotoImg_H)];
         pBtn.tag = TagOfImg_Base + i;
         [pBtn addTarget:self action:@selector(showPhoto:) forControlEvents:UIControlEventTouchUpInside];
-        pBtn.deleteBtnShow = NO;
         [self.photoSV addSubview:pBtn];
         [self.imgBtnArray addObject:pBtn];
     }
@@ -270,10 +263,6 @@ typedef enum {
 #pragma mark - Request Method
 
 - (void)uploadPhoto {
-    if (![self checkUploadProperty]) {
-        return;
-    }
-    
     if (![self isNetworkOkay]) {
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
@@ -321,18 +310,24 @@ typedef enum {
     
     //保存imageDic在E_Photo
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[result objectForKey:@"image"]];
-//    [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
     if (self.isHaozu) {
         [dic setObject:@"1" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
     }
     else //二手房
         [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
     
-    [(E_Photo *)[self.imgArray objectAtIndex:self.uploadImgIndex] setImageDic:dic];
-    
-    //继续上传图片
-    self.uploadImgIndex ++;
-    [self uploadPhoto];
+    if (self.uploadImgIndex > self.imgArray.count - 1) {
+        DLog(@"图片上传完毕，开始发房");
+        
+        [self uploadProperty]; //开始上传房源
+    }
+    else {
+        [(E_Photo *)[self.imgArray objectAtIndex:self.uploadImgIndex] setImageDic:dic];
+        
+        //继续上传图片
+        self.uploadImgIndex ++;
+        [self uploadPhoto];
+    }
 }
 
 - (void)uploadPhotoFail:(ASIFormDataRequest *)request{
@@ -743,6 +738,17 @@ typedef enum {
         self.property.exposure = value2;
         
         [[[self.dataSource cellArray] objectAtIndex:AJK_P_EXPOSURE] setInputed_RowAtCom0:index2];
+        
+        //户型-默认1室
+        int roomIndex = [PropertyDataManager getRoomIndexWithTitle:DEFULT_TITLE_ROOM];
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_ROOMS] setInputed_RowAtCom0:roomIndex];
+        
+        //楼层-默认3楼6层
+        int floorIndex = [PropertyDataManager getFloorIndexWithValue:@"6"];
+        int proFloorIndex = [PropertyDataManager getFloorIndexWithValue:@"6"];
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom0:floorIndex];
+        [[[self.dataSource cellArray] objectAtIndex:AJK_P_FLOORS] setInputed_RowAtCom1:proFloorIndex];
+        
     }
     else {
         //fitment
@@ -760,6 +766,16 @@ typedef enum {
         self.property.exposure = value2;
         
         [[[self.dataSource cellArray] objectAtIndex:HZ_P_EXPOSURE] setInputed_RowAtCom0:index2];
+        
+        //户型-默认1室
+        int roomIndex = [PropertyDataManager getRoomIndexWithTitle:DEFULT_TITLE_ROOM];
+        [[[self.dataSource cellArray] objectAtIndex:HZ_P_ROOMS] setInputed_RowAtCom0:roomIndex];
+        
+        //楼层-默认3楼6层
+        int floorIndex = [PropertyDataManager getFloorIndexWithValue:@"6"];
+        int proFloorIndex = [PropertyDataManager getFloorIndexWithValue:@"6"];
+        [[[self.dataSource cellArray] objectAtIndex:HZ_P_FLOORS] setInputed_RowAtCom0:floorIndex];
+        [[[self.dataSource cellArray] objectAtIndex:HZ_P_FLOORS] setInputed_RowAtCom1:proFloorIndex];
     }
 }
 
@@ -802,18 +818,31 @@ typedef enum {
         [self showInfo:@"请选择小区，谢谢"];
         return NO;
     }
-
+    
+    //字段判断
+    if ([self.property.area intValue] < 10 || [self.property.area intValue] > 2000) {
+        [self showInfo:@"面积范围10至2000平米"];
+        return NO;
+    }
+    
     DLog(@"rent Type [%@]", self.property.rentType);
     
     if (self.isHaozu) {
-        if ([self.property.area intValue] < 10 || [self.property.area intValue] > 2000) {
-            [self showInfo:@"面积范围10至2000平米"];
-            return NO;
-        }
         if ([self.property.rentType isEqualToString:@""]) {
-            [self showInfo:@"请选择出租类型，谢谢"];
+            [self showInfo:@"请选择出租类型"];
             return NO;
         }
+        if ([self.property.price floatValue] < 200 || [[self.property price] floatValue] > 400000) {
+            [self showInfo:@"租金范围为200到400000元"];
+            return NO;
+        }
+    }
+    else {
+        if ([self.property.price floatValue] < 100000 || [[self.property price] floatValue] > 1000000000) {
+            [self showInfo:@"价格范围为10万到100000万元"];
+            return NO;
+        }
+        
     }
     
     return YES;
@@ -883,6 +912,10 @@ typedef enum {
 - (void)finishBtnClicked { //点击完成，输入框组件消失
     self.isTBBtnPressedToShowKeyboard = NO; 
     
+    if (![self isInputOK]) {
+        return;
+    }
+    
     if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
         self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
     }
@@ -892,6 +925,10 @@ typedef enum {
 
 - (void)preBtnClicked { //点击”上一个“，检查输入样式并做转换，tableView下移
     self.isTBBtnPressedToShowKeyboard = YES;
+    
+    if (![self isInputOK]) {
+        return;
+    }
     
     if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
         self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
@@ -915,6 +952,10 @@ typedef enum {
 - (void)nextBtnClicked { //点击”下一个“，检查输入样式并做转换，tableView上移
     self.isTBBtnPressedToShowKeyboard = YES;
     
+    if (![self isInputOK]) {
+        return;
+    }
+    
     //得到前一条的输入数据，并显示下一条的输入框
     if (![InputOrderManager isKeyBoardInputWithIndex:self.selectedRow isHaozu:self.isHaozu]) {
         self.inputingTextF.text = [self getInputStringAndSetProperty]; //当前输入框为滚轮输入，则切换前输入
@@ -935,6 +976,80 @@ typedef enum {
     [self textFieldShowWithIndex:self.selectedRow];    
 }
 
+- (BOOL)isInputOK {
+    BOOL isOkay = YES;
+    
+    int index1 = 0;//[self.pickerView selectedRowInComponent:0];
+    NSString *string1 = [NSString string];
+    
+    int index2 = 0;
+    NSString *string2 = [NSString string];
+
+    if (self.isHaozu) {
+        switch (self.selectedRow) {
+            case HZ_P_ROOMS:
+            {
+                index1 = [self.pickerView selectedRowInComponent:0];
+                string1 = [PropertyDataManager getRoomValueWithIndex:index1];
+                if ([string1 intValue] == 0) {
+                    isOkay = NO;
+                    [self showInfo:@"户型不能选择0室"];
+                }
+            }
+                break;
+            case HZ_P_FLOORS:
+            {
+                index1 = [self.pickerView selectedRowInComponent:0];
+                string1 = [PropertyDataManager getFloorValueWithIndex:index1];
+                index2 = [self.pickerView selectedRowInComponent:1];
+                string2 = [PropertyDataManager getProFloorValueWithIndex:index2];
+
+                if ([string1 floatValue] > [string2 floatValue]) {
+                    isOkay = NO;
+                    [self showInfo:@"楼层不能大于总楼层"];
+                }
+            }
+                break;
+
+            default:
+                break;
+        }
+
+    }
+    else {
+        switch (self.selectedRow) {
+            case AJK_P_ROOMS:
+            {
+                index1 = [self.pickerView selectedRowInComponent:0];
+                string1 = [PropertyDataManager getRoomValueWithIndex:index1];
+                if ([string1 intValue] == 0) {
+                    isOkay = NO;
+                    [self showInfo:@"户型不能选择0室"];
+                }
+            }
+                break;
+            case AJK_P_FLOORS:
+            {
+                index1 = [self.pickerView selectedRowInComponent:0];
+                string1 = [PropertyDataManager getFloorValueWithIndex:index1];
+                index2 = [self.pickerView selectedRowInComponent:1];
+                string2 = [PropertyDataManager getProFloorValueWithIndex:index2];
+                
+                if ([string1 floatValue] > [string2 floatValue]) {
+                    isOkay = NO;
+                    [self showInfo:@"楼层不能大于总楼层"];
+                }
+            }
+                break;
+
+            default:
+                break;
+        }
+    }
+    
+    return isOkay;
+}
+
 #pragma mark - Image Picker Button Method
 
 - (void)rightButtonAction:(id)sender {
@@ -942,6 +1057,10 @@ typedef enum {
 }
 
 - (void)doSave {
+    if (![self checkUploadProperty]) {
+        return;
+    }
+    
     NSString *code = [NSString string];
     if (self.isHaozu) {
         code = HZ_PROPERTY_004;
@@ -949,10 +1068,6 @@ typedef enum {
     else
         code = AJK_PROPERTY_004;
     [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
-    
-    if (![self checkUploadProperty]) {
-        return;
-    }
     
     if ([self.lastPrice isEqualToString:self.property.price]) { //价格未变，无需重心请求
         [self showAlertViewWithPrice:self.propertyPrice];
@@ -1068,8 +1183,13 @@ typedef enum {
             ae.isTitle = NO;
             [self.navigationController pushViewController:ae animated:YES];
         }
+        else {
+            self.selectedRow = indexPath.row;
+            
+            [self getTextFieldWithIndex:self.selectedRow];
+            [self textFieldShowWithIndex:self.selectedRow];
+        }
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        return;
     }
     else {
         if (indexPath.row == AJK_T_TITLE) {
@@ -1088,14 +1208,15 @@ typedef enum {
             ae.isTitle = NO;
             [self.navigationController pushViewController:ae animated:YES];
         }
+        else {
+            self.selectedRow = indexPath.row;
+            
+            [self getTextFieldWithIndex:self.selectedRow];
+            [self textFieldShowWithIndex:self.selectedRow];
+        }
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        return;
     }
     
-    self.selectedRow = indexPath.row;
-    
-    [self getTextFieldWithIndex:self.selectedRow];
-    [self textFieldShowWithIndex:self.selectedRow];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -1199,7 +1320,12 @@ typedef enum {
 - (void)getTextFieldIndexWithTF:(UITextField *)tf {
     self.inputingTextF = tf;
     
-    AnjukeEditableCell *cell = (AnjukeEditableCell *)[[[tf superview] superview] superview];
+    AnjukeEditableCell *cell = nil;
+    if ([AppManager isIOS6]) {
+        cell = (AnjukeEditableCell *)[[tf superview] superview];
+    }
+    else
+        cell = (AnjukeEditableCell *)[[[tf superview] superview] superview];
     self.selectedRow = [[self.tvList indexPathForCell:cell] row];
     
     DLog(@"修改selectRow index - [%d]", self.selectedRow);
@@ -1348,11 +1474,11 @@ typedef enum {
                     //check小区、户型、朝向
                     if ([self.property.comm_id isEqualToString:@""] || self.property.comm_id == nil) {
 //                        [self doPushToCommunity];
-                        [self showInfo:@"查看在线房形图需要选择小区"];
+                        [self showInfo:@"请先选小区和户型"];
                         return;
                     }
                     else if ([self.property.rooms isEqualToString:@""] || self.property.rooms == nil) {
-                        [self showInfo:@"查看在线房形图需要选择户型"];
+                        [self showInfo:@"请先选小区和户型"];
                         return;
                     }
 //                    else if ([self.property.exposure isEqualToString:@""] || self.property.exposure == nil) {
@@ -1427,6 +1553,28 @@ typedef enum {
             default:
                 break;
         }
+    }
+}
+
+#pragma mark - Alert View Delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 1:
+        {
+            NSString *code = [NSString string];
+            if (self.isHaozu) {
+                code = HZ_PROPERTY_003;
+            }
+            else
+                code = AJK_PROPERTY_003;
+            [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+            
+            [super doBack:self];
+        }
+            break;
+            
+        default:
+            break;
     }
 }
 

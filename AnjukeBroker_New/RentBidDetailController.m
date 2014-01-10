@@ -64,23 +64,25 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self doRequest];
-}
+//-(void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//    [self doRequest];
+//}
+
 #pragma mark - 请求竞价房源列表
+
 -(void)doRequest{
     if(![self isNetworkOkay]){
         [self showInfo:NONETWORK_STR];
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/bid/getplanprops/" params:params target:self action:@selector(onGetLogin:)];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/bid/getplanprops/" params:params target:self action:@selector(onGetSuccess:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
 
-- (void)onGetLogin:(RTNetworkResponse *)response {
+- (void)onGetSuccess:(RTNetworkResponse *)response {
     DLog(@"------response [%@]", [response content]);
     if([[response content] count] == 0){
         [self hideLoadWithAnimated:YES];
@@ -100,13 +102,13 @@
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     
     if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到房源" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到房源" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+//        [alert show];
         [self.myArray removeAllObjects];
         [self.myTable reloadData];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        
+        [self showInfo:@"没有竞价房源"];
         return;
     }
     [self.myArray removeAllObjects];
@@ -204,7 +206,7 @@
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGSize size = CGSizeMake(260, 40);
     CGSize si = [[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-    return si.height+78.0f;
+    return si.height+88.0f;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

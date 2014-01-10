@@ -57,18 +57,29 @@
         [self drawInputBGWithIndex:i];
     }
         
-    BigZhenzhenButton *logoutBtn = [[BigZhenzhenButton alloc] initWithFrame:CGRectMake(60, INPUT_VIEW_HEIGHT*2 + (42+20), [self windowWidth] - 60*2, 40)];
-    logoutBtn.backgroundColor = SYSTEM_ORANGE;
-    [logoutBtn setTitle:@"估排名" forState:UIControlStateNormal];
+    UIButton *logoutBtn = [[UIButton alloc] initWithFrame:CGRectMake([self windowWidth]/2, INPUT_VIEW_HEIGHT*2 + (20), [self windowWidth]/2, 30)];
+    logoutBtn.backgroundColor = [UIColor clearColor];
     [logoutBtn addTarget:self action:@selector(checkRank) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:logoutBtn];
     
-    UILabel *rankLb = [[UILabel alloc] initWithFrame:CGRectMake(60, INPUT_VIEW_HEIGHT*2 + 42/2, [self windowWidth]- 60*2, 20)];
+    UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_gupaiming.png"]];
+    icon.frame = CGRectMake(logoutBtn.frame.size.width/3, (logoutBtn.frame.size.height - 15)/2, 17, 15);
+    icon.userInteractionEnabled = YES;
+    [logoutBtn addSubview:icon];
+    
+    UILabel *textLb = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 7, (logoutBtn.frame.size.height - 20)/2, 70, 20)];
+    textLb.backgroundColor = [UIColor clearColor];
+    textLb.text = @"预估排名";
+    textLb.textColor = SYSTEM_ORANGE;
+    textLb.font = [UIFont systemFontOfSize:15];
+    [logoutBtn addSubview:textLb];
+    
+    UILabel *rankLb = [[UILabel alloc] initWithFrame:CGRectMake(0, logoutBtn.frame.origin.y, [self windowWidth]/2, 30)];
     rankLb.backgroundColor = [UIColor clearColor];
     rankLb.text = @"";
-    rankLb.textColor = SYSTEM_BLACK;
+    rankLb.textColor = SYSTEM_LIGHT_GRAY;
     rankLb.textAlignment = NSTextAlignmentCenter;
-    rankLb.font = [UIFont boldSystemFontOfSize:20];
+    rankLb.font = [UIFont systemFontOfSize:15];
     self.rangLabel = rankLb;
     [self.view addSubview:rankLb];
 }

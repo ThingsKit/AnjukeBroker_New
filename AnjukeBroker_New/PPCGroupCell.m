@@ -18,25 +18,28 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        title = [[UILabel alloc] initWithFrame:CGRectMake(26, 10, 310, 20)];
-        title.font = [UIFont systemFontOfSize:18];
-        [self.contentView addSubview:title];
-        
-        detail = [[UILabel alloc] initWithFrame:CGRectMake(26, 35, 310, 20)];
-        detail.textColor = [Util_UI colorWithHexString:@"#999999"];
-        detail.font = [UIFont systemFontOfSize:12];
-        [self.contentView addSubview:detail];
-        
-        statueImg = [[UIImageView alloc] initWithFrame:CGRectMake(230, 25, 50, 20)];
-        [self.contentView addSubview:statueImg];
-        
-        status = [[UILabel alloc] initWithFrame:CGRectMake(230, 25, 50, 20)];
-        status.textColor = [UIColor whiteColor];
-        status.font = [UIFont systemFontOfSize:12];
+
 //        [self.contentView addSubview:status];
         // Initialization code
     }
     return self;
+}
+-(void)initUI{
+    title = [[UILabel alloc] initWithFrame:CGRectMake(26, 10, 310, 20)];
+    title.font = [UIFont systemFontOfSize:18];
+    [self.contentView addSubview:title];
+    
+    detail = [[UILabel alloc] initWithFrame:CGRectMake(26, 35, 310, 20)];
+    detail.textColor = [Util_UI colorWithHexString:@"#999999"];
+    detail.font = [UIFont systemFontOfSize:12];
+    [self.contentView addSubview:detail];
+    
+    statueImg = [[UIImageView alloc] initWithFrame:CGRectMake(230, 25, 50, 20)];
+    [self.contentView addSubview:statueImg];
+    
+    status = [[UILabel alloc] initWithFrame:CGRectMake(230, 25, 50, 20)];
+    status.textColor = [UIColor whiteColor];
+    status.font = [UIFont systemFontOfSize:12];
 }
 -(void)setValueForCellByData:(id ) data index:(int) index{
     if([data isKindOfClass:[NSArray class]]){

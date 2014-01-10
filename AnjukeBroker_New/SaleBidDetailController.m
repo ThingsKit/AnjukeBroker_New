@@ -51,19 +51,20 @@
     [self addRightButton:@"新增" andPossibleTitle:nil];
 	// Do any additional setup after loading the view.
 }
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self reloadData];
-    [self doRequest];
-}
--(void)reloadData{
-    if(self.myArray == nil){
-        self.myArray = [NSMutableArray array];
-    }else{
-        [self.myArray removeAllObjects];
-        [self.myTable reloadData];
-    }
-}
+
+//-(void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//    [self reloadData];
+//    [self doRequest];
+//}
+//-(void)reloadData{
+//    if(self.myArray == nil){
+//        self.myArray = [NSMutableArray array];
+//    }else{
+//        [self.myArray removeAllObjects];
+//        [self.myTable reloadData];
+//    }
+//}
 
 -(void)dealloc{
     self.myTable.delegate = nil;
@@ -80,11 +81,11 @@
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/getplanprops/" params:params target:self action:@selector(onGetLogin:)];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/getplanprops/" params:params target:self action:@selector(onGetSuccess:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
-- (void)onGetLogin:(RTNetworkResponse *)response {
+- (void)onGetSuccess:(RTNetworkResponse *)response {
     if([[response content] count] == 0){
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
@@ -108,13 +109,14 @@
         return ;
     }
     if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到房源" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到房源" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+//        [alert show];
+
         [self.myArray removeAllObjects];
         [self.myTable reloadData];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
+        [self showInfo:@"没有竞价房源"];
         return;
     }
     [self.myArray removeAllObjects];
@@ -221,7 +223,7 @@
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGSize size = CGSizeMake(260, 40);
     CGSize si = [[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-    return si.height+78.0f;
+    return si.height+98.0f;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

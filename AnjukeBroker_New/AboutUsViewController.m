@@ -62,7 +62,16 @@
     testLb.text = [self getAppVersion];
     [self.view addSubview:testLb];
     
-    
+    NSString *token = [[NSUserDefaults standardUserDefaults] valueForKey:@"deviceToken"];
+    if (token.length > 0 && ![token isKindOfClass:[NSNull class]]) {
+        UILabel *deviceTokenLb = [[UILabel alloc] initWithFrame:CGRectMake(5, 330+3, [self windowWidth] - 5*2, 80)];
+        deviceTokenLb.backgroundColor = [UIColor clearColor];
+        deviceTokenLb.textColor = SYSTEM_BLACK;
+        deviceTokenLb.font = [UIFont systemFontOfSize:16];
+        deviceTokenLb.numberOfLines = 0;
+        deviceTokenLb.text = [NSString stringWithFormat:@"deviceToken: %@", token];
+        [self.view addSubview:deviceTokenLb];
+    }
 }
 
 - (NSString *)getAppVersion {

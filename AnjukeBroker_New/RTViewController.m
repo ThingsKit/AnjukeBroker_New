@@ -9,9 +9,12 @@
 #import "RTViewController.h"
 #import "Util_UI.h"
 #import "Reachability.h"
+#import "AppManager.h"
+
+#define TOP_ALERT_VIEW_HIDETIME 2.5
 
 @interface RTViewController ()
-
+@property (nonatomic, strong) UIView *topAlertView;
 @end
 
 @implementation RTViewController
@@ -19,6 +22,7 @@
 @synthesize isHome;
 @synthesize delegateVC;
 @synthesize isLoading;
+@synthesize topAlertView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -118,13 +122,17 @@
     }
     
     UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:@selector(doBack:)];
-    backBtn.tintColor = SYSTEM_ORANGE;
+    if (![AppManager isIOS6]) {
+        backBtn.tintColor = SYSTEM_ORANGE;
+    }
     self.navigationItem.leftBarButtonItem = backBtn;
 }
 
 - (void)addRightButton:(NSString *)title andPossibleTitle:(NSString *)possibleTitle {
     UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:@selector(rightButtonAction:)];
-    rBtn.tintColor = SYSTEM_ORANGE;
+    if (![AppManager isIOS6]) {
+        rBtn.tintColor = SYSTEM_ORANGE;
+    }
     if (possibleTitle.length > 0 || possibleTitle != nil) {
         rBtn.possibleTitles = [NSSet setWithObject:possibleTitle];
     }
@@ -176,6 +184,34 @@
 
 - (NSInteger)windowHeight {
     return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height;
+}
+
+- (void)showTopAlertWithTitle:(NSString *)title {
+    UIView *topAlert = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 28)];
+    topAlert.backgroundColor = [Util_UI colorWithHexString:@"efe0c3"];
+    self.topAlertView = topAlert;
+    [self.view addSubview:topAlert];
+    
+    CGFloat titleW = 120;
+    CGFloat titleH = 20;
+    UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake((topAlert.frame.size.width- titleW)/2, (topAlert.frame.size.height- titleH)/2, titleW, titleH)];
+    titleLb.backgroundColor = [UIColor clearColor];
+    titleLb.text = title;
+    titleLb.textColor = [Util_UI colorWithHexString:@"ff8800"];
+    titleLb.font = [UIFont systemFontOfSize:16];
+    titleLb.textAlignment = NSTextAlignmentCenter;
+    [topAlert addSubview:titleLb];
+    
+    [self performSelector:@selector(hideTopAlertView) withObject:nil afterDelay:TOP_ALERT_VIEW_HIDETIME];
+}
+
+- (void)hideTopAlertView {
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^(void){
+        self.topAlertView.alpha = 0;
+    } completion:^(BOOL finished){
+        [self.topAlertView removeFromSuperview];
+        self.topAlertView = nil;
+    }];
 }
 
 @end

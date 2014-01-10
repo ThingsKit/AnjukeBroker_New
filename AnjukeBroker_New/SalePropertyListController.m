@@ -11,6 +11,7 @@
 #import "PropertyDetailCell.h"
 #import "SaleAuctionViewController.h"
 #import "RTNavigationController.h"
+#import "CellHeight.h"
 
 @interface SalePropertyListController ()
 
@@ -49,6 +50,7 @@
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
 //    self.myTable.separatorColor = [UIColor whiteColor];
+    self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.myTable];
 
 	// Do any additional setup after loading the view.
@@ -116,10 +118,10 @@
     return [self.myArray count];
 }
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CGSize size = CGSizeMake(270, 40);
+//    CGSize size = CGSizeMake(250, 40);
     //    SalePropertyObject *property = (SalePropertyObject *)[self.myArray objectAtIndex:indexPath.row];
-    CGSize si = [[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-    return si.height+40.0f;
+//    CGSize si = [[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+    return [CellHeight getNoPlanCellHeight:[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"]];
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
         static NSString *cellIdent = @"PropertyDetailCell";
@@ -129,6 +131,7 @@
             cell = [[NSClassFromString(@"PropertyDetailCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"PropertyDetailCell"];
         }
     [cell setValueForCellByDictionar:[self.myArray objectAtIndex:[indexPath row]]];
+    [cell showBottonLineWithCellHeight:[CellHeight getNoPlanCellHeight:[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"]]];
         return cell;
 }
 

@@ -10,13 +10,14 @@
 #import "Util_UI.h"
 
 @implementation BaseBidPropertyCell
+@synthesize backView;
 @synthesize title;
 @synthesize price;
 @synthesize string;
 @synthesize stringNum;
 @synthesize stage;
 @synthesize statusImg;
-@synthesize backView;
+@synthesize detailView;
 @synthesize offer;
 @synthesize ceiling;
 
@@ -25,62 +26,67 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         //        UIView
+        [self.contentView setBackgroundColor:[Util_UI colorWithHexString:@"#EFEFF4"]];
+        self.backView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 300, 100)];
+        [self.backView setBackgroundColor:[UIColor whiteColor]];
+        
         self.title = [[UILabel alloc] initWithFrame:CGRectZero];
         self.title.numberOfLines = 0;
         self.title.lineBreakMode = NSLineBreakByWordWrapping;
 //        self.title.text = @"汤臣一品";
         self.title.textColor = SYSTEM_BLACK;
         self.title.font = [UIFont systemFontOfSize:14];
-        [self.contentView addSubview:self.title];
+        [backView addSubview:self.title];
         
         self.price = [[UILabel alloc] initWithFrame:CGRectMake(20, 40, 250, 20)];
         self.price.textColor = [Util_UI colorWithHexString:@"666666"];
         //        self.price.text = @"3室2厅 120平 400万";
         self.price.font = [UIFont systemFontOfSize:12];
         self.price.layer.cornerRadius = 6;
-        [self.contentView addSubview:self.price];
+        [backView addSubview:self.price];
         
         //        statusImg = [[UIImageView alloc] initWithFrame:CGRectMake(295, 26, 8, 13)];
         //        statusImg.image = [UIImage imageNamed:@"anjuke_icon07_arrow@2x.png"];
         //        [self.contentView addSubview:statusImg];
         
-        self.backView = [[UILabel alloc] initWithFrame:CGRectMake(0, 62, 320, 50)];
-        [self.backView setBackgroundColor:[Util_UI colorWithHexString:@"#F9F9F9"]];
+        self.detailView = [[UILabel alloc] initWithFrame:CGRectMake(0, 62, 300, 50)];
         
         self.string = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 280, 20)];
         self.string.textColor = [Util_UI colorWithHexString:@"#666666"];
         self.string.text = @"当前排名       今日点击       出价(元)      预算余额(元)";
         self.string.font = [UIFont systemFontOfSize:11];
         self.string.layer.cornerRadius = 6;
-        [self.backView addSubview:self.string];
+        [self.detailView addSubview:self.string];
         
         self.stringNum = [[UILabel alloc] initWithFrame:CGRectMake(90, 25, 40, 20)];
         //        self.stringNum.text = @"   1                  10                  2.0             18.00";
         self.stringNum.textAlignment = NSTextAlignmentCenter;
         self.stringNum.font = [UIFont systemFontOfSize:12];
-        [self.backView addSubview:self.stringNum];
+        [self.detailView addSubview:self.stringNum];
         
         
         self.stage = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 50, 30)];
-        self.stage.backgroundColor = [Util_UI colorWithHexString:@"#F9F9F9"];
+//        self.stage.backgroundColor = [Util_UI colorWithHexString:@"#F9F9F9"];
         //        stage.text = @"   3";
         //        self.stage.textColor = [Util_UI colorWithHexString:@"#ff6600"];
         self.stage.textAlignment = NSTextAlignmentCenter;
         self.stage.font = [UIFont systemFontOfSize:16];
-        [self.backView addSubview:self.stage];
+        [self.detailView addSubview:self.stage];
         
         self.offer = [[UILabel alloc] initWithFrame:CGRectMake(145, 25, 60, 20)];
         self.offer.text = @"0";
         self.offer.font = [UIFont systemFontOfSize:12];
         self.offer.textAlignment = NSTextAlignmentCenter;
-        [self.backView addSubview:self.offer];
+        [self.detailView addSubview:self.offer];
         
         self.ceiling = [[UILabel alloc] initWithFrame:CGRectMake(215, 25, 60, 20)];
         self.ceiling.text = @"0";
         self.ceiling.font = [UIFont systemFontOfSize:12];
         self.ceiling.textAlignment = NSTextAlignmentCenter;
-        [self.backView addSubview:self.ceiling];
+        [self.detailView addSubview:self.ceiling];
+        [self.backView addSubview:self.detailView];
         [self.contentView addSubview:self.backView];
+        
         // Initialization code
         
         [self showUpArrowImg];
@@ -99,12 +105,15 @@
         NSDictionary *propInfo = (NSDictionary *)dataModel;
         self.title.text = [propInfo objectForKey:@"title"];
         
-        CGSize size = CGSizeMake(260, 40);
-        CGSize si = [[propInfo objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-        
+//        CGSize size = CGSizeMake(260, 40);
+//        CGSize si = [[propInfo objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+//        si.height+88.0f;
+        CGSize si = [Util_UI sizeOfString:[propInfo objectForKey:@"title"] maxWidth:260 withFontSize:14];
+        self.backView.frame = CGRectMake(10, 10, 300, si.height + 88.0f);
         self.title.frame = CGRectMake(20, 5, si.width, si.height);
         self.price.frame = CGRectMake(20, self.title.frame.size.height + 5, 270, 20);
-        self.backView.frame = CGRectMake(0, self.price.frame.origin.y +23, 320, 50);
+        
+        self.detailView.frame = CGRectMake(0, self.price.frame.origin.y +23, 300, 50);
         
         self.price.text = [NSString stringWithFormat:@"%@ %@室%@厅 %@平 %@%@", [propInfo objectForKey:@"commName"], [propInfo objectForKey:@"roomNum"], [propInfo objectForKey:@"hallNum"], [propInfo objectForKey:@"area"], [propInfo objectForKey:@"price"], [propInfo objectForKey:@"priceUnit"]];
         self.stringNum.text = [NSString stringWithFormat:@"%@", [propInfo objectForKey:@"clickNum"]];
@@ -113,7 +122,6 @@
         DLog(@"===%@",[propInfo objectForKey:@"budget"])
         //        self.stage.text = [propInfo objectForKey:@"index"];
         [self setStageByBidStatus:propInfo];
-        
     }
 }
 

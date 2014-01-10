@@ -8,14 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "BasePropertyObject.h"
+#import "RTListCell.h"
 
-@interface PropertyDetailCell : UITableViewCell
+@interface PropertyDetailCell : RTListCell
 {
 
 }
 @property (strong, nonatomic) UILabel *title;
 @property (strong, nonatomic) UILabel *detail;
-@property (strong, nonatomic) UILabel *price;
 @property (strong, nonatomic) UIButton *mutableSelect;
 @property (strong, nonatomic) UIImageView *proIcon;
 @property (strong, nonatomic) UIView *backView;

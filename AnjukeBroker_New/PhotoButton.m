@@ -11,7 +11,6 @@
 @implementation PhotoButton
 @synthesize photoImg;
 @synthesize deletelBtn;
-@synthesize deleteBtnShow;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -28,17 +27,6 @@
         img.userInteractionEnabled = NO;
         [self addSubview:img];
         
-        CGFloat dBtnW = 20;
-        
-        if (self.deleteBtnShow) {
-            UIButton *deleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            self.deletelBtn = deleBtn;
-            deleBtn.frame = CGRectMake(frame.size.width - dBtnW +5, -5, dBtnW, dBtnW);
-            deleBtn.backgroundColor = [UIColor clearColor];
-            [deleBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_delete.png"] forState:UIControlStateNormal];
-//            self.deletelBtn.hidden = YES;
-            [self addSubview:deleBtn];
-        }
     }
     return self;
 }
@@ -51,6 +39,17 @@
     // Drawing code
 }
 */
+
+- (void)showDeleteBtn {
+    CGFloat dBtnW = 20;
+    
+    UIButton *deleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.deletelBtn = deleBtn;
+    deleBtn.frame = CGRectMake(self.frame.size.width - dBtnW +5, -5, dBtnW, dBtnW);
+    deleBtn.backgroundColor = [UIColor clearColor];
+    [deleBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_delete.png"] forState:UIControlStateNormal];
+    [self addSubview:deleBtn];
+}
 
 - (void)setPhotoImage:(UIImage *)image {
     if (image == nil) {

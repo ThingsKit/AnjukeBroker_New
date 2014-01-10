@@ -208,6 +208,10 @@
 #pragma mark - request method
 
 - (void)doRequest {
+    if (![self isNetworkOkay]) {
+        return;
+    }
+    
     [self changeScrollViewToNormal];
     [self.nameTF resignFirstResponder];
     [self.passwordTF resignFirstResponder];
