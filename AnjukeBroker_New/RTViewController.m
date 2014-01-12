@@ -125,7 +125,12 @@
     if (![AppManager isIOS6]) {
         backBtn.tintColor = SYSTEM_ORANGE;
     }
-    self.navigationItem.leftBarButtonItem = backBtn;
+    
+    if (self.backType == RTSelectorBackTypeDismiss) {
+        self.navigationItem.leftBarButtonItem = backBtn;
+    }
+    else
+        self.navigationItem.backBarButtonItem = backBtn;
 }
 
 - (void)addRightButton:(NSString *)title andPossibleTitle:(NSString *)possibleTitle {
