@@ -42,12 +42,6 @@
     
     [self addBackButton];
     
-//    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
-//                                             initWithTitle:@"返回"
-//                                             style:UIBarButtonItemStylePlain
-//                                             target:nil
-//                                             action:nil];
-    
     [self initModel];
     [self initDisplay];
 
@@ -136,16 +130,19 @@
         self.navigationItem.leftBarButtonItem = backBtn;
     }
     else {
-//        self.navigationItem.leftBarButtonItem = backBtn;
-//        self.navigationController.navigationItem.backBarButtonItem = backBtn;
-//        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+//        [self.navigationController.navigationBar setBackIndicatorImage:
+//         [UIImage imageNamed:@"anjuke_icon_back.png"]];
+//        [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
+//         [UIImage imageNamed:@"anjuke_icon_backfont.png"]];
+        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
+                                                 initWithTitle:@"返回"
+                                                 style:UIBarButtonItemStylePlain
+                                                 target:nil
+                                                 action:nil];
+        [self.navigationController.navigationBar setTintColor:SYSTEM_ORANGE];
     }
     
-    [self.navigationController.navigationBar setBackIndicatorImage:
-     [UIImage imageNamed:@"anjuke_icon_back.png"]];
-    [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
-     [UIImage imageNamed:@"anjuke_icon_backfont.png"]];
-    [self.navigationController.navigationBar setTintColor:SYSTEM_ORANGE];
+
     
 //    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 //    [backBtn setTitle:title forState:UIControlStateNormal];
