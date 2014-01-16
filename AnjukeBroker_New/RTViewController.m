@@ -125,44 +125,24 @@
     UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
     if (![AppManager isIOS6]) {
         backBtn.tintColor = SYSTEM_ORANGE;
+        
     }
     if (self.backType == RTSelectorBackTypeDismiss) {
         self.navigationItem.leftBarButtonItem = backBtn;
     }
     else {
-//        [self.navigationController.navigationBar setBackIndicatorImage:
-//         [UIImage imageNamed:@"anjuke_icon_back.png"]];
-//        [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
-//         [UIImage imageNamed:@"anjuke_icon_backfont.png"]];
-        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
-                                                 initWithTitle:@"返回"
-                                                 style:UIBarButtonItemStylePlain
-                                                 target:nil
-                                                 action:nil];
-        [self.navigationController.navigationBar setTintColor:SYSTEM_ORANGE];
+        if (![AppManager isIOS6]) {
+            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
+                                                     initWithTitle:@"返回"
+                                                     style:UIBarButtonItemStylePlain
+                                                     target:nil
+                                                     action:nil];
+            [self.navigationController.navigationBar setTintColor:SYSTEM_ORANGE];
+        }
+        else
+            self.navigationItem.leftBarButtonItem = backBtn;
     }
     
-
-    
-//    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [backBtn setTitle:title forState:UIControlStateNormal];
-//    [backBtn setFrame:CGRectMake(0, 0, 55, 31)];
-//    if (![AppManager isIOS6]) {
-//        backBtn.tintColor = SYSTEM_ORANGE;
-//        [backBtn setTitleColor:SYSTEM_ORANGE forState:UIControlStateNormal];
-//    }
-//    backBtn.backgroundColor = [UIColor clearColor];
-//    [backBtn addTarget:self action:@selector(doBack:) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    UIBarButtonItem *backBtnItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
-//    
-//    if (self.backType == RTSelectorBackTypeDismiss) {
-//        self.navigationItem.leftBarButtonItem = backBtnItem;
-//    }
-//    else {
-//        self.navigationItem.backBarButtonItem = backBtnItem;
-//        self.navigationItem.backBarButtonItem.tintColor = SYSTEM_ORANGE;
-//    }
 }
 
 - (void)addRightButton:(NSString *)title andPossibleTitle:(NSString *)possibleTitle {
