@@ -122,7 +122,7 @@
         title = @"取消";
     }
     
-    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
+    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_back.png"] style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
     if (![AppManager isIOS6]) {
         backBtn.tintColor = SYSTEM_ORANGE;
         
