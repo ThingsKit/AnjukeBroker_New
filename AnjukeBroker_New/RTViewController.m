@@ -125,12 +125,32 @@
     if (![AppManager isIOS6]) {
         backBtn.tintColor = SYSTEM_ORANGE;
     }
-    
     if (self.backType == RTSelectorBackTypeDismiss) {
         self.navigationItem.leftBarButtonItem = backBtn;
     }
-    else
+    else {
         self.navigationItem.backBarButtonItem = backBtn;
+    }
+    
+//    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [backBtn setTitle:title forState:UIControlStateNormal];
+//    [backBtn setFrame:CGRectMake(0, 0, 55, 31)];
+//    if (![AppManager isIOS6]) {
+//        backBtn.tintColor = SYSTEM_ORANGE;
+//        [backBtn setTitleColor:SYSTEM_ORANGE forState:UIControlStateNormal];
+//    }
+//    backBtn.backgroundColor = [UIColor clearColor];
+//    [backBtn addTarget:self action:@selector(doBack:) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    UIBarButtonItem *backBtnItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+//    
+//    if (self.backType == RTSelectorBackTypeDismiss) {
+//        self.navigationItem.leftBarButtonItem = backBtnItem;
+//    }
+//    else {
+//        self.navigationItem.backBarButtonItem = backBtnItem;
+//        self.navigationItem.backBarButtonItem.tintColor = SYSTEM_ORANGE;
+//    }
 }
 
 - (void)addRightButton:(NSString *)title andPossibleTitle:(NSString *)possibleTitle {
