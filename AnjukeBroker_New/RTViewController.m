@@ -127,21 +127,24 @@
         backBtn.tintColor = SYSTEM_ORANGE;
         
     }
-    if (self.backType == RTSelectorBackTypeDismiss) {
-        self.navigationItem.leftBarButtonItem = backBtn;
-    }
-    else {
-        if (![AppManager isIOS6]) {
-            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
-                                                     initWithTitle:@"返回"
-                                                     style:UIBarButtonItemStylePlain
-                                                     target:nil
-                                                     action:nil];
-            [self.navigationController.navigationBar setTintColor:SYSTEM_ORANGE];
-        }
-        else
-            self.navigationItem.leftBarButtonItem = backBtn;
-    }
+    
+    self.navigationItem.leftBarButtonItem = backBtn;
+    
+//    if (self.backType == RTSelectorBackTypeDismiss) {
+//        self.navigationItem.leftBarButtonItem = backBtn;
+//    }
+//    else {
+//        if (![AppManager isIOS6]) {
+//            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
+//                                                     initWithTitle:@"返回"
+//                                                     style:UIBarButtonItemStylePlain
+//                                                     target:nil
+//                                                     action:nil];
+//            [self.navigationController.navigationBar setTintColor:SYSTEM_ORANGE];
+//        }
+//        else
+//            self.navigationItem.leftBarButtonItem = backBtn;
+//    }
     
 }
 
