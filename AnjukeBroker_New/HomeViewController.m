@@ -15,6 +15,8 @@
 #import "WebImageView.h"
 #import "LoginManager.h"
 
+#import "PublishBuildingViewController.h"
+
 #define HOME_cellHeight 50
 #define headerHeight (200+150)/2
 #define Max_Account_Lb_Width 80
@@ -397,12 +399,16 @@
             [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_003 note:nil];
             
             //模态弹出 --二手房
-            AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+//            AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+//            controller.backType = RTSelectorBackTypeDismiss;
+//            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+//            nav.navigationBar.translucent = NO;
+//            [self presentViewController:nav animated:YES completion:nil];
+            
+            PublishBuildingViewController *controller = [[PublishBuildingViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-            nav.navigationBar.translucent = NO;
             [self presentViewController:nav animated:YES completion:nil];
-
         }
             break;
         case 1:
@@ -414,7 +420,6 @@
             controller.backType = RTSelectorBackTypeDismiss;
             controller.isHaozu = YES;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-            nav.navigationBar.translucent = NO;
             [self presentViewController:nav animated:YES completion:nil];
         }
             break;

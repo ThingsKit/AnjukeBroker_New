@@ -7,7 +7,11 @@
 //
 
 #import "RTViewController.h"
+#import "Util_UI.h"
 
-@interface PublishBuildingViewController : RTViewController
+@interface PublishBuildingViewController : RTViewController <UIScrollViewDelegate>
+
+@property BOOL isHaozu; //是否是好租，页面布局不同
+@property (nonatomic, strong) UIScrollView *mainScrollView;
 
 @end

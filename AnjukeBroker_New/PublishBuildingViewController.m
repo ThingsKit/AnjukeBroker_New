@@ -13,6 +13,8 @@
 @end
 
 @implementation PublishBuildingViewController
+@synthesize isHaozu;
+@synthesize mainScrollView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -23,10 +25,20 @@
     return self;
 }
 
+- (void)dealloc {
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    NSString *titleStr = @"发布二手房";
+    if (self.isHaozu) {
+        titleStr = @"发布租房";
+    }
+    [self setTitleViewWithString:titleStr];
 }
 
 - (void)didReceiveMemoryWarning
@@ -34,5 +46,23 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - Init Method
+
+- (void)initModel {
+    
+}
+
+- (void)initDisplay {
+    //init main sv
+    UIScrollView *sv = [[UIScrollView alloc] initWithFrame:FRAME_WITH_NAV];
+    sv.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
+    sv.delegate = self;
+    self.mainScrollView = sv;
+    [self.view addSubview:sv];
+    
+}
+
+
 
 @end
