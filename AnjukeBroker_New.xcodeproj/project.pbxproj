@@ -208,6 +208,7 @@
 		B7ED78491888D6BC00E4D44C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B7ED78481888D6BC00E4D44C /* libz.dylib */; };
 		B7ED789118891BB100E4D44C /* anjuke_icon_sound@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7ED788F18891BB100E4D44C /* anjuke_icon_sound@2x.png */; };
 		B7ED789218891BB100E4D44C /* anjuke_icon_sound1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7ED789018891BB100E4D44C /* anjuke_icon_sound1@2x.png */; };
+		B7ED789B188932E100E4D44C /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7ED789A188932E100E4D44C /* iflyMSC.framework */; };
 		B7EF148E18289CB7000B6016 /* RentBidDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EF148D18289CB6000B6016 /* RentBidDetailController.m */; };
 		B7EF7798183CBAB80024A5E6 /* anjuke_icon_bid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF7797183CBAB80024A5E6 /* anjuke_icon_bid@2x.png */; };
 		B7EF779C183CBAEC0024A5E6 /* anjuke_icon04_more_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF779A183CBAEC0024A5E6 /* anjuke_icon04_more_selected@2x.png */; };
@@ -570,6 +571,7 @@
 		B7ED78481888D6BC00E4D44C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		B7ED788F18891BB100E4D44C /* anjuke_icon_sound@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_sound@2x.png"; sourceTree = "<group>"; };
 		B7ED789018891BB100E4D44C /* anjuke_icon_sound1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_sound1@2x.png"; sourceTree = "<group>"; };
+		B7ED789A188932E100E4D44C /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iflyMSC.framework; path = AnjukeBroker_New/iflyMSC.framework; sourceTree = "<group>"; };
 		B7EF148C18289CB6000B6016 /* RentBidDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentBidDetailController.h; sourceTree = "<group>"; };
 		B7EF148D18289CB6000B6016 /* RentBidDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentBidDetailController.m; sourceTree = "<group>"; };
 		B7EF7797183CBAB80024A5E6 /* anjuke_icon_bid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_bid@2x.png"; sourceTree = "<group>"; };
@@ -599,6 +601,7 @@
 				B7ED78451888C83B00E4D44C /* AudioToolbox.framework in Frameworks */,
 				B7ED78431888C82E00E4D44C /* AVFoundation.framework in Frameworks */,
 				972C101A1814D4FF00552C9B /* TencentOpenAPI.framework in Frameworks */,
+				B7ED789B188932E100E4D44C /* iflyMSC.framework in Frameworks */,
 				97AED124180D23870072611B /* CoreLocation.framework in Frameworks */,
 				97AED120180D236B0072611B /* AssetsLibrary.framework in Frameworks */,
 				97AED11E180D235D0072611B /* QuartzCore.framework in Frameworks */,
@@ -913,6 +916,7 @@
 		97410546180CDFE0004DAE95 = {
 			isa = PBXGroup;
 			children = (
+				B7ED789A188932E100E4D44C /* iflyMSC.framework */,
 				97AED0F5180D20100072611B /* RTCoreService.xcodeproj */,
 				9741055A180CDFE0004DAE95 /* AnjukeBroker_New */,
 				97410577180CDFE1004DAE95 /* AnjukeBroker_NewTests */,
