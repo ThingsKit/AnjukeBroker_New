@@ -127,7 +127,6 @@
         backBtn.tintColor = SYSTEM_ORANGE;
         
     }
-    
     self.navigationItem.leftBarButtonItem = backBtn;
     
 //    if (self.backType == RTSelectorBackTypeDismiss) {

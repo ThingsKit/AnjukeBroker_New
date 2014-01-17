@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		20274173186AC2A9005267FD /* SystemCellManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20274172186AC2A9005267FD /* SystemCellManager.m */; };
+		206843E418890C9A007DD8C5 /* PublishBuildingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */; };
 		20A44DA11869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */; };
 		20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44D9E1869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m */; };
 		20A44DA31869760B008D8CB1 /* SSPullToRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44DA01869760B008D8CB1 /* SSPullToRefreshView.m */; };
@@ -248,6 +249,8 @@
 /* Begin PBXFileReference section */
 		20274171186AC2A9005267FD /* SystemCellManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemCellManager.h; sourceTree = "<group>"; };
 		20274172186AC2A9005267FD /* SystemCellManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemCellManager.m; sourceTree = "<group>"; };
+		206843E218890C9A007DD8C5 /* PublishBuildingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishBuildingViewController.h; sourceTree = "<group>"; };
+		206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishBuildingViewController.m; sourceTree = "<group>"; };
 		20A44D9A1869760B008D8CB1 /* SSPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefresh.h; sourceTree = "<group>"; };
 		20A44D9B1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefreshDefaultContentView.h; sourceTree = "<group>"; };
 		20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPullToRefreshDefaultContentView.m; sourceTree = "<group>"; };
@@ -632,6 +635,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		206843E018890C3F007DD8C5 /* 新发房页面 */ = {
+			isa = PBXGroup;
+			children = (
+				206843E218890C9A007DD8C5 /* PublishBuildingViewController.h */,
+				206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */,
+			);
+			name = "新发房页面";
+			sourceTree = "<group>";
+		};
 		20A44D9118697525008D8CB1 /* 下拉刷新 */ = {
 			isa = PBXGroup;
 			children = (
@@ -854,6 +866,7 @@
 		972C10361815311700552C9B /* 发房 */ = {
 			isa = PBXGroup;
 			children = (
+				206843E018890C3F007DD8C5 /* 新发房页面 */,
 				97B42264182107B700A2E9E6 /* 房源编辑 */,
 				97B422531820B6E700A2E9E6 /* 定价组List&竞价&结果页 */,
 			);
@@ -1653,6 +1666,7 @@
 				B7E69BAE183B15430097D5C3 /* RentPPCGroupCell.m in Sources */,
 				B769E469181F680D00A2FF50 /* PropertyDetailCell.m in Sources */,
 				97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */,
+				206843E418890C9A007DD8C5 /* PublishBuildingViewController.m in Sources */,
 				97410565180CDFE0004DAE95 /* AppDelegate.m in Sources */,
 				B769E47B181F82B000A2FF50 /* BaseBidPropertyCell.m in Sources */,
 				977FCA8F182894F000945FB4 /* CommunityListViewController.m in Sources */,
