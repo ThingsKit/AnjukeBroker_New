@@ -10,6 +10,7 @@
 #import "Util_UI.h"
 #import "Util_TEXT.h"
 
+#define VOICEBACKVIEWHEIGHT 150
 @interface AnjukeEditTextViewController ()
 
 @property (nonatomic, strong) UITextView *textV;
@@ -47,7 +48,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self.textV becomeFirstResponder];
+//    [self.textV becomeFirstResponder];
 }
 
 #pragma mark - private method
@@ -86,7 +87,7 @@
         TextViewH = 180;
     }
     
-    UITextView *cellTextField = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], TextViewH)];
+    UITextView *cellTextField = [[UITextView alloc] initWithFrame:CGRectMake(20, 20, [self windowWidth] - 40, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64)];
     cellTextField.returnKeyType = UIReturnKeyDone;
     cellTextField.backgroundColor = [UIColor clearColor];
     cellTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
@@ -95,12 +96,29 @@
     cellTextField.font = [UIFont systemFontOfSize:17];
     cellTextField.secureTextEntry = NO;
     cellTextField.textColor = SYSTEM_BLACK;
+    cellTextField.layer.borderWidth = 1;
+    cellTextField.layer.borderColor = [SYSTEM_LIGHT_GRAY CGColor];
+    cellTextField.layer.cornerRadius = 6;
     self.textV = cellTextField;
     [self.view addSubview:cellTextField];
     
     if (self.textV) {
         self.textV.text = string;
     }
+    
+    UIView *voiceBack = [[UIView alloc] initWithFrame:CGRectMake(0, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64 - 15, [self windowWidth], VOICEBACKVIEWHEIGHT - 15)];
+    [voiceBack setBackgroundColor:[UIColor lightGrayColor]];
+    UIButton *voiceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    float whidth = 106/2;
+    float height = 106/2;
+    
+    voiceBtn.frame = CGRectMake(whidth, 15, whidth, height);
+    [voiceBtn setImage:[UIImage imageNamed:@"anjuke_icon_sound@2x.png"] forState:UIControlStateNormal];
+    [voiceBtn setImage:[UIImage imageNamed:@"anjuke_icon_sound1@2x.png"] forState:UIControlStateHighlighted];
+    [voiceBtn addTarget:self action:@selector(start:) forControlEvents:UIControlEventTouchDown];
+    [voiceBack addSubview:voiceBtn];
+    
+    [self.view addSubview:voiceBack];
 }
 
 - (void)doBack:(id)sender {
@@ -148,5 +166,9 @@
             break;
     }
 }
+#pragma mark - privateMethod
+- (void)start:(id)sender {
 
+
+}
 @end

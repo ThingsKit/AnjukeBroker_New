@@ -202,11 +202,13 @@
 		B7EA04A61844D40900AC8842 /* BrokerAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EA04A51844D40900AC8842 /* BrokerAccountController.m */; };
 		B7EA04AA1844DB3700AC8842 /* BrokerAccountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EA04A91844DB3700AC8842 /* BrokerAccountCell.m */; };
 		B7EA1FC2183A437500438CF8 /* SaleAuctionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EA1FC1183A437500438CF8 /* SaleAuctionViewController.m */; };
-		B7ED78401888C7E700E4D44C /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7ED783F1888C7E700E4D44C /* iflyMSC.framework */; };
 		B7ED78431888C82E00E4D44C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7ED78421888C82E00E4D44C /* AVFoundation.framework */; };
 		B7ED78451888C83B00E4D44C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7ED78441888C83B00E4D44C /* AudioToolbox.framework */; };
 		B7ED78471888C87B00E4D44C /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7ED78461888C87B00E4D44C /* AddressBook.framework */; };
 		B7ED78491888D6BC00E4D44C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B7ED78481888D6BC00E4D44C /* libz.dylib */; };
+		B7ED789118891BB100E4D44C /* anjuke_icon_sound@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7ED788F18891BB100E4D44C /* anjuke_icon_sound@2x.png */; };
+		B7ED789218891BB100E4D44C /* anjuke_icon_sound1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7ED789018891BB100E4D44C /* anjuke_icon_sound1@2x.png */; };
+		B7ED789518891F8800E4D44C /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7ED789418891F8800E4D44C /* iflyMSC.framework */; };
 		B7EF148E18289CB7000B6016 /* RentBidDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EF148D18289CB6000B6016 /* RentBidDetailController.m */; };
 		B7EF7798183CBAB80024A5E6 /* anjuke_icon_bid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF7797183CBAB80024A5E6 /* anjuke_icon_bid@2x.png */; };
 		B7EF779C183CBAEC0024A5E6 /* anjuke_icon04_more_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF779A183CBAEC0024A5E6 /* anjuke_icon04_more_selected@2x.png */; };
@@ -563,11 +565,13 @@
 		B7EA04A91844DB3700AC8842 /* BrokerAccountCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerAccountCell.m; sourceTree = "<group>"; };
 		B7EA1FC0183A437500438CF8 /* SaleAuctionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleAuctionViewController.h; sourceTree = "<group>"; };
 		B7EA1FC1183A437500438CF8 /* SaleAuctionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaleAuctionViewController.m; sourceTree = "<group>"; };
-		B7ED783F1888C7E700E4D44C /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iflyMSC.framework; sourceTree = "<group>"; };
 		B7ED78421888C82E00E4D44C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		B7ED78441888C83B00E4D44C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B7ED78461888C87B00E4D44C /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		B7ED78481888D6BC00E4D44C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		B7ED788F18891BB100E4D44C /* anjuke_icon_sound@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_sound@2x.png"; sourceTree = "<group>"; };
+		B7ED789018891BB100E4D44C /* anjuke_icon_sound1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_sound1@2x.png"; sourceTree = "<group>"; };
+		B7ED789418891F8800E4D44C /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iflyMSC.framework; path = AnjukeBroker_New/iflyMSC.framework; sourceTree = "<group>"; };
 		B7EF148C18289CB6000B6016 /* RentBidDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentBidDetailController.h; sourceTree = "<group>"; };
 		B7EF148D18289CB6000B6016 /* RentBidDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentBidDetailController.m; sourceTree = "<group>"; };
 		B7EF7797183CBAB80024A5E6 /* anjuke_icon_bid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_bid@2x.png"; sourceTree = "<group>"; };
@@ -597,6 +601,7 @@
 				B7ED78451888C83B00E4D44C /* AudioToolbox.framework in Frameworks */,
 				B7ED78431888C82E00E4D44C /* AVFoundation.framework in Frameworks */,
 				972C101A1814D4FF00552C9B /* TencentOpenAPI.framework in Frameworks */,
+				B7ED789518891F8800E4D44C /* iflyMSC.framework in Frameworks */,
 				97AED124180D23870072611B /* CoreLocation.framework in Frameworks */,
 				97AED120180D236B0072611B /* AssetsLibrary.framework in Frameworks */,
 				97AED11E180D235D0072611B /* QuartzCore.framework in Frameworks */,
@@ -613,7 +618,6 @@
 				97AED108180D21DB0072611B /* libicucore.dylib in Frameworks */,
 				97AED106180D21BD0072611B /* AdSupport.framework in Frameworks */,
 				97AED104180D21790072611B /* libRTCoreService.a in Frameworks */,
-				B7ED78401888C7E700E4D44C /* iflyMSC.framework in Frameworks */,
 				97410555180CDFE0004DAE95 /* CoreGraphics.framework in Frameworks */,
 				97410559180CDFE0004DAE95 /* CoreData.framework in Frameworks */,
 				97410557180CDFE0004DAE95 /* UIKit.framework in Frameworks */,
@@ -932,11 +936,11 @@
 		97410551180CDFE0004DAE95 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B7ED789418891F8800E4D44C /* iflyMSC.framework */,
 				B7ED78481888D6BC00E4D44C /* libz.dylib */,
 				B7ED78461888C87B00E4D44C /* AddressBook.framework */,
 				B7ED78441888C83B00E4D44C /* AudioToolbox.framework */,
 				B7ED78421888C82E00E4D44C /* AVFoundation.framework */,
-				B7ED783F1888C7E700E4D44C /* iflyMSC.framework */,
 				972C10191814D4FF00552C9B /* TencentOpenAPI.framework */,
 				97AED123180D23870072611B /* CoreLocation.framework */,
 				97AED121180D237B0072611B /* SystemConfiguration.framework */,
@@ -1432,6 +1436,8 @@
 		B76E597D181E5A27005B6A8C /* Temp */ = {
 			isa = PBXGroup;
 			children = (
+				B7ED788F18891BB100E4D44C /* anjuke_icon_sound@2x.png */,
+				B7ED789018891BB100E4D44C /* anjuke_icon_sound1@2x.png */,
 			);
 			name = Temp;
 			sourceTree = "<group>";
@@ -1580,6 +1586,7 @@
 				B7EF77AC183CBBD20024A5E6 /* agent_icon42@2x.png in Resources */,
 				97F4D191184E2ABD00DFC45F /* logo_29.png in Resources */,
 				9795837C18224ABF005EA48A /* TabHaozu_normal@2x.png in Resources */,
+				B7ED789118891BB100E4D44C /* anjuke_icon_sound@2x.png in Resources */,
 				973727AF182FD2CE007D8501 /* PropertyDirection.plist in Resources */,
 				9795838E18225B93005EA48A /* anjuke_icon05_photo@2x.png in Resources */,
 				9705017B1845D4A800A0C181 /* anjuke_icon_yd2@2x.png in Resources */,
@@ -1604,6 +1611,7 @@
 				B7E38A0A18225FEC002C6E8A /* anjuke_icon07_arrow@2x.png in Resources */,
 				20E3E783186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png in Resources */,
 				97D752C9182C92690035577F /* Overlay@2x.png in Resources */,
+				B7ED789218891BB100E4D44C /* anjuke_icon_sound1@2x.png in Resources */,
 				97DED8A7182343E500D0B82A /* anjuke_icon08_attention@2x.png in Resources */,
 				9720001B1841BF25003F49A4 /* details_arrow_right@2x.png in Resources */,
 				979BBB6A185804AE005B7D03 /* icon_60.png in Resources */,
@@ -1887,6 +1895,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/../RTCoreService/RTCoreService/RT3rdSDK/TencentSDK",
 					/Users/jianzhongliu/Desktop/BrokerProject/AnjukeBroker_New,
+					/Users/jianzhongliu/Desktop/BrokerProject/AnjukeBroker_New/AnjukeBroker_New,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AnjukeBroker_New/AnjukeBroker_New-Prefix.pch";
@@ -1912,6 +1921,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/../RTCoreService/RTCoreService/RT3rdSDK/TencentSDK",
 					/Users/jianzhongliu/Desktop/BrokerProject/AnjukeBroker_New,
+					/Users/jianzhongliu/Desktop/BrokerProject/AnjukeBroker_New/AnjukeBroker_New,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AnjukeBroker_New/AnjukeBroker_New-Prefix.pch";
