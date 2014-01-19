@@ -8,6 +8,7 @@
 
 #import "RTViewController.h"
 #import "Util_UI.h"
+#import "PublishTextCell.h"
 
 @interface PublishBuildingViewController : RTViewController <UIScrollViewDelegate>
 

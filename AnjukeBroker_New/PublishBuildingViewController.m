@@ -61,6 +61,11 @@
     self.mainScrollView = sv;
     [self.view addSubview:sv];
     
+    [self drawCell];
+}
+
+- (void)drawCell {
+    
 }
 
 
