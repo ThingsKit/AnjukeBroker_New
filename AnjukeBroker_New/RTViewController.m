@@ -117,15 +117,15 @@
         return;
     }
     
-    NSString *title = @"返回";
-    if (self.backType == RTSelectorBackTypeDismiss) {
-        title = @"取消";
-    }
-    
-    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_back.png"] style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
+    NSString *title = @"< 返回";
+//    if (self.backType == RTSelectorBackTypeDismiss) {
+//        title = @"取消";
+//    }
+    UIBarButtonItem *backBtn = nil;
+//    backBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_back.png"] style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
+    backBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
     if (![AppManager isIOS6]) {
         backBtn.tintColor = SYSTEM_ORANGE;
-        
     }
     self.navigationItem.leftBarButtonItem = backBtn;
     

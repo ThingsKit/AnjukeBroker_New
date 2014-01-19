@@ -63,7 +63,6 @@
 		97410574180CDFE1004DAE95 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97410558180CDFE0004DAE95 /* CoreData.framework */; };
 		9741057C180CDFE1004DAE95 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9741057A180CDFE1004DAE95 /* InfoPlist.strings */; };
 		9741057E180CDFE1004DAE95 /* AnjukeBroker_NewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9741057D180CDFE1004DAE95 /* AnjukeBroker_NewTests.m */; };
-		97410589180CE0FC004DAE95 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97410588180CE0FC004DAE95 /* RootViewController.m */; };
 		974E5C7F181E417F000246D1 /* RTListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 974E5C7E181E417F000246D1 /* RTListCell.m */; };
 		974E5C82181E4210000246D1 /* AnjukeEditableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 974E5C81181E4210000246D1 /* AnjukeEditableCell.m */; };
 		974E5C89181E4B00000246D1 /* AnjukeEditableTV_DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 974E5C88181E4B00000246D1 /* AnjukeEditableTV_DataSource.m */; };
@@ -336,8 +335,6 @@
 		97410579180CDFE1004DAE95 /* AnjukeBroker_NewTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AnjukeBroker_NewTests-Info.plist"; sourceTree = "<group>"; };
 		9741057B180CDFE1004DAE95 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9741057D180CDFE1004DAE95 /* AnjukeBroker_NewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnjukeBroker_NewTests.m; sourceTree = "<group>"; };
-		97410587180CE0FC004DAE95 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
-		97410588180CE0FC004DAE95 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		974E5C7D181E417F000246D1 /* RTListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTListCell.h; sourceTree = "<group>"; };
 		974E5C7E181E417F000246D1 /* RTListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTListCell.m; sourceTree = "<group>"; };
 		974E5C80181E4210000246D1 /* AnjukeEditableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukeEditableCell.h; sourceTree = "<group>"; };
@@ -908,8 +905,6 @@
 			children = (
 				97CB0C11182BEA5200FCCBBD /* 加载黑框 */,
 				97CB0BFE182BE9F200FCCBBD /* 相册多选pickerController */,
-				97410587180CE0FC004DAE95 /* RootViewController.h */,
-				97410588180CE0FC004DAE95 /* RootViewController.m */,
 				97CD8D42180E6D6E00185C9D /* RTViewController.h */,
 				97CD8D43180E6D6E00185C9D /* RTViewController.m */,
 				972DDA2E1826D39500263F8F /* RTPopoverTableViewController.h */,
@@ -1720,7 +1715,6 @@
 				B769E47E181F864200A2FF50 /* BaseBidPropertyController.m in Sources */,
 				97CB0C1F182BF28D00FCCBBD /* UIViewController+Loading.m in Sources */,
 				B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */,
-				97410589180CE0FC004DAE95 /* RootViewController.m in Sources */,
 				20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */,
 				97CB0C0E182BEA3500FCCBBD /* ELCAssetCell.m in Sources */,
 				B769E472181F805F00A2FF50 /* BaseBidDetailController.m in Sources */,

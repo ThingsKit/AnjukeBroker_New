@@ -13,6 +13,8 @@
 #import "MoreViewController.h"
 #import "RTNavigationController.h"
 #import "AppDelegate.h"
+#import "Util_UI.h"
+#import "AppManager.h"
 
 #define tabItemInsertsMake UIEdgeInsetsMake(0, 0, 0, 0)
 
@@ -101,7 +103,9 @@
 
         
         self.viewControllers = controllerArrays;
-//        [self.tabBar setBarStyle:UIBarStyleDefault];
+        if (![AppManager isIOS6]) {
+            [self.tabBar setTintColor:SYSTEM_ORANGE];
+        }
     }
     
     return self;
