@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "InputOrderManager.h"
 
 @interface PublishTableViewDataSource : NSObject <UITableViewDataSource>
 

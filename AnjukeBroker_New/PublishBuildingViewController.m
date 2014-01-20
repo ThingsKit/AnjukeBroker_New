@@ -71,7 +71,8 @@
     self.cellDataSource = pd;
     self.tableViewList.dataSource = pd;
     [pd setSuperViewController:self];
-    [pd createCellsWithHaozu:self.isHaozu];
+    //test
+    [pd createCells:nil isHaozu:self.isHaozu];
     
 }
 

@@ -13,6 +13,7 @@
 		20A0742C188C0A800073C915 /* PublishTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A0742B188C0A800073C915 /* PublishTextCell.m */; };
 		20A0742F188C0A9A0073C915 /* PublishClickCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A0742E188C0A9A0073C915 /* PublishClickCell.m */; };
 		20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A09790188D0A4E00D30196 /* PublishInputOrderModel.m */; };
+		20A09794188D2C4400D30196 /* PublishDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A09793188D2C4400D30196 /* PublishDataModel.m */; };
 		20A44DA11869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */; };
 		20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44D9E1869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m */; };
 		20A44DA31869760B008D8CB1 /* SSPullToRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44DA01869760B008D8CB1 /* SSPullToRefreshView.m */; };
@@ -269,6 +270,8 @@
 		20A0742E188C0A9A0073C915 /* PublishClickCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishClickCell.m; sourceTree = "<group>"; };
 		20A0978F188D0A4E00D30196 /* PublishInputOrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishInputOrderModel.h; sourceTree = "<group>"; };
 		20A09790188D0A4E00D30196 /* PublishInputOrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishInputOrderModel.m; sourceTree = "<group>"; };
+		20A09792188D2C4400D30196 /* PublishDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishDataModel.h; sourceTree = "<group>"; };
+		20A09793188D2C4400D30196 /* PublishDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishDataModel.m; sourceTree = "<group>"; };
 		20A44D9A1869760B008D8CB1 /* SSPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefresh.h; sourceTree = "<group>"; };
 		20A44D9B1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefreshDefaultContentView.h; sourceTree = "<group>"; };
 		20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPullToRefreshDefaultContentView.m; sourceTree = "<group>"; };
@@ -679,6 +682,8 @@
 			children = (
 				20A0978F188D0A4E00D30196 /* PublishInputOrderModel.h */,
 				20A09790188D0A4E00D30196 /* PublishInputOrderModel.m */,
+				20A09792188D2C4400D30196 /* PublishDataModel.h */,
+				20A09793188D2C4400D30196 /* PublishDataModel.m */,
 			);
 			name = "发房Model";
 			sourceTree = "<group>";
@@ -1778,6 +1783,7 @@
 				B769E475181F807500A2FF50 /* SaleBidDetailController.m in Sources */,
 				B7E803ED1820DD8000775C6F /* SaleSelectNoPlanController.m in Sources */,
 				20274173186AC2A9005267FD /* SystemCellManager.m in Sources */,
+				20A09794188D2C4400D30196 /* PublishDataModel.m in Sources */,
 				97958362182229AF005EA48A /* Util_TEXT.m in Sources */,
 				B7EF77B9183CE82D0024A5E6 /* RentNoPlanListCell.m in Sources */,
 				B77A960F182A389D007F04E3 /* SalePropertyObject.m in Sources */,

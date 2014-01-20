@@ -10,29 +10,21 @@
 #import "AnjukeEditableCell.h"
 #import "AnjukeNormalCell.h"
 #import "PublishBuildingViewController.h"
+#import "PublishInputOrderModel.h"
 
 @implementation PublishTableViewDataSource
 @synthesize cellArray, superViewController;
 
 - (void)createCells:(NSArray *)dataArray isHaozu:(BOOL)isHaozu {
-    //小区
-    AnjukeNormalCell *cell1 = [[AnjukeNormalCell alloc] init];
-    if ([cell1 configureCell:@"小区"]) {
-        [cell1 setIndexTag:0];
-        
-        NSArray *section0 = [NSArray arrayWithObject:cell1];
-        [self.cellArray addObject:section0];
-    }
-    
-    
-    //备案号、价格、产证面积、出租方式
+    //价格、产证面积、出租方式
     NSMutableArray *section1 = [NSMutableArray array];
-    AnjukeEditableCell *cell2 = [[AnjukeEditableCell alloc] init];
-    if ([cell2 configureCell:@"备案号"]) {
-        [cell2 setIndexTag:1];
+    AnjukeEditableCell *cell = [[AnjukeEditableCell alloc] init];
+    if ([cell configureCell:@"价格"]) {
+        [cell setIndexTag:AJK_TEXT_PRICE];
         
-        [section1 addObject:cell2];
+        [section1 addObject:cell];
     }
+    
     
     
     
