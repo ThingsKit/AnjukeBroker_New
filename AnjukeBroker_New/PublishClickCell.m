@@ -1,14 +1,14 @@
 //
-//  PublishTextCell.m
+//  PublishClickCell.m
 //  AnjukeBroker_New
 //
 //  Created by paper on 14-1-19.
 //  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
 
-#import "PublishTextCell.h"
+#import "PublishClickCell.h"
 
-@implementation PublishTextCell
+@implementation PublishClickCell
 
 - (id)initWithFrame:(CGRect)frame
 {

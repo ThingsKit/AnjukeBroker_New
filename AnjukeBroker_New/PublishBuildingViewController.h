@@ -8,11 +8,12 @@
 
 #import "RTViewController.h"
 #import "Util_UI.h"
-#import "PublishTextCell.h"
+#import "PublishTableViewDataSource.h"
 
-@interface PublishBuildingViewController : RTViewController <UIScrollViewDelegate>
+@interface PublishBuildingViewController : RTViewController <UITableViewDelegate>
 
 @property BOOL isHaozu; //是否是好租，页面布局不同
-@property (nonatomic, strong) UIScrollView *mainScrollView;
+@property (nonatomic, strong) UITableView *tableViewList;
+@property (nonatomic, strong) PublishTableViewDataSource *cellDataSource;
 
 @end

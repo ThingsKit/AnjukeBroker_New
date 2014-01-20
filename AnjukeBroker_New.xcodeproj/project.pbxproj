@@ -9,7 +9,9 @@
 /* Begin PBXBuildFile section */
 		20274173186AC2A9005267FD /* SystemCellManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20274172186AC2A9005267FD /* SystemCellManager.m */; };
 		206843E418890C9A007DD8C5 /* PublishBuildingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */; };
-		206843F61889360A007DD8C5 /* PublishTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 206843F51889360A007DD8C5 /* PublishTextCell.m */; };
+		20A07429188C0A080073C915 /* PublishTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A07428188C0A080073C915 /* PublishTableViewDataSource.m */; };
+		20A0742C188C0A800073C915 /* PublishTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A0742B188C0A800073C915 /* PublishTextCell.m */; };
+		20A0742F188C0A9A0073C915 /* PublishClickCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A0742E188C0A9A0073C915 /* PublishClickCell.m */; };
 		20A44DA11869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */; };
 		20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44D9E1869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m */; };
 		20A44DA31869760B008D8CB1 /* SSPullToRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44DA01869760B008D8CB1 /* SSPullToRefreshView.m */; };
@@ -258,8 +260,12 @@
 		20274172186AC2A9005267FD /* SystemCellManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemCellManager.m; sourceTree = "<group>"; };
 		206843E218890C9A007DD8C5 /* PublishBuildingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishBuildingViewController.h; sourceTree = "<group>"; };
 		206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishBuildingViewController.m; sourceTree = "<group>"; };
-		206843F41889360A007DD8C5 /* PublishTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishTextCell.h; sourceTree = "<group>"; };
-		206843F51889360A007DD8C5 /* PublishTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishTextCell.m; sourceTree = "<group>"; };
+		20A07427188C0A080073C915 /* PublishTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishTableViewDataSource.h; sourceTree = "<group>"; };
+		20A07428188C0A080073C915 /* PublishTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishTableViewDataSource.m; sourceTree = "<group>"; };
+		20A0742A188C0A800073C915 /* PublishTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishTextCell.h; sourceTree = "<group>"; };
+		20A0742B188C0A800073C915 /* PublishTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishTextCell.m; sourceTree = "<group>"; };
+		20A0742D188C0A9A0073C915 /* PublishClickCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishClickCell.h; sourceTree = "<group>"; };
+		20A0742E188C0A9A0073C915 /* PublishClickCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishClickCell.m; sourceTree = "<group>"; };
 		20A44D9A1869760B008D8CB1 /* SSPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefresh.h; sourceTree = "<group>"; };
 		20A44D9B1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefreshDefaultContentView.h; sourceTree = "<group>"; };
 		20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPullToRefreshDefaultContentView.m; sourceTree = "<group>"; };
@@ -654,8 +660,12 @@
 			children = (
 				206843E218890C9A007DD8C5 /* PublishBuildingViewController.h */,
 				206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */,
-				206843F41889360A007DD8C5 /* PublishTextCell.h */,
-				206843F51889360A007DD8C5 /* PublishTextCell.m */,
+				20A07427188C0A080073C915 /* PublishTableViewDataSource.h */,
+				20A07428188C0A080073C915 /* PublishTableViewDataSource.m */,
+				20A0742A188C0A800073C915 /* PublishTextCell.h */,
+				20A0742B188C0A800073C915 /* PublishTextCell.m */,
+				20A0742D188C0A9A0073C915 /* PublishClickCell.h */,
+				20A0742E188C0A9A0073C915 /* PublishClickCell.m */,
 			);
 			name = "新发房页面";
 			sourceTree = "<group>";
@@ -1691,7 +1701,7 @@
 				B7E69BB8183B4C300097D5C3 /* ModifyRentCostController.m in Sources */,
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,
 				97CB0C10182BEA3500FCCBBD /* ELCImagePickerController.m in Sources */,
-				206843F61889360A007DD8C5 /* PublishTextCell.m in Sources */,
+				20A0742C188C0A800073C915 /* PublishTextCell.m in Sources */,
 				B7E69BAE183B15430097D5C3 /* RentPPCGroupCell.m in Sources */,
 				B769E469181F680D00A2FF50 /* PropertyDetailCell.m in Sources */,
 				97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */,
@@ -1742,9 +1752,11 @@
 				97CB0C18182BEFFC00FCCBBD /* MBProgressHUD.m in Sources */,
 				B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */,
 				97CB0C0C182BEA3500FCCBBD /* ELCAlbumPickerController.m in Sources */,
+				20A0742F188C0A9A0073C915 /* PublishClickCell.m in Sources */,
 				B7EA1FC2183A437500438CF8 /* SaleAuctionViewController.m in Sources */,
 				976AC61118278B5C003A2B3A /* LoginViewController.m in Sources */,
 				97410561180CDFE0004DAE95 /* main.m in Sources */,
+				20A07429188C0A080073C915 /* PublishTableViewDataSource.m in Sources */,
 				972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */,
 				97B106501834E5F40064AF5F /* AppManager.m in Sources */,
 				974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */,

@@ -1,5 +1,5 @@
 //
-//  PublishTextCell.h
+//  PublishClickCell.h
 //  AnjukeBroker_New
 //
 //  Created by paper on 14-1-19.
@@ -8,6 +8,6 @@
 
 #import "RTListCell.h"
 
-@interface PublishTextCell : RTListCell
+@interface PublishClickCell : RTListCell
 
 @end

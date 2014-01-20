@@ -14,7 +14,8 @@
 
 @implementation PublishBuildingViewController
 @synthesize isHaozu;
-@synthesize mainScrollView;
+@synthesize tableViewList;
+@synthesize cellDataSource;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,7 +27,8 @@
 }
 
 - (void)dealloc {
-    
+    self.tableViewList.delegate = nil;
+    self.cellDataSource = nil;
 }
 
 - (void)viewDidLoad
@@ -47,7 +49,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Init Method
+#pragma mark - init Method
 
 - (void)initModel {
     
@@ -55,19 +57,23 @@
 
 - (void)initDisplay {
     //init main sv
-    UIScrollView *sv = [[UIScrollView alloc] initWithFrame:FRAME_WITH_NAV];
-    sv.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
-    sv.delegate = self;
-    self.mainScrollView = sv;
-    [self.view addSubview:sv];
+    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStyleGrouped];
+    tv.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
+    tv.delegate = self;
+    self.tableViewList = tv;
+    [self.view addSubview:tv];
     
-    [self drawCell];
+    [self initCellDataSource];
 }
 
-- (void)drawCell {
+- (void)initCellDataSource {
+    PublishTableViewDataSource *pd = [[PublishTableViewDataSource alloc] init];
+    self.cellDataSource = pd;
+    self.tableViewList.dataSource = pd;
+    [pd setSuperViewController:self];
+    [pd createCellsWithHaozu:self.isHaozu];
     
 }
-
 
 
 @end
