@@ -10,10 +10,10 @@
 
 @interface PublishTableViewDataSource : NSObject <UITableViewDataSource>
 
-@property (nonatomic, strong) NSMutableArray *sectionArray;
 @property (nonatomic, strong) NSMutableArray *cellArray;
 @property (nonatomic, assign) id superViewController;
 
-- (void)createCellsWithHaozu:(BOOL)isHaozu;
+- (void)createCells:(NSArray *)dataArray isHaozu:(BOOL)isHaozu;
+
 
 @end

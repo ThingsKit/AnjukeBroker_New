@@ -15,6 +15,7 @@
 @interface RTListCell : UITableViewCell
 
 @property int selectRow; //当前此cell所在row
+@property int indexTag; //编号
 @property CGFloat cellHeight;
 @property (strong, nonatomic) BrokerLineView *lineView;
 

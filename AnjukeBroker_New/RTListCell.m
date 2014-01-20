@@ -12,6 +12,7 @@
 @synthesize selectRow;
 @synthesize cellHeight;
 @synthesize lineView;
+@synthesize indexTag;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -36,7 +37,7 @@
 }
 
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index {
-    selectRow = index;
+    self.selectRow = index;
     return NO;
 }
 

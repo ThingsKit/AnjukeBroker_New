@@ -12,6 +12,7 @@
 		20A07429188C0A080073C915 /* PublishTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A07428188C0A080073C915 /* PublishTableViewDataSource.m */; };
 		20A0742C188C0A800073C915 /* PublishTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A0742B188C0A800073C915 /* PublishTextCell.m */; };
 		20A0742F188C0A9A0073C915 /* PublishClickCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A0742E188C0A9A0073C915 /* PublishClickCell.m */; };
+		20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A09790188D0A4E00D30196 /* PublishInputOrderModel.m */; };
 		20A44DA11869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */; };
 		20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44D9E1869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m */; };
 		20A44DA31869760B008D8CB1 /* SSPullToRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44DA01869760B008D8CB1 /* SSPullToRefreshView.m */; };
@@ -266,6 +267,8 @@
 		20A0742B188C0A800073C915 /* PublishTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishTextCell.m; sourceTree = "<group>"; };
 		20A0742D188C0A9A0073C915 /* PublishClickCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishClickCell.h; sourceTree = "<group>"; };
 		20A0742E188C0A9A0073C915 /* PublishClickCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishClickCell.m; sourceTree = "<group>"; };
+		20A0978F188D0A4E00D30196 /* PublishInputOrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishInputOrderModel.h; sourceTree = "<group>"; };
+		20A09790188D0A4E00D30196 /* PublishInputOrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishInputOrderModel.m; sourceTree = "<group>"; };
 		20A44D9A1869760B008D8CB1 /* SSPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefresh.h; sourceTree = "<group>"; };
 		20A44D9B1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefreshDefaultContentView.h; sourceTree = "<group>"; };
 		20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPullToRefreshDefaultContentView.m; sourceTree = "<group>"; };
@@ -658,6 +661,7 @@
 		206843E018890C3F007DD8C5 /* 新发房页面 */ = {
 			isa = PBXGroup;
 			children = (
+				20A0978D188D0A2E00D30196 /* 发房Model */,
 				206843E218890C9A007DD8C5 /* PublishBuildingViewController.h */,
 				206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */,
 				20A07427188C0A080073C915 /* PublishTableViewDataSource.h */,
@@ -668,6 +672,15 @@
 				20A0742E188C0A9A0073C915 /* PublishClickCell.m */,
 			);
 			name = "新发房页面";
+			sourceTree = "<group>";
+		};
+		20A0978D188D0A2E00D30196 /* 发房Model */ = {
+			isa = PBXGroup;
+			children = (
+				20A0978F188D0A4E00D30196 /* PublishInputOrderModel.h */,
+				20A09790188D0A4E00D30196 /* PublishInputOrderModel.m */,
+			);
+			name = "发房Model";
 			sourceTree = "<group>";
 		};
 		20A44D9118697525008D8CB1 /* 下拉刷新 */ = {
@@ -1695,6 +1708,7 @@
 				B70323DC1832115B00DFDB1C /* BaseGroupListController.m in Sources */,
 				975E7ED01829EDC7008EBC1D /* WebImageView.m in Sources */,
 				B7EF77B5183CE2D90024A5E6 /* RentSelectNoPlanController.m in Sources */,
+				20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */,
 				970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */,
 				975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */,
 				B721095B1827976500904FC7 /* RentNoPlanController.m in Sources */,
