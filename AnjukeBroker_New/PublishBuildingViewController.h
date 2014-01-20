@@ -9,6 +9,7 @@
 #import "RTViewController.h"
 #import "Util_UI.h"
 #import "PublishTableViewDataSource.h"
+#import "PublishDataModel.h"
 
 @interface PublishBuildingViewController : RTViewController <UITableViewDelegate>
 

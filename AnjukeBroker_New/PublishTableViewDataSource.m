@@ -16,20 +16,129 @@
 @synthesize cellArray, superViewController;
 
 - (void)createCells:(NSArray *)dataArray isHaozu:(BOOL)isHaozu {
-    //价格、产证面积、出租方式
-    NSMutableArray *section1 = [NSMutableArray array];
-    AnjukeEditableCell *cell = [[AnjukeEditableCell alloc] init];
-    if ([cell configureCell:@"价格"]) {
-        [cell setIndexTag:AJK_TEXT_PRICE];
+    [self initModel];
+    
+    if (isHaozu) {
+        //******价格、产证面积、出租方式
+        NSMutableArray *section1 = [NSMutableArray array];
+        //price
+        AnjukeEditableCell *cell = [[AnjukeEditableCell alloc] init];
+        if ([cell configureCell:[dataArray objectAtIndex:HZ_TEXT_PRICE]]) {
+            [cell setIndexTag:HZ_TEXT_PRICE];
+            [section1 addObject:cell];
+        }
+        //area
+        AnjukeEditableCell *cell2 = [[AnjukeEditableCell alloc] init];
+        if ([cell2 configureCell:[dataArray objectAtIndex:HZ_TEXT_AREA]]) {
+            [cell2 setIndexTag:HZ_TEXT_AREA];
+            [section1 addObject:cell2];
+        }
+        //rent type
+        AnjukeEditableCell *cell21 = [[AnjukeEditableCell alloc] init];
+        if ([cell21 configureCell:[dataArray objectAtIndex:HZ_PICKER_RENTTYPE]]) {
+            [cell21 setIndexTag:HZ_PICKER_RENTTYPE];
+            [section1 addObject:cell21];
+        }
+        [self.cellArray addObject:section1];
         
-        [section1 addObject:cell];
+        //******房型、楼层、装修
+        NSMutableArray *section2 = [NSMutableArray array];
+        //rooms 房型
+        AnjukeNormalCell *cell3 = [[AnjukeNormalCell alloc] init];
+        if ([cell3 configureCell:[dataArray objectAtIndex:HZ_CLICK_ROOMS]]) {
+            [cell3 setIndexTag:HZ_CLICK_ROOMS];
+            [section2 addObject:cell3];
+        }
+        //floors 楼层
+        AnjukeEditableCell *cell4 = [[AnjukeEditableCell alloc] init];
+        if ([cell4 configureCell:[dataArray objectAtIndex:HZ_PICKER_FLOORS]]) {
+            [cell4 setIndexTag:HZ_PICKER_FLOORS];
+            [section2 addObject:cell4];
+        }
+        //fitment
+        AnjukeEditableCell *cell5 = [[AnjukeEditableCell alloc] init];
+        if ([cell5 configureCell:[dataArray objectAtIndex:HZ_PICKER_FITMENT]]) {
+            [cell5 setIndexTag:HZ_PICKER_FITMENT];
+            [section2 addObject:cell5];
+        }
+        [self.cellArray addObject:section2];
+        
+        //******标题、描述
+        NSMutableArray *section3 = [NSMutableArray array];
+        //rooms 房型
+        AnjukeNormalCell *cell6 = [[AnjukeNormalCell alloc] init];
+        if ([cell6 configureCell:[dataArray objectAtIndex:HZ_CLICK_TITLE]]) {
+            [cell6 setIndexTag:HZ_CLICK_TITLE];
+            [section3 addObject:cell6];
+        }
+        AnjukeNormalCell *cell7 = [[AnjukeNormalCell alloc] init];
+        if ([cell7 configureCell:[dataArray objectAtIndex:HZ_CLICK_DESC]]) {
+            [cell7 setIndexTag:HZ_CLICK_DESC];
+            [section3 addObject:cell7];
+        }
+        [self.cellArray addObject:section3];
+    }
+    else {
+        //******价格、产证面积
+        NSMutableArray *section1 = [NSMutableArray array];
+        //price
+        AnjukeEditableCell *cell = [[AnjukeEditableCell alloc] init];
+        if ([cell configureCell:[dataArray objectAtIndex:HZ_TEXT_PRICE]]) {
+            [cell setIndexTag:HZ_TEXT_PRICE];
+            [section1 addObject:cell];
+        }
+        //area
+        AnjukeEditableCell *cell2 = [[AnjukeEditableCell alloc] init];
+        if ([cell2 configureCell:[dataArray objectAtIndex:HZ_TEXT_AREA]]) {
+            [cell2 setIndexTag:HZ_TEXT_AREA];
+            [section1 addObject:cell2];
+        }
+        [self.cellArray addObject:section1];
+        
+        //******房型、楼层、装修
+        NSMutableArray *section2 = [NSMutableArray array];
+        //rooms 房型
+        AnjukeNormalCell *cell3 = [[AnjukeNormalCell alloc] init];
+        if ([cell3 configureCell:[dataArray objectAtIndex:AJK_CLICK_ROOMS]]) {
+            [cell3 setIndexTag:AJK_CLICK_ROOMS];
+            [section2 addObject:cell3];
+        }
+        //floors 楼层
+        AnjukeEditableCell *cell4 = [[AnjukeEditableCell alloc] init];
+        if ([cell4 configureCell:[dataArray objectAtIndex:AJK_PICKER_FLOORS]]) {
+            [cell4 setIndexTag:AJK_PICKER_FLOORS];
+            [section2 addObject:cell4];
+        }
+        //fitment
+        AnjukeEditableCell *cell5 = [[AnjukeEditableCell alloc] init];
+        if ([cell5 configureCell:[dataArray objectAtIndex:AJK_PICKER_FITMENT]]) {
+            [cell5 setIndexTag:AJK_PICKER_FITMENT];
+            [section2 addObject:cell5];
+        }
+        [self.cellArray addObject:section2];
+        
+        //******标题、描述
+        NSMutableArray *section3 = [NSMutableArray array];
+        //rooms 房型
+        AnjukeNormalCell *cell6 = [[AnjukeNormalCell alloc] init];
+        if ([cell6 configureCell:[dataArray objectAtIndex:AJK_CLICK_TITLE]]) {
+            [cell6 setIndexTag:AJK_CLICK_TITLE];
+            [section3 addObject:cell6];
+        }
+        AnjukeNormalCell *cell7 = [[AnjukeNormalCell alloc] init];
+        if ([cell7 configureCell:[dataArray objectAtIndex:AJK_CLICK_DESC]]) {
+            [cell7 setIndexTag:AJK_CLICK_DESC];
+            [section3 addObject:cell7];
+        }
+        [self.cellArray addObject:section3];
+
     }
     
     
-    
-    
-    [self.cellArray addObject:section1];
-    
+}
+
+- (void)initModel {
+    self.cellArray = [NSMutableArray array];
 }
 
 #pragma mark - UITableView DataSource
@@ -57,11 +166,11 @@
 }
 
 - (CGFloat)heightForHeaderInSection:(NSInteger)section {
-    return 10;
+    return PUBLISH_SECTION_HEIGHT;
 }
 
 - (UIView *)viewForHeaderInSection:(NSInteger)section {
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, PUBLISH_SECTION_HEIGHT)];
     headerView.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
     
     return headerView;

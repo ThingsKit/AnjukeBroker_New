@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "InputOrderManager.h"
 
+#define PUBLISH_SECTION_HEIGHT 10
+
 @interface PublishTableViewDataSource : NSObject <UITableViewDataSource>
 
 @property (nonatomic, strong) NSMutableArray *cellArray;

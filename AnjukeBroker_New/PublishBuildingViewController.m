@@ -71,9 +71,18 @@
     self.cellDataSource = pd;
     self.tableViewList.dataSource = pd;
     [pd setSuperViewController:self];
-    //test
-    [pd createCells:nil isHaozu:self.isHaozu];
+    [pd createCells:[PublishDataModel getPropertyTitleArrayForHaozu:self.isHaozu] isHaozu:self.isHaozu];
     
+    [self.tableViewList reloadData];
+    
+}
+
+#pragma mark - TableView DataSource
+
+#pragma mark - TableView Delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 
