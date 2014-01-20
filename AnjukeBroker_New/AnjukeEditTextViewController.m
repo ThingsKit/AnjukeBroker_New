@@ -10,9 +10,17 @@
 #import "Util_UI.h"
 #import "Util_TEXT.h"
 
-#define VOICEBACKVIEWHEIGHT 150
-@interface AnjukeEditTextViewController ()
+#define VOICEBACKVIEWHEIGHT 100
+#define BUTWHID 80
 
+@interface AnjukeEditTextViewController ()
+{
+    UIButton *voiceBtn;
+    UIButton *cancelBut;
+    UIButton *stopBut;
+    float offset;
+    float moveoffset;
+}
 @property (nonatomic, strong) UITextView *textV;
 @end
 
@@ -34,6 +42,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+
 	// Do any additional setup after loading the view.
     
     [self addRightButton:@"完成" andPossibleTitle:nil];
@@ -57,7 +71,7 @@
 }
 
 - (void)initDisplay {
-    
+
 }
 
 - (void)rightButtonAction:(id)sender {
@@ -97,7 +111,7 @@
     cellTextField.secureTextEntry = NO;
     cellTextField.textColor = SYSTEM_BLACK;
     cellTextField.layer.borderWidth = 1;
-    cellTextField.layer.borderColor = [SYSTEM_LIGHT_GRAY CGColor];
+    cellTextField.layer.borderColor = [[Util_UI colorWithHexString:@"CCCCCC"] CGColor];
     cellTextField.layer.cornerRadius = 6;
     self.textV = cellTextField;
     [self.view addSubview:cellTextField];
@@ -106,19 +120,56 @@
         self.textV.text = string;
     }
     
-    UIView *voiceBack = [[UIView alloc] initWithFrame:CGRectMake(0, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64 - 15, [self windowWidth], VOICEBACKVIEWHEIGHT - 15)];
-    [voiceBack setBackgroundColor:[UIColor lightGrayColor]];
-    UIButton *voiceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    UIView *voiceBack = [[UIView alloc] initWithFrame:CGRectMake(0, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64 + 15, [self windowWidth], VOICEBACKVIEWHEIGHT)];
+//    [voiceBack setBackgroundColor:[UIColor lightGrayColor]];
+    
+    voiceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     float whidth = 106/2;
     float height = 106/2;
     
-    voiceBtn.frame = CGRectMake(whidth, 15, whidth, height);
+    voiceBtn.frame = CGRectMake(160 - whidth/2, self.textV.frame.size.height + self.textV.frame.origin.y +15, whidth, height);
     [voiceBtn setImage:[UIImage imageNamed:@"anjuke_icon_sound@2x.png"] forState:UIControlStateNormal];
     [voiceBtn setImage:[UIImage imageNamed:@"anjuke_icon_sound1@2x.png"] forState:UIControlStateHighlighted];
     [voiceBtn addTarget:self action:@selector(start:) forControlEvents:UIControlEventTouchDown];
-    [voiceBack addSubview:voiceBtn];
+//    [voiceBack addSubview:voiceBtn];
+    [self.view addSubview:voiceBtn];
     
-    [self.view addSubview:voiceBack];
+    cancelBut = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelBut setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelBut setTitleColor:[Util_UI colorWithHexString:@"FF8800"] forState:UIControlStateNormal];
+    cancelBut.frame = CGRectMake(20, self.textV.frame.size.height + self.textV.frame.origin.y +15, BUTWHID, height);
+    [cancelBut addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchDown];
+    //    [voiceBack addSubview:voiceBtn];
+    [self.view addSubview:cancelBut];
+
+    stopBut = [UIButton buttonWithType:UIButtonTypeCustom];
+    [stopBut setTitle:@"说完了" forState:UIControlStateNormal];
+    [stopBut setTitleColor:[Util_UI colorWithHexString:@"FF8800"] forState:UIControlStateNormal];
+    stopBut.frame = CGRectMake([self windowWidth] - 20 - BUTWHID, self.textV.frame.size.height + self.textV.frame.origin.y +15, BUTWHID, height);
+    [stopBut addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchDown];
+    //    [voiceBack addSubview:voiceBtn];
+    [self.view addSubview:stopBut];
+    
+    self.textV.frame = CGRectMake(self.textV.frame.origin.x, self.textV.frame.origin.y, self.textV.frame.size.width, self.textV.frame.size.height - 30);
+    UIImage *myimage = [UIImage imageNamed:@"anjuke_icon_saying@2x.png"];
+    
+    CGRect rect = CGRectMake(0, 0, 163, 60);
+    
+    CGImageRef imageRef=CGImageCreateWithImageInRect([myimage CGImage],rect);
+    
+    UIImage *image1=[UIImage imageWithCGImage:imageRef];
+    
+    //    [imgView setImage:image1];
+    
+    
+    UIImageView *view1 = [[UIImageView alloc] initWithFrame:CGRectMake(voiceBtn.frame.origin.x - 25, voiceBtn.frame.origin.y - 25, 82, 82)];
+    view1.image = [UIImage imageNamed:@"anjuke_icon_saying1@2x.png"];
+    [self.view addSubview:view1];
+    
+    UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(voiceBtn.frame.origin.x - 25, voiceBtn.frame.origin.y - 25, 82, 30)];
+    view.image = image1;
+    [self.view addSubview:view];
+    
 }
 
 - (void)doBack:(id)sender {
@@ -166,9 +217,156 @@
             break;
     }
 }
+
+#pragma mark - keyBoardNotification
+- (void)keyboardWillShow:(NSNotification *)notification
+
+{
+    //static CGFloat normalKeyboardHeight = 216.0f;
+    NSDictionary *info = [notification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    // CGFloat distanceToMove = kbSize.height - normalKeyboardHeight;
+    //自适应代码
+    if (offset == 0) {
+        offset = kbSize.height;
+        moveoffset = offset;
+    }
+    else{
+        if (offset == 216.0f) {
+            offset = kbSize.height;
+            moveoffset = (kbSize.height == 216.0f ? 0.0f:kbSize.height-216.0f);
+        }
+        else if(offset == 252.0f){
+            offset = kbSize.height;
+            moveoffset = (kbSize.height == 252.0f ? 0.0f:216.0f-252.0f);
+        }
+    }
+//    [self dealwithShowKeyboard];
+    
+    //    offset = (kbSize.height == 216.0f ? 216.0f:kbSize.height-216.0f);
+    
+    //    DLog(@"%f,%f,%f,%f",tableViewRect.origin.x, tableViewRect.origin.y , tableViewRect.size.width, tableViewRect.size.height);
+    
+    //    DLog(@"normalKeyboardHeight is %f and kbSize is %f",kbSize.height,offset);
+    
+    
+    
+    //    CATransition *animation = [CATransition animation];
+    
+    //	//animation.delegate = self;
+    
+    //	animation.duration = 0.7f;
+    
+    //	animation.timingFunction = UIViewAnimationCurveEaseInOut;
+    
+    //	animation.fillMode = kCAFillModeForwards;
+    
+    //	animation.type = kCATransitionPush;
+    
+    //	animation.subtype = kCATransitionFromTop;
+    
+    //
+    
+    //    toolView.frame = CGRectMake(toolViewRect.origin.x, toolViewRect.origin.y - moveoffset, toolViewRect.size.width, toolViewRect.size.height);
+    
+    //
+    
+    //	[toolView.layer addAnimation:animation forKey:@"animation"];
+    
+    
+    
+    //    [UIView animateWithDuration:0.25f
+    
+    //                     animations:^{
+    
+    //                         toolView.frame = CGRectMake(toolViewRect.origin.x, toolViewRect.origin.y - moveoffset, toolViewRect.size.width, toolViewRect.size.height);
+    
+    //                         myTableView.frame = CGRectMake(tableViewRect.origin.x, tableViewRect.origin.y , tableViewRect.size.width, tableViewRect.size.height - moveoffset);
+    
+    //                     }
+    
+    //                     completion:^(BOOL finished){
+    
+    //                     }
+    
+    //     ];
+    
+    //    [self reloadMyTableView];
+    
+}
+
+- (void)keyboardWillChangeFrame:(NSNotification *)notification{
+    
+    //    NSDictionary *info = [notification userInfo];
+    
+    //    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    
+    //
+    
+    //
+    
+    //
+    
+    //    //自适应代码
+    
+    //
+    
+    //    myTableView.frame = CGRectMake(tableViewRect.origin.x, tableViewRect.origin.y - kbSize.height, tableViewRect.size.width, tableViewRect.size.height);
+    
+    //
+    
+    //    toolView.frame = CGRectMake(toolViewRect.origin.x, toolViewRect.origin.y - kbSize.height, toolViewRect.size.width, toolViewRect.size.height);
+    
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification{
+    
+    [self dealwithHideKeyboard];
+    
+}
+
+-(void)dealwithHideKeyboard{
+    
+//    tableViewRect = myTableView.frame;
+//    
+//    toolViewRect = toolView.frame;
+//    
+//    
+//    
+//    [UIView animateWithDuration:0.25f
+//     
+//                     animations:^{
+//                         
+//                         myTableView.frame = CGRectMake(tableViewRect.origin.x, tableViewRect.origin.y , tableViewRect.size.width, tableViewRect.size.height+offset);
+//                         
+//                         toolView.frame = CGRectMake(toolViewRect.origin.x, toolViewRect.origin.y+offset, toolViewRect.size.width, toolViewRect.size.height);
+//                         
+//                     }
+//     
+//                     completion:^(BOOL finished){
+//                         
+//                     }
+//     
+//     ];
+//    
+//    offset= 0;
+//    
+//    moveoffset = 0;
+    
+    //[self reloadMyTableView];
+    
+}
+
 #pragma mark - privateMethod
-- (void)start:(id)sender {
+- (void)start:(id) sender {
 
 
 }
+- (void)cancel:(id) sender {
+
+
+}
+
+
+
 @end
