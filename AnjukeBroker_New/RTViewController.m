@@ -38,6 +38,13 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    if (self.backType == RTSelectorBackTypePopBack || self.backType == RTSelectorBackTypePopToRoot) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    }
+    else {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self addBackButton];
@@ -129,21 +136,19 @@
     }
     else {
         [self.navigationController.navigationBar setTintColor:SYSTEM_ORANGE];
-        
-        if (self.backType == RTSelectorBackTypeDismiss) {
-            self.navigationItem.leftBarButtonItem = backBtn;
-        }
-        else {
-//            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
-//                                                     initWithTitle:@"返回"
-//                                                     style:UIBarButtonItemStylePlain
-//                                                     target:self
-//                                                     action:@selector(doBack:)];
-            self.navigationItem.backBarButtonItem = backBtn;
-//            if (!self.backType == RTSelectorBackTypePopToRoot) {
-//                self.navigationController.interactivePopGestureRecognizer.delegate = self;
-//            }
-        }
+        self.navigationItem.leftBarButtonItem = backBtn;
+
+//        if (self.backType == RTSelectorBackTypeDismiss) {
+//            self.navigationItem.leftBarButtonItem = backBtn;
+//        }
+//        else {
+////            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
+////                                                     initWithTitle:@"返回"
+////                                                     style:UIBarButtonItemStylePlain
+////                                                     target:self
+////                                                     action:@selector(doBack:)];
+//            self.navigationItem.backBarButtonItem = backBtn;
+//        }
     }
 }
 
@@ -238,6 +243,7 @@
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     if (self.backType == RTSelectorBackTypePopToRoot) {
         //首页不做doBack
+        return NO;
     }
     else {
         [self doBack:self];

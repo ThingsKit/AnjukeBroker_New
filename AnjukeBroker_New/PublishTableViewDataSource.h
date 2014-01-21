@@ -18,5 +18,11 @@
 
 - (void)createCells:(NSArray *)dataArray isHaozu:(BOOL)isHaozu;
 
+- (CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (CGFloat)heightForHeaderInSection:(NSInteger)section;
+- (CGFloat)heightForFooterInSection:(NSInteger)section;
+
+- (UIView *)viewForHeaderInSection:(NSInteger)section;
+- (UIView *)viewForFooterInSection:(NSInteger)section;
 
 @end

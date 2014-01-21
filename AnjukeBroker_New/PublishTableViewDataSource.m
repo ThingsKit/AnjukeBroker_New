@@ -25,12 +25,14 @@
         AnjukeEditableCell *cell = [[AnjukeEditableCell alloc] init];
         if ([cell configureCell:[dataArray objectAtIndex:HZ_TEXT_PRICE]]) {
             [cell setIndexTag:HZ_TEXT_PRICE];
+            [[cell unitLb] setText:@"元"];
             [section1 addObject:cell];
         }
         //area
         AnjukeEditableCell *cell2 = [[AnjukeEditableCell alloc] init];
         if ([cell2 configureCell:[dataArray objectAtIndex:HZ_TEXT_AREA]]) {
             [cell2 setIndexTag:HZ_TEXT_AREA];
+            [[cell2 unitLb] setText:@"平米"];
             [section1 addObject:cell2];
         }
         //rent type
@@ -85,12 +87,14 @@
         AnjukeEditableCell *cell = [[AnjukeEditableCell alloc] init];
         if ([cell configureCell:[dataArray objectAtIndex:HZ_TEXT_PRICE]]) {
             [cell setIndexTag:HZ_TEXT_PRICE];
+            [[cell unitLb] setText:@"万元"];
             [section1 addObject:cell];
         }
         //area
         AnjukeEditableCell *cell2 = [[AnjukeEditableCell alloc] init];
         if ([cell2 configureCell:[dataArray objectAtIndex:HZ_TEXT_AREA]]) {
             [cell2 setIndexTag:HZ_TEXT_AREA];
+            [[cell2 unitLb] setText:@"元"];
             [section1 addObject:cell2];
         }
         [self.cellArray addObject:section1];
@@ -161,6 +165,8 @@
     return cell;
 }
 
+#pragma mark - UITableView Delegate
+
 - (CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return CELL_HEIGHT;
 }
@@ -169,11 +175,19 @@
     return PUBLISH_SECTION_HEIGHT;
 }
 
+- (CGFloat)heightForFooterInSection:(NSInteger)section {
+    return 0;
+}
+
 - (UIView *)viewForHeaderInSection:(NSInteger)section {
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, PUBLISH_SECTION_HEIGHT)];
     headerView.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
     
     return headerView;
+}
+
+- (UIView *)viewForFooterInSection:(NSInteger)section {
+    return nil;
 }
 
 @end

@@ -249,6 +249,9 @@
 #pragma mark - Request Method
 
 - (void)doRequest {
+    //no network test
+    return;
+    
     if (![self isNetworkOkay]) {
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;

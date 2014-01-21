@@ -57,11 +57,16 @@
 
 - (void)initDisplay {
     //init main sv
-    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStyleGrouped];
+    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     tv.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
     tv.delegate = self;
+    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableViewList = tv;
     [self.view addSubview:tv];
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 30)];
+    headerView.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
+    [self.tableViewList setTableHeaderView:headerView];
     
     [self initCellDataSource];
 }
@@ -77,11 +82,91 @@
     
 }
 
-#pragma mark - TableView DataSource
-
 #pragma mark - TableView Delegate
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [self.cellDataSource heightForRowAtIndexPath:indexPath];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return [self.cellDataSource heightForHeaderInSection:section];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return [self.cellDataSource heightForFooterInSection:section];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [self.cellDataSource viewForHeaderInSection:section];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [self.cellDataSource viewForFooterInSection:section];
+}
+
+//******点击******
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    switch (indexPath.section) {
+        case 0:
+        {
+            switch (indexPath.row) {
+                case 0: //价格
+                {
+                    
+                }
+                    break;
+                case 1: //面积
+                {
+                    
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+            break;
+        case 1:
+        {
+            switch (indexPath.row) {
+                case 0: //房型
+                {
+                    
+                }
+                    break;
+                case 1: //装修
+                {
+                    
+                }
+                    break;
+                case 2: //楼层
+                {
+                    
+                }
+                    break;
+                case 3: //出租方式（仅好租）
+                {
+                    
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+            break;
+        case 2:
+        {
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
