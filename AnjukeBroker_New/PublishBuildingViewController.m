@@ -185,11 +185,6 @@
     return index;
 }
 
-//讲
-- (void)transformIndexToIndexPathWIthIndex:(int)index {
-    
-}
-
 - (int)getCellIndexWithClickTextField:(UITextField *)tf {
     self.inputingTextF = tf;
     
@@ -231,7 +226,7 @@
         self.inputingTextF.inputView = self.pickerView;
         
         //重置pickerView数据
-        [self.pickerView reloadPublishPickerWithRow:self.selectedIndex isHaozu:self.isHaozu];
+        [self.pickerView reloadPublishPickerWithIndex:self.selectedIndex isHaozu:self.isHaozu];
         
         //聚焦上一次的输入
         int pickerIndex1 = [(AnjukeEditableCell *)[[self.cellDataSource inputCellArray] objectAtIndex:index] inputed_RowAtCom0];
@@ -325,7 +320,7 @@
                     break;
                 case 3: //出租方式（仅好租）
                 {
-                    
+                    [self showInputWithIndex:self.selectedIndex isPicker:YES];
                 }
                     break;
                     
@@ -360,10 +355,20 @@
 - (void)preBtnClicked { //点击”上一个“，检查输入样式并做转换，tableView下移
     self.isTBBtnPressedToShowKeyboard = YES;
 
+    if (![self isInputOK]) {
+        return;
+    }
+
+    
 }
 
 - (void)nextBtnClicked { //点击”下一个“，检查输入样式并做转换，tableView上移
     self.isTBBtnPressedToShowKeyboard = YES;
+    
+    if (![self isInputOK]) {
+        return;
+    }
+
     
 }
 
@@ -389,6 +394,10 @@
         [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
         
     }
+}
+
+- (void)textFieldDidEndEdit:(NSString *)text { //暂不可用
+    
 }
 
 @end

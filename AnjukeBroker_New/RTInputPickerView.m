@@ -136,38 +136,41 @@
 }
 
 //***根据当前输入的内容（第几行）判断所需提供的输入dataSource***
-- (void)reloadPublishPickerWithRow:(int)row isHaozu:(BOOL)isHaozu {
+- (void)reloadPublishPickerWithIndex:(int)index isHaozu:(BOOL)isHaozu {
     self.firstArray = [NSArray array];
     self.secondArray = [NSArray array];
     self.thirdArray = [NSArray array];
     
     if (isHaozu) {
         //get data
-        switch (row) { //户型
-                switch (row) { //户型
-                    case HZ_PICKER_FLOORS: //楼层
-                    {
-                        self.firstArray = [PropertyDataManager getPropertyLou_Number];
-                        self.secondArray = [PropertyDataManager getPropertyCeng_Number];
-                    }
-                        break;
-                    case HZ_PICKER_FITMENT: //装修
-                    {
-                        self.firstArray = [PropertyDataManager getPropertyFitmentForHaozu:isHaozu];
-                    }
-                        break;
-                    default:
-                        break;
-                }
+        switch (index) { //户型
+            case HZ_PICKER_FLOORS: //楼层
+            {
+                self.firstArray = [PublishDataModel getPropertyFloor];
+                self.secondArray = [PublishDataModel getPropertyProFloor];
+            }
+                break;
+            case HZ_PICKER_FITMENT: //装修
+            {
+                self.firstArray = [PublishDataModel getPropertyFitmentForHaozu:isHaozu];
+            }
+                break;
+            case HZ_PICKER_RENTTYPE: //出租方式
+            {
+                self.firstArray = [PublishDataModel getPropertyRentType];
+            }
+                break;
+            default:
+                break;
         }
     }
     else { //二手房
         //get data
-        switch (row) { //户型
+        switch (index) { //户型
             case AJK_PICKER_FLOORS: //楼层
             {
-                self.firstArray = [PropertyDataManager getPropertyLou_Number];
-                self.secondArray = [PropertyDataManager getPropertyCeng_Number];
+                self.firstArray = [PublishDataModel getPropertyFloor];
+                self.secondArray = [PublishDataModel getPropertyProFloor];
             }
                 break;
             case AJK_PICKER_FITMENT: //装修
@@ -179,7 +182,7 @@
                 break;
                 
         }
-    }    
+    }
     [self reloadAllComponents];
     
 }

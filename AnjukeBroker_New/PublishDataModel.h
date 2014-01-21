@@ -27,4 +27,7 @@
 //装修
 + (NSArray *)getPropertyFitmentForHaozu:(BOOL)isHZ;
 
+//出租方式
++ (NSArray *)getPropertyRentType;
+
 @end

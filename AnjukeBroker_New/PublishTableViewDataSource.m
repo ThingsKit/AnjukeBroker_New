@@ -15,6 +15,7 @@
 @implementation PublishTableViewDataSource
 @synthesize cellArray, superViewController;
 @synthesize inputCellArray;
+@synthesize indexJumpCellArray;
 
 - (void)createCells:(NSArray *)dataArray isHaozu:(BOOL)isHaozu {
     [self initModel];
@@ -161,11 +162,19 @@
         }
         [self.cellArray addObject:section3];
     }
+    
+    //将inputCellArray中的输入框cell放入inputJumpCellArray中
+    for (int i = 0; i < self.inputCellArray.count; i ++) {
+        if ([[self.inputCellArray objectAtIndex:i] isKindOfClass:[AnjukeNormalCell class]]) {
+            [self.indexJumpCellArray addObject:[self.inputCellArray objectAtIndex:i]];
+        }
+    }
 }
 
 - (void)initModel {
     self.cellArray = [NSMutableArray array];
     self.inputCellArray = [NSMutableArray array];
+    self.indexJumpCellArray = [NSMutableArray array];
 }
 
 #pragma mark - UITableView DataSource

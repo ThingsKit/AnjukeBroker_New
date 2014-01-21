@@ -19,10 +19,10 @@
 
 #define HZ_TEXT_PRICE 0 //价格
 #define HZ_TEXT_AREA 1 //面积
-#define HZ_PICKER_RENTTYPE 2 //出租方式
-#define HZ_CLICK_ROOMS 3 //房型
-#define HZ_PICKER_FLOORS 4 //楼层
-#define HZ_PICKER_FITMENT 5 //装修
+#define HZ_CLICK_ROOMS 2 //房型
+#define HZ_PICKER_FLOORS 3 //楼层
+#define HZ_PICKER_FITMENT 4 //装修
+#define HZ_PICKER_RENTTYPE 5 //出租方式
 #define HZ_CLICK_TITLE 6 //标题
 #define HZ_CLICK_DESC 7 //房源详情
 

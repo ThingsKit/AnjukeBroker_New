@@ -17,7 +17,7 @@
         arr = [NSArray arrayWithObjects:@"价格",@"产证面积",@"房型",@"楼层",@"装修",@"房源标题",@"房源描述", nil];
     }
     else { //好租房源描述title
-        arr = [NSArray arrayWithObjects:@"价格",@"出租面积",@"出租方式",@"房型",@"楼层",@"装修",@"房源标题",@"房源描述", nil];
+        arr = [NSArray arrayWithObjects:@"价格",@"出租面积",@"房型",@"楼层",@"装修",@"出租方式",@"房源标题",@"房源描述", nil];
     }
     return arr;
 }
@@ -118,6 +118,14 @@
         NSString *strPlistPath = [[NSBundle mainBundle] pathForResource:@"PropertyFitment" ofType:@"plist"];
         arr = [NSMutableArray arrayWithContentsOfFile:strPlistPath];
     }
+    
+    return arr;
+}
+
+#pragma mark - 出租方式
++ (NSArray *)getPropertyRentType {
+    NSString *strPlistPath = [[NSBundle mainBundle] pathForResource:@"PropertyRentTypeList" ofType:@"plist"];
+    NSMutableArray *arr = [NSMutableArray arrayWithContentsOfFile:strPlistPath];
     
     return arr;
 }
