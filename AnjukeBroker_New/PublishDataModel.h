@@ -12,4 +12,19 @@
 
 + (NSArray *)getPropertyTitleArrayForHaozu:(BOOL)isHZ;
 
+//室
++ (NSMutableArray *)getPropertyHouseTypeArray_room;
+
+//厅
++ (NSMutableArray *)getPropertyHouseTypeArray_hall;
+
+//楼
++ (NSMutableArray *)getPropertyFloor;
+
+//层
++ (NSMutableArray *)getPropertyProFloor;
+
+//装修
++ (NSArray *)getPropertyFitmentForHaozu:(BOOL)isHZ;
+
 @end

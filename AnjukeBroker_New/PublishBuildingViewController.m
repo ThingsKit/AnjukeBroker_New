@@ -201,6 +201,18 @@
         self.inputingTextF.inputAccessoryView = self.toolBar;
         self.inputingTextF.inputView = self.pickerView;
         
+        //重置pickerView数据
+        [self.pickerView reloadPublishPickerWithRow:self.selectedIndex isHaozu:self.isHaozu];
+        
+        //聚焦上一次的输入
+        int pickerIndex1 = [(AnjukeEditableCell *)[[self.cellDataSource inputCellArray] objectAtIndex:index] inputed_RowAtCom0];
+        int pickerIndex2 = [(AnjukeEditableCell *)[[self.cellDataSource inputCellArray] objectAtIndex:index] inputed_RowAtCom1];
+        int pickerIndex3 = [(AnjukeEditableCell *)[[self.cellDataSource inputCellArray] objectAtIndex:index] inputed_RowAtCom2];
+        
+        [self.pickerView pickerScrollToRowAtIndex:pickerIndex1 atCom:0];
+        [self.pickerView pickerScrollToRowAtIndex:pickerIndex2 atCom:1];
+        [self.pickerView pickerScrollToRowAtIndex:pickerIndex3 atCom:2];
+        
     }
     else { //键盘输入
         //弹出键盘
@@ -272,14 +284,14 @@
                     
                 }
                     break;
-                case 1: //装修
+                case 1: //楼层
                 {
-                    
+                    [self showInputWithIndex:self.selectedIndex isPicker:YES];
                 }
                     break;
-                case 2: //楼层
+                case 2: //装修
                 {
-                    
+                    [self showInputWithIndex:self.selectedIndex isPicker:YES];
                 }
                     break;
                 case 3: //出租方式（仅好租）
