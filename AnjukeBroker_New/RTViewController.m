@@ -123,6 +123,7 @@
     }
     UIBarButtonItem *backBtn = nil;
     backBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
+    
     if ([AppManager isIOS6]) {
         self.navigationItem.leftBarButtonItem = backBtn;
     }
@@ -139,7 +140,9 @@
 //                                                     target:self
 //                                                     action:@selector(doBack:)];
             self.navigationItem.backBarButtonItem = backBtn;
-//            self.navigationController.interactivePopGestureRecognizer.delegate = self;
+//            if (!self.backType == RTSelectorBackTypePopToRoot) {
+//                self.navigationController.interactivePopGestureRecognizer.delegate = self;
+//            }
         }
     }
 }
@@ -233,7 +236,12 @@
 #pragma mark - UIGesture Delegate
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-//    [self doBack:self];
+    if (self.backType == RTSelectorBackTypePopToRoot) {
+        //首页不做doBack
+    }
+    else {
+        [self doBack:self];
+    }
     
     return YES;
 }
