@@ -420,7 +420,13 @@
             [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_004 note:nil];
             
             //模态弹出 --租房
-            AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+//            AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+//            controller.backType = RTSelectorBackTypeDismiss;
+//            controller.isHaozu = YES;
+//            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+//            [self presentViewController:nav animated:YES completion:nil];
+            
+            PublishBuildingViewController *controller = [[PublishBuildingViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.isHaozu = YES;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];

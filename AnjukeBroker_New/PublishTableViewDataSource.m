@@ -14,6 +14,7 @@
 
 @implementation PublishTableViewDataSource
 @synthesize cellArray, superViewController;
+@synthesize inputCellArray;
 
 - (void)createCells:(NSArray *)dataArray isHaozu:(BOOL)isHaozu {
     [self initModel];
@@ -27,6 +28,7 @@
             [cell setIndexTag:HZ_TEXT_PRICE];
             [[cell unitLb] setText:@"元/月"];
             [section1 addObject:cell];
+            [self.inputCellArray addObject:cell];
         }
         //area
         AnjukeEditableCell *cell2 = [[AnjukeEditableCell alloc] init];
@@ -34,34 +36,39 @@
             [cell2 setIndexTag:HZ_TEXT_AREA];
             [[cell2 unitLb] setText:@"平米"];
             [section1 addObject:cell2];
-        }
-        //rent type
-        AnjukeEditableCell *cell21 = [[AnjukeEditableCell alloc] init];
-        if ([cell21 configureCell:[dataArray objectAtIndex:HZ_PICKER_RENTTYPE]]) {
-            [cell21 setIndexTag:HZ_PICKER_RENTTYPE];
-            [section1 addObject:cell21];
+            [self.inputCellArray addObject:cell2];
         }
         [self.cellArray addObject:section1];
         
-        //******房型、楼层、装修
+        //******房型、楼层、装修、出租方式
         NSMutableArray *section2 = [NSMutableArray array];
         //rooms 房型
         AnjukeNormalCell *cell3 = [[AnjukeNormalCell alloc] init];
         if ([cell3 configureCell:[dataArray objectAtIndex:HZ_CLICK_ROOMS]]) {
             [cell3 setIndexTag:HZ_CLICK_ROOMS];
             [section2 addObject:cell3];
+            [self.inputCellArray addObject:cell3];
         }
         //floors 楼层
         AnjukeEditableCell *cell4 = [[AnjukeEditableCell alloc] init];
         if ([cell4 configureCell:[dataArray objectAtIndex:HZ_PICKER_FLOORS]]) {
             [cell4 setIndexTag:HZ_PICKER_FLOORS];
             [section2 addObject:cell4];
+            [self.inputCellArray addObject:cell4];
         }
         //fitment
         AnjukeEditableCell *cell5 = [[AnjukeEditableCell alloc] init];
         if ([cell5 configureCell:[dataArray objectAtIndex:HZ_PICKER_FITMENT]]) {
             [cell5 setIndexTag:HZ_PICKER_FITMENT];
             [section2 addObject:cell5];
+            [self.inputCellArray addObject:cell5];
+        }
+        //rent type
+        AnjukeEditableCell *cell21 = [[AnjukeEditableCell alloc] init];
+        if ([cell21 configureCell:[dataArray objectAtIndex:HZ_PICKER_RENTTYPE]]) {
+            [cell21 setIndexTag:HZ_PICKER_RENTTYPE];
+            [section2 addObject:cell21];
+            [self.inputCellArray addObject:cell21];
         }
         [self.cellArray addObject:section2];
         
@@ -72,11 +79,13 @@
         if ([cell6 configureCell:[dataArray objectAtIndex:HZ_CLICK_TITLE]]) {
             [cell6 setIndexTag:HZ_CLICK_TITLE];
             [section3 addObject:cell6];
+            [self.inputCellArray addObject:cell6];
         }
         AnjukeNormalCell *cell7 = [[AnjukeNormalCell alloc] init];
         if ([cell7 configureCell:[dataArray objectAtIndex:HZ_CLICK_DESC]]) {
             [cell7 setIndexTag:HZ_CLICK_DESC];
             [section3 addObject:cell7];
+            [self.inputCellArray addObject:cell7];
         }
         [self.cellArray addObject:section3];
     }
@@ -89,6 +98,7 @@
             [cell setIndexTag:HZ_TEXT_PRICE];
             [[cell unitLb] setText:@"万元"];
             [section1 addObject:cell];
+            [self.inputCellArray addObject:cell];
         }
         //area
         AnjukeEditableCell *cell2 = [[AnjukeEditableCell alloc] init];
@@ -96,6 +106,7 @@
             [cell2 setIndexTag:HZ_TEXT_AREA];
             [[cell2 unitLb] setText:@"元"];
             [section1 addObject:cell2];
+            [self.inputCellArray addObject:cell2];
         }
         [self.cellArray addObject:section1];
         
@@ -106,18 +117,21 @@
         if ([cell3 configureCell:[dataArray objectAtIndex:AJK_CLICK_ROOMS]]) {
             [cell3 setIndexTag:AJK_CLICK_ROOMS];
             [section2 addObject:cell3];
+            [self.inputCellArray addObject:cell3];
         }
         //floors 楼层
         AnjukeEditableCell *cell4 = [[AnjukeEditableCell alloc] init];
         if ([cell4 configureCell:[dataArray objectAtIndex:AJK_PICKER_FLOORS]]) {
             [cell4 setIndexTag:AJK_PICKER_FLOORS];
             [section2 addObject:cell4];
+            [self.inputCellArray addObject:cell4];
         }
         //fitment
         AnjukeEditableCell *cell5 = [[AnjukeEditableCell alloc] init];
         if ([cell5 configureCell:[dataArray objectAtIndex:AJK_PICKER_FITMENT]]) {
             [cell5 setIndexTag:AJK_PICKER_FITMENT];
             [section2 addObject:cell5];
+            [self.inputCellArray addObject:cell5];
         }
         [self.cellArray addObject:section2];
         
@@ -128,11 +142,13 @@
         if ([cell6 configureCell:[dataArray objectAtIndex:AJK_CLICK_TITLE]]) {
             [cell6 setIndexTag:AJK_CLICK_TITLE];
             [section3 addObject:cell6];
+            [self.inputCellArray addObject:cell6];
         }
         AnjukeNormalCell *cell7 = [[AnjukeNormalCell alloc] init];
         if ([cell7 configureCell:[dataArray objectAtIndex:AJK_CLICK_DESC]]) {
             [cell7 setIndexTag:AJK_CLICK_DESC];
             [section3 addObject:cell7];
+            [self.inputCellArray addObject:cell7];
         }
         [self.cellArray addObject:section3];
     }
@@ -140,6 +156,7 @@
 
 - (void)initModel {
     self.cellArray = [NSMutableArray array];
+    self.inputCellArray = [NSMutableArray array];
 }
 
 #pragma mark - UITableView DataSource

@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong) NSMutableArray *cellArray;
 @property (nonatomic, assign) id superViewController;
+@property (nonatomic, strong) NSMutableArray *inputCellArray; //直接保存输入cell的array
 
 - (void)createCells:(NSArray *)dataArray isHaozu:(BOOL)isHaozu;
 
