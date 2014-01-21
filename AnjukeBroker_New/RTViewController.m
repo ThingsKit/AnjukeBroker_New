@@ -117,34 +117,31 @@
         return;
     }
     
-    NSString *title = @"< 返回";
-//    if (self.backType == RTSelectorBackTypeDismiss) {
-//        title = @"取消";
-//    }
-    UIBarButtonItem *backBtn = nil;
-//    backBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_back.png"] style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
-    backBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
-    if (![AppManager isIOS6]) {
-        backBtn.tintColor = SYSTEM_ORANGE;
+    NSString *title = @"返回";
+    if (self.backType == RTSelectorBackTypeDismiss) {
+        title = @"取消";
     }
-    self.navigationItem.leftBarButtonItem = backBtn;
-    
-//    if (self.backType == RTSelectorBackTypeDismiss) {
-//        self.navigationItem.leftBarButtonItem = backBtn;
-//    }
-//    else {
-//        if (![AppManager isIOS6]) {
+    UIBarButtonItem *backBtn = nil;
+    backBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
+    if ([AppManager isIOS6]) {
+        self.navigationItem.leftBarButtonItem = backBtn;
+    }
+    else {
+        [self.navigationController.navigationBar setTintColor:SYSTEM_ORANGE];
+        
+        if (self.backType == RTSelectorBackTypeDismiss) {
+            self.navigationItem.leftBarButtonItem = backBtn;
+        }
+        else {
 //            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
 //                                                     initWithTitle:@"返回"
 //                                                     style:UIBarButtonItemStylePlain
-//                                                     target:nil
-//                                                     action:nil];
-//            [self.navigationController.navigationBar setTintColor:SYSTEM_ORANGE];
-//        }
-//        else
-//            self.navigationItem.leftBarButtonItem = backBtn;
-//    }
-    
+//                                                     target:self
+//                                                     action:@selector(doBack:)];
+            self.navigationItem.backBarButtonItem = backBtn;
+//            self.navigationController.interactivePopGestureRecognizer.delegate = self;
+        }
+    }
 }
 
 - (void)addRightButton:(NSString *)title andPossibleTitle:(NSString *)possibleTitle {
@@ -231,6 +228,14 @@
         [self.topAlertView removeFromSuperview];
         self.topAlertView = nil;
     }];
+}
+
+#pragma mark - UIGesture Delegate
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+//    [self doBack:self];
+    
+    return YES;
 }
 
 @end

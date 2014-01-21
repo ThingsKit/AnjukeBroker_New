@@ -66,6 +66,7 @@
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor clearColor];
     [self setTitleViewWithString:@"我的安居客"];
+    
 }
 
 - (void)didReceiveMemoryWarning
