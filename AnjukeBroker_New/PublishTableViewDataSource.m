@@ -24,6 +24,7 @@
         NSMutableArray *section1 = [NSMutableArray array];
         //price
         AnjukeEditableCell *cell = [[AnjukeEditableCell alloc] init];
+        cell.editDelegate = self.superViewController;
         if ([cell configureCell:[dataArray objectAtIndex:HZ_TEXT_PRICE]]) {
             [cell setIndexTag:HZ_TEXT_PRICE];
             [[cell unitLb] setText:@"元/月"];
@@ -32,6 +33,7 @@
         }
         //area
         AnjukeEditableCell *cell2 = [[AnjukeEditableCell alloc] init];
+        cell2.editDelegate = self.superViewController;
         if ([cell2 configureCell:[dataArray objectAtIndex:HZ_TEXT_AREA]]) {
             [cell2 setIndexTag:HZ_TEXT_AREA];
             [[cell2 unitLb] setText:@"平米"];
@@ -51,20 +53,23 @@
         }
         //floors 楼层
         AnjukeEditableCell *cell4 = [[AnjukeEditableCell alloc] init];
+        cell4.editDelegate = self.superViewController;
         if ([cell4 configureCell:[dataArray objectAtIndex:HZ_PICKER_FLOORS]]) {
             [cell4 setIndexTag:HZ_PICKER_FLOORS];
             [section2 addObject:cell4];
             [self.inputCellArray addObject:cell4];
         }
-        //fitment
+        //fitment 装修
         AnjukeEditableCell *cell5 = [[AnjukeEditableCell alloc] init];
+        cell5.editDelegate = self.superViewController;
         if ([cell5 configureCell:[dataArray objectAtIndex:HZ_PICKER_FITMENT]]) {
             [cell5 setIndexTag:HZ_PICKER_FITMENT];
             [section2 addObject:cell5];
             [self.inputCellArray addObject:cell5];
         }
-        //rent type
+        //rent type 出租方式
         AnjukeEditableCell *cell21 = [[AnjukeEditableCell alloc] init];
+        cell21.editDelegate = self.superViewController;
         if ([cell21 configureCell:[dataArray objectAtIndex:HZ_PICKER_RENTTYPE]]) {
             [cell21 setIndexTag:HZ_PICKER_RENTTYPE];
             [section2 addObject:cell21];
@@ -94,6 +99,7 @@
         NSMutableArray *section1 = [NSMutableArray array];
         //price
         AnjukeEditableCell *cell = [[AnjukeEditableCell alloc] init];
+        cell.editDelegate = self.superViewController;
         if ([cell configureCell:[dataArray objectAtIndex:HZ_TEXT_PRICE]]) {
             [cell setIndexTag:HZ_TEXT_PRICE];
             [[cell unitLb] setText:@"万元"];
@@ -102,6 +108,7 @@
         }
         //area
         AnjukeEditableCell *cell2 = [[AnjukeEditableCell alloc] init];
+        cell2.editDelegate = self.superViewController;
         if ([cell2 configureCell:[dataArray objectAtIndex:HZ_TEXT_AREA]]) {
             [cell2 setIndexTag:HZ_TEXT_AREA];
             [[cell2 unitLb] setText:@"元"];
@@ -121,6 +128,7 @@
         }
         //floors 楼层
         AnjukeEditableCell *cell4 = [[AnjukeEditableCell alloc] init];
+        cell4.editDelegate = self.superViewController;
         if ([cell4 configureCell:[dataArray objectAtIndex:AJK_PICKER_FLOORS]]) {
             [cell4 setIndexTag:AJK_PICKER_FLOORS];
             [section2 addObject:cell4];
@@ -128,6 +136,7 @@
         }
         //fitment
         AnjukeEditableCell *cell5 = [[AnjukeEditableCell alloc] init];
+        cell5.editDelegate = self.superViewController;
         if ([cell5 configureCell:[dataArray objectAtIndex:AJK_PICKER_FITMENT]]) {
             [cell5 setIndexTag:AJK_PICKER_FITMENT];
             [section2 addObject:cell5];

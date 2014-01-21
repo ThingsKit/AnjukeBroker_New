@@ -7,7 +7,7 @@
 //
 
 #import "PublishBuildingViewController.h"
-#import "AnjukeEditableCell.h"
+#import "AppManager.h"
 
 @interface PublishBuildingViewController ()
 
@@ -30,6 +30,7 @@
 @synthesize toolBar;
 @synthesize inputingTextF;
 @synthesize selectedRow, selectedSection;
+@synthesize isTBBtnPressedToShowKeyboard;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -179,7 +180,35 @@
             break;
     }
     
-    DLog(@"当前的cell index 【%d】", index);
+    DLog(@"点击TableView得到的selectIndex - [%d]", index);
+    
+    return index;
+}
+
+//讲
+- (void)transformIndexToIndexPathWIthIndex:(int)index {
+    
+}
+
+- (int)getCellIndexWithClickTextField:(UITextField *)tf {
+    self.inputingTextF = tf;
+    
+    AnjukeEditableCell *cell = nil;
+    if ([AppManager isIOS6]) {
+        cell = (AnjukeEditableCell *)[[tf superview] superview];
+    }
+    else
+        cell = (AnjukeEditableCell *)[[[tf superview] superview] superview];
+    
+    //记录点击的TextField所在的cell的indexPath
+    self.selectedSection = [[self.tableViewList indexPathForCell:cell] section];
+    self.selectedRow = [[self.tableViewList indexPathForCell:cell] row];
+    
+    //将indexPath转换为对应的index
+    int index = [self transformIndexWithIndexPath:[self.tableViewList indexPathForCell:cell]];
+    
+    DLog(@"点击TextField得到的selectIndex - [%d]", index);
+    
     return index;
 }
 
@@ -321,6 +350,7 @@
 #pragma mark - BrokerPickerDelegate
 
 - (void)finishBtnClicked { //点击完成，输入框组件消失
+    self.isTBBtnPressedToShowKeyboard = NO;
     
     //收起键盘，还原tableView
     [self.inputingTextF resignFirstResponder];
@@ -328,10 +358,12 @@
 }
 
 - (void)preBtnClicked { //点击”上一个“，检查输入样式并做转换，tableView下移
-    
+    self.isTBBtnPressedToShowKeyboard = YES;
+
 }
 
 - (void)nextBtnClicked { //点击”下一个“，检查输入样式并做转换，tableView上移
+    self.isTBBtnPressedToShowKeyboard = YES;
     
 }
 
@@ -339,6 +371,24 @@
     BOOL isOkay = YES;
     
     return isOkay;
+}
+
+#pragma mark - CellTextFieldEditDelegate
+
+- (void)textFieldBeginEdit:(UITextField *)textField {
+    if (self.isTBBtnPressedToShowKeyboard) {
+        self.isTBBtnPressedToShowKeyboard = NO; //锁还原
+    }
+    else {
+        self.selectedIndex = [self getCellIndexWithClickTextField:textField];
+        
+        BOOL isPicker = NO;
+        if (self.selectedSection == 1) {
+            isPicker = YES;
+        }
+        [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
+        
+    }
 }
 
 @end
