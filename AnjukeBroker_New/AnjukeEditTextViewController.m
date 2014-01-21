@@ -15,13 +15,19 @@
 
 @interface AnjukeEditTextViewController ()
 {
-    UIButton *voiceBtn;
-    UIButton *cancelBut;
-    UIButton *stopBut;
+    
+
     float offset;
     float moveoffset;
+    UIImage *corlorIMG;
+    
 }
 @property (nonatomic, strong) UITextView *textV;
+@property (nonatomic, strong) UIImageView *backIMG;
+@property (nonatomic, strong) UIImageView *beforIMG;
+@property (nonatomic, strong) UIButton *stopBut;
+@property (nonatomic, strong) UIButton *cancelBut;
+@property (nonatomic, strong) UIButton *voiceBtn;
 @end
 
 @implementation AnjukeEditTextViewController
@@ -29,6 +35,11 @@
 @synthesize textFieldModifyDelegate;
 @synthesize textV;
 @synthesize isTitle;
+@synthesize backIMG;
+@synthesize beforIMG;
+@synthesize stopBut;
+@synthesize cancelBut;
+@synthesize voiceBtn;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -123,52 +134,52 @@
 //    UIView *voiceBack = [[UIView alloc] initWithFrame:CGRectMake(0, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64 + 15, [self windowWidth], VOICEBACKVIEWHEIGHT)];
 //    [voiceBack setBackgroundColor:[UIColor lightGrayColor]];
     
-    voiceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    float whidth = 106/2;
-    float height = 106/2;
+    self.voiceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    float whidth = 106/2;
+//    float height = 106/2;
     
-    voiceBtn.frame = CGRectMake(160 - whidth/2, self.textV.frame.size.height + self.textV.frame.origin.y +15, whidth, height);
-    [voiceBtn setImage:[UIImage imageNamed:@"anjuke_icon_sound@2x.png"] forState:UIControlStateNormal];
-    [voiceBtn setImage:[UIImage imageNamed:@"anjuke_icon_sound1@2x.png"] forState:UIControlStateHighlighted];
-    [voiceBtn addTarget:self action:@selector(start:) forControlEvents:UIControlEventTouchDown];
+    self.voiceBtn.frame = CGRectMake(160 - 106/2/2, self.textV.frame.size.height + self.textV.frame.origin.y +15, 106/2, 106/2);
+    [self.voiceBtn setImage:[UIImage imageNamed:@"anjuke_icon_sound@2x.png"] forState:UIControlStateNormal];
+    [self.voiceBtn setImage:[UIImage imageNamed:@"anjuke_icon_sound1@2x.png"] forState:UIControlStateHighlighted];
+    [self.voiceBtn addTarget:self action:@selector(start:) forControlEvents:UIControlEventTouchDown];
 //    [voiceBack addSubview:voiceBtn];
-    [self.view addSubview:voiceBtn];
+    [self.view addSubview:self.voiceBtn];
     
-    cancelBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    [cancelBut setTitle:@"取消" forState:UIControlStateNormal];
-    [cancelBut setTitleColor:[Util_UI colorWithHexString:@"FF8800"] forState:UIControlStateNormal];
-    cancelBut.frame = CGRectMake(20, self.textV.frame.size.height + self.textV.frame.origin.y +15, BUTWHID, height);
-    [cancelBut addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchDown];
+    self.cancelBut = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.cancelBut setTitle:@"取消" forState:UIControlStateNormal];
+    [self.cancelBut setTitleColor:[Util_UI colorWithHexString:@"FF8800"] forState:UIControlStateNormal];
+    self.cancelBut.frame = CGRectMake(20, self.textV.frame.size.height + self.textV.frame.origin.y +15, BUTWHID, 106/2);
+    [self.cancelBut addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchDown];
     //    [voiceBack addSubview:voiceBtn];
-    [self.view addSubview:cancelBut];
+    [self.view addSubview:self.cancelBut];
 
-    stopBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    [stopBut setTitle:@"说完了" forState:UIControlStateNormal];
-    [stopBut setTitleColor:[Util_UI colorWithHexString:@"FF8800"] forState:UIControlStateNormal];
-    stopBut.frame = CGRectMake([self windowWidth] - 20 - BUTWHID, self.textV.frame.size.height + self.textV.frame.origin.y +15, BUTWHID, height);
-    [stopBut addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchDown];
+    self.stopBut = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.stopBut setTitle:@"说完了" forState:UIControlStateNormal];
+    [self.stopBut setTitleColor:[Util_UI colorWithHexString:@"FF8800"] forState:UIControlStateNormal];
+    self.stopBut.frame = CGRectMake([self windowWidth] - 20 - BUTWHID, self.textV.frame.size.height + self.textV.frame.origin.y +15, BUTWHID, 106/2);
+    [self.stopBut addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchDown];
     //    [voiceBack addSubview:voiceBtn];
-    [self.view addSubview:stopBut];
+    [self.view addSubview:self.stopBut];
     
     self.textV.frame = CGRectMake(self.textV.frame.origin.x, self.textV.frame.origin.y, self.textV.frame.size.width, self.textV.frame.size.height - 30);
-    UIImage *myimage = [UIImage imageNamed:@"anjuke_icon_saying@2x.png"];
+    UIImage *orgIMG = [UIImage imageNamed:@"anjuke_icon_saying@2x.png"];
     
     CGRect rect = CGRectMake(0, 0, 163, 60);
     
-    CGImageRef imageRef=CGImageCreateWithImageInRect([myimage CGImage],rect);
+    CGImageRef imageRef=CGImageCreateWithImageInRect([orgIMG CGImage],rect);
     
-    UIImage *image1=[UIImage imageWithCGImage:imageRef];
+    corlorIMG=[UIImage imageWithCGImage:imageRef];
     
     //    [imgView setImage:image1];
     
     
-    UIImageView *view1 = [[UIImageView alloc] initWithFrame:CGRectMake(voiceBtn.frame.origin.x - 25, voiceBtn.frame.origin.y - 25, 82, 82)];
-    view1.image = [UIImage imageNamed:@"anjuke_icon_saying1@2x.png"];
-    [self.view addSubview:view1];
+    self.backIMG = [[UIImageView alloc] initWithFrame:CGRectMake(self.voiceBtn.frame.origin.x - 25, self.voiceBtn.frame.origin.y - 25, 82, 82)];
+    self.backIMG.image = [UIImage imageNamed:@"anjuke_icon_saying1@2x.png"];
+    [self.view addSubview:self.backIMG];
     
-    UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(voiceBtn.frame.origin.x - 25, voiceBtn.frame.origin.y - 25, 82, 30)];
-    view.image = image1;
-    [self.view addSubview:view];
+    self.beforIMG = [[UIImageView alloc] initWithFrame:CGRectMake(self.voiceBtn.frame.origin.x - 25, self.voiceBtn.frame.origin.y - 25, 82, 30)];
+    self.beforIMG.image = corlorIMG;
+    [self.view addSubview:self.beforIMG];
     
 }
 
@@ -227,96 +238,32 @@
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     // CGFloat distanceToMove = kbSize.height - normalKeyboardHeight;
     //自适应代码
-    if (offset == 0) {
-        offset = kbSize.height;
-        moveoffset = offset;
-    }
-    else{
-        if (offset == 216.0f) {
-            offset = kbSize.height;
-            moveoffset = (kbSize.height == 216.0f ? 0.0f:kbSize.height-216.0f);
-        }
-        else if(offset == 252.0f){
-            offset = kbSize.height;
-            moveoffset = (kbSize.height == 252.0f ? 0.0f:216.0f-252.0f);
-        }
-    }
+//    if (offset == 0) {
+//        offset = kbSize.height;
+//        moveoffset = offset;
+//    }
+//    else{
+//        if (offset == 216.0f) {
+//            offset = kbSize.height;
+//            moveoffset = (kbSize.height == 216.0f ? 0.0f:kbSize.height-216.0f);
+//        }
+//        else if(offset == 252.0f){
+//            offset = kbSize.height;
+//            moveoffset = (kbSize.height == 252.0f ? 0.0f:216.0f-252.0f);
+//        }
+//    }
+    
+    
 //    [self dealwithShowKeyboard];
     
-    //    offset = (kbSize.height == 216.0f ? 216.0f:kbSize.height-216.0f);
-    
-    //    DLog(@"%f,%f,%f,%f",tableViewRect.origin.x, tableViewRect.origin.y , tableViewRect.size.width, tableViewRect.size.height);
-    
-    //    DLog(@"normalKeyboardHeight is %f and kbSize is %f",kbSize.height,offset);
-    
-    
-    
-    //    CATransition *animation = [CATransition animation];
-    
-    //	//animation.delegate = self;
-    
-    //	animation.duration = 0.7f;
-    
-    //	animation.timingFunction = UIViewAnimationCurveEaseInOut;
-    
-    //	animation.fillMode = kCAFillModeForwards;
-    
-    //	animation.type = kCATransitionPush;
-    
-    //	animation.subtype = kCATransitionFromTop;
-    
-    //
-    
-    //    toolView.frame = CGRectMake(toolViewRect.origin.x, toolViewRect.origin.y - moveoffset, toolViewRect.size.width, toolViewRect.size.height);
-    
-    //
-    
-    //	[toolView.layer addAnimation:animation forKey:@"animation"];
-    
-    
-    
-    //    [UIView animateWithDuration:0.25f
-    
-    //                     animations:^{
-    
-    //                         toolView.frame = CGRectMake(toolViewRect.origin.x, toolViewRect.origin.y - moveoffset, toolViewRect.size.width, toolViewRect.size.height);
-    
-    //                         myTableView.frame = CGRectMake(tableViewRect.origin.x, tableViewRect.origin.y , tableViewRect.size.width, tableViewRect.size.height - moveoffset);
-    
-    //                     }
-    
-    //                     completion:^(BOOL finished){
-    
-    //                     }
-    
-    //     ];
-    
-    //    [self reloadMyTableView];
-    
+    offset = (kbSize.height == 216.0f ? 216.0f:kbSize.height-216.0f);
+
 }
 
 - (void)keyboardWillChangeFrame:(NSNotification *)notification{
-    
-    //    NSDictionary *info = [notification userInfo];
-    
-    //    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    
-    //
-    
-    //
-    
-    //
-    
-    //    //自适应代码
-    
-    //
-    
-    //    myTableView.frame = CGRectMake(tableViewRect.origin.x, tableViewRect.origin.y - kbSize.height, tableViewRect.size.width, tableViewRect.size.height);
-    
-    //
-    
-    //    toolView.frame = CGRectMake(toolViewRect.origin.x, toolViewRect.origin.y - kbSize.height, toolViewRect.size.width, toolViewRect.size.height);
-    
+//    NSDictionary *info = [notification userInfo];
+//    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification{
@@ -326,45 +273,42 @@
 }
 
 -(void)dealwithHideKeyboard{
+    self.textV.frame = CGRectMake(self.textV.frame.origin.x, self.textV.frame.origin.y, self.textV.frame.size.width, self.textV.frame.size.height - 30);
     
-//    tableViewRect = myTableView.frame;
-//    
-//    toolViewRect = toolView.frame;
-//    
-//    
-//    
-//    [UIView animateWithDuration:0.25f
-//     
-//                     animations:^{
-//                         
-//                         myTableView.frame = CGRectMake(tableViewRect.origin.x, tableViewRect.origin.y , tableViewRect.size.width, tableViewRect.size.height+offset);
-//                         
-//                         toolView.frame = CGRectMake(toolViewRect.origin.x, toolViewRect.origin.y+offset, toolViewRect.size.width, toolViewRect.size.height);
-//                         
-//                     }
-//     
-//                     completion:^(BOOL finished){
-//                         
-//                     }
-//     
-//     ];
-//    
-//    offset= 0;
-//    
-//    moveoffset = 0;
-    
-    //[self reloadMyTableView];
     
 }
 
 #pragma mark - privateMethod
 - (void)start:(id) sender {
+    self.beforIMG = [[UIImageView alloc] initWithFrame:CGRectMake(voiceBtn.frame.origin.x - 25, voiceBtn.frame.origin.y - 25, 82, 30)];
+    self.backIMG = [[UIImageView alloc] initWithFrame:CGRectMake(voiceBtn.frame.origin.x - 25, voiceBtn.frame.origin.y - 25, 82, 82)];
+    
+    UIImage *orgIMG = [UIImage imageNamed:@"anjuke_icon_saying@2x.png"];
+    
+    CGRect rect = CGRectMake(0, 0, 163, 60);
+    
+    CGImageRef imageRef=CGImageCreateWithImageInRect([orgIMG CGImage],rect);
+    
+    corlorIMG=[UIImage imageWithCGImage:imageRef];
+    
+    self.backIMG.frame = CGRectMake(self.voiceBtn.frame.origin.x - 25, self.voiceBtn.frame.origin.y - 25, 82, 82);
+    self.backIMG.image = [UIImage imageNamed:@"anjuke_icon_saying1@2x.png"];
+    
+    self.beforIMG.frame = CGRectMake(self.voiceBtn.frame.origin.x - 25, self.voiceBtn.frame.origin.y - 25, 82, 30);
+    self.beforIMG.image = corlorIMG;
 
-
+    self.voiceBtn.frame = CGRectZero;
+    self.cancelBut.frame = CGRectMake(20, self.textV.frame.size.height + self.textV.frame.origin.y +15, BUTWHID, 106/2);
+    self.stopBut.frame = CGRectMake([self windowWidth] - 20 - BUTWHID, self.textV.frame.size.height + self.textV.frame.origin.y +15, BUTWHID, 106/2);
+    
 }
 - (void)cancel:(id) sender {
+    self.cancelBut.frame = CGRectZero;
+    self.stopBut.frame = CGRectZero;
+    self.backIMG.frame = CGRectZero;
+    self.beforIMG.frame = CGRectZero;
 
-
+    
 }
 
 
