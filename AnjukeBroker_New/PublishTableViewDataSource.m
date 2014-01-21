@@ -25,7 +25,7 @@
         AnjukeEditableCell *cell = [[AnjukeEditableCell alloc] init];
         if ([cell configureCell:[dataArray objectAtIndex:HZ_TEXT_PRICE]]) {
             [cell setIndexTag:HZ_TEXT_PRICE];
-            [[cell unitLb] setText:@"元"];
+            [[cell unitLb] setText:@"元/月"];
             [section1 addObject:cell];
         }
         //area
@@ -135,10 +135,7 @@
             [section3 addObject:cell7];
         }
         [self.cellArray addObject:section3];
-
     }
-    
-    
 }
 
 - (void)initModel {

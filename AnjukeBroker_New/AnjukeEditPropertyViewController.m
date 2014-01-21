@@ -101,9 +101,6 @@ typedef enum {
 }
 
 - (void)dealloc {
-    if (self.pickerView) {
-        self.pickerView.brokerPickerDelegate = nil;
-    }
     if (self.tvList) {
         self.tvList.delegate = nil;
     }

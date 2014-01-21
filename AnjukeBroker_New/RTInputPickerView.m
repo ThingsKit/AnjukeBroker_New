@@ -13,7 +13,7 @@
 @implementation RTInputPickerView
 @synthesize pickerType;
 @synthesize firstArray, secondArray, thirdArray;
-@synthesize brokerPickerDelegate;
+//@synthesize brokerPickerDelegate;
 
 - (id)initWithFrame:(CGRect)frame
 {

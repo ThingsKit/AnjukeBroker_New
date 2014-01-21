@@ -13,7 +13,7 @@
 #import "RTInputPickerView.h"
 #import "KeyboardToolBar.h"
 
-@interface PublishBuildingViewController : RTViewController <UITableViewDelegate, BrokerPickerDelegate, KeyboardBarClickDelegate>
+@interface PublishBuildingViewController : RTViewController <UITableViewDelegate, KeyboardBarClickDelegate>
 
 @property BOOL isHaozu; //是否是好租，页面布局不同
 @property (nonatomic, strong) UITableView *tableViewList;

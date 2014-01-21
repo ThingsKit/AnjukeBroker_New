@@ -170,5 +170,24 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+#pragma mark - BrokerPickerDelegate
+
+- (void)finishBtnClicked { //点击完成，输入框组件消失
+    
+}
+
+- (void)preBtnClicked { //点击”上一个“，检查输入样式并做转换，tableView下移
+    
+}
+
+- (void)nextBtnClicked { //点击”下一个“，检查输入样式并做转换，tableView上移
+    
+}
+
+- (BOOL)isInputOK {
+    BOOL isOkay = YES;
+    
+    return isOkay;
+}
 
 @end

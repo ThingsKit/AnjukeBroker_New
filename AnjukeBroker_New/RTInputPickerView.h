@@ -17,9 +17,9 @@ typedef NS_ENUM(NSInteger, PickerType){
     PickertypeLouCeng
 };
 
-@protocol BrokerPickerDelegate <NSObject>
-
-@end
+//@protocol BrokerPickerDelegate <NSObject>
+//
+//@end
 
 @interface RTInputPickerView : UIPickerView  <UIPickerViewDataSource, UIPickerViewDelegate>
 
@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, PickerType){
 @property (nonatomic, strong) NSArray *secondArray;
 @property (nonatomic, strong) NSArray *thirdArray;
 
-@property (nonatomic, assign) id <BrokerPickerDelegate> brokerPickerDelegate;
+//@property (nonatomic, assign) id <BrokerPickerDelegate> brokerPickerDelegate;
 
 - (void)reloadPickerWithRow:(int)row isHaozu:(BOOL)isHaozu;
 - (void)pickerScrollToRowAtIndex:(NSInteger)row atCom:(NSInteger)com; //根据是否有第二第三栏移动row
