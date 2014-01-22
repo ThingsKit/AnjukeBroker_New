@@ -22,6 +22,24 @@
     return arr;
 }
 
++ (Property *)getNewPropertyObject {
+    Property *ep = [[Property alloc] initWithEntity:[NSEntityDescription entityForName:@"Property" inManagedObjectContext:[[RTCoreDataManager sharedInstance] managedObjectContext]] insertIntoManagedObjectContext:nil];
+    ep.rentType = @"";
+    ep.comm_id = @"";
+    ep.area = @"";
+    ep.desc = @"";
+    ep.exposure = @"";
+    ep.fileNo = @"";
+    ep.fitment = @"";
+    ep.floor = @"";
+    ep.imageJson = @"";
+    ep.price = @"";
+    ep.rooms = @"";
+    ep.title = @"";
+    
+    return ep;
+}
+
 #pragma mark - 户型-室
 //得到室array
 + (NSMutableArray *)getPropertyHouseTypeArray_room {

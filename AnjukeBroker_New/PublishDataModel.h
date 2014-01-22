@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Property.h"
 
 @interface PublishDataModel : NSObject
 
@@ -29,5 +30,8 @@
 
 //出租方式
 + (NSArray *)getPropertyRentType;
+
+//生成全新房源类
++ (Property *)getNewPropertyObject;
 
 @end

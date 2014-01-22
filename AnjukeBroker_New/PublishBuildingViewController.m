@@ -8,6 +8,7 @@
 
 #import "PublishBuildingViewController.h"
 #import "AppManager.h"
+#import "PublishInputOrderModel.h"
 
 @interface PublishBuildingViewController ()
 
@@ -18,6 +19,9 @@
 
 @property int selectedSection;
 @property int selectedRow; //记录选中的cell所在section和row，便于更改tableview的frame和位置
+
+@property (nonatomic, copy) NSString *lastPrice; //记录上一次的价格输入，用于判断是否需要
+@property (nonatomic, copy) NSString *propertyPrice; //房源定价价格
 
 @end
 
@@ -31,6 +35,8 @@
 @synthesize inputingTextF;
 @synthesize selectedRow, selectedSection;
 @synthesize isTBBtnPressedToShowKeyboard;
+@synthesize property;
+@synthesize lastPrice, propertyPrice;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -56,6 +62,8 @@
         titleStr = @"发布租房";
     }
     [self setTitleViewWithString:titleStr];
+    
+    [self addRightButton:@"保存" andPossibleTitle:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -67,7 +75,10 @@
 #pragma mark - init Method
 
 - (void)initModel {
+    self.property = [PublishDataModel getNewPropertyObject];
     
+    self.lastPrice = [NSString string];
+    self.propertyPrice = [NSString string];
 }
 
 - (void)initDisplay {
@@ -97,6 +108,39 @@
     
 }
 
+#pragma mark - Private Method
+
+- (void)rightButtonAction:(id)sender {
+    [self doSave];
+}
+
+- (void)doSave {
+    if (![self checkUploadProperty]) {
+        return;
+    }
+    
+    if ([self.lastPrice isEqualToString:self.property.price]) { //价格未变，无需重心请求
+        [self showAlertViewWithPrice:self.propertyPrice];
+    }
+    else {
+        self.lastPrice = [NSString stringWithString:self.property.price];
+//        [self requestWithPrice];
+    }
+}
+
+- (void)showAlertViewWithPrice:(NSString *)price {
+    NSString *title = nil;
+    if (price.length == 0 || price == nil) {
+        title = [NSString stringWithFormat:@"定价：暂无"];
+    }
+    else
+        title = [NSString stringWithFormat:@"定价：%@元/次",price];
+    
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"定价且竞价推广", @"暂不推广", nil];
+    sheet.tag = PUBLISH_ACTIONSHEET_TAG;
+    [sheet showInView:self.view];
+}
+
 #pragma mark - Input Method 
 
 //**根据当前输入焦点行移动tableView显示
@@ -108,8 +152,20 @@
     }
     else { //收起键盘，tableView还原
         [self.tableViewList setFrame:FRAME_WITH_NAV];
-        [self.tableViewList setContentOffset:CGPointMake(0, 0)];
+        [self.tableViewList setContentOffset:CGPointMake(0, 0) animated:YES];
     }
+}
+
+- (void)pickerDisappear {
+    [self textFieldAllResign];
+    [self tableViewStyleChangeForInput:NO];
+    
+    self.isTBBtnPressedToShowKeyboard = NO;
+}
+
+- (void)textFieldAllResign { //全部收起键盘
+    [self.inputingTextF resignFirstResponder];
+//    [self.fileNoTextF resignFirstResponder];
 }
 
 - (int)transformIndexWithIndexPath:(NSIndexPath *)indexPath { //将indexPath转换为cellDataSource对应的cell的indexTag
@@ -250,6 +306,114 @@
     [self.inputingTextF becomeFirstResponder];
 }
 
+- (NSMutableString *)getInputStringAndSetProperty {
+    NSMutableString *string = [NSMutableString string]; //显示用string
+    NSMutableString * idStr = [NSMutableString string]; //上传用string（id）
+    
+    NSString *strValue1 = [NSString string];
+    NSString *strValue2 = [NSString string];
+    NSString *strValue3 = [NSString string];
+    
+    int index1 = [self.pickerView selectedRowInComponent:0];
+    NSString *string1 = [[[self.pickerView firstArray] objectAtIndex:index1] objectForKey:@"Title"];
+    [string appendString:string1];
+    strValue1 = [[[self.pickerView firstArray] objectAtIndex:index1] objectForKey:@"Value"];
+    
+    //记录此次输入的数据所在row，方便下一次输入时聚焦
+    [(AnjukeEditableCell *)[[self.cellDataSource inputCellArray] objectAtIndex:self.selectedIndex] setInputed_RowAtCom0:index1];
+    
+    if ([self.pickerView.secondArray count] > 0) {
+        int index2 = [self.pickerView selectedRowInComponent:1];
+        NSString *string2 = [[[self.pickerView secondArray] objectAtIndex:index2] objectForKey:@"Title"];
+        [string appendString:string2];
+        
+        strValue2 = [[[self.pickerView secondArray] objectAtIndex:index2] objectForKey:@"Value"];
+        
+        [(AnjukeEditableCell *)[[self.cellDataSource inputCellArray] objectAtIndex:self.selectedIndex] setInputed_RowAtCom1:index2];
+    }
+    
+    if ([self.pickerView.thirdArray count] > 0) {
+        int index3 = [self.pickerView selectedRowInComponent:2];
+        NSString *string3 = [[[self.pickerView thirdArray] objectAtIndex:index3] objectForKey:@"Title"];
+        [string appendString:string3];
+        
+        strValue3 = [[[self.pickerView thirdArray] objectAtIndex:index3] objectForKey:@"Value"];
+        
+        [(AnjukeEditableCell *)[[self.cellDataSource inputCellArray] objectAtIndex:self.selectedIndex] setInputed_RowAtCom2:index3];
+    }
+
+    //顺便写入传参数值。。。以后优化代码
+    if (self.isHaozu) {
+        switch (self.selectedIndex) { //二手房
+            case HZ_PICKER_FLOORS: //楼层
+            {
+                [idStr appendString:strValue1];
+                [idStr appendString:[NSString stringWithFormat:@",%@", strValue2]];
+                self.property.floor = idStr;
+            }
+                break;
+            case HZ_PICKER_FITMENT: //装修
+            {
+                [idStr appendString:strValue1];
+                self.property.fitment = idStr;
+            }
+                break;
+            case HZ_PICKER_RENTTYPE: //出租方式
+            {
+                [idStr appendString:strValue1];
+                self.property.rentType = idStr;
+            }
+                break;
+            default:
+                break;
+        }
+    }
+    else {
+        switch (self.selectedIndex) { //二手房
+            case AJK_PICKER_FLOORS: //楼层
+            {
+                [idStr appendString:strValue1];
+                [idStr appendString:[NSString stringWithFormat:@",%@", strValue2]];
+                self.property.floor = idStr;
+            }
+                break;
+            case AJK_PICKER_FITMENT: //装修
+            {
+                [idStr appendString:strValue1];
+                self.property.fitment = idStr;
+            }
+                break;
+            default:
+                break;
+        }
+    }
+    
+    return string;
+}
+
+- (BOOL)checkUploadProperty {
+    [self setTextFieldForProperty];
+    
+    return YES;
+}
+
+//将输入框内内容赋值到property中
+- (void)setTextFieldForProperty {
+    if (self.isHaozu) {
+        self.property.area = [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_TEXT_AREA] text_Field] text];
+        
+        NSInteger price = [[[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_TEXT_PRICE] text_Field] text] intValue];
+        self.property.price = [NSString stringWithFormat:@"%d", price];
+    }
+    else { //二手房
+        self.property.area = [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_AREA] text_Field] text];
+        
+        NSInteger price = [[[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_PRICE] text_Field] text] intValue] * 10000;
+        self.property.price = [NSString stringWithFormat:@"%d", price];
+    }
+    DLog(@"房源上传数据:[%@]", self.property);
+}
+
 #pragma mark - TableView Delegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -331,7 +495,20 @@
             break;
         case 2:
         {
-            
+            switch (indexPath.row) {
+                case 0: //title
+                {
+                    
+                }
+                    break;
+                case 1: //desc
+                {
+                    
+                }
+                    break;
+                default:
+                    break;
+            }
         }
             break;
             
@@ -347,9 +524,16 @@
 - (void)finishBtnClicked { //点击完成，输入框组件消失
     self.isTBBtnPressedToShowKeyboard = NO;
     
+    if (![self isInputOK]) {
+        return;
+    }
+    
+    if (self.selectedSection == 1) { //滚轮输入范围
+        self.inputingTextF.text = [self getInputStringAndSetProperty];
+    }
+    
     //收起键盘，还原tableView
-    [self.inputingTextF resignFirstResponder];
-    [self tableViewStyleChangeForInput:NO];
+    [self pickerDisappear];
 }
 
 - (void)preBtnClicked { //点击”上一个“，检查输入样式并做转换，tableView下移
@@ -368,7 +552,7 @@
     if (![self isInputOK]) {
         return;
     }
-
+    
     
 }
 
@@ -398,6 +582,37 @@
 
 - (void)textFieldDidEndEdit:(NSString *)text { //暂不可用
     
+}
+
+#pragma mark - UIActionSheet Delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (actionSheet.tag == IMAGE_ACTIONSHEET_TAG) {
+        
+    }
+    else if (actionSheet.tag == PUBLISH_ACTIONSHEET_TAG) {
+        switch (buttonIndex) {
+            case 0: //定价
+            {
+                
+            }
+                break;
+            case 1: //定价+竞价
+            {
+                
+            }
+                break;
+            case 2: //暂不推广
+            {
+                
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
 }
 
 @end
