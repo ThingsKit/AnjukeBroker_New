@@ -7,14 +7,14 @@
 //
 
 #import "RTViewController.h"
-
+#import "iflyMSC/IFlySpeechRecognizer.h"
 @protocol TextFieldModifyDelegate <NSObject>
 
 - (void)textDidInput:(NSString *)string isTitle:(BOOL)isTitle;
 
 @end
 
-@interface AnjukeEditTextViewController : RTViewController <UITextViewDelegate, UIAlertViewDelegate>
+@interface AnjukeEditTextViewController : RTViewController <UITextViewDelegate, UIAlertViewDelegate, IFlySpeechRecognizerDelegate>
 
 @property (nonatomic, copy) NSString *textString;
 @property (nonatomic, assign) id <TextFieldModifyDelegate> textFieldModifyDelegate;
