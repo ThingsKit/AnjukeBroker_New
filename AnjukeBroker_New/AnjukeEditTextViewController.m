@@ -14,12 +14,12 @@
 #define APPID @"52d7a64b"
 #define TIMEOUT         @"20000"            // timeout      连接超时的时间，以ms为单位
 
-#define VOICEBACKVIEWHEIGHT 100 //语音的空间高度
+#define VOICEBACKVIEWHEIGHT 90 //语音的空间高度
 #define VOICEANIMATIONIMGHEIGHT 163/2   //说话时动画图片高度
 #define BUTWHID 80 //取消按钮宽度
 #define BUTHIGHT 30  //
-#define SOUNDBUTTONHEIGHT 70 // 键盘出来后的语音框
-#define VOICEBUTTONHEIHGT 106/2 //开始语音图片高度
+#define SOUNDBUTTONHEIGHT 57 // 键盘出来后的语音框
+#define VOICEBUTTONHEIHGT 106/2 //开始语音按钮的图片高度
 
 //#define 
 @interface AnjukeEditTextViewController ()
@@ -29,6 +29,7 @@
     UIImage *corlorIMG;
     IFlySpeechRecognizer * _iFlySpeechRecognizer;
     UILabel *wordNum;
+    NSString *placeHolder;
     
 }
 @property (nonatomic, strong) UITextView *textV;
@@ -100,6 +101,7 @@
     [_iFlySpeechRecognizer setParameter:@"domain" value:@"sms"];
     [_iFlySpeechRecognizer setParameter:@"sample_rate" value:@"16000"];
     [_iFlySpeechRecognizer setParameter:@"plain_result" value:@"0"];
+    
 }
 
 - (void)initDisplay {
@@ -188,15 +190,20 @@
         TextViewH = 180;
     }
     
-    UITextView *cellTextField = [[UITextView alloc] initWithFrame:CGRectMake(20, 20, [self windowWidth] - 40, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64)];
+    UITextView *cellTextField = [[UITextView alloc] initWithFrame:CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64)];
     cellTextField.returnKeyType = UIReturnKeyDone;
     cellTextField.backgroundColor = [UIColor clearColor];
     cellTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    cellTextField.text = @"";
+    if(self.isTitle){
+        placeHolder = [[NSString alloc] initWithFormat:@"简单明了的说出房源得特色，至少5个字"];
+    } else {
+        placeHolder = [[NSString alloc] initWithFormat:@"说说小区周边生活配套、小区内部环境、房源内部装修的房源描述，至少10个字"];
+    }
+    cellTextField.text = placeHolder;
     cellTextField.delegate = self;
     cellTextField.font = [UIFont systemFontOfSize:17];
     cellTextField.secureTextEntry = NO;
-    cellTextField.textColor = SYSTEM_BLACK;
+    cellTextField.textColor = [Util_UI colorWithHexString:@"#999999"];
     cellTextField.layer.borderWidth = 1;
     cellTextField.layer.borderColor = [[Util_UI colorWithHexString:@"CCCCCC"] CGColor];
     cellTextField.layer.cornerRadius = 6;
@@ -204,7 +211,7 @@
     [self.view addSubview:cellTextField];
     
     if (self.textV) {
-        self.textV.text = string;
+//        self.textV.text = string;
     }
 
 }
@@ -237,6 +244,10 @@
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
+    if ([self.textV.text isEqualToString:placeHolder]) {
+        self.textV.text = @"";
+        self.textV.textColor = SYSTEM_BLACK;
+    }
 //    if (self.textV.text.intValue < 1 && range.length == 0)
     if ([text isEqualToString:@"\n"]) {
         [textView resignFirstResponder];
@@ -255,8 +266,15 @@
 
     return YES;
 }
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    if ([self.textV.text isEqualToString:placeHolder]) {
+        self.textV.text = @"";
+        self.textV.textColor = SYSTEM_BLACK;
+    }
+}
 
 - (void)textViewDidChange:(UITextView *)textView {
+
     if(self.isTitle){
         NSString *temp = self.textV.text;
         NSInteger num = [temp length];
@@ -269,7 +287,7 @@
             
         } else {
             wordNum.textColor = [UIColor redColor];
-            wordNum.text = [NSString stringWithFormat:@"%d", 30 - [temp length]];
+            wordNum.text = [NSString stringWithFormat:@"0"];
             self.textV.text = [temp substringToIndex:30];
         }
     }
@@ -307,7 +325,7 @@
     NSDictionary *info = [notification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     offset = kbSize.height;
-    self.textV.frame = CGRectMake(20, 20, [self windowWidth] - 40, [self windowHeight] - SOUNDBUTTONHEIGHT - 64 - offset);
+    self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - SOUNDBUTTONHEIGHT - 64 - offset);
     if(self.isTitle){
         wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
@@ -320,7 +338,7 @@
     NSDictionary *info = [notification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     offset = kbSize.height;
-    self.textV.frame = CGRectMake(20, 20, [self windowWidth] - 40, [self windowHeight] - SOUNDBUTTONHEIGHT - 64 - offset);
+    self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - SOUNDBUTTONHEIGHT - 64 - offset);
     if(self.isTitle){
         wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
@@ -336,7 +354,7 @@
 }
 
 -(void)dealwithHideKeyboard{
-    self.textV.frame = CGRectMake(20, 20, [self windowWidth] - 40, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64);
+    self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64);
     if(self.isTitle){
         wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
@@ -400,7 +418,7 @@
 - (void) onEndOfSpeech
 {
     [self cancelFrameChange];
-    self.textV.frame = CGRectMake(20, 20, [self windowWidth] - 40, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64);
+    self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBUTTONHEIHGT - 64 - 15*2 - 10);
     if(self.isTitle){
         wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
@@ -418,6 +436,7 @@
 - (void) onError:(IFlySpeechError *) error
 {
     [self cancelFrameChange];
+    self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBUTTONHEIHGT - 64 - 15*2 - 10);
 }
 
 /** 取消识别回调
@@ -443,8 +462,28 @@
         [result appendFormat:@"%@",key];
     }
     NSLog(@"转写结果：%@",result);
-    self.textV.text=[NSString stringWithFormat:@"%@%@", self.textV.text, result];
-    //    _resultView.text = [NSString stringWithFormat:@"%@%@", _resultView.text,result];
+    if ([self.textV.text isEqualToString:placeHolder] && [result length] > 0) {
+        self.textV.text = @"";
+        self.textV.textColor = SYSTEM_BLACK;
+    }
+    NSString *temp=[NSString stringWithFormat:@"%@%@", self.textV.text, result];
+    if(self.isTitle){
+//         = self.textV.text;
+        NSInteger num = [temp length];
+        if(num < 30){
+            wordNum.text = [NSString stringWithFormat:@"%d", 30 - [temp length]];
+            wordNum.textColor = SYSTEM_BLACK;
+            self.textV.text = temp;
+        }else if (num == 30) {
+            wordNum.textColor = [UIColor redColor];
+            wordNum.text = [NSString stringWithFormat:@"%d", 30 - [temp length]];
+            self.textV.text = temp;
+        } else {
+            wordNum.textColor = [UIColor redColor];
+            wordNum.text = [NSString stringWithFormat:@"0"];
+            self.textV.text = [temp substringToIndex:30];
+        }
+    }
 }
 
 #pragma mark - privateMethod
@@ -456,7 +495,7 @@
     self.voiceBtn.frame = CGRectZero;
     self.cancelBut.frame = CGRectMake(20, [self windowHeight] - 15 - VOICEANIMATIONIMGHEIGHT/2 - BUTHIGHT/2 - 64, BUTWHID, BUTHIGHT);
     self.stopBut.frame = CGRectMake([self windowWidth] - 20 - BUTWHID, [self windowHeight] - 15 - VOICEANIMATIONIMGHEIGHT/2 - BUTHIGHT/2 - 64, BUTWHID, BUTHIGHT);
-    self.textV.frame = CGRectMake(20, 20, [self windowWidth] - 40, [self windowHeight] - VOICEANIMATIONIMGHEIGHT - 64 - 15*2 - 20);
+    self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEANIMATIONIMGHEIGHT - 64 - 15*2 - 10);
     if(self.isTitle){
         wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
@@ -467,19 +506,19 @@
 
 - (void)speechAnimation:(int) volume {
     UIImage *orgIMG = [UIImage imageNamed:@"anjuke_icon_saying@2x.png"];
-    CGRect rect = CGRectMake(0, 0, 163, 163 - 60 * volume/30 - 60);
+    CGRect rect = CGRectMake(0, 0, 163, 163 - 163 * volume/30 - 20);
     CGImageRef imageRef=CGImageCreateWithImageInRect([orgIMG CGImage],rect);
     corlorIMG=[UIImage imageWithCGImage:imageRef];
     self.backIMG.frame = CGRectMake((320 - VOICEANIMATIONIMGHEIGHT)/2 , [self windowHeight] - 106/2 - 64 - 15 - 25, 82, 82);
     self.backIMG.image = [UIImage imageNamed:@"anjuke_icon_saying1@2x.png"];
-    self.beforIMG.frame = CGRectMake((320 - VOICEANIMATIONIMGHEIGHT)/2, [self windowHeight] - 106/2 - 64 - 15 - 25, 82, 82 - 60 * volume/30/2 - 30);
+    self.beforIMG.frame = CGRectMake((320 - VOICEANIMATIONIMGHEIGHT)/2, [self windowHeight] - 106/2 - 64 - 15 - 25, 82, 82 - 163 * volume/30/2 - 10);
     self.beforIMG.image = corlorIMG;
 }
 
 - (void)cancel:(id) sender {
     [self cancelSpeech];
     [self cancelFrameChange];
-    self.textV.frame = CGRectMake(20, 20, [self windowWidth] - 40, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64);
+    self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64);
     if(self.isTitle){
         wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
@@ -506,7 +545,7 @@
 - (void)speechOver:(id)sender {
     [self stopSpeech];
     [self cancelFrameChange];
-    self.textV.frame = CGRectMake(20, 20, [self windowWidth] - 40, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64);
+    self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64 - 15*2 - 10);
     if(self.isTitle){
         wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
