@@ -11,6 +11,9 @@
 #import "PublishInputOrderModel.h"
 #import "AnjukeNormalCell.h"
 
+#define PHOTO_SHOW_HEIGHT (15+15+15+130*2)/2
+#define PHOTO_BG_HEIGHT PHOTO_SHOW_HEIGHT+80
+
 @interface PublishBuildingViewController ()
 
 @property int selectedIndex; //记录当前点选的row对应的cellDataSource对应的indexTag
@@ -98,6 +101,7 @@
     [self.view addSubview:tv];
     
     [self drawHeader];
+    [self drawFooter];
     [self initCellDataSource];
     
 }
@@ -143,6 +147,18 @@
     [comView addSubview:comDetailLb];
     
     [self communityDataSet:comDetailLb];
+}
+
+- (void)drawFooter {
+    UIView *photoBGView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], PHOTO_BG_HEIGHT)];
+    photoBGView.backgroundColor = [UIColor clearColor];
+    
+    UIView *photoShowView = [[UIView alloc] initWithFrame:CGRectMake(0, PUBLISH_SECTION_HEIGHT, [self windowWidth], PHOTO_SHOW_HEIGHT)];
+    photoShowView.backgroundColor = [UIColor whiteColor];
+    [photoBGView addSubview:photoShowView];
+    
+    [self.tableViewList setTableFooterView:photoBGView];
+    
 }
 
 #pragma mark - Private Method

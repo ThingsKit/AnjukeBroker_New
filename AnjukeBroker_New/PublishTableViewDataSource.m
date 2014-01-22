@@ -112,7 +112,7 @@
         cell2.editDelegate = self.superViewController;
         if ([cell2 configureCell:[dataArray objectAtIndex:HZ_TEXT_AREA]]) {
             [cell2 setIndexTag:HZ_TEXT_AREA];
-            [[cell2 unitLb] setText:@"元"];
+            [[cell2 unitLb] setText:@"平米"];
             [section1 addObject:cell2];
             [self.inputCellArray addObject:cell2];
         }
