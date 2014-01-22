@@ -542,7 +542,92 @@
     if (![self isInputOK]) {
         return;
     }
+    
+    if (self.selectedSection == 1) { //滚轮输入范围
+        self.inputingTextF.text = [self getInputStringAndSetProperty];
+    }
 
+    BOOL isPicker = NO;
+    
+    //向下跳转，selectIndex+1，section和row根据跳转的位置向下递增
+    if (self.isHaozu) {
+        switch (self.selectedIndex) {
+            case HZ_TEXT_PRICE:
+            {
+                return; //不做处理
+            }
+                break;
+            case HZ_TEXT_AREA:
+            {
+                self.selectedIndex --;
+                self.selectedRow = 0;
+                self.selectedSection = 0;
+            }
+                break;
+            case HZ_PICKER_FLOORS: //楼层
+            {
+                self.selectedIndex -=2;
+                self.selectedRow = 1;
+                self.selectedSection = 0;
+            }
+                break;
+            case HZ_PICKER_FITMENT: //装修
+            {
+                self.selectedIndex --;
+                isPicker = YES;
+                self.selectedRow = 1;
+                self.selectedSection = 1;
+            }
+                break;
+            case HZ_PICKER_RENTTYPE: //出租方式
+            {
+                self.selectedIndex --;
+                isPicker = YES;
+                self.selectedRow = 2;
+                self.selectedSection = 1;
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
+    else {
+        switch (self.selectedIndex) {
+            case AJK_TEXT_PRICE:
+            {
+                return; //不做处理
+            }
+                break;
+            case AJK_TEXT_AREA:
+            {
+                self.selectedIndex --;
+                self.selectedRow = 0;
+                self.selectedSection = 0;
+            }
+                break;
+            case AJK_PICKER_FLOORS: //楼层
+            {
+                self.selectedIndex -=2;
+                self.selectedRow = 1;
+                self.selectedSection = 0;
+            }
+                break;
+            case AJK_PICKER_FITMENT: //装修
+            {
+                self.selectedIndex --;
+                isPicker = YES;
+                self.selectedRow = 1;
+                self.selectedSection = 1;
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
+    [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
     
 }
 
@@ -553,6 +638,93 @@
         return;
     }
     
+    if (self.selectedSection == 1) { //滚轮输入范围
+        self.inputingTextF.text = [self getInputStringAndSetProperty];
+    }
+    
+    BOOL isPicker = NO;
+
+    //向下跳转，selectIndex+1，section和row根据跳转的位置向下递增
+    if (self.isHaozu) {
+        switch (self.selectedIndex) {
+            case HZ_TEXT_PRICE:
+            {
+                self.selectedIndex ++;
+                self.selectedRow = 1;
+                self.selectedSection = 0;
+            }
+                break;
+            case HZ_TEXT_AREA:
+            {
+                self.selectedIndex +=2;
+                isPicker = YES;
+                self.selectedRow = 1;
+                self.selectedSection = 1;
+            }
+                break;
+            case HZ_PICKER_FLOORS: //楼层
+            {
+                self.selectedIndex ++;
+                isPicker = YES;
+                self.selectedRow = 2;
+                self.selectedSection = 1;
+            }
+                break;
+            case HZ_PICKER_FITMENT: //装修
+            {
+                self.selectedIndex ++;
+                isPicker = YES;
+                self.selectedRow = 3;
+                self.selectedSection = 1;
+            }
+                break;
+            case HZ_PICKER_RENTTYPE: //出租方式
+            {
+                return; //不做处理
+            }
+                break;
+
+            default:
+                break;
+        }
+    }
+    else {
+        switch (self.selectedIndex) {
+            case AJK_TEXT_PRICE:
+            {
+                self.selectedIndex ++;
+                self.selectedRow = 1;
+                self.selectedSection = 0;
+            }
+                break;
+            case AJK_TEXT_AREA:
+            {
+                self.selectedIndex +=2;
+                isPicker = YES;
+                self.selectedRow = 1;
+                self.selectedSection = 1;
+            }
+                break;
+            case AJK_PICKER_FLOORS: //楼层
+            {
+                self.selectedIndex ++;
+                isPicker = YES;
+                self.selectedRow = 2;
+                self.selectedSection = 1;
+            }
+                break;
+            case AJK_PICKER_FITMENT: //装修
+            {
+                return; //不做处理
+            }
+                break;
+            
+            default:
+                break;
+        }
+    }
+    
+    [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
     
 }
 
