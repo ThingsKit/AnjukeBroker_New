@@ -9,6 +9,7 @@
 #import "PublishBuildingViewController.h"
 #import "AppManager.h"
 #import "PublishInputOrderModel.h"
+#import "AnjukeNormalCell.h"
 
 @interface PublishBuildingViewController ()
 
@@ -22,6 +23,8 @@
 
 @property (nonatomic, copy) NSString *lastPrice; //记录上一次的价格输入，用于判断是否需要
 @property (nonatomic, copy) NSString *propertyPrice; //房源定价价格
+
+@property BOOL needFileNO; //是否需要备案号，部分城市需要备案号（北京）
 
 @end
 
@@ -37,6 +40,8 @@
 @synthesize isTBBtnPressedToShowKeyboard;
 @synthesize property;
 @synthesize lastPrice, propertyPrice;
+@synthesize needFileNO;
+@synthesize communityDic;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -50,6 +55,8 @@
 - (void)dealloc {
     self.tableViewList.delegate = nil;
     self.cellDataSource = nil;
+    
+    DLog(@"dealloc PublishBuildingViewController");
 }
 
 - (void)viewDidLoad
@@ -90,11 +97,9 @@
     self.tableViewList = tv;
     [self.view addSubview:tv];
     
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 30)];
-    headerView.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
-    [self.tableViewList setTableHeaderView:headerView];
-    
+    [self drawHeader];
     [self initCellDataSource];
+    
 }
 
 - (void)initCellDataSource {
@@ -105,7 +110,39 @@
     [pd createCells:[PublishDataModel getPropertyTitleArrayForHaozu:self.isHaozu] isHaozu:self.isHaozu];
     
     [self.tableViewList reloadData];
+}
+
+- (void)drawHeader {
+    self.needFileNO = [LoginManager needFileNOWithCityID:[LoginManager getCity_id]];
     
+    UIView *headerView = [[UIView alloc] init];
+    if (self.needFileNO && self.isHaozu == NO) { //仅二手房发房（北京）需要备案号
+        headerView.frame = CGRectMake(0, 0, [self windowWidth], CELL_HEIGHT+PUBLISH_SECTION_HEIGHT+CELL_HEIGHT);
+    }
+    else
+        headerView.frame = CGRectMake(0, 0, [self windowWidth], CELL_HEIGHT+PUBLISH_SECTION_HEIGHT);
+    headerView.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
+    [self.tableViewList setTableHeaderView:headerView];
+    
+    //小区
+    UIView *comView = [[UIView alloc] initWithFrame:CGRectMake(0, PUBLISH_SECTION_HEIGHT, [self windowWidth], CELL_HEIGHT)];
+    comView.backgroundColor = [UIColor whiteColor];
+    [headerView addSubview:comView];
+    
+    UILabel *comTitleLb = [[UILabel alloc] initWithFrame:CGRectMake(15, (comView.frame.size.height - 20)/2, 100, 20)];
+    comTitleLb.backgroundColor = [UIColor clearColor];
+    comTitleLb.text = @"小区";
+    comTitleLb.textColor = SYSTEM_DARK_GRAY;
+    comTitleLb.font = [UIFont systemFontOfSize:17];
+    [comView addSubview:comTitleLb];
+    
+    UILabel *comDetailLb = [[UILabel alloc] initWithFrame:CGRectMake(224/2, (comView.frame.size.height - 20)/2, 150, 20)];
+    comDetailLb.backgroundColor = [UIColor clearColor];
+    comDetailLb.textColor = SYSTEM_BLACK;
+    comDetailLb.font = [UIFont systemFontOfSize:17];
+    [comView addSubview:comDetailLb];
+    
+    [self communityDataSet:comDetailLb];
 }
 
 #pragma mark - Private Method
@@ -139,6 +176,29 @@
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"定价且竞价推广", @"暂不推广", nil];
     sheet.tag = PUBLISH_ACTIONSHEET_TAG;
     [sheet showInView:self.view];
+}
+
+- (void)doBack:(id)sender {
+    //test
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)communityDataSet:(UILabel *)comLabel {
+    
+    NSString *name = [NSString string];
+    NSString *idStr = [NSString string];
+    
+    if (self.isHaozu) {
+        name = [self.communityDic objectForKey:@"commName"];
+        idStr = [self.communityDic objectForKey:@"commId"];
+    }
+    else {
+        name = [self.communityDic objectForKey:@"commName"];
+        idStr = [self.communityDic objectForKey:@"commId"];
+    }
+    
+    [self.property setComm_id:idStr];
+    comLabel.text = name;
 }
 
 #pragma mark - Input Method 
@@ -264,6 +324,9 @@
 }
 
 - (void)showInputWithIndex:(int)index isPicker:(BOOL)isPicker {
+    if ([[[self.cellDataSource inputCellArray] objectAtIndex:index] isKindOfClass:[AnjukeNormalCell class]]) {
+        return; //避免crash
+    }
     self.inputingTextF = [(AnjukeEditableCell *)[[self.cellDataSource inputCellArray] objectAtIndex:index] text_Field];
     
     //初始化滚轮和键盘控制条

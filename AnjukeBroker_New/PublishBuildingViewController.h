@@ -14,6 +14,7 @@
 #import "KeyboardToolBar.h"
 #import "AnjukeEditableCell.h"
 #import "Property.h"
+#import "LoginManager.h"
 
 #define IMAGE_ACTIONSHEET_TAG 9010
 #define PUBLISH_ACTIONSHEET_TAG 9020
@@ -26,6 +27,7 @@
 @property (nonatomic, strong) Property *property;
 
 @property BOOL isTBBtnPressedToShowKeyboard; //是否是通过上一项、下一项点按控制键盘、滚轮显示，是则屏蔽textField的delegate方法
+@property (nonatomic, strong) NSDictionary *communityDic; //小区内容显示label
 
 - (void)setTextFieldForProperty;
 

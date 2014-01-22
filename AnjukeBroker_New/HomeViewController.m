@@ -16,6 +16,7 @@
 #import "LoginManager.h"
 
 #import "PublishBuildingViewController.h"
+#import "CommunityListViewController.h"
 
 #define HOME_cellHeight 50
 #define headerHeight (200+150)/2
@@ -406,8 +407,15 @@
 //            nav.navigationBar.translucent = NO;
 //            [self presentViewController:nav animated:YES completion:nil];
             
-            PublishBuildingViewController *controller = [[PublishBuildingViewController alloc] init];
+//            PublishBuildingViewController *controller = [[PublishBuildingViewController alloc] init];
+//            controller.backType = RTSelectorBackTypeDismiss;
+//            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+//            [self presentViewController:nav animated:YES completion:nil];
+            
+            //模态弹出小区--万恶的结构变动尼玛
+            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
+            controller.isFirstShow = YES;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }
@@ -423,9 +431,17 @@
 //            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
 //            [self presentViewController:nav animated:YES completion:nil];
             
-            PublishBuildingViewController *controller = [[PublishBuildingViewController alloc] init];
+//            PublishBuildingViewController *controller = [[PublishBuildingViewController alloc] init];
+//            controller.backType = RTSelectorBackTypeDismiss;
+//            controller.isHaozu = YES;
+//            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+//            [self presentViewController:nav animated:YES completion:nil];
+            
+            //模态弹出小区--万恶的结构变动尼玛
+            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
-            controller.isHaozu = YES;
+            controller.isFirstShow = YES;
+            controller.isHaouzu = YES;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }
