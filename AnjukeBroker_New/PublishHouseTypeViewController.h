@@ -18,5 +18,6 @@
 
 @property BOOL isHaozu;
 @property (nonatomic, strong) Property *property;
+@property id superViewController;
 
 @end

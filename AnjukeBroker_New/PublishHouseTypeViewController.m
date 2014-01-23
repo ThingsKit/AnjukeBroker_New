@@ -11,6 +11,7 @@
 #import "AnjukeEditableCell.h"
 #import "Property.h"
 #import "Util_UI.h"
+#import "PublishBuildingViewController.h"
 
 #define SELECT_BTN_TAG 1000
 
@@ -35,6 +36,9 @@
 @property int exposure_inputedRow1;
 @property int exposure_inputedRow2;
 
+@property (nonatomic, copy) NSString *lastRooms;
+@property (nonatomic, copy) NSString *lastExposure;
+
 @end
 
 @implementation PublishHouseTypeViewController
@@ -45,6 +49,9 @@
 @synthesize inputingTextF;
 @synthesize houseType_inputedRow0, houseType_inputedRow1, houseType_inputedRow2;
 @synthesize exposure_inputedRow0, exposure_inputedRow1, exposure_inputedRow2;
+@synthesize superViewController;
+@synthesize property;
+@synthesize lastExposure, lastRooms;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -69,6 +76,9 @@
     
     [self setTitleViewWithString:@"房型"];
     [self addRightButton:@"保存" andPossibleTitle:nil];
+    
+    self.lastRooms = self.property.rooms;
+    self.lastExposure = self.property.exposure;
 }
 
 - (void)didReceiveMemoryWarning
@@ -82,6 +92,8 @@
 - (void)initModel {
     self.dataArray = [NSMutableArray array];
     
+    self.lastRooms = [NSString string];
+    self.lastExposure = [NSString string];
 }
 
 - (void)initDisplay {
@@ -261,6 +273,19 @@
     DLog(@"户型property [%@]", self.property);
     
     return string;
+}
+
+- (void)rightButtonAction:(id)sender {
+    [super doBack:self];
+}
+
+- (void)doBack:(id)sender {
+    if ([self.superViewController isKindOfClass:[PublishBuildingViewController class]]) {
+        self.property.rooms = self.lastRooms;
+        self.property.exposure = self.lastExposure; //还原上一次的输入
+    }
+    
+    [super doBack:self];
 }
 
 #pragma mark - KeyboardBarClickDelegate

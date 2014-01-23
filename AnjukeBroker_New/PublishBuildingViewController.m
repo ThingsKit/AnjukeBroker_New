@@ -77,6 +77,12 @@
     [self addRightButton:@"保存" andPossibleTitle:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    DLog(@"pro [%@]", self.property);
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -553,6 +559,7 @@
                     ph.isHaozu = self.isHaozu;
                     ph.backType = RTSelectorBackTypePopBack;
                     ph.property = self.property;
+                    ph.superViewController = self;
                     [self.navigationController pushViewController:ph animated:YES];
                 }
                     break;
