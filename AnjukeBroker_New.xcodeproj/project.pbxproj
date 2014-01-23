@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		20274173186AC2A9005267FD /* SystemCellManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20274172186AC2A9005267FD /* SystemCellManager.m */; };
+		2063C2651890ADB20043C739 /* PublishHouseTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2063C2641890ADB20043C739 /* PublishHouseTypeViewController.m */; };
 		206843E418890C9A007DD8C5 /* PublishBuildingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */; };
 		20A07429188C0A080073C915 /* PublishTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A07428188C0A080073C915 /* PublishTableViewDataSource.m */; };
 		20A0742C188C0A800073C915 /* PublishTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A0742B188C0A800073C915 /* PublishTextCell.m */; };
@@ -260,6 +261,8 @@
 /* Begin PBXFileReference section */
 		20274171186AC2A9005267FD /* SystemCellManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemCellManager.h; sourceTree = "<group>"; };
 		20274172186AC2A9005267FD /* SystemCellManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemCellManager.m; sourceTree = "<group>"; };
+		2063C2631890ADB20043C739 /* PublishHouseTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishHouseTypeViewController.h; sourceTree = "<group>"; };
+		2063C2641890ADB20043C739 /* PublishHouseTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishHouseTypeViewController.m; sourceTree = "<group>"; };
 		206843E218890C9A007DD8C5 /* PublishBuildingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishBuildingViewController.h; sourceTree = "<group>"; };
 		206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishBuildingViewController.m; sourceTree = "<group>"; };
 		20A07427188C0A080073C915 /* PublishTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishTableViewDataSource.h; sourceTree = "<group>"; };
@@ -667,6 +670,8 @@
 				20A0978D188D0A2E00D30196 /* 发房Model */,
 				206843E218890C9A007DD8C5 /* PublishBuildingViewController.h */,
 				206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */,
+				2063C2631890ADB20043C739 /* PublishHouseTypeViewController.h */,
+				2063C2641890ADB20043C739 /* PublishHouseTypeViewController.m */,
 				20A07427188C0A080073C915 /* PublishTableViewDataSource.h */,
 				20A07428188C0A080073C915 /* PublishTableViewDataSource.m */,
 				20A0742A188C0A800073C915 /* PublishTextCell.h */,
@@ -1762,6 +1767,7 @@
 				970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */,
 				972C10291814FCD300552C9B /* HomeViewController.m in Sources */,
 				977FCA9D1828FAD700945FB4 /* LoginManager.m in Sources */,
+				2063C2651890ADB20043C739 /* PublishHouseTypeViewController.m in Sources */,
 				B769E44F181F4C3E00A2FF50 /* FixedObject.m in Sources */,
 				97B422601820E38200A2E9E6 /* PropertyResultListViewController.m in Sources */,
 				B769E484181F8F7000A2FF50 /* BasePropertyListController.m in Sources */,
