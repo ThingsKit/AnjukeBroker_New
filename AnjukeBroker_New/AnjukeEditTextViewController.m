@@ -255,6 +255,10 @@
     }
     if(self.isTitle){
         NSString *temp = [textView.text stringByReplacingCharactersInRange:range withString:text];
+        if ([temp isEqualToString:placeHolder]) {
+            wordNum.text = [NSString stringWithFormat:@"30"];
+            return YES;
+        }
         if (temp.length > 30) {
             DLog(@"111222 %@======%d", temp, [temp length]);
             self.textV.text = [temp substringToIndex:30];
@@ -417,13 +421,19 @@
  */
 - (void) onEndOfSpeech
 {
-    [self cancelFrameChange];
-    self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBUTTONHEIHGT - 64 - 15*2 - 10);
-    if(self.isTitle){
-        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
-    } else {
-        wordNum.frame = CGRectZero;
-    }
+    [UIView animateWithDuration:0.0 animations:^{
+        [self cancelFrameChange];
+    } completion:^(BOOL finished) {
+        self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBUTTONHEIHGT - 64 - 15*2 - 10);
+        if(self.isTitle){
+            wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        } else {
+            wordNum.frame = CGRectZero;
+                }
+    }];
+
+
+    
 }
 
 
@@ -435,8 +445,17 @@
  */
 - (void) onError:(IFlySpeechError *) error
 {
-    [self cancelFrameChange];
-    self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBUTTONHEIHGT - 64 - 15*2 - 10);
+    [UIView animateWithDuration:0.0 animations:^{
+        [self cancelFrameChange];
+    } completion:^(BOOL finished) {
+        self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBUTTONHEIHGT - 64 - 15*2 - 10);
+        if(self.isTitle){
+            wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        } else {
+            wordNum.frame = CGRectZero;
+        }
+    }];
+
 }
 
 /** 取消识别回调
