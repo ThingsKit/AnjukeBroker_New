@@ -165,20 +165,24 @@
 
 - (void)rightButtonAction:(id)sender {
     if (self.isTitle) {
-        if (self.textV.text.length > 30 || self.textV.text.length < 5) {
+        if (self.textV.text.length > 30 || self.textV.text.length < 5 || [self.textV.text isEqualToString:placeHolder]) {
             [self showInfo:@"房源标题必须5到30个字符"];
             return;
         }
     }
     else {
-        if (self.textV.text.length < 10) {
+        if (self.textV.text.length < 10 || [self.textV.text isEqualToString:placeHolder]) {
             [self showInfo:@"房源描述必须至少10个字符"];
             return;
         }
     }
     
     if ([self.textFieldModifyDelegate respondsToSelector:@selector(textDidInput:isTitle:)]) {
-        [self.textFieldModifyDelegate textDidInput:self.textV.text isTitle:self.isTitle];
+        if ([self.textV.text isEqualToString:placeHolder]) {
+            [self.textFieldModifyDelegate textDidInput:@"" isTitle:self.isTitle];
+        }else{
+            [self.textFieldModifyDelegate textDidInput:self.textV.text isTitle:self.isTitle];
+        }
     }
     [self.textV resignFirstResponder];
     [self.navigationController popViewControllerAnimated:YES];
@@ -210,14 +214,14 @@
     self.textV = cellTextField;
     [self.view addSubview:cellTextField];
     
-    if (self.textV) {
-//        self.textV.text = string;
-    }
-
+        if(self.textV && [string length] > 0){
+            self.textV.text = string;
+            self.textV.textColor = SYSTEM_BLACK;
+        }
 }
 
 - (void)doBack:(id)sender {
-    if (!self.textV) {
+    if (!self.textV || [self.textV.text isEqualToString:placeHolder]) {
         [self.navigationController popViewControllerAnimated:YES];
         return;
     }
@@ -381,11 +385,13 @@
  同时只能进行一路会话,这次会话没有结束不能进行下一路会话，否则会报错
  */
 -(void)startSpeech {
+    _iFlySpeechRecognizer.delegate = self;
     [_iFlySpeechRecognizer startListening];
 }
 /** 取消本次会话 */
 -(void)cancelSpeech {
     [_iFlySpeechRecognizer cancel];
+    _iFlySpeechRecognizer.delegate = nil;
 }
 
 #pragma mark - IFlySpeechRecognizerDelegate
@@ -421,19 +427,14 @@
  */
 - (void) onEndOfSpeech
 {
-    [UIView animateWithDuration:0.0 animations:^{
-        [self cancelFrameChange];
-    } completion:^(BOOL finished) {
-        self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBUTTONHEIHGT - 64 - 15*2 - 10);
-        if(self.isTitle){
-            wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
-        } else {
-            wordNum.frame = CGRectZero;
-                }
-    }];
-
-
-    
+    _iFlySpeechRecognizer.delegate = nil;
+    [self cancelFrameChange];
+    self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBUTTONHEIHGT - 64 - 15*2 - 10);
+    if(self.isTitle){
+        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+    } else {
+        wordNum.frame = CGRectZero;
+    }
 }
 
 
@@ -445,17 +446,14 @@
  */
 - (void) onError:(IFlySpeechError *) error
 {
-    [UIView animateWithDuration:0.0 animations:^{
-        [self cancelFrameChange];
-    } completion:^(BOOL finished) {
-        self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBUTTONHEIHGT - 64 - 15*2 - 10);
-        if(self.isTitle){
+    _iFlySpeechRecognizer.delegate = nil;
+    [self cancelFrameChange];
+    self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBUTTONHEIHGT - 64 - 15*2 - 10);
+    if(self.isTitle){
             wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
-        } else {
+    } else {
             wordNum.frame = CGRectZero;
-        }
-    }];
-
+    }
 }
 
 /** 取消识别回调
