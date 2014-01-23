@@ -16,6 +16,7 @@
 #import "BaseBidPropertyCell.h"
 #import "LoginManager.h"
 #import "RentBidPropertyCell.h"
+#import "CellHeight.h"
 
 @interface RentBidDetailController ()
 {
@@ -204,9 +205,12 @@
 }
 
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CGSize size = CGSizeMake(260, 40);
-    CGSize si = [[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-    return si.height+88.0f;
+//    CGSize size = CGSizeMake(260, 40);
+//    CGSize si = [[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+//    return si.height+88.0f;
+    NSLog(@"========================>>>>>>>>>>%f", [CellHeight getBidCellHeight:[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"]]);
+    return [CellHeight getBidCellHeight:[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"]];
+    
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

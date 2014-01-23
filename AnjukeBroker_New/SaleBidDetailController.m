@@ -15,6 +15,7 @@
 #import "RTNavigationController.h"
 #import "LoginManager.h"
 #import "SaleFixedManager.h"
+#import "CellHeight.h"
 
 @interface SaleBidDetailController ()
 {
@@ -221,9 +222,10 @@
 }
 
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CGSize size = CGSizeMake(260, 40);
-    CGSize si = [[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-    return si.height+98.0f;
+    //    CGSize size = CGSizeMake(260, 40);
+    //    CGSize si = [[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+    //    return si.height+88.0f;
+    return [CellHeight getBidCellHeight:[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"]];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
