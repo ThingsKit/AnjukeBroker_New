@@ -81,6 +81,14 @@
     self.lastExposure = self.property.exposure;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (self.houseTypeTF) {
+        [self.houseTypeTF becomeFirstResponder];
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -154,6 +162,29 @@
 #pragma mark - Private Method
 
 - (void)setDefultValue {
+    if (self.property.rooms.length > 0) { //户型已有录入
+        //设置户型的row-index和title
+        NSString *roomValue = [NSString stringWithFormat:@"%d", [(PublishBuildingViewController *)self.superViewController roomValue]];
+        NSString *hallValue = [NSString stringWithFormat:@"%d", [(PublishBuildingViewController *)self.superViewController hallValue]];
+        NSString *toiletValue = [NSString stringWithFormat:@"%d", [(PublishBuildingViewController *)self.superViewController toiletValue]];
+        
+        self.houseType_inputedRow0 = [PublishDataModel getRoomIndexWithValue:roomValue];
+        self.houseType_inputedRow1 = [PublishDataModel getRoomIndexWithValue:hallValue];
+        self.houseType_inputedRow2 = [PublishDataModel getRoomIndexWithValue:toiletValue];
+        
+        NSString *name = [PublishDataModel getRoomTitleWithIndex:self.houseType_inputedRow0];
+        NSString *name2 = [PublishDataModel getHallTitleWithIndex:self.houseType_inputedRow1];
+        NSString *name3 = [PublishDataModel getToiletTitleWithIndex:self.houseType_inputedRow2];
+        
+        self.houseTypeTF.text = [NSString stringWithFormat:@"%@%@%@", name, name2, name3];
+        
+    }
+    
+    if (self.property.exposure.length > 0) { //朝向已有录入
+        //设置朝向的row-index和title
+        self.exposureTF.text = [PublishDataModel getExposureTitleWithValue:self.property.exposure];
+        self.exposure_inputedRow0 = [PublishDataModel getExposureIndexWithTitle:self.exposureTF.text];
+    }
     
 }
 
@@ -228,6 +259,9 @@
     //记录此次输入的数据所在row，方便下一次输入时聚焦
     if (self.selectedIndex == INDEX_HOUSETYPE) {
         self.houseType_inputedRow0 = index1;
+        
+        //设置室
+        [(PublishBuildingViewController *)self.superViewController setRoomValue:[strValue1 intValue]];
     }
     else {
         self.exposure_inputedRow0 = index1;
@@ -240,8 +274,11 @@
         
         strValue2 = [[[self.pickerView secondArray] objectAtIndex:index2] objectForKey:@"Value"];
         
-        if (self.selectedIndex == INDEX_HOUSETYPE) {
+        if (self.selectedIndex == INDEX_HOUSETYPE) { //户型
             self.houseType_inputedRow1 = index2;
+            
+            //设置厅
+            [(PublishBuildingViewController *)self.superViewController setHallValue:[strValue2 intValue]];
         }
         else {
             self.exposure_inputedRow1 = index2;
@@ -257,6 +294,9 @@
         
         if (self.selectedIndex == INDEX_HOUSETYPE) {
             self.houseType_inputedRow2 = index3;
+            
+            //设置卫
+            [(PublishBuildingViewController *)self.superViewController setHallValue:[strValue2 intValue]];
         }
         else {
             self.exposure_inputedRow2 = index3;

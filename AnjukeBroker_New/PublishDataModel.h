@@ -19,16 +19,19 @@
 + (int)getRoomIndexWithValue:(NSString *)value;
 + (int)getRoomIndexWithTitle:(NSString *)title;
 + (NSString *)getRoomValueWithIndex:(int)index;
++ (NSString *)getRoomTitleWithIndex:(int)index;
 
 //厅
 + (NSMutableArray *)getPropertyHouseTypeArray_hall;
 
 + (int)getHallIndexWithValue:(NSString *)value;
++ (NSString *)getHallTitleWithIndex:(int)index;
 
 //卫
 + (NSMutableArray *)getPropertyHouseTypeArray_toilet;
 
 + (int)getToiletIndexWithValue:(NSString *)value;
++ (NSString *)getToiletTitleWithIndex:(int)index;
 
 //楼
 + (NSMutableArray *)getPropertyFloor;

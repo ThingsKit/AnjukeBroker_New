@@ -46,6 +46,7 @@
 @synthesize lastPrice, propertyPrice;
 @synthesize needFileNO;
 @synthesize communityDic;
+@synthesize roomValue, hallValue, toiletValue;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

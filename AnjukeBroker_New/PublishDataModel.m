@@ -96,6 +96,13 @@
     return str;
 }
 
++ (NSString *)getRoomTitleWithIndex:(int)index{
+    NSArray *arr = [self getPropertyHouseTypeArray_room];
+    
+    NSString *str = [[arr objectAtIndex:index] objectForKey:@"Title"];
+    return str;
+}
+
 #pragma mark - 户型-厅
 //得到厅array
 + (NSMutableArray *)getPropertyHouseTypeArray_hall {
@@ -128,6 +135,13 @@
     return index;
 }
 
++ (NSString *)getHallTitleWithIndex:(int)index{
+    NSArray *arr = [self getPropertyHouseTypeArray_hall];
+    
+    NSString *str = [[arr objectAtIndex:index] objectForKey:@"Title"];
+    return str;
+}
+
 #pragma mark - 户型-卫
 + (NSMutableArray *)getPropertyHouseTypeArray_toilet {
     NSString *strPlistPath = [[NSBundle mainBundle] pathForResource:@"PropertyHouseType" ofType:@"plist"];
@@ -157,6 +171,13 @@
     DLog(@"toilet--index [%d]", index);
     
     return index;
+}
+
++ (NSString *)getToiletTitleWithIndex:(int)index{
+    NSArray *arr = [self getPropertyHouseTypeArray_toilet];
+    
+    NSString *str = [[arr objectAtIndex:index] objectForKey:@"Title"];
+    return str;
 }
 
 #pragma mark - 楼层-楼

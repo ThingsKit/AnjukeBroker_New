@@ -29,6 +29,10 @@
 @property BOOL isTBBtnPressedToShowKeyboard; //是否是通过上一项、下一项点按控制键盘、滚轮显示，是则屏蔽textField的delegate方法
 @property (nonatomic, strong) NSDictionary *communityDic; //小区内容显示label
 
+@property int roomValue;
+@property int hallValue;
+@property int toiletValue; //用于页面间户型数据的传递
+
 - (void)setTextFieldForProperty;
 
 @end
