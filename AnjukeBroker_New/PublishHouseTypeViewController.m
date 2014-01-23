@@ -7,7 +7,6 @@
 //
 
 #import "PublishHouseTypeViewController.h"
-#import "PublishTableViewDataSource.h"
 #import "PublishDataModel.h"
 #import "AnjukeEditableCell.h"
 #import "Property.h"
@@ -17,7 +16,6 @@
 
 @interface PublishHouseTypeViewController ()
 
-@property (nonatomic, strong) PublishTableViewDataSource *cellDataSource;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) UITableView *tableViewList;
 @property int selectedIndex; //记录当前点选的row对应的cellDataSource对应的indexTag
@@ -29,15 +27,24 @@
 @property (nonatomic, strong) UITextField *exposureTF;
 @property (nonatomic, strong) UITextField *inputingTF;
 
+@property int houseType_inputedRow0;
+@property int houseType_inputedRow1;
+@property int houseType_inputedRow2;
+
+@property int exposure_inputedRow0;
+@property int exposure_inputedRow1;
+@property int exposure_inputedRow2;
+
 @end
 
 @implementation PublishHouseTypeViewController
 @synthesize isHaozu;
-@synthesize cellDataSource;
 @synthesize dataArray;
 @synthesize tableViewList;
 @synthesize houseTypeTF, exposureTF;
 @synthesize inputingTextF;
+@synthesize houseType_inputedRow0, houseType_inputedRow1, houseType_inputedRow2;
+@synthesize exposure_inputedRow0, exposure_inputedRow1, exposure_inputedRow2;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -58,6 +65,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    self.view.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
+    
     [self setTitleViewWithString:@"房型"];
     [self addRightButton:@"保存" andPossibleTitle:nil];
 }
@@ -71,7 +80,6 @@
 #pragma mark - init Method
 
 - (void)initModel {
-    self.cellDataSource = [[PublishTableViewDataSource alloc] init];
     self.dataArray = [NSMutableArray array];
     
 }
@@ -134,14 +142,11 @@
 - (void)buttonDidSelect:(id)sender {
     UIButton *btn = (UIButton *)sender;
     int index = btn.tag - SELECT_BTN_TAG;
-    
     BOOL isHouseType = NO;
-    
-    DLog(@"index %d", index);
     
     self.selectedIndex = index;
     
-    if (index == 0) {
+    if (index == INDEX_HOUSETYPE) {
         //户型
         self.inputingTextF = self.houseTypeTF;
         isHouseType = YES;
@@ -175,21 +180,123 @@
     //重置pickerView数据
     [self.pickerView reloadHouseTypePickerWithType:isHouseType isHaozu:self.isHaozu];
     
+    if (isHouseType) {
+        [self.pickerView pickerScrollToRowAtIndex:self.houseType_inputedRow0 atCom:0];
+        [self.pickerView pickerScrollToRowAtIndex:self.houseType_inputedRow1 atCom:1];
+        [self.pickerView pickerScrollToRowAtIndex:self.houseType_inputedRow2 atCom:2];
+    }
+    else {
+        [self.pickerView pickerScrollToRowAtIndex:self.exposure_inputedRow0 atCom:0];
+        [self.pickerView pickerScrollToRowAtIndex:self.exposure_inputedRow1 atCom:1];
+        [self.pickerView pickerScrollToRowAtIndex:self.exposure_inputedRow2 atCom:2];
+    }
+    
     [self.inputingTextF becomeFirstResponder];
+}
+
+- (NSMutableString *)getInputStringAndSetProperty {
+    NSMutableString *string = [NSMutableString string]; //显示用string
+    NSMutableString * idStr = [NSMutableString string]; //上传用string（id）
+    
+    NSString *strValue1 = [NSString string];
+    NSString *strValue2 = [NSString string];
+    NSString *strValue3 = [NSString string];
+    
+    int index1 = [self.pickerView selectedRowInComponent:0];
+    NSString *string1 = [[[self.pickerView firstArray] objectAtIndex:index1] objectForKey:@"Title"];
+    [string appendString:string1];
+    strValue1 = [[[self.pickerView firstArray] objectAtIndex:index1] objectForKey:@"Value"];
+    
+    //记录此次输入的数据所在row，方便下一次输入时聚焦
+    if (self.selectedIndex == INDEX_HOUSETYPE) {
+        self.houseType_inputedRow0 = index1;
+    }
+    else {
+        self.exposure_inputedRow0 = index1;
+    }
+    
+    if ([self.pickerView.secondArray count] > 0) {
+        int index2 = [self.pickerView selectedRowInComponent:1];
+        NSString *string2 = [[[self.pickerView secondArray] objectAtIndex:index2] objectForKey:@"Title"];
+        [string appendString:string2];
+        
+        strValue2 = [[[self.pickerView secondArray] objectAtIndex:index2] objectForKey:@"Value"];
+        
+        if (self.selectedIndex == INDEX_HOUSETYPE) {
+            self.houseType_inputedRow1 = index2;
+        }
+        else {
+            self.exposure_inputedRow1 = index2;
+        }
+    }
+    
+    if ([self.pickerView.thirdArray count] > 0) {
+        int index3 = [self.pickerView selectedRowInComponent:2];
+        NSString *string3 = [[[self.pickerView thirdArray] objectAtIndex:index3] objectForKey:@"Title"];
+        [string appendString:string3];
+        
+        strValue3 = [[[self.pickerView thirdArray] objectAtIndex:index3] objectForKey:@"Value"];
+        
+        if (self.selectedIndex == INDEX_HOUSETYPE) {
+            self.houseType_inputedRow2 = index3;
+        }
+        else {
+            self.exposure_inputedRow2 = index3;
+        }
+    }
+    
+    //顺便写入传参数值。。。以后优化代码
+    if (self.selectedIndex == INDEX_HOUSETYPE) { //户型
+        //
+        [idStr appendString:strValue1];
+        [idStr appendString:[NSString stringWithFormat:@",%@", strValue2]];
+        [idStr appendString:[NSString stringWithFormat:@",%@", strValue3]];
+        self.property.rooms = idStr;
+    }
+    else { //朝向
+        [idStr appendString:strValue1];
+        self.property.exposure = idStr;
+    }
+    
+    DLog(@"户型property [%@]", self.property);
+    
+    return string;
 }
 
 #pragma mark - KeyboardBarClickDelegate
 - (void)finishBtnClicked { //点击完成，输入框组件消失
-    
+    self.inputingTextF.text = [self getInputStringAndSetProperty];
     [self pickerDisappear];
 }
 
 - (void)preBtnClicked { //点击”上一个“，检查输入样式并做转换，tableView下移
-    
+    if (self.selectedIndex == INDEX_HOUSETYPE) {
+        return;
+    }
+    else { //户型跳转
+        self.selectedIndex = INDEX_EXPOSURE;
+        
+        self.inputingTextF.text = [self getInputStringAndSetProperty];
+        
+        self.inputingTextF = self.houseTypeTF;
+        [self showPicker:YES];
+        
+    }
 }
 
 - (void)nextBtnClicked { //点击”下一个“，检查输入样式并做转换，tableView上移
-    
+    if (self.selectedIndex == INDEX_EXPOSURE) {
+        return;
+    }
+    else { //朝向跳转
+        self.selectedIndex = INDEX_HOUSETYPE;
+        
+        self.inputingTextF.text = [self getInputStringAndSetProperty];
+        
+        self.inputingTextF = self.exposureTF;
+        [self showPicker:NO];
+    }
+
 }
 
 #pragma mark - UITextField Delegate
@@ -198,10 +305,12 @@
     BOOL isHouseType = NO;
     
     if ([textField isEqual:self.houseTypeTF]) {
+        self.selectedIndex = INDEX_HOUSETYPE;
         self.inputingTextF = self.houseTypeTF;
         isHouseType = YES;
     }
     else if ([textField isEqual:self.exposureTF]) {
+        self.selectedIndex = INDEX_EXPOSURE;
         self.inputingTextF = self.exposureTF;
     }
     

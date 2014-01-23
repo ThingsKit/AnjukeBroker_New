@@ -552,6 +552,7 @@
                     PublishHouseTypeViewController *ph = [[PublishHouseTypeViewController alloc] init];
                     ph.isHaozu = self.isHaozu;
                     ph.backType = RTSelectorBackTypePopBack;
+                    ph.property = self.property;
                     [self.navigationController pushViewController:ph animated:YES];
                 }
                     break;
