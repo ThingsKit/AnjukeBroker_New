@@ -959,7 +959,6 @@
 		97410546180CDFE0004DAE95 = {
 			isa = PBXGroup;
 			children = (
-				B7ED78AE18893BFC00E4D44C /* iflyMSC.framework */,
 				97AED0F5180D20100072611B /* RTCoreService.xcodeproj */,
 				9741055A180CDFE0004DAE95 /* AnjukeBroker_New */,
 				97410577180CDFE1004DAE95 /* AnjukeBroker_NewTests */,
@@ -981,6 +980,7 @@
 			isa = PBXGroup;
 			children = (
 				B7ED78481888D6BC00E4D44C /* libz.dylib */,
+				B7ED78AE18893BFC00E4D44C /* iflyMSC.framework */,
 				B7ED78461888C87B00E4D44C /* AddressBook.framework */,
 				B7ED78441888C83B00E4D44C /* AudioToolbox.framework */,
 				B7ED78421888C82E00E4D44C /* AVFoundation.framework */,

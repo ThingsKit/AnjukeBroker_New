@@ -55,6 +55,47 @@
     return arr;
 }
 
+//室
++ (int)getRoomIndexWithValue:(NSString *)value{
+    NSArray *arr = [self getPropertyHouseTypeArray_room];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([value isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            index = i;
+        }
+    }
+    
+    DLog(@"room--index [%d]", index);
+    
+    return index;
+}
+
+//title-室
++ (int)getRoomIndexWithTitle:(NSString *)title{
+    NSArray *arr = [self getPropertyHouseTypeArray_room];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([title isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Title"]]) {
+            index = i;
+        }
+    }
+    
+    DLog(@"room--index [%d]", index);
+    
+    return index;
+}
+
++ (NSString *)getRoomValueWithIndex:(int)index{
+    NSArray *arr = [self getPropertyHouseTypeArray_room];
+    
+    NSString *str = [[arr objectAtIndex:index] objectForKey:@"Value"];
+    return str;
+}
+
 #pragma mark - 户型-厅
 //得到厅array
 + (NSMutableArray *)getPropertyHouseTypeArray_hall {
@@ -70,6 +111,23 @@
     return arr;
 }
 
+//厅
++ (int)getHallIndexWithValue:(NSString *)value{
+    NSArray *arr = [self getPropertyHouseTypeArray_hall];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([value isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            index = i;
+        }
+    }
+    
+    DLog(@"hall--index [%d]", index);
+    
+    return index;
+}
+
 #pragma mark - 户型-卫
 + (NSMutableArray *)getPropertyHouseTypeArray_toilet {
     NSString *strPlistPath = [[NSBundle mainBundle] pathForResource:@"PropertyHouseType" ofType:@"plist"];
@@ -82,6 +140,23 @@
     //    }
     
     return arr;
+}
+
+//卫
++ (int)getToiletIndexWithValue:(NSString *)value{
+    NSArray *arr = [self getPropertyHouseTypeArray_toilet];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([value isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            index = i;
+        }
+    }
+    
+    DLog(@"toilet--index [%d]", index);
+    
+    return index;
 }
 
 #pragma mark - 楼层-楼
@@ -161,6 +236,40 @@
     NSMutableArray *arr = [NSMutableArray arrayWithContentsOfFile:strPlistPath];
     
     return arr;
+}
+
+//朝向，通过title得到index
++ (int)getExposureIndexWithTitle:(NSString *)title {
+    NSArray *arr = [self getPropertyExposure];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([title isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Title"]]) {
+            index = i;
+        }
+    }
+    
+    DLog(@"ex--index [%d]", index);
+    
+    return index;
+}
+
+//朝向仅租房需要，二手房直接返回朝向title
++ (NSString *)getExposureTitleWithValue:(NSString *)value{
+    NSArray *arr = [self getPropertyExposure];
+    
+    NSString *str = [NSString string];
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([value isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            str = [[arr objectAtIndex:i] objectForKey:@"Title"];
+        }
+    }
+    
+    DLog(@"edit--string [%@]", str);
+    
+    return str;
 }
 
 #pragma mark - 出租方式

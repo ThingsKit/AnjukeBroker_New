@@ -16,11 +16,19 @@
 //室
 + (NSMutableArray *)getPropertyHouseTypeArray_room;
 
++ (int)getRoomIndexWithValue:(NSString *)value;
++ (int)getRoomIndexWithTitle:(NSString *)title;
++ (NSString *)getRoomValueWithIndex:(int)index;
+
 //厅
 + (NSMutableArray *)getPropertyHouseTypeArray_hall;
 
++ (int)getHallIndexWithValue:(NSString *)value;
+
 //卫
 + (NSMutableArray *)getPropertyHouseTypeArray_toilet;
+
++ (int)getToiletIndexWithValue:(NSString *)value;
 
 //楼
 + (NSMutableArray *)getPropertyFloor;
@@ -33,6 +41,9 @@
 
 //朝向
 + (NSArray *)getPropertyExposure;
+
++ (int)getExposureIndexWithTitle:(NSString *)title;
++ (NSString *)getExposureTitleWithValue:(NSString *)value;
 
 //出租方式
 + (NSArray *)getPropertyRentType;
