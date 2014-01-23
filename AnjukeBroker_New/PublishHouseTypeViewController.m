@@ -147,9 +147,15 @@
         }
         [btn addSubview:cellTextField];
     }
+    
+    [self setDefultValue];
 }
 
 #pragma mark - Private Method
+
+- (void)setDefultValue {
+    
+}
 
 - (void)buttonDidSelect:(id)sender {
     UIButton *btn = (UIButton *)sender;
