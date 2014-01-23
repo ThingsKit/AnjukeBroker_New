@@ -187,6 +187,38 @@
     
 }
 
+//***根据当前输入的内容（第几行）判断所需提供的输入dataSource***
+- (void)reloadHouseTypePickerWithType:(BOOL)isHoustType isHaozu:(BOOL)isHaozu {
+    self.firstArray = [NSArray array];
+    self.secondArray = [NSArray array];
+    self.thirdArray = [NSArray array];
+    
+    if (isHaozu) {
+        //get data
+        if (isHoustType) { //户型
+            self.firstArray = [PublishDataModel getPropertyHouseTypeArray_room];
+            self.secondArray = [PublishDataModel getPropertyHouseTypeArray_hall];
+            self.thirdArray = [PublishDataModel getPropertyHouseTypeArray_toilet];
+        }
+        else { //朝向
+            self.firstArray = [PublishDataModel getPropertyExposure];
+        }
+    }
+    else { //二手房
+        //get data
+        if (isHoustType) {
+            self.firstArray = [PublishDataModel getPropertyHouseTypeArray_room];
+            self.secondArray = [PublishDataModel getPropertyHouseTypeArray_hall];
+            self.thirdArray = [PublishDataModel getPropertyHouseTypeArray_toilet];
+        }
+        else {
+            self.firstArray = [PublishDataModel getPropertyExposure];
+        }
+    }
+    [self reloadAllComponents];
+    
+}
+
 - (void)pickerScrollToRowAtIndex:(NSInteger)row atCom:(NSInteger)com{
     if (com == 1 && self.secondArray.count == 0) {
         return;

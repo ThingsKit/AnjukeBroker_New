@@ -19,6 +19,9 @@
 //厅
 + (NSMutableArray *)getPropertyHouseTypeArray_hall;
 
+//卫
++ (NSMutableArray *)getPropertyHouseTypeArray_toilet;
+
 //楼
 + (NSMutableArray *)getPropertyFloor;
 
@@ -27,6 +30,9 @@
 
 //装修
 + (NSArray *)getPropertyFitmentForHaozu:(BOOL)isHZ;
+
+//朝向
++ (NSArray *)getPropertyExposure;
 
 //出租方式
 + (NSArray *)getPropertyRentType;

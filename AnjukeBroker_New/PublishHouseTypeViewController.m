@@ -135,6 +135,8 @@
     UIButton *btn = (UIButton *)sender;
     int index = btn.tag - SELECT_BTN_TAG;
     
+    BOOL isHouseType = NO;
+    
     DLog(@"index %d", index);
     
     self.selectedIndex = index;
@@ -142,19 +144,20 @@
     if (index == 0) {
         //户型
         self.inputingTextF = self.houseTypeTF;
+        isHouseType = YES;
     }
     else { //朝向
         self.inputingTextF = self.exposureTF;
     }
     
-    [self showPicker];
+    [self showPicker:isHouseType];
 }
 
 - (void)pickerDisappear {
     [self.inputingTextF resignFirstResponder];
 }
 
-- (void)showPicker {
+- (void)showPicker:(BOOL)isHouseType {
     //初始化滚轮和键盘控制条
     if (!self.pickerView) {
         self.pickerView = [[RTInputPickerView alloc] initWithFrame:CGRectMake(0, [self currentViewHeight] - RT_PICKERVIEW_H - 0, [self windowWidth], RT_PICKERVIEW_H)];
@@ -168,6 +171,9 @@
     //弹出滚轮
     self.inputingTextF.inputAccessoryView = self.toolBar;
     self.inputingTextF.inputView = self.pickerView;
+    
+    //重置pickerView数据
+    [self.pickerView reloadHouseTypePickerWithType:isHouseType isHaozu:self.isHaozu];
     
     [self.inputingTextF becomeFirstResponder];
 }
@@ -189,14 +195,17 @@
 #pragma mark - UITextField Delegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
+    BOOL isHouseType = NO;
+    
     if ([textField isEqual:self.houseTypeTF]) {
         self.inputingTextF = self.houseTypeTF;
+        isHouseType = YES;
     }
     else if ([textField isEqual:self.exposureTF]) {
         self.inputingTextF = self.exposureTF;
     }
     
-    [self showPicker];
+    [self showPicker:isHouseType];
 }
 
 @end

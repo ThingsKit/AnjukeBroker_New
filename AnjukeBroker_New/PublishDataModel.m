@@ -70,6 +70,20 @@
     return arr;
 }
 
+#pragma mark - 户型-卫
++ (NSMutableArray *)getPropertyHouseTypeArray_toilet {
+    NSString *strPlistPath = [[NSBundle mainBundle] pathForResource:@"PropertyHouseType" ofType:@"plist"];
+    NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:strPlistPath];
+    NSMutableArray *arr = [dic objectForKey:@"Wei"];
+    
+    //    for (int i = 0; i < 11; i ++) {
+    //        NSString *str = [NSString stringWithFormat:@"%d卫", i];
+    //        [arr addObject:str];
+    //    }
+    
+    return arr;
+}
+
 #pragma mark - 楼层-楼
 + (NSMutableArray *)getPropertyFloor {
     //    NSString *strPlistPath = [[NSBundle mainBundle] pathForResource:@"PropertyFloor" ofType:@"plist"];
@@ -136,6 +150,15 @@
         NSString *strPlistPath = [[NSBundle mainBundle] pathForResource:@"PropertyFitment" ofType:@"plist"];
         arr = [NSMutableArray arrayWithContentsOfFile:strPlistPath];
     }
+    
+    return arr;
+}
+
+
+#pragma mark - 房型-朝向
++ (NSArray *)getPropertyExposure {
+    NSString *strPlistPath = [[NSBundle mainBundle] pathForResource:@"PropertyDirection" ofType:@"plist"];
+    NSMutableArray *arr = [NSMutableArray arrayWithContentsOfFile:strPlistPath];
     
     return arr;
 }

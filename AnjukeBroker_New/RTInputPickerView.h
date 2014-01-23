@@ -32,6 +32,7 @@ typedef NS_ENUM(NSInteger, PickerType){
 
 - (void)reloadPickerWithRow:(int)row isHaozu:(BOOL)isHaozu;
 - (void)reloadPublishPickerWithIndex:(int)index isHaozu:(BOOL)isHaozu; //新发房页面使用。。。
+- (void)reloadHouseTypePickerWithType:(BOOL)isHoustType isHaozu:(BOOL)isHaozu; //房型页面取数据使用。。。
 
 - (void)pickerScrollToRowAtIndex:(NSInteger)row atCom:(NSInteger)com; //根据是否有第二第三栏移动row
 
