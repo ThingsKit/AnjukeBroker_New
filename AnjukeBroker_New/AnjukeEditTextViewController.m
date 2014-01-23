@@ -391,7 +391,6 @@
 /** 取消本次会话 */
 -(void)cancelSpeech {
     [_iFlySpeechRecognizer cancel];
-    _iFlySpeechRecognizer.delegate = nil;
 }
 
 #pragma mark - IFlySpeechRecognizerDelegate
@@ -451,9 +450,10 @@
     self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBUTTONHEIHGT - 64 - 15*2 - 10);
     if(self.isTitle){
             wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
-    } else {
+        } else {
             wordNum.frame = CGRectZero;
-    }
+        }
+
 }
 
 /** 取消识别回调
