@@ -7,7 +7,11 @@
 //
 
 #import "RTViewController.h"
+#import "RTInputPickerView.h"
+#import "KeyboardToolBar.h"
 
-@interface PublishHouseTypeViewController : RTViewController
+@interface PublishHouseTypeViewController : RTViewController <UITextFieldDelegate, KeyboardBarClickDelegate>
+
+@property BOOL isHaozu;
 
 @end

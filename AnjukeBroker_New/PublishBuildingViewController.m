@@ -10,6 +10,7 @@
 #import "AppManager.h"
 #import "PublishInputOrderModel.h"
 #import "AnjukeNormalCell.h"
+#import "PublishHouseTypeViewController.h"
 
 #define PHOTO_SHOW_HEIGHT (15+15+15+130*2)/2
 #define PHOTO_BG_HEIGHT PHOTO_SHOW_HEIGHT+80
@@ -548,7 +549,10 @@
             switch (indexPath.row) {
                 case 0: //房型
                 {
-                    
+                    PublishHouseTypeViewController *ph = [[PublishHouseTypeViewController alloc] init];
+                    ph.isHaozu = self.isHaozu;
+                    ph.backType = RTSelectorBackTypePopBack;
+                    [self.navigationController pushViewController:ph animated:YES];
                 }
                     break;
                 case 1: //楼层
