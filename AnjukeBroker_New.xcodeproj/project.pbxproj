@@ -157,6 +157,7 @@
 		97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F5E5E5182B38DA00B5CBCC /* PhotoShowView.m */; };
 		97FA36A3182F318D00EF714D /* PropertyHouseType.plist in Resources */ = {isa = PBXBuildFile; fileRef = 97FA36A2182F318D00EF714D /* PropertyHouseType.plist */; };
 		97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */; };
+		B702BA4518921752002E2DC7 /* FindPropertyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B702BA4418921752002E2DC7 /* FindPropertyCell.m */; };
 		B70323DC1832115B00DFDB1C /* BaseGroupListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B70323DB1832115B00DFDB1C /* BaseGroupListController.m */; };
 		B721094B18277CE100904FC7 /* RentFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B721094A18277CE100904FC7 /* RentFixedDetailController.m */; };
 		B721094F18277F8A00904FC7 /* BaseFixedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B721094E18277F8A00904FC7 /* BaseFixedCell.m */; };
@@ -488,6 +489,8 @@
 		97FA36A2182F318D00EF714D /* PropertyHouseType.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PropertyHouseType.plist; sourceTree = "<group>"; };
 		97FD0B6018157BEC0072FB5E /* PropertyDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDataManager.h; sourceTree = "<group>"; };
 		97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDataManager.m; sourceTree = "<group>"; };
+		B702BA4318921752002E2DC7 /* FindPropertyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPropertyCell.h; sourceTree = "<group>"; };
+		B702BA4418921752002E2DC7 /* FindPropertyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPropertyCell.m; sourceTree = "<group>"; };
 		B70323DA1832115B00DFDB1C /* BaseGroupListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseGroupListController.h; sourceTree = "<group>"; };
 		B70323DB1832115B00DFDB1C /* BaseGroupListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseGroupListController.m; sourceTree = "<group>"; };
 		B721094918277CE100904FC7 /* RentFixedDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentFixedDetailController.h; sourceTree = "<group>"; };
@@ -1465,6 +1468,8 @@
 				B769E48B181FA89000A2FF50 /* PPCGroupCell.m */,
 				B721095318278B4E00904FC7 /* SalePropertyListCell.h */,
 				B721095418278B4E00904FC7 /* SalePropertyListCell.m */,
+				B702BA4318921752002E2DC7 /* FindPropertyCell.h */,
+				B702BA4418921752002E2DC7 /* FindPropertyCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1773,6 +1778,7 @@
 				B7E69BBB183B4DDB0097D5C3 /* BaseModifyCostController.m in Sources */,
 				B77A960C182A3369007F04E3 /* SaleNoPlanListManager.m in Sources */,
 				971D60921849CEA5006B07C9 /* NoNetworkView.m in Sources */,
+				B702BA4518921752002E2DC7 /* FindPropertyCell.m in Sources */,
 				972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */,
 				974E5C82181E4210000246D1 /* AnjukeEditableCell.m in Sources */,
 				B769E463181F629B00A2FF50 /* BasePropertyDetailController.m in Sources */,
@@ -1918,7 +1924,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "398A0F84-47E8-4C09-86AA-999FB251B95D";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = NO;
 			};
@@ -1953,7 +1959,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "398A0F84-47E8-4C09-86AA-999FB251B95D";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1978,7 +1984,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "227AE9C7-5607-42D0-8641-EF6BFBFE34F5";
+				PROVISIONING_PROFILE = "398A0F84-47E8-4C09-86AA-999FB251B95D";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../RTNetwork/** $(PROJECT_DIR)/../RTApiProxy/** $(PROJECT_DIR)/../RTCoreService/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2003,7 +2009,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "227AE9C7-5607-42D0-8641-EF6BFBFE34F5";
+				PROVISIONING_PROFILE = "398A0F84-47E8-4C09-86AA-999FB251B95D";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../RTNetwork/** $(PROJECT_DIR)/../RTApiProxy/** $(PROJECT_DIR)/../RTCoreService/**";
 				WRAPPER_EXTENSION = app;
 			};

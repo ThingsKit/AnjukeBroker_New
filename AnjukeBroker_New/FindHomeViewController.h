@@ -8,6 +8,7 @@
 
 #import "RTViewController.h"
 
-@interface FindHomeViewController : RTViewController
-
+@interface FindHomeViewController : RTViewController <UITableViewDataSource, UITableViewDelegate>
+@property (strong, nonatomic) UITableView *myTable;
+@property (strong, nonatomic) NSMutableArray *myArray;
 @end
