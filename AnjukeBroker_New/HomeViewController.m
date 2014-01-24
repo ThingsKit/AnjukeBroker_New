@@ -253,7 +253,7 @@
     //设置跳转
     MoreViewController *mv = [[MoreViewController alloc] init];
     [mv setHidesBottomBarWhenPushed:YES];
-    [self.navigationController pushViewController:mv animated:NO];
+    [self.navigationController pushViewController:mv animated:YES];
 }
 
 #pragma mark - Request Method
