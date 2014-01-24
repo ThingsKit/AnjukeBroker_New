@@ -17,6 +17,7 @@
 
 #import "PublishBuildingViewController.h"
 #import "CommunityListViewController.h"
+#import "MoreViewController.h"
 
 #define HOME_cellHeight 50
 #define headerHeight (200+150)/2
@@ -68,6 +69,7 @@
     self.view.backgroundColor = [UIColor clearColor];
     [self setTitleViewWithString:@"我的安居客"];
     
+    [self addRightButton:@"设置" andPossibleTitle:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -245,6 +247,13 @@
     self.propNumLb.text = [self.ppcDataDic objectForKey:@"onLinePropNum"];
     self.costLb.text = [self.ppcDataDic objectForKey:@"todayAllCosts"];
     self.clickLb.text = [self.ppcDataDic objectForKey:@"todayAllClicks"];
+}
+
+- (void)rightButtonAction:(id)sender {
+    //设置跳转
+    MoreViewController *mv = [[MoreViewController alloc] init];
+    [mv setHidesBottomBarWhenPushed:YES];
+    [self.navigationController pushViewController:mv animated:NO];
 }
 
 #pragma mark - Request Method

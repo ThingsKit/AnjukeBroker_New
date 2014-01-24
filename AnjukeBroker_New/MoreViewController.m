@@ -79,7 +79,7 @@
 }
 
 - (void)initDisplay {
-    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_BETWEEN_NAV_TAB style:UITableViewStylePlain];
+    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.tvList = tv;
     tv.backgroundColor = [UIColor clearColor];
 //    tv.layer.borderColor = [UIColor blackColor].CGColor;

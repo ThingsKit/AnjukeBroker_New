@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "Util_UI.h"
 #import "AppManager.h"
+#import "FindHomeViewController.h"
 
 #define tabItemInsertsMake UIEdgeInsetsMake(0, 0, 0, 0)
 
@@ -65,7 +66,8 @@
         RTNavigationController *nav3 = [[RTNavigationController alloc] initWithRootViewController:self.page3];
         [self.controllerArrays addObject:nav3];
         
-        MoreViewController *mv = [[MoreViewController alloc] init];
+        //发现
+        FindHomeViewController *mv = [[FindHomeViewController alloc] init];
         self.page4 = mv;
         mv.isHome = YES;
         RTNavigationController *nav4 = [[RTNavigationController alloc] initWithRootViewController:self.page4];
@@ -74,7 +76,6 @@
         //set tabBarItems
         UITabBarItem *tb1 = nil;
         tb1 = [[UITabBarItem alloc] initWithTitle:@"首页" image:[UIImage imageNamed:@"TabHome_normal.png"] tag:1];
-        tb1.selectedImage = [UIImage imageNamed:@"anjuke_icon11_home_selected.png"];
 //        tb1 = [[UITabBarItem alloc] initWithTitle:@"首页" image:[UIImage imageNamed:@"TabHome_normal"] selectedImage:[UIImage imageNamed:@"anjuke_icon11_home_selected.png"]];
         tb1.imageInsets = tabItemInsertsMake;
         
@@ -82,21 +83,18 @@
         
         UITabBarItem *tb2 = nil;
         tb2 = [[UITabBarItem alloc] initWithTitle:@"二手房" image:[UIImage imageNamed:@"TabAnjuke_normal.png"] tag:2];
-        tb2.selectedImage = [UIImage imageNamed:@"anjuke_icon22_esf.png"];
 //        tb2 = [[UITabBarItem alloc] initWithTitle:@"二手房" image:[UIImage imageNamed:@"TabAnjuke_normal"] selectedImage:[UIImage imageNamed:@"anjuke_icon22_esf.png"]];
         tb2.imageInsets = tabItemInsertsMake;
         nav2.tabBarItem = tb2;
         
         UITabBarItem *tb3 = nil;
         tb3 = [[UITabBarItem alloc] initWithTitle:@"租房" image:[UIImage imageNamed:@"TabHaozu_normal.png"] tag:3];
-        tb3.selectedImage = [UIImage imageNamed:@"anjuke_icon33_zf_selected.png"];
 //        tb3 = [[UITabBarItem alloc] initWithTitle:@"租房" image:[UIImage imageNamed:@"TabHaozu_normal"] selectedImage:[UIImage imageNamed:@"anjuke_icon33_zf_selected.png"]];
         tb3.imageInsets = tabItemInsertsMake;
         nav3.tabBarItem = tb3;
         
         UITabBarItem *tb4 = nil;
-        tb4 = [[UITabBarItem alloc] initWithTitle:@"更多" image:[UIImage imageNamed:@"TabMore_normal.png"] tag:4];
-        tb4.selectedImage = [UIImage imageNamed:@"anjuke_icon44_more_selected.png"];
+        tb4 = [[UITabBarItem alloc] initWithTitle:@"发现" image:[UIImage imageNamed:@"anjuke_icon_find.png"] tag:4];
 //        tb4 =[[UITabBarItem alloc] initWithTitle:@"更多" image:[UIImage imageNamed:@"TabMore_normal"] selectedImage:[UIImage imageNamed:@"anjuke_icon44_more_selected.png"]];
         tb4.imageInsets = tabItemInsertsMake;
         nav4.tabBarItem = tb4;
