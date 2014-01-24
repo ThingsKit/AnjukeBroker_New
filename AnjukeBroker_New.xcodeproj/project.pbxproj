@@ -24,6 +24,7 @@
 		20A44DB518697B5E008D8CB1 /* fresh1_1008@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A44DB418697B5E008D8CB1 /* fresh1_1008@2x.png */; };
 		20AD081F1887DBE3005462CC /* anjuke_icon_next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20AD081A1887DBE3005462CC /* anjuke_icon_next@2x.png */; };
 		20AD08231887F471005462CC /* anjuke_icon_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20AD08221887F471005462CC /* anjuke_icon_back@2x.png */; };
+		20D3C24C1892466B0030D7D8 /* PhotoFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D3C24B1892466B0030D7D8 /* PhotoFooterView.m */; };
 		20E3E782186C2B9D00D61889 /* anjuke_icon_gupaiming@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20E3E780186C2B9D00D61889 /* anjuke_icon_gupaiming@2x.png */; };
 		20E3E783186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20E3E781186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png */; };
 		2761B89C187C053C00EABF95 /* logo_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89A187C053C00EABF95 /* logo_57.png */; };
@@ -293,6 +294,8 @@
 		20A44DB418697B5E008D8CB1 /* fresh1_1008@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fresh1_1008@2x.png"; sourceTree = "<group>"; };
 		20AD081A1887DBE3005462CC /* anjuke_icon_next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_next@2x.png"; sourceTree = "<group>"; };
 		20AD08221887F471005462CC /* anjuke_icon_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_back@2x.png"; sourceTree = "<group>"; };
+		20D3C24A1892466B0030D7D8 /* PhotoFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoFooterView.h; sourceTree = "<group>"; };
+		20D3C24B1892466B0030D7D8 /* PhotoFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoFooterView.m; sourceTree = "<group>"; };
 		20E3E780186C2B9D00D61889 /* anjuke_icon_gupaiming@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_gupaiming@2x.png"; sourceTree = "<group>"; };
 		20E3E781186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_nomessage@2x.png"; sourceTree = "<group>"; };
 		2761B89A187C053C00EABF95 /* logo_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_57.png; sourceTree = "<group>"; };
@@ -684,6 +687,7 @@
 		206843E018890C3F007DD8C5 /* 新发房页面 */ = {
 			isa = PBXGroup;
 			children = (
+				20D3C248189245840030D7D8 /* 发房View */,
 				20A0978D188D0A2E00D30196 /* 发房Model */,
 				206843E218890C9A007DD8C5 /* PublishBuildingViewController.h */,
 				206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */,
@@ -740,6 +744,15 @@
 				20A44DAF1869799F008D8CB1 /* EGORefreshTableHeaderView.m */,
 			);
 			name = EGO;
+			sourceTree = "<group>";
+		};
+		20D3C248189245840030D7D8 /* 发房View */ = {
+			isa = PBXGroup;
+			children = (
+				20D3C24A1892466B0030D7D8 /* PhotoFooterView.h */,
+				20D3C24B1892466B0030D7D8 /* PhotoFooterView.m */,
+			);
+			name = "发房View";
 			sourceTree = "<group>";
 		};
 		970501541845A18E00A0C181 /* 引导页 */ = {
@@ -1839,6 +1852,7 @@
 				97EF868C1841EACE00315E75 /* SimpleKeyboardToolBar.m in Sources */,
 				97192EE71818FEF7007971BA /* PhotoButton.m in Sources */,
 				97C97B461810DD34006E538B /* TabBarViewController.m in Sources */,
+				20D3C24C1892466B0030D7D8 /* PhotoFooterView.m in Sources */,
 				B7EF148E18289CB7000B6016 /* RentBidDetailController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

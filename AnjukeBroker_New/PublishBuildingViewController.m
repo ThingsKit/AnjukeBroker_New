@@ -30,6 +30,7 @@
 
 @property BOOL needFileNO; //是否需要备案号，部分城市需要备案号（北京）
 
+@property (nonatomic, strong) UIView *photoShowView; //室内图预览底板
 @end
 
 @implementation PublishBuildingViewController
@@ -47,6 +48,8 @@
 @synthesize needFileNO;
 @synthesize communityDic;
 @synthesize roomValue, hallValue, toiletValue;
+@synthesize photoShowView;
+@synthesize roomImageArray, houseTypeImageArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -97,6 +100,9 @@
     
     self.lastPrice = [NSString string];
     self.propertyPrice = [NSString string];
+    
+    self.roomImageArray = [NSMutableArray array];
+    self.houseTypeImageArray = [NSMutableArray array];
 }
 
 - (void)initDisplay {
@@ -161,12 +167,16 @@
     UIView *photoBGView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], PHOTO_BG_HEIGHT)];
     photoBGView.backgroundColor = [UIColor clearColor];
     
-    UIView *photoShowView = [[UIView alloc] initWithFrame:CGRectMake(0, PUBLISH_SECTION_HEIGHT, [self windowWidth], PHOTO_SHOW_HEIGHT)];
-    photoShowView.backgroundColor = [UIColor whiteColor];
-    [photoBGView addSubview:photoShowView];
+    UIView *photoShowV = [[UIView alloc] initWithFrame:CGRectMake(0, PUBLISH_SECTION_HEIGHT, [self windowWidth], PHOTO_SHOW_HEIGHT)];
+    photoShowV.backgroundColor = [UIColor whiteColor];
+    self.photoShowView = photoShowV;
+    [photoBGView addSubview:photoShowV];
     
     [self.tableViewList setTableFooterView:photoBGView];
-    
+}
+
+- (void)redrawFooter {
+    //
 }
 
 #pragma mark - Private Method

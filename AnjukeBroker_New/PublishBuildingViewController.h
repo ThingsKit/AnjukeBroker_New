@@ -19,6 +19,10 @@
 #define IMAGE_ACTIONSHEET_TAG 9010
 #define PUBLISH_ACTIONSHEET_TAG 9020
 
+#define ROOM_IMAGE_MAX 8
+#define HOUSETYPE_IMAGE_MAX 2
+#define IMAGE_ALL_MAX ROOM_IMAGE_MAX +HOUSETYPE_IMAGE_MAX
+
 @interface PublishBuildingViewController : RTViewController <UITableViewDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, UIActionSheetDelegate>
 
 @property BOOL isHaozu; //是否是好租，页面布局不同
@@ -32,6 +36,9 @@
 @property int roomValue;
 @property int hallValue;
 @property int toiletValue; //用于页面间户型数据的传递
+
+@property (nonatomic, strong) NSMutableArray *roomImageArray;
+@property (nonatomic, strong) NSMutableArray *houseTypeImageArray; //室内图、户型图数据存放数组
 
 - (void)setTextFieldForProperty;
 
