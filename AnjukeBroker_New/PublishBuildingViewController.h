@@ -21,6 +21,8 @@
 #import "E_Photo.h"
 #import "PhotoManager.h"
 #import "AnjukeEditTextViewController.h"
+#import "ASIFormDataRequest.h"
+#import "AppDelegate.h"
 
 #define IMAGE_ACTIONSHEET_TAG 9010
 #define PUBLISH_ACTIONSHEET_TAG 9020
@@ -48,6 +50,9 @@
 @property BOOL inPhotoProcessing;
 @property BOOL isTakePhoto; //是否拍照，区别拍照和从相册取图
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
+
+@property int uploadImgIndex; //上传图片的顺序，每上传一张此index+1
+@property (nonatomic, strong) NSMutableArray *uploadImageArray; //用于上传的图片数组整集，整合室内图和房型图数组内容
 
 - (void)setTextFieldForProperty;
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount;

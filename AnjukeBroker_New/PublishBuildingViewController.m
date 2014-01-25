@@ -11,8 +11,15 @@
 #import "PublishInputOrderModel.h"
 #import "AnjukeNormalCell.h"
 #import "PublishHouseTypeViewController.h"
+#import "PropertyGroupListViewController.h"
 
 #define PHOTO_FOOTER_BOTTOM_HEIGHT 80
+
+typedef enum {
+    Property_DJ = 0, //发房_定价
+    Property_JJ, //发房_竞价
+    Property_WTG //为推广
+}PropertyUploadType;
 
 @interface PublishBuildingViewController ()
 
@@ -31,6 +38,8 @@
 
 @property (nonatomic, strong) UIView *photoBGView; //室内图预览底板
 @property (nonatomic, strong) PhotoShowView *imageOverLay;
+
+@property (nonatomic, assign) PropertyUploadType uploadType;
 
 @end
 
@@ -55,6 +64,8 @@
 @synthesize inPhotoProcessing, isTakePhoto;
 @synthesize imageOverLay;
 @synthesize imagePicker;
+@synthesize uploadType;
+@synthesize uploadImageArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -108,6 +119,8 @@
     
     self.roomImageArray = [NSMutableArray array];
     self.houseTypeImageArray = [NSMutableArray array];
+    
+    self.uploadImageArray = [NSMutableArray array];
 }
 
 - (void)initDisplay {
@@ -199,7 +212,7 @@
     }
     else {
         self.lastPrice = [NSString stringWithString:self.property.price];
-//        [self requestWithPrice];
+        [self requestWithPrice];
     }
 }
 
@@ -239,6 +252,85 @@
     comLabel.text = name;
 }
 
+- (NSString *)getImageJson {
+    NSMutableArray *arr = [NSMutableArray array];
+    
+    for (int i = 0; i < self.roomImageArray.count; i ++) {
+        NSDictionary *dic = [NSDictionary dictionaryWithDictionary:[(E_Photo *)[self.roomImageArray objectAtIndex:i] imageDic]];
+        [arr addObject:dic];
+    }
+    for (int i = 0; i < self.houseTypeImageArray.count; i ++) {
+        NSDictionary *dic = [NSDictionary dictionaryWithDictionary:[(E_Photo *)[self.houseTypeImageArray objectAtIndex:i] imageDic]];
+        [arr addObject:dic];
+    }
+    
+    if ([self.property.onlineHouseTypeDic count] > 0) { //添加在线房形图
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        [dic setValue:[self.property.onlineHouseTypeDic objectForKey:@"aid"] forKey:@"commPicIds"];
+        //        [dic setObject:@"3" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+        if (self.isHaozu) {
+            [dic setObject:@"2" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
+        }
+        else //二手房
+            [dic setObject:@"3" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+        [dic setValue:@"1" forKey:@"flag"];
+        
+        [arr addObject:dic];
+    }
+    
+    NSString *str = [arr JSONRepresentation];
+    DLog(@"image json [%@]", str);
+    return str;
+}
+
+- (void)doPushPropertyID:(NSString *)propertyID {
+    
+    //tabController切换
+    int tabIndex = 1;
+    if (self.isHaozu) {
+        tabIndex = 2;
+    }
+    
+    //do push
+    switch (self.uploadType) {
+        case Property_DJ:
+        {
+            PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
+            pv.propertyID = [NSString stringWithFormat:@"%@", propertyID];
+            pv.isHaozu = self.isHaozu;
+            pv.backType = RTSelectorBackTypeDismiss;
+            pv.commID = [NSString stringWithFormat:@"%@", self.property.comm_id];
+            [self.navigationController pushViewController:pv animated:YES];
+            
+        }
+            break;
+        case Property_JJ:
+        {
+            PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
+            pv.propertyID = [NSString stringWithFormat:@"%@", propertyID];
+            pv.commID = [NSString stringWithFormat:@"%@", self.property.comm_id];
+            pv.isHaozu = self.isHaozu;
+            pv.backType = RTSelectorBackTypeDismiss;
+            pv.isBid = YES;
+            [self.navigationController pushViewController:pv animated:YES];
+            
+        }
+            break;
+        case Property_WTG: {
+            //为推广，直接去到房源结果页
+            if (self.isHaozu) {
+                [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentNoPlan withPropertyDic:[NSDictionary dictionary]];
+            }
+            else
+                [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleNoPlan withPropertyDic:[NSDictionary dictionary]];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 #pragma mark - Check Method
 
 //是否能添加更多室内图
@@ -249,6 +341,213 @@
     }
     
     return YES;
+}
+
+- (int)allImageCount {
+    int count = self.roomImageArray.count + self.houseTypeImageArray.count;
+    
+    if ([self.property.onlineHouseTypeDic count] >0) {
+        count ++;
+    }
+    
+    DLog(@"所有图片数量 [%d]", count);
+    
+    return count;
+}
+
+#pragma mark - Request Method
+
+- (void)uploadPhoto {
+    if (![self isNetworkOkay]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+    
+    if (self.uploadImgIndex > [self allImageCount] - 1) {
+        DLog(@"图片上传完毕，开始发房");
+        
+        [self uploadProperty]; //开始上传房源
+        return;
+    }
+    
+    if (self.uploadImageArray.count == 0) {
+        [self showLoadingActivity:YES];
+        self.isLoading = YES;
+        [self uploadProperty]; //......
+        //        [self showInfo:@"请选择房源图片，谢谢"];
+        return; //没有上传图片
+    }
+    
+    if (self.uploadImgIndex == 0) { //第一张图片开始上传就显示黑框，之后不重复显示，上传流程结束后再消掉黑框
+        [self.uploadImageArray removeAllObjects];
+        [self.uploadImageArray addObjectsFromArray:self.roomImageArray];
+        [self.uploadImageArray addObjectsFromArray:self.houseTypeImageArray];
+        
+        [self showLoadingActivity:YES];
+        self.isLoading = YES;
+    }
+    
+    //test
+    //上传图片给UFS服务器
+    NSString *photoUrl = [[self.uploadImageArray objectAtIndex:self.uploadImgIndex] photoURL];
+    
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:API_PhotoUpload]];
+    [request addFile:photoUrl forKey:@"file"];
+    [request setDelegate:self];
+    [request setDidFinishSelector:@selector(uploadPhotoFinish:)];
+    [request setDidFailSelector:@selector(uploadPhotoFail:)];
+    [request startAsynchronous];
+}
+
+- (void)uploadPhotoFinish:(ASIFormDataRequest *)request{
+    NSDictionary *result = [request.responseString JSONValue];
+    RTNetworkResponse *response = [[RTNetworkResponse alloc] init];
+    [response setContent:result];
+    
+    DLog(@"image upload result[%@]", result);
+    
+    //保存imageDic在E_Photo
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[result objectForKey:@"image"]];
+    if (self.isHaozu) {
+        [dic setObject:@"1" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
+    }
+    else //二手房
+        [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+    
+    if (self.uploadImgIndex > [self allImageCount] - 1) {
+        DLog(@"图片上传完毕，开始发房");
+        
+        [self uploadProperty]; //开始上传房源
+    }
+    else {
+        [(E_Photo *)[self.uploadImageArray objectAtIndex:self.uploadImgIndex] setImageDic:dic];
+        
+        //继续上传图片
+        self.uploadImgIndex ++;
+        [self uploadPhoto];
+    }
+}
+
+- (void)uploadPhotoFail:(ASIFormDataRequest *)request{
+    NSDictionary *result = [request.responseString JSONValue];
+    RTNetworkResponse *response = [[RTNetworkResponse alloc] init];
+    [response setContent:result];
+    
+    self.uploadImgIndex = 0;
+    
+    [self showInfo:@"图片上传失败，请重试"];
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+}
+
+//发房
+- (void)uploadProperty {
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    self.property.imageJson = [self getImageJson];
+    [self setTextFieldForProperty];
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"cityId", self.property.comm_id, @"commId", self.property.rooms, @"rooms", self.property.area, @"area", self.property.price, @"price", self.property.fitment, @"fitment", self.property.exposure, @"exposure", self.property.floor, @"floor", self.property.title, @"title", self.property.desc, @"description", self.property.imageJson, @"imageJson", self.property.fileNo, @"fileNo",nil];
+    method = @"anjuke/prop/publish/";
+    
+    if (self.isHaozu) {
+        [params setObject:self.property.rentType forKey:@"shareRent"]; //租房新增出租方式
+        method = @"zufang/prop/publish/";
+    }
+    
+    if (self.isHaozu) {
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUploadPropertyHZFinished:)];
+    }
+    else {
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUploadPropertyFinished:)];
+    }
+}
+
+- (void)onUploadPropertyFinished:(RTNetworkResponse *)response {
+    DLog(@"--发房结束。。。response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return;
+    }
+    
+    //保存房源id
+    NSString *propertyID = [[[response content] objectForKey:@"data"] objectForKey:@"id"];
+    [self doPushPropertyID:propertyID];
+    
+    [self hideLoadWithAnimated:YES];
+}
+
+- (void)onUploadPropertyHZFinished:(RTNetworkResponse *)response {
+    DLog(@"--发房结束HZ。。。response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        [self hideLoadWithAnimated:YES];
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return;
+    }
+    
+    //保存房源id for test 暂无法选定价竞价组
+    NSString *propertyID = [[[response content] objectForKey:@"data"] objectForKey:@"id"];
+    [self doPushPropertyID:propertyID];
+    
+    [self hideLoadWithAnimated:YES];
+}
+
+- (void)requestWithPrice {
+    if(![self isNetworkOkay]){
+        [self showAlertViewWithPrice:@""];
+        return;
+    }
+    
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.property.price, @"price", [LoginManager getCity_id], @"cityId", nil];
+    
+    method = @"anjuke/fix/minoffer/";
+    if (self.isHaozu) {
+        method = @"zufang/fix/minoffer/";
+    }
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onGetPrice:)];
+}
+
+- (void)onGetPrice:(RTNetworkResponse *)response {
+    DLog(@"--get price。。。response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        [self hideLoadWithAnimated:YES];
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    self.propertyPrice = [[[response content] objectForKey:@"data"] objectForKey:@"price"];
+    [self showAlertViewWithPrice:self.propertyPrice];
 }
 
 #pragma mark - Input Method 
@@ -506,6 +805,67 @@
 
 - (BOOL)checkUploadProperty {
     [self setTextFieldForProperty];
+    
+    if ([self.property.rooms isEqualToString:@""]) {
+        [self showInfo:@"请选择户型，谢谢"];
+        return NO;
+    }
+    if ([self.property.area length] == 0) {
+        [self showInfo:@"请填写面积，谢谢"];
+        return NO;
+    }
+    if ([self.property.price length] == 0) {
+        [self showInfo:@"请填写价格，谢谢"];
+        return NO;
+    }
+    if ([self.property.fitment isEqualToString:@""]) {
+        [self showInfo:@"请选择装修情况，谢谢"];
+        return NO;
+    }
+    if ([self.property.exposure isEqualToString:@""]) {
+        [self showInfo:@"请选择朝向，谢谢"];
+        return NO;
+    }
+    if ([self.property.floor isEqualToString:@""]) {
+        [self showInfo:@"请选择楼层，谢谢"];
+        return NO;
+    }
+    if ([self.property.title isEqualToString:@""]) {
+        [self showInfo:@"请填写房源标题，谢谢"];
+        return NO;
+    }
+    if ([self.property.desc isEqualToString:@""]) {
+        [self showInfo:@"请填写房源详情，谢谢"];
+        return NO;
+    }
+    if ([self.property.comm_id isEqualToString:@""]) {
+        [self showInfo:@"请选择小区，谢谢"];
+        return NO;
+    }
+    
+    //字段判断
+    if ([self.property.area intValue] < 10 || [self.property.area intValue] > 2000) {
+        [self showInfo:@"面积范围10至2000平米"];
+        return NO;
+    }
+    
+    if (self.isHaozu) {
+        if ([self.property.rentType isEqualToString:@""]) {
+            [self showInfo:@"请选择出租类型"];
+            return NO;
+        }
+        if ([self.property.price floatValue] < 200 || [[self.property price] floatValue] > 400000) {
+            [self showInfo:@"租金范围为200到400000元"];
+            return NO;
+        }
+    }
+    else {
+        if ([self.property.price floatValue] < 100000 || [[self.property price] floatValue] > 1000000000) {
+            [self showInfo:@"价格范围为10万到100000万元"];
+            return NO;
+        }
+        
+    }
     
     return YES;
 }
@@ -1186,7 +1546,18 @@
                 break;
             case 2: //暂不推广
             {
+                NSString *code = [NSString string];
+                if (self.isHaozu) {
+                    code = HZ_PROPERTY_010;
+                }
+                else
+                    code = AJK_PROPERTY_010;
+                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
                 
+                self.uploadType = Property_WTG;
+                
+                //test upload img
+                [self uploadPhoto];
             }
                 break;
                 
