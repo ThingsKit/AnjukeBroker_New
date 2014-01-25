@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #define PHOTO_SHOW_VIEW_H 160
+#define PHOTO_ALERTVIEW_HEIGHT 20
 
 @protocol PhotoViewClickDelegate <NSObject>
 

@@ -969,6 +969,9 @@
     DLog(@"拍摄 [%d]", [[self.imageOverLay imgArray] count]);
     
     if (![self canAddMoreImageWithAddCount:count]) {
+        UIAlertView *pickerAlert = [[UIAlertView alloc] initWithTitle:nil message:MAX_ROOMPHOTO_ALERT_MESSAGE delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
+        [pickerAlert show];
+        
         return;
     }
     
