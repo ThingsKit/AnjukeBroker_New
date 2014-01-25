@@ -617,12 +617,22 @@
             switch (indexPath.row) {
                 case 0: //title
                 {
-                    
+                    AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
+                    ae.textFieldModifyDelegate = self;
+                    [ae setTitleViewWithString:@"房源标题"];
+                    ae.isTitle = YES;
+                    [ae setTextFieldDetail:self.property.title];
+                    [self.navigationController pushViewController:ae animated:YES];
                 }
                     break;
                 case 1: //desc
                 {
-                    
+                    AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
+                    ae.textFieldModifyDelegate = self;
+                    [ae setTitleViewWithString:@"房源描述"];
+                    ae.isTitle = NO;
+                    [ae setTextFieldDetail:self.property.desc];
+                    [self.navigationController pushViewController:ae animated:YES];
                 }
                     break;
                 default:
@@ -1067,6 +1077,28 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - EditTextView Input Delegate
+
+- (void)textDidInput:(NSString *)string isTitle:(BOOL)isTitle {
+    if (isTitle) {
+        if (self.isHaozu) {
+            [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_CLICK_TITLE] communityDetailLb] setText:string];
+        }
+        else {
+            [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_CLICK_TITLE] communityDetailLb] setText:string];
+        }
+        self.property.title = string;
+    }
+    else {
+        if (self.isHaozu) {
+            [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_CLICK_DESC] communityDetailLb] setText:string];
+        }
+        else {
+            [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_CLICK_DESC] communityDetailLb] setText:string];
+        }
+        self.property.desc = string;
+    }
+}
 
 #pragma mark - UIActionSheet Delegate
 

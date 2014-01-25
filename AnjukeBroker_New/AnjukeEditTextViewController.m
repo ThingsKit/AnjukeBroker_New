@@ -214,10 +214,10 @@
     self.textV = cellTextField;
     [self.view addSubview:cellTextField];
     
-        if(self.textV && [string length] > 0){
-            self.textV.text = string;
-            self.textV.textColor = SYSTEM_BLACK;
-        }
+    if(self.textV && [string length] > 0){
+        self.textV.text = string;
+        self.textV.textColor = SYSTEM_BLACK;
+    }
 }
 
 - (void)doBack:(id)sender {
@@ -403,7 +403,7 @@
  */
 - (void) onVolumeChanged: (int)volume
 {
-    NSLog(@"==========>>>>>>>>>%d",volume);
+    DLog(@"==========>>>>>>>>>%d",volume);
     [self speechAnimation:volume];
 }
 
@@ -478,7 +478,7 @@
     for (NSString *key in dic) {
         [result appendFormat:@"%@",key];
     }
-    NSLog(@"转写结果：%@",result);
+    DLog(@"转写结果：%@",result);
     if ([self.textV.text isEqualToString:placeHolder] && [result length] > 0) {
         self.textV.text = @"";
         self.textV.textColor = SYSTEM_BLACK;
