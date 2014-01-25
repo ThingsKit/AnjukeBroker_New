@@ -125,10 +125,10 @@ typedef enum {
 
 - (void)initDisplay {
     //init main sv
-    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
+    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStyleGrouped];
     tv.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
     tv.delegate = self;
-    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableViewList = tv;
     [self.view addSubview:tv];
     
