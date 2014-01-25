@@ -9,8 +9,6 @@
 #import "PhotoFooterView.h"
 #import "PhotoButton.h"
 #import "Util_UI.h"
-#import "E_Photo.h"
-#import "PhotoManager.h"
 
 @implementation PhotoFooterView
 @synthesize clickDelegate;
@@ -108,7 +106,8 @@
                     pBtn.photoImg.image = [UIImage imageNamed:@"anjuke_icon_nextphoto_.png"];
                 }
                 else {
-                    NSString *url = [(E_Photo *)[imageArr objectAtIndex:all_imageIndex -1] smallPhotoUrl]; //去除第一个添加按钮
+                    NSString *url = nil;
+                    url =  [imageArr objectAtIndex:all_imageIndex - 1]; //去除第一个添加按钮
                     pBtn.photoImg.image = [UIImage imageWithContentsOfFile:url];
                 }
                 [pBtn addTarget:self action:@selector(imageBtnClick:) forControlEvents:UIControlEventTouchUpInside];

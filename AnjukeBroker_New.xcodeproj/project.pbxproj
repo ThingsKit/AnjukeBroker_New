@@ -710,10 +710,14 @@
 		20A0978D188D0A2E00D30196 /* 发房Model */ = {
 			isa = PBXGroup;
 			children = (
+				97A6067F1816C2A50041B367 /* InputOrderManager.h */,
+				97A606801816C2A50041B367 /* InputOrderManager.m */,
 				20A0978F188D0A4E00D30196 /* PublishInputOrderModel.h */,
 				20A09790188D0A4E00D30196 /* PublishInputOrderModel.m */,
 				20A09792188D2C4400D30196 /* PublishDataModel.h */,
 				20A09793188D2C4400D30196 /* PublishDataModel.m */,
+				9751860018320D5F00C9A40A /* PhotoManager.h */,
+				9751860118320D5F00C9A40A /* PhotoManager.m */,
 			);
 			name = "发房Model";
 			sourceTree = "<group>";
@@ -1177,8 +1181,6 @@
 			children = (
 				97FD0B6018157BEC0072FB5E /* PropertyDataManager.h */,
 				97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */,
-				97A6067F1816C2A50041B367 /* InputOrderManager.h */,
-				97A606801816C2A50041B367 /* InputOrderManager.m */,
 			);
 			name = "发布房源Model";
 			sourceTree = "<group>";
@@ -1459,8 +1461,6 @@
 				977FCA9C1828FAD700945FB4 /* LoginManager.m */,
 				97ACD09A1843357E00D88CB6 /* AccountManager.h */,
 				97ACD09B1843357E00D88CB6 /* AccountManager.m */,
-				9751860018320D5F00C9A40A /* PhotoManager.h */,
-				9751860118320D5F00C9A40A /* PhotoManager.m */,
 				97B1064E1834E5F40064AF5F /* AppManager.h */,
 				97B1064F1834E5F40064AF5F /* AppManager.m */,
 				976D9352183CC69100C9571B /* ConfigPlistManager.h */,

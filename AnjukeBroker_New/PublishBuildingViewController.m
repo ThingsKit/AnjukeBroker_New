@@ -180,7 +180,7 @@
     
     [self.tableViewList setTableFooterView:photoBGV];
     
-    [self.footerView redrawWithImageArray:self.roomImageArray];
+    [self.footerView redrawWithImageArray:[self transformRoomImageArrToFooterShowArr]];
 }
 
 #pragma mark - Private Method
@@ -874,6 +874,21 @@
     
 }
 
+#pragma mark - ImageClickDelegate Method
+
+//将室内图array转换为footer可显示的数组--抽取imageUrl
+- (NSArray *)transformRoomImageArrToFooterShowArr {
+    NSMutableArray *arr = [NSMutableArray array];
+    
+    for (int i = 0; i < self.roomImageArray.count; i ++) {
+        NSString *url = [NSString string];
+        url = [(E_Photo *)[self.roomImageArray objectAtIndex:i] smallPhotoUrl];
+        [arr addObject:url];
+    }
+    
+    return arr;
+}
+
 #pragma mark - ImageClickDelegate
 
 - (void)imageDidClickWithIndex:(int)index { //图片预览点击
@@ -1002,7 +1017,7 @@
     DLog(@"拍照添加室内图:count[%d]", self.roomImageArray.count);
     
     //redraw footer img view
-    [self.footerView redrawWithImageArray:self.roomImageArray];
+    [self.footerView redrawWithImageArray:[self transformRoomImageArrToFooterShowArr]];
 }
 
 #pragma mark - ELCImagePickerControllerDelegate
@@ -1056,7 +1071,7 @@
     DLog(@"相册添加室内图:count[%d]", self.roomImageArray.count);
     
     //redraw footer img view
-    [self.footerView redrawWithImageArray:self.roomImageArray];
+    [self.footerView redrawWithImageArray:[self transformRoomImageArrToFooterShowArr]];
     
     [self dismissViewControllerAnimated:YES completion:nil];
     
