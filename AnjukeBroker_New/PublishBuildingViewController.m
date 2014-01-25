@@ -874,7 +874,7 @@
     
 }
 
-#pragma mark - ImageClickDelegate
+#pragma mark - PhotoFooterImageClickDelegate
 
 - (void)imageDidClickWithIndex:(int)index { //图片预览点击
     

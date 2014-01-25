@@ -17,6 +17,7 @@
 #define IMAGE_ALL_MAX ROOM_IMAGE_MAX +HOUSETYPE_IMAGE_MAX //室内图、户型图的上传上限
 
 #define MAX_ROOMPHOTO_ALERT_MESSAGE @"室内图最多只能添加8张"
+#define MAX_HOUSETYPEPHOTO_ALERT_MESSAGE @"房型图最多只能添加2张"
 
 @interface PhotoManager : NSObject
 

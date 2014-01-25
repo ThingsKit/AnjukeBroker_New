@@ -18,7 +18,6 @@
 @interface PublishHouseTypeViewController ()
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
-@property (nonatomic, strong) UITableView *tableViewList;
 @property int selectedIndex; //记录当前点选的row对应的cellDataSource对应的indexTag
 @property (nonatomic, strong) RTInputPickerView *pickerView; //定制的输入框
 @property (nonatomic, strong) KeyboardToolBar *toolBar;
@@ -39,12 +38,19 @@
 @property (nonatomic, copy) NSString *lastRooms;
 @property (nonatomic, copy) NSString *lastExposure;
 
+@property (nonatomic, strong) UIView *photoBGView; //室内图预览底板
+@property (nonatomic, strong) UIImagePickerController *imagePicker;
+@property (nonatomic, strong) PhotoShowView *imageOverLay;
+@property BOOL isTakePhoto;
+@property BOOL inPhotoProcessing;
+
+@property BOOL isFirstShow; //是否第一次显示页面
+
 @end
 
 @implementation PublishHouseTypeViewController
 @synthesize isHaozu;
 @synthesize dataArray;
-@synthesize tableViewList;
 @synthesize houseTypeTF, exposureTF;
 @synthesize inputingTextF;
 @synthesize houseType_inputedRow0, houseType_inputedRow1, houseType_inputedRow2;
@@ -52,6 +58,12 @@
 @synthesize superViewController;
 @synthesize property;
 @synthesize lastExposure, lastRooms;
+@synthesize footerView;
+@synthesize houseTypeImageArr;
+@synthesize imageOverLay;
+@synthesize imagePicker;
+@synthesize isTakePhoto;
+@synthesize inPhotoProcessing;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -84,8 +96,9 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    if (self.houseTypeTF) {
+    if (self.houseTypeTF && self.isFirstShow) {
         [self.houseTypeTF becomeFirstResponder];
+        self.isFirstShow = NO;
     }
 }
 
@@ -102,6 +115,8 @@
     
     self.lastRooms = [NSString string];
     self.lastExposure = [NSString string];
+    
+    self.houseTypeImageArr = [NSMutableArray array];
 }
 
 - (void)initDisplay {
@@ -156,7 +171,23 @@
         [btn addSubview:cellTextField];
     }
     
+    [self drawFooter];
+    
     [self setDefultValue];
+}
+
+- (void)drawFooter {
+    UIView *photoBGV = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*2 + PUBLISH_SECTION_HEIGHT, [self windowWidth], PUBLISH_SECTION_HEIGHT + PF_EMPTY_IMAGE_HEIGHT)];
+    photoBGV.backgroundColor = [UIColor clearColor];
+    self.photoBGView = photoBGV; //预览图底板
+    [self.view addSubview:photoBGV];
+    
+    PhotoFooterView *pf = [[PhotoFooterView alloc] initWithFrame:CGRectMake(0, PUBLISH_SECTION_HEIGHT, [self windowWidth], PF_EMPTY_IMAGE_HEIGHT)];
+    pf.clickDelegate = self;
+    self.footerView = pf;
+    [photoBGV addSubview:pf];
+    
+    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr]];
 }
 
 #pragma mark - Private Method
@@ -334,6 +365,18 @@
     [super doBack:self];
 }
 
+#pragma mark - Check Method
+
+//是否能添加更多室内图
+- (BOOL)canAddMoreImageWithAddCount:(int)addCount{
+    if (addCount + self.houseTypeImageArr.count > HOUSETYPE_IMAGE_MAX ) {
+        [self showInfo:MAX_HOUSETYPEPHOTO_ALERT_MESSAGE];
+        return NO; //超出
+    }
+    
+    return YES;
+}
+
 #pragma mark - KeyboardBarClickDelegate
 - (void)finishBtnClicked { //点击完成，输入框组件消失
     self.inputingTextF.text = [self getInputStringAndSetProperty];
@@ -367,7 +410,134 @@
         self.inputingTextF = self.exposureTF;
         [self showPicker:NO];
     }
+}
 
+#pragma mark - PhotoFooterImageClickDelegate
+
+- (void)imageDidClickWithIndex:(int)index { //图片预览点击
+    
+}
+
+- (void)addImageDidClick { //添加按钮点击
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"选择在线房型图", @"拍照", @"从手机相册选择", nil];
+    [sheet showInView:self.view];
+}
+
+- (void)drawFinishedWithCurrentHeight:(CGFloat)height { //每次重绘后返回当前预览底图的高度
+    self.photoBGView.frame = CGRectMake(0, CELL_HEIGHT*2 + PUBLISH_SECTION_HEIGHT, [self windowWidth], PUBLISH_SECTION_HEIGHT + PF_EMPTY_IMAGE_HEIGHT);
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    self.inPhotoProcessing = YES;
+    
+    UIImage *image = nil;
+    UIImage *newSizeImage = nil;
+    
+    for (NSString *str  in [info allKeys]) {
+        DLog(@"pickerInfo Keys %@",str);
+    }
+    
+    if (self.isTakePhoto) {
+        image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+        //原片写入相册 for test(调试代码时不写入)
+        //        UIImageWriteToSavedPhotosAlbum(image, self, @selector(errorCheck:didFinishSavingWithError:contextInfo:), nil);
+    }
+    else {
+        image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    }
+    
+    //压缩图片
+    if (image.size.width > IMAGE_MAXSIZE_WIDTH || image.size.height > IMAGE_MAXSIZE_WIDTH || self.isTakePhoto) {
+        CGSize coreSize;
+        if (image.size.width > image.size.height) {
+            coreSize = CGSizeMake(IMAGE_MAXSIZE_WIDTH, IMAGE_MAXSIZE_WIDTH*(image.size.height /image.size.width));
+        }
+        else if (image.size.width < image.size.height){
+            coreSize = CGSizeMake(IMAGE_MAXSIZE_WIDTH *(image.size.width /image.size.height), IMAGE_MAXSIZE_WIDTH);
+        }
+        else {
+            coreSize = CGSizeMake(IMAGE_MAXSIZE_WIDTH, IMAGE_MAXSIZE_WIDTH);
+        }
+        
+        UIGraphicsBeginImageContext(coreSize);
+        [image drawInRect:[Util_UI frameSize:image.size inSize:coreSize]];
+        newSizeImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
+    else
+        newSizeImage = image; //只显示预览图
+    
+    //拍照界面加入新预览图
+    [self.imageOverLay takePhotoWithImage:newSizeImage];
+    
+    self.inPhotoProcessing = NO;
+    
+    //    [self dismissViewControllerAnimated:YES completion:^(void){
+    //        //
+    //    }];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [self dismissViewControllerAnimated:YES completion:^(void){
+        //
+    }];
+}
+
+- (void)errorCheck:(NSString *)imgPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
+	
+	if(error) {
+        DLog(@"fail...");
+    }
+	else
+	{
+        DLog(@"success");
+	}
+}
+
+#pragma mark - PhotoViewClickDelegate
+
+- (void)takePhoto_Click {
+    //外部控制最大拍照数量，如果到达上限则不继续拍照
+    int count = [[self.imageOverLay imgArray] count]+1;
+    DLog(@"拍摄 [%d]", [[self.imageOverLay imgArray] count]);
+    
+    if (![self canAddMoreImageWithAddCount:count]) {
+        UIAlertView *pickerAlert = [[UIAlertView alloc] initWithTitle:nil message:MAX_HOUSETYPEPHOTO_ALERT_MESSAGE delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
+        [pickerAlert show];
+        
+        return;
+    }
+    
+    if (self.inPhotoProcessing) { //照片处理过程中不拍照
+        DLog(@"处理照片呢，二逼啊拍那么快");
+        return;
+    }
+    
+    [self.imagePicker takePicture];
+}
+
+- (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr {
+    for (int i = 0; i < arr.count; i ++) {
+        //保存原始图片、得到url
+        E_Photo *ep = [PhotoManager getNewE_Photo];
+        NSString *path = [PhotoManager saveImageFile:(UIImage *)[arr objectAtIndex:i] toFolder:PHOTO_FOLDER_NAME];
+        NSString *url = [PhotoManager getDocumentPath:path];
+        ep.photoURL = url;
+        ep.smallPhotoUrl = url;
+        
+        [self.houseTypeImageArr addObject:ep];
+    }
+    
+    [self.imagePicker dismissViewControllerAnimated:YES completion:^(void){
+        //
+    }];
+    
+    DLog(@"拍照添加房型图:count[%d]", self.houseTypeImageArr.count);
+    
+    //redraw footer img view
+    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr]];
 }
 
 #pragma mark - UITextField Delegate
@@ -386,6 +556,143 @@
     }
     
     [self showPicker:isHouseType];
+}
+
+#pragma mark - ELCImagePickerControllerDelegate
+
+- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+    int count = [info count];
+    if (![self canAddMoreImageWithAddCount:count]) {
+        return;
+    }
+    
+    for (NSDictionary *dict in info) {
+        
+        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
+        //保存原始图片、得到url
+        E_Photo *ep = [PhotoManager getNewE_Photo];
+        NSString *path = [PhotoManager saveImageFile:image toFolder:PHOTO_FOLDER_NAME];
+        NSString *url = [PhotoManager getDocumentPath:path];
+        ep.photoURL = url;
+        
+        UIImage *newSizeImage = nil;
+        //压缩图片
+        if (image.size.width > IMAGE_MAXSIZE_WIDTH || image.size.height > IMAGE_MAXSIZE_WIDTH || self.isTakePhoto) {
+            CGSize coreSize;
+            if (image.size.width > image.size.height) {
+                coreSize = CGSizeMake(IMAGE_MAXSIZE_WIDTH, IMAGE_MAXSIZE_WIDTH*(image.size.height /image.size.width));
+            }
+            else if (image.size.width < image.size.height){
+                coreSize = CGSizeMake(IMAGE_MAXSIZE_WIDTH *(image.size.width /image.size.height), IMAGE_MAXSIZE_WIDTH);
+            }
+            else {
+                coreSize = CGSizeMake(IMAGE_MAXSIZE_WIDTH, IMAGE_MAXSIZE_WIDTH);
+            }
+            
+            UIGraphicsBeginImageContext(coreSize);
+            [image drawInRect:[Util_UI frameSize:image.size inSize:coreSize]];
+            newSizeImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            
+            path = [PhotoManager saveImageFile:newSizeImage toFolder:PHOTO_FOLDER_NAME];
+            url = [PhotoManager getDocumentPath:path];
+            ep.smallPhotoUrl = url;
+            
+        }
+        else {
+            ep.smallPhotoUrl = url;
+        }
+        
+        [self.houseTypeImageArr addObject:ep];
+	}
+    
+    DLog(@"相册添加室内图:count[%d]", self.houseTypeImageArr.count);
+    
+    //redraw footer img view
+    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr]];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
+- (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - UIActionSheet Delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    switch (buttonIndex) {
+        case 0: { //在线房型图
+            
+        }
+            break;
+        case 1: //拍照
+        {
+            if (![self canAddMoreImageWithAddCount:1]) { //到达上限后张就不能继续拍摄
+                return; //室内图超出限制
+            }
+            
+            NSString *code = [NSString string];
+            if (self.isHaozu) {
+                code = HZ_PROPERTY_005;
+            }
+            else
+                code = AJK_PROPERTY_005;
+            [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+            
+            self.isTakePhoto = YES;
+            
+            UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+            ipc.sourceType = UIImagePickerControllerSourceTypeCamera; //拍照
+            self.imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+            self.imagePicker = ipc;
+            ipc.delegate = self;
+            ipc.allowsEditing = NO;
+            ipc.showsCameraControls = NO;
+            self.imagePicker.cameraViewTransform = CGAffineTransformIdentity;
+            if ( [UIImagePickerController isFlashAvailableForCameraDevice:self.imagePicker.cameraDevice] ) {
+                self.imagePicker.cameraFlashMode = UIImagePickerControllerCameraFlashModeAuto;
+            }
+            //拍照预览图
+            PhotoShowView *pv = [[PhotoShowView alloc] initWithFrame:CGRectMake(0, [self windowHeight] - PHOTO_SHOW_VIEW_H, [self windowWidth], PHOTO_SHOW_VIEW_H)];
+            self.imageOverLay = pv;
+            pv.maxImgCount = HOUSETYPE_IMAGE_MAX;
+            pv.currentImgCount = self.houseTypeImageArr.count;
+            pv.clickDelegate = self;
+            
+            ipc.cameraOverlayView = self.imageOverLay;
+            
+            [self presentViewController:ipc animated:YES completion:nil];
+        }
+            break;
+        case 2: //相册
+        {
+            if (![self canAddMoreImageWithAddCount:1]) { //到达上限后张就不能继续拍摄
+                return; //室内图超出限制
+            }
+            
+            NSString *code = [NSString string];
+            if (self.isHaozu) {
+                code = HZ_PROPERTY_006;
+            }
+            else
+                code = AJK_PROPERTY_006;
+            [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+            
+            self.isTakePhoto = NO;
+            
+            ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] init];
+            elcPicker.maximumImagesCount = (HOUSETYPE_IMAGE_MAX - self.houseTypeImageArr.count);
+            elcPicker.imagePickerDelegate = self;
+            
+            [self presentViewController:elcPicker animated:YES completion:nil];
+        }
+            break;
+        default:
+            break;
+    }
 }
 
 @end

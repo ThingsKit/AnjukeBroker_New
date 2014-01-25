@@ -13,7 +13,7 @@
 #define PF_IMAGE_GAP_X 20/2
 #define PF_IMAGE_GAP_Y 15/2
 
-@protocol ImageClickDelegate <NSObject>
+@protocol PhotoFooterImageClickDelegate <NSObject>
 
 - (void)imageDidClickWithIndex:(int)index;
 - (void)addImageDidClick;
@@ -24,7 +24,7 @@
 
 @interface PhotoFooterView : UIView
 
-@property (nonatomic, assign) id <ImageClickDelegate>clickDelegate;
+@property (nonatomic, assign) id <PhotoFooterImageClickDelegate>clickDelegate;
 @property (nonatomic, strong) UIButton *emptyImgBtn;
 @property BOOL isHouseType; //是室内图还是房型图
 @property (nonatomic, strong) NSMutableArray *imageBtnArray; //显示预览图的容器
