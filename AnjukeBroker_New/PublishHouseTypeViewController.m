@@ -91,8 +91,8 @@
     [self setTitleViewWithString:@"房型"];
     [self addRightButton:@"保存" andPossibleTitle:nil];
     
-    self.lastRooms = self.property.rooms;
-    self.lastExposure = self.property.exposure;
+    self.lastRooms = [NSString stringWithString:self.property.rooms];
+    self.lastExposure = [NSString stringWithString:self.property.exposure];
     
     for (int i = 0; i < self.houseTypeImageArr.count; i ++) {
         [self.lastHouseTypeImgArr addObject:[self.houseTypeImageArr objectAtIndex:i]];
@@ -363,8 +363,8 @@
 
 - (void)doBack:(id)sender {
     if ([self.superViewController isKindOfClass:[PublishBuildingViewController class]]) {
-        self.property.rooms = self.lastRooms;
-        self.property.exposure = self.lastExposure; //还原上一次的输入
+        [[(PublishBuildingViewController *)self.superViewController property] setRooms:self.lastRooms];
+        [[(PublishBuildingViewController *)self.superViewController property] setExposure:self.lastExposure];//还原上一次的输入
         
         [(PublishBuildingViewController *)self.superViewController setHouseTypeImageArray:self.lastHouseTypeImgArr]; //还原户型图
     }
