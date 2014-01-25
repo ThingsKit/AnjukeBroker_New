@@ -26,6 +26,8 @@
 
 + (E_Photo *)getNewE_Photo;
 + (NSArray *)transformRoomImageArrToFooterShowArrWithArr:(NSArray *)imageArr; //将室内图array转换为footer可显示的数组--抽取imageUrl
++ (NSArray *)transformHouseTypeImageArrToFooterShowArrWithArr:(NSArray *)imageArr;
++ (NSArray *)transformOnlineHouseTypeImageArrToFooterShowArrWithArr:(NSDictionary *)imageDic;
 
 
 @end

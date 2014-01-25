@@ -55,7 +55,6 @@
 @synthesize inPhotoProcessing, isTakePhoto;
 @synthesize imageOverLay;
 @synthesize imagePicker;
-@synthesize onlineHouseTypeDic;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -109,8 +108,6 @@
     
     self.roomImageArray = [NSMutableArray array];
     self.houseTypeImageArray = [NSMutableArray array];
-    
-    self.onlineHouseTypeDic = [NSDictionary dictionary];
 }
 
 - (void)initDisplay {

@@ -35,6 +35,8 @@
 @property int exposure_inputedRow1;
 @property int exposure_inputedRow2;
 
+@property (nonatomic, strong) NSDictionary *onlineHouseTypeDic; //户型图专用Dic
+
 @property (nonatomic, copy) NSString *lastRooms;
 @property (nonatomic, copy) NSString *lastExposure;
 @property (nonatomic, strong) NSMutableArray *lastHouseTypeImgArr; //上一次的户型图arr，用于取消时将户型图还原 T T
@@ -66,7 +68,7 @@
 @synthesize isTakePhoto;
 @synthesize inPhotoProcessing;
 @synthesize lastHouseTypeImgArr;
-@synthesize houseTypeDic;
+@synthesize onlineHouseTypeDic;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -98,6 +100,8 @@
     for (int i = 0; i < self.houseTypeImageArr.count; i ++) {
         [self.lastHouseTypeImgArr addObject:[self.houseTypeImageArr objectAtIndex:i]];
     }
+    
+    self.onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:self.property.onlineHouseTypeDic];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -193,7 +197,7 @@
     self.footerView = pf;
     [photoBGV addSubview:pf];
     
-    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr]];
+    [self.footerView redrawWithHouseTypeImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr] andImgUrl:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.onlineHouseTypeDic]];
 }
 
 #pragma mark - Private Method
@@ -359,6 +363,9 @@
 }
 
 - (void)rightButtonAction:(id)sender {
+    if ([self.superViewController isKindOfClass:[PublishBuildingViewController class]]) {
+        [[(PublishBuildingViewController *)self.superViewController property] setOnlineHouseTypeDic:[NSDictionary dictionaryWithDictionary:self.onlineHouseTypeDic]];//赋值新在线户型图数据
+    }
     [super doBack:self];
 }
 
@@ -377,9 +384,17 @@
 
 //是否能添加更多室内图
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount{
-    if (addCount + self.houseTypeImageArr.count > HOUSETYPE_IMAGE_MAX ) {
-        [self showInfo:MAX_HOUSETYPEPHOTO_ALERT_MESSAGE];
-        return NO; //超出
+    if (self.onlineHouseTypeDic.count > 0) {
+        if (addCount + self.houseTypeImageArr.count +1 > HOUSETYPE_IMAGE_MAX ) {
+            [self showInfo:MAX_HOUSETYPEPHOTO_ALERT_MESSAGE];
+            return NO; //超出
+        }
+    }
+    else  {
+        if (addCount + self.houseTypeImageArr.count > HOUSETYPE_IMAGE_MAX ){
+            [self showInfo:MAX_HOUSETYPEPHOTO_ALERT_MESSAGE];
+            return NO; //超出
+        }
     }
     
     return YES;
@@ -545,16 +560,17 @@
     DLog(@"拍照添加房型图:count[%d]", self.houseTypeImageArr.count);
     
     //redraw footer img view
-    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr]];
+    [self.footerView redrawWithHouseTypeImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr] andImgUrl:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.onlineHouseTypeDic]];
 }
 
 #pragma mark - Online Img Select Delegate
 
 - (void)onlineImgDidSelect:(NSDictionary *)imgDic {
     DLog(@"在线房形图Data--[%@]", imgDic);
+    self.onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:imgDic];
     
     //redraw footer img view
-    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr]];
+    [self.footerView redrawWithHouseTypeImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr] andImgUrl:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.onlineHouseTypeDic]];
 }
 
 #pragma mark - UITextField Delegate
@@ -626,7 +642,7 @@
     DLog(@"相册添加室内图:count[%d]", self.houseTypeImageArr.count);
     
     //redraw footer img view
-    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr]];
+    [self.footerView redrawWithHouseTypeImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr] andImgUrl:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.onlineHouseTypeDic]];
     
     [self dismissViewControllerAnimated:YES completion:nil];
     

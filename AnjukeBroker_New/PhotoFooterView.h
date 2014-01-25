@@ -30,5 +30,6 @@
 @property (nonatomic, strong) NSMutableArray *imageBtnArray; //显示预览图的容器
 
 - (void)redrawWithImageArray:(NSArray *)imageArr;
+- (void)redrawWithHouseTypeImageArray:(NSArray *)imageArr andImgUrl:(NSArray *)urlImgArr;
 
 @end

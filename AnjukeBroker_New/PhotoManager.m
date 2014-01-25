@@ -81,4 +81,27 @@
     return arr;
 }
 
+//将室内图array转换为footer可显示的数组--抽取imageUrl
++ (NSArray *)transformHouseTypeImageArrToFooterShowArrWithArr:(NSArray *)imageArr{
+    NSMutableArray *arr = [NSMutableArray array];
+    
+    for (int i = 0; i < imageArr.count; i ++) {
+        NSString *url = [NSString string];
+        url = [(E_Photo *)[imageArr objectAtIndex:i] smallPhotoUrl];
+        [arr addObject:url];
+    }
+    
+    return arr;
+}
+
++ (NSArray *)transformOnlineHouseTypeImageArrToFooterShowArrWithArr:(NSDictionary *)imageDic{
+    NSMutableArray *arr = [NSMutableArray array];
+    
+    if (imageDic.count > 0) {
+        [arr addObject:[imageDic objectForKey:@"url"]];
+    }
+    
+    return arr;
+}
+
 @end

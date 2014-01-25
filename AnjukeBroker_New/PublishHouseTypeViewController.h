@@ -26,6 +26,5 @@
 @property id superViewController;
 @property (nonatomic, strong) PhotoFooterView *footerView;
 @property (nonatomic, strong) NSMutableArray *houseTypeImageArr;
-@property (nonatomic, strong) NSDictionary *houseTypeDic; //户型图专用Dic
 
 @end

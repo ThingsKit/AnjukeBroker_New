@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		200915E81893FC1000A13115 /* E_Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 200915E71893FC1000A13115 /* E_Photo.m */; };
 		200915EB1893FC1100A13115 /* Property.m in Sources */ = {isa = PBXBuildFile; fileRef = 200915EA1893FC1100A13115 /* Property.m */; };
+		200915EE189401C800A13115 /* anjuke_icon_fxt_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */; };
+		200915EF189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 200915ED189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png */; };
 		20274173186AC2A9005267FD /* SystemCellManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20274172186AC2A9005267FD /* SystemCellManager.m */; };
 		2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2031A48418920F83004F7E1A /* FindHomeViewController.m */; };
 		2031A48718920FF2004F7E1A /* anjuke_icon_find@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */; };
@@ -268,6 +270,8 @@
 		200915E71893FC1000A13115 /* E_Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = E_Photo.m; sourceTree = "<group>"; };
 		200915E91893FC1100A13115 /* Property.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Property.h; sourceTree = "<group>"; };
 		200915EA1893FC1100A13115 /* Property.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Property.m; sourceTree = "<group>"; };
+		200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_fxt_@2x.png"; sourceTree = "<group>"; };
+		200915ED189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_fxt_mini_@2x.png"; sourceTree = "<group>"; };
 		20274171186AC2A9005267FD /* SystemCellManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemCellManager.h; sourceTree = "<group>"; };
 		20274172186AC2A9005267FD /* SystemCellManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemCellManager.m; sourceTree = "<group>"; };
 		2031A48318920F83004F7E1A /* FindHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindHomeViewController.h; sourceTree = "<group>"; };
@@ -899,6 +903,8 @@
 				970501541845A18E00A0C181 /* 引导页 */,
 				970FC17F183B6E8100D142D5 /* icon+lanchImg */,
 				97D752C6182C92690035577F /* Overlay@2x.png */,
+				200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */,
+				200915ED189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png */,
 				20B6B19F189392D100864EF2 /* anjuke_icon_nextphoto_@2x.png */,
 				20D3C24D18925D800030D7D8 /* anjuke_icon_photo_add@2x.png */,
 				2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */,
@@ -1670,12 +1676,14 @@
 				9795837C18224ABF005EA48A /* TabHaozu_normal@2x.png in Resources */,
 				B7ED789118891BB100E4D44C /* anjuke_icon_sound@2x.png in Resources */,
 				973727AF182FD2CE007D8501 /* PropertyDirection.plist in Resources */,
+				200915EF189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png in Resources */,
 				B77B1D17188FB353009E0D0C /* anjuke_icon_sound_button@2x.png in Resources */,
 				9795838E18225B93005EA48A /* anjuke_icon05_photo@2x.png in Resources */,
 				9705017B1845D4A800A0C181 /* anjuke_icon_yd2@2x.png in Resources */,
 				20AD081F1887DBE3005462CC /* anjuke_icon_next@2x.png in Resources */,
 				979BBB69185804AE005B7D03 /* icon_40@2x.png in Resources */,
 				979BBB68185804AE005B7D03 /* icon_40.png in Resources */,
+				200915EE189401C800A13115 /* anjuke_icon_fxt_@2x.png in Resources */,
 				9741055F180CDFE0004DAE95 /* InfoPlist.strings in Resources */,
 				979BBB66185804AE005B7D03 /* icon_29.png in Resources */,
 				B7EF77AF183CBBD20024A5E6 /* agent_icon45@2x.png in Resources */,
