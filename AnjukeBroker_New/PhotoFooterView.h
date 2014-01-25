@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 #define PF_EMPTY_IMAGE_HEIGHT 80
+#define PF_IMAGE_WIDTH 130/2
+#define PF_IMAGE_GAP_X 20/2
+#define PF_IMAGE_GAP_Y 15/2
 
 @protocol ImageClickDelegate <NSObject>
 
@@ -24,6 +27,7 @@
 @property (nonatomic, assign) id <ImageClickDelegate>clickDelegate;
 @property (nonatomic, strong) UIButton *emptyImgBtn;
 @property BOOL isHouseType; //是室内图还是房型图
+@property (nonatomic, strong) NSMutableArray *imageBtnArray; //显示预览图的容器
 
 - (void)redrawWithImageArray:(NSArray *)imageArr;
 

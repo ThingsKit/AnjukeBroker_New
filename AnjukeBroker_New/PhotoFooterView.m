@@ -9,11 +9,14 @@
 #import "PhotoFooterView.h"
 #import "PhotoButton.h"
 #import "Util_UI.h"
+#import "E_Photo.h"
+#import "PhotoManager.h"
 
 @implementation PhotoFooterView
 @synthesize clickDelegate;
 @synthesize emptyImgBtn;
 @synthesize isHouseType;
+@synthesize imageBtnArray;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -22,6 +25,7 @@
         // Initialization code
         self.backgroundColor = [UIColor whiteColor];
         
+        self.imageBtnArray = [NSMutableArray array];
     }
     return self;
 }
@@ -37,10 +41,10 @@
 
 - (void)redrawWithImageArray:(NSArray *)imageArr {
     CGFloat height = 0;
+    CGRect frame = self.frame;
     
     if (imageArr.count == 0) {
         //空白view
-        CGRect frame = self.frame;
         self.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, PF_EMPTY_IMAGE_HEIGHT);
         
         if (!self.emptyImgBtn) {
@@ -49,7 +53,7 @@
             btn.backgroundColor = [UIColor clearColor];
             self.emptyImgBtn = btn;
             [btn addTarget:self action:@selector(emptyBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-            [self addSubview:btn];
+//            [self addSubview:btn];
             
             UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_photo_add.png"]];
             icon.frame = CGRectMake((btn.frame.size.width - 80/2)/2, 10, 80/2, 60/2);
@@ -69,9 +73,52 @@
             [self addSubview:btn];
         }
         
+        [self addSubview:self.emptyImgBtn];
+        
     }
     else { //图片排列，添加btn+预览btn
+        if (self.emptyImgBtn) {
+            [self.emptyImgBtn removeFromSuperview];
+        }
         
+        int verticalRow = 0; //数列数量，至少一列
+        if (imageArr.count <=3) {
+            verticalRow = 1; //一行
+        }
+        else if (imageArr.count >=4 && imageArr.count <= 7){
+            verticalRow = 2; //2行
+        }
+        else {
+            verticalRow = 3; //3行
+        }
+        
+        //3*4双循环
+        for (int j = 0; j < verticalRow; j ++) {
+            for (int i = 0; i < 4; i ++) {
+                
+                int all_imageIndex = j*4+i; //在3*4的矩阵中，换算的图片index（添加按钮+1）
+                if (all_imageIndex > imageArr.count) {
+                    break; //数组越界前跳出双循环
+                }
+                
+                PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(5+PF_IMAGE_GAP_X +(PF_IMAGE_GAP_X + PF_IMAGE_WIDTH)*i, PF_IMAGE_GAP_Y + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*j, PF_IMAGE_WIDTH, PF_IMAGE_WIDTH)];
+                pBtn.tag = all_imageIndex;
+                DLog(@"index------[%d]", pBtn.tag);
+                if (all_imageIndex == 0) {
+                    pBtn.photoImg.image = [UIImage imageNamed:@"anjuke_icon_nextphoto_.png"];
+                }
+                else {
+                    NSString *url = [(E_Photo *)[imageArr objectAtIndex:all_imageIndex -1] smallPhotoUrl]; //去除第一个添加按钮
+                    pBtn.photoImg.image = [UIImage imageWithContentsOfFile:url];
+                }
+                [pBtn addTarget:self action:@selector(imageBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+                [self addSubview:pBtn];
+                
+                [self.imageBtnArray addObject:pBtn];
+            }
+        }
+        
+        self.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, PF_IMAGE_GAP_Y + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*verticalRow);
     }
     
     height = self.frame.size.height;
@@ -89,8 +136,24 @@
     if ([self.clickDelegate respondsToSelector:@selector(addImageDidClick)]) {
         [self.clickDelegate addImageDidClick];
     }
+}
+
+- (void)imageBtnClick:(id)sender {
+    PhotoButton *pb = (PhotoButton *)sender;
+    int index = pb.tag;
     
-    
+    if (index == 0) { //点击添加图片
+        //将添加按钮点击时间回调给superView
+        if ([self.clickDelegate respondsToSelector:@selector(addImageDidClick)]) {
+            [self.clickDelegate addImageDidClick];
+        }
+    }
+    else {
+        //产看第几张图片通过数组index给到
+        if ([self.clickDelegate respondsToSelector:@selector(imageDidClickWithIndex:)]) {
+            [self.clickDelegate imageDidClickWithIndex:index -1];
+        }
+    }
 }
 
 @end

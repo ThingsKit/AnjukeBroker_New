@@ -16,15 +16,22 @@
 #import "Property.h"
 #import "LoginManager.h"
 #import "PhotoFooterView.h"
+#import "ELCImagePickerController.h"
+#import "PhotoShowView.h"
+#import "E_Photo.h"
+#import "PhotoManager.h"
 
 #define IMAGE_ACTIONSHEET_TAG 9010
 #define PUBLISH_ACTIONSHEET_TAG 9020
 
 #define ROOM_IMAGE_MAX 8
 #define HOUSETYPE_IMAGE_MAX 2
-#define IMAGE_ALL_MAX ROOM_IMAGE_MAX +HOUSETYPE_IMAGE_MAX
+#define IMAGE_ALL_MAX ROOM_IMAGE_MAX +HOUSETYPE_IMAGE_MAX //室内图、户型图的上传上限
 
-@interface PublishBuildingViewController : RTViewController <UITableViewDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, UIActionSheetDelegate, ImageClickDelegate>
+#define IMAGE_MAXSIZE_WIDTH 600 //屏幕预览图的最大分辨率，只负责预览显示
+#define MAX_ROOMPHOTO_ALERT_MESSAGE @"室内图最多只能添加8张"
+
+@interface PublishBuildingViewController : RTViewController <UITableViewDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, UIActionSheetDelegate, ImageClickDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ELCImagePickerControllerDelegate, PhotoViewClickDelegate>
 
 @property BOOL isHaozu; //是否是好租，页面布局不同
 @property (nonatomic, strong) UITableView *tableViewList;
@@ -42,7 +49,11 @@
 @property (nonatomic, strong) NSMutableArray *houseTypeImageArray; //室内图、户型图数据存放数组
 
 @property (nonatomic, strong) PhotoFooterView *footerView;
+@property BOOL inPhotoProcessing;
+@property BOOL isTakePhoto; //是否拍照，区别拍照和从相册取图
+@property (nonatomic, strong) UIImagePickerController *imagePicker;
 
 - (void)setTextFieldForProperty;
+- (BOOL)canAddMoreImageWithAddCount:(int)addCount;
 
 @end
