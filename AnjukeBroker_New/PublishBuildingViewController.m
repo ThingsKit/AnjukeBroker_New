@@ -12,8 +12,7 @@
 #import "AnjukeNormalCell.h"
 #import "PublishHouseTypeViewController.h"
 
-#define PHOTO_SHOW_HEIGHT (15+15+15+130*2)/2
-#define PHOTO_BG_HEIGHT PHOTO_SHOW_HEIGHT+80
+#define PHOTO_FOOTER_BOTTOM_HEIGHT 80
 
 @interface PublishBuildingViewController ()
 
@@ -30,7 +29,7 @@
 
 @property BOOL needFileNO; //是否需要备案号，部分城市需要备案号（北京）
 
-@property (nonatomic, strong) UIView *photoShowView; //室内图预览底板
+@property (nonatomic, strong) UIView *photoBGView; //室内图预览底板
 @end
 
 @implementation PublishBuildingViewController
@@ -48,8 +47,9 @@
 @synthesize needFileNO;
 @synthesize communityDic;
 @synthesize roomValue, hallValue, toiletValue;
-@synthesize photoShowView;
+@synthesize photoBGView;
 @synthesize roomImageArray, houseTypeImageArray;
+@synthesize footerView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -164,19 +164,17 @@
 }
 
 - (void)drawFooter {
-    UIView *photoBGView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], PHOTO_BG_HEIGHT)];
-    photoBGView.backgroundColor = [UIColor clearColor];
+    UIView *photoBGV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], PUBLISH_SECTION_HEIGHT+PHOTO_FOOTER_BOTTOM_HEIGHT + PF_EMPTY_IMAGE_HEIGHT)];
+    photoBGV.backgroundColor = [UIColor clearColor];
+    self.photoBGView = photoBGV; //预览图底板
     
-    UIView *photoShowV = [[UIView alloc] initWithFrame:CGRectMake(0, PUBLISH_SECTION_HEIGHT, [self windowWidth], PHOTO_SHOW_HEIGHT)];
-    photoShowV.backgroundColor = [UIColor whiteColor];
-    self.photoShowView = photoShowV;
-    [photoBGView addSubview:photoShowV];
+    PhotoFooterView *pf = [[PhotoFooterView alloc] initWithFrame:CGRectMake(0, PUBLISH_SECTION_HEIGHT, [self windowWidth], PF_EMPTY_IMAGE_HEIGHT)];
+    pf.clickDelegate = self;
+    [photoBGV addSubview:pf];
     
-    [self.tableViewList setTableFooterView:photoBGView];
-}
-
-- (void)redrawFooter {
-    //
+    [self.tableViewList setTableFooterView:photoBGV];
+    
+    [pf redrawWithImageArray:self.roomImageArray];
 }
 
 #pragma mark - Private Method
@@ -858,12 +856,43 @@
     
 }
 
+#pragma mark - ImageClickDelegate
+
+- (void)imageDidClickWithIndex:(int)index { //图片预览点击
+    
+}
+
+- (void)addImageDidClick { //添加按钮点击
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从手机相册选择", nil];
+    sheet.tag = IMAGE_ACTIONSHEET_TAG;
+    [sheet showInView:self.view];
+    
+}
+
+- (void)drawFinishedWithCurrentHeight:(CGFloat)height { //每次重绘后返回当前预览底图的高度
+    self.photoBGView.frame = CGRectMake(0, 0, [self windowWidth], PUBLISH_SECTION_HEIGHT+PHOTO_FOOTER_BOTTOM_HEIGHT + height);
+    self.tableViewList.tableFooterView = self.photoBGView; //状态改变后需要重新赋值footerView
+}
+
 #pragma mark - UIActionSheet Delegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     if (actionSheet.tag == IMAGE_ACTIONSHEET_TAG) {
-        
+        switch (buttonIndex) {
+            case 0: //拍照
+            {
+                
+            }
+                break;
+            case 1: //相册
+            {
+                
+            }
+                break;
+            default:
+                break;
+        }
     }
     else if (actionSheet.tag == PUBLISH_ACTIONSHEET_TAG) {
         switch (buttonIndex) {

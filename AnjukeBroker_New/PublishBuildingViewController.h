@@ -15,6 +15,7 @@
 #import "AnjukeEditableCell.h"
 #import "Property.h"
 #import "LoginManager.h"
+#import "PhotoFooterView.h"
 
 #define IMAGE_ACTIONSHEET_TAG 9010
 #define PUBLISH_ACTIONSHEET_TAG 9020
@@ -23,7 +24,7 @@
 #define HOUSETYPE_IMAGE_MAX 2
 #define IMAGE_ALL_MAX ROOM_IMAGE_MAX +HOUSETYPE_IMAGE_MAX
 
-@interface PublishBuildingViewController : RTViewController <UITableViewDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, UIActionSheetDelegate>
+@interface PublishBuildingViewController : RTViewController <UITableViewDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, UIActionSheetDelegate, ImageClickDelegate>
 
 @property BOOL isHaozu; //是否是好租，页面布局不同
 @property (nonatomic, strong) UITableView *tableViewList;
@@ -39,6 +40,8 @@
 
 @property (nonatomic, strong) NSMutableArray *roomImageArray;
 @property (nonatomic, strong) NSMutableArray *houseTypeImageArray; //室内图、户型图数据存放数组
+
+@property (nonatomic, strong) PhotoFooterView *footerView;
 
 - (void)setTextFieldForProperty;
 
