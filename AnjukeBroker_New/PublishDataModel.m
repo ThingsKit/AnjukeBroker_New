@@ -36,6 +36,7 @@
     ep.price = @"";
     ep.rooms = @"";
     ep.title = @"";
+    ep.onlineHouseTypeDic = [NSDictionary dictionary];
     
     return ep;
 }

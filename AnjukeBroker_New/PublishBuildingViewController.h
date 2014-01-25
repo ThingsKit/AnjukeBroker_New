@@ -47,6 +47,7 @@
 @property BOOL inPhotoProcessing;
 @property BOOL isTakePhoto; //是否拍照，区别拍照和从相册取图
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
+@property (nonatomic, strong) NSDictionary *onlineHouseTypeDic;
 
 - (void)setTextFieldForProperty;
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount;

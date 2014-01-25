@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		200915E81893FC1000A13115 /* E_Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 200915E71893FC1000A13115 /* E_Photo.m */; };
+		200915EB1893FC1100A13115 /* Property.m in Sources */ = {isa = PBXBuildFile; fileRef = 200915EA1893FC1100A13115 /* Property.m */; };
 		20274173186AC2A9005267FD /* SystemCellManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20274172186AC2A9005267FD /* SystemCellManager.m */; };
 		2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2031A48418920F83004F7E1A /* FindHomeViewController.m */; };
 		2031A48718920FF2004F7E1A /* anjuke_icon_find@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */; };
 		2063C2651890ADB20043C739 /* PublishHouseTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2063C2641890ADB20043C739 /* PublishHouseTypeViewController.m */; };
 		206843E418890C9A007DD8C5 /* PublishBuildingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */; };
 		20A07429188C0A080073C915 /* PublishTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A07428188C0A080073C915 /* PublishTableViewDataSource.m */; };
-		20A0742C188C0A800073C915 /* PublishTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A0742B188C0A800073C915 /* PublishTextCell.m */; };
-		20A0742F188C0A9A0073C915 /* PublishClickCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A0742E188C0A9A0073C915 /* PublishClickCell.m */; };
 		20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A09790188D0A4E00D30196 /* PublishInputOrderModel.m */; };
 		20A09794188D2C4400D30196 /* PublishDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A09793188D2C4400D30196 /* PublishDataModel.m */; };
 		20A44DA11869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */; };
@@ -121,8 +121,6 @@
 		97AED120180D236B0072611B /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED11F180D236B0072611B /* AssetsLibrary.framework */; };
 		97AED122180D237B0072611B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED121180D237B0072611B /* SystemConfiguration.framework */; };
 		97AED124180D23870072611B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED123180D23870072611B /* CoreLocation.framework */; };
-		97B106481834A7040064AF5F /* Property.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B106471834A7040064AF5F /* Property.m */; };
-		97B1064B1834AB280064AF5F /* E_Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B1064A1834AB280064AF5F /* E_Photo.m */; };
 		97B106501834E5F40064AF5F /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B1064F1834E5F40064AF5F /* AppManager.m */; };
 		97B422571820D9A600A2E9E6 /* PropertyGroupListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B422561820D9A600A2E9E6 /* PropertyGroupListViewController.m */; };
 		97B4225A1820DB8300A2E9E6 /* AnjukePropertyGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97B422591820DB8300A2E9E6 /* AnjukePropertyGroupCell.m */; };
@@ -265,6 +263,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		200915D31893FA3000A13115 /* AnjukeBroker_New3.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = AnjukeBroker_New3.1.xcdatamodel; sourceTree = "<group>"; };
+		200915E61893FC1000A13115 /* E_Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = E_Photo.h; sourceTree = "<group>"; };
+		200915E71893FC1000A13115 /* E_Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = E_Photo.m; sourceTree = "<group>"; };
+		200915E91893FC1100A13115 /* Property.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Property.h; sourceTree = "<group>"; };
+		200915EA1893FC1100A13115 /* Property.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Property.m; sourceTree = "<group>"; };
 		20274171186AC2A9005267FD /* SystemCellManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemCellManager.h; sourceTree = "<group>"; };
 		20274172186AC2A9005267FD /* SystemCellManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemCellManager.m; sourceTree = "<group>"; };
 		2031A48318920F83004F7E1A /* FindHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindHomeViewController.h; sourceTree = "<group>"; };
@@ -276,10 +279,6 @@
 		206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishBuildingViewController.m; sourceTree = "<group>"; };
 		20A07427188C0A080073C915 /* PublishTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishTableViewDataSource.h; sourceTree = "<group>"; };
 		20A07428188C0A080073C915 /* PublishTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishTableViewDataSource.m; sourceTree = "<group>"; };
-		20A0742A188C0A800073C915 /* PublishTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishTextCell.h; sourceTree = "<group>"; };
-		20A0742B188C0A800073C915 /* PublishTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishTextCell.m; sourceTree = "<group>"; };
-		20A0742D188C0A9A0073C915 /* PublishClickCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishClickCell.h; sourceTree = "<group>"; };
-		20A0742E188C0A9A0073C915 /* PublishClickCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishClickCell.m; sourceTree = "<group>"; };
 		20A0978F188D0A4E00D30196 /* PublishInputOrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishInputOrderModel.h; sourceTree = "<group>"; };
 		20A09790188D0A4E00D30196 /* PublishInputOrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishInputOrderModel.m; sourceTree = "<group>"; };
 		20A09792188D2C4400D30196 /* PublishDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishDataModel.h; sourceTree = "<group>"; };
@@ -432,10 +431,6 @@
 		97AED11F180D236B0072611B /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		97AED121180D237B0072611B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		97AED123180D23870072611B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		97B106461834A7040064AF5F /* Property.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Property.h; sourceTree = "<group>"; };
-		97B106471834A7040064AF5F /* Property.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Property.m; sourceTree = "<group>"; };
-		97B106491834AB280064AF5F /* E_Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = E_Photo.h; sourceTree = "<group>"; };
-		97B1064A1834AB280064AF5F /* E_Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = E_Photo.m; sourceTree = "<group>"; };
 		97B1064E1834E5F40064AF5F /* AppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppManager.h; sourceTree = "<group>"; };
 		97B1064F1834E5F40064AF5F /* AppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppManager.m; sourceTree = "<group>"; };
 		97B422551820D9A600A2E9E6 /* PropertyGroupListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyGroupListViewController.h; sourceTree = "<group>"; };
@@ -699,10 +694,6 @@
 				2063C2641890ADB20043C739 /* PublishHouseTypeViewController.m */,
 				20A07427188C0A080073C915 /* PublishTableViewDataSource.h */,
 				20A07428188C0A080073C915 /* PublishTableViewDataSource.m */,
-				20A0742A188C0A800073C915 /* PublishTextCell.h */,
-				20A0742B188C0A800073C915 /* PublishTextCell.m */,
-				20A0742D188C0A9A0073C915 /* PublishClickCell.h */,
-				20A0742E188C0A9A0073C915 /* PublishClickCell.m */,
 			);
 			name = "新发房页面";
 			sourceTree = "<group>";
@@ -816,8 +807,8 @@
 			children = (
 				972C10271814FCD300552C9B /* HomeViewController.h */,
 				972C10281814FCD300552C9B /* HomeViewController.m */,
-				9795835A18220045005EA48A /* 系统公告 */,
 				972C10361815311700552C9B /* 发房 */,
+				9795835A18220045005EA48A /* 系统公告 */,
 			);
 			name = "首页+发房";
 			sourceTree = "<group>";
@@ -1446,10 +1437,10 @@
 		B769E448181F4C0300A2FF50 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				97B106461834A7040064AF5F /* Property.h */,
-				97B106471834A7040064AF5F /* Property.m */,
-				97B106491834AB280064AF5F /* E_Photo.h */,
-				97B1064A1834AB280064AF5F /* E_Photo.m */,
+				200915E91893FC1100A13115 /* Property.h */,
+				200915EA1893FC1100A13115 /* Property.m */,
+				200915E61893FC1000A13115 /* E_Photo.h */,
+				200915E71893FC1000A13115 /* E_Photo.m */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -1762,13 +1753,13 @@
 				975E7ED01829EDC7008EBC1D /* WebImageView.m in Sources */,
 				B7EF77B5183CE2D90024A5E6 /* RentSelectNoPlanController.m in Sources */,
 				20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */,
+				200915E81893FC1000A13115 /* E_Photo.m in Sources */,
 				970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */,
 				975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */,
 				B721095B1827976500904FC7 /* RentNoPlanController.m in Sources */,
 				B7E69BB8183B4C300097D5C3 /* ModifyRentCostController.m in Sources */,
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,
 				97CB0C10182BEA3500FCCBBD /* ELCImagePickerController.m in Sources */,
-				20A0742C188C0A800073C915 /* PublishTextCell.m in Sources */,
 				B7E69BAE183B15430097D5C3 /* RentPPCGroupCell.m in Sources */,
 				B769E469181F680D00A2FF50 /* PropertyDetailCell.m in Sources */,
 				97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */,
@@ -1777,7 +1768,6 @@
 				B769E47B181F82B000A2FF50 /* BaseBidPropertyCell.m in Sources */,
 				977FCA8F182894F000945FB4 /* CommunityListViewController.m in Sources */,
 				979583581821FF2B005EA48A /* SystemMessageViewController.m in Sources */,
-				97B1064B1834AB280064AF5F /* E_Photo.m in Sources */,
 				B77A9612182A39C1007F04E3 /* RentPropertyObject.m in Sources */,
 				B7E69BC1183B63480097D5C3 /* RentAuctionViewController.m in Sources */,
 				B769E45D181F54DE00A2FF50 /* BasePropertyObject.m in Sources */,
@@ -1816,13 +1806,13 @@
 				97B422601820E38200A2E9E6 /* PropertyResultListViewController.m in Sources */,
 				B769E484181F8F7000A2FF50 /* BasePropertyListController.m in Sources */,
 				B769E45A181F547100A2FF50 /* BasePropertyListCell.m in Sources */,
+				200915EB1893FC1100A13115 /* Property.m in Sources */,
 				B769E460181F5F1200A2FF50 /* ModifyFixedCostController.m in Sources */,
 				2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */,
 				B7E69BB2183B26A90097D5C3 /* RentBidPropertyCell.m in Sources */,
 				97CB0C18182BEFFC00FCCBBD /* MBProgressHUD.m in Sources */,
 				B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */,
 				97CB0C0C182BEA3500FCCBBD /* ELCAlbumPickerController.m in Sources */,
-				20A0742F188C0A9A0073C915 /* PublishClickCell.m in Sources */,
 				B7EA1FC2183A437500438CF8 /* SaleAuctionViewController.m in Sources */,
 				976AC61118278B5C003A2B3A /* LoginViewController.m in Sources */,
 				97410561180CDFE0004DAE95 /* main.m in Sources */,
@@ -1853,7 +1843,6 @@
 				97CB0C0D182BEA3500FCCBBD /* ELCAsset.m in Sources */,
 				B721095818278E6000904FC7 /* RentPropertyListCell.m in Sources */,
 				970FC17E183B19C400D142D5 /* PropertyResetViewController.m in Sources */,
-				97B106481834A7040064AF5F /* Property.m in Sources */,
 				B721094B18277CE100904FC7 /* RentFixedDetailController.m in Sources */,
 				B7DC8079186C115800BE6AD0 /* CellHeight.m in Sources */,
 				974E5C7F181E417F000246D1 /* RTListCell.m in Sources */,
@@ -2006,7 +1995,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "398A0F84-47E8-4C09-86AA-999FB251B95D";
+				PROVISIONING_PROFILE = "227AE9C7-5607-42D0-8641-EF6BFBFE34F5";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../RTNetwork/** $(PROJECT_DIR)/../RTApiProxy/** $(PROJECT_DIR)/../RTCoreService/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2031,7 +2020,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "398A0F84-47E8-4C09-86AA-999FB251B95D";
+				PROVISIONING_PROFILE = "227AE9C7-5607-42D0-8641-EF6BFBFE34F5";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../RTNetwork/** $(PROJECT_DIR)/../RTApiProxy/** $(PROJECT_DIR)/../RTCoreService/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2115,9 +2104,10 @@
 		97410566180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				200915D31893FA3000A13115 /* AnjukeBroker_New3.1.xcdatamodel */,
 				97410567180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodel */,
 			);
-			currentVersion = 97410567180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodel */;
+			currentVersion = 200915D31893FA3000A13115 /* AnjukeBroker_New3.1.xcdatamodel */;
 			path = AnjukeBroker_New.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

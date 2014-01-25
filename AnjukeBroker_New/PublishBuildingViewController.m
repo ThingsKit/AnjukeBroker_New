@@ -55,6 +55,7 @@
 @synthesize inPhotoProcessing, isTakePhoto;
 @synthesize imageOverLay;
 @synthesize imagePicker;
+@synthesize onlineHouseTypeDic;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -108,6 +109,8 @@
     
     self.roomImageArray = [NSMutableArray array];
     self.houseTypeImageArray = [NSMutableArray array];
+    
+    self.onlineHouseTypeDic = [NSDictionary dictionary];
 }
 
 - (void)initDisplay {
@@ -374,7 +377,7 @@
 }
 
 - (void)showInputWithIndex:(int)index isPicker:(BOOL)isPicker {
-    if ([[[self.cellDataSource inputCellArray] objectAtIndex:index] isKindOfClass:[AnjukeNormalCell class]]) {
+    if (![[[self.cellDataSource inputCellArray] objectAtIndex:index] isKindOfClass:[AnjukeEditableCell class]]) {
         return; //避免crash
     }
     self.inputingTextF = [(AnjukeEditableCell *)[[self.cellDataSource inputCellArray] objectAtIndex:index] text_Field];
@@ -799,7 +802,7 @@
                 break;
             case HZ_PICKER_RENTTYPE: //出租方式
             {
-                return; //不做处理
+//                return; //不做处理
             }
                 break;
 
@@ -834,7 +837,7 @@
                 break;
             case AJK_PICKER_FITMENT: //装修
             {
-                return; //不做处理
+//                return; //不做处理
             }
                 break;
             

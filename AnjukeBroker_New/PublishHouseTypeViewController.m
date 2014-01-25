@@ -66,6 +66,7 @@
 @synthesize isTakePhoto;
 @synthesize inPhotoProcessing;
 @synthesize lastHouseTypeImgArr;
+@synthesize houseTypeDic;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -547,6 +548,15 @@
     [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr]];
 }
 
+#pragma mark - Online Img Select Delegate
+
+- (void)onlineImgDidSelect:(NSDictionary *)imgDic {
+    DLog(@"在线房形图Data--[%@]", imgDic);
+    
+    //redraw footer img view
+    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr]];
+}
+
 #pragma mark - UITextField Delegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
@@ -632,7 +642,29 @@
     
     switch (buttonIndex) {
         case 0: { //在线房型图
+            NSString *code = [NSString string];
+            if (self.isHaozu) {
+                code = HZ_PROPERTY_007;
+            }
+            else
+                code = AJK_PROPERTY_007;
+            [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
             
+            //check小区、户型、朝向
+            if ([self.property.rooms isEqualToString:@""] || self.property.rooms == nil) {
+                [self showInfo:@"请先择户型"];
+                return;
+            }
+            else if ([self.property.exposure isEqualToString:@""] || self.property.exposure == nil) {
+                [self showInfo:@"请选择朝向"];
+                return;
+            }
+            
+            AnjukeOnlineImgController *ao = [[AnjukeOnlineImgController alloc] init];
+            ao.imageSelectDelegate = self;
+            ao.property = self.property;
+            ao.isHaozu = self.isHaozu;
+            [self.navigationController pushViewController:ao animated:NO];
         }
             break;
         case 1: //拍照

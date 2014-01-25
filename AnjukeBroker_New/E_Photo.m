@@ -2,8 +2,8 @@
 //  E_Photo.m
 //  AnjukeBroker_New
 //
-//  Created by Wu sicong on 13-11-14.
-//  Copyright (c) 2013年 Wu sicong. All rights reserved.
+//  Created by paper on 14-1-25.
+//  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
 
 #import "E_Photo.h"
@@ -14,12 +14,12 @@
 @dynamic addTime;
 @dynamic errorMessage;
 @dynamic flag;
+@dynamic imageDic;
 @dynamic imageJson;
 @dynamic lat;
 @dynamic lng;
 @dynamic photoURL;
 @dynamic smallPhotoUrl;
 @dynamic style;
-@dynamic imageDic;
 
 @end
