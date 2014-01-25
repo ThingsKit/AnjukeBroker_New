@@ -68,4 +68,17 @@
     return ep;
 }
 
+//将室内图array转换为footer可显示的数组--抽取imageUrl
++ (NSArray *)transformRoomImageArrToFooterShowArrWithArr:(NSArray *)imageArr {
+    NSMutableArray *arr = [NSMutableArray array];
+    
+    for (int i = 0; i < imageArr.count; i ++) {
+        NSString *url = [NSString string];
+        url = [(E_Photo *)[imageArr objectAtIndex:i] smallPhotoUrl];
+        [arr addObject:url];
+    }
+    
+    return arr;
+}
+
 @end

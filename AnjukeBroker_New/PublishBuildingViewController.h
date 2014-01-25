@@ -24,12 +24,7 @@
 #define IMAGE_ACTIONSHEET_TAG 9010
 #define PUBLISH_ACTIONSHEET_TAG 9020
 
-#define ROOM_IMAGE_MAX 8
-#define HOUSETYPE_IMAGE_MAX 2
-#define IMAGE_ALL_MAX ROOM_IMAGE_MAX +HOUSETYPE_IMAGE_MAX //室内图、户型图的上传上限
-
 #define IMAGE_MAXSIZE_WIDTH 600 //屏幕预览图的最大分辨率，只负责预览显示
-#define MAX_ROOMPHOTO_ALERT_MESSAGE @"室内图最多只能添加8张"
 
 @interface PublishBuildingViewController : RTViewController <UITableViewDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, UIActionSheetDelegate, ImageClickDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ELCImagePickerControllerDelegate, PhotoViewClickDelegate>
 

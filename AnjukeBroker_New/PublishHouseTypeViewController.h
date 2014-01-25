@@ -10,6 +10,7 @@
 #import "RTInputPickerView.h"
 #import "KeyboardToolBar.h"
 #import "Property.h"
+#import "PhotoManager.h"
 
 #define INDEX_HOUSETYPE 0
 #define INDEX_EXPOSURE 1
