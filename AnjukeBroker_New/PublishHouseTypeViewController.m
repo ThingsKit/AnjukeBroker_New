@@ -37,6 +37,7 @@
 
 @property (nonatomic, copy) NSString *lastRooms;
 @property (nonatomic, copy) NSString *lastExposure;
+@property (nonatomic, strong) NSMutableArray *lastHouseTypeImgArr; //上一次的户型图arr，用于取消时将户型图还原 T T
 
 @property (nonatomic, strong) UIView *photoBGView; //室内图预览底板
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
@@ -64,6 +65,7 @@
 @synthesize imagePicker;
 @synthesize isTakePhoto;
 @synthesize inPhotoProcessing;
+@synthesize lastHouseTypeImgArr;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -91,6 +93,10 @@
     
     self.lastRooms = self.property.rooms;
     self.lastExposure = self.property.exposure;
+    
+    for (int i = 0; i < self.houseTypeImageArr.count; i ++) {
+        [self.lastHouseTypeImgArr addObject:[self.houseTypeImageArr objectAtIndex:i]];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -115,8 +121,7 @@
     
     self.lastRooms = [NSString string];
     self.lastExposure = [NSString string];
-    
-    self.houseTypeImageArr = [NSMutableArray array];
+    self.lastHouseTypeImgArr = [NSMutableArray array];
 }
 
 - (void)initDisplay {
@@ -360,6 +365,8 @@
     if ([self.superViewController isKindOfClass:[PublishBuildingViewController class]]) {
         self.property.rooms = self.lastRooms;
         self.property.exposure = self.lastExposure; //还原上一次的输入
+        
+        [(PublishBuildingViewController *)self.superViewController setHouseTypeImageArray:self.lastHouseTypeImgArr]; //还原户型图
     }
     
     [super doBack:self];

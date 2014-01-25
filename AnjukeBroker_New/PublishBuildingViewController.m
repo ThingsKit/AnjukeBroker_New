@@ -89,7 +89,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    DLog(@"pro [%@]", self.property);
+    DLog(@"property [%@] 户型img_count[%d]", self.property, self.houseTypeImageArray.count);
 }
 
 - (void)didReceiveMemoryWarning
@@ -585,8 +585,9 @@
                     PublishHouseTypeViewController *ph = [[PublishHouseTypeViewController alloc] init];
                     ph.isHaozu = self.isHaozu;
                     ph.backType = RTSelectorBackTypePopBack;
-                    ph.property = self.property;
+                    ph.property = self.property; //指针指向
                     ph.superViewController = self;
+                    ph.houseTypeImageArr = self.houseTypeImageArray; //指针指向
                     [self.navigationController pushViewController:ph animated:YES];
                 }
                     break;
