@@ -102,6 +102,10 @@
     }
     
     self.onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:self.property.onlineHouseTypeDic];
+    
+    [self setDefultValue];
+    
+    [self.footerView redrawWithHouseTypeImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr] andImgUrl:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.onlineHouseTypeDic]];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -182,8 +186,6 @@
     }
     
     [self drawFooter];
-    
-    [self setDefultValue];
 }
 
 - (void)drawFooter {
@@ -197,7 +199,6 @@
     self.footerView = pf;
     [photoBGV addSubview:pf];
     
-    [self.footerView redrawWithHouseTypeImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr] andImgUrl:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.onlineHouseTypeDic]];
 }
 
 #pragma mark - Private Method
@@ -218,7 +219,6 @@
         NSString *name3 = [PublishDataModel getToiletTitleWithIndex:self.houseType_inputedRow2];
         
         self.houseTypeTF.text = [NSString stringWithFormat:@"%@%@%@", name, name2, name3];
-        
     }
     
     if (self.property.exposure.length > 0) { //朝向已有录入
@@ -226,7 +226,6 @@
         self.exposureTF.text = [PublishDataModel getExposureTitleWithValue:self.property.exposure];
         self.exposure_inputedRow0 = [PublishDataModel getExposureIndexWithTitle:self.exposureTF.text];
     }
-    
 }
 
 - (void)buttonDidSelect:(id)sender {
