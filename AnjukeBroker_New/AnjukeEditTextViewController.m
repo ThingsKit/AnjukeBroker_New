@@ -10,6 +10,7 @@
 #import "Util_UI.h"
 #import "Util_TEXT.h"
 #import <QuartzCore/QuartzCore.h>
+#import "AudioToolbox/AudioToolbox.h"
 
 #define APPID @"52d7a64b"
 #define TIMEOUT         @"20000"            // timeout      连接超时的时间，以ms为单位
@@ -207,10 +208,12 @@
     }
     if (self.textV && [self.textV.text length]>0 && ![self.textV.text isEqualToString:placeHolder]) {
         wordNum.text = [NSString stringWithFormat:@"%d", 30 - self.textV.text.length];
-        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        [self setWordNumValue:self.textV.text];
+//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
         wordNum.text = @"30";
-        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        [self setWordNumValue:self.textV.text];
+//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     }
 
 }
@@ -268,6 +271,7 @@
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
+    NSLog(@"====================================================shouldChangeTextInRange%d", range.location);
     if ([self.textV.text isEqualToString:placeHolder]) {
         self.textV.text = @"";
         self.textV.textColor = SYSTEM_BLACK;
@@ -277,20 +281,20 @@
         [textView resignFirstResponder];
         return NO;
     }
-    if(self.isTitle){
-        NSString *temp = [textView.text stringByReplacingCharactersInRange:range withString:text];
-        if ([temp isEqualToString:placeHolder]) {
-            wordNum.text = [NSString stringWithFormat:@"30"];
-            return YES;
-        }
-        if (temp.length > 30) {
-            DLog(@"111222 %@======%d", temp, [temp length]);
-            self.textV.text = [temp substringToIndex:30];
-            return NO;
-        }else {
-            wordNum.text = [NSString stringWithFormat:@"%d", 30 - [temp length]];
-        }
-    }
+//    if(self.isTitle){
+//        NSString *temp = [textView.text stringByReplacingCharactersInRange:range withString:text];
+//        if ([temp isEqualToString:placeHolder]) {
+//            wordNum.text = [NSString stringWithFormat:@"30"];
+//            return YES;
+//        }
+//        if (temp.length > 30) {
+//            DLog(@"111222 %@======%d", temp, [temp length]);
+//            self.textV.text = [temp substringToIndex:30];
+//            return NO;
+//        }else {
+//            wordNum.text = [NSString stringWithFormat:@"%d", 30 - [temp length]];
+//        }
+//    }
 
     return YES;
 }
@@ -302,26 +306,33 @@
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
-
+    NSLog(@"====================================================textViewDidChange");
     if(self.isTitle){
         NSString *temp = self.textV.text;
-        NSInteger num = [temp length];
-        if(num < 30){
-            wordNum.text = [NSString stringWithFormat:@"%d", 30 - [temp length]];
-            wordNum.textColor = SYSTEM_BLACK;
-        }else if (num == 30) {
-            wordNum.textColor = [UIColor redColor];
-            wordNum.text = [NSString stringWithFormat:@"%d", 30 - [temp length]];
-            
-        } else {
-            wordNum.textColor = [UIColor redColor];
-            wordNum.text = [NSString stringWithFormat:@"0"];
-            self.textV.text = [temp substringToIndex:30];
-        }
+        [self setWordNumValue:temp];
     }
 
 //textView.text = [textView.text substringToIndex:2];
 }
+
+- (void)setWordNumValue:(NSString *) temp {
+    NSInteger num = [temp length];
+    if(num < 30){
+        wordNum.text = [NSString stringWithFormat:@"%d", 30 - [temp length]];
+        wordNum.textColor = SYSTEM_BLACK;
+        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+    }else if (num == 30) {
+        wordNum.textColor = [UIColor redColor];
+        wordNum.text = [NSString stringWithFormat:@"%d", 30 - [temp length]];
+        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+    } else {
+        wordNum.textColor = [UIColor redColor];
+        wordNum.text = [NSString stringWithFormat:@"超出：%d字", num - 30];
+        wordNum.frame = CGRectMake(self.textV.frame.size.width - 110, self.textV.frame.size.height - 40, 100, 30);
+    }
+//    self.textV.text = temp;
+}
+
 #pragma mark - AlertView Delegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -355,7 +366,8 @@
     offset = kbSize.height;
     self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - SOUNDBUTTONHEIGHT - 64 - offset);
     if(self.isTitle){
-        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        [self setWordNumValue:self.textV.text];
+//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
         wordNum.frame = CGRectZero;
     }
@@ -368,7 +380,8 @@
     offset = kbSize.height;
     self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - SOUNDBUTTONHEIGHT - 64 - offset);
     if(self.isTitle){
-        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        [self setWordNumValue:self.textV.text];
+//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
         wordNum.frame = CGRectZero;
     }
@@ -384,7 +397,8 @@
 -(void)dealwithHideKeyboard{
     self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64);
     if(self.isTitle){
-        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        [self setWordNumValue:self.textV.text];
+//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
         wordNum.frame = CGRectZero;
     }
@@ -405,11 +419,13 @@
  同时只能进行一路会话,这次会话没有结束不能进行下一路会话，否则会报错
  */
 -(void)startSpeech {
+    [self playAudioVoice];
     _iFlySpeechRecognizer.delegate = self;
     [_iFlySpeechRecognizer startListening];
 }
 /** 取消本次会话 */
 -(void)cancelSpeech {
+
     [_iFlySpeechRecognizer cancel];
     _iFlySpeechRecognizer.delegate = nil;
 }
@@ -436,7 +452,7 @@
  */
 - (void) onBeginOfSpeech
 {
-    
+    [self playAudioVoice];
 }
 
 /**
@@ -451,10 +467,12 @@
     [self cancelFrameChange];
     self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBUTTONHEIHGT - 64 - 15*2 - 10);
     if(self.isTitle){
-        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        [self setWordNumValue:self.textV.text];
+//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
         wordNum.frame = CGRectZero;
     }
+    [self playAudioVoice];
 }
 
 
@@ -470,7 +488,8 @@
     [self cancelFrameChange];
     self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBUTTONHEIHGT - 64 - 15*2 - 10);
     if(self.isTitle){
-            wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        [self setWordNumValue:self.textV.text];
+//            wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
         } else {
             wordNum.frame = CGRectZero;
         }
@@ -505,26 +524,10 @@
         self.textV.textColor = SYSTEM_BLACK;
     }
     NSString *temp=[NSString stringWithFormat:@"%@%@", self.textV.text, result];
-    if(self.isTitle){
-//         = self.textV.text;
-        NSInteger num = [temp length];
-        if(num < 30){
-            wordNum.text = [NSString stringWithFormat:@"%d", 30 - [temp length]];
-            wordNum.textColor = SYSTEM_BLACK;
-            self.textV.text = temp;
-        }else if (num == 30) {
-            wordNum.textColor = [UIColor redColor];
-            wordNum.text = [NSString stringWithFormat:@"%d", 30 - [temp length]];
-            self.textV.text = temp;
-        } else {
-            wordNum.textColor = [UIColor redColor];
-            wordNum.text = [NSString stringWithFormat:@"0"];
-            self.textV.text = [temp substringToIndex:30];
-        }
-    } else {
-    NSString *temp=[NSString stringWithFormat:@"%@%@", self.textV.text, result];
-        self.textV.text = temp;
-    }
+    if(self.isTitle)
+        [self setWordNumValue:temp];
+    
+    self.textV.text = temp;
 }
 
 #pragma mark - privateMethod
@@ -538,7 +541,8 @@
     self.stopBut.frame = CGRectMake([self windowWidth] - 20 - BUTWHID, [self windowHeight] - 15 - VOICEANIMATIONIMGHEIGHT/2 - BUTHIGHT/2 - 64, BUTWHID, BUTHIGHT);
     self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEANIMATIONIMGHEIGHT - 64 - 15*2 - 10);
     if(self.isTitle){
-        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        [self setWordNumValue:self.textV.text];
+//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
         wordNum.frame = CGRectZero;
     }
@@ -557,11 +561,13 @@
 }
 
 - (void)cancel:(id) sender {
+    [self playAudioVoice];
     [self cancelSpeech];
     [self cancelFrameChange];
     self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64);
     if(self.isTitle){
-        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        [self setWordNumValue:self.textV.text];
+//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
         wordNum.frame = CGRectZero;
     }
@@ -588,10 +594,20 @@
     [self cancelFrameChange];
     self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64 - 15*2 - 10);
     if(self.isTitle){
-        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        [self setWordNumValue:self.textV.text];
+//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
         wordNum.frame = CGRectZero;
     }
+
+}
+- (void)playAudioVoice {
+    static SystemSoundID soundIDTest = 0;
+    NSString * path = [[NSBundle mainBundle] pathForResource:@"news" ofType:@"mp3"];
+    if (path) {
+        AudioServicesCreateSystemSoundID( (__bridge CFURLRef)[NSURL fileURLWithPath:path], &soundIDTest );
+    }
+    AudioServicesPlaySystemSound(soundIDTest );
 
 }
 @end

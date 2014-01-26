@@ -164,6 +164,7 @@
 		97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */; };
 		B702BA4518921752002E2DC7 /* FindPropertyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B702BA4418921752002E2DC7 /* FindPropertyCell.m */; };
 		B70323DC1832115B00DFDB1C /* BaseGroupListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B70323DB1832115B00DFDB1C /* BaseGroupListController.m */; };
+		B704D76D1894EB4A00728848 /* news.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B704D76C1894EB4A00728848 /* news.mp3 */; };
 		B721094B18277CE100904FC7 /* RentFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B721094A18277CE100904FC7 /* RentFixedDetailController.m */; };
 		B721094F18277F8A00904FC7 /* BaseFixedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B721094E18277F8A00904FC7 /* BaseFixedCell.m */; };
 		B7210952182785A400904FC7 /* RentFixedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7210951182785A400904FC7 /* RentFixedCell.m */; };
@@ -503,6 +504,7 @@
 		B702BA4418921752002E2DC7 /* FindPropertyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPropertyCell.m; sourceTree = "<group>"; };
 		B70323DA1832115B00DFDB1C /* BaseGroupListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseGroupListController.h; sourceTree = "<group>"; };
 		B70323DB1832115B00DFDB1C /* BaseGroupListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseGroupListController.m; sourceTree = "<group>"; };
+		B704D76C1894EB4A00728848 /* news.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = news.mp3; sourceTree = "<group>"; };
 		B721094918277CE100904FC7 /* RentFixedDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentFixedDetailController.h; sourceTree = "<group>"; };
 		B721094A18277CE100904FC7 /* RentFixedDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentFixedDetailController.m; sourceTree = "<group>"; };
 		B721094D18277F8A00904FC7 /* BaseFixedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseFixedCell.h; sourceTree = "<group>"; };
@@ -1068,6 +1070,7 @@
 		9741055B180CDFE0004DAE95 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B704D76C1894EB4A00728848 /* news.mp3 */,
 				9741055C180CDFE0004DAE95 /* AnjukeBroker_New-Info.plist */,
 				9741055D180CDFE0004DAE95 /* InfoPlist.strings */,
 				97410560180CDFE0004DAE95 /* main.m */,
@@ -1656,6 +1659,7 @@
 				9705017D1845D4A800A0C181 /* anjuke_icon_yd3@2x.png in Resources */,
 				97DED8A9182343E500D0B82A /* anjuke_icon09_woking@2x.png in Resources */,
 				9720001A1841BF25003F49A4 /* details_arrow_left@2x.png in Resources */,
+				B704D76D1894EB4A00728848 /* news.mp3 in Resources */,
 				972F70F01844EC560010CABB /* anjuke_icon22_esf@2x.png in Resources */,
 				9795838418224F35005EA48A /* TabMore_normal@2x.png in Resources */,
 				9795838D18225B93005EA48A /* anjuke_icon05_photo_selected@2x.png in Resources */,
