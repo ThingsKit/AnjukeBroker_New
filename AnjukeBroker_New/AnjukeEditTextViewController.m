@@ -391,6 +391,7 @@
 /** 取消本次会话 */
 -(void)cancelSpeech {
     [_iFlySpeechRecognizer cancel];
+    _iFlySpeechRecognizer.delegate = nil;
 }
 
 #pragma mark - IFlySpeechRecognizerDelegate
@@ -500,6 +501,9 @@
             wordNum.text = [NSString stringWithFormat:@"0"];
             self.textV.text = [temp substringToIndex:30];
         }
+    } else {
+    NSString *temp=[NSString stringWithFormat:@"%@%@", self.textV.text, result];
+        self.textV.text = temp;
     }
 }
 
