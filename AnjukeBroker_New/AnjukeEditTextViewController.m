@@ -176,7 +176,6 @@
     }
     
     UITextView *cellTextField = [[UITextView alloc] initWithFrame:CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64)];
-    cellTextField.returnKeyType = UIReturnKeyDone;
     cellTextField.backgroundColor = [UIColor clearColor];
     cellTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     if(self.isTitle){
@@ -194,6 +193,11 @@
     cellTextField.layer.cornerRadius = 6;
     self.textV = cellTextField;
     [self.view addSubview:cellTextField];
+    if(self.isTitle){
+        cellTextField.returnKeyType = UIReturnKeyDone;
+    } else {
+        cellTextField.returnKeyType = UIReturnKeyDefault;
+    }
     
     if(self.textV && [string length] > 0){
         self.textV.text = string;
@@ -271,13 +275,14 @@
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    NSLog(@"====================================================shouldChangeTextInRange%d", range.location);
     if ([self.textV.text isEqualToString:placeHolder]) {
         self.textV.text = @"";
         self.textV.textColor = SYSTEM_BLACK;
     }
 //    if (self.textV.text.intValue < 1 && range.length == 0)
-    if ([text isEqualToString:@"\n"]) {
+    
+    
+    if (self.isTitle && [text isEqualToString:@"\n"]) {
         [textView resignFirstResponder];
         return NO;
     }
@@ -306,7 +311,6 @@
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
-    NSLog(@"====================================================textViewDidChange");
     if(self.isTitle){
         NSString *temp = self.textV.text;
         [self setWordNumValue:temp];
