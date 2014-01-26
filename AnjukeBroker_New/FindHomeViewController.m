@@ -37,7 +37,7 @@
 
 - (void)initModel {
     self.myArray = [NSMutableArray array];
-    
+    //http://api.anjuke.test/mobile-ajk-broker/1.0/find/nearbycomm/?brokerId=147468&cityId=14&lat=39.956333931585&lng=116.8507188079&mapType=1
 
 }
 
@@ -51,7 +51,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.myArray count];
 }
-
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 50.0f;
 }
