@@ -31,7 +31,7 @@
     IFlySpeechRecognizer * _iFlySpeechRecognizer;
     UILabel *wordNum;
     NSString *placeHolder;
-    
+    int location; //输入框的光标位置
 }
 @property (nonatomic, strong) UITextView *textV;
 @property (nonatomic, strong) UIImageView *backIMG;
@@ -96,7 +96,7 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [self setWordNumText];
 }
 #pragma mark - private method
 - (void)initModel {
@@ -116,7 +116,7 @@
     if(self.isTitle){
 //        wordNum.text = @"30";
 //        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
-        [self setWordNumText];
+//        [self setWordNumText];
     } else {
         wordNum.frame = CGRectZero;
     }
@@ -203,7 +203,7 @@
         self.textV.text = string;
         self.textV.textColor = SYSTEM_BLACK;
     }
-    [self setWordNumText];
+//    [self setWordNumText];
 }
 
 - (void)setWordNumText {
@@ -269,12 +269,14 @@
 #pragma mark - Text Field Delegate
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView {
+    location =self.textV.selectedRange.location;
     [textView resignFirstResponder];
     return YES;
 }
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
+    location =self.textV.selectedRange.location;
     if ([self.textV.text isEqualToString:placeHolder]) {
         self.textV.text = @"";
         self.textV.textColor = SYSTEM_BLACK;
@@ -304,6 +306,7 @@
     return YES;
 }
 - (void)textViewDidBeginEditing:(UITextView *)textView {
+    location =self.textV.selectedRange.location;
     if ([self.textV.text isEqualToString:placeHolder]) {
         self.textV.text = @"";
         self.textV.textColor = SYSTEM_BLACK;
@@ -311,6 +314,7 @@
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
+    location =self.textV.selectedRange.location;
     if(self.isTitle){
         NSString *temp = self.textV.text;
         [self setWordNumValue:temp];
@@ -320,6 +324,14 @@
 }
 
 - (void)setWordNumValue:(NSString *) temp {
+    
+    if ([temp isEqualToString:placeHolder]) {
+        wordNum.text = [NSString stringWithFormat:@"30"];
+        wordNum.textColor = SYSTEM_BLACK;
+        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        return;
+    }
+    
     NSInteger num = [temp length];
     if(num < 30){
         wordNum.text = [NSString stringWithFormat:@"%d", 30 - [temp length]];
@@ -334,6 +346,8 @@
         wordNum.text = [NSString stringWithFormat:@"超出：%d字", num - 30];
         wordNum.frame = CGRectMake(self.textV.frame.size.width - 110, self.textV.frame.size.height - 40, 100, 30);
     }
+    
+
 //    self.textV.text = temp;
 }
 
@@ -363,7 +377,7 @@
 {
     [self cancelSpeech];
     [self cancelFrameChange];
-    
+    location =self.textV.selectedRange.location;
     //static CGFloat normalKeyboardHeight = 216.0f;
     NSDictionary *info = [notification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
@@ -530,8 +544,11 @@
     NSString *temp=[NSString stringWithFormat:@"%@%@", self.textV.text, result];
     if(self.isTitle)
         [self setWordNumValue:temp];
+    NSString *content = self.textV.text;
+    NSString *resultStr = [NSString stringWithFormat:@"%@%@%@",[content substringToIndex:location], result, [content substringFromIndex:location]];
     
-    self.textV.text = temp;
+    self.textV.text = resultStr;
+    location = location + result.length;
 }
 
 #pragma mark - privateMethod
