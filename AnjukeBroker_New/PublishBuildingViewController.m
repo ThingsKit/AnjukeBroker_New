@@ -336,6 +336,15 @@ typedef enum {
     [self.uploadImageArray addObjectsFromArray:self.houseTypeImageArray];
 }
 
+- (void)setHouseTypeShowWithString:(NSString *)string {
+    if (self.isHaozu) {
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_CLICK_ROOMS] communityDetailLb] setText:string];
+    }
+    else {
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_CLICK_ROOMS] communityDetailLb] setText:string];
+    }
+}
+
 #pragma mark - Check Method
 
 //是否能添加更多室内图

@@ -56,5 +56,6 @@
 
 - (void)setTextFieldForProperty;
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount;
+- (void)setHouseTypeShowWithString:(NSString *)string; //设置房型文案
 
 @end
