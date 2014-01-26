@@ -78,6 +78,8 @@
             [self.emptyImgBtn removeFromSuperview];
         }
         
+        [self cleanImageShow]; //一定要先清空老图片数据显示
+        
         int verticalRow = 0; //数列数量，至少一列
         if (imageArr.count <=3) {
             verticalRow = 1; //一行
@@ -168,6 +170,8 @@
             [self.emptyImgBtn removeFromSuperview];
         }
         
+        [self cleanImageShow]; //一定要先清空老图片数据显示
+        
         int verticalRow = 0; //数列数量，至少一列
         if (wholeCount <=3) {
             verticalRow = 1; //一行
@@ -220,6 +224,13 @@
     if ([self.clickDelegate respondsToSelector:@selector(drawFinishedWithCurrentHeight:)]) {
         [self.clickDelegate drawFinishedWithCurrentHeight:height];
     }
+}
+
+- (void)cleanImageShow {
+    for (int i = 0; i < self.imageBtnArray.count; i ++) {
+        [[self.imageBtnArray objectAtIndex:i] removeFromSuperview];
+    }
+    [self.imageBtnArray removeAllObjects];
 }
 
 //空白按钮点击添加

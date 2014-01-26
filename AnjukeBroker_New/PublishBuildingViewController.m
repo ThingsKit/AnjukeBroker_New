@@ -1259,6 +1259,18 @@ typedef enum {
 #pragma mark - PhotoFooterImageClickDelegate
 
 - (void)imageDidClickWithIndex:(int)index { //图片预览点击
+    int imageIndex = index - 0;
+    DLog(@"查看大图--index [%d]", imageIndex);
+    
+    //查看大图
+    //模态弹出图片播放器
+    PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
+    pb.clickDelegate = self;
+    RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
+    navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+        [pb showImagesWithArray:self.roomImageArray atIndex:imageIndex];
+    }];
     
 }
 
@@ -1272,6 +1284,14 @@ typedef enum {
 - (void)drawFinishedWithCurrentHeight:(CGFloat)height { //每次重绘后返回当前预览底图的高度
     self.photoBGView.frame = CGRectMake(0, 0, [self windowWidth], PUBLISH_SECTION_HEIGHT+PHOTO_FOOTER_BOTTOM_HEIGHT + height);
     self.tableViewList.tableFooterView = self.photoBGView; //状态改变后需要重新赋值footerView
+}
+
+#pragma mark - PublishBigImageViewClickDelegate 
+
+- (void)viewDidFinishWithImageArr:(NSArray *)imageArray {
+    self.roomImageArray = [NSMutableArray arrayWithArray:imageArray];
+    
+    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.roomImageArray]];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
