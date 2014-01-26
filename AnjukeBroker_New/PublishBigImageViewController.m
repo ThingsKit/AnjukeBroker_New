@@ -20,6 +20,9 @@
 @property (nonatomic, strong) UIScrollView *mainScroll;
 @property int currentIndex;
 
+@property (nonatomic, strong) UIImageView *leftIcon;
+@property (nonatomic, strong) UIImageView *rightIcon;
+
 @end
 
 @implementation PublishBigImageViewController
@@ -28,6 +31,7 @@
 @synthesize buttonImgArr;
 @synthesize mainScroll;
 @synthesize currentIndex;
+@synthesize leftIcon, rightIcon;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -123,6 +127,8 @@
     self.mainScroll.contentSize = CGSizeMake([self windowWidth] * self.imgArr.count, [self currentViewHeight]);
     self.mainScroll.contentOffset = CGPointMake([self windowWidth] * self.currentIndex, 0);
     
+    [self showArrowImg];
+    
     [self hideLoadWithAnimated:YES];
 }
 
@@ -133,6 +139,33 @@
     [self.buttonImgArr removeAllObjects];
     
     [self drawImageScroll];
+}
+
+- (void)showArrowImg {
+    if (self.imgArr.count >1) {
+        if (!self.leftIcon) {
+            CGFloat imgGap = 3;
+            CGFloat imgH = 26/2;
+            CGFloat imgW = 17/2;
+            
+            UIImageView *leftImg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"details_arrow_left.png"]];
+            leftImg.backgroundColor = [UIColor clearColor];
+            leftImg.frame = CGRectMake(imgGap, ([self currentViewHeight]- imgH)/2 -imgGap, imgW, imgH);
+            self.leftIcon = leftImg;
+            
+            UIImageView *rightImg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"details_arrow_right.png"]];
+            rightImg.backgroundColor = [UIColor clearColor];
+            rightImg.frame = CGRectMake([self windowWidth] - imgW- imgGap, ([self currentViewHeight]- imgH)/2 -imgGap, imgW, imgH);
+            self.rightIcon = rightImg;
+        }
+        
+        [self.view addSubview:self.leftIcon];
+        [self.view addSubview:self.rightIcon];
+    }
+    else { //hide
+        [self.leftIcon removeFromSuperview];
+        [self.rightIcon removeFromSuperview];
+    }
 }
 
 #pragma mark - Public Method
