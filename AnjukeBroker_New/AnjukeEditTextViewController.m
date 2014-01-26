@@ -93,6 +93,10 @@
     [_iFlySpeechRecognizer stopListening];
     _iFlySpeechRecognizer.delegate = nil;
 }
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+}
 #pragma mark - private method
 - (void)initModel {
     NSString *initString = [[NSString alloc] initWithFormat:@"appid=%@,timeout=%@",APPID,TIMEOUT];
@@ -109,8 +113,9 @@
     wordNum.backgroundColor = [UIColor clearColor];
     [self.textV addSubview:wordNum];
     if(self.isTitle){
-        wordNum.text = @"30";
-        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+//        wordNum.text = @"30";
+//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        [self setWordNumText];
     } else {
         wordNum.frame = CGRectZero;
     }
@@ -163,31 +168,6 @@
 
 }
 
-- (void)rightButtonAction:(id)sender {
-    if (self.isTitle) {
-        if (self.textV.text.length > 30 || self.textV.text.length < 5 || [self.textV.text isEqualToString:placeHolder]) {
-            [self showInfo:@"房源标题必须5到30个字符"];
-            return;
-        }
-    }
-    else {
-        if (self.textV.text.length < 10 || [self.textV.text isEqualToString:placeHolder]) {
-            [self showInfo:@"房源描述必须至少10个字符"];
-            return;
-        }
-    }
-    
-    if ([self.textFieldModifyDelegate respondsToSelector:@selector(textDidInput:isTitle:)]) {
-        if ([self.textV.text isEqualToString:placeHolder]) {
-            [self.textFieldModifyDelegate textDidInput:@"" isTitle:self.isTitle];
-        }else{
-            [self.textFieldModifyDelegate textDidInput:self.textV.text isTitle:self.isTitle];
-        }
-    }
-    [self.textV resignFirstResponder];
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 - (void)setTextFieldDetail:(NSString *)string {
     CGFloat TextViewH = 260;
     if ([self windowHeight] <= 960/2) {
@@ -218,6 +198,21 @@
         self.textV.text = string;
         self.textV.textColor = SYSTEM_BLACK;
     }
+    [self setWordNumText];
+}
+
+- (void)setWordNumText {
+    if (!self.isTitle) {
+        return;
+    }
+    if (self.textV && [self.textV.text length]>0 && ![self.textV.text isEqualToString:placeHolder]) {
+        wordNum.text = [NSString stringWithFormat:@"%d", 30 - self.textV.text.length];
+        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+    } else {
+        wordNum.text = @"30";
+        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+    }
+
 }
 
 - (void)doBack:(id)sender {
@@ -237,6 +232,31 @@
                                        otherButtonTitles:@"不保存",@"保存并退出",nil];
     av.tag = 102;
     [av show];
+}
+
+- (void)rightButtonAction:(id)sender {
+    if (self.isTitle) {
+        if (self.textV.text.length > 30 || self.textV.text.length < 5 || [self.textV.text isEqualToString:placeHolder]) {
+            [self showInfo:@"房源标题必须5到30个字符"];
+            return;
+        }
+    }
+    else {
+        if (self.textV.text.length < 10 || [self.textV.text isEqualToString:placeHolder]) {
+            [self showInfo:@"房源描述必须至少10个字符"];
+            return;
+        }
+    }
+    
+    if ([self.textFieldModifyDelegate respondsToSelector:@selector(textDidInput:isTitle:)]) {
+        if ([self.textV.text isEqualToString:placeHolder]) {
+            [self.textFieldModifyDelegate textDidInput:@"" isTitle:self.isTitle];
+        }else{
+            [self.textFieldModifyDelegate textDidInput:self.textV.text isTitle:self.isTitle];
+        }
+    }
+    [self.textV resignFirstResponder];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Text Field Delegate

@@ -43,8 +43,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSRange myRange = {4, 10};
-    NSValue *theValue = [NSValue valueWithBytes:&myRange objCType:@encode(NSRange)];
+//    NSRange myRange = {4, 10};
+//    NSValue *theValue = [NSValue valueWithBytes:&myRange objCType:@encode(NSRange)];
     [self addRightButton:@"确定" andPossibleTitle:nil];
     [self setTitleViewWithString:@"选择房源"];
     self.myTable.frame = FRAME_WITH_NAV;
@@ -59,6 +59,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self doRequest];
+    
 }
 #pragma mark - Request 未推广列表
 -(void)doRequest{
