@@ -42,6 +42,8 @@
     CGRect frame = self.frame;
     
     if (imageArr.count == 0) {
+        [self cleanImageShow]; //一定要先清空老图片数据显示
+        
         //空白view
         self.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, PF_EMPTY_IMAGE_HEIGHT);
         
@@ -137,6 +139,8 @@
     int wholeCount = imageArr.count + urlImgArr.count +1;
     
     if (wholeCount == 1) {
+        [self cleanImageShow]; //一定要先清空老图片数据显示
+        
         //空白view
         self.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, PF_EMPTY_IMAGE_HEIGHT);
         

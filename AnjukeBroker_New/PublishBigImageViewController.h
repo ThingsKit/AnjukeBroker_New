@@ -12,6 +12,8 @@
 
 - (void)viewDidFinishWithImageArr:(NSArray *)imageArray;
 
+- (void)onlineHouseTypeImgDelete;
+
 @end
 
 @interface PublishBigImageViewController : RTViewController <UIScrollViewDelegate>
@@ -19,5 +21,6 @@
 @property (nonatomic, assign) id <PublishBigImageViewClickDelegate> clickDelegate;
 
 - (void)showImagesWithArray:(NSArray *)imageArr atIndex:(int)index;
+- (void)showImagesForOnlineHouseTypeWithDic:(NSDictionary *)dic;
 
 @end

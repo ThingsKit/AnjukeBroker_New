@@ -23,6 +23,8 @@
 @property (nonatomic, strong) UIImageView *leftIcon;
 @property (nonatomic, strong) UIImageView *rightIcon;
 
+@property BOOL isHouseType;
+
 @end
 
 @implementation PublishBigImageViewController
@@ -32,6 +34,7 @@
 @synthesize mainScroll;
 @synthesize currentIndex;
 @synthesize leftIcon, rightIcon;
+@synthesize isHouseType;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -84,16 +87,25 @@
 #pragma mark - Private Method
 
 - (void)doDelete {
-    
-    if (self.currentIndex == self.self.imgArr.count - 1) { //如果是最后一项删除，则将当前选择的index前移一位
-        [self.imgArr removeLastObject];
-        self.currentIndex --;
+    if (self.isHouseType) {
+        //通知删除在线户型图。。。并退出
+        if ([self.clickDelegate respondsToSelector:@selector(onlineHouseTypeImgDelete)]) {
+            [self.clickDelegate onlineHouseTypeImgDelete];
+            
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
     }
-    else
-        [self.imgArr removeObjectAtIndex:self.currentIndex];
-    
-    //redraw
-    [self redrawImageScroll];
+    else { //非在线户型图查看，删除后重绘页面
+        if (self.currentIndex == self.self.imgArr.count - 1) { //如果是最后一项删除，则将当前选择的index前移一位
+            [self.imgArr removeLastObject];
+            self.currentIndex --;
+        }
+        else
+            [self.imgArr removeObjectAtIndex:self.currentIndex];
+        
+        //redraw
+        [self redrawImageScroll];
+    }
 }
 
 - (void)doBack:(id)sender {
@@ -175,6 +187,26 @@
     self.currentIndex = index;
     
     [self drawImageScroll];
+}
+
+//在线户型图单独显示
+- (void)showImagesForOnlineHouseTypeWithDic:(NSDictionary *)dic {
+    self.isHouseType = YES;
+    
+    [self showLoadingActivity:YES];
+    
+    CGFloat buttonW = [self windowWidth];
+    CGFloat buttonGap = ([self currentViewHeight] - buttonW) /2;
+    
+    PhotoButton *pb = [[PhotoButton alloc] initWithFrame:CGRectMake(0, buttonGap, buttonW, buttonW)];
+    pb.photoImg.imageUrl = [dic objectForKey:@"url"];
+    [self.buttonImgArr addObject:pb];
+    [self.mainScroll addSubview:pb];
+    
+    self.mainScroll.contentSize = CGSizeMake([self windowWidth], [self currentViewHeight]);
+    self.mainScroll.contentOffset = CGPointMake(0, 0);
+    
+    [self hideLoadWithAnimated:YES];
 }
 
 #pragma mark - UIScrollView Delegate

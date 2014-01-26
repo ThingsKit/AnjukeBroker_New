@@ -15,11 +15,12 @@
 #import "ELCImagePickerController.h"
 #import "PhotoShowView.h"
 #import "AnjukeOnlineImgController.h"
+#import "PublishBigImageViewController.h"
 
 #define INDEX_HOUSETYPE 0
 #define INDEX_EXPOSURE 1
 
-@interface PublishHouseTypeViewController : RTViewController <UITextFieldDelegate, KeyboardBarClickDelegate, PhotoFooterImageClickDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,ELCImagePickerControllerDelegate, PhotoViewClickDelegate ,OnlineImgSelectDelegate>
+@interface PublishHouseTypeViewController : RTViewController <UITextFieldDelegate, KeyboardBarClickDelegate, PhotoFooterImageClickDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,ELCImagePickerControllerDelegate, PhotoViewClickDelegate ,OnlineImgSelectDelegate, PublishBigImageViewClickDelegate>
 
 @property BOOL isHaozu;
 @property (nonatomic, strong) Property *property;

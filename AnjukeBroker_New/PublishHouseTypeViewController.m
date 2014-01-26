@@ -442,7 +442,46 @@
 #pragma mark - PhotoFooterImageClickDelegate
 
 - (void)imageDidClickWithIndex:(int)index { //图片预览点击
-    
+    if (self.onlineHouseTypeDic.count > 0) { //有在线户型图
+        if (index <= self.houseTypeImageArr.count - 1) { //户型图
+            //查看大图
+            DLog(@"查看大图有在线户型图--index [%d]", index);
+            
+            //模态弹出图片播放器
+            PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
+            pb.clickDelegate = self;
+            RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
+            navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+            [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+                [pb showImagesWithArray:self.houseTypeImageArr atIndex:index];
+            }];
+        }
+        else { //在线户型图
+            DLog(@"在线户型图查看大图--index [%d]", index);
+            //模态弹出图片播放器
+            PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
+            pb.clickDelegate = self;
+            RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
+            navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+            [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+                [pb showImagesForOnlineHouseTypeWithDic:self.onlineHouseTypeDic];
+            }];
+            
+        }
+    }
+    else { //无在线户型图
+        DLog(@"查看大图无在线户型图--index [%d]", index);
+        
+        //查看大图
+        //模态弹出图片播放器
+        PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
+        pb.clickDelegate = self;
+        RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
+        navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+            [pb showImagesWithArray:self.houseTypeImageArr atIndex:index];
+        }];
+    }
 }
 
 - (void)addImageDidClick { //添加按钮点击
@@ -572,6 +611,22 @@
 - (void)onlineImgDidSelect:(NSDictionary *)imgDic {
     DLog(@"在线房形图Data--[%@]", imgDic);
     self.onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:imgDic];
+    
+    //redraw footer img view
+    [self.footerView redrawWithHouseTypeImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr] andImgUrl:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.onlineHouseTypeDic]];
+}
+
+#pragma mark - PublishBigImageViewClickDelegate
+
+- (void)viewDidFinishWithImageArr:(NSArray *)imageArray {
+    self.houseTypeImageArr = [NSMutableArray arrayWithArray:imageArray];
+    
+    //redraw footer img view
+    [self.footerView redrawWithHouseTypeImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr] andImgUrl:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.onlineHouseTypeDic]];
+}
+
+- (void)onlineHouseTypeImgDelete {
+    self.onlineHouseTypeDic = [NSDictionary dictionary];
     
     //redraw footer img view
     [self.footerView redrawWithHouseTypeImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr] andImgUrl:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.onlineHouseTypeDic]];
