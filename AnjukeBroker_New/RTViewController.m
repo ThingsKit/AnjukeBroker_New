@@ -38,11 +38,13 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    if (self.backType == RTSelectorBackTypePopBack || self.backType == RTSelectorBackTypePopToRoot) {
-        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-    }
-    else {
-        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    if (![AppManager isIOS6]) {
+        if (self.backType == RTSelectorBackTypePopBack || self.backType == RTSelectorBackTypePopToRoot) {
+            self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+        }
+        else {
+            self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+        }
     }
     
     self.view.backgroundColor = [UIColor whiteColor];

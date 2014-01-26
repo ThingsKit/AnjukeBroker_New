@@ -100,6 +100,9 @@ typedef enum {
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    //修改为每次显示发房页面都
+    [self pickerDisappear];
+    
     DLog(@"property [%@] 户型img_count[%d]", self.property, self.houseTypeImageArray.count);
 }
 
@@ -125,10 +128,10 @@ typedef enum {
 
 - (void)initDisplay {
     //init main sv
-    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStyleGrouped];
+    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     tv.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
     tv.delegate = self;
-//    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableViewList = tv;
     [self.view addSubview:tv];
     
@@ -255,12 +258,8 @@ typedef enum {
 - (NSString *)getImageJson {
     NSMutableArray *arr = [NSMutableArray array];
     
-    for (int i = 0; i < self.roomImageArray.count; i ++) {
-        NSDictionary *dic = [NSDictionary dictionaryWithDictionary:[(E_Photo *)[self.roomImageArray objectAtIndex:i] imageDic]];
-        [arr addObject:dic];
-    }
-    for (int i = 0; i < self.houseTypeImageArray.count; i ++) {
-        NSDictionary *dic = [NSDictionary dictionaryWithDictionary:[(E_Photo *)[self.houseTypeImageArray objectAtIndex:i] imageDic]];
+    for (int i = 0; i < self.uploadImageArray.count; i ++) {
+        NSDictionary *dic = [NSDictionary dictionaryWithDictionary:[(E_Photo *)[self.uploadImageArray objectAtIndex:i] imageDic]];
         [arr addObject:dic];
     }
     
@@ -331,6 +330,12 @@ typedef enum {
     }
 }
 
+- (void)prepareUploadImgArr {
+    [self.uploadImageArray removeAllObjects];
+    [self.uploadImageArray addObjectsFromArray:self.roomImageArray];
+    [self.uploadImageArray addObjectsFromArray:self.houseTypeImageArray];
+}
+
 #pragma mark - Check Method
 
 //是否能添加更多室内图
@@ -364,7 +369,7 @@ typedef enum {
         return;
     }
     
-    if (self.uploadImgIndex > [self allImageCount] - 1) {
+    if (self.uploadImgIndex >= [self allImageCount] - 1) {
         DLog(@"图片上传完毕，开始发房");
         
         [self uploadProperty]; //开始上传房源
@@ -380,9 +385,6 @@ typedef enum {
     }
     
     if (self.uploadImgIndex == 0) { //第一张图片开始上传就显示黑框，之后不重复显示，上传流程结束后再消掉黑框
-        [self.uploadImageArray removeAllObjects];
-        [self.uploadImageArray addObjectsFromArray:self.roomImageArray];
-        [self.uploadImageArray addObjectsFromArray:self.houseTypeImageArray];
         
         [self showLoadingActivity:YES];
         self.isLoading = YES;
@@ -1536,12 +1538,38 @@ typedef enum {
         switch (buttonIndex) {
             case 0: //定价
             {
+                NSString *code = [NSString string];
+                if (self.isHaozu) {
+                    code = HZ_PROPERTY_008;
+                }
+                else
+                    code = AJK_PROPERTY_008;
+                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
                 
+                self.uploadType = Property_DJ;
+                
+                //test upload img
+                [self prepareUploadImgArr];
+                
+                [self uploadPhoto];
             }
                 break;
             case 1: //定价+竞价
             {
+                NSString *code = [NSString string];
+                if (self.isHaozu) {
+                    code = HZ_PROPERTY_009;
+                }
+                else
+                    code = AJK_PROPERTY_009;
+                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
                 
+                self.uploadType = Property_JJ;
+                
+                //test upload img
+                [self prepareUploadImgArr];
+                
+                [self uploadPhoto];
             }
                 break;
             case 2: //暂不推广
@@ -1557,6 +1585,8 @@ typedef enum {
                 self.uploadType = Property_WTG;
                 
                 //test upload img
+                [self prepareUploadImgArr];
+                
                 [self uploadPhoto];
             }
                 break;
