@@ -719,6 +719,10 @@
     
     switch (buttonIndex) {
         case 0: { //在线房型图
+            if (![self canAddMoreImageWithAddCount:1]) { //到达上限后张就不能继续拍摄
+                return; //室内图超出限制
+            }
+            
             NSString *code = [NSString string];
             if (self.isHaozu) {
                 code = HZ_PROPERTY_007;

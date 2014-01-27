@@ -40,6 +40,7 @@ typedef enum {
 @property (nonatomic, strong) PhotoShowView *imageOverLay;
 
 @property (nonatomic, assign) PropertyUploadType uploadType;
+@property int uploadImg_houseTypeIndex; //上传图片时户型图数据所在整个图片上传队列中的位置
 
 @end
 
@@ -334,6 +335,10 @@ typedef enum {
     [self.uploadImageArray removeAllObjects];
     [self.uploadImageArray addObjectsFromArray:self.roomImageArray];
     [self.uploadImageArray addObjectsFromArray:self.houseTypeImageArray];
+    
+    self.uploadImgIndex = 0;
+    
+    self.uploadImg_houseTypeIndex = self.roomImageArray.count; //
 }
 
 - (void)setHouseTypeShowWithString:(NSString *)string {
@@ -360,10 +365,6 @@ typedef enum {
 - (int)allImageCount {
     int count = self.roomImageArray.count + self.houseTypeImageArray.count;
     
-    if ([self.property.onlineHouseTypeDic count] >0) {
-        count ++;
-    }
-    
     DLog(@"所有图片数量 [%d]", count);
     
     return count;
@@ -378,7 +379,7 @@ typedef enum {
         return;
     }
     
-    if (self.uploadImgIndex >= [self allImageCount] - 1) {
+    if (self.uploadImgIndex >= [self allImageCount]) {
         DLog(@"图片上传完毕，开始发房");
         
         [self uploadProperty]; //开始上传房源
@@ -389,7 +390,6 @@ typedef enum {
         [self showLoadingActivity:YES];
         self.isLoading = YES;
         [self uploadProperty]; //......
-        //        [self showInfo:@"请选择房源图片，谢谢"];
         return; //没有上传图片
     }
     
@@ -416,17 +416,25 @@ typedef enum {
     RTNetworkResponse *response = [[RTNetworkResponse alloc] init];
     [response setContent:result];
     
-    DLog(@"image upload result[%@]", result);
-    
     //保存imageDic在E_Photo
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[result objectForKey:@"image"]];
     if (self.isHaozu) {
-        [dic setObject:@"1" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
+        if (self.uploadImgIndex < self.uploadImg_houseTypeIndex) { //属于室内图类型
+            [dic setObject:@"1" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
+        }
+        else //属于房型图类型
+            [dic setObject:@"2" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
     }
     else //二手房
-        [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+    {
+        if (self.uploadImgIndex < self.uploadImg_houseTypeIndex) { //属于室内图类型
+            [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+        }
+        else //属于房型图类型
+            [dic setObject:@"3" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+    }
     
-    if (self.uploadImgIndex > [self allImageCount] - 1) {
+    if (self.uploadImgIndex >= [self allImageCount]) {
         DLog(@"图片上传完毕，开始发房");
         
         [self uploadProperty]; //开始上传房源
