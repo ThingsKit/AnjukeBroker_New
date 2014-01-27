@@ -355,8 +355,8 @@ typedef enum {
 
 //是否能添加更多室内图
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount{
-    if (addCount + self.roomImageArray.count > ROOM_IMAGE_MAX ) {
-        [self showInfo:MAX_ROOMPHOTO_ALERT_MESSAGE];
+    if (![PhotoManager canAddMoreRoomImageForImageArr:self.roomImageArray isHaozu:self.isHaozu]) {
+        [self showInfo:[PhotoManager getImageMaxAlertStringForHaozu:self.isHaozu isHouseType:NO]];
         return NO; //超出
     }
     
@@ -1546,7 +1546,10 @@ typedef enum {
                 //拍照预览图
                 PhotoShowView *pv = [[PhotoShowView alloc] initWithFrame:CGRectMake(0, [self windowHeight] - PHOTO_SHOW_VIEW_H, [self windowWidth], PHOTO_SHOW_VIEW_H)];
                 self.imageOverLay = pv;
-                pv.maxImgCount = ROOM_IMAGE_MAX;
+                pv.maxImgCount = AJK_MAXCOUNT_ROOMIMAGE;
+                if (self.isHaozu) {
+                    pv.maxImgCount = HZ_MAXCOUNT_ROOMIMAGE;
+                }
                 pv.currentImgCount = self.roomImageArray.count;
                 pv.clickDelegate = self;
                 
@@ -1572,7 +1575,11 @@ typedef enum {
                 self.isTakePhoto = NO;
                 
                 ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] init];
-                elcPicker.maximumImagesCount = (ROOM_IMAGE_MAX - self.roomImageArray.count);
+                int maxCount = AJK_MAXCOUNT_ROOMIMAGE;
+                if (self.isHaozu) {
+                    maxCount = HZ_MAXCOUNT_ROOMIMAGE;
+                }
+                elcPicker.maximumImagesCount = (maxCount - self.roomImageArray.count);
                 elcPicker.imagePickerDelegate = self;
                 
                 [self presentViewController:elcPicker animated:YES completion:nil];

@@ -390,15 +390,20 @@
 
 //是否能添加更多室内图
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount{
+    int maxCount = AJK_MAXCOUNT_HOUSETYPEIMAGE;
+    if (self.isHaozu) {
+        maxCount = HZ_MAXCOUNT_HOUSETYPEIMAGE;
+    }
+    
     if (self.onlineHouseTypeDic.count > 0) {
-        if (addCount + self.houseTypeImageArr.count +1 > HOUSETYPE_IMAGE_MAX ) {
-            [self showInfo:MAX_HOUSETYPEPHOTO_ALERT_MESSAGE];
+        if (addCount + self.houseTypeImageArr.count +1 > maxCount ) {
+            [self showInfo:[PhotoManager getImageMaxAlertStringForHaozu:self.isHaozu isHouseType:YES]];
             return NO; //超出
         }
     }
     else  {
-        if (addCount + self.houseTypeImageArr.count > HOUSETYPE_IMAGE_MAX ){
-            [self showInfo:MAX_HOUSETYPEPHOTO_ALERT_MESSAGE];
+        if (addCount + self.houseTypeImageArr.count > maxCount ){
+            [self showInfo:[PhotoManager getImageMaxAlertStringForHaozu:self.isHaozu isHouseType:YES]];
             return NO; //超出
         }
     }
@@ -778,7 +783,10 @@
             //拍照预览图
             PhotoShowView *pv = [[PhotoShowView alloc] initWithFrame:CGRectMake(0, [self windowHeight] - PHOTO_SHOW_VIEW_H, [self windowWidth], PHOTO_SHOW_VIEW_H)];
             self.imageOverLay = pv;
-            pv.maxImgCount = HOUSETYPE_IMAGE_MAX;
+            pv.maxImgCount = AJK_MAXCOUNT_HOUSETYPEIMAGE;
+            if (self.isHaozu) {
+                pv.maxImgCount = HZ_MAXCOUNT_HOUSETYPEIMAGE;
+            }
             pv.currentImgCount = self.houseTypeImageArr.count;
             pv.clickDelegate = self;
             
@@ -804,7 +812,14 @@
             self.isTakePhoto = NO;
             
             ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] init];
-            elcPicker.maximumImagesCount = (HOUSETYPE_IMAGE_MAX - self.houseTypeImageArr.count);
+            int maxCount = AJK_MAXCOUNT_HOUSETYPEIMAGE;
+            if (self.isHaozu) {
+                maxCount = HZ_MAXCOUNT_HOUSETYPEIMAGE;
+            }
+            if (self.onlineHouseTypeDic.count > 0) {
+                maxCount --;
+            }
+            elcPicker.maximumImagesCount = (maxCount - self.houseTypeImageArr.count);
             elcPicker.imagePickerDelegate = self;
             
             [self presentViewController:elcPicker animated:YES completion:nil];

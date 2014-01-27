@@ -12,9 +12,15 @@
 #define PHOTO_FOLDER_NAME @"AJK_Broker"
 #define API_PhotoUpload @"http://upd1.ajkimg.com/upload"
 
-#define ROOM_IMAGE_MAX 8
-#define HOUSETYPE_IMAGE_MAX 2
-#define IMAGE_ALL_MAX ROOM_IMAGE_MAX +HOUSETYPE_IMAGE_MAX //室内图、户型图的上传上限
+//二手房图片上传数量限制
+#define AJK_MAXCOUNT_ROOMIMAGE 10
+#define AJK_MAXCOUNT_HOUSETYPEIMAGE 4
+#define AJK_MAXCOUNT_ALLIMAGE AJK_MAXCOUNT_ROOMIMAGE +AJK_MAXCOUNT_HOUSETYPEIMAGE //室内图、户型图的上传上限
+
+//租房图片上传数量限制
+#define HZ_MAXCOUNT_ROOMIMAGE 8
+#define HZ_MAXCOUNT_HOUSETYPEIMAGE 2
+#define HZ_MAXCOUNT_ALLIMAGE HZ_MAXCOUNT_ROOMIMAGE +HZ_MAXCOUNT_HOUSETYPEIMAGE //室内图、户型图的上传上限
 
 #define MAX_ROOMPHOTO_ALERT_MESSAGE @"室内图最多只能添加8张"
 #define MAX_HOUSETYPEPHOTO_ALERT_MESSAGE @"房型图最多只能添加2张"
@@ -29,5 +35,9 @@
 + (NSArray *)transformHouseTypeImageArrToFooterShowArrWithArr:(NSArray *)imageArr;
 + (NSArray *)transformOnlineHouseTypeImageArrToFooterShowArrWithArr:(NSDictionary *)imageDic;
 
+//是否能添加更多室内图
++ (BOOL)canAddMoreRoomImageForImageArr:(NSArray *)imageArr isHaozu:(BOOL)isHaozu;
+//根据二手房、好租和室内图、房型图返回提示文案
++ (NSString *)getImageMaxAlertStringForHaozu:(BOOL)isHaozu isHouseType:(BOOL)isHouseType;
 
 @end

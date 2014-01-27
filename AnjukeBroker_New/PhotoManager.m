@@ -104,4 +104,49 @@
     return arr;
 }
 
+//是否能添加更多室内图
++ (BOOL)canAddMoreRoomImageForImageArr:(NSArray *)imageArr isHaozu:(BOOL)isHaozu {
+    BOOL canAdd = NO;
+    int maxCount = 0;
+    int addCount = 1; //再添加一张图片后判断
+    
+    maxCount = AJK_MAXCOUNT_ROOMIMAGE;
+    if (isHaozu) {
+        maxCount = HZ_MAXCOUNT_ROOMIMAGE;
+    }
+    if (addCount + imageArr.count <= maxCount) {
+        canAdd = YES;
+    }
+    
+    return canAdd;
+}
+
++ (NSString *)getImageMaxAlertStringForHaozu:(BOOL)isHaozu isHouseType:(BOOL)isHouseType {
+    NSString *alertStr = [NSString string];
+    NSString *title = @"室内图";
+    
+    int maxCount = 0;
+    
+    if (isHaozu) {
+        if (isHouseType) {
+            maxCount = HZ_MAXCOUNT_HOUSETYPEIMAGE;
+            title = @"户型图";
+        }
+        else
+            maxCount = HZ_MAXCOUNT_ROOMIMAGE;
+    }
+    else {
+        if (isHouseType) {
+            maxCount = AJK_MAXCOUNT_HOUSETYPEIMAGE;
+            title = @"户型图";
+        }
+        else
+            maxCount = AJK_MAXCOUNT_ROOMIMAGE;
+    }
+    
+    alertStr = [NSString stringWithFormat:@"%@最多上传%d张", title, maxCount];
+    
+    return alertStr;
+}
+
 @end
