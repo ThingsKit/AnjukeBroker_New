@@ -109,6 +109,11 @@
 }
 
 - (void)doBack:(id)sender {
+    if (self.isHouseType) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
+    
     //设置...
     if ([self.clickDelegate respondsToSelector:@selector(viewDidFinishWithImageArr:)]) {
         [self.clickDelegate viewDidFinishWithImageArr:self.imgArr];
