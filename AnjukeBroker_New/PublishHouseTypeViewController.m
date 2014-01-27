@@ -445,7 +445,7 @@
 
 - (void)imageDidClickWithIndex:(int)index { //图片预览点击
     if (self.onlineHouseTypeDic.count > 0) { //有在线户型图
-        if (index <= self.houseTypeImageArr.count - 1) { //户型图
+        if (self.houseTypeImageArr.count != 0 && index <= self.houseTypeImageArr.count - 1) { //户型图
             //查看大图
             DLog(@"查看大图有在线户型图--index [%d]", index);
             
