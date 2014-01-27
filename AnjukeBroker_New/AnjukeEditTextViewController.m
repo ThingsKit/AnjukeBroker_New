@@ -100,6 +100,7 @@
 }
 #pragma mark - private method
 - (void)initModel {
+    location = 0;
     NSString *initString = [[NSString alloc] initWithFormat:@"appid=%@,timeout=%@",APPID,TIMEOUT];
     _iFlySpeechRecognizer = [IFlySpeechRecognizer createRecognizer: initString delegate:self];
     _iFlySpeechRecognizer.delegate = self;
@@ -269,14 +270,16 @@
 #pragma mark - Text Field Delegate
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView {
-    location =self.textV.selectedRange.location;
+    [self setLocationBySelectedRange];
+//    location =self.textV.selectedRange.location;
     [textView resignFirstResponder];
     return YES;
 }
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    location =self.textV.selectedRange.location;
+    [self setLocationBySelectedRange];
+//    location = self.textV.selectedRange.location;
     if ([self.textV.text isEqualToString:placeHolder]) {
         self.textV.text = @"";
         self.textV.textColor = SYSTEM_BLACK;
@@ -306,7 +309,8 @@
     return YES;
 }
 - (void)textViewDidBeginEditing:(UITextView *)textView {
-    location =self.textV.selectedRange.location;
+    [self setLocationBySelectedRange];
+//    location = self.textV.selectedRange.location;
     if ([self.textV.text isEqualToString:placeHolder]) {
         self.textV.text = @"";
         self.textV.textColor = SYSTEM_BLACK;
@@ -314,7 +318,8 @@
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
-    location =self.textV.selectedRange.location;
+    [self setLocationBySelectedRange];
+//    location =self.textV.selectedRange.location;
     if(self.isTitle){
         NSString *temp = self.textV.text;
         [self setWordNumValue:temp];
@@ -377,7 +382,8 @@
 {
     [self cancelSpeech];
     [self cancelFrameChange];
-    location =self.textV.selectedRange.location;
+    [self setLocationBySelectedRange];
+//    location = self.textV.selectedRange.location;
     //static CGFloat normalKeyboardHeight = 216.0f;
     NSDictionary *info = [notification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
@@ -537,7 +543,7 @@
         [result appendFormat:@"%@",key];
     }
     DLog(@"转写结果：%@",result);
-    if ([self.textV.text isEqualToString:placeHolder] && [result length] > 0) {
+    if ([self.textV.text isEqualToString:placeHolder]) {
         self.textV.text = @"";
         self.textV.textColor = SYSTEM_BLACK;
     }
@@ -545,8 +551,11 @@
     if(self.isTitle)
         [self setWordNumValue:temp];
     NSString *content = self.textV.text;
+    if (content.length < location ) {
+        return;
+    }
     NSString *resultStr = [NSString stringWithFormat:@"%@%@%@",[content substringToIndex:location], result, [content substringFromIndex:location]];
-    
+    DLog(@"===============================================%d", location);
     self.textV.text = resultStr;
     location = location + result.length;
 }
@@ -631,4 +640,9 @@
     AudioServicesPlaySystemSound(soundIDTest );
 
 }
+
+- (void)setLocationBySelectedRange {
+    location = self.textV.selectedRange.location;
+}
+
 @end
