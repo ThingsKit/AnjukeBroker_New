@@ -10,6 +10,7 @@
 #import "BrokerAccountCell.h"
 #import "LoginManager.h"
 #import "WebImageView.h"
+#import "Util_UI.h"
 
 @interface BrokerAccountController ()
 
@@ -39,40 +40,44 @@
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
+    self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
 //    self.myTable.separatorColor = [UIColor whiteColor];
     [self.view addSubview:self.myTable];
     
-    UIView *img = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 82)];
-    img.backgroundColor = [UIColor whiteColor];
+    UIView *img = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 120)];
+    img.backgroundColor = [Util_UI colorWithHexString:@"#EEEEEE"];
     self.myTable.tableHeaderView = img;
-    CGFloat imgw = 124/2;
+    CGFloat imgw = 160/2;
     
 //    UIImageView *imageView = [[UIImageView alloc] initWithFrame:img.frame];
 //    [self drawLine:imageView];
 //    [img addSubview:imageView];
-    WebImageView *brokerImg = [[WebImageView alloc] initWithFrame:CGRectMake(([self windowWidth] - imgw)/2, (82-imgw)/2, imgw, imgw)];
+    WebImageView *brokerImg = [[WebImageView alloc] initWithFrame:CGRectMake(([self windowWidth] - imgw)/2, (120-imgw)/2, imgw, imgw)];
     brokerImg.imageUrl = [LoginManager getUse_photo_url];
     brokerImg.contentMode = UIViewContentModeScaleAspectFit;
+    brokerImg.layer.masksToBounds = YES;
+
     [img addSubview:brokerImg];
-    
-
+    brokerImg.layer.cornerRadius = imgw / 2;
+    brokerImg.layer.borderWidth = 1;
+    brokerImg.layer.borderColor = [[UIColor whiteColor] CGColor];
 }
 
-- (void)drawLine:(UIImageView *) imageView{
-    UIGraphicsBeginImageContext(imageView.frame.size);
-    [imageView.image drawInRect:CGRectMake(0, 0, imageView.frame.size.width, imageView.frame.size.height)];
-    CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);
-    CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 0.1);
-    CGContextSetAllowsAntialiasing(UIGraphicsGetCurrentContext(), YES);
-    CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), 46.0/255, 46.0/255, 46.0/255, 1.0);
-    CGContextBeginPath(UIGraphicsGetCurrentContext());
-    CGContextMoveToPoint(UIGraphicsGetCurrentContext(), 17, 80);
-    CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), 320, 80);
-    CGContextStrokePath(UIGraphicsGetCurrentContext());
-    imageView.image=UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-
-}
+//- (void)drawLine:(UIImageView *) imageView{
+//    UIGraphicsBeginImageContext(imageView.frame.size);
+//    [imageView.image drawInRect:CGRectMake(0, 0, imageView.frame.size.width, imageView.frame.size.height)];
+//    CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);
+//    CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 0.1);
+//    CGContextSetAllowsAntialiasing(UIGraphicsGetCurrentContext(), YES);
+//    CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), 46.0/255, 46.0/255, 46.0/255, 1.0);
+//    CGContextBeginPath(UIGraphicsGetCurrentContext());
+//    CGContextMoveToPoint(UIGraphicsGetCurrentContext(), 17, 80);
+//    CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), 320, 80);
+//    CGContextStrokePath(UIGraphicsGetCurrentContext());
+//    imageView.image=UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//
+//}
 - (void)initModel{
     self.dataDic = [NSMutableDictionary dictionary];
     self.ppcDataDic =[NSMutableDictionary dictionary];
@@ -160,7 +165,8 @@
     }
     
     [cell configureCell:self.dataDic withIndex:indexPath.row];
-    
+    [cell showBottonLineWithCellHeight:40];
+
     return cell;
 }
 
