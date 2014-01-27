@@ -201,7 +201,7 @@
                 pBtn.tag = all_imageIndex;
                 DLog(@"index------[%d]", pBtn.tag);
                 if (all_imageIndex == 0) {
-                    pBtn.photoImg.image = [UIImage imageNamed:@"anjuke_icon_fxt_mini_.png"];
+                    pBtn.photoImg.image = [UIImage imageNamed:@"anjuke_icon_nextfxt_.png"];
                 }
                 else if (all_imageIndex -1 < (int)(imageArr.count)) {
                     NSString *url = nil;

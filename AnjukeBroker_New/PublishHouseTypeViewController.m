@@ -361,7 +361,8 @@
     return string;
 }
 
-- (void)rightButtonAction:(id)sender {
+- (void)rightButtonAction:(id)sender { //do save
+    
     if ([self.superViewController isKindOfClass:[PublishBuildingViewController class]]) {
         [[(PublishBuildingViewController *)self.superViewController property] setOnlineHouseTypeDic:[NSDictionary dictionaryWithDictionary:self.onlineHouseTypeDic]];//赋值新在线户型图数据
         
@@ -369,6 +370,7 @@
         
         //设置房型文案显示
         [(PublishBuildingViewController *)self.superViewController setHouseTypeShowWithString:houseTypeName];
+        [(PublishBuildingViewController *)self.superViewController setHouseTypeImageArray:self.houseTypeImageArr]; //设置户型图
     }
     [super doBack:self];
 }
