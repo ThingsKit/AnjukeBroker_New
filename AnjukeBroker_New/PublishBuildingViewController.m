@@ -234,8 +234,9 @@ typedef enum {
 }
 
 - (void)doBack:(id)sender {
-    //test
-    [self dismissViewControllerAnimated:YES completion:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"确认不保存当前内容?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+    alert.cancelButtonIndex = 0;
+    [alert show];
 }
 
 - (void)communityDataSet:(UILabel *)comLabel {
@@ -1641,6 +1642,29 @@ typedef enum {
             default:
                 break;
         }
+    }
+}
+
+#pragma mark - UIAlert View Delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 1:
+        {
+            NSString *code = [NSString string];
+            if (self.isHaozu) {
+                code = HZ_PROPERTY_003;
+            }
+            else
+                code = AJK_PROPERTY_003;
+            [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+            
+            //test
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+            break;
+            
+        default:
+            break;
     }
 }
 
