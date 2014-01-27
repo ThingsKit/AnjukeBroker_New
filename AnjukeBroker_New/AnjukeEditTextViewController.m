@@ -443,7 +443,6 @@
  同时只能进行一路会话,这次会话没有结束不能进行下一路会话，否则会报错
  */
 -(void)startSpeech {
-    [self playAudioVoice];
     _iFlySpeechRecognizer.delegate = self;
     [_iFlySpeechRecognizer startListening];
 }
@@ -564,7 +563,9 @@
 - (void)start:(id) sender {
 //    self.beforIMG = [[UIImageView alloc] initWithFrame:CGRectMake(voiceBtn.frame.origin.x - 25, voiceBtn.frame.origin.y - 25, 82, 30)];
 //    self.backIMG = [[UIImageView alloc] initWithFrame:CGRectMake(voiceBtn.frame.origin.x - 25, voiceBtn.frame.origin.y - 25, 82, 82)];
-    [self startSpeech];
+//    [self startSpeech];
+    [self playAudioVoice];
+    [self performSelector:@selector(startSpeech) withObject:Nil afterDelay:1.0f];
     [self speechAnimation:0];
     self.voiceBtn.frame = CGRectZero;
     self.cancelBut.frame = CGRectMake(20, [self windowHeight] - 15 - VOICEANIMATIONIMGHEIGHT/2 - BUTHIGHT/2 - 64, BUTWHID, BUTHIGHT);
