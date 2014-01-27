@@ -100,10 +100,10 @@ typedef enum {
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    //修改为每次显示发房页面都
-    [self pickerDisappear];
+    //修改为每次显示发房页面都隐藏
+//    [self pickerDisappear];
     
-    DLog(@"property [%@] 户型img_count[%d]", self.property, self.houseTypeImageArray.count);
+//    DLog(@"property [%@] 户型img_count[%d]", self.property, self.houseTypeImageArray.count);
 }
 
 - (void)didReceiveMemoryWarning
@@ -960,6 +960,8 @@ typedef enum {
                     ph.superViewController = self;
                     ph.houseTypeImageArr = self.houseTypeImageArray; //指针指向
                     [self.navigationController pushViewController:ph animated:YES];
+                    
+                    [self pickerDisappear]; //每次push进新页面，
                 }
                     break;
                 case 1: //楼层
@@ -994,6 +996,8 @@ typedef enum {
                     ae.isTitle = YES;
                     [ae setTextFieldDetail:self.property.title];
                     [self.navigationController pushViewController:ae animated:YES];
+                    
+                    [self pickerDisappear]; //每次push进新页面，
                 }
                     break;
                 case 1: //desc
@@ -1004,6 +1008,8 @@ typedef enum {
                     ae.isTitle = NO;
                     [ae setTextFieldDetail:self.property.desc];
                     [self.navigationController pushViewController:ae animated:YES];
+                    
+                    [self pickerDisappear]; //每次push进新页面，
                 }
                     break;
                 default:
