@@ -103,6 +103,10 @@
         else
             [self.imgArr removeObjectAtIndex:self.currentIndex];
         
+        if (self.imgArr.count <= 0) {
+            [self doBack:self];
+        }
+        
         //redraw
         [self redrawImageScroll];
     }

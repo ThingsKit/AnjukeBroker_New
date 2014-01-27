@@ -16,7 +16,7 @@
 
 @end
 
-@interface PublishBigImageViewController : RTViewController <UIScrollViewDelegate>
+@interface PublishBigImageViewController : RTViewController <UIScrollViewDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, assign) id <PublishBigImageViewClickDelegate> clickDelegate;
 
