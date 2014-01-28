@@ -11,5 +11,6 @@
 @interface AnjukeNormalCell : RTListCell
 
 @property (nonatomic, strong) UILabel *communityDetailLb;
+@property (nonatomic, strong) UIImageView *iconImage;
 
 @end

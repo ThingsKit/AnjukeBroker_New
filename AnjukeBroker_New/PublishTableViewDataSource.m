@@ -171,6 +171,22 @@
     }
 }
 
+- (void)houseTypeCellImageIconShow:(BOOL)show isHaozu:(BOOL)isHaozu {
+    int houseTypeIndex = 0;
+    if (isHaozu) {
+        houseTypeIndex = HZ_CLICK_ROOMS;
+    }
+    else
+        houseTypeIndex = AJK_CLICK_ROOMS;
+    
+    UIImage *icon = [UIImage imageNamed:@"anjuke_icon_fxt_mini_.png"];
+    if (show) {
+        [[(AnjukeNormalCell *)[self.inputCellArray objectAtIndex:houseTypeIndex] iconImage] setImage:icon];
+    }
+    else
+        [[(AnjukeNormalCell *)[self.inputCellArray objectAtIndex:houseTypeIndex] iconImage] setImage:nil];
+}
+
 - (void)initModel {
     self.cellArray = [NSMutableArray array];
     self.inputCellArray = [NSMutableArray array];

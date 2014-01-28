@@ -105,7 +105,14 @@ typedef enum {
     //修改为每次显示发房页面都隐藏
 //    [self pickerDisappear];
     
-//    DLog(@"property [%@] 户型img_count[%d]", self.property, self.houseTypeImageArray.count);
+    //房型图是否多图的icon显示
+    BOOL show = NO;
+    if (self.houseTypeImageArray.count > 0 || [self.property.onlineHouseTypeDic count] > 0) {
+        show = YES;
+    }
+    [self.cellDataSource houseTypeCellImageIconShow:show isHaozu:self.isHaozu];
+    
+    DLog(@"property [%@] 户型img_count[%d]", self.property, self.houseTypeImageArray.count);
 }
 
 - (void)didReceiveMemoryWarning

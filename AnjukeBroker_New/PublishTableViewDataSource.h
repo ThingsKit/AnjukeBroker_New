@@ -27,4 +27,6 @@
 - (UIView *)viewForHeaderInSection:(NSInteger)section;
 - (UIView *)viewForFooterInSection:(NSInteger)section;
 
+- (void)houseTypeCellImageIconShow:(BOOL)show isHaozu:(BOOL)isHaozu; //户型图是否显示多图icon
+
 @end

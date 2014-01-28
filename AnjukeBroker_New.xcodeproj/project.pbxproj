@@ -701,6 +701,7 @@
 		206843E018890C3F007DD8C5 /* 新发房页面 */ = {
 			isa = PBXGroup;
 			children = (
+				97958367182231EE005EA48A /* 发房cell */,
 				20D3C248189245840030D7D8 /* 发房View */,
 				20A0978D188D0A2E00D30196 /* 发房Model */,
 				206843E218890C9A007DD8C5 /* PublishBuildingViewController.h */,
@@ -1223,7 +1224,6 @@
 			children = (
 				97DFA987184C7BD5002D6B82 /* 房源信息编辑 */,
 				97F5E5E2182B389900B5CBCC /* 照片编辑 */,
-				97958367182231EE005EA48A /* 发房cell */,
 				972C10371815351900552C9B /* AnjukeEditPropertyViewController.h */,
 				972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */,
 				97B422661821087600A2E9E6 /* PropertyBigImageViewController.h */,
