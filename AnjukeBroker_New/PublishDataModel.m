@@ -209,6 +209,55 @@
     return arr;
 }
 
+//楼层-第几层
++ (int)getFloorIndexWithValue:(NSString *)value {
+    NSArray *arr = [self getPropertyFloor];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([value isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            index = i;
+        }
+    }
+    
+    DLog(@"floor--index [%d]", index);
+    
+    return index;
+}
+
+//楼层title-第几层
++ (int)getFloorIndexWithTitle:(NSString *)title {
+    NSArray *arr = [self getPropertyFloor];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([title isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Title"]]) {
+            index = i;
+        }
+    }
+    
+    DLog(@"floor--index [%d]", index);
+    
+    return index;
+}
+
+//楼层Index-第几层Value
++ (NSString *)getFloorValueWithIndex:(int)index {
+    NSArray *arr = [self getPropertyFloor];
+    
+    NSString *value = [NSString string];
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if (i == index) {
+            value = [[arr objectAtIndex:i] objectForKey:@"Value"];
+        }
+    }
+    
+    return value;
+}
+
 #pragma mark - 楼层-层
 + (NSMutableArray *)getPropertyProFloor {
     //    NSString *strPlistPath = [[NSBundle mainBundle] pathForResource:@"PropertyFloor" ofType:@"plist"];
@@ -232,6 +281,55 @@
     return arr;
 }
 
+//楼层title-共几楼
++ (int)getProFloorIndexWithTitle:(NSString *)title {
+    NSArray *arr = [self getPropertyProFloor];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([title isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Title"]]) {
+            index = i;
+        }
+    }
+    
+    DLog(@"pro_floor--index [%d]", index);
+    
+    return index;
+}
+
+//总楼层Value-第几层Index
++ (int)getProFloorIndexWithValue:(NSString *)value {
+    NSArray *arr = [self getPropertyProFloor];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([value isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            index = i;
+        }
+    }
+    
+    DLog(@"floor--index [%d]", index);
+    
+    return index;
+}
+
+//总楼层Index-总楼层Value
++ (NSString *)getProFloorValueWithIndex:(int)index {
+    NSArray *arr = [self getPropertyProFloor];
+    
+    NSString *value = [NSString string];
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if (i == index) {
+            value = [[arr objectAtIndex:i] objectForKey:@"Value"];
+        }
+    }
+    
+    return value;
+}
+
 #pragma mark - 装修
 + (NSArray *)getPropertyFitmentForHaozu:(BOOL)isHZ {
     
@@ -251,6 +349,63 @@
     return arr;
 }
 
+//装修，二手房传title，租房传id
++ (int)getFitmentIndexWithTitle:(NSString *)title forHaozu:(BOOL)isHaozu{
+    NSArray *arr = [self getPropertyFitmentForHaozu:isHaozu];
+    int index = 0;
+    
+    if (isHaozu) {
+        for (int i = 0; i < arr.count; i ++) {
+            if ([title isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+                index = i;
+            }
+        }
+    }
+    else {
+        for (int i = 0; i < arr.count; i ++) {
+            if ([title isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Title"]]) {
+                index = i;
+            }
+        }
+    }
+    
+    DLog(@"fitment--index [%d]", index);
+    
+    return index;
+}
+
++ (NSString *)getFitmentTitleWithValue:(NSString *)value forHaozu:(BOOL)isHaozu{
+    NSArray *arr = [self getPropertyFitmentForHaozu:isHaozu];
+    
+    NSString *str = [NSString string];
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([value isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            str = [[arr objectAtIndex:i] objectForKey:@"Title"];
+        }
+    }
+    
+    DLog(@"fitment--string [%@]", str);
+    
+    return str;
+}
+
+//二手房装修情况_通过title得到Value
++ (NSString *)getFitmentVauleWithTitle:(NSString *)title forHaozu:(BOOL)isHaozu{
+    NSArray *arr = [self getPropertyFitmentForHaozu:isHaozu];
+    
+    NSString *str = [NSString string];
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([title isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Title"]]) {
+            str = [[arr objectAtIndex:i] objectForKey:@"Value"];
+        }
+    }
+    
+    DLog(@"fitment--string [%@]", str);
+    
+    return str;
+}
 
 #pragma mark - 房型-朝向
 + (NSArray *)getPropertyExposure {

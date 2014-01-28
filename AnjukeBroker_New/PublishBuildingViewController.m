@@ -94,8 +94,9 @@ typedef enum {
         titleStr = @"发布租房";
     }
     [self setTitleViewWithString:titleStr];
-    
     [self addRightButton:@"保存" andPossibleTitle:nil];
+    
+    [self setDefultValue];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -201,6 +202,43 @@ typedef enum {
 }
 
 #pragma mark - Private Method
+
+- (void)setDefultValue {
+    //房屋装修、朝向
+    if (!self.isHaozu) {
+        //fitment
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FITMENT] text_Field] setText:_DEFULT_TITLE_FITMENT];
+        int index = [PublishDataModel getFitmentIndexWithTitle:_DEFULT_TITLE_FITMENT forHaozu:self.isHaozu];
+        NSString *value = [PublishDataModel getFitmentVauleWithTitle:_DEFULT_TITLE_FITMENT forHaozu:self.isHaozu];
+        self.property.fitment = value;
+        
+        [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FITMENT] setInputed_RowAtCom0:index];
+        
+        //楼层-默认3楼6层
+        int floorIndex = [PublishDataModel getFloorIndexWithValue:@"6"];
+        int proFloorIndex = [PublishDataModel getFloorIndexWithValue:@"6"];
+        [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FLOORS] setInputed_RowAtCom0:floorIndex];
+        [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FLOORS] setInputed_RowAtCom1:proFloorIndex];
+        
+    }
+    else {
+        //fitment
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_FITMENT] text_Field] setText:_DEFULT_TITLE_FITMENT];
+        int index = [PublishDataModel getFitmentIndexWithTitle:_DEFULT_TITLE_FITMENT forHaozu:self.isHaozu];
+        NSString *value = [PublishDataModel getFitmentVauleWithTitle:_DEFULT_TITLE_FITMENT forHaozu:self.isHaozu];
+        self.property.fitment = value;
+        
+        [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FITMENT] setInputed_RowAtCom0:index];
+        
+        //楼层-默认3楼6层
+        int floorIndex = [PublishDataModel getFloorIndexWithValue:@"6"];
+        int proFloorIndex = [PublishDataModel getFloorIndexWithValue:@"6"];
+        [[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_FLOORS] setInputed_RowAtCom0:floorIndex];
+        [[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_FLOORS] setInputed_RowAtCom1:proFloorIndex];
+    }
+    
+    self.property.exposure = _DEFULT_TITLE_EXPOSURE;
+}
 
 - (void)rightButtonAction:(id)sender {
     [self doSave];

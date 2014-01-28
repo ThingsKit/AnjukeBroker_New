@@ -36,11 +36,24 @@
 //楼
 + (NSMutableArray *)getPropertyFloor;
 
++ (int)getFloorIndexWithValue:(NSString *)value;
++ (int)getFloorIndexWithTitle:(NSString *)title;
++ (NSString *)getFloorValueWithIndex:(int)index;
+
 //层
 + (NSMutableArray *)getPropertyProFloor;
 
++ (int)getProFloorIndexWithTitle:(NSString *)title;
++ (int)getProFloorIndexWithValue:(NSString *)value;
+
+
+
 //装修
 + (NSArray *)getPropertyFitmentForHaozu:(BOOL)isHZ;
+
++ (int)getFitmentIndexWithTitle:(NSString *)title forHaozu:(BOOL)isHaozu;
++ (NSString *)getFitmentTitleWithValue:(NSString *)value forHaozu:(BOOL)isHaozu;
++ (NSString *)getFitmentVauleWithTitle:(NSString *)title forHaozu:(BOOL)isHaozu;
 
 //朝向
 + (NSArray *)getPropertyExposure;
