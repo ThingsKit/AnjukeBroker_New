@@ -18,6 +18,8 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         self.img = [[UIImageView alloc] initWithFrame:CGRectMake(100, 10, 62, 62)];
         
         self.labKey = [[UILabel alloc] initWithFrame:CGRectMake(17, 5, 80, 30)];
@@ -34,6 +36,7 @@
     }
     return self;
 }
+
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index {
     NSDictionary *tempDic = [NSDictionary dictionary];
     if([dataModel isKindOfClass:[NSDictionary class]]){

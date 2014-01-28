@@ -75,7 +75,7 @@
 #pragma mark - private method
 
 - (void)initModel {
-    self.taskArray = [NSArray arrayWithObjects:@"账户信息", @"提醒设置", @"检查更新", @"关于移动经纪人", @"联系客户主任", @"客服热线", nil];
+    self.taskArray = [NSArray arrayWithObjects:@"个人信息", @"提醒设置", @"检查更新", @"关于移动经纪人", @"联系客户主任", @"客服热线", nil];
 }
 
 - (void)initDisplay {

@@ -33,9 +33,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitleViewWithString:@"账户信息"];
+    [self setTitleViewWithString:@"个人信息"];
 	// Do any additional setup after loading the view.
 }
+
 - (void)initDisplay{
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
