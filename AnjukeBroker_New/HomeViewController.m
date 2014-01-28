@@ -409,18 +409,6 @@
         {
             [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_003 note:nil];
             
-            //模态弹出 --二手房
-//            AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
-//            controller.backType = RTSelectorBackTypeDismiss;
-//            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-//            nav.navigationBar.translucent = NO;
-//            [self presentViewController:nav animated:YES completion:nil];
-            
-//            PublishBuildingViewController *controller = [[PublishBuildingViewController alloc] init];
-//            controller.backType = RTSelectorBackTypeDismiss;
-//            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-//            [self presentViewController:nav animated:YES completion:nil];
-            
             //模态弹出小区--万恶的结构变动尼玛
             CommunityListViewController *controller = [[CommunityListViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
@@ -432,19 +420,6 @@
         case 1:
         {
             [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_004 note:nil];
-            
-            //模态弹出 --租房
-//            AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
-//            controller.backType = RTSelectorBackTypeDismiss;
-//            controller.isHaozu = YES;
-//            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-//            [self presentViewController:nav animated:YES completion:nil];
-            
-//            PublishBuildingViewController *controller = [[PublishBuildingViewController alloc] init];
-//            controller.backType = RTSelectorBackTypeDismiss;
-//            controller.isHaozu = YES;
-//            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-//            [self presentViewController:nav animated:YES completion:nil];
             
             //模态弹出小区--万恶的结构变动尼玛
             CommunityListViewController *controller = [[CommunityListViewController alloc] init];

@@ -206,14 +206,16 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 - (void)rightButtonAction:(id)sender{
     [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_006 note:nil];
-    //模态弹出 --租房
-    AnjukeEditPropertyViewController *controller = [[AnjukeEditPropertyViewController alloc] init];
+    
+    //模态弹出小区--万恶的结构变动尼玛
+    CommunityListViewController *controller = [[CommunityListViewController alloc] init];
     controller.backType = RTSelectorBackTypeDismiss;
-    controller.isHaozu = YES;
+    controller.isFirstShow = YES;
+    controller.isHaouzu = YES;
     RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-    nav.navigationBar.translucent = NO;
     [self presentViewController:nav animated:YES completion:nil];
 }
 @end
