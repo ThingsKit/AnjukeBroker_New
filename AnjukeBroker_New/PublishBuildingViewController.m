@@ -258,8 +258,8 @@ typedef enum {
         [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FITMENT] setInputed_RowAtCom0:index];
         
         //楼层-默认3楼6层
-        int floorIndex = [PublishDataModel getFloorIndexWithValue:@"6"];
-        int proFloorIndex = [PublishDataModel getFloorIndexWithValue:@"6"];
+        int floorIndex = [PublishDataModel getFloorIndexWithValue:_DEFULT_VALUE_FLOOR];
+        int proFloorIndex = [PublishDataModel getProFloorIndexWithValue:_DEFULT_VALUE_PROFLOOR];
         [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FLOORS] setInputed_RowAtCom0:floorIndex];
         [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FLOORS] setInputed_RowAtCom1:proFloorIndex];
         
@@ -274,8 +274,8 @@ typedef enum {
         [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FITMENT] setInputed_RowAtCom0:index];
         
         //楼层-默认3楼6层
-        int floorIndex = [PublishDataModel getFloorIndexWithValue:@"6"];
-        int proFloorIndex = [PublishDataModel getFloorIndexWithValue:@"6"];
+        int floorIndex = [PublishDataModel getFloorIndexWithValue:_DEFULT_VALUE_FLOOR];
+        int proFloorIndex = [PublishDataModel getProFloorIndexWithValue:_DEFULT_VALUE_PROFLOOR];
         [[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_FLOORS] setInputed_RowAtCom0:floorIndex];
         [[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_FLOORS] setInputed_RowAtCom1:proFloorIndex];
     }

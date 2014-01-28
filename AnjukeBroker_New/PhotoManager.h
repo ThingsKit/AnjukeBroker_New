@@ -25,10 +25,6 @@
 #define MAX_ROOMPHOTO_ALERT_MESSAGE @"室内图最多只能添加8张"
 #define MAX_HOUSETYPEPHOTO_ALERT_MESSAGE @"房型图最多只能添加2张"
 
-#define _DEFULT_TITLE_FITMENT @"精装修"
-#define _DEFULT_TITLE_EXPOSURE @"南北"
-#define _DEFULT_TITLE_ROOM @"1室"
-
 @interface PhotoManager : NSObject
 
 + (NSString *)saveImageFile:(UIImage *)image toFolder:(NSString *)folder; //保存图片并得到图片路径

@@ -9,6 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "Property.h"
 
+//发房预设值
+#define _DEFULT_TITLE_FITMENT @"精装修"
+#define _DEFULT_TITLE_EXPOSURE @"南北"
+#define _DEFULT_VALUE_FLOOR @"3"
+#define _DEFULT_VALUE_PROFLOOR @"6"
+
 @interface PublishDataModel : NSObject
 
 + (NSArray *)getPropertyTitleArrayForHaozu:(BOOL)isHZ;
@@ -45,8 +51,6 @@
 
 + (int)getProFloorIndexWithTitle:(NSString *)title;
 + (int)getProFloorIndexWithValue:(NSString *)value;
-
-
 
 //装修
 + (NSArray *)getPropertyFitmentForHaozu:(BOOL)isHZ;
