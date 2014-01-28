@@ -25,13 +25,14 @@
 #import "AppDelegate.h"
 #import "PublishBigImageViewController.h"
 #import "RTNavigationController.h"
+#import "SimpleKeyboardToolBar.h"
 
 #define IMAGE_ACTIONSHEET_TAG 9010
 #define PUBLISH_ACTIONSHEET_TAG 9020
 
 #define IMAGE_MAXSIZE_WIDTH 600 //屏幕预览图的最大分辨率，只负责预览显示
 
-@interface PublishBuildingViewController : RTViewController <UITableViewDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, UIActionSheetDelegate, PhotoFooterImageClickDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ELCImagePickerControllerDelegate, PhotoViewClickDelegate, TextFieldModifyDelegate ,PublishBigImageViewClickDelegate, UIAlertViewDelegate>
+@interface PublishBuildingViewController : RTViewController <UITableViewDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, UIActionSheetDelegate, PhotoFooterImageClickDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ELCImagePickerControllerDelegate, PhotoViewClickDelegate, TextFieldModifyDelegate ,PublishBigImageViewClickDelegate, UIAlertViewDelegate, UITextFieldDelegate, SimpleKeyboardBarClickDelegate>
 
 @property BOOL isHaozu; //是否是好租，页面布局不同
 @property (nonatomic, strong) UITableView *tableViewList;
@@ -55,6 +56,9 @@
 
 @property int uploadImgIndex; //上传图片的顺序，每上传一张此index+1
 @property (nonatomic, strong) NSMutableArray *uploadImageArray; //用于上传的图片数组整集，整合室内图和房型图数组内容
+
+@property (nonatomic, strong) UITextField *fileNoTextF; //备案号输入框
+@property (nonatomic, strong) SimpleKeyboardToolBar *simToolBar;
 
 - (void)setTextFieldForProperty;
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount;

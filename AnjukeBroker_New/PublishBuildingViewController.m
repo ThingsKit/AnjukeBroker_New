@@ -67,6 +67,8 @@ typedef enum {
 @synthesize imagePicker;
 @synthesize uploadType;
 @synthesize uploadImageArray;
+@synthesize fileNoTextF;
+@synthesize simToolBar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -133,6 +135,8 @@ typedef enum {
     self.houseTypeImageArray = [NSMutableArray array];
     
     self.uploadImageArray = [NSMutableArray array];
+    
+    self.needFileNO = [LoginManager needFileNOWithCityID:[LoginManager getCity_id]];
 }
 
 - (void)initDisplay {
@@ -161,11 +165,10 @@ typedef enum {
 }
 
 - (void)drawHeader {
-    self.needFileNO = [LoginManager needFileNOWithCityID:[LoginManager getCity_id]];
     
     UIView *headerView = [[UIView alloc] init];
     if (self.needFileNO && self.isHaozu == NO) { //仅二手房发房（北京）需要备案号
-        headerView.frame = CGRectMake(0, 0, [self windowWidth], CELL_HEIGHT+PUBLISH_SECTION_HEIGHT+CELL_HEIGHT);
+        headerView.frame = CGRectMake(0, 0, [self windowWidth], CELL_HEIGHT+PUBLISH_SECTION_HEIGHT*2+CELL_HEIGHT);
     }
     else
         headerView.frame = CGRectMake(0, 0, [self windowWidth], CELL_HEIGHT+PUBLISH_SECTION_HEIGHT);
@@ -191,6 +194,39 @@ typedef enum {
     [comView addSubview:comDetailLb];
     
     [self communityDataSet:comDetailLb];
+    
+    //草泥马的备案号。。。
+    if (self.needFileNO && self.isHaozu == NO) {
+        UIView *fileNoView = [[UIView alloc] initWithFrame:CGRectMake(0, comView.frame.origin.y+ comView.frame.size.height + PUBLISH_SECTION_HEIGHT, [self windowWidth], CELL_HEIGHT)];
+        fileNoView.backgroundColor = [UIColor whiteColor];
+        [headerView addSubview:fileNoView];
+        
+        UILabel *fileTitleLb = [[UILabel alloc] initWithFrame:CGRectMake(15, (fileNoView.frame.size.height - 20)/2, 100, 20)];
+        fileTitleLb.backgroundColor = [UIColor clearColor];
+        fileTitleLb.text = @"备案号";
+        fileTitleLb.textColor = SYSTEM_DARK_GRAY;
+        fileTitleLb.font = [UIFont systemFontOfSize:17];
+        [fileNoView addSubview:fileTitleLb];
+        
+        //text field
+        UITextField *cellTextField = nil;
+        cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(224/2, 3,  150, CELL_HEIGHT - 1*5)];
+        cellTextField.returnKeyType = UIReturnKeyDone;
+        cellTextField.backgroundColor = [UIColor clearColor];
+        cellTextField.borderStyle = UITextBorderStyleNone;
+        cellTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        cellTextField.text = @"";
+        cellTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        cellTextField.placeholder = @"";
+        cellTextField.delegate = self;
+        cellTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        cellTextField.font = [UIFont systemFontOfSize:17];
+        cellTextField.secureTextEntry = NO;
+        cellTextField.textColor = SYSTEM_BLACK;
+        cellTextField.keyboardType = UIKeyboardTypeNumberPad;
+        self.fileNoTextF = cellTextField;
+        [fileNoView addSubview:cellTextField];
+    }
 }
 
 - (void)drawFooter {
@@ -1718,6 +1754,36 @@ typedef enum {
         default:
             break;
     }
+}
+
+#pragma mark - UITextField Delegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if ([textField isEqual:self.fileNoTextF]) {
+        if (!self.simToolBar) {
+            self.simToolBar = [[SimpleKeyboardToolBar alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], NAV_BAT_H)];
+            self.simToolBar.clickDelagate = self;
+        }
+        
+        //弹出键盘
+        self.fileNoTextF.inputAccessoryView = self.simToolBar;
+        self.fileNoTextF.inputView = nil;
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (self.needFileNO && [textField isEqual:self.fileNoTextF]) {
+        self.property.fileNo = textField.text;
+        DLog(@"fileNo [%@]", self.property.fileNo);
+    }
+}
+
+#pragma mark - SimpleKeyboardBarClickDelegate
+
+- (void)SK_finishBtnClicked {
+    [self.fileNoTextF resignFirstResponder];
+    
+    self.property.fileNo = self.fileNoTextF.text;
 }
 
 @end
