@@ -50,7 +50,7 @@
 	// Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
-    [self setTitleViewWithString:@"更多"];
+    [self setTitleViewWithString:@"设置"];
     
     if (self.clientDic.count == 0) {
         [self doRequest];
