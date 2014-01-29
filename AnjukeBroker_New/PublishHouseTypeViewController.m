@@ -168,7 +168,7 @@
         cellTextField.borderStyle = UITextBorderStyleNone;
         cellTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         cellTextField.text = @"";
-        cellTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        cellTextField.clearButtonMode = UITextFieldViewModeNever;
         cellTextField.placeholder = @"";
         cellTextField.delegate = self;
         cellTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
