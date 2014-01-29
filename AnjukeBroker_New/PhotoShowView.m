@@ -179,7 +179,7 @@
                              [self.imgArray removeObjectAtIndex:index];
                              
                              self.photoSV.contentSize = CGSizeMake(IMG_GAP + (IMG_GAP +IMG_H)*self.imgArray.count, PHOTO_SV_H);
-                            
+                             
                              //其他预览图前移
                              if (!isLast) {
                                  int removeCount = self.imgArray.count - index; //得到需要移动的预览图个数
@@ -208,6 +208,8 @@
 }
 
 - (BOOL)canTakePhoto {
+    DLog(@"------------当前张数【%d】", self.currentImgCount);
+    
     if (self.currentImgCount >= self.maxImgCount) {
         return NO;
     }

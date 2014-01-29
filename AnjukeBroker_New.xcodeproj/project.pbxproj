@@ -15,6 +15,7 @@
 		2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2031A48418920F83004F7E1A /* FindHomeViewController.m */; };
 		2031A48718920FF2004F7E1A /* anjuke_icon_find@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */; };
 		204E66CF1894E7DB00546D51 /* PublishBigImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 204E66CE1894E7DB00546D51 /* PublishBigImageViewController.m */; };
+		20578B9F1898ABCC0086B93D /* PropertyEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20578B9E1898ABCC0086B93D /* PropertyEditViewController.m */; };
 		2063C2651890ADB20043C739 /* PublishHouseTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2063C2641890ADB20043C739 /* PublishHouseTypeViewController.m */; };
 		206843E418890C9A007DD8C5 /* PublishBuildingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */; };
 		20A07429188C0A080073C915 /* PublishTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A07428188C0A080073C915 /* PublishTableViewDataSource.m */; };
@@ -284,6 +285,8 @@
 		2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_find@2x.png"; sourceTree = "<group>"; };
 		204E66CD1894E7DB00546D51 /* PublishBigImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishBigImageViewController.h; sourceTree = "<group>"; };
 		204E66CE1894E7DB00546D51 /* PublishBigImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishBigImageViewController.m; sourceTree = "<group>"; };
+		20578B9D1898ABCC0086B93D /* PropertyEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyEditViewController.h; sourceTree = "<group>"; };
+		20578B9E1898ABCC0086B93D /* PropertyEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyEditViewController.m; sourceTree = "<group>"; };
 		2063C2631890ADB20043C739 /* PublishHouseTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishHouseTypeViewController.h; sourceTree = "<group>"; };
 		2063C2641890ADB20043C739 /* PublishHouseTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishHouseTypeViewController.m; sourceTree = "<group>"; };
 		206843E218890C9A007DD8C5 /* PublishBuildingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishBuildingViewController.h; sourceTree = "<group>"; };
@@ -698,9 +701,19 @@
 			name = "发现";
 			sourceTree = "<group>";
 		};
+		20578B9C1898AB7B0086B93D /* 房源编辑Controller */ = {
+			isa = PBXGroup;
+			children = (
+				20578B9D1898ABCC0086B93D /* PropertyEditViewController.h */,
+				20578B9E1898ABCC0086B93D /* PropertyEditViewController.m */,
+			);
+			name = "房源编辑Controller";
+			sourceTree = "<group>";
+		};
 		206843E018890C3F007DD8C5 /* 新发房页面 */ = {
 			isa = PBXGroup;
 			children = (
+				97F5E5E2182B389900B5CBCC /* 照片编辑 */,
 				97958367182231EE005EA48A /* 发房cell */,
 				20D3C248189245840030D7D8 /* 发房View */,
 				20A0978D188D0A2E00D30196 /* 发房Model */,
@@ -712,6 +725,8 @@
 				204E66CE1894E7DB00546D51 /* PublishBigImageViewController.m */,
 				20A07427188C0A080073C915 /* PublishTableViewDataSource.h */,
 				20A07428188C0A080073C915 /* PublishTableViewDataSource.m */,
+				20578B9C1898AB7B0086B93D /* 房源编辑Controller */,
+				97DFA987184C7BD5002D6B82 /* 房源标题、描述Controller */,
 			);
 			name = "新发房页面";
 			sourceTree = "<group>";
@@ -1222,8 +1237,6 @@
 		97B42264182107B700A2E9E6 /* 房源编辑 */ = {
 			isa = PBXGroup;
 			children = (
-				97DFA987184C7BD5002D6B82 /* 房源信息编辑 */,
-				97F5E5E2182B389900B5CBCC /* 照片编辑 */,
 				972C10371815351900552C9B /* AnjukeEditPropertyViewController.h */,
 				972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */,
 				97B422661821087600A2E9E6 /* PropertyBigImageViewController.h */,
@@ -1303,13 +1316,13 @@
 			name = ViewControllers;
 			sourceTree = "<group>";
 		};
-		97DFA987184C7BD5002D6B82 /* 房源信息编辑 */ = {
+		97DFA987184C7BD5002D6B82 /* 房源标题、描述Controller */ = {
 			isa = PBXGroup;
 			children = (
 				97DFA988184C7C01002D6B82 /* AnjukeEditTextViewController.h */,
 				97DFA989184C7C01002D6B82 /* AnjukeEditTextViewController.m */,
 			);
-			name = "房源信息编辑";
+			name = "房源标题、描述Controller";
 			sourceTree = "<group>";
 		};
 		97EF868E1841EB5100315E75 /* 键盘ToolBar */ = {
@@ -1791,6 +1804,7 @@
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,
 				97CB0C10182BEA3500FCCBBD /* ELCImagePickerController.m in Sources */,
 				B7E69BAE183B15430097D5C3 /* RentPPCGroupCell.m in Sources */,
+				20578B9F1898ABCC0086B93D /* PropertyEditViewController.m in Sources */,
 				B769E469181F680D00A2FF50 /* PropertyDetailCell.m in Sources */,
 				97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */,
 				206843E418890C9A007DD8C5 /* PublishBuildingViewController.m in Sources */,
