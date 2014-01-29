@@ -22,6 +22,8 @@
 #import "SaleFixedManager.h"
 #import "CellHeight.h"
 
+#import "PropertyEditViewController.h"
+
 @interface SaleFixedDetailController ()
 {
     int selectIndex;
@@ -499,6 +501,14 @@
                 controller.backType = RTSelectorBackTypeDismiss;
                 RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:nav animated:YES completion:nil];
+                
+                //test
+//                PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+//                controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
+//                controller.backType = RTSelectorBackTypeDismiss;
+//                RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+//                [self presentViewController:nav animated:YES completion:nil];
+                
             }
     }
 }

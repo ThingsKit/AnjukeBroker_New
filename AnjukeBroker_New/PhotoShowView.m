@@ -33,6 +33,7 @@
         [self initModel];
         [self initDisplayWithFrame:frame];
         
+        DLog(@"当前【%d】", self.currentImgCount);
      }
     return self;
 }
@@ -106,6 +107,8 @@
 - (void)takePhotoWithImage:(UIImage *)image {
     [self.imgArray addObject:image];
     
+    self.currentImgCount ++; //拍照图片数量递增于照片拍摄完成后
+    
     int index = self.imgArray.count -1; //增加到第几个预览图，便于设置frame及contentSize
     
     PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(IMG_GAP +(IMG_GAP +IMG_H)*index, IMG_GAP, IMG_H, IMG_H)];
@@ -132,7 +135,7 @@
         return;
     }
     
-    self.currentImgCount ++;
+//    self.currentImgCount ++;
     
     if ([self.clickDelegate respondsToSelector:@selector(takePhoto_Click)]) {
         [self.clickDelegate takePhoto_Click];

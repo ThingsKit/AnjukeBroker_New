@@ -10,4 +10,6 @@
 
 @interface PropertyEditViewController : PublishBuildingViewController
 
+@property (nonatomic, copy) NSString *propertyID;
+
 @end
