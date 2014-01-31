@@ -220,22 +220,25 @@
 }
 
 - (CGFloat)heightForHeaderInSection:(NSInteger)section {
-    return PUBLISH_SECTION_HEIGHT;
+    return 0;//PUBLISH_SECTION_HEIGHT;
 }
 
 - (CGFloat)heightForFooterInSection:(NSInteger)section {
-    return 0;
+    if (section >= 2) {
+        return 0;
+    }
+    return PUBLISH_SECTION_HEIGHT;
 }
 
 - (UIView *)viewForHeaderInSection:(NSInteger)section {
+    return nil;
+}
+
+- (UIView *)viewForFooterInSection:(NSInteger)section {
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, PUBLISH_SECTION_HEIGHT)];
     headerView.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
     
     return headerView;
-}
-
-- (UIView *)viewForFooterInSection:(NSInteger)section {
-    return nil;
 }
 
 @end

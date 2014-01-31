@@ -496,18 +496,18 @@
             }else if (buttonIndex == 2){
                 [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_008 note:nil];
                 
-                PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
-                controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
-                controller.backType = RTSelectorBackTypeDismiss;
-                RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-                [self presentViewController:nav animated:YES completion:nil];
-                
-                //test
-//                PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+//                PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
 //                controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
 //                controller.backType = RTSelectorBackTypeDismiss;
 //                RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
 //                [self presentViewController:nav animated:YES completion:nil];
+                
+                //test
+                PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+                controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
+                controller.backType = RTSelectorBackTypeDismiss;
+                RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+                [self presentViewController:nav animated:YES completion:nil];
                 
             }
     }

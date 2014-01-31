@@ -144,7 +144,8 @@ typedef enum {
     UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     tv.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
     tv.delegate = self;
-    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tv.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     self.tableViewList = tv;
     [self.view addSubview:tv];
     
@@ -168,10 +169,10 @@ typedef enum {
     
     UIView *headerView = [[UIView alloc] init];
     if (self.needFileNO && self.isHaozu == NO) { //仅二手房发房（北京）需要备案号
-        headerView.frame = CGRectMake(0, 0, [self windowWidth], CELL_HEIGHT+PUBLISH_SECTION_HEIGHT*2+CELL_HEIGHT);
+        headerView.frame = CGRectMake(0, 0, [self windowWidth], CELL_HEIGHT+PUBLISH_SECTION_HEIGHT*3+CELL_HEIGHT);
     }
     else
-        headerView.frame = CGRectMake(0, 0, [self windowWidth], CELL_HEIGHT+PUBLISH_SECTION_HEIGHT);
+        headerView.frame = CGRectMake(0, 0, [self windowWidth], CELL_HEIGHT+PUBLISH_SECTION_HEIGHT*2);
     headerView.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
     [self.tableViewList setTableHeaderView:headerView];
     
