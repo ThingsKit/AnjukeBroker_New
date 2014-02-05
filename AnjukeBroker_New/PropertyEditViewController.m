@@ -70,6 +70,124 @@
 - (void)setPropertyWithDic:(NSDictionary *)dic {
     self.property = [PublishDataModel getNewPropertyObject];
     
+    if ([LoginManager needFileNOWithCityID:[LoginManager getCity_id]] && !self.isHaozu) { //仅二手房发房需要备案号
+        self.property.fileNo = [dic objectForKey:@"fileNo"];
+        self.fileNoTextF.text = [dic objectForKey:@"fileNo"];
+    }
+    
+    //数据赋值，映射，得到显示值
+    //户型
+    self.property.rooms = [NSString stringWithFormat:@"%@,%@,%@", [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"]];
+    self.roomValue = [[dic objectForKey:@"roomNum"] intValue];
+    self.hallValue = [[dic objectForKey:@"hallNum"] intValue];
+    self.toiletValue = [[dic objectForKey:@"toiletNum"] intValue];
+    
+    //面积
+    self.property.area = [dic objectForKey:@"area"];
+    //价格
+    self.property.price = [dic objectForKey:@"price"];
+    //装修
+    self.property.fitment = [dic objectForKey:@"fitment"];
+    if (!self.isHaozu) {
+        NSString *fitmentVaule = [PublishDataModel getFitmentVauleWithTitle:[dic objectForKey:@"fitment"] forHaozu:self.isHaozu];
+        self.property.fitment = fitmentVaule;
+    }
+    //朝向
+    self.property.exposure = [dic objectForKey:@"exposure"];
+    //楼层
+    self.property.floor = [NSString stringWithFormat:@"%@,%@", [dic objectForKey:@"floor"], [dic objectForKey:@"floorNum"]];
+    //title
+    self.property.title = [dic objectForKey:@"title"];
+    
+    //desc
+    self.property.desc = [dic objectForKey:@"description"];
+    
+    //image
+    self.roomShowedImgArray = [dic objectForKey:@"roomImg"];
+    self.houseTypeShowedImgArray = [dic objectForKey:@"moduleImg"];
+    
+    //设置小区名字
+    //小区
+    self.property.comm_id = [dic objectForKey:@"commId"];
+    self.communityDetailLb.text = [dic objectForKey:@"commName"];
+
+    if (self.isHaozu) { //租房
+        //Text
+        //price
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_TEXT_PRICE] text_Field] setText:self.property.price];
+        //area
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_TEXT_AREA] text_Field] setText:self.property.area];
+        
+        //title
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_CLICK_TITLE] communityDetailLb] setText:self.property.title];
+        //desc
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_CLICK_DESC] communityDetailLb] setText:self.property.desc];
+        
+        //Picker Data
+        //出租方式
+        self.property.rentType = [dic objectForKey:@"shareRent"];
+        NSString *rentStr = [PublishDataModel getRentTypeTitleWitValue:self.property.rentType];
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_RENTTYPE] text_Field] setText:rentStr];
+        
+        //装修
+        NSString *fitmentStr = [PublishDataModel getFitmentTitleWithValue:self.property.fitment forHaozu:self.isHaozu];
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_FITMENT] text_Field] setText:fitmentStr];
+        
+        //楼层
+        NSString *floorStr = [NSString stringWithFormat:@"%@楼%@层",[dic objectForKey:@"floor"], [dic objectForKey:@"floorNum"]];
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_FLOORS] text_Field] setText:floorStr];
+        
+        //设置各picker展示时，初始数据所在行
+        //出租方式
+        int rentIndex = [PublishDataModel getRentTypeIndexWithValue:self.property.rentType];
+        [[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_RENTTYPE] setInputed_RowAtCom0:rentIndex];
+        //装修
+        int fitmentIndex = [PublishDataModel getFitmentIndexWithTitle:[dic objectForKey:@"fitment"] forHaozu:self.isHaozu];
+        [[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_FITMENT] setInputed_RowAtCom0:fitmentIndex];
+        //楼层
+        //楼
+        int floorIndex = [PublishDataModel getFloorIndexWithValue:[dic objectForKey:@"floor"]];
+        [[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_FLOORS] setInputed_RowAtCom0:floorIndex];
+        //层
+        int profloorIndex = [PublishDataModel getProFloorIndexWithValue:[dic objectForKey:@"floorNum"]];
+        [[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_FLOORS] setInputed_RowAtCom1:profloorIndex];
+        
+    }
+    else { //二手房
+        
+        //price
+        NSString *priceValue = [NSString stringWithFormat:@"%d", [self.property.price intValue]/10000];
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_PRICE] text_Field] setText:priceValue];
+        //area
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_AREA] text_Field] setText:self.property.area];
+        
+        //title
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_CLICK_TITLE] communityDetailLb] setText:self.property.title];
+        //desc
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_CLICK_DESC] communityDetailLb] setText:self.property.desc];
+        
+        //Picker Data
+        //装修 test 二手房直接返回title
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FITMENT] text_Field] setText:[dic objectForKey:@"fitment"]];
+        
+        //楼层
+        NSString *floorStr = [NSString stringWithFormat:@"%@楼%@层",[dic objectForKey:@"floor"], [dic objectForKey:@"floorNum"]];
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FLOORS] text_Field] setText:floorStr];
+        
+        //设置各picker展示时，初始数据所在行
+        //装修
+        int fitmentIndex = [PublishDataModel getFitmentIndexWithTitle:[dic objectForKey:@"fitment"] forHaozu:self.isHaozu];
+        [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FITMENT] setInputed_RowAtCom0:fitmentIndex];
+        //楼层
+        //楼
+        int floorIndex = [PublishDataModel getFloorIndexWithValue:[dic objectForKey:@"floor"]];
+        [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FLOORS] setInputed_RowAtCom0:floorIndex];
+        //层
+        int profloorIndex = [PublishDataModel getProFloorIndexWithValue:[dic objectForKey:@"floorNum"]];
+        [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FLOORS] setInputed_RowAtCom1:profloorIndex];
+    }
+    
+    DLog(@"*** 编辑房源property 【%@】", self.property);
 }
 
 #pragma mark - Request Method

@@ -26,6 +26,7 @@
 #import "PublishBigImageViewController.h"
 #import "RTNavigationController.h"
 #import "SimpleKeyboardToolBar.h"
+#import "PublishInputOrderModel.h"
 
 #define IMAGE_ACTIONSHEET_TAG 9010
 #define PUBLISH_ACTIONSHEET_TAG 9020
@@ -59,6 +60,7 @@
 
 @property (nonatomic, strong) UITextField *fileNoTextF; //备案号输入框
 @property (nonatomic, strong) SimpleKeyboardToolBar *simToolBar;
+@property (nonatomic, strong) UILabel *communityDetailLb;
 
 - (void)setTextFieldForProperty;
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount;

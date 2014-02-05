@@ -68,6 +68,9 @@
 //出租方式
 + (NSArray *)getPropertyRentType;
 
++ (NSString *)getRentTypeTitleWitValue:(NSString *)value;
++ (int)getRentTypeIndexWithValue:(NSString *)value;
+
 //生成全新房源类
 + (Property *)getNewPropertyObject;
 

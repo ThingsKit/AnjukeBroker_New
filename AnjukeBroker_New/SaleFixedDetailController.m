@@ -266,9 +266,9 @@
             action.tag = 102;
             [action showInView:self.view];
         }else{
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"竞价推广本房源", @"取消定价推广", @"修改房源信息", nil];
-            action.tag = 103;
-        [action showInView:self.view];
+            UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"竞价推广本房源", @"取消定价推广", @"修改房源信息", nil];
+                action.tag = 103;
+            [action showInView:self.view];
         }
     }
 }
@@ -472,7 +472,15 @@
             [self cancelFixedProperty];
         }else if (buttonIndex == 1){
             [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_008 note:nil];
-            PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+            
+//            PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+//            controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
+//            controller.backType = RTSelectorBackTypeDismiss;
+//            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+//            [self presentViewController:nav animated:YES completion:nil];
+            
+            //test
+            PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];

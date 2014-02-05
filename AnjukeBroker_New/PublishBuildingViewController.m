@@ -8,7 +8,6 @@
 
 #import "PublishBuildingViewController.h"
 #import "AppManager.h"
-#import "PublishInputOrderModel.h"
 #import "AnjukeNormalCell.h"
 #import "PublishHouseTypeViewController.h"
 #import "PropertyGroupListViewController.h"
@@ -69,6 +68,7 @@ typedef enum {
 @synthesize uploadImageArray;
 @synthesize fileNoTextF;
 @synthesize simToolBar;
+@synthesize communityDetailLb;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -192,6 +192,7 @@ typedef enum {
     comDetailLb.backgroundColor = [UIColor clearColor];
     comDetailLb.textColor = SYSTEM_BLACK;
     comDetailLb.font = [UIFont systemFontOfSize:17];
+    self.communityDetailLb = comDetailLb;
     [comView addSubview:comDetailLb];
     
     [self communityDataSet:comDetailLb];

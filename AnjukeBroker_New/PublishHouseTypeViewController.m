@@ -211,8 +211,8 @@
         NSString *toiletValue = [NSString stringWithFormat:@"%d", [(PublishBuildingViewController *)self.superViewController toiletValue]];
         
         self.houseType_inputedRow0 = [PublishDataModel getRoomIndexWithValue:roomValue];
-        self.houseType_inputedRow1 = [PublishDataModel getRoomIndexWithValue:hallValue];
-        self.houseType_inputedRow2 = [PublishDataModel getRoomIndexWithValue:toiletValue];
+        self.houseType_inputedRow1 = [PublishDataModel getHallIndexWithValue:hallValue];
+        self.houseType_inputedRow2 = [PublishDataModel getToiletIndexWithValue:toiletValue];
         
         NSString *name = [PublishDataModel getRoomTitleWithIndex:self.houseType_inputedRow0];
         NSString *name2 = [PublishDataModel getHallTitleWithIndex:self.houseType_inputedRow1];

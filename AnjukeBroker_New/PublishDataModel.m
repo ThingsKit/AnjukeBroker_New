@@ -457,4 +457,36 @@
     return arr;
 }
 
++ (NSString *)getRentTypeTitleWitValue:(NSString *)value{
+    NSArray *arr = [self getPropertyRentType];
+    
+    NSString *str = [NSString string];
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([value isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            str = [[arr objectAtIndex:i] objectForKey:@"Title"];
+        }
+    }
+    
+    DLog(@"rent--string [%@]", str);
+    
+    return str;
+}
+
++ (int)getRentTypeIndexWithValue:(NSString *)value{
+    NSArray *arr = [self getPropertyRentType];
+    
+    int index = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        if ([value isEqualToString:[[arr objectAtIndex:i] objectForKey:@"Value"]]) {
+            index = i;
+        }
+    }
+    
+    DLog(@"rent--index [%d]", index);
+    
+    return index;
+}
+
 @end
