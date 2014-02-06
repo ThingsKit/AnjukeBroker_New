@@ -113,8 +113,6 @@ typedef enum {
         show = YES;
     }
     [self.cellDataSource houseTypeCellImageIconShow:show isHaozu:self.isHaozu];
-    
-    DLog(@"property [%@] 户型img_count[%d]", self.property, self.houseTypeImageArray.count);
 }
 
 - (void)didReceiveMemoryWarning
@@ -452,6 +450,20 @@ typedef enum {
     DLog(@"所有图片数量 [%d]", count);
     
     return count;
+}
+
+//当前已有的室内图数量
+- (int)getCurrentRoomImgCount {
+    return self.roomImageArray.count;
+}
+
+//相册还可添加的图片数量
+- (int)getMaxAddRoomImgCountForPhotoAlbum {
+    int maxCount = AJK_MAXCOUNT_ROOMIMAGE;
+    if (self.isHaozu) {
+        maxCount = HZ_MAXCOUNT_ROOMIMAGE;
+    }
+    return (maxCount - self.roomImageArray.count);
 }
 
 #pragma mark - Request Method
@@ -1633,7 +1645,7 @@ typedef enum {
                 if (self.isHaozu) {
                     pv.maxImgCount = HZ_MAXCOUNT_ROOMIMAGE;
                 }
-                pv.currentImgCount = self.roomImageArray.count;
+                pv.currentImgCount = [self getCurrentRoomImgCount]; //self.roomImageArray.count;
                 pv.clickDelegate = self;
                 
                 ipc.cameraOverlayView = self.imageOverLay;
@@ -1662,7 +1674,7 @@ typedef enum {
                 if (self.isHaozu) {
                     maxCount = HZ_MAXCOUNT_ROOMIMAGE;
                 }
-                elcPicker.maximumImagesCount = (maxCount - self.roomImageArray.count);
+                elcPicker.maximumImagesCount = [self getMaxAddRoomImgCountForPhotoAlbum]; //(maxCount - self.roomImageArray.count);
                 elcPicker.imagePickerDelegate = self;
                 
                 [self presentViewController:elcPicker animated:YES completion:nil];

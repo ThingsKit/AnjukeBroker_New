@@ -47,7 +47,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-        
+    
     //房型图是否多图的icon显示
     BOOL show = NO;
     if (self.addHouseTypeImageArray.count + self.houseTypeShowedImgArray.count > 0) {
@@ -252,6 +252,115 @@
     [self.footerView redrawWithEditRoomImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray] andImgUrl:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray]];
     
     [self hideLoadWithAnimated:YES];
+}
+
+#pragma mark - ******** Overwrite Method ********
+
+#pragma mark - Check Method
+
+//是否能添加更多室内图
+- (BOOL)canAddMoreImageWithAddCount:(int)addCount{
+    NSMutableArray *arr = [NSMutableArray array];
+    [arr addObjectsFromArray:self.addRoomImageArray];
+    [arr addObjectsFromArray:self.roomShowedImgArray];
+    
+    if (![PhotoManager canAddMoreRoomImageForImageArr:arr isHaozu:self.isHaozu]) {
+        [self showInfo:[PhotoManager getImageMaxAlertStringForHaozu:self.isHaozu isHouseType:NO]];
+        return NO; //超出
+    }
+    
+    return YES;
+}
+
+//当前已有的室内图数量
+- (int)getCurrentRoomImgCount {
+    return self.addRoomImageArray.count + self.roomShowedImgArray.count;
+}
+
+//相册还可添加的图片数量
+- (int)getMaxAddRoomImgCountForPhotoAlbum {
+    int maxCount = AJK_MAXCOUNT_ROOMIMAGE;
+    if (self.isHaozu) {
+        maxCount = HZ_MAXCOUNT_ROOMIMAGE;
+    }
+    return (maxCount - self.addRoomImageArray.count - self.roomShowedImgArray.count);
+}
+
+#pragma mark - PhotoViewClickDelegate
+
+- (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr {
+    for (int i = 0; i < arr.count; i ++) {
+        //保存原始图片、得到url
+        E_Photo *ep = [PhotoManager getNewE_Photo];
+        NSString *path = [PhotoManager saveImageFile:(UIImage *)[arr objectAtIndex:i] toFolder:PHOTO_FOLDER_NAME];
+        NSString *url = [PhotoManager getDocumentPath:path];
+        ep.photoURL = url;
+        ep.smallPhotoUrl = url;
+        
+        [self.addRoomImageArray addObject:ep];
+    }
+    
+    [self.imagePicker dismissViewControllerAnimated:YES completion:^(void){
+        //
+    }];
+    
+    //redraw footer img view
+    [self.footerView redrawWithEditRoomImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray] andImgUrl:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray]];
+}
+
+#pragma mark - ELCImagePickerControllerDelegate
+
+- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+    int count = [info count];
+    if (![self canAddMoreImageWithAddCount:count]) {
+        return;
+    }
+    
+    for (NSDictionary *dict in info) {
+        
+        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
+        //保存原始图片、得到url
+        E_Photo *ep = [PhotoManager getNewE_Photo];
+        NSString *path = [PhotoManager saveImageFile:image toFolder:PHOTO_FOLDER_NAME];
+        NSString *url = [PhotoManager getDocumentPath:path];
+        ep.photoURL = url;
+        
+        UIImage *newSizeImage = nil;
+        //压缩图片
+        if (image.size.width > IMAGE_MAXSIZE_WIDTH || image.size.height > IMAGE_MAXSIZE_WIDTH || self.isTakePhoto) {
+            CGSize coreSize;
+            if (image.size.width > image.size.height) {
+                coreSize = CGSizeMake(IMAGE_MAXSIZE_WIDTH, IMAGE_MAXSIZE_WIDTH*(image.size.height /image.size.width));
+            }
+            else if (image.size.width < image.size.height){
+                coreSize = CGSizeMake(IMAGE_MAXSIZE_WIDTH *(image.size.width /image.size.height), IMAGE_MAXSIZE_WIDTH);
+            }
+            else {
+                coreSize = CGSizeMake(IMAGE_MAXSIZE_WIDTH, IMAGE_MAXSIZE_WIDTH);
+            }
+            
+            UIGraphicsBeginImageContext(coreSize);
+            [image drawInRect:[Util_UI frameSize:image.size inSize:coreSize]];
+            newSizeImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            
+            path = [PhotoManager saveImageFile:newSizeImage toFolder:PHOTO_FOLDER_NAME];
+            url = [PhotoManager getDocumentPath:path];
+            ep.smallPhotoUrl = url;
+            
+        }
+        else {
+            ep.smallPhotoUrl = url;
+        }
+        
+        [self.addRoomImageArray addObject:ep];
+	}
+    
+    //redraw footer img view
+    [self.footerView redrawWithEditRoomImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray] andImgUrl:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray]];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
 }
 
 @end

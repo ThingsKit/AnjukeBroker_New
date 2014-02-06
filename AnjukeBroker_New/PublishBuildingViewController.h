@@ -66,4 +66,7 @@
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount;
 - (void)setHouseTypeShowWithString:(NSString *)string; //设置房型文案
 
+- (int)getCurrentRoomImgCount;
+- (int)getMaxAddRoomImgCountForPhotoAlbum;
+
 @end

@@ -308,7 +308,7 @@
                 }
                 else {
                     NSString *url = nil;
-                    url =  [imageArr objectAtIndex:all_imageIndex + urlImgArr.count]; //去除第一个添加按钮
+                    url =  [imageArr objectAtIndex:all_imageIndex- 1 - urlImgArr.count]; //去除第一个添加按钮
                     pBtn.photoImg.image = [UIImage imageWithContentsOfFile:url];
                 }
                 [pBtn addTarget:self action:@selector(imageBtnClick:) forControlEvents:UIControlEventTouchUpInside];
