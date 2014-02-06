@@ -62,11 +62,16 @@
 @property (nonatomic, strong) SimpleKeyboardToolBar *simToolBar;
 @property (nonatomic, strong) UILabel *communityDetailLb;
 
+@property int uploadImg_houseTypeIndex; //上传图片时户型图数据所在整个图片上传队列中的位置
+
 - (void)setTextFieldForProperty;
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount;
 - (void)setHouseTypeShowWithString:(NSString *)string; //设置房型文案
+- (BOOL)checkUploadProperty;
 
 - (int)getCurrentRoomImgCount;
 - (int)getMaxAddRoomImgCountForPhotoAlbum;
+- (void)prepareUploadImgArr;
+- (NSString *)getImageJson;
 
 @end

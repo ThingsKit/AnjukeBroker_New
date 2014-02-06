@@ -39,7 +39,6 @@ typedef enum {
 @property (nonatomic, strong) PhotoShowView *imageOverLay;
 
 @property (nonatomic, assign) PropertyUploadType uploadType;
-@property int uploadImg_houseTypeIndex; //上传图片时户型图数据所在整个图片上传队列中的位置
 
 @end
 

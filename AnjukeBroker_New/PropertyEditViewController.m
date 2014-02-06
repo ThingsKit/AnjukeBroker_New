@@ -154,7 +154,7 @@
         [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_FITMENT] text_Field] setText:fitmentStr];
         
         //楼层
-        NSString *floorStr = [NSString stringWithFormat:@"%@楼%@层",[dic objectForKey:@"floor"], [dic objectForKey:@"floorNum"]];
+        NSString *floorStr = [NSString stringWithFormat:@"%@楼共%@层",[dic objectForKey:@"floor"], [dic objectForKey:@"floorNum"]];
         [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_FLOORS] text_Field] setText:floorStr];
         
         //设置各picker展示时，初始数据所在行
@@ -191,7 +191,7 @@
         [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FITMENT] text_Field] setText:[dic objectForKey:@"fitment"]];
         
         //楼层
-        NSString *floorStr = [NSString stringWithFormat:@"%@楼%@层",[dic objectForKey:@"floor"], [dic objectForKey:@"floorNum"]];
+        NSString *floorStr = [NSString stringWithFormat:@"%@楼共%@层",[dic objectForKey:@"floor"], [dic objectForKey:@"floorNum"]];
         [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FLOORS] text_Field] setText:floorStr];
         
         //设置各picker展示时，初始数据所在行
@@ -281,8 +281,6 @@
     NSMutableDictionary *params = nil;
     NSString *method = nil;
     
-//    [self setTextFieldForProperty];
-    
     params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.propertyID, @"propId", imgID, @"aids", nil];
     method = @"img/delimg/";
     
@@ -313,7 +311,208 @@
     self.isLoading = NO;
 }
 
+//更新房源信息
+- (void)doSave {
+    if (![self checkUploadProperty]) {
+        return;
+    }
+    
+    if (![self isNetworkOkay]) {
+        return;
+    }
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_PPC_RESET_004;
+    }
+    else
+        code = AJK_PPC_RESET_004;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+    
+    //更新房源信息
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    [self setTextFieldForProperty];
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"cityId", self.property.comm_id, @"commId", self.property.rooms, @"rooms", self.property.area, @"area", self.property.price, @"price", self.property.fitment, @"fitment", self.property.exposure, @"exposure", self.property.floor, @"floor", self.property.title, @"title", self.property.desc, @"description", self.propertyID, @"propId",self.property.fileNo, @"fileNo", nil];
+    method = @"anjuke/prop/update/";
+    
+    if (self.isHaozu) {
+        [params setObject:self.property.rentType forKey:@"shareRent"]; //租房新增出租方式
+        method = @"zufang/prop/update/";
+    }
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUpdatePropertyFinished:)];
+}
+
+- (void)onUpdatePropertyFinished:(RTNetworkResponse *)response {
+    DLog(@"--更新房源信息结束。。。response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    //保存房源id
+    //    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [self prepareUploadImgArr];
+    [self uploadNewImgToProperty]; //问题信息更新结束，开始新增图片上传
+    //    [self hideLoadWithAnimated:YES];
+    //    self.isLoading = NO;
+}
+
+//上传新图片
+- (void)uploadNewImgToProperty {
+    if (self.uploadImageArray.count == 0) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        [self showInfo:EDIT__PROPERTY_FINISH];
+        [self dismissViewControllerAnimated:YES completion:nil]; //没有更新图片，直接退出
+        
+        return; //没有上传图片
+    }
+    
+    if (![self isNetworkOkay]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return;
+    }
+    
+    //上传新添加的图片
+    if (self.uploadImgIndex > self.uploadImageArray.count - 1) {
+        //        [self hideLoadWithAnimated:YES];
+        //        self.isLoading = NO;
+        
+        DLog(@"图片上传服务器完毕，结束");
+        
+        //        [self dismissViewControllerAnimated:YES completion:nil];
+        //调用图片接口更新图片
+        [self updateNewImg];
+        
+        return;
+    }
+    
+    if (self.uploadImgIndex == 0) { //第一张图片开始上传就显示黑框，之后不重复显示，上传流程结束后再消掉黑框
+        //        [self showLoadingActivity:YES];
+        //        self.isLoading = YES;
+    }
+    
+    //test
+    //上传图片给UFS服务器
+    NSString *photoUrl = [[self.uploadImageArray objectAtIndex:self.uploadImgIndex] photoURL];
+    
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:API_PhotoUpload]];
+    [request addFile:photoUrl forKey:@"file"];
+    [request setDelegate:self];
+    [request setDidFinishSelector:@selector(uploadPhotoFinish:)];
+    [request setDidFailSelector:@selector(uploadPhotoFail:)];
+    [request startAsynchronous];
+}
+
+- (void)uploadPhotoFinish:(ASIFormDataRequest *)request{
+    NSDictionary *result = [request.responseString JSONValue];
+    RTNetworkResponse *response = [[RTNetworkResponse alloc] init];
+    [response setContent:result];
+    
+    DLog(@"image upload result[%@]", result);
+    
+    //保存imageDic在E_Photo
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[result objectForKey:@"image"]];
+    [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+    
+    if (self.uploadImgIndex <= self.uploadImageArray.count -1) { //
+        [(E_Photo *)[self.uploadImageArray objectAtIndex:self.uploadImgIndex] setImageDic:dic];
+        //继续上传图片
+        self.uploadImgIndex ++;
+        [self uploadNewImgToProperty];
+    }
+    else {
+        //        [self hideLoadWithAnimated:YES];
+        //        self.isLoading = NO;
+        
+        DLog(@"图片上传服务器完毕，结束");
+        
+        //        [self dismissViewControllerAnimated:YES completion:nil];
+        //调用图片接口更新图片
+        [self updateNewImg];
+        
+        return;
+    }
+}
+
+- (void)uploadPhotoFail:(ASIFormDataRequest *)request{
+    NSDictionary *result = [request.responseString JSONValue];
+    RTNetworkResponse *response = [[RTNetworkResponse alloc] init];
+    [response setContent:result];
+    
+    self.uploadImgIndex = 0;
+    
+    [self showInfo:@"图片上传失败，请重试"];
+    
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+}
+
+- (void)updateNewImg {
+    //    [self showLoadingActivity:YES];
+    //    self.isLoading = YES;
+    
+    //更新图片接口，上传imgJson+房源ID
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    self.property.imageJson = [self getImageJson];
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.propertyID, @"propId", self.property.imageJson, @"imageJson", [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+    method = @"img/addimg/";
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUpdateNewImageForPeopertyFinished:)];
+}
+
+- (void)onUpdateNewImageForPeopertyFinished:(RTNetworkResponse *)response {
+    DLog(@"--更新图片信息结束，尼玛。。。response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    [self showInfo:EDIT__PROPERTY_FINISH];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+}
+
 #pragma mark - ******** Overwrite Method ********
+
+- (void)prepareUploadImgArr {
+    [self.uploadImageArray removeAllObjects];
+    [self.uploadImageArray addObjectsFromArray:self.addRoomImageArray];
+    [self.uploadImageArray addObjectsFromArray:self.addHouseTypeImageArray];
+    
+    self.uploadImgIndex = 0;
+    
+    self.uploadImg_houseTypeIndex = self.addRoomImageArray.count; //
+}
 
 #pragma mark - Check Method
 
