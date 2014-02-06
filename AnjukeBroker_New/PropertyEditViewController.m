@@ -45,6 +45,17 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+        
+    //房型图是否多图的icon显示
+    BOOL show = NO;
+    if (self.addHouseTypeImageArray.count + self.houseTypeShowedImgArray.count > 0) {
+        show = YES;
+    }
+    [self.cellDataSource houseTypeCellImageIconShow:show isHaozu:self.isHaozu];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -111,7 +122,12 @@
     //小区
     self.property.comm_id = [dic objectForKey:@"commId"];
     self.communityDetailLb.text = [dic objectForKey:@"commName"];
-
+    
+    //户型、朝向
+    NSString *roomStr = [NSString stringWithFormat:@"%@室%@厅%@卫",[dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"]];
+    NSString *houseTypeName = [NSString stringWithFormat:@"%@  %@", roomStr, self.property.exposure];
+    [self setHouseTypeShowWithString:houseTypeName];
+    
     if (self.isHaozu) { //租房
         //Text
         //price
