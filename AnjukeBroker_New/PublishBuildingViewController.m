@@ -1408,6 +1408,10 @@ typedef enum {
     //do nothing
 }
 
+- (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex {
+    //非编辑房源 do nothing
+}
+
 #pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {

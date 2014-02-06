@@ -35,6 +35,8 @@
 @synthesize currentIndex;
 @synthesize leftIcon, rightIcon;
 @synthesize isHouseType;
+@synthesize isEditProperty;
+@synthesize isNewAddImg;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -87,6 +89,16 @@
 #pragma mark - Private Method
 
 - (void)doDelete {
+    if (self.isEditProperty) {
+        //通知房源编辑页面删除对应图片
+        if ([self.clickDelegate respondsToSelector:@selector(editPropertyDidDeleteImgWithDeleteIndex:)]) {
+            [self.clickDelegate editPropertyDidDeleteImgWithDeleteIndex:self.editDeleteImgIndex];
+        }
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
+    
     if (self.isHouseType) {
         //通知删除在线户型图。。。并退出
         if ([self.clickDelegate respondsToSelector:@selector(onlineHouseTypeImgDelete)]) {
@@ -96,7 +108,7 @@
         }
     }
     else { //非在线户型图查看，删除后重绘页面
-        if (self.currentIndex == self.self.imgArr.count - 1) { //如果是最后一项删除，则将当前选择的index前移一位
+        if (self.currentIndex == self.imgArr.count - 1) { //如果是最后一项删除，则将当前选择的index前移一位
             [self.imgArr removeLastObject];
             self.currentIndex --;
         }
@@ -113,6 +125,11 @@
 }
 
 - (void)doBack:(id)sender {
+    if (self.isEditProperty) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
+    
     if (self.isHouseType) {
         [self dismissViewControllerAnimated:YES completion:nil];
         return;
@@ -135,14 +152,28 @@
     CGFloat buttonW = [self windowWidth];
     CGFloat buttonGap = ([self currentViewHeight] - buttonW) /2;
     
-    for (int i = 0; i < self.imgArr.count; i ++) {
-        PhotoButton *pb = [[PhotoButton alloc] initWithFrame:CGRectMake(0 + buttonW*i, buttonGap, buttonW, buttonW)];
-        pb.tag = i;
-        NSString *url = nil;
-        url =  [(E_Photo *)[self.imgArr objectAtIndex:i] smallPhotoUrl];
-        pb.photoImg.image = [UIImage imageWithContentsOfFile:url];
+    if (self.isEditProperty) {
+        //直接显示url图片
+        PhotoButton *pb = [[PhotoButton alloc] initWithFrame:CGRectMake(0, buttonGap, buttonW, buttonW)];
+        NSString *url = [self.imgArr objectAtIndex:0];
+        if (self.isNewAddImg) { //新添加图片显示
+            pb.photoImg.image = [UIImage imageWithContentsOfFile:url];
+        }
+        else //已有图片进行下载显示
+            pb.photoImg.imageUrl = url;
         [self.buttonImgArr addObject:pb];
         [self.mainScroll addSubview:pb];
+    }
+    else {
+        for (int i = 0; i < self.imgArr.count; i ++) {
+            PhotoButton *pb = [[PhotoButton alloc] initWithFrame:CGRectMake(0 + buttonW*i, buttonGap, buttonW, buttonW)];
+            pb.tag = i;
+            NSString *url = nil;
+            url =  [(E_Photo *)[self.imgArr objectAtIndex:i] smallPhotoUrl];
+            pb.photoImg.image = [UIImage imageWithContentsOfFile:url];
+            [self.buttonImgArr addObject:pb];
+            [self.mainScroll addSubview:pb];
+        }
     }
     
     self.mainScroll.contentSize = CGSizeMake([self windowWidth] * self.imgArr.count, [self currentViewHeight]);
@@ -193,7 +224,12 @@
 
 - (void)showImagesWithArray:(NSArray *)imageArr atIndex:(int)index {
     [self.imgArr addObjectsFromArray:imageArr];
-    self.currentIndex = index;
+    if (self.isEditProperty) {
+        self.editDeleteImgIndex = index;
+        self.currentIndex = 0;
+    }
+    else
+        self.currentIndex = index;
     
     [self drawImageScroll];
 }

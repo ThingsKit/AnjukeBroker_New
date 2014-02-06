@@ -207,6 +207,17 @@
     DLog(@"*** 编辑房源property 【%@】", self.property);
 }
 
+//点击的预览图片是否是新添加的图片
+- (BOOL)isClickImgNewAddWithClickIndex:(int)clickIndex {
+    BOOL isNewAdd = NO;
+    
+    if (clickIndex >= self.roomShowedImgArray.count) {
+        isNewAdd = YES;
+    }
+    
+    return isNewAdd;
+}
+
 #pragma mark - Request Method
 
 - (void)doRequestProp {
@@ -286,6 +297,35 @@
     return (maxCount - self.addRoomImageArray.count - self.roomShowedImgArray.count);
 }
 
+#pragma mark - PhotoFooterImageClickDelegate
+
+- (void)imageDidClickWithIndex:(int)index { //图片预览点击
+    int imageIndex = index - 0;
+    DLog(@"查看大图--index [%d]", imageIndex);
+    
+    //查看大图
+    //模态弹出图片播放器
+    PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
+    pb.clickDelegate = self;
+    pb.isEditProperty = YES;
+    RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
+    navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+        
+        NSMutableArray *editImgShowArr = [NSMutableArray array];
+        if (![self isClickImgNewAddWithClickIndex:imageIndex]) {
+            //已有图片array
+            [editImgShowArr addObject:[[self.roomShowedImgArray objectAtIndex:imageIndex] objectForKey:@"imgUrl"]];
+        }
+        else { //新添加图片
+            [editImgShowArr addObject:[(E_Photo *)[self.addRoomImageArray objectAtIndex:imageIndex - self.roomShowedImgArray.count] smallPhotoUrl]];
+        }
+        
+        pb.isNewAddImg = [self isClickImgNewAddWithClickIndex:imageIndex];
+        [pb showImagesWithArray:editImgShowArr atIndex:imageIndex];
+    }];
+}
+
 #pragma mark - PhotoViewClickDelegate
 
 - (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr {
@@ -306,6 +346,14 @@
     
     //redraw footer img view
     [self.footerView redrawWithEditRoomImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray] andImgUrl:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray]];
+}
+
+#pragma mark - PublishBigImageViewClickDelegate
+
+- (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex {
+    //删除对应图片
+    
+    
 }
 
 #pragma mark - ELCImagePickerControllerDelegate
