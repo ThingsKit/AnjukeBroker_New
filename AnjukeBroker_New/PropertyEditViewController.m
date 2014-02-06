@@ -16,6 +16,8 @@
 @property (nonatomic, strong) NSMutableArray *roomShowedImgArray; //保存小区图、室内图、户型图，用于保存图片时遍历fileName以判断图片类型(type)
 @property (nonatomic, strong) NSMutableArray *houseTypeShowedImgArray; //室内图、户型图已获得的图片数组
 
+@property int deleteShowedImgIndex; //需要删除的已有图片的index
+
 @end
 
 #define EDIT__PROPERTY_FINISH @"房源信息已更新"
@@ -25,6 +27,7 @@
 @synthesize addHouseTypeImageArray, addRoomImageArray;
 @synthesize roomShowedImgArray, houseTypeShowedImgArray;
 @synthesize propertyDelegate;
+@synthesize deleteShowedImgIndex;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -219,7 +222,7 @@
 }
 
 #pragma mark - Request Method
-
+//房源信息请求
 - (void)doRequestProp {
     [self showLoadingActivity:YES];
     
@@ -263,6 +266,51 @@
     [self.footerView redrawWithEditRoomImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray] andImgUrl:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray]];
     
     [self hideLoadWithAnimated:YES];
+}
+
+//图片删除
+- (void)doDeleteImgWithImgID:(NSString *)imgID {
+    if (![self isNetworkOkay]) {
+        return;
+    }
+    
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+    
+    //更新房源信息
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+//    [self setTextFieldForProperty];
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.propertyID, @"propId", imgID, @"aids", nil];
+    method = @"img/delimg/";
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onDeleteImgFinished:)];
+}
+
+- (void)onDeleteImgFinished:(RTNetworkResponse *)response {
+    DLog(@"--。。。response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    [self showInfo:@"图片已删除"];
+    
+    [self.roomShowedImgArray removeObjectAtIndex:self.deleteShowedImgIndex];
+    //redraw footer img view
+    [self.footerView redrawWithEditRoomImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray] andImgUrl:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray]];
+    
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 }
 
 #pragma mark - ******** Overwrite Method ********
@@ -351,9 +399,22 @@
 #pragma mark - PublishBigImageViewClickDelegate
 
 - (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex {
+    
     //删除对应图片
-    
-    
+    if ([self isClickImgNewAddWithClickIndex:deleteIndex]) { //新添加图片
+        [self.addRoomImageArray removeObjectAtIndex:deleteIndex - self.roomShowedImgArray.count];
+        //redraw footer img view
+        [self.footerView redrawWithEditRoomImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray] andImgUrl:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray]];
+    }
+    else {//已有图片删除，交互...
+        self.deleteShowedImgIndex = deleteIndex;
+        if (deleteIndex >= self.roomShowedImgArray.count) {
+            return;
+        }
+        
+        NSString *deleteImgID = [[self.roomShowedImgArray objectAtIndex:deleteIndex] objectForKey:@"imgId"];
+        [self doDeleteImgWithImgID:deleteImgID];
+    }
 }
 
 #pragma mark - ELCImagePickerControllerDelegate
