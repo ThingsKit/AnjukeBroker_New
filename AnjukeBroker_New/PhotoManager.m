@@ -104,6 +104,19 @@
     return arr;
 }
 
+//编辑房源已有图片数组转换
++ (NSArray *)transformEditImageArrToFooterShowArrWithArr:(NSArray *)imageArray{
+    NSMutableArray *arr = [NSMutableArray array];
+    
+    if (imageArray.count > 0) {
+        for (int i = 0; i < imageArray.count; i ++) {
+            [arr addObject:[[imageArray objectAtIndex:i] objectForKey:@"imgUrl"]];
+        }
+    }
+    
+    return arr;
+}
+
 //是否能添加更多室内图
 + (BOOL)canAddMoreRoomImageForImageArr:(NSArray *)imageArr isHaozu:(BOOL)isHaozu {
     BOOL canAdd = NO;

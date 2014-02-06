@@ -32,4 +32,7 @@
 - (void)redrawWithImageArray:(NSArray *)imageArr;
 - (void)redrawWithHouseTypeImageArray:(NSArray *)imageArr andImgUrl:(NSArray *)urlImgArr;
 
+//编辑房源-室内图
+- (void)redrawWithEditRoomImageArray:(NSArray *)imageArr andImgUrl:(NSArray *)urlImgArr;
+
 @end

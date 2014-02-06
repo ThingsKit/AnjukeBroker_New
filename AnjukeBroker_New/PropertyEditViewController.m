@@ -24,6 +24,7 @@
 @synthesize propertyID;
 @synthesize addHouseTypeImageArray, addRoomImageArray;
 @synthesize roomShowedImgArray, houseTypeShowedImgArray;
+@synthesize propertyDelegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -167,7 +168,7 @@
         [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_CLICK_DESC] communityDetailLb] setText:self.property.desc];
         
         //Picker Data
-        //装修 test 二手房直接返回title
+        //装修 二手房直接返回title
         [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FITMENT] text_Field] setText:[dic objectForKey:@"fitment"]];
         
         //楼层
@@ -230,7 +231,9 @@
     
     //保存房源详情 //映射到房源object，并遍历得到每个数据的index
     [self setPropertyWithDic:dic];
-//    [self refreshPhotoHeader];
+    
+    //redraw footer img view
+    [self.footerView redrawWithEditRoomImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray] andImgUrl:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray]];
     
     [self hideLoadWithAnimated:YES];
 }

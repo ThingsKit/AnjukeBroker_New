@@ -8,8 +8,15 @@
 
 #import "PublishBuildingViewController.h"
 
+@protocol PropertyEditDelegate <NSObject>
+
+- (void)propertyDidDelete;
+
+@end
+
 @interface PropertyEditViewController : PublishBuildingViewController
 
 @property (nonatomic, copy) NSString *propertyID;
+@property (nonatomic, assign) id <PropertyEditDelegate> propertyDelegate;
 
 @end
