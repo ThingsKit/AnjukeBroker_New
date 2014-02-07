@@ -528,6 +528,7 @@
     ph.backType = RTSelectorBackTypePopBack;
     ph.property = self.property; //指针指向
     ph.superViewController = self;
+    ph.propertyID = self.propertyID;
     ph.addHouseTypeImageArray = self.addHouseTypeImageArray;
     ph.houseTypeShowedImgArray = self.houseTypeShowedImgArray; //指针指向
     [self.navigationController pushViewController:ph animated:YES];

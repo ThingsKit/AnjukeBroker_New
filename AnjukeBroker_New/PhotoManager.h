@@ -12,6 +12,8 @@
 #define PHOTO_FOLDER_NAME @"AJK_Broker"
 #define API_PhotoUpload @"http://upd1.ajkimg.com/upload"
 
+#define IMAGE_MAXSIZE_WIDTH 600 //屏幕预览图的最大分辨率，只负责预览显示
+
 //二手房图片上传数量限制
 #define AJK_MAXCOUNT_ROOMIMAGE 10
 #define AJK_MAXCOUNT_HOUSETYPEIMAGE 4

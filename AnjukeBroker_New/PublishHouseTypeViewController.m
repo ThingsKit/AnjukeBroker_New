@@ -10,7 +10,6 @@
 #import "PublishDataModel.h"
 #import "AnjukeEditableCell.h"
 #import "Property.h"
-#import "Util_UI.h"
 #import "PublishBuildingViewController.h"
 
 #define SELECT_BTN_TAG 1000

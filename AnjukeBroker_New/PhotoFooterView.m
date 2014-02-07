@@ -409,7 +409,7 @@
                 }
                 else if (all_imageIndex -1 >= showedImageArr.count && all_imageIndex - 1 < showedImageArr.count + addImgArr.count) {
                     NSString *url = nil;
-                    url =  [showedImageArr objectAtIndex:all_imageIndex - 1- showedImageArr.count]; //去除第一个添加按钮
+                    url =  [addImgArr objectAtIndex:all_imageIndex - 1- showedImageArr.count]; //去除第一个添加按钮
                     pBtn.photoImg.image = [UIImage imageWithContentsOfFile:url];
                 }
                 else { //草泥马的在线户型图。。。

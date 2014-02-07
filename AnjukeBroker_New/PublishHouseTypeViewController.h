@@ -16,6 +16,7 @@
 #import "PhotoShowView.h"
 #import "AnjukeOnlineImgController.h"
 #import "PublishBigImageViewController.h"
+#import "Util_UI.h"
 
 #define INDEX_HOUSETYPE 0
 #define INDEX_EXPOSURE 1
