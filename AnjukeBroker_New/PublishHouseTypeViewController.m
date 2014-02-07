@@ -22,10 +22,6 @@
 @property (nonatomic, strong) KeyboardToolBar *toolBar;
 @property (nonatomic, strong) UITextField *inputingTextF; //正在输入的textField，用于指向后关闭键盘
 
-@property (nonatomic, strong) UITextField *houseTypeTF;
-@property (nonatomic, strong) UITextField *exposureTF;
-@property (nonatomic, strong) UITextField *inputingTF;
-
 @property int houseType_inputedRow0;
 @property int houseType_inputedRow1;
 @property int houseType_inputedRow2;

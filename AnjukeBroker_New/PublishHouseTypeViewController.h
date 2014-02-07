@@ -41,6 +41,9 @@
 @property (nonatomic, copy) NSString *lastRooms;
 @property (nonatomic, copy) NSString *lastExposure;
 
+@property (nonatomic, strong) UITextField *houseTypeTF;
+@property (nonatomic, strong) UITextField *exposureTF;
+
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount;
 - (void)setLastDefultValueAndShowImg;
 - (void)setDefultValue;

@@ -86,6 +86,22 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)rightButtonAction:(id)sender { //do save
+    
+    if ([self.superViewController isKindOfClass:[PropertyEditViewController class]]) {
+        [[(PropertyEditViewController *)self.superViewController property] setOnlineHouseTypeDic:[NSDictionary dictionaryWithDictionary:self.onlineHouseTypeDic]];//赋值新在线户型图数据
+        
+        NSString *houseTypeName = [NSString stringWithFormat:@"%@  %@", self.houseTypeTF.text, self.exposureTF.text];
+        
+        //设置房型文案显示
+        [(PropertyEditViewController *)self.superViewController setHouseTypeShowWithString:houseTypeName];
+        [(PropertyEditViewController *)self.superViewController setAddHouseTypeImageArray:self.addHouseTypeImageArray]; //设置户型图
+        [(PropertyEditViewController *)self.superViewController setHouseTypeShowedImgArray:self.houseTypeShowedImgArray]; //设置户型图
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - Request Method
 
 //图片删除
@@ -229,6 +245,15 @@
 
 - (void)onlineHouseTypeImgDelete {
     self.onlineHouseTypeDic = [NSDictionary dictionary];
+    
+    [self.footerView redrawWithEditHouseTypeShowedImageArray:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.houseTypeShowedImgArray] andAddImgArr:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addHouseTypeImageArray] andOnlineHouseTypeArr:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.onlineHouseTypeDic]];
+}
+
+#pragma mark - Online Img Select Delegate
+
+- (void)onlineImgDidSelect:(NSDictionary *)imgDic {
+    DLog(@"在线房形图Data--[%@]", imgDic);
+    self.onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:imgDic];
     
     [self.footerView redrawWithEditHouseTypeShowedImageArray:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.houseTypeShowedImgArray] andAddImgArr:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addHouseTypeImageArray] andOnlineHouseTypeArr:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.onlineHouseTypeDic]];
 }

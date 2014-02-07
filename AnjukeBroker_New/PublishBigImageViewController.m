@@ -90,6 +90,16 @@
 
 - (void)doDelete {
     if (self.isEditProperty) {
+        if (self.isHouseType) {
+            //通知删除在线户型图。。。并退出
+            if ([self.clickDelegate respondsToSelector:@selector(onlineHouseTypeImgDelete)]) {
+                [self.clickDelegate onlineHouseTypeImgDelete];
+                
+                [self dismissViewControllerAnimated:YES completion:nil];
+                return;
+            }
+        }
+        
         //通知房源编辑页面删除对应图片
         if ([self.clickDelegate respondsToSelector:@selector(editPropertyDidDeleteImgWithDeleteIndex:)]) {
             [self.clickDelegate editPropertyDidDeleteImgWithDeleteIndex:self.editDeleteImgIndex];
