@@ -35,19 +35,9 @@
 @property int exposure_inputedRow1;
 @property int exposure_inputedRow2;
 
-@property (nonatomic, strong) NSDictionary *onlineHouseTypeDic; //户型图专用Dic
-
 @property (nonatomic, copy) NSString *lastRooms;
 @property (nonatomic, copy) NSString *lastExposure;
 @property (nonatomic, strong) NSMutableArray *lastHouseTypeImgArr; //上一次的户型图arr，用于取消时将户型图还原 T T
-
-@property (nonatomic, strong) UIView *photoBGView; //室内图预览底板
-@property (nonatomic, strong) UIImagePickerController *imagePicker;
-@property (nonatomic, strong) PhotoShowView *imageOverLay;
-@property BOOL isTakePhoto;
-@property BOOL inPhotoProcessing;
-
-@property BOOL isFirstShow; //是否第一次显示页面
 
 @end
 
@@ -97,15 +87,8 @@
     self.lastRooms = [NSString stringWithString:self.property.rooms];
     self.lastExposure = [NSString stringWithString:self.property.exposure];
     
-    for (int i = 0; i < self.houseTypeImageArr.count; i ++) {
-        [self.lastHouseTypeImgArr addObject:[self.houseTypeImageArr objectAtIndex:i]];
-    }
-    
-    self.onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:self.property.onlineHouseTypeDic];
-    
+    [self setLastDefultValueAndShowImg];
     [self setDefultValue];
-    
-    [self.footerView redrawWithHouseTypeImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr] andImgUrl:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.onlineHouseTypeDic]];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -121,6 +104,17 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setLastDefultValueAndShowImg {
+    
+    for (int i = 0; i < self.houseTypeImageArr.count; i ++) {
+        [self.lastHouseTypeImgArr addObject:[self.houseTypeImageArr objectAtIndex:i]];
+    }
+    
+    self.onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:self.property.onlineHouseTypeDic];
+    
+    [self.footerView redrawWithHouseTypeImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr] andImgUrl:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.onlineHouseTypeDic]];
 }
 
 #pragma mark - init Method
@@ -473,7 +467,6 @@
             [self.navigationController presentViewController:navController animated:YES completion:^(void) {
                 [pb showImagesForOnlineHouseTypeWithDic:self.onlineHouseTypeDic];
             }];
-            
         }
     }
     else { //无在线户型图

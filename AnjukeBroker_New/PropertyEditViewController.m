@@ -7,6 +7,7 @@
 //
 
 #import "PropertyEditViewController.h"
+#import "PublishHouseTypeEditViewController.h"
 
 @interface PropertyEditViewController ()
 
@@ -130,6 +131,13 @@
     NSString *roomStr = [NSString stringWithFormat:@"%@室%@厅%@卫",[dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"]];
     NSString *houseTypeName = [NSString stringWithFormat:@"%@  %@", roomStr, self.property.exposure];
     [self setHouseTypeShowWithString:houseTypeName];
+    
+    //房型图是否多图的icon显示
+    BOOL show = NO;
+    if (self.addHouseTypeImageArray.count + self.houseTypeShowedImgArray.count > 0) {
+        show = YES;
+    }
+    [self.cellDataSource houseTypeCellImageIconShow:show isHaozu:self.isHaozu];
     
     if (self.isHaozu) { //租房
         //Text
@@ -512,6 +520,17 @@
     self.uploadImgIndex = 0;
     
     self.uploadImg_houseTypeIndex = self.addRoomImageArray.count; //
+}
+
+- (void)doPushToHouseTypeVC {
+    PublishHouseTypeEditViewController *ph = [[PublishHouseTypeEditViewController alloc] init];
+    ph.isHaozu = self.isHaozu;
+    ph.backType = RTSelectorBackTypePopBack;
+    ph.property = self.property; //指针指向
+    ph.superViewController = self;
+    ph.addHouseTypeImageArray = self.addHouseTypeImageArray;
+    ph.houseTypeShowedImgArray = self.houseTypeShowedImgArray; //指针指向
+    [self.navigationController pushViewController:ph animated:YES];
 }
 
 #pragma mark - Check Method

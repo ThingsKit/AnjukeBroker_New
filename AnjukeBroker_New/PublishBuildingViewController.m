@@ -431,6 +431,16 @@ typedef enum {
     }
 }
 
+- (void)doPushToHouseTypeVC {
+    PublishHouseTypeViewController *ph = [[PublishHouseTypeViewController alloc] init];
+    ph.isHaozu = self.isHaozu;
+    ph.backType = RTSelectorBackTypePopBack;
+    ph.property = self.property; //指针指向
+    ph.superViewController = self;
+    ph.houseTypeImageArr = self.houseTypeImageArray; //指针指向
+    [self.navigationController pushViewController:ph animated:YES];
+}
+
 #pragma mark - Check Method
 
 //是否能添加更多室内图
@@ -1056,15 +1066,8 @@ typedef enum {
             switch (indexPath.row) {
                 case 0: //房型
                 {
-                    PublishHouseTypeViewController *ph = [[PublishHouseTypeViewController alloc] init];
-                    ph.isHaozu = self.isHaozu;
-                    ph.backType = RTSelectorBackTypePopBack;
-                    ph.property = self.property; //指针指向
-                    ph.superViewController = self;
-                    ph.houseTypeImageArr = self.houseTypeImageArray; //指针指向
-                    [self.navigationController pushViewController:ph animated:YES];
-                    
-                    [self pickerDisappear]; //每次push进新页面，
+                    [self doPushToHouseTypeVC];
+                    [self pickerDisappear]; //每次push进新页面隐藏键盘、picker
                 }
                     break;
                 case 1: //楼层

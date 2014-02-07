@@ -74,4 +74,6 @@
 - (void)prepareUploadImgArr;
 - (NSString *)getImageJson;
 
+- (void)doPushToHouseTypeVC;
+
 @end

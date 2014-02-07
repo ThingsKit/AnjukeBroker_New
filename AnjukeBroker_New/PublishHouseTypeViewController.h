@@ -28,4 +28,17 @@
 @property (nonatomic, strong) PhotoFooterView *footerView;
 @property (nonatomic, strong) NSMutableArray *houseTypeImageArr;
 
+@property (nonatomic, strong) NSDictionary *onlineHouseTypeDic; //户型图专用Dic
+@property (nonatomic, strong) UIView *photoBGView; //室内图预览底板
+@property (nonatomic, strong) UIImagePickerController *imagePicker;
+@property (nonatomic, strong) PhotoShowView *imageOverLay;
+@property BOOL isTakePhoto;
+@property BOOL inPhotoProcessing;
+
+@property BOOL isFirstShow; //是否第一次显示页面
+
+- (BOOL)canAddMoreImageWithAddCount:(int)addCount;
+- (void)setLastDefultValueAndShowImg;
+- (void)setDefultValue;
+
 @end

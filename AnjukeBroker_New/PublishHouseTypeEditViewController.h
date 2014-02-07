@@ -10,4 +10,7 @@
 
 @interface PublishHouseTypeEditViewController : PublishHouseTypeViewController
 
+@property (nonatomic, strong) NSMutableArray *addHouseTypeImageArray;
+@property (nonatomic, strong) NSMutableArray *houseTypeShowedImgArray; //室内图、户型图已获得的图片数组
+
 @end

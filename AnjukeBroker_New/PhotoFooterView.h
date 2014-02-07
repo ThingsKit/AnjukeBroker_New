@@ -34,5 +34,7 @@
 
 //编辑房源-室内图
 - (void)redrawWithEditRoomImageArray:(NSArray *)imageArr andImgUrl:(NSArray *)urlImgArr;
+//编辑房源-户型图
+- (void)redrawWithEditHouseTypeShowedImageArray:(NSArray *)showedImageArr andAddImgArr:(NSArray *)addImgArr andOnlineHouseTypeArr:(NSArray *)onlineHouseTypeArr;
 
 @end
