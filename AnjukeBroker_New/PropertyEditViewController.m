@@ -432,7 +432,21 @@
     
     //保存imageDic在E_Photo
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[result objectForKey:@"image"]];
-    [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+    if (self.isHaozu) {
+        if (self.uploadImgIndex < self.uploadImg_houseTypeIndex) { //属于室内图类型
+            [dic setObject:@"1" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
+        }
+        else //属于房型图类型
+            [dic setObject:@"2" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
+    }
+    else //二手房
+    {
+        if (self.uploadImgIndex < self.uploadImg_houseTypeIndex) { //属于室内图类型
+            [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+        }
+        else //属于房型图类型
+            [dic setObject:@"3" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+    }
     
     if (self.uploadImgIndex <= self.uploadImageArray.count -1) { //
         [(E_Photo *)[self.uploadImageArray objectAtIndex:self.uploadImgIndex] setImageDic:dic];
