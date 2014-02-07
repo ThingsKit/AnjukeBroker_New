@@ -8,6 +8,7 @@
 
 #import "PublishHouseTypeEditViewController.h"
 #import "RTNavigationController.h"
+#import "PropertyEditViewController.h"
 
 @interface PublishHouseTypeEditViewController ()
 
@@ -46,6 +47,9 @@
 }
 
 - (void)setLastDefultValueAndShowImg {
+    self.lastAddHouseTypeImgArr = [NSMutableArray array];
+    self.lastHouseTypeShowedImgArr = [NSMutableArray array];
+    
     for (int i = 0; i < self.addHouseTypeImageArray.count; i ++) {
         [self.lastAddHouseTypeImgArr addObject:[self.addHouseTypeImageArray objectAtIndex:i]];
     }
@@ -68,6 +72,18 @@
     }
     
     return isNewAdd;
+}
+
+- (void)doBack:(id)sender {
+    if ([self.superViewController isKindOfClass:[PropertyEditViewController class]]) {
+        [[(PropertyEditViewController *)self.superViewController property] setRooms:self.lastRooms];
+        [[(PropertyEditViewController *)self.superViewController property] setExposure:self.lastExposure];//还原上一次的输入
+        
+        [(PropertyEditViewController *)self.superViewController setAddHouseTypeImageArray:self.lastAddHouseTypeImgArr]; //还原户型图
+        [(PropertyEditViewController *)self.superViewController setHouseTypeShowedImgArray:self.lastHouseTypeShowedImgArr]; //还原户型图
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Request Method
@@ -139,6 +155,20 @@
     }
     
     return YES;
+}
+
+//当前已有的室内图数量
+- (int)getCurrentHouseTypeImgCount {
+    return self.addHouseTypeImageArray.count + self.houseTypeShowedImgArray.count;
+}
+
+//相册还可添加的图片数量
+- (int)getMaxAddHouseTypeImgCountForPhotoAlbum {
+    int maxCount = AJK_MAXCOUNT_HOUSETYPEIMAGE;
+    if (self.isHaozu) {
+        maxCount = HZ_MAXCOUNT_HOUSETYPEIMAGE;
+    }
+    return (maxCount - self.addHouseTypeImageArray.count - self.houseTypeShowedImgArray.count);
 }
 
 #pragma mark - PhotoFooterImageClickDelegate

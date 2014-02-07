@@ -38,8 +38,13 @@
 
 @property BOOL isFirstShow; //是否第一次显示页面
 
+@property (nonatomic, copy) NSString *lastRooms;
+@property (nonatomic, copy) NSString *lastExposure;
+
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount;
 - (void)setLastDefultValueAndShowImg;
 - (void)setDefultValue;
+- (int)getCurrentHouseTypeImgCount;
+- (int)getMaxAddHouseTypeImgCountForPhotoAlbum;
 
 @end

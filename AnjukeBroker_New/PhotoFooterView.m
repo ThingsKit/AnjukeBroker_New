@@ -275,10 +275,10 @@
         [self cleanImageShow]; //一定要先清空老图片数据显示
         
         int verticalRow = 0; //数列数量，至少一列
-        if (wholeCount <=3) {
+        if (wholeCount <=4) {
             verticalRow = 1; //一行
         }
-        else if (wholeCount >=4 && wholeCount <= 7){
+        else if (wholeCount >=5 && wholeCount <= 8){
             verticalRow = 2; //2行
         }
         else {
@@ -375,10 +375,10 @@
         [self cleanImageShow]; //一定要先清空老图片数据显示
         
         int verticalRow = 0; //数列数量，至少一列
-        if (wholeCount <=3) {
+        if (wholeCount <= 4) {
             verticalRow = 1; //一行
         }
-        else if (wholeCount >=4 && wholeCount <= 7){
+        else if (wholeCount >=5 && wholeCount <= 8){
             verticalRow = 2; //2行
         }
         else {
@@ -425,6 +425,8 @@
         }
         
         self.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, PF_IMAGE_GAP_Y + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*verticalRow);
+        
+        DLog(@"new photo Height %d层高", verticalRow);
     }
     
     height = self.frame.size.height;

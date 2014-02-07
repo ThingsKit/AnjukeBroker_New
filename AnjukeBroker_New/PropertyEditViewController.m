@@ -11,12 +11,6 @@
 
 @interface PropertyEditViewController ()
 
-@property (nonatomic, strong) NSMutableArray *addHouseTypeImageArray;
-@property (nonatomic, strong) NSMutableArray *addRoomImageArray; //新添加的图片数组
-
-@property (nonatomic, strong) NSMutableArray *roomShowedImgArray; //保存小区图、室内图、户型图，用于保存图片时遍历fileName以判断图片类型(type)
-@property (nonatomic, strong) NSMutableArray *houseTypeShowedImgArray; //室内图、户型图已获得的图片数组
-
 @property int deleteShowedImgIndex; //需要删除的已有图片的index
 
 @end

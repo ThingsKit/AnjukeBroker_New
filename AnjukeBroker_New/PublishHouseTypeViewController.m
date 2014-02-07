@@ -34,8 +34,6 @@
 @property int exposure_inputedRow1;
 @property int exposure_inputedRow2;
 
-@property (nonatomic, copy) NSString *lastRooms;
-@property (nonatomic, copy) NSString *lastExposure;
 @property (nonatomic, strong) NSMutableArray *lastHouseTypeImgArr; //上一次的户型图arr，用于取消时将户型图还原 T T
 
 @end
@@ -402,6 +400,20 @@
     }
     
     return YES;
+}
+
+//当前已有的室内图数量
+- (int)getCurrentHouseTypeImgCount {
+    return self.houseTypeImageArr.count;
+}
+
+//相册还可添加的图片数量
+- (int)getMaxAddHouseTypeImgCountForPhotoAlbum {
+    int maxCount = AJK_MAXCOUNT_HOUSETYPEIMAGE;
+    if (self.isHaozu) {
+        maxCount = HZ_MAXCOUNT_HOUSETYPEIMAGE;
+    }
+    return (maxCount - self.houseTypeImageArr.count);
 }
 
 #pragma mark - KeyboardBarClickDelegate
@@ -779,7 +791,7 @@
             if (self.isHaozu) {
                 pv.maxImgCount = HZ_MAXCOUNT_HOUSETYPEIMAGE;
             }
-            pv.currentImgCount = self.houseTypeImageArr.count;
+            pv.currentImgCount = [self getCurrentHouseTypeImgCount];//self.houseTypeImageArr.count;
             pv.clickDelegate = self;
             
             ipc.cameraOverlayView = self.imageOverLay;
@@ -811,7 +823,7 @@
             if (self.onlineHouseTypeDic.count > 0) {
                 maxCount --;
             }
-            elcPicker.maximumImagesCount = (maxCount - self.houseTypeImageArr.count);
+            elcPicker.maximumImagesCount = [self getMaxAddHouseTypeImgCountForPhotoAlbum];//(maxCount - self.houseTypeImageArr.count);
             elcPicker.imagePickerDelegate = self;
             
             [self presentViewController:elcPicker animated:YES completion:nil];
