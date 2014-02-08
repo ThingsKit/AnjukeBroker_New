@@ -12,8 +12,6 @@
 #import "PublishHouseTypeViewController.h"
 #import "PropertyGroupListViewController.h"
 
-#define PHOTO_FOOTER_BOTTOM_HEIGHT 80
-
 typedef enum {
     Property_DJ = 0, //发房_定价
     Property_JJ, //发房_竞价
@@ -35,7 +33,6 @@ typedef enum {
 
 @property BOOL needFileNO; //是否需要备案号，部分城市需要备案号（北京）
 
-@property (nonatomic, strong) UIView *photoBGView; //室内图预览底板
 @property (nonatomic, strong) PhotoShowView *imageOverLay;
 
 @property (nonatomic, assign) PropertyUploadType uploadType;

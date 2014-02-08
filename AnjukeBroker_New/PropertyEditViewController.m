@@ -8,10 +8,12 @@
 
 #import "PropertyEditViewController.h"
 #import "PublishHouseTypeEditViewController.h"
+#import "BigZhenzhenButton.h"
 
 @interface PropertyEditViewController ()
 
 @property int deleteShowedImgIndex; //需要删除的已有图片的index
+@property (nonatomic, strong) BigZhenzhenButton *deleteButton;
 
 @end
 
@@ -23,6 +25,7 @@
 @synthesize roomShowedImgArray, houseTypeShowedImgArray;
 @synthesize propertyDelegate;
 @synthesize deleteShowedImgIndex;
+@synthesize deleteButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -75,6 +78,10 @@
 - (void)initDisplay {
     [super initDisplay];
     
+}
+
+- (void)drawFooter {
+    [super drawFooter];
 }
 
 - (void)setPropertyWithDic:(NSDictionary *)dic {
@@ -221,6 +228,12 @@
     }
     
     return isNewAdd;
+}
+
+- (void)doDeleteProperty {
+    if ([self.propertyDelegate respondsToSelector:@selector(propertyDidDelete)]) {
+        [self.propertyDelegate propertyDidDelete];
+    }
 }
 
 #pragma mark - Request Method
@@ -599,6 +612,24 @@
         pb.isNewAddImg = [self isClickImgNewAddWithClickIndex:imageIndex];
         [pb showImagesWithArray:editImgShowArr atIndex:imageIndex];
     }];
+}
+
+- (void)drawFinishedWithCurrentHeight:(CGFloat)height { //每次重绘后返回当前预览底图的高度
+    CGFloat btnW = 200;
+    CGFloat btnH = CELL_HEIGHT - 15;
+    
+    self.photoBGView.frame = CGRectMake(0, 0, [self windowWidth], PUBLISH_SECTION_HEIGHT+PHOTO_FOOTER_BOTTOM_HEIGHT + height +10);
+    
+    if (!self.deleteButton) {
+        BigZhenzhenButton *logoutBtn = [[BigZhenzhenButton alloc] init];
+        self.deleteButton = logoutBtn;
+        [logoutBtn setTitle:@"删除房源" forState:UIControlStateNormal];
+        [logoutBtn addTarget:self action:@selector(doDeleteProperty) forControlEvents:UIControlEventTouchUpInside];
+        [self.footerView addSubview:self.deleteButton];
+    }
+    self.deleteButton.frame = CGRectMake(([self windowWidth] -btnW)/2, self.photoBGView.frame.size.height- btnH -40, btnW, btnH);
+    
+    self.tableViewList.tableFooterView = self.photoBGView; //状态改变后需要重新赋值footerView
 }
 
 #pragma mark - PhotoViewClickDelegate

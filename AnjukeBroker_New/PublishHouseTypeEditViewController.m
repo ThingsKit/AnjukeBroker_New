@@ -221,6 +221,28 @@
     }];
 }
 
+#pragma mark - PhotoViewClickDelegate
+
+- (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr {
+    for (int i = 0; i < arr.count; i ++) {
+        //保存原始图片、得到url
+        E_Photo *ep = [PhotoManager getNewE_Photo];
+        NSString *path = [PhotoManager saveImageFile:(UIImage *)[arr objectAtIndex:i] toFolder:PHOTO_FOLDER_NAME];
+        NSString *url = [PhotoManager getDocumentPath:path];
+        ep.photoURL = url;
+        ep.smallPhotoUrl = url;
+        
+        [self.addHouseTypeImageArray addObject:ep];
+    }
+    
+    [self.imagePicker dismissViewControllerAnimated:YES completion:^(void){
+        //
+    }];
+    
+    //redraw footer img view
+    [self.footerView redrawWithEditHouseTypeShowedImageArray:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.houseTypeShowedImgArray] andAddImgArr:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addHouseTypeImageArray] andOnlineHouseTypeArr:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.onlineHouseTypeDic]];
+}
+
 #pragma mark - PublishBigImageViewClickDelegate
 
 - (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex {

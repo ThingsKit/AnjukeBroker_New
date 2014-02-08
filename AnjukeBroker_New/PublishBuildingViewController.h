@@ -31,6 +31,8 @@
 #define IMAGE_ACTIONSHEET_TAG 9010
 #define PUBLISH_ACTIONSHEET_TAG 9020
 
+#define PHOTO_FOOTER_BOTTOM_HEIGHT 80
+
 @interface PublishBuildingViewController : RTViewController <UITableViewDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, UIActionSheetDelegate, PhotoFooterImageClickDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ELCImagePickerControllerDelegate, PhotoViewClickDelegate, TextFieldModifyDelegate ,PublishBigImageViewClickDelegate, UIAlertViewDelegate, UITextFieldDelegate, SimpleKeyboardBarClickDelegate>
 
 @property BOOL isHaozu; //是否是好租，页面布局不同
@@ -61,6 +63,7 @@
 @property (nonatomic, strong) UILabel *communityDetailLb;
 
 @property int uploadImg_houseTypeIndex; //上传图片时户型图数据所在整个图片上传队列中的位置
+@property (nonatomic, strong) UIView *photoBGView; //室内图预览底板
 
 - (void)setTextFieldForProperty;
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount;
@@ -73,5 +76,6 @@
 - (NSString *)getImageJson;
 
 - (void)doPushToHouseTypeVC;
+- (void)drawFooter;
 
 @end
