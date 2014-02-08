@@ -24,9 +24,6 @@
 #define HZ_MAXCOUNT_HOUSETYPEIMAGE 2
 #define HZ_MAXCOUNT_ALLIMAGE HZ_MAXCOUNT_ROOMIMAGE +HZ_MAXCOUNT_HOUSETYPEIMAGE //室内图、户型图的上传上限
 
-#define MAX_ROOMPHOTO_ALERT_MESSAGE @"室内图最多只能添加8张"
-#define MAX_HOUSETYPEPHOTO_ALERT_MESSAGE @"房型图最多只能添加2张"
-
 @interface PhotoManager : NSObject
 
 + (NSString *)saveImageFile:(UIImage *)image toFolder:(NSString *)folder; //保存图片并得到图片路径
