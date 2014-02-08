@@ -52,6 +52,7 @@
 @synthesize inPhotoProcessing;
 @synthesize lastHouseTypeImgArr;
 @synthesize onlineHouseTypeDic;
+@synthesize lastRoomValue, lastHallValue, lastToiletValue;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -197,6 +198,10 @@
         NSString *hallValue = [NSString stringWithFormat:@"%d", [(PublishBuildingViewController *)self.superViewController hallValue]];
         NSString *toiletValue = [NSString stringWithFormat:@"%d", [(PublishBuildingViewController *)self.superViewController toiletValue]];
         
+        self.lastRoomValue = [NSString stringWithString:roomValue];
+        self.lastHallValue = [NSString stringWithString:hallValue];
+        self.lastToiletValue = [NSString stringWithString:toiletValue];
+        
         self.houseType_inputedRow0 = [PublishDataModel getRoomIndexWithValue:roomValue];
         self.houseType_inputedRow1 = [PublishDataModel getHallIndexWithValue:hallValue];
         self.houseType_inputedRow2 = [PublishDataModel getToiletIndexWithValue:toiletValue];
@@ -323,7 +328,7 @@
             self.houseType_inputedRow2 = index3;
             
             //设置卫
-            [(PublishBuildingViewController *)self.superViewController setHallValue:[strValue2 intValue]];
+            [(PublishBuildingViewController *)self.superViewController setToiletValue:[strValue2 intValue]];
         }
         else {
             self.exposure_inputedRow2 = index3;
@@ -366,6 +371,10 @@
     if ([self.superViewController isKindOfClass:[PublishBuildingViewController class]]) {
         [[(PublishBuildingViewController *)self.superViewController property] setRooms:self.lastRooms];
         [[(PublishBuildingViewController *)self.superViewController property] setExposure:self.lastExposure];//还原上一次的输入
+        
+        [(PublishBuildingViewController *)self.superViewController setRoomValue:[self.lastRoomValue intValue]];
+        [(PublishBuildingViewController *)self.superViewController setHallValue:[self.lastHallValue intValue]];
+        [(PublishBuildingViewController *)self.superViewController setToiletValue:[self.lastToiletValue intValue]];
         
         [(PublishBuildingViewController *)self.superViewController setHouseTypeImageArray:self.lastHouseTypeImgArr]; //还原户型图
     }

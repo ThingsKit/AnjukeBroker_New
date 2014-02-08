@@ -130,7 +130,7 @@
 
 - (void)take_Picture:(id)sender {
     if (![self canTakePhoto]) {
-        UIAlertView *pickerAlert = [[UIAlertView alloc] initWithTitle:nil message:@"拍照数量已达上线" delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
+        UIAlertView *pickerAlert = [[UIAlertView alloc] initWithTitle:nil message:@"拍照数量已达上限" delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
         [pickerAlert show];
         return;
     }

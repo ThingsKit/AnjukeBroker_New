@@ -79,6 +79,10 @@
         [[(PropertyEditViewController *)self.superViewController property] setRooms:self.lastRooms];
         [[(PropertyEditViewController *)self.superViewController property] setExposure:self.lastExposure];//还原上一次的输入
         
+        [(PublishBuildingViewController *)self.superViewController setRoomValue:[self.lastRoomValue intValue]];
+        [(PublishBuildingViewController *)self.superViewController setHallValue:[self.lastHallValue intValue]];
+        [(PublishBuildingViewController *)self.superViewController setToiletValue:[self.lastToiletValue intValue]];
+        
         [(PropertyEditViewController *)self.superViewController setAddHouseTypeImageArray:self.lastAddHouseTypeImgArr]; //还原户型图
         [(PropertyEditViewController *)self.superViewController setHouseTypeShowedImgArray:self.lastHouseTypeShowedImgArr]; //还原户型图
     }

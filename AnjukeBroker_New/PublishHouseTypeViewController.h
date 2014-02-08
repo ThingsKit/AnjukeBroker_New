@@ -41,6 +41,10 @@
 @property (nonatomic, copy) NSString *lastRooms;
 @property (nonatomic, copy) NSString *lastExposure;
 
+@property (nonatomic, copy) NSString *lastRoomValue;
+@property (nonatomic, copy) NSString *lastHallValue;
+@property (nonatomic, copy) NSString *lastToiletValue;
+
 @property (nonatomic, strong) UITextField *houseTypeTF;
 @property (nonatomic, strong) UITextField *exposureTF;
 
