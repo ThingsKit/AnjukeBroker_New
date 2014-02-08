@@ -7,7 +7,7 @@
 //
 
 #import "RentFixedDetailController.h"
-#import "PropertyResetViewController.h"
+#import "PropertyEditViewController.h"
 #import "RentAuctionViewController.h"
 #import "ModifyFixedCostController.h"
 #import "RTNavigationController.h"
@@ -387,7 +387,7 @@
                     [alert show];
                 }else if (buttonIndex == 1){
                     [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_008 note:nil];
-                    PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+                    PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
                     controller.isHaozu = YES;
                     controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
                     controller.backType = RTSelectorBackTypeDismiss;
@@ -416,7 +416,7 @@
                     //            [self.navigationController popToRootViewControllerAnimated:YES];
                 }else if (buttonIndex == 2){
                     [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_008 note:nil];
-                    PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+                    PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
                     controller.isHaozu = YES;
                     controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
                     controller.backType = RTSelectorBackTypeDismiss;

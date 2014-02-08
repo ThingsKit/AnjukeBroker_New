@@ -418,6 +418,11 @@
     if (self.isHaozu) {
         maxCount = HZ_MAXCOUNT_HOUSETYPEIMAGE;
     }
+    
+    if (self.onlineHouseTypeDic.count > 0) {
+        return (maxCount - self.houseTypeImageArr.count -1);
+    }
+    
     return (maxCount - self.houseTypeImageArr.count);
 }
 

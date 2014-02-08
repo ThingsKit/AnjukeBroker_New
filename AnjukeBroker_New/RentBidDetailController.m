@@ -7,7 +7,7 @@
 //
 
 #import "RentBidDetailController.h"
-#import "PropertyResetViewController.h"
+#import "PropertyEditViewController.h"
 #import "RTNavigationController.h"
 #import "RentAuctionViewController.h"
 #import "RentBidNoPlanController.h"
@@ -235,7 +235,7 @@
         if (buttonIndex == 0){
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_005 note:nil];
             
-            PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+            PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.isHaozu = YES;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
@@ -260,7 +260,7 @@
         if (buttonIndex == 0){//修改房源
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_005 note:nil];
             
-            PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+            PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.isHaozu = YES;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;

@@ -10,7 +10,7 @@
 #import "BasePropertyObject.h"
 #import "BaseBidPropertyCell.h"
 #import "SalePropertyListController.h"
-#import "PropertyResetViewController.h"
+#import "PropertyEditViewController.h"
 #import "SaleAuctionViewController.h"
 #import "RTNavigationController.h"
 #import "LoginManager.h"
@@ -263,7 +263,7 @@
         if (buttonIndex == 0){
             [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_005 note:nil];
             
-            PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+            PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
@@ -288,7 +288,7 @@
         if (buttonIndex == 0){//修改房源
             [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_005 note:nil];
             
-            PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+            PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];

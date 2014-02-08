@@ -350,7 +350,7 @@
     if (self.selectedArray.count != 1) {
         return;
     }
-    PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+    PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
     SalePropertyObject *pro = (SalePropertyObject *)[self.selectedArray objectAtIndex:0];
     controller.isHaozu = YES;
     controller.propertyID = pro.propertyId;
@@ -471,7 +471,7 @@
         controller.propertyArray = self.selectedArray;
         [self.navigationController pushViewController:controller animated:YES];
     }else if (buttonIndex == 1){
-        PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+        PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
         controller.isHaozu = YES;
         controller.propertyID = [[self.selectedArray objectAtIndex:0] objectForKey:@"id"];
         [self.navigationController pushViewController:controller animated:YES];

@@ -230,12 +230,6 @@
     return isNewAdd;
 }
 
-- (void)doDeleteProperty {
-    if ([self.propertyDelegate respondsToSelector:@selector(propertyDidDelete)]) {
-        [self.propertyDelegate propertyDidDelete];
-    }
-}
-
 #pragma mark - Request Method
 //房源信息请求
 - (void)doRequestProp {
@@ -531,6 +525,58 @@
     self.isLoading = NO;
 }
 
+//删除房源
+- (void)doDeleteProperty {
+    if (![self isNetworkOkay]) {
+        return;
+    }
+    
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+    
+    //更新房源信息
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    if (self.isHaozu) {
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.propertyID, @"propIds", nil];
+        method = @"zufang/prop/delprops/";
+    }
+    else {
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.propertyID, @"propIds", nil];
+        method = @"anjuke/prop/delprops/";
+    }
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onDeletePropFinished:)];
+}
+
+- (void)onDeletePropFinished:(RTNetworkResponse *)response {
+    DLog(@"--delete Prop。。。response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
+    
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    [self showInfo:@"删除房源成功"];
+    
+    if ([self.propertyDelegate respondsToSelector:@selector(propertyDidDelete)]) {
+        [self.propertyDelegate propertyDidDelete];
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - ******** Overwrite Method ********
 
 - (void)prepareUploadImgArr {
@@ -625,7 +671,7 @@
         self.deleteButton = logoutBtn;
         [logoutBtn setTitle:@"删除房源" forState:UIControlStateNormal];
         [logoutBtn addTarget:self action:@selector(doDeleteProperty) forControlEvents:UIControlEventTouchUpInside];
-        [self.footerView addSubview:self.deleteButton];
+        [self.photoBGView addSubview:self.deleteButton];
     }
     self.deleteButton.frame = CGRectMake(([self windowWidth] -btnW)/2, self.photoBGView.frame.size.height- btnH -40, btnW, btnH);
     

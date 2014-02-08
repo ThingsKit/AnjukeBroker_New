@@ -9,7 +9,7 @@
 #import "SaleFixedDetailController.h"
 #import "BaseNoPlanController.h"
 #import "ModifyFixedCostController.h"
-#import "PropertyResetViewController.h"
+#import "PropertyEditViewController.h"
 #import "SaleSelectNoPlanController.h"
 #import "SaleAuctionViewController.h"
 #import "RTNavigationController.h"
@@ -473,12 +473,6 @@
         }else if (buttonIndex == 1){
             [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_008 note:nil];
             
-//            PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
-//            controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
-//            controller.backType = RTSelectorBackTypeDismiss;
-//            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-//            [self presentViewController:nav animated:YES completion:nil];
-            
             //test
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
@@ -503,13 +497,7 @@
                 [alert show];
             }else if (buttonIndex == 2){
                 [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_008 note:nil];
-                
-//                PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
-//                controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
-//                controller.backType = RTSelectorBackTypeDismiss;
-//                RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-//                [self presentViewController:nav animated:YES completion:nil];
-                
+                                
                 //test
                 PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
                 controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
