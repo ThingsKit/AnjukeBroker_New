@@ -409,6 +409,9 @@
 
 //当前已有的室内图数量
 - (int)getCurrentHouseTypeImgCount {
+    if (self.onlineHouseTypeDic.count > 0) {
+        return self.houseTypeImageArr.count + 1;
+    }
     return self.houseTypeImageArr.count;
 }
 
