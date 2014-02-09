@@ -97,7 +97,8 @@
                 
                 PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(5+PF_IMAGE_GAP_X +(PF_IMAGE_GAP_X + PF_IMAGE_WIDTH)*i, PF_IMAGE_GAP_Y + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*j, PF_IMAGE_WIDTH, PF_IMAGE_WIDTH)];
                 pBtn.tag = all_imageIndex;
-//                DLog(@"index------[%d]", pBtn.tag);
+                DLog(@"index------[%d]", pBtn.tag);
+                
                 if (all_imageIndex == 0) {
                     pBtn.photoImg.image = [UIImage imageNamed:@"anjuke_icon_nextphoto_.png"];
                 }

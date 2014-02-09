@@ -180,10 +180,12 @@
     UIView *photoBGV = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*2 + PUBLISH_SECTION_HEIGHT, [self windowWidth], PUBLISH_SECTION_HEIGHT + PF_EMPTY_IMAGE_HEIGHT)];
     photoBGV.backgroundColor = [UIColor clearColor];
     self.photoBGView = photoBGV; //预览图底板
+    photoBGV.clipsToBounds = YES;
     [self.view addSubview:photoBGV];
     
     PhotoFooterView *pf = [[PhotoFooterView alloc] initWithFrame:CGRectMake(0, PUBLISH_SECTION_HEIGHT, [self windowWidth], PF_EMPTY_IMAGE_HEIGHT)];
     pf.clickDelegate = self;
+    pf.backgroundColor = [UIColor clearColor];
     self.footerView = pf;
     [photoBGV addSubview:pf];
     
@@ -514,7 +516,7 @@
 }
 
 - (void)drawFinishedWithCurrentHeight:(CGFloat)height { //每次重绘后返回当前预览底图的高度
-    self.photoBGView.frame = CGRectMake(0, CELL_HEIGHT*2 + PUBLISH_SECTION_HEIGHT, [self windowWidth], PUBLISH_SECTION_HEIGHT + PF_EMPTY_IMAGE_HEIGHT);
+    self.photoBGView.frame = CGRectMake(0, CELL_HEIGHT*2 + PUBLISH_SECTION_HEIGHT, [self windowWidth], PUBLISH_SECTION_HEIGHT + height);
 }
 
 #pragma mark - UIImagePickerControllerDelegate
