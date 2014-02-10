@@ -43,6 +43,7 @@
 @property (nonatomic, strong) UILabel *costLb;
 @property (nonatomic, strong) UILabel *clickLb;
 
+@property (nonatomic, strong) UILabel *msgCountLb;
 @property int MSGNum;
 
 @end
@@ -55,6 +56,7 @@
 @synthesize MSGNum;
 @synthesize accountTitleLb;
 @synthesize accountYuanLb;
+@synthesize msgCountLb;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -308,6 +310,21 @@
         titleLabel.textAlignment = NSTextAlignmentCenter;
         titleLabel.text = title;
         [view2 addSubview:titleLabel];
+        
+        if (i == 2) {
+            UILabel *labNum = [[UILabel alloc] initWithFrame:CGRectMake(pushBtnW - 10, -10, 20, 20)];
+            labNum.tag = 101;
+            labNum.textColor = [UIColor whiteColor];
+            labNum.backgroundColor = SYSTEM_ORANGE;
+            labNum.font = [UIFont systemFontOfSize:13];
+            labNum.textAlignment = NSTextAlignmentCenter;
+            labNum.layer.cornerRadius = 10;
+            labNum.layer.masksToBounds = YES;
+            self.msgCountLb = labNum;
+            [btn addSubview:labNum];
+        }
+        
+        [self msgCountLbShowWithMsgNum:self.MSGNum];
     }
 }
 
@@ -325,6 +342,15 @@
     self.propNumLb.text = [self.ppcDataDic objectForKey:@"onLinePropNum"];
     self.costLb.text = [self.ppcDataDic objectForKey:@"todayAllCosts"];
     self.clickLb.text = [self.ppcDataDic objectForKey:@"todayAllClicks"];
+}
+
+- (void)msgCountLbShowWithMsgNum:(int)msgNumber {
+    self.msgCountLb.text = [NSString stringWithFormat:@"%d", msgNumber];
+    if (msgNumber > 0) {
+        self.msgCountLb.alpha = 1;
+    }
+    else
+        self.msgCountLb.alpha = 0;
 }
 
 - (void)rightButtonAction:(id)sender {
@@ -470,7 +496,10 @@
 //    self.ppcDataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerPPCInfo"];
 //    
 //    [self setHomeValue];
-    [self.tvList reloadData];
+    
+    [self msgCountLbShowWithMsgNum:self.MSGNum];
+    
+//    [self.tvList reloadData];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
 }
