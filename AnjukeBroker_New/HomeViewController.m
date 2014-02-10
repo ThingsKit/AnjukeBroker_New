@@ -81,7 +81,20 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    //隐藏
+    self.navigationController.navigationBarHidden = YES;
+    
     [self doRequest];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    self.navigationController.navigationBarHidden = NO;
 }
 
 #pragma mark - log
@@ -103,10 +116,10 @@
 }
 
 - (void)initDisplay {
-    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_BETWEEN_NAV_TAB style:UITableViewStylePlain];
+    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_TAB style:UITableViewStylePlain];
     self.tvList = tv;
     tv.backgroundColor = [UIColor clearColor];
-//    tv.layer.borderColor = [UIColor blackColor].CGColor;
+//    tv.layer.borderColor = [UIColor redColor].CGColor;
 //    tv.layer.borderWidth = 1;
     tv.delegate = self;
     tv.dataSource = self;

@@ -185,10 +185,8 @@
     
     PhotoFooterView *pf = [[PhotoFooterView alloc] initWithFrame:CGRectMake(0, PUBLISH_SECTION_HEIGHT, [self windowWidth], PF_EMPTY_IMAGE_HEIGHT)];
     pf.clickDelegate = self;
-    pf.backgroundColor = [UIColor clearColor];
     self.footerView = pf;
     [photoBGV addSubview:pf];
-    
 }
 
 #pragma mark - Private Method
