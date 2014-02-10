@@ -565,7 +565,8 @@
 //    self.backIMG = [[UIImageView alloc] initWithFrame:CGRectMake(voiceBtn.frame.origin.x - 25, voiceBtn.frame.origin.y - 25, 82, 82)];
 //    [self startSpeech];
     [self playAudioVoice];
-    [self performSelector:@selector(startSpeech) withObject:Nil afterDelay:1.0f];
+//    [self perfo]
+    [self performSelector:@selector(delayStartSpeech) withObject:Nil afterDelay:1.0f];
     [self speechAnimation:0];
     self.voiceBtn.frame = CGRectZero;
     self.cancelBut.frame = CGRectMake(20, [self windowHeight] - 15 - VOICEANIMATIONIMGHEIGHT/2 - BUTHIGHT/2 - 64, BUTWHID, BUTHIGHT);
@@ -642,6 +643,10 @@
 
 }
 
+- (void)delayStartSpeech{
+    [self performSelectorOnMainThread:@selector(startSpeech) withObject:nil waitUntilDone:NO];
+
+}
 - (void)setLocationBySelectedRange {
     location = self.textV.selectedRange.location;
 }
