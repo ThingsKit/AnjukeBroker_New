@@ -383,6 +383,12 @@
 //上传新图片
 - (void)uploadNewImgToProperty {
     if (self.uploadImageArray.count == 0) {
+        if ([self.property.onlineHouseTypeDic count] > 0) { //无图片但有在线户型图，需要上传在线户型图
+            [self updateNewImg];
+            return;
+        }
+        
+        //无新图片和在线户型图，则返回
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
         
