@@ -141,7 +141,7 @@
         return;
     }
     
-    [self showInfo:@"图片已删除"];
+//    [self showInfo:@"图片已删除"];
     
     [self.houseTypeShowedImgArray removeObjectAtIndex:self.deleteShowedImgIndex];
     

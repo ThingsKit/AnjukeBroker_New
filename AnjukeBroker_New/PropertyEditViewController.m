@@ -310,7 +310,7 @@
         return;
     }
     
-    [self showInfo:@"图片已删除"];
+//    [self showInfo:@"图片已删除"];
     
     [self.roomShowedImgArray removeObjectAtIndex:self.deleteShowedImgIndex];
     //redraw footer img view
