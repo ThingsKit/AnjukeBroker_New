@@ -127,6 +127,8 @@
     tv.delegate = self;
     tv.dataSource = self;
     tv.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tv.showsHorizontalScrollIndicator = NO;
+    tv.showsVerticalScrollIndicator = NO;
     [self.view addSubview:tv];
     
     UIImageView *tvBG = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_background.png"]];
@@ -277,24 +279,35 @@
     CGFloat pushBtnGap = ([self windowWidth] - pushBtnW*3)/4;
     for (int i = 0; i < 3; i ++) {
         UIImage *image = [UIImage imageNamed:@"anjuke_icon_publishesf.png"];
-        UIImage *selectImg = [UIImage imageNamed:@"anjuke_icon_publishzf_selected.png"];
+        UIImage *selectImg = [UIImage imageNamed:@"anjuke_icon_publishesf_selected.png"];
+        NSString *title = @"发布二手房";
         
         if (i == 1) {
             image = [UIImage imageNamed:@"anjuke_icon_publishzf.png"];
             selectImg = [UIImage imageNamed:@"anjuke_icon_publishzf_selected.png"];
+            title = @"发布租房";
         }
-        else {
+        else if (i == 2){
             image = [UIImage imageNamed:@"anjuke_icon_message.png"];
             selectImg = [UIImage imageNamed:@"anjuke_icon_message_selected.png"];
+            title = @"系统消息";
         }
         
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(pushBtnGap +(pushBtnGap + pushBtnW)*i, line2.frame.origin.y+20, pushBtnW, pushBtnW);
+        btn.frame = CGRectMake(pushBtnGap +(pushBtnGap + pushBtnW)*i, line2.frame.origin.y+pushBtnGap, pushBtnW, pushBtnW);
         [btn setBackgroundImage:image forState:UIControlStateNormal];
         [btn setBackgroundImage:selectImg forState:UIControlStateSelected];
         btn.tag = i;
         [btn addTarget:self action:@selector(doPush:) forControlEvents:UIControlEventTouchUpInside];
         [view2 addSubview:btn];
+        
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(pushBtnGap +(pushBtnGap + pushBtnW)*i, btn.frame.origin.y+ btn.frame.size.height+10, pushBtnW, 20)];
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.textColor = [UIColor whiteColor];
+        titleLabel.font = [UIFont systemFontOfSize:13];
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        titleLabel.text = title;
+        [view2 addSubview:titleLabel];
     }
 }
 
@@ -377,6 +390,8 @@
         self.isLoading = NO;
         return;
     }
+    
+    [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
     
     [self showLoadingActivity:YES];
     self.isLoading = YES;
