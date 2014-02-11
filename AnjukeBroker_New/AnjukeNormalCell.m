@@ -27,6 +27,7 @@
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         self.selectionStyle = UITableViewCellSelectionStyleGray;
+        self.backgroundColor = [UIColor whiteColor];
         
     }
     return self;
@@ -47,6 +48,8 @@
     iv.backgroundColor = [UIColor clearColor];
     self.iconImage = iv;
     [self.contentView addSubview:iv];
+    
+    [self showBottonLineWithCellHeight:CELL_HEIGHT];
 }
 
 /*

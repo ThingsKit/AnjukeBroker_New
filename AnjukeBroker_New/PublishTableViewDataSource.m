@@ -31,6 +31,8 @@
             [[cell unitLb] setText:@"元/月"];
             [section1 addObject:cell];
             [self.inputCellArray addObject:cell];
+            
+            [cell showTopLine]; //top line
         }
         //area
         AnjukeEditableCell *cell2 = [[AnjukeEditableCell alloc] init];
@@ -51,6 +53,8 @@
             [cell3 setIndexTag:HZ_CLICK_ROOMS];
             [section2 addObject:cell3];
             [self.inputCellArray addObject:cell3];
+            
+            [cell3 showTopLine]; //top line
         }
         //floors 楼层
         AnjukeEditableCell *cell4 = [[AnjukeEditableCell alloc] init];
@@ -80,12 +84,14 @@
         
         //******标题、描述
         NSMutableArray *section3 = [NSMutableArray array];
-        //rooms 房型
+        //title \ desc
         AnjukeNormalCell *cell6 = [[AnjukeNormalCell alloc] init];
         if ([cell6 configureCell:[dataArray objectAtIndex:HZ_CLICK_TITLE]]) {
             [cell6 setIndexTag:HZ_CLICK_TITLE];
             [section3 addObject:cell6];
             [self.inputCellArray addObject:cell6];
+            
+            [cell6 showTopLine]; //top line
         }
         AnjukeNormalCell *cell7 = [[AnjukeNormalCell alloc] init];
         if ([cell7 configureCell:[dataArray objectAtIndex:HZ_CLICK_DESC]]) {
@@ -106,6 +112,8 @@
             [[cell unitLb] setText:@"万元"];
             [section1 addObject:cell];
             [self.inputCellArray addObject:cell];
+            
+            [cell showTopLine]; //top line
         }
         //area
         AnjukeEditableCell *cell2 = [[AnjukeEditableCell alloc] init];
@@ -126,6 +134,8 @@
             [cell3 setIndexTag:AJK_CLICK_ROOMS];
             [section2 addObject:cell3];
             [self.inputCellArray addObject:cell3];
+            
+            [cell3 showTopLine]; //top line
         }
         //floors 楼层
         AnjukeEditableCell *cell4 = [[AnjukeEditableCell alloc] init];
@@ -147,12 +157,14 @@
         
         //******标题、描述
         NSMutableArray *section3 = [NSMutableArray array];
-        //rooms 房型
+        //title \ desc
         AnjukeNormalCell *cell6 = [[AnjukeNormalCell alloc] init];
         if ([cell6 configureCell:[dataArray objectAtIndex:AJK_CLICK_TITLE]]) {
             [cell6 setIndexTag:AJK_CLICK_TITLE];
             [section3 addObject:cell6];
             [self.inputCellArray addObject:cell6];
+            
+            [cell6 showTopLine]; //top line
         }
         AnjukeNormalCell *cell7 = [[AnjukeNormalCell alloc] init];
         if ([cell7 configureCell:[dataArray objectAtIndex:AJK_CLICK_DESC]]) {

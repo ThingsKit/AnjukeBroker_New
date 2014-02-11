@@ -11,7 +11,7 @@
 @implementation RTListCell
 @synthesize selectRow;
 @synthesize cellHeight;
-@synthesize lineView;
+@synthesize lineView, topLine;
 @synthesize indexTag;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -57,12 +57,22 @@
 
 - (void)showBottonLineWithCellHeight:(CGFloat)cellH {
     if (self.lineView == nil) {
-        self.lineView = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, cellH -1, 320 - 15, 1)];
+        self.lineView = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, cellH -1, 320 - 0, 1)];
         [self.contentView addSubview:self.lineView];
     }
     else {
-        self.lineView.frame = CGRectMake(15, cellH -1, 320 - 15, 1);
+        self.lineView.frame = CGRectMake(0, cellH -1, 320 - 0, 1);
     }
+}
+
+- (void)showTopLine {
+    if (self.topLine == nil) {
+        self.topLine = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, -1, 320 - 0, 1)];
+        [self.contentView addSubview:self.topLine];
+    }
+    
+    self.topLine.frame = CGRectMake(0, 0, 320 - 0, 1);
+    
 }
 
 @end

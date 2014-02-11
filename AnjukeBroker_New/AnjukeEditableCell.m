@@ -31,6 +31,7 @@
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryNone;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -67,6 +68,8 @@
     lb2.textColor = SYSTEM_LIGHT_GRAY;
     self.unitLb = lb2;
     [self.contentView addSubview:lb2];
+    
+    [self showBottonLineWithCellHeight:CELL_HEIGHT];
 }
 
 /*
