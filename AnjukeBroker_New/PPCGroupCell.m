@@ -50,7 +50,7 @@
             title.text = @"竞价房源";
             detail.text = [NSString stringWithFormat:@"房源数:%@套", [dic objectForKey:@"bidPlanPropNum"]];
         } else if (index == [data count] - 1){//未推广
-            title.text = @"未推广房源";
+            title.text = @"待推广房源";
             detail.text = [NSString stringWithFormat:@"房源数:%@套", [dic objectForKey:@"unRecommendPropNum"]];
 
         }else{//定价
