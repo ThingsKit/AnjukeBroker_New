@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BrokerLineView.h"
 
 #define PF_EMPTY_IMAGE_HEIGHT 80
 #define PF_IMAGE_WIDTH 130/2
@@ -28,6 +29,9 @@
 @property (nonatomic, strong) UIButton *emptyImgBtn;
 @property BOOL isHouseType; //是室内图还是房型图
 @property (nonatomic, strong) NSMutableArray *imageBtnArray; //显示预览图的容器
+
+@property (nonatomic, strong) BrokerLineView *topLine;
+@property (nonatomic, strong) BrokerLineView *bottomLine;
 
 - (void)redrawWithImageArray:(NSArray *)imageArr;
 - (void)redrawWithHouseTypeImageArray:(NSArray *)imageArr andImgUrl:(NSArray *)urlImgArr;

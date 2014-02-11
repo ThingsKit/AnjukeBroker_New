@@ -15,6 +15,7 @@
 @synthesize emptyImgBtn;
 @synthesize isHouseType;
 @synthesize imageBtnArray;
+@synthesize bottomLine, topLine;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -24,6 +25,11 @@
         self.backgroundColor = [UIColor whiteColor];
         
         self.imageBtnArray = [NSMutableArray array];
+        
+        self.topLine = [[BrokerLineView alloc] init];
+        [self addSubview:self.topLine];
+        self.bottomLine = [[BrokerLineView alloc] init];
+        [self addSubview:self.bottomLine];
     }
     return self;
 }
@@ -124,6 +130,7 @@
     if ([self.clickDelegate respondsToSelector:@selector(drawFinishedWithCurrentHeight:)]) {
         [self.clickDelegate drawFinishedWithCurrentHeight:height];
     }
+    [self resetLineWithHeight:height];
 }
 
 - (void)redrawWithHouseTypeImageArray:(NSArray *)imageArr andImgUrl:(NSArray *)urlImgArr {
@@ -214,6 +221,7 @@
     if ([self.clickDelegate respondsToSelector:@selector(drawFinishedWithCurrentHeight:)]) {
         [self.clickDelegate drawFinishedWithCurrentHeight:height];
     }
+    [self resetLineWithHeight:height];
 }
 
 - (void)redrawWithEditRoomImageArray:(NSArray *)imageArr andImgUrl:(NSArray *)urlImgArr {
@@ -305,6 +313,7 @@
     if ([self.clickDelegate respondsToSelector:@selector(drawFinishedWithCurrentHeight:)]) {
         [self.clickDelegate drawFinishedWithCurrentHeight:height];
     }
+    [self resetLineWithHeight:height];
 }
 
 - (void)redrawWithEditHouseTypeShowedImageArray:(NSArray *)showedImageArr andAddImgArr:(NSArray *)addImgArr andOnlineHouseTypeArr:(NSArray *)onlineHouseTypeArr {
@@ -404,6 +413,7 @@
     if ([self.clickDelegate respondsToSelector:@selector(drawFinishedWithCurrentHeight:)]) {
         [self.clickDelegate drawFinishedWithCurrentHeight:height];
     }
+    [self resetLineWithHeight:height];
 }
 
 - (void)cleanImageShow {
@@ -453,6 +463,11 @@
     }
     
     return verticalRow;
+}
+
+- (void)resetLineWithHeight:(CGFloat)height {
+    self.topLine.frame = CGRectMake(0, 0, 320, 1);
+    self.bottomLine.frame = CGRectMake(0, height - 1, 320, 1);
 }
 
 @end
