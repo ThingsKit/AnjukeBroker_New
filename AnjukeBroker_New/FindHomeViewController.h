@@ -7,8 +7,10 @@
 //
 
 #import "RTViewController.h"
+#import "EGORefreshTableHeaderView.h"
 
-@interface FindHomeViewController : RTViewController <UITableViewDataSource, UITableViewDelegate>
+@interface FindHomeViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, EGORefreshTableHeaderDelegate>
 @property (strong, nonatomic) UITableView *myTable;
 @property (strong, nonatomic) NSMutableArray *myArray;
+@property (nonatomic, strong) EGORefreshTableHeaderView *refreshView;
 @end

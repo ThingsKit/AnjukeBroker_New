@@ -17,6 +17,7 @@
 @implementation FindHomeViewController
 @synthesize myArray;
 @synthesize myTable;
+@synthesize refreshView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,6 +26,11 @@
         // Custom initialization
     }
     return self;
+}
+
+-(void)dealloc{
+    self.myTable.delegate = nil;
+    self.refreshView.delegate = nil;
 }
 
 - (void)viewDidLoad
