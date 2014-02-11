@@ -770,7 +770,7 @@
 			name = "新发房页面";
 			sourceTree = "<group>";
 		};
-		206F7FCE18A87E97001EEC16 /* |] */ = {
+		206F7FCE18A87E97001EEC16 /* speechIcon */ = {
 			isa = PBXGroup;
 			children = (
 				B77B1D15188FB353009E0D0C /* anjuke_icon_sound_button@2x.png */,
@@ -781,7 +781,7 @@
 				B7ED788F18891BB100E4D44C /* anjuke_icon_sound@2x.png */,
 				B7ED789018891BB100E4D44C /* anjuke_icon_sound1@2x.png */,
 			);
-			name = "|]";
+			name = speechIcon;
 			sourceTree = "<group>";
 		};
 		206F7FCF18A87EE2001EEC16 /* 首页img */ = {
@@ -1001,7 +1001,7 @@
 				206F7FCF18A87EE2001EEC16 /* 首页img */,
 				970501541845A18E00A0C181 /* 引导页 */,
 				970FC17F183B6E8100D142D5 /* icon+lanchImg */,
-				206F7FCE18A87E97001EEC16 /* |] */,
+				206F7FCE18A87E97001EEC16 /* speechIcon */,
 				97D752C6182C92690035577F /* Overlay@2x.png */,
 				20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */,
 				200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */,

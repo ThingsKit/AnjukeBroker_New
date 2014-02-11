@@ -57,31 +57,22 @@
     self.distantLab.font = [UIFont systemFontOfSize:12];
     self.distantLab.textColor = [Util_UI colorWithHexString:@"#666666"];
     [self.contentView addSubview:self.distantLab];
-    
 
 }
 - (BOOL)configureCell:(id)dataModel {
     if ([dataModel isKindOfClass:[NSDictionary class]]) {
         NSMutableDictionary *cellData = (NSMutableDictionary *) dataModel;
-        
-
-        
         self.distantLab.text = [cellData objectForKey:@"distance"];
         self.detailLab.text = [NSString stringWithFormat:@"昨日房源%@套    %@名用户关注", [cellData objectForKey:@"spreadNum"], [cellData objectForKey:@"totalVPPV"]];
-
     }
-    
     return NO;
 }
 
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index {
     if ([dataModel isKindOfClass:[NSDictionary class]]) {
         NSMutableDictionary *cellData = (NSMutableDictionary *) dataModel;
-        
         self.titleLab.text = [cellData objectForKey:@"name"];
         [self setFanIconAdjust:cellData];
-
-        
         self.distantLab.text = [cellData objectForKey:@"distance"];
         self.detailLab.text = [NSString stringWithFormat:@"昨日房源%@套    %@名用户关注", [cellData objectForKey:@"spreadNum"], [cellData objectForKey:@"totalVPPV"]];
         [self setImgIconToCell:cellData :index];
@@ -90,14 +81,13 @@
     return NO;
 }
 - (void)setFanIconAdjust:(NSDictionary *) cellData{
-    if ([[cellData objectForKey:@"isFanComm"] integerValue] == 0) {
+    if ([[cellData objectForKey:@"isFanComm"] integerValue] == 1) {
         CGSize si = [Util_UI sizeOfString:[cellData objectForKey:@"name"] maxWidth:320 withFontSize:15];
         self.fanIcon.frame = CGRectMake(self.titleLab.frame.origin.x + si.width +10, 10, 14, 14);
         self.fanIcon.image = [UIImage imageNamed:@"anjuke_icon_feedback@2x.png"];
     } else {
         self.fanIcon.image = nil;
     }
-
 }
 
 - (void)setImgIconToCell:(NSDictionary *) cellData :(int) index{
@@ -134,7 +124,6 @@
     } else {
         self.distantLab.text = [NSString stringWithFormat:@"%dkm", [[celldata objectForKey:@"distance"] intValue] / 1000];
     }
-
 }
 /*
 // Only override drawRect: if you perform custom drawing.

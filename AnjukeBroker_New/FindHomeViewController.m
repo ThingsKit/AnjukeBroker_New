@@ -58,7 +58,7 @@
     [img addSubview:lanhaiLab];
     
    UILabel *hotLab = [[UILabel alloc] init];
-    hotLab.frame = CGRectMake(172, 5, 100, 20);
+    hotLab.frame = CGRectMake(192, 5, 100, 20);
     hotLab.text = @"竞争大，宜竞价";
     hotLab.textColor = [Util_UI colorWithHexString:@"#666666"];
     hotLab.font = [UIFont systemFontOfSize:11];
@@ -70,7 +70,7 @@
     [img addSubview:lanhaiImg];
     
     UIImageView *hotImg = [[UIImageView alloc] init];
-    hotImg.frame = CGRectMake(153, 7, 12, 12);
+    hotImg.frame = CGRectMake(173, 7, 12, 12);
     hotImg.image = [UIImage imageNamed:@"anjuke_icon_hot@2x.png"];
     [img addSubview:hotImg];
     
