@@ -11,6 +11,7 @@
 #import "AnjukeNormalCell.h"
 #import "PublishHouseTypeViewController.h"
 #import "PropertyGroupListViewController.h"
+#import "BrokerLineView.h"
 
 typedef enum {
     Property_DJ = 0, //发房_定价
@@ -174,6 +175,12 @@ typedef enum {
     comView.backgroundColor = [UIColor whiteColor];
     [headerView addSubview:comView];
     
+    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, -1, comView.frame.size.width, 1)];
+    [comView addSubview:line];
+    BrokerLineView *line2 = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, comView.frame.size.height - 1, comView.frame.size.width, 1)];
+    [comView addSubview:line2];
+    
+    
     UILabel *comTitleLb = [[UILabel alloc] initWithFrame:CGRectMake(15, (comView.frame.size.height - 20)/2, 100, 20)];
     comTitleLb.backgroundColor = [UIColor clearColor];
     comTitleLb.text = @"小区";
@@ -195,6 +202,11 @@ typedef enum {
         UIView *fileNoView = [[UIView alloc] initWithFrame:CGRectMake(0, comView.frame.origin.y+ comView.frame.size.height + PUBLISH_SECTION_HEIGHT, [self windowWidth], CELL_HEIGHT)];
         fileNoView.backgroundColor = [UIColor whiteColor];
         [headerView addSubview:fileNoView];
+        
+        BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, -1, fileNoView.frame.size.width, 1)];
+        [fileNoView addSubview:line];
+        BrokerLineView *line2 = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, fileNoView.frame.size.height - 1, fileNoView.frame.size.width, 1)];
+        [fileNoView addSubview:line2];
         
         UILabel *fileTitleLb = [[UILabel alloc] initWithFrame:CGRectMake(15, (fileNoView.frame.size.height - 20)/2, 100, 20)];
         fileTitleLb.backgroundColor = [UIColor clearColor];

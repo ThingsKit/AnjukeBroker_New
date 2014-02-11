@@ -11,6 +11,7 @@
 #import "AnjukeEditableCell.h"
 #import "Property.h"
 #import "PublishBuildingViewController.h"
+#import "BrokerLineView.h"
 
 #define SELECT_BTN_TAG 1000
 
@@ -136,6 +137,9 @@
             btn.tag = SELECT_BTN_TAG+1;
         }
         [self.view addSubview:btn];
+        
+        BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, btn.frame.size.height - 1, btn.frame.size.width, 1)];
+        [btn addSubview:line];
         
         UILabel *comTitleLb = [[UILabel alloc] initWithFrame:CGRectMake(15, (btn.frame.size.height - 20)/2, 100, 20)];
         comTitleLb.backgroundColor = [UIColor clearColor];
