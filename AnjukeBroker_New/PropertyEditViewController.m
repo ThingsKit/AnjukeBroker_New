@@ -572,15 +572,10 @@
         return;
     }
     
-    [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
-    [self showInfo:@"删除房源成功"];
     
-    if ([self.propertyDelegate respondsToSelector:@selector(propertyDidDelete)]) {
-        [self.propertyDelegate propertyDidDelete];
-    }
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
+    //延迟一秒再dismiss页面，已让API端更新房源删除数据
+    [self performSelector:@selector(doDeleteDismiss) withObject:nil afterDelay:1];
 }
 
 #pragma mark - ******** Overwrite Method ********
@@ -605,6 +600,17 @@
     ph.addHouseTypeImageArray = self.addHouseTypeImageArray;
     ph.houseTypeShowedImgArray = self.houseTypeShowedImgArray; //指针指向
     [self.navigationController pushViewController:ph animated:YES];
+}
+
+- (void)doDeleteDismiss {
+    [self hideLoadWithAnimated:YES];
+    [self showInfo:@"删除房源成功"];
+    
+    if ([self.propertyDelegate respondsToSelector:@selector(propertyDidDelete)]) {
+        [self.propertyDelegate propertyDidDelete];
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Check Method
