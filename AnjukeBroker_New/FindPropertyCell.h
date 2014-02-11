@@ -10,4 +10,13 @@
 
 @interface FindPropertyCell : RTListCell
 
+@property (strong, nonatomic) UIImageView *imgIcon;
+@property (strong, nonatomic) UILabel *titleLab;
+@property (strong, nonatomic) UILabel *detailLab;
+@property (strong, nonatomic) UILabel *numLab;
+@property (strong, nonatomic) UILabel *attentionLab;
+@property (strong, nonatomic) UIImageView *smallIcon;
+@property (strong, nonatomic) UIImageView *mapIcon;
+@property (strong, nonatomic) UILabel *distantLab;
+@property (strong, nonatomic) UIImageView *fanIcon;
 @end
