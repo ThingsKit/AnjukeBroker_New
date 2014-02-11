@@ -32,10 +32,10 @@
 
 - (void)initUI {
     self.imgIcon = [[UIImageView alloc] init];
-    self.imgIcon.frame = CGRectMake(15.0f / 2, 10, 65.0f/2, 65.0f / 2);
+    self.imgIcon.frame = CGRectMake(15.0f / 2, 12, 65.0f/2, 65.0f / 2);
     [self.contentView addSubview:self.imgIcon];
 
-    self.titleLab = [[UILabel alloc] initWithFrame:CGRectMake(95.0f / 2, 5, 160, 25)];
+    self.titleLab = [[UILabel alloc] initWithFrame:CGRectMake(95.0f / 2, 7, 160, 25)];
     self.titleLab.backgroundColor = [UIColor clearColor];
     self.titleLab.font = [UIFont systemFontOfSize:15];
     [self.contentView addSubview:self.titleLab];
@@ -43,7 +43,7 @@
     self.fanIcon = [[UIImageView alloc] init];
     [self.contentView addSubview:self.fanIcon];
     
-    self.detailLab = [[UILabel alloc] initWithFrame:CGRectMake(95.0f / 2, 40, 200, 20)];
+    self.detailLab = [[UILabel alloc] initWithFrame:CGRectMake(95.0f / 2, 30, 200, 20)];
     self.detailLab.backgroundColor = [UIColor clearColor];
     self.detailLab.font = [UIFont systemFontOfSize:12];
     self.detailLab.textColor = [Util_UI colorWithHexString:@"#666666"];
@@ -83,7 +83,7 @@
 - (void)setFanIconAdjust:(NSDictionary *) cellData{
     if ([[cellData objectForKey:@"isFanComm"] integerValue] == 1) {
         CGSize si = [Util_UI sizeOfString:[cellData objectForKey:@"name"] maxWidth:320 withFontSize:15];
-        self.fanIcon.frame = CGRectMake(self.titleLab.frame.origin.x + si.width +10, 10, 14, 14);
+        self.fanIcon.frame = CGRectMake(self.titleLab.frame.origin.x + si.width +10, 12, 14, 14);
         self.fanIcon.image = [UIImage imageNamed:@"anjuke_icon_feedback@2x.png"];
     } else {
         self.fanIcon.image = nil;

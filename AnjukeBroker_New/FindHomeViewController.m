@@ -9,6 +9,7 @@
 #import "FindHomeViewController.h"
 #import "FindPropertyCell.h"
 #import "Util_UI.h"
+#import "BrokerLineView.h"
 
 @interface FindHomeViewController ()
 
@@ -37,11 +38,13 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
     self.view.backgroundColor = [UIColor whiteColor];
     [self setTitleViewWithString:@"发现"];
 }
-
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.myTable setContentOffset:CGPointMake(0, -65) animated:YES];
+}
 - (void)initModel {
     self.myArray = [NSMutableArray array];
 //    http://api.anjuke.test/mobile-ajk-broker/1.0/find/nearbycomm/?brokerId=147468&cityId=14&lat=39.956333931585&lng=116.8507188079&mapType=1
@@ -49,10 +52,17 @@
 }
 
 - (void)initDisplay {
-    self.myTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 25, [self windowWidth], [self windowHeight]- STATUS_BAR_H - TAB_BAR_H - NAV_BAT_H) style:UITableViewStylePlain];
+    self.myTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 25, [self windowWidth], [self windowHeight]- STATUS_BAR_H - TAB_BAR_H - NAV_BAT_H - 25) style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
     [self.view addSubview:myTable];
+    
+    //refresh View
+    CGRect refreshRect = CGRectMake(0.0f, 0.0f - self.myTable.bounds.size.height, self.myTable.frame.size.width, self.myTable.bounds.size.height);
+    self.refreshView = [[EGORefreshTableHeaderView alloc] initWithFrame:refreshRect arrowImageName:@"fresh1_1008.png" textColor:[UIColor colorWithRed:0.62 green:0.62 blue:0.62 alpha:1]];
+    self.refreshView.backgroundColor = [UIColor clearColor];//[UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.0];
+    self.refreshView.delegate = self;
+    [self.myTable addSubview:self.refreshView];
     
     UIView *img = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 25)];
     img.backgroundColor = [Util_UI colorWithHexString:@"#EEEEEE"];
@@ -79,15 +89,12 @@
     hotImg.frame = CGRectMake(173, 7, 12, 12);
     hotImg.image = [UIImage imageNamed:@"anjuke_icon_hot@2x.png"];
     [img addSubview:hotImg];
-    
     //anjuke_icon_bluesea@2x.png
     //anjuke_icon_hot@2x.png
     [self.view addSubview:img];
 //    self.myTable.tableHeaderView = img;
 }
-- (void)viewWillAppear:(BOOL)animated {
-    [self doRequest];
-}
+
 #pragma mark - 获取发现信息
 -(void)doRequest{
     if (self.isLoading == YES) {
@@ -134,9 +141,7 @@
         self.isLoading = NO;
         return ;
     }
-//    NSMutableDictionary *commList = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"topComms"]];
-//    [self.myArray addObject:commList];
-//    NSMutableArray *commList = [[NSMutableArray alloc] initWithArray:[resultFromAPI objectForKey:@"topComms"]];
+
     if ([[resultFromAPI objectForKey:@"topComms"] count] > 0) {
         [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"topComms"]];
     }
@@ -145,30 +150,15 @@
         [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"commonComms"]];
     }
     
-//    NSMutableArray *fixPlan = [NSMutableArray array];
-//    [fixPlan addObjectsFromArray:[resultFromAPI objectForKey:@"fixPlan"]];
-//    [self.myArray addObjectsFromArray:fixPlan];
-//    if ([fixPlan count] == 1) {
-//        self.isSeedPid = [[fixPlan objectAtIndex:0] objectForKey:@"fixPlanId"];
-//    }
-//    NSMutableDictionary *nodic = [[NSMutableDictionary alloc] init];
-//    [nodic setValue:@"待推广房源" forKey:@"title"];
-//    [nodic setValue:[resultFromAPI objectForKey:@"unRecommendPropNum"] forKey:@"unRecommendPropNum"];
-//    [nodic setValue:@"1" forKey:@"type"];
-//    [self.myArray addObject:nodic];
-    
     [self.myTable reloadData];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
-    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.myArray count];
 }
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    return 2;
-//}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 125.0f / 2;
 }
@@ -176,18 +166,79 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdentify = @"cell";
     FindPropertyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentify];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if(cell == nil){
         cell = [[FindPropertyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentify];
     }
-//    [cell configureCell:[self.myArray objectAtIndex:indexPath.row]];
     [cell configureCell:[self.myArray objectAtIndex:indexPath.row] withIndex:indexPath.row];
     return cell;
 }
 
+- (void)setIsLoading:(BOOL)isLoading {
+    if (isLoading == NO) {
+        [self.refreshView egoRefreshScrollViewDataSourceDidFinishedLoading:self.myTable];
+    }
+}
+
+#pragma mark - EGORefreshTableHeaderDelegate Methods
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view
+{
+    if ([self isNetworkOkay]) {
+        [self doRequest];
+    }
+    else {
+        [self.myTable setContentOffset:CGPointMake(0, 0) animated:YES];
+        [self.refreshView egoRefreshScrollViewDataSourceDidFinishedLoading:self.myTable];
+    }
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view
+{
+	return self.isLoading;
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view
+{
+	return [NSDate date]; // should return date data source was last changed
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+#pragma mark - UIScrollView Delegate
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    if (![self isNetworkOkay]) {
+        self.isLoading = NO;
+        [self.myTable setContentOffset:CGPointMake(0, 0) animated:YES];
+        return;
+    }
+    
+    [self.refreshView egoRefreshScrollViewDidEndDragging:scrollView];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (![self isNetworkOkay]) {
+        self.isLoading = NO;
+        [self.myTable setContentOffset:CGPointMake(0, 0) animated:YES];
+        return;
+    }
+    
+    [self.refreshView egoRefreshScrollViewDidEndDragging:scrollView];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.refreshView egoRefreshScrollViewDidScroll:scrollView];
+}
+
+- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView
+{
+    return YES;
 }
 
 @end
