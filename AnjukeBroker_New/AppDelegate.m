@@ -279,8 +279,10 @@
     
     if ([AppManager isFirstLaunch]) {
         AFWelcomeScrollview *af = [[AFWelcomeScrollview alloc] initWithFrame:self.window.bounds];
-        NSArray *imgArr = [NSArray arrayWithObjects:[UIImage imageNamed:@"anjuke_icon_yd1.png"],[UIImage imageNamed:@"anjuke_icon_yd2.png"],[UIImage imageNamed:@"anjuke_icon_yd3.png"], nil];
-        [af setImgArray:imgArr];
+        NSArray *imgBGArr = [NSArray arrayWithObjects:[UIImage imageNamed:@"anjuke_icon_come1_bg.png"],[UIImage imageNamed:@"anjuke_icon_come2_bg.png"], nil];
+        NSArray *imgIconArr = [NSArray arrayWithObjects:[UIImage imageNamed:@"anjuke_icon_come1_icon.png"],[UIImage imageNamed:@"anjuke_icon_come2_icon.png"], nil];
+        
+        [af setImageBGArr:imgBGArr withTitleArray:[NSArray arrayWithObjects:@"语音输入",@"附近小区", nil] withImgIconArr:imgIconArr withDetailArr:[NSArray arrayWithObjects:@"声音书写房源描述",@"发现身边蓝海小区", nil]];
         
         [nav.view addSubview:af];
     }
