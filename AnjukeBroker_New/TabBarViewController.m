@@ -145,4 +145,9 @@
     return YES;
 }
 
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    
+    DLog(@"class ---aaa--- %@", [viewController class]);
+}
+
 @end

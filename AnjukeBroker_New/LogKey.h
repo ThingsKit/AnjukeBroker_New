@@ -90,7 +90,6 @@
 #define AJK_PPC_NOPLAN_GROUP_006 @"260006" //点击编辑
 #define AJK_PPC_NOPLAN_GROUP_007 @"260007" //点击删除
 
-
 //二手房竞价设置页
 #define AJK_PPC_AUCTION @"270000"
 #define AJK_PPC_AUCTION_001 @"270001" //页面可见（即页面打开）
@@ -98,7 +97,6 @@
 #define AJK_PPC_AUCTION_003 @"270003" //点击取消
 #define AJK_PPC_AUCTION_004 @"270004" //点击确定
 #define AJK_PPC_AUCTION_005 @"270005" //点击估排名
-
 
 //二手房选定价推广组页
 #define AJK_PPC_GROUP_LIST @"280000"
@@ -114,14 +112,12 @@
 #define AJK_PPC_MODIFY_003 @"290003" //点击确定
 #define AJK_PPC_MODIFY_004 @"290004" //点击取消
 
-
 //二手房定价添加房源页
 #define AJK_PPC_SELECT @"300000"
 #define AJK_PPC_SELECT_001 @"300001" //页面可见（即页面打开）
 #define AJK_PPC_SELECT_002 @"300002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
 #define AJK_PPC_SELECT_003 @"300003" //点击确定
 #define AJK_PPC_SELECT_004 @"300004" //点击取消
-
 
 //二手房竞价添加房源页
 #define AJK_PPC_PROPERTY @"310000"
@@ -137,6 +133,62 @@
 #define AJK_PPC_RESET_003 @"320003" //点击取消
 #define AJK_PPC_RESET_004 @"320004" //点击保存
 #define AJK_PPC_RESET_005 @"320005" //点击删除
+
+//二手房房型页面
+#define AJK_HOUSETYPE @"330000"
+#define AJK_HOUSETYPE_001 @"330001" //页面可见（即页面打开）
+#define AJK_HOUSETYPE_002 @"330002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
+#define AJK_HOUSETYPE_003 @"330003" //点击输入房型
+#define AJK_HOUSETYPE_004 @"330004" //点击选择朝向
+#define AJK_HOUSETYPE_005 @"330005" //点击选择在线房型图
+#define AJK_HOUSETYPE_006 @"330006" //点击返回
+#define AJK_HOUSETYPE_007 @"330007" //点击确定
+
+//二手房标题输入页面
+#define AJK_TITLE @"340000"
+#define AJK_TITLE_001 @"340001" //页面可见（即页面打开）
+#define AJK_TITLE_002 @"340002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
+#define AJK_TITLE_003 @"340003" //点击语音输入
+#define AJK_TITLE_004 @"340004" //点击文字输入
+#define AJK_TITLE_005 @"340005" //点击返回
+#define AJK_TITLE_006 @"340006" //点击确定
+
+//二手房标题输入页面
+#define HZ_TITLE @"540000"
+#define HZ_TITLE_001 @"540001" //页面可见（即页面打开）
+#define HZ_TITLE_002 @"540002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
+#define HZ_TITLE_003 @"540003" //点击语音输入
+#define HZ_TITLE_004 @"540004" //点击文字输入
+#define HZ_TITLE_005 @"540005" //点击返回
+#define HZ_TITLE_006 @"540006" //点击确定
+
+//二手房描述输入页面
+#define AJK_DESC @"350000"
+#define AJK_DESC_001 @"350001" //页面可见（即页面打开）
+#define AJK_DESC_002 @"350002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
+#define AJK_DESC_003 @"350003" //点击语音输入
+#define AJK_DESC_004 @"350004" //点击文字输入
+#define AJK_DESC_005 @"350005" //点击返回
+#define AJK_DESC_006 @"350006" //点击确定
+
+//租房描述输入页面
+#define HZ_DESC @"540000"
+#define HZ_DESC_001 @"540001" //页面可见（即页面打开）
+#define HZ_DESC_002 @"540002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
+#define HZ_DESC_003 @"540003" //点击语音输入
+#define HZ_DESC_004 @"540004" //点击文字输入
+#define HZ_DESC_005 @"540005" //点击返回
+#define HZ_DESC_006 @"540006" //点击确定
+
+//租房房型页面
+#define HZ_HOUSETYPE @"530000"
+#define HZ_HOUSETYPE_001 @"530001" //页面可见（即页面打开）
+#define HZ_HOUSETYPE_002 @"530002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
+#define HZ_HOUSETYPE_003 @"530003" //点击输入房型
+#define HZ_HOUSETYPE_004 @"530004" //点击选择朝向
+#define HZ_HOUSETYPE_005 @"530005" //点击选择在线房型图
+#define HZ_HOUSETYPE_006 @"530006" //点击返回
+#define HZ_HOUSETYPE_007 @"530007" //点击确定
 
 //租房发布页
 #define HZ_PROPERTY @"400000"
@@ -217,7 +269,6 @@
 #define HZ_PPC_AUCTION_004 @"470004" //点击确定
 #define HZ_PPC_AUCTION_005 @"470005" //点击估排名
 
-
 //租房选定价推广组页
 #define HZ_PPC_GROUP_LIST @"480000"
 #define HZ_PPC_GROUP_LIST_001 @"480001" //
@@ -273,5 +324,9 @@
 #define HZ_MORE_007 @"700007" //点击关于网络经纪人
 #define HZ_MORE_008 @"700008" //点击联系客户主任
 #define HZ_MORE_009 @"700009" //点击客服热线
+
+//发现
+#define FIND_001 @"800001" //页面可见（即页面打开）
+#define FIND_002 @"800002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
 
 #endif
