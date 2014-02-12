@@ -10,6 +10,7 @@
 #import "Util_UI.h"
 #import "SystemCellManager.h"
 #import "SystemMessageCell.h"
+#import "SystemMessageDetailViewController.h"
 
 @interface SystemMessageViewController ()
 @property int selectedIndex;
@@ -153,6 +154,10 @@
 #pragma mark - tableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    SystemMessageDetailViewController *sd = [[SystemMessageDetailViewController alloc] init];
+    [sd drawTextWithContent:[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"content"]];
+    [self.navigationController pushViewController:sd animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
