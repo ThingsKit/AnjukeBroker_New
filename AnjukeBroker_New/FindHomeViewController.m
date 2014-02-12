@@ -68,12 +68,14 @@
     img.backgroundColor = [Util_UI colorWithHexString:@"#EEEEEE"];
     
     UILabel *lanhaiLab = [[UILabel alloc] initWithFrame:CGRectMake(64, 5, 100, 20)];
+    lanhaiLab.backgroundColor = [UIColor clearColor];
     lanhaiLab.text = @"用户爱，宜发房";
     lanhaiLab.textColor = [Util_UI colorWithHexString:@"#666666"];
     lanhaiLab.font = [UIFont systemFontOfSize:11];
     [img addSubview:lanhaiLab];
     
    UILabel *hotLab = [[UILabel alloc] init];
+    hotLab.backgroundColor = [UIColor clearColor];
     hotLab.frame = CGRectMake(192, 5, 100, 20);
     hotLab.text = @"竞争大，宜竞价";
     hotLab.textColor = [Util_UI colorWithHexString:@"#666666"];

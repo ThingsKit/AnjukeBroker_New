@@ -48,7 +48,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitleViewWithString:@"竞价推广"];
+    [self setTitleViewWithString:@"竞价房源"];
     [self addRightButton:@"新增" andPossibleTitle:nil];
 	// Do any additional setup after loading the view.
 }

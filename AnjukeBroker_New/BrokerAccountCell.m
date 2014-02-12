@@ -69,8 +69,11 @@
             break;
         case 4:
         {
+            
             self.labKey.text = @"所属公司";
-            self.labValue.text = [tempDic objectForKey:@"company"];
+            self.labValue.text = [self getCommpany:[tempDic objectForKey:@"company"]];
+            
+            
         }
             break;
         case 5:
@@ -82,14 +85,19 @@
         default:
             break;
     }
-    
-    //test
-//    self.contentLb.text = [tempDic objectForKey:@"content"];
-    
-//    self.dataLb.text = [Util_TEXT getDateStrWithDate:[NSDate date]];
-    //    self.dataLb.text = [tempDic objectForKey:@"title"];
     return YES;
 }
+
+- (NSString *)getCommpany:(NSString *)commpany {
+    NSArray *tempStr = [NSArray array];
+    tempStr = [commpany componentsSeparatedByString:@" "];
+    if ([tempStr count] == 2) {
+        return [tempStr objectAtIndex:0];
+    }else {
+        return commpany;
+    }
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

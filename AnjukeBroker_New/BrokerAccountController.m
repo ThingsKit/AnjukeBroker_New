@@ -102,7 +102,7 @@
     NSString *method = nil;
     
     params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"cityId", nil];
-    method = @"broker/getinfoandppc/";
+    method = @"broker/getinfo/";
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     [self showLoadingActivity:YES];
@@ -128,12 +128,9 @@
         return;
     }
     
-    self.dataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerBaseInfo"];
-    self.ppcDataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerPPCInfo"];
+    self.dataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
     [self.myTable reloadData];
 //
-//    [self setHomeValue];
-    
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
 }
@@ -145,8 +142,8 @@
 //}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return 6;//self.groupArray.count;
-    return [self.dataDic count] - 1;
+    return 6;//self.groupArray.count;
+//    return [self.dataDic count] + [self.ppcDataDic count]- 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -159,22 +156,18 @@
     BrokerAccountCell *cell = [tableView dequeueReusableCellWithIdentifier:cellName];
     if (cell == nil) {
         cell = [[BrokerAccountCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellName];
-        
     }
     else {
-        
-    }
     
+    }
     [cell configureCell:self.dataDic withIndex:indexPath.row];
     [cell showBottonLineWithCellHeight:40];
-
     return cell;
 }
 
 #pragma mark - tableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
