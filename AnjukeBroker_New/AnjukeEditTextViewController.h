@@ -19,7 +19,7 @@
 @property (nonatomic, copy) NSString *textString;
 @property (nonatomic, assign) id <TextFieldModifyDelegate> textFieldModifyDelegate;
 @property BOOL isTitle; //是房源标题还是房源详情
-
+@property BOOL isHZ;
 - (void)setTextFieldDetail:(NSString *)string;
 
 @end

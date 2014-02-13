@@ -1108,6 +1108,7 @@ typedef enum {
                     ae.textFieldModifyDelegate = self;
                     [ae setTitleViewWithString:@"房源标题"];
                     ae.isTitle = YES;
+                    ae.isHZ = self.isHaozu;
                     [ae setTextFieldDetail:self.property.title];
                     [self.navigationController pushViewController:ae animated:YES];
                     
@@ -1120,6 +1121,7 @@ typedef enum {
                     ae.textFieldModifyDelegate = self;
                     [ae setTitleViewWithString:@"房源描述"];
                     ae.isTitle = NO;
+                    ae.isHZ = self.isHaozu;
                     [ae setTextFieldDetail:self.property.desc];
                     [self.navigationController pushViewController:ae animated:YES];
                     

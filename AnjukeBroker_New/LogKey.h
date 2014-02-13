@@ -153,7 +153,7 @@
 #define AJK_TITLE_005 @"340005" //点击返回
 #define AJK_TITLE_006 @"340006" //点击确定
 
-//二手房标题输入页面
+//租房标题输入页面
 #define HZ_TITLE @"540000"
 #define HZ_TITLE_001 @"540001" //页面可见（即页面打开）
 #define HZ_TITLE_002 @"540002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
