@@ -172,13 +172,13 @@
 #define AJK_DESC_006 @"350006" //点击确定
 
 //租房描述输入页面
-#define HZ_DESC @"540000"
-#define HZ_DESC_001 @"540001" //页面可见（即页面打开）
-#define HZ_DESC_002 @"540002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
-#define HZ_DESC_003 @"540003" //点击语音输入
-#define HZ_DESC_004 @"540004" //点击文字输入
-#define HZ_DESC_005 @"540005" //点击返回
-#define HZ_DESC_006 @"540006" //点击确定
+#define HZ_DESC @"550000"
+#define HZ_DESC_001 @"550001" //页面可见（即页面打开）
+#define HZ_DESC_002 @"550002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
+#define HZ_DESC_003 @"550003" //点击语音输入
+#define HZ_DESC_004 @"550004" //点击文字输入
+#define HZ_DESC_005 @"550005" //点击返回
+#define HZ_DESC_006 @"550006" //点击确定
 
 //租房房型页面
 #define HZ_HOUSETYPE @"530000"

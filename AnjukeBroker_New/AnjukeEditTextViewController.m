@@ -57,11 +57,117 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    if (self.isHZ) {
+        [self setHZAppearLog];
+    }else {
+        [self setAJKAppearLog];
+    }
 }
 
 - (void)sendDisAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+    if (self.isHZ) {
+        [self setHZDisappearLog];
+    }else {
+        [self setAJKDisappearLog];
+        
+    }
+}
+
+- (void)setHZAppearLog{
+
+    if (self.isTitle) {
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_TITLE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_DESC_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
+}
+- (void)setAJKAppearLog{
+    
+    if (self.isTitle) {
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_TITLE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_DESC_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
+}
+- (void)setHZDisappearLog{
+    
+    if (self.isTitle) {
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_TITLE_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_DESC_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+    }
+}
+- (void)setAJKDisappearLog{
+    
+    if (self.isTitle) {
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_TITLE_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_DESC_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+    }
+}
+#pragma mark - InputLog
+- (void)setHZInputLog {
+    if (self.isTitle) {
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_TITLE_003 note:nil];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_DESC_003 note:nil];
+    }
+}
+- (void)setAJKInputLog {
+    if (self.isTitle) {
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_TITLE_003 note:nil];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_DESC_003 note:nil];
+    }
+}
+#pragma mark - RightButtonLog
+- (void)rightButtonHZLog {
+    if (self.isTitle) {
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_TITLE_006 note:nil];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_DESC_006 note:nil];
+    }
+}
+- (void)rightButtonAJKLog {
+    if (self.isTitle) {
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_TITLE_006 note:nil];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_DESC_006 note:nil];
+    }
+}
+#pragma mark - FlyInputLog
+- (void)setHZFlyInput {
+    if (self.isTitle) {
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_TITLE_003 note:nil];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_DESC_003 note:nil];
+    }
+}
+- (void)setAJKInput {
+    if (self.isTitle) {
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_TITLE_003 note:nil];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_DESC_003 note:nil];
+    }
+    
+}
+
+#pragma mark - BackButtonLog
+- (void)setHZBackLog{
+    if (self.isTitle) {
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_TITLE_005 note:nil];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_DESC_005 note:nil];
+    }
+    
+}
+- (void)setAJKBackLog{
+    if (self.isTitle) {
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_TITLE_005 note:nil];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_DESC_005 note:nil];
+    }
+    
 }
 
 #pragma mark - View lifecycle
@@ -235,6 +341,11 @@
 }
 
 - (void)doBack:(id)sender {
+    if (self.isHZ) {
+        [self setHZBackLog];
+    }else {
+        [self setAJKBackLog];
+    }
     if (!self.textV || [self.textV.text isEqualToString:placeHolder]) {
         [self.navigationController popViewControllerAnimated:YES];
         return;
@@ -254,6 +365,11 @@
 }
 
 - (void)rightButtonAction:(id)sender {
+    if (self.isHZ) {
+        [self rightButtonHZLog];
+    }else {
+        [self rightButtonAJKLog];
+    }
     if (self.isTitle) {
         if (self.textV.text.length > 30 || self.textV.text.length < 5 || [self.textV.text isEqualToString:placeHolder]) {
             [self showInfo:@"房源标题必须5到30个字符"];
@@ -277,6 +393,7 @@
     [self.textV resignFirstResponder];
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 #pragma mark - Text Field Delegate
 
@@ -320,8 +437,13 @@
     return YES;
 }
 - (void)textViewDidBeginEditing:(UITextView *)textView {
+    if (self.isHZ) {
+        [self setHZInputLog];
+    }else {
+        [self setAJKInputLog];
+    }
+
     [self setLocationBySelectedRange];
-//    location = self.textV.selectedRange.location;
     if ([self.textV.text isEqualToString:placeHolder]) {
         self.textV.text = @"";
         self.textV.textColor = SYSTEM_BLACK;
@@ -454,9 +576,16 @@
  同时只能进行一路会话,这次会话没有结束不能进行下一路会话，否则会报错
  */
 -(void)startSpeech {
+    if (self.isHZ) {
+        [self setHZDisappearLog];
+    }else {
+        [self setAJKDisappearLog];
+        
+    }
     _iFlySpeechRecognizer.delegate = self;
     [_iFlySpeechRecognizer startListening];
 }
+
 /** 取消本次会话 */
 -(void)cancelSpeech {
 
