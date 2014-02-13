@@ -111,7 +111,7 @@
     NSString *lat = [NSString stringWithFormat:@"%f",userCoordinate.latitude];
     NSString *lng = [NSString stringWithFormat:@"%f",userCoordinate.longitude];
     
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", @"1", @"mapType", lat, @"lat", lng, @"lng", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", @"0", @"mapType", lat, @"lat", lng, @"lng", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"find/nearbycomm/" params:params target:self action:@selector(onGetSuccess:)];
     
     [self showLoadingActivity:YES];
