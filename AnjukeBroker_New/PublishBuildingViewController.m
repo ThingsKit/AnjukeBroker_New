@@ -118,6 +118,15 @@ typedef enum {
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - log
+- (void)sendAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
+- (void)sendDisAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+}
+
 #pragma mark - init Method
 
 - (void)initModel {
@@ -291,6 +300,8 @@ typedef enum {
 }
 
 - (void)rightButtonAction:(id)sender {
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_004 note:nil];
+    
     [self doSave];
 }
 
@@ -322,6 +333,14 @@ typedef enum {
 }
 
 - (void)doBack:(id)sender {
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_PROPERTY_003;
+    }
+    else
+        code = AJK_PROPERTY_003;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"确认不保存当前内容?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
     alert.cancelButtonIndex = 0;
     [alert show];
@@ -1768,14 +1787,6 @@ typedef enum {
     switch (buttonIndex) {
         case 1:
         {
-            NSString *code = [NSString string];
-            if (self.isHaozu) {
-                code = HZ_PROPERTY_003;
-            }
-            else
-                code = AJK_PROPERTY_003;
-            [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
-            
             //test
             [self dismissViewControllerAnimated:YES completion:nil];
         }
