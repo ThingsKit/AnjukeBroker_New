@@ -120,11 +120,23 @@ typedef enum {
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_PROPERTY_001;
+    }
+    else
+        code = AJK_PROPERTY_001;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_PROPERTY_002;
+    }
+    else
+        code = AJK_PROPERTY_002;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
 }
 
 #pragma mark - init Method
@@ -300,7 +312,13 @@ typedef enum {
 }
 
 - (void)rightButtonAction:(id)sender {
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_004 note:nil];
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_PROPERTY_004;
+    }
+    else
+        code = AJK_PROPERTY_004;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
     
     [self doSave];
 }

@@ -101,6 +101,29 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - log
+- (void)sendAppearLog {
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_HOUSETYPE_001;
+    }
+    else
+        code = AJK_HOUSETYPE_001;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
+- (void)sendDisAppearLog {
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_HOUSETYPE_002;
+    }
+    else
+        code = AJK_HOUSETYPE_002;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+}
+
+#pragma mark - init Method
+
 - (void)setLastDefultValueAndShowImg {
     
     for (int i = 0; i < self.houseTypeImageArr.count; i ++) {
@@ -111,8 +134,6 @@
     
     [self.footerView redrawWithHouseTypeImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr] andImgUrl:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.onlineHouseTypeDic]];
 }
-
-#pragma mark - init Method
 
 - (void)initModel {
     self.dataArray = [NSMutableArray array];
@@ -235,8 +256,24 @@
         //户型
         self.inputingTextF = self.houseTypeTF;
         isHouseType = YES;
+        
+        NSString *code = [NSString string];
+        if (self.isHaozu) {
+            code = HZ_HOUSETYPE_003;
+        }
+        else
+            code = AJK_HOUSETYPE_003;
+        [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
     }
     else { //朝向
+        NSString *code = [NSString string];
+        if (self.isHaozu) {
+            code = HZ_HOUSETYPE_004;
+        }
+        else
+            code = AJK_HOUSETYPE_004;
+        [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+        
         self.inputingTextF = self.exposureTF;
     }
     
@@ -358,6 +395,13 @@
 }
 
 - (void)rightButtonAction:(id)sender { //do save
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_HOUSETYPE_007;
+    }
+    else
+        code = AJK_HOUSETYPE_007;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
     
     if ([self.superViewController isKindOfClass:[PublishBuildingViewController class]]) {
         [[(PublishBuildingViewController *)self.superViewController property] setOnlineHouseTypeDic:[NSDictionary dictionaryWithDictionary:self.onlineHouseTypeDic]];//赋值新在线户型图数据
@@ -372,6 +416,14 @@
 }
 
 - (void)doBack:(id)sender {
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_HOUSETYPE_006;
+    }
+    else
+        code = AJK_HOUSETYPE_006;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    
     if ([self.superViewController isKindOfClass:[PublishBuildingViewController class]]) {
         [[(PublishBuildingViewController *)self.superViewController property] setRooms:self.lastRooms];
         [[(PublishBuildingViewController *)self.superViewController property] setExposure:self.lastExposure];//还原上一次的输入
@@ -751,10 +803,10 @@
             
             NSString *code = [NSString string];
             if (self.isHaozu) {
-                code = HZ_PROPERTY_007;
+                code = HZ_HOUSETYPE_004;
             }
             else
-                code = AJK_PROPERTY_007;
+                code = AJK_HOUSETYPE_004;
             [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
             
             //check小区、户型、朝向
