@@ -153,14 +153,19 @@
     [BG_View addSubview:view1];
     
     //设置按钮
-    CGFloat setupBtnW = 32;
+    CGFloat setupBtnW = 40;
     UIButton *setupBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     setupBtn.backgroundColor = [UIColor clearColor];
     setupBtn.frame = CGRectMake([self windowWidth] - 35/2 - setupBtnW, 10, setupBtnW, setupBtnW);
-    [setupBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_set.png"] forState:UIControlStateNormal];
-    [setupBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_set_selected.png"] forState:UIControlStateSelected];
+//    [setupBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_set.png"] forState:UIControlStateNormal];
+//    [setupBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_set_selected.png"] forState:UIControlStateSelected];
     [setupBtn addTarget:self action:@selector(rightButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [view1 addSubview:setupBtn];
+    
+    CGFloat setupIconW = 24;
+    UIImageView *setupIcon = [[UIImageView alloc] initWithFrame:CGRectMake((setupBtn.frame.size.width - setupIconW)/2, (setupBtn.frame.size.height - setupIconW)/2, setupIconW, setupIconW)];
+    setupIcon.image = [UIImage imageNamed:@"anjuke_icon_set.png"];
+    [setupBtn addSubview:setupIcon];
     
     //photo /name...
     CGFloat photoW = 160/2;
