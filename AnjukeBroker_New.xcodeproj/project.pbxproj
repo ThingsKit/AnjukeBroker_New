@@ -769,6 +769,10 @@
 				204E66CE1894E7DB00546D51 /* PublishBigImageViewController.m */,
 				20A07427188C0A080073C915 /* PublishTableViewDataSource.h */,
 				20A07428188C0A080073C915 /* PublishTableViewDataSource.m */,
+				977FCA8D182894F000945FB4 /* CommunityListViewController.h */,
+				977FCA8E182894F000945FB4 /* CommunityListViewController.m */,
+				B7E56D0D183DBAD600A0F7D2 /* AnjukeOnlineImgController.h */,
+				B7E56D0E183DBAD600A0F7D2 /* AnjukeOnlineImgController.m */,
 				20578B9C1898AB7B0086B93D /* 房源编辑Controller */,
 				97DFA987184C7BD5002D6B82 /* 房源标题、描述Controller */,
 			);
@@ -1322,14 +1326,10 @@
 				97B422671821087600A2E9E6 /* PropertyBigImageViewController.m */,
 				974E5C87181E4B00000246D1 /* AnjukeEditableTV_DataSource.h */,
 				974E5C88181E4B00000246D1 /* AnjukeEditableTV_DataSource.m */,
-				977FCA8D182894F000945FB4 /* CommunityListViewController.h */,
-				977FCA8E182894F000945FB4 /* CommunityListViewController.m */,
 				970FC17C183B19C400D142D5 /* PropertyResetViewController.h */,
 				970FC17D183B19C400D142D5 /* PropertyResetViewController.m */,
 				B7E56D09183DABD300A0F7D2 /* AnjukePropertyResultController.h */,
 				B7E56D0A183DABD300A0F7D2 /* AnjukePropertyResultController.m */,
-				B7E56D0D183DBAD600A0F7D2 /* AnjukeOnlineImgController.h */,
-				B7E56D0E183DBAD600A0F7D2 /* AnjukeOnlineImgController.m */,
 			);
 			name = "房源编辑";
 			sourceTree = "<group>";

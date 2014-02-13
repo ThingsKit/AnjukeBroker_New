@@ -78,4 +78,6 @@
 - (void)doPushToHouseTypeVC;
 - (void)drawFooter;
 
+- (void)pickerDisappear;
+
 @end

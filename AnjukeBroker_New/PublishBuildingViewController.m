@@ -324,6 +324,8 @@ typedef enum {
 }
 
 - (void)doSave {
+    [self pickerDisappear];
+    
     if (![self checkUploadProperty]) {
         return;
     }

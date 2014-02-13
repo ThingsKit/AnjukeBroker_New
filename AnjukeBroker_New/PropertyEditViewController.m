@@ -322,6 +322,8 @@
 
 //更新房源信息
 - (void)doSave {
+    [self pickerDisappear];
+    
     if (![self checkUploadProperty]) {
         return;
     }
