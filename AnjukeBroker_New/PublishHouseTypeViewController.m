@@ -12,6 +12,7 @@
 #import "Property.h"
 #import "PublishBuildingViewController.h"
 #import "BrokerLineView.h"
+#import "AppManager.h"
 
 #define SELECT_BTN_TAG 1000
 
@@ -77,7 +78,13 @@
     self.view.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
     
     [self setTitleViewWithString:@"房型"];
-    [self addRightButton:@"保存" andPossibleTitle:nil];
+    
+//    [self addRightButton:@"保存" andPossibleTitle:nil];
+    UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(rightButtonAction:)];
+    if (![AppManager isIOS6]) {
+        rBtn.tintColor = SYSTEM_ORANGE;
+    }
+    self.navigationItem.leftBarButtonItem = rBtn;
     
     self.lastRooms = [NSString stringWithString:self.property.rooms];
     self.lastExposure = [NSString stringWithString:self.property.exposure];
