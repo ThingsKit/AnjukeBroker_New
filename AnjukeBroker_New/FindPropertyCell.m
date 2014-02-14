@@ -91,6 +91,7 @@
 }
 
 - (void)setImgIconToCell:(NSDictionary *) cellData :(int) index{
+    self.imgIcon.image = nil;
     if (index > 1) {
         [self setImgSmallIconByData:cellData];
     } else {
