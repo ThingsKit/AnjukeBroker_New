@@ -11,6 +11,7 @@
 
 @implementation AnjukeNormalCell
 @synthesize communityDetailLb;
+@synthesize titleLb;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -28,13 +29,20 @@
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         self.selectionStyle = UITableViewCellSelectionStyleGray;
         self.backgroundColor = [UIColor whiteColor];
-        
+        self.backgroundView = [self baseCellBackgroundView];
     }
     return self;
 }
 
 - (void)initUI {
     self.textLabel.textColor = SYSTEM_DARK_GRAY;
+    
+    UILabel *comTitleLb = [[UILabel alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, (CELL_HEIGHT - 20)/2, 90, 20)];
+    comTitleLb.backgroundColor = [UIColor clearColor];
+    comTitleLb.textColor = SYSTEM_DARK_GRAY;
+    comTitleLb.font = [UIFont systemFontOfSize:17];
+    self.titleLb = comTitleLb;
+    [self.contentView addSubview:comTitleLb];
     
     UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(224/2, 3,  150, CELL_HEIGHT - 1*5)];
     lb.backgroundColor = [UIColor clearColor];
@@ -69,7 +77,8 @@
     NSString *title = (NSString *)dataModel;
     
     //title
-    self.textLabel.text = title;
+//    self.textLabel.text = title;
+    self.titleLb.text = title;
     
     return YES;
 }

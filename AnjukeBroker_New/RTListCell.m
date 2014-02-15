@@ -18,9 +18,9 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
-    [self initUI];
         // Initialization code
+        [self initUI];
+        
     }
     return self;
 }
@@ -73,6 +73,13 @@
     
     self.topLine.frame = CGRectMake(0, 0, 320 - 0, 1);
     
+}
+
+- (UIView *)baseCellBackgroundView {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, CELL_HEIGHT)];
+    view.backgroundColor = [UIColor whiteColor];
+    
+    return view;
 }
 
 @end

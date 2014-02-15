@@ -11,6 +11,7 @@
 
 #define CELL_TITLE_FONT 15
 #define CELL_HEIGHT 50
+#define CELL_OFFSET_TITLE 15
 
 @interface RTListCell : UITableViewCell
 
@@ -28,5 +29,6 @@
 
 - (void)showBottonLineWithCellHeight:(CGFloat)cellH;
 - (void)showTopLine;
+- (UIView *)baseCellBackgroundView;
 
 @end

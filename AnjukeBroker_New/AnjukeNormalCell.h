@@ -12,5 +12,6 @@
 
 @property (nonatomic, strong) UILabel *communityDetailLb;
 @property (nonatomic, strong) UIImageView *iconImage;
+@property (nonatomic, strong) UILabel *titleLb;
 
 @end

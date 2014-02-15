@@ -14,6 +14,7 @@
 @synthesize editDelegate;
 @synthesize unitLb;
 @synthesize inputed_RowAtCom0, inputed_RowAtCom1, inputed_RowAtCom2;
+@synthesize titleLb;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -32,6 +33,7 @@
         self.accessoryType = UITableViewCellAccessoryNone;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor whiteColor];
+        self.backgroundView = [self baseCellBackgroundView];
     }
     return self;
 }
@@ -42,6 +44,13 @@
     self.inputed_RowAtCom0 = 0;
     self.inputed_RowAtCom1 = 0;
     self.inputed_RowAtCom2 = 0;
+    
+    UILabel *comTitleLb = [[UILabel alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, (CELL_HEIGHT - 20)/2, 90, 20)];
+    comTitleLb.backgroundColor = [UIColor clearColor];
+    comTitleLb.textColor = SYSTEM_DARK_GRAY;
+    comTitleLb.font = [UIFont systemFontOfSize:17];
+    self.titleLb = comTitleLb;
+    [self.contentView addSubview:comTitleLb];
     
     //text field
     UITextField *cellTextField = nil;
@@ -89,8 +98,9 @@
     NSString *title = (NSString *)dataModel;
     
     //title
-    self.textLabel.text = title;
+//    self.textLabel.text = title;
 //    self.textLabel.font = [UIFont systemFontOfSize:CELL_TITLE_FONT];
+    self.titleLb.text = title;
     
     return YES;
 }
