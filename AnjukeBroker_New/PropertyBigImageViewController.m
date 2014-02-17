@@ -27,6 +27,10 @@
     return self;
 }
 
+- (void)dealloc {
+    DLog(@"dealloc PropertyBigImageViewController");
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

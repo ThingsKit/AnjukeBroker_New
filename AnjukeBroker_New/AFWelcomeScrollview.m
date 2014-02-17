@@ -95,7 +95,7 @@ typedef enum {
     pc.backgroundColor = [UIColor clearColor];
     if ([[[UIDevice currentDevice] systemVersion] intValue] >= 6) {
         pc.pageIndicatorTintColor = anjukeGray;
-        pc.currentPageIndicatorTintColor = SYSTEM_ORANGE;
+        pc.currentPageIndicatorTintColor = [UIColor whiteColor];
     }
     [self addSubview:pc];
 }
@@ -141,45 +141,47 @@ typedef enum {
     }
 }
 
-- (void)setImageBG:(NSString *)imageName withTitleArray:(NSArray *)titleArray {
+- (void)setImageBGArr:(NSArray  *)imageBGArr withTitleArray:(NSArray *)titleArray withImgIconArr:(NSArray *)imgIconArr withDetailArr:(NSArray *)detailArr  {
     self.animationType = AnimationType_Overlap;
     self.totalCount = titleArray.count;
     
-    // Initialization code
-    UIScrollView *s = [[UIScrollView alloc] init];
-    s.frame = self.bounds;
-    s.pagingEnabled = YES;
-    s.backgroundColor = [UIColor clearColor];
-    self.svForImg = s;
-    [self addSubview:self.svForImg]; //放在最底层
-    
-    //
-    [self insertSubview:self.sv aboveSubview:self.svForImg];
-    
-    UIImageView *imgBG = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
-    self.backgroundImgView = imgBG;
-    imgBG.frame = self.svForImg.bounds;
-    imgBG.backgroundColor = [UIColor clearColor];
-    imgBG.contentMode = UIViewContentModeScaleToFill;
-    [self.svForImg addSubview:imgBG];
-    
-    int lbGap = 30;
     for (int i = 0; i < titleArray.count; i ++) {
+        UIImageView *imgBG = [[UIImageView alloc] initWithFrame:CGRectMake(0 + [self getWindowWidth]*i, 0, [self getWindowWidth], [self getWindowHeight] - 0)];
+        imgBG.backgroundColor = [UIColor clearColor];
+        imgBG.contentMode = UIViewContentModeScaleToFill;
+        imgBG.image = [imageBGArr objectAtIndex:i];
+        [self.sv addSubview:imgBG];
+        
+        CGFloat imgIconW = 324/2;
+        UIImageView *imgIcon = [[UIImageView alloc] initWithFrame:CGRectMake(([self getWindowWidth] - imgIconW)/2, ([self getWindowWidth] - imgIconW)/2, imgIconW, imgIconW)];
+        imgIcon.backgroundColor = [UIColor clearColor];
+        imgIcon.contentMode = UIViewContentModeScaleToFill;
+        imgIcon.image = [imgIconArr objectAtIndex:i];
+        [imgBG addSubview:imgIcon];
+        
         UILabel *lb = [[UILabel alloc] init];
         lb.backgroundColor = [UIColor clearColor];
-        lb.frame = CGRectMake(lbGap + [self getWindowWidth]*i, 80, [self getWindowWidth] - lbGap*2, 50);
-        lb.font = [UIFont systemFontOfSize:18];
+        lb.frame = CGRectMake(0, imgIcon.frame.origin.y + imgIcon.frame.size.height + 30, [self getWindowWidth], 35);
+        lb.font = [UIFont boldSystemFontOfSize:30];
         lb.text = [titleArray objectAtIndex:i];
-        lb.textColor = [UIColor blackColor];
-        [self.sv addSubview:lb];
+        lb.textAlignment = NSTextAlignmentCenter;
+        lb.textColor = [UIColor whiteColor];
+        [imgBG addSubview:lb];
+        
+        UILabel *lb2 = [[UILabel alloc] init];
+        lb2.backgroundColor = [UIColor clearColor];
+        lb2.frame = CGRectMake(0, lb.frame.origin.y + lb.frame.size.height + 25, [self getWindowWidth], 20);
+        lb2.font = [UIFont systemFontOfSize:17];
+        lb2.text = [detailArr objectAtIndex:i];
+        lb2.textAlignment = NSTextAlignmentCenter;
+        lb2.textColor = [UIColor whiteColor];
+        [imgBG addSubview:lb2];
     }
     
     self.sv.contentSize = CGSizeMake([self getWindowWidth] *titleArray.count, [self getWindowHeight]);
     
-    self.svForImg.contentSize = CGSizeMake([self getWindowWidth] + sOffsetX*titleArray.count, [self getWindowHeight]);
-    self.backgroundImgView.frame = CGRectMake(0, 0, [self getWindowWidth] + sOffsetX*titleArray.count, [self getWindowHeight]);
-    
-    DLog(@"sv contentSize[%f]", self.sv.contentSize.width);
+    self.totalCount = titleArray.count;
+    [self addPageController];
 }
 
 - (void)hideScrollview {

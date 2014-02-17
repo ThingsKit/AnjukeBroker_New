@@ -38,9 +38,19 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    if (![AppManager isIOS6]) {
+        if (self.backType == RTSelectorBackTypePopBack || self.backType == RTSelectorBackTypePopToRoot) {
+            self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+        }
+        else {
+            self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+        }
+    }
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self addBackButton];
+    
     [self initModel];
     [self initDisplay];
 
@@ -120,12 +130,28 @@
     if (self.backType == RTSelectorBackTypeDismiss) {
         title = @"取消";
     }
+    UIBarButtonItem *backBtn = nil;
+    backBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
     
-    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:@selector(doBack:)];
-    if (![AppManager isIOS6]) {
-        backBtn.tintColor = SYSTEM_ORANGE;
+    if ([AppManager isIOS6]) {
+        self.navigationItem.leftBarButtonItem = backBtn;
     }
-    self.navigationItem.leftBarButtonItem = backBtn;
+    else {
+        [self.navigationController.navigationBar setTintColor:SYSTEM_ORANGE];
+        self.navigationItem.leftBarButtonItem = backBtn;
+
+//        if (self.backType == RTSelectorBackTypeDismiss) {
+//            self.navigationItem.leftBarButtonItem = backBtn;
+//        }
+//        else {
+////            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
+////                                                     initWithTitle:@"返回"
+////                                                     style:UIBarButtonItemStylePlain
+////                                                     target:self
+////                                                     action:@selector(doBack:)];
+//            self.navigationItem.backBarButtonItem = backBtn;
+//        }
+    }
 }
 
 - (void)addRightButton:(NSString *)title andPossibleTitle:(NSString *)possibleTitle {
@@ -212,6 +238,20 @@
         [self.topAlertView removeFromSuperview];
         self.topAlertView = nil;
     }];
+}
+
+#pragma mark - UIGesture Delegate
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (self.backType == RTSelectorBackTypePopToRoot) {
+        //首页不做doBack
+        return NO;
+    }
+    else {
+        [self doBack:self];
+    }
+    
+    return YES;
 }
 
 @end

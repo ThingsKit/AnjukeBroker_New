@@ -44,7 +44,7 @@
 #define TagOfActionSheet_Img 901
 #define TagOfActionSheet_Save 902
 
-@interface AnjukeEditPropertyViewController : RTViewController <UITableViewDelegate, BrokerPickerDelegate, UITextFieldDelegate ,UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, BigImageViewBtnClickDelegate, PhotoViewClickDelegate, ELCImagePickerControllerDelegate, CommunitySelectDelegate, OnlineImgSelectDelegate, SimpleKeyboardBarClickDelegate, TextFieldModifyDelegate>
+@interface AnjukeEditPropertyViewController : RTViewController <UITableViewDelegate, UITextFieldDelegate ,UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, BigImageViewBtnClickDelegate, PhotoViewClickDelegate, ELCImagePickerControllerDelegate, CommunitySelectDelegate, OnlineImgSelectDelegate, SimpleKeyboardBarClickDelegate, TextFieldModifyDelegate>
 
 @property BOOL isHaozu;
 @property (nonatomic, strong) Property *property;

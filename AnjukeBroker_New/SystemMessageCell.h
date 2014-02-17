@@ -10,7 +10,8 @@
 
 @interface SystemMessageCell : RTListCell
 
-@property (nonatomic, strong) UILabel *contentLb;
+@property (nonatomic, strong) UITextView *contentTextView;
 @property (nonatomic, strong) UILabel *dataLb;
+@property (nonatomic, strong) UILabel *contentLb;
 
 @end

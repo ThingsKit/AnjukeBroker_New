@@ -11,8 +11,9 @@
 #import "LoginManager.h"
 #import "Util_TEXT.h"
 #import "AppManager.h"
+#import "PublishBuildingViewController.h"
 
-#define CELL_HEIGHT 45
+#define COM_CELL_HEIGHT 45
 #define SEARCH_DISTANCE @"5000"
 
 @interface CommunityListViewController ()
@@ -31,6 +32,7 @@
 @synthesize requestKeywords;
 @synthesize communityDelegate;
 @synthesize isHaouzu;
+@synthesize isFirstShow;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -58,6 +60,8 @@
 
 - (void)dealloc {
     self.tvList.delegate = self;
+    
+    DLog(@"dealloc CommunityListViewController");
 }
 
 #pragma mark - log
@@ -140,7 +144,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return CELL_HEIGHT;
+    return COM_CELL_HEIGHT;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -263,11 +267,22 @@
 #pragma mark - TableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (self.isFirstShow) { //首次发房push出的小区列表页，点击小区后push进发房页面
+        
+        [self.search_Bar resignFirstResponder];
+        
+        PublishBuildingViewController *pb = [[PublishBuildingViewController alloc] init];
+        pb.isHaozu = self.isHaouzu;
+        [pb setCommunityDic:[NSDictionary dictionaryWithDictionary:[self.listDataArray objectAtIndex:indexPath.row]]]; //小区数据传递
+        [self.navigationController pushViewController:pb animated:YES];
+        
+        return;
+    }
     if ([self.communityDelegate respondsToSelector:@selector(communityDidSelect:)]) {
         [self.communityDelegate communityDidSelect:[self.listDataArray objectAtIndex:indexPath.row]];
     }
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if ([AppManager isIOS6]) { //iOS6下需要做动画以适配crash
         [self.navigationController popViewControllerAnimated:YES];

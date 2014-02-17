@@ -7,13 +7,17 @@
 //
 
 #import "RTInputPickerView.h"
+
 #import "PropertyDataManager.h"
 #import "InputOrderManager.h"
+
+#import "PublishDataModel.h"
+#import "PublishInputOrderModel.h"
 
 @implementation RTInputPickerView
 @synthesize pickerType;
 @synthesize firstArray, secondArray, thirdArray;
-@synthesize brokerPickerDelegate;
+//@synthesize brokerPickerDelegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -127,6 +131,90 @@
     }
     
     
+    [self reloadAllComponents];
+    
+}
+
+//***根据当前输入的内容（第几行）判断所需提供的输入dataSource***
+- (void)reloadPublishPickerWithIndex:(int)index isHaozu:(BOOL)isHaozu {
+    self.firstArray = [NSArray array];
+    self.secondArray = [NSArray array];
+    self.thirdArray = [NSArray array];
+    
+    if (isHaozu) {
+        //get data
+        switch (index) { //户型
+            case HZ_PICKER_FLOORS: //楼层
+            {
+                self.firstArray = [PublishDataModel getPropertyFloor];
+                self.secondArray = [PublishDataModel getPropertyProFloor];
+            }
+                break;
+            case HZ_PICKER_FITMENT: //装修
+            {
+                self.firstArray = [PublishDataModel getPropertyFitmentForHaozu:isHaozu];
+            }
+                break;
+            case HZ_PICKER_RENTTYPE: //出租方式
+            {
+                self.firstArray = [PublishDataModel getPropertyRentType];
+            }
+                break;
+            default:
+                break;
+        }
+    }
+    else { //二手房
+        //get data
+        switch (index) { //户型
+            case AJK_PICKER_FLOORS: //楼层
+            {
+                self.firstArray = [PublishDataModel getPropertyFloor];
+                self.secondArray = [PublishDataModel getPropertyProFloor];
+            }
+                break;
+            case AJK_PICKER_FITMENT: //装修
+            {
+                self.firstArray = [PropertyDataManager getPropertyFitmentForHaozu:isHaozu];
+            }
+                break;
+            default:
+                break;
+                
+        }
+    }
+    [self reloadAllComponents];
+    
+}
+
+//***根据当前输入的内容（第几行）判断所需提供的输入dataSource***
+- (void)reloadHouseTypePickerWithType:(BOOL)isHoustType isHaozu:(BOOL)isHaozu {
+    self.firstArray = [NSArray array];
+    self.secondArray = [NSArray array];
+    self.thirdArray = [NSArray array];
+    
+    if (isHaozu) {
+        //get data
+        if (isHoustType) { //户型
+            self.firstArray = [PublishDataModel getPropertyHouseTypeArray_room];
+            self.secondArray = [PublishDataModel getPropertyHouseTypeArray_hall];
+            self.thirdArray = [PublishDataModel getPropertyHouseTypeArray_toilet];
+        }
+        else { //朝向
+            self.firstArray = [PublishDataModel getPropertyExposure];
+        }
+    }
+    else { //二手房
+        //get data
+        if (isHoustType) {
+            self.firstArray = [PublishDataModel getPropertyHouseTypeArray_room];
+            self.secondArray = [PublishDataModel getPropertyHouseTypeArray_hall];
+            self.thirdArray = [PublishDataModel getPropertyHouseTypeArray_toilet];
+        }
+        else {
+            self.firstArray = [PublishDataModel getPropertyExposure];
+        }
+    }
     [self reloadAllComponents];
     
 }

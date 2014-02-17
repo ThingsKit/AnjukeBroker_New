@@ -101,9 +101,6 @@ typedef enum {
 }
 
 - (void)dealloc {
-    if (self.pickerView) {
-        self.pickerView.brokerPickerDelegate = nil;
-    }
     if (self.tvList) {
         self.tvList.delegate = nil;
     }
@@ -1171,16 +1168,16 @@ typedef enum {
             AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
             ae.textFieldModifyDelegate = self;
             [ae setTitleViewWithString:@"房源标题"];
-            [ae setTextFieldDetail:self.property.title];
             ae.isTitle = YES;
+            [ae setTextFieldDetail:self.property.title];
             [self.navigationController pushViewController:ae animated:YES];
         }
         else if (indexPath.row == HZ_T_DESC) {
             AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
             ae.textFieldModifyDelegate = self;
             [ae setTitleViewWithString:@"房源描述"];
-            [ae setTextFieldDetail:self.property.desc];
             ae.isTitle = NO;
+            [ae setTextFieldDetail:self.property.desc];
             [self.navigationController pushViewController:ae animated:YES];
         }
         else {
@@ -1196,16 +1193,16 @@ typedef enum {
             AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
             ae.textFieldModifyDelegate = self;
             [ae setTitleViewWithString:@"房源标题"];
-            [ae setTextFieldDetail:self.property.title];
             ae.isTitle = YES;
+            [ae setTextFieldDetail:self.property.title];
             [self.navigationController pushViewController:ae animated:YES];
         }
         else if (indexPath.row == AJK_T_DESC) {
             AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
             ae.textFieldModifyDelegate = self;
             [ae setTitleViewWithString:@"房源描述"];
-            [ae setTextFieldDetail:self.property.desc];
             ae.isTitle = NO;
+            [ae setTextFieldDetail:self.property.desc];
             [self.navigationController pushViewController:ae animated:YES];
         }
         else {

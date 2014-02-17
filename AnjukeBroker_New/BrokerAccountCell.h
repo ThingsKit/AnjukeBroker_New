@@ -12,5 +12,7 @@
 @property (strong, nonatomic) UILabel *labKey;
 @property (strong, nonatomic) UILabel *labValue;
 @property (strong, nonatomic) UIImageView *img;
+
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index;
+
 @end

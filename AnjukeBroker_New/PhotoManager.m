@@ -68,4 +68,98 @@
     return ep;
 }
 
+//将室内图array转换为footer可显示的数组--抽取imageUrl
++ (NSArray *)transformRoomImageArrToFooterShowArrWithArr:(NSArray *)imageArr {
+    NSMutableArray *arr = [NSMutableArray array];
+    
+    for (int i = 0; i < imageArr.count; i ++) {
+        NSString *url = [NSString string];
+        url = [(E_Photo *)[imageArr objectAtIndex:i] smallPhotoUrl];
+        [arr addObject:url];
+    }
+    
+    return arr;
+}
+
+//将室内图array转换为footer可显示的数组--抽取imageUrl
++ (NSArray *)transformHouseTypeImageArrToFooterShowArrWithArr:(NSArray *)imageArr{
+    NSMutableArray *arr = [NSMutableArray array];
+    
+    for (int i = 0; i < imageArr.count; i ++) {
+        NSString *url = [NSString string];
+        url = [(E_Photo *)[imageArr objectAtIndex:i] smallPhotoUrl];
+        [arr addObject:url];
+    }
+    
+    return arr;
+}
+
++ (NSArray *)transformOnlineHouseTypeImageArrToFooterShowArrWithArr:(NSDictionary *)imageDic{
+    NSMutableArray *arr = [NSMutableArray array];
+    
+    if (imageDic.count > 0) {
+        [arr addObject:[imageDic objectForKey:@"url"]];
+    }
+    
+    return arr;
+}
+
+//编辑房源已有图片数组转换
++ (NSArray *)transformEditImageArrToFooterShowArrWithArr:(NSArray *)imageArray{
+    NSMutableArray *arr = [NSMutableArray array];
+    
+    if (imageArray.count > 0) {
+        for (int i = 0; i < imageArray.count; i ++) {
+            [arr addObject:[[imageArray objectAtIndex:i] objectForKey:@"imgUrl"]];
+        }
+    }
+    
+    return arr;
+}
+
+//是否能添加更多室内图
++ (BOOL)canAddMoreRoomImageForImageArr:(NSArray *)imageArr isHaozu:(BOOL)isHaozu {
+    BOOL canAdd = NO;
+    int maxCount = 0;
+    int addCount = 1; //再添加一张图片后判断
+    
+    maxCount = AJK_MAXCOUNT_ROOMIMAGE;
+    if (isHaozu) {
+        maxCount = HZ_MAXCOUNT_ROOMIMAGE;
+    }
+    if (addCount + imageArr.count <= maxCount) {
+        canAdd = YES;
+    }
+    
+    return canAdd;
+}
+
++ (NSString *)getImageMaxAlertStringForHaozu:(BOOL)isHaozu isHouseType:(BOOL)isHouseType {
+    NSString *alertStr = [NSString string];
+    NSString *title = @"室内图";
+    
+    int maxCount = 0;
+    
+    if (isHaozu) {
+        if (isHouseType) {
+            maxCount = HZ_MAXCOUNT_HOUSETYPEIMAGE;
+            title = @"户型图";
+        }
+        else
+            maxCount = HZ_MAXCOUNT_ROOMIMAGE;
+    }
+    else {
+        if (isHouseType) {
+            maxCount = AJK_MAXCOUNT_HOUSETYPEIMAGE;
+            title = @"户型图";
+        }
+        else
+            maxCount = AJK_MAXCOUNT_ROOMIMAGE;
+    }
+    
+    alertStr = [NSString stringWithFormat:@"%@最多上传%d张", title, maxCount];
+    
+    return alertStr;
+}
+
 @end

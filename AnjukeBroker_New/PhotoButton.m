@@ -19,11 +19,14 @@
         // Initialization code
         self.clipsToBounds = NO;
         
+//        self.layer.borderColor = [UIColor lightGrayColor].CGColor;
+//        self.layer.borderWidth = 0.5;
+        
         //用于显示照片的控件
         WebImageView *img = [[WebImageView alloc] initWithFrame:self.bounds];
         self.photoImg = img;
-        img.clipsToBounds = YES;
-        img.contentMode = UIViewContentModeScaleAspectFill;
+        img.clipsToBounds = NO;
+        img.contentMode = UIViewContentModeScaleAspectFit;
         img.userInteractionEnabled = NO;
         [self addSubview:img];
         

@@ -14,6 +14,7 @@
 @synthesize editDelegate;
 @synthesize unitLb;
 @synthesize inputed_RowAtCom0, inputed_RowAtCom1, inputed_RowAtCom2;
+@synthesize titleLb;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -31,6 +32,8 @@
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryNone;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundView = [self baseCellBackgroundView];
     }
     return self;
 }
@@ -42,15 +45,22 @@
     self.inputed_RowAtCom1 = 0;
     self.inputed_RowAtCom2 = 0;
     
+    UILabel *comTitleLb = [[UILabel alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, (CELL_HEIGHT - 20)/2, 90, 20)];
+    comTitleLb.backgroundColor = [UIColor clearColor];
+    comTitleLb.textColor = SYSTEM_DARK_GRAY;
+    comTitleLb.font = [UIFont systemFontOfSize:17];
+    self.titleLb = comTitleLb;
+    [self.contentView addSubview:comTitleLb];
+    
     //text field
     UITextField *cellTextField = nil;
-    cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(224/2, 1,  150, CELL_HEIGHT - 1*5)];
+    cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(224/2, 3,  150, CELL_HEIGHT - 1*5)];
     cellTextField.returnKeyType = UIReturnKeyDone;
     cellTextField.backgroundColor = [UIColor clearColor];
     cellTextField.borderStyle = UITextBorderStyleNone;
     cellTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     cellTextField.text = @"";
-    cellTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    cellTextField.clearButtonMode = UITextFieldViewModeNever;
     cellTextField.placeholder = @"";
     cellTextField.delegate = self;
     cellTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -67,6 +77,8 @@
     lb2.textColor = SYSTEM_LIGHT_GRAY;
     self.unitLb = lb2;
     [self.contentView addSubview:lb2];
+    
+    [self showBottonLineWithCellHeight:CELL_HEIGHT];
 }
 
 /*
@@ -86,8 +98,9 @@
     NSString *title = (NSString *)dataModel;
     
     //title
-    self.textLabel.text = title;
+//    self.textLabel.text = title;
 //    self.textLabel.font = [UIFont systemFontOfSize:CELL_TITLE_FONT];
+    self.titleLb.text = title;
     
     return YES;
 }

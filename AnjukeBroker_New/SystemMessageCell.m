@@ -15,8 +15,8 @@
 #define PickUp_Title @"收起"
 
 @implementation SystemMessageCell
-@synthesize contentLb;
-@synthesize dataLb;
+@synthesize contentTextView;
+@synthesize dataLb, contentLb;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -31,8 +31,8 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.accessoryType = UITableViewCellAccessoryNone;
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        self.selectionStyle = UITableViewCellSelectionStyleGray;
     }
     return self;
 }
@@ -48,10 +48,21 @@
     self.contentLb = lb1;
     [self.contentView addSubview:lb1];
     
-    UILabel *lb2 = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFESTX, self.contentLb.frame.origin.y+ self.contentLb.frame.size.height+3, 200, 20)];
+//    UITextView *content = [[UITextView alloc] initWithFrame:CGRectMake(TITLE_OFFESTX, 10, lbW, CONTENT_NORMAL_HEIGHT)];
+//    content.backgroundColor = [UIColor greenColor];
+//    content.dataDetectorTypes = UIDataDetectorTypeAll;
+//    content.editable = NO;
+//    content.font = [UIFont systemFontOfSize:15];
+//    content.textColor = SYSTEM_BLACK;
+//    content.scrollEnabled = NO;
+//    self.contentTextView = content;
+//    [self.contentView addSubview:content];
+    
+    UILabel *lb2 = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_OFFESTX, self.contentLb.frame.origin.y+ self.contentLb.frame.size.height+5, 200, 20)];
     lb2.backgroundColor = [UIColor clearColor];
-    lb2.font = [UIFont systemFontOfSize:15];
+    lb2.font = [UIFont systemFontOfSize:14];
     lb2.textColor = SYSTEM_LIGHT_GRAY;
+    lb2.textAlignment = NSTextAlignmentLeft;
     self.dataLb = lb2;
     [self.contentView addSubview:lb2];
 }
@@ -71,14 +82,20 @@
         tempDic = [dataModel objectAtIndex:index];
     
     }
-        
-    self.contentLb.text = [tempDic objectForKey:@"content"];
+    
+    if (self.contentTextView) {
+        self.contentTextView.text = [tempDic objectForKey:@"content"];
+    }
+    
+    if (self.contentLb) {
+        self.contentLb.text = [tempDic objectForKey:@"content"];
+    }
     
     CGFloat lbW = 320 - TITLE_OFFESTX*2;
     CGFloat contentH = [SystemCellManager getContentLabelHeightForExpand:YES withContentStr:[tempDic objectForKey:@"content"]];
     self.contentLb.frame = CGRectMake(TITLE_OFFESTX, 10, lbW, contentH);
     
-    self.dataLb.frame = CGRectMake(TITLE_OFFESTX, self.contentLb.frame.origin.y+ self.contentLb.frame.size.height+3, 200, 20);
+    self.dataLb.frame = CGRectMake(TITLE_OFFESTX, self.contentLb.frame.origin.y+ self.contentLb.frame.size.height+5, 200, 20);
     
     [self transformDate:[[tempDic objectForKey:@"createtime"] doubleValue]];
     

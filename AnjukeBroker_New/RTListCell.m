@@ -11,15 +11,16 @@
 @implementation RTListCell
 @synthesize selectRow;
 @synthesize cellHeight;
-@synthesize lineView;
+@synthesize lineView, topLine;
+@synthesize indexTag;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
-    [self initUI];
         // Initialization code
+        [self initUI];
+        
     }
     return self;
 }
@@ -36,7 +37,7 @@
 }
 
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index {
-    selectRow = index;
+    self.selectRow = index;
     return NO;
 }
 
@@ -56,12 +57,29 @@
 
 - (void)showBottonLineWithCellHeight:(CGFloat)cellH {
     if (self.lineView == nil) {
-        self.lineView = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, cellH -1, 320 - 15, 1)];
+        self.lineView = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, cellH -1, 320 - 0, 1)];
         [self.contentView addSubview:self.lineView];
     }
     else {
-        self.lineView.frame = CGRectMake(15, cellH -1, 320 - 15, 1);
+        self.lineView.frame = CGRectMake(0, cellH -1, 320 - 0, 1);
     }
+}
+
+- (void)showTopLine {
+    if (self.topLine == nil) {
+        self.topLine = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, -1, 320 - 0, 1)];
+        [self.contentView addSubview:self.topLine];
+    }
+    
+    self.topLine.frame = CGRectMake(0, 0, 320 - 0, 1);
+    
+}
+
+- (UIView *)baseCellBackgroundView {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, CELL_HEIGHT)];
+    view.backgroundColor = [UIColor whiteColor];
+    
+    return view;
 }
 
 @end

@@ -49,8 +49,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    self.view.backgroundColor = [UIColor clearColor];
-    [self setTitleViewWithString:@"更多"];
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self setTitleViewWithString:@"设置"];
     
     if (self.clientDic.count == 0) {
         [self doRequest];
@@ -75,11 +75,11 @@
 #pragma mark - private method
 
 - (void)initModel {
-    self.taskArray = [NSArray arrayWithObjects:@"账户信息", @"提醒设置", @"检查更新", @"关于移动经纪人", @"联系客户主任", @"客服热线", nil];
+    self.taskArray = [NSArray arrayWithObjects:@"个人信息", @"提醒设置", @"检查更新", @"关于移动经纪人", @"联系客户主任", @"客服热线", nil];
 }
 
 - (void)initDisplay {
-    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_BETWEEN_NAV_TAB style:UITableViewStylePlain];
+    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.tvList = tv;
     tv.backgroundColor = [UIColor clearColor];
 //    tv.layer.borderColor = [UIColor blackColor].CGColor;

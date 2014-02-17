@@ -33,6 +33,7 @@
         [self initModel];
         [self initDisplayWithFrame:frame];
         
+        DLog(@"当前【%d】", self.currentImgCount);
      }
     return self;
 }
@@ -106,6 +107,8 @@
 - (void)takePhotoWithImage:(UIImage *)image {
     [self.imgArray addObject:image];
     
+    self.currentImgCount ++; //拍照图片数量递增于照片拍摄完成后
+    
     int index = self.imgArray.count -1; //增加到第几个预览图，便于设置frame及contentSize
     
     PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(IMG_GAP +(IMG_GAP +IMG_H)*index, IMG_GAP, IMG_H, IMG_H)];
@@ -126,11 +129,13 @@
 }
 
 - (void)take_Picture:(id)sender {
-//    if (![self canTakePhoto]) {
-//        DLog(@"已到最大预览数!");
-//        return;
-//    }
-    self.currentImgCount ++;
+    if (![self canTakePhoto]) {
+        UIAlertView *pickerAlert = [[UIAlertView alloc] initWithTitle:nil message:@"拍照数量已达上限" delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
+        [pickerAlert show];
+        return;
+    }
+    
+//    self.currentImgCount ++;
     
     if ([self.clickDelegate respondsToSelector:@selector(takePhoto_Click)]) {
         [self.clickDelegate takePhoto_Click];
@@ -177,7 +182,7 @@
                              [self.imgArray removeObjectAtIndex:index];
                              
                              self.photoSV.contentSize = CGSizeMake(IMG_GAP + (IMG_GAP +IMG_H)*self.imgArray.count, PHOTO_SV_H);
-                            
+                             
                              //其他预览图前移
                              if (!isLast) {
                                  int removeCount = self.imgArray.count - index; //得到需要移动的预览图个数
@@ -206,6 +211,8 @@
 }
 
 - (BOOL)canTakePhoto {
+    DLog(@"------------当前张数【%d】", self.currentImgCount);
+    
     if (self.currentImgCount >= self.maxImgCount) {
         return NO;
     }

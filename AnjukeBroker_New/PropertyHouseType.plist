@@ -6,12 +6,6 @@
 	<array>
 		<dict>
 			<key>Title</key>
-			<string>0室</string>
-			<key>Value</key>
-			<string>0</string>
-		</dict>
-		<dict>
-			<key>Title</key>
 			<string>1室</string>
 			<key>Value</key>
 			<string>1</string>

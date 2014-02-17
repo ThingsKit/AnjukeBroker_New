@@ -18,6 +18,8 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         self.img = [[UIImageView alloc] initWithFrame:CGRectMake(100, 10, 62, 62)];
         
         self.labKey = [[UILabel alloc] initWithFrame:CGRectMake(17, 5, 80, 30)];
@@ -34,6 +36,7 @@
     }
     return self;
 }
+
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index {
     NSDictionary *tempDic = [NSDictionary dictionary];
     if([dataModel isKindOfClass:[NSDictionary class]]){
@@ -66,8 +69,11 @@
             break;
         case 4:
         {
+            
             self.labKey.text = @"所属公司";
-            self.labValue.text = [tempDic objectForKey:@"company"];
+            self.labValue.text = [self getCommpany:[tempDic objectForKey:@"company"]];
+            
+            
         }
             break;
         case 5:
@@ -79,14 +85,19 @@
         default:
             break;
     }
-    
-    //test
-//    self.contentLb.text = [tempDic objectForKey:@"content"];
-    
-//    self.dataLb.text = [Util_TEXT getDateStrWithDate:[NSDate date]];
-    //    self.dataLb.text = [tempDic objectForKey:@"title"];
     return YES;
 }
+
+- (NSString *)getCommpany:(NSString *)commpany {
+    NSArray *tempStr = [NSArray array];
+    tempStr = [commpany componentsSeparatedByString:@" "];
+    if ([tempStr count] == 2) {
+        return [tempStr objectAtIndex:0];
+    }else {
+        return commpany;
+    }
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

@@ -166,7 +166,7 @@
     [self showLoadingActivity:YES];
     self.isLoading = YES;
     
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.property.comm_id, @"commId", self.property.rooms, @"rooms", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.property.comm_id, @"commId", self.property.rooms, @"rooms", self.property.exposure, @"forward",nil];
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"img/gethousemoduleimg/" params:params target:self action:@selector(onGetLogin:)];
     
@@ -193,7 +193,7 @@
         return ;
     }
     
-    if ([[[resultFromAPI objectForKey:@"houseImg"] objectForKey:@"count"] intValue] == 0) {
+    if ([[[resultFromAPI objectForKey:@"houseImg"] objectForKey:@"totalNum"] intValue] == 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"很抱歉" message:@"暂无该小区户型房型图，点击可返回" delegate:self cancelButtonTitle:nil otherButtonTitles:@"我知道了", nil];
         [alert show];
         

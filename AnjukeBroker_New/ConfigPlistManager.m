@@ -19,7 +19,7 @@
     NSString *filename = [path stringByAppendingPathComponent:name];
     NSDictionary* configData = [NSDictionary dictionaryWithContentsOfFile:filename];
     
-    DLog(@"confingData [%@]", configData);
+//    DLog(@"confingData [%@]", configData);
     
     return configData;
 }
@@ -31,7 +31,7 @@
     NSString *filename = [path stringByAppendingPathComponent:name];
     NSArray* configData = [NSArray arrayWithContentsOfFile:filename];
     
-    DLog(@"confingData [%@]", configData);
+//    DLog(@"confingData [%@]", configData);
     
     return configData;
 }
@@ -72,7 +72,7 @@
         [resultArr addObject:dic];
     }
     
-    DLog(@"resultArr [%@]", resultArr);
+//    DLog(@"resultArr [%@]", resultArr);
     
     [self savePlistWithArr:resultArr withName:AJK_FITMENT_PLIST];
     
@@ -97,7 +97,7 @@
         [resultArr addObject:dic];
     }
     
-    DLog(@"resultArr");
+//    DLog(@"resultArr");
     
     [self savePlistWithArr:resultArr withName:HZ_FITMENT_PLIST];
     

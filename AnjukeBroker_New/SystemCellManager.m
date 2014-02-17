@@ -32,6 +32,11 @@
     }
     
     CGSize size = [Util_UI sizeOfString:contentStr maxWidth:320 - TITLE_OFFESTX*2 withFontSize:15];
+    
+    if (size.height > CONTENT_NORMAL_HEIGHT) {
+        return CONTENT_NORMAL_HEIGHT; //3行定高
+    }
+
     return size.height;
 }
 

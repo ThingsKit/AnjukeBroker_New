@@ -7,7 +7,7 @@
 //
 
 #import "RentBidDetailController.h"
-#import "PropertyResetViewController.h"
+#import "PropertyEditViewController.h"
 #import "RTNavigationController.h"
 #import "RentAuctionViewController.h"
 #import "RentBidNoPlanController.h"
@@ -16,6 +16,7 @@
 #import "BaseBidPropertyCell.h"
 #import "LoginManager.h"
 #import "RentBidPropertyCell.h"
+#import "CellHeight.h"
 
 @interface RentBidDetailController ()
 {
@@ -49,7 +50,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitleViewWithString:@"竞价推广"];
+    [self setTitleViewWithString:@"竞价房源"];
     [self addRightButton:@"新增" andPossibleTitle:nil];
 	// Do any additional setup after loading the view.
 }
@@ -189,11 +190,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     selectedIndex = indexPath.row;
     if([[[self.myArray objectAtIndex:selectedIndex] objectForKey:@"bidStatus"] isEqualToString:@"3"]){
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"重新开始竞价", @"取消竞价推广", nil];
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"重新开始竞价", @"取消竞价推广", @"修改房源信息", nil];
         action.tag = 101;
         [action showInView:self.view];
     }else{
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改房源信息", @"调整预算和出价", @"暂停竞价推广", nil];
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"调整预算和出价", @"暂停竞价推广", @"修改房源信息", nil];
         action.tag = 102;
         [action showInView:self.view];
     }
@@ -204,9 +205,12 @@
 }
 
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CGSize size = CGSizeMake(260, 40);
-    CGSize si = [[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-    return si.height+88.0f;
+//    CGSize size = CGSizeMake(260, 40);
+//    CGSize si = [[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+//    return si.height+88.0f;
+    NSLog(@"========================>>>>>>>>>>%f", [CellHeight getBidCellHeight:[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"]]);
+    return [CellHeight getBidCellHeight:[[self.myArray objectAtIndex:indexPath.row] objectForKey:@"title"]];
+    
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -229,15 +233,6 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(actionSheet.tag == 101){
         if (buttonIndex == 0){
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_005 note:nil];
-            
-            PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
-            controller.isHaozu = YES;
-            controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
-            controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:nav animated:YES completion:nil];
-        }else if (buttonIndex == 1){//重新开始竞价
             RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
             controller.proDic = [self.myArray objectAtIndex:selectedIndex];
             controller.backType = RTSelectorBackTypeDismiss;
@@ -245,24 +240,22 @@
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:^(void){
             }];
-        }else if (buttonIndex == 2){//取消竞价
-            //            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_009 note:nil];
+        }else if (buttonIndex == 1){//重新开始竞价
             [self doCancelBid];
-        }else{
-            
-        }
-        
-    }else{
-        if (buttonIndex == 0){//修改房源
+        }else if (buttonIndex == 2){//取消竞价
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_005 note:nil];
-            
-            PropertyResetViewController *controller = [[PropertyResetViewController alloc] init];
+            PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.isHaozu = YES;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
-        }else if (buttonIndex == 1){//调整预算
+        }else{
+            
+        }
+        
+    }else{
+        if (buttonIndex == 0){//调整预算
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_006 note:nil];
             RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
             controller.proDic = [self.myArray objectAtIndex:selectedIndex];
@@ -271,9 +264,17 @@
             RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:^{
             }];
-        }else if (buttonIndex == 2){//手动暂停竞价
+        }else if (buttonIndex == 1){//手动暂停竞价
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_007 note:nil];
             [self doStopBid];
+        }else if (buttonIndex == 2){//修改房源
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_005 note:nil];
+            PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+            controller.isHaozu = YES;
+            controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
+            controller.backType = RTSelectorBackTypeDismiss;
+            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:nil];
         }else{
             
         }
