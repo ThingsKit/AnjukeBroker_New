@@ -32,6 +32,8 @@
 		203EC2AF18B2FF6E00DD0840 /* anjuke_icon_zf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 203EC2A518B2FF6E00DD0840 /* anjuke_icon_zf@2x.png */; };
 		203EC2B018B2FF6E00DD0840 /* anjuke_icon_zf1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 203EC2A618B2FF6E00DD0840 /* anjuke_icon_zf1@2x.png */; };
 		203EC2B218B3092100DD0840 /* anjuke_icon_tab_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 203EC2B118B3092100DD0840 /* anjuke_icon_tab_bg@2x.png */; };
+		203EC2B618B34A4200DD0840 /* MessageListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 203EC2B518B34A4200DD0840 /* MessageListCell.m */; };
+		203EC2B818B35E1900DD0840 /* anjuke_icon_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 203EC2B718B35E1900DD0840 /* anjuke_icon_back@2x.png */; };
 		204E66CF1894E7DB00546D51 /* PublishBigImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 204E66CE1894E7DB00546D51 /* PublishBigImageViewController.m */; };
 		20578B9F1898ABCC0086B93D /* PropertyEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20578B9E1898ABCC0086B93D /* PropertyEditViewController.m */; };
 		2063C2651890ADB20043C739 /* PublishHouseTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2063C2641890ADB20043C739 /* PublishHouseTypeViewController.m */; };
@@ -54,7 +56,6 @@
 		20A44DB01869799F008D8CB1 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44DAF1869799F008D8CB1 /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		20A44DB518697B5E008D8CB1 /* fresh1_1008@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A44DB418697B5E008D8CB1 /* fresh1_1008@2x.png */; };
 		20AD081F1887DBE3005462CC /* anjuke_icon_next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20AD081A1887DBE3005462CC /* anjuke_icon_next@2x.png */; };
-		20AD08231887F471005462CC /* anjuke_icon_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20AD08221887F471005462CC /* anjuke_icon_back@2x.png */; };
 		20B6B1A0189392D100864EF2 /* anjuke_icon_nextphoto_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20B6B19F189392D100864EF2 /* anjuke_icon_nextphoto_@2x.png */; };
 		20D3C24C1892466B0030D7D8 /* PhotoFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D3C24B1892466B0030D7D8 /* PhotoFooterView.m */; };
 		20D3C24E18925D800030D7D8 /* anjuke_icon_photo_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20D3C24D18925D800030D7D8 /* anjuke_icon_photo_add@2x.png */; };
@@ -332,6 +333,9 @@
 		203EC2A518B2FF6E00DD0840 /* anjuke_icon_zf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_zf@2x.png"; sourceTree = "<group>"; };
 		203EC2A618B2FF6E00DD0840 /* anjuke_icon_zf1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_zf1@2x.png"; sourceTree = "<group>"; };
 		203EC2B118B3092100DD0840 /* anjuke_icon_tab_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_tab_bg@2x.png"; sourceTree = "<group>"; };
+		203EC2B418B34A4200DD0840 /* MessageListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListCell.h; sourceTree = "<group>"; };
+		203EC2B518B34A4200DD0840 /* MessageListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageListCell.m; sourceTree = "<group>"; };
+		203EC2B718B35E1900DD0840 /* anjuke_icon_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_back@2x.png"; sourceTree = "<group>"; };
 		204E66CD1894E7DB00546D51 /* PublishBigImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishBigImageViewController.h; sourceTree = "<group>"; };
 		204E66CE1894E7DB00546D51 /* PublishBigImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishBigImageViewController.m; sourceTree = "<group>"; };
 		20578B9D1898ABCC0086B93D /* PropertyEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyEditViewController.h; sourceTree = "<group>"; };
@@ -367,7 +371,6 @@
 		20A44DAF1869799F008D8CB1 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		20A44DB418697B5E008D8CB1 /* fresh1_1008@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fresh1_1008@2x.png"; sourceTree = "<group>"; };
 		20AD081A1887DBE3005462CC /* anjuke_icon_next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_next@2x.png"; sourceTree = "<group>"; };
-		20AD08221887F471005462CC /* anjuke_icon_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_back@2x.png"; sourceTree = "<group>"; };
 		20B6B19F189392D100864EF2 /* anjuke_icon_nextphoto_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_nextphoto_@2x.png"; sourceTree = "<group>"; };
 		20D3C24A1892466B0030D7D8 /* PhotoFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoFooterView.h; sourceTree = "<group>"; };
 		20D3C24B1892466B0030D7D8 /* PhotoFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoFooterView.m; sourceTree = "<group>"; };
@@ -764,8 +767,7 @@
 		203EC29318B2F5E400DD0840 /* 微聊 */ = {
 			isa = PBXGroup;
 			children = (
-				203EC29618B2F61A00DD0840 /* MessageListViewController.h */,
-				203EC29718B2F61A00DD0840 /* MessageListViewController.m */,
+				203EC2B318B3432B00DD0840 /* 消息列表 */,
 			);
 			name = "微聊";
 			sourceTree = "<group>";
@@ -795,6 +797,17 @@
 				203EC2B118B3092100DD0840 /* anjuke_icon_tab_bg@2x.png */,
 			);
 			name = Tab_icon;
+			sourceTree = "<group>";
+		};
+		203EC2B318B3432B00DD0840 /* 消息列表 */ = {
+			isa = PBXGroup;
+			children = (
+				203EC29618B2F61A00DD0840 /* MessageListViewController.h */,
+				203EC29718B2F61A00DD0840 /* MessageListViewController.m */,
+				203EC2B418B34A4200DD0840 /* MessageListCell.h */,
+				203EC2B518B34A4200DD0840 /* MessageListCell.m */,
+			);
+			name = "消息列表";
 			sourceTree = "<group>";
 		};
 		20578B9C1898AB7B0086B93D /* 房源编辑Controller */ = {
@@ -1067,13 +1080,13 @@
 				970FC17F183B6E8100D142D5 /* icon+lanchImg */,
 				206F7FCE18A87E97001EEC16 /* speechIcon */,
 				97D752C6182C92690035577F /* Overlay@2x.png */,
+				203EC2B718B35E1900DD0840 /* anjuke_icon_back@2x.png */,
 				20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */,
 				200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */,
 				200915ED189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png */,
 				20B6B19F189392D100864EF2 /* anjuke_icon_nextphoto_@2x.png */,
 				20D3C24D18925D800030D7D8 /* anjuke_icon_photo_add@2x.png */,
 				2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */,
-				20AD08221887F471005462CC /* anjuke_icon_back@2x.png */,
 				20E3E780186C2B9D00D61889 /* anjuke_icon_gupaiming@2x.png */,
 				20E3E781186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png */,
 				20AD081A1887DBE3005462CC /* anjuke_icon_next@2x.png */,
@@ -1126,8 +1139,6 @@
 			children = (
 				97C97B441810DD34006E538B /* TabBarViewController.h */,
 				97C97B451810DD34006E538B /* TabBarViewController.m */,
-				972DDA281826A4CA00263F8F /* RTNavigationController.h */,
-				972DDA291826A4CA00263F8F /* RTNavigationController.m */,
 			);
 			name = TabBarController;
 			sourceTree = "<group>";
@@ -1139,6 +1150,8 @@
 				97CB0BFE182BE9F200FCCBBD /* 相册多选pickerController */,
 				97CD8D42180E6D6E00185C9D /* RTViewController.h */,
 				97CD8D43180E6D6E00185C9D /* RTViewController.m */,
+				972DDA281826A4CA00263F8F /* RTNavigationController.h */,
+				972DDA291826A4CA00263F8F /* RTNavigationController.m */,
 				972DDA2E1826D39500263F8F /* RTPopoverTableViewController.h */,
 				972DDA2F1826D39500263F8F /* RTPopoverTableViewController.m */,
 			);
@@ -1435,8 +1448,8 @@
 		97CD8D40180E6D0D00185C9D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				203EC29518B2F5F200DD0840 /* 客户 */,
 				203EC29318B2F5E400DD0840 /* 微聊 */,
+				203EC29518B2F5F200DD0840 /* 客户 */,
 				972C10231814FC3800552C9B /* 首页+发房 */,
 				972C10251814FC7500552C9B /* 租房业务管理 */,
 				972C10241814FC4C00552C9B /* 二手房业务管理 */,
@@ -1822,7 +1835,6 @@
 				B7EF779D183CBAEC0024A5E6 /* anjuke_icon04_more@2x.png in Resources */,
 				B7EF77AD183CBBD20024A5E6 /* agent_icon43@2x.png in Resources */,
 				B7EF77AE183CBBD20024A5E6 /* agent_icon44@2x.png in Resources */,
-				20AD08231887F471005462CC /* anjuke_icon_back@2x.png in Resources */,
 				B7EF77A3183CBB170024A5E6 /* anjuke_icon_mutableimg@2x.png in Resources */,
 				97D752CA182C92690035577F /* anjuke_icon_delete@2x.png in Resources */,
 				97D752CB182C92690035577F /* anjuke_icon_takephoto@2x.png in Resources */,
@@ -1906,6 +1918,7 @@
 				203EC2AC18B2FF6E00DD0840 /* anjuke_icon_kh1@2x.png in Resources */,
 				972F70F11844EC560010CABB /* anjuke_icon33_zf_selected@2x.png in Resources */,
 				2031A48718920FF2004F7E1A /* anjuke_icon_find@2x.png in Resources */,
+				203EC2B818B35E1900DD0840 /* anjuke_icon_back@2x.png in Resources */,
 				973727AD182FD1C8007D8501 /* PropertyFitment.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1934,6 +1947,7 @@
 				B7E69BBE183B5B000097D5C3 /* SaleGroupListController.m in Sources */,
 				97A606811816C2A50041B367 /* InputOrderManager.m in Sources */,
 				97ACD09C1843357E00D88CB6 /* AccountManager.m in Sources */,
+				203EC2B618B34A4200DD0840 /* MessageListCell.m in Sources */,
 				97B4225A1820DB8300A2E9E6 /* AnjukePropertyGroupCell.m in Sources */,
 				B7EA04A61844D40900AC8842 /* BrokerAccountController.m in Sources */,
 				970DB71D183AFFE700DEB455 /* AboutUsViewController.m in Sources */,

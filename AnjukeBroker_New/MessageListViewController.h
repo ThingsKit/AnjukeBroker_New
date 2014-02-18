@@ -8,6 +8,6 @@
 
 #import "RTViewController.h"
 
-@interface MessageListViewController : RTViewController
+@interface MessageListViewController : RTViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end

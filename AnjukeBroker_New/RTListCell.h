@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BrokerLineView.h"
+#import "Util_UI.h"
 
 #define CELL_TITLE_FONT 15
 #define CELL_HEIGHT 50
