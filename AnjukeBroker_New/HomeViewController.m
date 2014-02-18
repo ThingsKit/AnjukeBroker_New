@@ -18,6 +18,7 @@
 #import "PublishBuildingViewController.h"
 #import "CommunityListViewController.h"
 #import "MoreViewController.h"
+#import "FindHomeViewController.h"
 
 #define HOME_cellHeight 50
 #define Max_Account_Lb_Width 80
@@ -72,9 +73,12 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor clearColor];
-    [self setTitleViewWithString:@""];
+    [self setTitleViewWithString:[LoginManager getUserName]];
     
-    [self addRightButton:@"设置" andPossibleTitle:nil];
+    //设置按钮
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_set.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
+    rightItem.tintColor = [UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -86,9 +90,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    //隐藏
-    self.navigationController.navigationBarHidden = YES;
-    
     [self doRequest];
 }
 
@@ -98,8 +99,6 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    
-    self.navigationController.navigationBarHidden = NO;
 }
 
 #pragma mark - log
@@ -123,7 +122,7 @@
 - (void)initDisplay {
     UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_TAB style:UITableViewStylePlain];
     self.tvList = tv;
-    tv.backgroundColor = [UIColor clearColor];
+    tv.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
 //    tv.layer.borderColor = [UIColor redColor].CGColor;
 //    tv.layer.borderWidth = 1;
     tv.delegate = self;
@@ -132,11 +131,6 @@
     tv.showsHorizontalScrollIndicator = NO;
     tv.showsVerticalScrollIndicator = NO;
     [self.view addSubview:tv];
-    
-    UIImageView *tvBG = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_background.png"]];
-    tvBG.frame = FRAME_WITH_TAB;
-    tvBG.contentMode = UIViewContentModeScaleAspectFill;
-    tv.backgroundView = tvBG;
     
     UIView *hView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], HEADER_VIEW_WHOLE_HEIGHT)];
     hView.backgroundColor = [UIColor clearColor];
@@ -152,21 +146,6 @@
     view1.backgroundColor = [UIColor clearColor];
     [BG_View addSubview:view1];
     
-    //设置按钮
-    CGFloat setupBtnW = 40;
-    UIButton *setupBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    setupBtn.backgroundColor = [UIColor clearColor];
-    setupBtn.frame = CGRectMake([self windowWidth] - 35/2 - setupBtnW, 10, setupBtnW, setupBtnW);
-//    [setupBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_set.png"] forState:UIControlStateNormal];
-//    [setupBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_set_selected.png"] forState:UIControlStateSelected];
-    [setupBtn addTarget:self action:@selector(rightButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [view1 addSubview:setupBtn];
-    
-    CGFloat setupIconW = 24;
-    UIImageView *setupIcon = [[UIImageView alloc] initWithFrame:CGRectMake((setupBtn.frame.size.width - setupIconW)/2, (setupBtn.frame.size.height - setupIconW)/2, setupIconW, setupIconW)];
-    setupIcon.image = [UIImage imageNamed:@"anjuke_icon_set.png"];
-    [setupBtn addSubview:setupIcon];
-    
     //photo /name...
     CGFloat photoW = 160/2;
     WebImageView *photo = [[WebImageView alloc] initWithFrame:CGRectMake(([self windowWidth] - photoW)/2, 30, photoW, photoW)];
@@ -175,7 +154,7 @@
     photo.clipsToBounds = YES;
     photo.imageUrl = [LoginManager getUse_photo_url];
     photo.layer.cornerRadius = photoW/2;
-    photo.layer.borderColor = [UIColor whiteColor].CGColor;
+    photo.layer.borderColor = SYSTEM_BLACK.CGColor;
     photo.layer.borderWidth = 1;
     self.photoImg = photo;
     [view1 addSubview:photo];
@@ -185,7 +164,7 @@
     UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(([self windowWidth] - labelW)/2, photo.frame.origin.y + photo.frame.size.height+ 10, labelW, 20)];
     lb.backgroundColor = [UIColor clearColor];
     lb.font = [UIFont systemFontOfSize:15];
-    lb.textColor = [UIColor whiteColor];
+    lb.textColor = SYSTEM_BLACK;
     lb.textAlignment = NSTextAlignmentCenter;
     self.nameLb = lb;
     lb.text = [LoginManager getName];
@@ -212,7 +191,7 @@
     UILabel *lb4 = [[UILabel alloc] initWithFrame:CGRectMake(lb.frame.origin.x, lb.frame.origin.y+ lb.frame.size.height+5, labelW, lb.frame.size.height)];
     lb4.backgroundColor = [UIColor clearColor];
     lb4.font = [UIFont systemFontOfSize:15];
-    lb4.textColor = [UIColor whiteColor];
+    lb4.textColor = SYSTEM_BLACK;
     lb4.textAlignment = NSTextAlignmentCenter;
     self.accountLb = lb4;
     lb4.text = @"账户余额: ";
@@ -232,7 +211,7 @@
     
     //part 2
     UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, view1.frame.origin.y+ view1.frame.size.height, [self windowWidth], HEADER_VIEW2_Height)];
-    view2.backgroundColor = [UIColor clearColor];
+    view2.backgroundColor = [UIColor whiteColor];
     [BG_View addSubview:view2];
     
     CGFloat lbW_ = 100;
@@ -242,7 +221,7 @@
         UILabel *numLb = [[UILabel alloc] initWithFrame:CGRectMake(10+i *lbW_, 10, lbW_, 25)];
         numLb.backgroundColor = [UIColor clearColor];
         numLb.font = [UIFont boldSystemFontOfSize:22];
-        numLb.textColor = [UIColor whiteColor];
+        numLb.textColor = SYSTEM_BLACK;
         numLb.text = @""; //for test
         numLb.textAlignment = NSTextAlignmentCenter;
         [view2 addSubview:numLb];
@@ -271,7 +250,7 @@
         UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(10+i *lbW_, numLb.frame.origin.y + numLb.frame.size.height+5, lbW_, 25)];
         titleLb.backgroundColor = [UIColor clearColor];
         titleLb.font = [UIFont systemFontOfSize:14];
-        titleLb.textColor = [UIColor whiteColor];
+        titleLb.textColor = SYSTEM_BLACK;
         titleLb.text = titleStr;
         titleLb.textAlignment = NSTextAlignmentCenter;
         [view2 addSubview:titleLb];
@@ -297,7 +276,7 @@
         else if (i == 2){
             image = [UIImage imageNamed:@"anjuke_icon_message.png"];
             selectImg = [UIImage imageNamed:@"anjuke_icon_message_selected.png"];
-            title = @"系统消息";
+            title = @"小区助手";
         }
         
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -310,7 +289,7 @@
         
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(pushBtnGap +(pushBtnGap + pushBtnW)*i, btn.frame.origin.y+ btn.frame.size.height+10, pushBtnW, 20)];
         titleLabel.backgroundColor = [UIColor clearColor];
-        titleLabel.textColor = [UIColor whiteColor];
+        titleLabel.textColor = SYSTEM_BLACK;
         titleLabel.font = [UIFont systemFontOfSize:13];
         titleLabel.textAlignment = NSTextAlignmentCenter;
         titleLabel.text = title;
@@ -400,7 +379,7 @@
         {
             [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_005 note:nil];
             
-            SystemMessageViewController *ae = [[SystemMessageViewController alloc] init];
+            FindHomeViewController *ae = [[FindHomeViewController alloc] init];
             [ae setHidesBottomBarWhenPushed:YES];
             self.navigationController.navigationBarHidden = NO;
             [self.navigationController pushViewController:ae animated:YES];

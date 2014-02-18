@@ -15,6 +15,7 @@
 #import "AFWelcomeScrollview.h"
 #import "Reachability.h"
 #import "AppManager.h"
+#import "Util_UI.h"
 
 #import "SaleNoPlanGroupController.h"
 #import "RentNoPlanController.h"
@@ -59,6 +60,10 @@
     [self checkLogin];
     
     [self.window makeKeyAndVisible];
+    
+    if (![AppManager isIOS6]) {
+        [[UINavigationBar appearance] setBarTintColor:SYSTEM_NAVBAR_DARK_BG];
+    }
     
     [self registerRemoteNotification];
     [self cleanRemoteNotification:application];

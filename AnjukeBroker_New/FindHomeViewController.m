@@ -61,7 +61,7 @@
 }
 
 - (void)initDisplay {
-    self.myTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 25, [self windowWidth], [self windowHeight]- STATUS_BAR_H - TAB_BAR_H - NAV_BAT_H - 25) style:UITableViewStylePlain];
+    self.myTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 25, [self windowWidth], [self windowHeight]- STATUS_BAR_H - 0 - NAV_BAT_H - 25) style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
     [self.view addSubview:myTable];

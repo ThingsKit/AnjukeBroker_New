@@ -23,9 +23,9 @@
         // Custom initialization
         self.navigationBar.translucent = NO;
         if (![AppManager isIOS6]) {
-            self.navigationBar.barTintColor = SYSTEM_NAVIBAR_COLOR;
+//            self.navigationBar.barTintColor = SYSTEM_NAVIBAR_COLOR;
             
-            self.navigationBar.backgroundColor = SYSTEM_NAVBAR_DARK_BG;
+            self.navigationBar.backIndicatorImage = [UIImage imageNamed:@"anjuke_icon_back.png"];
         }
     }
     return self;

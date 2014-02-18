@@ -116,7 +116,7 @@
     lb.font = [UIFont systemFontOfSize:19];
     lb.text = titleStr;
     lb.textAlignment = NSTextAlignmentCenter;
-    lb.textColor = [Util_UI colorWithHexString:@"000000"];
+    lb.textColor = SYSTEM_NAVIBAR_COLOR;
     self.navigationItem.titleView = lb;
 }
 
@@ -137,9 +137,9 @@
         self.navigationItem.leftBarButtonItem = backBtn;
     }
     else {
-        [self.navigationController.navigationBar setTintColor:SYSTEM_ORANGE];
+        [self.navigationController.navigationBar setTintColor:SYSTEM_NAVIBAR_COLOR];
         self.navigationItem.leftBarButtonItem = backBtn;
-
+        
 //        if (self.backType == RTSelectorBackTypeDismiss) {
 //            self.navigationItem.leftBarButtonItem = backBtn;
 //        }
@@ -157,7 +157,7 @@
 - (void)addRightButton:(NSString *)title andPossibleTitle:(NSString *)possibleTitle {
     UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:@selector(rightButtonAction:)];
     if (![AppManager isIOS6]) {
-        rBtn.tintColor = SYSTEM_ORANGE;
+        rBtn.tintColor = SYSTEM_NAVIBAR_COLOR;
     }
     if (possibleTitle.length > 0 || possibleTitle != nil) {
         rBtn.possibleTitles = [NSSet setWithObject:possibleTitle];
