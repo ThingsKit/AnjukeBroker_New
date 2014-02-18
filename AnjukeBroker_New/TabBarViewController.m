@@ -16,6 +16,8 @@
 #import "Util_UI.h"
 #import "AppManager.h"
 #import "FindHomeViewController.h"
+#import "MessageListViewController.h"
+#import "ClientListViewController.h"
 
 #define tabItemInsertsMake UIEdgeInsetsMake(0, 0, 0, 0)
 
@@ -24,11 +26,12 @@
 @property (nonatomic, strong) UIViewController *page2;
 @property (nonatomic, strong) UIViewController *page3;
 @property (nonatomic, strong) UIViewController *page4;
+@property (nonatomic, strong) UIViewController *page5;
 
 @end
 
 @implementation TabBarViewController
-@synthesize page1, page2 ,page3, page4;
+@synthesize page1, page2 ,page3, page4, page5;
 @synthesize controllerArrays;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -48,61 +51,51 @@
         
         
         //add four nav controllers
+        //首页
         HomeViewController *hv = [[HomeViewController alloc] init];
         hv.isHome = YES;
         self.page1 = hv;
-        RTNavigationController *nav1 = [[RTNavigationController alloc] initWithRootViewController:self.page1];
-        [self.controllerArrays addObject:nav1];
+        RTNavigationController *navH = [[RTNavigationController alloc] initWithRootViewController:self.page1];
+        [self.controllerArrays addObject:navH];
+        navH.tabBarItem = [self getTabBarItemWithTitle:@"首页" image:[UIImage imageNamed:@"anjuke_icon_home.png"] index:1];
         
-        AnjukeHomeViewController *av = [[AnjukeHomeViewController alloc] init];
-        self.page2 = av;
-        av.isHome = YES;
-        RTNavigationController *nav2 = [[RTNavigationController alloc] initWithRootViewController:self.page2];
-        [self.controllerArrays addObject:nav2];
-        
-        HaozuHomeViewController *hhv = [[HaozuHomeViewController alloc] init];
-        self.page3 = hhv;
-        hhv.isHome = YES;
-        RTNavigationController *nav3 = [[RTNavigationController alloc] initWithRootViewController:self.page3];
-        [self.controllerArrays addObject:nav3];
-        
-        //发现
-        FindHomeViewController *mv = [[FindHomeViewController alloc] init];
-        self.page4 = mv;
-        mv.isHome = YES;
-        RTNavigationController *nav4 = [[RTNavigationController alloc] initWithRootViewController:self.page4];
-        [self.controllerArrays addObject:nav4];
-        
-        //set tabBarItems
-        UITabBarItem *tb1 = nil;
-        tb1 = [[UITabBarItem alloc] initWithTitle:@"首页" image:[UIImage imageNamed:@"TabHome_normal.png"] tag:1];
-//        tb1 = [[UITabBarItem alloc] initWithTitle:@"首页" image:[UIImage imageNamed:@"TabHome_normal"] selectedImage:[UIImage imageNamed:@"anjuke_icon11_home_selected.png"]];
-        tb1.imageInsets = tabItemInsertsMake;
-        
-        nav1.tabBarItem = tb1;
-        
-        UITabBarItem *tb2 = nil;
-        tb2 = [[UITabBarItem alloc] initWithTitle:@"二手房" image:[UIImage imageNamed:@"TabAnjuke_normal.png"] tag:2];
-//        tb2 = [[UITabBarItem alloc] initWithTitle:@"二手房" image:[UIImage imageNamed:@"TabAnjuke_normal"] selectedImage:[UIImage imageNamed:@"anjuke_icon22_esf.png"]];
-        tb2.imageInsets = tabItemInsertsMake;
-        nav2.tabBarItem = tb2;
-        
-        UITabBarItem *tb3 = nil;
-        tb3 = [[UITabBarItem alloc] initWithTitle:@"租房" image:[UIImage imageNamed:@"TabHaozu_normal.png"] tag:3];
-//        tb3 = [[UITabBarItem alloc] initWithTitle:@"租房" image:[UIImage imageNamed:@"TabHaozu_normal"] selectedImage:[UIImage imageNamed:@"anjuke_icon33_zf_selected.png"]];
-        tb3.imageInsets = tabItemInsertsMake;
-        nav3.tabBarItem = tb3;
-        
-        UITabBarItem *tb4 = nil;
-        tb4 = [[UITabBarItem alloc] initWithTitle:@"发现" image:[UIImage imageNamed:@"anjuke_icon_find.png"] tag:4];
-//        tb4 =[[UITabBarItem alloc] initWithTitle:@"更多" image:[UIImage imageNamed:@"TabMore_normal"] selectedImage:[UIImage imageNamed:@"anjuke_icon44_more_selected.png"]];
-        tb4.imageInsets = tabItemInsertsMake;
-        nav4.tabBarItem = tb4;
+        //微聊
+        MessageListViewController *ml = [[MessageListViewController alloc] init];
+        ml.isHome = YES;
+        self.page2 = ml;
+        RTNavigationController *navMl = [[RTNavigationController alloc] initWithRootViewController:ml];
+        [self.controllerArrays addObject:navMl];
+        navMl.tabBarItem = [self getTabBarItemWithTitle:@"微聊" image:[UIImage imageNamed:@"anjuke_icon_wl.png"] index:2];
 
+        //客户
+        ClientListViewController *cl = [[ClientListViewController alloc] init];
+        cl.isHome = YES;
+        self.page3 = cl;
+        RTNavigationController *navCl = [[RTNavigationController alloc] initWithRootViewController:cl];
+        [self.controllerArrays addObject:navCl];
+        navCl.tabBarItem = [self getTabBarItemWithTitle:@"客户" image:[UIImage imageNamed:@"anjuke_icon_kh.png"] index:3];
+
+        //二手房
+        AnjukeHomeViewController *av = [[AnjukeHomeViewController alloc] init];
+        self.page4 = av;
+        av.isHome = YES;
+        RTNavigationController *navAJK = [[RTNavigationController alloc] initWithRootViewController:av];
+        [self.controllerArrays addObject:navAJK];
+        navAJK.tabBarItem = [self getTabBarItemWithTitle:@"二手房" image:[UIImage imageNamed:@"anjuke_icon_esf.png"] index:4];
+        
+        //租房
+        HaozuHomeViewController *hhv = [[HaozuHomeViewController alloc] init];
+        self.page5 = hhv;
+        hhv.isHome = YES;
+        RTNavigationController *navHZ = [[RTNavigationController alloc] initWithRootViewController:hhv];
+        [self.controllerArrays addObject:navHZ];
+        navHZ.tabBarItem = [self getTabBarItemWithTitle:@"租房" image:[UIImage imageNamed:@"anjuke_icon_zf.png"] index:5];
         
         self.viewControllers = controllerArrays;
         if (![AppManager isIOS6]) {
+            [self.tabBar setTintColor:SYSTEM_TABBAR_SELECTCOLOR_DARK];
             [self.tabBar setTintColor:SYSTEM_ORANGE];
+//            [self.tabBar setBackgroundColor:SYSTEM_NAVBAR_DARK_BG];
         }
     }
     
@@ -138,8 +131,11 @@
     else if ([newController isKindOfClass:[HaozuHomeViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
         [(HaozuHomeViewController *)selectedController doRequest];
     }
-    else if ([newController isKindOfClass:[MoreViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
-//        [(MoreViewController *)selectedController requestNewsByPageOne];
+    else if ([newController isKindOfClass:[MessageListViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
+        
+    }
+    else if ([newController isKindOfClass:[ClientListViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
+        
     }
     
     return YES;
@@ -148,6 +144,14 @@
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
     
     DLog(@"class ---aaa--- %@", [viewController class]);
+}
+
+- (UITabBarItem *)getTabBarItemWithTitle:(NSString *)title image:(UIImage *)image index:(int)index{
+    UITabBarItem *tabBarItem = nil;
+    tabBarItem = [[UITabBarItem alloc] initWithTitle:title image:image tag:index];
+    tabBarItem.imageInsets = tabItemInsertsMake;
+    
+    return tabBarItem;
 }
 
 @end

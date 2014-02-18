@@ -5,50 +5,46 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>122DF7AE-16F2-45A8-B57B-52304004B1E8</string>
+	<string>961A8BA9-A569-48A7-885F-40826AAC14C3</string>
 	<key>IDESourceControlProjectName</key>
 	<string>AnjukeBroker_New</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>6330A2B0-B17E-4B38-B447-A6FF6E0229F4</key>
-		<string>ssh://git.corp.anjuke.com/mobile/ios_RTApiProxy</string>
-		<key>6DBBFDFF-337D-48A4-AAC4-4FD27AE14C93</key>
-		<string>ssh://git.corp.anjuke.com/mobile/ios/RTCoreService</string>
-		<key>6E8D7907-474B-4CAA-A140-4EBED6D18E84</key>
-		<string>ssh://git.corp.anjuke.com/mobile/ios_RTNetwork</string>
-		<key>897BD660-A7CC-47C9-8B36-D7D32CB04703</key>
-		<string>ssh://git.corp.anjuke.com/sicongwu/broker</string>
-		<key>BAB5E028-5F53-4109-B7D9-0DE4A237ED22</key>
-		<string>ssh://git.corp.anjuke.com/mobile/ios_RTCoreService</string>
+		<key>1E562039-CAE0-40BB-8C93-E89BF37E77C3</key>
+		<string>ssh://git.corp.anjuke.com/sicongwu/ios_RTCoreService</string>
+		<key>4BEBBE99-53D7-4E25-B12F-817180784031</key>
+		<string>ssh://git.corp.anjuke.com/_Broker_mobile_iOS/AnjukeBroker_New</string>
+		<key>C51E55D4-1A4D-4B77-B09B-C2FD2F1C74B9</key>
+		<string>ssh://git.corp.anjuke.com/sicongwu/ios_RTApiProxy</string>
+		<key>EA993BC0-8962-4A05-B1B6-192D09071E8A</key>
+		<string>ssh://git.corp.anjuke.com/sicongwu/ios_RTNetwork</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>AnjukeBroker_New.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>6330A2B0-B17E-4B38-B447-A6FF6E0229F4</key>
-		<string>../../../RTApiProxy</string>
-		<key>6DBBFDFF-337D-48A4-AAC4-4FD27AE14C93</key>
-		<string>../../../../GitCorp/i-anjuke_5.1/RTCoreService</string>
-		<key>6E8D7907-474B-4CAA-A140-4EBED6D18E84</key>
-		<string>../../../RTNetwork</string>
-		<key>897BD660-A7CC-47C9-8B36-D7D32CB04703</key>
-		<string>../..</string>
-		<key>BAB5E028-5F53-4109-B7D9-0DE4A237ED22</key>
+		<key>1E562039-CAE0-40BB-8C93-E89BF37E77C3</key>
 		<string>../../../RTCoreService</string>
+		<key>4BEBBE99-53D7-4E25-B12F-817180784031</key>
+		<string>../..</string>
+		<key>C51E55D4-1A4D-4B77-B09B-C2FD2F1C74B9</key>
+		<string>../../../RTApiProxy</string>
+		<key>EA993BC0-8962-4A05-B1B6-192D09071E8A</key>
+		<string>../../../RTNetwork</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://git.corp.anjuke.com/sicongwu/broker</string>
+	<string>ssh://git.corp.anjuke.com/_Broker_mobile_iOS/AnjukeBroker_New</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>897BD660-A7CC-47C9-8B36-D7D32CB04703</string>
+	<string>4BEBBE99-53D7-4E25-B12F-817180784031</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>897BD660-A7CC-47C9-8B36-D7D32CB04703</string>
+			<string>4BEBBE99-53D7-4E25-B12F-817180784031</string>
 			<key>IDESourceControlWCCName</key>
 			<string>AnjukeBroker_New</string>
 		</dict>
@@ -56,7 +52,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>6330A2B0-B17E-4B38-B447-A6FF6E0229F4</string>
+			<string>C51E55D4-1A4D-4B77-B09B-C2FD2F1C74B9</string>
 			<key>IDESourceControlWCCName</key>
 			<string>RTApiProxy</string>
 		</dict>
@@ -64,7 +60,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>BAB5E028-5F53-4109-B7D9-0DE4A237ED22</string>
+			<string>1E562039-CAE0-40BB-8C93-E89BF37E77C3</string>
 			<key>IDESourceControlWCCName</key>
 			<string>RTCoreService</string>
 		</dict>
@@ -72,15 +68,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>6DBBFDFF-337D-48A4-AAC4-4FD27AE14C93</string>
-			<key>IDESourceControlWCCName</key>
-			<string>RTCoreService</string>
-		</dict>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>6E8D7907-474B-4CAA-A140-4EBED6D18E84</string>
+			<string>EA993BC0-8962-4A05-B1B6-192D09071E8A</string>
 			<key>IDESourceControlWCCName</key>
 			<string>RTNetwork</string>
 		</dict>

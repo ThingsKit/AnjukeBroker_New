@@ -15,11 +15,11 @@
 #define SYSTEM_DARK_GRAY [Util_UI colorWithHexString:@"666666"]
 #define SYSTEM_GREEN [Util_UI colorWithHexString:@"66cc00"]
 #define SYSTEM_ORANGE [Util_UI colorWithHexString:@"FF6600"]
-#define SYSTEM_NAVIBAR_COLOR [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1]
 
 #define SYSTEM_ZZ_RED [UIColor colorWithRed:0.93 green:0.24 blue:0.25 alpha:1]
-
-#define BIG_BTN_RED [UIColor colorWithRed:0.93 green:0.24 blue:0.25 alpha:1]
+#define SYSTEM_NAVBAR_DARK_BG [Util_UI colorWithHexString:@"2C3241"]
+#define SYSTEM_NAVIBAR_COLOR [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1]
+#define SYSTEM_TABBAR_SELECTCOLOR_DARK [Util_UI colorWithHexString:@"0079FF"]
 
 @interface Util_UI : NSObject
 
