@@ -12,4 +12,6 @@
 
 @property (nonatomic, strong) NSMutableArray *controllerArrays;
 
+- (void)setMessageBadgeValueWithValue:(NSString *)value; //
+
 @end

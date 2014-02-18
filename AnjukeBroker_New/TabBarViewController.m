@@ -66,7 +66,8 @@
         RTNavigationController *navMl = [[RTNavigationController alloc] initWithRootViewController:ml];
         [self.controllerArrays addObject:navMl];
         navMl.tabBarItem = [self getTabBarItemWithTitle:@"微聊" image:[UIImage imageNamed:@"anjuke_icon_wl.png"] index:2];
-
+        navMl.tabBarItem.badgeValue = @"13.38"; //for test
+        
         //客户
         ClientListViewController *cl = [[ClientListViewController alloc] init];
         cl.isHome = YES;
@@ -94,8 +95,10 @@
         self.viewControllers = controllerArrays;
         if (![AppManager isIOS6]) {
             [self.tabBar setTintColor:SYSTEM_TABBAR_SELECTCOLOR_DARK];
-            [self.tabBar setTintColor:SYSTEM_ORANGE];
+//            [self.tabBar setTintColor:SYSTEM_ORANGE];
 //            [self.tabBar setBackgroundColor:SYSTEM_NAVBAR_DARK_BG];
+//            [self.tabBar setBarStyle:UIBarStyleBlack];
+            [self.tabBar setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_tab_bg.png"]];
         }
     }
     
@@ -152,6 +155,10 @@
     tabBarItem.imageInsets = tabItemInsertsMake;
     
     return tabBarItem;
+}
+
+- (void)setMessageBadgeValueWithValue:(NSString *)value {
+    [self.page2.tabBarItem setBadgeValue:value];
 }
 
 @end

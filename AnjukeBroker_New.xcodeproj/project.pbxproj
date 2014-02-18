@@ -31,6 +31,7 @@
 		203EC2AE18B2FF6E00DD0840 /* anjuke_icon_wl1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 203EC2A418B2FF6E00DD0840 /* anjuke_icon_wl1@2x.png */; };
 		203EC2AF18B2FF6E00DD0840 /* anjuke_icon_zf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 203EC2A518B2FF6E00DD0840 /* anjuke_icon_zf@2x.png */; };
 		203EC2B018B2FF6E00DD0840 /* anjuke_icon_zf1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 203EC2A618B2FF6E00DD0840 /* anjuke_icon_zf1@2x.png */; };
+		203EC2B218B3092100DD0840 /* anjuke_icon_tab_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 203EC2B118B3092100DD0840 /* anjuke_icon_tab_bg@2x.png */; };
 		204E66CF1894E7DB00546D51 /* PublishBigImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 204E66CE1894E7DB00546D51 /* PublishBigImageViewController.m */; };
 		20578B9F1898ABCC0086B93D /* PropertyEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20578B9E1898ABCC0086B93D /* PropertyEditViewController.m */; };
 		2063C2651890ADB20043C739 /* PublishHouseTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2063C2641890ADB20043C739 /* PublishHouseTypeViewController.m */; };
@@ -331,6 +332,7 @@
 		203EC2A418B2FF6E00DD0840 /* anjuke_icon_wl1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_wl1@2x.png"; sourceTree = "<group>"; };
 		203EC2A518B2FF6E00DD0840 /* anjuke_icon_zf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_zf@2x.png"; sourceTree = "<group>"; };
 		203EC2A618B2FF6E00DD0840 /* anjuke_icon_zf1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_zf1@2x.png"; sourceTree = "<group>"; };
+		203EC2B118B3092100DD0840 /* anjuke_icon_tab_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_tab_bg@2x.png"; sourceTree = "<group>"; };
 		204E66CD1894E7DB00546D51 /* PublishBigImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishBigImageViewController.h; sourceTree = "<group>"; };
 		204E66CE1894E7DB00546D51 /* PublishBigImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishBigImageViewController.m; sourceTree = "<group>"; };
 		20578B9D1898ABCC0086B93D /* PropertyEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyEditViewController.h; sourceTree = "<group>"; };
@@ -792,6 +794,7 @@
 				203EC2A418B2FF6E00DD0840 /* anjuke_icon_wl1@2x.png */,
 				203EC2A518B2FF6E00DD0840 /* anjuke_icon_zf@2x.png */,
 				203EC2A618B2FF6E00DD0840 /* anjuke_icon_zf1@2x.png */,
+				203EC2B118B3092100DD0840 /* anjuke_icon_tab_bg@2x.png */,
 			);
 			name = Tab_icon;
 			sourceTree = "<group>";
@@ -1890,6 +1893,7 @@
 				20F011C118942ABD000264BA /* icon_57.png in Resources */,
 				B7E38A0A18225FEC002C6E8A /* anjuke_icon07_arrow@2x.png in Resources */,
 				20D3C24E18925D800030D7D8 /* anjuke_icon_photo_add@2x.png in Resources */,
+				203EC2B218B3092100DD0840 /* anjuke_icon_tab_bg@2x.png in Resources */,
 				20F6632A1896050F00356DFD /* anjuke_icon_nextfxt_@2x.png in Resources */,
 				206F7FDD18A87EF5001EEC16 /* anjuke_icon_publishesf@2x.png in Resources */,
 				20E3E783186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png in Resources */,
