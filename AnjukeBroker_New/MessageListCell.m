@@ -30,8 +30,7 @@
 */
 
 - (void)initUI {
-    CGFloat imgW = 45;
-    WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, (MESSAGE_LIST_HEIGHT - imgW)/2, imgW, imgW)];
+    WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, (MESSAGE_LIST_HEIGHT - IMG_ICON_H)/2, IMG_ICON_H, IMG_ICON_H)];
     self.imageIcon = icon;
     icon.layer.cornerRadius = 5;
     icon.layer.borderColor = SYSTEM_LIGHT_GRAY.CGColor;
@@ -43,22 +42,23 @@
     self.nameLb = nameLabel;
     nameLabel.backgroundColor = [UIColor clearColor];
     nameLabel.textColor = SYSTEM_BLACK;
-    nameLabel.font = [UIFont systemFontOfSize:16];
+    nameLabel.font = [UIFont systemFontOfSize:15];
     [self.contentView addSubview:nameLabel];
     
     UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(320 - CELL_OFFSET_TITLE - 70, icon.frame.origin.y, 70, 20)];
     self.timeLb = timeLabel;
     timeLabel.backgroundColor = [UIColor clearColor];
     timeLabel.textColor = SYSTEM_LIGHT_GRAY;
-    timeLabel.font = [UIFont systemFontOfSize:13];
+    timeLabel.font = [UIFont systemFontOfSize:12];
     timeLabel.textAlignment = NSTextAlignmentRight;
     [self.contentView addSubview:timeLabel];
     
-    UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(nameLabel.frame.origin.x, nameLabel.frame.origin.y + nameLabel.frame.size.height + 7, 240, 20)];
+    CGFloat messageLabelH = 15;
+    UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(nameLabel.frame.origin.x, MESSAGE_LIST_HEIGHT - icon.frame.origin.y - messageLabelH, 240, messageLabelH)];
     self.messageLb = messageLabel;
     messageLabel.backgroundColor = [UIColor clearColor];
     messageLabel.textColor = SYSTEM_LIGHT_GRAY;
-    messageLabel.font = [UIFont systemFontOfSize:13];
+    messageLabel.font = [UIFont systemFontOfSize:12];
     [self.contentView addSubview:messageLabel];
 }
 

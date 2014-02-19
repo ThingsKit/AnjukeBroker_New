@@ -57,7 +57,7 @@
 
 - (void)showBottonLineWithCellHeight:(CGFloat)cellH {
     if (self.lineView == nil) {
-        self.lineView = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, cellH -1, 320 - 0, 1)];
+        self.lineView = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, cellH -0.5, 320 - 0, 0.5)];
         [self.contentView addSubview:self.lineView];
     }
     else {
@@ -67,11 +67,11 @@
 
 - (void)showTopLine {
     if (self.topLine == nil) {
-        self.topLine = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, -1, 320 - 0, 1)];
+        self.topLine = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, -0.5, 320 - 0, 0.5)];
         [self.contentView addSubview:self.topLine];
     }
     
-    self.topLine.frame = CGRectMake(0, 0, 320 - 0, 1);
+    self.topLine.frame = CGRectMake(0, 0, 320 - 0, 0.5);
     
 }
 

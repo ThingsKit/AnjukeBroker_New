@@ -59,7 +59,7 @@
     self.tableViewList = tv;
     tv.delegate = self;
     tv.dataSource = self;
-    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:tv];
 
 }
@@ -104,8 +104,6 @@
         
     }
     [cell configureCell:nil];
-    
-    [cell showBottonLineWithCellHeight:MESSAGE_LIST_HEIGHT];
     
     return cell;
 }

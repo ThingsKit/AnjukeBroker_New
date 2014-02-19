@@ -60,14 +60,7 @@
     [self checkLogin];
     
     [self.window makeKeyAndVisible];
-    
-    if (![AppManager isIOS6]) {
-        [[UINavigationBar appearance] setBarTintColor:SYSTEM_NAVBAR_DARK_BG];
         
-        [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"anjuke_icon_back.png"]];
-        [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"anjuke_icon_back.png"]];
-    }
-    
     [self registerRemoteNotification];
     [self cleanRemoteNotification:application];
     

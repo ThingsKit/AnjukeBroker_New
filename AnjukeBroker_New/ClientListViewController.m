@@ -66,7 +66,7 @@
     self.tableViewList = tv;
     tv.delegate = self;
     tv.dataSource = self;
-    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:tv];
 
 }
@@ -97,15 +97,18 @@
 
 #pragma mark - private Method
 
-- (NSArray *)rightButtons
+- (NSArray *)rightButtonsWithSection:(int)section
 {
     NSMutableArray *rightUtilityButtons = [NSMutableArray array];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
-                                                title:@"标星"];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
-                                                title:@"删除"];
+    
+    if (section > 0) {
+        [rightUtilityButtons sw_addUtilityButtonWithColor:
+         [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
+                                                    title:@"标星"];
+        [rightUtilityButtons sw_addUtilityButtonWithColor:
+         [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
+                                                    title:@"删除"];
+    }
     
     return rightUtilityButtons;
 }
@@ -156,17 +159,16 @@
     
     if (cell == nil) {
         
-        cell = [[ClientListCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+        cell = [[ClientListCell alloc] initWithStyle:UITableViewCellStyleDefault
                                       reuseIdentifier:cellIdentifier
                                   containingTableView:tableView // Used for row height and selection
                                    leftUtilityButtons:[self leftButtons]
-                                  rightUtilityButtons:[self rightButtons]];
+                                  rightUtilityButtons:[self rightButtonsWithSection:indexPath.section]];
         cell.delegate = self;
     }
     
-    cell.textLabel.backgroundColor = [UIColor whiteColor];
-    cell.detailTextLabel.backgroundColor = [UIColor whiteColor];
-    cell.detailTextLabel.text = @"Some detail text";
+    [cell setCellHeight:CLIENT_LIST_HEIGHT];
+    [cell configureCellWithData:nil];
     
     return cell;
 }

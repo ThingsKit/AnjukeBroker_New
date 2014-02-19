@@ -9,7 +9,9 @@
 #import "RTListCell.h"
 #import "WebImageView.h"
 
-#define MESSAGE_LIST_HEIGHT 65
+#define MESSAGE_LIST_HEIGHT 60
+
+#define IMG_ICON_H 40
 
 @interface MessageListCell : RTListCell
 
