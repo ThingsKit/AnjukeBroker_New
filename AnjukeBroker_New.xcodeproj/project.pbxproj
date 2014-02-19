@@ -46,6 +46,12 @@
 		206F7FDF18A87EF5001EEC16 /* anjuke_icon_publishzf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 206F7FD618A87EF5001EEC16 /* anjuke_icon_publishzf@2x.png */; };
 		206F7FE018A87EF5001EEC16 /* anjuke_icon_set_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 206F7FD718A87EF5001EEC16 /* anjuke_icon_set_selected@2x.png */; };
 		206F7FE118A87EF5001EEC16 /* anjuke_icon_set@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 206F7FD818A87EF5001EEC16 /* anjuke_icon_set@2x.png */; };
+		207526B918B45FE10022220C /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 207526AE18B45FE10022220C /* NSMutableArray+SWUtilityButtons.m */; };
+		207526BA18B45FE10022220C /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 207526B018B45FE10022220C /* SWCellScrollView.m */; };
+		207526BB18B45FE10022220C /* SWLongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 207526B218B45FE10022220C /* SWLongPressGestureRecognizer.m */; };
+		207526BC18B45FE10022220C /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 207526B418B45FE10022220C /* SWTableViewCell.m */; };
+		207526BD18B45FE10022220C /* SWUtilityButtonTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 207526B618B45FE10022220C /* SWUtilityButtonTapGestureRecognizer.m */; };
+		207526BE18B45FE10022220C /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 207526B818B45FE10022220C /* SWUtilityButtonView.m */; };
 		208A05EA18A413620053D885 /* PublishHouseTypeEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 208A05E918A413620053D885 /* PublishHouseTypeEditViewController.m */; };
 		20A07429188C0A080073C915 /* PublishTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A07428188C0A080073C915 /* PublishTableViewDataSource.m */; };
 		20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A09790188D0A4E00D30196 /* PublishInputOrderModel.m */; };
@@ -352,6 +358,19 @@
 		206F7FD618A87EF5001EEC16 /* anjuke_icon_publishzf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_publishzf@2x.png"; sourceTree = "<group>"; };
 		206F7FD718A87EF5001EEC16 /* anjuke_icon_set_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_set_selected@2x.png"; sourceTree = "<group>"; };
 		206F7FD818A87EF5001EEC16 /* anjuke_icon_set@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_set@2x.png"; sourceTree = "<group>"; };
+		207526AC18B45FE10022220C /* SWConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWConstants.h; sourceTree = "<group>"; };
+		207526AD18B45FE10022220C /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
+		207526AE18B45FE10022220C /* NSMutableArray+SWUtilityButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+SWUtilityButtons.m"; sourceTree = "<group>"; };
+		207526AF18B45FE10022220C /* SWCellScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWCellScrollView.h; sourceTree = "<group>"; };
+		207526B018B45FE10022220C /* SWCellScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWCellScrollView.m; sourceTree = "<group>"; };
+		207526B118B45FE10022220C /* SWLongPressGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWLongPressGestureRecognizer.h; sourceTree = "<group>"; };
+		207526B218B45FE10022220C /* SWLongPressGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWLongPressGestureRecognizer.m; sourceTree = "<group>"; };
+		207526B318B45FE10022220C /* SWTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWTableViewCell.h; sourceTree = "<group>"; };
+		207526B418B45FE10022220C /* SWTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWTableViewCell.m; sourceTree = "<group>"; };
+		207526B518B45FE10022220C /* SWUtilityButtonTapGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWUtilityButtonTapGestureRecognizer.h; sourceTree = "<group>"; };
+		207526B618B45FE10022220C /* SWUtilityButtonTapGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonTapGestureRecognizer.m; sourceTree = "<group>"; };
+		207526B718B45FE10022220C /* SWUtilityButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWUtilityButtonView.h; sourceTree = "<group>"; };
+		207526B818B45FE10022220C /* SWUtilityButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonView.m; sourceTree = "<group>"; };
 		208A05E818A413620053D885 /* PublishHouseTypeEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishHouseTypeEditViewController.h; sourceTree = "<group>"; };
 		208A05E918A413620053D885 /* PublishHouseTypeEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishHouseTypeEditViewController.m; sourceTree = "<group>"; };
 		20A07427188C0A080073C915 /* PublishTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishTableViewDataSource.h; sourceTree = "<group>"; };
@@ -777,6 +796,7 @@
 			children = (
 				203EC29918B2F65400DD0840 /* ClientListViewController.h */,
 				203EC29A18B2F65400DD0840 /* ClientListViewController.m */,
+				207526AA18B45FBD0022220C /* 滑动列表基类cell */,
 			);
 			name = "客户";
 			sourceTree = "<group>";
@@ -873,6 +893,26 @@
 				206F7FD818A87EF5001EEC16 /* anjuke_icon_set@2x.png */,
 			);
 			name = "首页img";
+			sourceTree = "<group>";
+		};
+		207526AA18B45FBD0022220C /* 滑动列表基类cell */ = {
+			isa = PBXGroup;
+			children = (
+				207526AC18B45FE10022220C /* SWConstants.h */,
+				207526AD18B45FE10022220C /* NSMutableArray+SWUtilityButtons.h */,
+				207526AE18B45FE10022220C /* NSMutableArray+SWUtilityButtons.m */,
+				207526AF18B45FE10022220C /* SWCellScrollView.h */,
+				207526B018B45FE10022220C /* SWCellScrollView.m */,
+				207526B118B45FE10022220C /* SWLongPressGestureRecognizer.h */,
+				207526B218B45FE10022220C /* SWLongPressGestureRecognizer.m */,
+				207526B318B45FE10022220C /* SWTableViewCell.h */,
+				207526B418B45FE10022220C /* SWTableViewCell.m */,
+				207526B518B45FE10022220C /* SWUtilityButtonTapGestureRecognizer.h */,
+				207526B618B45FE10022220C /* SWUtilityButtonTapGestureRecognizer.m */,
+				207526B718B45FE10022220C /* SWUtilityButtonView.h */,
+				207526B818B45FE10022220C /* SWUtilityButtonView.m */,
+			);
+			name = "滑动列表基类cell";
 			sourceTree = "<group>";
 		};
 		20A0978D188D0A2E00D30196 /* 发房Model */ = {
@@ -1952,6 +1992,7 @@
 				B7EA04A61844D40900AC8842 /* BrokerAccountController.m in Sources */,
 				970DB71D183AFFE700DEB455 /* AboutUsViewController.m in Sources */,
 				97B422681821087600A2E9E6 /* PropertyBigImageViewController.m in Sources */,
+				207526B918B45FE10022220C /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				B7E56D0F183DBAD600A0F7D2 /* AnjukeOnlineImgController.m in Sources */,
 				B769E46C181F76A600A2FF50 /* BaseBidPlanController.m in Sources */,
 				972DDA301826D39500263F8F /* RTPopoverTableViewController.m in Sources */,
@@ -1984,6 +2025,7 @@
 				979583581821FF2B005EA48A /* SystemMessageViewController.m in Sources */,
 				B77A9612182A39C1007F04E3 /* RentPropertyObject.m in Sources */,
 				B7E69BC1183B63480097D5C3 /* RentAuctionViewController.m in Sources */,
+				207526BE18B45FE10022220C /* SWUtilityButtonView.m in Sources */,
 				B769E45D181F54DE00A2FF50 /* BasePropertyObject.m in Sources */,
 				20A44DA31869760B008D8CB1 /* SSPullToRefreshView.m in Sources */,
 				B7E69BB5183B3B040097D5C3 /* RentGroupListController.m in Sources */,
@@ -1993,6 +2035,7 @@
 				B79084F6182B42AE00B2A870 /* SaleFixedGroupObject.m in Sources */,
 				B79084FA182B490600B2A870 /* SaleFixedManager.m in Sources */,
 				972C10391815351900552C9B /* AnjukeEditPropertyViewController.m in Sources */,
+				207526BC18B45FE10022220C /* SWTableViewCell.m in Sources */,
 				B769E47E181F864200A2FF50 /* BaseBidPropertyController.m in Sources */,
 				97CB0C1F182BF28D00FCCBBD /* UIViewController+Loading.m in Sources */,
 				B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */,
@@ -2022,6 +2065,7 @@
 				B769E484181F8F7000A2FF50 /* BasePropertyListController.m in Sources */,
 				B769E45A181F547100A2FF50 /* BasePropertyListCell.m in Sources */,
 				200915EB1893FC1100A13115 /* Property.m in Sources */,
+				207526BB18B45FE10022220C /* SWLongPressGestureRecognizer.m in Sources */,
 				B769E460181F5F1200A2FF50 /* ModifyFixedCostController.m in Sources */,
 				2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */,
 				203EC29B18B2F65400DD0840 /* ClientListViewController.m in Sources */,
@@ -2033,6 +2077,7 @@
 				976AC61118278B5C003A2B3A /* LoginViewController.m in Sources */,
 				97410561180CDFE0004DAE95 /* main.m in Sources */,
 				20A07429188C0A080073C915 /* PublishTableViewDataSource.m in Sources */,
+				207526BA18B45FE10022220C /* SWCellScrollView.m in Sources */,
 				972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */,
 				97B106501834E5F40064AF5F /* AppManager.m in Sources */,
 				974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */,
@@ -2068,6 +2113,7 @@
 				97192EE71818FEF7007971BA /* PhotoButton.m in Sources */,
 				97C97B461810DD34006E538B /* TabBarViewController.m in Sources */,
 				20D3C24C1892466B0030D7D8 /* PhotoFooterView.m in Sources */,
+				207526BD18B45FE10022220C /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				B7EF148E18289CB7000B6016 /* RentBidDetailController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

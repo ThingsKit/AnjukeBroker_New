@@ -47,6 +47,11 @@
 
 - (void)initModel {
     self.listDataArray = [NSMutableArray array];
+    
+    //test
+    for (int i = 0; i < 10 ; i ++) {
+        [self.listDataArray addObject:@"aaa"];
+    }
 }
 
 - (void)initDisplay {
@@ -59,6 +64,20 @@
 
 }
 
+#pragma mark - Private Method
+
+- (void)removeDataArrAtIndex:(int)index {
+    if (index >= self.listDataArray.count) {
+        return;
+    }
+    
+    if (self.listDataArray.count == 0) {
+        return;
+    }
+    
+    [self.listDataArray removeObjectAtIndex:index];
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -66,7 +85,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;//self.listDataArray.count;
+    return self.listDataArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -84,11 +103,26 @@
     else {
         
     }
-    [cell configureCell:self.listDataArray];
+    [cell configureCell:nil];
     
     [cell showBottonLineWithCellHeight:MESSAGE_LIST_HEIGHT];
     
     return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [self removeDataArrAtIndex:indexPath.row];
+    
+    [tableView beginUpdates];
+    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [tableView endUpdates];
+    
+//    [tableView reloadData];
 }
 
 #pragma mark - UITableViewDelegate
@@ -96,6 +130,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return @"删除";
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleDelete;
 }
 
 @end
