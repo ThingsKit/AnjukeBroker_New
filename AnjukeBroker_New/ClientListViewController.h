@@ -7,7 +7,8 @@
 //
 
 #import "RTViewController.h"
+#import "ClientListCell.h"
 
-@interface ClientListViewController : RTViewController
+@interface ClientListViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate>
 
 @end

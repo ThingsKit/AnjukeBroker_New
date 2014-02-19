@@ -52,6 +52,7 @@
 		207526BC18B45FE10022220C /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 207526B418B45FE10022220C /* SWTableViewCell.m */; };
 		207526BD18B45FE10022220C /* SWUtilityButtonTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 207526B618B45FE10022220C /* SWUtilityButtonTapGestureRecognizer.m */; };
 		207526BE18B45FE10022220C /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 207526B818B45FE10022220C /* SWUtilityButtonView.m */; };
+		207526C118B4658A0022220C /* ClientListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 207526C018B4658A0022220C /* ClientListCell.m */; };
 		208A05EA18A413620053D885 /* PublishHouseTypeEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 208A05E918A413620053D885 /* PublishHouseTypeEditViewController.m */; };
 		20A07429188C0A080073C915 /* PublishTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A07428188C0A080073C915 /* PublishTableViewDataSource.m */; };
 		20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A09790188D0A4E00D30196 /* PublishInputOrderModel.m */; };
@@ -371,6 +372,8 @@
 		207526B618B45FE10022220C /* SWUtilityButtonTapGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonTapGestureRecognizer.m; sourceTree = "<group>"; };
 		207526B718B45FE10022220C /* SWUtilityButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWUtilityButtonView.h; sourceTree = "<group>"; };
 		207526B818B45FE10022220C /* SWUtilityButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonView.m; sourceTree = "<group>"; };
+		207526BF18B4658A0022220C /* ClientListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientListCell.h; sourceTree = "<group>"; };
+		207526C018B4658A0022220C /* ClientListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientListCell.m; sourceTree = "<group>"; };
 		208A05E818A413620053D885 /* PublishHouseTypeEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishHouseTypeEditViewController.h; sourceTree = "<group>"; };
 		208A05E918A413620053D885 /* PublishHouseTypeEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishHouseTypeEditViewController.m; sourceTree = "<group>"; };
 		20A07427188C0A080073C915 /* PublishTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishTableViewDataSource.h; sourceTree = "<group>"; };
@@ -796,6 +799,8 @@
 			children = (
 				203EC29918B2F65400DD0840 /* ClientListViewController.h */,
 				203EC29A18B2F65400DD0840 /* ClientListViewController.m */,
+				207526BF18B4658A0022220C /* ClientListCell.h */,
+				207526C018B4658A0022220C /* ClientListCell.m */,
 				207526AA18B45FBD0022220C /* 滑动列表基类cell */,
 			);
 			name = "客户";
@@ -2098,6 +2103,7 @@
 				97DED8AD18234BB100D0B82A /* MoreListCell.m in Sources */,
 				B76E5977181E5676005B6A8C /* BaseNoPlanController.m in Sources */,
 				B7EA04AA1844DB3700AC8842 /* BrokerAccountCell.m in Sources */,
+				207526C118B4658A0022220C /* ClientListCell.m in Sources */,
 				9751860218320D5F00C9A40A /* PhotoManager.m in Sources */,
 				97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */,
 				979B083B18488A2800DD697E /* BigZhenzhenButton.m in Sources */,
