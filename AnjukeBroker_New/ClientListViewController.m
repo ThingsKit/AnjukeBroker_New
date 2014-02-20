@@ -7,6 +7,7 @@
 //
 
 #import "ClientListViewController.h"
+#import "ClientDetailViewController.h"
 
 @interface ClientListViewController ()
 
@@ -184,6 +185,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    //for test
+    ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
+    [self.navigationController pushViewController:cd animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

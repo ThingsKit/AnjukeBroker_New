@@ -53,6 +53,12 @@
 		2079ADD618B59CC00029D493 /* anjuke_icon_scyx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2079ADCE18B59CC00029D493 /* anjuke_icon_scyx@2x.png */; };
 		2079ADD718B59CC00029D493 /* anjuke_icon_scyx1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2079ADCF18B59CC00029D493 /* anjuke_icon_scyx1@2x.png */; };
 		2079ADD818B59CC00029D493 /* anjuke_icon_setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2079ADD018B59CC00029D493 /* anjuke_icon_setting@2x.png */; };
+		2079ADDB18B5D62E0029D493 /* ClientDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2079ADDA18B5D62E0029D493 /* ClientDetailViewController.m */; };
+		2079ADDE18B5D64B0029D493 /* ClientEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2079ADDD18B5D64B0029D493 /* ClientEditViewController.m */; };
+		2079ADE118B5DB690029D493 /* ClientDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2079ADE018B5DB690029D493 /* ClientDetailCell.m */; };
+		2079ADE518B5EEDF0029D493 /* anjuke_icon_bluebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2079ADE218B5EEDF0029D493 /* anjuke_icon_bluebutton@2x.png */; };
+		2079ADE618B5EEDF0029D493 /* anjuke_icon_bluebutton1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2079ADE318B5EEDF0029D493 /* anjuke_icon_bluebutton1@2x.png */; };
+		2079ADE718B5EEDF0029D493 /* anjuke_icon_ok@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2079ADE418B5EEDF0029D493 /* anjuke_icon_ok@2x.png */; };
 		208A05EA18A413620053D885 /* PublishHouseTypeEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 208A05E918A413620053D885 /* PublishHouseTypeEditViewController.m */; };
 		20A07429188C0A080073C915 /* PublishTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A07428188C0A080073C915 /* PublishTableViewDataSource.m */; };
 		20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A09790188D0A4E00D30196 /* PublishInputOrderModel.m */; };
@@ -374,6 +380,15 @@
 		2079ADCE18B59CC00029D493 /* anjuke_icon_scyx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_scyx@2x.png"; sourceTree = "<group>"; };
 		2079ADCF18B59CC00029D493 /* anjuke_icon_scyx1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_scyx1@2x.png"; sourceTree = "<group>"; };
 		2079ADD018B59CC00029D493 /* anjuke_icon_setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_setting@2x.png"; sourceTree = "<group>"; };
+		2079ADD918B5D62E0029D493 /* ClientDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientDetailViewController.h; sourceTree = "<group>"; };
+		2079ADDA18B5D62E0029D493 /* ClientDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientDetailViewController.m; sourceTree = "<group>"; };
+		2079ADDC18B5D64B0029D493 /* ClientEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientEditViewController.h; sourceTree = "<group>"; };
+		2079ADDD18B5D64B0029D493 /* ClientEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientEditViewController.m; sourceTree = "<group>"; };
+		2079ADDF18B5DB690029D493 /* ClientDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientDetailCell.h; sourceTree = "<group>"; };
+		2079ADE018B5DB690029D493 /* ClientDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientDetailCell.m; sourceTree = "<group>"; };
+		2079ADE218B5EEDF0029D493 /* anjuke_icon_bluebutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_bluebutton@2x.png"; sourceTree = "<group>"; };
+		2079ADE318B5EEDF0029D493 /* anjuke_icon_bluebutton1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_bluebutton1@2x.png"; sourceTree = "<group>"; };
+		2079ADE418B5EEDF0029D493 /* anjuke_icon_ok@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_ok@2x.png"; sourceTree = "<group>"; };
 		208A05E818A413620053D885 /* PublishHouseTypeEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishHouseTypeEditViewController.h; sourceTree = "<group>"; };
 		208A05E918A413620053D885 /* PublishHouseTypeEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishHouseTypeEditViewController.m; sourceTree = "<group>"; };
 		20A07427188C0A080073C915 /* PublishTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishTableViewDataSource.h; sourceTree = "<group>"; };
@@ -801,6 +816,12 @@
 				203EC29A18B2F65400DD0840 /* ClientListViewController.m */,
 				207526BF18B4658A0022220C /* ClientListCell.h */,
 				207526C018B4658A0022220C /* ClientListCell.m */,
+				2079ADD918B5D62E0029D493 /* ClientDetailViewController.h */,
+				2079ADDA18B5D62E0029D493 /* ClientDetailViewController.m */,
+				2079ADDF18B5DB690029D493 /* ClientDetailCell.h */,
+				2079ADE018B5DB690029D493 /* ClientDetailCell.m */,
+				2079ADDC18B5D64B0029D493 /* ClientEditViewController.h */,
+				2079ADDD18B5D64B0029D493 /* ClientEditViewController.m */,
 				207526AA18B45FBD0022220C /* 滑动列表基类cell */,
 			);
 			name = "客户";
@@ -1125,6 +1146,9 @@
 				970FC17F183B6E8100D142D5 /* icon+lanchImg */,
 				206F7FCE18A87E97001EEC16 /* speechIcon */,
 				97D752C6182C92690035577F /* Overlay@2x.png */,
+				2079ADE218B5EEDF0029D493 /* anjuke_icon_bluebutton@2x.png */,
+				2079ADE318B5EEDF0029D493 /* anjuke_icon_bluebutton1@2x.png */,
+				2079ADE418B5EEDF0029D493 /* anjuke_icon_ok@2x.png */,
 				203EC2B718B35E1900DD0840 /* anjuke_icon_back@2x.png */,
 				20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */,
 				200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */,
@@ -1875,6 +1899,7 @@
 				203EC2AF18B2FF6E00DD0840 /* anjuke_icon_zf@2x.png in Resources */,
 				972F70F01844EC560010CABB /* anjuke_icon22_esf@2x.png in Resources */,
 				9795838D18225B93005EA48A /* anjuke_icon05_photo_selected@2x.png in Resources */,
+				2079ADE718B5EEDF0029D493 /* anjuke_icon_ok@2x.png in Resources */,
 				97F4D18F184E2ABD00DFC45F /* logo_40.png in Resources */,
 				B7EF779D183CBAEC0024A5E6 /* anjuke_icon04_more@2x.png in Resources */,
 				2079ADD218B59CC00029D493 /* anjuke_icon_poblish_esf@2x.png in Resources */,
@@ -1908,6 +1933,7 @@
 				200915EF189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png in Resources */,
 				B77B1D17188FB353009E0D0C /* anjuke_icon_sound_button@2x.png in Resources */,
 				203EC2A718B2FF6E00DD0840 /* anjuke_icon_esf@2x.png in Resources */,
+				2079ADE618B5EEDF0029D493 /* anjuke_icon_bluebutton1@2x.png in Resources */,
 				9795838E18225B93005EA48A /* anjuke_icon05_photo@2x.png in Resources */,
 				20AD081F1887DBE3005462CC /* anjuke_icon_next@2x.png in Resources */,
 				979BBB69185804AE005B7D03 /* icon_40@2x.png in Resources */,
@@ -1928,6 +1954,7 @@
 				97F4D18C184E2ABD00DFC45F /* logo_60@2x.png in Resources */,
 				979BBB67185804AE005B7D03 /* icon_29@2x.png in Resources */,
 				203EC2AD18B2FF6E00DD0840 /* anjuke_icon_wl@2x.png in Resources */,
+				2079ADE518B5EEDF0029D493 /* anjuke_icon_bluebutton@2x.png in Resources */,
 				203EC2A918B2FF6E00DD0840 /* anjuke_icon_home@2x.png in Resources */,
 				20357CBC18AA1D2A00AFB85F /* anjuke_icon_come2_icon@2x.png in Resources */,
 				97DED8B81823999700D0B82A /* anjuke_icon11_@2x.png in Resources */,
@@ -2021,6 +2048,7 @@
 				97CB0C10182BEA3500FCCBBD /* ELCImagePickerController.m in Sources */,
 				B7E69BAE183B15430097D5C3 /* RentPPCGroupCell.m in Sources */,
 				20578B9F1898ABCC0086B93D /* PropertyEditViewController.m in Sources */,
+				2079ADE118B5DB690029D493 /* ClientDetailCell.m in Sources */,
 				B769E469181F680D00A2FF50 /* PropertyDetailCell.m in Sources */,
 				97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */,
 				206843E418890C9A007DD8C5 /* PublishBuildingViewController.m in Sources */,
@@ -2042,6 +2070,7 @@
 				972C10391815351900552C9B /* AnjukeEditPropertyViewController.m in Sources */,
 				207526BC18B45FE10022220C /* SWTableViewCell.m in Sources */,
 				B769E47E181F864200A2FF50 /* BaseBidPropertyController.m in Sources */,
+				2079ADDB18B5D62E0029D493 /* ClientDetailViewController.m in Sources */,
 				97CB0C1F182BF28D00FCCBBD /* UIViewController+Loading.m in Sources */,
 				B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */,
 				20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */,
@@ -2099,6 +2128,7 @@
 				2011CD8218AB1D5300EEEA5C /* SystemMessageDetailViewController.m in Sources */,
 				B721095518278B4E00904FC7 /* SalePropertyListCell.m in Sources */,
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
+				2079ADDE18B5D64B0029D493 /* ClientEditViewController.m in Sources */,
 				97DFA98A184C7C01002D6B82 /* AnjukeEditTextViewController.m in Sources */,
 				97DED8AD18234BB100D0B82A /* MoreListCell.m in Sources */,
 				B76E5977181E5676005B6A8C /* BaseNoPlanController.m in Sources */,

@@ -61,7 +61,7 @@
         [self.contentView addSubview:self.lineView];
     }
     else {
-        self.lineView.frame = CGRectMake(0, cellH -1, 320 - 0, 1);
+        self.lineView.frame = CGRectMake(0, cellH -0.5, 320 - 0, 0.5);
     }
 }
 
