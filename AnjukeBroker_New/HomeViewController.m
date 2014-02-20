@@ -14,6 +14,7 @@
 #import "RTNavigationController.h"
 #import "WebImageView.h"
 #import "LoginManager.h"
+#import "AppManager.h"
 
 #import "PublishBuildingViewController.h"
 #import "CommunityListViewController.h"
@@ -25,7 +26,7 @@
 #define Max_Account_Lb_Width 80
 
 #define HEADER_VIEW1_Height 250
-#define HEADER_VIEW2_Height 150
+#define HEADER_VIEW2_Height 125
 #define HEADER_VIEW_WHOLE_HEIGHT HEADER_VIEW1_Height+HEADER_VIEW2_Height
 
 @interface HomeViewController ()
@@ -147,10 +148,18 @@
     view1.backgroundColor = SYSTEM_LIGHT_GRAY_BG2;
     [BG_View addSubview:view1];
     
+    CGFloat view1_H = 45;
+    
+    if ([AppManager isiPhone4Display]) { //适配3.5inch display
+        view1.frame = CGRectMake(0, 0, [self windowWidth], HEADER_VIEW1_Height -20);
+        BG_View.frame = CGRectMake(0, 0, [self windowWidth], HEADER_VIEW_WHOLE_HEIGHT -20);
+        view1_H = 35;
+    }
+    
     //photo /name...
     CGFloat photoW = 130/2;
     UIButton *personBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    personBtn.frame = CGRectMake(([self windowWidth] - photoW)/2, 45, photoW, photoW);
+    personBtn.frame = CGRectMake(([self windowWidth] - photoW)/2, view1_H, photoW, photoW);
     personBtn.backgroundColor = [UIColor clearColor];
     [personBtn addTarget:self action:@selector(pushToPerson) forControlEvents:UIControlEventTouchUpInside];
     [view1 addSubview:personBtn];
@@ -221,7 +230,7 @@
     NSString *titleStr = [NSString string];
     for (int i = 0; i < 3; i ++) {
         //number label
-        UILabel *numLb = [[UILabel alloc] initWithFrame:CGRectMake(10+i *lbW_, personBtn.frame.origin.y + personBtn.frame.size.height +45, lbW_, 25)];
+        UILabel *numLb = [[UILabel alloc] initWithFrame:CGRectMake(10+i *lbW_, personBtn.frame.origin.y + personBtn.frame.size.height + view1_H, lbW_, 25)];
         numLb.backgroundColor = [UIColor clearColor];
         numLb.font = [UIFont systemFontOfSize:23];
         numLb.textColor = SYSTEM_BLACK;
@@ -261,7 +270,7 @@
     
     //part 2
     UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, view1.frame.origin.y+ view1.frame.size.height, [self windowWidth], HEADER_VIEW2_Height)];
-    view2.backgroundColor = [UIColor whiteColor];
+    view2.backgroundColor = [UIColor clearColor];
     [BG_View addSubview:view2];
     
     //add 3 btn
@@ -301,16 +310,16 @@
         [view2 addSubview:titleLabel];
         
         if (i == 2) {
-            UILabel *labNum = [[UILabel alloc] initWithFrame:CGRectMake(pushBtnW - 10, -10, 20, 20)];
-            labNum.tag = 101;
-            labNum.textColor = [UIColor whiteColor];
-            labNum.backgroundColor = SYSTEM_ORANGE;
-            labNum.font = [UIFont systemFontOfSize:13];
-            labNum.textAlignment = NSTextAlignmentCenter;
-            labNum.layer.cornerRadius = 10;
-            labNum.layer.masksToBounds = YES;
-            self.msgCountLb = labNum;
-            [btn addSubview:labNum];
+//            UILabel *labNum = [[UILabel alloc] initWithFrame:CGRectMake(pushBtnW - 10, -10, 20, 20)];
+//            labNum.tag = 101;
+//            labNum.textColor = [UIColor whiteColor];
+//            labNum.backgroundColor = SYSTEM_ORANGE;
+//            labNum.font = [UIFont systemFontOfSize:13];
+//            labNum.textAlignment = NSTextAlignmentCenter;
+//            labNum.layer.cornerRadius = 10;
+//            labNum.layer.masksToBounds = YES;
+//            self.msgCountLb = labNum;
+//            [btn addSubview:labNum];
         }
         
         [self msgCountLbShowWithMsgNum:self.MSGNum];
