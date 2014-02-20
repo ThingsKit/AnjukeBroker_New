@@ -188,6 +188,7 @@
     
     //for test
     ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
+    [cd setHidesBottomBarWhenPushed:YES];
     [self.navigationController pushViewController:cd animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

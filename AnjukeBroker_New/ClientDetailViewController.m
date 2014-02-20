@@ -8,8 +8,11 @@
 
 #import "ClientDetailViewController.h"
 #import "ClientDetailCell.h"
+#import "ClientEditViewController.h"
 
 #define DETAIL_HEADER_H 52+40
+
+#define TagOfMoreActionSheet 1001
 
 @interface ClientDetailViewController ()
 
@@ -37,6 +40,11 @@
 	// Do any additional setup after loading the view.
     
     [self setTitleViewWithString:@"客户资料"];
+    
+    UIBarButtonItem *moreItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_danye_more_.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
+    UIBarButtonItem *startItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"] style:UIBarButtonItemStylePlain target:self action:@selector(redrawStarStatus:)];
+    
+    self.navigationItem.rightBarButtonItems = @[moreItem, startItem];
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,7 +60,7 @@
 }
 
 - (void)initDisplay {
-    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_BETWEEN_NAV_TAB style:UITableViewStylePlain];
+    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.tableViewList = tv;
     tv.delegate = self;
     tv.dataSource = self;
@@ -108,6 +116,25 @@
     
 }
 
+- (void)rightButtonAction:(id)sender {
+    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"编辑备注", @"删除客户", nil];
+    as.delegate = self;
+    as.tag = TagOfMoreActionSheet;
+    as.destructiveButtonIndex = 1;
+    [as showInView:self.view];
+}
+
+- (void)redrawStarStatus:(id)sender {
+    UIBarButtonItem *item = (UIBarButtonItem *)sender;
+    
+    if ([item.image isEqual:[UIImage imageNamed:@"anjuke_icon_danye_xingbiao_.png"]]) {
+        item.image = [UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"];
+    }
+    else{
+        item.image = [UIImage imageNamed:@"anjuke_icon_danye_xingbiao_.png"];
+    }
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -146,6 +173,62 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (actionSheet.tag == TagOfMoreActionSheet) {
+        switch (buttonIndex) {
+            case 0:
+            {
+                //编辑
+                ClientEditViewController *ce = [[ClientEditViewController alloc] init];
+                [self.navigationController pushViewController:ce animated:YES];
+            }
+                break;
+            case 1:
+            {
+                //删除
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"是否删除" message:@"删除客户，将同时删除备注和聊天记录" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                av.delegate = self;
+                [av show];
+                
+            }
+                break;
+            case 2:
+            {
+                //取消
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 0:
+        {
+            //取消
+        }
+            break;
+        case 1:
+        {
+            //test 确定删除
+            [self showInfo:@"已删除"];
+            
+            [self doBack:self];
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 

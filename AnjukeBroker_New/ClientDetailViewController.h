@@ -8,6 +8,6 @@
 
 #import "RTViewController.h"
 
-@interface ClientDetailViewController : RTViewController <UITableViewDataSource, UITableViewDelegate>
+@interface ClientDetailViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 
 @end
