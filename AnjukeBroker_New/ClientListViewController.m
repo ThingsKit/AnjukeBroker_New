@@ -77,10 +77,10 @@
     
     //reset 3 list arr ...
     //test
-    NSArray *arr = @[@"", @"", @""];
-    [self.publicDataArr addObjectsFromArray:arr];
-    [self.starDataArr addObjectsFromArray:arr];
-    [self.allDataArr addObjectsFromArray:arr];
+    NSArray *arr = @[@"", @"", @"", @"", @""];
+    self.publicDataArr = [NSMutableArray arrayWithArray:arr];
+    self.starDataArr = [NSMutableArray arrayWithArray:arr];
+    self.allDataArr = [NSMutableArray arrayWithArray:arr];
     
     //add 3 arr to list data att
     if (self.publicDataArr.count > 0) {
@@ -98,19 +98,16 @@
 
 #pragma mark - private Method
 
-- (NSArray *)rightButtonsWithSection:(int)section
+- (NSArray *)rightButtons
 {
     NSMutableArray *rightUtilityButtons = [NSMutableArray array];
     
-    if (section > 0) {
-        [rightUtilityButtons sw_addUtilityButtonWithColor:
-         [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
-                                                    title:@"标星"];
-        [rightUtilityButtons sw_addUtilityButtonWithColor:
-         [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
+    [rightUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
+                                                title:@"标星"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
                                                     title:@"删除"];
-    }
-    
     return rightUtilityButtons;
 }
 
@@ -154,17 +151,21 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellIdentifier = @"Cell";
     
-    ClientListCell *cell = (ClientListCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    ClientListCell *cell = (ClientListCell *)[tableView dequeueReusableCellWithIdentifier:nil];
+    
+    NSArray *rightBtnarr = [NSArray array];
+    if (indexPath.section > 0) {
+        DLog(@"section > 0");
+        rightBtnarr = [self rightButtons];
+    }
     
     if (cell == nil) {
-        
         cell = [[ClientListCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                      reuseIdentifier:cellIdentifier
+                                      reuseIdentifier:nil
                                   containingTableView:tableView // Used for row height and selection
                                    leftUtilityButtons:[self leftButtons]
-                                  rightUtilityButtons:[self rightButtonsWithSection:indexPath.section]];
+                                  rightUtilityButtons:rightBtnarr];
         cell.delegate = self;
     }
     
