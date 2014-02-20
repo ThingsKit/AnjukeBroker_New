@@ -19,12 +19,13 @@
 #import "CommunityListViewController.h"
 #import "MoreViewController.h"
 #import "FindHomeViewController.h"
+#import "BrokerAccountController.h"
 
 #define HOME_cellHeight 50
 #define Max_Account_Lb_Width 80
 
-#define HEADER_VIEW1_Height 180
-#define HEADER_VIEW2_Height 280
+#define HEADER_VIEW1_Height 250
+#define HEADER_VIEW2_Height 150
 #define HEADER_VIEW_WHOLE_HEIGHT HEADER_VIEW1_Height+HEADER_VIEW2_Height
 
 @interface HomeViewController ()
@@ -76,7 +77,7 @@
     [self setTitleViewWithString:[LoginManager getUserName]];
     
     //设置按钮
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_set.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
     rightItem.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = rightItem;
 }
@@ -113,7 +114,7 @@
 #pragma mark - private method
 
 - (void)initModel {
-    self.taskArray = [NSArray arrayWithObjects:@"发布二手房", @"发布租房", @"系统公告", nil];
+    self.taskArray = [NSArray arrayWithObjects:@"发布二手房", @"发布租房", @"市场分析", nil];
     
     self.dataDic = [NSMutableDictionary dictionary];
     self.ppcDataDic = [NSMutableDictionary dictionary];
@@ -122,7 +123,7 @@
 - (void)initDisplay {
     UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_TAB style:UITableViewStylePlain];
     self.tvList = tv;
-    tv.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
+    tv.backgroundColor = [UIColor whiteColor];
 //    tv.layer.borderColor = [UIColor redColor].CGColor;
 //    tv.layer.borderWidth = 1;
     tv.delegate = self;
@@ -133,7 +134,7 @@
     [self.view addSubview:tv];
     
     UIView *hView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], HEADER_VIEW_WHOLE_HEIGHT)];
-    hView.backgroundColor = [UIColor clearColor];
+    hView.backgroundColor = [UIColor whiteColor];
     tv.tableHeaderView = hView;
     
     //暂时只显示header，无row
@@ -143,32 +144,43 @@
 - (void)drawHeaderWithBG:(UIView *)BG_View {
     //part 1
     UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], HEADER_VIEW1_Height)];
-    view1.backgroundColor = [UIColor clearColor];
+    view1.backgroundColor = SYSTEM_LIGHT_GRAY_BG2;
     [BG_View addSubview:view1];
     
     //photo /name...
-    CGFloat photoW = 160/2;
-    WebImageView *photo = [[WebImageView alloc] initWithFrame:CGRectMake(([self windowWidth] - photoW)/2, 30, photoW, photoW)];
+    CGFloat photoW = 130/2;
+    UIButton *personBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    personBtn.frame = CGRectMake(([self windowWidth] - photoW)/2, 45, photoW, photoW);
+    personBtn.backgroundColor = [UIColor clearColor];
+    [personBtn addTarget:self action:@selector(pushToPerson) forControlEvents:UIControlEventTouchUpInside];
+    [view1 addSubview:personBtn];
+    
+    WebImageView *photo = [[WebImageView alloc] initWithFrame:CGRectMake(0, 0, photoW, photoW)];
     photo.backgroundColor = [UIColor whiteColor];
     photo.contentMode = UIViewContentModeScaleAspectFill;
     photo.clipsToBounds = YES;
     photo.imageUrl = [LoginManager getUse_photo_url];
-    photo.layer.cornerRadius = photoW/2;
+    photo.layer.cornerRadius = 8;
     photo.layer.borderColor = SYSTEM_BLACK.CGColor;
-    photo.layer.borderWidth = 1;
+    photo.layer.borderWidth = 0.5;
     self.photoImg = photo;
-    [view1 addSubview:photo];
+    [personBtn addSubview:photo];
+    
+    //二维码
+    UIImageView *codeIcon = [[UIImageView alloc] initWithFrame:CGRectMake(personBtn.frame.origin.x + personBtn.frame.size.width*0.8, personBtn.frame.origin.y + personBtn.frame.size.height * 0.75, 53/2, 54/2)];
+    codeIcon.image = [UIImage imageNamed:@"anjuke_icon_ewm.png"];
+    [view1 addSubview:codeIcon];
     
     //name
-    CGFloat labelW = 200;
-    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(([self windowWidth] - labelW)/2, photo.frame.origin.y + photo.frame.size.height+ 10, labelW, 20)];
-    lb.backgroundColor = [UIColor clearColor];
-    lb.font = [UIFont systemFontOfSize:15];
-    lb.textColor = SYSTEM_BLACK;
-    lb.textAlignment = NSTextAlignmentCenter;
-    self.nameLb = lb;
-    lb.text = [LoginManager getName];
-    [view1 addSubview:lb];
+//    CGFloat labelW = 200;
+//    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(([self windowWidth] - labelW)/2, photo.frame.origin.y + photo.frame.size.height+ 40, labelW, 20)];
+//    lb.backgroundColor = [UIColor clearColor];
+//    lb.font = [UIFont systemFontOfSize:15];
+//    lb.textColor = SYSTEM_BLACK;
+//    lb.textAlignment = NSTextAlignmentCenter;
+//    self.nameLb = lb;
+//    lb.text = [LoginManager getName];
+//    [view1 addSubview:lb];
     
     //photo number
 //    UILabel *lb2 = [[UILabel alloc] initWithFrame:CGRectMake(lb.frame.origin.x, lb.frame.origin.y+ lb.frame.size.height+3, lb.frame.size.width, lb.frame.size.height)];
@@ -188,14 +200,14 @@
 //    self.accountTitleLb = lb3;
 //    [view1 addSubview:lb3];
     
-    UILabel *lb4 = [[UILabel alloc] initWithFrame:CGRectMake(lb.frame.origin.x, lb.frame.origin.y+ lb.frame.size.height+5, labelW, lb.frame.size.height)];
-    lb4.backgroundColor = [UIColor clearColor];
-    lb4.font = [UIFont systemFontOfSize:15];
-    lb4.textColor = SYSTEM_BLACK;
-    lb4.textAlignment = NSTextAlignmentCenter;
-    self.accountLb = lb4;
-    lb4.text = @"账户余额: ";
-    [view1 addSubview:lb4];
+//    UILabel *lb4 = [[UILabel alloc] initWithFrame:CGRectMake(lb.frame.origin.x, lb.frame.origin.y+ lb.frame.size.height+5, labelW, lb.frame.size.height)];
+//    lb4.backgroundColor = [UIColor clearColor];
+//    lb4.font = [UIFont systemFontOfSize:15];
+//    lb4.textColor = SYSTEM_BLACK;
+//    lb4.textAlignment = NSTextAlignmentCenter;
+//    self.accountLb = lb4;
+//    lb4.text = @"账户余额: ";
+//    [view1 addSubview:lb4];
     
 //    UILabel *yuanLb = [[UILabel alloc] initWithFrame:CGRectMake(self.accountLb.frame.origin.x+ self.accountLb.frame.size.width, self.accountTitleLb.frame.origin.y, 20, 20)];
 //    yuanLb.backgroundColor = [UIColor clearColor];
@@ -205,26 +217,17 @@
 //    self.accountYuanLb = yuanLb;
 //    [view1 addSubview:yuanLb];
     
-    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, view1.frame.size.height - 1, [self windowWidth], 1)];
-    line.alpha = 0.3;
-    [view1 addSubview:line];
-    
-    //part 2
-    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, view1.frame.origin.y+ view1.frame.size.height, [self windowWidth], HEADER_VIEW2_Height)];
-    view2.backgroundColor = [UIColor whiteColor];
-    [BG_View addSubview:view2];
-    
     CGFloat lbW_ = 100;
     NSString *titleStr = [NSString string];
     for (int i = 0; i < 3; i ++) {
         //number label
-        UILabel *numLb = [[UILabel alloc] initWithFrame:CGRectMake(10+i *lbW_, 10, lbW_, 25)];
+        UILabel *numLb = [[UILabel alloc] initWithFrame:CGRectMake(10+i *lbW_, personBtn.frame.origin.y + personBtn.frame.size.height +45, lbW_, 25)];
         numLb.backgroundColor = [UIColor clearColor];
-        numLb.font = [UIFont boldSystemFontOfSize:22];
+        numLb.font = [UIFont systemFontOfSize:23];
         numLb.textColor = SYSTEM_BLACK;
         numLb.text = @""; //for test
         numLb.textAlignment = NSTextAlignmentCenter;
-        [view2 addSubview:numLb];
+        [view1 addSubview:numLb];
         
         switch (i) {
             case 0: {
@@ -247,50 +250,52 @@
                 break;
         }
         
-        UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(10+i *lbW_, numLb.frame.origin.y + numLb.frame.size.height+5, lbW_, 25)];
+        UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(10+i *lbW_, numLb.frame.origin.y + numLb.frame.size.height+8, lbW_, 25)];
         titleLb.backgroundColor = [UIColor clearColor];
         titleLb.font = [UIFont systemFontOfSize:14];
         titleLb.textColor = SYSTEM_BLACK;
         titleLb.text = titleStr;
         titleLb.textAlignment = NSTextAlignmentCenter;
-        [view2 addSubview:titleLb];
+        [view1 addSubview:titleLb];
     }
     
-    BrokerLineView *line2 = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, 145/2, [self windowWidth], 1)];
-    line2.alpha = 0.3;
-    [view2 addSubview:line2];
+    //part 2
+    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, view1.frame.origin.y+ view1.frame.size.height, [self windowWidth], HEADER_VIEW2_Height)];
+    view2.backgroundColor = [UIColor whiteColor];
+    [BG_View addSubview:view2];
     
     //add 3 btn
-    CGFloat pushBtnW = 130/2;
+    CGFloat pushBtnW = 96/2;
     CGFloat pushBtnGap = ([self windowWidth] - pushBtnW*3)/4;
+    
+    CGFloat lbW = 80;
+    
     for (int i = 0; i < 3; i ++) {
-        UIImage *image = [UIImage imageNamed:@"anjuke_icon_publishesf.png"];
-        UIImage *selectImg = [UIImage imageNamed:@"anjuke_icon_publishesf_selected.png"];
-        NSString *title = @"发布二手房";
+        UIImage *image = [UIImage imageNamed:@"anjuke_icon_poblish_esf.png"];
+        UIImage *selectImg = [UIImage imageNamed:@"anjuke_icon_poblish_esf1.png"];
+        NSString *title = [self.taskArray objectAtIndex:i];
         
         if (i == 1) {
-            image = [UIImage imageNamed:@"anjuke_icon_publishzf.png"];
-            selectImg = [UIImage imageNamed:@"anjuke_icon_publishzf_selected.png"];
-            title = @"发布租房";
+            image = [UIImage imageNamed:@"anjuke_icon_poblish_zf.png"];
+            selectImg = [UIImage imageNamed:@"anjuke_icon_poblish_zf1.png"];
         }
         else if (i == 2){
-            image = [UIImage imageNamed:@"anjuke_icon_message.png"];
-            selectImg = [UIImage imageNamed:@"anjuke_icon_message_selected.png"];
-            title = @"小区助手";
+            image = [UIImage imageNamed:@"anjuke_icon_scyx.png"];
+            selectImg = [UIImage imageNamed:@"anjuke_icon_scyx1.png"];
         }
         
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(pushBtnGap +(pushBtnGap + pushBtnW)*i, line2.frame.origin.y+pushBtnGap, pushBtnW, pushBtnW);
+        btn.frame = CGRectMake(pushBtnGap +(pushBtnGap + pushBtnW)*i, 35, pushBtnW, pushBtnW);
         [btn setBackgroundImage:image forState:UIControlStateNormal];
         [btn setBackgroundImage:selectImg forState:UIControlStateSelected];
         btn.tag = i;
         [btn addTarget:self action:@selector(doPush:) forControlEvents:UIControlEventTouchUpInside];
         [view2 addSubview:btn];
         
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(pushBtnGap +(pushBtnGap + pushBtnW)*i, btn.frame.origin.y+ btn.frame.size.height+10, pushBtnW, 20)];
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(btn.frame.origin.x - (lbW - pushBtnW)/2, btn.frame.origin.y+ btn.frame.size.height+15, lbW, 20)];
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.textColor = SYSTEM_BLACK;
-        titleLabel.font = [UIFont systemFontOfSize:13];
+        titleLabel.font = [UIFont systemFontOfSize:14];
         titleLabel.textAlignment = NSTextAlignmentCenter;
         titleLabel.text = title;
         [view2 addSubview:titleLabel];
@@ -390,6 +395,13 @@
         default:
             break;
     }
+}
+
+//个人信息
+- (void)pushToPerson {
+    BrokerAccountController *ba = [[BrokerAccountController alloc] init];
+    [ba hidesBottomBarWhenPushed];
+    [self.navigationController pushViewController:ba animated:YES];
 }
 
 #pragma mark - Request Method

@@ -12,6 +12,8 @@
 #define SYSTEM_BLACK [Util_UI colorWithHexString:@"333333"]
 #define SYSTEM_LIGHT_GRAY [Util_UI colorWithHexString:@"999999"]
 #define SYSTEM_LIGHT_GRAY_BG [Util_UI colorWithHexString:@"EFEFF4"]
+#define SYSTEM_LIGHT_GRAY_BG2 [Util_UI colorWithHexString:@"eeeeee"]
+
 #define SYSTEM_DARK_GRAY [Util_UI colorWithHexString:@"666666"]
 #define SYSTEM_GREEN [Util_UI colorWithHexString:@"66cc00"]
 #define SYSTEM_ORANGE [Util_UI colorWithHexString:@"FF6600"]

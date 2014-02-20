@@ -48,7 +48,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    [self setTitleViewWithString:@"发现"];
+    [self setTitleViewWithString:@"市场分析"];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

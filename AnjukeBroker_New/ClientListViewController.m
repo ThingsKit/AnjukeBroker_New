@@ -201,7 +201,8 @@
         case 0:
         {
             DLog(@"More button was pressed--index[%d, %d]", cellIndexPath.section, cellIndexPath.row);
-            [cell hideUtilityButtonsAnimated:YES];
+//            [cell hideUtilityButtonsAnimated:YES];
+            [[[cell rightUtilityButtons] objectAtIndex:0] setTitle:@"已标" forState:UIControlStateNormal];
             
             break;
         }
