@@ -11,6 +11,7 @@
 		200915EB1893FC1100A13115 /* Property.m in Sources */ = {isa = PBXBuildFile; fileRef = 200915EA1893FC1100A13115 /* Property.m */; };
 		200915EE189401C800A13115 /* anjuke_icon_fxt_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */; };
 		200915EF189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 200915ED189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png */; };
+		200ACA4718B6F77000FAC740 /* Broker_InputEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 200ACA4618B6F77000FAC740 /* Broker_InputEditView.m */; };
 		2011CD8218AB1D5300EEEA5C /* SystemMessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2011CD8118AB1D5300EEEA5C /* SystemMessageDetailViewController.m */; };
 		20274173186AC2A9005267FD /* SystemCellManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20274172186AC2A9005267FD /* SystemCellManager.m */; };
 		2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2031A48418920F83004F7E1A /* FindHomeViewController.m */; };
@@ -322,6 +323,8 @@
 		200915EA1893FC1100A13115 /* Property.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Property.m; sourceTree = "<group>"; };
 		200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_fxt_@2x.png"; sourceTree = "<group>"; };
 		200915ED189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_fxt_mini_@2x.png"; sourceTree = "<group>"; };
+		200ACA4518B6F77000FAC740 /* Broker_InputEditView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Broker_InputEditView.h; sourceTree = "<group>"; };
+		200ACA4618B6F77000FAC740 /* Broker_InputEditView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Broker_InputEditView.m; sourceTree = "<group>"; };
 		2011CD8018AB1D5300EEEA5C /* SystemMessageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMessageDetailViewController.h; sourceTree = "<group>"; };
 		2011CD8118AB1D5300EEEA5C /* SystemMessageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemMessageDetailViewController.m; sourceTree = "<group>"; };
 		20274171186AC2A9005267FD /* SystemCellManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemCellManager.h; sourceTree = "<group>"; };
@@ -826,6 +829,8 @@
 				2079ADE018B5DB690029D493 /* ClientDetailCell.m */,
 				2079ADDC18B5D64B0029D493 /* ClientEditViewController.h */,
 				2079ADDD18B5D64B0029D493 /* ClientEditViewController.m */,
+				200ACA4518B6F77000FAC740 /* Broker_InputEditView.h */,
+				200ACA4618B6F77000FAC740 /* Broker_InputEditView.m */,
 				207526AA18B45FBD0022220C /* 滑动列表基类cell */,
 			);
 			name = "客户";
@@ -1136,7 +1141,6 @@
 				97410563180CDFE0004DAE95 /* AppDelegate.h */,
 				97410564180CDFE0004DAE95 /* AppDelegate.m */,
 				976AC60D18278B45003A2B3A /* Login */,
-				972DDA261826A49600263F8F /* TabBarController */,
 			);
 			name = AppDelegate;
 			sourceTree = "<group>";
@@ -1221,6 +1225,7 @@
 		972DDA2D1826D34600263F8F /* 底层、定制ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				972DDA261826A49600263F8F /* TabBarController */,
 				97CB0C11182BEA5200FCCBBD /* 加载黑框 */,
 				97CB0BFE182BE9F200FCCBBD /* 相册多选pickerController */,
 				97CD8D42180E6D6E00185C9D /* RTViewController.h */,
@@ -2050,6 +2055,7 @@
 				200915E81893FC1000A13115 /* E_Photo.m in Sources */,
 				970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */,
 				975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */,
+				200ACA4718B6F77000FAC740 /* Broker_InputEditView.m in Sources */,
 				B721095B1827976500904FC7 /* RentNoPlanController.m in Sources */,
 				B7E69BB8183B4C300097D5C3 /* ModifyRentCostController.m in Sources */,
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,

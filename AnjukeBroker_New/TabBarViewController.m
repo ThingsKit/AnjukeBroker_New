@@ -66,7 +66,7 @@
         RTNavigationController *navMl = [[RTNavigationController alloc] initWithRootViewController:ml];
         [self.controllerArrays addObject:navMl];
         navMl.tabBarItem = [self getTabBarItemWithTitle:@"微聊" image:[UIImage imageNamed:@"anjuke_icon_wl.png"] index:2];
-        navMl.tabBarItem.badgeValue = @"13.38"; //for test
+        navMl.tabBarItem.badgeValue = @"13"; //for test
         
         //客户
         ClientListViewController *cl = [[ClientListViewController alloc] init];
@@ -75,7 +75,7 @@
         RTNavigationController *navCl = [[RTNavigationController alloc] initWithRootViewController:cl];
         [self.controllerArrays addObject:navCl];
         navCl.tabBarItem = [self getTabBarItemWithTitle:@"客户" image:[UIImage imageNamed:@"anjuke_icon_kh.png"] index:3];
-
+        
         //二手房
         AnjukeHomeViewController *av = [[AnjukeHomeViewController alloc] init];
         self.page4 = av;
