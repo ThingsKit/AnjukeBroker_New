@@ -10,6 +10,8 @@
 #import "Util_UI.h"
 #import "BrokerLineView.h"
 
+#define lbH 30
+
 @implementation Broker_InputEditView
 @synthesize titleLb, textFidle_Input, textView_Input;
 @synthesize displayStyle;
@@ -19,7 +21,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        
         [self initUIWithFrame:frame];
     }
     return self;
@@ -34,9 +35,7 @@
 }
 */
 
-- (void)initUIWithFrame:(CGRect)frame {
-    CGFloat lbH = 30;
-    
+- (void)initUIWithFrame:(CGRect)frame{
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(17, (INPUT_EDIT_VIEW_H - lbH)/2, 70, lbH)];
     title.backgroundColor = [UIColor clearColor];
     self.titleLb = title;
@@ -44,14 +43,28 @@
     title.font = [UIFont systemFontOfSize:15];
     [self addSubview:title];
     
+}
+
+- (void)drawInputWithStyle:(DisplayStyle)style {
+    self.displayStyle = style;
+    
     if (self.displayStyle == DisplayStyle_ForTextField) {
-        self.textFidle_Input = [[UITextField alloc] initWithFrame:CGRectMake(title.frame.origin.x + title.frame.size.width + 15, title.frame.origin.y, 180, lbH)];
-        self.textFidle_Input.backgroundColor = [UIColor clearColor];
-        self.textFidle_Input.font = title.font;
+        self.textFidle_Input = [[UITextField alloc] initWithFrame:CGRectMake(self.titleLb.frame.origin.x + self.titleLb.frame.size.width + 15, self.titleLb.frame.origin.y, 180, lbH)];
+        self.textFidle_Input.backgroundColor = [UIColor yellowColor];
+        self.textFidle_Input.font = self.titleLb.font;
         self.textFidle_Input.textColor = SYSTEM_BLACK;
         self.textFidle_Input.keyboardType = UIKeyboardTypeDefault;
         [self addSubview:textFidle_Input];
     }
+    else if (self.displayStyle == DisplayStyle_ForTextView) {
+        self.textView_Input = [[UITextView alloc] initWithFrame:CGRectMake(self.titleLb.frame.origin.x + self.titleLb.frame.size.width + 15, self.titleLb.frame.origin.y, 180, (INPUT_EDIT_TEXTVIEW_H - self.titleLb.frame.origin.y*2))];
+        self.textView_Input.backgroundColor = [UIColor greenColor];
+        self.textView_Input.font = self.titleLb.font;
+        self.textView_Input.textColor = SYSTEM_BLACK;
+        self.textView_Input.keyboardType = UIKeyboardTypeDefault;
+        [self addSubview:textView_Input];
+    }
+    
 }
 
 - (void)addLineViewWithOriginY:(CGFloat)originY {

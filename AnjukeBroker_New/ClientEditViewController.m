@@ -12,9 +12,14 @@
 
 @interface ClientEditViewController ()
 
+@property (nonatomic, strong) UITextField *nameTextF;
+@property (nonatomic, strong) UITextField *telTextF;
+@property (nonatomic, strong) UITextView *messageTextV;
+
 @end
 
 @implementation ClientEditViewController
+@synthesize nameTextF, telTextF, messageTextV;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,6 +37,8 @@
     
     [self setTitleViewWithString:@"备注"];
     [self.view setBackgroundColor:SYSTEM_LIGHT_GRAY_BG2];
+    
+    [self addRightButton:@"保存" andPossibleTitle:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -49,22 +56,56 @@
 - (void)initDisplay {
     NSArray *titleArr = [NSArray arrayWithObjects:@"备注名", @"电话号码", @"备注信息", nil];
     
+    CGFloat inputViewH = INPUT_EDIT_VIEW_H;
+    
     for (int i = 0; i < titleArr.count; i ++) {
-        Broker_InputEditView *bi = [[Broker_InputEditView alloc] initWithFrame:CGRectMake(0, 10 + INPUT_EDIT_VIEW_H* i, [self windowWidth], INPUT_EDIT_VIEW_H)];
-        bi.backgroundColor = [UIColor whiteColor];
-        bi.displayStyle = DisplayStyle_ForTextField;
-        bi.titleLb.text = [titleArr objectAtIndex:i];
-        [bi addLineViewWithOriginY:INPUT_EDIT_VIEW_H-0.5]; //bottom line
-        if (i == 0) {
-            [bi addLineViewWithOriginY:-0.5]; //top line
+        if (i == 2) {
+            inputViewH = INPUT_EDIT_TEXTVIEW_H;
         }
+        Broker_InputEditView *bi = [[Broker_InputEditView alloc] initWithFrame:CGRectMake(0, 10 + INPUT_EDIT_VIEW_H* i, [self windowWidth], inputViewH)];
+        bi.backgroundColor = [UIColor whiteColor];
+        bi.titleLb.text = [titleArr objectAtIndex:i];
+        switch (i) {
+            case 0:
+            {
+                [bi drawInputWithStyle:DisplayStyle_ForTextField];
+                [bi addLineViewWithOriginY:-0.5]; //top line
+                self.nameTextF = bi.textFidle_Input;
+            }
+                break;
+            case 1:
+            {
+                [bi drawInputWithStyle:DisplayStyle_ForTextField];
+                self.telTextF = bi.textFidle_Input;
+            }
+                break;
+            case 2:
+            {
+                [bi drawInputWithStyle:DisplayStyle_ForTextView];
+                self.messageTextV = bi.textView_Input;
+            }
+                break;
+                
+            default:
+                break;
+        }
+        [bi addLineViewWithOriginY:inputViewH-0.5]; //bottom line
         [self.view addSubview:bi];
     }
-    
 }
 
 #pragma mark - Private Method
 
+- (void)rightButtonAction:(id)sender {
+    [self textInputDisappear];
+    
+    DLog(@"--name[%@] ---tel[%@] ---message[%@]", self.nameTextF.text, self.telTextF.text, self.messageTextV.text);
+}
 
+- (void)textInputDisappear {
+    [self.nameTextF resignFirstResponder];
+    [self.telTextF resignFirstResponder];
+    [self.messageTextV resignFirstResponder];
+}
 
 @end

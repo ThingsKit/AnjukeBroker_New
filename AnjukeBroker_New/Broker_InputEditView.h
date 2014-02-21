@@ -14,6 +14,7 @@ typedef enum {
 } DisplayStyle;
 
 #define INPUT_EDIT_VIEW_H 45
+#define INPUT_EDIT_TEXTVIEW_H 90
 
 @interface Broker_InputEditView : UIView
 
@@ -24,5 +25,6 @@ typedef enum {
 @property (nonatomic, assign) DisplayStyle displayStyle;
 
 - (void)addLineViewWithOriginY:(CGFloat)originY;
+- (void)drawInputWithStyle:(DisplayStyle)style;
 
 @end
