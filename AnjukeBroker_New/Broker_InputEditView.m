@@ -50,7 +50,7 @@
     
     if (self.displayStyle == DisplayStyle_ForTextField) {
         self.textFidle_Input = [[UITextField alloc] initWithFrame:CGRectMake(self.titleLb.frame.origin.x + self.titleLb.frame.size.width + 15, self.titleLb.frame.origin.y, 180, lbH)];
-        self.textFidle_Input.backgroundColor = [UIColor yellowColor];
+        self.textFidle_Input.backgroundColor = [UIColor clearColor];
         self.textFidle_Input.font = self.titleLb.font;
         self.textFidle_Input.textColor = SYSTEM_BLACK;
         self.textFidle_Input.keyboardType = UIKeyboardTypeDefault;
@@ -58,7 +58,7 @@
     }
     else if (self.displayStyle == DisplayStyle_ForTextView) {
         self.textView_Input = [[UITextView alloc] initWithFrame:CGRectMake(self.titleLb.frame.origin.x + self.titleLb.frame.size.width + 15, self.titleLb.frame.origin.y, 180, (INPUT_EDIT_TEXTVIEW_H - self.titleLb.frame.origin.y*2))];
-        self.textView_Input.backgroundColor = [UIColor greenColor];
+        self.textView_Input.backgroundColor = [UIColor clearColor];
         self.textView_Input.font = self.titleLb.font;
         self.textView_Input.textColor = SYSTEM_BLACK;
         self.textView_Input.keyboardType = UIKeyboardTypeDefault;
