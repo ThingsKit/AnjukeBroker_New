@@ -13,6 +13,8 @@
 		200915EF189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 200915ED189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png */; };
 		200ACA4718B6F77000FAC740 /* Broker_InputEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 200ACA4618B6F77000FAC740 /* Broker_InputEditView.m */; };
 		2011CD8218AB1D5300EEEA5C /* SystemMessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2011CD8118AB1D5300EEEA5C /* SystemMessageDetailViewController.m */; };
+		2026044218B9D0E200F75A56 /* anjuke_icon_delete_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2026044118B9D0E200F75A56 /* anjuke_icon_delete_@2x.png */; };
+		2026044818B9D6CA00F75A56 /* ClientModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2026044718B9D6CA00F75A56 /* ClientModel.m */; };
 		20274173186AC2A9005267FD /* SystemCellManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20274172186AC2A9005267FD /* SystemCellManager.m */; };
 		2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2031A48418920F83004F7E1A /* FindHomeViewController.m */; };
 		2031A48718920FF2004F7E1A /* anjuke_icon_find@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */; };
@@ -327,6 +329,9 @@
 		200ACA4618B6F77000FAC740 /* Broker_InputEditView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Broker_InputEditView.m; sourceTree = "<group>"; };
 		2011CD8018AB1D5300EEEA5C /* SystemMessageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMessageDetailViewController.h; sourceTree = "<group>"; };
 		2011CD8118AB1D5300EEEA5C /* SystemMessageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemMessageDetailViewController.m; sourceTree = "<group>"; };
+		2026044118B9D0E200F75A56 /* anjuke_icon_delete_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_delete_@2x.png"; sourceTree = "<group>"; };
+		2026044618B9D6CA00F75A56 /* ClientModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientModel.h; sourceTree = "<group>"; };
+		2026044718B9D6CA00F75A56 /* ClientModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientModel.m; sourceTree = "<group>"; };
 		20274171186AC2A9005267FD /* SystemCellManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemCellManager.h; sourceTree = "<group>"; };
 		20274172186AC2A9005267FD /* SystemCellManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemCellManager.m; sourceTree = "<group>"; };
 		2031A48318920F83004F7E1A /* FindHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindHomeViewController.h; sourceTree = "<group>"; };
@@ -799,6 +804,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2026044418B9D2C000F75A56 /* 客户列表 */ = {
+			isa = PBXGroup;
+			children = (
+				203EC29918B2F65400DD0840 /* ClientListViewController.h */,
+				203EC29A18B2F65400DD0840 /* ClientListViewController.m */,
+				207526BF18B4658A0022220C /* ClientListCell.h */,
+				207526C018B4658A0022220C /* ClientListCell.m */,
+			);
+			name = "客户列表";
+			sourceTree = "<group>";
+		};
+		2026044518B9D2DD00F75A56 /* 客户model */ = {
+			isa = PBXGroup;
+			children = (
+				2026044618B9D6CA00F75A56 /* ClientModel.h */,
+				2026044718B9D6CA00F75A56 /* ClientModel.m */,
+			);
+			name = "客户model";
+			sourceTree = "<group>";
+		};
 		2031A48218920F6A004F7E1A /* 市场分析 */ = {
 			isa = PBXGroup;
 			children = (
@@ -819,10 +844,8 @@
 		203EC29518B2F5F200DD0840 /* 客户 */ = {
 			isa = PBXGroup;
 			children = (
-				203EC29918B2F65400DD0840 /* ClientListViewController.h */,
-				203EC29A18B2F65400DD0840 /* ClientListViewController.m */,
-				207526BF18B4658A0022220C /* ClientListCell.h */,
-				207526C018B4658A0022220C /* ClientListCell.m */,
+				2026044518B9D2DD00F75A56 /* 客户model */,
+				2026044418B9D2C000F75A56 /* 客户列表 */,
 				2079ADD918B5D62E0029D493 /* ClientDetailViewController.h */,
 				2079ADDA18B5D62E0029D493 /* ClientDetailViewController.m */,
 				2079ADDF18B5DB690029D493 /* ClientDetailCell.h */,
@@ -1154,6 +1177,7 @@
 				970FC17F183B6E8100D142D5 /* icon+lanchImg */,
 				206F7FCE18A87E97001EEC16 /* speechIcon */,
 				97D752C6182C92690035577F /* Overlay@2x.png */,
+				2026044118B9D0E200F75A56 /* anjuke_icon_delete_@2x.png */,
 				2079ADE818B5FD610029D493 /* anjuke_icon_danye_more_@2x.png */,
 				2079ADE918B5FD610029D493 /* anjuke_icon_danye_noxingbiao_@2x.png */,
 				2079ADEA18B5FD610029D493 /* anjuke_icon_danye_xingbiao_@2x.png */,
@@ -1996,6 +2020,7 @@
 				9720001B1841BF25003F49A4 /* details_arrow_right@2x.png in Resources */,
 				979BBB6A185804AE005B7D03 /* icon_60.png in Resources */,
 				97F4D193184E5C6700DFC45F /* anjuke_icon_login@2x.png in Resources */,
+				2026044218B9D0E200F75A56 /* anjuke_icon_delete_@2x.png in Resources */,
 				2079ADD118B59CC00029D493 /* anjuke_icon_ewm@2x.png in Resources */,
 				97F4D18E184E2ABD00DFC45F /* logo_40@2x.png in Resources */,
 				20357CBB18AA1D2A00AFB85F /* anjuke_icon_come2_bg@2x.png in Resources */,
@@ -2141,6 +2166,7 @@
 				B721094F18277F8A00904FC7 /* BaseFixedCell.m in Sources */,
 				2011CD8218AB1D5300EEEA5C /* SystemMessageDetailViewController.m in Sources */,
 				B721095518278B4E00904FC7 /* SalePropertyListCell.m in Sources */,
+				2026044818B9D6CA00F75A56 /* ClientModel.m in Sources */,
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
 				2079ADDE18B5D64B0029D493 /* ClientEditViewController.m in Sources */,
 				97DFA98A184C7C01002D6B82 /* AnjukeEditTextViewController.m in Sources */,
