@@ -21,6 +21,7 @@
 #import "MoreViewController.h"
 #import "FindHomeViewController.h"
 #import "BrokerAccountController.h"
+#import "BrokerTwoDimensionalCodeViewController.h"
 
 #define HOME_cellHeight 50
 #define Max_Account_Lb_Width 80
@@ -399,8 +400,7 @@
             [self.navigationController pushViewController:ae animated:YES];
         }
             break;
-
-            
+        
         default:
             break;
     }
@@ -408,7 +408,7 @@
 
 //个人信息
 - (void)pushToPerson {
-    BrokerAccountController *ba = [[BrokerAccountController alloc] init];
+    BrokerTwoDimensionalCodeViewController *ba = [[BrokerTwoDimensionalCodeViewController alloc] init];
     [ba hidesBottomBarWhenPushed];
     [self.navigationController pushViewController:ba animated:YES];
 }

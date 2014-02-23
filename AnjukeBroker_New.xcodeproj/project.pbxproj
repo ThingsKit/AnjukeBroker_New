@@ -15,6 +15,7 @@
 		2011CD8218AB1D5300EEEA5C /* SystemMessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2011CD8118AB1D5300EEEA5C /* SystemMessageDetailViewController.m */; };
 		2026044218B9D0E200F75A56 /* anjuke_icon_delete_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2026044118B9D0E200F75A56 /* anjuke_icon_delete_@2x.png */; };
 		2026044818B9D6CA00F75A56 /* ClientModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2026044718B9D6CA00F75A56 /* ClientModel.m */; };
+		2026044C18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2026044B18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.m */; };
 		20274173186AC2A9005267FD /* SystemCellManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20274172186AC2A9005267FD /* SystemCellManager.m */; };
 		2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2031A48418920F83004F7E1A /* FindHomeViewController.m */; };
 		2031A48718920FF2004F7E1A /* anjuke_icon_find@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */; };
@@ -332,6 +333,8 @@
 		2026044118B9D0E200F75A56 /* anjuke_icon_delete_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_delete_@2x.png"; sourceTree = "<group>"; };
 		2026044618B9D6CA00F75A56 /* ClientModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientModel.h; sourceTree = "<group>"; };
 		2026044718B9D6CA00F75A56 /* ClientModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientModel.m; sourceTree = "<group>"; };
+		2026044A18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerTwoDimensionalCodeViewController.h; sourceTree = "<group>"; };
+		2026044B18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerTwoDimensionalCodeViewController.m; sourceTree = "<group>"; };
 		20274171186AC2A9005267FD /* SystemCellManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemCellManager.h; sourceTree = "<group>"; };
 		20274172186AC2A9005267FD /* SystemCellManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemCellManager.m; sourceTree = "<group>"; };
 		2031A48318920F83004F7E1A /* FindHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindHomeViewController.h; sourceTree = "<group>"; };
@@ -824,6 +827,19 @@
 			name = "客户model";
 			sourceTree = "<group>";
 		};
+		2026044918B9E80000F75A56 /* 客户单页 */ = {
+			isa = PBXGroup;
+			children = (
+				2079ADD918B5D62E0029D493 /* ClientDetailViewController.h */,
+				2079ADDA18B5D62E0029D493 /* ClientDetailViewController.m */,
+				2079ADDF18B5DB690029D493 /* ClientDetailCell.h */,
+				2079ADE018B5DB690029D493 /* ClientDetailCell.m */,
+				2079ADDC18B5D64B0029D493 /* ClientEditViewController.h */,
+				2079ADDD18B5D64B0029D493 /* ClientEditViewController.m */,
+			);
+			name = "客户单页";
+			sourceTree = "<group>";
+		};
 		2031A48218920F6A004F7E1A /* 市场分析 */ = {
 			isa = PBXGroup;
 			children = (
@@ -844,14 +860,9 @@
 		203EC29518B2F5F200DD0840 /* 客户 */ = {
 			isa = PBXGroup;
 			children = (
-				2026044518B9D2DD00F75A56 /* 客户model */,
 				2026044418B9D2C000F75A56 /* 客户列表 */,
-				2079ADD918B5D62E0029D493 /* ClientDetailViewController.h */,
-				2079ADDA18B5D62E0029D493 /* ClientDetailViewController.m */,
-				2079ADDF18B5DB690029D493 /* ClientDetailCell.h */,
-				2079ADE018B5DB690029D493 /* ClientDetailCell.m */,
-				2079ADDC18B5D64B0029D493 /* ClientEditViewController.h */,
-				2079ADDD18B5D64B0029D493 /* ClientEditViewController.m */,
+				2026044918B9E80000F75A56 /* 客户单页 */,
+				2026044518B9D2DD00F75A56 /* 客户model */,
 				200ACA4518B6F77000FAC740 /* Broker_InputEditView.h */,
 				200ACA4618B6F77000FAC740 /* Broker_InputEditView.m */,
 				207526AA18B45FBD0022220C /* 滑动列表基类cell */,
@@ -1143,6 +1154,8 @@
 				B7EA04A51844D40900AC8842 /* BrokerAccountController.m */,
 				B7EA04A81844DB3700AC8842 /* BrokerAccountCell.h */,
 				B7EA04A91844DB3700AC8842 /* BrokerAccountCell.m */,
+				2026044A18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.h */,
+				2026044B18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.m */,
 			);
 			name = "更多";
 			sourceTree = "<group>";
@@ -2079,6 +2092,7 @@
 				20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */,
 				200915E81893FC1000A13115 /* E_Photo.m in Sources */,
 				970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */,
+				2026044C18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.m in Sources */,
 				975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */,
 				200ACA4718B6F77000FAC740 /* Broker_InputEditView.m in Sources */,
 				B721095B1827976500904FC7 /* RentNoPlanController.m in Sources */,
