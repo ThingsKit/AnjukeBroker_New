@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13B42" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="AXConversationListItem" representedClassName="AXConversationListItem" syncable="YES">
+        <attribute name="count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="from" attributeType="String" syncable="YES"/>
+        <attribute name="lastUpdateTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="messageTip" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="messageType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="to" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="fromPerson" maxCount="1" deletionRule="No Action" destinationEntity="AXPerson" syncable="YES"/>
+        <relationship name="toPerson" maxCount="1" deletionRule="No Action" destinationEntity="AXPerson" syncable="YES"/>
+    </entity>
+    <entity name="AXMessage" representedClassName="AXMessage" syncable="YES">
+        <attribute name="accountType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="from" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="identifier" attributeType="String" syncable="YES"/>
+        <attribute name="imgPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imgUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isImgDownloaded" optional="YES" attributeType="Boolean" defaultValueString="0" syncable="YES"/>
+        <attribute name="isRead" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isRemoved" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="messageId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="messageType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="sendStatus" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="sendTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="thumbnailImgPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbnailImgUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="to" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="AXPerson" representedClassName="AXPerson" syncable="YES">
+        <attribute name="created" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="iconPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="iconUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isIconDownloaded" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isPending" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isRemoved" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isStar" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="lastActiveTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="lastUpdate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="markName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="markNamePinyin" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="namePinyin" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uid" attributeType="String" syncable="YES"/>
+        <attribute name="userType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="AXConversationListItem" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="AXMessage" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="AXPerson" positionX="0" positionY="0" width="0" height="0"/>
+    </elements>
+</model>
