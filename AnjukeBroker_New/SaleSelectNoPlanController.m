@@ -185,15 +185,15 @@
     SaleNoPlanListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == nil){
         cell = [[SaleNoPlanListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
-        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
+        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select.png"];
     }
     [cell configureCell:[self.myArray objectAtIndex:indexPath.row] withIndex:indexPath.row];
     SalePropertyObject *property = (SalePropertyObject *)[self.myArray objectAtIndex:indexPath.row];
     [cell showBottonLineWithCellHeight:[CellHeight getNoPlanCellHeight:property.title]];
     if([self.selectedArray containsObject:[self.myArray objectAtIndex:[indexPath row]]]){
-        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_selected@2x.png"];
+        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_selected.png"];
     }else{
-        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select@2x.png"];
+        cell.btnImage.image = [UIImage imageNamed:@"anjuke_icon06_select.png"];
     }
     [cell.mutableBtn addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchDown];
     cell.mutableBtn.tag = [indexPath row];

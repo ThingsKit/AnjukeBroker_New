@@ -242,16 +242,16 @@
     self.voiceUpBut = [UIButton buttonWithType:UIButtonTypeCustom];
     self.voiceUpBut.frame = CGRectMake(0, 0, 0, 0);
     [self.voiceUpBut setTitle:@"语音输入" forState:UIControlStateNormal];
-    [self.voiceUpBut setImage:[UIImage imageNamed:@"anjuke_icon_sound_button@2x.png"] forState:UIControlStateNormal];
-    [self.voiceUpBut setImage:[UIImage imageNamed:@"anjuke_icon_sound_button1@2x.png"] forState:UIControlStateHighlighted];
+    [self.voiceUpBut setImage:[UIImage imageNamed:@"anjuke_icon_sound_button.png"] forState:UIControlStateNormal];
+    [self.voiceUpBut setImage:[UIImage imageNamed:@"anjuke_icon_sound_button1.png"] forState:UIControlStateHighlighted];
     [self.voiceUpBut addTarget:self action:@selector(startAgain) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.voiceUpBut];
     
     
     self.voiceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.voiceBtn.frame = CGRectMake(160 - 106/2/2, [self windowHeight] - 106/2 - 64 - 15 , 106/2, 106/2);
-    [self.voiceBtn setImage:[UIImage imageNamed:@"anjuke_icon_sound@2x.png"] forState:UIControlStateNormal];
-    [self.voiceBtn setImage:[UIImage imageNamed:@"anjuke_icon_sound1@2x.png"] forState:UIControlStateHighlighted];
+    [self.voiceBtn setImage:[UIImage imageNamed:@"anjuke_icon_sound.png"] forState:UIControlStateNormal];
+    [self.voiceBtn setImage:[UIImage imageNamed:@"anjuke_icon_sound1.png"] forState:UIControlStateHighlighted];
     [self.voiceBtn addTarget:self action:@selector(start:) forControlEvents:UIControlEventTouchUpInside];
     //    [voiceBack addSubview:voiceBtn];
     [self.view addSubview:self.voiceBtn];
@@ -272,13 +272,13 @@
     //    [voiceBack addSubview:voiceBtn];
     [self.view addSubview:self.stopBut];
     
-    UIImage *orgIMG = [UIImage imageNamed:@"anjuke_icon_saying@2x.png"];
+    UIImage *orgIMG = [UIImage imageNamed:@"anjuke_icon_saying.png"];
     CGRect rect = CGRectMake(0, 0, 163, 60);
     CGImageRef imageRef=CGImageCreateWithImageInRect([orgIMG CGImage],rect);
     corlorIMG=[UIImage imageWithCGImage:imageRef];
     
     self.backIMG = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.backIMG.image = [UIImage imageNamed:@"anjuke_icon_saying1@2x.png"];
+    self.backIMG.image = [UIImage imageNamed:@"anjuke_icon_saying1.png"];
     [self.view addSubview:self.backIMG];
     
     self.beforIMG = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -722,12 +722,12 @@
 }
 
 - (void)speechAnimation:(int) volume {
-    UIImage *orgIMG = [UIImage imageNamed:@"anjuke_icon_saying@2x.png"];
+    UIImage *orgIMG = [UIImage imageNamed:@"anjuke_icon_saying.png"];
     CGRect rect = CGRectMake(0, 0, 163, 163 - 163 * volume/30 - 20);
     CGImageRef imageRef=CGImageCreateWithImageInRect([orgIMG CGImage],rect);
     corlorIMG=[UIImage imageWithCGImage:imageRef];
     self.backIMG.frame = CGRectMake((320 - VOICEANIMATIONIMGHEIGHT)/2 , [self windowHeight] - 106/2 - 64 - 15 - 25, 82, 82);
-    self.backIMG.image = [UIImage imageNamed:@"anjuke_icon_saying1@2x.png"];
+    self.backIMG.image = [UIImage imageNamed:@"anjuke_icon_saying1.png"];
     self.beforIMG.frame = CGRectMake((320 - VOICEANIMATIONIMGHEIGHT)/2, [self windowHeight] - 106/2 - 64 - 15 - 25, 82, 82 - 163 * volume/30/2 - 10);
     self.beforIMG.image = corlorIMG;
 }

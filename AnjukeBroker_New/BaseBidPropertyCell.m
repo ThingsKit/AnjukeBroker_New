@@ -46,7 +46,7 @@
         [backView addSubview:self.price];
         
         //        statusImg = [[UIImageView alloc] initWithFrame:CGRectMake(295, 26, 8, 13)];
-        //        statusImg.image = [UIImage imageNamed:@"anjuke_icon07_arrow@2x.png"];
+        //        statusImg.image = [UIImage imageNamed:@"anjuke_icon07_arrow.png"];
         //        [self.contentView addSubview:statusImg];
         
         self.detailView = [[UILabel alloc] initWithFrame:CGRectMake(0, 62, 300, 50)];

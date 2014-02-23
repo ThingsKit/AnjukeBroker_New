@@ -98,16 +98,16 @@
 
 -(void)setBidStatueImg:(NSDictionary *)dic{
     if([[dic objectForKey:@"isBid"] isEqualToString:@"1"]){
-        self.bidStatue.image = [UIImage imageNamed:@"anjuke_icon_bid@2x.png"];
+        self.bidStatue.image = [UIImage imageNamed:@"anjuke_icon_bid.png"];
     }else {
         self.bidStatue.image = nil;
     }
 }
 - (void)setProIconWithPro:(NSDictionary *) dic{
     if([[dic objectForKey:@"isMoreImg"] isEqualToString:@"1"]){
-        self.proIcon.image = [UIImage imageNamed:@"anjuke_icon_mutableimg@2x.png"];
+        self.proIcon.image = [UIImage imageNamed:@"anjuke_icon_mutableimg.png"];
     }else{
-        // anjuke_icon_draft@2x.png
+        // anjuke_icon_draft.png
         self.proIcon.image = nil;
     }
 }

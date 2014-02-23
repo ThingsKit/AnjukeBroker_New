@@ -108,9 +108,9 @@
 //设置状态
 -(void)setFixedImg:(FixedObject *) obj{
     if([obj.fixedStatus isEqualToString:@"1"]){
-        self.statusimg.image = [UIImage imageNamed:@"anjuke_icon09_woking@2x.png"];
+        self.statusimg.image = [UIImage imageNamed:@"anjuke_icon09_woking.png"];
     }else{
-    self.statusimg.image = [UIImage imageNamed:@"anjuke_icon09_stop@2x.png"];
+    self.statusimg.image = [UIImage imageNamed:@"anjuke_icon09_stop.png"];
     }
 
 }

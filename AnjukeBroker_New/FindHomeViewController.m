@@ -93,15 +93,15 @@
     
     UIImageView *lanhaiImg = [[UIImageView alloc] init];
     lanhaiImg.frame = CGRectMake(44, 7, 12, 12);
-    lanhaiImg.image = [UIImage imageNamed:@"anjuke_icon_bluesea@2x.png"];
+    lanhaiImg.image = [UIImage imageNamed:@"anjuke_icon_bluesea.png"];
     [img addSubview:lanhaiImg];
     
     UIImageView *hotImg = [[UIImageView alloc] init];
     hotImg.frame = CGRectMake(173, 7, 12, 12);
-    hotImg.image = [UIImage imageNamed:@"anjuke_icon_hot@2x.png"];
+    hotImg.image = [UIImage imageNamed:@"anjuke_icon_hot.png"];
     [img addSubview:hotImg];
-    //anjuke_icon_bluesea@2x.png
-    //anjuke_icon_hot@2x.png
+    //anjuke_icon_bluesea.png
+    //anjuke_icon_hot.png
     [self.view addSubview:img];
 //    self.myTable.tableHeaderView = img;
 }

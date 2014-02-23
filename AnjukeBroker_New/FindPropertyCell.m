@@ -50,7 +50,7 @@
     [self.contentView addSubview:self.detailLab];
     
     self.mapIcon = [[UIImageView alloc] initWithFrame:CGRectMake(260, 20, 24.0f / 2, 24.0f / 2)];
-    self.mapIcon.image = [UIImage imageNamed:@"anjuke_icon_local@2x.png"];
+    self.mapIcon.image = [UIImage imageNamed:@"anjuke_icon_local.png"];
     [self.contentView addSubview:self.mapIcon];
     
     self.distantLab = [[UILabel alloc] initWithFrame:CGRectMake(self.mapIcon.frame.origin.x + 15, 15, 60 - 25.0f / 2, 20)];
@@ -84,7 +84,7 @@
     if ([[cellData objectForKey:@"isFanComm"] integerValue] == 1) {
         CGSize si = [Util_UI sizeOfString:[cellData objectForKey:@"name"] maxWidth:320 withFontSize:15];
         self.fanIcon.frame = CGRectMake(self.titleLab.frame.origin.x + si.width +10, 12, 14, 14);
-        self.fanIcon.image = [UIImage imageNamed:@"anjuke_icon_feedback@2x.png"];
+        self.fanIcon.image = [UIImage imageNamed:@"anjuke_icon_feedback.png"];
     } else {
         self.fanIcon.image = nil;
     }
@@ -102,20 +102,20 @@
 - (void)setImgBigIconByData:(NSDictionary *) cellData {
     if ([[cellData objectForKey:@"commType"] isEqualToString:@"lanhai"]) {
         self.imgIcon.frame = CGRectMake(15.0f / 2, 10, 65.0f/2, 65.0f / 2);
-        self.imgIcon.image = [UIImage imageNamed:@"anjuke_icon_bluesea_best@2x.png"];
+        self.imgIcon.image = [UIImage imageNamed:@"anjuke_icon_bluesea_best.png"];
     } else if ([[cellData objectForKey:@"commType"] isEqualToString:@"hot"]) {
         self.imgIcon.frame = CGRectMake(15.0f / 2, 10, 65.0f/2, 65.0f / 2);
-        self.imgIcon.image = [UIImage imageNamed:@"anjuke_icon_hot_best@2x.png"];
+        self.imgIcon.image = [UIImage imageNamed:@"anjuke_icon_hot_best.png"];
     }
 }
 
 - (void)setImgSmallIconByData:(NSDictionary *) cellData {
     if ([[cellData objectForKey:@"commType"] isEqualToString:@"lanhai"]) {
         self.imgIcon.frame = CGRectMake(52.0f / 2, 10, 28.0f/2, 28.0f / 2);
-        self.imgIcon.image = [UIImage imageNamed:@"anjuke_icon_bluesea1@2x.png"];
+        self.imgIcon.image = [UIImage imageNamed:@"anjuke_icon_bluesea1.png"];
     } else if ([[cellData objectForKey:@"commType"] isEqualToString:@"hot"]) {
         self.imgIcon.frame = CGRectMake(52.0f / 2, 10, 28.0f/2, 28.0f / 2);
-        self.imgIcon.image = [UIImage imageNamed:@"anjuke_icon_hot1@2x.png"];
+        self.imgIcon.image = [UIImage imageNamed:@"anjuke_icon_hot1.png"];
     }
 }
 
