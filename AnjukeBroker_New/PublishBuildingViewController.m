@@ -196,9 +196,9 @@ typedef enum {
     comView.backgroundColor = [UIColor whiteColor];
     [headerView addSubview:comView];
     
-    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, -1, comView.frame.size.width, 1)];
+    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, -BL_HEIGHT, comView.frame.size.width, BL_HEIGHT)];
     [comView addSubview:line];
-    BrokerLineView *line2 = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, comView.frame.size.height - 1, comView.frame.size.width, 1)];
+    BrokerLineView *line2 = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, comView.frame.size.height -BL_HEIGHT, comView.frame.size.width, BL_HEIGHT)];
     [comView addSubview:line2];
     
     

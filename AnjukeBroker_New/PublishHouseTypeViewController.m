@@ -82,7 +82,7 @@
 //    [self addRightButton:@"保存" andPossibleTitle:nil];
     UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(rightButtonAction:)];
     if (![AppManager isIOS6]) {
-        rBtn.tintColor = SYSTEM_ORANGE;
+        rBtn.tintColor = SYSTEM_NAVIBAR_COLOR;
     }
     self.navigationItem.leftBarButtonItem = rBtn;
     
@@ -166,7 +166,7 @@
         }
         [self.view addSubview:btn];
         
-        BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, btn.frame.size.height - 1, btn.frame.size.width, 1)];
+        BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, btn.frame.size.height - BL_HEIGHT, btn.frame.size.width, BL_HEIGHT)];
         [btn addSubview:line];
         
         UILabel *comTitleLb = [[UILabel alloc] initWithFrame:CGRectMake(15, (btn.frame.size.height - 20)/2, 100, 20)];

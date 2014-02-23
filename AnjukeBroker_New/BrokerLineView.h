@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define BL_HEIGHT 0.5
+
 @interface BrokerLineView : UIView
 
 @property (nonatomic, assign) CGFloat borderWidth;

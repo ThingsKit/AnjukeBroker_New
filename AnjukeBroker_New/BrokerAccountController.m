@@ -59,9 +59,9 @@
     brokerImg.layer.masksToBounds = YES;
 
     [img addSubview:brokerImg];
-    brokerImg.layer.cornerRadius = imgw / 2;
-    brokerImg.layer.borderWidth = 1;
-    brokerImg.layer.borderColor = [[UIColor whiteColor] CGColor];
+    brokerImg.layer.cornerRadius = 8;
+    brokerImg.layer.borderWidth = 0.5;
+    brokerImg.layer.borderColor = [[UIColor blackColor] CGColor];
 }
 
 //- (void)drawLine:(UIImageView *) imageView{

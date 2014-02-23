@@ -466,8 +466,8 @@
 }
 
 - (void)resetLineWithHeight:(CGFloat)height {
-    self.topLine.frame = CGRectMake(0, 0, 320, 1);
-    self.bottomLine.frame = CGRectMake(0, height - 1, 320, 1);
+    self.topLine.frame = CGRectMake(0, 0, 320, BL_HEIGHT);
+    self.bottomLine.frame = CGRectMake(0, height - BL_HEIGHT, 320, BL_HEIGHT);
 }
 
 @end
