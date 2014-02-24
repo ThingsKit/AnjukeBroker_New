@@ -502,6 +502,7 @@
 		20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_nextfxt_@2x.png"; sourceTree = "<group>"; };
 		2761B89A187C053C00EABF95 /* logo_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_57.png; sourceTree = "<group>"; };
 		2761B89B187C053C00EABF95 /* logo_57@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_57@2x.png"; sourceTree = "<group>"; };
+		70C958DAA438444CB26F09E0 /* libPods-AnjukeBroker_New.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AnjukeBroker_New.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		970501751845D21100A0C181 /* AFWelcomeScrollview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFWelcomeScrollview.h; sourceTree = "<group>"; };
 		970501761845D21100A0C181 /* AFWelcomeScrollview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFWelcomeScrollview.m; sourceTree = "<group>"; };
 		970501851845E55900A0C181 /* anjuke_icon_login_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_login_button@2x.png"; sourceTree = "<group>"; };
@@ -679,6 +680,7 @@
 		97FA36A2182F318D00EF714D /* PropertyHouseType.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PropertyHouseType.plist; sourceTree = "<group>"; };
 		97FD0B6018157BEC0072FB5E /* PropertyDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDataManager.h; sourceTree = "<group>"; };
 		97FD0B6118157BEC0072FB5E /* PropertyDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDataManager.m; sourceTree = "<group>"; };
+		AF4E891E01F64F3D9E4D5621 /* Pods-AnjukeBroker_New.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnjukeBroker_New.xcconfig"; path = "Pods/Pods-AnjukeBroker_New.xcconfig"; sourceTree = "<group>"; };
 		B702BA4318921752002E2DC7 /* FindPropertyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPropertyCell.h; sourceTree = "<group>"; };
 		B702BA4418921752002E2DC7 /* FindPropertyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPropertyCell.m; sourceTree = "<group>"; };
 		B70323DA1832115B00DFDB1C /* BaseGroupListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseGroupListController.h; sourceTree = "<group>"; };
@@ -1443,6 +1445,7 @@
 				97410577180CDFE1004DAE95 /* AnjukeBroker_NewTests */,
 				97410551180CDFE0004DAE95 /* Frameworks */,
 				97410550180CDFE0004DAE95 /* Products */,
+				AF4E891E01F64F3D9E4D5621 /* Pods-AnjukeBroker_New.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1485,6 +1488,7 @@
 				97410556180CDFE0004DAE95 /* UIKit.framework */,
 				97410558180CDFE0004DAE95 /* CoreData.framework */,
 				97410570180CDFE1004DAE95 /* XCTest.framework */,
+				70C958DAA438444CB26F09E0 /* libPods-AnjukeBroker_New.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2531,6 +2535,7 @@
 		};
 		97410583180CDFE1004DAE95 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AF4E891E01F64F3D9E4D5621 /* Pods-AnjukeBroker_New.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

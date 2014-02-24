@@ -17,6 +17,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return self;
 }
@@ -71,6 +73,12 @@
     messageLabel.textColor = SYSTEM_LIGHT_GRAY;
     messageLabel.font = [UIFont systemFontOfSize:12];
     [self.contentView addSubview:messageLabel];
+    
+    //消息状态
+    UIImageView *statusImg = [[UIImageView alloc] init];
+    statusImg.backgroundColor = [UIColor clearColor];
+    self.statusIcon = statusImg;
+    [self.contentView addSubview:statusImg];
 }
 
 - (BOOL)configureCell:(id)dataModel {

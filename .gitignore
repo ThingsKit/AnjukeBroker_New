@@ -3,3 +3,5 @@ AnjukeBroker_New.xcodeproj/project.xcworkspace/xcuserdata/paper.xcuserdatad/User
 AnjukeBroker_New.xcodeproj/project.xcworkspace/xcuserdata/paper.xcuserdatad/
 .git/*
 .DS_Store
+Podfile.lock
+Pods
