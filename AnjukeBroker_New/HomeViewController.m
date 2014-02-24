@@ -458,8 +458,12 @@
     //保存聊天id和聊天token
     NSString *chatID = [[[response content] objectForKey:@"data"] objectForKey:@"chatId"];
     NSString *tokenChat = [[[response content] objectForKey:@"data"] objectForKey:@"tokenChat"];
+    NSString *phone = [self.dataDic objectForKey:@"phone"];
+    //保存
     [[NSUserDefaults standardUserDefaults] setValue:chatID forKey:@"chatID"];
     [[NSUserDefaults standardUserDefaults] setValue:tokenChat forKey:@"tokenChat"];
+    [[NSUserDefaults standardUserDefaults] setValue:phone forKey:@"phone"]; //联系电话
+
     
     [self setHomeValue];
     
