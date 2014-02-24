@@ -193,15 +193,13 @@
             managedMessage.from = friendUID;
             managedMessage.isRead = [NSNumber numberWithBool:YES];
             managedMessage.isRemoved = [NSNumber numberWithBool:NO];
-            managedMessage.messageId = @([message[@"msg_id"] integerValue]);
+            managedMessage.messageId = message[@"msg_id"];
             managedMessage.messageType = @(messageType);
             managedMessage.sendStatus = @(messageSendStatus);
             managedMessage.sendTime = lastUpdateTime;
             managedMessage.to = message[@"to_uid"];
             
             [messageArray addObject:[managedMessage convertToMappedObject]];
-            
-            [self addConversationListItemWithMessage:[managedMessage convertToMappedObject]];
         }
     }
     
@@ -315,19 +313,6 @@
     AXMessage *messageToInsert = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
     [messageToInsert assignPropertiesFromMappedObject:message];
     
-    [self addConversationListItemWithMessage:message];
-    
-    if (save) {
-        __autoreleasing NSError *error;
-        [self.managedObjectContext save:&error];
-        return [messageToInsert convertToMappedObject];
-    } else {
-        return nil;
-    }
-}
-
-- (void)addConversationListItemWithMessage:(AXMappedMessage *)message
-{
     BOOL shouldUpdateConversationListItem = YES;
     
     NSString *friendUID = nil;
@@ -339,7 +324,7 @@
     
     
     AXConversationListItemType itemType;
-    AXMessageType messageType = [message.messageType integerValue];
+    AXMessageType messageType = [messageToInsert.messageType integerValue];
     NSString *messageTip;
     if (messageType == AXMessageTypeSettingNotifycation || messageType == AXMessageTypeSystemForbid || messageType == AXMessageTypeSystemTime || messageType == AXMessageTypeAddNuckName) {
         shouldUpdateConversationListItem = NO;
@@ -349,14 +334,14 @@
         messageTip = @"你收到一张图片";
     }
     if (messageType == AXMessageTypeProperty) {
-        NSDictionary *messageContent = [NSJSONSerialization JSONObjectWithData:[message.content dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:NULL];
+        NSDictionary *messageContent = [NSJSONSerialization JSONObjectWithData:[messageToInsert.content dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:NULL];
         itemType = AXConversationListItemTypeESFProperty;
         messageTip = @"你收到一个房源";
 #warning todo check the message property type
     }
     if (messageType == AXMessageTypeText) {
         itemType = AXConversationListItemTypeText;
-        messageTip = message.content;
+        messageTip = messageToInsert.content;
     }
     if (messageType == AXMessageTypePublicCard) {
         itemType = AXConversationListItemTypeCard;
@@ -369,12 +354,12 @@
         item.friendUid = friendUID;
         AXConversationListItem *conversationListItem = [self findConversationListItemWithItem:item];
         if (conversationListItem) {
-            if (!message.isRead) {
+            if (!messageToInsert.isRead) {
                 conversationListItem.count = @([conversationListItem.count integerValue] + 1);
             }
         } else {
             conversationListItem = [NSEntityDescription insertNewObjectForEntityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
-            if (!message.isRead) {
+            if (!messageToInsert.isRead) {
                 conversationListItem.count = @(0);
             } else {
                 conversationListItem.count = @(1);
@@ -395,9 +380,14 @@
         conversationListItem.lastUpdateTime = message.sendTime;
         conversationListItem.lastUpdateTime = [NSDate dateWithTimeIntervalSinceNow:0];
         conversationListItem.messageTip = messageTip;
-        
+    }
+    
+    if (save) {
         __autoreleasing NSError *error;
         [self.managedObjectContext save:&error];
+        return [messageToInsert convertToMappedObject];
+    } else {
+        return nil;
     }
 }
 
@@ -434,9 +424,7 @@
 {
     AXPerson *personToInsert = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
     [personToInsert assignPropertiesFromMappedObject:person];
-    __autoreleasing NSError *error;
-    [self.managedObjectContext save:&error];
-    NSLog(@"%@", error);
+    [self.managedObjectContext save:NULL];
 }
 
 - (void)deleteFriend:(AXMappedPerson *)person

@@ -18,6 +18,9 @@ typedef NS_ENUM(NSUInteger, AXMessageType)
     AXMessageTypeSettingNotifycation = 6, // 提示打开推送
     AXMessageTypeAddNuckName = 7, // 添加备注
     AXMessageTypePublicCard = 8, // 服务号消息
+    AXMessageTypeAddNote = 9, // 添加备注
+    AXMessageTypeSendProperty = 10, // 发送房源
+    AXMessageTypeSafeMessage = 11, // 安全提示
 };
 
 typedef NS_ENUM(NSUInteger, AXMessagePropertySourceType)
