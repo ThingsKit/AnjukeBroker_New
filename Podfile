@@ -2,8 +2,8 @@
 # platform :ios, "6.0"
 
 target "AnjukeBroker_New" do
-pod 'AIFMessageCenter',:git=>'git@git.corp.anjuke.com:_iOS/Component_AIFMessageCenter'
-pod 'ASIHTTPRequest', :git => 'git@git.corp.anjuke.com:_iOS/ThirdParty_ASIHTTPRequest'
+# pod 'AIFMessageCenter',:git=>'git@git.corp.anjuke.com:_iOS/Component_AIFMessageCenter'
+# pod 'ASIHTTPRequest', :git => 'git@git.corp.anjuke.com:_iOS/ThirdParty_ASIHTTPRequest'
 pod 'OHAttributedLabel', '~> 3.5.3'
 pod "AFNetworking", "1.3.3"
 end
