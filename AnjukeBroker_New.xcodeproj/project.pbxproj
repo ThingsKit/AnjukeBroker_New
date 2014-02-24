@@ -353,6 +353,7 @@
 		B7921A1518BB9D390021933A /* UIView+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B792197118BB9D380021933A /* UIView+AXChatMessage.m */; };
 		B7921A2018BB9D390021933A /* sj2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B792198918BB9D390021933A /* sj2.jpeg */; };
 		B7921A2918BB9E5A0021933A /* RTAPIBaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7921A2718BB9E5A0021933A /* RTAPIBaseManager.m */; };
+		B7921A2F18BBA2000021933A /* BrokerChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7921A2E18BBA2000021933A /* BrokerChatViewController.m */; };
 		B7B2BF6C188CC2C30001EEB8 /* anjuke_icon_saying@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7B2BF67188CC2C30001EEB8 /* anjuke_icon_saying@2x.png */; };
 		B7B2BF6D188CC2C30001EEB8 /* anjuke_icon_saying1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7B2BF68188CC2C30001EEB8 /* anjuke_icon_saying1@2x.png */; };
 		B7B2BF6E188CC2C30001EEB8 /* anjuke_icon_sound_button_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7B2BF69188CC2C30001EEB8 /* anjuke_icon_sound_button_icon@2x.png */; };
@@ -960,6 +961,8 @@
 		B7921A2618BB9E5A0021933A /* RTAPIBaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTAPIBaseManager.h; sourceTree = "<group>"; };
 		B7921A2718BB9E5A0021933A /* RTAPIBaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTAPIBaseManager.m; sourceTree = "<group>"; };
 		B7921A2818BB9E5A0021933A /* RTAPIManagerInterceptorProtocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTAPIManagerInterceptorProtocal.h; sourceTree = "<group>"; };
+		B7921A2D18BBA2000021933A /* BrokerChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerChatViewController.h; sourceTree = "<group>"; };
+		B7921A2E18BBA2000021933A /* BrokerChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerChatViewController.m; sourceTree = "<group>"; };
 		B7B2BF67188CC2C30001EEB8 /* anjuke_icon_saying@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_saying@2x.png"; sourceTree = "<group>"; };
 		B7B2BF68188CC2C30001EEB8 /* anjuke_icon_saying1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_saying1@2x.png"; sourceTree = "<group>"; };
 		B7B2BF69188CC2C30001EEB8 /* anjuke_icon_sound_button_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_sound_button_icon@2x.png"; sourceTree = "<group>"; };
@@ -1169,6 +1172,8 @@
 				203EC29718B2F61A00DD0840 /* MessageListViewController.m */,
 				203EC2B418B34A4200DD0840 /* MessageListCell.h */,
 				203EC2B518B34A4200DD0840 /* MessageListCell.m */,
+				B7921A2D18BBA2000021933A /* BrokerChatViewController.h */,
+				B7921A2E18BBA2000021933A /* BrokerChatViewController.m */,
 			);
 			name = "消息列表";
 			sourceTree = "<group>";
@@ -2714,6 +2719,7 @@
 				B769E46C181F76A600A2FF50 /* BaseBidPlanController.m in Sources */,
 				B7921A1218BB9D390021933A /* UIColor+AXChatMessage.m in Sources */,
 				972DDA301826D39500263F8F /* RTPopoverTableViewController.m in Sources */,
+				B7921A2F18BBA2000021933A /* BrokerChatViewController.m in Sources */,
 				B7921A0718BB9D390021933A /* AXPullToRefreshContentView.m in Sources */,
 				97C6870F183A2BF100F449BD /* PropertyAuctionPublishViewController.m in Sources */,
 				972C10321814FDC400552C9B /* MoreViewController.m in Sources */,

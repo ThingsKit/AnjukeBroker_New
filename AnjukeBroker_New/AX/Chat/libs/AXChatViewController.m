@@ -94,8 +94,9 @@ static NSInteger const AXMessagePageSize = 15;
     AXMappedMessage *lastMessage = [[AXMappedMessage alloc] init];
     lastMessage.sendTime = [NSDate dateWithTimeIntervalSinceNow:0];
     lastMessage.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
+//    lastMessage.from = @"2";
     lastMessage.to  = [self checkFriendUid];
-    
+//    lastMessage.to = @"1";
     [[AXChatMessageCenter defaultMessageCenter] fetchChatListWithLastMessage:lastMessage pageSize:AXMessagePageSize callBack:^(NSArray *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend) {
         if ([chatList count] > 0) {
             self.lastMessage = chatList[0];

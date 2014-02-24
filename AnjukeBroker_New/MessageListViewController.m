@@ -8,6 +8,7 @@
 
 #import "MessageListViewController.h"
 #import "MessageListCell.h"
+#import "BrokerChatViewController.h"
 
 @interface MessageListViewController ()
 
@@ -126,6 +127,10 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    BrokerChatViewController *controller = [[BrokerChatViewController alloc] init];
+    [controller setHidesBottomBarWhenPushed:YES];
+    [self.navigationController pushViewController:controller animated:YES];
+//    []
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
