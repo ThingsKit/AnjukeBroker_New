@@ -10,7 +10,7 @@
 
 @implementation MessageListCell
 @synthesize imageIcon, nameLb, messageLb, timeLb;
-@synthesize iconNumLb;
+@synthesize iconNumLb, statusIcon;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -49,14 +49,14 @@
     self.iconNumLb = iconLb;
     [self.contentView addSubview:iconLb];
     
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 12, icon.frame.origin.y, 150, 20)];
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 12, 14, 150, 20)];
     self.nameLb = nameLabel;
     nameLabel.backgroundColor = [UIColor clearColor];
     nameLabel.textColor = SYSTEM_BLACK;
     nameLabel.font = [UIFont systemFontOfSize:15];
     [self.contentView addSubview:nameLabel];
     
-    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(320 - CELL_OFFSET_TITLE - 70, icon.frame.origin.y, 70, 20)];
+    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(320 - CELL_OFFSET_TITLE - 70, 14, 70, 20)];
     self.timeLb = timeLabel;
     timeLabel.backgroundColor = [UIColor clearColor];
     timeLabel.textColor = SYSTEM_LIGHT_GRAY;

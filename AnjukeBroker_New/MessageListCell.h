@@ -9,7 +9,7 @@
 #import "RTListCell.h"
 #import "WebImageView.h"
 
-#define MESSAGE_LIST_HEIGHT 60
+#define MESSAGE_LIST_HEIGHT 65
 
 #define IMG_ICON_H 40
 
@@ -20,5 +20,6 @@
 @property (nonatomic, strong) UILabel *messageLb;
 @property (nonatomic, strong) UILabel *timeLb;
 @property (nonatomic, strong) UILabel *iconNumLb;
+@property (nonatomic, strong) UIImageView *statusIcon;
 
 @end
