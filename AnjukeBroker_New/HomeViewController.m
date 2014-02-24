@@ -465,7 +465,7 @@
     
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
-    [self doRequestMessageCount];
+    
 }
 
 - (void)doRequestMessageCount {
