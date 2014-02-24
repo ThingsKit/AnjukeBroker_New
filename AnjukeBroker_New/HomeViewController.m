@@ -455,6 +455,12 @@
     self.dataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerBaseInfo"];
     self.ppcDataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerPPCInfo"];
     
+    //保存聊天id和聊天token
+    NSString *chatID = [[[response content] objectForKey:@"data"] objectForKey:@"chatId"];
+    NSString *tokenChat = [[[response content] objectForKey:@"data"] objectForKey:@"tokenChat"];
+    [[NSUserDefaults standardUserDefaults] setValue:chatID forKey:@"chatID"];
+    [[NSUserDefaults standardUserDefaults] setValue:tokenChat forKey:@"tokenChat"];
+    
     [self setHomeValue];
     
     [self hideLoadWithAnimated:YES];

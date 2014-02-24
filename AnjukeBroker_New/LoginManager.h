@@ -21,6 +21,9 @@
 + (NSString *)getName;
 + (NSString *)getPhone;
 
++ (NSString *)getChatID;
++ (NSString *)getChatToken;
+
 + (BOOL)isSeedForAJK:(BOOL)isAJK; //是否是播种城市
 + (BOOL)needFileNOWithCityID:(NSString *)cityID; //发房是否需要备案号
 

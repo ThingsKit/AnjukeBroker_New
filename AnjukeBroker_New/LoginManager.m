@@ -71,6 +71,18 @@
     return [[NSUserDefaults standardUserDefaults] valueForKey:@"phone"];
 }
 
++ (NSString *)getChatID {
+    DLog(@"chatID [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"chatID"]);
+    
+    return [[NSUserDefaults standardUserDefaults] valueForKey:@"chatID"];
+}
+
++ (NSString *)getChatToken {
+    DLog(@"tokenChat [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"tokenChat"]);
+    
+    return [[NSUserDefaults standardUserDefaults] valueForKey:@"tokenChat"];
+}
+
 + (BOOL)isSeedForAJK:(BOOL)isAJK {
     NSString *isSeedStr = [NSString string];
     
