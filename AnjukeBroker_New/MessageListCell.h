@@ -19,5 +19,6 @@
 @property (nonatomic, strong) UILabel *nameLb;
 @property (nonatomic, strong) UILabel *messageLb;
 @property (nonatomic, strong) UILabel *timeLb;
+@property (nonatomic, strong) UILabel *iconNumLb;
 
 @end

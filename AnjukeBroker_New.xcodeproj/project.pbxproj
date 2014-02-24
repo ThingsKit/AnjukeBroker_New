@@ -926,8 +926,6 @@
 				2026044418B9D2C000F75A56 /* 客户列表 */,
 				2026044918B9E80000F75A56 /* 客户单页 */,
 				2026044518B9D2DD00F75A56 /* 客户model */,
-				200ACA4518B6F77000FAC740 /* Broker_InputEditView.h */,
-				200ACA4618B6F77000FAC740 /* Broker_InputEditView.m */,
 				207526AA18B45FBD0022220C /* 滑动列表基类cell */,
 			);
 			name = "客户";
@@ -1615,6 +1613,8 @@
 				97192EE61818FEF7007971BA /* PhotoButton.m */,
 				979B083918488A2800DD697E /* BigZhenzhenButton.h */,
 				979B083A18488A2800DD697E /* BigZhenzhenButton.m */,
+				200ACA4518B6F77000FAC740 /* Broker_InputEditView.h */,
+				200ACA4618B6F77000FAC740 /* Broker_InputEditView.m */,
 				974E5C7B181E4129000246D1 /* TableViewCell */,
 			);
 			name = "UIView&Util";

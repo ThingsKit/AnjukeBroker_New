@@ -10,6 +10,7 @@
 
 @implementation MessageListCell
 @synthesize imageIcon, nameLb, messageLb, timeLb;
+@synthesize iconNumLb;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -37,6 +38,16 @@
     icon.layer.borderWidth = 0.5;
     icon.contentMode = UIViewContentModeScaleAspectFill;
     [self.contentView addSubview:icon];
+    
+    CGFloat iconLbW = 18;
+    UILabel *iconLb = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x +icon.frame.size.width - iconLbW/2, icon.frame.origin.y -iconLbW/4, iconLbW, iconLbW)];
+    iconLb.backgroundColor = SYSTEM_ZZ_RED;
+    iconLb.textColor = [UIColor whiteColor];
+    iconLb.layer.cornerRadius = iconLbW/2;
+    iconLb.font = [UIFont systemFontOfSize:12];
+    iconLb.textAlignment = NSTextAlignmentCenter;
+    self.iconNumLb = iconLb;
+    [self.contentView addSubview:iconLb];
     
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 12, icon.frame.origin.y, 150, 20)];
     self.nameLb = nameLabel;
@@ -66,9 +77,11 @@
     [self cleanValue];
     
     self.imageIcon.imageUrl = @"";
-    self.nameLb.text = @"珍珍阿姨";
+    self.nameLb.text = @"zz阿姨";
     self.timeLb.text = @"11:00";
     self.messageLb.text = @"有新房子了你造吗，1折1000万要不要";
+    
+    self.iconNumLb.text = @"22";
     
     return YES;
 }
@@ -78,6 +91,7 @@
     self.nameLb.text = @"";
     self.timeLb.text = @"";
     self.messageLb.text = @"";
+    self.iconNumLb.text = @"";
 }
 
 @end
