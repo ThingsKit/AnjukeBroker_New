@@ -9,6 +9,7 @@
 #import "MessageListViewController.h"
 #import "MessageListCell.h"
 #import "BrokerChatViewController.h"
+#import "AXMappedConversationListItem.h"
 
 @interface MessageListViewController ()
 
@@ -120,8 +121,8 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.listDataArray.count; //for test
-//    return [[self.sessionFetchedResultsController fetchedObjects] count];
+//    return self.listDataArray.count; //for test
+    return [[self.sessionFetchedResultsController fetchedObjects] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -140,7 +141,8 @@
         
     }
 //    [cell configureCell:[self.sessionFetchedResultsController fetchedObjects][indexPath.row]];
-    [cell configureCell:nil];
+    AXMappedConversationListItem *item = [self.sessionFetchedResultsController objectAtIndexPath:indexPath];
+//    [cell configureCell:nil];
 
     return cell;
 }

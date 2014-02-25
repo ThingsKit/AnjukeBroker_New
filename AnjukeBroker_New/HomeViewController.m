@@ -416,6 +416,8 @@
     [[NSUserDefaults standardUserDefaults] setValue:dic forKey:@"anjuke_chat_login_info"];
     
     [AXChatMessageCenter defaultMessageCenter];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_MENU_TABLE" object:nil];
+    
 }
 
 - (void)doRequest {
