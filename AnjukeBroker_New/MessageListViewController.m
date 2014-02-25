@@ -10,6 +10,8 @@
 #import "MessageListCell.h"
 #import "BrokerChatViewController.h"
 
+#import "AXChatMessageCenter.h"
+
 @interface MessageListViewController ()
 
 @property (nonatomic, strong) UITableView *tableViewList;
@@ -36,6 +38,9 @@
 	// Do any additional setup after loading the view.
     
     [self setTitleViewWithString:@"微聊"];
+    
+    //注册消息列表获取消息
+    [self addMessageNotifycation];
 }
 
 - (void)didReceiveMemoryWarning
@@ -77,6 +82,24 @@
     }
     
     [self.listDataArray removeObjectAtIndex:index];
+}
+
+#pragma mark - Request Method
+
+- (void)addMessageNotifycation
+{
+    [[NSNotificationCenter defaultCenter] addObserverForName:MessageCenterDidReceiveNewMessage object:nil queue:nil usingBlock: ^(NSNotification *note) {
+        // 接受消息
+        if ([note.object isKindOfClass:[NSArray class]]) {
+            NSArray *list = (NSArray *)note.object;
+            DLog(@"------list [%@]", list);
+//            for (AXMappedMessage *mappedMessage in list) {
+//                NSMutableDictionary *dict = [self mapAXMappedMessage:mappedMessage];
+//                dict[AXCellIdentifyTag] = mappedMessage.identifier;
+//                [self appendCellData:dict];
+//            }
+        }
+    }];
 }
 
 #pragma mark - UITableViewDataSource
