@@ -120,8 +120,8 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return self.listDataArray.count;
-    return [[self.sessionFetchedResultsController fetchedObjects] count];
+    return self.listDataArray.count; //for test
+//    return [[self.sessionFetchedResultsController fetchedObjects] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -139,8 +139,9 @@
     else {
         
     }
-    [cell configureCell:[self.sessionFetchedResultsController fetchedObjects][indexPath.row]];
-    
+//    [cell configureCell:[self.sessionFetchedResultsController fetchedObjects][indexPath.row]];
+    [cell configureCell:nil];
+
     return cell;
 }
 
@@ -165,7 +166,6 @@
     BrokerChatViewController *controller = [[BrokerChatViewController alloc] init];
     [controller setHidesBottomBarWhenPushed:YES];
     [self.navigationController pushViewController:controller animated:YES];
-//    []
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
