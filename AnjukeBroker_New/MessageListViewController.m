@@ -20,9 +20,6 @@
 @end
 
 @implementation MessageListViewController
-@synthesize tableViewList;
-@synthesize listDataArray;
-@synthesize sessionFetchedResultsController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,7 +38,7 @@
     [self setTitleViewWithString:@"微聊"];
     
     //注册消息列表获取消息
-    [self addMessageNotifycation];
+//    [self addMessageNotifycation];
     
 //    self.sessionFetchedResultsController = [self sessionFetchedResultsController];
 }
@@ -56,16 +53,16 @@
 
 - (NSFetchedResultsController *)sessionFetchedResultsController
 {
-    if (!self.sessionFetchedResultsController) {
-        self.sessionFetchedResultsController = [[AXChatMessageCenter defaultMessageCenter] conversationListFetchedResultController];
-        self.sessionFetchedResultsController.delegate = self;
+    if (!_sessionFetchedResultsController) {
+        _sessionFetchedResultsController = [[AXChatMessageCenter defaultMessageCenter] conversationListFetchedResultController];
+        _sessionFetchedResultsController.delegate = self;
         
         __autoreleasing NSError *error;
-        if (![self.sessionFetchedResultsController performFetch:&error]) {
+        if (![_sessionFetchedResultsController performFetch:&error]) {
             DLog(@"%@",error);
         }
     }
-    return self.sessionFetchedResultsController;
+    return _sessionFetchedResultsController;
 }
 
 #pragma mark - init Method
