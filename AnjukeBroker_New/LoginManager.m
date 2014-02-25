@@ -111,7 +111,7 @@
 + (NSDictionary *)getFuckingChatUserDicJustForAnjukeTeam {
     NSMutableDictionary *userDic = [NSMutableDictionary dictionary];
     [userDic setObject:[self getPhone] forKey:@"phone"];
-    [userDic setObject:[self getChatID] forKey:@"user_id"];
+    [userDic setObject:[self getChatID] forKey:@"chatID"];
     
     NSDictionary *dic = [NSDictionary dictionaryWithObject:userDic forKey:@"user_info"];
     

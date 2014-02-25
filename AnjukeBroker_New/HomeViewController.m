@@ -429,9 +429,9 @@
     
     [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
     
-//    [self showLoadingActivity:YES];
+    [self showLoadingActivity:YES];
     self.isLoading = YES;
-
+    
     NSMutableDictionary *params = nil;
     NSString *method = nil;
     
