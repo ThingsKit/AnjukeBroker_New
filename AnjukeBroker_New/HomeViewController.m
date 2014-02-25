@@ -77,7 +77,6 @@
     rightItem.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = rightItem;
     
-    [self requestLongLink];
 }
 
 - (void)didReceiveMemoryWarning
@@ -469,6 +468,8 @@
     [[NSUserDefaults standardUserDefaults] setValue:phone forKey:@"phone"]; //联系电话
     
     [self setHomeValue];
+    
+    [self requestLongLink];
     
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
