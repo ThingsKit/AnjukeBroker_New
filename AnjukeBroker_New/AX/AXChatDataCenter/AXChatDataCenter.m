@@ -334,7 +334,7 @@
         messageTip = @"你收到一张图片";
     }
     if (messageType == AXMessageTypeProperty) {
-        NSDictionary *messageContent = [NSJSONSerialization JSONObjectWithData:[messageToInsert.content dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:NULL];
+//        NSDictionary *messageContent = [NSJSONSerialization JSONObjectWithData:[messageToInsert.content dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:NULL];
         itemType = AXConversationListItemTypeESFProperty;
         messageTip = @"你收到一个房源";
 #warning todo check the message property type

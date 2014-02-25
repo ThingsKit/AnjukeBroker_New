@@ -94,9 +94,9 @@ static NSInteger const AXMessagePageSize = 15;
     AXMappedMessage *lastMessage = [[AXMappedMessage alloc] init];
     lastMessage.sendTime = [NSDate dateWithTimeIntervalSinceNow:0];
     lastMessage.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-//    lastMessage.from = @"2";
-    lastMessage.to  = [self checkFriendUid];
-//    lastMessage.to = @"1";
+    lastMessage.from = @"2";
+//    lastMessage.to  = [self checkFriendUid];
+    lastMessage.to = @"1";
     [[AXChatMessageCenter defaultMessageCenter] fetchChatListWithLastMessage:lastMessage pageSize:AXMessagePageSize callBack:^(NSArray *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend) {
         if ([chatList count] > 0) {
             self.lastMessage = chatList[0];
@@ -702,9 +702,18 @@ static NSInteger const AXMessagePageSize = 15;
 }
 
 - (void)pickHZ:(id)sender {
-    NSDictionary *roomSource = @{@"title": @"中房二期花园，地理位置好",@"price":@"12000",@"roomType":@"3房两厅",@"area":@"200",@"floor":@"13/14",@"year":@"2005",@"messageType":[NSNumber numberWithInteger:AXMessageTypeProperty],@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationOutPut]};
-    [self.cellData addObject:roomSource];
-    [self reloadMytableView];
+    AXMappedMessage *mappedMessageProp = [[AXMappedMessage alloc] init];
+
+    mappedMessageProp.to = @"1";
+    mappedMessageProp.from = @"2";
+    mappedMessageProp.sendTime = nil;
+    mappedMessageProp.content = nil;
+    mappedMessageProp.messageType = [NSNumber numberWithInteger:AXMessageTypeProperty];
+    [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
+    
+//    NSDictionary *roomSource = @{@"title": @"中房二期花园，地理位置好",@"price":@"12000",@"roomType":@"3房两厅",@"area":@"200",@"floor":@"13/14",@"year":@"2005",@"messageType":[NSNumber numberWithInteger:AXMessageTypeProperty],@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationOutPut]};
+//    [self.cellData addObject:roomSource];
+//    [self reloadMytableView];
     
 }
 
@@ -770,6 +779,7 @@ static NSInteger const AXMessagePageSize = 15;
 }
 #pragma mark - UITextViewDelegate
 - (void)textViewDidChange:(UITextView *)textView {
+    [[AXChatMessageCenter defaultMessageCenter] receiveMessage];
     CGRect inputbackViewRect = self.inputBackView.frame;
     CGSize size = [self sizeOfString:textView.text maxWidth:AXInputTextWidth withFontSize:textView.font];
     CGRect tableRect = self.myTableView.frame;
