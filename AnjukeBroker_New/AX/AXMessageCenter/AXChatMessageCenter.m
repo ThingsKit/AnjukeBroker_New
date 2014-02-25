@@ -25,6 +25,7 @@
 static NSString * const kMessageCenterReceiveMessageTypeText = @"1";
 static NSString * const kMessageCenterReceiveMessageTypeProperty = @"2";
 static NSString * const UID = @"234234234";
+static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 
 @interface AXChatMessageCenter ()<AIFMessageManagerDelegate,AIFMessageSenderDelegate,RTAPIManagerApiCallBackDelegate,RTAPIManagerInterceptorProtocal, AXChatDataCenterDelegate>
 @property (nonatomic, strong) AXMessageManager *messageManager;
@@ -66,6 +67,14 @@ static NSString * const UID = @"234234234";
 
 @implementation AXChatMessageCenter
 
+- (AXMappedPerson *)currentPerson
+{
+    if (_currentPerson == nil) {
+        _currentPerson = [self.dataCenter fetchCurrentPerson];
+    }
+    return _currentPerson;
+}
+
 + (instancetype)defaultMessageCenter
 {
     static AXChatMessageCenter *messageCenter = nil;
@@ -90,30 +99,32 @@ static NSString * const UID = @"234234234";
         
         self.messsageIdentity = [[NSMutableArray alloc] init];
         self.blockDictionary = [[NSMutableDictionary alloc] init];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectToServer) name:@"REFRESH_MENU_TABLE" object:nil];
         
-        NSDictionary *loginResult = [[NSUserDefaults standardUserDefaults] objectForKey:@"anjuke_chat_login_info"];
-
-        self.dataCenter = [[AXChatDataCenter alloc] initWithUID:loginResult[@"user_info"][@"user_id"]];
-        AXMappedPerson *mySelf = [[AXMappedPerson alloc] init];
-        mySelf.uid = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"user_id"]];
-        mySelf.phone = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"phone"]];
-        mySelf.markName = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"nick_name"]];
-        mySelf.iconUrl = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"icon"]];
-        mySelf.markNamePinyin = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"nick_name_pinyin"]];
-        mySelf.userType = [NSNumber numberWithInt:[loginResult[@"user_info"][@"user_type"] integerValue]];
-        
-        [self.dataCenter updatePerson:mySelf];
-        
-        self.dataCenter.delegate = self;
-        self.currentPerson = mySelf;
-        [self.messageManager bindServerHost:kAXMessageCenterLinkParamHost port:kAXMessageCenterLinkParamPort appName:kAXMessageCenterLinkAppName timeout:350];
-        [self.messageManager registerDevices:[[UIDevice currentDevice] udid] userId:self.currentPerson.uid];
-        
-        [self.dataCenter test];
     }
     return self;
 }
+- (void)connectToServer
+{
+    NSDictionary *loginResult = [[NSUserDefaults standardUserDefaults] objectForKey:@"anjuke_chat_login_info"];
+    
+    self.dataCenter = [[AXChatDataCenter alloc] initWithUID:loginResult[@"user_info"][@"user_id"]];
+    AXMappedPerson *mySelf = [[AXMappedPerson alloc] init];
+    mySelf.uid = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"user_id"]];
+    mySelf.phone = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"phone"]];
+    mySelf.markName = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"nick_name"]];
+    mySelf.iconUrl = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"icon"]];
+    mySelf.markNamePinyin = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"nick_name_pinyin"]];
+    mySelf.userType = [NSNumber numberWithInt:[loginResult[@"user_info"][@"user_type"] integerValue]];
+    
+    [self.dataCenter updatePerson:mySelf];
+    
+    self.dataCenter.delegate = self;
+    self.currentPerson = mySelf;
+    [self.messageManager bindServerHost:kAXMessageCenterLinkParamHost port:kAXMessageCenterLinkParamPort appName:kAXMessageCenterLinkAppName timeout:350];
+    [self.messageManager registerDevices:[[UIDevice currentDevice] udid] userId:self.currentPerson.uid];
 
+}
 #pragma test method
 - (void)receiveMessage
 {
@@ -145,7 +156,11 @@ static NSString * const UID = @"234234234";
         NSArray *array = @[message,message2];
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidReceiveNewMessage object:array];
     });
+}
 
+- (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID
+{
+    return [self.dataCenter fetchConversationListItemWithFriendUID:friendUID];
 }
 #pragma mark -  setters and getters
 - (AXMessageCenterSendMessageManager *)sendMessageManager
@@ -433,22 +448,12 @@ static NSString * const UID = @"234234234";
 
 - (void)sendImage:(NSDictionary *)message withCompeletionBlock:(void (^)(AXMappedMessage *, BOOL))sendImageBlock
 {
-    NSURL *upLoadUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://upd1.ajkimg.com/upload"]];
+    NSString *photoUrl = message[@"photoUrl"];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:ImageServeAddress]];
+    [request addFile:photoUrl forKey:@"file"];
+    [request setDelegate:self];
+    [request startAsynchronous];
     
-    ASIFormDataRequest *imageRequest = [[ASIFormDataRequest alloc] initWithURL:upLoadUrl];
-    imageRequest.tag = AXMessageCenterHttpRequestTypeUploadImage;
-    if (![message[@"image"] isKindOfClass:[UIImage class]]) {
-        return ;
-    }
-    NSData *imageData = UIImageJPEGRepresentation(message[@"image"], 1.0f);
-    
-    NSMutableData *data = [[NSMutableData alloc] initWithData:imageData];
-    [imageRequest setRequestMethod:@"POST"];
-    [imageRequest setPostBody:data];
-    imageRequest.delegate = self;
-    
-    [self.imageMessageOperation addOperation:imageRequest];
-#warning 组装URL
 }
 
 - (void)updataUserPassword:(NSString *)newPassWord compeletionBlock:(void (^)(BOOL))updatePWDBlock
@@ -495,7 +500,7 @@ static NSString * const UID = @"234234234";
     [self.dataCenter addFriend:person];
     
     self.addFriendManager.apiParams = @{
-                                        @"phone":self.currentPerson.phone,
+                                        @"phone":@"13333333333",//self.currentPerson.phone,
                                         @"touid":person.uid
                                         };
     [self.addFriendManager loadData];
@@ -591,6 +596,9 @@ static NSString * const UID = @"234234234";
     if (request.tag == AXMessageCenterHttpRequestTypeDeleteFriend) {
         
     }
+    if (request.tag == AXMessageCenterHttpRequestTypeUploadImage) {
+        
+    }
     
 }
 
@@ -602,12 +610,18 @@ static NSString * const UID = @"234234234";
     if (request.tag == AXMessageCenterHttpRequestTypeDeleteFriend) {
         
     }
+    if (request.tag == AXMessageCenterHttpRequestTypeUploadImage) {
+        
+    }
 
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     if (request.tag == AXMessageCenterHttpRequestTypeDeleteFriend) {
+        
+    }
+    if (request.tag == AXMessageCenterHttpRequestTypeUploadImage) {
         
     }
 }
@@ -624,6 +638,9 @@ static NSString * const UID = @"234234234";
     if (request.tag == AXMessageCenterHttpRequestTypeUploadImage) {
         __autoreleasing NSError *error;
         NSDictionary *receiveDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+        if (receiveDic[@"status"] && [receiveDic[@"status"] isEqualToString:@"ok"]) {
+            
+        }
         
 
     }
@@ -645,10 +662,7 @@ static NSString * const UID = @"234234234";
             } else {
                 if (receiveDic[@"result"] && [receiveDic[@"result"][@"msgType"] isEqualToString:@"chat"]) {
                     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-#warning hope login success share a global method to return current user iphone
                     params[@"phone"] = self.currentPerson.phone;
-                    NSString *lastmessage =[self theLastMessageIDinCoreData];
-                    NSLog(@"========lastmessage %@",[self theLastMessageIDinCoreData]);
                     params[@"last_max_msgid"] =[self theLastMessageIDinCoreData];
                     self.receiveMessageManager.apiParams = params;
                     [self.receiveMessageManager loadData];

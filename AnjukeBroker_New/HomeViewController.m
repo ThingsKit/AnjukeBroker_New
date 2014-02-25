@@ -84,6 +84,8 @@
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
     rightItem.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = rightItem;
+    
+    [self requestLongLink];
 }
 
 - (void)didReceiveMemoryWarning
@@ -417,6 +419,14 @@
 
 #pragma mark - Request Method
 
+- (void)requestLongLink {
+    //******兼容安居客team得到userInfoDic并设置NSUserDefaults，以帮助底层通过对应路径获取相应数据******
+    NSDictionary *dic = [LoginManager getFuckingChatUserDicJustForAnjukeTeam];
+    [[NSUserDefaults standardUserDefaults] setValue:dic forKey:@"anjuke_chat_login_info"];
+    
+    [AXChatMessageCenter defaultMessageCenter];
+}
+
 - (void)doRequest {
     if (![self isNetworkOkay]) {
         [self hideLoadWithAnimated:YES];
@@ -465,12 +475,6 @@
     [[NSUserDefaults standardUserDefaults] setValue:chatID forKey:@"chatID"];
     [[NSUserDefaults standardUserDefaults] setValue:tokenChat forKey:@"tokenChat"];
     [[NSUserDefaults standardUserDefaults] setValue:phone forKey:@"phone"]; //联系电话
-
-    //******兼容安居客team得到userInfoDic并设置NSUserDefaults，以帮助底层通过对应路径获取相应数据******
-    NSDictionary *dic = [LoginManager getFuckingChatUserDicJustForAnjukeTeam];
-    [[NSUserDefaults standardUserDefaults] setValue:dic forKey:@"anjuke_chat_login_info"];
-    
-    [AXChatMessageCenter defaultMessageCenter];
     
     [self setHomeValue];
     

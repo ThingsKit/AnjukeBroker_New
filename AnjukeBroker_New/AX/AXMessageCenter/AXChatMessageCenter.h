@@ -11,6 +11,7 @@
 #import "ASIHTTPRequestDelegate.h"
 #import "AXMappedMessage.h"
 #import "AXMappedPerson.h"
+#import "AXMappedConversationListItem.h"
 
 static NSString * const kAXMessageCenterLinkParamHost = @"192.168.1.57";
 static NSString * const kAXMessageCenterLinkParamPort = @"8080";
@@ -75,6 +76,8 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 - (NSFetchedResultsController *)conversationListFetchedResultController;
 - (void)updatePerson:(AXMappedPerson *)person;
 - (AXMappedPerson *)fetchCurrentPerson;
+- (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID;
+
 #warning Test
 - (void)receiveMessage;
 

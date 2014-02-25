@@ -75,7 +75,7 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
     self.deviceId = deviceId;
     self.userId = userId;
     
-    NSString *registerUrlString = [NSString stringWithFormat:@"http://%@:%@%@/%@/%@/%@/",self.host,self.port,kAIFMessageRegisteToServerUri,self.deviceId,self.appName,self.userId];
+    NSString *registerUrlString = [NSString stringWithFormat:@"http://%@:%@%@/%@/%@/%@",self.host,self.port,kAIFMessageRegisteToServerUri,self.deviceId,self.appName,self.userId];
     //    NSLog(@"[%@ %@]:%@ => %@ ",NSStringFromClass([self class]),NSStringFromSelector(_cmd),@"registerUrlString",registerUrlString);
     NSURL *registerUrl = [NSURL URLWithString:registerUrlString];
     self.registerRequest = [ASIHTTPRequest requestWithURL:registerUrl];

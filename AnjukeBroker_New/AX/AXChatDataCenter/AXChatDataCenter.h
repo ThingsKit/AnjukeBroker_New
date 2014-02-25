@@ -43,6 +43,7 @@
 - (AXMappedMessage *)fetchMessageWithIdentifier:(NSString *)identifier;
 - (void)saveDraft:(NSString *)content friendUID:(NSString *)friendUID;
 - (NSArray *)addMessageWithArray:(NSArray *)receiceArray;
+- (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID;
 
 // conversation list
 - (NSFetchedResultsController *)conversationListFetchedResultController;
@@ -57,5 +58,8 @@
 - (NSArray *)fetchFriendList;
 - (void)saveFriendListWithPersonArray:(NSArray *)friendArray;
 - (AXMappedPerson *)fetchCurrentPerson;
+
+#warning test methods
+- (void)addConversationListItem:(AXMappedConversationListItem *)item;
 
 @end
