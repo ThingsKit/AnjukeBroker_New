@@ -55,23 +55,28 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 
 - (void)cancelAllRequest;
 - (void)closeKeepAlivingConnect;
+
 - (void)searchBrokerByBrokerPhone:(NSString *)brokerPhone compeletionBlock:(void(^)(AXMappedPerson *brokerInfo))searchBrokerBlock;
 - (void)fetchedPersonWithUID:(NSString *)uid withBlock:(void(^)(AXMappedPerson *person))personInfoBlock;
 - (void)removeFriendWithMyPhone:(NSString *)phone deleteUid:(NSArray *)deleteUid compeletionBlock:(void(^)(BOOL isSuccess))deleteFriendBlock;
-- (void)addFriendWithMyPhone:(AXMappedPerson *)person block:(void(^)(BOOL isSuccess))addFriendBlock;
+
 - (void)updataUserPassword:(NSString *)newPassWord compeletionBlock:(void(^)(BOOL isSuccess))updatePWDBlock;
 - (void)updataUserInformation:(AXMappedPerson *)newInformation compeletionBlock:(void(^)(BOOL isSuccess))updateUserInfo;
+
 - (void)sendMessage:(AXMappedMessage *)message willSendMessage:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status))sendMessageBlock;
 - (void)reSendMessage:(NSString *)identifier willSendMessage:(void (^)(AXMappedMessage *, AXMessageCenterSendMessageStatus))sendMessageBlock;
+
 - (void)sendImage:(AXMappedMessage *)message withCompeletionBlock:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status))sendMessageBlock;
 - (void)deleteMessageByIdentifier:(NSString *)identifier;
 - (AXMappedPerson *)fetchPersonWithUID:(NSString *)uid;
+
+- (void)addFriendWithMyPhone:(AXMappedPerson *)person block:(void(^)(BOOL isSuccess))addFriendBlock;
 - (void)addFriendByQRCode:(NSString *)urlString compeletionBlock:(void(^)(BOOL whetherSuccess))addFriendCompeletionBlock;
 - (void)fetchChatListWithLastMessage:(AXMappedMessage *)lastMessage pageSize:(NSUInteger)pageSize callBack:(void(^)(NSArray *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend))fetchedChatList;
 
 - (void)friendListWithPersonWithCompeletionBlock:(void(^)(NSArray *friendList,BOOL whetherSuccess))friendListBlock;
-
 - (NSFetchedResultsController *)conversationListFetchedResultController;
+
 - (void)updatePerson:(AXMappedPerson *)person;
 - (AXMappedPerson *)fetchCurrentPerson;
 - (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID;

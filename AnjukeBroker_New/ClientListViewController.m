@@ -9,6 +9,7 @@
 #import "ClientListViewController.h"
 #import "ClientDetailViewController.h"
 #import "Util_UI.h"
+#import "AXChatMessageCenter.h"
 
 @interface ClientListViewController ()
 
@@ -19,11 +20,14 @@
 @property (nonatomic, strong) NSMutableArray *starDataArr; //星标客户列表
 @property (nonatomic, strong) NSMutableArray *allDataArr; //所有客户列表
 
+@property (nonatomic, strong) NSArray *testArr;
+
 @end
 
 @implementation ClientListViewController
 @synthesize publicDataArr, starDataArr, allDataArr;
 @synthesize tableViewList, listDataArray;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,6 +44,8 @@
 	// Do any additional setup after loading the view.
     
     [self setTitleViewWithString:@"我的客户"];
+    
+    [self getFriendList];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -52,6 +58,20 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)getFriendList {
+    [[AXChatMessageCenter defaultMessageCenter] friendListWithPersonWithCompeletionBlock:^(NSArray *friendList, BOOL whetherSuccess) {
+        if (whetherSuccess) {
+            DLog(@"friendList- [%@]", friendList);
+            self.testArr = [NSArray arrayWithArray:friendList];
+            [self.tableViewList reloadData];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+            });
+        }
+    }];
 }
 
 #pragma mark - init Method
@@ -119,11 +139,13 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.listDataArray.count;
+//    return self.listDataArray.count;
+    return 1;//self.testArr.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [[self.listDataArray objectAtIndex:section] count];
+//    return [[self.listDataArray objectAtIndex:section] count];
+    return self.testArr.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -80,26 +80,6 @@
 		20A44DB01869799F008D8CB1 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44DAF1869799F008D8CB1 /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		20A44DB518697B5E008D8CB1 /* fresh1_1008@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A44DB418697B5E008D8CB1 /* fresh1_1008@2x.png */; };
 		20AD081F1887DBE3005462CC /* anjuke_icon_next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20AD081A1887DBE3005462CC /* anjuke_icon_next@2x.png */; };
-		20B3B46418BCA6CD00F8AD7D /* AXChatDataCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B43918BCA6CD00F8AD7D /* AXChatDataCenter.m */; };
-		20B3B46518BCA6CD00F8AD7D /* AXConversationListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B43C18BCA6CD00F8AD7D /* AXConversationListItem.m */; };
-		20B3B46618BCA6CD00F8AD7D /* AXMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B43E18BCA6CD00F8AD7D /* AXMessage.m */; };
-		20B3B46718BCA6CD00F8AD7D /* AXPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B44018BCA6CD00F8AD7D /* AXPerson.m */; };
-		20B3B46818BCA6CD00F8AD7D /* AXMappedConversationListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B44318BCA6CD00F8AD7D /* AXMappedConversationListItem.m */; };
-		20B3B46918BCA6CD00F8AD7D /* AXMappedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B44518BCA6CD00F8AD7D /* AXMappedMessage.m */; };
-		20B3B46A18BCA6CD00F8AD7D /* AXMappedPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B44718BCA6CD00F8AD7D /* AXMappedPerson.m */; };
-		20B3B46B18BCA6CD00F8AD7D /* XChatData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B44818BCA6CD00F8AD7D /* XChatData.xcdatamodeld */; };
-		20B3B46C18BCA6CD00F8AD7D /* AXMessageCenterAddFriendManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B44D18BCA6CD00F8AD7D /* AXMessageCenterAddFriendManager.m */; };
-		20B3B46D18BCA6CD00F8AD7D /* AXMessageCenterDeleteFriendManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B44F18BCA6CD00F8AD7D /* AXMessageCenterDeleteFriendManager.m */; };
-		20B3B46E18BCA6CD00F8AD7D /* AXMessageCenterFriendListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B45118BCA6CD00F8AD7D /* AXMessageCenterFriendListManager.m */; };
-		20B3B46F18BCA6CD00F8AD7D /* AXMessageCenterGetUserOldMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B45318BCA6CD00F8AD7D /* AXMessageCenterGetUserOldMessageManager.m */; };
-		20B3B47018BCA6CD00F8AD7D /* AXMessageCenterModifyFriendInfoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B45518BCA6CD00F8AD7D /* AXMessageCenterModifyFriendInfoManager.m */; };
-		20B3B47118BCA6CD00F8AD7D /* AXMessageCenterReceiveMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B45718BCA6CD00F8AD7D /* AXMessageCenterReceiveMessageManager.m */; };
-		20B3B47218BCA6CD00F8AD7D /* AXMessageCenterSearchBrokerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B45918BCA6CD00F8AD7D /* AXMessageCenterSearchBrokerManager.m */; };
-		20B3B47318BCA6CD00F8AD7D /* AXMessageCenterSendMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B45B18BCA6CD00F8AD7D /* AXMessageCenterSendMessageManager.m */; };
-		20B3B47418BCA6CD00F8AD7D /* AXMessageCenterUpdataPasswordManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B45D18BCA6CD00F8AD7D /* AXMessageCenterUpdataPasswordManager.m */; };
-		20B3B47518BCA6CD00F8AD7D /* AXMessageCenterUpdataUserInformationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B45F18BCA6CD00F8AD7D /* AXMessageCenterUpdataUserInformationManager.m */; };
-		20B3B47618BCA6CD00F8AD7D /* AXChatMessageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B46118BCA6CD00F8AD7D /* AXChatMessageCenter.m */; };
-		20B3B47718BCA6CD00F8AD7D /* AXMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B3B46318BCA6CD00F8AD7D /* AXMessageManager.m */; };
 		20B6B1A0189392D100864EF2 /* anjuke_icon_nextphoto_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20B6B19F189392D100864EF2 /* anjuke_icon_nextphoto_@2x.png */; };
 		20D3C24C1892466B0030D7D8 /* PhotoFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D3C24B1892466B0030D7D8 /* PhotoFooterView.m */; };
 		20D3C24E18925D800030D7D8 /* anjuke_icon_photo_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20D3C24D18925D800030D7D8 /* anjuke_icon_photo_add@2x.png */; };
@@ -107,6 +87,26 @@
 		20E3E783186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20E3E781186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png */; };
 		20F011C118942ABD000264BA /* icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F011BF18942ABD000264BA /* icon_57.png */; };
 		20F011C218942ABD000264BA /* icon_57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F011C018942ABD000264BA /* icon_57@2x.png */; };
+		20F29FBE18BCB22300DFB5C2 /* AXChatDataCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29F9318BCB22300DFB5C2 /* AXChatDataCenter.m */; };
+		20F29FBF18BCB22300DFB5C2 /* AXConversationListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29F9618BCB22300DFB5C2 /* AXConversationListItem.m */; };
+		20F29FC018BCB22300DFB5C2 /* AXMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29F9818BCB22300DFB5C2 /* AXMessage.m */; };
+		20F29FC118BCB22300DFB5C2 /* AXPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29F9A18BCB22300DFB5C2 /* AXPerson.m */; };
+		20F29FC218BCB22300DFB5C2 /* AXMappedConversationListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29F9D18BCB22300DFB5C2 /* AXMappedConversationListItem.m */; };
+		20F29FC318BCB22300DFB5C2 /* AXMappedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29F9F18BCB22300DFB5C2 /* AXMappedMessage.m */; };
+		20F29FC418BCB22300DFB5C2 /* AXMappedPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29FA118BCB22300DFB5C2 /* AXMappedPerson.m */; };
+		20F29FC518BCB22300DFB5C2 /* XChatData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 20F29FA218BCB22300DFB5C2 /* XChatData.xcdatamodeld */; };
+		20F29FC618BCB22300DFB5C2 /* AXMessageCenterAddFriendManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29FA718BCB22300DFB5C2 /* AXMessageCenterAddFriendManager.m */; };
+		20F29FC718BCB22300DFB5C2 /* AXMessageCenterDeleteFriendManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29FA918BCB22300DFB5C2 /* AXMessageCenterDeleteFriendManager.m */; };
+		20F29FC818BCB22300DFB5C2 /* AXMessageCenterFriendListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29FAB18BCB22300DFB5C2 /* AXMessageCenterFriendListManager.m */; };
+		20F29FC918BCB22300DFB5C2 /* AXMessageCenterGetUserOldMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29FAD18BCB22300DFB5C2 /* AXMessageCenterGetUserOldMessageManager.m */; };
+		20F29FCA18BCB22300DFB5C2 /* AXMessageCenterModifyFriendInfoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29FAF18BCB22300DFB5C2 /* AXMessageCenterModifyFriendInfoManager.m */; };
+		20F29FCB18BCB22300DFB5C2 /* AXMessageCenterReceiveMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29FB118BCB22300DFB5C2 /* AXMessageCenterReceiveMessageManager.m */; };
+		20F29FCC18BCB22300DFB5C2 /* AXMessageCenterSearchBrokerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29FB318BCB22300DFB5C2 /* AXMessageCenterSearchBrokerManager.m */; };
+		20F29FCD18BCB22300DFB5C2 /* AXMessageCenterSendMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29FB518BCB22300DFB5C2 /* AXMessageCenterSendMessageManager.m */; };
+		20F29FCE18BCB22300DFB5C2 /* AXMessageCenterUpdataPasswordManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29FB718BCB22300DFB5C2 /* AXMessageCenterUpdataPasswordManager.m */; };
+		20F29FCF18BCB22300DFB5C2 /* AXMessageCenterUpdataUserInformationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29FB918BCB22300DFB5C2 /* AXMessageCenterUpdataUserInformationManager.m */; };
+		20F29FD018BCB22300DFB5C2 /* AXChatMessageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29FBB18BCB22300DFB5C2 /* AXChatMessageCenter.m */; };
+		20F29FD118BCB22300DFB5C2 /* AXMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F29FBD18BCB22300DFB5C2 /* AXMessageManager.m */; };
 		20F6632A1896050F00356DFD /* anjuke_icon_nextfxt_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */; };
 		2761B89C187C053C00EABF95 /* logo_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89A187C053C00EABF95 /* logo_57.png */; };
 		2761B89D187C053C00EABF95 /* logo_57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89B187C053C00EABF95 /* logo_57@2x.png */; };
@@ -541,45 +541,6 @@
 		20A44DAF1869799F008D8CB1 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		20A44DB418697B5E008D8CB1 /* fresh1_1008@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fresh1_1008@2x.png"; sourceTree = "<group>"; };
 		20AD081A1887DBE3005462CC /* anjuke_icon_next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_next@2x.png"; sourceTree = "<group>"; };
-		20B3B43818BCA6CD00F8AD7D /* AXChatDataCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatDataCenter.h; sourceTree = "<group>"; };
-		20B3B43918BCA6CD00F8AD7D /* AXChatDataCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatDataCenter.m; sourceTree = "<group>"; };
-		20B3B43B18BCA6CD00F8AD7D /* AXConversationListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXConversationListItem.h; sourceTree = "<group>"; };
-		20B3B43C18BCA6CD00F8AD7D /* AXConversationListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXConversationListItem.m; sourceTree = "<group>"; };
-		20B3B43D18BCA6CD00F8AD7D /* AXMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessage.h; sourceTree = "<group>"; };
-		20B3B43E18BCA6CD00F8AD7D /* AXMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessage.m; sourceTree = "<group>"; };
-		20B3B43F18BCA6CD00F8AD7D /* AXPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPerson.h; sourceTree = "<group>"; };
-		20B3B44018BCA6CD00F8AD7D /* AXPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPerson.m; sourceTree = "<group>"; };
-		20B3B44218BCA6CD00F8AD7D /* AXMappedConversationListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMappedConversationListItem.h; sourceTree = "<group>"; };
-		20B3B44318BCA6CD00F8AD7D /* AXMappedConversationListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMappedConversationListItem.m; sourceTree = "<group>"; };
-		20B3B44418BCA6CD00F8AD7D /* AXMappedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMappedMessage.h; sourceTree = "<group>"; };
-		20B3B44518BCA6CD00F8AD7D /* AXMappedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMappedMessage.m; sourceTree = "<group>"; };
-		20B3B44618BCA6CD00F8AD7D /* AXMappedPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMappedPerson.h; sourceTree = "<group>"; };
-		20B3B44718BCA6CD00F8AD7D /* AXMappedPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMappedPerson.m; sourceTree = "<group>"; };
-		20B3B44918BCA6CD00F8AD7D /* XChatData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = XChatData.xcdatamodel; sourceTree = "<group>"; };
-		20B3B44C18BCA6CD00F8AD7D /* AXMessageCenterAddFriendManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterAddFriendManager.h; sourceTree = "<group>"; };
-		20B3B44D18BCA6CD00F8AD7D /* AXMessageCenterAddFriendManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterAddFriendManager.m; sourceTree = "<group>"; };
-		20B3B44E18BCA6CD00F8AD7D /* AXMessageCenterDeleteFriendManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterDeleteFriendManager.h; sourceTree = "<group>"; };
-		20B3B44F18BCA6CD00F8AD7D /* AXMessageCenterDeleteFriendManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterDeleteFriendManager.m; sourceTree = "<group>"; };
-		20B3B45018BCA6CD00F8AD7D /* AXMessageCenterFriendListManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterFriendListManager.h; sourceTree = "<group>"; };
-		20B3B45118BCA6CD00F8AD7D /* AXMessageCenterFriendListManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterFriendListManager.m; sourceTree = "<group>"; };
-		20B3B45218BCA6CD00F8AD7D /* AXMessageCenterGetUserOldMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterGetUserOldMessageManager.h; sourceTree = "<group>"; };
-		20B3B45318BCA6CD00F8AD7D /* AXMessageCenterGetUserOldMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterGetUserOldMessageManager.m; sourceTree = "<group>"; };
-		20B3B45418BCA6CD00F8AD7D /* AXMessageCenterModifyFriendInfoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterModifyFriendInfoManager.h; sourceTree = "<group>"; };
-		20B3B45518BCA6CD00F8AD7D /* AXMessageCenterModifyFriendInfoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterModifyFriendInfoManager.m; sourceTree = "<group>"; };
-		20B3B45618BCA6CD00F8AD7D /* AXMessageCenterReceiveMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterReceiveMessageManager.h; sourceTree = "<group>"; };
-		20B3B45718BCA6CD00F8AD7D /* AXMessageCenterReceiveMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterReceiveMessageManager.m; sourceTree = "<group>"; };
-		20B3B45818BCA6CD00F8AD7D /* AXMessageCenterSearchBrokerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterSearchBrokerManager.h; sourceTree = "<group>"; };
-		20B3B45918BCA6CD00F8AD7D /* AXMessageCenterSearchBrokerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterSearchBrokerManager.m; sourceTree = "<group>"; };
-		20B3B45A18BCA6CD00F8AD7D /* AXMessageCenterSendMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterSendMessageManager.h; sourceTree = "<group>"; };
-		20B3B45B18BCA6CD00F8AD7D /* AXMessageCenterSendMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterSendMessageManager.m; sourceTree = "<group>"; };
-		20B3B45C18BCA6CD00F8AD7D /* AXMessageCenterUpdataPasswordManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterUpdataPasswordManager.h; sourceTree = "<group>"; };
-		20B3B45D18BCA6CD00F8AD7D /* AXMessageCenterUpdataPasswordManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterUpdataPasswordManager.m; sourceTree = "<group>"; };
-		20B3B45E18BCA6CD00F8AD7D /* AXMessageCenterUpdataUserInformationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterUpdataUserInformationManager.h; sourceTree = "<group>"; };
-		20B3B45F18BCA6CD00F8AD7D /* AXMessageCenterUpdataUserInformationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterUpdataUserInformationManager.m; sourceTree = "<group>"; };
-		20B3B46018BCA6CD00F8AD7D /* AXChatMessageCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageCenter.h; sourceTree = "<group>"; };
-		20B3B46118BCA6CD00F8AD7D /* AXChatMessageCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageCenter.m; sourceTree = "<group>"; };
-		20B3B46218BCA6CD00F8AD7D /* AXMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageManager.h; sourceTree = "<group>"; };
-		20B3B46318BCA6CD00F8AD7D /* AXMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageManager.m; sourceTree = "<group>"; };
 		20B6B19F189392D100864EF2 /* anjuke_icon_nextphoto_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_nextphoto_@2x.png"; sourceTree = "<group>"; };
 		20D3C24A1892466B0030D7D8 /* PhotoFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoFooterView.h; sourceTree = "<group>"; };
 		20D3C24B1892466B0030D7D8 /* PhotoFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoFooterView.m; sourceTree = "<group>"; };
@@ -588,6 +549,45 @@
 		20E3E781186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_nomessage@2x.png"; sourceTree = "<group>"; };
 		20F011BF18942ABD000264BA /* icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_57.png; sourceTree = "<group>"; };
 		20F011C018942ABD000264BA /* icon_57@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_57@2x.png"; sourceTree = "<group>"; };
+		20F29F9218BCB22300DFB5C2 /* AXChatDataCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatDataCenter.h; sourceTree = "<group>"; };
+		20F29F9318BCB22300DFB5C2 /* AXChatDataCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatDataCenter.m; sourceTree = "<group>"; };
+		20F29F9518BCB22300DFB5C2 /* AXConversationListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXConversationListItem.h; sourceTree = "<group>"; };
+		20F29F9618BCB22300DFB5C2 /* AXConversationListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXConversationListItem.m; sourceTree = "<group>"; };
+		20F29F9718BCB22300DFB5C2 /* AXMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessage.h; sourceTree = "<group>"; };
+		20F29F9818BCB22300DFB5C2 /* AXMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessage.m; sourceTree = "<group>"; };
+		20F29F9918BCB22300DFB5C2 /* AXPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPerson.h; sourceTree = "<group>"; };
+		20F29F9A18BCB22300DFB5C2 /* AXPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPerson.m; sourceTree = "<group>"; };
+		20F29F9C18BCB22300DFB5C2 /* AXMappedConversationListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMappedConversationListItem.h; sourceTree = "<group>"; };
+		20F29F9D18BCB22300DFB5C2 /* AXMappedConversationListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMappedConversationListItem.m; sourceTree = "<group>"; };
+		20F29F9E18BCB22300DFB5C2 /* AXMappedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMappedMessage.h; sourceTree = "<group>"; };
+		20F29F9F18BCB22300DFB5C2 /* AXMappedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMappedMessage.m; sourceTree = "<group>"; };
+		20F29FA018BCB22300DFB5C2 /* AXMappedPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMappedPerson.h; sourceTree = "<group>"; };
+		20F29FA118BCB22300DFB5C2 /* AXMappedPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMappedPerson.m; sourceTree = "<group>"; };
+		20F29FA318BCB22300DFB5C2 /* XChatData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = XChatData.xcdatamodel; sourceTree = "<group>"; };
+		20F29FA618BCB22300DFB5C2 /* AXMessageCenterAddFriendManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterAddFriendManager.h; sourceTree = "<group>"; };
+		20F29FA718BCB22300DFB5C2 /* AXMessageCenterAddFriendManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterAddFriendManager.m; sourceTree = "<group>"; };
+		20F29FA818BCB22300DFB5C2 /* AXMessageCenterDeleteFriendManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterDeleteFriendManager.h; sourceTree = "<group>"; };
+		20F29FA918BCB22300DFB5C2 /* AXMessageCenterDeleteFriendManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterDeleteFriendManager.m; sourceTree = "<group>"; };
+		20F29FAA18BCB22300DFB5C2 /* AXMessageCenterFriendListManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterFriendListManager.h; sourceTree = "<group>"; };
+		20F29FAB18BCB22300DFB5C2 /* AXMessageCenterFriendListManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterFriendListManager.m; sourceTree = "<group>"; };
+		20F29FAC18BCB22300DFB5C2 /* AXMessageCenterGetUserOldMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterGetUserOldMessageManager.h; sourceTree = "<group>"; };
+		20F29FAD18BCB22300DFB5C2 /* AXMessageCenterGetUserOldMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterGetUserOldMessageManager.m; sourceTree = "<group>"; };
+		20F29FAE18BCB22300DFB5C2 /* AXMessageCenterModifyFriendInfoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterModifyFriendInfoManager.h; sourceTree = "<group>"; };
+		20F29FAF18BCB22300DFB5C2 /* AXMessageCenterModifyFriendInfoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterModifyFriendInfoManager.m; sourceTree = "<group>"; };
+		20F29FB018BCB22300DFB5C2 /* AXMessageCenterReceiveMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterReceiveMessageManager.h; sourceTree = "<group>"; };
+		20F29FB118BCB22300DFB5C2 /* AXMessageCenterReceiveMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterReceiveMessageManager.m; sourceTree = "<group>"; };
+		20F29FB218BCB22300DFB5C2 /* AXMessageCenterSearchBrokerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterSearchBrokerManager.h; sourceTree = "<group>"; };
+		20F29FB318BCB22300DFB5C2 /* AXMessageCenterSearchBrokerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterSearchBrokerManager.m; sourceTree = "<group>"; };
+		20F29FB418BCB22300DFB5C2 /* AXMessageCenterSendMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterSendMessageManager.h; sourceTree = "<group>"; };
+		20F29FB518BCB22300DFB5C2 /* AXMessageCenterSendMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterSendMessageManager.m; sourceTree = "<group>"; };
+		20F29FB618BCB22300DFB5C2 /* AXMessageCenterUpdataPasswordManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterUpdataPasswordManager.h; sourceTree = "<group>"; };
+		20F29FB718BCB22300DFB5C2 /* AXMessageCenterUpdataPasswordManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterUpdataPasswordManager.m; sourceTree = "<group>"; };
+		20F29FB818BCB22300DFB5C2 /* AXMessageCenterUpdataUserInformationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterUpdataUserInformationManager.h; sourceTree = "<group>"; };
+		20F29FB918BCB22300DFB5C2 /* AXMessageCenterUpdataUserInformationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterUpdataUserInformationManager.m; sourceTree = "<group>"; };
+		20F29FBA18BCB22300DFB5C2 /* AXChatMessageCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageCenter.h; sourceTree = "<group>"; };
+		20F29FBB18BCB22300DFB5C2 /* AXChatMessageCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageCenter.m; sourceTree = "<group>"; };
+		20F29FBC18BCB22300DFB5C2 /* AXMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageManager.h; sourceTree = "<group>"; };
+		20F29FBD18BCB22300DFB5C2 /* AXMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageManager.m; sourceTree = "<group>"; };
 		20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_nextfxt_@2x.png"; sourceTree = "<group>"; };
 		2761B89A187C053C00EABF95 /* logo_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_57.png; sourceTree = "<group>"; };
 		2761B89B187C053C00EABF95 /* logo_57@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_57@2x.png"; sourceTree = "<group>"; };
@@ -1310,83 +1310,6 @@
 			name = EGO;
 			sourceTree = "<group>";
 		};
-		20B3B43718BCA6CD00F8AD7D /* AXChatDataCenter */ = {
-			isa = PBXGroup;
-			children = (
-				20B3B43818BCA6CD00F8AD7D /* AXChatDataCenter.h */,
-				20B3B43918BCA6CD00F8AD7D /* AXChatDataCenter.m */,
-				20B3B43A18BCA6CD00F8AD7D /* ManagedObjects */,
-				20B3B44118BCA6CD00F8AD7D /* MappedObjects */,
-				20B3B44818BCA6CD00F8AD7D /* XChatData.xcdatamodeld */,
-			);
-			path = AXChatDataCenter;
-			sourceTree = "<group>";
-		};
-		20B3B43A18BCA6CD00F8AD7D /* ManagedObjects */ = {
-			isa = PBXGroup;
-			children = (
-				20B3B43B18BCA6CD00F8AD7D /* AXConversationListItem.h */,
-				20B3B43C18BCA6CD00F8AD7D /* AXConversationListItem.m */,
-				20B3B43D18BCA6CD00F8AD7D /* AXMessage.h */,
-				20B3B43E18BCA6CD00F8AD7D /* AXMessage.m */,
-				20B3B43F18BCA6CD00F8AD7D /* AXPerson.h */,
-				20B3B44018BCA6CD00F8AD7D /* AXPerson.m */,
-			);
-			path = ManagedObjects;
-			sourceTree = "<group>";
-		};
-		20B3B44118BCA6CD00F8AD7D /* MappedObjects */ = {
-			isa = PBXGroup;
-			children = (
-				20B3B44218BCA6CD00F8AD7D /* AXMappedConversationListItem.h */,
-				20B3B44318BCA6CD00F8AD7D /* AXMappedConversationListItem.m */,
-				20B3B44418BCA6CD00F8AD7D /* AXMappedMessage.h */,
-				20B3B44518BCA6CD00F8AD7D /* AXMappedMessage.m */,
-				20B3B44618BCA6CD00F8AD7D /* AXMappedPerson.h */,
-				20B3B44718BCA6CD00F8AD7D /* AXMappedPerson.m */,
-			);
-			path = MappedObjects;
-			sourceTree = "<group>";
-		};
-		20B3B44A18BCA6CD00F8AD7D /* AXMessageCenter */ = {
-			isa = PBXGroup;
-			children = (
-				20B3B44B18BCA6CD00F8AD7D /* AXApiManagers */,
-				20B3B46018BCA6CD00F8AD7D /* AXChatMessageCenter.h */,
-				20B3B46118BCA6CD00F8AD7D /* AXChatMessageCenter.m */,
-				20B3B46218BCA6CD00F8AD7D /* AXMessageManager.h */,
-				20B3B46318BCA6CD00F8AD7D /* AXMessageManager.m */,
-			);
-			path = AXMessageCenter;
-			sourceTree = "<group>";
-		};
-		20B3B44B18BCA6CD00F8AD7D /* AXApiManagers */ = {
-			isa = PBXGroup;
-			children = (
-				20B3B44C18BCA6CD00F8AD7D /* AXMessageCenterAddFriendManager.h */,
-				20B3B44D18BCA6CD00F8AD7D /* AXMessageCenterAddFriendManager.m */,
-				20B3B44E18BCA6CD00F8AD7D /* AXMessageCenterDeleteFriendManager.h */,
-				20B3B44F18BCA6CD00F8AD7D /* AXMessageCenterDeleteFriendManager.m */,
-				20B3B45018BCA6CD00F8AD7D /* AXMessageCenterFriendListManager.h */,
-				20B3B45118BCA6CD00F8AD7D /* AXMessageCenterFriendListManager.m */,
-				20B3B45218BCA6CD00F8AD7D /* AXMessageCenterGetUserOldMessageManager.h */,
-				20B3B45318BCA6CD00F8AD7D /* AXMessageCenterGetUserOldMessageManager.m */,
-				20B3B45418BCA6CD00F8AD7D /* AXMessageCenterModifyFriendInfoManager.h */,
-				20B3B45518BCA6CD00F8AD7D /* AXMessageCenterModifyFriendInfoManager.m */,
-				20B3B45618BCA6CD00F8AD7D /* AXMessageCenterReceiveMessageManager.h */,
-				20B3B45718BCA6CD00F8AD7D /* AXMessageCenterReceiveMessageManager.m */,
-				20B3B45818BCA6CD00F8AD7D /* AXMessageCenterSearchBrokerManager.h */,
-				20B3B45918BCA6CD00F8AD7D /* AXMessageCenterSearchBrokerManager.m */,
-				20B3B45A18BCA6CD00F8AD7D /* AXMessageCenterSendMessageManager.h */,
-				20B3B45B18BCA6CD00F8AD7D /* AXMessageCenterSendMessageManager.m */,
-				20B3B45C18BCA6CD00F8AD7D /* AXMessageCenterUpdataPasswordManager.h */,
-				20B3B45D18BCA6CD00F8AD7D /* AXMessageCenterUpdataPasswordManager.m */,
-				20B3B45E18BCA6CD00F8AD7D /* AXMessageCenterUpdataUserInformationManager.h */,
-				20B3B45F18BCA6CD00F8AD7D /* AXMessageCenterUpdataUserInformationManager.m */,
-			);
-			path = AXApiManagers;
-			sourceTree = "<group>";
-		};
 		20D3C248189245840030D7D8 /* 发房View */ = {
 			isa = PBXGroup;
 			children = (
@@ -1394,6 +1317,83 @@
 				20D3C24B1892466B0030D7D8 /* PhotoFooterView.m */,
 			);
 			name = "发房View";
+			sourceTree = "<group>";
+		};
+		20F29F9118BCB22300DFB5C2 /* AXChatDataCenter */ = {
+			isa = PBXGroup;
+			children = (
+				20F29F9218BCB22300DFB5C2 /* AXChatDataCenter.h */,
+				20F29F9318BCB22300DFB5C2 /* AXChatDataCenter.m */,
+				20F29F9418BCB22300DFB5C2 /* ManagedObjects */,
+				20F29F9B18BCB22300DFB5C2 /* MappedObjects */,
+				20F29FA218BCB22300DFB5C2 /* XChatData.xcdatamodeld */,
+			);
+			path = AXChatDataCenter;
+			sourceTree = "<group>";
+		};
+		20F29F9418BCB22300DFB5C2 /* ManagedObjects */ = {
+			isa = PBXGroup;
+			children = (
+				20F29F9518BCB22300DFB5C2 /* AXConversationListItem.h */,
+				20F29F9618BCB22300DFB5C2 /* AXConversationListItem.m */,
+				20F29F9718BCB22300DFB5C2 /* AXMessage.h */,
+				20F29F9818BCB22300DFB5C2 /* AXMessage.m */,
+				20F29F9918BCB22300DFB5C2 /* AXPerson.h */,
+				20F29F9A18BCB22300DFB5C2 /* AXPerson.m */,
+			);
+			path = ManagedObjects;
+			sourceTree = "<group>";
+		};
+		20F29F9B18BCB22300DFB5C2 /* MappedObjects */ = {
+			isa = PBXGroup;
+			children = (
+				20F29F9C18BCB22300DFB5C2 /* AXMappedConversationListItem.h */,
+				20F29F9D18BCB22300DFB5C2 /* AXMappedConversationListItem.m */,
+				20F29F9E18BCB22300DFB5C2 /* AXMappedMessage.h */,
+				20F29F9F18BCB22300DFB5C2 /* AXMappedMessage.m */,
+				20F29FA018BCB22300DFB5C2 /* AXMappedPerson.h */,
+				20F29FA118BCB22300DFB5C2 /* AXMappedPerson.m */,
+			);
+			path = MappedObjects;
+			sourceTree = "<group>";
+		};
+		20F29FA418BCB22300DFB5C2 /* AXMessageCenter */ = {
+			isa = PBXGroup;
+			children = (
+				20F29FA518BCB22300DFB5C2 /* AXApiManagers */,
+				20F29FBA18BCB22300DFB5C2 /* AXChatMessageCenter.h */,
+				20F29FBB18BCB22300DFB5C2 /* AXChatMessageCenter.m */,
+				20F29FBC18BCB22300DFB5C2 /* AXMessageManager.h */,
+				20F29FBD18BCB22300DFB5C2 /* AXMessageManager.m */,
+			);
+			path = AXMessageCenter;
+			sourceTree = "<group>";
+		};
+		20F29FA518BCB22300DFB5C2 /* AXApiManagers */ = {
+			isa = PBXGroup;
+			children = (
+				20F29FA618BCB22300DFB5C2 /* AXMessageCenterAddFriendManager.h */,
+				20F29FA718BCB22300DFB5C2 /* AXMessageCenterAddFriendManager.m */,
+				20F29FA818BCB22300DFB5C2 /* AXMessageCenterDeleteFriendManager.h */,
+				20F29FA918BCB22300DFB5C2 /* AXMessageCenterDeleteFriendManager.m */,
+				20F29FAA18BCB22300DFB5C2 /* AXMessageCenterFriendListManager.h */,
+				20F29FAB18BCB22300DFB5C2 /* AXMessageCenterFriendListManager.m */,
+				20F29FAC18BCB22300DFB5C2 /* AXMessageCenterGetUserOldMessageManager.h */,
+				20F29FAD18BCB22300DFB5C2 /* AXMessageCenterGetUserOldMessageManager.m */,
+				20F29FAE18BCB22300DFB5C2 /* AXMessageCenterModifyFriendInfoManager.h */,
+				20F29FAF18BCB22300DFB5C2 /* AXMessageCenterModifyFriendInfoManager.m */,
+				20F29FB018BCB22300DFB5C2 /* AXMessageCenterReceiveMessageManager.h */,
+				20F29FB118BCB22300DFB5C2 /* AXMessageCenterReceiveMessageManager.m */,
+				20F29FB218BCB22300DFB5C2 /* AXMessageCenterSearchBrokerManager.h */,
+				20F29FB318BCB22300DFB5C2 /* AXMessageCenterSearchBrokerManager.m */,
+				20F29FB418BCB22300DFB5C2 /* AXMessageCenterSendMessageManager.h */,
+				20F29FB518BCB22300DFB5C2 /* AXMessageCenterSendMessageManager.m */,
+				20F29FB618BCB22300DFB5C2 /* AXMessageCenterUpdataPasswordManager.h */,
+				20F29FB718BCB22300DFB5C2 /* AXMessageCenterUpdataPasswordManager.m */,
+				20F29FB818BCB22300DFB5C2 /* AXMessageCenterUpdataUserInformationManager.h */,
+				20F29FB918BCB22300DFB5C2 /* AXMessageCenterUpdataUserInformationManager.m */,
+			);
+			path = AXApiManagers;
 			sourceTree = "<group>";
 		};
 		970501541845A18E00A0C181 /* 引导页 */ = {
@@ -2197,8 +2197,8 @@
 		B79218C618BB9D380021933A /* AX */ = {
 			isa = PBXGroup;
 			children = (
-				20B3B43718BCA6CD00F8AD7D /* AXChatDataCenter */,
-				20B3B44A18BCA6CD00F8AD7D /* AXMessageCenter */,
+				20F29F9118BCB22300DFB5C2 /* AXChatDataCenter */,
+				20F29FA418BCB22300DFB5C2 /* AXMessageCenter */,
 				B79218F418BB9D380021933A /* Chat */,
 				B792198918BB9D390021933A /* sj2.jpeg */,
 			);
@@ -2717,7 +2717,7 @@
 				207526B918B45FE10022220C /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				B7E56D0F183DBAD600A0F7D2 /* AnjukeOnlineImgController.m in Sources */,
 				B769E46C181F76A600A2FF50 /* BaseBidPlanController.m in Sources */,
-				20B3B46A18BCA6CD00F8AD7D /* AXMappedPerson.m in Sources */,
+				20F29FC418BCB22300DFB5C2 /* AXMappedPerson.m in Sources */,
 				B7921A1218BB9D390021933A /* UIColor+AXChatMessage.m in Sources */,
 				972DDA301826D39500263F8F /* RTPopoverTableViewController.m in Sources */,
 				B7921A2F18BBA2000021933A /* BrokerChatViewController.m in Sources */,
@@ -2744,7 +2744,7 @@
 				975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */,
 				200ACA4718B6F77000FAC740 /* Broker_InputEditView.m in Sources */,
 				B721095B1827976500904FC7 /* RentNoPlanController.m in Sources */,
-				20B3B47318BCA6CD00F8AD7D /* AXMessageCenterSendMessageManager.m in Sources */,
+				20F29FCD18BCB22300DFB5C2 /* AXMessageCenterSendMessageManager.m in Sources */,
 				B7E69BB8183B4C300097D5C3 /* ModifyRentCostController.m in Sources */,
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,
 				97CB0C10182BEA3500FCCBBD /* ELCImagePickerController.m in Sources */,
@@ -2752,7 +2752,7 @@
 				20578B9F1898ABCC0086B93D /* PropertyEditViewController.m in Sources */,
 				2079ADE118B5DB690029D493 /* ClientDetailCell.m in Sources */,
 				B769E469181F680D00A2FF50 /* PropertyDetailCell.m in Sources */,
-				20B3B47518BCA6CD00F8AD7D /* AXMessageCenterUpdataUserInformationManager.m in Sources */,
+				20F29FCF18BCB22300DFB5C2 /* AXMessageCenterUpdataUserInformationManager.m in Sources */,
 				97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */,
 				206843E418890C9A007DD8C5 /* PublishBuildingViewController.m in Sources */,
 				97410565180CDFE0004DAE95 /* AppDelegate.m in Sources */,
@@ -2760,7 +2760,7 @@
 				B769E47B181F82B000A2FF50 /* BaseBidPropertyCell.m in Sources */,
 				977FCA8F182894F000945FB4 /* CommunityListViewController.m in Sources */,
 				979583581821FF2B005EA48A /* SystemMessageViewController.m in Sources */,
-				20B3B47018BCA6CD00F8AD7D /* AXMessageCenterModifyFriendInfoManager.m in Sources */,
+				20F29FCA18BCB22300DFB5C2 /* AXMessageCenterModifyFriendInfoManager.m in Sources */,
 				B77A9612182A39C1007F04E3 /* RentPropertyObject.m in Sources */,
 				B7E69BC1183B63480097D5C3 /* RentAuctionViewController.m in Sources */,
 				207526BE18B45FE10022220C /* SWUtilityButtonView.m in Sources */,
@@ -2773,7 +2773,7 @@
 				B79084F6182B42AE00B2A870 /* SaleFixedGroupObject.m in Sources */,
 				B79084FA182B490600B2A870 /* SaleFixedManager.m in Sources */,
 				972C10391815351900552C9B /* AnjukeEditPropertyViewController.m in Sources */,
-				20B3B46E18BCA6CD00F8AD7D /* AXMessageCenterFriendListManager.m in Sources */,
+				20F29FC818BCB22300DFB5C2 /* AXMessageCenterFriendListManager.m in Sources */,
 				207526BC18B45FE10022220C /* SWTableViewCell.m in Sources */,
 				B769E47E181F864200A2FF50 /* BaseBidPropertyController.m in Sources */,
 				B7921A1118BB9D390021933A /* NSString+XChat.m in Sources */,
@@ -2781,7 +2781,7 @@
 				B7921A0418BB9D390021933A /* AXChatViewController.m in Sources */,
 				97CB0C1F182BF28D00FCCBBD /* UIViewController+Loading.m in Sources */,
 				B79219FC18BB9D390021933A /* AXChatMessageAvatarCell.m in Sources */,
-				20B3B47218BCA6CD00F8AD7D /* AXMessageCenterSearchBrokerManager.m in Sources */,
+				20F29FCC18BCB22300DFB5C2 /* AXMessageCenterSearchBrokerManager.m in Sources */,
 				B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */,
 				20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */,
 				97CB0C0E182BEA3500FCCBBD /* ELCAssetCell.m in Sources */,
@@ -2795,13 +2795,13 @@
 				B702BA4518921752002E2DC7 /* FindPropertyCell.m in Sources */,
 				B7921A0B18BB9D390021933A /* AXELCAlbumPickerController.m in Sources */,
 				972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */,
-				20B3B46C18BCA6CD00F8AD7D /* AXMessageCenterAddFriendManager.m in Sources */,
+				20F29FC618BCB22300DFB5C2 /* AXMessageCenterAddFriendManager.m in Sources */,
 				974E5C82181E4210000246D1 /* AnjukeEditableCell.m in Sources */,
 				B7921A0218BB9D390021933A /* AXChatMessageSystemTimeCell.m in Sources */,
 				B769E463181F629B00A2FF50 /* BasePropertyDetailController.m in Sources */,
 				B7921A1518BB9D390021933A /* UIView+AXChatMessage.m in Sources */,
 				20A44DA11869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m in Sources */,
-				20B3B46818BCA6CD00F8AD7D /* AXMappedConversationListItem.m in Sources */,
+				20F29FC218BCB22300DFB5C2 /* AXMappedConversationListItem.m in Sources */,
 				9795835D1822014A005EA48A /* SystemMessageCell.m in Sources */,
 				972DDA2A1826A4CA00263F8F /* RTNavigationController.m in Sources */,
 				20A44DB01869799F008D8CB1 /* EGORefreshTableHeaderView.m in Sources */,
@@ -2810,7 +2810,7 @@
 				970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */,
 				208A05EA18A413620053D885 /* PublishHouseTypeEditViewController.m in Sources */,
 				972C10291814FCD300552C9B /* HomeViewController.m in Sources */,
-				20B3B47618BCA6CD00F8AD7D /* AXChatMessageCenter.m in Sources */,
+				20F29FD018BCB22300DFB5C2 /* AXChatMessageCenter.m in Sources */,
 				977FCA9D1828FAD700945FB4 /* LoginManager.m in Sources */,
 				B7921A0A18BB9D390021933A /* AXUserChatViewController.m in Sources */,
 				2063C2651890ADB20043C739 /* PublishHouseTypeViewController.m in Sources */,
@@ -2822,7 +2822,7 @@
 				207526BB18B45FE10022220C /* SWLongPressGestureRecognizer.m in Sources */,
 				B769E460181F5F1200A2FF50 /* ModifyFixedCostController.m in Sources */,
 				2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */,
-				20B3B47118BCA6CD00F8AD7D /* AXMessageCenterReceiveMessageManager.m in Sources */,
+				20F29FCB18BCB22300DFB5C2 /* AXMessageCenterReceiveMessageManager.m in Sources */,
 				203EC29B18B2F65400DD0840 /* ClientListViewController.m in Sources */,
 				B7E69BB2183B26A90097D5C3 /* RentBidPropertyCell.m in Sources */,
 				B7921A0618BB9D390021933A /* AXDemoChatViewController.m in Sources */,
@@ -2839,16 +2839,16 @@
 				974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */,
 				97C6870C183A27E700F449BD /* BaseAuctionViewController.m in Sources */,
 				B769E475181F807500A2FF50 /* SaleBidDetailController.m in Sources */,
-				20B3B46B18BCA6CD00F8AD7D /* XChatData.xcdatamodeld in Sources */,
+				20F29FC518BCB22300DFB5C2 /* XChatData.xcdatamodeld in Sources */,
 				B79219FF18BB9D390021933A /* AXChatMessagePublicCardCell.m in Sources */,
-				20B3B46418BCA6CD00F8AD7D /* AXChatDataCenter.m in Sources */,
-				20B3B46618BCA6CD00F8AD7D /* AXMessage.m in Sources */,
+				20F29FBE18BCB22300DFB5C2 /* AXChatDataCenter.m in Sources */,
+				20F29FC018BCB22300DFB5C2 /* AXMessage.m in Sources */,
 				B7E803ED1820DD8000775C6F /* SaleSelectNoPlanController.m in Sources */,
 				20274173186AC2A9005267FD /* SystemCellManager.m in Sources */,
 				20A09794188D2C4400D30196 /* PublishDataModel.m in Sources */,
-				20B3B46D18BCA6CD00F8AD7D /* AXMessageCenterDeleteFriendManager.m in Sources */,
-				20B3B46F18BCA6CD00F8AD7D /* AXMessageCenterGetUserOldMessageManager.m in Sources */,
-				20B3B46918BCA6CD00F8AD7D /* AXMappedMessage.m in Sources */,
+				20F29FC718BCB22300DFB5C2 /* AXMessageCenterDeleteFriendManager.m in Sources */,
+				20F29FC918BCB22300DFB5C2 /* AXMessageCenterGetUserOldMessageManager.m in Sources */,
+				20F29FC318BCB22300DFB5C2 /* AXMappedMessage.m in Sources */,
 				97958362182229AF005EA48A /* Util_TEXT.m in Sources */,
 				B7EF77B9183CE82D0024A5E6 /* RentNoPlanListCell.m in Sources */,
 				B77A960F182A389D007F04E3 /* SalePropertyObject.m in Sources */,
@@ -2868,15 +2868,15 @@
 				B7EA04AA1844DB3700AC8842 /* BrokerAccountCell.m in Sources */,
 				207526C118B4658A0022220C /* ClientListCell.m in Sources */,
 				9751860218320D5F00C9A40A /* PhotoManager.m in Sources */,
-				20B3B47418BCA6CD00F8AD7D /* AXMessageCenterUpdataPasswordManager.m in Sources */,
+				20F29FCE18BCB22300DFB5C2 /* AXMessageCenterUpdataPasswordManager.m in Sources */,
 				97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */,
 				979B083B18488A2800DD697E /* BigZhenzhenButton.m in Sources */,
-				20B3B47718BCA6CD00F8AD7D /* AXMessageManager.m in Sources */,
+				20F29FD118BCB22300DFB5C2 /* AXMessageManager.m in Sources */,
 				B76E5988181E5AD1005B6A8C /* BaseNoPlanListCell.m in Sources */,
 				97CB0C0D182BEA3500FCCBBD /* ELCAsset.m in Sources */,
 				B721095818278E6000904FC7 /* RentPropertyListCell.m in Sources */,
 				970FC17E183B19C400D142D5 /* PropertyResetViewController.m in Sources */,
-				20B3B46518BCA6CD00F8AD7D /* AXConversationListItem.m in Sources */,
+				20F29FBF18BCB22300DFB5C2 /* AXConversationListItem.m in Sources */,
 				B721094B18277CE100904FC7 /* RentFixedDetailController.m in Sources */,
 				B7DC8079186C115800BE6AD0 /* CellHeight.m in Sources */,
 				974E5C7F181E417F000246D1 /* RTListCell.m in Sources */,
@@ -2885,7 +2885,7 @@
 				97192EE71818FEF7007971BA /* PhotoButton.m in Sources */,
 				B7921A0318BB9D390021933A /* AXChatMessageTextCell.m in Sources */,
 				B79219FD18BB9D390021933A /* AXChatMessageImageCell.m in Sources */,
-				20B3B46718BCA6CD00F8AD7D /* AXPerson.m in Sources */,
+				20F29FC118BCB22300DFB5C2 /* AXPerson.m in Sources */,
 				B7921A0918BB9D390021933A /* AXPullToRefreshView.m in Sources */,
 				97C97B461810DD34006E538B /* TabBarViewController.m in Sources */,
 				B7921A1418BB9D390021933A /* UIImage+AXChatMessage.m in Sources */,
@@ -3152,12 +3152,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		20B3B44818BCA6CD00F8AD7D /* XChatData.xcdatamodeld */ = {
+		20F29FA218BCB22300DFB5C2 /* XChatData.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				20B3B44918BCA6CD00F8AD7D /* XChatData.xcdatamodel */,
+				20F29FA318BCB22300DFB5C2 /* XChatData.xcdatamodel */,
 			);
-			currentVersion = 20B3B44918BCA6CD00F8AD7D /* XChatData.xcdatamodel */;
+			currentVersion = 20F29FA318BCB22300DFB5C2 /* XChatData.xcdatamodel */;
 			path = XChatData.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

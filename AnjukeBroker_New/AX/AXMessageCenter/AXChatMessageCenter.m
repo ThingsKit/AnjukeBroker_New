@@ -353,9 +353,11 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         NSDictionary *dic = [manager fetchDataWithReformer:nil];
         if (dic[@"status"] && [dic[@"status"] isEqualToString:@"OK"]) {
             NSArray *friendList = dic[@"result"];
-            NSArray *friendListFromDataCenter = [self.dataCenter saveFriendListWithPersonArray:friendList[0][@"friends"]];
-            if (_friendListBlock) {
-                _friendListBlock(friendListFromDataCenter,YES);
+            if ([friendList count] > 0) {
+                NSArray *friendListFromDataCenter = [self.dataCenter saveFriendListWithPersonArray:friendList[0][@"friends"]];
+                if (_friendListBlock) {
+                    _friendListBlock(friendListFromDataCenter,YES);
+                }
             }
         } else {
             _friendListBlock(nil,NO);
@@ -372,8 +374,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         if (dic[@"result"] && [dic[@"status"] isEqualToString:@"OK"]) {
             NSString *uid = [NSString stringWithFormat:@"%@",dic[@"result"]];
             AXMappedPerson *mappedPerson = [self.dataCenter fetchPersonWithUID:uid];
-#warning todo 需要调用data center新的接口
-            [self.dataCenter updatePerson:mappedPerson];
+            [self.dataCenter didAddFriendWithUid:mappedPerson.uid];
             _addFriendBlock(YES);
         }
     }
@@ -408,7 +409,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 #pragma mark - selfMethod
 - (void)closeKeepAlivingConnect
 {
-    
+    [self.messageManager cancelRegisterRequest];
 }
 
 - (void)cancelAllRequest
@@ -508,10 +509,9 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 - (void)addFriendWithMyPhone:(AXMappedPerson *)person block:(void (^)(BOOL))addFriendBlock
 {
     _addFriendBlock = addFriendBlock;
-    
-#warning 需要调用core data新的接口
+    [self.dataCenter willAddFriend:person];
     self.addFriendManager.apiParams = @{
-                                        @"phone":@"13333333333",//self.currentPerson.phone,
+                                        @"phone":self.currentPerson.phone,
                                         @"touid":person.uid
                                         };
     [self.addFriendManager loadData];
