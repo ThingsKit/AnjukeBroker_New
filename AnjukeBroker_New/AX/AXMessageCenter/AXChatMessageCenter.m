@@ -101,11 +101,11 @@ static NSString * const UID = @"234234234";
         mySelf.iconUrl = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"icon"]];
         mySelf.markNamePinyin = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"nick_name_pinyin"]];
         mySelf.userType = [NSNumber numberWithInt:[loginResult[@"user_info"][@"user_type"] integerValue]];
-
-        [self.dataCenter addFriend:mySelf];
+        
+        [self.dataCenter updatePerson:mySelf];
         
         self.dataCenter.delegate = self;
-        self.currentPerson = [self.dataCenter fetchCurrentPerson];
+        self.currentPerson = mySelf;
         [self.messageManager bindServerHost:kAXMessageCenterLinkParamHost port:kAXMessageCenterLinkParamPort appName:kAXMessageCenterLinkAppName timeout:350];
         [self.messageManager registerDevices:[[UIDevice currentDevice] udid] userId:self.currentPerson.uid];
         

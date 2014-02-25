@@ -23,6 +23,8 @@
 #import "BrokerAccountController.h"
 #import "BrokerTwoDimensionalCodeViewController.h"
 
+#import "AXChatMessageCenter.h"
+
 #define HOME_cellHeight 50
 #define Max_Account_Lb_Width 80
 
@@ -464,6 +466,11 @@
     [[NSUserDefaults standardUserDefaults] setValue:tokenChat forKey:@"tokenChat"];
     [[NSUserDefaults standardUserDefaults] setValue:phone forKey:@"phone"]; //联系电话
 
+    //******兼容安居客team得到userInfoDic并设置NSUserDefaults，以帮助底层通过对应路径获取相应数据******
+    NSDictionary *dic = [LoginManager getFuckingChatUserDicJustForAnjukeTeam];
+    [[NSUserDefaults standardUserDefaults] setValue:dic forKey:@"anjuke_chat_login_info"];
+    
+    [AXChatMessageCenter defaultMessageCenter];
     
     [self setHomeValue];
     
