@@ -7,6 +7,7 @@
 //
 
 #import "MessageListCell.h"
+#import "AXMappedConversationListItem.h"
 
 @implementation MessageListCell
 @synthesize imageIcon, nameLb, messageLb, timeLb;
@@ -83,16 +84,18 @@
 
 - (BOOL)configureCell:(id)dataModel {
     
-    DLog(@"messageListCell [%@]", dataModel);
+    DLog(@"messageListCellData [%@]", dataModel);
     
     [self cleanValue];
     
-    self.imageIcon.imageUrl = @"";
-    self.nameLb.text = @"zz阿姨";
-    self.timeLb.text = @"11:00";
-    self.messageLb.text = @"有新房子了你造吗，1折1000万要不要";
+    AXMappedConversationListItem *item = (AXMappedConversationListItem *)dataModel;
     
-    self.iconNumLb.text = @"22";
+    self.imageIcon.imageUrl = item.iconUrl;
+    self.nameLb.text = item.presentName;
+    self.timeLb.text = @"11:00";
+    self.messageLb.text = item.messageTip;
+    
+    self.iconNumLb.text = [item.count stringValue];
     
     return YES;
 }

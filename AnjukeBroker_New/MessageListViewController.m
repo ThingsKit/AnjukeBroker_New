@@ -37,11 +37,6 @@
 	// Do any additional setup after loading the view.
     
     [self setTitleViewWithString:@"微聊"];
-    
-    //注册消息列表获取消息
-//    [self addMessageNotifycation];
-    
-//    self.sessionFetchedResultsController = [self sessionFetchedResultsController];
 }
 
 - (void)didReceiveMemoryWarning
@@ -142,7 +137,7 @@
     }
 //    [cell configureCell:[self.sessionFetchedResultsController fetchedObjects][indexPath.row]];
     AXMappedConversationListItem *item = [self.sessionFetchedResultsController objectAtIndexPath:indexPath];
-//    [cell configureCell:nil];
+    [cell configureCell:item];
 
     return cell;
 }
@@ -214,12 +209,14 @@
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
+    [self showLoadingActivity:YES];
     [self.tableViewList beginUpdates];
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     [self.tableViewList endUpdates];
+    [self hideLoadWithAnimated:YES];
 }
 
 @end
