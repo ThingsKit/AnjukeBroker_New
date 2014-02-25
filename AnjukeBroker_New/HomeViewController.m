@@ -55,14 +55,6 @@
 @end
 
 @implementation HomeViewController
-@synthesize taskArray;
-@synthesize tvList;
-@synthesize photoImg, dataDic, ppcDataDic;
-@synthesize nameLb, phoneLb, accountLb, propNumLb, costLb, clickLb;
-@synthesize MSGNum;
-@synthesize accountTitleLb;
-@synthesize accountYuanLb;
-@synthesize msgCountLb;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
