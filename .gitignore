@@ -2,4 +2,5 @@ xcuserdata
 .git/*
 .DS_Store
 Podfile.lock
+Podfile
 Pods
