@@ -16,8 +16,8 @@
 @property (nonatomic, retain) NSString * iconPath;
 @property (nonatomic, retain) NSString * iconUrl;
 @property (nonatomic, retain) NSNumber * isIconDownloaded;
-@property (nonatomic, retain) NSNumber * isPending;
-@property (nonatomic, retain) NSNumber * isRemoved;
+@property (nonatomic, retain) NSNumber * isPendingForAdd;
+@property (nonatomic, retain) NSNumber * isPendingForRemove;
 @property (nonatomic, retain) NSNumber * isStar;
 @property (nonatomic, retain) NSDate * lastActiveTime;
 @property (nonatomic, retain) NSDate * lastUpdate;

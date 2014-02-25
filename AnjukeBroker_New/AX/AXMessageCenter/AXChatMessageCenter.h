@@ -21,6 +21,7 @@ static NSString * const kAXMessageCenterLinkAppName = @"i-ajk";
 static NSString * const MessageCenterDidReceiveLastUpdataFriendList = @"MessageCenterDidReceiveFriendList";
 static NSString * const MessageCenterDidReceiveLastUpdataMyInformation = @"MessageCenterDidReceiveLastUpdataMyInformation";
 static NSString * const MessageCenterDidReceiveLastUpdataFriendInformation = @"MessageCenterDidReceiveLastUpdataFriendInformation";
+static NSString * const MessageCenterDidInitedDataCenter = @"MessageCenterDidInitedDataCenter";
 
 static NSString * const MessageCenterDidReceiveNewMessage = @"MessageCenterDidReceiveNewMessage";
 //static NSString * const MessageCenterDidReceiveNewFriendList = @"MessageCenterDidReceiveNewFriendList";

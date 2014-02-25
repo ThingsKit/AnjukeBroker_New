@@ -71,11 +71,61 @@
 }
 
 #pragma mark - public methods
-- (NSArray *)addMessageWithArray:(NSArray *)receiceArray
+
+#pragma mark - message related list
+- (void)fetchChatListByLastMessage:(AXMappedMessage *)lastMessage pageSize:(NSUInteger)pageSize;
+{
+    NSString *friendUID = nil;
+    if ([lastMessage.from isEqualToString:self.uid]) {
+        friendUID = lastMessage.to;
+    } else {
+        friendUID = lastMessage.from;
+    }
+    
+    NSManagedObjectContext *tempManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    tempManagedObjectContext.parentContext = self.managedObjectContext;
+    
+    [tempManagedObjectContext performBlock:^{
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:tempManagedObjectContext];
+        fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:NO]];
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"sendTime <= %@ AND ( from = %@ OR to = %@ )", lastMessage.sendTime, friendUID, friendUID];
+        fetchRequest.fetchLimit = pageSize;
+        __autoreleasing NSError *error;
+        NSArray *result = [tempManagedObjectContext executeFetchRequest:fetchRequest error:&error];
+        
+        NSMutableArray *mappedResult = [[NSMutableArray alloc] initWithCapacity:0];
+        for (AXMessage *message in result) {
+            [mappedResult addObject:[message convertToMappedObject]];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate dataCenter:self didFetchChatList:mappedResult withFriend:[self fetchPersonWithUID:friendUID] lastMessage:lastMessage];
+        });
+    }];
+}
+
+#pragma mark - message related methods
+- (AXMappedMessage *)addMessage:(AXMappedMessage *)message saveImmediatly:(BOOL)save
+{
+    AXMessage *messageToInsert = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    [messageToInsert assignPropertiesFromMappedObject:message];
+    [self addConversationListItemWithMessage:message];
+    
+    if (save) {
+        __autoreleasing NSError *error;
+        [self.managedObjectContext save:&error];
+        return [messageToInsert convertToMappedObject];
+    } else {
+        return nil;
+    }
+}
+
+- (NSArray *)addMessageWithArray:(NSArray *)receivedArray
 {
     NSMutableArray *messageArray = [[NSMutableArray alloc] initWithCapacity:0];
     
-    for (NSDictionary *item in receiceArray) {
+    for (NSDictionary *item in receivedArray) {
         NSString *friendUID = item[@"from_uid"];
         for (NSDictionary *message in item[@"messages"]) {
 
@@ -122,6 +172,20 @@
     return messageArray;
 }
 
+- (void)deleteMessageByIdentifier:(NSString *)identifier
+{
+    AXMessage *message = [self findMessageWithIdentifier:identifier];
+    message.isRemoved = [NSNumber numberWithBool:YES];
+    [self updateMessage:[message convertToMappedObject]];
+}
+
+- (void)updateMessage:(AXMappedMessage *)message
+{
+    AXMessage *messageToUpdate = [self findMessageWithIdentifier:message.identifier];
+    [messageToUpdate assignPropertiesFromMappedObject:message];
+    [self.managedObjectContext save:NULL];
+}
+
 - (NSString *)lastMsgId
 {
     [self conversationListFetchedResultController];
@@ -140,37 +204,21 @@
     }
 }
 
-- (void)fetchChatListByLastMessage:(AXMappedMessage *)lastMessage pageSize:(NSUInteger)pageSize;
+- (AXMappedMessage *)fetchMessageWithIdentifier:(NSString *)identifier
 {
-    NSString *friendUID = nil;
-    if ([lastMessage.from isEqualToString:self.uid]) {
-        friendUID = lastMessage.to;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.entity = entity;
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"identifier = %@", identifier];
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    AXMessage *message = [result firstObject];
+    if (message) {
+        return [message convertToMappedObject];
     } else {
-        friendUID = lastMessage.from;
+        return nil;
     }
-
-    NSManagedObjectContext *tempManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    tempManagedObjectContext.parentContext = self.managedObjectContext;
-
-    [tempManagedObjectContext performBlock:^{
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:tempManagedObjectContext];
-        fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:NO]];
-        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"sendTime <= %@ AND ( from = %@ OR to = %@ )", lastMessage.sendTime, friendUID, friendUID];
-        fetchRequest.fetchLimit = pageSize;
-        __autoreleasing NSError *error;
-        NSArray *result = [tempManagedObjectContext executeFetchRequest:fetchRequest error:&error];
-
-        NSMutableArray *mappedResult = [[NSMutableArray alloc] initWithCapacity:0];
-        for (AXMessage *message in result) {
-            [mappedResult addObject:[message convertToMappedObject]];
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate dataCenter:self didFetchChatList:mappedResult withFriend:[self fetchPersonWithUID:friendUID] lastMessage:lastMessage];
-        });
-    }];
 }
+
 - (void)saveDraft:(NSString *)content friendUID:(NSString *)friendUID
 {
     AXConversationListItem *conversationListItem = [self findConversationListItemWithFriendUID:friendUID];
@@ -182,6 +230,22 @@
     [self.managedObjectContext save:NULL];
 }
 
+#pragma mark - conversation List
+- (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.entity = entity;
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"friendUid = %@", friendUID];
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    if ([result count] > 0) {
+        AXConversationListItem *item = [result firstObject];
+        return [item convertToMappedObject];
+    } else {
+        return nil;
+    }
+}
+
 - (NSFetchedResultsController *)conversationListFetchedResultController
 {
     NSManagedObjectContext *tempManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
@@ -190,14 +254,103 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
     fetchRequest.entity = entity;
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"lastUpdateTime" ascending:NO]];
-    
-    __autoreleasing NSError *error;
-    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    NSLog(@"%@", error);
-    
     return [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 }
 
+- (void)deleteConversationItem:(AXMappedConversationListItem *)conversationItem
+{
+    AXConversationListItem *listItem = [self findConversationListItemWithItem:conversationItem];
+    [self.managedObjectContext deleteObject:listItem];
+    [self.managedObjectContext save:NULL];
+}
+
+#pragma mark - delete friends
+- (NSArray *)friendUidListToDelete
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"isRemoved = %@", [NSNumber numberWithBool:YES]];
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    NSMutableArray *uidList = [[NSMutableArray alloc] initWithCapacity:0];
+    for (AXPerson *friendToDelete in result) {
+        [uidList addObject:friendToDelete.uid];
+    }
+    return uidList;
+}
+
+- (void)willDeleteFriendWithUidList:(NSArray *)uidList
+{
+    for (NSString *uid in uidList) {
+        AXPerson *friendToDelete = [self findPersonWithUID:uid];
+        if (friendToDelete) {
+            friendToDelete.isPendingForRemove = [NSNumber numberWithBool:YES];
+        }
+        
+        //删除所有消息
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"from = %@ AND to = %@", uid];
+        NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+        for (AXMessage *message in result) {
+            [self.managedObjectContext deleteObject:message];
+        }
+        
+        //删除会话列表
+        fetchRequest.entity = [NSEntityDescription entityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"friendUid = %@", uid];
+        result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+        for (AXConversationListItem *item in result) {
+            [self.managedObjectContext deleteObject:item];
+        }
+    }
+    [self.managedObjectContext save:NULL];
+}
+
+- (void)didDeletedFriendWithUidList:(NSArray *)uidList
+{
+    for (NSString *uid in uidList) {
+        AXPerson *friendToDelete = [self findPersonWithUID:uid];
+        [self.managedObjectContext delete:friendToDelete];
+    }
+    [self.managedObjectContext save:NULL];
+}
+
+#pragma mark - add friends
+- (void)willAddFriend:(AXMappedPerson *)person
+{
+    AXPerson *personToInsert = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+    [personToInsert assignPropertiesFromMappedObject:person];
+    personToInsert.isPendingForAdd = [NSNumber numberWithBool:YES];
+    personToInsert.isPendingForRemove = [NSNumber numberWithBool:NO];
+    __autoreleasing NSError *error;
+    [self.managedObjectContext save:&error];
+    NSLog(@"%@", error);
+}
+
+- (void)didAddFriendWithUid:(NSString *)uid
+{
+    AXPerson *personToModify = [self findPersonWithUID:uid];
+    personToModify.isPendingForAdd = [NSNumber numberWithBool:NO];
+    [self.managedObjectContext save:NULL];
+}
+
+- (NSArray *)friendUidListToAdd
+{
+    NSMutableArray *uidListToAdd = [[NSMutableArray alloc] initWithCapacity:0];
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"isPendingForAdd = %@", [NSNumber numberWithBool:YES]];
+    
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    for (AXPerson *person in result) {
+        [uidListToAdd addObject:person.uid];
+    }
+    
+    return uidListToAdd;
+}
+
+#pragma mark - fetch && update friends
 - (NSArray *)fetchFriendList
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -216,32 +369,70 @@
 {
     NSMutableArray *friendList = [[NSMutableArray alloc] initWithCapacity:0];
     
-    for (AXMappedPerson *mappedPerson in friendArray) {
-        AXPerson *person = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
-        [person assignPropertiesFromMappedObject:mappedPerson];
-        [friendList addObject:mappedPerson];
+    for (NSDictionary *mappedPerson in friendArray) {
+        AXPerson *person = [self findPersonWithUID:mappedPerson[@"id"]];
+        
+        if (!person) {
+            person = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+            person.isPendingForRemove = [NSNumber numberWithBool:NO];
+            person.isStar = [NSNumber numberWithBool:NO];
+            person.isPendingForAdd = [NSNumber numberWithBool:NO];
+        }
+        
+        person.created = [NSDate dateWithTimeIntervalSince1970:[mappedPerson[@"created"] integerValue]];
+        person.iconPath = @"";
+        person.iconUrl = mappedPerson[@"icon"];
+        person.isIconDownloaded = [NSNumber numberWithBool:NO];
+        person.lastActiveTime = [NSDate dateWithTimeIntervalSince1970:[mappedPerson[@"last_active_time"] integerValue]];
+        person.lastUpdate = [NSDate dateWithTimeIntervalSince1970:[mappedPerson[@"last_update"] integerValue]];
+        person.markName = mappedPerson[@"mark_name"];
+        person.markNamePinyin = mappedPerson[@"mark_name_pinyin"];
+        person.name = mappedPerson[@"nick_name"];
+        person.namePinyin = mappedPerson[@"nick_name_pinyin"];
+        person.phone = mappedPerson[@"phone"];
+        person.uid = mappedPerson[@"id"];
+        person.company = mappedPerson[@"corp"];
+        person.userType = @([mappedPerson[@"user_type"] integerValue]);
+        
+        [friendList addObject:[person convertToMappedPerson]];
     }
     
     [self.managedObjectContext save:NULL];
     return friendList;
 }
 
-- (AXMappedMessage *)addMessage:(AXMappedMessage *)message saveImmediatly:(BOOL)save
+- (void)updatePerson:(AXMappedPerson *)person
 {
-    AXMessage *messageToInsert = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
-    [messageToInsert assignPropertiesFromMappedObject:message];
+    AXPerson *personToUpdate = [self findPersonWithUID:person.uid];
     
-    [self addConversationListItemWithMessage:message];
-    
-    if (save) {
-        __autoreleasing NSError *error;
-        [self.managedObjectContext save:&error];
-        return [messageToInsert convertToMappedObject];
-    } else {
-        return nil;
+    if (personToUpdate == nil) {
+        personToUpdate = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
     }
+    
+    [personToUpdate assignPropertiesFromMappedObject:person];
+    [self.managedObjectContext save:NULL];
 }
 
+- (AXMappedPerson *)fetchPersonWithUID:(NSString *)uid
+{
+    AXPerson *person = nil;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.entity = entity;
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"uid = %@", uid];
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    if ([result count] > 0) {
+        person = [result firstObject];
+    }
+    return [person convertToMappedPerson];
+}
+
+- (AXMappedPerson *)fetchCurrentPerson
+{
+    return [self fetchPersonWithUID:self.uid];
+}
+
+#pragma mark - private methods
 - (void)addConversationListItemWithMessage:(AXMappedMessage *)message
 {
     BOOL shouldUpdateConversationListItem = YES;
@@ -319,143 +510,6 @@
     }
 }
 
-- (void)deleteMessageByIdentifier:(NSString *)identifier
-{
-    AXMessage *message = [self findMessageWithIdentifier:identifier];
-    message.isRemoved = [NSNumber numberWithBool:YES];
-    [self updateMessage:[message convertToMappedObject]];
-}
-
-- (void)updateMessage:(AXMappedMessage *)message
-{
-    AXMessage *messageToUpdate = [self findMessageWithIdentifier:message.identifier];
-    [messageToUpdate assignPropertiesFromMappedObject:message];
-    [self.managedObjectContext save:NULL];
-}
-
-- (AXMappedMessage *)fetchMessageWithIdentifier:(NSString *)identifier
-{
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.entity = entity;
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"identifier = %@", identifier];
-    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
-    AXMessage *message = [result firstObject];
-    if (message) {
-        return [message convertToMappedObject];
-    } else {
-        return nil;
-    }
-}
-
-- (void)addFriend:(AXMappedPerson *)person
-{
-    AXPerson *personToInsert = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
-    [personToInsert assignPropertiesFromMappedObject:person];
-    __autoreleasing NSError *error;
-    [self.managedObjectContext save:&error];
-    NSLog(@"%@", error);
-}
-
-- (void)deleteFriend:(AXMappedPerson *)person
-{
-    AXPerson *personToDelete = [self findPersonWithUID:person.uid];
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"from = %@ OR to = %@", person.uid];
-    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
-    
-    NSManagedObjectContext *tempManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    tempManagedObjectContext.parentContext = self.managedObjectContext;
-    
-    [tempManagedObjectContext performBlock:^{
-        for (NSManagedObject *object in result) {
-            [tempManagedObjectContext deleteObject:object];
-        }
-        [tempManagedObjectContext deleteObject:personToDelete];
-        [tempManagedObjectContext save:NULL];
-        
-        [self.managedObjectContext performBlock:^{
-            [self.managedObjectContext save:NULL];
-        }];
-    }];
-    
-}
-
-- (void)updatePerson:(AXMappedPerson *)person
-{
-    AXPerson *personToUpdate = [self findPersonWithUID:person.uid];
-    
-    if (personToUpdate == nil) {
-        personToUpdate = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
-    }
-    
-    [personToUpdate assignPropertiesFromMappedObject:person];
-    [self.managedObjectContext save:NULL];
-}
-
-- (AXMappedPerson *)fetchPersonWithUID:(NSString *)uid
-{
-    AXPerson *person = nil;
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.entity = entity;
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"uid = %@", uid];
-    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
-    if ([result count] > 0) {
-        person = [result firstObject];
-    }
-    return [person convertToMappedPerson];
-}
-
-- (void)deleteConversationItem:(AXMappedConversationListItem *)conversationItem
-{
-    AXConversationListItem *listItem = [self findConversationListItemWithItem:conversationItem];
-    [self.managedObjectContext deleteObject:listItem];
-    [self.managedObjectContext save:NULL];
-}
-
-- (AXMappedPerson *)fetchCurrentPerson
-{
-    return [self fetchPersonWithUID:self.uid];
-}
-
-- (void)successDeletePerson:(NSString *)uid
-{
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"from = %@ OR to = %@", uid];
-    fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
-    NSArray *relatedMessages = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
-    for (NSManagedObject *message in relatedMessages) {
-        [self.managedObjectContext deleteObject:message];
-    }
-    
-    AXPerson *person = [self findPersonWithUID:uid];
-    [self.managedObjectContext deleteObject:person];
-    
-    AXConversationListItem *conversationListItem = [self findConversationListItemWithFriendUID:uid];
-    [self.managedObjectContext deleteObject:conversationListItem];
-    
-    [self.managedObjectContext save:NULL];
-}
-
-- (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID
-{
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.entity = entity;
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"friendUid = %@", friendUID];
-    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
-    if ([result count] > 0) {
-        AXConversationListItem *item = [result firstObject];
-        return [item convertToMappedObject];
-    } else {
-        return nil;
-    }
-}
-
-#pragma mark - private methods
 - (AXMessage *)findMessageWithIdentifier:(NSString *)identifier
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];

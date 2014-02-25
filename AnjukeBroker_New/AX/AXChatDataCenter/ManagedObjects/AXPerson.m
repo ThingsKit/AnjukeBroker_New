@@ -15,8 +15,8 @@
 @dynamic iconPath;
 @dynamic iconUrl;
 @dynamic isIconDownloaded;
-@dynamic isPending;
-@dynamic isRemoved;
+@dynamic isPendingForAdd;
+@dynamic isPendingForRemove;
 @dynamic isStar;
 @dynamic lastActiveTime;
 @dynamic lastUpdate;
@@ -42,12 +42,12 @@
     person.markNamePinyin = self.markNamePinyin;
     person.name = self.name;
     person.namePinyin = self.namePinyin;
-    person.isRemoved = self.isRemoved;
+    person.isPendingForAdd = self.isPendingForAdd;
     person.phone = self.phone;
     person.uid = self.uid;
     person.userType = self.userType;
     person.isStar = self.isStar;
-    person.isPending = self.isPending;
+    person.isPendingForRemove = self.isPendingForRemove;
     person.company = self.company;
     return person;
 }
@@ -64,12 +64,12 @@
     self.markNamePinyin = person.markNamePinyin;
     self.name = person.name;
     self.namePinyin = person.namePinyin;
-    self.isRemoved = person.isRemoved;
+    self.isPendingForRemove = person.isPendingForRemove;
     self.phone = person.phone;
     self.uid = person.uid;
     self.userType = person.userType;
     self.isStar = person.isStar;
-    self.isPending = person.isPending;
+    self.isPendingForAdd = person.isPendingForAdd;
     self.company = person.company;
 }
 

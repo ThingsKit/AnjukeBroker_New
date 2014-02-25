@@ -125,7 +125,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     [self.messageManager bindServerHost:kAXMessageCenterLinkParamHost port:kAXMessageCenterLinkParamPort appName:kAXMessageCenterLinkAppName timeout:350];
     [self.messageManager registerDevices:[[UIDevice currentDevice] udid] userId:self.currentPerson.uid];
     
-    [self.dataCenter test];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidInitedDataCenter object:nil];
 }
 
 - (void)dealloc
@@ -353,7 +353,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         NSDictionary *dic = [manager fetchDataWithReformer:nil];
         if (dic[@"status"] && [dic[@"status"] isEqualToString:@"OK"]) {
             NSArray *friendList = dic[@"result"];
-            NSArray *friendListFromDataCenter = [self.dataCenter saveFriendListWithPersonArray:friendList];
+            NSArray *friendListFromDataCenter = [self.dataCenter saveFriendListWithPersonArray:friendList[0][@"friends"]];
             if (_friendListBlock) {
                 _friendListBlock(friendListFromDataCenter,YES);
             }
@@ -372,7 +372,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         if (dic[@"result"] && [dic[@"status"] isEqualToString:@"OK"]) {
             NSString *uid = [NSString stringWithFormat:@"%@",dic[@"result"]];
             AXMappedPerson *mappedPerson = [self.dataCenter fetchPersonWithUID:uid];
-            mappedPerson.isPending = @(NO);
+#warning todo 需要调用data center新的接口
             [self.dataCenter updatePerson:mappedPerson];
             _addFriendBlock(YES);
         }
@@ -509,9 +509,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 {
     _addFriendBlock = addFriendBlock;
     
-    person.isPending = @(YES);
-    [self.dataCenter addFriend:person];
-    
+#warning 需要调用core data新的接口
     self.addFriendManager.apiParams = @{
                                         @"phone":@"13333333333",//self.currentPerson.phone,
                                         @"touid":person.uid

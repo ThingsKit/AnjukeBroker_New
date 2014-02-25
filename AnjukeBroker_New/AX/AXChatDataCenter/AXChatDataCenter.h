@@ -34,30 +34,40 @@
 - (void)test;
 
 - (void)switchToUID:(NSString *)uid;
-- (NSString *)lastMsgId;
 
 // message && message record list
 - (void)fetchChatListByLastMessage:(AXMappedMessage *)lastMessage pageSize:(NSUInteger)pageSize;
+
+// message related methods
 - (AXMappedMessage *)addMessage:(AXMappedMessage *)message saveImmediatly:(BOOL)save;
+- (NSArray *)addMessageWithArray:(NSArray *)receivedArray;
 - (void)deleteMessageByIdentifier:(NSString *)identifier;
 - (void)updateMessage:(AXMappedMessage *)message;
+- (NSString *)lastMsgId;
+
 - (AXMappedMessage *)fetchMessageWithIdentifier:(NSString *)identifier;
 - (void)saveDraft:(NSString *)content friendUID:(NSString *)friendUID;
-- (NSArray *)addMessageWithArray:(NSArray *)receiceArray;
-- (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID;
 
 // conversation list
+- (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID;
 - (NSFetchedResultsController *)conversationListFetchedResultController;
 - (void)deleteConversationItem:(AXMappedConversationListItem *)conversationItem;
 
-// friends
-- (void)successDeletePerson:(NSString *)uid;
-- (void)addFriend:(AXMappedPerson *)person;
-- (void)deleteFriend:(AXMappedPerson *)person;
-- (void)updatePerson:(AXMappedPerson *)person;
+// delete friends
+- (void)willDeleteFriendWithUidList:(NSArray *)uidList;
+- (void)didDeleteFriendWithUidList:(NSArray *)uidList;
+- (NSArray *)friendUidListToDelete;
+
+// add friends
+- (void)willAddFriend:(AXMappedPerson *)person;
+- (void)didAddFriendWithUid:(NSString *)uid;
+- (NSArray *)friendUidListToAdd;
+
+// fetch and update friends
 - (AXMappedPerson *)fetchPersonWithUID:(NSString *)uid;
-- (NSArray *)fetchFriendList;
+- (void)updatePerson:(AXMappedPerson *)person;
 - (NSArray *)saveFriendListWithPersonArray:(NSArray *)friendArray;
+- (NSArray *)fetchFriendList;
 - (AXMappedPerson *)fetchCurrentPerson;
 
 @end
