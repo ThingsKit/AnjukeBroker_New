@@ -10,18 +10,19 @@
 #import "MessageListCell.h"
 #import "BrokerChatViewController.h"
 
-#import "AXChatMessageCenter.h"
-
 @interface MessageListViewController ()
 
 @property (nonatomic, strong) UITableView *tableViewList;
 @property (nonatomic, strong) NSMutableArray *listDataArray;
+
+@property (nonatomic, strong) NSFetchedResultsController *sessionFetchedResultsController;
 
 @end
 
 @implementation MessageListViewController
 @synthesize tableViewList;
 @synthesize listDataArray;
+@synthesize sessionFetchedResultsController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,12 +42,30 @@
     
     //注册消息列表获取消息
     [self addMessageNotifycation];
+    
+//    self.sessionFetchedResultsController = [self sessionFetchedResultsController];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - init Method
+
+- (NSFetchedResultsController *)sessionFetchedResultsController
+{
+    if (!self.sessionFetchedResultsController) {
+        self.sessionFetchedResultsController = [[AXChatMessageCenter defaultMessageCenter] conversationListFetchedResultController];
+        self.sessionFetchedResultsController.delegate = self;
+        
+        __autoreleasing NSError *error;
+        if (![self.sessionFetchedResultsController performFetch:&error]) {
+            DLog(@"%@",error);
+        }
+    }
+    return self.sessionFetchedResultsController;
 }
 
 #pragma mark - init Method
@@ -93,11 +112,6 @@
         if ([note.object isKindOfClass:[NSArray class]]) {
             NSArray *list = (NSArray *)note.object;
             DLog(@"------list [%@]", list);
-//            for (AXMappedMessage *mappedMessage in list) {
-//                NSMutableDictionary *dict = [self mapAXMappedMessage:mappedMessage];
-//                dict[AXCellIdentifyTag] = mappedMessage.identifier;
-//                [self appendCellData:dict];
-//            }
         }
     }];
 }
@@ -109,7 +123,8 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.listDataArray.count;
+//    return self.listDataArray.count;
+    return [[self.sessionFetchedResultsController fetchedObjects] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -127,7 +142,7 @@
     else {
         
     }
-    [cell configureCell:nil];
+    [cell configureCell:[self.sessionFetchedResultsController fetchedObjects][indexPath.row]];
     
     return cell;
 }
@@ -164,6 +179,48 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewCellEditingStyleDelete;
+}
+
+#pragma mark - NSFetchedResultsControllerDelegate
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+    switch (type) {
+        case NSFetchedResultsChangeInsert:
+        {
+            [self.tableViewList insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+            break;
+        case NSFetchedResultsChangeUpdate:
+        {
+            [self.tableViewList reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+            break;
+        case NSFetchedResultsChangeMove:
+        {
+            [self.tableViewList moveRowAtIndexPath:indexPath toIndexPath:newIndexPath];
+        }
+            break;
+        case NSFetchedResultsChangeDelete:
+        {
+            
+            [self.tableViewList deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableViewList beginUpdates];
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableViewList endUpdates];
 }
 
 @end

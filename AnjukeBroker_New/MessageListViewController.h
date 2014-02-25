@@ -7,7 +7,8 @@
 //
 
 #import "RTViewController.h"
+#import "AXChatMessageCenter.h"
 
-@interface MessageListViewController : RTViewController <UITableViewDataSource, UITableViewDelegate>
+@interface MessageListViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate>
 
 @end

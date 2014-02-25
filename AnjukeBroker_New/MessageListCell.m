@@ -82,6 +82,9 @@
 }
 
 - (BOOL)configureCell:(id)dataModel {
+    
+    DLog(@"messageListCell [%@]", dataModel);
+    
     [self cleanValue];
     
     self.imageIcon.imageUrl = @"";
