@@ -168,7 +168,7 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
             [self.delegate manager:self didRegisterDevice:self.deviceId userId:self.userId receivedData:data];
             if (self.shouldSendHeartPong) {
 #warning heart beating setting is here
-                self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(heartBeatWithDevices) userInfo:nil repeats:YES];
+                self.timer = [NSTimer scheduledTimerWithTimeInterval:300.0f target:self selector:@selector(heartBeatWithDevices) userInfo:nil repeats:YES];
                 self.shouldSendHeartPong = NO;
             }
             __autoreleasing NSError *error;
