@@ -79,7 +79,7 @@
         self.imageIcon.image = [UIImage imageNamed:@""];
     }
     self.imageIcon.imageUrl = item.iconUrl;
-    self.nameLb.text = item.name;
+    self.nameLb.text = item.name;//[NSString stringWithFormat:@"%@_%@", item.uid, item.name];
     
     return YES;
 }

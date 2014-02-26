@@ -156,7 +156,7 @@
 //    [cell configureCell:[self.sessionFetchedResultsController fetchedObjects][indexPath.row]];
     AXMappedConversationListItem *item = [self.sessionFetchedResultsController objectAtIndexPath:indexPath];
     [cell configureCell:item];
-
+    
     return cell;
 }
 
