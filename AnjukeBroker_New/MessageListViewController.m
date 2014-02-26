@@ -11,6 +11,8 @@
 #import "BrokerChatViewController.h"
 #import "AXMappedConversationListItem.h"
 
+#import "AXChatViewController.h"
+
 @interface MessageListViewController ()
 
 @property (nonatomic, strong) UITableView *tableViewList;
@@ -80,6 +82,16 @@
 //    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:tv];
 
+    UIBarButtonItem *testItem = [[UIBarButtonItem alloc] initWithTitle:@"Chat" style:UIBarButtonItemStyleBordered target:self action:@selector(doJump)];
+    self.navigationItem.rightBarButtonItem = testItem;
+}
+
+//test
+- (void)doJump {
+    AXChatViewController *av = [[AXChatViewController alloc] init];
+    av.isBroker = YES;
+    [av setHidesBottomBarWhenPushed:YES];
+    [self.navigationController pushViewController:av animated:YES];
 }
 
 #pragma mark - Private Method

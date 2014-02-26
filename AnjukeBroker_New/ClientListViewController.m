@@ -10,6 +10,7 @@
 #import "ClientDetailViewController.h"
 #import "Util_UI.h"
 #import "AXChatMessageCenter.h"
+#import "AXMappedPerson.h"
 
 @interface ClientListViewController ()
 
@@ -191,7 +192,7 @@
     }
     
     [cell setCellHeight:CLIENT_LIST_HEIGHT];
-    [cell configureCellWithData:nil];
+    [cell configureCellWithData:[self.testArr objectAtIndex:indexPath.row]]; //for test
     
     return cell;
 }

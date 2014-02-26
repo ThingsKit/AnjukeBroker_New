@@ -10,6 +10,7 @@
 #import "Util_UI.h"
 #import "WebImageView.h"
 #import "RTListCell.h"
+#import "AXMappedPerson.h"
 
 @implementation ClientListCell
 @synthesize imageIcon, nameLb;
@@ -65,8 +66,10 @@
     
     [self cleanValue];
     
-    self.imageIcon.imageUrl = @"";
-    self.nameLb.text = @"老倪阿姨";
+    AXMappedPerson *item = (AXMappedPerson *)data;
+    
+    self.imageIcon.imageUrl = item.iconUrl;
+    self.nameLb.text = item.name;
     
     return YES;
 }
