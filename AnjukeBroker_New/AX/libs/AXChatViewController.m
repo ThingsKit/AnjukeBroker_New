@@ -178,7 +178,7 @@ static NSInteger const AXMessagePageSize = 15;
 - (void)getNewMessage
 {
     [self.messageInputView.textView resignFirstResponder];
-    [[AXChatMessageCenter defaultMessageCenter] receiveMessage];
+//    [[AXChatMessageCenter defaultMessageCenter] receiveMessage];
 }
 
 - (void)addUserBtn
