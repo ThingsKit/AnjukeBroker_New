@@ -620,9 +620,9 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     }
     
     if ([receiveDic[@"result"] isKindOfClass:[NSString class]] && [receiveDic[@"result"] isEqualToString:@"TIMEOUT"]) {
-        NSLog(@"TIMEOUT");
-    
+        [self.messageManager registerDevices:[[UIDevice currentDevice] udid] userId:self.currentPerson.uid];
     }
+    
     if ([receiveDic[@"result"] isKindOfClass:[NSString class]] && [receiveDic[@"result"] isEqualToString:@"QUIT"]) {
         NSLog(@"QUIT");
 

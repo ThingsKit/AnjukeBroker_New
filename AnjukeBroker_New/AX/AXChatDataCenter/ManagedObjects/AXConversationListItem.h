@@ -23,6 +23,7 @@
 @property (nonatomic, retain) NSString * iconPath;
 @property (nonatomic, retain) NSNumber * isIconDownloaded;
 @property (nonatomic, retain) NSNumber * messageStatus;
+@property (nonatomic, retain) NSString * draftContent;
 
 - (AXMappedConversationListItem *)convertToMappedObject;
 - (void)assignPropertiesFromMappedObject:(AXMappedConversationListItem *)mappedConversationListItem;

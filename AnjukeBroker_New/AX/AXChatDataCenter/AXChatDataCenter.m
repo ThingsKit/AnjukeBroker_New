@@ -255,22 +255,14 @@
     AXConversationListItem *conversationListItem = [self findConversationListItemWithFriendUID:friendUID];
     if ([content isEqualToString:@""]) {
         if (conversationListItem) {
-            AXMessage *lastMessage = [self findLastMessageWithFriendUid:friendUID];
-            if (lastMessage) {
-#warning todo
-                conversationListItem.messageTip = lastMessage.content;
-                conversationListItem.messageType = @(AXConversationListItemTypeText);
+            conversationListItem.draftContent = content;
                 [self.managedObjectContext save:NULL];
-            } else {
-                [self.managedObjectContext deleteObject:conversationListItem];
-            }
         }
     } else {
         if (!conversationListItem) {
             conversationListItem = [NSEntityDescription insertNewObjectForEntityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
         }
-        conversationListItem.messageType = @(AXConversationListItemTypeDraft);
-        conversationListItem.messageTip = content;
+        conversationListItem.draftContent = content;
         [self.managedObjectContext save:NULL];
     }
 }

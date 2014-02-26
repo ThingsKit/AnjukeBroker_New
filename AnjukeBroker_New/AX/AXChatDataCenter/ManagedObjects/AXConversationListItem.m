@@ -22,6 +22,7 @@
 @dynamic iconPath;
 @dynamic isIconDownloaded;
 @dynamic messageStatus;
+@dynamic draftContent;
 
 - (AXMappedConversationListItem *)convertToMappedObject
 {

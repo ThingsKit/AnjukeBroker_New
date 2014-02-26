@@ -32,5 +32,6 @@ typedef NS_ENUM(NSUInteger, AXConversationListItemType)
 @property (nonatomic, retain) NSString * iconPath;
 @property (nonatomic, retain) NSNumber * isIconDownloaded;
 @property (nonatomic, retain) NSNumber * messageStatus;
+@property (nonatomic, retain) NSString * draftContent;
 
 @end
