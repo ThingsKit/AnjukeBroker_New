@@ -79,5 +79,6 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 - (void)updatePerson:(AXMappedPerson *)person;
 - (AXMappedPerson *)fetchCurrentPerson;
 - (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID;
+- (void)saveDraft:(NSString *)content friendUID:(NSString *)friendUID;
 
 @end

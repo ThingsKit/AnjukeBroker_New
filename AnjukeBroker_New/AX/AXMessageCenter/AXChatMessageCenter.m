@@ -132,6 +132,12 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 {
     return [self.dataCenter fetchConversationListItemWithFriendUID:friendUID];
 }
+
+- (void)saveDraft:(NSString *)content friendUID:(NSString *)friendUID
+{
+    [self.dataCenter saveDraft:content friendUID:friendUID];
+}
+
 #pragma mark -  setters and getters
 - (AXMessageCenterSendMessageManager *)sendMessageManager
 {
@@ -360,7 +366,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     params[@"to_uid"] = dataMessage.to;
     params[@"uniqid"] = dataMessage.identifier;
     params[@"body"] = dataMessage.content;
-    
     
     self.sendMessageManager.apiParams = params;
     [self.sendMessageManager loadData];

@@ -31,6 +31,7 @@
         NSURL *momdUrl = [[NSBundle mainBundle] URLForResource:@"XChatData" withExtension:@"momd"];
         _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momdUrl];
         [self switchToUID:uid];
+        
     }
     return self;
 }
@@ -57,7 +58,19 @@
     }
 }
 
-#pragma mark - public methods
+
+#pragma mark - test methods
+- (void)test
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+    
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    for (AXPerson *person in result) {
+        NSLog(@"%@", person.isPendingForRemove);
+    }
+}
 
 #pragma mark - message related list
 - (void)fetchChatListByLastMessage:(AXMappedMessage *)lastMessage pageSize:(NSUInteger)pageSize;
@@ -69,27 +82,29 @@
         friendUID = lastMessage.from;
     }
     
-    NSManagedObjectContext *tempManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    tempManagedObjectContext.parentContext = self.managedObjectContext;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:NO]];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND sendTime < %@", friendUID, friendUID, lastMessage.sendTime];
+    fetchRequest.fetchLimit = pageSize;
+    __autoreleasing NSError *error;
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+    NSMutableArray *mappedResult = [[NSMutableArray alloc] initWithCapacity:0];
+    for (AXMessage *message in result) {
+        [mappedResult addObject:[message convertToMappedObject]];
+    }
     
-    [tempManagedObjectContext performBlock:^{
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:tempManagedObjectContext];
-        fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:NO]];
-        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"sendTime < %@ AND ( from = %@ OR to = %@ )", lastMessage.sendTime, friendUID, friendUID];
-        fetchRequest.fetchLimit = pageSize;
-        __autoreleasing NSError *error;
-        NSArray *result = [tempManagedObjectContext executeFetchRequest:fetchRequest error:&error];
-        
-        NSMutableArray *mappedResult = [[NSMutableArray alloc] initWithCapacity:0];
-        for (AXMessage *message in result) {
-            [mappedResult addObject:[message convertToMappedObject]];
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate dataCenter:self didFetchChatList:mappedResult withFriend:[self fetchPersonWithUID:friendUID] lastMessage:lastMessage];
-        });
-    }];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    request.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    request.predicate = [NSPredicate predicateWithFormat:@"from = %@ OR to = %@", friendUID, friendUID];
+    request.fetchLimit = pageSize;
+    NSArray *allresult = [self.managedObjectContext executeFetchRequest:request error:&error];
+    NSLog(@"%@", allresult);
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.delegate dataCenter:self didFetchChatList:mappedResult withFriend:[self fetchPersonWithUID:friendUID] lastMessage:lastMessage];
+    });
 }
 
 #pragma mark - message related methods
@@ -207,11 +222,11 @@
     NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
     if ([result count] > 0) {
-        NSString *lastMsgId = result[0][@"lastMsgId"];
-        if ([lastMsgId isEqualToString:@"0"]) {
+        NSNumber *lastMsgId = result[0][@"lastMsgId"];
+        if ([lastMsgId integerValue ] == 0) {
             return @"1";
         } else {
-            return result[0][@"lastMsgId"];
+            return [NSString stringWithFormat:@"%@", lastMsgId];
         }
     } else {
         return @"1";
@@ -240,7 +255,15 @@
     AXConversationListItem *conversationListItem = [self findConversationListItemWithFriendUID:friendUID];
     if ([content isEqualToString:@""]) {
         if (conversationListItem) {
-            [self.managedObjectContext deleteObject:conversationListItem];
+            AXMessage *lastMessage = [self findLastMessageWithFriendUid:friendUID];
+            if (lastMessage) {
+#warning todo
+                conversationListItem.messageTip = lastMessage.content;
+                conversationListItem.messageType = @(AXConversationListItemTypeText);
+                [self.managedObjectContext save:NULL];
+            } else {
+                [self.managedObjectContext deleteObject:conversationListItem];
+            }
         }
     } else {
         if (!conversationListItem) {
@@ -341,7 +364,7 @@
 - (BOOL)isFriendWithFriendUid:(NSString *)friendUid
 {
     AXPerson *person = [self findPersonWithUID:friendUid];
-    if (person) {
+    if (person && ![person.isPendingForRemove boolValue] && [person.isPendingForAdd integerValue] == 0) {
         return YES;
     } else {
         return NO;
@@ -401,10 +424,11 @@
 #pragma mark - fetch && update friends
 - (NSArray *)fetchFriendList
 {
+    [self test];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
     fetchRequest.entity = entity;
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"uid != %@", self.uid];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"uid != %@ AND isPendingForRemove = %@", self.uid, [NSNumber numberWithBool:NO]];
     NSArray *fetchedResult = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
     NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:0];
     for (AXPerson *person in fetchedResult) {
@@ -428,6 +452,7 @@
         }
         
         person.created = [NSDate dateWithTimeIntervalSince1970:[mappedPerson[@"created"] integerValue]];
+#warning todo
         person.iconPath = @"";
         person.iconUrl = mappedPerson[@"icon"];
         person.isIconDownloaded = [NSNumber numberWithBool:NO];
@@ -438,11 +463,13 @@
         person.name = mappedPerson[@"nick_name"];
         person.namePinyin = mappedPerson[@"nick_name_pinyin"];
         person.phone = mappedPerson[@"phone"];
-        person.uid = mappedPerson[@"id"];
+        person.uid = mappedPerson[@"user_id"];
         person.company = mappedPerson[@"corp"];
         person.userType = @([mappedPerson[@"user_type"] integerValue]);
         
-        [friendList addObject:[person convertToMappedPerson]];
+        if (![person.isPendingForRemove boolValue]) {
+            [friendList addObject:[person convertToMappedPerson]];
+        }
     }
     
     [self.managedObjectContext save:NULL];
@@ -618,8 +645,14 @@
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
-//    fetchRequest.predicate = 
-    return nil;
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"from = %@ OR to = %@", friendUid, friendUid];
+    fetchRequest.fetchLimit = 1;
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    if ([result count] > 0) {
+        return [result firstObject];
+    } else {
+        return nil;
+    }
 }
 
 @end

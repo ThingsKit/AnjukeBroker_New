@@ -73,4 +73,9 @@
     self.company = person.company;
 }
 
+- (void)awakeFromInsert
+{
+    self.isPendingForRemove = [NSNumber numberWithBool:NO];
+}
+
 @end

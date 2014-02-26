@@ -33,8 +33,4 @@
 - (void)assignPropertiesFromMappedObject:(AXMappedPerson *)person;
 - (AXMappedPerson *)convertToMappedPerson;
 
-
-
-
-#warning 需要加一个 company name 的属性
 @end
