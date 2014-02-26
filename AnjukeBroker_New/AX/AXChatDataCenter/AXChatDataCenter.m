@@ -57,19 +57,6 @@
     }
 }
 
-#pragma mark - test methods
-- (void)fetchData
-{
-}
-
-- (void)writeData
-{
-}
-
-- (void)test
-{
-}
-
 #pragma mark - public methods
 
 #pragma mark - message related list
@@ -192,16 +179,30 @@
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"messageId > 0"];
-    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:YES]];
-    fetchRequest.fetchLimit = 1;
-    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
-    AXMessage *message = [result lastObject];
-    if ([result count] <= 0) {
-        return @"1";
+    fetchRequest.resultType = NSDictionaryResultType;
+    NSExpression *keypathExpression = [NSExpression expressionForKeyPath:@"messageId"];
+    NSExpression *maxExpression = [NSExpression expressionForFunction:@"max:" arguments:@[keypathExpression]];
+    NSExpressionDescription *expressionDescription = [[NSExpressionDescription alloc] init];
+    expressionDescription.name = @"lastMsgId";
+    expressionDescription.expression = maxExpression;
+    expressionDescription.expressionResultType = NSInteger32AttributeType;
+    fetchRequest.propertiesToFetch = @[expressionDescription];
+    
+    __autoreleasing NSError *error = nil;
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    if ([result count] > 0) {
+        NSString *lastMsgId = result[0][@"lastMsgId"];
+        if ([lastMsgId isEqualToString:@"0"]) {
+            return @"1";
+        } else {
+            return result[0][@"lastMsgId"];
+        }
     } else {
-        return [NSString stringWithFormat:@"%@", message.messageId];
+        return @"1";
     }
+    
+    return nil;
 }
 
 - (AXMappedMessage *)fetchMessageWithIdentifier:(NSString *)identifier
@@ -306,11 +307,11 @@
     [self.managedObjectContext save:NULL];
 }
 
-- (void)didDeletedFriendWithUidList:(NSArray *)uidList
+- (void)didDeleteFriendWithUidList:(NSArray *)uidList
 {
     for (NSString *uid in uidList) {
         AXPerson *friendToDelete = [self findPersonWithUID:uid];
-        [self.managedObjectContext delete:friendToDelete];
+        [self.managedObjectContext deleteObject:friendToDelete];
     }
     [self.managedObjectContext save:NULL];
 }

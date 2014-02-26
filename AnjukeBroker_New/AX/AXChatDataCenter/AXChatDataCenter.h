@@ -27,12 +27,8 @@
 
 @property (nonatomic, weak) id<AXChatDataCenterDelegate> delegate;
 
+// life cycle
 - (instancetype)initWithUID:(NSString *)uid;
-
-- (void)fetchData;
-- (void)writeData;
-- (void)test;
-
 - (void)switchToUID:(NSString *)uid;
 
 // message && message record list

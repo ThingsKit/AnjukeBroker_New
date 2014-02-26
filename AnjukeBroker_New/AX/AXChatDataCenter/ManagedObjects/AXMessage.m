@@ -75,6 +75,10 @@
     CFStringRef strRef = CFUUIDCreateString(kCFAllocatorDefault, uuidObj);
     NSString *uuidString = [NSString stringWithString:(NSString*)CFBridgingRelease(strRef)];
     self.identifier = uuidString;
+    self.messageId = @(0);
+    self.isRead = [NSNumber numberWithBool:NO];
+    self.isRemoved = [NSNumber numberWithBool:NO];
+    self.isImgDownloaded = [NSNumber numberWithBool:NO];
     CFRelease(uuidObj);
 }
 

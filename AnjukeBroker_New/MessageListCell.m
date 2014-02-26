@@ -108,4 +108,6 @@
     self.iconNumLb.text = @"";
 }
 
+- (NSString *)getMessageListCell
+
 @end
