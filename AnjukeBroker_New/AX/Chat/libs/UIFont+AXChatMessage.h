@@ -13,5 +13,7 @@
 + (UIFont *)axChatTextFont:(BOOL)isBroker;
 + (UIFont *)axChatSystemFont:(BOOL)isBroker;
 + (UIFont *)axChatSystemTimeFont:(BOOL)isBroker;
++ (UIFont *)axChatPropTagFont:(BOOL)isBroker;
++ (UIFont *)axChatPropDetailTimeFont:(BOOL)isBroker;
 
 @end

@@ -16,7 +16,7 @@
 #import <OHAttributedLabel/OHAttributedLabel.h>
 #import <OHAttributedLabel/NSAttributedString+Attributes.h>
 #import <OHAttributedLabel/OHASBasicMarkupParser.h>
-#import "NSString+XChat.h"
+#import "NSString+AXChatMessage.h"
 #import "AXBigIMGSViewController.h"
 #import "AXChatMessageCenter.h"
 #import "AXMappedMessage.h"
@@ -55,7 +55,7 @@ static NSInteger const AXMessagePageSize = 15;
 @property (nonatomic, strong) AXPullToRefreshView *pullToRefreshView;
 @property (nonatomic, strong) AXMappedMessage *lastMessage;
 @property (nonatomic, strong) UILabel *sendLabel;
-
+@property (nonatomic, strong) AXChatDataCenter *dataCenter;
 @property (nonatomic, strong) void (^finishSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status);
 
 // JSMessage
@@ -86,11 +86,6 @@ static NSInteger const AXMessagePageSize = 15;
 
 - (void)dealloc
 {
-    //草稿
-    AXChatDataCenter *dc = [[AXChatDataCenter alloc] init];
-    if (self.messageInputView.textView.text && ![self.messageInputView.textView.text isEqualToString:@""]) {
-        [dc saveDraft:self.messageInputView.textView.text friendUID:[self checkFriendUid]];
-    }
     [self.messageInputView.textView removeObserver:self forKeyPath:@"contentSize"];
     self.messageInputView = nil;
     self.pullToRefreshView.delegate = nil;
@@ -101,15 +96,59 @@ static NSInteger const AXMessagePageSize = 15;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self scrollToBottomAnimated:NO];
+    
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(handleWillShowKeyboardNotification:)
+												 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(handleWillHideKeyboardNotification:)
+												 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (self.conversationListItem) {
+        if (!self.previousTextViewContentHeight) {
+            self.previousTextViewContentHeight = self.messageInputView.textView.contentSize.height;
+        }
+        self.messageInputView.textView.text = self.conversationListItem.messageTip;
+    }
+
+    [self scrollToBottomAnimated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    //草稿
+    if (self.messageInputView) {
+        [[AXChatMessageCenter defaultMessageCenter] saveDraft:self.messageInputView.textView.text friendUID:[self checkFriendUid]];
+    }
+
+    [self.messageInputView resignFirstResponder];
+    [self setEditing:NO animated:YES];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.dataCenter = [[AXChatDataCenter alloc] initWithUID:[self checkFriendUid]];
+    self.conversationListItem = [[AXChatMessageCenter defaultMessageCenter] fetchConversationListItemWithFriendUID:[self checkFriendUid]];
     [self initUI];
 #warning TODO 设置双方的头像
-    
     self.cellData = [NSMutableArray array];
     self.identifierData = [NSMutableArray array];
-    
     AXMappedMessage *lastMessage = [[AXMappedMessage alloc] init];
     lastMessage.sendTime = [NSDate dateWithTimeIntervalSinceNow:0];
     lastMessage.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
@@ -129,56 +168,59 @@ static NSInteger const AXMessagePageSize = 15;
     }];
     
     // 发消息的block
-    __weak AXChatViewController *blockSelf = self;
-    self.finishSendMessageBlock = ^ (AXMappedMessage *message, AXMessageCenterSendMessageStatus status) {
+    @autoreleasepool {
+        __weak AXChatViewController *blockSelf = self;
+
+        self.finishSendMessageBlock = ^ (AXMappedMessage *message, AXMessageCenterSendMessageStatus status) {
         NSMutableDictionary *textData = [NSMutableDictionary dictionary];
             textData = [blockSelf mapAXMappedMessage:message];
-//        if (status != AXMessageCenterSendMessageStatusSending) {
-//            status = AXMessageCenterSendMessageStatusFailed;
-//        }
-        if (status == AXMessageCenterSendMessageStatusSending) {
-            textData[@"status"] = [NSNumber numberWithInteger:AXMessageCenterSendMessageStatusSending];
-            textData[AXCellIdentifyTag] = message.identifier;
-            [blockSelf appendCellData:textData];
-        } else if (status == AXMessageCenterSendMessageStatusFailed) {
-            NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
-            blockSelf.cellData[index][@"status"] = [NSNumber numberWithInteger:AXMessageCenterSendMessageStatusFailed];
-            [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-        } else {
-            NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
-            blockSelf.cellData[index][@"status"] = [NSNumber numberWithInteger:AXMessageCenterSendMessageStatusSuccessful];
-            [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-        }
-    };
+            if (status == AXMessageCenterSendMessageStatusSending) {
+                textData[@"status"] = [NSNumber numberWithInteger:AXMessageCenterSendMessageStatusSending];
+                textData[AXCellIdentifyTag] = message.identifier;
+                [blockSelf appendCellData:textData];
+            } else if (status == AXMessageCenterSendMessageStatusFailed) {
+                NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
+                blockSelf.cellData[index][@"status"] = [NSNumber numberWithInteger:AXMessageCenterSendMessageStatusFailed];
+                [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            } else {
+                NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
+                blockSelf.cellData[index][@"status"] = [NSNumber numberWithInteger:AXMessageCenterSendMessageStatusSuccessful];
+                [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            }
+        };
+    }
     
+    [self addPullToRefresh];
+
 #ifdef DEBUG
     
-    UIButton *getMessageBtn = [UIButton buttonWithType:UIButtonTypeContactAdd];
-    getMessageBtn.frame = CGRectMake(10, 10, 45, 45);
-    [getMessageBtn addTarget:self action:@selector(getNewMessage) forControlEvents:UIControlEventTouchUpInside];
-    getMessageBtn.backgroundColor = [UIColor redColor];
-    [self.view addSubview:getMessageBtn];
+//    UIButton *getMessageBtn = [UIButton buttonWithType:UIButtonTypeContactAdd];
+//    getMessageBtn.frame = CGRectMake(10, 10, 45, 45);
+//    [getMessageBtn addTarget:self action:@selector(getNewMessage) forControlEvents:UIControlEventTouchUpInside];
+//    getMessageBtn.backgroundColor = [UIColor redColor];
+//    [self.view addSubview:getMessageBtn];
+//    
+//    UIButton *sendMessageBtn = [UIButton buttonWithType:UIButtonTypeContactAdd];
+//    sendMessageBtn.frame = CGRectMake(10, 55, 45, 45);
+//    [sendMessageBtn addTarget:self action:@selector(sendNewMessage) forControlEvents:UIControlEventTouchUpInside];
+//    sendMessageBtn.backgroundColor = [UIColor blueColor];
+//    [self.view addSubview:sendMessageBtn];
+//    
+//    UIButton *addUserBtn = [UIButton buttonWithType:UIButtonTypeContactAdd];
+//    addUserBtn.frame = CGRectMake(10, 100, 45, 45);
+//    [addUserBtn addTarget:self action:@selector(addUserBtn) forControlEvents:UIControlEventTouchUpInside];
+//    addUserBtn.backgroundColor = [UIColor yellowColor];
+//    [self.view addSubview:addUserBtn];
     
-    UIButton *sendMessageBtn = [UIButton buttonWithType:UIButtonTypeContactAdd];
-    sendMessageBtn.frame = CGRectMake(10, 55, 45, 45);
-    [sendMessageBtn addTarget:self action:@selector(sendNewMessage) forControlEvents:UIControlEventTouchUpInside];
-    sendMessageBtn.backgroundColor = [UIColor blueColor];
-    [self.view addSubview:sendMessageBtn];
+//    UIButton *sendPick = [UIButton buttonWithType:UIButtonTypeContactAdd];
+//    sendPick.frame = CGRectMake(10, 150, 45, 45);
+//    [sendPick addTarget:self action:@selector(pickIMG:) forControlEvents:UIControlEventTouchUpInside];
+//    sendPick.backgroundColor = [UIColor purpleColor];
+//    [self.view addSubview:sendPick];
     
-    UIButton *addUserBtn = [UIButton buttonWithType:UIButtonTypeContactAdd];
-    addUserBtn.frame = CGRectMake(10, 100, 45, 45);
-    [addUserBtn addTarget:self action:@selector(addUserBtn) forControlEvents:UIControlEventTouchUpInside];
-    addUserBtn.backgroundColor = [UIColor yellowColor];
-    [self.view addSubview:addUserBtn];
-    
-    UIButton *sendPick = [UIButton buttonWithType:UIButtonTypeContactAdd];
-    sendPick.frame = CGRectMake(10, 150, 45, 45);
-    [sendPick addTarget:self action:@selector(pickIMG:) forControlEvents:UIControlEventTouchUpInside];
-    sendPick.backgroundColor = [UIColor purpleColor];
-    [self.view addSubview:sendPick];
-
 #endif
-    [self addPullToRefresh];
+
+
 }
 
 - (void)getNewMessage
@@ -214,40 +256,6 @@ static NSInteger const AXMessagePageSize = 15;
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-//    [self reloadMytableView];
-    [self scrollToBottomAnimated:NO];
-    
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(handleWillShowKeyboardNotification:)
-												 name:UIKeyboardWillShowNotification
-                                               object:nil];
-    
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(handleWillHideKeyboardNotification:)
-												 name:UIKeyboardWillHideNotification
-                                               object:nil];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self scrollToBottomAnimated:YES];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [self.messageInputView resignFirstResponder];
-    [self setEditing:NO animated:YES];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-}
-
 - (void)addMessageNotifycation
 {
     [[NSNotificationCenter defaultCenter] addObserverForName:MessageCenterDidReceiveNewMessage object:nil queue:nil usingBlock: ^(NSNotification *note) {
@@ -255,6 +263,7 @@ static NSInteger const AXMessagePageSize = 15;
         if ([note.object isKindOfClass:[NSArray class]]) {
             NSArray *list = (NSArray *)note.object;
             for (AXMappedMessage *mappedMessage in list) {
+                self.lastMessage = mappedMessage;
                 NSMutableDictionary *dict = [self mapAXMappedMessage:mappedMessage];
                 dict[AXCellIdentifyTag] = mappedMessage.identifier;
                 [self appendCellData:dict];
@@ -392,18 +401,13 @@ static NSInteger const AXMessagePageSize = 15;
     NSDictionary *dic = (self.cellData)[[indexPath row]];
     if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeProperty]]) {
         // 房源
-        return 156;
+        return 105 + 40;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeText]]) {
         CGSize sz = [dic[@"mas"] sizeConstrainedToSize:CGSizeMake(kLabelWidth, CGFLOAT_MAX)];
         CGFloat rowHeight = sz.height + 2*kLabelVMargin + 40;
         return rowHeight;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePic]]) {
-        if ([AXChatMessageImageCell sizeOFImg:dic[@"content"]].size.height+30.0f < 70.0f) {
-            return 70.0f;
-        }else {
-            return [AXChatMessageImageCell sizeOFImg:dic[@"content"]].size.height+30.0f;
-        }
-
+        return [AXChatMessageImageCell sizeOFImg:dic[@"content"]].size.height+30;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePublicCard]]) {
         return 100;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeSystemTime]]) {
@@ -735,9 +739,7 @@ static NSInteger const AXMessagePageSize = 15;
     
     elcPicker.maximumImagesCount = 5; //(maxCount - self.roomImageArray.count);
     elcPicker.imagePickerDelegate = self;
-    
     [self presentViewController:elcPicker animated:YES completion:nil];
-
 }
 
 - (void)takePic:(id)sender {
@@ -750,15 +752,15 @@ static NSInteger const AXMessagePageSize = 15;
 
 - (void)pickAJK:(id)sender {
     
-    NSDictionary *roomSource = @{@"title": @"中房二期花园，地理位置好",@"price":@"12000",@"roomType":@"3房两厅",@"area":@"200",@"floor":@"13/14",@"year":@"2005",@"messageType":[NSNumber numberWithInteger:AXMessageTypeProperty],@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationIncoming]};
-    [self.cellData addObject:roomSource];
-    [self reloadMytableView];
+//    NSDictionary *roomSource = @{@"title": @"中房二期花园，地理位置好",@"price":@"12000",@"roomType":@"3房两厅",@"area":@"200",@"floor":@"13/14",@"year":@"2005",@"messageType":[NSNumber numberWithInteger:AXMessageTypeProperty],@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationIncoming]};
+//    [self.cellData addObject:roomSource];
+//    [self reloadMytableView];
 }
 
 - (void)pickHZ:(id)sender {
-    NSDictionary *roomSource = @{@"title": @"中房二期花园，地理位置好",@"price":@"12000",@"roomType":@"3房两厅",@"area":@"200",@"floor":@"13/14",@"year":@"2005",@"messageType":[NSNumber numberWithInteger:AXMessageTypeProperty],@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationOutPut]};
-    [self.cellData addObject:roomSource];
-    [self reloadMytableView];
+//    NSDictionary *roomSource = @{@"title": @"中房二期花园，地理位置好",@"price":@"12000",@"roomType":@"3房两厅",@"area":@"200",@"floor":@"13/14",@"year":@"2005",@"messageType":[NSNumber numberWithInteger:AXMessageTypeProperty],@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationOutPut]};
+//    [self.cellData addObject:roomSource];
+//    [self reloadMytableView];
     
 }
 
@@ -773,6 +775,7 @@ static NSInteger const AXMessagePageSize = 15;
         [self reloadMytableView];
         return;
     } else {
+        [self sendNewMessage];
         
         AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
         mappedMessage.accountType = @"1";
@@ -877,7 +880,7 @@ static NSInteger const AXMessagePageSize = 15;
         mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
         mappedMessage.imgUrl = url;
         [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
-
+        
     }
     [self dismissViewControllerAnimated:YES completion:nil];
     
@@ -889,27 +892,27 @@ static NSInteger const AXMessagePageSize = 15;
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     NSString *uid =[[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-        CGSize size = image.size;
-        NSString *name = [NSString stringWithFormat:@"%dx%d",(int)size.width,(int)size.width];
-        NSString *path = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
-        NSString *url = [AXPhotoManager getLibrary:path];
-        
-        AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
-        mappedMessage.accountType = @"1";
-        //        mappedMessage.content = self.messageInputView.textView.text;
-        mappedMessage.to = [self checkFriendUid];
-        mappedMessage.from = uid;
-        mappedMessage.isRead = [NSNumber numberWithBool:YES];
-        mappedMessage.isRemoved = [NSNumber numberWithBool:NO];
-        mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
-        mappedMessage.imgUrl = url;
-        [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
-        
-        //        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
-        //        NSDictionary *imageData = @{@"messageType":@"image",@"content":image,@"messageSource":@"incoming"};
-        //        [self.cellData addObject:imageData];
-        //        [self reloadMytableView];
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    CGSize size = image.size;
+    NSString *name = [NSString stringWithFormat:@"%dx%d",(int)size.width,(int)size.width];
+    NSString *path = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
+    NSString *url = [AXPhotoManager getLibrary:path];
+    
+    AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
+    mappedMessage.accountType = @"1";
+    //        mappedMessage.content = self.messageInputView.textView.text;
+    mappedMessage.to = [self checkFriendUid];
+    mappedMessage.from = uid;
+    mappedMessage.isRead = [NSNumber numberWithBool:YES];
+    mappedMessage.isRemoved = [NSNumber numberWithBool:NO];
+    mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
+    mappedMessage.imgUrl = url;
+    [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
+    
+    //        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
+    //        NSDictionary *imageData = @{@"messageType":@"image",@"content":image,@"messageSource":@"incoming"};
+    //        [self.cellData addObject:imageData];
+    //        [self reloadMytableView];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 #pragma mark - AXChatMessageRootCellDelegate
@@ -1048,33 +1051,28 @@ static NSInteger const AXMessagePageSize = 15;
 - (void)keyboardWillShowHide:(NSNotification *)notification
 {
     CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-	UIViewAnimationCurve curve = [[notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] integerValue];
-	double duration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
+    [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    CGFloat keyboardY = [self.view convertRect:keyboardRect fromView:nil].origin.y;
+    CGRect inputViewFrame = self.messageInputView.frame;
+    CGFloat inputViewFrameY = keyboardY - inputViewFrame.size.height;
     
-    [UIView animateWithDuration:duration
-                          delay:0.0
-                        options:[self animationOptionsForCurve:curve]
-                     animations:^{
-                         CGFloat keyboardY = [self.view convertRect:keyboardRect fromView:nil].origin.y;
-                         
-                         CGRect inputViewFrame = self.messageInputView.frame;
-                         CGFloat inputViewFrameY = keyboardY - inputViewFrame.size.height;
-                         
-                         // for ipad modal form presentations
-                         CGFloat messageViewFrameBottom = self.view.frame.size.height - inputViewFrame.size.height;
-                         if (inputViewFrameY > messageViewFrameBottom)
-                             inputViewFrameY = messageViewFrameBottom;
-						 
-                         self.messageInputView.frame = CGRectMake(inputViewFrame.origin.x,
-																  inputViewFrameY,
-																  inputViewFrame.size.width,
-																  inputViewFrame.size.height);
-                         
-                         [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
-                          - self.messageInputView.frame.origin.y
-                          - inputViewFrame.size.height + 60];
-                     }
-                     completion:nil];
+    // for ipad modal form presentations
+    CGFloat messageViewFrameBottom = self.view.frame.size.height - inputViewFrame.size.height;
+    if (inputViewFrameY > messageViewFrameBottom)
+        inputViewFrameY = messageViewFrameBottom;
+    
+    self.messageInputView.frame = CGRectMake(inputViewFrame.origin.x,
+                                             inputViewFrameY,
+                                             inputViewFrame.size.width,
+                                             inputViewFrame.size.height);
+    
+    [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
+     - self.messageInputView.frame.origin.y
+     - inputViewFrame.size.height + 60];
+    [UIView commitAnimations];
 }
 
 #pragma mark - Dismissive text view delegate
@@ -1144,7 +1142,7 @@ static NSInteger const AXMessagePageSize = 15;
 
 - (void)handleTapGestureRecognizer:(UITapGestureRecognizer *)tap
 {
-    if (!self.moreBackView.hidden) {
+    if (self.moreBackView && !self.moreBackView.hidden) {
         self.moreBackView.hidden = YES;
         if (self.preNotification) {
             [self keyboardWillShowHide:self.preNotification];

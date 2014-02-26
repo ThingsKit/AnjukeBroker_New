@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSString (XChat)
+@interface NSString (AXChatMessage)
 
 - (CGSize)rtSizeWithFont:(UIFont *)font;
 - (CGSize)rtSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size;

@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 williamYang. All rights reserved.
 //
 
-#import "NSString+XChat.h"
+#import "NSString+AXChatMessage.h"
 
-@implementation NSString (XChat)
+@implementation NSString (AXChatMessage)
 
 - (CGSize)rtSizeWithFont:(UIFont *)font
 {

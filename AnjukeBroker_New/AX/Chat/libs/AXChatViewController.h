@@ -28,7 +28,7 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 @property (strong, nonatomic) UIView *moreBackView;// 更多操作
 @property BOOL isBroker;
 @property (nonatomic, strong) NSDictionary *propDict;
-@property (nonatomic, strong) AXConversationListItem *conversationListItem;
+@property (nonatomic, strong) AXMappedConversationListItem *conversationListItem;
 
 @property (nonatomic, strong) NSString *uid;
 

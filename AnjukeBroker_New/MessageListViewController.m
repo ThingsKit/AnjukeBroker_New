@@ -93,11 +93,11 @@
 
 //test
 - (void)rightButtonAction:(id)sender {
-    BrokerChatViewController *av = [[BrokerChatViewController alloc] init];
-    av.isBroker = YES;
-    av.uid = [LoginManager getChatID];
-    [av setHidesBottomBarWhenPushed:YES];
-    [self.navigationController pushViewController:av animated:YES];
+//    BrokerChatViewController *av = [[BrokerChatViewController alloc] init];
+//    av.isBroker = YES;
+//    av.uid = [LoginManager getChatID];
+//    [av setHidesBottomBarWhenPushed:YES];
+//    [self.navigationController pushViewController:av animated:YES];
 }
 
 #pragma mark - Private Method
@@ -178,7 +178,11 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    AXMappedConversationListItem *item = [self.sessionFetchedResultsController objectAtIndexPath:indexPath];
+
     BrokerChatViewController *controller = [[BrokerChatViewController alloc] init];
+    controller.isBroker = YES;
+    controller.uid = item.friendUid;
     [controller setHidesBottomBarWhenPushed:YES];
     [self.navigationController pushViewController:controller animated:YES];
     

@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "AXChatDataCenter.h"
 #import "UIView+AXChatMessage.h"
+#import "UIColor+AXChatMessage.h"
+#import "UIImage+AXChatMessage.h"
+#import "UIFont+AXChatMessage.h"
 
 typedef NS_ENUM(NSInteger, AXChatMessageSourceDestination)
 {
@@ -17,6 +20,7 @@ typedef NS_ENUM(NSInteger, AXChatMessageSourceDestination)
 };
 
 extern NSString * const AXCellIdentifyTag;
+static CGFloat const axTagMarginTop = 20.0f;
 
 @class AXChatMessageRootCell;
 

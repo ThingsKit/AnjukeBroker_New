@@ -25,4 +25,14 @@
     return [UIFont systemFontOfSize:12];
 }
 
++ (UIFont *)axChatPropTagFont:(BOOL)isBroker
+{
+    return [UIFont systemFontOfSize:13];
+}
+
++ (UIFont *)axChatPropDetailTimeFont:(BOOL)isBroker
+{
+    return [UIFont systemFontOfSize:15];
+}
+
 @end

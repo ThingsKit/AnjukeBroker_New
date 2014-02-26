@@ -7,7 +7,6 @@
 //
 
 #import "AXChatMessageRootCell.h"
-#import "UIImage+AXChatMessage.h"
 
 NSString *const AXCellIdentifyTag = @"identifier";
 
