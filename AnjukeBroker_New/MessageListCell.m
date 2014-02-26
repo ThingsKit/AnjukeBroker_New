@@ -108,6 +108,10 @@
     self.iconNumLb.text = @"";
 }
 
-- (NSString *)getMessageListCell
+- (NSString *)getMessageListCellWithItem:(AXMappedConversationListItem *)item {
+    NSString *str = [NSString string];
+    
+    return str;
+}
 
 @end
