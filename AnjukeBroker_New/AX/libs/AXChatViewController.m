@@ -173,7 +173,7 @@ static NSInteger const AXMessagePageSize = 15;
     
     UIButton *sendPick = [UIButton buttonWithType:UIButtonTypeContactAdd];
     sendPick.frame = CGRectMake(10, 150, 45, 45);
-    [sendPick addTarget:self action:@selector(pickIMG:) forControlEvents:UIControlEventTouchUpInside];
+    [sendPick addTarget:self action:@selector(takePic:) forControlEvents:UIControlEventTouchUpInside];
     sendPick.backgroundColor = [UIColor purpleColor];
     [self.view addSubview:sendPick];
 
@@ -740,10 +740,7 @@ static NSInteger const AXMessagePageSize = 15;
     ipc.sourceType = UIImagePickerControllerSourceTypeCamera; //拍照
     ipc.delegate = self;
     [self presentViewController:ipc animated:YES completion:nil];
-    
-    NSDictionary *imageData = @{@"messageType":[NSNumber numberWithInteger:AXMessageTypePic],@"content":[UIImage imageNamed:@"demo-avatar-jobs.png"],@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationIncoming]};
-    [self.cellData addObject:imageData];
-    [self reloadMytableView];
+
 }
 
 - (void)pickAJK:(id)sender {
@@ -890,9 +887,28 @@ static NSInteger const AXMessagePageSize = 15;
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    NSDictionary *imageData = @{@"messageType":@"image",@"content":(UIImage *)[info objectForKey:UIImagePickerControllerOriginalImage],@"messageSource":@"incoming"};
-    [self.cellData addObject:imageData];
-    [self reloadMytableView];
+    NSString *uid =[[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
+        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        CGSize size = image.size;
+        NSString *name = [NSString stringWithFormat:@"%dx%d",(int)size.width,(int)size.width];
+        NSString *path = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
+        NSString *url = [AXPhotoManager getLibrary:path];
+        
+        AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
+        mappedMessage.accountType = @"1";
+        //        mappedMessage.content = self.messageInputView.textView.text;
+        mappedMessage.to = [self checkFriendUid];
+        mappedMessage.from = uid;
+        mappedMessage.isRead = [NSNumber numberWithBool:YES];
+        mappedMessage.isRemoved = [NSNumber numberWithBool:NO];
+        mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
+        mappedMessage.imgUrl = url;
+        [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
+        
+        //        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
+        //        NSDictionary *imageData = @{@"messageType":@"image",@"content":image,@"messageSource":@"incoming"};
+        //        [self.cellData addObject:imageData];
+        //        [self reloadMytableView];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 #pragma mark - AXChatMessageRootCellDelegate
