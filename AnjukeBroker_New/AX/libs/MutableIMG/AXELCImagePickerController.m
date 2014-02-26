@@ -12,7 +12,7 @@
 #import "AXELCAssetTablePicker.h"
 #import "AXELCAlbumPickerController.h"
 #import <CoreLocation/CoreLocation.h>
-#import "Util_UI.h"
+#import "AXUtil_UI.h"
 
 @implementation AXELCImagePickerController
 

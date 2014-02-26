@@ -132,10 +132,10 @@ static NSInteger const AXMessagePageSize = 15;
     __weak AXChatViewController *blockSelf = self;
     self.finishSendMessageBlock = ^ (AXMappedMessage *message, AXMessageCenterSendMessageStatus status) {
         NSMutableDictionary *textData = [NSMutableDictionary dictionary];
-        textData = [blockSelf mapAXMappedMessage:message];
-        //        if (status != AXMessageCenterSendMessageStatusSending) {
-        //            status = AXMessageCenterSendMessageStatusFailed;
-        //        }
+            textData = [blockSelf mapAXMappedMessage:message];
+//        if (status != AXMessageCenterSendMessageStatusSending) {
+//            status = AXMessageCenterSendMessageStatusFailed;
+//        }
         if (status == AXMessageCenterSendMessageStatusSending) {
             textData[@"status"] = [NSNumber numberWithInteger:AXMessageCenterSendMessageStatusSending];
             textData[AXCellIdentifyTag] = message.identifier;
@@ -176,7 +176,7 @@ static NSInteger const AXMessagePageSize = 15;
     [sendPick addTarget:self action:@selector(pickIMG:) forControlEvents:UIControlEventTouchUpInside];
     sendPick.backgroundColor = [UIColor purpleColor];
     [self.view addSubview:sendPick];
-    
+
 #endif
     [self addPullToRefresh];
 }
@@ -184,7 +184,6 @@ static NSInteger const AXMessagePageSize = 15;
 - (void)getNewMessage
 {
     [self.messageInputView.textView resignFirstResponder];
-//    [[AXChatMessageCenter defaultMessageCenter] receiveMessage];
 }
 
 - (void)addUserBtn
@@ -218,7 +217,7 @@ static NSInteger const AXMessagePageSize = 15;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    //    [self reloadMytableView];
+//    [self reloadMytableView];
     [self scrollToBottomAnimated:NO];
     
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -282,18 +281,17 @@ static NSInteger const AXMessagePageSize = 15;
         messageSource = [NSNumber numberWithInteger:AXChatMessageSourceDestinationIncoming];
     }
     NSMutableDictionary *textData;
-    
+
     switch ([mappedMessage.messageType integerValue]) {
         case AXMessageTypeText:
         {
-            textData = [self configTextCellData:[NSMutableDictionary dictionaryWithDictionary:@{@"messageType":[NSNumber numberWithInteger:AXMessageTypeText], @"content":mappedMessage.content, @"messageSource":messageSource}]];
+             textData = [self configTextCellData:[NSMutableDictionary dictionaryWithDictionary:@{@"messageType":[NSNumber numberWithInteger:AXMessageTypeText], @"content":mappedMessage.content, @"messageSource":messageSource}]];
         }
             break;
         case AXMessageTypePic:
         {
-            UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfFile:mappedMessage.imgPath]];
+            UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfFile:mappedMessage.imgUrl]];
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":[NSNumber numberWithInteger:AXMessageTypePic], @"content":img, @"messageSource":messageSource}];
-
         }
             break;
             
@@ -302,7 +300,7 @@ static NSInteger const AXMessagePageSize = 15;
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":[NSNumber numberWithInteger:AXMessageTypeProperty],@"content":mappedMessage.content,@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationOutPut]}];
         }
             break;
-            
+        
         case AXMessageTypePublicCard:
         {
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":[NSNumber numberWithInteger:AXMessageTypePublicCard],@"content":mappedMessage.content,@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationOutPut]}];
@@ -318,7 +316,7 @@ static NSInteger const AXMessagePageSize = 15;
         case AXMessageTypeSystemForbid:
         {
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":[NSNumber numberWithInteger:AXMessageTypeSystemForbid],@"content":mappedMessage.content,@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationOutPut]}];
-            
+
         }
             break;
         case AXMessageTypeSettingNotifycation:
@@ -350,7 +348,7 @@ static NSInteger const AXMessagePageSize = 15;
         default:
             break;
     }
-    
+
     return textData;
 }
 
@@ -461,8 +459,8 @@ static NSInteger const AXMessagePageSize = 15;
     NSInteger rows = [self.myTableView numberOfRowsInSection:0];
     if (rows > 0) {
         [self.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0]
-                                atScrollPosition:UITableViewScrollPositionBottom
-                                        animated:animated];
+                              atScrollPosition:UITableViewScrollPositionBottom
+                                      animated:animated];
     }
 }
 
@@ -604,21 +602,18 @@ static NSInteger const AXMessagePageSize = 15;
         [systemCell configWithIndexPath:indexPath];
         systemCell.systemCellDelegate = self;
         return systemCell;
-    }else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePic]]) {
+    } else {
         static NSString *imageCellidentity = @"imageCellidentity";
         AXChatMessageImageCell *imageCell = [tableView dequeueReusableCellWithIdentifier:imageCellidentity];
         if (imageCell == nil) {
             imageCell = [[AXChatMessageImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:imageCellidentity];
             imageCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            imageCell.delegate = self;
             imageCell.isBroker = self.isBroker;
         }
-        [imageCell configWithData:(self.cellData)[indexPath.row]];
-        [imageCell configWithIndexPath:indexPath];
-//        systemCell.systemCellDelegate = self;
+        imageCell.messageSource = [self messageSource:dic];
+        [imageCell configWithData:dic];
         return imageCell;
-    } else {
-
-        return nil;
     }
 }
 
@@ -626,16 +621,16 @@ static NSInteger const AXMessagePageSize = 15;
 - (void)didClickSystemButton:(AXMessageType)messageType {
     
     
-    //    if ([(self.cellData)[indexPath.row][@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeAddNuckName]]) {
-    //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"添加备注名" message:nil delegate:nil
-    //                                              cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    //        [alert show];
-    //    }   else if ([(self.cellData)[indexPath.row][@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeSettingNotifycation]]) {
-    //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"设置消息推送开关" message:nil delegate:nil
-    //                                              cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    //        [alert show];
-    //    }
-    //    NSLog(@"%d", indexPath.row);
+//    if ([(self.cellData)[indexPath.row][@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeAddNuckName]]) {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"添加备注名" message:nil delegate:nil
+//                                              cancelButtonTitle:@"OK" otherButtonTitles: nil];
+//        [alert show];
+//    }   else if ([(self.cellData)[indexPath.row][@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeSettingNotifycation]]) {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"设置消息推送开关" message:nil delegate:nil
+//                                              cancelButtonTitle:@"OK" otherButtonTitles: nil];
+//        [alert show];
+//    }
+//    NSLog(@"%d", indexPath.row);
 }
 
 - (AXChatMessageSourceDestination)messageSource:(NSDictionary *)dic
@@ -649,14 +644,14 @@ static NSInteger const AXMessagePageSize = 15;
 
 - (void)initUI {
     [self.view setBackgroundColor:[UIColor axChatBGColor:self.isBroker]];
-    
+
     self.myTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, AXWINDOWWHIDTH, AXWINDOWHEIGHT - AXInputBackViewHeight) style:UITableViewStylePlain];
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
     self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.myTableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.myTableView];
-    
+
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGestureRecognizer:)];
     [self.myTableView addGestureRecognizer:tap];
     
@@ -665,7 +660,7 @@ static NSInteger const AXMessagePageSize = 15;
     self.moreBackView.backgroundColor = [UIColor lightGrayColor];
     self.moreBackView.hidden = YES;
     [self.view addSubview:self.moreBackView];
-    
+
     CGSize size = self.view.frame.size;
     CGFloat inputViewHeight = 49;
     UIPanGestureRecognizer *pan = self.myTableView.panGestureRecognizer;
@@ -673,7 +668,7 @@ static NSInteger const AXMessagePageSize = 15;
                                    size.height - inputViewHeight,
                                    size.width,
                                    inputViewHeight);
-    
+
     JSMessageInputView *inputView = [[JSMessageInputView alloc] initWithFrame:inputFrame
                                                                         style:JSMessageInputViewStyleFlat
                                                                      delegate:self
@@ -682,10 +677,10 @@ static NSInteger const AXMessagePageSize = 15;
     [self.view addSubview:inputView];
     self.messageInputView = inputView;
     [self.messageInputView.textView addObserver:self
-                                     forKeyPath:@"contentSize"
-                                        options:NSKeyValueObservingOptionNew
-                                        context:nil];
-    
+                                 forKeyPath:@"contentSize"
+                                    options:NSKeyValueObservingOptionNew
+                                    context:nil];
+
     if (!self.isBroker) {
         inputView.sendButton.enabled = NO;
         [inputView.sendButton addTarget:self
@@ -713,7 +708,7 @@ static NSInteger const AXMessagePageSize = 15;
     takePic.frame = CGRectMake(90, 78, 60, 60);
     [takePic addTarget:self action:@selector(takePic:) forControlEvents:UIControlEventTouchUpInside];
     [self.moreBackView addSubview:takePic];
-    
+
     UIButton *pickAJK = [UIButton buttonWithType:UIButtonTypeCustom];
     pickAJK.backgroundColor = [UIColor grayColor];
     [pickAJK setTitle:@"二手房" forState:UIControlStateNormal];
@@ -737,7 +732,7 @@ static NSInteger const AXMessagePageSize = 15;
     elcPicker.imagePickerDelegate = self;
     
     [self presentViewController:elcPicker animated:YES completion:nil];
-    
+
 }
 
 - (void)takePic:(id)sender {
@@ -838,7 +833,7 @@ static NSInteger const AXMessagePageSize = 15;
     }
     
     [self.pullToRefreshView startLoading];
-    
+
     [[AXChatMessageCenter defaultMessageCenter] fetchChatListWithLastMessage:self.lastMessage pageSize:AXMessagePageSize callBack:^(NSArray *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend) {
         if ([chatList count] > 0) {
             self.lastMessage = chatList[0];
@@ -853,12 +848,11 @@ static NSInteger const AXMessagePageSize = 15;
         }
     }];
     [self.pullToRefreshView finishLoading];
-    
+
 }
 #pragma mark - ELCImagePickerControllerDelegate
 
 - (void)elcImagePickerController:(AXELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
-    
     if ([info count] == 0) {
         return;
     }
@@ -879,7 +873,7 @@ static NSInteger const AXMessagePageSize = 15;
         mappedMessage.isRead = [NSNumber numberWithBool:YES];
         mappedMessage.isRemoved = [NSNumber numberWithBool:NO];
         mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
-        mappedMessage.imgPath = url;
+        mappedMessage.imgUrl = url;
         [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
         
         //        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
@@ -908,7 +902,7 @@ static NSInteger const AXMessagePageSize = 15;
     [self.cellData removeObjectAtIndex:indexPath.row];
     [self.identifierData removeObjectAtIndex:indexPath.row];
     [self.myTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    
+
     [[AXChatMessageCenter defaultMessageCenter] deleteMessageByIdentifier:axCell.identifyString];
 }
 
