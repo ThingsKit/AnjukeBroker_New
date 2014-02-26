@@ -68,19 +68,23 @@
 #pragma mark - class method
 + (CGRect)sizeOFImg:(UIImage *)img {
     CGRect rect = CGRectMake(0.0f, 0.0f, img.size.width, img.size.height);
-    
-    if (rect.size.height > 240.0f) {
+    CGRect tempRect = rect;
+    if (tempRect.size.height >= tempRect.size.width) {
         rect.size.height = 240.0f;
-        rect.size.width = 240.0f / rect.size.height * rect.size.width;
+        rect.size.width = 240.0f / tempRect.size.height * tempRect.size.width;
+        rect.size.height = rect.size.height / 2.0f;
+        rect.size.width = rect.size.width / 2.0f;
+        return rect;
     }
     
-    if (rect.size.width > 240.0f) {
+    if (tempRect.size.width > tempRect.size.height) {
         rect.size.width = 240.0f;
-        rect.size.height = 240.0f / rect.size.width * rect.size.height;
+        rect.size.height = 240.0f / tempRect.size.width * tempRect.size.height;
+        rect.size.height = rect.size.height / 2.0f;
+        rect.size.width = rect.size.width / 2.0f;
+        return rect;
     }
     
-    rect.size.height = rect.size.height / 2.0f;
-    rect.size.width = rect.size.width / 2.0f;
     return rect;
 }
 

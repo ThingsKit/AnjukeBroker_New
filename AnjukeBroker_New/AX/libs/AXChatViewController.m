@@ -173,7 +173,7 @@ static NSInteger const AXMessagePageSize = 15;
     
     UIButton *sendPick = [UIButton buttonWithType:UIButtonTypeContactAdd];
     sendPick.frame = CGRectMake(10, 150, 45, 45);
-    [sendPick addTarget:self action:@selector(takePic:) forControlEvents:UIControlEventTouchUpInside];
+    [sendPick addTarget:self action:@selector(pickIMG:) forControlEvents:UIControlEventTouchUpInside];
     sendPick.backgroundColor = [UIColor purpleColor];
     [self.view addSubview:sendPick];
 
@@ -872,11 +872,7 @@ static NSInteger const AXMessagePageSize = 15;
         mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
         mappedMessage.imgUrl = url;
         [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
-        
-        //        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
-        //        NSDictionary *imageData = @{@"messageType":@"image",@"content":image,@"messageSource":@"incoming"};
-        //        [self.cellData addObject:imageData];
-        //        [self reloadMytableView];
+
     }
     [self dismissViewControllerAnimated:YES completion:nil];
     
