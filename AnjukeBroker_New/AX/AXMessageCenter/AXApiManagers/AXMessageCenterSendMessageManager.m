@@ -45,7 +45,7 @@
 {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithDictionary:self.apiParams];
     [params removeObjectForKey:@"phone"];
-    if (![params[@"msg_type"] isEqualToString:@"1"] && ![params[@"msg_type"] isEqualToString:@"2"] ) {
+    if (![params[@"msg_type"]integerValue] == 1  && ![params[@"msg_type"] integerValue] == 2 ) {
         [params removeObjectForKey:@"body"];
         NSData *data = [self.apiParams[@"body"] dataUsingEncoding:NSUTF8StringEncoding];
         __autoreleasing NSError *error;

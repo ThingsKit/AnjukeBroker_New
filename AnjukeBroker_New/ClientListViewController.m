@@ -67,7 +67,7 @@
             DLog(@"friendList- [%@]", friendList);
             
             self.testArr = [NSArray arrayWithArray:friendList];
-            [self.tableViewList reloadData];
+            [self redrawList];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
@@ -121,16 +121,6 @@
     }
     
     //add 3 arr to list data att
-//    if (self.publicDataArr.count > 0) {
-//        [self.listDataArray addObject:self.publicDataArr];
-//    }
-//    if (self.starDataArr.count > 0) {
-//        [self.listDataArray addObject:self.starDataArr];
-//    }
-//    if (self.allDataArr.count > 0) {
-//        [self.listDataArray addObject:self.allDataArr];
-//    }
-    
     [self.listDataArray addObject:self.publicDataArr];
     [self.listDataArray addObject:self.starDataArr];
     [self.listDataArray addObject:self.allDataArr];
@@ -140,15 +130,26 @@
 
 #pragma mark - private Method
 
-- (NSArray *)rightButtons
+- (NSArray *)rightButtonsIsStar:(BOOL)isStar
 {
     NSMutableArray *rightUtilityButtons = [NSMutableArray array];
     
     [rightUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor whiteColor] icon:[UIImage imageNamed:@"anjuke_icon_noxingbiao_.png"]];
+     [UIColor whiteColor] icon:[self getImageIsStar:isStar]];
+    
     [rightUtilityButtons sw_addUtilityButtonWithColor:
      SYSTEM_ZZ_RED icon:[UIImage imageNamed:@"anjuke_icon_delete_.png"]];
+    
     return rightUtilityButtons;
+}
+
+- (UIImage *)getImageIsStar:(BOOL)isStar {
+    UIImage *img = [UIImage imageNamed:@"anjuke_icon_noxingbiao_.png"];
+    if (isStar) {
+        img = [UIImage imageNamed:@"anjuke_icon_noxingbiao_.png"];
+    }
+    
+    return img;
 }
 
 - (NSArray *)leftButtons
@@ -161,12 +162,10 @@
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.listDataArray.count;
-//    return 1;//self.testArr.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [(NSArray *)[self.listDataArray objectAtIndex:section] count];
-//    return self.testArr.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -197,9 +196,13 @@
     ClientListCell *cell = (ClientListCell *)[tableView dequeueReusableCellWithIdentifier:nil];
     
     NSArray *rightBtnarr = [NSArray array];
-    if (indexPath.section > 0) {
-        DLog(@"section > 0");
-        rightBtnarr = [self rightButtons];
+    AXMappedPerson *item = [[self.listDataArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    
+    if (indexPath.section == 1) {
+        rightBtnarr = [self rightButtonsIsStar:YES];
+    }
+    else if (indexPath.section == 2) {
+        rightBtnarr = [self rightButtonsIsStar:(BOOL)[item.isStar integerValue]];
     }
     
     if (cell == nil) {
@@ -212,7 +215,7 @@
     }
     
     [cell setCellHeight:CLIENT_LIST_HEIGHT];
-    [cell configureCellWithData:[self.testArr objectAtIndex:indexPath.row]]; //for test
+    [cell configureCellWithData:[[self.listDataArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]]; //for test
     
     return cell;
 }
@@ -260,13 +263,14 @@
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     NSIndexPath *cellIndexPath = [self.tableViewList indexPathForCell:cell];
+    AXMappedPerson *item = [[self.listDataArray objectAtIndex:cellIndexPath.section] objectAtIndex:cellIndexPath.row];
     
     switch (index) {
         case 0:
         {
             DLog(@"More button was pressed--index[%d, %d]", cellIndexPath.section, cellIndexPath.row);
-//            [cell hideUtilityButtonsAnimated:YES];
-            [[[cell rightUtilityButtons] objectAtIndex:0] setImage:[UIImage imageNamed:@"anjuke_icon_xingbiao_.png"] forState:UIControlStateNormal];
+            
+            [[[cell rightUtilityButtons] objectAtIndex:0] setImage:[self getImageIsStar:!(BOOL)item.isStar] forState:UIControlStateNormal];
             
             break;
         }
