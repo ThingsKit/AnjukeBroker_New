@@ -270,7 +270,14 @@
         {
             DLog(@"More button was pressed--index[%d, %d]", cellIndexPath.section, cellIndexPath.row);
             
-            [[[cell rightUtilityButtons] objectAtIndex:0] setImage:[self getImageIsStar:!(BOOL)item.isStar] forState:UIControlStateNormal];
+//            [[AXChatMessageCenter defaultMessageCenter] fetchedPersonWithUID:item.uid withBlock:(void (^)(AXMappedPerson *))personInfoBlock{
+//                
+//            }]
+//            if (item.isStar == 1) { //已标星
+//                item
+//            }
+            
+            [[[cell rightUtilityButtons] objectAtIndex:0] setImage:[self getImageIsStar:!(BOOL)[item.isStar integerValue]] forState:UIControlStateNormal];
             
             break;
         }
