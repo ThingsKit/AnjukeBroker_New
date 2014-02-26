@@ -99,22 +99,41 @@
     self.listDataArray = [NSMutableArray array];
     
     //reset 3 list arr ...
-    //test
-    NSArray *arr = @[@"", @"", @"", @"", @""];
-    self.publicDataArr = [NSMutableArray arrayWithArray:arr];
-    self.starDataArr = [NSMutableArray arrayWithArray:arr];
-    self.allDataArr = [NSMutableArray arrayWithArray:arr];
+    //获取公共账号
+    for (int i = 0; i < self.testArr.count; i++) {
+        AXMappedPerson *item = [self.testArr objectAtIndex:i];
+        
+        if ([item.userType integerValue] == AXPersonTypePublic) {
+            [self.publicDataArr addObject:item];
+        }
+    }
+    //非公共账号处理
+    for (int i = 0; i < self.testArr.count; i ++) {
+        AXMappedPerson *item = [self.testArr objectAtIndex:i];
+        
+        if ([item.userType integerValue] == AXPersonTypeUser) {
+            [self.allDataArr addObject:item]; //所有用户
+            
+            if ((BOOL)[item.isStar integerValue] == YES) {
+                [self.starDataArr addObject:item]; //星标用户
+            }
+        }
+    }
     
     //add 3 arr to list data att
-    if (self.publicDataArr.count > 0) {
-        [self.listDataArray addObject:self.publicDataArr];
-    }
-    if (self.starDataArr.count > 0) {
-        [self.listDataArray addObject:self.starDataArr];
-    }
-    if (self.allDataArr.count > 0) {
-        [self.listDataArray addObject:self.allDataArr];
-    }
+//    if (self.publicDataArr.count > 0) {
+//        [self.listDataArray addObject:self.publicDataArr];
+//    }
+//    if (self.starDataArr.count > 0) {
+//        [self.listDataArray addObject:self.starDataArr];
+//    }
+//    if (self.allDataArr.count > 0) {
+//        [self.listDataArray addObject:self.allDataArr];
+//    }
+    
+    [self.listDataArray addObject:self.publicDataArr];
+    [self.listDataArray addObject:self.starDataArr];
+    [self.listDataArray addObject:self.allDataArr];
     
     [self.tableViewList reloadData];
 }
@@ -141,13 +160,13 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    return self.listDataArray.count;
-    return 1;//self.testArr.count;
+    return self.listDataArray.count;
+//    return 1;//self.testArr.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return [[self.listDataArray objectAtIndex:section] count];
-    return self.testArr.count;
+    return [(NSArray *)[self.listDataArray objectAtIndex:section] count];
+//    return self.testArr.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
