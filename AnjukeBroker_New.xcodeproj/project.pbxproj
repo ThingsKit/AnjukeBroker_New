@@ -400,6 +400,7 @@
 		B7EE305F18BD89FB003BE8EC /* UIFont+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EE300418BD89FB003BE8EC /* UIFont+AXChatMessage.m */; };
 		B7EE306018BD89FB003BE8EC /* UIImage+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EE300618BD89FB003BE8EC /* UIImage+AXChatMessage.m */; };
 		B7EE306118BD89FB003BE8EC /* UIView+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EE300818BD89FB003BE8EC /* UIView+AXChatMessage.m */; };
+		B7EE308C18BDBD40003BE8EC /* AXPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EE308B18BDBD40003BE8EC /* AXPhotoManager.m */; };
 		B7EF148E18289CB7000B6016 /* RentBidDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EF148D18289CB6000B6016 /* RentBidDetailController.m */; };
 		B7EF7798183CBAB80024A5E6 /* anjuke_icon_bid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF7797183CBAB80024A5E6 /* anjuke_icon_bid@2x.png */; };
 		B7EF779D183CBAEC0024A5E6 /* anjuke_icon04_more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF779B183CBAEC0024A5E6 /* anjuke_icon04_more@2x.png */; };
@@ -1042,6 +1043,8 @@
 		B7EE300618BD89FB003BE8EC /* UIImage+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+AXChatMessage.m"; sourceTree = "<group>"; };
 		B7EE300718BD89FB003BE8EC /* UIView+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AXChatMessage.h"; sourceTree = "<group>"; };
 		B7EE300818BD89FB003BE8EC /* UIView+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AXChatMessage.m"; sourceTree = "<group>"; };
+		B7EE308A18BDBD40003BE8EC /* AXPhotoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPhotoManager.h; sourceTree = "<group>"; };
+		B7EE308B18BDBD40003BE8EC /* AXPhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPhotoManager.m; sourceTree = "<group>"; };
 		B7EF148C18289CB6000B6016 /* RentBidDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentBidDetailController.h; sourceTree = "<group>"; };
 		B7EF148D18289CB6000B6016 /* RentBidDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentBidDetailController.m; sourceTree = "<group>"; };
 		B7EF7797183CBAB80024A5E6 /* anjuke_icon_bid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_bid@2x.png"; sourceTree = "<group>"; };
@@ -2408,6 +2411,8 @@
 		B7EE2FF218BD89FB003BE8EC /* MutableIMG */ = {
 			isa = PBXGroup;
 			children = (
+				B7EE308A18BDBD40003BE8EC /* AXPhotoManager.h */,
+				B7EE308B18BDBD40003BE8EC /* AXPhotoManager.m */,
 				B7EE2FF318BD89FB003BE8EC /* AXELCAlbumPickerController.h */,
 				B7EE2FF418BD89FB003BE8EC /* AXELCAlbumPickerController.m */,
 				B7EE2FF518BD89FB003BE8EC /* AXELCAsset.h */,
@@ -2755,6 +2760,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				97CB0C0F182BEA3500FCCBBD /* ELCAssetTablePicker.m in Sources */,
+				B7EE308C18BDBD40003BE8EC /* AXPhotoManager.m in Sources */,
 				B769E487181F8F9300A2FF50 /* SalePropertyListController.m in Sources */,
 				B769E441181F45AF00A2FF50 /* BaseFixedDetailController.m in Sources */,
 				B7EE305618BD89FB003BE8EC /* AXPullToRefreshView.m in Sources */,
@@ -3103,7 +3109,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "47291C96-5503-44F9-AC3E-300E9D38E60A";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../RTNetwork/** $(PROJECT_DIR)/../RTApiProxy/** $(PROJECT_DIR)/../RTCoreService/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -3133,7 +3139,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "47291C96-5503-44F9-AC3E-300E9D38E60A";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../RTNetwork/** $(PROJECT_DIR)/../RTApiProxy/** $(PROJECT_DIR)/../RTCoreService/**";
 				WRAPPER_EXTENSION = app;
 			};

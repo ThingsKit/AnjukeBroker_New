@@ -16,6 +16,7 @@
 
 static NSInteger const AXNavBarHeight = 44.0f;
 static NSInteger const AXStatuBarHeight = 20.0f;
+static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 
 @interface AXChatViewController : UIViewController <UITextViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, AXChatMessageSystemCellDelegate, AXELCImagePickerControllerDelegate, UIImagePickerControllerDelegate>
 
