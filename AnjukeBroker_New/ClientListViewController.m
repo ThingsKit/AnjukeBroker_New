@@ -223,11 +223,26 @@
     if (section == 0) {
         return 0;
     }
+    else if (section == 1) {
+        if (self.starDataArr.count > 0) {
+            return 20;
+        }
+        else
+            return 0;
+    }
+    else if (section == 2) {
+        if (self.allDataArr.count > 0) {
+            return 20;
+        }
+        else
+            return 0;
+    }
     
     return 20;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    DLog(@"section- [%d]", indexPath.section);
     
     //for test
     ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
