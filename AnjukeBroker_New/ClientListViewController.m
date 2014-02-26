@@ -64,13 +64,11 @@
 - (void)getFriendList {
     [[AXChatMessageCenter defaultMessageCenter] friendListWithPersonWithCompeletionBlock:^(NSArray *friendList, BOOL whetherSuccess) {
         if (whetherSuccess) {
-            DLog(@"friendList- [%@]", friendList);
-            
-            self.testArr = [NSArray arrayWithArray:friendList];
-            [self redrawList];
-            
             dispatch_async(dispatch_get_main_queue(), ^{
+                DLog(@"friendList- [%@]", friendList);
                 
+                self.testArr = [NSArray arrayWithArray:friendList];
+                [self redrawList];
             });
         }
     }];
@@ -119,6 +117,8 @@
             }
         }
     }
+    
+    self.allDataArr = [NSMutableArray arrayWithArray:self.testArr];
     
     //add 3 arr to list data att
     [self.listDataArray addObject:self.publicDataArr];
@@ -215,7 +215,7 @@
     }
     
     [cell setCellHeight:CLIENT_LIST_HEIGHT];
-    [cell configureCellWithData:[[self.listDataArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]]; //for test
+    [cell configureCellWithData:item]; //for test
     
     return cell;
 }
