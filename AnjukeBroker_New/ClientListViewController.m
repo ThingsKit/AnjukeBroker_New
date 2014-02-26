@@ -247,10 +247,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     DLog(@"section- [%d]", indexPath.section);
     
-    //for test
-    ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
-    [cd setHidesBottomBarWhenPushed:YES];
-    [self.navigationController pushViewController:cd animated:YES];
+    if (indexPath.section == 2) {
+        AXMappedPerson *item = [self.allDataArr objectAtIndex:indexPath.row];
+        //for test
+        ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
+        cd.person = item;
+        [cd setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:cd animated:YES];
+
+    }
+    
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

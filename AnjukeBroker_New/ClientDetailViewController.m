@@ -26,6 +26,7 @@
 @implementation ClientDetailViewController
 @synthesize tableViewList;
 @synthesize listDataArray;
+@synthesize person;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -117,7 +118,7 @@
 - (void)startChart {
     BrokerChatViewController *bc = [[BrokerChatViewController alloc] init];
     bc.isBroker = YES;
-    bc.uid = [LoginManager getChatID];
+    bc.uid = self.person.uid;
     [self.navigationController pushViewController:bc animated:YES];
 }
 

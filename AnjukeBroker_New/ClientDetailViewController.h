@@ -7,7 +7,11 @@
 //
 
 #import "RTViewController.h"
+#import "AXMappedPerson.h"
 
 @interface ClientDetailViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
+
+
+@property (nonatomic, strong) AXMappedPerson *person;
 
 @end
