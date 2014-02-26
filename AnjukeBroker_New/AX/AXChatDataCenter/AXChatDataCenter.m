@@ -138,12 +138,13 @@
     return [message convertToMappedObject];
 }
 
-- (NSArray *)didReceiveWithMessageDataArray:(NSArray *)receivedArray
+- (NSDictionary *)didReceiveWithMessageDataArray:(NSArray *)receivedArray
 {
-    NSMutableArray *messageArray = [[NSMutableArray alloc] initWithCapacity:0];
+    NSMutableDictionary *messageDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
     
     for (NSDictionary *item in receivedArray) {
         NSString *friendUID = item[@"from_uid"];
+        NSMutableArray *messageArray = [[NSMutableArray alloc] initWithCapacity:0];
         for (NSDictionary *message in item[@"messages"]) {
 
             AXMessageType messageType = [message[@"msg_type"] integerValue];
@@ -182,11 +183,12 @@
             
             [self addConversationListItemWithMessage:[managedMessage convertToMappedObject]];
         }
+        messageDictionary[friendUID] = messageArray;
     }
     
     __autoreleasing NSError *error;
     [self.managedObjectContext save:&error];
-    return messageArray;
+    return messageDictionary;
 }
 
 - (void)deleteMessageByIdentifier:(NSString *)identifier
@@ -255,14 +257,17 @@
     AXConversationListItem *conversationListItem = [self findConversationListItemWithFriendUID:friendUID];
     if ([content isEqualToString:@""]) {
         if (conversationListItem) {
+            AXMessage *lastMessage = [self findLastMessageWithFriendUid:friendUID];
             conversationListItem.draftContent = content;
-                [self.managedObjectContext save:NULL];
+            conversationListItem.messageType = lastMessage.messageType;
+            [self.managedObjectContext save:NULL];
         }
     } else {
         if (!conversationListItem) {
             conversationListItem = [NSEntityDescription insertNewObjectForEntityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
         }
         conversationListItem.draftContent = content;
+        conversationListItem.messageType = @(AXConversationListItemTypeDraft);
         [self.managedObjectContext save:NULL];
     }
 }

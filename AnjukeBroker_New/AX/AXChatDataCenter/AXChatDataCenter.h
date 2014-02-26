@@ -39,7 +39,7 @@
 - (AXMappedMessage *)didSuccessSendMessageWithIdentifier:(NSString *)identifier messageId:(NSString *)messageId;
 - (AXMappedMessage *)didFailSendMessageWithIdentifier:(NSString *)identifier;
 
-- (NSArray *)didReceiveWithMessageDataArray:(NSArray *)receivedArray;
+- (NSDictionary *)didReceiveWithMessageDataArray:(NSArray *)receivedArray;
 - (void)deleteMessageByIdentifier:(NSString *)identifier;
 - (void)updateMessage:(AXMappedMessage *)message;
 - (NSString *)lastMsgId;

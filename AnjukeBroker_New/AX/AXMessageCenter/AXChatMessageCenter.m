@@ -294,9 +294,9 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 {
     if ([manager isKindOfClass:[AXMessageCenterReceiveMessageManager class]]) {
         NSDictionary *dic = [manager fetchDataWithReformer:nil];
-        NSArray *receiveArray =[self.dataCenter didReceiveWithMessageDataArray:dic[@"result"]];
+        NSDictionary *receivedMessageDictionary =[self.dataCenter didReceiveWithMessageDataArray:dic[@"result"]];
         dispatch_async(dispatch_get_main_queue(),^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidReceiveNewMessage object:receiveArray];
+            [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidReceiveNewMessage object:receivedMessageDictionary];
          
         });
     }
@@ -614,18 +614,20 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     if ([receiveDic[@"result"] isKindOfClass:[NSString class]] && [receiveDic[@"result"] isEqualToString:@"INITED"]) {
         NSLog(@"INITED");
     }
+#warning waiting for test
     
     if ([receiveDic[@"result"] isKindOfClass:[NSString class]] && [receiveDic[@"result"] isEqualToString:@"BYE"]) {
         NSLog(@"BYE");
     }
     
     if ([receiveDic[@"result"] isKindOfClass:[NSString class]] && [receiveDic[@"result"] isEqualToString:@"TIMEOUT"]) {
+        NSLog(@"TIMEOUT");
+        self.messageManager.registerStatus = AIF_MESSAGE_REQUEST_REGISTER_FAILED;
         [self.messageManager registerDevices:[[UIDevice currentDevice] udid] userId:self.currentPerson.uid];
     }
     
     if ([receiveDic[@"result"] isKindOfClass:[NSString class]] && [receiveDic[@"result"] isEqualToString:@"QUIT"]) {
         NSLog(@"QUIT");
-
     }
     
     if ([receiveDic[@"result"] isKindOfClass:[NSDictionary class]] && [receiveDic[@"result"][@"msgType"] isEqualToString:@"chat"]) {
