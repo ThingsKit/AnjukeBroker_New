@@ -8,6 +8,8 @@
 
 #import "MessageListCell.h"
 #import "AXMappedConversationListItem.h"
+#import "ChatModel.h"
+#import "Util_TEXT.h"
 
 @implementation MessageListCell
 @synthesize imageIcon, nameLb, messageLb, timeLb;
@@ -90,9 +92,20 @@
     
     AXMappedConversationListItem *item = (AXMappedConversationListItem *)dataModel;
     
-    self.imageIcon.imageUrl = item.iconUrl;
-    self.nameLb.text = item.presentName;
-    self.timeLb.text = @"11:00";
+    if (item.iconUrl) {
+        if (item.isIconDownloaded) {
+            self.imageIcon.image = [UIImage imageWithContentsOfFile:item.iconPath];
+        }
+        else {
+            self.imageIcon.imageUrl = item.iconUrl;
+        }
+    }
+    else {
+        self.imageIcon.image = [UIImage imageNamed:@""];
+    }
+    
+    self.nameLb.text = [ChatModel getMessageListCellWithItem:item];
+    self.timeLb.text = [Util_TEXT getDateStrWithDate:item.lastUpdateTime];
     self.messageLb.text = item.messageTip;
     
     self.iconNumLb.text = [item.count stringValue];
@@ -106,12 +119,6 @@
     self.timeLb.text = @"";
     self.messageLb.text = @"";
     self.iconNumLb.text = @"";
-}
-
-- (NSString *)getMessageListCellWithItem:(AXMappedConversationListItem *)item {
-    NSString *str = [NSString string];
-    
-    return str;
 }
 
 @end
