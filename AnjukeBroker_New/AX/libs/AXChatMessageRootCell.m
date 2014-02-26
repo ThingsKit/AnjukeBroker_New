@@ -7,6 +7,7 @@
 //
 
 #import "AXChatMessageRootCell.h"
+#import "UIImage+AXChatMessage.h"
 
 NSString *const AXCellIdentifyTag = @"identifier";
 
@@ -62,9 +63,9 @@ NSString *const AXCellIdentifyTag = @"identifier";
 
 - (void)setBubbleIMGOutcomeIncome {
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-        self.bubbleIMG.image = [[UIImage imageNamed:@"anjuke_icon_chat1.png"] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
+        self.bubbleIMG.image = [[UIImage axInChatBubbleBg:self.isBroker highlighted:NO] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
     }else{
-        self.bubbleIMG.image = [[UIImage imageNamed:@"anjuke_icon_chat3.png"] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
+        self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:NO] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
     }
 }
 
@@ -166,18 +167,10 @@ NSString *const AXCellIdentifyTag = @"identifier";
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
 {
     
-    if (highlighted) {
-        if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-            self.bubbleIMG.image = [[UIImage imageNamed:@"anjuke_icon_chat.png"] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
-        } else {
-            self.bubbleIMG.image = [[UIImage imageNamed:@"anjuke_icon_chat4.png"] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
-        }
+    if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
+        self.bubbleIMG.image = [[UIImage axInChatBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
     } else {
-        if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-            self.bubbleIMG.image = [[UIImage imageNamed:@"anjuke_icon_chat1.png"] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
-        } else {
-            self.bubbleIMG.image = [[UIImage imageNamed:@"anjuke_icon_chat3.png"] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
-        }
+        self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
     }
     [super setHighlighted:highlighted animated:animated];
 }

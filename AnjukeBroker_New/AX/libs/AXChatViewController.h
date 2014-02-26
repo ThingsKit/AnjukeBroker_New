@@ -20,16 +20,15 @@ static NSInteger const AXStatuBarHeight = 20.0f;
 @interface AXChatViewController : UIViewController <UITextViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, AXChatMessageSystemCellDelegate, AXELCImagePickerControllerDelegate, UIImagePickerControllerDelegate>
 
 // 禁止直接修改celldata和identifierData
-
 @property (nonatomic, strong) NSMutableArray *cellData;
 @property (nonatomic, strong) NSMutableArray *identifierData;
 
-@property (strong, nonatomic) UIView *inputBackView;
-@property (strong, nonatomic) UITextView *inputText;
 @property (strong, nonatomic) UIButton *sendBut;
 @property (strong, nonatomic) UIView *moreBackView;// 更多操作
 @property BOOL isBroker;
 @property (nonatomic, strong) NSDictionary *propDict;
 @property (nonatomic, strong) AXConversationListItem *conversationListItem;
+
+@property (nonatomic, strong) NSString *uid;
 
 @end

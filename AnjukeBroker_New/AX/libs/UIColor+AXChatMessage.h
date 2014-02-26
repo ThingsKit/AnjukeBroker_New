@@ -27,4 +27,11 @@
 + (UIColor *)axChatBGColor:(BOOL)isBroker;
 + (UIColor *)axChatSystemBGColor:(BOOL)isBroker;
 
++ (UIColor *)axChatInputBGColor:(BOOL)isBroker;
++ (UIColor *)axChatInputBorderColor:(BOOL)isBroker;
+
++ (UIColor *)axChatSendButtonNColor:(BOOL)isBroker;
++ (UIColor *)axChatSendButtonHColor:(BOOL)isBroker;
++ (UIColor *)axChatSendButtonDColor:(BOOL)isBroker;
+
 @end

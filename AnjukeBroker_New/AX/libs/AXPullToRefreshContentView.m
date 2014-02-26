@@ -41,7 +41,7 @@
 		_arrowImageView.frame = _activityIndicatorView.frame;
 		[self addSubview:_arrowImageView];
         
-//        self.backgroundColor = [UIColor ajkBackgroundPageColor];
+        self.backgroundColor = [UIColor clearColor];
 	}
 	return self;
 }
@@ -71,7 +71,7 @@
 			
 		case AXPullToRefreshViewStateNormal: {
 			self.statusLabel.text = @"下拉刷新";
-//            self.arrowImageView.image = [UIImage getStyleBundleImage:@"rt_pull_fresh_down.png"];
+            self.arrowImageView.image = [UIImage imageNamed:@"rt_pull_fresh_down.png"];
             self.arrowImageView.hidden = NO;
 			self.statusLabel.alpha = 1.0f;
 			[self.activityIndicatorView stopAnimating];

@@ -23,6 +23,9 @@
 #import "AXPullToRefreshContentView.h"
 #import "AXChatWebViewController.h"
 #import "UIColor+AXChatMessage.h"
+#import "JSMessageInputView.h"
+#import "NSString+JSMessagesView.h"
+
 
 //输入框和发送按钮栏的高度
 static CGFloat const AXInputBackViewHeight = 51.701996f;
@@ -41,7 +44,7 @@ static NSInteger const AXMessagePageSize = 5;
 static NSInteger const AXMessagePageSize = 15;
 #endif
 
-@interface AXChatViewController ()<UITableViewDelegate, UITableViewDataSource, OHAttributedLabelDelegate, AXPullToRefreshViewDelegate, UIAlertViewDelegate, AXChatMessageRootCellDelegate>
+@interface AXChatViewController ()<UITableViewDelegate, UITableViewDataSource, OHAttributedLabelDelegate, AXPullToRefreshViewDelegate, UIAlertViewDelegate, AXChatMessageRootCellDelegate, JSDismissiveTextViewDelegate>
 {
     CGFloat offset;//键盘的高度
 }
@@ -54,6 +57,16 @@ static NSInteger const AXMessagePageSize = 15;
 @property (nonatomic, strong) UILabel *sendLabel;
 
 @property (nonatomic, strong) void (^finishSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status);
+
+// JSMessage
+@property (nonatomic, strong) UIView *inputBackView;
+@property (nonatomic) CGFloat previousTextViewContentHeight;
+@property (nonatomic) BOOL isUserScrolling;
+@property (nonatomic, strong) JSMessageInputView *messageInputView;
+
+//Debug
+@property (nonatomic, strong) NSString *testUid;
+@property (nonatomic, strong) NSNotification *preNotification;
 
 @end
 
@@ -73,6 +86,13 @@ static NSInteger const AXMessagePageSize = 15;
 
 - (void)dealloc
 {
+    //草稿
+    AXChatDataCenter *dc = [[AXChatDataCenter alloc] init];
+    if (self.messageInputView.textView.text && ![self.messageInputView.textView.text isEqualToString:@""]) {
+        [dc saveDraft:self.messageInputView.textView.text friendUID:[self checkFriendUid]];
+    }
+    [self.messageInputView.textView removeObserver:self forKeyPath:@"contentSize"];
+    self.messageInputView = nil;
     self.pullToRefreshView.delegate = nil;
     self.pullToRefreshView = nil;
     self.myTableView.delegate = nil;
@@ -89,14 +109,12 @@ static NSInteger const AXMessagePageSize = 15;
     
     self.cellData = [NSMutableArray array];
     self.identifierData = [NSMutableArray array];
-    [self addKeyboardNotifycation];
-
+    
     AXMappedMessage *lastMessage = [[AXMappedMessage alloc] init];
     lastMessage.sendTime = [NSDate dateWithTimeIntervalSinceNow:0];
     lastMessage.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-    lastMessage.from = @"2";
-//    lastMessage.to  = [self checkFriendUid];
-    lastMessage.to = @"1";
+    lastMessage.to  = [self checkFriendUid];
+    
     [[AXChatMessageCenter defaultMessageCenter] fetchChatListWithLastMessage:lastMessage pageSize:AXMessagePageSize callBack:^(NSArray *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend) {
         if ([chatList count] > 0) {
             self.lastMessage = chatList[0];
@@ -134,26 +152,45 @@ static NSInteger const AXMessagePageSize = 15;
     };
     
 #ifdef DEBUG
+    
     UIButton *getMessageBtn = [UIButton buttonWithType:UIButtonTypeContactAdd];
-    getMessageBtn.frame = CGRectMake(10, 10, 25, 25);
+    getMessageBtn.frame = CGRectMake(10, 10, 45, 45);
     [getMessageBtn addTarget:self action:@selector(getNewMessage) forControlEvents:UIControlEventTouchUpInside];
     getMessageBtn.backgroundColor = [UIColor redColor];
     [self.view addSubview:getMessageBtn];
     
     UIButton *sendMessageBtn = [UIButton buttonWithType:UIButtonTypeContactAdd];
-    sendMessageBtn.frame = CGRectMake(10, 35, 25, 25);
+    sendMessageBtn.frame = CGRectMake(10, 55, 45, 45);
     [sendMessageBtn addTarget:self action:@selector(sendNewMessage) forControlEvents:UIControlEventTouchUpInside];
     sendMessageBtn.backgroundColor = [UIColor blueColor];
     [self.view addSubview:sendMessageBtn];
     
+    UIButton *addUserBtn = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    addUserBtn.frame = CGRectMake(10, 100, 45, 45);
+    [addUserBtn addTarget:self action:@selector(addUserBtn) forControlEvents:UIControlEventTouchUpInside];
+    addUserBtn.backgroundColor = [UIColor yellowColor];
+    [self.view addSubview:addUserBtn];
+
 #endif
-    
     [self addPullToRefresh];
 }
 
 - (void)getNewMessage
 {
+    [self.messageInputView.textView resignFirstResponder];
     [[AXChatMessageCenter defaultMessageCenter] receiveMessage];
+}
+
+- (void)addUserBtn
+{
+    AXMappedPerson *person = [[AXMappedPerson alloc] init];
+    person.uid = self.messageInputView.textView.text;
+    self.uid = self.messageInputView.textView.text;
+    
+    [[AXChatMessageCenter defaultMessageCenter] addFriendWithMyPhone:person block:^(BOOL isSuccess) {
+        
+    }];
+    
 }
 
 - (void)sendNewMessage
@@ -175,12 +212,35 @@ static NSInteger const AXMessagePageSize = 15;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self reloadMytableView];
+//    [self reloadMytableView];
+    [self scrollToBottomAnimated:NO];
+    
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(handleWillShowKeyboardNotification:)
+												 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(handleWillHideKeyboardNotification:)
+												 name:UIKeyboardWillHideNotification
+                                               object:nil];
 }
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+- (void)viewDidAppear:(BOOL)animated
 {
-    [self hideInputBackView];
+    [super viewDidAppear:animated];
+    [self scrollToBottomAnimated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.messageInputView resignFirstResponder];
+    [self setEditing:NO animated:YES];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)addMessageNotifycation
@@ -201,8 +261,8 @@ static NSInteger const AXMessagePageSize = 15;
 #pragma mark - DataSouce Method
 - (NSString *)checkFriendUid
 {
-    if (self.conversationListItem) {
-        return self.conversationListItem.friendUid;
+    if (self.uid) {
+        return self.uid;
     }
     return @"";
 }
@@ -294,7 +354,7 @@ static NSInteger const AXMessagePageSize = 15;
     NSMutableArray *insertIndexPaths = [NSMutableArray array];
     NSIndexPath *newPath =  [NSIndexPath indexPathForRow:[self.cellData count] - 1 inSection:0];
     [insertIndexPaths addObject:newPath];
-    [self.myTableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.myTableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationBottom];
     [self scrollToBottomAnimated:YES];
 }
 
@@ -305,7 +365,7 @@ static NSInteger const AXMessagePageSize = 15;
     NSMutableArray *insertIndexPaths = [NSMutableArray array];
     NSIndexPath *newPath =  [NSIndexPath indexPathForRow:index inSection:0];
     [insertIndexPaths addObject:newPath];
-    [self.myTableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.myTableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationBottom];
     [self.myTableView setContentOffset:CGPointMake(0, CGFLOAT_MAX)];
 }
 
@@ -576,13 +636,6 @@ static NSInteger const AXMessagePageSize = 15;
     }
 }
 
-- (void)addKeyboardNotifycation
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
-}
-
 - (void)initUI {
     [self.view setBackgroundColor:[UIColor axChatBGColor:self.isBroker]];
 
@@ -592,54 +645,49 @@ static NSInteger const AXMessagePageSize = 15;
     self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.myTableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.myTableView];
-    
-    self.inputBackView = [[UIView alloc] initWithFrame:CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXInputBackViewHeight, AXWINDOWWHIDTH, AXInputBackViewHeight)];
-    self.inputBackView.backgroundColor = [UIColor colorWithHex:0xF6F6F6 alpha:1];
-    [self.view addSubview:self.inputBackView];
-    
-    self.inputText = [[UITextView alloc] initWithFrame:CGRectMake(AXInputTextLeft, 10.0f, AXInputTextWidth, AXInputTextHeight)];
-    self.inputText.backgroundColor = [UIColor whiteColor];
-    self.inputText.delegate = self;
-    self.inputText.font = [UIFont systemFontOfSize:14];
-    self.inputText.keyboardAppearance = UIKeyboardAppearanceDefault;
-    self.inputText.keyboardType = UIKeyboardTypeDefault;
-    self.inputText.returnKeyType = UIReturnKeySend;
-    self.inputText.layer.masksToBounds = YES;
-    self.inputText.text = @"broker";
-    self.inputText.layer.borderWidth = 1.0f;
-    self.inputText.layer.borderColor = [UIColor colorWithHex:0xCCCCCC alpha:1].CGColor;
-    self.inputText.layer.cornerRadius = 3.0f;
-    
-    [self.inputBackView addSubview:self.inputText];
-    
-    if (self.isBroker) {
-        self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.sendBut.frame = CGRectMake(270.0f, 5.0f, 40.0f, 30.0f);
-        self.sendBut.imageView.image = [UIImage imageNamed:@""];
-        self.sendBut.backgroundColor = [UIColor grayColor];
-    } else {
-        self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.sendBut.frame = CGRectMake(275.0f, 10.0f, 40.0f, 30.0f);
-        self.sendBut.layer.masksToBounds = YES;
-        self.sendBut.layer.borderWidth = 1.0f;
-        self.sendBut.layer.borderColor = [UIColor colorWithHex:0xCCCCCC alpha:1].CGColor;
-        self.sendBut.layer.cornerRadius = 3.0f;
-        self.sendBut.imageView.image = [UIImage imageNamed:@"xproject_dialogue_greybutton.png"];
-        self.sendLabel = [[UILabel alloc] initWithFrame:CGRectMake(4, 0, 36, 30)];
-        self.sendLabel.text = @"发送";
-        self.sendLabel.textColor = [UIColor colorWithHex:0x60a410 alpha:1];
-        self.sendLabel.font = [UIFont systemFontOfSize:16];
-        [self.sendBut addSubview:self.sendLabel];
-    }
-    
-    [self.sendBut addTarget:self action:@selector(sendMessage:) forControlEvents:UIControlEventTouchUpInside];
-    [self.inputBackView addSubview:self.sendBut];
+
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGestureRecognizer:)];
+    [self.myTableView addGestureRecognizer:tap];
     
     self.moreBackView = [[UIView alloc] init];
-    self.moreBackView.frame = CGRectMake(0, self.inputBackView.frame.origin.y + AXInputBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
+    self.moreBackView.frame = CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
     self.moreBackView.backgroundColor = [UIColor lightGrayColor];
-    //    CGRectMake(0, self.keyboardBack.frame.origin.y - INPUTBACKVIEWHIGHT, [self windowWidth], MOREBACKVIEWHIGHT)
+    self.moreBackView.hidden = YES;
     [self.view addSubview:self.moreBackView];
+
+    CGSize size = self.view.frame.size;
+    CGFloat inputViewHeight = 49;
+    UIPanGestureRecognizer *pan = self.myTableView.panGestureRecognizer;
+    CGRect inputFrame = CGRectMake(0.0f,
+                                   size.height - inputViewHeight,
+                                   size.width,
+                                   inputViewHeight);
+
+    JSMessageInputView *inputView = [[JSMessageInputView alloc] initWithFrame:inputFrame
+                                                                        style:JSMessageInputViewStyleFlat
+                                                                     delegate:self
+                                                         panGestureRecognizer:pan];
+    inputView.isBroker = self.isBroker;
+    [self.view addSubview:inputView];
+    self.messageInputView = inputView;
+    [self.messageInputView.textView addObserver:self
+                                 forKeyPath:@"contentSize"
+                                    options:NSKeyValueObservingOptionNew
+                                    context:nil];
+
+    if (!self.isBroker) {
+        inputView.sendButton.enabled = NO;
+        [inputView.sendButton addTarget:self
+                                 action:@selector(sendPressed:)
+                       forControlEvents:UIControlEventTouchUpInside];
+    } else {
+        self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.sendBut.frame = CGRectMake(270.0f + 12.0f, 12.0f, 20.0f, 20.0f);
+        [self.sendBut addTarget:self action:@selector(didMoreBackView:) forControlEvents:UIControlEventTouchUpInside];
+        [self.sendBut setBackgroundImage:[UIImage imageNamed:@"xproject_chatlist_plus.png"] forState:UIControlStateNormal];
+        [self.sendBut setBackgroundImage:[UIImage imageNamed:@"xproject_chatlist_plus_selected.png"] forState:UIControlStateHighlighted];
+        [self.messageInputView addSubview:self.sendBut];
+    }
     
     UIButton *pickIMG = [UIButton buttonWithType:UIButtonTypeCustom];
     pickIMG.backgroundColor = [UIColor grayColor];
@@ -702,165 +750,36 @@ static NSInteger const AXMessagePageSize = 15;
 }
 
 - (void)pickHZ:(id)sender {
-    AXMappedMessage *mappedMessageProp = [[AXMappedMessage alloc] init];
-
-    mappedMessageProp.to = @"1";
-    mappedMessageProp.from = @"2";
-    mappedMessageProp.sendTime = nil;
-    mappedMessageProp.content = nil;
-    mappedMessageProp.messageType = [NSNumber numberWithInteger:AXMessageTypeProperty];
-    [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
-    
-//    NSDictionary *roomSource = @{@"title": @"中房二期花园，地理位置好",@"price":@"12000",@"roomType":@"3房两厅",@"area":@"200",@"floor":@"13/14",@"year":@"2005",@"messageType":[NSNumber numberWithInteger:AXMessageTypeProperty],@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationOutPut]};
-//    [self.cellData addObject:roomSource];
-//    [self reloadMytableView];
+    NSDictionary *roomSource = @{@"title": @"中房二期花园，地理位置好",@"price":@"12000",@"roomType":@"3房两厅",@"area":@"200",@"floor":@"13/14",@"year":@"2005",@"messageType":[NSNumber numberWithInteger:AXMessageTypeProperty],@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationOutPut]};
+    [self.cellData addObject:roomSource];
+    [self reloadMytableView];
     
 }
 
 - (void)sendMessage:(id)sender {
-    if ([self.inputText.text isEqualToString:@""]) {
+    if ([self.messageInputView.textView.text isEqualToString:@""]) {
         UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"提示" message:@"不能发空消息" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil];
         [view show];
         return;
     }
-    if ([self.inputText.text isEqualToString:@"broker"]) {
-        [self.inputText resignFirstResponder];
-        CGSize size = [self sizeOfString:self.inputText.text maxWidth:AXInputTextWidth withFontSize:self.inputText.font];
-        self.inputText.frame = CGRectMake(AXInputTextLeft, 10.0f, AXInputTextWidth, 15.0f + size.height);
-        
-        self.inputBackView.frame = CGRectMake(0.0f, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXInputBackViewHeight - AXMoreBackViewHeight , AXWINDOWWHIDTH, AXInputBackViewHeight);
-
-        self.moreBackView.frame = CGRectMake(0, AXWINDOWHEIGHT - AXStatuBarHeight - AXNavBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
-        
-        self.myTableView.frame = CGRectMake(0, 0, AXWINDOWWHIDTH, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight - AXInputBackViewHeight);
-        
+    if ([self.messageInputView.textView.text isEqualToString:@"broker"]) {
+        [self.messageInputView.textView resignFirstResponder];
         [self reloadMytableView];
         return;
     } else {
-        [self resetInputBackView];
         
         AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
         mappedMessage.accountType = @"1";
-        mappedMessage.content = self.inputText.text;
-//        mappedMessage.to = [self checkFriendUid];
-//        mappedMessage.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-        mappedMessage.to = @"2";
-        mappedMessage.from = @"1";
+        mappedMessage.content = self.messageInputView.textView.text;
+        mappedMessage.to = [self checkFriendUid];
+        mappedMessage.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
         mappedMessage.isRead = [NSNumber numberWithBool:YES];
         mappedMessage.isRemoved = [NSNumber numberWithBool:NO];
         mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypeText];
         
         [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessage willSendMessage:self.finishSendMessageBlock];
-        self.inputText.text = @"";
+        self.messageInputView.textView.text = @"";
     }
-}
-//隐藏键盘和更多
-- (void)hideInputBackView {
-    [self.inputText resignFirstResponder];
-    [UIView animateWithDuration:0.24 delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
-        CGSize size = self.inputBackView.frame.size;
-        self.inputBackView.frame = CGRectMake(0.0f, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - size.height, AXWINDOWWHIDTH, size.height);
-        CGRect tableRect = self.myTableView.frame;
-        self.myTableView.frame = CGRectMake(tableRect.origin.x, tableRect.origin.y , tableRect.size.width, AXWINDOWHEIGHT - AXInputBackViewHeight - AXNavBarHeight - AXStatuBarHeight);
-        if (self.isBroker) {
-            CGRect rect = self.inputBackView.frame;
-            self.moreBackView.frame = CGRectMake(0, rect.origin.y + rect.size.height, AXWINDOWWHIDTH, AXMoreBackViewHeight);
-        }
-    } completion:^(BOOL finished) {
-    }];
-//        [self reloadMytableView];
-}
-//重置到键盘第一次出现的状态
-- (void)resetInputBackView {
-    self.inputText.frame = CGRectMake(AXInputTextLeft, 10.0f, AXInputTextWidth, AXInputTextHeight);
-    self.inputBackView.frame = CGRectMake(0.0f, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXInputBackViewHeight - offset, AXWINDOWWHIDTH, AXInputBackViewHeight);
-    CGRect tableRect = self.myTableView.frame;
-    self.myTableView.frame = CGRectMake(tableRect.origin.x, tableRect.origin.y , AXWINDOWWHIDTH, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - offset - AXInputBackViewHeight);
-    [self reloadMytableView];
-
-}
-#pragma mark - UITextViewDelegate
-- (void)textViewDidChange:(UITextView *)textView {
-    [[AXChatMessageCenter defaultMessageCenter] receiveMessage];
-    CGRect inputbackViewRect = self.inputBackView.frame;
-    CGSize size = [self sizeOfString:textView.text maxWidth:AXInputTextWidth withFontSize:textView.font];
-    CGRect tableRect = self.myTableView.frame;
-    if (size.height > 70) {
-        self.inputText.frame = CGRectMake(AXInputTextLeft, 10.0f, AXInputTextWidth, 70.0f);
-        self.inputBackView.frame = CGRectMake(0.0f, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXInputBackViewHeight - offset - 40.0f, AXWINDOWWHIDTH, AXInputBackViewHeight + 40);
-    }else {
-        self.inputText.frame = CGRectMake(AXInputTextLeft, 10.0f, AXInputTextWidth, 15.0f + size.height);
-        self.inputBackView.frame = CGRectMake(0.0f, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXInputBackViewHeight - offset - size.height + 15.0f, AXWINDOWWHIDTH, AXInputBackViewHeight + size.height - 15.0f);
-        self.myTableView.frame = CGRectMake(tableRect.origin.x, tableRect.origin.y , tableRect.size.width, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - size.height - offset);
-    }
-    if (inputbackViewRect.size.height != self.inputBackView.frame.size.height) {
-        NSLog(@"%f====%f", inputbackViewRect.size.height,self.inputBackView.frame.size.height);
-        self.myTableView.frame = CGRectMake(tableRect.origin.x, tableRect.origin.y , tableRect.size.width, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - self.inputBackView.frame.size.height - offset);
-        [self reloadMytableView];
-    }
-}
-
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    if ([textView.text isEqualToString:@"broker"]) {
-        self.isBroker = YES;
-//        return NO;
-    }
-    if ([textView.text isEqualToString:@"anjuke"]) {
-        self.isBroker = NO;
-        self.moreBackView.frame = CGRectMake(320, 0, 0, 0);
-    }
-    
-    if ([text isEqualToString:@"\n"]) {
-        [self sendMessage:textView.text];
-        return NO;
-    }
-
-    return YES;
-}
-
-- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
-{
-    return YES;
-}
-
-#pragma mark - keyBoardNotification
-- (void)keyboardWillShow:(NSNotification *)notification {
-    NSDictionary *info = [notification userInfo];
-    CGSize kbSize = [info[UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    offset = kbSize.height;
-    [self dealKeyboardWillShow];
-}
-
-- (void)keyboardWillChangeFrame:(NSNotification *)notification{
-    NSDictionary *info = [notification userInfo];
-    CGSize kbSize = [info[UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    offset = kbSize.height;
-}
-
-- (void)keyboardWillHide:(NSNotification *)notification{
-    
-    [self dealWithHideKeyboard];
-    
-}
-
--(void)dealWithHideKeyboard {
-    offset = 0;
-}
-
--(void)dealKeyboardWillShow{
-    [UIView animateWithDuration:0.30 delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        CGSize size = self.inputBackView.frame.size;
-        self.inputBackView.frame = CGRectMake(0.0f, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - size.height - offset, AXWINDOWWHIDTH, size.height);
-        CGRect tableRect = self.myTableView.frame;
-        self.myTableView.frame = CGRectMake(tableRect.origin.x, tableRect.origin.y , tableRect.size.width, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - size.height - offset);
-
-        [self scrollToBottomAnimated:YES];
-        if (self.isBroker) {
-            CGRect rect = self.inputBackView.frame;
-            self.moreBackView.frame = CGRectMake(0, rect.origin.y + rect.size.height, AXWINDOWWHIDTH, AXMoreBackViewHeight);
-        }
-    } completion:^(BOOL finished) {
-    }];
 }
 
 - (void)reloadMytableView {
@@ -869,7 +788,7 @@ static NSInteger const AXMessagePageSize = 15;
     if ([self.cellData count] > 0) {
         [self.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.cellData count] -1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     }
-
+    
 }
 
 #pragma mark - NSNotificationCenter UIMenu
@@ -877,9 +796,9 @@ static NSInteger const AXMessagePageSize = 15;
 {
     if (self.selectedCell) {
         if (((AXChatMessageRootCell *)self.selectedCell).messageSource == AXChatMessageSourceDestinationIncoming) {
-            ((AXChatMessageRootCell *)self.selectedCell).bubbleIMG.image = [[UIImage imageNamed:@"anjuke_icon_chat1.png"] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
+            ((AXChatMessageRootCell *)self.selectedCell).bubbleIMG.image = [[UIImage axInChatBubbleBg:self.isBroker highlighted:NO] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
         } else {
-            ((AXChatMessageRootCell *)self.selectedCell).bubbleIMG.image = [[UIImage imageNamed:@"anjuke_icon_chat3.png"] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
+            ((AXChatMessageRootCell *)self.selectedCell).bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:NO] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
         }
     }
 }
@@ -888,9 +807,9 @@ static NSInteger const AXMessagePageSize = 15;
 {
     if (self.selectedCell) {
         if (((AXChatMessageRootCell *)self.selectedCell).messageSource == AXChatMessageSourceDestinationIncoming) {
-            ((AXChatMessageRootCell *)self.selectedCell).bubbleIMG.image = [[UIImage imageNamed:@"anjuke_icon_chat2.png"] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
+            ((AXChatMessageRootCell *)self.selectedCell).bubbleIMG.image = [[UIImage axInChatBubbleBg:self.isBroker highlighted:YES] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
         } else {
-            ((AXChatMessageRootCell *)self.selectedCell).bubbleIMG.image = [[UIImage imageNamed:@"anjuke_icon_chat4.png"] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
+            ((AXChatMessageRootCell *)self.selectedCell).bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:YES] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
         }
     }
 }
@@ -1017,5 +936,287 @@ static NSInteger const AXMessagePageSize = 15;
 {
     [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishSendMessageBlock];
 }
+
+
+
+#pragma mark - Layout message input view
+
+- (void)layoutAndAnimateMessageInputTextView:(UITextView *)textView
+{
+    CGFloat maxHeight = [JSMessageInputView maxHeight];
     
+    BOOL isShrinking = textView.contentSize.height < self.previousTextViewContentHeight;
+    CGFloat changeInHeight = textView.contentSize.height - self.previousTextViewContentHeight;
+    
+    if (!isShrinking && (self.previousTextViewContentHeight == maxHeight || textView.text.length == 0)) {
+        changeInHeight = 0;
+    }
+    else {
+        changeInHeight = MIN(changeInHeight, maxHeight - self.previousTextViewContentHeight);
+    }
+    
+    if (changeInHeight != 0.0f) {
+        [UIView animateWithDuration:0.25f
+                         animations:^{
+                             [self setTableViewInsetsWithBottomValue:self.myTableView.contentInset.bottom + changeInHeight];
+                             
+                             [self scrollToBottomAnimated:NO];
+                             
+                             if (isShrinking) {
+                                 // if shrinking the view, animate text view frame BEFORE input view frame
+                                 [self.messageInputView adjustTextViewHeightBy:changeInHeight];
+                             }
+                             
+                             CGRect inputViewFrame = self.messageInputView.frame;
+                             self.messageInputView.frame = CGRectMake(0.0f,
+                                                                      inputViewFrame.origin.y - changeInHeight,
+                                                                      inputViewFrame.size.width,
+                                                                      inputViewFrame.size.height + changeInHeight);
+                             
+                             if (!isShrinking) {
+                                 // growing the view, animate the text view frame AFTER input view frame
+                                 [self.messageInputView adjustTextViewHeightBy:changeInHeight];
+                             }
+                         }
+                         completion:^(BOOL finished) {
+                         }];
+        
+        self.previousTextViewContentHeight = MIN(textView.contentSize.height, maxHeight);
+    }
+    
+    // Once we reached the max height, we have to consider the bottom offset for the text view.
+    // To make visible the last line, again we have to set the content offset.
+    if (self.previousTextViewContentHeight == maxHeight) {
+        double delayInSeconds = 0.01;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime,
+                       dispatch_get_main_queue(),
+                       ^(void) {
+                           CGPoint bottomOffset = CGPointMake(0.0f, textView.contentSize.height - textView.bounds.size.height);
+                           [textView setContentOffset:bottomOffset animated:YES];
+                       });
+    }
+}
+
+- (void)setTableViewInsetsWithBottomValue:(CGFloat)bottom
+{
+    UIEdgeInsets insets = [self tableViewInsetsWithBottomValue:bottom];
+    self.myTableView.contentInset = insets;
+    self.myTableView.scrollIndicatorInsets = insets;
+}
+
+- (UIEdgeInsets)tableViewInsetsWithBottomValue:(CGFloat)bottom
+{
+    UIEdgeInsets insets = UIEdgeInsetsZero;
+    
+    if ([self respondsToSelector:@selector(topLayoutGuide)]) {
+        insets.top = self.topLayoutGuide.length;
+    }
+    
+    insets.bottom = bottom;
+    
+    return insets;
+}
+
+#pragma mark - Key-value observing
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if (object == self.messageInputView.textView && [keyPath isEqualToString:@"contentSize"]) {
+        [self layoutAndAnimateMessageInputTextView:object];
+    }
+}
+
+#pragma mark - Keyboard notifications
+
+- (void)handleWillShowKeyboardNotification:(NSNotification *)notification
+{
+    self.moreBackView.hidden = YES;
+    [self keyboardWillShowHide:notification];
+}
+
+- (void)handleWillHideKeyboardNotification:(NSNotification *)notification
+{
+    if (!self.moreBackView.hidden) {
+        self.preNotification = notification;
+        return;
+    }
+    [self keyboardWillShowHide:notification];
+}
+
+- (void)keyboardWillShowHide:(NSNotification *)notification
+{
+    CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+	UIViewAnimationCurve curve = [[notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] integerValue];
+	double duration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    [UIView animateWithDuration:duration
+                          delay:0.0
+                        options:[self animationOptionsForCurve:curve]
+                     animations:^{
+                         CGFloat keyboardY = [self.view convertRect:keyboardRect fromView:nil].origin.y;
+                         
+                         CGRect inputViewFrame = self.messageInputView.frame;
+                         CGFloat inputViewFrameY = keyboardY - inputViewFrame.size.height;
+                         
+                         // for ipad modal form presentations
+                         CGFloat messageViewFrameBottom = self.view.frame.size.height - inputViewFrame.size.height;
+                         if (inputViewFrameY > messageViewFrameBottom)
+                             inputViewFrameY = messageViewFrameBottom;
+						 
+                         self.messageInputView.frame = CGRectMake(inputViewFrame.origin.x,
+																  inputViewFrameY,
+																  inputViewFrame.size.width,
+																  inputViewFrame.size.height);
+                         
+                         [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
+                          - self.messageInputView.frame.origin.y
+                          - inputViewFrame.size.height + 60];
+                     }
+                     completion:nil];
+}
+
+#pragma mark - Dismissive text view delegate
+
+- (void)keyboardDidScrollToPoint:(CGPoint)point
+{
+    CGRect inputViewFrame = self.messageInputView.frame;
+    CGPoint keyboardOrigin = [self.view convertPoint:point fromView:nil];
+    inputViewFrame.origin.y = keyboardOrigin.y - inputViewFrame.size.height;
+    self.messageInputView.frame = inputViewFrame;
+}
+
+- (void)keyboardWillBeDismissed
+{
+    CGRect inputViewFrame = self.messageInputView.frame;
+    inputViewFrame.origin.y = self.view.bounds.size.height - inputViewFrame.size.height;
+    self.messageInputView.frame = inputViewFrame;
+}
+
+- (void)keyboardWillSnapBackToPoint:(CGPoint)point
+{
+    if (!self.tabBarController.tabBar.hidden){
+        return;
+    }
+	
+    CGRect inputViewFrame = self.messageInputView.frame;
+    CGPoint keyboardOrigin = [self.view convertPoint:point fromView:nil];
+    inputViewFrame.origin.y = keyboardOrigin.y - inputViewFrame.size.height;
+    self.messageInputView.frame = inputViewFrame;
+}
+
+#pragma mark - Utilities
+
+- (UIViewAnimationOptions)animationOptionsForCurve:(UIViewAnimationCurve)curve
+{
+    switch (curve) {
+        case UIViewAnimationCurveEaseInOut:
+            return UIViewAnimationOptionCurveEaseInOut;
+            
+        case UIViewAnimationCurveEaseIn:
+            return UIViewAnimationOptionCurveEaseIn;
+            
+        case UIViewAnimationCurveEaseOut:
+            return UIViewAnimationOptionCurveEaseOut;
+            
+        case UIViewAnimationCurveLinear:
+            return UIViewAnimationOptionCurveLinear;
+            
+        default:
+            return kNilOptions;
+    }
+}
+
+#pragma mark - Actions
+
+- (void)didMoreBackView:(UIButton *)sender
+{
+    self.moreBackView.hidden = NO;
+    [self.messageInputView.textView resignFirstResponder];
+}
+
+- (void)sendPressed:(UIButton *)sender
+{
+    [self sendMessage:self.messageInputView.textView];
+    [self finishSend];
+}
+
+- (void)handleTapGestureRecognizer:(UITapGestureRecognizer *)tap
+{
+    if (!self.moreBackView.hidden) {
+        self.moreBackView.hidden = YES;
+        if (self.preNotification) {
+            [self keyboardWillShowHide:self.preNotification];
+        }
+    } else {
+        [self.messageInputView.textView resignFirstResponder];
+    }
+}
+
+- (void)finishSend
+{
+    [self.messageInputView.textView setText:nil];
+    [self textViewDidChange:self.messageInputView.textView];
+    [self.myTableView reloadData];
+}
+
+#pragma mark - Scroll view delegate
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+	self.isUserScrolling = YES;
+    [self.messageInputView.textView resignFirstResponder];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    self.isUserScrolling = NO;
+}
+
+#pragma mark - Text view delegate
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    //    [self hideInputBackView];
+    [textView becomeFirstResponder];
+	
+    if (!self.previousTextViewContentHeight) {
+		self.previousTextViewContentHeight = textView.contentSize.height;
+    }
+    [self scrollToBottomAnimated:YES];
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if ([textView.text isEqualToString:@"broker"]) {
+        self.isBroker = YES;
+    }
+    if ([textView.text isEqualToString:@"anjuke"]) {
+        self.isBroker = NO;
+        self.moreBackView.frame = CGRectMake(320, 0, 0, 0);
+    }
+    
+    if ([text isEqualToString:@"\n"]) {
+        [self sendMessage:textView.text];
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    if (!self.isBroker) {
+        self.messageInputView.sendButton.enabled = ([[textView.text js_stringByTrimingWhitespace] length] > 0);
+    }
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    [textView resignFirstResponder];
+}
+
+
 @end

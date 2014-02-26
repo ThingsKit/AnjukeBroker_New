@@ -111,4 +111,49 @@
     }
 }
 
++ (UIColor *)axChatInputBGColor:(BOOL)isBroker
+{
+    if (isBroker) {
+        return [UIColor colorWithHex:0xe6e6e6 alpha:1];
+    } else {
+        return [UIColor colorWithHex:0xe6e6e6 alpha:1];
+    }
+}
+
++ (UIColor *)axChatInputBorderColor:(BOOL)isBroker
+{
+    if (isBroker) {
+        return [UIColor colorWithHex:0xcccccc alpha:1];
+    } else {
+        return [UIColor colorWithHex:0xcccccc alpha:1];
+    }
+}
+
++ (UIColor *)axChatSendButtonNColor:(BOOL)isBroker
+{
+    if (isBroker) {
+        return [UIColor colorWithHex:0x60a410 alpha:1];
+    } else {
+        return [UIColor colorWithHex:0x60a410 alpha:1];
+    }
+}
+
++ (UIColor *)axChatSendButtonHColor:(BOOL)isBroker
+{
+    if (isBroker) {
+        return [UIColor colorWithHex:0x60a410 alpha:1];
+    } else {
+        return [UIColor colorWithHex:0x60a410 alpha:1];
+    }
+}
+
++ (UIColor *)axChatSendButtonDColor:(BOOL)isBroker
+{
+    if (isBroker) {
+        return [UIColor colorWithHex:0xa7a7a7 alpha:1];
+    } else {
+        return [UIColor colorWithHex:0xa7a7a7 alpha:1];
+    }
+}
+
 @end
