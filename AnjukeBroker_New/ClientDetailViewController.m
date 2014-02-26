@@ -9,6 +9,8 @@
 #import "ClientDetailViewController.h"
 #import "ClientDetailCell.h"
 #import "ClientEditViewController.h"
+#import "BrokerChatViewController.h"
+#import "LoginManager.h"
 
 #define DETAIL_HEADER_H 52+40
 
@@ -113,7 +115,10 @@
 #pragma mark - Private Method
 
 - (void)startChart {
-    
+    BrokerChatViewController *bc = [[BrokerChatViewController alloc] init];
+    bc.isBroker = YES;
+    bc.uid = [LoginManager getChatID];
+    [self.navigationController pushViewController:bc animated:YES];
 }
 
 - (void)rightButtonAction:(id)sender {

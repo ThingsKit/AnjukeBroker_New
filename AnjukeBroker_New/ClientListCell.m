@@ -68,6 +68,16 @@
     
     AXMappedPerson *item = (AXMappedPerson *)data;
     
+    if (item.iconUrl) {
+        if (item.isIconDownloaded) {
+            self.imageIcon.image = [UIImage imageWithContentsOfFile:item.iconPath];
+        }
+        else
+            self.imageIcon.imageUrl = item.iconUrl;
+    }
+    else {
+        self.imageIcon.image = [UIImage imageNamed:@""];
+    }
     self.imageIcon.imageUrl = item.iconUrl;
     self.nameLb.text = item.name;
     

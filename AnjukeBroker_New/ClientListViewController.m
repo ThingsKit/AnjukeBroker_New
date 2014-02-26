@@ -65,6 +65,7 @@
     [[AXChatMessageCenter defaultMessageCenter] friendListWithPersonWithCompeletionBlock:^(NSArray *friendList, BOOL whetherSuccess) {
         if (whetherSuccess) {
             DLog(@"friendList- [%@]", friendList);
+            
             self.testArr = [NSArray arrayWithArray:friendList];
             [self.tableViewList reloadData];
             

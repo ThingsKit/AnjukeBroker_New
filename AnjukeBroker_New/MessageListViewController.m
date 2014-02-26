@@ -11,7 +11,8 @@
 #import "BrokerChatViewController.h"
 #import "AXMappedConversationListItem.h"
 
-#import "AXChatViewController.h"
+#import "BrokerChatViewController.h"
+#import "AppManager.h"
 
 @interface MessageListViewController ()
 
@@ -81,15 +82,20 @@
     tv.dataSource = self;
 //    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:tv];
-
-    UIBarButtonItem *testItem = [[UIBarButtonItem alloc] initWithTitle:@"Chat" style:UIBarButtonItemStyleBordered target:self action:@selector(doJump)];
-    self.navigationItem.rightBarButtonItem = testItem;
+    
+    //设置按钮
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_add.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
+    if (![AppManager isIOS6]) {
+        rightItem.tintColor = SYSTEM_NAVIBAR_COLOR;
+    }
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 //test
-- (void)doJump {
-    AXChatViewController *av = [[AXChatViewController alloc] init];
+- (void)rightButtonAction:(id)sender {
+    BrokerChatViewController *av = [[BrokerChatViewController alloc] init];
     av.isBroker = YES;
+    av.uid = [LoginManager getChatID];
     [av setHidesBottomBarWhenPushed:YES];
     [self.navigationController pushViewController:av animated:YES];
 }
