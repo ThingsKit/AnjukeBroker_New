@@ -398,7 +398,12 @@ static NSInteger const AXMessagePageSize = 15;
         CGFloat rowHeight = sz.height + 2*kLabelVMargin + 40;
         return rowHeight;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePic]]) {
-        return [AXChatMessageImageCell sizeOFImg:dic[@"content"]].size.height+30;
+        if ([AXChatMessageImageCell sizeOFImg:dic[@"content"]].size.height+30.0f < 70.0f) {
+            return 70.0f;
+        }else {
+            return [AXChatMessageImageCell sizeOFImg:dic[@"content"]].size.height+30.0f;
+        }
+
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePublicCard]]) {
         return 100;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeSystemTime]]) {
