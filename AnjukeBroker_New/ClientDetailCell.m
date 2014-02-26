@@ -7,6 +7,7 @@
 //
 
 #import "ClientDetailCell.h"
+#import "AXMappedPerson.h"
 
 #define DETAIL_LB_W 200
 
@@ -51,6 +52,8 @@
     
     CGFloat lbH = 0;
     
+    AXMappedPerson *item = (AXMappedPerson *)dataModel;
+    
     switch (index) {
         case 0:
         {
@@ -79,8 +82,12 @@
             break;
     }
     
-    self.detailLb.frame = CGRectMake(self.titleLb.frame.origin.x + self.titleLb.frame.size.width+ CELL_OFFSET_TITLE, self.titleLb.frame.origin.y, DETAIL_LB_W, lbH);
-    self.detailLb.text = @"测试测试测试";
+    self.detailLb.frame = CGRectMake(self.titleLb.frame.origin.x + self.titleLb.frame.size.width+ CELL_OFFSET_TITLE, self.titleLb.frame.origin.y, DETAIL_LB_W, lbH );
+    if (index == 0) {
+        self.detailLb.text = item.phone;
+    }
+    else
+        self.detailLb.text = @"casa没给我字段，擦";
     
     return YES;
 }
