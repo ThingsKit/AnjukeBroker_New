@@ -8,6 +8,6 @@
 
 #import "RTAPIBaseManager.h"
 
-@interface AXMessageCenterGetUserOldMessageManager : RTAPIBaseManager
+@interface AXMessageCenterGetUserOldMessageManager : RTAPIBaseManager<RTAPIManagerParamSourceDelegate,RTAPIManagerValidator>
 
 @end

@@ -60,8 +60,7 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 - (void)fetchedPersonWithUID:(NSString *)uid withBlock:(void(^)(AXMappedPerson *person))personInfoBlock;
 - (void)removeFriendWithMyPhone:(NSString *)phone deleteUid:(NSArray *)deleteUid compeletionBlock:(void(^)(BOOL isSuccess))deleteFriendBlock;
 
-- (void)updataUserPassword:(NSString *)newPassWord compeletionBlock:(void(^)(BOOL isSuccess))updatePWDBlock;
-- (void)updataUserInformation:(AXMappedPerson *)newInformation compeletionBlock:(void(^)(BOOL isSuccess))updateUserInfo;
+- (void)updataUserInformation:(AXMappedPerson *)newInformation compeletionBlock:(void (^)(BOOL))updateUserInfo;
 
 - (void)sendMessage:(AXMappedMessage *)message willSendMessage:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status))sendMessageBlock;
 - (void)reSendMessage:(NSString *)identifier willSendMessage:(void (^)(AXMappedMessage *, AXMessageCenterSendMessageStatus))sendMessageBlock;
@@ -80,8 +79,5 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 - (void)updatePerson:(AXMappedPerson *)person;
 - (AXMappedPerson *)fetchCurrentPerson;
 - (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID;
-
-#warning Test
-- (void)receiveMessage;
 
 @end

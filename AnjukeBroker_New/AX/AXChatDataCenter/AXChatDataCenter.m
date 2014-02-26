@@ -76,7 +76,7 @@
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:tempManagedObjectContext];
         fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:NO]];
-        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"sendTime <= %@ AND ( from = %@ OR to = %@ )", lastMessage.sendTime, friendUID, friendUID];
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"sendTime < %@ AND ( from = %@ OR to = %@ )", lastMessage.sendTime, friendUID, friendUID];
         fetchRequest.fetchLimit = pageSize;
         __autoreleasing NSError *error;
         NSArray *result = [tempManagedObjectContext executeFetchRequest:fetchRequest error:&error];
@@ -93,22 +93,37 @@
 }
 
 #pragma mark - message related methods
-- (AXMappedMessage *)addMessage:(AXMappedMessage *)message saveImmediatly:(BOOL)save
+- (AXMappedMessage *)willSendMessage:(AXMappedMessage *)message
 {
     AXMessage *messageToInsert = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
     [messageToInsert assignPropertiesFromMappedObject:message];
     [self addConversationListItemWithMessage:message];
-    
-    if (save) {
-        __autoreleasing NSError *error;
-        [self.managedObjectContext save:&error];
-        return [messageToInsert convertToMappedObject];
-    } else {
-        return nil;
-    }
+    __autoreleasing NSError *error;
+    [self.managedObjectContext save:&error];
+    return [messageToInsert convertToMappedObject];
 }
 
-- (NSArray *)addMessageWithArray:(NSArray *)receivedArray
+- (AXMappedMessage *)didSuccessSendMessageWithIdentifier:(NSString *)identifier messageId:(NSString *)messageId
+{
+    AXMessage *message = [self findMessageWithIdentifier:identifier];
+    if (message) {
+        message.sendStatus = @(AXMessageCenterSendMessageStatusSuccessful);
+    }
+    [self.managedObjectContext save:NULL];
+    return [message convertToMappedObject];
+}
+
+- (AXMappedMessage *)didFailSendMessageWithIdentifier:(NSString *)identifier
+{
+    AXMessage *message = [self findMessageWithIdentifier:identifier];
+    if (message) {
+        message.sendStatus = @(AXMessageCenterSendMessageStatusFailed);
+    }
+    [self.managedObjectContext save:NULL];
+    return [message convertToMappedObject];
+}
+
+- (NSArray *)didReceiveWithMessageDataArray:(NSArray *)receivedArray
 {
     NSMutableArray *messageArray = [[NSMutableArray alloc] initWithCapacity:0];
     
@@ -223,12 +238,18 @@
 - (void)saveDraft:(NSString *)content friendUID:(NSString *)friendUID
 {
     AXConversationListItem *conversationListItem = [self findConversationListItemWithFriendUID:friendUID];
-    if (!conversationListItem) {
-        conversationListItem = [NSEntityDescription insertNewObjectForEntityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
+    if ([content isEqualToString:@""]) {
+        if (conversationListItem) {
+            [self.managedObjectContext deleteObject:conversationListItem];
+        }
+    } else {
+        if (!conversationListItem) {
+            conversationListItem = [NSEntityDescription insertNewObjectForEntityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
+        }
+        conversationListItem.messageType = @(AXConversationListItemTypeDraft);
+        conversationListItem.messageTip = content;
+        [self.managedObjectContext save:NULL];
     }
-    conversationListItem.messageType = @(AXConversationListItemTypeDraft);
-    conversationListItem.messageTip = content;
-    [self.managedObjectContext save:NULL];
 }
 
 #pragma mark - conversation List
@@ -317,21 +338,47 @@
 }
 
 #pragma mark - add friends
-- (void)willAddFriend:(AXMappedPerson *)person
+- (BOOL)isFriendWithFriendUid:(NSString *)friendUid
 {
-    AXPerson *personToInsert = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
-    [personToInsert assignPropertiesFromMappedObject:person];
-    personToInsert.isPendingForAdd = [NSNumber numberWithBool:YES];
-    personToInsert.isPendingForRemove = [NSNumber numberWithBool:NO];
-    __autoreleasing NSError *error;
-    [self.managedObjectContext save:&error];
-    NSLog(@"%@", error);
+    AXPerson *person = [self findPersonWithUID:friendUid];
+    if (person) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
-- (void)didAddFriendWithUid:(NSString *)uid
+- (void)willAddFriendWithUid:(NSString *)friendUid
 {
-    AXPerson *personToModify = [self findPersonWithUID:uid];
-    personToModify.isPendingForAdd = [NSNumber numberWithBool:NO];
+    AXPerson *person = [self findPersonWithUID:friendUid];
+    if (!person) {
+        person = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+    }
+    person.isPendingForAdd = [NSNumber numberWithBool:YES];
+    person.isPendingForRemove = [NSNumber numberWithBool:NO];
+    [self.managedObjectContext save:NULL];
+}
+
+- (void)didAddFriendWithFriendData:(NSDictionary *)friendData
+{
+    AXPerson *person = [self findPersonWithUID:friendData[@"user_id"]];
+    if (!person) {
+        person = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+    }
+    person.created = [NSDate dateWithTimeIntervalSince1970:[friendData[@"create"] integerValue]];
+    person.iconUrl = friendData[@"icon"];
+    person.isPendingForAdd = [NSNumber numberWithBool:NO];
+    person.isPendingForRemove = [NSNumber numberWithBool:NO];
+    person.lastActiveTime = [NSDate dateWithTimeIntervalSince1970:[friendData[@"last_update"] integerValue]];
+    person.lastUpdate = [NSDate dateWithTimeIntervalSinceNow:0];
+    person.name = friendData[@"nick_name"];
+    person.namePinyin = friendData[@"nick_name_pinyin"];
+    person.markName = friendData[@"mark_name"]?friendData[@"mark_name"]:@"";
+    person.markNamePinyin = friendData[@"mark_name_pinyin"]?friendData[@"mark_name_pinyin"]:@"";
+    person.phone = friendData[@"phone"];
+    person.uid = friendData[@"user_id"];
+    person.userType = @([friendData[@"user_type"] integerValue]);
+    
     [self.managedObjectContext save:NULL];
 }
 
@@ -565,6 +612,14 @@
     } else {
         return nil;
     }
+}
+
+- (AXMessage *)findLastMessageWithFriendUid:(NSString *)friendUid
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+//    fetchRequest.predicate = 
+    return nil;
 }
 
 @end

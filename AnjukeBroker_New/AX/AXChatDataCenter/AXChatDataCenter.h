@@ -35,8 +35,11 @@
 - (void)fetchChatListByLastMessage:(AXMappedMessage *)lastMessage pageSize:(NSUInteger)pageSize;
 
 // message related methods
-- (AXMappedMessage *)addMessage:(AXMappedMessage *)message saveImmediatly:(BOOL)save;
-- (NSArray *)addMessageWithArray:(NSArray *)receivedArray;
+- (AXMappedMessage *)willSendMessage:(AXMappedMessage *)message;
+- (AXMappedMessage *)didSuccessSendMessageWithIdentifier:(NSString *)identifier messageId:(NSString *)messageId;
+- (AXMappedMessage *)didFailSendMessageWithIdentifier:(NSString *)identifier;
+
+- (NSArray *)didReceiveWithMessageDataArray:(NSArray *)receivedArray;
 - (void)deleteMessageByIdentifier:(NSString *)identifier;
 - (void)updateMessage:(AXMappedMessage *)message;
 - (NSString *)lastMsgId;
@@ -55,8 +58,9 @@
 - (NSArray *)friendUidListToDelete;
 
 // add friends
-- (void)willAddFriend:(AXMappedPerson *)person;
-- (void)didAddFriendWithUid:(NSString *)uid;
+- (BOOL)isFriendWithFriendUid:(NSString *)friendUid;
+- (void)willAddFriendWithUid:(NSString *)friendUid;
+- (void)didAddFriendWithFriendData:(NSDictionary *)friendData;
 - (NSArray *)friendUidListToAdd;
 
 // fetch and update friends
