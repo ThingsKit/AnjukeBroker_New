@@ -8,11 +8,11 @@
 
 #import "houseSelectViewController.h"
 
-@interface houseSelectViewController ()
+@interface HouseSelectViewController ()
 
 @end
 
-@implementation houseSelectViewController
+@implementation HouseSelectViewController
 @synthesize tableList;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

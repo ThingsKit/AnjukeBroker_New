@@ -77,9 +77,9 @@
 		20A2177818BF118E002CA469 /* anjuke_icon_attention@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A2177618BF118E002CA469 /* anjuke_icon_attention@2x.png */; };
 		20A2177918BF118E002CA469 /* anjuke_icon_fasonging@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A2177718BF118E002CA469 /* anjuke_icon_fasonging@2x.png */; };
 		20A2178518BF1804002CA469 /* CommunitySelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2177C18BF1804002CA469 /* CommunitySelectViewController.m */; };
-		20A2178618BF1804002CA469 /* houseSelectCommunityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2177E18BF1804002CA469 /* houseSelectCommunityCell.m */; };
-		20A2178718BF1804002CA469 /* houseSelectNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2178018BF1804002CA469 /* houseSelectNavigationController.m */; };
-		20A2178818BF1804002CA469 /* houseSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2178218BF1804002CA469 /* houseSelectViewController.m */; };
+		20A2178618BF1804002CA469 /* HouseSelectCommunityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2177E18BF1804002CA469 /* HouseSelectCommunityCell.m */; };
+		20A2178718BF1804002CA469 /* HouseSelectNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2178018BF1804002CA469 /* HouseSelectNavigationController.m */; };
+		20A2178818BF1804002CA469 /* HouseSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2178218BF1804002CA469 /* HouseSelectViewController.m */; };
 		20A2178918BF1804002CA469 /* PropertySelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2178418BF1804002CA469 /* PropertySelectViewController.m */; };
 		20A217C118BF1BD4002CA469 /* AXChatDataCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2179118BF1BD4002CA469 /* AXChatDataCenter.m */; };
 		20A217C218BF1BD4002CA469 /* NSArray+ExtraMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2179418BF1BD4002CA469 /* NSArray+ExtraMethods.m */; };
@@ -551,12 +551,12 @@
 		20A2177718BF118E002CA469 /* anjuke_icon_fasonging@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_fasonging@2x.png"; sourceTree = "<group>"; };
 		20A2177B18BF1804002CA469 /* CommunitySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommunitySelectViewController.h; sourceTree = "<group>"; };
 		20A2177C18BF1804002CA469 /* CommunitySelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommunitySelectViewController.m; sourceTree = "<group>"; };
-		20A2177D18BF1804002CA469 /* houseSelectCommunityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = houseSelectCommunityCell.h; sourceTree = "<group>"; };
-		20A2177E18BF1804002CA469 /* houseSelectCommunityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = houseSelectCommunityCell.m; sourceTree = "<group>"; };
-		20A2177F18BF1804002CA469 /* houseSelectNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = houseSelectNavigationController.h; sourceTree = "<group>"; };
-		20A2178018BF1804002CA469 /* houseSelectNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = houseSelectNavigationController.m; sourceTree = "<group>"; };
-		20A2178118BF1804002CA469 /* houseSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = houseSelectViewController.h; sourceTree = "<group>"; };
-		20A2178218BF1804002CA469 /* houseSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = houseSelectViewController.m; sourceTree = "<group>"; };
+		20A2177D18BF1804002CA469 /* HouseSelectCommunityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HouseSelectCommunityCell.h; sourceTree = "<group>"; };
+		20A2177E18BF1804002CA469 /* HouseSelectCommunityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HouseSelectCommunityCell.m; sourceTree = "<group>"; };
+		20A2177F18BF1804002CA469 /* HouseSelectNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HouseSelectNavigationController.h; sourceTree = "<group>"; };
+		20A2178018BF1804002CA469 /* HouseSelectNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HouseSelectNavigationController.m; sourceTree = "<group>"; };
+		20A2178118BF1804002CA469 /* HouseSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HouseSelectViewController.h; sourceTree = "<group>"; };
+		20A2178218BF1804002CA469 /* HouseSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HouseSelectViewController.m; sourceTree = "<group>"; };
 		20A2178318BF1804002CA469 /* PropertySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertySelectViewController.h; sourceTree = "<group>"; };
 		20A2178418BF1804002CA469 /* PropertySelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertySelectViewController.m; sourceTree = "<group>"; };
 		20A2179018BF1BD4002CA469 /* AXChatDataCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatDataCenter.h; sourceTree = "<group>"; };
@@ -1347,12 +1347,12 @@
 		20A2178A18BF19CC002CA469 /* 房源选择底层 */ = {
 			isa = PBXGroup;
 			children = (
-				20A2178118BF1804002CA469 /* houseSelectViewController.h */,
-				20A2178218BF1804002CA469 /* houseSelectViewController.m */,
-				20A2177D18BF1804002CA469 /* houseSelectCommunityCell.h */,
-				20A2177E18BF1804002CA469 /* houseSelectCommunityCell.m */,
-				20A2177F18BF1804002CA469 /* houseSelectNavigationController.h */,
-				20A2178018BF1804002CA469 /* houseSelectNavigationController.m */,
+				20A2178118BF1804002CA469 /* HouseSelectViewController.h */,
+				20A2178218BF1804002CA469 /* HouseSelectViewController.m */,
+				20A2177D18BF1804002CA469 /* HouseSelectCommunityCell.h */,
+				20A2177E18BF1804002CA469 /* HouseSelectCommunityCell.m */,
+				20A2177F18BF1804002CA469 /* HouseSelectNavigationController.h */,
+				20A2178018BF1804002CA469 /* HouseSelectNavigationController.m */,
 			);
 			name = "房源选择底层";
 			sourceTree = "<group>";
@@ -2893,7 +2893,7 @@
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,
 				97CB0C10182BEA3500FCCBBD /* ELCImagePickerController.m in Sources */,
 				B7E69BAE183B15430097D5C3 /* RentPPCGroupCell.m in Sources */,
-				20A2178818BF1804002CA469 /* houseSelectViewController.m in Sources */,
+				20A2178818BF1804002CA469 /* HouseSelectViewController.m in Sources */,
 				20A217C818BF1BD4002CA469 /* AXMappedPerson.m in Sources */,
 				20578B9F1898ABCC0086B93D /* PropertyEditViewController.m in Sources */,
 				20A217C618BF1BD4002CA469 /* AXMappedConversationListItem.m in Sources */,
@@ -3008,7 +3008,7 @@
 				2011CD8218AB1D5300EEEA5C /* SystemMessageDetailViewController.m in Sources */,
 				B721095518278B4E00904FC7 /* SalePropertyListCell.m in Sources */,
 				2026044818B9D6CA00F75A56 /* ClientModel.m in Sources */,
-				20A2178618BF1804002CA469 /* houseSelectCommunityCell.m in Sources */,
+				20A2178618BF1804002CA469 /* HouseSelectCommunityCell.m in Sources */,
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
 				B7E55B3718BF217A007238CB /* AXELCAssetCell.m in Sources */,
 				2079ADDE18B5D64B0029D493 /* ClientEditViewController.m in Sources */,
@@ -3037,7 +3037,7 @@
 				97192EE71818FEF7007971BA /* PhotoButton.m in Sources */,
 				B7E55B5218BF2190007238CB /* UIImage+JSMessagesView.m in Sources */,
 				20A2178918BF1804002CA469 /* PropertySelectViewController.m in Sources */,
-				20A2178718BF1804002CA469 /* houseSelectNavigationController.m in Sources */,
+				20A2178718BF1804002CA469 /* HouseSelectNavigationController.m in Sources */,
 				97C97B461810DD34006E538B /* TabBarViewController.m in Sources */,
 				20D3C24C1892466B0030D7D8 /* PhotoFooterView.m in Sources */,
 				B7E55B3E18BF217A007238CB /* UIImage+AXChatMessage.m in Sources */,

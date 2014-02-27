@@ -17,7 +17,7 @@ typedef enum {
     rentPropertyHouse
 }pageTypePropertyFrom;
 
-@interface PropertySelectViewController : houseSelectViewController
+@interface PropertySelectViewController : HouseSelectViewController
 @property(nonatomic,assign) pageTypePropertyFrom  pageTypePropertyFrom;
 @property(nonatomic,strong) NSDictionary *commDic;
 @property(nonatomic,strong) NSMutableArray *arr;

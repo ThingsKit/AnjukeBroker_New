@@ -8,7 +8,7 @@
 
 #import "RTNavigationController.h"
 
-@protocol selectedHouseWithDicDelegate<NSObject>
+@protocol SelectedHouseWithDicDelegate<NSObject>
 
 -(void)returnSelectedHouseDic:(NSDictionary *)dic houseType:(BOOL)houseType;
 
@@ -16,5 +16,5 @@
 
 @interface HouseSelectNavigationController : RTNavigationController
 
-@property(nonatomic,assign) id<selectedHouseWithDicDelegate> selectedHouseDelgate;
+@property(nonatomic,assign) id<SelectedHouseWithDicDelegate> selectedHouseDelgate;
 @end

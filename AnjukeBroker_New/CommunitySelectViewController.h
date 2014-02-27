@@ -7,7 +7,7 @@
 //
 
 #import "houseSelectViewController.h"
-#import "houseSelectCommunityCell.h"
+#import "HouseSelectCommunityCell.h"
 #import "AppManager.h"
 #import "LoginManager.h"
 #import "PropertySelectViewController.h"
@@ -20,7 +20,7 @@ typedef enum {
     rentHouse
 }pageTypeFrom;
 
-@interface CommunitySelectViewController : houseSelectViewController
+@interface CommunitySelectViewController : HouseSelectViewController
 @property(nonatomic,assign) pageTypeFrom pageTypeFrom;
 @property(nonatomic,strong) NSMutableArray *arr;
 

@@ -98,9 +98,9 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellName = @"cellName";
-    houseSelectCommunityCell *cell = [tableView dequeueReusableCellWithIdentifier:cellName];
+    HouseSelectCommunityCell *cell = [tableView dequeueReusableCellWithIdentifier:cellName];
     if (cell == nil) {
-        cell = [[houseSelectCommunityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellName];
+        cell = [[HouseSelectCommunityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellName];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     [cell insertCellWithDic:[arr objectAtIndex:indexPath.row]];
@@ -122,7 +122,9 @@
     [self.navigationController pushViewController:ProLVC animated:YES];
 }
 
-
+- (void)doBack:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

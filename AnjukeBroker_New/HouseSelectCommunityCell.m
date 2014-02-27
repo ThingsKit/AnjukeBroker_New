@@ -6,9 +6,9 @@
 //  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
 
-#import "houseSelectCommunityCell.h"
+#import "HouseSelectCommunityCell.h"
 
-@implementation houseSelectCommunityCell
+@implementation HouseSelectCommunityCell
 @synthesize communityNameLab;
 @synthesize detailLab;
 

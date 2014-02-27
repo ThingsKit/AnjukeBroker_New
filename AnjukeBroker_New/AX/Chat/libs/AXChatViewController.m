@@ -32,6 +32,7 @@
 
 #import "AXBigIMGSViewController.h"
 #import "AXChatWebViewController.h"
+#import "CommunitySelectViewController.h"
 
 #import "AXPhotoManager.h"
 
@@ -268,6 +269,7 @@ static NSInteger const AXMessagePageSize = 15;
         mappedMessageProp.messageType = [NSNumber numberWithInteger:AXMessageTypeProperty];
         [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
     }
+    self.propDict = nil;
 }
 
 - (void)addMessageNotifycation
@@ -769,7 +771,11 @@ static NSInteger const AXMessagePageSize = 15;
 }
 
 - (void)pickAJK:(id)sender {
-    
+    CommunitySelectViewController *controller = [[CommunitySelectViewController alloc] init];
+    controller.pageTypeFrom = secondHandHouse;
+    HouseSelectNavigationController *nav = [[HouseSelectNavigationController alloc] initWithRootViewController:controller];
+    nav.selectedHouseDelgate = self;
+    [self presentViewController:nav animated:YES completion:nil];
 //    NSDictionary *roomSource = @{@"title": @"中房二期花园，地理位置好",@"price":@"12000",@"roomType":@"3房两厅",@"area":@"200",@"floor":@"13/14",@"year":@"2005",@"messageType":[NSNumber numberWithInteger:AXMessageTypeProperty],@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationIncoming]};
 //    [self.cellData addObject:roomSource];
 //    [self reloadMytableView];
@@ -1236,5 +1242,9 @@ static NSInteger const AXMessagePageSize = 15;
     [textView resignFirstResponder];
 }
 
-
+-(void)returnSelectedHouseDic:(NSDictionary *)dic houseType:(BOOL)houseType {
+    NSMutableDictionary *propertyDic = [NSMutableDictionary dictionaryWithDictionary:@{@"id":@"123456", @"des":@"一室一厅10卫", @"img":@"http://pic1.ajkimg.com/display/hz/0b291a7f8ea98bf2eb32906e3888a6bf/420x315.jpg", @"name":@"中远小区", @"price":@"30/月"}];
+    self.propDict = propertyDic;
+    [self sendNewMessage];
+}
 @end

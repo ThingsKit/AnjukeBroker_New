@@ -9,7 +9,7 @@
 #import "RTListCell.h"
 #import "Util_UI.h"
 
-@interface houseSelectCommunityCell : RTListCell
+@interface HouseSelectCommunityCell : RTListCell
 
 @property(nonatomic,strong) UILabel *communityNameLab;
 @property(nonatomic,strong) UILabel *detailLab;

@@ -115,12 +115,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+    [[(HouseSelectNavigationController *)self.navigationController selectedHouseDelgate] returnSelectedHouseDic:[self.arr objectAtIndex:indexPath.row] houseType:self.pageTypePropertyFrom == secondHandPropertyHouse ? YES : NO];
+
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         if ([[(HouseSelectNavigationController *)self.navigationController selectedHouseDelgate] respondsToSelector:@selector(returnSelectedHouseDic:houseType:)]) {
-            
-            //选择房源列表后，delegate 房源的dic数据以及房源类型：二手房,bool为yes，否则为no
-            [[(HouseSelectNavigationController *)self.navigationController selectedHouseDelgate] returnSelectedHouseDic:[self.arr objectAtIndex:indexPath.row] houseType:self.pageTypePropertyFrom == secondHandPropertyHouse ? YES : NO];
         }
     }];
 }

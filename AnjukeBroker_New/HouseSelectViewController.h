@@ -7,13 +7,13 @@
 //
 
 #import "RTViewController.h"
-#import "houseSelectCommunityCell.h"
+#import "HouseSelectCommunityCell.h"
 #import "PropertyDetailCell.h"
 #import "CellHeight.h"
 #import "AppManager.h"
 #import "LoginManager.h"
 
-@interface houseSelectViewController : RTViewController<UITableViewDataSource,UITableViewDelegate>
+@interface HouseSelectViewController : RTViewController<UITableViewDataSource,UITableViewDelegate>
 
 @property(nonatomic,strong) UITableView *tableList;
 
