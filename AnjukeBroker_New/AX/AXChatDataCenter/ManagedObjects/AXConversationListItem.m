@@ -40,6 +40,7 @@
     mappedConversationListItem.presentName = self.presentName;
     mappedConversationListItem.messageStatus = self.messageStatus;
     mappedConversationListItem.hasDraft = [self.hasDraft boolValue];
+    mappedConversationListItem.draftContent = self.draftContent;
     return mappedConversationListItem;
 }
 
@@ -57,6 +58,7 @@
     self.presentName = mappedConversationListItem.presentName;
     self.messageStatus = [NSNumber numberWithInteger:mappedConversationListItem.messageStatus];
     self.hasDraft = [NSNumber numberWithBool:self.hasDraft];
+    self.draftContent = mappedConversationListItem.draftContent;
 }
 
 @end

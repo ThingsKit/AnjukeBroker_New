@@ -69,8 +69,9 @@
     [self.contentView addSubview:timeLabel];
     
     UILabel *messageLabel = [[UILabel alloc] init];
+//    messageLb.frame = CGRectMake(20, 20, 200, 20);
     self.messageLb = messageLabel;
-    messageLabel.backgroundColor = [UIColor clearColor];
+    messageLabel.backgroundColor = [UIColor greenColor];
     messageLabel.textColor = SYSTEM_LIGHT_GRAY;
     messageLabel.font = [UIFont systemFontOfSize:12];
     [self.contentView addSubview:messageLabel];
@@ -143,11 +144,11 @@
     CGFloat messageLabelH = 15;
     CGFloat messageLabelW = 220;
     
-    CGFloat iconW = 20;
+    CGFloat iconW = 35;
     CGFloat iconH = 15;
     
-    CGFloat offsetX = self.nameLb.frame.origin.x + self.frame.size.width;
-    CGFloat offsetY = self.nameLb.frame.origin.y + self.nameLb.frame.size.height + 10;
+    CGFloat offsetX = self.nameLb.frame.origin.x;
+    CGFloat offsetY = self.nameLb.frame.origin.y + self.nameLb.frame.size.height + 5;
     
     CGRect iconFrame = CGRectMake(offsetX, offsetY, iconW, iconH);
     CGRect messageFrame_icon = CGRectMake(offsetX + iconW, offsetY, messageLabelW, messageLabelH);
@@ -171,10 +172,14 @@
             if ([item.messageStatus integerValue] == AXMessageCenterSendMessageStatusSending) { //发送中
                 self.statusIcon.image = [UIImage imageNamed:@"anjuke_icon_fasonging.png"];
                 self.statusIcon.frame = iconFrame;
+                
+                self.messageLb.frame = messageFrame_icon;
             }
             else if ([item.messageStatus integerValue] == AXMessageCenterSendMessageStatusFailed) {
                 self.statusIcon.image = [UIImage imageNamed:@"anjuke_icon_attention.png"];
                 self.statusIcon.frame = iconFrame;
+                
+                self.messageLb.frame = messageFrame_icon;
             }
             
             self.messageLb.text = item.messageTip;

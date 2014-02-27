@@ -12,6 +12,7 @@
 #import "AXMessage.h"
 #import "AXConversationListItem.h"
 #import "NSArray+ExtraMethods.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface AXChatDataCenter ()
 
@@ -33,7 +34,6 @@
         NSURL *momdUrl = [[NSBundle mainBundle] URLForResource:@"XChatData" withExtension:@"momd"];
         _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momdUrl];
         [self switchToUID:uid];
-        
     }
     return self;
 }
@@ -62,17 +62,18 @@
 
 
 #pragma mark - test methods
-- (void)test
-{
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
-    fetchRequest.entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
-    
-    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
-    for (AXPerson *person in result) {
-        NSLog(@"%@", person.isPendingForRemove);
-    }
-}
+//- (void)test
+//{
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+//    
+//    fetchRequest.entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+//    
+//    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+//    for (AXPerson *person in result) {
+//        NSLog(@"%@", person.isPendingForRemove);
+//    }
+//    NSLog(@"%@",result);
+//}
 
 #pragma mark - message related list
 - (void)fetchChatListByLastMessage:(AXMappedMessage *)lastMessage pageSize:(NSUInteger)pageSize;
@@ -106,9 +107,10 @@
 #pragma mark - message related methods
 - (AXMappedMessage *)willSendMessage:(AXMappedMessage *)message
 {
+    message.sendStatus = @(AXMessageCenterSendMessageStatusSending);
+    message.sendTime = [NSDate dateWithTimeIntervalSinceNow:0];
     AXMessage *messageToInsert = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
     [messageToInsert assignPropertiesFromMappedObject:message];
-    messageToInsert.sendTime = [NSDate dateWithTimeIntervalSinceNow:0];
     [self updateConversationListItemWithMessage:message];
     __autoreleasing NSError *error;
     [self.managedObjectContext save:&error];
@@ -139,12 +141,16 @@
 - (NSDictionary *)didReceiveWithMessageDataArray:(NSArray *)receivedArray
 {
     NSMutableDictionary *messageDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
+    NSMutableDictionary *splitedDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
     
     for (NSDictionary *item in receivedArray) {
         NSString *friendUID = item[@"from_uid"];
         NSMutableArray *messageArray = [[NSMutableArray alloc] initWithCapacity:0];
 #warning todo add system time notification
-        AXMessage *lastMessage = [self findLastMessageWithFriendUid:friendUID];
+        
+        NSMutableArray *picMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
+        NSMutableArray *commonMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
+        
         for (NSDictionary *message in item[@"messages"]) {
 
             AXMessageType messageType = [message[@"msg_type"] integerValue];
@@ -183,6 +189,13 @@
             } else {
                 managedMessage.isRead = [NSNumber numberWithBool:NO];
             }
+            
+            if (messageType == AXMessageTypePic) {
+                [picMessageArray addObject:[managedMessage convertToMappedObject]];
+            } else {
+                [commonMessageArray addObject:[managedMessage convertToMappedObject]];
+            }
+            
             [messageArray addObject:[managedMessage convertToMappedObject]];
         }
         
@@ -190,10 +203,28 @@
         [self.managedObjectContext save:&error];
         [self updateConversationListItemWithMessage:[messageArray firstObject]];
         messageDictionary[friendUID] = [messageArray reverseSelf];
+        
+        splitedDictionary[friendUID] = @{@"pic":picMessageArray, @"other":commonMessageArray};
     }
     
     __autoreleasing NSError *error;
     [self.managedObjectContext save:&error];
+    
+    if (self.friendUid) {
+        CFStringRef state;
+        UInt32 propertySize = sizeof(CFStringRef);
+        AudioSessionInitialize(NULL, NULL, NULL, NULL);
+        AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &propertySize, &state);
+        
+        if (CFStringGetLength(state) > 0) {
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+        } else {
+            AudioServicesPlaySystemSound(1015);
+        }
+    }
+    
+    [self.delegate dataCenter:self didReceiveMessages:splitedDictionary];
+    
     return messageDictionary;
 }
 
@@ -262,6 +293,7 @@
 {
     AXConversationListItem *conversationListItem = [self findConversationListItemWithFriendUID:friendUID];
     conversationListItem.draftContent = content;
+    conversationListItem.lastUpdateTime = [NSDate dateWithTimeIntervalSinceNow:0];
     if ([content isEqualToString:@""]) {
         if (conversationListItem) {
             conversationListItem.hasDraft = [NSNumber numberWithBool:NO];
@@ -439,7 +471,6 @@
 #pragma mark - fetch && update friends
 - (NSArray *)fetchFriendList
 {
-    [self test];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
     fetchRequest.entity = entity;
@@ -457,7 +488,7 @@
     NSMutableArray *friendList = [[NSMutableArray alloc] initWithCapacity:0];
     
     for (NSDictionary *mappedPerson in friendArray) {
-        AXPerson *person = [self findPersonWithUID:mappedPerson[@"id"]];
+        AXPerson *person = [self findPersonWithUID:mappedPerson[@"user_id"]];
         
         if (!person) {
             person = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
@@ -487,7 +518,8 @@
         }
     }
     
-    [self.managedObjectContext save:NULL];
+    __autoreleasing NSError *error = nil;
+    [self.managedObjectContext save:&error];
     return friendList;
 }
 
@@ -525,12 +557,11 @@
 - (NSFetchedResultsController *)friendListFetchedResultController
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
     fetchRequest.entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
-    NSAttributeDescription *firstPinYin = [fetchRequest.entity.attributesByName objectForKey:@"firstPinYin"];
-    fetchRequest.propertiesToGroupBy = @[firstPinYin];
-    
-    return [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"uid != %@", self.uid];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"uid" ascending:YES];
+    fetchRequest.sortDescriptors = @[sortDescriptor];
+    return [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"firstPinYin" cacheName:nil];
 }
 
 #pragma mark - private methods
@@ -545,9 +576,8 @@
         friendUID = message.from;
     }
     
-    
     AXConversationListItemType itemType;
-    AXMessageType messageType = message.messageType;
+    AXMessageType messageType = [message.messageType integerValue];
     NSString *messageTip;
     if (messageType == AXMessageTypeSettingNotifycation || messageType == AXMessageTypeSystemForbid || messageType == AXMessageTypeSystemTime || messageType == AXMessageTypeAddNuckName) {
         shouldUpdateConversationListItem = NO;
@@ -596,6 +626,7 @@
         conversationListItem.messageTip = messageTip;
         conversationListItem.friendUid = friendUID;
         conversationListItem.count = [NSNumber numberWithInteger:[self countUnreadMessagesWithFriendUid:friendUID]];
+        conversationListItem.messageStatus = message.sendStatus;
         
         __autoreleasing NSError *error;
         [self.managedObjectContext save:&error];

@@ -42,6 +42,7 @@ typedef NS_ENUM(NSInteger, AIF_MESSAGE_REQUEST_TAG_TYPE)
 @property (nonatomic,weak) id<AIFMessageManagerDelegate> delegate;
 @property (nonatomic,weak) id<AIFMessageSenderDelegate> MessageSenderDelegate;
 @property (nonatomic) AIF_MESSAGE_REQUEST_REGISTER_STATUS registerStatus;
+@property (nonatomic) BOOL isLoging;
 
 //+ (instancetype)sharedMessageManager;
 - (void)bindServerHost:(NSString *)host port:(NSString *)port appName:(NSString *)appName timeout:(NSTimeInterval)timeout;
