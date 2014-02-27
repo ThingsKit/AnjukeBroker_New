@@ -675,6 +675,9 @@
     for (AXMessage *message in result) {
         message.isRead = [NSNumber numberWithBool:YES];
     }
+    
+    AXConversationListItem *item = [self findConversationListItemWithFriendUID:friendUid];
+    item.count = [NSNumber numberWithInteger:0];
     [self.managedObjectContext save:NULL];
 }
 
