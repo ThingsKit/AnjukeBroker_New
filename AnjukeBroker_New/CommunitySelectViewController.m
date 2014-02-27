@@ -75,6 +75,7 @@
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[response content]];
     
     if (![resultFromAPI objectForKey:@"data"] || [[resultFromAPI objectForKey:@"data"] count] == 0) {
+        [self hideLoadWithAnimated:YES];
         [self showInfo:@"暂无数据"];
         return;
     }else{
@@ -97,29 +98,29 @@
     return COMMUNITYSELECTCELLHEIGHT;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *cellName = @"cellName";
-    HouseSelectCommunityCell *cell = [tableView dequeueReusableCellWithIdentifier:cellName];
-    if (cell == nil) {
-        cell = [[HouseSelectCommunityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellName];
+    static NSString *identifier = @"cellName";
+    HouseSelectCommunityCell *houseCell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (houseCell == nil) {
+        houseCell = [[HouseSelectCommunityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    [cell insertCellWithDic:[arr objectAtIndex:indexPath.row]];
-    [cell showBottonLineWithCellHeight:COMMUNITYSELECTCELLHEIGHT];
-    return cell;
+    houseCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [houseCell insertCellWithDic:[arr objectAtIndex:indexPath.row]];
+    [houseCell showBottonLineWithCellHeight:COMMUNITYSELECTCELLHEIGHT];
+    return houseCell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    PropertySelectViewController *ProLVC = [[PropertySelectViewController alloc] init];
-    ProLVC.backType = RTSelectorBackTypePopBack;
+    PropertySelectViewController *proLVC = [[PropertySelectViewController alloc] init];
+    proLVC.backType = RTSelectorBackTypePopBack;
     if (self.pageTypeFrom == secondHandHouse) {
-        ProLVC.pageTypePropertyFrom = secondHandPropertyHouse;
+        proLVC.pageTypePropertyFrom = secondHandPropertyHouse;
     }else{
-        ProLVC.pageTypePropertyFrom = rentPropertyHouse;
+        proLVC.pageTypePropertyFrom = rentPropertyHouse;
     }
-    [ProLVC passDataWithDic:[self.arr objectAtIndex:indexPath.row]];
+    [proLVC passDataWithDic:[self.arr objectAtIndex:indexPath.row]];
     
-    [self.navigationController pushViewController:ProLVC animated:YES];
+    [self.navigationController pushViewController:proLVC animated:YES];
 }
 
 - (void)doBack:(id)sender {
