@@ -662,7 +662,7 @@ static NSInteger const AXMessagePageSize = 15;
     [self.view addSubview:self.myTableView];
 
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGestureRecognizer:)];
-    [self.myTableView addGestureRecognizer:tap];
+//    [self.myTableView addGestureRecognizer:tap];
     
     self.moreBackView = [[UIView alloc] init];
     self.moreBackView.frame = CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);

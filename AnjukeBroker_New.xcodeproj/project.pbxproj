@@ -290,6 +290,9 @@
 		B7E43DBE18BD88C1008A2803 /* NSString+JSMessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E43D5D18BD88C1008A2803 /* NSString+JSMessagesView.m */; };
 		B7E43DBF18BD88C1008A2803 /* UIColor+JSMessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E43D5F18BD88C1008A2803 /* UIColor+JSMessagesView.m */; };
 		B7E43DC018BD88C1008A2803 /* UIImage+JSMessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E43D6118BD88C1008A2803 /* UIImage+JSMessagesView.m */; };
+		B7E5597E18BF1214007238CB /* AXPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E5597918BF1214007238CB /* AXPhoto.m */; };
+		B7E5597F18BF1214007238CB /* AXPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E5597B18BF1214007238CB /* AXPhotoBrowser.m */; };
+		B7E5598018BF1214007238CB /* AXPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E5597D18BF1214007238CB /* AXPhotoView.m */; };
 		B7E56D0B183DABD300A0F7D2 /* AnjukePropertyResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E56D0A183DABD300A0F7D2 /* AnjukePropertyResultController.m */; };
 		B7E56D0F183DBAD600A0F7D2 /* AnjukeOnlineImgController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E56D0E183DBAD600A0F7D2 /* AnjukeOnlineImgController.m */; };
 		B7E69BAE183B15430097D5C3 /* RentPPCGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E69BAD183B15430097D5C3 /* RentPPCGroupCell.m */; };
@@ -890,6 +893,12 @@
 		B7E43D5F18BD88C1008A2803 /* UIColor+JSMessagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+JSMessagesView.m"; sourceTree = "<group>"; };
 		B7E43D6018BD88C1008A2803 /* UIImage+JSMessagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+JSMessagesView.h"; sourceTree = "<group>"; };
 		B7E43D6118BD88C1008A2803 /* UIImage+JSMessagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+JSMessagesView.m"; sourceTree = "<group>"; };
+		B7E5597818BF1214007238CB /* AXPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPhoto.h; sourceTree = "<group>"; };
+		B7E5597918BF1214007238CB /* AXPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPhoto.m; sourceTree = "<group>"; };
+		B7E5597A18BF1214007238CB /* AXPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPhotoBrowser.h; sourceTree = "<group>"; };
+		B7E5597B18BF1214007238CB /* AXPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPhotoBrowser.m; sourceTree = "<group>"; };
+		B7E5597C18BF1214007238CB /* AXPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPhotoView.h; sourceTree = "<group>"; };
+		B7E5597D18BF1214007238CB /* AXPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPhotoView.m; sourceTree = "<group>"; };
 		B7E56D09183DABD300A0F7D2 /* AnjukePropertyResultController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukePropertyResultController.h; sourceTree = "<group>"; };
 		B7E56D0A183DABD300A0F7D2 /* AnjukePropertyResultController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukePropertyResultController.m; sourceTree = "<group>"; };
 		B7E56D0D183DBAD600A0F7D2 /* AnjukeOnlineImgController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukeOnlineImgController.h; sourceTree = "<group>"; };
@@ -2251,6 +2260,7 @@
 		B79218C618BB9D380021933A /* AX */ = {
 			isa = PBXGroup;
 			children = (
+				B7E5597618BF11FC007238CB /* ImgBrowser */,
 				20A2172E18BF07BE002CA469 /* AXChatDataCenter */,
 				20A2174418BF07BE002CA469 /* AXMessageCenter */,
 				B7EE325F18BE2811003BE8EC /* Chat */,
@@ -2286,6 +2296,19 @@
 				B7E43D6118BD88C1008A2803 /* UIImage+JSMessagesView.m */,
 			);
 			path = JSMessage;
+			sourceTree = "<group>";
+		};
+		B7E5597618BF11FC007238CB /* ImgBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				B7E5597818BF1214007238CB /* AXPhoto.h */,
+				B7E5597918BF1214007238CB /* AXPhoto.m */,
+				B7E5597A18BF1214007238CB /* AXPhotoBrowser.h */,
+				B7E5597B18BF1214007238CB /* AXPhotoBrowser.m */,
+				B7E5597C18BF1214007238CB /* AXPhotoView.h */,
+				B7E5597D18BF1214007238CB /* AXPhotoView.m */,
+			);
+			path = ImgBrowser;
 			sourceTree = "<group>";
 		};
 		B7EE325F18BE2811003BE8EC /* Chat */ = {
@@ -2783,6 +2806,7 @@
 				97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */,
 				20A2177218BF07BE002CA469 /* AXMessageCenterUpdataPasswordManager.m in Sources */,
 				B7E56D0B183DABD300A0F7D2 /* AnjukePropertyResultController.m in Sources */,
+				B7E5597E18BF1214007238CB /* AXPhoto.m in Sources */,
 				B7E69BBE183B5B000097D5C3 /* SaleGroupListController.m in Sources */,
 				97A606811816C2A50041B367 /* InputOrderManager.m in Sources */,
 				97ACD09C1843357E00D88CB6 /* AccountManager.m in Sources */,
@@ -2839,6 +2863,7 @@
 				B7E43DBC18BD88C1008A2803 /* JSMessageInputView.m in Sources */,
 				97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */,
 				206843E418890C9A007DD8C5 /* PublishBuildingViewController.m in Sources */,
+				B7E5597F18BF1214007238CB /* AXPhotoBrowser.m in Sources */,
 				97410565180CDFE0004DAE95 /* AppDelegate.m in Sources */,
 				B7921A2918BB9E5A0021933A /* RTAPIBaseManager.m in Sources */,
 				20E892DA18BDBAA300D7D881 /* ChatModel.m in Sources */,
@@ -2875,6 +2900,7 @@
 				B769E48C181FA89000A2FF50 /* PPCGroupCell.m in Sources */,
 				B7E69BBB183B4DDB0097D5C3 /* BaseModifyCostController.m in Sources */,
 				B77A960C182A3369007F04E3 /* SaleNoPlanListManager.m in Sources */,
+				B7E5598018BF1214007238CB /* AXPhotoView.m in Sources */,
 				971D60921849CEA5006B07C9 /* NoNetworkView.m in Sources */,
 				B702BA4518921752002E2DC7 /* FindPropertyCell.m in Sources */,
 				972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */,
