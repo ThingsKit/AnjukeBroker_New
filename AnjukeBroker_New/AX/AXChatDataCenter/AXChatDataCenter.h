@@ -72,5 +72,6 @@
 - (NSArray *)saveFriendListWithPersonArray:(NSArray *)friendArray;
 - (NSArray *)fetchFriendList;
 - (AXMappedPerson *)fetchCurrentPerson;
+- (NSFetchedResultsController *)friendListFetchedResultController;
 
 @end

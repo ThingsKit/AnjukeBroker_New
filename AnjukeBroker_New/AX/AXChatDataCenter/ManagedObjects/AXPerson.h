@@ -29,6 +29,7 @@
 @property (nonatomic, retain) NSString * uid;
 @property (nonatomic, retain) NSString * company;
 @property (nonatomic, retain) NSNumber * userType;
+@property (nonatomic, retain) NSString * firstPinYin;
 
 - (void)assignPropertiesFromMappedObject:(AXMappedPerson *)person;
 - (AXMappedPerson *)convertToMappedPerson;

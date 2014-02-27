@@ -89,4 +89,5 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 
 - (void)getUserOldMessage;
 - (void)didLeaveChattingList;
+- (NSFetchedResultsController *)friendListFetchedResultController;
 @end

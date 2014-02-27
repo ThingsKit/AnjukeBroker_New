@@ -98,7 +98,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         
         self.messsageIdentity = [[NSMutableArray alloc] init];
         self.blockDictionary = [[NSMutableDictionary alloc] init];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectToServer) name:@"REFRESH_MENU_TABLE" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectToServer) name:@"LOGIN_NOTIFICATION" object:nil];
         
     }
     return self;
@@ -114,7 +114,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     mySelf.markName = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"nick_name"]];
     mySelf.iconUrl = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"icon"]];
     mySelf.markNamePinyin = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"nick_name_pinyin"]];
-    mySelf.userType = [NSNumber numberWithInt:[loginResult[@"user_info"][@"user_type"] integerValue]];
+    mySelf.userType = [loginResult[@"user_info"][@"user_type"] integerValue];
     
     [self.dataCenter updatePerson:mySelf];
     
@@ -561,6 +561,11 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 - (void)didLeaveChattingList
 {
     [self.dataCenter didLeaveChattingList];
+}
+
+- (NSFetchedResultsController *)friendListFetchedResultController
+{
+    return [self.dataCenter friendListFetchedResultController];
 }
 
 #pragma mark - AXChatDataCenterDelegate

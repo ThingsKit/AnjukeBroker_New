@@ -143,6 +143,8 @@
     for (NSDictionary *item in receivedArray) {
         NSString *friendUID = item[@"from_uid"];
         NSMutableArray *messageArray = [[NSMutableArray alloc] initWithCapacity:0];
+#warning todo add system time notification
+        AXMessage *lastMessage = [self findLastMessageWithFriendUid:friendUID];
         for (NSDictionary *message in item[@"messages"]) {
 
             AXMessageType messageType = [message[@"msg_type"] integerValue];
@@ -413,6 +415,8 @@
     person.uid = friendData[@"user_id"];
     person.userType = @([friendData[@"user_type"] integerValue]);
     
+
+    
     [self.managedObjectContext save:NULL];
 }
 
@@ -516,6 +520,17 @@
 - (AXMappedPerson *)fetchCurrentPerson
 {
     return [self fetchPersonWithUID:self.uid];
+}
+
+- (NSFetchedResultsController *)friendListFetchedResultController
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+    NSAttributeDescription *firstPinYin = [fetchRequest.entity.attributesByName objectForKey:@"firstPinYin"];
+    fetchRequest.propertiesToGroupBy = @[firstPinYin];
+    
+    return [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 }
 
 #pragma mark - private methods

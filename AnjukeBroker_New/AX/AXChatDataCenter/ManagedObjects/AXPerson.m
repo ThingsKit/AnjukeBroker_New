@@ -28,6 +28,7 @@
 @dynamic uid;
 @dynamic userType;
 @dynamic company;
+@dynamic firstPinYin;
 
 - (AXMappedPerson *)convertToMappedPerson
 {
@@ -35,19 +36,19 @@
     person.created = self.created;
     person.iconPath = self.iconPath;
     person.iconUrl = self.iconUrl;
-    person.isIconDownloaded = self.isIconDownloaded;
+    person.isIconDownloaded = [self.isIconDownloaded boolValue];
     person.lastActiveTime = self.lastActiveTime;
     person.lastUpdate = self.lastUpdate;
     person.markName = self.markName;
     person.markNamePinyin = self.markNamePinyin;
     person.name = self.name;
     person.namePinyin = self.namePinyin;
-    person.isPendingForAdd = self.isPendingForAdd;
+    person.isPendingForAdd = [self.isPendingForAdd boolValue];
     person.phone = self.phone;
     person.uid = self.uid;
-    person.userType = self.userType;
-    person.isStar = self.isStar;
-    person.isPendingForRemove = self.isPendingForRemove;
+    person.userType = [self.userType integerValue];
+    person.isStar = [self.isStar boolValue];
+    person.isPendingForRemove = [self.isPendingForRemove boolValue];
     person.company = self.company;
     return person;
 }
@@ -77,5 +78,22 @@
 {
     self.isPendingForRemove = [NSNumber numberWithBool:NO];
 }
+
+//- (void)willSave
+//{
+//    [super willSave];
+//    
+//    unichar firstPinYin = '#';
+//    if ([self.markNamePinyin length] > 0) {
+//        firstPinYin = [[self.markNamePinyin uppercaseString] characterAtIndex:0];
+//    } else {
+//        firstPinYin = [[self.namePinyin uppercaseString] characterAtIndex:0];
+//    }
+//    if (firstPinYin < 'A' && firstPinYin > 'Z') {
+//        [self setPrimitiveValue:@"#" forKey:@"firstPinYin"];
+//    } else {
+//        [self setPrimitiveValue:[NSString stringWithCharacters:&firstPinYin length:1] forKey:@"firstPinYin"];
+//    }
+//}
 
 @end

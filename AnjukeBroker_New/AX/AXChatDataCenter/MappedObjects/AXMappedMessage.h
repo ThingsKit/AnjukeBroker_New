@@ -25,8 +25,8 @@ typedef NS_ENUM(NSUInteger, AXMessageType)
 
 typedef NS_ENUM(NSUInteger, AXMessagePropertySourceType)
 {
-    AXMessagePropertySourceErShouFang, // 二手房
-    AXMessagePropertySourceZuFang // 租房
+    AXMessagePropertySourceErShouFang = 1, // 二手房
+    AXMessagePropertySourceZuFang = 2, // 租房
 };
 
 typedef NS_ENUM (NSUInteger, AXMessageCenterSendMessageStatus)
