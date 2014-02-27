@@ -9,7 +9,7 @@
 #import "AXDemoChatViewController.h"
 #import "AXChatMessageRoomSourceCell.h"
 #import "AXChatViewController.h"
-#import "AXUserChatViewController.h"
+//#import "AXUserChatViewController.h"
 
 @interface AXDemoChatViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
@@ -92,12 +92,12 @@
 
 - (void)clickUserChat
 {
-    AXUserChatViewController *controller = [[AXUserChatViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
-    nav.navigationBar.translucent = NO;
-    [self presentViewController:nav animated:YES completion:^{
-        
-    }];
+//    AXUserChatViewController *controller = [[AXUserChatViewController alloc] init];
+//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+//    nav.navigationBar.translucent = NO;
+//    [self presentViewController:nav animated:YES completion:^{
+//        
+//    }];
 }
 
 - (void)didReceiveMemoryWarning

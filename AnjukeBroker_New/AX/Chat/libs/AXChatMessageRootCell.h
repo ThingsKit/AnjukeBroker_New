@@ -20,7 +20,7 @@ typedef NS_ENUM(NSInteger, AXChatMessageSourceDestination)
 };
 
 extern NSString * const AXCellIdentifyTag;
-static CGFloat const axTagMarginTop = 20.0f;
+extern CGFloat const axTagMarginTop;
 
 @class AXChatMessageRootCell;
 
@@ -30,6 +30,7 @@ static CGFloat const axTagMarginTop = 20.0f;
 - (void)deleteAXCell:(AXChatMessageRootCell *)axCell;
 - (void)didMessageRetry:(AXChatMessageRootCell *)axCell;
 - (void)didOpenAXWebView:(NSString *)url;
+- (void)didClickAvatar:(BOOL)isCurrentPerson;
 
 @end
 

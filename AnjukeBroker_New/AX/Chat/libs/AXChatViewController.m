@@ -7,24 +7,32 @@
 //
 
 #import "AXChatViewController.h"
+
+#import <AudioToolbox/AudioToolbox.h>
+#import <OHAttributedLabel/OHAttributedLabel.h>
+#import <OHAttributedLabel/NSAttributedString+Attributes.h>
+#import <OHAttributedLabel/OHASBasicMarkupParser.h>
+
+// Cell
 #import "AXChatMessageRoomSourceCell.h"
 #import "AXChatMessageImageCell.h"
 #import "AXChatMessagePublicCardCell.h"
 #import "AXChatMessageTextCell.h"
 #import "AXChatMessageNameCardCell.h"
 #import "AXChatMessageSystemTimeCell.h"
-#import <OHAttributedLabel/OHAttributedLabel.h>
-#import <OHAttributedLabel/NSAttributedString+Attributes.h>
-#import <OHAttributedLabel/OHASBasicMarkupParser.h>
+
 #import "NSString+AXChatMessage.h"
-#import "AXBigIMGSViewController.h"
-#import "AXChatMessageCenter.h"
-#import "AXMappedMessage.h"
-#import "AXPullToRefreshContentView.h"
-#import "AXChatWebViewController.h"
 #import "UIColor+AXChatMessage.h"
-#import "JSMessageInputView.h"
 #import "NSString+JSMessagesView.h"
+
+#import "AXChatMessageCenter.h"
+
+#import "AXPullToRefreshContentView.h"
+#import "JSMessageInputView.h"
+
+#import "AXBigIMGSViewController.h"
+#import "AXChatWebViewController.h"
+
 #import "AXPhotoManager.h"
 
 //输入框和发送按钮栏的高度
@@ -45,9 +53,7 @@ static NSInteger const AXMessagePageSize = 15;
 #endif
 
 @interface AXChatViewController ()<UITableViewDelegate, UITableViewDataSource, OHAttributedLabelDelegate, AXPullToRefreshViewDelegate, UIAlertViewDelegate, AXChatMessageRootCellDelegate, JSDismissiveTextViewDelegate>
-{
-    CGFloat offset;//键盘的高度
-}
+
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) UITableViewCell *selectedCell;
 @property (nonatomic) BOOL isMenuVisible;
@@ -55,8 +61,12 @@ static NSInteger const AXMessagePageSize = 15;
 @property (nonatomic, strong) AXPullToRefreshView *pullToRefreshView;
 @property (nonatomic, strong) AXMappedMessage *lastMessage;
 @property (nonatomic, strong) UILabel *sendLabel;
-@property (nonatomic, strong) AXChatDataCenter *dataCenter;
+@property (nonatomic, strong) UIControl *keyboardControl;
+
 @property (nonatomic, strong) void (^finishSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status);
+
+@property (nonatomic, strong) AXMappedPerson *currentPerson;
+@property (nonatomic, strong) AXMappedPerson *friend;
 
 // JSMessage
 @property (nonatomic, strong) UIView *inputBackView;
@@ -119,7 +129,7 @@ static NSInteger const AXMessagePageSize = 15;
         if (!self.previousTextViewContentHeight) {
             self.previousTextViewContentHeight = self.messageInputView.textView.contentSize.height;
         }
-        self.messageInputView.textView.text = self.conversationListItem.messageTip;
+        self.messageInputView.textView.text = self.conversationListItem.draftContent;
     }
 
     [self scrollToBottomAnimated:YES];
@@ -143,15 +153,18 @@ static NSInteger const AXMessagePageSize = 15;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.dataCenter = [[AXChatDataCenter alloc] initWithUID:[self checkFriendUid]];
     self.conversationListItem = [[AXChatMessageCenter defaultMessageCenter] fetchConversationListItemWithFriendUID:[self checkFriendUid]];
     [self initUI];
 #warning TODO 设置双方的头像
+    self.currentPerson = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson];
+    self.friend = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[self checkFriendUid]];
+    DLog(@"%@, %@, %@, %@", self.currentPerson.iconPath, self.currentPerson.iconUrl, self.friend.iconPath, self.friend.iconUrl);
+    
     self.cellData = [NSMutableArray array];
     self.identifierData = [NSMutableArray array];
     AXMappedMessage *lastMessage = [[AXMappedMessage alloc] init];
     lastMessage.sendTime = [NSDate dateWithTimeIntervalSinceNow:0];
-    lastMessage.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
+    lastMessage.from = self.currentPerson.uid;
     lastMessage.to  = [self checkFriendUid];
     
     [[AXChatMessageCenter defaultMessageCenter] fetchChatListWithLastMessage:lastMessage pageSize:AXMessagePageSize callBack:^(NSArray *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend) {
@@ -212,11 +225,12 @@ static NSInteger const AXMessagePageSize = 15;
 //    addUserBtn.backgroundColor = [UIColor yellowColor];
 //    [self.view addSubview:addUserBtn];
     
-//    UIButton *sendPick = [UIButton buttonWithType:UIButtonTypeContactAdd];
-//    sendPick.frame = CGRectMake(10, 150, 45, 45);
-//    [sendPick addTarget:self action:@selector(pickIMG:) forControlEvents:UIControlEventTouchUpInside];
-//    sendPick.backgroundColor = [UIColor purpleColor];
-//    [self.view addSubview:sendPick];
+
+    UIButton *sendPick = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    sendPick.frame = CGRectMake(10, 150, 45, 45);
+    [sendPick addTarget:self action:@selector(pickIMG:) forControlEvents:UIControlEventTouchUpInside];
+    sendPick.backgroundColor = [UIColor purpleColor];
+    [self.view addSubview:sendPick];
     
 #endif
 
@@ -260,13 +274,15 @@ static NSInteger const AXMessagePageSize = 15;
 {
     [[NSNotificationCenter defaultCenter] addObserverForName:MessageCenterDidReceiveNewMessage object:nil queue:nil usingBlock: ^(NSNotification *note) {
         // 接受消息
-        if ([note.object isKindOfClass:[NSArray class]]) {
-            NSArray *list = (NSArray *)note.object;
-            for (AXMappedMessage *mappedMessage in list) {
-                self.lastMessage = mappedMessage;
-                NSMutableDictionary *dict = [self mapAXMappedMessage:mappedMessage];
-                dict[AXCellIdentifyTag] = mappedMessage.identifier;
-                [self appendCellData:dict];
+        if ([note.object isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *dict = (NSDictionary *)note.object;
+            if (dict[[self checkFriendUid]]) {
+                for (AXMappedMessage *mappedMessage in dict[[self checkFriendUid]]) {
+                    self.lastMessage = mappedMessage;
+                    NSMutableDictionary *dict = [self mapAXMappedMessage:mappedMessage];
+                    dict[AXCellIdentifyTag] = mappedMessage.identifier;
+                    [self appendCellData:dict];
+                }
             }
         }
     }];
@@ -408,12 +424,10 @@ static NSInteger const AXMessagePageSize = 15;
         return rowHeight;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePic]]) {
         return [AXChatMessageImageCell sizeOFImg:dic[@"content"]].size.height+30;
-    } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePublicCard]]) {
-        return 100;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeSystemTime]]) {
         return 35;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePublicCard]]) {
-        return 210;
+        return 290 + 40;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeSystemForbid]]) {
         return 45;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeAddNuckName]]) {
@@ -659,10 +673,15 @@ static NSInteger const AXMessagePageSize = 15;
     self.myTableView.dataSource = self;
     self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.myTableView.backgroundColor = [UIColor clearColor];
+    self.myTableView.contentInset = UIEdgeInsetsMake(0, 0, 60, 0);
     [self.view addSubview:self.myTableView];
-
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGestureRecognizer:)];
-//    [self.myTableView addGestureRecognizer:tap];
+    
+    self.keyboardControl = [[UIControl alloc] initWithFrame:CGRectMake(0, 0, self.myTableView.width, 10)];
+    self.keyboardControl.backgroundColor = [UIColor clearColor];
+    [self.keyboardControl addTarget:self action:@selector(didClickKeyboardControl) forControlEvents:UIControlEventTouchUpInside];
+    self.keyboardControl.hidden = YES;
+    [self.view addSubview:self.keyboardControl];
+    
     
     self.moreBackView = [[UIView alloc] init];
     self.moreBackView.frame = CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
@@ -681,8 +700,7 @@ static NSInteger const AXMessagePageSize = 15;
     JSMessageInputView *inputView = [[JSMessageInputView alloc] initWithFrame:inputFrame
                                                                         style:JSMessageInputViewStyleFlat
                                                                      delegate:self
-                                                         panGestureRecognizer:pan];
-    inputView.isBroker = self.isBroker;
+                                                         panGestureRecognizer:pan isBroker:self.isBroker];
     [self.view addSubview:inputView];
     self.messageInputView = inputView;
     [self.messageInputView.textView addObserver:self
@@ -699,8 +717,8 @@ static NSInteger const AXMessagePageSize = 15;
         self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
         self.sendBut.frame = CGRectMake(270.0f + 12.0f, 12.0f, 20.0f, 20.0f);
         [self.sendBut addTarget:self action:@selector(didMoreBackView:) forControlEvents:UIControlEventTouchUpInside];
-        [self.sendBut setBackgroundImage:[UIImage imageNamed:@"xproject_chatlist_plus.png"] forState:UIControlStateNormal];
-        [self.sendBut setBackgroundImage:[UIImage imageNamed:@"xproject_chatlist_plus_selected.png"] forState:UIControlStateHighlighted];
+        [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateNormal];
+        [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateHighlighted];
         [self.messageInputView addSubview:self.sendBut];
     }
     
@@ -752,17 +770,18 @@ static NSInteger const AXMessagePageSize = 15;
 
 - (void)pickAJK:(id)sender {
     
-    NSMutableDictionary *propertyDic = [NSMutableDictionary dictionaryWithDictionary:@{@"id":@"123456", @"des":@"一室一厅10卫", @"img":@"http://pic1.ajkimg.com/display/hz/0b291a7f8ea98bf2eb32906e3888a6bf/420x315.jpg", @"name":@"中远小区", @"price":@"30/月"}];
-    self.propDict = propertyDic;
-    [self sendNewMessage];
-    
+//    NSDictionary *roomSource = @{@"title": @"中房二期花园，地理位置好",@"price":@"12000",@"roomType":@"3房两厅",@"area":@"200",@"floor":@"13/14",@"year":@"2005",@"messageType":[NSNumber numberWithInteger:AXMessageTypeProperty],@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationIncoming]};
+//    [self.cellData addObject:roomSource];
+//    [self reloadMytableView];
 }
 
 - (void)pickHZ:(id)sender {
-    NSMutableDictionary *propertyDic = [NSMutableDictionary dictionaryWithDictionary:@{@"id":@"123456", @"des":@"一室一厅10卫", @"img":@"http://pic1.ajkimg.com/display/hz/0b291a7f8ea98bf2eb32906e3888a6bf/420x315.jpg", @"name":@"中远小区", @"price":@"30/月"}];
-    self.propDict = propertyDic;
-    [self sendNewMessage];
+//    NSDictionary *roomSource = @{@"title": @"中房二期花园，地理位置好",@"price":@"12000",@"roomType":@"3房两厅",@"area":@"200",@"floor":@"13/14",@"year":@"2005",@"messageType":[NSNumber numberWithInteger:AXMessageTypeProperty],@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationOutPut]};
+//    [self.cellData addObject:roomSource];
+//    [self reloadMytableView];
+    
 }
+
 - (void)sendMessage:(id)sender {
     if ([self.messageInputView.textView.text isEqualToString:@""]) {
         UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"提示" message:@"不能发空消息" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil];
@@ -774,6 +793,7 @@ static NSInteger const AXMessagePageSize = 15;
         [self reloadMytableView];
         return;
     } else {
+        AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);
         [self sendNewMessage];
         
         AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
@@ -828,16 +848,16 @@ static NSInteger const AXMessagePageSize = 15;
 
 #pragma mark - SSPullToRefreshViewDelegate
 - (void)pullToRefreshViewDidStartLoading:(AXPullToRefreshView *)view {
+    [self.pullToRefreshView startLoading];
     [self refresh];
 }
 
 - (void)refresh {
     if (!self.lastMessage) {
+        [self.pullToRefreshView finishLoading];
         return;
     }
     
-    [self.pullToRefreshView startLoading];
-
     [[AXChatMessageCenter defaultMessageCenter] fetchChatListWithLastMessage:self.lastMessage pageSize:AXMessagePageSize callBack:^(NSArray *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend) {
         if ([chatList count] > 0) {
             self.lastMessage = chatList[0];
@@ -937,8 +957,6 @@ static NSInteger const AXMessagePageSize = 15;
     [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishSendMessageBlock];
 }
 
-
-
 #pragma mark - Layout message input view
 
 - (void)layoutAndAnimateMessageInputTextView:(UITextView *)textView
@@ -1036,6 +1054,7 @@ static NSInteger const AXMessagePageSize = 15;
 {
     self.moreBackView.hidden = YES;
     [self keyboardWillShowHide:notification];
+    self.keyboardControl.hidden = NO;
 }
 
 - (void)handleWillHideKeyboardNotification:(NSNotification *)notification
@@ -1045,6 +1064,7 @@ static NSInteger const AXMessagePageSize = 15;
         return;
     }
     [self keyboardWillShowHide:notification];
+    self.keyboardControl.hidden = YES;
 }
 
 - (void)keyboardWillShowHide:(NSNotification *)notification
@@ -1071,6 +1091,9 @@ static NSInteger const AXMessagePageSize = 15;
     [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
      - self.messageInputView.frame.origin.y
      - inputViewFrame.size.height + 60];
+    self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height
+                                            - self.messageInputView.frame.origin.y
+                                            - inputViewFrame.size.height + 60);
     [UIView commitAnimations];
 }
 
@@ -1127,6 +1150,18 @@ static NSInteger const AXMessagePageSize = 15;
 
 #pragma mark - Actions
 
+- (void)didClickKeyboardControl
+{
+    if (self.moreBackView && !self.moreBackView.hidden) {
+        self.moreBackView.hidden = YES;
+        if (self.preNotification) {
+            [self keyboardWillShowHide:self.preNotification];
+        }
+    } else {
+        [self.messageInputView.textView resignFirstResponder];
+    }
+}
+
 - (void)didMoreBackView:(UIButton *)sender
 {
     self.moreBackView.hidden = NO;
@@ -1137,18 +1172,6 @@ static NSInteger const AXMessagePageSize = 15;
 {
     [self sendMessage:self.messageInputView.textView];
     [self finishSend];
-}
-
-- (void)handleTapGestureRecognizer:(UITapGestureRecognizer *)tap
-{
-    if (self.moreBackView && !self.moreBackView.hidden) {
-        self.moreBackView.hidden = YES;
-        if (self.preNotification) {
-            [self keyboardWillShowHide:self.preNotification];
-        }
-    } else {
-        [self.messageInputView.textView resignFirstResponder];
-    }
 }
 
 - (void)finishSend

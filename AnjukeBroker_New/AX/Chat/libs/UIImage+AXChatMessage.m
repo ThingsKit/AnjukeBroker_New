@@ -62,4 +62,39 @@
     }
 }
 
+
++ (UIImage *)axInChatPropBubbleBg:(BOOL)isBroker highlighted:(BOOL)highlighted
+{
+    if (isBroker) {
+        if (highlighted) {
+            return [UIImage imageNamed:@"anjuke_icon_chat_fy1.png"];
+        } else {
+            return [UIImage imageNamed:@"anjuke_icon_chat_fy.png"];
+        }
+    } else {
+        if (highlighted) {
+            return [UIImage imageNamed:@"xproject_dialogue_greencard_selected.png"];
+        } else {
+            return [UIImage imageNamed:@"xproject_dialogue_greencard.png"];
+        }
+    }
+}
+
++ (UIImage *)axOutChatPropBubbleBg:(BOOL)isBroker highlighted:(BOOL)highlighted
+{
+    if (isBroker) {
+        if (highlighted) {
+            return [UIImage imageNamed:@"anjuke_icon_chat.png"];
+        } else {
+            return [UIImage imageNamed:@"anjuke_icon_chat1.png"];
+        }
+    } else {
+        if (highlighted) {
+            return [UIImage imageNamed:@"xproject_dialogue_greycard_selected.png"];
+        } else {
+            return [UIImage imageNamed:@"xproject_dialogue_greycard.png"];
+        }
+    }
+}
+
 @end

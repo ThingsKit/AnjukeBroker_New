@@ -70,7 +70,7 @@ typedef NS_ENUM(NSUInteger, JSMessageInputViewStyle) {
 - (instancetype)initWithFrame:(CGRect)frame
                         style:(JSMessageInputViewStyle)style
                      delegate:(id<UITextViewDelegate, JSDismissiveTextViewDelegate>)delegate
-         panGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer;
+         panGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer isBroker:(BOOL)isBroker;
 
 #pragma mark - Message input view
 

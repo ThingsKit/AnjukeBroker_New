@@ -99,10 +99,11 @@
 - (instancetype)initWithFrame:(CGRect)frame
                         style:(JSMessageInputViewStyle)style
                      delegate:(id<UITextViewDelegate, JSDismissiveTextViewDelegate>)delegate
-         panGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer
+         panGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer isBroker:(BOOL)isBroker
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _isBroker = isBroker;
         _style = style;
         [self setup];
         [self configureInputBarWithStyle:style];

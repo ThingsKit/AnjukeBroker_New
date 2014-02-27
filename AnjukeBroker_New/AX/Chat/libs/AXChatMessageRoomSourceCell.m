@@ -7,6 +7,7 @@
 //
 
 #import "AXChatMessageRoomSourceCell.h"
+#import "AXChatImageLoader.h"
 
 static CGFloat const AXPropertyCardHeight = 105.0f;
 static CGFloat const AXPropertyCardWidth = 220.0f;
@@ -114,14 +115,19 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
     }
 
     [self setBubbleIMGByMessageSorce];
-    if ([self.propDict[@"sourceType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessagePropertySourceErShouFang]]) {
+    if ([self.propDict[@"tradeType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessagePropertySourceErShouFang]]) {
         self.tagLable.text = @"二手房";
     }
     
-    self.titleLable.text = self.propDict[@"title"];
-    self.roomTypeLabel.text = [NSString stringWithFormat:@"%@   %@", self.propDict[@"roomType"], self.propDict[@"area"]];
+    self.titleLable.text = self.propDict[@"name"];
+    self.roomTypeLabel.text = self.propDict[@"des"];
     self.priceLable.text = self.propDict[@"price"];
-    
+    NSURL *url = [NSURL URLWithString:self.propDict[@"img"]];
+    @try {
+        [[AXChatImageLoader shareCenter] autoLoadImageWithURL:url toImageView:self.roomImage];
+    } @catch (NSException *exception) {
+        //do nothing
+    }
 }
 
 @end

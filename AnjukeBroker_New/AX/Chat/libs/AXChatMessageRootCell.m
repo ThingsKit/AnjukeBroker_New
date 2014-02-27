@@ -9,6 +9,7 @@
 #import "AXChatMessageRootCell.h"
 
 NSString *const AXCellIdentifyTag = @"identifier";
+CGFloat const axTagMarginTop = 20.0f;
 
 @implementation AXChatMessageRootCell
 @synthesize bubbleIMG;
@@ -167,7 +168,9 @@ NSString *const AXCellIdentifyTag = @"identifier";
 {
     
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-        self.bubbleIMG.image = [[UIImage axInChatBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
+        if (self.messageType == AXMessageTypeText) {
+            self.bubbleIMG.image = [[UIImage axInChatBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
+        }
     } else {
         self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
     }

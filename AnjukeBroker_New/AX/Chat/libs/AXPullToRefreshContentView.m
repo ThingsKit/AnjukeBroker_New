@@ -50,7 +50,7 @@
 - (void)layoutSubviews {
 	CGSize size = self.bounds.size;
 	self.statusLabel.frame = CGRectMake(20.0f, roundf((size.height - 30.0f) / 2.0f), size.width - 40.0f, 30.0f);
-	self.activityIndicatorView.frame = CGRectMake(roundf((size.width - 120.0f) / 2.0f)-6.0f, roundf((size.height - 20.0f) / 2.0f), 20.0f, 20.0f);
+	self.activityIndicatorView.frame = CGRectMake(roundf(size.width / 2.0f)-6.0f, roundf((size.height - 20.0f) / 2.0f), 20.0f, 20.0f);
     self.arrowImageView.frame = self.activityIndicatorView.frame;
 }
 
@@ -59,7 +59,7 @@
 - (void)setState:(AXPullToRefreshViewState)state withPullToRefreshView:(AXPullToRefreshView *)view {
 	switch (state) {
 		case AXPullToRefreshViewStateReady: {
-			self.statusLabel.text = @"松开刷新";
+			self.statusLabel.text = @"";
             CGImageRef imageRef = [self.arrowImageView.image CGImage];
             UIImage *rotatedImage = [UIImage imageWithCGImage:imageRef scale:1.0 orientation:UIImageOrientationDown];
             self.arrowImageView.image = rotatedImage;
@@ -70,7 +70,7 @@
 		}
 			
 		case AXPullToRefreshViewStateNormal: {
-			self.statusLabel.text = @"下拉刷新";
+			self.statusLabel.text = @"";
             self.arrowImageView.image = [UIImage imageNamed:@"rt_pull_fresh_down.png"];
             self.arrowImageView.hidden = NO;
 			self.statusLabel.alpha = 1.0f;
@@ -84,28 +84,28 @@
 			self.activityIndicatorView.alpha = 1.0f;
 			[self.activityIndicatorView startAnimating];
             self.arrowImageView.hidden = YES;
-			self.statusLabel.text = @"加载中...";
+			self.statusLabel.text = @"";
 			break;
 		}
 			
 		case AXPullToRefreshViewStateClosing: {
 			[self.activityIndicatorView stopAnimating];
             self.activityIndicatorView.alpha = 0.0f;
-			self.statusLabel.text = @"加载完成";
+			self.statusLabel.text = @"";
 			break;
 		}
             
         case AXPullToRefreshViewStateAlert: {
             self.activityIndicatorView.hidden = NO;
 			self.activityIndicatorView.alpha = 1.0f;
-			self.statusLabel.text = @"刷新失败";
+			self.statusLabel.text = @"";
 			break;
 		}
             
         case AXPullToRefreshViewStateAlertFinish: {
             [self.activityIndicatorView stopAnimating];
             self.activityIndicatorView.alpha = 0.0f;
-			self.statusLabel.text = @"刷新失败";
+			self.statusLabel.text = @"";
 			break;
 		}
             
