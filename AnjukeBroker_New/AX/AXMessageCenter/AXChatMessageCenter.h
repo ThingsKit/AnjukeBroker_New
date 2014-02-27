@@ -58,12 +58,13 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 
 - (void)searchBrokerByBrokerPhone:(NSString *)brokerPhone compeletionBlock:(void(^)(AXMappedPerson *brokerInfo))searchBrokerBlock;
 - (void)fetchedPersonWithUID:(NSString *)uid withBlock:(void(^)(AXMappedPerson *person))personInfoBlock;
-- (void)removeFriendWithMyPhone:(NSString *)phone deleteUid:(NSArray *)deleteUid compeletionBlock:(void(^)(BOOL isSuccess))deleteFriendBlock;
+- (void)removeFriendBydeleteUid:(NSArray *)deleteUid compeletionBlock:(void(^)(BOOL isSuccess))deleteFriendBlock;
 
 - (void)updataUserInformation:(AXMappedPerson *)newInformation compeletionBlock:(void (^)(BOOL))updateUserInfo;
 
 - (void)sendMessage:(AXMappedMessage *)message willSendMessage:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status))sendMessageBlock;
 - (void)reSendMessage:(NSString *)identifier willSendMessage:(void (^)(AXMappedMessage *, AXMessageCenterSendMessageStatus))sendMessageBlock;
+- (NSInteger)totalUnreadMessageCount;
 
 - (void)sendImage:(AXMappedMessage *)message withCompeletionBlock:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status))sendMessageBlock;
 - (void)deleteMessageByIdentifier:(NSString *)identifier;
@@ -81,4 +82,11 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 - (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID;
 - (void)saveDraft:(NSString *)content friendUID:(NSString *)friendUID;
 
+- (void)deleteConversationItem:(AXMappedConversationListItem *)conversationItem;
+
+
+- (AXMappedPerson *)getFriendInfoWithFriendUid:(NSString *)personUid compeletionBlock:(void(^)(AXMappedPerson *person))getFriendInfoBlock;
+
+- (void)getUserOldMessage;
+- (void)didLeaveChattingList;
 @end

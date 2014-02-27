@@ -23,6 +23,7 @@
 @dynamic isIconDownloaded;
 @dynamic messageStatus;
 @dynamic draftContent;
+@dynamic hasDraft;
 
 - (AXMappedConversationListItem *)convertToMappedObject
 {
@@ -31,29 +32,31 @@
     mappedConversationListItem.friendUid = self.friendUid;
     mappedConversationListItem.iconPath = self.iconPath;
     mappedConversationListItem.iconUrl = self.iconUrl;
-    mappedConversationListItem.isIconDownloaded = self.isIconDownloaded;
+    mappedConversationListItem.isIconDownloaded = [self.isIconDownloaded boolValue];
     mappedConversationListItem.lastMsgIdentifier = self.lastMsgIdentifier;
     mappedConversationListItem.lastUpdateTime = self.lastUpdateTime;
     mappedConversationListItem.messageTip = self.messageTip;
-    mappedConversationListItem.messageType = self.messageType;
+    mappedConversationListItem.messageType = [self.messageType integerValue];
     mappedConversationListItem.presentName = self.presentName;
     mappedConversationListItem.messageStatus = self.messageStatus;
+    mappedConversationListItem.hasDraft = [self.hasDraft boolValue];
     return mappedConversationListItem;
 }
 
 - (void)assignPropertiesFromMappedObject:(AXMappedConversationListItem *)mappedConversationListItem
 {
-    self.count = mappedConversationListItem.count;
+    self.count = @(mappedConversationListItem.count);
     self.friendUid = mappedConversationListItem.friendUid;
     self.iconPath = mappedConversationListItem.iconPath;
     self.iconUrl = mappedConversationListItem.iconUrl;
-    self.isIconDownloaded = mappedConversationListItem.isIconDownloaded;
+    self.isIconDownloaded = [NSNumber numberWithBool:mappedConversationListItem.isIconDownloaded];
     self.lastMsgIdentifier = mappedConversationListItem.lastMsgIdentifier;
     self.lastUpdateTime = mappedConversationListItem.lastUpdateTime;
     self.messageTip = mappedConversationListItem.messageTip;
-    self.messageType = mappedConversationListItem.messageType;
+    self.messageType = [NSNumber numberWithInteger:mappedConversationListItem.messageType];
     self.presentName = mappedConversationListItem.presentName;
-    self.messageStatus = mappedConversationListItem.messageStatus;
+    self.messageStatus = [NSNumber numberWithInteger:mappedConversationListItem.messageStatus];
+    self.hasDraft = [NSNumber numberWithBool:self.hasDraft];
 }
 
 @end

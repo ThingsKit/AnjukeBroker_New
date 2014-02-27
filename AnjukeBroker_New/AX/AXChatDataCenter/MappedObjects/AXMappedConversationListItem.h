@@ -8,30 +8,31 @@
 
 #import <Foundation/Foundation.h>
 #import "AXMappedPerson.h"
+#import "AXMappedMessage.h"
 
 typedef NS_ENUM(NSUInteger, AXConversationListItemType)
 {
     AXConversationListItemTypeText = 1,
-    AXConversationListItemTypeDraft = 2,
-    AXConversationListItemTypePic = 3,
-    AXConversationListItemTypeCard = 4,
-    AXConversationListItemTypeESFProperty = 5,
-    AXConversationListItemTypeHZProperty = 6
+    AXConversationListItemTypePic = 2,
+    AXConversationListItemTypeCard = 3,
+    AXConversationListItemTypeESFProperty = 4,
+    AXConversationListItemTypeHZProperty = 5
 };
 
 @interface AXMappedConversationListItem : NSObject
 
-@property (nonatomic, retain) NSNumber * count;
+@property (nonatomic) NSInteger count;
 @property (nonatomic, retain) NSString * friendUid;
 @property (nonatomic, retain) NSDate * lastUpdateTime;
 @property (nonatomic, retain) NSString * messageTip;
-@property (nonatomic, retain) NSNumber * messageType;
+@property (nonatomic) AXConversationListItemType * messageType;
 @property (nonatomic, retain) NSString * presentName;
 @property (nonatomic, retain) NSString * iconUrl;
 @property (nonatomic, retain) NSString * lastMsgIdentifier;
 @property (nonatomic, retain) NSString * iconPath;
-@property (nonatomic, retain) NSNumber * isIconDownloaded;
-@property (nonatomic, retain) NSNumber * messageStatus;
+@property (nonatomic) BOOL * isIconDownloaded;
+@property (nonatomic) AXMessageCenterSendMessageStatus messageStatus;
 @property (nonatomic, retain) NSString * draftContent;
+@property (nonatomic) BOOL hasDraft;
 
 @end

@@ -4,6 +4,7 @@
         <attribute name="count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="draftContent" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="friendUid" attributeType="String" syncable="YES"/>
+        <attribute name="hasDraft" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="iconPath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="iconUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isIconDownloaded" optional="YES" attributeType="Boolean" syncable="YES"/>

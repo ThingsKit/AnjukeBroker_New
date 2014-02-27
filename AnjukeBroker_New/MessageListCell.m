@@ -104,7 +104,7 @@
         self.imageIcon.image = [UIImage imageNamed:@""];
     }
     
-    self.nameLb.text = [NSString stringWithFormat:@"%@_%@", item.friendUid, item.presentName];
+    self.nameLb.text = [NSString stringWithFormat:@"%@", item.presentName];
     self.timeLb.text = [Util_TEXT getDateStrWithDate:item.lastUpdateTime];
     self.messageLb.text = item.messageTip;
     

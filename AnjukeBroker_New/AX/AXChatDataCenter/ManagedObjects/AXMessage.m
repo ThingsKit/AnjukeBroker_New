@@ -37,9 +37,9 @@
     mappedMessage.identifier = self.identifier;
     mappedMessage.imgPath = self.imgPath;
     mappedMessage.imgUrl = self.imgUrl;
-    mappedMessage.isImgDownloaded = self.isImgDownloaded;
-    mappedMessage.isRead = self.isRead;
-    mappedMessage.isRemoved = self.isRemoved;
+    mappedMessage.isImgDownloaded = [self.isImgDownloaded boolValue];
+    mappedMessage.isRead = [self.isRead boolValue];
+    mappedMessage.isRemoved = [self.isRemoved boolValue];
     mappedMessage.messageId = self.messageId;
     mappedMessage.messageType = self.messageType;
     mappedMessage.sendStatus = self.sendStatus;
@@ -57,9 +57,9 @@
     self.from = mappedMessage.from;
     self.imgPath = mappedMessage.imgPath;
     self.imgUrl = mappedMessage.imgUrl;
-    self.isImgDownloaded = mappedMessage.isImgDownloaded;
-    self.isRead = mappedMessage.isRead;
-    self.isRemoved = mappedMessage.isRemoved;
+    self.isImgDownloaded = [NSNumber numberWithBool:mappedMessage.isImgDownloaded];
+    self.isRead = [NSNumber numberWithBool:mappedMessage.isRead];
+    self.isRemoved = [NSNumber numberWithBool:mappedMessage.isRemoved];
     self.messageId = mappedMessage.messageId;
     self.messageType = mappedMessage.messageType;
     self.sendStatus = mappedMessage.sendStatus;

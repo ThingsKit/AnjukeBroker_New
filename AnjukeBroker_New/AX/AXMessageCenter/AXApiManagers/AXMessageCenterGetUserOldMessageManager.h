@@ -9,5 +9,5 @@
 #import "RTAPIBaseManager.h"
 
 @interface AXMessageCenterGetUserOldMessageManager : RTAPIBaseManager<RTAPIManagerParamSourceDelegate,RTAPIManagerValidator>
-
+@property (nonatomic, strong) NSDictionary *apiParams;
 @end

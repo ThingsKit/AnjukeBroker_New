@@ -1,5 +1,5 @@
 //
-//  AXMessageCenterDeleteFriendManager.h
+//  AXMessageCenterGetFriendInfoManager.h
 //  Anjuke2
 //
 //  Created by 杨 志豪 on 14-2-26.
@@ -8,6 +8,6 @@
 
 #import "RTAPIBaseManager.h"
 
-@interface AXMessageCenterDeleteFriendManager : RTAPIBaseManager<RTAPIManagerValidator,RTAPIManagerParamSourceDelegate>
+@interface AXMessageCenterGetFriendInfoManager : RTAPIBaseManager<RTAPIManagerParamSourceDelegate,RTAPIManagerValidator>
 @property (nonatomic, strong) NSDictionary *apiParams;
 @end

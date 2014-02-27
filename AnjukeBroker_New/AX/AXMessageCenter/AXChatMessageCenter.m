@@ -19,6 +19,7 @@
 #import "AXMessageCenterSearchBrokerManager.h"
 #import "AXMessageCenterGetUserOldMessageManager.h"
 #import "AXMessageCenterModifyFriendInfoManager.h"
+#import "AXMessageCenterGetFriendInfoManager.h"
 
 static NSString * const kMessageCenterReceiveMessageTypeText = @"1";
 static NSString * const kMessageCenterReceiveMessageTypeProperty = @"2";
@@ -46,6 +47,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 @property (nonatomic, strong) AXMessageCenterSearchBrokerManager *searchBrokerManager;
 @property (nonatomic, strong) AXMessageCenterGetUserOldMessageManager *getOldMessageManager;
 @property (nonatomic, strong) AXMessageCenterModifyFriendInfoManager *modifyFriendInfoManager;
+@property (nonatomic, strong) AXMessageCenterGetFriendInfoManager *getFriendInfoManager;
 
 
 @property (nonatomic, strong) void (^finishSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status);
@@ -57,6 +59,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 @property (nonatomic, strong) void (^addFriendBlock)(BOOL isSuccess);
 @property (nonatomic, strong) void (^deleteFriendBlock)(BOOL isSuccess);
 @property (nonatomic, strong) void (^searchBrokerBlock)(AXMappedPerson *brokerInfo);
+@property (nonatomic, strong) void (^getFriendInfoBlock)(AXMappedPerson *friendInfo);
 
 @property (nonatomic, strong) AXMappedPerson *currentPerson;
 @end
@@ -228,6 +231,17 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     
     return _modifyFriendInfoManager;
 }
+
+- (AXMessageCenterGetFriendInfoManager *)getFriendInfoManager
+{
+    if (!_getFriendInfoManager) {
+        _getFriendInfoManager = [[AXMessageCenterGetFriendInfoManager alloc] init];
+        _getFriendInfoManager.paramSource = _getFriendInfoManager;
+        _getFriendInfoManager.validator = _getFriendInfoManager;
+        _getFriendInfoManager.delegate = self;
+    }
+    return _getFriendInfoManager;
+}
 #pragma mark - RTAPIManagerInterceptorProtocal    //call back for sendMessage
 - (void)manager:(RTAPIBaseManager *)manager afterCallingAPIWithParams:(NSDictionary *)params
 {
@@ -328,6 +342,20 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
             _searchBrokerBlock(newBroker);
         }
     }
+    if ([manager isKindOfClass:[AXMessageCenterGetFriendInfoManager class]]) {
+        NSDictionary *dic = [manager fetchDataWithReformer:nil];
+        if (dic[@"status"] && [dic[@"status"] isEqualToString:@"OK"] && dic[@"result"] && [dic[@"result"] isKindOfClass:[NSDictionary class]]) {
+            AXMappedPerson *friendInfo = [[AXMappedPerson alloc] initWithDictionary:dic[@"result"]];
+#warning waiting for master casa to finish it!
+        }
+    }
+    if ([manager isKindOfClass:[AXMessageCenterDeleteFriendManager class]]) {
+        NSDictionary *dic = [manager fetchDataWithReformer:nil];
+        if (dic[@"status"] && [dic[@"status"] isEqualToString:@"OK"]) {
+            NSArray *array = dic[@"result"];
+            [self.dataCenter didDeleteFriendWithUidList:array];
+        }
+    }
 }
 - (void)managerCallAPIDidFailed:(RTAPIBaseManager *)manager
 {
@@ -339,6 +367,9 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     }
     if ([manager isKindOfClass:[AXMessageCenterSearchBrokerManager class]]) {
         _searchBrokerBlock(nil);
+    }
+    if ([manager isKindOfClass:[AXMessageCenterDeleteFriendManager class]]) {
+        NSLog(@"DELETE FRIEND FAILED");
     }
 
 }
@@ -388,6 +419,11 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     [self.sendMessageManager loadData];
 }
 
+- (NSInteger)totalUnreadMessageCount
+{
+    return [self.dataCenter totalUnreadMessageCount];
+}
+
 - (void)sendImage:(AXMappedMessage *)message withCompeletionBlock:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status))sendMessageBlock
 {
     AXMappedMessage *dataMessage = [self.dataCenter willSendMessage:message];
@@ -411,7 +447,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     params[@"phone"] = self.currentPerson.phone;
     params[@"mark_name"] = newInformation.markName;
     params[@"to_uid"] = newInformation.uid;
-    params[@"is_star"] = newInformation.isStar;
+    params[@"is_star"] = @(newInformation.isStar);
     params[@"relation_cate_id"] = @"0";
     
     self.modifyFriendInfoManager.apiParams = params;
@@ -440,25 +476,15 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     [self.addFriendManager loadData];
 }
 
-- (void)removeFriendWithMyPhone:(NSString *)phone deleteUid:(NSArray *)deleteUid compeletionBlock:(void (^)(BOOL))deleteFriendBlock
+- (void)removeFriendBydeleteUid:(NSArray *)deleteUid compeletionBlock:(void(^)(BOOL isSuccess))deleteFriendBlock
 {
-    NSString *deleteAarray = [deleteUid JSONRepresentation];
-    NSURL *deleteUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://chatapi.dev.anjuke.com/user/removeFriends/13333333333"]];
-    ASIFormDataRequest *deleteFriend = [[ASIFormDataRequest alloc] initWithURL:deleteUrl];
-    deleteFriend.tag = AXMessageCenterHttpRequestTypeDeleteFriend;
-    NSMutableData *deleteFriendData = [[deleteAarray dataUsingEncoding:NSUTF8StringEncoding] mutableCopy];
-    [deleteFriend setPostBody:deleteFriendData];
-    [deleteFriend addRequestHeader:@"Content-Type" value:@"application/json"];
-    [deleteFriend addRequestHeader:@"Cache-Control" value:@"no-cache"];
-    [deleteFriend setRequestMethod:@"POST"];
-    NSDictionary *loginResult = [[NSUserDefaults standardUserDefaults] objectForKey:@"anjuke_chat_login_info"];
-    if (loginResult[@"auth_token"]) {
-        [deleteFriend addRequestHeader:@"AuthToken" value:loginResult[@"auth_token"]];
-    }
+    _deleteFriendBlock = deleteFriendBlock;
+    NSDictionary *params = @{@"phone":self.currentPerson.phone,
+                             @"uids":deleteUid
+                             };
+    self.deleteFriendManager.apiParams = params;
+    [self.deleteFriendManager loadData];
     [self.dataCenter willDeleteFriendWithUidList:deleteUid];
-    deleteFriend.delegate = self;
-    NSLog(@"====delete url  %@",deleteUrl);
-    [deleteFriend startAsynchronous];
 }
 
 - (void)fetchedPersonWithUID:(NSString *)uid withBlock:(void (^)(AXMappedPerson *))personInfoBlock
@@ -468,7 +494,17 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     personInfoBlock(person);
 #warning waiting to finish get user info api
 }
-
+- (void)getUserOldMessage
+{
+    NSArray *array = @[@"1",@"2"];
+    NSDictionary *params = @{@"phone": self.currentPerson.phone,
+                             @"from_uid":@"12",
+                             @"top_min_msg_id":@"234",
+                             @"msg_ids":array
+                             };
+    self.getOldMessageManager.apiParams = params;
+    [self.getOldMessageManager loadData];
+}
 - (void)deleteMessageByIdentifier:(NSString *)identifier
 {
     [self.dataCenter deleteMessageByIdentifier:identifier];
@@ -488,6 +524,16 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     return  [self.dataCenter fetchPersonWithUID:uid];
 }
 
+- (AXMappedPerson *)getFriendInfoWithFriendUid:(NSString *)personUid compeletionBlock:(void (^)(AXMappedPerson *))getFriendInfoBlock
+{
+    self.getFriendInfoManager.apiParams = @{
+                                            @"phone":self.currentPerson.phone,
+                                            @"to_uid":personUid
+                                            };
+    _getFriendInfoBlock = getFriendInfoBlock;
+#warning watting for master casa to finish it
+    [self.getFriendInfoManager loadData];
+}
 - (void)searchBrokerByBrokerPhone:(NSString *)brokerPhone compeletionBlock:(void (^)(AXMappedPerson *))searchBrokerBlock
 {
     _searchBrokerBlock = searchBrokerBlock;
@@ -504,6 +550,16 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 - (AXMappedPerson *)fetchCurrentPerson
 {
     return [self.dataCenter fetchCurrentPerson];
+}
+
+- (void)deleteConversationItem:(AXMappedConversationListItem *)conversationItem
+{
+    return [self.dataCenter deleteConversationItem:conversationItem];
+}
+
+- (void)didLeaveChattingList
+{
+    [self.dataCenter didLeaveChattingList];
 }
 
 #pragma mark - AXChatDataCenterDelegate
@@ -564,7 +620,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 - (void)request:(ASIHTTPRequest *)request didReceiveData:(NSData *)data
 {
     if (request.tag == AXMessageCenterHttpRequestTypeQRCode ) {
-//        _addFriendByQRCode(NO);
+        _addFriendByQRCode(NO);
     }
     if (request.tag == AXMessageCenterHttpRequestTypeDeleteFriend) {
         __autoreleasing NSError *error;

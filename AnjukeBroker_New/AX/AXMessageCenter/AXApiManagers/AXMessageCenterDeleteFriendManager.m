@@ -2,7 +2,7 @@
 //  AXMessageCenterDeleteFriendManager.m
 //  Anjuke2
 //
-//  Created by 杨 志豪 on 14-2-18.
+//  Created by 杨 志豪 on 14-2-26.
 //  Copyright (c) 2014年 anjuke inc. All rights reserved.
 //
 
@@ -31,13 +31,13 @@
 
 - (NSDictionary *)paramsForApi:(RTAPIBaseManager *)manager
 {
-    NSDictionary *dic = @{@"array": self.deleteList};
-    
-    return dic;
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithDictionary:self.apiParams];
+    [params removeObjectForKey:@"phone"];
+    return params;
 }
+
 - (BOOL)manager:(RTAPIBaseManager *)manager isCorrectWithParamsData:(NSDictionary *)data
 {
     return YES;
 }
-
 @end

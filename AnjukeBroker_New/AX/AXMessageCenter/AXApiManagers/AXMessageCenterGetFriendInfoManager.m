@@ -1,17 +1,17 @@
 //
-//  AXMessageCenterGetUserOldMessageManager.m
+//  AXMessageCenterGetFriendInfoManager.m
 //  Anjuke2
 //
-//  Created by 杨 志豪 on 14-2-18.
+//  Created by 杨 志豪 on 14-2-26.
 //  Copyright (c) 2014年 anjuke inc. All rights reserved.
 //
 
-#import "AXMessageCenterGetUserOldMessageManager.h"
+#import "AXMessageCenterGetFriendInfoManager.h"
 
-@implementation AXMessageCenterGetUserOldMessageManager
+@implementation AXMessageCenterGetFriendInfoManager
 - (NSString *)methodName
 {
-    return [NSString stringWithFormat:@"message/getUserOldMessages/%@/%@/%@",self.apiParams[@"phone"],self.apiParams[@"from_uid"],self.apiParams[@"top_min_msg_id"]];
+    return [NSString stringWithFormat:@"user/getFriendInfo/%@/%@",self.apiParams[@"phone"],self.apiParams[@"to_uid"]];
 }
 
 - (RTServiceType)serviceType
@@ -32,12 +32,11 @@
 
 - (NSDictionary *)paramsForApi:(RTAPIBaseManager *)manager
 {
-    NSDictionary *params = self.apiParams[@"msg_ids"];
-    return params;
-    
+    return @{};
 }
 - (BOOL)manager:(RTAPIBaseManager *)manager isCorrectWithParamsData:(NSDictionary *)data
 {
     return YES;
 }
+
 @end

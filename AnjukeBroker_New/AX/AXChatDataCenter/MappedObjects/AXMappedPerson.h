@@ -23,20 +23,20 @@ typedef NS_ENUM(NSUInteger, AXPersonType)
 @property (nonatomic, strong) NSDate * created;
 @property (nonatomic, strong) NSString * iconPath;
 @property (nonatomic, strong) NSString * iconUrl;
-@property (nonatomic, strong) NSNumber * isIconDownloaded;
+@property (nonatomic) BOOL isIconDownloaded;
 @property (nonatomic, strong) NSDate * lastActiveTime;
 @property (nonatomic, strong) NSDate * lastUpdate;
 @property (nonatomic, strong) NSString * markName;
 @property (nonatomic, strong) NSString * markNamePinyin;
 @property (nonatomic, strong) NSString * name;
 @property (nonatomic, strong) NSString * namePinyin;
-@property (nonatomic, strong) NSNumber * isPendingForAdd;
+@property (nonatomic) BOOL isPendingForAdd;
 @property (nonatomic, strong) NSString * phone;
 @property (nonatomic, strong) NSString * uid;
 @property (nonatomic, strong) NSString * company;
-@property (nonatomic, strong) NSNumber * userType;
-@property (nonatomic, strong) NSNumber * isStar;
-@property (nonatomic, strong) NSNumber * isPendingForRemove;
+@property (nonatomic) AXPersonType userType;
+@property (nonatomic) BOOL isStar;
+@property (nonatomic) BOOL isPendingForRemove;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dic;
 @end

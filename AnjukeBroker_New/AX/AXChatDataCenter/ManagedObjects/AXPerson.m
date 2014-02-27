@@ -57,19 +57,19 @@
     self.created = person.created;
     self.iconPath = person.iconPath;
     self.iconUrl = person.iconUrl;
-    self.isIconDownloaded = person.isIconDownloaded;
+    self.isIconDownloaded = [NSNumber numberWithBool:person.isIconDownloaded];;
     self.lastActiveTime = person.lastActiveTime;
     self.lastUpdate = person.lastUpdate;
     self.markName = person.markName;
     self.markNamePinyin = person.markNamePinyin;
     self.name = person.name;
     self.namePinyin = person.namePinyin;
-    self.isPendingForRemove = person.isPendingForRemove;
+    self.isPendingForRemove = [NSNumber numberWithBool:person.isPendingForRemove];
     self.phone = person.phone;
     self.uid = person.uid;
-    self.userType = person.userType;
-    self.isStar = person.isStar;
-    self.isPendingForAdd = person.isPendingForAdd;
+    self.userType = @(person.userType);
+    self.isStar = [NSNumber numberWithBool:person.isStar];
+    self.isPendingForAdd = [NSNumber numberWithBool:person.isPendingForAdd];
     self.company = person.company;
 }
 

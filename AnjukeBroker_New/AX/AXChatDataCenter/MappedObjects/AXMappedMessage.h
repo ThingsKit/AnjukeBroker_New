@@ -44,9 +44,9 @@ typedef NS_ENUM (NSUInteger, AXMessageCenterSendMessageStatus)
 @property (nonatomic, strong) NSString * identifier;
 @property (nonatomic, strong) NSString * imgPath;
 @property (nonatomic, strong) NSString * imgUrl;
-@property (nonatomic, strong) NSNumber * isImgDownloaded;
-@property (nonatomic, strong) NSNumber * isRead;
-@property (nonatomic, strong) NSNumber * isRemoved;
+@property (nonatomic) BOOL isImgDownloaded;
+@property (nonatomic) BOOL isRead;
+@property (nonatomic) BOOL isRemoved;
 @property (nonatomic, strong) NSNumber * messageId;
 @property (nonatomic, strong) NSNumber * messageType;
 @property (nonatomic, strong) NSNumber * sendStatus;

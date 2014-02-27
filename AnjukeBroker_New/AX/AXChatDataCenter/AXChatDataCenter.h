@@ -47,6 +47,9 @@
 - (AXMappedMessage *)fetchMessageWithIdentifier:(NSString *)identifier;
 - (void)saveDraft:(NSString *)content friendUID:(NSString *)friendUID;
 
+- (NSInteger)totalUnreadMessageCount;
+- (void)didLeaveChattingList;
+
 // conversation list
 - (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID;
 - (NSFetchedResultsController *)conversationListFetchedResultController;

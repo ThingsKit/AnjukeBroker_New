@@ -11,6 +11,7 @@
 #import "AXPerson.h"
 #import "AXMessage.h"
 #import "AXConversationListItem.h"
+#import "NSArray+ExtraMethods.h"
 
 @interface AXChatDataCenter ()
 
@@ -18,6 +19,7 @@
 @property (nonatomic, strong) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, copy) NSString *uid;
+@property (nonatomic, copy) NSString *friendUid;
 
 @end
 
@@ -75,17 +77,16 @@
 #pragma mark - message related list
 - (void)fetchChatListByLastMessage:(AXMappedMessage *)lastMessage pageSize:(NSUInteger)pageSize;
 {
-    NSString *friendUID = nil;
     if ([lastMessage.from isEqualToString:self.uid]) {
-        friendUID = lastMessage.to;
+        self.friendUid = lastMessage.to;
     } else {
-        friendUID = lastMessage.from;
+        self.friendUid = lastMessage.from;
     }
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:NO]];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND sendTime < %@", friendUID, friendUID, lastMessage.sendTime];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND sendTime < %@", self.friendUid, self.friendUid, lastMessage.sendTime];
     fetchRequest.fetchLimit = pageSize;
     __autoreleasing NSError *error;
     NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
@@ -95,15 +96,8 @@
         [mappedResult addObject:[message convertToMappedObject]];
     }
     
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    request.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
-    request.predicate = [NSPredicate predicateWithFormat:@"from = %@ OR to = %@", friendUID, friendUID];
-    request.fetchLimit = pageSize;
-    NSArray *allresult = [self.managedObjectContext executeFetchRequest:request error:&error];
-    NSLog(@"%@", allresult);
-
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.delegate dataCenter:self didFetchChatList:mappedResult withFriend:[self fetchPersonWithUID:friendUID] lastMessage:lastMessage];
+        [self.delegate dataCenter:self didFetchChatList:[mappedResult reverseSelf] withFriend:[self fetchPersonWithUID:self.friendUid] lastMessage:lastMessage];
     });
 }
 
@@ -112,7 +106,8 @@
 {
     AXMessage *messageToInsert = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
     [messageToInsert assignPropertiesFromMappedObject:message];
-    [self addConversationListItemWithMessage:message];
+    messageToInsert.sendTime = [NSDate dateWithTimeIntervalSinceNow:0];
+    [self updateConversationListItemWithMessage:message];
     __autoreleasing NSError *error;
     [self.managedObjectContext save:&error];
     return [messageToInsert convertToMappedObject];
@@ -124,7 +119,8 @@
     if (message) {
         message.sendStatus = @(AXMessageCenterSendMessageStatusSuccessful);
     }
-    [self.managedObjectContext save:NULL];
+    __autoreleasing NSError *error = nil;
+    [self.managedObjectContext save:&error];
     return [message convertToMappedObject];
 }
 
@@ -171,7 +167,6 @@
             managedMessage.accountType = message[@"account_type"];
             managedMessage.content = message[@"body"];
             managedMessage.from = friendUID;
-            managedMessage.isRead = [NSNumber numberWithBool:YES];
             managedMessage.isRemoved = [NSNumber numberWithBool:NO];
             managedMessage.messageId = @([message[@"msg_id"] integerValue]);
             managedMessage.messageType = @(messageType);
@@ -179,16 +174,18 @@
             managedMessage.sendTime = lastUpdateTime;
             managedMessage.to = message[@"to_uid"];
             
+            if ([self.friendUid isEqualToString:friendUID]) {
+                managedMessage.isRead = [NSNumber numberWithBool:YES];
+            } else {
+                managedMessage.isRead = [NSNumber numberWithBool:NO];
+            }
             [messageArray addObject:[managedMessage convertToMappedObject]];
-            
-            [self addConversationListItemWithMessage:[managedMessage convertToMappedObject]];
         }
-        NSMutableArray *array = [NSMutableArray arrayWithCapacity:[messageArray count]];
-        NSEnumerator *enumerator = [messageArray reverseObjectEnumerator];
-        for (id element in enumerator) {
-            [array addObject:element];
-        }
-        messageDictionary[friendUID] = array;
+        
+        __autoreleasing NSError *error = nil;
+        [self.managedObjectContext save:&error];
+        [self updateConversationListItemWithMessage:[messageArray firstObject]];
+        messageDictionary[friendUID] = [messageArray reverseSelf];
     }
     
     __autoreleasing NSError *error;
@@ -260,21 +257,31 @@
 - (void)saveDraft:(NSString *)content friendUID:(NSString *)friendUID
 {
     AXConversationListItem *conversationListItem = [self findConversationListItemWithFriendUID:friendUID];
+    conversationListItem.draftContent = content;
     if ([content isEqualToString:@""]) {
         if (conversationListItem) {
-            AXMessage *lastMessage = [self findLastMessageWithFriendUid:friendUID];
-            conversationListItem.draftContent = content;
-            conversationListItem.messageType = lastMessage.messageType;
-            [self.managedObjectContext save:NULL];
+            conversationListItem.hasDraft = [NSNumber numberWithBool:NO];
         }
     } else {
         if (!conversationListItem) {
             conversationListItem = [NSEntityDescription insertNewObjectForEntityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
         }
-        conversationListItem.draftContent = content;
-        conversationListItem.messageType = @(AXConversationListItemTypeDraft);
-        [self.managedObjectContext save:NULL];
+        conversationListItem.hasDraft = [NSNumber numberWithBool:YES];
     }
+    [self.managedObjectContext save:NULL];
+}
+
+- (NSInteger)totalUnreadMessageCount
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"isRead = %@", [NSNumber numberWithBool:NO]];
+    return [self.managedObjectContext countForFetchRequest:fetchRequest error:NULL];
+}
+
+- (void)didLeaveChattingList
+{
+    self.friendUid = nil;
 }
 
 #pragma mark - conversation List
@@ -336,7 +343,7 @@
         //删除所有消息
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
-        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"from = %@ AND to = %@", uid];
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"from = %@ AND to = %@", uid,uid];
         NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
         for (AXMessage *message in result) {
             [self.managedObjectContext deleteObject:message];
@@ -510,7 +517,7 @@
 }
 
 #pragma mark - private methods
-- (void)addConversationListItemWithMessage:(AXMappedMessage *)message
+- (void)updateConversationListItemWithMessage:(AXMappedMessage *)message
 {
     BOOL shouldUpdateConversationListItem = YES;
     
@@ -523,7 +530,7 @@
     
     
     AXConversationListItemType itemType;
-    AXMessageType messageType = [message.messageType integerValue];
+    AXMessageType messageType = message.messageType;
     NSString *messageTip;
     if (messageType == AXMessageTypeSettingNotifycation || messageType == AXMessageTypeSystemForbid || messageType == AXMessageTypeSystemTime || messageType == AXMessageTypeAddNuckName) {
         shouldUpdateConversationListItem = NO;
@@ -552,17 +559,8 @@
         AXMappedConversationListItem *item = [[AXMappedConversationListItem alloc] init];
         item.friendUid = friendUID;
         AXConversationListItem *conversationListItem = [self findConversationListItemWithItem:item];
-        if (conversationListItem) {
-            if (!message.isRead) {
-                conversationListItem.count = @([conversationListItem.count integerValue] + 1);
-            }
-        } else {
+        if (!conversationListItem) {
             conversationListItem = [NSEntityDescription insertNewObjectForEntityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
-            if (!message.isRead) {
-                conversationListItem.count = @(0);
-            } else {
-                conversationListItem.count = @(1);
-            }
             AXPerson *person = [self findPersonWithUID:friendUID];
             conversationListItem.iconPath = person.iconPath;
             conversationListItem.isIconDownloaded = person.isIconDownloaded;
@@ -580,6 +578,7 @@
         conversationListItem.lastUpdateTime = [NSDate dateWithTimeIntervalSinceNow:0];
         conversationListItem.messageTip = messageTip;
         conversationListItem.friendUid = friendUID;
+        conversationListItem.count = [NSNumber numberWithInteger:[self findConversationListItemWithFriendUID:friendUID]];
         
         __autoreleasing NSError *error;
         [self.managedObjectContext save:&error];
@@ -655,6 +654,26 @@
     } else {
         return nil;
     }
+}
+
+- (NSUInteger)countUnreadMessagesWithFriendUid:(NSString *)friendUid
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND isRead = %@", friendUid, friendUid, [NSNumber numberWithBool:NO]];
+    return [self.managedObjectContext countForFetchRequest:fetchRequest error:NULL];
+}
+
+- (void)turnAllMessageToReadWithFriendUid:(NSString *)friendUid
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND isRead = %@", friendUid, friendUid, [NSNumber numberWithBool:NO]];
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    for (AXMessage *message in result) {
+        message.isRead = [NSNumber numberWithBool:YES];
+    }
+    [self.managedObjectContext save:NULL];
 }
 
 @end
