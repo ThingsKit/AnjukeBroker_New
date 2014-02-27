@@ -465,6 +465,11 @@
     [self.loginVC doLogOut];
 }
 
+- (void)showMessageValueWithStr:(int)value { //显示消息条数
+    NSString *str = [NSString stringWithFormat:@"%d", value];
+    [self.tabController setMessageBadgeValueWithValue:str];
+}
+
 #pragma mark - Request Method
 
 //获取房源配置信息

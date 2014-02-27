@@ -28,11 +28,14 @@
 @property (nonatomic, strong) UIViewController *page4;
 @property (nonatomic, strong) UIViewController *page5;
 
+@property (nonatomic, strong) RTNavigationController *messageNavController;
+
 @end
 
 @implementation TabBarViewController
 @synthesize page1, page2 ,page3, page4, page5;
 @synthesize controllerArrays;
+@synthesize messageNavController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -66,7 +69,7 @@
         RTNavigationController *navMl = [[RTNavigationController alloc] initWithRootViewController:ml];
         [self.controllerArrays addObject:navMl];
         navMl.tabBarItem = [self getTabBarItemWithTitle:@"微聊" image:[UIImage imageNamed:@"anjuke_icon_wl.png"] index:2];
-        navMl.tabBarItem.badgeValue = @"13"; //for test
+        self.messageNavController = navMl;
         
         //客户
         ClientListViewController *cl = [[ClientListViewController alloc] init];
@@ -158,7 +161,8 @@
 }
 
 - (void)setMessageBadgeValueWithValue:(NSString *)value {
-    [self.page2.tabBarItem setBadgeValue:value];
+    DLog(@"未读消息数量 【%@】", value);
+    [self.messageNavController.tabBarItem setBadgeValue:value];
 }
 
 @end

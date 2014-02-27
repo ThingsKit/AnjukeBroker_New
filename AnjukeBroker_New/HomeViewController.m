@@ -52,6 +52,8 @@
 @property (nonatomic, strong) UILabel *msgCountLb;
 @property int MSGNum;
 
+@property BOOL hasLongLinked;
+
 @end
 
 @implementation HomeViewController
@@ -471,7 +473,27 @@
     
     [self setHomeValue];
     
-    [self requestLongLink];
+    if (!self.hasLongLinked) {
+//        [self requestLongLink];
+        
+        if (!chatID || [chatID isEqualToString:@""] || chatID == nil) {
+#ifdef DEBUG
+            [self showInfo:@"无法登录聊天，没ChatID，找API要去"];
+#endif
+        }
+        else {
+            //******兼容安居客team得到userInfoDic并设置NSUserDefaults，以帮助底层通过对应路径获取相应数据******
+            NSDictionary *dic = [LoginManager getFuckingChatUserDicJustForAnjukeTeamWithPhone:phone uid:chatID];
+            [[NSUserDefaults standardUserDefaults] setValue:dic forKey:@"anjuke_chat_login_info"];
+            
+            [AXChatMessageCenter defaultMessageCenter];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_MENU_TABLE" object:nil];
+        }
+        
+        
+
+        self.hasLongLinked = YES;
+    }
     
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;

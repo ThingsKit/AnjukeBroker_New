@@ -44,6 +44,7 @@ typedef enum {
 
 - (void)requestSalePropertyConfig;
 - (void)doLogOut;
+- (void)showMessageValueWithStr:(int)value; //显示未读消息条数
 
 //用于发房结束后页面跳转到计划管理房源列表页面
 - (void)dismissController:(UIViewController *)dismissController withSwitchIndex:(int)index withSwtichType:(TabSwitchType)switchType withPropertyDic:(NSDictionary *)propDic;

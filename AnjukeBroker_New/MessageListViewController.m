@@ -13,6 +13,7 @@
 
 #import "BrokerChatViewController.h"
 #import "AppManager.h"
+#import "AppDelegate.h"
 
 @interface MessageListViewController ()
 
@@ -40,6 +41,12 @@
 	// Do any additional setup after loading the view.
     
     [self setTitleViewWithString:@"微聊"];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self resetMessageValue];
 }
 
 - (void)didReceiveMemoryWarning
@@ -102,6 +109,17 @@
 
 #pragma mark - Private Method
 
+- (void)resetMessageValue {
+    //得到所有的消息提醒数
+    int count = 0;
+    for (int i = 0; i < [[self.sessionFetchedResultsController fetchedObjects] count]; i ++) {
+        AXMappedConversationListItem *item = [[self.sessionFetchedResultsController fetchedObjects] objectAtIndex:i];
+        count += [item.count intValue];
+    }
+    
+    [[AppDelegate sharedAppDelegate] showMessageValueWithStr:count];
+}
+
 - (void)removeDataArrAtIndex:(int)index {
     if (index >= self.listDataArray.count) {
         return;
@@ -122,7 +140,7 @@
         // 接受消息
         if ([note.object isKindOfClass:[NSArray class]]) {
             NSArray *list = (NSArray *)note.object;
-            DLog(@"------list [%@]", list);
+            DLog(@"------Message_list [%@]", list);
         }
     }];
 }
@@ -239,6 +257,8 @@
 {
     [self.tableViewList endUpdates];
     [self hideLoadWithAnimated:YES];
+    
+    [self resetMessageValue];
 }
 
 @end

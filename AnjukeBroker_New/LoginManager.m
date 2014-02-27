@@ -118,4 +118,18 @@
     return dic;
 }
 
++ (NSDictionary *)getFuckingChatUserDicJustForAnjukeTeamWithPhone:(NSString *)phone uid:(NSString *)uid {
+    NSMutableDictionary *userDic = [NSMutableDictionary dictionary];
+    if (phone) {
+        [userDic setObject:phone forKey:@"phone"];
+    }
+    if (uid) {
+        [userDic setObject:uid forKey:@"user_id"];
+    }
+    NSDictionary *dic = [NSDictionary dictionaryWithObject:userDic forKey:@"user_info"];
+    
+    return dic;
+}
+
+
 @end
