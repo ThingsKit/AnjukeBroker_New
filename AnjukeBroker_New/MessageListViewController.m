@@ -114,7 +114,7 @@
     int count = 0;
     for (int i = 0; i < [[self.sessionFetchedResultsController fetchedObjects] count]; i ++) {
         AXMappedConversationListItem *item = [[self.sessionFetchedResultsController fetchedObjects] objectAtIndex:i];
-        count += [item.count intValue];
+        count += item.count;
     }
     
     [[AppDelegate sharedAppDelegate] showMessageValueWithStr:count];

@@ -101,7 +101,7 @@
     for (int i = 0; i < self.testArr.count; i++) {
         AXMappedPerson *item = [self.testArr objectAtIndex:i];
         
-        if ([item.userType integerValue] == AXPersonTypePublic) {
+        if (item.userType == AXPersonTypePublic) {
             [self.publicDataArr addObject:item];
         }
     }
@@ -109,10 +109,10 @@
     for (int i = 0; i < self.testArr.count; i ++) {
         AXMappedPerson *item = [self.testArr objectAtIndex:i];
         
-        if ([item.userType integerValue] == AXPersonTypeUser) {
+        if (item.userType == AXPersonTypeUser) {
             [self.allDataArr addObject:item]; //所有用户
             
-            if ((BOOL)[item.isStar integerValue] == YES) {
+            if (item.isStar == YES) {
                 [self.starDataArr addObject:item]; //星标用户
             }
         }
@@ -202,7 +202,7 @@
         rightBtnarr = [self rightButtonsIsStar:YES];
     }
     else if (indexPath.section == 2) {
-        rightBtnarr = [self rightButtonsIsStar:(BOOL)[item.isStar integerValue]];
+        rightBtnarr = [self rightButtonsIsStar:item.isStar];
     }
     
     if (cell == nil) {
@@ -283,7 +283,7 @@
 //                item
 //            }
             
-            [[[cell rightUtilityButtons] objectAtIndex:0] setImage:[self getImageIsStar:!(BOOL)[item.isStar integerValue]] forState:UIControlStateNormal];
+            [[[cell rightUtilityButtons] objectAtIndex:0] setImage:[self getImageIsStar:!item.isStar] forState:UIControlStateNormal];
             
             break;
         }

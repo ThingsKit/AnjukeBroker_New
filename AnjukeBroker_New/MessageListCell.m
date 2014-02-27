@@ -108,7 +108,7 @@
     self.timeLb.text = [Util_TEXT getDateStrWithDate:item.lastUpdateTime];
     self.messageLb.text = item.messageTip;
     
-    self.iconNumLb.text = [item.count stringValue];
+    self.iconNumLb.text = [NSString stringWithFormat:@"%d", item.count];
     
     return YES;
 }
