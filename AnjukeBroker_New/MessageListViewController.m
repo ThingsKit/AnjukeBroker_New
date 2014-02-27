@@ -186,14 +186,9 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return;
-#warning - message list delete method
-    
-    [self removeDataArrAtIndex:indexPath.row];
-    
-    [tableView beginUpdates];
-    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    [tableView endUpdates];
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [[AXChatMessageCenter defaultMessageCenter] deleteConversationItem:[self.sessionFetchedResultsController fetchedObjects][indexPath.row]];
+    }
 }
 
 #pragma mark - UITableViewDelegate
