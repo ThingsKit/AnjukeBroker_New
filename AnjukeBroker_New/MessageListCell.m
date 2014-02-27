@@ -96,7 +96,7 @@
     
     [self cleanValue];
     
-    AXMappedConversationListItem *item = (AXMappedConversationListItem *)dataModel;
+    AXConversationListItem *item = (AXConversationListItem *)dataModel;
     
     if (item.iconUrl) {
         if (item.isIconDownloaded) {
@@ -113,7 +113,7 @@
     self.nameLb.text = [NSString stringWithFormat:@"%@", item.presentName];
     self.timeLb.text = [Util_TEXT getDateStrWithDate:item.lastUpdateTime];
     
-//    self.messageLb.text = item.messageTip;
+    self.messageLb.text = item.messageTip;
     [self setMessageShowWithData:item];
     
     if ([item.count intValue] > 0) {

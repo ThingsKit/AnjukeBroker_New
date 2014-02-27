@@ -111,14 +111,22 @@
 
 - (void)resetMessageValue {
     //得到所有的消息提醒数
-    int count = 0;
-    for (int i = 0; i < [[self.sessionFetchedResultsController fetchedObjects] count]; i ++) {
-        AXMappedConversationListItem *item = [[self.sessionFetchedResultsController fetchedObjects] objectAtIndex:i];
-        count += [item.count intValue];
-    }
+//    int count = 0;
+//    for (int i = 0; i < [[self.sessionFetchedResultsController fetchedObjects] count]; i ++) {
+//        AXMappedConversationListItem *item = [[self.sessionFetchedResultsController fetchedObjects] objectAtIndex:i];
+//        count += [item.count intValue];
+//    }
+//    
+//    if (count > 0) {
+//        [[AppDelegate sharedAppDelegate] showMessageValueWithStr:count];
+//    }
     
-    if (count > 0) {
-        [[AppDelegate sharedAppDelegate] showMessageValueWithStr:count];
+    NSInteger count = [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
+    if (count) {
+        self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",count];
+    } else
+    {
+        self.navigationController.tabBarItem.badgeValue = nil;
     }
 }
 
