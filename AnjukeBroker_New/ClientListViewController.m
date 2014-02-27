@@ -8,6 +8,7 @@
 
 #import "ClientListViewController.h"
 #import "ClientDetailViewController.h"
+#import "ClientDetailPublicViewController.h"
 #import "Util_UI.h"
 #import "AXChatMessageCenter.h"
 #import "AXMappedPerson.h"
@@ -247,6 +248,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     DLog(@"section- [%d]", indexPath.section);
     
+    if (indexPath.section == 0) { //公共账号显示
+        AXMappedPerson *item = [self.publicDataArr objectAtIndex:indexPath.row];
+        
+        ClientDetailPublicViewController *cd = [[ClientDetailPublicViewController alloc] init];
+        cd.person = item;
+        [cd setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:cd animated:YES];
+    }
     if (indexPath.section == 2) {
         AXMappedPerson *item = [self.allDataArr objectAtIndex:indexPath.row];
         //for test

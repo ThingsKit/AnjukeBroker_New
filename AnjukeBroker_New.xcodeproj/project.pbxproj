@@ -103,6 +103,7 @@
 		20A217D418BF1BD4002CA469 /* AXMessageCenterUpdataUserInformationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A217BC18BF1BD4002CA469 /* AXMessageCenterUpdataUserInformationManager.m */; };
 		20A217D518BF1BD4002CA469 /* AXChatMessageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A217BE18BF1BD4002CA469 /* AXChatMessageCenter.m */; };
 		20A217D618BF1BD4002CA469 /* AXMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A217C018BF1BD4002CA469 /* AXMessageManager.m */; };
+		20A217DF18BF2756002CA469 /* ClientDetailPublicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A217DE18BF2756002CA469 /* ClientDetailPublicViewController.m */; };
 		20A44DA11869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */; };
 		20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44D9E1869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m */; };
 		20A44DA31869760B008D8CB1 /* SSPullToRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44DA01869760B008D8CB1 /* SSPullToRefreshView.m */; };
@@ -602,6 +603,8 @@
 		20A217BE18BF1BD4002CA469 /* AXChatMessageCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageCenter.m; sourceTree = "<group>"; };
 		20A217BF18BF1BD4002CA469 /* AXMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageManager.h; sourceTree = "<group>"; };
 		20A217C018BF1BD4002CA469 /* AXMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageManager.m; sourceTree = "<group>"; };
+		20A217DD18BF2756002CA469 /* ClientDetailPublicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientDetailPublicViewController.h; sourceTree = "<group>"; };
+		20A217DE18BF2756002CA469 /* ClientDetailPublicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientDetailPublicViewController.m; sourceTree = "<group>"; };
 		20A44D9A1869760B008D8CB1 /* SSPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefresh.h; sourceTree = "<group>"; };
 		20A44D9B1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefreshDefaultContentView.h; sourceTree = "<group>"; };
 		20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPullToRefreshDefaultContentView.m; sourceTree = "<group>"; };
@@ -1167,6 +1170,8 @@
 				2079ADE018B5DB690029D493 /* ClientDetailCell.m */,
 				2079ADDC18B5D64B0029D493 /* ClientEditViewController.h */,
 				2079ADDD18B5D64B0029D493 /* ClientEditViewController.m */,
+				20A217DD18BF2756002CA469 /* ClientDetailPublicViewController.h */,
+				20A217DE18BF2756002CA469 /* ClientDetailPublicViewController.m */,
 			);
 			name = "客户单页";
 			sourceTree = "<group>";
@@ -2870,6 +2875,7 @@
 				972F70DE1844C7660010CABB /* BrokerLogger.m in Sources */,
 				B7E69BC4183B9CEE0097D5C3 /* RentBidNoPlanController.m in Sources */,
 				B7E55B4D18BF2190007238CB /* JSDismissiveTextView.m in Sources */,
+				20A217DF18BF2756002CA469 /* ClientDetailPublicViewController.m in Sources */,
 				B7E803F31820F24400775C6F /* SaleNoPlanListCell.m in Sources */,
 				B7E55B2D18BF217A007238CB /* AXChatMessageTextCell.m in Sources */,
 				B70323DC1832115B00DFDB1C /* BaseGroupListController.m in Sources */,

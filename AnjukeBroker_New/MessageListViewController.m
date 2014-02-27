@@ -186,13 +186,14 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    return;
+#warning - message list delete method
+    
     [self removeDataArrAtIndex:indexPath.row];
     
     [tableView beginUpdates];
     [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     [tableView endUpdates];
-    
-//    [tableView reloadData];
 }
 
 #pragma mark - UITableViewDelegate
