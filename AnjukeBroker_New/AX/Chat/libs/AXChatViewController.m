@@ -64,7 +64,7 @@ static NSInteger const AXMessagePageSize = 15;
 @property (nonatomic, strong) UILabel *sendLabel;
 @property (nonatomic, strong) UIControl *keyboardControl;
 
-@property (nonatomic, strong) void (^finishSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status);
+
 
 @property (nonatomic, strong) AXMappedPerson *currentPerson;
 @property (nonatomic, strong) AXMappedPerson *friend;
@@ -269,7 +269,6 @@ static NSInteger const AXMessagePageSize = 15;
         mappedMessageProp.messageType = [NSNumber numberWithInteger:AXMessageTypeProperty];
         [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
     }
-    self.propDict = nil;
 }
 
 - (void)addMessageNotifycation
@@ -1242,9 +1241,4 @@ static NSInteger const AXMessagePageSize = 15;
     [textView resignFirstResponder];
 }
 
--(void)returnSelectedHouseDic:(NSDictionary *)dic houseType:(BOOL)houseType {
-    NSMutableDictionary *propertyDic = [NSMutableDictionary dictionaryWithDictionary:@{@"id":@"123456", @"des":@"一室一厅10卫", @"img":@"http://pic1.ajkimg.com/display/hz/0b291a7f8ea98bf2eb32906e3888a6bf/420x315.jpg", @"name":@"中远小区", @"price":@"30/月"}];
-    self.propDict = propertyDic;
-    [self sendNewMessage];
-}
 @end

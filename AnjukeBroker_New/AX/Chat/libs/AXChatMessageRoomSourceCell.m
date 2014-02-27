@@ -117,6 +117,8 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
     [self setBubbleIMGByMessageSorce];
     if ([self.propDict[@"tradeType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessagePropertySourceErShouFang]]) {
         self.tagLable.text = @"二手房";
+    } else {
+        self.tagLable.text = @"租房";
     }
     
     self.titleLable.text = self.propDict[@"name"];

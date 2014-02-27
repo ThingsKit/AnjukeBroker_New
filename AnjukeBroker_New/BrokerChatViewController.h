@@ -7,7 +7,9 @@
 //
 
 #import "AXChatViewController.h"
+#import "AXChatMessageCenter.h"
+#import "HouseSelectNavigationController.h"
 
-@interface BrokerChatViewController : AXChatViewController
+@interface BrokerChatViewController : AXChatViewController <SelectedHouseWithDicDelegate>
 
 @end
