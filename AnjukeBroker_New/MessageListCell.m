@@ -7,7 +7,6 @@
 //
 
 #import "MessageListCell.h"
-#import "AXMappedConversationListItem.h"
 #import "ChatModel.h"
 #import "Util_TEXT.h"
 
@@ -140,7 +139,7 @@
     [self.statusLabel removeFromSuperview];
 }
 
-- (void)setMessageShowWithData:(AXMappedConversationListItem *)dataItem {
+- (void)setMessageShowWithData:(AXConversationListItem *)item {    
     CGFloat messageLabelH = 15;
     CGFloat messageLabelW = 220;
     
@@ -153,70 +152,59 @@
     CGRect iconFrame = CGRectMake(offsetX, offsetY, iconW, iconH);
     CGRect messageFrame_icon = CGRectMake(offsetX + iconW, offsetY, messageLabelW, messageLabelH);
     CGRect messageFrame_noIcon = CGRectMake(offsetX + 0, offsetY, messageLabelW, messageLabelH);
-
+    
     //草稿
-    if (dataItem.draftContent.length > 0) { //草稿
-        self.messageLb.text = dataItem.draftContent;
+    if ([item.hasDraft boolValue]) { //草稿
+        self.messageLb.text = item.draftContent;
         self.messageLb.frame = messageFrame_icon;
         
         self.statusLabel.text = @"[草稿]";
         self.statusLabel.textColor = SYSTEM_ZZ_RED;
         self.statusLabel.frame = iconFrame;
         [self.contentView addSubview:self.statusLabel];
-        return;
     }
-    
-    //无草稿
-    self.messageLb.text = dataItem.messageTip;
-    self.messageLb.frame = messageFrame_icon;
-    if (dataItem.messageStatus == AXMessageCenterSendMessageStatusSending) { //发送中
-        self.statusIcon.image = [UIImage imageNamed:@"anjuke_icon_fasonging.png"];
-        self.statusIcon.frame = iconFrame;
-    }
-    else if (dataItem.messageStatus == AXMessageCenterSendMessageStatusFailed) { //发送失败
-        self.statusIcon.image = [UIImage imageNamed:@"anjuke_icon_attention.png"];
-        self.statusIcon.frame = iconFrame;
-    }
-    else if (dataItem.messageStatus == AXMessageCenterSendMessageStatusSuccessful) { //成功
-        switch (dataItem.messageType) {
-            case AXConversationListItemTypeText: //纯文本
-            {
+    else {
+        if ([item.messageType integerValue] == AXConversationListItemTypeText) {
+            if ([item.messageStatus integerValue] == AXMessageCenterSendMessageStatusSuccessful) { //发送成功
                 self.messageLb.frame = messageFrame_noIcon;
             }
-                break;
-            case AXConversationListItemTypePic: //图片
-            {
-                self.messageLb.frame = messageFrame_icon;
-                self.messageLb.text = @"";
-                
-                self.statusLabel.text = @"[图片]";
-                self.statusLabel.frame = iconFrame;
-                [self.contentView addSubview:self.statusLabel];
+            if ([item.messageStatus integerValue] == AXMessageCenterSendMessageStatusSending) { //发送中
+                self.statusIcon.image = [UIImage imageNamed:@"anjuke_icon_fasonging.png"];
+                self.statusIcon.frame = iconFrame;
             }
-                break;
-            case AXConversationListItemTypeESFProperty: //二手房
-            {
-                self.messageLb.frame = messageFrame_icon;
-                self.messageLb.text = @"";
-                
-                self.statusLabel.text = @"[二手房]";
-                self.statusLabel.frame = iconFrame;
-                [self.contentView addSubview:self.statusLabel];
+            else if ([item.messageStatus integerValue] == AXMessageCenterSendMessageStatusFailed) {
+                self.statusIcon.image = [UIImage imageNamed:@"anjuke_icon_attention.png"];
+                self.statusIcon.frame = iconFrame;
             }
-                break;
-            case AXConversationListItemTypeHZProperty: //租房
-            {
-                self.messageLb.frame = messageFrame_icon;
-                self.messageLb.text = @"";
-                
-                self.statusLabel.text = @"[租房]";
-                self.statusLabel.frame = iconFrame;
-                [self.contentView addSubview:self.statusLabel];
-            }
-                break;
-                
-            default:
-                break;
+            
+            self.messageLb.text = item.messageTip;
+        }
+        else if ([item.messageType integerValue] == AXConversationListItemTypeCard) { //卡片
+            
+        }
+        else if ([item.messageType integerValue] == AXConversationListItemTypeESFProperty) { //二手房
+            self.messageLb.frame = messageFrame_icon;
+            self.messageLb.text = @"";
+            
+            self.statusLabel.text = @"[二手房]";
+            self.statusLabel.frame = iconFrame;
+            [self.contentView addSubview:self.statusLabel];
+        }
+        else if ([item.messageType integerValue] == AXConversationListItemTypeHZProperty) { //租房
+            self.messageLb.frame = messageFrame_icon;
+            self.messageLb.text = @"";
+            
+            self.statusLabel.text = @"[租房]";
+            self.statusLabel.frame = iconFrame;
+            [self.contentView addSubview:self.statusLabel];
+        }
+        else if ([item.messageType integerValue] == AXConversationListItemTypePic) { //图片
+            self.messageLb.frame = messageFrame_icon;
+            self.messageLb.text = @"";
+            
+            self.statusLabel.text = @"[图片]";
+            self.statusLabel.frame = iconFrame;
+            [self.contentView addSubview:self.statusLabel];
         }
     }
 }

@@ -491,7 +491,7 @@
         }
         self.hasLongLinked = YES;
     }
-
+    
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
     

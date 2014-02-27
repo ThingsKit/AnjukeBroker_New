@@ -8,6 +8,7 @@
 
 #import "RTListCell.h"
 #import "WebImageView.h"
+#import "AXConversationListItem.h"
 
 #define MESSAGE_LIST_HEIGHT 65
 
@@ -23,5 +24,7 @@
 
 @property (nonatomic, strong) UIImageView *statusIcon;
 @property (nonatomic, strong) UILabel *statusLabel;
+
+- (void)setMessageShowWithData:(AXConversationListItem *)item;
 
 @end

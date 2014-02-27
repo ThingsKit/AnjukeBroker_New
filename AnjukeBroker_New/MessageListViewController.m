@@ -9,7 +9,7 @@
 #import "MessageListViewController.h"
 #import "MessageListCell.h"
 #import "BrokerChatViewController.h"
-#import "AXMappedConversationListItem.h"
+#import "AXConversationListItem.h"
 
 #import "BrokerChatViewController.h"
 #import "AppManager.h"
@@ -174,7 +174,7 @@
         
     }
 //    [cell configureCell:[self.sessionFetchedResultsController fetchedObjects][indexPath.row]];
-    AXMappedConversationListItem *item = [self.sessionFetchedResultsController objectAtIndexPath:indexPath];
+    AXConversationListItem *item = [self.sessionFetchedResultsController fetchedObjects][indexPath.row];
     [cell configureCell:item];
     
     return cell;
@@ -194,7 +194,7 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    AXMappedConversationListItem *item = [self.sessionFetchedResultsController objectAtIndexPath:indexPath];
+    AXConversationListItem *item = [self.sessionFetchedResultsController objectAtIndexPath:indexPath];
 
     BrokerChatViewController *controller = [[BrokerChatViewController alloc] init];
     controller.isBroker = YES;
