@@ -183,7 +183,12 @@
             
             [self addConversationListItemWithMessage:[managedMessage convertToMappedObject]];
         }
-        messageDictionary[friendUID] = messageArray;
+        NSMutableArray *array = [NSMutableArray arrayWithCapacity:[messageArray count]];
+        NSEnumerator *enumerator = [messageArray reverseObjectEnumerator];
+        for (id element in enumerator) {
+            [array addObject:element];
+        }
+        messageDictionary[friendUID] = array;
     }
     
     __autoreleasing NSError *error;
