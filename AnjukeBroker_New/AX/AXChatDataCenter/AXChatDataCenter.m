@@ -96,6 +96,8 @@
         [mappedResult addObject:[message convertToMappedObject]];
     }
     
+    [self turnAllMessageToReadWithFriendUid:self.friendUid];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.delegate dataCenter:self didFetchChatList:[mappedResult reverseSelf] withFriend:[self fetchPersonWithUID:self.friendUid] lastMessage:lastMessage];
     });
@@ -578,7 +580,7 @@
         conversationListItem.lastUpdateTime = [NSDate dateWithTimeIntervalSinceNow:0];
         conversationListItem.messageTip = messageTip;
         conversationListItem.friendUid = friendUID;
-        conversationListItem.count = [NSNumber numberWithInteger:[self findConversationListItemWithFriendUID:friendUID]];
+        conversationListItem.count = [NSNumber numberWithInteger:[self countUnreadMessagesWithFriendUid:friendUID]];
         
         __autoreleasing NSError *error;
         [self.managedObjectContext save:&error];

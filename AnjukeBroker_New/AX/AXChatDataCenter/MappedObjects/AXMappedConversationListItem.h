@@ -21,11 +21,11 @@ typedef NS_ENUM(NSUInteger, AXConversationListItemType)
 
 @interface AXMappedConversationListItem : NSObject
 
-@property (nonatomic) NSInteger count;
+@property (nonatomic, retain) NSNumber * count;
 @property (nonatomic, retain) NSString * friendUid;
 @property (nonatomic, retain) NSDate * lastUpdateTime;
 @property (nonatomic, retain) NSString * messageTip;
-@property (nonatomic) AXConversationListItemType * messageType;
+@property (nonatomic) AXConversationListItemType messageType;
 @property (nonatomic, retain) NSString * presentName;
 @property (nonatomic, retain) NSString * iconUrl;
 @property (nonatomic, retain) NSString * lastMsgIdentifier;

@@ -45,7 +45,7 @@
 
 - (void)assignPropertiesFromMappedObject:(AXMappedConversationListItem *)mappedConversationListItem
 {
-    self.count = @(mappedConversationListItem.count);
+    self.count = mappedConversationListItem.count;
     self.friendUid = mappedConversationListItem.friendUid;
     self.iconPath = mappedConversationListItem.iconPath;
     self.iconUrl = mappedConversationListItem.iconUrl;
