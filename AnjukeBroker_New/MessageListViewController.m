@@ -117,7 +117,9 @@
         count += [item.count intValue];
     }
     
-    [[AppDelegate sharedAppDelegate] showMessageValueWithStr:count];
+    if (count > 0) {
+        [[AppDelegate sharedAppDelegate] showMessageValueWithStr:count];
+    }
 }
 
 - (void)removeDataArrAtIndex:(int)index {

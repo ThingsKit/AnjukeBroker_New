@@ -96,6 +96,8 @@
 		20A2177318BF07BE002CA469 /* AXMessageCenterUpdataUserInformationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2175B18BF07BE002CA469 /* AXMessageCenterUpdataUserInformationManager.m */; };
 		20A2177418BF07BE002CA469 /* AXChatMessageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2175D18BF07BE002CA469 /* AXChatMessageCenter.m */; };
 		20A2177518BF07BE002CA469 /* AXMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2175F18BF07BE002CA469 /* AXMessageManager.m */; };
+		20A2177818BF118E002CA469 /* anjuke_icon_attention@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A2177618BF118E002CA469 /* anjuke_icon_attention@2x.png */; };
+		20A2177918BF118E002CA469 /* anjuke_icon_fasonging@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A2177718BF118E002CA469 /* anjuke_icon_fasonging@2x.png */; };
 		20A44DA11869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */; };
 		20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44D9E1869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m */; };
 		20A44DA31869760B008D8CB1 /* SSPullToRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44DA01869760B008D8CB1 /* SSPullToRefreshView.m */; };
@@ -586,6 +588,8 @@
 		20A2175D18BF07BE002CA469 /* AXChatMessageCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageCenter.m; sourceTree = "<group>"; };
 		20A2175E18BF07BE002CA469 /* AXMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageManager.h; sourceTree = "<group>"; };
 		20A2175F18BF07BE002CA469 /* AXMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageManager.m; sourceTree = "<group>"; };
+		20A2177618BF118E002CA469 /* anjuke_icon_attention@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_attention@2x.png"; sourceTree = "<group>"; };
+		20A2177718BF118E002CA469 /* anjuke_icon_fasonging@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_fasonging@2x.png"; sourceTree = "<group>"; };
 		20A44D9A1869760B008D8CB1 /* SSPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefresh.h; sourceTree = "<group>"; };
 		20A44D9B1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefreshDefaultContentView.h; sourceTree = "<group>"; };
 		20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPullToRefreshDefaultContentView.m; sourceTree = "<group>"; };
@@ -1608,6 +1612,8 @@
 				970FC17F183B6E8100D142D5 /* icon+lanchImg */,
 				206F7FCE18A87E97001EEC16 /* speechIcon */,
 				97D752C6182C92690035577F /* Overlay@2x.png */,
+				20A2177618BF118E002CA469 /* anjuke_icon_attention@2x.png */,
+				20A2177718BF118E002CA469 /* anjuke_icon_fasonging@2x.png */,
 				20E892DC18BDC7CB00D7D881 /* anjuke_icon_add@2x.png */,
 				2026044118B9D0E200F75A56 /* anjuke_icon_delete_@2x.png */,
 				2079ADE818B5FD610029D493 /* anjuke_icon_danye_more_@2x.png */,
@@ -2684,6 +2690,7 @@
 				2761B89C187C053C00EABF95 /* logo_57.png in Resources */,
 				B7EE330918BE2812003BE8EC /* xproject_dialogue_greybox_selected.png in Resources */,
 				B7EE32F418BE2812003BE8EC /* xproject_dialogue_agentdetail_selected@2x.png in Resources */,
+				20A2177818BF118E002CA469 /* anjuke_icon_attention@2x.png in Resources */,
 				97F4D18C184E2ABD00DFC45F /* logo_60@2x.png in Resources */,
 				B7EE32EC18BE2812003BE8EC /* send-highlighted.png in Resources */,
 				B7EE330018BE2812003BE8EC /* xproject_dialogue_greenbox@2x.png in Resources */,
@@ -2713,6 +2720,7 @@
 				B7EE32F518BE2812003BE8EC /* xproject_dialogue_anjuketeam.png in Resources */,
 				B7EE32F018BE2812003BE8EC /* toastBack.jpg in Resources */,
 				20F011C118942ABD000264BA /* icon_57.png in Resources */,
+				20A2177918BF118E002CA469 /* anjuke_icon_fasonging@2x.png in Resources */,
 				B7EE32F818BE2812003BE8EC /* xproject_dialogue_articalcard@2x.png in Resources */,
 				B7EE32EF18BE2812003BE8EC /* send@2x.png in Resources */,
 				B7E38A0A18225FEC002C6E8A /* anjuke_icon07_arrow@2x.png in Resources */,

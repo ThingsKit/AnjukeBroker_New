@@ -13,7 +13,7 @@
 
 @implementation MessageListCell
 @synthesize imageIcon, nameLb, messageLb, timeLb;
-@synthesize iconNumLb, statusIcon;
+@synthesize iconNumLb, statusIcon, statusLabel;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -52,7 +52,7 @@
     iconLb.font = [UIFont systemFontOfSize:12];
     iconLb.textAlignment = NSTextAlignmentCenter;
     self.iconNumLb = iconLb;
-    [self.contentView addSubview:iconLb];
+//    [self.contentView addSubview:iconLb];
     
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 12, 14, 150, 20)];
     self.nameLb = nameLabel;
@@ -69,8 +69,7 @@
     timeLabel.textAlignment = NSTextAlignmentRight;
     [self.contentView addSubview:timeLabel];
     
-    CGFloat messageLabelH = 15;
-    UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(nameLabel.frame.origin.x, MESSAGE_LIST_HEIGHT - icon.frame.origin.y - messageLabelH, 240, messageLabelH)];
+    UILabel *messageLabel = [[UILabel alloc] init];
     self.messageLb = messageLabel;
     messageLabel.backgroundColor = [UIColor clearColor];
     messageLabel.textColor = SYSTEM_LIGHT_GRAY;
@@ -81,7 +80,15 @@
     UIImageView *statusImg = [[UIImageView alloc] init];
     statusImg.backgroundColor = [UIColor clearColor];
     self.statusIcon = statusImg;
-    [self.contentView addSubview:statusImg];
+//    [self.contentView addSubview:statusImg];
+    
+    //消息类型
+    UILabel *statusLb = [[UILabel alloc] init];
+    self.statusLabel = statusLb;
+    statusLb.backgroundColor = [UIColor clearColor];
+    statusLb.font = [UIFont systemFontOfSize:12];
+    statusLb.textColor = SYSTEM_LIGHT_GRAY;
+//    [self.contentView addSubview:statusLb];
 }
 
 - (BOOL)configureCell:(id)dataModel {
@@ -106,9 +113,16 @@
     
     self.nameLb.text = [NSString stringWithFormat:@"%@", item.presentName];
     self.timeLb.text = [Util_TEXT getDateStrWithDate:item.lastUpdateTime];
-    self.messageLb.text = item.messageTip;
     
-    self.iconNumLb.text = [NSString stringWithFormat:@"%d", item.count];
+//    self.messageLb.text = item.messageTip;
+    [self setMessageShowWithData:item];
+    
+    if ([item.count intValue] > 0) {
+        self.iconNumLb.text = [item.count stringValue];
+        [self.contentView addSubview:self.iconNumLb];
+    }
+    else
+        [self.iconNumLb removeFromSuperview];
     
     return YES;
 }
@@ -118,7 +132,93 @@
     self.nameLb.text = @"";
     self.timeLb.text = @"";
     self.messageLb.text = @"";
+    
     self.iconNumLb.text = @"";
+    self.statusIcon.image = nil;
+    [self.statusIcon removeFromSuperview];
+    self.statusLabel.text = @"";
+    [self.statusLabel removeFromSuperview];
+}
+
+- (void)setMessageShowWithData:(AXMappedConversationListItem *)dataItem {
+    CGFloat messageLabelH = 15;
+    CGFloat messageLabelW = 220;
+    
+    CGFloat iconW = 20;
+    CGFloat iconH = 15;
+    
+    CGFloat offsetX = self.nameLb.frame.origin.x + self.frame.size.width;
+    CGFloat offsetY = self.nameLb.frame.origin.y + self.nameLb.frame.size.height + 10;
+    
+    CGRect iconFrame = CGRectMake(offsetX, offsetY, iconW, iconH);
+    CGRect messageFrame_icon = CGRectMake(offsetX + iconW, offsetY, messageLabelW, messageLabelH);
+    CGRect messageFrame_noIcon = CGRectMake(offsetX + 0, offsetY, messageLabelW, messageLabelH);
+
+    //草稿
+    if (dataItem.draftContent.length > 0) { //草稿
+        self.messageLb.text = dataItem.draftContent;
+        self.messageLb.frame = messageFrame_icon;
+        
+        self.statusLabel.text = @"[草稿]";
+        self.statusLabel.textColor = SYSTEM_ZZ_RED;
+        self.statusLabel.frame = iconFrame;
+        [self.contentView addSubview:self.statusLabel];
+        return;
+    }
+    
+    //无草稿
+    self.messageLb.text = dataItem.messageTip;
+    self.messageLb.frame = messageFrame_icon;
+    if (dataItem.messageStatus == AXMessageCenterSendMessageStatusSending) { //发送中
+        self.statusIcon.image = [UIImage imageNamed:@"anjuke_icon_fasonging.png"];
+        self.statusIcon.frame = iconFrame;
+    }
+    else if (dataItem.messageStatus == AXMessageCenterSendMessageStatusFailed) { //发送失败
+        self.statusIcon.image = [UIImage imageNamed:@"anjuke_icon_attention.png"];
+        self.statusIcon.frame = iconFrame;
+    }
+    else if (dataItem.messageStatus == AXMessageCenterSendMessageStatusSuccessful) { //成功
+        switch (dataItem.messageType) {
+            case AXConversationListItemTypeText: //纯文本
+            {
+                self.messageLb.frame = messageFrame_noIcon;
+            }
+                break;
+            case AXConversationListItemTypePic: //图片
+            {
+                self.messageLb.frame = messageFrame_icon;
+                self.messageLb.text = @"";
+                
+                self.statusLabel.text = @"[图片]";
+                self.statusLabel.frame = iconFrame;
+                [self.contentView addSubview:self.statusLabel];
+            }
+                break;
+            case AXConversationListItemTypeESFProperty: //二手房
+            {
+                self.messageLb.frame = messageFrame_icon;
+                self.messageLb.text = @"";
+                
+                self.statusLabel.text = @"[二手房]";
+                self.statusLabel.frame = iconFrame;
+                [self.contentView addSubview:self.statusLabel];
+            }
+                break;
+            case AXConversationListItemTypeHZProperty: //租房
+            {
+                self.messageLb.frame = messageFrame_icon;
+                self.messageLb.text = @"";
+                
+                self.statusLabel.text = @"[租房]";
+                self.statusLabel.frame = iconFrame;
+                [self.contentView addSubview:self.statusLabel];
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
 }
 
 @end

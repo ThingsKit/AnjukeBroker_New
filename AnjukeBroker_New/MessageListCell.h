@@ -20,6 +20,8 @@
 @property (nonatomic, strong) UILabel *messageLb;
 @property (nonatomic, strong) UILabel *timeLb;
 @property (nonatomic, strong) UILabel *iconNumLb;
+
 @property (nonatomic, strong) UIImageView *statusIcon;
+@property (nonatomic, strong) UILabel *statusLabel;
 
 @end
