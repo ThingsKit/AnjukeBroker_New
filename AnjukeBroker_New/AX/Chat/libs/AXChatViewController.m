@@ -752,18 +752,17 @@ static NSInteger const AXMessagePageSize = 15;
 
 - (void)pickAJK:(id)sender {
     
-//    NSDictionary *roomSource = @{@"title": @"中房二期花园，地理位置好",@"price":@"12000",@"roomType":@"3房两厅",@"area":@"200",@"floor":@"13/14",@"year":@"2005",@"messageType":[NSNumber numberWithInteger:AXMessageTypeProperty],@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationIncoming]};
-//    [self.cellData addObject:roomSource];
-//    [self reloadMytableView];
-}
-
-- (void)pickHZ:(id)sender {
-//    NSDictionary *roomSource = @{@"title": @"中房二期花园，地理位置好",@"price":@"12000",@"roomType":@"3房两厅",@"area":@"200",@"floor":@"13/14",@"year":@"2005",@"messageType":[NSNumber numberWithInteger:AXMessageTypeProperty],@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationOutPut]};
-//    [self.cellData addObject:roomSource];
-//    [self reloadMytableView];
+    NSMutableDictionary *propertyDic = [NSMutableDictionary dictionaryWithDictionary:@{@"id":@"123456", @"des":@"一室一厅10卫", @"img":@"http://pic1.ajkimg.com/display/hz/0b291a7f8ea98bf2eb32906e3888a6bf/420x315.jpg", @"name":@"中远小区", @"price":@"30/月"}];
+    self.propDict = propertyDic;
+    [self sendNewMessage];
     
 }
 
+- (void)pickHZ:(id)sender {
+    NSMutableDictionary *propertyDic = [NSMutableDictionary dictionaryWithDictionary:@{@"id":@"123456", @"des":@"一室一厅10卫", @"img":@"http://pic1.ajkimg.com/display/hz/0b291a7f8ea98bf2eb32906e3888a6bf/420x315.jpg", @"name":@"中远小区", @"price":@"30/月"}];
+    self.propDict = propertyDic;
+    [self sendNewMessage];
+}
 - (void)sendMessage:(id)sender {
     if ([self.messageInputView.textView.text isEqualToString:@""]) {
         UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"提示" message:@"不能发空消息" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil];
