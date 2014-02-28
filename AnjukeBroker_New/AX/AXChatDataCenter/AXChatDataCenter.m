@@ -108,12 +108,10 @@
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND isRemoved = %@ AND messageType = %@", friendUid, friendUid, [NSNumber numberWithBool:NO], [NSNumber numberWithInteger:AXMessageTypePic]];
-    NSLog(@"(from = %@ OR to = %@) AND isRemoved = %@ AND messageType = %@", friendUid, friendUid, [NSNumber numberWithBool:NO], [NSNumber numberWithInteger:AXMessageTypePic]);
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"from = %@ AND isRemoved = %@ AND messageType = %@", friendUid, [NSNumber numberWithBool:NO], [NSNumber numberWithInteger:AXMessageTypePic]];
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:YES]];
     
-    __autoreleasing NSError *error;
-    NSArray *fetchedResult = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    NSArray *fetchedResult = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
     NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:[fetchedResult count]];
     for (AXMessage *message in fetchedResult) {
         [result addObject:[message convertToMappedObject]];
@@ -163,7 +161,6 @@
     for (NSDictionary *item in receivedArray) {
         NSString *friendUID = item[@"from_uid"];
         NSMutableArray *messageArray = [[NSMutableArray alloc] initWithCapacity:0];
-#warning todo add system time notification
         
         NSMutableArray *picMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
         NSMutableArray *commonMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
@@ -177,18 +174,18 @@
             AXMessage *managedMessage = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
 
             if (messageType == AXMessageTypePic) {
-#warning todo
+#warning todo 应该根据
                 managedMessage.imgPath = @"";
-                managedMessage.imgUrl = @"";
+                managedMessage.imgUrl = message[@"body"];
                 managedMessage.thumbnailImgPath = @"";
                 managedMessage.thumbnailImgUrl = @"";
-                managedMessage.isImgDownloaded = [NSNumber numberWithBool:YES];
+                managedMessage.isImgDownloaded = [NSNumber numberWithBool:NO];
             } else {
                 managedMessage.imgPath = @"";
                 managedMessage.imgUrl = @"";
                 managedMessage.thumbnailImgPath = @"";
                 managedMessage.thumbnailImgUrl = @"";
-                managedMessage.isImgDownloaded = [NSNumber numberWithBool:YES];
+                managedMessage.isImgDownloaded = [NSNumber numberWithBool:NO];
             }
 
             managedMessage.accountType = message[@"account_type"];
@@ -219,6 +216,12 @@
         __autoreleasing NSError *error = nil;
         [self.managedObjectContext save:&error];
         [self updateConversationListItemWithMessage:[messageArray firstObject]];
+        
+        AXMessage *message = [self findLastMessageWithFriendUid:friendUID];
+        NSDate *storedLastDate = message.sendTime;
+        NSDate *fetchedLastDate = [(AXMessage *)[messageArray lastObject] sendTime];
+        NSTimeInterval timeInterval = [fetchedLastDate timeIntervalSinceDate:storedLastDate];
+        
         messageDictionary[friendUID] = [messageArray reverseSelf];
         splitedDictionary[friendUID] = @{@"pic":picMessageArray, @"other":commonMessageArray};
         
@@ -317,7 +320,6 @@
 {
     AXConversationListItem *conversationListItem = [self findConversationListItemWithFriendUID:friendUID];
     conversationListItem.draftContent = content;
-    conversationListItem.lastUpdateTime = [NSDate dateWithTimeIntervalSinceNow:0];
     if ([content isEqualToString:@""]) {
         if (conversationListItem) {
             conversationListItem.hasDraft = [NSNumber numberWithBool:NO];
@@ -326,6 +328,7 @@
         if (!conversationListItem) {
             conversationListItem = [NSEntityDescription insertNewObjectForEntityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
         }
+        conversationListItem.lastUpdateTime = [NSDate dateWithTimeIntervalSinceNow:0];
         conversationListItem.hasDraft = [NSNumber numberWithBool:YES];
     }
     [self.managedObjectContext save:NULL];
@@ -646,7 +649,6 @@
         conversationListItem.messageType = @(itemType);
         conversationListItem.lastMsgIdentifier = message.identifier;
         conversationListItem.lastUpdateTime = message.sendTime;
-        conversationListItem.lastUpdateTime = [NSDate dateWithTimeIntervalSinceNow:0];
         conversationListItem.messageTip = messageTip;
         conversationListItem.friendUid = friendUID;
         conversationListItem.count = [NSNumber numberWithInteger:[self countUnreadMessagesWithFriendUid:friendUID]];

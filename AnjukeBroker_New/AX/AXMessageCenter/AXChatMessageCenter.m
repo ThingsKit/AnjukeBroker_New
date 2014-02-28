@@ -34,6 +34,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 @property (nonatomic, strong) NSMutableArray *messsageIdentity;
 @property (nonatomic, strong) NSMutableDictionary *blockDictionary;
 @property (nonatomic, strong) AXMappedMessage *imageMessage;
+@property (nonatomic, strong) NSMutableArray *imageMessageArray;
 
 //property
 @property (nonatomic, strong) NSString *addFriendByID;
@@ -99,6 +100,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         
         self.messsageIdentity = [[NSMutableArray alloc] init];
         self.blockDictionary = [[NSMutableDictionary alloc] init];
+        self.imageMessageArray = [[NSMutableArray alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectToServer) name:@"LOGIN_NOTIFICATION" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginOut) name:@"LOGOUT_NOTIFICATION" object:nil];
         
@@ -323,12 +325,8 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 {
     if ([manager isKindOfClass:[AXMessageCenterReceiveMessageManager class]]) {
         NSDictionary *dic = [manager fetchDataWithReformer:nil];
-        NSDictionary *receivedMessageDictionary =[self.dataCenter didReceiveWithMessageDataArray:dic[@"result"]];
-        dispatch_async(dispatch_get_main_queue(),^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidReceiveNewMessage object:receivedMessageDictionary];
-         
-        });
-    }
+        [self.dataCenter didReceiveWithMessageDataArray:dic[@"result"]];
+        }
     if ([manager isKindOfClass:[AXMessageCenterFriendListManager class]]) {
         NSDictionary *dic = [manager fetchDataWithReformer:nil];
         if (dic[@"status"] && [dic[@"status"] isEqualToString:@"OK"]) {
@@ -568,6 +566,16 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     
 }
 
+- (void)friendListWithPersonWithCompeletionBlock:(void (^)(NSArray *, BOOL))friendListBlock
+{
+    _friendListBlock = friendListBlock;
+    NSArray *friendListArray = [self.dataCenter fetchFriendList];
+    _friendListBlock(friendListArray,YES);
+    NSDictionary *params = @{@"phone": self.currentPerson.phone};
+    self.friendListManager.apiParams = params;
+    [self.friendListManager loadData];
+}
+
 - (AXMappedPerson *)fetchCurrentPerson
 {
     return [self.dataCenter fetchCurrentPerson];
@@ -610,7 +618,36 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 
 - (void)dataCenter:(AXChatDataCenter *)dataCenter didReceiveMessages:(NSDictionary *)messages
 {
-#warning todo
+    NSArray *allKeyArray = [messages allKeys];
+    NSMutableDictionary *messageDic = [[NSMutableDictionary alloc] init];
+    NSMutableArray *messageArray = [[NSMutableArray alloc] init];
+    NSMutableArray *picArray = [[NSMutableArray alloc] init];
+    NSMutableDictionary *picDic = [[NSMutableDictionary alloc] init];
+    [allKeyArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSString *key = (NSString *)obj;
+        if (messages[key][@"other"] && [messages[key][@"other"] isKindOfClass:[NSArray class]]) {
+            NSArray *array = messages[key][@"other"];
+            if ([array count] >= 1) {
+                [messageArray addObjectsFromArray:array];
+            }
+        }
+        if (messages[key][@"pic"] && [messages[key][@"pic"] isKindOfClass:[NSArray class]]) {
+            NSArray *array = messages[key][@"pic"];
+            if ([array count] >= 1) {
+                [picArray addObjectsFromArray:array];
+                [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    AXMappedMessage *message = (AXMappedMessage *)obj;
+                    [self downLoadImageInOperationQueueWithMessage:message];
+                }];
+            }
+        }
+        messageDic[key] = messageArray;
+        picDic[key] = picArray;
+    }];
+    [self.imageMessageArray addObject:picDic];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidReceiveNewMessage object:messageDic];
+    });
 }
 
 - (void)dataCenter:(AXChatDataCenter *)dataCenter didFetchFriendList:(NSArray *)chatList
@@ -623,16 +660,14 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 #warning todo
 }
 
-- (void)friendListWithPersonWithCompeletionBlock:(void (^)(NSArray *, BOOL))friendListBlock
+- (void)downLoadImageInOperationQueueWithMessage:(AXMappedMessage *)message
 {
-    _friendListBlock = friendListBlock;
-    NSArray *friendListArray = [self.dataCenter fetchFriendList];
-    _friendListBlock(friendListArray,YES);
-    NSDictionary *params = @{@"phone": self.currentPerson.phone};
-    self.friendListManager.apiParams = params;
-    [self.friendListManager loadData];
+    NSURL *imageUrl = [[NSURL alloc] initWithString:message.imgUrl];
+    ASIHTTPRequest *imageDownLoadRequest = [[ASIHTTPRequest alloc] initWithURL:imageUrl];
+    imageDownLoadRequest.tag = [message.messageId integerValue];
+    imageDownLoadRequest.delegate = self;
+    [self.imageMessageOperation addOperation:imageDownLoadRequest];
 }
-
 #pragma mark - ASIHTTPRequestDelegate
 - (void)requestStarted:(ASIHTTPRequest *)request
 {
@@ -659,7 +694,18 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     if (request.tag == AXMessageCenterHttpRequestTypeUploadImage) {
         
     }
+   
+}
 
+
+-(void) saveImage:(UIImage *)image withFileName:(NSString *)imageName ofType:(NSString *)extension inDirectory:(NSString *)directoryPath {
+    if ([[extension lowercaseString] isEqualToString:@"png"]) {
+        [UIImagePNGRepresentation(image) writeToFile:[directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", imageName, @"png"]] options:NSAtomicWrite error:nil];
+    } else if ([[extension lowercaseString] isEqualToString:@"jpg"] || [[extension lowercaseString] isEqualToString:@"jgp"]) {
+        [UIImageJPEGRepresentation(image, 1.0) writeToFile:[directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", imageName, @"jpg"]] options:NSAtomicWrite error:nil];
+    } else {
+        NSLog(@"image is not jpg");
+    }
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
@@ -668,6 +714,9 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         
     }
     if (request.tag == AXMessageCenterHttpRequestTypeUploadImage) {
+        
+    }
+    if (request.tag == AXMessageCenterHttpRequestTypeDownLoadImage) {
         
     }
 }
@@ -709,8 +758,37 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         self.sendMessageManager.apiParams = params;
         [self.sendMessageManager loadData];
 
-        
     }
+    [self.imageMessageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSDictionary *fromUid = (NSDictionary *)obj;
+        NSArray *allKeys =[fromUid allKeys];
+        NSArray *messageArray = fromUid[[allKeys objectAtIndex:0]];
+        [messageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            AXMappedMessage *imageMessage = (AXMappedMessage *)obj;
+            if ([imageMessage.messageId integerValue] == request.tag) {
+                NSError *error = [request error];
+                if (error) {
+                    imageMessage.isImgDownloaded = NO;
+                    [self.dataCenter updateMessage:imageMessage];
+                }else{
+                    NSData *imageData = data;
+                    UIImage *image = [[UIImage alloc] initWithData:imageData];
+                    NSString * documentsDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                    [self saveImage:image withFileName:imageMessage.identifier ofType:@"jpg" inDirectory:documentsDirectoryPath];
+                    NSString *imageString = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg",imageMessage.identifier]];
+                    imageMessage.thumbnailImgPath = imageString;
+                    [self.dataCenter updateMessage:imageMessage];
+                    NSDictionary *dic = @{allKeys[0]: imageMessage};
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidReceiveNewMessage object:dic];
+                    });
+                    
+                }
+                
+            }
+        }];
+    }];
+
 }
 #pragma mark - ASIProgressDelegate
 

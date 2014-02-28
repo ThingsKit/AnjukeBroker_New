@@ -44,7 +44,13 @@
     [self setTitleViewWithString:@"客户资料"];
     
     UIBarButtonItem *moreItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_danye_more_.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
+    
     UIBarButtonItem *startItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"] style:UIBarButtonItemStylePlain target:self action:@selector(redrawStarStatus:)];
+    if (self.person.isStar) {
+        startItem.image = [UIImage imageNamed:@"anjuke_icon_danye_xingbiao_.png"];
+    }
+    else
+        startItem.image = [UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"];
     
     self.navigationItem.rightBarButtonItems = @[moreItem, startItem];
 }
@@ -131,6 +137,9 @@
 
 - (void)redrawStarStatus:(id)sender {
     UIBarButtonItem *item = (UIBarButtonItem *)sender;
+    
+    self.person.isStar = !self.person.isStar;
+    [[AXChatMessageCenter defaultMessageCenter] updatePerson:self.person];
     
     if ([item.image isEqual:[UIImage imageNamed:@"anjuke_icon_danye_xingbiao_.png"]]) {
         item.image = [UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"];

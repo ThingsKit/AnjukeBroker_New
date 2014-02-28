@@ -38,7 +38,8 @@ typedef NS_ENUM(NSUInteger,AXMessageCenterHttpRequestType )
 {
     AXMessageCenterHttpRequestTypeQRCode,
     AXMessageCenterHttpRequestTypeDeleteFriend,
-    AXMessageCenterHttpRequestTypeUploadImage
+    AXMessageCenterHttpRequestTypeUploadImage,
+    AXMessageCenterHttpRequestTypeDownLoadImage
 };
 
 typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
