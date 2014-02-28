@@ -171,11 +171,13 @@
 {
     if (index > 0) {
         AXPhoto *photo = _photos[index - 1];
+        
 #warning downloadIMG and set img to photo
     }
     
     if (index < _photos.count - 1) {
         AXPhoto *photo = _photos[index + 1];
+        
 #warning downloadIMG
     }
 }

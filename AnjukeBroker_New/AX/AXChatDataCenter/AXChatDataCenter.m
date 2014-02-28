@@ -87,7 +87,7 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:NO]];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND sendTime < %@", self.friendUid, self.friendUid, lastMessage.sendTime];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND sendTime < %@ AND isRemoved = %@", self.friendUid, self.friendUid, lastMessage.sendTime, [NSNumber numberWithBool:NO]];
     fetchRequest.fetchLimit = pageSize;
     __autoreleasing NSError *error;
     NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
@@ -102,6 +102,21 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.delegate dataCenter:self didFetchChatList:[mappedResult reverseSelf] withFriend:[self fetchPersonWithUID:self.friendUid] lastMessage:lastMessage];
     });
+}
+
+- (NSArray *)picMessageArrayWithFriendUid:(NSString *)friendUid
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"from = %@ AND isRemoved = %@ AND messageType = %@", friendUid, [NSNumber numberWithBool:NO], [NSNumber numberWithInteger:AXMessageTypePic]];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:YES]];
+    
+    NSArray *fetchedResult = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:[fetchedResult count]];
+    for (AXMessage *message in fetchedResult) {
+        [result addObject:[message convertToMappedObject]];
+    }
+    return result;
 }
 
 #pragma mark - message related methods
@@ -203,8 +218,14 @@
         [self.managedObjectContext save:&error];
         [self updateConversationListItemWithMessage:[messageArray firstObject]];
         messageDictionary[friendUID] = [messageArray reverseSelf];
-        
         splitedDictionary[friendUID] = @{@"pic":picMessageArray, @"other":commonMessageArray};
+        
+        if (![self isFriendWithFriendUid:friendUID]) {
+            AXPerson *friend = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+            friend.uid = friendUID;
+            [self.delegate dataCenter:self fetchPersonInfoWithUid:friendUID];
+        }
+        
     }
     
     __autoreleasing NSError *error;
@@ -231,8 +252,9 @@
 - (void)deleteMessageByIdentifier:(NSString *)identifier
 {
     AXMessage *message = [self findMessageWithIdentifier:identifier];
-    message.isRemoved = [NSNumber numberWithBool:YES];
-    [self updateMessage:[message convertToMappedObject]];
+    if (message) {
+        [self.managedObjectContext deleteObject:message];
+    }
 }
 
 - (void)updateMessage:(AXMappedMessage *)message

@@ -36,7 +36,7 @@
     if ([self.cellData objectAtIndex:indexPath.row] && [[[self.cellData objectAtIndex:indexPath.row] objectForKey:@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePic]]) {
     NSMutableArray *photos = [NSMutableArray array];
     AXPhoto *photo = [[AXPhoto alloc] init];
-    photo.image = [UIImage imageNamed:@"anjuke_icon05_photo_selected@2x.png"];
+    photo.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.baidu.com/img/bdlogo.gif"]]];
     [photos addObject:photo];
         [photos addObject:photo];
         [photos addObject:photo];

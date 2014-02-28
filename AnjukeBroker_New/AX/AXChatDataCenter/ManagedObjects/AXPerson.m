@@ -29,6 +29,8 @@
 @dynamic userType;
 @dynamic company;
 @dynamic firstPinYin;
+@dynamic markDesc;
+@dynamic markPhone;
 
 - (AXMappedPerson *)convertToMappedPerson
 {
@@ -36,20 +38,22 @@
     person.created = self.created;
     person.iconPath = self.iconPath;
     person.iconUrl = self.iconUrl;
-    person.isIconDownloaded = self.isIconDownloaded;
+    person.isIconDownloaded = [self.isIconDownloaded boolValue];
     person.lastActiveTime = self.lastActiveTime;
     person.lastUpdate = self.lastUpdate;
     person.markName = self.markName;
     person.markNamePinyin = self.markNamePinyin;
     person.name = self.name;
     person.namePinyin = self.namePinyin;
-    person.isPendingForAdd = self.isPendingForAdd;
+    person.isPendingForAdd = [self.isPendingForAdd boolValue];
     person.phone = self.phone;
     person.uid = self.uid;
-    person.userType = self.userType;
-    person.isStar = self.isStar;
-    person.isPendingForRemove = self.isPendingForRemove;
+    person.userType = [self.userType integerValue];
+    person.isStar = [self.isStar boolValue];
+    person.isPendingForRemove = [self.isPendingForRemove boolValue];
     person.company = self.company;
+    person.markPhone = self.markPhone;
+    person.markDesc = self.markDesc;
     return person;
 }
 
@@ -72,6 +76,8 @@
     self.isStar = [NSNumber numberWithBool:person.isStar];
     self.isPendingForAdd = [NSNumber numberWithBool:person.isPendingForAdd];
     self.company = person.company;
+    self.markPhone = person.markPhone;
+    self.markDesc = person.markDesc;
 }
 
 - (void)awakeFromInsert

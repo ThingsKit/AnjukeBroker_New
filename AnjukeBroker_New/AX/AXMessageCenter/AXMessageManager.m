@@ -160,6 +160,12 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
     }
 }
 
+- (void)resetHeartBeatParams
+{
+    [self.timer invalidate];
+    self.isFirstPONG = YES;
+    self.shouldSendHeartPong = YES;
+}
 #pragma mark - ASIHTTPRequestDelegate Methods
 - (void)request:(ASIHTTPRequest *)request didReceiveData:(NSData *)data
 {
@@ -225,8 +231,10 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
 {
     if (request.tag == AIF_MESSAGE_REQUEST_TYPE_TAG_REGISTER) {
         self.registerStatus = AIF_MESSAGE_REQUEST_REGISTER_FINISHED;
-               //        NSLog(@"#############################################requestFinished");
+        //        NSLog(@"#############################################requestFinished");
+        [self resetHeartBeatParams];
     }
+    
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
@@ -236,10 +244,11 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
         //        NSLog(@"#############################################requestFailed:");
         //        NSLog([NSString stringWithFormat:@"%@", request.error]);
         //        NSLog([NSString stringWithFormat:@"#############################################didRegisterStatusCheck:%d s", [self calSleepTime]]);
-        self.shouldSendHeartPong = YES;
-        self.isFirstPONG = YES;
-        [self performSelector:@selector(didRegisterRequestRetry) withObject:nil afterDelay:[self calSleepTime]];
-        self.tryCount = self.tryCount + 1;
+        [self resetHeartBeatParams];
+        if (self.isLoging) {
+            [self performSelector:@selector(didRegisterRequestRetry) withObject:nil afterDelay:[self calSleepTime]];
+            self.tryCount = self.tryCount + 1;
+        }
     }
 }
 

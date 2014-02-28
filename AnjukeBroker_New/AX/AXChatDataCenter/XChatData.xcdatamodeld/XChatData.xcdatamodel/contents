@@ -45,8 +45,10 @@
         <attribute name="isStar" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="lastActiveTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="lastUpdate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="markDesc" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="markName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="markNamePinyin" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="markPhone" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="namePinyin" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>

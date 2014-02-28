@@ -13,14 +13,15 @@ typedef NS_ENUM(NSUInteger, AXMessageType)
     AXMessageTypeText = 1, // 文本聊天
     AXMessageTypePic = 2,  // 图片
     AXMessageTypeProperty = 3, // 房子
-    AXMessageTypeSystemTime = 4, // 时间
-    AXMessageTypeSystemForbid = 5, // 提示拒绝加好友
-    AXMessageTypeSettingNotifycation = 6, // 提示打开推送
-    AXMessageTypeAddNuckName = 7, // 添加备注
-    AXMessageTypePublicCard = 8, // 服务号消息
-    AXMessageTypeAddNote = 9, // 添加备注
-    AXMessageTypeSendProperty = 10, // 发送房源
-    AXMessageTypeSafeMessage = 11, // 安全提示
+    AXMessageTypePublicCard = 4, // 服务号消息
+    
+    AXMessageTypeSystemTime = 100, // 时间
+    AXMessageTypeSystemForbid = 101, // 提示拒绝加好友
+    AXMessageTypeSettingNotifycation = 102, // 提示打开推送
+    AXMessageTypeAddNuckName = 103, // 用户添加备注
+    AXMessageTypeAddNote = 104, // 经纪人添加备注
+    AXMessageTypeSendProperty = 105, // 提示发送房源
+    AXMessageTypeSafeMessage = 106, // 安全提示
 };
 
 typedef NS_ENUM(NSUInteger, AXMessagePropertySourceType)

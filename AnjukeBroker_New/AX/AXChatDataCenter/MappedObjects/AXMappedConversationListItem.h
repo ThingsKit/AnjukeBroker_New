@@ -30,7 +30,7 @@ typedef NS_ENUM(NSUInteger, AXConversationListItemType)
 @property (nonatomic, retain) NSString * iconUrl;
 @property (nonatomic, retain) NSString * lastMsgIdentifier;
 @property (nonatomic, retain) NSString * iconPath;
-@property (nonatomic) BOOL * isIconDownloaded;
+@property (nonatomic) BOOL isIconDownloaded;
 @property (nonatomic) AXMessageCenterSendMessageStatus messageStatus;
 @property (nonatomic, retain) NSString * draftContent;
 @property (nonatomic) BOOL hasDraft;

@@ -37,6 +37,8 @@ typedef NS_ENUM(NSUInteger, AXPersonType)
 @property (nonatomic) AXPersonType userType;
 @property (nonatomic) BOOL isStar;
 @property (nonatomic) BOOL isPendingForRemove;
+@property (nonatomic, strong) NSString * markDesc;
+@property (nonatomic, strong) NSString * markPhone;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dic;
 @end

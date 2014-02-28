@@ -22,6 +22,8 @@
 - (void)dataCenter:(AXChatDataCenter *)dataCenter didFetchFriendList:(NSArray *)chatList;
 - (void)dataCenter:(AXChatDataCenter *)dataCenter didReceiveMessages:(NSDictionary *)messages;
 
+- (void)dataCenter:(AXChatDataCenter *)dataCenter fetchPersonInfoWithUid:(NSString *)uid;
+
 @end
 
 @interface AXChatDataCenter : NSObject
@@ -34,6 +36,7 @@
 
 // message && message record list
 - (void)fetchChatListByLastMessage:(AXMappedMessage *)lastMessage pageSize:(NSUInteger)pageSize;
+- (NSArray *)picMessageArrayWithFriendUid:(NSString *)friendUid;
 
 // message related methods
 - (AXMappedMessage *)willSendMessage:(AXMappedMessage *)message;

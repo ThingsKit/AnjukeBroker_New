@@ -57,7 +57,6 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 - (void)closeKeepAlivingConnect;
 
 - (void)searchBrokerByBrokerPhone:(NSString *)brokerPhone compeletionBlock:(void(^)(AXMappedPerson *brokerInfo))searchBrokerBlock;
-- (void)fetchedPersonWithUID:(NSString *)uid withBlock:(void(^)(AXMappedPerson *person))personInfoBlock;
 - (void)removeFriendBydeleteUid:(NSArray *)deleteUid compeletionBlock:(void(^)(BOOL isSuccess))deleteFriendBlock;
 
 - (void)updataUserInformation:(AXMappedPerson *)newInformation compeletionBlock:(void (^)(BOOL))updateUserInfo;
@@ -87,7 +86,10 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 
 - (AXMappedPerson *)getFriendInfoWithFriendUid:(NSString *)personUid compeletionBlock:(void(^)(AXMappedPerson *person))getFriendInfoBlock;
 
-- (void)getUserOldMessage;
+- (void)getUserOldMessageWithFriendUid:(NSString *)friendUid TopMinMsgId:(NSString *)TopMinMsgId messageIdArray:(NSArray *)messageIdArray compeletionBlock:(void(^)(NSArray *messageArray))getUserOldMessageBlock;
+
 - (void)didLeaveChattingList;
 - (NSFetchedResultsController *)friendListFetchedResultController;
+- (NSArray *)picMessageArrayWithFriendUid:(NSString *)friendUid;
+- (void)updateMessage:(AXMappedMessage *)message;
 @end
