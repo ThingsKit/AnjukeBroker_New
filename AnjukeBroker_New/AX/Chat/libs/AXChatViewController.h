@@ -32,6 +32,5 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 @property (nonatomic, strong) void (^finishSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status);
 
 @property (nonatomic, strong) NSString *uid;
-- (NSString *)checkFriendUid;
 
 @end

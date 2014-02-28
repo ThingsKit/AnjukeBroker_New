@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 williamYang. All rights reserved.
 //
 
-#import "AXChatMessageAvatarCell.h"
+#import "AXChatMessageRootCell.h"
 #import "UIColor+AXChatMessage.h"
 #import "UIFont+AXChatMessage.h"
 #import "UIImage+AXChatMessage.h"

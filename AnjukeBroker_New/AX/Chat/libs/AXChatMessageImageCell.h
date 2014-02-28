@@ -6,9 +6,10 @@
 //  Copyright (c) 2014 williamYang. All rights reserved.
 //
 
-#import "AXChatMessageAvatarCell.h"
+#import "AXChatMessageRootCell.h"
 
-@interface AXChatMessageImageCell : AXChatMessageAvatarCell
+@interface AXChatMessageImageCell : AXChatMessageRootCell
+
 + (CGRect)sizeOFImg:(UIImage *)img;
 
 @end

@@ -8,7 +8,6 @@
 
 #import "AXChatViewController.h"
 
-#import <AudioToolbox/AudioToolbox.h>
 #import <OHAttributedLabel/OHAttributedLabel.h>
 #import <OHAttributedLabel/NSAttributedString+Attributes.h>
 #import <OHAttributedLabel/OHASBasicMarkupParser.h>
@@ -32,7 +31,6 @@
 
 #import "AXBigIMGSViewController.h"
 #import "AXChatWebViewController.h"
-#import "CommunitySelectViewController.h"
 
 #import "AXPhotoManager.h"
 
@@ -64,10 +62,8 @@ static NSInteger const AXMessagePageSize = 15;
 @property (nonatomic, strong) UILabel *sendLabel;
 @property (nonatomic, strong) UIControl *keyboardControl;
 
-
-
 @property (nonatomic, strong) AXMappedPerson *currentPerson;
-@property (nonatomic, strong) AXMappedPerson *friend;
+@property (nonatomic, strong) AXMappedPerson *friendPerson;
 
 // JSMessage
 @property (nonatomic, strong) UIView *inputBackView;
@@ -149,6 +145,8 @@ static NSInteger const AXMessagePageSize = 15;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    
+    [[AXChatMessageCenter defaultMessageCenter] didLeaveChattingList];
 }
 
 - (void)viewDidLoad
@@ -158,8 +156,10 @@ static NSInteger const AXMessagePageSize = 15;
     [self initUI];
 #warning TODO 设置双方的头像
     self.currentPerson = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson];
-    self.friend = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[self checkFriendUid]];
-    DLog(@"%@, %@, %@, %@", self.currentPerson.iconPath, self.currentPerson.iconUrl, self.friend.iconPath, self.friend.iconUrl);
+    self.friendPerson = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[self checkFriendUid]];
+    DLog(@"%@, %@, %@, %@", self.currentPerson.iconPath, self.currentPerson.iconUrl, self.friendPerson.iconPath, self.friendPerson.iconUrl);
+    self.currentPerson.iconUrl = @"http://pic1.ajkimg.com/display/anjuke/87b74e3d0ca79ac40d7e8d8648c20c91/675x896x0x1/100x133.jpg";
+    self.friendPerson.iconUrl = @"http://pic1.ajkimg.com/display/anjuke/1ea9949285cd5519008452853d7b813c/503x669x0x1/100x133.jpg";
     
     self.cellData = [NSMutableArray array];
     self.identifierData = [NSMutableArray array];
@@ -172,7 +172,11 @@ static NSInteger const AXMessagePageSize = 15;
         if ([chatList count] > 0) {
             self.lastMessage = chatList[0];
             for (AXMappedMessage *mappedMessage in chatList) {
-                NSDictionary *dict = [self mapAXMappedMessage:mappedMessage];
+                NSMutableDictionary *dict = [self mapAXMappedMessage:mappedMessage];
+                if ([mappedMessage.from isEqualToString:[self checkFriendUid]]) {
+                    dict[@"messageSource"] = [NSNumber numberWithInteger:AXChatMessageSourceDestinationIncoming];
+                }
+                
                 [self.cellData addObject:dict];
                 [self.identifierData addObject:mappedMessage.identifier];
             }
@@ -205,37 +209,6 @@ static NSInteger const AXMessagePageSize = 15;
     }
     
     [self addPullToRefresh];
-
-#ifdef DEBUG
-    
-//    UIButton *getMessageBtn = [UIButton buttonWithType:UIButtonTypeContactAdd];
-//    getMessageBtn.frame = CGRectMake(10, 10, 45, 45);
-//    [getMessageBtn addTarget:self action:@selector(getNewMessage) forControlEvents:UIControlEventTouchUpInside];
-//    getMessageBtn.backgroundColor = [UIColor redColor];
-//    [self.view addSubview:getMessageBtn];
-//    
-//    UIButton *sendMessageBtn = [UIButton buttonWithType:UIButtonTypeContactAdd];
-//    sendMessageBtn.frame = CGRectMake(10, 55, 45, 45);
-//    [sendMessageBtn addTarget:self action:@selector(sendNewMessage) forControlEvents:UIControlEventTouchUpInside];
-//    sendMessageBtn.backgroundColor = [UIColor blueColor];
-//    [self.view addSubview:sendMessageBtn];
-//    
-//    UIButton *addUserBtn = [UIButton buttonWithType:UIButtonTypeContactAdd];
-//    addUserBtn.frame = CGRectMake(10, 100, 45, 45);
-//    [addUserBtn addTarget:self action:@selector(addUserBtn) forControlEvents:UIControlEventTouchUpInside];
-//    addUserBtn.backgroundColor = [UIColor yellowColor];
-//    [self.view addSubview:addUserBtn];
-    
-
-    UIButton *sendPick = [UIButton buttonWithType:UIButtonTypeContactAdd];
-    sendPick.frame = CGRectMake(10, 150, 45, 45);
-    [sendPick addTarget:self action:@selector(pickIMG:) forControlEvents:UIControlEventTouchUpInside];
-    sendPick.backgroundColor = [UIColor purpleColor];
-    [self.view addSubview:sendPick];
-    
-#endif
-
-
 }
 
 - (void)getNewMessage
@@ -281,6 +254,7 @@ static NSInteger const AXMessagePageSize = 15;
                 for (AXMappedMessage *mappedMessage in dict[[self checkFriendUid]]) {
                     self.lastMessage = mappedMessage;
                     NSMutableDictionary *dict = [self mapAXMappedMessage:mappedMessage];
+                    dict[@"messageSource"] = [NSNumber numberWithInteger:AXChatMessageSourceDestinationIncoming];
                     dict[AXCellIdentifyTag] = mappedMessage.identifier;
                     [self appendCellData:dict];
                 }
@@ -424,7 +398,10 @@ static NSInteger const AXMessagePageSize = 15;
         CGFloat rowHeight = sz.height + 2*kLabelVMargin + 40;
         return rowHeight;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePic]]) {
-        return [AXChatMessageImageCell sizeOFImg:dic[@"content"]].size.height+30;
+        if ([AXChatMessageImageCell sizeOFImg:dic[@"content"]].size.height < 30.0f) {
+            return 65.0f;
+        }
+        return [AXChatMessageImageCell sizeOFImg:dic[@"content"]].size.height+35.0f;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeSystemTime]]) {
         return 35;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePublicCard]]) {
@@ -511,6 +488,11 @@ static NSInteger const AXMessagePageSize = 15;
             roomSourceCell.isBroker = self.isBroker;
         }
         roomSourceCell.messageSource = [self messageSource:dic];
+        if ([dic[@"messageSource"] isEqualToNumber:[NSNumber numberWithInteger:AXChatMessageSourceDestinationOutPut]]) {
+            [roomSourceCell configAvatar:self.currentPerson];
+        } else {
+            [roomSourceCell configAvatar:self.friendPerson];
+        }
         [roomSourceCell configWithData:dic];
         return roomSourceCell;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeText]]) {
@@ -518,6 +500,11 @@ static NSInteger const AXMessagePageSize = 15;
         AXChatMessageTextCell* textCell = [[AXChatMessageTextCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentifier];
         textCell.messageSource = [self messageSource:dic];
         textCell.messageStatus = AXMessageCenterSendMessageStatusSending;
+        if ([dic[@"messageSource"] isEqualToNumber:[NSNumber numberWithInteger:AXChatMessageSourceDestinationOutPut]]) {
+            [textCell configAvatar:self.currentPerson];
+        } else {
+            [textCell configAvatar:self.friendPerson];
+        }
         [textCell configWithIndexPath:indexPath];
         [textCell configWithData:dic];
         textCell.delegate = self;
@@ -531,20 +518,14 @@ static NSInteger const AXMessagePageSize = 15;
             cardCell.isBroker = self.isBroker;
         }
         cardCell.messageSource = [self messageSource:dic];
+        if ([dic[@"messageSource"] isEqualToNumber:[NSNumber numberWithInteger:AXChatMessageSourceDestinationOutPut]]) {
+            [cardCell configAvatar:self.currentPerson];
+        } else {
+            [cardCell configAvatar:self.friendPerson];
+        }
         [cardCell configWithIndexPath:indexPath];
         [cardCell configWithData:dic];
         return cardCell;
-    } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePublicCard]]) {
-        static NSString *nameCardIdentity = @"nameCardIdentity";
-        AXChatMessageNameCardCell *nameCard = [tableView dequeueReusableCellWithIdentifier:nameCardIdentity];
-        if (nameCard == nil) {
-            nameCard = [[AXChatMessageNameCardCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nameCardIdentity];
-            nameCard.isBroker = self.isBroker;
-        }
-        nameCard.cellData = dic;
-        nameCard.messageSource = [self messageSource:dic];
-        [nameCard configWithData:dic];
-        return nameCard;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeSystemTime]]) {
         static NSString *systemTimeIdent = @"systemTime";
         AXChatMessageSystemTimeCell *systemTime = [tableView dequeueReusableCellWithIdentifier:systemTimeIdent];
@@ -636,6 +617,11 @@ static NSInteger const AXMessagePageSize = 15;
             imageCell.isBroker = self.isBroker;
         }
         imageCell.messageSource = [self messageSource:dic];
+        if ([dic[@"messageSource"] isEqualToNumber:[NSNumber numberWithInteger:AXChatMessageSourceDestinationOutPut]]) {
+            [imageCell configAvatar:self.currentPerson];
+        } else {
+            [imageCell configAvatar:self.friendPerson];
+        }
         [imageCell configWithData:dic];
         return imageCell;
     }
@@ -770,11 +756,7 @@ static NSInteger const AXMessagePageSize = 15;
 }
 
 - (void)pickAJK:(id)sender {
-    CommunitySelectViewController *controller = [[CommunitySelectViewController alloc] init];
-    controller.pageTypeFrom = secondHandHouse;
-    HouseSelectNavigationController *nav = [[HouseSelectNavigationController alloc] initWithRootViewController:controller];
-    nav.selectedHouseDelgate = self;
-    [self presentViewController:nav animated:YES completion:nil];
+    
 //    NSDictionary *roomSource = @{@"title": @"中房二期花园，地理位置好",@"price":@"12000",@"roomType":@"3房两厅",@"area":@"200",@"floor":@"13/14",@"year":@"2005",@"messageType":[NSNumber numberWithInteger:AXMessageTypeProperty],@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationIncoming]};
 //    [self.cellData addObject:roomSource];
 //    [self reloadMytableView];
@@ -798,7 +780,6 @@ static NSInteger const AXMessagePageSize = 15;
         [self reloadMytableView];
         return;
     } else {
-        AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);
         [self sendNewMessage];
         
         AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];

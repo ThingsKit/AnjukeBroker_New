@@ -46,8 +46,8 @@
     self.receiveImage.image = data[@"content"];
 //    self.receiveImage.backgroundColor = [UIColor yellowColor];
     
-//    self.receiveImage.layer.cornerRadius = 6.0f;
-//    self.receiveImage.layer.masksToBounds = YES;
+    self.receiveImage.layer.cornerRadius = 8.0f;
+    self.receiveImage.layer.masksToBounds = YES;
 //    self.receiveImage.layer.borderWidth = 3.0f;
 //    self.receiveImage.layer.borderColor = [UIColor greenColor].CGColor;
     
@@ -55,12 +55,14 @@
 
 - (void)setBubbleIMGByImgFrame:(CGRect) rect{
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-        self.bubbleIMG.frame = CGRectMake(kJSAvatarSize + 10, 5, rect.size.width + 30.0f, rect.size.height + 20);
-        self.receiveImage.frame = CGRectMake(kJSAvatarSize +30, 10, rect.size.width, rect.size.height);
+        self.receiveImage.frame = CGRectMake(kJSAvatarSize +30, 20, rect.size.width, rect.size.height);
+        self.bubbleIMG.frame = CGRectMake(self.receiveImage.frame.origin.x - 8.0f, 19.0f, rect.size.width + 10.0f, rect.size.height + 2.0f);
+        
     }else
     {
-        self.bubbleIMG.frame = CGRectMake(320 - kJSAvatarSize - 20 - rect.size.width -20, 5, rect.size.width + 30.0f, rect.size.height + 20);
-        self.receiveImage.frame = CGRectMake(320 - kJSAvatarSize - 20 - rect.size.width - 10, 10, rect.size.width, rect.size.height);
+        self.receiveImage.frame = CGRectMake(320.0f - kJSAvatarSize - 20.0f - rect.size.width - 4.0f, 20.0f, rect.size.width, rect.size.height);
+        self.bubbleIMG.frame = CGRectMake(self.receiveImage.frame.origin.x - 1, 19.0f, rect.size.width + 3.0f + 5.0f , rect.size.height + 2.0f);
+        
     }
 }
 

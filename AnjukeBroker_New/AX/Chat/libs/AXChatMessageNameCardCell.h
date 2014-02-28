@@ -6,8 +6,8 @@
 //  Copyright (c) 2014年 williamYang. All rights reserved.
 //
 
-#import "AXChatMessageAvatarCell.h"
+#import "AXChatMessageRootCell.h"
 
-@interface AXChatMessageNameCardCell : AXChatMessageAvatarCell
+@interface AXChatMessageNameCardCell : AXChatMessageRootCell
 @property (nonatomic, strong) NSDictionary *cellData;
 @end

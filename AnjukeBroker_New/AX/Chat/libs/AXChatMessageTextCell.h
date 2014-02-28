@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 williamYang. All rights reserved.
 //
 
-#import "AXChatMessageAvatarCell.h"
+#import "AXChatMessageRootCell.h"
 
 static NSInteger const kAttributedLabelTag = 100;
 static CGFloat const kLabelWidth = 200;
@@ -19,7 +19,7 @@ typedef NS_ENUM(NSUInteger,AXChatCellViewType )
 };
 
 
-@interface AXChatMessageTextCell : AXChatMessageAvatarCell
+@interface AXChatMessageTextCell : AXChatMessageRootCell
 
 @property (nonatomic, strong) NSString *content;
 @property (nonatomic, strong) NSDictionary *cellData;

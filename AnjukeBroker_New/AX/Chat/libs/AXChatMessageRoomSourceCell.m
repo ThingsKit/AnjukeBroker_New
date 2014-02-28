@@ -117,8 +117,6 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
     [self setBubbleIMGByMessageSorce];
     if ([self.propDict[@"tradeType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessagePropertySourceErShouFang]]) {
         self.tagLable.text = @"二手房";
-    } else {
-        self.tagLable.text = @"租房";
     }
     
     self.titleLable.text = self.propDict[@"name"];
@@ -129,6 +127,26 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
         [[AXChatImageLoader shareCenter] autoLoadImageWithURL:url toImageView:self.roomImage];
     } @catch (NSException *exception) {
         //do nothing
+    }
+}
+
+- (void)setBubbleIMGOutcomeIncome {
+    if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
+        self.bubbleIMG.image = [[UIImage axInChatPropBubbleBg:self.isBroker highlighted:NO] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
+    }else{
+        self.bubbleIMG.image = [[UIImage axOutChatPropBubbleBg:self.isBroker highlighted:NO] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
+    }
+}
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
+{
+    
+    if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
+        if (self.messageType == AXMessageTypeText) {
+            self.bubbleIMG.image = [[UIImage axInChatPropBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
+        }
+    } else {
+        self.bubbleIMG.image = [[UIImage axOutChatPropBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
     }
 }
 

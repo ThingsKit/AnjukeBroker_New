@@ -21,6 +21,8 @@ typedef NS_ENUM(NSInteger, AXChatMessageSourceDestination)
 
 extern NSString * const AXCellIdentifyTag;
 extern CGFloat const axTagMarginTop;
+extern CGFloat const kJSAvatarSize;
+extern CGFloat const kAvatarMargin;
 
 @class AXChatMessageRootCell;
 
@@ -48,11 +50,13 @@ extern CGFloat const axTagMarginTop;
 @property (nonatomic, strong) NSDictionary *rowData;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
 @property (nonatomic, strong) UIButton *errorButton;
+@property (nonatomic, strong) AXMappedPerson *person;
 
 @property (nonatomic, weak) id<AXChatMessageRootCellDelegate> delegate;
 
 - (void)configWithIndexPath:(NSIndexPath *)indexPath;
 - (void)configWithData:(NSDictionary *)data;
+- (void)configAvatar:(AXMappedPerson *)person;
 - (void)initUI;
 - (void)configWithStatus;
 - (void)axDelete:(id)sender;

@@ -7,9 +7,20 @@
 //
 
 #import "AXChatMessageRootCell.h"
+#import "UIImage+AXChatMessage.h"
+#import <AFNetworking/UIImageView+AFNetworking.h>
 
 NSString *const AXCellIdentifyTag = @"identifier";
 CGFloat const axTagMarginTop = 20.0f;
+CGFloat const kJSAvatarSize = 40.0f;
+CGFloat const kAvatarMargin = 12.0f;
+
+@interface AXChatMessageRootCell ()
+
+@property (nonatomic, strong) UIImageView *avatar;
+@property (nonatomic, strong) UIButton *avatarButton;
+
+@end
 
 @implementation AXChatMessageRootCell
 @synthesize bubbleIMG;
@@ -27,6 +38,11 @@ CGFloat const axTagMarginTop = 20.0f;
         [self addGestureRecognizer:recognizer];
     }
     return self;
+}
+
+- (void)configAvatar:(AXMappedPerson *)person;
+{
+    self.person = person;
 }
 
 - (void)dealloc
@@ -57,6 +73,17 @@ CGFloat const axTagMarginTop = 20.0f;
     [self.errorButton addSubview:errorImg];
     self.errorButton.hidden = YES;
     [self.contentView addSubview:self.errorButton];
+    
+    
+    _avatar = [[UIImageView alloc] init];
+    _avatar.contentMode = UIViewContentModeScaleToFill;
+    
+    _avatarButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _avatarButton.backgroundColor = [UIColor clearColor];
+    [_avatarButton addTarget:self action:@selector(clickAvatar:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.contentView addSubview:_avatar];
+    [self.contentView addSubview:_avatarButton];
 }
 
 #pragma mark -
@@ -74,6 +101,20 @@ CGFloat const axTagMarginTop = 20.0f;
     [self setBubbleIMGOutcomeIncome];
     self.identifyString = data[AXCellIdentifyTag];
     self.rowData = data;
+    
+    if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
+        self.avatar.frame = CGRectMake(kAvatarMargin, 20,kJSAvatarSize , kJSAvatarSize);
+    } else {
+        self.avatar.frame = CGRectMake(320 - kJSAvatarSize - kAvatarMargin, 20 ,kJSAvatarSize , kJSAvatarSize);
+    }
+    self.avatarButton.frame = self.avatar.frame;
+#warning 竟然isIconDownloaded是YES 0.0
+    if (self.person.isIconDownloaded == NO || YES) {
+        [self.avatar setImageWithURL:[NSURL URLWithString:self.person.iconUrl] placeholderImage:[UIImage axChatDefaultAvatar:NO]];
+    } else {
+        NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+        self.avatar.image = [[UIImage alloc] initWithContentsOfFile:[libraryPath stringByAppendingPathComponent:self.person.iconPath]];
+    }
 }
 
 - (void)configWithIndexPath:(NSIndexPath *)indexPath {
@@ -164,6 +205,7 @@ CGFloat const axTagMarginTop = 20.0f;
                                                  name:UIMenuControllerWillHideMenuNotification
                                                object:nil];
 }
+
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
 {
     
@@ -174,8 +216,9 @@ CGFloat const axTagMarginTop = 20.0f;
     } else {
         self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
     }
-    [super setHighlighted:highlighted animated:animated];
+//    [super setHighlighted:highlighted animated:animated];
 }
+
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
 {
     return (action == @selector(axDelete:));
@@ -198,6 +241,14 @@ CGFloat const axTagMarginTop = 20.0f;
 - (void)axCopy:(id)sender
 {
     
+}
+
+- (void)clickAvatar:(id)sender
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickAvatar:)]) {
+        BOOL flag = (self.messageSource == AXChatMessageSourceDestinationIncoming)? NO:YES;
+        [self.delegate didClickAvatar:flag];
+    }
 }
 
 @end

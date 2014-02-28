@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 williamYang. All rights reserved.
 //
 
-#import "AXChatMessageAvatarCell.h"
+#import "AXChatMessageRootCell.h"
 
 @protocol AXChatMessagePublicCardCellDelegate <NSObject>
 
