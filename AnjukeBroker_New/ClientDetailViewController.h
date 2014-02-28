@@ -8,8 +8,9 @@
 
 #import "RTViewController.h"
 #import "AXMappedPerson.h"
+#import "ClientEditViewController.h"
 
-@interface ClientDetailViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
+@interface ClientDetailViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate, ClientEditPopDelegate>
 
 
 @property (nonatomic, strong) AXMappedPerson *person;

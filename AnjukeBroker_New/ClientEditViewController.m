@@ -9,6 +9,8 @@
 #import "ClientEditViewController.h"
 #import "Broker_InputEditView.h"
 #import "Util_UI.h"
+#import "AXMappedPerson.h"
+#import "AXChatMessageCenter.h"
 
 @interface ClientEditViewController ()
 
@@ -20,6 +22,8 @@
 
 @implementation ClientEditViewController
 @synthesize nameTextF, telTextF, messageTextV;
+@synthesize person;
+@synthesize editDelegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -71,18 +75,26 @@
                 [bi drawInputWithStyle:DisplayStyle_ForTextField];
                 [bi addLineViewWithOriginY:-0.5]; //top line
                 self.nameTextF = bi.textFidle_Input;
+                self.nameTextF.text = self.person.markName;
+                self.nameTextF.delegate = self;
             }
                 break;
             case 1:
             {
                 [bi drawInputWithStyle:DisplayStyle_ForTextField];
                 self.telTextF = bi.textFidle_Input;
+                self.telTextF.text = self.person.markPhone;
+                self.telTextF.keyboardType = UIKeyboardTypePhonePad;
+                self.telTextF.delegate = self;
             }
                 break;
             case 2:
             {
                 [bi drawInputWithStyle:DisplayStyle_ForTextView];
                 self.messageTextV = bi.textView_Input;
+                self.messageTextV.text = self.person.markDesc;
+                self.messageTextV.backgroundColor = [UIColor clearColor];
+                self.messageTextV.delegate = self;
             }
                 break;
                 
@@ -99,13 +111,57 @@
 - (void)rightButtonAction:(id)sender {
     [self textInputDisappear];
     
+    if (![self checkInputOK]) {
+        return;
+    }
+    
+    self.person.markName = self.nameTextF.text;
+    self.person.markPhone = self.telTextF.text;
+    self.person.markDesc = self.messageTextV.text;
+    
+    [[AXChatMessageCenter defaultMessageCenter] updatePerson:self.person];
+    if ([self.editDelegate respondsToSelector:@selector(didSaveBackWithData:)]) {
+        [self.editDelegate didSaveBackWithData:self.person];
+    }
+    
     DLog(@"--name[%@] ---tel[%@] ---message[%@]", self.nameTextF.text, self.telTextF.text, self.messageTextV.text);
+    
+    [self doBack:self];
 }
 
 - (void)textInputDisappear {
     [self.nameTextF resignFirstResponder];
     [self.telTextF resignFirstResponder];
     [self.messageTextV resignFirstResponder];
+}
+
+- (BOOL)checkInputOK {
+    if (self.nameTextF.text.length > 10) {
+        [self showInfo:@"备注名上限10个字"];
+        return NO;
+    }
+    if (self.telTextF.text.length > 20) {
+        [self showInfo:@"电话号码上限20个字"];
+        return NO;
+    }
+    if (self.messageTextV.text.length > 200) {
+        [self showInfo:@"备注信息上限200个字"];
+        return NO;
+    }
+    
+    return YES;
+}
+
+#pragma mark - UITextFieldDelegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    
+}
+
+#pragma mark - UITextViewDelegate
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    
 }
 
 @end

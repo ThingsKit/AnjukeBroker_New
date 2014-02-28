@@ -50,6 +50,7 @@
     icon.layer.borderColor = SYSTEM_LIGHT_GRAY.CGColor;
     icon.layer.borderWidth = 0.5;
     icon.contentMode = UIViewContentModeScaleAspectFill;
+    icon.clipsToBounds = YES;
     [self.contentView addSubview:icon];
     
     CGFloat nameLbH = 30;

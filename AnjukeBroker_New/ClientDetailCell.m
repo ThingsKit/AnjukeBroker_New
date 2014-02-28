@@ -84,10 +84,10 @@
     
     self.detailLb.frame = CGRectMake(self.titleLb.frame.origin.x + self.titleLb.frame.size.width+ CELL_OFFSET_TITLE, self.titleLb.frame.origin.y, DETAIL_LB_W, lbH );
     if (index == 0) {
-        self.detailLb.text = item.phone;
+        self.detailLb.text = item.markPhone;
     }
     else
-        self.detailLb.text = @"casa没给我字段，擦";
+        self.detailLb.text = item.markDesc;
     
     return YES;
 }

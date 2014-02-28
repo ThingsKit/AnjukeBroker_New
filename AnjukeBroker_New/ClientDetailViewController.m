@@ -8,7 +8,6 @@
 
 #import "ClientDetailViewController.h"
 #import "ClientDetailCell.h"
-#import "ClientEditViewController.h"
 #import "BrokerChatViewController.h"
 #import "LoginManager.h"
 
@@ -190,6 +189,8 @@
             {
                 //编辑
                 ClientEditViewController *ce = [[ClientEditViewController alloc] init];
+                ce.person = self.person;
+                ce.editDelegate = self;
                 [self.navigationController pushViewController:ce animated:YES];
             }
                 break;
@@ -235,6 +236,14 @@
         default:
             break;
     }
+}
+
+#pragma mark - ClientEditPopDelegate
+
+- (void)didSaveBackWithData:(AXMappedPerson *)data {
+    self.person = data;
+    
+    [self.tableViewList reloadData];
 }
 
 

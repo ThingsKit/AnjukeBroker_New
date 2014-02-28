@@ -7,7 +7,17 @@
 //
 
 #import "RTViewController.h"
+#import "AXMappedPerson.h"
 
-@interface ClientEditViewController : RTViewController
+@protocol ClientEditPopDelegate <NSObject>
+
+- (void)didSaveBackWithData:(AXMappedPerson *)data;
+
+@end
+
+@interface ClientEditViewController : RTViewController <UITextFieldDelegate, UITextViewDelegate>
+
+@property (nonatomic, strong) AXMappedPerson *person;
+@property id<ClientEditPopDelegate> editDelegate;
 
 @end
