@@ -8,6 +8,7 @@
 #import "AXPhotoBrowser.h"
 #import "AXPhoto.h"
 #import "AXPhotoView.h"
+#import "AXMessage.h"
 
 #define kPadding 10
 #define kPhotoViewTagOffset 1000
@@ -147,6 +148,8 @@
     AXPhotoView *photoView = [self dequeueReusablePhotoView];
     if (!photoView) { // 添加新的图片view
         photoView = [[AXPhotoView alloc] init];
+//        [photoView setImageWithURL:[NSURL URLWithString:_person[index]] placeholderImage:[UIImage axChatDefaultAvatar:NO]];
+
     }
     
     // 调整当期页的frame
@@ -173,6 +176,7 @@
         AXPhoto *photo = _photos[index - 1];
         
 #warning downloadIMG and set img to photo
+        
     }
     
     if (index < _photos.count - 1) {

@@ -6,7 +6,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AXPhotoView.h"
-
+#import "AXPhotoManager.h"
 
 @interface AXPhotoBrowser : UIViewController <UIScrollViewDelegate, AXPhotoViewDelegate>
 // 所有的图片对象

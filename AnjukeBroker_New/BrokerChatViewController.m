@@ -35,13 +35,18 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.cellData objectAtIndex:indexPath.row] && [[[self.cellData objectAtIndex:indexPath.row] objectForKey:@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePic]]) {
     NSMutableArray *photos = [NSMutableArray array];
-    AXPhoto *photo = [[AXPhoto alloc] init];
-    photo.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.baidu.com/img/bdlogo.gif"]]];
-    [photos addObject:photo];
+    
+        
+     NSMutableArray *imgArray = [NSMutableArray arrayWithArray:[[AXChatMessageCenter defaultMessageCenter] picMessageArrayWithFriendUid:[self checkFriendUid]]];
+        AXPhoto *photo = [[AXPhoto alloc] init];
+        photo.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.baidu.com/img/bdlogo.gif"]]];
         [photos addObject:photo];
         [photos addObject:photo];
         [photos addObject:photo];
         [photos addObject:photo];
+        [photos addObject:photo];
+
+        
         AXPhotoBrowser *controller = [[AXPhotoBrowser alloc] init];
         controller.currentPhotoIndex = 1; // 弹出相册时显示的第一张图片是？
         controller.photos = photos; // 设置所有的图片
@@ -79,8 +84,8 @@
     mappedMessageProp.content = [self.propDict JSONRepresentation];
     mappedMessageProp.to = [self checkFriendUid];
     mappedMessageProp.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-    mappedMessageProp.isRead = [NSNumber numberWithBool:YES];
-    mappedMessageProp.isRemoved = [NSNumber numberWithBool:NO];
+    mappedMessageProp.isRead = YES;
+    mappedMessageProp.isRemoved = NO;
     mappedMessageProp.messageType = [NSNumber numberWithInteger:AXMessageTypeProperty];
     [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
 }

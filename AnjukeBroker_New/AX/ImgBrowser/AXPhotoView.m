@@ -60,7 +60,7 @@
 {
     if (_photo.firstShow) { // 首次显示
         _imageView.image = _photo.placeholder; // 占位图片
-        _photo.srcImageView.image = nil;
+//        _photo.srcImageView.image = nil;
         if (![_photo.url.absoluteString hasSuffix:@"gif"]) {
             _imageView.image = _photo.image;
         }
@@ -138,13 +138,13 @@
     
     if (_photo.firstShow) { // 第一次显示的图片
         _photo.firstShow = NO; // 已经显示过了
-        _imageView.frame = [_photo.srcImageView convertRect:_photo.srcImageView.bounds toView:nil];
+//        _imageView.frame = [_photo.srcImageView convertRect:_photo.srcImageView.bounds toView:nil];
         
         [UIView animateWithDuration:0.3 animations:^{
             _imageView.frame = imageFrame;
         } completion:^(BOOL finished) {
             // 设置底部的小图片
-            _photo.srcImageView.image = _photo.placeholder;
+//            _photo.srcImageView.image = _photo.placeholder;
             [self photoStartLoad];
         }];
     } else {
