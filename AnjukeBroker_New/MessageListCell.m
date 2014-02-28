@@ -71,7 +71,7 @@
     UILabel *messageLabel = [[UILabel alloc] init];
 //    messageLb.frame = CGRectMake(20, 20, 200, 20);
     self.messageLb = messageLabel;
-    messageLabel.backgroundColor = [UIColor greenColor];
+    messageLabel.backgroundColor = [UIColor clearColor];
     messageLabel.textColor = SYSTEM_LIGHT_GRAY;
     messageLabel.font = [UIFont systemFontOfSize:12];
     [self.contentView addSubview:messageLabel];
@@ -142,9 +142,9 @@
 
 - (void)setMessageShowWithData:(AXConversationListItem *)item {    
     CGFloat messageLabelH = 15;
-    CGFloat messageLabelW = 220;
+    CGFloat messageLabelW = 200;
     
-    CGFloat iconW = 35;
+    CGFloat iconW = 45;
     CGFloat iconH = 15;
     
     CGFloat offsetX = self.nameLb.frame.origin.x;
