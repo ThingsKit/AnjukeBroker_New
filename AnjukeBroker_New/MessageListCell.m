@@ -182,6 +182,7 @@
                 self.messageLb.frame = messageFrame_icon;
             }
             
+            self.messageLb.frame = messageFrame_noIcon; //for test
             self.messageLb.text = item.messageTip;
         }
         else if ([item.messageType integerValue] == AXConversationListItemTypeCard) { //卡片
