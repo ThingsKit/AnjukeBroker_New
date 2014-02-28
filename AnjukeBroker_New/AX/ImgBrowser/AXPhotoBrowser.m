@@ -149,7 +149,7 @@
     if (!photoView) { // 添加新的图片view
         photoView = [[AXPhotoView alloc] init];
 //        [photoView setImageWithURL:[NSURL URLWithString:_person[index]] placeholderImage:[UIImage axChatDefaultAvatar:NO]];
-
+//[photoView setImageWit]
     }
     
     // 调整当期页的frame

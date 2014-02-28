@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AFNetworking/UIImageView+AFNetworking.h>
 
 @class AXPhotoBrowser, AXPhoto, AXPhotoView;
 

@@ -34,22 +34,34 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.cellData objectAtIndex:indexPath.row] && [[[self.cellData objectAtIndex:indexPath.row] objectForKey:@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePic]]) {
-    NSMutableArray *photos = [NSMutableArray array];
+//    NSMutableArray *photos = [NSMutableArray array];
     
         
      NSMutableArray *imgArray = [NSMutableArray arrayWithArray:[[AXChatMessageCenter defaultMessageCenter] picMessageArrayWithFriendUid:[self checkFriendUid]]];
-        AXPhoto *photo = [[AXPhoto alloc] init];
-        photo.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.baidu.com/img/bdlogo.gif"]]];
-        [photos addObject:photo];
-        [photos addObject:photo];
-        [photos addObject:photo];
-        [photos addObject:photo];
-        [photos addObject:photo];
+        NSMutableArray *photoArray = [NSMutableArray array];
+        
+        for (int i =0; i <imgArray.count; i ++) {
+            AXPhoto *photo = [[AXPhoto alloc] init];
+            photo.picMessage = [imgArray objectAtIndex:i];
+            photo.picMessage.imgPath = @"http://www.baidu.com/img/bdlogo.gif";
+//            NSLog(@"%@===%@===%@===%@",photo.picMessage.imgPath,photo.picMessage.imgUrl,photo.picMessage.thumbnailImgPath,photo.picMessage.thumbnailImgUrl);
+            [photoArray addObject:photo];
+        }
+        
+        
+//        AXPhoto *photo = [[AXPhoto alloc] init];
+//        photo.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.baidu.com/img/bdlogo.gif"]]];
+//        [photos addObject:photo];
+//        [photos addObject:photo];
+//        [photos addObject:photo];
+//        [photos addObject:photo];
+//        [photos addObject:photo];
 
         
         AXPhotoBrowser *controller = [[AXPhotoBrowser alloc] init];
+#warning TODO 判断当前是第几张图
         controller.currentPhotoIndex = 1; // 弹出相册时显示的第一张图片是？
-        controller.photos = photos; // 设置所有的图片
+        controller.photos = photoArray; // 设置所有的图片
         [self.navigationController pushViewController:controller animated:YES];
     }
 }

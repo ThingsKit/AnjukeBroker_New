@@ -8,6 +8,8 @@
 #import "AXPhotoView.h"
 #import "AXPhoto.h"
 #import <QuartzCore/QuartzCore.h>
+#import "AXPhotoManager.h"
+#import "AXChatMessageCenter.h"
 
 @interface AXPhotoView ()
 {
@@ -62,7 +64,40 @@
         _imageView.image = _photo.placeholder; // 占位图片
 //        _photo.srcImageView.image = nil;
         if (![_photo.url.absoluteString hasSuffix:@"gif"]) {
-            _imageView.image = _photo.image;
+            if (_photo.picMessage.imgUrl.length > 0) {
+                _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgUrl]];
+            } else {
+//                _imageView.image = nil;
+                NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:_photo.picMessage.imgPath]];
+                __weak AXPhotoView *mySelf = self;
+                [_imageView setImageWithURLRequest:request placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgUrl]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                    //
+                    NSString *libpath = [AXPhotoManager getLibrary:nil];
+                    NSString *imgName = [NSString stringWithFormat:@"%dx%d.jpg", (int)image.size.height, (int)image.size.width];
+                    NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:libpath whitChatId:mySelf.photo.picMessage.to andIMGName:imgName];
+                    
+                    //            AXMessage *updateMessage = [[AXMessage alloc] init];
+                    //            updateMessage = blockSelf.photo.picMessage;
+                    AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
+                    mappedMessage.accountType = @"1";
+                    //        mappedMessage.content = self.messageInputView.textView.text;
+                    mappedMessage.to = mySelf.photo.picMessage.to;
+                    mappedMessage.from = mySelf.photo.picMessage.from;
+                    mappedMessage.isImgDownloaded = YES;
+                    mappedMessage.isRead = YES;
+                    mappedMessage.isRemoved = NO;
+                    mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
+                    mappedMessage.imgPath = imgpath;
+                    
+                    [[AXChatMessageCenter defaultMessageCenter] updateMessage:mappedMessage];
+                    
+                } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                    
+                    
+                }];
+
+            }
+            
         }
     } else {
         [self photoStartLoad];
@@ -73,14 +108,43 @@
 #pragma mark 开始加载图片
 - (void)photoStartLoad
 {
-    if (_photo.image) {
         self.scrollEnabled = YES;
-        _imageView.image = _photo.image;
+    if (_photo.picMessage.imgUrl.length > 0) {
+        _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgUrl]];
     } else {
-        self.scrollEnabled = NO;
-        _imageView.image = [UIImage imageNamed:@"timeline_image_loading@2x.png"];
+        //                _imageView.image = nil;
+        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:_photo.picMessage.imgPath]];
+        __weak AXPhotoView *mySelf = self;
+        [_imageView setImageWithURLRequest:request placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgUrl]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            //
+            NSString *libpath = [AXPhotoManager getLibrary:nil];
+            NSString *imgName = [NSString stringWithFormat:@"%dx%d.jpg", (int)image.size.height, (int)image.size.width];
+            NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:libpath whitChatId:mySelf.photo.picMessage.to andIMGName:imgName];
+            
+            //            AXMessage *updateMessage = [[AXMessage alloc] init];
+            //            updateMessage = blockSelf.photo.picMessage;
+            AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
+            mappedMessage.accountType = @"1";
+            //        mappedMessage.content = self.messageInputView.textView.text;
+            mappedMessage.to = mySelf.photo.picMessage.to;
+            mappedMessage.from = mySelf.photo.picMessage.from;
+            mappedMessage.isImgDownloaded = YES;
+            mappedMessage.isRead = YES;
+            mappedMessage.isRemoved = NO;
+            mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
+            mappedMessage.imgPath = imgpath;
+            
+            [[AXChatMessageCenter defaultMessageCenter] updateMessage:mappedMessage];
+            
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+            
+            
+        }];
+        
     }
+    
 }
+
 
 #pragma mark 加载完毕
 - (void)photoDidFinishLoadWithImage:(UIImage *)image
