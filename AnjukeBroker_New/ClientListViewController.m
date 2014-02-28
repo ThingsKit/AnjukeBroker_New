@@ -96,29 +96,34 @@
 
 - (void)redrawList {
     self.listDataArray = [NSMutableArray array];
+    [self.publicDataArr removeAllObjects];
+    [self.starDataArr removeAllObjects];
+    [self.allDataArr removeAllObjects];
     
     //reset 3 list arr ...
     //获取公共账号
     for (int i = 0; i < self.testArr.count; i++) {
         AXMappedPerson *item = [self.testArr objectAtIndex:i];
-        
         if (item.userType == AXPersonTypePublic) {
+            DLog(@"public item [%@]", item);
             [self.publicDataArr addObject:item];
         }
     }
+    
     //非公共账号处理
-    for (int i = 0; i < self.testArr.count; i ++) {
-        AXMappedPerson *item = [self.testArr objectAtIndex:i];
-        
-        if (item.userType == AXPersonTypeUser) {
-            [self.allDataArr addObject:item]; //所有用户
-            
-            if (item.isStar == YES) {
-                [self.starDataArr addObject:item]; //星标用户
+    NSArray *star_arr = [NSArray arrayWithArray:self.testArr];
+    
+    for (int i = 0; i < star_arr.count; i ++) {
+//        if ([(AXMappedPerson *)[star_arr objectAtIndex:i] userType] == AXPersonTypeUser) {
+            if ([(AXMappedPerson *)[star_arr objectAtIndex:i] isStar] == YES) {
+                
+                DLog(@"star item [%@]", [star_arr objectAtIndex:i]);
+                [self.starDataArr addObject:[star_arr objectAtIndex:i]]; //星标用户
             }
-        }
+//        }
     }
     
+    //所有用户
     self.allDataArr = [NSMutableArray arrayWithArray:self.testArr];
     
     //add 3 arr to list data att
@@ -200,7 +205,7 @@
     AXMappedPerson *item = [[self.listDataArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     
     if (indexPath.section == 1) {
-        rightBtnarr = [self rightButtonsIsStar:YES];
+        rightBtnarr = [self rightButtonsIsStar:item.isStar];
     }
     else if (indexPath.section == 2) {
         rightBtnarr = [self rightButtonsIsStar:item.isStar];
