@@ -108,7 +108,7 @@
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"from = %@ AND isRemoved = %@ AND messageType = %@", friendUid, [NSNumber numberWithBool:NO], [NSNumber numberWithInteger:AXMessageTypePic]];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"from = %@ OR to = %@ AND isRemoved = %@ AND messageType = %@", friendUid, friendUid, [NSNumber numberWithBool:NO], [NSNumber numberWithInteger:AXMessageTypePic]];
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:YES]];
     
     NSArray *fetchedResult = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];

@@ -128,6 +128,7 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
     } @catch (NSException *exception) {
         //do nothing
     }
+    [self configWithStatus];
 }
 
 - (void)setBubbleIMGOutcomeIncome {

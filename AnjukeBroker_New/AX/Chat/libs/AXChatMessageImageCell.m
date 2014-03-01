@@ -50,7 +50,7 @@
     self.receiveImage.layer.masksToBounds = YES;
 //    self.receiveImage.layer.borderWidth = 3.0f;
 //    self.receiveImage.layer.borderColor = [UIColor greenColor].CGColor;
-    
+        [self configWithStatus];
 }
 
 - (void)setBubbleIMGByImgFrame:(CGRect) rect{
