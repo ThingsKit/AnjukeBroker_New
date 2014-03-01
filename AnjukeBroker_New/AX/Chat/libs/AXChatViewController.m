@@ -702,7 +702,7 @@ static NSInteger const AXMessagePageSize = 15;
                        forControlEvents:UIControlEventTouchUpInside];
     } else {
         self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.sendBut.frame = CGRectMake(270.0f + 12.0f, 12.0f, 20.0f, 20.0f);
+        self.sendBut.frame = CGRectMake(270.0f + 12.0f, 12.0f, 30.0f, 36.0f);
         [self.sendBut addTarget:self action:@selector(didMoreBackView:) forControlEvents:UIControlEventTouchUpInside];
         [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateNormal];
         [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateHighlighted];
@@ -860,66 +860,66 @@ static NSInteger const AXMessagePageSize = 15;
     [self.pullToRefreshView finishLoading];
 
 }
-#pragma mark - ELCImagePickerControllerDelegate
-
-- (void)elcImagePickerController:(AXELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
-    if ([info count] == 0) {
-        return;
-    }
-    NSString *uid =[[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-    for (NSDictionary *dict in info) {
-        
-        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
-        CGSize size = image.size;
-        NSString *name = [NSString stringWithFormat:@"%dx%d",(int)size.width,(int)size.width];
-        NSString *path = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
-        NSString *url = [AXPhotoManager getLibrary:path];
-        
-        AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
-        mappedMessage.accountType = @"1";
-        //        mappedMessage.content = self.messageInputView.textView.text;
-        mappedMessage.to = [self checkFriendUid];
-        mappedMessage.from = uid;
-        mappedMessage.isRead = YES;
-        mappedMessage.isRemoved = NO;
-        mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
-        mappedMessage.imgUrl = url;
-        [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
-        
-    }
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
-}
-
-- (void)elcImagePickerControllerDidCancel:(AXELCImagePickerController *)picker {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    NSString *uid =[[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    CGSize size = image.size;
-    NSString *name = [NSString stringWithFormat:@"%dx%d",(int)size.width,(int)size.width];
-    NSString *path = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
-    NSString *url = [AXPhotoManager getLibrary:path];
-    
-    AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
-    mappedMessage.accountType = @"1";
-    //        mappedMessage.content = self.messageInputView.textView.text;
-    mappedMessage.to = [self checkFriendUid];
-    mappedMessage.from = uid;
-    mappedMessage.isRead = YES;
-    mappedMessage.isRemoved = NO;
-    mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
-    mappedMessage.imgUrl = url;
-    [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
-    
-    //        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
-    //        NSDictionary *imageData = @{@"messageType":@"image",@"content":image,@"messageSource":@"incoming"};
-    //        [self.cellData addObject:imageData];
-    //        [self reloadMytableView];
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
+//#pragma mark - ELCImagePickerControllerDelegate
+//
+//- (void)elcImagePickerController:(AXELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+//    if ([info count] == 0) {
+//        return;
+//    }
+//    NSString *uid =[[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
+//    for (NSDictionary *dict in info) {
+//        
+//        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
+//        CGSize size = image.size;
+//        NSString *name = [NSString stringWithFormat:@"%dx%d",(int)size.width,(int)size.width];
+//        NSString *path = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
+//        NSString *url = [AXPhotoManager getLibrary:path];
+//        
+//        AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
+//        mappedMessage.accountType = @"1";
+//        //        mappedMessage.content = self.messageInputView.textView.text;
+//        mappedMessage.to = [self checkFriendUid];
+//        mappedMessage.from = uid;
+//        mappedMessage.isRead = YES;
+//        mappedMessage.isRemoved = NO;
+//        mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
+//        mappedMessage.imgUrl = url;
+//        [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
+//        
+//    }
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//    
+//}
+//
+//- (void)elcImagePickerControllerDidCancel:(AXELCImagePickerController *)picker {
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//}
+//
+//- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+//    NSString *uid =[[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
+//    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+//    CGSize size = image.size;
+//    NSString *name = [NSString stringWithFormat:@"%dx%d",(int)size.width,(int)size.width];
+//    NSString *path = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
+//    NSString *url = [AXPhotoManager getLibrary:path];
+//    
+//    AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
+//    mappedMessage.accountType = @"1";
+//    //        mappedMessage.content = self.messageInputView.textView.text;
+//    mappedMessage.to = [self checkFriendUid];
+//    mappedMessage.from = uid;
+//    mappedMessage.isRead = YES;
+//    mappedMessage.isRemoved = NO;
+//    mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
+//    mappedMessage.imgUrl = url;
+//    [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
+//    
+//    //        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
+//    //        NSDictionary *imageData = @{@"messageType":@"image",@"content":image,@"messageSource":@"incoming"};
+//    //        [self.cellData addObject:imageData];
+//    //        [self reloadMytableView];
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//}
 #pragma mark - AXChatMessageRootCellDelegate
 - (void)deleteAXCell:(AXChatMessageRootCell *)axCell
 {
@@ -1146,6 +1146,34 @@ static NSInteger const AXMessagePageSize = 15;
         self.moreBackView.hidden = YES;
         if (self.preNotification) {
             [self keyboardWillShowHide:self.preNotification];
+        }else {
+//            CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:0.27f];
+            [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+            [UIView setAnimationBeginsFromCurrentState:YES];
+            CGFloat keyboardY = AXMoreBackViewHeight;
+            CGRect inputViewFrame = self.messageInputView.frame;
+            CGFloat inputViewFrameY = keyboardY - inputViewFrame.size.height;
+            
+            // for ipad modal form presentations
+            CGFloat messageViewFrameBottom = self.view.frame.size.height - inputViewFrame.size.height;
+            if (inputViewFrameY > messageViewFrameBottom)
+                inputViewFrameY = messageViewFrameBottom;
+            
+            self.messageInputView.frame = CGRectMake(inputViewFrame.origin.x,
+                                                     AXWINDOWHEIGHT -AXNavBarHeight -AXStatuBarHeight - inputViewFrame.size.height,
+                                                     inputViewFrame.size.width,
+                                                     inputViewFrame.size.height);
+            
+            [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
+             - self.messageInputView.frame.origin.y
+             - inputViewFrame.size.height + 60];
+            self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height
+                                                    - self.messageInputView.frame.origin.y
+                                                    - inputViewFrame.size.height + 60);
+            self.keyboardControl.hidden = YES;
+                [UIView commitAnimations];
         }
     } else {
         [self.messageInputView.textView resignFirstResponder];
@@ -1154,8 +1182,36 @@ static NSInteger const AXMessagePageSize = 15;
 
 - (void)didMoreBackView:(UIButton *)sender
 {
-    self.moreBackView.hidden = NO;
-    [self.messageInputView.textView resignFirstResponder];
+    if (self.moreBackView.hidden) {//当more为消失状态时
+
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.27f];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        [UIView setAnimationBeginsFromCurrentState:YES];
+        CGRect inputViewFrame = self.messageInputView.frame;
+        CGFloat inputViewFrameY = AXWINDOWHEIGHT -AXNavBarHeight -AXStatuBarHeight - AXMoreBackViewHeight - inputViewFrame.size.height;
+        
+        // for ipad modal form presentations
+        self.moreBackView.hidden = !self.moreBackView.hidden;
+        [self.messageInputView.textView resignFirstResponder];
+        self.messageInputView.frame = CGRectMake(inputViewFrame.origin.x,
+                                                 inputViewFrameY,
+                                                 inputViewFrame.size.width,
+                                                 inputViewFrame.size.height);
+        
+        [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
+         - self.messageInputView.frame.origin.y
+         - inputViewFrame.size.height + 60];
+        self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height
+                                                - self.messageInputView.frame.origin.y
+                                                - inputViewFrame.size.height + 60);
+        self.keyboardControl.hidden = NO;
+        [UIView commitAnimations];
+    }else {
+        self.moreBackView.hidden = !self.moreBackView.hidden;
+        [self.messageInputView.textView becomeFirstResponder];
+    }
+
 }
 
 - (void)sendPressed:(UIButton *)sender

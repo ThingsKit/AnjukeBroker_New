@@ -146,6 +146,68 @@
     
 }
 
+#pragma mark - ELCImagePickerControllerDelegate
+- (void)elcImagePickerController:(AXELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+    if ([info count] == 0) {
+        return;
+    }
+    NSString *uid =[[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
+    for (NSDictionary *dict in info) {
+        
+        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
+        CGSize size = image.size;
+        NSString *name = [NSString stringWithFormat:@"%dx%d",(int)size.width,(int)size.width];
+        NSString *path = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
+        NSString *url = [AXPhotoManager getLibrary:path];
+        
+        AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
+        mappedMessage.accountType = @"1";
+        //        mappedMessage.content = self.messageInputView.textView.text;
+        mappedMessage.content = @"[图片]";
+        mappedMessage.to = [self checkFriendUid];
+        mappedMessage.from = uid;
+        mappedMessage.isRead = YES;
+        mappedMessage.isRemoved = NO;
+        mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
+        mappedMessage.imgUrl = url;
+        [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
+        
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
+- (void)elcImagePickerControllerDidCancel:(AXELCImagePickerController *)picker {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    NSString *uid =[[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    CGSize size = image.size;
+    NSString *name = [NSString stringWithFormat:@"%dx%d",(int)size.width,(int)size.width];
+    NSString *path = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
+//    NSString *url = [AXPhotoManager getLibrary:path];
+    
+    AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
+    mappedMessage.accountType = @"1";
+    //        mappedMessage.content = self.messageInputView.textView.text;
+    mappedMessage.to = [self checkFriendUid];
+    mappedMessage.from = uid;
+    mappedMessage.content = @"[图片]";
+    mappedMessage.isRead = YES;
+    mappedMessage.isRemoved = NO;
+    mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
+    mappedMessage.imgUrl = path;
+    [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
+    
+    //        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
+    //        NSDictionary *imageData = @{@"messageType":@"image",@"content":image,@"messageSource":@"incoming"};
+    //        [self.cellData addObject:imageData];
+    //        [self reloadMytableView];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - PrivateMethods
 - (void)rightBarButtonClick:(id)sender {
     [self viewCustomerDetailInfo];
