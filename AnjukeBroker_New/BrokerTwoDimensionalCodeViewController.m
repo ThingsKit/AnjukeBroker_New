@@ -9,6 +9,7 @@
 #import "BrokerTwoDimensionalCodeViewController.h"
 #import "Util_UI.h"
 #import "WebImageView.h"
+#import "LoginManager.h"
 
 @interface BrokerTwoDimensionalCodeViewController ()
 
@@ -61,6 +62,7 @@
     icon.layer.borderWidth = 0.5;
     icon.layer.borderColor = SYSTEM_BLACK.CGColor;
     icon.layer.cornerRadius = 5;
+    icon.imageUrl = [LoginManager getUse_photo_url];
     [self.view addSubview:icon];
     
     UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 15, icon.frame.origin.y, 200, 20)];
@@ -86,7 +88,8 @@
     
     CGFloat imgW = 290/2;
     self.brokerGigImg = [[WebImageView alloc] initWithFrame:CGRectMake((bgW - imgW)/2, (bgW - imgW)/2 - 10, imgW, imgW)];
-    self.brokerGigImg.backgroundColor = [UIColor greenColor];
+    self.brokerGigImg.backgroundColor = [UIColor clearColor];
+    self.brokerGigImg.imageUrl = [LoginManager getTwoCodeIcon];
     [bgView addSubview:self.brokerGigImg];
     
     UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(0, self.brokerGigImg.frame.origin.y + imgW + 20, bgW, 20)];

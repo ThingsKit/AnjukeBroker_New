@@ -466,10 +466,13 @@
     NSString *chatID = [[[response content] objectForKey:@"data"] objectForKey:@"chatId"];
     NSString *tokenChat = [[[response content] objectForKey:@"data"] objectForKey:@"tokenChat"];
     NSString *phone = [self.dataDic objectForKey:@"phone"];
+    NSString *twoCodeIcon = [[[response content] objectForKey:@"data"] objectForKey:@"twoCodeIcon"];
+    
     //保存
     [[NSUserDefaults standardUserDefaults] setValue:chatID forKey:@"chatID"];
     [[NSUserDefaults standardUserDefaults] setValue:tokenChat forKey:@"tokenChat"];
     [[NSUserDefaults standardUserDefaults] setValue:phone forKey:@"phone"]; //联系电话
+    [[NSUserDefaults standardUserDefaults] setValue:twoCodeIcon forKey:@"twoCodeIcon"]; //二维码
     
     [self setHomeValue];
     

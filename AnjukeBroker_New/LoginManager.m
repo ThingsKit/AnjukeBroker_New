@@ -83,6 +83,13 @@
     return [[NSUserDefaults standardUserDefaults] valueForKey:@"tokenChat"];
 }
 
+//得到二维码
++ (NSString *)getTwoCodeIcon {
+    DLog(@"twoCodeIcon [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"twoCodeIcon"]);
+    
+    return [[NSUserDefaults standardUserDefaults] valueForKey:@"twoCodeIcon"];
+}
+
 + (BOOL)isSeedForAJK:(BOOL)isAJK {
     NSString *isSeedStr = [NSString string];
     

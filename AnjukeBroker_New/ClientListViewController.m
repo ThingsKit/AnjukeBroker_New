@@ -261,6 +261,14 @@
         [cd setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:cd animated:YES];
     }
+    if (indexPath.section == 1) { //标星账号显示
+        AXMappedPerson *item = [self.starDataArr objectAtIndex:indexPath.row];
+        
+        ClientDetailPublicViewController *cd = [[ClientDetailPublicViewController alloc] init];
+        cd.person = item;
+        [cd setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:cd animated:YES];
+    }
     if (indexPath.section == 2) {
         AXMappedPerson *item = [self.allDataArr objectAtIndex:indexPath.row];
         //for test
