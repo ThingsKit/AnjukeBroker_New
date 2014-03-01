@@ -255,6 +255,8 @@
             //test 确定删除
             [self showInfo:@"已删除"];
             
+            [[AXChatMessageCenter defaultMessageCenter] removeFriendBydeleteUid:@[self.person.uid] compeletionBlock:nil];
+            
             [self doBack:self];
         }
             break;

@@ -53,7 +53,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self redrawList];
+    [self showLoadingActivity:YES];
+    [self getFriendList];
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,6 +66,8 @@
 - (void)getFriendList {
     [[AXChatMessageCenter defaultMessageCenter] friendListWithPersonWithCompeletionBlock:^(NSArray *friendList, BOOL whetherSuccess) {
         if (whetherSuccess) {
+            [self hideLoadWithAnimated:YES];
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 DLog(@"friendList- [%@]", friendList);
                 
