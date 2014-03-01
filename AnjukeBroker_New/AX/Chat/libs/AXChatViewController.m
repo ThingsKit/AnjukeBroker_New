@@ -62,8 +62,8 @@ static NSInteger const AXMessagePageSize = 15;
 @property (nonatomic, strong) UILabel *sendLabel;
 @property (nonatomic, strong) UIControl *keyboardControl;
 
-@property (nonatomic, strong) AXMappedPerson *currentPerson;
-@property (nonatomic, strong) AXMappedPerson *friendPerson;
+
+
 
 // JSMessage
 @property (nonatomic, strong) UIView *inputBackView;
@@ -943,6 +943,10 @@ static NSInteger const AXMessagePageSize = 15;
     [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishSendMessageBlock];
 }
 
+- (void)didClickAvatar:(BOOL)isCurrentPerson {
+
+
+}
 #pragma mark - Layout message input view
 
 - (void)layoutAndAnimateMessageInputTextView:(UITextView *)textView

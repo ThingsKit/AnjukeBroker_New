@@ -9,6 +9,7 @@
 #import "BrokerChatViewController.h"
 #import "CommunitySelectViewController.h"
 #import "AXPhotoBrowser.h"
+#import "ClientDetailViewController.h"
 
 #import "AXPhoto.h"
 
@@ -30,7 +31,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self initRightBar];
 	// Do any additional setup after loading the view.
+}
+- (void)initRightBar {
+    UIButton *rightBut = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightBut.frame = CGRectMake(0, 0, 40, 40);
+    [rightBut addTarget:self action:@selector(rightBarButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [rightBut setImage:[UIImage imageNamed:@"anjuke_icon_person"] forState:UIControlStateNormal];
+    [rightBut setImage:[UIImage imageNamed:@"anjuke_icon_person"] forState:UIControlStateHighlighted];
+    UIBarButtonItem *rightBar = [[UIBarButtonItem alloc] initWithCustomView:rightBut];
+    self.navigationItem.rightBarButtonItem = rightBar;
+    
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.cellData objectAtIndex:indexPath.row] && [[[self.cellData objectAtIndex:indexPath.row] objectForKey:@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePic]]) {
@@ -108,5 +121,42 @@
         return self.uid;
     }
     return @"";
+}
+#pragma mark - AXChatMessageRootCellDelegate
+
+- (void)didClickAvatar:(BOOL)isCurrentPerson {
+    if (isCurrentPerson) {
+        return;
+//        AXMappedPerson *item = self.currentPerson;
+//        //for test
+//        ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
+//        cd.person = item;
+//        [cd setHidesBottomBarWhenPushed:YES];
+//        [self.navigationController pushViewController:cd animated:YES];
+    }else {
+
+            AXMappedPerson *item = self.friendPerson;
+            //for test
+            ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
+            cd.person = item;
+            [cd setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:cd animated:YES];
+
+    }
+    
+}
+
+#pragma mark - PrivateMethods
+- (void)rightBarButtonClick:(id)sender {
+    [self viewCustomerDetailInfo];
+}
+
+- (void)viewCustomerDetailInfo {
+    AXMappedPerson *item = self.friendPerson;
+    //for test
+    ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
+    cd.person = item;
+    [cd setHidesBottomBarWhenPushed:YES];
+    [self.navigationController pushViewController:cd animated:YES];
 }
 @end
