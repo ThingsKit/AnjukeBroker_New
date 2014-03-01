@@ -10,6 +10,7 @@
 #import "ClientDetailCell.h"
 #import "BrokerChatViewController.h"
 #import "LoginManager.h"
+#import "AppManager.h"
 
 #define DETAIL_HEADER_H 52+40
 
@@ -185,13 +186,24 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.row == 0) {
-        //make call
+        if (self.person.markPhone.length <= 0) {
+            return;
+        }
         
+        //make call
+        if (![AppManager checkPhoneFunction]) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请检测是否支持电话功能" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确认", nil];
+            [alertView show];
+        }
+        else {
+            NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@",self.person.phone];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:call_url]];
+        }
     }
     
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - UIActionSheetDelegate

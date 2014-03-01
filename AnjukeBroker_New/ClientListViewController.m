@@ -152,7 +152,7 @@
 - (UIImage *)getImageIsStar:(BOOL)isStar {
     UIImage *img = [UIImage imageNamed:@"anjuke_icon_noxingbiao_.png"];
     if (isStar) {
-        img = [UIImage imageNamed:@"anjuke_icon_noxingbiao_.png"];
+        img = [UIImage imageNamed:@"anjuke_icon_xingbiao_.png"];
     }
     
     return img;
@@ -202,12 +202,17 @@
     ClientListCell *cell = (ClientListCell *)[tableView dequeueReusableCellWithIdentifier:nil];
     
     NSArray *rightBtnarr = [NSArray array];
-    AXMappedPerson *item = [[self.listDataArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    AXMappedPerson *item = nil;
     
+    if (indexPath.section == 0) {
+        item = [self.publicDataArr objectAtIndex:indexPath.row];
+    }
     if (indexPath.section == 1) {
-        rightBtnarr = [self rightButtonsIsStar:item.isStar];
+        item = [self.starDataArr objectAtIndex:indexPath.row];
+        rightBtnarr = [self rightButtonsIsStar:YES];
     }
     else if (indexPath.section == 2) {
+        item = [self.allDataArr objectAtIndex:indexPath.row];
         rightBtnarr = [self rightButtonsIsStar:item.isStar];
     }
     
@@ -289,37 +294,40 @@
     NSIndexPath *cellIndexPath = [self.tableViewList indexPathForCell:cell];
     AXMappedPerson *item = [[self.listDataArray objectAtIndex:cellIndexPath.section] objectAtIndex:cellIndexPath.row];
     
+    [self showLoadingActivity:YES];
+    
     switch (index) {
         case 0:
         {
             DLog(@"More button was pressed--index[%d, %d]", cellIndexPath.section, cellIndexPath.row);
             
-//            [[AXChatMessageCenter defaultMessageCenter] fetchedPersonWithUID:item.uid withBlock:(void (^)(AXMappedPerson *))personInfoBlock{
-//                
-//            }]
-//            if (item.isStar == 1) { //已标星
-//                item
-//            }
-            
+            item.isStar = !item.isStar;
+            [[AXChatMessageCenter defaultMessageCenter] updatePerson:item];
             [[[cell rightUtilityButtons] objectAtIndex:0] setImage:[self getImageIsStar:!item.isStar] forState:UIControlStateNormal];
             
+            [self getFriendList];
+            [self hideLoadWithAnimated:YES];
             break;
         }
         case 1:
         {
-            // Delete button was pressed
-            [self.tableViewList beginUpdates];
-            [cell hideUtilityButtonsAnimated:NO];
+            //delete from database
+            [[AXChatMessageCenter defaultMessageCenter] removeFriendBydeleteUid:[NSArray arrayWithObject:item.uid] compeletionBlock:^(BOOL isSuccess){
+//                if (isSuccess) {
+//                    [self getFriendList];
+//                    [self hideLoadWithAnimated:YES];
+//                }
+            }];
             
-            [self.listDataArray[cellIndexPath.section] removeObjectAtIndex:cellIndexPath.row];
-            [self.tableViewList deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self.tableViewList endUpdates];
+            [self getFriendList];
+            [self hideLoadWithAnimated:YES];
             
             break;
         }
         default:
             break;
     }
+    
 }
 
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
