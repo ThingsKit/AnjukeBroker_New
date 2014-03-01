@@ -252,24 +252,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     DLog(@"section- [%d]", indexPath.section);
+    AXMappedPerson *item = nil;
     
     if (indexPath.section == 0) { //公共账号显示
-        AXMappedPerson *item = [self.publicDataArr objectAtIndex:indexPath.row];
+        item = [self.publicDataArr objectAtIndex:indexPath.row];
         
         ClientDetailPublicViewController *cd = [[ClientDetailPublicViewController alloc] init];
         cd.person = item;
         [cd setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:cd animated:YES];
     }
-    if (indexPath.section == 1) { //标星账号显示
-        AXMappedPerson *item = [self.starDataArr objectAtIndex:indexPath.row];
+    if (indexPath.section > 0) {
+        if (indexPath.row == 1) { //星标用户
+            item = [self.starDataArr objectAtIndex:indexPath.row];
+        }
+        else if (indexPath.row == 2) //全部用户
+            item = [self.allDataArr objectAtIndex:indexPath.row];
         
-        ClientDetailPublicViewController *cd = [[ClientDetailPublicViewController alloc] init];
-        cd.person = item;
-        [cd setHidesBottomBarWhenPushed:YES];
-        [self.navigationController pushViewController:cd animated:YES];
-    }
-    if (indexPath.section == 2) {
         AXMappedPerson *item = [self.allDataArr objectAtIndex:indexPath.row];
         //for test
         ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
