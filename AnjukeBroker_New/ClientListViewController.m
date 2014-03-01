@@ -269,7 +269,6 @@
         else if (indexPath.section == 2) //全部用户
             item = [self.allDataArr objectAtIndex:indexPath.row];
         
-        
         ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
         cd.person = item;
         [cd setHidesBottomBarWhenPushed:YES];

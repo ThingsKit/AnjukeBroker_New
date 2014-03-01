@@ -90,14 +90,14 @@
     
     UILabel *nameLb = [[UILabel alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE + icon.frame.size.width + CELL_OFFSET_TITLE, icon.frame.origin.y, 200, 25)];
     nameLb.backgroundColor = [UIColor clearColor];
-    nameLb.text = self.person.name;//@"基米莱库宁";
+    nameLb.text = self.person.name;
     nameLb.textColor = SYSTEM_BLACK;
     nameLb.font = [UIFont systemFontOfSize:19];
     [headerView addSubview:nameLb];
     
     UILabel *tipLb = [[UILabel alloc] initWithFrame:CGRectMake(nameLb.frame.origin.x, nameLb.frame.origin.y+ nameLb.frame.size.height +5, 200, 15)];
     tipLb.backgroundColor = [UIColor clearColor];
-    tipLb.text = self.person.company;//@"W.D.C";
+    tipLb.text = self.person.company;
     tipLb.textColor = SYSTEM_LIGHT_GRAY;
     tipLb.font = [UIFont systemFontOfSize:12];
     [headerView addSubview:tipLb];
@@ -185,6 +185,11 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == 0) {
+        //make call
+        
+    }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

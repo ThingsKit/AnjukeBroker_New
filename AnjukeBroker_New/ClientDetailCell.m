@@ -9,7 +9,7 @@
 #import "ClientDetailCell.h"
 #import "AXMappedPerson.h"
 
-#define DETAIL_LB_W 200
+#define DETAIL_LB_W 190
 
 @implementation ClientDetailCell
 @synthesize titleLb, detailLb;
@@ -45,6 +45,8 @@
     messageLabel.backgroundColor = [UIColor clearColor];
     messageLabel.textColor = SYSTEM_BLACK;
     messageLabel.font = [UIFont systemFontOfSize:15];
+    messageLabel.textAlignment = NSTextAlignmentNatural;
+    messageLabel.numberOfLines = 0;
     [self.contentView addSubview:messageLabel];
 }
 
@@ -82,7 +84,13 @@
             break;
     }
     
-    self.detailLb.frame = CGRectMake(self.titleLb.frame.origin.x + self.titleLb.frame.size.width+ CELL_OFFSET_TITLE, self.titleLb.frame.origin.y, DETAIL_LB_W, lbH );
+    CGFloat detailLb_H = lbH;
+    if (index == 1) {
+        detailLb_H = lbH*3;
+        self.titleLb.frame = CGRectMake(CELL_OFFSET_TITLE, 32, 70, 20);
+    }
+    self.detailLb.frame = CGRectMake(self.titleLb.frame.origin.x + self.titleLb.frame.size.width+ CELL_OFFSET_TITLE, 12, DETAIL_LB_W, lbH );
+    
     if (index == 0) {
         self.detailLb.text = item.markPhone;
     }

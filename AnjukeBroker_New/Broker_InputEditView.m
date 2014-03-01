@@ -57,7 +57,7 @@
         [self addSubview:textFidle_Input];
     }
     else if (self.displayStyle == DisplayStyle_ForTextView) {
-        self.textView_Input = [[UITextView alloc] initWithFrame:CGRectMake(self.titleLb.frame.origin.x + self.titleLb.frame.size.width + 15, self.titleLb.frame.origin.y, 180, (INPUT_EDIT_TEXTVIEW_H - self.titleLb.frame.origin.y*2))];
+        self.textView_Input = [[UITextView alloc] initWithFrame:CGRectMake(self.titleLb.frame.origin.x + self.titleLb.frame.size.width + 15, self.titleLb.frame.origin.y-3, 180, (INPUT_EDIT_TEXTVIEW_H - self.titleLb.frame.origin.y*2))];
         self.textView_Input.backgroundColor = [UIColor clearColor];
         self.textView_Input.font = self.titleLb.font;
         self.textView_Input.textColor = SYSTEM_BLACK;
