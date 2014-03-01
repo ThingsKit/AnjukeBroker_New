@@ -107,7 +107,9 @@ typedef enum {
     self.sv.contentSize = CGSizeMake([self getWindowWidth] *imgArray.count, [self getWindowHeight]);
     self.sv.backgroundColor = [UIColor whiteColor];
     
-    [self addPageController];
+    if (imgArray.count > 1) {
+        [self addPageController];
+    }
     
     CGFloat imgGapH = 50;
     if ([AppManager isiPhone4Display]) { //iPhone4\4s
@@ -118,15 +120,16 @@ typedef enum {
         UIImageView *img = [[UIImageView alloc] initWithImage:[imgArray objectAtIndex:i]];
         img.frame = CGRectMake(0 + [self getWindowWidth] *i, imgGapH, [self getWindowWidth], [self getWindowHeight]-50);
         img.backgroundColor = [UIColor clearColor];
-        img.contentMode = UIViewContentModeTop;
+        img.contentMode = UIViewContentModeScaleAspectFill;
         [self.sv addSubview:img];
         
         //add hide btn
         if (i == imgArray.count - 1) {
-            int btnOriginX = 80;
+            int btnW = 200;
+            int btnOriginX = ([self getWindowWidth] - btnW)/2;
             int btnH = 40;
             UIButton *hideBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            hideBtn.frame = CGRectMake(btnOriginX + [self getWindowWidth] * (imgArray.count - 1), [self getWindowHeight]-100, [self getWindowWidth]-btnOriginX*2, btnH);
+            hideBtn.frame = CGRectMake(btnOriginX + [self getWindowWidth] * (imgArray.count - 1), [self getWindowHeight]-btnH-20, btnW, btnH);
             [hideBtn setBackgroundColor:SYSTEM_ORANGE];
 //            hideBtn.layer.borderColor = [UIColor colorWithRed:0.78 green:0.78 blue:0.78 alpha:1].CGColor;
 //            hideBtn.layer.borderWidth = 0.5;

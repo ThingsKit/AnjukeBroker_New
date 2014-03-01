@@ -19,10 +19,6 @@
 		20274173186AC2A9005267FD /* SystemCellManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20274172186AC2A9005267FD /* SystemCellManager.m */; };
 		2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2031A48418920F83004F7E1A /* FindHomeViewController.m */; };
 		2031A48718920FF2004F7E1A /* anjuke_icon_find@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */; };
-		20357CB918AA1D2A00AFB85F /* anjuke_icon_come1_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20357CB518AA1D2A00AFB85F /* anjuke_icon_come1_bg@2x.png */; };
-		20357CBA18AA1D2A00AFB85F /* anjuke_icon_come1_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20357CB618AA1D2A00AFB85F /* anjuke_icon_come1_icon@2x.png */; };
-		20357CBB18AA1D2A00AFB85F /* anjuke_icon_come2_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20357CB718AA1D2A00AFB85F /* anjuke_icon_come2_bg@2x.png */; };
-		20357CBC18AA1D2A00AFB85F /* anjuke_icon_come2_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20357CB818AA1D2A00AFB85F /* anjuke_icon_come2_icon@2x.png */; };
 		203EC29818B2F61A00DD0840 /* MessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 203EC29718B2F61A00DD0840 /* MessageListViewController.m */; };
 		203EC29B18B2F65400DD0840 /* ClientListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 203EC29A18B2F65400DD0840 /* ClientListViewController.m */; };
 		203EC2A718B2FF6E00DD0840 /* anjuke_icon_esf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 203EC29D18B2FF6E00DD0840 /* anjuke_icon_esf@2x.png */; };
@@ -104,6 +100,7 @@
 		20A2182A18BF2A9D002CA469 /* AXMessageCenterUpdataUserInformationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2181218BF2A9D002CA469 /* AXMessageCenterUpdataUserInformationManager.m */; };
 		20A2182B18BF2A9D002CA469 /* AXChatMessageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2181418BF2A9D002CA469 /* AXChatMessageCenter.m */; };
 		20A2182C18BF2A9D002CA469 /* AXMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2181618BF2A9D002CA469 /* AXMessageManager.m */; };
+		20A356AE18C1B22600FD665E /* ios_welcome@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A356AD18C1B22600FD665E /* ios_welcome@2x.png */; };
 		20A44DA11869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */; };
 		20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44D9E1869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m */; };
 		20A44DA31869760B008D8CB1 /* SSPullToRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A44DA01869760B008D8CB1 /* SSPullToRefreshView.m */; };
@@ -469,10 +466,6 @@
 		2031A48318920F83004F7E1A /* FindHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindHomeViewController.h; sourceTree = "<group>"; };
 		2031A48418920F83004F7E1A /* FindHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindHomeViewController.m; sourceTree = "<group>"; };
 		2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_find@2x.png"; sourceTree = "<group>"; };
-		20357CB518AA1D2A00AFB85F /* anjuke_icon_come1_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_come1_bg@2x.png"; sourceTree = "<group>"; };
-		20357CB618AA1D2A00AFB85F /* anjuke_icon_come1_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_come1_icon@2x.png"; sourceTree = "<group>"; };
-		20357CB718AA1D2A00AFB85F /* anjuke_icon_come2_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_come2_bg@2x.png"; sourceTree = "<group>"; };
-		20357CB818AA1D2A00AFB85F /* anjuke_icon_come2_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_come2_icon@2x.png"; sourceTree = "<group>"; };
 		203EC29618B2F61A00DD0840 /* MessageListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListViewController.h; sourceTree = "<group>"; };
 		203EC29718B2F61A00DD0840 /* MessageListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageListViewController.m; sourceTree = "<group>"; };
 		203EC29918B2F65400DD0840 /* ClientListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientListViewController.h; sourceTree = "<group>"; };
@@ -603,6 +596,7 @@
 		20A2181418BF2A9D002CA469 /* AXChatMessageCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageCenter.m; sourceTree = "<group>"; };
 		20A2181518BF2A9D002CA469 /* AXMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageManager.h; sourceTree = "<group>"; };
 		20A2181618BF2A9D002CA469 /* AXMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageManager.m; sourceTree = "<group>"; };
+		20A356AD18C1B22600FD665E /* ios_welcome@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios_welcome@2x.png"; sourceTree = "<group>"; };
 		20A44D9A1869760B008D8CB1 /* SSPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefresh.h; sourceTree = "<group>"; };
 		20A44D9B1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPullToRefreshDefaultContentView.h; sourceTree = "<group>"; };
 		20A44D9C1869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPullToRefreshDefaultContentView.m; sourceTree = "<group>"; };
@@ -1498,10 +1492,7 @@
 		970501541845A18E00A0C181 /* 引导页 */ = {
 			isa = PBXGroup;
 			children = (
-				20357CB518AA1D2A00AFB85F /* anjuke_icon_come1_bg@2x.png */,
-				20357CB618AA1D2A00AFB85F /* anjuke_icon_come1_icon@2x.png */,
-				20357CB718AA1D2A00AFB85F /* anjuke_icon_come2_bg@2x.png */,
-				20357CB818AA1D2A00AFB85F /* anjuke_icon_come2_icon@2x.png */,
+				20A356AD18C1B22600FD665E /* ios_welcome@2x.png */,
 			);
 			name = "引导页";
 			sourceTree = "<group>";
@@ -2661,7 +2652,6 @@
 				B7040C9218C037B000D29902 /* xproject_dialogue_agentdetail@2x.png in Resources */,
 				B7D0AB9818A9D23300A6229C /* anjuke_icon_bluesea1@2x.png in Resources */,
 				97F4D190184E2ABD00DFC45F /* logo_29@2x.png in Resources */,
-				20357CB918AA1D2A00AFB85F /* anjuke_icon_come1_bg@2x.png in Resources */,
 				B7EF77AC183CBBD20024A5E6 /* agent_icon42@2x.png in Resources */,
 				B7040CA618C037B000D29902 /* xproject_dialogue_greencard_selected@2x.png in Resources */,
 				203EC2A818B2FF6E00DD0840 /* anjuke_icon_esf1@2x.png in Resources */,
@@ -2686,6 +2676,7 @@
 				B7040C8218C037B000D29902 /* anjuke_icon_add_pic4@2x.png in Resources */,
 				203EC2A718B2FF6E00DD0840 /* anjuke_icon_esf@2x.png in Resources */,
 				2079ADE618B5EEDF0029D493 /* anjuke_icon_bluebutton1@2x.png in Resources */,
+				20A356AE18C1B22600FD665E /* ios_welcome@2x.png in Resources */,
 				9795838E18225B93005EA48A /* anjuke_icon05_photo@2x.png in Resources */,
 				B7040CB718C037B000D29902 /* xproject_dialogue_redbutton.png in Resources */,
 				B7921A2018BB9D390021933A /* sj2.jpeg in Resources */,
@@ -2694,7 +2685,6 @@
 				979BBB68185804AE005B7D03 /* icon_40.png in Resources */,
 				20E892DD18BDC7CB00D7D881 /* anjuke_icon_add@2x.png in Resources */,
 				2079ADF018B5FD610029D493 /* anjuke_icon_danye_noxingbiao_@2x.png in Resources */,
-				20357CBA18AA1D2A00AFB85F /* anjuke_icon_come1_icon@2x.png in Resources */,
 				2079ADEF18B5FD610029D493 /* anjuke_icon_danye_more_@2x.png in Resources */,
 				203EC2AE18B2FF6E00DD0840 /* anjuke_icon_wl1@2x.png in Resources */,
 				2079ADD318B59CC00029D493 /* anjuke_icon_poblish_esf1@2x.png in Resources */,
@@ -2723,7 +2713,6 @@
 				B7040C8C18C037B000D29902 /* anjuke_icon_chat_fy@2x.png in Resources */,
 				2079ADE518B5EEDF0029D493 /* anjuke_icon_bluebutton@2x.png in Resources */,
 				203EC2A918B2FF6E00DD0840 /* anjuke_icon_home@2x.png in Resources */,
-				20357CBC18AA1D2A00AFB85F /* anjuke_icon_come2_icon@2x.png in Resources */,
 				97DED8B81823999700D0B82A /* anjuke_icon11_@2x.png in Resources */,
 				20B6B1A0189392D100864EF2 /* anjuke_icon_nextphoto_@2x.png in Resources */,
 				9741056A180CDFE0004DAE95 /* Images.xcassets in Resources */,
@@ -2765,7 +2754,6 @@
 				B7040CAE18C037B000D29902 /* xproject_dialogue_greycard@2x.png in Resources */,
 				2079ADD118B59CC00029D493 /* anjuke_icon_ewm@2x.png in Resources */,
 				97F4D18E184E2ABD00DFC45F /* logo_40@2x.png in Resources */,
-				20357CBB18AA1D2A00AFB85F /* anjuke_icon_come2_bg@2x.png in Resources */,
 				B7040C9D18C037B000D29902 /* xproject_dialogue_failedsending.png in Resources */,
 				B7040C9B18C037B000D29902 /* xproject_dialogue_blackbutton.png in Resources */,
 				B7040C9718C037B000D29902 /* xproject_dialogue_articalcard.png in Resources */,

@@ -263,14 +263,12 @@
         [self.navigationController pushViewController:cd animated:YES];
     }
     if (indexPath.section > 0) {
-        if (indexPath.row == 1) { //星标用户
+        if (indexPath.section == 1) { //星标用户
             item = [self.starDataArr objectAtIndex:indexPath.row];
         }
-        else if (indexPath.row == 2) //全部用户
+        else if (indexPath.section == 2) //全部用户
             item = [self.allDataArr objectAtIndex:indexPath.row];
         
-        AXMappedPerson *item = [self.allDataArr objectAtIndex:indexPath.row];
-        //for test
         ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
         cd.person = item;
         [cd setHidesBottomBarWhenPushed:YES];
