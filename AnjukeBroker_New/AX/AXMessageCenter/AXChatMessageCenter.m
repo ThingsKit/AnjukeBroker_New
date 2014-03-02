@@ -614,6 +614,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 - (void)dataCenter:(AXChatDataCenter *)dataCenter didFetchChatList:(NSArray *)chatList withFriend:(AXMappedPerson *)person lastMessage:(AXMappedMessage *)message
 {
     _fetchedChatList(chatList,message,person);
+    _fetchedChatList = nil;
 }
 
 - (void)dataCenter:(AXChatDataCenter *)dataCenter didReceiveMessages:(NSDictionary *)messages
@@ -641,10 +642,16 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
                 }];
             }
         }
-        messageDic[key] = messageArray;
-        picDic[key] = picArray;
+        if ([messageArray count] > 0) {
+            messageDic[key] = messageArray;
+        }
+        if ([picArray count] > 0) {
+            picDic[key] = picArray;
+        };
     }];
-    [self.imageMessageArray addObject:picDic];
+    if (![picDic isEqual:@{}]) {
+        [self.imageMessageArray addObject:picDic];
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidReceiveNewMessage object:messageDic];
     });
@@ -657,7 +664,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 
 - (void)dataCenter:(AXChatDataCenter *)dataCenter fetchPersonInfoWithUid:(NSString *)uid
 {
-#warning todo
+#warning 当用户主动联系经纪人时，数据库会给用户创建一条记录，但是这个用户的具体信息是不知道的，所以需要调一次API来存储
 }
 
 - (void)downLoadImageInOperationQueueWithMessage:(AXMappedMessage *)message
@@ -778,7 +785,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
                     NSString *imageString = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg",imageMessage.identifier]];
                     imageMessage.thumbnailImgPath = imageString;
                     [self.dataCenter updateMessage:imageMessage];
-                    NSDictionary *dic = @{allKeys[0]: imageMessage};
+                    NSDictionary *dic = @{allKeys[0]: @[imageMessage]};
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidReceiveNewMessage object:dic];
                     });

@@ -89,18 +89,18 @@
 {
     [super willSave];
     
-    unichar firstPinYin = '#';
+    NSString *firstChar = @"~";
     if ([self.markNamePinyin length] > 0) {
-        firstPinYin = [[self.markNamePinyin uppercaseString] characterAtIndex:0];
+        firstChar = [[self.markNamePinyin uppercaseString] substringToIndex:1];
     } else {
         if ([self.namePinyin length] > 0) {
-            firstPinYin = [[self.namePinyin uppercaseString] characterAtIndex:0];
+            firstChar = [[self.namePinyin uppercaseString] substringToIndex:1];
         }
     }
-    if (firstPinYin < 'A' && firstPinYin > 'Z') {
-        [self setPrimitiveValue:@"#" forKey:@"firstPinYin"];
+    if ([@"ABCDEFGHIJKLMNOPQRSTUVWXYZ" rangeOfString:firstChar].location == NSNotFound) {
+        [self setPrimitiveValue:@"~" forKey:@"firstPinYin"];
     } else {
-        [self setPrimitiveValue:[NSString stringWithCharacters:&firstPinYin length:1] forKey:@"firstPinYin"];
+        [self setPrimitiveValue:firstChar forKey:@"firstPinYin"];
     }
 }
 
