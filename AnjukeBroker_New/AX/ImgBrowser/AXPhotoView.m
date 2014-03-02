@@ -16,9 +16,13 @@
     BOOL _doubleTap;
     UIImageView *_imageView;
 }
+
+@property (nonatomic, strong) UIImageView *imageView;
+
 @end
 
 @implementation AXPhotoView
+@synthesize imageView = _imageView;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -61,16 +65,16 @@
 - (void)showImage
 {
     if (_photo.firstShow) { // 首次显示
-        _imageView.image = _photo.placeholder; // 占位图片
-//        _photo.srcImageView.image = nil;
-        if (![_photo.url.absoluteString hasSuffix:@"gif"]) {
+        _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgUrl]];; // 占位图片
             if (_photo.picMessage.imgUrl.length > 0) {
                 _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgUrl]];
             } else {
 //                _imageView.image = nil;
                 NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:_photo.picMessage.imgPath]];
                 __weak AXPhotoView *mySelf = self;
+                __unsafe_unretained AXPhoto *photo = _photo;
                 [_imageView setImageWithURLRequest:request placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgUrl]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                    photo.image = image;
                     //
                     NSString *libpath = [AXPhotoManager getLibrary:nil];
                     NSString *imgName = [NSString stringWithFormat:@"%dx%d.jpg", (int)image.size.height, (int)image.size.width];
@@ -90,15 +94,13 @@
                     mappedMessage.imgPath = imgpath;
                     
                     [[AXChatMessageCenter defaultMessageCenter] updateMessage:mappedMessage];
-                    
+                    [mySelf adjustFrame];
                 } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                     
                     
                 }];
-
-            }
-            
         }
+
     } else {
         [self photoStartLoad];
     }
@@ -108,14 +110,25 @@
 #pragma mark 开始加载图片
 - (void)photoStartLoad
 {
-        self.scrollEnabled = YES;
-    if (_photo.picMessage.imgUrl.length > 0) {
-        _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgUrl]];
+    
+    if (_photo.image) {
+//        self.scrollEnabled = YES;
+        _imageView.image = _photo.image;
     } else {
+//        self.scrollEnabled = NO;
         //                _imageView.image = nil;
+        if (_photo.picMessage.imgUrl.length > 0) {
+            _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgUrl]];
+        } else {
+        if ([UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgUrl]]) {
+            _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgUrl]];
+        }
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:_photo.picMessage.imgPath]];
         __weak AXPhotoView *mySelf = self;
+        __unsafe_unretained AXPhoto *photo = _photo;
         [_imageView setImageWithURLRequest:request placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgUrl]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            photo.image = image;
+            [mySelf.imageView setImage:image];
             //
             NSString *libpath = [AXPhotoManager getLibrary:nil];
             NSString *imgName = [NSString stringWithFormat:@"%dx%d.jpg", (int)image.size.height, (int)image.size.width];
@@ -135,14 +148,14 @@
             mappedMessage.imgPath = imgpath;
             
             [[AXChatMessageCenter defaultMessageCenter] updateMessage:mappedMessage];
-            
+            [mySelf adjustFrame];
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
             
             
         }];
-        
+        }
     }
-    
+    [self adjustFrame];
 }
 
 
@@ -150,7 +163,7 @@
 - (void)photoDidFinishLoadWithImage:(UIImage *)image
 {
     if (image) {
-        self.scrollEnabled = YES;
+//        self.scrollEnabled = YES;
         _photo.image = image;
         
         if ([self.photoViewDelegate respondsToSelector:@selector(photoViewImageFinishLoad:)]) {
@@ -246,7 +259,9 @@
 		[self zoomToRect:CGRectMake(touchPoint.x, touchPoint.y, 1, 1) animated:YES];
 	}
 }
-
+- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholderImage {
+    [_imageView setImageWithURL:url placeholderImage:placeholderImage];
+}
 - (void)dealloc
 {
     // 取消请求

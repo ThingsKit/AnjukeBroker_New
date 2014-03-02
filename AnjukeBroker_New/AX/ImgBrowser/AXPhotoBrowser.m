@@ -9,6 +9,7 @@
 #import "AXPhoto.h"
 #import "AXPhotoView.h"
 #import "AXMessage.h"
+#import <AFNetworking/UIImageView+AFNetworking.h>
 
 #define kPadding 10
 #define kPhotoViewTagOffset 1000
@@ -39,10 +40,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self initUI];
-
+    
+    // 1.创建UIScrollView
+    [self createScrollView];
+    [self initRightBar];
 }
-- (void)initUI {
+
+- (void)initRightBar {
+    UIButton *rightBar = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightBar.frame = CGRectMake(0, 0, 21, 5);
+    [rightBar setImage:[UIImage imageNamed:@"xproject_dialogue_more.png"] forState:UIControlStateNormal];
+    [rightBar setImage:[UIImage imageNamed:@"xproject_dialogue_more_selected.png"] forState:UIControlStateHighlighted];
+    [rightBar addTarget:self  action:@selector(rightBarClick:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBar];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [self showPhotoViewAtIndex:_currentPhotoIndex];
+}
+
+#pragma mark 创建UIScrollView
+- (void)createScrollView
+{
     CGRect frame = self.view.bounds;
     frame.origin.x -= kPadding;
     frame.size.width += (2 * kPadding);
@@ -108,6 +127,7 @@
 {
     // 只有一张图片
     if (_photos.count == 1) {
+
         [self showPhotoViewAtIndex:0];
         return;
     }
@@ -148,7 +168,13 @@
     AXPhotoView *photoView = [self dequeueReusablePhotoView];
     if (!photoView) { // 添加新的图片view
         photoView = [[AXPhotoView alloc] init];
-//        [photoView setImageWithURL:[NSURL URLWithString:_person[index]] placeholderImage:[UIImage axChatDefaultAvatar:NO]];
+        photoView.photoViewDelegate = self;
+//        if ([[_photos objectAtIndex:index] isKindOfClass:[AXPhoto class]]) {
+//            AXPhoto *message = [_photos objectAtIndex:index];
+//            [photoView setImageWithURL:nil placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:message.picMessage.imgUrl]]];
+//            
+//        }
+
 //[photoView setImageWit]
     }
     
@@ -222,6 +248,17 @@
 
 - (void)photoViewDidEndZoom:(AXPhotoView *)photoView {
 
+}
+#pragma mark - privateMethods
+- (void)rightBarClick:(id)sender {
+    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"保存", nil];
+    
+    [action showInView:self.view];
+}
+#pragma mark - UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+
+    
 }
 
 @end

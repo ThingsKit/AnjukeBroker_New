@@ -19,4 +19,6 @@
 @interface AXPhotoView : UIScrollView <UIScrollViewDelegate>
 @property (nonatomic, strong) AXPhoto *photo;
 @property (nonatomic, weak) id<AXPhotoViewDelegate> photoViewDelegate;
+
+- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholderImage;
 @end

@@ -47,34 +47,25 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.cellData objectAtIndex:indexPath.row] && [[[self.cellData objectAtIndex:indexPath.row] objectForKey:@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePic]]) {
-//    NSMutableArray *photos = [NSMutableArray array];
-    
         
-     NSMutableArray *imgArray = [NSMutableArray arrayWithArray:[[AXChatMessageCenter defaultMessageCenter] picMessageArrayWithFriendUid:[self checkFriendUid]]];
+        NSMutableArray *imgArray = [NSMutableArray arrayWithArray:[[AXChatMessageCenter defaultMessageCenter] picMessageArrayWithFriendUid:[self checkFriendUid]]];
+        
         NSMutableArray *photoArray = [NSMutableArray array];
-        
+        int currentPhotoIndex = 0;
         for (int i =0; i <imgArray.count; i ++) {
             AXPhoto *photo = [[AXPhoto alloc] init];
             photo.picMessage = [imgArray objectAtIndex:i];
-            photo.picMessage.imgPath = @"http://www.baidu.com/img/bdlogo.gif";
-//            NSLog(@"%@===%@===%@===%@",photo.picMessage.imgPath,photo.picMessage.imgUrl,photo.picMessage.thumbnailImgPath,photo.picMessage.thumbnailImgUrl);
+//            photo.picMessage.imgPath = @"http://a.hiphotos.baidu.com/image/w%3D2048/sign=0186658d0afa513d51aa6bde095554fb/359b033b5bb5c9ea85c7f3b2d739b6003af3b3af.jpg";
+            if ([[[self.cellData objectAtIndex:indexPath.row] objectForKey:@"identifier"] isEqualToString:photo.picMessage.identifier]) {
+                currentPhotoIndex = i;
+            }
             [photoArray addObject:photo];
         }
-        
-        
-//        AXPhoto *photo = [[AXPhoto alloc] init];
-//        photo.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.baidu.com/img/bdlogo.gif"]]];
-//        [photos addObject:photo];
-//        [photos addObject:photo];
-//        [photos addObject:photo];
-//        [photos addObject:photo];
-//        [photos addObject:photo];
 
-        
         AXPhotoBrowser *controller = [[AXPhotoBrowser alloc] init];
 #warning TODO 判断当前是第几张图
-        controller.currentPhotoIndex = 1; // 弹出相册时显示的第一张图片是？
-        controller.photos = photoArray; // 设置所有的图片
+        controller.currentPhotoIndex = currentPhotoIndex; // 弹出相册时显示的第一张图片是？
+        [controller setPhotos:photoArray]; // 设置所有的图片
         [self.navigationController pushViewController:controller animated:YES];
     }
 }
@@ -187,18 +178,18 @@
     CGSize size = image.size;
     NSString *name = [NSString stringWithFormat:@"%dx%d",(int)size.width,(int)size.width];
     NSString *path = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
-//    NSString *url = [AXPhotoManager getLibrary:path];
+    NSString *url = [AXPhotoManager getLibrary:path];
     
     AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
     mappedMessage.accountType = @"1";
     //        mappedMessage.content = self.messageInputView.textView.text;
+    mappedMessage.content = @"[图片]";
     mappedMessage.to = [self checkFriendUid];
     mappedMessage.from = uid;
-    mappedMessage.content = @"[图片]";
     mappedMessage.isRead = YES;
     mappedMessage.isRemoved = NO;
     mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
-    mappedMessage.imgUrl = path;
+    mappedMessage.imgUrl = url;
     [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
     
     //        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];

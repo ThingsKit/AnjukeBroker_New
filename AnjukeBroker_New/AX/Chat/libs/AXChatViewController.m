@@ -291,7 +291,7 @@ static NSInteger const AXMessagePageSize = 15;
         case AXMessageTypePic:
         {
             UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfFile:mappedMessage.imgUrl]];
-            textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":[NSNumber numberWithInteger:AXMessageTypePic], @"content":img, @"messageSource":messageSource}];
+            textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":[NSNumber numberWithInteger:AXMessageTypePic], @"content":img, @"messageSource":messageSource, @"identify":mappedMessage.identifier}];
         }
             break;
             
