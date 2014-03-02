@@ -11,6 +11,7 @@
 #import "BrokerChatViewController.h"
 #import "LoginManager.h"
 #import "AppManager.h"
+#import "WebImageView.h"
 
 #define DETAIL_HEADER_H 52+40
 
@@ -21,12 +22,17 @@
 @property (nonatomic, strong) UITableView *tableViewList;
 @property (nonatomic, strong) NSMutableArray *listDataArray;
 
+@property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) UILabel *companyLabel;
+@property (nonatomic, strong) WebImageView *iconImage;
+
 @end
 
 @implementation ClientDetailViewController
 @synthesize tableViewList;
 @synthesize listDataArray;
 @synthesize person;
+@synthesize nameLabel, companyLabel, iconImage;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -56,6 +62,12 @@
     self.navigationItem.rightBarButtonItems = @[moreItem, startItem];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self refreshDataAndView];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -82,16 +94,27 @@
     headerView.backgroundColor = [UIColor clearColor];
     [self.tableViewList setTableHeaderView:headerView];
     
-    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, 52/2, 40, 40)];
+    WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, 52/2, 40, 40)];
     icon.backgroundColor = [UIColor clearColor];
     icon.layer.borderColor = SYSTEM_BLACK.CGColor;
     icon.layer.borderWidth = 0.5;
     icon.layer.cornerRadius = 5;
+    self.iconImage = icon;
+    if (self.person.isIconDownloaded) {
+        icon.image = [UIImage imageWithContentsOfFile:self.person.iconPath];
+    }
+    else
+        icon.imageUrl = self.person.iconUrl;
     [headerView addSubview:icon];
     
     UILabel *nameLb = [[UILabel alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE + icon.frame.size.width + CELL_OFFSET_TITLE, icon.frame.origin.y, 200, 25)];
     nameLb.backgroundColor = [UIColor clearColor];
-    nameLb.text = self.person.name;
+    if (self.person.markName.length > 0) {
+        nameLb.text = self.person.markName;
+    }
+    else
+        nameLb.text = self.person.name;
+    self.nameLabel = nameLb;
     nameLb.textColor = SYSTEM_BLACK;
     nameLb.font = [UIFont systemFontOfSize:19];
     [headerView addSubview:nameLb];
@@ -120,6 +143,32 @@
 }
 
 #pragma mark - Private Method
+
+- (void)refreshDataAndView {
+    [self showLoadingActivity:YES];
+    
+    //重新刷新信息
+    NSString *uid = self.person.uid;
+    self.person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:uid];
+    
+    if (self.person.markName.length > 0) {
+        self.nameLabel.text = self.person.markName;
+    }
+    else
+        self.nameLabel.text = self.person.name;
+    
+    self.companyLabel.text = self.person.company;
+    
+    if (self.person.isIconDownloaded) {
+        self.iconImage.image = [UIImage imageWithContentsOfFile:self.person.iconPath];
+    }
+    else
+        self.iconImage.imageUrl = self.person.iconUrl;
+
+    [self.tableViewList reloadData];
+    
+    [self hideLoadWithAnimated:YES];
+}
 
 - (void)startChart {
     BrokerChatViewController *bc = [[BrokerChatViewController alloc] init];

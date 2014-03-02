@@ -9,6 +9,8 @@
 #import "MessageListCell.h"
 #import "ChatModel.h"
 #import "Util_TEXT.h"
+#import "AXMappedPerson.h"
+#import "AXChatMessageCenter.h"
 
 @implementation MessageListCell
 @synthesize imageIcon, nameLb, messageLb, timeLb;
@@ -111,7 +113,12 @@
         self.imageIcon.image = [UIImage imageNamed:@""];
     }
     
-    self.nameLb.text = [NSString stringWithFormat:@"%@", item.presentName];
+    AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:item.friendUid];
+    if (person.markName.length > 0) {
+        self.nameLb.text = [NSString stringWithFormat:@"%@", person.markName];
+    }
+    else
+        self.nameLb.text = [NSString stringWithFormat:@"%@", item.presentName];
     self.timeLb.text = [Util_TEXT getDateStrWithDate:item.lastUpdateTime];
     
     self.messageLb.text = item.messageTip;
