@@ -96,15 +96,19 @@
     
     WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, 52/2, 40, 40)];
     icon.backgroundColor = [UIColor clearColor];
-    icon.layer.borderColor = SYSTEM_BLACK.CGColor;
+    icon.layer.borderColor = [UIColor whiteColor].CGColor;
     icon.layer.borderWidth = 0.5;
     icon.layer.cornerRadius = 5;
     self.iconImage = icon;
-    if (self.person.isIconDownloaded) {
-        icon.image = [UIImage imageWithContentsOfFile:self.person.iconPath];
+    if (self.person.iconUrl.length > 0) {
+        if (self.person.isIconDownloaded) {
+            icon.image = [UIImage imageWithContentsOfFile:self.person.iconPath];
+        }
+        else
+            icon.imageUrl = self.person.iconUrl;
     }
     else
-        icon.imageUrl = self.person.iconUrl;
+        icon.image = [UIImage imageNamed:@"anjuke_icon_headpic.png"];
     [headerView addSubview:icon];
     
     UILabel *nameLb = [[UILabel alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE + icon.frame.size.width + CELL_OFFSET_TITLE, icon.frame.origin.y, 200, 25)];

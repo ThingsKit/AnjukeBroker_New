@@ -47,7 +47,7 @@
     WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, (CLIENT_LIST_HEIGHT - IMG_ICON_H)/2, IMG_ICON_H, IMG_ICON_H)];
     self.imageIcon = icon;
     icon.layer.cornerRadius = 5;
-    icon.layer.borderColor = SYSTEM_LIGHT_GRAY.CGColor;
+    icon.layer.borderColor = [UIColor whiteColor].CGColor;
     icon.layer.borderWidth = 0.5;
     icon.contentMode = UIViewContentModeScaleAspectFill;
     icon.clipsToBounds = YES;
@@ -69,7 +69,7 @@
     
     AXMappedPerson *item = (AXMappedPerson *)data;
     
-    if (item.iconUrl) {
+    if (item.iconUrl.length > 0) {
         if (item.isIconDownloaded) {
             self.imageIcon.image = [UIImage imageWithContentsOfFile:item.iconPath];
         }
@@ -77,7 +77,7 @@
             self.imageIcon.imageUrl = item.iconUrl;
     }
     else {
-        self.imageIcon.image = [UIImage imageNamed:@""];
+        self.imageIcon.image = [UIImage imageNamed:@"anjuke_icon_headpic.png"];
     }
     self.imageIcon.imageUrl = item.iconUrl;
     
