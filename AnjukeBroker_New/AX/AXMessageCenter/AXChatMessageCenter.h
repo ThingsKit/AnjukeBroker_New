@@ -56,7 +56,8 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 
 - (void)cancelAllRequest;
 - (void)closeKeepAlivingConnect;
-- (void)userLoginOut;
+- (void)userLoginOut; //just for broker the method !!!!
+
 
 - (void)searchBrokerByBrokerPhone:(NSString *)brokerPhone compeletionBlock:(void(^)(AXMappedPerson *brokerInfo))searchBrokerBlock;
 - (void)removeFriendBydeleteUid:(NSArray *)deleteUid compeletionBlock:(void(^)(BOOL isSuccess))deleteFriendBlock;

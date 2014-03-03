@@ -21,7 +21,7 @@
 
 - (RTAPIManagerRequestType)requestType
 {
-    return RTAPIManagerRequestTypeRestGet;
+    return RTAPIManagerRequestTypeRestPost;
 }
 
 #pragma mark - RTAPIManagerValidator

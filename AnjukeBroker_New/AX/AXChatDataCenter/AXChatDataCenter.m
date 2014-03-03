@@ -287,6 +287,17 @@
 {
     AXMessage *messageToUpdate = [self findMessageWithIdentifier:message.identifier];
     [messageToUpdate assignPropertiesFromMappedObject:message];
+    
+    NSString *friendUid;
+    if ([message.from isEqualToString:self.uid]) {
+        friendUid = message.to;
+    } else {
+        friendUid = message.from;
+    }
+    
+    AXConversationListItem *item = [self findConversationListItemWithFriendUID:friendUid];
+    item.messageStatus = messageToUpdate.sendStatus;
+    
     [self.managedObjectContext save:NULL];
 }
 

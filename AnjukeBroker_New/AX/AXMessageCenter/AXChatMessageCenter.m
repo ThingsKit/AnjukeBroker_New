@@ -411,6 +411,67 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     }
 }
 
+#pragma mark - CoreData Method
+- (void)deleteMessageByIdentifier:(NSString *)identifier
+{
+    [self.dataCenter deleteMessageByIdentifier:identifier];
+}
+
+- (NSFetchedResultsController *)conversationListFetchedResultController
+{
+    return [self.dataCenter conversationListFetchedResultController];
+}
+
+- (NSString *)theLastMessageIDinCoreData
+{
+    return [self.dataCenter lastMsgId];
+}
+
+- (AXMappedPerson *)fetchPersonWithUID:(NSString *)uid
+{
+    return  [self.dataCenter fetchPersonWithUID:uid];
+}
+
+- (NSInteger)totalUnreadMessageCount
+{
+    return [self.dataCenter totalUnreadMessageCount];
+}
+
+- (AXMappedPerson *)fetchCurrentPerson
+{
+    return [self.dataCenter fetchCurrentPerson];
+}
+
+- (void)deleteConversationItem:(AXMappedConversationListItem *)conversationItem
+{
+    return [self.dataCenter deleteConversationItem:conversationItem];
+}
+
+- (void)didLeaveChattingList
+{
+    [self.dataCenter didLeaveChattingList];
+}
+
+- (NSFetchedResultsController *)friendListFetchedResultController
+{
+    return [self.dataCenter friendListFetchedResultController];
+}
+
+- (void)updatePerson:(AXMappedPerson *)person
+{
+    [self.dataCenter updatePerson:person];
+}
+
+- (NSArray *)picMessageArrayWithFriendUid:(NSString *)friendUid
+{
+    return [self.dataCenter picMessageArrayWithFriendUid:friendUid];
+}
+
+- (void)updateMessage:(AXMappedMessage *)message
+{
+    [self.dataCenter updateMessage:message];
+}
+
 #pragma mark - selfMethod
 - (void)closeKeepAlivingConnect
 {
@@ -465,11 +526,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     [self.sendMessageManager loadData];
 }
 
-- (NSInteger)totalUnreadMessageCount
-{
-    return [self.dataCenter totalUnreadMessageCount];
-}
-
 - (void)sendImage:(AXMappedMessage *)message withCompeletionBlock:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status))sendMessageBlock
 {
     AXMappedMessage *dataMessage = [self.dataCenter willSendMessage:message];
@@ -477,7 +533,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     self.blockDictionary[dataMessage.identifier] = sendMessageBlock;
     
     self.imageMessage = dataMessage;
-    NSString *photoUrl = message.imgUrl;
+    NSString *photoUrl = message.imgPath;
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:ImageServeAddress]];
     [request addFile:photoUrl forKey:@"file"];
     [request setDelegate:self];
@@ -544,26 +600,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     [self.getOldMessageManager loadData];
 }
 
-- (void)deleteMessageByIdentifier:(NSString *)identifier
-{
-    [self.dataCenter deleteMessageByIdentifier:identifier];
-}
-
-- (NSFetchedResultsController *)conversationListFetchedResultController
-{
-    return [self.dataCenter conversationListFetchedResultController];
-}
-
-- (NSString *)theLastMessageIDinCoreData
-{
-    return [self.dataCenter lastMsgId];
-}
-
-- (AXMappedPerson *)fetchPersonWithUID:(NSString *)uid
-{
-    return  [self.dataCenter fetchPersonWithUID:uid];
-}
-
 - (void)getFriendInfoWithFriendUid:(NSArray *)personUids compeletionBlock:(void (^)(NSArray *))getFriendInfoBlock
 {
     self.getFriendInfoManager.apiParams = @{
@@ -587,12 +623,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
                                             @"phone":self.currentPerson.phone,
                                             @"to_uids":personUids
                                             };
-    NSMutableArray *personArray =[NSMutableArray array];
-    [personUids enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSString *uid = (NSString *)obj;
-        AXMappedPerson *person = [self.dataCenter fetchPersonWithUID:uid];
-        [personArray addObject:person];
-    }];
     [self.getFriendInfoManager loadData];
 }
 
@@ -618,41 +648,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     NSDictionary *params = @{@"phone": self.currentPerson.phone};
     self.friendListManager.apiParams = params;
     [self.friendListManager loadData];
-}
-
-- (AXMappedPerson *)fetchCurrentPerson
-{
-    return [self.dataCenter fetchCurrentPerson];
-}
-
-- (void)deleteConversationItem:(AXMappedConversationListItem *)conversationItem
-{
-    return [self.dataCenter deleteConversationItem:conversationItem];
-}
-
-- (void)didLeaveChattingList
-{
-    [self.dataCenter didLeaveChattingList];
-}
-
-- (NSFetchedResultsController *)friendListFetchedResultController
-{
-    return [self.dataCenter friendListFetchedResultController];
-}
-
-- (void)updatePerson:(AXMappedPerson *)person
-{
-    [self.dataCenter updatePerson:person];
-}
-
-- (NSArray *)picMessageArrayWithFriendUid:(NSString *)friendUid
-{
-    return [self.dataCenter picMessageArrayWithFriendUid:friendUid];
-}
-
-- (void)updateMessage:(AXMappedMessage *)message
-{
-    [self.dataCenter updateMessage:message];
 }
 
 #pragma mark - save image in app method
@@ -806,7 +801,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         NSDictionary *receiveDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
         if (receiveDic[@"status"] && [receiveDic[@"status"] isEqualToString:@"ok"]) {
             NSDictionary *image = receiveDic[@"image"];
-            imageUrl = [NSString stringWithFormat:@"http://pic%@.ajkimg.com/display/%@/133x100.jpg",image[@"host"],image[@"id"]];
+            imageUrl = [NSString stringWithFormat:@"http://pic%@.ajkimg.com/display/%@/%@x%@.jpg",image[@"host"],image[@"id"],image[@"width"],image[@"height"]];
         }
         
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -815,6 +810,9 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         params[@"to_uid"] = self.imageMessage.to;
         params[@"uniqid"] = self.imageMessage.identifier;
         params[@"body"] = imageUrl;
+        
+        self.imageMessage.imgUrl = imageUrl;
+        [self.dataCenter updateMessage:self.imageMessage];
         
         self.sendMessageManager.apiParams = params;
         [self.sendMessageManager loadData];
@@ -862,7 +860,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     if ([receiveDic[@"result"] isKindOfClass:[NSString class]] && [receiveDic[@"result"] isEqualToString:@"INITED"]) {
         NSLog(@"INITED");
     }
-#warning waiting for test
     
     if ([receiveDic[@"result"] isKindOfClass:[NSString class]] && [receiveDic[@"result"] isEqualToString:@"BYE"]) {
         NSLog(@"BYE");
