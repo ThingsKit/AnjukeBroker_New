@@ -82,6 +82,7 @@
     UIImageView *statusImg = [[UIImageView alloc] init];
     statusImg.backgroundColor = [UIColor clearColor];
     self.statusIcon = statusImg;
+    statusImg.contentMode = UIViewContentModeScaleAspectFit;
 //    [self.contentView addSubview:statusImg];
     
     //消息类型
@@ -151,74 +152,68 @@
     CGFloat messageLabelH = 15;
     CGFloat messageLabelW = 200;
     
-    CGFloat iconW = 45;
+    CGFloat iconW = 15;
     CGFloat iconH = 15;
     
     CGFloat offsetX = self.nameLb.frame.origin.x;
     CGFloat offsetY = self.nameLb.frame.origin.y + self.nameLb.frame.size.height + 5;
     
     CGRect iconFrame = CGRectMake(offsetX, offsetY, iconW, iconH);
-    CGRect messageFrame_icon = CGRectMake(offsetX + iconW, offsetY, messageLabelW, messageLabelH);
-    CGRect messageFrame_noIcon = CGRectMake(offsetX + 0, offsetY, messageLabelW, messageLabelH);
+    CGRect messageFrame_icon = CGRectMake(offsetX + iconW+2, offsetY, messageLabelW, messageLabelH);
+    CGRect messageFrame_noIcon = CGRectMake(offsetX + 2, offsetY, messageLabelW, messageLabelH);
     
+    //草稿frame
+    CGFloat statusLbW = 35;
+    CGFloat statusLbH = 15;
+    CGRect statusLbFrame = CGRectMake(offsetX, offsetY, statusLbW, statusLbH);
+    CGRect messageFrame_statusLb = CGRectMake(offsetX + statusLbW+2, offsetY, messageLabelW, messageLabelH);
+
     //草稿
     if ([item.hasDraft boolValue]) { //草稿
         self.messageLb.text = item.draftContent;
-        self.messageLb.frame = messageFrame_icon;
+        self.messageLb.frame = messageFrame_statusLb;
         
         self.statusLabel.text = @"[草稿]";
         self.statusLabel.textColor = SYSTEM_ZZ_RED;
-        self.statusLabel.frame = iconFrame;
+        self.statusLabel.frame = statusLbFrame;
         [self.contentView addSubview:self.statusLabel];
     }
-    else {
+    else { //非草稿
         if ([item.messageType integerValue] == AXConversationListItemTypeText) {
-            if ([item.messageStatus integerValue] == AXMessageCenterSendMessageStatusSuccessful) { //发送成功
-                self.messageLb.frame = messageFrame_noIcon;
-            }
-            if ([item.messageStatus integerValue] == AXMessageCenterSendMessageStatusSending) { //发送中
-                self.statusIcon.image = [UIImage imageNamed:@"anjuke_icon_fasonging.png"];
-                self.statusIcon.frame = iconFrame;
-                
-                self.messageLb.frame = messageFrame_icon;
-            }
-            else if ([item.messageStatus integerValue] == AXMessageCenterSendMessageStatusFailed) {
-                self.statusIcon.image = [UIImage imageNamed:@"anjuke_icon_attention.png"];
-                self.statusIcon.frame = iconFrame;
-                
-                self.messageLb.frame = messageFrame_icon;
-            }
-            
-            self.messageLb.frame = messageFrame_noIcon; //for test
             self.messageLb.text = item.messageTip;
         }
         else if ([item.messageType integerValue] == AXConversationListItemTypeCard) { //卡片
-            
+            self.messageLb.text = @"[卡片信息]";
         }
         else if ([item.messageType integerValue] == AXConversationListItemTypeESFProperty) { //二手房
-            self.messageLb.frame = messageFrame_icon;
-            self.messageLb.text = @"";
+            self.messageLb.text = @"[二手房]";
             
-            self.statusLabel.text = @"[二手房]";
-            self.statusLabel.frame = iconFrame;
-            [self.contentView addSubview:self.statusLabel];
         }
         else if ([item.messageType integerValue] == AXConversationListItemTypeHZProperty) { //租房
-            self.messageLb.frame = messageFrame_icon;
-            self.messageLb.text = @"";
-            
-            self.statusLabel.text = @"[租房]";
-            self.statusLabel.frame = iconFrame;
-            [self.contentView addSubview:self.statusLabel];
+            self.messageLb.text = @"[租房]";
         }
         else if ([item.messageType integerValue] == AXConversationListItemTypePic) { //图片
-            self.messageLb.frame = messageFrame_icon;
-            self.messageLb.text = @"";
-            
-            self.statusLabel.text = @"[图片]";
-            self.statusLabel.frame = iconFrame;
-            [self.contentView addSubview:self.statusLabel];
+            self.messageLb.text = @"[图片]";
         }
+        
+        if ([item.messageStatus integerValue] == AXMessageCenterSendMessageStatusSuccessful) { //发送成功
+            self.messageLb.frame = messageFrame_noIcon;
+        }
+        if ([item.messageStatus integerValue] == AXMessageCenterSendMessageStatusSending) { //发送中
+            self.statusIcon.image = [UIImage imageNamed:@"anjuke_icon_fasonging.png"];
+            self.statusIcon.frame = iconFrame;
+            [self.contentView addSubview:self.statusIcon];
+            
+            self.messageLb.frame = messageFrame_icon;
+        }
+        else if ([item.messageStatus integerValue] == AXMessageCenterSendMessageStatusFailed) {
+            self.statusIcon.image = [UIImage imageNamed:@"anjuke_icon_attention.png"];
+            self.statusIcon.frame = iconFrame;
+            [self.contentView addSubview:self.statusIcon];
+            
+            self.messageLb.frame = messageFrame_icon;
+        }
+
     }
 }
 

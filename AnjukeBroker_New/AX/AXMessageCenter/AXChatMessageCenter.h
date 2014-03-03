@@ -22,7 +22,7 @@ static NSString * const MessageCenterDidReceiveLastUpdataFriendList = @"MessageC
 static NSString * const MessageCenterDidReceiveLastUpdataMyInformation = @"MessageCenterDidReceiveLastUpdataMyInformation";
 static NSString * const MessageCenterDidReceiveLastUpdataFriendInformation = @"MessageCenterDidReceiveLastUpdataFriendInformation";
 static NSString * const MessageCenterDidInitedDataCenter = @"MessageCenterDidInitedDataCenter";
-
+static NSString * const MessageCenterUserDidQuit = @"MessageCenterUserDidQuit";
 static NSString * const MessageCenterDidReceiveNewMessage = @"MessageCenterDidReceiveNewMessage";
 //static NSString * const MessageCenterDidReceiveNewFriendList = @"MessageCenterDidReceiveNewFriendList";
 

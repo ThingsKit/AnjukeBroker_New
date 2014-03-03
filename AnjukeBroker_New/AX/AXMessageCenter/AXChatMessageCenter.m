@@ -878,6 +878,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     if ([receiveDic[@"result"] isKindOfClass:[NSString class]] && [receiveDic[@"result"] isEqualToString:@"QUIT"]) {
         NSLog(@"QUIT");
         dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterUserDidQuit object:nil];
             UIAlertView *lertview = [[UIAlertView alloc] initWithTitle:@"您的账号已被他人登陆，您已被下线" message:@"" delegate:self cancelButtonTitle:@"ok" otherButtonTitles: nil];
             [lertview show]; 
         });
