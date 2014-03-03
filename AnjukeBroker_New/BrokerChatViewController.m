@@ -44,6 +44,9 @@
     UIBarButtonItem *rightBar = [[UIBarButtonItem alloc] initWithCustomView:rightBut];
     self.navigationItem.rightBarButtonItem = rightBar;
     
+    UIBarButtonItem *leftButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
+    self.navigationItem.leftBarButtonItem = leftButtonItem;
+    
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.cellData objectAtIndex:indexPath.row] && [[[self.cellData objectAtIndex:indexPath.row] objectForKey:@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePic]]) {
@@ -154,13 +157,13 @@
         AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
         mappedMessage.accountType = @"1";
         //        mappedMessage.content = self.messageInputView.textView.text;
-        mappedMessage.content = @"[图片]";
+//        mappedMessage.content = @"[图片]";
         mappedMessage.to = [self checkFriendUid];
         mappedMessage.from = uid;
         mappedMessage.isRead = YES;
         mappedMessage.isRemoved = NO;
         mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
-        mappedMessage.imgUrl = url;
+        mappedMessage.imgPath = url;
         [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
         
     }
@@ -189,7 +192,7 @@
     mappedMessage.isRead = YES;
     mappedMessage.isRemoved = NO;
     mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
-    mappedMessage.imgUrl = url;
+    mappedMessage.imgPath = url;
     [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
     
     //        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
@@ -211,5 +214,9 @@
     cd.person = item;
     [cd setHidesBottomBarWhenPushed:YES];
     [self.navigationController pushViewController:cd animated:YES];
+}
+- (void)doBack:(id)sender {
+    
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 @end
