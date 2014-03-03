@@ -223,18 +223,26 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 - (void)didClickTelNumber:(NSString *)telNumber {
-    self.phoneNumber = telNumber;
-    NSString *title = [NSString stringWithFormat:@"%@可能是个电话号码，你可以",telNumber];
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拨打电话",@"保存到客户资料", nil];
-    [sheet showInView:self.view];
+
+    NSArray *phone = [NSArray arrayWithArray:[telNumber componentsSeparatedByString:@":"]];
+    
+    if (phone.count == 2) {
+            self.phoneNumber = [phone objectAtIndex:1];
+        NSString *title = [NSString stringWithFormat:@"%@可能是个电话号码，你可以",self.phoneNumber];
+        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拨打电话",@"保存到客户资料", nil];
+        [sheet showInView:self.view];
+    }
+
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.phoneNumber]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",self.phoneNumber]]];
     }else {
-    
-    }
 
+            self.friendPerson.markPhone = self.phoneNumber;
+            [[AXChatMessageCenter defaultMessageCenter] updatePerson:self.friendPerson];
+        
+    }
 }
 @end
