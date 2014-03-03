@@ -249,7 +249,7 @@
         if (![self isFriendWithFriendUid:friendUID]) {
             AXPerson *friend = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
             friend.uid = friendUID;
-            [self.delegate dataCenter:self fetchPersonInfoWithUid:friendUID];
+            [self.delegate dataCenter:self fetchPersonInfoWithUid:@[friendUID]];
         }
         
     }

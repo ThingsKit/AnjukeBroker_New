@@ -11,7 +11,7 @@
 @implementation AXMessageCenterGetFriendInfoManager
 - (NSString *)methodName
 {
-    return [NSString stringWithFormat:@"user/getFriendInfo/%@/%@",self.apiParams[@"phone"],self.apiParams[@"to_uid"]];
+    return [NSString stringWithFormat:@"user/getFriendInfo/%@",self.apiParams[@"phone"]];
 }
 
 - (RTServiceType)serviceType
@@ -32,7 +32,7 @@
 
 - (NSDictionary *)paramsForApi:(RTAPIBaseManager *)manager
 {
-    return @{};
+    return @{@"to_uids":self.apiParams[@"to_uids"]};
 }
 - (BOOL)manager:(RTAPIBaseManager *)manager isCorrectWithParamsData:(NSDictionary *)data
 {

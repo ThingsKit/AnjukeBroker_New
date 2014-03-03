@@ -22,7 +22,7 @@
 - (void)dataCenter:(AXChatDataCenter *)dataCenter didFetchFriendList:(NSArray *)chatList;
 - (void)dataCenter:(AXChatDataCenter *)dataCenter didReceiveMessages:(NSDictionary *)messages;
 
-- (void)dataCenter:(AXChatDataCenter *)dataCenter fetchPersonInfoWithUid:(NSString *)uid;
+- (void)dataCenter:(AXChatDataCenter *)dataCenter fetchPersonInfoWithUid:(NSArray *)uid;
 
 @end
 

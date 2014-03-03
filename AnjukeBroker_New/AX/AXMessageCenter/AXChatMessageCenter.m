@@ -254,7 +254,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     return _getFriendInfoManager;
 }
 
-
 #pragma mark - RTAPIManagerInterceptorProtocal    //call back for sendMessage
 - (void)manager:(RTAPIBaseManager *)manager afterCallingAPIWithParams:(NSDictionary *)params
 {
