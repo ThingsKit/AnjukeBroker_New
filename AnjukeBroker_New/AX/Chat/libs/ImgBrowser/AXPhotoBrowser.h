@@ -14,7 +14,7 @@
 @property (nonatomic, strong) NSArray *photos;
 // 当前展示的图片索引
 @property (nonatomic, assign) NSUInteger currentPhotoIndex;
-
+@property BOOL isBroker;
 // 显示
 - (void)show;
 @end

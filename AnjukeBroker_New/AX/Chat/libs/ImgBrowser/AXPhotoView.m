@@ -40,7 +40,7 @@
 		self.showsVerticalScrollIndicator = NO;
 		self.decelerationRate = UIScrollViewDecelerationRateFast;
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        
+        self.scrollEnabled = YES;
         // 监听点击
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
         singleTap.delaysTouchesBegan = YES;
@@ -67,8 +67,9 @@
     if (_photo.firstShow) { // 首次显示
 //        _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];; // 占位图片
         if (_photo.picMessage.imgPath.length > 0) {
-//            _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
+            _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
             _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
+            [self adjustFrame];
         } else {
             //                _imageView.image = nil;
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:_photo.picMessage.imgUrl]];
@@ -114,13 +115,14 @@
 {
     
     if (_photo.image) {
-        //        self.scrollEnabled = YES;
+//        self.scrollEnabled = YES;
         _imageView.image = _photo.image;
+         [self adjustFrame];
     } else {
         //        self.scrollEnabled = NO;
         //                _imageView.image = nil;
         if (_photo.picMessage.imgPath.length > 0) {
-//            _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgUrl]];
+//            _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
             _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
         } else {
             if (_photo.picMessage.imgPath.length > 0) {
@@ -158,29 +160,14 @@
             }];
         }
     }
-    [self adjustFrame];
+   
 }
 
-
-#pragma mark 加载完毕
-- (void)photoDidFinishLoadWithImage:(UIImage *)image
-{
-    if (image) {
-        //        self.scrollEnabled = YES;
-        _photo.image = image;
-        
-        if ([self.photoViewDelegate respondsToSelector:@selector(photoViewImageFinishLoad:)]) {
-            [self.photoViewDelegate photoViewImageFinishLoad:self];
-        }
-    } else {
-    }
-    
-    // 设置缩放比例
-    [self adjustFrame];
-}
 #pragma mark 调整frame
 - (void)adjustFrame
 {
+    
+    _imageView.image = _photo.image;
 	if (_imageView.image == nil) return;
     
     // 基本尺寸参数

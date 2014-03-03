@@ -40,13 +40,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [self setNavTitle];
     // 1.创建UIScrollView
     [self createScrollView];
     [self initRightBar];
 }
-
+- (void)setNavTitle {
+    NSString *navTitle = [NSString stringWithFormat:@"%d/%d",_currentPhotoIndex + 1,_photos.count];
+    [self setTitle:navTitle];
+}
 - (void)initRightBar {
+//    if (self.isBroker) {
+//        return;
+//    }
     UIButton *rightBar = [UIButton buttonWithType:UIButtonTypeCustom];
     rightBar.frame = CGRectMake(0, 0, 21, 5);
     [rightBar setImage:[UIImage imageNamed:@"xproject_dialogue_more.png"] forState:UIControlStateNormal];
@@ -55,9 +61,12 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBar];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self showPhotoViewAtIndex:_currentPhotoIndex];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (_currentPhotoIndex == 0) {
+        [self showPhotoViewAtIndex:_currentPhotoIndex];
+    }
+//    [self showPhotoViewAtIndex:_currentPhotoIndex];
 }
 
 #pragma mark 创建UIScrollView
@@ -109,7 +118,7 @@
 - (void)setCurrentPhotoIndex:(NSUInteger)currentPhotoIndex
 {
     _currentPhotoIndex = currentPhotoIndex;
-    
+    [self setNavTitle];
     for (int i = 0; i<_photos.count; i++) {
         AXPhoto *photo = _photos[i];
         photo.firstShow = i == currentPhotoIndex;
@@ -126,6 +135,7 @@
 #pragma mark 显示照片
 - (void)showPhotos
 {
+    [self setNavTitle];
     // 只有一张图片
     if (_photos.count == 1) {
         
@@ -200,16 +210,16 @@
 - (void)loadImageNearIndex:(int)index
 {
     if (index > 0) {
-        AXPhoto *photo = _photos[index - 1];
+//        AXPhoto *photo = _photos[index - 1];
         
-#warning downloadIMG and set img to photo
+//#warning downloadIMG and set img to photo
         
     }
     
     if (index < _photos.count - 1) {
-        AXPhoto *photo = _photos[index + 1];
+//        AXPhoto *photo = _photos[index + 1];
         
-#warning downloadIMG
+//#warning downloadIMG
     }
 }
 
@@ -258,8 +268,11 @@
 }
 #pragma mark - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    
+    if (buttonIndex == 0) {
+        if (((AXPhoto *)[_photos objectAtIndex:_currentPhotoIndex]).image) {
+            UIImageWriteToSavedPhotosAlbum(((AXPhoto *)[_photos objectAtIndex:_currentPhotoIndex]).image, nil, nil,nil);
+        }
+    }
 }
 
 @end

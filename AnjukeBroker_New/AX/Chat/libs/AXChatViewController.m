@@ -442,7 +442,7 @@ static NSInteger const AXMessagePageSize = 15;
                 return nil;
             }
             UIImage *img = [UIImage imageWithData:imgData];
-            textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypePic), @"content":img, @"messageSource":messageSource}];
+            textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypePic), @"content":img, @"messageSource":messageSource, @"identifier":mappedMessage.identifier}];
         }
             break;
             
