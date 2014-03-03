@@ -45,7 +45,7 @@
     messageLabel.backgroundColor = [UIColor clearColor];
     messageLabel.textColor = SYSTEM_BLACK;
     messageLabel.font = [UIFont systemFontOfSize:15];
-    messageLabel.textAlignment = NSTextAlignmentNatural;
+    messageLabel.textAlignment = NSTextAlignmentLeft;
     messageLabel.numberOfLines = 0;
     [self.contentView addSubview:messageLabel];
 }
