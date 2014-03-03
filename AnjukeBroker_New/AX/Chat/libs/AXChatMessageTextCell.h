@@ -8,15 +8,8 @@
 
 #import "AXChatMessageRootCell.h"
 
-static NSInteger const kAttributedLabelTag = 100;
 static CGFloat const kLabelWidth = 200;
 static CGFloat const kLabelVMargin = 10;
-
-typedef NS_ENUM(NSUInteger,AXChatCellViewType )
-{
-    AXChatCellViewTypePhoneAlert,
-    AXChatCellViewTypePhoneAction
-};
 
 
 @interface AXChatMessageTextCell : AXChatMessageRootCell

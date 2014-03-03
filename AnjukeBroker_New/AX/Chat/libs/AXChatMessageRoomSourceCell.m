@@ -8,6 +8,7 @@
 
 #import "AXChatMessageRoomSourceCell.h"
 #import "AXChatImageLoader.h"
+#import "RTLineView.h"
 
 static CGFloat const AXPropertyCardHeight = 105.0f;
 static CGFloat const AXPropertyCardWidth = 220.0f;
@@ -25,7 +26,7 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
 @property (nonatomic, strong) UILabel *roomTypeLabel;
 @property (nonatomic, strong) UIImageView *roomImage;
 @property (nonatomic, strong) UIView *whiteBackGround;
-@property (nonatomic, strong) UIView *tagLineView;
+@property (nonatomic, strong) RTLineView *tagLineView;
 @property (nonatomic, strong) NSDictionary *propDict;
 @end
 
@@ -55,9 +56,10 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
     self.tagLable.textColor = [UIColor axChatPropTagColor:self.isBroker];
     self.tagLable.font = [UIFont axChatPropTagFont:self.isBroker];
     self.tagLable.frame = CGRectMake(20, 7, AXPropertyCardWidth - 40, 20.0f);
+    self.tagLable.backgroundColor = [UIColor clearColor];
     [self.whiteBackGround addSubview:self.tagLable];
     
-    self.tagLineView = [[UIView alloc] initWithFrame:CGRectMake(20, 28, AXPropertyCardWidth - 30, 1)];
+    self.tagLineView = [[RTLineView alloc] initWithFrame:CGRectMake(20, 28, AXPropertyCardWidth - 30, 1)];
     self.tagLineView.backgroundColor = [UIColor axChatInputBorderColor:self.isBroker];
     [self.whiteBackGround addSubview:self.tagLineView];
     
@@ -68,16 +70,19 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
     self.titleLable = [[UILabel alloc] initWithFrame:CGRectMake(92, 30, 120, 30)];
     self.titleLable.textColor = [UIColor blackColor];
     self.titleLable.font = [UIFont axChatPropDetailTimeFont:self.isBroker];
+    self.titleLable.backgroundColor = [UIColor clearColor];
     [self.whiteBackGround addSubview:self.titleLable];
     
-    self.roomTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(92, 30 + 20, 120, 30)];
-    self.roomTypeLabel.textColor = [UIColor blackColor];
+    self.roomTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(92, 30 + 22, 120, 30)];
+    self.roomTypeLabel.textColor = [UIColor axChatPropDescColor:self.isBroker];
     self.roomTypeLabel.font = [UIFont axChatPropDetailTimeFont:self.isBroker];
+    self.roomTypeLabel.backgroundColor = [UIColor clearColor];
     [self.whiteBackGround addSubview:self.roomTypeLabel];
     
-    self.priceLable = [[UILabel alloc] initWithFrame:CGRectMake(92, 30 + 20 + 20, 120, 30)];
+    self.priceLable = [[UILabel alloc] initWithFrame:CGRectMake(92, 30 + 22 + 22, 120, 30)];
     self.priceLable.textColor = [UIColor blackColor];
     self.priceLable.font = [UIFont axChatPropDetailTimeFont:self.isBroker];
+    self.priceLable.backgroundColor = [UIColor clearColor];
     [self.whiteBackGround addSubview:self.priceLable];
     
 }
@@ -108,15 +113,17 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
 {
     [super configWithData:data];
     self.propDict = [data[@"content"] JSONValue];
-    if ([data[@"messageSource"] isEqualToNumber:[NSNumber numberWithInteger:AXChatMessageSourceDestinationOutPut]]) {
+    if ([data[@"messageSource"] isEqualToNumber:@(AXChatMessageSourceDestinationOutPut)]) {
         self.messageSource = AXChatMessageSourceDestinationOutPut;
     }else {
         self.messageSource = AXChatMessageSourceDestinationIncoming;
     }
 
     [self setBubbleIMGByMessageSorce];
-    if ([self.propDict[@"tradeType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessagePropertySourceErShouFang]]) {
+    if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceErShouFang)]) {
         self.tagLable.text = @"二手房";
+    } else {
+        self.tagLable.text = @"租房";
     }
     
     self.titleLable.text = self.propDict[@"name"];
@@ -139,13 +146,10 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
     }
 }
 
-- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
+- (void)cellHighlighted:(BOOL)highlighted
 {
-    
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-        if (self.messageType == AXMessageTypeText) {
-            self.bubbleIMG.image = [[UIImage axInChatPropBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
-        }
+        self.bubbleIMG.image = [[UIImage axInChatPropBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
     } else {
         self.bubbleIMG.image = [[UIImage axOutChatPropBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
     }

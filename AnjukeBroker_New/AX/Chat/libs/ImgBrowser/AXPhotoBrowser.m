@@ -15,7 +15,7 @@
 #define kPhotoViewTagOffset 1000
 #define kPhotoViewIndex(photoView) ([photoView tag] - kPhotoViewTagOffset)
 
-@interface AXPhotoBrowser () 
+@interface AXPhotoBrowser ()
 {
     // 滚动的view
 	UIScrollView *_photoScrollView;
@@ -30,8 +30,8 @@
 #pragma mark - Lifecycle
 - (void)loadView
 {
-
-//    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    
+    //    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     self.view = [[UIView alloc] init];
     self.view.frame = [UIScreen mainScreen].bounds;
 	self.view.backgroundColor = [UIColor blackColor];
@@ -56,6 +56,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [self showPhotoViewAtIndex:_currentPhotoIndex];
 }
 
@@ -82,7 +83,7 @@
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     [window addSubview:self.view];
     [window.rootViewController addChildViewController:self];
-
+    
     if (_currentPhotoIndex == 0) {
         [self showPhotos];
     }
@@ -127,7 +128,7 @@
 {
     // 只有一张图片
     if (_photos.count == 1) {
-
+        
         [self showPhotoViewAtIndex:0];
         return;
     }
@@ -169,13 +170,13 @@
     if (!photoView) { // 添加新的图片view
         photoView = [[AXPhotoView alloc] init];
         photoView.photoViewDelegate = self;
-//        if ([[_photos objectAtIndex:index] isKindOfClass:[AXPhoto class]]) {
-//            AXPhoto *message = [_photos objectAtIndex:index];
-//            [photoView setImageWithURL:nil placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:message.picMessage.imgUrl]]];
-//            
-//        }
-
-//[photoView setImageWit]
+        //        if ([[_photos objectAtIndex:index] isKindOfClass:[AXPhoto class]]) {
+        //            AXPhoto *message = [_photos objectAtIndex:index];
+        //            [photoView setImageWithURL:nil placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:message.picMessage.imgUrl]]];
+        //
+        //        }
+        
+        //[photoView setImageWit]
     }
     
     // 调整当期页的frame
@@ -216,7 +217,7 @@
 - (BOOL)isShowingPhotoViewAtIndex:(NSUInteger)index {
 	for (AXPhotoView *photoView in _visiblePhotoViews) {
 		if (kPhotoViewIndex(photoView) == index) {
-           return YES;
+            return YES;
         }
     }
 	return  NO;
@@ -243,11 +244,11 @@
 }
 
 - (void)photoViewSingleTap:(AXPhotoView *)photoView {
-
+    
 }
 
 - (void)photoViewDidEndZoom:(AXPhotoView *)photoView {
-
+    
 }
 #pragma mark - privateMethods
 - (void)rightBarClick:(id)sender {
@@ -257,7 +258,7 @@
 }
 #pragma mark - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-
+    
     
 }
 

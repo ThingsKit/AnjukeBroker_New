@@ -11,11 +11,14 @@
 #import <AFNetworking/UIImageView+AFNetworking.h>
 
 NSString *const AXCellIdentifyTag = @"identifier";
-CGFloat const axTagMarginTop = 20.0f;
+CGFloat const axTagMarginTop = 10.0f;
 CGFloat const kJSAvatarSize = 40.0f;
 CGFloat const kAvatarMargin = 12.0f;
 
-@interface AXChatMessageRootCell ()
+NSInteger const kAttributedLabelTag = 100;
+NSInteger const kRetryTag = 101;
+
+@interface AXChatMessageRootCell () <UIAlertViewDelegate>
 
 @property (nonatomic, strong) UIImageView *avatar;
 @property (nonatomic, strong) UIButton *avatarButton;
@@ -63,19 +66,17 @@ CGFloat const kAvatarMargin = 12.0f;
     [self.contentView addSubview:self.activityIndicatorView];
     
     self.errorButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.errorButton.frame = CGRectMake(0, 0, 25, 25);
-    self.errorButton.titleLabel.text = @"abcde";
     self.errorButton.imageView.image = [UIImage imageNamed:@"anjuke_icon_attention.png"];
     [self.errorButton addTarget:self action:@selector(didRetry) forControlEvents:UIControlEventTouchUpInside];
     
     UIImageView *errorImg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_attention.png"]];
-    errorImg.frame = CGRectMake(0, 0, 25, 25);
     [self.errorButton addSubview:errorImg];
     self.errorButton.hidden = YES;
     [self.contentView addSubview:self.errorButton];
     
-    
     _avatar = [[UIImageView alloc] init];
+    _avatar.layer.masksToBounds = YES;
+    _avatar.layer.cornerRadius = 4;
     _avatar.contentMode = UIViewContentModeScaleToFill;
     
     _avatarButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -84,6 +85,8 @@ CGFloat const kAvatarMargin = 12.0f;
     
     [self.contentView addSubview:_avatar];
     [self.contentView addSubview:_avatarButton];
+    [self.contentView sendSubviewToBack:self.bubbleIMG];
+
 }
 
 #pragma mark -
@@ -91,8 +94,8 @@ CGFloat const kAvatarMargin = 12.0f;
 - (void)setBubbleIMGOutcomeIncome {
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
         self.bubbleIMG.image = [[UIImage axInChatBubbleBg:self.isBroker highlighted:NO] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
-    }else{
-        self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:NO] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
+    } else {
+        self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:NO] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
     }
 }
 
@@ -103,9 +106,9 @@ CGFloat const kAvatarMargin = 12.0f;
     self.rowData = data;
     
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-        self.avatar.frame = CGRectMake(kAvatarMargin, 20,kJSAvatarSize , kJSAvatarSize);
+        self.avatar.frame = CGRectMake(kAvatarMargin, axTagMarginTop, kJSAvatarSize , kJSAvatarSize);
     } else {
-        self.avatar.frame = CGRectMake(320 - kJSAvatarSize - kAvatarMargin, 20 ,kJSAvatarSize , kJSAvatarSize);
+        self.avatar.frame = CGRectMake(320 - kJSAvatarSize - kAvatarMargin, axTagMarginTop, kJSAvatarSize , kJSAvatarSize);
     }
     self.avatarButton.frame = self.avatar.frame;
 #warning 竟然isIconDownloaded是YES 0.0
@@ -124,17 +127,17 @@ CGFloat const kAvatarMargin = 12.0f;
 - (void)configWithStatus
 {
     if (self.rowData[@"status"]) {
-        if ([self.rowData[@"status"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageCenterSendMessageStatusSending]]) {
+        if ([self.rowData[@"status"] isEqualToNumber:@(AXMessageCenterSendMessageStatusSending)]) {
             self.activityIndicatorView.hidden = NO;
             self.activityIndicatorView.frame = [self statusIconRect];
             [self.activityIndicatorView startAnimating];
             self.errorButton.hidden = YES;
-        } else if ([self.rowData[@"status"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageCenterSendMessageStatusFailed]]) {
+        } else if ([self.rowData[@"status"] isEqualToNumber:@(AXMessageCenterSendMessageStatusFailed)]) {
             self.errorButton.frame = [self statusIconRect];
             self.errorButton.hidden = NO;
             self.activityIndicatorView.hidden = YES;
             [self.activityIndicatorView stopAnimating];
-        } if ([self.rowData[@"status"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageCenterSendMessageStatusSuccessful]]) {
+        } if ([self.rowData[@"status"] isEqualToNumber:@(AXMessageCenterSendMessageStatusSuccessful)]) {
             self.errorButton.hidden = YES;
             self.activityIndicatorView.hidden = YES;
             [self.activityIndicatorView stopAnimating];
@@ -146,9 +149,18 @@ CGFloat const kAvatarMargin = 12.0f;
 - (CGRect)statusIconRect
 {
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-        return CGRectMake(self.bubbleIMG.frame.origin.x + self.bubbleIMG.frame.size.width + 25, self.bubbleIMG.frame.size.height - 17, 25, 25);
+        return CGRectMake(self.bubbleIMG.frame.origin.x + self.bubbleIMG.frame.size.width + 25, self.bubbleIMG.frame.size.height - 17 - 14, 25, 25);
     } else {
-        return CGRectMake(self.bubbleIMG.frame.origin.x - 28, self.bubbleIMG.frame.size.height - 5, 25, 25);
+        return CGRectMake(self.bubbleIMG.frame.origin.x - 26, self.bubbleIMG.frame.size.height - 5 - 13, 25, 25);
+    }
+}
+
+- (void)cellHighlighted:(BOOL)highlighted
+{
+    if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
+        self.bubbleIMG.image = [[UIImage axInChatBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
+    } else {
+        self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
     }
 }
 
@@ -171,12 +183,10 @@ CGFloat const kAvatarMargin = 12.0f;
     }
     
     UIMenuController *menu = [UIMenuController sharedMenuController];
-    [menu setTargetRect:self.bubbleIMG.frame inView:self.bubbleIMG.superview];
+    [menu setTargetRect:self.bubbleIMG.frame inView:self];
     UIMenuItem *delete = [[UIMenuItem alloc] initWithTitle:@"删除"action:@selector(axDelete:)];
     UIMenuItem *copy = [[UIMenuItem alloc] initWithTitle:@"复制"action:@selector(axCopy:)];
     [menu setMenuItems:@[copy, delete]];
-
-    self.bubbleIMG.highlighted = YES;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleMenuWillShowNotification:)
@@ -189,7 +199,8 @@ CGFloat const kAvatarMargin = 12.0f;
 
 - (void)handleMenuWillHideNotification:(NSNotification *)notification
 {
-    self.bubbleIMG.highlighted = NO;
+    DLog(@"handleMenuWillHideNotification");
+    [self cellHighlighted:NO];
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIMenuControllerWillHideMenuNotification
                                                   object:nil];
@@ -197,6 +208,8 @@ CGFloat const kAvatarMargin = 12.0f;
 
 - (void)handleMenuWillShowNotification:(NSNotification *)notification
 {
+    DLog(@"handleMenuWillShowNotification");
+    [self cellHighlighted:YES];
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIMenuControllerWillShowMenuNotification
                                                   object:nil];
@@ -204,19 +217,6 @@ CGFloat const kAvatarMargin = 12.0f;
                                              selector:@selector(handleMenuWillHideNotification:)
                                                  name:UIMenuControllerWillHideMenuNotification
                                                object:nil];
-}
-
-- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
-{
-    
-    if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-        if (self.messageType == AXMessageTypeText) {
-            self.bubbleIMG.image = [[UIImage axInChatBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
-        }
-    } else {
-        self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
-    }
-//    [super setHighlighted:highlighted animated:animated];
 }
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
@@ -227,7 +227,9 @@ CGFloat const kAvatarMargin = 12.0f;
 - (void)didRetry
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(didMessageRetry:)]) {
-        [self.delegate didMessageRetry:self];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"是否重发该消息？" message:nil delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+        alertView.tag = AXChatCellViewTypeRetry;
+        [alertView show];
     }
 }
 
@@ -248,6 +250,23 @@ CGFloat const kAvatarMargin = 12.0f;
     if (self.delegate && [self.delegate respondsToSelector:@selector(didClickAvatar:)]) {
         BOOL flag = (self.messageSource == AXChatMessageSourceDestinationIncoming)? NO:YES;
         [self.delegate didClickAvatar:flag];
+    }
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == AXChatCellViewTypePhoneAlert) {
+        if (buttonIndex == 1) {
+            // 打电话
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.phoneNum]];
+        }
+    } else if (alertView.tag == AXChatCellViewTypeRetry) {
+        if (buttonIndex == 1) {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(didMessageRetry:)]) {
+                [self.delegate didMessageRetry:self];
+            }
+        }
     }
 }
 

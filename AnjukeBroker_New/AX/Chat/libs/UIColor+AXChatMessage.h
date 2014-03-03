@@ -17,11 +17,13 @@
 
 + (UIColor *)axChatSystemTextColor:(BOOL)isBroker;
 + (UIColor *)axChatSystemLinkColor:(BOOL)isBroker;
++ (UIColor *)axChatSystemLinkHighlightedColor:(BOOL)isBroker;
 
 + (UIColor *)axInChatTextLinkColor:(BOOL)isBroker;
 + (UIColor *)axOutChatTextLinkColor:(BOOL)isBroker;
 
 + (UIColor *)axChatPropTagColor:(BOOL)isBroker;
++ (UIColor *)axChatPropDescColor:(BOOL)isBroker;
 
 + (UIColor *)axChatTimeColor:(BOOL)isBroker;
 + (UIColor *)axChatBGColor:(BOOL)isBroker;

@@ -42,7 +42,6 @@
 - (void)initModel {
     self.myIMGArray = [NSMutableArray array];
     [self.myIMGArray addObject:self.img];
-    [self.myIMGArray addObject:[UIImage imageNamed:@"demo-avatar-woz.png"]];
     [self.myIMGArray addObject:self.img];
     [self.myIMGArray addObject:self.img];
     [self.myIMGArray addObject:self.img];

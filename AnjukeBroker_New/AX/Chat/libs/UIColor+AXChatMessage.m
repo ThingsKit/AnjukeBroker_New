@@ -53,7 +53,16 @@
     if (isBroker) {
         return [UIColor colorWithHex:0x3E93D9 alpha:1];
     } else {
-        return [UIColor colorWithHex:0x3069A2 alpha:1];
+        return [UIColor colorWithHex:0x5882af alpha:1];
+    }
+}
+
++ (UIColor *)axChatSystemLinkHighlightedColor:(BOOL)isBroker
+{
+    if (isBroker) {
+        return [UIColor colorWithHex:0x3E93D9 alpha:1];
+    } else {
+        return [UIColor colorWithHex:0x144b7e alpha:1];
     }
 }
 
@@ -84,6 +93,15 @@
     }
 }
 
++ (UIColor *)axChatPropDescColor:(BOOL)isBroker
+{
+    if (isBroker) {
+        return [UIColor colorWithHex:0x000000 alpha:1];
+    } else {
+        return [UIColor colorWithHex:0x999999 alpha:1];
+    }
+}
+
 + (UIColor *)axChatTimeColor:(BOOL)isBroker
 {
     if (isBroker) {
@@ -98,7 +116,7 @@
     if (isBroker) {
         return [UIColor colorWithHex:0xe6e5e6 alpha:1];
     } else {
-        return [UIColor colorWithHex:0xf2f4f0 alpha:1];
+        return [UIColor colorWithHex:0xfbfbfb alpha:1];
     }
 }
 
@@ -155,5 +173,7 @@
         return [UIColor colorWithHex:0xa7a7a7 alpha:1];
     }
 }
+
+
 
 @end

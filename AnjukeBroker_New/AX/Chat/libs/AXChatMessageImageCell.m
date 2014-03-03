@@ -35,32 +35,34 @@
 - (void)configWithData:(NSDictionary *)data
 {
     [super configWithData:data];
+    
     CGRect frame = [AXChatMessageImageCell sizeOFImg:data[@"content"]];
+    
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
         frame.origin.x = kJSAvatarSize +40;
     }else {
         frame.origin.x = 320 - kJSAvatarSize - 40 - frame.size.width;
     }
-    [self setBubbleIMGByImgFrame:frame];
-//    self.receiveImage.frame = frame;
-    self.receiveImage.image = data[@"content"];
-//    self.receiveImage.backgroundColor = [UIColor yellowColor];
     
-    self.receiveImage.layer.cornerRadius = 8.0f;
+    [self setBubbleIMGByImgFrame:frame];
+    
+    self.receiveImage.image = data[@"content"];
+    self.receiveImage.layer.cornerRadius = 6.0f;
     self.receiveImage.layer.masksToBounds = YES;
-//    self.receiveImage.layer.borderWidth = 3.0f;
-//    self.receiveImage.layer.borderColor = [UIColor greenColor].CGColor;
-        [self configWithStatus];
+    [self configWithStatus];
 }
 
 - (void)setBubbleIMGByImgFrame:(CGRect) rect{
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
+      
         self.receiveImage.frame = CGRectMake(kJSAvatarSize +30, 20, rect.size.width, rect.size.height);
-        self.bubbleIMG.frame = CGRectMake(self.receiveImage.frame.origin.x - 8.0f, 19.0f, rect.size.width + 10.0f, rect.size.height + 2.0f);
-        
-    }else
-    {
-        self.receiveImage.frame = CGRectMake(320.0f - kJSAvatarSize - 20.0f - rect.size.width - 4.0f, 20.0f, rect.size.width, rect.size.height);
+        if (self.isBroker) {
+            self.bubbleIMG.frame = CGRectMake(self.receiveImage.frame.origin.x - 8.0f, 19.0f, rect.size.width + 10.0f, rect.size.height + 2.0f);
+        } else {
+            self.bubbleIMG.frame = CGRectMake(self.receiveImage.frame.origin.x - 7.0f, 18.0f, rect.size.width + 9.0f, rect.size.height + 4.0f);
+        }
+    } else {
+        self.receiveImage.frame = CGRectMake(320.0f - kJSAvatarSize - 20.0f - rect.size.width - 1.0f, 20.0f, rect.size.width, rect.size.height);
         self.bubbleIMG.frame = CGRectMake(self.receiveImage.frame.origin.x - 1, 19.0f, rect.size.width + 3.0f + 5.0f , rect.size.height + 2.0f);
         
     }

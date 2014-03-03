@@ -29,11 +29,13 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 @property BOOL isBroker;
 @property (nonatomic, strong) NSDictionary *propDict;
 @property (nonatomic, strong) AXMappedConversationListItem *conversationListItem;
-
 @property (nonatomic, strong) void (^finishSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status);
-@property (nonatomic, strong) AXMappedPerson *friendPerson;
-@property (nonatomic, strong) AXMappedPerson *currentPerson;
+@property (nonatomic, strong) void (^finishReSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status);
 
 @property (nonatomic, strong) NSString *uid;
+@property (nonatomic, strong) AXMappedPerson *friendPerson;
+
+- (void)didClickSystemButton:(AXMessageType)messageType;
+- (void)sendPropMessage;
 
 @end

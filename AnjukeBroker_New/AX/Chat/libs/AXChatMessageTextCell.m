@@ -12,12 +12,11 @@
 #import <OHAttributedLabel/NSAttributedString+Attributes.h>
 #import <OHAttributedLabel/OHASBasicMarkupParser.h>
 
-@interface AXChatMessageTextCell () <OHAttributedLabelDelegate, UIAlertViewDelegate>
+@interface AXChatMessageTextCell () <OHAttributedLabelDelegate>
 
 @property (nonatomic, strong) OHAttributedLabel *attrLabel;
 @property (nonatomic) CGFloat textWidth;
 @property (nonatomic) CGFloat textHeight;
-@property (nonatomic, strong) NSString *phoneNum;
 @end
 
 @implementation AXChatMessageTextCell
@@ -64,6 +63,10 @@
 - (void)configWithData:(NSDictionary *)data
 {
     [super configWithData:data];
+    if (self.attrLabel) {
+        [self.attrLabel removeFromSuperview];
+        self.attrLabel = nil;
+    }
 //    if (![data[@"status"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageCenterSendMessageStatusSending]]) {
 //        [self configWithStatus];
 //        return;
@@ -73,9 +76,9 @@
     self.textHeight = [data[@"rowHeight"] floatValue];
     
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-        self.attrLabel.frame = CGRectMake(kJSAvatarSize + 40, 31, self.textWidth, self.textHeight);
+        self.attrLabel.frame = CGRectMake(kJSAvatarSize + 38, 21, self.textWidth, self.textHeight);
     } else {
-        self.attrLabel.frame = CGRectMake(320 - kJSAvatarSize - self.textWidth - kAvatarMargin - 14 - 5, 31, self.textWidth, self.textHeight);
+        self.attrLabel.frame = CGRectMake(320 - kJSAvatarSize - self.textWidth - kAvatarMargin - 24, 21, self.textWidth, self.textHeight);
     }
     self.content = data[@"content"];
     self.attrLabel.attributedText = data[@"mas"];
@@ -93,9 +96,9 @@
 
 - (void)setBubbleImg:(CGSize )size {
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-        self.bubbleIMG.frame = CGRectMake(self.attrLabel.frame.origin.x - 13, 20.0f, size.width + 30.0f , size.height + 20.0f);
+        self.bubbleIMG.frame = CGRectMake(self.attrLabel.frame.origin.x - 21 + 2, axTagMarginTop, size.width + 30.0f , size.height + 20.0f);
     } else {
-        self.bubbleIMG.frame = CGRectMake(self.attrLabel.frame.origin.x - 13, 20.0f, size.width + 30.0f , size.height + 20.0f);
+        self.bubbleIMG.frame = CGRectMake(self.attrLabel.frame.origin.x - 13, axTagMarginTop, size.width + 30.0f , size.height + 20.0f);
     }
 }
 
@@ -128,15 +131,5 @@
     [pb setString:self.content];
 }
 
-#pragma mark - UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (alertView.tag == AXChatCellViewTypePhoneAlert) {
-        if (buttonIndex == 1) {
-            // 打电话
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.phoneNum]];
-        }
-    }
-}
 
 @end

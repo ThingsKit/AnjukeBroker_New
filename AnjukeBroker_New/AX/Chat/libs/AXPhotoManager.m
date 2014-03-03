@@ -36,10 +36,9 @@
     if ([UIImageJPEGRepresentation(image, 0.96) writeToFile:imageFilePath atomically:YES]) {
         
     }else{
-
+        
     }
     
     return fileName;
 }
-
 @end
