@@ -17,8 +17,13 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     NSDateComponents *nowComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:[NSDate date]];
     NSDateComponents *postComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:postDate];
-    if (nowComponents.year == postComponents.year )
-        [dateFormatter setDateFormat:@"MM-dd"];
+    if (nowComponents.year == postComponents.year ) {
+        if (nowComponents.day == postComponents.day) {
+            [dateFormatter setDateFormat:@"HH:mm"]; //今日
+        }
+        else
+            [dateFormatter setDateFormat:@"MM-dd"]; //今年
+    }
     else
         [dateFormatter setDateFormat:@"yyyy-MM"];
     

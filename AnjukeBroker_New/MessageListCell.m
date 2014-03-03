@@ -62,7 +62,7 @@
     nameLabel.font = [UIFont systemFontOfSize:15];
     [self.contentView addSubview:nameLabel];
     
-    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(320 - CELL_OFFSET_TITLE - 70, 14, 70, 20)];
+    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(320 - CELL_OFFSET_TITLE - 120, 14, 120, 20)];
     self.timeLb = timeLabel;
     timeLabel.backgroundColor = [UIColor clearColor];
     timeLabel.textColor = SYSTEM_LIGHT_GRAY;
