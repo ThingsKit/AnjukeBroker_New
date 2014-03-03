@@ -81,6 +81,8 @@
     rightItem.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = rightItem;
     
+    //监听被踢出下线通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doLogOutEnforce) name:@"MessageCenterUserDidQuit" object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -113,6 +115,12 @@
 }
 
 #pragma mark - private method
+
+//强制被踢退出登录
+- (void)doLogOutEnforce {
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:nil message:@"您的账号已在其他设备上登录，请知悉" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确认", nil];
+    [av show];
+}
 
 - (void)initModel {
     self.taskArray = [NSArray arrayWithObjects:@"发布二手房", @"发布租房", @"市场分析", nil];
@@ -653,6 +661,22 @@
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - UIAlert View Delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 0:
+        case 1:
+        {
+            [[AppDelegate sharedAppDelegate] doLogOut];
+            [[AppDelegate sharedAppDelegate] killLongLinkForChat];
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 

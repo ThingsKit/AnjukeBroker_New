@@ -8,7 +8,7 @@
 
 #import "RTViewController.h"
 
-@interface HomeViewController : RTViewController <UITableViewDataSource, UITableViewDelegate>
+@interface HomeViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 - (void)doRequest;
 
