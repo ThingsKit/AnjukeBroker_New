@@ -110,6 +110,13 @@
             [self.delegate didOpenAXWebView:[linkInfo.extendedURL absoluteString]];
         }
     }  else if ([[linkInfo.extendedURL absoluteString] rangeOfString:@"tel:"].location != NSNotFound) {
+        if (self.isBroker) {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(didClickTelNumber:)]) {
+                [self.delegate didClickTelNumber:[linkInfo.extendedURL absoluteString]];
+            }
+            return NO;
+        }
+
         self.phoneNum = [linkInfo.extendedURL absoluteString];
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"这可能是一个电话号码。\n是否拨打该号码" message:nil delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
         alertView.tag = AXChatCellViewTypePhoneAlert;

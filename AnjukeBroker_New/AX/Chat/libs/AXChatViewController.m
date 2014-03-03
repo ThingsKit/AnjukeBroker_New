@@ -1273,5 +1273,7 @@ static NSInteger const AXMessagePageSize = 15;
     [textView resignFirstResponder];
     self.messageInputView.sendButton.enabled = NO;
 }
-
+- (void)didClickTelNumber:(NSString *)telNumber {
+    
+}
 @end
