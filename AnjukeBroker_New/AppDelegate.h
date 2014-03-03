@@ -33,7 +33,7 @@ typedef enum {
 
 @property (nonatomic, assign) TabSwitchType tabSwitchType;
 @property BOOL isEnforceUpdate; //是否强制更新
-@property BOOL boolNeedAlert;
+@property BOOL boolNeedAlert; //没有更新是否需要弹框提示（YES为检查更新用）
 @property (nonatomic, copy) NSString *updateUrl; //升级url
 
 - (void)saveContext;
