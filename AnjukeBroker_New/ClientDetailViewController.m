@@ -252,7 +252,7 @@
             [alertView show];
         }
         else {
-            NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@",self.person.phone];
+            NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@",self.person.markPhone];
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:call_url]];
         }
     }
