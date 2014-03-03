@@ -146,6 +146,9 @@
 }
 
 - (void)pushToTab {
+    self.nameTF.text = @"";
+    self.passwordTF.text = @"";
+    
     TabBarViewController *tb = [[TabBarViewController alloc] init];
     [[AppDelegate sharedAppDelegate] setTabController:tb];
     [self.navigationController pushViewController:tb animated:NO];
