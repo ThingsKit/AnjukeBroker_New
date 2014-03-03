@@ -46,6 +46,9 @@ typedef enum {
 - (void)doLogOut;
 - (void)showMessageValueWithStr:(int)value; //显示未读消息条数
 
+- (void)connectLongLinkForChat;
+- (void)killLongLinkForChat;
+
 //用于发房结束后页面跳转到计划管理房源列表页面
 - (void)dismissController:(UIViewController *)dismissController withSwitchIndex:(int)index withSwtichType:(TabSwitchType)switchType withPropertyDic:(NSDictionary *)propDic;
 - (void)checkVersionForMore:(BOOL)forMore; // 新版本更新检查

@@ -24,6 +24,8 @@
 #import "RentFixedDetailController.h"
 #import "SaleFixedDetailController.h"
 
+#import "AXChatMessageCenter.h"
+
 #define coreDataName @"AnjukeBroker_New"
 #define code_AppName @"i-broker"
 
@@ -79,10 +81,15 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+    //断开长链接
+    [self killLongLinkForChat];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    [self connectLongLinkForChat];
+    
     [self cleanRemoteNotification:application];
     
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
@@ -97,6 +104,9 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Saves changes in the application's managed object context before the application terminates.
+    //app被进程取缔前退出登录，断开成链接
+    [self killLongLinkForChat];
+    
     [self saveContext];
 }
 
@@ -185,6 +195,20 @@
     }    
     
     return _persistentStoreCoordinator;
+}
+
+#pragma mark - Chat_Long_Link Method
+
+//开始长链接
+- (void)connectLongLinkForChat {
+    //经纪人登录且获取微聊id和微聊token后才登录微聊
+    if ([LoginManager getChatID].length > 0 && [LoginManager getChatToken].length > 0 && [LoginManager getToken].length > 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_MENU_TABLE" object:nil];
+    }
+}
+
+- (void)killLongLinkForChat {
+    [[AXChatMessageCenter defaultMessageCenter] userLoginOut];
 }
 
 #pragma mark - Register Method

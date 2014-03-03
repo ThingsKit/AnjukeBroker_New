@@ -212,7 +212,7 @@
         //退出登录
         [[AppDelegate sharedAppDelegate] doLogOut];
         
-        [[AXChatMessageCenter defaultMessageCenter] userLoginOut];
+        [[AppDelegate sharedAppDelegate] killLongLinkForChat];
     }
     
 }

@@ -24,6 +24,7 @@
 #import "BrokerTwoDimensionalCodeViewController.h"
 
 #import "AXChatMessageCenter.h"
+#import "AppDelegate.h"
 
 #define HOME_cellHeight 50
 #define Max_Account_Lb_Width 80
@@ -421,7 +422,8 @@
     [[NSUserDefaults standardUserDefaults] setValue:dic forKey:@"anjuke_chat_login_info"];
     
     [AXChatMessageCenter defaultMessageCenter];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_MENU_TABLE" object:nil];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_MENU_TABLE" object:nil];
+    [[AppDelegate sharedAppDelegate] connectLongLinkForChat];
     
 }
 
