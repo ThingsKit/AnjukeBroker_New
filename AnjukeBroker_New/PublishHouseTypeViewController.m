@@ -175,7 +175,7 @@
             comTitleLb.text = @"户型";
         }
         else
-            comTitleLb.text = @"朝南";
+            comTitleLb.text = @"朝向";
         comTitleLb.textColor = SYSTEM_DARK_GRAY;
         comTitleLb.font = [UIFont systemFontOfSize:17];
         [btn addSubview:comTitleLb];
