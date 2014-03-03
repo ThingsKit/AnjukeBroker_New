@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AnjukeBroker_New/AX/AXMessageCenter/AXChatMessageCenter.m"
-            timestampString = "415508674.116681"
+            timestampString = "415509272.445739"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "883"
-            endingLineNumber = "883"
+            startingLineNumber = "873"
+            endingLineNumber = "873"
             landmarkName = "-manager:didRegisterDevice:userId:receivedData:"
             landmarkType = "5">
          </BreakpointContent>

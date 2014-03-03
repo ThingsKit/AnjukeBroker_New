@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "BrokerAccountController.h"
 #import "BigZhenzhenButton.h"
+#import "AXChatMessageCenter.h"
 
 #define CALL_ANJUKE_NUMBER @"400-620-9008"
 #define CALL_ANJUKE_ROW 5
@@ -134,19 +135,10 @@
 }
 
 - (void)loginOut {
-    if (![self isNetworkOkay]) {
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-        return;
-    }
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:nil message:@"是否退出登录？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+    [av setCancelButtonIndex:0];
+    [av show];
     
-    NSMutableDictionary *params = nil;
-    NSString *method = nil;
-    
-    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
-    method = @"logout/";
-    
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onLoginOutFinished:)];
 }
 
 #pragma mark - Request Method
@@ -188,6 +180,22 @@
     
 }
 
+- (void)requestLoginOut {
+    if (![self isNetworkOkay]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+    
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+    method = @"logout/";
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onLoginOutFinished:)];
+}
+
 - (void)onLoginOutFinished:(RTNetworkResponse *)response {
     DLog(@"。。。response [%@]", [response content]);
     
@@ -203,6 +211,8 @@
     if ([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]) {
         //退出登录
         [[AppDelegate sharedAppDelegate] doLogOut];
+        
+        [[AXChatMessageCenter defaultMessageCenter] userLoginOut];
     }
     
 }
@@ -339,6 +349,20 @@
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - UIAlert View Delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 1:
+        {
+            [self requestLoginOut];
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end

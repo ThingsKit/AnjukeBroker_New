@@ -8,6 +8,6 @@
 
 #import "RTViewController.h"
 
-@interface MoreViewController : RTViewController <UITableViewDataSource, UITableViewDelegate>
+@interface MoreViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 @end
