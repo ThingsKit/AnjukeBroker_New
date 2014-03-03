@@ -431,7 +431,13 @@ static NSInteger const AXMessagePageSize = 15;
             break;
         case AXMessageTypePic:
         {
-            NSData *imgData = [NSData dataWithContentsOfFile:mappedMessage.thumbnailImgPath];
+            NSData *imgData = nil;
+            if (self.isBroker) {
+                imgData = [NSData dataWithContentsOfFile:mappedMessage.imgPath];
+            }else {
+                imgData = [NSData dataWithContentsOfFile:mappedMessage.imgUrl];
+            }
+            
             if (!imgData) {
                 return nil;
             }
@@ -508,7 +514,7 @@ static NSInteger const AXMessagePageSize = 15;
 {
     [self.cellData addObject:msgData];
     [self.identifierData addObject:msgData[AXCellIdentifyTag]];
-    [self.myTableView reloadInputViews];
+    [self.myTableView reloadData];
     [self scrollToBottomAnimated:YES];
 }
 
