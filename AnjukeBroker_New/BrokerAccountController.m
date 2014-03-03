@@ -142,7 +142,7 @@
 //}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 6;//self.groupArray.count;
+    return 7;//self.groupArray.count;
 //    return [self.dataDic count] + [self.ppcDataDic count]- 1;
 }
 

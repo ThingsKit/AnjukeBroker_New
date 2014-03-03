@@ -51,23 +51,30 @@
             break;
         case 1:
         {
+            self.labKey.text = @"账户余额";
+            self.labValue.text = [NSString stringWithFormat:@"%@元", [tempDic objectForKey:@"balance"]];
+        }
+            break;
+
+        case 2:
+        {
             self.labKey.text = @"手机号码";
             self.labValue.text = [tempDic objectForKey:@"phone"];
         }
             break;
-        case 2:
+        case 3:
         {
             self.labKey.text = @"所在城市";
             self.labValue.text = [tempDic objectForKey:@"cityName"];
         }
             break;
-        case 3:
+        case 4:
         {
             self.labKey.text = @"工作区域";
             self.labValue.text = [tempDic objectForKey:@"workRegion"];
         }
             break;
-        case 4:
+        case 5:
         {
             
             self.labKey.text = @"所属公司";
@@ -76,7 +83,7 @@
             
         }
             break;
-        case 5:
+        case 6:
         {
             self.labKey.text = @"所属门店";
             self.labValue.text = [tempDic objectForKey:@"store"];
