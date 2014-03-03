@@ -19,6 +19,7 @@
 		20274173186AC2A9005267FD /* SystemCellManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20274172186AC2A9005267FD /* SystemCellManager.m */; };
 		2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2031A48418920F83004F7E1A /* FindHomeViewController.m */; };
 		2031A48718920FF2004F7E1A /* anjuke_icon_find@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */; };
+		2039E58518C421FF003ED781 /* anjuke_icon_headpic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2039E58418C421FF003ED781 /* anjuke_icon_headpic@2x.png */; };
 		203EC29818B2F61A00DD0840 /* MessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 203EC29718B2F61A00DD0840 /* MessageListViewController.m */; };
 		203EC29B18B2F65400DD0840 /* ClientListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 203EC29A18B2F65400DD0840 /* ClientListViewController.m */; };
 		203EC2A718B2FF6E00DD0840 /* anjuke_icon_esf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 203EC29D18B2FF6E00DD0840 /* anjuke_icon_esf@2x.png */; };
@@ -478,6 +479,7 @@
 		2031A48318920F83004F7E1A /* FindHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindHomeViewController.h; sourceTree = "<group>"; };
 		2031A48418920F83004F7E1A /* FindHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindHomeViewController.m; sourceTree = "<group>"; };
 		2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_find@2x.png"; sourceTree = "<group>"; };
+		2039E58418C421FF003ED781 /* anjuke_icon_headpic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_headpic@2x.png"; sourceTree = "<group>"; };
 		203EC29618B2F61A00DD0840 /* MessageListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListViewController.h; sourceTree = "<group>"; };
 		203EC29718B2F61A00DD0840 /* MessageListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageListViewController.m; sourceTree = "<group>"; };
 		203EC29918B2F65400DD0840 /* ClientListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientListViewController.h; sourceTree = "<group>"; };
@@ -1668,6 +1670,7 @@
 				970FC17F183B6E8100D142D5 /* icon+lanchImg */,
 				206F7FCE18A87E97001EEC16 /* speechIcon */,
 				97D752C6182C92690035577F /* Overlay@2x.png */,
+				2039E58418C421FF003ED781 /* anjuke_icon_headpic@2x.png */,
 				20A2177618BF118E002CA469 /* anjuke_icon_attention@2x.png */,
 				20A2177718BF118E002CA469 /* anjuke_icon_fasonging@2x.png */,
 				20E892DC18BDC7CB00D7D881 /* anjuke_icon_add@2x.png */,
@@ -2753,6 +2756,7 @@
 				2079ADEF18B5FD610029D493 /* anjuke_icon_danye_more_@2x.png in Resources */,
 				203EC2AE18B2FF6E00DD0840 /* anjuke_icon_wl1@2x.png in Resources */,
 				2079ADD318B59CC00029D493 /* anjuke_icon_poblish_esf1@2x.png in Resources */,
+				2039E58518C421FF003ED781 /* anjuke_icon_headpic@2x.png in Resources */,
 				200915EE189401C800A13115 /* anjuke_icon_fxt_@2x.png in Resources */,
 				2079ADD718B59CC00029D493 /* anjuke_icon_scyx1@2x.png in Resources */,
 				203EC2AA18B2FF6E00DD0840 /* anjuke_icon_home1@2x.png in Resources */,

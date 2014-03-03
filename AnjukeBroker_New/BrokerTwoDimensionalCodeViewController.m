@@ -62,6 +62,7 @@
     icon.layer.borderWidth = 0.5;
     icon.layer.borderColor = SYSTEM_BLACK.CGColor;
     icon.layer.cornerRadius = 5;
+    icon.contentMode = UIViewContentModeScaleAspectFill;
     icon.imageUrl = [LoginManager getUse_photo_url];
     [self.view addSubview:icon];
     
@@ -102,8 +103,8 @@
 }
 
 - (void)setValueForShow {
-    self.nameLb.text = @"张先生";
-    self.remarkLb.text = @"我爱我家联洋店";
+    self.nameLb.text = [LoginManager getRealName];
+//    self.remarkLb.text = @"我爱我家联洋店";
 }
 
 @end

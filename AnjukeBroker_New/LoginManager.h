@@ -25,6 +25,7 @@
 + (NSString *)getChatToken;
 
 + (NSString *)getTwoCodeIcon;
++ (NSString *)getRealName;
 
 + (BOOL)isSeedForAJK:(BOOL)isAJK; //是否是播种城市
 + (BOOL)needFileNOWithCityID:(NSString *)cityID; //发房是否需要备案号

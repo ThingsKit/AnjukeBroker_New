@@ -72,7 +72,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor clearColor];
-    [self setTitleViewWithString:[LoginManager getUserName]];
+    
+//    [self setTitleViewWithString:[LoginManager getUserName]];
     
     //设置按钮
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
@@ -338,6 +339,8 @@
     self.propNumLb.text = [self.ppcDataDic objectForKey:@"onLinePropNum"];
     self.costLb.text = [self.ppcDataDic objectForKey:@"todayAllCosts"];
     self.clickLb.text = [self.ppcDataDic objectForKey:@"todayAllClicks"];
+    
+    [self setTitleViewWithString:[LoginManager getRealName]];
 }
 
 - (void)msgCountLbShowWithMsgNum:(int)msgNumber {
@@ -466,12 +469,14 @@
     NSString *chatID = [[[response content] objectForKey:@"data"] objectForKey:@"chatId"];
     NSString *tokenChat = [[[response content] objectForKey:@"data"] objectForKey:@"tokenChat"];
     NSString *phone = [self.dataDic objectForKey:@"phone"];
+    NSString *realName = [self.dataDic objectForKey:@"brokerName"]; //真实姓名保存
     NSString *twoCodeIcon = [[[response content] objectForKey:@"data"] objectForKey:@"twoCodeIcon"];
     
     //保存
     [[NSUserDefaults standardUserDefaults] setValue:chatID forKey:@"chatID"];
     [[NSUserDefaults standardUserDefaults] setValue:tokenChat forKey:@"tokenChat"];
     [[NSUserDefaults standardUserDefaults] setValue:phone forKey:@"phone"]; //联系电话
+    [[NSUserDefaults standardUserDefaults] setValue:realName forKey:@"realName"]; //真实姓名
     [[NSUserDefaults standardUserDefaults] setValue:twoCodeIcon forKey:@"twoCodeIcon"]; //二维码
     
     [self setHomeValue];

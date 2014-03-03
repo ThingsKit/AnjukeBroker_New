@@ -18,6 +18,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        self.contentMode = UIViewContentModeScaleAspectFill;
+        self.clipsToBounds = YES;
     }
     return self;
 }

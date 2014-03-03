@@ -90,6 +90,14 @@
     return [[NSUserDefaults standardUserDefaults] valueForKey:@"twoCodeIcon"];
 }
 
+//得到真实姓名
++ (NSString *)getRealName {
+    DLog(@"realName [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"realName"]);
+    
+    return [[NSUserDefaults standardUserDefaults] valueForKey:@"realName"];
+}
+
+
 + (BOOL)isSeedForAJK:(BOOL)isAJK {
     NSString *isSeedStr = [NSString string];
     
