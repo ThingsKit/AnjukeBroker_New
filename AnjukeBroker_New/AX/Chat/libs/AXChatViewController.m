@@ -32,6 +32,7 @@
 // Controller
 #import "AXBigIMGSViewController.h"
 #import "AXChatWebViewController.h"
+//#import "AJKBrokerInfoViewController.h"
 
 #import "AXPhotoManager.h"
 #import "AXCellFactory.h"
@@ -68,7 +69,7 @@ static NSInteger const AXMessagePageSize = 15;
 @property (nonatomic, strong) UIControl *keyboardControl;
 
 @property (nonatomic, strong) AXMappedPerson *currentPerson;
-
+//@property (nonatomic, strong) AXMappedPerson *friendPerson;
 
 // JSMessage
 @property (nonatomic, strong) UIView *inputBackView;
@@ -1206,7 +1207,7 @@ static NSInteger const AXMessagePageSize = 15;
 - (void)goBrokerPage:(id)sender
 {
 //    AJKBrokerInfoViewController *controller = [[AJKBrokerInfoViewController alloc] init];
-#warning TODO chat UID
+//#warning TODO chat UID
 //    [self.navigationController pushRTViewController:controller animated:YES];
 }
 
@@ -1216,6 +1217,8 @@ static NSInteger const AXMessagePageSize = 15;
 {
 	self.isUserScrolling = YES;
     [self.messageInputView.textView resignFirstResponder];
+    UIMenuController *menu = [UIMenuController sharedMenuController];
+    [menu setMenuVisible:NO animated:YES];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
