@@ -39,7 +39,7 @@ typedef NS_ENUM(NSUInteger,AXMessageCenterHttpRequestType )
     AXMessageCenterHttpRequestTypeQRCode,
     AXMessageCenterHttpRequestTypeDeleteFriend,
     AXMessageCenterHttpRequestTypeUploadImage,
-    AXMessageCenterHttpRequestTypeDownLoadImage
+    AXMessageCenterHttpRequestTypeDownLoadImage,
 };
 
 typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
@@ -50,7 +50,7 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 
 @class AXChatMessageCenter;
 
-@interface AXChatMessageCenter : NSObject<ASIHTTPRequestDelegate,ASIProgressDelegate>
+@interface AXChatMessageCenter : NSObject<ASIHTTPRequestDelegate>
 + (instancetype)defaultMessageCenter;
 @property (nonatomic, strong) NSDictionary *userInfo;
 
@@ -71,7 +71,7 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 - (AXMappedPerson *)fetchPersonWithUID:(NSString *)uid;
 
 - (void)addFriendWithMyPhone:(AXMappedPerson *)person block:(void(^)(BOOL isSuccess))addFriendBlock;
-- (void)addFriendByQRCode:(NSString *)urlString compeletionBlock:(void(^)(BOOL whetherSuccess))addFriendCompeletionBlock;
+- (void)addFriendByQRCode:(NSString *)urlString compeletionBlock:(void(^)(AXMappedPerson *broker))addFriendByQRCompeletionBlock;
 - (void)fetchChatListWithLastMessage:(AXMappedMessage *)lastMessage pageSize:(NSUInteger)pageSize callBack:(void(^)(NSArray *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend))fetchedChatList;
 
 - (void)friendListWithPersonWithCompeletionBlock:(void(^)(NSArray *friendList,BOOL whetherSuccess))friendListBlock;
@@ -85,7 +85,8 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 - (void)deleteConversationItem:(AXMappedConversationListItem *)conversationItem;
 
 
-- (AXMappedPerson *)getFriendInfoWithFriendUid:(NSString *)personUid compeletionBlock:(void(^)(AXMappedPerson *person))getFriendInfoBlock;
+- (void)getFriendInfoWithFriendUid:(NSArray *)personUids compeletionBlock:(void(^)(NSArray *person))getFriendInfoBlock;
+- (void)getFriendInfoWithFriendUid:(NSArray *)personUids;
 
 - (void)getUserOldMessageWithFriendUid:(NSString *)friendUid TopMinMsgId:(NSString *)TopMinMsgId messageIdArray:(NSArray *)messageIdArray compeletionBlock:(void(^)(NSArray *messageArray))getUserOldMessageBlock;
 

@@ -9,6 +9,8 @@
 #import "AXMessageManager.h"
 static NSString *kAIFMessageRegisteToServerUri = @"/register"; //eg. GET /register/{deviceId}/{userId}/
 static NSString *kAIFMessageConnectToHeartBeatServerUri = @"/ping"; //eg. GET /ping/{deviceId}/{userId}/
+static NSString *kAIFMessageStopAlivingConnectionUri = @"/quit"; //eg. GET /quit/{deviceId}/{userId}/
+
 
 static NSString *kAIFMessagePushMessageByUidUri = @"/sendMessageByUid"; //eg. POST /sendMessageByUid/{userId}   {body}
 static NSString *kAIFMessagePushMessageByDeviceIdUri = @"/sendMessageByDeviceId"; //eg. POST /sendMessageByDeviceId/{deviceId} {body}
@@ -23,6 +25,7 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
 @property (nonatomic) NSTimeInterval timeout;
 @property (nonatomic,strong) ASIHTTPRequest *registerRequest;
 @property (nonatomic,strong) ASIHTTPRequest *heartBeatRequest;
+@property (nonatomic,strong) ASIHTTPRequest *cancelAlivingConnection;
 @property (nonatomic,strong) ASIFormDataRequest *pushRequest;
 @property (nonatomic,strong) NSTimer *timer;
 @property (nonatomic, strong) NSString *machineName;
@@ -56,6 +59,17 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
     self.appName = appName;
     self.timeout = timeout;
     self.tryCount = 0;
+}
+
+- (void)cancelKeepAlivingConnection
+{
+    NSString *cancelUrl = [NSString stringWithFormat:@"http://%@:%@%@/%@/%@/%@",self.host,self.port,kAIFMessageStopAlivingConnectionUri,self.deviceId,self.appName, self.userId];
+    DLog(@"CANACLE URL IS ====== %@",cancelUrl);
+    self.cancelAlivingConnection = [[ASIHTTPRequest alloc] initWithURL:[NSURL URLWithString:cancelUrl]];
+    self.cancelAlivingConnection.delegate = self;
+    self.cancelAlivingConnection.tag = AIF_MESSAGE_REQUEST_TYPE_TAG_CANCEL_ALIVING_CONNECTION;
+    [self.cancelAlivingConnection startAsynchronous];
+    
 }
 
 - (void) registerDevices:(NSString *)deviceId userId:(NSString *)userId
@@ -215,6 +229,11 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
             [self.MessageSenderDelegate manager:self didSendMessage:message toUserId:uid receivedData:data];
         } else {
             //            NSLog(@"ERROR: Lack Delegate Method: manager:didSendMessage:toUserId:receivedData:");
+        }
+    }else if (request.tag == AIF_MESSAGE_REQUEST_TYPE_TAG_CANCEL_ALIVING_CONNECTION)
+    {
+        if ([self.delegate respondsToSelector:@selector(manager:didRegisterDevice:userId:receivedData:)]) {
+            [self.delegate manager:self didRegisterDevice:self.deviceId userId:self.userId receivedData:data];
         }
     }
 }

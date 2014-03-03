@@ -22,7 +22,8 @@ typedef NS_ENUM(NSInteger, AIF_MESSAGE_REQUEST_TAG_TYPE)
 {
     AIF_MESSAGE_REQUEST_TYPE_TAG_REGISTER,
     AIF_MESSAGE_REQUEST_TYPE_TAG_HEARTBEAT,
-    AIF_MESSAGE_REQUEST_TYPE_TAG_PUSHING
+    AIF_MESSAGE_REQUEST_TYPE_TAG_PUSHING,
+    AIF_MESSAGE_REQUEST_TYPE_TAG_CANCEL_ALIVING_CONNECTION
 };
 
 @class AXMessageManager;
@@ -54,5 +55,5 @@ typedef NS_ENUM(NSInteger, AIF_MESSAGE_REQUEST_TAG_TYPE)
 //persistent connect can not be canceled, this is a experimental try。
 - (void)cancelRegisterRequest;
 - (void)cancelPerformRequests;
-
+- (void)cancelKeepAlivingConnection;
 @end
