@@ -56,7 +56,7 @@
             AXPhoto *photo = [[AXPhoto alloc] init];
             photo.picMessage = [imgArray objectAtIndex:i];
 //            photo.picMessage.imgPath = @"http://a.hiphotos.baidu.com/image/w%3D2048/sign=0186658d0afa513d51aa6bde095554fb/359b033b5bb5c9ea85c7f3b2d739b6003af3b3af.jpg";
-            if ([[[self.cellData objectAtIndex:indexPath.row] objectForKey:@"identifier"] isEqualToString:photo.picMessage.identifier]) {
+            if ([[[self.cellData objectAtIndex:indexPath.row] objectForKey:@"identify"] isEqualToString:photo.picMessage.identifier]) {
                 currentPhotoIndex = i;
             }
             [photoArray addObject:photo];
