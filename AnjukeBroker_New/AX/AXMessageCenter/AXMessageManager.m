@@ -78,7 +78,7 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
         //        NSLog(@"AIF_MESSAGE_REQUEST_REGISTER_STARTED");
         return;
     }
-#warning waiting to finish register status
+    #warning waiting to finish register status
     if ([deviceId isEqualToString:@""]) {
         deviceId = @"0";
     }

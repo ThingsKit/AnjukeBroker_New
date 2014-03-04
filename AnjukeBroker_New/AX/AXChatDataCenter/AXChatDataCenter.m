@@ -99,8 +99,17 @@
     
     [self turnAllMessageToReadWithFriendUid:self.friendUid];
     
+    BOOL hasMore = NO;
+    AXMessage *fetchedLastMessage = [result lastObject];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND sendTime < %@ AND isRemoved = %@", self.friendUid, self.friendUid, fetchedLastMessage.sendTime, [NSNumber numberWithBool:NO]];
+    NSInteger count = [self.managedObjectContext countForFetchRequest:fetchRequest error:NULL];
+    if (count > 0) {
+        hasMore = YES;
+    }
+    
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.delegate dataCenter:self didFetchChatList:[mappedResult reverseSelf] withFriend:[self fetchPersonWithUID:self.friendUid] lastMessage:lastMessage];
+        [self.delegate dataCenter:self didFetchChatList:@{@"hasMore":@(hasMore), @"messages":[mappedResult reverseSelf]} withFriend:[self fetchPersonWithUID:self.friendUid] lastMessage:lastMessage];
     });
 }
 
@@ -653,15 +662,21 @@
     if (messageType == AXMessageTypeSettingNotifycation || messageType == AXMessageTypeSystemForbid || messageType == AXMessageTypeSystemTime || messageType == AXMessageTypeAddNuckName) {
         shouldUpdateConversationListItem = NO;
     }
+    
     if (messageType == AXMessageTypePic) {
         itemType = AXConversationListItemTypePic;
         messageTip = @"你收到一张图片";
     }
+    
     if (messageType == AXMessageTypeProperty) {
         NSDictionary *messageContent = [NSJSONSerialization JSONObjectWithData:[message.content dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:NULL];
-        itemType = AXConversationListItemTypeESFProperty;
         messageTip = @"你收到一个房源";
-#warning todo check the message property type
+        NSInteger propertyType = [messageContent[@"tradeType"] integerValue];
+        if (propertyType == 1) {
+            itemType = AXConversationListItemTypeESFProperty;
+        } else {
+            itemType = AXConversationListItemTypeHZProperty;
+        }
     }
     if (messageType == AXMessageTypeText) {
         itemType = AXConversationListItemTypeText;
@@ -669,8 +684,8 @@
     }
     if (messageType == AXMessageTypePublicCard) {
         itemType = AXConversationListItemTypeCard;
-#warning todo 给出卡片的title
-        messageTip = @"你收到一条消息";
+        NSDictionary *messageContent = [NSJSONSerialization JSONObjectWithData:[message.content dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:NULL];
+        messageTip = messageContent[@"title"];
     }
     
     if (shouldUpdateConversationListItem) {

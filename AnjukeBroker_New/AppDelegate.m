@@ -27,7 +27,6 @@
 #import "AXChatMessageCenter.h"
 
 #define coreDataName @"AnjukeBroker_New"
-#define code_AppName @"i-broker"
 
 #define UMENG_KEY_OFFLINE @"529da42356240b93f001f9b4"
 #define UMENG_KEY_ONLINE @"52a0368c56240ba07800b4c0"
@@ -279,7 +278,7 @@
     [[RTCoreDataManager sharedInstance] setModelName:coreDataName];
     
     //appLog初始化：app name, channelid, umeng key
-    [[RTLogger sharedInstance] setLogAppName:code_AppName];
+    [[RTLogger sharedInstance] setLogAppName:Code_AppName];
 #ifdef DEBUG
     [[RTLogger sharedInstance] setUmengKey:UMENG_KEY_OFFLINE channelID:@"A01"];
 #else
@@ -287,7 +286,7 @@
 #endif
     
     //网络请求初始化
-    [[RTRequestProxy sharedInstance] setAppName:code_AppName];
+    [[RTRequestProxy sharedInstance] setAppName:Code_AppName];
     [[RTRequestProxy sharedInstance] setChannelID:@"A01"];
     [[RTRequestProxy sharedInstance] setLogger:[RTLogger sharedInstance]];
     

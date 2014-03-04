@@ -52,7 +52,7 @@
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
         params[@"body"] = dic;
     }
-    NSLog(@"===========image url ======= %@",params[@"body"]);
+    
     return params;
 }
 - (void)beforePerformFailWithResponse:(RTNetworkResponse *)response
