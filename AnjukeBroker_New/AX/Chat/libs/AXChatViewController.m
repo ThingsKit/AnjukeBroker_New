@@ -631,16 +631,18 @@ static NSString * const AXChatJsonVersion = @"1";
 
 - (void)initUI {
     [self.view setBackgroundColor:[UIColor axChatBGColor:self.isBroker]];
-    
-    UIButton *brokerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    brokerButton.frame = CGRectMake(0, 0, 44, 44);
-    [brokerButton setImage:[UIImage imageNamed:@"xproject_dialogue_agentdetail.png"] forState:UIControlStateNormal];
-    [brokerButton setImage:[UIImage imageNamed:@"xproject_dialogue_agentdetail_selected.png"] forState:UIControlStateHighlighted];
-    [brokerButton addTarget:self action:@selector(goBrokerPage:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:brokerButton];
-    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    spacer.width = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? -16.0f : -6.0f;
-    [self.navigationItem setRightBarButtonItems:@[spacer, buttonItems]];
+    if (!self.isBroker) {
+        UIButton *brokerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        brokerButton.frame = CGRectMake(0, 0, 44, 44);
+        [brokerButton setImage:[UIImage imageNamed:@"xproject_dialogue_agentdetail.png"] forState:UIControlStateNormal];
+        [brokerButton setImage:[UIImage imageNamed:@"xproject_dialogue_agentdetail_selected.png"] forState:UIControlStateHighlighted];
+        [brokerButton addTarget:self action:@selector(goBrokerPage:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:brokerButton];
+        UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        spacer.width = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? -16.0f : -6.0f;
+        [self.navigationItem setRightBarButtonItems:@[spacer, buttonItems]];
+    }
+
     
     NSInteger viewHeight = 20;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {

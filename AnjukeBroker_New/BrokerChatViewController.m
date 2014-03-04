@@ -112,7 +112,7 @@
         NSString *url = nil;
         url = [NSString stringWithFormat:@"http://m.anjuke.com/sale/x/%@/%@-3",[LoginManager getCity_id],dic[@"id"]];
 #if DEBUG
-        url = [NSString stringWithFormat:@"http://fp07.m.dev.anjuke.com/rent/x/%@/%@-3", [LoginManager getCity_id],dic[@"id"]];
+        url = [NSString stringWithFormat:@"http://fp07.m.dev.anjuke.com/rent/x/%@/%@-3",[LoginManager getCity_id],dic[@"id"]];
 #endif
         self.propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"url":url, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceZuFang]}];
     }
