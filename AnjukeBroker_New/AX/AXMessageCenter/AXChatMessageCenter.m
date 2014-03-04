@@ -350,7 +350,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
                         [self.blockDictionary removeObjectForKey:identify];
                     }
                 } else if (response.content[@"status"] && [response.content[@"status"] isEqualToString:@"ERROR"]){
-                    if (response.content[@"errorCode"] && [response.content[@"errorCode"] isEqualToString:@"103001"] ) {
+                    if (response.content[@"errorCode"] && [response.content[@"errorCode"] isEqualToString:@"100016"] ) {
                         _finishSendMessageBlock = self.blockDictionary[identify];
                         mappedMessage.sendStatus = @(AXMessageCenterSendMessageStatusFailed);
                         mappedMessage.messageId = [NSNumber numberWithInt:[response.content[@"result"] integerValue]];

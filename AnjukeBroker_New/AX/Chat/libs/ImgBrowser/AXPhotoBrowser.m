@@ -271,7 +271,7 @@
             if (((AXPhoto *)[_photos objectAtIndex:_currentPhotoIndex]).image) {
                 UIImageWriteToSavedPhotosAlbum(((AXPhoto *)[_photos objectAtIndex:_currentPhotoIndex]).image, nil, nil,nil);
             }
-            [self showInfo:@"已保存到手机相册" autoHidden:YES];
+//            [self showInfo:@"已保存到手机相册" autoHidden:YES];
         }
     }];
 }
