@@ -101,12 +101,13 @@
     
     BOOL hasMore = NO;
     AXMessage *fetchedLastMessage = [result lastObject];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND sendTime < %@ AND isRemoved = %@", self.friendUid, self.friendUid, fetchedLastMessage.sendTime, [NSNumber numberWithBool:NO]];
-    NSInteger count = [self.managedObjectContext countForFetchRequest:fetchRequest error:NULL];
-    if (count > 0) {
-        hasMore = YES;
+    if (fetchedLastMessage) {
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND sendTime < %@ AND isRemoved = %@", self.friendUid, self.friendUid, fetchedLastMessage.sendTime, [NSNumber numberWithBool:NO]];
+        NSInteger count = [self.managedObjectContext countForFetchRequest:fetchRequest error:NULL];
+        if (count > 0) {
+            hasMore = YES;
+        }
     }
-    
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.delegate dataCenter:self didFetchChatList:@{@"hasMore":@(hasMore), @"messages":[mappedResult reverseSelf]} withFriend:[self fetchPersonWithUID:self.friendUid] lastMessage:lastMessage];
