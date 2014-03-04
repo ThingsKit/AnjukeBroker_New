@@ -23,6 +23,7 @@ static NSString * const MessageCenterDidReceiveLastUpdataMyInformation = @"Messa
 static NSString * const MessageCenterDidReceiveLastUpdataFriendInformation = @"MessageCenterDidReceiveLastUpdataFriendInformation";
 static NSString * const MessageCenterDidInitedDataCenter = @"MessageCenterDidInitedDataCenter";
 static NSString * const MessageCenterUserDidQuit = @"MessageCenterUserDidQuit";
+static NSString * const MessageCenterUserDidQuitToAllReceiveNotication = @"MessageCenterUserDidQuitToAllReceiveNotication";
 
 //connection status notication object will include AXMessageCenterStatus by NSNumber in userinfo key is @"status"
 static NSString * const MessageCenterConnectionStatusNotication = @"MessageCenterConnectionStatusNotication";
@@ -45,6 +46,13 @@ typedef NS_ENUM(NSUInteger,AXMessageCenterHttpRequestType )
     AXMessageCenterHttpRequestTypeDeleteFriend,
     AXMessageCenterHttpRequestTypeUploadImage,
     AXMessageCenterHttpRequestTypeDownLoadImage,
+};
+
+typedef NS_ENUM(NSUInteger,AXMessageCenterSendMessageErrorTypeCode)
+{
+    AXMessageCenterSendMessageErrorTypeCodeNone = 1,
+    AXMessageCenterSendMessageErrorTypeCodeFailed = 2,
+    AXMessageCenterSendMessageErrorTypeCodeNotFriend = 3
 };
 
 typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
@@ -70,11 +78,11 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 
 - (void)updataUserInformation:(AXMappedPerson *)newInformation compeletionBlock:(void (^)(BOOL))updateUserInfo;
 
-- (void)sendMessage:(AXMappedMessage *)message willSendMessage:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status))sendMessageBlock;
-- (void)reSendMessage:(NSString *)identifier willSendMessage:(void (^)(AXMappedMessage *, AXMessageCenterSendMessageStatus))sendMessageBlock;
+- (void)sendMessage:(AXMappedMessage *)message willSendMessage:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+- (void)reSendMessage:(NSString *)identifier willSendMessage:(void (^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
 - (NSInteger)totalUnreadMessageCount;
 
-- (void)sendImage:(AXMappedMessage *)message withCompeletionBlock:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status))sendMessageBlock;
+- (void)sendImage:(AXMappedMessage *)message withCompeletionBlock:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
 - (void)deleteMessageByIdentifier:(NSString *)identifier;
 - (AXMappedPerson *)fetchPersonWithUID:(NSString *)uid;
 

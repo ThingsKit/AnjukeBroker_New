@@ -50,7 +50,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 @property (nonatomic, strong) AXMessageCenterGetFriendInfoManager *getFriendInfoManager;
 
 @property (nonatomic ,strong) void (^fetchedChatList)(NSDictionary *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend);
-@property (nonatomic, strong) void (^finishSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status);
+@property (nonatomic, strong) void (^finishSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType);
 @property (nonatomic, strong) void (^friendListBlock)(NSArray *friendList,BOOL whetherSuccess);
 @property (nonatomic, strong) void (^searchBrokerBlock)(AXMappedPerson *brokerInfo);
 @property (nonatomic, strong) void (^getUserOldMessageBlock)(NSArray *messageArray);
@@ -346,22 +346,25 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
                         mappedMessage.sendStatus = @(AXMessageCenterSendMessageStatusSuccessful);
                         mappedMessage.messageId = [NSNumber numberWithInt:[response.content[@"result"] integerValue]];
                         [self.dataCenter didSuccessSendMessageWithIdentifier:identify messageId:[NSString stringWithFormat:@"%@",mappedMessage.messageId]];
-                        _finishSendMessageBlock(mappedMessage,AXMessageCenterSendMessageStatusSuccessful);
+                        _finishSendMessageBlock(mappedMessage,AXMessageCenterSendMessageStatusSuccessful,AXMessageCenterSendMessageErrorTypeCodeNone);
                         [self.blockDictionary removeObjectForKey:identify];
                     }
-                } else {
-                    _finishSendMessageBlock = self.blockDictionary[identify];
-                    mappedMessage.sendStatus = @(AXMessageCenterSendMessageStatusFailed);
-                    [self.dataCenter didFailSendMessageWithIdentifier:identify];
-                    _finishSendMessageBlock(mappedMessage,AXMessageCenterSendMessageStatusFailed);
-                    [self.blockDictionary removeObjectForKey:identify];
+                } else if (response.content[@"status"] && [response.content[@"status"] isEqualToString:@"ERROR"]){
+                    if (response.content[@"errorCode"] && [response.content[@"errorCode"] isEqualToString:@"103001"] ) {
+                        _finishSendMessageBlock = self.blockDictionary[identify];
+                        mappedMessage.sendStatus = @(AXMessageCenterSendMessageStatusFailed);
+                        mappedMessage.messageId = [NSNumber numberWithInt:[response.content[@"result"] integerValue]];
+                        [self.dataCenter didFailSendMessageWithIdentifier:[NSString stringWithFormat:@"%@",mappedMessage.messageId]];
+                        _finishSendMessageBlock(mappedMessage,AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeNotFriend);
+                        [self.blockDictionary removeObjectForKey:identify];
+                    }
                 }
             }else if (response.status == RTNetworkResponseStatusFailed || response.status == RTNetworkResponseStatusJsonError) {
                 if (self.blockDictionary[identify]) {
                     mappedMessage.sendStatus = @(AXMessageCenterSendMessageStatusFailed);
                     [self.dataCenter didFailSendMessageWithIdentifier:[NSString stringWithFormat:@"%@",mappedMessage.messageId]];
                     _finishSendMessageBlock = self.blockDictionary[identify];
-                    _finishSendMessageBlock(mappedMessage,AXMessageCenterSendMessageStatusFailed);
+                    _finishSendMessageBlock(mappedMessage,AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeFailed);
                     [self.blockDictionary removeObjectForKey:identify];
                 }
             }
@@ -551,12 +554,12 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     [[RTApiRequestProxy sharedInstance] cancelAllRequest];
 }
 
-- (void)sendMessage:(AXMappedMessage *)message willSendMessage:(void (^)(AXMappedMessage *, AXMessageCenterSendMessageStatus))sendMessageBlock
+- (void)sendMessage:(AXMappedMessage *)message willSendMessage:(void (^)(AXMappedMessage *, AXMessageCenterSendMessageStatus ,AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
 {
     AXMappedMessage *dataMessage = [self.dataCenter willSendMessage:message];
-    sendMessageBlock(dataMessage, AXMessageCenterSendMessageStatusSending);
+    sendMessageBlock(dataMessage, AXMessageCenterSendMessageStatusSending,AXMessageCenterSendMessageErrorTypeCodeNone);
     if (![self.sendMessageManager isReachable]) {
-        sendMessageBlock(dataMessage,AXMessageCenterSendMessageStatusFailed);
+        sendMessageBlock(dataMessage,AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeNone);
         [self.dataCenter didFailSendMessageWithIdentifier:dataMessage.identifier];
         return ;
     }
@@ -573,12 +576,12 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     [self.sendMessageManager loadData];
 }
 
-- (void)reSendMessage:(NSString *)identifier willSendMessage:(void (^)(AXMappedMessage *, AXMessageCenterSendMessageStatus))sendMessageBlock
+- (void)reSendMessage:(NSString *)identifier willSendMessage:(void (^)(AXMappedMessage *, AXMessageCenterSendMessageStatus,AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
 {
     AXMappedMessage *dataMessage = [self.dataCenter fetchMessageWithIdentifier:identifier];
-    sendMessageBlock(dataMessage, AXMessageCenterSendMessageStatusSending);
+    sendMessageBlock(dataMessage, AXMessageCenterSendMessageStatusSending,AXMessageCenterSendMessageErrorTypeCodeNone);
     if (![self.sendMessageManager isReachable]) {
-        sendMessageBlock(dataMessage,AXMessageCenterSendMessageStatusFailed);
+        sendMessageBlock(dataMessage,AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeNone);
         [self.dataCenter didFailSendMessageWithIdentifier:dataMessage.identifier];
         return ;
     }
@@ -594,10 +597,10 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     [self.sendMessageManager loadData];
 }
 
-- (void)sendImage:(AXMappedMessage *)message withCompeletionBlock:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status))sendMessageBlock
+- (void)sendImage:(AXMappedMessage *)message withCompeletionBlock:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock
 {
     AXMappedMessage *dataMessage = [self.dataCenter willSendMessage:message];
-    sendMessageBlock(dataMessage, AXMessageCenterSendMessageStatusSending);
+    sendMessageBlock(dataMessage, AXMessageCenterSendMessageStatusSending,AXMessageCenterSendMessageErrorTypeCodeNone);
     self.blockDictionary[dataMessage.identifier] = sendMessageBlock;
     
     [self.sendImageArray addObject:dataMessage];
@@ -813,8 +816,9 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     if (![picDic isEqual:@{}]) {
         [self.imageMessageArray addObject:picDic];
     }
+    NSDictionary *userInfo = @{@"unreadCount":@([self.dataCenter totalUnreadMessageCount])};
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidReceiveNewMessage object:messageDic];
+        [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidReceiveNewMessage object:messageDic userInfo:userInfo];
     });
 }
 
@@ -838,17 +842,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     if (request.tag == AXMessageCenterHttpRequestTypeDeleteFriend) {
         
     }
-    if (request.tag == AXMessageCenterHttpRequestTypeUploadImage) {
-        NSDictionary *userInfo = [request userInfo];
-       [self.sendImageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-           AXMappedMessage *dataMessage = (AXMappedMessage *)obj;
-           if ([dataMessage.identifier isEqualToString:userInfo[@"identify"]]) {
-               _finishSendMessageBlock = self.blockDictionary[dataMessage.identifier];
-               _finishSendMessageBlock(dataMessage,AXMessageCenterSendMessageStatusFailed);
-           }
-       }];
-    }
-    
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request
@@ -930,7 +923,14 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         
     }
     if (request.tag == AXMessageCenterHttpRequestTypeUploadImage) {
-        
+        NSDictionary *userInfo = [request userInfo];
+        [self.sendImageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            AXMappedMessage *dataMessage = (AXMappedMessage *)obj;
+            if ([dataMessage.identifier isEqualToString:userInfo[@"identify"]]) {
+                _finishSendMessageBlock = self.blockDictionary[dataMessage.identifier];
+                _finishSendMessageBlock(dataMessage,AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeFailed);
+            }
+        }];
     }
     if (request.tag == AXMessageCenterHttpRequestTypeDownLoadImage) {
         
@@ -939,10 +939,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         _addFriendByQRCode(nil);
     }
 }
-
-//- (void)request:(ASIHTTPRequest *)request didReceiveData:(NSData *)data
-//{
-//    }
 
 #pragma mark - AIFMessageManagerDelegate
 - (void)manager:(AXMessageManager *)manager didRegisterDevice:(NSString *)deviceId userId:(NSString *)userId receivedData:(NSData *)data
@@ -989,9 +985,12 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
             UIAlertView *lertview = [[UIAlertView alloc] initWithTitle:@"您的账号已被他人登陆，您已被下线" message:@"" delegate:self cancelButtonTitle:@"ok" otherButtonTitles: nil];
             [lertview show];
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterUserDidQuit object:nil userInfo:@{@"status": @(AIFMessageCenterStatusUserLoginOut)}];
-            });
+#warning 王老板专用通知
+            [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterUserDidQuitToAllReceiveNotication object:nil];
+    });
+
     }
-    
+
     if ([receiveDic[@"result"] isKindOfClass:[NSDictionary class]] && [receiveDic[@"result"][@"msgType"] isEqualToString:@"chat"]) {
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         params[@"phone"] = self.currentPerson.phone;

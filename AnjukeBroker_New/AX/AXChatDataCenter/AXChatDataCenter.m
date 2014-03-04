@@ -208,7 +208,7 @@
             managedMessage.messageId = @([message[@"msg_id"] integerValue]);
             managedMessage.messageType = @(messageType);
             managedMessage.sendStatus = @(messageSendStatus);
-            managedMessage.sendTime = lastUpdateTime;
+            managedMessage.sendTime = [NSDate dateWithTimeIntervalSince1970:[message[@"created"] integerValue]];
             managedMessage.to = message[@"to_uid"];
             
             if ([self.friendUid isEqualToString:friendUID]) {
@@ -250,7 +250,7 @@
          }
         
         messageDictionary[friendUID] = [messageArray reverseSelf];
-        splitedDictionary[friendUID] = @{@"pic":picMessageArray, @"other":commonMessageArray};
+        splitedDictionary[friendUID] = @{@"pic":picMessageArray, @"other":[commonMessageArray reverseSelf]};
         
         if (![self isFriendWithFriendUid:friendUID]) {
             AXPerson *friend = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
