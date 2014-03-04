@@ -240,11 +240,7 @@
             notificationMessage.from = friendUID;
             notificationMessage.to = self.uid;
             notificationMessage.isImgDownloaded = [NSNumber numberWithBool:NO];
-            if ([self.friendUid isEqualToString:friendUID]) {
-                notificationMessage.isRead = [NSNumber numberWithBool:YES];
-            } else {
-                notificationMessage.isRead = [NSNumber numberWithBool:NO];
-            }
+            notificationMessage.isRead = [NSNumber numberWithBool:YES];
             notificationMessage.isRemoved = [NSNumber numberWithBool:NO];
             notificationMessage.messageType = [NSNumber numberWithInteger:AXMessageTypeSystemTime];
             notificationMessage.sendTime = [NSDate dateWithTimeInterval:-0.01 sinceDate:[(AXMessage *)[messageArray firstObject] sendTime]];
@@ -370,6 +366,7 @@
         if (!conversationListItem) {
             conversationListItem = [NSEntityDescription insertNewObjectForEntityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
         }
+        conversationListItem.friendUid = friendUID;
         conversationListItem.lastUpdateTime = [NSDate dateWithTimeIntervalSinceNow:0];
         conversationListItem.hasDraft = [NSNumber numberWithBool:YES];
     }

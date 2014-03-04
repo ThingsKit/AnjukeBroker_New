@@ -103,7 +103,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         self.imageMessageArray = [[NSMutableArray alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectToServer) name:@"LOGIN_NOTIFICATION" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginOut) name:@"LOGOUT_NOTIFICATION" object:nil];
-        
     }
     return self;
 }
