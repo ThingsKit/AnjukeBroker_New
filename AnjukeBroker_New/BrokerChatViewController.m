@@ -95,11 +95,13 @@
 }
 -(void)returnSelectedHouseDic:(NSDictionary *)dic houseType:(BOOL)houseType {
     
-    NSString *des = [NSString stringWithFormat:@"%@室%@厅%@卫",dic[@"roomNum"], dic[@"hallNum"], dic[@"toiletNum"]];
-    NSString *price = [NSString stringWithFormat:@"%@/%@", dic[@"price"], dic[@"priceUnit"]];
+    NSString *des = [NSString stringWithFormat:@"%@室%@厅%@卫 %@平",dic[@"roomNum"], dic[@"hallNum"], dic[@"toiletNum"], dic[@"area"]];
+    
     if (houseType ) {
+        NSString *price = [NSString stringWithFormat:@"%@%@", dic[@"price"], dic[@"priceUnit"]];
         self.propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceErShouFang]}];
     }else{
+        NSString *price = [NSString stringWithFormat:@"%@%@/月", dic[@"price"], dic[@"priceUnit"]];
         self.propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceZuFang]}];
     }
     
