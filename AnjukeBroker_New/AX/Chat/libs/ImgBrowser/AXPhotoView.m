@@ -72,10 +72,16 @@
             [self adjustFrame];
         } else {
             //                _imageView.image = nil;
+            if (_photo.picMessage.thumbnailImgPath.length > 0) {
+                _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]];
+                _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]];
+                [self adjustFrame];
+            }
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:_photo.picMessage.imgUrl]];
             __weak AXPhotoView *mySelf = self;
             __unsafe_unretained AXPhoto *photo = _photo;
-            [_imageView setImageWithURLRequest:request placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            
+            [_imageView setImageWithURLRequest:request placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                 photo.image = image;
                 [mySelf.imageView setImage:image];
                 //
@@ -125,13 +131,15 @@
             //            _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
             _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
         } else {
-            if (_photo.picMessage.imgPath.length > 0) {
-                _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
+            if (_photo.picMessage.thumbnailImgPath.length > 0) {
+                _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]];
+                _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]];
+                [self adjustFrame];
             }
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:_photo.picMessage.imgUrl]];
             __weak AXPhotoView *mySelf = self;
             __unsafe_unretained AXPhoto *photo = _photo;
-            [_imageView setImageWithURLRequest:request placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            [_imageView setImageWithURLRequest:request placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                 photo.image = image;
                 [mySelf.imageView setImage:image];
                 //

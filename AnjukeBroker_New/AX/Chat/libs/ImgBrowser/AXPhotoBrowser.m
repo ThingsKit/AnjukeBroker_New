@@ -47,7 +47,8 @@
 }
 - (void)setNavTitle {
     NSString *navTitle = [NSString stringWithFormat:@"%d/%d",_currentPhotoIndex + 1,_photos.count];
-    [self setTitle:navTitle];
+    NSLog(@"===========title=======%@", navTitle);
+    self.navigationItem.title = navTitle;
 }
 - (void)initRightBar {
     if (self.isBroker) {
@@ -176,6 +177,7 @@
 #pragma mark 显示一个图片view
 - (void)showPhotoViewAtIndex:(int)index
 {
+    _currentPhotoIndex = index;
     AXPhotoView *photoView = [self dequeueReusablePhotoView];
     if (!photoView) { // 添加新的图片view
         photoView = [[AXPhotoView alloc] init];
@@ -270,7 +272,7 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
         if (((AXPhoto *)[_photos objectAtIndex:_currentPhotoIndex]).image) {
-            UIImageWriteToSavedPhotosAlbum(((AXPhoto *)[_photos objectAtIndex:_currentPhotoIndex]).image, nil, nil,nil);
+            UIImageWriteToSavedPhotosAlbum(((AXPhoto *)[_photos objectAtIndex:_currentPhotoIndex]).image,nil ,nil, nil);
         }
     }
 }
