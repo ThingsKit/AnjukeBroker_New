@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #define USER_DEFAULT_KEY_AXCHATMC_USE @"anjuke_chat_login_info"
+#define USER_DEFAULT_KEY_DEVICE_TOKEN @"AJKNotificationToken" //device token
 
 @interface LoginManager : NSObject
 
