@@ -71,7 +71,9 @@
     
     if (item.iconUrl.length > 0) {
         if (item.isIconDownloaded) {
-            self.imageIcon.image = [UIImage imageWithContentsOfFile:item.iconPath];
+            NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+            self.imageIcon.image = [[UIImage alloc] initWithContentsOfFile:[libraryPath stringByAppendingPathComponent:item.iconPath]];
+//            self.imageIcon.image = [UIImage imageWithContentsOfFile:item.iconPath];
         }
         else
             self.imageIcon.imageUrl = item.iconUrl;
