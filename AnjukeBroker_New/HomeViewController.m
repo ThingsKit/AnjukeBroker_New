@@ -78,7 +78,9 @@
     
     //设置按钮
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
-    rightItem.tintColor = [UIColor whiteColor];
+    if (![AppManager isIOS6]) {
+        rightItem.tintColor = [UIColor whiteColor];
+    }
     self.navigationItem.rightBarButtonItem = rightItem;
     
     //监听被踢出下线通知
