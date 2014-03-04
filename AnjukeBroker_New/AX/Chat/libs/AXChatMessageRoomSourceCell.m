@@ -118,7 +118,7 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
     }else {
         self.messageSource = AXChatMessageSourceDestinationIncoming;
     }
-    
+
     [self setBubbleIMGByMessageSorce];
     if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceErShouFang)]) {
         self.tagLable.text = @"二手房";

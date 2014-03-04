@@ -23,11 +23,13 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 // 禁止直接修改celldata和identifierData
 @property (nonatomic, strong) NSMutableArray *cellData;
 @property (nonatomic, strong) NSMutableArray *identifierData;
+@property (nonatomic, strong) UIButton *backBtn;
 
 @property (strong, nonatomic) UIButton *sendBut;
 @property (strong, nonatomic) UIView *moreBackView;// 更多操作
 @property BOOL isBroker;
 @property (nonatomic, strong) NSDictionary *propDict;
+@property (nonatomic) BOOL needSendProp;
 @property (nonatomic, strong) AXMappedConversationListItem *conversationListItem;
 @property (nonatomic, strong) void (^finishSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status);
 @property (nonatomic, strong) void (^finishReSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status);
@@ -35,7 +37,11 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 @property (nonatomic, strong) NSString *uid;
 @property (nonatomic, strong) AXMappedPerson *friendPerson;
 
+- (BOOL)checkUserLogin;
 - (void)didClickSystemButton:(AXMessageType)messageType;
+- (void)afterSendMessage;
 - (void)sendPropMessage;
+- (void)goBrokerPage:(id)sender;
+- (void)sendSystemMessage:(AXMessageType)type;
 
 @end

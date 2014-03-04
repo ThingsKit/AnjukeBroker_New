@@ -111,7 +111,7 @@ NSInteger const kRetryTag = 101;
         self.avatar.frame = CGRectMake(320 - kJSAvatarSize - kAvatarMargin, axTagMarginTop, kJSAvatarSize , kJSAvatarSize);
     }
     self.avatarButton.frame = self.avatar.frame;
-#warning 竟然isIconDownloaded是YES 0.0
+    
     if (self.person.isIconDownloaded == NO) {
         [self.avatar setImageWithURL:[NSURL URLWithString:self.person.iconUrl] placeholderImage:[UIImage axChatDefaultAvatar:NO]];
     } else {
@@ -199,7 +199,6 @@ NSInteger const kRetryTag = 101;
 
 - (void)handleMenuWillHideNotification:(NSNotification *)notification
 {
-    DLog(@"handleMenuWillHideNotification");
     [self cellHighlighted:NO];
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIMenuControllerWillHideMenuNotification
@@ -208,7 +207,6 @@ NSInteger const kRetryTag = 101;
 
 - (void)handleMenuWillShowNotification:(NSNotification *)notification
 {
-    DLog(@"handleMenuWillShowNotification");
     [self cellHighlighted:YES];
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIMenuControllerWillShowMenuNotification
@@ -223,6 +221,7 @@ NSInteger const kRetryTag = 101;
 {
     return (action == @selector(axDelete:));
 }
+
 #pragma mark - Action
 - (void)didRetry
 {

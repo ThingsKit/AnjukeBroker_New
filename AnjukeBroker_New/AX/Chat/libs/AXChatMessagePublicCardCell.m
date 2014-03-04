@@ -9,7 +9,6 @@
 #import "AXChatMessagePublicCardCell.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
 
-
 @interface AXChatMessagePublicCardCell ()
 
 @property (nonatomic, strong) UIView *lineView;

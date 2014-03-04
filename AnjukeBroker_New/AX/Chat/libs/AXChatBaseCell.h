@@ -34,6 +34,7 @@ typedef NS_ENUM(NSUInteger,AXChatCellViewType )
 - (void)didClickAvatar:(BOOL)isCurrentPerson;
 - (void)didClickSystemButton:(AXMessageType)messageType;
 - (void)didClickTelNumber:(NSString *)telNumber;
+
 @end
 
 @interface AXChatBaseCell : UITableViewCell

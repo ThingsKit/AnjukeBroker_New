@@ -66,7 +66,7 @@
     if (_currentPhotoIndex == 0) {
         [self showPhotoViewAtIndex:_currentPhotoIndex];
     }
-//    [self showPhotoViewAtIndex:_currentPhotoIndex];
+    //    [self showPhotoViewAtIndex:_currentPhotoIndex];
 }
 
 #pragma mark 创建UIScrollView
@@ -210,16 +210,16 @@
 - (void)loadImageNearIndex:(int)index
 {
     if (index > 0) {
-//        AXPhoto *photo = _photos[index - 1];
+        //        AXPhoto *photo = _photos[index - 1];
         
-//#warning downloadIMG and set img to photo
+        //#warning downloadIMG and set img to photo
         
     }
     
     if (index < _photos.count - 1) {
-//        AXPhoto *photo = _photos[index + 1];
+        //        AXPhoto *photo = _photos[index + 1];
         
-//#warning downloadIMG
+        //#warning downloadIMG
     }
 }
 

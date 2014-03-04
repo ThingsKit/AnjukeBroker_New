@@ -116,7 +116,6 @@
             }
             return NO;
         }
-
         self.phoneNum = [linkInfo.extendedURL absoluteString];
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"这可能是一个电话号码。\n是否拨打该号码" message:nil delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
         alertView.tag = AXChatCellViewTypePhoneAlert;

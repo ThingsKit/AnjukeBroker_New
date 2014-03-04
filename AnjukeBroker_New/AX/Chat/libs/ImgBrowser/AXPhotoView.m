@@ -65,7 +65,7 @@
 - (void)showImage
 {
     if (_photo.firstShow) { // 首次显示
-//        _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];; // 占位图片
+        //        _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];; // 占位图片
         if (_photo.picMessage.imgPath.length > 0) {
             _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
             _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
@@ -115,14 +115,14 @@
 {
     
     if (_photo.image) {
-//        self.scrollEnabled = YES;
+        //        self.scrollEnabled = YES;
         _imageView.image = _photo.image;
-         [self adjustFrame];
+        [self adjustFrame];
     } else {
         //        self.scrollEnabled = NO;
         //                _imageView.image = nil;
         if (_photo.picMessage.imgPath.length > 0) {
-//            _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
+            //            _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
             _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
         } else {
             if (_photo.picMessage.imgPath.length > 0) {
@@ -160,7 +160,7 @@
             }];
         }
     }
-   
+    
 }
 
 #pragma mark 调整frame

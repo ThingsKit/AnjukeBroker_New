@@ -32,10 +32,10 @@
 // Controller
 #import "AXBigIMGSViewController.h"
 #import "AXChatWebViewController.h"
-//#import "AJKBrokerInfoViewController.h"
 
 #import "AXPhotoManager.h"
 #import "AXCellFactory.h"
+#import "AXChatContentValidator.h"
 
 
 //输入框和发送按钮栏的高度
@@ -64,14 +64,16 @@ static NSString * const AXChatJsonVersion = @"1";
 @property (nonatomic) BOOL isMenuVisible;
 @property (nonatomic) BOOL isFinished;
 @property (nonatomic) CGFloat tableViewBottom;
+@property (nonatomic) BOOL hasMore;
 
 @property (nonatomic, strong) AXPullToRefreshView *pullToRefreshView;
 @property (nonatomic, strong) AXMappedMessage *lastMessage;
 @property (nonatomic, strong) UILabel *sendLabel;
 @property (nonatomic, strong) UIControl *keyboardControl;
+@property (nonatomic, strong) AXChatContentValidator *contentValidator;
 
 @property (nonatomic, strong) AXMappedPerson *currentPerson;
-//@property (nonatomic, strong) AXMappedPerson *friendPerson;
+
 
 // JSMessage
 @property (nonatomic, strong) UIView *inputBackView;
@@ -96,6 +98,9 @@ static NSString * const AXChatJsonVersion = @"1";
         self.isBroker = YES;
         _isMenuVisible = YES;
         _isFinished = NO;
+        _needSendProp = NO;
+        _hasMore = NO;
+        _contentValidator = [[AXChatContentValidator alloc] init];
     }
     return self;
 }
@@ -178,10 +183,12 @@ static NSString * const AXChatJsonVersion = @"1";
     
     __weak AXChatViewController *blockSelf = self;
     
-    [[AXChatMessageCenter defaultMessageCenter] fetchChatListWithLastMessage:lastMessage pageSize:AXMessagePageSize callBack:^(NSArray *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend) {
-        if ([chatList count] > 0) {
-            blockSelf.lastMessage = chatList[0];
-            for (AXMappedMessage *mappedMessage in chatList) {
+    [[AXChatMessageCenter defaultMessageCenter] fetchChatListWithLastMessage:lastMessage pageSize:AXMessagePageSize callBack:^(NSDictionary *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend) {
+        blockSelf.hasMore = [chatList[@"hasMore"] boolValue];
+        NSArray *chatArray = chatList[@"messages"];
+        if ([chatArray isKindOfClass:[NSArray class]] && [chatArray count] > 0) {
+            blockSelf.lastMessage = chatArray[0];
+            for (AXMappedMessage *mappedMessage in chatArray) {
                 NSMutableDictionary *dict = [blockSelf mapAXMappedMessage:mappedMessage];
                 if (!dict) {
                     continue;
@@ -209,141 +216,69 @@ static NSString * const AXChatJsonVersion = @"1";
     }];
     
     // 发消息的block
-    @autoreleasepool {
 
-        self.finishReSendMessageBlock = ^ (AXMappedMessage *message, AXMessageCenterSendMessageStatus status) {
-        NSMutableDictionary *textData = [NSMutableDictionary dictionary];
-            textData = [blockSelf mapAXMappedMessage:message];
-            if (textData) {
-//                if (status != AXMessageCenterSendMessageStatusSending) {
-//                    status = AXMessageCenterSendMessageStatusFailed;
-//                }
-                if (status == AXMessageCenterSendMessageStatusSending) {
-                    textData[@"status"] = @(AXMessageCenterSendMessageStatusSending);
-                    textData[AXCellIdentifyTag] = message.identifier;
-                    [blockSelf appendCellData:textData];
-                } else if (status == AXMessageCenterSendMessageStatusFailed) {
-                    NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
-                    blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusFailed);
-                    [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-                } else {
-                    NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
-                    blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
-                    [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-                }
+    self.finishReSendMessageBlock = ^ (AXMappedMessage *message, AXMessageCenterSendMessageStatus status) {
+    NSMutableDictionary *textData = [NSMutableDictionary dictionary];
+        textData = [blockSelf mapAXMappedMessage:message];
+        if (textData) {
+            if (status == AXMessageCenterSendMessageStatusSending) {
+                textData[@"status"] = @(AXMessageCenterSendMessageStatusSending);
+                textData[AXCellIdentifyTag] = message.identifier;
+                [blockSelf appendCellData:textData];
+            } else if (status == AXMessageCenterSendMessageStatusFailed) {
+                NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
+                blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusFailed);
+                [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            } else {
+                NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
+                blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
+                [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
             }
-        };
+        }
+    };
         
-        self.finishSendMessageBlock = ^ (AXMappedMessage *message, AXMessageCenterSendMessageStatus status) {
-            NSMutableDictionary *textData = [NSMutableDictionary dictionary];
-            textData = [blockSelf mapAXMappedMessage:message];
-            if (textData) {
+    self.finishSendMessageBlock = ^ (AXMappedMessage *message, AXMessageCenterSendMessageStatus status) {
+        NSMutableDictionary *textData = [NSMutableDictionary dictionary];
+        textData = [blockSelf mapAXMappedMessage:message];
+        if (textData) {
 //                if (status != AXMessageCenterSendMessageStatusSending) {
 //                    status = AXMessageCenterSendMessageStatusFailed;
 //                }
-                if (status == AXMessageCenterSendMessageStatusSending) {
-                    textData[@"status"] = @(AXMessageCenterSendMessageStatusSending);
-                    textData[AXCellIdentifyTag] = message.identifier;
-                    [blockSelf axAddCellData:textData];
-                } else if (status == AXMessageCenterSendMessageStatusFailed) {
-                    NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
-                    blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusFailed);
-                    [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-                } else {
-                    NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
-                    blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
-                    [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-                }
+            if (status == AXMessageCenterSendMessageStatusSending) {
+                textData[@"status"] = @(AXMessageCenterSendMessageStatusSending);
+                textData[AXCellIdentifyTag] = message.identifier;
+                [blockSelf axAddCellData:textData];
+            } else if (status == AXMessageCenterSendMessageStatusFailed) {
+                NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
+                blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusFailed);
+                [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            } else {
+                NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
+                blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
+                [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
             }
-        };
-    }
+        }
+    };
     
     [self addPullToRefresh];
     
-    
-    // TEST
-    /*
-    AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
-    mappedMessage.accountType = @"1";
-    mappedMessage.content = @"速度";
-    mappedMessage.to = @"30";
-    mappedMessage.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-    mappedMessage.isRead = YES;
-    mappedMessage.isRemoved = NO;
-    mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypeText];
-    [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessage willSendMessage:self.finishSendMessageBlock];
-    
-    AXMappedMessage *mappedMessage2 = [[AXMappedMessage alloc] init];
-    mappedMessage2.accountType = @"1";
-    mappedMessage2.content = @"你已关闭消息提醒。打开消息提醒能够及时得到经纪人的反馈。";
-    mappedMessage2.to = @"30";
-    mappedMessage2.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-    mappedMessage2.isRead = YES;
-    mappedMessage2.isRemoved = NO;
-    mappedMessage2.messageType = [NSNumber numberWithInteger:AXMessageTypeSettingNotifycation];
-    [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessage2 willSendMessage:self.finishSendMessageBlock];
-    
-    AXMappedMessage *mappedMessage3 = [[AXMappedMessage alloc] init];
-    mappedMessage3.accountType = @"1";
-    mappedMessage3.content = @"对方已拒收了你的消息";
-    mappedMessage3.to = @"30";
-    mappedMessage3.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-    mappedMessage3.isRead = YES;
-    mappedMessage3.isRemoved = NO;
-    mappedMessage3.messageType = [NSNumber numberWithInteger:AXMessageTypeSystemForbid];
-    [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessage3 willSendMessage:self.finishSendMessageBlock];
-    
-    AXMappedMessage *mappedMessage4 = [[AXMappedMessage alloc] init];
-    mappedMessage4.accountType = @"1";
-    mappedMessage4.content = @"12月20日";
-    mappedMessage4.to = @"30";
-    mappedMessage4.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-    mappedMessage4.isRead = YES;
-    mappedMessage4.isRemoved = NO;
-    mappedMessage4.messageType = [NSNumber numberWithInteger:AXMessageTypeSystemTime];
-    [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessage4 willSendMessage:self.finishSendMessageBlock];
-    
-    AXMappedMessage *mappedMessage5 = [[AXMappedMessage alloc] init];
-    mappedMessage5.accountType = @"1";
-    mappedMessage5.content = @"对方已拒收了你的消息";
-    mappedMessage5.to = @"30";
-    mappedMessage5.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-    mappedMessage5.isRead = YES;
-    mappedMessage5.isRemoved = NO;
-    mappedMessage5.messageType = [NSNumber numberWithInteger:AXMessageTypeSendProperty];
-    [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessage5 willSendMessage:self.finishSendMessageBlock];
-    
-    AXMappedMessage *mappedMessage6 = [[AXMappedMessage alloc] init];
-    mappedMessage6.accountType = @"1";
-    mappedMessage6.content = @"对方已拒收了你的消息";
-    mappedMessage6.to = @"30";
-    mappedMessage6.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-    mappedMessage6.isRead = YES;
-    mappedMessage6.isRemoved = NO;
-    mappedMessage6.messageType = [NSNumber numberWithInteger:AXMessageTypeAddNuckName];
-    [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessage6 willSendMessage:self.finishSendMessageBlock];
-    
-    AXMappedMessage *mappedMessage7 = [[AXMappedMessage alloc] init];
-    mappedMessage7.accountType = @"1";
-    mappedMessage7.content = @"对方已拒收了你的消息";
-    mappedMessage7.to = @"30";
-    mappedMessage7.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-    mappedMessage7.isRead = YES;
-    mappedMessage7.isRemoved = NO;
-    mappedMessage7.messageType = [NSNumber numberWithInteger:AXMessageTypeSafeMessage];
-    [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessage7 willSendMessage:self.finishSendMessageBlock];
-    
-     */
-    
+}
+
+- (BOOL)checkUserLogin
+{
+    return YES;
 }
 
 - (void)sendPropMessage
 {
     // 如果第一次发消息，发送房源信息
-    if (self.propDict) {
+    if (self.propDict && self.needSendProp) {
+        NSMutableDictionary *propDict = [NSMutableDictionary dictionaryWithDictionary:self.propDict];
+        propDict[@"jsonVersion"] = AXChatJsonVersion;
+        self.needSendProp = NO;
         AXMappedMessage *mappedMessageProp = [[AXMappedMessage alloc] init];
         mappedMessageProp.accountType = [self checkAccountType];
-        mappedMessageProp.content = [self.propDict JSONRepresentation];
+        mappedMessageProp.content = [propDict JSONRepresentation];
         mappedMessageProp.to = [self checkFriendUid];
         mappedMessageProp.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
         mappedMessageProp.isRead = YES;
@@ -355,30 +290,39 @@ static NSString * const AXChatJsonVersion = @"1";
 
 - (void)addMessageNotifycation
 {
-    __weak AXChatViewController *blockSelf = self;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectionStatusDidChangeNotification:) name:MessageCenterConnectionStatusNotication object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewMessage:) name:MessageCenterDidReceiveNewMessage object:nil];
+}
 
-    [[NSNotificationCenter defaultCenter] addObserverForName:MessageCenterDidReceiveNewMessage object:nil queue:nil usingBlock: ^(NSNotification *note) {
-        // 接受消息
-        if ([note.object isKindOfClass:[NSDictionary class]]) {
-            NSDictionary *dict = (NSDictionary *)note.object;
-            if (dict[[blockSelf checkFriendUid]]) {
-                for (AXMappedMessage *mappedMessage in dict[[blockSelf checkFriendUid]]) {
-                    blockSelf.lastMessage = mappedMessage;
-                    NSMutableDictionary *dict = [blockSelf mapAXMappedMessage:mappedMessage];
-                    if (dict) {
-                        dict[@"messageSource"] = @(AXChatMessageSourceDestinationIncoming);
-                        dict[AXCellIdentifyTag] = mappedMessage.identifier;
-                        [blockSelf appendCellData:dict];
-                        [blockSelf scrollToBottomAnimated:YES];
-                    }
+- (void)didReceiveNewMessage:(NSNotification *)notification
+{
+    if ([notification.object isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dict = (NSDictionary *)notification.object;
+        if (dict[[self checkFriendUid]]) {
+            for (AXMappedMessage *mappedMessage in dict[[self checkFriendUid]]) {
+                self.lastMessage = mappedMessage;
+                NSMutableDictionary *dict = [self mapAXMappedMessage:mappedMessage];
+                if (dict) {
+                    dict[@"messageSource"] = @(AXChatMessageSourceDestinationIncoming);
+                    dict[AXCellIdentifyTag] = mappedMessage.identifier;
+                    [self appendCellData:dict];
+                    [self scrollToBottomAnimated:YES];
                 }
             }
         }
-    }];
+    }
+}
+
+- (void)connectionStatusDidChangeNotification:(NSNotification *)notification
+{
+    if ([notification.userInfo[@"status"] integerValue] == AIFMessageCenterStatusUserLoginOut) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)sendSystemMessage:(AXMessageType)type
 {
+    self.needSendProp = YES;
     AXMappedMessage *mappedMessageProp = [[AXMappedMessage alloc] init];
     mappedMessageProp.accountType = [self checkAccountType];
     mappedMessageProp.content = @"";
@@ -450,12 +394,18 @@ static NSString * const AXChatJsonVersion = @"1";
             
         case AXMessageTypeProperty:
         {
+            if (![self.contentValidator checkPropertyCard:mappedMessage.content]) {
+                return nil;
+            }
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeProperty),@"content":mappedMessage.content,@"messageSource":@(AXChatMessageSourceDestinationOutPut)}];
         }
             break;
         
         case AXMessageTypePublicCard:
         {
+            if (![self.contentValidator checkPublicCard:mappedMessage.content]) {
+                return nil;
+            }
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypePublicCard),@"content":mappedMessage.content,@"messageSource":@(AXChatMessageSourceDestinationOutPut)}];
         }
             break;
@@ -522,7 +472,7 @@ static NSString * const AXChatJsonVersion = @"1";
 
 - (void)appendCellData:(NSDictionary *)msgData
 {
-    [self.myTableView beginUpdates];
+//    [self.myTableView beginUpdates];
     UITableViewRowAnimation insertAnimation = UITableViewRowAnimationBottom;
     if ([self.identifierData containsObject:msgData[AXCellIdentifyTag]]) {
         NSInteger row = [self.identifierData indexOfObject:msgData[AXCellIdentifyTag]];
@@ -538,7 +488,7 @@ static NSString * const AXChatJsonVersion = @"1";
     NSIndexPath *newPath =  [NSIndexPath indexPathForRow:[self.cellData count] - 1 inSection:0];
     [insertIndexPaths addObject:newPath];
     [self.myTableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:insertAnimation];
-    [self.myTableView endUpdates];
+//    [self.myTableView endUpdates];
 }
 
 - (void)insertCellData:(NSDictionary *)msgData atIndex:(NSUInteger)index
@@ -691,8 +641,13 @@ static NSString * const AXChatJsonVersion = @"1";
     UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     spacer.width = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? -16.0f : -6.0f;
     [self.navigationItem setRightBarButtonItems:@[spacer, buttonItems]];
-
-    self.myTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, AXWINDOWWHIDTH, AXWINDOWHEIGHT - AXInputBackViewHeight) style:UITableViewStylePlain];
+    
+    NSInteger viewHeight = 20;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        viewHeight = 0;
+    }
+    
+    self.myTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, AXWINDOWWHIDTH, AXWINDOWHEIGHT - AXInputBackViewHeight - viewHeight) style:UITableViewStylePlain];
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
     self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -792,26 +747,18 @@ static NSString * const AXChatJsonVersion = @"1";
 
 }
 
-- (void)pickAJK:(id)sender {
-    
-//    NSDictionary *roomSource = @{@"title": @"中房二期花园，地理位置好",@"price":@"12000",@"roomType":@"3房两厅",@"area":@"200",@"floor":@"13/14",@"year":@"2005",@"messageType":[NSNumber numberWithInteger:AXMessageTypeProperty],@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationIncoming]};
-//    [self.cellData addObject:roomSource];
-//    [self reloadMytableView];
-}
-
-- (void)pickHZ:(id)sender {
-//    NSDictionary *roomSource = @{@"title": @"中房二期花园，地理位置好",@"price":@"12000",@"roomType":@"3房两厅",@"area":@"200",@"floor":@"13/14",@"year":@"2005",@"messageType":[NSNumber numberWithInteger:AXMessageTypeProperty],@"messageSource":[NSNumber numberWithInteger:AXChatMessageSourceDestinationOutPut]};
-//    [self.cellData addObject:roomSource];
-//    [self reloadMytableView];
-    
-}
-
 - (void)sendMessage:(id)sender {
     if ([self.messageInputView.textView.text isEqualToString:@""]) {
         UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"提示" message:@"不能发空消息" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil];
         [view show];
         return;
     }
+    
+    if (!self.isBroker) {
+        [self.backBtn setTitle:@"(1111)" forState:UIControlStateNormal];
+        [self.backBtn setTitle:@"(1111)" forState:UIControlStateHighlighted];
+    }
+    
     AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
     mappedMessage.accountType = [self checkAccountType];
     mappedMessage.content = self.messageInputView.textView.text;
@@ -822,9 +769,16 @@ static NSString * const AXChatJsonVersion = @"1";
     mappedMessage.messageType = @(AXMessageTypeText);
         
     [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessage willSendMessage:self.finishSendMessageBlock];
+    [self afterSendMessage];
+    [self sendPropMessage];
     
     [self finishSend];
     [self scrollToBottomAnimated:YES];
+}
+
+- (void)afterSendMessage
+{
+    
 }
 
 #pragma mark - NSNotificationCenter UIMenu
@@ -872,15 +826,18 @@ static NSString * const AXChatJsonVersion = @"1";
 {
     __weak AXChatViewController *blockSelf = self;
 
-    [[AXChatMessageCenter defaultMessageCenter] fetchChatListWithLastMessage:self.lastMessage pageSize:AXMessagePageSize callBack:^(NSArray *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend) {
-        if ([chatList count] > 0) {
-            blockSelf.lastMessage = chatList[0];
+    [[AXChatMessageCenter defaultMessageCenter] fetchChatListWithLastMessage:self.lastMessage pageSize:AXMessagePageSize callBack:^(NSDictionary *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend) {
+        blockSelf.hasMore = [chatList[@"hasMore"] boolValue];
+        NSArray *chatArray = chatList[@"messages"];
+
+        if ([chatArray isKindOfClass:[NSArray class]] && [chatArray count] > 0) {
+            blockSelf.lastMessage = chatArray[0];
             NSInteger num = 0;
             CGFloat cellHeight = 0;
             CGPoint newContentOffset = blockSelf.myTableView.contentOffset;
             NSMutableArray *newIndexPaths = [NSMutableArray array];
             
-            for (AXMappedMessage *mappedMessage in chatList) {
+            for (AXMappedMessage *mappedMessage in chatArray) {
                 NSDictionary *dict = [blockSelf mapAXMappedMessage:mappedMessage];
                 if (dict) {
                     [blockSelf.cellData insertObject:dict atIndex:num];
@@ -970,9 +927,24 @@ static NSString * const AXChatJsonVersion = @"1";
 - (void)deleteAXCell:(AXChatMessageRootCell *)axCell
 {
     NSIndexPath *indexPath = [self.myTableView indexPathForCell:axCell];
+    NSInteger preRow = indexPath.row - 1;
+    NSInteger nextRow = indexPath.row + 1;
+    NSIndexPath *preIndexPath = [NSIndexPath indexPathForRow:preRow inSection:0];
+    NSArray *indexPaths = @[indexPath];
+    // 判断是否需要删除系统时间cell
+    if (preRow > 0 && nextRow < [self.cellData count]) {
+        NSDictionary *preData = self.cellData[preRow];
+        NSDictionary *nextData = self.cellData[nextRow];
+        if ([preData[@"messageType"] isEqualToNumber:@(AXMessageTypeSystemTime)] &&
+            [nextData[@"messageType"] isEqualToNumber:@(AXMessageTypeSystemTime)]) {
+            indexPaths = @[preIndexPath, indexPaths];
+            [[AXChatMessageCenter defaultMessageCenter] deleteMessageByIdentifier:preData[AXCellIdentifyTag]];
+        }
+    }
+    
     [self.cellData removeObjectAtIndex:indexPath.row];
     [self.identifierData removeObjectAtIndex:indexPath.row];
-    [self.myTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    [self.myTableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationLeft];
 
     [[AXChatMessageCenter defaultMessageCenter] deleteMessageByIdentifier:axCell.identifyString];
 }
@@ -1119,7 +1091,7 @@ static NSString * const AXChatJsonVersion = @"1";
                                              inputViewFrameY,
                                              inputViewFrame.size.width,
                                              inputViewFrame.size.height);
-    
+
     [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
      - self.messageInputView.frame.origin.y
      - inputViewFrame.size.height ];
@@ -1214,9 +1186,6 @@ static NSString * const AXChatJsonVersion = @"1";
 
 - (void)goBrokerPage:(id)sender
 {
-//    AJKBrokerInfoViewController *controller = [[AJKBrokerInfoViewController alloc] init];
-//#warning TODO chat UID
-//    [self.navigationController pushRTViewController:controller animated:YES];
 }
 
 #pragma mark - Scroll view delegate
@@ -1245,6 +1214,16 @@ static NSString * const AXChatJsonVersion = @"1";
 }
 
 #pragma mark - Text view delegate
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    if (!self.isBroker) {
+        // 检查用户是否登陆
+        if (![self checkUserLogin]) {
+            return NO;
+        }
+    }
+    return YES;
+}
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
@@ -1281,7 +1260,5 @@ static NSString * const AXChatJsonVersion = @"1";
     [textView resignFirstResponder];
     self.messageInputView.sendButton.enabled = NO;
 }
-- (void)didClickTelNumber:(NSString *)telNumber {
-    
-}
+
 @end
