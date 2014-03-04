@@ -274,6 +274,37 @@
 		B7921A2018BB9D390021933A /* sj2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B792198918BB9D390021933A /* sj2.jpeg */; };
 		B7921A2918BB9E5A0021933A /* RTAPIBaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7921A2718BB9E5A0021933A /* RTAPIBaseManager.m */; };
 		B7921A2F18BBA2000021933A /* BrokerChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7921A2E18BBA2000021933A /* BrokerChatViewController.m */; };
+		B7978D9218C5FFF200120E94 /* AXBigIMGSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D5118C5FFF200120E94 /* AXBigIMGSViewController.m */; };
+		B7978D9318C5FFF200120E94 /* AXChatBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D5318C5FFF200120E94 /* AXChatBaseCell.m */; };
+		B7978D9418C5FFF200120E94 /* AXChatContentValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D5518C5FFF200120E94 /* AXChatContentValidator.m */; };
+		B7978D9518C5FFF200120E94 /* AXChatMessageImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D5718C5FFF200120E94 /* AXChatMessageImageCell.m */; };
+		B7978D9618C5FFF200120E94 /* AXChatMessageNameCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D5918C5FFF200120E94 /* AXChatMessageNameCardCell.m */; };
+		B7978D9718C5FFF200120E94 /* AXChatMessagePublicCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D5B18C5FFF200120E94 /* AXChatMessagePublicCardCell.m */; };
+		B7978D9818C5FFF200120E94 /* AXChatMessageRoomSourceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D5D18C5FFF200120E94 /* AXChatMessageRoomSourceCell.m */; };
+		B7978D9918C5FFF200120E94 /* AXChatMessageRootCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D5F18C5FFF200120E94 /* AXChatMessageRootCell.m */; };
+		B7978D9A18C5FFF200120E94 /* AXChatMessageSystemTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D6118C5FFF200120E94 /* AXChatMessageSystemTimeCell.m */; };
+		B7978D9B18C5FFF200120E94 /* AXChatMessageTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D6318C5FFF200120E94 /* AXChatMessageTextCell.m */; };
+		B7978D9C18C5FFF200120E94 /* AXChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D6518C5FFF200120E94 /* AXChatViewController.m */; };
+		B7978D9D18C5FFF200120E94 /* AXChatWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D6718C5FFF200120E94 /* AXChatWebViewController.m */; };
+		B7978D9E18C5FFF200120E94 /* AXPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D6918C5FFF200120E94 /* AXPhotoManager.m */; };
+		B7978D9F18C5FFF200120E94 /* AXPullToRefreshContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D6B18C5FFF200120E94 /* AXPullToRefreshContentView.m */; };
+		B7978DA018C5FFF200120E94 /* AXPullToRefreshSimpleContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D6D18C5FFF200120E94 /* AXPullToRefreshSimpleContentView.m */; };
+		B7978DA118C5FFF200120E94 /* AXPullToRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D6F18C5FFF200120E94 /* AXPullToRefreshView.m */; };
+		B7978DA218C5FFF200120E94 /* AXChatPhotoActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D7218C5FFF200120E94 /* AXChatPhotoActionSheet.m */; };
+		B7978DA318C5FFF200120E94 /* AXPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D7418C5FFF200120E94 /* AXPhoto.m */; };
+		B7978DA418C5FFF200120E94 /* AXPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D7618C5FFF200120E94 /* AXPhotoBrowser.m */; };
+		B7978DA518C5FFF200120E94 /* AXPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D7818C5FFF200120E94 /* AXPhotoView.m */; };
+		B7978DA618C5FFF200120E94 /* AXELCAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D7B18C5FFF200120E94 /* AXELCAlbumPickerController.m */; };
+		B7978DA718C5FFF200120E94 /* AXELCAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D7D18C5FFF200120E94 /* AXELCAsset.m */; };
+		B7978DA818C5FFF200120E94 /* AXELCAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D7F18C5FFF200120E94 /* AXELCAssetCell.m */; };
+		B7978DA918C5FFF200120E94 /* AXELCAssetTablePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D8318C5FFF200120E94 /* AXELCAssetTablePicker.m */; };
+		B7978DAA18C5FFF200120E94 /* AXELCImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D8518C5FFF200120E94 /* AXELCImagePickerController.m */; };
+		B7978DAB18C5FFF200120E94 /* AXUtil_UI.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D8718C5FFF200120E94 /* AXUtil_UI.m */; };
+		B7978DAC18C5FFF200120E94 /* NSString+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D8918C5FFF200120E94 /* NSString+AXChatMessage.m */; };
+		B7978DAD18C5FFF200120E94 /* UIColor+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D8B18C5FFF200120E94 /* UIColor+AXChatMessage.m */; };
+		B7978DAE18C5FFF200120E94 /* UIFont+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D8D18C5FFF200120E94 /* UIFont+AXChatMessage.m */; };
+		B7978DAF18C5FFF200120E94 /* UIImage+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D8F18C5FFF200120E94 /* UIImage+AXChatMessage.m */; };
+		B7978DB018C5FFF200120E94 /* UIView+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7978D9118C5FFF200120E94 /* UIView+AXChatMessage.m */; };
 		B7B2BF6C188CC2C30001EEB8 /* anjuke_icon_saying@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7B2BF67188CC2C30001EEB8 /* anjuke_icon_saying@2x.png */; };
 		B7B2BF6D188CC2C30001EEB8 /* anjuke_icon_saying1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7B2BF68188CC2C30001EEB8 /* anjuke_icon_saying1@2x.png */; };
 		B7B2BF6E188CC2C30001EEB8 /* anjuke_icon_sound_button_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7B2BF69188CC2C30001EEB8 /* anjuke_icon_sound_button_icon@2x.png */; };
@@ -331,36 +362,6 @@
 		B7EF77B5183CE2D90024A5E6 /* RentSelectNoPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EF77B4183CE2D90024A5E6 /* RentSelectNoPlanController.m */; };
 		B7EF77B9183CE82D0024A5E6 /* RentNoPlanListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EF77B8183CE82D0024A5E6 /* RentNoPlanListCell.m */; };
 		B7F6CB2D18C5739D0087953D /* AXChatMessageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB2C18C5739D0087953D /* AXChatMessageCenter.m */; };
-		B7F6CB9918C5B88A0087953D /* AXBigIMGSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB5A18C5B8890087953D /* AXBigIMGSViewController.m */; };
-		B7F6CB9A18C5B88A0087953D /* AXChatBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB5C18C5B8890087953D /* AXChatBaseCell.m */; };
-		B7F6CB9B18C5B88A0087953D /* AXChatContentValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB5E18C5B8890087953D /* AXChatContentValidator.m */; };
-		B7F6CB9C18C5B88A0087953D /* AXChatMessageImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB6018C5B8890087953D /* AXChatMessageImageCell.m */; };
-		B7F6CB9D18C5B88A0087953D /* AXChatMessageNameCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB6218C5B8890087953D /* AXChatMessageNameCardCell.m */; };
-		B7F6CB9E18C5B88A0087953D /* AXChatMessagePublicCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB6418C5B8890087953D /* AXChatMessagePublicCardCell.m */; };
-		B7F6CB9F18C5B88A0087953D /* AXChatMessageRoomSourceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB6618C5B8890087953D /* AXChatMessageRoomSourceCell.m */; };
-		B7F6CBA018C5B88A0087953D /* AXChatMessageRootCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB6818C5B8890087953D /* AXChatMessageRootCell.m */; };
-		B7F6CBA118C5B88A0087953D /* AXChatMessageSystemTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB6A18C5B8890087953D /* AXChatMessageSystemTimeCell.m */; };
-		B7F6CBA218C5B88A0087953D /* AXChatMessageTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB6C18C5B8890087953D /* AXChatMessageTextCell.m */; };
-		B7F6CBA318C5B88A0087953D /* AXChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB6E18C5B8890087953D /* AXChatViewController.m */; };
-		B7F6CBA418C5B88A0087953D /* AXChatWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB7018C5B8890087953D /* AXChatWebViewController.m */; };
-		B7F6CBA518C5B88A0087953D /* AXPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB7218C5B8890087953D /* AXPhotoManager.m */; };
-		B7F6CBA618C5B88A0087953D /* AXPullToRefreshContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB7418C5B88A0087953D /* AXPullToRefreshContentView.m */; };
-		B7F6CBA718C5B88A0087953D /* AXPullToRefreshSimpleContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB7618C5B88A0087953D /* AXPullToRefreshSimpleContentView.m */; };
-		B7F6CBA818C5B88A0087953D /* AXPullToRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB7818C5B88A0087953D /* AXPullToRefreshView.m */; };
-		B7F6CBA918C5B88A0087953D /* AXPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB7B18C5B88A0087953D /* AXPhoto.m */; };
-		B7F6CBAA18C5B88A0087953D /* AXPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB7D18C5B88A0087953D /* AXPhotoBrowser.m */; };
-		B7F6CBAB18C5B88A0087953D /* AXPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB7F18C5B88A0087953D /* AXPhotoView.m */; };
-		B7F6CBAC18C5B88A0087953D /* AXELCAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB8218C5B88A0087953D /* AXELCAlbumPickerController.m */; };
-		B7F6CBAD18C5B88A0087953D /* AXELCAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB8418C5B88A0087953D /* AXELCAsset.m */; };
-		B7F6CBAE18C5B88A0087953D /* AXELCAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB8618C5B88A0087953D /* AXELCAssetCell.m */; };
-		B7F6CBAF18C5B88A0087953D /* AXELCAssetTablePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB8A18C5B88A0087953D /* AXELCAssetTablePicker.m */; };
-		B7F6CBB018C5B88A0087953D /* AXELCImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB8C18C5B88A0087953D /* AXELCImagePickerController.m */; };
-		B7F6CBB118C5B88A0087953D /* AXUtil_UI.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB8E18C5B88A0087953D /* AXUtil_UI.m */; };
-		B7F6CBB218C5B88A0087953D /* NSString+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB9018C5B88A0087953D /* NSString+AXChatMessage.m */; };
-		B7F6CBB318C5B88A0087953D /* UIColor+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB9218C5B88A0087953D /* UIColor+AXChatMessage.m */; };
-		B7F6CBB418C5B88A0087953D /* UIFont+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB9418C5B88A0087953D /* UIFont+AXChatMessage.m */; };
-		B7F6CBB518C5B88A0087953D /* UIImage+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB9618C5B88A0087953D /* UIImage+AXChatMessage.m */; };
-		B7F6CBB618C5B88A0087953D /* UIView+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB9818C5B88A0087953D /* UIView+AXChatMessage.m */; };
 		B7FC9AC618C41B1300F77205 /* anjuke_icon_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7FC9A4618C41B1300F77205 /* anjuke_icon_add@2x.png */; };
 		B7FC9AC718C41B1300F77205 /* anjuke_icon_add_esf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7FC9A4718C41B1300F77205 /* anjuke_icon_add_esf@2x.png */; };
 		B7FC9AC818C41B1300F77205 /* anjuke_icon_add_more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7FC9A4818C41B1300F77205 /* anjuke_icon_add_more@2x.png */; };
@@ -888,6 +889,70 @@
 		B7921A2818BB9E5A0021933A /* RTAPIManagerInterceptorProtocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTAPIManagerInterceptorProtocal.h; sourceTree = "<group>"; };
 		B7921A2D18BBA2000021933A /* BrokerChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerChatViewController.h; sourceTree = "<group>"; };
 		B7921A2E18BBA2000021933A /* BrokerChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerChatViewController.m; sourceTree = "<group>"; };
+		B7978D5018C5FFF200120E94 /* AXBigIMGSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXBigIMGSViewController.h; sourceTree = "<group>"; };
+		B7978D5118C5FFF200120E94 /* AXBigIMGSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXBigIMGSViewController.m; sourceTree = "<group>"; };
+		B7978D5218C5FFF200120E94 /* AXChatBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatBaseCell.h; sourceTree = "<group>"; };
+		B7978D5318C5FFF200120E94 /* AXChatBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatBaseCell.m; sourceTree = "<group>"; };
+		B7978D5418C5FFF200120E94 /* AXChatContentValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatContentValidator.h; sourceTree = "<group>"; };
+		B7978D5518C5FFF200120E94 /* AXChatContentValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatContentValidator.m; sourceTree = "<group>"; };
+		B7978D5618C5FFF200120E94 /* AXChatMessageImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageImageCell.h; sourceTree = "<group>"; };
+		B7978D5718C5FFF200120E94 /* AXChatMessageImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageImageCell.m; sourceTree = "<group>"; };
+		B7978D5818C5FFF200120E94 /* AXChatMessageNameCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageNameCardCell.h; sourceTree = "<group>"; };
+		B7978D5918C5FFF200120E94 /* AXChatMessageNameCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageNameCardCell.m; sourceTree = "<group>"; };
+		B7978D5A18C5FFF200120E94 /* AXChatMessagePublicCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessagePublicCardCell.h; sourceTree = "<group>"; };
+		B7978D5B18C5FFF200120E94 /* AXChatMessagePublicCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessagePublicCardCell.m; sourceTree = "<group>"; };
+		B7978D5C18C5FFF200120E94 /* AXChatMessageRoomSourceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageRoomSourceCell.h; sourceTree = "<group>"; };
+		B7978D5D18C5FFF200120E94 /* AXChatMessageRoomSourceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageRoomSourceCell.m; sourceTree = "<group>"; };
+		B7978D5E18C5FFF200120E94 /* AXChatMessageRootCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageRootCell.h; sourceTree = "<group>"; };
+		B7978D5F18C5FFF200120E94 /* AXChatMessageRootCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageRootCell.m; sourceTree = "<group>"; };
+		B7978D6018C5FFF200120E94 /* AXChatMessageSystemTimeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageSystemTimeCell.h; sourceTree = "<group>"; };
+		B7978D6118C5FFF200120E94 /* AXChatMessageSystemTimeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageSystemTimeCell.m; sourceTree = "<group>"; };
+		B7978D6218C5FFF200120E94 /* AXChatMessageTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageTextCell.h; sourceTree = "<group>"; };
+		B7978D6318C5FFF200120E94 /* AXChatMessageTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageTextCell.m; sourceTree = "<group>"; };
+		B7978D6418C5FFF200120E94 /* AXChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatViewController.h; sourceTree = "<group>"; };
+		B7978D6518C5FFF200120E94 /* AXChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatViewController.m; sourceTree = "<group>"; };
+		B7978D6618C5FFF200120E94 /* AXChatWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatWebViewController.h; sourceTree = "<group>"; };
+		B7978D6718C5FFF200120E94 /* AXChatWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatWebViewController.m; sourceTree = "<group>"; };
+		B7978D6818C5FFF200120E94 /* AXPhotoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPhotoManager.h; sourceTree = "<group>"; };
+		B7978D6918C5FFF200120E94 /* AXPhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPhotoManager.m; sourceTree = "<group>"; };
+		B7978D6A18C5FFF200120E94 /* AXPullToRefreshContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPullToRefreshContentView.h; sourceTree = "<group>"; };
+		B7978D6B18C5FFF200120E94 /* AXPullToRefreshContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPullToRefreshContentView.m; sourceTree = "<group>"; };
+		B7978D6C18C5FFF200120E94 /* AXPullToRefreshSimpleContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPullToRefreshSimpleContentView.h; sourceTree = "<group>"; };
+		B7978D6D18C5FFF200120E94 /* AXPullToRefreshSimpleContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPullToRefreshSimpleContentView.m; sourceTree = "<group>"; };
+		B7978D6E18C5FFF200120E94 /* AXPullToRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPullToRefreshView.h; sourceTree = "<group>"; };
+		B7978D6F18C5FFF200120E94 /* AXPullToRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPullToRefreshView.m; sourceTree = "<group>"; };
+		B7978D7118C5FFF200120E94 /* AXChatPhotoActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatPhotoActionSheet.h; sourceTree = "<group>"; };
+		B7978D7218C5FFF200120E94 /* AXChatPhotoActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatPhotoActionSheet.m; sourceTree = "<group>"; };
+		B7978D7318C5FFF200120E94 /* AXPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPhoto.h; sourceTree = "<group>"; };
+		B7978D7418C5FFF200120E94 /* AXPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPhoto.m; sourceTree = "<group>"; };
+		B7978D7518C5FFF200120E94 /* AXPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPhotoBrowser.h; sourceTree = "<group>"; };
+		B7978D7618C5FFF200120E94 /* AXPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPhotoBrowser.m; sourceTree = "<group>"; };
+		B7978D7718C5FFF200120E94 /* AXPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPhotoView.h; sourceTree = "<group>"; };
+		B7978D7818C5FFF200120E94 /* AXPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPhotoView.m; sourceTree = "<group>"; };
+		B7978D7A18C5FFF200120E94 /* AXELCAlbumPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAlbumPickerController.h; sourceTree = "<group>"; };
+		B7978D7B18C5FFF200120E94 /* AXELCAlbumPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXELCAlbumPickerController.m; sourceTree = "<group>"; };
+		B7978D7C18C5FFF200120E94 /* AXELCAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAsset.h; sourceTree = "<group>"; };
+		B7978D7D18C5FFF200120E94 /* AXELCAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXELCAsset.m; sourceTree = "<group>"; };
+		B7978D7E18C5FFF200120E94 /* AXELCAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAssetCell.h; sourceTree = "<group>"; };
+		B7978D7F18C5FFF200120E94 /* AXELCAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXELCAssetCell.m; sourceTree = "<group>"; };
+		B7978D8018C5FFF200120E94 /* AXELCAssetPickerFilterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAssetPickerFilterDelegate.h; sourceTree = "<group>"; };
+		B7978D8118C5FFF200120E94 /* AXELCAssetSelectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAssetSelectionDelegate.h; sourceTree = "<group>"; };
+		B7978D8218C5FFF200120E94 /* AXELCAssetTablePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAssetTablePicker.h; sourceTree = "<group>"; };
+		B7978D8318C5FFF200120E94 /* AXELCAssetTablePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXELCAssetTablePicker.m; sourceTree = "<group>"; };
+		B7978D8418C5FFF200120E94 /* AXELCImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCImagePickerController.h; sourceTree = "<group>"; };
+		B7978D8518C5FFF200120E94 /* AXELCImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXELCImagePickerController.m; sourceTree = "<group>"; };
+		B7978D8618C5FFF200120E94 /* AXUtil_UI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXUtil_UI.h; sourceTree = "<group>"; };
+		B7978D8718C5FFF200120E94 /* AXUtil_UI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXUtil_UI.m; sourceTree = "<group>"; };
+		B7978D8818C5FFF200120E94 /* NSString+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+AXChatMessage.h"; sourceTree = "<group>"; };
+		B7978D8918C5FFF200120E94 /* NSString+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AXChatMessage.m"; sourceTree = "<group>"; };
+		B7978D8A18C5FFF200120E94 /* UIColor+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+AXChatMessage.h"; sourceTree = "<group>"; };
+		B7978D8B18C5FFF200120E94 /* UIColor+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+AXChatMessage.m"; sourceTree = "<group>"; };
+		B7978D8C18C5FFF200120E94 /* UIFont+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+AXChatMessage.h"; sourceTree = "<group>"; };
+		B7978D8D18C5FFF200120E94 /* UIFont+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+AXChatMessage.m"; sourceTree = "<group>"; };
+		B7978D8E18C5FFF200120E94 /* UIImage+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+AXChatMessage.h"; sourceTree = "<group>"; };
+		B7978D8F18C5FFF200120E94 /* UIImage+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+AXChatMessage.m"; sourceTree = "<group>"; };
+		B7978D9018C5FFF200120E94 /* UIView+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AXChatMessage.h"; sourceTree = "<group>"; };
+		B7978D9118C5FFF200120E94 /* UIView+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AXChatMessage.m"; sourceTree = "<group>"; };
 		B7B2BF67188CC2C30001EEB8 /* anjuke_icon_saying@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_saying@2x.png"; sourceTree = "<group>"; };
 		B7B2BF68188CC2C30001EEB8 /* anjuke_icon_saying1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_saying1@2x.png"; sourceTree = "<group>"; };
 		B7B2BF69188CC2C30001EEB8 /* anjuke_icon_sound_button_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_sound_button_icon@2x.png"; sourceTree = "<group>"; };
@@ -973,68 +1038,6 @@
 		B7EF77B8183CE82D0024A5E6 /* RentNoPlanListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentNoPlanListCell.m; sourceTree = "<group>"; };
 		B7F6CB2B18C5739D0087953D /* AXChatMessageCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageCenter.h; sourceTree = "<group>"; };
 		B7F6CB2C18C5739D0087953D /* AXChatMessageCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageCenter.m; sourceTree = "<group>"; };
-		B7F6CB5918C5B8890087953D /* AXBigIMGSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXBigIMGSViewController.h; sourceTree = "<group>"; };
-		B7F6CB5A18C5B8890087953D /* AXBigIMGSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXBigIMGSViewController.m; sourceTree = "<group>"; };
-		B7F6CB5B18C5B8890087953D /* AXChatBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatBaseCell.h; sourceTree = "<group>"; };
-		B7F6CB5C18C5B8890087953D /* AXChatBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatBaseCell.m; sourceTree = "<group>"; };
-		B7F6CB5D18C5B8890087953D /* AXChatContentValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatContentValidator.h; sourceTree = "<group>"; };
-		B7F6CB5E18C5B8890087953D /* AXChatContentValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatContentValidator.m; sourceTree = "<group>"; };
-		B7F6CB5F18C5B8890087953D /* AXChatMessageImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageImageCell.h; sourceTree = "<group>"; };
-		B7F6CB6018C5B8890087953D /* AXChatMessageImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageImageCell.m; sourceTree = "<group>"; };
-		B7F6CB6118C5B8890087953D /* AXChatMessageNameCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageNameCardCell.h; sourceTree = "<group>"; };
-		B7F6CB6218C5B8890087953D /* AXChatMessageNameCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageNameCardCell.m; sourceTree = "<group>"; };
-		B7F6CB6318C5B8890087953D /* AXChatMessagePublicCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessagePublicCardCell.h; sourceTree = "<group>"; };
-		B7F6CB6418C5B8890087953D /* AXChatMessagePublicCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessagePublicCardCell.m; sourceTree = "<group>"; };
-		B7F6CB6518C5B8890087953D /* AXChatMessageRoomSourceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageRoomSourceCell.h; sourceTree = "<group>"; };
-		B7F6CB6618C5B8890087953D /* AXChatMessageRoomSourceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageRoomSourceCell.m; sourceTree = "<group>"; };
-		B7F6CB6718C5B8890087953D /* AXChatMessageRootCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageRootCell.h; sourceTree = "<group>"; };
-		B7F6CB6818C5B8890087953D /* AXChatMessageRootCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageRootCell.m; sourceTree = "<group>"; };
-		B7F6CB6918C5B8890087953D /* AXChatMessageSystemTimeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageSystemTimeCell.h; sourceTree = "<group>"; };
-		B7F6CB6A18C5B8890087953D /* AXChatMessageSystemTimeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageSystemTimeCell.m; sourceTree = "<group>"; };
-		B7F6CB6B18C5B8890087953D /* AXChatMessageTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageTextCell.h; sourceTree = "<group>"; };
-		B7F6CB6C18C5B8890087953D /* AXChatMessageTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageTextCell.m; sourceTree = "<group>"; };
-		B7F6CB6D18C5B8890087953D /* AXChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatViewController.h; sourceTree = "<group>"; };
-		B7F6CB6E18C5B8890087953D /* AXChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatViewController.m; sourceTree = "<group>"; };
-		B7F6CB6F18C5B8890087953D /* AXChatWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatWebViewController.h; sourceTree = "<group>"; };
-		B7F6CB7018C5B8890087953D /* AXChatWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatWebViewController.m; sourceTree = "<group>"; };
-		B7F6CB7118C5B8890087953D /* AXPhotoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPhotoManager.h; sourceTree = "<group>"; };
-		B7F6CB7218C5B8890087953D /* AXPhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPhotoManager.m; sourceTree = "<group>"; };
-		B7F6CB7318C5B8890087953D /* AXPullToRefreshContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPullToRefreshContentView.h; sourceTree = "<group>"; };
-		B7F6CB7418C5B88A0087953D /* AXPullToRefreshContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPullToRefreshContentView.m; sourceTree = "<group>"; };
-		B7F6CB7518C5B88A0087953D /* AXPullToRefreshSimpleContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPullToRefreshSimpleContentView.h; sourceTree = "<group>"; };
-		B7F6CB7618C5B88A0087953D /* AXPullToRefreshSimpleContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPullToRefreshSimpleContentView.m; sourceTree = "<group>"; };
-		B7F6CB7718C5B88A0087953D /* AXPullToRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPullToRefreshView.h; sourceTree = "<group>"; };
-		B7F6CB7818C5B88A0087953D /* AXPullToRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPullToRefreshView.m; sourceTree = "<group>"; };
-		B7F6CB7A18C5B88A0087953D /* AXPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPhoto.h; sourceTree = "<group>"; };
-		B7F6CB7B18C5B88A0087953D /* AXPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPhoto.m; sourceTree = "<group>"; };
-		B7F6CB7C18C5B88A0087953D /* AXPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPhotoBrowser.h; sourceTree = "<group>"; };
-		B7F6CB7D18C5B88A0087953D /* AXPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPhotoBrowser.m; sourceTree = "<group>"; };
-		B7F6CB7E18C5B88A0087953D /* AXPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPhotoView.h; sourceTree = "<group>"; };
-		B7F6CB7F18C5B88A0087953D /* AXPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPhotoView.m; sourceTree = "<group>"; };
-		B7F6CB8118C5B88A0087953D /* AXELCAlbumPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAlbumPickerController.h; sourceTree = "<group>"; };
-		B7F6CB8218C5B88A0087953D /* AXELCAlbumPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXELCAlbumPickerController.m; sourceTree = "<group>"; };
-		B7F6CB8318C5B88A0087953D /* AXELCAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAsset.h; sourceTree = "<group>"; };
-		B7F6CB8418C5B88A0087953D /* AXELCAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXELCAsset.m; sourceTree = "<group>"; };
-		B7F6CB8518C5B88A0087953D /* AXELCAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAssetCell.h; sourceTree = "<group>"; };
-		B7F6CB8618C5B88A0087953D /* AXELCAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXELCAssetCell.m; sourceTree = "<group>"; };
-		B7F6CB8718C5B88A0087953D /* AXELCAssetPickerFilterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAssetPickerFilterDelegate.h; sourceTree = "<group>"; };
-		B7F6CB8818C5B88A0087953D /* AXELCAssetSelectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAssetSelectionDelegate.h; sourceTree = "<group>"; };
-		B7F6CB8918C5B88A0087953D /* AXELCAssetTablePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAssetTablePicker.h; sourceTree = "<group>"; };
-		B7F6CB8A18C5B88A0087953D /* AXELCAssetTablePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXELCAssetTablePicker.m; sourceTree = "<group>"; };
-		B7F6CB8B18C5B88A0087953D /* AXELCImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCImagePickerController.h; sourceTree = "<group>"; };
-		B7F6CB8C18C5B88A0087953D /* AXELCImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXELCImagePickerController.m; sourceTree = "<group>"; };
-		B7F6CB8D18C5B88A0087953D /* AXUtil_UI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXUtil_UI.h; sourceTree = "<group>"; };
-		B7F6CB8E18C5B88A0087953D /* AXUtil_UI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXUtil_UI.m; sourceTree = "<group>"; };
-		B7F6CB8F18C5B88A0087953D /* NSString+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+AXChatMessage.h"; sourceTree = "<group>"; };
-		B7F6CB9018C5B88A0087953D /* NSString+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AXChatMessage.m"; sourceTree = "<group>"; };
-		B7F6CB9118C5B88A0087953D /* UIColor+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+AXChatMessage.h"; sourceTree = "<group>"; };
-		B7F6CB9218C5B88A0087953D /* UIColor+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+AXChatMessage.m"; sourceTree = "<group>"; };
-		B7F6CB9318C5B88A0087953D /* UIFont+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+AXChatMessage.h"; sourceTree = "<group>"; };
-		B7F6CB9418C5B88A0087953D /* UIFont+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+AXChatMessage.m"; sourceTree = "<group>"; };
-		B7F6CB9518C5B88A0087953D /* UIImage+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+AXChatMessage.h"; sourceTree = "<group>"; };
-		B7F6CB9618C5B88A0087953D /* UIImage+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+AXChatMessage.m"; sourceTree = "<group>"; };
-		B7F6CB9718C5B88A0087953D /* UIView+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AXChatMessage.h"; sourceTree = "<group>"; };
-		B7F6CB9818C5B88A0087953D /* UIView+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AXChatMessage.m"; sourceTree = "<group>"; };
 		B7FC9A4618C41B1300F77205 /* anjuke_icon_add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add@2x.png"; sourceTree = "<group>"; };
 		B7FC9A4718C41B1300F77205 /* anjuke_icon_add_esf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_esf@2x.png"; sourceTree = "<group>"; };
 		B7FC9A4818C41B1300F77205 /* anjuke_icon_add_more@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_more@2x.png"; sourceTree = "<group>"; };
@@ -2335,6 +2338,93 @@
 			path = AX;
 			sourceTree = "<group>";
 		};
+		B7978D4F18C5FFF200120E94 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				B7978D5018C5FFF200120E94 /* AXBigIMGSViewController.h */,
+				B7978D5118C5FFF200120E94 /* AXBigIMGSViewController.m */,
+				B7978D5218C5FFF200120E94 /* AXChatBaseCell.h */,
+				B7978D5318C5FFF200120E94 /* AXChatBaseCell.m */,
+				B7978D5418C5FFF200120E94 /* AXChatContentValidator.h */,
+				B7978D5518C5FFF200120E94 /* AXChatContentValidator.m */,
+				B7978D5618C5FFF200120E94 /* AXChatMessageImageCell.h */,
+				B7978D5718C5FFF200120E94 /* AXChatMessageImageCell.m */,
+				B7978D5818C5FFF200120E94 /* AXChatMessageNameCardCell.h */,
+				B7978D5918C5FFF200120E94 /* AXChatMessageNameCardCell.m */,
+				B7978D5A18C5FFF200120E94 /* AXChatMessagePublicCardCell.h */,
+				B7978D5B18C5FFF200120E94 /* AXChatMessagePublicCardCell.m */,
+				B7978D5C18C5FFF200120E94 /* AXChatMessageRoomSourceCell.h */,
+				B7978D5D18C5FFF200120E94 /* AXChatMessageRoomSourceCell.m */,
+				B7978D5E18C5FFF200120E94 /* AXChatMessageRootCell.h */,
+				B7978D5F18C5FFF200120E94 /* AXChatMessageRootCell.m */,
+				B7978D6018C5FFF200120E94 /* AXChatMessageSystemTimeCell.h */,
+				B7978D6118C5FFF200120E94 /* AXChatMessageSystemTimeCell.m */,
+				B7978D6218C5FFF200120E94 /* AXChatMessageTextCell.h */,
+				B7978D6318C5FFF200120E94 /* AXChatMessageTextCell.m */,
+				B7978D6418C5FFF200120E94 /* AXChatViewController.h */,
+				B7978D6518C5FFF200120E94 /* AXChatViewController.m */,
+				B7978D6618C5FFF200120E94 /* AXChatWebViewController.h */,
+				B7978D6718C5FFF200120E94 /* AXChatWebViewController.m */,
+				B7978D6818C5FFF200120E94 /* AXPhotoManager.h */,
+				B7978D6918C5FFF200120E94 /* AXPhotoManager.m */,
+				B7978D6A18C5FFF200120E94 /* AXPullToRefreshContentView.h */,
+				B7978D6B18C5FFF200120E94 /* AXPullToRefreshContentView.m */,
+				B7978D6C18C5FFF200120E94 /* AXPullToRefreshSimpleContentView.h */,
+				B7978D6D18C5FFF200120E94 /* AXPullToRefreshSimpleContentView.m */,
+				B7978D6E18C5FFF200120E94 /* AXPullToRefreshView.h */,
+				B7978D6F18C5FFF200120E94 /* AXPullToRefreshView.m */,
+				B7978D7018C5FFF200120E94 /* ImgBrowser */,
+				B7978D7918C5FFF200120E94 /* MutableIMG */,
+				B7978D8818C5FFF200120E94 /* NSString+AXChatMessage.h */,
+				B7978D8918C5FFF200120E94 /* NSString+AXChatMessage.m */,
+				B7978D8A18C5FFF200120E94 /* UIColor+AXChatMessage.h */,
+				B7978D8B18C5FFF200120E94 /* UIColor+AXChatMessage.m */,
+				B7978D8C18C5FFF200120E94 /* UIFont+AXChatMessage.h */,
+				B7978D8D18C5FFF200120E94 /* UIFont+AXChatMessage.m */,
+				B7978D8E18C5FFF200120E94 /* UIImage+AXChatMessage.h */,
+				B7978D8F18C5FFF200120E94 /* UIImage+AXChatMessage.m */,
+				B7978D9018C5FFF200120E94 /* UIView+AXChatMessage.h */,
+				B7978D9118C5FFF200120E94 /* UIView+AXChatMessage.m */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		B7978D7018C5FFF200120E94 /* ImgBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				B7978D7118C5FFF200120E94 /* AXChatPhotoActionSheet.h */,
+				B7978D7218C5FFF200120E94 /* AXChatPhotoActionSheet.m */,
+				B7978D7318C5FFF200120E94 /* AXPhoto.h */,
+				B7978D7418C5FFF200120E94 /* AXPhoto.m */,
+				B7978D7518C5FFF200120E94 /* AXPhotoBrowser.h */,
+				B7978D7618C5FFF200120E94 /* AXPhotoBrowser.m */,
+				B7978D7718C5FFF200120E94 /* AXPhotoView.h */,
+				B7978D7818C5FFF200120E94 /* AXPhotoView.m */,
+			);
+			path = ImgBrowser;
+			sourceTree = "<group>";
+		};
+		B7978D7918C5FFF200120E94 /* MutableIMG */ = {
+			isa = PBXGroup;
+			children = (
+				B7978D7A18C5FFF200120E94 /* AXELCAlbumPickerController.h */,
+				B7978D7B18C5FFF200120E94 /* AXELCAlbumPickerController.m */,
+				B7978D7C18C5FFF200120E94 /* AXELCAsset.h */,
+				B7978D7D18C5FFF200120E94 /* AXELCAsset.m */,
+				B7978D7E18C5FFF200120E94 /* AXELCAssetCell.h */,
+				B7978D7F18C5FFF200120E94 /* AXELCAssetCell.m */,
+				B7978D8018C5FFF200120E94 /* AXELCAssetPickerFilterDelegate.h */,
+				B7978D8118C5FFF200120E94 /* AXELCAssetSelectionDelegate.h */,
+				B7978D8218C5FFF200120E94 /* AXELCAssetTablePicker.h */,
+				B7978D8318C5FFF200120E94 /* AXELCAssetTablePicker.m */,
+				B7978D8418C5FFF200120E94 /* AXELCImagePickerController.h */,
+				B7978D8518C5FFF200120E94 /* AXELCImagePickerController.m */,
+				B7978D8618C5FFF200120E94 /* AXUtil_UI.h */,
+				B7978D8718C5FFF200120E94 /* AXUtil_UI.m */,
+			);
+			path = MutableIMG;
+			sourceTree = "<group>";
+		};
 		B7DC8075186C100400BE6AD0 /* CellHeight */ = {
 			isa = PBXGroup;
 			children = (
@@ -2363,95 +2453,10 @@
 			path = JSMessage;
 			sourceTree = "<group>";
 		};
-		B7F6CB5818C5B8890087953D /* libs */ = {
-			isa = PBXGroup;
-			children = (
-				B7F6CB5918C5B8890087953D /* AXBigIMGSViewController.h */,
-				B7F6CB5A18C5B8890087953D /* AXBigIMGSViewController.m */,
-				B7F6CB5B18C5B8890087953D /* AXChatBaseCell.h */,
-				B7F6CB5C18C5B8890087953D /* AXChatBaseCell.m */,
-				B7F6CB5D18C5B8890087953D /* AXChatContentValidator.h */,
-				B7F6CB5E18C5B8890087953D /* AXChatContentValidator.m */,
-				B7F6CB5F18C5B8890087953D /* AXChatMessageImageCell.h */,
-				B7F6CB6018C5B8890087953D /* AXChatMessageImageCell.m */,
-				B7F6CB6118C5B8890087953D /* AXChatMessageNameCardCell.h */,
-				B7F6CB6218C5B8890087953D /* AXChatMessageNameCardCell.m */,
-				B7F6CB6318C5B8890087953D /* AXChatMessagePublicCardCell.h */,
-				B7F6CB6418C5B8890087953D /* AXChatMessagePublicCardCell.m */,
-				B7F6CB6518C5B8890087953D /* AXChatMessageRoomSourceCell.h */,
-				B7F6CB6618C5B8890087953D /* AXChatMessageRoomSourceCell.m */,
-				B7F6CB6718C5B8890087953D /* AXChatMessageRootCell.h */,
-				B7F6CB6818C5B8890087953D /* AXChatMessageRootCell.m */,
-				B7F6CB6918C5B8890087953D /* AXChatMessageSystemTimeCell.h */,
-				B7F6CB6A18C5B8890087953D /* AXChatMessageSystemTimeCell.m */,
-				B7F6CB6B18C5B8890087953D /* AXChatMessageTextCell.h */,
-				B7F6CB6C18C5B8890087953D /* AXChatMessageTextCell.m */,
-				B7F6CB6D18C5B8890087953D /* AXChatViewController.h */,
-				B7F6CB6E18C5B8890087953D /* AXChatViewController.m */,
-				B7F6CB6F18C5B8890087953D /* AXChatWebViewController.h */,
-				B7F6CB7018C5B8890087953D /* AXChatWebViewController.m */,
-				B7F6CB7118C5B8890087953D /* AXPhotoManager.h */,
-				B7F6CB7218C5B8890087953D /* AXPhotoManager.m */,
-				B7F6CB7318C5B8890087953D /* AXPullToRefreshContentView.h */,
-				B7F6CB7418C5B88A0087953D /* AXPullToRefreshContentView.m */,
-				B7F6CB7518C5B88A0087953D /* AXPullToRefreshSimpleContentView.h */,
-				B7F6CB7618C5B88A0087953D /* AXPullToRefreshSimpleContentView.m */,
-				B7F6CB7718C5B88A0087953D /* AXPullToRefreshView.h */,
-				B7F6CB7818C5B88A0087953D /* AXPullToRefreshView.m */,
-				B7F6CB7918C5B88A0087953D /* ImgBrowser */,
-				B7F6CB8018C5B88A0087953D /* MutableIMG */,
-				B7F6CB8F18C5B88A0087953D /* NSString+AXChatMessage.h */,
-				B7F6CB9018C5B88A0087953D /* NSString+AXChatMessage.m */,
-				B7F6CB9118C5B88A0087953D /* UIColor+AXChatMessage.h */,
-				B7F6CB9218C5B88A0087953D /* UIColor+AXChatMessage.m */,
-				B7F6CB9318C5B88A0087953D /* UIFont+AXChatMessage.h */,
-				B7F6CB9418C5B88A0087953D /* UIFont+AXChatMessage.m */,
-				B7F6CB9518C5B88A0087953D /* UIImage+AXChatMessage.h */,
-				B7F6CB9618C5B88A0087953D /* UIImage+AXChatMessage.m */,
-				B7F6CB9718C5B88A0087953D /* UIView+AXChatMessage.h */,
-				B7F6CB9818C5B88A0087953D /* UIView+AXChatMessage.m */,
-			);
-			path = libs;
-			sourceTree = "<group>";
-		};
-		B7F6CB7918C5B88A0087953D /* ImgBrowser */ = {
-			isa = PBXGroup;
-			children = (
-				B7F6CB7A18C5B88A0087953D /* AXPhoto.h */,
-				B7F6CB7B18C5B88A0087953D /* AXPhoto.m */,
-				B7F6CB7C18C5B88A0087953D /* AXPhotoBrowser.h */,
-				B7F6CB7D18C5B88A0087953D /* AXPhotoBrowser.m */,
-				B7F6CB7E18C5B88A0087953D /* AXPhotoView.h */,
-				B7F6CB7F18C5B88A0087953D /* AXPhotoView.m */,
-			);
-			path = ImgBrowser;
-			sourceTree = "<group>";
-		};
-		B7F6CB8018C5B88A0087953D /* MutableIMG */ = {
-			isa = PBXGroup;
-			children = (
-				B7F6CB8118C5B88A0087953D /* AXELCAlbumPickerController.h */,
-				B7F6CB8218C5B88A0087953D /* AXELCAlbumPickerController.m */,
-				B7F6CB8318C5B88A0087953D /* AXELCAsset.h */,
-				B7F6CB8418C5B88A0087953D /* AXELCAsset.m */,
-				B7F6CB8518C5B88A0087953D /* AXELCAssetCell.h */,
-				B7F6CB8618C5B88A0087953D /* AXELCAssetCell.m */,
-				B7F6CB8718C5B88A0087953D /* AXELCAssetPickerFilterDelegate.h */,
-				B7F6CB8818C5B88A0087953D /* AXELCAssetSelectionDelegate.h */,
-				B7F6CB8918C5B88A0087953D /* AXELCAssetTablePicker.h */,
-				B7F6CB8A18C5B88A0087953D /* AXELCAssetTablePicker.m */,
-				B7F6CB8B18C5B88A0087953D /* AXELCImagePickerController.h */,
-				B7F6CB8C18C5B88A0087953D /* AXELCImagePickerController.m */,
-				B7F6CB8D18C5B88A0087953D /* AXUtil_UI.h */,
-				B7F6CB8E18C5B88A0087953D /* AXUtil_UI.m */,
-			);
-			path = MutableIMG;
-			sourceTree = "<group>";
-		};
 		B7FC9A4318C41B1300F77205 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				B7F6CB5818C5B8890087953D /* libs */,
+				B7978D4F18C5FFF200120E94 /* libs */,
 				B7FC9B9F18C4355100F77205 /* AXCellFactory.h */,
 				B7FC9BA018C4355100F77205 /* AXCellFactory.m */,
 				B7FC9A4418C41B1300F77205 /* Images */,
@@ -2892,17 +2897,16 @@
 				B769E445181F462C00A2FF50 /* SaleFixedDetailController.m in Sources */,
 				2039E58F18C4286F003ED781 /* AXMessageManager.m in Sources */,
 				20A2182618BF2A9D002CA469 /* AXMessageCenterReceiveMessageManager.m in Sources */,
-				B7F6CBB418C5B88A0087953D /* UIFont+AXChatMessage.m in Sources */,
 				B7FC9B3418C4204C00F77205 /* UIImage+RTStyle.m in Sources */,
 				97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */,
-				B7F6CBA918C5B88A0087953D /* AXPhoto.m in Sources */,
 				B7FC9B2818C41F5100F77205 /* RTLineView.m in Sources */,
 				B7E56D0B183DABD300A0F7D2 /* AnjukePropertyResultController.m in Sources */,
 				B7E69BBE183B5B000097D5C3 /* SaleGroupListController.m in Sources */,
 				20A2181F18BF2A9D002CA469 /* XChatData.xcdatamodeld in Sources */,
 				97A606811816C2A50041B367 /* InputOrderManager.m in Sources */,
 				97ACD09C1843357E00D88CB6 /* AccountManager.m in Sources */,
-				B7F6CBA518C5B88A0087953D /* AXPhotoManager.m in Sources */,
+				B7978DAC18C5FFF200120E94 /* NSString+AXChatMessage.m in Sources */,
+				B7978D9E18C5FFF200120E94 /* AXPhotoManager.m in Sources */,
 				20A2182818BF2A9D002CA469 /* AXMessageCenterSendMessageManager.m in Sources */,
 				B7FC9B3718C4206600F77205 /* NSString+RTStyle.m in Sources */,
 				203EC2B618B34A4200DD0840 /* MessageListCell.m in Sources */,
@@ -2916,47 +2920,47 @@
 				B7E56D0F183DBAD600A0F7D2 /* AnjukeOnlineImgController.m in Sources */,
 				B769E46C181F76A600A2FF50 /* BaseBidPlanController.m in Sources */,
 				972DDA301826D39500263F8F /* RTPopoverTableViewController.m in Sources */,
-				B7F6CB9F18C5B88A0087953D /* AXChatMessageRoomSourceCell.m in Sources */,
+				B7978D9818C5FFF200120E94 /* AXChatMessageRoomSourceCell.m in Sources */,
 				B7921A2F18BBA2000021933A /* BrokerChatViewController.m in Sources */,
-				B7F6CBA318C5B88A0087953D /* AXChatViewController.m in Sources */,
+				B7978D9C18C5FFF200120E94 /* AXChatViewController.m in Sources */,
 				97C6870F183A2BF100F449BD /* PropertyAuctionPublishViewController.m in Sources */,
 				972C10321814FDC400552C9B /* MoreViewController.m in Sources */,
 				B7210952182785A400904FC7 /* RentFixedCell.m in Sources */,
-				B7F6CBAF18C5B88A0087953D /* AXELCAssetTablePicker.m in Sources */,
 				972F70DE1844C7660010CABB /* BrokerLogger.m in Sources */,
 				B7E69BC4183B9CEE0097D5C3 /* RentBidNoPlanController.m in Sources */,
-				B7F6CBAE18C5B88A0087953D /* AXELCAssetCell.m in Sources */,
+				B7978DAE18C5FFF200120E94 /* UIFont+AXChatMessage.m in Sources */,
 				B7E55B4D18BF2190007238CB /* JSDismissiveTextView.m in Sources */,
-				B7F6CBAC18C5B88A0087953D /* AXELCAlbumPickerController.m in Sources */,
+				B7978DA518C5FFF200120E94 /* AXPhotoView.m in Sources */,
 				20A217DF18BF2756002CA469 /* ClientDetailPublicViewController.m in Sources */,
 				B7E803F31820F24400775C6F /* SaleNoPlanListCell.m in Sources */,
 				B70323DC1832115B00DFDB1C /* BaseGroupListController.m in Sources */,
 				204E66CF1894E7DB00546D51 /* PublishBigImageViewController.m in Sources */,
-				B7F6CB9E18C5B88A0087953D /* AXChatMessagePublicCardCell.m in Sources */,
+				B7978D9718C5FFF200120E94 /* AXChatMessagePublicCardCell.m in Sources */,
 				20A2181918BF2A9D002CA469 /* AXConversationListItem.m in Sources */,
-				B7F6CBB618C5B88A0087953D /* UIView+AXChatMessage.m in Sources */,
 				975E7ED01829EDC7008EBC1D /* WebImageView.m in Sources */,
 				B7EF77B5183CE2D90024A5E6 /* RentSelectNoPlanController.m in Sources */,
 				20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */,
+				B7978DA318C5FFF200120E94 /* AXPhoto.m in Sources */,
 				200915E81893FC1000A13115 /* E_Photo.m in Sources */,
 				970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */,
 				B7FC9B2E18C41F9C00F77205 /* UIColor+RT.m in Sources */,
 				B7E55B5018BF2190007238CB /* NSString+JSMessagesView.m in Sources */,
 				2026044C18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.m in Sources */,
-				B7F6CB9918C5B88A0087953D /* AXBigIMGSViewController.m in Sources */,
+				B7978D9218C5FFF200120E94 /* AXBigIMGSViewController.m in Sources */,
 				975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */,
 				20A2182918BF2A9D002CA469 /* AXMessageCenterUpdataPasswordManager.m in Sources */,
 				200ACA4718B6F77000FAC740 /* Broker_InputEditView.m in Sources */,
-				B7F6CB9C18C5B88A0087953D /* AXChatMessageImageCell.m in Sources */,
+				B7978D9518C5FFF200120E94 /* AXChatMessageImageCell.m in Sources */,
 				B721095B1827976500904FC7 /* RentNoPlanController.m in Sources */,
 				B7E69BB8183B4C300097D5C3 /* ModifyRentCostController.m in Sources */,
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,
 				20A2181E18BF2A9D002CA469 /* AXMappedPerson.m in Sources */,
 				97CB0C10182BEA3500FCCBBD /* ELCImagePickerController.m in Sources */,
+				B7978DA218C5FFF200120E94 /* AXChatPhotoActionSheet.m in Sources */,
+				B7978DA418C5FFF200120E94 /* AXPhotoBrowser.m in Sources */,
 				20A2181C18BF2A9D002CA469 /* AXMappedConversationListItem.m in Sources */,
 				B7E69BAE183B15430097D5C3 /* RentPPCGroupCell.m in Sources */,
 				20A2178818BF1804002CA469 /* HouseSelectViewController.m in Sources */,
-				B7F6CBAA18C5B88A0087953D /* AXPhotoBrowser.m in Sources */,
 				20578B9F1898ABCC0086B93D /* PropertyEditViewController.m in Sources */,
 				2079ADE118B5DB690029D493 /* ClientDetailCell.m in Sources */,
 				B769E469181F680D00A2FF50 /* PropertyDetailCell.m in Sources */,
@@ -2975,11 +2979,9 @@
 				B7E69BC1183B63480097D5C3 /* RentAuctionViewController.m in Sources */,
 				207526BE18B45FE10022220C /* SWUtilityButtonView.m in Sources */,
 				B769E45D181F54DE00A2FF50 /* BasePropertyObject.m in Sources */,
-				B7F6CBB218C5B88A0087953D /* NSString+AXChatMessage.m in Sources */,
 				20A44DA31869760B008D8CB1 /* SSPullToRefreshView.m in Sources */,
 				B7E69BB5183B3B040097D5C3 /* RentGroupListController.m in Sources */,
 				97CD8D44180E6D6E00185C9D /* RTViewController.m in Sources */,
-				B7F6CBB118C5B88A0087953D /* AXUtil_UI.m in Sources */,
 				974E5C89181E4B00000246D1 /* AnjukeEditableTV_DataSource.m in Sources */,
 				976D9354183CC69100C9571B /* ConfigPlistManager.m in Sources */,
 				B79084F6182B42AE00B2A870 /* SaleFixedGroupObject.m in Sources */,
@@ -2992,11 +2994,11 @@
 				B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */,
 				20A2182A18BF2A9D002CA469 /* AXMessageCenterUpdataUserInformationManager.m in Sources */,
 				20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */,
-				B7F6CBA018C5B88A0087953D /* AXChatMessageRootCell.m in Sources */,
+				B7978D9918C5FFF200120E94 /* AXChatMessageRootCell.m in Sources */,
 				97CB0C0E182BEA3500FCCBBD /* ELCAssetCell.m in Sources */,
 				B769E472181F805F00A2FF50 /* BaseBidDetailController.m in Sources */,
-				B7F6CBAB18C5B88A0087953D /* AXPhotoView.m in Sources */,
 				B769E48C181FA89000A2FF50 /* PPCGroupCell.m in Sources */,
+				B7978DAA18C5FFF200120E94 /* AXELCImagePickerController.m in Sources */,
 				20A2182418BF2A9D002CA469 /* AXMessageCenterGetUserOldMessageManager.m in Sources */,
 				B7E69BBB183B4DDB0097D5C3 /* BaseModifyCostController.m in Sources */,
 				20A2178518BF1804002CA469 /* CommunitySelectViewController.m in Sources */,
@@ -3005,19 +3007,22 @@
 				B702BA4518921752002E2DC7 /* FindPropertyCell.m in Sources */,
 				972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */,
 				974E5C82181E4210000246D1 /* AnjukeEditableCell.m in Sources */,
+				B7978DB018C5FFF200120E94 /* UIView+AXChatMessage.m in Sources */,
 				B769E463181F629B00A2FF50 /* BasePropertyDetailController.m in Sources */,
-				B7F6CBA718C5B88A0087953D /* AXPullToRefreshSimpleContentView.m in Sources */,
-				B7F6CB9B18C5B88A0087953D /* AXChatContentValidator.m in Sources */,
+				B7978DA018C5FFF200120E94 /* AXPullToRefreshSimpleContentView.m in Sources */,
+				B7978D9418C5FFF200120E94 /* AXChatContentValidator.m in Sources */,
+				B7978DA918C5FFF200120E94 /* AXELCAssetTablePicker.m in Sources */,
 				20A44DA11869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m in Sources */,
 				9795835D1822014A005EA48A /* SystemMessageCell.m in Sources */,
 				972DDA2A1826A4CA00263F8F /* RTNavigationController.m in Sources */,
+				B7978DA718C5FFF200120E94 /* AXELCAsset.m in Sources */,
 				20A44DB01869799F008D8CB1 /* EGORefreshTableHeaderView.m in Sources */,
 				B7FC9B2B18C41F6500F77205 /* RTUISetting.m in Sources */,
 				B769E453181F4D0100A2FF50 /* SaleFixedCell.m in Sources */,
 				970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */,
 				208A05EA18A413620053D885 /* PublishHouseTypeEditViewController.m in Sources */,
 				972C10291814FCD300552C9B /* HomeViewController.m in Sources */,
-				B7F6CBA618C5B88A0087953D /* AXPullToRefreshContentView.m in Sources */,
+				B7978D9F18C5FFF200120E94 /* AXPullToRefreshContentView.m in Sources */,
 				977FCA9D1828FAD700945FB4 /* LoginManager.m in Sources */,
 				20A2182118BF2A9D002CA469 /* AXMessageCenterDeleteFriendManager.m in Sources */,
 				2063C2651890ADB20043C739 /* PublishHouseTypeViewController.m in Sources */,
@@ -3026,15 +3031,17 @@
 				97B422601820E38200A2E9E6 /* PropertyResultListViewController.m in Sources */,
 				B769E484181F8F7000A2FF50 /* BasePropertyListController.m in Sources */,
 				B769E45A181F547100A2FF50 /* BasePropertyListCell.m in Sources */,
-				B7F6CBA818C5B88A0087953D /* AXPullToRefreshView.m in Sources */,
+				B7978DA118C5FFF200120E94 /* AXPullToRefreshView.m in Sources */,
 				200915EB1893FC1100A13115 /* Property.m in Sources */,
 				207526BB18B45FE10022220C /* SWLongPressGestureRecognizer.m in Sources */,
-				B7F6CBA418C5B88A0087953D /* AXChatWebViewController.m in Sources */,
+				B7978D9D18C5FFF200120E94 /* AXChatWebViewController.m in Sources */,
 				B769E460181F5F1200A2FF50 /* ModifyFixedCostController.m in Sources */,
 				2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */,
 				203EC29B18B2F65400DD0840 /* ClientListViewController.m in Sources */,
+				B7978DA818C5FFF200120E94 /* AXELCAssetCell.m in Sources */,
 				B7E69BB2183B26A90097D5C3 /* RentBidPropertyCell.m in Sources */,
 				97CB0C18182BEFFC00FCCBBD /* MBProgressHUD.m in Sources */,
+				B7978DAB18C5FFF200120E94 /* AXUtil_UI.m in Sources */,
 				B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */,
 				97CB0C0C182BEA3500FCCBBD /* ELCAlbumPickerController.m in Sources */,
 				B7EA1FC2183A437500438CF8 /* SaleAuctionViewController.m in Sources */,
@@ -3062,19 +3069,17 @@
 				2011CD8218AB1D5300EEEA5C /* SystemMessageDetailViewController.m in Sources */,
 				B721095518278B4E00904FC7 /* SalePropertyListCell.m in Sources */,
 				2026044818B9D6CA00F75A56 /* ClientModel.m in Sources */,
-				B7F6CB9D18C5B88A0087953D /* AXChatMessageNameCardCell.m in Sources */,
+				B7978D9618C5FFF200120E94 /* AXChatMessageNameCardCell.m in Sources */,
 				20A2178618BF1804002CA469 /* HouseSelectCommunityCell.m in Sources */,
-				B7F6CBB518C5B88A0087953D /* UIImage+AXChatMessage.m in Sources */,
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
 				2079ADDE18B5D64B0029D493 /* ClientEditViewController.m in Sources */,
-				B7F6CB9A18C5B88A0087953D /* AXChatBaseCell.m in Sources */,
+				B7978D9318C5FFF200120E94 /* AXChatBaseCell.m in Sources */,
 				97DFA98A184C7C01002D6B82 /* AnjukeEditTextViewController.m in Sources */,
 				97DED8AD18234BB100D0B82A /* MoreListCell.m in Sources */,
 				B76E5977181E5676005B6A8C /* BaseNoPlanController.m in Sources */,
-				B7F6CBB018C5B88A0087953D /* AXELCImagePickerController.m in Sources */,
 				B7EA04AA1844DB3700AC8842 /* BrokerAccountCell.m in Sources */,
 				207526C118B4658A0022220C /* ClientListCell.m in Sources */,
-				B7F6CBA218C5B88A0087953D /* AXChatMessageTextCell.m in Sources */,
+				B7978D9B18C5FFF200120E94 /* AXChatMessageTextCell.m in Sources */,
 				9751860218320D5F00C9A40A /* PhotoManager.m in Sources */,
 				97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */,
 				979B083B18488A2800DD697E /* BigZhenzhenButton.m in Sources */,
@@ -3087,21 +3092,22 @@
 				B721094B18277CE100904FC7 /* RentFixedDetailController.m in Sources */,
 				B7DC8079186C115800BE6AD0 /* CellHeight.m in Sources */,
 				974E5C7F181E417F000246D1 /* RTListCell.m in Sources */,
+				B7978DAD18C5FFF200120E94 /* UIColor+AXChatMessage.m in Sources */,
 				B7E55B4E18BF2190007238CB /* JSMessageInputView.m in Sources */,
 				97EF868C1841EACE00315E75 /* SimpleKeyboardToolBar.m in Sources */,
-				B7F6CBAD18C5B88A0087953D /* AXELCAsset.m in Sources */,
 				203EC29818B2F61A00DD0840 /* MessageListViewController.m in Sources */,
-				B7F6CBB318C5B88A0087953D /* UIColor+AXChatMessage.m in Sources */,
 				20A2182318BF2A9D002CA469 /* AXMessageCenterGetFriendInfoManager.m in Sources */,
-				B7F6CBA118C5B88A0087953D /* AXChatMessageSystemTimeCell.m in Sources */,
+				B7978D9A18C5FFF200120E94 /* AXChatMessageSystemTimeCell.m in Sources */,
 				B7F6CB2D18C5739D0087953D /* AXChatMessageCenter.m in Sources */,
 				97192EE71818FEF7007971BA /* PhotoButton.m in Sources */,
 				B7E55B5218BF2190007238CB /* UIImage+JSMessagesView.m in Sources */,
 				20A2178918BF1804002CA469 /* PropertySelectViewController.m in Sources */,
+				B7978DA618C5FFF200120E94 /* AXELCAlbumPickerController.m in Sources */,
 				20A2178718BF1804002CA469 /* HouseSelectNavigationController.m in Sources */,
 				97C97B461810DD34006E538B /* TabBarViewController.m in Sources */,
 				20D3C24C1892466B0030D7D8 /* PhotoFooterView.m in Sources */,
 				207526BD18B45FE10022220C /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
+				B7978DAF18C5FFF200120E94 /* UIImage+AXChatMessage.m in Sources */,
 				B7EF148E18289CB7000B6016 /* RentBidDetailController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,6 +10,7 @@
 #import "AXChatMessageSystemTimeCell.h"
 #import "AXELCImagePickerController.h"
 #import "AXConversationListItem.h"
+#import "AXChatMessageCenter.h"
 
 #define AXWINDOWWHIDTH [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.width
 #define AXWINDOWHEIGHT [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height
@@ -31,10 +32,10 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 @property (nonatomic, strong) NSDictionary *propDict;
 @property (nonatomic) BOOL needSendProp;
 @property (nonatomic, strong) AXMappedConversationListItem *conversationListItem;
-@property (nonatomic, strong) void (^finishSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status);
-@property (nonatomic, strong) void (^finishReSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status);
+@property (nonatomic, strong) void (^finishSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status,AXMessageCenterSendMessageErrorTypeCode errorCode);
+@property (nonatomic, strong) void (^finishReSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status,AXMessageCenterSendMessageErrorTypeCode errorCode);
 
-@property (nonatomic, strong) NSString *uid;
+@property (nonatomic, copy) NSString *uid;
 @property (nonatomic, strong) AXMappedPerson *friendPerson;
 
 - (BOOL)checkUserLogin;
@@ -43,5 +44,6 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 - (void)sendPropMessage;
 - (void)goBrokerPage:(id)sender;
 - (void)sendSystemMessage:(AXMessageType)type;
+- (void)reloadUnReadNum:(NSInteger)num;
 
 @end

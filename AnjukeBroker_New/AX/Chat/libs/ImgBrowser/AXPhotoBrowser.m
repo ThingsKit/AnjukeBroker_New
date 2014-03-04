@@ -10,6 +10,7 @@
 #import "AXPhotoView.h"
 #import "AXMessage.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
+#import "AXChatPhotoActionSheet.h"
 
 #define kPadding 10
 #define kPhotoViewTagOffset 1000
@@ -264,17 +265,15 @@
 }
 #pragma mark - privateMethods
 - (void)rightBarClick:(id)sender {
-    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"保存", nil];
-    
-    [action showInView:self.view];
-}
-#pragma mark - UIActionSheetDelegate
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
-        if (((AXPhoto *)[_photos objectAtIndex:_currentPhotoIndex]).image) {
-            UIImageWriteToSavedPhotosAlbum(((AXPhoto *)[_photos objectAtIndex:_currentPhotoIndex]).image,nil ,nil, nil);
+    AXChatPhotoActionSheet *actionSheet = [[AXChatPhotoActionSheet alloc] init];
+    [actionSheet showWithBlock:^(NSUInteger index) {
+        if (index) {
+            if (((AXPhoto *)[_photos objectAtIndex:_currentPhotoIndex]).image) {
+                UIImageWriteToSavedPhotosAlbum(((AXPhoto *)[_photos objectAtIndex:_currentPhotoIndex]).image, nil, nil,nil);
+            }
+            [self showInfo:@"已保存到手机相册" autoHidden:YES];
         }
-    }
+    }];
 }
 
 @end

@@ -16,7 +16,7 @@
     NSDictionary *data = [content JSONValue];
     if (data && [data isKindOfClass:[NSDictionary class]]) {
         // 以后添加版本区分
-        if (data[@"des"] && data[@"img"] && data[@"name"] && data[@"price"] && data[@"url"] && data[@"tradeType"]) {
+        if (data[@"des"] && data[@"img"] && data[@"img"] && data[@"name"] && data[@"price"] && data[@"url"] && data[@"tradeType"]) {
             return YES;
         }
     }

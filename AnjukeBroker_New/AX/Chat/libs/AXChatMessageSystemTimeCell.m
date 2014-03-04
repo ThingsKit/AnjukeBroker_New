@@ -7,7 +7,6 @@
 //
 
 #import "AXChatMessageSystemTimeCell.h"
-#import "NSString+AXChatMessage.h"
 
 static CGFloat const userLeftMargin = 10.0f;
 static CGFloat const brokerLeftMargin = 10.0f;

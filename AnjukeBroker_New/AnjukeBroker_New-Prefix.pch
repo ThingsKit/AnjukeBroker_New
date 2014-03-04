@@ -19,6 +19,7 @@
     #import <CoreData/CoreData.h>
 #import "RTNetwork.h"
 #import "RTCoreService.h"
+#import "UIColor+RT.h"
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
