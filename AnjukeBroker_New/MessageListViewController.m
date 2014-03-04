@@ -10,7 +10,7 @@
 #import "MessageListCell.h"
 #import "BrokerChatViewController.h"
 #import "AXConversationListItem.h"
-
+#import "ClientListViewController.h"
 #import "BrokerChatViewController.h"
 #import "AppManager.h"
 #import "AppDelegate.h"
@@ -100,11 +100,10 @@
 
 //test
 - (void)rightButtonAction:(id)sender {
-//    BrokerChatViewController *av = [[BrokerChatViewController alloc] init];
-//    av.isBroker = YES;
-//    av.uid = [LoginManager getChatID];
-//    [av setHidesBottomBarWhenPushed:YES];
-//    [self.navigationController pushViewController:av animated:YES];
+    ClientListViewController *ml = [[ClientListViewController alloc] init];
+    ml.isForMessageList = YES;
+    [ml setHidesBottomBarWhenPushed:YES];
+    [self.navigationController pushViewController:ml animated:YES];
 }
 
 #pragma mark - Private Method

@@ -11,4 +11,6 @@
 
 @interface ClientListViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate>
 
+@property BOOL isForMessageList; //是否是消息列表+号调用，是则修改tableView frame和点击事件
+
 @end

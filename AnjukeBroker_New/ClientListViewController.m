@@ -12,6 +12,7 @@
 #import "Util_UI.h"
 #import "AXChatMessageCenter.h"
 #import "AXMappedPerson.h"
+#import "BrokerChatViewController.h"
 
 @interface ClientListViewController ()
 
@@ -95,6 +96,9 @@
 //    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:tv];
     
+    if (self.isForMessageList) {
+        self.tableViewList.frame = FRAME_WITH_NAV;
+    }
 }
 
 - (void)redrawList {
@@ -265,10 +269,19 @@
     if (indexPath.section == 0) { //公共账号显示
         item = [self.publicDataArr objectAtIndex:indexPath.row];
         
-        ClientDetailPublicViewController *cd = [[ClientDetailPublicViewController alloc] init];
-        cd.person = item;
-        [cd setHidesBottomBarWhenPushed:YES];
-        [self.navigationController pushViewController:cd animated:YES];
+        if (self.isForMessageList) {
+            BrokerChatViewController *controller = [[BrokerChatViewController alloc] init];
+            controller.isBroker = YES;
+            controller.uid = item.uid;
+            [controller setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:controller animated:YES];
+        }
+        else {
+            ClientDetailPublicViewController *cd = [[ClientDetailPublicViewController alloc] init];
+            cd.person = item;
+            [cd setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:cd animated:YES];
+        }
     }
     if (indexPath.section > 0) {
         if (indexPath.section == 1) { //星标用户
@@ -277,11 +290,19 @@
         else if (indexPath.section == 2) //全部用户
             item = [self.allDataArr objectAtIndex:indexPath.row];
         
-        ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
-        cd.person = item;
-        [cd setHidesBottomBarWhenPushed:YES];
-        [self.navigationController pushViewController:cd animated:YES];
-
+        if (self.isForMessageList) {
+            BrokerChatViewController *controller = [[BrokerChatViewController alloc] init];
+            controller.isBroker = YES;
+            controller.uid = item.uid;
+            [controller setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:controller animated:YES];
+        }
+        else {
+            ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
+            cd.person = item;
+            [cd setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:cd animated:YES];
+        }
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
