@@ -41,6 +41,9 @@
 	// Do any additional setup after loading the view.
     
     [self setTitleViewWithString:@"微聊"];
+    
+    // Do any additional setup after loading the view.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageCenterDidInitedDataCenter:) name:MessageCenterDidInitedDataCenter object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -67,6 +70,8 @@
         if (![_sessionFetchedResultsController performFetch:&error]) {
             DLog(@"%@",error);
         }
+        
+        [self resetMessageValue];
     }
     return _sessionFetchedResultsController;
 }
@@ -110,16 +115,6 @@
 
 - (void)resetMessageValue {
     //得到所有的消息提醒数
-//    int count = 0;
-//    for (int i = 0; i < [[self.sessionFetchedResultsController fetchedObjects] count]; i ++) {
-//        AXMappedConversationListItem *item = [[self.sessionFetchedResultsController fetchedObjects] objectAtIndex:i];
-//        count += [item.count intValue];
-//    }
-//    
-//    if (count > 0) {
-//        [[AppDelegate sharedAppDelegate] showMessageValueWithStr:count];
-//    }
-    
     NSInteger count = [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
     if (count) {
         self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",count];
@@ -264,6 +259,13 @@
     [self hideLoadWithAnimated:YES];
     
     [self resetMessageValue];
+}
+
+#pragma mark - notification receive
+- (void)messageCenterDidInitedDataCenter:(NSNotification *)notification
+{
+    self.sessionFetchedResultsController = nil;
+    [self.tableViewList reloadData];
 }
 
 @end
