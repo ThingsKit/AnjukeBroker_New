@@ -120,7 +120,7 @@
              // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
-        } 
+        }
     }
 }
 
@@ -205,11 +205,11 @@
     if ([LoginManager getChatID].length > 0 && [LoginManager getChatToken].length > 0 && [LoginManager getToken].length > 0) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGIN_NOTIFICATION" object:nil];
     }
+    [[AccountManager sharedInstance] registerNotification];
 }
 
 - (void)killLongLinkForChat {
-    [[AXChatMessageCenter defaultMessageCenter] userLoginOut];
-    [[AccountManager sharedInstance] registerNotification];
+    [[AXChatMessageCenter defaultMessageCenter] userLoginOut]; //断开长链接方式
 }
 
 #pragma mark - Register Method
@@ -401,7 +401,9 @@
 - (void)doLogOut {
     //    [self.window.rootViewController.navigationController popToRootViewControllerAnimated:YES];
     
+    //退出登录：1.清空用户数据、2.断开长链接、3.推送API重新call（chatID为0传递）
     [self.loginVC doLogOut];
+    [self killLongLinkForChat];
     [[AccountManager sharedInstance] cleanNotificationForLoginOut]; //退出登录（微聊）时，告之服务端
 }
 

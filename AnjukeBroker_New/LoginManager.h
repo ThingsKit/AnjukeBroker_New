@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define USER_DEFAULT_KEY_AXCHATMC_USE @"anjuke_chat_login_info"
+
 @interface LoginManager : NSObject
 
 + (BOOL)isLogin; //登录状态判断

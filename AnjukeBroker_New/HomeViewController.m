@@ -427,7 +427,7 @@
 - (void)requestLongLink {
     //******兼容安居客team得到userInfoDic并设置NSUserDefaults，以帮助底层通过对应路径获取相应数据******
     NSDictionary *dic = [LoginManager getFuckingChatUserDicJustForAnjukeTeam];
-    [[NSUserDefaults standardUserDefaults] setValue:dic forKey:@"anjuke_chat_login_info"];
+    [[NSUserDefaults standardUserDefaults] setValue:dic forKey:USER_DEFAULT_KEY_AXCHATMC_USE];
     
     [AXChatMessageCenter defaultMessageCenter];
 //    [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_MENU_TABLE" object:nil];

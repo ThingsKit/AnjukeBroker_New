@@ -55,7 +55,20 @@
 }
 
 + (void)cleanToken {
+    //所用用户数据清空
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"token"];
+    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"username"];
+    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"userPhoto"];
+    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"username"];
+    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"id"];
+    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"city_id"];
+    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"token"];
+    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"name"];
+    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"token"];
+    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"phone"];
+    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"chatID"];
+    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"tokenChat"];
+    
     DLog(@"clean Token [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"token"]);
 }
 
@@ -144,6 +157,11 @@
     NSDictionary *dic = [NSDictionary dictionaryWithObject:userDic forKey:@"user_info"];
     
     return dic;
+}
+
+//将用户端使用的NSUserDefaults的user_id置为@""，退出登录使用
+- (void)setFuckingChatUserDicForLoginOut {
+    [[[[NSUserDefaults standardUserDefaults] valueForKey:USER_DEFAULT_KEY_AXCHATMC_USE] valueForKey:@"user_info"] setValue:@"" forKey:@"user_id"];
 }
 
 

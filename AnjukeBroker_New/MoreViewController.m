@@ -211,10 +211,7 @@
     if ([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]) {
         //退出登录
         [[AppDelegate sharedAppDelegate] doLogOut];
-        
-        [[AppDelegate sharedAppDelegate] killLongLinkForChat];
     }
-    
 }
 
 #pragma mark - tableView Datasource
