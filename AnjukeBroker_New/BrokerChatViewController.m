@@ -170,9 +170,11 @@
         
         UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
         CGSize size = image.size;
+
         NSString *name = [NSString stringWithFormat:@"_%d-%dx%d", tempNum ++, (int)size.width, (int)size.width];
         NSString *path = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
         NSString *url = [AXPhotoManager getLibrary:path];
+        NSLog(@"==========url=======%@",url);
         AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
         mappedMessage.accountType = @"1";
         //        mappedMessage.content = self.messageInputView.textView.text;
