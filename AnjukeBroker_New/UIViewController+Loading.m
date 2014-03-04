@@ -12,10 +12,14 @@
 @implementation UIViewController (Loading)
 
 - (void)hideLoadWithAnimated:(BOOL)animated{
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 - (void)showLoadingActivity:(BOOL)activity{
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     if ([AppManager isiPhone4Display]) {
         hud.yOffset = -45;

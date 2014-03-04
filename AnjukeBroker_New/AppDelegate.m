@@ -54,7 +54,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
-    
+        
     //初始化底层库
     [self initRTManager];
     
@@ -203,7 +203,7 @@
 - (void)connectLongLinkForChat {
     //经纪人登录且获取微聊id和微聊token后才登录微聊
     if ([LoginManager getChatID].length > 0 && [LoginManager getChatToken].length > 0 && [LoginManager getToken].length > 0) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_MENU_TABLE" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGIN_NOTIFICATION" object:nil];
     }
 }
 

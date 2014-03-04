@@ -15,10 +15,15 @@
     
     NSDate *postDate = applyDate;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    NSDateComponents *nowComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:[NSDate date]];
-    NSDateComponents *postComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:postDate];
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
+    NSDateComponents *nowComponents = [[NSCalendar currentCalendar] components:NSDayCalendarUnit fromDate:[NSDate date]];
+    NSDateComponents *postComponents = [[NSCalendar currentCalendar] components:NSDayCalendarUnit fromDate:postDate];
     if (nowComponents.year == postComponents.year ) {
-        if (nowComponents.day == postComponents.day) {
+        NSDateComponents *nowComponentsMonth = [[NSCalendar currentCalendar] components:NSMonthCalendarUnit fromDate:[NSDate date]];
+        NSDateComponents *postComponentsMonth = [[NSCalendar currentCalendar] components:NSMonthCalendarUnit fromDate:postDate];
+        NSDateComponents *nowComponentsDay = [[NSCalendar currentCalendar] components:NSDayCalendarUnit fromDate:[NSDate date]];
+        NSDateComponents *postComponentsDay = [[NSCalendar currentCalendar] components:NSDayCalendarUnit fromDate:postDate];
+        if (nowComponentsDay.day == postComponentsDay.day && nowComponentsMonth.month == postComponentsMonth.month) { //月、日比较
             [dateFormatter setDateFormat:@"HH:mm"]; //今日
         }
         else
