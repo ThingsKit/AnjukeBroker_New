@@ -346,6 +346,7 @@ static NSString * const AXChatJsonVersion = @"1";
         textData[@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
         textData[AXCellIdentifyTag] = @"SystemMessage";
         [self appendCellData:textData];
+        [self scrollToBottomAnimated:YES];
     }
 }
 
