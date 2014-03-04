@@ -209,6 +209,7 @@
 
 - (void)killLongLinkForChat {
     [[AXChatMessageCenter defaultMessageCenter] userLoginOut];
+    [[AccountManager sharedInstance] registerNotification];
 }
 
 #pragma mark - Register Method
@@ -230,6 +231,7 @@
     token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
     
     [[AccountManager sharedInstance] setNotificationDeviceToken:token];
+    [[AccountManager sharedInstance] registerNotification];
     
     DLog(@"device token: %@",token);
     
@@ -400,6 +402,7 @@
     //    [self.window.rootViewController.navigationController popToRootViewControllerAnimated:YES];
     
     [self.loginVC doLogOut];
+    [[AccountManager sharedInstance] cleanNotificationForLoginOut]; //退出登录（微聊）时，告之服务端
 }
 
 - (void)showMessageValueWithStr:(int)value { //显示消息条数

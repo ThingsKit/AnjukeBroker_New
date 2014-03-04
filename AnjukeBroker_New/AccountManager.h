@@ -16,5 +16,6 @@
 - (id)init;
 
 - (void)registerNotification;
+- (void)cleanNotificationForLoginOut;
 
 @end
