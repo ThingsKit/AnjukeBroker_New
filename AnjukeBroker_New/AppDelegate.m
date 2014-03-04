@@ -208,7 +208,7 @@
 }
 
 - (void)killLongLinkForChat {
-    [[AXChatMessageCenter defaultMessageCenter] userLoginOut]; //断开长链接方式
+    [[AXChatMessageCenter defaultMessageCenter] breakLink]; //断开长链接方式
 }
 
 #pragma mark - Register Method
