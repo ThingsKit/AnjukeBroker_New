@@ -71,7 +71,6 @@
 
         AXPhotoBrowser *controller = [[AXPhotoBrowser alloc] init];
         controller.isBroker = YES;
-#warning TODO 判断当前是第几张图
         controller.currentPhotoIndex = currentPhotoIndex; // 弹出相册时显示的第一张图片是？
         [controller setPhotos:photoArray]; // 设置所有的图片
         [self.navigationController pushViewController:controller animated:YES];
@@ -99,10 +98,10 @@
     
     if (houseType ) {
         NSString *price = [NSString stringWithFormat:@"%@%@", dic[@"price"], dic[@"priceUnit"]];
-        self.propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceErShouFang]}];
+        self.propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceErShouFang], @"jsonVersion":@"1"}];
     }else{
         NSString *price = [NSString stringWithFormat:@"%@%@/月", dic[@"price"], dic[@"priceUnit"]];
-        self.propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceZuFang]}];
+        self.propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceZuFang], @"jsonVersion":@"1"}];
     }
     
     AXMappedMessage *mappedMessageProp = [[AXMappedMessage alloc] init];
@@ -153,14 +152,15 @@
         return;
     }
     NSString *uid =[[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
+    int tempNum = 1;
     for (NSDictionary *dict in info) {
         
         UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
         CGSize size = image.size;
-        NSString *name = [NSString stringWithFormat:@"%dx%d",(int)size.width,(int)size.width];
+        NSString *name = [NSString stringWithFormat:@"%d-%dx%d",tempNum ++,(int)size.width,(int)size.width];
         NSString *path = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
         NSString *url = [AXPhotoManager getLibrary:path];
-        
+        NSLog(@"=======================url:%@", url);
         AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
         mappedMessage.accountType = @"1";
         //        mappedMessage.content = self.messageInputView.textView.text;

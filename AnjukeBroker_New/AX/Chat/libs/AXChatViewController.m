@@ -55,6 +55,8 @@ static NSInteger const AXMessagePageSize = 15;
 static NSInteger const AXMessagePageSize = 15;
 #endif
 
+static NSString * const AXChatJsonVersion = @"1";
+
 @interface AXChatViewController ()<UITableViewDelegate, UITableViewDataSource, OHAttributedLabelDelegate, AXPullToRefreshViewDelegate, UIAlertViewDelegate, AXChatBaseCellDelegate, JSDismissiveTextViewDelegate>
 
 @property (nonatomic, strong) UITableView *myTableView;

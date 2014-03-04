@@ -50,9 +50,9 @@
     [self setTitle:navTitle];
 }
 - (void)initRightBar {
-//    if (self.isBroker) {
-//        return;
-//    }
+    if (self.isBroker) {
+        return;
+    }
     UIButton *rightBar = [UIButton buttonWithType:UIButtonTypeCustom];
     rightBar.frame = CGRectMake(0, 0, 21, 5);
     [rightBar setImage:[UIImage imageNamed:@"xproject_dialogue_more.png"] forState:UIControlStateNormal];

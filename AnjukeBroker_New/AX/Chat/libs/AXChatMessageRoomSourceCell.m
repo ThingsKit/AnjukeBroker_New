@@ -7,8 +7,8 @@
 //
 
 #import "AXChatMessageRoomSourceCell.h"
-#import "AXChatImageLoader.h"
 #import "RTLineView.h"
+#import <AFNetworking/UIImageView+AFNetworking.h>
 
 static CGFloat const AXPropertyCardHeight = 105.0f;
 static CGFloat const AXPropertyCardWidth = 220.0f;
@@ -64,7 +64,7 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
     [self.whiteBackGround addSubview:self.tagLineView];
     
     self.roomImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 37, 60, 60)];
-    self.roomImage.backgroundColor = [UIColor blueColor];
+    self.roomImage.backgroundColor = [UIColor clearColor];
     [self.whiteBackGround addSubview:self.roomImage];
     
     self.titleLable = [[UILabel alloc] initWithFrame:CGRectMake(92, 30, 120, 30)];
@@ -118,7 +118,7 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
     }else {
         self.messageSource = AXChatMessageSourceDestinationIncoming;
     }
-
+    
     [self setBubbleIMGByMessageSorce];
     if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceErShouFang)]) {
         self.tagLable.text = @"二手房";
@@ -130,11 +130,7 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
     self.roomTypeLabel.text = self.propDict[@"des"];
     self.priceLable.text = self.propDict[@"price"];
     NSURL *url = [NSURL URLWithString:self.propDict[@"img"]];
-    @try {
-        [[AXChatImageLoader shareCenter] autoLoadImageWithURL:url toImageView:self.roomImage];
-    } @catch (NSException *exception) {
-        //do nothing
-    }
+    [self.roomImage setImageWithURL:url placeholderImage:nil];
     [self configWithStatus];
 }
 

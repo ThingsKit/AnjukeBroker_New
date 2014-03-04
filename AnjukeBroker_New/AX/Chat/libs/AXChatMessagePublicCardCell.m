@@ -7,7 +7,7 @@
 //
 
 #import "AXChatMessagePublicCardCell.h"
-#import "AXChatImageLoader.h"
+#import <AFNetworking/UIImageView+AFNetworking.h>
 
 
 @interface AXChatMessagePublicCardCell ()
@@ -181,11 +181,8 @@ static CGFloat const AXChatPublicCardMarginLeft = 10;
     self.cardImageView.image = [UIImage imageNamed:@"no_photo_list.png"];
     //开始图片下载
     NSURL *url = [NSURL URLWithString:self.dataDict[@"img"]];
-    @try {
-        [[AXChatImageLoader shareCenter] autoLoadImageWithURL:url toImageView:self.cardImageView];
-    } @catch (NSException *exception) {
-        //do nothing
-    }
+    [self.cardImageView setImageWithURL:url placeholderImage:nil];
+
 }
 
 

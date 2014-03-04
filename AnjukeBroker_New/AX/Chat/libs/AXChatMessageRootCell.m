@@ -112,7 +112,7 @@ NSInteger const kRetryTag = 101;
     }
     self.avatarButton.frame = self.avatar.frame;
 #warning 竟然isIconDownloaded是YES 0.0
-    if (self.person.isIconDownloaded == NO || YES) {
+    if (self.person.isIconDownloaded == NO) {
         [self.avatar setImageWithURL:[NSURL URLWithString:self.person.iconUrl] placeholderImage:[UIImage axChatDefaultAvatar:NO]];
     } else {
         NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];

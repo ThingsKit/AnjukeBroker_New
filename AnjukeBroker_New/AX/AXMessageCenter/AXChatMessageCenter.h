@@ -23,14 +23,19 @@ static NSString * const MessageCenterDidReceiveLastUpdataMyInformation = @"Messa
 static NSString * const MessageCenterDidReceiveLastUpdataFriendInformation = @"MessageCenterDidReceiveLastUpdataFriendInformation";
 static NSString * const MessageCenterDidInitedDataCenter = @"MessageCenterDidInitedDataCenter";
 static NSString * const MessageCenterUserDidQuit = @"MessageCenterUserDidQuit";
+
+//connection status notication object will include AXMessageCenterStatus by NSNumber in userinfo key is @"status"
+static NSString * const MessageCenterConnectionStatusNotication = @"MessageCenterConnectionStatusNotication";
+
 static NSString * const MessageCenterDidReceiveNewMessage = @"MessageCenterDidReceiveNewMessage";
 //static NSString * const MessageCenterDidReceiveNewFriendList = @"MessageCenterDidReceiveNewFriendList";
 
 typedef NS_ENUM (NSUInteger, AXMessageCenterStatus)
 {
-    AIFMessageCenterStatusDisconnected,
-    AIFMessageCenterStatusConnecting,
-    AIFMessageCenterStatusConnected
+    AIFMessageCenterStatusDisconnected = 1,
+    AIFMessageCenterStatusConnecting = 2,
+    AIFMessageCenterStatusConnected = 3,
+    AIFMessageCenterStatusUserLoginOut = 4
 };
 
 
