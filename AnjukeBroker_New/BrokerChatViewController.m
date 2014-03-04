@@ -93,22 +93,27 @@
     
 }
 -(void)returnSelectedHouseDic:(NSDictionary *)dic houseType:(BOOL)houseType {
+    //二手房单页详情url确认结果：http://m.anjuke.com/sale/x/11/204603156
+    //格式：http://fp07.m.dev.anjuke.com/sale/x/{城市id}/{房源id}
     
+    // 租房单页详情url确认结果：http://lvandu.dev.anjuke.com/rent/x/11/23893357-3
+    //格式：http://fp07.m.dev.anjuke.com/rent/x/{城市id}/{房源id}-{租房类型}
     NSString *des = [NSString stringWithFormat:@"%@室%@厅%@卫 %@平",dic[@"roomNum"], dic[@"hallNum"], dic[@"toiletNum"], dic[@"area"]];
-    
     if (houseType ) {
         NSString *price = [NSString stringWithFormat:@"%@%@", dic[@"price"], dic[@"priceUnit"]];
-        //格式：http://fp07.m.dev.anjuke.com/sale/x/{城市id}/{房源id}
-#warning 这里设置的时pg环境
-        NSString *url = [NSString stringWithFormat:@"http://fp07.m.dev.anjuke.com/sale/x/%@/%@-3",@"11",dic[@"id"]];
-        
+        NSString *url = nil;
+        url = [NSString stringWithFormat:@"http://m.anjuke.com/sale/x/%@/%@",[LoginManager getCity_id],dic[@"id"]];
+#if DEBUG
+        url = [NSString stringWithFormat:@"http://fp07.m.dev.anjuke.com/sale/x/%@/%@",[LoginManager getCity_id],dic[@"id"]];
+#endif
         self.propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"url":url, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceErShouFang]}];
     }else{
         NSString *price = [NSString stringWithFormat:@"%@%@/月", dic[@"price"], dic[@"priceUnit"]];
-        //格式：http://fp07.m.dev.anjuke.com/rent/x/{城市id}/{房源id}-{租房类型}
-#warning 这里设置的时pg环境
-        NSString *url = [NSString stringWithFormat:@"http://fp07.m.dev.anjuke.com/rent/x/%@/%@-3",@"11",dic[@"id"]];
-        
+        NSString *url = nil;
+        url = [NSString stringWithFormat:@"http://m.anjuke.com/sale/x/%@/%@-3",[LoginManager getCity_id],dic[@"id"]];
+#if DEBUG
+        url = [NSString stringWithFormat:@"http://fp07.m.dev.anjuke.com/rent/x/%@/%@-3", [LoginManager getCity_id],dic[@"id"]];
+#endif
         self.propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"url":url, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceZuFang]}];
     }
     
