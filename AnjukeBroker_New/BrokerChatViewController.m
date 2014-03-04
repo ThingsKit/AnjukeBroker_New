@@ -98,10 +98,18 @@
     
     if (houseType ) {
         NSString *price = [NSString stringWithFormat:@"%@%@", dic[@"price"], dic[@"priceUnit"]];
-        self.propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceErShouFang], @"jsonVersion":@"1"}];
+        //格式：http://fp07.m.dev.anjuke.com/sale/x/{城市id}/{房源id}
+#warning 这里设置的时pg环境
+        NSString *url = [NSString stringWithFormat:@"http://fp07.m.dev.anjuke.com/sale/x/%@/%@-3",@"11",dic[@"id"]];
+        
+        self.propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"url":url, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceErShouFang]}];
     }else{
         NSString *price = [NSString stringWithFormat:@"%@%@/月", dic[@"price"], dic[@"priceUnit"]];
-        self.propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceZuFang], @"jsonVersion":@"1"}];
+        //格式：http://fp07.m.dev.anjuke.com/rent/x/{城市id}/{房源id}-{租房类型}
+#warning 这里设置的时pg环境
+        NSString *url = [NSString stringWithFormat:@"http://fp07.m.dev.anjuke.com/rent/x/%@/%@-3",@"11",dic[@"id"]];
+        
+        self.propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"url":url, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceZuFang]}];
     }
     
     AXMappedMessage *mappedMessageProp = [[AXMappedMessage alloc] init];
