@@ -344,10 +344,6 @@
                 else
                     [self showInfo:@"删除客户失败，请再试一次"];
             }];
-            
-            [self getFriendList];
-            [self hideLoadWithAnimated:YES];
-            
             break;
         }
         default:
