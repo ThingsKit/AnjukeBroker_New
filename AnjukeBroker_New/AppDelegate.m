@@ -411,7 +411,16 @@
 }
 
 - (void)showMessageValueWithStr:(int)value { //显示消息条数
+    if (value <= 0) {
+        [self.tabController setMessageBadgeValueWithValue:@""];
+        return;
+    }
+    
     NSString *str = [NSString stringWithFormat:@"%d", value];
+    
+    if (value >= 100) {
+        str = [NSString stringWithFormat:@"99+"];
+    }
     [self.tabController setMessageBadgeValueWithValue:str];
 }
 
