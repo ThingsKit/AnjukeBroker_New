@@ -893,9 +893,9 @@
 		B79084F8182B490600B2A870 /* SaleFixedManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleFixedManager.h; sourceTree = "<group>"; };
 		B79084F9182B490600B2A870 /* SaleFixedManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaleFixedManager.m; sourceTree = "<group>"; };
 		B792198918BB9D390021933A /* sj2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sj2.jpeg; sourceTree = "<group>"; };
-		B7921A2618BB9E5A0021933A /* RTAPIBaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTAPIBaseManager.h; sourceTree = "<group>"; };
-		B7921A2718BB9E5A0021933A /* RTAPIBaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTAPIBaseManager.m; sourceTree = "<group>"; };
-		B7921A2818BB9E5A0021933A /* RTAPIManagerInterceptorProtocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTAPIManagerInterceptorProtocal.h; sourceTree = "<group>"; };
+		B7921A2618BB9E5A0021933A /* RTAPIBaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTAPIBaseManager.h; path = ../RTAPIBaseManager.h; sourceTree = "<group>"; };
+		B7921A2718BB9E5A0021933A /* RTAPIBaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RTAPIBaseManager.m; path = ../RTAPIBaseManager.m; sourceTree = "<group>"; };
+		B7921A2818BB9E5A0021933A /* RTAPIManagerInterceptorProtocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTAPIManagerInterceptorProtocal.h; path = ../RTAPIManagerInterceptorProtocal.h; sourceTree = "<group>"; };
 		B7921A2D18BBA2000021933A /* BrokerChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerChatViewController.h; sourceTree = "<group>"; };
 		B7921A2E18BBA2000021933A /* BrokerChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerChatViewController.m; sourceTree = "<group>"; };
 		B7B2BF67188CC2C30001EEB8 /* anjuke_icon_saying@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_saying@2x.png"; sourceTree = "<group>"; };
@@ -1854,9 +1854,6 @@
 		9741055A180CDFE0004DAE95 /* AnjukeBroker_New */ = {
 			isa = PBXGroup;
 			children = (
-				B7921A2618BB9E5A0021933A /* RTAPIBaseManager.h */,
-				B7921A2718BB9E5A0021933A /* RTAPIBaseManager.m */,
-				B7921A2818BB9E5A0021933A /* RTAPIManagerInterceptorProtocal.h */,
 				B79218C618BB9D380021933A /* AX */,
 				B769E446181F4BE800A2FF50 /* Model */,
 				97A0F01E181621AA00C31D83 /* UIView&Util */,
@@ -2351,6 +2348,9 @@
 		B79218C618BB9D380021933A /* AX */ = {
 			isa = PBXGroup;
 			children = (
+				B7921A2618BB9E5A0021933A /* RTAPIBaseManager.h */,
+				B7921A2718BB9E5A0021933A /* RTAPIBaseManager.m */,
+				B7921A2818BB9E5A0021933A /* RTAPIManagerInterceptorProtocal.h */,
 				B7FC9B2518C41F1600F77205 /* RTUIStyle */,
 				B7FC9A4318C41B1300F77205 /* Chat */,
 				20A217E518BF2A9D002CA469 /* AXChatDataCenter */,
