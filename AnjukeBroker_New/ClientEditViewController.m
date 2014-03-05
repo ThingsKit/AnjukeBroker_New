@@ -120,13 +120,58 @@
     self.person.markDesc = self.messageTextV.text;
     
     [[AXChatMessageCenter defaultMessageCenter] updatePerson:self.person];
-    if ([self.editDelegate respondsToSelector:@selector(didSaveBackWithData:)]) {
-        [self.editDelegate didSaveBackWithData:self.person];
-    }
+    
+    [self requestData];
     
     DLog(@"--name[%@] ---tel[%@] ---message[%@]", self.nameTextF.text, self.telTextF.text, self.messageTextV.text);
     
-    [self doBack:self];
+}
+
+- (void)requestData {
+    if (![self isNetworkOkay]) {
+        return;
+    }
+    
+    NSString *isStar = @"0";
+    if (self.person.isStar) {
+        isStar = @"1";
+    }
+    
+    [self showLoadingActivity:YES];
+    
+    NSString *methodName = [NSString stringWithFormat:@"user/modifyFriendInfo/%@",[LoginManager getPhone]];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: self.person.uid ,@"to_uid" , self.person.markName ,@"mark_name", self.person.markPhone, @"mark_phone", self.person.markDesc, @"mark_desc", @"0" ,@"relation_cate_id", isStar, @"is_star", nil];
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:methodName params:params target:self action:@selector(onGetData:)];
+}
+
+- (void)onGetData:(RTNetworkResponse *) response {
+    [self hideLoadWithAnimated:NO];
+
+    //check network and response
+    if (![self isNetworkOkay])
+        return;
+    
+    if ([response status] == RTNetworkResponseStatusFailed || ([[[response content] objectForKey:@"status"] isEqualToString:@"error"]))
+        return;
+    
+    NSDictionary *resultFromAPI = [response content];
+    DLog(@"%@", resultFromAPI);
+    
+    if ([[resultFromAPI objectForKey:@"status"] isEqualToString:@"OK"]) {
+        [self showInfo:@"备注信息更新成功"];
+        
+        if ([self.editDelegate respondsToSelector:@selector(didSaveBackWithData:)]) {
+            [self.editDelegate didSaveBackWithData:self.person];
+        }
+        
+        [self doBack:self];
+    }
+    else {
+        [self showInfo:@"备注信息更新失败，请再试一次"];
+    }
+    
 }
 
 - (void)textInputDisappear {
