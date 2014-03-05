@@ -11,6 +11,7 @@
 #endif
 
 #define Code_AppName @"i-broker2"
+#define REMOTE_NOTIFCATION_TOKEN @"remotenotificationtoken"
 
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
