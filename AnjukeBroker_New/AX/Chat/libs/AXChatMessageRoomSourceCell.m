@@ -160,9 +160,9 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
 
 - (void)didClickProperty
 {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickPropertyUrl:)]) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickPropertyWithUrl:withTitle:)]) {
         if (self.propDict[@"url"]) {
-            [self.delegate didClickPropertyUrl:self.propDict[@"url"]];
+            [self.delegate didClickPropertyWithUrl:self.propDict[@"url"] withTitle:self.propDict[@"name"]];
         }
     }
 }

@@ -41,4 +41,5 @@ extern CGFloat const kAvatarMargin;
 - (void)cellHighlighted:(BOOL)highlighted;
 - (void)axDelete:(id)sender;
 - (void)axCopy:(id)sender;
+
 @end

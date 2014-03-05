@@ -54,6 +54,7 @@ static NSInteger const AXMessagePageSize = 15;
 #else
 static NSInteger const AXMessagePageSize = 15;
 #endif
+static CGFloat const AXScrollContentOffsetY = 250;
 
 static NSString * const AXChatJsonVersion = @"1";
 
@@ -173,7 +174,7 @@ static NSString * const AXChatJsonVersion = @"1";
     self.conversationListItem = [[AXChatMessageCenter defaultMessageCenter] fetchConversationListItemWithFriendUID:[self checkFriendUid]];
     self.currentPerson = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson];
     self.friendPerson = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[self checkFriendUid]];
-    self.cellData = [NSMutableArray array];
+    self.cellDict = [NSMutableDictionary dictionary];
     self.identifierData = [NSMutableArray array];
     
     // init UI
@@ -192,17 +193,6 @@ static NSString * const AXChatJsonVersion = @"1";
 - (void)initUI {
     self.title = self.currentPerson.name;
     [self.view setBackgroundColor:[UIColor axChatBGColor:self.isBroker]];
-    if (!self.isBroker) {
-        UIButton *brokerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        brokerButton.frame = CGRectMake(0, 0, 44, 44);
-        [brokerButton setImage:[UIImage imageNamed:@"xproject_dialogue_agentdetail.png"] forState:UIControlStateNormal];
-        [brokerButton setImage:[UIImage imageNamed:@"xproject_dialogue_agentdetail_selected.png"] forState:UIControlStateHighlighted];
-        [brokerButton addTarget:self action:@selector(goBrokerPage:) forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:brokerButton];
-        UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-        spacer.width = -6.0f;
-        [self.navigationItem setRightBarButtonItems:@[spacer, buttonItems]];
-    }
     
     NSInteger viewHeight = 20;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
@@ -307,11 +297,11 @@ static NSString * const AXChatJsonVersion = @"1";
                 [blockSelf appendCellData:textData];
             } else if (status == AXMessageCenterSendMessageStatusFailed) {
                 NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
-                blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusFailed);
+                blockSelf.cellDict[message.identifier][@"status"] = @(AXMessageCenterSendMessageStatusFailed);
                 [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
             } else {
                 NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
-                blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
+                blockSelf.cellDict[message.identifier][@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
                 [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
             }
             if (errorCode == AXMessageCenterSendMessageErrorTypeCodeNotFriend && blockSelf.isBroker) {
@@ -330,11 +320,11 @@ static NSString * const AXChatJsonVersion = @"1";
                 [blockSelf axAddCellData:textData];
             } else if (status == AXMessageCenterSendMessageStatusFailed) {
                 NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
-                blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusFailed);
+                blockSelf.cellDict[message.identifier][@"status"] = @(AXMessageCenterSendMessageStatusFailed);
                 [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
             } else {
                 NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
-                blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
+                blockSelf.cellDict[message.identifier][@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
                 [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
             }
             if (errorCode == AXMessageCenterSendMessageErrorTypeCodeNotFriend && blockSelf.isBroker) {
@@ -372,13 +362,13 @@ static NSString * const AXChatJsonVersion = @"1";
                     dict[@"messageSource"] = @(AXChatMessageSourceDestinationIncoming);
                 }
                 
-                [blockSelf.cellData addObject:dict];
                 [blockSelf.identifierData addObject:mappedMessage.identifier];
+                blockSelf.cellDict[mappedMessage.identifier] = dict;
             }
             [blockSelf.myTableView reloadData];
             [blockSelf scrollToBottomAnimated:YES];
         } else {
-            if (blockSelf.propDict && [blockSelf.cellData count] == 0) {
+            if (blockSelf.propDict && [blockSelf.identifierData count] == 0) {
                 [blockSelf sendSystemMessage:AXMessageTypeSendProperty];
             }
         }
@@ -444,8 +434,9 @@ static NSString * const AXChatJsonVersion = @"1";
     NSMutableDictionary *textData = [NSMutableDictionary dictionary];
     textData = [self mapAXMappedMessage:mappedMessageProp];
     if (textData) {
+        NSString *identifier = [[NSProcessInfo processInfo] globallyUniqueString];
         textData[@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
-        textData[AXCellIdentifyTag] = @"SystemMessage";
+        textData[AXCellIdentifyTag] = [NSString stringWithFormat:@"SystemMessage%@", identifier];
         [self appendCellData:textData];
         [self scrollToBottomAnimated:YES];
     }
@@ -463,6 +454,26 @@ static NSString * const AXChatJsonVersion = @"1";
 
 #pragma mark - Public Method
 - (void)reloadUnReadNum:(NSInteger)num
+{
+    // do nothing
+}
+
+- (void)sendMessageAppLog
+{
+    // do nothing
+}
+
+- (void)clickRightNavButtonAppLog
+{
+    // do nothing
+}
+
+- (void)clickLeftAvatarAppLog
+{
+    // do nothing
+}
+
+- (void)clickInputViewAppLog
 {
     // do nothing
 }
@@ -590,37 +601,35 @@ static NSString * const AXChatJsonVersion = @"1";
 
 - (void)axAddCellData:(NSDictionary *)msgData
 {
-    [self.cellData addObject:msgData];
     [self.identifierData addObject:msgData[AXCellIdentifyTag]];
+    self.cellDict[msgData[AXCellIdentifyTag]] = msgData;
     [self.myTableView reloadData];
     [self scrollToBottomAnimated:YES];
 }
 
 - (void)appendCellData:(NSDictionary *)msgData
 {
-//    [self.myTableView beginUpdates];
     UITableViewRowAnimation insertAnimation = UITableViewRowAnimationBottom;
     if ([self.identifierData containsObject:msgData[AXCellIdentifyTag]]) {
         NSInteger row = [self.identifierData indexOfObject:msgData[AXCellIdentifyTag]];
         [self.identifierData removeObjectAtIndex:row];
-        [self.cellData removeObjectAtIndex:row];
+        [self.cellDict removeObjectForKey:msgData[AXCellIdentifyTag]];
         [self.myTableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]]  withRowAnimation:UITableViewRowAnimationNone];
         insertAnimation = UITableViewRowAnimationNone;
     }
-    [self.cellData addObject:msgData];
     [self.identifierData addObject:msgData[AXCellIdentifyTag]];
+    self.cellDict[msgData[AXCellIdentifyTag]] = msgData;
     
     NSMutableArray *insertIndexPaths = [NSMutableArray array];
-    NSIndexPath *newPath =  [NSIndexPath indexPathForRow:[self.cellData count] - 1 inSection:0];
+    NSIndexPath *newPath =  [NSIndexPath indexPathForRow:[self.identifierData count] - 1 inSection:0];
     [insertIndexPaths addObject:newPath];
     [self.myTableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:insertAnimation];
-//    [self.myTableView endUpdates];
 }
 
 - (void)insertCellData:(NSDictionary *)msgData atIndex:(NSUInteger)index
 {
-    [self.cellData insertObject:msgData atIndex:index];
     [self.identifierData insertObject:msgData[AXCellIdentifyTag] atIndex:index];
+    self.cellDict[msgData[AXCellIdentifyTag]] = msgData;
     NSMutableArray *insertIndexPaths = [NSMutableArray array];
     NSIndexPath *newPath =  [NSIndexPath indexPathForRow:index inSection:0];
     [insertIndexPaths addObject:newPath];
@@ -637,12 +646,13 @@ static NSString * const AXChatJsonVersion = @"1";
 #pragma mark - UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.cellData count];
+    return [self.identifierData count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *dic = (self.cellData)[[indexPath row]];
+    NSString *identifier = (self.identifierData)[[indexPath row]];
+    NSDictionary *dic = self.cellDict[identifier];
     if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeProperty)]) {
         // 房源
         return 105 + 20;
@@ -679,16 +689,20 @@ static NSString * const AXChatJsonVersion = @"1";
 #pragma mark - UITableViewDataSource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ((self.cellData)[indexPath.row] && [(self.cellData)[indexPath.row][@"messageType"] isEqualToNumber:@(AXMessageTypePic)]) {
+    NSString *identifier = (self.identifierData)[[indexPath row]];
+    NSDictionary *dic = self.cellDict[identifier];
+
+    if ([dic[@"messageType"] isEqualToNumber:@(AXMessageTypePic)]) {
         AXBigIMGSViewController *controller = [[AXBigIMGSViewController alloc] init];
-        controller.img = (self.cellData)[indexPath.row][@"content"];
+        controller.img = dic[@"content"];
         [self.navigationController pushViewController:controller animated:NO];
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *dic = (self.cellData)[[indexPath row]];
+    NSString *identifier = (self.identifierData)[[indexPath row]];
+    NSDictionary *dic = self.cellDict[identifier];
     
     AXChatBaseCell *cell = [AXCellFactory cellForTableView:tableView atIndexPath:indexPath withObject:dic withIdentity:[NSString stringWithFormat:@"AXChatCell%@", dic[@"messageType"]]];
     [UIView setAnimationsEnabled:NO];
@@ -768,7 +782,10 @@ static NSString * const AXChatJsonVersion = @"1";
                     dict[@"messageSource"] = @(AXChatMessageSourceDestinationIncoming);
                     dict[AXCellIdentifyTag] = mappedMessage.identifier;
                     [self appendCellData:dict];
-                    [self scrollToBottomAnimated:YES];
+                    // 判断是否需要滑动到底部
+                    if (AXScrollContentOffsetY + self.myTableView.contentOffset.y + self.myTableView.height < self.myTableView.contentSize.height) {
+                        [self scrollToBottomAnimated:YES];
+                    }
                 }
             }
         }
@@ -840,8 +857,8 @@ static NSString * const AXChatJsonVersion = @"1";
             for (AXMappedMessage *mappedMessage in chatArray) {
                 NSDictionary *dict = [blockSelf mapAXMappedMessage:mappedMessage];
                 if (dict) {
-                    [blockSelf.cellData insertObject:dict atIndex:num];
                     [blockSelf.identifierData insertObject:mappedMessage.identifier atIndex:num];
+                    blockSelf.cellDict[mappedMessage.identifier] = dict;
                     cellHeight += [blockSelf tableView:blockSelf.myTableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
                     
                     NSMutableArray *insertIndexPaths = [NSMutableArray array];
@@ -932,19 +949,22 @@ static NSString * const AXChatJsonVersion = @"1";
     NSArray *indexPaths = @[indexPath];
     NSInteger index = 0;
     // 判断是否需要删除系统时间cell
-    if (preRow >= 0 && nextRow < [self.cellData count]) {
-        NSDictionary *preData = self.cellData[preRow];
-        NSDictionary *nextData = self.cellData[nextRow];
+    if (preRow >= 0 && nextRow < [self.identifierData count]) {
+        NSString *preIdentifier = self.identifierData[preRow];
+        NSString *nextIdentifier = self.identifierData[preRow];
+        NSDictionary *preData = self.cellDict[preIdentifier];
+        NSDictionary *nextData = self.cellDict[nextIdentifier];
         if ([preData[@"messageType"] isEqualToNumber:@(AXMessageTypeSystemTime)] &&
             [nextData[@"messageType"] isEqualToNumber:@(AXMessageTypeSystemTime)]) {
             indexPaths = @[preIndexPath, indexPath];
-            [self.cellData removeObjectAtIndex:preRow];
+            [self.cellDict removeObjectForKey:preIdentifier];
             [self.identifierData removeObjectAtIndex:preRow];
             index = 1;
             [[AXChatMessageCenter defaultMessageCenter] deleteMessageByIdentifier:preData[AXCellIdentifyTag]];
         }
     }
-    [self.cellData removeObjectAtIndex:indexPath.row - index];
+    NSString *identifier = self.identifierData[indexPath.row - index];
+    [self.cellDict removeObjectForKey:identifier];
     [self.identifierData removeObjectAtIndex:indexPath.row - index];
 
     [self.myTableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationLeft];
@@ -1268,6 +1288,7 @@ static NSString * const AXChatJsonVersion = @"1";
 }
 
 - (void)sendMessage:(id)sender {
+    
     if ([self.messageInputView.textView.text isEqualToString:@""]) {
         UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"提示" message:@"不能发空消息" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil];
         [view show];
@@ -1325,6 +1346,7 @@ static NSString * const AXChatJsonVersion = @"1";
             return NO;
         }
     }
+    [self clickInputViewAppLog];
     return YES;
 }
 

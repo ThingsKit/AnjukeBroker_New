@@ -28,12 +28,23 @@
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)back:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+//    self.navigationItem.leftBarButtonItem = [UIBarButtonItem initBackItemWithTarget:self action:@selector(back:)];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
+    if (self.webTitle) {
+        self.title = self.webTitle;
+    }
     NSURL *url;
     if (self.webUrl) {
         url = [NSURL URLWithString:self.webUrl];
@@ -45,8 +56,16 @@
 
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    if (!self.webTitle) {
+        self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    }
 }
 
 @end

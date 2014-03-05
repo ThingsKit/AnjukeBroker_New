@@ -22,7 +22,7 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 @interface AXChatViewController : UIViewController <UITextViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, AXChatMessageSystemCellDelegate, AXELCImagePickerControllerDelegate, UIImagePickerControllerDelegate>
 
 // 禁止直接修改celldata和identifierData
-@property (nonatomic, strong) NSMutableArray *cellData;
+@property (nonatomic, strong) NSMutableDictionary *cellDict;
 @property (nonatomic, strong) NSMutableArray *identifierData;
 @property (nonatomic, strong) UIButton *backBtn;
 
@@ -46,5 +46,13 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 - (void)goBrokerPage:(id)sender;
 - (void)sendSystemMessage:(AXMessageType)type;
 - (void)reloadUnReadNum:(NSInteger)num;
+
+
+// applog
+- (void)sendMessageAppLog;
+- (void)clickRightNavButtonAppLog;
+- (void)clickLeftAvatarAppLog;
+- (void)clickInputViewAppLog;
+
 
 @end

@@ -151,7 +151,11 @@ NSInteger const kRetryTag = 101;
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
         self.bubbleIMG.image = [[UIImage axInChatBubbleBg:self.isBroker highlighted:NO] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
     } else {
-        self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:NO] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+        if (self.isBroker) {
+            self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:NO] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
+        } else {
+            self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:NO] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+        }
     }
 }
 
@@ -160,7 +164,11 @@ NSInteger const kRetryTag = 101;
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
         self.bubbleIMG.image = [[UIImage axInChatBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
     } else {
-        self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:highlighted] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+        if (self.isBroker) {
+            self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:NO] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
+        } else {
+            self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:NO] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+        }
     }
 }
 
