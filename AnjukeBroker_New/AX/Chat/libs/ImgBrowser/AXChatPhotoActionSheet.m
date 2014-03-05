@@ -61,7 +61,7 @@
     [self addSubview:saveBtn];
     
     UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    cancelBtn.frame = CGRectMake(30, saveBtn.bottom + 20, 260, 43);
+//    cancelBtn.frame = CGRectMake(30, saveBtn.bottom + 20, 260, 43);
     cancelBtn.layer.cornerRadius = 5.0f;
     cancelBtn.layer.masksToBounds = YES;
     [cancelBtn setBackgroundImage:[UIImage createImageWithColor:[UIColor colorWithHex:0x434343 alpha:1.0f]] forState:UIControlStateNormal];
@@ -70,11 +70,11 @@
     [cancelBtn setTitleColor:[UIColor colorWithHex:0xc9c9c9 alpha:1.0f] forState:UIControlStateNormal];
     [self addSubview:cancelBtn];
     
-    [[AppDelegate sharedInstance].window addSubview:self.background];
-    [[AppDelegate sharedInstance].window addSubview:self];
-    self.top = [[UIScreen mainScreen] bounds].size.height;
+//    [[AppDelegate sharedInstance].window addSubview:self.background];
+//    [[AppDelegate sharedInstance].window addSubview:self];
+//    self.top = [[UIScreen mainScreen] bounds].size.height;
     [UIView animateWithDuration:0.3 animations:^{
-        self.top = self.top - self.height;
+//        self.top = self.top - self.height;
     }];
 
 }
@@ -87,7 +87,7 @@
 - (void)savebuttonClicked:(id)sender
 {
     [UIView animateWithDuration:0.3 animations:^{
-        self.top = self.top + self.height;
+//        self.top = self.top + self.height;
     } completion:^(BOOL finished) {
         [self.background removeFromSuperview];
         [self removeFromSuperview];
@@ -98,7 +98,7 @@
 - (void)cancelbuttonClicked:(id)sender
 {
     [UIView animateWithDuration:0.3 animations:^{
-        self.top = self.top + self.height;
+//        self.top = self.top + self.height;
     } completion:^(BOOL finished) {
         [self.background removeFromSuperview];
         [self removeFromSuperview];
