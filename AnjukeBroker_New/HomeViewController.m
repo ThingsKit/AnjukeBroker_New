@@ -25,6 +25,7 @@
 
 #import "AXChatMessageCenter.h"
 #import "AppDelegate.h"
+#import "BrokerWebViewController.h"
 
 #define HOME_cellHeight 50
 #define Max_Account_Lb_Width 80
@@ -51,7 +52,7 @@
 @property (nonatomic, strong) UILabel *clickLb;
 
 @property BOOL hasLongLinked;
-@property (nonatomic, strong) NSDictionary *configDic;
+@property BOOL configChecked;
 
 @end
 
@@ -97,7 +98,7 @@
     
     [self doRequest];
     
-    if (self.configDic.count == 0) {
+    if (!self.configChecked) {
         [self requestForConfigure];
     }
 }
@@ -133,7 +134,6 @@
     self.dataDic = [NSMutableDictionary dictionary];
     self.ppcDataDic = [NSMutableDictionary dictionary];
     
-    self.configDic = [NSDictionary dictionary];
 }
 
 - (void)initDisplay {
@@ -526,6 +526,37 @@
         return;
     }
     
+    self.configChecked = YES;
+    
+    NSDictionary *resultFromAPI = [[response content] objectForKey:@"data"];
+    
+    NSArray *frendOverNumArr = [resultFromAPI objectForKey:@"frendOverNum"]; //好友上限用
+    
+    
+    NSDictionary *tipsDic = [resultFromAPI objectForKey:@"tips"]; //是否显示状态条并跳转webView
+    if ([[tipsDic objectForKey:@"openFlag"] isEqualToString:@"1"]) {//开启弹窗和跳转 test
+        [self showWebViewJumpWithDic:tipsDic];
+    }
+}
+
+- (void)showWebViewJumpWithDic:(NSDictionary *)tipsDic {
+    if ([[tipsDic objectForKey:@"url"] length] <= 0) {
+        return;
+    }
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(0, 0, [self windowWidth], 30);
+    [btn addTarget:self action:@selector(pushToWeb) forControlEvents:UIControlEventTouchUpInside];
+    [btn setBackgroundColor:SYSTEM_DARK_GRAY];
+//    [btn setTitle:[tipsDic objectForKey:@"title"] forState:UIControlStateNormal];
+    [btn setTitle:@"Title" forState:UIControlStateNormal];
+    [btn setTintColor:[UIColor whiteColor]];
+    [self.view addSubview:btn];
+}
+
+- (void)pushToWeb {
+    BrokerWebViewController *bw = [[BrokerWebViewController alloc] init];
+    [bw setHidesBottomBarWhenPushed:YES];
+    [self.navigationController pushViewController:bw animated:YES];
 }
 
 #pragma mark - tableView Datasource

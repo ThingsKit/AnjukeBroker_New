@@ -338,9 +338,11 @@
             //delete from database
             [[AXChatMessageCenter defaultMessageCenter] removeFriendBydeleteUid:[NSArray arrayWithObject:item.uid] compeletionBlock:^(BOOL isSuccess){
                 if (isSuccess) {
-//                    [self getFriendList];
-//                    [self hideLoadWithAnimated:YES];
+                    [self getFriendList];
+                    [self hideLoadWithAnimated:YES];
                 }
+                else
+                    [self showInfo:@"删除客户失败，请再试一次"];
             }];
             
             [self getFriendList];
