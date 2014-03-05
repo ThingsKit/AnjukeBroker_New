@@ -89,12 +89,14 @@
 	_photoScrollView.showsVerticalScrollIndicator = NO;
 	_photoScrollView.backgroundColor = [UIColor clearColor];
     _photoScrollView.contentSize = CGSizeMake(frame.size.width * _photos.count, 0);
-	[self.view addSubview:_photoScrollView];
     _photoScrollView.contentOffset = CGPointMake(_currentPhotoIndex * frame.size.width, 0);
+	[self.view addSubview:_photoScrollView];
+
 }
 
 - (void)show
 {
+    return;
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     [window addSubview:self.view];
     [window.rootViewController addChildViewController:self];

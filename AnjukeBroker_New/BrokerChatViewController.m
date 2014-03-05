@@ -12,6 +12,7 @@
 #import "ClientDetailViewController.h"
 #import "AXChatWebViewController.h"
 #import "AXPhoto.h"
+#import "AXUtil_UI.h"
 
 @interface BrokerChatViewController ()
 {
@@ -194,22 +195,40 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *newSizeImage = nil;
     NSString *uid =[[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    CGSize size = image.size;
+    
+    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    if (image.size.width > 600 || image.size.height > 600) {
+        CGSize coreSize;
+        if (image.size.width > image.size.height) {
+            coreSize = CGSizeMake(600, 600*(image.size.height /image.size.width));
+        }
+        else if (image.size.width < image.size.height){
+            coreSize = CGSizeMake(600 *(image.size.width /image.size.height), 600);
+        }
+        else {
+            coreSize = CGSizeMake(600, 600);
+        }
+        
+        UIGraphicsBeginImageContext(coreSize);
+        [image drawInRect:[AXUtil_UI frameSize:image.size inSize:coreSize]];
+        newSizeImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
+    CGSize size = newSizeImage.size;
     NSString *name = [NSString stringWithFormat:@"%dx%d",(int)size.width,(int)size.width];
-    NSString *path = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
+    NSString *path = [AXPhotoManager saveImageFile:newSizeImage toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
     NSString *url = [AXPhotoManager getLibrary:path];
     
     AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
-    mappedMessage.accountType = @"1";
+    mappedMessage.accountType = @"2";
     //        mappedMessage.content = self.messageInputView.textView.text;
-    mappedMessage.content = @"[图片]";
     mappedMessage.to = [self checkFriendUid];
     mappedMessage.from = uid;
     mappedMessage.isRead = YES;
     mappedMessage.isRemoved = NO;
-    mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
+    mappedMessage.messageType = @(AXMessageTypePic);
     mappedMessage.imgPath = url;
     [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
     

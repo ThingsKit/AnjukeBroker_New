@@ -28,10 +28,6 @@
 {
     if ((self = [super initWithFrame:frame])) {
         self.clipsToBounds = YES;
-		// 图片
-		_imageView = [[UIImageView alloc] init];
-		_imageView.contentMode = UIViewContentModeScaleAspectFit;
-		[self addSubview:_imageView];
 		
 		// 属性
 		self.backgroundColor = [UIColor clearColor];
@@ -52,6 +48,47 @@
         [self addGestureRecognizer:doubleTap];
     }
     return self;
+}
+- (void)drawRect:(CGRect)rect {
+    // 图片
+    _imageView = [[UIImageView alloc] init];
+    _imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self addSubview:_imageView];
+    _imageView.image = _photo.image;
+    // 基本尺寸参数
+    CGSize boundsSize = self.bounds.size;
+    CGFloat boundsWidth = boundsSize.width;
+    CGFloat boundsHeight = boundsSize.height;
+    
+    CGSize imageSize = _imageView.image.size;
+    CGFloat imageWidth = imageSize.width;
+    CGFloat imageHeight = imageSize.height;
+    
+    // 设置伸缩比例
+    CGFloat minScale = boundsWidth / imageWidth;
+    if (minScale > 1) {
+        minScale = 1.0;
+    }
+    CGFloat maxScale = 2.0;
+    if ([UIScreen instancesRespondToSelector:@selector(scale)]) {
+        maxScale = maxScale / [[UIScreen mainScreen] scale];
+    }
+    self.maximumZoomScale = maxScale;
+    self.minimumZoomScale = minScale;
+    self.zoomScale = minScale;
+    
+    CGRect imageFrame = CGRectMake(0, 0, boundsWidth, imageHeight * boundsWidth / imageWidth);
+    // 内容尺寸
+    self.contentSize = CGSizeMake(0, imageFrame.size.height);
+    
+    // y值
+    if (imageFrame.size.height < boundsHeight) {
+        imageFrame.origin.y = floorf((boundsHeight - imageFrame.size.height) / 2.0);
+    } else {
+        imageFrame.origin.y = 0;
+    }
+    _imageView.frame = imageFrame;
+
 }
 - (void)dealloc {
     _imageView = nil;

@@ -36,7 +36,7 @@
 #import "AXPhotoManager.h"
 #import "AXCellFactory.h"
 #import "AXChatContentValidator.h"
-
+#import "AXUtil_UI.h"
 
 //输入框和发送按钮栏的高度
 static CGFloat const AXInputBackViewHeight = 49;
@@ -948,11 +948,31 @@ static NSString * const AXChatJsonVersion = @"1";
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *newSizeImage = nil;
     NSString *uid =[[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-    UIImage *image = info[UIImagePickerControllerOriginalImage];
-    CGSize size = image.size;
+    
+    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    //压缩图片
+    if (image.size.width > 600 || image.size.height > 600) {
+        CGSize coreSize;
+        if (image.size.width > image.size.height) {
+            coreSize = CGSizeMake(600, 600*(image.size.height /image.size.width));
+        }
+        else if (image.size.width < image.size.height){
+            coreSize = CGSizeMake(600 *(image.size.width /image.size.height), 600);
+        }
+        else {
+            coreSize = CGSizeMake(600, 600);
+        }
+        
+        UIGraphicsBeginImageContext(coreSize);
+        [image drawInRect:[AXUtil_UI frameSize:image.size inSize:coreSize]];
+        newSizeImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
+    CGSize size = newSizeImage.size;
     NSString *name = [NSString stringWithFormat:@"%dx%d",(int)size.width,(int)size.width];
-    NSString *path = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
+    NSString *path = [AXPhotoManager saveImageFile:newSizeImage toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
     NSString *url = [AXPhotoManager getLibrary:path];
     
     AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
