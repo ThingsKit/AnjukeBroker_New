@@ -216,7 +216,7 @@ static NSString * const AXChatJsonVersion = @"1";
     
     self.moreBackView = [[UIView alloc] init];
     self.moreBackView.frame = CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
-    self.moreBackView.backgroundColor = [UIColor lightGrayColor];
+    self.moreBackView.backgroundColor = [UIColor axChatBGColor:self.isBroker];
     self.moreBackView.hidden = YES;
     [self.view addSubview:self.moreBackView];
     
@@ -254,32 +254,66 @@ static NSString * const AXChatJsonVersion = @"1";
     }
     
     UIButton *pickIMG = [UIButton buttonWithType:UIButtonTypeCustom];
-    pickIMG.backgroundColor = [UIColor grayColor];
-    [pickIMG setTitle:@"相册" forState:UIControlStateNormal];
-    pickIMG.frame = CGRectMake(10, 78, 60, 60);
+//    pickIMG.backgroundColor = [UIColor grayColor];
+//    [pickIMG setTitle:@"相册" forState:UIControlStateNormal];
+    pickIMG.frame = CGRectMake(17.0f, 16.0f, 46, 46);
+    [pickIMG setImage:[UIImage imageNamed:@"anjuke_icon_add_pic4.png"] forState:UIControlStateNormal];
     [pickIMG addTarget:self action:@selector(pickIMG:) forControlEvents:UIControlEventTouchUpInside];
     [self.moreBackView addSubview:pickIMG];
+    CGRect imgRect = pickIMG.frame;
+    UILabel *imgLab = [[UILabel alloc] initWithFrame:CGRectMake(17.0f, imgRect.origin.y + imgRect.size.height + 8, imgRect.size.width, 30.0f)];
+    imgLab.backgroundColor = [UIColor clearColor];
+    imgLab.font = [UIFont systemFontOfSize:14];
+    imgLab.text = @"相册";
+    imgLab.textAlignment = NSTextAlignmentCenter;
+    imgLab.textColor = [UIColor axChatSystemBGColor:self.isBroker];
+    [self.moreBackView addSubview:imgLab];
+    
     
     UIButton *takePic = [UIButton buttonWithType:UIButtonTypeCustom];
-    takePic.backgroundColor = [UIColor grayColor];
-    [takePic setTitle:@"拍照" forState:UIControlStateNormal];
-    takePic.frame = CGRectMake(90, 78, 60, 60);
+    [takePic setImage:[UIImage imageNamed:@"anjuke_icon_add_takephoto4.png"] forState:UIControlStateNormal];
+//    takePic.backgroundColor = [UIColor grayColor];
+//    [takePic setTitle:@"拍照" forState:UIControlStateNormal];
+    takePic.frame = CGRectMake(97.0f, 16.0f, 46, 46);
     [takePic addTarget:self action:@selector(takePic:) forControlEvents:UIControlEventTouchUpInside];
     [self.moreBackView addSubview:takePic];
+    UILabel *picLab = [[UILabel alloc] initWithFrame:CGRectMake(97.0f, imgRect.origin.y + imgRect.size.height + 8, imgRect.size.width, 30.0f)];
+    picLab.backgroundColor = [UIColor clearColor];
+    picLab.font = [UIFont systemFontOfSize:14];
+    picLab.text = @"拍照";
+    picLab.textAlignment = NSTextAlignmentCenter;
+    picLab.textColor = [UIColor axChatSystemBGColor:self.isBroker];
+    [self.moreBackView addSubview:picLab];
     
     UIButton *pickAJK = [UIButton buttonWithType:UIButtonTypeCustom];
-    pickAJK.backgroundColor = [UIColor grayColor];
-    [pickAJK setTitle:@"二手房" forState:UIControlStateNormal];
-    pickAJK.frame = CGRectMake(170, 78, 60, 60);
+    [pickAJK setImage:[UIImage imageNamed:@"anjuke_icon_add_esf.png"] forState:UIControlStateNormal];
+//    pickAJK.backgroundColor = [UIColor grayColor];
+//    [pickAJK setTitle:@"二手房" forState:UIControlStateNormal];
+    pickAJK.frame = CGRectMake(177.0f, 16.0f, 46, 46);
     [pickAJK addTarget:self action:@selector(pickAJK:) forControlEvents:UIControlEventTouchUpInside];
     [self.moreBackView addSubview:pickAJK];
+    UILabel *ajkLab = [[UILabel alloc] initWithFrame:CGRectMake(177.0f, imgRect.origin.y + imgRect.size.height + 8, imgRect.size.width, 30.0f)];
+    ajkLab.backgroundColor = [UIColor clearColor];
+    ajkLab.font = [UIFont systemFontOfSize:14];
+    ajkLab.text = @"二手房";
+    ajkLab.textAlignment = NSTextAlignmentCenter;
+    ajkLab.textColor = [UIColor axChatSystemBGColor:self.isBroker];
+    [self.moreBackView addSubview:ajkLab];
     
     UIButton *pickHZ = [UIButton buttonWithType:UIButtonTypeCustom];
-    pickHZ.backgroundColor = [UIColor grayColor];
-    [pickHZ setTitle:@"租房" forState:UIControlStateNormal];
-    pickHZ.frame = CGRectMake(250, 78, 60, 60);
+    [pickHZ setImage:[UIImage imageNamed:@"anjuke_icon_add_zf.png"] forState:UIControlStateNormal];
+//    pickHZ.backgroundColor = [UIColor grayColor];
+//    [pickHZ setTitle:@"租房" forState:UIControlStateNormal];
+    pickHZ.frame = CGRectMake(257.0f, 16.0f, 46, 46);
     [pickHZ addTarget:self action:@selector(pickHZ:) forControlEvents:UIControlEventTouchUpInside];
     [self.moreBackView addSubview:pickHZ];
+    UILabel *hzLab = [[UILabel alloc] initWithFrame:CGRectMake(257.0f, imgRect.origin.y + imgRect.size.height + 8, imgRect.size.width, 30.0f)];
+    hzLab.backgroundColor = [UIColor clearColor];
+    hzLab.font = [UIFont systemFontOfSize:14];
+    hzLab.text = @"租房";
+    hzLab.textAlignment = NSTextAlignmentCenter;
+    hzLab.textColor = [UIColor axChatSystemBGColor:self.isBroker];
+    [self.moreBackView addSubview:hzLab];
     
 }
 
