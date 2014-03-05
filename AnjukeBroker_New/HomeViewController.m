@@ -50,10 +50,8 @@
 @property (nonatomic, strong) UILabel *costLb;
 @property (nonatomic, strong) UILabel *clickLb;
 
-@property (nonatomic, strong) UILabel *msgCountLb;
-@property int MSGNum;
-
 @property BOOL hasLongLinked;
+@property (nonatomic, strong) NSDictionary *configDic;
 
 @end
 
@@ -85,6 +83,7 @@
     
     //监听被踢出下线通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doLogOutEnforce) name:@"MessageCenterUserDidQuit" object:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -97,6 +96,10 @@
     [super viewWillAppear:animated];
     
     [self doRequest];
+    
+    if (self.configDic.count == 0) {
+        [self requestForConfigure];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -129,6 +132,8 @@
     
     self.dataDic = [NSMutableDictionary dictionary];
     self.ppcDataDic = [NSMutableDictionary dictionary];
+    
+    self.configDic = [NSDictionary dictionary];
 }
 
 - (void)initDisplay {
@@ -319,20 +324,6 @@
         titleLabel.text = title;
         [view2 addSubview:titleLabel];
         
-        if (i == 2) {
-//            UILabel *labNum = [[UILabel alloc] initWithFrame:CGRectMake(pushBtnW - 10, -10, 20, 20)];
-//            labNum.tag = 101;
-//            labNum.textColor = [UIColor whiteColor];
-//            labNum.backgroundColor = SYSTEM_ORANGE;
-//            labNum.font = [UIFont systemFontOfSize:13];
-//            labNum.textAlignment = NSTextAlignmentCenter;
-//            labNum.layer.cornerRadius = 10;
-//            labNum.layer.masksToBounds = YES;
-//            self.msgCountLb = labNum;
-//            [btn addSubview:labNum];
-        }
-        
-        [self msgCountLbShowWithMsgNum:self.MSGNum];
     }
 }
 
@@ -352,15 +343,6 @@
     self.clickLb.text = [self.ppcDataDic objectForKey:@"todayAllClicks"];
     
     [self setTitleViewWithString:[LoginManager getRealName]];
-}
-
-- (void)msgCountLbShowWithMsgNum:(int)msgNumber {
-    self.msgCountLb.text = [NSString stringWithFormat:@"%d", msgNumber];
-    if (msgNumber > 0) {
-        self.msgCountLb.alpha = 1;
-    }
-    else
-        self.msgCountLb.alpha = 0;
 }
 
 - (void)rightButtonAction:(id)sender {
@@ -494,11 +476,9 @@
     [self setHomeValue];
     
     if (!self.hasLongLinked) {
-//        [self requestLongLink];
-        
         if (!chatID || [chatID isEqualToString:@""] || chatID == nil) {
 #ifdef DEBUG
-            [self showInfo:@"无法登录聊天，没ChatID，找API要去"];
+            [self showInfo:@"无法登录聊天，没ChatID"];
 #endif
         }
         else {
@@ -508,6 +488,7 @@
             
             [AXChatMessageCenter defaultMessageCenter];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGIN_NOTIFICATION" object:nil];
+            
         }
         self.hasLongLinked = YES;
     }
@@ -517,27 +498,23 @@
     
 }
 
-- (void)doRequestMessageCount {
+- (void)requestForConfigure {
     if (![self isNetworkOkay]) {
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
         return;
     }
-    
-    [self showLoadingActivity:YES];
-    self.isLoading = YES;
     
     NSMutableDictionary *params = nil;
     NSString *method = nil;
     
-    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[[NSUserDefaults standardUserDefaults] objectForKey:@"datetime"], @"datetime", nil];
-    method = @"msg/announcenum/";
-
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestCountFinished:)];
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+    method = @"globalconf/";
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestConfigureFinished:)];
+    
 }
 
-- (void)onRequestCountFinished:(RTNetworkResponse *)response {
-    DLog(@"。。。response [%@]", [response content]);
+- (void)onRequestConfigureFinished:(RTNetworkResponse *)response {
+    DLog(@"。。。configure response [%@]", [response content]);
     
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
@@ -546,22 +523,9 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-        
         return;
     }
     
-    self.MSGNum = [[[[response content] objectForKey:@"data"] objectForKey:@"newMessage"] integerValue];
-//    self.ppcDataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerPPCInfo"];
-//    
-//    [self setHomeValue];
-    
-    [self msgCountLbShowWithMsgNum:self.MSGNum];
-    
-//    [self.tvList reloadData];
-    [self hideLoadWithAnimated:YES];
-    self.isLoading = NO;
 }
 
 #pragma mark - tableView Datasource
@@ -603,13 +567,9 @@
     cell.textLabel.text = [self.taskArray objectAtIndex:indexPath.row];
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    if(self.MSGNum > 0 && indexPath.row == 2){
-        ((UILabel *)[cell viewWithTag:101]).text = [NSString stringWithFormat:@"%d", self.MSGNum];
-        [(UILabel *)[cell viewWithTag:101] setBackgroundColor:SYSTEM_ORANGE];
-    }else{
-        ((UILabel *)[cell viewWithTag:101]).text = @"";
-        [(UILabel *)[cell viewWithTag:101] setBackgroundColor:[UIColor clearColor]];
-    }
+    
+    ((UILabel *)[cell viewWithTag:101]).text = @"";
+    [(UILabel *)[cell viewWithTag:101] setBackgroundColor:[UIColor clearColor]];
     
     BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, HOME_cellHeight -1, 320 - 15, 1)];
     [cell.contentView addSubview:line];

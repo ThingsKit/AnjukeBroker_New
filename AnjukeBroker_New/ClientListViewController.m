@@ -70,8 +70,6 @@
             [self hideLoadWithAnimated:YES];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                DLog(@"friendList- [%@]", friendList);
-                
                 self.testArr = [NSArray arrayWithArray:friendList];
                 [self redrawList];
             });
@@ -112,7 +110,7 @@
     for (int i = 0; i < self.testArr.count; i++) {
         AXMappedPerson *item = [self.testArr objectAtIndex:i];
         if (item.userType == AXPersonTypePublic) {
-            DLog(@"public item [%@]", item);
+//            DLog(@"public item [%@]", item);
             [self.publicDataArr addObject:item];
         }
     }
@@ -124,7 +122,7 @@
 //        if ([(AXMappedPerson *)[star_arr objectAtIndex:i] userType] == AXPersonTypeUser) {
             if ([(AXMappedPerson *)[star_arr objectAtIndex:i] isStar] == YES) {
                 
-                DLog(@"star item [%@]", [star_arr objectAtIndex:i]);
+//                DLog(@"star item [%@]", [star_arr objectAtIndex:i]);
                 [self.starDataArr addObject:[star_arr objectAtIndex:i]]; //星标用户
             }
 //        }
@@ -323,7 +321,7 @@
     switch (index) {
         case 0:
         {
-            DLog(@"More button was pressed--index[%d, %d]", cellIndexPath.section, cellIndexPath.row);
+            DLog(@"isStar--section[%d],row-[%d]", cellIndexPath.section, cellIndexPath.row);
             
             item.isStar = !item.isStar;
             [[AXChatMessageCenter defaultMessageCenter] updatePerson:item];
@@ -335,12 +333,14 @@
         }
         case 1:
         {
+            DLog(@"delete--section[%d],row-[%d]", cellIndexPath.section, cellIndexPath.row);
+            
             //delete from database
             [[AXChatMessageCenter defaultMessageCenter] removeFriendBydeleteUid:[NSArray arrayWithObject:item.uid] compeletionBlock:^(BOOL isSuccess){
-//                if (isSuccess) {
+                if (isSuccess) {
 //                    [self getFriendList];
 //                    [self hideLoadWithAnimated:YES];
-//                }
+                }
             }];
             
             [self getFriendList];
