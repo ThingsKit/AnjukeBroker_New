@@ -184,7 +184,6 @@
 
             AXMessageType messageType = [message[@"msg_type"] integerValue];
             AXMessageCenterSendMessageStatus messageSendStatus = AXMessageCenterSendMessageStatusSuccessful;
-            NSDate *lastUpdateTime = [NSDate dateWithTimeIntervalSinceNow:0];
 
             AXMessage *managedMessage = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
 

@@ -63,9 +63,10 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
 
 - (void)cancelKeepAlivingConnection
 {
-    NSString *cancelUrl = [NSString stringWithFormat:@"http://%@:%@%@/%@/%@/%@",self.host,self.port,kAIFMessageStopAlivingConnectionUri,self.deviceId,self.appName, self.userId];
+    NSString *cancelUrl = [NSString stringWithFormat:@"https://%@:%@%@/%@/%@/%@",self.host,self.port,kAIFMessageStopAlivingConnectionUri,self.deviceId,self.appName, self.userId];
     DLog(@"CANACLE URL IS ====== %@",cancelUrl);
     self.cancelAlivingConnection = [[ASIHTTPRequest alloc] initWithURL:[NSURL URLWithString:cancelUrl]];
+    [self.cancelAlivingConnection setValidatesSecureCertificate:NO];
     self.cancelAlivingConnection.delegate = self;
     self.cancelAlivingConnection.tag = AIF_MESSAGE_REQUEST_TYPE_TAG_CANCEL_ALIVING_CONNECTION;
     [self.cancelAlivingConnection startAsynchronous];
@@ -90,12 +91,13 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
     self.deviceId = deviceId;
     self.userId = userId;
     
-    NSString *registerUrlString = [NSString stringWithFormat:@"http://%@:%@%@/%@/%@/%@/",self.host,self.port,kAIFMessageRegisteToServerUri,self.deviceId,self.appName,self.userId];
+    NSString *registerUrlString = [NSString stringWithFormat:@"https://%@:%@%@/%@/%@/%@/",self.host,self.port,kAIFMessageRegisteToServerUri,self.deviceId,self.appName,self.userId];
     //    NSLog(@"[%@ %@]:%@ => %@ ",NSStringFromClass([self class]),NSStringFromSelector(_cmd),@"registerUrlString",registerUrlString);
     NSURL *registerUrl = [NSURL URLWithString:registerUrlString];
     NSLog(@"registerUrl is %@", registerUrl);
     self.registerRequest = [ASIHTTPRequest requestWithURL:registerUrl];
     self.registerRequest.tag = AIF_MESSAGE_REQUEST_TYPE_TAG_REGISTER;
+    [self.registerRequest setValidatesSecureCertificate:NO];
     self.registerRequest.delegate = self;
     self.registerRequest.timeOutSeconds = self.timeout;
     [self.registerRequest startAsynchronous];
@@ -104,11 +106,12 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
 
 - (void)heartBeatWithDevices
 {
-    NSString *heartBeatUrlString = [NSString stringWithFormat:@"http://%@:%@%@/%@/%@/%@",self.host,self.port,kAIFMessageConnectToHeartBeatServerUri,self.deviceId,self.appName,self.userId];
+    NSString *heartBeatUrlString = [NSString stringWithFormat:@"https://%@:%@%@/%@/%@/%@",self.host,self.port,kAIFMessageConnectToHeartBeatServerUri,self.deviceId,self.appName,self.userId];
     //    NSLog(@"[%@ %@]:%@ => %@ ",NSStringFromClass([self class]),NSStringFromSelector(_cmd),@"heartBeatUrlString",heartBeatUrlString);
     NSURL *heartBeatUrl = [NSURL URLWithString:heartBeatUrlString];
     self.heartBeatRequest = [ASIHTTPRequest requestWithURL:heartBeatUrl];
     self.heartBeatRequest.delegate = self;
+    [self.heartBeatRequest setValidatesSecureCertificate:NO];
     self.heartBeatRequest.tag = AIF_MESSAGE_REQUEST_TYPE_TAG_HEARTBEAT;
     [self.heartBeatRequest startAsynchronous];
 }
@@ -117,11 +120,12 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
 - (void) heartBeatWithDevices:(NSString *)deviceId userId:(NSString *)userId
 {
     
-    NSString *heartBeatUrlString = [NSString stringWithFormat:@"http://%@:%@%@/%@/%@/%@",self.host,self.port,kAIFMessageConnectToHeartBeatServerUri,self.deviceId,self.appName,self.userId];
+    NSString *heartBeatUrlString = [NSString stringWithFormat:@"https://%@:%@%@/%@/%@/%@",self.host,self.port,kAIFMessageConnectToHeartBeatServerUri,self.deviceId,self.appName,self.userId];
     //    NSLog(@"[%@ %@]:%@ => %@ ",NSStringFromClass([self class]),NSStringFromSelector(_cmd),@"heartBeatUrlString",heartBeatUrlString);
     NSURL *heartBeatUrl = [NSURL URLWithString:heartBeatUrlString];
     self.heartBeatRequest = [ASIHTTPRequest requestWithURL:heartBeatUrl];
     self.heartBeatRequest.delegate = self;
+    [self.heartBeatRequest setValidatesSecureCertificate:NO];
     self.heartBeatRequest.tag = AIF_MESSAGE_REQUEST_TYPE_TAG_HEARTBEAT;
     [self.heartBeatRequest startAsynchronous];
 }
@@ -131,13 +135,14 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
     if ([uid isEqualToString:@""]) {
         uid = @"0";
     }
-    NSString *sendMessageUrlString = [NSString stringWithFormat:@"http://%@:%@%@/%@",self.host,self.port,kAIFMessagePushMessageByUidUri,uid];
+    NSString *sendMessageUrlString = [NSString stringWithFormat:@"https://%@:%@%@/%@",self.host,self.port,kAIFMessagePushMessageByUidUri,uid];
     //    NSLog(@"[%@ %@]:%@ => %@ \n message:%@",NSStringFromClass([self class]),NSStringFromSelector(_cmd),@"sendMessageToUid",sendMessageUrlString,message);
     
     NSURL *sendMessageUrl = [NSURL URLWithString:sendMessageUrlString];
     self.pushRequest = [ASIFormDataRequest requestWithURL:sendMessageUrl];
     self.pushRequest.delegate = self;
     self.pushRequest.tag = AIF_MESSAGE_REQUEST_TYPE_TAG_PUSHING;
+    [self.pushRequest setValidatesSecureCertificate:NO];
     [self.pushRequest setPostValue:message forKey:@"message"];
     [self.pushRequest startAsynchronous];
 }

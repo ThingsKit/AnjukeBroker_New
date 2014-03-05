@@ -14,6 +14,8 @@
 		200ACA4718B6F77000FAC740 /* Broker_InputEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 200ACA4618B6F77000FAC740 /* Broker_InputEditView.m */; };
 		2011CD8218AB1D5300EEEA5C /* SystemMessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2011CD8118AB1D5300EEEA5C /* SystemMessageDetailViewController.m */; };
 		202133C618C72CF200A0090B /* BrokerWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 202133C518C72CF200A0090B /* BrokerWebViewController.m */; };
+		202133CD18C74A2800A0090B /* AXMessageCenterUserToPublicServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 202133CC18C74A2800A0090B /* AXMessageCenterUserToPublicServiceManager.m */; };
+		202133D018C74A4E00A0090B /* AXMessageCenterAppGetAllMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 202133CF18C74A4E00A0090B /* AXMessageCenterAppGetAllMessageManager.m */; };
 		2026044218B9D0E200F75A56 /* anjuke_icon_delete_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2026044118B9D0E200F75A56 /* anjuke_icon_delete_@2x.png */; };
 		2026044818B9D6CA00F75A56 /* ClientModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2026044718B9D6CA00F75A56 /* ClientModel.m */; };
 		2026044C18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2026044B18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.m */; };
@@ -473,6 +475,10 @@
 		2011CD8118AB1D5300EEEA5C /* SystemMessageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemMessageDetailViewController.m; sourceTree = "<group>"; };
 		202133C418C72CF200A0090B /* BrokerWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerWebViewController.h; sourceTree = "<group>"; };
 		202133C518C72CF200A0090B /* BrokerWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerWebViewController.m; sourceTree = "<group>"; };
+		202133CB18C74A2800A0090B /* AXMessageCenterUserToPublicServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterUserToPublicServiceManager.h; sourceTree = "<group>"; };
+		202133CC18C74A2800A0090B /* AXMessageCenterUserToPublicServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterUserToPublicServiceManager.m; sourceTree = "<group>"; };
+		202133CE18C74A4E00A0090B /* AXMessageCenterAppGetAllMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterAppGetAllMessageManager.h; sourceTree = "<group>"; };
+		202133CF18C74A4E00A0090B /* AXMessageCenterAppGetAllMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterAppGetAllMessageManager.m; sourceTree = "<group>"; };
 		2026044118B9D0E200F75A56 /* anjuke_icon_delete_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_delete_@2x.png"; sourceTree = "<group>"; };
 		2026044618B9D6CA00F75A56 /* ClientModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientModel.h; sourceTree = "<group>"; };
 		2026044718B9D6CA00F75A56 /* ClientModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientModel.m; sourceTree = "<group>"; };
@@ -1462,6 +1468,10 @@
 		20A217FC18BF2A9D002CA469 /* AXApiManagers */ = {
 			isa = PBXGroup;
 			children = (
+				202133CE18C74A4E00A0090B /* AXMessageCenterAppGetAllMessageManager.h */,
+				202133CF18C74A4E00A0090B /* AXMessageCenterAppGetAllMessageManager.m */,
+				202133CB18C74A2800A0090B /* AXMessageCenterUserToPublicServiceManager.h */,
+				202133CC18C74A2800A0090B /* AXMessageCenterUserToPublicServiceManager.m */,
 				20A217FD18BF2A9D002CA469 /* AXMessageCenterAddFriendManager.h */,
 				20A217FE18BF2A9D002CA469 /* AXMessageCenterAddFriendManager.m */,
 				20A217FF18BF2A9D002CA469 /* AXMessageCenterDeleteFriendManager.h */,
@@ -2922,6 +2932,7 @@
 				B7D9282B18C72BAD007369EE /* AXPhotoManager.m in Sources */,
 				20A2182818BF2A9D002CA469 /* AXMessageCenterSendMessageManager.m in Sources */,
 				B7FC9B3718C4206600F77205 /* NSString+RTStyle.m in Sources */,
+				202133CD18C74A2800A0090B /* AXMessageCenterUserToPublicServiceManager.m in Sources */,
 				203EC2B618B34A4200DD0840 /* MessageListCell.m in Sources */,
 				97B4225A1820DB8300A2E9E6 /* AnjukePropertyGroupCell.m in Sources */,
 				B7EA04A61844D40900AC8842 /* BrokerAccountController.m in Sources */,
@@ -2943,7 +2954,6 @@
 				B7E69BC4183B9CEE0097D5C3 /* RentBidNoPlanController.m in Sources */,
 				B7D9283B18C72BAD007369EE /* UIFont+AXChatMessage.m in Sources */,
 				202133C618C72CF200A0090B /* BrokerWebViewController.m in Sources */,
-				B7978DAE18C5FFF200120E94 /* UIFont+AXChatMessage.m in Sources */,
 				B7E55B4D18BF2190007238CB /* JSDismissiveTextView.m in Sources */,
 				B7D9283218C72BAD007369EE /* AXPhotoView.m in Sources */,
 				20A217DF18BF2756002CA469 /* ClientDetailPublicViewController.m in Sources */,
@@ -3095,6 +3105,7 @@
 				B7EA04AA1844DB3700AC8842 /* BrokerAccountCell.m in Sources */,
 				207526C118B4658A0022220C /* ClientListCell.m in Sources */,
 				B7D9282818C72BAD007369EE /* AXChatMessageTextCell.m in Sources */,
+				202133D018C74A4E00A0090B /* AXMessageCenterAppGetAllMessageManager.m in Sources */,
 				9751860218320D5F00C9A40A /* PhotoManager.m in Sources */,
 				97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */,
 				979B083B18488A2800DD697E /* BigZhenzhenButton.m in Sources */,

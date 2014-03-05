@@ -14,7 +14,7 @@
 #import "AXMappedConversationListItem.h"
 
 static NSString * const kAXMessageCenterLinkParamHost = @"192.168.1.57";
-static NSString * const kAXMessageCenterLinkParamPort = @"8080";
+static NSString * const kAXMessageCenterLinkParamPort = @"8043";
 static NSString * const kAXMessageCenterLinkAppName = @"i-ajk";
 
 //Notification
@@ -78,8 +78,14 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 
 - (void)updataUserInformation:(AXMappedPerson *)newInformation compeletionBlock:(void (^)(BOOL))updateUserInfo;
 
+//send message to friend
 - (void)sendMessage:(AXMappedMessage *)message willSendMessage:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
 - (void)reSendMessage:(NSString *)identifier willSendMessage:(void (^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+
+//send message to publice service
+- (void)sendMessageToPublic:(AXMappedMessage *)message willSendMessage:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+- (void)reSendMessageToPublic:(NSString *)identifier willSendMessage:(void (^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+
 - (NSInteger)totalUnreadMessageCount;
 
 - (void)sendImage:(AXMappedMessage *)message withCompeletionBlock:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
