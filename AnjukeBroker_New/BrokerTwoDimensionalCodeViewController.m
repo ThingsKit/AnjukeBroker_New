@@ -80,7 +80,7 @@
     titleLb2.textColor = SYSTEM_BLACK;
     self.remarkLb = titleLb2;
     [self.view addSubview:titleLb2];
-
+    
     CGFloat bgW = 240;
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(icon.frame.origin.x, icon.frame.origin.y + icon.frame.size.height + 30, bgW, bgW)];
     bgView.backgroundColor = [UIColor whiteColor];
