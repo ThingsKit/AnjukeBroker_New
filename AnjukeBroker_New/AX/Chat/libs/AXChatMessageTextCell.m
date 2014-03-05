@@ -51,10 +51,10 @@
         _attrLabel = [[OHAttributedLabel alloc] initWithFrame:CGRectMake(0, 0, 1000, 1000)];
         _attrLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         _attrLabel.centerVertically = NO;
-        _attrLabel.automaticallyAddLinksForType = NSTextCheckingAllTypes;
+        _attrLabel.automaticallyAddLinksForType = (NSTextCheckingTypeLink | NSTextCheckingTypePhoneNumber);
         _attrLabel.delegate = self;
         _attrLabel.backgroundColor = [UIColor clearColor];
-        _attrLabel.linkUnderlineStyle = kCTUnderlinePatternSolid;
+        _attrLabel.linkUnderlineStyle = kCTUnderlineStyleNone;
         [self.contentView addSubview:_attrLabel];
     }
     return _attrLabel;

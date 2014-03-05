@@ -107,6 +107,7 @@ static NSString * const AXChatJsonVersion = @"1";
 
 - (void)dealloc
 {
+    DLog(@"AXChatViewController dealloc");
     [self.messageInputView.textView removeObserver:self forKeyPath:@"contentSize"];
     self.messageInputView = nil;
     self.pullToRefreshView.delegate = nil;
@@ -143,7 +144,6 @@ static NSString * const AXChatJsonVersion = @"1";
             }
             self.messageInputView.textView.text = self.conversationListItem.draftContent;
         }
-        [self.myTableView reloadData];
         [self scrollToBottomAnimated:NO];
     }
 }
@@ -168,14 +168,184 @@ static NSString * const AXChatJsonVersion = @"1";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // init Data
     self.conversationListItem = [[AXChatMessageCenter defaultMessageCenter] fetchConversationListItemWithFriendUID:[self checkFriendUid]];
-    [self initUI];
     self.currentPerson = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson];
     self.friendPerson = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[self checkFriendUid]];
-    
-    self.title = self.currentPerson.name;
     self.cellData = [NSMutableArray array];
     self.identifierData = [NSMutableArray array];
+    
+    // init UI
+    [self initUI];
+    
+    [self fetchLastChatList];
+    
+    [self initBlock];
+    
+    [self initPullToRefresh];
+}
+
+#pragma mark - Private Method
+
+
+- (void)initUI {
+    self.title = self.currentPerson.name;
+    [self.view setBackgroundColor:[UIColor axChatBGColor:self.isBroker]];
+    if (!self.isBroker) {
+        UIButton *brokerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        brokerButton.frame = CGRectMake(0, 0, 44, 44);
+        [brokerButton setImage:[UIImage imageNamed:@"xproject_dialogue_agentdetail.png"] forState:UIControlStateNormal];
+        [brokerButton setImage:[UIImage imageNamed:@"xproject_dialogue_agentdetail_selected.png"] forState:UIControlStateHighlighted];
+        [brokerButton addTarget:self action:@selector(goBrokerPage:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:brokerButton];
+        UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        spacer.width = -6.0f;
+        [self.navigationItem setRightBarButtonItems:@[spacer, buttonItems]];
+    }
+    
+    NSInteger viewHeight = 20;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        viewHeight = 0;
+    }
+    
+    self.myTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, AXWINDOWWHIDTH, AXWINDOWHEIGHT - AXInputBackViewHeight - viewHeight) style:UITableViewStylePlain];
+    self.myTableView.delegate = self;
+    self.myTableView.dataSource = self;
+    self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.myTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.myTableView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.myTableView];
+    
+    self.keyboardControl = [[UIControl alloc] initWithFrame:CGRectMake(0, 0, self.myTableView.width, 10)];
+    self.keyboardControl.backgroundColor = [UIColor clearColor];
+    [self.keyboardControl addTarget:self action:@selector(didClickKeyboardControl) forControlEvents:UIControlEventTouchUpInside];
+    self.keyboardControl.hidden = YES;
+    [self.view addSubview:self.keyboardControl];
+    
+    
+    self.moreBackView = [[UIView alloc] init];
+    self.moreBackView.frame = CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
+    self.moreBackView.backgroundColor = [UIColor lightGrayColor];
+    self.moreBackView.hidden = YES;
+    [self.view addSubview:self.moreBackView];
+    
+    CGSize size = self.view.frame.size;
+    CGFloat inputViewHeight = 49;
+    UIPanGestureRecognizer *pan = self.myTableView.panGestureRecognizer;
+    CGRect inputFrame = CGRectMake(0.0f,
+                                   size.height - inputViewHeight,
+                                   size.width,
+                                   inputViewHeight);
+    
+    JSMessageInputView *inputView = [[JSMessageInputView alloc] initWithFrame:inputFrame
+                                                                        style:JSMessageInputViewStyleFlat
+                                                                     delegate:self
+                                                         panGestureRecognizer:pan isBroker:self.isBroker];
+    [self.view addSubview:inputView];
+    self.messageInputView = inputView;
+    [self.messageInputView.textView addObserver:self
+                                     forKeyPath:@"contentSize"
+                                        options:NSKeyValueObservingOptionNew
+                                        context:nil];
+    
+    if (!self.isBroker) {
+        inputView.sendButton.enabled = NO;
+        [inputView.sendButton addTarget:self
+                                 action:@selector(sendPressed:)
+                       forControlEvents:UIControlEventTouchUpInside];
+    } else {
+        self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.sendBut.frame = CGRectMake(270.0f + 12.0f, 12.0f, 20.0f, 20.0f);
+        [self.sendBut addTarget:self action:@selector(didMoreBackView:) forControlEvents:UIControlEventTouchUpInside];
+        [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateNormal];
+        [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateHighlighted];
+        [self.messageInputView addSubview:self.sendBut];
+    }
+    
+    UIButton *pickIMG = [UIButton buttonWithType:UIButtonTypeCustom];
+    pickIMG.backgroundColor = [UIColor grayColor];
+    [pickIMG setTitle:@"相册" forState:UIControlStateNormal];
+    pickIMG.frame = CGRectMake(10, 78, 60, 60);
+    [pickIMG addTarget:self action:@selector(pickIMG:) forControlEvents:UIControlEventTouchUpInside];
+    [self.moreBackView addSubview:pickIMG];
+    
+    UIButton *takePic = [UIButton buttonWithType:UIButtonTypeCustom];
+    takePic.backgroundColor = [UIColor grayColor];
+    [takePic setTitle:@"拍照" forState:UIControlStateNormal];
+    takePic.frame = CGRectMake(90, 78, 60, 60);
+    [takePic addTarget:self action:@selector(takePic:) forControlEvents:UIControlEventTouchUpInside];
+    [self.moreBackView addSubview:takePic];
+    
+    UIButton *pickAJK = [UIButton buttonWithType:UIButtonTypeCustom];
+    pickAJK.backgroundColor = [UIColor grayColor];
+    [pickAJK setTitle:@"二手房" forState:UIControlStateNormal];
+    pickAJK.frame = CGRectMake(170, 78, 60, 60);
+    [pickAJK addTarget:self action:@selector(pickAJK:) forControlEvents:UIControlEventTouchUpInside];
+    [self.moreBackView addSubview:pickAJK];
+    
+    UIButton *pickHZ = [UIButton buttonWithType:UIButtonTypeCustom];
+    pickHZ.backgroundColor = [UIColor grayColor];
+    [pickHZ setTitle:@"租房" forState:UIControlStateNormal];
+    pickHZ.frame = CGRectMake(250, 78, 60, 60);
+    [pickHZ addTarget:self action:@selector(pickHZ:) forControlEvents:UIControlEventTouchUpInside];
+    [self.moreBackView addSubview:pickHZ];
+    
+}
+
+- (void)initBlock
+{
+    __weak AXChatViewController *blockSelf = self;
+    // 发消息的block
+    self.finishReSendMessageBlock = ^ (AXMappedMessage *message, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorCode) {
+        NSMutableDictionary *textData = [NSMutableDictionary dictionary];
+        textData = [blockSelf mapAXMappedMessage:message];
+        if (textData) {
+            if (status == AXMessageCenterSendMessageStatusSending) {
+                textData[@"status"] = @(AXMessageCenterSendMessageStatusSending);
+                textData[AXCellIdentifyTag] = message.identifier;
+                [blockSelf appendCellData:textData];
+            } else if (status == AXMessageCenterSendMessageStatusFailed) {
+                NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
+                blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusFailed);
+                [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            } else {
+                NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
+                blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
+                [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            }
+            if (errorCode == AXMessageCenterSendMessageErrorTypeCodeNotFriend && blockSelf.isBroker) {
+                [blockSelf sendSystemMessage:AXMessageTypeSystemForbid];
+            }
+        }
+    };
+    
+    self.finishSendMessageBlock = ^ (AXMappedMessage *message, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorCode) {
+        NSMutableDictionary *textData = [NSMutableDictionary dictionary];
+        textData = [blockSelf mapAXMappedMessage:message];
+        if (textData) {
+            if (status == AXMessageCenterSendMessageStatusSending) {
+                textData[@"status"] = @(AXMessageCenterSendMessageStatusSending);
+                textData[AXCellIdentifyTag] = message.identifier;
+                [blockSelf axAddCellData:textData];
+            } else if (status == AXMessageCenterSendMessageStatusFailed) {
+                NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
+                blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusFailed);
+                [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            } else {
+                NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
+                blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
+                [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            }
+            if (errorCode == AXMessageCenterSendMessageErrorTypeCodeNotFriend && blockSelf.isBroker) {
+                [blockSelf sendSystemMessage:AXMessageTypeSystemForbid];
+            }
+        }
+    };
+}
+
+- (void)fetchLastChatList
+{
     AXMappedMessage *lastMessage = [[AXMappedMessage alloc] init];
     lastMessage.sendTime = [NSDate dateWithTimeIntervalSinceNow:0];
     lastMessage.from = self.currentPerson.uid;
@@ -185,6 +355,11 @@ static NSString * const AXChatJsonVersion = @"1";
     
     [[AXChatMessageCenter defaultMessageCenter] fetchChatListWithLastMessage:lastMessage pageSize:AXMessagePageSize callBack:^(NSDictionary *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend) {
         blockSelf.hasMore = [chatList[@"hasMore"] boolValue];
+        if (blockSelf.hasMore) {
+            self.pullToRefreshView.delegate = self;
+        } else {
+            self.pullToRefreshView.delegate = nil;
+        }
         NSArray *chatArray = chatList[@"messages"];
         if ([chatArray isKindOfClass:[NSArray class]] && [chatArray count] > 0) {
             blockSelf.lastMessage = chatArray[0];
@@ -211,65 +386,14 @@ static NSString * const AXChatJsonVersion = @"1";
         if ([[UIApplication sharedApplication] enabledRemoteNotificationTypes] == UIRemoteNotificationTypeNone) {
             [blockSelf sendSystemMessage:AXMessageTypeSettingNotifycation];
         }
-
-        [blockSelf addMessageNotifycation];
-    }];
-    
-    // 发消息的block
-
-    self.finishReSendMessageBlock = ^ (AXMappedMessage *message, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorCode) {
-        NSMutableDictionary *textData = [NSMutableDictionary dictionary];
-        textData = [blockSelf mapAXMappedMessage:message];
-        if (textData) {
-            if (status == AXMessageCenterSendMessageStatusSending) {
-                textData[@"status"] = @(AXMessageCenterSendMessageStatusSending);
-                textData[AXCellIdentifyTag] = message.identifier;
-                [blockSelf appendCellData:textData];
-            } else if (status == AXMessageCenterSendMessageStatusFailed) {
-                NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
-                blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusFailed);
-                [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            } else {
-                NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
-                blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
-                [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            }
-            if (errorCode == AXMessageCenterSendMessageErrorTypeCodeNotFriend && blockSelf.isBroker) {
-                [blockSelf sendSystemMessage:AXMessageTypeSystemForbid];
-            }
-        }
-    };
         
-    self.finishSendMessageBlock = ^ (AXMappedMessage *message, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorCode) {
-        NSMutableDictionary *textData = [NSMutableDictionary dictionary];
-        textData = [blockSelf mapAXMappedMessage:message];
-        if (textData) {
-            if (status == AXMessageCenterSendMessageStatusSending) {
-                textData[@"status"] = @(AXMessageCenterSendMessageStatusSending);
-                textData[AXCellIdentifyTag] = message.identifier;
-                [blockSelf axAddCellData:textData];
-            } else if (status == AXMessageCenterSendMessageStatusFailed) {
-                NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
-                blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusFailed);
-                [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            } else {
-                NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
-                blockSelf.cellData[index][@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
-                [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            }
-            if (errorCode == AXMessageCenterSendMessageErrorTypeCodeNotFriend && blockSelf.isBroker) {
-                [blockSelf sendSystemMessage:AXMessageTypeSystemForbid];
-            }
-        }
-    };
-    
-    [self addPullToRefresh];
-    
+        [blockSelf addMessageNotifycation];
+        [self.myTableView reloadData];
+    }];
 }
 
-- (BOOL)checkUserLogin
-{
-    return YES;
+- (CGSize)sizeOfString:(NSString *)string maxWidth:(float)width withFontSize:(UIFont *)fontSize {
+    return [string rtSizeWithFont:fontSize constrainedToSize:CGSizeMake(width, 10000.0f) lineBreakMode:NSLineBreakByCharWrapping];
 }
 
 - (void)sendPropMessage
@@ -291,41 +415,18 @@ static NSString * const AXChatJsonVersion = @"1";
     }
 }
 
+
 - (void)addMessageNotifycation
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectionStatusDidChangeNotification:) name:MessageCenterConnectionStatusNotication object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewMessage:) name:MessageCenterDidReceiveNewMessage object:nil];
 }
 
-- (void)didReceiveNewMessage:(NSNotification *)notification
-{
-    if ([notification.object isKindOfClass:[NSDictionary class]]) {
-        NSDictionary *dict = (NSDictionary *)notification.object;
-        
-        if (notification.userInfo[@"unreadCount"] && [notification.userInfo[@"unreadCount"] integerValue] > 0) {
-            [self reloadUnReadNum:[notification.userInfo[@"unreadCount"] integerValue]];
-        }
-        
-        if (dict[[self checkFriendUid]]) {
-            for (AXMappedMessage *mappedMessage in dict[[self checkFriendUid]]) {
-                self.lastMessage = mappedMessage;
-                NSMutableDictionary *dict = [self mapAXMappedMessage:mappedMessage];
-                if (dict) {
-                    dict[@"messageSource"] = @(AXChatMessageSourceDestinationIncoming);
-                    dict[AXCellIdentifyTag] = mappedMessage.identifier;
-                    [self appendCellData:dict];
-                    [self scrollToBottomAnimated:YES];
-                }
-            }
-        }
-    }
-}
 
-- (void)connectionStatusDidChangeNotification:(NSNotification *)notification
+#pragma mark - Public Method
+- (BOOL)checkUserLogin
 {
-    if ([notification.userInfo[@"status"] integerValue] == AIFMessageCenterStatusUserLoginOut) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    return YES;
 }
 
 - (void)sendSystemMessage:(AXMessageType)type
@@ -350,11 +451,20 @@ static NSString * const AXChatJsonVersion = @"1";
     }
 }
 
+- (NSMutableAttributedString *)configAttributedString:(NSString *)text
+{
+    NSMutableAttributedString* mas = [NSMutableAttributedString attributedStringWithString:text];
+    [mas setFont:[UIFont systemFontOfSize:16]];
+    [mas setTextColor:[UIColor blackColor]];
+    [mas setTextAlignment:kCTTextAlignmentLeft lineBreakMode:kCTLineBreakByWordWrapping];
+    [OHASBasicMarkupParser processMarkupInAttributedString:mas];
+    return mas;
+}
 
 #pragma mark - Public Method
 - (void)reloadUnReadNum:(NSInteger)num
 {
-    
+    // do nothing
 }
 
 #pragma mark - DataSouce Method
@@ -519,7 +629,7 @@ static NSString * const AXChatJsonVersion = @"1";
 }
 
 #pragma mark - SSPullToRefresh
-- (void)addPullToRefresh
+- (void)initPullToRefresh
 {
     self.pullToRefreshView = [[AXPullToRefreshView alloc] initWithScrollView:self.myTableView delegate:self];
 }
@@ -566,38 +676,6 @@ static NSString * const AXChatJsonVersion = @"1";
     }
 }
 
-#pragma mark - AJKChatMessageTextCell
-- (NSMutableDictionary *)configTextCellData:(NSMutableDictionary *)textData
-{
-    CGFloat maxWidth = 0;
-    CGFloat maxHeight = 0;
-    CGSize strSize;
-    NSMutableAttributedString* mas = [self configAttributedString:textData[@"content"]];
-    strSize = [textData[@"content"] rtSizeWithFont:[UIFont systemFontOfSize:16]];
-    if (strSize.width > kLabelWidth) {
-        maxWidth = kLabelWidth;
-        CGSize sz = [mas sizeConstrainedToSize:CGSizeMake(maxWidth, CGFLOAT_MAX)];
-        maxHeight = sz.height;
-    } else {
-        maxWidth = strSize.width;
-        maxHeight = strSize.height;
-    }
-    textData[@"mas"] = mas;
-    textData[@"rowHeight"] = [NSString stringWithFormat:@"%f", maxHeight];
-    textData[@"rowWidth"] = [NSString stringWithFormat:@"%f", maxWidth];
-    return textData;
-}
-
-- (NSMutableAttributedString *)configAttributedString:(NSString *)text
-{
-    NSMutableAttributedString* mas = [NSMutableAttributedString attributedStringWithString:text];
-    [mas setFont:[UIFont systemFontOfSize:16]];
-    [mas setTextColor:[UIColor blackColor]];
-    [mas setTextAlignment:kCTTextAlignmentLeft lineBreakMode:kCTLineBreakByWordWrapping];
-    [OHASBasicMarkupParser processMarkupInAttributedString:mas];
-    return mas;
-}
-
 #pragma mark - UITableViewDataSource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -631,6 +709,28 @@ static NSString * const AXChatJsonVersion = @"1";
     return cell;
 }
 
+#pragma mark - AJKChatMessageTextCell
+- (NSMutableDictionary *)configTextCellData:(NSMutableDictionary *)textData
+{
+    CGFloat maxWidth = 0;
+    CGFloat maxHeight = 0;
+    CGSize strSize;
+    NSMutableAttributedString* mas = [self configAttributedString:textData[@"content"]];
+    strSize = [textData[@"content"] rtSizeWithFont:[UIFont systemFontOfSize:16]];
+    if (strSize.width > kLabelWidth) {
+        maxWidth = kLabelWidth;
+        CGSize sz = [mas sizeConstrainedToSize:CGSizeMake(maxWidth, CGFLOAT_MAX)];
+        maxHeight = sz.height;
+    } else {
+        maxWidth = strSize.width;
+        maxHeight = strSize.height;
+    }
+    textData[@"mas"] = mas;
+    textData[@"rowHeight"] = [NSString stringWithFormat:@"%f", maxHeight];
+    textData[@"rowWidth"] = [NSString stringWithFormat:@"%f", maxWidth];
+    return textData;
+}
+
 #pragma mark - AJKChatMessageSystemCellDelegate
 - (void)didClickSystemButton:(AXMessageType)messageType {
     
@@ -645,154 +745,43 @@ static NSString * const AXChatJsonVersion = @"1";
     }
 }
 
-- (void)initUI {
-    [self.view setBackgroundColor:[UIColor axChatBGColor:self.isBroker]];
-    
-    UIButton *brokerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    brokerButton.frame = CGRectMake(0, 0, 44, 44);
-    [brokerButton setImage:[UIImage imageNamed:@"xproject_dialogue_agentdetail.png"] forState:UIControlStateNormal];
-    [brokerButton setImage:[UIImage imageNamed:@"xproject_dialogue_agentdetail_selected.png"] forState:UIControlStateHighlighted];
-    [brokerButton addTarget:self action:@selector(goBrokerPage:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:brokerButton];
-    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    spacer.width = -6.0f;
-    [self.navigationItem setRightBarButtonItems:@[spacer, buttonItems]];
-    
-    NSInteger viewHeight = 20;
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        viewHeight = 0;
-    }
-    
-    self.myTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, AXWINDOWWHIDTH, AXWINDOWHEIGHT - AXInputBackViewHeight - viewHeight) style:UITableViewStylePlain];
-    self.myTableView.delegate = self;
-    self.myTableView.dataSource = self;
-    self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.myTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.myTableView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.myTableView];
-    
-    self.keyboardControl = [[UIControl alloc] initWithFrame:CGRectMake(0, 0, self.myTableView.width, 10)];
-    self.keyboardControl.backgroundColor = [UIColor clearColor];
-    [self.keyboardControl addTarget:self action:@selector(didClickKeyboardControl) forControlEvents:UIControlEventTouchUpInside];
-    self.keyboardControl.hidden = YES;
-    [self.view addSubview:self.keyboardControl];
-    
-    
-    self.moreBackView = [[UIView alloc] init];
-    self.moreBackView.frame = CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
-    self.moreBackView.backgroundColor = [UIColor lightGrayColor];
-    self.moreBackView.hidden = YES;
-    [self.view addSubview:self.moreBackView];
-
-    CGSize size = self.view.frame.size;
-    CGFloat inputViewHeight = 49;
-    UIPanGestureRecognizer *pan = self.myTableView.panGestureRecognizer;
-    CGRect inputFrame = CGRectMake(0.0f,
-                                   size.height - inputViewHeight,
-                                   size.width,
-                                   inputViewHeight);
-
-    JSMessageInputView *inputView = [[JSMessageInputView alloc] initWithFrame:inputFrame
-                                                                        style:JSMessageInputViewStyleFlat
-                                                                     delegate:self
-                                                         panGestureRecognizer:pan isBroker:self.isBroker];
-    [self.view addSubview:inputView];
-    self.messageInputView = inputView;
-    [self.messageInputView.textView addObserver:self
-                                 forKeyPath:@"contentSize"
-                                    options:NSKeyValueObservingOptionNew
-                                    context:nil];
-
-    if (!self.isBroker) {
-        inputView.sendButton.enabled = NO;
-        [inputView.sendButton addTarget:self
-                                 action:@selector(sendPressed:)
-                       forControlEvents:UIControlEventTouchUpInside];
-    } else {
-        self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.sendBut.frame = CGRectMake(270.0f + 12.0f, 12.0f, 20.0f, 20.0f);
-        [self.sendBut addTarget:self action:@selector(didMoreBackView:) forControlEvents:UIControlEventTouchUpInside];
-        [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateNormal];
-        [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateHighlighted];
-        [self.messageInputView addSubview:self.sendBut];
-    }
-    
-    UIButton *pickIMG = [UIButton buttonWithType:UIButtonTypeCustom];
-    pickIMG.backgroundColor = [UIColor grayColor];
-    [pickIMG setTitle:@"相册" forState:UIControlStateNormal];
-    pickIMG.frame = CGRectMake(10, 78, 60, 60);
-    [pickIMG addTarget:self action:@selector(pickIMG:) forControlEvents:UIControlEventTouchUpInside];
-    [self.moreBackView addSubview:pickIMG];
-    
-    UIButton *takePic = [UIButton buttonWithType:UIButtonTypeCustom];
-    takePic.backgroundColor = [UIColor grayColor];
-    [takePic setTitle:@"拍照" forState:UIControlStateNormal];
-    takePic.frame = CGRectMake(90, 78, 60, 60);
-    [takePic addTarget:self action:@selector(takePic:) forControlEvents:UIControlEventTouchUpInside];
-    [self.moreBackView addSubview:takePic];
-
-    UIButton *pickAJK = [UIButton buttonWithType:UIButtonTypeCustom];
-    pickAJK.backgroundColor = [UIColor grayColor];
-    [pickAJK setTitle:@"二手房" forState:UIControlStateNormal];
-    pickAJK.frame = CGRectMake(170, 78, 60, 60);
-    [pickAJK addTarget:self action:@selector(pickAJK:) forControlEvents:UIControlEventTouchUpInside];
-    [self.moreBackView addSubview:pickAJK];
-    
-    UIButton *pickHZ = [UIButton buttonWithType:UIButtonTypeCustom];
-    pickHZ.backgroundColor = [UIColor grayColor];
-    [pickHZ setTitle:@"租房" forState:UIControlStateNormal];
-    pickHZ.frame = CGRectMake(250, 78, 60, 60);
-    [pickHZ addTarget:self action:@selector(pickHZ:) forControlEvents:UIControlEventTouchUpInside];
-    [self.moreBackView addSubview:pickHZ];
-    
-}
-
-- (void)pickIMG:(id)sender {
-    AXELCImagePickerController *elcPicker = [[AXELCImagePickerController alloc] init];
-    
-    elcPicker.maximumImagesCount = 5; //(maxCount - self.roomImageArray.count);
-    elcPicker.imagePickerDelegate = self;
-    [self presentViewController:elcPicker animated:YES completion:nil];
-}
-
-- (void)takePic:(id)sender {
-    UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
-    ipc.sourceType = UIImagePickerControllerSourceTypeCamera; //拍照
-    ipc.delegate = self;
-    [self presentViewController:ipc animated:YES completion:nil];
-
-}
-
-- (void)sendMessage:(id)sender {
-    if ([self.messageInputView.textView.text isEqualToString:@""]) {
-        UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"提示" message:@"不能发空消息" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil];
-        [view show];
-        return;
-    }
-    
-    AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
-    mappedMessage.accountType = [self checkAccountType];
-    mappedMessage.content = self.messageInputView.textView.text;
-    mappedMessage.to = [self checkFriendUid];
-    mappedMessage.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-    mappedMessage.isRead = YES;
-    mappedMessage.isRemoved = NO;
-    mappedMessage.messageType = @(AXMessageTypeText);
-        
-    [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessage willSendMessage:self.finishSendMessageBlock];
-    [self afterSendMessage];
-    [self sendPropMessage];
-    
-    [self finishSend];
-    [self scrollToBottomAnimated:YES];
-}
-
 - (void)afterSendMessage
 {
     
 }
 
-#pragma mark - NSNotificationCenter UIMenu
+#pragma mark - NSNotificationCenter
+- (void)didReceiveNewMessage:(NSNotification *)notification
+{
+    if ([notification.object isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dict = (NSDictionary *)notification.object;
+        
+        if (notification.userInfo[@"unreadCount"] && [notification.userInfo[@"unreadCount"] integerValue] > 0) {
+            [self reloadUnReadNum:[notification.userInfo[@"unreadCount"] integerValue]];
+        }
+        
+        if (dict[[self checkFriendUid]]) {
+            for (AXMappedMessage *mappedMessage in dict[[self checkFriendUid]]) {
+                self.lastMessage = mappedMessage;
+                NSMutableDictionary *dict = [self mapAXMappedMessage:mappedMessage];
+                if (dict) {
+                    dict[@"messageSource"] = @(AXChatMessageSourceDestinationIncoming);
+                    dict[AXCellIdentifyTag] = mappedMessage.identifier;
+                    [self appendCellData:dict];
+                    [self scrollToBottomAnimated:YES];
+                }
+            }
+        }
+    }
+}
+
+- (void)connectionStatusDidChangeNotification:(NSNotification *)notification
+{
+    if ([notification.userInfo[@"status"] integerValue] == AIFMessageCenterStatusUserLoginOut) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 - (void)willHideEditMenu:(NSNotification *)notification
 {
     if (self.selectedCell) {
@@ -815,14 +804,10 @@ static NSString * const AXChatJsonVersion = @"1";
     }
 }
 
-- (CGSize)sizeOfString:(NSString *)string maxWidth:(float)width withFontSize:(UIFont *)fontSize {
-    return [string rtSizeWithFont:fontSize constrainedToSize:CGSizeMake(width, 10000.0f) lineBreakMode:NSLineBreakByCharWrapping];
-}
 
 #pragma mark - SSPullToRefreshViewDelegate
 - (void)pullToRefreshViewDidStartLoading:(AXPullToRefreshView *)view {
-    if (!self.lastMessage) {
-#warning TODO floyd 判断是否有历史消息
+    if (!self.lastMessage || !self.hasMore) {
         return;
     }
     [self.pullToRefreshView startLoading];
@@ -839,8 +824,12 @@ static NSString * const AXChatJsonVersion = @"1";
 
     [[AXChatMessageCenter defaultMessageCenter] fetchChatListWithLastMessage:self.lastMessage pageSize:AXMessagePageSize callBack:^(NSDictionary *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend) {
         blockSelf.hasMore = [chatList[@"hasMore"] boolValue];
+        if (blockSelf.hasMore) {
+            self.pullToRefreshView.delegate = self;
+        } else {
+            self.pullToRefreshView.delegate = nil;
+        }
         NSArray *chatArray = chatList[@"messages"];
-
         if ([chatArray isKindOfClass:[NSArray class]] && [chatArray count] > 0) {
             blockSelf.lastMessage = chatArray[0];
             NSInteger num = 0;
@@ -866,16 +855,14 @@ static NSString * const AXChatJsonVersion = @"1";
             for (NSIndexPath *indexPath in newIndexPaths) {
                 newContentOffset.y += [blockSelf tableView:blockSelf.myTableView heightForRowAtIndexPath:indexPath];
             }
-//            newContentOffset.y -= 30;
             DLog(@"newContentOffset.y:%f", newContentOffset.y);
             [blockSelf.myTableView setContentOffset:newContentOffset animated:NO];
 
         }
     }];
-
 }
-#pragma mark - ELCImagePickerControllerDelegate
 
+#pragma mark - ELCImagePickerControllerDelegate
 - (void)elcImagePickerController:(AXELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
     if ([info count] == 0) {
         return;
@@ -934,6 +921,7 @@ static NSString * const AXChatJsonVersion = @"1";
     //        [self reloadMytableView];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
 #pragma mark - AXChatMessageRootCellDelegate
 - (void)deleteAXCell:(AXChatMessageRootCell *)axCell
 {
@@ -1112,11 +1100,11 @@ static NSString * const AXChatJsonVersion = @"1";
     self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height
                                             - self.messageInputView.frame.origin.y
                                             - inputViewFrame.size.height);
+    [self scrollToBottomAnimated:YES];
     [UIView commitAnimations];
 }
 
 #pragma mark - Dismissive text view delegate
-
 - (void)keyboardDidScrollToPoint:(CGPoint)point
 {
     CGRect inputViewFrame = self.messageInputView.frame;
@@ -1174,17 +1162,76 @@ static NSString * const AXChatJsonVersion = @"1";
         self.moreBackView.hidden = YES;
         if (self.preNotification) {
             [self keyboardWillShowHide:self.preNotification];
+        }else {
+            if (self.isBroker) {
+                //            CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+                [UIView beginAnimations:nil context:NULL];
+                [UIView setAnimationDuration:0.27f];
+                [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+                [UIView setAnimationBeginsFromCurrentState:YES];
+                CGFloat keyboardY = AXMoreBackViewHeight;
+                CGRect inputViewFrame = self.messageInputView.frame;
+                CGFloat inputViewFrameY = keyboardY - inputViewFrame.size.height;
+                
+                // for ipad modal form presentations
+                CGFloat messageViewFrameBottom = self.view.frame.size.height - inputViewFrame.size.height;
+                if (inputViewFrameY > messageViewFrameBottom)
+                    inputViewFrameY = messageViewFrameBottom;
+                
+                self.messageInputView.frame = CGRectMake(inputViewFrame.origin.x,
+                                                         AXWINDOWHEIGHT -AXNavBarHeight -AXStatuBarHeight - inputViewFrame.size.height,
+                                                         inputViewFrame.size.width,
+                                                         inputViewFrame.size.height);
+                
+                [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
+                 - self.messageInputView.frame.origin.y
+                 - inputViewFrame.size.height + 60];
+                self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height
+                                                        - self.messageInputView.frame.origin.y
+                                                        - inputViewFrame.size.height + 60);
+                self.keyboardControl.hidden = YES;
+                [UIView commitAnimations];
+            }
         }
     } else {
         [self.messageInputView.textView resignFirstResponder];
     }
 }
 
+
 - (void)didMoreBackView:(UIButton *)sender
 {
-    self.moreBackView.hidden = NO;
-    [self.messageInputView.textView resignFirstResponder];
+    CGRect moreRect = CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
+    self.moreBackView.frame = CGRectMake(moreRect.origin.x, moreRect.origin.y + AXMoreBackViewHeight, moreRect.size.width, moreRect.size.height);
+    if (self.moreBackView.hidden) {//当more为消失状态时
+        self.moreBackView.hidden = !self.moreBackView.hidden;
+        [self.messageInputView.textView resignFirstResponder];
+        
+        [UIView animateWithDuration:0.270f animations:^{
+            self.moreBackView.frame = moreRect;
+            
+            CGRect inputViewFrame = self.messageInputView.frame;
+            CGFloat inputViewFrameY = AXWINDOWHEIGHT -AXNavBarHeight -AXStatuBarHeight - AXMoreBackViewHeight - inputViewFrame.size.height;
+            self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height
+                                                    - AXMoreBackViewHeight
+                                                    - inputViewFrame.size.height + 60);
+            self.keyboardControl.hidden = NO;
+            self.messageInputView.frame = CGRectMake(inputViewFrame.origin.x,
+                                                     inputViewFrameY,
+                                                     inputViewFrame.size.width,
+                                                     inputViewFrame.size.height);
+            [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
+             - AXMoreBackViewHeight
+             - inputViewFrame.size.height];
+            
+        } completion:nil];
+    }else {
+        self.moreBackView.hidden = !self.moreBackView.hidden;
+        [self.messageInputView.textView becomeFirstResponder];
+    }
+    
 }
+
 
 - (void)sendPressed:(UIButton *)sender
 {
@@ -1200,6 +1247,48 @@ static NSString * const AXChatJsonVersion = @"1";
 
 - (void)goBrokerPage:(id)sender
 {
+    
+}
+
+
+- (void)pickIMG:(id)sender {
+    AXELCImagePickerController *elcPicker = [[AXELCImagePickerController alloc] init];
+    
+    elcPicker.maximumImagesCount = 5; //(maxCount - self.roomImageArray.count);
+    elcPicker.imagePickerDelegate = self;
+    [self presentViewController:elcPicker animated:YES completion:nil];
+}
+
+- (void)takePic:(id)sender {
+    UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+    ipc.sourceType = UIImagePickerControllerSourceTypeCamera; //拍照
+    ipc.delegate = self;
+    [self presentViewController:ipc animated:YES completion:nil];
+    
+}
+
+- (void)sendMessage:(id)sender {
+    if ([self.messageInputView.textView.text isEqualToString:@""]) {
+        UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"提示" message:@"不能发空消息" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil];
+        [view show];
+        return;
+    }
+    
+    AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
+    mappedMessage.accountType = [self checkAccountType];
+    mappedMessage.content = self.messageInputView.textView.text;
+    mappedMessage.to = [self checkFriendUid];
+    mappedMessage.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
+    mappedMessage.isRead = YES;
+    mappedMessage.isRemoved = NO;
+    mappedMessage.messageType = @(AXMessageTypeText);
+    
+    [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessage willSendMessage:self.finishSendMessageBlock];
+    [self afterSendMessage];
+    [self sendPropMessage];
+    
+    [self finishSend];
+    [self scrollToBottomAnimated:YES];
 }
 
 #pragma mark - Scroll view delegate

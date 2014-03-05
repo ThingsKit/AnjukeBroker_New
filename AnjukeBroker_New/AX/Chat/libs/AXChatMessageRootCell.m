@@ -90,15 +90,6 @@ NSInteger const kRetryTag = 101;
 }
 
 #pragma mark -
-
-- (void)setBubbleIMGOutcomeIncome {
-    if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-        self.bubbleIMG.image = [[UIImage axInChatBubbleBg:self.isBroker highlighted:NO] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
-    } else {
-        self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:NO] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
-    }
-}
-
 - (void)configWithData:(NSDictionary *)data
 {
     [self setBubbleIMGOutcomeIncome];
@@ -155,12 +146,21 @@ NSInteger const kRetryTag = 101;
     }
 }
 
+- (void)setBubbleIMGOutcomeIncome
+{
+    if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
+        self.bubbleIMG.image = [[UIImage axInChatBubbleBg:self.isBroker highlighted:NO] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
+    } else {
+        self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:NO] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+    }
+}
+
 - (void)cellHighlighted:(BOOL)highlighted
 {
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
         self.bubbleIMG.image = [[UIImage axInChatBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
     } else {
-        self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
+        self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:highlighted] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
     }
 }
 

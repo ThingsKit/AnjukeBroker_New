@@ -38,6 +38,10 @@
 	self.view.backgroundColor = [UIColor blackColor];
 }
 
+- (void)dealloc {
+    _photoScrollView.delegate = nil;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

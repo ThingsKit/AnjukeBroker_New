@@ -10,6 +10,6 @@
 
 @interface AXChatWebViewController : UIViewController
 
-@property (nonatomic, strong) NSString *webUrl;
+@property (nonatomic, copy) NSString *webUrl;
 
 @end

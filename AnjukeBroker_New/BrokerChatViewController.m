@@ -10,7 +10,7 @@
 #import "CommunitySelectViewController.h"
 #import "AXPhotoBrowser.h"
 #import "ClientDetailViewController.h"
-
+#import "AXChatWebViewController.h"
 #import "AXPhoto.h"
 
 @interface BrokerChatViewController ()
@@ -73,7 +73,13 @@
         controller.isBroker = YES;
         controller.currentPhotoIndex = currentPhotoIndex; // 弹出相册时显示的第一张图片是？
         [controller setPhotos:photoArray]; // 设置所有的图片
-        [self.navigationController pushViewController:controller animated:YES];
+        [self.navigationController pushViewController:controller animated:NO];
+    } else if ([self.cellData objectAtIndex:indexPath.row] && [[[self.cellData objectAtIndex:indexPath.row] objectForKey:@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeProperty]]) {
+        AXChatWebViewController *chatWebViewController = [[AXChatWebViewController alloc] init];
+        NSLog(@"%@",[(NSDictionary *)[[[self.cellData objectAtIndex:indexPath.row] objectForKey:@"content"] JSONValue]objectForKey:@"url"]);
+        
+        chatWebViewController.webUrl = [(NSDictionary *)[[[self.cellData objectAtIndex:indexPath.row] objectForKey:@"content"] JSONValue]objectForKey:@"url"];
+        [self.navigationController pushViewController:chatWebViewController animated:YES];
     }
 }
 - (void)pickAJK:(id)sender {
@@ -93,6 +99,7 @@
     
 }
 -(void)returnSelectedHouseDic:(NSDictionary *)dic houseType:(BOOL)houseType {
+    NSMutableDictionary *propDict = [NSMutableDictionary dictionary];
     //二手房单页详情url确认结果：http://m.anjuke.com/sale/x/11/204603156
     //格式：http://fp07.m.dev.anjuke.com/sale/x/{城市id}/{房源id}
     
@@ -106,7 +113,7 @@
 #if DEBUG
         url = [NSString stringWithFormat:@"http://fp07.m.dev.anjuke.com/sale/x/%@/%@",[LoginManager getCity_id],dic[@"id"]];
 #endif
-        self.propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"url":url, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceErShouFang]}];
+        propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"url":url, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceErShouFang]}];
     }else{
         NSString *price = [NSString stringWithFormat:@"%@%@/月", dic[@"price"], dic[@"priceUnit"]];
         NSString *url = nil;
@@ -114,12 +121,12 @@
 #if DEBUG
         url = [NSString stringWithFormat:@"http://fp07.m.dev.anjuke.com/rent/x/%@/%@-3",[LoginManager getCity_id],dic[@"id"]];
 #endif
-        self.propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"url":url, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceZuFang]}];
+        propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"url":url, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceZuFang]}];
     }
     
     AXMappedMessage *mappedMessageProp = [[AXMappedMessage alloc] init];
     mappedMessageProp.accountType = @"1";
-    mappedMessageProp.content = [self.propDict JSONRepresentation];
+    mappedMessageProp.content = [propDict JSONRepresentation];
     mappedMessageProp.to = [self checkFriendUid];
     mappedMessageProp.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
     mappedMessageProp.isRead = YES;

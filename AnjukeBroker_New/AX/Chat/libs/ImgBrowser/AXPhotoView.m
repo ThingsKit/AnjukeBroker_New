@@ -53,7 +53,10 @@
     }
     return self;
 }
-
+- (void)dealloc {
+    _imageView = nil;
+    _photo = nil;
+}
 #pragma mark - photoSetter
 - (void)setPhoto:(AXPhoto *)photo {
     _photo = photo;
@@ -64,6 +67,8 @@
 #pragma mark 显示图片
 - (void)showImage
 {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+    hud.labelText = @"加载中...";
     if (_photo.firstShow) { // 首次显示
         //        _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];; // 占位图片
         if (_photo.picMessage.imgPath.length > 0) {
@@ -79,11 +84,14 @@
             }
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:_photo.picMessage.imgUrl]];
             __weak AXPhotoView *mySelf = self;
-            __unsafe_unretained AXPhoto *photo = _photo;
+            __unsafe_unretained AXPhoto *blockPhoto = _photo;
             
             [_imageView setImageWithURLRequest:request placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                photo.image = image;
-                [mySelf.imageView setImage:image];
+                if (blockPhoto && mySelf) {
+                    blockPhoto.image = image;
+                    [mySelf.imageView setImage:image];
+                    [mySelf adjustFrame];
+                }
                 //
                 NSString *libpath = [AXPhotoManager getLibrary:nil];
                 NSString *imgName = [NSString stringWithFormat:@"%dx%d.jpg", (int)image.size.height, (int)image.size.width];
@@ -103,7 +111,7 @@
                 mappedMessage.imgPath = imgpath;
                 
                 [[AXChatMessageCenter defaultMessageCenter] updateMessage:mappedMessage];
-                [mySelf adjustFrame];
+                
             } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                 
                 
@@ -119,7 +127,8 @@
 #pragma mark 开始加载图片
 - (void)photoStartLoad
 {
-    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+    hud.labelText = @"加载中...";
     if (_photo.image) {
         //        self.scrollEnabled = YES;
         _imageView.image = _photo.image;
@@ -138,10 +147,14 @@
             }
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:_photo.picMessage.imgUrl]];
             __weak AXPhotoView *mySelf = self;
-            __unsafe_unretained AXPhoto *photo = _photo;
+            __unsafe_unretained AXPhoto *blockPhoto = _photo;
             [_imageView setImageWithURLRequest:request placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                photo.image = image;
-                [mySelf.imageView setImage:image];
+                if (blockPhoto && mySelf) {
+                    blockPhoto.image = image;
+                    [mySelf.imageView setImage:image];
+                    [mySelf adjustFrame];
+                }
+
                 //
                 NSString *libpath = [AXPhotoManager getLibrary:nil];
                 NSString *imgName = [NSString stringWithFormat:@"%dx%d.jpg", (int)image.size.height, (int)image.size.width];
@@ -161,7 +174,7 @@
                 mappedMessage.imgPath = imgpath;
                 
                 [[AXChatMessageCenter defaultMessageCenter] updateMessage:mappedMessage];
-                [mySelf adjustFrame];
+
             } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                 
                 
@@ -225,6 +238,7 @@
     } else {
         _imageView.frame = imageFrame;
     }
+        [MBProgressHUD hideAllHUDsForView:self animated:YES];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -257,13 +271,9 @@
 		[self zoomToRect:CGRectMake(touchPoint.x, touchPoint.y, 1, 1) animated:YES];
 	}
 }
+
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholderImage {
     [_imageView setImageWithURL:url placeholderImage:placeholderImage];
-}
-- (void)dealloc
-{
-    // 取消请求
-    //    [_imageView setImageWithURL:[NSURL URLWithString:@"file:///abc"]];
 }
 
 @end

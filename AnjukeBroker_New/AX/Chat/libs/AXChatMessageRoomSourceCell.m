@@ -24,6 +24,7 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
 @property (nonatomic, strong) UILabel *titleLable;
 @property (nonatomic, strong) UILabel *priceLable;
 @property (nonatomic, strong) UILabel *roomTypeLabel;
+@property (nonatomic, strong) UIControl *propControl;
 @property (nonatomic, strong) UIImageView *roomImage;
 @property (nonatomic, strong) UIView *whiteBackGround;
 @property (nonatomic, strong) RTLineView *tagLineView;
@@ -50,6 +51,10 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
     self.whiteBackGround.layer.cornerRadius = 6.0f;
     self.whiteBackGround.layer.masksToBounds = YES;
     [self.contentView addSubview:self.whiteBackGround];
+    
+    self.propControl = [[UIControl alloc] init];
+    self.propControl.backgroundColor = [UIColor clearColor];
+    [self.propControl addTarget:self action:@selector(didClickProperty) forControlEvents:UIControlEventTouchUpInside];
     
     self.tagLable = [[UILabel alloc] init];
     self.tagLable.text = @"";
@@ -85,6 +90,7 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
     self.priceLable.backgroundColor = [UIColor clearColor];
     [self.whiteBackGround addSubview:self.priceLable];
     
+    [self.contentView addSubview:self.propControl];
 }
 
 - (void)setBubbleIMGByMessageSorce {
@@ -107,6 +113,7 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
         self.roomTypeLabel.left = 94;
         self.priceLable.left = 94;
     }
+    self.propControl.frame = self.bubbleIMG.frame;
 }
 
 - (void)configWithData:(NSDictionary *)data
@@ -148,6 +155,15 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
         self.bubbleIMG.image = [[UIImage axInChatPropBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
     } else {
         self.bubbleIMG.image = [[UIImage axOutChatPropBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
+    }
+}
+
+- (void)didClickProperty
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickPropertyUrl:)]) {
+        if (self.propDict[@"url"]) {
+            [self.delegate didClickPropertyUrl:self.propDict[@"url"]];
+        }
     }
 }
 

@@ -12,6 +12,8 @@
 	<dict>
 		<key>4BEBBE99-53D7-4E25-B12F-817180784031</key>
 		<string>ssh://git.corp.anjuke.com/_Broker_mobile_iOS/AnjukeBroker_New</string>
+		<key>79459D9C-B1A8-4F35-B184-A52AF9A0884C</key>
+		<string>ssh://git.corp.anjuke.com/_Broker_mobile_iOS/RTNetwork</string>
 		<key>B82756B6-02F9-4146-89FE-B5542E037184</key>
 		<string>ssh://git.corp.anjuke.com/weiyutian/AXComponents</string>
 	</dict>
@@ -21,6 +23,8 @@
 	<dict>
 		<key>4BEBBE99-53D7-4E25-B12F-817180784031</key>
 		<string>..</string>
+		<key>79459D9C-B1A8-4F35-B184-A52AF9A0884C</key>
+		<string>../../RTNetwork</string>
 		<key>B82756B6-02F9-4146-89FE-B5542E037184</key>
 		<string>../AnjukeBroker_New/AX/AXComponents</string>
 	</dict>
@@ -47,6 +51,14 @@
 			<string>B82756B6-02F9-4146-89FE-B5542E037184</string>
 			<key>IDESourceControlWCCName</key>
 			<string>AXComponents</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>79459D9C-B1A8-4F35-B184-A52AF9A0884C</string>
+			<key>IDESourceControlWCCName</key>
+			<string>RTNetwork</string>
 		</dict>
 	</array>
 </dict>
