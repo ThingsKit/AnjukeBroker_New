@@ -12,10 +12,10 @@
 
 typedef NS_ENUM(NSUInteger, AXPersonType)
 {
-    AXPersonTypeUser,
-    AXPersonTypeBroker,
-    AXPersonTypeServer,
-    AXPersonTypePublic
+    AXPersonTypeUser = 0,
+    AXPersonTypeBroker = 1,
+    AXPersonTypeServer = 2,
+    AXPersonTypePublic = 3
 };
 
 @interface AXMappedPerson : NSObject

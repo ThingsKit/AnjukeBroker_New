@@ -129,7 +129,7 @@
     return result;
 }
 
-#pragma mark - message related methods
+#pragma mark - message life cycle
 - (AXMappedMessage *)willSendMessage:(AXMappedMessage *)message
 {
     message.sendStatus = @(AXMessageCenterSendMessageStatusSending);
@@ -147,6 +147,7 @@
     AXMessage *message = [self findMessageWithIdentifier:identifier];
     if (message) {
         message.sendStatus = @(AXMessageCenterSendMessageStatusSuccessful);
+        [self updateConversationListItemWithMessage:[message convertToMappedObject]];
     }
     __autoreleasing NSError *error = nil;
     [self.managedObjectContext save:&error];
@@ -158,6 +159,7 @@
     AXMessage *message = [self findMessageWithIdentifier:identifier];
     if (message) {
         message.sendStatus = @(AXMessageCenterSendMessageStatusFailed);
+        [self updateConversationListItemWithMessage:[message convertToMappedObject]];
     }
     [self.managedObjectContext save:NULL];
     return [message convertToMappedObject];
@@ -284,8 +286,23 @@
 - (void)deleteMessageByIdentifier:(NSString *)identifier
 {
     AXMessage *message = [self findMessageWithIdentifier:identifier];
+    
     if (message) {
+        NSString *friendUid;
+        
+        if ([message.to isEqualToString:self.uid]) {
+            friendUid = message.from;
+        } else {
+            friendUid = message.to;
+        }
+    
+        AXMessage *lastMessage = [self findLastMessageWithFriendUid:friendUid];
+        AXConversationListItem *item = [self findConversationListItemWithFriendUID:friendUid];
+        if (item) {
+            [self updateConversationListItemWithMessage:[lastMessage convertToMappedObject]];
+        }
         [self.managedObjectContext deleteObject:message];
+        [self.managedObjectContext save:NULL];
     }
 }
 
@@ -307,6 +324,7 @@
     [self.managedObjectContext save:NULL];
 }
 
+#pragma mark - message related methods
 - (NSString *)lastMsgId
 {
     [self conversationListFetchedResultController];
@@ -386,6 +404,12 @@
     self.friendUid = nil;
 }
 
+- (NSString *)lastServiceMsgId
+{
+#warning todo
+    return @"";
+}
+
 #pragma mark - conversation List
 - (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID
 {
@@ -415,7 +439,7 @@
 
 - (void)deleteConversationItem:(AXMappedConversationListItem *)conversationItem
 {
-    AXConversationListItem *listItem = [self findConversationListItemWithItem:conversationItem];
+    AXConversationListItem *listItem = [self findConversationListItemWithFriendUID:conversationItem.friendUid];
     NSString *friendUid = listItem.friendUid;
     
     NSFetchRequest *fetchRequst = [[NSFetchRequest alloc] init];
@@ -575,7 +599,6 @@
         }
         
         person.created = [NSDate dateWithTimeIntervalSince1970:[mappedPerson[@"created"] integerValue]];
-#warning todo
         person.iconPath = @"";
         person.iconUrl = mappedPerson[@"icon"];
         person.isIconDownloaded = [NSNumber numberWithBool:NO];
@@ -700,9 +723,7 @@
     }
     
     if (shouldUpdateConversationListItem) {
-        AXMappedConversationListItem *item = [[AXMappedConversationListItem alloc] init];
-        item.friendUid = friendUID;
-        AXConversationListItem *conversationListItem = [self findConversationListItemWithItem:item];
+        AXConversationListItem *conversationListItem = [self findConversationListItemWithFriendUID:friendUID];
         if (!conversationListItem) {
             conversationListItem = [NSEntityDescription insertNewObjectForEntityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
             AXPerson *person = [self findPersonWithUID:friendUID];
@@ -716,6 +737,18 @@
             }
         }
         
+        AXPerson *friend = [self findPersonWithUID:friendUID];
+        NSString *presentName;
+        if ([friend.markName length] > 0) {
+            presentName = friend.markName;
+        } else {
+            presentName = friend.name;
+        }
+        
+        conversationListItem.presentName = presentName;
+        conversationListItem.iconPath = friend.iconPath;
+        conversationListItem.iconUrl = friend.iconUrl;
+        conversationListItem.isIconDownloaded = friend.isIconDownloaded;
         conversationListItem.messageType = @(itemType);
         conversationListItem.lastMsgIdentifier = message.identifier;
         conversationListItem.lastUpdateTime = message.sendTime;
@@ -750,20 +783,6 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
     fetchRequest.entity = entity;
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"uid = %@", uid];
-    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
-    if ([result count] > 0) {
-        return [result firstObject];
-    } else {
-        return nil;
-    }
-}
-
-- (AXConversationListItem *)findConversationListItemWithItem:(AXMappedConversationListItem *)conversationListItem
-{
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.entity = entity;
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"friendUid = %@", conversationListItem.friendUid];
     NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
     if ([result count] > 0) {
         return [result firstObject];

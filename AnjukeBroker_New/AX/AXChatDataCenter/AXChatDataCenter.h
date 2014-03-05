@@ -38,21 +38,21 @@
 - (void)fetchChatListByLastMessage:(AXMappedMessage *)lastMessage pageSize:(NSUInteger)pageSize;
 - (NSArray *)picMessageArrayWithFriendUid:(NSString *)friendUid;
 
-// message related methods
+// message life cycle
 - (AXMappedMessage *)willSendMessage:(AXMappedMessage *)message;
 - (AXMappedMessage *)didSuccessSendMessageWithIdentifier:(NSString *)identifier messageId:(NSString *)messageId;
 - (AXMappedMessage *)didFailSendMessageWithIdentifier:(NSString *)identifier;
-
 - (NSDictionary *)didReceiveWithMessageDataArray:(NSArray *)receivedArray;
 - (void)deleteMessageByIdentifier:(NSString *)identifier;
 - (void)updateMessage:(AXMappedMessage *)message;
-- (NSString *)lastMsgId;
 
+// message related methods
+- (NSInteger)totalUnreadMessageCount;
 - (AXMappedMessage *)fetchMessageWithIdentifier:(NSString *)identifier;
 - (void)saveDraft:(NSString *)content friendUID:(NSString *)friendUID;
-
-- (NSInteger)totalUnreadMessageCount;
 - (void)didLeaveChattingList;
+- (NSString *)lastMsgId;
+- (NSString *)lastServiceMsgId;
 
 // conversation list
 - (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID;
