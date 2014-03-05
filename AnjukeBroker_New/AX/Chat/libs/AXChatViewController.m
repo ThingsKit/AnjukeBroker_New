@@ -1277,7 +1277,7 @@ static NSString * const AXChatJsonVersion = @"1";
             [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
              - AXMoreBackViewHeight
              - inputViewFrame.size.height];
-            
+            [self scrollToBottomAnimated:YES];
         } completion:nil];
     }else {
         self.moreBackView.hidden = !self.moreBackView.hidden;
