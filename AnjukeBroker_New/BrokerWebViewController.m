@@ -7,12 +7,17 @@
 //
 
 #import "BrokerWebViewController.h"
+#import "Util_UI.h"
 
 @interface BrokerWebViewController ()
+
+@property (nonatomic, strong) UIWebView *webView;
 
 @end
 
 @implementation BrokerWebViewController
+@synthesize webView;
+@synthesize loadingUrl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,6 +38,18 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)initDisplay {
+    UIWebView *wv = [[UIWebView alloc] initWithFrame:FRAME_WITH_NAV];
+    self.webView = wv;
+    wv.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
+    wv.delegate = self;
+    [self.view addSubview:wv];
+    
+    NSURL *url = [NSURL URLWithString:self.loadingUrl];
+    NSURLRequest *requestUrl = [NSURLRequest requestWithURL:url];
+    [wv loadRequest:requestUrl];
 }
 
 @end

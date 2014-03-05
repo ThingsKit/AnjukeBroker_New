@@ -8,6 +8,8 @@
 
 #import "RTViewController.h"
 
-@interface BrokerWebViewController : RTViewController
+@interface BrokerWebViewController : RTViewController <UIWebViewDelegate>
+
+@property (nonatomic, copy) NSString *loadingUrl;
 
 @end

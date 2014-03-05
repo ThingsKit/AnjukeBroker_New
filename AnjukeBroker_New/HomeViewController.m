@@ -53,6 +53,7 @@
 
 @property BOOL hasLongLinked;
 @property BOOL configChecked;
+@property (nonatomic, copy) NSString *loadingURL;
 
 @end
 
@@ -538,7 +539,6 @@
     
     NSArray *frendOverNumArr = [resultFromAPI objectForKey:@"frendOverNum"]; //好友上限用
     
-    
     NSDictionary *tipsDic = [resultFromAPI objectForKey:@"tips"]; //是否显示状态条并跳转webView
     if ([[tipsDic objectForKey:@"openFlag"] isEqualToString:@"1"]) {//开启弹窗和跳转 test
         [self showWebViewJumpWithDic:tipsDic];
@@ -549,6 +549,9 @@
     if ([[tipsDic objectForKey:@"url"] length] <= 0) {
         return;
     }
+    
+    self.loadingURL = [tipsDic objectForKey:@"url"];
+    
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(0, 0, [self windowWidth], 30);
     [btn addTarget:self action:@selector(pushToWeb) forControlEvents:UIControlEventTouchUpInside];
@@ -561,6 +564,7 @@
 
 - (void)pushToWeb {
     BrokerWebViewController *bw = [[BrokerWebViewController alloc] init];
+    bw.loadingUrl = self.loadingURL;
     [bw setHidesBottomBarWhenPushed:YES];
     [self.navigationController pushViewController:bw animated:YES];
 }
