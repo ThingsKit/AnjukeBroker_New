@@ -412,7 +412,7 @@
 
 - (void)showMessageValueWithStr:(int)value { //显示消息条数
     if (value <= 0) {
-        [self.tabController setMessageBadgeValueWithValue:@""];
+        [self.tabController setMessageBadgeValueWithValue:nil];
         return;
     }
     

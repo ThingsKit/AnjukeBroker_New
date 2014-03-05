@@ -415,6 +415,12 @@
     
     [AXChatMessageCenter defaultMessageCenter];
 //    [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_MENU_TABLE" object:nil];
+    
+    //保存头像
+    AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
+    person.iconUrl = [LoginManager getUse_photo_url];
+    [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
+    
     [[AppDelegate sharedAppDelegate] connectLongLinkForChat];
     
 }
