@@ -52,35 +52,25 @@
     
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if ([self.cellData objectAtIndex:indexPath.row] && [[[self.cellData objectAtIndex:indexPath.row] objectForKey:@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypePic]]) {
-//        
-//        NSMutableArray *imgArray = [NSMutableArray arrayWithArray:[[AXChatMessageCenter defaultMessageCenter] picMessageArrayWithFriendUid:[self checkFriendUid]]];
-//        
-//        NSMutableArray *photoArray = [NSMutableArray array];
-//        int currentPhotoIndex = 0;
-//        for (int i =0; i <imgArray.count; i ++) {
-//            AXPhoto *photo = [[AXPhoto alloc] init];
-//            photo.picMessage = [imgArray objectAtIndex:i];
-////            photo.picMessage.imgUrl = @"http://a.hiphotos.baidu.com/image/w%3D2048/sign=0186658d0afa513d51aa6bde095554fb/359b033b5bb5c9ea85c7f3b2d739b6003af3b3af.jpg";
-////            photo.picMessage.imgPath = @"";
-//            if ([[[self.cellData objectAtIndex:indexPath.row] objectForKey:@"identifier"] isEqualToString:photo.picMessage.identifier]) {
-//                currentPhotoIndex = i;
-//            }
-//            [photoArray addObject:photo];
-//        }
-//
-//        AXPhotoBrowser *controller = [[AXPhotoBrowser alloc] init];
-//        controller.isBroker = YES;
-//        controller.currentPhotoIndex = currentPhotoIndex; // 弹出相册时显示的第一张图片是？
-//        [controller setPhotos:photoArray]; // 设置所有的图片
-//        [self.navigationController pushViewController:controller animated:NO];
-//    } else if ([self.cellData objectAtIndex:indexPath.row] && [[[self.cellData objectAtIndex:indexPath.row] objectForKey:@"messageType"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeProperty]]) {
-//        AXChatWebViewController *chatWebViewController = [[AXChatWebViewController alloc] init];
-//        NSLog(@"%@",[(NSDictionary *)[[[self.cellData objectAtIndex:indexPath.row] objectForKey:@"content"] JSONValue]objectForKey:@"url"]);
-//        
-//        chatWebViewController.webUrl = [(NSDictionary *)[[[self.cellData objectAtIndex:indexPath.row] objectForKey:@"content"] JSONValue]objectForKey:@"url"];
-//        [self.navigationController pushViewController:chatWebViewController animated:YES];
-//    }
+    NSString *identifier = (self.identifierData)[[indexPath row]];
+    NSDictionary *dic = self.cellDict[identifier];
+    if ([dic[@"messageType"] isEqualToNumber:@(AXMessageTypePic)]) {
+        NSMutableArray *imgArray = [NSMutableArray arrayWithArray:[[AXChatMessageCenter defaultMessageCenter] picMessageArrayWithFriendUid:[self checkFriendUid]]];
+        NSMutableArray *photoArray = [NSMutableArray array];
+        int currentPhotoIndex = 0;
+        for (int i =0; i <imgArray.count; i ++) {
+            AXPhoto *photo = [[AXPhoto alloc] init];
+            photo.picMessage = imgArray[i];
+            if ([dic[@"identifier"] isEqualToString:photo.picMessage.identifier]) {
+                currentPhotoIndex = i;
+            }
+            [photoArray addObject:photo];
+        }
+        AXPhotoBrowser *controller = [[AXPhotoBrowser alloc] init];
+        controller.currentPhotoIndex = currentPhotoIndex; // 弹出相册时显示的第一张图片是？
+        [controller setPhotos:photoArray]; // 设置所有的图片
+        [self.navigationController pushViewController:controller animated:YES];
+    }
 }
 - (void)pickAJK:(id)sender {
     CommunitySelectViewController *controller = [[CommunitySelectViewController alloc] init];
