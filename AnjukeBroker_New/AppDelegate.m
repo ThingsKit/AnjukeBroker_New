@@ -205,7 +205,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGIN_NOTIFICATION" object:nil];
     }
     [[AccountManager sharedInstance] registerNotification];
-    
+        
     //每次获取新消息数
     NSInteger count = [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
     [self showMessageValueWithStr:count];

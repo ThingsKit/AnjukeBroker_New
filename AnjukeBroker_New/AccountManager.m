@@ -30,7 +30,7 @@
 }
 
 - (void)registerNotification{
-    return;
+//    return;
     
     if ([LoginManager isLogin] && self.NotificationDeviceToken.length>20 && [[LoginManager getChatID] length] > 0) {
         NSMutableDictionary *bodys = [NSMutableDictionary dictionary];
