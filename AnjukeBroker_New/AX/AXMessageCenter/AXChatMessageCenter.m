@@ -137,7 +137,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     [self.messageManager registerDevices:[[UIDevice currentDevice] udid] userId:self.currentPerson.uid];
     
     // 注册推送
-    NSString *notificationToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"AJKNotificationToken"];
+    NSString *notificationToken = [[NSUserDefaults standardUserDefaults] objectForKey:REMOTE_NOTIFCATION_TOKEN];
     NSMutableDictionary *bodys = [NSMutableDictionary dictionary];
     [bodys setValue:Code_AppName forKey:@"appName"];
     [bodys setValue:[[UIDevice currentDevice] uuid] forKey:@"uuid"];
@@ -350,7 +350,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
                         [self.blockDictionary removeObjectForKey:identify];
                     }
                 } else if (response.content[@"status"] && [response.content[@"status"] isEqualToString:@"ERROR"]){
-                    if (response.content[@"errorCode"] && [response.content[@"errorCode"] isEqualToString:@"100016"] ) {
+                    if (response.content[@"errorCode"] && [response.content[@"errorCode"] isEqualToString:@"103001"] ) {
                         _finishSendMessageBlock = self.blockDictionary[identify];
                         mappedMessage.sendStatus = @(AXMessageCenterSendMessageStatusFailed);
                         mappedMessage.messageId = [NSNumber numberWithInt:[response.content[@"result"] integerValue]];
@@ -880,7 +880,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
                 
                 self.sendMessageManager.apiParams = params;
                 [self.sendMessageManager loadData];
-                [self.sendImageArray removeObject:dataMessage];
+//                [self.sendImageArray removeObject:dataMessage];
             }
         }];
         

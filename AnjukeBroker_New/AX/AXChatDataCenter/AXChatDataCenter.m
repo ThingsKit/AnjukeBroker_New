@@ -609,6 +609,19 @@
     }
     
     [personToUpdate assignPropertiesFromMappedObject:person];
+    
+    NSString *presentName = nil;
+    if ([person.markName length] > 0) {
+        presentName = person.markName;
+    } else {
+        presentName = person.name;
+    }
+    
+    AXConversationListItem *item = [self findConversationListItemWithFriendUID:person.uid];
+    if (item) {
+        item.presentName = presentName;
+    }
+    
     [self.managedObjectContext save:NULL];
 }
 
