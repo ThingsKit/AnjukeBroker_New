@@ -42,6 +42,7 @@
     self.view.backgroundColor = SYSTEM_LIGHT_GRAY_BG2;
     
     [self setValueForShow];
+    [self doRequest];
 }
 
 - (void)didReceiveMemoryWarning
@@ -105,6 +106,52 @@
 - (void)setValueForShow {
     self.nameLb.text = [LoginManager getRealName];
 //    self.remarkLb.text = @"我爱我家联洋店";
+}
+
+#pragma mark - Request Method
+
+- (void)doRequest {
+    if (![self isNetworkOkay]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+    
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"cityId", nil];
+    method = @"broker/getinfo/";
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+}
+
+- (void)onRequestFinished:(RTNetworkResponse *)response {
+    DLog(@"。。。response [%@]", [response content]);
+    if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        [self showInfo:@"操作失败"];
+        return ;
+    }
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles: nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+    
+    NSDictionary *dic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
+    self.remarkLb.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"store"]];
+    //
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 }
 
 @end
