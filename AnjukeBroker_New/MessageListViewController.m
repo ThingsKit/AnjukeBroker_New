@@ -116,12 +116,7 @@
 - (void)resetMessageValue {
     //得到所有的消息提醒数
     NSInteger count = [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
-    if (count) {
-        self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",count];
-    } else
-    {
-        self.navigationController.tabBarItem.badgeValue = nil;
-    }
+    [[AppDelegate sharedAppDelegate] showMessageValueWithStr:count];
 }
 
 - (void)removeDataArrAtIndex:(int)index {
