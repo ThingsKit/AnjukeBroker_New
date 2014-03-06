@@ -583,7 +583,7 @@
 
 - (void)pushToWeb {
     BrokerWebViewController *bw = [[BrokerWebViewController alloc] init];
-    bw.loadingUrl = @"http://www.sina.com";//self.loadingURL;
+    bw.loadingUrl = self.loadingURL;
     [bw setHidesBottomBarWhenPushed:YES];
     [self.navigationController pushViewController:bw animated:YES];
 }
