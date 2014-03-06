@@ -177,6 +177,8 @@
         NSMutableArray *picMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
         NSMutableArray *commonMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
         
+        AXPersonType accountType = [item[@"account_type"] integerValue];
+        
         AXMessage *message = [self findLastMessageWithFriendUid:friendUID];
         NSDate *storedLastDate = message.sendTime;
         
@@ -202,7 +204,8 @@
                 managedMessage.isImgDownloaded = [NSNumber numberWithBool:NO];
             }
 
-            managedMessage.accountType = message[@"account_type"];
+#warning todo account type
+            managedMessage.accountType = item[@"account_type"];
             managedMessage.content = message[@"body"];
             managedMessage.from = friendUID;
             managedMessage.isRemoved = [NSNumber numberWithBool:NO];
@@ -253,10 +256,19 @@
         messageDictionary[friendUID] = [messageArray reverseSelf];
         splitedDictionary[friendUID] = @{@"pic":picMessageArray, @"other":[commonMessageArray reverseSelf]};
         
+#warning wating to finish to distguish servceid or user id by william yang
         if (![self isFriendWithFriendUid:friendUID]) {
+            
+#warning todo checkout account type
             AXPerson *friend = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
             friend.uid = friendUID;
-            [self.delegate dataCenter:self fetchPersonInfoWithUid:@[friendUID]];
+            
+            if (accountType == AXPersonTypePublic) {
+                [self.delegate dataCenter:self fetchPublicInfoWithUid:@[friendUID]];
+            } else {
+                [self.delegate dataCenter:self fetchPersonInfoWithUid:@[friendUID]];
+            }
+            
         }
         
     }
@@ -352,8 +364,6 @@
     } else {
         return @"1";
     }
-    
-    return nil;
 }
 
 - (AXMappedMessage *)fetchMessageWithIdentifier:(NSString *)identifier
@@ -405,8 +415,31 @@
 
 - (NSString *)lastServiceMsgId
 {
-#warning todo
-    return @"";
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.resultType = NSDictionaryResultType;
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"accountType = %d", AXPersonTypePublic];
+    NSExpression *keypathExpression = [NSExpression expressionForKeyPath:@"messageId"];
+    NSExpression *maxExpression = [NSExpression expressionForFunction:@"max:" arguments:@[keypathExpression]];
+    NSExpressionDescription *expressionDescription = [[NSExpressionDescription alloc] init];
+    expressionDescription.name = @"lastMsgId";
+    expressionDescription.expression = maxExpression;
+    expressionDescription.expressionResultType = NSInteger32AttributeType;
+    fetchRequest.propertiesToFetch = @[expressionDescription];
+    
+    __autoreleasing NSError *error = nil;
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    if ([result count] > 0) {
+        NSNumber *lastMsgId = result[0][@"lastMsgId"];
+        if ([lastMsgId integerValue ] == 0) {
+            return @"1";
+        } else {
+            return [NSString stringWithFormat:@"%@", lastMsgId];
+        }
+    } else {
+        return @"1";
+    }
 }
 
 #pragma mark - conversation List
@@ -546,9 +579,7 @@
     person.phone = friendData[@"phone"];
     person.uid = friendData[@"user_id"];
     person.userType = @([friendData[@"user_type"] integerValue]);
-    
-
-    
+    [person updateFirstPinyin];
     [self.managedObjectContext save:NULL];
 }
 
@@ -611,6 +642,7 @@
         person.uid = mappedPerson[@"user_id"];
         person.company = mappedPerson[@"corp"];
         person.userType = @([mappedPerson[@"user_type"] integerValue]);
+        [person updateFirstPinyin];
         
         if (![person.isPendingForRemove boolValue]) {
             [friendList addObject:[person convertToMappedPerson]];
@@ -631,6 +663,7 @@
     }
     
     [personToUpdate assignPropertiesFromMappedObject:person];
+    [personToUpdate updateFirstPinyin];
     
     NSString *presentName = nil;
     if ([person.markName length] > 0) {
@@ -642,6 +675,9 @@
     AXConversationListItem *item = [self findConversationListItemWithFriendUID:person.uid];
     if (item) {
         item.presentName = presentName;
+        item.iconUrl = personToUpdate.iconUrl;
+        item.iconPath = personToUpdate.iconPath;
+        item.isIconDownloaded = personToUpdate.isIconDownloaded;
     }
     
     [self.managedObjectContext save:NULL];
@@ -668,12 +704,14 @@
 
 - (NSFetchedResultsController *)friendListFetchedResultController
 {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    fetchRequest.entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AXPerson"];
+    
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"uid != %@ AND isPendingForRemove = %@", self.uid,[NSNumber numberWithBool:NO]];
+    
     NSSortDescriptor *sectionSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"firstPinYin" ascending:YES];
     NSSortDescriptor *uidSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"uid" ascending:YES];
     fetchRequest.sortDescriptors = @[sectionSortDescriptor,uidSortDescriptor];
+    
     return [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"firstPinYin" cacheName:nil];
 }
 

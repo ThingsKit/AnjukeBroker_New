@@ -9,12 +9,4 @@
 #import "AXMappedMessage.h"
 
 @implementation AXMappedMessage
-- (instancetype)initWithDictionary:(NSDictionary *)dic
-{
-    self = [super init];
-    if (self) {
-        
-    }
-    return self;
-}
 @end

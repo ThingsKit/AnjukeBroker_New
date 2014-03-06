@@ -56,5 +56,4 @@ typedef NS_ENUM (NSUInteger, AXMessageCenterSendMessageStatus)
 @property (nonatomic, strong) NSString * thumbnailImgUrl;
 @property (nonatomic, strong) NSString * to;
 
-- (instancetype)initWithDictionary:(NSDictionary *)dic;
 @end

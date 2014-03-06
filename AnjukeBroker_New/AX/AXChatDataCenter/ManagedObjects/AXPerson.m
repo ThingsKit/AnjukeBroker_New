@@ -88,7 +88,10 @@
 - (void)willSave
 {
     [super willSave];
-    
+}
+
+- (void)updateFirstPinyin
+{
     NSString *firstChar = @"~";
     if ([self.markNamePinyin length] > 0) {
         firstChar = [[self.markNamePinyin uppercaseString] substringToIndex:1];
@@ -98,9 +101,9 @@
         }
     }
     if ([@"ABCDEFGHIJKLMNOPQRSTUVWXYZ" rangeOfString:firstChar].location == NSNotFound) {
-        [self setPrimitiveValue:@"~" forKey:@"firstPinYin"];
+        self.firstPinYin = @"~";
     } else {
-        [self setPrimitiveValue:firstChar forKey:@"firstPinYin"];
+        self.firstPinYin = firstChar;
     }
 }
 

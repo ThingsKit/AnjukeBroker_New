@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2005EA3C18C858E000CC6ACC /* AXMessageCenterUserGetPublicServiceInfoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2005EA3B18C858E000CC6ACC /* AXMessageCenterUserGetPublicServiceInfoManager.m */; };
 		200915E81893FC1000A13115 /* E_Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 200915E71893FC1000A13115 /* E_Photo.m */; };
 		200915EB1893FC1100A13115 /* Property.m in Sources */ = {isa = PBXBuildFile; fileRef = 200915EA1893FC1100A13115 /* Property.m */; };
 		200915EE189401C800A13115 /* anjuke_icon_fxt_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */; };
@@ -462,6 +463,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2005EA3A18C858E000CC6ACC /* AXMessageCenterUserGetPublicServiceInfoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterUserGetPublicServiceInfoManager.h; sourceTree = "<group>"; };
+		2005EA3B18C858E000CC6ACC /* AXMessageCenterUserGetPublicServiceInfoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterUserGetPublicServiceInfoManager.m; sourceTree = "<group>"; };
 		200915D31893FA3000A13115 /* AnjukeBroker_New3.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AnjukeBroker_New3.1.xcdatamodel; sourceTree = "<group>"; };
 		200915E61893FC1000A13115 /* E_Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = E_Photo.h; sourceTree = "<group>"; };
 		200915E71893FC1000A13115 /* E_Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = E_Photo.m; sourceTree = "<group>"; };
@@ -2348,6 +2351,8 @@
 		B79218C618BB9D380021933A /* AX */ = {
 			isa = PBXGroup;
 			children = (
+				2005EA3A18C858E000CC6ACC /* AXMessageCenterUserGetPublicServiceInfoManager.h */,
+				2005EA3B18C858E000CC6ACC /* AXMessageCenterUserGetPublicServiceInfoManager.m */,
 				B7921A2618BB9E5A0021933A /* RTAPIBaseManager.h */,
 				B7921A2718BB9E5A0021933A /* RTAPIBaseManager.m */,
 				B7921A2818BB9E5A0021933A /* RTAPIManagerInterceptorProtocal.h */,
@@ -2913,6 +2918,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2005EA3C18C858E000CC6ACC /* AXMessageCenterUserGetPublicServiceInfoManager.m in Sources */,
 				97CB0C0F182BEA3500FCCBBD /* ELCAssetTablePicker.m in Sources */,
 				B769E487181F8F9300A2FF50 /* SalePropertyListController.m in Sources */,
 				B7FC9BA118C4355100F77205 /* AXCellFactory.m in Sources */,

@@ -36,4 +36,6 @@
 - (void)assignPropertiesFromMappedObject:(AXMappedPerson *)person;
 - (AXMappedPerson *)convertToMappedPerson;
 
+- (void)updateFirstPinyin;
+
 @end

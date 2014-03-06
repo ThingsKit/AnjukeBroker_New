@@ -47,8 +47,6 @@
 	// Do any additional setup after loading the view.
     
     [self setTitleViewWithString:@"我的客户"];
-    
-    [self getFriendList];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -137,7 +135,59 @@
     [self.listDataArray addObject:self.allDataArr];
     
     [self.tableViewList reloadData];
+    
+//    [self checkToAlert];
 }
+
+- (void)checkToAlert {
+    NSArray *arr = [LoginManager getClientCountAlertArray];
+    
+    for (int i = 0; i < arr.count; i ++) {
+        NSString *count = [arr objectAtIndex:i];
+        if (self.allDataArr.count >= [count intValue]) {
+            //公众号上限提醒
+            NSMutableDictionary *params = nil;
+            NSString *method = nil;
+            
+            //for test
+            params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getChatID], @"toChatId", [LoginManager getUserID], @"brokerId", @"overFriend", @"msgType", count, @"msg", nil];
+            method = @"msg/sendpublicmsg/";
+            
+            [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onAlertFinished:)];
+            
+            break;
+        }
+    }
+}
+
+//- (void)onAlertFinished:(RTNetworkResponse *)response {
+//    DLog(@"。。。Alert response [%@]", [response content]);
+//    
+//    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+//        
+//        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+//        
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+//        [alert show];
+//        
+//        return;
+//    }
+//    
+//    self.configChecked = YES;
+//    
+//    NSDictionary *resultFromAPI = [[response content] objectForKey:@"data"];
+//    
+//    NSArray *frendOverNumArr = [resultFromAPI objectForKey:@"frendOverNum"]; //好友上限用
+//    [[NSUserDefaults standardUserDefaults] setValue:frendOverNumArr forKey:@"frendOverNumArr"];
+//    
+//    NSDictionary *tipsDic = [resultFromAPI objectForKey:@"tips"]; //是否显示状态条并跳转webView
+//    if ([[tipsDic objectForKey:@"openFlag"] isEqualToString:@"1"]) {//开启弹窗和跳转 test
+//        [self showWebViewJumpWithDic:tipsDic];
+//    }
+//    else {
+//        [self hideWebViewJumpBtn];
+//    }
+//}
 
 #pragma mark - private Method
 

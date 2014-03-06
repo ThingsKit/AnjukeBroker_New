@@ -29,7 +29,7 @@ static NSString * const MessageCenterUserDidQuitToAllReceiveNotication = @"Messa
 static NSString * const MessageCenterConnectionStatusNotication = @"MessageCenterConnectionStatusNotication";
 
 static NSString * const MessageCenterDidReceiveNewMessage = @"MessageCenterDidReceiveNewMessage";
-//static NSString * const MessageCenterDidReceiveNewFriendList = @"MessageCenterDidReceiveNewFriendList";
+static NSString * const MessageCenterDidUpdataFriendInformationNotication = @"MessageCenterDidUpdataFriendInformationNotication";
 
 typedef NS_ENUM (NSUInteger, AXMessageCenterStatus)
 {
@@ -109,6 +109,7 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 
 - (void)getFriendInfoWithFriendUid:(NSArray *)personUids compeletionBlock:(void(^)(NSArray *person))getFriendInfoBlock;
 - (void)getFriendInfoWithFriendUid:(NSArray *)personUids;
+- (void)getServiceInfoByServiceID:(NSString *)serviceId;
 
 - (void)getUserOldMessageWithFriendUid:(NSString *)friendUid TopMinMsgId:(NSString *)TopMinMsgId messageIdArray:(NSArray *)messageIdArray compeletionBlock:(void(^)(NSArray *messageArray))getUserOldMessageBlock;
 

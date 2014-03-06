@@ -1,27 +1,26 @@
 //
-//  AXMessageCenterGetFriendInfoManager.m
+//  AXMessageCenterUserGetPublicServiceInfoManager.m
 //  Anjuke2
 //
-//  Created by 杨 志豪 on 14-2-26.
+//  Created by 杨 志豪 on 14-3-5.
 //  Copyright (c) 2014年 anjuke inc. All rights reserved.
 //
 
-#import "AXMessageCenterGetFriendInfoManager.h"
+#import "AXMessageCenterUserGetPublicServiceInfoManager.h"
 
-@implementation AXMessageCenterGetFriendInfoManager
+@implementation AXMessageCenterUserGetPublicServiceInfoManager
 - (NSString *)methodName
 {
-    return [NSString stringWithFormat:@"user/getFriendsInfo/%@",self.apiParams[@"phone"]];
+    return [NSString stringWithFormat:@"user/getPublicServiceInfo/%@",self.apiParams[@"service_id"]];
 }
 
 - (RTServiceType)serviceType
 {
     return RTAnjukeXRESTServiceID;
 }
-
 - (RTAPIManagerRequestType)requestType
 {
-    return RTAPIManagerRequestTypeRestPost;
+    return RTAPIManagerRequestTypeRestGet;
 }
 
 #pragma mark - RTAPIManagerValidator
@@ -32,11 +31,13 @@
 
 - (NSDictionary *)paramsForApi:(RTAPIBaseManager *)manager
 {
-    return @{@"to_uids":self.apiParams[@"to_uids"]};
+    return @{};
 }
+
 - (BOOL)manager:(RTAPIBaseManager *)manager isCorrectWithParamsData:(NSDictionary *)data
 {
     return YES;
 }
+
 
 @end

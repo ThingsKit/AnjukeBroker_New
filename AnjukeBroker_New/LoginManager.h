@@ -36,4 +36,6 @@
 + (NSDictionary *)getFuckingChatUserDicJustForAnjukeTeam;
 + (NSDictionary *)getFuckingChatUserDicJustForAnjukeTeamWithPhone:(NSString *)phone uid:(NSString *)uid;
 
++ (NSArray *)getClientCountAlertArray;
+
 @end
