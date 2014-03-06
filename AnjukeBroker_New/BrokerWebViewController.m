@@ -47,7 +47,9 @@
     wv.delegate = self;
     [self.view addSubview:wv];
     
-    NSURL *url = [NSURL URLWithString:self.loadingUrl];
+//    NSURL *url = [NSURL URLWithString:self.loadingUrl];
+    NSURL *url = [NSURL URLWithString:@"www.sina.com.cn"];
+    
     NSURLRequest *requestUrl = [NSURLRequest requestWithURL:url];
     [wv loadRequest:requestUrl];
 }
