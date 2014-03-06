@@ -245,7 +245,7 @@
 	if (minScale > 1) {
 		minScale = 1.0;
 	}
-	CGFloat maxScale = 2.0;
+	CGFloat maxScale = 4.0;
 	if ([UIScreen instancesRespondToSelector:@selector(scale)]) {
 		maxScale = maxScale / [[UIScreen mainScreen] scale];
 	}
@@ -285,7 +285,9 @@
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
 	return _imageView;
 }
-
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    [_imageView setCenter:CGPointMake(scrollView.frame.size.width / 2, scrollView.frame.size.height / 2)];
+}
 #pragma mark - 手势处理
 - (void)handleSingleTap:(UITapGestureRecognizer *)tap {
     _doubleTap = NO;
