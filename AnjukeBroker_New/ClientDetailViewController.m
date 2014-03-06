@@ -152,7 +152,7 @@
     
     if (self.person.markName.length > 0) {
         self.nameLabel.text = self.person.markName;
-        self.companyLabel.text = [NSString stringWithFormat:@"安居客用户%@",self.person.name];
+        self.companyLabel.text = [NSString stringWithFormat:@"安居客用户 %@",self.person.name];
     }
     else {
         self.nameLabel.text = self.person.name;
