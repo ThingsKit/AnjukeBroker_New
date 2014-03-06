@@ -111,23 +111,25 @@
 //            DLog(@"public item [%@]", item);
             [self.publicDataArr addObject:item];
         }
+        else
+            [self.allDataArr addObject:item];
     }
     
     //非公共账号处理
     NSArray *star_arr = [NSArray arrayWithArray:self.testArr];
     
     for (int i = 0; i < star_arr.count; i ++) {
-//        if ([(AXMappedPerson *)[star_arr objectAtIndex:i] userType] == AXPersonTypeUser) {
+        if ([(AXMappedPerson *)[star_arr objectAtIndex:i] userType] == AXPersonTypeUser) {
             if ([(AXMappedPerson *)[star_arr objectAtIndex:i] isStar] == YES) {
                 
 //                DLog(@"star item [%@]", [star_arr objectAtIndex:i]);
                 [self.starDataArr addObject:[star_arr objectAtIndex:i]]; //星标用户
             }
-//        }
+        }
     }
     
     //所有用户
-    self.allDataArr = [NSMutableArray arrayWithArray:self.testArr];
+//    self.allDataArr = [NSMutableArray arrayWithArray:self.testArr];
     
     //add 3 arr to list data att
     [self.listDataArray addObject:self.publicDataArr];
@@ -160,34 +162,20 @@
     }
 }
 
-//- (void)onAlertFinished:(RTNetworkResponse *)response {
-//    DLog(@"。。。Alert response [%@]", [response content]);
-//    
-//    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-//        
-//        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-//        
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-//        [alert show];
-//        
-//        return;
-//    }
-//    
-//    self.configChecked = YES;
-//    
-//    NSDictionary *resultFromAPI = [[response content] objectForKey:@"data"];
-//    
-//    NSArray *frendOverNumArr = [resultFromAPI objectForKey:@"frendOverNum"]; //好友上限用
-//    [[NSUserDefaults standardUserDefaults] setValue:frendOverNumArr forKey:@"frendOverNumArr"];
-//    
-//    NSDictionary *tipsDic = [resultFromAPI objectForKey:@"tips"]; //是否显示状态条并跳转webView
-//    if ([[tipsDic objectForKey:@"openFlag"] isEqualToString:@"1"]) {//开启弹窗和跳转 test
-//        [self showWebViewJumpWithDic:tipsDic];
-//    }
-//    else {
-//        [self hideWebViewJumpBtn];
-//    }
-//}
+- (void)onAlertFinished:(RTNetworkResponse *)response {
+    DLog(@"。。。Alert response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        
+        return;
+    }
+    
+}
 
 #pragma mark - private Method
 
