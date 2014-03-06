@@ -551,7 +551,7 @@
 
 - (void)showWebViewJumpWithDic:(NSDictionary *)tipsDic {
     if ([[tipsDic objectForKey:@"url"] length] <= 0) {
-//        return;
+        return;
     }
     
     self.loadingURL = [tipsDic objectForKey:@"url"];
@@ -561,7 +561,6 @@
     [btn addTarget:self action:@selector(pushToWeb) forControlEvents:UIControlEventTouchUpInside];
     [btn setBackgroundColor:[UIColor whiteColor]];
     self.topAlertButton = btn;
-//    [btn setTitle:[tipsDic objectForKey:@"title"] forState:UIControlStateNormal];
     [btn setTintColor:[UIColor whiteColor]];
     [self.view addSubview:btn];
     
