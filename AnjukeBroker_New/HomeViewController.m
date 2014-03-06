@@ -54,6 +54,7 @@
 @property BOOL hasLongLinked;
 @property BOOL configChecked;
 @property (nonatomic, copy) NSString *loadingURL;
+@property (nonatomic, strong) UIButton *topAlertButton;
 
 @end
 
@@ -543,30 +544,53 @@
     if ([[tipsDic objectForKey:@"openFlag"] isEqualToString:@"1"]) {//开启弹窗和跳转 test
         [self showWebViewJumpWithDic:tipsDic];
     }
+    else {
+        [self hideWebViewJumpBtn];
+    }
 }
 
 - (void)showWebViewJumpWithDic:(NSDictionary *)tipsDic {
     if ([[tipsDic objectForKey:@"url"] length] <= 0) {
-        return;
+//        return;
     }
     
     self.loadingURL = [tipsDic objectForKey:@"url"];
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(0, 0, [self windowWidth], 30);
+    btn.frame = CGRectMake(0, 0, [self windowWidth], 40);
     [btn addTarget:self action:@selector(pushToWeb) forControlEvents:UIControlEventTouchUpInside];
-    [btn setBackgroundColor:SYSTEM_DARK_GRAY];
+    [btn setBackgroundColor:[UIColor whiteColor]];
+    self.topAlertButton = btn;
 //    [btn setTitle:[tipsDic objectForKey:@"title"] forState:UIControlStateNormal];
-    [btn setTitle:@"Title" forState:UIControlStateNormal];
     [btn setTintColor:[UIColor whiteColor]];
     [self.view addSubview:btn];
+    
+    UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(20, (btn.frame.size.height - 20)/2, [self windowWidth] - 20*2, 20)];
+    titleLb.backgroundColor = [UIColor clearColor];
+    titleLb.font = [UIFont systemFontOfSize:14];
+    titleLb.textColor = SYSTEM_BLACK;
+    titleLb.text = [tipsDic objectForKey:@"title"];
+    titleLb.textAlignment = NSTextAlignmentCenter;
+    [btn addSubview:titleLb];
+    
+    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake([self windowWidth] - 12-10, (btn.frame.size.height - 12)/2, 12, 12)];
+    icon.image = [UIImage imageNamed:@"anjuke_icon_next.png"];
+    [btn addSubview:icon];
+    
+    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, btn.frame.size.height - 0.5, [self windowWidth], 0.5)];
+    [btn addSubview:line];
 }
 
 - (void)pushToWeb {
     BrokerWebViewController *bw = [[BrokerWebViewController alloc] init];
-    bw.loadingUrl = self.loadingURL;
+    bw.loadingUrl = @"http://www.sina.com";//self.loadingURL;
     [bw setHidesBottomBarWhenPushed:YES];
     [self.navigationController pushViewController:bw animated:YES];
+}
+
+- (void)hideWebViewJumpBtn {
+    [self.topAlertButton removeFromSuperview];
+    self.topAlertButton = nil;
 }
 
 #pragma mark - tableView Datasource

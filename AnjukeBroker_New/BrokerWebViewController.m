@@ -32,6 +32,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -47,11 +48,23 @@
     wv.delegate = self;
     [self.view addSubview:wv];
     
-//    NSURL *url = [NSURL URLWithString:self.loadingUrl];
-    NSURL *url = [NSURL URLWithString:@"www.sina.com.cn"];
-    
+    NSURL *url = [NSURL URLWithString:self.loadingUrl];
     NSURLRequest *requestUrl = [NSURLRequest requestWithURL:url];
     [wv loadRequest:requestUrl];
+}
+
+#pragma mark - UIWebViewDelegate
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    [self showLoadingActivity:YES];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [self hideLoadWithAnimated:YES];
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    [self hideLoadWithAnimated:YES];
 }
 
 @end
