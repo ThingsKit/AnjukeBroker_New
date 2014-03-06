@@ -28,7 +28,7 @@
 {
     if ((self = [super initWithFrame:frame])) {
         self.clipsToBounds = YES;
-		
+        
 		// 属性
 		self.backgroundColor = [UIColor clearColor];
 		self.delegate = self;
@@ -52,9 +52,15 @@
 - (void)drawRect:(CGRect)rect {
     // 图片
     _imageView = [[UIImageView alloc] init];
+    _imageView.frame = CGRectZero;
     _imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:_imageView];
     _imageView.image = _photo.image;
+    //    if (!self.isFirstIMG) {
+    //        [super drawRect:rect];
+    //        return;
+    //    }
+    
     // 基本尺寸参数
     CGSize boundsSize = self.bounds.size;
     CGFloat boundsWidth = boundsSize.width;
@@ -87,11 +93,13 @@
     } else {
         imageFrame.origin.y = 0;
     }
-    if (_imageView) {
+    if (_imageView && _imageView.image && _photo.image) {
         _imageView.frame = imageFrame;
+    }else {
+        return;
+        NSLog(@"sdf");
     }
-
-
+    
 }
 - (void)dealloc {
     _imageView = nil;
@@ -107,8 +115,7 @@
 #pragma mark 显示图片
 - (void)showImage
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
-    hud.labelText = @"加载中...";
+    
     if (_photo.firstShow) { // 首次显示
         //        _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];; // 占位图片
         if (_photo.picMessage.imgPath.length > 0) {
@@ -122,16 +129,18 @@
                 _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]];
                 [self adjustFrame];
             }
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+            hud.labelText = @"加载中...";
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:_photo.picMessage.imgUrl]];
             __weak AXPhotoView *mySelf = self;
             __unsafe_unretained AXPhoto *blockPhoto = _photo;
-            
             [_imageView setImageWithURLRequest:request placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                 if (blockPhoto && mySelf) {
                     blockPhoto.image = image;
                     [mySelf.imageView setImage:image];
                     [mySelf adjustFrame];
                 }
+                
                 //
                 NSString *libpath = [AXPhotoManager getLibrary:nil];
                 NSString *imgName = [NSString stringWithFormat:@"%dx%d.jpg", (int)image.size.height, (int)image.size.width];
@@ -140,7 +149,8 @@
                 //            AXMessage *updateMessage = [[AXMessage alloc] init];
                 //            updateMessage = blockSelf.photo.picMessage;
                 AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
-                mappedMessage.accountType = @"1";
+                mappedMessage.identifier = blockPhoto.picMessage.identifier;
+                mappedMessage.accountType = [NSString stringWithFormat:@"%d", AXPersonTypeBroker];
                 //        mappedMessage.content = self.messageInputView.textView.text;
                 mappedMessage.to = mySelf.photo.picMessage.to;
                 mappedMessage.from = mySelf.photo.picMessage.from;
@@ -153,7 +163,7 @@
                 [[AXChatMessageCenter defaultMessageCenter] updateMessage:mappedMessage];
                 
             } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                
+                NSLog(@"xiazai shibai");
                 
             }];
         }
@@ -167,8 +177,7 @@
 #pragma mark 开始加载图片
 - (void)photoStartLoad
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
-    hud.labelText = @"加载中...";
+    
     if (_photo.image) {
         //        self.scrollEnabled = YES;
         _imageView.image = _photo.image;
@@ -185,6 +194,8 @@
                 _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]];
                 [self adjustFrame];
             }
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+            hud.labelText = @"加载中...";
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:_photo.picMessage.imgUrl]];
             __weak AXPhotoView *mySelf = self;
             __unsafe_unretained AXPhoto *blockPhoto = _photo;
@@ -194,7 +205,7 @@
                     [mySelf.imageView setImage:image];
                     [mySelf adjustFrame];
                 }
-
+                
                 //
                 NSString *libpath = [AXPhotoManager getLibrary:nil];
                 NSString *imgName = [NSString stringWithFormat:@"%dx%d.jpg", (int)image.size.height, (int)image.size.width];
@@ -203,7 +214,8 @@
                 //            AXMessage *updateMessage = [[AXMessage alloc] init];
                 //            updateMessage = blockSelf.photo.picMessage;
                 AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
-                mappedMessage.accountType = @"1";
+                mappedMessage.identifier = blockPhoto.picMessage.identifier;
+                mappedMessage.accountType = [NSString stringWithFormat:@"%d", AXPersonTypeBroker];
                 //        mappedMessage.content = self.messageInputView.textView.text;
                 mappedMessage.to = mySelf.photo.picMessage.to;
                 mappedMessage.from = mySelf.photo.picMessage.from;
@@ -214,7 +226,7 @@
                 mappedMessage.imgPath = imgpath;
                 
                 [[AXChatMessageCenter defaultMessageCenter] updateMessage:mappedMessage];
-
+                
             } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                 
                 
@@ -245,7 +257,7 @@
 	if (minScale > 1) {
 		minScale = 1.0;
 	}
-	CGFloat maxScale = 4.0;
+	CGFloat maxScale = 2.0;
 	if ([UIScreen instancesRespondToSelector:@selector(scale)]) {
 		maxScale = maxScale / [[UIScreen mainScreen] scale];
 	}
@@ -278,7 +290,7 @@
     } else {
         _imageView.frame = imageFrame;
     }
-        [MBProgressHUD hideAllHUDsForView:self animated:YES];
+    [MBProgressHUD hideAllHUDsForView:self animated:YES];
 }
 
 #pragma mark - UIScrollViewDelegate

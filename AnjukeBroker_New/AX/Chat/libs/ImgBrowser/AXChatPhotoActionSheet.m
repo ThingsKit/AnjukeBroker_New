@@ -7,6 +7,8 @@
 //
 
 #import "AXChatPhotoActionSheet.h"
+#import "UIView+AXChatMessage.h"
+#import "RTLineView.h"
 
 @interface AXChatPhotoActionSheet ()
 
@@ -46,35 +48,45 @@
     }
     
     self.completion = completion;
-    self.frame = CGRectMake(0, [[UIScreen mainScreen] bounds].size.height - 190, 320, 170);
-    self.backgroundColor = [UIColor colorWithHex:0xbbbbbb alpha:1.0f];
-    self.alpha = 0.9f;
+    self.frame = CGRectMake(0, [[UIScreen mainScreen] bounds].size.height - 160, 320, 140);
+    self.backgroundColor = [UIColor clearColor];
+    
+    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 140)];
+    bgView.backgroundColor = [UIColor colorWithHex:0xbbbbbb alpha:1.0f];
+    bgView.alpha = 0.9f;
+    [self addSubview:bgView];
+    
+    RTLineView *lineView = [[RTLineView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+    lineView.nickLineColors = @[[UIColor colorWithHex:0xbdbdbd alpha:1], [UIColor colorWithHex:0xbdbdbd alpha:1]];
+    [self addSubview:lineView];
     
     UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    saveBtn.frame = CGRectMake(30, 50, 260, 43);
+    saveBtn.frame = CGRectMake(30, 16, 260, 43);
     saveBtn.layer.masksToBounds = YES;
     saveBtn.layer.cornerRadius = 5;
+    saveBtn.titleLabel.font = [UIFont boldSystemFontOfSize:17];
     [saveBtn addTarget:self action:@selector(savebuttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [saveBtn setTitle:@"保存" forState:UIControlStateNormal];
-    [saveBtn setTitleColor:[UIColor colorWithHex:0xffffff alpha:1.0f] forState:UIControlStateNormal];
-    [saveBtn setBackgroundImage:[UIImage createImageWithColor:[UIColor colorWithHex:0xda4c3e alpha:1.0f]] forState:UIControlStateNormal];
+    [saveBtn setTitleColor:[UIColor colorWithHex:0x343434 alpha:1.0f] forState:UIControlStateNormal];
+    [saveBtn setBackgroundImage:[UIImage createImageWithColor:[UIColor colorWithHex:0xececec alpha:1.0f]] forState:UIControlStateNormal];
     [self addSubview:saveBtn];
     
     UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    cancelBtn.frame = CGRectMake(30, saveBtn.bottom + 20, 260, 43);
+    cancelBtn.frame = CGRectMake(30, saveBtn.bottom + 20, 260, 43);
     cancelBtn.layer.cornerRadius = 5.0f;
     cancelBtn.layer.masksToBounds = YES;
+    cancelBtn.titleLabel.font = [UIFont boldSystemFontOfSize:17];
     [cancelBtn setBackgroundImage:[UIImage createImageWithColor:[UIColor colorWithHex:0x434343 alpha:1.0f]] forState:UIControlStateNormal];
     [cancelBtn addTarget:self action:@selector(cancelbuttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
-    [cancelBtn setTitleColor:[UIColor colorWithHex:0xc9c9c9 alpha:1.0f] forState:UIControlStateNormal];
+    [cancelBtn setTitleColor:[UIColor colorWithHex:0xd8d8d8d alpha:1.0f] forState:UIControlStateNormal];
     [self addSubview:cancelBtn];
     
 //    [[AppDelegate sharedInstance].window addSubview:self.background];
 //    [[AppDelegate sharedInstance].window addSubview:self];
-//    self.top = [[UIScreen mainScreen] bounds].size.height;
+    self.top = [[UIScreen mainScreen] bounds].size.height;
     [UIView animateWithDuration:0.3 animations:^{
-//        self.top = self.top - self.height;
+        self.top = self.top - self.height;
     }];
 
 }
@@ -87,7 +99,7 @@
 - (void)savebuttonClicked:(id)sender
 {
     [UIView animateWithDuration:0.3 animations:^{
-//        self.top = self.top + self.height;
+        self.top = self.top + self.height;
     } completion:^(BOOL finished) {
         [self.background removeFromSuperview];
         [self removeFromSuperview];
@@ -98,12 +110,21 @@
 - (void)cancelbuttonClicked:(id)sender
 {
     [UIView animateWithDuration:0.3 animations:^{
-//        self.top = self.top + self.height;
+        self.top = self.top + self.height;
     } completion:^(BOOL finished) {
         [self.background removeFromSuperview];
         [self removeFromSuperview];
     }];
     self.completion(0);
+}
+
+- (void)hiddenActionSheet
+{
+    if ([self.background superview]) {
+        self.top = self.top + self.height;
+        [self.background removeFromSuperview];
+        [self removeFromSuperview];
+    }
 }
 
 @end

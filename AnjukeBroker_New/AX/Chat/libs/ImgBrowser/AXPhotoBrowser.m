@@ -26,6 +26,12 @@
 }
 @end
 
+@interface AXPhotoBrowser ()
+
+@property (nonatomic, strong) AXChatPhotoActionSheet *actionSheet;
+
+@end
+
 @implementation AXPhotoBrowser
 
 #pragma mark - Lifecycle
@@ -50,9 +56,17 @@
     [self createScrollView];
     [self initRightBar];
 }
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    if (self.actionSheet) {
+        [self.actionSheet hiddenActionSheet];
+    }
+}
+
 - (void)setNavTitle {
     NSString *navTitle = [NSString stringWithFormat:@"%d/%d",_currentPhotoIndex + 1,_photos.count];
-    NSLog(@"===========title=======%@", navTitle);
     self.navigationItem.title = navTitle;
 }
 - (void)initRightBar {
@@ -64,7 +78,11 @@
     [rightBar setImage:[UIImage imageNamed:@"xproject_dialogue_more.png"] forState:UIControlStateNormal];
     [rightBar setImage:[UIImage imageNamed:@"xproject_dialogue_more_selected.png"] forState:UIControlStateHighlighted];
     [rightBar addTarget:self  action:@selector(rightBarClick:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBar];
+    UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:rightBar];
+    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    spacer.width = 6.0f;
+    [self.navigationItem setRightBarButtonItems:@[spacer, buttonItems]];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -91,7 +109,7 @@
     _photoScrollView.contentSize = CGSizeMake(frame.size.width * _photos.count, 0);
     _photoScrollView.contentOffset = CGPointMake(_currentPhotoIndex * frame.size.width, 0);
 	[self.view addSubview:_photoScrollView];
-
+    
 }
 
 - (void)show
@@ -189,13 +207,6 @@
     if (!photoView) { // 添加新的图片view
         photoView = [[AXPhotoView alloc] init];
         photoView.photoViewDelegate = self;
-        //        if ([[_photos objectAtIndex:index] isKindOfClass:[AXPhoto class]]) {
-        //            AXPhoto *message = [_photos objectAtIndex:index];
-        //            [photoView setImageWithURL:nil placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:message.picMessage.imgUrl]]];
-        //
-        //        }
-        
-        //[photoView setImageWit]
     }
     
     // 调整当期页的frame
@@ -208,7 +219,9 @@
     AXPhoto *photo = _photos[index];
     photoView.frame = photoViewFrame;
     photoView.photo = photo;
-    
+    if (_visiblePhotoViews.count == 0) {
+        photoView.isFirstIMG = YES;
+    }
     [_visiblePhotoViews addObject:photoView];
     [_photoScrollView addSubview:photoView];
     
@@ -269,15 +282,22 @@
 - (void)photoViewDidEndZoom:(AXPhotoView *)photoView {
     
 }
+
 #pragma mark - privateMethods
 - (void)rightBarClick:(id)sender {
-    AXChatPhotoActionSheet *actionSheet = [[AXChatPhotoActionSheet alloc] init];
-    [actionSheet showWithBlock:^(NSUInteger index) {
-        if (index) {
-            if (((AXPhoto *)[_photos objectAtIndex:_currentPhotoIndex]).image) {
-                UIImageWriteToSavedPhotosAlbum(((AXPhoto *)[_photos objectAtIndex:_currentPhotoIndex]).image, nil, nil,nil);
+    if (!self.actionSheet) {
+        self.actionSheet = [[AXChatPhotoActionSheet alloc] init];
+    }
+    [self.actionSheet showWithBlock:^(NSUInteger index) {
+        @try {
+            if (index) {
+                if (((AXPhoto *)[_photos objectAtIndex:_currentPhotoIndex]).image) {
+                    UIImageWriteToSavedPhotosAlbum(((AXPhoto *)[_photos objectAtIndex:_currentPhotoIndex]).image, nil, nil,nil);
+//                    [self showInfo:@"已保存到手机相册" autoHidden:YES];
+                }
             }
-//            [self showInfo:@"已保存到手机相册" autoHidden:YES];
+        } @catch (NSException *exception) {
+//            [self showInfo:@"保存失败" autoHidden:YES];
         }
     }];
 }

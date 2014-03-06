@@ -36,7 +36,7 @@
 #import "AXPhotoManager.h"
 #import "AXCellFactory.h"
 #import "AXChatContentValidator.h"
-#import "AXUtil_UI.h"
+
 
 //输入框和发送按钮栏的高度
 static CGFloat const AXInputBackViewHeight = 49;
@@ -54,7 +54,7 @@ static NSInteger const AXMessagePageSize = 15;
 #else
 static NSInteger const AXMessagePageSize = 15;
 #endif
-static CGFloat const AXScrollContentOffsetY = 250;
+static CGFloat const AXScrollContentOffsetY = 800;
 
 static NSString * const AXChatJsonVersion = @"1";
 
@@ -123,6 +123,10 @@ static NSString * const AXChatJsonVersion = @"1";
 {
     [super viewWillAppear:animated];
     
+    if (self.isFinished) {
+        self.currentPerson = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson];
+    }
+    
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(handleWillShowKeyboardNotification:)
 												 name:UIKeyboardWillShowNotification
@@ -179,12 +183,10 @@ static NSString * const AXChatJsonVersion = @"1";
     
     // init UI
     [self initUI];
-    
     [self fetchLastChatList];
-    
     [self initBlock];
-    
     [self initPullToRefresh];
+    
 }
 
 #pragma mark - Private Method
@@ -216,7 +218,7 @@ static NSString * const AXChatJsonVersion = @"1";
     
     self.moreBackView = [[UIView alloc] init];
     self.moreBackView.frame = CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
-    self.moreBackView.backgroundColor = [UIColor axChatBGColor:self.isBroker];
+    self.moreBackView.backgroundColor = [UIColor lightGrayColor];
     self.moreBackView.hidden = YES;
     [self.view addSubview:self.moreBackView];
     
@@ -246,74 +248,40 @@ static NSString * const AXChatJsonVersion = @"1";
                        forControlEvents:UIControlEventTouchUpInside];
     } else {
         self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.sendBut.frame = CGRectMake(270.0f + 12.0f, 12.0f, 20.0f, 20.0f);
+        self.sendBut.frame = CGRectMake(270.0f + 4.0f, 2.0f, 45.0f, 45.0f);
         [self.sendBut addTarget:self action:@selector(didMoreBackView:) forControlEvents:UIControlEventTouchUpInside];
         [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateNormal];
-        [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateHighlighted];
+        [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more_selected.png"] forState:UIControlStateHighlighted];
         [self.messageInputView addSubview:self.sendBut];
     }
     
     UIButton *pickIMG = [UIButton buttonWithType:UIButtonTypeCustom];
-//    pickIMG.backgroundColor = [UIColor grayColor];
-//    [pickIMG setTitle:@"相册" forState:UIControlStateNormal];
-    pickIMG.frame = CGRectMake(17.0f, 16.0f, 46, 46);
-    [pickIMG setImage:[UIImage imageNamed:@"anjuke_icon_add_pic4.png"] forState:UIControlStateNormal];
+    pickIMG.backgroundColor = [UIColor grayColor];
+    [pickIMG setTitle:@"相册" forState:UIControlStateNormal];
+    pickIMG.frame = CGRectMake(10, 78, 60, 60);
     [pickIMG addTarget:self action:@selector(pickIMG:) forControlEvents:UIControlEventTouchUpInside];
     [self.moreBackView addSubview:pickIMG];
-    CGRect imgRect = pickIMG.frame;
-    UILabel *imgLab = [[UILabel alloc] initWithFrame:CGRectMake(17.0f, imgRect.origin.y + imgRect.size.height + 8, imgRect.size.width, 30.0f)];
-    imgLab.backgroundColor = [UIColor clearColor];
-    imgLab.font = [UIFont systemFontOfSize:14];
-    imgLab.text = @"相册";
-    imgLab.textAlignment = NSTextAlignmentCenter;
-    imgLab.textColor = [UIColor axChatSystemBGColor:self.isBroker];
-    [self.moreBackView addSubview:imgLab];
-    
     
     UIButton *takePic = [UIButton buttonWithType:UIButtonTypeCustom];
-    [takePic setImage:[UIImage imageNamed:@"anjuke_icon_add_takephoto4.png"] forState:UIControlStateNormal];
-//    takePic.backgroundColor = [UIColor grayColor];
-//    [takePic setTitle:@"拍照" forState:UIControlStateNormal];
-    takePic.frame = CGRectMake(97.0f, 16.0f, 46, 46);
+    takePic.backgroundColor = [UIColor grayColor];
+    [takePic setTitle:@"拍照" forState:UIControlStateNormal];
+    takePic.frame = CGRectMake(90, 78, 60, 60);
     [takePic addTarget:self action:@selector(takePic:) forControlEvents:UIControlEventTouchUpInside];
     [self.moreBackView addSubview:takePic];
-    UILabel *picLab = [[UILabel alloc] initWithFrame:CGRectMake(97.0f, imgRect.origin.y + imgRect.size.height + 8, imgRect.size.width, 30.0f)];
-    picLab.backgroundColor = [UIColor clearColor];
-    picLab.font = [UIFont systemFontOfSize:14];
-    picLab.text = @"拍照";
-    picLab.textAlignment = NSTextAlignmentCenter;
-    picLab.textColor = [UIColor axChatSystemBGColor:self.isBroker];
-    [self.moreBackView addSubview:picLab];
     
     UIButton *pickAJK = [UIButton buttonWithType:UIButtonTypeCustom];
-    [pickAJK setImage:[UIImage imageNamed:@"anjuke_icon_add_esf.png"] forState:UIControlStateNormal];
-//    pickAJK.backgroundColor = [UIColor grayColor];
-//    [pickAJK setTitle:@"二手房" forState:UIControlStateNormal];
-    pickAJK.frame = CGRectMake(177.0f, 16.0f, 46, 46);
+    pickAJK.backgroundColor = [UIColor grayColor];
+    [pickAJK setTitle:@"二手房" forState:UIControlStateNormal];
+    pickAJK.frame = CGRectMake(170, 78, 60, 60);
     [pickAJK addTarget:self action:@selector(pickAJK:) forControlEvents:UIControlEventTouchUpInside];
     [self.moreBackView addSubview:pickAJK];
-    UILabel *ajkLab = [[UILabel alloc] initWithFrame:CGRectMake(177.0f, imgRect.origin.y + imgRect.size.height + 8, imgRect.size.width, 30.0f)];
-    ajkLab.backgroundColor = [UIColor clearColor];
-    ajkLab.font = [UIFont systemFontOfSize:14];
-    ajkLab.text = @"二手房";
-    ajkLab.textAlignment = NSTextAlignmentCenter;
-    ajkLab.textColor = [UIColor axChatSystemBGColor:self.isBroker];
-    [self.moreBackView addSubview:ajkLab];
     
     UIButton *pickHZ = [UIButton buttonWithType:UIButtonTypeCustom];
-    [pickHZ setImage:[UIImage imageNamed:@"anjuke_icon_add_zf.png"] forState:UIControlStateNormal];
-//    pickHZ.backgroundColor = [UIColor grayColor];
-//    [pickHZ setTitle:@"租房" forState:UIControlStateNormal];
-    pickHZ.frame = CGRectMake(257.0f, 16.0f, 46, 46);
+    pickHZ.backgroundColor = [UIColor grayColor];
+    [pickHZ setTitle:@"租房" forState:UIControlStateNormal];
+    pickHZ.frame = CGRectMake(250, 78, 60, 60);
     [pickHZ addTarget:self action:@selector(pickHZ:) forControlEvents:UIControlEventTouchUpInside];
     [self.moreBackView addSubview:pickHZ];
-    UILabel *hzLab = [[UILabel alloc] initWithFrame:CGRectMake(257.0f, imgRect.origin.y + imgRect.size.height + 8, imgRect.size.width, 30.0f)];
-    hzLab.backgroundColor = [UIColor clearColor];
-    hzLab.font = [UIFont systemFontOfSize:14];
-    hzLab.text = @"租房";
-    hzLab.textAlignment = NSTextAlignmentCenter;
-    hzLab.textColor = [UIColor axChatSystemBGColor:self.isBroker];
-    [self.moreBackView addSubview:hzLab];
     
 }
 
@@ -400,7 +368,7 @@ static NSString * const AXChatJsonVersion = @"1";
                 blockSelf.cellDict[mappedMessage.identifier] = dict;
             }
             [blockSelf.myTableView reloadData];
-            [blockSelf scrollToBottomAnimated:YES];
+            [blockSelf scrollToBottomAnimated:NO];
         } else {
             if (blockSelf.propDict && [blockSelf.identifierData count] == 0) {
                 [blockSelf sendSystemMessage:AXMessageTypeSendProperty];
@@ -412,7 +380,6 @@ static NSString * const AXChatJsonVersion = @"1";
         }
         
         [blockSelf addMessageNotifycation];
-        [self.myTableView reloadData];
     }];
 }
 
@@ -442,7 +409,6 @@ static NSString * const AXChatJsonVersion = @"1";
 
 - (void)addMessageNotifycation
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectionStatusDidChangeNotification:) name:MessageCenterConnectionStatusNotication object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewMessage:) name:MessageCenterDidReceiveNewMessage object:nil];
 }
 
@@ -482,7 +448,6 @@ static NSString * const AXChatJsonVersion = @"1";
     [mas setFont:[UIFont systemFontOfSize:16]];
     [mas setTextColor:[UIColor blackColor]];
     [mas setTextAlignment:kCTTextAlignmentLeft lineBreakMode:kCTLineBreakByWordWrapping];
-    [OHASBasicMarkupParser processMarkupInAttributedString:mas];
     return mas;
 }
 
@@ -817,19 +782,12 @@ static NSString * const AXChatJsonVersion = @"1";
                     dict[AXCellIdentifyTag] = mappedMessage.identifier;
                     [self appendCellData:dict];
                     // 判断是否需要滑动到底部
-                    if (AXScrollContentOffsetY + self.myTableView.contentOffset.y + self.myTableView.height < self.myTableView.contentSize.height) {
+                    if (!self.keyboardControl.hidden || (self.myTableView.contentSize.height - self.myTableView.contentOffset.y < AXScrollContentOffsetY)) {
                         [self scrollToBottomAnimated:YES];
                     }
                 }
             }
         }
-    }
-}
-
-- (void)connectionStatusDidChangeNotification:(NSNotification *)notification
-{
-    if ([notification.userInfo[@"status"] integerValue] == AIFMessageCenterStatusUserLoginOut) {
-        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -948,31 +906,11 @@ static NSString * const AXChatJsonVersion = @"1";
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage *newSizeImage = nil;
     NSString *uid =[[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
-    
-    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    //压缩图片
-    if (image.size.width > 600 || image.size.height > 600) {
-        CGSize coreSize;
-        if (image.size.width > image.size.height) {
-            coreSize = CGSizeMake(600, 600*(image.size.height /image.size.width));
-        }
-        else if (image.size.width < image.size.height){
-            coreSize = CGSizeMake(600 *(image.size.width /image.size.height), 600);
-        }
-        else {
-            coreSize = CGSizeMake(600, 600);
-        }
-        
-        UIGraphicsBeginImageContext(coreSize);
-        [image drawInRect:[AXUtil_UI frameSize:image.size inSize:coreSize]];
-        newSizeImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-    }
-    CGSize size = newSizeImage.size;
+    UIImage *image = info[UIImagePickerControllerOriginalImage];
+    CGSize size = image.size;
     NSString *name = [NSString stringWithFormat:@"%dx%d",(int)size.width,(int)size.width];
-    NSString *path = [AXPhotoManager saveImageFile:newSizeImage toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
+    NSString *path = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
     NSString *url = [AXPhotoManager getLibrary:path];
     
     AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
@@ -1034,7 +972,12 @@ static NSString * const AXChatJsonVersion = @"1";
 
 - (void)didMessageRetry:(AXChatMessageRootCell *)axCell
 {
-    [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+    if ([self.uid isEqualToString:@"100"]) {
+        // 之后必改
+        [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+    } else {
+        [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+    }
 }
 
 #pragma mark - Layout message input view
@@ -1249,9 +1192,9 @@ static NSString * const AXChatJsonVersion = @"1";
                 
                 // for ipad modal form presentations
                 CGFloat messageViewFrameBottom = self.view.frame.size.height - inputViewFrame.size.height;
-                if (inputViewFrameY > messageViewFrameBottom)
+                if (inputViewFrameY > messageViewFrameBottom) {
                     inputViewFrameY = messageViewFrameBottom;
-                
+                }
                 self.messageInputView.frame = CGRectMake(inputViewFrame.origin.x,
                                                          AXWINDOWHEIGHT -AXNavBarHeight -AXStatuBarHeight - inputViewFrame.size.height,
                                                          inputViewFrame.size.width,
@@ -1358,12 +1301,25 @@ static NSString * const AXChatJsonVersion = @"1";
     mappedMessage.isRemoved = NO;
     mappedMessage.messageType = @(AXMessageTypeText);
     
-    [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessage willSendMessage:self.finishSendMessageBlock];
+    if ([self.uid isEqualToString:@"100"]) {
+        // 之后必改
+        [[AXChatMessageCenter defaultMessageCenter] sendMessageToPublic:mappedMessage willSendMessage:self.finishSendMessageBlock];
+    } else {
+        [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessage willSendMessage:self.finishSendMessageBlock];
+    }
     [self afterSendMessage];
     [self sendPropMessage];
     
     [self finishSend];
     [self scrollToBottomAnimated:YES];
+}
+
+- (void)didClickPublicCardWithUrl:(NSString *)url
+{
+    AXChatWebViewController *webViewController = [[AXChatWebViewController alloc] init];
+    webViewController.webUrl = url;
+    webViewController.webTitle = self.friendPerson.name;
+    [self.navigationController pushViewController:webViewController animated:YES];
 }
 
 #pragma mark - Scroll view delegate

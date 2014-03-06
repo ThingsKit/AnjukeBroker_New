@@ -116,7 +116,7 @@
     if (isBroker) {
         return [UIColor colorWithHex:0xe6e5e6 alpha:1];
     } else {
-        return [UIColor colorWithHex:0xfbfbfb alpha:1];
+        return [UIColor colorWithHex:0xf8f8f8 alpha:1];
     }
 }
 

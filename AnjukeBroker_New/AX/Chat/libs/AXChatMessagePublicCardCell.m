@@ -8,14 +8,17 @@
 
 #import "AXChatMessagePublicCardCell.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
+#import "RTLineView.h"
 
 @interface AXChatMessagePublicCardCell ()
 
-@property (nonatomic, strong) UIView *lineView;
+@property (nonatomic, strong) RTLineView *lineView;
 @property (nonatomic, strong) UILabel *titleLable;
 @property (nonatomic, strong) UILabel *dateLable;
 @property (nonatomic, strong) UILabel *descLable;
 @property (nonatomic, strong) UILabel *moreLable;
+@property (nonatomic, strong) UIControl *cardControl;
+@property (nonatomic, strong) UIImageView *cardBgImageView;
 @property (nonatomic, strong) UIImageView *cardImageView;
 @property (nonatomic, strong) NSDictionary *dataDict;
 @property (nonatomic, strong) UIImageView *iconView;
@@ -26,25 +29,44 @@
 static CGFloat const AXChatPublicCardMarginLeft = 10;
 
 #pragma mark - setters and getters
+
+- (UIView *)cardBgImageView
+{
+    if (!_cardBgImageView) {
+        _cardBgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 290, 290)];
+        _cardBgImageView.backgroundColor = [UIColor clearColor];
+        _cardBgImageView.image = [[UIImage imageNamed:@"xproject_dialogue_articalcard.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 15, 15, 15)];
+    }
+    return _cardBgImageView;
+}
+
 - (UIView *)cardBgView
 {
     if (!_cardBgView) {
         _cardBgView = [[UIView alloc] initWithFrame:CGRectZero];
-        _cardBgView.backgroundColor = [UIColor whiteColor];
-        _cardBgView.layer.borderColor = [[UIColor whiteColor] CGColor];
-        _cardBgView.layer.borderWidth = 1;
-        _cardBgView.layer.masksToBounds = YES;
-        _cardBgView.layer.cornerRadius = 6;
+        _cardBgView.backgroundColor = [UIColor clearColor];
+        [_cardBgView addSubview:self.cardBgImageView];
         [self.contentView addSubview:_cardBgView];
     }
     return _cardBgView;
 }
 
+- (UIControl *)cardControl
+{
+    if (!_cardControl) {
+        _cardControl = [[UIControl alloc] init];
+        _cardControl.backgroundColor = [UIColor clearColor];
+        [_cardControl addTarget:self action:@selector(didClickPublicCard) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:_cardControl];
+    }
+    return _cardControl;
+}
+
 - (UIView *)lineView
 {
     if (!_lineView) {
-        _lineView = [[UIView alloc] initWithFrame:CGRectMake(10, 253, 270, 1)];
-        _lineView.backgroundColor = [UIColor colorWithHex:0xcccccc alpha:1];
+        _lineView = [[RTLineView alloc] initWithFrame:CGRectMake(10, 253, 270, 1)];
+        _lineView.backgroundColor = [UIColor axChatInputBorderColor:self.isBroker];
         [self.cardBgView addSubview:_lineView];
     }
     return _lineView;
@@ -65,7 +87,7 @@ static CGFloat const AXChatPublicCardMarginLeft = 10;
 - (UILabel *)dateLable
 {
     if (!_dateLable) {
-        _dateLable = [[UILabel alloc] initWithFrame:CGRectMake(AXChatPublicCardMarginLeft, 45, 200, 20)];
+        _dateLable = [[UILabel alloc] initWithFrame:CGRectMake(AXChatPublicCardMarginLeft, 40, 200, 20)];
         _dateLable.font = [UIFont systemFontOfSize:12];
         _dateLable.textColor = [UIColor blackColor];
         _dateLable.backgroundColor = [UIColor clearColor];
@@ -131,28 +153,9 @@ static CGFloat const AXChatPublicCardMarginLeft = 10;
 }
 
 #pragma mark - Public Method
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+- (void)cellHighlighted:(BOOL)highlighted
 {
-    if (selected) {
-        NSLog(@"selected");
-    } else {
-        NSLog(@"unselected");
-    }
-    [super setSelected:selected animated:animated];
-}
 
-- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
-{
-    
-    if (highlighted) {
-        NSLog(@"highlighted");
-        self.cardBgView.backgroundColor = [UIColor grayColor];
-    } else {
-        NSLog(@"unhighlighted");
-        self.cardBgView.backgroundColor = [UIColor whiteColor];
-    }
-    [super setHighlighted:highlighted animated:animated];
 }
 
 - (void)initUI
@@ -162,6 +165,9 @@ static CGFloat const AXChatPublicCardMarginLeft = 10;
 
 - (void)configWithData:(NSDictionary *)data
 {
+    self.avatar.hidden = YES;
+    self.avatarButton.hidden = YES;
+    self.bubbleIMG.hidden = YES;
     [super configWithData:data];
     self.dataDict = [data[@"content"] JSONValue];
     if (!self.dataDict || ![self.dataDict isKindOfClass:[NSDictionary class]]) {
@@ -169,6 +175,7 @@ static CGFloat const AXChatPublicCardMarginLeft = 10;
     }
     
     self.cardBgView.frame = CGRectMake(15, 10, 290, 290);
+    self.cardControl.frame = self.cardBgView.frame;
     self.lineView.frame = CGRectMake(10, 253, 270, 1);
 
     self.dateLable.text = self.dataDict[@"date"];
@@ -181,8 +188,20 @@ static CGFloat const AXChatPublicCardMarginLeft = 10;
     //开始图片下载
     NSURL *url = [NSURL URLWithString:self.dataDict[@"img"]];
     [self.cardImageView setImageWithURL:url placeholderImage:nil];
-
+    [self setBubbleIMGByMessageSorce];
 }
 
+- (void)setBubbleIMGByMessageSorce {
+    self.bubbleIMG.frame = self.cardBgView.frame;
+}
+
+- (void)didClickPublicCard
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickPublicCardWithUrl:)]) {
+        if (self.dataDict[@"url"]) {
+            [self.delegate didClickPublicCardWithUrl:self.dataDict[@"url"]];
+        }
+    }
+}
 
 @end

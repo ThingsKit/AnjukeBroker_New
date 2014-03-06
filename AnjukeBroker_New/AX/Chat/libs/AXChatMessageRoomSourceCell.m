@@ -145,7 +145,11 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
         self.bubbleIMG.image = [[UIImage axInChatPropBubbleBg:self.isBroker highlighted:NO] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
     }else{
-        self.bubbleIMG.image = [[UIImage axOutChatPropBubbleBg:self.isBroker highlighted:NO] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
+        if (self.isBroker) {
+            self.bubbleIMG.image = [[UIImage axOutChatPropBubbleBg:self.isBroker highlighted:NO] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
+        } else {
+            self.bubbleIMG.image = [[UIImage axOutChatPropBubbleBg:self.isBroker highlighted:NO] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+        }
     }
 }
 
@@ -154,7 +158,11 @@ static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
         self.bubbleIMG.image = [[UIImage axInChatPropBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
     } else {
-        self.bubbleIMG.image = [[UIImage axOutChatPropBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
+        if (self.isBroker) {
+            self.bubbleIMG.image = [[UIImage axOutChatPropBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
+        } else {
+            self.bubbleIMG.image = [[UIImage axOutChatPropBubbleBg:self.isBroker highlighted:highlighted] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+        }
     }
 }
 

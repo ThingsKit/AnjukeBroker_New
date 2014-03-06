@@ -20,9 +20,6 @@ NSInteger const kRetryTag = 101;
 
 @interface AXChatMessageRootCell () <UIAlertViewDelegate>
 
-@property (nonatomic, strong) UIImageView *avatar;
-@property (nonatomic, strong) UIButton *avatarButton;
-
 @end
 
 @implementation AXChatMessageRootCell
@@ -165,9 +162,9 @@ NSInteger const kRetryTag = 101;
         self.bubbleIMG.image = [[UIImage axInChatBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30.0f / 2.0f];
     } else {
         if (self.isBroker) {
-            self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:NO] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
+            self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:highlighted] stretchableImageWithLeftCapWidth:40/2 topCapHeight:30/2];
         } else {
-            self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:NO] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+            self.bubbleIMG.image = [[UIImage axOutChatBubbleBg:self.isBroker highlighted:highlighted] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
         }
     }
 }

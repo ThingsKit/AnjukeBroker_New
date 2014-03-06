@@ -11,5 +11,6 @@
 @interface AXChatPhotoActionSheet : UIView
 
 - (void)showWithBlock:(void (^)(NSUInteger))block;
+- (void)hiddenActionSheet;
 
 @end

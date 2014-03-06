@@ -35,6 +35,8 @@ extern CGFloat const kAvatarMargin;
 @property (nonatomic, strong) UIButton *errorButton;
 @property (nonatomic, strong) AXMappedPerson *person;
 @property (nonatomic, strong) NSString *phoneNum;
+@property (nonatomic, strong) UIImageView *avatar;
+@property (nonatomic, strong) UIButton *avatarButton;
 
 - (void)initUI;
 - (void)configWithStatus;
