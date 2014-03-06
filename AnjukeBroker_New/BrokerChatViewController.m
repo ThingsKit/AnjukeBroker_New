@@ -13,6 +13,7 @@
 #import "AXChatWebViewController.h"
 #import "AXPhoto.h"
 #import "AXUtil_UI.h"
+#import "UIImage+Resize.h"
 
 @interface BrokerChatViewController ()
 {
@@ -40,17 +41,15 @@
 	// Do any additional setup after loading the view.
 }
 - (void)initRightBar {
-    UIButton *rightBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightBut.frame = CGRectMake(0, 0, 40, 40);
-    [rightBut addTarget:self action:@selector(rightBarButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [rightBut setImage:[UIImage imageNamed:@"anjuke_icon_person"] forState:UIControlStateNormal];
-    [rightBut setImage:[UIImage imageNamed:@"anjuke_icon_person"] forState:UIControlStateHighlighted];
-    UIBarButtonItem *rightBar = [[UIBarButtonItem alloc] initWithCustomView:rightBut];
-    self.navigationItem.rightBarButtonItem = rightBar;
-    
-    UIBarButtonItem *leftButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
-    self.navigationItem.leftBarButtonItem = leftButtonItem;
-    
+    UIButton *brokerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    brokerButton.frame = CGRectMake(0, 0, 44, 44);
+    [brokerButton setImage:[UIImage imageNamed:@"anjuke_icon_person.png"] forState:UIControlStateNormal];
+    [brokerButton setImage:[UIImage imageNamed:@"anjuke_icon_person.png"] forState:UIControlStateHighlighted];
+    [brokerButton addTarget:self action:@selector(goBrokerPage:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:brokerButton];
+    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    spacer.width = -10.0f;
+    [self.navigationItem setRightBarButtonItems:@[spacer, buttonItems]];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = (self.identifierData)[[indexPath row]];
@@ -102,15 +101,15 @@
         NSString *url = nil;
         url = [NSString stringWithFormat:@"http://m.anjuke.com/sale/x/%@/%@",[LoginManager getCity_id],dic[@"id"]];
 #if DEBUG
-        url = [NSString stringWithFormat:@"http://fp07.m.dev.anjuke.com/sale/x/%@/%@",[LoginManager getCity_id],dic[@"id"]];
+//        url = [NSString stringWithFormat:@"http://fp07.m.dev.anjuke.com/sale/x/%@/%@",[LoginManager getCity_id],dic[@"id"]];
 #endif
         propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"url":url, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceErShouFang]}];
     }else{
         NSString *price = [NSString stringWithFormat:@"%@%@/月", dic[@"price"], dic[@"priceUnit"]];
-        NSString *url = nil;
-        url = [NSString stringWithFormat:@"http://m.anjuke.com/sale/x/%@/%@-3",[LoginManager getCity_id],dic[@"id"]];
+        NSString *url = nil;http://lvandu.dev.anjuke.com/rent/x/11/23893357-3
+        url = [NSString stringWithFormat:@"http://lvandu.dev.anjuke.com/rent/x/%@/%@-3",[LoginManager getCity_id],dic[@"id"]];
 #if DEBUG
-        url = [NSString stringWithFormat:@"http://fp07.m.dev.anjuke.com/rent/x/%@/%@-3",[LoginManager getCity_id],dic[@"id"]];
+//        url = [NSString stringWithFormat:@"http://lvandu.dev.anjuke.com/rent/x/%@/%@-3",[LoginManager getCity_id],dic[@"id"]];
 #endif
         propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"url":url, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceZuFang]}];
     }
@@ -199,23 +198,8 @@
     NSString *uid =[[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
     
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    if (image.size.width > 600 || image.size.height > 600) {
-        CGSize coreSize;
-        if (image.size.width > image.size.height) {
-            coreSize = CGSizeMake(600, 600*(image.size.height /image.size.width));
-        }
-        else if (image.size.width < image.size.height){
-            coreSize = CGSizeMake(600 *(image.size.width /image.size.height), 600);
-        }
-        else {
-            coreSize = CGSizeMake(600, 600);
-        }
-        
-        UIGraphicsBeginImageContext(coreSize);
-        [image drawInRect:[AXUtil_UI frameSize:image.size inSize:coreSize]];
-        newSizeImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-    }
+   newSizeImage = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(960, 960) interpolationQuality:kCGInterpolationHigh];
+    
     CGSize size = newSizeImage.size;
     NSString *name = [NSString stringWithFormat:@"%dx%d",(int)size.width,(int)size.width];
     NSString *path = [AXPhotoManager saveImageFile:newSizeImage toFolder:AXPhotoFolderName whitChatId:uid andIMGName:name];
