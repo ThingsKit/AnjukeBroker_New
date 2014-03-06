@@ -113,11 +113,6 @@
     
     UILabel *nameLb = [[UILabel alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE + icon.frame.size.width + CELL_OFFSET_TITLE, icon.frame.origin.y, 200, 25)];
     nameLb.backgroundColor = [UIColor clearColor];
-    if (self.person.markName.length > 0) {
-        nameLb.text = self.person.markName;
-    }
-    else
-        nameLb.text = self.person.name;
     self.nameLabel = nameLb;
     nameLb.textColor = SYSTEM_BLACK;
     nameLb.font = [UIFont systemFontOfSize:19];
@@ -125,8 +120,8 @@
     
     UILabel *tipLb = [[UILabel alloc] initWithFrame:CGRectMake(nameLb.frame.origin.x, nameLb.frame.origin.y+ nameLb.frame.size.height +5, 200, 15)];
     tipLb.backgroundColor = [UIColor clearColor];
-    tipLb.text = self.person.company;
     tipLb.textColor = SYSTEM_LIGHT_GRAY;
+    self.companyLabel = tipLb;
     tipLb.font = [UIFont systemFontOfSize:12];
     [headerView addSubview:tipLb];
     
@@ -157,11 +152,12 @@
     
     if (self.person.markName.length > 0) {
         self.nameLabel.text = self.person.markName;
+        self.companyLabel.text = self.person.name;
     }
-    else
+    else {
         self.nameLabel.text = self.person.name;
-    
-    self.companyLabel.text = self.person.company;
+        self.companyLabel.text = @"";
+    }
     
     if (self.person.isIconDownloaded) {
         self.iconImage.image = [UIImage imageWithContentsOfFile:self.person.iconPath];
