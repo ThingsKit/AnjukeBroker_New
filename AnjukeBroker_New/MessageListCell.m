@@ -59,7 +59,7 @@
     self.nameLb = nameLabel;
     nameLabel.backgroundColor = [UIColor clearColor];
     nameLabel.textColor = SYSTEM_BLACK;
-    nameLabel.font = [UIFont systemFontOfSize:15];
+    nameLabel.font = [UIFont systemFontOfSize:16];
     [self.contentView addSubview:nameLabel];
     
     UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(320 - CELL_OFFSET_TITLE - 120, 14, 120, 20)];
@@ -75,7 +75,7 @@
     self.messageLb = messageLabel;
     messageLabel.backgroundColor = [UIColor clearColor];
     messageLabel.textColor = SYSTEM_LIGHT_GRAY;
-    messageLabel.font = [UIFont systemFontOfSize:12];
+    messageLabel.font = [UIFont systemFontOfSize:14];
     [self.contentView addSubview:messageLabel];
     
     //消息状态

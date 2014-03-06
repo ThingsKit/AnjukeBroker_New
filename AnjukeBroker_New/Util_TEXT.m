@@ -27,10 +27,10 @@
             [dateFormatter setDateFormat:@"HH:mm"]; //今日
         }
         else
-            [dateFormatter setDateFormat:@"MM-dd"]; //今年
+            [dateFormatter setDateFormat:@"MM月dd日"]; //今年
     }
     else
-        [dateFormatter setDateFormat:@"yyyy-MM"];
+        [dateFormatter setDateFormat:@"MM月dd日"];
     
     str = [NSString stringWithFormat:@"%@",[dateFormatter stringFromDate:postDate]];
     
