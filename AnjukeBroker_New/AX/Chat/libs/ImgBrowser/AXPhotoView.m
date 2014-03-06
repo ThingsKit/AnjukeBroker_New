@@ -87,7 +87,10 @@
     } else {
         imageFrame.origin.y = 0;
     }
-    _imageView.frame = imageFrame;
+    if (_imageView) {
+        _imageView.frame = imageFrame;
+    }
+
 
 }
 - (void)dealloc {
