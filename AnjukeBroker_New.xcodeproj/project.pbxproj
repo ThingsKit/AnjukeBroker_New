@@ -435,9 +435,9 @@
 		B7FFC9BD18C889E60020A73B /* UIFont+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFC99C18C889E60020A73B /* UIFont+AXChatMessage.m */; };
 		B7FFC9BE18C889E60020A73B /* UIImage+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFC99E18C889E60020A73B /* UIImage+AXChatMessage.m */; };
 		B7FFC9BF18C889E60020A73B /* UIView+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFC9A018C889E60020A73B /* UIView+AXChatMessage.m */; };
-		B7FFC9D018C8AB590020A73B /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFC9CB18C8AB590020A73B /* UIImage+Alpha.m */; };
-		B7FFC9D118C8AB590020A73B /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFC9CD18C8AB590020A73B /* UIImage+Resize.m */; };
-		B7FFC9D218C8AB590020A73B /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFC9CF18C8AB590020A73B /* UIImage+RoundedCorner.m */; };
+		B7FFC9DD18C8AC330020A73B /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFC9D818C8AC330020A73B /* UIImage+Alpha.m */; };
+		B7FFC9DE18C8AC330020A73B /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFC9DA18C8AC330020A73B /* UIImage+Resize.m */; };
+		B7FFC9DF18C8AC330020A73B /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFC9DC18C8AC330020A73B /* UIImage+RoundedCorner.m */; };
 		F7D4DB9CDF744F6B9F04BE6D /* libPods-AnjukeBroker_New.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C958DAA438444CB26F09E0 /* libPods-AnjukeBroker_New.a */; };
 /* End PBXBuildFile section */
 
@@ -1129,12 +1129,12 @@
 		B7FFC99E18C889E60020A73B /* UIImage+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+AXChatMessage.m"; sourceTree = "<group>"; };
 		B7FFC99F18C889E60020A73B /* UIView+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AXChatMessage.h"; sourceTree = "<group>"; };
 		B7FFC9A018C889E60020A73B /* UIView+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AXChatMessage.m"; sourceTree = "<group>"; };
-		B7FFC9CA18C8AB590020A73B /* UIImage+Alpha.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Alpha.h"; sourceTree = "<group>"; };
-		B7FFC9CB18C8AB590020A73B /* UIImage+Alpha.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Alpha.m"; sourceTree = "<group>"; };
-		B7FFC9CC18C8AB590020A73B /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
-		B7FFC9CD18C8AB590020A73B /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
-		B7FFC9CE18C8AB590020A73B /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
-		B7FFC9CF18C8AB590020A73B /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
+		B7FFC9D718C8AC330020A73B /* UIImage+Alpha.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Alpha.h"; sourceTree = "<group>"; };
+		B7FFC9D818C8AC330020A73B /* UIImage+Alpha.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Alpha.m"; sourceTree = "<group>"; };
+		B7FFC9D918C8AC330020A73B /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		B7FFC9DA18C8AC330020A73B /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		B7FFC9DB18C8AC330020A73B /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
+		B7FFC9DC18C8AC330020A73B /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2502,12 +2502,12 @@
 		B7FC9B2518C41F1600F77205 /* RTUIStyle */ = {
 			isa = PBXGroup;
 			children = (
-				B7FFC9CA18C8AB590020A73B /* UIImage+Alpha.h */,
-				B7FFC9CB18C8AB590020A73B /* UIImage+Alpha.m */,
-				B7FFC9CC18C8AB590020A73B /* UIImage+Resize.h */,
-				B7FFC9CD18C8AB590020A73B /* UIImage+Resize.m */,
-				B7FFC9CE18C8AB590020A73B /* UIImage+RoundedCorner.h */,
-				B7FFC9CF18C8AB590020A73B /* UIImage+RoundedCorner.m */,
+				B7FFC9D718C8AC330020A73B /* UIImage+Alpha.h */,
+				B7FFC9D818C8AC330020A73B /* UIImage+Alpha.m */,
+				B7FFC9D918C8AC330020A73B /* UIImage+Resize.h */,
+				B7FFC9DA18C8AC330020A73B /* UIImage+Resize.m */,
+				B7FFC9DB18C8AC330020A73B /* UIImage+RoundedCorner.h */,
+				B7FFC9DC18C8AC330020A73B /* UIImage+RoundedCorner.m */,
 				B7FC9B3518C4206600F77205 /* NSString+RTStyle.h */,
 				B7FC9B3618C4206600F77205 /* NSString+RTStyle.m */,
 				B7FC9B3218C4204C00F77205 /* UIImage+RTStyle.h */,
@@ -2981,7 +2981,7 @@
 				B7E803F31820F24400775C6F /* SaleNoPlanListCell.m in Sources */,
 				B70323DC1832115B00DFDB1C /* BaseGroupListController.m in Sources */,
 				B7FFC9A318C889E60020A73B /* AXChatContentValidator.m in Sources */,
-				B7FFC9D218C8AB590020A73B /* UIImage+RoundedCorner.m in Sources */,
+				B7FFC9DF18C8AC330020A73B /* UIImage+RoundedCorner.m in Sources */,
 				204E66CF1894E7DB00546D51 /* PublishBigImageViewController.m in Sources */,
 				20A2181918BF2A9D002CA469 /* AXConversationListItem.m in Sources */,
 				975E7ED01829EDC7008EBC1D /* WebImageView.m in Sources */,
@@ -2994,7 +2994,7 @@
 				B7FC9B2E18C41F9C00F77205 /* UIColor+RT.m in Sources */,
 				B7E55B5018BF2190007238CB /* NSString+JSMessagesView.m in Sources */,
 				2026044C18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.m in Sources */,
-				B7FFC9D018C8AB590020A73B /* UIImage+Alpha.m in Sources */,
+				B7FFC9DD18C8AC330020A73B /* UIImage+Alpha.m in Sources */,
 				975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */,
 				20A2182918BF2A9D002CA469 /* AXMessageCenterUpdataPasswordManager.m in Sources */,
 				200ACA4718B6F77000FAC740 /* Broker_InputEditView.m in Sources */,
@@ -3083,7 +3083,7 @@
 				200915EB1893FC1100A13115 /* Property.m in Sources */,
 				207526BB18B45FE10022220C /* SWLongPressGestureRecognizer.m in Sources */,
 				B769E460181F5F1200A2FF50 /* ModifyFixedCostController.m in Sources */,
-				B7FFC9D118C8AB590020A73B /* UIImage+Resize.m in Sources */,
+				B7FFC9DE18C8AC330020A73B /* UIImage+Resize.m in Sources */,
 				2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */,
 				203EC29B18B2F65400DD0840 /* ClientListViewController.m in Sources */,
 				B7E69BB2183B26A90097D5C3 /* RentBidPropertyCell.m in Sources */,
