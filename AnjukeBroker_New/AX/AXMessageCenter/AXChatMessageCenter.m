@@ -706,13 +706,8 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 - (void)appReceiveAlivingConnection
 {
     NSMutableDictionary *params =[NSMutableDictionary dictionary];
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-        params[@"to_device_id"] = [[UIDevice currentDevice] macaddress];
-    }else {
-        params[@"to_device_id"] = [[UIDevice currentDevice] udid];
-    }
+    params[@"to_device_id"] = [[UIDevice currentDevice] udid];
     params[@"to_app_name"] = kAXMessageCenterLinkAppName;
-#warning to test
     params[@"last_max_msg_id"] = [self.dataCenter lastServiceMsgId];
     self.appGetAllNewMessage.apiParams = params;
     [self.appGetAllNewMessage loadData];
@@ -1123,8 +1118,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 //                [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterConnectionStatusNotication object:nil userInfo:@{@"status": @(AIFMessageCenterStatusUserLoginOut)}];
 //            });
 //        }
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterConnectionStatusNotication object:nil userInfo:@{@"status": @(AIFMessageCenterStatusDisconnected)}];
     }
 
     if ([receiveDic[@"result"] isKindOfClass:[NSString class]] && [receiveDic[@"result"] isEqualToString:@"TIMEOUT"]) {
@@ -1142,12 +1135,9 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
             UIAlertView *lertview = [[UIAlertView alloc] initWithTitle:@"您的账号已被他人登陆，您已被下线" message:@"" delegate:self cancelButtonTitle:@"ok" otherButtonTitles: nil];
             [lertview show];
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterUserDidQuit object:nil userInfo:@{@"status": @(AIFMessageCenterStatusUserLoginOut)}];
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterUserDidQuitToAllReceiveNotication object:nil];
+//            [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterUserDidQuitToAllReceiveNotication object:nil];
         });
     }
-
-#warning 王老板专用通知
-//            [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterUserDidQuitToAllReceiveNotication object:nil];
 
     if ([receiveDic[@"result"] isKindOfClass:[NSDictionary class]] && [receiveDic[@"result"][@"msgType"] isEqualToString:@"chat"]) {
 //        if ([MemberUtil didMemberLogin]) {

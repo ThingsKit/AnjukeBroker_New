@@ -13,8 +13,8 @@
 #import "AXMappedPerson.h"
 #import "AXMappedConversationListItem.h"
 
-static NSString * const kAXMessageCenterLinkParamHost = @"192.168.1.57";
-static NSString * const kAXMessageCenterLinkParamPort = @"8043";
+static NSString * const kAXMessageCenterLinkParamHost = @"push10.anjuke.com";
+static NSString * const kAXMessageCenterLinkParamPort = @"443";
 static NSString * const kAXMessageCenterLinkAppName = @"i-ajk";
 
 //Notification

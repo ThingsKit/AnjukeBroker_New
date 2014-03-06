@@ -230,7 +230,7 @@
             [messageArray addObject:[managedMessage convertToMappedObject]];
         }
         
-        [self updateConversationListItemWithMessage:[messageArray firstObject]];
+        [self updateConversationListItemWithMessage:[messageArray lastObject]];
         
         NSDate *fetchedLastDate = [(AXMessage *)[messageArray lastObject] sendTime];
         NSTimeInterval timeInterval = [fetchedLastDate timeIntervalSinceDate:storedLastDate];
@@ -512,7 +512,7 @@
         //删除所有消息
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
-        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"from = %@ AND to = %@", uid,uid];
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"from = %@ OR to = %@", uid,uid];
         NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
         for (AXMessage *message in result) {
             [self.managedObjectContext deleteObject:message];

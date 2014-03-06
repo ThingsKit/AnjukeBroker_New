@@ -237,9 +237,7 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
         }
     }else if (request.tag == AIF_MESSAGE_REQUEST_TYPE_TAG_CANCEL_ALIVING_CONNECTION)
     {
-        if ([self.delegate respondsToSelector:@selector(manager:didRegisterDevice:userId:receivedData:)]) {
-            [self.delegate manager:self didRegisterDevice:self.deviceId userId:self.userId receivedData:data];
-        }
+        NSLog(@"CANCLE IS SUCCESS AND FOR ALIVING CONNECTION !!!");
     }
 }
 
