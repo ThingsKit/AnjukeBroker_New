@@ -357,12 +357,12 @@
     if ([result count] > 0) {
         NSNumber *lastMsgId = result[0][@"lastMsgId"];
         if ([lastMsgId integerValue ] == 0) {
-            return @"1";
+            return @"0";
         } else {
             return [NSString stringWithFormat:@"%@", lastMsgId];
         }
     } else {
-        return @"1";
+        return @"0";
     }
 }
 
@@ -433,12 +433,12 @@
     if ([result count] > 0) {
         NSNumber *lastMsgId = result[0][@"lastMsgId"];
         if ([lastMsgId integerValue ] == 0) {
-            return @"1";
+            return @"0";
         } else {
             return [NSString stringWithFormat:@"%@", lastMsgId];
         }
     } else {
-        return @"1";
+        return @"0";
     }
 }
 

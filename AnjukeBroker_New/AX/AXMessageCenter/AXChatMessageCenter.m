@@ -117,7 +117,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 - (void)userLoginOut
 {
     [self breakLink];
-    [self buildLongLinkWithUserId:[[UIDevice currentDevice] udid]];
+    [self buildLongLinkWithUserId:@"0"];
 }
 
 - (void)breakLink
