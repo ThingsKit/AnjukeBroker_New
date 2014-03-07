@@ -62,6 +62,13 @@
 //
 //    [self.navigationItem setLeftBarButtonItem:buttonItems];
     [self initRightBar];
+    
+    [self initNavTitle];
+}
+- (void)initNavTitle {
+
+    
+    
 }
 - (void)initRightBar {
     UIButton *brokerButton = [UIButton buttonWithType:UIButtonTypeCustom];
