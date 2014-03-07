@@ -121,6 +121,8 @@
     }
     else
         self.nameLb.text = [NSString stringWithFormat:@"%@", item.presentName];
+    
+    self.nameLb.text = @"aaa";
     self.timeLb.text = [Util_TEXT getDateStrWithDate:item.lastUpdateTime];
     
     self.messageLb.text = item.messageTip;
@@ -160,8 +162,8 @@
     CGFloat offsetY = self.nameLb.frame.origin.y + self.nameLb.frame.size.height + 5;
     
     CGRect iconFrame = CGRectMake(offsetX, offsetY, iconW, iconH);
-    CGRect messageFrame_icon = CGRectMake(offsetX + iconW+2, offsetY, messageLabelW, messageLabelH);
-    CGRect messageFrame_noIcon = CGRectMake(offsetX + 2, offsetY, messageLabelW, messageLabelH);
+    CGRect messageFrame_icon = CGRectMake(offsetX + iconW + 3, offsetY, messageLabelW, messageLabelH);
+    CGRect messageFrame_noIcon = CGRectMake(offsetX , offsetY, messageLabelW, messageLabelH);
     
     //草稿frame
     CGFloat statusLbW = 35;
