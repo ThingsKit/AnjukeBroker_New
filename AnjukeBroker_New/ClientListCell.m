@@ -47,8 +47,8 @@
     WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, (CLIENT_LIST_HEIGHT - IMG_ICON_H)/2, IMG_ICON_H, IMG_ICON_H)];
     self.imageIcon = icon;
     icon.layer.cornerRadius = 5;
-    icon.layer.borderColor = [UIColor whiteColor].CGColor;
-    icon.layer.borderWidth = 0.5;
+//    icon.layer.borderColor = [UIColor whiteColor].CGColor;
+//    icon.layer.borderWidth = 0.5;
     icon.contentMode = UIViewContentModeScaleAspectFill;
     icon.clipsToBounds = YES;
     [self.contentView addSubview:icon];

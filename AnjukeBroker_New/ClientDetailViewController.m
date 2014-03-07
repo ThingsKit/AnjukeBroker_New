@@ -96,8 +96,8 @@
     
     WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, 52/2, 40, 40)];
     icon.backgroundColor = [UIColor clearColor];
-    icon.layer.borderColor = [UIColor whiteColor].CGColor;
-    icon.layer.borderWidth = 0.5;
+//    icon.layer.borderColor = [UIColor whiteColor].CGColor;
+//    icon.layer.borderWidth = 0.5;
     icon.layer.cornerRadius = 5;
     self.iconImage = icon;
     if (self.person.iconUrl.length > 0) {
