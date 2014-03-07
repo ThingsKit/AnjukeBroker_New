@@ -14,6 +14,7 @@
 #import "AXPhoto.h"
 #import "AXUtil_UI.h"
 #import "UIImage+Resize.h"
+#import "NSString+RTStyle.h"
 
 @interface BrokerChatViewController ()
 {
@@ -36,9 +37,31 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    // 设置返回btn
+    UIImage *image = [UIImage imageWithContentsOfFile:[NSString getStyleBundlePath:@"anjuke_icon_back.png"]];
+    UIImage *highlighted = [UIImage imageWithContentsOfFile:[NSString getStyleBundlePath:@"anjuke_icon_back.png"]];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 0, image.size.width + 40 , 44);
+    [button addTarget:self action:@selector(doBack:) forControlEvents:UIControlEventTouchUpInside];
+    [button setImage:image forState:UIControlStateNormal];
+    [button setImage:highlighted forState:UIControlStateHighlighted];
+    [button setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 40)];
+    [button setTitle:@"返回" forState:UIControlStateNormal];
+    [button setTitle:@"返回" forState:UIControlStateHighlighted];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    button.titleLabel.textAlignment = NSTextAlignmentLeft;
+    button.titleLabel.backgroundColor = [UIColor clearColor];
+    button.backgroundColor = [UIColor clearColor];
+    self.backBtn = button;
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+//    UIButton *brokerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    brokerButton.frame = CGRectMake(0, 0, 44, 44);
+//    [brokerButton addTarget:self action:@selector(doBack:) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:brokerButton];
+//
+//    [self.navigationItem setLeftBarButtonItem:buttonItems];
     [self initRightBar];
-	// Do any additional setup after loading the view.
 }
 - (void)initRightBar {
     UIButton *brokerButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -149,6 +172,7 @@
             //for test
             ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
             cd.person = item;
+        cd.backType = RTSelectorBackTypePopToRoot;
             [cd setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:cd animated:YES];
 
@@ -270,5 +294,20 @@
     webViewController.webUrl = url;
     webViewController.webTitle = title;
     [self.navigationController pushViewController:webViewController animated:YES];
+}
+#pragma mark - NSNotificationCenter
+- (void)connectionStatusDidChangeNotification:(NSNotification *)notification
+{
+    if (self.navigationController.presentedViewController) {
+        [self.navigationController.presentedViewController dismissModalViewControllerAnimated:NO];
+    }
+    
+    if (self.navigationController.viewControllers) {
+        NSInteger index = [self.navigationController.viewControllers indexOfObject:self];
+        if (index > 0) {
+            NSArray *vcArray = [self.navigationController.viewControllers objectsAtIndexes:[[NSIndexSet alloc] initWithIndex:index - 1]];
+            [self.navigationController setViewControllers:vcArray animated:YES];
+        }
+    }
 }
 @end

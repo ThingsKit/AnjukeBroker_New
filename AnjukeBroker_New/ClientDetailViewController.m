@@ -302,11 +302,19 @@
         case 1:
         {
             //test 确定删除
-            [self showInfo:@"已删除"];
             
-            [[AXChatMessageCenter defaultMessageCenter] removeFriendBydeleteUid:@[self.person.uid] compeletionBlock:nil];
+            __weak   ClientDetailViewController *myself = self;
+            [[AXChatMessageCenter defaultMessageCenter] removeFriendBydeleteUid:@[self.person.uid] compeletionBlock:^(BOOL isSuccess) {
+                if (myself && isSuccess) {
+                    myself.backType = RTSelectorBackTypePopToRoot;
+                    [myself showInfo:@"已删除"];
+                    [myself doBack:self];
+                }else if (myself && !isSuccess){
+                [myself showInfo:@"删除失败"];
+                }
+            }];
             
-            [self doBack:self];
+            
         }
             break;
             
