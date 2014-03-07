@@ -45,7 +45,7 @@
     brokerButton.frame = CGRectMake(0, 0, 44, 44);
     [brokerButton setImage:[UIImage imageNamed:@"anjuke_icon_person.png"] forState:UIControlStateNormal];
     [brokerButton setImage:[UIImage imageNamed:@"anjuke_icon_person.png"] forState:UIControlStateHighlighted];
-    [brokerButton addTarget:self action:@selector(goBrokerPage:) forControlEvents:UIControlEventTouchUpInside];
+    [brokerButton addTarget:self action:@selector(viewCustomerDetailInfo) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:brokerButton];
     UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     spacer.width = -10.0f;
@@ -198,7 +198,7 @@
     NSString *uid =[[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
     
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-   newSizeImage = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(960, 960) interpolationQuality:kCGInterpolationHigh];
+   newSizeImage = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(1280, 1280) interpolationQuality:kCGInterpolationHigh];
     
     CGSize size = newSizeImage.size;
     NSString *name = [NSString stringWithFormat:@"%dx%d",(int)size.width,(int)size.width];
