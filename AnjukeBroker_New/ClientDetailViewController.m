@@ -167,7 +167,7 @@
         self.nameLabel.text = self.person.name;
         self.companyLabel.text = @"";
         
-        if ([self.person.markName isEqualToString:self.person.phone]) {
+        if ([self.person.name isEqualToString:self.person.phone]) {
             self.nameLabel.text = [Util_TEXT getChatNameWithPhoneFormat:self.person.phone];
         }
     }

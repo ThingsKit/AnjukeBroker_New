@@ -55,7 +55,7 @@
     self.iconNumLb = iconLb;
 //    [self.contentView addSubview:iconLb];
     
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 14, 14, 150, 20)];
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 14, 14, 200, 20)];
     self.nameLb = nameLabel;
     nameLabel.backgroundColor = [UIColor clearColor];
     nameLabel.textColor = SYSTEM_BLACK;
@@ -121,7 +121,7 @@
     }
     else {
         self.nameLb.text = [NSString stringWithFormat:@"%@", item.presentName];
-        if ([person.markName isEqualToString:person.phone]) {
+        if ([person.name isEqualToString:person.phone]) {
             self.nameLb.text = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
         }
 

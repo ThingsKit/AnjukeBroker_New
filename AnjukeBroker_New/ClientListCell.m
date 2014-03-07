@@ -55,7 +55,7 @@
     [self.contentView addSubview:icon];
     
     CGFloat nameLbH = 30;
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + CELL_OFFSET_TITLE, icon.frame.origin.y+(IMG_ICON_H - nameLbH)/2 , 150, nameLbH)];
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + CELL_OFFSET_TITLE, icon.frame.origin.y+(IMG_ICON_H - nameLbH)/2 , 200, nameLbH)];
     self.nameLb = nameLabel;
     nameLabel.backgroundColor = [UIColor clearColor];
     nameLabel.textColor = SYSTEM_BLACK;
@@ -89,7 +89,7 @@
     }
     else {
         self.nameLb.text = item.name;
-        if ([item.markName isEqualToString:item.phone]) {
+        if ([item.name isEqualToString:item.phone]) {
             self.nameLb.text = [Util_TEXT getChatNameWithPhoneFormat:item.phone];
         }
     }
