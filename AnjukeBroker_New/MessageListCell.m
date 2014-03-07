@@ -55,7 +55,7 @@
     self.iconNumLb = iconLb;
 //    [self.contentView addSubview:iconLb];
     
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 12, 14, 150, 20)];
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 14, 14, 150, 20)];
     self.nameLb = nameLabel;
     nameLabel.backgroundColor = [UIColor clearColor];
     nameLabel.textColor = SYSTEM_BLACK;
@@ -134,7 +134,7 @@
         
         if ([item.count intValue] > 99) {
             self.iconNumLb.text = @"99+";
-            self.iconNumLb.frame = CGRectMake(self.imageIcon.frame.origin.x +self.imageIcon.frame.size.width - iconLbW/2, self.imageIcon.frame.origin.y -iconLbW/4, iconLbW+4, iconLbW);
+            self.iconNumLb.frame = CGRectMake(self.imageIcon.frame.origin.x +self.imageIcon.frame.size.width - iconLbW/2, self.imageIcon.frame.origin.y -iconLbW/4, iconLbW+6, iconLbW);
         }
 
         [self.contentView addSubview:self.iconNumLb];
