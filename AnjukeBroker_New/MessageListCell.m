@@ -122,7 +122,6 @@
     else
         self.nameLb.text = [NSString stringWithFormat:@"%@", item.presentName];
     
-    self.nameLb.text = @"aaa";
     self.timeLb.text = [Util_TEXT getDateStrWithDate:item.lastUpdateTime];
     
     self.messageLb.text = item.messageTip;
@@ -186,7 +185,7 @@
             self.messageLb.text = item.messageTip;
         }
         else if ([item.messageType integerValue] == AXConversationListItemTypeCard) { //卡片
-            self.messageLb.text = @"[卡片信息]";
+            self.messageLb.text = @"[信息卡]";
         }
         else if ([item.messageType integerValue] == AXConversationListItemTypeESFProperty) { //二手房
             self.messageLb.text = @"[二手房]";

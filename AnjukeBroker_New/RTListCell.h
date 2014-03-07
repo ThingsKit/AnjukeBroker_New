@@ -14,6 +14,8 @@
 #define CELL_HEIGHT 50
 #define CELL_OFFSET_TITLE 15
 
+#define CELL_MESSAGELIST_OFFSETX 59
+
 @interface RTListCell : UITableViewCell
 
 @property int selectRow; //当前此cell所在row
@@ -31,5 +33,6 @@
 - (void)showBottonLineWithCellHeight:(CGFloat)cellH;
 - (void)showTopLine;
 - (UIView *)baseCellBackgroundView;
+- (void)showBottonLineWithCellHeight:(CGFloat)cellH andOffsetX:(CGFloat)offsetX;
 
 @end

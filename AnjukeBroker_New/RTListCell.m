@@ -65,6 +65,16 @@
     }
 }
 
+- (void)showBottonLineWithCellHeight:(CGFloat)cellH andOffsetX:(CGFloat)offsetX {
+    if (self.lineView == nil) {
+        self.lineView = [[BrokerLineView alloc] initWithFrame:CGRectMake(offsetX, cellH -0.5, 320 - offsetX, 0.5)];
+        [self.contentView addSubview:self.lineView];
+    }
+    else {
+        self.lineView.frame = CGRectMake(offsetX, cellH -0.5, 320 - offsetX, 0.5);
+    }
+}
+
 - (void)showTopLine {
     if (self.topLine == nil) {
         self.topLine = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, -0.5, 320 - 0, 0.5)];
