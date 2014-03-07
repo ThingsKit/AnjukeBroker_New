@@ -145,6 +145,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 }
 - (void)breakLink
 {
+    self.linkStatus = AXMessageCenterLinkStatusNoLink;
     self.messageManager.isLinking = NO;
     [self.messageManager cancelKeepAlivingConnection];
 }
@@ -1202,7 +1203,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterUserDidQuitToAllReceiveNotication object:nil];
         });
     }
-
+    
     if ([receiveDic[@"result"] isKindOfClass:[NSDictionary class]] && [receiveDic[@"result"][@"msgType"] isEqualToString:@"chat"]) {
         [self userReceiveAlivingConnection];
     }

@@ -16,4 +16,6 @@
 
 + (NSString *)rmBlankFromString:(NSString *)oldStr;
 
++ (NSString *)getChatNameWithPhoneFormat:(NSString *)phoneStr;
+
 @end

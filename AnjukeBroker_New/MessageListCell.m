@@ -119,8 +119,13 @@
     if (person.markName.length > 0) {
         self.nameLb.text = [NSString stringWithFormat:@"%@", person.markName];
     }
-    else
+    else {
         self.nameLb.text = [NSString stringWithFormat:@"%@", item.presentName];
+        if ([person.markName isEqualToString:person.phone]) {
+            self.nameLb.text = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
+        }
+
+    }
     
     self.timeLb.text = [Util_TEXT getDateStrWithDate:item.lastUpdateTime];
     

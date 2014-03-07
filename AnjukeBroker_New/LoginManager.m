@@ -68,6 +68,7 @@
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"phone"];
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"chatID"];
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"tokenChat"];
+    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:USER_DEFAULT_KEY_AXCHATMC_USE]; //清空与AXMessageCenter的羁绊...
     
     DLog(@"clean Token [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"token"]);
 }

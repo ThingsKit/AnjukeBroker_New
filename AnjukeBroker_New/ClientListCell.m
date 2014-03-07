@@ -11,6 +11,7 @@
 #import "WebImageView.h"
 #import "RTListCell.h"
 #import "AXMappedPerson.h"
+#import "Util_TEXT.h"
 
 @implementation ClientListCell
 @synthesize imageIcon, nameLb;
@@ -86,8 +87,12 @@
     if (item.markName.length > 0) {
         self.nameLb.text = item.markName;
     }
-    else
-        self.nameLb.text = item.name;//[NSString stringWithFormat:@"%@_%@", item.uid, item.name];
+    else {
+        self.nameLb.text = item.name;
+        if ([item.markName isEqualToString:item.phone]) {
+            self.nameLb.text = [Util_TEXT getChatNameWithPhoneFormat:item.phone];
+        }
+    }
     
     return YES;
 }
