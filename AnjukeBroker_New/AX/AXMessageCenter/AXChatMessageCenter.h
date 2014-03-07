@@ -61,6 +61,13 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
     AXMessageCenterApiRequestTypeImage
 };
 
+typedef NS_ENUM(NSUInteger, AXMessageCenterLinkStatus)
+{
+    AXMessageCenterLinkStatusLinkedAsDevice,
+    AXMessageCenterLinkStatusLinkedAsUser,
+    AXMessageCenterLinkStatusNoLink
+};
+
 @class AXChatMessageCenter;
 
 @interface AXChatMessageCenter : NSObject<ASIHTTPRequestDelegate>

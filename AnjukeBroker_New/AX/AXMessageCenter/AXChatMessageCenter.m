@@ -38,6 +38,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 @property (nonatomic, strong) NSMutableDictionary *blockDictionary;
 @property (nonatomic, strong) NSMutableArray *sendImageArray;
 @property (nonatomic, strong) NSMutableArray *imageMessageArray;
+@property (nonatomic) AXMessageCenterLinkStatus linkStatus;
 
 //property
 @property (nonatomic, strong) NSString *addFriendByID;
@@ -108,6 +109,9 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         self.sendImageArray = [[NSMutableArray alloc] init];
         self.blockDictionary = [[NSMutableDictionary alloc] init];
         self.imageMessageArray = [[NSMutableArray alloc] init];
+        
+        self.linkStatus = AXMessageCenterLinkStatusNoLink;
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectToServer) name:@"LOGIN_NOTIFICATION" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginOut) name:@"LOGOUT_NOTIFICATION" object:nil];
     }
@@ -1138,7 +1142,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 //            [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterUserDidQuitToAllReceiveNotication object:nil];
         });
     }
-
+    
     if ([receiveDic[@"result"] isKindOfClass:[NSDictionary class]] && [receiveDic[@"result"][@"msgType"] isEqualToString:@"chat"]) {
 //        if ([MemberUtil didMemberLogin]) {
 //            [self userReceiveAlivingConnection];

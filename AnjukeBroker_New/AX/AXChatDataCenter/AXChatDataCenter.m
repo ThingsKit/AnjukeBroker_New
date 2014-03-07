@@ -132,6 +132,11 @@
 #pragma mark - message life cycle
 - (AXMappedMessage *)willSendMessage:(AXMappedMessage *)message
 {
+    NSString *friendID = message.to;
+    AXPerson *person = [self findPersonWithUID:friendID];
+    if (!person) {
+        [self.delegate dataCenter:self fetchPersonInfoWithUid:@[friendID]];
+    }
     message.sendStatus = @(AXMessageCenterSendMessageStatusSending);
     message.sendTime = [NSDate dateWithTimeIntervalSinceNow:0];
     AXMessage *messageToInsert = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
@@ -167,6 +172,9 @@
 
 - (NSDictionary *)didReceiveWithMessageDataArray:(NSArray *)receivedArray
 {
+    if (![receivedArray isKindOfClass:[NSArray class]]) {
+        return nil;
+    }
     NSMutableDictionary *messageDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
     NSMutableDictionary *splitedDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
     

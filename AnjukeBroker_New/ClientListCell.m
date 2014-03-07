@@ -93,7 +93,7 @@
 }
 
 - (void)cleanValue {
-    self.imageIcon.image = nil;
+//    self.imageIcon.image = nil;
     self.nameLb.text = @"";
 }
 
