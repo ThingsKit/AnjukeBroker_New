@@ -73,26 +73,17 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
     
 }
 
-- (void) registerDevices:(NSString *)deviceId userId:(NSString *)userId
+- (void)registerDevices:(NSString *)deviceId userId:(NSString *)userId
 {
     if (self.registerStatus == AIF_MESSAGE_REQUEST_REGISTER_STARTED) {
         //        NSLog(@"AIF_MESSAGE_REQUEST_REGISTER_STARTED");
         return;
-    }
-    #warning waiting to finish register status
-    if ([deviceId isEqualToString:@""]) {
-        deviceId = @"0";
-    }
-    
-    if ([userId isEqualToString:@""]) {
-        userId = @"0";
     }
     
     self.deviceId = deviceId;
     self.userId = userId;
     
     NSString *registerUrlString = [NSString stringWithFormat:@"https://%@:%@%@/%@/%@/%@/",self.host,self.port,kAIFMessageRegisteToServerUri,self.deviceId,self.appName,self.userId];
-    //    NSLog(@"[%@ %@]:%@ => %@ ",NSStringFromClass([self class]),NSStringFromSelector(_cmd),@"registerUrlString",registerUrlString);
     NSURL *registerUrl = [NSURL URLWithString:registerUrlString];
     NSLog(@"registerUrl is %@", registerUrl);
     self.registerRequest = [ASIHTTPRequest requestWithURL:registerUrl];
@@ -101,7 +92,6 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
     self.registerRequest.delegate = self;
     self.registerRequest.timeOutSeconds = self.timeout;
     [self.registerRequest startAsynchronous];
-    
 }
 
 - (void)heartBeatWithDevices
@@ -117,7 +107,7 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
 }
 
 
-- (void) heartBeatWithDevices:(NSString *)deviceId userId:(NSString *)userId
+- (void)heartBeatWithDevices:(NSString *)deviceId userId:(NSString *)userId
 {
     
     NSString *heartBeatUrlString = [NSString stringWithFormat:@"https://%@:%@%@/%@/%@/%@",self.host,self.port,kAIFMessageConnectToHeartBeatServerUri,self.deviceId,self.appName,self.userId];
@@ -130,14 +120,12 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
     [self.heartBeatRequest startAsynchronous];
 }
 
-- (void) sendMessageToUid:(NSString *)uid message:(NSString *)message
+- (void)sendMessageToUid:(NSString *)uid message:(NSString *)message
 {
     if ([uid isEqualToString:@""]) {
         uid = @"0";
     }
     NSString *sendMessageUrlString = [NSString stringWithFormat:@"https://%@:%@%@/%@",self.host,self.port,kAIFMessagePushMessageByUidUri,uid];
-    //    NSLog(@"[%@ %@]:%@ => %@ \n message:%@",NSStringFromClass([self class]),NSStringFromSelector(_cmd),@"sendMessageToUid",sendMessageUrlString,message);
-    
     NSURL *sendMessageUrl = [NSURL URLWithString:sendMessageUrlString];
     self.pushRequest = [ASIFormDataRequest requestWithURL:sendMessageUrl];
     self.pushRequest.delegate = self;
@@ -147,7 +135,7 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
     [self.pushRequest startAsynchronous];
 }
 
-- (void) sendMessageToDeviceId:(NSString *)deviceId
+- (void)sendMessageToDeviceId:(NSString *)deviceId
 {
     
 }
@@ -193,7 +181,6 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
         if ([self.delegate respondsToSelector:@selector(manager:didRegisterDevice:userId:receivedData:)]) {
             [self.delegate manager:self didRegisterDevice:self.deviceId userId:self.userId receivedData:data];
             if (self.shouldSendHeartPong) {
-#warning heart beating setting is here
                 self.timer = [NSTimer scheduledTimerWithTimeInterval:300.0f target:self selector:@selector(heartBeatWithDevices) userInfo:nil repeats:YES];
                 self.shouldSendHeartPong = NO;
             }
@@ -214,29 +201,22 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
                 }
             }
         } else {
-            //            NSLog(@"ERROR: Lack Delegate Method: manager:registerDevice:userId:receivedData:");
         }
-    } else if(request.tag == AIF_MESSAGE_REQUEST_TYPE_TAG_HEARTBEAT) {
+    }
+    
+    if(request.tag == AIF_MESSAGE_REQUEST_TYPE_TAG_HEARTBEAT) {
         //In this brace, we can do some expose delegate method
         if ([self.delegate respondsToSelector:@selector(manager:didHeartBeatWithDevice:userId:receivedData:)]) {
             [self.delegate manager:self didHeartBeatWithDevice:self.deviceId userId:self.userId receivedData:data];
         } else {
-            //            NSLog(@"ERROR: Lack Delegate Method: manager:didHeartBeatWithDevice:userId:receivedData:");
         }
         
-    } else if(request.tag == AIF_MESSAGE_REQUEST_TYPE_TAG_PUSHING) {
-        ASIFormDataRequest *formDataRequest = (ASIFormDataRequest *)request;
-        NSMutableData *postData = [formDataRequest postBody];
-        NSString *postDataString = [[NSString alloc]initWithData:postData encoding:NSUTF8StringEncoding];
-        NSString *message = [[postDataString componentsSeparatedByString:@"="] objectAtIndex:1];
-        NSString *uid = [[request.url.absoluteString componentsSeparatedByString:@"/"] lastObject];
-        if ([self.MessageSenderDelegate respondsToSelector:@selector(manager:didSendMessage:toUserId:receivedData:)]) {
-            [self.MessageSenderDelegate manager:self didSendMessage:message toUserId:uid receivedData:data];
-        } else {
-            //            NSLog(@"ERROR: Lack Delegate Method: manager:didSendMessage:toUserId:receivedData:");
-        }
-    }else if (request.tag == AIF_MESSAGE_REQUEST_TYPE_TAG_CANCEL_ALIVING_CONNECTION)
-    {
+    }
+    
+    if(request.tag == AIF_MESSAGE_REQUEST_TYPE_TAG_PUSHING) {
+    }
+    
+    if (request.tag == AIF_MESSAGE_REQUEST_TYPE_TAG_CANCEL_ALIVING_CONNECTION) {
         NSLog(@"CANCLE IS SUCCESS AND FOR ALIVING CONNECTION !!!");
     }
 }
@@ -245,7 +225,6 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
 {
     if (request.tag == AIF_MESSAGE_REQUEST_TYPE_TAG_REGISTER) {
         self.registerStatus = AIF_MESSAGE_REQUEST_REGISTER_STARTED;
-        //        NSLog(@"#############################################requestStarted");
     }
 }
 
@@ -253,7 +232,6 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
 {
     if (request.tag == AIF_MESSAGE_REQUEST_TYPE_TAG_REGISTER) {
         self.registerStatus = AIF_MESSAGE_REQUEST_REGISTER_FINISHED;
-        //        NSLog(@"#############################################requestFinished");
         [self resetHeartBeatParams];
     }
     
@@ -263,11 +241,8 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
 {
     if (request.tag == AIF_MESSAGE_REQUEST_TYPE_TAG_REGISTER) {
         self.registerStatus = AIF_MESSAGE_REQUEST_REGISTER_FAILED;
-        //        NSLog(@"#############################################requestFailed:");
-        //        NSLog([NSString stringWithFormat:@"%@", request.error]);
-        //        NSLog([NSString stringWithFormat:@"#############################################didRegisterStatusCheck:%d s", [self calSleepTime]]);
         [self resetHeartBeatParams];
-        if (self.isLoging) {
+        if (self.isLinking) {
             [self performSelector:@selector(didRegisterRequestRetry) withObject:nil afterDelay:[self calSleepTime]];
             self.tryCount = self.tryCount + 1;
         }
@@ -277,7 +252,6 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
 #pragma mark - performSelector
 - (void)didRegisterRequestRetry
 {
-    //    NSLog(@"#############################################didRegisterRequestRetry");
     [self registerDevices:self.deviceId userId:self.userId];
 }
 

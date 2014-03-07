@@ -63,7 +63,11 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 
 typedef NS_ENUM(NSUInteger, AXMessageCenterLinkStatus)
 {
+    AXMessageCenterLinkStatusWillLinkAsDevice,
+    AXMessageCenterLinkStatusWillCloseDevice,
     AXMessageCenterLinkStatusLinkedAsDevice,
+    AXMessageCenterLinkStatusWillLinkAsUser,
+    AXMessageCenterLinkStatusWillCloseUser,
     AXMessageCenterLinkStatusLinkedAsUser,
     AXMessageCenterLinkStatusNoLink
 };
@@ -73,11 +77,13 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterLinkStatus)
 @interface AXChatMessageCenter : NSObject<ASIHTTPRequestDelegate>
 + (instancetype)defaultMessageCenter;
 @property (nonatomic, strong) NSDictionary *userInfo;
+@property (nonatomic) AXMessageCenterLinkStatus linkStatus;
 
 - (void)cancelAllRequest;
 - (void)closeKeepAlivingConnect;
 - (void)breakLink; //just for broker the method !!!!
 - (void)buildLongLinkWithUserId:(NSString *)uid;
+- (void)connect;
 
 
 - (void)searchBrokerByBrokerPhone:(NSString *)brokerPhone compeletionBlock:(void(^)(AXMappedPerson *brokerInfo))searchBrokerBlock;

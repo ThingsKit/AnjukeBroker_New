@@ -34,18 +34,12 @@ typedef NS_ENUM(NSInteger, AIF_MESSAGE_REQUEST_TAG_TYPE)
 
 @end
 
-@protocol AIFMessageSenderDelegate <NSObject>
-- (void)manager:(AXMessageManager *)manager didSendMessage:(NSString *)message toUserId:(NSString *)userId receivedData:(NSData *)data;
-@end
-
 @interface AXMessageManager : NSObject<ASIHTTPRequestDelegate>
 
 @property (nonatomic,weak) id<AIFMessageManagerDelegate> delegate;
-@property (nonatomic,weak) id<AIFMessageSenderDelegate> MessageSenderDelegate;
 @property (nonatomic) AIF_MESSAGE_REQUEST_REGISTER_STATUS registerStatus;
-@property (nonatomic) BOOL isLoging;
+@property (nonatomic) BOOL isLinking;
 
-//+ (instancetype)sharedMessageManager;
 - (void)bindServerHost:(NSString *)host port:(NSString *)port appName:(NSString *)appName timeout:(NSTimeInterval)timeout;
 - (void)registerDevices:(NSString *)deviceId userId:(NSString *)userId;
 - (void)heartBeatWithDevices:(NSString *)deviceId userId:(NSString *)userId;
