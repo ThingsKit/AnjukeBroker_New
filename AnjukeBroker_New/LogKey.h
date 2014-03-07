@@ -329,4 +329,80 @@
 #define FIND_001 @"800001" //页面可见（即页面打开）
 #define FIND_002 @"800002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
 
+//消息列表页
+#define MESSAGE_LIST_001 @"900001" //页面可见（即页面打开）
+#define MESSAGE_LIST_002 @"900002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
+#define MESSAGE_LIST_003 @"900003" //点击右上角“+”
+#define MESSAGE_LIST_004 @"900004" //点击查看对话
+#define MESSAGE_LIST_005 @"900005" //点击删除对话
+
+//聊天单页
+#define CHATVIEW_001 @"910001" //页面可见（即页面打开）
+#define CHATVIEW_002 @"910002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
+#define CHATVIEW_003 @"910003" //点击输入框
+#define CHATVIEW_004 @"910004" //点击“+”
+#define CHATVIEW_005 @"910005" //点击拍照
+#define CHATVIEW_006 @"910006" //点击从相册选择
+#define CHATVIEW_007 @"910007" //点击发二手房
+#define CHATVIEW_008 @"910008" //点击发租房
+#define CHATVIEW_009 @"910009" //点击右上角icon进入客户单页
+#define CHATVIEW_010 @"910010" //点击电话号码
+#define CHATVIEW_011 @"910011" //点击拨打电话
+#define CHATVIEW_012 @"910012" //点击保存电话至客户资料
+#define CHATVIEW_013 @"910013" //点击返回
+#define CHATVIEW_014 @"910014" //消息发送失败
+
+//二手房小区选择页
+#define ESF_COMMUNITY_CHAT_001 @"920001"
+#define ESF_COMMUNITY_CHAT_002 @"920002"
+#define ESF_COMMUNITY_CHAT_003 @"920003"
+#define ESF_COMMUNITY_CHAT_004 @"920004"
+
+//租房小区选择页
+#define ZF_COMMUNITY_CHAT_001 @"940001"
+#define ZF_COMMUNITY_CHAT_002 @"940002"
+#define ZF_COMMUNITY_CHAT_003 @"940003"
+#define ZF_COMMUNITY_CHAT_004 @"940004"
+
+//二手房房源选择页
+#define ESF_PROPERTY_CHAT_001 @"930001"
+#define ESF_PROPERTY_CHAT_002 @"930002"
+#define ESF_PROPERTY_CHAT_003 @"930003"
+#define ESF_PROPERTY_CHAT_004 @"930004"
+
+//租房房源选择页
+#define ZF_PROPERTY_CHAT_001 @"950001"
+#define ZF_PROPERTY_CHAT_002 @"950002"
+#define ZF_PROPERTY_CHAT_003 @"950003"
+#define ZF_PROPERTY_CHAT_004 @"950004"
+
+//客户列表
+#define CLIENT_LIST_001 @"1000001"
+#define CLIENT_LIST_002 @"1000002"
+#define CLIENT_LIST_003 @"1000003"
+#define CLIENT_LIST_004 @"1000004"
+#define CLIENT_LIST_005 @"1000005"
+#define CLIENT_LIST_006 @"1000006"
+
+//客户单页
+#define CLIENT_DETAIL_001 @"1100001"
+#define CLIENT_DETAIL_002 @"1100002"
+#define CLIENT_DETAIL_003 @"1100003"
+#define CLIENT_DETAIL_004 @"1100004"
+#define CLIENT_DETAIL_005 @"1100005"
+#define CLIENT_DETAIL_006 @"1100006"
+#define CLIENT_DETAIL_007 @"1100007"
+#define CLIENT_DETAIL_008 @"1100008"
+#define CLIENT_DETAIL_009 @"1100009"
+#define CLIENT_DETAIL_010 @"1100010"
+
+//备注页面
+#define CLIENT_EDIT_001 @"1200001"
+#define CLIENT_EDIT_002 @"1200002"
+#define CLIENT_EDIT_003 @"1200003"
+#define CLIENT_EDIT_004 @"1200004"
+#define CLIENT_EDIT_005 @"1200005"
+
+
+
 #endif
