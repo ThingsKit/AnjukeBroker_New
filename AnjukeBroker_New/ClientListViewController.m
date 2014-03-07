@@ -175,8 +175,10 @@
     [rightUtilityButtons sw_addUtilityButtonWithColor:
      [UIColor whiteColor] icon:[self getImageIsStar:isStar]];
     
-    [rightUtilityButtons sw_addUtilityButtonWithColor:
-     SYSTEM_ZZ_RED icon:[UIImage imageNamed:@"anjuke_icon_delete_.png"]];
+//    [rightUtilityButtons sw_addUtilityButtonWithColor:
+//     SYSTEM_ZZ_RED icon:[UIImage imageNamed:@"anjuke_icon_delete_.png"]];
+    
+    [rightUtilityButtons sw_addUtilityButtonWithColor:SYSTEM_RED title:@"删除"];
     
     return rightUtilityButtons;
 }

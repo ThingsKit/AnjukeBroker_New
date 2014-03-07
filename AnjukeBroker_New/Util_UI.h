@@ -17,6 +17,7 @@
 #define SYSTEM_DARK_GRAY [Util_UI colorWithHexString:@"666666"]
 #define SYSTEM_GREEN [Util_UI colorWithHexString:@"66cc00"]
 #define SYSTEM_ORANGE [Util_UI colorWithHexString:@"FF6600"]
+#define SYSTEM_RED [UIColor colorWithRed:0.99 green:0.24 blue:0.22 alpha:1]
 
 #define SYSTEM_ZZ_RED [UIColor colorWithRed:0.93 green:0.24 blue:0.25 alpha:1]
 #define SYSTEM_NAVBAR_DARK_BG [Util_UI colorWithHexString:@"2C3241"]
