@@ -96,7 +96,7 @@
     [self.view addSubview:tv];
     
     //设置按钮
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_add.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_add_.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
     if (![AppManager isIOS6]) {
         rightItem.tintColor = SYSTEM_NAVIBAR_COLOR;
     }
