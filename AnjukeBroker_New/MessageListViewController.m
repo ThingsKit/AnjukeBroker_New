@@ -58,6 +58,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - log
+- (void)sendAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
+- (void)sendDisAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+}
+
 #pragma mark - init Method
 
 - (NSFetchedResultsController *)sessionFetchedResultsController
@@ -103,8 +112,9 @@
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 
-//test
 - (void)rightButtonAction:(id)sender {
+    [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_003 note:nil];
+    
     ClientListViewController *ml = [[ClientListViewController alloc] init];
     ml.isForMessageList = YES;
     [ml setHidesBottomBarWhenPushed:YES];
@@ -183,6 +193,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_005 note:nil];
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [[AXChatMessageCenter defaultMessageCenter] deleteConversationItem:[self.sessionFetchedResultsController fetchedObjects][indexPath.row]];
@@ -192,6 +203,8 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_004 note:nil];
+    
     AXConversationListItem *item = [self.sessionFetchedResultsController objectAtIndexPath:indexPath];
 
     BrokerChatViewController *controller = [[BrokerChatViewController alloc] init];

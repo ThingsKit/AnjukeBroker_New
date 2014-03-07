@@ -51,6 +51,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - log
+- (void)sendAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_EDIT_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
+- (void)sendDisAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_EDIT_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+}
+
 #pragma mark - init Method
 
 - (void)initModel {
@@ -109,6 +118,8 @@
 #pragma mark - Private Method
 
 - (void)rightButtonAction:(id)sender {
+    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_EDIT_003 note:nil];
+    
     [self textInputDisappear];
     
     if (![self checkInputOK]) {
@@ -160,6 +171,8 @@
     DLog(@"%@", resultFromAPI);
     
     if ([[resultFromAPI objectForKey:@"status"] isEqualToString:@"OK"]) {
+        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_EDIT_005 note:nil];
+        
         [self showInfo:@"备注信息更新成功"];
         
         if ([self.editDelegate respondsToSelector:@selector(didSaveBackWithData:)]) {

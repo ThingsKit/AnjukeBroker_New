@@ -75,6 +75,15 @@
     }];
 }
 
+#pragma mark - log
+- (void)sendAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
+- (void)sendDisAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+}
+
 #pragma mark - init Method
 
 - (void)initModel {
@@ -290,6 +299,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_003 note:nil];
+    
     DLog(@"section- [%d]", indexPath.section);
     AXMappedPerson *item = nil;
     
@@ -350,6 +361,8 @@
     switch (index) {
         case 0:
         {
+            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_004 note:nil];
+            
             DLog(@"isStar--section[%d],row-[%d]", cellIndexPath.section, cellIndexPath.row);
             
             item.isStar = !item.isStar;
@@ -362,6 +375,8 @@
         }
         case 1:
         {
+            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_006 note:nil];
+            
             DLog(@"delete--section[%d],row-[%d]", cellIndexPath.section, cellIndexPath.row);
             
             //delete from database
