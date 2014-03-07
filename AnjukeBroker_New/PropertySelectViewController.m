@@ -17,7 +17,24 @@
 @synthesize pageTypePropertyFrom;
 @synthesize commDic;
 @synthesize arr;
+#pragma mark - log
+- (void)sendAppearLog {
+    if (self.pageTypePropertyFrom == secondHandPropertyHouse){
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PROPERTY_CHAT_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PROPERTY_CHAT_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
+}
 
+- (void)sendDisAppearLog {
+    if (self.pageTypePropertyFrom == secondHandPropertyHouse){
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PROPERTY_CHAT_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PROPERTY_CHAT_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
+}
+
+#pragma mark - lifeCycle
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -114,6 +131,11 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.pageTypePropertyFrom == secondHandPropertyHouse){
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PROPERTY_CHAT_003 note:nil];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PROPERTY_CHAT_003 note:nil];
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [[(HouseSelectNavigationController *)self.navigationController selectedHouseDelgate] returnSelectedHouseDic:[self.arr objectAtIndex:indexPath.row] houseType:self.pageTypePropertyFrom == secondHandPropertyHouse ? YES : NO];
 
@@ -127,5 +149,12 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (void)doBack:(id)sender {
+    if (self.pageTypePropertyFrom == secondHandPropertyHouse){
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PROPERTY_CHAT_004 note:nil];
+    
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PROPERTY_CHAT_004 note:nil];
+    }
+}
 @end

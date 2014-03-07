@@ -15,7 +15,24 @@
 @implementation CommunitySelectViewController
 @synthesize pageTypeFrom;
 @synthesize arr;
+#pragma mark - log
+- (void)sendAppearLog {
+    if (self.pageTypeFrom == secondHandHouse) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_COMMUNITY_CHAT_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_COMMUNITY_CHAT_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
+}
 
+- (void)sendDisAppearLog {
+    if (self.pageTypeFrom == secondHandHouse) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_COMMUNITY_CHAT_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_COMMUNITY_CHAT_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
+}
+
+#pragma mark - lifeCycle
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -109,6 +126,11 @@
     return houseCell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.pageTypeFrom == secondHandHouse) {
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_COMMUNITY_CHAT_003 note:nil];
+    }else {
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_COMMUNITY_CHAT_003 note:nil];
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     PropertySelectViewController *proLVC = [[PropertySelectViewController alloc] init];
@@ -124,6 +146,11 @@
 }
 
 - (void)doBack:(id)sender {
+     if (self.pageTypeFrom == secondHandHouse) {
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_COMMUNITY_CHAT_004 note:nil];
+     }else {
+     [[BrokerLogger sharedInstance] logWithActionCode:ZF_COMMUNITY_CHAT_004 note:nil];
+     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)didReceiveMemoryWarning

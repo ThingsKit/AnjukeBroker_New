@@ -10,6 +10,9 @@
 #import <QuartzCore/QuartzCore.h>
 #import "AXPhotoManager.h"
 #import "AXChatMessageCenter.h"
+#import "AXChatDataCenter.h"
+
+static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 
 @interface AXPhotoView ()
 {
@@ -56,10 +59,6 @@
     _imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:_imageView];
     _imageView.image = _photo.image;
-    //    if (!self.isFirstIMG) {
-    //        [super drawRect:rect];
-    //        return;
-    //    }
     
     // 基本尺寸参数
     CGSize boundsSize = self.bounds.size;
@@ -86,7 +85,6 @@
     CGRect imageFrame = CGRectMake(0, 0, boundsWidth, imageHeight * boundsWidth / imageWidth);
     // 内容尺寸
     self.contentSize = CGSizeMake(0, imageFrame.size.height);
-    
     // y值
     if (imageFrame.size.height < boundsHeight) {
         imageFrame.origin.y = floorf((boundsHeight - imageFrame.size.height) / 2.0);
@@ -115,12 +113,14 @@
 #pragma mark 显示图片
 - (void)showImage
 {
-    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+    hud.labelText = @"加载中…";
     if (_photo.firstShow) { // 首次显示
         //        _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];; // 占位图片
         if (_photo.picMessage.imgPath.length > 0) {
-            _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
             _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
+            _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
+            
             [self adjustFrame];
         } else {
             //                _imageView.image = nil;
@@ -129,8 +129,6 @@
                 _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]];
                 [self adjustFrame];
             }
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
-            hud.labelText = @"加载中...";
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:_photo.picMessage.imgUrl]];
             __weak AXPhotoView *mySelf = self;
             __unsafe_unretained AXPhoto *blockPhoto = _photo;
@@ -139,28 +137,13 @@
                     blockPhoto.image = image;
                     [mySelf.imageView setImage:image];
                     [mySelf adjustFrame];
-                }
+                    NSString *imgName = [NSString stringWithFormat:@"%@%dx%d.jpg",blockPhoto.picMessage.identifier, (int)image.size.height, (int)image.size.width];
+                    NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:mySelf.photo.picMessage.to andIMGName:imgName];
+                    blockPhoto.picMessage.imgPath = imgpath;
+                    
+                }else return ;
                 
-                //
-                NSString *libpath = [AXPhotoManager getLibrary:nil];
-                NSString *imgName = [NSString stringWithFormat:@"%dx%d.jpg", (int)image.size.height, (int)image.size.width];
-                NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:libpath whitChatId:mySelf.photo.picMessage.to andIMGName:imgName];
-                
-                //            AXMessage *updateMessage = [[AXMessage alloc] init];
-                //            updateMessage = blockSelf.photo.picMessage;
-                AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
-                mappedMessage.identifier = blockPhoto.picMessage.identifier;
-                mappedMessage.accountType = [NSString stringWithFormat:@"%d", AXPersonTypeBroker];
-                //        mappedMessage.content = self.messageInputView.textView.text;
-                mappedMessage.to = mySelf.photo.picMessage.to;
-                mappedMessage.from = mySelf.photo.picMessage.from;
-                mappedMessage.isImgDownloaded = YES;
-                mappedMessage.isRead = YES;
-                mappedMessage.isRemoved = NO;
-                mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
-                mappedMessage.imgPath = imgpath;
-                
-                [[AXChatMessageCenter defaultMessageCenter] updateMessage:mappedMessage];
+                [[AXChatMessageCenter defaultMessageCenter] updateMessage:blockPhoto.picMessage];
                 
             } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                 NSLog(@"xiazai shibai");
@@ -171,31 +154,29 @@
     } else {
         [self photoStartLoad];
     }
-    [self adjustFrame];
+    //    [self adjustFrame];
 }
 
 #pragma mark 开始加载图片
 - (void)photoStartLoad
 {
-    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+    hud.labelText = @"加载中…";
     if (_photo.image) {
-        //        self.scrollEnabled = YES;
         _imageView.image = _photo.image;
         [self adjustFrame];
     } else {
-        //        self.scrollEnabled = NO;
-        //                _imageView.image = nil;
         if (_photo.picMessage.imgPath.length > 0) {
-            //            _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
+            
             _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
+            _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
+            [self adjustFrame];
         } else {
             if (_photo.picMessage.thumbnailImgPath.length > 0) {
                 _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]];
                 _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]];
                 [self adjustFrame];
             }
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
-            hud.labelText = @"加载中...";
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:_photo.picMessage.imgUrl]];
             __weak AXPhotoView *mySelf = self;
             __unsafe_unretained AXPhoto *blockPhoto = _photo;
@@ -204,28 +185,13 @@
                     blockPhoto.image = image;
                     [mySelf.imageView setImage:image];
                     [mySelf adjustFrame];
-                }
+                    NSString *imgName = [NSString stringWithFormat:@"%@%dx%d.jpg",blockPhoto.picMessage.identifier, (int)image.size.height, (int)image.size.width];
+                    NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:mySelf.photo.picMessage.to andIMGName:imgName];
+                    blockPhoto.picMessage.imgPath = imgpath;
+                    
+                }else return ;
                 
-                //
-                NSString *libpath = [AXPhotoManager getLibrary:nil];
-                NSString *imgName = [NSString stringWithFormat:@"%dx%d.jpg", (int)image.size.height, (int)image.size.width];
-                NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:libpath whitChatId:mySelf.photo.picMessage.to andIMGName:imgName];
-                
-                //            AXMessage *updateMessage = [[AXMessage alloc] init];
-                //            updateMessage = blockSelf.photo.picMessage;
-                AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
-                mappedMessage.identifier = blockPhoto.picMessage.identifier;
-                mappedMessage.accountType = [NSString stringWithFormat:@"%d", AXPersonTypeBroker];
-                //        mappedMessage.content = self.messageInputView.textView.text;
-                mappedMessage.to = mySelf.photo.picMessage.to;
-                mappedMessage.from = mySelf.photo.picMessage.from;
-                mappedMessage.isImgDownloaded = YES;
-                mappedMessage.isRead = YES;
-                mappedMessage.isRemoved = NO;
-                mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
-                mappedMessage.imgPath = imgpath;
-                
-                [[AXChatMessageCenter defaultMessageCenter] updateMessage:mappedMessage];
+                [[AXChatMessageCenter defaultMessageCenter] updateMessage:blockPhoto.picMessage];
                 
             } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                 
@@ -233,7 +199,7 @@
             }];
         }
     }
-    
+    //     [self adjustFrame];
 }
 
 #pragma mark 调整frame
@@ -306,7 +272,6 @@
     if ([self.photoViewDelegate respondsToSelector:@selector(photoViewDidEndZoom:)]) {
         [self.photoViewDelegate photoViewDidEndZoom:self];
     }
-    //    [self performSelector:@selector(hide) withObject:nil afterDelay:0.2];
 }
 
 - (void)reset

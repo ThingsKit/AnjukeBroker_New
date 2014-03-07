@@ -24,7 +24,16 @@
 @end
 
 @implementation BrokerChatViewController
+#pragma mark - log
+- (void)sendAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
 
+- (void)sendDisAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+}
+
+#pragma mark - lifeCycle
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -260,6 +269,7 @@
 }
 
 - (void)viewCustomerDetailInfo {
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_009 note:nil];
     AXMappedPerson *item = self.friendPerson;
     //for test
     ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
@@ -269,6 +279,7 @@
 }
 - (void)doBack:(id)sender {
     
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_013 note:nil];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 - (void)didClickTelNumber:(NSString *)telNumber {
@@ -286,9 +297,10 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
+        [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_011 note:nil];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",self.phoneNumber]]];
     }else {
-
+        [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_012 note:nil];
             self.friendPerson.markPhone = self.phoneNumber;
             [[AXChatMessageCenter defaultMessageCenter] updatePerson:self.friendPerson];
         
