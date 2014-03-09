@@ -15,6 +15,7 @@
 #import "AXUtil_UI.h"
 #import "UIImage+Resize.h"
 #import "NSString+RTStyle.h"
+#import "ClientDetailPublicViewController.h"
 
 @interface BrokerChatViewController ()
 {
@@ -131,7 +132,7 @@
 - (void)pickIMG:(id)sender {
     AXELCImagePickerController *elcPicker = [[AXELCImagePickerController alloc] init];
     
-    elcPicker.maximumImagesCount = 1; //(maxCount - self.roomImageArray.count);
+    elcPicker.maximumImagesCount = 20; //(maxCount - self.roomImageArray.count);
     elcPicker.imagePickerDelegate = self;
     [self presentViewController:elcPicker animated:YES completion:nil];
 }
@@ -302,13 +303,26 @@
 }
 
 - (void)viewCustomerDetailInfo {
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_009 note:nil];
-    AXMappedPerson *item = self.friendPerson;
-    //for test
-    ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
-    cd.person = item;
-    [cd setHidesBottomBarWhenPushed:YES];
-    [self.navigationController pushViewController:cd animated:YES];
+    if (self.friendPerson.userType == AXPersonTypePublic) {
+        
+        [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_009 note:nil];
+        AXMappedPerson *item = self.friendPerson;
+        //for test
+        ClientDetailPublicViewController *cd = [[ClientDetailPublicViewController alloc] init];
+        cd.person = item;
+        [cd setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:cd animated:YES];
+    }else if (self.friendPerson.userType == AXPersonTypeUser){
+        [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_009 note:nil];
+        AXMappedPerson *item = self.friendPerson;
+        //for test
+        ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
+        cd.person = item;
+        [cd setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:cd animated:YES];
+    }
+    
+
 }
 - (void)doBack:(id)sender {
     
