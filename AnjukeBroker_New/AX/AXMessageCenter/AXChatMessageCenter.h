@@ -85,6 +85,7 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterLinkStatus)
 //- (void)buildLongLinkWithUserId:(NSString *)uid;
 - (void)connect;
 
+- (void)userLoginOut;
 
 - (void)searchBrokerByBrokerPhone:(NSString *)brokerPhone compeletionBlock:(void(^)(AXMappedPerson *brokerInfo))searchBrokerBlock;
 - (void)removeFriendBydeleteUid:(NSArray *)deleteUid compeletionBlock:(void(^)(BOOL isSuccess))deleteFriendBlock;

@@ -40,6 +40,10 @@
 
 - (void)switchToUID:(NSString *)uid
 {
+    if (self.managedObjectContext) {
+        [self.managedObjectContext save:NULL];
+    }
+    
     self.uid = uid;
     NSString *libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *storePath = [libraryDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite", uid]];
@@ -181,7 +185,9 @@
     NSMutableDictionary *messageDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
     NSMutableDictionary *splitedDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
     
+    NSInteger count = 0;
     for (NSDictionary *item in receivedArray) {
+        count++;
         NSString *friendUID = item[@"from_uid"];
         NSMutableArray *messageArray = [[NSMutableArray alloc] initWithCapacity:0];
         
@@ -236,7 +242,7 @@
             managedMessage.isRemoved = [NSNumber numberWithBool:NO];
             managedMessage.messageId = @([message[@"msg_id"] integerValue]);
             managedMessage.sendStatus = @(messageSendStatus);
-            managedMessage.sendTime = [NSDate dateWithTimeIntervalSince1970:[message[@"created"] integerValue]];
+            managedMessage.sendTime = [NSDate dateWithTimeIntervalSince1970:[message[@"created"] integerValue]+0.0001*count];
             managedMessage.to = message[@"to_uid"];
             
             if ([self.friendUid isEqualToString:friendUID]) {
@@ -291,8 +297,8 @@
             notificationMessage.messageType = [NSNumber numberWithInteger:AXMessageTypeSystemTime];
             notificationMessage.sendTime = [NSDate dateWithTimeInterval:-0.01 sinceDate:[(AXMessage *)[messageArray firstObject] sendTime]];
             
-            [messageArray insertObject:[notificationMessage convertToMappedObject] atIndex:0];
-            [commonMessageArray insertObject:[notificationMessage convertToMappedObject] atIndex:0];
+            [messageArray insertObject:[notificationMessage convertToMappedObject] atIndex:[messageArray count]-1];
+            [commonMessageArray insertObject:[notificationMessage convertToMappedObject] atIndex:[messageArray count]-1];
          }
         
         messageDictionary[friendUID] = [messageArray reverseSelf];
@@ -314,19 +320,17 @@
     __autoreleasing NSError *error;
     [self.managedObjectContext save:&error];
     
-    if (self.friendUid) {
-        CFStringRef state;
-        UInt32 propertySize = sizeof(CFStringRef);
-        AudioSessionInitialize(NULL, NULL, NULL, NULL);
-        AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &propertySize, &state);
-        
-        if (CFStringGetLength(state) > 0) {
-            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-        } else {
-            AudioServicesPlaySystemSound(1015);
-        }
-    }
+    CFStringRef state;
+    UInt32 propertySize = sizeof(CFStringRef);
+    AudioSessionInitialize(NULL, NULL, NULL, NULL);
+    AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &propertySize, &state);
     
+    if (CFStringGetLength(state) > 0) {
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    } else {
+        AudioServicesPlaySystemSound(1015);
+    }
+
     [self.delegate dataCenter:self didReceiveMessages:splitedDictionary];
     
     return messageDictionary;
@@ -371,6 +375,11 @@
     AXConversationListItem *item = [self findConversationListItemWithFriendUID:friendUid];
     item.messageStatus = messageToUpdate.sendStatus;
     
+    [self.managedObjectContext save:NULL];
+}
+
+- (void)dealloc
+{
     [self.managedObjectContext save:NULL];
 }
 
@@ -929,7 +938,7 @@
     for (AXMappedMessage *messageToCheck in mappedMessageArray) {
 
         AXMessageType messageType = [messageToCheck.messageType integerValue];
-        if (messageType == AXMessageTypeSettingNotifycation || messageType == AXMessageTypeSystemForbid || messageType == AXMessageTypeSystemTime || messageType == AXMessageTypeAddNuckName) {
+        if (messageType == AXMessageTypeSettingNotifycation || messageType == AXMessageTypeSystemForbid || messageType == AXMessageTypeSystemTime || messageType == AXMessageTypeAddNuckName || messageType == AXMessageTypeSafeMessage) {
             continue;
         } else {
             message = messageToCheck;
@@ -951,6 +960,9 @@
         
         for (NSDictionary *person in friendList) {
             if ([friend.uid isEqualToString:person[@"user_id"]]) {
+                isExist = YES;
+            }
+            if ([friend.uid isEqualToString:self.uid]) {
                 isExist = YES;
             }
         }
