@@ -75,10 +75,26 @@
     [self initNavTitle];
 }
 - (void)initNavTitle {
-
-    
-    
+    AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:self.friendPerson.uid];
+    NSString *titleString = @"";
+    if (person.markName.length > 0) {
+        titleString = [NSString stringWithFormat:@"%@", person.markName];
+    }
+    else {
+        titleString = [NSString stringWithFormat:@"%@", self.friendPerson.name];
+        if ([person.markName isEqualToString:person.phone]) {
+            titleString = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
+        }
+    }
+    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
+    lb.backgroundColor = [UIColor clearColor];
+    lb.font = [UIFont systemFontOfSize:19];
+    lb.text = titleString;
+    lb.textAlignment = NSTextAlignmentCenter;
+    lb.textColor = [UIColor whiteColor];
+    self.navigationItem.titleView = lb;
 }
+
 - (void)initRightBar {
     UIButton *brokerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     brokerButton.frame = CGRectMake(0, 0, 44, 44);
@@ -90,6 +106,7 @@
     spacer.width = -10.0f;
     [self.navigationItem setRightBarButtonItems:@[spacer, buttonItems]];
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = (self.identifierData)[[indexPath row]];
     NSDictionary *dic = self.cellDict[identifier];
@@ -111,6 +128,21 @@
         [self.navigationController pushViewController:controller animated:YES];
     }
 }
+- (void)pickIMG:(id)sender {
+    AXELCImagePickerController *elcPicker = [[AXELCImagePickerController alloc] init];
+    
+    elcPicker.maximumImagesCount = 1; //(maxCount - self.roomImageArray.count);
+    elcPicker.imagePickerDelegate = self;
+    [self presentViewController:elcPicker animated:YES completion:nil];
+}
+
+- (void)takePic:(id)sender {
+    UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+    ipc.sourceType = UIImagePickerControllerSourceTypeCamera; //拍照
+    ipc.delegate = self;
+    [self presentViewController:ipc animated:YES completion:nil];
+    
+}
 - (void)pickAJK:(id)sender {
     CommunitySelectViewController *controller = [[CommunitySelectViewController alloc] init];
     controller.pageTypeFrom = secondHandHouse;
@@ -119,6 +151,7 @@
     [self presentViewController:nav animated:YES completion:nil];
 
 }
+
 - (void)pickHZ:(id)sender {
     CommunitySelectViewController *controller = [[CommunitySelectViewController alloc] init];
     controller.pageTypeFrom = rentHouse;
