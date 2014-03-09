@@ -49,9 +49,6 @@
     self.persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
     NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption:[NSNumber numberWithBool:YES],NSInferMappingModelAutomaticallyOption:[NSNumber numberWithBool:YES]};
     if ([self.persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
-        
-
-        
         self.managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         self.managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
     }
@@ -92,7 +89,7 @@
     __autoreleasing NSError *error;
     NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
 
-    NSMutableArray *mappedResult = [[NSMutableArray alloc] initWithCapacity:0];
+    NSMutableArray *mappedResult = [[NSMutableArray alloc] initWithCapacity:[result count]];
     for (AXMessage *message in result) {
         [mappedResult addObject:[message convertToMappedObject]];
     }
@@ -119,7 +116,7 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND isRemoved = %@ AND messageType = %@", friendUid, friendUid, [NSNumber numberWithBool:NO], [NSNumber numberWithInteger:AXMessageTypePic]];
-    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:YES]];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:NO]];
     
     NSArray *fetchedResult = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
     NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:[fetchedResult count]];
@@ -193,12 +190,22 @@
         for (NSDictionary *message in item[@"messages"]) {
 
             AXMessageType messageType = [message[@"msg_type"] integerValue];
+            
+            if (messageType < 1) {
+                continue;
+            }
+            if (messageType > 4 && messageType < 100) {
+                continue;
+            }
+            if (messageType > 106) {
+                continue;
+            }
+            
             AXMessageCenterSendMessageStatus messageSendStatus = AXMessageCenterSendMessageStatusSuccessful;
 
             AXMessage *managedMessage = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
 
             if (messageType == AXMessageTypePic) {
-#warning todo 应该根据UBB来区分
                 managedMessage.imgPath = @"";
                 managedMessage.imgUrl = message[@"body"];
                 managedMessage.thumbnailImgPath = @"";
@@ -212,7 +219,6 @@
                 managedMessage.isImgDownloaded = [NSNumber numberWithBool:NO];
             }
 
-#warning todo account type
             managedMessage.accountType = item[@"account_type"];
             managedMessage.content = message[@"body"];
             managedMessage.from = friendUID;
@@ -238,7 +244,8 @@
             [messageArray addObject:[managedMessage convertToMappedObject]];
         }
         
-        [self updateConversationListItemWithMessage:[messageArray lastObject]];
+        AXMappedMessage *messageToUpdate = [self findMessageToUpdate:messageArray];
+        [self updateConversationListItemWithMessage:messageToUpdate];
         
         NSDate *fetchedLastDate = [(AXMessage *)[messageArray lastObject] sendTime];
         NSTimeInterval timeInterval = [fetchedLastDate timeIntervalSinceDate:storedLastDate];
@@ -264,10 +271,8 @@
         messageDictionary[friendUID] = [messageArray reverseSelf];
         splitedDictionary[friendUID] = @{@"pic":picMessageArray, @"other":[commonMessageArray reverseSelf]};
         
-#warning wating to finish to distguish servceid or user id by william yang
         if (![self isFriendWithFriendUid:friendUID]) {
             
-#warning todo checkout account type
             AXPerson *friend = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
             friend.uid = friendUID;
             
@@ -305,6 +310,7 @@
 - (void)deleteMessageByIdentifier:(NSString *)identifier
 {
     AXMessage *message = [self findMessageWithIdentifier:identifier];
+    [self.managedObjectContext deleteObject:message];
     
     if (message) {
         NSString *friendUid;
@@ -320,9 +326,9 @@
         if (item) {
             [self updateConversationListItemWithMessage:[lastMessage convertToMappedObject]];
         }
-        [self.managedObjectContext deleteObject:message];
-        [self.managedObjectContext save:NULL];
     }
+    
+    [self.managedObjectContext save:NULL];
 }
 
 - (void)updateMessage:(AXMappedMessage *)message
@@ -392,7 +398,6 @@
 - (void)saveDraft:(NSString *)content friendUID:(NSString *)friendUID
 {
     AXConversationListItem *conversationListItem = [self findConversationListItemWithFriendUID:friendUID];
-    conversationListItem.draftContent = content;
     if ([content isEqualToString:@""]) {
         if (conversationListItem) {
             conversationListItem.hasDraft = [NSNumber numberWithBool:NO];
@@ -405,6 +410,7 @@
         conversationListItem.lastUpdateTime = [NSDate dateWithTimeIntervalSinceNow:0];
         conversationListItem.hasDraft = [NSNumber numberWithBool:YES];
     }
+    conversationListItem.draftContent = content;
     [self.managedObjectContext save:NULL];
 }
 
@@ -468,12 +474,13 @@
 
 - (NSFetchedResultsController *)conversationListFetchedResultController
 {
-    NSManagedObjectContext *tempManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    tempManagedObjectContext.parentContext = self.managedObjectContext;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
     fetchRequest.entity = entity;
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"lastUpdateTime" ascending:NO]];
+    
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    
     return [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 }
 
@@ -771,15 +778,6 @@
         AXConversationListItem *conversationListItem = [self findConversationListItemWithFriendUID:friendUID];
         if (!conversationListItem) {
             conversationListItem = [NSEntityDescription insertNewObjectForEntityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
-            AXPerson *person = [self findPersonWithUID:friendUID];
-            conversationListItem.iconPath = person.iconPath;
-            conversationListItem.isIconDownloaded = person.isIconDownloaded;
-            conversationListItem.iconUrl = person.iconUrl;
-            if ([person.markName length] > 0) {
-                conversationListItem.presentName = person.markName;
-            } else {
-                conversationListItem.presentName = person.name;
-            }
         }
         
         AXPerson *friend = [self findPersonWithUID:friendUID];
@@ -886,6 +884,12 @@
     AXConversationListItem *item = [self findConversationListItemWithFriendUID:friendUid];
     item.count = [NSNumber numberWithInteger:0];
     [self.managedObjectContext save:NULL];
+}
+
+- (AXMappedMessage *)findMessageToUpdate:(NSArray *)mappedMessageArray
+{
+    AXMappedMessage *message;
+    return message;
 }
 
 @end

@@ -38,13 +38,12 @@ typedef NS_ENUM(NSInteger, AIF_MESSAGE_REQUEST_TAG_TYPE)
 
 @property (nonatomic,weak) id<AIFMessageManagerDelegate> delegate;
 @property (nonatomic) AIF_MESSAGE_REQUEST_REGISTER_STATUS registerStatus;
-@property (nonatomic) BOOL isLinking;
+@property (nonatomic, readonly) BOOL isLinking;
 
 - (void)bindServerHost:(NSString *)host port:(NSString *)port appName:(NSString *)appName timeout:(NSTimeInterval)timeout;
 - (void)registerDevices:(NSString *)deviceId userId:(NSString *)userId;
 - (void)heartBeatWithDevices:(NSString *)deviceId userId:(NSString *)userId;
 - (void)heartBeatWithDevices;
-- (void)sendMessageToUid:(NSString *)uid message:(NSString *)message;
 
 //persistent connect can not be canceled, this is a experimental try。
 - (void)cancelRegisterRequest;

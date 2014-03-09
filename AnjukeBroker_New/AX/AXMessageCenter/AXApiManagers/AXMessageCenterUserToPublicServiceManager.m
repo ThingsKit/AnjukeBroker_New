@@ -40,4 +40,20 @@
 {
     return YES;
 }
+
+- (void)afterCallingAPIWithParams:(NSDictionary *)params
+{
+    self.apiParams[@"requestID"] = params[kRTAPIBaseManagerRequestID];
+    [self.interceotorDelegate manager:self afterCallingAPIWithParams:params];
+}
+
+- (void)beforePerformFailWithResponse:(RTNetworkResponse *)response
+{
+    [self.interceotorDelegate manager:self beforePerformFailWithResponse:response];
+}
+- (void)beforePerformSuccessWithResponse:(RTNetworkResponse *)response
+{
+    [self.interceotorDelegate manager:self afterPerformSuccessWithResponse:response];
+}
+
 @end

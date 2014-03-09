@@ -21,9 +21,9 @@ static NSString * const kAXMessageCenterLinkAppName = @"i-ajk";
 static NSString * const MessageCenterDidReceiveLastUpdataFriendList = @"MessageCenterDidReceiveFriendList";
 static NSString * const MessageCenterDidReceiveLastUpdataMyInformation = @"MessageCenterDidReceiveLastUpdataMyInformation";
 static NSString * const MessageCenterDidReceiveLastUpdataFriendInformation = @"MessageCenterDidReceiveLastUpdataFriendInformation";
-static NSString * const MessageCenterDidInitedDataCenter = @"MessageCenterDidInitedDataCenter";
 static NSString * const MessageCenterUserDidQuit = @"MessageCenterUserDidQuit";
 static NSString * const MessageCenterUserDidQuitToAllReceiveNotication = @"MessageCenterUserDidQuitToAllReceiveNotication";
+static NSString * const MessageCenterDidInitedDataCenter = @"MessageCenterDidInitedDataCenter";
 
 //connection status notication object will include AXMessageCenterStatus by NSNumber in userinfo key is @"status"
 static NSString * const MessageCenterConnectionStatusNotication = @"MessageCenterConnectionStatusNotication";
@@ -130,4 +130,6 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterLinkStatus)
 - (NSFetchedResultsController *)friendListFetchedResultController;
 - (NSArray *)picMessageArrayWithFriendUid:(NSString *)friendUid;
 - (void)updateMessage:(AXMappedMessage *)message;
+
+- (BOOL)isFriendWithFriendUid:(NSString *)friendUid;
 @end

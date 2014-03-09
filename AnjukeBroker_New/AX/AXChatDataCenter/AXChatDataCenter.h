@@ -14,6 +14,7 @@
 #import "AXMappedMessage.h"
 #import "AXMappedPerson.h"
 
+
 @class AXChatDataCenter;
 
 @protocol AXChatDataCenterDelegate <NSObject>

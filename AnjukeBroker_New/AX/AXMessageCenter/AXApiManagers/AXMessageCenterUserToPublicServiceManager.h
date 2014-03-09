@@ -7,7 +7,9 @@
 //
 
 #import "RTAPIBaseManager.h"
+#import "RTAPIManagerInterceptorProtocal.h"
 
 @interface AXMessageCenterUserToPublicServiceManager : RTAPIBaseManager<RTAPIManagerParamSourceDelegate,RTAPIManagerValidator>
-@property (nonatomic, strong) NSDictionary *apiParams;
+@property (nonatomic, weak) id<RTAPIManagerInterceptorProtocal> interceotorDelegate;
+@property (nonatomic, strong) NSMutableDictionary *apiParams;
 @end

@@ -121,32 +121,40 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 
 - (void)userInfoChanged
 {
-    NSDictionary *loginResult = [[NSUserDefaults standardUserDefaults] objectForKey:@"anjuke_chat_login_info"];
-    self.dataCenter = [[AXChatDataCenter alloc] initWithUID:loginResult[@"user_info"][@"user_id"]];
-    AXMappedPerson *mySelf = [[AXMappedPerson alloc] init];
-    mySelf.uid = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"user_id"]];
-    mySelf.phone = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"phone"]];
-    mySelf.markName = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"nick_name"]];
-    mySelf.iconUrl = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"icon"]];
-    mySelf.markNamePinyin = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"nick_name_pinyin"]];
-    mySelf.userType = [loginResult[@"user_info"][@"user_type"] integerValue];
-    [self.dataCenter updatePerson:mySelf];
+    if (self.dataCenter) {
+        NSDictionary *loginResult = [[NSUserDefaults standardUserDefaults] objectForKey:@"anjuke_chat_login_info"];
+        AXMappedPerson *mySelf = [[AXMappedPerson alloc] init];
+        mySelf.uid = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"user_id"]];
+        mySelf.phone = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"phone"]];
+        mySelf.markName = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"nick_name"]];
+        mySelf.iconUrl = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"icon"]];
+        mySelf.markNamePinyin = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"nick_name_pinyin"]];
+        mySelf.userType = [loginResult[@"user_info"][@"user_type"] integerValue];
+        [self.dataCenter updatePerson:mySelf];
+    }
 }
 
 - (void)userLoginOut
 {
+#warning rebuild
     self.linkStatus = AXMessageCenterLinkStatusNoLink;
+    [self.dataCenter switchToUID:@"0"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidInitedDataCenter object:nil];
     [self breakLink];
 }
 
 - (void)connect
 {
+//    if ([MemberUtil didMemberLogin]) {
+//        [self connectToServer];
+//    }else {
+//        [self buildLongLinkWithUserId:@"0"];
+//    }
+    
     [self connectToServer];
 }
 - (void)breakLink
 {
-    self.linkStatus = AXMessageCenterLinkStatusNoLink;
-    self.messageManager.isLinking = NO;
     [self.messageManager cancelKeepAlivingConnection];
 }
 
@@ -156,6 +164,8 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 - (void)buildLongLinkWithUserId:(NSString *)uid
 {
     return;
+    
+#warning rebuild
     //如果链接已经建立，则退出函数
     if (self.linkStatus == AXMessageCenterLinkStatusLinkedAsDevice) {
         return;
@@ -172,7 +182,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 
     
     // 建立长链接
-    self.messageManager.isLinking = YES;
     self.messageManager.registerStatus = AIF_MESSAGE_REQUEST_REGISTER_FINISHED;
     [self.messageManager bindServerHost:kAXMessageCenterLinkParamHost port:kAXMessageCenterLinkParamPort appName:kAXMessageCenterLinkAppName timeout:350];
     [self.messageManager registerDevices:[[UIDevice currentDevice] udid] userId:self.currentPerson.uid];
@@ -192,9 +201,14 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterConnectionStatusNotication object:nil userInfo:@{@"status": @(AIFMessageCenterStatusConnecting)}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidInitedDataCenter object:nil];
     });
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidInitedDataCenter object:nil];
+}
+
+- (void)userDidLogin
+{
+    self.linkStatus = AXMessageCenterLinkStatusWillLinkAsUser;
+    [self breakLink];
 }
 
 - (void)connectToServer
@@ -218,7 +232,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     
     self.dataCenter.delegate = self;
     self.currentPerson = mySelf;
-    self.messageManager.isLinking = YES;
     self.messageManager.registerStatus = AIF_MESSAGE_REQUEST_REGISTER_FINISHED;
     [self.messageManager bindServerHost:kAXMessageCenterLinkParamHost port:kAXMessageCenterLinkParamPort appName:kAXMessageCenterLinkAppName timeout:350];
     [self.messageManager registerDevices:[[UIDevice currentDevice] udid] userId:self.currentPerson.uid];
@@ -238,9 +251,8 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterConnectionStatusNotication object:nil userInfo:@{@"status": @(AIFMessageCenterStatusConnecting)}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidInitedDataCenter object:nil];
     });
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidInitedDataCenter object:nil];
 }
 
 - (void)dealloc
@@ -356,6 +368,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         _sendMessageToPublic = [[AXMessageCenterUserToPublicServiceManager alloc] init];
         _sendMessageToPublic.validator = _sendMessageToPublic;
         _sendMessageToPublic.paramSource = _sendMessageToPublic;
+        _sendMessageToPublic.interceotorDelegate = self;
         _sendMessageToPublic.delegate = self;
     }
     return _sendMessageToPublic;
@@ -656,6 +669,10 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     [self.dataCenter updateMessage:message];
 }
 
+- (BOOL)isFriendWithFriendUid:(NSString *)friendUid
+{
+    return [self.dataCenter isFriendWithFriendUid:friendUid];
+}
 #pragma mark - selfMethod
 - (void)closeKeepAlivingConnect
 {
@@ -731,24 +748,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     [self.sendMessageToPublic loadData];
 }
 
-- (void)userReceiveAlivingConnection
-{
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"phone"] = self.currentPerson.phone;
-    params[@"last_max_msgid"] =[self theLastMessageIDinCoreData];
-    self.receiveMessageManager.apiParams = params;
-    [self.receiveMessageManager loadData];
-}
-- (void)appReceiveAlivingConnection
-{
-    NSMutableDictionary *params =[NSMutableDictionary dictionary];
-    params[@"to_device_id"] = [[UIDevice currentDevice] udid];
-    params[@"to_app_name"] = kAXMessageCenterLinkAppName;
-    params[@"last_max_msg_id"] = [self.dataCenter lastServiceMsgId];
-    self.appGetAllNewMessage.apiParams = params;
-    [self.appGetAllNewMessage loadData];
-}
-
 - (void)reSendMessageToPublic:(NSString *)identifier willSendMessage:(void (^)(AXMappedMessage *, AXMessageCenterSendMessageStatus, AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
 {
     AXMappedMessage *dataMessage = [self.dataCenter fetchMessageWithIdentifier:identifier];
@@ -768,6 +767,24 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     
     self.sendMessageToPublic.apiParams = params;
     [self.sendMessageToPublic loadData];
+}
+
+- (void)userReceiveAlivingConnection
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"phone"] = self.currentPerson.phone;
+    params[@"last_max_msgid"] =[self theLastMessageIDinCoreData];
+    self.receiveMessageManager.apiParams = params;
+    [self.receiveMessageManager loadData];
+}
+- (void)appReceiveAlivingConnection
+{
+    NSMutableDictionary *params =[NSMutableDictionary dictionary];
+    params[@"to_device_id"] = [[UIDevice currentDevice] udid];
+    params[@"to_app_name"] = kAXMessageCenterLinkAppName;
+    params[@"last_max_msg_id"] = [self.dataCenter lastServiceMsgId];
+    self.appGetAllNewMessage.apiParams = params;
+    [self.appGetAllNewMessage loadData];
 }
 
 - (void)sendImage:(AXMappedMessage *)message withCompeletionBlock:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock
@@ -804,8 +821,27 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 - (void)addFriendByQRCode:(NSString *)urlString compeletionBlock:(void (^)(AXMappedPerson *))addFriendByQRCompeletionBlock
 {
     _addFriendByQRCode = addFriendByQRCompeletionBlock;
+    
     NSURL *QRCodeUrl = [NSURL URLWithString:urlString];
     self.QRCodeRequest = [[ASIHTTPRequest alloc] initWithURL:QRCodeUrl];
+
+    NSMutableDictionary *headerDic = [NSMutableDictionary dictionary];
+    [headerDic setValue:@"" forKey:@"sig"];
+    [headerDic setValue:@"application/json" forKey:@"Accept"];
+    [headerDic setValue:@"application/json" forKey:@"Content-Type"];
+    NSDictionary *loginResult = [[NSUserDefaults standardUserDefaults] objectForKey:@"anjuke_chat_login_info"];
+    if (loginResult[@"auth_token"]) {
+        [headerDic setValue:loginResult[@"auth_token"] forKey:@"AuthToken"];
+    }
+    if (headerDic) {
+        NSArray *keys = [headerDic allKeys];
+        for (NSString *key in keys) {
+            if ([[NSNull null] isEqual:[headerDic objectForKey:key]] || [@"" isEqualToString:[headerDic objectForKey:key]])
+                continue;
+            [self.QRCodeRequest addRequestHeader:key value:[headerDic objectForKey:key]];
+        }
+    }
+    
     self.QRCodeRequest.delegate = self;
     self.QRCodeRequest.tag = AXMessageCenterHttpRequestTypeQRCode;
     [self.QRCodeRequest startAsynchronous];
@@ -1011,8 +1047,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 
 - (void)dataCenter:(AXChatDataCenter *)dataCenter fetchPublicInfoWithUid:(NSArray *)uid
 {
-    self.userGetServiceInfo.apiParams = @{@"service_id":uid[0]};
-    [self.userGetServiceInfo loadData];
+    [self getServiceInfoByServiceID:uid[0]];
 }
 
 #pragma mark - ASIHTTPRequestDelegate
@@ -1035,6 +1070,8 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         if (receiveDic[@"status"] && [receiveDic[@"status"] isEqualToString:@"OK"]) {
             AXMappedPerson *person = [[AXMappedPerson alloc] initWithDictionary:receiveDic[@"result"]];
             _addFriendByQRCode(person);
+        } else {
+            _addFriendByQRCode(nil);
         }
     }
     //sendimage
@@ -1203,8 +1240,14 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterUserDidQuitToAllReceiveNotication object:nil];
         });
     }
-    
+
     if ([receiveDic[@"result"] isKindOfClass:[NSDictionary class]] && [receiveDic[@"result"][@"msgType"] isEqualToString:@"chat"]) {
+//        if ([MemberUtil didMemberLogin]) {
+//            [self userReceiveAlivingConnection];
+//        } else {
+//            [self appReceiveAlivingConnection];
+//        }
+        
         [self userReceiveAlivingConnection];
     }
 }

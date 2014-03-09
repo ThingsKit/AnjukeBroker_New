@@ -33,6 +33,8 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
 @property (nonatomic) BOOL isFirstPONG;
 @property (nonatomic) BOOL shouldSendHeartPong;
 @property (nonatomic) NSInteger tryCount;
+@property (nonatomic, readwrite) BOOL isLinking;
+@property (nonatomic) BOOL isLoading;
 
 @end
 
@@ -44,6 +46,8 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
     if (self) {
         self.isFirstPONG = YES;
         self.shouldSendHeartPong = YES;
+        self.isLinking = NO;
+        self.isLoading = NO;
     }
     return self;
 }
@@ -63,6 +67,7 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
 
 - (void)cancelKeepAlivingConnection
 {
+    self.isLinking = NO;
     NSString *cancelUrl = [NSString stringWithFormat:@"https://%@:%@%@/%@/%@/%@",self.host,self.port,kAIFMessageStopAlivingConnectionUri,self.deviceId,self.appName, self.userId];
     DLog(@"CANACLE URL IS ====== %@",cancelUrl);
     self.cancelAlivingConnection = [[ASIHTTPRequest alloc] initWithURL:[NSURL URLWithString:cancelUrl]];
@@ -85,19 +90,20 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
     
     NSString *registerUrlString = [NSString stringWithFormat:@"https://%@:%@%@/%@/%@/%@/",self.host,self.port,kAIFMessageRegisteToServerUri,self.deviceId,self.appName,self.userId];
     NSURL *registerUrl = [NSURL URLWithString:registerUrlString];
-    NSLog(@"registerUrl is %@", registerUrl);
     self.registerRequest = [ASIHTTPRequest requestWithURL:registerUrl];
     self.registerRequest.tag = AIF_MESSAGE_REQUEST_TYPE_TAG_REGISTER;
     [self.registerRequest setValidatesSecureCertificate:NO];
     self.registerRequest.delegate = self;
     self.registerRequest.timeOutSeconds = self.timeout;
     [self.registerRequest startAsynchronous];
+    
+    self.isLoading = YES;
+    self.isLinking = NO;
 }
 
 - (void)heartBeatWithDevices
 {
     NSString *heartBeatUrlString = [NSString stringWithFormat:@"https://%@:%@%@/%@/%@/%@",self.host,self.port,kAIFMessageConnectToHeartBeatServerUri,self.deviceId,self.appName,self.userId];
-    //    NSLog(@"[%@ %@]:%@ => %@ ",NSStringFromClass([self class]),NSStringFromSelector(_cmd),@"heartBeatUrlString",heartBeatUrlString);
     NSURL *heartBeatUrl = [NSURL URLWithString:heartBeatUrlString];
     self.heartBeatRequest = [ASIHTTPRequest requestWithURL:heartBeatUrl];
     self.heartBeatRequest.delegate = self;
@@ -111,33 +117,12 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
 {
     
     NSString *heartBeatUrlString = [NSString stringWithFormat:@"https://%@:%@%@/%@/%@/%@",self.host,self.port,kAIFMessageConnectToHeartBeatServerUri,self.deviceId,self.appName,self.userId];
-    //    NSLog(@"[%@ %@]:%@ => %@ ",NSStringFromClass([self class]),NSStringFromSelector(_cmd),@"heartBeatUrlString",heartBeatUrlString);
     NSURL *heartBeatUrl = [NSURL URLWithString:heartBeatUrlString];
     self.heartBeatRequest = [ASIHTTPRequest requestWithURL:heartBeatUrl];
     self.heartBeatRequest.delegate = self;
     [self.heartBeatRequest setValidatesSecureCertificate:NO];
     self.heartBeatRequest.tag = AIF_MESSAGE_REQUEST_TYPE_TAG_HEARTBEAT;
     [self.heartBeatRequest startAsynchronous];
-}
-
-- (void)sendMessageToUid:(NSString *)uid message:(NSString *)message
-{
-    if ([uid isEqualToString:@""]) {
-        uid = @"0";
-    }
-    NSString *sendMessageUrlString = [NSString stringWithFormat:@"https://%@:%@%@/%@",self.host,self.port,kAIFMessagePushMessageByUidUri,uid];
-    NSURL *sendMessageUrl = [NSURL URLWithString:sendMessageUrlString];
-    self.pushRequest = [ASIFormDataRequest requestWithURL:sendMessageUrl];
-    self.pushRequest.delegate = self;
-    self.pushRequest.tag = AIF_MESSAGE_REQUEST_TYPE_TAG_PUSHING;
-    [self.pushRequest setValidatesSecureCertificate:NO];
-    [self.pushRequest setPostValue:message forKey:@"message"];
-    [self.pushRequest startAsynchronous];
-}
-
-- (void)sendMessageToDeviceId:(NSString *)deviceId
-{
-    
 }
 
 - (void)cancelRegisterRequest
@@ -178,6 +163,8 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
 {
     if (request.tag == AIF_MESSAGE_REQUEST_TYPE_TAG_REGISTER) {
         self.tryCount = 0;
+        self.isLoading = NO;
+        self.isLinking = YES;
         if ([self.delegate respondsToSelector:@selector(manager:didRegisterDevice:userId:receivedData:)]) {
             [self.delegate manager:self didRegisterDevice:self.deviceId userId:self.userId receivedData:data];
             if (self.shouldSendHeartPong) {
@@ -200,7 +187,6 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
                     [self cancelRegisterRequest];
                 }
             }
-        } else {
         }
     }
     
@@ -208,7 +194,6 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
         //In this brace, we can do some expose delegate method
         if ([self.delegate respondsToSelector:@selector(manager:didHeartBeatWithDevice:userId:receivedData:)]) {
             [self.delegate manager:self didHeartBeatWithDevice:self.deviceId userId:self.userId receivedData:data];
-        } else {
         }
         
     }
@@ -217,6 +202,8 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
     }
     
     if (request.tag == AIF_MESSAGE_REQUEST_TYPE_TAG_CANCEL_ALIVING_CONNECTION) {
+        self.isLoading = NO;
+        self.isLinking = NO;
         NSLog(@"CANCLE IS SUCCESS AND FOR ALIVING CONNECTION !!!");
     }
 }
@@ -242,9 +229,8 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
     if (request.tag == AIF_MESSAGE_REQUEST_TYPE_TAG_REGISTER) {
         self.registerStatus = AIF_MESSAGE_REQUEST_REGISTER_FAILED;
         [self resetHeartBeatParams];
-        if (self.isLinking) {
+        if (!self.isLoading) {
             [self performSelector:@selector(didRegisterRequestRetry) withObject:nil afterDelay:[self calSleepTime]];
-            self.tryCount = self.tryCount + 1;
         }
     }
 }
@@ -252,6 +238,7 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
 #pragma mark - performSelector
 - (void)didRegisterRequestRetry
 {
+    self.tryCount = self.tryCount + 1;
     [self registerDevices:self.deviceId userId:self.userId];
 }
 
