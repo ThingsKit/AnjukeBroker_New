@@ -66,6 +66,7 @@
     [[AXChatMessageCenter defaultMessageCenter] friendListWithPersonWithCompeletionBlock:^(NSArray *friendList, BOOL whetherSuccess) {
         if (whetherSuccess) {
             [self hideLoadWithAnimated:YES];
+            DLog(@"getFriendListgetFriendList success--[%d] friendList--[%@]", whetherSuccess, friendList);
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.testArr = [NSArray arrayWithArray:friendList];
@@ -117,7 +118,6 @@
     for (int i = 0; i < self.testArr.count; i++) {
         AXMappedPerson *item = [self.testArr objectAtIndex:i];
         if (item.userType == AXPersonTypePublic) {
-//            DLog(@"public item [%@]", item);
             [self.publicDataArr addObject:item];
         }
         else
@@ -130,15 +130,10 @@
     for (int i = 0; i < star_arr.count; i ++) {
         if ([(AXMappedPerson *)[star_arr objectAtIndex:i] userType] == AXPersonTypeUser) {
             if ([(AXMappedPerson *)[star_arr objectAtIndex:i] isStar] == YES) {
-                
-//                DLog(@"star item [%@]", [star_arr objectAtIndex:i]);
                 [self.starDataArr addObject:[star_arr objectAtIndex:i]]; //星标用户
             }
         }
     }
-    
-    //所有用户
-//    self.allDataArr = [NSMutableArray arrayWithArray:self.testArr];
     
     //add 3 arr to list data att
     [self.listDataArray addObject:self.publicDataArr];
@@ -181,13 +176,12 @@
 {
     NSMutableArray *rightUtilityButtons = [NSMutableArray array];
     
-    [rightUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor whiteColor] icon:[self getImageIsStar:isStar]];
-    
-//    [rightUtilityButtons sw_addUtilityButtonWithColor:
-//     SYSTEM_ZZ_RED icon:[UIImage imageNamed:@"anjuke_icon_delete_.png"]];
-    
-    [rightUtilityButtons sw_addUtilityButtonWithColor:SYSTEM_RED title:@"删除"];
+    if (!self.isForMessageList) {
+        [rightUtilityButtons sw_addUtilityButtonWithColor:
+         [UIColor whiteColor] icon:[self getImageIsStar:isStar]];
+        
+        [rightUtilityButtons sw_addUtilityButtonWithColor:SYSTEM_RED title:@"删除"];
+    }
     
     return rightUtilityButtons;
 }
