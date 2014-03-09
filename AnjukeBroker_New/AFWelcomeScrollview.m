@@ -129,15 +129,19 @@ typedef enum {
             int btnOriginX = ([self getWindowWidth] - btnW)/2;
             int btnH = 40;
             UIButton *hideBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            hideBtn.frame = CGRectMake(btnOriginX + [self getWindowWidth] * (imgArray.count - 1), [self getWindowHeight]-btnH-20, btnW, btnH);
-            [hideBtn setBackgroundColor:SYSTEM_ORANGE];
-//            hideBtn.layer.borderColor = [UIColor colorWithRed:0.78 green:0.78 blue:0.78 alpha:1].CGColor;
-//            hideBtn.layer.borderWidth = 0.5;
-            hideBtn.layer.cornerRadius = 3;
-            [hideBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//            [hideBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_50btn01_normal.png"] stretchableImageWithLeftCapWidth:4 topCapHeight:4] forState:UIControlStateNormal];
-//            [hideBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_50btn01_selected.png"] stretchableImageWithLeftCapWidth:4 topCapHeight:4] forState:UIControlStateHighlighted];
-            [hideBtn setTitle:@"立 即 体 验" forState:UIControlStateNormal];
+            
+            if (imgArray.count == 1) {
+                hideBtn.frame = self.bounds;
+                [hideBtn setBackgroundColor:[UIColor clearColor]];
+            }
+            else {
+                hideBtn.frame = CGRectMake(btnOriginX + [self getWindowWidth] * (imgArray.count - 1), [self getWindowHeight]-btnH-20, btnW, btnH);
+                [hideBtn setBackgroundColor:SYSTEM_ORANGE];
+                hideBtn.layer.cornerRadius = 3;
+                [hideBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [hideBtn setTitle:@"立 即 体 验" forState:UIControlStateNormal];
+            }
+            
             [hideBtn addTarget:self action:@selector(hideScrollview) forControlEvents:UIControlEventTouchUpInside];
             [self.sv addSubview:hideBtn];
         }

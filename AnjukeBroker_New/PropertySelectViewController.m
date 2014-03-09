@@ -156,5 +156,6 @@
     }else {
         [[BrokerLogger sharedInstance] logWithActionCode:ZF_PROPERTY_CHAT_004 note:nil];
     }
+    [super doBack:self];
 }
 @end
