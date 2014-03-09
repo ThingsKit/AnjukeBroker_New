@@ -471,7 +471,7 @@
     
     //保存头像
     AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
-    if (person.iconPath.length < 10) {
+    if (person.iconPath.length < 2) {
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]]];
         [self.photoImg setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             //        NSString *imgName = [NSString stringWithFormat:@"%dx%d.jpg", (int)image.size.height, (int)image.size.width];
@@ -487,14 +487,16 @@
             
             AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
             person.iconUrl = [LoginManager getUse_photo_url];
-            person.iconPath = libPath;
+            person.iconPath = [LoginManager getChatID];
+            person.isIconDownloaded = YES;
             [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
-            person.iconUrl = [LoginManager getUse_photo_url];
-            person.iconPath = @"";
-            [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
+//            AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
+//            person.iconUrl = [LoginManager getUse_photo_url];
+//            person.iconPath = @"";
+//            person.isIconDownloaded = NO;
+//            [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
         }];
     }
 

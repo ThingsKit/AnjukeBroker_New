@@ -87,7 +87,7 @@
             titleString = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
         }
     }
-    if (titleString.length == 0) {
+    if (titleString.length == 0 || [titleString isEqualToString:@"(null)"]) {
         titleString = @"";
     }
     UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
@@ -353,7 +353,7 @@
         [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_012 note:nil];
             self.friendPerson.markPhone = self.phoneNumber;
             [[AXChatMessageCenter defaultMessageCenter] updatePerson:self.friendPerson];
-        
+        [self showInfo:@"保存成功"];
     }
 }
 #pragma mark - AXChatMessageRootCellDelegate
