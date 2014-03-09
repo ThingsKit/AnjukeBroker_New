@@ -8,6 +8,7 @@
 
 #import "AXChatMessagePublicCardCell.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
+#import "RTLineView.h"
 
 @interface AXChatMessagePublicCardCell ()
 

@@ -9,7 +9,7 @@
 #import "AXChatMessageRootCell.h"
 #import "UIImage+AXChatMessage.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
-#import "OHTouchDownGestureRecognizer.h"
+//#import "OHTouchDownGestureRecognizer.h"
 
 NSString *const AXCellIdentifyTag = @"identifier";
 CGFloat const axTagMarginTop = 10.0f;
