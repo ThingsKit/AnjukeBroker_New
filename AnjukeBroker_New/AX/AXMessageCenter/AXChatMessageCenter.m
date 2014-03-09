@@ -1146,12 +1146,10 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 //        if (self.linkStatus == AXMessageCenterLinkStatusWillCloseDevice) {
 //            self.linkStatus = AXMessageCenterLinkStatusWillLinkAsUser;
 //        }
-        if (self.linkStatus == AXMessageCenterLinkStatusWillCloseUser) {
-            self.linkStatus = AXMessageCenterLinkStatusNoLink;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterConnectionStatusNotication object:nil userInfo:@{@"status": @(AIFMessageCenterStatusUserLoginOut)}];
-            });
-        }
+        self.linkStatus = AXMessageCenterLinkStatusNoLink;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterConnectionStatusNotication object:nil userInfo:@{@"status": @(AIFMessageCenterStatusUserLoginOut)}];
+        });
 
 //        if (self.linkStatus == AXMessageCenterLinkStatusWillLinkAsUser) {
 //            [self connectToServer];
