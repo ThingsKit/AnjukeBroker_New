@@ -1214,7 +1214,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
             });
         }
     }
-
+    
     if ([receiveDic[@"result"] isKindOfClass:[NSString class]] && [receiveDic[@"result"] isEqualToString:@"TIMEOUT"]) {
         NSLog(@"TIMEOUT");
         if (self.linkStatus ==  AXMessageCenterLinkStatusLinkedAsDevice) {

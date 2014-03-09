@@ -15,6 +15,7 @@
 #import "WebImageView.h"
 #import "LoginManager.h"
 #import "AppManager.h"
+#import "AXPhotoManager.h"
 
 #import "PublishBuildingViewController.h"
 #import "CommunityListViewController.h"
@@ -22,6 +23,7 @@
 #import "FindHomeViewController.h"
 #import "BrokerAccountController.h"
 #import "BrokerTwoDimensionalCodeViewController.h"
+#import <AFNetworking/UIImageView+AFNetworking.h>
 
 #import "AXChatMessageCenter.h"
 #import "AppDelegate.h"
@@ -103,6 +105,7 @@
     if (!self.configChecked) {
         [self requestForConfigure];
     }
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -466,6 +469,37 @@
     
     [self setHomeValue];
     
+    //保存头像
+    AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
+    if (person.iconPath.length < 10) {
+        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]]];
+        [self.photoImg setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            //        NSString *imgName = [NSString stringWithFormat:@"%dx%d.jpg", (int)image.size.height, (int)image.size.width];
+            //        NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:@"icon" whitChatId:[LoginManager getChatID] andIMGName:imgName];
+            NSArray*libsPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+            NSString*libPath = [libsPath objectAtIndex:0];
+            NSString *userFolder = [libPath stringByAppendingPathComponent:[LoginManager getChatID]];
+            if ([UIImageJPEGRepresentation(image, 0.96) writeToFile:userFolder atomically:YES]) {
+                
+            }else{
+                
+            }
+            
+            AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
+            person.iconUrl = [LoginManager getUse_photo_url];
+            person.iconPath = libPath;
+            [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
+            
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+            AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
+            person.iconUrl = [LoginManager getUse_photo_url];
+            person.iconPath = @"";
+            [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
+        }];
+    }
+
+    
+    
     if (!self.hasLongLinked) {
         if (!chatID || [chatID isEqualToString:@""] || chatID == nil) {
 #ifdef DEBUG
@@ -477,12 +511,7 @@
             NSDictionary *dic = [LoginManager getFuckingChatUserDicJustForAnjukeTeamWithPhone:phone uid:chatID];
             [[NSUserDefaults standardUserDefaults] setValue:dic forKey:USER_DEFAULT_KEY_AXCHATMC_USE];
             [AXChatMessageCenter defaultMessageCenter];
-            
-            //保存头像
-            AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
-            person.iconUrl = [LoginManager getUse_photo_url];
-            [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
-            
+
             [[AppDelegate sharedAppDelegate] connectLongLinkForChat];
             
         }

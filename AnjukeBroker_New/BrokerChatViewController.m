@@ -77,7 +77,7 @@
 }
 - (void)initNavTitle {
     AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:self.friendPerson.uid];
-    NSString *titleString = @"";
+    NSString *titleString = @"noname";
     if (person.markName.length > 0) {
         titleString = [NSString stringWithFormat:@"%@", person.markName];
     }
@@ -86,6 +86,9 @@
         if ([person.markName isEqualToString:person.phone]) {
             titleString = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
         }
+    }
+    if (titleString.length == 0) {
+        titleString = @"";
     }
     UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
     lb.backgroundColor = [UIColor clearColor];
@@ -132,7 +135,7 @@
 - (void)pickIMG:(id)sender {
     AXELCImagePickerController *elcPicker = [[AXELCImagePickerController alloc] init];
     
-    elcPicker.maximumImagesCount = 20; //(maxCount - self.roomImageArray.count);
+    elcPicker.maximumImagesCount = 5; //(maxCount - self.roomImageArray.count);
     elcPicker.imagePickerDelegate = self;
     [self presentViewController:elcPicker animated:YES completion:nil];
 }
