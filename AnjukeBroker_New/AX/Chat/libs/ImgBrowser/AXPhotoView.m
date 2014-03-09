@@ -188,9 +188,9 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
                     NSString *imgName = [NSString stringWithFormat:@"%@%dx%d.jpg",blockPhoto.picMessage.identifier, (int)image.size.height, (int)image.size.width];
                     NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:mySelf.photo.picMessage.to andIMGName:imgName];
                     blockPhoto.picMessage.imgPath = imgpath;
-                    
+
                 }else return ;
-                
+
                 [[AXChatMessageCenter defaultMessageCenter] updateMessage:blockPhoto.picMessage];
                 
             } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {

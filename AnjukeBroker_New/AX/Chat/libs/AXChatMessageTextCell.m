@@ -105,6 +105,8 @@
 #pragma mark - OHAttributedLabel Delegate Method
 - (BOOL)attributedLabel:(OHAttributedLabel *)attributedLabel shouldFollowLink:(NSTextCheckingResult *)linkInfo
 {
+//    [attributedLabel dismissActiveLink];
+    
     if ([[linkInfo.extendedURL absoluteString] rangeOfString:@"http://"].location != NSNotFound) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(didOpenAXWebView:)]) {
             [self.delegate didOpenAXWebView:[linkInfo.extendedURL absoluteString]];
@@ -122,6 +124,12 @@
         [alertView show];
     }
     return NO;
+}
+
+-(void)attributedLabel:(OHAttributedLabel*)attributedLabel shouldLongPress:(UILongPressGestureRecognizer *)longPress
+{
+    [self becomeFirstResponder];
+    [self showMenu];
 }
 
 #pragma mark - 重载

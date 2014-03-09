@@ -21,5 +21,5 @@
 @property (nonatomic, assign) BOOL save;
 @property (nonatomic, assign) int index; // 索引
 
-@property (nonatomic, strong) AXMessage *picMessage;
+@property (nonatomic, strong) AXMappedMessage *picMessage;
 @end

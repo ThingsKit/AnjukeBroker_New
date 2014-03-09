@@ -30,10 +30,10 @@
     if (![fileManager fileExistsAtPath:userFolder]) {
         [fileManager createDirectoryAtPath:userFolder withIntermediateDirectories:NO attributes:nil error:nil];
     }
-    NSString *fileName = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld_%@",(long)[[NSDate date] timeIntervalSince1970], IMGName]];
+    NSString *fileName = [userFolder stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld_%@",(long)[[NSDate date] timeIntervalSince1970], IMGName]];
     
     NSString *imageFilePath = [fileLib stringByAppendingPathComponent:fileName]; //得到当前照片的路径
-    if ([UIImageJPEGRepresentation(image, 0.96) writeToFile:imageFilePath atomically:YES]) {
+    if ([UIImageJPEGRepresentation(image, 0.96) writeToFile:fileName atomically:YES]) {
         
     }else{
         
