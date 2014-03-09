@@ -39,6 +39,7 @@
 // message && message record list
 - (void)fetchChatListByLastMessage:(AXMappedMessage *)lastMessage pageSize:(NSUInteger)pageSize;
 - (NSArray *)picMessageArrayWithFriendUid:(NSString *)friendUid;
+- (void)chatListWillAppearWithFriendUid:(NSString *)friendUid;
 
 // message life cycle
 - (AXMappedMessage *)willSendMessage:(AXMappedMessage *)message;

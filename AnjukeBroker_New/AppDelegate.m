@@ -221,6 +221,7 @@
 }
 
 - (void)killLongLinkForChat {
+    [AXChatMessageCenter defaultMessageCenter].linkStatus = AXMessageCenterLinkStatusNoLink;
     [[AXChatMessageCenter defaultMessageCenter] breakLink]; //断开长链接方式
 }
 

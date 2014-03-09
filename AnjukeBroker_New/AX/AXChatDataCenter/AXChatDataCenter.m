@@ -126,6 +126,12 @@
     return result;
 }
 
+- (void)chatListWillAppearWithFriendUid:(NSString *)friendUid
+{
+    self.friendUid = friendUid;
+    [self turnAllMessageToReadWithFriendUid:friendUid];
+}
+
 #pragma mark - message life cycle
 - (AXMappedMessage *)willSendMessage:(AXMappedMessage *)message
 {
@@ -191,17 +197,23 @@
 
             AXMessageType messageType = [message[@"msg_type"] integerValue];
             
+            BOOL isVersionLower = NO;
             if (messageType < 1) {
-                continue;
+                isVersionLower = YES;
             }
             if (messageType > 4 && messageType < 100) {
-                continue;
+                isVersionLower = YES;
             }
             if (messageType > 106) {
-                continue;
+                isVersionLower = YES;
             }
             
             AXMessageCenterSendMessageStatus messageSendStatus = AXMessageCenterSendMessageStatusSuccessful;
+            
+            NSNumber *messageId = [NSNumber numberWithInteger:[message[@"msg_id"] integerValue]];
+            if ([self isMessageExistsWithMessageId:messageId]) {
+                continue;
+            }
 
             AXMessage *managedMessage = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
 
@@ -218,13 +230,11 @@
                 managedMessage.thumbnailImgUrl = @"";
                 managedMessage.isImgDownloaded = [NSNumber numberWithBool:NO];
             }
-
+            
             managedMessage.accountType = item[@"account_type"];
-            managedMessage.content = message[@"body"];
             managedMessage.from = friendUID;
             managedMessage.isRemoved = [NSNumber numberWithBool:NO];
             managedMessage.messageId = @([message[@"msg_id"] integerValue]);
-            managedMessage.messageType = @(messageType);
             managedMessage.sendStatus = @(messageSendStatus);
             managedMessage.sendTime = [NSDate dateWithTimeIntervalSince1970:[message[@"created"] integerValue]];
             managedMessage.to = message[@"to_uid"];
@@ -233,6 +243,23 @@
                 managedMessage.isRead = [NSNumber numberWithBool:YES];
             } else {
                 managedMessage.isRead = [NSNumber numberWithBool:NO];
+            }
+            
+            if (messageType >= 100 && messageType <= 106) {
+                managedMessage.isRead = [NSNumber numberWithBool:YES];
+            }
+            
+            if (isVersionLower) {
+                managedMessage.isRead = [NSNumber numberWithBool:NO];
+                managedMessage.content = @"你使用的版本太旧，显示不出对方的消息了。";
+                managedMessage.messageType = @(AXMessageTypeSystemTime);
+                AXConversationListItem *item = [self findConversationListItemWithFriendUID:friendUID];
+                NSInteger count = [item.count integerValue];
+                item.count = @(count + 1);
+                [self.managedObjectContext save:NULL];
+            } else {
+                managedMessage.content = message[@"body"];
+                managedMessage.messageType = @(messageType);
             }
             
             if (messageType == AXMessageTypePic) {
@@ -281,9 +308,7 @@
             } else {
                 [self.delegate dataCenter:self fetchPersonInfoWithUid:@[friendUID]];
             }
-            
         }
-        
     }
     
     __autoreleasing NSError *error;
@@ -478,9 +503,6 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
     fetchRequest.entity = entity;
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"lastUpdateTime" ascending:NO]];
-    
-    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
-    
     return [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 }
 
@@ -632,6 +654,7 @@
 - (NSArray *)saveFriendListWithPersonArray:(NSArray *)friendArray
 {
     NSMutableArray *friendList = [[NSMutableArray alloc] initWithCapacity:0];
+    [self deleteFriendsNotInList:friendArray];
     
     for (NSDictionary *mappedPerson in friendArray) {
         AXPerson *person = [self findPersonWithUID:mappedPerson[@"user_id"]];
@@ -820,6 +843,20 @@
     }
 }
 
+- (BOOL)isMessageExistsWithMessageId:(NSNumber *)messageId
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.entity = entity;
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"messageId = %@", messageId];
+    NSInteger count = [self.managedObjectContext countForFetchRequest:fetchRequest error:NULL];
+    if (count > 0) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 - (AXPerson *)findPersonWithUID:(NSString *)uid
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -889,7 +926,40 @@
 - (AXMappedMessage *)findMessageToUpdate:(NSArray *)mappedMessageArray
 {
     AXMappedMessage *message;
+    for (AXMappedMessage *messageToCheck in mappedMessageArray) {
+
+        AXMessageType messageType = [messageToCheck.messageType integerValue];
+        if (messageType == AXMessageTypeSettingNotifycation || messageType == AXMessageTypeSystemForbid || messageType == AXMessageTypeSystemTime || messageType == AXMessageTypeAddNuckName) {
+            continue;
+        } else {
+            message = messageToCheck;
+            break;
+        }
+
+    }
+    
     return message;
+}
+
+- (void)deleteFriendsNotInList:(NSArray *)friendList
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+    NSArray *fetchedFriendList = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    for (AXPerson *friend in fetchedFriendList) {
+        BOOL isExist = NO;
+        
+        for (NSDictionary *person in friendList) {
+            if ([friend.uid isEqualToString:person[@"user_id"]]) {
+                isExist = YES;
+            }
+        }
+        
+        if (!isExist) {
+            [self.managedObjectContext deleteObject:friend];
+        }
+    }
+    [self.managedObjectContext save:NULL];
 }
 
 @end

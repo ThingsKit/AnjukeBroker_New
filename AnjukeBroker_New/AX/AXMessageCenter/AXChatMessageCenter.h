@@ -82,7 +82,7 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterLinkStatus)
 - (void)cancelAllRequest;
 - (void)closeKeepAlivingConnect;
 - (void)breakLink; //just for broker the method !!!!
-- (void)buildLongLinkWithUserId:(NSString *)uid;
+//- (void)buildLongLinkWithUserId:(NSString *)uid;
 - (void)connect;
 
 
@@ -132,4 +132,5 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterLinkStatus)
 - (void)updateMessage:(AXMappedMessage *)message;
 
 - (BOOL)isFriendWithFriendUid:(NSString *)friendUid;
+- (void)chatListWillAppearWithFriendUid:(NSString *)friendUid;
 @end

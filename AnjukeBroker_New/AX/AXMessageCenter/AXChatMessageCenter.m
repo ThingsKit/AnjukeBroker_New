@@ -39,7 +39,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 @property (nonatomic, strong) NSMutableArray *sendImageArray;
 @property (nonatomic, strong) NSMutableArray *imageMessageArray;
 
-
 //property
 @property (nonatomic, strong) NSString *addFriendByID;
 
@@ -69,19 +68,10 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 @property (nonatomic, strong) void (^addFriendBlock)(BOOL isSuccess);
 @property (nonatomic, strong) void (^deleteFriendBlock)(BOOL isSuccess);
 
-
 @property (nonatomic, strong) AXMappedPerson *currentPerson;
 @end
 
 @implementation AXChatMessageCenter
-
-- (AXMappedPerson *)currentPerson
-{
-    if (_currentPerson == nil) {
-        _currentPerson = [self.dataCenter fetchCurrentPerson];
-    }
-    return _currentPerson;
-}
 
 + (instancetype)defaultMessageCenter
 {
@@ -91,6 +81,14 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         messageCenter = [[AXChatMessageCenter alloc] init];
     });
     return messageCenter;
+}
+
+- (AXMappedPerson *)currentPerson
+{
+    if (_currentPerson == nil) {
+        _currentPerson = [self.dataCenter fetchCurrentPerson];
+    }
+    return _currentPerson;
 }
 
 - (id)init
@@ -118,7 +116,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     }
     return self;
 }
-
+#pragma mark - connection method
 - (void)userInfoChanged
 {
     if (self.dataCenter) {
@@ -136,7 +134,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 
 - (void)userLoginOut
 {
-#warning rebuild
     self.linkStatus = AXMessageCenterLinkStatusNoLink;
     [self.dataCenter switchToUID:@"0"];
     [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidInitedDataCenter object:nil];
@@ -145,14 +142,9 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 
 - (void)connect
 {
-//    if ([MemberUtil didMemberLogin]) {
-//        [self connectToServer];
-//    }else {
-//        [self buildLongLinkWithUserId:@"0"];
-//    }
-    
     [self connectToServer];
 }
+
 - (void)breakLink
 {
     [self.messageManager cancelKeepAlivingConnection];
@@ -161,49 +153,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 /*
  UID不用来区分设备登录或用户登录，使用link status来进行区分。当需要用户登录的时候，uid也可以为0，但是link status必须为用户登录状态。
  */
-- (void)buildLongLinkWithUserId:(NSString *)uid
-{
-    return;
-    
-#warning rebuild
-    //如果链接已经建立，则退出函数
-    if (self.linkStatus == AXMessageCenterLinkStatusLinkedAsDevice) {
-        return;
-    }
-    self.linkStatus = AXMessageCenterLinkStatusWillLinkAsDevice;
-    self.dataCenter = [[AXChatDataCenter alloc] initWithUID:uid];
-    self.dataCenter.delegate = self;
-    self.currentPerson = [self.dataCenter fetchPersonWithUID:uid];
-    if (self.currentPerson == nil) {
-        self.currentPerson = [[AXMappedPerson alloc] init];
-    }
-    self.currentPerson.uid = uid;
-    [self.dataCenter updatePerson:self.currentPerson];
-
-    
-    // 建立长链接
-    self.messageManager.registerStatus = AIF_MESSAGE_REQUEST_REGISTER_FINISHED;
-    [self.messageManager bindServerHost:kAXMessageCenterLinkParamHost port:kAXMessageCenterLinkParamPort appName:kAXMessageCenterLinkAppName timeout:350];
-    [self.messageManager registerDevices:[[UIDevice currentDevice] udid] userId:self.currentPerson.uid];
-    
-    // 注册推送
-    NSString *notificationToken = [[NSUserDefaults standardUserDefaults] objectForKey:REMOTE_NOTIFCATION_TOKEN];
-    NSMutableDictionary *bodys = [NSMutableDictionary dictionary];
-    [bodys setValue:Code_AppName forKey:@"appName"];
-    [bodys setValue:[[UIDevice currentDevice] uuid] forKey:@"uuid"];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        [bodys setValue:@"" forKey:@"macAddress"];
-    } else {
-        [bodys setValue:[[UIDevice currentDevice] macaddress] forKey:@"macAddress"];
-    }
-    [bodys setValue:self.currentPerson.uid forKey:@"userId"];
-    [[RTRequestProxy sharedInstance] asyncRESTNotificationWithBodys:bodys token:notificationToken target:self action:@selector(registerNotificationFinish:)];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterConnectionStatusNotication object:nil userInfo:@{@"status": @(AIFMessageCenterStatusConnecting)}];
-        [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidInitedDataCenter object:nil];
-    });
-}
 
 - (void)userDidLogin
 {
@@ -213,7 +162,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 
 - (void)connectToServer
 {
-#warning rebuild
     if (self.linkStatus == AXMessageCenterLinkStatusLinkedAsUser) {
         return;
     }
@@ -397,6 +345,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     
     return _userGetServiceInfo;
 }
+
 #pragma mark - RTAPIManagerInterceptorProtocal    //call back for sendMessage
 - (void)manager:(RTAPIBaseManager *)manager afterCallingAPIWithParams:(NSDictionary *)params
 {
@@ -541,7 +490,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
             [self.dataCenter didDeleteFriendWithUidList:array];
             _deleteFriendBlock(YES);
         } else {
-#warning crash here, when delete a public service id
             _deleteFriendBlock(NO);
         }
     }
@@ -673,6 +621,11 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 {
     return [self.dataCenter isFriendWithFriendUid:friendUid];
 }
+
+- (void)chatListWillAppearWithFriendUid:(NSString *)friendUid
+{
+    [self.dataCenter chatListWillAppearWithFriendUid:friendUid];
+}
 #pragma mark - selfMethod
 - (void)closeKeepAlivingConnect
 {
@@ -773,16 +726,20 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"phone"] = self.currentPerson.phone;
-    params[@"last_max_msgid"] =[self theLastMessageIDinCoreData];
+    /* 其实是需要一个队列来下载消息的，现在暂时设置成0. */
+//    params[@"last_max_msgid"] =[self theLastMessageIDinCoreData];
+    params[@"last_max_msgid"] = @"0";
     self.receiveMessageManager.apiParams = params;
     [self.receiveMessageManager loadData];
 }
 - (void)appReceiveAlivingConnection
 {
-    NSMutableDictionary *params =[NSMutableDictionary dictionary];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"to_device_id"] = [[UIDevice currentDevice] udid];
     params[@"to_app_name"] = kAXMessageCenterLinkAppName;
-    params[@"last_max_msg_id"] = [self.dataCenter lastServiceMsgId];
+    /* 其实是需要一个队列来下载消息的，现在暂时设置成0. */
+//    params[@"last_max_msg_id"] = [self.dataCenter lastServiceMsgId];
+    params[@"last_max_msg_id"] = @"0";
     self.appGetAllNewMessage.apiParams = params;
     [self.appGetAllNewMessage loadData];
 }
@@ -905,6 +862,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     self.userGetServiceInfo.apiParams = dic;
     [self.userGetServiceInfo loadData];
 }
+
 - (void)getFriendInfoWithFriendUid:(NSArray *)personUids
 {
     self.getFriendInfoManager.apiParams = @{@"phone":self.currentPerson.phone,@"to_uids":personUids};
@@ -1160,7 +1118,6 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 #pragma mark - AIFMessageManagerDelegate
 - (void)manager:(AXMessageManager *)manager didRegisterDevice:(NSString *)deviceId userId:(NSString *)userId receivedData:(NSData *)data
 {
-#warning rebuild
     __autoreleasing NSError *error;
     
     NSDictionary *receiveDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
@@ -1168,12 +1125,8 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     
     if ([receiveDic[@"result"] isKindOfClass:[NSString class]] && [receiveDic[@"result"] isEqualToString:@"INITED"]) {
         NSLog(@"INITED");
-        if (self.linkStatus ==  AXMessageCenterLinkStatusWillLinkAsDevice) {
-            self.linkStatus = AXMessageCenterLinkStatusLinkedAsDevice;
-        }
-        if (self.linkStatus ==  AXMessageCenterLinkStatusWillLinkAsUser) {
-            self.linkStatus = AXMessageCenterLinkStatusLinkedAsUser;
-        }
+
+        self.linkStatus = AXMessageCenterLinkStatusLinkedAsUser;
 
         dispatch_async(dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterConnectionStatusNotication object:nil userInfo:@{@"status": @(AIFMessageCenterStatusConnected)}];
@@ -1190,23 +1143,23 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     
     if ([receiveDic[@"result"] isKindOfClass:[NSString class]] && [receiveDic[@"result"] isEqualToString:@"SELF_CLOSE"]) {
         NSLog(@"SELF_CLOSE");
-        if (self.linkStatus == AXMessageCenterLinkStatusWillCloseDevice) {
-            self.linkStatus = AXMessageCenterLinkStatusWillLinkAsUser;
-        }
+//        if (self.linkStatus == AXMessageCenterLinkStatusWillCloseDevice) {
+//            self.linkStatus = AXMessageCenterLinkStatusWillLinkAsUser;
+//        }
         if (self.linkStatus == AXMessageCenterLinkStatusWillCloseUser) {
-            self.linkStatus = AXMessageCenterLinkStatusWillLinkAsDevice;
+            self.linkStatus = AXMessageCenterLinkStatusNoLink;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterConnectionStatusNotication object:nil userInfo:@{@"status": @(AIFMessageCenterStatusUserLoginOut)}];
             });
         }
 
-        if (self.linkStatus == AXMessageCenterLinkStatusWillLinkAsUser) {
-            [self connectToServer];
-        }
+//        if (self.linkStatus == AXMessageCenterLinkStatusWillLinkAsUser) {
+//            [self connectToServer];
+//        }
         
-        if (self.linkStatus == AXMessageCenterLinkStatusWillLinkAsDevice) {
-            [self buildLongLinkWithUserId:@"0"];
-        }
+//        if (self.linkStatus == AXMessageCenterLinkStatusWillLinkAsDevice) {
+//            [self buildLongLinkWithUserId:@"0"];
+//        }
         
         if (self.linkStatus == AXMessageCenterLinkStatusNoLink) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -1217,9 +1170,9 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     
     if ([receiveDic[@"result"] isKindOfClass:[NSString class]] && [receiveDic[@"result"] isEqualToString:@"TIMEOUT"]) {
         NSLog(@"TIMEOUT");
-        if (self.linkStatus ==  AXMessageCenterLinkStatusLinkedAsDevice) {
-            self.linkStatus = AXMessageCenterLinkStatusWillLinkAsDevice;
-        }
+//        if (self.linkStatus ==  AXMessageCenterLinkStatusLinkedAsDevice) {
+//            self.linkStatus = AXMessageCenterLinkStatusWillLinkAsDevice;
+//        }
         if (self.linkStatus == AXMessageCenterLinkStatusLinkedAsUser) {
             self.linkStatus = AXMessageCenterLinkStatusWillLinkAsUser;
         }
@@ -1238,30 +1191,24 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
             [lertview show];
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterUserDidQuit object:nil userInfo:@{@"status": @(AIFMessageCenterStatusUserLoginOut)}];
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterUserDidQuitToAllReceiveNotication object:nil];
+            [self.dataCenter switchToUID:@"0"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidInitedDataCenter object:nil];
         });
     }
 
     if ([receiveDic[@"result"] isKindOfClass:[NSDictionary class]] && [receiveDic[@"result"][@"msgType"] isEqualToString:@"chat"]) {
-//        if ([MemberUtil didMemberLogin]) {
-//            [self userReceiveAlivingConnection];
-//        } else {
-//            [self appReceiveAlivingConnection];
-//        }
-        
         [self userReceiveAlivingConnection];
     }
 }
 
 - (void)manager:(AXMessageManager *)manager didHeartBeatWithDevice:(NSString *)deviceId userId:(NSString *)userId receivedData:(NSData *)data
 {
-    
 #warning rebuild
 }
 
 #pragma mark - AIFMessageSenderDelegate
 - (void)manager:(AXMessageManager *)manager didSendMessage:(NSString *)message toUserId:(NSString *)userId receivedData:(NSData *)data
 {
-    
 }
 
 #pragma mark - CallBack
