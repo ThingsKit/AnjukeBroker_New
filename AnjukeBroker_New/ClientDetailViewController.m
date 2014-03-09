@@ -153,6 +153,11 @@
 #pragma mark - Private Method
 
 - (void)refreshDataAndView {
+    if (self.person.markPhone.length <=0 && self.person.markDesc.length <= 0) {
+        [self showInfo:@"请添加该用户的备注信息"];
+        return;
+    }
+    
     [self showLoadingActivity:YES];
     
     //重新刷新信息
