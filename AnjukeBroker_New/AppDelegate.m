@@ -221,7 +221,7 @@
 }
 
 - (void)killLongLinkForChat {
-    [[AXChatMessageCenter defaultMessageCenter] userLoginOut]; //断开长链接方式
+    [[AXChatMessageCenter defaultMessageCenter] breakLink]; //断开长链接方式
 }
 
 #pragma mark - Register Method
@@ -415,7 +415,8 @@
     
     //退出登录：1.清空用户数据、2.断开长链接、3.推送API重新call（chatID为0传递）
     [self.loginVC doLogOut];
-    [self killLongLinkForChat];
+//    [self killLongLinkForChat];
+    [[AXChatMessageCenter defaultMessageCenter] userLoginOut];
     [[AccountManager sharedInstance] cleanNotificationForLoginOut]; //退出登录（微聊）时，告之服务端
 }
 
