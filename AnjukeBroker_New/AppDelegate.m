@@ -83,6 +83,15 @@
     
     //断开长链接
     [self killLongLinkForChat];
+    
+    //icon消息数处理
+    //每次获取新消息数
+    NSInteger count = [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
+    if (count > 0) {
+        application.applicationIconBadgeNumber = count;
+    }
+    else
+        application.applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
