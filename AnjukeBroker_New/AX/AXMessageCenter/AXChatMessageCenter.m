@@ -176,7 +176,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     mySelf.markNamePinyin = [NSString stringWithFormat:@"%@",loginResult[@"user_info"][@"nick_name_pinyin"]];
     mySelf.userType = [loginResult[@"user_info"][@"user_type"] integerValue];
     
-    [self.dataCenter switchToUID:mySelf.uid];
+//    [self.dataCenter switchToUID:mySelf.uid];
     [self.dataCenter updatePerson:mySelf];
     
     self.dataCenter.delegate = self;
