@@ -11,7 +11,7 @@
 #import "AXELCAlbumPickerController.h"
 #import "AXUtil_UI.h"
 
-#define PhotoPickerTitle @"照片选择"
+#define PhotoPickerTitle @"选择相片"
 
 @interface AXELCAssetTablePicker ()
 

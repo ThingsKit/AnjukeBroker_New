@@ -144,16 +144,6 @@
     [self.tableViewList reloadData];
     
     [self checkToAlert];
-    
-    //公众号上限提醒 test
-    NSMutableDictionary *params = nil;
-    NSString *method = nil;
-    
-    //for test
-    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getChatID], @"toChatId", [LoginManager getUserID], @"brokerId", @"overFriend", @"msgType", @"400", @"msg",[LoginManager getToken], @"token", nil];
-    method = @"msg/sendpublicmsg/";
-    
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onAlertFinished:)];
 }
 
 - (void)checkToAlert {

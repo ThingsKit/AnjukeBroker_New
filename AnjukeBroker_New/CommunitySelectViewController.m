@@ -46,7 +46,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    [self setTitleViewWithString:@"小区选择"];
+    [self setTitleViewWithString:@"选择小区"];
     
     [self request];
 }

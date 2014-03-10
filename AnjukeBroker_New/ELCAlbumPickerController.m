@@ -10,7 +10,7 @@
 #import "ELCAssetTablePicker.h"
 #import "Util_UI.h"
 
-#define PhotoPickerTitle @"照片选择"
+#define PhotoPickerTitle @"选择相册"
 
 @interface ELCAlbumPickerController ()
 
