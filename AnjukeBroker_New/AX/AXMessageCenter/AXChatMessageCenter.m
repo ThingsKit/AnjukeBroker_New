@@ -802,6 +802,12 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     [self.imageMessageOperation addOperation:request];
 }
 
+- (void)reSendImage:(NSString *)identify withCompeletionBlock:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock
+{
+    AXMappedMessage *dataMessage = [self.dataCenter fetchMessageWithIdentifier:identify];
+    [self sendImage:dataMessage withCompeletionBlock:sendMessageBlock];
+}
+
 - (void)updataUserInformation:(AXMappedPerson *)newInformation compeletionBlock:(void (^)(BOOL))updateUserInfo
 {
     _updateUserInfo = updateUserInfo;

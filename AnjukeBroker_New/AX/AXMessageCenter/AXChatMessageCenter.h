@@ -103,6 +103,8 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterLinkStatus)
 - (NSInteger)totalUnreadMessageCount;
 
 - (void)sendImage:(AXMappedMessage *)message withCompeletionBlock:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+- (void)reSendImage:(NSString *)identify withCompeletionBlock:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+
 - (void)deleteMessageByIdentifier:(NSString *)identifier;
 - (AXMappedPerson *)fetchPersonWithUID:(NSString *)uid;
 
