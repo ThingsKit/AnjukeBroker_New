@@ -1319,8 +1319,8 @@ static NSString * const AXChatJsonVersion = @"1";
                                                      inputViewFrame.size.width,
                                                      inputViewFrame.size.height);
             [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
-             - AXMoreBackViewHeight
-             - inputViewFrame.size.height];
+             - self.messageInputView.frame.origin.y
+             - inputViewFrame.size.height ];
             [self scrollToBottomAnimated:YES];
         } completion:nil];
     }else {
