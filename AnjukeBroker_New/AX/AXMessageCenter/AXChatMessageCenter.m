@@ -150,7 +150,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectToServer) name:@"LOGIN_NOTIFICATION" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginOut) name:@"LOGOUT_NOTIFICATION" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userInfoChanged) name:@"USERINFO_CHANGED_NOTIFICATION" object:nil];
-
+        
     }
     return self;
 }
