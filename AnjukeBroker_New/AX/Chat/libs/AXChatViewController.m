@@ -1385,7 +1385,7 @@ static NSString * const AXChatJsonVersion = @"1";
     mappedMessage.isRemoved = NO;
     mappedMessage.messageType = @(AXMessageTypeText);
     
-    if ([self.uid isEqualToString:@"100"]) {
+    if ([self.uid isEqualToString:@"101"]) {
 #warning todo 之后必改
         [[AXChatMessageCenter defaultMessageCenter] sendMessageToPublic:mappedMessage willSendMessage:self.finishSendMessageBlock];
     } else {

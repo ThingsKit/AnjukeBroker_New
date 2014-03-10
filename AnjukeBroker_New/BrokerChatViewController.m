@@ -395,6 +395,26 @@
     }
 }
 
+- (void)didMessageRetry:(AXChatMessageRootCell *)axCell
+{
+#warning // 之后必改.公众号写死了，101是经纪人助手====100是安居客公众号；
+    if ([self.uid isEqualToString:@"101"]) {
+        if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypePic)]){
+            //            [[AXChatMessageCenter defaultMessageCenter] reSendImage:axCell.identifyString withCompeletionBlock:self.finishReSendMessageBlock];
+        }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
+            [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+        }else {
+            
+        }
+        // 之后必改
+    } else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypePic)]){
+        [[AXChatMessageCenter defaultMessageCenter] reSendImage:axCell.identifyString withCompeletionBlock:self.finishReSendMessageBlock];
+    }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
+        [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+    }else {
+        
+    }
+}
 #pragma mark - NSNotificationCenter
 - (void)connectionStatusDidChangeNotification:(NSNotification *)notification
 {
