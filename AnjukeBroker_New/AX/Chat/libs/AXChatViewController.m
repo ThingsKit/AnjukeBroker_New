@@ -754,7 +754,7 @@ static NSString * const AXChatJsonVersion = @"1";
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeSendProperty)]) {
         return 45;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeSafeMessage)]) {
-        return 68;
+        return 75;
     } else {
         return 70;
     }
