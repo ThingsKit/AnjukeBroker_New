@@ -10,4 +10,5 @@
 
 @interface AXMessageCenterAppGetAllMessageManager : RTAPIBaseManager<RTAPIManagerValidator,RTAPIManagerParamSourceDelegate>
 @property (nonatomic, strong) NSDictionary *apiParams;
+@property (nonatomic, copy) NSString *uniqLongLinkId;
 @end

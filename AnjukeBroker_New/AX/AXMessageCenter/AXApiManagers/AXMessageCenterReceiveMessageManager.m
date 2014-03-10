@@ -9,6 +9,8 @@
 #import "AXMessageCenterReceiveMessageManager.h"
 
 @implementation AXMessageCenterReceiveMessageManager
+
+#pragma mark - getters and setters
 - (NSString *)methodName
 {
     return [NSString stringWithFormat:@"message/getAllNewMessages/%@/%@",self.apiParams[@"phone"],self.apiParams[@"last_max_msgid"]];
@@ -23,6 +25,15 @@
 {
     return RTAPIManagerRequestTypeRestGet;
 }
+
+- (NSString *)uniqLongLinkId
+{
+    if (_uniqLongLinkId == nil) {
+        _uniqLongLinkId = @"";
+    }
+    return _uniqLongLinkId;
+}
+
 #pragma mark - RTAPIManagerValidator
 - (BOOL)manager:(RTAPIBaseManager *)manager isCorrectWithCallBackData:(NSDictionary *)data
 {
@@ -31,7 +42,7 @@
 
 - (NSDictionary *)paramsForApi:(RTAPIBaseManager *)manager
 {
-     return @{@"body":@"here i am"};
+     return @{@"_guid":self.uniqLongLinkId};
 }
 - (BOOL)manager:(RTAPIBaseManager *)manager isCorrectWithParamsData:(NSDictionary *)data
 {

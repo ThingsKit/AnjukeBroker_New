@@ -23,7 +23,6 @@
 		2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2031A48418920F83004F7E1A /* FindHomeViewController.m */; };
 		2031A48718920FF2004F7E1A /* anjuke_icon_find@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */; };
 		2039E58518C421FF003ED781 /* anjuke_icon_headpic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2039E58418C421FF003ED781 /* anjuke_icon_headpic@2x.png */; };
-		2039E58F18C4286F003ED781 /* AXMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2039E58E18C4286F003ED781 /* AXMessageManager.m */; };
 		203EC29818B2F61A00DD0840 /* MessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 203EC29718B2F61A00DD0840 /* MessageListViewController.m */; };
 		203EC29B18B2F65400DD0840 /* ClientListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 203EC29A18B2F65400DD0840 /* ClientListViewController.m */; };
 		203EC2A718B2FF6E00DD0840 /* anjuke_icon_esf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 203EC29D18B2FF6E00DD0840 /* anjuke_icon_esf@2x.png */; };
@@ -114,6 +113,8 @@
 		20D3C24C1892466B0030D7D8 /* PhotoFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D3C24B1892466B0030D7D8 /* PhotoFooterView.m */; };
 		20D3C24E18925D800030D7D8 /* anjuke_icon_photo_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20D3C24D18925D800030D7D8 /* anjuke_icon_photo_add@2x.png */; };
 		20DACCF018C97C6200061F9C /* anjuke_icon_add_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20DACCEF18C97C6200061F9C /* anjuke_icon_add_@2x.png */; };
+		20DCCF2D18CD68D90079A078 /* AXMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20DCCF2C18CD68D90079A078 /* AXMessageManager.m */; };
+		20DCCF2F18CD6AB20079A078 /* AXChatMessageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 20DCCF2E18CD6AB20079A078 /* AXChatMessageCenter.m */; };
 		20E3E782186C2B9D00D61889 /* anjuke_icon_gupaiming@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20E3E780186C2B9D00D61889 /* anjuke_icon_gupaiming@2x.png */; };
 		20E3E783186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20E3E781186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png */; };
 		20E892DA18BDBAA300D7D881 /* ChatModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E892D918BDBAA300D7D881 /* ChatModel.m */; };
@@ -365,7 +366,6 @@
 		B7EF77AF183CBBD20024A5E6 /* agent_icon45@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF77AB183CBBD20024A5E6 /* agent_icon45@2x.png */; };
 		B7EF77B5183CE2D90024A5E6 /* RentSelectNoPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EF77B4183CE2D90024A5E6 /* RentSelectNoPlanController.m */; };
 		B7EF77B9183CE82D0024A5E6 /* RentNoPlanListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EF77B8183CE82D0024A5E6 /* RentNoPlanListCell.m */; };
-		B7F6CB2D18C5739D0087953D /* AXChatMessageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F6CB2C18C5739D0087953D /* AXChatMessageCenter.m */; };
 		B7FC9AC618C41B1300F77205 /* anjuke_icon_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7FC9A4618C41B1300F77205 /* anjuke_icon_add@2x.png */; };
 		B7FC9AC718C41B1300F77205 /* anjuke_icon_add_esf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7FC9A4718C41B1300F77205 /* anjuke_icon_add_esf@2x.png */; };
 		B7FC9AC918C41B1300F77205 /* anjuke_icon_add_pic4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7FC9A4918C41B1300F77205 /* anjuke_icon_add_pic4@2x.png */; };
@@ -494,8 +494,6 @@
 		2031A48418920F83004F7E1A /* FindHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindHomeViewController.m; sourceTree = "<group>"; };
 		2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_find@2x.png"; sourceTree = "<group>"; };
 		2039E58418C421FF003ED781 /* anjuke_icon_headpic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_headpic@2x.png"; sourceTree = "<group>"; };
-		2039E58D18C4286F003ED781 /* AXMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageManager.h; sourceTree = "<group>"; };
-		2039E58E18C4286F003ED781 /* AXMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageManager.m; sourceTree = "<group>"; };
 		203EC29618B2F61A00DD0840 /* MessageListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListViewController.h; sourceTree = "<group>"; };
 		203EC29718B2F61A00DD0840 /* MessageListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageListViewController.m; sourceTree = "<group>"; };
 		203EC29918B2F65400DD0840 /* ClientListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientListViewController.h; sourceTree = "<group>"; };
@@ -639,6 +637,9 @@
 		20D3C24B1892466B0030D7D8 /* PhotoFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoFooterView.m; sourceTree = "<group>"; };
 		20D3C24D18925D800030D7D8 /* anjuke_icon_photo_add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_photo_add@2x.png"; sourceTree = "<group>"; };
 		20DACCEF18C97C6200061F9C /* anjuke_icon_add_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_@2x.png"; sourceTree = "<group>"; };
+		20DCCF2B18CD68D90079A078 /* AXMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageManager.h; sourceTree = "<group>"; };
+		20DCCF2C18CD68D90079A078 /* AXMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageManager.m; sourceTree = "<group>"; };
+		20DCCF2E18CD6AB20079A078 /* AXChatMessageCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageCenter.m; sourceTree = "<group>"; };
 		20E3E780186C2B9D00D61889 /* anjuke_icon_gupaiming@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_gupaiming@2x.png"; sourceTree = "<group>"; };
 		20E3E781186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_nomessage@2x.png"; sourceTree = "<group>"; };
 		20E892D818BDBAA300D7D881 /* ChatModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatModel.h; sourceTree = "<group>"; };
@@ -1051,7 +1052,6 @@
 		B7EF77B7183CE82D0024A5E6 /* RentNoPlanListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentNoPlanListCell.h; sourceTree = "<group>"; };
 		B7EF77B8183CE82D0024A5E6 /* RentNoPlanListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentNoPlanListCell.m; sourceTree = "<group>"; };
 		B7F6CB2B18C5739D0087953D /* AXChatMessageCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageCenter.h; sourceTree = "<group>"; };
-		B7F6CB2C18C5739D0087953D /* AXChatMessageCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageCenter.m; sourceTree = "<group>"; };
 		B7FC9A4618C41B1300F77205 /* anjuke_icon_add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add@2x.png"; sourceTree = "<group>"; };
 		B7FC9A4718C41B1300F77205 /* anjuke_icon_add_esf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_esf@2x.png"; sourceTree = "<group>"; };
 		B7FC9A4918C41B1300F77205 /* anjuke_icon_add_pic4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_pic4@2x.png"; sourceTree = "<group>"; };
@@ -1467,9 +1467,9 @@
 			isa = PBXGroup;
 			children = (
 				B7F6CB2B18C5739D0087953D /* AXChatMessageCenter.h */,
-				B7F6CB2C18C5739D0087953D /* AXChatMessageCenter.m */,
-				2039E58D18C4286F003ED781 /* AXMessageManager.h */,
-				2039E58E18C4286F003ED781 /* AXMessageManager.m */,
+				20DCCF2E18CD6AB20079A078 /* AXChatMessageCenter.m */,
+				20DCCF2B18CD68D90079A078 /* AXMessageManager.h */,
+				20DCCF2C18CD68D90079A078 /* AXMessageManager.m */,
 				20A217FC18BF2A9D002CA469 /* AXApiManagers */,
 			);
 			path = AXMessageCenter;
@@ -2936,7 +2936,6 @@
 				B769E441181F45AF00A2FF50 /* BaseFixedDetailController.m in Sources */,
 				B769E445181F462C00A2FF50 /* SaleFixedDetailController.m in Sources */,
 				B7E3423C18CCAA01000757F0 /* AXChatMessageSystemTimeCell.m in Sources */,
-				2039E58F18C4286F003ED781 /* AXMessageManager.m in Sources */,
 				20A2182618BF2A9D002CA469 /* AXMessageCenterReceiveMessageManager.m in Sources */,
 				B7FC9B3418C4204C00F77205 /* UIImage+RTStyle.m in Sources */,
 				97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */,
@@ -3001,6 +3000,7 @@
 				B7E3424118CCAA01000757F0 /* AXPullToRefreshContentView.m in Sources */,
 				B7E69BB8183B4C300097D5C3 /* ModifyRentCostController.m in Sources */,
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,
+				20DCCF2F18CD6AB20079A078 /* AXChatMessageCenter.m in Sources */,
 				20A2181E18BF2A9D002CA469 /* AXMappedPerson.m in Sources */,
 				97CB0C10182BEA3500FCCBBD /* ELCImagePickerController.m in Sources */,
 				B7E3423818CCAA01000757F0 /* AXChatMessageNameCardCell.m in Sources */,
@@ -3112,6 +3112,7 @@
 				B7EF77B9183CE82D0024A5E6 /* RentNoPlanListCell.m in Sources */,
 				B77A960F182A389D007F04E3 /* SalePropertyObject.m in Sources */,
 				20A2182718BF2A9D002CA469 /* AXMessageCenterSearchBrokerManager.m in Sources */,
+				20DCCF2D18CD68D90079A078 /* AXMessageManager.m in Sources */,
 				97B422571820D9A600A2E9E6 /* PropertyGroupListViewController.m in Sources */,
 				B721094F18277F8A00904FC7 /* BaseFixedCell.m in Sources */,
 				2011CD8218AB1D5300EEEA5C /* SystemMessageDetailViewController.m in Sources */,
@@ -3146,7 +3147,6 @@
 				97EF868C1841EACE00315E75 /* SimpleKeyboardToolBar.m in Sources */,
 				203EC29818B2F61A00DD0840 /* MessageListViewController.m in Sources */,
 				20A2182318BF2A9D002CA469 /* AXMessageCenterGetFriendInfoManager.m in Sources */,
-				B7F6CB2D18C5739D0087953D /* AXChatMessageCenter.m in Sources */,
 				97192EE71818FEF7007971BA /* PhotoButton.m in Sources */,
 				B7E55B5218BF2190007238CB /* UIImage+JSMessagesView.m in Sources */,
 				20A2178918BF1804002CA469 /* PropertySelectViewController.m in Sources */,

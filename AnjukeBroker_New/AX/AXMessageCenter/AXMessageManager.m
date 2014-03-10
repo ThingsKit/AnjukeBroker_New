@@ -221,23 +221,32 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
         self.registerStatus = AIF_MESSAGE_REQUEST_REGISTER_FINISHED;
         [self resetHeartBeatParams];
     }
+    //服务器重启会跑到这儿
+    if (request.tag == AIF_MESSAGE_REQUEST_TYPE_TAG_DEFAULT) {
+        self.isLinking = NO;
+        self.isLoading = NO;
+        [self registerDevices:self.deviceId userId:self.userId];
+    }
     
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
+    self.isLoading = NO;
+    self.isLinking = YES;
     if (request.tag == AIF_MESSAGE_REQUEST_TYPE_TAG_REGISTER) {
         self.registerStatus = AIF_MESSAGE_REQUEST_REGISTER_FAILED;
         [self resetHeartBeatParams];
-        if (!self.isLoading) {
-            [self performSelector:@selector(didRegisterRequestRetry) withObject:nil afterDelay:[self calSleepTime]];
-        }
+        [self performSelector:@selector(didRegisterRequestRetry) withObject:nil afterDelay:[self calSleepTime]];
     }
 }
 
 #pragma mark - performSelector
 - (void)didRegisterRequestRetry
 {
+    if (self.isLinking || self.isLoading) {
+        return;
+    }
     self.tryCount = self.tryCount + 1;
     [self registerDevices:self.deviceId userId:self.userId];
 }

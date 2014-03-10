@@ -91,22 +91,60 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     return _currentPerson;
 }
 
+- (AXMessageManager *)messageManager
+{
+    if (_messageManager == nil) {
+        _messageManager = [[AXMessageManager alloc] init];
+        _messageManager.delegate = self;
+    }
+    return _messageManager;
+}
+
+- (NSOperationQueue *)imageMessageOperation
+{
+    if (_imageMessageOperation == nil) {
+        _imageMessageOperation = [[NSOperationQueue alloc] init];
+        _imageMessageOperation.maxConcurrentOperationCount = 1;
+    }
+    return _imageMessageOperation;
+}
+
+- (NSMutableArray *)messsageIdentity
+{
+    if (_messsageIdentity == nil) {
+        _messsageIdentity = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _messsageIdentity;
+}
+
+- (NSMutableArray *)sendImageArray
+{
+    if (_sendImageArray == nil) {
+        _sendImageArray = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _sendImageArray;
+}
+
+- (NSMutableDictionary *)blockDictionary
+{
+    if (_blockDictionary == nil) {
+        _blockDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
+    }
+    return _blockDictionary;
+}
+
+- (NSMutableArray *)imageMessageArray
+{
+    if (_imageMessageArray == nil) {
+        _imageMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _imageMessageArray;
+}
+
 - (id)init
 {
     self = [super init];
     if (self) {
-        
-        self.messageManager = [[AXMessageManager alloc] init];
-        self.messageManager.delegate = self;
-        
-        self.imageMessageOperation = [[NSOperationQueue alloc] init];
-        self.imageMessageOperation.maxConcurrentOperationCount = 1;
-        
-        self.messsageIdentity = [[NSMutableArray alloc] init];
-        self.sendImageArray = [[NSMutableArray alloc] init];
-        self.blockDictionary = [[NSMutableDictionary alloc] init];
-        self.imageMessageArray = [[NSMutableArray alloc] init];
-        
         self.linkStatus = AXMessageCenterLinkStatusNoLink;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectToServer) name:@"LOGIN_NOTIFICATION" object:nil];
@@ -723,7 +761,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     [self.sendMessageToPublic loadData];
 }
 
-- (void)userReceiveAlivingConnection
+- (void)userReceiveAlivingConnectionWithUniqId:(NSString *)uniqLongLinkId
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"phone"] = self.currentPerson.phone;
@@ -731,9 +769,11 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 //    params[@"last_max_msgid"] =[self theLastMessageIDinCoreData];
     params[@"last_max_msgid"] = @"0";
     self.receiveMessageManager.apiParams = params;
+    self.receiveMessageManager.uniqLongLinkId = uniqLongLinkId;
     [self.receiveMessageManager loadData];
 }
-- (void)appReceiveAlivingConnection
+
+- (void)appReceiveAlivingConnectionWithUniqId:(NSString *)uniqLongLinkId
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"to_device_id"] = [[UIDevice currentDevice] udid];
@@ -742,6 +782,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 //    params[@"last_max_msg_id"] = [self.dataCenter lastServiceMsgId];
     params[@"last_max_msg_id"] = @"0";
     self.appGetAllNewMessage.apiParams = params;
+    self.appGetAllNewMessage.uniqLongLinkId = uniqLongLinkId;
     [self.appGetAllNewMessage loadData];
 }
 
@@ -1196,7 +1237,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     }
 
     if ([receiveDic[@"result"] isKindOfClass:[NSDictionary class]] && [receiveDic[@"result"][@"msgType"] isEqualToString:@"chat"]) {
-        [self userReceiveAlivingConnection];
+        [self userReceiveAlivingConnectionWithUniqId:receiveDic[@"guid"]];
     }
 }
 

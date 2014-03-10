@@ -258,7 +258,7 @@
             if (isVersionLower) {
                 managedMessage.isRead = [NSNumber numberWithBool:NO];
                 managedMessage.content = @"你使用的版本太旧，显示不出对方的消息了。";
-                managedMessage.messageType = @(AXMessageTypeSystemTime);
+                managedMessage.messageType = @(AXMessageTypeSafeMessage);
                 AXConversationListItem *item = [self findConversationListItemWithFriendUID:friendUID];
                 NSInteger count = [item.count integerValue];
                 item.count = @(count + 1);
@@ -304,7 +304,8 @@
         messageDictionary[friendUID] = [messageArray reverseSelf];
         splitedDictionary[friendUID] = @{@"pic":picMessageArray, @"other":[commonMessageArray reverseSelf]};
         
-        if (![self isFriendWithFriendUid:friendUID]) {
+        AXMappedPerson *mySelf = [self fetchCurrentPerson];
+        if (mySelf.userType == AXPersonTypeBroker && ![self isFriendWithFriendUid:friendUID]) {
             
             AXPerson *friend = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
             friend.uid = friendUID;

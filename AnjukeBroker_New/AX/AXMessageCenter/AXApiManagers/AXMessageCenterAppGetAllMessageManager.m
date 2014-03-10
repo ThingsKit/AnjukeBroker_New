@@ -9,6 +9,8 @@
 #import "AXMessageCenterAppGetAllMessageManager.h"
 
 @implementation AXMessageCenterAppGetAllMessageManager
+
+#pragma mark - getters and setters
 - (NSString *)methodName
 {
     return [NSString stringWithFormat:@"message/app/getAllNewMessages/%@/%@/%@",self.apiParams[@"to_device_id"],self.apiParams[@"to_app_name"],self.apiParams[@"last_max_msg_id"]];
@@ -18,9 +20,18 @@
 {
     return RTAnjukeXRESTServiceID;
 }
+
 - (RTAPIManagerRequestType)requestType
 {
     return RTAPIManagerRequestTypeRestGet;
+}
+
+- (NSString *)uniqLongLinkId
+{
+    if (_uniqLongLinkId == nil) {
+        _uniqLongLinkId = @"";
+    }
+    return _uniqLongLinkId;
 }
 
 #pragma mark - RTAPIManagerValidator
@@ -31,7 +42,7 @@
 
 - (NSDictionary *)paramsForApi:(RTAPIBaseManager *)manager
 {
-    return @{};
+    return @{@"_guid":self.uniqLongLinkId};
 }
 
 - (BOOL)manager:(RTAPIBaseManager *)manager isCorrectWithParamsData:(NSDictionary *)data
