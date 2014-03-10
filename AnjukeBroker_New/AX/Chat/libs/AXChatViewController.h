@@ -32,10 +32,11 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 @property (nonatomic, strong) NSDictionary *propDict;
 @property (nonatomic) BOOL needSendProp;
 @property (nonatomic, strong) AXMappedConversationListItem *conversationListItem;
-@property (nonatomic, strong) void (^finishSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status,AXMessageCenterSendMessageErrorTypeCode errorCode);
-@property (nonatomic, strong) void (^finishReSendMessageBlock)(AXMappedMessage *message,AXMessageCenterSendMessageStatus status,AXMessageCenterSendMessageErrorTypeCode errorCode);
+@property (nonatomic, strong) void (^finishSendMessageBlock)(NSArray *messages,AXMessageCenterSendMessageStatus status,AXMessageCenterSendMessageErrorTypeCode errorCode);
+@property (nonatomic, strong) void (^finishReSendMessageBlock)(NSArray *messages,AXMessageCenterSendMessageStatus status,AXMessageCenterSendMessageErrorTypeCode errorCode);
 
 @property (nonatomic, copy) NSString *uid;
+@property (nonatomic, copy) NSString *brokerName;
 @property (nonatomic, strong) AXMappedPerson *friendPerson;
 
 - (BOOL)checkUserLogin;
@@ -46,7 +47,7 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 - (void)goBrokerPage:(id)sender;
 - (void)sendSystemMessage:(AXMessageType)type;
 - (void)reloadUnReadNum:(NSInteger)num;
-
+- (NSDate *)formatterDate:(NSDate *)date;
 
 // applog
 - (void)sendMessageAppLog;

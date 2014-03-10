@@ -122,7 +122,6 @@ static NSString * const AXChatJsonVersion = @"1";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[AXChatMessageCenter defaultMessageCenter] chatListWillAppearWithFriendUid:[self checkFriendUid]];
     if (self.isFinished) {
         self.currentPerson = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson];
     }
@@ -196,7 +195,11 @@ static NSString * const AXChatJsonVersion = @"1";
 
 
 - (void)initUI {
-    self.title = self.friendPerson.name;
+    if (self.brokerName) {
+        self.title = self.brokerName;
+    } else {
+        self.title = self.friendPerson.name;
+    }
     [self.view setBackgroundColor:[UIColor axChatBGColor:self.isBroker]];
     
     NSInteger viewHeight = 20;
@@ -317,14 +320,25 @@ static NSString * const AXChatJsonVersion = @"1";
 {
     __weak AXChatViewController *blockSelf = self;
     // 发消息的block
-    self.finishReSendMessageBlock = ^ (AXMappedMessage *message, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorCode) {
+    self.finishReSendMessageBlock = ^ (NSArray *messages, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorCode) {
+        for (AXMappedMessage *message in messages) {
+        
         NSMutableDictionary *textData = [NSMutableDictionary dictionary];
         textData = [blockSelf mapAXMappedMessage:message];
         if (textData) {
+            if ([message.messageType isEqualToNumber:@(AXMessageTypeSystemTime)]) {
+                if (status == AXMessageCenterSendMessageStatusSending) {
+                    textData[@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
+                    textData[AXCellIdentifyTag] = message.identifier;
+                    [blockSelf appendCellData:textData];
+                }
+                continue;
+            }
             if (status == AXMessageCenterSendMessageStatusSending) {
                 textData[@"status"] = @(AXMessageCenterSendMessageStatusSending);
                 textData[AXCellIdentifyTag] = message.identifier;
                 [blockSelf appendCellData:textData];
+                [blockSelf scrollToBottomAnimated:YES];
             } else if (status == AXMessageCenterSendMessageStatusFailed) {
                 NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
                 blockSelf.cellDict[message.identifier][@"status"] = @(AXMessageCenterSendMessageStatusFailed);
@@ -338,12 +352,25 @@ static NSString * const AXChatJsonVersion = @"1";
                 [blockSelf sendSystemMessage:AXMessageTypeSystemForbid];
             }
         }
+            
+        }
     };
     
-    self.finishSendMessageBlock = ^ (AXMappedMessage *message, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorCode) {
+    self.finishSendMessageBlock = ^ (NSArray *messages, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorCode) {
+        for (AXMappedMessage *message in messages) {
+
         NSMutableDictionary *textData = [NSMutableDictionary dictionary];
         textData = [blockSelf mapAXMappedMessage:message];
         if (textData) {
+            if ([message.messageType isEqualToNumber:@(AXMessageTypeSystemTime)]) {
+                if (status == AXMessageCenterSendMessageStatusSending) {
+                    textData[@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
+                    textData[AXCellIdentifyTag] = message.identifier;
+                    [blockSelf appendCellData:textData];
+                }
+                continue;
+            }
+
             if (status == AXMessageCenterSendMessageStatusSending) {
                 textData[@"status"] = @(AXMessageCenterSendMessageStatusSending);
                 textData[AXCellIdentifyTag] = message.identifier;
@@ -360,6 +387,7 @@ static NSString * const AXChatJsonVersion = @"1";
             if (errorCode == AXMessageCenterSendMessageErrorTypeCodeNotFriend && blockSelf.isBroker) {
                 [blockSelf sendSystemMessage:AXMessageTypeSystemForbid];
             }
+        }
         }
     };
 }
@@ -480,6 +508,14 @@ static NSString * const AXChatJsonVersion = @"1";
 }
 
 #pragma mark - Public Method
+- (NSDate *)formatterDate:(NSDate *)date
+{
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    df.dateFormat  = @"yyyy/MM/dd";
+    NSString *nowDateStr = [df stringFromDate:date];
+    return [df dateFromString:nowDateStr];
+}
+
 - (void)reloadUnReadNum:(NSInteger)num
 {
     // do nothing
@@ -576,7 +612,19 @@ static NSString * const AXChatJsonVersion = @"1";
             
         case AXMessageTypeSystemTime:
         {
-            textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeSystemTime),@"content":mappedMessage.content,@"messageSource":@(AXChatMessageSourceDestinationOutPut)}];
+            if (!mappedMessage.sendTime) {
+                return nil;
+            }
+            NSTimeInterval since = [[self formatterDate:[NSDate date]] timeIntervalSinceDate:[self formatterDate:mappedMessage.sendTime]];
+            NSDateFormatter *dateFormatrer = [[NSDateFormatter alloc] init];
+            dateFormatrer.timeZone = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
+            if (since < 3600 * 24) {
+                dateFormatrer.dateFormat = @"HH:mm";
+            } else {
+                dateFormatrer.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+            }
+            NSString *timeContent =  [dateFormatrer stringFromDate:mappedMessage.sendTime];
+            textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeSystemTime),@"content":timeContent,@"messageSource":@(AXChatMessageSourceDestinationOutPut)}];
         }
             break;
             
@@ -800,6 +848,10 @@ static NSString * const AXChatJsonVersion = @"1";
             [self reloadUnReadNum:[notification.userInfo[@"unreadCount"] integerValue]];
         }
         if (dict[[self checkFriendUid]]) {
+            BOOL flg = NO;
+            if (!self.keyboardControl.hidden || (self.myTableView.contentSize.height - self.myTableView.contentOffset.y < AXScrollContentOffsetY)) {
+                flg = YES;
+            }
             for (AXMappedMessage *mappedMessage in dict[[self checkFriendUid]]) {
                 self.lastMessage = mappedMessage;
                 NSMutableDictionary *dict = [self mapAXMappedMessage:mappedMessage];
@@ -807,11 +859,11 @@ static NSString * const AXChatJsonVersion = @"1";
                     dict[@"messageSource"] = @(AXChatMessageSourceDestinationIncoming);
                     dict[AXCellIdentifyTag] = mappedMessage.identifier;
                     [self appendCellData:dict];
-                    // 判断是否需要滑动到底部
-                    if (!self.keyboardControl.hidden || (self.myTableView.contentSize.height - self.myTableView.contentOffset.y < AXScrollContentOffsetY)) {
-                        [self scrollToBottomAnimated:YES];
-                    }
                 }
+            }
+            // 判断是否需要滑动到底部
+            if (flg) {
+                [self scrollToBottomAnimated:YES];
             }
         }
     }
@@ -998,22 +1050,11 @@ static NSString * const AXChatJsonVersion = @"1";
 
 - (void)didMessageRetry:(AXChatMessageRootCell *)axCell
 {
-    #warning // 之后必改.公众号写死了，101是经纪人助手====100是安居客公众号；
-    if ([self.uid isEqualToString:@"101"]) {
-        if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypePic)]){
-//            [[AXChatMessageCenter defaultMessageCenter] reSendImage:axCell.identifyString withCompeletionBlock:self.finishReSendMessageBlock];
-        }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
-            [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
-        }else {
-        
-        }
+    if ([self.uid isEqualToString:@"100"]) {
         // 之后必改
-    } else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypePic)]){
-        [[AXChatMessageCenter defaultMessageCenter] reSendImage:axCell.identifyString withCompeletionBlock:self.finishReSendMessageBlock];
-    }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
+        [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+    } else {
         [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
-    }else {
-    
     }
 }
 
@@ -1344,9 +1385,8 @@ static NSString * const AXChatJsonVersion = @"1";
     mappedMessage.isRemoved = NO;
     mappedMessage.messageType = @(AXMessageTypeText);
     
-    if ([self.uid isEqualToString:@"101"]) {
-#warning // 之后必改.公众号写死了，
-        
+    if ([self.uid isEqualToString:@"100"]) {
+#warning todo 之后必改
         [[AXChatMessageCenter defaultMessageCenter] sendMessageToPublic:mappedMessage willSendMessage:self.finishSendMessageBlock];
     } else {
         [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessage willSendMessage:self.finishSendMessageBlock];
@@ -1432,8 +1472,7 @@ static NSString * const AXChatJsonVersion = @"1";
     NSString *text = [textView.text js_stringByTrimingWhitespace];
     NSData *data = [text dataUsingEncoding:NSNonLossyASCIIStringEncoding];
     NSString *asciiString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    
-    if (!self.isBroker && [text length] > 0 && ![text isEqualToString:@""] && (![asciiString isEqualToString:@"\\ufffc"] || [asciiString length] == 0)) {
+    if (!self.isBroker && [text length] > 0 && ![text isEqualToString:@""] && ([asciiString rangeOfString:@"\\ufffc"].location == NSNotFound || [asciiString length] == 0)) {
         self.messageInputView.sendButton.enabled = YES;
     } else {
         self.messageInputView.sendButton.enabled = NO;

@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "AXChatBaseCell.h"
-#import "AXChatDataCenter.h"
 #import "UIView+AXChatMessage.h"
 #import "UIColor+AXChatMessage.h"
 #import "UIImage+AXChatMessage.h"

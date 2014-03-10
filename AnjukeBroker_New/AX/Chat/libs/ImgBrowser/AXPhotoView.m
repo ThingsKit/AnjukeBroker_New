@@ -10,7 +10,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "AXPhotoManager.h"
 #import "AXChatMessageCenter.h"
-#import "AXChatDataCenter.h"
 
 static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 

@@ -83,7 +83,7 @@ static CGFloat const brokerLeftMargin = 10.0f;
         self.systemBgView.frame = CGRectMake(160.0f - size.width / 2.0f - 10, 10, size.width + 20, 25);
         self.systemBgView.hidden = NO;
     } else if ([data[@"messageType"] isEqualToNumber:@(AXMessageTypeAddNuckName)]) {
-        self.systemLab.text = @"设置昵称会方便经纪人服务您";
+        self.systemLab.text = @"设置昵称会方便经纪人服务你";
         self.systemLab.font = [UIFont axChatSystemFont:self.isBroker];
         self.systemLab.textColor = [UIColor axChatSystemTextColor:self.isBroker];
         CGSize size = [self sizeOfString:self.systemLab.text maxWidth:270.0f withFontSize:self.systemLab.font];
@@ -96,7 +96,7 @@ static CGFloat const brokerLeftMargin = 10.0f;
         self.systemBgView.frame = CGRectMake( (self.width - 270) / 2, 10, 270, 25);
         self.systemBgView.hidden = NO;
     } else if ([data[@"messageType"] isEqualToNumber:@(AXMessageTypeSettingNotifycation)]) {
-        self.systemLab.text = @"您已关闭消息提醒,打开消息提醒能够及时得到经纪人的反馈。";
+        self.systemLab.text = @"你已关闭消息提醒,打开消息提醒能够及时得到经纪人的反馈。";
         self.systemLab.font = [UIFont axChatSystemFont:self.isBroker];
         self.systemLab.textColor = [UIColor axChatSystemTextColor:self.isBroker];
         CGSize size = [self sizeOfString:self.systemLab.text maxWidth:250.0f withFontSize:self.systemLab.font];
@@ -121,7 +121,7 @@ static CGFloat const brokerLeftMargin = 10.0f;
         [self.systemBut setTitle:@"添加备注" forState:UIControlStateNormal];
         self.systemBgView.hidden = NO;
     } else if ([data[@"messageType"] isEqualToNumber:@(AXMessageTypeSendProperty)]) {
-        self.systemLab.text = @"您可以把刚才看到的房源发给经纪人";
+        self.systemLab.text = @"可以把刚才看到的房源发给经纪人";
         self.systemLab.font = [UIFont axChatSystemFont:self.isBroker];
         self.systemLab.textColor = [UIColor axChatSystemTextColor:self.isBroker];
         CGSize size = [self sizeOfString:self.systemLab.text maxWidth:240.0f withFontSize:self.systemLab.font];
