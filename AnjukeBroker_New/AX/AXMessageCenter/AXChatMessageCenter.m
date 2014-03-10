@@ -426,7 +426,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
                         //xiao fengdeng you know that, it should be failed not success!!!!
                         mappedMessage.sendStatus = @(AXMessageCenterSendMessageStatusSuccessful);
                         mappedMessage.messageId = [NSNumber numberWithInt:[response.content[@"result"] integerValue]];
-                        [self.dataCenter didFailSendMessageWithIdentifier:[NSString stringWithFormat:@"%@",mappedMessage.messageId]];
+                        [self.dataCenter didFailSendMessageWithIdentifier:identify];
                         _finishSendMessageBlock(@[mappedMessage],AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeNotFriend);
                         [self.blockDictionary removeObjectForKey:identify];
                     }
@@ -434,7 +434,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
             }else if (response.status == RTNetworkResponseStatusFailed || response.status == RTNetworkResponseStatusJsonError) {
                 if (self.blockDictionary[identify]) {
                     mappedMessage.sendStatus = @(AXMessageCenterSendMessageStatusFailed);
-                    [self.dataCenter didFailSendMessageWithIdentifier:[NSString stringWithFormat:@"%@",mappedMessage.messageId]];
+                    [self.dataCenter didFailSendMessageWithIdentifier:identify];
                     _finishSendMessageBlock = self.blockDictionary[identify];
                     _finishSendMessageBlock(@[mappedMessage],AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeFailed);
                     [self.blockDictionary removeObjectForKey:identify];
