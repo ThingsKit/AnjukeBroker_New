@@ -417,7 +417,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
                         mappedMessage.sendStatus = @(AXMessageCenterSendMessageStatusSuccessful);
                         mappedMessage.messageId = [NSNumber numberWithInt:[response.content[@"result"] integerValue]];
                         [self.dataCenter didSuccessSendMessageWithIdentifier:identify messageId:[NSString stringWithFormat:@"%@",mappedMessage.messageId]];
-                        _finishSendMessageBlock(mappedMessage,AXMessageCenterSendMessageStatusSuccessful,AXMessageCenterSendMessageErrorTypeCodeNone);
+                        _finishSendMessageBlock(@[mappedMessage],AXMessageCenterSendMessageStatusSuccessful,AXMessageCenterSendMessageErrorTypeCodeNone);
                         [self.blockDictionary removeObjectForKey:identify];
                     }
                 } else if (response.content[@"status"] && [response.content[@"status"] isEqualToString:@"ERROR"]){
@@ -427,7 +427,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
                         mappedMessage.sendStatus = @(AXMessageCenterSendMessageStatusSuccessful);
                         mappedMessage.messageId = [NSNumber numberWithInt:[response.content[@"result"] integerValue]];
                         [self.dataCenter didFailSendMessageWithIdentifier:[NSString stringWithFormat:@"%@",mappedMessage.messageId]];
-                        _finishSendMessageBlock(mappedMessage,AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeNotFriend);
+                        _finishSendMessageBlock(@[mappedMessage],AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeNotFriend);
                         [self.blockDictionary removeObjectForKey:identify];
                     }
                 }
@@ -436,7 +436,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
                     mappedMessage.sendStatus = @(AXMessageCenterSendMessageStatusFailed);
                     [self.dataCenter didFailSendMessageWithIdentifier:[NSString stringWithFormat:@"%@",mappedMessage.messageId]];
                     _finishSendMessageBlock = self.blockDictionary[identify];
-                    _finishSendMessageBlock(mappedMessage,AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeFailed);
+                    _finishSendMessageBlock(@[mappedMessage],AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeFailed);
                     [self.blockDictionary removeObjectForKey:identify];
                 }
             }
@@ -805,12 +805,12 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     [self.imageMessageOperation addOperation:request];
 }
 
-- (void)reSendImage:(NSString *)identify withCompeletionBlock:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock
+- (void)reSendImage:(NSString *)identify withCompeletionBlock:(void (^)(NSArray *, AXMessageCenterSendMessageStatus, AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
 {
     AXMappedMessage *dataMessage = [self.dataCenter fetchMessageWithIdentifier:identify];
     [self sendImage:dataMessage withCompeletionBlock:sendMessageBlock];
+    //    [self sendImage:dataMessage withCompeletionBlock:sendMessageBlock];
 }
-
 - (void)updataUserInformation:(AXMappedPerson *)newInformation compeletionBlock:(void (^)(BOOL))updateUserInfo
 {
     _updateUserInfo = updateUserInfo;
@@ -1171,16 +1171,19 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 {
     __autoreleasing NSError *error;
     
-    NSDictionary *receiveDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    NSString *receiveJSONString = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
     //判断是否是获取到多条消息
     NSArray *recivedJSONArray = [receiveJSONString componentsSeparatedByString:@"\n"];
     NSString *longConnectSignal = @"";
     if (recivedJSONArray.count > 0) {
         longConnectSignal = [recivedJSONArray objectAtIndex:0];
     }
-
+    
     
     NSDictionary *receiveDic = [NSJSONSerialization JSONObjectWithData:[longConnectSignal dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
+    
+    NSLog(@"receiveDic  ===== %@",receiveDic);
+    NSLog(@"recived:%@",[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding]);
 
     NSLog(@"receiveDic  ===== %@",receiveDic);
     
