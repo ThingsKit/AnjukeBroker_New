@@ -17,5 +17,6 @@
 
 - (void)registerNotification;
 - (void)cleanNotificationForLoginOut;
+- (BOOL)didMaxClientAlertWithCount:(int)count;
 
 @end

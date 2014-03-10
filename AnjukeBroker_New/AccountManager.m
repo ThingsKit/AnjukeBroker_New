@@ -72,4 +72,17 @@
     DLog(@"registerNotificationFinish %@", response.content);
 }
 
+- (BOOL)didMaxClientAlertWithCount:(int)count {
+    NSString *key = [NSString stringWithFormat:@"%d-Alert", count];
+    
+    if ([[[NSUserDefaults standardUserDefaults] valueForKey:key] isEqualToString:@"1"]) {
+        return YES; //已经提醒过此用户数上线提醒。。。
+    }
+    else {
+        [[NSUserDefaults standardUserDefaults] setValue:@"1" forKey:key];
+    }
+    
+    return NO;
+}
+
 @end

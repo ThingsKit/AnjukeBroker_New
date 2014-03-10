@@ -1184,7 +1184,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     
     NSLog(@"receiveDic  ===== %@",receiveDic);
     NSLog(@"recived:%@",[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding]);
-
+    
     NSLog(@"receiveDic  ===== %@",receiveDic);
     
     if ([receiveDic[@"result"] isKindOfClass:[NSString class]] && [receiveDic[@"result"] isEqualToString:@"INITED"]) {
@@ -1249,8 +1249,8 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         NSLog(@"QUIT");
         self.linkStatus = AXMessageCenterLinkStatusNoLink;
         dispatch_async(dispatch_get_main_queue(), ^{
-            UIAlertView *lertview = [[UIAlertView alloc] initWithTitle:@"您的账号已被他人登陆，您已被下线" message:@"" delegate:self cancelButtonTitle:@"ok" otherButtonTitles: nil];
-            [lertview show];
+//            UIAlertView *lertview = [[UIAlertView alloc] initWithTitle:@"您的账号已被他人登陆，您已被下线" message:@"" delegate:self cancelButtonTitle:@"ok" otherButtonTitles: nil];
+//            [lertview show];
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterUserDidQuit object:nil userInfo:@{@"status": @(AIFMessageCenterStatusUserLoginOut)}];
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterUserDidQuitToAllReceiveNotication object:nil];
             [self.dataCenter switchToUID:@"0"];

@@ -13,6 +13,7 @@
 #import "AXChatMessageCenter.h"
 #import "AXMappedPerson.h"
 #import "BrokerChatViewController.h"
+#import "AccountManager.h"
 
 @interface ClientListViewController ()
 
@@ -143,31 +144,47 @@
     [self.tableViewList reloadData];
     
     [self checkToAlert];
+    
+    //公众号上限提醒 test
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    //for test
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getChatID], @"toChatId", [LoginManager getUserID], @"brokerId", @"overFriend", @"msgType", @"400", @"msg",[LoginManager getToken], @"token", nil];
+    method = @"msg/sendpublicmsg/";
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onAlertFinished:)];
 }
 
 - (void)checkToAlert {
     NSArray *arr = [LoginManager getClientCountAlertArray];
     
+    //test!!!
+//    NSArray *arr = [NSArray arrayWithObjects:@"5", @"10", @"15",nil];
+    
     for (int i = 0; i < arr.count; i ++) {
         NSString *count = [arr objectAtIndex:i];
+        
         if (self.allDataArr.count >= [count intValue]) {
-            //公众号上限提醒
-            NSMutableDictionary *params = nil;
-            NSString *method = nil;
-            
-            //for test
-            params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getChatID], @"toChatId", [LoginManager getUserID], @"brokerId", @"overFriend", @"msgType", count, @"msg", nil];
-            method = @"msg/sendpublicmsg/";
-            
-            [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onAlertFinished:)];
-            
-            break;
+            if ([[AccountManager sharedInstance] didMaxClientAlertWithCount:[count intValue]] == NO) {
+                //公众号上限提醒
+                NSMutableDictionary *params = nil;
+                NSString *method = nil;
+                
+                //for test
+                params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getChatID], @"toChatId", [LoginManager getUserID], @"brokerId", @"overFriend", @"msgType", count, @"msg", [LoginManager getToken], @"token", nil];
+                method = @"msg/sendpublicmsg/";
+                
+                [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onAlertFinished:)];
+                break;
+            }
         }
     }
 }
 
 - (void)onAlertFinished:(RTNetworkResponse *)response {
     DLog(@"。。。Alert response [%@]", [response content]);
+    
 }
 
 #pragma mark - private Method
