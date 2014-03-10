@@ -332,10 +332,12 @@
             [[AXChatMessageCenter defaultMessageCenter] removeFriendBydeleteUid:@[self.person.uid] compeletionBlock:^(BOOL isSuccess) {
                 if (myself && isSuccess) {
                     myself.backType = RTSelectorBackTypePopToRoot;
-                    [myself showInfo:@"已删除"];
-                    [myself doBack:self];
+                    [self showInfo:@"客户已删除"];
+                    
+                    [self performSelector:@selector(doBack:) withObject:nil afterDelay:0.5];
+//                    [myself doBack:self];
                 }else if (myself && !isSuccess){
-                [myself showInfo:@"删除失败"];
+                    [self showInfo:@"客户删除失败"];
                 }
             }];
             

@@ -92,7 +92,7 @@
     fetchRequest.fetchLimit = pageSize;
     __autoreleasing NSError *error;
     NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-
+    
     NSMutableArray *mappedResult = [[NSMutableArray alloc] initWithCapacity:[result count]];
     for (AXMessage *message in result) {
         [mappedResult addObject:[message convertToMappedObject]];
