@@ -8,6 +8,7 @@
 
 #import "AXChatPhotoActionSheet.h"
 #import "UIView+AXChatMessage.h"
+#import "RTLineView.h"
 
 @interface AXChatPhotoActionSheet ()
 
@@ -81,8 +82,8 @@
     [cancelBtn setTitleColor:[UIColor colorWithHex:0xd8d8d8d alpha:1.0f] forState:UIControlStateNormal];
     [self addSubview:cancelBtn];
     
-    [[AppDelegate sharedInstance].window addSubview:self.background];
-    [[AppDelegate sharedInstance].window addSubview:self];
+//    [[AppDelegate sharedInstance].window addSubview:self.background];
+//    [[AppDelegate sharedInstance].window addSubview:self];
     self.top = [[UIScreen mainScreen] bounds].size.height;
     [UIView animateWithDuration:0.3 animations:^{
         self.top = self.top - self.height;

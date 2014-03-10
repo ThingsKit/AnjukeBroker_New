@@ -56,7 +56,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem initBackItemWithTarget:self action:@selector(back:)];
+//    self.navigationItem.leftBarButtonItem = [UIBarButtonItem initBackItemWithTarget:self action:@selector(back:)];
     [self setNavTitle];
     // 1.创建UIScrollView
     [self createScrollView];
@@ -299,11 +299,11 @@
             if (index) {
                 if (((AXPhoto *)[_photos objectAtIndex:_currentPhotoIndex]).image) {
                     UIImageWriteToSavedPhotosAlbum(((AXPhoto *)[_photos objectAtIndex:_currentPhotoIndex]).image, nil, nil,nil);
-                    [self showInfo:@"已保存到手机相册" autoHidden:YES];
+//                    [self showInfo:@"已保存到手机相册" autoHidden:YES];
                 }
             }
         } @catch (NSException *exception) {
-            [self showInfo:@"保存失败" autoHidden:YES];
+//            [self showInfo:@"保存失败" autoHidden:YES];
         }
     }];
 }
