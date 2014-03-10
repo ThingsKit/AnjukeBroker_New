@@ -805,7 +805,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     [self.imageMessageOperation addOperation:request];
 }
 
-- (void)reSendImage:(NSString *)identify withCompeletionBlock:(void(^)(NSArray *, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock
+- (void)reSendImage:(NSString *)identify withCompeletionBlock:(void(^)(AXMappedMessage *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock
 {
     AXMappedMessage *dataMessage = [self.dataCenter fetchMessageWithIdentifier:identify];
     [self sendImage:dataMessage withCompeletionBlock:sendMessageBlock];
@@ -1171,21 +1171,17 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 {
     __autoreleasing NSError *error;
     
-    NSString *receiveJSONString = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSDictionary *receiveDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
     //判断是否是获取到多条消息
     NSArray *recivedJSONArray = [receiveJSONString componentsSeparatedByString:@"\n"];
     NSString *longConnectSignal = @"";
     if (recivedJSONArray.count > 0) {
         longConnectSignal = [recivedJSONArray objectAtIndex:0];
     }
-    
-    
-    NSDictionary *receiveDic = [NSJSONSerialization JSONObjectWithData:[longConnectSignal dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
-    
-    NSLog(@"receiveDic  ===== %@",receiveDic);
-    NSLog(@"recived:%@",[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding]);
 
     
+    NSDictionary *receiveDic = [NSJSONSerialization JSONObjectWithData:[longConnectSignal dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
+
     NSLog(@"receiveDic  ===== %@",receiveDic);
     
     if ([receiveDic[@"result"] isKindOfClass:[NSString class]] && [receiveDic[@"result"] isEqualToString:@"INITED"]) {
