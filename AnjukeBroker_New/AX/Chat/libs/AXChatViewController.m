@@ -30,7 +30,6 @@
 #import "JSMessageInputView.h"
 
 // Controller
-#import "AXBigIMGSViewController.h"
 #import "AXChatWebViewController.h"
 
 #import "AXPhotoManager.h"
@@ -224,7 +223,7 @@ static NSString * const AXChatJsonVersion = @"1";
     
     self.moreBackView = [[UIView alloc] init];
     self.moreBackView.frame = CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
-    self.moreBackView.backgroundColor = [UIColor lightGrayColor];
+    self.moreBackView.backgroundColor = [UIColor axChatBGColor:self.isBroker];
     self.moreBackView.hidden = YES;
     [self.view addSubview:self.moreBackView];
     
@@ -764,14 +763,7 @@ static NSString * const AXChatJsonVersion = @"1";
 #pragma mark - UITableViewDataSource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *identifier = (self.identifierData)[[indexPath row]];
-    NSDictionary *dic = self.cellDict[identifier];
 
-    if ([dic[@"messageType"] isEqualToNumber:@(AXMessageTypePic)]) {
-        AXBigIMGSViewController *controller = [[AXBigIMGSViewController alloc] init];
-        controller.img = dic[@"content"];
-        [self.navigationController pushViewController:controller animated:NO];
-    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

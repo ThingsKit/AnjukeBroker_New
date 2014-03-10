@@ -42,7 +42,7 @@
 + (UIColor *)axChatSystemTextColor:(BOOL)isBroker
 {
     if (isBroker) {
-        return [UIColor colorWithHex:0xffffff alpha:1];
+        return [UIColor colorWithHex:0x666666 alpha:1];
     } else {
         return [UIColor colorWithHex:0x919191 alpha:1];
     }
