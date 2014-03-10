@@ -140,7 +140,7 @@ static CGFloat const brokerLeftMargin = 10.0f;
         self.systemLab.textColor = [UIColor axChatSystemTextColor:self.isBroker];
         CGSize size = [self sizeOfString:data[@"content"] maxWidth:240.0f withFontSize:self.systemLab.font];
         self.systemLab.frame = CGRectMake(25 + 15, 14, size.width, size.height);
-        self.systemBgView.frame = CGRectMake( (self.width - 270) / 2, 10, 270, size.height + 30);
+        self.systemBgView.frame = CGRectMake( (self.width - 270) / 2, 10, 270, 57);
         self.systemBgView.hidden = NO;
     }
     self.messageType = [data[@"messageType"] integerValue];
