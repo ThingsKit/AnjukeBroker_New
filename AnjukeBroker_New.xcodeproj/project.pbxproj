@@ -347,6 +347,8 @@
 		B7EA04A61844D40900AC8842 /* BrokerAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EA04A51844D40900AC8842 /* BrokerAccountController.m */; };
 		B7EA04AA1844DB3700AC8842 /* BrokerAccountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EA04A91844DB3700AC8842 /* BrokerAccountCell.m */; };
 		B7EA1FC2183A437500438CF8 /* SaleAuctionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EA1FC1183A437500438CF8 /* SaleAuctionViewController.m */; };
+		B7EAD4C718CD6DDE00B28FEC /* AXNotificationTutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4C518CD6DDE00B28FEC /* AXNotificationTutorialViewController.m */; };
+		B7EAD4C818CD6DDE00B28FEC /* AXNotificationTutorialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7EAD4C618CD6DDE00B28FEC /* AXNotificationTutorialViewController.xib */; };
 		B7ED78431888C82E00E4D44C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7ED78421888C82E00E4D44C /* AVFoundation.framework */; };
 		B7ED78451888C83B00E4D44C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7ED78441888C83B00E4D44C /* AudioToolbox.framework */; };
 		B7ED78471888C87B00E4D44C /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7ED78461888C87B00E4D44C /* AddressBook.framework */; };
@@ -1029,6 +1031,9 @@
 		B7EA04A91844DB3700AC8842 /* BrokerAccountCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerAccountCell.m; sourceTree = "<group>"; };
 		B7EA1FC0183A437500438CF8 /* SaleAuctionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleAuctionViewController.h; sourceTree = "<group>"; };
 		B7EA1FC1183A437500438CF8 /* SaleAuctionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaleAuctionViewController.m; sourceTree = "<group>"; };
+		B7EAD4C418CD6DDE00B28FEC /* AXNotificationTutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXNotificationTutorialViewController.h; sourceTree = "<group>"; };
+		B7EAD4C518CD6DDE00B28FEC /* AXNotificationTutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXNotificationTutorialViewController.m; sourceTree = "<group>"; };
+		B7EAD4C618CD6DDE00B28FEC /* AXNotificationTutorialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AXNotificationTutorialViewController.xib; sourceTree = "<group>"; };
 		B7ED78421888C82E00E4D44C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		B7ED78441888C83B00E4D44C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B7ED78461888C87B00E4D44C /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -1552,6 +1557,9 @@
 		20E892DB18BDBAAF00D7D881 /* 消息单页 */ = {
 			isa = PBXGroup;
 			children = (
+				B7EAD4C418CD6DDE00B28FEC /* AXNotificationTutorialViewController.h */,
+				B7EAD4C518CD6DDE00B28FEC /* AXNotificationTutorialViewController.m */,
+				B7EAD4C618CD6DDE00B28FEC /* AXNotificationTutorialViewController.xib */,
 				B7921A2D18BBA2000021933A /* BrokerChatViewController.h */,
 				B7921A2E18BBA2000021933A /* BrokerChatViewController.m */,
 			);
@@ -2875,6 +2883,7 @@
 				203EC2AC18B2FF6E00DD0840 /* anjuke_icon_kh1@2x.png in Resources */,
 				2079ADD818B59CC00029D493 /* anjuke_icon_setting@2x.png in Resources */,
 				2031A48718920FF2004F7E1A /* anjuke_icon_find@2x.png in Resources */,
+				B7EAD4C818CD6DDE00B28FEC /* AXNotificationTutorialViewController.xib in Resources */,
 				203EC2B818B35E1900DD0840 /* anjuke_icon_back@2x.png in Resources */,
 				B7FC9AF618C41B1300F77205 /* xproject_dialogue_greycard_selected.png in Resources */,
 				973727AD182FD1C8007D8501 /* PropertyFitment.plist in Resources */,
@@ -3026,6 +3035,7 @@
 				B77A9612182A39C1007F04E3 /* RentPropertyObject.m in Sources */,
 				B7E3423F18CCAA01000757F0 /* AXChatWebViewController.m in Sources */,
 				B7E69BC1183B63480097D5C3 /* RentAuctionViewController.m in Sources */,
+				B7EAD4C718CD6DDE00B28FEC /* AXNotificationTutorialViewController.m in Sources */,
 				207526BE18B45FE10022220C /* SWUtilityButtonView.m in Sources */,
 				B769E45D181F54DE00A2FF50 /* BasePropertyObject.m in Sources */,
 				20A44DA31869760B008D8CB1 /* SSPullToRefreshView.m in Sources */,

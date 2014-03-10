@@ -16,6 +16,7 @@
 #import "UIImage+Resize.h"
 #import "NSString+RTStyle.h"
 #import "ClientDetailPublicViewController.h"
+#import "AXNotificationTutorialViewController.h"
 
 @interface BrokerChatViewController ()
 {
@@ -364,11 +365,41 @@
     webViewController.webTitle = title;
     [self.navigationController pushViewController:webViewController animated:YES];
 }
+#pragma mark - AJKChatMessageSystemCellDelegate
+- (void)didClickSystemButton:(AXMessageType)messageType {
+    switch (messageType) {
+        case AXMessageTypeSendProperty:
+        {
+//            [self sendPropMessage];
+        }
+            break;
+            
+        case AXMessageTypeSettingNotifycation:
+        {
+            AXNotificationTutorialViewController *controller = [[AXNotificationTutorialViewController alloc] initWithNibName:@"AXNotificationTutorialViewController" bundle:nil];
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+            controller.navigationController.navigationBar.translucent = NO;
+            [self presentViewController:navController animated:YES completion:nil];
+        }
+            break;
+        case AXMessageTypeAddNuckName:
+        {
+            ClientEditViewController *controller = [[ClientEditViewController alloc] init];
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+            controller.navigationController.navigationBar.translucent = NO;
+            [self presentViewController:navController animated:YES completion:nil];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
 #pragma mark - NSNotificationCenter
 - (void)connectionStatusDidChangeNotification:(NSNotification *)notification
 {
     if (self.navigationController.presentedViewController) {
-        [self.navigationController.presentedViewController dismissModalViewControllerAnimated:NO];
+        [self.navigationController.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     }
     
     if (self.navigationController.viewControllers) {
