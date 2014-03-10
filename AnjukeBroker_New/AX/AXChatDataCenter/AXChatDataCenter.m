@@ -306,8 +306,8 @@
         messageDictionary[friendUID] = [messageArray reverseSelf];
         splitedDictionary[friendUID] = @{@"pic":picMessageArray, @"other":[commonMessageArray reverseSelf]};
         
-        AXMappedPerson *mySelf = [self fetchCurrentPerson];
-        if (mySelf.userType == AXPersonTypeBroker && ![self isFriendWithFriendUid:friendUID]) {
+//        AXMappedPerson *mySelf = [self fetchCurrentPerson];
+        if (![self isFriendWithFriendUid:friendUID]) {
             
             AXPerson *friend = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
             friend.uid = friendUID;
