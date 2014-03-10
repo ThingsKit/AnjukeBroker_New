@@ -143,7 +143,10 @@
     AXMessage *lastMessage = [self findLastMessageWithFriendUid:friendID];
     AXPerson *person = [self findPersonWithUID:friendID];
     if (!person) {
-        [self.delegate dataCenter:self fetchPersonInfoWithUid:@[friendID]];
+        dispatch_queue_t queue = dispatch_queue_create("get_info", NULL);
+        dispatch_async(queue, ^{
+            [self.delegate dataCenter:self fetchPersonInfoWithUid:@[friendID]];
+        });
     }
 
     message.sendStatus = @(AXMessageCenterSendMessageStatusSending);
@@ -256,7 +259,7 @@
             managedMessage.isRemoved = [NSNumber numberWithBool:NO];
             managedMessage.messageId = @([message[@"msg_id"] integerValue]);
             managedMessage.sendStatus = @(messageSendStatus);
-            managedMessage.sendTime = [NSDate dateWithTimeIntervalSince1970:[message[@"created"] integerValue]+0.0001*count];
+            managedMessage.sendTime = [NSDate dateWithTimeIntervalSince1970:[message[@"created"] floatValue]-0.0001*count];
             managedMessage.to = message[@"to_uid"];
             
             if ([self.friendUid isEqualToString:friendUID]) {
@@ -292,7 +295,10 @@
         }
         
         AXMappedMessage *messageToUpdate = [self findMessageToUpdate:messageArray];
-        [self updateConversationListItemWithMessage:messageToUpdate];
+        if (messageToUpdate) {
+            [self updateConversationListItemWithMessage:messageToUpdate];
+        }
+
         
         
         NSDate *fetchedLastDate = [(AXMessage *)[messageArray lastObject] sendTime];
@@ -304,9 +310,9 @@
         }
         
         messageDictionary[friendUID] = [messageArray reverseSelf];
-        splitedDictionary[friendUID] = @{@"pic":picMessageArray, @"other":[commonMessageArray reverseSelf]};
+        splitedDictionary[friendUID] = @{@"pic":[picMessageArray reverseSelf], @"other":[commonMessageArray reverseSelf]};
         
-//        AXMappedPerson *mySelf = [self fetchCurrentPerson];
+        AXMappedPerson *mySelf = [self fetchCurrentPerson];
         if (![self isFriendWithFriendUid:friendUID]) {
             
             AXPerson *friend = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
@@ -315,7 +321,9 @@
             if (accountType == AXPersonTypePublic) {
                 [self.delegate dataCenter:self fetchPublicInfoWithUid:@[friendUID]];
             } else {
-                [self.delegate dataCenter:self fetchPersonInfoWithUid:@[friendUID]];
+                if (mySelf.userType == AXPersonTypeBroker) {
+                    [self.delegate dataCenter:self fetchPersonInfoWithUid:@[friendUID]];
+                }
             }
         }
     }
@@ -355,9 +363,18 @@
     
         AXMessage *lastMessage = [self findLastMessageWithFriendUid:friendUid];
         AXConversationListItem *item = [self findConversationListItemWithFriendUID:friendUid];
-        if (item) {
-            [self updateConversationListItemWithMessage:[lastMessage convertToMappedObject]];
+        
+        if (lastMessage) {
+            if (item) {
+                [self updateConversationListItemWithMessage:[lastMessage convertToMappedObject]];
+            }
+        } else {
+            if (item) {
+                [self deleteConversationItem:[item convertToMappedObject]];
+            }
         }
+        
+
     }
     
     [self.managedObjectContext save:NULL];
@@ -729,8 +746,11 @@
         item.iconPath = personToUpdate.iconPath;
         item.isIconDownloaded = personToUpdate.isIconDownloaded;
     }
-    
-    [self.managedObjectContext save:NULL];
+    __autoreleasing NSError *error;
+    [self.managedObjectContext save:&error];
+    if (error) {
+        NSLog(@"save person error");
+    }
 }
 
 - (AXMappedPerson *)fetchPersonWithUID:(NSString *)uid
