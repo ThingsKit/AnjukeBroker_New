@@ -36,7 +36,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem initBackItemWithTarget:self action:@selector(back:)];
+//    self.navigationItem.leftBarButtonItem = [UIBarButtonItem initBackItemWithTarget:self action:@selector(back:)];
 }
 
 - (void)viewWillAppear:(BOOL)animated
