@@ -65,6 +65,8 @@
     [self registerRemoteNotification];
     [self cleanRemoteNotification:application];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showNewMessageCountForTab) name:@"MessageCenterConnectionStatusNotication" object:nil];
+    
     [self checkVersionForMore:NO];
     
     return YES;
@@ -84,14 +86,6 @@
     //断开长链接
     [self killLongLinkForChat];
     
-    //icon消息数处理
-    //每次获取新消息数
-    NSInteger count = [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
-    if (count > 0) {
-        application.applicationIconBadgeNumber = count;
-    }
-    else
-        application.applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -99,6 +93,9 @@
     [self connectLongLinkForChat];
     
     [self cleanRemoteNotification:application];
+    
+    //icon消息数处理
+    [self showAllNewMessageCountForIcon];
     
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
@@ -214,7 +211,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGIN_NOTIFICATION" object:nil];
     }
     [[AccountManager sharedInstance] registerNotification];
-        
+    
     //每次获取新消息数
     NSInteger count = [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
     [self showMessageValueWithStr:count];
@@ -432,6 +429,27 @@
         str = [NSString stringWithFormat:@"99+"];
     }
     [self.tabController setMessageBadgeValueWithValue:str];
+}
+
+- (void)showAllNewMessageCountForIcon {
+    if ([LoginManager getChatID].length <= 0) {
+        return;
+    }
+    
+    //icon消息数处理
+    //每次获取新消息数
+    NSInteger count = [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
+    if (count > 0) {
+        [UIApplication sharedApplication].applicationIconBadgeNumber = count;
+    }
+    else
+        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+}
+
+//Tab显示
+- (void)showNewMessageCountForTab {
+    NSInteger count = [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
+    [self showMessageValueWithStr:count];
 }
 
 #pragma mark - Request Method

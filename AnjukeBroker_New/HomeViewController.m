@@ -88,7 +88,6 @@
     
     //监听被踢出下线通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doLogOutEnforce) name:@"MessageCenterUserDidQuit" object:nil];
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -499,8 +498,6 @@
 //            [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
         }];
     }
-
-    
     
     if (!self.hasLongLinked) {
         if (!chatID || [chatID isEqualToString:@""] || chatID == nil) {

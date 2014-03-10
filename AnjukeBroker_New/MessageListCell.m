@@ -124,7 +124,9 @@
         if ([person.name isEqualToString:person.phone]) {
             self.nameLb.text = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
         }
-
+        if ([self.nameLb.text isEqualToString:@"(null)"]) {
+            self.nameLb.text = @"";
+        }
     }
     
     self.timeLb.text = [Util_TEXT getDateStrWithDate:item.lastUpdateTime];

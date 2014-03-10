@@ -45,6 +45,7 @@ typedef enum {
 - (void)requestSalePropertyConfig;
 - (void)doLogOut;
 - (void)showMessageValueWithStr:(int)value; //显示消息条数
+- (void)showNewMessageCountForTab;
 
 - (void)connectLongLinkForChat;
 - (void)killLongLinkForChat;
