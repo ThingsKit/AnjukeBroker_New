@@ -1241,7 +1241,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidInitedDataCenter object:nil];
         });
     }
-
+    
     if ([receiveDic[@"result"] isKindOfClass:[NSDictionary class]] && [receiveDic[@"result"][@"msgType"] isEqualToString:@"chat"]) {
         [self userReceiveAlivingConnectionWithUniqId:receiveDic[@"guid"]];
     }
