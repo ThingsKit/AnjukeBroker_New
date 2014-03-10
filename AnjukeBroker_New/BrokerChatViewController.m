@@ -132,6 +132,7 @@
             [photoArray addObject:photo];
         }
         AXPhotoBrowser *controller = [[AXPhotoBrowser alloc] init];
+        controller.isBroker = YES;
         controller.currentPhotoIndex = currentPhotoIndex; // 弹出相册时显示的第一张图片是？
         [controller setPhotos:photoArray]; // 设置所有的图片
         [self.navigationController pushViewController:controller animated:YES];

@@ -271,7 +271,7 @@ static NSString * const AXChatJsonVersion = @"1";
     imgLab.font = [UIFont systemFontOfSize:14];
     imgLab.text = @"相册";
     imgLab.textAlignment = NSTextAlignmentCenter;
-    imgLab.textColor = [UIColor axChatSystemBGColor:self.isBroker];
+    imgLab.textColor = [UIColor axChatPropDescColor:self.isBroker];
     [self.moreBackView addSubview:imgLab];
     
     UIButton *takePic = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -284,7 +284,7 @@ static NSString * const AXChatJsonVersion = @"1";
     picLab.font = [UIFont systemFontOfSize:14];
     picLab.text = @"拍照";
     picLab.textAlignment = NSTextAlignmentCenter;
-    picLab.textColor = [UIColor axChatSystemBGColor:self.isBroker];
+    picLab.textColor = [UIColor axChatPropDescColor:self.isBroker];
     [self.moreBackView addSubview:picLab];
     
     UIButton *pickAJK = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -297,7 +297,7 @@ static NSString * const AXChatJsonVersion = @"1";
     ajkLab.font = [UIFont systemFontOfSize:14];
     ajkLab.text = @"二手房";
     ajkLab.textAlignment = NSTextAlignmentCenter;
-    ajkLab.textColor = [UIColor axChatSystemBGColor:self.isBroker];
+    ajkLab.textColor = [UIColor axChatPropDescColor:self.isBroker];
     [self.moreBackView addSubview:ajkLab];
     
     UIButton *pickHZ = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -310,7 +310,7 @@ static NSString * const AXChatJsonVersion = @"1";
     hzLab.font = [UIFont systemFontOfSize:14];
     hzLab.text = @"租房";
     hzLab.textAlignment = NSTextAlignmentCenter;
-    hzLab.textColor = [UIColor axChatSystemBGColor:self.isBroker];
+    hzLab.textColor = [UIColor axChatPropDescColor:self.isBroker];
     [self.moreBackView addSubview:hzLab];
     
 }
