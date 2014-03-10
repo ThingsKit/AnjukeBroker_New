@@ -137,21 +137,35 @@
 }
 
 #pragma mark - message life cycle
-- (AXMappedMessage *)willSendMessage:(AXMappedMessage *)message
+- (NSArray *)willSendMessage:(AXMappedMessage *)message
 {
     NSString *friendID = message.to;
+    AXMessage *lastMessage = [self findLastMessageWithFriendUid:friendID];
     AXPerson *person = [self findPersonWithUID:friendID];
     if (!person) {
         [self.delegate dataCenter:self fetchPersonInfoWithUid:@[friendID]];
     }
+
     message.sendStatus = @(AXMessageCenterSendMessageStatusSending);
     message.sendTime = [NSDate dateWithTimeIntervalSinceNow:0];
-    AXMessage *messageToInsert = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+
+    AXMessage *messageToInsert = [self findMessageWithIdentifier:message.identifier];
+    if (!messageToInsert) {
+        messageToInsert = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    }
+
     [messageToInsert assignPropertiesFromMappedObject:message];
     [self updateConversationListItemWithMessage:message];
+    AXMessage *timeMessage = [self checkAndReturnTimeMessageWithCurrentDate:message.sendTime andLastDate:lastMessage.sendTime from:message.from to:message.to];
+    
     __autoreleasing NSError *error;
     [self.managedObjectContext save:&error];
-    return [messageToInsert convertToMappedObject];
+    
+    if (timeMessage) {
+        return @[[timeMessage convertToMappedObject], [messageToInsert convertToMappedObject]];
+    } else {
+        return @[[messageToInsert convertToMappedObject]];
+    }
 }
 
 - (AXMappedMessage *)didSuccessSendMessageWithIdentifier:(NSString *)identifier messageId:(NSString *)messageId
@@ -280,26 +294,14 @@
         AXMappedMessage *messageToUpdate = [self findMessageToUpdate:messageArray];
         [self updateConversationListItemWithMessage:messageToUpdate];
         
+        
         NSDate *fetchedLastDate = [(AXMessage *)[messageArray lastObject] sendTime];
-        NSTimeInterval timeInterval = [fetchedLastDate timeIntervalSinceDate:storedLastDate];
-        if (timeInterval > 300 && [message.messageType integerValue] != AXMessageTypeSystemTime) {
-            AXMessage *notificationMessage = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
-            notificationMessage.accountType = [NSString stringWithFormat:@"%d", AXPersonTypeServer];
-            NSDateFormatter *dateFormatrer = [[NSDateFormatter alloc] init];
-            dateFormatrer.dateFormat = @"HH:mm:ss";
-            dateFormatrer.timeZone = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
-            notificationMessage.content = [dateFormatrer stringFromDate:fetchedLastDate];
-            notificationMessage.from = friendUID;
-            notificationMessage.to = self.uid;
-            notificationMessage.isImgDownloaded = [NSNumber numberWithBool:NO];
-            notificationMessage.isRead = [NSNumber numberWithBool:YES];
-            notificationMessage.isRemoved = [NSNumber numberWithBool:NO];
-            notificationMessage.messageType = [NSNumber numberWithInteger:AXMessageTypeSystemTime];
-            notificationMessage.sendTime = [NSDate dateWithTimeInterval:-0.01 sinceDate:[(AXMessage *)[messageArray firstObject] sendTime]];
-            
-            [messageArray insertObject:[notificationMessage convertToMappedObject] atIndex:[messageArray count]-1];
-            [commonMessageArray insertObject:[notificationMessage convertToMappedObject] atIndex:[messageArray count]-1];
-         }
+        
+        AXMessage *timeMessage = [self checkAndReturnTimeMessageWithCurrentDate:fetchedLastDate andLastDate:storedLastDate from:friendUID to:self.uid];
+        if (timeMessage) {
+            [messageArray insertObject:[timeMessage convertToMappedObject] atIndex:[messageArray count]-1];
+            [commonMessageArray insertObject:[timeMessage convertToMappedObject] atIndex:[messageArray count]-1];
+        }
         
         messageDictionary[friendUID] = [messageArray reverseSelf];
         splitedDictionary[friendUID] = @{@"pic":picMessageArray, @"other":[commonMessageArray reverseSelf]};
@@ -841,6 +843,9 @@
 
 - (AXMessage *)findMessageWithIdentifier:(NSString *)identifier
 {
+    if (identifier == nil) {
+        return nil;
+    }
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
     fetchRequest.entity = entity;
@@ -945,9 +950,7 @@
             message = messageToCheck;
             break;
         }
-
     }
-    
     return message;
 }
 
@@ -973,6 +976,30 @@
         }
     }
     [self.managedObjectContext save:NULL];
+}
+
+- (AXMessage *)checkAndReturnTimeMessageWithCurrentDate:(NSDate *)currentDate andLastDate:(NSDate *)lastDate from:(NSString *)from to:(NSString *)to
+{
+    AXMessage *timeMessage = nil;
+    
+    NSTimeInterval timeInterval = [currentDate timeIntervalSinceDate:lastDate];
+    if (timeInterval > 300) {
+        timeMessage = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+        timeMessage.accountType = [NSString stringWithFormat:@"%d", AXPersonTypeServer];
+        NSDateFormatter *dateFormatrer = [[NSDateFormatter alloc] init];
+        dateFormatrer.dateFormat = @"HH:mm:ss";
+        dateFormatrer.timeZone = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
+        timeMessage.content = [dateFormatrer stringFromDate:currentDate];
+        timeMessage.from = from;
+        timeMessage.to = to;
+        timeMessage.isImgDownloaded = [NSNumber numberWithBool:NO];
+        timeMessage.isRead = [NSNumber numberWithBool:YES];
+        timeMessage.isRemoved = [NSNumber numberWithBool:NO];
+        timeMessage.messageType = [NSNumber numberWithInteger:AXMessageTypeSystemTime];
+        timeMessage.sendTime = [NSDate dateWithTimeInterval:-0.01 sinceDate:currentDate];
+    }
+    
+    return timeMessage;
 }
 
 @end

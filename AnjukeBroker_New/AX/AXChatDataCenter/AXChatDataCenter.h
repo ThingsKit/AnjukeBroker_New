@@ -42,7 +42,7 @@
 - (void)chatListWillAppearWithFriendUid:(NSString *)friendUid;
 
 // message life cycle
-- (AXMappedMessage *)willSendMessage:(AXMappedMessage *)message;
+- (NSArray *)willSendMessage:(AXMappedMessage *)message;
 - (AXMappedMessage *)didSuccessSendMessageWithIdentifier:(NSString *)identifier messageId:(NSString *)messageId;
 - (AXMappedMessage *)didFailSendMessageWithIdentifier:(NSString *)identifier;
 - (NSDictionary *)didReceiveWithMessageDataArray:(NSArray *)receivedArray;
