@@ -48,12 +48,12 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 - (void)sendSystemMessage:(AXMessageType)type;
 - (void)reloadUnReadNum:(NSInteger)num;
 - (NSDate *)formatterDate:(NSDate *)date;
-
 // applog
 - (void)sendMessageAppLog;
 - (void)clickRightNavButtonAppLog;
 - (void)clickLeftAvatarAppLog;
 - (void)clickInputViewAppLog;
+- (void)didMoreBackView:(UIButton *)sender;
 
 
 @end

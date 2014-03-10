@@ -35,6 +35,10 @@
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
 }
 
+- (void)didMoreBackView:(UIButton *)sender {
+    [super didMoreBackView:sender];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_004 note:nil];
+}
 #pragma mark - lifeCycle
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -134,6 +138,7 @@
     }
 }
 - (void)pickIMG:(id)sender {
+     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_006 note:nil];
     AXELCImagePickerController *elcPicker = [[AXELCImagePickerController alloc] init];
     
     elcPicker.maximumImagesCount = 5; //(maxCount - self.roomImageArray.count);
@@ -142,6 +147,7 @@
 }
 
 - (void)takePic:(id)sender {
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_005 note:nil];
     UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
     ipc.sourceType = UIImagePickerControllerSourceTypeCamera; //拍照
     ipc.delegate = self;
@@ -149,6 +155,7 @@
     
 }
 - (void)pickAJK:(id)sender {
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_007 note:nil];
     CommunitySelectViewController *controller = [[CommunitySelectViewController alloc] init];
     controller.pageTypeFrom = secondHandHouse;
     HouseSelectNavigationController *nav = [[HouseSelectNavigationController alloc] initWithRootViewController:controller];
@@ -158,6 +165,7 @@
 }
 
 - (void)pickHZ:(id)sender {
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_008 note:nil];
     CommunitySelectViewController *controller = [[CommunitySelectViewController alloc] init];
     controller.pageTypeFrom = rentHouse;
     HouseSelectNavigationController *nav = [[HouseSelectNavigationController alloc] initWithRootViewController:controller];
@@ -236,6 +244,7 @@
 
 #pragma mark - ELCImagePickerControllerDelegate
 - (void)elcImagePickerController:(AXELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+    
     if ([info count] == 0) {
         return;
     }
@@ -272,6 +281,7 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
     UIImage *newSizeImage = nil;
     NSString *uid =[[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
     
@@ -303,6 +313,7 @@
 
 #pragma mark - PrivateMethods
 - (void)rightBarButtonClick:(id)sender {
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_009 note:nil];
     [self viewCustomerDetailInfo];
 }
 
@@ -334,10 +345,11 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 - (void)didClickTelNumber:(NSString *)telNumber {
-
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_010 note:nil];
     NSArray *phone = [NSArray arrayWithArray:[telNumber componentsSeparatedByString:@":"]];
     
     if (phone.count == 2) {
+        
             self.phoneNumber = [phone objectAtIndex:1];
         NSString *title = [NSString stringWithFormat:@"%@可能是个电话号码，你可以",self.phoneNumber];
         UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拨打电话",@"保存到客户资料", nil];
