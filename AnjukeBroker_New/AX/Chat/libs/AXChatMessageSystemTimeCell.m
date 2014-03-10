@@ -62,6 +62,7 @@ static CGFloat const brokerLeftMargin = 10.0f;
 
 - (void)configWithData:(NSDictionary *)data
 {
+    self.systemBgView.backgroundColor = [UIColor axChatSystemBGColor:self.isBroker];
     self.systemBut.frame = CGRectZero;
     [self.systemBut setTitle:@"" forState:UIControlStateNormal];
     [self.systemBut setTitleColor:[UIColor axChatSystemLinkColor:self.isBroker] forState:UIControlStateNormal];

@@ -350,11 +350,13 @@
     if (buttonIndex == 0) {
         [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_011 note:nil];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",self.phoneNumber]]];
-    }else {
+    }else if (buttonIndex == 1){
         [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_012 note:nil];
             self.friendPerson.markPhone = self.phoneNumber;
             [[AXChatMessageCenter defaultMessageCenter] updatePerson:self.friendPerson];
         [self showInfo:@"保存成功"];
+    }else {
+    
     }
 }
 #pragma mark - AXChatMessageRootCellDelegate

@@ -123,7 +123,7 @@
 + (UIColor *)axChatSystemBGColor:(BOOL)isBroker
 {
     if (isBroker) {
-        return [UIColor colorWithHex:0x000000 alpha:0.9];
+        return [UIColor colorWithHex:0x000000 alpha:0.1];
     } else {
         return [UIColor colorWithHex:0xe6e6e6 alpha:1];
     }

@@ -1050,7 +1050,7 @@ static NSString * const AXChatJsonVersion = @"1";
 
 - (void)didMessageRetry:(AXChatMessageRootCell *)axCell
 {
-    if ([self.uid isEqualToString:@"100"]) {
+    if ([self.uid isEqualToString:@"101"]) {
         // 之后必改
         [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
     } else {
