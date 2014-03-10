@@ -447,6 +447,8 @@
 
 //Tab显示
 - (void)showNewMessageCountForTab {
+    [[AXChatMessageCenter defaultMessageCenter] fetchConversationListItemWithFriendUID:[LoginManager getChatID]];
+    
     NSInteger count = [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
     [self showMessageValueWithStr:count];
 }
