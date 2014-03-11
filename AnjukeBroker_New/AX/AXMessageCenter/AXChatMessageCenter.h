@@ -15,7 +15,7 @@
 
 static NSString * const kAXMessageCenterLinkParamHost = @"push10.anjuke.com";
 static NSString * const kAXMessageCenterLinkParamPort = @"443";
-static NSString * const kAXMessageCenterLinkAppName = @"i-ajk";
+static NSString * const kAXMessageCenterLinkAppName = @"i-broker2";
 
 //Notification
 static NSString * const MessageCenterDidReceiveLastUpdataFriendList = @"MessageCenterDidReceiveFriendList";
