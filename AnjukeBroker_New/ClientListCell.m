@@ -89,7 +89,10 @@
     }
     else {
         self.nameLb.text = item.name;
-        if ([item.name isEqualToString:item.phone]) {
+        if ([item.name isEqualToString:item.phone] || item.name.length == 0) {
+            self.nameLb.text = [Util_TEXT getChatNameWithPhoneFormat:item.phone];
+        }
+        if ([self.nameLb.text isEqualToString:@"(null)"]) {
             self.nameLb.text = [Util_TEXT getChatNameWithPhoneFormat:item.phone];
         }
     }

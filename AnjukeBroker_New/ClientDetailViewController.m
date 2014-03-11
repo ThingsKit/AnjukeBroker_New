@@ -167,7 +167,7 @@
         self.nameLabel.text = self.person.name;
         self.companyLabel.text = @"";
         
-        if ([self.person.name isEqualToString:self.person.phone]) {
+        if ([self.person.name isEqualToString:self.person.phone] || self.person.name.length <= 0) {
             self.nameLabel.text = [Util_TEXT getChatNameWithPhoneFormat:self.person.phone];
         }
     }
@@ -326,8 +326,7 @@
             break;
         case 1:
         {
-            //test 确定删除
-            
+            //确定删除
             __weak   ClientDetailViewController *myself = self;
             [[AXChatMessageCenter defaultMessageCenter] removeFriendBydeleteUid:@[self.person.uid] compeletionBlock:^(BOOL isSuccess) {
                 if (myself && isSuccess) {
@@ -335,7 +334,6 @@
                     [self showInfo:@"客户已删除"];
                     
                     [self performSelector:@selector(doBack:) withObject:nil afterDelay:0.5];
-//                    [myself doBack:self];
                 }else if (myself && !isSuccess){
                     [self showInfo:@"客户删除失败"];
                 }

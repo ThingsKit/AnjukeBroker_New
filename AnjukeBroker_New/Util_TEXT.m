@@ -58,10 +58,14 @@
 
 //将用户电话转化为特定显示
 + (NSString *)getChatNameWithPhoneFormat:(NSString *)phoneStr {
+    if (phoneStr.length <= 0 || phoneStr == nil) {
+        return @"";
+    }
+    
     NSMutableString *str = [NSMutableString stringWithString:phoneStr];
     NSString *strName = [str substringToIndex:4];
     
-    return [NSString stringWithFormat:@"找房用户 %@XXXXXXX", strName];
+    return [NSString stringWithFormat:@"找房用户 %@*******", strName];
 }
 
 @end

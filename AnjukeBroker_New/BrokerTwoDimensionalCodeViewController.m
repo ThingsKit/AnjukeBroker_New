@@ -81,22 +81,24 @@
     self.remarkLb = titleLb2;
     [self.view addSubview:titleLb2];
     
-    CGFloat bgW = 240;
-    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(icon.frame.origin.x, icon.frame.origin.y + icon.frame.size.height + 30, bgW, bgW)];
+    CGFloat bgW = 260;
+    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(icon.frame.origin.x, icon.frame.origin.y + icon.frame.size.height + 30, bgW, bgW+20)];
     bgView.backgroundColor = [UIColor whiteColor];
     bgView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     bgView.layer.borderWidth = 1;
     [self.view addSubview:bgView];
     
-    CGFloat imgW = 290/2;
+    CGFloat imgW = (bgW - 30);
     self.brokerGigImg = [[WebImageView alloc] initWithFrame:CGRectMake((bgW - imgW)/2, (bgW - imgW)/2 - 10, imgW, imgW)];
     self.brokerGigImg.backgroundColor = [UIColor clearColor];
     self.brokerGigImg.imageUrl = [LoginManager getTwoCodeIcon];
+//    self.brokerGigImg.layer.borderColor = [UIColor blackColor].CGColor;
+//    self.brokerGigImg.layer.borderWidth = 1;
     [bgView addSubview:self.brokerGigImg];
     
-    UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(0, self.brokerGigImg.frame.origin.y + imgW + 20, bgW, 20)];
+    UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(0, self.brokerGigImg.frame.origin.y + imgW + 10, bgW, 20)];
     tips.backgroundColor = [UIColor clearColor];
-    tips.font = [UIFont systemFontOfSize:12];
+    tips.font = [UIFont systemFontOfSize:13];
     tips.textColor = SYSTEM_LIGHT_GRAY;
     tips.textAlignment = NSTextAlignmentCenter;
     tips.text = @"扫一扫上面的二维码，加我微聊";
@@ -105,7 +107,6 @@
 
 - (void)setValueForShow {
     self.nameLb.text = [LoginManager getRealName];
-//    self.remarkLb.text = @"我爱我家联洋店";
 }
 
 #pragma mark - Request Method
@@ -148,7 +149,7 @@
     }
     
     NSDictionary *dic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
-    self.remarkLb.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"store"]];
+    self.remarkLb.text = [NSString stringWithFormat:@"%@ %@",[dic objectForKey:@"company"],[dic objectForKey:@"store"]];
     //
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;

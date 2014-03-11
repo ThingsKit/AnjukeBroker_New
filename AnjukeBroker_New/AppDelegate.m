@@ -65,7 +65,10 @@
     [self registerRemoteNotification];
     [self cleanRemoteNotification:application];
     
+    //监听每次连接长链接后-->获取最新未读消息
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showNewMessageCountForTab) name:@"MessageCenterConnectionStatusNotication" object:nil];
+    //监听每次收到新消息提醒后-->获取最新未读消息
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showNewMessageCountForTab) name:MessageCenterDidReceiveNewMessage object:nil];
     
     [self checkVersionForMore:NO];
     

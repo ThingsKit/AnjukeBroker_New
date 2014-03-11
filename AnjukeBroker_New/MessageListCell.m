@@ -121,11 +121,11 @@
     }
     else {
         self.nameLb.text = [NSString stringWithFormat:@"%@", item.presentName];
-        if ([person.name isEqualToString:person.phone]) {
+        if ([person.name isEqualToString:person.phone] || person.name.length == 0 || [person.name isEqualToString:@""]) {
             self.nameLb.text = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
         }
         if ([self.nameLb.text isEqualToString:@"(null)"]) {
-            self.nameLb.text = @"";
+            self.nameLb.text = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
         }
     }
     
@@ -166,7 +166,7 @@
 }
 
 - (void)setMessageShowWithData:(AXConversationListItem *)item {    
-    CGFloat messageLabelH = 15;
+    CGFloat messageLabelH = 20;
     CGFloat messageLabelW = 200;
     
     CGFloat iconW = 15;

@@ -406,7 +406,7 @@
 //个人信息
 - (void)pushToPerson {
     BrokerTwoDimensionalCodeViewController *ba = [[BrokerTwoDimensionalCodeViewController alloc] init];
-    [ba hidesBottomBarWhenPushed];
+    [ba setHidesBottomBarWhenPushed:YES];
     [self.navigationController pushViewController:ba animated:YES];
 }
 
