@@ -14,6 +14,10 @@
 		200915EF189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 200915ED189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png */; };
 		200ACA4718B6F77000FAC740 /* Broker_InputEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 200ACA4618B6F77000FAC740 /* Broker_InputEditView.m */; };
 		2011CD8218AB1D5300EEEA5C /* SystemMessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2011CD8118AB1D5300EEEA5C /* SystemMessageDetailViewController.m */; };
+		201BC95018CEF15900565BF6 /* 欢迎页960.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94C18CEF15900565BF6 /* 欢迎页960.png */; };
+		201BC95118CEF15900565BF6 /* 欢迎页960@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94D18CEF15900565BF6 /* 欢迎页960@2x.png */; };
+		201BC95218CEF15900565BF6 /* 欢迎页1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94E18CEF15900565BF6 /* 欢迎页1136.png */; };
+		201BC95318CEF15900565BF6 /* 欢迎页1136@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94F18CEF15900565BF6 /* 欢迎页1136@2x.png */; };
 		202133C618C72CF200A0090B /* BrokerWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 202133C518C72CF200A0090B /* BrokerWebViewController.m */; };
 		202133CD18C74A2800A0090B /* AXMessageCenterUserToPublicServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 202133CC18C74A2800A0090B /* AXMessageCenterUserToPublicServiceManager.m */; };
 		202133D018C74A4E00A0090B /* AXMessageCenterAppGetAllMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 202133CF18C74A4E00A0090B /* AXMessageCenterAppGetAllMessageManager.m */; };
@@ -479,6 +483,10 @@
 		200ACA4618B6F77000FAC740 /* Broker_InputEditView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Broker_InputEditView.m; sourceTree = "<group>"; };
 		2011CD8018AB1D5300EEEA5C /* SystemMessageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMessageDetailViewController.h; sourceTree = "<group>"; };
 		2011CD8118AB1D5300EEEA5C /* SystemMessageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemMessageDetailViewController.m; sourceTree = "<group>"; };
+		201BC94C18CEF15900565BF6 /* 欢迎页960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "欢迎页960.png"; sourceTree = "<group>"; };
+		201BC94D18CEF15900565BF6 /* 欢迎页960@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "欢迎页960@2x.png"; sourceTree = "<group>"; };
+		201BC94E18CEF15900565BF6 /* 欢迎页1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "欢迎页1136.png"; sourceTree = "<group>"; };
+		201BC94F18CEF15900565BF6 /* 欢迎页1136@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "欢迎页1136@2x.png"; sourceTree = "<group>"; };
 		202133C418C72CF200A0090B /* BrokerWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerWebViewController.h; sourceTree = "<group>"; };
 		202133C518C72CF200A0090B /* BrokerWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerWebViewController.m; sourceTree = "<group>"; };
 		202133CB18C74A2800A0090B /* AXMessageCenterUserToPublicServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterUserToPublicServiceManager.h; sourceTree = "<group>"; };
@@ -1187,6 +1195,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		201BC94718CEEFEC00565BF6 /* app首屏页面 */ = {
+			isa = PBXGroup;
+			children = (
+				201BC94C18CEF15900565BF6 /* 欢迎页960.png */,
+				201BC94D18CEF15900565BF6 /* 欢迎页960@2x.png */,
+				201BC94E18CEF15900565BF6 /* 欢迎页1136.png */,
+				201BC94F18CEF15900565BF6 /* 欢迎页1136@2x.png */,
+			);
+			name = "app首屏页面";
+			sourceTree = "<group>";
+		};
 		202133C318C72CCD00A0090B /* 活动页面 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1594,6 +1613,7 @@
 		970FC17F183B6E8100D142D5 /* icon+lanchImg */ = {
 			isa = PBXGroup;
 			children = (
+				201BC94718CEEFEC00565BF6 /* app首屏页面 */,
 				97F4D185184E284600DFC45F /* app icon正式版 */,
 				97F4D184184E282E00DFC45F /* app icon测试版 */,
 			);
@@ -2771,6 +2791,7 @@
 				B7FC9AEA18C41B1300F77205 /* xproject_dialogue_greencard.png in Resources */,
 				B7D0AB9818A9D23300A6229C /* anjuke_icon_bluesea1@2x.png in Resources */,
 				B7FC9ADB18C41B1300F77205 /* xproject_dialogue_agentdetail_selected@2x.png in Resources */,
+				201BC95218CEF15900565BF6 /* 欢迎页1136.png in Resources */,
 				97F4D190184E2ABD00DFC45F /* logo_29@2x.png in Resources */,
 				B7EF77AC183CBBD20024A5E6 /* agent_icon42@2x.png in Resources */,
 				203EC2A818B2FF6E00DD0840 /* anjuke_icon_esf1@2x.png in Resources */,
@@ -2834,6 +2855,7 @@
 				B7FC9AD318C41B1300F77205 /* anjuke_icon_chat_fy@2x.png in Resources */,
 				B7EF77AF183CBBD20024A5E6 /* agent_icon45@2x.png in Resources */,
 				B7EF77A1183CBB100024A5E6 /* anjuke_icon_draft@2x.png in Resources */,
+				201BC95118CEF15900565BF6 /* 欢迎页960@2x.png in Resources */,
 				2761B89C187C053C00EABF95 /* logo_57.png in Resources */,
 				20A2177818BF118E002CA469 /* anjuke_icon_attention@2x.png in Resources */,
 				B7FC9AC918C41B1300F77205 /* anjuke_icon_add_pic4@2x.png in Resources */,
@@ -2853,6 +2875,7 @@
 				9741056A180CDFE0004DAE95 /* Images.xcassets in Resources */,
 				B7E38A01182238CF002C6E8A /* anjuke_icon06_selected@2x.png in Resources */,
 				B7E38A00182238CF002C6E8A /* anjuke_icon06_select@2x.png in Resources */,
+				201BC95018CEF15900565BF6 /* 欢迎页960.png in Resources */,
 				B7D0AB9C18A9D23300A6229C /* anjuke_icon_hot1@2x.png in Resources */,
 				B7FC9ADA18C41B1300F77205 /* xproject_dialogue_agentdetail_selected.png in Resources */,
 				B7EF7798183CBAB80024A5E6 /* anjuke_icon_bid@2x.png in Resources */,
@@ -2870,6 +2893,7 @@
 				203EC2B218B3092100DD0840 /* anjuke_icon_tab_bg@2x.png in Resources */,
 				20F6632A1896050F00356DFD /* anjuke_icon_nextfxt_@2x.png in Resources */,
 				20E3E783186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png in Resources */,
+				201BC95318CEF15900565BF6 /* 欢迎页1136@2x.png in Resources */,
 				2079ADD618B59CC00029D493 /* anjuke_icon_scyx@2x.png in Resources */,
 				97D752C9182C92690035577F /* Overlay@2x.png in Resources */,
 				B7ED789218891BB100E4D44C /* anjuke_icon_sound1@2x.png in Resources */,
