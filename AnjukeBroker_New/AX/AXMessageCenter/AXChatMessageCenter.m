@@ -415,7 +415,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
                         [self.blockDictionary removeObjectForKey:identify];
                     }
                 }
-            }else if (response.status == RTNetworkResponseStatusFailed || response.status == RTNetworkResponseStatusJsonError) {
+            }else{
                 if (self.blockDictionary[identify]) {
                     mappedMessage.sendStatus = @(AXMessageCenterSendMessageStatusFailed);
                     [self.dataCenter didFailSendMessageWithIdentifier:identify];
@@ -1179,6 +1179,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         [self.sendImageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             AXMappedMessage *dataMessage = (AXMappedMessage *)obj;
             if ([dataMessage.identifier isEqualToString:userInfo[@"identify"]]) {
+                [self.dataCenter didFailSendMessageWithIdentifier:dataMessage.identifier];
                 _finishSendMessageBlock = self.blockDictionary[dataMessage.identifier];
                 _finishSendMessageBlock(@[dataMessage],AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeFailed);
             }
