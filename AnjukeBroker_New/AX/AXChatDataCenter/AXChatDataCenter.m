@@ -134,7 +134,7 @@
     NSArray *fetchedResult = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
     NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:[fetchedResult count]];
     
-    NSArray *sortedResult = [result sortedArrayWithOptions:NSSortStable usingComparator:^NSComparisonResult(id obj1, id obj2) {
+    NSArray *sortedResult = [fetchedResult sortedArrayWithOptions:NSSortStable usingComparator:^NSComparisonResult(id obj1, id obj2) {
         
         AXMessage *message1 = (AXMessage *)obj1;
         AXMessage *message2 = (AXMessage *)obj2;
@@ -405,21 +405,23 @@
         } else {
             friendUid = message.to;
         }
-    
-        AXMessage *lastMessage = [self findLastMessageWithFriendUid:friendUid];
-        AXConversationListItem *item = [self findConversationListItemWithFriendUID:friendUid];
         
-        if (lastMessage) {
-            if (item) {
-                [self updateConversationListItemWithMessage:[lastMessage convertToMappedObject]];
-            }
-        } else {
-            if (item) {
-                [self deleteConversationItem:[item convertToMappedObject]];
+        if (![self checkAndDeleteConversationItemWithFriendId:friendUid]) {
+            
+            AXMessage *lastMessage = [self findLastMessageWithFriendUid:friendUid];
+            AXConversationListItem *item = [self findConversationListItemWithFriendUID:friendUid];
+            
+            if (lastMessage) {
+                if (item) {
+                    [self updateConversationListItemWithMessage:[lastMessage convertToMappedObject]];
+                }
+            } else {
+                if (item) {
+                    [self deleteConversationItemWithFriendUid:item.friendUid];
+                }
             }
         }
         
-
     }
     
     [self.managedObjectContext save:NULL];
@@ -584,18 +586,7 @@
 {
     AXConversationListItem *listItem = conversationItem;
     NSString *friendUid = listItem.friendUid;
-    
-    NSFetchRequest *fetchRequst = [[NSFetchRequest alloc] init];
-    fetchRequst.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
-    fetchRequst.predicate = [NSPredicate predicateWithFormat:@"from = %@ OR to = %@", friendUid, friendUid];
-    NSArray *messages = [self.managedObjectContext executeFetchRequest:fetchRequst error:NULL];
-    
-    for (AXMessage *message in messages) {
-        [self.managedObjectContext deleteObject:message];
-    }
-    [self.managedObjectContext deleteObject:listItem];
-    
-    [self.managedObjectContext save:NULL];
+    [self deleteConversationItemWithFriendUid:friendUid];
 }
 
 #pragma mark - delete friends
@@ -1061,6 +1052,43 @@
     }
     
     return timeMessage;
+}
+
+- (void)deleteConversationItemWithFriendUid:(NSString *)friendUid
+{
+    AXConversationListItem *listItem = [self findConversationListItemWithFriendUID:friendUid];
+    
+    NSFetchRequest *fetchRequst = [[NSFetchRequest alloc] init];
+    fetchRequst.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchRequst.predicate = [NSPredicate predicateWithFormat:@"from = %@ OR to = %@", friendUid, friendUid];
+    NSArray *messages = [self.managedObjectContext executeFetchRequest:fetchRequst error:NULL];
+    
+    for (AXMessage *message in messages) {
+        [self.managedObjectContext deleteObject:message];
+    }
+    
+    [self.managedObjectContext deleteObject:listItem];
+    [self.managedObjectContext save:NULL];
+}
+
+- (BOOL)checkAndDeleteConversationItemWithFriendId:(NSString *)friendUid
+{
+    BOOL hasBeenDeleted = NO;
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entity];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"messageType < %@", @(100)];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSInteger count = [self.managedObjectContext countForFetchRequest:fetchRequest error:&error];
+    if (count == 0) {
+        hasBeenDeleted = YES;
+        [self deleteConversationItemWithFriendUid:friendUid];
+    }
+    
+    return hasBeenDeleted;
 }
 
 @end
