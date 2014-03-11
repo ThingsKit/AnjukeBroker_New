@@ -319,7 +319,7 @@
     self.window.rootViewController = nav;
     
     if ([AppManager isFirstLaunch]) {
-        AFWelcomeScrollview *af = [[AFWelcomeScrollview alloc] initWithFrame:CGRectMake(0, -30, self.window.frame.size.width, self.window.frame.size.height+30)];
+        AFWelcomeScrollview *af = [[AFWelcomeScrollview alloc] initWithFrame:CGRectMake(0, -25, self.window.frame.size.width, self.window.frame.size.height+25)];
         [af setImgArray:[NSArray arrayWithObject:[UIImage imageNamed:@"ios_welcome.png"]]];
         
         [nav.view addSubview:af];
