@@ -359,9 +359,7 @@
             if (accountType == AXPersonTypePublic) {
                 [self.delegate dataCenter:self fetchPublicInfoWithUid:@[friendUID]];
             } else {
-                if (mySelf.userType == AXPersonTypeBroker) {
-                    [self.delegate dataCenter:self fetchPersonInfoWithUid:@[friendUID]];
-                }
+                [self.delegate dataCenter:self fetchPersonInfoWithUid:@[friendUID]];
             }
         }
     }
