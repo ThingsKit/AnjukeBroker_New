@@ -73,6 +73,7 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
     self.cancelAlivingConnection = [[ASIHTTPRequest alloc] initWithURL:[NSURL URLWithString:cancelUrl]];
     [self.cancelAlivingConnection setValidatesSecureCertificate:NO];
     self.cancelAlivingConnection.delegate = self;
+    [self.cancelAlivingConnection setShouldContinueWhenAppEntersBackground:YES];
     self.cancelAlivingConnection.tag = AIF_MESSAGE_REQUEST_TYPE_TAG_CANCEL_ALIVING_CONNECTION;
     [self.cancelAlivingConnection startAsynchronous];
     

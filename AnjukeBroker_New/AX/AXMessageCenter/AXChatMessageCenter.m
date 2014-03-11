@@ -1300,8 +1300,9 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 //                self.linkStatus = AXMessageCenterLinkStatusWillLinkAsDevice;
 //                [self buildLongLinkWithUserId:@"0"];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    UIAlertView *lertview = [[UIAlertView alloc] initWithTitle:@"您的账号已被他人登陆，您已被下线" message:@"" delegate:self cancelButtonTitle:@"ok" otherButtonTitles: nil];
-                    [lertview show];
+//                    UIAlertView *lertview = [[UIAlertView alloc] initWithTitle:@"您的账号已被他人登陆，您已被下线" message:@"" delegate:self cancelButtonTitle:@"ok" otherButtonTitles: nil];
+//                    [lertview show];
+                    
                     [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterUserDidQuit object:nil userInfo:@{@"status": @(AIFMessageCenterStatusUserLoginOut)}];
                     [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterUserDidQuitToAllReceiveNotication object:nil];
 #warning initWithUID

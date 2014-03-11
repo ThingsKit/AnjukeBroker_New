@@ -116,8 +116,6 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Saves changes in the application's managed object context before the application terminates.
-    //app被进程取缔前退出登录，断开成链接
-    [self killLongLinkForChat];
     
     [self saveContext];
 }
@@ -224,6 +222,7 @@
 }
 
 - (void)killLongLinkForChat {
+    [[AXChatMessageCenter defaultMessageCenter] setLinkStatus:AXMessageCenterLinkStatusNoLink];
     [[AXChatMessageCenter defaultMessageCenter] breakLink]; //断开长链接方式
 }
 
