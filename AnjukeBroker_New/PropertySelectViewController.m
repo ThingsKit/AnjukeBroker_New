@@ -92,6 +92,7 @@
     
     if (![[resultFromAPI objectForKey:@"data"] objectForKey:@"propertyList"] || [[[resultFromAPI objectForKey:@"data"]  objectForKey:@"propertyList"] count] == 0) {
         [self showInfo:@"暂无推广中房源"];
+        [self hideLoadWithAnimated:YES];
         return;
     }else{
         if (self.arr) {
