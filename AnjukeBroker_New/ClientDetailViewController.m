@@ -254,11 +254,12 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_008 note:nil];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.row == 0) {
+        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_008 note:nil];
+        
         if (self.person.markPhone.length <= 0) {
             return;
         }
