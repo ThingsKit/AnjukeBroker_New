@@ -125,11 +125,13 @@
     NSDictionary *dic = self.cellDict[identifier];
     if ([dic[@"messageType"] isEqualToNumber:@(AXMessageTypePic)]) {
         NSMutableArray *imgArray = [NSMutableArray arrayWithArray:[[AXChatMessageCenter defaultMessageCenter] picMessageArrayWithFriendUid:[self checkFriendUid]]];
+        
+        NSArray *temparray = [[imgArray reverseObjectEnumerator] allObjects];
         NSMutableArray *photoArray = [NSMutableArray array];
         int currentPhotoIndex = 0;
-        for (int i =0; i <imgArray.count; i ++) {
+        for (int i =0; i <temparray.count; i ++) {
             AXPhoto *photo = [[AXPhoto alloc] init];
-            photo.picMessage = imgArray[i];
+            photo.picMessage = temparray[i];
             if ([dic[@"identifier"] isEqualToString:photo.picMessage.identifier]) {
                 currentPhotoIndex = i;
             }
