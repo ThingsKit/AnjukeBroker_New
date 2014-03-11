@@ -18,6 +18,7 @@
 		201BC95118CEF15900565BF6 /* 欢迎页960@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94D18CEF15900565BF6 /* 欢迎页960@2x.png */; };
 		201BC95218CEF15900565BF6 /* 欢迎页1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94E18CEF15900565BF6 /* 欢迎页1136.png */; };
 		201BC95318CEF15900565BF6 /* 欢迎页1136@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94F18CEF15900565BF6 /* 欢迎页1136@2x.png */; };
+		201BC95D18CEF90500565BF6 /* anjuke_icon_setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC95C18CEF90500565BF6 /* anjuke_icon_setting@2x.png */; };
 		202133C618C72CF200A0090B /* BrokerWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 202133C518C72CF200A0090B /* BrokerWebViewController.m */; };
 		202133CD18C74A2800A0090B /* AXMessageCenterUserToPublicServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 202133CC18C74A2800A0090B /* AXMessageCenterUserToPublicServiceManager.m */; };
 		202133D018C74A4E00A0090B /* AXMessageCenterAppGetAllMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 202133CF18C74A4E00A0090B /* AXMessageCenterAppGetAllMessageManager.m */; };
@@ -60,7 +61,6 @@
 		2079ADD518B59CC00029D493 /* anjuke_icon_poblish_zf1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2079ADCD18B59CC00029D493 /* anjuke_icon_poblish_zf1@2x.png */; };
 		2079ADD618B59CC00029D493 /* anjuke_icon_scyx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2079ADCE18B59CC00029D493 /* anjuke_icon_scyx@2x.png */; };
 		2079ADD718B59CC00029D493 /* anjuke_icon_scyx1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2079ADCF18B59CC00029D493 /* anjuke_icon_scyx1@2x.png */; };
-		2079ADD818B59CC00029D493 /* anjuke_icon_setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2079ADD018B59CC00029D493 /* anjuke_icon_setting@2x.png */; };
 		2079ADDB18B5D62E0029D493 /* ClientDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2079ADDA18B5D62E0029D493 /* ClientDetailViewController.m */; };
 		2079ADDE18B5D64B0029D493 /* ClientEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2079ADDD18B5D64B0029D493 /* ClientEditViewController.m */; };
 		2079ADE118B5DB690029D493 /* ClientDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2079ADE018B5DB690029D493 /* ClientDetailCell.m */; };
@@ -487,6 +487,7 @@
 		201BC94D18CEF15900565BF6 /* 欢迎页960@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "欢迎页960@2x.png"; sourceTree = "<group>"; };
 		201BC94E18CEF15900565BF6 /* 欢迎页1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "欢迎页1136.png"; sourceTree = "<group>"; };
 		201BC94F18CEF15900565BF6 /* 欢迎页1136@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "欢迎页1136@2x.png"; sourceTree = "<group>"; };
+		201BC95C18CEF90500565BF6 /* anjuke_icon_setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_setting@2x.png"; sourceTree = "<group>"; };
 		202133C418C72CF200A0090B /* BrokerWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerWebViewController.h; sourceTree = "<group>"; };
 		202133C518C72CF200A0090B /* BrokerWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerWebViewController.m; sourceTree = "<group>"; };
 		202133CB18C74A2800A0090B /* AXMessageCenterUserToPublicServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterUserToPublicServiceManager.h; sourceTree = "<group>"; };
@@ -551,7 +552,6 @@
 		2079ADCD18B59CC00029D493 /* anjuke_icon_poblish_zf1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_poblish_zf1@2x.png"; sourceTree = "<group>"; };
 		2079ADCE18B59CC00029D493 /* anjuke_icon_scyx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_scyx@2x.png"; sourceTree = "<group>"; };
 		2079ADCF18B59CC00029D493 /* anjuke_icon_scyx1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_scyx1@2x.png"; sourceTree = "<group>"; };
-		2079ADD018B59CC00029D493 /* anjuke_icon_setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_setting@2x.png"; sourceTree = "<group>"; };
 		2079ADD918B5D62E0029D493 /* ClientDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientDetailViewController.h; sourceTree = "<group>"; };
 		2079ADDA18B5D62E0029D493 /* ClientDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientDetailViewController.m; sourceTree = "<group>"; };
 		2079ADDC18B5D64B0029D493 /* ClientEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientEditViewController.h; sourceTree = "<group>"; };
@@ -1371,7 +1371,7 @@
 				2079ADCD18B59CC00029D493 /* anjuke_icon_poblish_zf1@2x.png */,
 				2079ADCE18B59CC00029D493 /* anjuke_icon_scyx@2x.png */,
 				2079ADCF18B59CC00029D493 /* anjuke_icon_scyx1@2x.png */,
-				2079ADD018B59CC00029D493 /* anjuke_icon_setting@2x.png */,
+				201BC95C18CEF90500565BF6 /* anjuke_icon_setting@2x.png */,
 			);
 			name = "首页img";
 			sourceTree = "<group>";
@@ -2780,6 +2780,7 @@
 				970501861845E55900A0C181 /* anjuke_icon_login_button@2x.png in Resources */,
 				2761B89D187C053C00EABF95 /* logo_57@2x.png in Resources */,
 				B7FC9B0018C41B1300F77205 /* xproject_dialogue_more_selected.png in Resources */,
+				201BC95D18CEF90500565BF6 /* anjuke_icon_setting@2x.png in Resources */,
 				B7FC9AD618C41B1300F77205 /* anjuke_icon_person@2x.png in Resources */,
 				203EC2B018B2FF6E00DD0840 /* anjuke_icon_zf1@2x.png in Resources */,
 				B7EF77A7183CBB580024A5E6 /* anjuke_icon_violat@2x.png in Resources */,
@@ -2908,7 +2909,6 @@
 				97F4D18E184E2ABD00DFC45F /* logo_40@2x.png in Resources */,
 				2079ADF218B5FD610029D493 /* anjuke_icon_noxingbiao_@2x.png in Resources */,
 				203EC2AC18B2FF6E00DD0840 /* anjuke_icon_kh1@2x.png in Resources */,
-				2079ADD818B59CC00029D493 /* anjuke_icon_setting@2x.png in Resources */,
 				2031A48718920FF2004F7E1A /* anjuke_icon_find@2x.png in Resources */,
 				B7EAD4C818CD6DDE00B28FEC /* AXNotificationTutorialViewController.xib in Resources */,
 				203EC2B818B35E1900DD0840 /* anjuke_icon_back@2x.png in Resources */,
