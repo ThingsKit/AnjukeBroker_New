@@ -93,7 +93,11 @@
         }
     }
     if (titleString.length == 0 || [titleString isEqualToString:@"(null)"]) {
-        titleString = @"";
+        titleString = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
+        if (titleString) {
+            titleString = @"";
+        }
+        
     }
     UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
     lb.backgroundColor = [UIColor clearColor];
