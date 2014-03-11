@@ -75,8 +75,8 @@ NSInteger const kRetryTag = 101;
     _avatar = [[UIImageView alloc] init];
     _avatar.layer.masksToBounds = YES;
     _avatar.layer.cornerRadius = 4;
-    _avatar.contentMode = UIViewContentModeScaleToFill;
-    
+//    _avatar.contentMode = UIViewContentModeScaleToFill;
+    _avatar.contentMode = UIViewContentModeScaleAspectFill;
     _avatarButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _avatarButton.backgroundColor = [UIColor clearColor];
     [_avatarButton addTarget:self action:@selector(clickAvatar:) forControlEvents:UIControlEventTouchUpInside];
