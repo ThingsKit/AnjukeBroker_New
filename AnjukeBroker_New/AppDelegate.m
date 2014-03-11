@@ -53,7 +53,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
-        
+    
     //初始化底层库
     [self initRTManager];
     
@@ -61,7 +61,11 @@
     [self checkLogin];
     
     [self.window makeKeyAndVisible];
-        
+    
+    if (![AppManager isIOS6]) {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
+    
     [self registerRemoteNotification];
     [self cleanRemoteNotification:application];
     
@@ -315,7 +319,7 @@
     self.window.rootViewController = nav;
     
     if ([AppManager isFirstLaunch]) {
-        AFWelcomeScrollview *af = [[AFWelcomeScrollview alloc] initWithFrame:self.window.bounds];
+        AFWelcomeScrollview *af = [[AFWelcomeScrollview alloc] initWithFrame:CGRectMake(0, -30, self.window.frame.size.width, self.window.frame.size.height+30)];
         [af setImgArray:[NSArray arrayWithObject:[UIImage imageNamed:@"ios_welcome.png"]]];
         
         [nav.view addSubview:af];
