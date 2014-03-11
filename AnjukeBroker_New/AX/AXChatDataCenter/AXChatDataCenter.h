@@ -31,6 +31,7 @@
 @interface AXChatDataCenter : NSObject
 
 @property (nonatomic, weak) id<AXChatDataCenterDelegate> delegate;
+@property (nonatomic, copy) NSString *uid;
 
 // life cycle
 - (instancetype)initWithUID:(NSString *)uid;
@@ -60,7 +61,7 @@
 // conversation list
 - (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID;
 - (NSFetchedResultsController *)conversationListFetchedResultController;
-- (void)deleteConversationItem:(AXMappedConversationListItem *)conversationItem;
+- (void)deleteConversationItem:(AXConversationListItem *)conversationItem;
 
 // delete friends
 - (void)willDeleteFriendWithUidList:(NSArray *)uidList;

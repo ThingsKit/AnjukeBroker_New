@@ -19,7 +19,6 @@
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (nonatomic, copy) NSString *uid;
 @property (nonatomic, copy) NSString *friendUid;
 
 @end
@@ -56,25 +55,7 @@
         self.managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         self.managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
     }
-    if (error) {
-        NSLog(@"%@", error);
-    }
 }
-
-
-#pragma mark - test methods
-//- (void)test
-//{
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-//    
-//    fetchRequest.entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
-//    
-//    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
-//    for (AXPerson *person in result) {
-//        NSLog(@"%@", person.isPendingForRemove);
-//    }
-//    NSLog(@"%@",result);
-//}
 
 #pragma mark - message related list
 - (void)fetchChatListByLastMessage:(AXMappedMessage *)lastMessage pageSize:(NSUInteger)pageSize;
@@ -93,30 +74,32 @@
     __autoreleasing NSError *error;
     NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
-    NSArray *sortedResult = [result sortedArrayWithOptions:0 usingComparator:^NSComparisonResult(id obj1, id obj2) {
-        //NSOrderedAscending = -1L, NSOrderedSame, NSOrderedDescending
+    NSArray *sortedResult = [result sortedArrayWithOptions:NSSortStable usingComparator:^NSComparisonResult(id obj1, id obj2) {
+
         AXMessage *message1 = (AXMessage *)obj1;
         AXMessage *message2 = (AXMessage *)obj2;
-        
+
         NSInteger message1Id = [message1.messageId integerValue];
         NSInteger message2Id = [message2.messageId integerValue];
-        
+
+        NSComparisonResult compareResult = NSOrderedSame;
+
         if (message1Id == 0 || message2Id == 0) {
-            return NSOrderedSame;
+            compareResult = NSOrderedSame;
         } else {
             if (message1Id > message2Id) {
-                return NSOrderedAscending;
+                compareResult = NSOrderedAscending;
             }
             if (message1Id < message2Id) {
-                return NSOrderedDescending;
+                compareResult = NSOrderedDescending;
             }
             if (message1Id == message2Id) {
-                return NSOrderedSame;
+                compareResult = NSOrderedSame;
             }
         }
-        
-        return NSOrderedSame;
-        
+
+        return compareResult;
+
     }];
 
     NSMutableArray *mappedResult = [[NSMutableArray alloc] initWithCapacity:[sortedResult count]];
@@ -150,7 +133,36 @@
     
     NSArray *fetchedResult = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
     NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:[fetchedResult count]];
-    for (AXMessage *message in fetchedResult) {
+    
+    NSArray *sortedResult = [result sortedArrayWithOptions:NSSortStable usingComparator:^NSComparisonResult(id obj1, id obj2) {
+        
+        AXMessage *message1 = (AXMessage *)obj1;
+        AXMessage *message2 = (AXMessage *)obj2;
+        
+        NSInteger message1Id = [message1.messageId integerValue];
+        NSInteger message2Id = [message2.messageId integerValue];
+        
+        NSComparisonResult compareResult = NSOrderedSame;
+        
+        if (message1Id == 0 || message2Id == 0) {
+            compareResult = NSOrderedSame;
+        } else {
+            if (message1Id > message2Id) {
+                compareResult = NSOrderedAscending;
+            }
+            if (message1Id < message2Id) {
+                compareResult = NSOrderedDescending;
+            }
+            if (message1Id == message2Id) {
+                compareResult = NSOrderedSame;
+            }
+        }
+        
+        return compareResult;
+        
+    }];
+    
+    for (AXMessage *message in sortedResult) {
         [result addObject:[message convertToMappedObject]];
     }
     return result;
@@ -288,8 +300,6 @@
             managedMessage.sendTime = [NSDate dateWithTimeIntervalSince1970:[message[@"created"] integerValue]-0.0001*count];
             managedMessage.to = message[@"to_uid"];
             
-            NSLog(@"ORDERTIME content:%@ timestamp:%@", message[@"body"], message[@"created"]);
-            
             if ([self.friendUid isEqualToString:friendUID]) {
                 managedMessage.isRead = [NSNumber numberWithBool:YES];
             } else {
@@ -365,10 +375,16 @@
         AudioSessionInitialize(NULL, NULL, NULL, NULL);
         AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &propertySize, &state);
         
-        if (CFStringGetLength(state) > 0) {
-            AudioServicesPlaySystemSound(1015);
-        } else {
+        UIAccessibilityIsVoiceOverRunning();
+        
+        if (CFStringGetLength(state) == 0) {
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+        } else {
+            if (UIAccessibilityIsVoiceOverRunning()) {
+                AudioServicesPlaySystemSound(1015);
+            } else {
+                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+            }
         }
     }
     [self.delegate dataCenter:self didReceiveMessages:splitedDictionary];
@@ -564,9 +580,9 @@
     return [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 }
 
-- (void)deleteConversationItem:(AXMappedConversationListItem *)conversationItem
+- (void)deleteConversationItem:(AXConversationListItem *)conversationItem
 {
-    AXConversationListItem *listItem = [self findConversationListItemWithFriendUID:conversationItem.friendUid];
+    AXConversationListItem *listItem = conversationItem;
     NSString *friendUid = listItem.friendUid;
     
     NSFetchRequest *fetchRequst = [[NSFetchRequest alloc] init];
@@ -777,9 +793,6 @@
     }
     __autoreleasing NSError *error;
     [self.managedObjectContext save:&error];
-    if (error) {
-        NSLog(@"save person error");
-    }
 }
 
 - (AXMappedPerson *)fetchPersonWithUID:(NSString *)uid
@@ -886,7 +899,6 @@
         
         __autoreleasing NSError *error;
         [self.managedObjectContext save:&error];
-        NSLog(@"%@", error);
     }
 }
 

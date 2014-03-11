@@ -120,7 +120,7 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterLinkStatus)
 - (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID;
 - (void)saveDraft:(NSString *)content friendUID:(NSString *)friendUID;
 
-- (void)deleteConversationItem:(AXMappedConversationListItem *)conversationItem;
+- (void)deleteConversationItem:(AXConversationListItem *)conversationItem;
 
 
 - (void)getFriendInfoWithFriendUid:(NSArray *)personUids compeletionBlock:(void(^)(NSArray *person))getFriendInfoBlock;

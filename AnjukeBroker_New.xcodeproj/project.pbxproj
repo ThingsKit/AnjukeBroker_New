@@ -19,6 +19,7 @@
 		201BC95218CEF15900565BF6 /* 欢迎页1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94E18CEF15900565BF6 /* 欢迎页1136.png */; };
 		201BC95318CEF15900565BF6 /* 欢迎页1136@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94F18CEF15900565BF6 /* 欢迎页1136@2x.png */; };
 		201BC95D18CEF90500565BF6 /* anjuke_icon_setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC95C18CEF90500565BF6 /* anjuke_icon_setting@2x.png */; };
+		201BC96818CF202D00565BF6 /* AXChatMessageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 201BC96718CF202D00565BF6 /* AXChatMessageCenter.m */; };
 		202133C618C72CF200A0090B /* BrokerWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 202133C518C72CF200A0090B /* BrokerWebViewController.m */; };
 		202133CD18C74A2800A0090B /* AXMessageCenterUserToPublicServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 202133CC18C74A2800A0090B /* AXMessageCenterUserToPublicServiceManager.m */; };
 		202133D018C74A4E00A0090B /* AXMessageCenterAppGetAllMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 202133CF18C74A4E00A0090B /* AXMessageCenterAppGetAllMessageManager.m */; };
@@ -118,7 +119,6 @@
 		20D3C24E18925D800030D7D8 /* anjuke_icon_photo_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20D3C24D18925D800030D7D8 /* anjuke_icon_photo_add@2x.png */; };
 		20DACCF018C97C6200061F9C /* anjuke_icon_add_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20DACCEF18C97C6200061F9C /* anjuke_icon_add_@2x.png */; };
 		20DCCF2D18CD68D90079A078 /* AXMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20DCCF2C18CD68D90079A078 /* AXMessageManager.m */; };
-		20DCCF4318CDF7430079A078 /* AXChatMessageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 20DCCF4218CDF7430079A078 /* AXChatMessageCenter.m */; };
 		20E3E782186C2B9D00D61889 /* anjuke_icon_gupaiming@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20E3E780186C2B9D00D61889 /* anjuke_icon_gupaiming@2x.png */; };
 		20E3E783186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20E3E781186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png */; };
 		20E892DA18BDBAA300D7D881 /* ChatModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E892D918BDBAA300D7D881 /* ChatModel.m */; };
@@ -488,6 +488,8 @@
 		201BC94E18CEF15900565BF6 /* 欢迎页1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "欢迎页1136.png"; sourceTree = "<group>"; };
 		201BC94F18CEF15900565BF6 /* 欢迎页1136@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "欢迎页1136@2x.png"; sourceTree = "<group>"; };
 		201BC95C18CEF90500565BF6 /* anjuke_icon_setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_setting@2x.png"; sourceTree = "<group>"; };
+		201BC96618CF202D00565BF6 /* AXChatMessageCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageCenter.h; sourceTree = "<group>"; };
+		201BC96718CF202D00565BF6 /* AXChatMessageCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageCenter.m; sourceTree = "<group>"; };
 		202133C418C72CF200A0090B /* BrokerWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerWebViewController.h; sourceTree = "<group>"; };
 		202133C518C72CF200A0090B /* BrokerWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerWebViewController.m; sourceTree = "<group>"; };
 		202133CB18C74A2800A0090B /* AXMessageCenterUserToPublicServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterUserToPublicServiceManager.h; sourceTree = "<group>"; };
@@ -648,8 +650,6 @@
 		20DACCEF18C97C6200061F9C /* anjuke_icon_add_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_@2x.png"; sourceTree = "<group>"; };
 		20DCCF2B18CD68D90079A078 /* AXMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageManager.h; sourceTree = "<group>"; };
 		20DCCF2C18CD68D90079A078 /* AXMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageManager.m; sourceTree = "<group>"; };
-		20DCCF4118CDF7430079A078 /* AXChatMessageCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageCenter.h; sourceTree = "<group>"; };
-		20DCCF4218CDF7430079A078 /* AXChatMessageCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageCenter.m; sourceTree = "<group>"; };
 		20E3E780186C2B9D00D61889 /* anjuke_icon_gupaiming@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_gupaiming@2x.png"; sourceTree = "<group>"; };
 		20E3E781186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_nomessage@2x.png"; sourceTree = "<group>"; };
 		20E892D818BDBAA300D7D881 /* ChatModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatModel.h; sourceTree = "<group>"; };
@@ -1489,8 +1489,8 @@
 			children = (
 				20DCCF2B18CD68D90079A078 /* AXMessageManager.h */,
 				20DCCF2C18CD68D90079A078 /* AXMessageManager.m */,
-				20DCCF4118CDF7430079A078 /* AXChatMessageCenter.h */,
-				20DCCF4218CDF7430079A078 /* AXChatMessageCenter.m */,
+				201BC96618CF202D00565BF6 /* AXChatMessageCenter.h */,
+				201BC96718CF202D00565BF6 /* AXChatMessageCenter.m */,
 				20A217FC18BF2A9D002CA469 /* AXApiManagers */,
 			);
 			path = AXMessageCenter;
@@ -3036,7 +3036,7 @@
 				97CB0C10182BEA3500FCCBBD /* ELCImagePickerController.m in Sources */,
 				20A2181C18BF2A9D002CA469 /* AXMappedConversationListItem.m in Sources */,
 				B7E69BAE183B15430097D5C3 /* RentPPCGroupCell.m in Sources */,
-				20DCCF4318CDF7430079A078 /* AXChatMessageCenter.m in Sources */,
+				201BC96818CF202D00565BF6 /* AXChatMessageCenter.m in Sources */,
 				20A2178818BF1804002CA469 /* HouseSelectViewController.m in Sources */,
 				20578B9F1898ABCC0086B93D /* PropertyEditViewController.m in Sources */,
 				2079ADE118B5DB690029D493 /* ClientDetailCell.m in Sources */,
