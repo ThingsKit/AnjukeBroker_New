@@ -93,15 +93,41 @@
     __autoreleasing NSError *error;
     NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
-    NSMutableArray *mappedResult = [[NSMutableArray alloc] initWithCapacity:[result count]];
-    for (AXMessage *message in result) {
+    NSArray *sortedResult = [result sortedArrayWithOptions:0 usingComparator:^NSComparisonResult(id obj1, id obj2) {
+        //NSOrderedAscending = -1L, NSOrderedSame, NSOrderedDescending
+        AXMessage *message1 = (AXMessage *)obj1;
+        AXMessage *message2 = (AXMessage *)obj2;
+        
+        NSInteger message1Id = [message1.messageId integerValue];
+        NSInteger message2Id = [message2.messageId integerValue];
+        
+        if (message1Id == 0 || message2Id == 0) {
+            return NSOrderedSame;
+        } else {
+            if (message1Id > message2Id) {
+                return NSOrderedAscending;
+            }
+            if (message1Id < message2Id) {
+                return NSOrderedDescending;
+            }
+            if (message1Id == message2Id) {
+                return NSOrderedSame;
+            }
+        }
+        
+        return NSOrderedSame;
+        
+    }];
+
+    NSMutableArray *mappedResult = [[NSMutableArray alloc] initWithCapacity:[sortedResult count]];
+    for (AXMessage *message in sortedResult) {
         [mappedResult addObject:[message convertToMappedObject]];
     }
     
     [self turnAllMessageToReadWithFriendUid:self.friendUid];
     
     BOOL hasMore = NO;
-    AXMessage *fetchedLastMessage = [result lastObject];
+    AXMessage *fetchedLastMessage = [sortedResult lastObject];
     if (fetchedLastMessage) {
         fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND sendTime < %@ AND isRemoved = %@", self.friendUid, self.friendUid, fetchedLastMessage.sendTime, [NSNumber numberWithBool:NO]];
         NSInteger count = [self.managedObjectContext countForFetchRequest:fetchRequest error:NULL];
@@ -259,8 +285,10 @@
             managedMessage.isRemoved = [NSNumber numberWithBool:NO];
             managedMessage.messageId = @([message[@"msg_id"] integerValue]);
             managedMessage.sendStatus = @(messageSendStatus);
-            managedMessage.sendTime = [NSDate dateWithTimeIntervalSince1970:[message[@"created"] floatValue]-0.0001*count];
+            managedMessage.sendTime = [NSDate dateWithTimeIntervalSince1970:[message[@"created"] integerValue]-0.0001*count];
             managedMessage.to = message[@"to_uid"];
+            
+            NSLog(@"ORDERTIME content:%@ timestamp:%@", message[@"body"], message[@"created"]);
             
             if ([self.friendUid isEqualToString:friendUID]) {
                 managedMessage.isRead = [NSNumber numberWithBool:YES];
@@ -331,17 +359,18 @@
     __autoreleasing NSError *error;
     [self.managedObjectContext save:&error];
     
-    CFStringRef state;
-    UInt32 propertySize = sizeof(CFStringRef);
-    AudioSessionInitialize(NULL, NULL, NULL, NULL);
-    AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &propertySize, &state);
-    
-    if (CFStringGetLength(state) > 0) {
-        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-    } else {
-        AudioServicesPlaySystemSound(1015);
+    if ([receivedArray count] >= 1) {
+        CFStringRef state;
+        UInt32 propertySize = sizeof(CFStringRef);
+        AudioSessionInitialize(NULL, NULL, NULL, NULL);
+        AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &propertySize, &state);
+        
+        if (CFStringGetLength(state) > 0) {
+            AudioServicesPlaySystemSound(1015);
+        } else {
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+        }
     }
-
     [self.delegate dataCenter:self didReceiveMessages:splitedDictionary];
     
     return messageDictionary;
