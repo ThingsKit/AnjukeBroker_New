@@ -90,6 +90,9 @@
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
+    //icon消息数处理
+    [self showAllNewMessageCountForIcon];
+    
     //断开长链接
     [self killLongLinkForChat];
     
@@ -100,9 +103,6 @@
     [self connectLongLinkForChat];
     
     [self cleanRemoteNotification:application];
-    
-    //icon消息数处理
-    [self showAllNewMessageCountForIcon];
     
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
@@ -318,7 +318,7 @@
     self.window.rootViewController = nav;
     
     if ([AppManager isFirstLaunch]) {
-        AFWelcomeScrollview *af = [[AFWelcomeScrollview alloc] initWithFrame:CGRectMake(0, -25, self.window.frame.size.width, self.window.frame.size.height+25)];
+        AFWelcomeScrollview *af = [[AFWelcomeScrollview alloc] initWithFrame:self.window.bounds];
         [af setImgArray:[NSArray arrayWithObject:[UIImage imageNamed:@"ios_welcome.png"]]];
         
         [nav.view addSubview:af];

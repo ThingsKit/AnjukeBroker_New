@@ -40,19 +40,18 @@
     WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, (MESSAGE_LIST_HEIGHT - IMG_ICON_H)/2, IMG_ICON_H, IMG_ICON_H)];
     self.imageIcon = icon;
     icon.layer.cornerRadius = 5;
-//    icon.layer.borderColor = [UIColor whiteColor].CGColor;
-//    icon.layer.borderWidth = 0.5;
     icon.contentMode = UIViewContentModeScaleAspectFill;
     [self.contentView addSubview:icon];
     
     CGFloat iconLbW = 18;
     UILabel *iconLb = [[UILabel alloc] initWithFrame:CGRectMake(self.imageIcon.frame.origin.x +self.imageIcon.frame.size.width - iconLbW/2, self.imageIcon.frame.origin.y -iconLbW/4, iconLbW, iconLbW)];
     iconLb.backgroundColor = SYSTEM_ZZ_RED;
+    self.iconNumLb = iconLb;
+    iconLb.clipsToBounds = YES;
     iconLb.textColor = [UIColor whiteColor];
     iconLb.layer.cornerRadius = iconLbW/2;
     iconLb.font = [UIFont systemFontOfSize:12];
     iconLb.textAlignment = NSTextAlignmentCenter;
-    self.iconNumLb = iconLb;
 //    [self.contentView addSubview:iconLb];
     
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 14, 14, 200, 20)];
@@ -143,7 +142,7 @@
             self.iconNumLb.text = @"99+";
             self.iconNumLb.frame = CGRectMake(self.imageIcon.frame.origin.x +self.imageIcon.frame.size.width - iconLbW/2, self.imageIcon.frame.origin.y -iconLbW/4, iconLbW+6, iconLbW);
         }
-
+        self.iconNumLb.layer.cornerRadius = iconLbW/2;
         [self.contentView addSubview:self.iconNumLb];
     }
     else

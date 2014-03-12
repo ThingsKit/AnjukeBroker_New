@@ -144,8 +144,6 @@
     UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_TAB style:UITableViewStylePlain];
     self.tvList = tv;
     tv.backgroundColor = [UIColor whiteColor];
-//    tv.layer.borderColor = [UIColor redColor].CGColor;
-//    tv.layer.borderWidth = 1;
     tv.delegate = self;
     tv.dataSource = self;
     tv.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -198,52 +196,6 @@
     UIImageView *codeIcon = [[UIImageView alloc] initWithFrame:CGRectMake(personBtn.frame.origin.x + personBtn.frame.size.width*0.8, personBtn.frame.origin.y + personBtn.frame.size.height * 0.75, 53/2, 54/2)];
     codeIcon.image = [UIImage imageNamed:@"anjuke_icon_ewm.png"];
     [view1 addSubview:codeIcon];
-    
-    //name
-//    CGFloat labelW = 200;
-//    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(([self windowWidth] - labelW)/2, photo.frame.origin.y + photo.frame.size.height+ 40, labelW, 20)];
-//    lb.backgroundColor = [UIColor clearColor];
-//    lb.font = [UIFont systemFontOfSize:15];
-//    lb.textColor = SYSTEM_BLACK;
-//    lb.textAlignment = NSTextAlignmentCenter;
-//    self.nameLb = lb;
-//    lb.text = [LoginManager getName];
-//    [view1 addSubview:lb];
-    
-    //photo number
-//    UILabel *lb2 = [[UILabel alloc] initWithFrame:CGRectMake(lb.frame.origin.x, lb.frame.origin.y+ lb.frame.size.height+3, lb.frame.size.width, lb.frame.size.height)];
-//    lb2.backgroundColor = [UIColor clearColor];
-//    lb2.font = [UIFont systemFontOfSize:15];
-//    lb2.textColor = SYSTEM_BLACK;
-//    self.phoneLb = lb2;
-//    lb2.text = [LoginManager getPhone];
-//    [view1 addSubview:lb2];
-    
-    //account info
-//    UILabel *lb3 = [[UILabel alloc] initWithFrame:CGRectMake(lb.frame.origin.x, lb.frame.origin.y+ lb.frame.size.height+3, 70, lb.frame.size.height)];
-//    lb3.backgroundColor = [UIColor clearColor];
-//    lb3.font = [UIFont systemFontOfSize:15];
-//    lb3.textColor = SYSTEM_LIGHT_GRAY;
-//    lb3.text = @"账户余额:";
-//    self.accountTitleLb = lb3;
-//    [view1 addSubview:lb3];
-    
-//    UILabel *lb4 = [[UILabel alloc] initWithFrame:CGRectMake(lb.frame.origin.x, lb.frame.origin.y+ lb.frame.size.height+5, labelW, lb.frame.size.height)];
-//    lb4.backgroundColor = [UIColor clearColor];
-//    lb4.font = [UIFont systemFontOfSize:15];
-//    lb4.textColor = SYSTEM_BLACK;
-//    lb4.textAlignment = NSTextAlignmentCenter;
-//    self.accountLb = lb4;
-//    lb4.text = @"账户余额: ";
-//    [view1 addSubview:lb4];
-    
-//    UILabel *yuanLb = [[UILabel alloc] initWithFrame:CGRectMake(self.accountLb.frame.origin.x+ self.accountLb.frame.size.width, self.accountTitleLb.frame.origin.y, 20, 20)];
-//    yuanLb.backgroundColor = [UIColor clearColor];
-//    yuanLb.font = [UIFont systemFontOfSize:15];
-//    yuanLb.textColor = SYSTEM_LIGHT_GRAY;
-////    yuanLb.text = @"元";
-//    self.accountYuanLb = yuanLb;
-//    [view1 addSubview:yuanLb];
     
     CGFloat lbW_ = 100;
     NSString *titleStr = [NSString string];
@@ -440,7 +392,7 @@
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         
         [self hideLoadWithAnimated:YES];
@@ -452,62 +404,58 @@
     self.dataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerBaseInfo"];
     self.ppcDataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerPPCInfo"];
     
-    //保存聊天id和聊天token
-    NSString *chatID = [[[response content] objectForKey:@"data"] objectForKey:@"chatId"];
-    NSString *tokenChat = [[[response content] objectForKey:@"data"] objectForKey:@"tokenChat"];
-    NSString *phone = [self.dataDic objectForKey:@"phone"];
-    NSString *realName = [self.dataDic objectForKey:@"brokerName"]; //真实姓名保存
-    NSString *twoCodeIcon = [[[response content] objectForKey:@"data"] objectForKey:@"twoCodeIcon"];
-    
-    //保存
-    [[NSUserDefaults standardUserDefaults] setValue:chatID forKey:@"chatID"];
-    [[NSUserDefaults standardUserDefaults] setValue:tokenChat forKey:@"tokenChat"];
-    [[NSUserDefaults standardUserDefaults] setValue:phone forKey:@"phone"]; //联系电话
-    [[NSUserDefaults standardUserDefaults] setValue:realName forKey:@"realName"]; //真实姓名
-    [[NSUserDefaults standardUserDefaults] setValue:twoCodeIcon forKey:@"twoCodeIcon"]; //二维码
+    if ([LoginManager getChatID].length <=0 || [LoginManager getChatID] == nil) {
+        //保存聊天id和聊天token
+        NSString *chatID = [[[response content] objectForKey:@"data"] objectForKey:@"chatId"];
+        NSString *tokenChat = [[[response content] objectForKey:@"data"] objectForKey:@"tokenChat"];
+        NSString *phone = [self.dataDic objectForKey:@"phone"];
+        NSString *realName = [self.dataDic objectForKey:@"brokerName"]; //真实姓名保存
+        NSString *twoCodeIcon = [[[response content] objectForKey:@"data"] objectForKey:@"twoCodeIcon"];
+        
+        //保存
+        [[NSUserDefaults standardUserDefaults] setValue:chatID forKey:@"chatID"];
+        [[NSUserDefaults standardUserDefaults] setValue:tokenChat forKey:@"tokenChat"];
+        [[NSUserDefaults standardUserDefaults] setValue:phone forKey:@"phone"]; //联系电话
+        [[NSUserDefaults standardUserDefaults] setValue:realName forKey:@"realName"]; //真实姓名
+        [[NSUserDefaults standardUserDefaults] setValue:twoCodeIcon forKey:@"twoCodeIcon"]; //二维码
+
+        //保存头像
+        AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
+        if (person.iconPath.length < 2) {
+            NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]]];
+            [self.photoImg setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                //        NSString *imgName = [NSString stringWithFormat:@"%dx%d.jpg", (int)image.size.height, (int)image.size.width];
+                //        NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:@"icon" whitChatId:[LoginManager getChatID] andIMGName:imgName];
+                NSArray*libsPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+                NSString*libPath = [libsPath objectAtIndex:0];
+                NSString *userFolder = [libPath stringByAppendingPathComponent:[LoginManager getChatID]];
+                if ([UIImageJPEGRepresentation(image, 0.96) writeToFile:userFolder atomically:YES]) {
+                    
+                }else{
+                    
+                }
+                
+                AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
+                person.iconUrl = [LoginManager getUse_photo_url];
+                person.iconPath = [LoginManager getChatID];
+                person.isIconDownloaded = YES;
+                [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
+                
+            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                
+            }];
+        }
+    }
     
     [self setHomeValue];
     
-    //保存头像
-    AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
-    if (person.iconPath.length < 2) {
-        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]]];
-        [self.photoImg setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-            //        NSString *imgName = [NSString stringWithFormat:@"%dx%d.jpg", (int)image.size.height, (int)image.size.width];
-            //        NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:@"icon" whitChatId:[LoginManager getChatID] andIMGName:imgName];
-            NSArray*libsPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-            NSString*libPath = [libsPath objectAtIndex:0];
-            NSString *userFolder = [libPath stringByAppendingPathComponent:[LoginManager getChatID]];
-            if ([UIImageJPEGRepresentation(image, 0.96) writeToFile:userFolder atomically:YES]) {
-                
-            }else{
-                
-            }
-            
-            AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
-            person.iconUrl = [LoginManager getUse_photo_url];
-            person.iconPath = [LoginManager getChatID];
-            person.isIconDownloaded = YES;
-            [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
-            
-        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-//            AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
-//            person.iconUrl = [LoginManager getUse_photo_url];
-//            person.iconPath = @"";
-//            person.isIconDownloaded = NO;
-//            [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
-        }];
-    }
-    
     if (!self.hasLongLinked) {
-        if (!chatID || [chatID isEqualToString:@""] || chatID == nil) {
-#ifdef DEBUG
-            [self showInfo:@"无法登录聊天，没ChatID"];
-#endif
+        if (![LoginManager getChatID] || [[LoginManager getChatID] isEqualToString:@""] || [LoginManager getChatID] == nil) {
+            
         }
         else {
             //******兼容安居客team得到userInfoDic并设置NSUserDefaults，以帮助底层通过对应路径获取相应数据******
-            NSDictionary *dic = [LoginManager getFuckingChatUserDicJustForAnjukeTeamWithPhone:phone uid:chatID];
+            NSDictionary *dic = [LoginManager getFuckingChatUserDicJustForAnjukeTeamWithPhone:[LoginManager getPhone] uid:[LoginManager getChatID]];
             [[NSUserDefaults standardUserDefaults] setValue:dic forKey:USER_DEFAULT_KEY_AXCHATMC_USE];
             [AXChatMessageCenter defaultMessageCenter];
 
@@ -544,7 +492,7 @@
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         
         return;
