@@ -607,7 +607,7 @@
     if(alertView.tag == 101){
         if (buttonIndex == 0) {
             if (self.isEnforceUpdate) { //更新
-//                NSString *url = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=582908841&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software";
+//                NSString *url = @"itms-apps://itunes.apple.com/us/app/id774718866?mt=8";
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateUrl]];
                 
                 exit(0); //强制更新后跳转且退出应用
@@ -618,7 +618,7 @@
                 exit(0);
             }
             else {
-//                NSString *url = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=582908841&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software";
+//                NSString *url = @"itms-apps://itunes.apple.com/us/app/id774718866?mt=8";
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateUrl]];
             }
         }
@@ -629,7 +629,7 @@
         }
         if (buttonIndex == 1) {
              //更新
-                //            NSString *url = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=582908841&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software";
+//                NSString *url = @"itms-apps://itunes.apple.com/us/app/id774718866?mt=8";
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateUrl]];
                 
                 exit(0); //强制更新后跳转且退出应用
