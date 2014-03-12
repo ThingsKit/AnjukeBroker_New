@@ -297,7 +297,7 @@
             managedMessage.isRemoved = [NSNumber numberWithBool:NO];
             managedMessage.messageId = @([message[@"msg_id"] integerValue]);
             managedMessage.sendStatus = @(messageSendStatus);
-            managedMessage.sendTime = [NSDate dateWithTimeIntervalSince1970:[message[@"created"] integerValue]-0.0001*count];
+            managedMessage.sendTime = [NSDate dateWithTimeIntervalSinceNow:0];
             managedMessage.to = message[@"to_uid"];
             
             if ([self.friendUid isEqualToString:friendUID]) {
@@ -378,11 +378,7 @@
         if (CFStringGetLength(state) == 0) {
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
         } else {
-            if (UIAccessibilityIsVoiceOverRunning()) {
-                AudioServicesPlaySystemSound(1015);
-            } else {
-                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-            }
+            AudioServicesPlaySystemSound(1015);
         }
     }
     [self.delegate dataCenter:self didReceiveMessages:splitedDictionary];
