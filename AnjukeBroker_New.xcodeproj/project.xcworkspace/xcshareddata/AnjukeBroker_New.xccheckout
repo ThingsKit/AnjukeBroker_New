@@ -33,18 +33,18 @@
 		<string>../../../RTNetwork</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://git.corp.anjuke.com/_Broker_mobile_iOS/AnjukeBroker_New</string>
+	<string>ssh://git.corp.anjuke.com/leozhu/AnjukeBroker_New</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>4BEBBE99-53D7-4E25-B12F-817180784031</string>
+	<string>C556A053-1210-4872-8A2A-1943EF05D67A</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>4BEBBE99-53D7-4E25-B12F-817180784031</string>
+			<string>C556A053-1210-4872-8A2A-1943EF05D67A</string>
 			<key>IDESourceControlWCCName</key>
 			<string>AnjukeBroker_New</string>
 		</dict>
