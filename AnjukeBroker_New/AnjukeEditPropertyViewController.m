@@ -1622,9 +1622,9 @@ typedef enum {
     UIImage *image = nil;
     UIImage *newSizeImage = nil;
     
-    for (NSString *str  in [info allKeys]) {
-        DLog(@"pickerInfo Keys %@",str);
-    }
+//    for (NSString *str  in [info allKeys]) {
+//        DLog(@"pickerInfo Keys %@",str);
+//    }
     
     if (self.isTakePhoto) {
         image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];

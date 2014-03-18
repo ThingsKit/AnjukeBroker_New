@@ -15,7 +15,7 @@
 // 获取指定最大宽度和字体大小的string的size
 + (CGSize)sizeOfString:(NSString *)string maxWidth:(float)width withFontSize:(int)fontSize {
 	UIFont *font = [UIFont systemFontOfSize:fontSize];
-	CGSize size = [string sizeWithFont:font constrainedToSize:CGSizeMake(width, 10000.0f) lineBreakMode:UILineBreakModeWordWrap];
+	CGSize size = [string sizeWithFont:font constrainedToSize:CGSizeMake(width, 10000.0f) lineBreakMode:NSLineBreakByWordWrapping];
 	return size;
 }
 
@@ -23,7 +23,7 @@
 + (CGSize)sizeOfBoldString:(NSString *)string maxWidth:(float)width widthBoldFontSize:(int)fontSize{
     
 	UIFont *font = [UIFont boldSystemFontOfSize:fontSize];
-	CGSize size = [string sizeWithFont:font constrainedToSize:CGSizeMake(width, 10000.0f) lineBreakMode:UILineBreakModeWordWrap];
+	CGSize size = [string sizeWithFont:font constrainedToSize:CGSizeMake(width, 10000.0f) lineBreakMode:NSLineBreakByWordWrapping];
 	return size;
 }
 

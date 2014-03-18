@@ -148,8 +148,8 @@
     [[NSNotificationCenter defaultCenter] addObserverForName:MessageCenterDidReceiveNewMessage object:nil queue:nil usingBlock: ^(NSNotification *note) {
         // 接受消息
         if ([note.object isKindOfClass:[NSArray class]]) {
-            NSArray *list = (NSArray *)note.object;
-            DLog(@"------Message_list [%@]", list);
+//            NSArray *list = (NSArray *)note.object;
+//            DLog(@"------Message_list [%@]", list);
         }
     }];
 }

@@ -16,8 +16,8 @@ static CGFloat const AXPropertyCardWidth = 220.0f;
 static CGFloat const AXPropertyCardInImgMarginLeft = 9.0f;
 static CGFloat const AXPropertyCardInLableMarginLeft = 81.0f;
 
-static CGFloat const AXPropertyCardOutImgMarginLeft = 22.0f;
-static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
+//static CGFloat const AXPropertyCardOutImgMarginLeft = 22.0f;
+//static CGFloat const AXPropertyCardOutLableMarginLeft = 94.0f;
 
 @interface AXChatMessageRoomSourceCell ()
 @property (nonatomic, strong) UILabel *tagLable;
