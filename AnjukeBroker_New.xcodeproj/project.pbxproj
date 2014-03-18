@@ -358,6 +358,8 @@
 		B7ED789118891BB100E4D44C /* anjuke_icon_sound@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7ED788F18891BB100E4D44C /* anjuke_icon_sound@2x.png */; };
 		B7ED789218891BB100E4D44C /* anjuke_icon_sound1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7ED789018891BB100E4D44C /* anjuke_icon_sound1@2x.png */; };
 		B7ED78AF18893BFC00E4D44C /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7ED78AE18893BFC00E4D44C /* iflyMSC.framework */; };
+		B7EF100B18D8457000D07C9B /* AXMessageLocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EF100A18D8457000D07C9B /* AXMessageLocationCell.m */; };
+		B7EF101018D8579A00D07C9B /* local.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF100F18D8579A00D07C9B /* local.png */; };
 		B7EF148E18289CB7000B6016 /* RentBidDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EF148D18289CB6000B6016 /* RentBidDetailController.m */; };
 		B7EF7798183CBAB80024A5E6 /* anjuke_icon_bid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF7797183CBAB80024A5E6 /* anjuke_icon_bid@2x.png */; };
 		B7EF779D183CBAEC0024A5E6 /* anjuke_icon04_more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF779B183CBAEC0024A5E6 /* anjuke_icon04_more@2x.png */; };
@@ -1044,6 +1046,9 @@
 		B7ED788F18891BB100E4D44C /* anjuke_icon_sound@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_sound@2x.png"; sourceTree = "<group>"; };
 		B7ED789018891BB100E4D44C /* anjuke_icon_sound1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_sound1@2x.png"; sourceTree = "<group>"; };
 		B7ED78AE18893BFC00E4D44C /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iflyMSC.framework; path = AnjukeBroker_New/xunfei/iflyMSC.framework; sourceTree = "<group>"; };
+		B7EF100918D8457000D07C9B /* AXMessageLocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageLocationCell.h; sourceTree = "<group>"; };
+		B7EF100A18D8457000D07C9B /* AXMessageLocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageLocationCell.m; sourceTree = "<group>"; };
+		B7EF100F18D8579A00D07C9B /* local.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = local.png; sourceTree = "<group>"; };
 		B7EF148C18289CB6000B6016 /* RentBidDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentBidDetailController.h; sourceTree = "<group>"; };
 		B7EF148D18289CB6000B6016 /* RentBidDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentBidDetailController.m; sourceTree = "<group>"; };
 		B7EF7797183CBAB80024A5E6 /* anjuke_icon_bid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_bid@2x.png"; sourceTree = "<group>"; };
@@ -2438,6 +2443,7 @@
 				B7EAD4EE18CD927200B28FEC /* AXPullToRefreshContentView.m */,
 				B7EAD4EF18CD927200B28FEC /* AXPullToRefreshSimpleContentView.h */,
 				B7EAD4F018CD927200B28FEC /* AXPullToRefreshSimpleContentView.m */,
+				B7EF100F18D8579A00D07C9B /* local.png */,
 				B7EAD4F118CD927200B28FEC /* AXPullToRefreshView.h */,
 				B7EAD4F218CD927200B28FEC /* AXPullToRefreshView.m */,
 				B7EAD4F318CD927200B28FEC /* ImgBrowser */,
@@ -2509,6 +2515,8 @@
 				B7EAD4E418CD927200B28FEC /* AXChatMessageSystemTimeCell.m */,
 				B7EAD4E518CD927200B28FEC /* AXChatMessageTextCell.h */,
 				B7EAD4E618CD927200B28FEC /* AXChatMessageTextCell.m */,
+				B7EF100918D8457000D07C9B /* AXMessageLocationCell.h */,
+				B7EF100A18D8457000D07C9B /* AXMessageLocationCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -2766,6 +2774,7 @@
 				B7FC9AFA18C41B1300F77205 /* xproject_dialogue_messagesend1.png in Resources */,
 				2079ADD418B59CC00029D493 /* anjuke_icon_poblish_zf@2x.png in Resources */,
 				97D752CB182C92690035577F /* anjuke_icon_takephoto@2x.png in Resources */,
+				B7EF101018D8579A00D07C9B /* local.png in Resources */,
 				B7FC9AE318C41B1300F77205 /* xproject_dialogue_blackbutton@2x.png in Resources */,
 				20A44DB518697B5E008D8CB1 /* fresh1_1008@2x.png in Resources */,
 				2079ADF118B5FD610029D493 /* anjuke_icon_danye_xingbiao_@2x.png in Resources */,
@@ -3093,6 +3102,7 @@
 				B7FC9B2B18C41F6500F77205 /* RTUISetting.m in Sources */,
 				B769E453181F4D0100A2FF50 /* SaleFixedCell.m in Sources */,
 				970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */,
+				B7EF100B18D8457000D07C9B /* AXMessageLocationCell.m in Sources */,
 				B7EAD53118CD927200B28FEC /* UIFont+AXChatMessage.m in Sources */,
 				208A05EA18A413620053D885 /* PublishHouseTypeEditViewController.m in Sources */,
 				972C10291814FCD300552C9B /* HomeViewController.m in Sources */,
@@ -3330,7 +3340,7 @@
 					"$(inherited)",
 					/Users/jianzhongliu/Desktop/BrokerProject/AnjukeBroker_New/AnjukeBroker_New/AX/ZBarSDK,
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "452968BB-0BCB-4A57-B766-6F951AC287AA";
