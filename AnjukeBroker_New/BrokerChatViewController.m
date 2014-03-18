@@ -12,7 +12,7 @@
 #import "ClientDetailViewController.h"
 #import "AXChatWebViewController.h"
 #import "AXPhoto.h"
-#import "AXUtil_UI.h"
+#import "Util_UI.h"
 #import "UIImage+Resize.h"
 #import "NSString+RTStyle.h"
 #import "ClientDetailPublicViewController.h"

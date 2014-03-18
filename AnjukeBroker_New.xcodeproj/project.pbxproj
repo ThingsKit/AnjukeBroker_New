@@ -346,7 +346,6 @@
 		B7EAD52B18CD927200B28FEC /* AXELCAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD50218CD927200B28FEC /* AXELCAssetCell.m */; };
 		B7EAD52C18CD927200B28FEC /* AXELCAssetTablePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD50618CD927200B28FEC /* AXELCAssetTablePicker.m */; };
 		B7EAD52D18CD927200B28FEC /* AXELCImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD50818CD927200B28FEC /* AXELCImagePickerController.m */; };
-		B7EAD52E18CD927200B28FEC /* AXUtil_UI.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD50A18CD927200B28FEC /* AXUtil_UI.m */; };
 		B7EAD52F18CD927200B28FEC /* NSString+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD50C18CD927200B28FEC /* NSString+AXChatMessage.m */; };
 		B7EAD53018CD927200B28FEC /* UIColor+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD50E18CD927200B28FEC /* UIColor+AXChatMessage.m */; };
 		B7EAD53118CD927200B28FEC /* UIFont+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD51018CD927200B28FEC /* UIFont+AXChatMessage.m */; };
@@ -1028,8 +1027,6 @@
 		B7EAD50618CD927200B28FEC /* AXELCAssetTablePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXELCAssetTablePicker.m; sourceTree = "<group>"; };
 		B7EAD50718CD927200B28FEC /* AXELCImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCImagePickerController.h; sourceTree = "<group>"; };
 		B7EAD50818CD927200B28FEC /* AXELCImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXELCImagePickerController.m; sourceTree = "<group>"; };
-		B7EAD50918CD927200B28FEC /* AXUtil_UI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXUtil_UI.h; sourceTree = "<group>"; };
-		B7EAD50A18CD927200B28FEC /* AXUtil_UI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXUtil_UI.m; sourceTree = "<group>"; };
 		B7EAD50B18CD927200B28FEC /* NSString+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+AXChatMessage.h"; sourceTree = "<group>"; };
 		B7EAD50C18CD927200B28FEC /* NSString+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AXChatMessage.m"; sourceTree = "<group>"; };
 		B7EAD50D18CD927200B28FEC /* UIColor+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+AXChatMessage.h"; sourceTree = "<group>"; };
@@ -2489,8 +2486,6 @@
 				B7EAD50618CD927200B28FEC /* AXELCAssetTablePicker.m */,
 				B7EAD50718CD927200B28FEC /* AXELCImagePickerController.h */,
 				B7EAD50818CD927200B28FEC /* AXELCImagePickerController.m */,
-				B7EAD50918CD927200B28FEC /* AXUtil_UI.h */,
-				B7EAD50A18CD927200B28FEC /* AXUtil_UI.m */,
 			);
 			path = MutableIMG;
 			sourceTree = "<group>";
@@ -3183,7 +3178,6 @@
 				20A2182318BF2A9D002CA469 /* AXMessageCenterGetFriendInfoManager.m in Sources */,
 				97192EE71818FEF7007971BA /* PhotoButton.m in Sources */,
 				B7E55B5218BF2190007238CB /* UIImage+JSMessagesView.m in Sources */,
-				B7EAD52E18CD927200B28FEC /* AXUtil_UI.m in Sources */,
 				20A2178918BF1804002CA469 /* PropertySelectViewController.m in Sources */,
 				20A2178718BF1804002CA469 /* HouseSelectNavigationController.m in Sources */,
 				97C97B461810DD34006E538B /* TabBarViewController.m in Sources */,

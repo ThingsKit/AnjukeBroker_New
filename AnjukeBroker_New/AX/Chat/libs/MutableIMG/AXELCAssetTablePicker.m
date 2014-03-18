@@ -9,7 +9,7 @@
 #import "AXELCAssetCell.h"
 #import "AXELCAsset.h"
 #import "AXELCAlbumPickerController.h"
-#import "AXUtil_UI.h"
+#import "Util_UI.h"
 
 #define PhotoPickerTitle @"选择相片"
 
