@@ -10,18 +10,28 @@
 #import "RegionAnnotation.h"
 #import "RegionAnnotationView.h"
 
-@interface MapViewController ()
+#define SYSTEM_NAVIBAR_COLOR [UIColor colorWithRed:1 green:1 blue:1 alpha:1]
 
+@interface MapViewController ()
+@property(nonatomic,strong) MKMapView *regionMapView;
+@property(nonatomic,assign) int updateInt;
+@property(nonatomic,assign) MKCoordinateRegion userRegion;
+@property(nonatomic,strong) CLLocation *lastloc;
+@property(nonatomic,assign) CLLocationCoordinate2D lastCoords;
 @end
 
 @implementation MapViewController
-@synthesize mapTypeIndex;
+@synthesize mapType;
 @synthesize regionMapView;
 @synthesize addressStr;
 @synthesize updateInt;
-@synthesize UserRegion;
+@synthesize userRegion;
 @synthesize lastloc;
-@synthesize navLoc;
+@synthesize lat;
+@synthesize lon;
+@synthesize naviRegion;
+@synthesize siteDelegate;
+@synthesize lastCoords;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,16 +47,35 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"位置";
-    
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+
+    NSString *titStr;
+    if (mapType == RegionNavi) {
+        titStr = @"查看地理位置";
+    }else{
+        titStr = @"位置";
+        
+        UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStyleBordered target:self action:@selector(rightButtonAction:)];
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7) {
+            rBtn.tintColor = SYSTEM_NAVIBAR_COLOR;
+        }
+        self.navigationItem.rightBarButtonItem = rBtn;
+    }
+
+    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
+    lb.backgroundColor = [UIColor clearColor];
+    lb.font = [UIFont systemFontOfSize:19];
+    lb.textAlignment = NSTextAlignmentCenter;
+    lb.textColor = SYSTEM_NAVIBAR_COLOR;
+    lb.text = titStr;
+    self.navigationItem.titleView = lb;
     
     self.regionMapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-64)];
     self.regionMapView.delegate = self;
     self.regionMapView.showsUserLocation = YES;
     [self.view addSubview:self.regionMapView];
     
-    if (mapTypeIndex == RegionChoose) {
+    if (mapType == RegionChoose) {
         UIImageView *certerIcon = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.bounds.size.width-40)/2, (self.view.bounds.size.height-64-40)/2, 40, 40)];
         certerIcon.image = [UIImage imageNamed:@"anjuke_icon_esf@2x.png"];
         [self.view addSubview:certerIcon];
@@ -57,34 +86,55 @@
         goUserLocBtn.backgroundColor = [UIColor lightGrayColor];
         [self.view addSubview:goUserLocBtn];
     }else{
-//        CLLocationCoordinate2D loc = [lastloc coordinate];
-//        UserRegion = MKCoordinateRegionMakeWithDistance(loc, 200, 200);
-//        [self.regionMapView setRegion:UserRegion animated:YES];
-//        
-//        [self showAnnotation:lastloc coord:loc];
+        CLLocationCoordinate2D coordinate;
+        coordinate.latitude = lat;
+        coordinate.longitude = lon;
+        
+        CLLocation *loc = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
+
+        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(coordinate, 200, 200);
+        naviRegion = [self.regionMapView regionThatFits:viewRegion];
+        [self.regionMapView setRegion:naviRegion animated:YES];
+        
+        [self showAnnotation:loc coord:coordinate];
+    }
+}
+-(void)rightButtonAction:(id *)sender{
+    if (lastCoords.latitude && lastCoords.longitude && addressStr && ![addressStr isEqualToString:@""]) {
+        [siteDelegate returnSiteAttr:lastCoords.latitude lon:lastCoords.longitude address:addressStr];
+        
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有定位到有效地址，请重新选择发送地址" delegate:self cancelButtonTitle:nil otherButtonTitles:@"知道了", nil];
+        [alert show];
     }
 }
 -(void)goUserLoc:(id *)sender{
-    [self.regionMapView setRegion:UserRegion animated:YES];
+    [self.regionMapView setRegion:userRegion animated:YES];
+}
+-(void)navOption{
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"请选择以下方式导航" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"google 地图" otherButtonTitles:@"高德地图",@"百度地图",@"绘制路线", nil];
+    sheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+    [sheet showInView:self.view];
 }
 #pragma MKMapViewDelegate
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     CLLocationCoordinate2D loc = [userLocation coordinate];
     //放大地图到自身的经纬度位置。
-    UserRegion = MKCoordinateRegionMakeWithDistance(loc, 200, 200);
+    userRegion = MKCoordinateRegionMakeWithDistance(loc, 200, 200);
 
-    if (mapTypeIndex != RegionNavi) {
+    if (mapType != RegionNavi) {
         if (updateInt >= 1) {
             return;
         }
         [self showAnnotation:userLocation.location coord:loc];
+        [self.regionMapView setRegion:userRegion animated:YES];
+        updateInt += 1;
     }
-    [self.regionMapView setRegion:UserRegion animated:YES];
-    updateInt += 1;
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
-    if (mapTypeIndex == RegionNavi) {
+    if (mapType == RegionNavi) {
         return;
     }
     NSLog(@"regionDidChangeAnimated");
@@ -102,8 +152,8 @@
 }
 
 -(void)showAnnotation:(CLLocation *)location coord:(CLLocationCoordinate2D)coords{
-    if (mapTypeIndex == RegionNavi) {
-        [self addAnnotationView:location coord:coords address:nil loadStatus:4];
+    if (mapType == RegionNavi) {
+        [self addAnnotationView:location coord:coords address:addressStr loadStatus:4];
         return;
     }
     
@@ -119,9 +169,15 @@
         if (array.count > 0) {
             CLPlacemark *placemark = [array objectAtIndex:0];
             NSString *address = [placemark.addressDictionary objectForKey:@"Name"];
+
+            lastCoords = coords;
+            addressStr = address;
             NSLog(@"address--->>%@",address);
             [self addAnnotationView:location coord:coords address:address loadStatus:2];
         }else{
+            lastCoords.latitude = 0;
+            lastCoords.longitude = 0;
+            addressStr = nil;
             [self addAnnotationView:location coord:coords address:nil loadStatus:3];
         }
     }];
@@ -133,7 +189,7 @@
     RegionAnnotation *annotation = [[RegionAnnotation alloc] init];
     annotation.coordinate = coords;
     annotation.title = address;
-    if (mapTypeIndex == RegionChoose) {
+    if (mapType == RegionChoose) {
         annotation.styleDetail = StyleForChoose;
     }else{
         annotation.styleDetail = StyleForNav;
@@ -156,7 +212,7 @@
 }
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated{
-    if (mapTypeIndex == RegionNavi) {
+    if (mapType == RegionNavi) {
         return;
     }
 
@@ -182,8 +238,17 @@
         if (annotationView == nil) {
             annotationView = [[RegionAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
         }
-        if (mapTypeIndex == RegionNavi) {
+        if (mapType == RegionNavi) {
             annotationView.image = [UIImage imageNamed:@"anjuke_icon_esf@2x.png"];
+        
+        
+//            UIButton *naviBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//            naviBtn.backgroundColor = [UIColor blackColor];
+//            [naviBtn addTarget:self action:@selector(naviMap:) forControlEvents:UIControlEventTouchUpInside];
+//            naviBtn.frame = CGRectMake(155+15, 5, 40, 30);
+////            [regionDetailView addSubview:naviBtn];
+//            
+//            annotationView.rightCalloutAccessoryView = naviBtn;
         }
         [annotationView setCanShowCallout:NO];
 
@@ -193,7 +258,9 @@
     }
     return nil;
 }
-
+//-(void)naviMap:(UIButton *)btn{
+//    DLog(@"naviMap--test");
+//}
 
 - (void)didReceiveMemoryWarning
 {

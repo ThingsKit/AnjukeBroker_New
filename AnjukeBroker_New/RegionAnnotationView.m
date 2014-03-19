@@ -8,6 +8,7 @@
 
 #import "RegionAnnotationView.h"
 #import "RegionAnnotation.h"
+#import "MapViewController.h"
 
 @implementation RegionAnnotationView
 @synthesize regionDetailView;
@@ -36,30 +37,26 @@
     [super setSelected:selected animated:animated];
     
     RegionAnnotation *regionAnnotaytion = self.annotation;
-    
+    self.canShowCallout = YES;
+    self.annotation = regionAnnotaytion;
     if (selected) {
-        if (regionAnnotaytion.styleDetail == StyleForChoose) {
-            switch (regionAnnotaytion.loadStatus) {
-                case RegionLoading:
-                    [self loadLoadingView];
-                    break;
-                case RegionLoadSuc:
-                    NSLog(@"RegionLoadSuc1");
-                    [self loadSucView:regionAnnotaytion];
-                    break;
-                case RegionLoadFail:
-                    [self loadFailView];
-                    break;
-                case RegionLoadForNavi:
-                    [self loadNaviView:regionAnnotaytion];
-                    break;
-                default:
-                    break;
-            }
-    
-        }else if (regionAnnotaytion.styleDetail == StyleForNav){
-        
-        }
+        switch (regionAnnotaytion.loadStatus) {
+            case RegionLoading:
+                [self loadLoadingView];
+                break;
+            case RegionLoadSuc:
+                NSLog(@"RegionLoadSuc1");
+                [self loadSucView:regionAnnotaytion];
+                break;
+            case RegionLoadFail:
+                [self loadFailView];
+                break;
+            case RegionLoadForNavi:
+                [self loadNaviView:regionAnnotaytion];
+                break;
+            default:
+                break;
+        }        
     }else{
 //        [self.regionDetailView removeFromSuperview];
     }
@@ -94,10 +91,10 @@
     
     UILabel *addressLab = [[UILabel alloc] init];
     addressLab.frame = CGRectMake(5, 5, addSize.width, addSize.height);
-    addressLab.font = [UIFont systemFontOfSize:12];
+    addressLab.font = [UIFont systemFontOfSize:13];
     [addressLab setNumberOfLines:0];
     addressLab.text = annotation.title;
-    addressLab.lineBreakMode = UILineBreakModeWordWrap;
+//    addressLab.lineBreakMode = UILineBreakModeWordWrap;
     [regionDetailView addSubview:addressLab];
 
     [self animateCalloutAppearance];
@@ -110,24 +107,31 @@
     
     UILabel *addressLab = [[UILabel alloc] init];
     addressLab.frame = CGRectMake(5, 5, addSize.width, addSize.height);
-    addressLab.font = [UIFont systemFontOfSize:12];
+    addressLab.font = [UIFont systemFontOfSize:13];
     [addressLab setNumberOfLines:0];
     addressLab.text = annotation.title;
-    addressLab.lineBreakMode = UILineBreakModeWordWrap;
+//    addressLab.lineBreakMode = UILineBreakModeWordWrap;
     [regionDetailView addSubview:addressLab];
     
     UIButton *naviBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    naviBtn.backgroundColor = [UIColor lightGrayColor];
+    naviBtn.backgroundColor = [UIColor blackColor];
     [naviBtn addTarget:self action:@selector(naviMap:) forControlEvents:UIControlEventTouchUpInside];
-    naviBtn.frame = CGRectMake(5, 5, 40, 30);
+    naviBtn.frame = CGRectMake(addSize.width+15, 5, 40, 30);
+    [regionDetailView addSubview:naviBtn];
     
-    self.rightCalloutAccessoryView = naviBtn;
+//    self.rightCalloutAccessoryView = naviBtn;
     
     [self animateCalloutAppearance];
     [self addSubview:regionDetailView];
 }
--(void)naviMap:(id *)sender{
+-(void)naviMap:(UIButton *)btn{
+    NSLog(@"naviMap");
+
+    MapViewController *mapView = [[MapViewController alloc] init];
     
+    if ([mapView respondsToSelector:@selector(navOption)]) {
+        [mapView navOption];
+    }
 }
 -(void)loadFailView{
 //    UIView *regionDetailView = [[UIView alloc] init];

@@ -10,6 +10,9 @@
 #import "AXChatMessageCenter.h"
 #import "HouseSelectNavigationController.h"
 
-@interface BrokerChatViewController : AXChatViewController <SelectedHouseWithDicDelegate, UIActionSheetDelegate>
+#import "MapViewController.h"
 
+@interface BrokerChatViewController : AXChatViewController <SelectedHouseWithDicDelegate, UIActionSheetDelegate,chooseSiteDelegate>
+
+-(void)returnSiteAttr:(double)lat lon:(double)lon address:(NSString *)address;
 @end

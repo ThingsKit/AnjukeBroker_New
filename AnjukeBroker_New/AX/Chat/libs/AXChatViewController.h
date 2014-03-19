@@ -11,6 +11,7 @@
 #import "AXELCImagePickerController.h"
 #import "AXConversationListItem.h"
 #import "AXChatMessageCenter.h"
+#import "MapViewController.h"
 
 #define AXWINDOWWHIDTH [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.width
 #define AXWINDOWHEIGHT [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height
