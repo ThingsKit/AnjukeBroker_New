@@ -31,6 +31,7 @@
 
 // Controller
 #import "AXChatWebViewController.h"
+#import "MapViewController.h"
 
 #import "AXPhotoManager.h"
 #import "AXCellFactory.h"
@@ -312,6 +313,20 @@ static NSString * const AXChatJsonVersion = @"1";
     hzLab.textAlignment = NSTextAlignmentCenter;
     hzLab.textColor = [UIColor axChatPropDescColor:self.isBroker];
     [self.moreBackView addSubview:hzLab];
+    
+    UIButton *location = [UIButton buttonWithType:UIButtonTypeCustom];
+    location.frame = CGRectMake(17.0f, 16.0f + 107.0f, 46, 46);
+    [location setImage:[UIImage imageNamed:@"anjuke_icon_add_pic4.png"] forState:UIControlStateNormal];
+    [location addTarget:self action:@selector(locationClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.moreBackView addSubview:location];
+    CGRect locationRect = location.frame;
+    UILabel *locationLab = [[UILabel alloc] initWithFrame:CGRectMake(17.0f, locationRect.origin.y + locationRect.size.height + 8, locationRect.size.width, 30.0f)];
+    locationLab.backgroundColor = [UIColor clearColor];
+    locationLab.font = [UIFont systemFontOfSize:14];
+    locationLab.text = @"位置";
+    locationLab.textAlignment = NSTextAlignmentCenter;
+    locationLab.textColor = [UIColor axChatPropDescColor:self.isBroker];
+    [self.moreBackView addSubview:locationLab];
     
 }
 
@@ -1364,7 +1379,14 @@ static NSString * const AXChatJsonVersion = @"1";
     [self presentViewController:ipc animated:YES completion:nil];
     
 }
+- (void)locationClick {
+    MapViewController *mv = [[MapViewController alloc] init];
+    [mv setHidesBottomBarWhenPushed:YES];
+    mv.mapTypeIndex = RegionChoose;
+    self.navigationController.navigationBarHidden = NO;
+    [self.navigationController pushViewController:mv animated:YES];
 
+}
 - (void)sendMessage:(id)sender {
     
     if ([self.messageInputView.textView.text isEqualToString:@""]) {

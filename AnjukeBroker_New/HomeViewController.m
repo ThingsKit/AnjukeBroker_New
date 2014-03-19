@@ -317,15 +317,11 @@
 
 - (void)rightButtonAction:(id)sender {
     //设置跳转
-//    MoreViewController *mv = [[MoreViewController alloc] init];
-//    [mv setHidesBottomBarWhenPushed:YES];
-//    self.navigationController.navigationBarHidden = NO;
-//    [self.navigationController pushViewController:mv animated:YES];
-    MapViewController *mv = [[MapViewController alloc] init];
+    MoreViewController *mv = [[MoreViewController alloc] init];
     [mv setHidesBottomBarWhenPushed:YES];
-    mv.mapTypeIndex = RegionChoose;
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController pushViewController:mv animated:YES];
+
 }
 -(void)showNav:(id *)sender{
     MapViewController *mv = [[MapViewController alloc] init];
