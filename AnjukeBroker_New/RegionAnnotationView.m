@@ -106,7 +106,7 @@
     regionDetailView.frame = CGRectMake(-(addSize.width+10+50)/2, -60, addSize.width+10+50, 40);
     
     UILabel *addressLab = [[UILabel alloc] init];
-    addressLab.frame = CGRectMake(5, 5, addSize.width, addSize.height);
+    addressLab.frame = CGRectMake(5, 5, addSize.width - 50, addSize.height);
     addressLab.font = [UIFont systemFontOfSize:13];
     [addressLab setNumberOfLines:0];
     addressLab.text = annotation.title;
@@ -123,6 +123,7 @@
     
     [self animateCalloutAppearance];
     [self addSubview:regionDetailView];
+    [regionDetailView bringSubviewToFront:naviBtn];
 }
 -(void)naviMap:(UIButton *)btn{
     NSLog(@"naviMap");

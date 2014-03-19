@@ -759,7 +759,7 @@ static NSString * const AXChatJsonVersion = @"1";
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeText)]) {
         CGSize sz = [dic[@"mas"] sizeConstrainedToSize:CGSizeMake(kLabelWidth, CGFLOAT_MAX)];
         CGFloat rowHeight = sz.height + 2*kLabelVMargin + 20;
-        return rowHeight;
+        return rowHeight +20;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypePic)]) {
         if ([AXChatMessageImageCell sizeOFImg:dic[@"content"]].size.height < 30.0f) {
             return 65.0f;
@@ -781,7 +781,11 @@ static NSString * const AXChatJsonVersion = @"1";
         return 45;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeSafeMessage)]) {
         return 75;
-    } else {
+    } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeVoice)]) {
+        return 40;
+    } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeMap)]) {
+        return 75;
+    }else {
         return 70;
     }
 }

@@ -14,6 +14,8 @@
 #import "AXChatMessagePublicCardCell.h"
 #import "AXChatMessageImageCell.h"
 #import "AXChatMessageSystemTimeCell.h"
+#import "AXChatMessageVoiceCell.h"
+#import "AXMessageLocationCell.h"
 
 @implementation AXCellFactory
 
@@ -43,6 +45,16 @@
             case AXMessageTypePic:
             {
                 cell = [[AXChatMessageImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identity];
+            }
+                break;
+            case AXMessageTypeVoice:
+            {
+                cell = [[AXChatMessageVoiceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identity];
+            }
+                break;
+            case AXMessageTypeMap:
+            {
+                cell = [[AXMessageLocationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identity];
             }
                 break;
             default:
