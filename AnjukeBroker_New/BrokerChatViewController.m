@@ -450,9 +450,13 @@
         }
     }
 }
-
+#pragma mark - 
+#pragma cellDelegate
 - (void)didClickMapCell:(NSDictionary *) dic {
 
 }
 
+- (void)didclickVoice:(id)data{
+
+}
 @end
