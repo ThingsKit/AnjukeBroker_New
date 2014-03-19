@@ -10,6 +10,7 @@
 #import "RTLocationManager.h"
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "RegionAnnotationView.h"
 
 @protocol chooseSiteDelegate <NSObject>
 -(void)returnSiteAttr:(double)lat lon:(double)lon address:(NSString *)address;
@@ -21,7 +22,7 @@ typedef enum
     RegionNavi
 }mapType;
 
-@interface MapViewController : UIViewController<MKMapViewDelegate,CLLocationManagerDelegate,UIActionSheetDelegate>{
+@interface MapViewController : UIViewController<MKMapViewDelegate,CLLocationManagerDelegate,UIActionSheetDelegate,doAcSheetDelegate>{
     CLLocationManager *locationManager;
 }
 @property(nonatomic,assign) id<chooseSiteDelegate> siteDelegate;
@@ -31,5 +32,5 @@ typedef enum
 @property(nonatomic,strong) NSString *addressStr;
 @property(nonatomic,assign) MKCoordinateRegion naviRegion;
 
--(void)navOption;
+-(void)doAcSheet;
 @end

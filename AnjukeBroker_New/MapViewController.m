@@ -8,9 +8,9 @@
 
 #import "MapViewController.h"
 #import "RegionAnnotation.h"
-#import "RegionAnnotationView.h"
 
 #define SYSTEM_NAVIBAR_COLOR [UIColor colorWithRed:1 green:1 blue:1 alpha:1]
+#define ISIOS7 ([[[[UIDevice currentDevice] systemVersion] substringToIndex:1] intValue]>=7)
 
 @interface MapViewController ()
 @property(nonatomic,strong) MKMapView *regionMapView;
@@ -47,7 +47,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    if (ISIOS7) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }
 
     NSString *titStr;
     if (mapType == RegionNavi) {
@@ -56,7 +58,7 @@
         titStr = @"位置";
         
         UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStyleBordered target:self action:@selector(rightButtonAction:)];
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7) {
+        if (!ISIOS7) {
             rBtn.tintColor = SYSTEM_NAVIBAR_COLOR;
         }
         self.navigationItem.rightBarButtonItem = rBtn;
@@ -74,17 +76,18 @@
     self.regionMapView.delegate = self;
     self.regionMapView.showsUserLocation = YES;
     [self.view addSubview:self.regionMapView];
+ 
+    UIButton *goUserLocBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    goUserLocBtn.frame = CGRectMake(10, self.view.bounds.size.height-64-50, 40, 40);
+    [goUserLocBtn addTarget:self action:@selector(goUserLoc:) forControlEvents:UIControlEventTouchUpInside];
+    goUserLocBtn.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:goUserLocBtn];
     
     if (mapType == RegionChoose) {
         UIImageView *certerIcon = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.bounds.size.width-40)/2, (self.view.bounds.size.height-64-40)/2, 40, 40)];
         certerIcon.image = [UIImage imageNamed:@"anjuke_icon_esf@2x.png"];
         [self.view addSubview:certerIcon];
         
-        UIButton *goUserLocBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        goUserLocBtn.frame = CGRectMake(10, self.view.bounds.size.height-64-50, 40, 40);
-        [goUserLocBtn addTarget:self action:@selector(goUserLoc:) forControlEvents:UIControlEventTouchUpInside];
-        goUserLocBtn.backgroundColor = [UIColor lightGrayColor];
-        [self.view addSubview:goUserLocBtn];
     }else{
         CLLocationCoordinate2D coordinate;
         coordinate.latitude = lat;
@@ -112,7 +115,7 @@
 -(void)goUserLoc:(id *)sender{
     [self.regionMapView setRegion:userRegion animated:YES];
 }
--(void)navOption{
+-(void)doAcSheet{
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"请选择以下方式导航" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"google 地图" otherButtonTitles:@"高德地图",@"百度地图",@"绘制路线", nil];
     sheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [sheet showInView:self.view];
@@ -239,16 +242,18 @@
             annotationView = [[RegionAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
         }
         if (mapType == RegionNavi) {
+            
+            CGRect frame = annotationView.frame;
+            frame.size.width = 300.0;
+            frame.size.height = 300.0;
+            frame.origin.x = -100;
+            frame.origin.y = 0;
+            annotationView.frame = frame;
+            
             annotationView.image = [UIImage imageNamed:@"anjuke_icon_esf@2x.png"];
-        
-        
-//            UIButton *naviBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//            naviBtn.backgroundColor = [UIColor blackColor];
-//            [naviBtn addTarget:self action:@selector(naviMap:) forControlEvents:UIControlEventTouchUpInside];
-//            naviBtn.frame = CGRectMake(155+15, 5, 40, 30);
-////            [regionDetailView addSubview:naviBtn];
-//            
-//            annotationView.rightCalloutAccessoryView = naviBtn;
+            annotationView.backgroundColor = [UIColor redColor];
+            annotationView.clipsToBounds = NO;
+            annotationView.acSheetDelegate = self;
         }
         [annotationView setCanShowCallout:NO];
 

@@ -12,13 +12,14 @@
 
 @implementation RegionAnnotationView
 @synthesize regionDetailView;
-//@synthesize loadingView;
+@synthesize acSheetDelegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        self.frame = CGRectMake(0, 0, 300, 300);
         [self initUI];
     }
     return self;
@@ -37,7 +38,7 @@
     [super setSelected:selected animated:animated];
     
     RegionAnnotation *regionAnnotaytion = self.annotation;
-    self.canShowCallout = YES;
+    self.canShowCallout = NO;
     self.annotation = regionAnnotaytion;
     if (selected) {
         switch (regionAnnotaytion.loadStatus) {
@@ -103,7 +104,8 @@
 -(void)loadNaviView:(RegionAnnotation *)annotation{
     CGSize addSize = [self getSizeOfString:annotation.title maxWidth:240 withFontSize:13];
     NSLog(@"addSize-->>%f/%f",addSize.width,addSize.height);
-    regionDetailView.frame = CGRectMake(-(addSize.width+10+50)/2, -60, addSize.width+10+50, 40);
+//    regionDetailView.frame = CGRectMake(-(addSize.width+10+50)/2, -60, addSize.width+10+50, 40);
+    regionDetailView.frame = CGRectMake(10, 10, addSize.width+10+50, 40);
     
     UILabel *addressLab = [[UILabel alloc] init];
     addressLab.frame = CGRectMake(5, 5, addSize.width - 50, addSize.height);
@@ -116,28 +118,19 @@
     UIButton *naviBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     naviBtn.backgroundColor = [UIColor blackColor];
     [naviBtn addTarget:self action:@selector(naviMap:) forControlEvents:UIControlEventTouchUpInside];
-    naviBtn.frame = CGRectMake(addSize.width+15, 5, 40, 30);
+//    naviBtn.frame = CGRectMake(addSize.width+15, 5, 40, 30);
+    naviBtn.frame = CGRectMake(55, 5, 40, 30);
     [regionDetailView addSubview:naviBtn];
-    
-//    self.rightCalloutAccessoryView = naviBtn;
-    
+
     [self animateCalloutAppearance];
     [self addSubview:regionDetailView];
     [regionDetailView bringSubviewToFront:naviBtn];
 }
--(void)naviMap:(UIButton *)btn{
+-(void)naviMap:(UIButton *)sender{
     NSLog(@"naviMap");
-
-    MapViewController *mapView = [[MapViewController alloc] init];
-    
-    if ([mapView respondsToSelector:@selector(navOption)]) {
-        [mapView navOption];
-    }
+    [acSheetDelegate doAcSheet];
 }
 -(void)loadFailView{
-//    UIView *regionDetailView = [[UIView alloc] init];
-//    regionDetailView.backgroundColor = [UIColor lightGrayColor];
-
     [self initUI];
     regionDetailView.frame = CGRectMake(-60, -60, 120, 40);
     
@@ -188,3 +181,4 @@
 */
 
 @end
+

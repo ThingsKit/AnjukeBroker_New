@@ -8,10 +8,13 @@
 
 #import <MapKit/MapKit.h>
 
+@protocol doAcSheetDelegate <NSObject>
+-(void)doAcSheet;
+@end
 
-@interface RegionAnnotationView : MKAnnotationView<MKMapViewDelegate>
+@interface RegionAnnotationView : MKAnnotationView
 @property(nonatomic,strong) UIView *regionDetailView;
-//@property(nonatomic,strong) UIView *loadingView;
+@property(nonatomic,assign) id<doAcSheetDelegate>acSheetDelegate;
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated;
 - (void)animateCalloutAppearance;
