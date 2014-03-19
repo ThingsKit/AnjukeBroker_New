@@ -12,7 +12,6 @@
 #import "ConfigPlistManager.h"
 #import "AccountManager.h"
 #import "AppManager.h"
-#import "AFWelcomeScrollview.h"
 #import "Reachability.h"
 #import "AppManager.h"
 #import "Util_UI.h"
@@ -61,11 +60,7 @@
     [self checkLogin];
     
     [self.window makeKeyAndVisible];
-    
-    if (![AppManager isIOS6]) {
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    }
-    
+        
     [self registerRemoteNotification];
     [self cleanRemoteNotification:application];
     
@@ -319,9 +314,13 @@
     
     if ([AppManager isFirstLaunch]) {
         AFWelcomeScrollview *af = [[AFWelcomeScrollview alloc] initWithFrame:self.window.bounds];
+        af.delegate = self;
         [af setImgArray:[NSArray arrayWithObject:[UIImage imageNamed:@"ios_welcome.png"]]];
         
         [nav.view addSubview:af];
+    }
+    else {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     }
 }
 
@@ -412,6 +411,7 @@
     
     return YES;
 }
+
 - (void)doLogOut {
     //    [self.window.rootViewController.navigationController popToRootViewControllerAnimated:YES];
     
@@ -640,6 +640,12 @@
     
     
     }
+}
+
+#pragma mark - AFWelcomeScrollViewDelegate
+
+- (void)welcomeViewDidHide {
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
 }
 
 @end

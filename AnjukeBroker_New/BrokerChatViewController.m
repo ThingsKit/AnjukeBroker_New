@@ -383,6 +383,7 @@
     webViewController.webTitle = title;
     [self.navigationController pushViewController:webViewController animated:YES];
 }
+
 #pragma mark - AJKChatMessageSystemCellDelegate
 - (void)didClickSystemButton:(AXMessageType)messageType {
     switch (messageType) {

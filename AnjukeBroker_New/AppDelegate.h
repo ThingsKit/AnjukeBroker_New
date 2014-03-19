@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TabBarViewController.h"
 #import "LoginViewController.h"
+#import "AFWelcomeScrollview.h"
 
 typedef enum {
     SwitchType_RentNoPlan = 0, //租房未推广
@@ -19,7 +20,7 @@ typedef enum {
     SwitchType_SaleBid
 } TabSwitchType; //发房结束后tab0跳tab1、2的结果PPC管理请求类型
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate, AFWelcomeScrollViewDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

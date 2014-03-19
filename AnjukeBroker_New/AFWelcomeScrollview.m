@@ -30,6 +30,7 @@ typedef enum {
 @synthesize totalCount;
 @synthesize animationType;
 @synthesize backgroundImgView, svForImg;
+@synthesize delegate;
 
 #define showWidth 50
 #define tagOfPageController 1001
@@ -202,6 +203,9 @@ typedef enum {
                          if (finished) {
                              //
                              [self removeFromSuperview];
+                             if ([self.delegate respondsToSelector:@selector(welcomeViewDidHide)]) {
+                                 [self.delegate welcomeViewDidHide];
+                             }
                          }
                      }];
 }
