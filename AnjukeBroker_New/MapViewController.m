@@ -160,7 +160,8 @@
         return;
     }
     
-    [self addAnnotationView:location coord:coords address:nil loadStatus:1];
+//    [self addAnnotationView:location coord:coords address:nil loadStatus:1];
+    [self addAnnotationView:location coord:coords address:@"加载中..." loadStatus:1];
 
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *array, NSError *error) {
@@ -180,7 +181,8 @@
         }else{
             lastCoords.latitude = 0;
             lastCoords.longitude = 0;
-            addressStr = nil;
+//            addressStr = nil;
+            addressStr = @"请滑动重新寻址";
             [self addAnnotationView:location coord:coords address:nil loadStatus:3];
         }
     }];
@@ -198,16 +200,16 @@
         annotation.styleDetail = StyleForNav;
     }
     
-    if (loadStatus == 1) {
-        annotation.loadStatus = RegionLoading;
-    }else if (loadStatus == 2){
-        NSLog(@"RegionLoadSuc");
-        annotation.loadStatus = RegionLoadSuc;
-    }else if (loadStatus == 3){
-        annotation.loadStatus = RegionLoadFail;
-    }else if (loadStatus == 4){
-        annotation.loadStatus = RegionLoadForNavi;
-    }
+//    if (loadStatus == 1) {
+//        annotation.loadStatus = RegionLoading;
+//    }else if (loadStatus == 2){
+//        NSLog(@"RegionLoadSuc");
+//        annotation.loadStatus = RegionLoadSuc;
+//    }else if (loadStatus == 3){
+//        annotation.loadStatus = RegionLoadFail;
+//    }else if (loadStatus == 4){
+//        annotation.loadStatus = RegionLoadForNavi;
+//    }
     
     [self.regionMapView addAnnotation:annotation];
     [self.regionMapView selectAnnotation:annotation animated:YES];
@@ -235,31 +237,63 @@
     static NSString* identifier = @"MKAnnotationView";
     if ([annotation isKindOfClass:[RegionAnnotation class]]) {
         NSLog(@"createNewLoc");
-        RegionAnnotationView *annotationView;
-        annotationView = (RegionAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-        
+        MKAnnotationView *annotationView;
+        annotationView = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
         if (annotationView == nil) {
-            annotationView = [[RegionAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
         }
+        
         if (mapType == RegionNavi) {
-            
-            CGRect frame = annotationView.frame;
-            frame.size.width = 300.0;
-            frame.size.height = 300.0;
-            frame.origin.x = -100;
-            frame.origin.y = 0;
-            annotationView.frame = frame;
-            
-            annotationView.image = [UIImage imageNamed:@"anjuke_icon_esf@2x.png"];
-            annotationView.backgroundColor = [UIColor redColor];
-            annotationView.clipsToBounds = NO;
-            annotationView.acSheetDelegate = self;
-        }
-        [annotationView setCanShowCallout:NO];
+            UIButton *naviBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            naviBtn.backgroundColor = [UIColor blackColor];
+            [naviBtn addTarget:self action:@selector(doAcSheet) forControlEvents:UIControlEventTouchUpInside];
+            //    naviBtn.frame = CGRectMake(addSize.width+15, 5, 40, 30);
+            naviBtn.frame = CGRectMake(55, 5, 40, 30);
 
+            annotationView.rightCalloutAccessoryView = naviBtn;
+        }else{
+//            if (loadStatus == 1) {
+//                annotation.loadStatus = RegionLoading;
+//            }else if (loadStatus == 2){
+//                NSLog(@"RegionLoadSuc");
+//                annotation.loadStatus = RegionLoadSuc;
+//            }else if (loadStatus == 3){
+//                annotation.loadStatus = RegionLoadFail;
+//            }else if (loadStatus == 4){
+//                annotation.loadStatus = RegionLoadForNavi;
+//            }
+ 
+        }
+        [annotationView setCanShowCallout:YES];
         annotationView.annotation = annotation;
 
         return annotationView;
+
+//        RegionAnnotationView *annotationView;
+//        annotationView = (RegionAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+//        
+//        if (annotationView == nil) {
+//            annotationView = [[RegionAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+//        }
+//        if (mapType == RegionNavi) {
+//            
+//            CGRect frame = annotationView.frame;
+//            frame.size.width = 300.0;
+//            frame.size.height = 300.0;
+//            frame.origin.x = -100;
+//            frame.origin.y = 0;
+//            annotationView.frame = frame;
+//            
+//            annotationView.image = [UIImage imageNamed:@"anjuke_icon_esf@2x.png"];
+//            annotationView.backgroundColor = [UIColor redColor];
+//            annotationView.clipsToBounds = NO;
+//            annotationView.acSheetDelegate = self;
+//        }
+//        [annotationView setCanShowCallout:NO];
+//
+//        annotationView.annotation = annotation;
+//
+//        return annotationView;
     }
     return nil;
 }
