@@ -27,7 +27,6 @@ typedef enum
 @property(nonatomic,assign) mapType mapTypeIndex;
 @property(nonatomic,strong) MKMapView *regionMapView;
 @property(nonatomic,assign) int updateInt;
-@property(nonatomic,assign) id anno;
 @property(nonatomic,assign) MKCoordinateRegion UserRegion;
 @property(nonatomic,strong) CLLocation *lastloc;
 

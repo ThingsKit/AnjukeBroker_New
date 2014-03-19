@@ -19,7 +19,6 @@
 @synthesize regionMapView;
 @synthesize addressStr;
 @synthesize updateInt;
-@synthesize anno;
 @synthesize UserRegion;
 @synthesize lastloc;
 @synthesize navLoc;
@@ -58,11 +57,11 @@
         goUserLocBtn.backgroundColor = [UIColor lightGrayColor];
         [self.view addSubview:goUserLocBtn];
     }else{
-        CLLocationCoordinate2D loc = [lastloc coordinate];
-        UserRegion = MKCoordinateRegionMakeWithDistance(loc, 200, 200);
-        [self.regionMapView setRegion:UserRegion animated:YES];
-        
-        [self showAnnotation:lastloc coord:loc];
+//        CLLocationCoordinate2D loc = [lastloc coordinate];
+//        UserRegion = MKCoordinateRegionMakeWithDistance(loc, 200, 200);
+//        [self.regionMapView setRegion:UserRegion animated:YES];
+//        
+//        [self showAnnotation:lastloc coord:loc];
     }
 }
 -(void)goUserLoc:(id *)sender{
@@ -79,9 +78,9 @@
             return;
         }
         [self showAnnotation:userLocation.location coord:loc];
-        [self.regionMapView setRegion:UserRegion animated:YES];
-        updateInt += 1;
     }
+    [self.regionMapView setRegion:UserRegion animated:YES];
+    updateInt += 1;
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
