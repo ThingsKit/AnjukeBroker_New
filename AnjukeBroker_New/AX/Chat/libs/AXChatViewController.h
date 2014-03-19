@@ -28,6 +28,7 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 @property (nonatomic, strong) UIButton *backBtn;
 
 @property (strong, nonatomic) UIButton *sendBut;
+@property (strong, nonatomic) UIButton *voiceBut;
 @property (strong, nonatomic) UIView *moreBackView;// 更多操作
 @property BOOL isBroker;
 @property (nonatomic, strong) NSDictionary *propDict;

@@ -39,6 +39,7 @@
     [super didMoreBackView:sender];
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_004 note:nil];
 }
+
 #pragma mark - lifeCycle
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

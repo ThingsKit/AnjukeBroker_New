@@ -246,19 +246,30 @@ static NSString * const AXChatJsonVersion = @"1";
                                      forKeyPath:@"contentSize"
                                         options:NSKeyValueObservingOptionNew
                                         context:nil];
-    
+    CGRect textViewRect = self.messageInputView.textView.frame;
     if (!self.isBroker) {
         inputView.sendButton.enabled = NO;
         [inputView.sendButton addTarget:self
                                  action:@selector(sendPressed:)
                        forControlEvents:UIControlEventTouchUpInside];
     } else {
+        
+        self.messageInputView.textView.frame = CGRectMake(textViewRect.origin.x + 40, textViewRect.origin.y, textViewRect.size.width - 40, textViewRect.size.height);
         self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
         self.sendBut.frame = CGRectMake(270.0f + 4.0f, 2.0f, 45.0f, 45.0f);
         [self.sendBut addTarget:self action:@selector(didMoreBackView:) forControlEvents:UIControlEventTouchUpInside];
         [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateNormal];
         [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more_selected.png"] forState:UIControlStateHighlighted];
         [self.messageInputView addSubview:self.sendBut];
+        
+        self.voiceBut = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.voiceBut.frame = CGRectMake(2.0f + 4.0f, 2.0f, 45.0f, 45.0f);
+        [self.voiceBut addTarget:self action:@selector(didBeginVoice) forControlEvents:UIControlEventTouchDown];
+        [self.voiceBut addTarget:self action:@selector(didCommitVoice) forControlEvents:UIControlEventTouchUpInside];
+        [self.voiceBut addTarget:self action:@selector(didCancelVoice) forControlEvents:UIControlEventTouchDragExit];
+        [self.voiceBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateNormal];
+        [self.voiceBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more_selected.png"] forState:UIControlStateHighlighted];
+        [self.messageInputView addSubview:self.voiceBut];
     }
     
     UIButton *pickIMG = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -1387,6 +1398,18 @@ static NSString * const AXChatJsonVersion = @"1";
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController pushViewController:mv animated:YES];
 
+}
+- (void)didBeginVoice {
+    DLog(@"didBeginVoice");
+#warning TODO voice but Click
+}
+- (void)didCommitVoice {
+    DLog(@"didCommitVoice");
+#warning TODO voice but Click
+}
+- (void)didCancelVoice {
+    DLog(@"didCancelVoice");
+#warning TODO voice but Click
 }
 - (void)sendMessage:(id)sender {
     
