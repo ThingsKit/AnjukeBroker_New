@@ -434,6 +434,7 @@
         
     }
 }
+
 #pragma mark - NSNotificationCenter
 - (void)connectionStatusDidChangeNotification:(NSNotification *)notification
 {
@@ -449,4 +450,9 @@
         }
     }
 }
+
+- (void)didClickMapCell:(NSDictionary *) dic {
+
+}
+
 @end

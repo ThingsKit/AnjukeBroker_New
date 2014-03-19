@@ -12,4 +12,5 @@
 @interface AXMessageLocationCell : AXChatMessageRootCell
 @property (nonatomic, strong) UIImageView *mapIMGView;
 @property (nonatomic, strong) UILabel *locationLabel;
+@property (nonatomic, strong) UIControl *mapControl;
 @end
