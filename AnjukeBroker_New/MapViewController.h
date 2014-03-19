@@ -11,26 +11,25 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 
+@protocol chooseSiteDelegate <NSObject>
+-(void)returnSiteAttr:(double)lat lon:(double)lon address:(NSString *)address;
+@end
+
 typedef enum
 {
     RegionChoose = 0,
     RegionNavi
 }mapType;
 
-
-
-@interface MapViewController : UIViewController<MKMapViewDelegate,CLLocationManagerDelegate>{
+@interface MapViewController : UIViewController<MKMapViewDelegate,CLLocationManagerDelegate,UIActionSheetDelegate>{
     CLLocationManager *locationManager;
 }
-
-
-@property(nonatomic,assign) mapType mapTypeIndex;
-@property(nonatomic,strong) MKMapView *regionMapView;
-@property(nonatomic,assign) int updateInt;
-@property(nonatomic,assign) id anno;
-@property(nonatomic,assign) MKCoordinateRegion UserRegion;
-@property(nonatomic,strong) CLLocation *lastloc;
-
-@property(nonatomic,strong) CLLocation *navLoc;
+@property(nonatomic,assign) id<chooseSiteDelegate> siteDelegate;
+@property(nonatomic,assign) mapType mapType;
+@property(nonatomic,assign) double lat;
+@property(nonatomic,assign) double lon;
 @property(nonatomic,strong) NSString *addressStr;
+@property(nonatomic,assign) MKCoordinateRegion naviRegion;
+
+-(void)navOption;
 @end

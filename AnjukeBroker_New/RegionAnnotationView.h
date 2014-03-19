@@ -9,7 +9,7 @@
 #import <MapKit/MapKit.h>
 
 
-@interface RegionAnnotationView : MKAnnotationView
+@interface RegionAnnotationView : MKAnnotationView<MKMapViewDelegate>
 @property(nonatomic,strong) UIView *regionDetailView;
 //@property(nonatomic,strong) UIView *loadingView;
 

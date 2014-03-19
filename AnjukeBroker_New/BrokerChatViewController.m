@@ -343,6 +343,9 @@
     
 
 }
+-(void)returnSiteAttr:(double)lat lon:(double)lon address:(NSString *)address{
+    DLog(@"returnSiteAttr-->>%f/%f/%@",lat,lon,address);
+}
 - (void)doBack:(id)sender {
     
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_013 note:nil];

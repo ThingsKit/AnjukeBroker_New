@@ -58,7 +58,7 @@ static CGFloat const AXScrollContentOffsetY = 800;
 
 static NSString * const AXChatJsonVersion = @"1";
 
-@interface AXChatViewController ()<UITableViewDelegate, UITableViewDataSource, OHAttributedLabelDelegate, AXPullToRefreshViewDelegate, UIAlertViewDelegate, AXChatBaseCellDelegate, JSDismissiveTextViewDelegate>
+@interface AXChatViewController ()<UITableViewDelegate, UITableViewDataSource, OHAttributedLabelDelegate, AXPullToRefreshViewDelegate, UIAlertViewDelegate, AXChatBaseCellDelegate, JSDismissiveTextViewDelegate,chooseSiteDelegate>
 
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) UITableViewCell *selectedCell;
@@ -1381,8 +1381,9 @@ static NSString * const AXChatJsonVersion = @"1";
 }
 - (void)locationClick {
     MapViewController *mv = [[MapViewController alloc] init];
+    mv.siteDelegate = self;
     [mv setHidesBottomBarWhenPushed:YES];
-    mv.mapTypeIndex = RegionChoose;
+    mv.mapType = RegionChoose;
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController pushViewController:mv animated:YES];
 

@@ -326,8 +326,11 @@
 -(void)showNav:(id *)sender{
     MapViewController *mv = [[MapViewController alloc] init];
     [mv setHidesBottomBarWhenPushed:YES];
-    mv.mapTypeIndex = RegionNavi;
-    mv.navLoc = [[CLLocation alloc] initWithLatitude:31.21930327 longitude:121.52699305];
+    mv.mapType = RegionNavi;
+
+    mv.lat = 31.21930327;
+    mv.lon = 121.52699305;
+    
     mv.addressStr = @"上海浦东新区洋泾进修学校";
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController pushViewController:mv animated:YES];
