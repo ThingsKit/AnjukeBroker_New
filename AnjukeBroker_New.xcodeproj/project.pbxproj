@@ -127,6 +127,9 @@
 		20F6632A1896050F00356DFD /* anjuke_icon_nextfxt_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */; };
 		2761B89C187C053C00EABF95 /* logo_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89A187C053C00EABF95 /* logo_57.png */; };
 		2761B89D187C053C00EABF95 /* logo_57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89B187C053C00EABF95 /* logo_57@2x.png */; };
+		27F128EF18D84C2D00F4BF19 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F128EE18D84C2D00F4BF19 /* MapViewController.m */; };
+		27F128F518D85C4D00F4BF19 /* RegionAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F128F418D85C4D00F4BF19 /* RegionAnnotation.m */; };
+		27F128FB18D9295A00F4BF19 /* RegionAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F128FA18D9295A00F4BF19 /* RegionAnnotationView.m */; };
 		970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */ = {isa = PBXBuildFile; fileRef = 970501761845D21100A0C181 /* AFWelcomeScrollview.m */; };
 		970501861845E55900A0C181 /* anjuke_icon_login_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 970501851845E55900A0C181 /* anjuke_icon_login_button@2x.png */; };
 		970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */ = {isa = PBXBuildFile; fileRef = 970B78DB182010EE00C8E3C6 /* Util_UI.m */; };
@@ -658,6 +661,12 @@
 		20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_nextfxt_@2x.png"; sourceTree = "<group>"; };
 		2761B89A187C053C00EABF95 /* logo_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_57.png; sourceTree = "<group>"; };
 		2761B89B187C053C00EABF95 /* logo_57@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_57@2x.png"; sourceTree = "<group>"; };
+		27F128ED18D84C2D00F4BF19 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		27F128EE18D84C2D00F4BF19 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		27F128F318D85C4D00F4BF19 /* RegionAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegionAnnotation.h; sourceTree = "<group>"; };
+		27F128F418D85C4D00F4BF19 /* RegionAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegionAnnotation.m; sourceTree = "<group>"; };
+		27F128F918D9295A00F4BF19 /* RegionAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegionAnnotationView.h; sourceTree = "<group>"; };
+		27F128FA18D9295A00F4BF19 /* RegionAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegionAnnotationView.m; sourceTree = "<group>"; };
 		70C958DAA438444CB26F09E0 /* libPods-AnjukeBroker_New.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AnjukeBroker_New.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		970501751845D21100A0C181 /* AFWelcomeScrollview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFWelcomeScrollview.h; sourceTree = "<group>"; };
 		970501761845D21100A0C181 /* AFWelcomeScrollview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFWelcomeScrollview.m; sourceTree = "<group>"; };
@@ -1259,6 +1268,7 @@
 		203EC29318B2F5E400DD0840 /* 微聊 */ = {
 			isa = PBXGroup;
 			children = (
+				27F128EC18D84BD200F4BF19 /* 地址选择&导航 */,
 				20A2177A18BF17E3002CA469 /* 聊天_房源选择 */,
 				203EC2B318B3432B00DD0840 /* 消息列表 */,
 			);
@@ -1577,6 +1587,19 @@
 				B7921A2E18BBA2000021933A /* BrokerChatViewController.m */,
 			);
 			name = "消息单页";
+			sourceTree = "<group>";
+		};
+		27F128EC18D84BD200F4BF19 /* 地址选择&导航 */ = {
+			isa = PBXGroup;
+			children = (
+				27F128ED18D84C2D00F4BF19 /* MapViewController.h */,
+				27F128EE18D84C2D00F4BF19 /* MapViewController.m */,
+				27F128F318D85C4D00F4BF19 /* RegionAnnotation.h */,
+				27F128F418D85C4D00F4BF19 /* RegionAnnotation.m */,
+				27F128F918D9295A00F4BF19 /* RegionAnnotationView.h */,
+				27F128FA18D9295A00F4BF19 /* RegionAnnotationView.m */,
+			);
+			name = "地址选择&导航";
 			sourceTree = "<group>";
 		};
 		970501541845A18E00A0C181 /* 引导页 */ = {
@@ -3013,6 +3036,7 @@
 				B7EAD52118CD927200B28FEC /* AXPhotoManager.m in Sources */,
 				B7EF77B5183CE2D90024A5E6 /* RentSelectNoPlanController.m in Sources */,
 				20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */,
+				27F128EF18D84C2D00F4BF19 /* MapViewController.m in Sources */,
 				200915E81893FC1000A13115 /* E_Photo.m in Sources */,
 				970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */,
 				B7EAD52A18CD927200B28FEC /* AXELCAsset.m in Sources */,
@@ -3102,6 +3126,7 @@
 				B7E55B4F18BF2190007238CB /* JSMessageTextView.m in Sources */,
 				B769E44F181F4C3E00A2FF50 /* FixedObject.m in Sources */,
 				97B422601820E38200A2E9E6 /* PropertyResultListViewController.m in Sources */,
+				27F128F518D85C4D00F4BF19 /* RegionAnnotation.m in Sources */,
 				B769E484181F8F7000A2FF50 /* BasePropertyListController.m in Sources */,
 				B769E45A181F547100A2FF50 /* BasePropertyListCell.m in Sources */,
 				B7EAD51A18CD927200B28FEC /* AXChatMessagePublicCardCell.m in Sources */,
@@ -3157,6 +3182,7 @@
 				B7EA04AA1844DB3700AC8842 /* BrokerAccountCell.m in Sources */,
 				207526C118B4658A0022220C /* ClientListCell.m in Sources */,
 				B7EAD51E18CD927200B28FEC /* AXChatMessageTextCell.m in Sources */,
+				27F128FB18D9295A00F4BF19 /* RegionAnnotationView.m in Sources */,
 				B7EAD52618CD927200B28FEC /* AXPhoto.m in Sources */,
 				202133D018C74A4E00A0090B /* AXMessageCenterAppGetAllMessageManager.m in Sources */,
 				9751860218320D5F00C9A40A /* PhotoManager.m in Sources */,

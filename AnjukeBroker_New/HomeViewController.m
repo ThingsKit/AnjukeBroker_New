@@ -29,6 +29,8 @@
 #import "AppDelegate.h"
 #import "BrokerWebViewController.h"
 
+#import "MapViewController.h"
+
 #define HOME_cellHeight 50
 #define Max_Account_Lb_Width 80
 
@@ -86,10 +88,15 @@
     }
     self.navigationItem.rightBarButtonItem = rightItem;
     
+    UIButton *showNav = [UIButton buttonWithType:UIButtonTypeCustom];
+    showNav.frame = CGRectMake(260, 10, 40, 40);
+    [showNav addTarget:self action:@selector(showNav:) forControlEvents:UIControlEventTouchUpInside];
+    showNav.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:showNav];
+    
     //监听被踢出下线通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doLogOutEnforce) name:@"MessageCenterUserDidQuit" object:nil];
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -303,8 +310,22 @@
 
 - (void)rightButtonAction:(id)sender {
     //设置跳转
-    MoreViewController *mv = [[MoreViewController alloc] init];
+//    MoreViewController *mv = [[MoreViewController alloc] init];
+//    [mv setHidesBottomBarWhenPushed:YES];
+//    self.navigationController.navigationBarHidden = NO;
+//    [self.navigationController pushViewController:mv animated:YES];
+    MapViewController *mv = [[MapViewController alloc] init];
     [mv setHidesBottomBarWhenPushed:YES];
+    mv.mapTypeIndex = RegionChoose;
+    self.navigationController.navigationBarHidden = NO;
+    [self.navigationController pushViewController:mv animated:YES];
+}
+-(void)showNav:(id *)sender{
+    MapViewController *mv = [[MapViewController alloc] init];
+    [mv setHidesBottomBarWhenPushed:YES];
+    mv.mapTypeIndex = RegionNavi;
+    mv.navLoc = [[CLLocation alloc] initWithLatitude:31.21930327 longitude:121.52699305];
+    mv.addressStr = @"上海浦东新区洋泾进修学校";
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController pushViewController:mv animated:YES];
 }
