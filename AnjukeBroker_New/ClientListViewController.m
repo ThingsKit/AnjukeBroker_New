@@ -12,6 +12,7 @@
 #import "Util_UI.h"
 #import "AXChatMessageCenter.h"
 #import "AXMappedPerson.h"
+#import "AXPerson.h"
 #import "BrokerChatViewController.h"
 #import "AccountManager.h"
 
@@ -150,7 +151,6 @@
     
     //非公共账号处理
     NSArray *star_arr = [NSArray arrayWithArray:self.testArr];
-    
     for (int i = 0; i < star_arr.count; i ++) {
         if ([(AXMappedPerson *)[star_arr objectAtIndex:i] userType] == AXPersonTypeUser) {
             if ([(AXMappedPerson *)[star_arr objectAtIndex:i] isStar] == YES) {
@@ -158,14 +158,6 @@
             }
         }
     }
-    
-    //add 3 arr to list data att
-    [self.listDataArray addObject:self.publicDataArr];
-    [self.listDataArray addObject:self.starDataArr];
-    
-    [self.listDataArray addObjectsFromArray:[self.fetchedResultsController sections]];
-    
-    DLog(@"---联系人数据[%@]", self.listDataArray);
     
     [self.tableViewList reloadData];
     
@@ -235,8 +227,6 @@
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [[self.fetchedResultsController sections] count] +2;
-    
-//    return self.listDataArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -278,20 +268,27 @@
     ClientListCell *cell = (ClientListCell *)[tableView dequeueReusableCellWithIdentifier:nil];
     
     NSArray *rightBtnarr = [NSArray array];
+    
     AXMappedPerson *item = nil;
+    AXPerson *item2 = nil;
+    
+    id dataItem = nil;
     
     if (indexPath.section == 0) {
         item = [self.publicDataArr objectAtIndex:indexPath.row];
+        dataItem = item;
     }
     if (indexPath.section == 1) {
         item = [self.starDataArr objectAtIndex:indexPath.row];
         rightBtnarr = [self rightButtonsIsStar:YES];
+        dataItem = item;
     }
     else if (indexPath.section >= 2) {
-//        item = [self.fetchedResultsController sections][indexPath.section -2];
         NSIndexPath *newIndex = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section - 2];
-        item = [self.fetchedResultsController objectAtIndexPath:newIndex];
-        rightBtnarr = [self rightButtonsIsStar:item.isStar];
+        item2 = [self.fetchedResultsController objectAtIndexPath:newIndex];
+        rightBtnarr = [self rightButtonsIsStar:[item2.isStar boolValue]];
+        
+        dataItem = item2;
     }
     
     if (cell == nil) {
@@ -304,7 +301,7 @@
     }
     
     [cell setCellHeight:CLIENT_LIST_HEIGHT];
-    [cell configureCellWithData:item]; //for test
+    [cell configureCellWithData:dataItem]; //for test
     
     return cell;
 }
@@ -395,8 +392,19 @@
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     NSIndexPath *cellIndexPath = [self.tableViewList indexPathForCell:cell];
-    AXMappedPerson *item = [[self.listDataArray objectAtIndex:cellIndexPath.section] objectAtIndex:cellIndexPath.row];
+    AXMappedPerson *item = nil;
     
+    if (cellIndexPath.section == 0) {
+        return;
+    }
+    else if (cellIndexPath.section == 1) {
+        item = [self.starDataArr objectAtIndex:cellIndexPath.row];
+    }
+    else if (cellIndexPath.section >= 2) {
+        NSIndexPath *newIndex = [NSIndexPath indexPathForRow:cellIndexPath.row inSection:cellIndexPath.section - 2];
+        AXPerson *person = [self.fetchedResultsController objectAtIndexPath:newIndex];
+        item = [person convertToMappedPerson];
+    }
     [self showLoadingActivity:YES];
     
     switch (index) {
@@ -411,7 +419,6 @@
             [[[cell rightUtilityButtons] objectAtIndex:0] setImage:[self getImageIsStar:!item.isStar] forState:UIControlStateNormal];
             
             [self getFriendList];
-            [self hideLoadWithAnimated:YES];
             break;
         }
         case 1:
@@ -424,7 +431,6 @@
             [[AXChatMessageCenter defaultMessageCenter] removeFriendBydeleteUid:[NSArray arrayWithObject:item.uid] compeletionBlock:^(BOOL isSuccess){
                 if (isSuccess) {
                     [self getFriendList];
-                    [self hideLoadWithAnimated:YES];
                 }
                 else
                     [self showInfo:@"删除客户失败，请再试一次"];
