@@ -33,5 +33,5 @@ typedef enum
 @property(nonatomic,strong) NSString *addressStr;
 @property(nonatomic,assign) MKCoordinateRegion naviRegion;
 
--(void)doAcSheet;
+-(void)navOption;
 @end
