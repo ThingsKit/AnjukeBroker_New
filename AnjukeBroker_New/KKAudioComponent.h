@@ -19,8 +19,8 @@
 //按下录音按钮不放
 - (void)willBeginRecording;
 
-//松开录音按钮, 录音完成
-- (void)didFinishRecording;
+//松开录音按钮, 录音完成, 返回录音时间
+- (double)didFinishRecording;
 
 //取消录音
 - (void)willCancelRecording;

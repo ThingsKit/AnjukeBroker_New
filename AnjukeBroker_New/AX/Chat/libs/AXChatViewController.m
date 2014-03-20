@@ -1442,7 +1442,7 @@ static NSString * const AXChatJsonVersion = @"1";
 
 
 - (void)didCommitVoice {
-    [[KKAudioComponent sharedAudioComponent] didFinishRecording];
+    double cTime = [[KKAudioComponent sharedAudioComponent] didFinishRecording];
     [self.timer invalidate];
     
     [self hideHUD];

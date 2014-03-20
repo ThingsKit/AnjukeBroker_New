@@ -109,9 +109,9 @@ static KKAudioComponent* defaultAudioComponent;
 
 
 //松开录音按钮
-- (void)didFinishRecording{
+- (double)didFinishRecording{
     if (_recorder == nil) {
-        return;
+        return 0;
     }
     
     double cTime = _recorder.currentTime; //录制时长
@@ -147,6 +147,7 @@ static KKAudioComponent* defaultAudioComponent;
     
     [_recorder stop];
     //    [_timer invalidate];
+    return cTime;
     NSLog(@"录音完成");
 }
 
