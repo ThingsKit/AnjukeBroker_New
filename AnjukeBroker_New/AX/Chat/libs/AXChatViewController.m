@@ -349,8 +349,25 @@ static NSString * const AXChatJsonVersion = @"1";
     locationLab.textAlignment = NSTextAlignmentCenter;
     locationLab.textColor = [UIColor axChatPropDescColor:self.isBroker];
     [self.moreBackView addSubview:locationLab];
+ 
+#warning test for player
+    UIButton *player = [UIButton buttonWithType:UIButtonTypeCustom];
+    player.frame = CGRectMake(17.0f + 80, 16.0f + 107.0f, 46, 46);
+    [player setImage:[UIImage imageNamed:@"anjuke_icon_add_pic4.png"] forState:UIControlStateNormal];
+    [player addTarget:self action:@selector(playerClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.moreBackView addSubview:player];
     
 }
+
+#warning test for player
+- (void)playerClick{
+    
+    NSDictionary* dict = [[KKAudioComponent sharedAudioComponent].data objectAtIndex:0];
+    NSString* fileName = [dict objectForKey:@"FILE_NAME"];
+    [[KKAudioComponent sharedAudioComponent] willPlayRecordingWithFileName:fileName];
+    
+}
+
 
 - (void)initBlock
 {
