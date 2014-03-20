@@ -125,17 +125,12 @@
 		20F011C118942ABD000264BA /* icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F011BF18942ABD000264BA /* icon_57.png */; };
 		20F011C218942ABD000264BA /* icon_57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F011C018942ABD000264BA /* icon_57@2x.png */; };
 		20F6632A1896050F00356DFD /* anjuke_icon_nextfxt_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */; };
-		27217CFE18DAB03D0090F1CD /* WGS84TOGCJ02.m in Sources */ = {isa = PBXBuildFile; fileRef = 27217CFD18DAB03D0090F1CD /* WGS84TOGCJ02.m */; };
-		27217D0318DAB4B40090F1CD /* LocationChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 27217D0218DAB4B40090F1CD /* LocationChange.m */; };
-		27217D1A18DAC2F80090F1CD /* gps.db in Resources */ = {isa = PBXBuildFile; fileRef = 27217D1218DAC2F80090F1CD /* gps.db */; };
-		27217D1B18DAC2F80090F1CD /* CSqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = 27217D1518DAC2F80090F1CD /* CSqlite.m */; };
 		27217D3C18DAF0B80090F1CD /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 27217D3B18DAF0B80090F1CD /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2742C38F18DA734100091A9F /* CheckInstalledMapAPP.m in Sources */ = {isa = PBXBuildFile; fileRef = 2742C38E18DA734100091A9F /* CheckInstalledMapAPP.m */; };
 		2761B89C187C053C00EABF95 /* logo_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89A187C053C00EABF95 /* logo_57.png */; };
 		2761B89D187C053C00EABF95 /* logo_57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89B187C053C00EABF95 /* logo_57@2x.png */; };
 		27F128EF18D84C2D00F4BF19 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F128EE18D84C2D00F4BF19 /* MapViewController.m */; };
 		27F128F518D85C4D00F4BF19 /* RegionAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F128F418D85C4D00F4BF19 /* RegionAnnotation.m */; };
-		27F128FB18D9295A00F4BF19 /* RegionAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F128FA18D9295A00F4BF19 /* RegionAnnotationView.m */; };
 		678D298E18DA96120027D945 /* record_animate_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 678D298018DA96120027D945 /* record_animate_01.png */; };
 		678D298F18DA96120027D945 /* record_animate_02.png in Resources */ = {isa = PBXBuildFile; fileRef = 678D298118DA96120027D945 /* record_animate_02.png */; };
 		678D299018DA96120027D945 /* record_animate_03.png in Resources */ = {isa = PBXBuildFile; fileRef = 678D298218DA96120027D945 /* record_animate_03.png */; };
@@ -688,15 +683,6 @@
 		20F011BF18942ABD000264BA /* icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_57.png; sourceTree = "<group>"; };
 		20F011C018942ABD000264BA /* icon_57@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_57@2x.png"; sourceTree = "<group>"; };
 		20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_nextfxt_@2x.png"; sourceTree = "<group>"; };
-		27217CFC18DAB03D0090F1CD /* WGS84TOGCJ02.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WGS84TOGCJ02.h; sourceTree = "<group>"; };
-		27217CFD18DAB03D0090F1CD /* WGS84TOGCJ02.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WGS84TOGCJ02.m; sourceTree = "<group>"; };
-		27217D0118DAB4B40090F1CD /* LocationChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationChange.h; sourceTree = "<group>"; };
-		27217D0218DAB4B40090F1CD /* LocationChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationChange.m; sourceTree = "<group>"; };
-		27217D1218DAC2F80090F1CD /* gps.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = gps.db; sourceTree = "<group>"; };
-		27217D1418DAC2F80090F1CD /* CSqlite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSqlite.h; sourceTree = "<group>"; };
-		27217D1518DAC2F80090F1CD /* CSqlite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSqlite.m; sourceTree = "<group>"; };
-		27217D1818DAC2F80090F1CD /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
-		27217D1918DAC2F80090F1CD /* sqlite3ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3ext.h; sourceTree = "<group>"; };
 		27217D3A18DAF0B80090F1CD /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		27217D3B18DAF0B80090F1CD /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		2742C38D18DA734100091A9F /* CheckInstalledMapAPP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckInstalledMapAPP.h; sourceTree = "<group>"; };
@@ -707,8 +693,6 @@
 		27F128EE18D84C2D00F4BF19 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		27F128F318D85C4D00F4BF19 /* RegionAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegionAnnotation.h; sourceTree = "<group>"; };
 		27F128F418D85C4D00F4BF19 /* RegionAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegionAnnotation.m; sourceTree = "<group>"; };
-		27F128F918D9295A00F4BF19 /* RegionAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegionAnnotationView.h; sourceTree = "<group>"; };
-		27F128FA18D9295A00F4BF19 /* RegionAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegionAnnotationView.m; sourceTree = "<group>"; };
 		678D298018DA96120027D945 /* record_animate_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = record_animate_01.png; sourceTree = "<group>"; };
 		678D298118DA96120027D945 /* record_animate_02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = record_animate_02.png; sourceTree = "<group>"; };
 		678D298218DA96120027D945 /* record_animate_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = record_animate_03.png; sourceTree = "<group>"; };
@@ -1674,21 +1658,8 @@
 			children = (
 				27217D3A18DAF0B80090F1CD /* RegexKitLite.h */,
 				27217D3B18DAF0B80090F1CD /* RegexKitLite.m */,
-				27217D1218DAC2F80090F1CD /* gps.db */,
-				27217D1318DAC2F80090F1CD /* Sqlite */,
 			);
 			path = gps;
-			sourceTree = "<group>";
-		};
-		27217D1318DAC2F80090F1CD /* Sqlite */ = {
-			isa = PBXGroup;
-			children = (
-				27217D1418DAC2F80090F1CD /* CSqlite.h */,
-				27217D1518DAC2F80090F1CD /* CSqlite.m */,
-				27217D1818DAC2F80090F1CD /* sqlite3.h */,
-				27217D1918DAC2F80090F1CD /* sqlite3ext.h */,
-			);
-			path = Sqlite;
 			sourceTree = "<group>";
 		};
 		27F128EC18D84BD200F4BF19 /* 地址选择&导航 */ = {
@@ -1699,14 +1670,8 @@
 				27F128EE18D84C2D00F4BF19 /* MapViewController.m */,
 				27F128F318D85C4D00F4BF19 /* RegionAnnotation.h */,
 				27F128F418D85C4D00F4BF19 /* RegionAnnotation.m */,
-				27F128F918D9295A00F4BF19 /* RegionAnnotationView.h */,
-				27F128FA18D9295A00F4BF19 /* RegionAnnotationView.m */,
 				2742C38D18DA734100091A9F /* CheckInstalledMapAPP.h */,
 				2742C38E18DA734100091A9F /* CheckInstalledMapAPP.m */,
-				27217CFC18DAB03D0090F1CD /* WGS84TOGCJ02.h */,
-				27217CFD18DAB03D0090F1CD /* WGS84TOGCJ02.m */,
-				27217D0118DAB4B40090F1CD /* LocationChange.h */,
-				27217D0218DAB4B40090F1CD /* LocationChange.m */,
 			);
 			name = "地址选择&导航";
 			sourceTree = "<group>";
@@ -2963,7 +2928,6 @@
 				97F4D18F184E2ABD00DFC45F /* logo_40.png in Resources */,
 				B7EF779D183CBAEC0024A5E6 /* anjuke_icon04_more@2x.png in Resources */,
 				B7FC9AFB18C41B1300F77205 /* xproject_dialogue_messagesend1@2x.png in Resources */,
-				27217D1A18DAC2F80090F1CD /* gps.db in Resources */,
 				B7FC9AC718C41B1300F77205 /* anjuke_icon_add_esf@2x.png in Resources */,
 				2079ADD218B59CC00029D493 /* anjuke_icon_poblish_esf@2x.png in Resources */,
 				2079ADF518B5FD610029D493 /* anjuke_icon_xingbiao_miniright_@2x.png in Resources */,
@@ -3210,8 +3174,6 @@
 				678D2A2518DAB12E0027D945 /* amrFileCodec.mm in Sources */,
 				203EC2B618B34A4200DD0840 /* MessageListCell.m in Sources */,
 				97B4225A1820DB8300A2E9E6 /* AnjukePropertyGroupCell.m in Sources */,
-				27217D1B18DAC2F80090F1CD /* CSqlite.m in Sources */,
-				27217CFE18DAB03D0090F1CD /* WGS84TOGCJ02.m in Sources */,
 				B7EA04A61844D40900AC8842 /* BrokerAccountController.m in Sources */,
 				20A2182218BF2A9D002CA469 /* AXMessageCenterFriendListManager.m in Sources */,
 				20A2181B18BF2A9D002CA469 /* AXPerson.m in Sources */,
@@ -3393,7 +3355,6 @@
 				B7EA04AA1844DB3700AC8842 /* BrokerAccountCell.m in Sources */,
 				207526C118B4658A0022220C /* ClientListCell.m in Sources */,
 				B7EAD51E18CD927200B28FEC /* AXChatMessageTextCell.m in Sources */,
-				27F128FB18D9295A00F4BF19 /* RegionAnnotationView.m in Sources */,
 				B7EAD52618CD927200B28FEC /* AXPhoto.m in Sources */,
 				202133D018C74A4E00A0090B /* AXMessageCenterAppGetAllMessageManager.m in Sources */,
 				9751860218320D5F00C9A40A /* PhotoManager.m in Sources */,
@@ -3408,7 +3369,6 @@
 				20A2182518BF2A9D002CA469 /* AXMessageCenterModifyFriendInfoManager.m in Sources */,
 				B721094B18277CE100904FC7 /* RentFixedDetailController.m in Sources */,
 				B7EAD52B18CD927200B28FEC /* AXELCAssetCell.m in Sources */,
-				27217D0318DAB4B40090F1CD /* LocationChange.m in Sources */,
 				B7DC8079186C115800BE6AD0 /* CellHeight.m in Sources */,
 				974E5C7F181E417F000246D1 /* RTListCell.m in Sources */,
 				B7E55B4E18BF2190007238CB /* JSMessageInputView.m in Sources */,

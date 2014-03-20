@@ -9,28 +9,28 @@
 #import "CheckInstalledMapAPP.h"
 
 @implementation CheckInstalledMapAPP
-//taobao://item.taobao.com/item.htm?id=12688928896
-@synthesize mapSchemeArr;
 
 
 -(id)init{
     self = [super init];
     if (self) {
-        self.mapSchemeArr = @[@"baidumapsdk://mapsdk.baidu.com"];
     }
     return self;
 }
 
++(NSArray *)checkHasOwnApp{
+    NSArray *mapSchemeArr = @[@"comgooglemaps://",@"iosamap://navi",@"baidumap://map/"];
 
--(BOOL)isInstalledApp:(NSString *)urlStr{
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"urlStr"]];
-    // 判断当前系统是否有安装淘宝客户端
-    if ([[UIApplication sharedApplication] canOpenURL:url]) {
-        // 如果已经安装淘宝客户端，就使用客户端打开链接
-//        [[UIApplication sharedApplication] openURL:url];
-        return YES;
+    NSMutableArray *appListArr = [[NSMutableArray alloc] initWithObjects:@"apple地图", nil];
+    
+    for (int i = 0; i < [mapSchemeArr count]; i++) {
+        if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[mapSchemeArr objectAtIndex:i]]]]) {
+            [appListArr addObject:[NSString stringWithFormat:@"%@",[mapSchemeArr objectAtIndex:i]]];
+        }
     }
-    return NO;
+    
+    [appListArr addObject:@"显示路线"];
+    
+    return appListArr;
 }
-
 @end

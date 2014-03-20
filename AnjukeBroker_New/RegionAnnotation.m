@@ -11,6 +11,5 @@
 @implementation RegionAnnotation
 @synthesize title;
 @synthesize coordinate;
-@synthesize loadStatus;
 @synthesize styleDetail;
 @end

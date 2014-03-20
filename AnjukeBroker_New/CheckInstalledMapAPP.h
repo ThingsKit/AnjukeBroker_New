@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface CheckInstalledMapAPP : NSObject
-@property(nonatomic,strong) NSArray *mapSchemeArr;
 
 -(id)init;
++(NSArray *)checkHasOwnApp;
 @end
