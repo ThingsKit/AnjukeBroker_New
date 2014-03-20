@@ -129,6 +129,7 @@
 		27217D0318DAB4B40090F1CD /* LocationChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 27217D0218DAB4B40090F1CD /* LocationChange.m */; };
 		27217D1A18DAC2F80090F1CD /* gps.db in Resources */ = {isa = PBXBuildFile; fileRef = 27217D1218DAC2F80090F1CD /* gps.db */; };
 		27217D1B18DAC2F80090F1CD /* CSqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = 27217D1518DAC2F80090F1CD /* CSqlite.m */; };
+		27217D3C18DAF0B80090F1CD /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 27217D3B18DAF0B80090F1CD /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2742C38F18DA734100091A9F /* CheckInstalledMapAPP.m in Sources */ = {isa = PBXBuildFile; fileRef = 2742C38E18DA734100091A9F /* CheckInstalledMapAPP.m */; };
 		2761B89C187C053C00EABF95 /* logo_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89A187C053C00EABF95 /* logo_57.png */; };
 		2761B89D187C053C00EABF95 /* logo_57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89B187C053C00EABF95 /* logo_57@2x.png */; };
@@ -696,6 +697,8 @@
 		27217D1518DAC2F80090F1CD /* CSqlite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSqlite.m; sourceTree = "<group>"; };
 		27217D1818DAC2F80090F1CD /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
 		27217D1918DAC2F80090F1CD /* sqlite3ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3ext.h; sourceTree = "<group>"; };
+		27217D3A18DAF0B80090F1CD /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
+		27217D3B18DAF0B80090F1CD /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		2742C38D18DA734100091A9F /* CheckInstalledMapAPP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckInstalledMapAPP.h; sourceTree = "<group>"; };
 		2742C38E18DA734100091A9F /* CheckInstalledMapAPP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckInstalledMapAPP.m; sourceTree = "<group>"; };
 		2761B89A187C053C00EABF95 /* logo_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_57.png; sourceTree = "<group>"; };
@@ -1669,6 +1672,8 @@
 		27217D1118DAC2F80090F1CD /* gps */ = {
 			isa = PBXGroup;
 			children = (
+				27217D3A18DAF0B80090F1CD /* RegexKitLite.h */,
+				27217D3B18DAF0B80090F1CD /* RegexKitLite.m */,
 				27217D1218DAC2F80090F1CD /* gps.db */,
 				27217D1318DAC2F80090F1CD /* Sqlite */,
 			);
@@ -3393,6 +3398,7 @@
 				202133D018C74A4E00A0090B /* AXMessageCenterAppGetAllMessageManager.m in Sources */,
 				9751860218320D5F00C9A40A /* PhotoManager.m in Sources */,
 				97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */,
+				27217D3C18DAF0B80090F1CD /* RegexKitLite.m in Sources */,
 				979B083B18488A2800DD697E /* BigZhenzhenButton.m in Sources */,
 				B76E5988181E5AD1005B6A8C /* BaseNoPlanListCell.m in Sources */,
 				97CB0C0D182BEA3500FCCBBD /* ELCAsset.m in Sources */,

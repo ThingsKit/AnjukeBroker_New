@@ -10,6 +10,7 @@
 #import "RegionAnnotation.h"
 #import "WGS84TOGCJ02.h"
 #import "CSqlite.h"
+#import "RegexKitLite.h"
 
 
 #import "LocationChange.h"
@@ -28,6 +29,7 @@
 @property (nonatomic, strong) NSMutableDictionary *locationDic;
 @property (nonatomic, strong) NSString *city;
 @property (nonatomic, strong) NSString *region;
+@property(nonatomic,strong) NSArray *routes;
 
 @end
 
@@ -45,7 +47,7 @@
 @synthesize m_sqlite;
 @synthesize naviCoords;
 @synthesize nowCoords;
-
+@synthesize routes;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -271,9 +273,123 @@
     
     MKMapItem *toItem   = [[MKMapItem alloc] initWithPlacemark:toPlacemark];
     
-    [self findDirectionsFrom:fromItem
-                          to:toItem];
+    if (ISIOS7) {
+        [self findDirectionsFrom:fromItem to:toItem];
+    }else{
+        routes = [self calculateRoutesFrom];
+        [self updateRouteView];
+        [self centerMap];
+    }
 }
+-(NSArray*)calculateRoutesFrom{
+	NSString* saddr = [NSString stringWithFormat:@"%f,%f", nowCoords.latitude, nowCoords.longitude];
+	NSString* daddr = [NSString stringWithFormat:@"%f,%f", naviCoords.latitude, naviCoords.longitude];
+	
+	NSString* apiUrlStr = [NSString stringWithFormat:@"http://maps.google.com/maps?output=dragdir&saddr=%@&daddr=%@", saddr, daddr];
+	NSURL* apiUrl = [NSURL URLWithString:apiUrlStr];
+	NSString *apiResponse = [NSString stringWithContentsOfURL:apiUrl];
+	
+    NSString* encodedPoints = [apiResponse stringByMatching:@"points:\\\"([^\\\"]*)\\\"" capture:1L];
+	return [self decodePolyLine:[encodedPoints mutableCopy]:nowCoords to:naviCoords];
+}
+//-(NSMutableArray *)decodePolyLine: (NSMutableString *)encoded :(CLLocationCoordinate2D)f to: (CLLocationCoordinate2D) t {
+-(NSMutableArray *)decodePolyLine: (NSMutableString *)encoded :(CLLocationCoordinate2D)f to: (CLLocationCoordinate2D) t {
+
+    [encoded replaceOccurrencesOfString:@"\\\\" withString:@"\\"
+								options:NSLiteralSearch
+								  range:NSMakeRange(0, [encoded length])];
+	NSInteger len = [encoded length];
+	NSInteger index = 0;
+	NSMutableArray *array = [[NSMutableArray alloc] init];
+	NSInteger lat=0;
+	NSInteger lng=0;
+	while (index < len) {
+		NSInteger b;
+		NSInteger shift = 0;
+		NSInteger result = 0;
+		do {
+			b = [encoded characterAtIndex:index++] - 63;
+			result |= (b & 0x1f) << shift;
+			shift += 5;
+		} while (b >= 0x20);
+		NSInteger dlat = ((result & 1) ? ~(result >> 1) : (result >> 1));
+		lat += dlat;
+		shift = 0;
+		result = 0;
+		do {
+			b = [encoded characterAtIndex:index++] - 63;
+			result |= (b & 0x1f) << shift;
+			shift += 5;
+		} while (b >= 0x20);
+		NSInteger dlng = ((result & 1) ? ~(result >> 1) : (result >> 1));
+		lng += dlng;
+		NSNumber *latitude = [[NSNumber alloc] initWithFloat:lat * 1e-5];
+		NSNumber *longitude = [[NSNumber alloc] initWithFloat:lng * 1e-5];
+		printf("[%f,", [latitude doubleValue]);
+		printf("%f]", [longitude doubleValue]);
+		CLLocation *loc = [[CLLocation alloc] initWithLatitude:[latitude floatValue] longitude:[longitude floatValue]];
+		[array addObject:loc];
+	}
+    CLLocation *first = [[CLLocation alloc] initWithLatitude:[[NSNumber numberWithFloat:f.latitude] floatValue] longitude:[[NSNumber numberWithFloat:f.longitude] floatValue] ];
+    CLLocation *end = [[CLLocation alloc] initWithLatitude:[[NSNumber numberWithFloat:t.latitude] floatValue] longitude:[[NSNumber numberWithFloat:t.longitude] floatValue] ];
+	[array insertObject:first atIndex:0];
+    [array addObject:end];
+	return array;
+}
+-(void) centerMap {
+	MKCoordinateRegion region;
+    
+	CLLocationDegrees maxLat = -90;
+	CLLocationDegrees maxLon = -180;
+	CLLocationDegrees minLat = 90;
+	CLLocationDegrees minLon = 180;
+	for(int idx = 0; idx < routes.count; idx++)
+	{
+		CLLocation* currentLocation = [routes objectAtIndex:idx];
+		if(currentLocation.coordinate.latitude > maxLat)
+			maxLat = currentLocation.coordinate.latitude;
+		if(currentLocation.coordinate.latitude < minLat)
+			minLat = currentLocation.coordinate.latitude;
+		if(currentLocation.coordinate.longitude > maxLon)
+			maxLon = currentLocation.coordinate.longitude;
+		if(currentLocation.coordinate.longitude < minLon)
+			minLon = currentLocation.coordinate.longitude;
+	}
+	region.center.latitude     = (maxLat + minLat) / 2;
+	region.center.longitude    = (maxLon + minLon) / 2;
+	region.span.latitudeDelta  = maxLat - minLat + 0.018;
+	region.span.longitudeDelta = maxLon - minLon + 0.018;
+    
+	[self.regionMapView setRegion:region animated:YES];
+}
+-(void) updateRouteView {
+    [self.regionMapView removeOverlays:self.regionMapView.overlays];
+    
+    CLLocationCoordinate2D pointsToUse[[routes count]];
+    for (int i = 0; i < [routes count]; i++) {
+        CLLocationCoordinate2D coords;
+        CLLocation *loc = [routes objectAtIndex:i];
+        coords.latitude = loc.coordinate.latitude;
+        coords.longitude = loc.coordinate.longitude;
+        pointsToUse[i] = coords;
+    }
+    MKPolyline *lineOne = [MKPolyline polylineWithCoordinates:pointsToUse count:[routes count]];
+    [self.regionMapView addOverlay:lineOne];
+}
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
+{
+    if ([overlay isKindOfClass:[MKPolyline class]])
+    {
+        MKPolylineView *lineview=[[MKPolylineView alloc] initWithOverlay:overlay] ;
+        //路线颜色
+        lineview.strokeColor=[UIColor colorWithRed:69.0f/255.0f green:212.0f/255.0f blue:255.0f/255.0f alpha:0.9];
+        lineview.lineWidth=8.0;
+        return lineview;
+    }
+    return nil;
+}
+
 #pragma mark - Private
 -(void)findDirectionsFrom:(MKMapItem *)from to:(MKMapItem *)to{
     MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
@@ -296,9 +412,9 @@
          }
          else {
              NSLog(@"---->>%d",[response.routes count]);
-             MKRoute *route1 = response.routes[0];
+             MKRoute *route = response.routes[0];
              
-             [self.regionMapView addOverlay:route1.polyline];
+             [self.regionMapView addOverlay:route.polyline];
          }
      }];
 }
