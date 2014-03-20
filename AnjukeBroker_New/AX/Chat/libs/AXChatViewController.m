@@ -62,7 +62,7 @@ static CGFloat const AXScrollContentOffsetY = 800;
 
 static NSString * const AXChatJsonVersion = @"1";
 
-@interface AXChatViewController ()<UITableViewDelegate, UITableViewDataSource, OHAttributedLabelDelegate, AXPullToRefreshViewDelegate, UIAlertViewDelegate, AXChatBaseCellDelegate, JSDismissiveTextViewDelegate,chooseSiteDelegate>
+@interface AXChatViewController ()<UITableViewDelegate, UITableViewDataSource, OHAttributedLabelDelegate, AXPullToRefreshViewDelegate, UIAlertViewDelegate, AXChatBaseCellDelegate, JSDismissiveTextViewDelegate>
 
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) UITableViewCell *selectedCell;
@@ -636,7 +636,22 @@ static NSString * const AXChatJsonVersion = @"1";
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeProperty),@"content":mappedMessage.content,@"messageSource":@(AXChatMessageSourceDestinationOutPut)}];
         }
             break;
-        
+        case AXMessageTypeVoice:
+        {
+             textData = [self configTextCellData:[NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeVoice), @"content":mappedMessage.content, @"messageSource":messageSource}]];
+        }
+            break;
+        case AXMessageTypeMap:
+        {
+            if (![self.contentValidator checkPropertyCard:mappedMessage.content]) {
+                return nil;
+            }
+            textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeMap),@"content":mappedMessage.content,@"messageSource":messageSource}];
+            
+//             textData = [self configTextCellData:[NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeMap), @"content":mappedMessage.content, @"messageSource":messageSource}]];
+            
+        }
+            break;
         case AXMessageTypePublicCard:
         {
             if (![self.contentValidator checkPublicCard:mappedMessage.content]) {
@@ -795,7 +810,7 @@ static NSString * const AXChatJsonVersion = @"1";
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeVoice)]) {
         return 40;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeMap)]) {
-        return 75;
+        return 95;
     }else {
         return 70;
     }

@@ -344,9 +344,7 @@
     
 
 }
--(void)returnSiteAttr:(double)lat lon:(double)lon address:(NSString *)address{
-    DLog(@"returnSiteAttr-->>%f/%f/%@",lat,lon,address);
-}
+
 - (void)doBack:(id)sender {
     
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_013 note:nil];
@@ -463,4 +461,22 @@
 - (void)didclickVoice:(id)data{
 
 }
+
+#pragma mark -
+#pragma chooseSiteDelegate
+- (void)loadMapSiteMessage:(NSDictionary *)mapSiteDic {
+    
+    NSDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:@{@"lat":mapSiteDic[@"lat"], @"lng":mapSiteDic[@"lng"], @"city":mapSiteDic[@"city"], @"region":mapSiteDic[@"region"], @"address":mapSiteDic[@"address"], @"jsonVersion":@"1", @"tradeType":[NSNumber numberWithInteger:AXMessageTypeMap]}];
+    
+    AXMappedMessage *mappedMessageProp = [[AXMappedMessage alloc] init];
+    mappedMessageProp.accountType = @"2";
+    mappedMessageProp.content = [dic JSONRepresentation];
+    mappedMessageProp.to = [self checkFriendUid];
+    mappedMessageProp.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
+    mappedMessageProp.isRead = YES;
+    mappedMessageProp.isRemoved = NO;
+    mappedMessageProp.messageType = [NSNumber numberWithInteger:AXMessageTypeMap];
+    [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
+}
+
 @end

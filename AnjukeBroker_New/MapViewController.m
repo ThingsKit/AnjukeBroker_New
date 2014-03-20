@@ -17,14 +17,18 @@
 #define ISIOS7 ([[[[UIDevice currentDevice] systemVersion] substringToIndex:1] intValue]>=7)
 
 @interface MapViewController ()
-@property(nonatomic,strong) MKMapView *regionMapView;
-@property(nonatomic,assign) int updateInt;
-@property(nonatomic,assign) MKCoordinateRegion userRegion;
-@property(nonatomic,strong) CLLocation *lastloc;
-@property(nonatomic,assign) CLLocationCoordinate2D lastCoords;
 @property(nonatomic,strong) CSqlite *m_sqlite;
 @property(nonatomic,assign) CLLocationCoordinate2D naviCoords;
 @property(nonatomic,assign) CLLocationCoordinate2D nowCoords;
+@property (nonatomic, strong) MKMapView *regionMapView;
+@property (nonatomic, assign) int updateInt;
+@property (nonatomic, assign) MKCoordinateRegion userRegion;
+@property (nonatomic, strong) CLLocation *lastloc;
+@property (nonatomic, assign) CLLocationCoordinate2D lastCoords;
+@property (nonatomic, strong) NSMutableDictionary *locationDic;
+@property (nonatomic, strong) NSString *city;
+@property (nonatomic, strong) NSString *region;
+
 @end
 
 @implementation MapViewController
@@ -37,7 +41,6 @@
 @synthesize lat;
 @synthesize lon;
 @synthesize naviRegion;
-@synthesize siteDelegate;
 @synthesize lastCoords;
 @synthesize m_sqlite;
 @synthesize naviCoords;
@@ -50,6 +53,7 @@
     if (self) {
         // Custom initialization
         updateInt = 0;
+        self.locationDic = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -112,21 +116,33 @@
         [self showAnnotation:loc coord:naviCoords];
     }
 }
+
 -(void)rightButtonAction:(id *)sender{
+    
     if (lastCoords.latitude && lastCoords.longitude && addressStr && ![addressStr isEqualToString:@""]) {
-        [siteDelegate returnSiteAttr:lastCoords.latitude lon:lastCoords.longitude address:addressStr];
-        
+        if (self.siteDelegate && [self.siteDelegate respondsToSelector:@selector(loadMapSiteMessage:)])
+        {
+            [self.locationDic setValue:self.addressStr forKey:@"address"];
+            [self.locationDic setValue:self.city forKey:@"city"];
+            [self.locationDic setValue:self.region forKey:@"region"];
+            [self.locationDic setValue:[NSString stringWithFormat:@"%f",lastCoords.latitude] forKey:@"lat"];
+            [self.locationDic setValue:[NSString stringWithFormat:@"%f",lastCoords.longitude] forKey:@"lng"];
+            
+           [self.siteDelegate loadMapSiteMessage:self.locationDic];
+        }
         [self.navigationController popViewControllerAnimated:YES];
     }else{
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有定位到有效地址，请重新选择发送地址" delegate:self cancelButtonTitle:nil otherButtonTitles:@"知道了", nil];
         [alert show];
     }
 }
+
 -(void)goUserLoc:(id *)sender{
     [self.regionMapView setRegion:userRegion animated:YES];
 }
--(void)doAcSheet{
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"请选择以下方式导航" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"apple地图",@"google地图",@"高德地图",@"百度地图",@"绘制路线", nil];
+
+-(void)navOption{
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"请选择以下方式导航" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"google 地图" otherButtonTitles:@"高德地图",@"百度地图",@"绘制路线", nil];
     sheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [sheet showInView:self.view];
 }
@@ -350,7 +366,9 @@
             NSString *address = [placemark.addressDictionary objectForKey:@"Name"];
 
             lastCoords = coords;
-            addressStr = address;
+            self.addressStr = address;
+            self.city = placemark.administrativeArea;
+            self.region = placemark.subLocality;
             NSLog(@"address--->>%@",address);
             [self addAnnotationView:location coord:coords address:address loadStatus:2];
         }else{

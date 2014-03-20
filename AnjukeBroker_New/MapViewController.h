@@ -12,8 +12,9 @@
 #import <CoreLocation/CoreLocation.h>
 #import "RegionAnnotationView.h"
 
-@protocol chooseSiteDelegate <NSObject>
--(void)returnSiteAttr:(double)lat lon:(double)lon address:(NSString *)address;
+@protocol MapViewControllerDelegate <NSObject>
+@required
+-(void)loadMapSiteMessage:(NSDictionary *)mapSiteDic;
 @end
 
 typedef enum
@@ -25,7 +26,7 @@ typedef enum
 @interface MapViewController : UIViewController<MKMapViewDelegate,CLLocationManagerDelegate,UIActionSheetDelegate,doAcSheetDelegate>{
     CLLocationManager *locationManager;
 }
-@property(nonatomic,assign) id<chooseSiteDelegate> siteDelegate;
+@property(nonatomic,assign) id<MapViewControllerDelegate> siteDelegate;
 @property(nonatomic,assign) mapType mapType;
 @property(nonatomic,assign) double lat;
 @property(nonatomic,assign) double lon;

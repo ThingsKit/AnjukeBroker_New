@@ -63,6 +63,9 @@
     self.mapIMGView.image = [UIImage imageNamed:@"local.png"];
     self.mapIMGView.layer.cornerRadius = 6.0f;
     self.mapIMGView.layer.masksToBounds = YES;
+//    if (data) {
+//        <#statements#>
+//    }
     [self getGeoLocation];
     [self configWithStatus];
 }
