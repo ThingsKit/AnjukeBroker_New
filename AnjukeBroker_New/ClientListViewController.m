@@ -26,11 +26,14 @@
 
 @property (nonatomic, strong) NSArray *testArr;
 
+@property (nonatomic, strong) NSMutableArray *contacts;
+
 @end
 
 @implementation ClientListViewController
 @synthesize publicDataArr, starDataArr, allDataArr;
 @synthesize tableViewList, listDataArray;
+@synthesize contacts;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -77,6 +80,44 @@
     }];
 }
 
+- (void)sortContactsData:(NSArray *)contactsData
+{
+    NSMutableDictionary *contactsDictionary = [[NSMutableDictionary alloc] init];
+    for (AXMappedPerson *person in contactsData) {
+        if ([person.namePinyin length]) {
+            unichar begin = [person.namePinyin characterAtIndex:0];
+            if (begin >= 'A' && begin <= 'Z') {
+                NSString *beginString = [person.namePinyin substringToIndex:1];
+                [self insertPerson:person withPinyinBeginWithLetter:beginString intoDictionary:contactsDictionary];
+            } else if (begin >= 'a' && begin <= 'z') {
+                NSString *beginString = [person.namePinyin substringToIndex:1];
+                [self insertPerson:person withPinyinBeginWithLetter:[beginString uppercaseString] intoDictionary:contactsDictionary];
+            } else {
+                [self insertPerson:person withPinyinBeginWithLetter:@"#" intoDictionary:contactsDictionary];
+            }
+        } else {
+            [self insertPerson:person withPinyinBeginWithLetter:@"#" intoDictionary:contactsDictionary];
+        }
+    }
+    NSArray *keys = [[contactsDictionary allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        if ([obj1 isEqualToString:@"#"]) {
+            return NSOrderedDescending;
+        }
+        if ([obj2 isEqualToString:@"#"]) {
+            return NSOrderedAscending;
+        }
+        return [obj1 compare:obj2];
+    }];
+    self.contacts = [[NSMutableArray alloc] init];
+    for (NSString *key in keys) {
+        [self.contacts addObject:@{@"key":key,@"objects":contactsDictionary[key]}];
+    }
+}
+
+- (void)insertPerson:(AXMappedPerson *)person withPinyinBeginWithLetter:(NSString *)letterStr intoDictionary:(NSDictionary *)dataDIc {
+    
+}
+
 #pragma mark - log
 - (void)sendAppearLog {
     [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
@@ -93,6 +134,8 @@
     self.starDataArr = [NSMutableArray array];
     self.allDataArr = [NSMutableArray array];
     self.listDataArray = [NSMutableArray array];
+    
+    self.contacts = [NSMutableArray array];
 }
 
 - (void)initDisplay {

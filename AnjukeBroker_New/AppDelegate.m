@@ -313,6 +313,8 @@
     self.window.rootViewController = nav;
     
     if ([AppManager isFirstLaunch]) {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+        
         AFWelcomeScrollview *af = [[AFWelcomeScrollview alloc] initWithFrame:self.window.bounds];
         af.delegate = self;
         [af setImgArray:[NSArray arrayWithObject:[UIImage imageNamed:@"ios_welcome.png"]]];
