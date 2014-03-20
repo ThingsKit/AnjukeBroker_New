@@ -660,9 +660,9 @@ static NSString * const AXChatJsonVersion = @"1";
             break;
         case AXMessageTypeMap:
         {
-            if (![self.contentValidator checkPropertyCard:mappedMessage.content]) {
-                return nil;
-            }
+//            if (![self.contentValidator checkPropertyCard:mappedMessage.content]) {
+//                return nil;
+//            }
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeMap),@"content":mappedMessage.content,@"messageSource":messageSource}];
             
 //             textData = [self configTextCellData:[NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeMap), @"content":mappedMessage.content, @"messageSource":messageSource}]];
@@ -1675,5 +1675,7 @@ static NSString * const AXChatJsonVersion = @"1";
     [textView resignFirstResponder];
     self.messageInputView.sendButton.enabled = NO;
 }
+- (void)didClickMapCell:(NSDictionary *)dic {
 
+}
 @end

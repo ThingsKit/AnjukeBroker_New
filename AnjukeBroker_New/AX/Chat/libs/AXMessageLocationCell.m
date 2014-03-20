@@ -49,7 +49,7 @@
 - (void)configWithData:(NSDictionary *)data
 {
     [super configWithData:data];
-    self.dataDic = data;
+    self.dataDic = [data[@"content"] JSONValue];
     CGRect frame = CGRectMake(0, 0, 100, 70);
     
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
@@ -114,7 +114,11 @@
 }
 
 - (void)geoDidFinishGetAddress:(RTNetworkResponse *) response {
-    self.locationLabel.text = @"中国上海市 浦东新区 东方路1217号 陆家嘴金融服务广场";
+    if ([self.dataDic[@"address"] length] > 0) {
+        self.locationLabel.text = self.dataDic[@"address"];
+    }else {
+        self.locationLabel.text = @"中国上海市 浦东新区 东方路1217号 陆家嘴金融服务广场";
+    }
 }
 
 - (void)didClickMap {
