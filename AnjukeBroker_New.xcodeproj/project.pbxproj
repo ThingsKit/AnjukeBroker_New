@@ -125,6 +125,7 @@
 		20F011C118942ABD000264BA /* icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F011BF18942ABD000264BA /* icon_57.png */; };
 		20F011C218942ABD000264BA /* icon_57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F011C018942ABD000264BA /* icon_57@2x.png */; };
 		20F6632A1896050F00356DFD /* anjuke_icon_nextfxt_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */; };
+		2742C38F18DA734100091A9F /* CheckInstalledMapAPP.m in Sources */ = {isa = PBXBuildFile; fileRef = 2742C38E18DA734100091A9F /* CheckInstalledMapAPP.m */; };
 		2761B89C187C053C00EABF95 /* logo_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89A187C053C00EABF95 /* logo_57.png */; };
 		2761B89D187C053C00EABF95 /* logo_57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89B187C053C00EABF95 /* logo_57@2x.png */; };
 		27F128EF18D84C2D00F4BF19 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F128EE18D84C2D00F4BF19 /* MapViewController.m */; };
@@ -663,6 +664,8 @@
 		20F011BF18942ABD000264BA /* icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_57.png; sourceTree = "<group>"; };
 		20F011C018942ABD000264BA /* icon_57@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_57@2x.png"; sourceTree = "<group>"; };
 		20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_nextfxt_@2x.png"; sourceTree = "<group>"; };
+		2742C38D18DA734100091A9F /* CheckInstalledMapAPP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckInstalledMapAPP.h; sourceTree = "<group>"; };
+		2742C38E18DA734100091A9F /* CheckInstalledMapAPP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckInstalledMapAPP.m; sourceTree = "<group>"; };
 		2761B89A187C053C00EABF95 /* logo_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_57.png; sourceTree = "<group>"; };
 		2761B89B187C053C00EABF95 /* logo_57@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_57@2x.png"; sourceTree = "<group>"; };
 		27F128ED18D84C2D00F4BF19 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
@@ -1608,6 +1611,8 @@
 				27F128F418D85C4D00F4BF19 /* RegionAnnotation.m */,
 				27F128F918D9295A00F4BF19 /* RegionAnnotationView.h */,
 				27F128FA18D9295A00F4BF19 /* RegionAnnotationView.m */,
+				2742C38D18DA734100091A9F /* CheckInstalledMapAPP.h */,
+				2742C38E18DA734100091A9F /* CheckInstalledMapAPP.m */,
 			);
 			name = "地址选择&导航";
 			sourceTree = "<group>";
@@ -3224,6 +3229,7 @@
 				20A2182318BF2A9D002CA469 /* AXMessageCenterGetFriendInfoManager.m in Sources */,
 				97192EE71818FEF7007971BA /* PhotoButton.m in Sources */,
 				B7E55B5218BF2190007238CB /* UIImage+JSMessagesView.m in Sources */,
+				2742C38F18DA734100091A9F /* CheckInstalledMapAPP.m in Sources */,
 				20A2178918BF1804002CA469 /* PropertySelectViewController.m in Sources */,
 				20A2178718BF1804002CA469 /* HouseSelectNavigationController.m in Sources */,
 				97C97B461810DD34006E538B /* TabBarViewController.m in Sources */,

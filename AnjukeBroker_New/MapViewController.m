@@ -116,9 +116,66 @@
     [self.regionMapView setRegion:userRegion animated:YES];
 }
 -(void)doAcSheet{
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"请选择以下方式导航" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"google 地图" otherButtonTitles:@"高德地图",@"百度地图",@"绘制路线", nil];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"请选择以下方式导航" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"apple地图",@"google地图",@"高德地图",@"百度地图",@"绘制路线", nil];
     sheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [sheet showInView:self.view];
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0) {
+        if (!ISIOS7) {//ios6 调用goole网页地图
+            NSString *urlString = [[NSString alloc]
+                                   initWithFormat:@"http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f&dirfl=d",31.21979709,121.52730387,31.23533771,121.53320162];
+            
+            NSURL *aURL = [NSURL URLWithString:urlString];
+            [[UIApplication sharedApplication] openURL:aURL];
+        }else{//ios7 跳转apple map
+            CLLocationCoordinate2D to;
+            
+            to.latitude = 31.23533771;
+            to.longitude = 121.53320162;
+            MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
+            MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:to addressDictionary:nil]];
+            
+            toLocation.name = @"Destination";
+            [MKMapItem openMapsWithItems:[NSArray arrayWithObjects:currentLocation, toLocation, nil] launchOptions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeDriving, [NSNumber numberWithBool:YES], nil] forKeys:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeKey, MKLaunchOptionsShowsTrafficKey, nil]]];
+        }
+    }else if (buttonIndex == 1) {
+        if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]]) {
+            DLog(@"已经安装google");
+        }else{
+            DLog(@"还没安装google");
+        }
+        NSString *urlStr = [NSString stringWithFormat:@"comgooglemaps://?saddr=&daddr=31.23533771,121.53320162&directionsmode=transit"];
+
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
+        
+    }else if (buttonIndex == 2){
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"iosamap://navi?sourceApplication=broker&backScheme=openbroker2&poiname=&poiid=BGVIS&lat=31.23533771&lon=121.53320162&dev=1&style=2"]];
+        
+        if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"iosamap://navi"]]) {
+            DLog(@"已经安装高德");
+        }else{
+            DLog(@"还没安装高德");
+        }
+        [[UIApplication sharedApplication] openURL:url];
+    
+    }else if (buttonIndex == 3){
+        
+        NSString *stringURL = [NSString stringWithFormat:@"baidumap://map/direction?origin=%f,%f&destination=%f,%f&&mode=driving",31.21979709,121.52730387,31.23533771,121.53320162];
+
+        NSURL *url = [NSURL URLWithString:stringURL];
+        if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://map/"]]) {
+            DLog(@"已经安装百度");
+        }else{
+            DLog(@"还没安装百度");
+        }
+        [[UIApplication sharedApplication] openURL:url];
+//        if (![[UIApplication sharedApplication] openURL:url]) {
+//        }
+    }else if (buttonIndex == 4){
+        
+    }
 }
 #pragma MKMapViewDelegate
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
@@ -243,7 +300,10 @@
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
         }
         
+        
         if (mapType == RegionNavi) {
+            annotationView.image = [UIImage imageNamed:@"anjuke_icon_esf@2x.png"];
+
             UIButton *naviBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             naviBtn.backgroundColor = [UIColor blackColor];
             [naviBtn addTarget:self action:@selector(doAcSheet) forControlEvents:UIControlEventTouchUpInside];
@@ -252,6 +312,7 @@
 
             annotationView.rightCalloutAccessoryView = naviBtn;
         }else{
+    
 //            if (loadStatus == 1) {
 //                annotation.loadStatus = RegionLoading;
 //            }else if (loadStatus == 2){
