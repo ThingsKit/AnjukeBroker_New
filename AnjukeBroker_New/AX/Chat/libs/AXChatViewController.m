@@ -1415,6 +1415,7 @@ static NSString * const AXChatJsonVersion = @"1";
     DLog(@"didCancelVoice");
 #warning TODO voice but Click
 }
+
 - (void)sendMessage:(id)sender {
     
     if ([self.messageInputView.textView.text isEqualToString:@""]) {
