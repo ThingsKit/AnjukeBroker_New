@@ -13,7 +13,4 @@
 
 + (AXChatBaseCell *)cellForTableView:(UITableView *)tableView atIndexPath:(NSIndexPath *)indexPath withObject:(NSDictionary *)dic withIdentity:(NSString *)identity;
 
-test
-
-
 @end
