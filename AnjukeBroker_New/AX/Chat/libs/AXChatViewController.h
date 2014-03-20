@@ -41,6 +41,8 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 @property (nonatomic, copy) NSString *brokerName;
 @property (nonatomic, strong) AXMappedPerson *friendPerson;
 
+
+
 - (BOOL)checkUserLogin;
 - (NSString *)checkFriendUid;
 - (void)didClickSystemButton:(AXMessageType)messageType;

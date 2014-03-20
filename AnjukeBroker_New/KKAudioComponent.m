@@ -129,6 +129,7 @@ static KKAudioComponent* defaultAudioComponent;
                 NSDictionary* dictAmrFile = [KKAudioComponent fileAttributesWithFileName:self.amrFileName FileType:@"amr" RecordTime:cTime];
                 
                 self.data = [NSArray arrayWithObjects:dictRecordFile, dictWavFile, dictAmrFile, nil];
+                NSLog(@"%@", self.data);
             });
             
         });
@@ -353,8 +354,8 @@ static KKAudioComponent* defaultAudioComponent;
 + (NSDictionary*)fileAttributesWithFileName:(NSString*)fileName FileType:(NSString*)fileType RecordTime:(double)recordTime{
     
     NSString* filePath = [KKAudioComponent filePathWithFileName:fileName ofType:fileType];
-    NSString* fileSize = [NSString stringWithFormat:@"%d", [KKAudioComponent fileSizeAtPath:filePath]];
-    NSString* cTime = [NSString stringWithFormat:@"%fkb", recordTime/1024];
+    NSString* fileSize = [NSString stringWithFormat:@"%dkb", [KKAudioComponent fileSizeAtPath:filePath]/1024];
+    NSString* cTime = [NSString stringWithFormat:@"%f", recordTime];
     
     NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
                           fileName, @"FILE_NAME",

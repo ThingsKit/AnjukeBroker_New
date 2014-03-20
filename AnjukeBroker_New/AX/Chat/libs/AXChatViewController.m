@@ -38,6 +38,10 @@
 #import "AXChatContentValidator.h"
 
 
+//录音组件
+#import "KKAudioComponent.h"
+
+
 //输入框和发送按钮栏的高度
 static CGFloat const AXInputBackViewHeight = 49;
 //键盘高度
@@ -85,6 +89,13 @@ static NSString * const AXChatJsonVersion = @"1";
 //Debug
 @property (nonatomic, strong) NSString *testUid;
 @property (nonatomic, strong) NSNotification *preNotification;
+
+
+//录音相关
+@property (nonatomic, retain) UIImageView* volumnImageView;
+@property (nonatomic, retain) MBProgressHUD* hud;
+@property (nonatomic, retain) NSTimer* timer;
+
 
 @end
 
@@ -1403,18 +1414,112 @@ static NSString * const AXChatJsonVersion = @"1";
     [self.navigationController pushViewController:mv animated:YES];
 
 }
+
+
 - (void)didBeginVoice {
     DLog(@"didBeginVoice");
+    [[KKAudioComponent sharedAudioComponent] willBeginRecording];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(updateVolumn) userInfo:nil repeats:YES];
+    
+    [self showHUD:@"正在录音..." isDim:YES];
 #warning TODO voice but Click
 }
+
+
 - (void)didCommitVoice {
+    [[KKAudioComponent sharedAudioComponent] didFinishRecording];
+    [self.timer invalidate];
+    
+    [self hideHUD];
     DLog(@"didCommitVoice");
 #warning TODO voice but Click
 }
+
+
 - (void)didCancelVoice {
+    [[KKAudioComponent sharedAudioComponent] willCancelRecording];
+    [self.timer invalidate];
+    
+    [self hideHUD];
     DLog(@"didCancelVoice");
 #warning TODO voice but Click
 }
+
+
+//使用 MBProgressHUD
+- (void)showHUD:(NSString*)title isDim:(BOOL)isDim {
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    if (self.volumnImageView == nil) {
+        self.volumnImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 100)];
+        self.volumnImageView.image = [UIImage imageNamed:@"record_animate_01"];
+    }
+    self.hud.customView = self.volumnImageView;
+    self.hud.mode = MBProgressHUDModeCustomView;
+    self.hud.dimBackground = isDim; //是否需要灰色背景
+    self.hud.labelText = title;
+    
+}
+
+//使用 MBProgressHUD 显示完成提示
+- (void)showHUDOnCompleted:(NSString *)title {
+    
+    self.hud.customView = self.volumnImageView;
+    self.hud.mode = MBProgressHUDModeCustomView;
+    if (title.length > 0) { //字符串是否为空
+        self.hud.labelText = title;
+    }
+    
+    [self.hud hide:YES afterDelay:1]; //显示一段时间后隐藏
+}
+
+
+- (void)hideHUD {
+    [self.hud hide:YES];
+}
+
+- (void)updateVolumn
+{
+    //    [_recorder updateMeters];//刷新音量数据
+    //获取音量的平均值  [recorder averagePowerForChannel:0];
+    //音量的最大值  [recorder peakPowerForChannel:0];
+    
+    double lowPassResults = [[KKAudioComponent sharedAudioComponent] volumnUpdated];
+    //    NSLog(@"%lf",lowPassResults);
+    
+    
+    //最大50  0
+    //图片 小-》大
+    if (0<lowPassResults<=0.02) {
+        [self.volumnImageView setImage:[UIImage imageNamed:@"record_animate_01.png"]];
+    }else if (0.02<lowPassResults<=0.04) {
+        [self.volumnImageView setImage:[UIImage imageNamed:@"record_animate_02.png"]];
+    }else if (0.04<lowPassResults<=0.06) {
+        [self.volumnImageView setImage:[UIImage imageNamed:@"record_animate_03.png"]];
+    }else if (0.06<lowPassResults<=0.08) {
+        [self.volumnImageView setImage:[UIImage imageNamed:@"record_animate_04.png"]];
+    }else if (0.08<lowPassResults<=0.1) {
+        [self.volumnImageView setImage:[UIImage imageNamed:@"record_animate_05.png"]];
+    }else if (0.1<lowPassResults<=0.12) {
+        [self.volumnImageView setImage:[UIImage imageNamed:@"record_animate_06.png"]];
+    }else if (0.12<lowPassResults<=0.14) {
+        [self.volumnImageView setImage:[UIImage imageNamed:@"record_animate_07.png"]];
+    }else if (0.14<lowPassResults<=0.16) {
+        [self.volumnImageView setImage:[UIImage imageNamed:@"record_animate_08.png"]];
+    }else if (0.16<lowPassResults<=0.18) {
+        [self.volumnImageView setImage:[UIImage imageNamed:@"record_animate_09.png"]];
+    }else if (0.18<lowPassResults<=0.2) {
+        [self.volumnImageView setImage:[UIImage imageNamed:@"record_animate_10.png"]];
+    }else if (0.20<lowPassResults<=0.22) {
+        [self.volumnImageView setImage:[UIImage imageNamed:@"record_animate_11.png"]];
+    }else if (0.22<lowPassResults<=0.24) {
+        [self.volumnImageView setImage:[UIImage imageNamed:@"record_animate_12.png"]];
+    }else if (0.24<lowPassResults<=0.3) {
+        [self.volumnImageView setImage:[UIImage imageNamed:@"record_animate_13.png"]];
+    }else {
+        [self.volumnImageView setImage:[UIImage imageNamed:@"record_animate_14.png"]];
+    }
+}
+
 
 - (void)sendMessage:(id)sender {
     
