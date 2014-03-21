@@ -1529,6 +1529,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 - (void)didBeginVoice {
     self.date = [NSDate date];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [[KKAudioComponent sharedAudioComponent] beginRecording];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(updateVolumn) userInfo:nil repeats:YES];
     
