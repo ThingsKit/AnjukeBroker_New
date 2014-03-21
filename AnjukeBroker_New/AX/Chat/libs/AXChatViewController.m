@@ -364,7 +364,7 @@ static NSString * const AXChatJsonVersion = @"1";
     
     NSDictionary* dict = [[KKAudioComponent sharedAudioComponent].data objectAtIndex:0];
     NSString* fileName = [dict objectForKey:@"FILE_NAME"];
-    [[KKAudioComponent sharedAudioComponent] willPlayRecordingWithFileName:fileName];
+    [[KKAudioComponent sharedAudioComponent] playRecordingWithFileName:fileName];
     
 }
 
@@ -1450,7 +1450,7 @@ static NSString * const AXChatJsonVersion = @"1";
 
 - (void)didBeginVoice {
     DLog(@"didBeginVoice");
-    [[KKAudioComponent sharedAudioComponent] willBeginRecording];
+    [[KKAudioComponent sharedAudioComponent] beginRecording];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(updateVolumn) userInfo:nil repeats:YES];
     
     [self showHUD:@"正在录音..." isDim:YES];
@@ -1459,7 +1459,7 @@ static NSString * const AXChatJsonVersion = @"1";
 
 
 - (void)didCommitVoice {
-    double cTime = [[KKAudioComponent sharedAudioComponent] didFinishRecording];
+    double cTime = [[KKAudioComponent sharedAudioComponent] finishRecording];
     [self.timer invalidate];
     
     [self hideHUD];
@@ -1469,7 +1469,7 @@ static NSString * const AXChatJsonVersion = @"1";
 
 
 - (void)didCancelVoice {
-    [[KKAudioComponent sharedAudioComponent] willCancelRecording];
+    [[KKAudioComponent sharedAudioComponent] cancelRecording];
     [self.timer invalidate];
     
     [self hideHUD];

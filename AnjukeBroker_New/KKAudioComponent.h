@@ -17,18 +17,18 @@
 + (KKAudioComponent*) sharedAudioComponent;
 
 //按下录音按钮不放
-- (void)willBeginRecording;
+- (void)beginRecording;
 
 //松开录音按钮, 录音完成, 返回录音时间
-- (double)didFinishRecording;
+- (double)finishRecording;
 
 //取消录音
-- (void)willCancelRecording;
+- (void)cancelRecording;
 
 //获取实时的录音音量
 - (CGFloat)volumnUpdated;
 
 //播放指定的文件(wav格式, 文件名不带后缀)
-- (void)willPlayRecordingWithFileName:(NSString*)fileName;
+- (void)playRecordingWithFileName:(NSString*)fileName;
 
 @end

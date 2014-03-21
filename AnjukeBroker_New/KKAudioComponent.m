@@ -75,7 +75,7 @@ static KKAudioComponent* defaultAudioComponent;
 #pragma mark -
 #pragma mark API
 //按下录音按钮不放
-- (void)willBeginRecording{
+- (void)beginRecording{
     //1. init recorder
     [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
     
@@ -109,7 +109,7 @@ static KKAudioComponent* defaultAudioComponent;
 
 
 //松开录音按钮
-- (double)didFinishRecording{
+- (double)finishRecording{
     if (_recorder == nil) {
         return 0;
     }
@@ -152,7 +152,7 @@ static KKAudioComponent* defaultAudioComponent;
 }
 
 //取消录音按钮
-- (void)willCancelRecording{
+- (void)cancelRecording{
     if (_recorder == nil) {
         return;
     }
@@ -165,7 +165,7 @@ static KKAudioComponent* defaultAudioComponent;
 }
 
 //播放录音, 支持支 wav格式
-- (void)willPlayRecordingWithFileName:(NSString*)fileName{
+- (void)playRecordingWithFileName:(NSString*)fileName{
     
     [[UIDevice currentDevice] setProximityMonitoringEnabled:YES];
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];  //默认扬声器播放
