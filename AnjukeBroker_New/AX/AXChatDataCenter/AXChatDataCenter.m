@@ -807,8 +807,7 @@
     
     NSSortDescriptor *sectionSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"firstPinYin" ascending:YES];
     NSSortDescriptor *uidSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"uid" ascending:YES];
-    NSSortDescriptor *starDescriptor = [[NSSortDescriptor alloc] initWithKey:@"isStar" ascending:NO];
-    fetchRequest.sortDescriptors = @[sectionSortDescriptor,uidSortDescriptor, starDescriptor];
+    fetchRequest.sortDescriptors = @[sectionSortDescriptor,uidSortDescriptor];
     
     return [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"firstPinYin" cacheName:nil];
 }
