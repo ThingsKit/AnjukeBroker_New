@@ -17,24 +17,32 @@
 #define NAV_BAT_H 44
 
 #define FRAME_WITH_NAV CGRectMake(0, 0, [self windowWidth], [self windowHeight] - STATUS_BAR_H - NAV_BAT_H)
-#define FRAME_USER_LOC CGRectMake(10, [self windowHeight] - STATUS_BAR_H - NAV_BAT_H-56, 46, 46)
+#define FRAME_USER_LOC CGRectMake(10, [self windowHeight] - STATUS_BAR_H - NAV_BAT_H-50, 40, 40)
 #define FRAME_CENTRE_LOC CGRectMake([self windowWidth]/2-8, ([self windowHeight] - STATUS_BAR_H - NAV_BAT_H-32)/2, 16, 33)
 
 
 @interface MapViewController ()
+//导航2d
 @property(nonatomic,assign) CLLocationCoordinate2D naviCoords;
+//user最新2d
 @property(nonatomic,assign) CLLocationCoordinate2D nowCoords;
-@property (nonatomic, strong) MKMapView *regionMapView;
-@property (nonatomic, assign) int updateInt;
-@property (nonatomic, assign) MKCoordinateRegion userRegion;
-@property (nonatomic, strong) CLLocation *lastloc;
-@property (nonatomic, assign) CLLocationCoordinate2D lastCoords;
-@property (nonatomic, strong) NSMutableDictionary *locationDic;
-@property (nonatomic, strong) NSString *city;
-@property(nonatomic,strong) NSArray *routes;//ios6路线arr
+//最近一次成功查询2d
+@property(nonatomic,assign) CLLocationCoordinate2D lastCoords;
+//最近一次请求的中心2d
+@property(nonatomic,assign) CLLocationCoordinate2D centerCoordinate;
+@property(nonatomic,strong) NSMutableArray *requestLocArr;
+@property(nonatomic,strong) MKMapView *regionMapView;
+//updateInt初始化为0，大于1时，didUpdateUserLocation中setRegion不再执行
+@property(nonatomic,assign) int updateInt;
+//userRegion 地图中心点定位参数
+@property(nonatomic,assign) MKCoordinateRegion userRegion;
 @property(nonatomic,assign) MKCoordinateRegion naviRegion;
+
+@property(nonatomic,strong) NSString *city;
+@property(nonatomic,strong) NSArray *routes;//ios6路线arr
+//地图的区域和详细地址
+@property(nonatomic,strong) NSString *regionStr;
 @property(nonatomic,strong) NSString *addressStr;
-@property (nonatomic, strong) NSString *regionStr;
 @end
 
 @implementation MapViewController
@@ -43,9 +51,6 @@
 @synthesize addressStr;
 @synthesize updateInt;
 @synthesize userRegion;
-@synthesize lastloc;
-//@synthesize lat;
-//@synthesize lon;
 @synthesize naviRegion;
 @synthesize lastCoords;
 @synthesize naviCoords;
@@ -53,6 +58,8 @@
 @synthesize routes;
 @synthesize regionStr;
 @synthesize navDic;
+@synthesize requestLocArr;
+@synthesize centerCoordinate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -60,8 +67,8 @@
     if (self) {
         // Custom initialization
         updateInt = 0;
-        self.locationDic = [NSMutableDictionary dictionary];
         self.navDic = [[NSDictionary alloc] init];
+        self.requestLocArr = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -78,18 +85,13 @@
     if (ISIOS7) {
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
-
+    [self addBackButton];
     NSString *titStr;
     if (mapType == RegionNavi) {
         titStr = @"查看地理位置";
     }else{
         titStr = @"位置";
-        
-        UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStyleBordered target:self action:@selector(rightButtonAction:)];
-        if (!ISIOS7) {
-            rBtn.tintColor = SYSTEM_NAVIBAR_COLOR;
-        }
-        self.navigationItem.rightBarButtonItem = rBtn;
+        [self addRightButton];
     }
 
     UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
@@ -108,14 +110,14 @@
     UIButton *goUserLocBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     goUserLocBtn.frame = FRAME_USER_LOC;
     [goUserLocBtn addTarget:self action:@selector(goUserLoc:) forControlEvents:UIControlEventTouchUpInside];
-    [goUserLocBtn setImage:[UIImage imageNamed:@"anjuke_icon_add_position@2x.png"] forState:UIControlStateNormal];
-    [goUserLocBtn setImage:[UIImage imageNamed:@"anjuke_icon_add_position@2x.png"] forState:UIControlStateHighlighted];
-    goUserLocBtn.backgroundColor = [UIColor lightGrayColor];
+    [goUserLocBtn setImage:[UIImage imageNamed:@"wl_map_icon_position.png"] forState:UIControlStateNormal];
+    [goUserLocBtn setImage:[UIImage imageNamed:@"wl_map_icon_position_press.png"] forState:UIControlStateHighlighted];
+    goUserLocBtn.backgroundColor = [UIColor clearColor];
     [self.view addSubview:goUserLocBtn];
     
     if (mapType == RegionChoose) {
         UIImageView *certerIcon = [[UIImageView alloc] initWithFrame:FRAME_CENTRE_LOC];
-        certerIcon.image = [UIImage imageNamed:@"anjuke_icon_itis_position@2x.png"];
+        certerIcon.image = [UIImage imageNamed:@"anjuke_icon_itis_position.png"];
         [self.view addSubview:certerIcon];
         
     }else{
@@ -131,18 +133,45 @@
         [self showAnnotation:loc coord:naviCoords];
     }
 }
-
+-(void)addRightButton{
+    UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
+    if (!ISIOS7) {
+        self.navigationItem.rightBarButtonItem = rBtn;
+    }
+    else {
+        [self.navigationController.navigationBar setTintColor:SYSTEM_NAVIBAR_COLOR];
+        self.navigationItem.rightBarButtonItem = rBtn;
+    }
+}
+- (void)addBackButton {
+    //save btn
+    NSString *title = @"返回";
+    UIBarButtonItem *backBtn = nil;
+    backBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
+    
+    if (!ISIOS7) {
+        self.navigationItem.leftBarButtonItem = backBtn;
+    }
+    else {
+        [self.navigationController.navigationBar setTintColor:SYSTEM_NAVIBAR_COLOR];
+        self.navigationItem.leftBarButtonItem = backBtn;
+    }
+}
+-(void)doBack:(id)sender{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 -(void)rightButtonAction:(id *)sender{
     if (lastCoords.latitude && lastCoords.longitude && self.regionStr && ![self.regionStr isEqualToString:@""] && self.addressStr && ![self.addressStr isEqualToString:@""]) {
         if (self.siteDelegate && [self.siteDelegate respondsToSelector:@selector(loadMapSiteMessage:)])
         {
-            [self.locationDic setValue:self.addressStr forKey:@"address"];
-            [self.locationDic setValue:self.city forKey:@"city"];
-            [self.locationDic setValue:self.regionStr forKey:@"region"];
-            [self.locationDic setValue:[NSString stringWithFormat:@"%f",lastCoords.latitude] forKey:@"lat"];
-            [self.locationDic setValue:[NSString stringWithFormat:@"%f",lastCoords.longitude] forKey:@"lng"];
+            NSMutableDictionary *locationDic = [[NSMutableDictionary alloc] init];
+            [locationDic setValue:self.addressStr forKey:@"address"];
+            [locationDic setValue:self.city forKey:@"city"];
+            [locationDic setValue:self.regionStr forKey:@"region"];
+            [locationDic setValue:[NSString stringWithFormat:@"%f",lastCoords.latitude] forKey:@"lat"];
+            [locationDic setValue:[NSString stringWithFormat:@"%f",lastCoords.longitude] forKey:@"lng"];
             
-           [self.siteDelegate loadMapSiteMessage:self.locationDic];
+           [self.siteDelegate loadMapSiteMessage:locationDic];
         }
         [self.navigationController popViewControllerAnimated:YES];
     }else{
@@ -236,8 +265,9 @@
 	
 	NSString* apiUrlStr = [NSString stringWithFormat:@"http://maps.google.com/maps?output=dragdir&saddr=%@&daddr=%@", saddr, daddr];
 	NSURL* apiUrl = [NSURL URLWithString:apiUrlStr];
-	NSString *apiResponse = [NSString stringWithContentsOfURL:apiUrl];
-	
+//	NSString *apiResponse = [NSString stringWithContentsOfURL:apiUrl];
+	NSString *apiResponse = [NSString stringWithFormat:@"%@",apiUrl];
+    
     NSString* encodedPoints = [apiResponse stringByMatching:@"points:\\\"([^\\\"]*)\\\"" capture:1L];
 	return [self decodePolyLine:[encodedPoints mutableCopy]:nowCoords to:naviCoords];
 }
@@ -374,7 +404,6 @@
 
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     nowCoords = [userLocation coordinate];
-    NSLog(@"nowCoords--->>%f/%f",nowCoords.latitude,nowCoords.longitude);
     //放大地图到自身的经纬度位置。
     userRegion = MKCoordinateRegionMakeWithDistance(nowCoords, 200, 200);
 
@@ -396,10 +425,10 @@
     if (updateInt == 0){
         return;
     }
-    CLLocationCoordinate2D centerCoordinate = mapView.region.center;
-    CLLocation *loc = [[CLLocation alloc] initWithLatitude:centerCoordinate.latitude longitude:centerCoordinate.longitude];
+    self.centerCoordinate = mapView.region.center;
+
+    CLLocation *loc = [[CLLocation alloc] initWithLatitude:self.centerCoordinate.latitude longitude:self.centerCoordinate.longitude];
     
-    self.lastloc = loc;
     [self showAnnotation:loc coord:centerCoordinate];
 }
 
@@ -408,19 +437,29 @@
         [self addAnnotationView:location coord:coords region:[navDic objectForKey:@"region"]  address:[navDic objectForKey:@"address"]];
         return;
     }
+    //每次请求位置时，把latitude塞入arr。在block回掉时判断但会latitude是否存在arr且和最近一次请求latitude一致。如果一致，则显示，否则舍弃
+    [self.requestLocArr addObject:[NSString stringWithFormat:@"%ff",[location coordinate].latitude]];
     [self addAnnotationView:location coord:coords region:@"加载中..." address:nil];
-    
+
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *array, NSError *error) {
-        if (self.lastloc != location) {
+        CLLocation *centreLoc = [[CLLocation alloc] initWithLatitude:self.centerCoordinate.latitude longitude:self.centerCoordinate.longitude];
+        
+        if ([self.requestLocArr count] > 0 && [self.requestLocArr containsObject:[NSString stringWithFormat:@"%f",[location coordinate].latitude]] && (![[NSString stringWithFormat:@"%f",[location coordinate].latitude] isEqualToString:[NSString stringWithFormat:@"%f",[centreLoc coordinate].latitude]])) {
+            [self.requestLocArr removeObject:[NSString stringWithFormat:@"%f",[location coordinate].latitude]];
+            
             return;
         }
+
         if (array.count > 0) {
+            if ([self.requestLocArr count] > 0) {
+                [self.requestLocArr removeAllObjects];
+            }
             CLPlacemark *placemark = [array objectAtIndex:0];
             
             NSString *region = [placemark.addressDictionary objectForKey:@"SubLocality"];
             NSString *address = [placemark.addressDictionary objectForKey:@"Name"];
-            lastCoords = coords;
+            self.lastCoords = coords;
             self.regionStr = region;
             self.addressStr = address;
             self.city = placemark.administrativeArea;
@@ -437,25 +476,24 @@
     }];
 }
 
-
-
 -(void)addAnnotationView:(CLLocation *)location coord:(CLLocationCoordinate2D)coords region:(NSString *)region address:(NSString *)address{
     RegionAnnotation *annotation = [[RegionAnnotation alloc] init];
     annotation.coordinate = coords;
     annotation.title = region;
     annotation.subtitle  = address;
-    
-    if (mapType == RegionChoose) {
-        annotation.styleDetail = StyleForChoose;
-    }else{
-        annotation.styleDetail = StyleForNav;
-    }
 
     [self.regionMapView addAnnotation:annotation];
-    [self.regionMapView selectAnnotation:annotation animated:YES];
+
+    if (ISIOS7) {
+        [self.regionMapView selectAnnotation:annotation animated:YES];
+    }else{
+        [self performSelector:@selector(selectAnnotationDelay:) withObject:annotation afterDelay:1.0];
+    }
     updateInt += 1;
 }
-
+-(void)selectAnnotationDelay:(RegionAnnotation *)annotation{
+    [self.regionMapView selectAnnotation:annotation animated:YES];
+}
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated{
     if (mapType == RegionNavi) {
         return;
@@ -484,8 +522,8 @@
             UIButton *naviBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             naviBtn.backgroundColor = [UIColor blackColor];
             [naviBtn addTarget:self action:@selector(doAcSheet) forControlEvents:UIControlEventTouchUpInside];
-            [naviBtn setImage:[UIImage imageNamed:@"anjuke_icon_to_position@2x.png"] forState:UIControlStateNormal];
-            [naviBtn setImage:[UIImage imageNamed:@"anjuke_icon_to_position1@2x.png"] forState:UIControlStateHighlighted];
+            [naviBtn setImage:[UIImage imageNamed:@"anjuke_icon_to_position.png"] forState:UIControlStateNormal];
+            [naviBtn setImage:[UIImage imageNamed:@"anjuke_icon_to_position1.png"] forState:UIControlStateHighlighted];
             naviBtn.frame = CGRectMake(0, 0, 65, 45);
 
             annotationView.rightCalloutAccessoryView = naviBtn;

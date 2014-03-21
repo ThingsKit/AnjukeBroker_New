@@ -12,5 +12,4 @@
 @synthesize title;
 @synthesize subtitle;
 @synthesize coordinate;
-@synthesize styleDetail;
 @end

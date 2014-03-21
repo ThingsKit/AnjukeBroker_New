@@ -16,19 +16,15 @@
 -(void)loadMapSiteMessage:(NSDictionary *)mapSiteDic;
 @end
 
-typedef enum
-{
+typedef enum{
     RegionChoose = 0,
     RegionNavi
 }mapType;
 
 @interface MapViewController : UIViewController<MKMapViewDelegate,CLLocationManagerDelegate,UIActionSheetDelegate>{
-    CLLocationManager *locationManager;
 }
 
 @property(nonatomic,assign) id<MapViewControllerDelegate> siteDelegate;
 @property(nonatomic,assign) mapType mapType;
-//@property(nonatomic,assign) double lat;
-//@property(nonatomic,assign) double lon;
 @property(nonatomic,strong) NSDictionary *navDic;
 @end
