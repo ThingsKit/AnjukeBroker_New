@@ -79,10 +79,12 @@ static KKAudioComponent* defaultAudioComponent;
     //1. init recorder
     [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
     
-    NSString* timestamp = [KKAudioComponent currentTimeString];
-    self.recordFileName = [NSString stringWithFormat:@"%@_original", timestamp]; //原录音文件名
-    self.wavFileName = timestamp;  //amr转码后产生的 wav文件
-    self.amrFileName = timestamp;  //原录音文件转码后产生的 amr文件
+//    NSString* timestamp = [KKAudioComponent currentTimeString];
+    NSString* uniCode = [[NSProcessInfo processInfo] globallyUniqueString]; //唯一吗
+    
+    self.recordFileName = [NSString stringWithFormat:@"%@_original", uniCode]; //原录音文件名
+    self.wavFileName = uniCode;  //amr转码后产生的 wav文件
+    self.amrFileName = uniCode;  //原录音文件转码后产生的 amr文件
     
     NSString* recordFileNamePath = [KKAudioComponent filePathWithFileName:_recordFileName ofType:@"wav"];
     
@@ -117,22 +119,24 @@ static KKAudioComponent* defaultAudioComponent;
     double cTime = _recorder.currentTime; //录制时长
     
     if (cTime > 1) {//如果录制时间<1 不发送
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [KKAudioComponent wavToAmrWithWavFileName:self.recordFileName amrFileName:self.amrFileName]; //wav转码amr
-            [KKAudioComponent amrToWavWithAmrFileName:self.amrFileName wavFileName:self.wavFileName]; //amr转码wav
-            
-            //以下是封装返回数据
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSDictionary* dictRecordFile = [KKAudioComponent fileAttributesWithFileName:self.recordFileName FileType:@"wav" RecordTime:cTime];
-                NSDictionary* dictWavFile = [KKAudioComponent fileAttributesWithFileName:self.wavFileName FileType:@"wav" RecordTime:cTime];
-                NSDictionary* dictAmrFile = [KKAudioComponent fileAttributesWithFileName:self.amrFileName FileType:@"amr" RecordTime:cTime];
-                
-                self.data = [NSArray arrayWithObjects:dictRecordFile, dictWavFile, dictAmrFile, nil];
-                NSLog(@"%@", self.data);
-            });
-            
-        });
+        NSDictionary* dictRecordFile = [KKAudioComponent fileAttributesWithFileName:self.recordFileName FileType:@"wav" RecordTime:cTime];
+        self.data = [NSArray arrayWithObjects:dictRecordFile, nil];
+        NSLog(@"%@", self.data);
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//            [KKAudioComponent wavToAmrWithWavFileName:self.recordFileName amrFileName:self.amrFileName]; //wav转码amr
+//            [KKAudioComponent amrToWavWithAmrFileName:self.amrFileName wavFileName:self.wavFileName]; //amr转码wav
+//            
+//            //以下是封装返回数据
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                NSDictionary* dictRecordFile = [KKAudioComponent fileAttributesWithFileName:self.recordFileName FileType:@"wav" RecordTime:cTime];
+//                NSDictionary* dictWavFile = [KKAudioComponent fileAttributesWithFileName:self.wavFileName FileType:@"wav" RecordTime:cTime];
+//                NSDictionary* dictAmrFile = [KKAudioComponent fileAttributesWithFileName:self.amrFileName FileType:@"amr" RecordTime:cTime];
+//                
+//                self.data = [NSArray arrayWithObjects:dictRecordFile, dictWavFile, dictAmrFile, nil];
+//                NSLog(@"%@", self.data);
+//            });
+//            
+//        });
         
         NSLog(@"发送");
         
@@ -392,7 +396,7 @@ static KKAudioComponent* defaultAudioComponent;
 + (NSString*)filePathWithFileName:(NSString *)fileName ofType:(NSString *)type
 {
     if (fileName.length > 0 && type.length > 0) {
-        NSString* documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString* documentsPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         NSString* fileDirectory = [[documentsPath stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:type];
         return fileDirectory;
     }
@@ -422,7 +426,7 @@ static KKAudioComponent* defaultAudioComponent;
 #pragma mark - 返回沙盒下的Documents的路径
 + (NSString*)documentsPath{
     
-    NSString* documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString* documentsPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     return documentsPath;
 //    return [documentsPath stringByAppendingPathComponent:@"Voice"];  .../Documents/Voice
 }

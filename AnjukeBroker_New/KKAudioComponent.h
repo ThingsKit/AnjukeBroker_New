@@ -16,6 +16,21 @@
 
 + (KKAudioComponent*) sharedAudioComponent;
 
+// - wav转amr, 需要文件名 (不带后缀)
++ (void)wavToAmrWithWavFileName:(NSString*)wavFileName amrFileName:(NSString*)amrFileName;
+
+// - amr转wav, 需要文件名 (不带后缀)
++ (void)amrToWavWithAmrFileName:(NSString*)amrFileName wavFileName:(NSString*)wavFileName;
+
+// - 获取文件路径 (需要文件名, 文件类型)
++ (NSString*)filePathWithFileName:(NSString *)fileName ofType:(NSString *)type;
+
+
+
+
+
+
+
 //按下录音按钮不放
 - (void)beginRecording;
 
