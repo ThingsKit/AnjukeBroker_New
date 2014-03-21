@@ -42,6 +42,7 @@
             {
                 cell = [[AXChatMessagePublicCardCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identity];
             }
+                break;
             case AXMessageTypePic:
             {
                 cell = [[AXChatMessageImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identity];
