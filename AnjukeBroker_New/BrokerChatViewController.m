@@ -458,11 +458,6 @@
     MapViewController *mv = [[MapViewController alloc] init];
     [mv setHidesBottomBarWhenPushed:YES];
     mv.mapType = RegionNavi;
-    
-    mv.lat = [dic[@"lat"] floatValue];
-    mv.lon = [dic[@"lng"] floatValue];
-    
-    mv.addressStr = dic[@"address"];
     mv.navDic = dic;
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController pushViewController:mv animated:YES];

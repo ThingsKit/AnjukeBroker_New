@@ -119,10 +119,9 @@
         [self.view addSubview:certerIcon];
         
     }else{
+        DLog(@"navDic-->>%@",navDic);
         naviCoords.latitude = [[navDic objectForKey:@"lat"] doubleValue];
-        naviCoords.longitude = [[navDic objectForKey:@"lon"] doubleValue];
-        
-//        self.regionStr = @"夏至";
+        naviCoords.longitude = [[navDic objectForKey:@"lng"] doubleValue];
         
         CLLocation *loc = [[CLLocation alloc] initWithLatitude:[[navDic objectForKey:@"lat"] doubleValue] longitude:[[navDic objectForKey:@"lon"] doubleValue]];
         MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(naviCoords, 200, 200);
@@ -134,7 +133,6 @@
 }
 
 -(void)rightButtonAction:(id *)sender{
-    
     if (lastCoords.latitude && lastCoords.longitude && self.regionStr && ![self.regionStr isEqualToString:@""] && self.addressStr && ![self.addressStr isEqualToString:@""]) {
         if (self.siteDelegate && [self.siteDelegate respondsToSelector:@selector(loadMapSiteMessage:)])
         {
@@ -142,7 +140,7 @@
             [self.locationDic setValue:self.city forKey:@"city"];
             [self.locationDic setValue:self.regionStr forKey:@"region"];
             [self.locationDic setValue:[NSString stringWithFormat:@"%f",lastCoords.latitude] forKey:@"lat"];
-            [self.locationDic setValue:[NSString stringWithFormat:@"%f",lastCoords.longitude] forKey:@"lon"];
+            [self.locationDic setValue:[NSString stringWithFormat:@"%f",lastCoords.longitude] forKey:@"lng"];
             
            [self.siteDelegate loadMapSiteMessage:self.locationDic];
         }
@@ -159,16 +157,17 @@
 
 -(void)doAcSheet{
     NSArray *appListArr = [CheckInstalledMapAPP checkHasOwnApp];
-    
+    NSString *sheetTitle = [NSString stringWithFormat:@"导航到 %@",[self.navDic objectForKey:@"address"]];
+
     UIActionSheet *sheet;
     if ([appListArr count] == 2) {
-        sheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"导航到 %@",addressStr] delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:appListArr[0],appListArr[1], nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:sheetTitle delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:appListArr[0],appListArr[1], nil];
     }else if ([appListArr count] == 3){
-        sheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"导航到 %@",addressStr] delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:appListArr[0],appListArr[1],appListArr[2], nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:sheetTitle delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:appListArr[0],appListArr[1],appListArr[2], nil];
     }else if ([appListArr count] == 4){
-        sheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"导航到 %@",addressStr] delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:appListArr[0],appListArr[1],appListArr[2],appListArr[3], nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:sheetTitle delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:appListArr[0],appListArr[1],appListArr[2],appListArr[3], nil];
     }else if ([appListArr count] == 5){
-        sheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"导航到 %@",addressStr] delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:appListArr[0],appListArr[1],appListArr[2],appListArr[3],appListArr[4], nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:sheetTitle delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:appListArr[0],appListArr[1],appListArr[2],appListArr[3],appListArr[4], nil];
     }
     sheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [sheet showInView:self.view];
@@ -177,7 +176,6 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     NSString *btnTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
-    NSLog(@"btnTitle--->>%@",btnTitle);
     if (buttonIndex == 0) {
         if (!ISIOS7) {//ios6 调用goole网页地图
             NSString *urlString = [[NSString alloc]
