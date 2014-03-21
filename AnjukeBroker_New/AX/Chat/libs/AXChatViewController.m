@@ -120,6 +120,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         _hasMore = NO;
         self.isVoiceInput = NO;
         _contentValidator = [[AXChatContentValidator alloc] init];
+        
     }
     return self;
 }

@@ -9,6 +9,7 @@
 #import "KKAudioComponent.h"
 #import "VoiceConverter.h"
 
+
 @interface KKAudioComponent ()
 @property (nonatomic, retain) AVAudioPlayer* player;
 @property (nonatomic, retain) AVAudioRecorder* recorder;
@@ -119,12 +120,25 @@ static KKAudioComponent* defaultAudioComponent;
     double cTime = _recorder.currentTime; //录制时长
     
     if (cTime > 1) {//如果录制时间<1 不发送
+        
+        
+//        [KKAudioComponent wavToAmrWithWavFileName:self.recordFileName]; //wav转码amr
+//        [KKAudioComponent amrToWavWithAmrFileName:self.amrFileName]; //amr转码wav
+//        NSDictionary* dictRecordFile = [KKAudioComponent fileAttributesWithFileName:self.recordFileName FileType:@"wav" RecordTime:cTime];
+//        NSDictionary* dictWavFile = [KKAudioComponent fileAttributesWithFileName:self.wavFileName FileType:@"wav" RecordTime:cTime];
+//        NSDictionary* dictAmrFile = [KKAudioComponent fileAttributesWithFileName:self.amrFileName FileType:@"amr" RecordTime:cTime];
+        
+//        self.data = [NSArray arrayWithObjects:dictRecordFile, dictWavFile, dictAmrFile, nil];
+//        NSLog(@"%@", self.data);
+        
+        
+        
         NSDictionary* dictRecordFile = [KKAudioComponent fileAttributesWithFileName:self.recordFileName FileType:@"wav" RecordTime:cTime];
         self.data = [NSArray arrayWithObjects:dictRecordFile, nil];
         NSLog(@"%@", self.data);
 //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//            [KKAudioComponent wavToAmrWithWavFileName:self.recordFileName amrFileName:self.amrFileName]; //wav转码amr
-//            [KKAudioComponent amrToWavWithAmrFileName:self.amrFileName wavFileName:self.wavFileName]; //amr转码wav
+//            [KKAudioComponent wavToAmrWithWavFileName:self.recordFileName]; //wav转码amr
+//            [KKAudioComponent amrToWavWithAmrFileName:self.amrFileName]; //amr转码wav
 //            
 //            //以下是封装返回数据
 //            dispatch_async(dispatch_get_main_queue(), ^{
@@ -179,6 +193,8 @@ static KKAudioComponent* defaultAudioComponent;
         self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL URLWithString:filePath] error:nil];
         _player.delegate = self;
         [_player play];
+        
+        self.soundFileNameForPlaying = fileName;
         
         NSLog(@"开始播放");
     }else {
@@ -271,7 +287,9 @@ static KKAudioComponent* defaultAudioComponent;
 #pragma mark AVAudioPlayerDelegate
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
     //建议在播放之前设置yes，播放结束设置NO，这个功能是开启近距离传感器
-    //    [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
+    [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
+    [[NSNotificationCenter defaultCenter] postNotificationName:AUDIOPLAYER_DID_FINISH_PLAYING object:nil userInfo:nil]; //告知调用者播放结束
+    
 }
 
 /* audioPlayerBeginInterruption: is called when the audio session has been interrupted while the player was playing. The player will have been paused. */
@@ -374,20 +392,25 @@ static KKAudioComponent* defaultAudioComponent;
 
 
 #pragma mark - wav转amr
-+ (void)wavToAmrWithWavFileName:(NSString*)wavFileName amrFileName:(NSString*)amrFileName{
++ (NSString*)wavToAmrWithWavFileName:(NSString*)wavFileName{
+    
     NSString* wavFilePath = [KKAudioComponent filePathWithFileName:wavFileName ofType:@"wav"];
-    NSString* amrFilePath = [KKAudioComponent filePathWithFileName:amrFileName ofType:@"amr"];
+    NSString* amrFilePath = [KKAudioComponent filePathWithFileName:wavFileName ofType:@"amr"];
     [VoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath];
     
+    return amrFilePath;
 }
 
 
 
 #pragma mark - amr转wav
-+ (void)amrToWavWithAmrFileName:(NSString*)amrFileName wavFileName:(NSString*)wavFileName{
++ (NSString*)amrToWavWithAmrFileName:(NSString*)amrFileName{
+    
     NSString* amrFilePath = [KKAudioComponent filePathWithFileName:amrFileName ofType:@"amr"];
-    NSString* wavFilePath = [KKAudioComponent filePathWithFileName:wavFileName ofType:@"wav"];
+    NSString* wavFilePath = [KKAudioComponent filePathWithFileName:amrFileName ofType:@"wav"];
     [VoiceConverter amrToWav:amrFilePath wavSavePath:wavFilePath];
+    
+    return wavFilePath;
 }
 
 

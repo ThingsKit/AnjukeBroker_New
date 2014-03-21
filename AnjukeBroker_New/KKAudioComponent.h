@@ -9,22 +9,25 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
+//告知调用者播放结束
+#define AUDIOPLAYER_DID_FINISH_PLAYING @"audioPlayerDidFinishPlaying"
+
 
 @interface KKAudioComponent : NSObject <AVAudioPlayerDelegate, AVAudioRecorderDelegate>
 
+//返回录音文件名, 录音时间, 录音文件路径的字典, 字典在组数的0号索引处, 数组方便以后扩展
 @property (nonatomic, retain) NSArray* data;
+
+//返回正在播放的文件名(或者路径)
+@property (nonatomic, copy) NSString* soundFileNameForPlaying;
 
 + (KKAudioComponent*) sharedAudioComponent;
 
 // - wav转amr, 需要文件名 (不带后缀)
-+ (void)wavToAmrWithWavFileName:(NSString*)wavFileName amrFileName:(NSString*)amrFileName;
++ (NSString*)wavToAmrWithWavFileName:(NSString*)wavFileName;
 
 // - amr转wav, 需要文件名 (不带后缀)
-+ (void)amrToWavWithAmrFileName:(NSString*)amrFileName wavFileName:(NSString*)wavFileName;
-
-// - 获取文件路径 (需要文件名, 文件类型)
-+ (NSString*)filePathWithFileName:(NSString *)fileName ofType:(NSString *)type;
-
++ (NSString*)amrToWavWithAmrFileName:(NSString*)amrFileName;
 
 
 
