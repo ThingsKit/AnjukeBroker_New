@@ -25,12 +25,10 @@ typedef enum
 @interface MapViewController : UIViewController<MKMapViewDelegate,CLLocationManagerDelegate,UIActionSheetDelegate>{
     CLLocationManager *locationManager;
 }
+
 @property(nonatomic,assign) id<MapViewControllerDelegate> siteDelegate;
 @property(nonatomic,assign) mapType mapType;
-@property(nonatomic,assign) double lat;
-@property(nonatomic,assign) double lon;
-@property(nonatomic,strong) NSString *addressStr;
-@property(nonatomic,assign) MKCoordinateRegion naviRegion;
-@property (nonatomic, strong) NSString *regionStr;
+//@property(nonatomic,assign) double lat;
+//@property(nonatomic,assign) double lon;
 @property(nonatomic,strong) NSDictionary *navDic;
 @end

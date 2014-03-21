@@ -32,6 +32,9 @@
 @property (nonatomic, strong) NSMutableDictionary *locationDic;
 @property (nonatomic, strong) NSString *city;
 @property(nonatomic,strong) NSArray *routes;//ios6路线arr
+@property(nonatomic,assign) MKCoordinateRegion naviRegion;
+@property(nonatomic,strong) NSString *addressStr;
+@property (nonatomic, strong) NSString *regionStr;
 @end
 
 @implementation MapViewController
@@ -41,8 +44,8 @@
 @synthesize updateInt;
 @synthesize userRegion;
 @synthesize lastloc;
-@synthesize lat;
-@synthesize lon;
+//@synthesize lat;
+//@synthesize lon;
 @synthesize naviRegion;
 @synthesize lastCoords;
 @synthesize naviCoords;
@@ -116,12 +119,12 @@
         [self.view addSubview:certerIcon];
         
     }else{
-        naviCoords.latitude = lat;
-        naviCoords.longitude = lon;
+        naviCoords.latitude = [[navDic objectForKey:@"lat"] doubleValue];
+        naviCoords.longitude = [[navDic objectForKey:@"lon"] doubleValue];
         
-        self.regionStr = @"夏至";
+//        self.regionStr = @"夏至";
         
-        CLLocation *loc = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
+        CLLocation *loc = [[CLLocation alloc] initWithLatitude:[[navDic objectForKey:@"lat"] doubleValue] longitude:[[navDic objectForKey:@"lon"] doubleValue]];
         MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(naviCoords, 200, 200);
         naviRegion = [self.regionMapView regionThatFits:viewRegion];
         [self.regionMapView setRegion:naviRegion animated:YES];
@@ -139,7 +142,7 @@
             [self.locationDic setValue:self.city forKey:@"city"];
             [self.locationDic setValue:self.regionStr forKey:@"region"];
             [self.locationDic setValue:[NSString stringWithFormat:@"%f",lastCoords.latitude] forKey:@"lat"];
-            [self.locationDic setValue:[NSString stringWithFormat:@"%f",lastCoords.longitude] forKey:@"lng"];
+            [self.locationDic setValue:[NSString stringWithFormat:@"%f",lastCoords.longitude] forKey:@"lon"];
             
            [self.siteDelegate loadMapSiteMessage:self.locationDic];
         }
