@@ -455,16 +455,17 @@
 #pragma mark - 
 #pragma cellDelegate
 - (void)didClickMapCell:(NSDictionary *) dic {
-        MapViewController *mv = [[MapViewController alloc] init];
-        [mv setHidesBottomBarWhenPushed:YES];
-        mv.mapType = RegionNavi;
-        
-        mv.lat = [dic[@"lat"] floatValue];
-        mv.lon = [dic[@"lng"] floatValue];
-        
-        mv.addressStr = dic[@"address"];
-        self.navigationController.navigationBarHidden = NO;
-        [self.navigationController pushViewController:mv animated:YES];
+    MapViewController *mv = [[MapViewController alloc] init];
+    [mv setHidesBottomBarWhenPushed:YES];
+    mv.mapType = RegionNavi;
+    
+    mv.lat = [dic[@"lat"] floatValue];
+    mv.lon = [dic[@"lng"] floatValue];
+    
+    mv.addressStr = dic[@"address"];
+    mv.navDic = dic;
+    self.navigationController.navigationBarHidden = NO;
+    [self.navigationController pushViewController:mv animated:YES];
 }
 
 - (void)didclickVoice:(id)data{
@@ -472,7 +473,7 @@
 }
 
 #pragma mark -
-#pragma chooseSiteDelegate
+#pragma MapViewControllerDelegate
 - (void)loadMapSiteMessage:(NSDictionary *)mapSiteDic {
     
     NSDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:@{@"lat":mapSiteDic[@"lat"], @"lng":mapSiteDic[@"lng"], @"city":mapSiteDic[@"city"], @"region":mapSiteDic[@"region"], @"address":mapSiteDic[@"address"], @"jsonVersion":@"1", @"tradeType":[NSNumber numberWithInteger:AXMessageTypeMap]}];
