@@ -7,6 +7,7 @@
 //
 
 #import "AXChatMessageVoiceCell.h"
+#import "KKAudioComponent.h"
 
 @interface AXChatMessageVoiceCell ()
 
@@ -71,9 +72,10 @@
         self.timeLab.frame = CGRectMake(rect.origin.x - 40, rect.origin.y + 5, 40.0f, 20.0f);
     }
 }
+
 - (void)didclickVoice {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didclickVoice:)]) {
-        [self.delegate didclickVoice:nil];
-    }
+    NSDictionary* dict = [[KKAudioComponent sharedAudioComponent].data objectAtIndex:0];
+    NSString* fileName = [dict objectForKey:@"FILE_NAME"];
+    [[KKAudioComponent sharedAudioComponent] playRecordingWithFileName:fileName];
 }
 @end

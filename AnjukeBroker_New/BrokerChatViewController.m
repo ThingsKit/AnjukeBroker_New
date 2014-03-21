@@ -463,10 +463,6 @@
     [self.navigationController pushViewController:mv animated:YES];
 }
 
-- (void)didclickVoice:(id)data{
-
-}
-
 #pragma mark -
 #pragma MapViewControllerDelegate
 - (void)loadMapSiteMessage:(NSDictionary *)mapSiteDic {
