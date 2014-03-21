@@ -1467,7 +1467,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         self.messageInputView.textView.selectable = NO;
         self.pressSpeek.frame = self.messageInputView.textView.frame;
         //    self.pressSpeek.backgroundColor = [UIColor grayColor];
-        self.pressSpeek.image = [UIImage imageNamed:@"sj2.jpeg"];
+//        self.pressSpeek.image = [UIImage imageNamed:@"sj2.jpeg"];
     } else if ([[but imageForState:UIControlStateNormal] isEqual:[UIImage imageNamed:SpeekImgNameVoice]] || [[but imageForState:UIControlStateHighlighted] isEqual:[UIImage imageNamed:SpeekImgNameVoiceHighlight]]){
         [but setImage:[UIImage imageNamed:SpeekImgNameKeyboard] forState:UIControlStateNormal];
         [self.messageInputView.textView becomeFirstResponder];
