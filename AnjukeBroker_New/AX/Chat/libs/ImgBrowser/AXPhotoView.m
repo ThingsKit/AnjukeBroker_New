@@ -117,15 +117,15 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
     if (_photo.firstShow) { // 首次显示
         //        _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];; // 占位图片
         if (_photo.picMessage.imgPath.length > 0) {
-            _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
-            _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
+            _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[self fixedImgPath:_photo.picMessage.imgPath]]];
+            _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[self fixedImgPath:_photo.picMessage.imgPath]]];
             
             [self adjustFrame];
         } else {
             //                _imageView.image = nil;
             if (_photo.picMessage.thumbnailImgPath.length > 0) {
-                _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]];
-                _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]];
+                _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[self fixedImgPath:_photo.picMessage.thumbnailImgPath]]];
+                _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[self fixedImgPath:_photo.picMessage.thumbnailImgPath]]];
                 [self adjustFrame];
             }
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:_photo.picMessage.imgUrl]];
@@ -156,6 +156,17 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
     //    [self adjustFrame];
 }
 
+- (NSString *)fixedImgPath:(NSString *) imgPath {
+    NSString *libPath = [AXPhotoManager getLibrary:nil];
+    
+    NSArray *imgArray = [imgPath componentsSeparatedByString:@"/"];
+    
+    NSString *resultPath = [NSString stringWithFormat:@"%@/%@/%@",libPath ,[imgArray objectAtIndex:[imgArray count] - 2], [imgArray objectAtIndex:[imgArray count] - 1]];
+    
+    
+    return resultPath;
+}
+
 #pragma mark 开始加载图片
 - (void)photoStartLoad
 {
@@ -167,13 +178,13 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
     } else {
         if (_photo.picMessage.imgPath.length > 0) {
             
-            _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
-            _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.imgPath]];
+            _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[self fixedImgPath:_photo.picMessage.imgPath]]];
+            _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[self fixedImgPath:_photo.picMessage.imgPath]]];
             [self adjustFrame];
         } else {
             if (_photo.picMessage.thumbnailImgPath.length > 0) {
-                _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]];
-                _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]];
+                _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[self fixedImgPath:_photo.picMessage.thumbnailImgPath]]];
+                _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[self fixedImgPath:_photo.picMessage.thumbnailImgPath]]];
                 [self adjustFrame];
             }
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:_photo.picMessage.imgUrl]];
