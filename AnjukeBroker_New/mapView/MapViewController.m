@@ -10,6 +10,8 @@
 #import "RegionAnnotation.h"
 #import "RegexKitLite.h"
 #import "CheckInstalledMapAPP.h"
+#import "LocationChange.h"
+#import "LocIsBaidu.h"
 
 #define SYSTEM_NAVIBAR_COLOR [UIColor colorWithRed:1 green:1 blue:1 alpha:1]
 #define ISIOS7 ([[[[UIDevice currentDevice] systemVersion] substringToIndex:1] intValue]>=7)
@@ -22,8 +24,10 @@
 
 
 @interface MapViewController ()
-//导航2d
-@property(nonatomic,assign) CLLocationCoordinate2D naviCoords;
+//导航2d,百度
+@property(nonatomic,assign) CLLocationCoordinate2D naviCoordsBd;
+//导航2d,高德
+@property(nonatomic,assign) CLLocationCoordinate2D naviCoordsGd;
 //user最新2d
 @property(nonatomic,assign) CLLocationCoordinate2D nowCoords;
 //最近一次成功查询2d
@@ -53,7 +57,8 @@
 @synthesize userRegion;
 @synthesize naviRegion;
 @synthesize lastCoords;
-@synthesize naviCoords;
+@synthesize naviCoordsBd;
+@synthesize naviCoordsGd;
 @synthesize nowCoords;
 @synthesize routes;
 @synthesize regionStr;
@@ -87,7 +92,7 @@
     }
     [self addBackButton];
     NSString *titStr;
-    if (mapType == RegionNavi) {
+    if (self.mapType == RegionNavi) {
         titStr = @"查看地理位置";
     }else{
         titStr = @"位置";
@@ -115,22 +120,39 @@
     goUserLocBtn.backgroundColor = [UIColor clearColor];
     [self.view addSubview:goUserLocBtn];
     
-    if (mapType == RegionChoose) {
+    if (self.mapType == RegionChoose) {
         UIImageView *certerIcon = [[UIImageView alloc] initWithFrame:FRAME_CENTRE_LOC];
         certerIcon.image = [UIImage imageNamed:@"anjuke_icon_itis_position.png"];
         [self.view addSubview:certerIcon];
         
     }else{
-        DLog(@"navDic-->>%@",navDic);
-        naviCoords.latitude = [[navDic objectForKey:@"lat"] doubleValue];
-        naviCoords.longitude = [[navDic objectForKey:@"lng"] doubleValue];
+        if ([LocIsBaidu locIsBaid:self.navDic]) {
+            
+            naviCoordsBd.latitude = [[self.navDic objectForKey:@"baidu_lat"] doubleValue];
+            naviCoordsBd.longitude = [[self.navDic objectForKey:@"baidu_lng"] doubleValue];
+            
+            double gdLat,gdLon;
+            bd_decrypt(naviCoordsBd.latitude, naviCoordsBd.longitude, &gdLat, &gdLon);
+            
+            naviCoordsGd.latitude = gdLat;
+            naviCoordsGd.longitude = gdLon;
+        }else{
+            naviCoordsGd.latitude = [[self.navDic objectForKey:@"lat"] doubleValue];
+            naviCoordsGd.longitude = [[self.navDic objectForKey:@"lng"] doubleValue];
+            
+            double bdLat,bdLon;
+            bd_encrypt(naviCoordsGd.latitude, naviCoordsGd.longitude, &bdLat, &bdLon);
+            
+            naviCoordsBd.latitude = bdLat;
+            naviCoordsBd.longitude = bdLon;
+        }
         
-        CLLocation *loc = [[CLLocation alloc] initWithLatitude:[[navDic objectForKey:@"lat"] doubleValue] longitude:[[navDic objectForKey:@"lon"] doubleValue]];
-        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(naviCoords, 200, 200);
-        naviRegion = [self.regionMapView regionThatFits:viewRegion];
-        [self.regionMapView setRegion:naviRegion animated:YES];
+        CLLocation *loc = [[CLLocation alloc] initWithLatitude:naviCoordsGd.latitude longitude:naviCoordsGd.longitude];
+        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(naviCoordsGd, 200, 200);
+        self.naviRegion = [self.regionMapView regionThatFits:viewRegion];
+        [self.regionMapView setRegion:self.naviRegion animated:YES];
         
-        [self showAnnotation:loc coord:naviCoords];
+        [self showAnnotation:loc coord:naviCoordsGd];
     }
 }
 -(void)addRightButton{
@@ -168,8 +190,8 @@
             [locationDic setValue:self.addressStr forKey:@"address"];
             [locationDic setValue:self.city forKey:@"city"];
             [locationDic setValue:self.regionStr forKey:@"region"];
-            [locationDic setValue:[NSString stringWithFormat:@"%f",lastCoords.latitude] forKey:@"lat"];
-            [locationDic setValue:[NSString stringWithFormat:@"%f",lastCoords.longitude] forKey:@"lng"];
+            [locationDic setValue:[NSString stringWithFormat:@"%.8f",lastCoords.latitude] forKey:@"lat"];
+            [locationDic setValue:[NSString stringWithFormat:@"%.8f",lastCoords.longitude] forKey:@"lng"];
             
            [self.siteDelegate loadMapSiteMessage:locationDic];
         }
@@ -181,7 +203,7 @@
 }
 
 -(void)goUserLoc:(id *)sender{
-    [self.regionMapView setRegion:userRegion animated:YES];
+    [self.regionMapView setRegion:self.userRegion animated:YES];
 }
 
 -(void)doAcSheet{
@@ -208,15 +230,15 @@
     if (buttonIndex == 0) {
         if (!ISIOS7) {//ios6 调用goole网页地图
             NSString *urlString = [[NSString alloc]
-                                   initWithFormat:@"http://maps.google.com/maps?saddr=&daddr=%f,%f&dirfl=d",naviCoords.latitude,naviCoords.longitude];
+                                   initWithFormat:@"http://maps.google.com/maps?saddr=&daddr=%.8f,%.8f&dirfl=d",naviCoordsGd.latitude,naviCoordsGd.longitude];
             
             NSURL *aURL = [NSURL URLWithString:urlString];
             [[UIApplication sharedApplication] openURL:aURL];
         }else{//ios7 跳转apple map
             CLLocationCoordinate2D to;
             
-            to.latitude = naviCoords.latitude;
-            to.longitude = naviCoords.longitude;
+            to.latitude = naviCoordsGd.latitude;
+            to.longitude = naviCoordsGd.longitude;
             MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
             MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:to addressDictionary:nil]];
             
@@ -226,14 +248,15 @@
     }
     
     if ([btnTitle isEqualToString:@"google地图"]) {
-        NSString *urlStr = [NSString stringWithFormat:@"comgooglemaps://?saddr=%f,%f&daddr=%f,%f&directionsmode=transit",nowCoords.latitude,nowCoords.longitude,naviCoords.latitude,naviCoords.longitude];
+        NSString *urlStr = [NSString stringWithFormat:@"comgooglemaps://?saddr=%.8f,%.8f&daddr=%.8f,%.8f&directionsmode=transit",nowCoords.latitude,nowCoords.longitude,naviCoordsGd.latitude,naviCoordsGd.longitude];
 
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
     }else if ([btnTitle isEqualToString:@"高德地图"]){
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"iosamap://navi?sourceApplication=broker&backScheme=openbroker2&poiname=&poiid=BGVIS&lat=%f&lon=%f&dev=1&style=2",naviCoords.latitude,naviCoords.longitude]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"iosamap://navi?sourceApplication=broker&backScheme=openbroker2&poiname=&poiid=BGVIS&lat=%.8f&lon=%.8f&dev=1&style=2",naviCoordsGd.latitude,naviCoordsGd.longitude]];
         [[UIApplication sharedApplication] openURL:url];
+        
     }else if ([btnTitle isEqualToString:@"百度地图"]){
-        NSString *stringURL = [NSString stringWithFormat:@"baidumap://map/direction?origin=%f,%f&destination=%f,%f&&mode=driving",nowCoords.latitude,nowCoords.longitude,naviCoords.latitude,naviCoords.longitude];
+        NSString *stringURL = [NSString stringWithFormat:@"baidumap://map/direction?origin=%.8f,%.8f&destination=%.8f,%.8f&&mode=driving",nowCoords.latitude,nowCoords.longitude,naviCoordsBd.latitude,naviCoordsBd.longitude];
         NSURL *url = [NSURL URLWithString:stringURL];
         [[UIApplication sharedApplication] openURL:url];
     }else if ([btnTitle isEqualToString:@"显示路线"]){
@@ -242,7 +265,7 @@
 }
 -(void)drawRout{
     MKPlacemark *fromPlacemark = [[MKPlacemark alloc] initWithCoordinate:nowCoords addressDictionary:nil];
-    MKPlacemark *toPlacemark   = [[MKPlacemark alloc] initWithCoordinate:naviCoords addressDictionary:nil];
+    MKPlacemark *toPlacemark   = [[MKPlacemark alloc] initWithCoordinate:naviCoordsGd addressDictionary:nil];
     MKMapItem *fromItem = [[MKMapItem alloc] initWithPlacemark:fromPlacemark];
     MKMapItem *toItem   = [[MKMapItem alloc] initWithPlacemark:toPlacemark];
     
@@ -260,16 +283,13 @@
 }
 //ios6绘制路线方法
 -(NSArray*)calculateRoutesFrom{
-	NSString* saddr = [NSString stringWithFormat:@"%f,%f", nowCoords.latitude, nowCoords.longitude];
-	NSString* daddr = [NSString stringWithFormat:@"%f,%f", naviCoords.latitude, naviCoords.longitude];
-	
-	NSString* apiUrlStr = [NSString stringWithFormat:@"http://maps.google.com/maps?output=dragdir&saddr=%@&daddr=%@", saddr, daddr];
+	NSString* apiUrlStr = [NSString stringWithFormat:@"http://maps.google.com/maps?output=dragdir&saddr=%0.8f,%0.8f&daddr=%0.8f,%0.8f", nowCoords.latitude, nowCoords.longitude, naviCoordsGd.latitude, naviCoordsGd.longitude];
 	NSURL* apiUrl = [NSURL URLWithString:apiUrlStr];
 //	NSString *apiResponse = [NSString stringWithContentsOfURL:apiUrl];
 	NSString *apiResponse = [NSString stringWithFormat:@"%@",apiUrl];
     
     NSString* encodedPoints = [apiResponse stringByMatching:@"points:\\\"([^\\\"]*)\\\"" capture:1L];
-	return [self decodePolyLine:[encodedPoints mutableCopy]:nowCoords to:naviCoords];
+	return [self decodePolyLine:[encodedPoints mutableCopy]:nowCoords to:naviCoordsBd];
 }
 -(NSMutableArray *)decodePolyLine: (NSMutableString *)encoded :(CLLocationCoordinate2D)f to: (CLLocationCoordinate2D) t {
 
@@ -303,8 +323,6 @@
 		lngV += dlng;
 		NSNumber *latitude = [[NSNumber alloc] initWithFloat:latV * 1e-5];
 		NSNumber *longitude = [[NSNumber alloc] initWithFloat:lngV * 1e-5];
-		printf("[%f,", [latitude doubleValue]);
-		printf("%f]", [longitude doubleValue]);
 		CLLocation *loc = [[CLLocation alloc] initWithLatitude:[latitude floatValue] longitude:[longitude floatValue]];
 		[array addObject:loc];
 	}
@@ -405,20 +423,20 @@
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     nowCoords = [userLocation coordinate];
     //放大地图到自身的经纬度位置。
-    userRegion = MKCoordinateRegionMakeWithDistance(nowCoords, 200, 200);
+    self.userRegion = MKCoordinateRegionMakeWithDistance(nowCoords, 200, 200);
 
-    if (mapType != RegionNavi) {
+    if (self.mapType != RegionNavi) {
         if (updateInt >= 1) {
             return;
         }
         [self showAnnotation:userLocation.location coord:nowCoords];
-        [self.regionMapView setRegion:userRegion animated:YES];
+        [self.regionMapView setRegion:self.userRegion animated:YES];
         updateInt += 1;
     }
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
-    if (mapType == RegionNavi) {
+    if (self.mapType == RegionNavi) {
         return;
     }
     [mapView removeAnnotations:mapView.annotations];
@@ -433,8 +451,8 @@
 }
 
 -(void)showAnnotation:(CLLocation *)location coord:(CLLocationCoordinate2D)coords{
-    if (mapType == RegionNavi) {
-        [self addAnnotationView:location coord:coords region:[navDic objectForKey:@"region"]  address:[navDic objectForKey:@"address"]];
+    if (self.mapType == RegionNavi) {
+        [self addAnnotationView:location coord:coords region:[self.navDic objectForKey:@"region"]  address:[self.navDic objectForKey:@"address"]];
         return;
     }
     //每次请求位置时，把latitude塞入arr。在block回掉时判断但会latitude是否存在arr且和最近一次请求latitude一致。如果一致，则显示，否则舍弃
@@ -495,7 +513,7 @@
     [self.regionMapView selectAnnotation:annotation animated:YES];
 }
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated{
-    if (mapType == RegionNavi) {
+    if (self.mapType == RegionNavi) {
         return;
     }
 
@@ -516,16 +534,24 @@
         }
         
         annotationView.frame = CGRectMake(0, 0, 16, 33);
-        if (mapType == RegionNavi) {
+        if (self.self.mapType == RegionNavi) {
             annotationView.image = [UIImage imageNamed:@"anjuke_icon_itis_position.png"];
 
-            UIButton *naviBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            naviBtn.backgroundColor = [UIColor blackColor];
+            UIButton *naviBtn;
+            if (ISIOS7) {
+                naviBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                naviBtn.backgroundColor = [UIColor blackColor];
+                [naviBtn setImage:[UIImage imageNamed:@"anjuke_icon_to_position.png"] forState:UIControlStateNormal];
+                [naviBtn setImage:[UIImage imageNamed:@"anjuke_icon_to_position1.png"] forState:UIControlStateHighlighted];
+                naviBtn.frame = CGRectMake(0, 0, 65, 45);
+            }else{
+                naviBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+                [naviBtn setTitle:@"导航" forState:UIControlStateNormal];
+                naviBtn.frame = CGRectMake(0, 0, 60, 35);
+            }
             [naviBtn addTarget:self action:@selector(doAcSheet) forControlEvents:UIControlEventTouchUpInside];
-            [naviBtn setImage:[UIImage imageNamed:@"anjuke_icon_to_position.png"] forState:UIControlStateNormal];
-            [naviBtn setImage:[UIImage imageNamed:@"anjuke_icon_to_position1.png"] forState:UIControlStateHighlighted];
-            naviBtn.frame = CGRectMake(0, 0, 65, 45);
-
+            
+            
             annotationView.rightCalloutAccessoryView = naviBtn;
         }
         [annotationView setCanShowCallout:YES];

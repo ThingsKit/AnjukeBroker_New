@@ -139,6 +139,8 @@
 		2739140418DC0B44003284AA /* wl_map_icon_position_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2739140018DC0B44003284AA /* wl_map_icon_position_press@2x.png */; };
 		2739140518DC0B44003284AA /* wl_map_icon_position.png in Resources */ = {isa = PBXBuildFile; fileRef = 2739140118DC0B44003284AA /* wl_map_icon_position.png */; };
 		2739140618DC0B44003284AA /* wl_map_icon_position@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2739140218DC0B44003284AA /* wl_map_icon_position@2x.png */; };
+		2739141518DC2DC5003284AA /* LocationChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 2739141418DC2DC5003284AA /* LocationChange.m */; };
+		2739141B18DC371B003284AA /* LocIsBaidu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2739141A18DC371B003284AA /* LocIsBaidu.m */; };
 		2761B89C187C053C00EABF95 /* logo_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89A187C053C00EABF95 /* logo_57.png */; };
 		2761B89D187C053C00EABF95 /* logo_57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89B187C053C00EABF95 /* logo_57@2x.png */; };
 		678D298E18DA96120027D945 /* record_animate_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 678D298018DA96120027D945 /* record_animate_01.png */; };
@@ -741,6 +743,10 @@
 		2739140018DC0B44003284AA /* wl_map_icon_position_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wl_map_icon_position_press@2x.png"; path = "mapView/wl_map_icon_position_press@2x.png"; sourceTree = "<group>"; };
 		2739140118DC0B44003284AA /* wl_map_icon_position.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wl_map_icon_position.png; path = mapView/wl_map_icon_position.png; sourceTree = "<group>"; };
 		2739140218DC0B44003284AA /* wl_map_icon_position@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wl_map_icon_position@2x.png"; path = "mapView/wl_map_icon_position@2x.png"; sourceTree = "<group>"; };
+		2739141318DC2DC5003284AA /* LocationChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationChange.h; path = mapView/LocationChange.h; sourceTree = "<group>"; };
+		2739141418DC2DC5003284AA /* LocationChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationChange.m; path = mapView/LocationChange.m; sourceTree = "<group>"; };
+		2739141918DC371B003284AA /* LocIsBaidu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocIsBaidu.h; path = mapView/LocIsBaidu.h; sourceTree = "<group>"; };
+		2739141A18DC371B003284AA /* LocIsBaidu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocIsBaidu.m; path = mapView/LocIsBaidu.m; sourceTree = "<group>"; };
 		2761B89A187C053C00EABF95 /* logo_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_57.png; sourceTree = "<group>"; };
 		2761B89B187C053C00EABF95 /* logo_57@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_57@2x.png"; sourceTree = "<group>"; };
 		678D298018DA96120027D945 /* record_animate_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = record_animate_01.png; sourceTree = "<group>"; };
@@ -1762,6 +1768,10 @@
 				273913D118DBCFD9003284AA /* RegionAnnotation.m */,
 				273913E718DBD581003284AA /* RegexKitLite.h */,
 				273913E818DBD581003284AA /* RegexKitLite.m */,
+				2739141318DC2DC5003284AA /* LocationChange.h */,
+				2739141418DC2DC5003284AA /* LocationChange.m */,
+				2739141918DC371B003284AA /* LocIsBaidu.h */,
+				2739141A18DC371B003284AA /* LocIsBaidu.m */,
 			);
 			name = "地址选择&导航";
 			sourceTree = "<group>";
@@ -3468,6 +3478,7 @@
 				B7E55B4F18BF2190007238CB /* JSMessageTextView.m in Sources */,
 				B769E44F181F4C3E00A2FF50 /* FixedObject.m in Sources */,
 				97B422601820E38200A2E9E6 /* PropertyResultListViewController.m in Sources */,
+				2739141518DC2DC5003284AA /* LocationChange.m in Sources */,
 				B769E484181F8F7000A2FF50 /* BasePropertyListController.m in Sources */,
 				B769E45A181F547100A2FF50 /* BasePropertyListCell.m in Sources */,
 				B7EAD51A18CD927200B28FEC /* AXChatMessagePublicCardCell.m in Sources */,
@@ -3552,6 +3563,7 @@
 				20D3C24C1892466B0030D7D8 /* PhotoFooterView.m in Sources */,
 				B7EAD51618CD927200B28FEC /* AXChatBaseCell.m in Sources */,
 				207526BD18B45FE10022220C /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
+				2739141B18DC371B003284AA /* LocIsBaidu.m in Sources */,
 				B7EF148E18289CB7000B6016 /* RentBidDetailController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
