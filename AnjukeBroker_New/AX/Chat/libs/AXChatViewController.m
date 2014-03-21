@@ -62,6 +62,12 @@ static CGFloat const AXScrollContentOffsetY = 800;
 
 static NSString * const AXChatJsonVersion = @"1";
 
+static NSString * const SpeekImgNameKeyboard = @"anjuke_icon_keyboard.png";
+static NSString * const SpeekImgNameKeyboardHighlight = @"anjuke_icon_keyboard1.png";
+
+static NSString * const SpeekImgNameVoice = @"anjuke_icon_voice.png";
+static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
+
 @interface AXChatViewController ()<UITableViewDelegate, UITableViewDataSource, OHAttributedLabelDelegate, AXPullToRefreshViewDelegate, UIAlertViewDelegate, AXChatBaseCellDelegate, JSDismissiveTextViewDelegate>
 
 @property (nonatomic, strong) UITableView *myTableView;
@@ -95,7 +101,7 @@ static NSString * const AXChatJsonVersion = @"1";
 @property (nonatomic, retain) UIImageView* volumnImageView;
 @property (nonatomic, retain) MBProgressHUD* hud;
 @property (nonatomic, retain) NSTimer* timer;
-
+@property (nonatomic, strong) UIButton *pressSpeek;
 
 @end
 
@@ -265,6 +271,11 @@ static NSString * const AXChatJsonVersion = @"1";
                        forControlEvents:UIControlEventTouchUpInside];
     } else {
         
+        self.pressSpeek = [[UIButton alloc] initWithFrame:CGRectZero];
+        [self.pressSpeek setTitle:@"按住 说话" forState:UIControlStateNormal];
+//        self.pressSpeek.image = [UIImage imageNamed:SpeekImgNameVoice];
+        [self.messageInputView addSubview:self.pressSpeek];
+        
         self.messageInputView.textView.frame = CGRectMake(textViewRect.origin.x + 40, textViewRect.origin.y, textViewRect.size.width - 40, textViewRect.size.height);
         self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
         self.sendBut.frame = CGRectMake(270.0f + 4.0f, 2.0f, 45.0f, 45.0f);
@@ -275,11 +286,11 @@ static NSString * const AXChatJsonVersion = @"1";
         
         self.voiceBut = [UIButton buttonWithType:UIButtonTypeCustom];
         self.voiceBut.frame = CGRectMake(2.0f + 4.0f, 2.0f, 45.0f, 45.0f);
-        [self.voiceBut addTarget:self action:@selector(didBeginVoice) forControlEvents:UIControlEventTouchDown];
+        [self.voiceBut addTarget:self action:@selector(speeking:) forControlEvents:UIControlEventTouchDown];
         [self.voiceBut addTarget:self action:@selector(didCommitVoice) forControlEvents:UIControlEventTouchUpInside];
         [self.voiceBut addTarget:self action:@selector(didCancelVoice) forControlEvents:UIControlEventTouchDragExit];
-        [self.voiceBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateNormal];
-        [self.voiceBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more_selected.png"] forState:UIControlStateHighlighted];
+        [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
+        [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameVoiceHighlight] forState:UIControlStateHighlighted];
         [self.messageInputView addSubview:self.voiceBut];
     }
     
@@ -1446,7 +1457,26 @@ static NSString * const AXChatJsonVersion = @"1";
     [self.navigationController pushViewController:mv animated:YES];
 
 }
+- (void)speeking:(id)sender {
+    
+    UIButton *but = (UIButton *)sender;
+    if ([[but imageForState:UIControlStateNormal] isEqual:[UIImage imageNamed:SpeekImgNameKeyboard]] || [[but imageForState:UIControlStateHighlighted] isEqual:[UIImage imageNamed:SpeekImgNameKeyboardHighlight]]) {
+        [but setImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
+        [self.messageInputView.textView resignFirstResponder];
+        self.messageInputView.textView.editable = NO;
+        self.messageInputView.textView.selectable = NO;
+        self.pressSpeek.frame = self.messageInputView.textView.frame;
+        //    self.pressSpeek.backgroundColor = [UIColor grayColor];
+        self.pressSpeek.image = [UIImage imageNamed:@"sj2.jpeg"];
+    } else if ([[but imageForState:UIControlStateNormal] isEqual:[UIImage imageNamed:SpeekImgNameVoice]] || [[but imageForState:UIControlStateHighlighted] isEqual:[UIImage imageNamed:SpeekImgNameVoiceHighlight]]){
+        [but setImage:[UIImage imageNamed:SpeekImgNameKeyboard] forState:UIControlStateNormal];
+        [self.messageInputView.textView becomeFirstResponder];
+        self.messageInputView.textView.editable = YES;
+        self.messageInputView.textView.selectable = YES;
+        self.pressSpeek.frame = CGRectZero;
+    }
 
+}
 
 - (void)didBeginVoice {
     DLog(@"didBeginVoice");
