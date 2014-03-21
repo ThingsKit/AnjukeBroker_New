@@ -77,12 +77,11 @@
 - (void)getFriendList {
     [[AXChatMessageCenter defaultMessageCenter] friendListWithPersonWithCompeletionBlock:^(NSArray *friendList, BOOL whetherSuccess) {
         if (whetherSuccess) {
-            [self hideLoadWithAnimated:YES];
             
-            DLog(@"getFriendListgetFriendList success--[%d] friendList--[%@]", whetherSuccess, friendList);
+            self.testArr = [NSArray arrayWithArray:friendList];
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.testArr = [NSArray arrayWithArray:friendList];
-                [self redrawList];
+                [self resettData];
+                [self hideLoadWithAnimated:YES];
             });
         }
     }];
@@ -132,11 +131,14 @@
     }
 }
 
-- (void)redrawList {
+- (void)resettData {
     self.listDataArray = [NSMutableArray array];
     [self.publicDataArr removeAllObjects];
     [self.starDataArr removeAllObjects];
     [self.allDataArr removeAllObjects];
+    
+    DLog(@"返回数据【%@】", self.testArr);
+    DLog(@"fetch Arr 【%@】", [[[AXChatMessageCenter defaultMessageCenter] friendListFetchedResultController] sections]);
     
     //reset 3 list arr ...
     //获取公共账号
@@ -145,8 +147,6 @@
         if (item.userType == AXPersonTypePublic) {
             [self.publicDataArr addObject:item];
         }
-//        else
-//            [self.allDataArr addObject:item];
     }
     
     //非公共账号处理
@@ -158,9 +158,6 @@
             }
         }
     }
-    
-    [self.tableViewList reloadData];
-    
     [self checkToAlert];
 }
 
@@ -226,19 +223,11 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [[self.fetchedResultsController sections] count] +2;
+    return [[self.fetchedResultsController sections] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    if (section == 0) {
-        return self.publicDataArr.count;
-    }
-    else if (section == 1) {
-        return self.starDataArr.count;
-    }
-    
-    return [[self.fetchedResultsController sections][section -2] numberOfObjects];
+    return [[self.fetchedResultsController sections][section] numberOfObjects];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -246,50 +235,23 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        return @"";
-    }
-    else if (section == 1) {
-        if (self.starDataArr.count >0) {
-            return @"★星标客户";
-        }
-        else
-            return @"";
-    }
+//    if (section == 0 && self.starDataArr.count >0) {
+//        return @"★星标客户";
+//    }
     
-    if ([[[[self.fetchedResultsController sections] objectAtIndex:section-2] indexTitle] isEqualToString:@"~"]){
+    if ([[[[self.fetchedResultsController sections] objectAtIndex:section] indexTitle] isEqualToString:@"~"]){
         return @"#";
     }
-    return [[[self.fetchedResultsController sections] objectAtIndex:section-2] indexTitle];
+    return [[[self.fetchedResultsController sections] objectAtIndex:section] indexTitle];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     ClientListCell *cell = (ClientListCell *)[tableView dequeueReusableCellWithIdentifier:nil];
-    
     NSArray *rightBtnarr = [NSArray array];
     
-    AXMappedPerson *item = nil;
-    AXPerson *item2 = nil;
-    
-    id dataItem = nil;
-    
-    if (indexPath.section == 0) {
-        item = [self.publicDataArr objectAtIndex:indexPath.row];
-        dataItem = item;
-    }
-    if (indexPath.section == 1) {
-        item = [self.starDataArr objectAtIndex:indexPath.row];
-        rightBtnarr = [self rightButtonsIsStar:YES];
-        dataItem = item;
-    }
-    else if (indexPath.section >= 2) {
-        NSIndexPath *newIndex = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section - 2];
-        item2 = [self.fetchedResultsController objectAtIndexPath:newIndex];
-        rightBtnarr = [self rightButtonsIsStar:[item2.isStar boolValue]];
-        
-        dataItem = item2;
-    }
+    AXMappedPerson *item = [[self.fetchedResultsController objectAtIndexPath:indexPath] convertToMappedPerson];
+    rightBtnarr = [self rightButtonsIsStar:item.isStar];
     
     if (cell == nil) {
         cell = [[ClientListCell alloc] initWithStyle:UITableViewCellStyleDefault
@@ -301,7 +263,7 @@
     }
     
     [cell setCellHeight:CLIENT_LIST_HEIGHT];
-    [cell configureCellWithData:dataItem]; //for test
+    [cell configureCellWithData:item]; //for test
     
     return cell;
 }
@@ -330,54 +292,27 @@
     [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_003 note:nil];
     
     DLog(@"section- [%d]", indexPath.section);
-    AXMappedPerson *item = nil;
+    AXMappedPerson *item = [[self.fetchedResultsController objectAtIndexPath:indexPath] convertToMappedPerson];
     
-    if (indexPath.section == 0) { //公共账号显示
-        item = [self.publicDataArr objectAtIndex:indexPath.row];
-        
-        if (self.isForMessageList) {
-            BrokerChatViewController *controller = [[BrokerChatViewController alloc] init];
-            controller.isBroker = YES;
-            controller.uid = item.uid;
-            [controller setHidesBottomBarWhenPushed:YES];
-            [self.navigationController pushViewController:controller animated:YES];
-        }
-        else {
+    if (self.isForMessageList) {
+        BrokerChatViewController *controller = [[BrokerChatViewController alloc] init];
+        controller.isBroker = YES;
+        controller.uid = item.uid;
+        [controller setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+    else {
+        if (item.userType == AXPersonTypePublic || [item.uid isEqualToString:@"101"]) {
             ClientDetailPublicViewController *cd = [[ClientDetailPublicViewController alloc] init];
             cd.person = item;
             [cd setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:cd animated:YES];
         }
-    }
-    if (indexPath.section > 0) {
-        if (indexPath.section == 1) { //星标用户
-            item = [self.starDataArr objectAtIndex:indexPath.row];
-        }
-        else if (indexPath.section >= 2) { //全部用户
-            NSIndexPath *newIndex = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section - 2];
-            item = [self.fetchedResultsController objectAtIndexPath:newIndex];
-        }
-        
-        if (self.isForMessageList) {
-            BrokerChatViewController *controller = [[BrokerChatViewController alloc] init];
-            controller.isBroker = YES;
-            controller.uid = item.uid;
-            [controller setHidesBottomBarWhenPushed:YES];
-            [self.navigationController pushViewController:controller animated:YES];
-        }
         else {
-            if (item.userType == AXPersonTypePublic || [item.uid isEqualToString:@"101"]) {
-                ClientDetailPublicViewController *cd = [[ClientDetailPublicViewController alloc] init];
-                cd.person = item;
-                [cd setHidesBottomBarWhenPushed:YES];
-                [self.navigationController pushViewController:cd animated:YES];
-            }
-            else {
-                ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
-                cd.person = item;
-                [cd setHidesBottomBarWhenPushed:YES];
-                [self.navigationController pushViewController:cd animated:YES];
-            }
+            ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
+            cd.person = item;
+            [cd setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:cd animated:YES];
         }
     }
     
@@ -394,17 +329,21 @@
     NSIndexPath *cellIndexPath = [self.tableViewList indexPathForCell:cell];
     AXMappedPerson *item = nil;
     
-    if (cellIndexPath.section == 0) {
-        return;
-    }
-    else if (cellIndexPath.section == 1) {
-        item = [self.starDataArr objectAtIndex:cellIndexPath.row];
-    }
-    else if (cellIndexPath.section >= 2) {
-        NSIndexPath *newIndex = [NSIndexPath indexPathForRow:cellIndexPath.row inSection:cellIndexPath.section - 2];
-        AXPerson *person = [self.fetchedResultsController objectAtIndexPath:newIndex];
-        item = [person convertToMappedPerson];
-    }
+//    if (cellIndexPath.section == 0) {
+//        return;
+//    }
+//    else if (cellIndexPath.section == 1) {
+//        item = [self.starDataArr objectAtIndex:cellIndexPath.row];
+//    }
+//    else if (cellIndexPath.section >= 2) {
+//        NSIndexPath *newIndex = [NSIndexPath indexPathForRow:cellIndexPath.row inSection:cellIndexPath.section - 2];
+//        AXPerson *person = [self.fetchedResultsController objectAtIndexPath:newIndex];
+//        item = [person convertToMappedPerson];
+//    }
+    
+    AXPerson *person = [self.fetchedResultsController objectAtIndexPath:cellIndexPath];
+    item = [person convertToMappedPerson];
+    
     [self showLoadingActivity:YES];
     
     switch (index) {
@@ -445,6 +384,72 @@
 
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
     return YES;
+}
+
+#pragma mark - NSFetchedResultsControllerDelegate
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+    switch (type) {
+        case NSFetchedResultsChangeInsert:
+        {
+            if (![self.insertIndexSet containsIndex:newIndexPath.section]) {
+                [self.tableViewList insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+        }
+            break;
+        case NSFetchedResultsChangeUpdate:
+        {
+            
+            [self.tableViewList reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+            break;
+        case NSFetchedResultsChangeMove:
+        {
+            [self.tableViewList moveRowAtIndexPath:indexPath toIndexPath:newIndexPath];
+        }
+            break;
+        case NSFetchedResultsChangeDelete:
+        {
+            if (![self.deleteIndexSet containsIndex:indexPath.section]) {
+                [self.tableViewList deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            }
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    switch (type) {
+        case NSFetchedResultsChangeInsert:
+        {
+            [self.tableViewList insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.insertIndexSet addIndex:sectionIndex];
+        }
+            break;
+        case NSFetchedResultsChangeDelete:
+        {
+            [self.tableViewList deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.deleteIndexSet addIndex:sectionIndex];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableViewList beginUpdates];
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableViewList endUpdates];
+    [self.insertIndexSet removeAllIndexes];
+    [self.deleteIndexSet removeAllIndexes];
 }
 
 @end
