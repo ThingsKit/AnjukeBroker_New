@@ -31,5 +31,6 @@ typedef enum
 @property(nonatomic,assign) double lon;
 @property(nonatomic,strong) NSString *addressStr;
 @property(nonatomic,assign) MKCoordinateRegion naviRegion;
-
+@property (nonatomic, strong) NSString *regionStr;
+@property(nonatomic,strong) NSDictionary *navDic;
 @end

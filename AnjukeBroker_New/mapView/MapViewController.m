@@ -48,6 +48,8 @@
 @synthesize naviCoords;
 @synthesize nowCoords;
 @synthesize routes;
+@synthesize regionStr;
+@synthesize navDic;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -56,6 +58,7 @@
         // Custom initialization
         updateInt = 0;
         self.locationDic = [NSMutableDictionary dictionary];
+        self.navDic = [[NSDictionary alloc] init];
     }
     return self;
 }
@@ -116,6 +119,8 @@
         naviCoords.latitude = lat;
         naviCoords.longitude = lon;
         
+        self.regionStr = @"夏至";
+        
         CLLocation *loc = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
         MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(naviCoords, 200, 200);
         naviRegion = [self.regionMapView regionThatFits:viewRegion];
@@ -127,11 +132,12 @@
 
 -(void)rightButtonAction:(id *)sender{
     
-    if (lastCoords.latitude && lastCoords.longitude && addressStr && ![addressStr isEqualToString:@""]) {
+    if (lastCoords.latitude && lastCoords.longitude && self.regionStr && ![self.regionStr isEqualToString:@""] && self.addressStr && ![self.addressStr isEqualToString:@""]) {
         if (self.siteDelegate && [self.siteDelegate respondsToSelector:@selector(loadMapSiteMessage:)])
         {
             [self.locationDic setValue:self.addressStr forKey:@"address"];
             [self.locationDic setValue:self.city forKey:@"city"];
+            [self.locationDic setValue:self.regionStr forKey:@"region"];
             [self.locationDic setValue:[NSString stringWithFormat:@"%f",lastCoords.latitude] forKey:@"lat"];
             [self.locationDic setValue:[NSString stringWithFormat:@"%f",lastCoords.longitude] forKey:@"lng"];
             
@@ -150,7 +156,6 @@
 
 -(void)doAcSheet{
     NSArray *appListArr = [CheckInstalledMapAPP checkHasOwnApp];
-    NSLog(@"appListArr-->>%d/%@",[appListArr count],appListArr);
     
     UIActionSheet *sheet;
     if ([appListArr count] == 2) {
@@ -396,12 +401,13 @@
     self.lastloc = loc;
     [self showAnnotation:loc coord:centerCoordinate];
 }
+
 -(void)showAnnotation:(CLLocation *)location coord:(CLLocationCoordinate2D)coords{
     if (mapType == RegionNavi) {
-        [self addAnnotationView:location coord:coords address:addressStr];
+        [self addAnnotationView:location coord:coords region:[navDic objectForKey:@"region"]  address:[navDic objectForKey:@"address"]];
         return;
     }
-    [self addAnnotationView:location coord:coords address:@"加载中..."];
+    [self addAnnotationView:location coord:coords region:@"加载中..." address:nil];
     
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *array, NSError *error) {
@@ -411,27 +417,32 @@
         if (array.count > 0) {
             CLPlacemark *placemark = [array objectAtIndex:0];
             
-//            NSString *street = [placemark.addressDictionary objectForKey:@"Street"];
+            NSString *region = [placemark.addressDictionary objectForKey:@"SubLocality"];
             NSString *address = [placemark.addressDictionary objectForKey:@"Name"];
             lastCoords = coords;
+            self.regionStr = region;
             self.addressStr = address;
             self.city = placemark.administrativeArea;
-            [self addAnnotationView:location coord:coords address:address];
+            
+            [self addAnnotationView:location coord:coords region:region address:address];
         }else{
             lastCoords.latitude = 0;
             lastCoords.longitude = 0;
+            self.regionStr = nil;
             self.addressStr = nil;
-            [self addAnnotationView:location coord:coords address:@"请重新滑动选择发送地址"];
+
+            [self addAnnotationView:location coord:coords region:@"请重新滑动选择发送地址" address:nil];
         }
     }];
 }
 
 
 
--(void)addAnnotationView:(CLLocation *)location coord:(CLLocationCoordinate2D)coords address:(NSString *)address{
+-(void)addAnnotationView:(CLLocation *)location coord:(CLLocationCoordinate2D)coords region:(NSString *)region address:(NSString *)address{
     RegionAnnotation *annotation = [[RegionAnnotation alloc] init];
     annotation.coordinate = coords;
-    annotation.title = address;
+    annotation.title = region;
+    annotation.subtitle  = address;
     
     if (mapType == RegionChoose) {
         annotation.styleDetail = StyleForChoose;
