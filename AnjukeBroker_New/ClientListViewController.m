@@ -25,13 +25,16 @@
 @property (nonatomic, strong) NSMutableArray *allDataArr; //所有客户列表
 
 @property (nonatomic, strong) NSArray *testArr;
+@property (nonatomic, strong) NSMutableDictionary *contactsDictionary;
+@property (nonatomic, strong) NSMutableArray *contactKeyArr;
 
 @end
 
 @implementation ClientListViewController
 @synthesize publicDataArr, starDataArr, allDataArr;
 @synthesize tableViewList, listDataArray;
-
+@synthesize contactsDictionary;
+@synthesize contactKeyArr;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -92,7 +95,9 @@
     self.publicDataArr = [NSMutableArray array];
     self.starDataArr = [NSMutableArray array];
     self.allDataArr = [NSMutableArray array];
+    
     self.listDataArray = [NSMutableArray array];
+    self.contactKeyArr = [NSMutableArray array];
 }
 
 - (void)initDisplay {
@@ -113,6 +118,7 @@
     [self.publicDataArr removeAllObjects];
     [self.starDataArr removeAllObjects];
     [self.allDataArr removeAllObjects];
+    [self.contactKeyArr removeAllObjects];
     
     //reset 3 list arr ...
     //获取公共账号
@@ -139,11 +145,58 @@
     //add 3 arr to list data att
     [self.listDataArray addObject:self.publicDataArr];
     [self.listDataArray addObject:self.starDataArr];
-    [self.listDataArray addObject:self.allDataArr];
+    
+    //遍历并字母排序联系人数据
+    self.contactsDictionary = [NSMutableDictionary dictionary];
+    
+    for (int i = 0; i < self.allDataArr.count; i ++) {
+        AXMappedPerson *person = [self.allDataArr objectAtIndex:i];
+        unichar begin;
+        if (person.namePinyin.length > 0) {
+            begin = [person.namePinyin characterAtIndex:0];
+            
+            if (begin >= 'A' && begin <= 'Z') {
+                NSString *beginString = [person.namePinyin substringToIndex:1];
+                [self insertPerson:person withPinyinBeginWithLetter:beginString intoDictionary:self.contactsDictionary];
+            } else if (begin >= 'a' && begin <= 'z') {
+                NSString *beginString = [person.namePinyin substringToIndex:1];
+                [self insertPerson:person withPinyinBeginWithLetter:[beginString uppercaseString] intoDictionary:self.contactsDictionary];
+            } else {
+                [self insertPerson:person withPinyinBeginWithLetter:@"#" intoDictionary:self.contactsDictionary];
+            }
+        }
+        else
+            [self insertPerson:person withPinyinBeginWithLetter:@"#" intoDictionary:self.contactsDictionary];
+    }
+    
+    NSArray *keys = [[self.contactsDictionary allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        if ([obj1 isEqualToString:@"#"]) {
+            return NSOrderedDescending;
+        }
+        if ([obj2 isEqualToString:@"#"]) {
+            return NSOrderedAscending;
+        }
+        return [obj1 compare:obj2];
+    }];
+    for (NSString *key in keys) {
+        [self.contactKeyArr addObject:@{@"key":key,@"objects":self.contactsDictionary[key]}];
+    }
+    DLog(@"---contactsDictionary---[%@]", self.contactKeyArr);
     
     [self.tableViewList reloadData];
     
     [self checkToAlert];
+}
+
+- (void)insertPerson:(AXMappedPerson *)person withPinyinBeginWithLetter:(NSString *)letterStr intoDictionary:(NSMutableDictionary *)dic {
+    NSMutableArray *arr = nil;
+    if (!dic[letterStr]) {
+        arr = [NSMutableArray array];
+    }else {
+        arr = dic[letterStr];
+    }
+    [arr addObject:person];
+    dic[letterStr] = arr;
 }
 
 - (void)checkToAlert {
@@ -211,11 +264,15 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.listDataArray.count;
+    return self.listDataArray.count + self.contactKeyArr.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [(NSArray *)[self.listDataArray objectAtIndex:section] count];
+    if (section <= 1) {
+        return [(NSArray *)[self.listDataArray objectAtIndex:section] count];
+    }
+    
+    return [(NSArray *)[self.contactKeyArr[section -2] objectForKey:@"objects"] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -230,12 +287,13 @@
         case 1:
             return @"★星标客户";
             break;
-        case 2:
-            return @"全部客户";
-            break;
-            
+        
         default:
             break;
+    }
+    
+    if (section >= 2) {
+        return [[self.contactKeyArr objectAtIndex:section -2] objectForKey:@"key"];
     }
     
     return @"";
@@ -255,8 +313,8 @@
         item = [self.starDataArr objectAtIndex:indexPath.row];
         rightBtnarr = [self rightButtonsIsStar:YES];
     }
-    else if (indexPath.section == 2) {
-        item = [self.allDataArr objectAtIndex:indexPath.row];
+    else if (indexPath.section >= 2) {
+        item = [[self.contactKeyArr[indexPath.section -2] objectForKey:@"objects"] objectAtIndex:indexPath.row];
         rightBtnarr = [self rightButtonsIsStar:item.isStar];
     }
     
@@ -355,7 +413,14 @@
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     NSIndexPath *cellIndexPath = [self.tableViewList indexPathForCell:cell];
-    AXMappedPerson *item = [[self.listDataArray objectAtIndex:cellIndexPath.section] objectAtIndex:cellIndexPath.row];
+    
+    AXMappedPerson *item = nil;
+    if (cellIndexPath.section <= 1) {
+        item = [[self.listDataArray objectAtIndex:cellIndexPath.section] objectAtIndex:cellIndexPath.row];
+    }
+    else if (cellIndexPath.section >=2) {
+        item = [[self.contactKeyArr[cellIndexPath.section -2] objectForKey:@"objects"] objectAtIndex:cellIndexPath.row];
+    }
     
     [self showLoadingActivity:YES];
     

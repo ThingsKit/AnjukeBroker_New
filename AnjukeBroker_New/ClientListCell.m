@@ -11,7 +11,6 @@
 #import "WebImageView.h"
 #import "RTListCell.h"
 #import "AXMappedPerson.h"
-#import "AXPerson.h"
 #import "Util_TEXT.h"
 
 @implementation ClientListCell
@@ -29,7 +28,7 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier containingTableView:(UITableView *)containingTableView leftUtilityButtons:(NSArray *)leftUtilityButtons rightUtilityButtons:(NSArray *)rightUtilityButtons {
     
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier containingTableView:containingTableView leftUtilityButtons:leftUtilityButtons rightUtilityButtons:rightUtilityButtons];
-
+    
     if (self) {
         [self initUI];
     }
@@ -37,20 +36,20 @@
 }
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect
+ {
+ // Drawing code
+ }
+ */
 
 - (void)initUI {
     WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, (CLIENT_LIST_HEIGHT - IMG_ICON_H)/2, IMG_ICON_H, IMG_ICON_H)];
     self.imageIcon = icon;
     icon.layer.cornerRadius = 5;
-//    icon.layer.borderColor = [UIColor whiteColor].CGColor;
-//    icon.layer.borderWidth = 0.5;
+    //    icon.layer.borderColor = [UIColor whiteColor].CGColor;
+    //    icon.layer.borderWidth = 0.5;
     icon.contentMode = UIViewContentModeScaleAspectFill;
     icon.clipsToBounds = YES;
     [self.contentView addSubview:icon];
@@ -69,75 +68,40 @@
     
     [self cleanValue];
     
-    if ([data isKindOfClass:[AXMappedPerson class]]) {
-        AXMappedPerson *item = (AXMappedPerson *)data;
-        
-        if (item.iconUrl.length > 0) {
-            if (item.isIconDownloaded) {
-                NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
-                self.imageIcon.image = [[UIImage alloc] initWithContentsOfFile:[libraryPath stringByAppendingPathComponent:item.iconPath]];
-                //            self.imageIcon.image = [UIImage imageWithContentsOfFile:item.iconPath];
-            }
-            else
-                self.imageIcon.imageUrl = item.iconUrl;
-        }
-        else {
-            self.imageIcon.image = [UIImage imageNamed:@"anjuke_icon_headpic.png"];
-        }
-        self.imageIcon.imageUrl = item.iconUrl;
-        
-        if (item.markName.length > 0) {
-            self.nameLb.text = item.markName;
-        }
-        else {
-            self.nameLb.text = item.name;
-            if ([item.name isEqualToString:item.phone] || item.name.length == 0) {
-                self.nameLb.text = [Util_TEXT getChatNameWithPhoneFormat:item.phone];
-            }
-            if ([self.nameLb.text isEqualToString:@"(null)"]) {
-                self.nameLb.text = [Util_TEXT getChatNameWithPhoneFormat:item.phone];
-            }
-        }
-    }
-    else if ([data isKindOfClass:[AXPerson class]]) {
-        AXPerson *item = (AXPerson *)data;
-        
-        if (item.iconUrl.length > 0) {
-            if (item.isIconDownloaded) {
-                NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
-                self.imageIcon.image = [[UIImage alloc] initWithContentsOfFile:[libraryPath stringByAppendingPathComponent:item.iconPath]];
-                //            self.imageIcon.image = [UIImage imageWithContentsOfFile:item.iconPath];
-            }
-            else
-                self.imageIcon.imageUrl = item.iconUrl;
-        }
-        else {
-            self.imageIcon.image = [UIImage imageNamed:@"anjuke_icon_headpic.png"];
-        }
-        self.imageIcon.imageUrl = item.iconUrl;
-        
-        if (item.markName.length > 0) {
-            self.nameLb.text = item.markName;
-        }
-        else {
-            self.nameLb.text = item.name;
-            if ([item.name isEqualToString:item.phone] || item.name.length == 0) {
-                self.nameLb.text = [Util_TEXT getChatNameWithPhoneFormat:item.phone];
-            }
-            if ([self.nameLb.text isEqualToString:@"(null)"]) {
-                self.nameLb.text = [Util_TEXT getChatNameWithPhoneFormat:item.phone];
-            }
-        }
-    }
-    else
-        return NO;
+    AXMappedPerson *item = (AXMappedPerson *)data;
     
+    if (item.iconUrl.length > 0) {
+        if (item.isIconDownloaded) {
+            NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+            self.imageIcon.image = [[UIImage alloc] initWithContentsOfFile:[libraryPath stringByAppendingPathComponent:item.iconPath]];
+            //            self.imageIcon.image = [UIImage imageWithContentsOfFile:item.iconPath];
+        }
+        else
+            self.imageIcon.imageUrl = item.iconUrl;
+    }
+    else {
+        self.imageIcon.image = [UIImage imageNamed:@"anjuke_icon_headpic.png"];
+    }
+    self.imageIcon.imageUrl = item.iconUrl;
+    
+    if (item.markName.length > 0) {
+        self.nameLb.text = item.markName;
+    }
+    else {
+        self.nameLb.text = item.name;
+        if ([item.name isEqualToString:item.phone] || item.name.length == 0) {
+            self.nameLb.text = [Util_TEXT getChatNameWithPhoneFormat:item.phone];
+        }
+        if ([self.nameLb.text isEqualToString:@"(null)"]) {
+            self.nameLb.text = [Util_TEXT getChatNameWithPhoneFormat:item.phone];
+        }
+    }
     
     return YES;
 }
 
 - (void)cleanValue {
-//    self.imageIcon.image = nil;
+    //    self.imageIcon.image = nil;
     self.nameLb.text = @"";
 }
 
