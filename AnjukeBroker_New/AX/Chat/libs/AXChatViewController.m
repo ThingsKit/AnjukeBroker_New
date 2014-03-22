@@ -107,10 +107,10 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 @property (nonatomic, retain) UIImageView* microphoneImageView;
 @property (nonatomic, retain) UIImageView* highlightedMicrophoneImageView;
 @property (nonatomic, retain) UIImageView* backgroundImageView;
+@property (nonatomic, retain) UIImageView* dustbinImageView;
 @property (nonatomic, retain) UIImageView* cancelBackgroundImgaeView;
 @property (nonatomic, retain) NSDate* date;
-
-
+@property (nonatomic, retain) UILabel* hudLabel;
 
 
 
@@ -305,13 +305,16 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         self.pressSpeek.frame = self.messageInputView.textView.frame;
         [self.pressSpeek addTarget:self action:@selector(didBeginVoice) forControlEvents:UIControlEventTouchDown];
         [self.pressSpeek addTarget:self action:@selector(didCommitVoice) forControlEvents:UIControlEventTouchUpInside];
-        [self.pressSpeek addTarget:self action:@selector(didCancelVoice) forControlEvents:UIControlEventTouchDragExit];
+        [self.pressSpeek addTarget:self action:@selector(didCancelVoice) forControlEvents:UIControlEventTouchUpOutside];
+        [self.pressSpeek addTarget:self action:@selector(continueRecordVoice) forControlEvents:UIControlEventTouchDragEnter];
+        [self.pressSpeek addTarget:self action:@selector(willCancelVoice) forControlEvents:UIControlEventTouchDragExit];
+        
         [self.pressSpeek setTitle:@"按住 说话" forState:UIControlStateNormal];
         [self.pressSpeek setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [self.pressSpeek setTitle:@"松开 结束" forState:UIControlStateHighlighted];
         [self.pressSpeek setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
-//        [self.pressSpeek setTitle:@"松开 结束" forState:UIControlStateSelected];
-//        [self.pressSpeek setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
+        [self.pressSpeek setTitle:@"松开 结束" forState:UIControlStateSelected];
+        [self.pressSpeek setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
         
         UIImage* imageNormal = [UIImage imageNamed:@"anjuke_icon_input_voice"];
         imageNormal = [imageNormal stretchableImageWithLeftCapWidth:5 topCapHeight:5];
@@ -320,14 +323,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         
         [self.pressSpeek setBackgroundImage:imageNormal forState:UIControlStateNormal];
         [self.pressSpeek setBackgroundImage:imageHighlighted forState:UIControlStateHighlighted];
-//        [self.pressSpeek setBackgroundImage:imageHighlighted forState:UIControlStateSelected];
-        
-//        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pressSpeekBtnTapAction:)];
-//        [self.pressSpeek addGestureRecognizer:tap];
-//        
-//        UILongPressGestureRecognizer* longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(pressSpeekBtnLongAction:)];
-//        longPress.minimumPressDuration = 0.5;
-//        [self.pressSpeek addGestureRecognizer:longPress];
+        [self.pressSpeek setBackgroundImage:imageHighlighted forState:UIControlStateSelected];
         
         [self.messageInputView addSubview:self.pressSpeek];
     }
@@ -1527,73 +1523,123 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 }
 
+//UIControlEventTouchDown
 - (void)didBeginVoice {
+    
     self.date = [NSDate date];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [[KKAudioComponent sharedAudioComponent] beginRecording];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(updateVolumn) userInfo:nil repeats:YES];
-    
+
+    //延迟创建
     if (self.backgroundImageView == nil) {
         self.backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 310/2, 290/2)];
-        self.backgroundImageView.image = [UIImage imageNamed:@"wl_voice_tip_bg"];
+        self.microphoneImageView = [[UIImageView alloc] initWithFrame:CGRectMake(310/2/2 - 88/2/2, 290/2/2-170/2/2, 88/2, 145/2)];
+        self.highlightedMicrophoneImageView = [[UIImageView alloc] initWithFrame:CGRectMake(310/2/2 - 88/2/2, 290/2/2-170/2/2, 88/2, 145/2)];
+        self.highlightedMicrophoneImageView.clipsToBounds = YES;
+        self.highlightedMicrophoneImageView.contentMode = UIViewContentModeScaleAspectFill;
         
-        self.microphoneImageView = [[UIImageView alloc] initWithFrame:CGRectMake(310/2/2 - 88/2/2, 290/2/2-145/2/2, 88/2, 145/2)];
-        self.microphoneImageView.image = [UIImage imageNamed:@"wl_voice_icon_voicestatu"];
+        self.dustbinImageView = [[UIImageView alloc] initWithFrame:CGRectMake(310/2/2 - 128/2/2, 290/2/2-150/2/2, 128/2, 121/2)];
         
-        self.highlightedMicrophoneImageView = [[UIImageView alloc] initWithFrame:CGRectMake(310/2/2 - 88/2/2, 290/2/2-145/2/2, 88/2, 145/2)];
-        self.highlightedMicrophoneImageView.image = [UIImage imageNamed:@"wl_voice_icon_voicestatu1"];
+        self.hudLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 120, 155, 20)];
+        self.hudLabel.font = [UIFont systemFontOfSize:15];
+        self.hudLabel.textColor = [UIColor whiteColor];
+        self.hudLabel.textAlignment = NSTextAlignmentCenter;
         
         [self.backgroundImageView addSubview:self.microphoneImageView];
+        [self.backgroundImageView addSubview:self.highlightedMicrophoneImageView];
+        [self.backgroundImageView addSubview:self.dustbinImageView];
+        [self.backgroundImageView addSubview:self.hudLabel];
     }
+    self.dustbinImageView.image = nil;
+    self.microphoneImageView.image = nil;
+    self.highlightedMicrophoneImageView.image = nil;
+    self.backgroundImageView.image = nil;
+    
+    self.microphoneImageView.image = [UIImage imageNamed:@"record_animate_01"];
+    self.backgroundImageView.image = [UIImage imageNamed:@"wl_voice_tip_bg"];
     [self showHUDWithTitle:@"正在录音..." CustomView:self.backgroundImageView IsDim:YES];
+    
 }
 
-
+//UIControlEventTouchUpInside
 - (void)didCommitVoice {
     double timeSpent = [[NSDate date] timeIntervalSinceDate:self.date];
     if (timeSpent < 1) {
-        if (self.warningImageView == nil) {
-            self.warningImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 310/2, 290/2)];
-            self.warningImageView.image = [UIImage imageNamed:@"wl_voice_tip_warn"];
-        }
         [self.timer invalidate];
-        self.hud.customView = self.warningImageView;
-        self.hud.labelText = @"录音时间太短";
+        self.dustbinImageView.image = nil;
+        self.microphoneImageView.image = nil;
+        self.highlightedMicrophoneImageView.image = nil;
+        self.backgroundImageView.image = nil;
+        
+        self.backgroundImageView.image = [UIImage imageNamed:@"wl_voice_tip_warn"];
+        self.hudLabel.text = @"录音时间太短";
         [self.hud hide:YES afterDelay:1];
         
     }else{
         [[KKAudioComponent sharedAudioComponent] finishRecording];
         [self.timer invalidate];
         [self hideHUD];
-
     }
+    
 }
 
-
-- (void)didCancelVoice {
+//UIControlEventTouchUpOutside
+- (void)didCancelVoice{
+    
+    self.pressSpeek.selected = NO;
     [[KKAudioComponent sharedAudioComponent] cancelRecording];
     [self.timer invalidate];
-    if (self.cancelBackgroundImgaeView == nil) {
-        self.cancelBackgroundImgaeView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 310/2, 290/2)];
-        self.cancelBackgroundImgaeView.image = [UIImage imageNamed:@"wl_voice_tip_bg2"];
-    }
-    self.hud.customView = self.cancelBackgroundImgaeView;
-    self.hud.labelText = @"松开 取消";
-    [self.hud hide:YES afterDelay:1];
+    
+    [self.hud hide:YES];
+    
+}
+
+//UIControlEventTouchDragExit
+- (void)willCancelVoice {
+    [self.timer invalidate];
+    
+    self.pressSpeek.selected = YES;
+    
+    self.dustbinImageView.image = nil;
+    self.microphoneImageView.image = nil;
+    self.highlightedMicrophoneImageView.image = nil;
+    self.backgroundImageView.image = nil;
+
+    self.dustbinImageView.image = [UIImage imageNamed:@"wl_voice_icon_dustbin"];
+    self.backgroundImageView.image = [UIImage imageNamed:@"wl_voice_tip_bg2"];
+
+    self.hudLabel.text = @"松开 结束";
     
 }
 
 
+//UIControlEventTouchDragEnter
+- (void)continueRecordVoice{
+    self.pressSpeek.selected = NO;
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(updateVolumn) userInfo:nil repeats:YES];
+    
+    self.dustbinImageView.image = nil;
+    self.microphoneImageView.image = nil;
+    self.highlightedMicrophoneImageView.image = nil;
+    self.backgroundImageView.image = nil;
+    
+    self.microphoneImageView.image = [UIImage imageNamed:@"record_animate_01"];
+    self.backgroundImageView.image = [UIImage imageNamed:@"wl_voice_tip_bg"];
+    
+    self.hudLabel.text = @"正在录音...";
+}
 
 
 //使用 MBProgressHUD
 - (void)showHUDWithTitle:(NSString*)title CustomView:(UIView*)view IsDim:(BOOL)isDim {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.color = [UIColor clearColor];
     self.hud.customView = view;
     self.hud.mode = MBProgressHUDModeCustomView;
-    self.hud.dimBackground = isDim; //是否需要灰色背景
-    self.hud.labelText = title;
+    self.hud.dimBackground = isDim;
+    self.hudLabel.text = title;
     
 }
 
@@ -1602,7 +1648,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     
     [self showHUDWithTitle:title CustomView:view IsDim:isDim];
     if (isHidden) {
-        [self.hud hide:YES afterDelay:1]; //显示一段时间后隐藏
+        [self.hud hide:YES afterDelay:1];
     }
     
 }
@@ -1620,40 +1666,52 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     
     double lowPassResults = [[KKAudioComponent sharedAudioComponent] volumnUpdated];
     //    NSLog(@"%lf",lowPassResults);
-    
+//    self.highlightedMicrophoneImageView.image = [UIImage imageNamed:@"wl_voice_icon_voicestatu1"];
+//    self.highlightedMicrophoneImageView.frame = CGRectMake(310/2/2 - 88/2/2, 290/2/2-170/2/2, 88/2, 145/2*lowPassResults/3*30);
+//    self.highlightedMicrophoneImageView.layer.contentsRect = CGRectMake(0, 0, 1, 1);
+//    [self.highlightedMicrophoneImageView.image drawInRect:CGRectMake(0, 0, 88/2, 145/2*lowPassResults/3*10)];
     
     //最大50  0
     //图片 小-》大
     if (0<lowPassResults<=0.02) {
-        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_01.png"]];
+        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_01"]];
     }else if (0.02<lowPassResults<=0.04) {
-        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_02.png"]];
+        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_02"]];
     }else if (0.04<lowPassResults<=0.06) {
-        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_03.png"]];
+        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_03"]];
     }else if (0.06<lowPassResults<=0.08) {
-        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_04.png"]];
+        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_04"]];
     }else if (0.08<lowPassResults<=0.1) {
-        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_05.png"]];
+        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_05"]];
     }else if (0.1<lowPassResults<=0.12) {
-        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_06.png"]];
+        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_06"]];
     }else if (0.12<lowPassResults<=0.14) {
-        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_07.png"]];
+        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_07"]];
     }else if (0.14<lowPassResults<=0.16) {
-        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_08.png"]];
+        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_08"]];
     }else if (0.16<lowPassResults<=0.18) {
-        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_09.png"]];
+        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_09"]];
     }else if (0.18<lowPassResults<=0.2) {
-        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_10.png"]];
+        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_10"]];
     }else if (0.20<lowPassResults<=0.22) {
-        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_11.png"]];
+        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_11"]];
     }else if (0.22<lowPassResults<=0.24) {
-        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_12.png"]];
+        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_12"]];
     }else if (0.24<lowPassResults<=0.3) {
-        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_13.png"]];
+        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_13"]];
     }else {
-        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_14.png"]];
+        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_14"]];
     }
 }
+
+//-(UIImage *) cropImageFromTop:(UIImage *)image
+//{
+//    CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], CGRectMake(0, 0, image.size.width, image.size.height - 12));
+//    UIImage *cropimage = [[UIImage alloc] initWithCGImage:imageRef];
+//    CGImageRelease(imageRef);
+//    return cropimage;
+//}
+
 
 
 - (void)sendMessage:(id)sender {
