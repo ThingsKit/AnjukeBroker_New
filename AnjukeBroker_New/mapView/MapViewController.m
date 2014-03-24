@@ -131,7 +131,11 @@
         CLLocation *loc = [[CLLocation alloc] initWithLatitude:naviCoordsGd.latitude longitude:naviCoordsGd.longitude];
         MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(naviCoordsGd, 200, 200);
         self.naviRegion = [self.regionMapView regionThatFits:viewRegion];
-        [self.regionMapView setRegion:self.naviRegion animated:YES];
+        if (ISIOS7) {
+            [self.regionMapView setRegion:self.naviRegion animated:YES];
+        }else{
+            [self.regionMapView setRegion:self.naviRegion animated:NO];
+        }
         
         [self showAnnotation:loc coord:naviCoordsGd];
     }
@@ -426,7 +430,11 @@
             return;
         }
         [self showAnnotation:userLocation.location coord:self.nowCoords];
-        [self.regionMapView setRegion:self.userRegion animated:YES];
+        if (ISIOS7) {
+            [self.regionMapView setRegion:self.userRegion animated:YES];
+        }else{
+            [self.regionMapView setRegion:self.userRegion animated:NO];
+        }
         self.updateInt += 1;
     }
 }
@@ -435,7 +443,9 @@
     if (self.mapType == RegionNavi) {
         return;
     }
-    [mapView removeAnnotations:mapView.annotations];
+    if (mapView.annotations) {
+        [mapView removeAnnotations:mapView.annotations];
+    }
     if (self.updateInt == 0){
         return;
     }
@@ -445,6 +455,18 @@
     
     [self showAnnotation:loc coord:centerCoordinate];
 }
+- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated{
+    if (self.mapType == RegionNavi) {
+        return;
+    }
+    if (!ISIOS7) {
+        return;
+    }
+    if ([mapView.annotations count]) {
+        [mapView removeAnnotations:mapView.annotations];
+    }
+}
+
 //获取位置信息，并判断是否显示，block方法支持ios6及以上
 -(void)showAnnotation:(CLLocation *)location coord:(CLLocationCoordinate2D)coords{
     if (self.mapType == RegionNavi) {
@@ -501,22 +523,7 @@
     annotation.subtitle  = address;
 
     [self.regionMapView addAnnotation:annotation];
-
-    if (ISIOS7) {
-        [self.regionMapView selectAnnotation:annotation animated:YES];
-    }else{
-        [self performSelector:@selector(selectAnnotationDelay:) withObject:annotation afterDelay:1.0];
-    }
-}
--(void)selectAnnotationDelay:(RegionAnnotation *)annotation{
     [self.regionMapView selectAnnotation:annotation animated:YES];
-}
-- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated{
-    if (self.mapType == RegionNavi) {
-        return;
-    }
-
-    [mapView removeAnnotations:mapView.annotations];
 }
 
 #pragma MKMapViewDelegate 显示大头针标注
@@ -528,6 +535,7 @@
     if ([annotation isKindOfClass:[RegionAnnotation class]]) {
         MKAnnotationView *annotationView;
         annotationView = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+        
         if (annotationView == nil) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
         }
