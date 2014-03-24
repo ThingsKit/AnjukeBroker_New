@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
-
-
 @interface RegionAnnotation : NSObject<MKAnnotation>
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *subtitle;

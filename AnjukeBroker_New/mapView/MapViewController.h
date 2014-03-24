@@ -21,7 +21,7 @@ typedef enum{
     RegionNavi
 }mapType;
 
-@interface MapViewController : UIViewController<MKMapViewDelegate,CLLocationManagerDelegate,UIActionSheetDelegate>{
+@interface MapViewController : UIViewController<MKMapViewDelegate,UIActionSheetDelegate>{
 }
 
 @property(nonatomic,assign) id<MapViewControllerDelegate> siteDelegate;
