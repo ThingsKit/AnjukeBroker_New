@@ -60,7 +60,7 @@
         self.page1 = hv;
         RTNavigationController *navH = [[RTNavigationController alloc] initWithRootViewController:self.page1];
         [self.controllerArrays addObject:navH];
-        navH.tabBarItem = [self getTabBarItemWithTitle:@"首页" image:[UIImage imageNamed:@"anjuke_icon_home.png"] index:1];
+        navH.tabBarItem = [self getTabBarItemWithTitle:@"首页" image:[UIImage imageNamed:@"anjuke_icon_home.png"] index:1 selectedImg:[UIImage imageNamed:@"anjuke_icon_home1.png"]];
         
         //微聊
         MessageListViewController *ml = [[MessageListViewController alloc] init];
@@ -68,7 +68,7 @@
         self.page2 = ml;
         RTNavigationController *navMl = [[RTNavigationController alloc] initWithRootViewController:ml];
         [self.controllerArrays addObject:navMl];
-        navMl.tabBarItem = [self getTabBarItemWithTitle:@"微聊" image:[UIImage imageNamed:@"anjuke_icon_wl.png"] index:2];
+        navMl.tabBarItem = [self getTabBarItemWithTitle:@"微聊" image:[UIImage imageNamed:@"anjuke_icon_wl.png"] index:2 selectedImg:[UIImage imageNamed:@"anjuke_icon_wl1.png"]];
         self.messageNavController = navMl;
         
         //客户
@@ -77,7 +77,7 @@
         self.page3 = cl;
         RTNavigationController *navCl = [[RTNavigationController alloc] initWithRootViewController:cl];
         [self.controllerArrays addObject:navCl];
-        navCl.tabBarItem = [self getTabBarItemWithTitle:@"客户" image:[UIImage imageNamed:@"anjuke_icon_kh.png"] index:3];
+        navCl.tabBarItem = [self getTabBarItemWithTitle:@"客户" image:[UIImage imageNamed:@"anjuke_icon_kh.png"] index:3 selectedImg:[UIImage imageNamed:@"anjuke_icon_kh1.png"]];
         
         //二手房
         AnjukeHomeViewController *av = [[AnjukeHomeViewController alloc] init];
@@ -85,7 +85,7 @@
         av.isHome = YES;
         RTNavigationController *navAJK = [[RTNavigationController alloc] initWithRootViewController:av];
         [self.controllerArrays addObject:navAJK];
-        navAJK.tabBarItem = [self getTabBarItemWithTitle:@"二手房" image:[UIImage imageNamed:@"anjuke_icon_esf.png"] index:4];
+        navAJK.tabBarItem = [self getTabBarItemWithTitle:@"二手房" image:[UIImage imageNamed:@"anjuke_icon_esf.png"] index:4 selectedImg:[UIImage imageNamed:@"anjuke_icon_esf1.png"]];
         
         //租房
         HaozuHomeViewController *hhv = [[HaozuHomeViewController alloc] init];
@@ -93,7 +93,7 @@
         hhv.isHome = YES;
         RTNavigationController *navHZ = [[RTNavigationController alloc] initWithRootViewController:hhv];
         [self.controllerArrays addObject:navHZ];
-        navHZ.tabBarItem = [self getTabBarItemWithTitle:@"租房" image:[UIImage imageNamed:@"anjuke_icon_zf.png"] index:5];
+        navHZ.tabBarItem = [self getTabBarItemWithTitle:@"租房" image:[UIImage imageNamed:@"anjuke_icon_zf.png"] index:5 selectedImg:[UIImage imageNamed:@"anjuke_icon_zf1.png"]];
         
         self.viewControllers = controllerArrays;
         if (![AppManager isIOS6]) {
@@ -152,10 +152,11 @@
     DLog(@"class ---aaa--- %@", [viewController class]);
 }
 
-- (UITabBarItem *)getTabBarItemWithTitle:(NSString *)title image:(UIImage *)image index:(int)index{
+- (UITabBarItem *)getTabBarItemWithTitle:(NSString *)title image:(UIImage *)image index:(int)index selectedImg:(UIImage *)selectedImg{
     UITabBarItem *tabBarItem = nil;
     tabBarItem = [[UITabBarItem alloc] initWithTitle:title image:image tag:index];
     tabBarItem.imageInsets = tabItemInsertsMake;
+    tabBarItem.selectedImage = selectedImg;
     
     return tabBarItem;
 }
