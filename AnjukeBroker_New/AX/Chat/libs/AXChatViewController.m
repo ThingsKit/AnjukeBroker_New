@@ -302,7 +302,8 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         [self.messageInputView addSubview:self.voiceBut];
         
         self.pressSpeek = [[UIButton alloc] initWithFrame:CGRectZero];
-        self.pressSpeek.frame = self.messageInputView.textView.frame;
+#warning Note Do not edit pressSpeek frame anymore
+//        self.pressSpeek.frame = self.messageInputView.textView.frame;
         [self.pressSpeek addTarget:self action:@selector(didBeginVoice) forControlEvents:UIControlEventTouchDown];
         [self.pressSpeek addTarget:self action:@selector(didCommitVoice) forControlEvents:UIControlEventTouchUpInside];
         [self.pressSpeek addTarget:self action:@selector(didCancelVoice) forControlEvents:UIControlEventTouchUpOutside];
