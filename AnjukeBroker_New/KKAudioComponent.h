@@ -24,10 +24,10 @@
 + (KKAudioComponent*) sharedAudioComponent;
 
 // - wav转amr, 需要文件名 (不带后缀)
-+ (NSString*)wavToAmrWithWavFileName:(NSString*)wavFileName;
++ (NSString*)wavToAmrWithWavFilePath:(NSString*)wavFilePath;
 
 // - amr转wav, 需要文件名 (不带后缀)
-+ (NSString*)amrToWavWithAmrFileName:(NSString*)amrFileName;
++ (NSString*)amrToWavWithAmrFilePath:(NSString*)amrFilePath;
 
 
 

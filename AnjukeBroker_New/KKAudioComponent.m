@@ -392,10 +392,19 @@ static KKAudioComponent* defaultAudioComponent;
 
 
 #pragma mark - wav转amr
-+ (NSString*)wavToAmrWithWavFileName:(NSString*)wavFileName{
++ (NSString*)wavToAmrWithWavFilePath:(NSString*)wavFilePath{
     
-    NSString* wavFilePath = [KKAudioComponent filePathWithFileName:wavFileName ofType:@"wav"];
-    NSString* amrFilePath = [KKAudioComponent filePathWithFileName:wavFileName ofType:@"amr"];
+//    NSString* string = @"/var/mobile/Applications/30213A8E-E3F2-4F3A-A419-36FEC2CF705D/Library/Caches/AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B_original.wav";
+    NSString* fileName = [[wavFilePath componentsSeparatedByString:@"/"] lastObject];
+
+    NSString* fileNamePrefix;
+    if ([fileName rangeOfString:@"_original"].length > 0) {
+        fileNamePrefix = [fileName substringWithRange:NSMakeRange(0, fileName.length - 13)];
+    }else{
+        fileNamePrefix = [fileName substringWithRange:NSMakeRange(0, fileName.length - 4)];
+    }
+    
+    NSString* amrFilePath = [NSString stringWithFormat:@"%@.amr", fileNamePrefix];
     [VoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath];
     
     return amrFilePath;
@@ -404,12 +413,15 @@ static KKAudioComponent* defaultAudioComponent;
 
 
 #pragma mark - amr转wav
-+ (NSString*)amrToWavWithAmrFileName:(NSString*)amrFileName{
++ (NSString*)amrToWavWithAmrFilePath:(NSString*)amrFilePath{
     
-    NSString* amrFilePath = [KKAudioComponent filePathWithFileName:amrFileName ofType:@"amr"];
-    NSString* wavFilePath = [KKAudioComponent filePathWithFileName:amrFileName ofType:@"wav"];
+    //    NSString* string = @"/var/mobile/Applications/30213A8E-E3F2-4F3A-A419-36FEC2CF705D/Library/Caches/AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B.amr";
+    NSString* fileName = [[amrFilePath componentsSeparatedByString:@"/"] lastObject];
+    
+    NSString* fileNamePrefix = [fileName substringWithRange:NSMakeRange(0, fileName.length - 4)];
+    NSString* wavFilePath = [NSString stringWithFormat:@"%@.wav", fileNamePrefix];
     [VoiceConverter amrToWav:amrFilePath wavSavePath:wavFilePath];
-    
+
     return wavFilePath;
 }
 
@@ -419,9 +431,14 @@ static KKAudioComponent* defaultAudioComponent;
 + (NSString*)filePathWithFileName:(NSString *)fileName ofType:(NSString *)type
 {
     if (fileName.length > 0 && type.length > 0) {
-        NSString* documentsPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString* fileDirectory = [[documentsPath stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:type];
-        return fileDirectory;
+        NSString* path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString* voicePath = [NSString stringWithFormat:@"%@/Voice", path];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:voicePath]) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:voicePath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+        NSString* filePath = [NSString stringWithFormat:@"%@/%@.%@", voicePath, fileName, type];
+        
+        return filePath;
     }
     
     return nil;
