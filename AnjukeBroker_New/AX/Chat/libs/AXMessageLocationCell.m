@@ -9,6 +9,7 @@
 #import "AXMessageLocationCell.h"
 @interface AXMessageLocationCell ()
 @property (nonatomic, strong) NSDictionary *dataDic;
+@property (nonatomic, strong) UIActivityIndicatorView *activity;
 @end
 
 @implementation AXMessageLocationCell
@@ -44,6 +45,12 @@
     self.mapControl.backgroundColor = [UIColor clearColor];
     [self.mapControl addTarget:self action:@selector(didClickMap) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:self.mapControl];
+    
+    self.activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.activity.hidden = YES;
+    self.activity.frame = CGRectMake(20, 3, 25, 25);
+    //    [self.activityIndicatorView startAnimating];
+    [self.locationLabel addSubview:self.activity];
 }
 
 - (void)configWithData:(NSDictionary *)data
@@ -60,13 +67,16 @@
     
     [self setBubbleIMGByImgFrame:frame];
     
-    self.mapIMGView.image = [UIImage imageNamed:@"local.png"];
+    self.mapIMGView.image = [UIImage imageNamed:@"anjuke_icon_map.png"];
     self.mapIMGView.layer.cornerRadius = 6.0f;
     self.mapIMGView.layer.masksToBounds = YES;
-//    if (data) {
-//        <#statements#>
-//    }
-    [self getGeoLocation];
+    
+    if ([self.dataDic[@"address"] length] == 0) {
+        [self getGeoLocation];
+    }else {
+        self.locationLabel.text = self.dataDic[@"address"];
+    }
+    
     [self configWithStatus];
 }
 
@@ -105,20 +115,23 @@
 }
 
 - (void)getGeoLocation{
+    [self.activity startAnimating];
+    self.activity.hidden = NO;
     CGFloat locallat = [[self.dataDic objectForKey:@"lat"] floatValue];
     CGFloat locallng = [[self.dataDic objectForKey:@"lng"] floatValue];
-//    CLLocation *curLocation = [[CLLocation alloc] initWithLatitude:locallat longitude:locallng];
-//    double lat = curLocation.coordinate.latitude;
-//    double lng = curLocation.coordinate.longitude;
-[[RTRequestProxy sharedInstance] geoWithLat:[NSString stringWithFormat:@"%f", locallat] lng:[NSString stringWithFormat:@"%f", locallng] target:self action:@selector(geoDidFinishGetAddress:)];
+    [[RTRequestProxy sharedInstance] geoWithLat:[NSString stringWithFormat:@"%f", locallat] lng:[NSString stringWithFormat:@"%f", locallng] target:self action:@selector(geoDidFinishGetAddress:)];
 }
 
 - (void)geoDidFinishGetAddress:(RTNetworkResponse *) response {
-    if ([self.dataDic[@"address"] length] > 0) {
-        self.locationLabel.text = self.dataDic[@"address"];
-    }else {
-        self.locationLabel.text = @"中国上海市 浦东新区 东方路1217号 陆家嘴金融服务广场";
+    [self.activity stopAnimating];
+    if ([response.content[@"status"] isEqualToString:@"OK"]) {
+        
     }
+//    if ([self.dataDic[@"address"] length] > 0) {
+//        self.locationLabel.text = self.dataDic[@"address"];
+//    }else {
+//        self.locationLabel.text = @"中国上海市 浦东新区 东方路1217号 陆家嘴金融服务广场";
+//    }
 }
 
 - (void)didClickMap {
