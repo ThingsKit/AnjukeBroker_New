@@ -50,27 +50,6 @@ static KKAudioComponent* defaultAudioComponent;
 }
 
 
-
-#pragma mark -
-#pragma mark Memory Management
-
-//- (void)dealloc{
-//    
-//    [_recorder release];
-//    [_player release];
-//    [_timer release];
-//    [super dealloc];
-//}
-
-
-
-
-
-
-
-
-
-
 #pragma mark -
 #pragma mark API
 //按下录音按钮不放
@@ -107,7 +86,7 @@ static KKAudioComponent* defaultAudioComponent;
 
 
 //松开录音按钮
-- (double)finishRecording{
+- (NSDictionary*)finishRecording{
     if (_recorder == nil) {
         return 0;
     }
@@ -117,8 +96,9 @@ static KKAudioComponent* defaultAudioComponent;
     if (cTime > 1) {//如果录制时间<1 不发送
         
         NSDictionary* dictRecordFile = [KKAudioComponent fileAttributesWithFileName:self.recordFileName FileType:@"wav" RecordTime:cTime];
-        self.data = [NSArray arrayWithObjects:dictRecordFile, nil];
-        NSLog(@"%@", self.data);
+        NSLog(@"%@", dictRecordFile);
+        
+        return dictRecordFile;
         
         NSLog(@"发送");
         
@@ -133,8 +113,7 @@ static KKAudioComponent* defaultAudioComponent;
     
     [_recorder stop];
     //    [_timer invalidate];
-    return cTime;
-    NSLog(@"录音完成");
+    return nil;
 }
 
 //取消录音按钮
@@ -206,19 +185,6 @@ static KKAudioComponent* defaultAudioComponent;
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 #pragma mark -
 #pragma mark - UIDeviceProximityStateDidChangeNotification 近距离传感器状态变化的回调
 //近距离传感器状态改变
@@ -232,11 +198,6 @@ static KKAudioComponent* defaultAudioComponent;
         [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];  //扬声器
     }
 }
-
-
-
-
-
 
 #pragma mark -
 #pragma mark AVAudioRecorderDelegate
@@ -258,13 +219,6 @@ static KKAudioComponent* defaultAudioComponent;
 - (void)audioRecorderEncodeErrorDidOccur:(AVAudioRecorder *)recorder error:(NSError *)error{
     NSLog(@"%@", error);
 }
-
-
-
-
-
-
-
 
 #pragma mark -
 #pragma mark AVAudioPlayerDelegate
@@ -296,38 +250,6 @@ static KKAudioComponent* defaultAudioComponent;
     NSLog(@"%@", error);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #pragma mark - 获取recorder设置属性
 + (NSDictionary*)audioRecorderSettingDict
 {
@@ -345,9 +267,6 @@ static KKAudioComponent* defaultAudioComponent;
     return recordSetting;
 }
 
-
-
-
 #pragma mark - 获取当前时间的字符串
 + (NSString*)currentTimeString
 {
@@ -359,7 +278,7 @@ static KKAudioComponent* defaultAudioComponent;
 #pragma mark - 根据文件路径获取 文件大小, 录制时间的字典
 + (NSDictionary*)fileAttributesWithFileName:(NSString*)fileName FileType:(NSString*)fileType RecordTime:(double)recordTime{
     
-    NSString* filePath = [KKAudioComponent filePathWithFileName:fileName ofType:fileType];
+    NSString* filePath = [NSString stringWithFormat:@"/Voice/%@.%@", fileName, fileType];
     NSString* fileSize = [NSString stringWithFormat:@"%dkb", [KKAudioComponent fileSizeAtPath:filePath]/1024];
     NSString* cTime = [NSString stringWithFormat:@"%f", recordTime];
     
@@ -373,45 +292,19 @@ static KKAudioComponent* defaultAudioComponent;
     return  dict;
 }
 
-
 #pragma mark - wav转amr
 + (NSString*)wavToAmrWithWavFilePath:(NSString*)wavFilePath{
     
 //    NSString* string = @"/var/mobile/Applications/30213A8E-E3F2-4F3A-A419-36FEC2CF705D/Library/Caches/AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B.wav";
     NSString* fileName = [[wavFilePath componentsSeparatedByString:@"/"] lastObject];
-    NSString* fileNamePrefix = [fileName substringWithRange:NSMakeRange(0, fileName.length - 4)]; //AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B
+    NSString* fileNamePrefix = [fileName substringWithRange:NSMakeRange(0, fileName.length - 4)];
     NSString* amrFilePath = [KKAudioComponent filePathWithFileName:fileNamePrefix ofType:@"amr"];
     [VoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath]; //amr写本地
     
     return amrFilePath;
 }
 
-
-+ (NSString*)wavToAmrWithWavFileName:(NSString*)wavFileName{
-    
-    //    NSString* string = @"/var/mobile/Applications/30213A8E-E3F2-4F3A-A419-36FEC2CF705D/Library/Caches/AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B_original.wav";
-    NSString* wavFilePath = [KKAudioComponent filePathWithFileName:wavFileName ofType:@"wav"];
-    NSString* amrFilePath = [KKAudioComponent filePathWithFileName:wavFileName ofType:@"amr"];
-    [VoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath]; //amr写本地
-    
-    return amrFilePath;
-}
-
-
-
 #pragma mark - amr转wav
-//+ (NSString*)amrToWavWithAmrFilePath:(NSString*)amrFilePath{
-//    
-//    //    NSString* string = @"/var/mobile/Applications/30213A8E-E3F2-4F3A-A419-36FEC2CF705D/Library/Voice/AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B.amr";
-//    NSString* fileName = [[amrFilePath componentsSeparatedByString:@"/"] lastObject];
-//    
-//    NSString* fileNamePrefix = [fileName substringWithRange:NSMakeRange(0, fileName.length - 4)];
-//    NSString* wavFilePath = [NSString stringWithFormat:@"%@.wav", fileNamePrefix];
-//    [VoiceConverter amrToWav:amrFilePath wavSavePath:wavFilePath];
-//
-//    return wavFilePath;
-//}
-
 + (NSString*)amrToWavWithNSData:(NSData*)data{
     
     NSString* fileName = [[NSProcessInfo processInfo] globallyUniqueString]; //唯一吗
@@ -428,8 +321,6 @@ static KKAudioComponent* defaultAudioComponent;
         return nil;
     }
 }
-
-
 
 #pragma mark - 获取文件路径
 + (NSString*)filePathWithFileName:(NSString *)fileName ofType:(NSString *)type
@@ -448,24 +339,17 @@ static KKAudioComponent* defaultAudioComponent;
     return nil;
 }
 
-
-
 #pragma mark - 判断文件是否存在
 + (BOOL)fileExistsAtPath:(NSString*)path
 {
     return [[NSFileManager defaultManager] fileExistsAtPath:path];
 }
 
-
-
-
 #pragma mark - 删除文件
 + (BOOL)deleteFileAtPath:(NSString*)path
 {
     return [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
 }
-
-
 
 #pragma mark - 返回沙盒下的Documents的路径
 + (NSString*)documentsPath{
@@ -474,8 +358,6 @@ static KKAudioComponent* defaultAudioComponent;
     return documentsPath;
 //    return [documentsPath stringByAppendingPathComponent:@"Voice"];  .../Documents/Voice
 }
-
-
 
 #pragma mark - 获取文件大小, 单位字节
 + (NSInteger)fileSizeAtPath:(NSString*) path{
@@ -493,7 +375,6 @@ static KKAudioComponent* defaultAudioComponent;
         return -1;
     }
 }
-
 
 #pragma mark -
 #pragma mark 标准化单例对象

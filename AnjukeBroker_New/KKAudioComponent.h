@@ -35,7 +35,7 @@
 - (void)beginRecording;
 
 //松开录音按钮, 录音完成, 返回录音时间
-- (double)finishRecording;
+- (NSDictionary*)finishRecording;
 
 //取消录音
 - (void)cancelRecording;
