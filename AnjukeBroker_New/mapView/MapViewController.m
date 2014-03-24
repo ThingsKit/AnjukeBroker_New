@@ -42,7 +42,6 @@
 //userRegion 地图中心点定位参数
 @property(nonatomic,assign) MKCoordinateRegion userRegion;
 @property(nonatomic,assign) MKCoordinateRegion naviRegion;
-@property(nonatomic,strong) UIBarButtonItem *rBtn;
 
 @property(nonatomic,strong) NSString *city;
 @property(nonatomic,strong) NSArray *routes;//ios6路线arr
@@ -67,7 +66,6 @@
 @synthesize navDic;
 @synthesize requestLocArr;
 @synthesize centerCoordinate;
-@synthesize rBtn;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -129,6 +127,7 @@
         certerIcon.image = [UIImage imageNamed:@"anjuke_icon_itis_position.png"];
         [self.view addSubview:certerIcon];
     }else{
+        DLog(@"naviLog--->>%@",self.navDic);
         [self getChangedLoc];
         CLLocation *loc = [[CLLocation alloc] initWithLatitude:naviCoordsGd.latitude longitude:naviCoordsGd.longitude];
         MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(naviCoordsGd, 200, 200);
@@ -138,6 +137,10 @@
         }else{
             [self.regionMapView setRegion:self.naviRegion animated:NO];
         }
+        
+//        if ([[self.navDic objectForKey:@"region"] isEqualToString:@""]) {
+//            [self showAnnotation:<#(CLLocation *)#> coord:<#(CLLocationCoordinate2D)#>]
+//        }
         
         [self showAnnotation:loc coord:naviCoordsGd];
     }
@@ -170,8 +173,14 @@
         [alet show];
     }
 }
+#pragma UIAlertViewDelegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (self.mapType == RegionChoose) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
 -(void)addRightButton{
-    rBtn = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
+    UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
     if (!ISIOS7) {
         self.navigationItem.rightBarButtonItem = rBtn;
     }
@@ -181,18 +190,6 @@
     }
 }
 - (void)addBackButton {
-    //save btn
-//    NSString *title = @"返回";
-//    UIBarButtonItem *backBtn = nil;
-//    backBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
-//
-//    if (!ISIOS7) {
-//        self.navigationItem.leftBarButtonItem = backBtn;
-//    }
-//    else {
-//        [self.navigationController.navigationBar setTintColor:SYSTEM_NAVIBAR_COLOR];
-//        self.navigationItem.leftBarButtonItem = backBtn;
-//    }
     // 设置返回btn
     UIImage *image = [UIImage imageWithContentsOfFile:[NSString getStyleBundlePath:@"anjuke_icon_back.png"]];
     UIImage *highlighted = [UIImage imageWithContentsOfFile:[NSString getStyleBundlePath:@"anjuke_icon_back.png"]];
@@ -215,7 +212,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)rightButtonAction:(id *)sender{
-    if (lastCoords.latitude && lastCoords.longitude && self.regionStr && ![self.regionStr isEqualToString:@""] && self.addressStr && ![self.addressStr isEqualToString:@""]) {
+    if (lastCoords.latitude && lastCoords.longitude) {
         [(UIBarButtonItem *)[self.view viewWithTag:10] setEnabled:YES];
         if (self.siteDelegate && [self.siteDelegate respondsToSelector:@selector(loadMapSiteMessage:)]){
             NSMutableDictionary *locationDic = [[NSMutableDictionary alloc] init];
@@ -226,11 +223,9 @@
             [locationDic setValue:[NSString stringWithFormat:@"%.8f",lastCoords.longitude] forKey:@"lng"];
             
            [self.siteDelegate loadMapSiteMessage:locationDic];
+            DLog(@"locationDic-->>%@/%@",[locationDic objectForKey:@"address"],locationDic);
         }
         [self.navigationController popViewControllerAnimated:YES];
-    }else{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有定位到有效地址，请重新滑动选择发送地址" delegate:self cancelButtonTitle:nil otherButtonTitles:@"知道了", nil];
-        [alert show];
     }
 }
 
@@ -494,49 +489,47 @@
 
 //获取位置信息，并判断是否显示，block方法支持ios6及以上
 -(void)showAnnotation:(CLLocation *)location coord:(CLLocationCoordinate2D)coords{
-    if (self.mapType == RegionNavi) {
+    if (self.mapType == RegionNavi && ![[self.navDic objectForKey:@"region"] isEqualToString:@""]) {
         [self addAnnotationView:location coord:coords region:[self.navDic objectForKey:@"region"]  address:[self.navDic objectForKey:@"address"]];
         return;
     }
-    rBtn.enabled = NO;
+    [self addAnnotationView:location coord:coords region:@"请求地址中..."  address:[self.navDic objectForKey:@"address"]];
+
     //每次请求位置时，把latitude塞入arr。在block回掉时判断但会latitude是否存在arr且和最近一次请求latitude一致。如果一致，则显示，否则舍弃
     [self.requestLocArr addObject:[NSString stringWithFormat:@"%.8f",[location coordinate].latitude]];
-    self.regionStr = nil;
-    self.addressStr = nil;
-    [self addAnnotationView:location coord:coords region:@"加载中..." address:nil];
+    self.regionStr = @"";
+    self.addressStr = @"";
+    self.city = @"";
+    self.lastCoords = coords;
+    [self addAnnotationView:location coord:coords region:@"加载地址中..." address:nil];
 
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *array, NSError *error) {
         //判断返回loc和当前最后一次请求loc的latitude是否一致，否则不返回位置信息
-        if (![[NSString stringWithFormat:@"%0.8f",[location coordinate].latitude] isEqualToString:[NSString stringWithFormat:@"%0.8f",self.centerCoordinate.latitude]]) {
+        if (![[NSString stringWithFormat:@"%0.8f",[location coordinate].latitude ] isEqualToString:[NSString stringWithFormat:@"%0.8f",self.centerCoordinate.latitude]] && self.mapType == RegionNavi) {
             [self.requestLocArr removeObject:[NSString stringWithFormat:@"%0.8f",[location coordinate].latitude]];
-            rBtn.enabled = NO;
             return;
         }
         if ([self.requestLocArr count] > 0) {
             [self.requestLocArr removeAllObjects];
         }
         if (array.count > 0) {
-            rBtn.enabled = YES;
             [(UIButton *)[self.view viewWithTag:10] setEnabled:YES];
             CLPlacemark *placemark = [array objectAtIndex:0];
             
             NSString *region = [placemark.addressDictionary objectForKey:@"SubLocality"];
             NSString *address = [placemark.addressDictionary objectForKey:@"Name"];
-            self.lastCoords = coords;
             self.regionStr = region;
             self.addressStr = address;
             self.city = placemark.administrativeArea;
             
             [self addAnnotationView:location coord:coords region:region address:address];
         }else{
-            rBtn.enabled = YES;
-            lastCoords.latitude = 0;
-            lastCoords.longitude = 0;
-            self.regionStr = nil;
-            self.addressStr = nil;
+            self.regionStr = @"";
+            self.addressStr = @"";
+            self.city = @"";
             
-            [self addAnnotationView:location coord:coords region:@"请重新滑动选择发送地址" address:nil];
+            [self addAnnotationView:location coord:coords region:@"没有找到有效地址" address:nil];
         }
     }];
 }
