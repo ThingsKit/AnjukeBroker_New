@@ -74,8 +74,8 @@
 }
 
 - (void)didclickVoice {
-    NSDictionary* dict = [[KKAudioComponent sharedAudioComponent].data objectAtIndex:0];
-    NSString* fileName = [dict objectForKey:@"FILE_NAME"];
-    [[KKAudioComponent sharedAudioComponent] playRecordingWithFileName:fileName];
+//    NSDictionary* dict = [[KKAudioComponent sharedAudioComponent].data objectAtIndex:0];
+//    NSString* fileName = [dict objectForKey:@"FILE_NAME"];
+//    [[KKAudioComponent sharedAudioComponent] playRecordingWithFileName:fileName];
 }
 @end
