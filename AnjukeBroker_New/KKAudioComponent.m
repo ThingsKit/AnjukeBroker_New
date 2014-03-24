@@ -16,8 +16,6 @@
 @property (nonatomic, retain) NSTimer* timer;
 
 @property (nonatomic, copy) NSString* recordFileName;
-@property (nonatomic, copy) NSString* wavFileName;
-@property (nonatomic, copy) NSString* amrFileName;
 
 @end
 
@@ -80,14 +78,11 @@ static KKAudioComponent* defaultAudioComponent;
     //1. init recorder
     [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
     
-//    NSString* timestamp = [KKAudioComponent currentTimeString];
     NSString* uniCode = [[NSProcessInfo processInfo] globallyUniqueString]; //唯一吗
     
-    self.recordFileName = [NSString stringWithFormat:@"%@_original", uniCode]; //原录音文件名
-    self.wavFileName = uniCode;  //amr转码后产生的 wav文件
-    self.amrFileName = uniCode;  //原录音文件转码后产生的 amr文件
+    self.recordFileName = [NSString stringWithFormat:@"%@", uniCode]; //原录音文件名
     
-    NSString* recordFileNamePath = [KKAudioComponent filePathWithFileName:_recordFileName ofType:@"wav"];
+    NSString* recordFileNamePath = [KKAudioComponent filePathWithFileName:self.recordFileName ofType:@"wav"];
     
     self.recorder = [[AVAudioRecorder alloc]
                      initWithURL:[NSURL URLWithString:recordFileNamePath]
@@ -121,36 +116,9 @@ static KKAudioComponent* defaultAudioComponent;
     
     if (cTime > 1) {//如果录制时间<1 不发送
         
-        
-//        [KKAudioComponent wavToAmrWithWavFileName:self.recordFileName]; //wav转码amr
-//        [KKAudioComponent amrToWavWithAmrFileName:self.amrFileName]; //amr转码wav
-//        NSDictionary* dictRecordFile = [KKAudioComponent fileAttributesWithFileName:self.recordFileName FileType:@"wav" RecordTime:cTime];
-//        NSDictionary* dictWavFile = [KKAudioComponent fileAttributesWithFileName:self.wavFileName FileType:@"wav" RecordTime:cTime];
-//        NSDictionary* dictAmrFile = [KKAudioComponent fileAttributesWithFileName:self.amrFileName FileType:@"amr" RecordTime:cTime];
-        
-//        self.data = [NSArray arrayWithObjects:dictRecordFile, dictWavFile, dictAmrFile, nil];
-//        NSLog(@"%@", self.data);
-        
-        
-        
         NSDictionary* dictRecordFile = [KKAudioComponent fileAttributesWithFileName:self.recordFileName FileType:@"wav" RecordTime:cTime];
         self.data = [NSArray arrayWithObjects:dictRecordFile, nil];
         NSLog(@"%@", self.data);
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//            [KKAudioComponent wavToAmrWithWavFileName:self.recordFileName]; //wav转码amr
-//            [KKAudioComponent amrToWavWithAmrFileName:self.amrFileName]; //amr转码wav
-//            
-//            //以下是封装返回数据
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                NSDictionary* dictRecordFile = [KKAudioComponent fileAttributesWithFileName:self.recordFileName FileType:@"wav" RecordTime:cTime];
-//                NSDictionary* dictWavFile = [KKAudioComponent fileAttributesWithFileName:self.wavFileName FileType:@"wav" RecordTime:cTime];
-//                NSDictionary* dictAmrFile = [KKAudioComponent fileAttributesWithFileName:self.amrFileName FileType:@"amr" RecordTime:cTime];
-//                
-//                self.data = [NSArray arrayWithObjects:dictRecordFile, dictWavFile, dictAmrFile, nil];
-//                NSLog(@"%@", self.data);
-//            });
-//            
-//        });
         
         NSLog(@"发送");
         
@@ -194,13 +162,28 @@ static KKAudioComponent* defaultAudioComponent;
         _player.delegate = self;
         [_player play];
         
-        self.soundFileNameForPlaying = fileName;
-        
         NSLog(@"开始播放");
     }else {
         NSLog(@"文件不存在");
     }
     
+    
+}
+
+- (void)playRecordingWithFilePath:(NSString*)filePath{
+    
+    [[UIDevice currentDevice] setProximityMonitoringEnabled:YES];
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];  //默认扬声器播放
+    
+    if ([KKAudioComponent fileExistsAtPath:filePath]) { //文件存在
+        self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL URLWithString:filePath] error:nil];
+        _player.delegate = self;
+        [_player play];
+        
+        NSLog(@"开始播放");
+    }else {
+        NSLog(@"文件不存在");
+    }
     
 }
 
@@ -394,18 +377,22 @@ static KKAudioComponent* defaultAudioComponent;
 #pragma mark - wav转amr
 + (NSString*)wavToAmrWithWavFilePath:(NSString*)wavFilePath{
     
-//    NSString* string = @"/var/mobile/Applications/30213A8E-E3F2-4F3A-A419-36FEC2CF705D/Library/Caches/AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B_original.wav";
+//    NSString* string = @"/var/mobile/Applications/30213A8E-E3F2-4F3A-A419-36FEC2CF705D/Library/Caches/AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B.wav";
     NSString* fileName = [[wavFilePath componentsSeparatedByString:@"/"] lastObject];
-
-    NSString* fileNamePrefix;
-    if ([fileName rangeOfString:@"_original"].length > 0) {
-        fileNamePrefix = [fileName substringWithRange:NSMakeRange(0, fileName.length - 13)];
-    }else{
-        fileNamePrefix = [fileName substringWithRange:NSMakeRange(0, fileName.length - 4)];
-    }
+    NSString* fileNamePrefix = [fileName substringWithRange:NSMakeRange(0, fileName.length - 4)]; //AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B
+    NSString* amrFilePath = [KKAudioComponent filePathWithFileName:fileNamePrefix ofType:@"amr"];
+    [VoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath]; //amr写本地
     
-    NSString* amrFilePath = [NSString stringWithFormat:@"%@.amr", fileNamePrefix];
-    [VoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath];
+    return amrFilePath;
+}
+
+
++ (NSString*)wavToAmrWithWavFileName:(NSString*)wavFileName{
+    
+    //    NSString* string = @"/var/mobile/Applications/30213A8E-E3F2-4F3A-A419-36FEC2CF705D/Library/Caches/AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B_original.wav";
+    NSString* wavFilePath = [KKAudioComponent filePathWithFileName:wavFileName ofType:@"wav"];
+    NSString* amrFilePath = [KKAudioComponent filePathWithFileName:wavFileName ofType:@"amr"];
+    [VoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath]; //amr写本地
     
     return amrFilePath;
 }
@@ -413,16 +400,33 @@ static KKAudioComponent* defaultAudioComponent;
 
 
 #pragma mark - amr转wav
-+ (NSString*)amrToWavWithAmrFilePath:(NSString*)amrFilePath{
-    
-    //    NSString* string = @"/var/mobile/Applications/30213A8E-E3F2-4F3A-A419-36FEC2CF705D/Library/Caches/AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B.amr";
-    NSString* fileName = [[amrFilePath componentsSeparatedByString:@"/"] lastObject];
-    
-    NSString* fileNamePrefix = [fileName substringWithRange:NSMakeRange(0, fileName.length - 4)];
-    NSString* wavFilePath = [NSString stringWithFormat:@"%@.wav", fileNamePrefix];
-    [VoiceConverter amrToWav:amrFilePath wavSavePath:wavFilePath];
+//+ (NSString*)amrToWavWithAmrFilePath:(NSString*)amrFilePath{
+//    
+//    //    NSString* string = @"/var/mobile/Applications/30213A8E-E3F2-4F3A-A419-36FEC2CF705D/Library/Voice/AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B.amr";
+//    NSString* fileName = [[amrFilePath componentsSeparatedByString:@"/"] lastObject];
+//    
+//    NSString* fileNamePrefix = [fileName substringWithRange:NSMakeRange(0, fileName.length - 4)];
+//    NSString* wavFilePath = [NSString stringWithFormat:@"%@.wav", fileNamePrefix];
+//    [VoiceConverter amrToWav:amrFilePath wavSavePath:wavFilePath];
+//
+//    return wavFilePath;
+//}
 
-    return wavFilePath;
++ (NSString*)amrToWavWithNSData:(NSData*)data{
+    
+    NSString* fileName = [[NSProcessInfo processInfo] globallyUniqueString]; //唯一吗
+    
+    //这里data先写入本地文件, 再进行转码, data可以直接转码吗?
+    NSString* amrFilePath = [KKAudioComponent filePathWithFileName:fileName ofType:@"amr"];
+    [data writeToFile:amrFilePath atomically:YES]; //amr写本地
+    
+    NSString* wavFilePath = [KKAudioComponent filePathWithFileName:fileName ofType:@"wav"];
+    int success = [VoiceConverter amrToWav:amrFilePath wavSavePath:wavFilePath]; //wav写本地
+    if (success) {
+        return wavFilePath; //返回wav文件路径
+    }else{
+        return nil;
+    }
 }
 
 

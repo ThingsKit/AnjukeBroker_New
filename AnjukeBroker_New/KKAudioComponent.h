@@ -18,19 +18,16 @@
 //返回录音文件名, 录音时间, 录音文件路径的字典, 字典在组数的0号索引处, 数组方便以后扩展
 @property (nonatomic, retain) NSArray* data;
 
-//返回正在播放的文件名(或者路径)
-@property (nonatomic, copy) NSString* soundFileNameForPlaying;
-
 + (KKAudioComponent*) sharedAudioComponent;
 
 // - wav转amr, 需要文件名 (不带后缀)
 + (NSString*)wavToAmrWithWavFilePath:(NSString*)wavFilePath;
 
 // - amr转wav, 需要文件名 (不带后缀)
-+ (NSString*)amrToWavWithAmrFilePath:(NSString*)amrFilePath;
++ (NSString*)amrToWavWithNSData:(NSData*)data;
 
-
-
+// 根据文件名获取绝对路径
++ (NSString*)filePathWithFileName:(NSString *)fileName ofType:(NSString *)type;
 
 
 
@@ -46,7 +43,9 @@
 //获取实时的录音音量
 - (CGFloat)volumnUpdated;
 
-//播放指定的文件(wav格式, 文件名不带后缀)
+//播放指定的文件(wav格式, 参数 文件名不带后缀)
 - (void)playRecordingWithFileName:(NSString*)fileName;
+//播放指定的文件(wav格式, 参数 文件绝对路径)
+- (void)playRecordingWithFilePath:(NSString*)filePath;
 
 @end
