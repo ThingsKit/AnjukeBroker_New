@@ -80,12 +80,12 @@
 }
 
 - (void)didclickVoice {
-    NSDictionary* dict = [[KKAudioComponent sharedAudioComponent].data objectAtIndex:0];
-    NSString* fileName = [dict objectForKey:@"FILE_NAME"];
-    [[KKAudioComponent sharedAudioComponent] playRecordingWithFileName:fileName];
+//    NSDictionary* dict = [[KKAudioComponent sharedAudioComponent].data objectAtIndex:0];
+//    NSString* fileName = [dict objectForKey:@"FILE_NAME"];
+//    [[KKAudioComponent sharedAudioComponent] playRecordingWithFileName:fileName];
 //    self.timer.isValid = NO;
-    [self.timer invalidate];
-    self.timer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(voiceAnimation) userInfo:nil repeats:YES];
+//    [self.timer invalidate];
+//    self.timer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(voiceAnimation) userInfo:nil repeats:YES];
     
 }
 
