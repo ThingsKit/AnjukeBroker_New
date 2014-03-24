@@ -53,7 +53,7 @@
     
     self.activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     self.activity.hidden = YES;
-    self.activity.frame = CGRectMake(20, 3, 25, 25);
+    self.activity.frame = CGRectMake(40, 3, 25, 25);
     //    [self.activityIndicatorView startAnimating];
     [self.locationLabel addSubview:self.activity];
 }
@@ -130,9 +130,9 @@
 }
 
 - (void)geoDidFinishGetAddress:(RTNetworkResponse *) response {
-    [self.activity stopAnimating];
+//    [self.activity stopAnimating];
     if ([response.content[@"status"] isEqualToString:@"OK"]) {
-        
+#warning TODO 需不需要此功能！
     }
 //    if ([self.dataDic[@"address"] length] > 0) {
 //        self.locationLabel.text = self.dataDic[@"address"];
