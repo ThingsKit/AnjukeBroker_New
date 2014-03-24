@@ -240,10 +240,14 @@
     NSMutableDictionary *messageDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
     NSMutableDictionary *splitedDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
     
+    BOOL shouldAlert = NO;
     NSInteger count = 0;
     for (NSDictionary *item in receivedArray) {
         count++;
         NSString *friendUID = item[@"from_uid"];
+        if (![self.friendUid isEqualToString:friendUID]) {
+            shouldAlert = NO;
+        }
         NSMutableArray *messageArray = [[NSMutableArray alloc] initWithCapacity:0];
         
         NSMutableArray *picMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
@@ -350,7 +354,6 @@
         messageDictionary[friendUID] = [messageArray reverseSelf];
         splitedDictionary[friendUID] = @{@"pic":[picMessageArray reverseSelf], @"other":[commonMessageArray reverseSelf]};
         
-        AXMappedPerson *mySelf = [self fetchCurrentPerson];
         if (![self isFriendWithFriendUid:friendUID]) {
             
             AXPerson *friend = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
@@ -367,20 +370,31 @@
     __autoreleasing NSError *error;
     [self.managedObjectContext save:&error];
     
-    if ([receivedArray count] >= 1) {
-        CFStringRef state;
-        UInt32 propertySize = sizeof(CFStringRef);
-        AudioSessionInitialize(NULL, NULL, NULL, NULL);
-        AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &propertySize, &state);
-        
-        UIAccessibilityIsVoiceOverRunning();
-        
-        if (CFStringGetLength(state) == 0) {
-            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-        } else {
-            AudioServicesPlaySystemSound(1015);
+    if (shouldAlert) {
+        if ([receivedArray count] >= 1) {
+            CFStringRef state;
+            UInt32 propertySize = sizeof(CFStringRef);
+            AudioSessionInitialize(NULL, NULL, NULL, NULL);
+            AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &propertySize, &state);
+            
+            Float32 volume;
+            UInt32 dataSize = sizeof(Float32);
+            AudioSessionGetProperty (
+                                     kAudioSessionProperty_CurrentHardwareOutputVolume,
+                                     &dataSize,
+                                     &volume
+                                     );
+            
+            UIAccessibilityIsVoiceOverRunning();
+            
+            if (CFStringGetLength(state) == 0 || volume == 0) {
+                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+            } else {
+                AudioServicesPlaySystemSound(1015);
+            }
         }
     }
+
     [self.delegate dataCenter:self didReceiveMessages:splitedDictionary];
     
     return messageDictionary;
@@ -415,9 +429,8 @@
                 }
             }
         }
-        
     }
-    
+
     [self.managedObjectContext save:NULL];
 }
 
@@ -739,6 +752,10 @@
         person.uid = mappedPerson[@"user_id"];
         person.company = mappedPerson[@"corp"];
         person.userType = @([mappedPerson[@"user_type"] integerValue]);
+        if (mappedPerson[@"desc"]) {
+            person.markDesc = mappedPerson[@"desc"];
+        }
+        
         [person updateFirstPinyin];
         
         if (![person.isPendingForRemove boolValue]) {
@@ -1031,7 +1048,7 @@
     NSTimeInterval timeInterval = [currentDate timeIntervalSinceDate:lastDate];
     if (timeInterval > 300) {
         timeMessage = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
-        timeMessage.accountType = [NSString stringWithFormat:@"%d", AXPersonTypeServer];
+        timeMessage.accountType = [NSString stringWithFormat:@"%lu", (unsigned long)AXPersonTypeServer];
         NSDateFormatter *dateFormatrer = [[NSDateFormatter alloc] init];
         dateFormatrer.dateFormat = @"HH:mm:ss";
         dateFormatrer.timeZone = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];

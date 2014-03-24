@@ -11,7 +11,6 @@ static NSString *kAIFMessageRegisteToServerUri = @"/register"; //eg. GET /regist
 static NSString *kAIFMessageConnectToHeartBeatServerUri = @"/ping"; //eg. GET /ping/{deviceId}/{userId}/
 static NSString *kAIFMessageStopAlivingConnectionUri = @"/quit"; //eg. GET /quit/{deviceId}/{userId}/
 
-
 static NSString *kAIFMessagePushMessageByUidUri = @"/sendMessageByUid"; //eg. POST /sendMessageByUid/{userId}   {body}
 static NSString *kAIFMessagePushMessageByDeviceIdUri = @"/sendMessageByDeviceId"; //eg. POST /sendMessageByDeviceId/{deviceId} {body}
 NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
@@ -26,7 +25,6 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
 @property (nonatomic,strong) ASIHTTPRequest *registerRequest;
 @property (nonatomic,strong) ASIHTTPRequest *heartBeatRequest;
 @property (nonatomic,strong) ASIHTTPRequest *cancelAlivingConnection;
-@property (nonatomic,strong) ASIFormDataRequest *pushRequest;
 @property (nonatomic,strong) NSTimer *timer;
 @property (nonatomic, strong) NSString *machineName;
 @property (nonatomic, strong) NSString *startTime;
@@ -82,15 +80,15 @@ NSTimeInterval const kAIFRegisteDefaultConnectionRetryTimeout = 10;
 - (void)registerDevices:(NSString *)deviceId userId:(NSString *)userId
 {
     if (self.registerStatus == AIF_MESSAGE_REQUEST_REGISTER_STARTED) {
-        //        NSLog(@"AIF_MESSAGE_REQUEST_REGISTER_STARTED");
         return;
     }
     
     self.deviceId = deviceId;
     self.userId = userId;
-    
     NSString *registerUrlString = [NSString stringWithFormat:@"https://%@:%@%@/%@/%@/%@/",self.host,self.port,kAIFMessageRegisteToServerUri,self.deviceId,self.appName,self.userId];
+
     NSURL *registerUrl = [NSURL URLWithString:registerUrlString];
+    DLog(@"REGISTER URL IS ====== %@",registerUrlString);
     self.registerRequest = [ASIHTTPRequest requestWithURL:registerUrl];
     self.registerRequest.tag = AIF_MESSAGE_REQUEST_TYPE_TAG_REGISTER;
     [self.registerRequest setValidatesSecureCertificate:NO];

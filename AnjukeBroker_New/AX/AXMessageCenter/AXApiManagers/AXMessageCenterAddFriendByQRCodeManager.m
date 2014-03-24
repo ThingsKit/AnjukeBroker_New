@@ -1,17 +1,17 @@
 //
-//  AXMessageCenterUserGetPublicServiceInfoManager.m
+//  AXMessageCenterAddFriendByQRCodeManager.m
 //  Anjuke2
 //
-//  Created by 杨 志豪 on 14-3-5.
+//  Created by 杨 志豪 on 14-3-11.
 //  Copyright (c) 2014年 anjuke inc. All rights reserved.
 //
 
-#import "AXMessageCenterUserGetPublicServiceInfoManager.h"
+#import "AXMessageCenterAddFriendByQRCodeManager.h"
 
-@implementation AXMessageCenterUserGetPublicServiceInfoManager
+@implementation AXMessageCenterAddFriendByQRCodeManager
 - (NSString *)methodName
 {
-    return [NSString stringWithFormat:@"user/getPublicServiceInfo/%@",self.apiParams[@"service_id"]];
+    return [NSString stringWithFormat:@"user/getBrokerInfo/%@",self.apiParams[@"brokerInfo"]];
 }
 
 - (RTServiceType)serviceType
@@ -38,6 +38,5 @@
 {
     return YES;
 }
-
 
 @end

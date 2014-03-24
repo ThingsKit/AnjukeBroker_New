@@ -9,13 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "ASIProgressDelegate.h"
 #import "ASIHTTPRequestDelegate.h"
+#import "ASIFormDataRequest.h"
 #import "AXMappedMessage.h"
 #import "AXMappedPerson.h"
 #import "AXMappedConversationListItem.h"
-
-static NSString * const kAXMessageCenterLinkParamHost = @"push10.anjuke.com";
-static NSString * const kAXMessageCenterLinkParamPort = @"443";
-static NSString * const kAXMessageCenterLinkAppName = @"i-broker2";
 
 //Notification
 static NSString * const MessageCenterDidReceiveLastUpdataFriendList = @"MessageCenterDidReceiveFriendList";
@@ -27,18 +24,16 @@ static NSString * const MessageCenterDidInitedDataCenter = @"MessageCenterDidIni
 
 //connection status notication object will include AXMessageCenterStatus by NSNumber in userinfo key is @"status"
 static NSString * const MessageCenterConnectionStatusNotication = @"MessageCenterConnectionStatusNotication";
-
 static NSString * const MessageCenterDidReceiveNewMessage = @"MessageCenterDidReceiveNewMessage";
 static NSString * const MessageCenterDidUpdataFriendInformationNotication = @"MessageCenterDidUpdataFriendInformationNotication";
 
 typedef NS_ENUM (NSUInteger, AXMessageCenterStatus)
 {
-    AIFMessageCenterStatusDisconnected = 1,
-    AIFMessageCenterStatusConnecting = 2,
-    AIFMessageCenterStatusConnected = 3,
-    AIFMessageCenterStatusUserLoginOut = 4
+    AXMessageCenterStatusDisconnected = 1,
+    AXMessageCenterStatusConnecting = 2,
+    AXMessageCenterStatusConnected = 3,
+    AXMessageCenterStatusUserLoginOut = 4
 };
-
 
 typedef NS_ENUM(NSUInteger,AXMessageCenterHttpRequestType )
 {
@@ -46,6 +41,8 @@ typedef NS_ENUM(NSUInteger,AXMessageCenterHttpRequestType )
     AXMessageCenterHttpRequestTypeDeleteFriend,
     AXMessageCenterHttpRequestTypeUploadImage,
     AXMessageCenterHttpRequestTypeDownLoadImage,
+    AXMessageCenterHttpRequestTypeUploadVoice,
+    AXMessageCenterHttpRequestTypeDownloadVoice
 };
 
 typedef NS_ENUM(NSUInteger,AXMessageCenterSendMessageErrorTypeCode)
@@ -61,79 +58,81 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
     AXMessageCenterApiRequestTypeImage
 };
 
-typedef NS_ENUM(NSUInteger, AXMessageCenterLinkStatus)
-{
-    AXMessageCenterLinkStatusWillLinkAsDevice,
-    AXMessageCenterLinkStatusWillCloseDevice,
-    AXMessageCenterLinkStatusLinkedAsDevice,
-    AXMessageCenterLinkStatusWillLinkAsUser,
-    AXMessageCenterLinkStatusWillCloseUser,
-    AXMessageCenterLinkStatusLinkedAsUser,
-    AXMessageCenterLinkStatusNoLink
-};
-
 @class AXChatMessageCenter;
 
 @interface AXChatMessageCenter : NSObject<ASIHTTPRequestDelegate>
-+ (instancetype)defaultMessageCenter;
-@property (nonatomic, strong) NSDictionary *userInfo;
-@property (nonatomic) AXMessageCenterLinkStatus linkStatus;
 
+@property (nonatomic, strong) NSDictionary *userInfo;
+
+#pragma mark - life cycle
++ (instancetype)defaultMessageCenter;
 - (void)cancelAllRequest;
-- (void)closeKeepAlivingConnect;
-- (void)breakLink; //just for broker the method !!!!
-//- (void)buildLongLinkWithUserId:(NSString *)uid;
+
+#pragma mark - link related
+- (void)breakLink;
 - (void)connect;
 
-- (void)userLoginOut;
-
-- (void)searchBrokerByBrokerPhone:(NSString *)brokerPhone compeletionBlock:(void(^)(AXMappedPerson *brokerInfo))searchBrokerBlock;
-- (void)removeFriendBydeleteUid:(NSArray *)deleteUid compeletionBlock:(void(^)(BOOL isSuccess))deleteFriendBlock;
-
-- (void)updataUserInformation:(AXMappedPerson *)newInformation compeletionBlock:(void (^)(BOOL))updateUserInfo;
-
-//send message to friend
+#pragma mark - sending Message
 - (void)sendMessage:(AXMappedMessage *)message willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
-- (void)reSendMessage:(NSString *)identifier willSendMessage:(void (^)(NSArray *message, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
-
-//send message to publice service
 - (void)sendMessageToPublic:(AXMappedMessage *)message willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
-- (void)reSendMessageToPublic:(NSString *)identifier willSendMessage:(void (^)(NSArray *message, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+- (void)sendImage:(AXMappedMessage *)message withCompeletionBlock:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+- (void)sendVoice:(AXMappedMessage *)message withCompeletionBlock:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
 
+- (void)reSendMessage:(NSString *)identifier willSendMessage:(void (^)(NSArray *message, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+- (void)reSendMessageToPublic:(NSString *)identifier willSendMessage:(void (^)(NSArray *message, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+- (void)reSendImage:(NSString *)identify withCompeletionBlock:(void(^)(NSArray *messageList, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+- (void)reSendVoice:(NSString *)identify withCompeletionBlock:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+
+#pragma mark - message related methods except sending messages
+// fetch messages
+- (void)fetchChatListWithLastMessage:(AXMappedMessage *)lastMessage pageSize:(NSUInteger)pageSize callBack:(void(^)(NSDictionary *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend))fetchedChatList;
+- (NSArray *)picMessageArrayWithFriendUid:(NSString *)friendUid;
+- (void)getUserOldMessageWithFriendUid:(NSString *)friendUid TopMinMsgId:(NSString *)TopMinMsgId messageIdArray:(NSArray *)messageIdArray compeletionBlock:(void(^)(NSArray *messageArray))getUserOldMessageBlock;
+
+// message related operation
+- (void)deleteMessageByIdentifier:(NSString *)identifier;
+- (void)updateMessage:(AXMappedMessage *)message;
 - (NSInteger)totalUnreadMessageCount;
 
-- (void)sendImage:(AXMappedMessage *)message withCompeletionBlock:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
-- (void)reSendImage:(NSString *)identify withCompeletionBlock:(void(^)(NSArray *messages, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+// UI life cycle
+- (void)didLeaveChattingList;
+- (void)chatListWillAppearWithFriendUid:(NSString *)friendUid;
 
-- (void)deleteMessageByIdentifier:(NSString *)identifier;
-- (AXMappedPerson *)fetchPersonWithUID:(NSString *)uid;
-
-- (void)addFriendWithMyPhone:(AXMappedPerson *)person block:(void(^)(BOOL isSuccess))addFriendBlock;
-- (void)addFriendByQRCode:(NSString *)urlString compeletionBlock:(void(^)(AXMappedPerson *broker))addFriendByQRCompeletionBlock;
-- (void)fetchChatListWithLastMessage:(AXMappedMessage *)lastMessage pageSize:(NSUInteger)pageSize callBack:(void(^)(NSDictionary *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend))fetchedChatList;
-
+#pragma mark - friend list related methods
 - (void)friendListWithPersonWithCompeletionBlock:(void(^)(NSArray *friendList,BOOL whetherSuccess))friendListBlock;
-- (NSFetchedResultsController *)conversationListFetchedResultController;
+- (NSFetchedResultsController *)friendListFetchedResultController;
 
-- (void)updatePerson:(AXMappedPerson *)person;
-- (AXMappedPerson *)fetchCurrentPerson;
+#pragma mark - conversation list item related methods
+- (NSFetchedResultsController *)conversationListFetchedResultController;
 - (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID;
 - (void)saveDraft:(NSString *)content friendUID:(NSString *)friendUID;
-
 - (void)deleteConversationItem:(AXConversationListItem *)conversationItem;
 
+#pragma mark - person related methods
+// fetch person
+- (AXMappedPerson *)fetchPersonWithUID:(NSString *)uid;
+- (AXMappedPerson *)fetchCurrentPerson;
 
+// fetch person info
 - (void)getFriendInfoWithFriendUid:(NSArray *)personUids compeletionBlock:(void(^)(NSArray *person))getFriendInfoBlock;
 - (void)getFriendInfoWithFriendUid:(NSArray *)personUids;
 - (void)getServiceInfoByServiceID:(NSString *)serviceId;
 
-- (void)getUserOldMessageWithFriendUid:(NSString *)friendUid TopMinMsgId:(NSString *)TopMinMsgId messageIdArray:(NSArray *)messageIdArray compeletionBlock:(void(^)(NSArray *messageArray))getUserOldMessageBlock;
+// update person info
+- (void)updatePerson:(AXMappedPerson *)person;
+- (void)updataUserInformation:(AXMappedPerson *)newInformation compeletionBlock:(void (^)(BOOL))updateUserInfo;
 
-- (void)didLeaveChattingList;
-- (NSFetchedResultsController *)friendListFetchedResultController;
-- (NSArray *)picMessageArrayWithFriendUid:(NSString *)friendUid;
-- (void)updateMessage:(AXMappedMessage *)message;
+// add firend
+- (void)addFriendWithMyPhone:(AXMappedPerson *)person block:(void(^)(BOOL isSuccess))addFriendBlock;
+- (void)addFriendByQRCode:(NSString *)urlString compeletionBlock:(void(^)(AXMappedPerson *broker))addFriendByQRCompeletionBlock;
+- (void)searchBrokerByBrokerPhone:(NSString *)brokerPhone compeletionBlock:(void(^)(AXMappedPerson *brokerInfo,BOOL success))searchBrokerBlock;
 
+- (void)removeFriendBydeleteUid:(NSArray *)deleteUid compeletionBlock:(void(^)(BOOL isSuccess))deleteFriendBlock;
 - (BOOL)isFriendWithFriendUid:(NSString *)friendUid;
-- (void)chatListWillAppearWithFriendUid:(NSString *)friendUid;
+
+
+
+
+//test
+- (void)downLoadVoiceInOperationQueueWithMessage:(AXMappedMessage *)message;
 @end

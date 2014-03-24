@@ -14,8 +14,8 @@ typedef NS_ENUM(NSUInteger, AXMessageType)
     AXMessageTypePic = 2,  // 图片
     AXMessageTypeProperty = 3, // 房子
     AXMessageTypePublicCard = 4, // 服务号消息
-    AXMessageTypeVoice = 5, //语音消息
-    AXMessageTypeMap = 6, //位置消息
+    AXMessageTypeVoice = 5, // 语音消息
+    AXMessageTypeMap = 6, 
     
     AXMessageTypeSystemTime = 100, // 时间
     AXMessageTypeSystemForbid = 101, // 提示拒绝加好友
@@ -30,6 +30,7 @@ typedef NS_ENUM(NSUInteger, AXMessagePropertySourceType)
 {
     AXMessagePropertySourceErShouFang = 1, // 二手房
     AXMessagePropertySourceZuFang = 2, // 租房
+    AXMessagePropertySourceCommunity = 3,
 };
 
 typedef NS_ENUM (NSUInteger, AXMessageCenterSendMessageStatus)

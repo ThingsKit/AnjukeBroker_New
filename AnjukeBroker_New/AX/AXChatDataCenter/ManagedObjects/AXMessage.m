@@ -79,6 +79,7 @@
     self.isRead = [NSNumber numberWithBool:NO];
     self.isRemoved = [NSNumber numberWithBool:NO];
     self.isImgDownloaded = [NSNumber numberWithBool:NO];
+    self.imgUrl = @"";
     CFRelease(uuidObj);
 }
 

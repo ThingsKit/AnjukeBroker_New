@@ -1,39 +1,28 @@
 //
-//  AXMessageCenterReceiveMessageManager.m
+//  AXMessageCenterDownLoadAudioManager.m
 //  Anjuke2
 //
-//  Created by 杨 志豪 on 14-2-18.
+//  Created by 杨 志豪 on 14-3-20.
 //  Copyright (c) 2014年 anjuke inc. All rights reserved.
 //
 
-#import "AXMessageCenterReceiveMessageManager.h"
+#import "AXMessageCenterDownLoadAudioManager.h"
 
-
-@implementation AXMessageCenterReceiveMessageManager
-#pragma mark getters and setters
-
-- (NSString *)uniqLongLinkId
-{
-    if (_uniqLongLinkId == nil) {
-        _uniqLongLinkId = @"";
-    }
-    return _uniqLongLinkId;
-}
-
+@implementation AXMessageCenterDownLoadAudioManager
 - (NSString *)methodName
 {
-    return [NSString stringWithFormat:@"message/getAllNewMessages/%@/%@",self.apiParams[@"phone"],self.apiParams[@"last_max_msgid"]];
+    return [NSString stringWithFormat:@"common/downloadFile/%@",self.apiParams[@"brokerInfo"]];
 }
 
 - (RTServiceType)serviceType
 {
     return RTAnjukeXRESTServiceID;
 }
-
 - (RTAPIManagerRequestType)requestType
 {
     return RTAPIManagerRequestTypeRestGet;
 }
+
 #pragma mark - RTAPIManagerValidator
 - (BOOL)manager:(RTAPIBaseManager *)manager isCorrectWithCallBackData:(NSDictionary *)data
 {
@@ -42,12 +31,12 @@
 
 - (NSDictionary *)paramsForApi:(RTAPIBaseManager *)manager
 {
-     return @{@"_guid":self.uniqLongLinkId};
+    return @{};
 }
+
 - (BOOL)manager:(RTAPIBaseManager *)manager isCorrectWithParamsData:(NSDictionary *)data
 {
     return YES;
 }
-
 
 @end

@@ -8,7 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "ASIHttpRequest.h"
-#import "ASIFormDataRequest.h"
+
+static NSString * const kAXMessageCenterLinkParamHost = @"push10.anjuke.com";
+static NSString * const kAXMessageCenterLinkParamPort = @"443";
+static NSString * const kAXMessageCenterLinkAppName = @"i-ajk";
 
 typedef NS_ENUM(NSInteger, AIF_MESSAGE_REQUEST_REGISTER_STATUS)
 {
