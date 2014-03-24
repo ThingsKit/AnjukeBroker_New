@@ -12,6 +12,7 @@
 #import "CheckInstalledMapAPP.h"
 #import "LocationChange.h"
 #import "LocIsBaidu.h"
+#import "NSString+RTStyle.h"
 
 #define SYSTEM_NAVIBAR_COLOR [UIColor colorWithRed:1 green:1 blue:1 alpha:1]
 #define ISIOS7 ([[[[UIDevice currentDevice] systemVersion] substringToIndex:1] intValue]>=7)
@@ -100,7 +101,8 @@
         titStr = @"位置";
         [self addRightButton];
     }
-
+    [self checkIsOpenGPS];
+    
     UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
     lb.backgroundColor = [UIColor clearColor];
     lb.font = [UIFont systemFontOfSize:19];
@@ -162,6 +164,12 @@
         naviCoordsBd.longitude = bdLon;
     }
 }
+-(void)checkIsOpenGPS{
+    if (![CLLocationManager locationServicesEnabled]) {
+        UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alet show];
+    }
+}
 -(void)addRightButton{
     rBtn = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
     if (!ISIOS7) {
@@ -174,17 +182,34 @@
 }
 - (void)addBackButton {
     //save btn
-    NSString *title = @"返回";
-    UIBarButtonItem *backBtn = nil;
-    backBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
-    
-    if (!ISIOS7) {
-        self.navigationItem.leftBarButtonItem = backBtn;
-    }
-    else {
-        [self.navigationController.navigationBar setTintColor:SYSTEM_NAVIBAR_COLOR];
-        self.navigationItem.leftBarButtonItem = backBtn;
-    }
+//    NSString *title = @"返回";
+//    UIBarButtonItem *backBtn = nil;
+//    backBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
+//
+//    if (!ISIOS7) {
+//        self.navigationItem.leftBarButtonItem = backBtn;
+//    }
+//    else {
+//        [self.navigationController.navigationBar setTintColor:SYSTEM_NAVIBAR_COLOR];
+//        self.navigationItem.leftBarButtonItem = backBtn;
+//    }
+    // 设置返回btn
+    UIImage *image = [UIImage imageWithContentsOfFile:[NSString getStyleBundlePath:@"anjuke_icon_back.png"]];
+    UIImage *highlighted = [UIImage imageWithContentsOfFile:[NSString getStyleBundlePath:@"anjuke_icon_back.png"]];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 0, image.size.width + 40 , 44);
+    [button addTarget:self action:@selector(doBack:) forControlEvents:UIControlEventTouchUpInside];
+    [button setImage:image forState:UIControlStateNormal];
+    [button setImage:highlighted forState:UIControlStateHighlighted];
+    [button setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 40)];
+    [button setTitle:@"返回" forState:UIControlStateNormal];
+    [button setTitle:@"返回" forState:UIControlStateHighlighted];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    button.titleLabel.textAlignment = NSTextAlignmentLeft;
+    button.titleLabel.backgroundColor = [UIColor clearColor];
+    button.backgroundColor = [UIColor clearColor];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
 }
 -(void)doBack:(id)sender{
     [self.navigationController popViewControllerAnimated:YES];
