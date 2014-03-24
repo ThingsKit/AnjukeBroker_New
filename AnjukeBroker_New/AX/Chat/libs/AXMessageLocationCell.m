@@ -29,6 +29,11 @@
     self.dataDic = [NSDictionary dictionary];
 }
 
+- (void)dealloc {
+    self.dataDic = nil;
+    self.locationLabel = nil;
+}
+
 - (void)initUI {
     [super initUI];
     
@@ -56,6 +61,7 @@
 - (void)configWithData:(NSDictionary *)data
 {
     [super configWithData:data];
+    self.locationLabel.text = nil;
     self.dataDic = [data[@"content"] JSONValue];
     CGRect frame = CGRectMake(0, 0, 100, 70);
     
@@ -75,6 +81,7 @@
         [self getGeoLocation];
     }else {
         self.locationLabel.text = self.dataDic[@"address"];
+        
     }
     
     [self configWithStatus];
