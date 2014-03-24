@@ -1061,7 +1061,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 }
 
 #pragma mark - ELCImagePickerControllerDelegate
-- (void)elcImagePickerController:(AXELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
     if ([info count] == 0) {
         return;
     }
@@ -1090,7 +1090,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     
 }
 
-- (void)elcImagePickerControllerDidCancel:(AXELCImagePickerController *)picker {
+- (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -1478,7 +1478,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 
 - (void)pickIMG:(id)sender {
-    AXELCImagePickerController *elcPicker = [[AXELCImagePickerController alloc] init];
+    ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] init];
     
     elcPicker.maximumImagesCount = 5; //(maxCount - self.roomImageArray.count);
     elcPicker.imagePickerDelegate = self;

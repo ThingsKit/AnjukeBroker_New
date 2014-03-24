@@ -9,6 +9,7 @@
 #import "ELCImagePickerController.h"
 #import "ELCAssetTablePicker.h"
 #import "Util_UI.h"
+#import "AppManager.h"
 
 #define PhotoPickerTitle @"选择相册"
 
@@ -30,7 +31,11 @@
     [super viewDidLoad];
 	
 	[self.navigationItem setTitle:PhotoPickerTitle];
-
+    
+    if (![AppManager isIOS6]) {
+        self.navigationController.navigationBar.barTintColor = SYSTEM_NAVBAR_DARK_BG;
+    }
+    
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self.parent action:@selector(cancelImagePicker)];
     cancelButton.tintColor = SYSTEM_ORANGE;
 	[self.navigationItem setRightBarButtonItem:cancelButton];

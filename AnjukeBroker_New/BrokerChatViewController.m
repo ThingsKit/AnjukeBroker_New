@@ -143,8 +143,8 @@
     }
 }
 - (void)pickIMG:(id)sender {
-     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_006 note:nil];
-    AXELCImagePickerController *elcPicker = [[AXELCImagePickerController alloc] init];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_006 note:nil];
+    ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] init];
     
     elcPicker.maximumImagesCount = 5; //(maxCount - self.roomImageArray.count);
     elcPicker.imagePickerDelegate = self;
@@ -248,7 +248,7 @@
 }
 
 #pragma mark - ELCImagePickerControllerDelegate
-- (void)elcImagePickerController:(AXELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
     
     if ([info count] == 0) {
         return;
@@ -281,7 +281,7 @@
     
 }
 
-- (void)elcImagePickerControllerDidCancel:(AXELCImagePickerController *)picker {
+- (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

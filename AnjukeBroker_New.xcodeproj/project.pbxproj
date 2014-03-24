@@ -410,11 +410,6 @@
 		B7EAD52618CD927200B28FEC /* AXPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4F718CD927200B28FEC /* AXPhoto.m */; };
 		B7EAD52718CD927200B28FEC /* AXPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4F918CD927200B28FEC /* AXPhotoBrowser.m */; };
 		B7EAD52818CD927200B28FEC /* AXPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4FB18CD927200B28FEC /* AXPhotoView.m */; };
-		B7EAD52918CD927200B28FEC /* AXELCAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4FE18CD927200B28FEC /* AXELCAlbumPickerController.m */; };
-		B7EAD52A18CD927200B28FEC /* AXELCAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD50018CD927200B28FEC /* AXELCAsset.m */; };
-		B7EAD52B18CD927200B28FEC /* AXELCAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD50218CD927200B28FEC /* AXELCAssetCell.m */; };
-		B7EAD52C18CD927200B28FEC /* AXELCAssetTablePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD50618CD927200B28FEC /* AXELCAssetTablePicker.m */; };
-		B7EAD52D18CD927200B28FEC /* AXELCImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD50818CD927200B28FEC /* AXELCImagePickerController.m */; };
 		B7EAD52F18CD927200B28FEC /* NSString+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD50C18CD927200B28FEC /* NSString+AXChatMessage.m */; };
 		B7EAD53018CD927200B28FEC /* UIColor+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD50E18CD927200B28FEC /* UIColor+AXChatMessage.m */; };
 		B7EAD53118CD927200B28FEC /* UIFont+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD51018CD927200B28FEC /* UIFont+AXChatMessage.m */; };
@@ -1168,18 +1163,6 @@
 		B7EAD4F918CD927200B28FEC /* AXPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPhotoBrowser.m; sourceTree = "<group>"; };
 		B7EAD4FA18CD927200B28FEC /* AXPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXPhotoView.h; sourceTree = "<group>"; };
 		B7EAD4FB18CD927200B28FEC /* AXPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXPhotoView.m; sourceTree = "<group>"; };
-		B7EAD4FD18CD927200B28FEC /* AXELCAlbumPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAlbumPickerController.h; sourceTree = "<group>"; };
-		B7EAD4FE18CD927200B28FEC /* AXELCAlbumPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXELCAlbumPickerController.m; sourceTree = "<group>"; };
-		B7EAD4FF18CD927200B28FEC /* AXELCAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAsset.h; sourceTree = "<group>"; };
-		B7EAD50018CD927200B28FEC /* AXELCAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXELCAsset.m; sourceTree = "<group>"; };
-		B7EAD50118CD927200B28FEC /* AXELCAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAssetCell.h; sourceTree = "<group>"; };
-		B7EAD50218CD927200B28FEC /* AXELCAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXELCAssetCell.m; sourceTree = "<group>"; };
-		B7EAD50318CD927200B28FEC /* AXELCAssetPickerFilterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAssetPickerFilterDelegate.h; sourceTree = "<group>"; };
-		B7EAD50418CD927200B28FEC /* AXELCAssetSelectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAssetSelectionDelegate.h; sourceTree = "<group>"; };
-		B7EAD50518CD927200B28FEC /* AXELCAssetTablePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCAssetTablePicker.h; sourceTree = "<group>"; };
-		B7EAD50618CD927200B28FEC /* AXELCAssetTablePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXELCAssetTablePicker.m; sourceTree = "<group>"; };
-		B7EAD50718CD927200B28FEC /* AXELCImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXELCImagePickerController.h; sourceTree = "<group>"; };
-		B7EAD50818CD927200B28FEC /* AXELCImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXELCImagePickerController.m; sourceTree = "<group>"; };
 		B7EAD50B18CD927200B28FEC /* NSString+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+AXChatMessage.h"; sourceTree = "<group>"; };
 		B7EAD50C18CD927200B28FEC /* NSString+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AXChatMessage.m"; sourceTree = "<group>"; };
 		B7EAD50D18CD927200B28FEC /* UIColor+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+AXChatMessage.h"; sourceTree = "<group>"; };
@@ -2749,7 +2732,6 @@
 				B7EAD4F118CD927200B28FEC /* AXPullToRefreshView.h */,
 				B7EAD4F218CD927200B28FEC /* AXPullToRefreshView.m */,
 				B7EAD4F318CD927200B28FEC /* ImgBrowser */,
-				B7EAD4FC18CD927200B28FEC /* MutableIMG */,
 				B7EAD50B18CD927200B28FEC /* NSString+AXChatMessage.h */,
 				B7EAD50C18CD927200B28FEC /* NSString+AXChatMessage.m */,
 				B7EAD50D18CD927200B28FEC /* UIColor+AXChatMessage.h */,
@@ -2777,25 +2759,6 @@
 				B7EAD4FB18CD927200B28FEC /* AXPhotoView.m */,
 			);
 			path = ImgBrowser;
-			sourceTree = "<group>";
-		};
-		B7EAD4FC18CD927200B28FEC /* MutableIMG */ = {
-			isa = PBXGroup;
-			children = (
-				B7EAD4FD18CD927200B28FEC /* AXELCAlbumPickerController.h */,
-				B7EAD4FE18CD927200B28FEC /* AXELCAlbumPickerController.m */,
-				B7EAD4FF18CD927200B28FEC /* AXELCAsset.h */,
-				B7EAD50018CD927200B28FEC /* AXELCAsset.m */,
-				B7EAD50118CD927200B28FEC /* AXELCAssetCell.h */,
-				B7EAD50218CD927200B28FEC /* AXELCAssetCell.m */,
-				B7EAD50318CD927200B28FEC /* AXELCAssetPickerFilterDelegate.h */,
-				B7EAD50418CD927200B28FEC /* AXELCAssetSelectionDelegate.h */,
-				B7EAD50518CD927200B28FEC /* AXELCAssetTablePicker.h */,
-				B7EAD50618CD927200B28FEC /* AXELCAssetTablePicker.m */,
-				B7EAD50718CD927200B28FEC /* AXELCImagePickerController.h */,
-				B7EAD50818CD927200B28FEC /* AXELCImagePickerController.m */,
-			);
-			path = MutableIMG;
 			sourceTree = "<group>";
 		};
 		B7EAD54E18CDB88A00B28FEC /* Views */ = {
@@ -3343,7 +3306,6 @@
 				B7E56D0B183DABD300A0F7D2 /* AnjukePropertyResultController.m in Sources */,
 				B7E69BBE183B5B000097D5C3 /* SaleGroupListController.m in Sources */,
 				20A2181F18BF2A9D002CA469 /* XChatData.xcdatamodeld in Sources */,
-				B7EAD52918CD927200B28FEC /* AXELCAlbumPickerController.m in Sources */,
 				97A606811816C2A50041B367 /* InputOrderManager.m in Sources */,
 				97ACD09C1843357E00D88CB6 /* AccountManager.m in Sources */,
 				20A2182818BF2A9D002CA469 /* AXMessageCenterSendMessageManager.m in Sources */,
@@ -3386,7 +3348,6 @@
 				20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */,
 				200915E81893FC1000A13115 /* E_Photo.m in Sources */,
 				970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */,
-				B7EAD52A18CD927200B28FEC /* AXELCAsset.m in Sources */,
 				B7FC9B2E18C41F9C00F77205 /* UIColor+RT.m in Sources */,
 				678D2A2918DAB12E0027D945 /* VoiceConverter.mm in Sources */,
 				B7E55B5018BF2190007238CB /* NSString+JSMessagesView.m in Sources */,
@@ -3426,7 +3387,6 @@
 				B77A9612182A39C1007F04E3 /* RentPropertyObject.m in Sources */,
 				B7E69BC1183B63480097D5C3 /* RentAuctionViewController.m in Sources */,
 				B7EAD4C718CD6DDE00B28FEC /* AXNotificationTutorialViewController.m in Sources */,
-				B7EAD52D18CD927200B28FEC /* AXELCImagePickerController.m in Sources */,
 				207526BE18B45FE10022220C /* SWUtilityButtonView.m in Sources */,
 				B769E45D181F54DE00A2FF50 /* BasePropertyObject.m in Sources */,
 				20A44DA31869760B008D8CB1 /* SSPullToRefreshView.m in Sources */,
@@ -3519,7 +3479,6 @@
 				B77A960F182A389D007F04E3 /* SalePropertyObject.m in Sources */,
 				20A2182718BF2A9D002CA469 /* AXMessageCenterSearchBrokerManager.m in Sources */,
 				20DCCF2D18CD68D90079A078 /* AXMessageManager.m in Sources */,
-				B7EAD52C18CD927200B28FEC /* AXELCAssetTablePicker.m in Sources */,
 				97B422571820D9A600A2E9E6 /* PropertyGroupListViewController.m in Sources */,
 				B721094F18277F8A00904FC7 /* BaseFixedCell.m in Sources */,
 				2011CD8218AB1D5300EEEA5C /* SystemMessageDetailViewController.m in Sources */,
@@ -3548,7 +3507,6 @@
 				970FC17E183B19C400D142D5 /* PropertyResetViewController.m in Sources */,
 				20A2182518BF2A9D002CA469 /* AXMessageCenterModifyFriendInfoManager.m in Sources */,
 				B721094B18277CE100904FC7 /* RentFixedDetailController.m in Sources */,
-				B7EAD52B18CD927200B28FEC /* AXELCAssetCell.m in Sources */,
 				B7DC8079186C115800BE6AD0 /* CellHeight.m in Sources */,
 				974E5C7F181E417F000246D1 /* RTListCell.m in Sources */,
 				B7E55B4E18BF2190007238CB /* JSMessageInputView.m in Sources */,
