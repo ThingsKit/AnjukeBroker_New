@@ -149,6 +149,7 @@ static KKAudioComponent* defaultAudioComponent;
     
 }
 
+//播放录音, 支持支 wav格式
 - (void)playRecordingWithFilePath:(NSString*)filePath{
     
     [[UIDevice currentDevice] setProximityMonitoringEnabled:YES];
@@ -293,15 +294,27 @@ static KKAudioComponent* defaultAudioComponent;
 }
 
 #pragma mark - wav转amr
++ (NSString*)wavToAmrWithWavFileName:(NSString*)wavFileName{
+    
+    //    NSString* string = @"AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B";
+    NSString* wavFilePath = [KKAudioComponent filePathWithFileName:wavFileName ofType:@"wav"];
+    NSString* amrFilePath = [KKAudioComponent filePathWithFileName:wavFileName ofType:@"amr"];
+    [VoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath]; //amr写本地, 需要绝对路径
+    
+    NSString* relativeAmrFilePath = [NSString stringWithFormat:@"/Voice/%@.amr", wavFileName];
+    return relativeAmrFilePath; //返回amr文件相对路径
+}
+
 + (NSString*)wavToAmrWithWavFilePath:(NSString*)wavFilePath{
     
-//    NSString* string = @"/var/mobile/Applications/30213A8E-E3F2-4F3A-A419-36FEC2CF705D/Library/Caches/AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B.wav";
+//    NSString* string = @"/var/mobile/Applications/30213A8E-E3F2-4F3A-A419-36FEC2CF705D/Library/Voice/AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B.wav";
     NSString* fileName = [[wavFilePath componentsSeparatedByString:@"/"] lastObject];
     NSString* fileNamePrefix = [fileName substringWithRange:NSMakeRange(0, fileName.length - 4)];
     NSString* amrFilePath = [KKAudioComponent filePathWithFileName:fileNamePrefix ofType:@"amr"];
-    [VoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath]; //amr写本地
+    [VoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath]; //amr写本地, 需要绝对路径
     
-    return amrFilePath;
+    NSString* relativeAmrFilePath = [NSString stringWithFormat:@"/Voice/%@.amr", fileNamePrefix];
+    return relativeAmrFilePath; //返回amr文件相对路径
 }
 
 #pragma mark - amr转wav
@@ -314,9 +327,10 @@ static KKAudioComponent* defaultAudioComponent;
     [data writeToFile:amrFilePath atomically:YES]; //amr写本地
     
     NSString* wavFilePath = [KKAudioComponent filePathWithFileName:fileName ofType:@"wav"];
-    int success = [VoiceConverter amrToWav:amrFilePath wavSavePath:wavFilePath]; //wav写本地
+    int success = [VoiceConverter amrToWav:amrFilePath wavSavePath:wavFilePath]; //wav写本地,需要绝对路径
     if (success) {
-        return wavFilePath; //返回wav文件路径
+        NSString* relativeWavFilePath = [NSString stringWithFormat:@"/Voice/%@.wav", fileName];
+        return relativeWavFilePath; //返回wav文件相对路径
     }else{
         return nil;
     }
