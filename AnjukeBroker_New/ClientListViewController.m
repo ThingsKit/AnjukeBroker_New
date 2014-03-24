@@ -384,8 +384,8 @@
         if (indexPath.section == 1) { //星标用户
             item = [self.starDataArr objectAtIndex:indexPath.row];
         }
-        else if (indexPath.section == 2) //全部用户
-            item = [self.allDataArr objectAtIndex:indexPath.row];
+        else if (indexPath.section >= 2) //全部用户
+            item = [[self.contactKeyArr[indexPath.section -2] objectForKey:@"objects"] objectAtIndex:indexPath.row];
         
         if (self.isForMessageList) {
             BrokerChatViewController *controller = [[BrokerChatViewController alloc] init];
