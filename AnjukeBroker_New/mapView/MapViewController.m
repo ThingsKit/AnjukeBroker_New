@@ -506,7 +506,7 @@
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *array, NSError *error) {
         //判断返回loc和当前最后一次请求loc的latitude是否一致，否则不返回位置信息
-        if (![[NSString stringWithFormat:@"%0.8f",[location coordinate].latitude ] isEqualToString:[NSString stringWithFormat:@"%0.8f",self.centerCoordinate.latitude]] && self.mapType == RegionNavi) {
+        if (![[NSString stringWithFormat:@"%0.8f",[location coordinate].latitude ] isEqualToString:[NSString stringWithFormat:@"%0.8f",self.centerCoordinate.latitude]] && self.mapType == RegionChoose) {
             [self.requestLocArr removeObject:[NSString stringWithFormat:@"%0.8f",[location coordinate].latitude]];
             return;
         }
