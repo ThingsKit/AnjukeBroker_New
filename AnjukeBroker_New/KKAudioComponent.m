@@ -151,6 +151,7 @@ static KKAudioComponent* defaultAudioComponent;
     [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
     if (self.player != nil) {
         [self.player stop];
+//        self.playDidCancelBlock();
     }
     
 }

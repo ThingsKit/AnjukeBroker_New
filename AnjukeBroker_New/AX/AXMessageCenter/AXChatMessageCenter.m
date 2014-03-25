@@ -414,7 +414,7 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
                 }
             }
         } else {
-            _friendListBlock(nil,NO);
+//            _friendListBlock(nil,NO);
         }
     }
     if ([manager isKindOfClass:[AXMessageCenterAddFriendManager class]]) {
