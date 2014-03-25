@@ -11,11 +11,12 @@
 
 @interface AXChatMessageVoiceCell ()
 
-@property (nonatomic, strong) UILabel *timeLab;
-@property (nonatomic, strong) UIImageView *voiceIMG;
+@property (nonatomic, strong) UILabel *timeLabel;
+@property (nonatomic, strong) UIImageView *voiceImageView;
 @property (nonatomic, strong) UIControl *voiceControl;
+@property (nonatomic, strong) UIImageView *voiceStatusImageView;
 @property (nonatomic, strong) NSTimer *timer;
-
+@property (nonatomic) NSInteger index;
 @end
 
 @implementation AXChatMessageVoiceCell
@@ -31,72 +32,127 @@
 }
 - (void)initUI {
     [super initUI];
-    self.voiceIMG = [[UIImageView alloc] init];
-    self.voiceIMG.image = [UIImage imageNamed:@""];
-    [self.contentView addSubview:self.voiceIMG];
+    self.index = 0;
     
-    self.timeLab = [[UILabel alloc] init];
-    self.timeLab.backgroundColor = [UIColor clearColor];
-    self.timeLab.textAlignment = NSTextAlignmentRight;
-    [self.contentView addSubview:self.timeLab];
-
+    self.voiceStatusImageView = [[UIImageView alloc] init];
+    self.voiceStatusImageView.image = [UIImage imageNamed:@"wl_voice_icon_reddot.png"];
+    self.voiceStatusImageView.frame = CGRectMake(0, 10, 8, 8);
+    [self.contentView addSubview:self.voiceStatusImageView];
+    
+    self.voiceImageView = [[UIImageView alloc] init];
+    self.voiceImageView.image = [UIImage imageNamed:@"wl_chat_icon_uservoice.png"];
+    self.voiceImageView.frame = CGRectMake(0, 21, 12, 19);
+    [self.contentView addSubview:self.voiceImageView];
+    
+    self.timeLabel = [[UILabel alloc] init];
+    self.timeLabel.backgroundColor = [UIColor clearColor];
+    self.timeLabel.frame = CGRectMake(0, 20, 40, 21);
+    self.timeLabel.font = [UIFont systemFontOfSize:14];
+    self.timeLabel.textColor = [UIColor colorWithHex:0x343434 alpha:1];
+    [self.contentView addSubview:self.timeLabel];
+    
     self.voiceControl = [[UIControl alloc] init];
     self.voiceControl.backgroundColor = [UIColor clearColor];
-    [self.voiceControl addTarget:self action:@selector(didclickVoice) forControlEvents:UIControlEventTouchUpInside];
+    [self.voiceControl addTarget:self action:@selector(didClickVoice) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:self.voiceControl];
-    
 }
 
 - (void)configWithData:(NSDictionary *)data
 {
     [super configWithData:data];
-    self.timeLab.text = @"2\"";
-
-    CGSize size = CGSizeMake([self voiceCellLengthByTime:60.0f], 20);//算出语音条的宽度
+    NSDictionary *content = [data[@"content"] JSONValue];
+    [self endPlay];
+    if (content[@"hadDone"]) {
+        self.voiceStatusImageView.hidden = YES;
+    } else {
+        self.voiceStatusImageView.hidden = NO;
+    }
+    NSInteger length = MIN([content[@"length"] integerValue], 60);
+    self.timeLabel.text = [NSString stringWithFormat:@"%d”", length];
+    CGSize size = CGSizeMake(MIN(180, 50 + ( (130/60) * length)), 20);
     [self setBubbleImg:size];
+    if (self.timer) {
+        [self.timer invalidate];
+    }
+}
+
+- (void)resetPlayer:(NSString *)playingIdentifier
+{
+    if ([playingIdentifier isEqualToString:self.identifyString]) {
+        [self startPlay];
+    }
 }
 
 - (void)setBubbleImg:(CGSize )size {
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-        self.bubbleIMG.frame = CGRectMake(kJSAvatarSize + 20, axTagMarginTop, size.width + 30.0f , size.height + 20.0f);
-        CGRect rect = self.bubbleIMG.frame;
-        self.voiceIMG.frame = CGRectMake(rect.origin.x + 15, rect.origin.y + 10, 20, 20);
-        self.voiceIMG.image = [UIImage imageNamed:@"anjuke_icon_say_voice_b.png"];
-        self.timeLab.textAlignment = NSTextAlignmentLeft;
-        self.timeLab.frame = CGRectMake(rect.origin.x + rect.size.width +5, rect.origin.y + 5, 40.0f, 20.0f);
+        self.timeLabel.textAlignment = NSTextAlignmentLeft;
+        self.voiceImageView.contentMode = UIViewContentModeLeft;
+        self.voiceImageView.image = [UIImage imageNamed:@"wl_chat_icon_agentvoice.png"];
+        self.voiceImageView.left = kJSAvatarSize + 19 + 15;
+        self.bubbleIMG.frame = CGRectMake(kJSAvatarSize + 19, axTagMarginTop, size.width + 30.0f , size.height + 20.0f);
+        self.voiceStatusImageView.left = self.bubbleIMG.right + 7;
+        self.timeLabel.left = self.bubbleIMG.right + 7;
+        self.voiceControl.frame = self.bubbleIMG.frame;
     } else {
-        self.bubbleIMG.frame = CGRectMake(320 - kJSAvatarSize - size.width - 50, axTagMarginTop, size.width + 30.0f , size.height + 20.0f);
-        CGRect rect = self.bubbleIMG.frame;
-        self.voiceIMG.frame = CGRectMake(rect.origin.x + rect.size.width - 25, rect.origin.y + 10, 20, 20);
-        self.voiceIMG.image = [UIImage imageNamed:@"anjuke_icon_say_voice_a.png"];
-        self.timeLab.textAlignment = NSTextAlignmentRight;
-        self.timeLab.frame = CGRectMake(rect.origin.x - 40, rect.origin.y + 5, 40.0f, 20.0f);
+        self.timeLabel.textAlignment = NSTextAlignmentRight;
+        self.bubbleIMG.frame = CGRectMake(320 - kJSAvatarSize - size.width - kAvatarMargin - 37, axTagMarginTop, size.width + 30.0f , size.height + 20.0f);
+        self.voiceImageView.image = [UIImage imageNamed:@"wl_chat_icon_uservoice.png"];
+        self.voiceImageView.contentMode = UIViewContentModeRight;
+        self.voiceImageView.left = self.bubbleIMG.right - 25;
+        self.voiceStatusImageView.left = self.bubbleIMG.left - 7 - self.voiceStatusImageView.width;
+        self.timeLabel.left = self.bubbleIMG.left - 7 - self.timeLabel.width;
+        self.voiceControl.frame = self.bubbleIMG.frame;
     }
 }
 
-- (double )voiceCellLengthByTime:(double) time{
-    double length = log10(time)/log10(1.0165);
-    return length / 2.0f;
+- (void)didClickVoice {
+    [self startPlay];
+    self.voiceStatusImageView.hidden = YES;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickVoice:)]) {
+        [self.delegate didClickVoice:self];
+    }
 }
 
-- (void)didclickVoice {
-//    NSDictionary* dict = [[KKAudioComponent sharedAudioComponent].data objectAtIndex:0];
-//    NSString* fileName = [dict objectForKey:@"FILE_NAME"];
-//    [[KKAudioComponent sharedAudioComponent] playRecordingWithFileName:fileName];
-//    self.timer.isValid = NO;
-//    [self.timer invalidate];
-//    self.timer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(voiceAnimation) userInfo:nil repeats:YES];
-    
+- (void)startPlay
+{
+    self.index = 0;
+    if (self.timer) {
+        [self.timer invalidate];
+    }
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(playAnimation) userInfo:nil repeats:YES];
 }
 
-- (void)didFinishPlayVoice {
-    [self.timer invalidate];
-    
+- (void)endPlay
+{
+    if (self.timer) {
+        [self.timer invalidate];
+    }
 }
 
-- (void)voiceAnimation {
-    
-    DLog(@"===========>>>>>>>>>>>>????????动画");
+- (void)playAnimation
+{
+    [UIView animateWithDuration:0.2 animations:^{
+        NSString *type;
+        if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
+            type = @"agent";
+        } else {
+            type = @"user";
+        }
+        
+        if (self.index == 0) {
+            self.voiceImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"wl_chat_icon_%@voice_play1.png", type]];
+            self.index = 1;
+        } else if (self.index == 1) {
+            self.voiceImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"wl_chat_icon_%@voice_play2.png", type]];
+            self.index = 2;
+        } else if (self.index == 2) {
+            self.voiceImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"wl_chat_icon_%@voice_play3.png", type]];
+            self.index = 3;
+        } else if (self.index == 3) {
+            self.voiceImageView.image = [UIImage createImageWithColor:[UIColor clearColor]];
+            self.index = 0;
+        }
+    }];
 }
 
 @end

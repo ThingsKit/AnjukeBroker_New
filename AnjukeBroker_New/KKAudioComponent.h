@@ -52,5 +52,5 @@ typedef void(^PlayDidFinishBlock) (void);
 - (void)playRecordingWithFileName:(NSString*)fileName;
 //播放指定的文件(wav格式, 参数 文件绝对路径, 需要lib+相对路径)
 - (void)playRecordingWithFilePath:(NSString*)filePath;
-
++ (NSString*)relativeFilePathWithFileName:(NSString *)fileName ofType:(NSString *)type;
 @end

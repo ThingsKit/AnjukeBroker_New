@@ -11,4 +11,6 @@
 
 @interface AXChatMessageVoiceCell : AXChatMessageRootCell
 
+- (void)resetPlayer:(NSString *)playingIdentifier;
+
 @end

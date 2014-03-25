@@ -405,5 +405,16 @@ static KKAudioComponent* defaultAudioComponent;
 //- (id) autorelease{
 //    return defaultAudioComponent;
 //}
-
++ (NSString*)relativeFilePathWithFileName:(NSString *)fileName ofType:(NSString *)type
+{
+    if (fileName.length > 0 && type.length > 0) {
+        NSString* voicePath = @"Voice";
+        if (![[NSFileManager defaultManager] fileExistsAtPath:voicePath]) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:voicePath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+        NSString* filePath = [NSString stringWithFormat:@"%@/%@.%@", voicePath, fileName, type];
+        return filePath;
+    }
+    return nil;
+}
 @end

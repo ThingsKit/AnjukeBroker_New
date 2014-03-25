@@ -82,6 +82,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 @property (nonatomic, strong) UILabel *sendLabel;
 @property (nonatomic, strong) UIControl *keyboardControl;
 @property (nonatomic, strong) AXChatContentValidator *contentValidator;
+@property (nonatomic, copy) NSString *playingIdentifier;
 
 @property (nonatomic, strong) AXMappedPerson *currentPerson;
 
@@ -701,7 +702,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
             break;
         case AXMessageTypeVoice:
         {
-             textData = [self configTextCellData:[NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeVoice), @"content":mappedMessage.content, @"messageSource":messageSource}]];
+            textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeVoice), @"content":mappedMessage.content, @"messageSource":messageSource, @"identifier":mappedMessage.identifier}];
         }
             break;
         case AXMessageTypeMap:
@@ -710,8 +711,6 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 //                return nil;
 //            }
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeMap),@"content":mappedMessage.content,@"messageSource":messageSource}];
-            
-//             textData = [self configTextCellData:[NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeMap), @"content":mappedMessage.content, @"messageSource":messageSource}]];
             
         }
             break;
@@ -871,7 +870,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeSafeMessage)]) {
         return 75;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeVoice)]) {
-        return 40;
+        return 65.0f;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeMap)]) {
         return 95;
     }else {
@@ -1179,7 +1178,36 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         
     }
 }
-
+- (void)didClickVoice:(AXChatMessageRootCell *)axCell
+{
+    // 更新数据库
+    AXMappedMessage *message = axCell.rowData[@"mappedMessage"];
+    if (message.imgPath.length == 0) {
+//        return;
+    }
+    NSString *preIdentifier = [self.playingIdentifier copy];
+//    [self cancelKKAudioPlaying];
+    if ([preIdentifier isEqualToString:message.identifier]) {
+        return;
+    }
+    // 更新数据库
+    NSMutableDictionary *data = [message.content JSONValue];
+    if (data && !data[@"hadDone"]) {
+        data[@"hadDone"] = @"1";
+        message.content = [data JSONRepresentation];
+        NSMutableDictionary *dict = self.cellDict[message.identifier];
+        if (dict) {
+            dict[@"content"] = [data JSONRepresentation];
+            self.cellDict[message.identifier] = dict;
+        }
+        
+        [[AXChatMessageCenter defaultMessageCenter] updateMessage:message];
+    }
+    
+    // 播放
+    self.playingIdentifier = message.identifier;
+    [[KKAudioComponent sharedAudioComponent] playRecordingWithFilePath:message.imgPath];
+}
 #pragma mark - Layout message input view
 
 - (void)layoutAndAnimateMessageInputTextView:(UITextView *)textView
@@ -1348,7 +1376,36 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     inputViewFrame.origin.y = keyboardOrigin.y - inputViewFrame.size.height;
     self.messageInputView.frame = inputViewFrame;
 }
-
+- (void)sendRecored
+{
+    NSDictionary *dict = [[KKAudioComponent sharedAudioComponent] finishRecording];
+//    self.isRecording = NO;
+//    [self.recordTimer invalidate];
+    
+    if (!dict) {
+//        self.recordErrorHUD.hidden = NO;
+//        [self performSelector:@selector(hideDelayed:) withObject:[NSNumber numberWithBool:YES] afterDelay:0.5f];
+        return;
+    }
+    CGFloat cTime = [dict[@"RECORD_TIME"] floatValue];
+    DLog(@"cTime:%f", cTime);
+    if (cTime <= 1) {
+//        self.recordErrorHUD.hidden = NO;
+//        [self performSelector:@selector(hideDelayed:) withObject:[NSNumber numberWithBool:YES] afterDelay:0.5f];
+    } else {
+        // 发送
+        AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
+        mappedMessage.accountType = [self checkAccountType];
+        mappedMessage.content = [@{@"jsonVersion":AXChatJsonVersion, @"length":[NSString stringWithFormat:@"%d", [[NSNumber numberWithFloat:cTime] integerValue]]} JSONRepresentation];
+        mappedMessage.to = [self checkFriendUid];
+        mappedMessage.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
+        mappedMessage.isRead = YES;
+        mappedMessage.isRemoved = NO;
+        mappedMessage.messageType = @(AXMessageTypeVoice);
+        mappedMessage.imgPath = [KKAudioComponent relativeFilePathWithFileName:dict[@"FILE_NAME"] ofType:@"wav"];
+        [[AXChatMessageCenter defaultMessageCenter] sendVoice:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
+    }
+}
 #pragma mark - Utilities
 
 - (UIViewAnimationOptions)animationOptionsForCurve:(UIViewAnimationCurve)curve
@@ -1564,6 +1621,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 //UIControlEventTouchUpInside
 - (void)didCommitVoice {
+    [self sendRecored];
     double timeSpent = [[NSDate date] timeIntervalSinceDate:self.date];
     if (timeSpent < 1) {
         [self.timer invalidate];
