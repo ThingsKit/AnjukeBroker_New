@@ -32,7 +32,7 @@
 - (void)logWithActionCode:(NSString *)actionCode note:(NSDictionary *)note {
     [[RTLogger sharedInstance] setSelectedCityID:[LoginManager getCity_id]];
     [[RTLogger sharedInstance] setUserID:[LoginManager getUserID]];
-    if ([LoginManager getChatID]) {
+    if ([LoginManager getChatID].length > 0 && ![[LoginManager getChatID] isKindOfClass:[NSNull class]]) {
         [[RTLogger sharedInstance] setChatID:[LoginManager getChatID]];
     }
     else
