@@ -60,10 +60,9 @@
 		200DABD918E009580077E0C9 /* AXMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 200DABD818E009580077E0C9 /* AXMessageManager.m */; };
 		200DABDC18E00B540077E0C9 /* AXChatMessageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 200DABDB18E00B540077E0C9 /* AXChatMessageCenter.m */; };
 		2011CD8218AB1D5300EEEA5C /* SystemMessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2011CD8118AB1D5300EEEA5C /* SystemMessageDetailViewController.m */; };
-		201BC95018CEF15900565BF6 /* 欢迎页960.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94C18CEF15900565BF6 /* 欢迎页960.png */; };
-		201BC95118CEF15900565BF6 /* 欢迎页960@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94D18CEF15900565BF6 /* 欢迎页960@2x.png */; };
-		201BC95218CEF15900565BF6 /* 欢迎页1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94E18CEF15900565BF6 /* 欢迎页1136.png */; };
-		201BC95318CEF15900565BF6 /* 欢迎页1136@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94F18CEF15900565BF6 /* 欢迎页1136@2x.png */; };
+		201BC95018CEF15900565BF6 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94C18CEF15900565BF6 /* Default.png */; };
+		201BC95118CEF15900565BF6 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94D18CEF15900565BF6 /* Default~iphone.png */; };
+		201BC95318CEF15900565BF6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94F18CEF15900565BF6 /* Default-568h@2x.png */; };
 		201BC95D18CEF90500565BF6 /* anjuke_icon_setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC95C18CEF90500565BF6 /* anjuke_icon_setting@2x.png */; };
 		202133C618C72CF200A0090B /* BrokerWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 202133C518C72CF200A0090B /* BrokerWebViewController.m */; };
 		2026044818B9D6CA00F75A56 /* ClientModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2026044718B9D6CA00F75A56 /* ClientModel.m */; };
@@ -648,10 +647,9 @@
 		200DABDB18E00B540077E0C9 /* AXChatMessageCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageCenter.m; sourceTree = "<group>"; };
 		2011CD8018AB1D5300EEEA5C /* SystemMessageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMessageDetailViewController.h; sourceTree = "<group>"; };
 		2011CD8118AB1D5300EEEA5C /* SystemMessageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemMessageDetailViewController.m; sourceTree = "<group>"; };
-		201BC94C18CEF15900565BF6 /* 欢迎页960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "欢迎页960.png"; sourceTree = "<group>"; };
-		201BC94D18CEF15900565BF6 /* 欢迎页960@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "欢迎页960@2x.png"; sourceTree = "<group>"; };
-		201BC94E18CEF15900565BF6 /* 欢迎页1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "欢迎页1136.png"; sourceTree = "<group>"; };
-		201BC94F18CEF15900565BF6 /* 欢迎页1136@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "欢迎页1136@2x.png"; sourceTree = "<group>"; };
+		201BC94C18CEF15900565BF6 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		201BC94D18CEF15900565BF6 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
+		201BC94F18CEF15900565BF6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		201BC95C18CEF90500565BF6 /* anjuke_icon_setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_setting@2x.png"; sourceTree = "<group>"; };
 		202133C418C72CF200A0090B /* BrokerWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerWebViewController.h; sourceTree = "<group>"; };
 		202133C518C72CF200A0090B /* BrokerWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerWebViewController.m; sourceTree = "<group>"; };
@@ -1531,10 +1529,9 @@
 		201BC94718CEEFEC00565BF6 /* app首屏页面 */ = {
 			isa = PBXGroup;
 			children = (
-				201BC94C18CEF15900565BF6 /* 欢迎页960.png */,
-				201BC94D18CEF15900565BF6 /* 欢迎页960@2x.png */,
-				201BC94E18CEF15900565BF6 /* 欢迎页1136.png */,
-				201BC94F18CEF15900565BF6 /* 欢迎页1136@2x.png */,
+				201BC94C18CEF15900565BF6 /* Default.png */,
+				201BC94D18CEF15900565BF6 /* Default~iphone.png */,
+				201BC94F18CEF15900565BF6 /* Default-568h@2x.png */,
 			);
 			name = "app首屏页面";
 			sourceTree = "<group>";
@@ -3216,7 +3213,6 @@
 				678D299518DA96120027D945 /* record_animate_08.png in Resources */,
 				B7FC9ADB18C41B1300F77205 /* xproject_dialogue_agentdetail_selected@2x.png in Resources */,
 				B7E4CD1D18E11A1E00B61B58 /* wl_chat_icon_uservoice@2x.png in Resources */,
-				201BC95218CEF15900565BF6 /* 欢迎页1136.png in Resources */,
 				273913E118DBD0FD003284AA /* anjuke_icon_itis_position.png in Resources */,
 				97F4D190184E2ABD00DFC45F /* logo_29@2x.png in Resources */,
 				B7EF77AC183CBBD20024A5E6 /* agent_icon42@2x.png in Resources */,
@@ -3292,7 +3288,7 @@
 				B7FC9AD318C41B1300F77205 /* anjuke_icon_chat_fy@2x.png in Resources */,
 				B7EF77AF183CBBD20024A5E6 /* agent_icon45@2x.png in Resources */,
 				B7EF77A1183CBB100024A5E6 /* anjuke_icon_draft@2x.png in Resources */,
-				201BC95118CEF15900565BF6 /* 欢迎页960@2x.png in Resources */,
+				201BC95118CEF15900565BF6 /* Default~iphone.png in Resources */,
 				2761B89C187C053C00EABF95 /* logo_57.png in Resources */,
 				20A2177818BF118E002CA469 /* anjuke_icon_attention@2x.png in Resources */,
 				B7FC9AC918C41B1300F77205 /* anjuke_icon_add_pic4@2x.png in Resources */,
@@ -3316,7 +3312,7 @@
 				9741056A180CDFE0004DAE95 /* Images.xcassets in Resources */,
 				B7E38A01182238CF002C6E8A /* anjuke_icon06_selected@2x.png in Resources */,
 				B7E38A00182238CF002C6E8A /* anjuke_icon06_select@2x.png in Resources */,
-				201BC95018CEF15900565BF6 /* 欢迎页960.png in Resources */,
+				201BC95018CEF15900565BF6 /* Default.png in Resources */,
 				B7E4CD2F18E11BD800B61B58 /* wl_chat_icon_agentvoice_play3@2x.png in Resources */,
 				B7D0AB9C18A9D23300A6229C /* anjuke_icon_hot1@2x.png in Resources */,
 				273913E518DBD0FD003284AA /* anjuke_icon_to_position1.png in Resources */,
@@ -3346,7 +3342,7 @@
 				20E3E783186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png in Resources */,
 				2739140618DC0B44003284AA /* wl_map_icon_position@2x.png in Resources */,
 				B7E4CD2E18E11BD800B61B58 /* wl_chat_icon_agentvoice_play3.png in Resources */,
-				201BC95318CEF15900565BF6 /* 欢迎页1136@2x.png in Resources */,
+				201BC95318CEF15900565BF6 /* Default-568h@2x.png in Resources */,
 				B7E4CD2818E11BB200B61B58 /* wl_chat_icon_uservoice_play2.png in Resources */,
 				B7EA5B7118DBDCA900D437BB /* anjuke_icon_voice@2x.png in Resources */,
 				2079ADD618B59CC00029D493 /* anjuke_icon_scyx@2x.png in Resources */,
@@ -3800,7 +3796,6 @@
 			baseConfigurationReference = AF4E891E01F64F3D9E4D5621 /* Pods-AnjukeBroker_New.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
@@ -3834,7 +3829,6 @@
 			baseConfigurationReference = AF4E891E01F64F3D9E4D5621 /* Pods-AnjukeBroker_New.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
