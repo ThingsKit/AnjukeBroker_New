@@ -1207,6 +1207,12 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     // 播放
     self.playingIdentifier = message.identifier;
     [[KKAudioComponent sharedAudioComponent] playRecordingWithRelativeFilePath:message.imgPath];
+    
+    [KKAudioComponent sharedAudioComponent].playDidFinishBlock = ^{
+    
+    
+    };
+    
 }
 #pragma mark - Layout message input view
 
