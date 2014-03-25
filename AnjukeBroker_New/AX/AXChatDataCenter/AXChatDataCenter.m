@@ -277,7 +277,7 @@
             if (messageType < 1) {
                 isVersionLower = YES;
             }
-            if (messageType > 5 && messageType < 100) {
+            if (messageType > 6 && messageType < 100) {
                 isVersionLower = YES;
             }
             if (messageType > 106) {
@@ -305,7 +305,7 @@
                 managedMessage.thumbnailImgPath = @"";
                 managedMessage.thumbnailImgUrl = @"";
                 managedMessage.isImgDownloaded = [NSNumber numberWithBool:NO];
-            } else {
+            }  else {
                 managedMessage.imgPath = @"";
                 managedMessage.imgUrl = @"";
                 managedMessage.thumbnailImgPath = @"";

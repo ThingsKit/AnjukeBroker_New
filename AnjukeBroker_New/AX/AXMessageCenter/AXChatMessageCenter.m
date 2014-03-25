@@ -736,8 +736,9 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
                 [request addRequestHeader:key value:[headers objectForKey:key]];
             }
         }
-        
-        NSData *voiceData = [[NSData alloc] initWithContentsOfFile:amrPath];
+        NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString *imgPath = [NSString stringWithFormat:@"%@/%@",path ,amrPath];
+        NSData *voiceData = [[NSData alloc] initWithContentsOfFile:imgPath];
         NSMutableData *voiceMutableData = [[NSMutableData alloc] initWithData:voiceData];
         [request setRequestMethod:@"POST"];
         [request appendPostData:voiceMutableData];

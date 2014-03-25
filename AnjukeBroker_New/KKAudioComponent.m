@@ -305,7 +305,9 @@ static KKAudioComponent* defaultAudioComponent;
 
 + (NSString*)wavToAmrWithWavFilePath:(NSString*)wavFilePath{
     
-//    NSString* string = @"/var/mobile/Applications/30213A8E-E3F2-4F3A-A419-36FEC2CF705D/LibraryVoice/AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B.wav";
+//    NSString* string = @"/var/mobile/Applications/30213A8E-E3F2-4F3A-A419-36FEC2CF705D/Library/Voice/AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B.wav";
+    NSString* libPath = [KKAudioComponent libraryPath];
+    wavFilePath = [NSString stringWithFormat:@"%@/%@", libPath, wavFilePath];
     NSString* fileNamePath = [[wavFilePath componentsSeparatedByString:@"/"] lastObject];
     NSString* fileName = [fileNamePath substringWithRange:NSMakeRange(0, fileNamePath.length - 4)];
     NSString* amrFilePath = [KKAudioComponent filePathWithFileName:fileName ofType:@"amr"];

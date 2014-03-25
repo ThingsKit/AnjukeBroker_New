@@ -26,9 +26,9 @@
 + (int)wavToAmr:(NSString*)_wavPath amrSavePath:(NSString*)_savePath{
     
     if (EncodeWAVEFileToAMRFile([_wavPath cStringUsingEncoding:NSASCIIStringEncoding], [_savePath cStringUsingEncoding:NSASCIIStringEncoding], 1, 16))
-        return 0;
+        return 1;
     
-    return 1;
+    return 0;
 }
     
     
