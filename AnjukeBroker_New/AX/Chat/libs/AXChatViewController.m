@@ -113,8 +113,8 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 @property (nonatomic, retain) NSDate* date;
 @property (nonatomic, retain) UILabel* hudLabel;
 @property (nonatomic, retain) UIImage* corlorIMG;
-
-
+@property (nonatomic, assign) CGFloat curCount;
+#define MAX_RECORD_TIME 20
 
 @end
 
@@ -1604,7 +1604,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 //UIControlEventTouchDown
 - (void)didBeginVoice {
-    
+    self.curCount = 0;
     self.date = [NSDate date];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [[KKAudioComponent sharedAudioComponent] beginRecording];
@@ -1621,6 +1621,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         
         self.hudLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 120, 155, 20)];
         self.hudLabel.font = [UIFont systemFontOfSize:15];
+        self.hudLabel.backgroundColor = [UIColor clearColor];
         self.hudLabel.textColor = [UIColor whiteColor];
         self.hudLabel.textAlignment = NSTextAlignmentCenter;
         
@@ -1740,19 +1741,25 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 - (void)updateVolumn
 {
-    //    [_recorder updateMeters];//刷新音量数据
-    //获取音量的平均值  [recorder averagePowerForChannel:0];
-    //音量的最大值  [recorder peakPowerForChannel:0];
     
     double lowPassResults = [[KKAudioComponent sharedAudioComponent] volumnUpdated];
-    
-    int value = lowPassResults * 60;
+    int value = (0.8 - lowPassResults) * 60;
     
     UIImage* image = [UIImage imageNamed:@"wl_voice_icon_voicestatu1"];
-    self.highlightedMicrophoneImageView.frame = CGRectMake(310/2/2 - 88/2/2, 290/2/2-170/2/2 + value, 88/2, 145/2 -value);
-
-    CGRect rect = CGRectMake(0, value*2, 88, 145 - value*2);//创建矩形框
+    self.highlightedMicrophoneImageView.frame = CGRectMake(310/2/2 - 88/2/2, 290/2/2-170/2/2 + value, 88/2, 145/2 -value); //变更frame
+    CGRect rect = CGRectMake(0, value*2, 88, 145 - value*2);//创建矩形框, retina图像需要*2
     self.highlightedMicrophoneImageView.image = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([image CGImage], rect)];
+    
+    if (self.curCount >= MAX_RECORD_TIME - 10 && self.curCount < MAX_RECORD_TIME) {
+        //剩下10秒
+        self.hudLabel.text = [NSString stringWithFormat:@"录音剩下:%d秒",(int)(MAX_RECORD_TIME - self.curCount)];
+    }else if (self.curCount >= MAX_RECORD_TIME){
+        //时间到
+        [self didCommitVoice];
+//        [self.pressSpeek removeTarget:self action:@selector(didCommitVoice) forControlEvents:UIControlEventTouchUpInside];
+    }
+    self.curCount += 0.1f; //计时器每0.1秒调用一次, 这儿进行计时
+    
 }
 
 - (void)sendMessage:(id)sender {
