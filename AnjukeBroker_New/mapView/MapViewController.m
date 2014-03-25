@@ -49,6 +49,7 @@
 @property(nonatomic,strong) NSString *regionStr;
 @property(nonatomic,strong) NSString *addressStr;
 @property(nonatomic,strong) CLLocationManager *locationManager;
+@property(nonatomic,strong) RegionAnnotation *regionAnnotation;
 @end
 
 @implementation MapViewController
@@ -68,6 +69,7 @@
 @synthesize requestLocArr;
 @synthesize centerCoordinate;
 @synthesize locationManager;
+@synthesize regionAnnotation;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -85,6 +87,10 @@
 }
 - (NSInteger)windowHeight {
     return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height;
+}
+- (void)viewDidDisappear:(BOOL)animated{
+    self.regionMapView.delegate = nil;
+    self.locationManager.delegate = nil;
 }
 - (void)viewDidLoad
 {
@@ -466,7 +472,11 @@
             return;
         }
         [self showAnnotation:userLocation.location coord:self.nowCoords];
-        [self.regionMapView setRegion:self.userRegion animated:YES];
+        if (ISIOS7) {
+            [self.regionMapView setRegion:self.userRegion animated:YES];
+        }else{
+            [self.regionMapView setRegion:self.userRegion animated:NO];
+        }
 
         self.updateInt += 1;
     }
@@ -475,9 +485,12 @@
     if (self.mapType == RegionNavi) {
         return;
     }
-    if (mapView.annotations) {
-        [mapView removeAnnotations:mapView.annotations];
+    if (ISIOS7) {
+        if ([mapView.annotations count]) {
+            [mapView removeAnnotations:mapView.annotations];
+        }
     }
+
     if (self.updateInt == 0){
         return;
     }
@@ -545,13 +558,15 @@
 }
 #pragma mark- 添加大头针的标注
 -(void)addAnnotationView:(CLLocation *)location coord:(CLLocationCoordinate2D)coords region:(NSString *)region address:(NSString *)address{
-    RegionAnnotation *annotation = [[RegionAnnotation alloc] init];
-    annotation.coordinate = coords;
-    annotation.title = region;
-    annotation.subtitle  = address;
+    if (!self.regionAnnotation) {
+        self.regionAnnotation = [[RegionAnnotation alloc] init];
+    }
+    self.regionAnnotation.coordinate = coords;
+    self.regionAnnotation.title = region;
+    self.regionAnnotation.subtitle  = address;
 
-    [self.regionMapView addAnnotation:annotation];
-    [self.regionMapView selectAnnotation:annotation animated:YES];
+    [self.regionMapView addAnnotation:self.regionAnnotation];
+    [self.regionMapView selectAnnotation:self.regionAnnotation animated:YES];
 }
 
 #pragma mark MKMapViewDelegate -显示大头针标注
@@ -604,6 +619,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 /*
 #pragma mark - Navigation
