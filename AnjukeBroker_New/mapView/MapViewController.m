@@ -127,7 +127,6 @@
         certerIcon.image = [UIImage imageNamed:@"anjuke_icon_itis_position.png"];
         [self.view addSubview:certerIcon];
     }else{
-        DLog(@"naviLog--->>%@",self.navDic);
         [self getChangedLoc];
         CLLocation *loc = [[CLLocation alloc] initWithLatitude:naviCoordsGd.latitude longitude:naviCoordsGd.longitude];
         MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(naviCoordsGd, 200, 200);
@@ -137,10 +136,6 @@
         }else{
             [self.regionMapView setRegion:self.naviRegion animated:NO];
         }
-        
-//        if ([[self.navDic objectForKey:@"region"] isEqualToString:@""]) {
-//            [self showAnnotation:<#(CLLocation *)#> coord:<#(CLLocationCoordinate2D)#>]
-//        }
         
         [self showAnnotation:loc coord:naviCoordsGd];
     }
@@ -211,7 +206,7 @@
 -(void)doBack:(id)sender{
     [self.navigationController popViewControllerAnimated:YES];
 }
--(void)rightButtonAction:(id *)sender{
+-(void)rightButtonAction:(id)sender{
     if (lastCoords.latitude && lastCoords.longitude) {
         [(UIBarButtonItem *)[self.view viewWithTag:10] setEnabled:YES];
         if (self.siteDelegate && [self.siteDelegate respondsToSelector:@selector(loadMapSiteMessage:)]){
@@ -223,13 +218,12 @@
             [locationDic setValue:[NSString stringWithFormat:@"%.8f",lastCoords.longitude] forKey:@"lng"];
             
            [self.siteDelegate loadMapSiteMessage:locationDic];
-            DLog(@"locationDic-->>%@/%@",[locationDic objectForKey:@"address"],locationDic);
         }
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
--(void)goUserLoc:(id *)sender{
+-(void)goUserLoc:(id)sender{
     [self.regionMapView setRegion:self.userRegion animated:YES];
 }
 
