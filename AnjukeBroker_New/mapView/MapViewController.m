@@ -147,6 +147,7 @@
         [self showAnnotation:loc coord:naviCoordsGd];
     }
 }
+#pragma mark - 百度和火星经纬度转换
 -(void)getChangedLoc{
     if ([LocIsBaidu locIsBaid:self.navDic]) {
         
@@ -310,7 +311,7 @@
         [self centerMap];
     }
 }
-//ios6绘制路线方法
+#pragma mark- ios6绘制路线方法
 -(NSArray*)calculateRoutesFrom{
 	NSString* apiUrlStr = [NSString stringWithFormat:@"http://maps.google.com/maps?output=dragdir&saddr=%0.8f,%0.8f&daddr=%0.8f,%0.8f", self.nowCoords.latitude, self.nowCoords.longitude, self.naviCoordsGd.latitude, self.naviCoordsGd.longitude];
 	NSURL* apiUrl = [NSURL URLWithString:apiUrlStr];
@@ -410,8 +411,7 @@
     return nil;
 }
 
-#pragma mark - Private
-//ios7路线绘制方法
+#pragma mark - ios7路线绘制方法
 -(void)findDirectionsFrom:(MKMapItem *)from to:(MKMapItem *)to{
     MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
     request.source = from;
@@ -440,6 +440,7 @@
     renderer.strokeColor = [UIColor redColor];
     return renderer;
 }
+#pragma mark - 检测应用是否开启定位服务
 - (void)locationManager: (CLLocationManager *)manager
        didFailWithError: (NSError *)error {
     [manager stopUpdatingLocation];
@@ -453,8 +454,8 @@
             break;
     }
 }
-#pragma MKMapViewDelegate ,ios7 路线绘制
-//user location定位变化
+
+#pragma mark MKMapViewDelegate -user location定位变化
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     self.nowCoords = [userLocation coordinate];
     //放大地图到自身的经纬度位置。
@@ -473,7 +474,6 @@
         self.updateInt += 1;
     }
 }
-
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
     if (self.mapType == RegionNavi) {
         return;
@@ -494,15 +494,13 @@
     if (self.mapType == RegionNavi) {
         return;
     }
-    if (!ISIOS7) {
-        return;
-    }
-    if ([mapView.annotations count]) {
-        [mapView removeAnnotations:mapView.annotations];
+    if (ISIOS7) {
+        if ([mapView.annotations count]) {
+            [mapView removeAnnotations:mapView.annotations];
+        }
     }
 }
-
-//获取位置信息，并判断是否显示，block方法支持ios6及以上
+#pragma mark- 获取位置信息，并判断是否显示，block方法支持ios6及以上
 -(void)showAnnotation:(CLLocation *)location coord:(CLLocationCoordinate2D)coords{
     if (self.mapType == RegionNavi && ![[self.navDic objectForKey:@"region"] isEqualToString:@""]) {
         [self addAnnotationView:location coord:coords region:[self.navDic objectForKey:@"region"]  address:[self.navDic objectForKey:@"address"]];
@@ -548,7 +546,7 @@
         }
     }];
 }
-
+#pragma mark- 添加大头针的标注
 -(void)addAnnotationView:(CLLocation *)location coord:(CLLocationCoordinate2D)coords region:(NSString *)region address:(NSString *)address{
     RegionAnnotation *annotation = [[RegionAnnotation alloc] init];
     annotation.coordinate = coords;
@@ -559,7 +557,7 @@
     [self.regionMapView selectAnnotation:annotation animated:YES];
 }
 
-#pragma MKMapViewDelegate 显示大头针标注
+#pragma mark MKMapViewDelegate -显示大头针标注
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
     if ([annotation isKindOfClass:[MKUserLocation class]]) {
         return nil;
@@ -599,7 +597,7 @@
     }
     return nil;
 }
-
+#pragma mark -MKAnnotationView callout点击事件
 - (void)mapView:(MKMapView *)mapView
  annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
     [self doAcSheet];
