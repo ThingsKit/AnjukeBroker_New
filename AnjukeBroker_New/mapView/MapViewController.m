@@ -48,6 +48,7 @@
 //地图的区域和详细地址
 @property(nonatomic,strong) NSString *regionStr;
 @property(nonatomic,strong) NSString *addressStr;
+@property(nonatomic,strong) CLLocationManager *locationManager;
 @end
 
 @implementation MapViewController
@@ -66,6 +67,7 @@
 @synthesize navDic;
 @synthesize requestLocArr;
 @synthesize centerCoordinate;
+@synthesize locationManager;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -99,7 +101,7 @@
         titStr = @"位置";
         [self addRightButton];
     }
-    [self checkIsOpenGPS];
+//    [self checkIsOpenGPS];
     
     UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
     lb.backgroundColor = [UIColor clearColor];
@@ -114,6 +116,14 @@
     self.regionMapView.showsUserLocation = YES;
     [self.view addSubview:self.regionMapView];
  
+    self.locationManager = [CLLocationManager new];
+    [self.locationManager setDelegate:self];
+    // config
+    [self.locationManager setDesiredAccuracy: kCLLocationAccuracyBest];
+    [self.locationManager setDistanceFilter: kCLDistanceFilterNone];
+    // start service
+    [self.locationManager startUpdatingLocation];
+    
     UIButton *goUserLocBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     goUserLocBtn.frame = FRAME_USER_LOC;
     [goUserLocBtn addTarget:self action:@selector(goUserLoc:) forControlEvents:UIControlEventTouchUpInside];
@@ -162,11 +172,13 @@
         naviCoordsBd.longitude = bdLon;
     }
 }
--(void)checkIsOpenGPS{
-    if (![CLLocationManager locationServicesEnabled]) {
-        UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alet show];
-    }
+-(void)openGPSTips{
+//    if (![CLLocationManager locationServicesEnabled]) {
+//        UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//        [alet show];
+//    }
+    UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    [alet show];
 }
 #pragma UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -175,7 +187,7 @@
     }
 }
 -(void)addRightButton{
-    UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
+    UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
     if (!ISIOS7) {
         self.navigationItem.rightBarButtonItem = rBtn;
     }
@@ -425,7 +437,6 @@
          }
      }];
 }
-#pragma MKMapViewDelegate ,ios7 路线绘制
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView
             rendererForOverlay:(id<MKOverlay>)overlay{
     MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
@@ -433,6 +444,20 @@
     renderer.strokeColor = [UIColor redColor];
     return renderer;
 }
+- (void)locationManager: (CLLocationManager *)manager
+       didFailWithError: (NSError *)error {
+    [manager stopUpdatingLocation];
+    switch([error code]) {
+        case kCLErrorDenied:
+            [self openGPSTips];
+            break;
+        case kCLErrorLocationUnknown:
+            break;
+        default:
+            break;
+    }
+}
+#pragma MKMapViewDelegate ,ios7 路线绘制
 //user location定位变化
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     self.nowCoords = [userLocation coordinate];
