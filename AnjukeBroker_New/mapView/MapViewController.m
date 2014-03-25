@@ -101,7 +101,6 @@
         titStr = @"位置";
         [self addRightButton];
     }
-//    [self checkIsOpenGPS];
     
     UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
     lb.backgroundColor = [UIColor clearColor];
@@ -118,10 +117,8 @@
  
     self.locationManager = [CLLocationManager new];
     [self.locationManager setDelegate:self];
-    // config
-    [self.locationManager setDesiredAccuracy: kCLLocationAccuracyBest];
-    [self.locationManager setDistanceFilter: kCLDistanceFilterNone];
-    // start service
+    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+    [self.locationManager setDistanceFilter:kCLDistanceFilterNone];
     [self.locationManager startUpdatingLocation];
     
     UIButton *goUserLocBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -173,10 +170,6 @@
     }
 }
 -(void)openGPSTips{
-//    if (![CLLocationManager locationServicesEnabled]) {
-//        UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//        [alet show];
-//    }
     UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
     [alet show];
 }
