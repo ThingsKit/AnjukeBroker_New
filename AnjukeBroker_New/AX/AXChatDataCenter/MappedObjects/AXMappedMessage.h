@@ -15,8 +15,8 @@ typedef NS_ENUM(NSUInteger, AXMessageType)
     AXMessageTypeProperty = 3, // 房子
     AXMessageTypePublicCard = 4, // 服务号消息
     AXMessageTypeVoice = 5, // 语音消息
-    AXMessageTypeLocation = 6, // 地理位置
-    AXMessageTypeMap  = 7,
+    AXMessageTypeMap = 6, // 地理位置
+//    AXMessageTypeMap  = 7,
     
     
     
