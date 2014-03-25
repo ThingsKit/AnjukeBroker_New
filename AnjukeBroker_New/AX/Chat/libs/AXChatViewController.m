@@ -1186,7 +1186,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 //        return;
     }
     NSString *preIdentifier = [self.playingIdentifier copy];
-//    [self cancelKKAudioPlaying];
+    [self cancelKKAudioPlaying];
     if ([preIdentifier isEqualToString:message.identifier]) {
         return;
     }
@@ -1207,6 +1207,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     // 播放
     self.playingIdentifier = message.identifier;
     [[KKAudioComponent sharedAudioComponent] playRecordingWithRelativeFilePath:message.imgPath];
+    
     __weak AXChatViewController *blockObject = self;
     [KKAudioComponent sharedAudioComponent].playDidFinishBlock = ^{
         [blockObject cancelKKAudioPlaying];
@@ -1220,7 +1221,8 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     if ([self.playingIdentifier isEqualToString:@""]) {
         return;
     }
-//    [[KKAudioComponent sharedAudioComponent] cancelRecording];
+    
+    [[KKAudioComponent sharedAudioComponent] cancelPlaying];
     NSInteger index = [self.identifierData indexOfObject:self.playingIdentifier];
     self.playingIdentifier = @"";
     if (index >= 0) {
