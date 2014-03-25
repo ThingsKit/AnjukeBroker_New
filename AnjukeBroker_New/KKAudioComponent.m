@@ -127,31 +127,13 @@ static KKAudioComponent* defaultAudioComponent;
 }
 
 //播放录音, 支持支 wav格式
-- (void)playRecordingWithFileName:(NSString*)fileName{
+- (void)playRecordingWithRelativeFilePath:(NSString*)relativeFilePath{
     
     [[UIDevice currentDevice] setProximityMonitoringEnabled:YES];
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];  //默认扬声器播放
     
-    NSString* filePath = [KKAudioComponent filePathWithFileName:fileName ofType:@"wav"];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) { //文件存在
-        self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL URLWithString:filePath] error:nil];
-        _player.delegate = self;
-        [_player play];
-        
-        NSLog(@"开始播放");
-    }else {
-        NSLog(@"文件不存在");
-    }
-    
-    
-}
-
-//播放录音, 支持支 wav格式
-- (void)playRecordingWithFilePath:(NSString*)filePath{
-    
-    [[UIDevice currentDevice] setProximityMonitoringEnabled:YES];
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];  //默认扬声器播放
-    
+    NSString* libPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0]; //lib路径
+    NSString* filePath = [NSString stringWithFormat:@"%@%@", libPath, relativeFilePath]; //绝对路径
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) { //文件存在
         self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL URLWithString:filePath] error:nil];
         _player.delegate = self;
