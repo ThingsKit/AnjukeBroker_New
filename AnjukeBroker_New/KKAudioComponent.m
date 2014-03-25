@@ -97,23 +97,20 @@ static KKAudioComponent* defaultAudioComponent;
         
         NSDictionary* dictRecordFile = [KKAudioComponent fileAttributesWithFileName:self.recordFileName FileType:@"wav" RecordTime:cTime];
         NSLog(@"%@", dictRecordFile);
-        
+        [_recorder stop];
+        NSLog(@"发送");
         return dictRecordFile;
         
-        NSLog(@"发送");
         
         
     }else {
         //删除记录的文件
         [_recorder deleteRecording];
-        //删除存储的
-        
+        [_recorder stop];
         NSLog(@"时间太短");
+        return nil;
     }
-    
-    [_recorder stop];
     //    [_timer invalidate];
-    return nil;
 }
 
 //取消录音按钮
@@ -136,7 +133,7 @@ static KKAudioComponent* defaultAudioComponent;
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];  //默认扬声器播放
     
     NSString* filePath = [KKAudioComponent filePathWithFileName:fileName ofType:@"wav"];
-    if ([KKAudioComponent fileExistsAtPath:filePath]) { //文件存在
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) { //文件存在
         self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL URLWithString:filePath] error:nil];
         _player.delegate = self;
         [_player play];
@@ -155,7 +152,7 @@ static KKAudioComponent* defaultAudioComponent;
     [[UIDevice currentDevice] setProximityMonitoringEnabled:YES];
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];  //默认扬声器播放
     
-    if ([KKAudioComponent fileExistsAtPath:filePath]) { //文件存在
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) { //文件存在
         self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL URLWithString:filePath] error:nil];
         _player.delegate = self;
         [_player play];
@@ -226,7 +223,10 @@ static KKAudioComponent* defaultAudioComponent;
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
     //建议在播放之前设置yes，播放结束设置NO，这个功能是开启近距离传感器
     [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
-    [[NSNotificationCenter defaultCenter] postNotificationName:AUDIOPLAYER_DID_FINISH_PLAYING object:nil userInfo:nil]; //告知调用者播放结束
+//    [[NSNotificationCenter defaultCenter] postNotificationName:AUDIOPLAYER_DID_FINISH_PLAYING object:nil userInfo:nil]; //告知调用者播放结束
+    
+    //或者使用block
+    [KKAudioComponent sharedAudioComponent].playDidFinishBlock();
     
 }
 
@@ -268,24 +268,17 @@ static KKAudioComponent* defaultAudioComponent;
     return recordSetting;
 }
 
-#pragma mark - 获取当前时间的字符串
-+ (NSString*)currentTimeString
-{
-    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyyMMddHHmmss"];
-    return [formatter stringFromDate:[NSDate date]];
-}
-
 #pragma mark - 根据文件路径获取 文件大小, 录制时间的字典
 + (NSDictionary*)fileAttributesWithFileName:(NSString*)fileName FileType:(NSString*)fileType RecordTime:(double)recordTime{
     
-    NSString* filePath = [NSString stringWithFormat:@"/Voice/%@.%@", fileName, fileType];
+    NSString* fileRelativePath = [NSString stringWithFormat:@"/Voice/%@.%@", fileName, fileType];
+    NSString* filePath = [KKAudioComponent filePathWithFileName:fileName ofType:fileType];
     NSString* fileSize = [NSString stringWithFormat:@"%dkb", [KKAudioComponent fileSizeAtPath:filePath]/1024];
     NSString* cTime = [NSString stringWithFormat:@"%f", recordTime];
     
     NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
                           fileName, @"FILE_NAME",
-                          filePath, @"FILE_PATH",
+                          fileRelativePath, @"FILE_RELATIVE_PATH",
                           fileSize, @"FILE_SIZE",
                           cTime, @"RECORD_TIME",
                           nil];
@@ -299,22 +292,31 @@ static KKAudioComponent* defaultAudioComponent;
     //    NSString* string = @"AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B";
     NSString* wavFilePath = [KKAudioComponent filePathWithFileName:wavFileName ofType:@"wav"];
     NSString* amrFilePath = [KKAudioComponent filePathWithFileName:wavFileName ofType:@"amr"];
-    [VoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath]; //amr写本地, 需要绝对路径
-    
-    NSString* relativeAmrFilePath = [NSString stringWithFormat:@"/Voice/%@.amr", wavFileName];
-    return relativeAmrFilePath; //返回amr文件相对路径
+    int success = [VoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath]; //amr写本地, 需要绝对路径
+    if (success) {
+        [[NSFileManager defaultManager] removeItemAtPath:wavFilePath error:nil]; //删除wav文件
+        NSString* relativeAmrFilePath = [NSString stringWithFormat:@"/Voice/%@.amr", wavFileName];
+        return relativeAmrFilePath; //返回amr文件相对路径
+        
+    }else{
+        return nil;
+    }
 }
 
 + (NSString*)wavToAmrWithWavFilePath:(NSString*)wavFilePath{
     
 //    NSString* string = @"/var/mobile/Applications/30213A8E-E3F2-4F3A-A419-36FEC2CF705D/Library/Voice/AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B.wav";
-    NSString* fileName = [[wavFilePath componentsSeparatedByString:@"/"] lastObject];
-    NSString* fileNamePrefix = [fileName substringWithRange:NSMakeRange(0, fileName.length - 4)];
-    NSString* amrFilePath = [KKAudioComponent filePathWithFileName:fileNamePrefix ofType:@"amr"];
-    [VoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath]; //amr写本地, 需要绝对路径
-    
-    NSString* relativeAmrFilePath = [NSString stringWithFormat:@"/Voice/%@.amr", fileNamePrefix];
-    return relativeAmrFilePath; //返回amr文件相对路径
+    NSString* fileNamePath = [[wavFilePath componentsSeparatedByString:@"/"] lastObject];
+    NSString* fileName = [fileNamePath substringWithRange:NSMakeRange(0, fileNamePath.length - 4)];
+    NSString* amrFilePath = [KKAudioComponent filePathWithFileName:fileName ofType:@"amr"];
+    int success = [VoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath]; //amr写本地, 需要绝对路径
+    if (success) {
+        [[NSFileManager defaultManager] removeItemAtPath:wavFilePath error:nil]; //删除wav文件
+        NSString* relativeAmrFilePath = [NSString stringWithFormat:@"/Voice/%@.amr", fileName];
+        return relativeAmrFilePath; //返回amr文件相对路径
+    }else{
+        return nil;
+    }
 }
 
 #pragma mark - amr转wav
@@ -329,6 +331,7 @@ static KKAudioComponent* defaultAudioComponent;
     NSString* wavFilePath = [KKAudioComponent filePathWithFileName:fileName ofType:@"wav"];
     int success = [VoiceConverter amrToWav:amrFilePath wavSavePath:wavFilePath]; //wav写本地,需要绝对路径
     if (success) {
+        [[NSFileManager defaultManager] removeItemAtPath:amrFilePath error:nil]; //删除amr
         NSString* relativeWavFilePath = [NSString stringWithFormat:@"/Voice/%@.wav", fileName];
         return relativeWavFilePath; //返回wav文件相对路径
     }else{
@@ -353,24 +356,9 @@ static KKAudioComponent* defaultAudioComponent;
     return nil;
 }
 
-#pragma mark - 判断文件是否存在
-+ (BOOL)fileExistsAtPath:(NSString*)path
-{
-    return [[NSFileManager defaultManager] fileExistsAtPath:path];
-}
-
-#pragma mark - 删除文件
-+ (BOOL)deleteFileAtPath:(NSString*)path
-{
-    return [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
-}
-
-#pragma mark - 返回沙盒下的Documents的路径
-+ (NSString*)documentsPath{
-    
-    NSString* documentsPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    return documentsPath;
-//    return [documentsPath stringByAppendingPathComponent:@"Voice"];  .../Documents/Voice
+#pragma mark - 返回沙盒下的Library的路径
++ (NSString*)libraryPath{
+     return [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
 
 #pragma mark - 获取文件大小, 单位字节
