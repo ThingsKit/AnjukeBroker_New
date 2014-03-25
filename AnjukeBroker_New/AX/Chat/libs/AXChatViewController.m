@@ -1746,63 +1746,14 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     
     double lowPassResults = [[KKAudioComponent sharedAudioComponent] volumnUpdated];
     
-    int value = lowPassResults * 20;
-//    [self recordAnimation:lowPassResults];
-    //    NSLog(@"%lf",lowPassResults);
+    int value = lowPassResults * 60;
+    
     UIImage* image = [UIImage imageNamed:@"wl_voice_icon_voicestatu1"];
     self.highlightedMicrophoneImageView.frame = CGRectMake(310/2/2 - 88/2/2, 290/2/2-170/2/2 + value, 88/2, 145/2 -value);
-    self.highlightedMicrophoneImageView.image = [AXChatViewController cropImageWithOriginalImage:image CGPoint:CGPointMake(0, value)];
-    
-//    self.highlightedMicrophoneImageView.frame = CGRectMake(310/2/2 - 88/2/2, 290/2/2-170/2/2, 88/2, 145/2);
-//    self.highlightedMicrophoneImageView.image = [self cropImageFromTop:lowPassResults];
-//    self.highlightedMicrophoneImageView.layer.contentsRect = CGRectMake(0, 0, 1, 1);
-//    [self.highlightedMicrophoneImageView.image drawInRect:CGRectMake(0, 0, 88/2, 145/2*lowPassResults/3*10)];
-    
-    
-    
-    //最大50  0
-    //图片 小-》大
-//    if (0<lowPassResults<=0.02) {
-//        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_01"]];
-//    }else if (0.02<lowPassResults<=0.04) {
-//        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_02"]];
-//    }else if (0.04<lowPassResults<=0.06) {
-//        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_03"]];
-//    }else if (0.06<lowPassResults<=0.08) {
-//        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_04"]];
-//    }else if (0.08<lowPassResults<=0.1) {
-//        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_05"]];
-//    }else if (0.1<lowPassResults<=0.12) {
-//        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_06"]];
-//    }else if (0.12<lowPassResults<=0.14) {
-//        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_07"]];
-//    }else if (0.14<lowPassResults<=0.16) {
-//        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_08"]];
-//    }else if (0.16<lowPassResults<=0.18) {
-//        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_09"]];
-//    }else if (0.18<lowPassResults<=0.2) {
-//        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_10"]];
-//    }else if (0.20<lowPassResults<=0.22) {
-//        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_11"]];
-//    }else if (0.22<lowPassResults<=0.24) {
-//        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_12"]];
-//    }else if (0.24<lowPassResults<=0.3) {
-//        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_13"]];
-//    }else {
-//        [self.microphoneImageView setImage:[UIImage imageNamed:@"record_animate_14"]];
-//    }
+
+    CGRect rect = CGRectMake(0, value*2, 88, 145 - value*2);//创建矩形框
+    self.highlightedMicrophoneImageView.image = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([image CGImage], rect)];
 }
-
-//CGPoint 以原图的左上角为原点, 向右向下作为截取起点 ---> 右下角
-+ (UIImage*) cropImageWithOriginalImage:(UIImage*)originalImage CGPoint:(CGPoint)point{
-    CGRect rect = CGRectMake(point.x, point.y, originalImage.size.width*2, originalImage.size.height*2);
-    CGImageRef imageRef = CGImageCreateWithImageInRect([originalImage CGImage], rect);
-    UIImage* subImage = [UIImage imageWithCGImage:imageRef];
-    CGImageRelease(imageRef);
-    return subImage;
-}
-
-
 
 - (void)sendMessage:(id)sender {
     
