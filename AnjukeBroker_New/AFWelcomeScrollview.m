@@ -112,16 +112,19 @@ typedef enum {
         [self addPageController];
     }
     
-    CGFloat imgGapH = 50;
-    if ([AppManager isiPhone4Display]) { //iPhone4\4s
-        imgGapH = 10;
+    CGFloat imgGapH = 20;
+    if ([AppManager isIOS6]) {
+        imgGapH = 20; //iOS6去掉20像素状态栏
     }
     
     for (int i = 0; i < imgArray.count; i ++) {
         UIImageView *img = [[UIImageView alloc] initWithImage:[imgArray objectAtIndex:i]];
-        img.frame = CGRectMake(0 + [self getWindowWidth] *i, imgGapH, [self getWindowWidth], [self getWindowHeight]-50);
+        img.frame = CGRectMake(0 + [self getWindowWidth] *i, imgGapH, [self getWindowWidth], [self getWindowHeight] - imgGapH);
         img.backgroundColor = [UIColor clearColor];
         img.contentMode = UIViewContentModeScaleAspectFill;
+        img.layer.borderColor = [UIColor clearColor].CGColor;
+        img.layer.borderWidth = 1;
+        img.clipsToBounds = YES;
         [self.sv addSubview:img];
         
         //add hide btn
