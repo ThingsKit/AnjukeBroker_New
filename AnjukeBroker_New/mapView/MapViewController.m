@@ -466,11 +466,8 @@
             return;
         }
         [self showAnnotation:userLocation.location coord:self.nowCoords];
-        if (ISIOS7) {
-            [self.regionMapView setRegion:self.userRegion animated:YES];
-        }else{
-            [self.regionMapView setRegion:self.userRegion animated:NO];
-        }
+        [self.regionMapView setRegion:self.userRegion animated:YES];
+
         self.updateInt += 1;
     }
 }
