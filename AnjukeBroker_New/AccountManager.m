@@ -34,7 +34,7 @@
     
     if ([LoginManager isLogin] && self.NotificationDeviceToken.length>20 && [[LoginManager getChatID] length] > 0) {
         NSMutableDictionary *bodys = [NSMutableDictionary dictionary];
-        [bodys setValue:@"i-broker2" forKey:@"appName"];
+        [bodys setValue:@"i-broker" forKey:@"appName"];
         [bodys setValue:[LoginManager getCity_id] forKey:@"cityId"];
 //        [bodys setValue:[LoginManager getUserID] forKey:@"userId"];
         [bodys setValue:[LoginManager getChatID] forKey:@"userId"];
@@ -53,7 +53,7 @@
 - (void)cleanNotificationForLoginOut{
     if ([LoginManager isLogin] && self.NotificationDeviceToken.length>20) {
         NSMutableDictionary *bodys = [NSMutableDictionary dictionary];
-        [bodys setValue:@"i-broker2" forKey:@"appName"];
+        [bodys setValue:@"i-broker" forKey:@"appName"];
         [bodys setValue:[LoginManager getCity_id] forKey:@"cityId"];
         [bodys setValue:@"0"forKey:@"userId"]; //重置userID为0，退出登录时使用
         [bodys setValue:[[UIDevice currentDevice] uuid] forKey:@"uuid"];
