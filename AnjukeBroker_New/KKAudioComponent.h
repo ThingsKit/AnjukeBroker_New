@@ -18,7 +18,6 @@ typedef void(^PlayDidCancelBlock) (void);
 @interface KKAudioComponent : NSObject <AVAudioPlayerDelegate, AVAudioRecorderDelegate>
 
 @property (nonatomic, copy) PlayDidFinishBlock playDidFinishBlock;
-@property (nonatomic, copy) PlayDidCancelBlock playDidCancelBlock;
 
 + (KKAudioComponent*) sharedAudioComponent;
 

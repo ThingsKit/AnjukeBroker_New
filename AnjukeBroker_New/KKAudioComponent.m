@@ -151,7 +151,6 @@ static KKAudioComponent* defaultAudioComponent;
     [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
     if (self.player != nil) {
         [self.player stop];
-        self.playDidCancelBlock();
     }
     
 }
@@ -224,7 +223,9 @@ static KKAudioComponent* defaultAudioComponent;
 //    [[NSNotificationCenter defaultCenter] postNotificationName:AUDIOPLAYER_DID_FINISH_PLAYING object:nil userInfo:nil]; //告知调用者播放结束
     
     //或者使用block
-    self.playDidFinishBlock();
+    if (self.playDidFinishBlock != nil) {
+        self.playDidFinishBlock();
+    }
     
 }
 
