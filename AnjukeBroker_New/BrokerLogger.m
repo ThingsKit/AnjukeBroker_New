@@ -35,6 +35,8 @@
     if ([LoginManager getChatID]) {
         [[RTLogger sharedInstance] setChatID:[LoginManager getChatID]];
     }
+    else
+        [[RTLogger sharedInstance] setChatID:@""];
     [[RTLogger sharedInstance] logWithActionCode:actionCode note:note];
 }
 
