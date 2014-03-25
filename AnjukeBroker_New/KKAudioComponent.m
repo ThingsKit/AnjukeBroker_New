@@ -133,7 +133,7 @@ static KKAudioComponent* defaultAudioComponent;
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];  //默认扬声器播放
     
     NSString* libPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0]; //lib路径
-    NSString* filePath = [NSString stringWithFormat:@"%@%@", libPath, relativeFilePath]; //绝对路径
+    NSString* filePath = [NSString stringWithFormat:@"%@/%@", libPath, relativeFilePath]; //绝对路径
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) { //文件存在
         self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL URLWithString:filePath] error:nil];
         _player.delegate = self;
@@ -253,7 +253,7 @@ static KKAudioComponent* defaultAudioComponent;
 #pragma mark - 根据文件路径获取 文件大小, 录制时间的字典
 + (NSDictionary*)fileAttributesWithFileName:(NSString*)fileName FileType:(NSString*)fileType RecordTime:(double)recordTime{
     
-    NSString* fileRelativePath = [NSString stringWithFormat:@"/Voice/%@.%@", fileName, fileType];
+    NSString* fileRelativePath = [NSString stringWithFormat:@"Voice/%@.%@", fileName, fileType];
     NSString* filePath = [KKAudioComponent filePathWithFileName:fileName ofType:fileType];
     NSString* fileSize = [NSString stringWithFormat:@"%dkb", [KKAudioComponent fileSizeAtPath:filePath]/1024];
     NSString* cTime = [NSString stringWithFormat:@"%f", recordTime];
@@ -277,7 +277,7 @@ static KKAudioComponent* defaultAudioComponent;
     int success = [VoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath]; //amr写本地, 需要绝对路径
     if (success) {
         [[NSFileManager defaultManager] removeItemAtPath:wavFilePath error:nil]; //删除wav文件
-        NSString* relativeAmrFilePath = [NSString stringWithFormat:@"/Voice/%@.amr", wavFileName];
+        NSString* relativeAmrFilePath = [NSString stringWithFormat:@"Voice/%@.amr", wavFileName];
         return relativeAmrFilePath; //返回amr文件相对路径
         
     }else{
@@ -287,14 +287,14 @@ static KKAudioComponent* defaultAudioComponent;
 
 + (NSString*)wavToAmrWithWavFilePath:(NSString*)wavFilePath{
     
-//    NSString* string = @"/var/mobile/Applications/30213A8E-E3F2-4F3A-A419-36FEC2CF705D/Library/Voice/AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B.wav";
+//    NSString* string = @"/var/mobile/Applications/30213A8E-E3F2-4F3A-A419-36FEC2CF705D/LibraryVoice/AD6162CA-644A-4682-91A2-BC90D4FD653C-696-000000739E21613B.wav";
     NSString* fileNamePath = [[wavFilePath componentsSeparatedByString:@"/"] lastObject];
     NSString* fileName = [fileNamePath substringWithRange:NSMakeRange(0, fileNamePath.length - 4)];
     NSString* amrFilePath = [KKAudioComponent filePathWithFileName:fileName ofType:@"amr"];
     int success = [VoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath]; //amr写本地, 需要绝对路径
     if (success) {
-        [[NSFileManager defaultManager] removeItemAtPath:wavFilePath error:nil]; //删除wav文件
-        NSString* relativeAmrFilePath = [NSString stringWithFormat:@"/Voice/%@.amr", fileName];
+//        [[NSFileManager defaultManager] removeItemAtPath:wavFilePath error:nil]; //删除wav文件
+        NSString* relativeAmrFilePath = [NSString stringWithFormat:@"Voice/%@.amr", fileName];
         return relativeAmrFilePath; //返回amr文件相对路径
     }else{
         return nil;
@@ -314,7 +314,7 @@ static KKAudioComponent* defaultAudioComponent;
     int success = [VoiceConverter amrToWav:amrFilePath wavSavePath:wavFilePath]; //wav写本地,需要绝对路径
     if (success) {
         [[NSFileManager defaultManager] removeItemAtPath:amrFilePath error:nil]; //删除amr
-        NSString* relativeWavFilePath = [NSString stringWithFormat:@"/Voice/%@.wav", fileName];
+        NSString* relativeWavFilePath = [NSString stringWithFormat:@"Voice/%@.wav", fileName];
         return relativeWavFilePath; //返回wav文件相对路径
     }else{
         return nil;

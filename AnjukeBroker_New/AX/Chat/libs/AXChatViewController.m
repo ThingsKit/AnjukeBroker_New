@@ -776,7 +776,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         default:
             break;
     }
-    
+    textData[@"mappedMessage"] = mappedMessage;
     if (mappedMessage.identifier) {
         textData[AXCellIdentifyTag] = mappedMessage.identifier;
     }
@@ -1207,12 +1207,25 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     // 播放
     self.playingIdentifier = message.identifier;
     [[KKAudioComponent sharedAudioComponent] playRecordingWithRelativeFilePath:message.imgPath];
-    
+    __weak AXChatViewController *blockObject = self;
     [KKAudioComponent sharedAudioComponent].playDidFinishBlock = ^{
-    
+        [blockObject cancelKKAudioPlaying];
     
     };
     
+}
+- (void)cancelKKAudioPlaying
+{
+    // 停止播放
+    if ([self.playingIdentifier isEqualToString:@""]) {
+        return;
+    }
+//    [[KKAudioComponent sharedAudioComponent] cancelRecording];
+    NSInteger index = [self.identifierData indexOfObject:self.playingIdentifier];
+    self.playingIdentifier = @"";
+    if (index >= 0) {
+        [self.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+    }
 }
 #pragma mark - Layout message input view
 
@@ -1627,7 +1640,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 //UIControlEventTouchUpInside
 - (void)didCommitVoice {
-    [self sendRecored];
+    
     double timeSpent = [[NSDate date] timeIntervalSinceDate:self.date];
     if (timeSpent < 1) {
         [self.timer invalidate];
@@ -1641,7 +1654,8 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         [self.hud hide:YES afterDelay:1];
         
     }else{
-        [[KKAudioComponent sharedAudioComponent] finishRecording];
+//        [[KKAudioComponent sharedAudioComponent] finishRecording];
+        [self sendRecored];
         [self.timer invalidate];
         [self hideHUD];
     }
