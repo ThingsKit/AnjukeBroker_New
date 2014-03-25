@@ -280,7 +280,10 @@
         [[UIApplication sharedApplication] openURL:url];
         
     }else if ([btnTitle isEqualToString:@"百度地图"]){
-        NSString *stringURL = [NSString stringWithFormat:@"baidumap://map/direction?origin=%.8f,%.8f&destination=%.8f,%.8f&&mode=driving",self.nowCoords.latitude,self.nowCoords.longitude,self.naviCoordsBd.latitude,self.naviCoordsBd.longitude];
+        double bdNowLat,bdNowLon;
+        bd_encrypt(self.nowCoords.latitude, self.nowCoords.longitude, &bdNowLat, &bdNowLon);
+
+        NSString *stringURL = [NSString stringWithFormat:@"baidumap://map/direction?origin=%.8f,%.8f&destination=%.8f,%.8f&&mode=driving",bdNowLat,bdNowLon,self.naviCoordsBd.latitude,self.naviCoordsBd.longitude];
         NSURL *url = [NSURL URLWithString:stringURL];
         [[UIApplication sharedApplication] openURL:url];
     }else if ([btnTitle isEqualToString:@"显示路线"]){
