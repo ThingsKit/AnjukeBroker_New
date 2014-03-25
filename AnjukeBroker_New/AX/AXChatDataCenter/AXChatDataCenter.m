@@ -57,6 +57,12 @@
     }
 }
 
+
+- (void)dealloc
+{
+    [self.managedObjectContext save:NULL];
+}
+
 #pragma mark - message related list
 - (void)fetchChatListByLastMessage:(AXMappedMessage *)lastMessage pageSize:(NSUInteger)pageSize;
 {
@@ -65,7 +71,7 @@
     } else {
         self.friendUid = lastMessage.from;
     }
-    
+
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:NO]];
@@ -73,7 +79,7 @@
     fetchRequest.fetchLimit = pageSize;
     __autoreleasing NSError *error;
     NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    
+
     NSArray *sortedResult = [result sortedArrayWithOptions:NSSortStable usingComparator:^NSComparisonResult(id obj1, id obj2) {
 
         AXMessage *message1 = (AXMessage *)obj1;
@@ -112,7 +118,11 @@
     BOOL hasMore = NO;
     AXMessage *fetchedLastMessage = [sortedResult lastObject];
     if (fetchedLastMessage) {
-        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND sendTime < %@ AND isRemoved = %@", self.friendUid, self.friendUid, fetchedLastMessage.sendTime, [NSNumber numberWithBool:NO]];
+        if  (fetchedLastMessage.messageId) {
+            fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND sendTime < %@ AND isRemoved = %@ AND messageId < %@", self.friendUid, self.friendUid, fetchedLastMessage.sendTime, [NSNumber numberWithBool:NO], fetchedLastMessage.messageId];
+        } else {
+            fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND sendTime < %@ AND isRemoved = %@", self.friendUid, self.friendUid, fetchedLastMessage.sendTime, [NSNumber numberWithBool:NO]];
+        }
         NSInteger count = [self.managedObjectContext countForFetchRequest:fetchRequest error:NULL];
         if (count > 0) {
             hasMore = YES;
@@ -252,6 +262,7 @@
         
         NSMutableArray *picMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
         NSMutableArray *commonMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
+        NSMutableArray *voiceMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
         
         AXPersonType accountType = [item[@"account_type"] integerValue];
         
@@ -266,7 +277,7 @@
             if (messageType < 1) {
                 isVersionLower = YES;
             }
-            if (messageType > 4 && messageType < 100) {
+            if (messageType > 5 && messageType < 100) {
                 isVersionLower = YES;
             }
             if (messageType > 106) {
@@ -288,12 +299,18 @@
                 managedMessage.thumbnailImgPath = @"";
                 managedMessage.thumbnailImgUrl = @"";
                 managedMessage.isImgDownloaded = [NSNumber numberWithBool:NO];
+            } else if (messageType == AXMessageTypeVoice) {
+                managedMessage.imgPath = @"";
+                managedMessage.imgUrl = message[@"body"];
+                managedMessage.thumbnailImgPath = @"";
+                managedMessage.thumbnailImgUrl = @"";
+                managedMessage.isImgDownloaded = [NSNumber numberWithBool:NO];
             } else {
                 managedMessage.imgPath = @"";
                 managedMessage.imgUrl = @"";
                 managedMessage.thumbnailImgPath = @"";
                 managedMessage.thumbnailImgUrl = @"";
-                managedMessage.isImgDownloaded = [NSNumber numberWithBool:NO];
+                managedMessage.isImgDownloaded = [NSNumber numberWithBool:YES];
             }
             
             managedMessage.accountType = item[@"account_type"];
@@ -329,6 +346,8 @@
             
             if (messageType == AXMessageTypePic) {
                 [picMessageArray addObject:[managedMessage convertToMappedObject]];
+            } else if (messageType == AXMessageTypeVoice) {
+                [voiceMessageArray addObject:[managedMessage convertToMappedObject]];
             } else {
                 [commonMessageArray addObject:[managedMessage convertToMappedObject]];
             }
@@ -341,18 +360,25 @@
             [self updateConversationListItemWithMessage:messageToUpdate];
         }
 
-        
-        
         NSDate *fetchedLastDate = [(AXMessage *)[messageArray lastObject] sendTime];
         
         AXMessage *timeMessage = [self checkAndReturnTimeMessageWithCurrentDate:fetchedLastDate andLastDate:storedLastDate from:friendUID to:self.uid];
         if (timeMessage) {
-            [messageArray insertObject:[timeMessage convertToMappedObject] atIndex:[messageArray count]-1];
-            [commonMessageArray insertObject:[timeMessage convertToMappedObject] atIndex:[messageArray count]-1];
+            if ([messageArray count] > 0) {
+                [messageArray insertObject:[timeMessage convertToMappedObject] atIndex:0];
+            } else {
+                [messageArray insertObject:[timeMessage convertToMappedObject] atIndex:[messageArray count]-1];
+            }
+            
+            if ([commonMessageArray count] > 0) {
+                [commonMessageArray insertObject:[timeMessage convertToMappedObject] atIndex:0];
+            } else {
+                [commonMessageArray insertObject:[timeMessage convertToMappedObject] atIndex:[commonMessageArray count]-1];
+            }
         }
         
         messageDictionary[friendUID] = [messageArray reverseSelf];
-        splitedDictionary[friendUID] = @{@"pic":[picMessageArray reverseSelf], @"other":[commonMessageArray reverseSelf]};
+        splitedDictionary[friendUID] = @{@"pic":[picMessageArray reverseSelf], @"voice":[voiceMessageArray reverseSelf], @"other":[commonMessageArray reverseSelf]};
         
         if (![self isFriendWithFriendUid:friendUID]) {
             
@@ -452,10 +478,65 @@
     [self.managedObjectContext save:NULL];
 }
 
-- (void)dealloc
+#pragma mark - message for upload or download
+- (NSArray *)messageToDownloadWithMessageType:(AXMessageType)messageType
 {
-    [self.managedObjectContext save:NULL];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"isImgDownloaded = %@ AND messageType = %@", [NSNumber numberWithBool:NO], [NSNumber numberWithInteger:messageType]];
+
+    __autoreleasing NSError *error = nil;
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+    if (error) {
+        DLog(@"%@", error);
+        return nil;
+    } else {
+        NSMutableDictionary *messageDic = [[NSMutableDictionary alloc] initWithCapacity:0];
+        for (AXMessage *message in result) {
+            if (messageDic[message.from] == nil) {
+                messageDic[message.from] = [[NSMutableArray alloc] initWithCapacity:0];
+            }
+            [messageDic[message.from] addObject:message];
+        }
+        
+        NSMutableArray *resultArray = [[NSMutableArray alloc] initWithCapacity:0];
+        [messageDic enumerateKeysAndObjectsWithOptions:0 usingBlock:^(id userId, id messageArray, BOOL *stop) {
+            [resultArray addObject:@{userId:messageArray}];
+        }];
+        return resultArray;
+    }
 }
+
+- (NSArray *)messageToUploadWithMessageType:(AXMessageType)messageType
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"isUploaded = %@ AND messageType = %@", [NSNumber numberWithBool:NO], [NSNumber numberWithInteger:messageType]];
+
+    __autoreleasing NSError *error = nil;
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    if (error) {
+        DLog(@"%@", error);
+        return nil;
+    } else {
+        NSMutableDictionary *messageDic = [[NSMutableDictionary alloc] initWithCapacity:0];
+        for (AXMessage *message in result) {
+            if (messageDic[message.to] == nil) {
+                messageDic[message.to] = [[NSMutableArray alloc] initWithCapacity:0];
+            }
+            [messageDic[message.to] addObject:message];
+        }
+        
+        NSMutableArray *resultArray = [[NSMutableArray alloc] initWithCapacity:0];
+        [messageDic enumerateKeysAndObjectsWithOptions:0 usingBlock:^(id userId, id messageArray, BOOL *stop) {
+            [resultArray addObject:@{userId:messageArray}];
+        }];
+        return resultArray;
+    }
+}
+
 
 #pragma mark - message related methods
 - (NSString *)lastMsgId
@@ -848,6 +929,11 @@
         shouldUpdateConversationListItem = NO;
     }
     
+    if (messageType == AXMessageTypeVoice) {
+        itemType = AXConversationListItemTypeVoice;
+        messageTip = @"你收到一句话";
+    }
+    
     if (messageType == AXMessageTypePic) {
         itemType = AXConversationListItemTypePic;
         messageTip = @"你收到一张图片";
@@ -863,10 +949,12 @@
             itemType = AXConversationListItemTypeHZProperty;
         }
     }
+    
     if (messageType == AXMessageTypeText) {
         itemType = AXConversationListItemTypeText;
         messageTip = message.content;
     }
+    
     if (messageType == AXMessageTypePublicCard) {
         itemType = AXConversationListItemTypeCard;
         NSDictionary *messageContent = [NSJSONSerialization JSONObjectWithData:[message.content dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:NULL];

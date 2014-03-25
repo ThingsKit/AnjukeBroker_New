@@ -25,6 +25,7 @@
         <attribute name="isImgDownloaded" optional="YES" attributeType="Boolean" defaultValueString="0" syncable="YES"/>
         <attribute name="isRead" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isRemoved" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isUploaded" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="messageId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="messageType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="sendStatus" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -57,7 +58,7 @@
     </entity>
     <elements>
         <element name="AXConversationListItem" positionX="0" positionY="0" width="128" height="240"/>
-        <element name="AXMessage" positionX="0" positionY="0" width="128" height="285"/>
+        <element name="AXMessage" positionX="0" positionY="0" width="128" height="300"/>
         <element name="AXPerson" positionX="0" positionY="0" width="128" height="345"/>
     </elements>
 </model>

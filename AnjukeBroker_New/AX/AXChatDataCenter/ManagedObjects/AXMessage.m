@@ -27,6 +27,7 @@
 @dynamic thumbnailImgPath;
 @dynamic thumbnailImgUrl;
 @dynamic to;
+@dynamic isUploaded;
 
 - (AXMappedMessage *)convertToMappedObject
 {
@@ -47,6 +48,7 @@
     mappedMessage.thumbnailImgPath = self.thumbnailImgPath;
     mappedMessage.thumbnailImgUrl = self.thumbnailImgUrl;
     mappedMessage.to = self.to;
+    mappedMessage.isUploaded = [self.isUploaded boolValue];
     return mappedMessage;
 }
 
@@ -67,6 +69,7 @@
     self.thumbnailImgPath = mappedMessage.thumbnailImgPath;
     self.thumbnailImgUrl = mappedMessage.thumbnailImgUrl;
     self.to = mappedMessage.to;
+    self.isUploaded = [NSNumber numberWithBool:mappedMessage.isUploaded];
 }
 
 - (void)awakeFromInsert

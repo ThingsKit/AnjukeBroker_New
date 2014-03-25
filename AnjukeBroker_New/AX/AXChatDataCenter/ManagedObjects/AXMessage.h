@@ -28,6 +28,7 @@
 @property (nonatomic, retain) NSString * thumbnailImgPath;
 @property (nonatomic, retain) NSString * thumbnailImgUrl;
 @property (nonatomic, retain) NSString * to;
+@property (nonatomic, retain) NSNumber * isUploaded;
 
 - (void)assignPropertiesFromMappedObject:(AXMappedMessage *)mappedMessage;
 - (AXMappedMessage *)convertToMappedObject;

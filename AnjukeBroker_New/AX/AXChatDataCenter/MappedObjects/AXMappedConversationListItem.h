@@ -15,8 +15,11 @@ typedef NS_ENUM(NSUInteger, AXConversationListItemType)
     AXConversationListItemTypeText = 1,
     AXConversationListItemTypePic = 2,
     AXConversationListItemTypeCard = 3,
+
     AXConversationListItemTypeESFProperty = 4,
-    AXConversationListItemTypeHZProperty = 5
+    AXConversationListItemTypeHZProperty = 5,
+    
+    AXConversationListItemTypeVoice = 6
 };
 
 @interface AXMappedConversationListItem : NSObject

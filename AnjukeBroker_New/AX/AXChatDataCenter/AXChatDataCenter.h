@@ -50,6 +50,10 @@
 - (void)deleteMessageByIdentifier:(NSString *)identifier;
 - (void)updateMessage:(AXMappedMessage *)message;
 
+// methods for upload and download
+- (NSArray *)messageToDownloadWithMessageType:(AXMessageType)messageType;
+- (NSArray *)messageToUploadWithMessageType:(AXMessageType)messageType;
+
 // message related methods
 - (NSInteger)totalUnreadMessageCount;
 - (AXMappedMessage *)fetchMessageWithIdentifier:(NSString *)identifier;

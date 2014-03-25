@@ -15,7 +15,10 @@ typedef NS_ENUM(NSUInteger, AXMessageType)
     AXMessageTypeProperty = 3, // 房子
     AXMessageTypePublicCard = 4, // 服务号消息
     AXMessageTypeVoice = 5, // 语音消息
-    AXMessageTypeMap = 6, 
+    AXMessageTypeLocation = 6, // 地理位置
+    AXMessageTypeMap  = 7,
+    
+    
     
     AXMessageTypeSystemTime = 100, // 时间
     AXMessageTypeSystemForbid = 101, // 提示拒绝加好友
@@ -48,9 +51,9 @@ typedef NS_ENUM (NSUInteger, AXMessageCenterSendMessageStatus)
 @property (nonatomic, strong) NSString * identifier;
 @property (nonatomic, strong) NSString * imgPath;
 @property (nonatomic, strong) NSString * imgUrl;
-@property (nonatomic) BOOL isImgDownloaded;
-@property (nonatomic) BOOL isRead;
-@property (nonatomic) BOOL isRemoved;
+@property (nonatomic, assign) BOOL isImgDownloaded;
+@property (nonatomic, assign) BOOL isRead;
+@property (nonatomic, assign) BOOL isRemoved;
 @property (nonatomic, strong) NSNumber * messageId;
 @property (nonatomic, strong) NSNumber * messageType;
 @property (nonatomic, strong) NSNumber * sendStatus;
@@ -58,5 +61,6 @@ typedef NS_ENUM (NSUInteger, AXMessageCenterSendMessageStatus)
 @property (nonatomic, strong) NSString * thumbnailImgPath;
 @property (nonatomic, strong) NSString * thumbnailImgUrl;
 @property (nonatomic, strong) NSString * to;
+@property (nonatomic, assign) BOOL isUploaded;
 
 @end
