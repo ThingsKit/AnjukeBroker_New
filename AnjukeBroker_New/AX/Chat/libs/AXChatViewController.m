@@ -1744,10 +1744,12 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     
     double lowPassResults = [[KKAudioComponent sharedAudioComponent] volumnUpdated];
     
-    
+    int value = lowPassResults * 20;
 //    [self recordAnimation:lowPassResults];
     //    NSLog(@"%lf",lowPassResults);
-    self.highlightedMicrophoneImageView.image = [self cropImageFromTop:6];
+    UIImage* image = [UIImage imageNamed:@"wl_voice_icon_voicestatu1"];
+    self.highlightedMicrophoneImageView.frame = CGRectMake(310/2/2 - 88/2/2, 290/2/2-170/2/2 + value, 88/2, 145/2 -value);
+    self.highlightedMicrophoneImageView.image = [AXChatViewController cropImageWithOriginalImage:image CGPoint:CGPointMake(0, value)];
     
 //    self.highlightedMicrophoneImageView.frame = CGRectMake(310/2/2 - 88/2/2, 290/2/2-170/2/2, 88/2, 145/2);
 //    self.highlightedMicrophoneImageView.image = [self cropImageFromTop:lowPassResults];
@@ -1789,14 +1791,13 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 //    }
 }
 
--(UIImage *) cropImageFromTop:(double)volumn{
-    
-    UIImage* image = [UIImage imageNamed:@"wl_voice_icon_voicestatu1"];
-    CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], CGRectMake(0, 0, image.size.width, image.size.height - 12));
-//    NSLog(<#NSString *format, ...#>)
-    UIImage *cropimage = [[UIImage alloc] initWithCGImage:imageRef];
+//CGPoint 以原图的左上角为原点, 向右向下作为截取起点 ---> 右下角
++ (UIImage*) cropImageWithOriginalImage:(UIImage*)originalImage CGPoint:(CGPoint)point{
+    CGRect rect = CGRectMake(point.x, point.y, originalImage.size.width*2, originalImage.size.height*2);
+    CGImageRef imageRef = CGImageCreateWithImageInRect([originalImage CGImage], rect);
+    UIImage* subImage = [UIImage imageWithCGImage:imageRef];
     CGImageRelease(imageRef);
-    return cropimage;
+    return subImage;
 }
 
 

@@ -13,10 +13,12 @@
 //#define AUDIOPLAYER_DID_FINISH_PLAYING @"audioPlayerDidFinishPlaying"
 
 typedef void(^PlayDidFinishBlock) (void);
+typedef void(^PlayDidCancelBlock) (void);
 
 @interface KKAudioComponent : NSObject <AVAudioPlayerDelegate, AVAudioRecorderDelegate>
 
 @property (nonatomic, copy) PlayDidFinishBlock playDidFinishBlock;
+@property (nonatomic, copy) PlayDidCancelBlock playDidCancelBlock;
 
 + (KKAudioComponent*) sharedAudioComponent;
 
@@ -51,4 +53,12 @@ typedef void(^PlayDidFinishBlock) (void);
 //播放指定的文件(wav格式, 参数 文件绝对路径, 需要lib+相对路径)
 - (void)playRecordingWithRelativeFilePath:(NSString*)relativeFilePath;
 + (NSString*)relativeFilePathWithFileName:(NSString *)fileName ofType:(NSString *)type;
+
+//停止播放
+- (void)cancelPlaying;
+
+//是否正在播放
+- (BOOL)isPlaying;
+
+
 @end

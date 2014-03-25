@@ -146,6 +146,22 @@ static KKAudioComponent* defaultAudioComponent;
     
 }
 
+- (void)cancelPlaying{
+    
+    [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
+    if (self.player != nil) {
+        [self.player stop];
+        self.playDidCancelBlock();
+    }
+    
+}
+
+- (BOOL) isPlaying{
+    if (self.player != nil) {
+        return [self.player isPlaying];
+    }
+    return NO;
+}
 
 //返回音量更新,范围 [0 ~ 0.3]
 - (CGFloat)volumnUpdated{
@@ -208,7 +224,7 @@ static KKAudioComponent* defaultAudioComponent;
 //    [[NSNotificationCenter defaultCenter] postNotificationName:AUDIOPLAYER_DID_FINISH_PLAYING object:nil userInfo:nil]; //告知调用者播放结束
     
     //或者使用block
-    [KKAudioComponent sharedAudioComponent].playDidFinishBlock();
+    self.playDidFinishBlock();
     
 }
 
