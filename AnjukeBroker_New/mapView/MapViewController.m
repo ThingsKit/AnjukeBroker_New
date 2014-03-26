@@ -49,7 +49,10 @@
 @property(nonatomic,strong) NSString *regionStr;
 @property(nonatomic,strong) NSString *addressStr;
 @property(nonatomic,strong) CLLocationManager *locationManager;
+//定位参数信息
 @property(nonatomic,strong) RegionAnnotation *regionAnnotation;
+//定位状态，包括6种状态
+@property(nonatomic, assign) int loadStatus;
 @end
 
 @implementation MapViewController
@@ -70,6 +73,7 @@
 @synthesize centerCoordinate;
 @synthesize locationManager;
 @synthesize regionAnnotation;
+@synthesize loadStatus;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -220,7 +224,6 @@
 }
 -(void)rightButtonAction:(id)sender{
     if (lastCoords.latitude && lastCoords.longitude) {
-        [(UIBarButtonItem *)[self.view viewWithTag:10] setEnabled:YES];
         if (self.siteDelegate && [self.siteDelegate respondsToSelector:@selector(loadMapSiteMessage:)]){
             NSMutableDictionary *locationDic = [[NSMutableDictionary alloc] init];
             [locationDic setValue:self.addressStr forKey:@"address"];
@@ -513,17 +516,22 @@
 #pragma mark- 获取位置信息，并判断是否显示，block方法支持ios6及以上
 -(void)showAnnotation:(CLLocation *)location coord:(CLLocationCoordinate2D)coords{
     if (self.mapType == RegionNavi && ![[self.navDic objectForKey:@"region"] isEqualToString:@""]) {
+        loadStatus = 4;
         [self addAnnotationView:location coord:coords region:[self.navDic objectForKey:@"region"]  address:[self.navDic objectForKey:@"address"]];
         return;
     }
-    [self addAnnotationView:location coord:coords region:@"请求地址中..."  address:[self.navDic objectForKey:@"address"]];
-
+    
     //每次请求位置时，把latitude塞入arr。在block回掉时判断但会latitude是否存在arr且和最近一次请求latitude一致。如果一致，则显示，否则舍弃
     [self.requestLocArr addObject:[NSString stringWithFormat:@"%.8f",[location coordinate].latitude]];
     self.regionStr = @"";
     self.addressStr = @"";
     self.city = @"";
     self.lastCoords = coords;
+    if (self.mapType == RegionChoose) {
+        loadStatus = 0;
+    }else{
+        loadStatus = 3;
+    }
     [self addAnnotationView:location coord:coords region:@"加载地址中..." address:nil];
 
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
@@ -537,7 +545,6 @@
             [self.requestLocArr removeAllObjects];
         }
         if (array.count > 0) {
-            [(UIButton *)[self.view viewWithTag:10] setEnabled:YES];
             CLPlacemark *placemark = [array objectAtIndex:0];
             
             NSString *region = [placemark.addressDictionary objectForKey:@"SubLocality"];
@@ -546,25 +553,54 @@
             self.addressStr = address;
             self.city = placemark.administrativeArea;
             
+            if (mapType == RegionChoose) {
+                loadStatus = 1;
+            }else{
+                loadStatus = 4;
+            }
             [self addAnnotationView:location coord:coords region:region address:address];
         }else{
             self.regionStr = @"";
             self.addressStr = @"";
             self.city = @"";
             
+            if (mapType == RegionChoose) {
+                loadStatus = 2;
+            }else{
+                loadStatus = 5;
+            }
             [self addAnnotationView:location coord:coords region:@"没有找到有效地址" address:nil];
         }
     }];
 }
 #pragma mark- 添加大头针的标注
 -(void)addAnnotationView:(CLLocation *)location coord:(CLLocationCoordinate2D)coords region:(NSString *)region address:(NSString *)address{
+    if ([self.regionMapView.annotations count]) {
+        [self.regionMapView removeAnnotations:self.regionMapView.annotations];
+    }
+
     if (!self.regionAnnotation) {
         self.regionAnnotation = [[RegionAnnotation alloc] init];
     }
+    
     self.regionAnnotation.coordinate = coords;
     self.regionAnnotation.title = region;
     self.regionAnnotation.subtitle  = address;
-
+    
+    if (loadStatus == 0) {
+        self.regionAnnotation.annotationStatus = ChooseLoading;
+    }else if (loadStatus == 1){
+        self.regionAnnotation.annotationStatus = ChooseSuc;
+    }else if (loadStatus == 2){
+        self.regionAnnotation.annotationStatus = ChooseFail;
+    }else if (loadStatus == 3){
+        self.regionAnnotation.annotationStatus = NaviLoading;
+    }else if (loadStatus == 4){
+        self.regionAnnotation.annotationStatus = NaviSuc;
+    }else if (loadStatus == 5){
+        self.regionAnnotation.annotationStatus = NaviFail;
+    }
+    
     [self.regionMapView addAnnotation:self.regionAnnotation];
     [self.regionMapView selectAnnotation:self.regionAnnotation animated:YES];
 }
@@ -574,62 +610,35 @@
     if ([annotation isKindOfClass:[MKUserLocation class]]) {
         return nil;
     }
-    static NSString* identifier = @"MKAnnotationView";
-    if ([annotation isKindOfClass:[RegionAnnotation class]]) {
-        MKAnnotationView *annotationView;
-        annotationView = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+    if ([annotation isKindOfClass:[regionAnnotation class]]) {
+        static NSString* identifier = @"MKAnnotationView";
+        RegionAnnotationView *annotationView;
+        annotationView = (RegionAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
         
         if (annotationView == nil) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+            annotationView = [[RegionAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+            annotationView.acSheetDelegate = self;
         }
         
-        annotationView.frame = CGRectMake(0, 0, 16, 33);
-        if (self.mapType == RegionNavi) {
-            annotationView.image = [UIImage imageNamed:@"anjuke_icon_itis_position.png"];
-
-            UIButton *naviBtn;
-            if (ISIOS7) {
-                naviBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-                naviBtn.backgroundColor = [UIColor blackColor];
-                [naviBtn setImage:[UIImage imageNamed:@"anjuke_icon_to_position.png"] forState:UIControlStateNormal];
-                [naviBtn setImage:[UIImage imageNamed:@"anjuke_icon_to_position1.png"] forState:UIControlStateHighlighted];
-                naviBtn.frame = CGRectMake(0, 0, 65, 45);
-            }else{
-                naviBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-                [naviBtn setTitle:@"导航" forState:UIControlStateNormal];
-                naviBtn.frame = CGRectMake(0, 0, 50, 28);
-            }
-            
-            annotationView.rightCalloutAccessoryView = naviBtn;
-        }
-        [annotationView setCanShowCallout:YES];
+        annotationView.backgroundColor = [UIColor redColor];
+        
         annotationView.annotation = annotation;
-
+        [annotationView setCanShowCallout:NO];
+        
         return annotationView;
     }
+
     return nil;
 }
-#pragma mark -MKAnnotationView callout点击事件
-- (void)mapView:(MKMapView *)mapView
- annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
+-(void)naviClick{
     [self doAcSheet];
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

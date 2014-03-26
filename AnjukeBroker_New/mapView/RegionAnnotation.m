@@ -12,4 +12,6 @@
 @synthesize title;
 @synthesize subtitle;
 @synthesize coordinate;
+//@synthesize annotationType;
+@synthesize annotationStatus;
 @end

@@ -10,6 +10,7 @@
 #import "RTLocationManager.h"
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "RegionAnnotationView.h"
 
 @protocol MapViewControllerDelegate <NSObject>
 @required
@@ -21,11 +22,12 @@ typedef enum{
     RegionNavi
 }mapType;
 
-@interface MapViewController : UIViewController<MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,CLLocationManagerDelegate>{
+@interface MapViewController : UIViewController<MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,CLLocationManagerDelegate,doAcSheetDelegate>{
     CLLocationManager *locationManager;
 }
 
 @property(nonatomic,assign) id<MapViewControllerDelegate> siteDelegate;
 @property(nonatomic,assign) mapType mapType;
 @property(nonatomic,strong) NSDictionary *navDic;
+-(void)naviClick;
 @end
