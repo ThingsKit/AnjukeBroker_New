@@ -264,28 +264,14 @@
         NSMutableArray *commonMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
         NSMutableArray *voiceMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
         
-        AXPersonType accountType = [item[@"account_type"] integerValue];
-        
         AXMessage *message = [self findLastMessageWithFriendUid:friendUID];
         NSDate *storedLastDate = message.sendTime;
         
         for (NSDictionary *message in item[@"messages"]) {
 
             AXMessageType messageType = [message[@"msg_type"] integerValue];
-            
-            BOOL isVersionLower = NO;
-            if (messageType < 1) {
-                isVersionLower = YES;
-            }
-            if (messageType > 6 && messageType < 100) {
-                isVersionLower = YES;
-            }
-            if (messageType > 106) {
-                isVersionLower = YES;
-            }
-            
             AXMessageCenterSendMessageStatus messageSendStatus = AXMessageCenterSendMessageStatusSuccessful;
-            
+            BOOL isVersionLower = [self isOldVersionWithMessageType:messageType];
             NSNumber *messageId = [NSNumber numberWithInteger:[message[@"msg_id"] integerValue]];
             if ([self isMessageExistsWithMessageId:messageId]) {
                 continue;
@@ -305,7 +291,7 @@
                 managedMessage.thumbnailImgPath = @"";
                 managedMessage.thumbnailImgUrl = @"";
                 managedMessage.isImgDownloaded = [NSNumber numberWithBool:NO];
-            }  else {
+            } else {
                 managedMessage.imgPath = @"";
                 managedMessage.imgUrl = @"";
                 managedMessage.thumbnailImgPath = @"";
@@ -365,59 +351,30 @@
         AXMessage *timeMessage = [self checkAndReturnTimeMessageWithCurrentDate:fetchedLastDate andLastDate:storedLastDate from:friendUID to:self.uid];
         if (timeMessage) {
             if ([messageArray count] > 0) {
-                [messageArray insertObject:[timeMessage convertToMappedObject] atIndex:0];
-            } else {
                 [messageArray insertObject:[timeMessage convertToMappedObject] atIndex:[messageArray count]-1];
+            } else {
+                [messageArray insertObject:[timeMessage convertToMappedObject] atIndex:0];
             }
             
             if ([commonMessageArray count] > 0) {
-                [commonMessageArray insertObject:[timeMessage convertToMappedObject] atIndex:0];
-            } else {
                 [commonMessageArray insertObject:[timeMessage convertToMappedObject] atIndex:[commonMessageArray count]-1];
+            } else {
+                [commonMessageArray insertObject:[timeMessage convertToMappedObject] atIndex:0];
             }
         }
         
         messageDictionary[friendUID] = [messageArray reverseSelf];
         splitedDictionary[friendUID] = @{@"pic":[picMessageArray reverseSelf], @"voice":[voiceMessageArray reverseSelf], @"other":[commonMessageArray reverseSelf]};
         
-        if (![self isFriendWithFriendUid:friendUID]) {
-            
-            AXPerson *friend = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
-            friend.uid = friendUID;
-            
-            if (accountType == AXPersonTypePublic) {
-                [self.delegate dataCenter:self fetchPublicInfoWithUid:@[friendUID]];
-            } else {
-                [self.delegate dataCenter:self fetchPersonInfoWithUid:@[friendUID]];
-            }
-        }
+        [self checkAndFetchFriendInfoWithFriendUid:friendUID accountType:[item[@"account_type"] integerValue]];
     }
-    
+
     __autoreleasing NSError *error;
     [self.managedObjectContext save:&error];
     
     if (shouldAlert) {
         if ([receivedArray count] >= 1) {
-            CFStringRef state;
-            UInt32 propertySize = sizeof(CFStringRef);
-            AudioSessionInitialize(NULL, NULL, NULL, NULL);
-            AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &propertySize, &state);
-            
-            Float32 volume;
-            UInt32 dataSize = sizeof(Float32);
-            AudioSessionGetProperty (
-                                     kAudioSessionProperty_CurrentHardwareOutputVolume,
-                                     &dataSize,
-                                     &volume
-                                     );
-            
-            UIAccessibilityIsVoiceOverRunning();
-            
-            if (CFStringGetLength(state) == 0 || volume == 0) {
-                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-            } else {
-                AudioServicesPlaySystemSound(1015);
-            }
+            [self bark];
         }
     }
 
@@ -939,14 +896,23 @@
         messageTip = @"你收到一张图片";
     }
     
+    if (messageType == AXMessageTypeLocation) {
+        itemType = AXConversationListItemTypeLocation;
+        messageTip = @"你收到一个位置";
+    }
+    
     if (messageType == AXMessageTypeProperty) {
         NSDictionary *messageContent = [NSJSONSerialization JSONObjectWithData:[message.content dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:NULL];
         messageTip = @"你收到一个房源";
         NSInteger propertyType = [messageContent[@"tradeType"] integerValue];
         if (propertyType == 1) {
             itemType = AXConversationListItemTypeESFProperty;
-        } else {
+        }
+        if (propertyType == 2) {
             itemType = AXConversationListItemTypeHZProperty;
+        }
+        if (propertyType == 3) {
+            itemType = AXConversationListItemTypeCommunity;
         }
     }
     
@@ -1188,6 +1154,61 @@
     }
     
     return hasBeenDeleted;
+}
+
+- (BOOL)isOldVersionWithMessageType:(AXMessageType)messageType
+{
+    BOOL result = NO;
+    if (messageType < 1) {
+        result = YES;
+    }
+    if (messageType > 6 && messageType < 100) {
+        result = YES;
+    }
+    if (messageType > 106) {
+        result = YES;
+    }
+    return result;
+}
+
+- (void)checkAndFetchFriendInfoWithFriendUid:(NSString *)friendUid accountType:(AXPersonType)accountType
+{
+    if (![self isFriendWithFriendUid:friendUid]) {
+        
+        AXPerson *friend = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+        friend.uid = friendUid;
+        
+        if (accountType == AXPersonTypePublic) {
+            friend.userType = [NSNumber numberWithInteger:AXPersonTypePublic];
+            [self.delegate dataCenter:self fetchPublicInfoWithUid:@[friendUid]];
+        } else {
+            [self.delegate dataCenter:self fetchPersonInfoWithUid:@[friendUid]];
+        }
+    }
+}
+
+- (void)bark
+{
+    CFStringRef state;
+    UInt32 propertySize = sizeof(CFStringRef);
+    AudioSessionInitialize(NULL, NULL, NULL, NULL);
+    AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &propertySize, &state);
+    
+    Float32 volume;
+    UInt32 dataSize = sizeof(Float32);
+    AudioSessionGetProperty (
+                             kAudioSessionProperty_CurrentHardwareOutputVolume,
+                             &dataSize,
+                             &volume
+                             );
+    
+    UIAccessibilityIsVoiceOverRunning();
+    
+    if (CFStringGetLength(state) == 0 || volume == 0) {
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    } else {
+        AudioServicesPlaySystemSound(1015);
+    }
 }
 
 @end

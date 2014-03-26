@@ -19,7 +19,9 @@ typedef NS_ENUM(NSUInteger, AXConversationListItemType)
     AXConversationListItemTypeESFProperty = 4,
     AXConversationListItemTypeHZProperty = 5,
     
-    AXConversationListItemTypeVoice = 6
+    AXConversationListItemTypeVoice = 6,
+    AXConversationListItemTypeLocation = 7,
+    AXConversationListItemTypeCommunity = 8
 };
 
 @interface AXMappedConversationListItem : NSObject

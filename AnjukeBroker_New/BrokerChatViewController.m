@@ -432,7 +432,7 @@
         [[AXChatMessageCenter defaultMessageCenter] reSendImage:axCell.identifyString withCompeletionBlock:self.finishReSendMessageBlock];
     }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
         [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
-    }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeMap)]){
+    }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeLocation)]){
         [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
     }else {
         
@@ -469,7 +469,7 @@
 #pragma MapViewControllerDelegate
 - (void)loadMapSiteMessage:(NSDictionary *)mapSiteDic {
     
-    NSDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:@{@"lat":mapSiteDic[@"lat"], @"lng":mapSiteDic[@"lng"], @"city":mapSiteDic[@"city"], @"region":mapSiteDic[@"region"], @"address":mapSiteDic[@"address"], @"jsonVersion":@"1", @"tradeType":[NSNumber numberWithInteger:AXMessageTypeMap]}];
+    NSDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:@{@"lat":mapSiteDic[@"lat"], @"lng":mapSiteDic[@"lng"], @"city":mapSiteDic[@"city"], @"region":mapSiteDic[@"region"], @"address":mapSiteDic[@"address"], @"jsonVersion":@"1", @"tradeType":[NSNumber numberWithInteger:AXMessageTypeLocation]}];
     
     AXMappedMessage *mappedMessageProp = [[AXMappedMessage alloc] init];
     mappedMessageProp.accountType = @"2";
@@ -478,7 +478,7 @@
     mappedMessageProp.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
     mappedMessageProp.isRead = YES;
     mappedMessageProp.isRemoved = NO;
-    mappedMessageProp.messageType = [NSNumber numberWithInteger:AXMessageTypeMap];
+    mappedMessageProp.messageType = [NSNumber numberWithInteger:AXMessageTypeLocation];
     [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
 }
 

@@ -53,7 +53,7 @@
                 cell = [[AXChatMessageVoiceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identity];
             }
                 break;
-            case AXMessageTypeMap:
+            case AXMessageTypeLocation:
             {
                 cell = [[AXMessageLocationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identity];
             }

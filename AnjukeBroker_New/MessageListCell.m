@@ -214,6 +214,9 @@
         else if ([item.messageType integerValue] == AXConversationListItemTypeVoice) { //语音
             self.messageLb.text = @"[语音]";
         }
+        else if ([item.messageType integerValue] == AXConversationListItemTypeLocation) { //位置
+            self.messageLb.text = @"[位置]";
+        }
         
         if ([item.messageStatus integerValue] == AXMessageCenterSendMessageStatusSuccessful) { //发送成功
             self.messageLb.frame = messageFrame_noIcon;

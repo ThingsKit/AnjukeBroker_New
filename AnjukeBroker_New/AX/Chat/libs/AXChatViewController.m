@@ -710,12 +710,12 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeVoice), @"content":mappedMessage.content, @"messageSource":messageSource, @"identifier":mappedMessage.identifier}];
         }
             break;
-        case AXMessageTypeMap:
+        case AXMessageTypeLocation:
         {
 //            if (![self.contentValidator checkPropertyCard:mappedMessage.content]) {
 //                return nil;
 //            }
-            textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeMap),@"content":mappedMessage.content,@"messageSource":messageSource}];
+            textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeLocation),@"content":mappedMessage.content,@"messageSource":messageSource}];
             
         }
             break;
@@ -876,7 +876,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         return 75;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeVoice)]) {
         return 65.0f;
-    } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeMap)]) {
+    } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeLocation)]) {
         return 95;
     }else {
         return 70;
