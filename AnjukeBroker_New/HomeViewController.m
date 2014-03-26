@@ -305,7 +305,6 @@
     self.costLb.text = [self.ppcDataDic objectForKey:@"todayAllCosts"];
     self.clickLb.text = [self.ppcDataDic objectForKey:@"todayAllClicks"];
     
-    [self setTitleViewWithString:[LoginManager getRealName]];
 }
 
 - (void)rightButtonAction:(id)sender {
@@ -462,6 +461,8 @@
             
         }
         else {
+            [self setTitleViewWithString:[LoginManager getRealName]];
+            
             //******兼容安居客team得到userInfoDic并设置NSUserDefaults，以帮助底层通过对应路径获取相应数据******
             NSDictionary *dic = [LoginManager getFuckingChatUserDicJustForAnjukeTeamWithPhone:[LoginManager getPhone] uid:[LoginManager getChatID]];
             [[NSUserDefaults standardUserDefaults] setValue:dic forKey:USER_DEFAULT_KEY_AXCHATMC_USE];
