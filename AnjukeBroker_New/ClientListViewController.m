@@ -59,8 +59,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self showLoadingActivity:YES];
-    [self getFriendList];
+    if ([self isNetworkOkay] && [LoginManager getChatID] && [LoginManager getPhone]) {
+        [self showLoadingActivity:YES];
+        [self getFriendList];
+    }
 }
 
 - (void)didReceiveMemoryWarning
