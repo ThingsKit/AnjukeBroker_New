@@ -98,8 +98,8 @@
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
         self.timeLabel.textAlignment = NSTextAlignmentLeft;
         self.voiceImageView.contentMode = UIViewContentModeLeft;
-        self.voiceImageView.image = [UIImage imageNamed:@"wl_chat_icon_agentvoice.png"];
-        self.voiceImageView.left = kJSAvatarSize + 19 + 15;
+        self.voiceImageView.image = [UIImage imageNamed:@"anjuke_icon_say_voice_b.png"];
+        self.voiceImageView.left = kJSAvatarSize + 19 + 13;
         self.bubbleIMG.frame = CGRectMake(kJSAvatarSize + 19, axTagMarginTop, size.width + 30.0f , size.height + 20.0f);
         self.voiceStatusImageView.left = self.bubbleIMG.right + 7;
         self.timeLabel.left = self.bubbleIMG.right + 7;
