@@ -137,6 +137,7 @@ static KKAudioComponent* defaultAudioComponent;
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) { //文件存在
         self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL URLWithString:filePath] error:nil];
         _player.delegate = self;
+        _player.volume = 1;
         [_player play];
         
         NSLog(@"开始播放");
