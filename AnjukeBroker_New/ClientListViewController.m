@@ -191,7 +191,9 @@
     
     //get section title
     [self.sectionTitleArr addObject:@""]; //公共section
-    [self.sectionTitleArr addObject:@"★"];
+    if (self.starDataArr.count > 0) {
+        [self.sectionTitleArr addObject:@"★"];
+    }
     for (int i = 0; i < self.contactKeyArr.count; i ++) {
         [self.sectionTitleArr addObject:[self.contactKeyArr[i] objectForKey:@"key"]];
     }
