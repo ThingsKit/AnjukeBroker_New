@@ -63,7 +63,7 @@
     [super configWithData:data];
     self.locationLabel.text = nil;
     self.dataDic = [data[@"content"] JSONValue];
-    CGRect frame = CGRectMake(0, 0, 100, 70);
+    CGRect frame = CGRectMake(0.0f, 0.0f, 120.0f, 120.0f);
     
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
         frame.origin.x = kJSAvatarSize +40;
@@ -105,8 +105,8 @@
 
 
     CGRect frame = self.mapIMGView.frame;
-    frame.origin.y += 40.0f;
-    frame.size.height -= 40.0f;
+    frame.origin.y += 80.0f;
+    frame.size.height -= 80.0f;
     self.locationLabel.frame = frame;
     self.locationLabel.backgroundColor = [UIColor blackColor];
     self.locationLabel.alpha = 0.7;

@@ -67,9 +67,9 @@
 {
     if (isBroker) {
         if (highlighted) {
-            return [UIImage imageNamed:@"anjuke_icon_chat.png"];
+            return [UIImage imageNamed:@"anjuke_icon_chat_fy1.png"];
         } else {
-            return [UIImage imageNamed:@"anjuke_icon_chat1.png"];
+            return [UIImage imageNamed:@"anjuke_icon_chat_fy.png"];
         }
     } else {
         if (highlighted) {
@@ -84,9 +84,9 @@
 {
     if (isBroker) {
         if (highlighted) {
-            return [UIImage imageNamed:@"anjuke_icon_chat_fy1.png"];
+            return [UIImage imageNamed:@"anjuke_icon_chat2_fy_selected.png"];
         } else {
-            return [UIImage imageNamed:@"anjuke_icon_chat_fy.png"];
+            return [UIImage imageNamed:@"anjuke_icon_chat2_fy.png"];
         }
     } else {
         if (highlighted) {

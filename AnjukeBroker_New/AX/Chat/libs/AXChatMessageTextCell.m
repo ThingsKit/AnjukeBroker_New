@@ -102,7 +102,7 @@
         self.bubbleIMG.frame = CGRectMake(self.attrLabel.frame.origin.x - 21 + 2, axTagMarginTop, size.width + 30.0f , size.height + 20.0f);
     } else {
         if (self.isBroker) {
-            self.attrLabel.textColor = [UIColor whiteColor];
+            self.attrLabel.textColor = [UIColor blackColor];
         }
         self.bubbleIMG.frame = CGRectMake(self.attrLabel.frame.origin.x - 13, axTagMarginTop, size.width + 30.0f , size.height + 20.0f);
     }

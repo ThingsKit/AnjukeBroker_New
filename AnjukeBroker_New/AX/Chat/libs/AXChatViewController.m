@@ -877,7 +877,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeVoice)]) {
         return 65.0f;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeLocation)]) {
-        return 95;
+        return 140.0f;
     }else {
         return 70;
     }
@@ -1165,7 +1165,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 - (void)didMessageRetry:(AXChatMessageRootCell *)axCell
 {
-#warning // 之后必改.公众号写死了，101是经纪人助手====100是安居客公众号；
+				#warning // 之后必改.公众号写死了，101是经纪人助手====100是安居客公众号；
     if ([self.uid isEqualToString:@"101"]) {
         if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypePic)]){
             //            [[AXChatMessageCenter defaultMessageCenter] reSendImage:axCell.identifyString withCompeletionBlock:self.finishReSendMessageBlock];
