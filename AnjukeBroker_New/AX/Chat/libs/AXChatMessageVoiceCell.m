@@ -67,9 +67,9 @@
     } else {
         self.voiceStatusImageView.hidden = NO;
     }
-    NSInteger length = MIN([content[@"length"] integerValue], 60);
-    self.timeLabel.text = [NSString stringWithFormat:@"%d”", length];
-    CGSize size = CGSizeMake(MIN(180, 50 + ( (130/60) * length)), 20);
+    NSInteger length = MIN([content[@"length"] doubleValue], 60);
+    self.timeLabel.text = [NSString stringWithFormat:@"%d\"", length];
+    CGSize size = CGSizeMake([self voiceCellLengthByTime:length], 20);
     [self setBubbleImg:size];
     if (self.timer) {
         [self.timer invalidate];
@@ -153,6 +153,11 @@
             self.index = 0;
         }
     }];
+}
+
+- (double )voiceCellLengthByTime:(double) time{
+    double length = log10(time)/log10(1.0165);
+    return (length + 120.0f) / 2.0f;
 }
 
 @end
