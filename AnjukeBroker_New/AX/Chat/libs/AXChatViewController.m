@@ -387,7 +387,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     
     UIButton *location = [UIButton buttonWithType:UIButtonTypeCustom];
     location.frame = CGRectMake(17.0f, 16.0f + 107.0f, 46, 46);
-    [location setImage:[UIImage imageNamed:@"anjuke_icon_add_pic4.png"] forState:UIControlStateNormal];
+    [location setImage:[UIImage imageNamed:@"anjuke_icon_add_position.png"] forState:UIControlStateNormal];
     [location addTarget:self action:@selector(locationClick) forControlEvents:UIControlEventTouchUpInside];
     [self.moreBackView addSubview:location];
     CGRect locationRect = location.frame;

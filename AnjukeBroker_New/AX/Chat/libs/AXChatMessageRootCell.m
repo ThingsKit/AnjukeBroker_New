@@ -93,7 +93,7 @@ NSInteger const kRetryTag = 101;
     [self setBubbleIMGOutcomeIncome];
     self.identifyString = data[AXCellIdentifyTag];
     self.rowData = data;
-    
+    self.messageType = [data[@"messageType"] integerValue];
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
         self.avatar.frame = CGRectMake(kAvatarMargin, axTagMarginTop, kJSAvatarSize , kJSAvatarSize);
     } else {
@@ -137,10 +137,17 @@ NSInteger const kRetryTag = 101;
 
 - (CGRect)statusIconRect
 {
+    CGFloat width = 0.0f;
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-        return CGRectMake(self.bubbleIMG.frame.origin.x + self.bubbleIMG.frame.size.width + 25, self.bubbleIMG.frame.size.height - 17 - 14, 25, 25);
+        if (self.messageType == AXMessageTypeVoice) {
+            width = 25.0f;
+        }
+        return CGRectMake(self.bubbleIMG.frame.origin.x + self.bubbleIMG.frame.size.width + 25 + width, self.bubbleIMG.frame.size.height - 17 - 14, 25, 25);
     } else {
-        return CGRectMake(self.bubbleIMG.frame.origin.x - 26, self.bubbleIMG.frame.size.height - 5 - 13, 25, 25);
+        if (self.messageType == AXMessageTypeVoice) {
+            width = -22.0f;
+        }
+        return CGRectMake(self.bubbleIMG.frame.origin.x - 26 + width, self.bubbleIMG.frame.size.height - 5 - 13, 25, 25);
     }
 }
 

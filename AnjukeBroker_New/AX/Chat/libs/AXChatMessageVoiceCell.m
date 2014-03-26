@@ -57,6 +57,12 @@
     [self.contentView addSubview:self.voiceControl];
 }
 
+- (void)dealloc {
+    [self endPlay];
+//    [self.timer invalidate];
+//    self.timer = nil;
+}
+
 - (void)configWithData:(NSDictionary *)data
 {
     [super configWithData:data];
@@ -74,6 +80,7 @@
     if (self.timer) {
         [self.timer invalidate];
     }
+    [self configWithStatus];
 }
 
 - (void)resetPlayer:(NSString *)playingIdentifier

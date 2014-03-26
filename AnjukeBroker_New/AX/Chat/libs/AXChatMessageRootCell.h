@@ -23,7 +23,7 @@ extern CGFloat const kAvatarMargin;
 
 @interface AXChatMessageRootCell : AXChatBaseCell
 
-@property (nonatomic, readonly) AXMessageType messageType;
+@property (nonatomic) AXMessageType messageType;
 @property (nonatomic, strong) NSString *identifyString;
 @property (nonatomic, strong) UIImageView *userImage;
 @property (strong, nonatomic) UIImageView *bubbleIMG;
