@@ -19,6 +19,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundView = [self baseCellBackgroundView];
     }
     return self;
 }
@@ -50,7 +52,7 @@
     [self.contentView addSubview:messageLabel];
 }
 
-- (BOOL)configureCell:(id)dataModel withIndex:(int)index {
+- (BOOL)configureCell:(id)dataModel withIndex:(int)index isBlankStyle:(BOOL)isBlankStyle{
     
     CGFloat lbH = 0;
     
@@ -60,11 +62,22 @@
         case 0:
         {
             lbH = 20;
-            self.titleLb.text = @"电话号码";
+            if (isBlankStyle) {
+                self.titleLb.text = @"请添加备注信息";
+                self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
+            else {
+                self.titleLb.text = @"电话号码";
+                if (item.markPhone.length > 0) {
+                    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                }
+                else
+                    self.accessoryType = UITableViewCellAccessoryNone;
+            }
             
-            self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             self.selectionStyle = UITableViewCellSelectionStyleGray;
             
+            [self showTopLine];
             [self showBottonLineWithCellHeight:CLIENT_DETAIL_TEL_HEIGHT];
         }
             break;
@@ -84,6 +97,10 @@
             break;
     }
     
+    if (index == 0 && isBlankStyle) {
+        self.titleLb.frame = CGRectMake(CELL_OFFSET_TITLE, 12, 170, 20);
+    }
+    
     CGFloat detailLb_H = lbH;
     if (index == 1) {
         detailLb_H = lbH*3;
@@ -91,11 +108,13 @@
     }
     self.detailLb.frame = CGRectMake(self.titleLb.frame.origin.x + self.titleLb.frame.size.width+ CELL_OFFSET_TITLE, 12, DETAIL_LB_W, lbH );
     
-    if (index == 0) {
-        self.detailLb.text = item.markPhone;
+    if (!isBlankStyle) {
+        if (index == 0) {
+            self.detailLb.text = item.markPhone;
+        }
+        else
+            self.detailLb.text = item.markDesc;
     }
-    else
-        self.detailLb.text = item.markDesc;
     
     return YES;
 }

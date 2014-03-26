@@ -26,6 +26,8 @@
 @property (nonatomic, strong) UILabel *companyLabel;
 @property (nonatomic, strong) WebImageView *iconImage;
 
+@property BOOL isBlankStyle; //如果标注电话和标注信息为空，则显示为空样式提示标注
+
 @end
 
 @implementation ClientDetailViewController
@@ -33,6 +35,7 @@
 @synthesize listDataArray;
 @synthesize person;
 @synthesize nameLabel, companyLabel, iconImage;
+@synthesize isBlankStyle;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -147,13 +150,20 @@
     [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_bluebutton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(77/2-1, 5, 77/2+1, 52/2-5)resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
     [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_bluebutton1.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(77/2-1, 5, 77/2+1, 52/2-5)resizingMode:UIImageResizingModeStretch] forState:UIControlStateHighlighted];
     [footerView addSubview:btn];
-    
 }
 
 #pragma mark - Private Method
 
 - (void)refreshDataAndView {
     [self showLoadingActivity:YES];
+    
+    if (self.person.markPhone.length <= 0 && self.person.markDesc.length <= 0) {
+        self.isBlankStyle = YES;
+    }
+    else {
+        self.isBlankStyle = NO;
+        
+    }
     
     //重新刷新信息
     NSString *uid = self.person.uid;
@@ -177,7 +187,7 @@
     }
     else
         self.iconImage.imageUrl = self.person.iconUrl;
-
+    
     [self.tableViewList reloadData];
     
     [self hideLoadWithAnimated:YES];
@@ -225,10 +235,17 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.isBlankStyle) {
+        return 1;
+    }
     return 2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.isBlankStyle) {
+        return CLIENT_DETAIL_TEL_HEIGHT;
+    }
+    
     if (indexPath.row == 0) {
         return CLIENT_DETAIL_TEL_HEIGHT;
     }
@@ -241,12 +258,10 @@
     ClientDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellName];
     if (cell == nil) {
         cell = [[ClientDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellName];
-        
     }
     else {
-        
     }
-    [cell configureCell:self.person withIndex:indexPath.row];
+    [cell configureCell:self.person withIndex:indexPath.row isBlankStyle:self.isBlankStyle];
     
     return cell;
 }
@@ -258,6 +273,16 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.row == 0) {
+        if (self.isBlankStyle) {
+            //编辑
+            ClientEditViewController *ce = [[ClientEditViewController alloc] init];
+            ce.person = self.person;
+            ce.editDelegate = self;
+            [self.navigationController pushViewController:ce animated:YES];
+            
+            return;
+        }
+        
         [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_008 note:nil];
         
         if (self.person.markPhone.length <= 0) {

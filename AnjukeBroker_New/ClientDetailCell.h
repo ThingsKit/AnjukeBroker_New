@@ -16,4 +16,6 @@
 @property (nonatomic, strong) UILabel *titleLb;
 @property (nonatomic, strong) UILabel *detailLb;
 
+- (BOOL)configureCell:(id)dataModel withIndex:(int)index isBlankStyle:(BOOL)isBlankStyle;
+
 @end
