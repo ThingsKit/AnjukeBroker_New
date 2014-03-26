@@ -203,7 +203,6 @@
         }
         else if ([item.messageType integerValue] == AXConversationListItemTypeESFProperty) { //二手房
             self.messageLb.text = @"[二手房]";
-            
         }
         else if ([item.messageType integerValue] == AXConversationListItemTypeHZProperty) { //租房
             self.messageLb.text = @"[租房]";

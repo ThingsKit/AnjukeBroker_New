@@ -28,6 +28,8 @@
 @property (nonatomic, strong) NSMutableDictionary *contactsDictionary;
 @property (nonatomic, strong) NSMutableArray *contactKeyArr;
 
+@property (nonatomic, strong) NSMutableArray *sectionTitleArr;
+
 @end
 
 @implementation ClientListViewController
@@ -35,6 +37,7 @@
 @synthesize tableViewList, listDataArray;
 @synthesize contactsDictionary;
 @synthesize contactKeyArr;
+@synthesize sectionTitleArr;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -98,6 +101,8 @@
     
     self.listDataArray = [NSMutableArray array];
     self.contactKeyArr = [NSMutableArray array];
+    
+    self.sectionTitleArr = [NSMutableArray array];
 }
 
 - (void)initDisplay {
@@ -119,6 +124,7 @@
     [self.starDataArr removeAllObjects];
     [self.allDataArr removeAllObjects];
     [self.contactKeyArr removeAllObjects];
+    [self.sectionTitleArr removeAllObjects];
     
     //reset 3 list arr ...
     //获取公共账号
@@ -182,6 +188,13 @@
         [self.contactKeyArr addObject:@{@"key":key,@"objects":self.contactsDictionary[key]}];
     }
     DLog(@"---contactsDictionary---[%@]", self.contactKeyArr);
+    
+    //get section title
+    [self.sectionTitleArr addObject:@""]; //公共section
+    [self.sectionTitleArr addObject:@"★"];
+    for (int i = 0; i < self.contactKeyArr.count; i ++) {
+        [self.sectionTitleArr addObject:[self.contactKeyArr[i] objectForKey:@"key"]];
+    }
     
     [self.tableViewList reloadData];
     
@@ -297,6 +310,11 @@
     }
     
     return @"";
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+    
+    return self.sectionTitleArr;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
