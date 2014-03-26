@@ -180,7 +180,7 @@
     
     //草稿frame
     CGFloat statusLbW = 35;
-    CGFloat statusLbH = 15;
+    CGFloat statusLbH = messageLabelH;
     CGRect statusLbFrame = CGRectMake(offsetX, offsetY, statusLbW, statusLbH);
     CGRect messageFrame_statusLb = CGRectMake(offsetX + statusLbW+2, offsetY, messageLabelW, messageLabelH);
 
@@ -210,6 +210,9 @@
         }
         else if ([item.messageType integerValue] == AXConversationListItemTypePic) { //图片
             self.messageLb.text = @"[图片]";
+        }
+        else if ([item.messageType integerValue] == AXConversationListItemTypeVoice) { //语音
+            self.messageLb.text = @"[语音]";
         }
         
         if ([item.messageStatus integerValue] == AXMessageCenterSendMessageStatusSuccessful) { //发送成功
