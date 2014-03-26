@@ -115,7 +115,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 @property (nonatomic, retain) UIImage* corlorIMG;
 @property (nonatomic, assign) CGFloat curCount;
 @property (nonatomic, assign) BOOL isInterrupted;
-#define MAX_RECORD_TIME 20
+#define MAX_RECORD_TIME 60
 
 @end
 
