@@ -1173,9 +1173,6 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 {
     // 更新数据库
     AXMappedMessage *message = axCell.rowData[@"mappedMessage"];
-    if (message.imgPath.length == 0) {
-//        return;
-    }
     NSString *preIdentifier = [self.playingIdentifier copy];
     [self cancelKKAudioPlaying];
     if ([preIdentifier isEqualToString:message.identifier]) {
@@ -1183,8 +1180,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     }
     // 更新数据库
     NSMutableDictionary *data = [message.content JSONValue];
-    if (data && !data[@"hadDone"]) {
-        data[@"hadDone"] = @"1";
+    if (data && data[@"hadDone"]) {
+        data[@"hadDone"] = @"0";
+    }
         message.content = [data JSONRepresentation];
         NSMutableDictionary *dict = self.cellDict[message.identifier];
         if (dict) {
@@ -1193,7 +1191,6 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         }
         
         [[AXChatMessageCenter defaultMessageCenter] updateMessage:message];
-    }
     
     // 播放
     self.playingIdentifier = message.identifier;

@@ -68,10 +68,14 @@
     [super configWithData:data];
     NSDictionary *content = [data[@"content"] JSONValue];
     [self endPlay];
-    if (content[@"hadDone"]) {
+    if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
+        if ([content[@"hadDone"] isEqualToString:@"0"]) {
+            self.voiceStatusImageView.hidden = YES;
+        } else {
+            self.voiceStatusImageView.hidden = NO;
+        }
+    }else {
         self.voiceStatusImageView.hidden = YES;
-    } else {
-        self.voiceStatusImageView.hidden = NO;
     }
     NSInteger length = MIN([content[@"length"] doubleValue], 60);
     self.timeLabel.text = [NSString stringWithFormat:@"%d\"", length];
