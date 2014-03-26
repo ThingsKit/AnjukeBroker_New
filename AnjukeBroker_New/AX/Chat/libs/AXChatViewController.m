@@ -114,6 +114,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 @property (nonatomic, retain) UILabel* hudLabel;
 @property (nonatomic, retain) UIImage* corlorIMG;
 @property (nonatomic, assign) CGFloat curCount;
+@property (nonatomic, assign) BOOL isInterrupted;
 #define MAX_RECORD_TIME 20
 
 @end
@@ -1605,6 +1606,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 //UIControlEventTouchDown
 - (void)didBeginVoice {
     self.curCount = 0;
+    self.isInterrupted = NO;
     self.date = [NSDate date];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [[KKAudioComponent sharedAudioComponent] beginRecording];
@@ -1643,6 +1645,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 //UIControlEventTouchUpInside
 - (void)didCommitVoice {
+    if (self.isInterrupted) {
+        return;
+    }
     
     double timeSpent = [[NSDate date] timeIntervalSinceDate:self.date];
     if (timeSpent < 1) {
@@ -1697,6 +1702,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 //UIControlEventTouchDragEnter
 - (void)continueRecordVoice{
+    
     self.pressSpeek.selected = NO;
     self.timer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(updateVolumn) userInfo:nil repeats:YES];
     
@@ -1756,7 +1762,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     }else if (self.curCount >= MAX_RECORD_TIME){
         //时间到
         [self didCommitVoice];
-//        [self.pressSpeek removeTarget:self action:@selector(didCommitVoice) forControlEvents:UIControlEventTouchUpInside];
+        self.isInterrupted = YES;//标志位表示被强制结束录音
     }
     self.curCount += 0.1f; //计时器每0.1秒调用一次, 这儿进行计时
     
