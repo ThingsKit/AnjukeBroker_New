@@ -680,7 +680,11 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         {
             NSData *imgData = nil;
             if (self.isBroker) {
-                imgData = [NSData dataWithContentsOfFile:mappedMessage.imgPath];
+                if (mappedMessage.imgPath.length == 0) {
+                    imgData = [NSData dataWithContentsOfFile:mappedMessage.thumbnailImgPath];
+                } else {
+                    imgData = [NSData dataWithContentsOfFile:mappedMessage.imgPath];
+                }
             }else {
                 imgData = [NSData dataWithContentsOfFile:mappedMessage.thumbnailImgPath];
             }
