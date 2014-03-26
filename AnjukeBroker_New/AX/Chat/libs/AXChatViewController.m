@@ -203,6 +203,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     [menu setMenuVisible:NO animated:YES];
 
     [[AXChatMessageCenter defaultMessageCenter] didLeaveChattingList];
+    [self cancelKKAudioPlaying];
 }
 
 - (void)viewDidLoad
