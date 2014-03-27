@@ -1166,6 +1166,12 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         [[AXChatMessageCenter defaultMessageCenter] reSendImage:axCell.identifyString withCompeletionBlock:self.finishReSendMessageBlock];
     }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
         [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+    }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeLocation)]){
+        [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+    }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeProperty)]){
+        [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+    }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeVoice)]){
+        [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
     }else {
         
     }
@@ -1413,7 +1419,11 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         mappedMessage.isRemoved = NO;
         mappedMessage.messageType = @(AXMessageTypeVoice);
         mappedMessage.imgPath = [KKAudioComponent relativeFilePathWithFileName:dict[@"FILE_NAME"] ofType:@"wav"];
-        [[AXChatMessageCenter defaultMessageCenter] sendVoice:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
+        if (self.friendPerson && self.friendPerson.userType == AXPersonTypePublic) {
+            [[AXChatMessageCenter defaultMessageCenter] sendVoiceToPublic:mappedMessage willSendMessage:self.finishSendMessageBlock];
+        }else{
+            [[AXChatMessageCenter defaultMessageCenter] sendVoice:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
+        }
     }
 }
 #pragma mark - Utilities

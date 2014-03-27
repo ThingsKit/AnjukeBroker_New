@@ -212,7 +212,11 @@
     mappedMessageProp.isRead = YES;
     mappedMessageProp.isRemoved = NO;
     mappedMessageProp.messageType = [NSNumber numberWithInteger:AXMessageTypeProperty];
-    [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
+    if (self.friendPerson && self.friendPerson.userType == AXPersonTypePublic) {
+        [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
+    } else {
+        [[AXChatMessageCenter defaultMessageCenter] sendMessageToPublic:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
+    }
 }
 #pragma mark - DataSouce Method
 - (NSString *)checkFriendUid
@@ -274,8 +278,11 @@
         mappedMessage.isRemoved = NO;
         mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
         mappedMessage.imgPath = path;
-        [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
-        
+        if (self.friendPerson && self.friendPerson.userType == AXPersonTypePublic) {
+            [[AXChatMessageCenter defaultMessageCenter] sendImageToPublic:mappedMessage willSendMessage:self.finishSendMessageBlock];
+        } else {
+            [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
+        }
     }
     [self dismissViewControllerAnimated:YES completion:nil];
     
@@ -307,7 +314,12 @@
     mappedMessage.isRemoved = NO;
     mappedMessage.messageType = @(AXMessageTypePic);
     mappedMessage.imgPath = path;
-    [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
+    
+    if (self.friendPerson && self.friendPerson.userType == AXPersonTypePublic) {
+        [[AXChatMessageCenter defaultMessageCenter] sendImageToPublic:mappedMessage willSendMessage:self.finishSendMessageBlock];
+    } else {
+        [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
+    }
     
     //        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
     //        NSDictionary *imageData = @{@"messageType":@"image",@"content":image,@"messageSource":@"incoming"};
@@ -482,7 +494,11 @@
     mappedMessageProp.isRead = YES;
     mappedMessageProp.isRemoved = NO;
     mappedMessageProp.messageType = [NSNumber numberWithInteger:AXMessageTypeLocation];
-    [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
+    if (self.friendPerson && self.friendPerson.userType == AXPersonTypePublic) {
+        [[AXChatMessageCenter defaultMessageCenter] sendMessageToPublic:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
+    }else {
+        [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
+    }
 }
 
 @end
