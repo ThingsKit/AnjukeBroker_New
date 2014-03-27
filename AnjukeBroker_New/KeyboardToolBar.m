@@ -10,6 +10,7 @@
 
 @implementation KeyboardToolBar
 @synthesize clickDelagate;
+@synthesize leftButton, rightButton;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -23,6 +24,7 @@
         [preBtn setTitle:@"上一项" forState:UIControlStateNormal];
         [preBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         preBtn.backgroundColor = [UIColor clearColor];
+        self.leftButton = preBtn;
         [preBtn addTarget:self action:@selector(doPre) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:preBtn];
         
@@ -31,6 +33,7 @@
         [nextBtn setTitle:@"下一项" forState:UIControlStateNormal];
         [nextBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         nextBtn.backgroundColor = [UIColor clearColor];
+        self.rightButton = nextBtn;
         [nextBtn addTarget:self action:@selector(doNext) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:nextBtn];
         
@@ -49,13 +52,13 @@
 }
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect
+ {
+ // Drawing code
+ }
+ */
 
 - (void)doPre {
     if ([self.clickDelagate respondsToSelector:@selector(preBtnClicked)]) {
@@ -73,6 +76,16 @@
     if ([self.clickDelagate respondsToSelector:@selector(finishBtnClicked)]) {
         [self.clickDelagate finishBtnClicked];
     }
+}
+
+- (void)setNormalWithButton:(UIButton *)btn {
+    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    btn.enabled = YES;
+}
+
+- (void)setDisableWithButton:(UIButton *)btn {
+    [btn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    btn.enabled = NO;
 }
 
 @end

@@ -102,7 +102,7 @@ typedef enum {
     [super viewWillAppear:animated];
     
     //修改为每次显示发房页面都隐藏
-//    [self pickerDisappear];
+    //    [self pickerDisappear];
     
     //房型图是否多图的icon显示
     BOOL show = NO;
@@ -168,6 +168,10 @@ typedef enum {
     [self drawFooter];
     [self initCellDataSource];
     
+    self.pickerView = [[RTInputPickerView alloc] initWithFrame:CGRectMake(0, [self currentViewHeight] - RT_PICKERVIEW_H - 0, [self windowWidth], RT_PICKERVIEW_H)];
+    
+    self.toolBar = [[KeyboardToolBar alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], NAV_BAT_H)];
+    self.toolBar.clickDelagate = self;
 }
 
 - (void)initCellDataSource {
@@ -721,7 +725,7 @@ typedef enum {
     [self showAlertViewWithPrice:self.propertyPrice];
 }
 
-#pragma mark - Input Method 
+#pragma mark - Input Method
 
 //**根据当前输入焦点行移动tableView显示
 - (void)tableViewStyleChangeForInput:(BOOL)isInput {
@@ -745,7 +749,7 @@ typedef enum {
 
 - (void)textFieldAllResign { //全部收起键盘
     [self.inputingTextF resignFirstResponder];
-//    [self.fileNoTextF resignFirstResponder];
+    //    [self.fileNoTextF resignFirstResponder];
 }
 
 - (int)transformIndexWithIndexPath:(NSIndexPath *)indexPath { //将indexPath转换为cellDataSource对应的cell的indexTag
@@ -780,7 +784,7 @@ typedef enum {
                 case 3:
                     index = 5;
                     break;
-
+                    
                 default:
                     break;
             }
@@ -811,7 +815,7 @@ typedef enum {
             }
         }
             break;
-  
+            
         default:
             break;
     }
@@ -924,7 +928,7 @@ typedef enum {
         
         [(AnjukeEditableCell *)[[self.cellDataSource inputCellArray] objectAtIndex:self.selectedIndex] setInputed_RowAtCom2:index3];
     }
-
+    
     //顺便写入传参数值。。。以后优化代码
     if (self.isHaozu) {
         switch (self.selectedIndex) { //二手房
@@ -1182,6 +1186,21 @@ typedef enum {
 
 #pragma mark - BrokerPickerDelegate
 
+- (void)setToolBarLeftBtnDisable {
+    [self.toolBar setDisableWithButton:self.toolBar.leftButton];
+    [self.toolBar setNormalWithButton:self.toolBar.rightButton];
+}
+
+- (void)setToolBarRightBtnDisable {
+    [self.toolBar setNormalWithButton:self.toolBar.leftButton];
+    [self.toolBar setDisableWithButton:self.toolBar.rightButton];
+}
+
+- (void)setBothToolBarBtnNormal {
+    [self.toolBar setNormalWithButton:self.toolBar.leftButton];
+    [self.toolBar setNormalWithButton:self.toolBar.rightButton];
+}
+
 - (void)finishBtnClicked { //点击完成，输入框组件消失
     self.isTBBtnPressedToShowKeyboard = NO;
     
@@ -1199,7 +1218,7 @@ typedef enum {
 
 - (void)preBtnClicked { //点击”上一个“，检查输入样式并做转换，tableView下移
     self.isTBBtnPressedToShowKeyboard = YES;
-
+    
     if (![self isInputOK]) {
         return;
     }
@@ -1207,7 +1226,7 @@ typedef enum {
     if (self.selectedSection == 1) { //滚轮输入范围
         self.inputingTextF.text = [self getInputStringAndSetProperty];
     }
-
+    
     BOOL isPicker = NO;
     
     //向下跳转，selectIndex+1，section和row根据跳转的位置向下递增
@@ -1215,6 +1234,7 @@ typedef enum {
         switch (self.selectedIndex) {
             case HZ_TEXT_PRICE:
             {
+                [self setToolBarLeftBtnDisable];
                 return; //不做处理
             }
                 break;
@@ -1223,6 +1243,10 @@ typedef enum {
                 self.selectedIndex --;
                 self.selectedRow = 0;
                 self.selectedSection = 0;
+                
+                [self setToolBarLeftBtnDisable];
+                [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
+                return;
             }
                 break;
             case HZ_PICKER_FLOORS: //楼层
@@ -1257,6 +1281,7 @@ typedef enum {
         switch (self.selectedIndex) {
             case AJK_TEXT_PRICE:
             {
+                [self setToolBarLeftBtnDisable];
                 return; //不做处理
             }
                 break;
@@ -1265,6 +1290,10 @@ typedef enum {
                 self.selectedIndex --;
                 self.selectedRow = 0;
                 self.selectedSection = 0;
+                
+                [self setToolBarLeftBtnDisable];
+                [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
+                return;
             }
                 break;
             case AJK_PICKER_FLOORS: //楼层
@@ -1288,6 +1317,7 @@ typedef enum {
         }
     }
     
+    [self setBothToolBarBtnNormal];
     [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
     
 }
@@ -1304,7 +1334,7 @@ typedef enum {
     }
     
     BOOL isPicker = NO;
-
+    
     //向下跳转，selectIndex+1，section和row根据跳转的位置向下递增
     if (self.isHaozu) {
         switch (self.selectedIndex) {
@@ -1337,14 +1367,19 @@ typedef enum {
                 isPicker = YES;
                 self.selectedRow = 3;
                 self.selectedSection = 1;
+                
+                [self setToolBarRightBtnDisable];
+                [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
+                return;
             }
                 break;
             case HZ_PICKER_RENTTYPE: //出租方式
             {
-//                return; //不做处理
+                [self setToolBarRightBtnDisable];
+                return; //不做处理
             }
                 break;
-
+                
             default:
                 break;
         }
@@ -1372,19 +1407,25 @@ typedef enum {
                 isPicker = YES;
                 self.selectedRow = 2;
                 self.selectedSection = 1;
+                
+                [self setToolBarRightBtnDisable];
+                [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
+                return;
             }
                 break;
             case AJK_PICKER_FITMENT: //装修
             {
-//                return; //不做处理
+                [self setToolBarRightBtnDisable];
+                return; //不做处理
             }
                 break;
-            
+                
             default:
                 break;
         }
     }
     
+    [self setBothToolBarBtnNormal];
     [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
     
 }
@@ -1408,6 +1449,19 @@ typedef enum {
         if (self.selectedSection == 1) {
             isPicker = YES;
         }
+        
+        if (self.selectedIndex == 0) {
+            [self setToolBarLeftBtnDisable];
+        }
+        else if (self.selectedIndex == AJK_PICKER_FITMENT && !self.isHaozu) {
+            [self setToolBarRightBtnDisable];
+        }
+        else if (self.selectedIndex == HZ_PICKER_RENTTYPE && self.isHaozu) {
+            [self setToolBarRightBtnDisable];
+        }
+        else
+            [self setBothToolBarBtnNormal];
+        
         [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
         
     }
@@ -1447,7 +1501,7 @@ typedef enum {
     self.tableViewList.tableFooterView = self.photoBGView; //状态改变后需要重新赋值footerView
 }
 
-#pragma mark - PublishBigImageViewClickDelegate 
+#pragma mark - PublishBigImageViewClickDelegate
 
 - (void)viewDidFinishWithImageArr:(NSArray *)imageArray {
     self.roomImageArray = [NSMutableArray arrayWithArray:imageArray];
@@ -1471,9 +1525,9 @@ typedef enum {
     UIImage *image = nil;
     UIImage *newSizeImage = nil;
     
-//    for (NSString *str  in [info allKeys]) {
-//        DLog(@"pickerInfo Keys %@",str);
-//    }
+    //    for (NSString *str  in [info allKeys]) {
+    //        DLog(@"pickerInfo Keys %@",str);
+    //    }
     
     if (self.isTakePhoto) {
         image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
@@ -1540,8 +1594,8 @@ typedef enum {
     DLog(@"拍摄 [%d]", [[self.imageOverLay imgArray] count]);
     
     if (![self canAddMoreImageWithAddCount:count]) {
-//        UIAlertView *pickerAlert = [[UIAlertView alloc] initWithTitle:nil message:[PhotoManager getImageMaxAlertStringForHaozu:self.isHaozu isHouseType:NO] delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
-//        [pickerAlert show];
+        //        UIAlertView *pickerAlert = [[UIAlertView alloc] initWithTitle:nil message:[PhotoManager getImageMaxAlertStringForHaozu:self.isHaozu isHouseType:NO] delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
+        //        [pickerAlert show];
         
         return;
     }

@@ -19,5 +19,10 @@
 @interface KeyboardToolBar : UIToolbar
 
 @property (nonatomic, assign) id <KeyboardBarClickDelegate> clickDelagate;
+@property (nonatomic, strong) UIButton *leftButton;
+@property (nonatomic, strong) UIButton *rightButton;
+
+- (void)setNormalWithButton:(UIButton *)btn;
+- (void)setDisableWithButton:(UIButton *)btn;
 
 @end
