@@ -136,7 +136,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         _hasMore = NO;
         self.isVoiceInput = NO;
         _contentValidator = [[AXChatContentValidator alloc] init];
-        
+        _playingIdentifier = @"";
     }
     return self;
 }
@@ -1246,7 +1246,6 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     if ([self.playingIdentifier isEqualToString:@""]) {
         return;
     }
-    
     [[KKAudioComponent sharedAudioComponent] cancelPlaying];
     NSInteger index = [self.identifierData indexOfObject:self.playingIdentifier];
     self.playingIdentifier = @"";
@@ -1967,6 +1966,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     self.messageInputView.sendButton.enabled = NO;
 }
 - (void)didClickMapCell:(NSDictionary *)dic {
+
+}
+-(void)loadMapSiteMessage:(NSDictionary *)mapSiteDic {
 
 }
 @end

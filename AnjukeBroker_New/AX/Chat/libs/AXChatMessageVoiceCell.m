@@ -62,12 +62,6 @@
     [self.voiceControl addGestureRecognizer:recognizer];
 }
 
-- (void)dealloc {
-    [self endPlay];
-//    [self.timer invalidate];
-//    self.timer = nil;
-}
-
 - (void)configWithData:(NSDictionary *)data
 {
     [super configWithData:data] ;
