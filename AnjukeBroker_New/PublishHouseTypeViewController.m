@@ -206,6 +206,11 @@
     }
     
     [self drawFooter];
+    
+    self.pickerView = [[RTInputPickerView alloc] initWithFrame:CGRectMake(0, [self currentViewHeight] - RT_PICKERVIEW_H - 0, [self windowWidth], RT_PICKERVIEW_H)];
+
+    self.toolBar = [[KeyboardToolBar alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], NAV_BAT_H)];
+    self.toolBar.clickDelagate = self;
 }
 
 - (void)drawFooter {
@@ -493,6 +498,17 @@
 }
 
 #pragma mark - KeyboardBarClickDelegate
+
+- (void)setToolBarLeftBtnDisable {
+    [self.toolBar setDisableWithButton:self.toolBar.leftButton];
+    [self.toolBar setNormalWithButton:self.toolBar.rightButton];
+}
+
+- (void)setToolBarRightBtnDisable {
+    [self.toolBar setNormalWithButton:self.toolBar.leftButton];
+    [self.toolBar setDisableWithButton:self.toolBar.rightButton];
+}
+
 - (void)finishBtnClicked { //点击完成，输入框组件消失
     self.inputingTextF.text = [self getInputStringAndSetProperty];
     [self pickerDisappear];
@@ -510,6 +526,7 @@
         self.inputingTextF = self.houseTypeTF;
         [self showPicker:YES];
         
+        [self setToolBarLeftBtnDisable];
     }
 }
 
@@ -524,6 +541,8 @@
         
         self.inputingTextF = self.exposureTF;
         [self showPicker:NO];
+        
+        [self setToolBarRightBtnDisable];
     }
 }
 
@@ -728,10 +747,14 @@
         self.selectedIndex = INDEX_HOUSETYPE;
         self.inputingTextF = self.houseTypeTF;
         isHouseType = YES;
+        
+        [self setToolBarLeftBtnDisable];
     }
     else if ([textField isEqual:self.exposureTF]) {
         self.selectedIndex = INDEX_EXPOSURE;
         self.inputingTextF = self.exposureTF;
+        
+        [self setToolBarRightBtnDisable];
     }
     
     [self showPicker:isHouseType];
