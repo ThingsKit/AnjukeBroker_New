@@ -49,9 +49,9 @@
 {
     if (isBroker) {
         if (highlighted) {
-            return [UIImage imageNamed:@"anjuke_icon_chat4.png"];
-        } else {
             return [UIImage imageNamed:@"anjuke_icon_chat3.png"];
+        } else {
+            return [UIImage imageNamed:@"anjuke_icon_chat2.png"];
         }
     } else {
         if (highlighted) {

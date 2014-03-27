@@ -838,7 +838,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeText)]) {
         CGSize sz = [dic[@"mas"] sizeConstrainedToSize:CGSizeMake(kLabelWidth, CGFLOAT_MAX)];
         CGFloat rowHeight = sz.height + 2*kLabelVMargin + 20;
-        return rowHeight +20;
+        return rowHeight;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypePic)]) {
         if ([AXChatMessageImageCell sizeOFImg:dic[@"content"]].size.height < 30.0f) {
             return 65.0f;

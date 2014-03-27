@@ -54,17 +54,15 @@
 
 - (void)setBubbleIMGByImgFrame:(CGRect) rect{
     if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-      
-        self.receiveImage.frame = CGRectMake(kJSAvatarSize +30, 20, rect.size.width, rect.size.height);
+        self.receiveImage.frame = CGRectMake(kJSAvatarSize +30, 12, rect.size.width, rect.size.height);
         if (self.isBroker) {
-            self.bubbleIMG.frame = CGRectMake(self.receiveImage.frame.origin.x - 8.0f, 19.0f, rect.size.width + 10.0f, rect.size.height + 2.0f);
+            self.bubbleIMG.frame = CGRectMake(self.receiveImage.frame.origin.x - 9.0f, 10.0f, rect.size.width + 9.0f + 2.0f, rect.size.height + 4.0f);
         } else {
-            self.bubbleIMG.frame = CGRectMake(self.receiveImage.frame.origin.x - 7.0f, 18.0f, rect.size.width + 9.0f, rect.size.height + 4.0f);
+            self.bubbleIMG.frame = CGRectMake(self.receiveImage.frame.origin.x - 7.0f, 10.0f, rect.size.width + 9.0f, rect.size.height + 4.0f);
         }
     } else {
-        self.receiveImage.frame = CGRectMake(320.0f - kJSAvatarSize - 20.0f - rect.size.width - 1.0f, 20.0f, rect.size.width, rect.size.height);
-        self.bubbleIMG.frame = CGRectMake(self.receiveImage.frame.origin.x - 1, 19.0f, rect.size.width + 3.0f + 5.0f , rect.size.height + 2.0f);
-        
+        self.receiveImage.frame = CGRectMake(320.0f - kJSAvatarSize - 24.0f - rect.size.width - 2, 12.0f, rect.size.width, rect.size.height);
+        self.bubbleIMG.frame = CGRectMake(self.receiveImage.frame.origin.x - 2.0f, 10.0f, rect.size.width + 9.0f + 2.0f, rect.size.height + 4.0f);
     }
 }
 
