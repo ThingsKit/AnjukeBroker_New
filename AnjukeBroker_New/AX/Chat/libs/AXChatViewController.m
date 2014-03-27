@@ -1195,15 +1195,17 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     }
     // 更新数据库
     NSMutableDictionary *data = [message.content JSONValue];
-    if (data && data[@"hadDone"]) {
-        data[@"hadDone"] = @"0";
-    }
+    if (data && !data[@"hadDone"]) {
+        data[@"hadDone"] = @"1";
         message.content = [data JSONRepresentation];
         NSMutableDictionary *dict = self.cellDict[message.identifier];
         if (dict) {
             dict[@"content"] = [data JSONRepresentation];
             self.cellDict[message.identifier] = dict;
         }
+        
+        [[AXChatMessageCenter defaultMessageCenter] updateMessage:message];
+    }
         
         [[AXChatMessageCenter defaultMessageCenter] updateMessage:message];
     

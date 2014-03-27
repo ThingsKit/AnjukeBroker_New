@@ -108,6 +108,7 @@
     frame.origin.y += 80.0f;
     frame.size.height -= 80.0f;
     self.locationLabel.frame = frame;
+    self.locationLabel.textAlignment = NSTextAlignmentCenter;
     self.locationLabel.backgroundColor = [UIColor blackColor];
     self.locationLabel.alpha = 0.7;
     self.locationLabel.textColor = [UIColor whiteColor];

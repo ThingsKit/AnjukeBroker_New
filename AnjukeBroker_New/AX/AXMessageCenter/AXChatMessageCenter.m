@@ -644,6 +644,17 @@ static NSString * const kLastVersionApiSite = @"http://chatapi.dev.anjuke.com";
     }
 }
 
+- (void)didFailedSendMessage:(AXMappedMessage *)failedMessage
+{
+    [self.dataCenter didFailSendMessageWithIdentifier:failedMessage.identifier];
+    _finishSendMessageBlock = self.blockDictionary[failedMessage.identifier];
+    if (_finishSendMessageBlock) {
+        _finishSendMessageBlock(@[failedMessage],AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeFailed);
+    }
+    [self.blockDictionary removeObjectForKey:failedMessage.identifier];
+    
+}
+
 - (void)cancelAllRequest
 {
     [[RTApiRequestProxy sharedInstance] cancelAllRequest];
@@ -1234,6 +1245,9 @@ static NSString * const kLastVersionApiSite = @"http://chatapi.dev.anjuke.com";
                 if (receiveDic[@"status"] && [receiveDic[@"status"] isEqualToString:@"ok"]) {
                     NSDictionary *image = receiveDic[@"image"];
                     imageUrl = [NSString stringWithFormat:@"http://pic%@.ajkimg.com/m/%@/%@x%@.jpg",image[@"host"],image[@"id"],image[@"width"],image[@"height"]];
+                }else if (receiveDic == nil || [receiveDic[@"status"] isEqualToString:@"ERROR"]) {
+                    [self didFailedSendMessage:dataMessage];
+                    return ;
                 }
                 
                 dataMessage.imgUrl = imageUrl;
@@ -1268,8 +1282,8 @@ static NSString * const kLastVersionApiSite = @"http://chatapi.dev.anjuke.com";
                 NSDictionary *receiveDic = [NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:&error1];
                 if (receiveDic[@"status"] && [receiveDic[@"status"] isEqualToString:@"OK"] && receiveDic[@"result"] && receiveDic[@"result"][@"file_id"]) {
                     voiceID = receiveDic[@"result"][@"file_id"];
-                }else{
-#warning waiting to finish!
+                }else if (receiveDic == nil || (receiveDic[@"status"] && [receiveDic[@"status"] isEqualToString:@"ERROR"])){
+                    [self didFailedSendMessage:dataMessage];
                     return ;
                 }
                 NSData *data = [dataMessage.content dataUsingEncoding:NSUTF8StringEncoding];
@@ -1361,9 +1375,7 @@ static NSString * const kLastVersionApiSite = @"http://chatapi.dev.anjuke.com";
         [self.sendImageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             AXMappedMessage *dataMessage = (AXMappedMessage *)obj;
             if ([dataMessage.identifier isEqualToString:userInfo[@"identify"]]) {
-                [self.dataCenter didFailSendMessageWithIdentifier:dataMessage.identifier];
-                _finishSendMessageBlock = self.blockDictionary[dataMessage.identifier];
-                _finishSendMessageBlock(@[dataMessage],AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeFailed);
+                [self didFailedSendMessage:dataMessage];
             }
         }];
     }
