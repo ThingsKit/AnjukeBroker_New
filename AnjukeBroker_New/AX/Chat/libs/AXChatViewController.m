@@ -112,6 +112,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 @property (nonatomic, retain) UIImageView* cancelBackgroundImgaeView;
 @property (nonatomic, retain) NSDate* date;
 @property (nonatomic, retain) UILabel* hudLabel;
+@property (nonatomic, retain) UILabel* countDownLabel;
 @property (nonatomic, retain) UIImage* corlorIMG;
 @property (nonatomic, assign) CGFloat curCount;
 @property (nonatomic, assign) BOOL isInterrupted;
@@ -313,11 +314,11 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         [self.pressSpeek addTarget:self action:@selector(continueRecordVoice) forControlEvents:UIControlEventTouchDragEnter];
         [self.pressSpeek addTarget:self action:@selector(willCancelVoice) forControlEvents:UIControlEventTouchDragExit];
         
-        [self.pressSpeek setTitle:@"按住 说话" forState:UIControlStateNormal];
+        [self.pressSpeek setTitle:@"按住说话" forState:UIControlStateNormal];
         [self.pressSpeek setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [self.pressSpeek setTitle:@"松开 结束" forState:UIControlStateHighlighted];
+        [self.pressSpeek setTitle:@"松开结束" forState:UIControlStateHighlighted];
         [self.pressSpeek setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
-        [self.pressSpeek setTitle:@"松开 结束" forState:UIControlStateSelected];
+        [self.pressSpeek setTitle:@"松开结束" forState:UIControlStateSelected];
         [self.pressSpeek setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
         
         UIImage* imageNormal = [UIImage imageNamed:@"anjuke_icon_input_voice"];
@@ -1603,21 +1604,32 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     if (self.backgroundImageView == nil) {
         self.backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 310/2, 290/2)];
         
-        self.microphoneImageView = [[UIImageView alloc] initWithFrame:CGRectMake(310/2/2 - 88/2/2, 290/2/2-170/2/2, 88/2, 145/2)];
-        self.highlightedMicrophoneImageView = [[UIImageView alloc] initWithFrame:CGRectMake(310/2/2 - 88/2/2, 290/2/2-170/2/2, 88/2, 145/2)];
+        self.microphoneImageView = [[UIImageView alloc] initWithFrame:CGRectMake(310/2/2 - 88/2/2, 290/2/2-170/2/2 - 10, 88/2, 145/2)];
+        self.highlightedMicrophoneImageView = [[UIImageView alloc] initWithFrame:CGRectMake(310/2/2 - 88/2/2, 290/2/2-170/2/2 - 10, 88/2, 145/2)];
         
-        self.dustbinImageView = [[UIImageView alloc] initWithFrame:CGRectMake(310/2/2 - 128/2/2, 290/2/2-150/2/2, 128/2, 121/2)];
+        self.dustbinImageView = [[UIImageView alloc] initWithFrame:CGRectMake(310/2/2 - 128/2/2, 290/2/2-150/2/2 - 10, 128/2, 121/2)];
         
-        self.hudLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 120, 155, 20)];
+        self.hudLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 115, 155, 20)];
         self.hudLabel.font = [UIFont systemFontOfSize:15];
         self.hudLabel.backgroundColor = [UIColor clearColor];
         self.hudLabel.textColor = [UIColor whiteColor];
         self.hudLabel.textAlignment = NSTextAlignmentCenter;
         
+        self.countDownLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 160, 145, 25)];
+        self.countDownLabel.font = [UIFont systemFontOfSize:15];
+        self.countDownLabel.layer.cornerRadius = 5;
+        self.countDownLabel.layer.masksToBounds = YES;
+        self.countDownLabel.alpha = 0.7;
+        self.countDownLabel.backgroundColor = [UIColor blackColor];
+        self.countDownLabel.textColor = [UIColor whiteColor];
+        self.countDownLabel.textAlignment = NSTextAlignmentCenter;
+        self.countDownLabel.hidden = YES;
+        
         [self.backgroundImageView addSubview:self.microphoneImageView];
         [self.backgroundImageView addSubview:self.highlightedMicrophoneImageView];
         [self.backgroundImageView addSubview:self.dustbinImageView];
         [self.backgroundImageView addSubview:self.hudLabel];
+        [self.backgroundImageView addSubview:self.countDownLabel];
     }
     self.dustbinImageView.image = nil;
     self.microphoneImageView.image = nil;
@@ -1626,12 +1638,14 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     
     self.microphoneImageView.image = [UIImage imageNamed:@"wl_voice_icon_voicestatu"];
     self.backgroundImageView.image = [UIImage imageNamed:@"wl_voice_tip_bg"];
-    [self showHUDWithTitle:@"正在录音..." CustomView:self.backgroundImageView IsDim:YES];
+    [self showHUDWithTitle:@"手指上滑, 取消发送" CustomView:self.backgroundImageView IsDim:NO]; //取消蒙版
     
 }
 
 //UIControlEventTouchUpInside
 - (void)didCommitVoice {
+    self.countDownLabel.hidden = YES;
+    
     if (self.isInterrupted) {
         return;
     }
@@ -1659,6 +1673,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 //UIControlEventTouchUpOutside
 - (void)didCancelVoice{
+    self.countDownLabel.hidden = YES;
     
     self.pressSpeek.selected = NO;
     [[KKAudioComponent sharedAudioComponent] cancelRecording];
@@ -1672,6 +1687,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 - (void)willCancelVoice {
     [self.timer invalidate];
     
+    self.countDownLabel.hidden = YES;
     self.pressSpeek.selected = YES;
     
     self.dustbinImageView.image = nil;
@@ -1682,7 +1698,8 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     self.dustbinImageView.image = [UIImage imageNamed:@"wl_voice_icon_dustbin"];
     self.backgroundImageView.image = [UIImage imageNamed:@"wl_voice_tip_bg2"];
 
-    self.hudLabel.text = @"松开 结束";
+    self.hudLabel.text = @"手指松开, 取消发送";
+    [self.pressSpeek setTitle:@"手指松开, 取消发送" forState:UIControlStateSelected];
     
 }
 
@@ -1701,7 +1718,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     self.microphoneImageView.image = [UIImage imageNamed:@"wl_voice_icon_voicestatu"];
     self.backgroundImageView.image = [UIImage imageNamed:@"wl_voice_tip_bg"];
     
-    self.hudLabel.text = @"正在录音...";
+    self.hudLabel.text = @"手指上滑, 取消发送";
 }
 
 
@@ -1729,6 +1746,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 
 - (void)hideHUD {
+    self.countDownLabel.hidden = YES;
     [self.hud hide:YES];
 }
 
@@ -1739,13 +1757,14 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     int value = (0.8 - lowPassResults) * 60;
     
     UIImage* image = [UIImage imageNamed:@"wl_voice_icon_voicestatu1"];
-    self.highlightedMicrophoneImageView.frame = CGRectMake(310/2/2 - 88/2/2, 290/2/2-170/2/2 + value, 88/2, 145/2 -value); //变更frame
+    self.highlightedMicrophoneImageView.frame = CGRectMake(310/2/2 - 88/2/2, 290/2/2-170/2/2 + value -10, 88/2, 145/2 -value); //变更frame
     CGRect rect = CGRectMake(0, value*2, 88, 145 - value*2);//创建矩形框, retina图像需要*2
     self.highlightedMicrophoneImageView.image = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([image CGImage], rect)];
     
     if (self.curCount >= MAX_RECORD_TIME - 10 && self.curCount < MAX_RECORD_TIME) {
         //剩下10秒
-        self.hudLabel.text = [NSString stringWithFormat:@"录音剩下:%d秒",(int)(MAX_RECORD_TIME - self.curCount)];
+        self.countDownLabel.hidden = NO;
+        self.countDownLabel.text = [NSString stringWithFormat:@"录音时间还剩%d秒",(int)(MAX_RECORD_TIME - self.curCount)];
     }else if (self.curCount >= MAX_RECORD_TIME){
         //时间到
         [self didCommitVoice];
