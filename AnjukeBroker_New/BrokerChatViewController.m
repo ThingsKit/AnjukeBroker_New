@@ -491,7 +491,7 @@
 #pragma MapViewControllerDelegate
 - (void)loadMapSiteMessage:(NSDictionary *)mapSiteDic {
     
-    NSDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:@{@"lat":mapSiteDic[@"lat"], @"lng":mapSiteDic[@"lng"], @"city":mapSiteDic[@"city"], @"region":mapSiteDic[@"region"], @"address":mapSiteDic[@"address"], @"jsonVersion":@"1", @"tradeType":[NSNumber numberWithInteger:AXMessageTypeLocation]}];
+    NSDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:@{@"google_lat":mapSiteDic[@"google_lat"], @"google_lng":mapSiteDic[@"google_lng"], @"city":mapSiteDic[@"city"], @"region":mapSiteDic[@"region"], @"address":mapSiteDic[@"address"],@"from_map_type":mapSiteDic[@"from_map_type"], @"jsonVersion":@"1", @"tradeType":[NSNumber numberWithInteger:AXMessageTypeLocation]}];
     
     AXMappedMessage *mappedMessageProp = [[AXMappedMessage alloc] init];
     mappedMessageProp.accountType = @"2";

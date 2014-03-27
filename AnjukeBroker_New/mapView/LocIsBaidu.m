@@ -10,7 +10,7 @@
 
 @implementation LocIsBaidu
 +(BOOL)locIsBaid:(NSDictionary *)dic{
-    if (dic[@"baidu_lat"] && ![dic[@"baidu_lat"] isEqualToString:@""]) {
+    if ([dic[@"from_map_type"] isEqualToString:@"baidu"] && ![dic[@"baidu_lat"] isEqualToString:@""]) {
         return YES;
     }else{
         return NO;

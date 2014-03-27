@@ -10,6 +10,8 @@
 #import "RegionAnnotation.h"
 #import "MapViewController.h"
 
+#define ISIOS6 ([[[[UIDevice currentDevice] systemVersion] substringToIndex:1] intValue]>=6)
+
 @implementation RegionAnnotationView
 @synthesize regionDetailView;
 @synthesize acSheetDelegate;
@@ -23,8 +25,41 @@
     if (self) {
         [self initUI];
         self.isBroker = YES;
+    
+        if (ISIOS6) {
+            [self addCallView];
+        }else{
+            [self performSelector:@selector(addCallView) withObject:nil afterDelay:0.5];
+        }
     }
     return self;
+}
+-(void)addCallView{
+    regionAnnotaytion = self.annotation;
+
+    self.canShowCallout = YES;
+    switch (regionAnnotaytion.annotationStatus) {
+        case ChooseLoading:
+            [self loadLoadingView];
+            break;
+        case ChooseSuc:
+            [self loadChooseSucView];
+            break;
+        case ChooseFail:
+            [self loadFailView];
+            break;
+        case NaviLoading:
+            [self loadNaviViewForLoading];
+            break;
+        case NaviSuc:
+            [self loadNaviView];
+            break;
+        case NaviFail:
+            [self loadNaviViewForFail];
+            break;
+        default:
+            break;
+    }
 }
 -(void)initUI{
     if (self.regionDetailView) {
@@ -36,7 +71,8 @@
     self.bgImgView.image = [[UIImage imageNamed:@"wl_map_icon_5.png"] stretchableImageWithLeftCapWidth:28 topCapHeight:16];
     [self.regionDetailView addSubview:self.bgImgView];
 }
-
+-(void)layoutSubviews{
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated{
     [super setSelected:selected animated:animated];
     regionAnnotaytion = self.annotation;
@@ -63,7 +99,7 @@
                 break;
             default:
                 break;
-        }        
+        }
     }
 }
 //选址获取地址加载
@@ -96,11 +132,11 @@
 -(void)loadingView:(BOOL)chooseLoad{
     [self initUI];
     if (chooseLoad) {
-        CGRect bgCgrect = CGRectMake(-60, -72, 120, 56);
+        CGRect bgCgrect = CGRectMake(-60, -80, 120, 56);
         self.regionDetailView.frame = bgCgrect;
         [self addConner:bgCgrect];
     }else{
-        CGRect anFrame = CGRectMake(0, 0, 185, 146);
+        CGRect anFrame = CGRectMake(0, 0, 185, 162);
         [self addCenter:anFrame];
         
         self.frame = anFrame;
@@ -141,13 +177,13 @@
     float width = ([self commpareWith:addSize1 size2:addSize2] <= 80) ? 80 : [self commpareWith:addSize1 size2:addSize2];
 
     if (chooseLoad) {
-        CGRect bgCgrect = CGRectMake(-(width+10)/2, -72, width+10, 56);
+        CGRect bgCgrect = CGRectMake(-(width+10)/2, -80, width+10, 56);
         
         regionDetailView.frame = bgCgrect;
         [self addConner:bgCgrect];
     
     }else{
-        CGRect anFrame = CGRectMake(0, 0, width+10+65, 146);
+        CGRect anFrame = CGRectMake(0, 0, width+10+65, 162);
         [self addCenter:anFrame];
         
         self.frame = anFrame;
@@ -183,12 +219,12 @@
 -(void)loadViewFail:(BOOL)chooseLoad{
     [self initUI];
     if (chooseLoad) {
-        CGRect bgCgrect = CGRectMake(-60, -72, 120, 56);
+        CGRect bgCgrect = CGRectMake(-60, -80, 120, 56);
         
         regionDetailView.frame = bgCgrect;
         [self addConner:bgCgrect];
     }else{
-        CGRect anFrame = CGRectMake(0, 0, 185, 146);
+        CGRect anFrame = CGRectMake(0, 0, 185, 162);
         [self addCenter:anFrame];
         
         self.frame = anFrame;
@@ -256,7 +292,7 @@
 //RegionAnnotationView中心定位
 -(void)addCenter:(CGRect)anFrame{
     UIImageView *locImg = [[UIImageView alloc] init];
-    locImg.frame = CGRectMake((anFrame.size.width-16)/2, (anFrame.size.height-34)/2, 16, 33);
+    locImg.frame = CGRectMake((anFrame.size.width-16)/2, 56, 16, 33);
     locImg.image = [UIImage imageNamed:@"anjuke_icon_itis_position.png"];
     [self.regionDetailView addSubview:locImg];
 }

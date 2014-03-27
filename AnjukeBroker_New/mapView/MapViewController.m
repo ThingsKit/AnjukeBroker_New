@@ -16,12 +16,13 @@
 
 #define SYSTEM_NAVIBAR_COLOR [UIColor colorWithRed:1 green:1 blue:1 alpha:1]
 #define ISIOS7 ([[[[UIDevice currentDevice] systemVersion] substringToIndex:1] intValue]>=7)
+#define ISIOS6 ([[[[UIDevice currentDevice] systemVersion] substringToIndex:1] intValue]>=6)
 #define STATUS_BAR_H 20
 #define NAV_BAT_H 44
 
 #define FRAME_WITH_NAV CGRectMake(0, 0, [self windowWidth], [self windowHeight] - STATUS_BAR_H - NAV_BAT_H)
 #define FRAME_USER_LOC CGRectMake(8, [self windowHeight] - STATUS_BAR_H - NAV_BAT_H-58, 40, 40)
-#define FRAME_CENTRE_LOC CGRectMake([self windowWidth]/2-8, ([self windowHeight] - STATUS_BAR_H - NAV_BAT_H-32)/2, 16, 33)
+#define FRAME_CENTRE_LOC CGRectMake([self windowWidth]/2-8, ([self windowHeight] - STATUS_BAR_H - NAV_BAT_H)/2-25, 16, 33)
 
 
 @interface MapViewController ()
@@ -146,16 +147,21 @@
     }else{
         [self getChangedLoc];
         CLLocation *loc = [[CLLocation alloc] initWithLatitude:naviCoordsGd.latitude longitude:naviCoordsGd.longitude];
-        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(naviCoordsGd, 200, 200);
+        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(naviCoordsGd, 500, 500);
         self.naviRegion = [self.regionMapView regionThatFits:viewRegion];
-        if (ISIOS7) {
-            [self.regionMapView setRegion:self.naviRegion animated:YES];
-        }else{
-            [self.regionMapView setRegion:self.naviRegion animated:NO];
-        }
         
+        [self.regionMapView setRegion:self.naviRegion animated:NO];
         [self showAnnotation:loc coord:naviCoordsGd];
+
+        if (!ISIOS6) {
+            [self performSelector:@selector(setRegionAgain) withObject:nil afterDelay:2.0];
+        }
     }
+}
+-(void)setRegionAgain{
+    MKCoordinateRegion viewRegion1 = MKCoordinateRegionMakeWithDistance(naviCoordsGd, 200, 200);
+    self.naviRegion = [self.regionMapView regionThatFits:viewRegion1];
+    [self.regionMapView setRegion:self.naviRegion animated:NO];
 }
 #pragma mark - 百度和火星经纬度转换
 -(void)getChangedLoc{
@@ -170,8 +176,8 @@
         naviCoordsGd.latitude = gdLat;
         naviCoordsGd.longitude = gdLon;
     }else{
-        naviCoordsGd.latitude = [[self.navDic objectForKey:@"lat"] doubleValue];
-        naviCoordsGd.longitude = [[self.navDic objectForKey:@"lng"] doubleValue];
+        naviCoordsGd.latitude = [[self.navDic objectForKey:@"google_lat"] doubleValue];
+        naviCoordsGd.longitude = [[self.navDic objectForKey:@"google_lng"] doubleValue];
         
         double bdLat,bdLon;
         bd_encrypt(naviCoordsGd.latitude, naviCoordsGd.longitude, &bdLat, &bdLon);
@@ -229,9 +235,10 @@
             [locationDic setValue:self.addressStr forKey:@"address"];
             [locationDic setValue:self.city forKey:@"city"];
             [locationDic setValue:self.regionStr forKey:@"region"];
-            [locationDic setValue:[NSString stringWithFormat:@"%.8f",lastCoords.latitude] forKey:@"lat"];
-            [locationDic setValue:[NSString stringWithFormat:@"%.8f",lastCoords.longitude] forKey:@"lng"];
-            
+            [locationDic setValue:[NSString stringWithFormat:@"%.8f",lastCoords.latitude] forKey:@"google_lat"];
+            [locationDic setValue:[NSString stringWithFormat:@"%.8f",lastCoords.longitude] forKey:@"google_lng"];
+            [locationDic setValue:@"google" forKey:@"from_map_type"];
+                        
            [self.siteDelegate loadMapSiteMessage:locationDic];
         }
         [self.navigationController popViewControllerAnimated:YES];
@@ -475,13 +482,12 @@
             return;
         }
         [self showAnnotation:userLocation.location coord:self.nowCoords];
-        if (ISIOS7) {
-            [self.regionMapView setRegion:self.userRegion animated:YES];
-        }else{
-            [self.regionMapView setRegion:self.userRegion animated:NO];
-        }
-
-        self.updateInt += 1;
+//        if (ISIOS7) {
+//            [self.regionMapView setRegion:self.userRegion animated:YES];
+//        }else{
+//            [self.regionMapView setRegion:self.userRegion animated:NO];
+//        }
+        [self.regionMapView setRegion:self.userRegion animated:NO];
     }
 }
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
@@ -498,7 +504,7 @@
         return;
     }
     self.centerCoordinate = mapView.region.center;
-
+    
     CLLocation *loc = [[CLLocation alloc] initWithLatitude:self.centerCoordinate.latitude longitude:self.centerCoordinate.longitude];
     
     [self showAnnotation:loc coord:centerCoordinate];
@@ -515,6 +521,7 @@
 }
 #pragma mark- 获取位置信息，并判断是否显示，block方法支持ios6及以上
 -(void)showAnnotation:(CLLocation *)location coord:(CLLocationCoordinate2D)coords{
+    self.updateInt += 1;
     if (self.mapType == RegionNavi && ![[self.navDic objectForKey:@"region"] isEqualToString:@""]) {
         loadStatus = 4;
         [self addAnnotationView:location coord:coords region:[self.navDic objectForKey:@"region"]  address:[self.navDic objectForKey:@"address"]];
@@ -533,11 +540,12 @@
         loadStatus = 3;
     }
     [self addAnnotationView:location coord:coords region:@"加载地址中..." address:nil];
-
+    
+    //CLGeocoder ios5之后支持
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *array, NSError *error) {
         //判断返回loc和当前最后一次请求loc的latitude是否一致，否则不返回位置信息
-        if (![[NSString stringWithFormat:@"%0.8f",[location coordinate].latitude ] isEqualToString:[NSString stringWithFormat:@"%0.8f",self.centerCoordinate.latitude]] && self.mapType == RegionChoose) {
+        if (![[NSString stringWithFormat:@"%0.8f",[location coordinate].latitude] isEqualToString:[NSString stringWithFormat:@"%0.8f",self.centerCoordinate.latitude]] && self.mapType == RegionChoose && self.updateInt >= 2) {
             [self.requestLocArr removeObject:[NSString stringWithFormat:@"%0.8f",[location coordinate].latitude]];
             return;
         }
@@ -600,7 +608,6 @@
     }else if (loadStatus == 5){
         self.regionAnnotation.annotationStatus = NaviFail;
     }
-    
     [self.regionMapView addAnnotation:self.regionAnnotation];
     [self.regionMapView selectAnnotation:self.regionAnnotation animated:YES];
 }
@@ -613,14 +620,13 @@
     if ([annotation isKindOfClass:[regionAnnotation class]]) {
         static NSString* identifier = @"MKAnnotationView";
         RegionAnnotationView *annotationView;
+        
         annotationView = (RegionAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
         
-        if (annotationView == nil) {
-            annotationView = [[RegionAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
-            annotationView.acSheetDelegate = self;
-        }
+        annotationView = [[RegionAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+        annotationView.acSheetDelegate = self;
         
-        annotationView.backgroundColor = [UIColor redColor];
+        annotationView.backgroundColor = [UIColor clearColor];
         
         annotationView.annotation = annotation;
         [annotationView setCanShowCallout:NO];
