@@ -1201,6 +1201,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 }
 - (void)didClickVoice:(AXChatMessageRootCell *)axCell
 {
+    if (![axCell isKindOfClass:[AXChatMessageRootCell class]]) {
+        return;
+    }
     // 更新数据库
     AXMappedMessage *message = axCell.rowData[@"mappedMessage"];
     NSString *preIdentifier = [self.playingIdentifier copy];

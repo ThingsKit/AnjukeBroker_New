@@ -118,11 +118,10 @@
 }
 
 - (void)didClickVoice {
-    [self startPlay];
-    self.voiceStatusImageView.hidden = YES;
     if (self.delegate && [self.delegate respondsToSelector:@selector(didClickVoice:)]) {
         [self.delegate didClickVoice:self];
     }
+        [self startPlay];
 }
 
 - (void)startPlay
@@ -150,7 +149,7 @@
         } else {
             type = @"user";
         }
-        
+        self.voiceImageView.image = nil;
         if (self.index == 0) {
             self.voiceImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"wl_chat_icon_%@voice_play1.png", type]];
             self.index = 1;
