@@ -482,11 +482,6 @@
             return;
         }
         [self showAnnotation:userLocation.location coord:self.nowCoords];
-//        if (ISIOS7) {
-//            [self.regionMapView setRegion:self.userRegion animated:YES];
-//        }else{
-//            [self.regionMapView setRegion:self.userRegion animated:NO];
-//        }
         [self.regionMapView setRegion:self.userRegion animated:NO];
     }
 }
@@ -559,7 +554,7 @@
             NSString *address = [placemark.addressDictionary objectForKey:@"Name"];
             self.regionStr = region;
             self.addressStr = address;
-            self.city = placemark.administrativeArea;
+            self.city = placemark.administrativeArea ? placemark.administrativeArea : @"";
             
             if (mapType == RegionChoose) {
                 loadStatus = 1;
@@ -623,18 +618,19 @@
         
         annotationView = (RegionAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
         
-        annotationView = [[RegionAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
-        annotationView.acSheetDelegate = self;
+        if (annotationView == nil) {
+            annotationView = [[RegionAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+            annotationView.acSheetDelegate = self;
+        }
         
         annotationView.backgroundColor = [UIColor clearColor];
-        
         annotationView.annotation = annotation;
         [annotationView setCanShowCallout:NO];
         
         return annotationView;
+    }else{
+        return nil;
     }
-
-    return nil;
 }
 -(void)naviClick{
     [self doAcSheet];

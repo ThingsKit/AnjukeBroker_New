@@ -36,7 +36,7 @@
 }
 -(void)addCallView{
     regionAnnotaytion = self.annotation;
-
+    
     self.canShowCallout = YES;
     switch (regionAnnotaytion.annotationStatus) {
         case ChooseLoading:

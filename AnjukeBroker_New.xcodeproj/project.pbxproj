@@ -1826,8 +1826,6 @@
 		273913D618DBCFE5003284AA /* img */ = {
 			isa = PBXGroup;
 			children = (
-				27A42B4918E2C4D300FADED3 /* RegionAnnotationView.h */,
-				27A42B4A18E2C4D300FADED3 /* RegionAnnotationView.m */,
 				27A42B4B18E2C4D300FADED3 /* wl_map_icon_1_press.png */,
 				27A42B4C18E2C4D300FADED3 /* wl_map_icon_1_press@2x.png */,
 				27A42B4D18E2C4D300FADED3 /* wl_map_icon_1.png */,
@@ -1856,6 +1854,8 @@
 				273913D618DBCFE5003284AA /* img */,
 				273913CC18DBCFD9003284AA /* MapViewController.h */,
 				273913CD18DBCFD9003284AA /* MapViewController.m */,
+				27A42B4918E2C4D300FADED3 /* RegionAnnotationView.h */,
+				27A42B4A18E2C4D300FADED3 /* RegionAnnotationView.m */,
 				273913CA18DBCFD9003284AA /* CheckInstalledMapAPP.h */,
 				273913CB18DBCFD9003284AA /* CheckInstalledMapAPP.m */,
 				273913D018DBCFD9003284AA /* RegionAnnotation.h */,
