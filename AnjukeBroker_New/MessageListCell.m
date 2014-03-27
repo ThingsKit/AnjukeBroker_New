@@ -165,7 +165,7 @@
 }
 
 - (void)setMessageShowWithData:(AXConversationListItem *)item {    
-    CGFloat messageLabelH = 20;
+    CGFloat messageLabelH = 15;
     CGFloat messageLabelW = 200;
     
     CGFloat iconW = 15;
