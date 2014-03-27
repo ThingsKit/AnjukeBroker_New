@@ -56,6 +56,11 @@
     self.activity.frame = CGRectMake(40, 3, 25, 25);
     //    [self.activityIndicatorView startAnimating];
     [self.locationLabel addSubview:self.activity];
+    
+    UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(handleLongPressGesture:)];
+    [recognizer setMinimumPressDuration:0.4f];
+    [self.mapControl addGestureRecognizer:recognizer];
 }
 
 - (void)configWithData:(NSDictionary *)data

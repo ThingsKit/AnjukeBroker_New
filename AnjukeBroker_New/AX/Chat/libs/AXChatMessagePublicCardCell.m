@@ -189,6 +189,11 @@ static CGFloat const AXChatPublicCardMarginLeft = 10;
     NSURL *url = [NSURL URLWithString:self.dataDict[@"img"]];
     [self.cardImageView setImageWithURL:url placeholderImage:nil];
     [self setBubbleIMGByMessageSorce];
+    
+    UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(handleLongPressGesture:)];
+    [recognizer setMinimumPressDuration:0.4f];
+    [self.cardControl addGestureRecognizer:recognizer];
 }
 
 - (void)setBubbleIMGByMessageSorce {

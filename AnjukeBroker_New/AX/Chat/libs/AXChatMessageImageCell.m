@@ -29,7 +29,10 @@
     [super initUI];
     self.receiveImage = [[UIImageView alloc] init];
     [self.contentView addSubview:self.receiveImage];
-    
+    UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(handleLongPressGesture:)];
+    [recognizer setMinimumPressDuration:0.4f];
+    [self.contentView addGestureRecognizer:recognizer];
 }
 
 - (void)configWithData:(NSDictionary *)data

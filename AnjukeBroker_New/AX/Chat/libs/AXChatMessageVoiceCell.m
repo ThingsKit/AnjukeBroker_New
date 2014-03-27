@@ -55,6 +55,11 @@
     self.voiceControl.backgroundColor = [UIColor clearColor];
     [self.voiceControl addTarget:self action:@selector(didClickVoice) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:self.voiceControl];
+    
+    UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(handleLongPressGesture:)];
+    [recognizer setMinimumPressDuration:0.4f];
+    [self.voiceControl addGestureRecognizer:recognizer];
 }
 
 - (void)dealloc {

@@ -109,8 +109,9 @@
 
 - (void)initLeftBar {
     UIButton *rightBar = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightBar.frame = CGRectMake(0, 0, 21, 5);
+    rightBar.frame = CGRectMake(0, 0, 40, 20);
     [rightBar setTitle:@"返回" forState:UIControlStateNormal];
+    [rightBar setTintColor:[UIColor whiteColor]];
     [rightBar addTarget:self  action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:rightBar];
     [self.navigationItem setLeftBarButtonItem:buttonItems];
