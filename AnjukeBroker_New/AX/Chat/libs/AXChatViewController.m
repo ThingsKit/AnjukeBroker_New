@@ -1117,6 +1117,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 #pragma mark - AXChatMessageRootCellDelegate
 - (void)deleteAXCell:(AXChatMessageRootCell *)axCell
 {
+    if (![axCell isKindOfClass:[AXChatMessageRootCell class]]) {
+        return;
+    }
     NSIndexPath *indexPath = [self.myTableView indexPathForCell:axCell];
     NSInteger preRow = indexPath.row - 1;
     NSInteger nextRow = indexPath.row + 1;
@@ -1124,24 +1127,35 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     NSArray *indexPaths = @[indexPath];
     NSInteger index = 0;
     // 判断是否需要删除系统时间cell
-    if (preRow >= 0 && nextRow < [self.identifierData count]) {
+    if (preRow >= 0) {
         NSString *preIdentifier = self.identifierData[preRow];
-        NSString *nextIdentifier = self.identifierData[preRow];
         NSDictionary *preData = self.cellDict[preIdentifier];
-        NSDictionary *nextData = self.cellDict[nextIdentifier];
-        if ([preData[@"messageType"] isEqualToNumber:@(AXMessageTypeSystemTime)] &&
-            [nextData[@"messageType"] isEqualToNumber:@(AXMessageTypeSystemTime)]) {
-            indexPaths = @[preIndexPath, indexPath];
-            [self.cellDict removeObjectForKey:preIdentifier];
-            [self.identifierData removeObjectAtIndex:preRow];
-            index = 1;
-            [[AXChatMessageCenter defaultMessageCenter] deleteMessageByIdentifier:preData[AXCellIdentifyTag]];
+        
+        if (nextRow < [self.identifierData count]) {
+            NSString *nextIdentifier = self.identifierData[nextRow];
+            NSDictionary *nextData = self.cellDict[nextIdentifier];
+            if ([preData[@"messageType"] isEqualToNumber:@(AXMessageTypeSystemTime)] &&
+                [nextData[@"messageType"] isEqualToNumber:@(AXMessageTypeSystemTime)]) {
+                indexPaths = @[preIndexPath, indexPath];
+                [self.cellDict removeObjectForKey:preIdentifier];
+                [self.identifierData removeObjectAtIndex:preRow];
+                index = 1;
+                [[AXChatMessageCenter defaultMessageCenter] deleteMessageByIdentifier:preData[AXCellIdentifyTag]];
+            }
+        } else if (indexPath.row == [self.identifierData count] - 1) {
+            if ([preData[@"messageType"] isEqualToNumber:@(AXMessageTypeSystemTime)]) {
+                indexPaths = @[preIndexPath, indexPath];
+                [self.cellDict removeObjectForKey:preIdentifier];
+                [self.identifierData removeObjectAtIndex:preRow];
+                index = 1;
+                [[AXChatMessageCenter defaultMessageCenter] deleteMessageByIdentifier:preData[AXCellIdentifyTag]];
+            }
         }
     }
     NSString *identifier = self.identifierData[indexPath.row - index];
     [self.cellDict removeObjectForKey:identifier];
     [self.identifierData removeObjectAtIndex:indexPath.row - index];
-
+    
     [self.myTableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationLeft];
     [[AXChatMessageCenter defaultMessageCenter] deleteMessageByIdentifier:axCell.identifyString];
 }
