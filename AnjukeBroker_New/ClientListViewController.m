@@ -74,8 +74,7 @@
 - (void)getFriendList {
     [[AXChatMessageCenter defaultMessageCenter] friendListWithPersonWithCompeletionBlock:^(NSArray *friendList, BOOL whetherSuccess) {
         if (whetherSuccess) {
-            [self hideLoadWithAnimated:YES];
-            DLog(@"getFriendListgetFriendList success--[%d] friendList--[%@]", whetherSuccess, friendList);
+//            [self hideLoadWithAnimated:YES];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.testArr = [NSArray arrayWithArray:friendList];
@@ -160,7 +159,20 @@
     for (int i = 0; i < self.allDataArr.count; i ++) {
         AXMappedPerson *person = [self.allDataArr objectAtIndex:i];
         unichar begin;
-        if (person.namePinyin.length > 0) {
+        if (person.markNamePinyin.length > 0) {
+            begin = [person.markNamePinyin characterAtIndex:0];
+            
+            if (begin >= 'A' && begin <= 'Z') {
+                NSString *beginString = [person.markNamePinyin substringToIndex:1];
+                [self insertPerson:person withPinyinBeginWithLetter:beginString intoDictionary:self.contactsDictionary];
+            } else if (begin >= 'a' && begin <= 'z') {
+                NSString *beginString = [person.markNamePinyin substringToIndex:1];
+                [self insertPerson:person withPinyinBeginWithLetter:[beginString uppercaseString] intoDictionary:self.contactsDictionary];
+            } else {
+                [self insertPerson:person withPinyinBeginWithLetter:@"#" intoDictionary:self.contactsDictionary];
+            }
+        }
+        else  if (person.namePinyin.length > 0) {
             begin = [person.namePinyin characterAtIndex:0];
             
             if (begin >= 'A' && begin <= 'Z') {
@@ -203,6 +215,7 @@
     [self.tableViewList reloadData];
     
     [self checkToAlert];
+    [self hideLoadWithAnimated:YES];
 }
 
 - (void)insertPerson:(AXMappedPerson *)person withPinyinBeginWithLetter:(NSString *)letterStr intoDictionary:(NSMutableDictionary *)dic {
