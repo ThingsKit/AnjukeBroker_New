@@ -33,10 +33,6 @@ NSInteger const kRetryTag = 101;
         self.isBroker = NO;
         // Initialization code
         [self initUI];
-        UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                                                                 action:@selector(handleLongPressGesture:)];
-        [recognizer setMinimumPressDuration:0.4f];
-        [self addGestureRecognizer:recognizer];
     }
     return self;
 }

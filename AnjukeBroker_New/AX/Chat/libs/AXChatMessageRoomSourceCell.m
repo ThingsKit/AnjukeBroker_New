@@ -55,6 +55,10 @@ static CGFloat const AXPropertyCardInLableMarginLeft = 81.0f;
     self.propControl = [[UIControl alloc] init];
     self.propControl.backgroundColor = [UIColor clearColor];
     [self.propControl addTarget:self action:@selector(didClickProperty) forControlEvents:UIControlEventTouchUpInside];
+    UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(handleLongPressGesture:)];
+    [recognizer setMinimumPressDuration:0.4f];
+    [self.propControl addGestureRecognizer:recognizer];
     
     self.tagLable = [[UILabel alloc] init];
     self.tagLable.text = @"";
