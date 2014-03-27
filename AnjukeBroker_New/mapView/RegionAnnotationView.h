@@ -20,5 +20,4 @@
 @property(nonatomic,assign) BOOL isBroker;
 @property(nonatomic,strong) RegionAnnotation *regionAnnotaytion;
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated;
--(void)layoutSubviews;
-@end
+@end

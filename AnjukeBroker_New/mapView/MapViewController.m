@@ -618,10 +618,8 @@
         
         annotationView = (RegionAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
         
-        if (annotationView == nil) {
-            annotationView = [[RegionAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
-            annotationView.acSheetDelegate = self;
-        }
+        annotationView = [[RegionAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+        annotationView.acSheetDelegate = self;
         
         annotationView.backgroundColor = [UIColor clearColor];
         annotationView.annotation = annotation;

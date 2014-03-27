@@ -26,9 +26,7 @@
         [self initUI];
         self.isBroker = YES;
     
-        if (ISIOS6) {
-            [self addCallView];
-        }else{
+        if (!ISIOS6) {
             [self performSelector:@selector(addCallView) withObject:nil afterDelay:0.5];
         }
     }
@@ -37,7 +35,7 @@
 -(void)addCallView{
     regionAnnotaytion = self.annotation;
     
-    self.canShowCallout = YES;
+    self.canShowCallout = NO;
     switch (regionAnnotaytion.annotationStatus) {
         case ChooseLoading:
             [self loadLoadingView];
@@ -71,9 +69,11 @@
     self.bgImgView.image = [[UIImage imageNamed:@"wl_map_icon_5.png"] stretchableImageWithLeftCapWidth:28 topCapHeight:16];
     [self.regionDetailView addSubview:self.bgImgView];
 }
--(void)layoutSubviews{
-}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated{
+    if (!ISIOS6) {
+        return;
+    }
     [super setSelected:selected animated:animated];
     regionAnnotaytion = self.annotation;
     self.canShowCallout = NO;
