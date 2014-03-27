@@ -44,6 +44,7 @@ static KKAudioComponent* defaultAudioComponent;
                                                      name:@"UIDeviceProximityStateDidChangeNotification"
                                                    object:nil];
         
+        
     }
     
     return self;
@@ -128,6 +129,25 @@ static KKAudioComponent* defaultAudioComponent;
 
 //播放录音, 支持支 wav格式
 - (void)playRecordingWithRelativeFilePath:(NSString*)relativeFilePath{
+    if (self.playTipView == nil) {
+        self.playTipView = [[UIView alloc] initWithFrame:CGRectMake(25, 3, 270, 30)];
+        self.playTipView.backgroundColor = [UIColor blackColor];
+        self.playTipView.layer.cornerRadius = 5;
+        self.playTipView.layer.masksToBounds = YES;
+        self.playTipView.alpha = 0.8;
+        
+        UIImageView* icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"wl_voice_icon_tip"]];
+        icon.frame = CGRectMake(10, 0, 30, 30);
+        [self.playTipView addSubview:icon];
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(50, 0, 220, 30)];
+        label.font = [UIFont systemFontOfSize:15];
+        label.backgroundColor = [UIColor clearColor];
+        label.textColor = [UIColor whiteColor];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.text = @"当前已经切换到扬声器模式";
+        [self.playTipView addSubview:label];
+        self.playTipView.hidden = YES;
+    }
     
     [[UIDevice currentDevice] setProximityMonitoringEnabled:YES];
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];  //默认扬声器播放
@@ -190,9 +210,20 @@ static KKAudioComponent* defaultAudioComponent;
     if ([[UIDevice currentDevice] proximityState] == YES){
         NSLog(@"Device is close to user");
         [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];  //听筒
+        
     }else{
         NSLog(@"Device is not close to user");
         [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];  //扬声器
+        self.playTipView.hidden = NO;
+        self.playTipView.alpha = 1;
+        __block KKAudioComponent* this = self;
+        [UIView animateWithDuration:3 animations:^{
+            this.playTipView.alpha = 0;
+        }];
+        
+        
+        
+        
     }
 }
 

@@ -116,6 +116,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 @property (nonatomic, retain) UIImage* corlorIMG;
 @property (nonatomic, assign) CGFloat curCount;
 @property (nonatomic, assign) BOOL isInterrupted;
+@property (nonatomic, assign) BOOL playTipView;
 #define MAX_RECORD_TIME 60
 
 @end
@@ -1212,7 +1213,11 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     // 播放
     self.playingIdentifier = message.identifier;
     [[KKAudioComponent sharedAudioComponent] playRecordingWithRelativeFilePath:message.imgPath];
-    
+    if (!self.playTipView) {
+        UIView* view = [KKAudioComponent sharedAudioComponent].playTipView;
+        [self.view addSubview:view];
+        self.playTipView = YES;
+    }
     __weak AXChatViewController *blockObject = self;
     [KKAudioComponent sharedAudioComponent].playDidFinishBlock = ^{
         [blockObject cancelKKAudioPlaying];
@@ -1650,6 +1655,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         [self.backgroundImageView addSubview:self.dustbinImageView];
         [self.backgroundImageView addSubview:self.hudLabel];
         [self.backgroundImageView addSubview:self.countDownLabel];
+        
     }
     self.dustbinImageView.image = nil;
     self.microphoneImageView.image = nil;
