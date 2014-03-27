@@ -213,9 +213,9 @@
     mappedMessageProp.isRemoved = NO;
     mappedMessageProp.messageType = [NSNumber numberWithInteger:AXMessageTypeProperty];
     if (self.friendPerson && self.friendPerson.userType == AXPersonTypePublic) {
-        [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
-    } else {
         [[AXChatMessageCenter defaultMessageCenter] sendMessageToPublic:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
+    } else {
+        [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
     }
 }
 #pragma mark - DataSouce Method
@@ -432,10 +432,16 @@
 {
 #warning // 之后必改.公众号写死了，101是经纪人助手====100是安居客公众号；
     if ([self.uid isEqualToString:@"101"]) {
-        if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypePic)]){
-            //            [[AXChatMessageCenter defaultMessageCenter] reSendImage:axCell.identifyString withCompeletionBlock:self.finishReSendMessageBlock];
-        }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
+        if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
             [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+        }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeProperty)]){
+            [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+        }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeLocation)]){
+            [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+        }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeVoice)]){
+            [[AXChatMessageCenter defaultMessageCenter] reSendVoiceToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+        }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypePic)]){
+            [[AXChatMessageCenter defaultMessageCenter] reSendImageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
         }else {
             
         }
@@ -444,12 +450,13 @@
         [[AXChatMessageCenter defaultMessageCenter] reSendImage:axCell.identifyString withCompeletionBlock:self.finishReSendMessageBlock];
     }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
         [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
-    }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeVoice)]){
-        [[AXChatMessageCenter defaultMessageCenter] reSendVoice:axCell.identifyString withCompeletionBlock:self.finishReSendMessageBlock];
     }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeLocation)]){
         [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
-    }
-    else {
+    }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeProperty)]){
+        [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+    }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeVoice)]){
+        [[AXChatMessageCenter defaultMessageCenter] reSendVoice:axCell.identifyString withCompeletionBlock:self.finishReSendMessageBlock];
+    }else {
         
     }
 }

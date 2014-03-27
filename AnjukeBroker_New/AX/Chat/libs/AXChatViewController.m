@@ -1154,10 +1154,16 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 {
 				#warning // 之后必改.公众号写死了，101是经纪人助手====100是安居客公众号；
     if ([self.uid isEqualToString:@"101"]) {
-        if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypePic)]){
-            //            [[AXChatMessageCenter defaultMessageCenter] reSendImage:axCell.identifyString withCompeletionBlock:self.finishReSendMessageBlock];
-        }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
+        if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
             [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+        }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeProperty)]){
+            [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+        }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeLocation)]){
+            [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+        }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeVoice)]){
+            [[AXChatMessageCenter defaultMessageCenter] reSendVoiceToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+        }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypePic)]){
+            [[AXChatMessageCenter defaultMessageCenter] reSendImageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
         }else {
             
         }
@@ -1171,7 +1177,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeProperty)]){
         [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
     }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeVoice)]){
-        [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+        [[AXChatMessageCenter defaultMessageCenter] reSendVoice:axCell.identifyString withCompeletionBlock:self.finishReSendMessageBlock];
     }else {
         
     }
