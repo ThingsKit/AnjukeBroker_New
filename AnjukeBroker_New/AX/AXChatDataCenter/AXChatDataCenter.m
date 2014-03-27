@@ -242,12 +242,12 @@
     return [message convertToMappedObject];
 }
 
-- (NSDictionary *)didReceiveWithMessageDataArray:(NSArray *)receivedArray
+- (void)didReceiveWithMessageDataArray:(NSArray *)receivedArray
 {
     if (![receivedArray isKindOfClass:[NSArray class]]) {
-        return nil;
+        return;
     }
-    NSMutableDictionary *messageDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
+    
     NSMutableDictionary *splitedDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
     
     BOOL shouldAlert = NO;
@@ -350,20 +350,9 @@
         
         AXMessage *timeMessage = [self checkAndReturnTimeMessageWithCurrentDate:fetchedLastDate andLastDate:storedLastDate from:friendUID to:self.uid];
         if (timeMessage) {
-            if ([messageArray count] > 0) {
-                [messageArray insertObject:[timeMessage convertToMappedObject] atIndex:[messageArray count]-1];
-            } else {
-                [messageArray insertObject:[timeMessage convertToMappedObject] atIndex:0];
-            }
-            
-            if ([commonMessageArray count] > 0) {
-                [commonMessageArray insertObject:[timeMessage convertToMappedObject] atIndex:[commonMessageArray count]-1];
-            } else {
-                [commonMessageArray insertObject:[timeMessage convertToMappedObject] atIndex:0];
-            }
+            [commonMessageArray insertObject:[timeMessage convertToMappedObject] atIndex:[commonMessageArray count]];
         }
         
-        messageDictionary[friendUID] = [messageArray reverseSelf];
         splitedDictionary[friendUID] = @{@"pic":[picMessageArray reverseSelf], @"voice":[voiceMessageArray reverseSelf], @"other":[commonMessageArray reverseSelf]};
         
         [self checkAndFetchFriendInfoWithFriendUid:friendUID accountType:[item[@"account_type"] integerValue]];
@@ -379,8 +368,6 @@
     }
 
     [self.delegate dataCenter:self didReceiveMessages:splitedDictionary];
-    
-    return messageDictionary;
 }
 
 - (void)deleteMessageByIdentifier:(NSString *)identifier
@@ -494,6 +481,69 @@
     }
 }
 
+- (NSDictionary *)messageToUpload
+{
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithCapacity:0];
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"isUploaded = %@", [NSNumber numberWithBool:NO]];
+    
+    __autoreleasing NSError *error = nil;
+    NSArray *fetchedResult = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    for (AXMessage *message in fetchedResult) {
+        
+        if (result[message.to] == nil) {
+            result[message.to] = [[NSMutableDictionary alloc] initWithCapacity:0];
+            result[message.to][@"pic"] = [[NSMutableArray alloc] initWithCapacity:0];
+            result[message.to][@"voice"] = [[NSMutableArray alloc] initWithCapacity:0];
+            result[message.to][@"other"] = [[NSMutableArray alloc] initWithCapacity:0];
+        }
+        
+        if ([message.messageType integerValue] == AXMessageTypePic) {
+            [result[message.to][@"pic"] addObject:message];
+        }
+        
+        if ([message.messageType integerValue] == AXMessageTypeVoice) {
+            [result[message.to][@"voice"] addObject:message];
+        }
+    }
+    
+    return result;
+}
+
+- (NSDictionary *)messageToDownload
+{
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithCapacity:0];
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"isImgDownloaded = %@", [NSNumber numberWithBool:NO]];
+    
+    __autoreleasing NSError *error = nil;
+    NSArray *fetchedResult = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    for (AXMessage *message in fetchedResult) {
+
+        if (result[message.from] == nil) {
+            result[message.from] = [[NSMutableDictionary alloc] initWithCapacity:0];
+            result[message.from][@"pic"] = [[NSMutableArray alloc] initWithCapacity:0];
+            result[message.from][@"voice"] = [[NSMutableArray alloc] initWithCapacity:0];
+            result[message.from][@"other"] = [[NSMutableArray alloc] initWithCapacity:0];
+        }
+
+        if ([message.messageType integerValue] == AXMessageTypePic) {
+            [result[message.to][@"pic"] addObject:message];
+        }
+
+        if ([message.messageType integerValue] == AXMessageTypeVoice) {
+            [result[message.to][@"voice"] addObject:message];
+        }
+    }
+    
+    return result;
+}
 
 #pragma mark - message related methods
 - (NSString *)lastMsgId
@@ -746,6 +796,19 @@
     return uidListToAdd;
 }
 
+- (BOOL)hasFriendPendingForAdd
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"isPendingForAdd = %@", [NSNumber numberWithBool:YES]];
+    NSUInteger count = [self.managedObjectContext countForFetchRequest:fetchRequest error:NULL];
+    if (count > 0) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 #pragma mark - fetch && update friends
 - (NSArray *)fetchFriendList
 {
@@ -773,9 +836,9 @@
             person = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
             person.isPendingForRemove = [NSNumber numberWithBool:NO];
             person.isStar = [NSNumber numberWithBool:NO];
-            person.isPendingForAdd = [NSNumber numberWithBool:NO];
+
         }
-        
+        person.isPendingForAdd = [NSNumber numberWithBool:NO];
         person.created = [NSDate dateWithTimeIntervalSince1970:[mappedPerson[@"created"] integerValue]];
         person.iconPath = @"";
         person.iconUrl = mappedPerson[@"icon"];
@@ -814,6 +877,7 @@
         personToUpdate = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
     }
     
+    person.isPendingForAdd = NO;
     [personToUpdate assignPropertiesFromMappedObject:person];
     [personToUpdate updateFirstPinyin];
     
@@ -1165,7 +1229,7 @@
     if (messageType > 6 && messageType < 100) {
         result = YES;
     }
-    if (messageType > 106) {
+    if (messageType > 107) {
         result = YES;
     }
     return result;
@@ -1177,6 +1241,7 @@
         
         AXPerson *friend = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
         friend.uid = friendUid;
+        friend.isPendingForAdd = [NSNumber numberWithBool:YES];
         
         if (accountType == AXPersonTypePublic) {
             friend.userType = [NSNumber numberWithInteger:AXPersonTypePublic];

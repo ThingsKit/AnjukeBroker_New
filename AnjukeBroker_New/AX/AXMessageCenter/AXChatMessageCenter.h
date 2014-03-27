@@ -75,11 +75,17 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 #pragma mark - sending Message
 - (void)sendMessage:(AXMappedMessage *)message willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
 - (void)sendMessageToPublic:(AXMappedMessage *)message willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+- (void)sendImageToPublic:(AXMappedMessage *)message willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+- (void)sendVoiceToPublic:(AXMappedMessage *)message willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+
+
 - (void)sendImage:(AXMappedMessage *)message withCompeletionBlock:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
 - (void)sendVoice:(AXMappedMessage *)message withCompeletionBlock:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
 
 - (void)reSendMessage:(NSString *)identifier willSendMessage:(void (^)(NSArray *message, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
 - (void)reSendMessageToPublic:(NSString *)identifier willSendMessage:(void (^)(NSArray *message, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+- (void)reSendVoiceToPublic:(NSString *)identifier willSendMessage:(void (^)(NSArray *message, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+- (void)reSendImageToPublic:(NSString *)identifier willSendMessage:(void (^)(NSArray *message, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
 - (void)reSendImage:(NSString *)identify withCompeletionBlock:(void(^)(NSArray *messageList, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
 - (void)reSendVoice:(NSString *)identify withCompeletionBlock:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
 
@@ -129,10 +135,4 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 
 - (void)removeFriendBydeleteUid:(NSArray *)deleteUid compeletionBlock:(void(^)(BOOL isSuccess))deleteFriendBlock;
 - (BOOL)isFriendWithFriendUid:(NSString *)friendUid;
-
-
-
-
-//test
-- (void)downLoadVoiceInOperationQueueWithMessage:(AXMappedMessage *)message;
 @end

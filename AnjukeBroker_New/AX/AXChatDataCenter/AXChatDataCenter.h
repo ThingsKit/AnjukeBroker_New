@@ -46,13 +46,15 @@
 - (NSArray *)willSendMessage:(AXMappedMessage *)message;
 - (AXMappedMessage *)didSuccessSendMessageWithIdentifier:(NSString *)identifier messageId:(NSString *)messageId;
 - (AXMappedMessage *)didFailSendMessageWithIdentifier:(NSString *)identifier;
-- (NSDictionary *)didReceiveWithMessageDataArray:(NSArray *)receivedArray;
+- (void)didReceiveWithMessageDataArray:(NSArray *)receivedArray;
 - (void)deleteMessageByIdentifier:(NSString *)identifier;
 - (void)updateMessage:(AXMappedMessage *)message;
 
 // methods for upload and download
 - (NSArray *)messageToDownloadWithMessageType:(AXMessageType)messageType;
 - (NSArray *)messageToUploadWithMessageType:(AXMessageType)messageType;
+- (NSDictionary *)messageToDownload;
+- (NSDictionary *)messageToUpload;
 
 // message related methods
 - (NSInteger)totalUnreadMessageCount;
@@ -77,6 +79,7 @@
 - (void)willAddFriendWithUid:(NSString *)friendUid;
 - (void)didAddFriendWithFriendData:(NSDictionary *)friendData;
 - (NSArray *)friendUidListToAdd;
+- (BOOL)hasFriendPendingForAdd;
 
 // fetch and update friends
 - (AXMappedPerson *)fetchPersonWithUID:(NSString *)uid;

@@ -10,6 +10,8 @@
 #import "AXMessageAPILongLinkManager.h"
 #import "AXChatDataCenter.h"
 //#import "MemberUtil.h"
+#import "Reachability.h"
+
 
 //managerCenter manager
 #import "AXMessageCenterSendMessageManager.h"
@@ -25,12 +27,15 @@
 #import "AXMessageCenterAppGetAllMessageManager.h"
 #import "AXMessageCenterUserGetPublicServiceInfoManager.h"
 #import "AXMessageCenterAddFriendByQRCodeManager.h"
+
+//record
 #import "KKAudioComponent.h"
 
 static NSString * const kMessageCenterReceiveMessageTypeText = @"1";
 static NSString * const kMessageCenterReceiveMessageTypeProperty = @"2";
 static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.com/common/uploadFile";
+static NSString * const kLastVersionApiSite = @"http://chatapi.dev.anjuke.com";
 
 @interface AXChatMessageCenter ()<AXMessageAPILongLinkDelegate,RTAPIManagerApiCallBackDelegate,RTAPIManagerInterceptorProtocal, AXChatDataCenterDelegate>
 @property (nonatomic, strong) AXMessageAPILongLinkManager *longLinkManager;
@@ -42,6 +47,7 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
 @property (nonatomic, strong) NSMutableArray *sendImageArray;
 @property (nonatomic, strong) NSMutableArray *imageMessageArray;
 @property (nonatomic, strong) NSDate *currentTime;
+@property (nonatomic, strong) NSTimer *downLoadFailedMessageTimer;
 
 //manager
 @property (nonatomic, strong) AXMessageCenterSendMessageManager *sendMessageManager;
@@ -293,6 +299,13 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
     return _dataCenter;
 }
 
+- (NSTimer *)downLoadFailedMessageTimer
+{
+    if (!_downLoadFailedMessageTimer) {
+        _downLoadFailedMessageTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(receiveNoticationNetWorkChange) userInfo:nil repeats:YES];
+    }
+    return _downLoadFailedMessageTimer;
+}
 #pragma mark - life cycle
 + (instancetype)defaultMessageCenter
 {
@@ -308,6 +321,7 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
 {
     self = [super init];
     if (self) {
+        self.currentTime = [[NSDate alloc] initWithTimeInterval:-60-1 sinceDate:[NSDate date]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveNotificationUserDidLogin) name:@"LOGIN_NOTIFICATION" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveNotificationUserLoginOut) name:@"LOGOUT_NOTIFICATION" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveNotificationUserInfoChanged) name:@"USERINFO_CHANGED_NOTIFICATION" object:nil];
@@ -318,6 +332,7 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.downLoadFailedMessageTimer invalidate];
 }
 
 
@@ -414,7 +429,9 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
                 }
             }
         } else {
-//            _friendListBlock(nil,NO);
+            if (_friendListBlock) {
+                 _friendListBlock(nil,NO);
+            }
         }
     }
     if ([manager isKindOfClass:[AXMessageCenterAddFriendManager class]]) {
@@ -676,13 +693,28 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
     [self.sendMessageToPublic loadData];
 }
 
-- (void)sendImage:(AXMappedMessage *)message withCompeletionBlock:(void(^)(NSArray *, AXMessageCenterSendMessageStatus, AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
+- (void)sendImageToPublic:(AXMappedMessage *)message willSendMessage:(void (^)(NSArray *, AXMessageCenterSendMessageStatus, AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
+{
+    [self newImageMessageUploadWithMessage:message withSendMessageBlock:sendMessageBlock];
+}
+
+- (void)sendVoiceToPublic:(AXMappedMessage *)message willSendMessage:(void (^)(NSArray *, AXMessageCenterSendMessageStatus, AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
+{
+    [self newVoiceMessageUploadWithMessage:message withSendMessageBlock:sendMessageBlock];
+}
+
+- (void)newImageMessageUploadWithMessage:(AXMappedMessage *)message withSendMessageBlock:(void(^)(NSArray *, AXMessageCenterSendMessageStatus, AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
+
 {
     NSArray *messageList = [self.dataCenter willSendMessage:message];
     AXMappedMessage *dataMessage = [messageList lastObject];
     sendMessageBlock(messageList, AXMessageCenterSendMessageStatusSending,AXMessageCenterSendMessageErrorTypeCodeNone);
+    if (![self.sendMessageManager isReachable]) {
+        sendMessageBlock(messageList, AXMessageCenterSendMessageStatusFailed, AXMessageCenterSendMessageErrorTypeCodeNone);
+        [self.dataCenter didFailSendMessageWithIdentifier:dataMessage.identifier];
+        return ;
+    }
     self.blockDictionary[dataMessage.identifier] = sendMessageBlock;
-    
     [self.sendImageArray addObject:dataMessage];
     NSString *photoUrl = dataMessage.imgPath;
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:ImageServeAddress]];
@@ -693,30 +725,16 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
     [self.imageMessageOperation addOperation:request];
 }
 
-- (NSDictionary *)getRequestHeadersAndRequestUrlWithMethodName:(NSString *)methodName
-{
-    RTDataService *service = [[RTDataService alloc] init];
-    service.apiVersion = @"";
-    service.privateKey = @"54d22906b73b0f6d";
-    service.publicKey = @"d945dc04a511fcd7e6ee79d9bf4b9416";
-    service.appName = @"i-broker";
-    service.apiSite = @"http://chatapi.dev.anjuke.com";
-    NSDictionary *commParams = [NSDictionary dictionaryWithDictionary:[service deviceInfoDictREST]];
-    NSMutableDictionary *allParams = [NSMutableDictionary dictionaryWithDictionary:commParams];
-    [allParams addEntriesFromDictionary:@{}];
-    
-    NSURL *requestURL = [service buildRESTGetURLWithMethod:methodName params:allParams];
-    NSMutableDictionary *headers = [NSMutableDictionary dictionaryWithDictionary:[service commRESTHeaders]];
-    [headers setValue:[service signRESTGetForRequestMethod:methodName commParams:commParams apiParams:@{}] forKey:@"sig"];
-    
-    return @{@"headers": headers,@"requestURL":requestURL};
-}
-
-- (void)sendVoice:(AXMappedMessage *)message withCompeletionBlock:(void (^)(NSArray *, AXMessageCenterSendMessageStatus, AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
+- (void)newVoiceMessageUploadWithMessage:(AXMappedMessage *)message withSendMessageBlock:(void(^)(NSArray *, AXMessageCenterSendMessageStatus, AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
 {
     NSArray *messageList = [self.dataCenter willSendMessage:message];
     AXMappedMessage *dataMessage = [messageList lastObject];
     sendMessageBlock(messageList, AXMessageCenterSendMessageStatusSending,AXMessageCenterSendMessageErrorTypeCodeNone);
+    if (![self.sendMessageManager isReachable]) {
+        sendMessageBlock(messageList, AXMessageCenterSendMessageStatusFailed, AXMessageCenterSendMessageErrorTypeCodeNone);
+        [self.dataCenter didFailSendMessageWithIdentifier:dataMessage.identifier];
+        return ;
+    }
     self.blockDictionary[dataMessage.identifier] = sendMessageBlock;
     [self.sendImageArray addObject:dataMessage];
     
@@ -736,10 +754,8 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
                 [request addRequestHeader:key value:[headers objectForKey:key]];
             }
         }
-        NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *imgPath = [NSString stringWithFormat:@"%@/%@",path ,amrPath];
-        NSData *voiceData = [[NSData alloc] initWithContentsOfFile:imgPath];
-        NSMutableData *voiceMutableData = [[NSMutableData alloc] initWithData:voiceData];
+        
+        NSMutableData *voiceMutableData = [[NSMutableData alloc] initWithContentsOfFile:amrPath];
         [request setRequestMethod:@"POST"];
         [request appendPostData:voiceMutableData];
         [request setUserInfo:@{@"identify": dataMessage.identifier}];
@@ -747,47 +763,16 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
         request.tag = AXMessageCenterHttpRequestTypeUploadVoice;
         [self.imageMessageOperation addOperation:request];
     });
+
+}
+- (void)sendImage:(AXMappedMessage *)message withCompeletionBlock:(void(^)(NSArray *, AXMessageCenterSendMessageStatus, AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
+{
+    [self newImageMessageUploadWithMessage:message withSendMessageBlock:sendMessageBlock];
 }
 
-- (void)apiCallBack:(RTNetworkResponse *)response
+- (void)sendVoice:(AXMappedMessage *)message withCompeletionBlock:(void (^)(NSArray *, AXMessageCenterSendMessageStatus, AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
 {
-    if (response.status == RTNetworkResponseStatusFailed || response.status == RTNetworkResponseStatusJsonError) {
-        [self uploadVoiceFailed:response];
-    }else if (response.status == RTNetworkResponseStatusSuccess){
-        [self uploadVoiceSucceed:response];
-    }
-}
-
-- (void)uploadVoiceSucceed:(RTNetworkResponse *)response
-{
-    int requestID = response.requestID;
-    for (NSDictionary *dic in self.messsageIdentity) {
-        if ([dic[@"requestID"] integerValue] == requestID) {
-            NSString *voiceUrl;
-            if (response.content && [response.content[@"status"] isEqualToString:@"OK"] && response.content[@"result"]) {
-                NSDictionary *result = response.content[@"result"];
-                voiceUrl = result[@"file_id"];
-            }
-            AXMappedMessage *dataMessage = [self.dataCenter fetchMessageWithIdentifier:dic[@"uniqid"]];
-            dataMessage.imgUrl = voiceUrl;
-            NSMutableDictionary *params = [NSMutableDictionary dictionary];
-            params[@"msg_type"] = [NSString stringWithFormat:@"%@",dataMessage.messageType];
-            params[@"phone"] = self.currentPerson.phone;
-            params[@"to_uid"] = dataMessage.to;
-            params[@"uniqid"] = dataMessage.identifier;
-            params[@"body"] = voiceUrl;
-            
-            [self.dataCenter updateMessage:dataMessage];
-            
-            self.sendMessageManager.apiParams = params;
-            [self.sendMessageManager loadData];
-        }
-    }
-    
-}
-- (void)uploadVoiceFailed:(RTNetworkResponse *)response
-{
-    
+    [self newVoiceMessageUploadWithMessage:message withSendMessageBlock:sendMessageBlock];
 }
 
 #pragma mark - ResendMessage Method
@@ -803,11 +788,36 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
     [self sendMessageToPublic:dataMessage willSendMessage:sendMessageBlock];
 }
 
+- (void)reSendVoiceToPublic:(NSString *)identifier willSendMessage:(void (^)(NSArray *, AXMessageCenterSendMessageStatus, AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
+{
+    AXMappedMessage *dataMessage = [self.dataCenter fetchMessageWithIdentifier:identifier];
+    if (dataMessage.content) {
+        __autoreleasing NSError *error;
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[dataMessage.content dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
+        if (dic[@"file_id"] && ![dic[@"file_id"] isEqualToString:@""]) {
+            [self sendMessageToPublic:dataMessage willSendMessage:sendMessageBlock];
+        }else {
+            [self sendVoiceToPublic:dataMessage willSendMessage:sendMessageBlock];
+        }
+    }
+}
+
+- (void)reSendImageToPublic:(NSString *)identifier willSendMessage:(void (^)(NSArray *, AXMessageCenterSendMessageStatus, AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
+{
+    AXMappedMessage *dataMessage = [self.dataCenter fetchMessageWithIdentifier:identifier];
+    if (dataMessage.imgUrl && ![dataMessage.imgUrl isEqualToString:@""]) {
+        [self sendMessageToPublic:dataMessage willSendMessage:sendMessageBlock];
+    }else {
+        [self sendImageToPublic:dataMessage willSendMessage:sendMessageBlock];
+    }
+}
+
 - (void)reSendImage:(NSString *)identify withCompeletionBlock:(void(^)(NSArray *, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock
 {
     AXMappedMessage *dataMessage = [self.dataCenter fetchMessageWithIdentifier:identify];
     if (dataMessage.imgUrl && ![dataMessage.imgUrl isEqualToString:@""] && [self checkoutWetherIsHttpUrlByImageUrl:dataMessage.imgUrl]) {
         [self sendMessage:dataMessage willSendMessage:sendMessageBlock];
+        return;
     }
     [self sendImage:dataMessage withCompeletionBlock:sendMessageBlock];
 }
@@ -972,7 +982,6 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
     _friendListBlock = friendListBlock;
     NSArray *friendListArray = [self.dataCenter fetchFriendList];
     _friendListBlock(friendListArray,YES);
-    
     if ([self checkoutShouleCallFriendListApi]) {
         [self fetchFriendList];
     }
@@ -989,7 +998,7 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
 #pragma mark - save image in app method
 - (BOOL)checkoutShouleCallFriendListApi
 {
-    NSDate *time = [[NSDate alloc] initWithTimeInterval:60*5 sinceDate:self.currentTime];
+    NSDate *time = [[NSDate alloc] initWithTimeInterval:60 sinceDate:self.currentTime];
     if ([time compare:[NSDate date]] == NSOrderedAscending) {
         self.currentTime = [NSDate date];
         return YES;
@@ -1009,6 +1018,25 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
     }else {
         return YES;
     }
+}
+
+- (NSDictionary *)getRequestHeadersAndRequestUrlWithMethodName:(NSString *)methodName
+{
+    RTDataService *service = [[RTDataService alloc] init];
+    service.apiVersion = @"";
+    service.privateKey = @"54d22906b73b0f6d";
+    service.publicKey = @"d945dc04a511fcd7e6ee79d9bf4b9416";
+    service.appName = @"i-broker";
+    service.apiSite = kLastVersionApiSite;
+    NSDictionary *commParams = [NSDictionary dictionaryWithDictionary:[service deviceInfoDictREST]];
+    NSMutableDictionary *allParams = [NSMutableDictionary dictionaryWithDictionary:commParams];
+    [allParams addEntriesFromDictionary:@{}];
+    
+    NSURL *requestURL = [service buildRESTGetURLWithMethod:methodName params:allParams];
+    NSMutableDictionary *headers = [NSMutableDictionary dictionaryWithDictionary:[service commRESTHeaders]];
+    [headers setValue:[service signRESTGetForRequestMethod:methodName commParams:commParams apiParams:@{}] forKey:@"sig"];
+    
+    return @{@"headers": headers,@"requestURL":requestURL};
 }
 
 - (void)downLoadVoiceInOperationQueueWithMessage:(AXMappedMessage *)message
@@ -1033,7 +1061,7 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
             [downLoadVoice addRequestHeader:key value:[headers objectForKey:key]];
         }
     }
-    
+
     downLoadVoice.delegate = self;
     downLoadVoice.tag = [message.messageId integerValue];
     [self.imageMessageOperation addOperation:downLoadVoice];
@@ -1099,14 +1127,7 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
     }
 }
 
-#pragma mark - AXChatDataCenterDelegate
-- (void)dataCenter:(AXChatDataCenter *)dataCenter didFetchChatList:(NSDictionary *)chatList withFriend:(AXMappedPerson *)person lastMessage:(AXMappedMessage *)message
-{
-    _fetchedChatList(chatList,message,person);
-    _fetchedChatList = nil;
-}
-
-- (void)dataCenter:(AXChatDataCenter *)dataCenter didReceiveMessages:(NSDictionary *)messages
+- (void)downLoadVoiceAndImageWithDictionary:(NSDictionary *)messages
 {
     NSArray *messageArray;
     NSArray *picArray;
@@ -1163,6 +1184,17 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
     });
 
 }
+#pragma mark - AXChatDataCenterDelegate
+- (void)dataCenter:(AXChatDataCenter *)dataCenter didFetchChatList:(NSDictionary *)chatList withFriend:(AXMappedPerson *)person lastMessage:(AXMappedMessage *)message
+{
+    _fetchedChatList(chatList,message,person);
+    _fetchedChatList = nil;
+}
+
+- (void)dataCenter:(AXChatDataCenter *)dataCenter didReceiveMessages:(NSDictionary *)messages
+{
+    [self downLoadVoiceAndImageWithDictionary:messages];
+}
 
 - (void)dataCenter:(AXChatDataCenter *)dataCenter didFetchFriendList:(NSArray *)chatList
 {
@@ -1208,16 +1240,22 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
                 NSMutableDictionary *params = [NSMutableDictionary dictionary];
                 params[@"msg_type"] = [NSString stringWithFormat:@"%@",dataMessage.messageType];
                 params[@"phone"] = self.currentPerson.phone;
-                params[@"to_uid"] = dataMessage.to;
                 params[@"uniqid"] = dataMessage.identifier;
                 params[@"body"] = imageUrl;
                 
                 [self.dataCenter updateMessage:dataMessage];
-                
-                self.sendMessageManager.apiParams = params;
-                [self.sendMessageManager loadData];
-            }
-        }];
+                AXMappedPerson *toPerson = [self.dataCenter fetchPersonWithUID:dataMessage.to];
+                if (toPerson && toPerson.userType == AXPersonTypePublic) {
+                    params[@"to_service_id"] = dataMessage.to;
+                    self.sendMessageToPublic.apiParams = params;
+                    [self.sendMessageToPublic loadData];
+                }else {
+                    params[@"to_uid"] = dataMessage.to;
+                    self.sendMessageManager.apiParams = params;
+                    [self.sendMessageManager loadData];
+                }
+        }
+    }];
         
     }
     if (request.tag == AXMessageCenterHttpRequestTypeUploadVoice) {
@@ -1230,35 +1268,39 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
                 NSDictionary *receiveDic = [NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:&error1];
                 if (receiveDic[@"status"] && [receiveDic[@"status"] isEqualToString:@"OK"] && receiveDic[@"result"] && receiveDic[@"result"][@"file_id"]) {
                     voiceID = receiveDic[@"result"][@"file_id"];
-                }
-                NSData *data;
-                if (dataMessage.content) {
-                    data = [dataMessage.content dataUsingEncoding:NSUTF8StringEncoding];
-                }else {
-                    DLog(@"ui params is error!!!");
+                }else{
+#warning waiting to finish!
                     return ;
                 }
+                NSData *data = [dataMessage.content dataUsingEncoding:NSUTF8StringEncoding];
                 __autoreleasing NSError *error;
                 NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
                 if (dic[@"length"]) {
                     dic[@"file_id"] = voiceID;
                 }
-                NSString *contentString = [dic JSONRepresentation];
+                dataMessage.content = [dic JSONRepresentation];
                 dataMessage.imgUrl = voiceID;
                 NSMutableDictionary *params = [NSMutableDictionary dictionary];
                 params[@"msg_type"] = [NSString stringWithFormat:@"%@",dataMessage.messageType];
                 params[@"phone"] = self.currentPerson.phone;
-                params[@"to_uid"] = dataMessage.to;
                 params[@"uniqid"] = dataMessage.identifier;
-                params[@"body"] = contentString;
+                params[@"body"] = dataMessage.content;
                 
                 [self.dataCenter updateMessage:dataMessage];
+                AXMappedPerson *toPerson = [self.dataCenter fetchPersonWithUID:dataMessage.to];
+                if (toPerson && toPerson.userType == AXPersonTypePublic) {
+                    params[@"to_service_id"] = dataMessage.to;
+                    self.sendMessageToPublic.apiParams = params;
+                    [self.sendMessageToPublic loadData];
+                }else{
+                    params[@"to_uid"] = dataMessage.to;
+                    self.sendMessageManager.apiParams = params;
+                    [self.sendMessageManager loadData];
+                }
                 
-                self.sendMessageManager.apiParams = params;
-                [self.sendMessageManager loadData];
             }
         }];
-        
+
     }
     [self.imageMessageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSDictionary *fromUid = (NSDictionary *)obj;
@@ -1286,8 +1328,7 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
 
 - (void)saveImageWithMessage:(AXMappedMessage *)message userID:(NSString *)userID responseData:(NSData *)data
 {
-    NSData *imageData = data;
-    UIImage *image = [[UIImage alloc] initWithData:imageData];
+    UIImage *image = [[UIImage alloc] initWithData:data];
     NSString * documentsDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     [self saveImage:image withFileName:message.identifier ofType:@"jpg" inDirectory:documentsDirectoryPath];
     NSString *imageString = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg",message.identifier]];
@@ -1297,7 +1338,7 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidReceiveNewMessage object:dic];
     });
-    
+
 }
 
 - (void)saveVoiceWithMessage:(AXMappedMessage *)message userID:(NSString *)userID responseData:(NSData *)data
@@ -1309,9 +1350,10 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
     NSDictionary *dic = @{userID: @[message]};
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidReceiveNewMessage object:dic];
-    });    
+    });
+    
+    
 }
-
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     if (request.tag == AXMessageCenterHttpRequestTypeUploadImage || request.tag == AXMessageCenterHttpRequestTypeUploadVoice) {
@@ -1325,6 +1367,19 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
             }
         }];
     }
+    [self.imageMessageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSDictionary *fromUid = (NSDictionary *)obj;
+        NSArray *allKeys =[fromUid allKeys];
+        NSArray *messageArray = fromUid[[allKeys objectAtIndex:0]];
+        [messageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            AXMappedMessage *imageMessage = (AXMappedMessage *)obj;
+            if ([imageMessage.messageId integerValue] == request.tag) {
+                imageMessage.isImgDownloaded = NO;
+                [self.dataCenter updateMessage:imageMessage];
+            }
+        }];
+    }];
+
 }
 
 #pragma mark - AXMessageAPILongLinkDelegate
@@ -1509,6 +1564,19 @@ static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.co
     [self fetchFriendList];
 }
 
+- (void)receiveNoticationNetWorkChange
+{
+    if (![self.sendMessageManager isReachable]) {
+        return ;
+    }
+    if ([self.imageMessageOperation operationCount] > 0) {
+        return;
+    }
+    NSDictionary *failedMessage = [self.dataCenter messageToDownload];
+    [self downLoadVoiceAndImageWithDictionary:failedMessage];
+    
+
+}
 - (void)receiveNotificationUserLoginOut
 {
 //    [self connectAsDevice];

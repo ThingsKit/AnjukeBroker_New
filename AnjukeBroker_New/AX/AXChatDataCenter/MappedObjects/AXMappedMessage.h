@@ -17,9 +17,6 @@ typedef NS_ENUM(NSUInteger, AXMessageType)
     AXMessageTypeVoice = 5, // 语音消息
     AXMessageTypeLocation = 6, // 地理位置
 
-    
-    
-    
     AXMessageTypeSystemTime = 100, // 时间
     AXMessageTypeSystemForbid = 101, // 提示拒绝加好友
     AXMessageTypeSettingNotifycation = 102, // 提示打开推送
@@ -27,6 +24,7 @@ typedef NS_ENUM(NSUInteger, AXMessageType)
     AXMessageTypeAddNote = 104, // 经纪人添加备注
     AXMessageTypeSendProperty = 105, // 提示发送房源
     AXMessageTypeSafeMessage = 106, // 安全提示
+    AXMessageTypeVersion = 107 //对方使用的版本太低
 };
 
 typedef NS_ENUM(NSUInteger, AXMessagePropertySourceType)

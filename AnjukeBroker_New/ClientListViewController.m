@@ -218,10 +218,7 @@
 
 - (void)checkToAlert {
     NSArray *arr = [LoginManager getClientCountAlertArray];
-    
-    //test!!!
-    //    NSArray *arr = [NSArray arrayWithObjects:@"5", @"10", @"15",nil];
-    
+        
     for (int i = 0; i < arr.count; i ++) {
         NSString *count = [arr objectAtIndex:i];
         
