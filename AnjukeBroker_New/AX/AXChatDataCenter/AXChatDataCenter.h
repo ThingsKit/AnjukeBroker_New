@@ -49,6 +49,7 @@
 - (void)didReceiveWithMessageDataArray:(NSArray *)receivedArray;
 - (void)deleteMessageByIdentifier:(NSString *)identifier;
 - (void)updateMessage:(AXMappedMessage *)message;
+- (void)updateMessageWithIdentifier:(NSString *)identifier keyValues:(NSDictionary *)keyValues;
 
 // methods for upload and download
 - (NSArray *)messageToDownloadWithMessageType:(AXMessageType)messageType;

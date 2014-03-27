@@ -309,7 +309,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         self.pressSpeek = [[UIButton alloc] initWithFrame:CGRectZero];
 #warning Note Do not edit pressSpeek frame anymore
 //        self.pressSpeek.frame = self.messageInputView.textView.frame;
-        [self.pressSpeek addTarget:self action:@selector(didBeginVoice) forControlEvents:UIControlEventTouchDown];
+        [self.pressSpeek addTarget:self action:@selector(didClickRecored:) forControlEvents:UIControlEventTouchDown];
         [self.pressSpeek addTarget:self action:@selector(didCommitVoice) forControlEvents:UIControlEventTouchUpInside];
         [self.pressSpeek addTarget:self action:@selector(didCancelVoice) forControlEvents:UIControlEventTouchUpOutside];
         [self.pressSpeek addTarget:self action:@selector(continueRecordVoice) forControlEvents:UIControlEventTouchDragEnter];
@@ -1219,10 +1219,8 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
             self.cellDict[message.identifier] = dict;
         }
         
-        [[AXChatMessageCenter defaultMessageCenter] updateMessage:message];
+        [[AXChatMessageCenter defaultMessageCenter] updateMessageWithIdentifier:message.identifier keyValues:@{@"content":message.content}];
     }
-        
-        [[AXChatMessageCenter defaultMessageCenter] updateMessage:message];
     
     // 播放
     self.playingIdentifier = message.identifier;
@@ -1628,6 +1626,23 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         [self.messageInputView.textView becomeFirstResponder];
     }
 
+}
+- (void)didClickRecored:(id)sender
+{
+    __weak AXChatViewController *blockSelf = self;
+    PermissionBlock permissionBlock = ^(BOOL granted) {
+        if (granted) {
+            [blockSelf didBeginVoice];
+        } else {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"无法录音" message:@"请在iPhone的“设置-隐私-麦克风”选项中，允许安居客访问你的手机麦克风。" delegate:blockSelf cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+            [alertView show];
+        }
+    };
+    if([[AVAudioSession sharedInstance] respondsToSelector:@selector(requestRecordPermission:)]) {
+        [[AVAudioSession sharedInstance] performSelector:@selector(requestRecordPermission:) withObject:permissionBlock];
+    } else {
+        [self didBeginVoice];
+    }
 }
 
 //UIControlEventTouchDown

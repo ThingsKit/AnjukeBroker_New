@@ -623,6 +623,11 @@ static NSString * const kLastVersionApiSite = @"http://chatapi.dev.anjuke.com";
     [self.dataCenter updateMessage:message];
 }
 
+- (void)updateMessageWithIdentifier:(NSString *)identifier keyValues:(NSDictionary *)keyValues
+{
+    [self.dataCenter updateMessageWithIdentifier:identifier keyValues:keyValues];
+}
+
 - (BOOL)isFriendWithFriendUid:(NSString *)friendUid
 {
     return [self.dataCenter isFriendWithFriendUid:friendUid];

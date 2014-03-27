@@ -422,6 +422,23 @@
     [self.managedObjectContext save:NULL];
 }
 
+- (void)updateMessageWithIdentifier:(NSString *)identifier keyValues:(NSDictionary *)keyValues
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"identifier = %@", identifier];
+    NSArray *fetchedResult = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    AXMessage *message = [fetchedResult firstObject];
+    if (message == nil) {
+        return;
+    } else {
+        [keyValues enumerateKeysAndObjectsWithOptions:0 usingBlock:^(id key, id obj, BOOL *stop) {
+            [message setValue:obj forKeyPath:key];
+        }];
+        [self.managedObjectContext save:NULL];
+    }
+}
+
 #pragma mark - message for upload or download
 - (NSArray *)messageToDownloadWithMessageType:(AXMessageType)messageType
 {

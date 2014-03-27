@@ -98,6 +98,7 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 // message related operation
 - (void)deleteMessageByIdentifier:(NSString *)identifier;
 - (void)updateMessage:(AXMappedMessage *)message;
+- (void)updateMessageWithIdentifier:(NSString *)identifier keyValues:(NSDictionary *)keyValues;
 - (NSInteger)totalUnreadMessageCount;
 
 // UI life cycle
