@@ -314,6 +314,8 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         [self.pressSpeek addTarget:self action:@selector(continueRecordVoice) forControlEvents:UIControlEventTouchDragEnter];
         [self.pressSpeek addTarget:self action:@selector(willCancelVoice) forControlEvents:UIControlEventTouchDragExit];
         
+        
+        self.pressSpeek.titleLabel.font = [UIFont systemFontOfSize:15];
         [self.pressSpeek setTitle:@"按住说话" forState:UIControlStateNormal];
         [self.pressSpeek setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [self.pressSpeek setTitle:@"松开结束" forState:UIControlStateHighlighted];
@@ -1675,6 +1677,10 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 - (void)didCancelVoice{
     self.countDownLabel.hidden = YES;
     
+    if (self.isInterrupted) {
+        return;
+    }
+    
     self.pressSpeek.selected = NO;
     [[KKAudioComponent sharedAudioComponent] cancelRecording];
     [self.timer invalidate];
@@ -1685,6 +1691,10 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 //UIControlEventTouchDragExit
 - (void)willCancelVoice {
+    if (self.isInterrupted) {
+        return;
+    }
+    
     [self.timer invalidate];
     
     self.countDownLabel.hidden = YES;
@@ -1706,6 +1716,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 //UIControlEventTouchDragEnter
 - (void)continueRecordVoice{
+    if (self.isInterrupted) {
+        return;
+    }
     
     self.pressSpeek.selected = NO;
     self.timer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(updateVolumn) userInfo:nil repeats:YES];
@@ -1728,6 +1741,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.color = [UIColor clearColor];
     self.hud.customView = view;
+    self.hud.yOffset = -20;
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.dimBackground = isDim;
     self.hudLabel.text = title;
