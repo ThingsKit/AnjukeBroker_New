@@ -132,7 +132,7 @@
 + (UIColor *)axChatInputBGColor:(BOOL)isBroker
 {
     if (isBroker) {
-        return [UIColor colorWithHex:0xe6e6e6 alpha:1];
+        return [UIColor colorWithHex:0xf6f6f6 alpha:1];
     } else {
         return [UIColor colorWithHex:0xe6e6e6 alpha:1];
     }

@@ -24,6 +24,7 @@
 	NSMutableSet *_visiblePhotoViews;
     NSMutableSet *_reusablePhotoViews;
 }
+@property (nonatomic, strong) UILabel *titleView;
 @end
 
 @interface AXPhotoBrowser ()
@@ -60,6 +61,8 @@
     [self setNavTitle];
     // 1.创建UIScrollView
     [self createScrollView];
+    [self initNavTitle];
+    [self initLeftBar];
     [self initRightBar];
 }
 
@@ -71,10 +74,23 @@
     }
 }
 
+- (void)initNavTitle {
+    NSString *navTitle = [NSString stringWithFormat:@"%d/%d",_currentPhotoIndex + 1,_photos.count];
+    //    self.navigationItem.title = navTitle;
+    self.titleView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 25)];
+    self.titleView.text = navTitle;
+    self.titleView.textAlignment = NSTextAlignmentCenter;
+    self.titleView.textColor = [UIColor whiteColor];
+    self.titleView.backgroundColor = [UIColor clearColor];
+    
+    self.navigationItem.titleView = self.titleView;
+}
+
 - (void)setNavTitle {
     NSString *navTitle = [NSString stringWithFormat:@"%d/%d",_currentPhotoIndex + 1,_photos.count];
-    self.navigationItem.title = navTitle;
+    self.titleView.text = navTitle;
 }
+
 - (void)initRightBar {
     if (self.isBroker) {
         return;
@@ -89,6 +105,15 @@
     spacer.width = 6.0f;
     [self.navigationItem setRightBarButtonItems:@[spacer, buttonItems]];
     
+}
+
+- (void)initLeftBar {
+    UIButton *rightBar = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightBar.frame = CGRectMake(0, 0, 21, 5);
+    [rightBar setTitle:@"返回" forState:UIControlStateNormal];
+    [rightBar addTarget:self  action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:rightBar];
+    [self.navigationItem setLeftBarButtonItem:buttonItems];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -307,5 +332,4 @@
         }
     }];
 }
-
 @end
