@@ -315,8 +315,10 @@ static KKAudioComponent* defaultAudioComponent;
     int success = [VoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath]; //amr写本地, 需要绝对路径
     if (success) {
 //        [[NSFileManager defaultManager] removeItemAtPath:wavFilePath error:nil]; //删除wav文件
-        NSString* relativeAmrFilePath = [NSString stringWithFormat:@"Voice/%@.amr", fileName];
-        return relativeAmrFilePath; //返回amr文件相对路径
+//        NSString* relativeAmrFilePath = [NSString stringWithFormat:@"Voice/%@.amr", fileName];
+//        return relativeAmrFilePath; //返回amr文件相对路径
+        
+        return amrFilePath;
     }else{
         return nil;
     }

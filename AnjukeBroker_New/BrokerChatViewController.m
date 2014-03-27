@@ -212,7 +212,11 @@
     mappedMessageProp.isRead = YES;
     mappedMessageProp.isRemoved = NO;
     mappedMessageProp.messageType = [NSNumber numberWithInteger:AXMessageTypeProperty];
-    [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
+    if (self.friendPerson && self.friendPerson.userType == AXPersonTypePublic) {
+        [[AXChatMessageCenter defaultMessageCenter] sendMessageToPublic:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
+    } else {
+        [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
+    }
 }
 #pragma mark - DataSouce Method
 - (NSString *)checkFriendUid
@@ -274,8 +278,11 @@
         mappedMessage.isRemoved = NO;
         mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
         mappedMessage.imgPath = path;
-        [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
-        
+        if (self.friendPerson && self.friendPerson.userType == AXPersonTypePublic) {
+            [[AXChatMessageCenter defaultMessageCenter] sendImageToPublic:mappedMessage willSendMessage:self.finishSendMessageBlock];
+        } else {
+            [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
+        }
     }
     [self dismissViewControllerAnimated:YES completion:nil];
     
@@ -307,7 +314,12 @@
     mappedMessage.isRemoved = NO;
     mappedMessage.messageType = @(AXMessageTypePic);
     mappedMessage.imgPath = path;
-    [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
+    
+    if (self.friendPerson && self.friendPerson.userType == AXPersonTypePublic) {
+        [[AXChatMessageCenter defaultMessageCenter] sendImageToPublic:mappedMessage willSendMessage:self.finishSendMessageBlock];
+    } else {
+        [[AXChatMessageCenter defaultMessageCenter] sendImage:mappedMessage withCompeletionBlock:self.finishSendMessageBlock];
+    }
     
     //        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
     //        NSDictionary *imageData = @{@"messageType":@"image",@"content":image,@"messageSource":@"incoming"};
@@ -420,10 +432,16 @@
 {
 #warning // 之后必改.公众号写死了，101是经纪人助手====100是安居客公众号；
     if ([self.uid isEqualToString:@"101"]) {
-        if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypePic)]){
-            //            [[AXChatMessageCenter defaultMessageCenter] reSendImage:axCell.identifyString withCompeletionBlock:self.finishReSendMessageBlock];
-        }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
+        if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
             [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+        }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeProperty)]){
+            [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+        }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeLocation)]){
+            [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+        }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeVoice)]){
+            [[AXChatMessageCenter defaultMessageCenter] reSendVoiceToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+        }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypePic)]){
+            [[AXChatMessageCenter defaultMessageCenter] reSendImageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
         }else {
             
         }
@@ -432,12 +450,13 @@
         [[AXChatMessageCenter defaultMessageCenter] reSendImage:axCell.identifyString withCompeletionBlock:self.finishReSendMessageBlock];
     }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
         [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
-    }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeVoice)]){
-        [[AXChatMessageCenter defaultMessageCenter] reSendVoice:axCell.identifyString withCompeletionBlock:self.finishReSendMessageBlock];
     }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeLocation)]){
         [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
-    }
-    else {
+    }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeProperty)]){
+        [[AXChatMessageCenter defaultMessageCenter] reSendMessage:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
+    }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeVoice)]){
+        [[AXChatMessageCenter defaultMessageCenter] reSendVoice:axCell.identifyString withCompeletionBlock:self.finishReSendMessageBlock];
+    }else {
         
     }
 }
@@ -482,7 +501,11 @@
     mappedMessageProp.isRead = YES;
     mappedMessageProp.isRemoved = NO;
     mappedMessageProp.messageType = [NSNumber numberWithInteger:AXMessageTypeLocation];
-    [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
+    if (self.friendPerson && self.friendPerson.userType == AXPersonTypePublic) {
+        [[AXChatMessageCenter defaultMessageCenter] sendMessageToPublic:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
+    }else {
+        [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
+    }
 }
 
 @end
