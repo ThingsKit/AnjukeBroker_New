@@ -486,7 +486,9 @@
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController pushViewController:mv animated:YES];
 }
+- (void)didClickIMG:(AXChatBaseCell *)axCell {
 
+}
 #pragma mark -
 #pragma MapViewControllerDelegate
 - (void)loadMapSiteMessage:(NSDictionary *)mapSiteDic {

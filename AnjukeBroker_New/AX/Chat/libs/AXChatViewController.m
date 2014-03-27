@@ -1968,6 +1968,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 - (void)didClickMapCell:(NSDictionary *)dic {
 
 }
+- (void)didClickIMG:(AXChatBaseCell *)axCell {
+    
+}
 -(void)loadMapSiteMessage:(NSDictionary *)mapSiteDic {
 
 }

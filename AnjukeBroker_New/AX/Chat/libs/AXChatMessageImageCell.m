@@ -10,7 +10,7 @@
 
 @interface AXChatMessageImageCell ()
 @property (nonatomic, strong) UIImageView *receiveImage;
-
+@property (nonatomic, strong) UIControl *controlMap;
 @end
 
 @implementation AXChatMessageImageCell
@@ -29,10 +29,17 @@
     [super initUI];
     self.receiveImage = [[UIImageView alloc] init];
     [self.contentView addSubview:self.receiveImage];
+    
+    self.controlMap = [[UIControl alloc] init];
+    [self.controlMap addTarget:self action:@selector(clickMap) forControlEvents:UIControlEventTouchDown];
+    [self.contentView addSubview:self.controlMap];
+    
     UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
                                                                                              action:@selector(handleLongPressGesture:)];
     [recognizer setMinimumPressDuration:0.4f];
-    [self.contentView addGestureRecognizer:recognizer];
+    [self.controlMap addGestureRecognizer:recognizer];
+    
+    
 }
 
 - (void)configWithData:(NSDictionary *)data
@@ -67,6 +74,7 @@
         self.receiveImage.frame = CGRectMake(320.0f - kJSAvatarSize - 24.0f - rect.size.width - 2, 12.0f, rect.size.width, rect.size.height);
         self.bubbleIMG.frame = CGRectMake(self.receiveImage.frame.origin.x - 2.0f, 10.0f, rect.size.width + 9.0f + 2.0f, rect.size.height + 4.0f);
     }
+    self.controlMap.frame = self.bubbleIMG.frame;
 }
 
 
@@ -92,5 +100,9 @@
     
     return rect;
 }
-
+- (void)clickMap {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickIMG:)]) {
+        [self.delegate didClickIMG:self];
+    }
+}
 @end

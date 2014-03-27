@@ -38,6 +38,7 @@ typedef NS_ENUM(NSUInteger,AXChatCellViewType )
 - (void)didClickPublicCardWithUrl:(NSString *)url;
 - (void)didClickMapCell:(NSDictionary *) dic;
 - (void)didClickVoice:(AXChatBaseCell *)axCell;
+- (void)didClickIMG:(AXChatBaseCell *)axCell;
 @end
 
 @interface AXChatBaseCell : UITableViewCell
