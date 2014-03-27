@@ -130,16 +130,16 @@ static KKAudioComponent* defaultAudioComponent;
 //播放录音, 支持支 wav格式
 - (void)playRecordingWithRelativeFilePath:(NSString*)relativeFilePath{
     if (self.playTipView == nil) {
-        self.playTipView = [[UIView alloc] initWithFrame:CGRectMake(25, 3, 270, 30)];
+        self.playTipView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
         self.playTipView.backgroundColor = [UIColor blackColor];
-        self.playTipView.layer.cornerRadius = 5;
-        self.playTipView.layer.masksToBounds = YES;
+//        self.playTipView.layer.cornerRadius = 5;
+//        self.playTipView.layer.masksToBounds = YES;
         self.playTipView.alpha = 0.8;
         
         UIImageView* icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"wl_voice_icon_tip"]];
-        icon.frame = CGRectMake(10, 0, 30, 30);
+        icon.frame = CGRectMake(10, 10, 30, 30);
         [self.playTipView addSubview:icon];
-        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(50, 0, 220, 30)];
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(50, 10, 220, 30)];
         label.font = [UIFont systemFontOfSize:15];
         label.backgroundColor = [UIColor clearColor];
         label.textColor = [UIColor whiteColor];
@@ -220,10 +220,6 @@ static KKAudioComponent* defaultAudioComponent;
         [UIView animateWithDuration:3 animations:^{
             this.playTipView.alpha = 0;
         }];
-        
-        
-        
-        
     }
 }
 
