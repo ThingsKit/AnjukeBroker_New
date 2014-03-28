@@ -93,6 +93,21 @@
 - (NSInteger)windowHeight {
     return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height;
 }
+#pragma mark -- Log
+- (void)sendAppearLog{
+    if (self.mapType == RegionChoose) {
+        [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_CHOOSE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime],@"ot", nil]];
+    }else{
+        [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_VIEW_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime],@"ot", nil]];
+    }
+}
+- (void)sendDisAppearLog{
+    if (self.mapType == RegionChoose) {
+        [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_CHOOSE_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime],@"ot", nil]];
+    }else{
+        [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_VIEW_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime],@"ot", nil]];
+    }
+}
 - (void)viewDidDisappear:(BOOL)animated{
     self.regionMapView.delegate = nil;
     self.locationManager.delegate = nil;
@@ -226,6 +241,11 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
 }
 -(void)doBack:(id)sender{
+    if (self.mapType == RegionChoose) {
+        [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_CHOOSE_004 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime],@"ot", nil]];
+    }else{
+        [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_VIEW_004 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime],@"ot", nil]];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)rightButtonAction:(id)sender{
@@ -238,7 +258,9 @@
             [locationDic setValue:[NSString stringWithFormat:@"%.8f",lastCoords.latitude] forKey:@"google_lat"];
             [locationDic setValue:[NSString stringWithFormat:@"%.8f",lastCoords.longitude] forKey:@"google_lng"];
             [locationDic setValue:@"google" forKey:@"from_map_type"];
-                        
+            
+            
+            [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_CHOOSE_003 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime],@"ot", nil]];
            [self.siteDelegate loadMapSiteMessage:locationDic];
         }
         [self.navigationController popViewControllerAnimated:YES];
@@ -250,6 +272,8 @@
 }
 
 -(void)doAcSheet{
+    [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_VIEW_003 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime],@"ot", nil]];
+    
     NSArray *appListArr = [CheckInstalledMapAPP checkHasOwnApp];
     NSString *sheetTitle = [NSString stringWithFormat:@"导航到 %@",[self.navDic objectForKey:@"address"]];
 
@@ -305,9 +329,16 @@
         [[UIApplication sharedApplication] openURL:url];
     }else if ([btnTitle isEqualToString:@"显示路线"]){
         [self drawRout];
+        return;
+    }else{
+        return;
     }
+    [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_VIEW_006 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime],@"ot", nil]];
+
 }
 -(void)drawRout{
+    [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_VIEW_005 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime],@"ot", nil]];
+
     MKPlacemark *fromPlacemark = [[MKPlacemark alloc] initWithCoordinate:nowCoords addressDictionary:nil];
     MKPlacemark *toPlacemark   = [[MKPlacemark alloc] initWithCoordinate:naviCoordsGd addressDictionary:nil];
     MKMapItem *fromItem = [[MKMapItem alloc] initWithPlacemark:fromPlacemark];
@@ -489,6 +520,9 @@
     if (self.mapType == RegionNavi) {
         return;
     }
+    
+    [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_CHOOSE_005 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime],@"ot", nil]];
+    
     if (ISIOS7) {
         if ([mapView.annotations count]) {
             [mapView removeAnnotations:mapView.annotations];
