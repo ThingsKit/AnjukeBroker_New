@@ -414,7 +414,6 @@
 		B7EAD51618CD927200B28FEC /* AXChatBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4D618CD927200B28FEC /* AXChatBaseCell.m */; };
 		B7EAD51718CD927200B28FEC /* AXChatContentValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4D818CD927200B28FEC /* AXChatContentValidator.m */; };
 		B7EAD51818CD927200B28FEC /* AXChatMessageImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4DA18CD927200B28FEC /* AXChatMessageImageCell.m */; };
-		B7EAD51918CD927200B28FEC /* AXChatMessageNameCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4DC18CD927200B28FEC /* AXChatMessageNameCardCell.m */; };
 		B7EAD51A18CD927200B28FEC /* AXChatMessagePublicCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4DE18CD927200B28FEC /* AXChatMessagePublicCardCell.m */; };
 		B7EAD51B18CD927200B28FEC /* AXChatMessageRoomSourceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4E018CD927200B28FEC /* AXChatMessageRoomSourceCell.m */; };
 		B7EAD51C18CD927200B28FEC /* AXChatMessageRootCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4E218CD927200B28FEC /* AXChatMessageRootCell.m */; };
@@ -1177,8 +1176,6 @@
 		B7EAD4D818CD927200B28FEC /* AXChatContentValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatContentValidator.m; sourceTree = "<group>"; };
 		B7EAD4D918CD927200B28FEC /* AXChatMessageImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageImageCell.h; sourceTree = "<group>"; };
 		B7EAD4DA18CD927200B28FEC /* AXChatMessageImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageImageCell.m; sourceTree = "<group>"; };
-		B7EAD4DB18CD927200B28FEC /* AXChatMessageNameCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageNameCardCell.h; sourceTree = "<group>"; };
-		B7EAD4DC18CD927200B28FEC /* AXChatMessageNameCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageNameCardCell.m; sourceTree = "<group>"; };
 		B7EAD4DD18CD927200B28FEC /* AXChatMessagePublicCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessagePublicCardCell.h; sourceTree = "<group>"; };
 		B7EAD4DE18CD927200B28FEC /* AXChatMessagePublicCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessagePublicCardCell.m; sourceTree = "<group>"; };
 		B7EAD4DF18CD927200B28FEC /* AXChatMessageRoomSourceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageRoomSourceCell.h; sourceTree = "<group>"; };
@@ -2859,8 +2856,6 @@
 				B7EAD4D618CD927200B28FEC /* AXChatBaseCell.m */,
 				B7EAD4D918CD927200B28FEC /* AXChatMessageImageCell.h */,
 				B7EAD4DA18CD927200B28FEC /* AXChatMessageImageCell.m */,
-				B7EAD4DB18CD927200B28FEC /* AXChatMessageNameCardCell.h */,
-				B7EAD4DC18CD927200B28FEC /* AXChatMessageNameCardCell.m */,
 				B7EAD4DD18CD927200B28FEC /* AXChatMessagePublicCardCell.h */,
 				B7EAD4DE18CD927200B28FEC /* AXChatMessagePublicCardCell.m */,
 				B7EAD4DF18CD927200B28FEC /* AXChatMessageRoomSourceCell.h */,
@@ -3562,7 +3557,6 @@
 				2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */,
 				203EC29B18B2F65400DD0840 /* ClientListViewController.m in Sources */,
 				B7E69BB2183B26A90097D5C3 /* RentBidPropertyCell.m in Sources */,
-				B7EAD51918CD927200B28FEC /* AXChatMessageNameCardCell.m in Sources */,
 				97CB0C18182BEFFC00FCCBBD /* MBProgressHUD.m in Sources */,
 				B7EAD51D18CD927200B28FEC /* AXChatMessageSystemTimeCell.m in Sources */,
 				20B9E76618E3BA4300080C4B /* AXMessageAPILongLinkManager.m in Sources */,

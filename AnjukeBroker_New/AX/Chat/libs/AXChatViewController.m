@@ -17,7 +17,6 @@
 #import "AXChatMessageImageCell.h"
 #import "AXChatMessagePublicCardCell.h"
 #import "AXChatMessageTextCell.h"
-#import "AXChatMessageNameCardCell.h"
 #import "AXChatMessageSystemTimeCell.h"
 #import "AXPhoto.h"
 
@@ -209,11 +208,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     [super viewDidLoad];
     
     // init Data
-    self.conversationListItem = [[AXChatMessageCenter defaultMessageCenter] fetchConversationListItemWithFriendUID:[self checkFriendUid]];
-    self.currentPerson = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson];
-    self.friendPerson = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[self checkFriendUid]];
-    self.cellDict = [NSMutableDictionary dictionary];
-    self.identifierData = [NSMutableArray array];
+    [self initData];
     
     // init UI
     [self initUI];
@@ -223,8 +218,15 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     
 }
 
-#pragma mark - Private Method
+- (void)initData {
+    self.conversationListItem = [[AXChatMessageCenter defaultMessageCenter] fetchConversationListItemWithFriendUID:[self checkFriendUid]];
+    self.currentPerson = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson];
+    self.friendPerson = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[self checkFriendUid]];
+    self.cellDict = [NSMutableDictionary dictionary];
+    self.identifierData = [NSMutableArray array];
+}
 
+#pragma mark - Private Method
 
 - (void)initUI {
     if (self.brokerName) {
@@ -396,15 +398,13 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     locationLab.textAlignment = NSTextAlignmentCenter;
     locationLab.textColor = [UIColor axChatPropDescColor:self.isBroker];
     [self.moreBackView addSubview:locationLab];
-
     
 }
-
 
 - (void)initBlock
 {
     __weak AXChatViewController *blockSelf = self;
-    // 发消息的block
+    // 重发消息的block
     self.finishReSendMessageBlock = ^ (NSArray *messages, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorCode) {
         for (AXMappedMessage *message in messages) {
         
