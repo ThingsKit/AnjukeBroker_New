@@ -351,6 +351,29 @@
 #define CHATVIEW_012 @"910012" //点击保存电话至客户资料
 #define CHATVIEW_013 @"910013" //点击返回
 #define CHATVIEW_014 @"910014" //消息发送失败
+#define CHATVIEW_015 @"910015" //点击发位置
+#define CHATVIEW_016 @"910016" //点击切换至语言
+#define CHATVIEW_017 @"910017" //点击切换至文字
+#define CHATVIEW_018 @"910018" //按住说话
+#define CHATVIEW_019 @"910019" //取消发送语音
+#define CHATVIEW_020 @"910020" //点击查看位置
+
+//位置选择页
+#define LOCATION_CHOOSE_001 @"960001" //页面可见
+#define LOCATION_CHOOSE_002 @"960002" //页面不可见
+#define LOCATION_CHOOSE_003 @"960003" //点击发送
+#define LOCATION_CHOOSE_004 @"960004" //点击返回
+#define LOCATION_CHOOSE_005 @"960005" //移动标点
+
+//位置查看页
+#define LOCATION_VIEW_001 @"970001" //页面可见
+#define LOCATION_VIEW_002 @"970002" //页面不可见
+#define LOCATION_VIEW_003 @"970003" //点击导航
+#define LOCATION_VIEW_004 @"970004" //点击返回
+#define LOCATION_VIEW_005 @"970005" //点击显示路线
+#define LOCATION_VIEW_006 @"970006" //点击第三方地图导航
+#define LOCATION_VIEW_007 @"970007" //点击查看全景地图(Android)
+
 
 //二手房小区选择页
 #define ESF_COMMUNITY_CHAT_001 @"920001"
