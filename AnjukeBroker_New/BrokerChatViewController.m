@@ -372,6 +372,25 @@
 
 }
 
+
+#pragma mark -
+#pragma mark LOG Method
+- (void)clickLocationLog{
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_015 note:nil];
+}
+- (void)switchToVoiceLog{
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_016 note:nil];
+}
+- (void)switchToTextLog{
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_017 note:nil];
+}
+- (void)pressForVoiceLog{
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_018 note:nil];
+}
+- (void)cancelSendingVoiceLog{
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_019 note:nil];
+}
+
 - (void)doBack:(id)sender {
     
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_013 note:nil];

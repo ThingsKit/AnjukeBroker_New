@@ -641,9 +641,6 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 - (void)cancelSendingVoiceLog{
     // do nothing
 }
-- (void)clickForMapCellLog{
-    // do nothing
-}
 
 #pragma mark - DataSouce Method
 - (NSString *)checkFriendUid
@@ -1614,7 +1611,10 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 - (void)pickAJK:(id)sender {
     
 }
+
+
 - (void)locationClick {
+    [self clickLocationLog];
     MapViewController *mv = [[MapViewController alloc] init];
     mv.siteDelegate = self;
     [mv setHidesBottomBarWhenPushed:YES];
@@ -1623,6 +1623,8 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     [self.navigationController pushViewController:mv animated:YES];
 
 }
+
+
 - (void)speeking {
     
     if (!self.moreBackView.isHidden) {
@@ -1635,6 +1637,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         self.messageInputView.textView.editable = NO;
 //        self.messageInputView.textView.selectable = NO;
         self.pressSpeek.frame = self.messageInputView.textView.frame;
+        [self switchToVoiceLog];
     } else {
         self.isVoiceInput = !self.isVoiceInput;
         self.pressSpeek.frame = CGRectZero;
@@ -1642,6 +1645,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         self.messageInputView.textView.editable = YES;
 //        self.messageInputView.textView.selectable = YES;
         [self.messageInputView.textView becomeFirstResponder];
+        [self switchToTextLog];
     }
 
 }
@@ -1660,6 +1664,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         [[AVAudioSession sharedInstance] performSelector:@selector(requestRecordPermission:) withObject:permissionBlock];
     } else {
         [self didBeginVoice];
+        [self pressForVoiceLog];
     }
 }
 
@@ -1757,6 +1762,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     [self.timer invalidate];
     
     [self.hud hide:YES];
+    [self cancelSendingVoiceLog];
     
 }
 
