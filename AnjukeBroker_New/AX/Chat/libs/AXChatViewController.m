@@ -537,7 +537,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         self.needSendProp = NO;
         AXMappedMessage *mappedMessageProp = [[AXMappedMessage alloc] init];
         mappedMessageProp.accountType = [self checkAccountType];
-        mappedMessageProp.content = [propDict JSONRepresentation];
+        mappedMessageProp.content = [propDict RTJSONRepresentation];
         mappedMessageProp.to = [self checkFriendUid];
         mappedMessageProp.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
         mappedMessageProp.isRead = YES;
@@ -1227,10 +1227,10 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     NSMutableDictionary *data = [message.content JSONValue];
     if (data && !data[@"hadDone"]) {
         data[@"hadDone"] = @"1";
-        message.content = [data JSONRepresentation];
+        message.content = [data RTJSONRepresentation];
         NSMutableDictionary *dict = self.cellDict[message.identifier];
         if (dict) {
-            dict[@"content"] = [data JSONRepresentation];
+            dict[@"content"] = [data RTJSONRepresentation];
             self.cellDict[message.identifier] = dict;
         }
         
@@ -1453,7 +1453,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         // 发送
         AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
         mappedMessage.accountType = [self checkAccountType];
-        mappedMessage.content = [@{@"jsonVersion":AXChatJsonVersion, @"length":[NSString stringWithFormat:@"%d", [[NSNumber numberWithFloat:cTime] integerValue]]} JSONRepresentation];
+        mappedMessage.content = [@{@"jsonVersion":AXChatJsonVersion, @"length":[NSString stringWithFormat:@"%d", [[NSNumber numberWithFloat:cTime] integerValue]]} RTJSONRepresentation];
         mappedMessage.to = [self checkFriendUid];
         mappedMessage.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
         mappedMessage.isRead = YES;

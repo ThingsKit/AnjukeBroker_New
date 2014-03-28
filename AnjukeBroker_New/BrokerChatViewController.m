@@ -221,7 +221,7 @@
     
     AXMappedMessage *mappedMessageProp = [[AXMappedMessage alloc] init];
     mappedMessageProp.accountType = @"1";
-    mappedMessageProp.content = [propDict JSONRepresentation];
+    mappedMessageProp.content = [propDict RTJSONRepresentation];
     mappedMessageProp.to = [self checkFriendUid];
     mappedMessageProp.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
     mappedMessageProp.isRead = YES;
@@ -511,7 +511,7 @@
     
     AXMappedMessage *mappedMessageProp = [[AXMappedMessage alloc] init];
     mappedMessageProp.accountType = @"2";
-    mappedMessageProp.content = [dic JSONRepresentation];
+    mappedMessageProp.content = [dic RTJSONRepresentation];
     mappedMessageProp.to = [self checkFriendUid];
     mappedMessageProp.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
     mappedMessageProp.isRead = YES;

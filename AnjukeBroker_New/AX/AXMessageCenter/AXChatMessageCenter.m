@@ -1297,7 +1297,7 @@ static NSString * const kLastVersionApiSite = @"http://chatapi.dev.anjuke.com";
                 if (dic[@"length"]) {
                     dic[@"file_id"] = voiceID;
                 }
-                dataMessage.content = [dic JSONRepresentation];
+                dataMessage.content = [dic RTJSONRepresentation];
                 dataMessage.imgUrl = voiceID;
                 NSMutableDictionary *params = [NSMutableDictionary dictionary];
                 params[@"msg_type"] = [NSString stringWithFormat:@"%@",dataMessage.messageType];
