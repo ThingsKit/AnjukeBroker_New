@@ -19,6 +19,7 @@
 #import "AXChatMessageTextCell.h"
 #import "AXChatMessageNameCardCell.h"
 #import "AXChatMessageSystemTimeCell.h"
+#import "AXPhoto.h"
 
 #import "NSString+AXChatMessage.h"
 #import "UIColor+AXChatMessage.h"
@@ -32,6 +33,7 @@
 // Controller
 #import "AXChatWebViewController.h"
 #import "MapViewController.h"
+#import "AXPhotoBrowser.h"
 
 #import "AXPhotoManager.h"
 #import "AXCellFactory.h"
@@ -1969,7 +1971,29 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 }
 - (void)didClickIMG:(AXChatBaseCell *)axCell {
-    
+    NSIndexPath *indexPath = [self.myTableView indexPathForCell:axCell];
+    NSString *identifier = (self.identifierData)[[indexPath row]];
+    NSDictionary *dic = self.cellDict[identifier];
+    if ([dic[@"messageType"] isEqualToNumber:@(AXMessageTypePic)]) {
+        NSMutableArray *imgArray = [NSMutableArray arrayWithArray:[[AXChatMessageCenter defaultMessageCenter] picMessageArrayWithFriendUid:[self checkFriendUid]]];
+        
+        NSArray *temparray = [[imgArray reverseObjectEnumerator] allObjects];
+        NSMutableArray *photoArray = [NSMutableArray array];
+        int currentPhotoIndex = 0;
+        for (int i =0; i <temparray.count; i ++) {
+            AXPhoto *photo = [[AXPhoto alloc] init];
+            photo.picMessage = temparray[i];
+            if ([dic[@"identifier"] isEqualToString:photo.picMessage.identifier]) {
+                currentPhotoIndex = i;
+            }
+            [photoArray addObject:photo];
+        }
+        AXPhotoBrowser *controller = [[AXPhotoBrowser alloc] init];
+        controller.isBroker = YES;
+        controller.currentPhotoIndex = currentPhotoIndex; // 弹出相册时显示的第一张图片是？
+        [controller setPhotos:photoArray]; // 设置所有的图片
+        [self.navigationController pushViewController:controller animated:YES];
+    }
 }
 -(void)loadMapSiteMessage:(NSDictionary *)mapSiteDic {
 

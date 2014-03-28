@@ -119,28 +119,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *identifier = (self.identifierData)[[indexPath row]];
-    NSDictionary *dic = self.cellDict[identifier];
-    if ([dic[@"messageType"] isEqualToNumber:@(AXMessageTypePic)]) {
-        NSMutableArray *imgArray = [NSMutableArray arrayWithArray:[[AXChatMessageCenter defaultMessageCenter] picMessageArrayWithFriendUid:[self checkFriendUid]]];
-        
-        NSArray *temparray = [[imgArray reverseObjectEnumerator] allObjects];
-        NSMutableArray *photoArray = [NSMutableArray array];
-        int currentPhotoIndex = 0;
-        for (int i =0; i <temparray.count; i ++) {
-            AXPhoto *photo = [[AXPhoto alloc] init];
-            photo.picMessage = temparray[i];
-            if ([dic[@"identifier"] isEqualToString:photo.picMessage.identifier]) {
-                currentPhotoIndex = i;
-            }
-            [photoArray addObject:photo];
-        }
-        AXPhotoBrowser *controller = [[AXPhotoBrowser alloc] init];
-        controller.isBroker = YES;
-        controller.currentPhotoIndex = currentPhotoIndex; // 弹出相册时显示的第一张图片是？
-        [controller setPhotos:photoArray]; // 设置所有的图片
-        [self.navigationController pushViewController:controller animated:YES];
-    }
+
 }
 - (void)pickIMG:(id)sender {
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_006 note:nil];
@@ -486,9 +465,7 @@
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController pushViewController:mv animated:YES];
 }
-- (void)didClickIMG:(AXChatBaseCell *)axCell {
 
-}
 #pragma mark -
 #pragma MapViewControllerDelegate
 - (void)loadMapSiteMessage:(NSDictionary *)mapSiteDic {
