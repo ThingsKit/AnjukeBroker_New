@@ -220,11 +220,15 @@
         [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_007 note:nil];
         
         item.image = [UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"];
+        
+        [self showInfo:@"该客户已取消标星"];
     }
     else{
         [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_006 note:nil];
         
         item.image = [UIImage imageNamed:@"anjuke_icon_danye_xingbiao_.png"];
+        
+        [self showInfo:@"该客户已标星"];
     }
 }
 
