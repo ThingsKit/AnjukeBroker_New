@@ -626,6 +626,25 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     // do nothing
 }
 
+- (void)clickLocationLog{
+    // do nothing
+}
+- (void)switchToVoiceLog{
+    // do nothing
+}
+- (void)switchToTextLog{
+    // do nothing
+}
+- (void)pressForVoiceLog{
+    // do nothing
+}
+- (void)cancelSendingVoiceLog{
+    // do nothing
+}
+- (void)clickForMapCellLog{
+    // do nothing
+}
+
 #pragma mark - DataSouce Method
 - (NSString *)checkFriendUid
 {

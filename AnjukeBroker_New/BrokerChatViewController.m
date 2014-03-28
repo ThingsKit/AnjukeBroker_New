@@ -499,6 +499,8 @@
     mv.navDic = dic;
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController pushViewController:mv animated:YES];
+    
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_020 note:nil];
 }
 
 #pragma mark -
