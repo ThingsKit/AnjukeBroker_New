@@ -123,6 +123,9 @@
     maskLayer.frame = self.locationLabel.bounds;
     maskLayer.path = maskPath.CGPath;
     self.locationLabel.layer.mask = maskLayer;
+    CGRect localFrame = self.locationLabel.frame;
+
+    self.activity.frame = CGRectMake((localFrame.size.width - 32.0f) / 2.0f, (localFrame.size.height - 32.0f) / 2.0f, 32, 32);
     
     self.mapControl.frame = self.bubbleIMG.frame;
 }
