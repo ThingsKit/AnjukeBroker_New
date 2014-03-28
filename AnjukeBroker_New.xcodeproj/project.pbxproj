@@ -75,7 +75,6 @@
 		20A07429188C0A080073C915 /* PublishTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A07428188C0A080073C915 /* PublishTableViewDataSource.m */; };
 		20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A09790188D0A4E00D30196 /* PublishInputOrderModel.m */; };
 		20A09794188D2C4400D30196 /* PublishDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A09793188D2C4400D30196 /* PublishDataModel.m */; };
-		20A2177818BF118E002CA469 /* anjuke_icon_attention@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A2177618BF118E002CA469 /* anjuke_icon_attention@2x.png */; };
 		20A2177918BF118E002CA469 /* anjuke_icon_fasonging@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A2177718BF118E002CA469 /* anjuke_icon_fasonging@2x.png */; };
 		20A2178518BF1804002CA469 /* CommunitySelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2177C18BF1804002CA469 /* CommunitySelectViewController.m */; };
 		20A2178618BF1804002CA469 /* HouseSelectCommunityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2177E18BF1804002CA469 /* HouseSelectCommunityCell.m */; };
@@ -648,7 +647,6 @@
 		20A09790188D0A4E00D30196 /* PublishInputOrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishInputOrderModel.m; sourceTree = "<group>"; };
 		20A09792188D2C4400D30196 /* PublishDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishDataModel.h; sourceTree = "<group>"; };
 		20A09793188D2C4400D30196 /* PublishDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishDataModel.m; sourceTree = "<group>"; };
-		20A2177618BF118E002CA469 /* anjuke_icon_attention@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_attention@2x.png"; sourceTree = "<group>"; };
 		20A2177718BF118E002CA469 /* anjuke_icon_fasonging@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_fasonging@2x.png"; sourceTree = "<group>"; };
 		20A2177B18BF1804002CA469 /* CommunitySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommunitySelectViewController.h; sourceTree = "<group>"; };
 		20A2177C18BF1804002CA469 /* CommunitySelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommunitySelectViewController.m; sourceTree = "<group>"; };
@@ -2081,7 +2079,6 @@
 				20DACCEF18C97C6200061F9C /* anjuke_icon_add_@2x.png */,
 				200DAB4418DFCB050077E0C9 /* Overlay@2x.png */,
 				2039E58418C421FF003ED781 /* anjuke_icon_headpic@2x.png */,
-				20A2177618BF118E002CA469 /* anjuke_icon_attention@2x.png */,
 				20A2177718BF118E002CA469 /* anjuke_icon_fasonging@2x.png */,
 				2079ADE818B5FD610029D493 /* anjuke_icon_danye_more_@2x.png */,
 				2079ADE918B5FD610029D493 /* anjuke_icon_danye_noxingbiao_@2x.png */,
@@ -3275,7 +3272,6 @@
 				B7EF77A1183CBB100024A5E6 /* anjuke_icon_draft@2x.png in Resources */,
 				201BC95118CEF15900565BF6 /* Default~iphone.png in Resources */,
 				2761B89C187C053C00EABF95 /* logo_57.png in Resources */,
-				20A2177818BF118E002CA469 /* anjuke_icon_attention@2x.png in Resources */,
 				B7FC9AC918C41B1300F77205 /* anjuke_icon_add_pic4@2x.png in Resources */,
 				B7FC9AED18C41B1300F77205 /* xproject_dialogue_greencard_selected@2x.png in Resources */,
 				B7FC9AF218C41B1300F77205 /* xproject_dialogue_greybutton.png in Resources */,
