@@ -101,7 +101,7 @@
     self.tableViewList = tv;
     tv.delegate = self;
     tv.dataSource = self;
-//    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:tv];
     
     //设置按钮
@@ -182,7 +182,7 @@
     }
     AXConversationListItem *item = [self.sessionFetchedResultsController fetchedObjects][indexPath.row];
     [cell configureCell:item];
-//    [cell showBottonLineWithCellHeight:MESSAGE_LIST_HEIGHT andOffsetX:CELL_MESSAGELIST_OFFSETX];
+    [cell showBottonLineWithCellHeight:MESSAGE_LIST_HEIGHT andOffsetX:CELL_MESSAGELIST_OFFSETX];
     
     return cell;
 }

@@ -54,14 +54,14 @@
     iconLb.textAlignment = NSTextAlignmentCenter;
 //    [self.contentView addSubview:iconLb];
     
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 14, 14, 200, 20)];
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 14, 12, 200, 20)];
     self.nameLb = nameLabel;
     nameLabel.backgroundColor = [UIColor clearColor];
     nameLabel.textColor = SYSTEM_BLACK;
     nameLabel.font = [UIFont systemFontOfSize:16];
     [self.contentView addSubview:nameLabel];
     
-    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(320 - CELL_OFFSET_TITLE - 120, 14, 120, 20)];
+    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(320 - CELL_OFFSET_TITLE - 120, 12, 120, 15)];
     self.timeLb = timeLabel;
     timeLabel.backgroundColor = [UIColor clearColor];
     timeLabel.textColor = SYSTEM_LIGHT_GRAY;
