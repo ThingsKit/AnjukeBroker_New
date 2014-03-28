@@ -26,13 +26,10 @@
         [self initUI];
         self.isBroker = YES;
     
-        if (!ISIOS6) {
-            [self performSelector:@selector(addCallView) withObject:nil afterDelay:0.5];
-        }
     }
     return self;
 }
--(void)addCallView{
+- (void)layoutSubviews{
     regionAnnotaytion = self.annotation;
     
     self.canShowCallout = NO;
@@ -70,38 +67,7 @@
     [self.regionDetailView addSubview:self.bgImgView];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated{
-    if (!ISIOS6) {
-        return;
-    }
-    [super setSelected:selected animated:animated];
-    regionAnnotaytion = self.annotation;
-    self.canShowCallout = NO;
-    if (selected) {
-        switch (regionAnnotaytion.annotationStatus) {
-            case ChooseLoading:
-                [self loadLoadingView];
-                break;
-            case ChooseSuc:
-                [self loadChooseSucView];
-                break;
-            case ChooseFail:
-                [self loadFailView];
-                break;
-            case NaviLoading:
-                [self loadNaviViewForLoading];
-                break;
-            case NaviSuc:
-                [self loadNaviView];
-                break;
-            case NaviFail:
-                [self loadNaviViewForFail];
-                break;
-            default:
-                break;
-        }
-    }
-}
+
 //选址获取地址加载
 -(void)loadLoadingView{
     [self initUI];
