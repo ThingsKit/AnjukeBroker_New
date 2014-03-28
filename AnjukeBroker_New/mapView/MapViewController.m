@@ -227,7 +227,7 @@
     UIImage *highlighted = [UIImage imageWithContentsOfFile:[NSString getStyleBundlePath:@"anjuke_icon_back.png"]];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, 0, image.size.width + 40 , 44);
-    [button addTarget:self action:@selector(doBack:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
     [button setImage:image forState:UIControlStateNormal];
     [button setImage:highlighted forState:UIControlStateHighlighted];
     [button setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 40)];
@@ -240,7 +240,7 @@
     button.backgroundColor = [UIColor clearColor];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
 }
--(void)doBack:(id)sender{
+-(void)goBack:(id)sender{
     if (self.mapType == RegionChoose) {
         [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_CHOOSE_004 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime],@"ot", nil]];
     }else{
