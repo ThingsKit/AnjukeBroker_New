@@ -1165,8 +1165,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 - (void)didMessageRetry:(AXChatMessageRootCell *)axCell
 {
-				#warning // 之后必改.公众号写死了，101是经纪人助手====100是安居客公众号；
-    if ([self.uid isEqualToString:@"101"]) {
+    if (self.friendPerson.userType == AXPersonTypePublic) {
         if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
             [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
         }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeProperty)]){
@@ -1862,8 +1861,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     mappedMessage.isRemoved = NO;
     mappedMessage.messageType = @(AXMessageTypeText);
     
-    if ([self.uid isEqualToString:@"101"]) {
-#warning todo 之后必改
+    if (self.friendPerson.userType == AXPersonTypePublic) {
         [[AXChatMessageCenter defaultMessageCenter] sendMessageToPublic:mappedMessage willSendMessage:self.finishSendMessageBlock];
     } else {
         [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessage willSendMessage:self.finishSendMessageBlock];

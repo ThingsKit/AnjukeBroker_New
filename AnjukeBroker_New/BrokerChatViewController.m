@@ -409,8 +409,7 @@
 
 - (void)didMessageRetry:(AXChatMessageRootCell *)axCell
 {
-#warning // 之后必改.公众号写死了，101是经纪人助手====100是安居客公众号；
-    if ([self.uid isEqualToString:@"101"]) {
+    if (self.friendPerson.userType == AXPersonTypePublic) {
         if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
             [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
         }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeProperty)]){

@@ -83,7 +83,8 @@
     self.mapIMGView.layer.masksToBounds = YES;
     
     if ([self.dataDic[@"address"] length] == 0) {
-        [self getGeoLocation];
+        self.activity.hidden = NO;
+        
     }else {
         self.locationLabel.text = self.dataDic[@"address"];
         
@@ -128,26 +129,6 @@
     self.activity.frame = CGRectMake((localFrame.size.width - 32.0f) / 2.0f, (localFrame.size.height - 32.0f) / 2.0f, 32, 32);
     
     self.mapControl.frame = self.bubbleIMG.frame;
-}
-
-- (void)getGeoLocation{
-    [self.activity startAnimating];
-    self.activity.hidden = NO;
-    CGFloat locallat = [[self.dataDic objectForKey:@"lat"] floatValue];
-    CGFloat locallng = [[self.dataDic objectForKey:@"lng"] floatValue];
-    [[RTRequestProxy sharedInstance] geoWithLat:[NSString stringWithFormat:@"%f", locallat] lng:[NSString stringWithFormat:@"%f", locallng] target:self action:@selector(geoDidFinishGetAddress:)];
-}
-
-- (void)geoDidFinishGetAddress:(RTNetworkResponse *) response {
-//    [self.activity stopAnimating];
-    if ([response.content[@"status"] isEqualToString:@"OK"]) {
-#warning TODO 需不需要此功能！
-    }
-//    if ([self.dataDic[@"address"] length] > 0) {
-//        self.locationLabel.text = self.dataDic[@"address"];
-//    }else {
-//        self.locationLabel.text = @"中国上海市 浦东新区 东方路1217号 陆家嘴金融服务广场";
-//    }
 }
 
 - (void)didClickMap {
