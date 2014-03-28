@@ -29,15 +29,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-	[self.navigationItem setTitle:PhotoPickerTitle];
+	   
+    [self setTitleForNavBarWithStr:PhotoPickerTitle];
     
     if (![AppManager isIOS6]) {
         self.navigationController.navigationBar.barTintColor = SYSTEM_NAVBAR_DARK_BG;
     }
     
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self.parent action:@selector(cancelImagePicker)];
-    cancelButton.tintColor = SYSTEM_ORANGE;
+    cancelButton.tintColor = SYSTEM_NAVIBAR_COLOR;
 	[self.navigationItem setRightBarButtonItem:cancelButton];
 
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];
@@ -94,7 +94,7 @@
 - (void)reloadTableView
 {
 	[self.tableView reloadData];
-	[self.navigationItem setTitle:PhotoPickerTitle];
+//    [self setTitleForNavBarWithStr:PhotoPickerTitle];
 }
 
 - (BOOL)shouldSelectAsset:(ELCAsset *)asset previousCount:(NSUInteger)previousCount
@@ -105,6 +105,16 @@
 - (void)selectedAssets:(NSArray*)assets
 {
 	[_parent selectedAssets:assets];
+}
+
+- (void)setTitleForNavBarWithStr:(NSString *)title {
+    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
+    lb.backgroundColor = [UIColor clearColor];
+    lb.font = [UIFont systemFontOfSize:19];
+    lb.text = title;
+    lb.textAlignment = NSTextAlignmentCenter;
+    lb.textColor = SYSTEM_NAVIBAR_COLOR;
+    self.navigationItem.titleView = lb;
 }
 
 #pragma mark -
