@@ -32,7 +32,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [self setTitleViewWithString:@"详细信息"];
+    [self setTitleViewWithString:@"详细资料"];
     self.view.backgroundColor = SYSTEM_LIGHT_GRAY_BG2;
 }
 

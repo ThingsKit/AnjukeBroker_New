@@ -51,7 +51,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [self setTitleViewWithString:@"客户资料"];
+    [self setTitleViewWithString:@"详细资料"];
     
     UIBarButtonItem *moreItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_danye_more_.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
     

@@ -58,7 +58,9 @@
 }
 
 - (void)initDisplay {
-    WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(40, 35, 40, 40)];
+    CGFloat imgGap = 20;
+    
+    WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(imgGap, 35, 40, 40)];
     icon.backgroundColor = [UIColor clearColor];
     icon.layer.borderWidth = 0.5;
     icon.layer.borderColor = SYSTEM_BLACK.CGColor;
@@ -81,7 +83,7 @@
     self.remarkLb = titleLb2;
     [self.view addSubview:titleLb2];
     
-    CGFloat bgW = 260;
+    CGFloat bgW = [self windowWidth] - imgGap*2;;
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(icon.frame.origin.x, icon.frame.origin.y + icon.frame.size.height + 30, bgW, bgW+20)];
     bgView.backgroundColor = [UIColor whiteColor];
     bgView.layer.borderColor = [UIColor lightGrayColor].CGColor;

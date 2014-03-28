@@ -52,7 +52,6 @@
         self.delegate = self;
         self.controllerArrays = [NSMutableArray array]; //保留4个首页
         
-        
         //add four nav controllers
         //首页
         HomeViewController *hv = [[HomeViewController alloc] init];
