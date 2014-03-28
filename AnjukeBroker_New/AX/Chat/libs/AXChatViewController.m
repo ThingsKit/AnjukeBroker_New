@@ -49,12 +49,6 @@ static CGFloat const AXInputBackViewHeight = 49;
 //键盘高度
 static CGFloat const AXMoreBackViewHeight = 217.0f;
 
-//输入框的宽度
-static CGFloat const AXInputTextWidth = 260.0f;
-static CGFloat const AXInputTextLeft = 12.0f;
-static CGFloat const AXInputTextHeight = 30.0f;
-static CGFloat const AXTextCellMoreHeight = 60.0f;
-
 #ifdef DEBUG
 static NSInteger const AXMessagePageSize = 15;
 #else
