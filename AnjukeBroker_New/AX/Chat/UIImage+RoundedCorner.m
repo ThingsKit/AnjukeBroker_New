@@ -7,7 +7,7 @@
 #import "UIImage+Alpha.h"
 
 // Private helper methods
-@interface UIImage ()
+@interface UIImage (Private)
 - (void)addRoundedRectToPath:(CGRect)rect context:(CGContextRef)context ovalWidth:(CGFloat)ovalWidth ovalHeight:(CGFloat)ovalHeight;
 @end
 
@@ -28,7 +28,7 @@
                                                  0,
                                                  CGImageGetColorSpace(image.CGImage),
                                                  CGImageGetBitmapInfo(image.CGImage));
-
+    
     // Create a clipping path with rounded corners
     CGContextBeginPath(context);
     [self addRoundedRectToPath:CGRectMake(borderSize, borderSize, image.size.width - borderSize * 2, image.size.height - borderSize * 2)
@@ -37,7 +37,7 @@
                     ovalHeight:cornerSize];
     CGContextClosePath(context);
     CGContextClip(context);
-
+    
     // Draw the image to the context; the clipping path will make anything outside the rounded rect transparent
     CGContextDrawImage(context, CGRectMake(0, 0, image.size.width, image.size.height), image.CGImage);
     

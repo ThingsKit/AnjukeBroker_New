@@ -303,8 +303,6 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         [self.messageInputView addSubview:self.voiceBut];
         
         self.pressSpeek = [[UIButton alloc] initWithFrame:CGRectZero];
-#warning Note Do not edit pressSpeek frame anymore
-//        self.pressSpeek.frame = self.messageInputView.textView.frame;
         [self.pressSpeek addTarget:self action:@selector(didClickRecored:) forControlEvents:UIControlEventTouchDown];
         [self.pressSpeek addTarget:self action:@selector(didCommitVoice) forControlEvents:UIControlEventTouchUpInside];
         [self.pressSpeek addTarget:self action:@selector(didCancelVoice) forControlEvents:UIControlEventTouchUpOutside];
@@ -1577,10 +1575,8 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     
 }
 
-
 - (void)pickIMG:(id)sender {
     ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] init];
-    
     elcPicker.maximumImagesCount = 5; //(maxCount - self.roomImageArray.count);
     elcPicker.imagePickerDelegate = self;
     [self presentViewController:elcPicker animated:YES completion:nil];
@@ -1591,6 +1587,12 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     ipc.sourceType = UIImagePickerControllerSourceTypeCamera; //拍照
     ipc.delegate = self;
     [self presentViewController:ipc animated:YES completion:nil];
+    
+}
+- (void)pickHZ:(id)sender {
+    
+}
+- (void)pickAJK:(id)sender {
     
 }
 - (void)locationClick {
