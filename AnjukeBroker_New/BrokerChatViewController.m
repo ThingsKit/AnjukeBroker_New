@@ -88,10 +88,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self loadIcon];
+    [self downLoadIcon];
 }
 
-- (void)loadIcon {
+- (void)downLoadIcon {
     //保存头像
     AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
     if (person.iconPath.length < 2) {
