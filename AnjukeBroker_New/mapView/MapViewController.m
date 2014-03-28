@@ -625,7 +625,7 @@
         
         annotationView.backgroundColor = [UIColor clearColor];
         annotationView.annotation = annotation;
-        [annotationView setNeedsLayout];
+        [annotationView layoutSubviews];
         [annotationView setCanShowCallout:NO];
         
         return annotationView;
