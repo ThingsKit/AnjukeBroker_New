@@ -29,7 +29,7 @@
     }
     return self;
 }
-- (void)layoutSubviews{
+- (void)addAnnotationView{
     regionAnnotaytion = self.annotation;
     
     self.canShowCallout = NO;

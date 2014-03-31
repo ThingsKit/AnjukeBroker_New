@@ -162,21 +162,12 @@
     }else{
         [self getChangedLoc];
         CLLocation *loc = [[CLLocation alloc] initWithLatitude:naviCoordsGd.latitude longitude:naviCoordsGd.longitude];
-        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(naviCoordsGd, 500, 500);
+        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(naviCoordsGd, 200, 200);
         self.naviRegion = [self.regionMapView regionThatFits:viewRegion];
         
         [self.regionMapView setRegion:self.naviRegion animated:NO];
         [self showAnnotation:loc coord:naviCoordsGd];
-
-        if (!ISIOS6) {
-            [self performSelector:@selector(setRegionAgain) withObject:nil afterDelay:2.0];
-        }
     }
-}
--(void)setRegionAgain{
-    MKCoordinateRegion viewRegion1 = MKCoordinateRegionMakeWithDistance(naviCoordsGd, 200, 200);
-    self.naviRegion = [self.regionMapView regionThatFits:viewRegion1];
-    [self.regionMapView setRegion:self.naviRegion animated:NO];
 }
 #pragma mark - 百度和火星经纬度转换
 -(void)getChangedLoc{
@@ -659,7 +650,7 @@
         
         annotationView.backgroundColor = [UIColor clearColor];
         annotationView.annotation = annotation;
-        [annotationView layoutSubviews];
+        [annotationView addAnnotationView];
         [annotationView setCanShowCallout:NO];
         
         return annotationView;

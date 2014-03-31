@@ -19,5 +19,5 @@
 @property(nonatomic,assign) id<doAcSheetDelegate>acSheetDelegate;
 @property(nonatomic,assign) BOOL isBroker;
 @property(nonatomic,strong) RegionAnnotation *regionAnnotaytion;
-- (void)layoutSubviews;
+- (void)addAnnotationView;
 @end
