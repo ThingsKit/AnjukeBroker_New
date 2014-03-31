@@ -94,13 +94,12 @@
         [self.controllerArrays addObject:navHZ];
         navHZ.tabBarItem = [self getTabBarItemWithTitle:@"租房" image:[UIImage imageNamed:@"anjuke_icon_zf.png"] index:5 selectedImg:[UIImage imageNamed:@"anjuke_icon_zf1.png"]];
         
-        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:SYSTEM_TABBAR_SELECTCOLOR_DARK, UITextAttributeTextColor, nil] forState:UIControlStateHighlighted];
-        
         self.viewControllers = controllerArrays;
+        
         if (![AppManager isIOS6]) {
-            [self.tabBar setTintColor:SYSTEM_TABBAR_SELECTCOLOR_DARK];
             [self.tabBar setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_tab_bg.png"]];
         }
+        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:SYSTEM_TABBAR_SELECTCOLOR_DARK, UITextAttributeTextColor, nil] forState:UIControlStateHighlighted];
     }
     
     return self;

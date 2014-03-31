@@ -113,7 +113,7 @@
 }
 
 - (void)rightButtonAction:(id)sender {
-    if ([self isNetworkOkay] && [LoginManager getChatID].length > 0 && [LoginManager getPhone].length > 0) {
+    if ([LoginManager getChatID].length > 0 && [LoginManager getPhone].length > 0) {
         [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_003 note:nil];
         
         ClientListViewController *ml = [[ClientListViewController alloc] init];
