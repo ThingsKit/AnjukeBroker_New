@@ -1656,6 +1656,15 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         [self.messageInputView.textView resignFirstResponder];
         self.messageInputView.textView.editable = NO;
         self.pressSpeek.frame = self.messageInputTextViewFrame;
+        
+        [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
+         - self.messageInputView.frame.origin.y
+         - self.messageInputViewFrame.size.height ];
+        self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height
+                                                - self.messageInputView.frame.origin.y
+                                                - self.messageInputViewFrame.size.height);
+        [self scrollToBottomAnimated:YES];
+        
         [self switchToVoiceLog];
     } else {
         self.messageInputView.textView.text = self.currentText;
