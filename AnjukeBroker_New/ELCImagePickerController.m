@@ -75,6 +75,9 @@
         ALAssetRepresentation *assetRep = [asset defaultRepresentation];
         
         CGImageRef imgRef = [assetRep fullScreenImage];
+        if (!imgRef) {
+            continue;
+        }
         UIImage *img = [UIImage imageWithCGImage:imgRef
                                            scale:1.0f
                                      orientation:UIImageOrientationUp];
