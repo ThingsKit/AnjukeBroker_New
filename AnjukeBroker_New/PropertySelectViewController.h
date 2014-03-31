@@ -11,6 +11,7 @@
 #import "LoginManager.h"
 #import "PropertyDetailCell.h"
 #import "HouseSelectNavigationController.h"
+#import "PropertyResponder.h"
 
 typedef enum {
     secondHandPropertyHouse = 0,

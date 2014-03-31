@@ -1237,7 +1237,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     }
     // 更新数据库
     NSMutableDictionary *data = [message.content JSONValue];
-    if (data && !data[@"hadDone"]) {
+    if (data && !data[@"hadDone"] && axCell.messageSource == AXChatMessageSourceDestinationIncoming) {
         data[@"hadDone"] = @"1";
         message.content = [data RTJSONRepresentation];
         NSMutableDictionary *dict = self.cellDict[message.identifier];

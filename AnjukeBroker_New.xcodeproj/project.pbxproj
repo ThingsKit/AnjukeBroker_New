@@ -290,6 +290,7 @@
 		B721095518278B4E00904FC7 /* SalePropertyListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B721095418278B4E00904FC7 /* SalePropertyListCell.m */; };
 		B721095818278E6000904FC7 /* RentPropertyListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B721095718278E6000904FC7 /* RentPropertyListCell.m */; };
 		B721095B1827976500904FC7 /* RentNoPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = B721095A1827976500904FC7 /* RentNoPlanController.m */; };
+		B723C11A18E9380400584B2C /* PropertyResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = B723C11918E9380400584B2C /* PropertyResponder.m */; };
 		B769E441181F45AF00A2FF50 /* BaseFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E440181F45AF00A2FF50 /* BaseFixedDetailController.m */; };
 		B769E445181F462C00A2FF50 /* SaleFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E444181F462C00A2FF50 /* SaleFixedDetailController.m */; };
 		B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E44B181F4C3E00A2FF50 /* CommunityObject.m */; };
@@ -994,6 +995,8 @@
 		B721095718278E6000904FC7 /* RentPropertyListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentPropertyListCell.m; sourceTree = "<group>"; };
 		B72109591827976500904FC7 /* RentNoPlanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentNoPlanController.h; sourceTree = "<group>"; };
 		B721095A1827976500904FC7 /* RentNoPlanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentNoPlanController.m; sourceTree = "<group>"; };
+		B723C11818E9380400584B2C /* PropertyResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyResponder.h; sourceTree = "<group>"; };
+		B723C11918E9380400584B2C /* PropertyResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyResponder.m; sourceTree = "<group>"; };
 		B769E43F181F45AF00A2FF50 /* BaseFixedDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseFixedDetailController.h; sourceTree = "<group>"; };
 		B769E440181F45AF00A2FF50 /* BaseFixedDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseFixedDetailController.m; sourceTree = "<group>"; };
 		B769E443181F462C00A2FF50 /* SaleFixedDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleFixedDetailController.h; sourceTree = "<group>"; };
@@ -1597,6 +1600,8 @@
 		20A2178A18BF19CC002CA469 /* 房源选择底层 */ = {
 			isa = PBXGroup;
 			children = (
+				B723C11818E9380400584B2C /* PropertyResponder.h */,
+				B723C11918E9380400584B2C /* PropertyResponder.m */,
 				20A2178118BF1804002CA469 /* HouseSelectViewController.h */,
 				20A2178218BF1804002CA469 /* HouseSelectViewController.m */,
 				20A2177D18BF1804002CA469 /* HouseSelectCommunityCell.h */,
@@ -3403,6 +3408,7 @@
 				97B4225A1820DB8300A2E9E6 /* AnjukePropertyGroupCell.m in Sources */,
 				B7EA04A61844D40900AC8842 /* BrokerAccountController.m in Sources */,
 				970DB71D183AFFE700DEB455 /* AboutUsViewController.m in Sources */,
+				B723C11A18E9380400584B2C /* PropertyResponder.m in Sources */,
 				97B422681821087600A2E9E6 /* PropertyBigImageViewController.m in Sources */,
 				207526B918B45FE10022220C /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				B7E56D0F183DBAD600A0F7D2 /* AnjukeOnlineImgController.m in Sources */,
