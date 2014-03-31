@@ -1815,6 +1815,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     __block AXChatViewController *blockObject = self;
     [KKAudioComponent sharedAudioComponent].recordDidInterruptBlock = ^{
         [blockObject didCommitVoice];
+        self.isInterrupted = YES;
     };
     
 }
