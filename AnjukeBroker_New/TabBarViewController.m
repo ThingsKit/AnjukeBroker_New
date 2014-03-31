@@ -94,12 +94,11 @@
         [self.controllerArrays addObject:navHZ];
         navHZ.tabBarItem = [self getTabBarItemWithTitle:@"租房" image:[UIImage imageNamed:@"anjuke_icon_zf.png"] index:5 selectedImg:[UIImage imageNamed:@"anjuke_icon_zf1.png"]];
         
+        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:SYSTEM_TABBAR_SELECTCOLOR_DARK, UITextAttributeTextColor, nil] forState:UIControlStateHighlighted];
+        
         self.viewControllers = controllerArrays;
         if (![AppManager isIOS6]) {
             [self.tabBar setTintColor:SYSTEM_TABBAR_SELECTCOLOR_DARK];
-//            [self.tabBar setTintColor:SYSTEM_ORANGE];
-//            [self.tabBar setBackgroundColor:SYSTEM_NAVBAR_DARK_BG];
-//            [self.tabBar setBarStyle:UIBarStyleBlack];
             [self.tabBar setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_tab_bg.png"]];
         }
     }
@@ -152,6 +151,12 @@
 }
 
 - (UITabBarItem *)getTabBarItemWithTitle:(NSString *)title image:(UIImage *)image index:(int)index selectedImg:(UIImage *)selectedImg{
+    
+    if (![AppManager isIOS6]) {
+        image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        selectedImg = [selectedImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
+    
     UITabBarItem *tabBarItem = nil;
     tabBarItem = [[UITabBarItem alloc] initWithTitle:title image:image tag:index];
     tabBarItem.imageInsets = tabItemInsertsMake;

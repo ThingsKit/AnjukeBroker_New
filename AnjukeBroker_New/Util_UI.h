@@ -22,7 +22,8 @@
 #define SYSTEM_ZZ_RED [UIColor colorWithRed:0.93 green:0.24 blue:0.25 alpha:1]
 #define SYSTEM_NAVBAR_DARK_BG [Util_UI colorWithHexString:@"252D3B"]
 #define SYSTEM_NAVIBAR_COLOR [UIColor colorWithRed:1 green:1 blue:1 alpha:1]
-#define SYSTEM_TABBAR_SELECTCOLOR_DARK [Util_UI colorWithHexString:@"0079FF"]
+#define SYSTEM_TABBAR_SELECTCOLOR_DARK [Util_UI colorWithHexString:@"1a8ff2"]
+
 
 @interface Util_UI : NSObject
 
