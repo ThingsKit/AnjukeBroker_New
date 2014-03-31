@@ -1968,7 +1968,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     [textView becomeFirstResponder];
-	
+	textView.text = self.currentText;
     if (!self.previousTextViewContentHeight) {
 		self.previousTextViewContentHeight = textView.contentSize.height;
     }
@@ -1982,6 +1982,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if ([text isEqualToString:@"\n"]) {
+        self.currentText = @"";
         [self sendMessage:textView.text];
         return NO;
     }
@@ -1996,6 +1997,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     if (!self.isBroker && [text length] > 0 && ![text isEqualToString:@""] && ([asciiString rangeOfString:@"\\ufffc"].location == NSNotFound || [asciiString length] == 0)) {
         self.messageInputView.sendButton.enabled = YES;
     } else {
+        self.currentText = @"";
         self.messageInputView.sendButton.enabled = NO;
     }
 }
