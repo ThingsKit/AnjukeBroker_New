@@ -1973,7 +1973,10 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     [textView becomeFirstResponder];
-	textView.text = self.currentText;
+    if (self.currentText.length > 0 ) {
+        textView.text = self.currentText;
+    }
+	
     if (!self.previousTextViewContentHeight) {
 		self.previousTextViewContentHeight = textView.contentSize.height;
     }
