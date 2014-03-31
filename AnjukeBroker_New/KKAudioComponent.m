@@ -151,6 +151,7 @@ static KKAudioComponent* defaultAudioComponent;
     
     [[UIDevice currentDevice] setProximityMonitoringEnabled:YES];
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];  //默认扬声器播放
+    [[AVAudioSession sharedInstance] setActive:YES error:nil]; //开启本次音频会话
     
     NSString* libPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0]; //lib路径
     NSString* filePath = [NSString stringWithFormat:@"%@/%@", libPath, relativeFilePath]; //绝对路径
@@ -226,12 +227,15 @@ static KKAudioComponent* defaultAudioComponent;
 #pragma mark -
 #pragma mark AVAudioRecorderDelegate
 - (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag{
-    
+    [[AVAudioSession sharedInstance] setActive:NO error:nil]; //关闭本次音频回话
 }
 
 /* audioRecorderBeginInterruption: is called when the audio session has been interrupted while the recorder was recording. The recorded file will be closed. */
 - (void)audioRecorderBeginInterruption:(AVAudioRecorder *)recorder{
     NSLog(@"录音中断, 录音文件断开??");
+    if (self.recordDidInterruptBlock != nil) {
+        self.recordDidInterruptBlock();
+    }
 }
 
 /* audioRecorderEndInterruption:withOptions: is called when the audio session interruption has ended and this recorder had been interrupted while recording. */
@@ -250,7 +254,7 @@ static KKAudioComponent* defaultAudioComponent;
     //建议在播放之前设置yes，播放结束设置NO，这个功能是开启近距离传感器
     [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
 //    [[NSNotificationCenter defaultCenter] postNotificationName:AUDIOPLAYER_DID_FINISH_PLAYING object:nil userInfo:nil]; //告知调用者播放结束
-    
+    [[AVAudioSession sharedInstance] setActive:NO error:nil]; //关闭本次音频回话
     //或者使用block
     if (self.playDidFinishBlock != nil) {
         self.playDidFinishBlock();

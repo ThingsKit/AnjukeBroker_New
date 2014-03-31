@@ -43,5 +43,5 @@ extern CGFloat const kAvatarMargin;
 - (void)axDelete:(id)sender;
 - (void)axCopy:(id)sender;
 - (void)showMenu;
-
+- (void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPress;
 @end

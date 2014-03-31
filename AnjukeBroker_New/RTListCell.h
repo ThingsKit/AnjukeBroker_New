@@ -14,7 +14,7 @@
 #define CELL_HEIGHT 50
 #define CELL_OFFSET_TITLE 15
 
-#define CELL_MESSAGELIST_OFFSETX 59
+#define CELL_MESSAGELIST_OFFSETX 15
 
 @interface RTListCell : UITableViewCell
 

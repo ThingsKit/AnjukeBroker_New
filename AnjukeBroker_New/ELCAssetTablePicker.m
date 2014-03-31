@@ -46,9 +46,15 @@
         
     } else {
         UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction:)];
-        doneButtonItem.tintColor = SYSTEM_ORANGE;
+        doneButtonItem.tintColor = SYSTEM_NAVIBAR_COLOR;
         [self.navigationItem setRightBarButtonItem:doneButtonItem];
-        [self.navigationItem setTitle:PhotoPickerTitle];
+        
+        UIBarButtonItem *backButtonItem = nil;
+        backButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
+        backButtonItem.tintColor = SYSTEM_NAVIBAR_COLOR;
+        [self.navigationItem setLeftBarButtonItem:backButtonItem];
+        
+        [self setTitleForNavBarWithStr:PhotoPickerTitle];
     }
 
 	[self performSelectorInBackground:@selector(preparePhotos) withObject:nil];
@@ -58,6 +64,16 @@
 {
     [super viewWillAppear:animated];
     self.columns = self.view.bounds.size.width / 80;
+}
+
+- (void)setTitleForNavBarWithStr:(NSString *)title {
+    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
+    lb.backgroundColor = [UIColor clearColor];
+    lb.font = [UIFont systemFontOfSize:19];
+    lb.text = title;
+    lb.textAlignment = NSTextAlignmentCenter;
+    lb.textColor = SYSTEM_NAVIBAR_COLOR;
+    self.navigationItem.titleView = lb;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
@@ -129,6 +145,13 @@
     [self.parent selectedAssets:selectedAssetsImages];
 }
 
+- (void)doBack:(id)sender {
+    if (self.navigationController) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else
+        [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (BOOL)shouldSelectAsset:(ELCAsset *)asset
 {

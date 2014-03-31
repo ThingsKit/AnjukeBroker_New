@@ -51,7 +51,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [self setTitleViewWithString:@"客户资料"];
+    [self setTitleViewWithString:@"详细资料"];
     
     UIBarButtonItem *moreItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_danye_more_.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
     
@@ -220,11 +220,15 @@
         [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_007 note:nil];
         
         item.image = [UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"];
+        
+        [self showInfo:@"取消标星成功"];
     }
     else{
         [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_006 note:nil];
         
         item.image = [UIImage imageNamed:@"anjuke_icon_danye_xingbiao_.png"];
+        
+        [self showInfo:@"添加标星成功"];
     }
 }
 

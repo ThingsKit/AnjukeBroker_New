@@ -56,7 +56,6 @@ NSInteger const kRetryTag = 101;
     self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.activityIndicatorView.hidden = YES;
     self.activityIndicatorView.frame = CGRectMake(0, 0, 25, 25);
-//    [self.activityIndicatorView startAnimating];
     [self.contentView addSubview:self.activityIndicatorView];
     
     self.errorButton = [UIButton buttonWithType:UIButtonTypeCustom];

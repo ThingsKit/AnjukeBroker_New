@@ -23,6 +23,7 @@
     
 }
 @property (nonatomic, strong) NSString *phoneNumber;
+@property (nonatomic, strong) UIImageView *brokerIcon;
 @end
 
 @implementation BrokerChatViewController
@@ -45,6 +46,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.brokerIcon = [[UIImageView alloc] init];
         // Custom initialization
     }
     return self;
@@ -53,6 +55,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
     // 设置返回btn
     UIImage *image = [UIImage imageWithContentsOfFile:[NSString getStyleBundlePath:@"anjuke_icon_back.png"]];
     UIImage *highlighted = [UIImage imageWithContentsOfFile:[NSString getStyleBundlePath:@"anjuke_icon_back.png"]];
@@ -81,6 +85,41 @@
     
     [self initNavTitle];
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self downLoadIcon];
+}
+
+- (void)downLoadIcon {
+    //保存头像
+    AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
+    if (person.iconPath.length < 2) {
+        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]]];
+        [self.brokerIcon setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            //        NSString *imgName = [NSString stringWithFormat:@"%dx%d.jpg", (int)image.size.height, (int)image.size.width];
+            //        NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:@"icon" whitChatId:[LoginManager getChatID] andIMGName:imgName];
+            NSArray*libsPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+            NSString*libPath = [libsPath objectAtIndex:0];
+            NSString *userFolder = [libPath stringByAppendingPathComponent:[LoginManager getChatID]];
+            if ([UIImageJPEGRepresentation(image, 0.96) writeToFile:userFolder atomically:YES]) {
+                
+            }else{
+                
+            }
+            
+            AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
+            person.iconUrl = [LoginManager getUse_photo_url];
+            person.iconPath = [LoginManager getChatID];
+            person.isIconDownloaded = YES;
+            [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
+            
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+            
+        }];
+    }
+}
+
 - (void)initNavTitle {
     AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:self.friendPerson.uid];
     NSString *titleString = @"noname";
@@ -118,30 +157,6 @@
     [self.navigationItem setRightBarButtonItems:@[spacer, buttonItems]];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *identifier = (self.identifierData)[[indexPath row]];
-    NSDictionary *dic = self.cellDict[identifier];
-    if ([dic[@"messageType"] isEqualToNumber:@(AXMessageTypePic)]) {
-        NSMutableArray *imgArray = [NSMutableArray arrayWithArray:[[AXChatMessageCenter defaultMessageCenter] picMessageArrayWithFriendUid:[self checkFriendUid]]];
-        
-        NSArray *temparray = [[imgArray reverseObjectEnumerator] allObjects];
-        NSMutableArray *photoArray = [NSMutableArray array];
-        int currentPhotoIndex = 0;
-        for (int i =0; i <temparray.count; i ++) {
-            AXPhoto *photo = [[AXPhoto alloc] init];
-            photo.picMessage = temparray[i];
-            if ([dic[@"identifier"] isEqualToString:photo.picMessage.identifier]) {
-                currentPhotoIndex = i;
-            }
-            [photoArray addObject:photo];
-        }
-        AXPhotoBrowser *controller = [[AXPhotoBrowser alloc] init];
-        controller.isBroker = YES;
-        controller.currentPhotoIndex = currentPhotoIndex; // 弹出相册时显示的第一张图片是？
-        [controller setPhotos:photoArray]; // 设置所有的图片
-        [self.navigationController pushViewController:controller animated:YES];
-    }
-}
 - (void)pickIMG:(id)sender {
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_006 note:nil];
     ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] init];
@@ -206,7 +221,7 @@
     
     AXMappedMessage *mappedMessageProp = [[AXMappedMessage alloc] init];
     mappedMessageProp.accountType = @"1";
-    mappedMessageProp.content = [propDict JSONRepresentation];
+    mappedMessageProp.content = [propDict RTJSONRepresentation];
     mappedMessageProp.to = [self checkFriendUid];
     mappedMessageProp.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
     mappedMessageProp.isRead = YES;
@@ -357,6 +372,25 @@
 
 }
 
+
+#pragma mark -
+#pragma mark LOG Method
+- (void)clickLocationLog{
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_015 note:nil];
+}
+- (void)switchToVoiceLog{
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_016 note:nil];
+}
+- (void)switchToTextLog{
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_017 note:nil];
+}
+- (void)pressForVoiceLog{
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_018 note:nil];
+}
+- (void)cancelSendingVoiceLog{
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_019 note:nil];
+}
+
 - (void)doBack:(id)sender {
     
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_013 note:nil];
@@ -430,8 +464,7 @@
 
 - (void)didMessageRetry:(AXChatMessageRootCell *)axCell
 {
-#warning // 之后必改.公众号写死了，101是经纪人助手====100是安居客公众号；
-    if ([self.uid isEqualToString:@"101"]) {
+    if (self.friendPerson.userType == AXPersonTypePublic) {
         if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
             [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
         }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeProperty)]){
@@ -485,10 +518,10 @@
     mv.navDic = dic;
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController pushViewController:mv animated:YES];
+    
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_020 note:nil];
 }
-- (void)didClickIMG:(AXChatBaseCell *)axCell {
 
-}
 #pragma mark -
 #pragma MapViewControllerDelegate
 - (void)loadMapSiteMessage:(NSDictionary *)mapSiteDic {
@@ -497,7 +530,7 @@
     
     AXMappedMessage *mappedMessageProp = [[AXMappedMessage alloc] init];
     mappedMessageProp.accountType = @"2";
-    mappedMessageProp.content = [dic JSONRepresentation];
+    mappedMessageProp.content = [dic RTJSONRepresentation];
     mappedMessageProp.to = [self checkFriendUid];
     mappedMessageProp.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
     mappedMessageProp.isRead = YES;

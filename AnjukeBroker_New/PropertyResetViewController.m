@@ -312,7 +312,7 @@
         else //二手房
             [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
     }
-    NSString *str = [arr JSONRepresentation];
+    NSString *str = [arr RTJSONRepresentation];
     //    DLog(@"image json [%@]", str);
     return str;
 }

@@ -106,7 +106,7 @@
         detailLb_H = lbH*3;
         self.titleLb.frame = CGRectMake(CELL_OFFSET_TITLE, 32, 70, 20);
     }
-    self.detailLb.frame = CGRectMake(self.titleLb.frame.origin.x + self.titleLb.frame.size.width+ CELL_OFFSET_TITLE, 12, DETAIL_LB_W, lbH );
+    self.detailLb.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 12, DETAIL_LB_W, lbH );
     
     if (!isBlankStyle) {
         if (index == 0) {

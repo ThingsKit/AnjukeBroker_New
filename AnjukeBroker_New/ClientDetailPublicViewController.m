@@ -32,7 +32,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [self setTitleViewWithString:@"详细信息"];
+    [self setTitleViewWithString:@"详细资料"];
     self.view.backgroundColor = SYSTEM_LIGHT_GRAY_BG2;
 }
 
@@ -61,7 +61,7 @@
     
     UILabel *nameLb = [[UILabel alloc] initWithFrame:CGRectMake(20 + icon.frame.size.width + 20, icon.frame.origin.y, 200, 25)];
     nameLb.backgroundColor = [UIColor clearColor];
-    nameLb.text = self.person.name;//@"基米莱库宁";
+    nameLb.text = self.person.name;
     nameLb.textColor = SYSTEM_BLACK;
     nameLb.font = [UIFont systemFontOfSize:20];
     [self.view addSubview:nameLb];
@@ -69,7 +69,7 @@
     
     CGSize size = [Util_UI sizeOfString:self.person.markDesc maxWidth:200 withFontSize:12];
     UILabel *tipLb = [[UILabel alloc] initWithFrame:CGRectMake(nameLb.frame.origin.x, nameLb.frame.origin.y+ nameLb.frame.size.height +5, 200, size.height)];
-    tipLb.backgroundColor = [UIColor greenColor];
+    tipLb.backgroundColor = [UIColor clearColor];
     tipLb.text = self.person.markDesc;
     tipLb.textColor = SYSTEM_LIGHT_GRAY;
     tipLb.font = [UIFont systemFontOfSize:12];

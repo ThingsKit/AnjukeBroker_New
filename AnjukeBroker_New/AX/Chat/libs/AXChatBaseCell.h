@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AXMappedMessage.h"
 #import "AXMappedPerson.h"
+#import <OHAttributedLabel/OHAttributedLabel.h>
 
 typedef NS_ENUM(NSInteger, AXChatMessageSourceDestination)
 {

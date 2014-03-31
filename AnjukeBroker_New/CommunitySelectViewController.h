@@ -21,7 +21,8 @@ typedef enum {
 }pageTypeFrom;
 
 @interface CommunitySelectViewController : HouseSelectViewController
-@property(nonatomic,assign) pageTypeFrom pageTypeFrom;
-@property(nonatomic,strong) NSMutableArray *arr;
-
+@property (nonatomic,assign) pageTypeFrom pageTypeFrom;
+@property (nonatomic,strong) NSMutableArray *arr;
+@property (nonatomic, assign) id target;
+@property (nonatomic, assign) SEL selector;
 @end

@@ -180,7 +180,6 @@
     else {
         
     }
-//    [cell configureCell:[self.sessionFetchedResultsController fetchedObjects][indexPath.row]];
     AXConversationListItem *item = [self.sessionFetchedResultsController fetchedObjects][indexPath.row];
     [cell configureCell:item];
     [cell showBottonLineWithCellHeight:MESSAGE_LIST_HEIGHT andOffsetX:CELL_MESSAGELIST_OFFSETX];

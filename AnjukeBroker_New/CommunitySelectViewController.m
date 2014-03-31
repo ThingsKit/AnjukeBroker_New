@@ -26,9 +26,9 @@
 
 - (void)sendDisAppearLog {
     if (self.pageTypeFrom == secondHandHouse) {
-        [[BrokerLogger sharedInstance] logWithActionCode:ESF_COMMUNITY_CHAT_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_COMMUNITY_CHAT_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:ZF_COMMUNITY_CHAT_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_COMMUNITY_CHAT_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
     }
 }
 
@@ -41,7 +41,12 @@
     }
     return self;
 }
-
+- (id)initWithTarget:(id)target action:(SEL)selector {
+    if (self = [super init]) {
+        
+    }
+    return self;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];

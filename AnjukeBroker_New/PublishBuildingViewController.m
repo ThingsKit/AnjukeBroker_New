@@ -410,7 +410,7 @@ typedef enum {
         [arr addObject:dic];
     }
     
-    NSString *str = [arr JSONRepresentation];
+    NSString *str = [arr RTJSONRepresentation];
     DLog(@"image json [%@]", str);
     return str;
 }

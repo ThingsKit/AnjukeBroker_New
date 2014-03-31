@@ -95,13 +95,13 @@
         self.voiceImageView.contentMode = UIViewContentModeLeft;
         self.voiceImageView.image = [UIImage imageNamed:@"anjuke_icon_say_voice_b.png"];
         self.voiceImageView.left = kJSAvatarSize + 19 + 13;
-        self.bubbleIMG.frame = CGRectMake(kJSAvatarSize + 19, axTagMarginTop, size.width + 30.0f , size.height + 20.0f);
+        self.bubbleIMG.frame = CGRectMake(kJSAvatarSize + 19, axTagMarginTop, size.width , size.height + 20.0f);
         self.voiceStatusImageView.left = self.bubbleIMG.right + 7;
         self.timeLabel.left = self.bubbleIMG.right + 7;
         self.voiceControl.frame = self.bubbleIMG.frame;
     } else {
         self.timeLabel.textAlignment = NSTextAlignmentRight;
-        self.bubbleIMG.frame = CGRectMake(320 - kJSAvatarSize - size.width - kAvatarMargin - 37, axTagMarginTop, size.width + 30.0f , size.height + 20.0f);
+        self.bubbleIMG.frame = CGRectMake(320 - kJSAvatarSize - size.width - kAvatarMargin - 7, axTagMarginTop, size.width , size.height + 20.0f);
         self.voiceImageView.image = [UIImage imageNamed:@"wl_chat_icon_uservoice.png"];
         self.voiceImageView.contentMode = UIViewContentModeRight;
         self.voiceImageView.left = self.bubbleIMG.right - 25;

@@ -17,8 +17,8 @@
 #import "AXChatMessageImageCell.h"
 #import "AXChatMessagePublicCardCell.h"
 #import "AXChatMessageTextCell.h"
-#import "AXChatMessageNameCardCell.h"
 #import "AXChatMessageSystemTimeCell.h"
+#import "AXPhoto.h"
 
 #import "NSString+AXChatMessage.h"
 #import "UIColor+AXChatMessage.h"
@@ -32,6 +32,7 @@
 // Controller
 #import "AXChatWebViewController.h"
 #import "MapViewController.h"
+#import "AXPhotoBrowser.h"
 
 #import "AXPhotoManager.h"
 #import "AXCellFactory.h"
@@ -46,12 +47,6 @@
 static CGFloat const AXInputBackViewHeight = 49;
 //键盘高度
 static CGFloat const AXMoreBackViewHeight = 217.0f;
-
-//输入框的宽度
-static CGFloat const AXInputTextWidth = 260.0f;
-static CGFloat const AXInputTextLeft = 12.0f;
-static CGFloat const AXInputTextHeight = 30.0f;
-static CGFloat const AXTextCellMoreHeight = 60.0f;
 
 #ifdef DEBUG
 static NSInteger const AXMessagePageSize = 15;
@@ -76,6 +71,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 @property (nonatomic) BOOL isFinished;
 @property (nonatomic) CGFloat tableViewBottom;
 @property (nonatomic) BOOL hasMore;
+@property (nonatomic) CGRect messageInputViewFrame;
+@property (nonatomic) CGRect messageInputTextViewFrame;
+@property (nonatomic, copy) NSString *currentText;
 
 @property (nonatomic, strong) AXPullToRefreshView *pullToRefreshView;
 @property (nonatomic, strong) AXMappedMessage *lastMessage;
@@ -137,6 +135,10 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         self.isVoiceInput = NO;
         _contentValidator = [[AXChatContentValidator alloc] init];
         _playingIdentifier = @"";
+        _currentText = @"";
+        _messageInputViewFrame = CGRectZero;
+        _messageInputTextViewFrame = CGRectZero;
+        
     }
     return self;
 }
@@ -191,8 +193,13 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 {
     [super viewWillDisappear:animated];
     //草稿
-    if (self.messageInputView) {
-        [[AXChatMessageCenter defaultMessageCenter] saveDraft:self.messageInputView.textView.text friendUID:[self checkFriendUid]];
+    if (self.messageInputView || self.currentText) {
+        if (self.messageInputView.textView.text.length == 0) {
+            [[AXChatMessageCenter defaultMessageCenter] saveDraft:self.currentText friendUID:[self checkFriendUid]];
+        } else {
+            [[AXChatMessageCenter defaultMessageCenter] saveDraft:self.messageInputView.textView.text friendUID:[self checkFriendUid]];
+        }
+        
     }
 
     [self.messageInputView resignFirstResponder];
@@ -213,11 +220,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     [super viewDidLoad];
     
     // init Data
-    self.conversationListItem = [[AXChatMessageCenter defaultMessageCenter] fetchConversationListItemWithFriendUID:[self checkFriendUid]];
-    self.currentPerson = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson];
-    self.friendPerson = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[self checkFriendUid]];
-    self.cellDict = [NSMutableDictionary dictionary];
-    self.identifierData = [NSMutableArray array];
+    [self initData];
     
     // init UI
     [self initUI];
@@ -227,8 +230,15 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     
 }
 
-#pragma mark - Private Method
+- (void)initData {
+    self.conversationListItem = [[AXChatMessageCenter defaultMessageCenter] fetchConversationListItemWithFriendUID:[self checkFriendUid]];
+    self.currentPerson = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson];
+    self.friendPerson = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[self checkFriendUid]];
+    self.cellDict = [NSMutableDictionary dictionary];
+    self.identifierData = [NSMutableArray array];
+}
 
+#pragma mark - Private Method
 
 - (void)initUI {
     if (self.brokerName) {
@@ -283,6 +293,8 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
                                         options:NSKeyValueObservingOptionNew
                                         context:nil];
     CGRect textViewRect = self.messageInputView.textView.frame;
+    self.messageInputViewFrame = inputView.frame;
+    
     if (!self.isBroker) {
         inputView.sendButton.enabled = NO;
         [inputView.sendButton addTarget:self
@@ -292,6 +304,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         
         
         self.messageInputView.textView.frame = CGRectMake(textViewRect.origin.x + 40, textViewRect.origin.y, textViewRect.size.width - 40, textViewRect.size.height);
+        self.messageInputTextViewFrame = self.messageInputView.textView.frame;
         self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
         self.sendBut.frame = CGRectMake(270.0f + 4.0f, 2.0f, 45.0f, 45.0f);
         [self.sendBut addTarget:self action:@selector(didMoreBackView:) forControlEvents:UIControlEventTouchUpInside];
@@ -307,8 +320,6 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         [self.messageInputView addSubview:self.voiceBut];
         
         self.pressSpeek = [[UIButton alloc] initWithFrame:CGRectZero];
-#warning Note Do not edit pressSpeek frame anymore
-//        self.pressSpeek.frame = self.messageInputView.textView.frame;
         [self.pressSpeek addTarget:self action:@selector(didClickRecored:) forControlEvents:UIControlEventTouchDown];
         [self.pressSpeek addTarget:self action:@selector(didCommitVoice) forControlEvents:UIControlEventTouchUpInside];
         [self.pressSpeek addTarget:self action:@selector(didCancelVoice) forControlEvents:UIControlEventTouchUpOutside];
@@ -402,15 +413,13 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     locationLab.textAlignment = NSTextAlignmentCenter;
     locationLab.textColor = [UIColor axChatPropDescColor:self.isBroker];
     [self.moreBackView addSubview:locationLab];
-
     
 }
-
 
 - (void)initBlock
 {
     __weak AXChatViewController *blockSelf = self;
-    // 发消息的block
+    // 重发消息的block
     self.finishReSendMessageBlock = ^ (NSArray *messages, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorCode) {
         for (AXMappedMessage *message in messages) {
         
@@ -543,7 +552,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         self.needSendProp = NO;
         AXMappedMessage *mappedMessageProp = [[AXMappedMessage alloc] init];
         mappedMessageProp.accountType = [self checkAccountType];
-        mappedMessageProp.content = [propDict JSONRepresentation];
+        mappedMessageProp.content = [propDict RTJSONRepresentation];
         mappedMessageProp.to = [self checkFriendUid];
         mappedMessageProp.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
         mappedMessageProp.isRead = YES;
@@ -629,6 +638,22 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 - (void)clickInputViewAppLog
 {
+    // do nothing
+}
+
+- (void)clickLocationLog{
+    // do nothing
+}
+- (void)switchToVoiceLog{
+    // do nothing
+}
+- (void)switchToTextLog{
+    // do nothing
+}
+- (void)pressForVoiceLog{
+    // do nothing
+}
+- (void)cancelSendingVoiceLog{
     // do nothing
 }
 
@@ -1169,8 +1194,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 - (void)didMessageRetry:(AXChatMessageRootCell *)axCell
 {
-				#warning // 之后必改.公众号写死了，101是经纪人助手====100是安居客公众号；
-    if ([self.uid isEqualToString:@"101"]) {
+    if (self.friendPerson.userType == AXPersonTypePublic) {
         if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeText)]){
             [[AXChatMessageCenter defaultMessageCenter] reSendMessageToPublic:axCell.identifyString willSendMessage:self.finishReSendMessageBlock];
         }else if([axCell.rowData[@"messageType"]  isEqual: @(AXMessageTypeProperty)]){
@@ -1213,12 +1237,12 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     }
     // 更新数据库
     NSMutableDictionary *data = [message.content JSONValue];
-    if (data && !data[@"hadDone"]) {
+    if (data && !data[@"hadDone"] && axCell.messageSource == AXChatMessageSourceDestinationIncoming) {
         data[@"hadDone"] = @"1";
-        message.content = [data JSONRepresentation];
+        message.content = [data RTJSONRepresentation];
         NSMutableDictionary *dict = self.cellDict[message.identifier];
         if (dict) {
-            dict[@"content"] = [data JSONRepresentation];
+            dict[@"content"] = [data RTJSONRepresentation];
             self.cellDict[message.identifier] = dict;
         }
         
@@ -1441,7 +1465,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         // 发送
         AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
         mappedMessage.accountType = [self checkAccountType];
-        mappedMessage.content = [@{@"jsonVersion":AXChatJsonVersion, @"length":[NSString stringWithFormat:@"%d", [[NSNumber numberWithFloat:cTime] integerValue]]} JSONRepresentation];
+        mappedMessage.content = [@{@"jsonVersion":AXChatJsonVersion, @"length":[NSString stringWithFormat:@"%d", [[NSNumber numberWithFloat:cTime] integerValue]]} RTJSONRepresentation];
         mappedMessage.to = [self checkFriendUid];
         mappedMessage.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
         mappedMessage.isRead = YES;
@@ -1582,10 +1606,8 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     
 }
 
-
 - (void)pickIMG:(id)sender {
     ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] init];
-    
     elcPicker.maximumImagesCount = 5; //(maxCount - self.roomImageArray.count);
     elcPicker.imagePickerDelegate = self;
     [self presentViewController:elcPicker animated:YES completion:nil];
@@ -1598,7 +1620,16 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     [self presentViewController:ipc animated:YES completion:nil];
     
 }
+- (void)pickHZ:(id)sender {
+    
+}
+- (void)pickAJK:(id)sender {
+    
+}
+
+
 - (void)locationClick {
+    [self clickLocationLog];
     MapViewController *mv = [[MapViewController alloc] init];
     mv.siteDelegate = self;
     [mv setHidesBottomBarWhenPushed:YES];
@@ -1607,25 +1638,42 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     [self.navigationController pushViewController:mv animated:YES];
 
 }
+
 - (void)speeking {
+    if (self.messageInputView.textView.text.length >0) {
+        self.currentText = [NSString stringWithString:self.messageInputView.textView.text];
+        self.messageInputView.textView.text = @"";
+    }
+    
     
     if (!self.moreBackView.isHidden) {
         [self didClickKeyboardControl];
     }
     if (!self.isVoiceInput) {
+        [self didClickKeyboardControl];
         self.isVoiceInput = !self.isVoiceInput;
         [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameKeyboard] forState:UIControlStateNormal];
         [self.messageInputView.textView resignFirstResponder];
         self.messageInputView.textView.editable = NO;
-//        self.messageInputView.textView.selectable = NO;
-        self.pressSpeek.frame = self.messageInputView.textView.frame;
+        self.pressSpeek.frame = self.messageInputTextViewFrame;
+        
+        [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
+         - self.messageInputView.frame.origin.y
+         - self.messageInputViewFrame.size.height ];
+        self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height
+                                                - self.messageInputView.frame.origin.y
+                                                - self.messageInputViewFrame.size.height);
+        [self scrollToBottomAnimated:YES];
+        
+        [self switchToVoiceLog];
     } else {
+        self.messageInputView.textView.text = self.currentText;
         self.isVoiceInput = !self.isVoiceInput;
         self.pressSpeek.frame = CGRectZero;
         [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
         self.messageInputView.textView.editable = YES;
-//        self.messageInputView.textView.selectable = YES;
         [self.messageInputView.textView becomeFirstResponder];
+        [self switchToTextLog];
     }
 
 }
@@ -1644,6 +1692,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         [[AVAudioSession sharedInstance] performSelector:@selector(requestRecordPermission:) withObject:permissionBlock];
     } else {
         [self didBeginVoice];
+        [self pressForVoiceLog];
     }
 }
 
@@ -1697,6 +1746,11 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     self.backgroundImageView.image = [UIImage imageNamed:@"wl_voice_tip_bg"];
     [self showHUDWithTitle:@"手指上滑, 取消发送" CustomView:self.backgroundImageView IsDim:NO]; //取消蒙版
     
+    __block AXChatViewController *blockObject = self;
+    [KKAudioComponent sharedAudioComponent].recordDidInterruptBlock = ^{
+        [blockObject didCommitVoice];
+    };
+    
 }
 
 //UIControlEventTouchUpInside
@@ -1741,6 +1795,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     [self.timer invalidate];
     
     [self.hud hide:YES];
+    [self cancelSendingVoiceLog];
     
 }
 
@@ -1866,8 +1921,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     mappedMessage.isRemoved = NO;
     mappedMessage.messageType = @(AXMessageTypeText);
     
-    if ([self.uid isEqualToString:@"101"]) {
-#warning todo 之后必改
+    if (self.friendPerson.userType == AXPersonTypePublic) {
         [[AXChatMessageCenter defaultMessageCenter] sendMessageToPublic:mappedMessage willSendMessage:self.finishSendMessageBlock];
     } else {
         [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessage willSendMessage:self.finishSendMessageBlock];
@@ -1928,6 +1982,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     [textView becomeFirstResponder];
+    if (self.currentText.length > 0 ) {
+        textView.text = self.currentText;
+    }
 	
     if (!self.previousTextViewContentHeight) {
 		self.previousTextViewContentHeight = textView.contentSize.height;
@@ -1942,6 +1999,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if ([text isEqualToString:@"\n"]) {
+        self.currentText = @"";
         [self sendMessage:textView.text];
         return NO;
     }
@@ -1956,6 +2014,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     if (!self.isBroker && [text length] > 0 && ![text isEqualToString:@""] && ([asciiString rangeOfString:@"\\ufffc"].location == NSNotFound || [asciiString length] == 0)) {
         self.messageInputView.sendButton.enabled = YES;
     } else {
+        self.currentText = @"";
         self.messageInputView.sendButton.enabled = NO;
     }
 }
@@ -1969,7 +2028,29 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 }
 - (void)didClickIMG:(AXChatBaseCell *)axCell {
-    
+    NSIndexPath *indexPath = [self.myTableView indexPathForCell:axCell];
+    NSString *identifier = (self.identifierData)[[indexPath row]];
+    NSDictionary *dic = self.cellDict[identifier];
+    if ([dic[@"messageType"] isEqualToNumber:@(AXMessageTypePic)]) {
+        NSMutableArray *imgArray = [NSMutableArray arrayWithArray:[[AXChatMessageCenter defaultMessageCenter] picMessageArrayWithFriendUid:[self checkFriendUid]]];
+        
+        NSArray *temparray = [[imgArray reverseObjectEnumerator] allObjects];
+        NSMutableArray *photoArray = [NSMutableArray array];
+        int currentPhotoIndex = 0;
+        for (int i =0; i <temparray.count; i ++) {
+            AXPhoto *photo = [[AXPhoto alloc] init];
+            photo.picMessage = temparray[i];
+            if ([dic[@"identifier"] isEqualToString:photo.picMessage.identifier]) {
+                currentPhotoIndex = i;
+            }
+            [photoArray addObject:photo];
+        }
+        AXPhotoBrowser *controller = [[AXPhotoBrowser alloc] init];
+        controller.isBroker = YES;
+        controller.currentPhotoIndex = currentPhotoIndex; // 弹出相册时显示的第一张图片是？
+        [controller setPhotos:photoArray]; // 设置所有的图片
+        [self.navigationController pushViewController:controller animated:YES];
+    }
 }
 -(void)loadMapSiteMessage:(NSDictionary *)mapSiteDic {
 

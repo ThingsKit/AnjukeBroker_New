@@ -58,6 +58,11 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 - (void)clickLeftAvatarAppLog;
 - (void)clickInputViewAppLog;
 - (void)didMoreBackView:(UIButton *)sender;
+- (void)clickLocationLog;
+- (void)switchToVoiceLog;
+- (void)switchToTextLog;
+- (void)pressForVoiceLog;
+- (void)cancelSendingVoiceLog;
 
 
 @end

@@ -15,6 +15,7 @@
 
 @implementation ClientListCell
 @synthesize imageIcon, nameLb;
+@synthesize lineView;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -103,6 +104,16 @@
 - (void)cleanValue {
     //    self.imageIcon.image = nil;
     self.nameLb.text = @"";
+}
+
+- (void)showBottonLineWithCellHeight:(CGFloat)cellH andOffsetX:(CGFloat)offsetX {
+    if (self.lineView == nil) {
+        self.lineView = [[BrokerLineView alloc] initWithFrame:CGRectMake(offsetX, cellH -0.5, 320 - offsetX, 0.5)];
+        [self.contentView addSubview:self.lineView];
+    }
+    else {
+        self.lineView.frame = CGRectMake(offsetX, cellH -0.5, 320 - offsetX, 0.5);
+    }
 }
 
 @end

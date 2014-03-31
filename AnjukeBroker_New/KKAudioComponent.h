@@ -13,10 +13,13 @@
 //#define AUDIOPLAYER_DID_FINISH_PLAYING @"audioPlayerDidFinishPlaying"
 
 typedef void(^PlayDidFinishBlock) (void);
+typedef void(^RecordDidInterruptBlock) (void);
 
 @interface KKAudioComponent : NSObject <AVAudioPlayerDelegate, AVAudioRecorderDelegate>
 
 @property (nonatomic, copy) PlayDidFinishBlock playDidFinishBlock;
+@property (nonatomic, copy) RecordDidInterruptBlock recordDidInterruptBlock;
+
 @property (nonatomic, retain) UIView* playTipView; //当前已经切换到扬声器模式的提示view
 
 + (KKAudioComponent*) sharedAudioComponent;

@@ -75,7 +75,6 @@
 		20A07429188C0A080073C915 /* PublishTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A07428188C0A080073C915 /* PublishTableViewDataSource.m */; };
 		20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A09790188D0A4E00D30196 /* PublishInputOrderModel.m */; };
 		20A09794188D2C4400D30196 /* PublishDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A09793188D2C4400D30196 /* PublishDataModel.m */; };
-		20A2177818BF118E002CA469 /* anjuke_icon_attention@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A2177618BF118E002CA469 /* anjuke_icon_attention@2x.png */; };
 		20A2177918BF118E002CA469 /* anjuke_icon_fasonging@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A2177718BF118E002CA469 /* anjuke_icon_fasonging@2x.png */; };
 		20A2178518BF1804002CA469 /* CommunitySelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2177C18BF1804002CA469 /* CommunitySelectViewController.m */; };
 		20A2178618BF1804002CA469 /* HouseSelectCommunityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2177E18BF1804002CA469 /* HouseSelectCommunityCell.m */; };
@@ -291,6 +290,7 @@
 		B721095518278B4E00904FC7 /* SalePropertyListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B721095418278B4E00904FC7 /* SalePropertyListCell.m */; };
 		B721095818278E6000904FC7 /* RentPropertyListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B721095718278E6000904FC7 /* RentPropertyListCell.m */; };
 		B721095B1827976500904FC7 /* RentNoPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = B721095A1827976500904FC7 /* RentNoPlanController.m */; };
+		B723C11A18E9380400584B2C /* PropertyResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = B723C11918E9380400584B2C /* PropertyResponder.m */; };
 		B769E441181F45AF00A2FF50 /* BaseFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E440181F45AF00A2FF50 /* BaseFixedDetailController.m */; };
 		B769E445181F462C00A2FF50 /* SaleFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E444181F462C00A2FF50 /* SaleFixedDetailController.m */; };
 		B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E44B181F4C3E00A2FF50 /* CommunityObject.m */; };
@@ -343,7 +343,6 @@
 		B7E1919618E2795900DA578B /* anjuke_icon_chat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E1919518E2795900DA578B /* anjuke_icon_chat@2x.png */; };
 		B7E1919818E279A600DA578B /* anjuke_icon_chat1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E1919718E279A600DA578B /* anjuke_icon_chat1@2x.png */; };
 		B7E191AC18E2EAAD00DA578B /* anjuke_icon_chat2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E191AB18E2EAAD00DA578B /* anjuke_icon_chat2@2x.png */; };
-		B7E191AE18E2EB7300DA578B /* anjuke_icon_chat2_photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E191AD18E2EB7300DA578B /* anjuke_icon_chat2_photo@2x.png */; };
 		B7E191B018E2EBC300DA578B /* anjuke_icon_chat4_photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E191AF18E2EBC300DA578B /* anjuke_icon_chat4_photo@2x.png */; };
 		B7E38A00182238CF002C6E8A /* anjuke_icon06_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E389FE182238CF002C6E8A /* anjuke_icon06_select@2x.png */; };
 		B7E38A01182238CF002C6E8A /* anjuke_icon06_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E389FF182238CF002C6E8A /* anjuke_icon06_selected@2x.png */; };
@@ -415,7 +414,6 @@
 		B7EAD51618CD927200B28FEC /* AXChatBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4D618CD927200B28FEC /* AXChatBaseCell.m */; };
 		B7EAD51718CD927200B28FEC /* AXChatContentValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4D818CD927200B28FEC /* AXChatContentValidator.m */; };
 		B7EAD51818CD927200B28FEC /* AXChatMessageImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4DA18CD927200B28FEC /* AXChatMessageImageCell.m */; };
-		B7EAD51918CD927200B28FEC /* AXChatMessageNameCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4DC18CD927200B28FEC /* AXChatMessageNameCardCell.m */; };
 		B7EAD51A18CD927200B28FEC /* AXChatMessagePublicCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4DE18CD927200B28FEC /* AXChatMessagePublicCardCell.m */; };
 		B7EAD51B18CD927200B28FEC /* AXChatMessageRoomSourceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4E018CD927200B28FEC /* AXChatMessageRoomSourceCell.m */; };
 		B7EAD51C18CD927200B28FEC /* AXChatMessageRootCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EAD4E218CD927200B28FEC /* AXChatMessageRootCell.m */; };
@@ -648,7 +646,6 @@
 		20A09790188D0A4E00D30196 /* PublishInputOrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishInputOrderModel.m; sourceTree = "<group>"; };
 		20A09792188D2C4400D30196 /* PublishDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishDataModel.h; sourceTree = "<group>"; };
 		20A09793188D2C4400D30196 /* PublishDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishDataModel.m; sourceTree = "<group>"; };
-		20A2177618BF118E002CA469 /* anjuke_icon_attention@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_attention@2x.png"; sourceTree = "<group>"; };
 		20A2177718BF118E002CA469 /* anjuke_icon_fasonging@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_fasonging@2x.png"; sourceTree = "<group>"; };
 		20A2177B18BF1804002CA469 /* CommunitySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommunitySelectViewController.h; sourceTree = "<group>"; };
 		20A2177C18BF1804002CA469 /* CommunitySelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommunitySelectViewController.m; sourceTree = "<group>"; };
@@ -998,6 +995,8 @@
 		B721095718278E6000904FC7 /* RentPropertyListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentPropertyListCell.m; sourceTree = "<group>"; };
 		B72109591827976500904FC7 /* RentNoPlanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentNoPlanController.h; sourceTree = "<group>"; };
 		B721095A1827976500904FC7 /* RentNoPlanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentNoPlanController.m; sourceTree = "<group>"; };
+		B723C11818E9380400584B2C /* PropertyResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyResponder.h; sourceTree = "<group>"; };
+		B723C11918E9380400584B2C /* PropertyResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyResponder.m; sourceTree = "<group>"; };
 		B769E43F181F45AF00A2FF50 /* BaseFixedDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseFixedDetailController.h; sourceTree = "<group>"; };
 		B769E440181F45AF00A2FF50 /* BaseFixedDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseFixedDetailController.m; sourceTree = "<group>"; };
 		B769E443181F462C00A2FF50 /* SaleFixedDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleFixedDetailController.h; sourceTree = "<group>"; };
@@ -1079,7 +1078,6 @@
 		B7E1919518E2795900DA578B /* anjuke_icon_chat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_chat@2x.png"; sourceTree = "<group>"; };
 		B7E1919718E279A600DA578B /* anjuke_icon_chat1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_chat1@2x.png"; sourceTree = "<group>"; };
 		B7E191AB18E2EAAD00DA578B /* anjuke_icon_chat2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_chat2@2x.png"; sourceTree = "<group>"; };
-		B7E191AD18E2EB7300DA578B /* anjuke_icon_chat2_photo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_chat2_photo@2x.png"; sourceTree = "<group>"; };
 		B7E191AF18E2EBC300DA578B /* anjuke_icon_chat4_photo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_chat4_photo@2x.png"; sourceTree = "<group>"; };
 		B7E389FE182238CF002C6E8A /* anjuke_icon06_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon06_select@2x.png"; sourceTree = "<group>"; };
 		B7E389FF182238CF002C6E8A /* anjuke_icon06_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon06_selected@2x.png"; sourceTree = "<group>"; };
@@ -1179,8 +1177,6 @@
 		B7EAD4D818CD927200B28FEC /* AXChatContentValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatContentValidator.m; sourceTree = "<group>"; };
 		B7EAD4D918CD927200B28FEC /* AXChatMessageImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageImageCell.h; sourceTree = "<group>"; };
 		B7EAD4DA18CD927200B28FEC /* AXChatMessageImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageImageCell.m; sourceTree = "<group>"; };
-		B7EAD4DB18CD927200B28FEC /* AXChatMessageNameCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageNameCardCell.h; sourceTree = "<group>"; };
-		B7EAD4DC18CD927200B28FEC /* AXChatMessageNameCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageNameCardCell.m; sourceTree = "<group>"; };
 		B7EAD4DD18CD927200B28FEC /* AXChatMessagePublicCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessagePublicCardCell.h; sourceTree = "<group>"; };
 		B7EAD4DE18CD927200B28FEC /* AXChatMessagePublicCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessagePublicCardCell.m; sourceTree = "<group>"; };
 		B7EAD4DF18CD927200B28FEC /* AXChatMessageRoomSourceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageRoomSourceCell.h; sourceTree = "<group>"; };
@@ -1604,6 +1600,8 @@
 		20A2178A18BF19CC002CA469 /* 房源选择底层 */ = {
 			isa = PBXGroup;
 			children = (
+				B723C11818E9380400584B2C /* PropertyResponder.h */,
+				B723C11918E9380400584B2C /* PropertyResponder.m */,
 				20A2178118BF1804002CA469 /* HouseSelectViewController.h */,
 				20A2178218BF1804002CA469 /* HouseSelectViewController.m */,
 				20A2177D18BF1804002CA469 /* HouseSelectCommunityCell.h */,
@@ -1870,13 +1868,6 @@
 			name = "地址选择&导航";
 			sourceTree = "<group>";
 		};
-		678D297F18DA96120027D945 /* recorder */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = recorder;
-			sourceTree = "<group>";
-		};
 		678D2A1418DAB12E0027D945 /* VoiceConvert */ = {
 			isa = PBXGroup;
 			children = (
@@ -2072,7 +2063,6 @@
 			isa = PBXGroup;
 			children = (
 				B7EA5B4118DBDC9500D437BB /* 3.3Icon */,
-				678D297F18DA96120027D945 /* recorder */,
 				203EC29C18B2FEF000DD0840 /* Tab_icon */,
 				206F7FCF18A87EE2001EEC16 /* 首页img */,
 				970501541845A18E00A0C181 /* 引导页 */,
@@ -2081,7 +2071,6 @@
 				20DACCEF18C97C6200061F9C /* anjuke_icon_add_@2x.png */,
 				200DAB4418DFCB050077E0C9 /* Overlay@2x.png */,
 				2039E58418C421FF003ED781 /* anjuke_icon_headpic@2x.png */,
-				20A2177618BF118E002CA469 /* anjuke_icon_attention@2x.png */,
 				20A2177718BF118E002CA469 /* anjuke_icon_fasonging@2x.png */,
 				2079ADE818B5FD610029D493 /* anjuke_icon_danye_more_@2x.png */,
 				2079ADE918B5FD610029D493 /* anjuke_icon_danye_noxingbiao_@2x.png */,
@@ -2862,8 +2851,6 @@
 				B7EAD4D618CD927200B28FEC /* AXChatBaseCell.m */,
 				B7EAD4D918CD927200B28FEC /* AXChatMessageImageCell.h */,
 				B7EAD4DA18CD927200B28FEC /* AXChatMessageImageCell.m */,
-				B7EAD4DB18CD927200B28FEC /* AXChatMessageNameCardCell.h */,
-				B7EAD4DC18CD927200B28FEC /* AXChatMessageNameCardCell.m */,
 				B7EAD4DD18CD927200B28FEC /* AXChatMessagePublicCardCell.h */,
 				B7EAD4DE18CD927200B28FEC /* AXChatMessagePublicCardCell.m */,
 				B7EAD4DF18CD927200B28FEC /* AXChatMessageRoomSourceCell.h */,
@@ -2909,7 +2896,6 @@
 				B7A24F7C18E43AFD00EFF308 /* wl_chat_icon_uservoice_play1@2x.png */,
 				B7A24F7D18E43AFD00EFF308 /* wl_chat_icon_uservoice_play3@2x.png */,
 				B7E191AF18E2EBC300DA578B /* anjuke_icon_chat4_photo@2x.png */,
-				B7E191AD18E2EB7300DA578B /* anjuke_icon_chat2_photo@2x.png */,
 				B7E191AB18E2EAAD00DA578B /* anjuke_icon_chat2@2x.png */,
 				B7E1919718E279A600DA578B /* anjuke_icon_chat1@2x.png */,
 				B7E1919518E2795900DA578B /* anjuke_icon_chat@2x.png */,
@@ -3190,7 +3176,6 @@
 				B7B2BF6E188CC2C30001EEB8 /* anjuke_icon_sound_button_icon@2x.png in Resources */,
 				B7FC9AD818C41B1300F77205 /* xproject_dialogue_agentdetail.png in Resources */,
 				B7B2BF6C188CC2C30001EEB8 /* anjuke_icon_saying@2x.png in Resources */,
-				B7E191AE18E2EB7300DA578B /* anjuke_icon_chat2_photo@2x.png in Resources */,
 				273913E618DBD0FD003284AA /* anjuke_icon_to_position1@2x.png in Resources */,
 				B7FC9AEA18C41B1300F77205 /* xproject_dialogue_greencard.png in Resources */,
 				B7E4CD2118E11AA000B61B58 /* wl_chat_icon_agentvoice_play1@2x.png in Resources */,
@@ -3275,7 +3260,6 @@
 				B7EF77A1183CBB100024A5E6 /* anjuke_icon_draft@2x.png in Resources */,
 				201BC95118CEF15900565BF6 /* Default~iphone.png in Resources */,
 				2761B89C187C053C00EABF95 /* logo_57.png in Resources */,
-				20A2177818BF118E002CA469 /* anjuke_icon_attention@2x.png in Resources */,
 				B7FC9AC918C41B1300F77205 /* anjuke_icon_add_pic4@2x.png in Resources */,
 				B7FC9AED18C41B1300F77205 /* xproject_dialogue_greencard_selected@2x.png in Resources */,
 				B7FC9AF218C41B1300F77205 /* xproject_dialogue_greybutton.png in Resources */,
@@ -3424,6 +3408,7 @@
 				97B4225A1820DB8300A2E9E6 /* AnjukePropertyGroupCell.m in Sources */,
 				B7EA04A61844D40900AC8842 /* BrokerAccountController.m in Sources */,
 				970DB71D183AFFE700DEB455 /* AboutUsViewController.m in Sources */,
+				B723C11A18E9380400584B2C /* PropertyResponder.m in Sources */,
 				97B422681821087600A2E9E6 /* PropertyBigImageViewController.m in Sources */,
 				207526B918B45FE10022220C /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				B7E56D0F183DBAD600A0F7D2 /* AnjukeOnlineImgController.m in Sources */,
@@ -3566,7 +3551,6 @@
 				2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */,
 				203EC29B18B2F65400DD0840 /* ClientListViewController.m in Sources */,
 				B7E69BB2183B26A90097D5C3 /* RentBidPropertyCell.m in Sources */,
-				B7EAD51918CD927200B28FEC /* AXChatMessageNameCardCell.m in Sources */,
 				97CB0C18182BEFFC00FCCBBD /* MBProgressHUD.m in Sources */,
 				B7EAD51D18CD927200B28FEC /* AXChatMessageSystemTimeCell.m in Sources */,
 				20B9E76618E3BA4300080C4B /* AXMessageAPILongLinkManager.m in Sources */,
@@ -3725,7 +3709,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PROVISIONING_PROFILE = "398A0F84-47E8-4C09-86AA-999FB251B95D";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = NO;
@@ -3760,6 +3744,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PROVISIONING_PROFILE = "398A0F84-47E8-4C09-86AA-999FB251B95D";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = NO;
@@ -3786,7 +3771,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/jianzhongliu/Desktop/BrokerProject/AnjukeBroker_New/AnjukeBroker_New/AX/ZBarSDK,
 					"$(PROJECT_DIR)/AnjukeBroker_New/VoiceConvert/lib",
 				);
 				ONLY_ACTIVE_ARCH = YES;
@@ -3819,7 +3803,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/jianzhongliu/Desktop/BrokerProject/AnjukeBroker_New/AnjukeBroker_New/AX/ZBarSDK,
 					"$(PROJECT_DIR)/AnjukeBroker_New/VoiceConvert/lib",
 				);
 				ONLY_ACTIVE_ARCH = NO;
