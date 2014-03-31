@@ -97,9 +97,10 @@
         self.viewControllers = controllerArrays;
         
         if (![AppManager isIOS6]) {
+            [self.tabBar setTintColor:SYSTEM_TABBAR_SELECTCOLOR_DARK];
             [self.tabBar setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_tab_bg.png"]];
         }
-        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:SYSTEM_TABBAR_SELECTCOLOR_DARK, UITextAttributeTextColor, nil] forState:UIControlStateHighlighted];
+//        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:SYSTEM_TABBAR_SELECTCOLOR_DARK, UITextAttributeTextColor, nil] forState:UIControlStateHighlighted];
     }
     
     return self;
