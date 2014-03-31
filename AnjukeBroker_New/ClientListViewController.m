@@ -111,7 +111,7 @@
     self.tableViewList = tv;
     tv.delegate = self;
     tv.dataSource = self;
-    //    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:tv];
     
     if (self.isForMessageList) {
@@ -360,7 +360,9 @@
     }
     
     [cell setCellHeight:CLIENT_LIST_HEIGHT];
-    [cell configureCellWithData:item]; //for test
+    [cell configureCellWithData:item];
+    
+    [cell showBottonLineWithCellHeight:CLIENT_LIST_HEIGHT andOffsetX:15];
     
     return cell;
 }
