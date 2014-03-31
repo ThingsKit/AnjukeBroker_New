@@ -32,6 +32,7 @@
 @property (nonatomic, retain) NSString * firstPinYin;
 @property (nonatomic, retain) NSString * markPhone;
 @property (nonatomic, retain) NSString * markDesc;
+@property (nonatomic, retain) NSString * sex;
 
 - (void)assignPropertiesFromMappedObject:(AXMappedPerson *)person;
 - (AXMappedPerson *)convertToMappedPerson;

@@ -102,7 +102,7 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 - (NSInteger)totalUnreadMessageCount;
 
 // UI life cycle
-- (void)didLeaveChattingList;
+- (void)didLeaveChattingListWithFriendUID:(NSString *)friendUID;
 - (void)chatListWillAppearWithFriendUid:(NSString *)friendUid;
 
 #pragma mark - friend list related methods

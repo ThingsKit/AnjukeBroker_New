@@ -39,6 +39,7 @@ typedef NS_ENUM(NSUInteger, AXPersonType)
 @property (nonatomic) BOOL isPendingForRemove;
 @property (nonatomic, strong) NSString * markDesc;
 @property (nonatomic, strong) NSString * markPhone;
+@property (nonatomic, strong) NSString * sex;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dic;
 @end

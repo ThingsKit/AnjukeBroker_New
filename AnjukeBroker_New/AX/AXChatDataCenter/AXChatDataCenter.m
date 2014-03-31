@@ -610,6 +610,10 @@
 
 - (void)saveDraft:(NSString *)content friendUID:(NSString *)friendUID
 {
+    if (![self isFriendWithFriendUid:friendUID]) {
+        return;
+    }
+    
     AXConversationListItem *conversationListItem = [self findConversationListItemWithFriendUID:friendUID];
     if ([content isEqualToString:@""]) {
         if (conversationListItem) {
@@ -635,9 +639,14 @@
     return [self.managedObjectContext countForFetchRequest:fetchRequest error:NULL];
 }
 
-- (void)didLeaveChattingList
+- (void)didLeaveChattingListWithFriendUID:(NSString *)friendUID
 {
     self.friendUid = nil;
+    if (![self isFriendWithFriendUid:friendUID]) {
+        if ([self findConversationListItemWithFriendUID:friendUID]) {
+            [self deleteConversationItemWithFriendUid:friendUID];
+        }
+    }
 }
 
 - (NSString *)lastServiceMsgId
@@ -1204,17 +1213,19 @@
 {
     AXConversationListItem *listItem = [self findConversationListItemWithFriendUID:friendUid];
     
-    NSFetchRequest *fetchRequst = [[NSFetchRequest alloc] init];
-    fetchRequst.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
-    fetchRequst.predicate = [NSPredicate predicateWithFormat:@"from = %@ OR to = %@", friendUid, friendUid];
-    NSArray *messages = [self.managedObjectContext executeFetchRequest:fetchRequst error:NULL];
-    
-    for (AXMessage *message in messages) {
-        [self.managedObjectContext deleteObject:message];
+    if (listItem != nil) {
+        NSFetchRequest *fetchRequst = [[NSFetchRequest alloc] init];
+        fetchRequst.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+        fetchRequst.predicate = [NSPredicate predicateWithFormat:@"from = %@ OR to = %@", friendUid, friendUid];
+        NSArray *messages = [self.managedObjectContext executeFetchRequest:fetchRequst error:NULL];
+        
+        for (AXMessage *message in messages) {
+            [self.managedObjectContext deleteObject:message];
+        }
+        
+        [self.managedObjectContext deleteObject:listItem];
+        [self.managedObjectContext save:NULL];
     }
-    
-    [self.managedObjectContext deleteObject:listItem];
-    [self.managedObjectContext save:NULL];
 }
 
 - (BOOL)checkAndDeleteConversationItemWithFriendId:(NSString *)friendUid

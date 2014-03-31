@@ -61,7 +61,7 @@
 - (NSInteger)totalUnreadMessageCount;
 - (AXMappedMessage *)fetchMessageWithIdentifier:(NSString *)identifier;
 - (void)saveDraft:(NSString *)content friendUID:(NSString *)friendUID;
-- (void)didLeaveChattingList;
+- (void)didLeaveChattingListWithFriendUID:(NSString *)friendUID;
 - (NSString *)lastMsgId;
 - (NSString *)lastServiceMsgId;
 

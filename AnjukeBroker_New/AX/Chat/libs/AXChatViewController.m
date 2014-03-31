@@ -211,7 +211,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     UIMenuController *menu = [UIMenuController sharedMenuController];
     [menu setMenuVisible:NO animated:YES];
 
-    [[AXChatMessageCenter defaultMessageCenter] didLeaveChattingList];
+    [[AXChatMessageCenter defaultMessageCenter] didLeaveChattingListWithFriendUID:[self checkFriendUid]];
     [self cancelKKAudioPlaying];
 }
 

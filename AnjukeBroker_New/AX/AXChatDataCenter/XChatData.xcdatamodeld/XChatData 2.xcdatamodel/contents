@@ -53,12 +53,13 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="namePinyin" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sex" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uid" attributeType="String" syncable="YES"/>
         <attribute name="userType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
         <element name="AXConversationListItem" positionX="0" positionY="0" width="128" height="240"/>
         <element name="AXMessage" positionX="0" positionY="0" width="128" height="300"/>
-        <element name="AXPerson" positionX="0" positionY="0" width="128" height="345"/>
+        <element name="AXPerson" positionX="0" positionY="0" width="128" height="360"/>
     </elements>
 </model>

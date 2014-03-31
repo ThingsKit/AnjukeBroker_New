@@ -54,6 +54,7 @@
     person.company = self.company;
     person.markPhone = self.markPhone;
     person.markDesc = self.markDesc;
+    person.sex = person.sex;
     return person;
 }
 
@@ -78,6 +79,7 @@
     self.company = person.company;
     self.markPhone = person.markPhone;
     self.markDesc = person.markDesc;
+    self.sex = person.sex;
 }
 
 - (void)awakeFromInsert

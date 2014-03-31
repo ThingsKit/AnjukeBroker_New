@@ -34,7 +34,9 @@
 static NSString * const kMessageCenterReceiveMessageTypeText = @"1";
 static NSString * const kMessageCenterReceiveMessageTypeProperty = @"2";
 static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
-static NSString * const kUpLoadVoiceDataAddress = @"http://chatapi.dev.anjuke.com/common/uploadFile";
+#warning 
+#warning when app finish develop，this address must be place with api.anjuke.com/weiliao
+//static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 static NSString * const kLastVersionApiSite = @"http://chatapi.dev.anjuke.com";
 
 @interface AXChatMessageCenter ()<AXMessageAPILongLinkDelegate,RTAPIManagerApiCallBackDelegate,RTAPIManagerInterceptorProtocal, AXChatDataCenterDelegate>
@@ -598,9 +600,9 @@ static NSString * const kLastVersionApiSite = @"http://chatapi.dev.anjuke.com";
     return [self.dataCenter deleteConversationItem:conversationItem];
 }
 
-- (void)didLeaveChattingList
+- (void)didLeaveChattingListWithFriendUID:(NSString *)friendUID
 {
-    [self.dataCenter didLeaveChattingList];
+    [self.dataCenter didLeaveChattingListWithFriendUID:friendUID];
 }
 
 - (NSFetchedResultsController *)friendListFetchedResultController
@@ -647,17 +649,6 @@ static NSString * const kLastVersionApiSite = @"http://chatapi.dev.anjuke.com";
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidInitedDataCenter object:nil];
         });
     }
-}
-
-- (void)didFailedSendMessage:(AXMappedMessage *)failedMessage
-{
-    [self.dataCenter didFailSendMessageWithIdentifier:failedMessage.identifier];
-    _finishSendMessageBlock = self.blockDictionary[failedMessage.identifier];
-    if (_finishSendMessageBlock) {
-        _finishSendMessageBlock(@[failedMessage],AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeFailed);
-    }
-    [self.blockDictionary removeObjectForKey:failedMessage.identifier];
-    
 }
 
 - (void)cancelAllRequest
@@ -1236,6 +1227,16 @@ static NSString * const kLastVersionApiSite = @"http://chatapi.dev.anjuke.com";
     }
 }
 
+- (void)didFailedSendMessage:(AXMappedMessage *)failedMessage
+{
+    [self.dataCenter didFailSendMessageWithIdentifier:failedMessage.identifier];
+    _finishSendMessageBlock = self.blockDictionary[failedMessage.identifier];
+    if (_finishSendMessageBlock) {
+        _finishSendMessageBlock(@[failedMessage],AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeFailed);
+    }
+    [self.blockDictionary removeObjectForKey:failedMessage.identifier];
+
+}
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
     //sendimage
@@ -1250,7 +1251,7 @@ static NSString * const kLastVersionApiSite = @"http://chatapi.dev.anjuke.com";
                 if (receiveDic[@"status"] && [receiveDic[@"status"] isEqualToString:@"ok"]) {
                     NSDictionary *image = receiveDic[@"image"];
                     imageUrl = [NSString stringWithFormat:@"http://pic%@.ajkimg.com/m/%@/%@x%@.jpg",image[@"host"],image[@"id"],image[@"width"],image[@"height"]];
-                }else if (receiveDic == nil || [receiveDic[@"status"] isEqualToString:@"ERROR"]) {
+                }else if (receiveDic == nil || [receiveDic[@"status"] isEqualToString:@"ERROR"]){
                     [self didFailedSendMessage:dataMessage];
                     return ;
                 }
@@ -1492,13 +1493,6 @@ static NSString * const kLastVersionApiSite = @"http://chatapi.dev.anjuke.com";
 #pragma mark - long link related methods
 - (void)connect
 {
-//    if ([MemberUtil didMemberLogin]) {
-//        [self connectAsUser];
-//        [self userReceiveAlivingConnectionWithUniqId:nil];
-//    }else {
-//        [self connectAsDevice];
-//        [self appReceiveAlivingConnectionWithUniqId:nil];
-//    }
     [self connectAsUser];
     [self userReceiveAlivingConnectionWithUniqId:nil];
 }
