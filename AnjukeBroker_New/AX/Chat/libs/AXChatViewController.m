@@ -25,6 +25,7 @@
 #import "NSString+JSMessagesView.h"
 
 #import "AXChatMessageCenter.h"
+#import "LocationManager.h"
 
 #import "AXPullToRefreshContentView.h"
 #import "JSMessageInputView.h"
@@ -730,6 +731,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 //            if (![self.contentValidator checkPropertyCard:mappedMessage.content]) {
 //                return nil;
 //            }
+            if (mappedMessage.content && [mappedMessage.content JSONValue][@"address"] && [[mappedMessage.content JSONValue][@"address"] length] == 0) {
+                [self reloadLocation:mappedMessage];
+            }
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeLocation),@"content":mappedMessage.content,@"messageSource":messageSource}];
             
         }
@@ -807,6 +811,22 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     return textData;
 }
 
+- (void)reloadLocation:(AXMappedMessage *)mappedMessage {
+    
+    CGFloat locallat = [[mappedMessage.content JSONValue][@"google_lat"] floatValue];
+    CGFloat locallng = [[mappedMessage.content JSONValue][@"google_lng"] floatValue];
+    [[LocationManager defaultLocationManager] geoWithLatAndLng:[NSString stringWithFormat:@"%f", locallat] lng:[NSString stringWithFormat:@"%f", locallng] target:self action:@selector(geoDidFinishGetAddress:)];
+}
+- (void)geoDidFinishGetAddress:(RTNetworkResponse *) response {
+    
+    NSLog(@"------------////------------%@",response.content);
+//    if (response.content && response.status == RTNetworkResponseStatusSuccess && [response.content[@"results"] count] >0) {
+//         [[response.content[@"results"] objectAtIndex:0] objectForKey:@"formatted_address"];
+//        
+//    }else {
+//        
+//    }
+}
 - (void)axAddCellData:(NSDictionary *)msgData
 {
     [self.identifierData addObject:msgData[AXCellIdentifyTag]];

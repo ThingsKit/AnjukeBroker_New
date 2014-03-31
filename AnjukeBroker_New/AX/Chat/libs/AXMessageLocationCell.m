@@ -7,6 +7,8 @@
 //
 
 #import "AXMessageLocationCell.h"
+#import "LocationManager.h"
+
 @interface AXMessageLocationCell ()
 @property (nonatomic, strong) NSDictionary *dataDic;
 @property (nonatomic, strong) UIActivityIndicatorView *activity;
@@ -81,10 +83,9 @@
     self.mapIMGView.image = [UIImage imageNamed:@"anjuke_icon_map.png"];
     self.mapIMGView.layer.cornerRadius = 6.0f;
     self.mapIMGView.layer.masksToBounds = YES;
-    
     if ([self.dataDic[@"address"] length] == 0) {
         self.activity.hidden = NO;
-        
+        [self getGeoLocation];
     }else {
         self.locationLabel.text = self.dataDic[@"address"];
         
@@ -130,17 +131,28 @@
     
     self.mapControl.frame = self.bubbleIMG.frame;
 }
+
 - (void)getGeoLocation{
     [self.activity startAnimating];
     self.activity.hidden = NO;
-    CGFloat locallat = [[self.dataDic objectForKey:@"lat"] floatValue];
-    CGFloat locallng = [[self.dataDic objectForKey:@"lng"] floatValue];
-    [[RTRequestProxy sharedInstance] geoWithLat:[NSString stringWithFormat:@"%f", locallat] lng:[NSString stringWithFormat:@"%f", locallng] target:self action:@selector(geoDidFinishGetAddress:)];
+    CGFloat locallat = [[self.dataDic objectForKey:@"google_lat"] floatValue];
+    CGFloat locallng = [[self.dataDic objectForKey:@"google_lng"] floatValue];
+    [[LocationManager defaultLocationManager] geoWithLatAndLng:[NSString stringWithFormat:@"%f", locallat] lng:[NSString stringWithFormat:@"%f", locallng] target:self action:@selector(geoDidFinishGetAddress:)];
+//    [[RTRequestProxy sharedInstance] geoWithLat:[NSString stringWithFormat:@"%f", locallat] lng:[NSString stringWithFormat:@"%f", locallng] target:self action:@selector(geoDidFinishGetAddress:)];
 }
 
 - (void)geoDidFinishGetAddress:(RTNetworkResponse *) response {
-
+    
+    NSLog(@"------------////------------%@",response.content);
+    if (response.content && response.status == RTNetworkResponseStatusSuccess && [response.content[@"results"] count] >0) {
+      self.locationLabel.text = [[response.content[@"results"] objectAtIndex:0] objectForKey:@"formatted_address"];
+        
+    }else {
+    
+    }
+    self.activity.hidden = YES;
 }
+
 - (void)didClickMap {
     if (self.delegate && [self.delegate respondsToSelector:@selector(didClickMapCell:)]) {
         [self.delegate didClickMapCell:self.dataDic];

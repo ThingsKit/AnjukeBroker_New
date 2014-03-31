@@ -291,6 +291,7 @@
 		B721095818278E6000904FC7 /* RentPropertyListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B721095718278E6000904FC7 /* RentPropertyListCell.m */; };
 		B721095B1827976500904FC7 /* RentNoPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = B721095A1827976500904FC7 /* RentNoPlanController.m */; };
 		B723C11A18E9380400584B2C /* PropertyResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = B723C11918E9380400584B2C /* PropertyResponder.m */; };
+		B723C13618E9599500584B2C /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B723C13518E9599500584B2C /* LocationManager.m */; };
 		B769E441181F45AF00A2FF50 /* BaseFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E440181F45AF00A2FF50 /* BaseFixedDetailController.m */; };
 		B769E445181F462C00A2FF50 /* SaleFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E444181F462C00A2FF50 /* SaleFixedDetailController.m */; };
 		B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E44B181F4C3E00A2FF50 /* CommunityObject.m */; };
@@ -997,6 +998,8 @@
 		B721095A1827976500904FC7 /* RentNoPlanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentNoPlanController.m; sourceTree = "<group>"; };
 		B723C11818E9380400584B2C /* PropertyResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyResponder.h; sourceTree = "<group>"; };
 		B723C11918E9380400584B2C /* PropertyResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyResponder.m; sourceTree = "<group>"; };
+		B723C13418E9599500584B2C /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
+		B723C13518E9599500584B2C /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
 		B769E43F181F45AF00A2FF50 /* BaseFixedDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseFixedDetailController.h; sourceTree = "<group>"; };
 		B769E440181F45AF00A2FF50 /* BaseFixedDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseFixedDetailController.m; sourceTree = "<group>"; };
 		B769E443181F462C00A2FF50 /* SaleFixedDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleFixedDetailController.h; sourceTree = "<group>"; };
@@ -2585,6 +2588,15 @@
 			name = BaseView;
 			sourceTree = "<group>";
 		};
+		B723C13218E9597D00584B2C /* LocationManager */ = {
+			isa = PBXGroup;
+			children = (
+				B723C13418E9599500584B2C /* LocationManager.h */,
+				B723C13518E9599500584B2C /* LocationManager.m */,
+			);
+			name = LocationManager;
+			sourceTree = "<group>";
+		};
 		B769E446181F4BE800A2FF50 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -2799,6 +2811,7 @@
 		B7EAD4D218CD927200B28FEC /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				B723C13218E9597D00584B2C /* LocationManager */,
 				B7EAD54E18CDB88A00B28FEC /* Views */,
 				B7EAD4D718CD927200B28FEC /* AXChatContentValidator.h */,
 				B7EAD4D818CD927200B28FEC /* AXChatContentValidator.m */,
@@ -3579,6 +3592,7 @@
 				20274173186AC2A9005267FD /* SystemCellManager.m in Sources */,
 				20A09794188D2C4400D30196 /* PublishDataModel.m in Sources */,
 				97958362182229AF005EA48A /* Util_TEXT.m in Sources */,
+				B723C13618E9599500584B2C /* LocationManager.m in Sources */,
 				B7EF77B9183CE82D0024A5E6 /* RentNoPlanListCell.m in Sources */,
 				B77A960F182A389D007F04E3 /* SalePropertyObject.m in Sources */,
 				97B422571820D9A600A2E9E6 /* PropertyGroupListViewController.m in Sources */,
