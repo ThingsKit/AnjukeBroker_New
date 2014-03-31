@@ -1650,6 +1650,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         [self didClickKeyboardControl];
     }
     if (!self.isVoiceInput) {
+        [self didClickKeyboardControl];
         self.isVoiceInput = !self.isVoiceInput;
         [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameKeyboard] forState:UIControlStateNormal];
         [self.messageInputView.textView resignFirstResponder];
