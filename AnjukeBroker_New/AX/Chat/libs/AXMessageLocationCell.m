@@ -130,7 +130,17 @@
     
     self.mapControl.frame = self.bubbleIMG.frame;
 }
+- (void)getGeoLocation{
+    [self.activity startAnimating];
+    self.activity.hidden = NO;
+    CGFloat locallat = [[self.dataDic objectForKey:@"lat"] floatValue];
+    CGFloat locallng = [[self.dataDic objectForKey:@"lng"] floatValue];
+    [[RTRequestProxy sharedInstance] geoWithLat:[NSString stringWithFormat:@"%f", locallat] lng:[NSString stringWithFormat:@"%f", locallng] target:self action:@selector(geoDidFinishGetAddress:)];
+}
 
+- (void)geoDidFinishGetAddress:(RTNetworkResponse *) response {
+
+}
 - (void)didClickMap {
     if (self.delegate && [self.delegate respondsToSelector:@selector(didClickMapCell:)]) {
         [self.delegate didClickMapCell:self.dataDic];
