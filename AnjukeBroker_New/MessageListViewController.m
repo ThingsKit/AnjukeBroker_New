@@ -246,6 +246,10 @@
         case NSFetchedResultsChangeMove:
         {
             [self.tableViewList moveRowAtIndexPath:indexPath toIndexPath:newIndexPath];
+            
+            AXConversationListItem *item = [self.sessionFetchedResultsController fetchedObjects][newIndexPath.row];
+            MessageListCell *cell = (MessageListCell *)[self.tableViewList cellForRowAtIndexPath:indexPath];
+            [cell configureCell:item];
         }
             break;
         case NSFetchedResultsChangeDelete:
