@@ -1865,13 +1865,6 @@
 			name = "地址选择&导航";
 			sourceTree = "<group>";
 		};
-		678D297F18DA96120027D945 /* recorder */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = recorder;
-			sourceTree = "<group>";
-		};
 		678D2A1418DAB12E0027D945 /* VoiceConvert */ = {
 			isa = PBXGroup;
 			children = (
@@ -2067,7 +2060,6 @@
 			isa = PBXGroup;
 			children = (
 				B7EA5B4118DBDC9500D437BB /* 3.3Icon */,
-				678D297F18DA96120027D945 /* recorder */,
 				203EC29C18B2FEF000DD0840 /* Tab_icon */,
 				206F7FCF18A87EE2001EEC16 /* 首页img */,
 				970501541845A18E00A0C181 /* 引导页 */,
