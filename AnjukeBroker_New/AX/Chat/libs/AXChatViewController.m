@@ -71,6 +71,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 @property (nonatomic) BOOL isFinished;
 @property (nonatomic) CGFloat tableViewBottom;
 @property (nonatomic) BOOL hasMore;
+@property (nonatomic) CGRect messageInputViewFrame;
+@property (nonatomic) CGRect messageInputTextViewFrame;
+@property (nonatomic, copy) NSString *currentText;
 
 @property (nonatomic, strong) AXPullToRefreshView *pullToRefreshView;
 @property (nonatomic, strong) AXMappedMessage *lastMessage;
@@ -132,6 +135,10 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         self.isVoiceInput = NO;
         _contentValidator = [[AXChatContentValidator alloc] init];
         _playingIdentifier = @"";
+        _currentText = @"";
+        _messageInputViewFrame = CGRectZero;
+        _messageInputTextViewFrame = CGRectZero;
+        
     }
     return self;
 }
@@ -186,8 +193,13 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 {
     [super viewWillDisappear:animated];
     //草稿
-    if (self.messageInputView) {
-        [[AXChatMessageCenter defaultMessageCenter] saveDraft:self.messageInputView.textView.text friendUID:[self checkFriendUid]];
+    if (self.messageInputView || self.currentText) {
+        if (self.messageInputView.textView.text.length == 0) {
+            [[AXChatMessageCenter defaultMessageCenter] saveDraft:self.currentText friendUID:[self checkFriendUid]];
+        } else {
+            [[AXChatMessageCenter defaultMessageCenter] saveDraft:self.messageInputView.textView.text friendUID:[self checkFriendUid]];
+        }
+        
     }
 
     [self.messageInputView resignFirstResponder];
@@ -281,6 +293,8 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
                                         options:NSKeyValueObservingOptionNew
                                         context:nil];
     CGRect textViewRect = self.messageInputView.textView.frame;
+    self.messageInputViewFrame = inputView.frame;
+    
     if (!self.isBroker) {
         inputView.sendButton.enabled = NO;
         [inputView.sendButton addTarget:self
@@ -290,6 +304,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         
         
         self.messageInputView.textView.frame = CGRectMake(textViewRect.origin.x + 40, textViewRect.origin.y, textViewRect.size.width - 40, textViewRect.size.height);
+        self.messageInputTextViewFrame = self.messageInputView.textView.frame;
         self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
         self.sendBut.frame = CGRectMake(270.0f + 4.0f, 2.0f, 45.0f, 45.0f);
         [self.sendBut addTarget:self action:@selector(didMoreBackView:) forControlEvents:UIControlEventTouchUpInside];
@@ -1624,8 +1639,12 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 }
 
-
 - (void)speeking {
+    if (self.messageInputView.textView.text.length >0) {
+        self.currentText = [NSString stringWithString:self.messageInputView.textView.text];
+        self.messageInputView.textView.text = @"";
+    }
+    
     
     if (!self.moreBackView.isHidden) {
         [self didClickKeyboardControl];
@@ -1635,16 +1654,14 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameKeyboard] forState:UIControlStateNormal];
         [self.messageInputView.textView resignFirstResponder];
         self.messageInputView.textView.editable = NO;
-//        self.messageInputView.textView.selectable = NO;
-        CGRect frame = self.messageInputView.textView.frame;
-        self.pressSpeek.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 30);
+        self.pressSpeek.frame = self.messageInputTextViewFrame;
         [self switchToVoiceLog];
     } else {
+        self.messageInputView.textView.text = self.currentText;
         self.isVoiceInput = !self.isVoiceInput;
         self.pressSpeek.frame = CGRectZero;
         [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
         self.messageInputView.textView.editable = YES;
-//        self.messageInputView.textView.selectable = YES;
         [self.messageInputView.textView becomeFirstResponder];
         [self switchToTextLog];
     }
