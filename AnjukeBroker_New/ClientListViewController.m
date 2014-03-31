@@ -59,7 +59,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    if ([self isNetworkOkay] && [LoginManager getChatID] && [LoginManager getPhone]) {
+    if ([self isNetworkOkay] && [LoginManager getChatID].length > 0 && [LoginManager getPhone].length > 0) {
         [self showLoadingActivity:YES];
         [self getFriendList];
     }
