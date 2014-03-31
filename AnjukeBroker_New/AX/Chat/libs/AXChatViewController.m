@@ -42,7 +42,6 @@
 
 //录音组件
 #import "KKAudioComponent.h"
-CGFloat const AXChatMessageSystemTimeCellMarginTop = 4.0f;
 
 //输入框和发送按钮栏的高度
 static CGFloat const AXInputBackViewHeight = 49;

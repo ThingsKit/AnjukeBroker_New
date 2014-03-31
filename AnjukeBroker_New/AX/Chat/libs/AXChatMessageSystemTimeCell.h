@@ -11,7 +11,7 @@
 #import "UIColor+AXChatMessage.h"
 #import "UIFont+AXChatMessage.h"
 #import "UIImage+AXChatMessage.h"
-
+extern CGFloat const AXChatMessageSystemTimeCellMarginTop;
 @protocol AXChatMessageSystemCellDelegate <NSObject>
 
 
