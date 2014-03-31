@@ -42,7 +42,7 @@
 
 //录音组件
 #import "KKAudioComponent.h"
-
+CGFloat const AXChatMessageSystemTimeCellMarginTop = 4.0f;
 
 //输入框和发送按钮栏的高度
 static CGFloat const AXInputBackViewHeight = 49;
@@ -797,6 +797,10 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeSafeMessage),@"content":mappedMessage.content,@"messageSource":@(AXChatMessageSourceDestinationOutPut)}];
         }
             break;
+        case AXMessageTypeVersion:
+        {
+            textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeVersion),@"content":mappedMessage.content,@"messageSource":@(AXChatMessageSourceDestinationOutPut)}];
+        }
         default:
             break;
     }
@@ -913,6 +917,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         return 65.0f;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeLocation)]) {
         return 140.0f;
+    } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeVersion)]) {
+        CGSize textSize = [dic[@"content"] rtSizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(240.0f, CGFLOAT_MAX)];
+        return textSize.height + AXChatMessageSystemTimeCellMarginTop * 2 + 20;
     }else {
         return 70;
     }

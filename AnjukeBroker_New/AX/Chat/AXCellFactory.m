@@ -63,6 +63,7 @@
                 cell = [[AXChatMessageSystemTimeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identity];
             }
                 break;
+                
         }
     }
     
