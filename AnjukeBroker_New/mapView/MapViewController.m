@@ -575,11 +575,13 @@
         if (array.count > 0) {
             CLPlacemark *placemark = [array objectAtIndex:0];
             
-            NSString *region = [placemark.addressDictionary objectForKey:@"SubLocality"];
-            NSString *address = [placemark.addressDictionary objectForKey:@"Name"];
+            NSString *region = placemark.subLocality ? placemark.subLocality : @"";
+            NSString *address = placemark.name ? placemark.name : @"";
+            NSString *city = placemark.administrativeArea ? placemark.administrativeArea : @"";
+            
             self.regionStr = region;
             self.addressStr = address;
-            self.city = placemark.administrativeArea ? placemark.administrativeArea : @"";
+            self.city = city;
             
             if (mapType == RegionChoose) {
                 loadStatus = 1;
