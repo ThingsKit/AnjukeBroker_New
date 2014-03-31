@@ -113,12 +113,17 @@
 }
 
 - (void)rightButtonAction:(id)sender {
-    [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_003 note:nil];
-    
-    ClientListViewController *ml = [[ClientListViewController alloc] init];
-    ml.isForMessageList = YES;
-    [ml setHidesBottomBarWhenPushed:YES];
-    [self.navigationController pushViewController:ml animated:YES];
+    if ([self isNetworkOkay] && [LoginManager getChatID].length > 0 && [LoginManager getPhone].length > 0) {
+        [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_003 note:nil];
+        
+        ClientListViewController *ml = [[ClientListViewController alloc] init];
+        ml.isForMessageList = YES;
+        [ml setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:ml animated:YES];
+    }
+    else {
+        
+    }
 }
 
 #pragma mark - Private Method
