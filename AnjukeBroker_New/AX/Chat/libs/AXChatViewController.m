@@ -1737,6 +1737,11 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     self.backgroundImageView.image = [UIImage imageNamed:@"wl_voice_tip_bg"];
     [self showHUDWithTitle:@"手指上滑, 取消发送" CustomView:self.backgroundImageView IsDim:NO]; //取消蒙版
     
+    __block AXChatViewController *blockObject = self;
+    [KKAudioComponent sharedAudioComponent].recordDidInterruptBlock = ^{
+        [blockObject didCommitVoice];
+    };
+    
 }
 
 //UIControlEventTouchUpInside

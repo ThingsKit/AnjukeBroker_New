@@ -233,6 +233,9 @@ static KKAudioComponent* defaultAudioComponent;
 /* audioRecorderBeginInterruption: is called when the audio session has been interrupted while the recorder was recording. The recorded file will be closed. */
 - (void)audioRecorderBeginInterruption:(AVAudioRecorder *)recorder{
     NSLog(@"录音中断, 录音文件断开??");
+    if (self.recordDidInterruptBlock != nil) {
+        self.recordDidInterruptBlock();
+    }
 }
 
 /* audioRecorderEndInterruption:withOptions: is called when the audio session interruption has ended and this recorder had been interrupted while recording. */
