@@ -89,14 +89,14 @@ typedef enum {
 }
 
 - (void)addPageController {
-    UIPageControl *pc = [[UIPageControl alloc] initWithFrame:CGRectMake(50, [self getWindowHeight] - 40, [self getWindowWidth]- 50*2, 20)];
+    UIPageControl *pc = [[UIPageControl alloc] initWithFrame:CGRectMake(50, [self getWindowHeight] - 90, [self getWindowWidth]- 50*2, 20)];
     pc.numberOfPages = self.totalCount;
     pc.currentPage = 0;
     pc.tag = tagOfPageController;
     pc.backgroundColor = [UIColor clearColor];
     if ([[[UIDevice currentDevice] systemVersion] intValue] >= 6) {
         pc.pageIndicatorTintColor = anjukeGray;
-        pc.currentPageIndicatorTintColor = [UIColor whiteColor];
+        pc.currentPageIndicatorTintColor = SYSTEM_TABBAR_SELECTCOLOR_DARK;
     }
     [self addSubview:pc];
 }
@@ -120,8 +120,8 @@ typedef enum {
     for (int i = 0; i < imgArray.count; i ++) {
         UIImageView *img = [[UIImageView alloc] initWithImage:[imgArray objectAtIndex:i]];
         img.frame = CGRectMake(0 + [self getWindowWidth] *i, imgGapH, [self getWindowWidth], [self getWindowHeight] - imgGapH);
-        img.backgroundColor = [UIColor clearColor];
-        img.contentMode = UIViewContentModeScaleAspectFill;
+        img.backgroundColor = [UIColor whiteColor];
+        img.contentMode = UIViewContentModeScaleAspectFit;
         img.layer.borderColor = [UIColor clearColor].CGColor;
         img.layer.borderWidth = 1;
         img.clipsToBounds = YES;
@@ -140,7 +140,7 @@ typedef enum {
             }
             else {
                 hideBtn.frame = CGRectMake(btnOriginX + [self getWindowWidth] * (imgArray.count - 1), [self getWindowHeight]-btnH-20, btnW, btnH);
-                [hideBtn setBackgroundColor:SYSTEM_ORANGE];
+                [hideBtn setBackgroundColor:SYSTEM_TABBAR_SELECTCOLOR_DARK];
                 hideBtn.layer.cornerRadius = 3;
                 [hideBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 [hideBtn setTitle:@"立 即 体 验" forState:UIControlStateNormal];

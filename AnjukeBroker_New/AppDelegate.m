@@ -316,7 +316,7 @@
         
         AFWelcomeScrollview *af = [[AFWelcomeScrollview alloc] initWithFrame:self.window.bounds];
         af.delegate = self;
-        [af setImgArray:[NSArray arrayWithObject:[UIImage imageNamed:@"ios_welcome.png"]]];
+        [af setImgArray:[NSArray arrayWithObjects:[UIImage imageNamed:@"anjuke_icon_ydy_1.png"], [UIImage imageNamed:@"anjuke_icon_ydy_2.png"], [UIImage imageNamed:@"anjuke_icon_ydy_3.png"], nil]];
         
         [nav.view addSubview:af];
     }
