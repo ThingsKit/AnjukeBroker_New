@@ -1626,7 +1626,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
                 self.pressSpeek.frame = CGRectZero;
                 [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
                 self.messageInputView.textView.editable = YES;
-                self.messageInputView.textView.selectable = YES;
+//                self.messageInputView.textView.selectable = YES;
             }
             
             [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
