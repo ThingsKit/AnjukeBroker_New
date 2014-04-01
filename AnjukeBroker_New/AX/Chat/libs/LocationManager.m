@@ -55,6 +55,7 @@
     response.sendStatus = 1;
     [self callBack:response];
 }
+
 - (void)callBack:(AXNetWorkResponse *) response {
     if (_target && [_target respondsToSelector:_action]) {
         [_target performSelectorOnMainThread:_action withObject:response waitUntilDone:NO];
