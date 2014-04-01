@@ -813,23 +813,17 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     if (mappedMessage.sendStatus) {
         textData[@"status"] = mappedMessage.sendStatus;
     }
-
     return textData;
 }
 
 - (void)reloadLocation:(AXMappedMessage *)mappedMessage {
-//    
-//    CGFloat locallat = [[mappedMessage.content JSONValue][@"google_lat"] floatValue];
-//    CGFloat locallng = [[mappedMessage.content JSONValue][@"google_lng"] floatValue];
     [[LocationManager defaultLocationManager] locationByMessage:mappedMessage target:self action:@selector(didFinishGetAddress:)];
-//    [[LocationManager defaultLocationManager] geoWithLatAndLng:[NSString stringWithFormat:@"%f", locallat] lng:[NSString stringWithFormat:@"%f", locallng] target:self action:@selector(didFinishGetAddress:)];
 }
 
 - (void)didFinishGetAddress:(AXNetWorkResponse *) response {
     RTNetworkResponse *requestResponse = response.response;
 //    AXMappedMessage *message = response.message;
-    
-    
+
     if (response.sendStatus == 1) {
         [self.locationArray addObject:response];
     }else {
@@ -849,32 +843,12 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
                     if (dict) {
                         dict[@"content"] = [data RTJSONRepresentation];
                         self.cellDict[locationResponse.message.identifier] = dict;
-                        
                     }
                     NSUInteger index = [self.identifierData indexOfObject:locationResponse.message.identifier];
-//                    self.cellDict[locationResponse.message.identifier][@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
                     [self.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
                     [[AXChatMessageCenter defaultMessageCenter] updateMessageWithIdentifier:locationResponse.identify keyValues:@{@"content":locationResponse.message.content}];
                 }
-                //        // 更新数据库
-                //        NSMutableDictionary *data = [message.content JSONValue];
-                //        if (data && !data[@"hadDone"] && axCell.messageSource == AXChatMessageSourceDestinationIncoming) {
-                //            data[@"hadDone"] = @"1";
-                //            message.content = [data RTJSONRepresentation];
-                //            NSMutableDictionary *dict = self.cellDict[message.identifier];
-                //            if (dict) {
-                //                dict[@"content"] = [data RTJSONRepresentation];
-                //                self.cellDict[message.identifier] = dict;
-                //            }
-                //
-                //            [[AXChatMessageCenter defaultMessageCenter] updateMessageWithIdentifier:message.identifier keyValues:@{@"content":message.content}];
-                //        }
-                
-//                [[AXChatMessageCenter defaultMessageCenter] updateMessageWithIdentifier:response.identify keyValues:@{@"content":@""}];
-//                [[tempArray objectAtIndex:0] objectForKey:@"formatted_address"];
-//                NSLog(@"------------////------------%@",[[tempArray objectAtIndex:0] objectForKey:@"formatted_address"]);
             }
-
             
         }
     }];
