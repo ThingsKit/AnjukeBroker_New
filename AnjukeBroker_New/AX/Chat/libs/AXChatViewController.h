@@ -40,7 +40,7 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 @property (nonatomic, copy) NSString *uid;
 @property (nonatomic, copy) NSString *brokerName;
 @property (nonatomic, strong) AXMappedPerson *friendPerson;
-
+@property (nonatomic, strong) NSMutableArray *locationArray;
 
 
 - (BOOL)checkUserLogin;

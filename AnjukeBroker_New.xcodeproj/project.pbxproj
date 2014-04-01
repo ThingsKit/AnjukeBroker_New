@@ -455,6 +455,7 @@
 		B7EF77AF183CBBD20024A5E6 /* agent_icon45@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF77AB183CBBD20024A5E6 /* agent_icon45@2x.png */; };
 		B7EF77B5183CE2D90024A5E6 /* RentSelectNoPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EF77B4183CE2D90024A5E6 /* RentSelectNoPlanController.m */; };
 		B7EF77B9183CE82D0024A5E6 /* RentNoPlanListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EF77B8183CE82D0024A5E6 /* RentNoPlanListCell.m */; };
+		B7F8017E18E98D7B0006A1E4 /* AXNetWorkResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F8017D18E98D7B0006A1E4 /* AXNetWorkResponse.m */; };
 		B7FC9AC618C41B1300F77205 /* anjuke_icon_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7FC9A4618C41B1300F77205 /* anjuke_icon_add@2x.png */; };
 		B7FC9AC718C41B1300F77205 /* anjuke_icon_add_esf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7FC9A4718C41B1300F77205 /* anjuke_icon_add_esf@2x.png */; };
 		B7FC9AC918C41B1300F77205 /* anjuke_icon_add_pic4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7FC9A4918C41B1300F77205 /* anjuke_icon_add_pic4@2x.png */; };
@@ -1244,6 +1245,8 @@
 		B7EF77B4183CE2D90024A5E6 /* RentSelectNoPlanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentSelectNoPlanController.m; sourceTree = "<group>"; };
 		B7EF77B7183CE82D0024A5E6 /* RentNoPlanListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentNoPlanListCell.h; sourceTree = "<group>"; };
 		B7EF77B8183CE82D0024A5E6 /* RentNoPlanListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentNoPlanListCell.m; sourceTree = "<group>"; };
+		B7F8017C18E98D7B0006A1E4 /* AXNetWorkResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXNetWorkResponse.h; sourceTree = "<group>"; };
+		B7F8017D18E98D7B0006A1E4 /* AXNetWorkResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXNetWorkResponse.m; sourceTree = "<group>"; };
 		B7FC9A4618C41B1300F77205 /* anjuke_icon_add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add@2x.png"; sourceTree = "<group>"; };
 		B7FC9A4718C41B1300F77205 /* anjuke_icon_add_esf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_esf@2x.png"; sourceTree = "<group>"; };
 		B7FC9A4918C41B1300F77205 /* anjuke_icon_add_pic4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_pic4@2x.png"; sourceTree = "<group>"; };
@@ -2593,6 +2596,8 @@
 			children = (
 				B723C13418E9599500584B2C /* LocationManager.h */,
 				B723C13518E9599500584B2C /* LocationManager.m */,
+				B7F8017C18E98D7B0006A1E4 /* AXNetWorkResponse.h */,
+				B7F8017D18E98D7B0006A1E4 /* AXNetWorkResponse.m */,
 			);
 			name = LocationManager;
 			sourceTree = "<group>";
@@ -3622,6 +3627,7 @@
 				97CB0C0D182BEA3500FCCBBD /* ELCAsset.m in Sources */,
 				B721095818278E6000904FC7 /* RentPropertyListCell.m in Sources */,
 				970FC17E183B19C400D142D5 /* PropertyResetViewController.m in Sources */,
+				B7F8017E18E98D7B0006A1E4 /* AXNetWorkResponse.m in Sources */,
 				20E0FA4318E9626E00080A10 /* AXChatMessageCenter.m in Sources */,
 				B721094B18277CE100904FC7 /* RentFixedDetailController.m in Sources */,
 				B7DC8079186C115800BE6AD0 /* CellHeight.m in Sources */,

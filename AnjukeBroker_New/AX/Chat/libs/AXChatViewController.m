@@ -38,7 +38,7 @@
 #import "AXPhotoManager.h"
 #import "AXCellFactory.h"
 #import "AXChatContentValidator.h"
-
+#import "AXNetWorkResponse.h"
 
 //录音组件
 #import "KKAudioComponent.h"
@@ -236,6 +236,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     self.friendPerson = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[self checkFriendUid]];
     self.cellDict = [NSMutableDictionary dictionary];
     self.identifierData = [NSMutableArray array];
+    self.locationArray = [NSMutableArray array];
 }
 
 #pragma mark - Private Method
@@ -730,7 +731,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 //            if (![self.contentValidator checkPropertyCard:mappedMessage.content]) {
 //                return nil;
 //            }
-            if (mappedMessage.content && [mappedMessage.content JSONValue][@"address"] && [[mappedMessage.content JSONValue][@"address"] length] == 0) {
+            
+            NSDictionary *tempdic = [mappedMessage.content JSONValue];
+            if ([tempdic[@"address"] length] == 0){
                 [self reloadLocation:mappedMessage];
             }
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeLocation),@"content":mappedMessage.content,@"messageSource":messageSource}];
@@ -815,21 +818,70 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 }
 
 - (void)reloadLocation:(AXMappedMessage *)mappedMessage {
-    
-    CGFloat locallat = [[mappedMessage.content JSONValue][@"google_lat"] floatValue];
-    CGFloat locallng = [[mappedMessage.content JSONValue][@"google_lng"] floatValue];
-    [[LocationManager defaultLocationManager] geoWithLatAndLng:[NSString stringWithFormat:@"%f", locallat] lng:[NSString stringWithFormat:@"%f", locallng] target:self action:@selector(geoDidFinishGetAddress:)];
+//    
+//    CGFloat locallat = [[mappedMessage.content JSONValue][@"google_lat"] floatValue];
+//    CGFloat locallng = [[mappedMessage.content JSONValue][@"google_lng"] floatValue];
+    [[LocationManager defaultLocationManager] locationByMessage:mappedMessage target:self action:@selector(didFinishGetAddress:)];
+//    [[LocationManager defaultLocationManager] geoWithLatAndLng:[NSString stringWithFormat:@"%f", locallat] lng:[NSString stringWithFormat:@"%f", locallng] target:self action:@selector(didFinishGetAddress:)];
 }
-- (void)geoDidFinishGetAddress:(RTNetworkResponse *) response {
+
+- (void)didFinishGetAddress:(AXNetWorkResponse *) response {
+    RTNetworkResponse *requestResponse = response.response;
+//    AXMappedMessage *message = response.message;
     
-    NSLog(@"------------////------------%@",response.content);
-//    if (response.content && response.status == RTNetworkResponseStatusSuccess && [response.content[@"results"] count] >0) {
-//         [[response.content[@"results"] objectAtIndex:0] objectForKey:@"formatted_address"];
-//        
-//    }else {
-//        
-//    }
+    
+    if (response.sendStatus == 1) {
+        [self.locationArray addObject:response];
+    }else {
+    [self.locationArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        
+        AXNetWorkResponse *locationResponse = (AXNetWorkResponse *)obj;
+        
+        if (locationResponse.requestID == requestResponse.requestID) {
+        
+            NSArray *tempArray = [NSArray arrayWithArray:[requestResponse.content objectForKey:@"results"]];
+            if (requestResponse.content && requestResponse.status == RTNetworkResponseStatusSuccess && [tempArray count] > 0) {
+                NSMutableDictionary *data = [locationResponse.message.content JSONValue];
+                if (data && [data[@"address"] length] == 0) {
+                    data[@"address"] = [[tempArray objectAtIndex:0] objectForKey:@"formatted_address"];
+                    locationResponse.message.content = [data RTJSONRepresentation];
+                    NSMutableDictionary *dict = self.cellDict[locationResponse.message.identifier];
+                    if (dict) {
+                        dict[@"content"] = [data RTJSONRepresentation];
+                        self.cellDict[locationResponse.message.identifier] = dict;
+                        
+                    }
+                    NSUInteger index = [self.identifierData indexOfObject:locationResponse.message.identifier];
+//                    self.cellDict[locationResponse.message.identifier][@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
+                    [self.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                    [[AXChatMessageCenter defaultMessageCenter] updateMessageWithIdentifier:locationResponse.identify keyValues:@{@"content":locationResponse.message.content}];
+                }
+                //        // 更新数据库
+                //        NSMutableDictionary *data = [message.content JSONValue];
+                //        if (data && !data[@"hadDone"] && axCell.messageSource == AXChatMessageSourceDestinationIncoming) {
+                //            data[@"hadDone"] = @"1";
+                //            message.content = [data RTJSONRepresentation];
+                //            NSMutableDictionary *dict = self.cellDict[message.identifier];
+                //            if (dict) {
+                //                dict[@"content"] = [data RTJSONRepresentation];
+                //                self.cellDict[message.identifier] = dict;
+                //            }
+                //
+                //            [[AXChatMessageCenter defaultMessageCenter] updateMessageWithIdentifier:message.identifier keyValues:@{@"content":message.content}];
+                //        }
+                
+//                [[AXChatMessageCenter defaultMessageCenter] updateMessageWithIdentifier:response.identify keyValues:@{@"content":@""}];
+//                [[tempArray objectAtIndex:0] objectForKey:@"formatted_address"];
+//                NSLog(@"------------////------------%@",[[tempArray objectAtIndex:0] objectForKey:@"formatted_address"]);
+            }
+
+            
+        }
+    }];
+    }
+   
 }
+
 - (void)axAddCellData:(NSDictionary *)msgData
 {
     [self.identifierData addObject:msgData[AXCellIdentifyTag]];

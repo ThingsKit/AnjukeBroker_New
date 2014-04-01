@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AXMappedMessage.h"
 
 @interface LocationManager : NSObject
 @property (nonatomic, assign) id target;
 @property (nonatomic, assign) SEL action;
 +(instancetype)defaultLocationManager;
 - (void)geoWithLatAndLng:(NSString *)lat lng:(NSString *)lng target:(id)target action:(SEL)action;
-
+- (void)locationByMessage:(AXMappedMessage *)message target:(id)target action:(SEL)action;
 @end
