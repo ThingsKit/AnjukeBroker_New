@@ -23,6 +23,10 @@
     return location;
 }
 
+- (void)cancellRequest {
+    [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
+}
+
 - (void)geoWithLatAndLng:(NSString *)lat lng:(NSString *)lng target:(id)target action:(SEL)action {
     _target = target;
     _action = action;

@@ -15,4 +15,5 @@
 +(instancetype)defaultLocationManager;
 - (void)geoWithLatAndLng:(NSString *)lat lng:(NSString *)lng target:(id)target action:(SEL)action;
 - (void)locationByMessage:(AXMappedMessage *)message target:(id)target action:(SEL)action;
+- (void)cancellRequest;
 @end

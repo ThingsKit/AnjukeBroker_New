@@ -154,6 +154,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     self.myTableView.dataSource = nil;
     self.myTableView = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+//[LocationManager ]
 }
 
 - (void)viewWillAppear:(BOOL)animated
