@@ -972,7 +972,7 @@
     AXConversationListItemType itemType;
     AXMessageType messageType = [message.messageType integerValue];
     NSString *messageTip;
-    if (messageType == AXMessageTypeSettingNotifycation || messageType == AXMessageTypeSystemForbid || messageType == AXMessageTypeSystemTime || messageType == AXMessageTypeAddNuckName) {
+    if (messageType == AXMessageTypeSettingNotifycation || messageType == AXMessageTypeSystemForbid || messageType == AXMessageTypeSystemTime || messageType == AXMessageTypeAddNuckName || messageType == AXMessageTypeVersion) {
         shouldUpdateConversationListItem = NO;
     }
     
