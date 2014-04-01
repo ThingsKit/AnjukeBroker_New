@@ -199,7 +199,7 @@
             self.messageLb.text = item.messageTip;
         }
         else if ([item.messageType integerValue] == AXConversationListItemTypeCard) { //卡片
-            self.messageLb.text = @"[信息卡]";
+            self.messageLb.text = item.messageTip;//@"[信息卡]";
         }
         else if ([item.messageType integerValue] == AXConversationListItemTypeESFProperty) { //二手房
             self.messageLb.text = @"[二手房]";
