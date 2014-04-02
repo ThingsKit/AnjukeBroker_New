@@ -21,7 +21,7 @@
 #define NAV_BAT_H 44
 
 #define FRAME_WITH_NAV CGRectMake(0, 0, [self windowWidth], [self windowHeight] - STATUS_BAR_H - NAV_BAT_H)
-#define FRAME_USER_LOC CGRectMake(8, [self windowHeight] - STATUS_BAR_H - NAV_BAT_H-58, 40, 40)
+#define FRAME_USER_LOC CGRectMake(10, [self windowHeight] - STATUS_BAR_H - NAV_BAT_H-65, 40, 40)
 #define FRAME_CENTRE_LOC CGRectMake([self windowWidth]/2-8, ([self windowHeight] - STATUS_BAR_H - NAV_BAT_H)/2-25, 16, 33)
 
 
@@ -151,7 +151,7 @@
     goUserLocBtn.frame = FRAME_USER_LOC;
     [goUserLocBtn addTarget:self action:@selector(goUserLoc:) forControlEvents:UIControlEventTouchUpInside];
     [goUserLocBtn setImage:[UIImage imageNamed:@"wl_map_icon_position.png"] forState:UIControlStateNormal];
-    [goUserLocBtn setImage:[UIImage imageNamed:@"wl_map_icon_position_press.png"] forState:UIControlStateHighlighted];
+    [goUserLocBtn setImage:[UIImage imageNamed:@"wl_map_icon_position_press"] forState:UIControlStateHighlighted];
     goUserLocBtn.backgroundColor = [UIColor clearColor];
     [self.view addSubview:goUserLocBtn];
     

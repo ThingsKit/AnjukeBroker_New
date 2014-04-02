@@ -138,16 +138,16 @@
         maxWidth = 235.0;
     }
     
-    CGSize addSize1 = [self getSizeOfString:self.regionAnnotaytion.subtitle maxWidth:maxWidth withFontSize:14];
+    CGSize addSize1 = [self getSizeOfString:self.regionAnnotaytion.title maxWidth:maxWidth withFontSize:14];
     CGSize addSize2 = [self getSizeOfString:self.regionAnnotaytion.subtitle maxWidth:maxWidth withFontSize:12];
-    float width = ([self commpareWith:addSize1 size2:addSize2] <= 80) ? 80 : [self commpareWith:addSize1 size2:addSize2];
+    float width = [self commpareWith:addSize1 size2:addSize2];
 
+    
     if (chooseLoad) {
         CGRect bgCgrect = CGRectMake(-(width+10)/2, -80, width+10, 56);
         
         regionDetailView.frame = bgCgrect;
         [self addConner:bgCgrect];
-    
     }else{
         CGRect anFrame = CGRectMake(0, 0, width+10+65, 162);
         [self addCenter:anFrame];
