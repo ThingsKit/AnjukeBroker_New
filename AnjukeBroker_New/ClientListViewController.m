@@ -114,6 +114,11 @@
     tv.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:tv];
     
+    //改变索引的颜色
+    tv.sectionIndexColor = SYSTEM_TABBAR_SELECTCOLOR_DARK;
+    //改变索引选中的背景颜色
+    tv.sectionIndexTrackingBackgroundColor = [UIColor redColor];
+    
     if (self.isForMessageList) {
         self.tableViewList.frame = FRAME_WITH_NAV;
     }
