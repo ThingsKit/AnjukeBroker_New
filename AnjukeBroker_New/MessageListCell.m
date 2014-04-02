@@ -216,6 +216,9 @@
         else if ([item.messageType integerValue] == AXConversationListItemTypeLocation) { //位置
             self.messageLb.text = @"[位置]";
         }
+        else if ([item.messageType integerValue] == AXConversationListItemTypeCommunity) { //小区
+            self.messageLb.text = @"[小区]";
+        }
         
         if ([item.messageStatus integerValue] == AXMessageCenterSendMessageStatusSuccessful) { //发送成功
             self.messageLb.frame = messageFrame_noIcon;
