@@ -17,6 +17,7 @@
 #import "AXChatMessageImageCell.h"
 #import "AXChatMessagePublicCardCell.h"
 #import "AXChatMessageTextCell.h"
+#import "AXChatMessageVoiceCell.h"
 #import "AXChatMessageSystemTimeCell.h"
 #import "AXPhoto.h"
 
@@ -951,6 +952,13 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     }
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([cell isKindOfClass:[AXChatMessageVoiceCell class]]) {
+        [((AXChatMessageVoiceCell *)cell) resetPlayer:self.playingIdentifier];
+    }
+}
+
 #pragma mark - UITableViewDataSource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -1276,6 +1284,21 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         
     }
 }
+
+- (void)cancelKKAudioPlaying
+{
+    // 停止播放
+    if ([self.playingIdentifier isEqualToString:@""]) {
+        return;
+    }
+    [[KKAudioComponent sharedAudioComponent] cancelPlaying];
+    NSInteger index = [self.identifierData indexOfObject:self.playingIdentifier];
+    self.playingIdentifier = @"";
+    if (index >= 0) {
+        [self.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+    }
+}
+
 - (void)didClickVoice:(AXChatMessageRootCell *)axCell
 {
     if (![axCell isKindOfClass:[AXChatMessageRootCell class]]) {
@@ -1298,7 +1321,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
             dict[@"content"] = [data RTJSONRepresentation];
             self.cellDict[message.identifier] = dict;
         }
-        
+//        NSIndexPath *indexPath = [self.myTableView indexPathForCell:axCell];
+//        NSArray *tempArray = [NSArray arrayWithObject:indexPath];
+//        [self.myTableView reloadRowsAtIndexPaths:tempArray withRowAnimation:UITableViewRowAnimationNone];
         [[AXChatMessageCenter defaultMessageCenter] updateMessageWithIdentifier:message.identifier keyValues:@{@"content":message.content}];
     }
     
@@ -1317,19 +1342,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     };
     
 }
-- (void)cancelKKAudioPlaying
-{
-    // 停止播放
-    if ([self.playingIdentifier isEqualToString:@""]) {
-        return;
-    }
-    [[KKAudioComponent sharedAudioComponent] cancelPlaying];
-    NSInteger index = [self.identifierData indexOfObject:self.playingIdentifier];
-    self.playingIdentifier = @"";
-    if (index >= 0) {
-        [self.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-    }
-}
+
 #pragma mark - Layout message input view
 
 - (void)layoutAndAnimateMessageInputTextView:(UITextView *)textView

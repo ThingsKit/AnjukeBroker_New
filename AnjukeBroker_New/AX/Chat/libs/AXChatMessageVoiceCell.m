@@ -112,10 +112,12 @@
 }
 
 - (void)didClickVoice {
+    [self startPlay];
+    self.voiceStatusImageView.hidden = YES;
     if (self.delegate && [self.delegate respondsToSelector:@selector(didClickVoice:)]) {
         [self.delegate didClickVoice:self];
     }
-        [self startPlay];
+
 }
 
 - (void)startPlay
