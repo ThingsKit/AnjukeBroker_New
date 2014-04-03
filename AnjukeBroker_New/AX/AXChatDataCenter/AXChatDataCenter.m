@@ -10,6 +10,7 @@
 
 #import "AXPerson.h"
 #import "AXMessage.h"
+#import "AXMappedMessage.h"
 #import "AXConversationListItem.h"
 #import "NSArray+ExtraMethods.h"
 #import <AudioToolbox/AudioToolbox.h>
@@ -313,7 +314,7 @@
                 managedMessage.isRead = [NSNumber numberWithBool:NO];
             }
             
-            if (messageType >= 100 && messageType <= 107) {
+            if (messageType >= MIN_SYSTEM_MESSAGE_TYPE && messageType <= MAX_SYSTEM_MESSAGE_TYPE) {
                 managedMessage.isRead = [NSNumber numberWithBool:YES];
             }
             
@@ -345,6 +346,8 @@
         if (messageToUpdate) {
             [self updateConversationListItemWithMessage:messageToUpdate];
         }
+        
+        
 
         NSDate *fetchedLastDate = [(AXMessage *)[messageArray lastObject] sendTime];
         
@@ -1251,13 +1254,13 @@
 - (BOOL)isOldVersionWithMessageType:(AXMessageType)messageType
 {
     BOOL result = NO;
-    if (messageType < 1) {
+    if (messageType < MIN_MESSAGE_TYPE) {
         result = YES;
     }
-    if (messageType > 6 && messageType < 100) {
+    if (messageType > MAX_MESSAGE_TYPE && messageType < MIN_SYSTEM_MESSAGE_TYPE) {
         result = YES;
     }
-    if (messageType > 107) {
+    if (messageType > MAX_SYSTEM_MESSAGE_TYPE) {
         result = YES;
     }
     return result;

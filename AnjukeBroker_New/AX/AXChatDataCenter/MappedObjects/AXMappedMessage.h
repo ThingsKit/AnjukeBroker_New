@@ -24,8 +24,14 @@ typedef NS_ENUM(NSUInteger, AXMessageType)
     AXMessageTypeAddNote = 104, // 经纪人添加备注
     AXMessageTypeSendProperty = 105, // 提示发送房源
     AXMessageTypeSafeMessage = 106, // 安全提示
-    AXMessageTypeVersion = 107 //对方使用的版本太低
+    AXMessageTypeVersion = 107, //对方使用的版本太低
+    
+    AXMessageTypeUIBlank = 10000 // UI效果 空一行白行 PS：只是本地使用 不会进行网络发送
 };
+#define MIN_MESSAGE_TYPE 1
+#define MAX_MESSAGE_TYPE 6
+#define MIN_SYSTEM_MESSAGE_TYPE 100
+#define MAX_SYSTEM_MESSAGE_TYPE 107
 
 typedef NS_ENUM(NSUInteger, AXMessagePropertySourceType)
 {
