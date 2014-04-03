@@ -313,7 +313,7 @@
                 managedMessage.isRead = [NSNumber numberWithBool:NO];
             }
             
-            if (messageType >= 100 && messageType <= 106) {
+            if (messageType >= 100 && messageType <= 107) {
                 managedMessage.isRead = [NSNumber numberWithBool:YES];
             }
             
