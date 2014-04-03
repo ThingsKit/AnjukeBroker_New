@@ -443,7 +443,7 @@
         MKPolylineView *lineview=[[MKPolylineView alloc] initWithOverlay:overlay] ;
         //路线颜色
         lineview.strokeColor=[UIColor redColor];
-        lineview.lineWidth=8.0;
+        lineview.lineWidth=5.0;
         return lineview;
     }
     return nil;
