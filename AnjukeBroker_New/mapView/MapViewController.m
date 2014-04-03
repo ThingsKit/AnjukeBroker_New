@@ -286,7 +286,7 @@
     
     NSString *btnTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
     if (buttonIndex == 0) {
-        if (!ISIOS7) {//ios6 调用goole网页地图
+        if (!ISIOS6) {//ios6 调用goole网页地图
             NSString *urlString = [[NSString alloc]
                                    initWithFormat:@"http://maps.google.com/maps?saddr=&daddr=%.8f,%.8f&dirfl=d",self.naviCoordsGd.latitude,self.naviCoordsGd.longitude];
             
