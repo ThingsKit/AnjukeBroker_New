@@ -162,7 +162,7 @@
     }else{
         [self getChangedLoc];
         CLLocation *loc = [[CLLocation alloc] initWithLatitude:naviCoordsGd.latitude longitude:naviCoordsGd.longitude];
-        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(naviCoordsGd, 200, 200);
+        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(naviCoordsGd, 500, 500);
         self.naviRegion = [self.regionMapView regionThatFits:viewRegion];
         
         [self.regionMapView setRegion:self.naviRegion animated:NO];
@@ -497,7 +497,7 @@
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     self.nowCoords = [userLocation coordinate];
     //放大地图到自身的经纬度位置。
-    self.userRegion = MKCoordinateRegionMakeWithDistance(self.nowCoords, 200, 200);
+    self.userRegion = MKCoordinateRegionMakeWithDistance(self.nowCoords, 500, 500);
 
     if (self.mapType != RegionNavi) {
         if (self.updateInt >= 1) {
