@@ -322,9 +322,9 @@
                 managedMessage.isRead = [NSNumber numberWithBool:NO];
                 managedMessage.content = @"你使用的版本太旧，显示不出对方的消息了。";
                 managedMessage.messageType = @(AXMessageTypeSafeMessage);
-                AXConversationListItem *item = [self findConversationListItemWithFriendUID:friendUID];
-                NSInteger count = [item.count integerValue];
-                item.count = @(count + 1);
+//                AXConversationListItem *item = [self findConversationListItemWithFriendUID:friendUID];
+//                NSInteger count = [item.count integerValue];
+//                item.count = @(count + 1);
                 [self.managedObjectContext save:NULL];
             } else {
                 managedMessage.content = message[@"body"];
