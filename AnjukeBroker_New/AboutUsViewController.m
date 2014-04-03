@@ -62,19 +62,11 @@
     testLb.text = [self getAppVersion];
     [self.view addSubview:testLb];
     
-#ifdef DEBUG
-    NSString *token = [[NSUserDefaults standardUserDefaults] valueForKey:USER_DEFAULT_KEY_DEVICE_TOKEN];
-    if (token.length > 0 && ![token isKindOfClass:[NSNull class]]) {
-        UILabel *deviceTokenLb = [[UILabel alloc] initWithFrame:CGRectMake(5, 330+3, [self windowWidth] - 5*2, 80)];
-        deviceTokenLb.backgroundColor = [UIColor clearColor];
-        deviceTokenLb.textColor = SYSTEM_BLACK;
-        deviceTokenLb.font = [UIFont systemFontOfSize:16];
-        deviceTokenLb.numberOfLines = 0;
-        deviceTokenLb.text = [NSString stringWithFormat:@"deviceToken: %@", token];
-        [self.view addSubview:deviceTokenLb];
-    }
-#endif
-
+    UIButton *checkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    checkBtn.frame = CGRectMake(0, 0, [self windowWidth], 30);
+    checkBtn.backgroundColor = [UIColor clearColor];
+    [checkBtn addTarget:self action:@selector(doCheck) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:checkBtn];
 }
 
 - (NSString *)getAppVersion {
@@ -86,6 +78,19 @@
     strVer = [NSString stringWithFormat:@"%@ %@ %@",current_version,device_info,umeng_key];
 
     return strVer;
+}
+
+- (void)doCheck {
+    NSString *token = [[NSUserDefaults standardUserDefaults] valueForKey:USER_DEFAULT_KEY_DEVICE_TOKEN];
+    if (token.length > 0 && ![token isKindOfClass:[NSNull class]]) {
+        UILabel *deviceTokenLb = [[UILabel alloc] initWithFrame:CGRectMake(5, 330+3, [self windowWidth] - 5*2, 80)];
+        deviceTokenLb.backgroundColor = [UIColor clearColor];
+        deviceTokenLb.textColor = SYSTEM_BLACK;
+        deviceTokenLb.font = [UIFont systemFontOfSize:16];
+        deviceTokenLb.numberOfLines = 0;
+        deviceTokenLb.text = [NSString stringWithFormat:@"deviceToken: %@", token];
+        [self.view addSubview:deviceTokenLb];
+    }
 }
 
 @end
