@@ -509,6 +509,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         if (blockSelf.hasMore) {
             self.pullToRefreshView.delegate = self;
         } else {
+//            if (blockSelf.friendPerson.markName.length == 0) {
+//                [blockSelf sendSystemMessage:AXMessageTypeAddNote];
+//            }
             self.pullToRefreshView.delegate = nil;
         }
         NSArray *chatArray = chatList[@"messages"];
@@ -533,7 +536,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
                 [blockSelf sendSystemMessage:AXMessageTypeSendProperty];
             }
         }
-        
+
         if ([[UIApplication sharedApplication] enabledRemoteNotificationTypes] == UIRemoteNotificationTypeNone) {
             [blockSelf sendSystemMessage:AXMessageTypeSettingNotifycation];
         }
@@ -1105,6 +1108,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         if (blockSelf.hasMore) {
             self.pullToRefreshView.delegate = self;
         } else {
+//            if (blockSelf.friendPerson.markName.length == 0) {
+//                [blockSelf sendSystemMessage:AXMessageTypeAddNote];
+//            }
             self.pullToRefreshView.delegate = nil;
         }
         NSArray *chatArray = chatList[@"messages"];
