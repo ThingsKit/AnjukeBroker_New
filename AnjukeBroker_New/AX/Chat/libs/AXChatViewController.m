@@ -1740,6 +1740,14 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         self.pressSpeek.frame = CGRectZero;
         [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
         self.messageInputView.textView.editable = YES;
+
+        [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
+         - self.messageInputView.frame.origin.y
+         - self.messageInputViewFrame.size.height ];
+        self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height
+                                                - self.messageInputView.frame.origin.y
+                                                - self.messageInputViewFrame.size.height);
+        [self scrollToBottomAnimated:YES];
         [self.messageInputView.textView becomeFirstResponder];
         [self switchToTextLog];
     }
@@ -2042,6 +2050,12 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         // 检查用户是否登陆
         if (![self checkUserLogin]) {
             return NO;
+        }
+    }
+    if (self.isBroker) {
+        if (textView.text.length == 0) {
+            textView.text = @" ";
+            textView.text = @"";
         }
     }
     [self clickInputViewAppLog];
