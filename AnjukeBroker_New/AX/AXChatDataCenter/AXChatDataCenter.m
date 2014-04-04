@@ -1185,7 +1185,7 @@
     AXMessage *timeMessage = nil;
     
     NSTimeInterval timeInterval = [currentDate timeIntervalSinceDate:lastDate];
-    if (timeInterval > 3) {
+    if (timeInterval > 300) {
         timeMessage = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
         timeMessage.accountType = [NSString stringWithFormat:@"%lu", (unsigned long)AXPersonTypeServer];
         NSDateFormatter *dateFormatrer = [[NSDateFormatter alloc] init];
