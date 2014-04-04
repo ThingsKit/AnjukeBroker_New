@@ -1417,6 +1417,8 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     
     if ([self respondsToSelector:@selector(topLayoutGuide)]) {
         insets.top = self.topLayoutGuide.length;
+    }else {
+        insets.top = 0;
     }
     
     insets.bottom = bottom;
@@ -1477,8 +1479,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
                                              inputViewFrame.size.height);
 
     [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
-     - self.messageInputView.frame.origin.y
-     - inputViewFrame.size.height ];
+     - self.messageInputView.top - AXNavBarHeight];
     self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height
                                             - self.messageInputView.frame.origin.y
                                             - inputViewFrame.size.height);
@@ -1599,8 +1600,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
                                                          inputViewFrame.size.height);
                 
                 [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
-                 - self.messageInputView.frame.origin.y
-                 - inputViewFrame.size.height + 60];
+                 - self.messageInputView.top - AXNavBarHeight];
                 self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height
                                                         - self.messageInputView.frame.origin.y
                                                         - inputViewFrame.size.height + 60);
@@ -1648,8 +1648,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
             }
             
             [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
-             - self.messageInputView.frame.origin.y
-             - inputViewFrame.size.height ];
+             - self.messageInputView.top - AXNavBarHeight];
             [self scrollToBottomAnimated:YES];
         } completion:nil];
     }else {
@@ -1729,8 +1728,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         self.pressSpeek.frame = self.messageInputTextViewFrame;
         
         [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
-         - self.messageInputView.frame.origin.y
-         - self.messageInputViewFrame.size.height ];
+         - self.messageInputView.top - AXNavBarHeight];
         self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height
                                                 - self.messageInputView.frame.origin.y
                                                 - self.messageInputViewFrame.size.height);
@@ -1745,8 +1743,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         self.messageInputView.textView.editable = YES;
 
         [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
-         - self.messageInputView.frame.origin.y
-         - self.messageInputViewFrame.size.height ];
+         - self.messageInputView.top - AXNavBarHeight];
         self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height
                                                 - self.messageInputView.frame.origin.y
                                                 - self.messageInputViewFrame.size.height);
