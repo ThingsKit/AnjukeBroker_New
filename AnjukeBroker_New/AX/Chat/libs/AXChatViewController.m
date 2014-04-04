@@ -1616,6 +1616,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 - (void)didMoreBackView:(UIButton *)sender
 {
+    if (self.currentText.length > 0) {
+        self.messageInputView.textView.text = self.currentText;
+    }
     CGRect moreRect = CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
     self.moreBackView.frame = CGRectMake(moreRect.origin.x, moreRect.origin.y + AXMoreBackViewHeight, moreRect.size.width, moreRect.size.height);
     if (self.moreBackView.hidden) {//当more为消失状态时
