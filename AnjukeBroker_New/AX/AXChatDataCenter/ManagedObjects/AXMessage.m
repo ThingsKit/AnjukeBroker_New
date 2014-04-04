@@ -28,6 +28,7 @@
 @dynamic thumbnailImgUrl;
 @dynamic to;
 @dynamic isUploaded;
+@dynamic orderNumber;
 
 - (AXMappedMessage *)convertToMappedObject
 {
@@ -49,6 +50,7 @@
     mappedMessage.thumbnailImgUrl = self.thumbnailImgUrl;
     mappedMessage.to = self.to;
     mappedMessage.isUploaded = [self.isUploaded boolValue];
+    mappedMessage.orderNumber = [self.orderNumber integerValue];
     return mappedMessage;
 }
 
@@ -70,6 +72,7 @@
     self.thumbnailImgUrl = mappedMessage.thumbnailImgUrl;
     self.to = mappedMessage.to;
     self.isUploaded = [NSNumber numberWithBool:mappedMessage.isUploaded];
+    self.orderNumber = [NSNumber numberWithInteger:mappedMessage.orderNumber];
 }
 
 - (void)awakeFromInsert

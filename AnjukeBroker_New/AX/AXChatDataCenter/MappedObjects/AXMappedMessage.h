@@ -66,5 +66,6 @@ typedef NS_ENUM (NSUInteger, AXMessageCenterSendMessageStatus)
 @property (nonatomic, strong) NSString * thumbnailImgUrl;
 @property (nonatomic, strong) NSString * to;
 @property (nonatomic, assign) BOOL isUploaded;
+@property (nonatomic, assign) NSInteger orderNumber;
 
 @end

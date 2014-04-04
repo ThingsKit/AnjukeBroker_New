@@ -14,6 +14,7 @@
 #import "AXConversationListItem.h"
 #import "NSArray+ExtraMethods.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import "NSManagedObject+ExtraMethods.h"
 
 @interface AXChatDataCenter ()
 
@@ -72,58 +73,29 @@
     } else {
         self.friendUid = lastMessage.from;
     }
+    
+    [self checkAndAddOrderNumberWithFriendUid:self.friendUid];
 
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:NO]];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND sendTime < %@ AND isRemoved = %@", self.friendUid, self.friendUid, lastMessage.sendTime, [NSNumber numberWithBool:NO]];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND orderNumber < %@", self.friendUid, self.friendUid, [NSNumber numberWithInteger:lastMessage.orderNumber]];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"orderNumber" ascending:NO]];
     fetchRequest.fetchLimit = pageSize;
     __autoreleasing NSError *error;
     NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
 
-    NSArray *sortedResult = [result sortedArrayWithOptions:NSSortStable usingComparator:^NSComparisonResult(id obj1, id obj2) {
 
-        AXMessage *message1 = (AXMessage *)obj1;
-        AXMessage *message2 = (AXMessage *)obj2;
-
-        NSInteger message1Id = [message1.messageId integerValue];
-        NSInteger message2Id = [message2.messageId integerValue];
-
-        NSComparisonResult compareResult = NSOrderedSame;
-
-        if (message1Id == 0 || message2Id == 0) {
-            compareResult = NSOrderedSame;
-        } else {
-            if (message1Id > message2Id) {
-                compareResult = NSOrderedAscending;
-            }
-            if (message1Id < message2Id) {
-                compareResult = NSOrderedDescending;
-            }
-            if (message1Id == message2Id) {
-                compareResult = NSOrderedSame;
-            }
-        }
-
-        return compareResult;
-
-    }];
-
-    NSMutableArray *mappedResult = [[NSMutableArray alloc] initWithCapacity:[sortedResult count]];
-    for (AXMessage *message in sortedResult) {
+    NSMutableArray *mappedResult = [[NSMutableArray alloc] initWithCapacity:[result count]];
+    for (AXMessage *message in result) {
         [mappedResult addObject:[message convertToMappedObject]];
     }
     
     [self turnAllMessageToReadWithFriendUid:self.friendUid];
     
     BOOL hasMore = NO;
-    AXMessage *fetchedLastMessage = [sortedResult lastObject];
+    AXMessage *fetchedLastMessage = [result lastObject];
     if (fetchedLastMessage) {
-        if  (fetchedLastMessage.messageId) {
-            fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND sendTime < %@ AND isRemoved = %@ AND messageId < %@", self.friendUid, self.friendUid, fetchedLastMessage.sendTime, [NSNumber numberWithBool:NO], fetchedLastMessage.messageId];
-        } else {
-            fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND sendTime < %@ AND isRemoved = %@", self.friendUid, self.friendUid, fetchedLastMessage.sendTime, [NSNumber numberWithBool:NO]];
-        }
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND orderNumber < %@", self.friendUid, self.friendUid, fetchedLastMessage.orderNumber];
         NSInteger count = [self.managedObjectContext countForFetchRequest:fetchRequest error:NULL];
         if (count > 0) {
             hasMore = YES;
@@ -140,7 +112,7 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND isRemoved = %@ AND messageType = %@", friendUid, friendUid, [NSNumber numberWithBool:NO], [NSNumber numberWithInteger:AXMessageTypePic]];
-    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:NO]];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"orderNumber" ascending:NO]];
     
     NSArray *fetchedResult = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
     NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:[fetchedResult count]];
@@ -190,6 +162,14 @@
 {
     NSString *friendID = message.to;
     AXMessage *lastMessage = [self findLastMessageWithFriendUid:friendID];
+    
+    AXMessage *timeMessage = [self checkAndReturnTimeMessageWithCurrentDate:[NSDate dateWithTimeIntervalSinceNow:0] andLastDate:lastMessage.sendTime from:message.from to:message.to];
+    if (timeMessage) {
+        [self.managedObjectContext save:NULL];
+        timeMessage.orderNumber = [NSNumber numberWithInteger:timeMessage.autoIncreamentPK];
+        [self.managedObjectContext save:NULL];
+    }
+    
     AXPerson *person = [self findPersonWithUID:friendID];
     if (!person) {
         dispatch_queue_t queue = dispatch_queue_create("get_info", NULL);
@@ -208,11 +188,16 @@
 
     [messageToInsert assignPropertiesFromMappedObject:message];
     [self updateConversationListItemWithMessage:message];
-    AXMessage *timeMessage = [self checkAndReturnTimeMessageWithCurrentDate:message.sendTime andLastDate:lastMessage.sendTime from:message.from to:message.to];
     
     __autoreleasing NSError *error;
     [self.managedObjectContext save:&error];
-    
+    if (error) {
+        NSLog(@"save message error: %@", error);
+    } else {
+        messageToInsert.orderNumber = [NSNumber numberWithInteger:messageToInsert.autoIncreamentPK];
+        [self.managedObjectContext save:&error];
+    }
+
     if (timeMessage) {
         return @[[timeMessage convertToMappedObject], [messageToInsert convertToMappedObject]];
     } else {
@@ -253,13 +238,16 @@
     
     BOOL shouldAlert = NO;
     NSInteger count = 0;
+    
+    NSMutableArray *messageArray = [[NSMutableArray alloc] initWithCapacity:0];
+    NSMutableArray *managedMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
+    
     for (NSDictionary *item in receivedArray) {
         count++;
         NSString *friendUID = item[@"from_uid"];
         if (![self.friendUid isEqualToString:friendUID]) {
             shouldAlert = NO;
         }
-        NSMutableArray *messageArray = [[NSMutableArray alloc] initWithCapacity:0];
         
         NSMutableArray *picMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
         NSMutableArray *commonMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
@@ -322,9 +310,6 @@
                 managedMessage.isRead = [NSNumber numberWithBool:NO];
                 managedMessage.content = @"你使用的版本太旧，显示不出对方的消息了。";
                 managedMessage.messageType = @(AXMessageTypeSafeMessage);
-//                AXConversationListItem *item = [self findConversationListItemWithFriendUID:friendUID];
-//                NSInteger count = [item.count integerValue];
-//                item.count = @(count + 1);
                 [self.managedObjectContext save:NULL];
             } else {
                 managedMessage.content = message[@"body"];
@@ -340,14 +325,13 @@
             }
             
             [messageArray addObject:[managedMessage convertToMappedObject]];
+            [managedMessageArray addObject:managedMessage];
         }
         
         AXMappedMessage *messageToUpdate = [self findMessageToUpdate:messageArray];
         if (messageToUpdate) {
             [self updateConversationListItemWithMessage:messageToUpdate];
         }
-        
-        
 
         NSDate *fetchedLastDate = [(AXMessage *)[messageArray lastObject] sendTime];
         
@@ -363,6 +347,14 @@
 
     __autoreleasing NSError *error;
     [self.managedObjectContext save:&error];
+    if (error) {
+        NSLog(@"save error %@", error);
+    } else {
+        for (AXMessage *message in managedMessageArray) {
+            message.orderNumber = [NSNumber numberWithInteger:message.autoIncreamentPK];
+        }
+        [self.managedObjectContext save:&error];
+    }
     
     if (shouldAlert) {
         if ([receivedArray count] >= 1) {
@@ -1115,7 +1107,7 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"from = %@ OR to = %@", friendUid, friendUid];
-    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:NO]];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"orderNumber" ascending:NO]];
     fetchRequest.fetchLimit = 1;
     NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
     if ([result count] > 0) {
@@ -1193,7 +1185,7 @@
     AXMessage *timeMessage = nil;
     
     NSTimeInterval timeInterval = [currentDate timeIntervalSinceDate:lastDate];
-    if (timeInterval > 300) {
+    if (timeInterval > 3) {
         timeMessage = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
         timeMessage.accountType = [NSString stringWithFormat:@"%lu", (unsigned long)AXPersonTypeServer];
         NSDateFormatter *dateFormatrer = [[NSDateFormatter alloc] init];
@@ -1305,6 +1297,23 @@
     } else {
         AudioServicesPlaySystemSound(1015);
     }
+}
+
+
+- (void)checkAndAddOrderNumberWithFriendUid:(NSString *)friendUid
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(from = %@ OR to = %@) AND orderNumber = nil", friendUid, friendUid];
+    NSArray *fetchedResult = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+
+    if ([fetchedResult count] > 0) {
+        for (AXMessage *message in fetchedResult) {
+            message.orderNumber = [NSNumber numberWithInteger:message.autoIncreamentPK];
+        }
+        [self.managedObjectContext save:NULL];
+    }
+
 }
 
 @end
