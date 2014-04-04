@@ -501,7 +501,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     lastMessage.sendTime = [NSDate dateWithTimeIntervalSinceNow:0];
     lastMessage.from = self.currentPerson.uid;
     lastMessage.to  = [self checkFriendUid];
-    
+    lastMessage.orderNumber = NSIntegerMax;
     __weak AXChatViewController *blockSelf = self;
     
     [[AXChatMessageCenter defaultMessageCenter] fetchChatListWithLastMessage:lastMessage pageSize:AXMessagePageSize callBack:^(NSDictionary *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend) {
