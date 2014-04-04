@@ -449,10 +449,12 @@
             [self presentViewController:navController animated:YES completion:nil];
         }
             break;
-        case AXMessageTypeAddNuckName:
+        case AXMessageTypeAddNote:
         {
             ClientEditViewController *controller = [[ClientEditViewController alloc] init];
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+            controller.person = self.friendPerson;
+            controller.backType = RTSelectorBackTypeDismiss;
+            RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:controller];
             controller.navigationController.navigationBar.translucent = NO;
             [self presentViewController:navController animated:YES completion:nil];
         }

@@ -110,7 +110,7 @@ CGFloat const AXChatMessageSystemTimeCellMarginTop = 4.0f;
         self.systemBgView.frame = CGRectMake( (self.width - 270) / 2, 10, 270, 41);
         self.systemBgView.hidden = NO;
     } else if ([data[@"messageType"] isEqualToNumber:@(AXMessageTypeAddNote)]) {
-        self.systemLab.text = @"为了更好的管理客户，请您为客户添加备注";
+        self.systemLab.text = @"请您为客户添加备注";
         self.systemLab.font = [UIFont axChatSystemFont:self.isBroker];
         self.systemLab.textColor = [UIColor axChatSystemTextColor:self.isBroker];
         CGSize size = [self sizeOfString:self.systemLab.text maxWidth:180.0f withFontSize:self.systemLab.font];
@@ -120,6 +120,7 @@ CGFloat const AXChatMessageSystemTimeCellMarginTop = 4.0f;
         self.systemBut.titleLabel.textColor = [UIColor axChatSystemLinkColor:self.isBroker];
         self.systemBut.titleLabel.font = [UIFont axChatSystemFont:self.isBroker];
         [self.systemBut setTitle:@"添加备注" forState:UIControlStateNormal];
+        self.systemBgView.frame = CGRectMake( (self.width - 270) / 2, 10, 270, 28);
         self.systemBgView.hidden = NO;
     } else if ([data[@"messageType"] isEqualToNumber:@(AXMessageTypeSendProperty)]) {
         self.systemLab.text = @"可以把刚才看到的房源发给经纪人";
