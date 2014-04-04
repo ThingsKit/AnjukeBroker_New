@@ -1102,15 +1102,11 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 - (void)pullToRefreshViewDidFinishLoading:(AXPullToRefreshView *)view
 {
     __weak AXChatViewController *blockSelf = self;
-
     [[AXChatMessageCenter defaultMessageCenter] fetchChatListWithLastMessage:self.lastMessage pageSize:AXMessagePageSize callBack:^(NSDictionary *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend) {
         blockSelf.hasMore = [chatList[@"hasMore"] boolValue];
         if (blockSelf.hasMore) {
             self.pullToRefreshView.delegate = self;
         } else {
-            if (blockSelf.friendPerson.markName.length == 0) {
-                [blockSelf sendSystemMessage:AXMessageTypeAddNote];
-            }
             self.pullToRefreshView.delegate = nil;
         }
         NSArray *chatArray = chatList[@"messages"];
