@@ -1963,6 +1963,13 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     double lowPassResults = [[KKAudioComponent sharedAudioComponent] volumnUpdated];
     int value = (0.8 - lowPassResults) * 60;
     
+    if (value > 145/2) {
+        value = 145/2;
+    }
+    if (value < 0) {
+        value = 0;
+    }
+    
     UIImage* image = [UIImage imageNamed:@"wl_voice_icon_voicestatu1"];
     self.highlightedMicrophoneImageView.frame = CGRectMake(310/2/2 - 88/2/2, 290/2/2-170/2/2 + value -10, 88/2, 145/2 -value); //变更frame
     CGRect rect = CGRectMake(0, value*2, 88, 145 - value*2);//创建矩形框, retina图像需要*2
