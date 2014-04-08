@@ -156,6 +156,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     self.myTableView = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[LocationManager defaultLocationManager] cancellRequest];
+    
+    //只能在dealloc时调用，不允许在viewWillDisappear调用已造成friendUid为Nil！！！
+    [[AXChatMessageCenter defaultMessageCenter] didLeaveChattingListWithFriendUID:[self checkFriendUid]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -213,7 +216,6 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     UIMenuController *menu = [UIMenuController sharedMenuController];
     [menu setMenuVisible:NO animated:YES];
 
-    [[AXChatMessageCenter defaultMessageCenter] didLeaveChattingListWithFriendUID:[self checkFriendUid]];
     [self cancelKKAudioPlaying];
 }
 
