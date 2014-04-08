@@ -3072,6 +3072,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Wu sicong";
 				TargetAttributes = {
+					9741054E180CDFE0004DAE95 = {
+						DevelopmentTeam = 52KTBFLJDB;
+					};
 					9741056E180CDFE1004DAE95 = {
 						TestTargetID = 9741054E180CDFE0004DAE95;
 					};
@@ -3727,7 +3730,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PROVISIONING_PROFILE = "398A0F84-47E8-4C09-86AA-999FB251B95D";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = NO;
@@ -3793,7 +3796,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/AnjukeBroker_New/VoiceConvert/lib",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

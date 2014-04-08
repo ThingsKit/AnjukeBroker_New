@@ -330,6 +330,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         [self.pressSpeek addTarget:self action:@selector(didCancelVoice) forControlEvents:UIControlEventTouchUpOutside];
         [self.pressSpeek addTarget:self action:@selector(continueRecordVoice) forControlEvents:UIControlEventTouchDragEnter];
         [self.pressSpeek addTarget:self action:@selector(willCancelVoice) forControlEvents:UIControlEventTouchDragExit];
+        [self.pressSpeek addTarget:self action:@selector(didInterruptRecord) forControlEvents:UIControlEventTouchCancel];
         
         
         self.pressSpeek.titleLabel.font = [UIFont systemFontOfSize:15];
@@ -1757,14 +1758,18 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 }
 - (void)didClickRecored:(id)sender
 {
-    __weak AXChatViewController *blockSelf = self;
+    __block AXChatViewController *blockSelf = self;
     PermissionBlock permissionBlock = ^(BOOL granted) {
-        if (granted) {
-            [blockSelf didBeginVoice];
-        } else {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"无法录音" message:@"请在iPhone的“设置-隐私-麦克风”选项中，允许安居客访问你的手机麦克风。" delegate:blockSelf cancelButtonTitle:@"知道了" otherButtonTitles:nil];
-            [alertView show];
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{  //以下逻辑含有UI绘制,需要在主线程中执行
+            if (granted) {
+                if (self.pressSpeek.touchInside) { //如果按钮处于被按的状态
+                    [blockSelf didBeginVoice];
+                }
+            } else {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"无法录音" message:@"请在iPhone的“设置-隐私-麦克风”选项中，允许移动经纪人访问你的手机麦克风。" delegate:blockSelf cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+                [alertView show];
+            }
+        });
     };
     if([[AVAudioSession sharedInstance] respondsToSelector:@selector(requestRecordPermission:)]) {
         [[AVAudioSession sharedInstance] performSelector:@selector(requestRecordPermission:) withObject:permissionBlock];
@@ -1823,13 +1828,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     self.microphoneImageView.image = [UIImage imageNamed:@"wl_voice_icon_voicestatu"];
     self.backgroundImageView.image = [UIImage imageNamed:@"wl_voice_tip_bg"];
     [self showHUDWithTitle:@"手指上滑, 取消发送" CustomView:self.backgroundImageView IsDim:NO]; //取消蒙版
-    
-    __block AXChatViewController *blockObject = self;
-    [KKAudioComponent sharedAudioComponent].recordDidInterruptBlock = ^{
-        [blockObject didCommitVoice];
-        self.isInterrupted = YES;
-    };
-    
+        
 }
 
 //UIControlEventTouchUpInside
@@ -1921,6 +1920,11 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     self.backgroundImageView.image = [UIImage imageNamed:@"wl_voice_tip_bg"];
     
     self.hudLabel.text = @"手指上滑, 取消发送";
+}
+
+//UIControlEventTouchCancel
+- (void)didInterruptRecord{
+    [self didCommitVoice];
 }
 
 
