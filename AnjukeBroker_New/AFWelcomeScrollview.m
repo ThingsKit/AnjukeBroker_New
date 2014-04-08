@@ -139,7 +139,7 @@ typedef enum {
                 [hideBtn setBackgroundColor:[UIColor clearColor]];
             }
             else {
-                hideBtn.frame = CGRectMake(btnOriginX + [self getWindowWidth] * (imgArray.count - 1), [self getWindowHeight]-btnH-20, btnW, btnH);
+                hideBtn.frame = CGRectMake(btnOriginX + [self getWindowWidth] * (imgArray.count - 1), [self getWindowHeight]-btnH-130, btnW, btnH);
                 [hideBtn setBackgroundColor:SYSTEM_TABBAR_SELECTCOLOR_DARK];
                 hideBtn.layer.cornerRadius = 3;
                 [hideBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
