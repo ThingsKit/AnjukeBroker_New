@@ -1357,7 +1357,8 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     BOOL isShrinking = textView.contentSize.height < self.previousTextViewContentHeight;
     CGFloat changeInHeight = textView.contentSize.height - self.previousTextViewContentHeight;
     
-    if (!isShrinking && (self.previousTextViewContentHeight == maxHeight || textView.text.length == 0)) {
+    //ios6 下面，init文本框后初次点击文本框，textView.text.length = 1，textView.text为@""。
+    if (!isShrinking && (self.previousTextViewContentHeight == maxHeight || textView.text.length == 0 || [textView.text isEqualToString:@" "])) {
         changeInHeight = 0;
     }
     else {
