@@ -1989,6 +1989,13 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         return;
     }
     
+    NSString *text = [self.messageInputView.textView.text js_stringByTrimingWhitespace];
+    NSData *data = [text dataUsingEncoding:NSNonLossyASCIIStringEncoding];
+    NSString *asciiString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    if ([asciiString rangeOfString:@"\\ufffc"].location != NSNotFound) {
+        return;
+    }
+    
     AXMappedMessage *mappedMessage = [[AXMappedMessage alloc] init];
     mappedMessage.accountType = [self checkAccountType];
     mappedMessage.content = self.messageInputView.textView.text;
