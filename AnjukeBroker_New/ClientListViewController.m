@@ -292,6 +292,39 @@
     return leftUtilityButtons;
 }
 
+#pragma mark - Request Method
+
+- (void)requestUpdateWithPerson:(AXMappedPerson *)person {
+    if (![self isNetworkOkay]) {
+        return;
+    }
+    
+    NSString *isStar = @"0";
+    if (person.isStar) {
+        isStar = @"1";
+    }
+    
+    [self showLoadingActivity:YES];
+    
+    NSString *methodName = [NSString stringWithFormat:@"user/modifyFriendInfo/%@",[LoginManager getPhone]];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: person.uid ,@"to_uid" , person.markName ,@"mark_name", person.markPhone, @"mark_phone", person.markDesc, @"mark_desc", @"0" ,@"relation_cate_id", isStar, @"is_star", nil];
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:methodName params:params target:self action:@selector(onGetData:)];
+}
+
+- (void)onGetData:(RTNetworkResponse *) response {
+    //check network and response
+    if (![self isNetworkOkay])
+        return;
+    
+    if ([response status] == RTNetworkResponseStatusFailed || ([[[response content] objectForKey:@"status"] isEqualToString:@"error"]))
+        return;
+    
+    NSDictionary *resultFromAPI = [response content];
+    DLog(@"更新标星后:%@", resultFromAPI);
+}
+
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.listDataArray.count + self.contactKeyArr.count;
@@ -473,6 +506,7 @@
             [[[cell rightUtilityButtons] objectAtIndex:0] setImage:[self getImageIsStar:!item.isStar] forState:UIControlStateNormal];
             
             [self getFriendList];
+//            [self requestUpdateWithPerson:item]; //call API to update person
             [self hideLoadWithAnimated:YES];
             break;
         }
