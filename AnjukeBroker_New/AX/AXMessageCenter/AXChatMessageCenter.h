@@ -66,7 +66,6 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 
 #pragma mark - life cycle
 + (instancetype)defaultMessageCenter;
-- (void)cancelAllRequest;
 
 #pragma mark - link related
 - (void)breakLink;

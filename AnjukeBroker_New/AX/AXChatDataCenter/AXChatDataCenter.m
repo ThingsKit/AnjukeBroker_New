@@ -257,7 +257,19 @@
         NSDate *storedLastDate = message.sendTime;
         AXMessage *timeMessage = [self checkAndReturnTimeMessageWithCurrentDate:[NSDate dateWithTimeIntervalSinceNow:0] andLastDate:storedLastDate from:friendUID to:self.uid];
         
-        for (NSDictionary *message in item[@"messages"]) {
+        NSArray *sortedArray = [item[@"messages"] sortedArrayWithOptions:0 usingComparator:^NSComparisonResult(id obj1, id obj2) {
+        
+            NSInteger messageId1 = [obj1[@"msg_id"] integerValue];
+            NSInteger messageId2 = [obj2[@"msg_id"] integerValue];
+            
+            if (messageId1 > messageId2) {
+                return NSOrderedDescending;
+            } else {
+                return NSOrderedAscending;
+            }
+        }];
+
+        for (NSDictionary *message in sortedArray) {
 
             AXMessageType messageType = [message[@"msg_type"] integerValue];
             AXMessageCenterSendMessageStatus messageSendStatus = AXMessageCenterSendMessageStatusSuccessful;
@@ -333,7 +345,7 @@
         if (messageToUpdate) {
             [self updateConversationListItemWithMessage:messageToUpdate];
         }
-
+        
         if (timeMessage) {
             [commonMessageArray insertObject:[timeMessage convertToMappedObject] atIndex:[commonMessageArray count]];
         }
@@ -1146,16 +1158,27 @@
 - (AXMappedMessage *)findMessageToUpdate:(NSArray *)mappedMessageArray
 {
     AXMappedMessage *message;
+    NSInteger maxMessageId = NSIntegerMin;
     for (AXMappedMessage *messageToCheck in mappedMessageArray) {
 
         AXMessageType messageType = [messageToCheck.messageType integerValue];
         if (messageType == AXMessageTypeSettingNotifycation || messageType == AXMessageTypeSystemForbid || messageType == AXMessageTypeSystemTime || messageType == AXMessageTypeAddNuckName || messageType == AXMessageTypeSafeMessage) {
             continue;
         } else {
+            NSInteger messageId = [messageToCheck.messageId integerValue];
+            if (messageId > maxMessageId) {
+                maxMessageId = messageId;
+            }
+        }
+    }
+    
+    for (AXMappedMessage *messageToCheck in mappedMessageArray) {
+        if ([messageToCheck.messageId integerValue] == maxMessageId) {
             message = messageToCheck;
             break;
         }
     }
+    
     return message;
 }
 

@@ -34,6 +34,7 @@
 static NSString * const kMessageCenterReceiveMessageTypeText = @"1";
 static NSString * const kMessageCenterReceiveMessageTypeProperty = @"2";
 static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
+#warning when app finish develop，this address must be place with api.anjuke.com/weiliao
 static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 //static NSString * const kLastVersionApiSite = @"http://chatapi.dev.anjuke.com";
 
@@ -322,6 +323,7 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     self = [super init];
     if (self) {
         self.currentTime = [[NSDate alloc] initWithTimeInterval:-60-1 sinceDate:[NSDate date]];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerRemoteNotification) name:@"REGISTER_REMOTE_NOTICATION_SUCCESS" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveNotificationUserDidLogin) name:@"LOGIN_NOTIFICATION" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveNotificationUserLoginOut) name:@"LOGOUT_NOTIFICATION" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveNotificationUserInfoChanged) name:@"USERINFO_CHANGED_NOTIFICATION" object:nil];
@@ -356,6 +358,7 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 - (void)sendMessageCallBackWithResonpe:(RTNetworkResponse *)response
 {
     int requestID = response.requestID;
+   __block NSDictionary *deleteDic = [[NSDictionary alloc] init];
     [self.messsageIdentity enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSDictionary *dic = (NSDictionary *)obj;
         if (requestID == [dic[@"requestID"] integerValue]) {
@@ -396,8 +399,10 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
                     [self.blockDictionary removeObjectForKey:identify];
                 }
             }
+            deleteDic = dic;
         }
     }];
+    [self.messsageIdentity removeObject:deleteDic];
 
 }
 
@@ -525,27 +530,27 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
         _addFriendBlock(NO);
     }
     if ([manager isKindOfClass:[AXMessageCenterReceiveMessageManager class]]) {
-        DLog(@"receive message failed");
+        NSLog(@"receive message failed");
     }
     if ([manager isKindOfClass:[AXMessageCenterSearchBrokerManager class]]) {
-        DLog(@"search broker info failed");
+        NSLog(@"search broker info failed");
         _searchBrokerBlock(nil,NO);
     }
     if ([manager isKindOfClass:[AXMessageCenterDeleteFriendManager class]]) {
         _deleteFriendBlock(NO);
-        DLog(@"DELETE FRIEND FAILED");
+        NSLog(@"DELETE FRIEND FAILED");
     }
     if ([manager isKindOfClass:[AXMessageCenterGetUserOldMessageManager class]]) {
-        DLog(@"get user old message failed");
+        NSLog(@"get user old message failed");
     }
     if ([manager isKindOfClass:[AXMessageCenterGetFriendInfoManager class]]) {
-        DLog(@"get friend info failed");
+        NSLog(@"get friend info failed");
     }
     if ([manager isKindOfClass:[AXMessageCenterFriendListManager class]]) {
-        DLog(@"get friendlist message failed");
+        NSLog(@"get friendlist message failed");
     }
     if ([manager isKindOfClass:[AXMessageCenterUserGetPublicServiceInfoManager class]]) {
-        DLog(@"get public service info failed");
+        NSLog(@"get public service info failed");
     }
     if ([manager isKindOfClass:[AXMessageCenterAddFriendByQRCodeManager class]]) {
         _addFriendByQRCode(nil);
@@ -647,11 +652,6 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidInitedDataCenter object:nil];
         });
     }
-}
-
-- (void)cancelAllRequest
-{
-    [[RTApiRequestProxy sharedInstance] cancelAllRequest];
 }
 
 - (void)sendMessage:(AXMappedMessage *)message willSendMessage:(void (^)(NSArray *, AXMessageCenterSendMessageStatus ,AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
@@ -1550,6 +1550,9 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 - (void)registerRemoteNotification
 {
     NSString *notificationToken = [[NSUserDefaults standardUserDefaults] objectForKey:REMOTE_NOTIFCATION_TOKEN];
+    if (!notificationToken) {
+        return;
+    }
     NSMutableDictionary *bodys = [NSMutableDictionary dictionary];
     [bodys setValue:Code_AppName forKey:@"appName"];
     [bodys setValue:[[UIDevice currentDevice] uuid] forKey:@"uuid"];
