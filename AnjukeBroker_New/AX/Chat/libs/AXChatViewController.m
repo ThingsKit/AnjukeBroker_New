@@ -1366,8 +1366,13 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         changeInHeight = 0;
     }
     else {
-        changeInHeight = MIN(changeInHeight, maxHeight - self.previousTextViewContentHeight);
+        if (textView.contentSize.height == 16) {
+            changeInHeight = 0;
+        }else{
+            changeInHeight = MIN(changeInHeight, maxHeight - self.previousTextViewContentHeight);
+        }
     }
+    
     
     if (changeInHeight != 0.0f) {
         [UIView animateWithDuration:0.25f
