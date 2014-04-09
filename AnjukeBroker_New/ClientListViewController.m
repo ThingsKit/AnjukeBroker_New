@@ -321,8 +321,7 @@
     if ([response status] == RTNetworkResponseStatusFailed || ([[[response content] objectForKey:@"status"] isEqualToString:@"error"]))
         return;
     
-    NSDictionary *resultFromAPI = [response content];
-    DLog(@"更新标星后:%@", resultFromAPI);
+    DLog(@"更新标星后:%@", [response content]);
 }
 
 #pragma mark - UITableViewDataSource
@@ -398,7 +397,21 @@
     [cell setCellHeight:CLIENT_LIST_HEIGHT];
     [cell configureCellWithData:item];
     
-    [cell showBottonLineWithCellHeight:CLIENT_LIST_HEIGHT andOffsetX:15];
+    if (indexPath.section == 0) {
+        if (indexPath.row < self.publicDataArr.count - 1) {
+            [cell showBottonLineWithCellHeight:CLIENT_LIST_HEIGHT andOffsetX:15];
+        }
+    }
+    else if (indexPath.section == 1) {
+        if (indexPath.row < self.starDataArr.count - 1) {
+            [cell showBottonLineWithCellHeight:CLIENT_LIST_HEIGHT andOffsetX:15];
+        }
+    }
+    else if (indexPath.section >= 2) {
+        if (indexPath.row < [(NSArray *)self.contactKeyArr[indexPath.section - 2][@"objects"] count]-1) {
+            [cell showBottonLineWithCellHeight:CLIENT_LIST_HEIGHT andOffsetX:15];
+        }
+    }
     
     return cell;
 }
