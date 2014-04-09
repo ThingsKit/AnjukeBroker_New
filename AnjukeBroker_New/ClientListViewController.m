@@ -303,8 +303,7 @@
     if (person.isStar) {
         isStar = @"1";
     }
-    
-    [self showLoadingActivity:YES];
+    DLog(@"--- is Star [%d]", person.isStar);
     
     NSString *methodName = [NSString stringWithFormat:@"user/modifyFriendInfo/%@",[LoginManager getPhone]];
     
@@ -321,7 +320,7 @@
     if ([response status] == RTNetworkResponseStatusFailed || ([[[response content] objectForKey:@"status"] isEqualToString:@"error"]))
         return;
     
-    DLog(@"更新标星后:%@", [response content]);
+    DLog(@"更新标星后:%@--msg[%@]", [response content], [response content][@"errorMessage"]);
 }
 
 #pragma mark - UITableViewDataSource
@@ -519,7 +518,7 @@
             [[[cell rightUtilityButtons] objectAtIndex:0] setImage:[self getImageIsStar:!item.isStar] forState:UIControlStateNormal];
             
             [self getFriendList];
-//            [self requestUpdateWithPerson:item]; //call API to update person
+            [self requestUpdateWithPerson:item]; //call API to update person
             [self hideLoadWithAnimated:YES];
             break;
         }

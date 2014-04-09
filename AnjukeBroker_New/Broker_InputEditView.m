@@ -10,7 +10,7 @@
 #import "Util_UI.h"
 #import "BrokerLineView.h"
 
-#define lbH 30
+#define lbH 20
 
 @implementation Broker_InputEditView
 @synthesize titleLb, textFidle_Input, textView_Input;

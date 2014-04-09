@@ -35,6 +35,9 @@
 */
 
 - (void)initUI {
+    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundView = [self baseCellBackgroundView];
+    
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, 12, 70, 20)];
     self.titleLb = nameLabel;
     nameLabel.backgroundColor = [UIColor clearColor];

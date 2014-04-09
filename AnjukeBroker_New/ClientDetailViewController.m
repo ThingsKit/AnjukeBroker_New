@@ -152,6 +152,36 @@
     [footerView addSubview:btn];
 }
 
+#pragma mark - Request Method
+
+- (void)requestUpdatePerson {
+    if (![self isNetworkOkay]) {
+        return;
+    }
+    
+    NSString *isStar = @"0";
+    if (self.person.isStar) {
+        isStar = @"1";
+    }
+    
+    NSString *methodName = [NSString stringWithFormat:@"user/modifyFriendInfo/%@",[LoginManager getPhone]];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: self.person.uid ,@"to_uid" , self.person.markName ,@"mark_name", self.person.markPhone, @"mark_phone", self.person.markDesc, @"mark_desc", @"0" ,@"relation_cate_id", isStar, @"is_star", nil];
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:methodName params:params target:self action:@selector(onGetData:)];
+}
+
+- (void)onGetData:(RTNetworkResponse *) response {
+    //check network and response
+    if (![self isNetworkOkay])
+        return;
+    
+    if ([response status] == RTNetworkResponseStatusFailed || ([[[response content] objectForKey:@"status"] isEqualToString:@"error"]))
+        return;
+    
+    DLog(@"更新标星后:%@--msg[%@]", [response content], [response content][@"errorMessage"]);
+}
+
 #pragma mark - Private Method
 
 - (void)refreshDataAndView {
@@ -230,6 +260,8 @@
         
         [self showInfo:@"添加标星成功"];
     }
+    
+    [self requestUpdatePerson];
 }
 
 #pragma mark - UITableViewDataSource

@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NSMutableArray *listDataArray;
 
 @property (nonatomic, strong) NSFetchedResultsController *sessionFetchedResultsController;
+@property (strong, nonatomic) NSDate *lastReloadDate;
 
 @end
 
@@ -42,6 +43,8 @@
     
     [self setTitleViewWithString:@"微聊"];
     
+    self.lastReloadDate = [NSDate date];
+    
     // Do any additional setup after loading the view.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageCenterDidInitedDataCenter:) name:MessageCenterDidInitedDataCenter object:nil];
 }
@@ -50,6 +53,7 @@
     [super viewWillAppear:animated];
     
     [self resetMessageValue];
+    [self checkForReloadTVWithDate];
 }
 
 - (void)didReceiveMemoryWarning
@@ -132,6 +136,23 @@
     //得到所有的消息提醒数
     NSInteger count = [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
     [[AppDelegate sharedAppDelegate] showMessageValueWithStr:count];
+}
+
+- (void)checkForReloadTVWithDate {
+    static NSCalendar *calendar;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    });
+    NSDate *messageDate = self.lastReloadDate;
+    NSDateComponents *nowComponent = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
+    NSDateComponents *messageComponent = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:messageDate];
+    if (nowComponent.year == messageComponent.year && nowComponent.month == messageComponent.month && nowComponent.day == messageComponent.day) {
+        
+    } else {
+        [self.tableViewList reloadData];
+        self.lastReloadDate = [NSDate date];
+    }
 }
 
 - (void)removeDataArrAtIndex:(int)index {
