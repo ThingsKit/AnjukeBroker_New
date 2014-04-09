@@ -252,6 +252,7 @@
         NSMutableArray *picMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
         NSMutableArray *commonMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
         NSMutableArray *voiceMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
+        [messageArray removeAllObjects];
         
         AXMessage *message = [self findLastMessageWithFriendUid:friendUID];
         NSDate *storedLastDate = message.sendTime;
