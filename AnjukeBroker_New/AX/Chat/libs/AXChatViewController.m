@@ -1775,8 +1775,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     
     if([[AVAudioSession sharedInstance] respondsToSelector:@selector(requestRecordPermission:)]) {
         [[AVAudioSession sharedInstance] performSelector:@selector(requestRecordPermission:) withObject:permissionBlock];
-    }
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
+    }else{
         self.hasMicrophonePermission = YES;
     }
     
