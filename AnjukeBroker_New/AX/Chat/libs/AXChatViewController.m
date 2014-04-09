@@ -116,6 +116,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 @property (nonatomic, assign) CGFloat curCount;
 @property (nonatomic, assign) BOOL isInterrupted;
 @property (nonatomic, assign) BOOL playTipView;
+@property (nonatomic, assign) BOOL hasMicrophonePermission;
 #define MAX_RECORD_TIME 60
 
 @end
@@ -177,6 +178,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 											 selector:@selector(handleWillHideKeyboardNotification:)
 												 name:UIKeyboardWillHideNotification
                                                object:nil];
+    
+    [self didClickRecored:nil];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -325,7 +329,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         [self.messageInputView addSubview:self.voiceBut];
         
         self.pressSpeek = [[UIButton alloc] initWithFrame:CGRectZero];
-        [self.pressSpeek addTarget:self action:@selector(didClickRecored:) forControlEvents:UIControlEventTouchDown];
+        [self.pressSpeek addTarget:self action:@selector(didBeginVoice) forControlEvents:UIControlEventTouchDown];
         [self.pressSpeek addTarget:self action:@selector(didCommitVoice) forControlEvents:UIControlEventTouchUpInside];
         [self.pressSpeek addTarget:self action:@selector(didCancelVoice) forControlEvents:UIControlEventTouchUpOutside];
         [self.pressSpeek addTarget:self action:@selector(continueRecordVoice) forControlEvents:UIControlEventTouchDragEnter];
@@ -1757,35 +1761,35 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     }
 
 }
+
 - (void)didClickRecored:(id)sender
 {
     __block AXChatViewController *blockSelf = self;
     PermissionBlock permissionBlock = ^(BOOL granted) {
-        dispatch_async(dispatch_get_main_queue(), ^{  //以下逻辑含有UI绘制,需要在主线程中执行
-            if (granted) {
-                if (self.pressSpeek.touchInside) { //如果按钮处于被按的状态
-                    [blockSelf didBeginVoice];
-                }
-            } else {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"无法录音" message:@"请在iPhone的“设置-隐私-麦克风”选项中，允许移动经纪人访问你的手机麦克风。" delegate:blockSelf cancelButtonTitle:@"知道了" otherButtonTitles:nil];
-                [alertView show];
+            if (!granted) {
+                blockSelf.hasMicrophonePermission = NO;
+            }else{
+                blockSelf.hasMicrophonePermission = YES;
             }
-        });
     };
+    
     if([[AVAudioSession sharedInstance] respondsToSelector:@selector(requestRecordPermission:)]) {
         [[AVAudioSession sharedInstance] performSelector:@selector(requestRecordPermission:) withObject:permissionBlock];
-    } else {
-        [self didBeginVoice];
-        [self pressForVoiceLog];
     }
 }
 
 //UIControlEventTouchDown
 - (void)didBeginVoice {
+    
+    if (!self.hasMicrophonePermission) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"无法录音" message:@"请在iPhone的“设置-隐私-麦克风”选项中，允许移动经纪人访问你的手机麦克风。" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+        [alertView show];
+        return;
+    }
+    
     self.curCount = 0;
     self.isInterrupted = NO;
     self.date = [NSDate date];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [[KKAudioComponent sharedAudioComponent] beginRecording];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(updateVolumn) userInfo:nil repeats:YES];
 
@@ -1829,19 +1833,21 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     self.microphoneImageView.image = [UIImage imageNamed:@"wl_voice_icon_voicestatu"];
     self.backgroundImageView.image = [UIImage imageNamed:@"wl_voice_tip_bg"];
     [self showHUDWithTitle:@"手指上滑, 取消发送" CustomView:self.backgroundImageView IsDim:NO]; //取消蒙版
-        
+    [self pressForVoiceLog];
+    
 }
+
 
 //UIControlEventTouchUpInside
 - (void)didCommitVoice {
     self.countDownLabel.hidden = YES;
     
-    if (self.isInterrupted) {
+    if (self.isInterrupted || !self.hasMicrophonePermission) {
         return;
     }
     
     double timeSpent = [[NSDate date] timeIntervalSinceDate:self.date];
-    if (timeSpent < 1) {
+    if (timeSpent < 1 || isnan(timeSpent)) {
         [self.timer invalidate];
         self.dustbinImageView.image = nil;
         self.microphoneImageView.image = nil;
@@ -1854,6 +1860,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         
     }else{
 //        [[KKAudioComponent sharedAudioComponent] finishRecording];
+//        NSLog(@"%f", timeSpent);
         [self sendRecored];
         [self.timer invalidate];
         [self hideHUD];
