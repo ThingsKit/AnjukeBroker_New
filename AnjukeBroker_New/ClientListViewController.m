@@ -300,14 +300,14 @@
     }
     
     NSString *isStar = @"0";
-    if (person.isStar) {
+    if (person.isStar == YES) {
         isStar = @"1";
     }
     DLog(@"--- is Star [%d]", person.isStar);
     
     NSString *methodName = [NSString stringWithFormat:@"user/modifyFriendInfo/%@",[LoginManager getPhone]];
     
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: person.uid ,@"to_uid" , person.markName ,@"mark_name", person.markPhone, @"mark_phone", person.markDesc, @"mark_desc", @"0" ,@"relation_cate_id", isStar, @"is_star", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: person.uid ,@"to_uid" , isStar, @"is_star", @"0" ,@"relation_cate_id", person.markName ,@"mark_name", person.markPhone, @"mark_phone", person.markDesc, @"mark_desc",  nil];
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:methodName params:params target:self action:@selector(onGetData:)];
 }
