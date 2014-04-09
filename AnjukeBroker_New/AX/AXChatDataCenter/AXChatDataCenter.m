@@ -854,7 +854,12 @@
         if (!person) {
             person = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
             person.isPendingForRemove = [NSNumber numberWithBool:NO];
-            person.isStar = [NSNumber numberWithBool:NO];
+            
+            BOOL isStar = NO;
+            if ([mappedPerson[@"is_star"] isEqualToString:@"1"]) {
+                isStar = YES;
+            }
+            person.isStar = [NSNumber numberWithBool:isStar];
 
         }
         person.isPendingForAdd = [NSNumber numberWithBool:NO];

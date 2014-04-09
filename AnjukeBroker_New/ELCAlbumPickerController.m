@@ -37,7 +37,9 @@
     }
     
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self.parent action:@selector(cancelImagePicker)];
-    cancelButton.tintColor = SYSTEM_NAVIBAR_COLOR;
+    if (![AppManager isIOS6]) {
+        cancelButton.tintColor = SYSTEM_NAVIBAR_COLOR;
+    }
 	[self.navigationItem setRightBarButtonItem:cancelButton];
 
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];

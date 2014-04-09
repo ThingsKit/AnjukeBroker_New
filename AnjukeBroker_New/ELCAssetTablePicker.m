@@ -10,6 +10,7 @@
 #import "ELCAsset.h"
 #import "ELCAlbumPickerController.h"
 #import "Util_UI.h"
+#import "AppManager.h"
 
 #define PhotoPickerTitle @"选择相片"
 
@@ -46,12 +47,16 @@
         
     } else {
         UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction:)];
-        doneButtonItem.tintColor = SYSTEM_NAVIBAR_COLOR;
+        if (![AppManager isIOS6]) {
+            doneButtonItem.tintColor = SYSTEM_NAVIBAR_COLOR;
+        }
         [self.navigationItem setRightBarButtonItem:doneButtonItem];
         
         UIBarButtonItem *backButtonItem = nil;
         backButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
-        backButtonItem.tintColor = SYSTEM_NAVIBAR_COLOR;
+        if (![AppManager isIOS6]) {
+            backButtonItem.tintColor = SYSTEM_NAVIBAR_COLOR;
+        }
         [self.navigationItem setLeftBarButtonItem:backButtonItem];
         
         [self setTitleForNavBarWithStr:PhotoPickerTitle];
