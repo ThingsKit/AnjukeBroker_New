@@ -255,6 +255,7 @@
         
         AXMessage *message = [self findLastMessageWithFriendUid:friendUID];
         NSDate *storedLastDate = message.sendTime;
+        AXMessage *timeMessage = [self checkAndReturnTimeMessageWithCurrentDate:[NSDate dateWithTimeIntervalSinceNow:0] andLastDate:storedLastDate from:friendUID to:self.uid];
         
         for (NSDictionary *message in item[@"messages"]) {
 
@@ -333,9 +334,6 @@
             [self updateConversationListItemWithMessage:messageToUpdate];
         }
 
-        NSDate *fetchedLastDate = [(AXMessage *)[messageArray lastObject] sendTime];
-        
-        AXMessage *timeMessage = [self checkAndReturnTimeMessageWithCurrentDate:fetchedLastDate andLastDate:storedLastDate from:friendUID to:self.uid];
         if (timeMessage) {
             [commonMessageArray insertObject:[timeMessage convertToMappedObject] atIndex:[commonMessageArray count]];
         }
