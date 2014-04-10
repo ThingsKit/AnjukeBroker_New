@@ -933,7 +933,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         if ([AXChatMessageImageCell sizeOFImg:dic[@"content"]].size.height < 30.0f) {
             return 65.0f;
         }
-        return [AXChatMessageImageCell sizeOFImg:dic[@"content"]].size.height + 35.0f;
+        return [AXChatMessageImageCell sizeOFImg:dic[@"content"]].size.height + 20.0f;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeSystemTime)]) {
         return 25;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypePublicCard)]) {
@@ -951,7 +951,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeSafeMessage)]) {
         return 75;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeVoice)]) {
-        return 65.0f;
+        return 60.0f;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeLocation)]) {
         return 140.0f;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeVersion)]) {
