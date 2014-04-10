@@ -1134,14 +1134,18 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 
 - (void)downLoadVoiceAndImageWithDictionary:(NSDictionary *)messages
 {
-    NSArray *messageArray;
-    NSArray *picArray;
-    NSArray *voiceArray;
-    NSArray *allKeyArray = [messages allKeys];
+    if ([messages isEqualToDictionary:@{}]) {
+        return;
+    }
+    __block NSArray *messageArray;
+    __block NSArray *picArray;
+    __block NSArray *voiceArray;
     NSMutableDictionary *messageDic = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *picDic = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *voiceDic = [[NSMutableDictionary alloc] init];
-    for (NSString *key in allKeyArray) {
+    NSArray *allKeyArray = [messages allKeys];
+    [allKeyArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSMutableDictionary *picDic = [[NSMutableDictionary alloc] init];
+        NSMutableDictionary *voiceDic = [[NSMutableDictionary alloc] init];
+        NSString *key = obj;
         if (messages[key][@"other"] && [messages[key][@"other"] isKindOfClass:[NSArray class]]) {
             NSArray *array = messages[key][@"other"];
             if ([array count] >= 1) {
@@ -1175,14 +1179,16 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
         if ([voiceArray count] > 0) {
             voiceDic[key] = voiceArray;
         }
+        if (![picDic isEqual:@{}]) {
+            [self.imageMessageArray addObject:picDic];
+        }
+        if (![voiceDic isEqual:@{}]) {
+            [self.imageMessageArray addObject:voiceDic];
+        }
+        picDic = nil;
+        voiceDic = nil;
         
-    }
-    if (![picDic isEqual:@{}]) {
-        [self.imageMessageArray addObject:picDic];
-    }
-    if (![voiceDic isEqual:@{}]) {
-        [self.imageMessageArray addObject:voiceDic];
-    }
+    }];
     NSDictionary *userInfo = @{@"unreadCount":@([self.dataCenter totalUnreadMessageCount])};
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidReceiveNewMessage object:messageDic userInfo:userInfo];
