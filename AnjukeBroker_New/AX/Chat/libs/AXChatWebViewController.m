@@ -36,6 +36,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self initLeftBar];
 //    self.navigationItem.leftBarButtonItem = [UIBarButtonItem initBackItemWithTarget:self action:@selector(back:)];
 }
 
@@ -43,7 +44,7 @@
 {
     [super viewWillAppear:animated];
     if (self.webTitle) {
-        self.title = self.webTitle;
+        [self titleViewText:self.webTitle];
     }
     NSURL *url;
     if (self.webUrl) {
@@ -64,8 +65,26 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     if (!self.webTitle) {
-        self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+        [self titleViewText:[webView stringByEvaluatingJavaScriptFromString:@"document.title"]];
     }
 }
 
+- (void)titleViewText:(NSString *)title {
+    UILabel *titleView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 25)];
+    titleView.text = title;
+    titleView.textAlignment = NSTextAlignmentCenter;
+    titleView.textColor = [UIColor whiteColor];
+    titleView.backgroundColor = [UIColor clearColor];
+    self.navigationItem.titleView = titleView;
+}
+
+- (void)initLeftBar {
+    UIButton *rightBar = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightBar.frame = CGRectMake(0, 0, 40, 20);
+    [rightBar setTitle:@"返回" forState:UIControlStateNormal];
+    [rightBar setTintColor:[UIColor whiteColor]];
+    [rightBar addTarget:self  action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:rightBar];
+    [self.navigationItem setLeftBarButtonItem:buttonItems];
+}
 @end

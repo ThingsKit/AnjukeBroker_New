@@ -326,7 +326,11 @@
                 return;
             }
             else {
-                NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@",[self.clientDic objectForKey:@"saleManagerTel"]];
+                if (![self.clientDic objectForKey:@"saleManagerTel"]) {
+                    return;
+                }
+                NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@", [self.clientDic objectForKey:@"saleManagerTel"]];
+                
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:call_url]];
             }
         }
