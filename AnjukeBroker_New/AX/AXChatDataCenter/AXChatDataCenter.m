@@ -1226,6 +1226,8 @@
         timeMessage.isRemoved = [NSNumber numberWithBool:NO];
         timeMessage.messageType = [NSNumber numberWithInteger:AXMessageTypeSystemTime];
         timeMessage.sendTime = [NSDate dateWithTimeInterval:-0.01 sinceDate:currentDate];
+        
+        [self.managedObjectContext save:NULL];
     }
     
     return timeMessage;
