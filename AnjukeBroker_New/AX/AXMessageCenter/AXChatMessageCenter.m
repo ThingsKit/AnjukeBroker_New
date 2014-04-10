@@ -673,7 +673,13 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     params[@"phone"] = self.currentPerson.phone;
     params[@"to_uid"] = dataMessage.to;
     params[@"uniqid"] = dataMessage.identifier;
-    params[@"body"] = dataMessage.content;
+    if ([dataMessage.messageType integerValue] == AXMessageTypePic) {
+        params[@"body"] = dataMessage.imgUrl;
+    }else if ([dataMessage.messageType integerValue] == AXMessageTypeVoice){
+        params[@"body"] = dataMessage.content;
+    }else{
+        params[@"body"] = dataMessage.content;
+    }
     
     self.sendMessageManager.apiParams = params;
     [self.sendMessageManager loadData];
@@ -695,7 +701,13 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     params[@"phone"] = self.currentPerson.phone;
     params[@"to_service_id"] = dataMessage.to;
     params[@"uniqid"] = dataMessage.identifier;
-    params[@"body"] = dataMessage.content;
+    if ([dataMessage.messageType integerValue] == AXMessageTypePic) {
+        params[@"body"] = dataMessage.imgUrl;
+    }else if ([dataMessage.messageType integerValue] == AXMessageTypeVoice){
+        params[@"body"] = dataMessage.content;
+    }else{
+        params[@"body"] = dataMessage.content;
+    }
     
     self.sendMessageToPublic.apiParams = params;
     [self.sendMessageToPublic loadData];
