@@ -364,6 +364,9 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
         if (requestID == [dic[@"requestID"] integerValue]) {
             NSString *identify = dic[@"uniqid"];
             AXMappedMessage *mappedMessage = [self.dataCenter fetchMessageWithIdentifier:identify];
+            if (!mappedMessage) {
+                return ;
+            }
             if (response.status == RTNetworkResponseStatusSuccess) {
                 if (response.content[@"status"] && [response.content[@"status"] isEqualToString:@"OK"]) {
                     if (self.blockDictionary[identify]) {
