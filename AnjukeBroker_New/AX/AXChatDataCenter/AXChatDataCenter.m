@@ -340,6 +340,9 @@
             
             [messageArray addObject:[managedMessage convertToMappedObject]];
             [managedMessageArray addObject:managedMessage];
+            [self.managedObjectContext save:NULL];
+            managedMessage.orderNumber = [NSNumber numberWithInteger:managedMessage.autoIncreamentPK];
+            [self.managedObjectContext save:NULL];
         }
         
         AXMappedMessage *messageToUpdate = [self findMessageToUpdate:messageArray];
@@ -355,24 +358,13 @@
         
         [self checkAndFetchFriendInfoWithFriendUid:friendUID accountType:[item[@"account_type"] integerValue]];
     }
-
-    __autoreleasing NSError *error;
-    [self.managedObjectContext save:&error];
-    if (error) {
-        NSLog(@"save error %@", error);
-    } else {
-        for (AXMessage *message in managedMessageArray) {
-            message.orderNumber = [NSNumber numberWithInteger:message.autoIncreamentPK];
-        }
-        [self.managedObjectContext save:&error];
-    }
     
     if (shouldAlert) {
         if ([receivedArray count] >= 1) {
             [self bark];
         }
     }
-
+    
     [self.delegate dataCenter:self didReceiveMessages:splitedDictionary];
 }
 
