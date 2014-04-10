@@ -69,7 +69,7 @@ static KKAudioComponent* defaultAudioComponent;
                      settings:[KKAudioComponent audioRecorderSettingDict]
                      error:nil];
     _recorder.meteringEnabled = YES;  //开启音量检测
-    _recorder.delegate = self;
+//    _recorder.delegate = self;
     
     [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayAndRecord error:nil]; //支持播放与录音
     [[AVAudioSession sharedInstance] setActive:YES error:nil]; //感觉没有作用
@@ -99,6 +99,7 @@ static KKAudioComponent* defaultAudioComponent;
         NSDictionary* dictRecordFile = [KKAudioComponent fileAttributesWithFileName:self.recordFileName FileType:@"wav" RecordTime:cTime];
         NSLog(@"%@", dictRecordFile);
         [_recorder stop];
+        [[AVAudioSession sharedInstance] setActive:NO error:nil]; //关闭本次音频回话
         NSLog(@"发送");
         return dictRecordFile;
         
@@ -108,6 +109,7 @@ static KKAudioComponent* defaultAudioComponent;
         //删除记录的文件
         [_recorder deleteRecording];
         [_recorder stop];
+        [[AVAudioSession sharedInstance] setActive:NO error:nil]; //关闭本次音频回话
         NSLog(@"时间太短");
         return nil;
     }
@@ -122,6 +124,7 @@ static KKAudioComponent* defaultAudioComponent;
     
     [_recorder deleteRecording];
     [_recorder stop];
+    [[AVAudioSession sharedInstance] setActive:NO error:nil]; //关闭本次音频回话
     //    [_timer invalidate];
     NSLog(@"取消发送");
     

@@ -15,7 +15,8 @@
 typedef void(^PlayDidFinishBlock) (void);
 typedef void(^RecordDidInterruptBlock) (void);
 
-@interface KKAudioComponent : NSObject <AVAudioPlayerDelegate, AVAudioRecorderDelegate>
+@interface KKAudioComponent : NSObject <AVAudioPlayerDelegate>
+//@interface KKAudioComponent : NSObject <AVAudioPlayerDelegate, AVAudioRecorderDelegate>
 
 @property (nonatomic, copy) PlayDidFinishBlock playDidFinishBlock;
 @property (nonatomic, copy) RecordDidInterruptBlock recordDidInterruptBlock;
