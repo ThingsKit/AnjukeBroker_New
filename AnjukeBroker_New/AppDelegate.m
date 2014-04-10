@@ -24,6 +24,7 @@
 #import "SaleFixedDetailController.h"
 
 #import "AXChatMessageCenter.h"
+#import "HomeViewController.h"
 
 #define coreDataName @"AnjukeBroker_New"
 
@@ -458,6 +459,10 @@
     
     NSInteger count = [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
     [self showMessageValueWithStr:count];
+}
+
+- (BOOL)checkHomeVCHasLongLinked {
+    return [(HomeViewController *)self.tabController.HomeVC hasLongLinked];
 }
 
 #pragma mark - Request Method

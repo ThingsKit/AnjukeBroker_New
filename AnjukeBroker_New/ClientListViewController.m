@@ -14,6 +14,7 @@
 #import "AXMappedPerson.h"
 #import "BrokerChatViewController.h"
 #import "AccountManager.h"
+#import "AppDelegate.h"
 
 @interface ClientListViewController ()
 
@@ -59,7 +60,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    if ([self isNetworkOkay] && [LoginManager getChatID].length > 0 && [LoginManager getPhone].length > 0) {
+    if ([self isNetworkOkay] && [LoginManager getChatID].length > 0 && [LoginManager getPhone].length > 0 && [[AppDelegate sharedAppDelegate] checkHomeVCHasLongLinked] == YES) {
         [self showLoadingActivity:YES];
         [self getFriendList];
     }

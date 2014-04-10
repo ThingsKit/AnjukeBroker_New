@@ -50,6 +50,7 @@ typedef enum {
 
 - (void)connectLongLinkForChat;
 - (void)killLongLinkForChat;
+- (BOOL)checkHomeVCHasLongLinked;
 
 //用于发房结束后页面跳转到计划管理房源列表页面
 - (void)dismissController:(UIViewController *)dismissController withSwitchIndex:(int)index withSwtichType:(TabSwitchType)switchType withPropertyDic:(NSDictionary *)propDic;

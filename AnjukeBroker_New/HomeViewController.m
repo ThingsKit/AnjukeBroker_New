@@ -54,7 +54,6 @@
 @property (nonatomic, strong) UILabel *costLb;
 @property (nonatomic, strong) UILabel *clickLb;
 
-@property BOOL hasLongLinked;
 @property BOOL configChecked;
 @property (nonatomic, copy) NSString *loadingURL;
 @property (nonatomic, strong) UIButton *topAlertButton;

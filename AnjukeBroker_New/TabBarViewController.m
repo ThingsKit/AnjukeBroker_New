@@ -7,7 +7,6 @@
 //
 
 #import "TabBarViewController.h"
-#import "HomeViewController.h"
 #import "AnjukeHomeViewController.h"
 #import "HaozuHomeViewController.h"
 #import "MoreViewController.h"
@@ -33,9 +32,6 @@
 @end
 
 @implementation TabBarViewController
-@synthesize page1, page2 ,page3, page4, page5;
-@synthesize controllerArrays;
-@synthesize messageNavController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -57,6 +53,7 @@
         HomeViewController *hv = [[HomeViewController alloc] init];
         hv.isHome = YES;
         self.page1 = hv;
+        self.HomeVC = hv;
         RTNavigationController *navH = [[RTNavigationController alloc] initWithRootViewController:self.page1];
         [self.controllerArrays addObject:navH];
         navH.tabBarItem = [self getTabBarItemWithTitle:@"首页" image:[UIImage imageNamed:@"anjuke_icon_home.png"] index:1 selectedImg:[UIImage imageNamed:@"anjuke_icon_home1.png"]];
@@ -94,7 +91,7 @@
         [self.controllerArrays addObject:navHZ];
         navHZ.tabBarItem = [self getTabBarItemWithTitle:@"租房" image:[UIImage imageNamed:@"anjuke_icon_zf.png"] index:5 selectedImg:[UIImage imageNamed:@"anjuke_icon_zf1.png"]];
         
-        self.viewControllers = controllerArrays;
+        self.viewControllers = self.controllerArrays;
         
         if (![AppManager isIOS6]) {
             [self.tabBar setTintColor:SYSTEM_TABBAR_SELECTCOLOR_DARK];

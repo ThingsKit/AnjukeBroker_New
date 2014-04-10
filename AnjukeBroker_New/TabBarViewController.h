@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HomeViewController.h"
 
 @interface TabBarViewController : UITabBarController <UITabBarControllerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *controllerArrays;
+@property (nonatomic, strong) HomeViewController *HomeVC;
 
 - (void)setMessageBadgeValueWithValue:(NSString *)value; //
 

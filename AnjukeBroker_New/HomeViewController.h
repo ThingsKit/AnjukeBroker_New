@@ -11,5 +11,6 @@
 @interface HomeViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 - (void)doRequest;
+@property BOOL hasLongLinked;
 
 @end
