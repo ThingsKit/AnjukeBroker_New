@@ -34,6 +34,7 @@
     
     if (![AppManager isIOS6]) {
         self.navigationController.navigationBar.barTintColor = SYSTEM_NAVBAR_DARK_BG;
+        self.navigationController.navigationBar.translucent = NO;
     }
     
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self.parent action:@selector(cancelImagePicker)];
