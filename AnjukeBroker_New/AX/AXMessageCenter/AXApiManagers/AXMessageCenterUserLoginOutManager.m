@@ -11,7 +11,7 @@
 @implementation AXMessageCenterUserLoginOutManager
 - (NSString *)methodName
 {
-    return [NSString stringWithFormat:@"quit/%@/%@/%@",[[UIDevice currentDevice] udid],@"i-ajk",self.apiParams[@"uid"]];
+    return [NSString stringWithFormat:@"quit/%@/%@/%@",[[UIDevice currentDevice] udid],@"i-broker2",self.apiParams[@"uid"]];
 }
 
 - (RTServiceType)serviceType
