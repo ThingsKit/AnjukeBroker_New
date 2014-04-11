@@ -43,6 +43,10 @@ static CGFloat const AXPropertyCardInLableMarginLeft = 81.0f;
     return self;
 }
 
+- (void)dealloc {
+    self.roomImage.image = nil;
+}
+
 - (void)initUI {
     [super initUI];
     
@@ -74,7 +78,8 @@ static CGFloat const AXPropertyCardInLableMarginLeft = 81.0f;
     
     self.roomImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 37, 60, 60)];
     self.roomImage.backgroundColor = [UIColor clearColor];
-    self.roomImage.image = [UIImage imageNamed:@"anjuke60_bg10.png"];
+//    self.roomImage.image = ;
+    self.roomImage.userInteractionEnabled = YES;
     [self.whiteBackGround addSubview:self.roomImage];
     
     self.titleLable = [[UILabel alloc] initWithFrame:CGRectMake(92, 30, 120, 30)];
@@ -145,8 +150,15 @@ static CGFloat const AXPropertyCardInLableMarginLeft = 81.0f;
     self.titleLable.text = self.propDict[@"name"];
     self.roomTypeLabel.text = self.propDict[@"des"];
     self.priceLable.text = self.propDict[@"price"];
-    NSURL *url = [NSURL URLWithString:self.propDict[@"img"]];
-    [self.roomImage setImageWithURL:url placeholderImage:nil];
+    
+
+    if (self.propDict[@"img"] && [self.propDict[@"img"] length] >0) {
+        NSURL *url = [NSURL URLWithString:self.propDict[@"img"]];
+        [self.roomImage setImageWithURL:url placeholderImage:nil];
+    }else {
+        self.roomImage.image = [UIImage imageNamed:@"anjuke60_bg10.png"];
+    }
+
     [self configWithStatus];
 }
 
