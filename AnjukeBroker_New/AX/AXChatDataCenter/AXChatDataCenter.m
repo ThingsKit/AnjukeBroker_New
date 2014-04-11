@@ -354,7 +354,7 @@
             [commonMessageArray insertObject:[timeMessage convertToMappedObject] atIndex:[commonMessageArray count]];
         }
         
-        splitedDictionary[friendUID] = @{@"pic":[picMessageArray reverseSelf], @"voice":[voiceMessageArray reverseSelf], @"other":[commonMessageArray reverseSelf]};
+        splitedDictionary[friendUID] = @{@"pic":picMessageArray, @"voice":voiceMessageArray, @"other":commonMessageArray};
         
         [self checkAndFetchFriendInfoWithFriendUid:friendUID accountType:[item[@"account_type"] integerValue]];
     }
