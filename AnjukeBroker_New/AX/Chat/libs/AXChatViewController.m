@@ -688,6 +688,24 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     }
 }
 
+- (NSString *)fixedImgPath:(NSString *) imgPath {
+    NSString *libPath = [AXPhotoManager getLibrary:nil];
+    
+    NSArray *imgArray = [imgPath componentsSeparatedByString:@"/"];
+    
+    NSString *resultPath = [NSString stringWithFormat:@"%@/%@/%@",libPath ,[imgArray objectAtIndex:[imgArray count] - 2], [imgArray objectAtIndex:[imgArray count] - 1]];
+    
+    
+    return resultPath;
+}
+- (NSString *)fixThumbnailImagePath:(NSString *)path
+{
+    if (path && path.length > 0) {
+        NSArray *arr = [path componentsSeparatedByString:@"/"];
+        return [AXPhotoManager getLibrary:[arr lastObject]];
+    }
+    return @"";
+}
 - (NSMutableDictionary *)mapAXMappedMessage:(AXMappedMessage *)mappedMessage
 {
     NSNumber *messageSource = @(AXChatMessageSourceDestinationIncoming);
@@ -707,15 +725,11 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         case AXMessageTypePic:
         {
             NSData *imgData = nil;
-            if (self.isBroker) {
                 if (mappedMessage.imgPath.length == 0) {
-                    imgData = [NSData dataWithContentsOfFile:mappedMessage.thumbnailImgPath];
+                    imgData = [NSData dataWithContentsOfFile:[self fixThumbnailImagePath:mappedMessage.thumbnailImgPath]];
                 } else {
-                    imgData = [NSData dataWithContentsOfFile:mappedMessage.imgPath];
+                    imgData = [NSData dataWithContentsOfFile:[self fixedImgPath:mappedMessage.imgPath]];
                 }
-            }else {
-                imgData = [NSData dataWithContentsOfFile:mappedMessage.thumbnailImgPath];
-            }
             
             if (!imgData) {
                 return nil;
