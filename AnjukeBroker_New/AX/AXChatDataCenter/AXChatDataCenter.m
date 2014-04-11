@@ -258,6 +258,10 @@
         NSDate *storedLastDate = message.sendTime;
         AXMessage *timeMessage = [self checkAndReturnTimeMessageWithCurrentDate:[NSDate dateWithTimeIntervalSinceNow:0] andLastDate:storedLastDate from:friendUID to:self.uid];
         
+        if (timeMessage) {
+            [commonMessageArray addObject:timeMessage];
+        }
+        
         NSArray *sortedArray = [item[@"messages"] sortedArrayWithOptions:0 usingComparator:^NSComparisonResult(id obj1, id obj2) {
         
             NSInteger messageId1 = [obj1[@"msg_id"] integerValue];
@@ -349,10 +353,7 @@
         if (messageToUpdate) {
             [self updateConversationListItemWithMessage:messageToUpdate];
         }
-        
-        if (timeMessage) {
-            [commonMessageArray insertObject:[timeMessage convertToMappedObject] atIndex:[commonMessageArray count]];
-        }
+
         
         splitedDictionary[friendUID] = @{@"pic":picMessageArray, @"voice":voiceMessageArray, @"other":commonMessageArray};
         
