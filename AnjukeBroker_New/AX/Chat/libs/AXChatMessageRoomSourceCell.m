@@ -74,6 +74,7 @@ static CGFloat const AXPropertyCardInLableMarginLeft = 81.0f;
     
     self.roomImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 37, 60, 60)];
     self.roomImage.backgroundColor = [UIColor clearColor];
+    self.roomImage.image = [UIImage imageNamed:@"anjuke60_bg10.png"];
     [self.whiteBackGround addSubview:self.roomImage];
     
     self.titleLable = [[UILabel alloc] initWithFrame:CGRectMake(92, 30, 120, 30)];
