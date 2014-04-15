@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RTGestureBackNavigationController.h"
 
-@interface RTNavigationController : UINavigationController
+@interface RTNavigationController : RTGestureBackNavigationController
 
 @end

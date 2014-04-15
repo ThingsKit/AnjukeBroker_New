@@ -13,7 +13,7 @@ typedef enum {
     CaptureTypeWithWindow
 }CaptureType; //截图区域选择
 
-@interface PushBackNavigationController : UINavigationController<UIGestureRecognizerDelegate>
+@interface RTGestureBackNavigationController : UINavigationController<UIGestureRecognizerDelegate>
 
 @property (nonatomic, assign) CaptureType captureType;
 

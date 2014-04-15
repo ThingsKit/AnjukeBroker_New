@@ -131,7 +131,7 @@
 		20D3C24C1892466B0030D7D8 /* PhotoFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D3C24B1892466B0030D7D8 /* PhotoFooterView.m */; };
 		20D3C24E18925D800030D7D8 /* anjuke_icon_photo_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20D3C24D18925D800030D7D8 /* anjuke_icon_photo_add@2x.png */; };
 		20DACCF018C97C6200061F9C /* anjuke_icon_add_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20DACCEF18C97C6200061F9C /* anjuke_icon_add_@2x.png */; };
-		20E1A1F418FD0DF800FBDA75 /* PushBackNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E1A1F318FD0DF800FBDA75 /* PushBackNavigationController.m */; };
+		20E1A1F418FD0DF800FBDA75 /* RTGestureBackNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E1A1F318FD0DF800FBDA75 /* RTGestureBackNavigationController.m */; };
 		20E3E782186C2B9D00D61889 /* anjuke_icon_gupaiming@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20E3E780186C2B9D00D61889 /* anjuke_icon_gupaiming@2x.png */; };
 		20E3E783186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20E3E781186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png */; };
 		20E892DA18BDBAA300D7D881 /* ChatModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E892D918BDBAA300D7D881 /* ChatModel.m */; };
@@ -754,8 +754,8 @@
 		20D3C24B1892466B0030D7D8 /* PhotoFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoFooterView.m; sourceTree = "<group>"; };
 		20D3C24D18925D800030D7D8 /* anjuke_icon_photo_add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_photo_add@2x.png"; sourceTree = "<group>"; };
 		20DACCEF18C97C6200061F9C /* anjuke_icon_add_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_@2x.png"; sourceTree = "<group>"; };
-		20E1A1F218FD0DF800FBDA75 /* PushBackNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushBackNavigationController.h; sourceTree = "<group>"; };
-		20E1A1F318FD0DF800FBDA75 /* PushBackNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushBackNavigationController.m; sourceTree = "<group>"; };
+		20E1A1F218FD0DF800FBDA75 /* RTGestureBackNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTGestureBackNavigationController.h; sourceTree = "<group>"; };
+		20E1A1F318FD0DF800FBDA75 /* RTGestureBackNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTGestureBackNavigationController.m; sourceTree = "<group>"; };
 		20E3E780186C2B9D00D61889 /* anjuke_icon_gupaiming@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_gupaiming@2x.png"; sourceTree = "<group>"; };
 		20E3E781186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_nomessage@2x.png"; sourceTree = "<group>"; };
 		20E892D818BDBAA300D7D881 /* ChatModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatModel.h; sourceTree = "<group>"; };
@@ -1823,8 +1823,8 @@
 		20E1A1F018FD0DD500FBDA75 /* NavigationController */ = {
 			isa = PBXGroup;
 			children = (
-				20E1A1F218FD0DF800FBDA75 /* PushBackNavigationController.h */,
-				20E1A1F318FD0DF800FBDA75 /* PushBackNavigationController.m */,
+				20E1A1F218FD0DF800FBDA75 /* RTGestureBackNavigationController.h */,
+				20E1A1F318FD0DF800FBDA75 /* RTGestureBackNavigationController.m */,
 				972DDA281826A4CA00263F8F /* RTNavigationController.h */,
 				972DDA291826A4CA00263F8F /* RTNavigationController.m */,
 			);
@@ -3624,7 +3624,7 @@
 				2056A38A18EE7EA00022B5A5 /* AXMessageCenterAddFriendManager.m in Sources */,
 				97B422571820D9A600A2E9E6 /* PropertyGroupListViewController.m in Sources */,
 				B721094F18277F8A00904FC7 /* BaseFixedCell.m in Sources */,
-				20E1A1F418FD0DF800FBDA75 /* PushBackNavigationController.m in Sources */,
+				20E1A1F418FD0DF800FBDA75 /* RTGestureBackNavigationController.m in Sources */,
 				2011CD8218AB1D5300EEEA5C /* SystemMessageDetailViewController.m in Sources */,
 				B721095518278B4E00904FC7 /* SalePropertyListCell.m in Sources */,
 				2056A34918EE7E660022B5A5 /* AXMessage.m in Sources */,

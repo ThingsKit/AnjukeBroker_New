@@ -6,9 +6,9 @@
 //  Copyright (c) 2014年 夏至. All rights reserved.
 //
 
-#import "PushBackNavigationController.h"
+#import "RTGestureBackNavigationController.h"
 
-@interface PushBackNavigationController (){
+@interface RTGestureBackNavigationController (){
     float startX;
     NSMutableArray *capImageArr;
     UIImageView *backGroundImg;
@@ -18,7 +18,7 @@
 }
 @end
 
-@implementation PushBackNavigationController
+@implementation RTGestureBackNavigationController
 @synthesize captureType;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
