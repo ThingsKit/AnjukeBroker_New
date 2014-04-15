@@ -46,10 +46,6 @@
     
     self.navigationBar.translucent = NO;
     // Do any additional setup after loading the view.
-    self.view.layer.shadowColor = [[UIColor blackColor]CGColor];
-    self.view.layer.shadowOffset = CGSizeMake(5, 5);
-    self.view.layer.shadowRadius = 5;
-    self.view.layer.shadowOpacity = 1;
     
     UIPanGestureRecognizer *panGus = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesReceive:)];
     panGus.delegate = self;

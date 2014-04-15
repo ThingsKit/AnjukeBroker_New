@@ -12,7 +12,7 @@
 #import "PropertyEditViewController.h"
 #import "SaleSelectNoPlanController.h"
 #import "SaleAuctionViewController.h"
-#import "RTNavigationController.h"
+#import "RTGestureBackNavigationController.h"
 
 #import "SalePropertyListCell.h"
 #import "SaleFixedCell.h"
@@ -400,7 +400,7 @@
                 SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
                 controller.fixedObj = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
-                RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+                RTGestureBackNavigationController *navi = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:navi animated:YES completion:nil];
             }else if (buttonIndex == 2){//正在推广中定价组
 
@@ -415,7 +415,7 @@
                 ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
                 controller.fixedObject = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
-                RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+                RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:nav animated:YES completion:nil];
                 //            [self.navigationController pushViewController:controller animated:YES];
             }else if (buttonIndex == 2){//正在推广中定价组
@@ -423,7 +423,7 @@
                 SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
                 controller.fixedObj = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
-                RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+                RTGestureBackNavigationController *navi = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:navi animated:YES completion:nil];
             }
         }
@@ -439,7 +439,7 @@
                 SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
                 controller.fixedObj = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
-                RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+                RTGestureBackNavigationController *navi = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:navi animated:YES completion:nil];
             }else if (buttonIndex == 2){
 
@@ -454,14 +454,14 @@
                 ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
                 controller.fixedObject = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
-                RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+                RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:nav animated:YES completion:nil];
             }else if (buttonIndex == 2){
                 [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_005 note:nil];
                 SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
                 controller.fixedObj = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
-                RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+                RTGestureBackNavigationController *navi = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:navi animated:YES completion:nil];
             }
         }
@@ -477,7 +477,7 @@
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }
     }else if(actionSheet.tag == 103) {
@@ -487,7 +487,7 @@
                 controller.proDic = [self.myArray objectAtIndex:selectIndex];
                 controller.backType = RTSelectorBackTypeDismiss;
                 controller.delegateVC = self;
-                RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+                RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:nav animated:YES completion:^(void){
                     controller.proDic = [self.myArray objectAtIndex:selectIndex];
                 }];
@@ -502,7 +502,7 @@
                 PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
                 controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
                 controller.backType = RTSelectorBackTypeDismiss;
-                RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+                RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:nav animated:YES completion:nil];
                 
             }

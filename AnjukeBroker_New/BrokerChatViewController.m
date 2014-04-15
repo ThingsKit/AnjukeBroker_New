@@ -17,6 +17,7 @@
 #import "NSString+RTStyle.h"
 #import "ClientDetailPublicViewController.h"
 #import "AXNotificationTutorialViewController.h"
+#import "RTGestureBackNavigationController.h"
 
 @interface BrokerChatViewController ()
 {
@@ -454,7 +455,7 @@
             ClientEditViewController *controller = [[ClientEditViewController alloc] init];
             controller.person = self.friendPerson;
             controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:controller];
+            RTGestureBackNavigationController *navController = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
             controller.navigationController.navigationBar.translucent = NO;
             [self presentViewController:navController animated:YES completion:nil];
         }

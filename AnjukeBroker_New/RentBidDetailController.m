@@ -8,7 +8,6 @@
 
 #import "RentBidDetailController.h"
 #import "PropertyEditViewController.h"
-#import "RTNavigationController.h"
 #import "RentAuctionViewController.h"
 #import "RentBidNoPlanController.h"
 #import "SaleAuctionViewController.h"
@@ -17,6 +16,7 @@
 #import "LoginManager.h"
 #import "RentBidPropertyCell.h"
 #import "CellHeight.h"
+#import "RTGestureBackNavigationController.h"
 
 @interface RentBidDetailController ()
 {
@@ -237,7 +237,7 @@
             controller.proDic = [self.myArray objectAtIndex:selectedIndex];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.delegateVC = self;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:^(void){
             }];
         }else if (buttonIndex == 1){//重新开始竞价
@@ -248,7 +248,7 @@
             controller.isHaozu = YES;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }else{
             
@@ -261,7 +261,7 @@
             controller.proDic = [self.myArray objectAtIndex:selectedIndex];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.delegateVC = self;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:^{
             }];
         }else if (buttonIndex == 1){//手动暂停竞价
@@ -273,7 +273,7 @@
             controller.isHaozu = YES;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }else{
             
@@ -290,7 +290,7 @@
     }
     RentBidNoPlanController *controller = [[RentBidNoPlanController alloc] init];
     controller.backType = RTSelectorBackTypeDismiss;
-    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];
 }
 - (void)doBack:(id)sender{

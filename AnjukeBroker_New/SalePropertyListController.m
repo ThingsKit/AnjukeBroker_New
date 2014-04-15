@@ -10,7 +10,7 @@
 #import "BasePropertyObject.h"
 #import "PropertyDetailCell.h"
 #import "SaleAuctionViewController.h"
-#import "RTNavigationController.h"
+#import "RTGestureBackNavigationController.h"
 #import "CellHeight.h"
 
 @interface SalePropertyListController ()
@@ -109,8 +109,6 @@
     controller.proDic = [self.myArray objectAtIndex:[indexPath row]];
     controller.backType = RTSelectorBackTypeDismiss;
     controller.delegateVC = self;
-//    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
-//    [self presentViewController:nav animated:YES completion:nil];
     [self.navigationController pushViewController:controller animated:YES];
 }
 

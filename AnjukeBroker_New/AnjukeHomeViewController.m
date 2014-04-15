@@ -17,6 +17,7 @@
 #import "SaleFixedManager.h"
 #import "BrokerLogger.h"
 #import "CommunityListViewController.h"
+#import "RTGestureBackNavigationController.h"
 
 @interface AnjukeHomeViewController ()
 
@@ -224,7 +225,7 @@
     CommunityListViewController *controller = [[CommunityListViewController alloc] init];
     controller.backType = RTSelectorBackTypeDismiss;
     controller.isFirstShow = YES;
-    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];
 }
 @end

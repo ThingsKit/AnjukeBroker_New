@@ -10,7 +10,6 @@
 #import "PropertyEditViewController.h"
 #import "RentAuctionViewController.h"
 #import "ModifyFixedCostController.h"
-#import "RTNavigationController.h"
 #import "RentNoPlanController.h"
 #import "ModifyRentCostController.h"
 #import "RentSelectNoPlanController.h"
@@ -25,6 +24,7 @@
 #import "SaleFixedManager.h"
 #import "LoginManager.h"
 #import "CellHeight.h"
+#import "RTGestureBackNavigationController.h"
 
 @interface RentFixedDetailController ()
 {
@@ -315,7 +315,7 @@
                 RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
                 controller.fixedObj = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
-                RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+                RTGestureBackNavigationController *navi = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:navi animated:YES completion:nil];
                 
             }else if (buttonIndex == 2){
@@ -331,7 +331,7 @@
                 ModifyRentCostController *controller = [[ModifyRentCostController alloc] init];
                 controller.fixedObject = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
-                RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+                RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:nav animated:YES completion:nil];
                 
             }else if (buttonIndex == 2){
@@ -340,7 +340,7 @@
                 RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
                 controller.fixedObj = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
-                RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+                RTGestureBackNavigationController *navi = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:navi animated:YES completion:nil];
             }
         }
@@ -354,7 +354,7 @@
                         RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
                         controller.fixedObj = self.planDic;
                         controller.backType = RTSelectorBackTypeDismiss;
-                        RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+                        RTGestureBackNavigationController *navi = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                         [self presentViewController:navi animated:YES completion:nil];
                     }else if (buttonIndex == 2){
 
@@ -369,14 +369,14 @@
                         ModifyRentCostController *controller = [[ModifyRentCostController alloc] init];
                         controller.fixedObject = self.planDic;
                         controller.backType = RTSelectorBackTypeDismiss;
-                        RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+                        RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                         [self presentViewController:nav animated:YES completion:nil];
                     }else if (buttonIndex == 2){
                         [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
                         RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
                         controller.fixedObj = self.planDic;
                         controller.backType = RTSelectorBackTypeDismiss;
-                        RTNavigationController *navi = [[RTNavigationController alloc] initWithRootViewController:controller];
+                        RTGestureBackNavigationController *navi = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                         [self presentViewController:navi animated:YES completion:nil];
                     }
                 }
@@ -391,7 +391,7 @@
                     controller.isHaozu = YES;
                     controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
                     controller.backType = RTSelectorBackTypeDismiss;
-                    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+                    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                     [self presentViewController:nav animated:YES completion:nil];
                     //            [self.navigationController popToRootViewControllerAnimated:YES];
                 }else if (buttonIndex == 2){
@@ -405,7 +405,7 @@
                     controller.proDic = [self.myArray objectAtIndex:selectIndex];
                     controller.backType = RTSelectorBackTypeDismiss;
                     controller.delegateVC = self;
-                    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+                    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                     [self presentViewController:nav animated:YES completion:^(void){
                         controller.proDic = [self.myArray objectAtIndex:selectIndex];
                     }];
@@ -420,7 +420,7 @@
                     controller.isHaozu = YES;
                     controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
                     controller.backType = RTSelectorBackTypeDismiss;
-                    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+                    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                     [self presentViewController:nav animated:YES completion:nil];
                 }
 

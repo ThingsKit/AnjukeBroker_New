@@ -12,7 +12,7 @@
 #import "SalePropertyListController.h"
 #import "PropertyEditViewController.h"
 #import "SaleAuctionViewController.h"
-#import "RTNavigationController.h"
+#import "RTGestureBackNavigationController.h"
 #import "LoginManager.h"
 #import "SaleFixedManager.h"
 #import "CellHeight.h"
@@ -265,7 +265,7 @@
             controller.proDic = [self.myArray objectAtIndex:selectedIndex];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.delegateVC = self;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:^(void){
             }];
         }else if (buttonIndex == 1){//取消竞价
@@ -275,7 +275,7 @@
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }else{
             
@@ -288,7 +288,7 @@
             controller.proDic = [self.myArray objectAtIndex:selectedIndex];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.delegateVC = self;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:^{
             }];
         }else if (buttonIndex == 1){//调整预算
@@ -299,7 +299,7 @@
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }else{
             
@@ -316,7 +316,7 @@
     }
     SalePropertyListController *controller = [[SalePropertyListController alloc] init];
     controller.backType = RTSelectorBackTypeDismiss;
-    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];
 }
 - (void)doBack:(id)sender{

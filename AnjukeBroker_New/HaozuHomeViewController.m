@@ -14,6 +14,7 @@
 #import "RentNoPlanController.h"
 #import "RentPPCGroupCell.h"
 #import "LoginManager.h"
+#import "RTGestureBackNavigationController.h"
 
 #define HaozuHomeCellHeight 66.0f
 
@@ -215,7 +216,7 @@
     controller.backType = RTSelectorBackTypeDismiss;
     controller.isFirstShow = YES;
     controller.isHaouzu = YES;
-    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];
 }
 @end

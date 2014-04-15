@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RTNavigationController.h"
 
 typedef enum {
     CaptureTypeWithView = 0,
     CaptureTypeWithWindow
 }CaptureType; //截图区域选择
 
-@interface RTGestureBackNavigationController : UINavigationController<UIGestureRecognizerDelegate>
+@interface RTGestureBackNavigationController : RTNavigationController <UIGestureRecognizerDelegate>
 
 @property (nonatomic, assign) CaptureType captureType;
 

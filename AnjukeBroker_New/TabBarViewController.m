@@ -10,7 +10,7 @@
 #import "AnjukeHomeViewController.h"
 #import "HaozuHomeViewController.h"
 #import "MoreViewController.h"
-#import "RTNavigationController.h"
+#import "RTGestureBackNavigationController.h"
 #import "AppDelegate.h"
 #import "Util_UI.h"
 #import "AppManager.h"
@@ -27,7 +27,7 @@
 @property (nonatomic, strong) UIViewController *page4;
 @property (nonatomic, strong) UIViewController *page5;
 
-@property (nonatomic, strong) RTNavigationController *messageNavController;
+@property (nonatomic, strong) RTGestureBackNavigationController *messageNavController;
 
 @end
 
@@ -54,7 +54,7 @@
         hv.isHome = YES;
         self.page1 = hv;
         self.HomeVC = hv;
-        RTNavigationController *navH = [[RTNavigationController alloc] initWithRootViewController:self.page1];
+        RTGestureBackNavigationController *navH = [[RTGestureBackNavigationController alloc] initWithRootViewController:self.page1];
         [self.controllerArrays addObject:navH];
         navH.tabBarItem = [self getTabBarItemWithTitle:@"首页" image:[UIImage imageNamed:@"anjuke_icon_home.png"] index:1 selectedImg:[UIImage imageNamed:@"anjuke_icon_home1.png"]];
         
@@ -62,7 +62,7 @@
         MessageListViewController *ml = [[MessageListViewController alloc] init];
         ml.isHome = YES;
         self.page2 = ml;
-        RTNavigationController *navMl = [[RTNavigationController alloc] initWithRootViewController:ml];
+        RTGestureBackNavigationController *navMl = [[RTGestureBackNavigationController alloc] initWithRootViewController:ml];
         [self.controllerArrays addObject:navMl];
         navMl.tabBarItem = [self getTabBarItemWithTitle:@"微聊" image:[UIImage imageNamed:@"anjuke_icon_wl.png"] index:2 selectedImg:[UIImage imageNamed:@"anjuke_icon_wl1.png"]];
         self.messageNavController = navMl;
@@ -71,7 +71,7 @@
         ClientListViewController *cl = [[ClientListViewController alloc] init];
         cl.isHome = YES;
         self.page3 = cl;
-        RTNavigationController *navCl = [[RTNavigationController alloc] initWithRootViewController:cl];
+        RTGestureBackNavigationController *navCl = [[RTGestureBackNavigationController alloc] initWithRootViewController:cl];
         [self.controllerArrays addObject:navCl];
         navCl.tabBarItem = [self getTabBarItemWithTitle:@"客户" image:[UIImage imageNamed:@"anjuke_icon_kh.png"] index:3 selectedImg:[UIImage imageNamed:@"anjuke_icon_kh1.png"]];
         
@@ -79,7 +79,7 @@
         AnjukeHomeViewController *av = [[AnjukeHomeViewController alloc] init];
         self.page4 = av;
         av.isHome = YES;
-        RTNavigationController *navAJK = [[RTNavigationController alloc] initWithRootViewController:av];
+        RTGestureBackNavigationController *navAJK = [[RTGestureBackNavigationController alloc] initWithRootViewController:av];
         [self.controllerArrays addObject:navAJK];
         navAJK.tabBarItem = [self getTabBarItemWithTitle:@"二手房" image:[UIImage imageNamed:@"anjuke_icon_esf.png"] index:4 selectedImg:[UIImage imageNamed:@"anjuke_icon_esf1.png"]];
         
@@ -87,7 +87,7 @@
         HaozuHomeViewController *hhv = [[HaozuHomeViewController alloc] init];
         self.page5 = hhv;
         hhv.isHome = YES;
-        RTNavigationController *navHZ = [[RTNavigationController alloc] initWithRootViewController:hhv];
+        RTGestureBackNavigationController *navHZ = [[RTGestureBackNavigationController alloc] initWithRootViewController:hhv];
         [self.controllerArrays addObject:navHZ];
         navHZ.tabBarItem = [self getTabBarItemWithTitle:@"租房" image:[UIImage imageNamed:@"anjuke_icon_zf.png"] index:5 selectedImg:[UIImage imageNamed:@"anjuke_icon_zf1.png"]];
         
@@ -119,8 +119,8 @@
 
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
 {
-    UIViewController *selectedController = ((RTNavigationController *)[tabBarController selectedViewController]).visibleViewController;
-    UIViewController *newController = ((RTNavigationController *)viewController).visibleViewController;
+    UIViewController *selectedController = ((RTGestureBackNavigationController *)[tabBarController selectedViewController]).visibleViewController;
+    UIViewController *newController = ((RTGestureBackNavigationController *)viewController).visibleViewController;
     
     //点击tab刷新VC数据
     if ([newController isKindOfClass:[HomeViewController class]]&& [selectedController isKindOfClass:[newController class]]) {

@@ -11,11 +11,11 @@
 #import "SystemMessageViewController.h"
 #import "Util_UI.h"
 #import "BrokerLineView.h"
-#import "RTNavigationController.h"
 #import "WebImageView.h"
 #import "LoginManager.h"
 #import "AppManager.h"
 #import "AXPhotoManager.h"
+#import "RTGestureBackNavigationController.h"
 
 #import "PublishBuildingViewController.h"
 #import "CommunityListViewController.h"
@@ -328,7 +328,7 @@
             CommunityListViewController *controller = [[CommunityListViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.isFirstShow = YES;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }
             break;
@@ -341,7 +341,7 @@
             controller.backType = RTSelectorBackTypeDismiss;
             controller.isFirstShow = YES;
             controller.isHaouzu = YES;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }
             break;
@@ -628,7 +628,7 @@
             CommunityListViewController *controller = [[CommunityListViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.isFirstShow = YES;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }
             break;
@@ -641,7 +641,7 @@
             controller.backType = RTSelectorBackTypeDismiss;
             controller.isFirstShow = YES;
             controller.isHaouzu = YES;
-            RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
         }
             break;

@@ -7,7 +7,7 @@
 //
 
 #import "SaleNoPlanGroupController.h"
-#import "RTNavigationController.h"
+#import "RTGestureBackNavigationController.h"
 #import "SaleFixedDetailController.h"
 #import "LoginManager.h"
 #import "SalePropertyObject.h"
@@ -359,7 +359,7 @@
     controller.propertyID = pro.propertyId;
     controller.propertyDelegate = self;
     controller.backType = RTSelectorBackTypeDismiss;
-    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];
     
 //    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"编辑房源", @"删除房源", nil];

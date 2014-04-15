@@ -7,7 +7,6 @@
 //
 
 #import "RentNoPlanController.h"
-#import "RTNavigationController.h"
 #import "BaseNoPlanListCell.h"
 #import "SaleNoPlanListCell.h"
 #import "SalePropertyObject.h"
@@ -17,6 +16,7 @@
 #import "SalePropertyObject.h"
 #import "RentFixedDetailController.h"
 #import "CellHeight.h"
+#import "RTGestureBackNavigationController.h"
 
 @interface RentNoPlanController ()
 @property (nonatomic, strong) UIView *contentView;
@@ -356,7 +356,7 @@
     controller.propertyID = pro.propertyId;
     controller.propertyDelegate = self;
     controller.backType = RTSelectorBackTypeDismiss;
-    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:controller];
+    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];
 }
 -(void)rightButtonAction:(id)sender{
