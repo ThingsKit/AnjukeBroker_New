@@ -116,7 +116,9 @@
     [self.view addSubview:tv];
     
     //改变索引的颜色
-    tv.sectionIndexColor = SYSTEM_TABBAR_SELECTCOLOR_DARK;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) {
+        tv.sectionIndexColor = SYSTEM_TABBAR_SELECTCOLOR_DARK;
+    }
     
     if (self.isForMessageList) {
         self.tableViewList.frame = FRAME_WITH_NAV;

@@ -1450,8 +1450,8 @@ typedef enum {
                 
                 self.isTakePhoto = NO;
                 
-                ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] init];
-                elcPicker.maximumImagesCount = maxImgCount;
+                ELCAlbumPickerController *albumPicker = [[ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
+                ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initWithRootViewController:albumPicker];                elcPicker.maximumImagesCount = maxImgCount;
                 elcPicker.imagePickerDelegate = self;
                 
                 [self presentViewController:elcPicker animated:YES completion:nil];

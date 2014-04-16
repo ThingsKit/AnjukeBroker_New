@@ -13,6 +13,7 @@
 #import "PhotoManager.h"
 #import "PhotoFooterView.h"
 #import "ELCImagePickerController.h"
+#import "ELCAlbumPickerController.h"
 #import "PhotoShowView.h"
 #import "AnjukeOnlineImgController.h"
 #import "PublishBigImageViewController.h"

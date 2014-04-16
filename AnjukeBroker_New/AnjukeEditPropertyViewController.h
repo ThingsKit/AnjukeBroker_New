@@ -13,6 +13,7 @@
 #import "PropertyBigImageViewController.h"
 #import "PhotoShowView.h"
 #import "ELCImagePickerController.h"
+#import "ELCAlbumPickerController.h"
 #import "CommunityListViewController.h"
 #import "Property.h"
 #import "LoginManager.h"
