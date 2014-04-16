@@ -329,6 +329,7 @@
             controller.backType = RTSelectorBackTypeDismiss;
             controller.isFirstShow = YES;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+            nav.disableGestureForBack = YES;
             [self presentViewController:nav animated:YES completion:nil];
         }
             break;
@@ -342,6 +343,7 @@
             controller.isFirstShow = YES;
             controller.isHaouzu = YES;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+            nav.disableGestureForBack = YES;
             [self presentViewController:nav animated:YES completion:nil];
         }
             break;

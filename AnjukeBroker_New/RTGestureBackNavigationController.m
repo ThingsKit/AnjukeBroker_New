@@ -20,7 +20,8 @@
 
 @implementation RTGestureBackNavigationController
 @synthesize captureType;
-@synthesize canPushBack;
+//@synthesize disableGestureForBack;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -30,7 +31,6 @@
         capImageArr = [[NSMutableArray alloc] initWithCapacity:100];
         self.captureType = CaptureTypeWithWindow;
         pushNum = 0;
-        self.canPushBack = YES;
     }
     return self;
 }
@@ -100,13 +100,14 @@
 
 #pragma -mark UIGurstureDelegate
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-    if (capImageArr.count < 1 || !self.canPushBack) {
+    if (capImageArr.count < 1 || self.disableGestureForBack) {
         return NO;
     }
     return YES;
 }
+
 -(void)panGesReceive:(UIPanGestureRecognizer *)panGes{
-    if ([capImageArr count] < 1 || !self.canPushBack) return;
+    if ([capImageArr count] < 1 || self.disableGestureForBack) return;
     
     UIWindow *screenWindow = [UIApplication sharedApplication].keyWindow;
     CGPoint panPoint = [panGes locationInView:screenWindow];
