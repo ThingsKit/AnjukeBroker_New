@@ -81,8 +81,8 @@
     btn.frame = CGRectMake(([self windowWidth] - btnW )/2, 200, btnW, 75/2);
     [btn setTitle:@"微聊" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(startChart) forControlEvents:UIControlEventTouchUpInside];
-    [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_bluebutton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(77/2-1, 5, 77/2+1, 52/2-5)resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
-    [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_bluebutton1.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(77/2-1, 5, 77/2+1, 52/2-5)resizingMode:UIImageResizingModeStretch] forState:UIControlStateHighlighted];
+    [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_bluebutton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(77/2-1, 5, 77/2+1, 52/2-5)] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_bluebutton1.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(77/2-1, 5, 77/2+1, 52/2-5)] forState:UIControlStateHighlighted];
     [self.view addSubview:btn];
     
 }
