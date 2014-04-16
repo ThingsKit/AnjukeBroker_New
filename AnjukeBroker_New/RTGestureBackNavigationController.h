@@ -16,6 +16,7 @@ typedef enum {
 
 @interface RTGestureBackNavigationController : RTNavigationController <UIGestureRecognizerDelegate>
 
+@property (nonatomic, assign) BOOL canPushBack;
 @property (nonatomic, assign) CaptureType captureType;
 
 @end

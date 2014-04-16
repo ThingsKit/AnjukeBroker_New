@@ -20,7 +20,7 @@
 
 @implementation RTGestureBackNavigationController
 @synthesize captureType;
-
+@synthesize canPushBack;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -28,8 +28,9 @@
         // Custom initialization
         
         capImageArr = [[NSMutableArray alloc] initWithCapacity:100];
-        captureType = CaptureTypeWithWindow;
+        self.captureType = CaptureTypeWithWindow;
         pushNum = 0;
+        self.canPushBack = YES;
     }
     return self;
 }
@@ -77,15 +78,15 @@
     return [super popToRootViewControllerAnimated:animated];
 }
 -(UIImage *)capture{
-    if (captureType == CaptureTypeWithView) {
+    if (self.captureType == CaptureTypeWithView) {
         UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, self.view.opaque, 0.0);
         [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
         UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         
         return img;
-    }else if (captureType == CaptureTypeWithWindow){
-        UIWindow *screenWindow = [UIApplication sharedApplication].keyWindow;
+    }else if (self.captureType == CaptureTypeWithWindow){
+        UIWindow *screenWindow = [UIApplication sharedApplication].windows[0];
         UIGraphicsBeginImageContextWithOptions(screenWindow.bounds.size,screenWindow.opaque,0.0);
         
         [screenWindow.layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -99,13 +100,13 @@
 
 #pragma -mark UIGurstureDelegate
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-    if (capImageArr.count < 1) {
+    if (capImageArr.count < 1 || !self.canPushBack) {
         return NO;
     }
     return YES;
 }
 -(void)panGesReceive:(UIPanGestureRecognizer *)panGes{
-    if ([capImageArr count] < 1) return;
+    if ([capImageArr count] < 1 || !self.canPushBack) return;
     
     UIWindow *screenWindow = [UIApplication sharedApplication].keyWindow;
     CGPoint panPoint = [panGes locationInView:screenWindow];
