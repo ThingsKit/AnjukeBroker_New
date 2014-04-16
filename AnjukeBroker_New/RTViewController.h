@@ -39,7 +39,7 @@ typedef enum {
 @property (nonatomic, assign) id delegateVC;
 
 @property BOOL isLoading; //网络请求锁，请求网络时锁住action sheet等动画线程操作
-@property (nonatomic, assign) BOOL disableGestureForBack;
+//@property (nonatomic, assign) BOOL disableGestureForBack;
 
 - (void)setTitleViewWithString:(NSString *)titleStr;
 - (void)initModel;

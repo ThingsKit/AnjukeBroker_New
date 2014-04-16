@@ -9,6 +9,8 @@
 #import "RTGestureBackNavigationController.h"
 #import "RTViewController.h"
 
+#define screenWidth self.view.bounds.size.width
+
 @interface RTGestureBackNavigationController (){
     float startX;
     NSMutableArray *capImageArr;
@@ -21,7 +23,8 @@
 
 @implementation RTGestureBackNavigationController
 @synthesize captureType;
-//@synthesize disableGestureForBack;
+@synthesize disableGestureForBack;
+@synthesize isPopToRoot;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,6 +32,7 @@
     if (self) {
         // Custom initialization
         
+        self.delegate = self;
         capImageArr = [[NSMutableArray alloc] initWithCapacity:100];
         self.captureType = CaptureTypeWithWindow;
         pushNum = 0;
@@ -78,6 +82,7 @@
     [capImageArr removeAllObjects];
     return [super popToRootViewControllerAnimated:animated];
 }
+
 -(UIImage *)capture{
     if (self.captureType == CaptureTypeWithView) {
         UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, self.view.opaque, 0.0);
@@ -99,16 +104,27 @@
     return nil;
 }
 
+#pragma -mark UINavigationControllerDelegate
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
+    self.disableGestureForBack = NO;
+}
 #pragma -mark UIGurstureDelegate
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-    if (capImageArr.count < 1 || self.disableGestureForBack || [touch.view isKindOfClass:[UIButton class]]) {
+    if (capImageArr.count < 1 || self.disableGestureForBack || [touch.view isKindOfClass:[UIButton class]] || self.disableGestureForBack) {
         return NO;
     }
     return YES;
 }
 
 -(void)panGesReceive:(UIPanGestureRecognizer *)panGes{
-    if ([capImageArr count] < 1 || self.disableGestureForBack) return;
+    if (capImageArr.count < 1 || self.disableGestureForBack || self.disableGestureForBack) return;
+    
+    RTViewController *gesViewController = (RTViewController *)self.viewControllers.lastObject;
+    if (gesViewController.backType == RTSelectorBackTypePopToRoot) {
+        self.isPopToRoot = YES;
+    }else{
+        self.isPopToRoot = NO;
+    }
     
     UIWindow *screenWindow = [UIApplication sharedApplication].keyWindow;
     CGPoint panPoint = [panGes locationInView:screenWindow];
@@ -135,20 +151,22 @@
         }
         backGroundImg = [[UIImageView alloc] initWithFrame:frame];
         
-//®        RTViewController *gesViewController = (RTViewController *)self.navigationController.viewControllers.lastObject;
-//        if (gesViewController.backType == RTSelectorBackTypePopToRoot) {
-//            [backGroundImg setImage:[capImageArr firstObject]];
-//        }else{
-//            [backGroundImg setImage:[capImageArr lastObject]];
-//        }
-        [backGroundImg setImage:[capImageArr lastObject]];
+        if (self.isPopToRoot) {
+            [backGroundImg setImage:[capImageArr firstObject]];
+        }else{
+            [backGroundImg setImage:[capImageArr lastObject]];
+        }
         [backGroundView insertSubview:backGroundImg belowSubview:maskCover];
     }else if (panGes.state == UIGestureRecognizerStateEnded){
         if (panPoint.x - startX > 50) {
             [UIView animateWithDuration:0.3 animations:^{
-                [self moveToX:320];
+                [self moveToX:screenWidth];
             } completion:^(BOOL finished) {
-                [self popViewControllerAnimated:NO];
+                if (self.isPopToRoot) {
+                    [self popToRootViewControllerAnimated:NO];
+                }else{
+                    [self popViewControllerAnimated:NO];
+                }
                 
                 CGRect frame = self.view.frame;
                 frame.origin.x = 0;
@@ -173,13 +191,13 @@
 }
 
 - (void)moveToX:(float)x{
-    x = x > 320 ? 320 : x;
+    x = x > screenWidth ? screenWidth : x;
     x = x < 0 ? 0 : x;
     CGRect frame = self.view.frame;
     frame.origin.x = x;
     self.view.frame = frame;
     
-    float scale = (x/6400) + 0.95;
+    float scale = x/(screenWidth*20) + 0.95;
     float alpha = 0.5 - x/500;
     
     backGroundImg.transform = CGAffineTransformMakeScale(scale, scale);

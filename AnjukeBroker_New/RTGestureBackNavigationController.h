@@ -14,9 +14,10 @@ typedef enum {
     CaptureTypeWithWindow
 }CaptureType; //截图区域选择
 
-@interface RTGestureBackNavigationController : RTNavigationController <UIGestureRecognizerDelegate>
+@interface RTGestureBackNavigationController : RTNavigationController <UIGestureRecognizerDelegate,UINavigationControllerDelegate>
 
 @property (nonatomic, assign) BOOL disableGestureForBack;
+@property (nonatomic, assign) BOOL isPopToRoot;
 @property (nonatomic, assign) CaptureType captureType;
 
 @end

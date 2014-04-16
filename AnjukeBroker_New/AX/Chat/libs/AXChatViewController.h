@@ -13,6 +13,7 @@
 #import "AXConversationListItem.h"
 #import "AXChatMessageCenter.h"
 #import "MapViewController.h"
+#import "RTViewController.h"
 
 #define AXWINDOWWHIDTH [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.width
 #define AXWINDOWHEIGHT [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height
@@ -21,7 +22,7 @@ static NSInteger const AXNavBarHeight = 44.0f;
 static NSInteger const AXStatuBarHeight = 20.0f;
 static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 
-@interface AXChatViewController : UIViewController <UITextViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, AXChatMessageSystemCellDelegate, ELCImagePickerControllerDelegate, UIImagePickerControllerDelegate>
+@interface AXChatViewController : RTViewController <UITextViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, AXChatMessageSystemCellDelegate, ELCImagePickerControllerDelegate, UIImagePickerControllerDelegate>
 
 // 禁止直接修改celldata和identifierData
 @property (nonatomic, strong) NSMutableDictionary *cellDict;

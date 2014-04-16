@@ -49,6 +49,7 @@
     if (self) {
         self.brokerIcon = [[UIImageView alloc] init];
         // Custom initialization
+        self.backType = RTSelectorBackTypePopToRoot;
     }
     return self;
 }
