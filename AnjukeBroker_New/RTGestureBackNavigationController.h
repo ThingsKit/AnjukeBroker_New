@@ -20,4 +20,5 @@ typedef enum {
 @property (nonatomic, assign) BOOL isPopToRoot;
 @property (nonatomic, assign) CaptureType captureType;
 
+
 @end

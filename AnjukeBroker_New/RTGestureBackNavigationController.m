@@ -10,6 +10,7 @@
 #import "RTViewController.h"
 
 #define screenWidth self.view.bounds.size.width
+#define screenHeight self.view.bounds.size.height
 
 @interface RTGestureBackNavigationController (){
     float startX;
@@ -46,12 +47,17 @@
     [maskCover removeFromSuperview];
     maskCover = nil;
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.navigationBar.translucent = NO;
     // Do any additional setup after loading the view.
+    UIImageView *shadowImageView = [[UIImageView alloc] init];
+    shadowImageView.image = [UIImage imageNamed:@"leftside_shadow_bg.png"];
+    shadowImageView.frame = CGRectMake(-10, 0, 10, screenHeight);
+    [self.view addSubview:shadowImageView];
     
     UIPanGestureRecognizer *panGus = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesReceive:)];
     panGus.delegate = self;

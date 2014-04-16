@@ -13,7 +13,7 @@
 #import "PublishBuildingViewController.h"
 #import "BrokerLineView.h"
 #import "AppManager.h"
-#import "RTGestureBackNavigationController.h"
+#import "RTGestureLock.h"
 
 #define SELECT_BTN_TAG 1000
 
@@ -97,9 +97,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    RTGestureBackNavigationController *nav = (RTGestureBackNavigationController*)self.navigationController;
-    nav.disableGestureForBack = YES;
-
+    [RTGestureLock setDisableGestureForBack:self.navigationController disable:YES];
+    
     if (self.houseTypeTF && self.isFirstShow) {
         [self.houseTypeTF becomeFirstResponder];
         self.isFirstShow = NO;
