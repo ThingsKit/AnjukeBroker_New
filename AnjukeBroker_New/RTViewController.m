@@ -23,7 +23,6 @@
 @synthesize delegateVC;
 @synthesize isLoading;
 @synthesize topAlertView;
-//@synthesize disableGestureForBack;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
