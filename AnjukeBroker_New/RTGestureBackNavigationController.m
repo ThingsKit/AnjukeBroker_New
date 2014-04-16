@@ -7,6 +7,7 @@
 //
 
 #import "RTGestureBackNavigationController.h"
+#import "RTViewController.h"
 
 @interface RTGestureBackNavigationController (){
     float startX;
@@ -100,7 +101,7 @@
 
 #pragma -mark UIGurstureDelegate
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-    if (capImageArr.count < 1 || self.disableGestureForBack) {
+    if (capImageArr.count < 1 || self.disableGestureForBack || [touch.view isKindOfClass:[UIButton class]]) {
         return NO;
     }
     return YES;
@@ -133,6 +134,13 @@
             backGroundImg = nil;
         }
         backGroundImg = [[UIImageView alloc] initWithFrame:frame];
+        
+//®        RTViewController *gesViewController = (RTViewController *)self.navigationController.viewControllers.lastObject;
+//        if (gesViewController.backType == RTSelectorBackTypePopToRoot) {
+//            [backGroundImg setImage:[capImageArr firstObject]];
+//        }else{
+//            [backGroundImg setImage:[capImageArr lastObject]];
+//        }
         [backGroundImg setImage:[capImageArr lastObject]];
         [backGroundView insertSubview:backGroundImg belowSubview:maskCover];
     }else if (panGes.state == UIGestureRecognizerStateEnded){
