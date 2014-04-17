@@ -11,6 +11,7 @@
 
 #define screenWidth self.view.bounds.size.width
 #define screenHeight self.view.bounds.size.height
+#define moveProportion 0.7
 
 @interface RTGestureBackNavigationController (){
     float startX;
@@ -26,6 +27,7 @@
 @synthesize captureType;
 @synthesize disableGestureForBack;
 @synthesize isPopToRoot;
+@synthesize pushBackType;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,6 +38,7 @@
         self.delegate = self;
         capImageArr = [[NSMutableArray alloc] initWithCapacity:100];
         self.captureType = CaptureTypeWithWindow;
+        self.pushBackType = PushBackWithSlowMove;
         pushNum = 0;
     }
     return self;
@@ -197,17 +200,22 @@
 }
 
 - (void)moveToX:(float)x{
-    x = x > screenWidth ? screenWidth : x;
+    x = x >= screenWidth ? screenWidth : x;
     x = x < 0 ? 0 : x;
     CGRect frame = self.view.frame;
+    float alpha = 0.5 - x/800;
+
     frame.origin.x = x;
     self.view.frame = frame;
-    
-    float scale = x/(screenWidth*20) + 0.95;
-    float alpha = 0.5 - x/500;
-    
-    backGroundImg.transform = CGAffineTransformMakeScale(scale, scale);
     maskCover.alpha = alpha;
+
+    if (pushBackType == PushBackWithSlowMove) {
+        frame.origin.x = x*(1 - moveProportion) - screenWidth*(1 - moveProportion);
+        backGroundView.frame = frame;
+    }else{
+        float scale = x/(screenWidth*20) + 0.95;
+        backGroundView.transform = CGAffineTransformMakeScale(scale, scale);
+    }
 }
 
 - (void)didReceiveMemoryWarning
