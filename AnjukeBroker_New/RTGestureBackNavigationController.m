@@ -171,15 +171,16 @@
             [UIView animateWithDuration:0.3 animations:^{
                 [self moveToX:screenWidth];
             } completion:^(BOOL finished) {
+                if (backGroundView) {
+                    [backGroundView removeFromSuperview];
+                    backGroundView = nil;
+                }
+
                 if (self.isPopToRoot) {
                     [self popToRootViewControllerAnimated:NO];
                 }else{
                     [self popViewControllerAnimated:NO];
                 }
-                
-                CGRect frame = self.view.frame;
-                frame.origin.x = 0;
-                self.view.frame = frame;
             }];
         }else{
             [UIView animateWithDuration:0.3 animations:^{
