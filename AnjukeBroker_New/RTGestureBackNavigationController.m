@@ -181,6 +181,9 @@
                 }else{
                     [self popViewControllerAnimated:NO];
                 }
+                CGRect frame = self.view.frame;
+                frame.origin.x = 0;
+                self.view.frame = frame;
             }];
         }else{
             [UIView animateWithDuration:0.3 animations:^{
