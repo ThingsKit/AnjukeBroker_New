@@ -267,7 +267,9 @@
 #pragma mark - tableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    if (self.navigationController.view.frame.origin.x > 0) {
+        return;
+    }
     switch (indexPath.row) {
         case CALL_ACCOUNT_ROW:
         {
@@ -280,9 +282,9 @@
         }
             break;
         case NOTIFICATION_ROW:{ //消息提醒
-//            NotificationSetupViewController *controller = [[NotificationSetupViewController alloc] init];
-//            [controller setHidesBottomBarWhenPushed:YES];
-//            [self.navigationController pushViewController:controller animated:YES];
+            //            NotificationSetupViewController *controller = [[NotificationSetupViewController alloc] init];
+            //            [controller setHidesBottomBarWhenPushed:YES];
+            //            [self.navigationController pushViewController:controller animated:YES];
             
             NSString *message = @"如需打开/关闭消息推送请到设置-->通知-->通知中心-->移动经纪人进行设置";
             
@@ -292,6 +294,7 @@
             break;
         case CALL_ANJUKE_ROW:
         {
+            
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_009 note:nil];
             
             //make call
@@ -301,8 +304,10 @@
                 return;
             }
             else {
-                NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@",CALL_ANJUKE_NUMBER];
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:call_url]];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"您是否要拨打客服热线：%@",CALL_ANJUKE_NUMBER] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
+                alert.tag = 11;
+                [alert show];
+                
             }
         }
             break;
@@ -329,9 +334,9 @@
                 if (![self.clientDic objectForKey:@"saleManagerTel"]) {
                     return;
                 }
-                NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@", [self.clientDic objectForKey:@"saleManagerTel"]];
-                
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:call_url]];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"您是否要联系客户主任%@：%@",[self getClientName],[self.clientDic objectForKey:@"saleManagerTel"]] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
+                alert.tag = 10;
+                [alert show];
             }
         }
             break;
@@ -354,16 +359,30 @@
 
 #pragma mark - UIAlert View Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    switch (buttonIndex) {
-        case 1:
+    switch (alertView.tag) {
+        case 10:
         {
-            [self requestLoginOut];
+            if (buttonIndex == 1) {
+                NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@", [self.clientDic objectForKey:@"saleManagerTel"]];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:call_url]];
+            }
         }
             break;
-            
+        case 11:
+        {
+            if (buttonIndex == 1) {
+                NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@",CALL_ANJUKE_NUMBER];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:call_url]];
+            }
+        }
+            break;
         default:
+        {
+            if (buttonIndex == 1) {
+                [self requestLoginOut];
+            }
+        }
             break;
     }
 }
-
 @end

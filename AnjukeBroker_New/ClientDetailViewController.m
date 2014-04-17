@@ -304,6 +304,9 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.navigationController.view.frame.origin.x > 0) {
+        return;
+    }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
@@ -330,11 +333,12 @@
             [alertView show];
         }
         else {
-            NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@",self.person.markPhone];
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:call_url]];
+            NSString *markNameStr = self.person.markName ? self.person.markName : @"";
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"您是否要联系%@：%@",markNameStr,self.person.markPhone] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
+            alert.tag = 10;
+            [alert show];
         }
     }
-    
 }
 
 #pragma mark - UIActionSheetDelegate
@@ -379,6 +383,11 @@
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 10 && buttonIndex == 1) {
+        NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@",self.person.markPhone];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:call_url]];
+        return;
+    }
     switch (buttonIndex) {
         case 0:
         {

@@ -246,6 +246,9 @@
 #pragma mark - UITableView Delegate & DataSource
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.navigationController.view.frame.origin.x > 0) {
+        return;
+    }
     selectIndex = indexPath.row -1;
     if([indexPath row] == 0){
         
