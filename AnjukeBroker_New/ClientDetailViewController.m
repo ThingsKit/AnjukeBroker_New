@@ -12,6 +12,7 @@
 #import "LoginManager.h"
 #import "AppManager.h"
 #import "WebImageView.h"
+#import "CallAlert.h"
 
 #define DETAIL_HEADER_H 52+40
 
@@ -334,9 +335,7 @@
         }
         else {
             NSString *markNameStr = self.person.markName ? self.person.markName : @"";
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"您是否要联系%@：%@",markNameStr,self.person.markPhone] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
-            alert.tag = 10;
-            [alert show];
+            [[CallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系%@：",markNameStr] callPhone:self.person.markPhone];
         }
     }
 }
@@ -383,11 +382,6 @@
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 10 && buttonIndex == 1) {
-        NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@",self.person.markPhone];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:call_url]];
-        return;
-    }
     switch (buttonIndex) {
         case 0:
         {

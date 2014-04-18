@@ -16,6 +16,7 @@
 #import "BrokerAccountController.h"
 #import "BigZhenzhenButton.h"
 #import "AXChatMessageCenter.h"
+#import "CallAlert.h"
 
 #define CALL_ANJUKE_NUMBER @"400-620-9008"
 #define CALL_ANJUKE_ROW 5
@@ -298,17 +299,7 @@
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_009 note:nil];
             
             //make call
-            if (![AppManager checkPhoneFunction]) {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请检测是否支持电话功能" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确认", nil];
-                [alertView show];
-                return;
-            }
-            else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"您是否要拨打客服热线：%@",CALL_ANJUKE_NUMBER] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
-                alert.tag = 11;
-                [alert show];
-                
-            }
+            [[CallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER];
         }
             break;
         case CALL_CHECKVER:
@@ -325,19 +316,7 @@
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_008 note:nil];
             
             //make call
-            if (![AppManager checkPhoneFunction]) {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请检测是否支持电话功能" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确认", nil];
-                [alertView show];
-                return;
-            }
-            else {
-                if (![self.clientDic objectForKey:@"saleManagerTel"]) {
-                    return;
-                }
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"您是否要联系客户主任%@：%@",[self getClientName],[self.clientDic objectForKey:@"saleManagerTel"]] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
-                alert.tag = 10;
-                [alert show];
-            }
+            [[CallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:[self.clientDic objectForKey:@"saleManagerTel"]];
         }
             break;
         case ABOUT_US_ROW:
@@ -359,30 +338,8 @@
 
 #pragma mark - UIAlert View Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    switch (alertView.tag) {
-        case 10:
-        {
-            if (buttonIndex == 1) {
-                NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@", [self.clientDic objectForKey:@"saleManagerTel"]];
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:call_url]];
-            }
-        }
-            break;
-        case 11:
-        {
-            if (buttonIndex == 1) {
-                NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@",CALL_ANJUKE_NUMBER];
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:call_url]];
-            }
-        }
-            break;
-        default:
-        {
-            if (buttonIndex == 1) {
-                [self requestLoginOut];
-            }
-        }
-            break;
+    if (buttonIndex == 1) {
+        [self requestLoginOut];
     }
 }
 @end

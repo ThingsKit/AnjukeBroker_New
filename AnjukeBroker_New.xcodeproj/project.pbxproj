@@ -523,6 +523,7 @@
 		B7FFC9DE18C8AC330020A73B /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFC9DA18C8AC330020A73B /* UIImage+Resize.m */; };
 		B7FFC9DF18C8AC330020A73B /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFC9DC18C8AC330020A73B /* UIImage+RoundedCorner.m */; };
 		F7D4DB9CDF744F6B9F04BE6D /* libPods-AnjukeBroker_New.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C958DAA438444CB26F09E0 /* libPods-AnjukeBroker_New.a */; };
+		F8575DA31900F6BE00AB662F /* CallAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = F8575DA21900F6BE00AB662F /* CallAlert.m */; };
 		F8BFF37918FE87E8008E700D /* leftside_shadow_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37718FE87E8008E700D /* leftside_shadow_bg.png */; };
 		F8BFF37A18FE87E8008E700D /* leftside_shadow_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */; };
 		F8FCFC2318FE8F3500A4B012 /* RTGestureLock.m in Sources */ = {isa = PBXBuildFile; fileRef = F8FCFC2218FE8F3500A4B012 /* RTGestureLock.m */; };
@@ -1330,6 +1331,8 @@
 		B7FFC9DA18C8AC330020A73B /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
 		B7FFC9DB18C8AC330020A73B /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
 		B7FFC9DC18C8AC330020A73B /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
+		F8575DA11900F6BE00AB662F /* CallAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallAlert.h; sourceTree = "<group>"; };
+		F8575DA21900F6BE00AB662F /* CallAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallAlert.m; sourceTree = "<group>"; };
 		F8BFF37718FE87E8008E700D /* leftside_shadow_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leftside_shadow_bg.png; sourceTree = "<group>"; };
 		F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftside_shadow_bg@2x.png"; sourceTree = "<group>"; };
 		F8FCFC2118FE8F3500A4B012 /* RTGestureLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTGestureLock.h; sourceTree = "<group>"; };
@@ -2073,6 +2076,8 @@
 				B7EA04A91844DB3700AC8842 /* BrokerAccountCell.m */,
 				2026044A18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.h */,
 				2026044B18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.m */,
+				F8575DA11900F6BE00AB662F /* CallAlert.h */,
+				F8575DA21900F6BE00AB662F /* CallAlert.m */,
 			);
 			name = "更多";
 			sourceTree = "<group>";
@@ -3487,6 +3492,7 @@
 				B7FFC9DF18C8AC330020A73B /* UIImage+RoundedCorner.m in Sources */,
 				204E66CF1894E7DB00546D51 /* PublishBigImageViewController.m in Sources */,
 				975E7ED01829EDC7008EBC1D /* WebImageView.m in Sources */,
+				F8575DA31900F6BE00AB662F /* CallAlert.m in Sources */,
 				B7EAD52118CD927200B28FEC /* AXPhotoManager.m in Sources */,
 				B7EF77B5183CE2D90024A5E6 /* RentSelectNoPlanController.m in Sources */,
 				273913D318DBCFD9003284AA /* MapViewController.m in Sources */,
