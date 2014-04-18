@@ -188,6 +188,9 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.navigationController.view.frame.origin.x > 0) {
+        return;
+    }
     selectedIndex = indexPath.row;
     if([[[self.myArray objectAtIndex:selectedIndex] objectForKey:@"bidStatus"] isEqualToString:@"3"]){
         UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"重新开始竞价", @"取消竞价推广", @"修改房源信息", nil];

@@ -204,6 +204,9 @@
 
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.navigationController.view.frame.origin.x > 0) {
+        return;
+    }
     selectedIndex = indexPath.row;
     
     if([[[self.myArray objectAtIndex:selectedIndex] objectForKey:@"bidStatus"] isEqualToString:@"3"]){
