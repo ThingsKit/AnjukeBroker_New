@@ -246,7 +246,7 @@
         count++;
         NSString *friendUID = item[@"from_uid"];
         if (![self.friendUid isEqualToString:friendUID]) {
-            shouldAlert = NO;
+            shouldAlert = YES;
         }
         
         NSMutableArray *picMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
