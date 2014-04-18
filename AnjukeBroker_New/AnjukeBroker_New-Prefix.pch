@@ -30,6 +30,7 @@
 #import "UIViewController+Loading.h"
 #import "UIImage+RTStyle.h"
 #import "LogKey.h"
+#import "UIComponents.h"
 
 #ifdef DEBUG
 #	define DLog(fmt, ...) NSLog((@"%s #%d " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);

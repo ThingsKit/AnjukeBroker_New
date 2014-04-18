@@ -577,6 +577,7 @@
 		200DAB6218DFD4E20077E0C9 /* anjuke_icon_tab_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_tab_bg@2x.png"; sourceTree = "<group>"; };
 		2011CD8018AB1D5300EEEA5C /* SystemMessageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMessageDetailViewController.h; sourceTree = "<group>"; };
 		2011CD8118AB1D5300EEEA5C /* SystemMessageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemMessageDetailViewController.m; sourceTree = "<group>"; };
+		201579011901245800188F7E /* UIComponents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIComponents.h; sourceTree = "<group>"; };
 		201BC94C18CEF15900565BF6 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		201BC94D18CEF15900565BF6 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
 		201BC94F18CEF15900565BF6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -2485,6 +2486,7 @@
 		97CB0C19182BF04600FCCBBD /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				201579011901245800188F7E /* UIComponents.h */,
 				97CB0C1D182BF28D00FCCBBD /* UIViewController+Loading.h */,
 				97CB0C1E182BF28D00FCCBBD /* UIViewController+Loading.m */,
 			);
