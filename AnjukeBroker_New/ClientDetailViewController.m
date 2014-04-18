@@ -12,7 +12,7 @@
 #import "LoginManager.h"
 #import "AppManager.h"
 #import "WebImageView.h"
-#import "CallAlert.h"
+#import "BrokerCallAlert.h"
 
 #define DETAIL_HEADER_H 52+40
 
@@ -335,7 +335,7 @@
         }
         else {
             NSString *markNameStr = self.person.markName ? self.person.markName : @"";
-            [[CallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系%@：",markNameStr] callPhone:self.person.markPhone];
+            [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系%@：",markNameStr] callPhone:self.person.markPhone];
         }
     }
 }

@@ -6,20 +6,20 @@
 //  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
 
-#import "CallAlert.h"
+#import "BrokerCallAlert.h"
 #import "AppManager.h"
 
-@interface CallAlert ()
+@interface BrokerCallAlert ()
 @property (nonatomic, strong) NSString *phoneNum;
 @end
 
-@implementation CallAlert
-static CallAlert* defaultCallAlert;
+@implementation BrokerCallAlert
+static BrokerCallAlert* defaultCallAlert;
 
-+ (CallAlert *) sharedCallAlert{
++ (BrokerCallAlert *) sharedCallAlert{
     @synchronized(self){
         if (defaultCallAlert == nil) {
-            defaultCallAlert = [[CallAlert alloc] init];
+            defaultCallAlert = [[BrokerCallAlert alloc] init];
         }
         return defaultCallAlert;
     }

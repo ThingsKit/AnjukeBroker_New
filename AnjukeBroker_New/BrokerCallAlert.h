@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface CallAlert : NSObject<UIAlertViewDelegate>
+@interface BrokerCallAlert : NSObject<UIAlertViewDelegate>
 
 
-+ (CallAlert *) sharedCallAlert;
++ (BrokerCallAlert *) sharedCallAlert;
 - (void)callAlert:(NSString *)alertStr callPhone:(NSString *)callPhone;
 @end

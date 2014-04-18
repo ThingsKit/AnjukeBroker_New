@@ -16,7 +16,7 @@
 #import "BrokerAccountController.h"
 #import "BigZhenzhenButton.h"
 #import "AXChatMessageCenter.h"
-#import "CallAlert.h"
+#import "BrokerCallAlert.h"
 
 #define CALL_ANJUKE_NUMBER @"400-620-9008"
 #define CALL_ANJUKE_ROW 5
@@ -299,7 +299,7 @@
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_009 note:nil];
             
             //make call
-            [[CallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER];
+            [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER];
         }
             break;
         case CALL_CHECKVER:
@@ -316,7 +316,7 @@
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_008 note:nil];
             
             //make call
-            [[CallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:[self.clientDic objectForKey:@"saleManagerTel"]];
+            [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:[self.clientDic objectForKey:@"saleManagerTel"]];
         }
             break;
         case ABOUT_US_ROW:
@@ -338,8 +338,15 @@
 
 #pragma mark - UIAlert View Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-        [self requestLoginOut];
+    switch (buttonIndex) {
+        case 1:
+        {
+            [self requestLoginOut];
+        }
+            break;
+            
+        default:
+            break;
     }
 }
 @end
