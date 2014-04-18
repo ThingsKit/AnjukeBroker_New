@@ -91,8 +91,8 @@
     
     //tell the service the count of unread messages if is login for chat
     if ([LoginManager isLogin] && [LoginManager getChatID].length > 0) {
-        NSString *methodName = [NSString stringWithFormat:@"%@/%@/%d", @"collectUnreadMessage", [LoginManager getChatID], [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount]];
-        [[RTRequestProxy sharedInstance] asyncPostWithServiceID:RTAnjukeXUnreadServiceID methodName:methodName params:nil target:self action:@selector(collectUnreadMessageDidFinished:)];
+        NSString *methodName = [NSString stringWithFormat:@"%@/%@/@%ld", @"collectUnreadMessage", [LoginManager getChatID], (long)[[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount]];
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXUnreadServiceID methodName:methodName params:@{} target:self action:@selector(collectUnreadMessageDidFinished:)];
     }
     
     //断开长链接
