@@ -91,7 +91,7 @@
     
     //tell the service the count of unread messages if is login for chat
     if ([LoginManager isLogin] && [LoginManager getChatID].length > 0) {
-        NSString *methodName = [NSString stringWithFormat:@"%@/%@/@%ld", @"collectUnreadMessage", [LoginManager getChatID], (long)[[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount]];
+        NSString *methodName = [NSString stringWithFormat:@"%@/%@/%ld", @"collectUnreadMessage", [LoginManager getChatID], (long)[[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount]];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXUnreadServiceID methodName:methodName params:@{} target:self action:@selector(collectUnreadMessageDidFinished:)];
     }
     
