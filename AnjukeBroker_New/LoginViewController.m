@@ -18,12 +18,12 @@
 
 @property (nonatomic, strong) UITextField *nameTF;
 @property (nonatomic, strong) UITextField *passwordTF;
-@property (nonatomic, strong) UIScrollView *mainSV;
+@property (nonatomic, strong) UIView *loginView;
 @end
 
 @implementation LoginViewController
 @synthesize nameTF, passwordTF;
-@synthesize mainSV;
+@synthesize loginView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -63,10 +63,12 @@
         self.navigationController.navigationBarHidden = YES;
     }
     
-    UIScrollView *sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight])];
-    self.mainSV = sv;
-    sv.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:sv];
+    [self checkLoginStatus];
+    
+    UIView *lv = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight])];
+    lv.backgroundColor = [UIColor clearColor];
+    self.loginView = lv;
+    [self.view addSubview:self.loginView];
     
     CGFloat btnW = 530/2;
     CGFloat btnGap = ([self windowWidth] - btnW)/2;
@@ -83,20 +85,22 @@
     UIColor *textBGColor = [Util_UI colorWithHexString:@"EFEFF4"];
     
     UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_60.png"]];
-    icon.frame = CGRectMake(iconGap, 70, iconW, iconW);
+    icon.frame = CGRectMake(iconGap, 70+70+40, iconW, iconW);
     icon.backgroundColor = [UIColor clearColor];
     icon.contentMode = UIViewContentModeScaleAspectFill;
     icon.layer.cornerRadius = 5;
-    [sv addSubview:icon];
+    icon.alpha = 0;
+    [lv addSubview:icon];
     
-    UIView *BG1 = [[UIView alloc] initWithFrame:CGRectMake(btnGap, 150+ 10,  btnW, btnH)];
-    BG1.backgroundColor = textBGColor;
-    [sv addSubview:BG1];
+    UIView *textFieldView = [[UIView alloc] initWithFrame:CGRectMake(btnGap, 150+ 10,  btnW, btnH*2+1)];
+    textFieldView.backgroundColor = textBGColor;
+    textFieldView.alpha = 0;
+    [lv addSubview:textFieldView];
     
     UITextField *cellTextField = nil;
     cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(tfGap, tfGapH, tfW, tfH)];
     cellTextField.returnKeyType = UIReturnKeyDone;
-    cellTextField.backgroundColor = textBGColor;//[UIColor clearColor];
+    cellTextField.backgroundColor = [UIColor clearColor];
     cellTextField.borderStyle = UITextBorderStyleNone;
     cellTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     cellTextField.text = @"";
@@ -109,16 +113,16 @@
     cellTextField.secureTextEntry = NO;
     cellTextField.textColor = SYSTEM_BLACK;
     self.nameTF = cellTextField;
-    [BG1 addSubview:cellTextField];
-    
-    UIView *BG2 = [[UIView alloc] initWithFrame:CGRectMake(btnGap, BG1.frame.size.height+BG1.frame.origin.y+1,  btnW, btnH)];
-    BG2.backgroundColor = textBGColor;
-    [sv addSubview:BG2];
+    [textFieldView addSubview:cellTextField];
+
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, btnH, btnW, 1)];
+    line.backgroundColor = [UIColor colorWithRed:0.89 green:0.89 blue:0.89 alpha:1];
+    [textFieldView addSubview:line];
     
     UITextField *cellTextField2 = nil;
-    cellTextField2 = [[UITextField alloc] initWithFrame:CGRectMake(tfGap, tfGapH, tfW, tfH)];
+    cellTextField2 = [[UITextField alloc] initWithFrame:CGRectMake(tfGap, btnH+tfGapH+1, tfW, tfH)];
     cellTextField2.returnKeyType = UIReturnKeyDone;
-    cellTextField2.backgroundColor = textBGColor;//[UIColor clearColor];
+    cellTextField2.backgroundColor = [UIColor clearColor];
     cellTextField2.borderStyle = UITextBorderStyleNone;
     cellTextField2.autocapitalizationType = UITextAutocapitalizationTypeNone;
     cellTextField2.text = @"";
@@ -131,18 +135,31 @@
     cellTextField2.secureTextEntry = YES;
     cellTextField2.textColor = SYSTEM_BLACK;
     self.passwordTF = cellTextField2;
-    [BG2 addSubview:cellTextField2];
-    
-    
+    [textFieldView addSubview:cellTextField2];
+
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(btnGap, BG2.frame.origin.y + BG2.frame.size.height+ 20, btnW, btnH);
+    btn.frame = CGRectMake(btnGap, textFieldView.frame.origin.y + textFieldView.frame.size.height+ 20, btnW, btnH);
     [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button.png"] stretchableImageWithLeftCapWidth:2 topCapHeight:2] forState:UIControlStateNormal];
     btn.layer.cornerRadius = 3;
+    btn.alpha = 0;
     [btn setTitle:@"登    录" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(doRequest) forControlEvents:UIControlEventTouchUpInside];
-    [sv addSubview:btn];
+    [lv addSubview:btn];
     
-    [self checkLoginStatus];
+    [UIView animateWithDuration:1.2 animations:^{
+        icon.frame = CGRectMake(iconGap, 70, iconW, iconW);
+        icon.alpha = 1.0;
+    } completion:^(BOOL finished) {
+    }];
+
+    [UIView animateWithDuration:1.2 delay:0.6 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        textFieldView.alpha = 1.0;
+    } completion:^(BOOL finished) {
+    }];
+    [UIView animateWithDuration:1.0 delay:1.2 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        btn.alpha = 1.0;
+    } completion:^(BOOL finished) {
+    }];
 }
 
 - (void)pushToTab {
@@ -169,27 +186,29 @@
 }
 
 - (void)changeScrollViewOffsetWithTF:(UITextField *)textField {
-    [self.mainSV setFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight] -216)];
-    
     CGFloat offsetY = 10;
     if ([self windowHeight] <= 960/2) {
-        offsetY = 40;
+        offsetY = 80;
     }
-    CGFloat contentOffsetY = 0;
-    
-    if ([textField isEqual:self.nameTF]) {
-        contentOffsetY = offsetY;
-    }
-    else if ([textField isEqual:self.passwordTF]) {
-        contentOffsetY = offsetY*2;
+
+    if (self.loginView.frame.origin.y == -offsetY) {
+        return;
     }
     
-    [self.mainSV setContentOffset:CGPointMake(0, contentOffsetY) animated:NO];
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect frame = self.loginView.frame;
+        frame.origin.y = -offsetY;
+        self.loginView.frame = frame;
+    } completion:^(BOOL finished) {
+    }];
 }
 
 - (void)changeScrollViewToNormal {
-    [self.mainSV setFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight])];
-    [self.mainSV setContentOffset:CGPointMake(0, 0) animated:NO];
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect frame = CGRectMake(0, 0, [self windowWidth], [self windowHeight]);
+        self.loginView.frame = frame;
+    } completion:^(BOOL finished) {
+    }];
 }
 
 #pragma mark TextField Delegate
