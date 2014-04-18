@@ -89,6 +89,12 @@
     //icon消息数处理
     [self showAllNewMessageCountForIcon];
     
+    //tell the service the count of unread messages if is login for chat
+    if ([LoginManager isLogin] && [LoginManager getChatID].length > 0) {
+        NSString *methodName = [NSString stringWithFormat:@"%@/%@/%d", @"collectUnreadMessage", [LoginManager getChatID], [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount]];
+        [[RTRequestProxy sharedInstance] asyncPostWithServiceID:RTAnjukeXUnreadServiceID methodName:methodName params:nil target:self action:@selector(collectUnreadMessageDidFinished:)];
+    }
+    
     //断开长链接
     [self killLongLinkForChat];
     
@@ -521,6 +527,10 @@
     [ConfigPlistManager savePlistWithDic:resultFromAPI withName:HZ_ALL_PLIST];
     [ConfigPlistManager setHaozuDataPlistWithDic:resultFromAPI];
     
+}
+
+- (void)collectUnreadMessageDidFinished:(RTNetworkResponse *)response {
+    DLog(@"collectUnreadMessageDidFinished [%@]", [response content]);
 }
 
 #pragma mark - Switch Method
