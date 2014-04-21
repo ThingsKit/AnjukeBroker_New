@@ -420,7 +420,12 @@
     if ([self.superViewController isKindOfClass:[PublishBuildingViewController class]]) {
         [[(PublishBuildingViewController *)self.superViewController property] setOnlineHouseTypeDic:[NSDictionary dictionaryWithDictionary:self.onlineHouseTypeDic]];//赋值新在线户型图数据
         
-        NSString *houseTypeName = [NSString stringWithFormat:@"%@  %@", self.houseTypeTF.text, self.exposureTF.text];
+        NSString *houseTypeName = [NSString string];
+        if (self.houseTypeTF.text.length > 0) {
+            houseTypeName = [NSString stringWithFormat:@"%@  %@", self.houseTypeTF.text, self.exposureTF.text];
+        }
+        else
+            houseTypeName = [NSString stringWithFormat:@"%@", self.exposureTF.text];
         
         //设置房型文案显示
         [(PublishBuildingViewController *)self.superViewController setHouseTypeShowWithString:houseTypeName];
