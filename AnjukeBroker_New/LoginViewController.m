@@ -139,7 +139,8 @@
 
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(btnGap, textFieldView.frame.origin.y + textFieldView.frame.size.height+ 20, btnW, btnH);
-    [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button.png"] stretchableImageWithLeftCapWidth:2 topCapHeight:2] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_bluebutton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_bluebutton1.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
     btn.layer.cornerRadius = 3;
     btn.alpha = 0;
     [btn setTitle:@"登    录" forState:UIControlStateNormal];

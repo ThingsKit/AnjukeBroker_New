@@ -12,7 +12,7 @@
 #define DETAIL_LB_W 190
 
 @implementation ClientDetailCell
-@synthesize titleLb, detailLb;
+@synthesize titleLb, detailLb, phoneIcon;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -53,6 +53,13 @@
     messageLabel.textAlignment = NSTextAlignmentLeft;
     messageLabel.numberOfLines = 0;
     [self.contentView addSubview:messageLabel];
+    
+    UIImageView *phoneImgView = [[UIImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_PHONEICON, 4, 30, 30)];
+    self.phoneIcon = phoneImgView;
+    phoneImgView.image = [UIImage imageNamed:@""];
+    phoneImgView.backgroundColor = [UIColor lightGrayColor];
+    phoneImgView.hidden = YES;
+    [self.contentView addSubview:phoneImgView];
 }
 
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index isBlankStyle:(BOOL)isBlankStyle{
@@ -71,11 +78,8 @@
             }
             else {
                 self.titleLb.text = @"电话号码";
-                if (item.markPhone.length > 0) {
-                    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                }
-                else
-                    self.accessoryType = UITableViewCellAccessoryNone;
+                self.phoneIcon.hidden = NO;
+                self.accessoryType = UITableViewCellAccessoryNone;
             }
             
             self.selectionStyle = UITableViewCellSelectionStyleGray;
@@ -90,7 +94,8 @@
             self.titleLb.text = @"备注信息";
             
             self.accessoryType = UITableViewCellAccessoryNone;
-            self.selectionStyle = UITableViewCellSelectionStyleNone;
+            self.selectionStyle = UITableViewCellSelectionStyleGray;
+//            self.selectionStyle = UITableViewCellSelectionStyleNone;
             
             [self showBottonLineWithCellHeight:CLIENT_DETAIL_MESSAGE_HEIGHT];
         }

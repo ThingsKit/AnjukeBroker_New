@@ -12,12 +12,17 @@
 #import "AXMappedPerson.h"
 #import "AXChatMessageCenter.h"
 
+#define INPUT_EDIT_TEXTVIEW_H 90
+#define lbH 20
+
 @interface ClientEditViewController ()
 
+@property (nonatomic, strong) UIScrollView *editeScroll;
 @property (nonatomic, strong) UITextField *nameTextF;
 @property (nonatomic, strong) UITextField *telTextF;
 @property (nonatomic, strong) UITextView *messageTextV;
-
+@property (nonatomic, strong) UILabel *noteLabTit;
+@property (nonatomic, strong) UIView *noteView;
 @end
 
 @implementation ClientEditViewController
@@ -67,54 +72,141 @@
 }
 
 - (void)initDisplay {
+    self.editeScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight]-64)];
+    self.editeScroll.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
+    self.editeScroll.contentSize = CGSizeMake([self windowWidth], [self windowHeight]-64);
+    self.editeScroll.backgroundColor = [UIColor whiteColor];
+    self.editeScroll.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:self.editeScroll];
     NSArray *titleArr = [NSArray arrayWithObjects:@"备注名", @"电话号码", @"备注信息", nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
     
-    CGFloat inputViewH = INPUT_EDIT_VIEW_H;
-    
-    for (int i = 0; i < titleArr.count; i ++) {
-        if (i == 2) {
-            inputViewH = INPUT_EDIT_TEXTVIEW_H;
+    for (int i = 0; i < titleArr.count; i++) {
+        CGFloat inputViewH = INPUT_EDIT_VIEW_H;
+        if (i != 2) {
+            Broker_InputEditView *bi = [[Broker_InputEditView alloc] initWithFrame:CGRectMake(0, INPUT_EDIT_VIEW_H*i, [self windowWidth], inputViewH)];
+            bi.backgroundColor = [UIColor whiteColor];
+            bi.titleLb.text = [titleArr objectAtIndex:i];
+            switch (i) {
+                case 0:
+                {
+                    [bi drawInputWithStyle:DisplayStyle_ForTextField];
+                    [bi addLineViewWithOriginY:-0.5]; //top line
+                    self.nameTextF = bi.textFidle_Input;
+                    self.nameTextF.text = self.person.markName;
+                    self.nameTextF.delegate = self;
+                }
+                    break;
+                case 1:
+                {
+                    [bi drawInputWithStyle:DisplayStyle_ForTextField];
+                    self.telTextF = bi.textFidle_Input;
+                    self.telTextF.text = self.person.markPhone;
+                    self.telTextF.keyboardType = UIKeyboardTypePhonePad;
+                    self.telTextF.delegate = self;
+                }
+                    break;
+
+                default:
+                    break;
+            }
+            [bi addLineViewWithOriginY:inputViewH-0.5]; //bottom line
+            [self.editeScroll addSubview:bi];
+        }else {
+            float noteDesH = [Util_UI sizeOfString:self.person.markDesc maxWidth:170 withFontSize:15].height;
+            if (noteDesH < INPUT_EDIT_TEXTVIEW_H - 20) {
+                inputViewH = INPUT_EDIT_TEXTVIEW_H;
+            }else{
+                inputViewH = noteDesH+20;
+            }
+            
+            self.noteView = [[UIView alloc] initWithFrame:CGRectMake(0, INPUT_EDIT_VIEW_H*2, [self windowWidth], inputViewH)];
+            self.noteView.backgroundColor = [UIColor whiteColor];
+            [self.editeScroll addSubview:self.noteView];
+            
+            self.noteLabTit = [[UILabel alloc] initWithFrame:CGRectMake(17, (inputViewH - lbH)/2, 70, lbH)];
+            self.noteLabTit.backgroundColor = [UIColor clearColor];
+            self.noteLabTit.textColor = SYSTEM_DARK_GRAY;
+            self.noteLabTit.text = [titleArr objectAtIndex:2];
+            self.noteLabTit.font = [UIFont systemFontOfSize:15];
+            [self.noteView addSubview:self.noteLabTit];
+
+            self.messageTextV = [[UITextView alloc] initWithFrame:CGRectMake(self.noteLabTit.frame.origin.x + self.noteLabTit.frame.size.width + 15, 5, 180, inputViewH+10)];
+            self.messageTextV.backgroundColor = [UIColor clearColor];
+            self.messageTextV.font = self.noteLabTit.font;
+            self.messageTextV.textColor = SYSTEM_BLACK;
+            self.messageTextV.delegate = self;
+            self.messageTextV.text = self.person.markDesc;
+            self.messageTextV.keyboardType = UIKeyboardTypeDefault;
+            [self.noteView addSubview:messageTextV];
         }
-        Broker_InputEditView *bi = [[Broker_InputEditView alloc] initWithFrame:CGRectMake(0, 10 + INPUT_EDIT_VIEW_H* i, [self windowWidth], inputViewH)];
-        bi.backgroundColor = [UIColor whiteColor];
-        bi.titleLb.text = [titleArr objectAtIndex:i];
-        switch (i) {
-            case 0:
-            {
-                [bi drawInputWithStyle:DisplayStyle_ForTextField];
-                [bi addLineViewWithOriginY:-0.5]; //top line
-                self.nameTextF = bi.textFidle_Input;
-                self.nameTextF.text = self.person.markName;
-                self.nameTextF.delegate = self;
-            }
-                break;
-            case 1:
-            {
-                [bi drawInputWithStyle:DisplayStyle_ForTextField];
-                self.telTextF = bi.textFidle_Input;
-                self.telTextF.text = self.person.markPhone;
-                self.telTextF.keyboardType = UIKeyboardTypePhonePad;
-                self.telTextF.delegate = self;
-            }
-                break;
-            case 2:
-            {
-                [bi drawInputWithStyle:DisplayStyle_ForTextView];
-                self.messageTextV = bi.textView_Input;
-                self.messageTextV.text = self.person.markDesc;
-                self.messageTextV.backgroundColor = [UIColor clearColor];
-                self.messageTextV.delegate = self;
-            }
-                break;
-                
-            default:
-                break;
-        }
-        [bi addLineViewWithOriginY:inputViewH-0.5]; //bottom line
-        [self.view addSubview:bi];
+
     }
 }
 
+- (void)keyboardWillShow:(NSNotification *)notification{
+//    static CGFloat normalKeyboardHeight = 216.0f;
+    
+    NSDictionary *info = [notification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    
+    float conTH = [Util_UI sizeOfString:self.messageTextV.text maxWidth:170 withFontSize:15].height + 20 + INPUT_EDIT_TEXTVIEW_H + 10;
+    if (conTH < [self windowHeight]- kbSize.height - 64) {
+        conTH = [self windowHeight]- kbSize.height - 64;
+    }
+    [UIView animateWithDuration:0.5 animations:^{
+        self.editeScroll.frame = CGRectMake(0, 0, [self windowWidth], [self windowHeight]- kbSize.height - 64);
+        self.editeScroll.contentSize = self.editeScroll.contentSize = CGSizeMake([self windowWidth], conTH);
+    } completion:^(BOOL finished) {
+    }];
+}
+- (void)keyboardWillHide:(NSNotification *)notification{
+    self.editeScroll.frame = CGRectMake(0, 0, [self windowWidth], [self windowHeight]);
+    self.editeScroll.contentSize = self.editeScroll.contentSize = CGSizeMake([self windowWidth], [self windowHeight]);
+}
+#pragma mark -UITextViewDelegate
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    float textConH = [Util_UI sizeOfString:textView.text maxWidth:170 withFontSize:15].height;
+    float TVIH = INPUT_EDIT_TEXTVIEW_H - 20;
+    
+    if (textConH <= TVIH) {
+        [self resetMsgView:TVIH];
+    }else if (textConH > TVIH){
+        [self resetMsgView:textConH];
+    }
+    return YES;
+}
+
+- (void)resetMsgView:(float)msgInputH{
+    CGRect noteViewFrame = self.noteView.frame;
+    CGRect noteTitLabFrame = self.noteLabTit.frame;
+    CGRect noteMsgFrame = self.messageTextV.frame;
+    CGSize size = self.editeScroll.contentSize;
+    
+    noteViewFrame.size.height = msgInputH+20;
+    noteTitLabFrame.origin.y = (msgInputH + 20 - lbH)/2;
+    noteMsgFrame.size.height = msgInputH;
+    
+    float contentH = self.editeScroll.frame.size.height;
+    size.height = INPUT_EDIT_VIEW_H*2+10+msgInputH+20;
+    if (size.height < contentH) {
+        size.height = contentH;
+    }
+    
+    self.noteView.frame = noteViewFrame;
+    self.noteLabTit.frame = noteTitLabFrame;
+    self.messageTextV.frame = noteMsgFrame;
+    self.editeScroll.contentSize = size;
+}
 #pragma mark - Private Method
 
 - (void)rightButtonAction:(id)sender {
