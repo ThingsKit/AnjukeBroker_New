@@ -7,14 +7,17 @@
 //
 
 #import "AXChatMessageRootCell.h"
+#import "AXTTTAttributedLabel.h"
 
 static CGFloat const kLabelWidth = 200;
 static CGFloat const kLabelVMargin = 10;
 
 
-@interface AXChatMessageTextCell : AXChatMessageRootCell
+@interface AXChatMessageTextCell : AXChatMessageRootCell 
 
 @property (nonatomic, strong) NSString *content;
 @property (nonatomic, strong) NSDictionary *cellData;
+
++ (AXTTTAttributedLabel *)createAXAttributedLabel;
 
 @end

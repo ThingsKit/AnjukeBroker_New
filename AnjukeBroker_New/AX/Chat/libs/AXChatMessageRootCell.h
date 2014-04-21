@@ -20,6 +20,7 @@ extern NSString * const AXCellIdentifyTag;
 extern CGFloat const axTagMarginTop;
 extern CGFloat const kJSAvatarSize;
 extern CGFloat const kAvatarMargin;
+extern CGFloat const kBubbleMargin;
 
 @interface AXChatMessageRootCell : AXChatBaseCell
 
@@ -27,6 +28,9 @@ extern CGFloat const kAvatarMargin;
 @property (nonatomic, strong) NSString *identifyString;
 @property (nonatomic, strong) UIImageView *userImage;
 @property (strong, nonatomic) UIImageView *bubbleIMG;
+
+@property (nonatomic) CGFloat cellContentHeight;
+@property (nonatomic) CGFloat cellContentWidth;
 
 // config的数据
 @property (nonatomic, strong) NSDictionary *rowData;
@@ -36,7 +40,7 @@ extern CGFloat const kAvatarMargin;
 @property (nonatomic, strong) NSString *phoneNum;
 @property (nonatomic, strong) UIImageView *avatar;
 @property (nonatomic, strong) UIButton *avatarButton;
-
+@property (nonatomic, strong) UIAlertView *alertView;
 - (void)initUI;
 - (void)configWithStatus;
 - (void)cellHighlighted:(BOOL)highlighted;
@@ -44,4 +48,5 @@ extern CGFloat const kAvatarMargin;
 - (void)axCopy:(id)sender;
 - (void)showMenu;
 - (void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPress;
+- (void)configBubbleView;
 @end

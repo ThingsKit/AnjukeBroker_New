@@ -31,6 +31,9 @@
 #import "AXPullToRefreshContentView.h"
 #import "JSMessageInputView.h"
 
+//view
+#import "AXTTTAttributedLabel.h"
+
 // Controller
 #import "AXChatWebViewController.h"
 #import "MapViewController.h"
@@ -97,6 +100,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 @property (nonatomic) CGFloat previousTextViewContentHeight;
 @property (nonatomic) BOOL isUserScrolling;
 @property (nonatomic, strong) JSMessageInputView *messageInputView;
+@property (nonatomic, strong) AXTTTAttributedLabel *attrLabel;
 
 //Debug
 @property (nonatomic, strong) NSString *testUid;
@@ -134,6 +138,14 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 @implementation AXChatViewController
 @synthesize myTableView;
 
+#pragma mark - getters and setters
+- (AXTTTAttributedLabel *)attrLabel
+{
+    if (!_attrLabel) {
+        _attrLabel = [AXChatMessageTextCell createAXAttributedLabel];
+    }
+    return _attrLabel;
+}
 #pragma mark - lifeCyle
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -964,8 +976,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         // 房源
         return 105 + 20;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeText)]) {
-        CGSize sz = [dic[@"mas"] sizeConstrainedToSize:CGSizeMake(kLabelWidth, CGFLOAT_MAX)];
-        CGFloat rowHeight = sz.height + 2*kLabelVMargin + 20;
+        CGFloat rowHeight = [dic[@"rowHeight"] floatValue] + 2*kLabelVMargin + 20;
         return rowHeight;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypePic)]) {
         if ([AXChatMessageImageCell sizeOFImg:dic[@"content"]].size.height < 30.0f) {
@@ -1040,22 +1051,19 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 #pragma mark - AJKChatMessageTextCell
 - (NSMutableDictionary *)configTextCellData:(NSMutableDictionary *)textData
 {
-    CGFloat maxWidth = 0;
-    CGFloat maxHeight = 0;
-    CGSize strSize;
-    NSMutableAttributedString* mas = [self configAttributedString:textData[@"content"]];
-    strSize = [textData[@"content"] rtSizeWithFont:[UIFont systemFontOfSize:16]];
-    if (strSize.width > kLabelWidth) {
-        maxWidth = kLabelWidth;
-        CGSize sz = [mas sizeConstrainedToSize:CGSizeMake(maxWidth, CGFLOAT_MAX)];
-        maxHeight = sz.height;
+    NSString *text;
+    if ([textData[@"content"] length] > 0 && [textData[@"content"] hasSuffix:@"]"]) {
+        text = [NSString stringWithFormat:@"%@ ", textData[@"content"]];
     } else {
-        maxWidth = strSize.width;
-        maxHeight = strSize.height;
+        text = textData[@"content"];
     }
-    textData[@"mas"] = mas;
-    textData[@"rowHeight"] = [NSString stringWithFormat:@"%f", maxHeight];
-    textData[@"rowWidth"] = [NSString stringWithFormat:@"%f", maxWidth];
+    
+    self.attrLabel.text = text;
+    CGSize size = [AXTTTAttributedLabel sizeThatFitsAttributedString:self.attrLabel.attributedText
+                                                     withConstraints:CGSizeMake(kLabelWidth, CGFLOAT_MAX)
+                                              limitedToNumberOfLines:0];
+    textData[@"rowHeight"] = [NSString stringWithFormat:@"%f", size.height];
+    textData[@"rowWidth"] = [NSString stringWithFormat:@"%f", size.width];
     return textData;
 }
 
@@ -1296,7 +1304,12 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 - (void)didOpenAXWebView:(NSString *)url
 {
     AXChatWebViewController *chatWebViewController = [[AXChatWebViewController alloc] init];
-    chatWebViewController.webUrl = url;
+    if ([url hasPrefix:@"http"]) {
+        chatWebViewController.webUrl = url;
+    } else {
+        chatWebViewController.webUrl = [NSString stringWithFormat:@"http://%@", url];
+    }
+    chatWebViewController.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:chatWebViewController animated:YES];
 }
 

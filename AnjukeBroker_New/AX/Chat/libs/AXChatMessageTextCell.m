@@ -8,25 +8,52 @@
 
 
 #import "AXChatMessageTextCell.h"
-#import <OHAttributedLabel/OHAttributedLabel.h>
-#import <OHAttributedLabel/NSAttributedString+Attributes.h>
-#import <OHAttributedLabel/OHASBasicMarkupParser.h>
 
-@interface AXChatMessageTextCell () <OHAttributedLabelDelegate>
+@interface AXChatMessageTextCell () <AXTTTAttributedLabelDelegate>
 
-@property (nonatomic, strong) OHAttributedLabel *attrLabel;
+@property (nonatomic, strong) AXTTTAttributedLabel *attrLabel;
 @property (nonatomic) CGFloat textWidth;
 @property (nonatomic) CGFloat textHeight;
 @end
 
 @implementation AXChatMessageTextCell
 
++ (AXTTTAttributedLabel *)createAXAttributedLabel
+{
+    AXTTTAttributedLabel *attrLabel = [[AXTTTAttributedLabel alloc] init];
+    attrLabel.numberOfLines = 0;
+    attrLabel.userInteractionEnabled = YES;
+    attrLabel.font = [UIFont systemFontOfSize:16.0];
+    attrLabel.textColor = [UIColor blackColor];
+    attrLabel.lineBreakMode = UILineBreakModeWordWrap;
+    attrLabel.verticalAlignment = AXTTTAttributedLabelVerticalAlignmentTop;
+    attrLabel.backgroundColor = [UIColor clearColor];
+    NSMutableDictionary *mutableActiveLinkAttributes = [NSMutableDictionary dictionary];
+    [mutableActiveLinkAttributes setValue:@NO forKey:(NSString *)kCTUnderlineStyleAttributeName];
+    [mutableActiveLinkAttributes setValue:(__bridge id)[[UIColor blueColor] CGColor] forKey:(NSString *)kCTForegroundColorAttributeName];
+    [mutableActiveLinkAttributes setValue:(__bridge id)[[UIColor colorWithHex:0xc1c1c1 alpha:1] CGColor] forKey:(NSString *)kAXTTTBackgroundFillColorAttributeName];
+    [mutableActiveLinkAttributes setValue:(__bridge id)[[UIColor colorWithHex:0xc1c1c1 alpha:1] CGColor] forKey:(NSString *)kAXTTTBackgroundStrokeColorAttributeName];
+    [mutableActiveLinkAttributes setValue:[NSNumber numberWithFloat:1.0f] forKey:(NSString *)kAXTTTBackgroundLineWidthAttributeName];
+    [mutableActiveLinkAttributes setValue:[NSNumber numberWithFloat:2.0f] forKey:(NSString *)kAXTTTBackgroundCornerRadiusAttributeName];
+    
+    attrLabel.activeLinkAttributes = mutableActiveLinkAttributes;
+    
+    NSMutableDictionary *mutableLinkAttributes = [NSMutableDictionary dictionary];
+    [mutableLinkAttributes setValue:@NO forKey:(NSString *)kCTUnderlineStyleAttributeName];
+    [mutableLinkAttributes setValue:(__bridge id)[[UIColor blueColor] CGColor] forKey:(NSString *)kCTForegroundColorAttributeName];
+    attrLabel.linkAttributes = mutableLinkAttributes;
+    return attrLabel;
+}
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        [self initUI];
+        UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                                 action:@selector(handleLongPressGesture:)];
+        [recognizer setMinimumPressDuration:0.4f];
+        [self addGestureRecognizer:recognizer];
     }
     return self;
 }
@@ -36,25 +63,11 @@
 }
 
 #pragma mark - setters and getters
-- (void)setMessageStatus:(AXMessageCenterSendMessageStatus)messageStatus
-{
-    messageStatus = messageStatus;
-    if (messageStatus == AXMessageCenterSendMessageStatusSending) {
-    } else if (messageStatus == AXMessageCenterSendMessageStatusSuccessful) {
-    } else if (messageStatus == AXMessageCenterSendMessageStatusFailed) {
-    }
-}
-
-- (OHAttributedLabel *)attrLabel
+- (AXTTTAttributedLabel *)attrLabel
 {
     if (!_attrLabel) {
-        _attrLabel = [[OHAttributedLabel alloc] initWithFrame:CGRectMake(0, 0, 1000, 1000)];
-        _attrLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-        _attrLabel.centerVertically = NO;
-        _attrLabel.automaticallyAddLinksForType = (NSTextCheckingTypeLink | NSTextCheckingTypePhoneNumber);
+        _attrLabel = [AXChatMessageTextCell createAXAttributedLabel];
         _attrLabel.delegate = self;
-        _attrLabel.backgroundColor = [UIColor clearColor];
-        _attrLabel.linkUnderlineStyle = kCTUnderlineStyleNone;
         [self.contentView addSubview:_attrLabel];
     }
     return _attrLabel;
@@ -63,80 +76,35 @@
 - (void)configWithData:(NSDictionary *)data
 {
     [super configWithData:data];
-    if (self.attrLabel) {
-        [self.attrLabel removeFromSuperview];
-        self.attrLabel = nil;
+    if (!self.content || ![self.content isEqualToString:data[@"content"]]) {
+        NSString *text;
+        if ([data[@"content"] length] > 0 && [data[@"content"] hasSuffix:@"]"]) {
+            text = [NSString stringWithFormat:@"%@ ", data[@"content"]];
+        } else {
+            text = data[@"content"];
+        }
+        self.attrLabel.text = text;
+        [self.attrLabel regularTextCheckingTypes];
+        self.textWidth = [data[@"rowWidth"] floatValue];
+        self.textHeight = [data[@"rowHeight"] floatValue];
+        self.attrLabel.width = self.textWidth;
+        self.attrLabel.height = self.textHeight;
+        
+        if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
+            self.attrLabel.frame = CGRectMake(kBubbleMargin + 18, 20, self.textWidth, self.textHeight);
+        } else {
+            self.attrLabel.frame = CGRectMake(320 - kJSAvatarSize - self.textWidth - kAvatarMargin - 24, 20, self.textWidth, self.textHeight);
+        }
+        self.content = data[@"content"];
+        self.cellContentWidth = self.textWidth + 24;
+        self.cellContentHeight = self.textHeight + 20;
+        
+        [self configBubbleView];
     }
-//    if (![data[@"status"] isEqualToNumber:[NSNumber numberWithInteger:AXMessageCenterSendMessageStatusSending]]) {
-//        [self configWithStatus];
-//        return;
-//    }
-//    NSLog(@"s:%@,w:%@, h:%@", data[@"content"], data[@"rowWidth"], data[@"rowHeight"]);
-    self.textWidth = [data[@"rowWidth"] floatValue];
-    self.textHeight = [data[@"rowHeight"] floatValue];
     
-    if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-        self.attrLabel.frame = CGRectMake(kJSAvatarSize + 38, 21, self.textWidth, self.textHeight);
-    } else {
-        self.attrLabel.frame = CGRectMake(320 - kJSAvatarSize - self.textWidth - kAvatarMargin - 24, 21, self.textWidth, self.textHeight);
-    }
-    self.content = data[@"content"];
-    self.attrLabel.attributedText = data[@"mas"];
-
-    //气泡
-    CGRect size = CGRectMake(0, 0, self.textWidth, self.textHeight);
-    [self setBubbleImg:size.size];
     [self configWithStatus];
 }
 
-- (void)drawRect:(CGRect)rect
-{
-    
-}
-
-- (void)setBubbleImg:(CGSize )size {
-    if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-        if (self.isBroker) {
-            self.attrLabel.textColor = [UIColor blackColor];
-        }
-        self.bubbleIMG.frame = CGRectMake(self.attrLabel.frame.origin.x - 21 + 2, axTagMarginTop, size.width + 30.0f , size.height + 20.0f);
-    } else {
-        if (self.isBroker) {
-            self.attrLabel.textColor = [UIColor blackColor];
-        }
-        self.bubbleIMG.frame = CGRectMake(self.attrLabel.frame.origin.x - 13, axTagMarginTop, size.width + 30.0f , size.height + 20.0f);
-    }
-}
-
-#pragma mark - OHAttributedLabel Delegate Method
-- (BOOL)attributedLabel:(OHAttributedLabel *)attributedLabel shouldFollowLink:(NSTextCheckingResult *)linkInfo
-{
-//    [attributedLabel dismissActiveLink];
-    
-    if ([[linkInfo.extendedURL absoluteString] rangeOfString:@"http://"].location != NSNotFound) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(didOpenAXWebView:)]) {
-            [self.delegate didOpenAXWebView:[linkInfo.extendedURL absoluteString]];
-        }
-    }  else if ([[linkInfo.extendedURL absoluteString] rangeOfString:@"tel:"].location != NSNotFound) {
-        if (self.isBroker) {
-            if (self.delegate && [self.delegate respondsToSelector:@selector(didClickTelNumber:)]) {
-                [self.delegate didClickTelNumber:[linkInfo.extendedURL absoluteString]];
-            }
-            return NO;
-        }
-        self.phoneNum = [linkInfo.extendedURL absoluteString];
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"这可能是一个电话号码。\n是否拨打该号码" message:nil delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
-        alertView.tag = AXChatCellViewTypePhoneAlert;
-        [alertView show];
-    }
-    return NO;
-}
-
--(void)attributedLabel:(OHAttributedLabel*)attributedLabel shouldLongPress:(UILongPressGestureRecognizer *)longPress
-{
-    [self becomeFirstResponder];
-    [self showMenu];
-}
 
 #pragma mark - 重载
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
@@ -147,9 +115,39 @@
 #pragma mark - Action
 - (void)axCopy:(id)sender
 {
-    UIPasteboard *pb = [UIPasteboard generalPasteboard];
-    [pb setString:self.content];
+    if (self.content) {
+        UIPasteboard *pb = [UIPasteboard generalPasteboard];
+        [pb setString:self.content];
+    }
 }
 
+#pragma mark - Gestures
+- (void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPress
+{
+    if (longPress.state != UIGestureRecognizerStateBegan || ![self becomeFirstResponder]) {
+        return;
+    }
+    CGPoint point = [longPress locationInView:self];
+    if (!CGRectContainsPoint(self.bubbleIMG.frame, point)) {
+        return;
+    }
+    [self showMenu];
+}
 
+#pragma mark - AXTTTAttributedLabelDelegate
+- (void)attributedLabel:(AXTTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didOpenAXWebView:)]) {
+        [self.delegate didOpenAXWebView:[url absoluteString]];
+    }
+}
+
+- (void)attributedLabel:(AXTTTAttributedLabel *)label didSelectLinkWithPhoneNumber:(NSString *)phoneNumber
+{
+    self.phoneNum = phoneNumber;
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"这可能是一个电话号码。\n是否拨打该号码" message:nil delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+    alertView.tag = AXChatCellViewTypePhoneAlert;
+    [alertView show];
+    self.alertView = alertView;
+}
 @end

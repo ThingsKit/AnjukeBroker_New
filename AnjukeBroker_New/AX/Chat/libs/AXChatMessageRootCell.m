@@ -15,6 +15,7 @@ NSString *const AXCellIdentifyTag = @"identifier";
 CGFloat const axTagMarginTop = 10.0f;
 CGFloat const kJSAvatarSize = 40.0f;
 CGFloat const kAvatarMargin = 12.0f;
+CGFloat const kBubbleMargin = 61.0f;
 
 NSInteger const kAttributedLabelTag = 100;
 NSInteger const kRetryTag = 101;
@@ -45,6 +46,9 @@ NSInteger const kRetryTag = 101;
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if (self.alertView) {
+        [self.alertView dismissWithClickedButtonIndex:0 animated:NO];
+    }
 }
 
 - (void)initUI {
@@ -228,7 +232,14 @@ NSInteger const kRetryTag = 101;
                                                  name:UIMenuControllerWillHideMenuNotification
                                                object:nil];
 }
-
+- (void)configBubbleView
+{
+    if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
+        self.bubbleIMG.frame = CGRectMake(kBubbleMargin, axTagMarginTop, self.cellContentWidth + 7, self.cellContentHeight + 2);
+    } else {
+        self.bubbleIMG.frame = CGRectMake(320 - self.cellContentWidth - kBubbleMargin - 1 - 6, axTagMarginTop, self.cellContentWidth + 7, self.cellContentHeight + 2);
+    }
+}
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
 {
     return (action == @selector(axDelete:));
@@ -241,6 +252,7 @@ NSInteger const kRetryTag = 101;
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"是否重发该消息？" message:nil delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
         alertView.tag = AXChatCellViewTypeRetry;
         [alertView show];
+        self.alertView = alertView;
     }
 }
 
