@@ -43,9 +43,16 @@
 */
 
 - (void)initUI {
-    self.textLabel.textColor = SYSTEM_DARK_GRAY;
+
+    CGFloat imgW = 20;
     
-    UILabel *comTitleLb = [[UILabel alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, (CELL_HEIGHT - 20)/2, 90, 20)];
+    UIImageView *imgIcon = [[UIImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, (CELL_HEIGHT - imgW)/2, imgW, imgW)];
+    imgIcon.backgroundColor = [UIColor clearColor];
+    imgIcon.contentMode = UIViewContentModeScaleAspectFit;
+    imgIcon.image = [UIImage imageNamed:@"anjuke_icon06_selected.png"];
+    [self.contentView addSubview:imgIcon];
+    
+    UILabel *comTitleLb = [[UILabel alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE + imgW + CELL_OFFSET_TITLE, (CELL_HEIGHT - 20)/2, 90, 20)];
     comTitleLb.backgroundColor = [UIColor clearColor];
     comTitleLb.textColor = SYSTEM_DARK_GRAY;
     comTitleLb.font = [UIFont systemFontOfSize:17];

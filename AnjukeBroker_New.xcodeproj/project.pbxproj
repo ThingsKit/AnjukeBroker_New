@@ -79,6 +79,7 @@
 		20578B9F1898ABCC0086B93D /* PropertyEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20578B9E1898ABCC0086B93D /* PropertyEditViewController.m */; };
 		205790D01904C17300419CA3 /* PublishFeatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 205790CF1904C17300419CA3 /* PublishFeatureViewController.m */; };
 		205790DB1905105400419CA3 /* AnjukeFeatureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 205790DA1905105400419CA3 /* AnjukeFeatureCell.m */; };
+		205790E41905246300419CA3 /* anjuke_icon06_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 205790E31905246300419CA3 /* anjuke_icon06_selected@2x.png */; };
 		2063C2651890ADB20043C739 /* PublishHouseTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2063C2641890ADB20043C739 /* PublishHouseTypeViewController.m */; };
 		206843E418890C9A007DD8C5 /* PublishBuildingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */; };
 		207526B918B45FE10022220C /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 207526AE18B45FE10022220C /* NSMutableArray+SWUtilityButtons.m */; };
@@ -370,7 +371,6 @@
 		B7E1919818E279A600DA578B /* anjuke_icon_chat1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E1919718E279A600DA578B /* anjuke_icon_chat1@2x.png */; };
 		B7E191B018E2EBC300DA578B /* anjuke_icon_chat4_photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E191AF18E2EBC300DA578B /* anjuke_icon_chat4_photo@2x.png */; };
 		B7E38A00182238CF002C6E8A /* anjuke_icon06_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E389FE182238CF002C6E8A /* anjuke_icon06_select@2x.png */; };
-		B7E38A01182238CF002C6E8A /* anjuke_icon06_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E389FF182238CF002C6E8A /* anjuke_icon06_selected@2x.png */; };
 		B7E38A0A18225FEC002C6E8A /* anjuke_icon07_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E38A0918225FEC002C6E8A /* anjuke_icon07_arrow@2x.png */; };
 		B7E4CD1C18E11A1E00B61B58 /* wl_chat_icon_uservoice.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E4CD1A18E11A1E00B61B58 /* wl_chat_icon_uservoice.png */; };
 		B7E4CD1D18E11A1E00B61B58 /* wl_chat_icon_uservoice@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E4CD1B18E11A1E00B61B58 /* wl_chat_icon_uservoice@2x.png */; };
@@ -699,6 +699,7 @@
 		205790CF1904C17300419CA3 /* PublishFeatureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishFeatureViewController.m; sourceTree = "<group>"; };
 		205790D91905105400419CA3 /* AnjukeFeatureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukeFeatureCell.h; sourceTree = "<group>"; };
 		205790DA1905105400419CA3 /* AnjukeFeatureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukeFeatureCell.m; sourceTree = "<group>"; };
+		205790E31905246300419CA3 /* anjuke_icon06_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon06_selected@2x.png"; sourceTree = "<group>"; };
 		2063C2631890ADB20043C739 /* PublishHouseTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishHouseTypeViewController.h; sourceTree = "<group>"; };
 		2063C2641890ADB20043C739 /* PublishHouseTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishHouseTypeViewController.m; sourceTree = "<group>"; };
 		206843E218890C9A007DD8C5 /* PublishBuildingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishBuildingViewController.h; sourceTree = "<group>"; };
@@ -1149,7 +1150,6 @@
 		B7E1919718E279A600DA578B /* anjuke_icon_chat1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_chat1@2x.png"; sourceTree = "<group>"; };
 		B7E191AF18E2EBC300DA578B /* anjuke_icon_chat4_photo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_chat4_photo@2x.png"; sourceTree = "<group>"; };
 		B7E389FE182238CF002C6E8A /* anjuke_icon06_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon06_select@2x.png"; sourceTree = "<group>"; };
-		B7E389FF182238CF002C6E8A /* anjuke_icon06_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon06_selected@2x.png"; sourceTree = "<group>"; };
 		B7E38A0918225FEC002C6E8A /* anjuke_icon07_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon07_arrow@2x.png"; sourceTree = "<group>"; };
 		B7E4CD1A18E11A1E00B61B58 /* wl_chat_icon_uservoice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wl_chat_icon_uservoice.png; sourceTree = "<group>"; };
 		B7E4CD1B18E11A1E00B61B58 /* wl_chat_icon_uservoice@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wl_chat_icon_uservoice@2x.png"; sourceTree = "<group>"; };
@@ -2249,7 +2249,7 @@
 				97DED8A4182343E500D0B82A /* anjuke_icon08_attention@2x.png */,
 				B7E38A0918225FEC002C6E8A /* anjuke_icon07_arrow@2x.png */,
 				B7E389FE182238CF002C6E8A /* anjuke_icon06_select@2x.png */,
-				B7E389FF182238CF002C6E8A /* anjuke_icon06_selected@2x.png */,
+				205790E31905246300419CA3 /* anjuke_icon06_selected@2x.png */,
 				9795838B18225B93005EA48A /* anjuke_icon05_photo_selected@2x.png */,
 				9795838C18225B93005EA48A /* anjuke_icon05_photo@2x.png */,
 				972000181841BF25003F49A4 /* details_arrow_left@2x.png */,
@@ -3297,6 +3297,7 @@
 				2079ADF318B5FD610029D493 /* anjuke_icon_xingbiao_@2x.png in Resources */,
 				B7EA5B6518DBDCA900D437BB /* anjuke_icon_chat2_fy_selected@2x.png in Resources */,
 				2079ADE718B5EEDF0029D493 /* anjuke_icon_ok@2x.png in Resources */,
+				205790E41905246300419CA3 /* anjuke_icon06_selected@2x.png in Resources */,
 				27A42B5418E2C4D300FADED3 /* wl_map_icon_1_press.png in Resources */,
 				B7FC9AEB18C41B1300F77205 /* xproject_dialogue_greencard@2x.png in Resources */,
 				97F4D18F184E2ABD00DFC45F /* logo_40.png in Resources */,
@@ -3450,7 +3451,6 @@
 				678084011904AB1F00765A18 /* facesBack.png in Resources */,
 				200DAB5318DFCED90077E0C9 /* anjuke_icon_esf@2x.png in Resources */,
 				9741056A180CDFE0004DAE95 /* Images.xcassets in Resources */,
-				B7E38A01182238CF002C6E8A /* anjuke_icon06_selected@2x.png in Resources */,
 				B7E38A00182238CF002C6E8A /* anjuke_icon06_select@2x.png in Resources */,
 				201BC95018CEF15900565BF6 /* Default.png in Resources */,
 				B727AB7418F7C2B8004B50F7 /* anjuke60_bg10.png in Resources */,
