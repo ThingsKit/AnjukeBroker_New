@@ -1639,8 +1639,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 - (void)didClickKeyboardControl
 {
-    if (self.moreBackView && !self.moreBackView.hidden) {
+    if (!self.moreBackView.hidden || !self.emojiScrollView.hidden) {
         self.moreBackView.hidden = YES;
+        self.emojiScrollView.hidden = YES;
         if (self.preNotification) {
             [self keyboardWillShowHide:self.preNotification];
         }else {
@@ -1681,6 +1682,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
 - (void)didMoreBackView:(UIButton *)sender
 {
+    self.emojiScrollView.hidden = YES;
     if (self.currentText.length > 0) {
         self.messageInputView.textView.text = self.currentText;
     }
@@ -1820,6 +1822,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 }
 
 - (void)didEmojiButClick{
+    self.moreBackView.hidden = YES;
     //禁止手势
     [RTGestureLock setDisableGestureForBack:self.navigationController disable:NO];
     
@@ -1903,6 +1906,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
                                                     - AXMoreBackViewHeight
                                                     - inputViewFrame.size.height + 60);
             self.keyboardControl.hidden = NO;
+            self.keyboardControl.backgroundColor = [UIColor redColor];
             self.messageInputView.frame = CGRectMake(inputViewFrame.origin.x,
                                                      inputViewFrameY,
                                                      inputViewFrame.size.width,
