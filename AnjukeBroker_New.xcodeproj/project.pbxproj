@@ -77,6 +77,7 @@
 		2056A39918EE7EA00022B5A5 /* AXMessageCenterUserToPublicServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2056A38618EE7EA00022B5A5 /* AXMessageCenterUserToPublicServiceManager.m */; };
 		2056A39A18EE7EA00022B5A5 /* AXMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2056A38818EE7EA00022B5A5 /* AXMessageManager.m */; };
 		20578B9F1898ABCC0086B93D /* PropertyEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20578B9E1898ABCC0086B93D /* PropertyEditViewController.m */; };
+		205790D01904C17300419CA3 /* PublishFeatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 205790CF1904C17300419CA3 /* PublishFeatureViewController.m */; };
 		2063C2651890ADB20043C739 /* PublishHouseTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2063C2641890ADB20043C739 /* PublishHouseTypeViewController.m */; };
 		206843E418890C9A007DD8C5 /* PublishBuildingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */; };
 		207526B918B45FE10022220C /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 207526AE18B45FE10022220C /* NSMutableArray+SWUtilityButtons.m */; };
@@ -676,6 +677,8 @@
 		2056A38818EE7EA00022B5A5 /* AXMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageManager.m; sourceTree = "<group>"; };
 		20578B9D1898ABCC0086B93D /* PropertyEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyEditViewController.h; sourceTree = "<group>"; };
 		20578B9E1898ABCC0086B93D /* PropertyEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyEditViewController.m; sourceTree = "<group>"; };
+		205790CE1904C17300419CA3 /* PublishFeatureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishFeatureViewController.h; sourceTree = "<group>"; };
+		205790CF1904C17300419CA3 /* PublishFeatureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishFeatureViewController.m; sourceTree = "<group>"; };
 		2063C2631890ADB20043C739 /* PublishHouseTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishHouseTypeViewController.h; sourceTree = "<group>"; };
 		2063C2641890ADB20043C739 /* PublishHouseTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishHouseTypeViewController.m; sourceTree = "<group>"; };
 		206843E218890C9A007DD8C5 /* PublishBuildingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishBuildingViewController.h; sourceTree = "<group>"; };
@@ -1673,6 +1676,8 @@
 				206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */,
 				2063C2631890ADB20043C739 /* PublishHouseTypeViewController.h */,
 				2063C2641890ADB20043C739 /* PublishHouseTypeViewController.m */,
+				205790CE1904C17300419CA3 /* PublishFeatureViewController.h */,
+				205790CF1904C17300419CA3 /* PublishFeatureViewController.m */,
 				204E66CD1894E7DB00546D51 /* PublishBigImageViewController.h */,
 				204E66CE1894E7DB00546D51 /* PublishBigImageViewController.m */,
 				20A07427188C0A080073C915 /* PublishTableViewDataSource.h */,
@@ -3518,6 +3523,7 @@
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,
 				97CB0C10182BEA3500FCCBBD /* ELCImagePickerController.m in Sources */,
 				B7E69BAE183B15430097D5C3 /* RentPPCGroupCell.m in Sources */,
+				205790D01904C17300419CA3 /* PublishFeatureViewController.m in Sources */,
 				2056A34718EE7E660022B5A5 /* NSManagedObject+ExtraMethods.m in Sources */,
 				20A2178818BF1804002CA469 /* HouseSelectViewController.m in Sources */,
 				678D2A2618DAB12E0027D945 /* wav.mm in Sources */,
