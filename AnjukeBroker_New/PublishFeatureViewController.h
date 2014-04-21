@@ -8,6 +8,6 @@
 
 #import "RTViewController.h"
 
-@interface PublishFeatureViewController : RTViewController
+@interface PublishFeatureViewController : RTViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end

@@ -78,6 +78,7 @@
 		2056A39A18EE7EA00022B5A5 /* AXMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2056A38818EE7EA00022B5A5 /* AXMessageManager.m */; };
 		20578B9F1898ABCC0086B93D /* PropertyEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20578B9E1898ABCC0086B93D /* PropertyEditViewController.m */; };
 		205790D01904C17300419CA3 /* PublishFeatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 205790CF1904C17300419CA3 /* PublishFeatureViewController.m */; };
+		205790DB1905105400419CA3 /* AnjukeFeatureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 205790DA1905105400419CA3 /* AnjukeFeatureCell.m */; };
 		2063C2651890ADB20043C739 /* PublishHouseTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2063C2641890ADB20043C739 /* PublishHouseTypeViewController.m */; };
 		206843E418890C9A007DD8C5 /* PublishBuildingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 206843E318890C9A007DD8C5 /* PublishBuildingViewController.m */; };
 		207526B918B45FE10022220C /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 207526AE18B45FE10022220C /* NSMutableArray+SWUtilityButtons.m */; };
@@ -696,6 +697,8 @@
 		20578B9E1898ABCC0086B93D /* PropertyEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyEditViewController.m; sourceTree = "<group>"; };
 		205790CE1904C17300419CA3 /* PublishFeatureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishFeatureViewController.h; sourceTree = "<group>"; };
 		205790CF1904C17300419CA3 /* PublishFeatureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishFeatureViewController.m; sourceTree = "<group>"; };
+		205790D91905105400419CA3 /* AnjukeFeatureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukeFeatureCell.h; sourceTree = "<group>"; };
+		205790DA1905105400419CA3 /* AnjukeFeatureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukeFeatureCell.m; sourceTree = "<group>"; };
 		2063C2631890ADB20043C739 /* PublishHouseTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishHouseTypeViewController.h; sourceTree = "<group>"; };
 		2063C2641890ADB20043C739 /* PublishHouseTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishHouseTypeViewController.m; sourceTree = "<group>"; };
 		206843E218890C9A007DD8C5 /* PublishBuildingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishBuildingViewController.h; sourceTree = "<group>"; };
@@ -2449,6 +2452,8 @@
 				974E5C8B181E4D45000246D1 /* AnjukeNormalCell.m */,
 				974E5C80181E4210000246D1 /* AnjukeEditableCell.h */,
 				974E5C81181E4210000246D1 /* AnjukeEditableCell.m */,
+				205790D91905105400419CA3 /* AnjukeFeatureCell.h */,
+				205790DA1905105400419CA3 /* AnjukeFeatureCell.m */,
 			);
 			name = "发房cell";
 			sourceTree = "<group>";
@@ -3614,6 +3619,7 @@
 				B7EF77B5183CE2D90024A5E6 /* RentSelectNoPlanController.m in Sources */,
 				273913D318DBCFD9003284AA /* MapViewController.m in Sources */,
 				20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */,
+				205790DB1905105400419CA3 /* AnjukeFeatureCell.m in Sources */,
 				200915E81893FC1000A13115 /* E_Photo.m in Sources */,
 				970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */,
 				B7FC9B2E18C41F9C00F77205 /* UIColor+RT.m in Sources */,
