@@ -80,7 +80,6 @@
     
     [self setTitleViewWithString:@"房型"];
     
-//    [self addRightButton:@"保存" andPossibleTitle:nil];
     UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(rightButtonAction:)];
     if (![AppManager isIOS6]) {
         rBtn.tintColor = SYSTEM_NAVIBAR_COLOR;

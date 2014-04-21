@@ -12,6 +12,7 @@
 #import "PublishHouseTypeViewController.h"
 #import "PropertyGroupListViewController.h"
 #import "BrokerLineView.h"
+#import "RTGestureLock.h"
 
 typedef enum {
     Property_DJ = 0, //发房_定价
@@ -110,6 +111,12 @@ typedef enum {
         show = YES;
     }
     [self.cellDataSource houseTypeCellImageIconShow:show isHaozu:self.isHaozu];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [RTGestureLock setDisableGestureForBack:self.navigationController disable:YES];
 }
 
 - (void)didReceiveMemoryWarning
