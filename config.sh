@@ -1,9 +1,9 @@
 MainProjectRoot="AnjukeBroker_New"
 Schema="AnjukeBroker_New"
 
-ProvisoningProfileForDailybuild="CF9D5379-0CDF-4AF6-8D5D-F1E2E06CA64C"
+ProvisoningProfileForDailybuild="E25111F6-465E-4F41-A369-262238C209D3"
 #ProvisoningProfileForDistribute="C684A69D-0F0D-4CEC-8274-C8707AA7ED38"
-ProvisoningProfileForDistribute="C684A69D-0F0D-4CEC-8274-C8707AA7ED38"
+ProvisoningProfileForDistribute="36060C7B-C4D7-4D6A-ACE4-72C5107D3CCF"
 
 SignIdentityForDailyBuild="iPhone Distribution: Ruiting Network Technology (Shanghai) Co., Ltd."
 #SignIdentityForRelease="iPhone Distribution: RUITING NETWORK TECHNOLOGY(SHANGHAI)CO.,LTD."
@@ -16,12 +16,12 @@ Version=`grep 'CFBundleVersion' -A 1 ./${ProjectName}/${MainProjectRoot}-Info.pl
 #QudaoList="A00 A01 A02 A08 A17 A18"
 QudaoList="A00 A02 A08 A17 A18 A19 A20 A21 A22"
 
-AnjukebuildPath="/tmp/anjukeBroker_Newbuild"
+AnjukebuildPath="/tmp/anjukeb_broker_build"
 if [ ! -d ${AnjukeBuidPath} ] ; then
     mkdir -p ${AnjukeBuildPath}
 fi
 
-AnjukeQudaoPath="/Users/anjuke/RUITING/i-anjuke/${Version}"
+AnjukeQudaoPath="/Users/anjuke/RUITING/i-broker/${Version}"
 if [ ! -d ${AnjukeQudaoPath} ]; then
     mkdir -p ${AnjukeQudaoPath}
 fi

@@ -45,7 +45,7 @@ exit 1
 #done
 
 # switch xcode
-xcode-select -switch /Applications/Xcode5.app/Contents/Developer/
+xcode-select -switch /Applications/Xcode.app/Contents/Developer/
 
 xcodebuild -workspace ${ProjectFileName} -scheme ${Schema} -configuration $1 CODE_SIGN_IDENTITY="${SignIdentityForDailyBuild}" PROVISIONING_PROFILE="${ProvisoningProfileForDailybuild}" OBJROOT=${AnjukebuildPath} SYMROOT=${AnjukebuildPath} clean
 
