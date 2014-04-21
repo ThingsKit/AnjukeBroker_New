@@ -15,7 +15,7 @@
 @property (nonatomic, strong) UISwitch *messageSwtich;
 @property (nonatomic, strong) UILabel *detailLb;
 
-- (void)showSwitch;
+//- (void)showSwitch:(BOOL)isMsgOpen;
 - (void)setDetailText:(NSString *)string;
 
 @end

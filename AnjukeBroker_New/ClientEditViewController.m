@@ -11,6 +11,7 @@
 #import "Util_UI.h"
 #import "AXMappedPerson.h"
 #import "AXChatMessageCenter.h"
+#import "BrokerLineView.h"
 
 #define INPUT_EDIT_TEXTVIEW_H 90
 #define lbH 20
@@ -23,6 +24,7 @@
 @property (nonatomic, strong) UITextView *messageTextV;
 @property (nonatomic, strong) UILabel *noteLabTit;
 @property (nonatomic, strong) UIView *noteView;
+@property (nonatomic, strong) UIView *mesLine;
 @end
 
 @implementation ClientEditViewController
@@ -148,6 +150,10 @@
             self.messageTextV.text = self.person.markDesc;
             self.messageTextV.keyboardType = UIKeyboardTypeDefault;
             [self.noteView addSubview:messageTextV];
+            
+            UIView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, inputViewH, 320, 0.5)];
+            self.mesLine = line;
+            [self.noteView addSubview:line];
         }
 
     }
@@ -190,11 +196,13 @@
     CGRect noteViewFrame = self.noteView.frame;
     CGRect noteTitLabFrame = self.noteLabTit.frame;
     CGRect noteMsgFrame = self.messageTextV.frame;
+    CGRect msgLineFrame = self.mesLine.frame;
     CGSize size = self.editeScroll.contentSize;
     
     noteViewFrame.size.height = msgInputH+20;
     noteTitLabFrame.origin.y = (msgInputH + 20 - lbH)/2;
     noteMsgFrame.size.height = msgInputH;
+    msgLineFrame.origin.y = msgInputH+20;
     
     float contentH = self.editeScroll.frame.size.height;
     size.height = INPUT_EDIT_VIEW_H*2+10+msgInputH+20;
@@ -205,6 +213,7 @@
     self.noteView.frame = noteViewFrame;
     self.noteLabTit.frame = noteTitLabFrame;
     self.messageTextV.frame = noteMsgFrame;
+    self.mesLine.frame = msgLineFrame;
     self.editeScroll.contentSize = size;
 }
 #pragma mark - Private Method

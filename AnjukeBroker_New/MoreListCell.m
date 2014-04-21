@@ -67,14 +67,14 @@
     return YES;
 }
 
-- (void)showSwitch {
-    if (!self.messageSwtich) {
-        UISwitch *sw = [[UISwitch alloc] initWithFrame:CGRectMake(320 - 25 - 35, (MORE_CELL_H - 20)/2-5, 30, 20)];
-        sw.on = YES;
-        self.messageSwtich = sw;
-        [self.contentView addSubview:sw];
-    }
-}
+//- (void)showSwitch:(BOOL)isMsgOpen{
+//    if (!self.messageSwtich) {
+//        UISwitch *sw = [[UISwitch alloc] initWithFrame:CGRectMake(320 - 25 - 35, (MORE_CELL_H - 20)/2-5, 30, 20)];
+//        sw.on = !isMsgOpen;
+//        self.messageSwtich = sw;
+//        [self.contentView addSubview:sw];
+//    }
+//}
 
 - (void)setDetailText:(NSString *)string {
     self.detailLb.text = string;

@@ -19,11 +19,12 @@
 #import "BrokerCallAlert.h"
 
 #define CALL_ANJUKE_NUMBER @"400-620-9008"
-#define CALL_ANJUKE_ROW 5
-#define CALL_CLIENT_ROW 4
+#define CALL_ANJUKE_ROW 6
+#define CALL_CLIENT_ROW 5
 
-#define ABOUT_US_ROW 3
-#define CALL_CHECKVER 2
+#define ABOUT_US_ROW 4
+#define CALL_CHECKVER 3
+#define CALL_CHECKMSG 2
 #define CALL_ACCOUNT_ROW 0
 #define NOTIFICATION_ROW 1
 
@@ -32,6 +33,7 @@
 @property (nonatomic, strong) UITableView *tvList;
 
 @property (nonatomic, strong) NSDictionary *clientDic;
+@property (nonatomic, strong) UISwitch *msgSw;
 @end
 
 @implementation MoreViewController
@@ -77,7 +79,7 @@
 #pragma mark - private method
 
 - (void)initModel {
-    self.taskArray = [NSArray arrayWithObjects:@"个人信息", @"提醒设置", @"检查更新", @"关于移动经纪人", @"联系客户主任", @"客服热线", nil];
+    self.taskArray = [NSArray arrayWithObjects:@"个人信息", @"提醒设置", @"短信通知", @"检查更新", @"关于移动经纪人", @"联系客户主任", @"客服热线", nil];
 }
 
 - (void)initDisplay {
@@ -233,7 +235,6 @@
     static NSString *cellName = @"cell";
     
     MoreListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellName];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (cell == nil) {
         cell = [[MoreListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellName];
     }
@@ -247,6 +248,13 @@
         //显示消息提醒
 //        [cell showSwitch];
 //        [cell.messageSwtich addTarget:self action:@selector(messageSw:) forControlEvents:UIControlEventValueChanged];
+    }else if (indexPath.row == CALL_CHECKMSG){
+        self.msgSw = [[UISwitch alloc] initWithFrame:CGRectMake(320 - 25 - 35, (MORE_CELL_H - 20)/2-5, 30, 20)];
+        [self.msgSw addTarget:self action:@selector(checkSw:) forControlEvents:UIControlEventValueChanged];
+        self.msgSw.on = YES;
+        [cell.contentView addSubview:self.msgSw];
+
+        cell.accessoryView = self.msgSw;
     }
     else if (indexPath.row == CALL_CLIENT_ROW) { //客户主任
         [cell setDetailText:[self getClientName]];
@@ -254,15 +262,33 @@
     else if (indexPath.row == CALL_ANJUKE_ROW) {
         [cell setDetailText:CALL_ANJUKE_NUMBER];
     }
-    
-    if (indexPath.row == CALL_ACCOUNT_ROW || indexPath.row == NOTIFICATION_ROW || indexPath.row == 3 || indexPath.row == 2) {
+    if (indexPath.row != CALL_CHECKMSG) {
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
+    if (indexPath.row == CALL_ACCOUNT_ROW || indexPath.row == NOTIFICATION_ROW || indexPath.row == 3 || indexPath.row == 4) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     else {
         cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     return cell;
+}
+
+- (void)checkSw:(id)sender{
+    UISwitch *sw = (UISwitch *)sender;
+    if (sw.on) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"短信提醒" message:@"短信提醒开启成功" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        alert.delegate = self;
+        [alert show];
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"短信提醒" message:@"客户发起短信提醒后，将不再短信我" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"关闭提醒", nil];
+        alert.tag = 10;
+        alert.delegate = self;
+        [alert show];
+    }
 }
 
 #pragma mark - tableView Delegate
@@ -338,6 +364,13 @@
 
 #pragma mark - UIAlert View Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 10 && buttonIndex == 1) {
+        self.msgSw.on = NO;
+        return;
+    }else if (alertView.tag == 10 && buttonIndex == 0){
+        self.msgSw.on = YES;
+        return;
+    }
     switch (buttonIndex) {
         case 1:
         {
