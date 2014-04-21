@@ -73,6 +73,10 @@ static NSString * const SpeekImgNameKeyboardHighlight = @"anjuke_icon_keyboard1.
 static NSString * const SpeekImgNameVoice = @"anjuke_icon_voice.png";
 static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
+static NSString * const EmojiImgName = @"anjuke_icon_voice.png";
+static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
+
+
 @interface AXChatViewController ()<UITableViewDelegate, UITableViewDataSource, OHAttributedLabelDelegate, AXPullToRefreshViewDelegate, UIAlertViewDelegate, AXChatBaseCellDelegate, JSDismissiveTextViewDelegate, MapViewControllerDelegate>
 
 @property (nonatomic, strong) UITableView *myTableView;
@@ -340,7 +344,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         //最右侧的加号按钮
         self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
         self.sendBut.frame = CGRectMake(ScreenWidth - 45, 2.0f, 45.0f, 45.0f);
-        self.sendBut.backgroundColor = [UIColor redColor];
+//        self.sendBut.backgroundColor = [UIColor redColor];
         [self.sendBut addTarget:self action:@selector(didMoreBackView:) forControlEvents:UIControlEventTouchUpInside];
         [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateNormal];
         [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more_selected.png"] forState:UIControlStateHighlighted];
@@ -386,7 +390,8 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         //表情按钮
         self.emojiBut = [UIButton buttonWithType:UIButtonTypeCustom];
         self.emojiBut.frame = CGRectMake(ScreenWidth - 45*2, 2.0f, 45.0f, 45.0f);
-        self.emojiBut.backgroundColor = [UIColor yellowColor];
+        [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgName] forState:UIControlStateNormal];
+        [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgNameHighlight] forState:UIControlStateHighlighted];
         [self.emojiBut addTarget:self action:@selector(didEmojiButClick) forControlEvents:UIControlEventTouchUpInside];
         [self.messageInputView addSubview:self.emojiBut];
         
@@ -1642,6 +1647,9 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     if (!self.moreBackView.hidden || !self.emojiScrollView.hidden) {
         self.moreBackView.hidden = YES;
         self.emojiScrollView.hidden = YES;
+        [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgName] forState:UIControlStateNormal];
+        [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgNameHighlight] forState:UIControlStateHighlighted];
+        
         if (self.preNotification) {
             [self keyboardWillShowHide:self.preNotification];
         }else {
@@ -1895,6 +1903,8 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
     self.emojiScrollView.frame = CGRectMake(moreRect.origin.x, moreRect.origin.y + AXMoreBackViewHeight, moreRect.size.width, moreRect.size.height);
     if (self.emojiScrollView.hidden) {//当emoji为消失状态时
         self.emojiScrollView.hidden = !self.emojiScrollView.hidden;
+        [self.emojiBut setBackgroundImage:[UIImage imageNamed:SpeekImgNameKeyboard] forState:UIControlStateNormal];
+        [self.emojiBut setBackgroundImage:[UIImage imageNamed:SpeekImgNameKeyboardHighlight] forState:UIControlStateHighlighted];
         [self.messageInputView.textView resignFirstResponder];
         
         [UIView animateWithDuration:0.270f animations:^{
@@ -1906,7 +1916,7 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
                                                     - AXMoreBackViewHeight
                                                     - inputViewFrame.size.height + 60);
             self.keyboardControl.hidden = NO;
-            self.keyboardControl.backgroundColor = [UIColor redColor];
+//            self.keyboardControl.backgroundColor = [UIColor redColor];
             self.messageInputView.frame = CGRectMake(inputViewFrame.origin.x,
                                                      inputViewFrameY,
                                                      inputViewFrame.size.width,
@@ -1927,6 +1937,8 @@ static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
         
     }else {
         self.emojiScrollView.hidden = !self.emojiScrollView.hidden;
+        [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgName] forState:UIControlStateNormal];
+        [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgNameHighlight] forState:UIControlStateHighlighted];
         [self.messageInputView.textView becomeFirstResponder];
     }
 }

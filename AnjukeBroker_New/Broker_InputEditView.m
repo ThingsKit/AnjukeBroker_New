@@ -36,7 +36,7 @@
 */
 
 - (void)initUIWithFrame:(CGRect)frame{
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(17, (INPUT_EDIT_VIEW_H - lbH)/2, 70, lbH)];
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(17, (self.frame.size.height - lbH)/2, 70, lbH)];
     title.backgroundColor = [UIColor clearColor];
     self.titleLb = title;
     title.textColor = SYSTEM_DARK_GRAY;
@@ -57,10 +57,11 @@
         [self addSubview:textFidle_Input];
     }
     else if (self.displayStyle == DisplayStyle_ForTextView) {
-        self.textView_Input = [[UITextView alloc] initWithFrame:CGRectMake(self.titleLb.frame.origin.x + self.titleLb.frame.size.width + 15, self.titleLb.frame.origin.y-3, 180, (INPUT_EDIT_TEXTVIEW_H - self.titleLb.frame.origin.y*2))];
+        self.textView_Input = [[UITextView alloc] initWithFrame:CGRectMake(self.titleLb.frame.origin.x + self.titleLb.frame.size.width + 15, 5, 180, INPUT_EDIT_TEXTVIEW_H - 10)];
         self.textView_Input.backgroundColor = [UIColor clearColor];
         self.textView_Input.font = self.titleLb.font;
         self.textView_Input.textColor = SYSTEM_BLACK;
+        self.textView_Input.delegate = self;
         self.textView_Input.keyboardType = UIKeyboardTypeDefault;
         [self addSubview:textView_Input];
     }

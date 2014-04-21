@@ -128,10 +128,10 @@
     nameLb.backgroundColor = [UIColor clearColor];
     self.nameLabel = nameLb;
     nameLb.textColor = SYSTEM_BLACK;
-    nameLb.font = [UIFont systemFontOfSize:19];
+    nameLb.font = [UIFont systemFontOfSize:15];
     [headerView addSubview:nameLb];
     
-    UILabel *tipLb = [[UILabel alloc] initWithFrame:CGRectMake(nameLb.frame.origin.x, nameLb.frame.origin.y+ nameLb.frame.size.height +5, 200, 15)];
+    UILabel *tipLb = [[UILabel alloc] initWithFrame:CGRectMake(nameLb.frame.origin.x, nameLb.frame.origin.y+ nameLb.frame.size.height, 200, 12)];
     tipLb.backgroundColor = [UIColor clearColor];
     tipLb.textColor = SYSTEM_LIGHT_GRAY;
     self.companyLabel = tipLb;
@@ -143,13 +143,13 @@
     footerView.backgroundColor = [UIColor clearColor];
     [self.tableViewList setTableFooterView:footerView];
     
-    CGFloat btnW = 200;
+    CGFloat btnW = [self windowWidth] - 2*CELL_OFFSET_TITLE;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(([self windowWidth] - btnW )/2, 23, btnW, 75/2);
+    btn.frame = CGRectMake(([self windowWidth] - btnW )/2, 23, btnW, 88/2);
     [btn setTitle:@"微聊" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(startChart) forControlEvents:UIControlEventTouchUpInside];
-    [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_bluebutton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(77/2-1, 5, 77/2+1, 52/2-5)] forState:UIControlStateNormal];
-    [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_bluebutton1.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(77/2-1, 5, 77/2+1, 52/2-5)] forState:UIControlStateHighlighted];
+    [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_bluebutton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_bluebutton1.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
     [footerView addSubview:btn];
 }
 
@@ -329,14 +329,16 @@
         }
         
         //make call
-        if (![AppManager checkPhoneFunction]) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请检测是否支持电话功能" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确认", nil];
-            [alertView show];
-        }
-        else {
-            NSString *markNameStr = self.person.markName ? self.person.markName : @"";
-            [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系%@：",markNameStr] callPhone:self.person.markPhone];
-        }
+        NSString *markNameStr = self.person.markName ? self.person.markName : @"";
+        [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系%@：",markNameStr] callPhone:self.person.markPhone];
+    }else{
+        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_004 note:nil];
+        
+        //编辑
+        ClientEditViewController *ce = [[ClientEditViewController alloc] init];
+        ce.person = self.person;
+        ce.editDelegate = self;
+        [self.navigationController pushViewController:ce animated:YES];
     }
 }
 

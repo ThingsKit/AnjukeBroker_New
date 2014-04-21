@@ -16,7 +16,7 @@ typedef enum {
 #define INPUT_EDIT_VIEW_H 45
 #define INPUT_EDIT_TEXTVIEW_H 90
 
-@interface Broker_InputEditView : UIView
+@interface Broker_InputEditView : UIView<UITextViewDelegate>
 
 @property (nonatomic, strong) UILabel *titleLb;
 @property (nonatomic, strong) UITextField *textFidle_Input;
