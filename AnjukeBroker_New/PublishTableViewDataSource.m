@@ -20,7 +20,7 @@
 - (void)createCells:(NSArray *)dataArray isHaozu:(BOOL)isHaozu {
     [self initModel];
     
-    if (isHaozu) {
+    if (isHaozu) { //租房
         //******价格、产证面积、出租方式
         NSMutableArray *section1 = [NSMutableArray array];
         //price
@@ -101,13 +101,13 @@
         }
         [self.cellArray addObject:section3];
     }
-    else {
-        //******价格、产证面积
+    else { //二手房
+        //******价格、最低首付、产证面积
         NSMutableArray *section1 = [NSMutableArray array];
         //price
         AnjukeEditableCell *cell = [[AnjukeEditableCell alloc] init];
         cell.editDelegate = self.superViewController;
-        if ([cell configureCell:[dataArray objectAtIndex:HZ_TEXT_PRICE]]) {
+        if ([cell configureCell:[dataArray objectAtIndex:AJK_TEXT_PRICE]]) {
             [cell setIndexTag:HZ_TEXT_PRICE];
             [[cell unitLb] setText:@"万元"];
             [section1 addObject:cell];
@@ -115,18 +115,29 @@
             
             [cell showTopLine]; //top line
         }
+        //limit pay
+        AnjukeEditableCell *cell11 = [[AnjukeEditableCell alloc] init];
+        cell11.editDelegate = self.superViewController;
+        if ([cell11 configureCell:[dataArray objectAtIndex:AJK_TEXT_LIMIT_PAY]]) {
+            [cell11 setIndexTag:HZ_TEXT_PRICE];
+            [[cell11 unitLb] setText:@"万元"];
+            [section1 addObject:cell11];
+            [self.inputCellArray addObject:cell11];
+            
+        }
         //area
         AnjukeEditableCell *cell2 = [[AnjukeEditableCell alloc] init];
         cell2.editDelegate = self.superViewController;
-        if ([cell2 configureCell:[dataArray objectAtIndex:HZ_TEXT_AREA]]) {
+        if ([cell2 configureCell:[dataArray objectAtIndex:AJK_TEXT_AREA]]) {
             [cell2 setIndexTag:HZ_TEXT_AREA];
             [[cell2 unitLb] setText:@"平米"];
             [section1 addObject:cell2];
             [self.inputCellArray addObject:cell2];
+            
         }
         [self.cellArray addObject:section1];
         
-        //******房型、楼层、装修
+        //******房型、楼层、装修、特色
         NSMutableArray *section2 = [NSMutableArray array];
         //rooms 房型
         AnjukeNormalCell *cell3 = [[AnjukeNormalCell alloc] init];
@@ -153,6 +164,16 @@
             [section2 addObject:cell5];
             [self.inputCellArray addObject:cell5];
         }
+        
+        //feature
+        AnjukeNormalCell *cell55 = [[AnjukeNormalCell alloc] init];
+        if ([cell55 configureCell:[dataArray objectAtIndex:AJK_CLICK_FEATURE]]) {
+            [cell55 setIndexTag:AJK_CLICK_FEATURE];
+            [section2 addObject:cell55];
+            [self.inputCellArray addObject:cell55];
+            
+        }
+        
         [self.cellArray addObject:section2];
         
         //******标题、描述

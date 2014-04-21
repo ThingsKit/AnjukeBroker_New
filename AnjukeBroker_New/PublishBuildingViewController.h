@@ -28,6 +28,7 @@
 #import "RTNavigationController.h"
 #import "SimpleKeyboardToolBar.h"
 #import "PublishInputOrderModel.h"
+#import "PublishFeatureViewController.h"
 
 #define IMAGE_ACTIONSHEET_TAG 9010
 #define PUBLISH_ACTIONSHEET_TAG 9020

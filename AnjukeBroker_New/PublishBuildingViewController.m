@@ -764,6 +764,11 @@ typedef enum {
                 case 1:
                     index = 1;
                     break;
+                case 2:
+                    if (!self.isHaozu) {
+                        index = 2;
+                    }
+                    break;
                 default:
                     break;
             }
@@ -787,6 +792,9 @@ typedef enum {
                     
                 default:
                     break;
+            }
+            if (!self.isHaozu) {
+                index ++; //二手房，此index需要递增1（多最低首付）
             }
         }
             break;
@@ -1101,7 +1109,12 @@ typedef enum {
                     [self showInputWithIndex:self.selectedIndex isPicker:NO];
                 }
                     break;
-                case 1: //面积
+                case 1: //最低首付、面积
+                {
+                    [self showInputWithIndex:self.selectedIndex isPicker:NO];
+                }
+                    break;
+                case 2: //面积
                 {
                     [self showInputWithIndex:self.selectedIndex isPicker:NO];
                 }
@@ -1131,9 +1144,15 @@ typedef enum {
                     [self showInputWithIndex:self.selectedIndex isPicker:YES];
                 }
                     break;
-                case 3: //出租方式（仅好租）
+                case 3: //出租方式（仅好租）、特色
                 {
-                    [self showInputWithIndex:self.selectedIndex isPicker:YES];
+                    if (self.isHaozu) {
+                        [self showInputWithIndex:self.selectedIndex isPicker:YES];
+                    }
+                    else { //push to 特色
+                        PublishFeatureViewController *pf = [[PublishFeatureViewController alloc] init];
+                        [self.navigationController pushViewController:pf animated:YES];
+                    }
                 }
                     break;
                     
@@ -1285,7 +1304,7 @@ typedef enum {
                 return; //不做处理
             }
                 break;
-            case AJK_TEXT_AREA:
+            case AJK_TEXT_LIMIT_PAY:
             {
                 self.selectedIndex --;
                 self.selectedRow = 0;
@@ -1294,6 +1313,14 @@ typedef enum {
                 [self setToolBarLeftBtnDisable];
                 [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
                 return;
+            }
+                break;
+            case AJK_TEXT_AREA:
+            {
+                self.selectedIndex --;
+                self.selectedRow = 1;
+                self.selectedSection = 0;
+                
             }
                 break;
             case AJK_PICKER_FLOORS: //楼层
@@ -1390,6 +1417,13 @@ typedef enum {
             {
                 self.selectedIndex ++;
                 self.selectedRow = 1;
+                self.selectedSection = 0;
+            }
+                break;
+            case AJK_TEXT_LIMIT_PAY:
+            {
+                self.selectedIndex +=1;
+                self.selectedRow = 2;
                 self.selectedSection = 0;
             }
                 break;

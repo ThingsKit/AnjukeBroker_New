@@ -1665,9 +1665,19 @@
 			name = "房源编辑Controller";
 			sourceTree = "<group>";
 		};
+		205790D41904C5E700419CA3 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				20A07427188C0A080073C915 /* PublishTableViewDataSource.h */,
+				20A07428188C0A080073C915 /* PublishTableViewDataSource.m */,
+			);
+			name = DataSource;
+			sourceTree = "<group>";
+		};
 		206843E018890C3F007DD8C5 /* 新发房页面 */ = {
 			isa = PBXGroup;
 			children = (
+				205790D41904C5E700419CA3 /* DataSource */,
 				97F5E5E2182B389900B5CBCC /* 照片编辑 */,
 				97958367182231EE005EA48A /* 发房cell */,
 				20D3C248189245840030D7D8 /* 发房View */,
@@ -1680,8 +1690,6 @@
 				205790CF1904C17300419CA3 /* PublishFeatureViewController.m */,
 				204E66CD1894E7DB00546D51 /* PublishBigImageViewController.h */,
 				204E66CE1894E7DB00546D51 /* PublishBigImageViewController.m */,
-				20A07427188C0A080073C915 /* PublishTableViewDataSource.h */,
-				20A07428188C0A080073C915 /* PublishTableViewDataSource.m */,
 				977FCA8D182894F000945FB4 /* CommunityListViewController.h */,
 				977FCA8E182894F000945FB4 /* CommunityListViewController.m */,
 				B7E56D0D183DBAD600A0F7D2 /* AnjukeOnlineImgController.h */,
