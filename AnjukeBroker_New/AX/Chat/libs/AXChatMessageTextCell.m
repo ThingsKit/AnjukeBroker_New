@@ -145,6 +145,12 @@
 - (void)attributedLabel:(AXTTTAttributedLabel *)label didSelectLinkWithPhoneNumber:(NSString *)phoneNumber
 {
     self.phoneNum = phoneNumber;
+    if (self.isBroker) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(didClickTelNumber:)]) {
+            [self.delegate didClickTelNumber:phoneNumber];
+        }
+        return;
+    }
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"这可能是一个电话号码。\n是否拨打该号码" message:nil delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
     alertView.tag = AXChatCellViewTypePhoneAlert;
     [alertView show];
