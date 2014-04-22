@@ -40,7 +40,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    if (![AppManager isIOS6]) {
+    if (!SYSTEM_VERSION_LESS_THAN(@"7.0")) {
         if (self.backType == RTSelectorBackTypePopBack || self.backType == RTSelectorBackTypePopToRoot) {
             self.navigationController.interactivePopGestureRecognizer.enabled = YES;
         }
@@ -124,12 +124,12 @@
     }
     
     UIBarButtonItem *buttonItem;
-    buttonItem = [UIBarButtonItem getBackBarButtonItemForNormal:self action:@selector(doBack:)];
+    buttonItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_back.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_back_press.png"] taget:self action:@selector(doBack:)];
     if (self.backType == RTSelectorBackTypeDismiss) {
         buttonItem = [UIBarButtonItem getBackBarButtonItemForPresent:self action:@selector(doBack:)];
     }
     
-    if ([AppManager isIOS6]) {
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
         if (self.backType == RTSelectorBackTypeDismiss){//统一present 页面取消交互
             [self.navigationItem setRightBarButtonItem:buttonItem];
         }else{
@@ -150,7 +150,7 @@
     //主要适应按钮正选和反选文字
     if (possibleTitle.length > 0 || possibleTitle != nil) {
         buttonItem = [UIBarButtonItem getBarButtonItemWithString:title taget:self action:@selector(rightButtonAction:)];
-        if (![AppManager isIOS6]) {
+        if (!SYSTEM_VERSION_LESS_THAN(@"7.0")) {
             buttonItem.tintColor = SYSTEM_NAVIBAR_COLOR;
         }
         buttonItem.possibleTitles = [NSSet setWithObject:possibleTitle];
@@ -158,7 +158,7 @@
     }else{
         buttonItem = [UIBarButtonItem getBarButtonItemWithString:title taget:self action:@selector(rightButtonAction:)];
         
-        if ([AppManager isIOS6]) {
+        if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
             [self.navigationItem setRightBarButtonItem:buttonItem];
         }else{//fix ios7 10像素偏离
             UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace];

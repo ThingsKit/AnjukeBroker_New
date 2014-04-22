@@ -77,7 +77,7 @@
     self.editeScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight]-64)];
     self.editeScroll.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
     self.editeScroll.contentSize = CGSizeMake([self windowWidth], [self windowHeight]-64);
-    self.editeScroll.backgroundColor = [UIColor whiteColor];
+    self.editeScroll.backgroundColor = [UIColor clearColor];
     self.editeScroll.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.editeScroll];
     NSArray *titleArr = [NSArray arrayWithObjects:@"备注名", @"电话号码", @"备注信息", nil];
