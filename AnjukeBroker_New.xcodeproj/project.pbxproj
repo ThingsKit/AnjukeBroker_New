@@ -169,6 +169,9 @@
 		27A42B5918E2C4D300FADED3 /* wl_map_icon_4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A42B5018E2C4D300FADED3 /* wl_map_icon_4@2x.png */; };
 		27A42B5A18E2C4D300FADED3 /* wl_map_icon_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A42B5118E2C4D300FADED3 /* wl_map_icon_5.png */; };
 		27A42B5B18E2C4D300FADED3 /* wl_map_icon_5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A42B5218E2C4D300FADED3 /* wl_map_icon_5@2x.png */; };
+		4BE066E719064B6200EA2309 /* AXDownLoadModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BE066E219064B6200EA2309 /* AXDownLoadModule.m */; };
+		4BE066E819064B6200EA2309 /* AXDownLoadRequestElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BE066E419064B6200EA2309 /* AXDownLoadRequestElement.m */; };
+		4BE066E919064B6200EA2309 /* AXDownLoadRequestResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BE066E619064B6200EA2309 /* AXDownLoadRequestResponse.m */; };
 		678083FA1904AB1F00765A18 /* Emoji.m in Sources */ = {isa = PBXBuildFile; fileRef = 678083E31904AB1F00765A18 /* Emoji.m */; };
 		678083FB1904AB1F00765A18 /* EmojiEmoticons.m in Sources */ = {isa = PBXBuildFile; fileRef = 678083E51904AB1F00765A18 /* EmojiEmoticons.m */; };
 		678083FC1904AB1F00765A18 /* EmojiMapSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = 678083E71904AB1F00765A18 /* EmojiMapSymbols.m */; };
@@ -848,6 +851,12 @@
 		27A42B5018E2C4D300FADED3 /* wl_map_icon_4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wl_map_icon_4@2x.png"; path = "mapView/wl_map_icon_4@2x.png"; sourceTree = "<group>"; };
 		27A42B5118E2C4D300FADED3 /* wl_map_icon_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wl_map_icon_5.png; path = mapView/wl_map_icon_5.png; sourceTree = "<group>"; };
 		27A42B5218E2C4D300FADED3 /* wl_map_icon_5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wl_map_icon_5@2x.png"; path = "mapView/wl_map_icon_5@2x.png"; sourceTree = "<group>"; };
+		4BE066E119064B6200EA2309 /* AXDownLoadModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXDownLoadModule.h; sourceTree = "<group>"; };
+		4BE066E219064B6200EA2309 /* AXDownLoadModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXDownLoadModule.m; sourceTree = "<group>"; };
+		4BE066E319064B6200EA2309 /* AXDownLoadRequestElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXDownLoadRequestElement.h; sourceTree = "<group>"; };
+		4BE066E419064B6200EA2309 /* AXDownLoadRequestElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXDownLoadRequestElement.m; sourceTree = "<group>"; };
+		4BE066E519064B6200EA2309 /* AXDownLoadRequestResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXDownLoadRequestResponse.h; sourceTree = "<group>"; };
+		4BE066E619064B6200EA2309 /* AXDownLoadRequestResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXDownLoadRequestResponse.m; sourceTree = "<group>"; };
 		678083E21904AB1F00765A18 /* Emoji.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Emoji.h; sourceTree = "<group>"; };
 		678083E31904AB1F00765A18 /* Emoji.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Emoji.m; sourceTree = "<group>"; };
 		678083E41904AB1F00765A18 /* EmojiEmoticons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmojiEmoticons.h; sourceTree = "<group>"; };
@@ -1890,6 +1899,7 @@
 		20A217FB18BF2A9D002CA469 /* AXMessageCenter */ = {
 			isa = PBXGroup;
 			children = (
+				4BE066E019064B6200EA2309 /* AXDownLoadModule */,
 				2056A36418EE7EA00022B5A5 /* AXApiManagers */,
 				2056A38718EE7EA00022B5A5 /* AXMessageManager.h */,
 				2056A38818EE7EA00022B5A5 /* AXMessageManager.m */,
@@ -2016,6 +2026,19 @@
 				2739141A18DC371B003284AA /* LocIsBaidu.m */,
 			);
 			name = "地址选择&导航";
+			sourceTree = "<group>";
+		};
+		4BE066E019064B6200EA2309 /* AXDownLoadModule */ = {
+			isa = PBXGroup;
+			children = (
+				4BE066E119064B6200EA2309 /* AXDownLoadModule.h */,
+				4BE066E219064B6200EA2309 /* AXDownLoadModule.m */,
+				4BE066E319064B6200EA2309 /* AXDownLoadRequestElement.h */,
+				4BE066E419064B6200EA2309 /* AXDownLoadRequestElement.m */,
+				4BE066E519064B6200EA2309 /* AXDownLoadRequestResponse.h */,
+				4BE066E619064B6200EA2309 /* AXDownLoadRequestResponse.m */,
+			);
+			path = AXDownLoadModule;
 			sourceTree = "<group>";
 		};
 		678083E11904AB1F00765A18 /* Emoji-master */ = {
@@ -3692,6 +3715,7 @@
 				97B422681821087600A2E9E6 /* PropertyBigImageViewController.m in Sources */,
 				20516BDF18F52C3F00D0637C /* AXChatDataCenter.m in Sources */,
 				207526B918B45FE10022220C /* NSMutableArray+SWUtilityButtons.m in Sources */,
+				4BE066E819064B6200EA2309 /* AXDownLoadRequestElement.m in Sources */,
 				B7E56D0F183DBAD600A0F7D2 /* AnjukeOnlineImgController.m in Sources */,
 				B769E46C181F76A600A2FF50 /* BaseBidPlanController.m in Sources */,
 				972DDA301826D39500263F8F /* RTPopoverTableViewController.m in Sources */,
@@ -3729,6 +3753,7 @@
 				200915E81893FC1000A13115 /* E_Photo.m in Sources */,
 				970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */,
 				B7FC9B2E18C41F9C00F77205 /* UIColor+RT.m in Sources */,
+				4BE066E919064B6200EA2309 /* AXDownLoadRequestResponse.m in Sources */,
 				678D2A2918DAB12E0027D945 /* VoiceConverter.mm in Sources */,
 				20516BDD18F52C0900D0637C /* AXChatMessageCenter.m in Sources */,
 				B7E55B5018BF2190007238CB /* NSString+JSMessagesView.m in Sources */,
@@ -3843,6 +3868,7 @@
 				678083FC1904AB1F00765A18 /* EmojiMapSymbols.m in Sources */,
 				2056A34E18EE7E660022B5A5 /* XChatData.xcdatamodeld in Sources */,
 				2056A39418EE7EA00022B5A5 /* AXMessageCenterSendMessageManager.m in Sources */,
+				4BE066E719064B6200EA2309 /* AXDownLoadModule.m in Sources */,
 				2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */,
 				203EC29B18B2F65400DD0840 /* ClientListViewController.m in Sources */,
 				2056A39318EE7EA00022B5A5 /* AXMessageCenterSearchBrokerManager.m in Sources */,

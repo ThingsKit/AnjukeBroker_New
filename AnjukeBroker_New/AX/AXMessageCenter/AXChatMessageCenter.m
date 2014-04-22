@@ -30,6 +30,7 @@
 
 //record
 #import "KKAudioComponent.h"
+#import "AXDownLoadModule.h"
 
 static NSString * const kMessageCenterReceiveMessageTypeText = @"1";
 static NSString * const kMessageCenterReceiveMessageTypeProperty = @"2";
@@ -40,12 +41,11 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 
 @interface AXChatMessageCenter ()<AXMessageAPILongLinkDelegate,RTAPIManagerApiCallBackDelegate,RTAPIManagerInterceptorProtocal, AXChatDataCenterDelegate>
 @property (nonatomic, strong) AXMessageAPILongLinkManager *longLinkManager;
-@property (nonatomic, strong) ASIHTTPRequest *QRCodeRequest;
 @property (nonatomic, strong) AXChatDataCenter *dataCenter;
 @property (nonatomic, strong) NSOperationQueue *imageMessageOperation;
 @property (nonatomic, strong) NSMutableArray *messsageIdentity;
 @property (nonatomic, strong) NSMutableDictionary *blockDictionary;
-@property (nonatomic, strong) NSMutableArray *sendImageArray;
+@property (nonatomic, strong) NSMutableArray *sendMessageArray;
 @property (nonatomic, strong) NSMutableArray *imageMessageArray;
 @property (nonatomic, strong) NSDate *currentTime;
 @property (nonatomic, strong) NSTimer *downLoadFailedMessageTimer;
@@ -267,12 +267,12 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     return _messsageIdentity;
 }
 
-- (NSMutableArray *)sendImageArray
+- (NSMutableArray *)sendMessageArray
 {
-    if (_sendImageArray == nil) {
-        _sendImageArray = [[NSMutableArray alloc] initWithCapacity:0];
+    if (_sendMessageArray == nil) {
+        _sendMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
     }
-    return _sendImageArray;
+    return _sendMessageArray;
 }
 
 - (NSMutableDictionary *)blockDictionary
@@ -300,13 +300,6 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     return _dataCenter;
 }
 
-- (NSTimer *)downLoadFailedMessageTimer
-{
-    if (!_downLoadFailedMessageTimer) {
-        _downLoadFailedMessageTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(receiveNoticationNetWorkChange) userInfo:nil repeats:YES];
-    }
-    return _downLoadFailedMessageTimer;
-}
 #pragma mark - life cycle
 + (instancetype)defaultMessageCenter
 {
@@ -358,7 +351,7 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 - (void)sendMessageCallBackWithResonpe:(RTNetworkResponse *)response
 {
     int requestID = response.requestID;
-   __block NSDictionary *deleteDic = [[NSDictionary alloc] init];
+    __block NSDictionary *deleteDic = [[NSDictionary alloc] init];
     [self.messsageIdentity enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSDictionary *dic = (NSDictionary *)obj;
         if (requestID == [dic[@"requestID"] integerValue]) {
@@ -369,44 +362,42 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
             }
             if (response.status == RTNetworkResponseStatusSuccess) {
                 if (response.content[@"status"] && [response.content[@"status"] isEqualToString:@"OK"]) {
-                    if (self.blockDictionary[identify]) {
-                        _finishSendMessageBlock = self.blockDictionary[identify];
-                        mappedMessage.sendStatus = @(AXMessageCenterSendMessageStatusSuccessful);
-                        mappedMessage.messageId = [NSNumber numberWithInt:[response.content[@"result"] integerValue]];
-                        [self.dataCenter didSuccessSendMessageWithIdentifier:identify messageId:[NSString stringWithFormat:@"%@",mappedMessage.messageId]];
-                        _finishSendMessageBlock(@[mappedMessage],AXMessageCenterSendMessageStatusSuccessful,AXMessageCenterSendMessageErrorTypeCodeNone);
-                        [self.blockDictionary removeObjectForKey:identify];
-                    }
+                    [self finishSendMessageWithSendStatus:AXMessageCenterSendMessageStatusSuccessful messageID:[NSNumber numberWithInt:[response.content[@"result"] integerValue]] failOrSuccess:YES message:mappedMessage errorCodeType:AXMessageCenterSendMessageErrorTypeCodeNone];
                 } else if (response.content[@"status"] && [response.content[@"status"] isEqualToString:@"ERROR"]){
-                    _finishSendMessageBlock = self.blockDictionary[identify];
                     mappedMessage.messageId = [NSNumber numberWithInt:[response.content[@"result"] integerValue]];
                     if (response.content[@"errorCode"] && [response.content[@"errorCode"] isEqualToString:@"100016"] ) {
                         //xiao fengdeng you know that, it should be failed not success!!!!
-                        mappedMessage.sendStatus = @(AXMessageCenterSendMessageStatusSuccessful);
-                        [self.dataCenter didFailSendMessageWithIdentifier:identify];
-                        _finishSendMessageBlock(@[mappedMessage],AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeNotFriend);
+                        [self finishSendMessageWithSendStatus:AXMessageCenterSendMessageStatusSuccessful messageID:nil failOrSuccess:NO message:mappedMessage errorCodeType:AXMessageCenterSendMessageErrorTypeCodeNotFriend];
                     }else
                     {
-                        mappedMessage.sendStatus = @(AXMessageCenterSendMessageStatusFailed);
-                        [self.dataCenter didFailSendMessageWithIdentifier:identify];
-                        _finishSendMessageBlock(@[mappedMessage],AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeNone);
+                        [self finishSendMessageWithSendStatus:AXMessageCenterSendMessageStatusFailed messageID:nil failOrSuccess:NO message:mappedMessage errorCodeType:AXMessageCenterSendMessageErrorTypeCodeNone];
                     }
-                    [self.blockDictionary removeObjectForKey:identify];
                 }
             }else if (response.status == RTNetworkResponseStatusFailed || response.status == RTNetworkResponseStatusJsonError) {
-                if (self.blockDictionary[identify]) {
-                    mappedMessage.sendStatus = @(AXMessageCenterSendMessageStatusFailed);
-                    [self.dataCenter didFailSendMessageWithIdentifier:identify];
-                    _finishSendMessageBlock = self.blockDictionary[identify];
-                    _finishSendMessageBlock(@[mappedMessage],AXMessageCenterSendMessageStatusFailed,AXMessageCenterSendMessageErrorTypeCodeFailed);
-                    [self.blockDictionary removeObjectForKey:identify];
-                }
+                [self finishSendMessageWithSendStatus:AXMessageCenterSendMessageStatusFailed messageID:nil failOrSuccess:NO message:mappedMessage errorCodeType:AXMessageCenterSendMessageErrorTypeCodeFailed];
             }
             deleteDic = dic;
         }
     }];
     [self.messsageIdentity removeObject:deleteDic];
+    
+}
 
+- (void)finishSendMessageWithSendStatus:(AXMessageCenterSendMessageStatus )status messageID:(NSNumber *)messageID failOrSuccess:(BOOL)IsFailed message:(AXMappedMessage *)message errorCodeType:(AXMessageCenterSendMessageErrorTypeCode)errorCodeType
+{
+    message.sendStatus  = @(status);
+    if (!IsFailed) {
+        [self.dataCenter didFailSendMessageWithIdentifier:message.identifier];
+    }else{
+        message.messageId = messageID;
+        [self.dataCenter didSuccessSendMessageWithIdentifier:message.identifier messageId:[NSString stringWithFormat:@"%@",messageID]];
+    }
+    _finishSendMessageBlock = self.blockDictionary[message.identifier];
+    if (_finishSendMessageBlock) {
+        _finishSendMessageBlock(@[message],status,errorCodeType);
+        [self.blockDictionary removeObjectForKey:message.identifier];
+    }
+    
 }
 
 - (void)manager:(RTAPIBaseManager *)manager afterPerformSuccessWithResponse:(RTNetworkResponse *)response
@@ -735,14 +726,112 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
         return ;
     }
     self.blockDictionary[dataMessage.identifier] = sendMessageBlock;
-    [self.sendImageArray addObject:dataMessage];
-    NSString *photoUrl = dataMessage.imgPath;
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:ImageServeAddress]];
-    [request addFile:photoUrl forKey:@"file"];
-    [request setUserInfo:@{@"identify": dataMessage.identifier}];
-    [request setDelegate:self];
-    request.tag = AXMessageCenterHttpRequestTypeUploadImage;
-    [self.imageMessageOperation addOperation:request];
+    [self.sendMessageArray addObject:dataMessage];
+    [[AXDownLoadModule shareInstance] upLoadWithUrlString:[NSURL URLWithString:ImageServeAddress] postData:dataMessage.imgPath identify:dataMessage.identifier callBack:@"uploadCallBack:" target:self type:AJKDownLoadModuleUpLoadTypeImage];
+}
+
+- (void)uploadCallBack:(AXDownLoadRequestResponse *)response
+{
+    __block AXMappedMessage *deleteMessage;
+    [self.sendMessageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        AXMappedMessage *dataMessage = (AXMappedMessage *)obj;
+        if ([dataMessage.identifier isEqualToString:response.identify]) {
+            deleteMessage = dataMessage;
+            if (response.status == AXDownLoadRequestResponseStatusSuccessful) {
+                [self uploadSuccessfull:response withMessage:dataMessage];
+            }else{
+                [self uploadFailed:response withMessage:dataMessage];
+            }
+        }
+    }];
+    [self.sendMessageArray removeObject:deleteMessage];
+}
+
+- (void)uploadSuccessfull:(AXDownLoadRequestResponse *)response withMessage:(AXMappedMessage *)message
+{
+    __autoreleasing NSError *error;
+    NSDictionary *callBackDic = [NSJSONSerialization JSONObjectWithData:response.responseData options:NSJSONReadingMutableContainers error:&error];
+    if (error) {
+        return;
+    }
+    AXMappedPerson *toPerson = [self.dataCenter fetchPersonWithUID:message.to];
+    if ([message.messageType intValue] == AXMessageTypePic) {
+        [self uploadSuccessAndSendPicWithMessage:message responseDic:callBackDic withToPersonType:toPerson.userType];
+    }
+    if ([message.messageType intValue] == AXMessageTypeVoice) {
+        [self uploadSuccessAndSendVoiceWithMessage:message responseDic:callBackDic withToPersonType:toPerson.userType];
+    }
+}
+
+- (void)uploadSuccessAndSendPicWithMessage:(AXMappedMessage *)dataMessage responseDic:(NSDictionary *)receiveDic withToPersonType:(AXPersonType )userType
+{
+    NSString *imageUrl;
+    if (receiveDic[@"status"] && [receiveDic[@"status"] isEqualToString:@"ok"]) {
+        NSDictionary *image = receiveDic[@"image"];
+        imageUrl = [NSString stringWithFormat:@"http://pic%@.ajkimg.com/m/%@/%@x%@.jpg",image[@"host"],image[@"id"],image[@"width"],image[@"height"]];
+    }else if (receiveDic == nil || [receiveDic[@"status"] isEqualToString:@"ERROR"]){
+        [self didFailedSendMessage:dataMessage];
+        return ;
+    }
+    
+    dataMessage.imgUrl = imageUrl;
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"msg_type"] = [NSString stringWithFormat:@"%@",dataMessage.messageType];
+    params[@"phone"] = self.currentPerson.phone;
+    params[@"uniqid"] = dataMessage.identifier;
+    params[@"body"] = imageUrl;
+    
+    [self.dataCenter updateMessage:dataMessage];
+    [self sendMessageToUserType:userType params:params message:dataMessage];
+}
+
+- (void)uploadSuccessAndSendVoiceWithMessage:(AXMappedMessage *)dataMessage responseDic:(NSDictionary *)receiveDic withToPersonType:(AXPersonType )userType
+{
+    NSString *voiceID;
+    if (receiveDic[@"status"] && [receiveDic[@"status"] isEqualToString:@"OK"] && receiveDic[@"result"] && receiveDic[@"result"][@"file_id"]) {
+        voiceID = receiveDic[@"result"][@"file_id"];
+    }else if (receiveDic == nil || (receiveDic[@"status"] && [receiveDic[@"status"] isEqualToString:@"ERROR"])){
+        [self didFailedSendMessage:dataMessage];
+        return ;
+    }
+    NSData *data = [dataMessage.content dataUsingEncoding:NSUTF8StringEncoding];
+    __autoreleasing NSError *error;
+    NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    if (dic[@"length"]) {
+        dic[@"file_id"] = voiceID;
+    }
+    dataMessage.content = [dic RTJSONRepresentation];
+    dataMessage.imgUrl = voiceID;
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"msg_type"] = [NSString stringWithFormat:@"%@",dataMessage.messageType];
+    params[@"phone"] = self.currentPerson.phone;
+    params[@"uniqid"] = dataMessage.identifier;
+    params[@"body"] = dataMessage.content;
+    
+    [self.dataCenter updateMessage:dataMessage];
+    [self sendMessageToUserType:userType params:params message:dataMessage];
+}
+
+- (void)uploadFailed:(AXDownLoadRequestResponse *)response withMessage:(AXMappedMessage *)message
+{
+    [self.dataCenter didFailSendMessageWithIdentifier:message.identifier];
+    [self.sendMessageArray removeObject:message];
+    if (self.blockDictionary[message.identifier]) {
+        [self.blockDictionary removeObjectForKey:message.identifier];
+    }
+}
+
+- (void)sendMessageToUserType:(AXPersonType )userType params:(NSMutableDictionary *)params message:(AXMappedMessage *)dataMessage
+{
+    if (userType == AXPersonTypePublic) {
+        params[@"to_service_id"] = dataMessage.to;
+        self.sendMessageToPublic.apiParams = params;
+        [self.sendMessageToPublic loadData];
+    }else {
+        params[@"to_uid"] = dataMessage.to;
+        self.sendMessageManager.apiParams = params;
+        [self.sendMessageManager loadData];
+    }
 }
 
 - (void)newVoiceMessageUploadWithMessage:(AXMappedMessage *)message withSendMessageBlock:(void(^)(NSArray *, AXMessageCenterSendMessageStatus, AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
@@ -756,32 +845,12 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
         return ;
     }
     self.blockDictionary[dataMessage.identifier] = sendMessageBlock;
-    [self.sendImageArray addObject:dataMessage];
-    
-    NSDictionary *requestParams =  [self getRequestHeadersAndRequestUrlWithMethodName:@"common/uploadFile"];
-    NSDictionary *headers = requestParams[@"headers"];
-    NSURL *requestURL = requestParams[@"requestURL"];
-    NSString *voiceUrl = dataMessage.imgPath;
+    [self.sendMessageArray addObject:dataMessage];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *amrPath = [KKAudioComponent wavToAmrWithWavFilePath:voiceUrl];
-        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:requestURL];
-        if (headers) {
-            NSArray *keys = [headers allKeys];
-            for (NSString *key in keys) {
-                if ([[NSNull null] isEqual:[headers objectForKey:key]] || [@"" isEqualToString:[headers objectForKey:key]])
-                    continue;
-                [request addRequestHeader:key value:[headers objectForKey:key]];
-            }
-        }
-        
+        NSString *amrPath = [KKAudioComponent wavToAmrWithWavFilePath:dataMessage.imgPath];
         NSMutableData *voiceMutableData = [[NSMutableData alloc] initWithContentsOfFile:amrPath];
-        [request setRequestMethod:@"POST"];
-        [request appendPostData:voiceMutableData];
-        [request setUserInfo:@{@"identify": dataMessage.identifier}];
-        [request setDelegate:self];
-        request.tag = AXMessageCenterHttpRequestTypeUploadVoice;
-        [self.imageMessageOperation addOperation:request];
+        [[AXDownLoadModule shareInstance] upLoadWithHostAddress:kLastVersionApiSite postData:voiceMutableData methodName:@"common/uploadFile" isCheck:YES identify:dataMessage.identifier callBack:@"uploadCallBack:" target:self type:AJKDownLoadModuleUpLoadTypeVoice];
     });
 
 }
@@ -1040,25 +1109,6 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     }
 }
 
-- (NSDictionary *)getRequestHeadersAndRequestUrlWithMethodName:(NSString *)methodName
-{
-    RTDataService *service = [[RTDataService alloc] init];
-    service.apiVersion = @"";
-    service.privateKey = @"54d22906b73b0f6d";
-    service.publicKey = @"d945dc04a511fcd7e6ee79d9bf4b9416";
-    service.appName = @"i-broker2";
-    service.apiSite = kLastVersionApiSite;
-    NSDictionary *commParams = [NSDictionary dictionaryWithDictionary:[service deviceInfoDictREST]];
-    NSMutableDictionary *allParams = [NSMutableDictionary dictionaryWithDictionary:commParams];
-    [allParams addEntriesFromDictionary:@{}];
-    
-    NSURL *requestURL = [service buildRESTGetURLWithMethod:methodName params:allParams];
-    NSMutableDictionary *headers = [NSMutableDictionary dictionaryWithDictionary:[service commRESTHeaders]];
-    [headers setValue:[service signRESTGetForRequestMethod:methodName commParams:commParams apiParams:@{}] forKey:@"sig"];
-    
-    return @{@"headers": headers,@"requestURL":requestURL};
-}
-
 - (void)downLoadVoiceInOperationQueueWithMessage:(AXMappedMessage *)message
 {
     __autoreleasing NSError *error;
@@ -1068,25 +1118,58 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
         DLog(@"receive voice message content is error!!");
         return ;
     }
-    NSDictionary *requestParams =  [self getRequestHeadersAndRequestUrlWithMethodName:[NSString stringWithFormat:@"common/downloadFile/%@",dic[@"file_id"]]];
-    NSDictionary *headers = requestParams[@"headers"];
-    NSURL *requestURL = requestParams[@"requestURL"];
-    
-    ASIHTTPRequest *downLoadVoice = [ASIHTTPRequest requestWithURL:requestURL];
-    if (headers) {
-        NSArray *keys = [headers allKeys];
-        for (NSString *key in keys) {
-            if ([[NSNull null] isEqual:[headers objectForKey:key]] || [@"" isEqualToString:[headers objectForKey:key]])
-                continue;
-            [downLoadVoice addRequestHeader:key value:[headers objectForKey:key]];
-        }
-    }
-
-    downLoadVoice.delegate = self;
-    downLoadVoice.tag = [message.messageId integerValue];
-    [self.imageMessageOperation addOperation:downLoadVoice];
-    
+    NSString *identify = [NSString stringWithFormat:@"%@",message.messageId];
+    [[AXDownLoadModule shareInstance] downLoadWithHostAddress:kLastVersionApiSite methodName:[NSString stringWithFormat:@"common/downloadFile/%@",dic[@"file_id"]] isCheck:YES identify:identify callBack:@"downloadCallBack:" target:self type:AJKDownLoadModuleDownLoadTypeVoice];
 }
+
+- (void)downloadCallBack:(AXDownLoadRequestResponse *)response
+{
+    
+    //    [self.imageMessageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    //        NSDictionary *fromUid = (NSDictionary *)obj;
+    //        NSArray *allKeys =[fromUid allKeys];
+    //        NSArray *messageArray = fromUid[[allKeys objectAtIndex:0]];
+    //        [messageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    //            AXMappedMessage *imageMessage = (AXMappedMessage *)obj;
+    //            if ([imageMessage.messageId integerValue] == [response.identify integerValue]) {
+    //                if (response.status == AJKDownLoadModuleDownLoadStatusSuccessful) {
+    //                    [self downLoadSuccessfulWithMessage:imageMessage responseData:response.responseData userID:allKeys[0]];
+    //                }else if (response.status == AJKDownLoadModuleDownLoadStatusFailed){
+    //                    [self downLoadFailedWithMessage:imageMessage];
+    //                }
+    //            }
+    //        }];
+    //    }];
+    __block AXMappedMessage *deleteMessage;
+    [self.imageMessageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        AXMappedMessage *message = obj;
+        if ([message.messageId integerValue] == [response.identify integerValue]) {
+            deleteMessage = message;
+            if (response.status == AJKDownLoadModuleDownLoadStatusSuccessful) {
+                [self downLoadSuccessfulWithMessage:message responseData:response.responseData userID:message.from];
+            }else if (response.status == AJKDownLoadModuleDownLoadStatusFailed){
+                [self downLoadFailedWithMessage:message];
+            }
+        }
+    }];
+    [self.imageMessageArray removeObject:deleteMessage];
+}
+
+- (void)downLoadSuccessfulWithMessage:(AXMappedMessage *)imageMessage responseData:(NSData *)responseData userID:(NSString *)userID
+{
+    if ([imageMessage.messageType integerValue] == AXMessageTypePic) {
+        [self saveImageWithMessage:imageMessage userID:userID responseData:responseData];
+    }else if ([imageMessage.messageType integerValue] == AXMessageTypeVoice){
+        [self saveVoiceWithMessage:imageMessage userID:userID responseData:responseData];
+    }
+}
+
+- (void)downLoadFailedWithMessage:(AXMappedMessage *)imageMessage
+{
+    imageMessage.isImgDownloaded = NO;
+    [self.dataCenter updateMessage:imageMessage];
+}
+
 - (void)downLoadImageInOperationQueueWithMessage:(AXMappedMessage *)message
 {
     if ([message.messageType  isEqual: @(AXMessageTypePic)]) {
@@ -1096,12 +1179,7 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
         }
     }
     NSString *finishString = [self restructImageUrlToFitSmallImageByOriginUrl:message.imgUrl];
-    NSURL *imageUrl = [[NSURL alloc] initWithString:finishString];
-    ASIHTTPRequest *imageDownLoadRequest = [[ASIHTTPRequest alloc] initWithURL:imageUrl];
-    [imageDownLoadRequest setCacheStoragePolicy:ASICacheForSessionDurationCacheStoragePolicy];
-    imageDownLoadRequest.tag = [message.messageId integerValue];
-    imageDownLoadRequest.delegate = self;
-    [self.imageMessageOperation addOperation:imageDownLoadRequest];
+    [[AXDownLoadModule shareInstance] downLoadWithUrlString:[NSURL URLWithString:finishString] identify:[NSString stringWithFormat:@"%@",message.messageId] callBack:@"downloadCallBack:" target:self type:AJKDownLoadModuleDownLoadTypeImage];
 }
 
 - (NSString *)restructImageUrlToFitSmallImageByOriginUrl:(NSString *)imageUrl
@@ -1153,13 +1231,9 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
         return;
     }
     __block NSArray *messageArray;
-    __block NSArray *picArray;
-    __block NSArray *voiceArray;
     NSMutableDictionary *messageDic = [[NSMutableDictionary alloc] init];
     NSArray *allKeyArray = [messages allKeys];
     [allKeyArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSMutableDictionary *picDic = [[NSMutableDictionary alloc] init];
-        NSMutableDictionary *voiceDic = [[NSMutableDictionary alloc] init];
         NSString *key = obj;
         if (messages[key][@"other"] && [messages[key][@"other"] isKindOfClass:[NSArray class]]) {
             NSArray *array = messages[key][@"other"];
@@ -1170,51 +1244,38 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
         if (messages[key][@"pic"] && [messages[key][@"pic"] isKindOfClass:[NSArray class]]) {
             NSArray *array = messages[key][@"pic"];
             if ([array count] >= 1) {
-                picArray = array;
                 for (AXMappedMessage *message in array) {
                     [self downLoadImageInOperationQueueWithMessage:message];
+                    [self.imageMessageArray addObject:message];
                 }
             }
         }
         if (messages[key][@"voice"] && [messages[key][@"voice"] isKindOfClass:[NSArray class]]) {
             NSArray *array = messages[key][@"voice"];
             if ([array count] >= 1) {
-                voiceArray = array;
                 for (AXMappedMessage *message in array) {
                     [self downLoadVoiceInOperationQueueWithMessage:message];
+                    [self.imageMessageArray addObject:message];
                 }
             }
         }
         if ([messageArray count] > 0) {
             messageDic[key] = messageArray;
         }
-        if ([picArray count] > 0) {
-            picDic[key] = picArray;
-        };
-        if ([voiceArray count] > 0) {
-            voiceDic[key] = voiceArray;
-        }
-        if (![picDic isEqual:@{}]) {
-            [self.imageMessageArray addObject:picDic];
-        }
-        if (![voiceDic isEqual:@{}]) {
-            [self.imageMessageArray addObject:voiceDic];
-        }
-        picDic = nil;
-        voiceDic = nil;
-        
     }];
     NSDictionary *userInfo = @{@"unreadCount":@([self.dataCenter totalUnreadMessageCount])};
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageCenterDidReceiveNewMessage object:messageDic userInfo:userInfo];
     });
-
+    
 }
 #pragma mark - AXChatDataCenterDelegate
 - (void)dataCenter:(AXChatDataCenter *)dataCenter didFetchChatList:(NSDictionary *)chatList withFriend:(AXMappedPerson *)person lastMessage:(AXMappedMessage *)message
 {
-    _fetchedChatList(chatList,message,person);
-    _fetchedChatList = nil;
+    if (_fetchedChatList) {
+        _fetchedChatList(chatList,message,person);
+        _fetchedChatList = nil;
+    }
 }
 
 - (void)dataCenter:(AXChatDataCenter *)dataCenter didReceiveMessages:(NSDictionary *)messages
@@ -1238,14 +1299,6 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 }
 
 #pragma mark - ASIHTTPRequestDelegate
-
-- (void)requestStarted:(ASIHTTPRequest *)request
-{
-    if (request.tag == AXMessageCenterHttpRequestTypeUploadVoice ) {
-        
-    }
-}
-
 - (void)didFailedSendMessage:(AXMappedMessage *)failedMessage
 {
     [self.dataCenter didFailSendMessageWithIdentifier:failedMessage.identifier];
@@ -1256,114 +1309,6 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     [self.blockDictionary removeObjectForKey:failedMessage.identifier];
 
 }
-- (void)requestFinished:(ASIHTTPRequest *)request
-{
-    //sendimage
-    if (request.tag == AXMessageCenterHttpRequestTypeUploadImage) {
-        [self.sendImageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            AXMappedMessage *dataMessage = (AXMappedMessage *)obj;
-            NSDictionary *userInfo = [request userInfo];
-            if ([dataMessage.identifier isEqualToString:userInfo[@"identify"]]) {
-                NSString *imageUrl;
-                __autoreleasing NSError *error;
-                NSDictionary *receiveDic = [NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:&error];
-                if (receiveDic[@"status"] && [receiveDic[@"status"] isEqualToString:@"ok"]) {
-                    NSDictionary *image = receiveDic[@"image"];
-                    imageUrl = [NSString stringWithFormat:@"http://pic%@.ajkimg.com/m/%@/%@x%@.jpg",image[@"host"],image[@"id"],image[@"width"],image[@"height"]];
-                }else if (receiveDic == nil || [receiveDic[@"status"] isEqualToString:@"ERROR"]){
-                    [self didFailedSendMessage:dataMessage];
-                    return ;
-                }
-                
-                dataMessage.imgUrl = imageUrl;
-                NSMutableDictionary *params = [NSMutableDictionary dictionary];
-                params[@"msg_type"] = [NSString stringWithFormat:@"%@",dataMessage.messageType];
-                params[@"phone"] = self.currentPerson.phone;
-                params[@"uniqid"] = dataMessage.identifier;
-                params[@"body"] = imageUrl;
-                
-                [self.dataCenter updateMessage:dataMessage];
-                AXMappedPerson *toPerson = [self.dataCenter fetchPersonWithUID:dataMessage.to];
-                if (toPerson && toPerson.userType == AXPersonTypePublic) {
-                    params[@"to_service_id"] = dataMessage.to;
-                    self.sendMessageToPublic.apiParams = params;
-                    [self.sendMessageToPublic loadData];
-                }else {
-                    params[@"to_uid"] = dataMessage.to;
-                    self.sendMessageManager.apiParams = params;
-                    [self.sendMessageManager loadData];
-                }
-        }
-    }];
-        
-    }
-    if (request.tag == AXMessageCenterHttpRequestTypeUploadVoice) {
-        [self.sendImageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            AXMappedMessage *dataMessage = (AXMappedMessage *)obj;
-            NSDictionary *userInfo = [request userInfo];
-            if ([dataMessage.identifier isEqualToString:userInfo[@"identify"]]) {
-                NSString *voiceID;
-                __autoreleasing NSError *error1;
-                NSDictionary *receiveDic = [NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:&error1];
-                if (receiveDic[@"status"] && [receiveDic[@"status"] isEqualToString:@"OK"] && receiveDic[@"result"] && receiveDic[@"result"][@"file_id"]) {
-                    voiceID = receiveDic[@"result"][@"file_id"];
-                }else if (receiveDic == nil || (receiveDic[@"status"] && [receiveDic[@"status"] isEqualToString:@"ERROR"])){
-                    [self didFailedSendMessage:dataMessage];
-                    return ;
-                }
-                NSData *data = [dataMessage.content dataUsingEncoding:NSUTF8StringEncoding];
-                __autoreleasing NSError *error;
-                NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-                if (dic[@"length"]) {
-                    dic[@"file_id"] = voiceID;
-                }
-                dataMessage.content = [dic RTJSONRepresentation];
-                dataMessage.imgUrl = voiceID;
-                NSMutableDictionary *params = [NSMutableDictionary dictionary];
-                params[@"msg_type"] = [NSString stringWithFormat:@"%@",dataMessage.messageType];
-                params[@"phone"] = self.currentPerson.phone;
-                params[@"uniqid"] = dataMessage.identifier;
-                params[@"body"] = dataMessage.content;
-                
-                [self.dataCenter updateMessage:dataMessage];
-                AXMappedPerson *toPerson = [self.dataCenter fetchPersonWithUID:dataMessage.to];
-                if (toPerson && toPerson.userType == AXPersonTypePublic) {
-                    params[@"to_service_id"] = dataMessage.to;
-                    self.sendMessageToPublic.apiParams = params;
-                    [self.sendMessageToPublic loadData];
-                }else{
-                    params[@"to_uid"] = dataMessage.to;
-                    self.sendMessageManager.apiParams = params;
-                    [self.sendMessageManager loadData];
-                }
-                
-            }
-        }];
-
-    }
-    [self.imageMessageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSDictionary *fromUid = (NSDictionary *)obj;
-        NSArray *allKeys =[fromUid allKeys];
-        NSArray *messageArray = fromUid[[allKeys objectAtIndex:0]];
-        [messageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            AXMappedMessage *imageMessage = (AXMappedMessage *)obj;
-            if ([imageMessage.messageId integerValue] == request.tag) {
-                NSError *error = [request error];
-                if (error) {
-                    imageMessage.isImgDownloaded = NO;
-                    [self.dataCenter updateMessage:imageMessage];
-                }else{
-                    if ([imageMessage.messageType integerValue] == AXMessageTypePic) {
-                        [self saveImageWithMessage:imageMessage userID:allKeys[0] responseData:[request responseData]];
-                    }else if ([imageMessage.messageType integerValue] == AXMessageTypeVoice){
-                        [self saveVoiceWithMessage:imageMessage userID:allKeys[0] responseData:[request responseData]];
-                    }
-                }
-            }
-        }];
-    }];
-
-}
 
 - (void)saveImageWithMessage:(AXMappedMessage *)message userID:(NSString *)userID responseData:(NSData *)data
 {
@@ -1372,6 +1317,7 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     [self saveImage:image withFileName:message.identifier ofType:@"jpg" inDirectory:documentsDirectoryPath];
     NSString *imageString = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg",message.identifier]];
     message.thumbnailImgPath = imageString;
+    message.isImgDownloaded = YES;
     [self.dataCenter updateMessage:message];
     NSDictionary *dic = @{userID: @[message]};
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -1385,6 +1331,7 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     NSData *voiceData = data;
     NSString *receiveVoicePath = [KKAudioComponent amrToWavWithNSData:voiceData];
     message.imgPath = receiveVoicePath;
+    message.isImgDownloaded = YES;
     [self.dataCenter updateMessage:message];
     NSDictionary *dic = @{userID: @[message]};
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -1392,31 +1339,6 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     });
     
     
-}
-- (void)requestFailed:(ASIHTTPRequest *)request
-{
-    if (request.tag == AXMessageCenterHttpRequestTypeUploadImage || request.tag == AXMessageCenterHttpRequestTypeUploadVoice) {
-        NSDictionary *userInfo = [request userInfo];
-        [self.sendImageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            AXMappedMessage *dataMessage = (AXMappedMessage *)obj;
-            if ([dataMessage.identifier isEqualToString:userInfo[@"identify"]]) {
-                [self didFailedSendMessage:dataMessage];
-            }
-        }];
-    }
-    [self.imageMessageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSDictionary *fromUid = (NSDictionary *)obj;
-        NSArray *allKeys =[fromUid allKeys];
-        NSArray *messageArray = fromUid[[allKeys objectAtIndex:0]];
-        [messageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            AXMappedMessage *imageMessage = (AXMappedMessage *)obj;
-            if ([imageMessage.messageId integerValue] == request.tag) {
-                imageMessage.isImgDownloaded = NO;
-                [self.dataCenter updateMessage:imageMessage];
-            }
-        }];
-    }];
-
 }
 
 #pragma mark - AXMessageAPILongLinkDelegate

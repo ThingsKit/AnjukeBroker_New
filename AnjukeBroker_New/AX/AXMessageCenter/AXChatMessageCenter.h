@@ -7,9 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ASIProgressDelegate.h"
-#import "ASIHTTPRequestDelegate.h"
-#import "ASIFormDataRequest.h"
 #import "AXMappedMessage.h"
 #import "AXMappedPerson.h"
 #import "AXMappedConversationListItem.h"
@@ -60,7 +57,7 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 
 @class AXChatMessageCenter;
 
-@interface AXChatMessageCenter : NSObject<ASIHTTPRequestDelegate>
+@interface AXChatMessageCenter : NSObject
 
 @property (nonatomic, strong) NSDictionary *userInfo;
 
