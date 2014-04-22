@@ -84,10 +84,10 @@ NSArray = [
     self.magnifier.hidden = YES;
     [self addSubview:self.magnifier];
     
-    self.labelIcon = [[UILabel alloc] initWithFrame:CGRectMake(7, 7, 30, 28)];
+    self.labelIcon = [[UILabel alloc] initWithFrame:CGRectMake(45/2-30/2, 7, 30, 28)];
     self.labelIcon.backgroundColor = [UIColor clearColor];
     [self.labelIcon setFont:[UIFont systemFontOfSize:30]];
-    [self.magnifier addSubview:_labelIcon];
+    [self.magnifier addSubview:self.labelIcon];
     
     self.pageNumber = PAGE_COUNT;
     
@@ -114,7 +114,7 @@ NSArray = [
                 [image drawInRect:frame];
             }else{
                 UILabel* label = [[UILabel alloc] initWithFrame:frame];
-                [label setFont:[UIFont systemFontOfSize:30]];
+                [label setFont:[UIFont fontWithName:@"AppleColorEmoji" size:30.0]];
                 label.text = name;
                 [label drawTextInRect:frame];
             }
