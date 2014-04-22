@@ -96,6 +96,7 @@
     sb.delegate = self;
     sb.placeholder = @"请输入小区名或地址";
     sb.backgroundColor = [UIColor clearColor];//[UIColor colorWithRed:0.89 green:0.89 blue:0.9 alpha:1];
+    sb.backgroundImage = [UIImage createImageWithColor:[UIColor clearColor]];
     if ([AppManager isIOS6]) {
         sb.barStyle = UIBarStyleDefault;
     }

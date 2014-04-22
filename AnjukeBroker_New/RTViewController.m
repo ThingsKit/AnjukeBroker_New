@@ -145,7 +145,7 @@
     }else{
         UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
         spacer.width = 10.0f;
-        [self.navigationItem setRightBarButtonItems:@[spacer, buttonItems]];
+        [self.navigationItem setLeftBarButtonItems:@[spacer, buttonItems]];
         [self.navigationController.navigationBar setTintColor:SYSTEM_NAVIBAR_COLOR];
     }
 }
@@ -161,7 +161,7 @@
     UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     
     if ([AppManager isIOS6]) {
-        [self.navigationItem setLeftBarButtonItem:buttonItems];
+        [self.navigationItem setRightBarButtonItem:buttonItems];
     }else{
         UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
         spacer.width = -10.0f;
