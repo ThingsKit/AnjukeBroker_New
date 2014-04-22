@@ -86,7 +86,7 @@ NSArray = [
     
     self.labelIcon = [[UILabel alloc] initWithFrame:CGRectMake(45/2-30/2, 7, 30, 28)];
     self.labelIcon.backgroundColor = [UIColor clearColor];
-    [self.labelIcon setFont:[UIFont systemFontOfSize:30]];
+    [self.labelIcon setFont:[UIFont fontWithName:@"AppleColorEmoji" size:30.0]];
     [self.magnifier addSubview:self.labelIcon];
     
     self.pageNumber = PAGE_COUNT;
