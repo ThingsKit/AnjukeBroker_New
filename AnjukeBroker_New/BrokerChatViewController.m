@@ -58,35 +58,14 @@
 {
     [super viewDidLoad];
     
+    self.backType = RTSelectorBackTypePopToRoot;
     
     // 设置返回btn
-    UIImage *image = [UIImage imageWithContentsOfFile:[NSString getStyleBundlePath:@"anjuke_icon_back.png"]];
-    UIImage *highlighted = [UIImage imageWithContentsOfFile:[NSString getStyleBundlePath:@"anjuke_icon_back.png"]];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, image.size.width + 40 , 44);
-    [button addTarget:self action:@selector(doBack:) forControlEvents:UIControlEventTouchUpInside];
-    [button setImage:image forState:UIControlStateNormal];
-    [button setImage:highlighted forState:UIControlStateHighlighted];
-    [button setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 40)];
-    [button setTitle:@"返回" forState:UIControlStateNormal];
-    [button setTitle:@"返回" forState:UIControlStateHighlighted];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    button.titleLabel.textAlignment = NSTextAlignmentLeft;
-    button.titleLabel.backgroundColor = [UIColor clearColor];
-    button.backgroundColor = [UIColor clearColor];
-    self.backBtn = button;
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-//    UIButton *brokerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    brokerButton.frame = CGRectMake(0, 0, 44, 44);
-//    [brokerButton addTarget:self action:@selector(doBack:) forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:brokerButton];
-//
-//    [self.navigationItem setLeftBarButtonItem:buttonItems];
+
     [self initRightBar];
-    
     [self initNavTitle];
 }
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -138,14 +117,8 @@
         titleString = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
         
     }
-    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
-    lb.backgroundColor = [UIColor clearColor];
-    lb.font = [UIFont systemFontOfSize:19];
-    lb.text = titleString;
-    lb.textAlignment = NSTextAlignmentCenter;
-    lb.textColor = [UIColor whiteColor];
-    self.navigationItem.titleView = lb;
-}
+    [self setTitleViewWithString:titleString];
+ }
 
 - (void)initRightBar {
     UIButton *brokerButton = [UIButton buttonWithType:UIButtonTypeCustom];

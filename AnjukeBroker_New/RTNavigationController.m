@@ -24,7 +24,9 @@
         self.navigationBar.translucent = NO;
         if (![AppManager isIOS6]) {
             self.navigationBar.barTintColor = SYSTEM_NAVBAR_DARK_BG;
-
+        }else{
+            [[UINavigationBar appearance] setBackgroundImage:[UIImage createImageWithColor:SYSTEM_NAVBAR_DARK_BG] forBarMetrics:UIBarMetricsDefault];
+            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackOpaque;
         }
     }
     return self;

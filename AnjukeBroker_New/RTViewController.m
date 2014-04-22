@@ -130,39 +130,43 @@
     if (self.backType == RTSelectorBackTypeDismiss) {
         title = @"取消";
     }
-    UIBarButtonItem *backBtn = nil;
-    backBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
-    
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0, 0, 58, 44);
+    [backButton addTarget:self action:@selector(doBack:) forControlEvents:UIControlEventTouchUpInside];
+//    [backButton setBackgroundImage:[UIImage imageNamed:@"action_btn_normal.png"] forState:UIControlStateNormal];
+//    [backButton setBackgroundImage:[UIImage imageNamed:@"action_btn_normal.png"] forState:UIControlStateHighlighted];
+    [backButton setTitle:title forState:UIControlStateNormal];
+    [backButton setTitle:title forState:UIControlStateHighlighted];
+    [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [backButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+    UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     if ([AppManager isIOS6]) {
-        self.navigationItem.leftBarButtonItem = backBtn;
-    }
-    else {
+        [self.navigationItem setLeftBarButtonItem:buttonItems];
+    }else{
+        UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        spacer.width = 10.0f;
+        [self.navigationItem setRightBarButtonItems:@[spacer, buttonItems]];
         [self.navigationController.navigationBar setTintColor:SYSTEM_NAVIBAR_COLOR];
-        self.navigationItem.leftBarButtonItem = backBtn;
-        
-//        if (self.backType == RTSelectorBackTypeDismiss) {
-//            self.navigationItem.leftBarButtonItem = backBtn;
-//        }
-//        else {
-////            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
-////                                                     initWithTitle:@"返回"
-////                                                     style:UIBarButtonItemStylePlain
-////                                                     target:self
-////                                                     action:@selector(doBack:)];
-//            self.navigationItem.backBarButtonItem = backBtn;
-//        }
     }
 }
 
 - (void)addRightButton:(NSString *)title andPossibleTitle:(NSString *)possibleTitle {
-    UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:@selector(rightButtonAction:)];
-    if (![AppManager isIOS6]) {
-        rBtn.tintColor = SYSTEM_NAVIBAR_COLOR;
+    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightButton.frame = CGRectMake(0, 0, 44, 44);
+    [rightButton addTarget:self action:@selector(rightButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [rightButton setTitle:title forState:UIControlStateNormal];
+    [rightButton setTitle:title forState:UIControlStateHighlighted];
+    [rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [rightButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+    UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    
+    if ([AppManager isIOS6]) {
+        [self.navigationItem setLeftBarButtonItem:buttonItems];
+    }else{
+        UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        spacer.width = -10.0f;
+        [self.navigationItem setRightBarButtonItems:@[spacer, buttonItems]];
     }
-    if (possibleTitle.length > 0 || possibleTitle != nil) {
-        rBtn.possibleTitles = [NSSet setWithObject:possibleTitle];
-    }
-    self.navigationItem.rightBarButtonItem = rBtn;
 }
 
 - (void)doBack:(id)sender {
