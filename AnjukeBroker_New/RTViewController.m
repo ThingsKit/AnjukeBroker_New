@@ -144,7 +144,7 @@
         [self.navigationItem setLeftBarButtonItem:buttonItems];
     }else{
         UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-        spacer.width = 10.0f;
+        spacer.width = -10.0f;
         [self.navigationItem setLeftBarButtonItems:@[spacer, buttonItems]];
         [self.navigationController.navigationBar setTintColor:SYSTEM_NAVIBAR_COLOR];
     }
