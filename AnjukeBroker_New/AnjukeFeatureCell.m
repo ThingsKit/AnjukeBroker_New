@@ -43,13 +43,12 @@
 */
 
 - (void)initUI {
-
     CGFloat imgW = 20;
     
     UIImageView *imgIcon = [[UIImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, (CELL_HEIGHT - imgW)/2, imgW, imgW)];
     imgIcon.backgroundColor = [UIColor clearColor];
     imgIcon.contentMode = UIViewContentModeScaleAspectFit;
-    imgIcon.image = [UIImage imageNamed:@"anjuke_icon06_selected.png"];
+    self.clickImg = imgIcon;
     [self.contentView addSubview:imgIcon];
     
     UILabel *comTitleLb = [[UILabel alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE + imgW + CELL_OFFSET_TITLE, (CELL_HEIGHT - 20)/2, 90, 20)];
@@ -60,5 +59,14 @@
     [self.contentView addSubview:comTitleLb];
 }
 
+- (void)configureCellStatus:(BOOL)isClick {    
+    self.clickImg.image = nil;
+    if (isClick) {
+        self.clickImg.image = [UIImage imageNamed:@"anjuke_icon06_selected.png"];
+    }
+    else
+        self.clickImg.image = [UIImage imageNamed:@"anjuke_icon06_select.png"];
+    
+}
 
 @end

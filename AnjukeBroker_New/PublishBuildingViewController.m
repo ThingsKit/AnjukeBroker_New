@@ -1158,6 +1158,7 @@ typedef enum {
                     }
                     else { //push to 特色
                         PublishFeatureViewController *pf = [[PublishFeatureViewController alloc] init];
+                        pf.featureDelegate = self;
                         [self.navigationController pushViewController:pf animated:YES];
                     }
                 }
@@ -1556,6 +1557,26 @@ typedef enum {
 
 - (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex {
     //非编辑房源 do nothing
+}
+
+#pragma mark - PublishFeatureDelegate
+
+- (void)didPropertyFeatureSelectWithIsFiveYear:(BOOL)isFiveYear isOnlyHouse:(BOOL)isOnlyHouse {
+    if (self.isHaozu) {
+        return;
+    }
+    
+    //set title and property
+    NSMutableString *featureStr = [NSMutableString string];
+    if (isFiveYear) {
+        [featureStr appendString:@"满五年 "];
+    }
+    
+    if (isOnlyHouse) {
+        [featureStr appendString:@"唯一住房"];
+    }
+    
+    [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_CLICK_FEATURE] communityDetailLb] setText:featureStr];
 }
 
 #pragma mark - UIImagePickerControllerDelegate

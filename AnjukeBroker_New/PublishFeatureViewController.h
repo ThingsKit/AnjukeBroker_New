@@ -8,6 +8,16 @@
 
 #import "RTViewController.h"
 
+@protocol PublishFeatureDelegate <NSObject>
+
+- (void)didPropertyFeatureSelectWithIsFiveYear:(BOOL)isFiveYear isOnlyHouse:(BOOL)isOnlyHouse;
+
+@end
+
 @interface PublishFeatureViewController : RTViewController <UITableViewDataSource, UITableViewDelegate>
+
+@property BOOL isFiveYear;
+@property BOOL isOnlyHouse;
+@property id <PublishFeatureDelegate> featureDelegate;
 
 @end

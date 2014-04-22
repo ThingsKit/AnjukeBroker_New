@@ -16,6 +16,7 @@
 @end
 
 @implementation PublishFeatureViewController
+@synthesize featureDelegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -67,6 +68,8 @@
     tv.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableViewList = tv;
     [self.view addSubview:tv];
+    
+    [self addRightButton:@"保存" andPossibleTitle:nil];
 }
 
 #pragma mark - UITableViewDataSource && UITableViewDelegate
@@ -91,12 +94,16 @@
         case 0:
         {
             cell.titleLb.text = @"满五年";
+            
+            [cell configureCellStatus:self.isFiveYear];
             [cell showTopLine];
         }
             break;
         case 1:
         {
             cell.titleLb.text = @"唯一住房";
+            
+            [cell configureCellStatus:self.isOnlyHouse];
         }
             break;
             
@@ -110,8 +117,33 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    switch (indexPath.row) {
+        case 0:
+        {
+            self.isFiveYear = !self.isFiveYear;
+        }
+            break;
+        case 1:
+        {
+            self.isOnlyHouse = !self.isOnlyHouse;
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    [tableView reloadData];
+}
+
+- (void)rightButtonAction:(id)sender {
+    if ([self.featureDelegate respondsToSelector:@selector(didPropertyFeatureSelectWithIsFiveYear:isOnlyHouse:)]) {
+        [self.featureDelegate didPropertyFeatureSelectWithIsFiveYear:self.isFiveYear isOnlyHouse:self.isOnlyHouse];
+    }
+    
+    [self doBack:self];
 }
 
 @end

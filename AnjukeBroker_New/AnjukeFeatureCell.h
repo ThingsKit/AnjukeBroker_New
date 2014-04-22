@@ -15,4 +15,5 @@
 @property (nonatomic, strong) UILabel *titleLb;
 @property (nonatomic, strong) UIImageView *clickImg;
 
+- (void)configureCellStatus:(BOOL)isClick;
 @end
