@@ -39,7 +39,6 @@
 		203EC29818B2F61A00DD0840 /* MessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 203EC29718B2F61A00DD0840 /* MessageListViewController.m */; };
 		203EC29B18B2F65400DD0840 /* ClientListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 203EC29A18B2F65400DD0840 /* ClientListViewController.m */; };
 		203EC2B618B34A4200DD0840 /* MessageListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 203EC2B518B34A4200DD0840 /* MessageListCell.m */; };
-		203EC2B818B35E1900DD0840 /* anjuke_icon_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 203EC2B718B35E1900DD0840 /* anjuke_icon_back@2x.png */; };
 		204E66CF1894E7DB00546D51 /* PublishBigImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 204E66CE1894E7DB00546D51 /* PublishBigImageViewController.m */; };
 		20516BDD18F52C0900D0637C /* AXChatMessageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 20516BDC18F52C0900D0637C /* AXChatMessageCenter.m */; };
 		20516BDF18F52C3F00D0637C /* AXChatDataCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 20516BDE18F52C3F00D0637C /* AXChatDataCenter.m */; };
@@ -542,6 +541,12 @@
 		B7FFC9DE18C8AC330020A73B /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFC9DA18C8AC330020A73B /* UIImage+Resize.m */; };
 		B7FFC9DF18C8AC330020A73B /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFC9DC18C8AC330020A73B /* UIImage+RoundedCorner.m */; };
 		F7D4DB9CDF744F6B9F04BE6D /* libPods-AnjukeBroker_New.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C958DAA438444CB26F09E0 /* libPods-AnjukeBroker_New.a */; };
+		F815F93F1906371B00DF9F55 /* UILabel+TitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = F815F93E1906371B00DF9F55 /* UILabel+TitleView.m */; };
+		F815F9461906486A00DF9F55 /* anjuke_icon_back.png in Resources */ = {isa = PBXBuildFile; fileRef = F815F9451906486A00DF9F55 /* anjuke_icon_back.png */; };
+		F815F9481906493100DF9F55 /* anjuke_icon_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F815F9471906493100DF9F55 /* anjuke_icon_back@2x.png */; };
+		F815F94B1906508900DF9F55 /* anjuke_icon_back_press.png in Resources */ = {isa = PBXBuildFile; fileRef = F815F9491906508900DF9F55 /* anjuke_icon_back_press.png */; };
+		F815F94C1906508900DF9F55 /* anjuke_icon_back_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F815F94A1906508900DF9F55 /* anjuke_icon_back_press@2x.png */; };
+		F815F94F190658B200DF9F55 /* UIBarButtonItem+NavItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F815F94E190658B200DF9F55 /* UIBarButtonItem+NavItem.m */; };
 		F8575DA31900F6BE00AB662F /* BrokerCallAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = F8575DA21900F6BE00AB662F /* BrokerCallAlert.m */; };
 		F8BFF37918FE87E8008E700D /* leftside_shadow_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37718FE87E8008E700D /* leftside_shadow_bg.png */; };
 		F8BFF37A18FE87E8008E700D /* leftside_shadow_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */; };
@@ -619,7 +624,6 @@
 		203EC29A18B2F65400DD0840 /* ClientListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientListViewController.m; sourceTree = "<group>"; };
 		203EC2B418B34A4200DD0840 /* MessageListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListCell.h; sourceTree = "<group>"; };
 		203EC2B518B34A4200DD0840 /* MessageListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageListCell.m; sourceTree = "<group>"; };
-		203EC2B718B35E1900DD0840 /* anjuke_icon_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_back@2x.png"; sourceTree = "<group>"; };
 		204E66CD1894E7DB00546D51 /* PublishBigImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishBigImageViewController.h; sourceTree = "<group>"; };
 		204E66CE1894E7DB00546D51 /* PublishBigImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishBigImageViewController.m; sourceTree = "<group>"; };
 		20516BDB18F52C0900D0637C /* AXChatMessageCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageCenter.h; sourceTree = "<group>"; };
@@ -1383,6 +1387,14 @@
 		B7FFC9DA18C8AC330020A73B /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
 		B7FFC9DB18C8AC330020A73B /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
 		B7FFC9DC18C8AC330020A73B /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
+		F815F93D1906371B00DF9F55 /* UILabel+TitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+TitleView.h"; sourceTree = "<group>"; };
+		F815F93E1906371B00DF9F55 /* UILabel+TitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+TitleView.m"; sourceTree = "<group>"; };
+		F815F9451906486A00DF9F55 /* anjuke_icon_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_back.png; sourceTree = "<group>"; };
+		F815F9471906493100DF9F55 /* anjuke_icon_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_back@2x.png"; sourceTree = "<group>"; };
+		F815F9491906508900DF9F55 /* anjuke_icon_back_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_back_press.png; sourceTree = "<group>"; };
+		F815F94A1906508900DF9F55 /* anjuke_icon_back_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_back_press@2x.png"; sourceTree = "<group>"; };
+		F815F94D190658B200DF9F55 /* UIBarButtonItem+NavItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+NavItem.h"; sourceTree = "<group>"; };
+		F815F94E190658B200DF9F55 /* UIBarButtonItem+NavItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+NavItem.m"; sourceTree = "<group>"; };
 		F8575DA11900F6BE00AB662F /* BrokerCallAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerCallAlert.h; sourceTree = "<group>"; };
 		F8575DA21900F6BE00AB662F /* BrokerCallAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerCallAlert.m; sourceTree = "<group>"; };
 		F8BFF37718FE87E8008E700D /* leftside_shadow_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leftside_shadow_bg.png; sourceTree = "<group>"; };
@@ -2220,7 +2232,6 @@
 				2079ADE218B5EEDF0029D493 /* anjuke_icon_bluebutton@2x.png */,
 				2079ADE318B5EEDF0029D493 /* anjuke_icon_bluebutton1@2x.png */,
 				2079ADE418B5EEDF0029D493 /* anjuke_icon_ok@2x.png */,
-				203EC2B718B35E1900DD0840 /* anjuke_icon_back@2x.png */,
 				20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */,
 				200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */,
 				200915ED189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png */,
@@ -2281,6 +2292,7 @@
 		972DDA2D1826D34600263F8F /* 底层、定制ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				F815F93C1906366500DF9F55 /* nav&&UI */,
 				20E1A1F018FD0DD500FBDA75 /* NavigationController */,
 				972DDA261826A49600263F8F /* TabBarController */,
 				97CB0C11182BEA5200FCCBBD /* 加载黑框 */,
@@ -3174,6 +3186,21 @@
 			path = Chat;
 			sourceTree = "<group>";
 		};
+		F815F93C1906366500DF9F55 /* nav&&UI */ = {
+			isa = PBXGroup;
+			children = (
+				F815F9491906508900DF9F55 /* anjuke_icon_back_press.png */,
+				F815F94A1906508900DF9F55 /* anjuke_icon_back_press@2x.png */,
+				F815F9471906493100DF9F55 /* anjuke_icon_back@2x.png */,
+				F815F9451906486A00DF9F55 /* anjuke_icon_back.png */,
+				F815F93D1906371B00DF9F55 /* UILabel+TitleView.h */,
+				F815F93E1906371B00DF9F55 /* UILabel+TitleView.m */,
+				F815F94D190658B200DF9F55 /* UIBarButtonItem+NavItem.h */,
+				F815F94E190658B200DF9F55 /* UIBarButtonItem+NavItem.m */,
+			);
+			name = "nav&&UI";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3385,6 +3412,7 @@
 				2079ADE618B5EEDF0029D493 /* anjuke_icon_bluebutton1@2x.png in Resources */,
 				200DAB5D18DFCED90077E0C9 /* anjuke_icon_zf1@2x.png in Resources */,
 				9795838E18225B93005EA48A /* anjuke_icon05_photo@2x.png in Resources */,
+				F815F94B1906508900DF9F55 /* anjuke_icon_back_press.png in Resources */,
 				B7FC9AD918C41B1300F77205 /* xproject_dialogue_agentdetail@2x.png in Resources */,
 				B7FC9AE818C41B1300F77205 /* xproject_dialogue_greenbox_selected.png in Resources */,
 				B7FC9ACD18C41B1300F77205 /* anjuke_icon_attention_mini@2x.png in Resources */,
@@ -3495,7 +3523,9 @@
 				9720001B1841BF25003F49A4 /* details_arrow_right@2x.png in Resources */,
 				B7E4CD2718E11BB200B61B58 /* wl_chat_icon_agentvoice_play2@2x.png in Resources */,
 				979BBB6A185804AE005B7D03 /* icon_60.png in Resources */,
+				F815F9481906493100DF9F55 /* anjuke_icon_back@2x.png in Resources */,
 				97F4D193184E5C6700DFC45F /* anjuke_icon_login@2x.png in Resources */,
+				F815F9461906486A00DF9F55 /* anjuke_icon_back.png in Resources */,
 				B7EA5B7E18DBE91900D437BB /* anjuke_icon_input_voice_press@2x.png in Resources */,
 				B7FC9AE418C41B1300F77205 /* xproject_dialogue_failedsending.png in Resources */,
 				B7FC9AE618C41B1300F77205 /* xproject_dialogue_greenbox.png in Resources */,
@@ -3506,7 +3536,7 @@
 				2079ADF218B5FD610029D493 /* anjuke_icon_noxingbiao_@2x.png in Resources */,
 				2031A48718920FF2004F7E1A /* anjuke_icon_find@2x.png in Resources */,
 				B7EAD4C818CD6DDE00B28FEC /* AXNotificationTutorialViewController.xib in Resources */,
-				203EC2B818B35E1900DD0840 /* anjuke_icon_back@2x.png in Resources */,
+				F815F94C1906508900DF9F55 /* anjuke_icon_back_press@2x.png in Resources */,
 				B7EA5B7518DBDCA900D437BB /* wl_voice_icon_tip@2x.png in Resources */,
 				200DAB4518DFCB050077E0C9 /* Overlay@2x.png in Resources */,
 				B7FC9AF618C41B1300F77205 /* xproject_dialogue_greycard_selected.png in Resources */,
@@ -3691,6 +3721,7 @@
 				97CB0C0E182BEA3500FCCBBD /* ELCAssetCell.m in Sources */,
 				B769E472181F805F00A2FF50 /* BaseBidDetailController.m in Sources */,
 				B769E48C181FA89000A2FF50 /* PPCGroupCell.m in Sources */,
+				F815F93F1906371B00DF9F55 /* UILabel+TitleView.m in Sources */,
 				B7E69BBB183B4DDB0097D5C3 /* BaseModifyCostController.m in Sources */,
 				B7EAD51F18CD927200B28FEC /* AXChatViewController.m in Sources */,
 				20A2178518BF1804002CA469 /* CommunitySelectViewController.m in Sources */,
@@ -3818,6 +3849,7 @@
 				20A2178918BF1804002CA469 /* PropertySelectViewController.m in Sources */,
 				20A2178718BF1804002CA469 /* HouseSelectNavigationController.m in Sources */,
 				97C97B461810DD34006E538B /* TabBarViewController.m in Sources */,
+				F815F94F190658B200DF9F55 /* UIBarButtonItem+NavItem.m in Sources */,
 				20D3C24C1892466B0030D7D8 /* PhotoFooterView.m in Sources */,
 				B7EAD51618CD927200B28FEC /* AXChatBaseCell.m in Sources */,
 				207526BD18B45FE10022220C /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
