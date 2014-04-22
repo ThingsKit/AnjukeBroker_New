@@ -103,7 +103,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
 @property (nonatomic, strong) UIView *inputBackView;
 @property (nonatomic) CGFloat previousTextViewContentHeight;
 @property (nonatomic) BOOL isUserScrolling;
-@property (nonatomic, strong) JSMessageInputView *messageInputView;
+
 @property (nonatomic, strong) AXTTTAttributedLabel *attrLabel;
 
 //Debug
@@ -116,7 +116,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
 @property (nonatomic, retain) MBProgressHUD* hud;
 @property (nonatomic, retain) NSTimer* timer;
 @property (nonatomic, strong) UIButton *pressSpeek;
-@property BOOL isVoiceInput;
+
 @property (nonatomic, retain) UIImageView* warningImageView;
 @property (nonatomic, retain) UIImageView* microphoneImageView;
 @property (nonatomic, retain) UIImageView* highlightedMicrophoneImageView;
@@ -132,10 +132,6 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
 @property (nonatomic, assign) BOOL playTipView;
 @property (nonatomic, assign) BOOL hasMicrophonePermission;
 #define MAX_RECORD_TIME 60
-
-//表情相关
-@property (nonatomic, strong) FaceScrollView* emojiScrollView;
-@property (nonatomic, strong) UIButton* emojiBut;
 
 @end
 
@@ -166,7 +162,6 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
         _currentText = @"";
         _messageInputViewFrame = CGRectZero;
         _messageInputTextViewFrame = CGRectZero;
-        
     }
     return self;
 }
@@ -344,7 +339,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
         //最右侧的加号按钮
         self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
         self.sendBut.frame = CGRectMake(ScreenWidth - 45, 2.0f, 45.0f, 45.0f);
-//        self.sendBut.backgroundColor = [UIColor redColor];
+        self.sendBut.backgroundColor = [UIColor clearColor];
         [self.sendBut addTarget:self action:@selector(didMoreBackView:) forControlEvents:UIControlEventTouchUpInside];
         [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateNormal];
         [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more_selected.png"] forState:UIControlStateHighlighted];
@@ -392,9 +387,14 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
         self.emojiBut.frame = CGRectMake(ScreenWidth - 45*2, 2.0f, 45.0f, 45.0f);
         [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgName] forState:UIControlStateNormal];
         [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgNameHighlight] forState:UIControlStateHighlighted];
+        self.emojiBut.backgroundColor = [UIColor clearColor];
         [self.emojiBut addTarget:self action:@selector(didEmojiButClick) forControlEvents:UIControlEventTouchUpInside];
         [self.messageInputView addSubview:self.emojiBut];
         
+        self.emojiScrollView = [[FaceScrollView alloc] init];
+        self.emojiScrollView.frame = CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
+        self.emojiScrollView.hidden = YES;
+        [self.view addSubview:self.emojiScrollView];
         
     }
     
@@ -1644,6 +1644,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
 
 - (void)didClickKeyboardControl
 {
+    
+    [self.messageInputView.textView resignFirstResponder];
     if (!self.moreBackView.hidden || !self.emojiScrollView.hidden) {
         self.moreBackView.hidden = YES;
         self.emojiScrollView.hidden = YES;
@@ -1916,7 +1918,6 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
                                                     - AXMoreBackViewHeight
                                                     - inputViewFrame.size.height + 60);
             self.keyboardControl.hidden = NO;
-//            self.keyboardControl.backgroundColor = [UIColor redColor];
             self.messageInputView.frame = CGRectMake(inputViewFrame.origin.x,
                                                      inputViewFrameY,
                                                      inputViewFrame.size.width,

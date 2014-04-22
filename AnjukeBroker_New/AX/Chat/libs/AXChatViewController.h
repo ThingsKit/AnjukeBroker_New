@@ -14,6 +14,8 @@
 #import "AXChatMessageCenter.h"
 #import "MapViewController.h"
 #import "RTViewController.h"
+#import "JSMessageInputView.h"
+#import "FaceScrollView.h"
 
 #define AXWINDOWWHIDTH [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.width
 #define AXWINDOWHEIGHT [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height
@@ -32,6 +34,7 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 @property (strong, nonatomic) UIButton *sendBut;
 @property (strong, nonatomic) UIButton *voiceBut;
 @property (strong, nonatomic) UIView *moreBackView;// 更多操作
+@property (nonatomic, strong) JSMessageInputView *messageInputView;
 @property BOOL isBroker;
 @property (nonatomic, strong) NSDictionary *propDict;
 @property (nonatomic) BOOL needSendProp;
@@ -43,7 +46,10 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 @property (nonatomic, copy) NSString *brokerName;
 @property (nonatomic, strong) AXMappedPerson *friendPerson;
 @property (nonatomic, strong) NSMutableArray *locationArray;
-
+@property BOOL isVoiceInput;
+//表情相关
+@property (nonatomic, strong) FaceScrollView* emojiScrollView;
+@property (nonatomic, strong) UIButton* emojiBut;
 
 - (BOOL)checkUserLogin;
 - (NSString *)checkFriendUid;
@@ -54,6 +60,10 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 - (void)sendSystemMessage:(AXMessageType)type;
 - (void)reloadUnReadNum:(NSInteger)num;
 - (NSDate *)formatterDate:(NSDate *)date;
+
+- (void)didEmojiButClick;
+- (void)speeking;
+
 // applog
 - (void)sendMessageAppLog;
 - (void)clickRightNavButtonAppLog;

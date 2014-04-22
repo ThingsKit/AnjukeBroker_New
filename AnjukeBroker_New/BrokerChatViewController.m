@@ -69,6 +69,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self resetLayoutOfKeyboard];
     [self downLoadIcon];
 }
 
@@ -130,6 +131,42 @@
     UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     spacer.width = -10.0f;
     [self.navigationItem setRightBarButtonItems:@[spacer, buttonItems]];
+}
+
+- (void)resetLayoutOfKeyboard {
+    if (self.friendPerson.uid == nil) {
+        return;
+    }
+    if ([[[NSUserDefaults standardUserDefaults] valueForKey:self.friendPerson.uid] isEqualToString:@"1"]) {
+        [self didMoreBackView:nil];
+    }
+    if ([[[NSUserDefaults standardUserDefaults] valueForKey:self.friendPerson.uid] isEqualToString:@"2"]) {
+        [self didEmojiButClick];
+    }
+    if ([[[NSUserDefaults standardUserDefaults] valueForKey:self.friendPerson.uid] isEqualToString:@"3"]) {
+        [self.messageInputView.textView becomeFirstResponder];
+    }
+    if ([[[NSUserDefaults standardUserDefaults] valueForKey:self.friendPerson.uid] isEqualToString:@"4"]) {
+        [self speeking];
+    }
+}
+
+- (void)storageLayoutOfKeyboard {
+    if (self.friendPerson.uid == nil) {
+        return;
+    }
+    if (self.moreBackView.hidden == NO) {
+        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:self.friendPerson.uid];
+    }
+    if (self.emojiScrollView.hidden == NO) {
+        [[NSUserDefaults standardUserDefaults] setObject:@"2" forKey:self.friendPerson.uid];
+    }
+    if (self.messageInputView.textView.isFirstResponder == YES) {
+        [[NSUserDefaults standardUserDefaults] setObject:@"3" forKey:self.friendPerson.uid];
+    }
+    if (self.isVoiceInput) {
+        [[NSUserDefaults standardUserDefaults] setObject:@"4" forKey:self.friendPerson.uid];
+    }
 }
 
 - (void)pickIMG:(id)sender {
@@ -368,6 +405,8 @@
 }
 
 - (void)doBack:(id)sender {
+    
+    [self storageLayoutOfKeyboard];
     
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_013 note:nil];
     [self.navigationController popToRootViewControllerAnimated:YES];
