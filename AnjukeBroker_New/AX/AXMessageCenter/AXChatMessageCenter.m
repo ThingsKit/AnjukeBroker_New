@@ -1124,22 +1124,6 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 
 - (void)downloadCallBack:(AXDownLoadRequestResponse *)response
 {
-    
-    //    [self.imageMessageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    //        NSDictionary *fromUid = (NSDictionary *)obj;
-    //        NSArray *allKeys =[fromUid allKeys];
-    //        NSArray *messageArray = fromUid[[allKeys objectAtIndex:0]];
-    //        [messageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    //            AXMappedMessage *imageMessage = (AXMappedMessage *)obj;
-    //            if ([imageMessage.messageId integerValue] == [response.identify integerValue]) {
-    //                if (response.status == AJKDownLoadModuleDownLoadStatusSuccessful) {
-    //                    [self downLoadSuccessfulWithMessage:imageMessage responseData:response.responseData userID:allKeys[0]];
-    //                }else if (response.status == AJKDownLoadModuleDownLoadStatusFailed){
-    //                    [self downLoadFailedWithMessage:imageMessage];
-    //                }
-    //            }
-    //        }];
-    //    }];
     __block AXMappedMessage *deleteMessage;
     [self.imageMessageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         AXMappedMessage *message = obj;
