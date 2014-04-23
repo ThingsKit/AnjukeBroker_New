@@ -14,7 +14,7 @@
 @interface ClientDetailCell : RTListCell
 
 @property (nonatomic, strong) UILabel *titleLb;
-@property (nonatomic, strong) UILabel *detailLb;
+@property (nonatomic, strong) UITextView *detailTV;
 @property (nonatomic, strong) UIImageView *phoneIcon;
 
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index isBlankStyle:(BOOL)isBlankStyle;

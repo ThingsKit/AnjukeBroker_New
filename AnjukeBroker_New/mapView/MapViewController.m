@@ -119,13 +119,14 @@
     if (ISIOS7) {
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
-    [self addBackButton];
+    [self setBackType:RTSelectorBackTypePopBack];
+    
     NSString *titStr;
     if (self.mapType == RegionNavi) {
         titStr = @"查看地理位置";
     }else{
         titStr = @"位置";
-        [self addRightButton];
+        [self addRightButton:@"发送" andPossibleTitle:nil];
     }
     
     UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
@@ -202,36 +203,8 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
--(void)addRightButton{
-    UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
-    if (!ISIOS7) {
-        self.navigationItem.rightBarButtonItem = rBtn;
-    }
-    else {
-        [self.navigationController.navigationBar setTintColor:SYSTEM_NAVIBAR_COLOR];
-        self.navigationItem.rightBarButtonItem = rBtn;
-    }
-}
-- (void)addBackButton {
-    // 设置返回btn
-    UIImage *image = [UIImage imageWithContentsOfFile:[NSString getStyleBundlePath:@"anjuke_icon_back.png"]];
-    UIImage *highlighted = [UIImage imageWithContentsOfFile:[NSString getStyleBundlePath:@"anjuke_icon_back.png"]];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, image.size.width + 40 , 44);
-    [button addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
-    [button setImage:image forState:UIControlStateNormal];
-    [button setImage:highlighted forState:UIControlStateHighlighted];
-    [button setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 40)];
-    [button setTitle:@"返回" forState:UIControlStateNormal];
-    [button setTitle:@"返回" forState:UIControlStateHighlighted];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    button.titleLabel.textAlignment = NSTextAlignmentLeft;
-    button.titleLabel.backgroundColor = [UIColor clearColor];
-    button.backgroundColor = [UIColor clearColor];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-}
--(void)goBack:(id)sender{
+
+-(void)doBack:(id)sender{
     if (self.mapType == RegionChoose) {
         [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_CHOOSE_004 note:nil];
     }else{

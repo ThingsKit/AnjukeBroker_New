@@ -12,7 +12,7 @@
 #define DETAIL_LB_W 190
 
 @implementation ClientDetailCell
-@synthesize titleLb, detailLb, phoneIcon;
+@synthesize titleLb, detailTV, phoneIcon;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -45,16 +45,17 @@
     nameLabel.font = [UIFont systemFontOfSize:15];
     [self.contentView addSubview:nameLabel];
     
-    UILabel *messageLabel = [[UILabel alloc] init];
-    self.detailLb = messageLabel;
+    UITextView *messageLabel = [[UITextView alloc] init];
+    self.detailTV = messageLabel;
+    messageLabel.userInteractionEnabled = NO;
     messageLabel.backgroundColor = [UIColor clearColor];
     messageLabel.textColor = SYSTEM_BLACK;
     messageLabel.font = [UIFont systemFontOfSize:15];
     messageLabel.textAlignment = NSTextAlignmentLeft;
-    messageLabel.numberOfLines = 0;
+    messageLabel.contentMode = UIViewContentModeTop;
     [self.contentView addSubview:messageLabel];
     
-    UIImageView *phoneImgView = [[UIImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_PHONEICON, 4, 30, 30)];
+    UIImageView *phoneImgView = [[UIImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_PHONEICON, 7, 30, 30)];
     self.phoneIcon = phoneImgView;
     phoneImgView.image = [UIImage imageNamed:@""];
     phoneImgView.backgroundColor = [UIColor lightGrayColor];
@@ -71,7 +72,7 @@
     switch (index) {
         case 0:
         {
-            lbH = 20;
+            lbH = 30;
             if (isBlankStyle) {
                 self.titleLb.text = @"请添加备注信息";
                 self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -82,7 +83,7 @@
                 self.accessoryType = UITableViewCellAccessoryNone;
             }
             
-            self.selectionStyle = UITableViewCellSelectionStyleGray;
+            self.selectionStyle = UITableViewCellSelectionStyleNone;
             
             [self showTopLine];
             [self showBottonLineWithCellHeight:CLIENT_DETAIL_TEL_HEIGHT];
@@ -90,12 +91,11 @@
             break;
         case 1:
         {
-            lbH = 60;
+            lbH = 65;
             self.titleLb.text = @"备注信息";
             
             self.accessoryType = UITableViewCellAccessoryNone;
             self.selectionStyle = UITableViewCellSelectionStyleGray;
-//            self.selectionStyle = UITableViewCellSelectionStyleNone;
             
             [self showBottonLineWithCellHeight:CLIENT_DETAIL_MESSAGE_HEIGHT];
         }
@@ -108,20 +108,19 @@
     if (index == 0 && isBlankStyle) {
         self.titleLb.frame = CGRectMake(CELL_OFFSET_TITLE, 12, 170, 20);
     }
+    self.detailTV.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 5, DETAIL_LB_W, lbH );
     
-    CGFloat detailLb_H = lbH;
     if (index == 1) {
-        detailLb_H = lbH*3;
         self.titleLb.frame = CGRectMake(CELL_OFFSET_TITLE, 32, 70, 20);
+        self.detailTV.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 8, DETAIL_LB_W, lbH );
     }
-    self.detailLb.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 12, DETAIL_LB_W, lbH );
     
     if (!isBlankStyle) {
         if (index == 0) {
-            self.detailLb.text = item.markPhone;
+            self.detailTV.text = item.markPhone;
         }
         else
-            self.detailLb.text = item.markDesc;
+            self.detailTV.text = item.markDesc;
     }
     
     return YES;

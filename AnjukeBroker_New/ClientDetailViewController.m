@@ -124,14 +124,14 @@
         icon.image = [UIImage imageNamed:@"anjuke_icon_headpic.png"];
     [headerView addSubview:icon];
     
-    UILabel *nameLb = [[UILabel alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE + icon.frame.size.width + CELL_OFFSET_TITLE, icon.frame.origin.y, 200, 25)];
+    UILabel *nameLb = [[UILabel alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE + icon.frame.size.width + CELL_OFFSET_TITLE, icon.frame.origin.y, 200, 20)];
     nameLb.backgroundColor = [UIColor clearColor];
     self.nameLabel = nameLb;
     nameLb.textColor = SYSTEM_BLACK;
     nameLb.font = [UIFont systemFontOfSize:15];
     [headerView addSubview:nameLb];
     
-    UILabel *tipLb = [[UILabel alloc] initWithFrame:CGRectMake(nameLb.frame.origin.x, nameLb.frame.origin.y+ nameLb.frame.size.height, 200, 12)];
+    UILabel *tipLb = [[UILabel alloc] initWithFrame:CGRectMake(nameLb.frame.origin.x, nameLb.frame.origin.y+ nameLb.frame.size.height, 200, 25)];
     tipLb.backgroundColor = [UIColor clearColor];
     tipLb.textColor = SYSTEM_LIGHT_GRAY;
     self.companyLabel = tipLb;
