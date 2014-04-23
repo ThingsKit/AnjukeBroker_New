@@ -126,8 +126,13 @@
  }
 
 - (void)initRightBar {
-    UIBarButtonItem *barButtonItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_person.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_person.png"] taget:self action:@selector(rightButtonAction:)];
-    self.navigationItem.rightBarButtonItem = barButtonItem;
+    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_person.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_person.png"] taget:self action:@selector(rightButtonAction:)];
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {//fix ios7以下 10像素偏离
+        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpaceMore];
+        [self.navigationItem setRightBarButtonItems:@[spacer, rightItem]];
+    }else{
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
 }
 
 - (void)resetLayoutOfKeyboard {
