@@ -1717,7 +1717,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
     
     [self.messageInputView.textView resignFirstResponder];
     //允许手势
-    [RTGestureLock setDisableGestureForBack:self.navigationController disable:YES];
+    [RTGestureLock setDisableGestureForBack:self.navigationController disableGestureback:NO];
     
     if (!self.moreBackView.hidden || !self.emojiScrollView.hidden) {
         self.moreBackView.hidden = YES;
@@ -1908,7 +1908,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
 - (void)didEmojiButClick{
     self.moreBackView.hidden = YES;
     //禁止手势
-    [RTGestureLock setDisableGestureForBack:self.navigationController disable:NO];
+    [RTGestureLock setDisableGestureForBack:self.navigationController disableGestureback:YES];
     
     if (self.currentText.length > 0) {
         self.messageInputView.textView.text = self.currentText;

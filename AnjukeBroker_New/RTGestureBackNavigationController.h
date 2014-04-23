@@ -12,7 +12,7 @@
 //使用方法：初始化使用：RTGestureBackNavigationController *navH = [[RTGestureBackNavigationController alloc] initWithRootViewController:self.xxxx];
 //手势返回效果设置: 包括背景图缩放和背景图缓慢平滑。默认背景图缓慢平滑效果，可以navH.pushBackType = PushBackWithScale;来设置背景图缩放效果
 //popToRoot设置：在当前ViewController页面继承RTViewController，并设置self.backType == RTSelectorBackTypePopToRoot
-//禁止手势返回效果：引入RTGestureLock，掉用[RTGestureLock setDisableGestureForBack:self.navgationgationController disable:No];
+//禁止手势返回效果：引入RTGestureLock，掉用[RTGestureLock setDisableGestureForBack:self.navgationgationController disableGestureback:YES];
 //UITableView didSelect 手势冲突，建议在didSelectRowAtIndexPath方法中添加：if (self.navigationController.view.frame.origin.x > 0) return; 
 
 typedef enum {

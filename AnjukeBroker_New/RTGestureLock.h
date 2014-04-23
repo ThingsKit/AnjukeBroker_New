@@ -10,5 +10,5 @@
 
 @interface RTGestureLock : NSObject
 
-+ (void)setDisableGestureForBack:(UINavigationController *)nav disable:(BOOL)disable;
++ (void)setDisableGestureForBack:(UINavigationController *)nav disableGestureback:(BOOL)disableGestureback;
 @end
