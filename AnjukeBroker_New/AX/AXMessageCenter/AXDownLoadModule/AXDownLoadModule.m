@@ -165,9 +165,9 @@
 - (NSDictionary *)getRequestHeadersAndRequestUrlWithHostApi:(NSString *)api MethodName:(NSString *)methodName isCheck:(BOOL)isCheck
 {
     RTDataService *service = [[RTDataService alloc] init];
-    service.privateKey = @"54d22906b73b0f6d";
-    service.publicKey = @"d945dc04a511fcd7e6ee79d9bf4b9416";
-    service.appName = @"i-anjuke";
+    service.privateKey = kHttpHeadersPrivateKey;
+    service.publicKey = kHttpHeadersPublicKey;
+    service.appName = kHttpHeadersAppName;
     service.apiVersion = @"";
     service.apiSite = api;
     NSDictionary *commParams = [NSDictionary dictionaryWithDictionary:[service deviceInfoDictREST]];

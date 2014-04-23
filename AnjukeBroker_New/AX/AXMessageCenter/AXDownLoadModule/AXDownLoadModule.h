@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "AXDownLoadRequestResponse.h"
 
+//configrations
+static NSString * const kHttpHeadersPrivateKey = @"54d22906b73b0f6d";
+static NSString * const kHttpHeadersPublicKey = @"d945dc04a511fcd7e6ee79d9bf4b9416";
+static NSString * const kHttpHeadersAppName = @"i-broker2";
+
 typedef NS_ENUM(NSUInteger, AJKDownLoadModuleDownLoadStatus)
 {
     AJKDownLoadModuleDownLoadStatusSuccessful,
