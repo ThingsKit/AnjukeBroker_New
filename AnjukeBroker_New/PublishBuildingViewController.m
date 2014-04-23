@@ -1076,7 +1076,8 @@ typedef enum {
         NSInteger price = [[[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_PRICE] text_Field] text] intValue] * 10000;
         self.property.price = [NSString stringWithFormat:@"%d", price];
         
-        self.property.d
+        
+        
     }
     DLog(@"房源上传数据:[%@]", self.property);
 }

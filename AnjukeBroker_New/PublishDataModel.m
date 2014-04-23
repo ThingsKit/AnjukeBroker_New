@@ -37,6 +37,9 @@
     ep.rooms = @"";
     ep.title = @"";
     ep.onlineHouseTypeDic = [NSDictionary dictionary];
+    ep.minDownPay = @"";
+    ep.isOnly = NO;
+    ep.isFullFive = NO;
     
     return ep;
 }

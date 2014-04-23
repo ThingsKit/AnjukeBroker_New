@@ -2,7 +2,7 @@
 //  Property.m
 //  AnjukeBroker_New
 //
-//  Created by paper on 14-1-25.
+//  Created by paper on 14-4-23.
 //  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
 
@@ -19,10 +19,13 @@
 @dynamic fitment;
 @dynamic floor;
 @dynamic imageJson;
+@dynamic isFullFive;
+@dynamic isOnly;
+@dynamic minDownPay;
+@dynamic onlineHouseTypeDic;
 @dynamic price;
 @dynamic rentType;
 @dynamic rooms;
 @dynamic title;
-@dynamic onlineHouseTypeDic;
 
 @end

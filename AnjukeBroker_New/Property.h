@@ -2,7 +2,7 @@
 //  Property.h
 //  AnjukeBroker_New
 //
-//  Created by paper on 14-1-25.
+//  Created by paper on 14-4-23.
 //  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
 
@@ -20,10 +20,13 @@
 @property (nonatomic, retain) NSString * fitment;
 @property (nonatomic, retain) NSString * floor;
 @property (nonatomic, retain) NSString * imageJson;
+@property (nonatomic, retain) NSNumber * isFullFive;
+@property (nonatomic, retain) NSNumber * isOnly;
+@property (nonatomic, retain) NSString * minDownPay;
+@property (nonatomic, retain) id onlineHouseTypeDic;
 @property (nonatomic, retain) NSString * price;
 @property (nonatomic, retain) NSString * rentType;
 @property (nonatomic, retain) NSString * rooms;
 @property (nonatomic, retain) NSString * title;
-@property (nonatomic, retain) id onlineHouseTypeDic;
 
 @end

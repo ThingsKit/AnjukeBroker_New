@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		200485DB1907C33800A5A351 /* Property.m in Sources */ = {isa = PBXBuildFile; fileRef = 200485DA1907C33800A5A351 /* Property.m */; };
 		200915E81893FC1000A13115 /* E_Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 200915E71893FC1000A13115 /* E_Photo.m */; };
-		200915EB1893FC1100A13115 /* Property.m in Sources */ = {isa = PBXBuildFile; fileRef = 200915EA1893FC1100A13115 /* Property.m */; };
 		200915EE189401C800A13115 /* anjuke_icon_fxt_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */; };
 		200915EF189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 200915ED189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png */; };
 		200ACA4718B6F77000FAC740 /* Broker_InputEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 200ACA4618B6F77000FAC740 /* Broker_InputEditView.m */; };
@@ -580,11 +580,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		200485D91907C33800A5A351 /* Property.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Property.h; sourceTree = "<group>"; };
+		200485DA1907C33800A5A351 /* Property.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Property.m; sourceTree = "<group>"; };
 		200915D31893FA3000A13115 /* AnjukeBroker_New3.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AnjukeBroker_New3.1.xcdatamodel; sourceTree = "<group>"; };
 		200915E61893FC1000A13115 /* E_Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = E_Photo.h; sourceTree = "<group>"; };
 		200915E71893FC1000A13115 /* E_Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = E_Photo.m; sourceTree = "<group>"; };
-		200915E91893FC1100A13115 /* Property.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Property.h; sourceTree = "<group>"; };
-		200915EA1893FC1100A13115 /* Property.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Property.m; sourceTree = "<group>"; };
 		200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_fxt_@2x.png"; sourceTree = "<group>"; };
 		200915ED189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_fxt_mini_@2x.png"; sourceTree = "<group>"; };
 		200ACA4518B6F77000FAC740 /* Broker_InputEditView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Broker_InputEditView.h; sourceTree = "<group>"; };
@@ -2196,6 +2196,7 @@
 		972C1033181504FE00552C9B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B769E448181F4C0300A2FF50 /* CoreData */,
 				97FA369E182F30E500EF714D /* Plist */,
 				972C10351815053100552C9B /* Images */,
 				97410569180CDFE0004DAE95 /* Images.xcassets */,
@@ -2780,7 +2781,6 @@
 				972F70DB1844C7450010CABB /* Logger */,
 				97A606831816D0A30041B367 /* 发布房源Model */,
 				B769E449181F4C0B00A2FF50 /* Manager */,
-				B769E448181F4C0300A2FF50 /* CoreData */,
 				B769E447181F4BF700A2FF50 /* BaseObject */,
 			);
 			name = Model;
@@ -2808,8 +2808,8 @@
 		B769E448181F4C0300A2FF50 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				200915E91893FC1100A13115 /* Property.h */,
-				200915EA1893FC1100A13115 /* Property.m */,
+				200485D91907C33800A5A351 /* Property.h */,
+				200485DA1907C33800A5A351 /* Property.m */,
 				200915E61893FC1000A13115 /* E_Photo.h */,
 				200915E71893FC1000A13115 /* E_Photo.m */,
 			);
@@ -3655,6 +3655,7 @@
 				B7EAD52718CD927200B28FEC /* AXPhotoBrowser.m in Sources */,
 				B7FFC9DF18C8AC330020A73B /* UIImage+RoundedCorner.m in Sources */,
 				204E66CF1894E7DB00546D51 /* PublishBigImageViewController.m in Sources */,
+				200485DB1907C33800A5A351 /* Property.m in Sources */,
 				975E7ED01829EDC7008EBC1D /* WebImageView.m in Sources */,
 				F8575DA31900F6BE00AB662F /* BrokerCallAlert.m in Sources */,
 				B7EAD52118CD927200B28FEC /* AXPhotoManager.m in Sources */,
@@ -3769,7 +3770,6 @@
 				B769E45A181F547100A2FF50 /* BasePropertyListCell.m in Sources */,
 				B7EAD51A18CD927200B28FEC /* AXChatMessagePublicCardCell.m in Sources */,
 				2056A34618EE7E660022B5A5 /* NSArray+ExtraMethods.m in Sources */,
-				200915EB1893FC1100A13115 /* Property.m in Sources */,
 				2056A38D18EE7EA00022B5A5 /* AXMessageCenterDownLoadAudioManager.m in Sources */,
 				207526BB18B45FE10022220C /* SWLongPressGestureRecognizer.m in Sources */,
 				B769E460181F5F1200A2FF50 /* ModifyFixedCostController.m in Sources */,
