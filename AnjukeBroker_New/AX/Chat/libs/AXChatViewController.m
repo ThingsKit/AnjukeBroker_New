@@ -52,6 +52,8 @@
 #import "FaceView.h"
 #import "RTGestureLock.h"
 
+#import "AppDelegate.h"
+
 
 //输入框和发送按钮栏的高度
 static CGFloat const AXInputBackViewHeight = 49;
@@ -168,6 +170,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
 
 - (void)dealloc
 {
+    [[[AppDelegate sharedAppDelegate] tabController] setSelectedIndex:1];
+    
     DLog(@"AXChatViewController dealloc");
     [self.messageInputView.textView removeObserver:self forKeyPath:@"contentSize"];
     self.messageInputView = nil;
@@ -200,7 +204,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
 												 name:UIKeyboardWillHideNotification
                                                object:nil];
     
-    [self didClickRecored:nil];
+//    [self didClickRecored:nil];
     
 }
 
@@ -238,9 +242,10 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     // init Data
     [self initData];
+    
     
     // init UI
     [self initUI];
@@ -283,10 +288,13 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
     
     self.keyboardControl = [[UIControl alloc] initWithFrame:CGRectMake(0, 0, self.myTableView.width, 10)];
     self.keyboardControl.backgroundColor = [UIColor clearColor];
-    [self.keyboardControl addTarget:self action:@selector(didClickKeyboardControl) forControlEvents:UIControlEventTouchUpInside];
     self.keyboardControl.hidden = YES;
     [self.view addSubview:self.keyboardControl];
     
+    UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(didClickKeyboardControl)];
+    [recognizer setMinimumPressDuration:0.0001f];
+    [self.keyboardControl addGestureRecognizer:recognizer];
     
     self.moreBackView = [[UIView alloc] init];
     self.moreBackView.frame = CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
@@ -545,7 +553,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
             [self.emojiScrollView.sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         }
         
-        __block AXChatViewController* this = self;
+        __weak AXChatViewController* this = self;
         self.emojiScrollView.sendButtonClick = ^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 [this sendMessage:nil];
@@ -2344,6 +2352,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
         }
         AXPhotoBrowser *controller = [[AXPhotoBrowser alloc] init];
         controller.isBroker = YES;
+        controller.backType = RTSelectorBackTypePopBack;
         controller.currentPhotoIndex = currentPhotoIndex; // 弹出相册时显示的第一张图片是？
         [controller setPhotos:photoArray]; // 设置所有的图片
         [self.navigationController pushViewController:controller animated:YES];

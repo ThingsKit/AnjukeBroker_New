@@ -62,7 +62,6 @@
     // 1.创建UIScrollView
     [self createScrollView];
     [self initNavTitle];
-    [self initLeftBar];
     [self initRightBar];
 }
 
@@ -105,16 +104,6 @@
     spacer.width = 6.0f;
     [self.navigationItem setRightBarButtonItems:@[spacer, buttonItems]];
     
-}
-
-- (void)initLeftBar {
-    UIButton *rightBar = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightBar.frame = CGRectMake(0, 0, 40, 20);
-    [rightBar setTitle:@"返回" forState:UIControlStateNormal];
-    [rightBar setTintColor:[UIColor whiteColor]];
-    [rightBar addTarget:self  action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:rightBar];
-    [self.navigationItem setLeftBarButtonItem:buttonItems];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

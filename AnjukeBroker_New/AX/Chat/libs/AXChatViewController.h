@@ -16,6 +16,7 @@
 #import "RTViewController.h"
 #import "JSMessageInputView.h"
 #import "FaceScrollView.h"
+#import "AppDelegate.h"
 
 #define AXWINDOWWHIDTH [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.width
 #define AXWINDOWHEIGHT [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height

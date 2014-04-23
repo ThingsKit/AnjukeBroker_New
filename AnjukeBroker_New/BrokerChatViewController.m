@@ -407,8 +407,10 @@
     [self storageLayoutOfKeyboard];
     
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_013 note:nil];
+    self.tabBarController.selectedIndex = 1;
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
+
 - (void)didClickTelNumber:(NSString *)telNumber {
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_010 note:nil];
     
