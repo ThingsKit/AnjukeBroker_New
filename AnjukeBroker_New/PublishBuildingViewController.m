@@ -1039,7 +1039,7 @@ typedef enum {
         return NO;
     }
     
-    if (self.isHaozu) {
+    if (self.isHaozu) { //租房
         if ([self.property.rentType isEqualToString:@""]) {
             [self showInfo:@"请选择出租类型"];
             return NO;
@@ -1049,11 +1049,13 @@ typedef enum {
             return NO;
         }
     }
-    else {
+    else { //二手房
         if ([self.property.price floatValue] < 100000 || [[self.property price] floatValue] > 1000000000) {
             [self showInfo:@"价格范围为10万到100000万元"];
             return NO;
         }
+        
+        //最低首付
         
     }
     
@@ -1073,6 +1075,8 @@ typedef enum {
         
         NSInteger price = [[[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_PRICE] text_Field] text] intValue] * 10000;
         self.property.price = [NSString stringWithFormat:@"%d", price];
+        
+        self.property.d
     }
     DLog(@"房源上传数据:[%@]", self.property);
 }
