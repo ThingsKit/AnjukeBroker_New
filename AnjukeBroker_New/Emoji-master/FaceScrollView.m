@@ -51,22 +51,22 @@
     [self addSubview:_pageControl];
     
     //底部的toolbar
-    UIView* toolBar = [[UIView alloc] initWithFrame:CGRectMake(0, _pageControl.bottom+5, ScreenWidth, 40)];
+    UIView* toolBar = [[UIView alloc] initWithFrame:CGRectMake(0, _pageControl.bottom+5, ScreenWidth, 42)];
     toolBar.layer.borderColor = [UIColor colorWithWhite:0.6 alpha:1].CGColor;
     toolBar.layer.borderWidth = 0.5f;
     
-    UIScrollView* emojiSet = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth-65, 40)];
+    UIScrollView* emojiSet = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth-64, 42)];
 //    emojiSet.backgroundColor = [UIColor yellowColor];
-    emojiSet.contentSize = CGSizeMake(65*5, 40);
+    emojiSet.contentSize = CGSizeMake(72*5, 42);
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, 65, 40);
+    button.frame = CGRectMake(0, 0, 72, 42);
     button.backgroundColor = [UIColor grayColor];
     [button setTitle:@"Emoji" forState:UIControlStateNormal];
     [emojiSet addSubview:button];
     [toolBar addSubview:emojiSet];
     
     self.sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.sendButton.frame = CGRectMake(emojiSet.right, 0, 65, 40);
+    self.sendButton.frame = CGRectMake(emojiSet.right, 0, 64, 42);
     self.sendButton.layer.borderWidth = 0.5f;
     self.sendButton.layer.borderColor = [UIColor colorWithWhite:0.6 alpha:1].CGColor;
     

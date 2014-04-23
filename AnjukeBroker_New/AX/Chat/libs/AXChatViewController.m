@@ -1722,6 +1722,9 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
         [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgName] forState:UIControlStateNormal];
         [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgNameHighlight] forState:UIControlStateHighlighted];
         
+        //禁止手势
+        [RTGestureLock setDisableGestureForBack:self.navigationController disable:YES];
+        
         if (self.preNotification) {
             [self keyboardWillShowHide:self.preNotification];
         }else {
