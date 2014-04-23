@@ -122,6 +122,19 @@
     
     if (self.isForMessageList) {
         self.tableViewList.frame = FRAME_WITH_NAV;
+        
+        //add additional header
+        UIView *headerBG = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], CLIENT_LIST_HEIGHT)];
+        headerBG.backgroundColor = [UIColor whiteColor];
+        
+        UILabel *headLb = [[UILabel alloc] initWithFrame:CGRectMake(15, (CLIENT_LIST_HEIGHT - 20)/2, 250, 20)];
+        headLb.backgroundColor = [UIColor clearColor];
+        headLb.text = @"选择一个客户发起微聊";
+        headLb.textColor = SYSTEM_BLACK;
+        headLb.font = [UIFont systemFontOfSize:16];
+        [headerBG addSubview:headLb];
+        
+        [self.tableViewList setTableHeaderView:headerBG];
     }
 }
 
@@ -332,6 +345,10 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0 && self.isForMessageList) {
+        return 0; //此时不显示公共账号
+    }
+    
     if (section <= 1) {
         return [(NSArray *)[self.listDataArray objectAtIndex:section] count];
     }

@@ -212,6 +212,11 @@
         return;
     }
     
+    if ([[self.sessionFetchedResultsController fetchedObjects] count] <= 0) {
+        self.tableViewList.tableHeaderView = nil;
+        return;
+    }
+    
     //check network
     if (self.networkErrorView) {
         if (![self isNetworkOkay]) {
