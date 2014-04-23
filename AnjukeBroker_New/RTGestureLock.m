@@ -13,6 +13,6 @@
 
 + (void)setDisableGestureForBack:(UINavigationController *)nav disable:(BOOL)disable{
     RTGestureBackNavigationController *passNav = (RTGestureBackNavigationController*)nav;
-    passNav.disableGestureForBack = YES;
+    passNav.disableGestureForBack = !disable;
 }
 @end

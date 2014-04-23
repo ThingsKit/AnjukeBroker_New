@@ -204,7 +204,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
 												 name:UIKeyboardWillHideNotification
                                                object:nil];
     
-//    [self didClickRecored:nil];
+    [self didClickRecored:nil];
     
 }
 
@@ -1716,14 +1716,15 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
 {
     
     [self.messageInputView.textView resignFirstResponder];
+    //允许手势
+    [RTGestureLock setDisableGestureForBack:self.navigationController disable:YES];
+    
     if (!self.moreBackView.hidden || !self.emojiScrollView.hidden) {
         self.moreBackView.hidden = YES;
         self.emojiScrollView.hidden = YES;
         [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgName] forState:UIControlStateNormal];
         [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgNameHighlight] forState:UIControlStateHighlighted];
         
-        //禁止手势
-        [RTGestureLock setDisableGestureForBack:self.navigationController disable:YES];
         
         if (self.preNotification) {
             [self keyboardWillShowHide:self.preNotification];
