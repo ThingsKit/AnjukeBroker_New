@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface AXChatWebViewController : UIViewController
+#import "RTViewController.h"
+@interface AXChatWebViewController : RTViewController
 
 @property (nonatomic, copy) NSString *webUrl;
 @property (nonatomic, copy) NSString *webTitle;

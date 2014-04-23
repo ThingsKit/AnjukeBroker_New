@@ -63,6 +63,7 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 
 - (void)didEmojiButClick;
 - (void)speeking;
+- (void)restoreDraftContent;
 
 // applog
 - (void)sendMessageAppLog;

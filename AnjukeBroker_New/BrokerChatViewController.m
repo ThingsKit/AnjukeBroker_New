@@ -69,11 +69,14 @@
     self.friendPerson = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:self.friendPerson.uid];
     [self initNavTitle];
     [self resetLayoutOfKeyboard];
+    [self removeStorageLayoutOfKeyboard];
     [self downLoadIcon];
 }
+
 - (void)updatePersion {
 
 }
+
 - (void)downLoadIcon {
     //保存头像
     AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
@@ -163,6 +166,10 @@
     }
 }
 
+- (void)removeStorageLayoutOfKeyboard {
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:self.friendPerson.uid];
+}
+
 - (void)pickIMG:(id)sender {
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_006 note:nil];
     
@@ -175,6 +182,7 @@
 
 - (void)takePic:(id)sender {
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_005 note:nil];
+    
     UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
     ipc.sourceType = UIImagePickerControllerSourceTypeCamera; //拍照
     ipc.delegate = self;
@@ -183,6 +191,7 @@
 }
 - (void)pickAJK:(id)sender {
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_007 note:nil];
+    
     CommunitySelectViewController *controller = [[CommunitySelectViewController alloc] init];
     controller.pageTypeFrom = secondHandHouse;
     HouseSelectNavigationController *nav = [[HouseSelectNavigationController alloc] initWithRootViewController:controller];
@@ -193,6 +202,7 @@
 
 - (void)pickHZ:(id)sender {
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_008 note:nil];
+    
     CommunitySelectViewController *controller = [[CommunitySelectViewController alloc] init];
     controller.pageTypeFrom = rentHouse;
     HouseSelectNavigationController *nav = [[HouseSelectNavigationController alloc] initWithRootViewController:controller];
@@ -201,6 +211,7 @@
     
 }
 -(void)returnSelectedHouseDic:(NSDictionary *)dic houseType:(BOOL)houseType {
+    
     NSMutableDictionary *propDict = [NSMutableDictionary dictionary];
     //二手房单页详情url确认结果：http://m.anjuke.com/sale/x/11/204603156
     //格式：http://fp07.m.dev.anjuke.com/sale/x/{城市id}/{房源id}
@@ -253,19 +264,12 @@
 - (void)didClickAvatar:(BOOL)isCurrentPerson {
     if (isCurrentPerson) {
         return;
-//        AXMappedPerson *item = self.currentPerson;
-//        //for test
-//        ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
-//        cd.person = item;
-//        [cd setHidesBottomBarWhenPushed:YES];
-//        [self.navigationController pushViewController:cd animated:YES];
     }else {
-
             AXMappedPerson *item = self.friendPerson;
             //for test
             ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
             cd.person = item;
-        cd.backType = RTSelectorBackTypePopToRoot;
+            cd.backType = RTSelectorBackTypePopToRoot;
             [cd setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:cd animated:YES];
 
@@ -407,6 +411,7 @@
 }
 - (void)didClickTelNumber:(NSString *)telNumber {
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_010 note:nil];
+    
     NSArray *phone = [NSArray arrayWithArray:[telNumber componentsSeparatedByString:@":"]];
     
     if (phone.count == 2) {
@@ -425,8 +430,8 @@
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",self.phoneNumber]]];
     }else if (buttonIndex == 1){
         [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_012 note:nil];
-            self.friendPerson.markPhone = self.phoneNumber;
-            [[AXChatMessageCenter defaultMessageCenter] updatePerson:self.friendPerson];
+        self.friendPerson.markPhone = self.phoneNumber;
+        [[AXChatMessageCenter defaultMessageCenter] updatePerson:self.friendPerson];
         [self showInfo:@"保存成功"];
     }else {
     

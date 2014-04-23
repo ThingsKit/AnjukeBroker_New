@@ -207,16 +207,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (!self.isFinished) {
-        self.isFinished = YES;
-        if (self.conversationListItem) {
-            if (!self.previousTextViewContentHeight) {
-                self.previousTextViewContentHeight = self.messageInputView.textView.contentSize.height;
-            }
-            self.messageInputView.textView.text = self.conversationListItem.draftContent;
-        }
-        [self scrollToBottomAnimated:NO];
-    }
+    [self restoreDraftContent];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -268,8 +259,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
     self.locationArray = [NSMutableArray array];
 }
 
-#pragma mark - Private Method
-
+#pragma mark - InitUI Method
 - (void)initUI {
     if (self.brokerName) {
         self.title = self.brokerName;
@@ -601,6 +591,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
             
         };
 }
+
 - (void)fetchLastChatList
 {
     AXMappedMessage *lastMessage = [[AXMappedMessage alloc] init];
@@ -615,9 +606,9 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
         if (blockSelf.hasMore) {
             self.pullToRefreshView.delegate = self;
         } else {
-            if (blockSelf.friendPerson.markName.length == 0) {
-                [blockSelf sendSystemMessage:AXMessageTypeAddNote];
-            }
+//            if (blockSelf.friendPerson.markName.length == 0) {
+//                [blockSelf sendSystemMessage:AXMessageTypeAddNote];
+//            }
             self.pullToRefreshView.delegate = nil;
         }
         NSArray *chatArray = chatList[@"messages"];
@@ -649,6 +640,19 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
         
         [blockSelf addMessageNotifycation];
     }];
+}
+
+- (void)restoreDraftContent {
+    if (!self.isFinished) {
+        self.isFinished = YES;
+        if (self.conversationListItem) {
+            if (!self.previousTextViewContentHeight) {
+                self.previousTextViewContentHeight = self.messageInputView.textView.contentSize.height;
+            }
+            self.messageInputView.textView.text = self.conversationListItem.draftContent;
+        }
+        [self scrollToBottomAnimated:NO];
+    }
 }
 
 - (CGSize)sizeOfString:(NSString *)string maxWidth:(float)width withFontSize:(UIFont *)fontSize {
@@ -2345,6 +2349,20 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
         [self.navigationController pushViewController:controller animated:YES];
     }
 }
+
+- (void)doBack:(id)sender {
+    [super doBack:sender];
+    if (self.backType == RTSelectorBackTypeDismiss) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    else if (self.backType == RTSelectorBackTypePopBack) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else if (self.backType == RTSelectorBackTypePopToRoot) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+}
+
 -(void)loadMapSiteMessage:(NSDictionary *)mapSiteDic {
 
 }
