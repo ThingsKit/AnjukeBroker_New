@@ -14,7 +14,6 @@
 #import "BrokerChatViewController.h"
 #import "AppManager.h"
 #import "AppDelegate.h"
-#import "UIBarButtonItem+NavItem.h"
 #import "BrokerLineView.h"
 
 @interface MessageListViewController ()
@@ -115,7 +114,7 @@
     [self.view addSubview:tv];
     
 
-    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_add_.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_add_.png"] taget:self action:@selector(rightButtonAction:)];
+    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_add_.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_add_press"] taget:self action:@selector(rightButtonAction:)];
     
     if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {//fix ios7以下 10像素偏离
         UIBarButtonItem *spacer = [UIBarButtonItem getBarSpaceMore];

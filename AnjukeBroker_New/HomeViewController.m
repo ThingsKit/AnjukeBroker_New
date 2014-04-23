@@ -28,7 +28,6 @@
 #import "AXChatMessageCenter.h"
 #import "AppDelegate.h"
 #import "BrokerWebViewController.h"
-#import "UIBarButtonItem+NavItem.h"
 
 #define HOME_cellHeight 50
 #define Max_Account_Lb_Width 80
@@ -79,7 +78,7 @@
     
 //    [self setTitleViewWithString:[LoginManager getUserName]];
     
-    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_setting.png"] taget:self action:@selector(rightButtonAction:)];
+    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_setting_press"] taget:self action:@selector(rightButtonAction:)];
     if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {//fix ios7以下 10像素偏离
         UIBarButtonItem *spacer = [UIBarButtonItem getBarSpaceMore];
         [self.navigationItem setRightBarButtonItems:@[spacer, rightItem]];

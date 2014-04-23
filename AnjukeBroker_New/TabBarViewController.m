@@ -17,6 +17,7 @@
 #import "FindHomeViewController.h"
 #import "MessageListViewController.h"
 #import "ClientListViewController.h"
+#import "BrokerLuanchAdd.h"
 
 #define tabItemInsertsMake UIEdgeInsetsMake(0, 0, 0, 0)
 
@@ -47,6 +48,8 @@
     if (self) {
         self.delegate = self;
         self.controllerArrays = [NSMutableArray array]; //保留4个首页
+        
+        [[BrokerLuanchAdd sharedLuanchAdd] doRequst];
         
         //add four nav controllers
         //首页

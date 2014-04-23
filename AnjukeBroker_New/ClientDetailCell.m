@@ -55,10 +55,10 @@
     messageLabel.contentMode = UIViewContentModeTop;
     [self.contentView addSubview:messageLabel];
     
-    UIImageView *phoneImgView = [[UIImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_PHONEICON, 7, 30, 30)];
+    UIImageView *phoneImgView = [[UIImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_PHONEICON, 13, 18, 18)];
     self.phoneIcon = phoneImgView;
-    phoneImgView.image = [UIImage imageNamed:@""];
-    phoneImgView.backgroundColor = [UIColor lightGrayColor];
+    phoneImgView.image = [UIImage imageNamed:@"anjuke_icon_callphone"];
+    phoneImgView.backgroundColor = [UIColor clearColor];
     phoneImgView.hidden = YES;
     [self.contentView addSubview:phoneImgView];
 }
