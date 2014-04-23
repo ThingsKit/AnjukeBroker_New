@@ -124,6 +124,7 @@
         self.navigationItem.rightBarButtonItem = rightItem;
     }
     self.navigationItem.rightBarButtonItem = rightItem;
+    
     [self drawNetworkView];
 }
 
@@ -151,14 +152,14 @@
     icon.frame = CGRectMake(16, (netView.frame.size.height - 26)/2, 26, 26);
     [netView addSubview:icon];
     
-    UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 16, 5, 200, 20)];
+    UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 10, 5, 200, 20)];
     titleLb.backgroundColor = [UIColor clearColor];
     titleLb.textColor = SYSTEM_BLACK;
     titleLb.font = [UIFont systemFontOfSize:14];
     titleLb.text = @"当前网络不可用";
     [netView addSubview:titleLb];
     
-    UILabel *titleLb2 = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 16, titleLb.frame.origin.y+20+1, 200, 20)];
+    UILabel *titleLb2 = [[UILabel alloc] initWithFrame:CGRectMake(titleLb.frame.origin.x, titleLb.frame.origin.y+20+1, 200, 20)];
     titleLb2.backgroundColor = [UIColor clearColor];
     titleLb2.textColor = SYSTEM_LIGHT_GRAY;
     titleLb2.font = [UIFont systemFontOfSize:10];
