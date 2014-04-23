@@ -15,6 +15,7 @@
 #import "AppManager.h"
 #import "AppDelegate.h"
 #import "UIBarButtonItem+NavItem.h"
+#import "BrokerLineView.h"
 
 @interface MessageListViewController ()
 
@@ -23,6 +24,8 @@
 
 @property (nonatomic, strong) NSFetchedResultsController *sessionFetchedResultsController;
 @property (strong, nonatomic) NSDate *lastReloadDate;
+
+@property (nonatomic, strong) UIView *networkErrorView;
 
 @end
 
@@ -55,6 +58,8 @@
     
     [self resetMessageValue];
     [self checkForReloadTVWithDate];
+    
+    [self checkWillShowNetwork];
 }
 
 - (void)didReceiveMemoryWarning
@@ -118,6 +123,8 @@
     }else{
         self.navigationItem.rightBarButtonItem = rightItem;
     }
+    self.navigationItem.rightBarButtonItem = rightItem;
+    [self drawNetworkView];
 }
 
 - (void)rightButtonAction:(id)sender {
@@ -132,6 +139,34 @@
     else {
         
     }
+}
+
+- (void)drawNetworkView {
+    //问题网络checkout
+    UIView *netView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 46)];
+    netView.backgroundColor = [Util_UI colorWithHexString:@"ffeeee"];
+    self.networkErrorView = netView;
+
+    UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_nonet_attention.png"]];
+    icon.frame = CGRectMake(16, (netView.frame.size.height - 26)/2, 26, 26);
+    [netView addSubview:icon];
+    
+    UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 16, 5, 200, 20)];
+    titleLb.backgroundColor = [UIColor clearColor];
+    titleLb.textColor = SYSTEM_BLACK;
+    titleLb.font = [UIFont systemFontOfSize:14];
+    titleLb.text = @"当前网络不可用";
+    [netView addSubview:titleLb];
+    
+    UILabel *titleLb2 = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 16, titleLb.frame.origin.y+20+1, 200, 20)];
+    titleLb2.backgroundColor = [UIColor clearColor];
+    titleLb2.textColor = SYSTEM_LIGHT_GRAY;
+    titleLb2.font = [UIFont systemFontOfSize:10];
+    titleLb2.text = @"请检查你的网络设置";
+    [netView addSubview:titleLb2];
+    
+    BrokerLineView *bl = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, netView.frame.size.height - 0.5, [self windowWidth] - 15, 0.5)];
+    [netView addSubview:bl];
 }
 
 #pragma mark - Private Method
@@ -169,6 +204,21 @@
     }
     
     [self.listDataArray removeObjectAtIndex:index];
+}
+
+- (void)checkWillShowNetwork {
+    if (![LoginManager isLogin]) {
+        return;
+    }
+    
+    //check network
+    if (self.networkErrorView) {
+        if (![self isNetworkOkay]) {
+            self.tableViewList.tableHeaderView = self.networkErrorView;
+        }
+        else
+            self.tableViewList.tableHeaderView = nil;
+    }
 }
 
 #pragma mark - Request Method
@@ -257,6 +307,9 @@
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
+    //check network
+    [self checkWillShowNetwork];
+    
     switch (type) {
         case NSFetchedResultsChangeInsert:
         {
