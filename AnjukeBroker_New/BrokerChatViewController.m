@@ -61,18 +61,19 @@
     self.backType = RTSelectorBackTypePopToRoot;
     
     // 设置返回btn
-
     [self initRightBar];
-    [self initNavTitle];
 }
-
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.friendPerson = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:self.friendPerson.uid];
+    [self initNavTitle];
     [self resetLayoutOfKeyboard];
     [self downLoadIcon];
 }
+- (void)updatePersion {
 
+}
 - (void)downLoadIcon {
     //保存头像
     AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];

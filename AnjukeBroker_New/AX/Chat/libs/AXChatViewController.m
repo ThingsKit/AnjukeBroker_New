@@ -331,73 +331,73 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
                                  action:@selector(sendPressed:)
                        forControlEvents:UIControlEventTouchUpInside];
     } else {
-        
-        
         self.messageInputView.textView.frame = CGRectMake(textViewRect.origin.x + 40, textViewRect.origin.y, textViewRect.size.width - 40 -40, textViewRect.size.height);
         self.messageInputTextViewFrame = self.messageInputView.textView.frame;
         
-        //最右侧的加号按钮
-        self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.sendBut.frame = CGRectMake(ScreenWidth - 45, 2.0f, 45.0f, 45.0f);
-        self.sendBut.backgroundColor = [UIColor clearColor];
-        [self.sendBut addTarget:self action:@selector(didMoreBackView:) forControlEvents:UIControlEventTouchUpInside];
-        [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateNormal];
-        [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more_selected.png"] forState:UIControlStateHighlighted];
-        [self.messageInputView addSubview:self.sendBut];
-        
-        //最左侧的麦克风按钮
-        self.voiceBut = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.voiceBut.frame = CGRectMake(2.0f + 4.0f, 2.0f, 45.0f, 45.0f);
-        [self.voiceBut addTarget:self action:@selector(speeking) forControlEvents:UIControlEventTouchDown];
-        [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
-        [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameVoiceHighlight] forState:UIControlStateHighlighted];
-        [self.messageInputView addSubview:self.voiceBut];
-        
-        //中间的长按录音按钮
-        self.pressSpeek = [[UIButton alloc] initWithFrame:CGRectZero];
-        [self.pressSpeek addTarget:self action:@selector(didBeginVoice) forControlEvents:UIControlEventTouchDown];
-        [self.pressSpeek addTarget:self action:@selector(didCommitVoice) forControlEvents:UIControlEventTouchUpInside];
-        [self.pressSpeek addTarget:self action:@selector(didCancelVoice) forControlEvents:UIControlEventTouchUpOutside];
-        [self.pressSpeek addTarget:self action:@selector(continueRecordVoice) forControlEvents:UIControlEventTouchDragEnter];
-        [self.pressSpeek addTarget:self action:@selector(willCancelVoice) forControlEvents:UIControlEventTouchDragExit];
-        [self.pressSpeek addTarget:self action:@selector(didInterruptRecord) forControlEvents:UIControlEventTouchCancel];
-        
-        
-        self.pressSpeek.titleLabel.font = [UIFont systemFontOfSize:15];
-        [self.pressSpeek setTitle:@"按住说话" forState:UIControlStateNormal];
-        [self.pressSpeek setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [self.pressSpeek setTitle:@"松开结束" forState:UIControlStateHighlighted];
-        [self.pressSpeek setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
-        [self.pressSpeek setTitle:@"松开结束" forState:UIControlStateSelected];
-        [self.pressSpeek setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
-        
-        UIImage* imageNormal = [UIImage imageNamed:@"anjuke_icon_input_voice"];
-        imageNormal = [imageNormal stretchableImageWithLeftCapWidth:5 topCapHeight:5];
-        UIImage* imageHighlighted = [UIImage imageNamed:@"anjuke_icon_input_voice_press"];
-        imageHighlighted = [imageHighlighted stretchableImageWithLeftCapWidth:5 topCapHeight:5];
-        
-        [self.pressSpeek setBackgroundImage:imageNormal forState:UIControlStateNormal];
-        [self.pressSpeek setBackgroundImage:imageHighlighted forState:UIControlStateHighlighted];
-        [self.pressSpeek setBackgroundImage:imageHighlighted forState:UIControlStateSelected];
-        
-        [self.messageInputView addSubview:self.pressSpeek];
-        
-        //表情按钮
-        self.emojiBut = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.emojiBut.frame = CGRectMake(ScreenWidth - 45*2, 2.0f, 45.0f, 45.0f);
-        [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgName] forState:UIControlStateNormal];
-        [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgNameHighlight] forState:UIControlStateHighlighted];
-        self.emojiBut.backgroundColor = [UIColor clearColor];
-        [self.emojiBut addTarget:self action:@selector(didEmojiButClick) forControlEvents:UIControlEventTouchUpInside];
-        [self.messageInputView addSubview:self.emojiBut];
-        
-        self.emojiScrollView = [[FaceScrollView alloc] init];
-        self.emojiScrollView.frame = CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
-        self.emojiScrollView.hidden = YES;
-        [self.view addSubview:self.emojiScrollView];
-        
+        [self initPrivateButtons];
+        [self initEmojiView];
     }
+    [self initMoreButs];
+}
+
+- (void)initPrivateButtons {
+    //最右侧的加号按钮
+    self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.sendBut.frame = CGRectMake(ScreenWidth - 45, 2.0f, 45.0f, 45.0f);
+    self.sendBut.backgroundColor = [UIColor clearColor];
+    [self.sendBut addTarget:self action:@selector(didMoreBackView:) forControlEvents:UIControlEventTouchUpInside];
+    [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateNormal];
+    [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more_selected.png"] forState:UIControlStateHighlighted];
+    [self.messageInputView addSubview:self.sendBut];
     
+    //最左侧的麦克风按钮
+    self.voiceBut = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.voiceBut.frame = CGRectMake(2.0f + 4.0f, 2.0f, 45.0f, 45.0f);
+    [self.voiceBut addTarget:self action:@selector(speeking) forControlEvents:UIControlEventTouchDown];
+    [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
+    [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameVoiceHighlight] forState:UIControlStateHighlighted];
+    [self.messageInputView addSubview:self.voiceBut];
+    
+    //中间的长按录音按钮
+    self.pressSpeek = [[UIButton alloc] initWithFrame:CGRectZero];
+    [self.pressSpeek addTarget:self action:@selector(didBeginVoice) forControlEvents:UIControlEventTouchDown];
+    [self.pressSpeek addTarget:self action:@selector(didCommitVoice) forControlEvents:UIControlEventTouchUpInside];
+    [self.pressSpeek addTarget:self action:@selector(didCancelVoice) forControlEvents:UIControlEventTouchUpOutside];
+    [self.pressSpeek addTarget:self action:@selector(continueRecordVoice) forControlEvents:UIControlEventTouchDragEnter];
+    [self.pressSpeek addTarget:self action:@selector(willCancelVoice) forControlEvents:UIControlEventTouchDragExit];
+    [self.pressSpeek addTarget:self action:@selector(didInterruptRecord) forControlEvents:UIControlEventTouchCancel];
+    
+    
+    self.pressSpeek.titleLabel.font = [UIFont systemFontOfSize:15];
+    [self.pressSpeek setTitle:@"按住说话" forState:UIControlStateNormal];
+    [self.pressSpeek setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.pressSpeek setTitle:@"松开结束" forState:UIControlStateHighlighted];
+    [self.pressSpeek setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+    [self.pressSpeek setTitle:@"松开结束" forState:UIControlStateSelected];
+    [self.pressSpeek setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
+    
+    UIImage* imageNormal = [UIImage imageNamed:@"anjuke_icon_input_voice"];
+    imageNormal = [imageNormal stretchableImageWithLeftCapWidth:5 topCapHeight:5];
+    UIImage* imageHighlighted = [UIImage imageNamed:@"anjuke_icon_input_voice_press"];
+    imageHighlighted = [imageHighlighted stretchableImageWithLeftCapWidth:5 topCapHeight:5];
+    
+    [self.pressSpeek setBackgroundImage:imageNormal forState:UIControlStateNormal];
+    [self.pressSpeek setBackgroundImage:imageHighlighted forState:UIControlStateHighlighted];
+    [self.pressSpeek setBackgroundImage:imageHighlighted forState:UIControlStateSelected];
+    
+    [self.messageInputView addSubview:self.pressSpeek];
+    
+    //表情按钮
+    self.emojiBut = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.emojiBut.frame = CGRectMake(ScreenWidth - 45*2, 2.0f, 45.0f, 45.0f);
+    [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgName] forState:UIControlStateNormal];
+    [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgNameHighlight] forState:UIControlStateHighlighted];
+    self.emojiBut.backgroundColor = [UIColor clearColor];
+    [self.emojiBut addTarget:self action:@selector(didEmojiButClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.messageInputView addSubview:self.emojiBut];
+}
+
+- (void)initMoreButs {
     UIButton *pickIMG = [UIButton buttonWithType:UIButtonTypeCustom];
     pickIMG.frame = CGRectMake(17.0f, 16.0f, 46, 46);
     [pickIMG setImage:[UIImage imageNamed:@"anjuke_icon_add_pic4.png"] forState:UIControlStateNormal];
@@ -464,7 +464,6 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
     locationLab.textAlignment = NSTextAlignmentCenter;
     locationLab.textColor = [UIColor axChatPropDescColor:self.isBroker];
     [self.moreBackView addSubview:locationLab];
-    
 }
 
 - (void)initBlock
@@ -543,6 +542,65 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
     };
 }
 
+- (void)initEmojiView {
+        self.emojiScrollView = [[FaceScrollView alloc] init];
+        self.emojiScrollView.frame = CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
+        self.emojiScrollView.hidden = YES;
+        [self.view addSubview:self.emojiScrollView];
+        
+        //        NSLog(@"%d", self.messageInputView.textView.text.length);
+        if (self.messageInputView.textView.text.length > 0) {
+            self.emojiScrollView.sendButton.enabled = YES;
+            [self.emojiScrollView.sendButton setBackgroundColor:[UIColor blueColor]];
+            [self.emojiScrollView.sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        }
+        
+        __block AXChatViewController* this = self;
+        self.emojiScrollView.sendButtonClick = ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [this sendMessage:nil];
+                this.emojiScrollView.sendButton.enabled = NO;
+                [this.emojiScrollView.sendButton setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:1]];
+                [this.emojiScrollView.sendButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+            });
+        };
+        
+        self.emojiScrollView.faceView.faceClickBlock = ^(NSString* name){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if ([@"delete" isEqualToString:name]) {
+                    NSString* newStr = nil;
+                    NSLog(@"%d", this.messageInputView.textView.text.length);
+                    if (this.messageInputView.textView.text.length>0) {
+                        
+                        if (this.messageInputView.textView.text.length>1 && [[this.emojiScrollView.faceView emojis] containsObject:[this.messageInputView.textView.text substringFromIndex:this.messageInputView.textView.text.length-2]]) {
+                            NSLog(@"删除emoji %@",[this.messageInputView.textView.text substringFromIndex:this.messageInputView.textView.text.length-2]);
+                            newStr=[this.messageInputView.textView.text substringToIndex:this.messageInputView.textView.text.length-2];
+                        }else{
+                            NSLog(@"删除文字%@",[this.messageInputView.textView.text substringFromIndex:this.messageInputView.textView.text.length-1]);
+                            newStr=[this.messageInputView.textView.text substringToIndex:this.messageInputView.textView.text.length-1];
+                        }
+                        this.messageInputView.textView.text=newStr;
+                        
+                        if (this.messageInputView.textView.text.length == 0) {
+                            this.emojiScrollView.sendButton.enabled = NO;
+                            [this.emojiScrollView.sendButton setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:1]];
+                            [this.emojiScrollView.sendButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+                        }
+                        
+                    }
+                }else{
+                    this.emojiScrollView.sendButton.enabled = YES;
+                    [this.emojiScrollView.sendButton setBackgroundColor:[UIColor blueColor]];
+                    [this.emojiScrollView.sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                    
+                    NSString* value = this.messageInputView.textView.text;
+                    value = [value stringByAppendingString:name];
+                    this.messageInputView.textView.text = value;
+                }
+            });
+            
+        };
+}
 - (void)fetchLastChatList
 {
     AXMappedMessage *lastMessage = [[AXMappedMessage alloc] init];
@@ -1835,67 +1893,6 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
     self.moreBackView.hidden = YES;
     //禁止手势
     [RTGestureLock setDisableGestureForBack:self.navigationController disable:NO];
-    
-    if (self.emojiScrollView == nil) {
-        self.emojiScrollView = [[FaceScrollView alloc] init];
-        self.emojiScrollView.frame = CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
-        self.emojiScrollView.hidden = YES;
-        [self.view addSubview:self.emojiScrollView];
-        
-//        NSLog(@"%d", self.messageInputView.textView.text.length);
-        if (self.messageInputView.textView.text.length > 0) {
-            self.emojiScrollView.sendButton.enabled = YES;
-            [self.emojiScrollView.sendButton setBackgroundColor:[UIColor blueColor]];
-            [self.emojiScrollView.sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        }
-        
-        __block AXChatViewController* this = self;
-        self.emojiScrollView.sendButtonClick = ^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [this sendMessage:nil];
-                this.emojiScrollView.sendButton.enabled = NO;
-                [this.emojiScrollView.sendButton setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:1]];
-                [this.emojiScrollView.sendButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-            });
-        };
-        
-        self.emojiScrollView.faceView.faceClickBlock = ^(NSString* name){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if ([@"delete" isEqualToString:name]) {
-                    NSString* newStr = nil;
-                    NSLog(@"%d", this.messageInputView.textView.text.length);
-                    if (this.messageInputView.textView.text.length>0) {
-                        
-                        if (this.messageInputView.textView.text.length>1 && [[this.emojiScrollView.faceView emojis] containsObject:[this.messageInputView.textView.text substringFromIndex:this.messageInputView.textView.text.length-2]]) {
-                            NSLog(@"删除emoji %@",[this.messageInputView.textView.text substringFromIndex:this.messageInputView.textView.text.length-2]);
-                            newStr=[this.messageInputView.textView.text substringToIndex:this.messageInputView.textView.text.length-2];
-                        }else{
-                            NSLog(@"删除文字%@",[this.messageInputView.textView.text substringFromIndex:this.messageInputView.textView.text.length-1]);
-                            newStr=[this.messageInputView.textView.text substringToIndex:this.messageInputView.textView.text.length-1];
-                        }
-                        this.messageInputView.textView.text=newStr;
-                        
-                        if (this.messageInputView.textView.text.length == 0) {
-                            this.emojiScrollView.sendButton.enabled = NO;
-                            [this.emojiScrollView.sendButton setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:1]];
-                            [this.emojiScrollView.sendButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-                        }
-                        
-                    }
-                }else{
-                    this.emojiScrollView.sendButton.enabled = YES;
-                    [this.emojiScrollView.sendButton setBackgroundColor:[UIColor blueColor]];
-                    [this.emojiScrollView.sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                    
-                    NSString* value = this.messageInputView.textView.text;
-                    value = [value stringByAppendingString:name];
-                    this.messageInputView.textView.text = value;
-                }
-            });
-            
-        };
-        
-    }
     
     if (self.currentText.length > 0) {
         self.messageInputView.textView.text = self.currentText;
