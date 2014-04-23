@@ -130,18 +130,10 @@
     }
     
     if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-        if (self.backType == RTSelectorBackTypeDismiss){//统一present 页面取消交互
-            [self.navigationItem setRightBarButtonItem:buttonItem];
-        }else{
-            [self.navigationItem setLeftBarButtonItem:buttonItem];
-        }
+        [self.navigationItem setLeftBarButtonItem:buttonItem];
     }else{
         UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace];
-        if (self.backType == RTSelectorBackTypeDismiss){//统一present 页面取消交互
-            [self.navigationItem setRightBarButtonItems:@[spacer, buttonItem]];
-        }else{
-            [self.navigationItem setLeftBarButtonItems:@[spacer, buttonItem]];
-        }
+        [self.navigationItem setLeftBarButtonItems:@[spacer, buttonItem]];
         [self.navigationController.navigationBar setTintColor:SYSTEM_NAVIBAR_COLOR];
     }
 }

@@ -18,7 +18,7 @@
 #import "ClientDetailPublicViewController.h"
 #import "AXNotificationTutorialViewController.h"
 #import "RTGestureBackNavigationController.h"
-
+#import "UIBarButtonItem+NavItem.h"
 @interface BrokerChatViewController ()
 {
     
@@ -123,15 +123,8 @@
  }
 
 - (void)initRightBar {
-    UIButton *brokerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    brokerButton.frame = CGRectMake(0, 0, 44, 44);
-    [brokerButton setImage:[UIImage imageNamed:@"anjuke_icon_person.png"] forState:UIControlStateNormal];
-    [brokerButton setImage:[UIImage imageNamed:@"anjuke_icon_person.png"] forState:UIControlStateHighlighted];
-    [brokerButton addTarget:self action:@selector(viewCustomerDetailInfo) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *buttonItems = [[UIBarButtonItem alloc] initWithCustomView:brokerButton];
-    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    spacer.width = -10.0f;
-    [self.navigationItem setRightBarButtonItems:@[spacer, buttonItems]];
+    UIBarButtonItem *barButtonItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_person.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_person.png"] taget:self action:@selector(rightButtonAction:)];
+    self.navigationItem.rightBarButtonItem = barButtonItem;
 }
 
 - (void)resetLayoutOfKeyboard {
@@ -358,7 +351,7 @@
 }
 
 #pragma mark - PrivateMethods
-- (void)rightBarButtonClick:(id)sender {
+- (void)rightButtonAction:(id)sender {
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_009 note:nil];
     [self viewCustomerDetailInfo];
 }
