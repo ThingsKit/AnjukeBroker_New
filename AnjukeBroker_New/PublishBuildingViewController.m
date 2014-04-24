@@ -1112,6 +1112,7 @@ typedef enum {
 //******点击******
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.navigationController.view.frame.origin.x > 0) return;
     
     self.selectedIndex = [self transformIndexWithIndexPath:indexPath];
     self.selectedSection = indexPath.section;
