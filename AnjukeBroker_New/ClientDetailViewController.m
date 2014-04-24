@@ -55,10 +55,8 @@
     [self setTitleViewWithString:@"详细资料"];
     
     UIBarButtonItem *moreItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_danye_more_.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_danye_more_.png"] taget:self action:@selector(rightButtonAction:)];
-    //[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_danye_more_.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
     
     UIBarButtonItem *startItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"] taget:self action:@selector(redrawStarStatus:)];
-    //[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"] style:UIBarButtonItemStylePlain target:self action:@selector(redrawStarStatus:)];
     
     if (self.person.isStar) {
         startItem.image = [UIImage imageNamed:@"anjuke_icon_danye_xingbiao_.png"];
