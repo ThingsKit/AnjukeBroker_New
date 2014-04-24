@@ -67,6 +67,8 @@
 
 -(void)dealloc{
     self.myTable.delegate = nil;
+    self.myTable.dataSource = nil;
+    self.myTable = nil;
 }
 - (void)initDisplay_ {
 //    self.myTable.frame = FRAME_WITH_NAV;

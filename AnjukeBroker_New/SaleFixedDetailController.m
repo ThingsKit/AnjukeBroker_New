@@ -31,7 +31,7 @@
 @property (nonatomic, strong) RTPopoverTableViewController *popoverTableView;
 @property (nonatomic, strong) UIPopoverController *popoverBG;
 @property (nonatomic, strong) NSArray *titleArr_Popover;
-
+@property (nonatomic, strong) UIActionSheet *myActionSheet;
 @end
 
 @implementation SaleFixedDetailController
@@ -92,6 +92,10 @@
 
 -(void)dealloc{
     self.myTable.delegate = nil;
+    self.myTable.dataSource = nil;
+    self.myTable = nil;
+    [self.myActionSheet dismissWithClickedButtonIndex:0 animated:YES];
+    
 }
 
 #pragma mark - 请求定价组详情
@@ -268,11 +272,21 @@
         if([[[self.myArray objectAtIndex:indexPath.row -1] objectForKey:@"isBid"] isEqualToString:@"1"]){
             UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"取消定价推广", @"修改房源信息", nil];
             action.tag = 102;
-            [action showInView:self.view];
+            if (self.myActionSheet) {
+                self.myActionSheet = nil;
+                self.myActionSheet.delegate = nil;
+            }
+            self.myActionSheet = action;
+            [self.myActionSheet showInView:self.view];
         }else{
             UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"竞价推广本房源", @"取消定价推广", @"修改房源信息", nil];
                 action.tag = 103;
-            [action showInView:self.view];
+            if (self.myActionSheet) {
+                self.myActionSheet = nil;
+                self.myActionSheet.delegate = nil;
+            }
+            self.myActionSheet = action;
+            [self.myActionSheet showInView:self.view];
         }
     }
 }
@@ -358,11 +372,21 @@
         if ([LoginManager isSeedForAJK:YES]) {
             UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"停止推广",@"添加房源", nil];
             action.tag = 100;
-            [action showInView:self.view];
+            if (self.myActionSheet) {
+                self.myActionSheet = nil;
+                self.myActionSheet.delegate = nil;
+            }
+            self.myActionSheet = action;
+            [self.myActionSheet showInView:self.view];
         }else{
             UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"停止推广", @"修改限额",@"添加房源", nil];
             action.tag = 100;
-            [action showInView:self.view];
+            if (self.myActionSheet) {
+                self.myActionSheet = nil;
+                self.myActionSheet.delegate = nil;
+            }
+            self.myActionSheet = action;
+            [self.myActionSheet showInView:self.view];
         }
 
     
@@ -370,12 +394,22 @@
         if([LoginManager isSeedForAJK:YES]){
             UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"开始推广", @"添加房源", nil];
             action.tag = 101;
-            [action showInView:self.view];
+            if (self.myActionSheet) {
+                self.myActionSheet = nil;
+                self.myActionSheet.delegate = nil;
+            }
+            self.myActionSheet = action;
+            [self.myActionSheet showInView:self.view];
         
         }else{
             UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"开始推广", @"修改限额", @"添加房源", nil];
             action.tag = 101;
-            [action showInView:self.view];
+            if (self.myActionSheet) {
+                self.myActionSheet = nil;
+                self.myActionSheet.delegate = nil;
+            }
+            self.myActionSheet = action;
+            [self.myActionSheet showInView:self.view];
         
         }
     }

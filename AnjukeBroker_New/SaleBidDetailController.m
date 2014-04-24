@@ -21,6 +21,8 @@
 {
     int selectedIndex;
 }
+@property (nonatomic, strong) UIActionSheet *myActionSheet;
+
 @end
 
 @implementation SaleBidDetailController
@@ -69,6 +71,9 @@
 
 -(void)dealloc{
     self.myTable.delegate = nil;
+    self.myTable.dataSource = nil;
+    self.myTable =nil;
+    [self.myActionSheet dismissWithClickedButtonIndex:0 animated:YES];
 }
 -(void)initModel{
     [super initModel];
@@ -212,11 +217,21 @@
     if([[[self.myArray objectAtIndex:selectedIndex] objectForKey:@"bidStatus"] isEqualToString:@"3"]){
         UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"重新开始竞价", @"取消竞价推广", @"修改房源信息", nil];
         action.tag = 101;
-        [action showInView:self.view];
+        if (self.myActionSheet) {
+            self.myActionSheet = nil;
+            self.myActionSheet.delegate = nil;
+        }
+        self.myActionSheet = action;
+        [self.myActionSheet showInView:self.view];
     }else{
         UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"调整预算和出价", @"暂停竞价推广",@"修改房源信息", nil];
         action.tag = 102;
-        [action showInView:self.view];
+        if (self.myActionSheet) {
+            self.myActionSheet = nil;
+            self.myActionSheet.delegate = nil;
+        }
+        self.myActionSheet = action;
+        [self.myActionSheet showInView:self.view];
     }
 }
 

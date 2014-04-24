@@ -115,6 +115,8 @@
 
 -(void)dealloc{
     self.myTable.delegate = nil;
+    self.myTable.dataSource = nil;
+    self.myTable = nil;
 }
 
 #pragma mark - PropertyDelete Delegate
@@ -361,9 +363,7 @@
     controller.backType = RTSelectorBackTypeDismiss;
     RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];
-    
-//    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"编辑房源", @"删除房源", nil];
-//    [action showInView:self.view];
+
 }
 -(void)rightButtonAction:(id)sender{
     [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_NOPLAN_GROUP_004 note:nil];
@@ -463,28 +463,6 @@
     else {
         [self.editBtn setTitleColor:SYSTEM_LIGHT_GRAY forState:UIControlStateNormal];
         self.editBtn.enabled = NO;
-    }
-}
-
-#pragma mark --UIActionSheetDelegate
-
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    
-    if(buttonIndex == 0){
-        SaleGroupListController *controller = [[SaleGroupListController alloc] init];
-        controller.propertyArray = self.selectedArray;
-        [self.navigationController pushViewController:controller animated:YES];
-    }else if (buttonIndex == 1){
-        PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
-        controller.propertyID = [[self.selectedArray objectAtIndex:0] objectForKey:@"id"];
-        [self.navigationController pushViewController:controller animated:YES];
-    }else if (buttonIndex == 2){
-        //删除房源
-        [self.myArray removeObjectsInArray:self.selectedArray];
-        [self.selectedArray removeAllObjects];
-        [self.myTable reloadData];
-        DLog(@"myArr [%d]", self.myArray.count);
-        [self setEditBtnEnableStatus];
     }
 }
 
