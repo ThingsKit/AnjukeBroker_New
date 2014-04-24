@@ -107,7 +107,7 @@
     headerView.backgroundColor = [UIColor clearColor];
     [self.tableViewList setTableHeaderView:headerView];
     
-    WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, 52/2, 40, 40)];
+    WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(IMG_OFFSET_TITLE, IMG_OFFSET_TITLE, 60, 60)];
     icon.backgroundColor = [UIColor clearColor];
 //    icon.layer.borderColor = [UIColor whiteColor].CGColor;
 //    icon.layer.borderWidth = 0.5;
@@ -124,14 +124,15 @@
         icon.image = [UIImage imageNamed:@"anjuke_icon_headpic.png"];
     [headerView addSubview:icon];
     
-    UILabel *nameLb = [[UILabel alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE + icon.frame.size.width + CELL_OFFSET_TITLE, icon.frame.origin.y, 200, 20)];
+    
+    UILabel *nameLb = [[UILabel alloc] initWithFrame:CGRectMake(IMG_OFFSET_TITLE + icon.frame.size.width + CELL_OFFSET_TITLE, icon.frame.origin.y, 200, 35)];
     nameLb.backgroundColor = [UIColor clearColor];
     self.nameLabel = nameLb;
     nameLb.textColor = SYSTEM_BLACK;
-    nameLb.font = [UIFont systemFontOfSize:15];
+    nameLb.font = [UIFont systemFontOfSize:20];
     [headerView addSubview:nameLb];
     
-    UILabel *tipLb = [[UILabel alloc] initWithFrame:CGRectMake(nameLb.frame.origin.x, nameLb.frame.origin.y+ nameLb.frame.size.height, 200, 25)];
+    UILabel *tipLb = [[UILabel alloc] initWithFrame:CGRectMake(nameLb.frame.origin.x, nameLb.frame.origin.y+ nameLb.frame.size.height, 200, 20)];
     tipLb.backgroundColor = [UIColor clearColor];
     tipLb.textColor = SYSTEM_LIGHT_GRAY;
     self.companyLabel = tipLb;
@@ -145,7 +146,7 @@
     
     CGFloat btnW = [self windowWidth] - 2*CELL_OFFSET_TITLE;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(([self windowWidth] - btnW )/2, 23, btnW, 88/2);
+    btn.frame = CGRectMake(([self windowWidth] - btnW )/2, 23, btnW, 84/2);
     [btn setTitle:@"微聊" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(startChart) forControlEvents:UIControlEventTouchUpInside];
     [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_bluebutton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];

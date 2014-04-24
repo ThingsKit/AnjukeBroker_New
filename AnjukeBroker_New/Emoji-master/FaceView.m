@@ -19,7 +19,7 @@
 #define FACE_HEIGHT 48
 #define PADDING_WIDTH 20
 #define PADDING_HEIGHT 20
-#define PAGE_COUNT 4
+#define PAGE_COUNT 3
 
 @interface FaceView ()
 

@@ -93,8 +93,7 @@
         {
             lbH = 65;
             self.titleLb.text = @"备注信息";
-            
-            self.accessoryType = UITableViewCellAccessoryNone;
+            self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             self.selectionStyle = UITableViewCellSelectionStyleGray;
             
             [self showBottonLineWithCellHeight:CLIENT_DETAIL_MESSAGE_HEIGHT];
