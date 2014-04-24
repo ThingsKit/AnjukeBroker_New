@@ -162,6 +162,68 @@
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
 }
 
+- (void)checkMsgOpenStatus{
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"1", @"from_idc", nil];
+    method = [NSString stringWithFormat:@"message/getRemindBrokerSwitchStatus/%@",[LoginManager getChatID]];
+
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:method params:params target:self action:@selector(checkMsgOpenStatusOnRequestFinished:)];
+}
+- (void)turnSwich:(BOOL)openOrHide{
+    if (![self isNetworkOkay]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+    
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"1", @"from_idc", nil];
+    method = [NSString stringWithFormat:@"message/changeRemindBrokerSwitchStatus/%@/%@",[LoginManager getChatID],[NSNumber numberWithBool:openOrHide]];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:method params:params target:self action:@selector(OnTurnSwichRequestFinished:)];
+}
+- (void)OnTurnSwichRequestFinished:(RTNetworkResponse *)response {
+    self.isLoading = NO;
+    [self hideLoadWithAnimated:YES];
+    
+    DLog(@"[response content]-->>%@",[response content]);
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        [self showInfo:@"请求失败"];
+    }
+    if ([[[response content] objectForKey:@"status"] isEqualToString:@"OK"]) {
+        NSString *result = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"result"]];
+        if ([result isEqualToString:@"1"] || [result isEqualToString:@"0"]) {
+            [self showInfo:@"修改成功"];
+        }else{
+            self.msgSw.on = !self.msgSw.on;
+            [self showInfo:@"修改失败"];
+        }
+    }else{
+        self.msgSw.on = !self.msgSw.on;
+    }
+
+}
+- (void)checkMsgOpenStatusOnRequestFinished:(RTNetworkResponse *)response {
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        return;
+    }
+    DLog(@"checkMsgOpenStatusOnRequestFinished-->>%@",[response content]);
+    if ([[[response content] objectForKey:@"status"] isEqualToString:@"OK"]) {
+        NSString *msgOpenStatus = nil;
+        msgOpenStatus = [NSString stringWithFormat:@"%@",[[[response content] objectForKey:@"result"] objectForKey:@"sms_receive_switch"]];
+        if ([msgOpenStatus isEqualToString:@"0"]) {
+            self.msgSw.on = YES;
+        }else{
+            self.msgSw.on = NO;
+        }
+    }
+}
 - (void)onRequestFinished:(RTNetworkResponse *)response {
     DLog(@"。。。response [%@]", [response content]);
     
@@ -255,6 +317,8 @@
         [cell.contentView addSubview:self.msgSw];
 
         cell.accessoryView = self.msgSw;
+
+        [self checkMsgOpenStatus];
     }
     else if (indexPath.row == CALL_CLIENT_ROW) { //客户主任
         [cell setDetailText:[self getClientName]];
@@ -278,16 +342,13 @@
 }
 
 - (void)checkSw:(id)sender{
-    UISwitch *sw = (UISwitch *)sender;
-    if (sw.on) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"短信提醒" message:@"短信提醒开启成功" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        alert.delegate = self;
-        [alert show];
-    }else{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"短信提醒" message:@"客户发起短信提醒后，将不再短信我" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"关闭提醒", nil];
+    if (!self.msgSw.on) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"短信提醒" message:@"客户发起微聊后，将不再短信我" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"关闭提醒", nil];
         alert.tag = 10;
         alert.delegate = self;
         [alert show];
+    }else{
+        [self turnSwich:NO];
     }
 }
 
@@ -365,7 +426,7 @@
 #pragma mark - UIAlert View Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 10 && buttonIndex == 1) {
-        self.msgSw.on = NO;
+        [self turnSwich:YES];
         return;
     }else if (alertView.tag == 10 && buttonIndex == 0){
         self.msgSw.on = YES;
