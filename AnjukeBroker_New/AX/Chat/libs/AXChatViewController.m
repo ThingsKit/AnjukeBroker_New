@@ -565,18 +565,27 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         
         self.emojiScrollView.faceView.faceClickBlock = ^(NSString* name){
             dispatch_async(dispatch_get_main_queue(), ^{
+                int location = this.messageInputView.textView.selectedRange.location; //获取光标所在的位置
+                NSString *content = this.messageInputView.textView.text;
+                
                 if ([@"delete" isEqualToString:name]) {
                     NSString* newStr = nil;
-                    NSLog(@"%d", this.messageInputView.textView.text.length);
                     if (this.messageInputView.textView.text.length>0) {
-                        
-                        if (this.messageInputView.textView.text.length>1 && [[this.emojiScrollView.faceView emojis] containsObject:[this.messageInputView.textView.text substringFromIndex:this.messageInputView.textView.text.length-2]]) {
-                            NSLog(@"删除emoji %@",[this.messageInputView.textView.text substringFromIndex:this.messageInputView.textView.text.length-2]);
-                            newStr=[this.messageInputView.textView.text substringToIndex:this.messageInputView.textView.text.length-2];
+                        NSRange rangeEmoji = NSMakeRange(location, 2);
+                        NSRange rangeText = NSMakeRange(location, 1);
+                        if ([[this.emojiScrollView.faceView emojis] containsObject:[this.messageInputView.textView.text substringWithRange:rangeEmoji]]) {
+                            NSLog(@"删除emoji %@",[this.messageInputView.textView.text substringWithRange:rangeEmoji]);
+                            
+                            // 将UITextView中的内容进行调整（主要是在光标所在的位置进行字符串截取，再拼接你需要插入的文字即可）
+                            newStr = [NSString stringWithFormat:@"%@%@",[content substringToIndex:location-2],[content substringFromIndex:location]];
+                            
                         }else{
-                            NSLog(@"删除文字%@",[this.messageInputView.textView.text substringFromIndex:this.messageInputView.textView.text.length-1]);
-                            newStr=[this.messageInputView.textView.text substringToIndex:this.messageInputView.textView.text.length-1];
+                            NSLog(@"删除文字%@",[this.messageInputView.textView.text substringWithRange:rangeText]);
+                            
+                            // 将UITextView中的内容进行调整（主要是在光标所在的位置进行字符串截取，再拼接你需要插入的文字即可）
+                            newStr = [NSString stringWithFormat:@"%@%@",[content substringToIndex:location-1],[content substringFromIndex:location]];
                         }
+                        
                         this.messageInputView.textView.text=newStr;
                         
                         if (this.messageInputView.textView.text.length == 0) {
@@ -587,13 +596,15 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
                         
                     }
                 }else{
-                    this.emojiScrollView.sendButton.enabled = YES;
-                    [this.emojiScrollView.sendButton setBackgroundColor:[UIColor colorWithRed:79.0/255 green:164.0/255 blue:236.0/255 alpha:1]];
-                    [this.emojiScrollView.sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                    if (!this.emojiScrollView.sendButton.enabled) {
+                        this.emojiScrollView.sendButton.enabled = YES;
+                        [this.emojiScrollView.sendButton setBackgroundColor:[UIColor colorWithRed:79.0/255 green:164.0/255 blue:236.0/255 alpha:1]];
+                        [this.emojiScrollView.sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                    }
                     
-                    NSString* value = this.messageInputView.textView.text;
-                    value = [value stringByAppendingString:name];
-                    this.messageInputView.textView.text = value;
+                    NSString* content = this.messageInputView.textView.text;
+                    NSString* newStr = [NSString stringWithFormat:@"%@%@%@",[content substringToIndex:location], name, [content substringFromIndex:location]];
+                    this.messageInputView.textView.text = newStr;
                 }
             });
             
