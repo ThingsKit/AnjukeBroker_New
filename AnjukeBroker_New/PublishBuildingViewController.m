@@ -638,6 +638,11 @@ typedef enum {
         [params setObject:self.property.rentType forKey:@"shareRent"]; //租房新增出租方式
         method = @"zufang/prop/publish/";
     }
+    else { //二手房新增是否满五年、是否唯一、最低首付字段
+        [params setObject:[self.property.isOnly stringValue] forKey:@"isOnly"];
+        [params setObject:[self.property.isFullFive stringValue] forKey:@"isFullFive"];
+        [params setObject:self.property.minDownPay forKey:@"minDownPay"];
+    }
     
     if (self.isHaozu) {
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUploadPropertyHZFinished:)];
@@ -1055,12 +1060,19 @@ typedef enum {
             return NO;
         }
         
+        if (self.property.minDownPay.length <= 0 || [self.property.minDownPay isEqualToString:@""]) {
+            [self showInfo:@"请填写最低首付，谢谢"];
+            return NO;
+        }
+        
         //最低首付
         if ([self.property.minDownPay intValue] < [self.property.price intValue] * 0.3 ) {
             [self showInfo:@"最低首付不低于房屋价格的30%"];
+            return NO;
         }
         if ([self.property.minDownPay intValue] > [self.property.price intValue]) {
-            [self showInfo:@"最低首付不高于房屋价格"];
+            [self showInfo:@"最低首付不得高于房屋价格"];
+            return NO;
         }
     }
     
@@ -1170,6 +1182,8 @@ typedef enum {
                     else { //push to 特色
                         PublishFeatureViewController *pf = [[PublishFeatureViewController alloc] init];
                         pf.featureDelegate = self;
+                        pf.isFiveYear = [self.property.isFullFive boolValue];
+                        pf.isOnlyHouse = [self.property.isOnly boolValue];
                         [self.navigationController pushViewController:pf animated:YES];
                     }
                 }
