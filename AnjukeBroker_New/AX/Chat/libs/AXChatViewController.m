@@ -75,8 +75,8 @@ static NSString * const SpeekImgNameKeyboardHighlight = @"anjuke_icon_keyboard1.
 static NSString * const SpeekImgNameVoice = @"anjuke_icon_voice.png";
 static NSString * const SpeekImgNameVoiceHighlight  = @"anjuke_icon_voice1.png";
 
-static NSString * const EmojiImgName = @"anjuke_icon_voice.png";
-static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
+static NSString * const EmojiImgName = @"anjuke_icon_bq";
+static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
 
 @interface AXChatViewController ()<UITableViewDelegate, UITableViewDataSource, OHAttributedLabelDelegate, AXPullToRefreshViewDelegate, UIAlertViewDelegate, AXChatBaseCellDelegate, JSDismissiveTextViewDelegate, MapViewControllerDelegate>
@@ -204,7 +204,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
 												 name:UIKeyboardWillHideNotification
                                                object:nil];
     
-    [self didClickRecored:nil];
+    [self didClickRecored:nil]; //检测麦克风权限
     
 }
 
@@ -329,7 +329,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
                                  action:@selector(sendPressed:)
                        forControlEvents:UIControlEventTouchUpInside];
     } else {
-        self.messageInputView.textView.frame = CGRectMake(textViewRect.origin.x + 40, textViewRect.origin.y, textViewRect.size.width - 40 -40, textViewRect.size.height);
+        self.messageInputView.textView.frame = CGRectMake(textViewRect.origin.x + 30, textViewRect.origin.y, textViewRect.size.width - 40 -20, textViewRect.size.height);
         self.messageInputTextViewFrame = self.messageInputView.textView.frame;
         
         [self initPrivateButtons];
@@ -341,7 +341,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
 - (void)initPrivateButtons {
     //最右侧的加号按钮
     self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.sendBut.frame = CGRectMake(ScreenWidth - 45, 2.0f, 45.0f, 45.0f);
+    self.sendBut.frame = CGRectMake(ScreenWidth - 35, 10.0f, 30, 30);
     self.sendBut.backgroundColor = [UIColor clearColor];
     [self.sendBut addTarget:self action:@selector(didMoreBackView:) forControlEvents:UIControlEventTouchUpInside];
     [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateNormal];
@@ -350,10 +350,10 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
     
     //最左侧的麦克风按钮
     self.voiceBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.voiceBut.frame = CGRectMake(2.0f + 4.0f, 2.0f, 45.0f, 45.0f);
+    self.voiceBut.frame = CGRectMake(2.0f + 4.0f, 10.0f, 30, 30);
     [self.voiceBut addTarget:self action:@selector(speeking) forControlEvents:UIControlEventTouchDown];
-    [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
-    [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameVoiceHighlight] forState:UIControlStateHighlighted];
+    [self.voiceBut setBackgroundImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
+    [self.voiceBut setBackgroundImage:[UIImage imageNamed:SpeekImgNameVoiceHighlight] forState:UIControlStateHighlighted];
     [self.messageInputView addSubview:self.voiceBut];
     
     //中间的长按录音按钮
@@ -387,7 +387,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
     
     //表情按钮
     self.emojiBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.emojiBut.frame = CGRectMake(ScreenWidth - 45*2, 2.0f, 45.0f, 45.0f);
+    self.emojiBut.frame = CGRectMake(ScreenWidth - 36*2, 10.0f, 30, 30);
     [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgName] forState:UIControlStateNormal];
     [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgNameHighlight] forState:UIControlStateHighlighted];
     self.emojiBut.backgroundColor = [UIColor clearColor];
@@ -549,7 +549,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
         //        NSLog(@"%d", self.messageInputView.textView.text.length);
 //        if (self.messageInputView.textView.text.length > 0) {
             self.emojiScrollView.sendButton.enabled = YES;
-            [self.emojiScrollView.sendButton setBackgroundColor:[UIColor blueColor]];
+            [self.emojiScrollView.sendButton setBackgroundColor:[UIColor colorWithRed:79.0/255 green:164.0/255 blue:236.0/255 alpha:1]];
             [self.emojiScrollView.sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 //        }
     
@@ -588,7 +588,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
                     }
                 }else{
                     this.emojiScrollView.sendButton.enabled = YES;
-                    [this.emojiScrollView.sendButton setBackgroundColor:[UIColor blueColor]];
+                    [this.emojiScrollView.sendButton setBackgroundColor:[UIColor colorWithRed:79.0/255 green:164.0/255 blue:236.0/255 alpha:1]];
                     [this.emojiScrollView.sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                     
                     NSString* value = this.messageInputView.textView.text;
@@ -1793,7 +1793,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
             if (self.isVoiceInput) {
                 self.isVoiceInput = !self.isVoiceInput;
                 self.pressSpeek.frame = CGRectZero;
-                [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
+                [self.voiceBut setBackgroundImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
                 self.messageInputView.textView.editable = YES;
 //                self.messageInputView.textView.selectable = YES;
             }
@@ -1873,7 +1873,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
     if (!self.isVoiceInput) {
         [self didClickKeyboardControl];
         self.isVoiceInput = !self.isVoiceInput;
-        [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameKeyboard] forState:UIControlStateNormal];
+        [self.voiceBut setBackgroundImage:[UIImage imageNamed:SpeekImgNameKeyboard] forState:UIControlStateNormal];
         [self.messageInputView.textView resignFirstResponder];
         self.messageInputView.textView.editable = NO;
         self.pressSpeek.frame = self.messageInputTextViewFrame;
@@ -1890,7 +1890,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
         self.messageInputView.textView.text = self.currentText;
         self.isVoiceInput = !self.isVoiceInput;
         self.pressSpeek.frame = CGRectZero;
-        [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
+        [self.voiceBut setBackgroundImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
         self.messageInputView.textView.editable = YES;
 
         [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
@@ -1939,7 +1939,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
             if (self.isVoiceInput) {
                 self.isVoiceInput = !self.isVoiceInput;
                 self.pressSpeek.frame = CGRectZero;
-                [self.voiceBut setImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
+                [self.voiceBut setBackgroundImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
                 self.messageInputView.textView.editable = YES;
                 //                self.messageInputView.textView.selectable = YES;
             }

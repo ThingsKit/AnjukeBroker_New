@@ -60,8 +60,8 @@
     emojiSet.contentSize = CGSizeMake(72*5, 42);
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, 0, 72, 42);
-    button.backgroundColor = [UIColor grayColor];
-    [button setTitle:@"Emoji" forState:UIControlStateNormal];
+    button.backgroundColor = [UIColor colorWithRed:204.0/255 green:204.0/255 blue:204.0/255 alpha:1];
+    [button setImage:[UIImage imageNamed:@"anjuke_icon_bq_emoji"] forState:UIControlStateNormal];
     [emojiSet addSubview:button];
     [toolBar addSubview:emojiSet];
     

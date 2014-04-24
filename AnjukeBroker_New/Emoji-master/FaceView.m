@@ -102,15 +102,19 @@ NSArray = [
         NSArray* page = [self.items objectAtIndex:i];
         for (int j = 0; j< page.count; j++) {
             NSString* name = [page objectAtIndex:j];
-            
-            CGRect frame = CGRectMake(PADDING_WIDTH + column*FACE_WIDTH, PADDING_HEIGHT + row*FACE_HEIGHT, 30, 30);
+            CGRect frame;
+            if (row == 2 && column == 6) {
+                frame = CGRectMake(PADDING_WIDTH + column*FACE_WIDTH, PADDING_HEIGHT + row*FACE_HEIGHT +5, 53/2, 44/2);
+            }else{
+                frame = CGRectMake(PADDING_WIDTH + column*FACE_WIDTH, PADDING_HEIGHT + row*FACE_HEIGHT, 30, 30);
+            }
             
             //考虑页数
             float x =   i*ScreenWidth + frame.origin.x;
             frame.origin.x = x;
             
             if (row == 2 && column == 6) {
-                UIImage* image = [UIImage imageNamed:@"faceDelete"];
+                UIImage* image = [UIImage imageNamed:@"anjuke_icon_bq_delete"];
                 [image drawInRect:frame];
             }else{
                 UILabel* label = [[UILabel alloc] initWithFrame:frame];
