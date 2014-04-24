@@ -106,6 +106,8 @@
     
     if (index == 0 && isBlankStyle) {
         self.titleLb.frame = CGRectMake(CELL_OFFSET_TITLE, 12, 170, 20);
+        self.detailLab.hidden = YES;
+        self.phoneIcon.hidden = YES;
     }
     self.detailLab.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 5, DETAIL_LB_W, lbH );
     
@@ -121,7 +123,14 @@
     
     if (!isBlankStyle) {
         if (index == 0) {
-            self.detailLab.text = item.markPhone;
+            if (item.markPhone && item.markPhone.length > 0) {
+                self.detailLab.text = item.markPhone;
+                self.detailLab.hidden = NO;
+                self.phoneIcon.hidden = NO;
+            }else{
+                self.detailLab.hidden = YES;
+                self.phoneIcon.hidden = YES;
+            }
         }
         else
             self.detailLab.text = item.markDesc;
