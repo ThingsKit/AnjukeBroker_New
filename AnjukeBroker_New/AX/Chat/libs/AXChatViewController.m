@@ -547,12 +547,12 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
         [self.view addSubview:self.emojiScrollView];
         
         //        NSLog(@"%d", self.messageInputView.textView.text.length);
-        if (self.messageInputView.textView.text.length > 0) {
+//        if (self.messageInputView.textView.text.length > 0) {
             self.emojiScrollView.sendButton.enabled = YES;
             [self.emojiScrollView.sendButton setBackgroundColor:[UIColor blueColor]];
             [self.emojiScrollView.sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        }
-        
+//        }
+    
         __weak AXChatViewController* this = self;
         self.emojiScrollView.sendButtonClick = ^{
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -1909,12 +1909,6 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
     self.moreBackView.hidden = YES;
     //禁止手势
     [RTGestureLock setDisableGestureForBack:self.navigationController disableGestureback:YES];
-    
-    if (self.messageInputView.textView.text.length > 0) {
-        self.emojiScrollView.sendButton.enabled = YES;
-        [self.emojiScrollView.sendButton setBackgroundColor:[UIColor blueColor]];
-        [self.emojiScrollView.sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    }
     
     if (self.currentText.length > 0) {
         self.messageInputView.textView.text = self.currentText;
