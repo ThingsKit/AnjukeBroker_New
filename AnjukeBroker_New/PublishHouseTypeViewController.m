@@ -80,6 +80,8 @@
     
     [self setTitleViewWithString:@"房型"];
     
+    self.navigationItem.leftBarButtonItem = nil;
+    
     UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(rightButtonAction:)];
     if (![AppManager isIOS6]) {
         rBtn.tintColor = SYSTEM_NAVIBAR_COLOR;
@@ -96,7 +98,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [RTGestureLock setDisableGestureForBack:self.navigationController disableGestureback:NO];
+    [RTGestureLock setDisableGestureForBack:self.navigationController disableGestureback:YES];
     
     if (self.houseTypeTF && self.isFirstShow) {
         [self.houseTypeTF becomeFirstResponder];
