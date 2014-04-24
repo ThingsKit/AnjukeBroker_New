@@ -81,12 +81,7 @@
     [self setTitleViewWithString:@"房型"];
     
     self.navigationItem.leftBarButtonItem = nil;
-    
-    UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(rightButtonAction:)];
-    if (![AppManager isIOS6]) {
-        rBtn.tintColor = SYSTEM_NAVIBAR_COLOR;
-    }
-    self.navigationItem.leftBarButtonItem = rBtn;
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem getBarButtonItemWithString:@"保存" taget:self action:@selector(rightButtonAction:)];
     
     self.lastRooms = [NSString stringWithString:self.property.rooms];
     self.lastExposure = [NSString stringWithString:self.property.exposure];
