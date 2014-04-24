@@ -126,13 +126,19 @@
     if (self.backType == RTSelectorBackTypeDismiss) {
         buttonItem = [UIBarButtonItem getBackBarButtonItemForPresent:self action:@selector(doBack:)];
     }
-    
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-        [self.navigationItem setLeftBarButtonItem:buttonItem];
-    }else{
-        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace];
+
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0") && self.backType != RTSelectorBackTypeDismiss) {
+        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpaceMore];
         [self.navigationItem setLeftBarButtonItems:@[spacer, buttonItem]];
         [self.navigationController.navigationBar setTintColor:SYSTEM_NAVIBAR_COLOR];
+    }else{
+        if (self.backType == RTSelectorBackTypeDismiss) {
+            UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace];
+            [self.navigationItem setLeftBarButtonItems:@[spacer, buttonItem]];
+            [self.navigationController.navigationBar setTintColor:SYSTEM_NAVIBAR_COLOR];
+        }else{
+            [self.navigationItem setLeftBarButtonItem:buttonItem];
+        }
     }
 }
 - (void)addRightButton:(NSString *)title andPossibleTitle:(NSString *)possibleTitle {
