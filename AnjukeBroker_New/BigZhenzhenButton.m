@@ -19,6 +19,8 @@
         
         self.backgroundColor = SYSTEM_ZZ_RED;
         self.layer.cornerRadius = 5;
+        [self setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_red"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)] forState:UIControlStateNormal];
+        [self setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_red_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)] forState:UIControlStateHighlighted];
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     }
     return self;

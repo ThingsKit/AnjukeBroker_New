@@ -125,26 +125,26 @@
     [headerView addSubview:icon];
     
     
-    UILabel *nameLb = [[UILabel alloc] initWithFrame:CGRectMake(IMG_OFFSET_TITLE + icon.frame.size.width + CELL_OFFSET_TITLE, icon.frame.origin.y, 200, 35)];
+    UILabel *nameLb = [[UILabel alloc] initWithFrame:CGRectMake(IMG_OFFSET_TITLE + icon.frame.size.width + CELL_OFFSET_TITLE, icon.frame.origin.y, 200, 25)];
     nameLb.backgroundColor = [UIColor clearColor];
     self.nameLabel = nameLb;
     nameLb.textColor = SYSTEM_BLACK;
     nameLb.font = [UIFont systemFontOfSize:20];
     [headerView addSubview:nameLb];
     
-    UILabel *tipLb = [[UILabel alloc] initWithFrame:CGRectMake(nameLb.frame.origin.x, nameLb.frame.origin.y+ nameLb.frame.size.height, 200, 20)];
+    UILabel *tipLb = [[UILabel alloc] initWithFrame:CGRectMake(nameLb.frame.origin.x, nameLb.frame.origin.y+ nameLb.frame.size.height+5, 200, 20)];
     tipLb.backgroundColor = [UIColor clearColor];
     tipLb.textColor = SYSTEM_LIGHT_GRAY;
     self.companyLabel = tipLb;
     tipLb.font = [UIFont systemFontOfSize:12];
     [headerView addSubview:tipLb];
-    
+        
     //draw footer
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 50)];
     footerView.backgroundColor = [UIColor clearColor];
     [self.tableViewList setTableFooterView:footerView];
     
-    CGFloat btnW = [self windowWidth] - 2*CELL_OFFSET_TITLE;
+    CGFloat btnW = 300;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(([self windowWidth] - btnW )/2, 23, btnW, 84/2);
     [btn setTitle:@"微聊" forState:UIControlStateNormal];

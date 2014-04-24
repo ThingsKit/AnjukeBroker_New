@@ -95,8 +95,8 @@
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], CELL_HEIGHT*1.5)];
     footerView.backgroundColor = [UIColor clearColor];
     
-    CGFloat btnW = 200;
-    CGFloat btnH = CELL_HEIGHT - 15;
+    CGFloat btnW = 300;
+    CGFloat btnH = CELL_HEIGHT - 8;
     BigZhenzhenButton *logoutBtn = [[BigZhenzhenButton alloc] initWithFrame:CGRectMake((footerView.frame.size.width -btnW)/2, (footerView.frame.size.height - btnH)/2, btnW, btnH)];
     [logoutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
     [logoutBtn addTarget:self action:@selector(loginOut) forControlEvents:UIControlEventTouchUpInside];

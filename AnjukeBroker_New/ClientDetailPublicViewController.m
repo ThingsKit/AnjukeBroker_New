@@ -76,9 +76,9 @@
     tipLb.numberOfLines = 0;
     [self.view addSubview:tipLb];
 
-    CGFloat btnW = 280;
+    CGFloat btnW = 300;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(([self windowWidth] - btnW )/2, 200, btnW, 88/2);
+    btn.frame = CGRectMake(([self windowWidth] - btnW )/2, 200, btnW, 84/2);
     [btn setTitle:@"微聊" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(startChart) forControlEvents:UIControlEventTouchUpInside];
     [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_bluebutton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
