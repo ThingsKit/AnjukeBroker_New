@@ -270,7 +270,7 @@
         return;
     
     NSDictionary *resultFromAPI = [response content];
-    DLog(@"%@", resultFromAPI);
+    DLog(@"编辑客户---%@", resultFromAPI);
     
     if ([[resultFromAPI objectForKey:@"status"] isEqualToString:@"OK"]) {
         [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_EDIT_005 note:nil];
