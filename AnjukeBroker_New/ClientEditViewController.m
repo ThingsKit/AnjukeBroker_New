@@ -75,7 +75,7 @@
 
 - (void)initDisplay {
     self.editeScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight]-64)];
-    self.editeScroll.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
+    self.editeScroll.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
     self.editeScroll.contentSize = CGSizeMake([self windowWidth], [self windowHeight]-64);
     self.editeScroll.backgroundColor = [UIColor clearColor];
     self.editeScroll.showsVerticalScrollIndicator = NO;
@@ -131,7 +131,7 @@
                 inputViewH = noteDesH+20;
             }
             
-            self.noteView = [[UIView alloc] initWithFrame:CGRectMake(0, INPUT_EDIT_VIEW_H*2, [self windowWidth], inputViewH)];
+            self.noteView = [[UIView alloc] initWithFrame:CGRectMake(0, INPUT_EDIT_VIEW_H*2+20, [self windowWidth], inputViewH)];
             self.noteView.backgroundColor = [UIColor whiteColor];
             [self.editeScroll addSubview:self.noteView];
             
@@ -205,7 +205,7 @@
     msgLineFrame.origin.y = msgInputH+20;
     
     float contentH = self.editeScroll.frame.size.height;
-    size.height = INPUT_EDIT_VIEW_H*2+10+msgInputH+20;
+    size.height = INPUT_EDIT_VIEW_H*2+20+msgInputH+20+20;
     if (size.height < contentH) {
         size.height = contentH;
     }

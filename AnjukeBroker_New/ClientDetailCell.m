@@ -12,7 +12,7 @@
 #define DETAIL_LB_W 190
 
 @implementation ClientDetailCell
-@synthesize titleLb, detailTV, phoneIcon;
+@synthesize titleLb, detailLab, phoneIcon;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -45,14 +45,14 @@
     nameLabel.font = [UIFont systemFontOfSize:15];
     [self.contentView addSubview:nameLabel];
     
-    UITextView *messageLabel = [[UITextView alloc] init];
-    self.detailTV = messageLabel;
-    messageLabel.userInteractionEnabled = NO;
+    UILabel *messageLabel = [[UILabel alloc] init];
+    self.detailLab = messageLabel;
     messageLabel.backgroundColor = [UIColor clearColor];
     messageLabel.textColor = SYSTEM_BLACK;
     messageLabel.font = [UIFont systemFontOfSize:15];
     messageLabel.textAlignment = NSTextAlignmentLeft;
-    messageLabel.contentMode = UIViewContentModeTop;
+    [messageLabel setNumberOfLines:0];
+    messageLabel.lineBreakMode = UILineBreakModeWordWrap;
     [self.contentView addSubview:messageLabel];
     
     UIImageView *phoneImgView = [[UIImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_PHONEICON, 13, 18, 18)];
@@ -107,19 +107,24 @@
     if (index == 0 && isBlankStyle) {
         self.titleLb.frame = CGRectMake(CELL_OFFSET_TITLE, 12, 170, 20);
     }
-    self.detailTV.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 5, DETAIL_LB_W, lbH );
+    self.detailLab.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 5, DETAIL_LB_W, lbH );
     
     if (index == 1) {
         self.titleLb.frame = CGRectMake(CELL_OFFSET_TITLE, 32, 70, 20);
-        self.detailTV.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 8, DETAIL_LB_W, lbH );
+        CGSize size = [Util_UI sizeOfString:item.markDesc maxWidth:DETAIL_LB_W withFontSize:15];
+        if (size.height > lbH) {
+            size.height = lbH;
+        }
+        
+        self.detailLab.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 8, DETAIL_LB_W, size.height );
     }
     
     if (!isBlankStyle) {
         if (index == 0) {
-            self.detailTV.text = item.markPhone;
+            self.detailLab.text = item.markPhone;
         }
         else
-            self.detailTV.text = item.markDesc;
+            self.detailLab.text = item.markDesc;
     }
     
     return YES;
