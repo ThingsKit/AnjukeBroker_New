@@ -571,8 +571,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
                 if ([@"delete" isEqualToString:name]) {
                     NSString* newStr = nil;
                     if (this.messageInputView.textView.text.length>0) {
-                        NSRange rangeEmoji = NSMakeRange(location, 2);
-                        NSRange rangeText = NSMakeRange(location, 1);
+                        NSRange rangeEmoji = NSMakeRange(location-2, 2);
+                        NSRange rangeText = NSMakeRange(location-1, 1);
                         if ([[this.emojiScrollView.faceView emojis] containsObject:[this.messageInputView.textView.text substringWithRange:rangeEmoji]]) {
                             NSLog(@"删除emoji %@",[this.messageInputView.textView.text substringWithRange:rangeEmoji]);
                             
