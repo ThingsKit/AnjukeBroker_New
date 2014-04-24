@@ -1910,6 +1910,12 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_voice1.png";
     //禁止手势
     [RTGestureLock setDisableGestureForBack:self.navigationController disableGestureback:YES];
     
+    if (self.messageInputView.textView.text.length > 0) {
+        self.emojiScrollView.sendButton.enabled = YES;
+        [self.emojiScrollView.sendButton setBackgroundColor:[UIColor blueColor]];
+        [self.emojiScrollView.sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    }
+    
     if (self.currentText.length > 0) {
         self.messageInputView.textView.text = self.currentText;
     }
