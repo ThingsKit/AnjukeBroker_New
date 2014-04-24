@@ -26,7 +26,7 @@
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *companyLabel;
 @property (nonatomic, strong) WebImageView *iconImage;
-
+@property (nonatomic, strong) UIBarButtonItem *startItem;
 @property BOOL isBlankStyle; //如果标注电话和标注信息为空，则显示为空样式提示标注
 
 @end
@@ -37,7 +37,7 @@
 @synthesize person;
 @synthesize nameLabel, companyLabel, iconImage;
 @synthesize isBlankStyle;
-
+@synthesize startItem;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -53,19 +53,26 @@
 	// Do any additional setup after loading the view.
     
     [self setTitleViewWithString:@"详细资料"];
-    
-    UIBarButtonItem *moreItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_danye_more_.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonAction:)];
-    
-    UIBarButtonItem *startItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"] style:UIBarButtonItemStylePlain target:self action:@selector(redrawStarStatus:)];
+
+
+    UIBarButtonItem *moreItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_danye_more_.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_danye_more_.png"] taget:self action:@selector(rightButtonAction:)];
+
+    self.startItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"] taget:self action:@selector(redrawStarStatus:)];
+
     if (self.person.isStar) {
-        startItem.image = [UIImage imageNamed:@"anjuke_icon_danye_xingbiao_.png"];
+        [self resetButtonItemView:[UIImage imageNamed:@"anjuke_icon_danye_xingbiao_.png"]];
     }
     else
-        startItem.image = [UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"];
+        [self resetButtonItemView:[UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"]];
     
     self.navigationItem.rightBarButtonItems = @[moreItem, startItem];
 }
+- (void)resetButtonItemView:(UIImage *)img{
+    UIButton *btn = (UIButton *)self.startItem.customView;
 
+    [btn setBackgroundImage:img forState:UIControlStateNormal];
+    [btn setBackgroundImage:img forState:UIControlStateHighlighted];
+}
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -247,23 +254,22 @@
 }
 
 - (void)redrawStarStatus:(id)sender {
-    UIBarButtonItem *item = (UIBarButtonItem *)sender;
+//    UIBarButtonItem *item = (UIBarButtonItem *)sender;
     
     self.person.isStar = !self.person.isStar;
     [[AXChatMessageCenter defaultMessageCenter] updatePerson:self.person];
     
-    if ([item.image isEqual:[UIImage imageNamed:@"anjuke_icon_danye_xingbiao_.png"]]) {
+
+    if (!self.person.isStar) {
         [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_007 note:nil];
         
-        item.image = [UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"];
+        [self resetButtonItemView:[UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"]];
         
         [self showInfo:@"取消标星成功"];
-    }
-    else{
+    }else{
         [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_006 note:nil];
         
-        item.image = [UIImage imageNamed:@"anjuke_icon_danye_xingbiao_.png"];
-        
+        [self resetButtonItemView:[UIImage imageNamed:@"anjuke_icon_danye_xingbiao_.png"]];
         [self showInfo:@"添加标星成功"];
     }
     
