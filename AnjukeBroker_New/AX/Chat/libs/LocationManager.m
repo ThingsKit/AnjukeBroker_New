@@ -46,11 +46,11 @@
     CGFloat locallat = [[message.content JSONValue][@"google_lat"] floatValue];
     CGFloat locallng = [[message.content JSONValue][@"google_lng"] floatValue];
 
-    int i = [[RTRequestProxy sharedInstance] geoWithLat:[NSString stringWithFormat:@"%f", locallat] lng:[NSString stringWithFormat:@"%f", locallng] target:self action:@selector(geoDidFinishGetAddress:)];
+    int requestId = [[RTRequestProxy sharedInstance] geoWithLat:[NSString stringWithFormat:@"%f", locallat] lng:[NSString stringWithFormat:@"%f", locallng] target:self action:@selector(geoDidFinishGetAddress:)];
     
     AXNetWorkResponse *response = [[AXNetWorkResponse alloc] init];
     response.identify = message.identifier;
-    response.requestID = i;
+    response.requestID = requestId;
     response.message = message;
     response.sendStatus = 1;
     [self callBack:response];
