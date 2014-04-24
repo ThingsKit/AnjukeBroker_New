@@ -12,6 +12,5 @@
 + (UIBarButtonItem *)getBackBarButtonItemForPresent:(id)taget action:(SEL)action;
 + (UIBarButtonItem *)getBarButtonItemWithString:(NSString *)titleStr taget:(id)taget action:(SEL)action;
 + (UIBarButtonItem *)getBarButtonItemWithImage:(UIImage *)normalImg highLihtedImg:(UIImage *)highLihtedImg taget:(id)taget action:(SEL)action;
-+ (UIBarButtonItem *)getBarSpace;
-+ (UIBarButtonItem *)getBarSpaceMore;
++ (UIBarButtonItem *)getBarSpace:(float)spaceWidth;
 @end

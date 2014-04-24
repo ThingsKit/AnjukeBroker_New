@@ -127,17 +127,23 @@
         buttonItem = [UIBarButtonItem getBackBarButtonItemForPresent:self action:@selector(doBack:)];
     }
 
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0") && self.backType != RTSelectorBackTypeDismiss) {
-        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpaceMore];
-        [self.navigationItem setLeftBarButtonItems:@[spacer, buttonItem]];
-        [self.navigationController.navigationBar setTintColor:SYSTEM_NAVIBAR_COLOR];
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0")){
+        if (self.backType == RTSelectorBackTypeDismiss){
+            [self.navigationItem setLeftBarButtonItem:buttonItem];
+        }else{
+            UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:5.0];
+            [self.navigationItem setLeftBarButtonItems:@[spacer, buttonItem]];
+            [self.navigationController.navigationBar setTintColor:SYSTEM_NAVIBAR_COLOR];
+        }
     }else{
-        if (self.backType == RTSelectorBackTypeDismiss) {
-            UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace];
+        if (self.backType == RTSelectorBackTypeDismiss){
+            UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:-10.0];
             [self.navigationItem setLeftBarButtonItems:@[spacer, buttonItem]];
             [self.navigationController.navigationBar setTintColor:SYSTEM_NAVIBAR_COLOR];
         }else{
-            [self.navigationItem setLeftBarButtonItem:buttonItem];
+            UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:-5.0];
+            [self.navigationItem setLeftBarButtonItems:@[spacer, buttonItem]];
+            [self.navigationController.navigationBar setTintColor:SYSTEM_NAVIBAR_COLOR];
         }
     }
 }
@@ -157,7 +163,7 @@
         if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
             [self.navigationItem setRightBarButtonItem:buttonItem];
         }else{//fix ios7 10像素偏离
-            UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace];
+            UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:-10.0];
             [self.navigationItem setRightBarButtonItems:@[spacer, buttonItem]];
         }
     }

@@ -30,20 +30,12 @@
     UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
     return buttonItem;
 }
-+ (UIBarButtonItem *)getBarSpace{
++ (UIBarButtonItem *)getBarSpace:(float)spaceWidth{
     UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    spacer.width = -10.0f;
+    spacer.width = spaceWidth;
     
     return spacer;
 }
-
-+ (UIBarButtonItem *)getBarSpaceMore{
-    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    spacer.width = 10.0f;
-    
-    return spacer;
-}
-
 + (UIButton *)getButtonWithImg:(UIImage *)normalImg highLightedImg:(UIImage *)highLightedImg titleStr:(NSString *)titleStr taget:(id)taget action:(SEL)action{
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     if (normalImg) {

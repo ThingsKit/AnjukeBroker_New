@@ -127,7 +127,7 @@
 - (void)initRightBar {
     UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_person.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_person_press"] taget:self action:@selector(rightButtonAction:)];
     if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {//fix ios7以下 10像素偏离
-        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpaceMore];
+        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:10.0];
         [self.navigationItem setRightBarButtonItems:@[spacer, rightItem]];
     }else{
         self.navigationItem.rightBarButtonItem = rightItem;
