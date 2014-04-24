@@ -217,27 +217,24 @@
 -(void)returnSelectedHouseDic:(NSDictionary *)dic houseType:(BOOL)houseType {
     
     NSMutableDictionary *propDict = [NSMutableDictionary dictionary];
-    //二手房单页详情url确认结果：http://m.anjuke.com/sale/x/11/204603156
-    //格式：http://fp07.m.dev.anjuke.com/sale/x/{城市id}/{房源id}
-    
-    // 租房单页详情url确认结果：http://lvandu.dev.anjuke.com/rent/x/11/23893357-3
-    //格式：http://fp07.m.dev.anjuke.com/rent/x/{城市id}/{房源id}-{租房类型}
     NSString *des = [NSString stringWithFormat:@"%@室%@厅%@卫 %d平",dic[@"roomNum"], dic[@"hallNum"], dic[@"toiletNum"], [dic[@"area"] integerValue]];
     if (houseType ) {
         NSString *price = [NSString stringWithFormat:@"%d%@", [dic[@"price"] integerValue], dic[@"priceUnit"]];
         NSString *url = nil;
-        url = [NSString stringWithFormat:@"http://m.anjuke.com/sale/x/%@/%@",[LoginManager getCity_id],dic[@"id"]];
-#if DEBUG
-//        url = [NSString stringWithFormat:@"http://fp07.m.dev.anjuke.com/sale/x/%@/%@",[LoginManager getCity_id],dic[@"id"]];
-#endif
+        if ([dic[@"url"] length] > 0) {
+            url = dic[@"url"];
+        }else {
+            url = [NSString stringWithFormat:@"http://m.anjuke.com/sale/x/%@/%@",[LoginManager getCity_id],dic[@"id"]];
+        }
         propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"url":url, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceErShouFang]}];
     }else{
         NSString *price = [NSString stringWithFormat:@"%@%@/月", dic[@"price"], dic[@"priceUnit"]];
-        NSString *url = nil;//http://lvandu.dev.anjuke.com/rent/x/11/23893357-3
-        url = [NSString stringWithFormat:@"http://m.anjuke.com/rent/x/%@/%@-3",[LoginManager getCity_id],dic[@"id"]];
-#if DEBUG
-//        url = [NSString stringWithFormat:@"http://lvandu.dev.anjuke.com/rent/x/%@/%@-3",[LoginManager getCity_id],dic[@"id"]];
-#endif
+        NSString *url = nil;
+        if ([dic[@"url"] length] > 0) {
+            url = dic[@"url"];
+        }else {
+            url = [NSString stringWithFormat:@"http://m.anjuke.com/rent/x/%@/%@-3",[LoginManager getCity_id],dic[@"id"]];
+        }
         propDict = [NSMutableDictionary dictionaryWithDictionary:@{@"id":dic[@"id"], @"des":des, @"img":dic[@"imgUrl"], @"name":dic[@"commName"], @"price":price, @"url":url, @"tradeType":[NSNumber numberWithInteger:AXMessagePropertySourceZuFang]}];
     }
     

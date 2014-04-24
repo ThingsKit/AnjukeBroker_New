@@ -143,7 +143,9 @@ static CGFloat const AXPropertyCardInLableMarginLeft = 81.0f;
         self.tagLable.text = @"租房";
     }else if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceCommunity)]){
         self.tagLable.text = @"小区";
-    } else {
+    } else if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceJinPu)]){
+        self.tagLable.text = @"商铺";
+    }else {
     
     }
     
