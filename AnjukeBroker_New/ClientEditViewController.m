@@ -179,8 +179,10 @@
     self.editeScroll.frame = CGRectMake(0, 0, [self windowWidth], [self windowHeight]);
     self.editeScroll.contentSize = self.editeScroll.contentSize = CGSizeMake([self windowWidth], [self windowHeight]);
 }
+
 #pragma mark -UITextViewDelegate
--(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     float textConH = [Util_UI sizeOfString:textView.text maxWidth:170 withFontSize:15].height;
     float TVIH = INPUT_EDIT_TEXTVIEW_H - 20;
     
@@ -216,6 +218,7 @@
     self.mesLine.frame = msgLineFrame;
     self.editeScroll.contentSize = size;
 }
+
 #pragma mark - Private Method
 
 - (void)rightButtonAction:(id)sender {
@@ -253,7 +256,12 @@
     
     NSString *methodName = [NSString stringWithFormat:@"user/modifyFriendInfo/%@",[LoginManager getPhone]];
     
-    NSDictionary *params = @{@"to_uid":self.person.uid, @"to_uid":self.person.uid, @"is_star":isStar, @"relation_cate_id":@"0", @"mark_name":self.person.markName, @"mark_phone":self.person.markName, @"mark_name":self.person.markName, @"mark_desc":self.person.markDesc};
+    NSDictionary *params = @{@"to_uid":self.person.uid,
+                             @"is_star":isStar,
+                             @"relation_cate_id":@"0",
+                             @"mark_name":self.person.markName,
+                             @"mark_phone":self.person.phone,
+                             @"mark_desc":self.person.markDesc};
     //[NSMutableDictionary dictionaryWithObjectsAndKeys: self.person.uid ,@"to_uid" , isStar, @"is_star", @"0" ,@"relation_cate_id", self.person.markName ,@"mark_name", self.person.markPhone, @"mark_phone", self.person.markDesc, @"mark_desc",  nil];
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:methodName params:params target:self action:@selector(onGetData:)];
