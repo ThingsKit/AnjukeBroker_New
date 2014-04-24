@@ -221,8 +221,8 @@
     if (houseType ) {
         NSString *price = [NSString stringWithFormat:@"%d%@", [dic[@"price"] integerValue], dic[@"priceUnit"]];
         NSString *url = nil;
-        if ([dic[@"url"] length] > 0) {
-            url = dic[@"url"];
+        if ([dic[@"proUrl"] length] > 0) {
+            url = dic[@"proUrl"];
         }else {
             url = [NSString stringWithFormat:@"http://m.anjuke.com/sale/x/%@/%@",[LoginManager getCity_id],dic[@"id"]];
         }
@@ -230,8 +230,8 @@
     }else{
         NSString *price = [NSString stringWithFormat:@"%@%@/月", dic[@"price"], dic[@"priceUnit"]];
         NSString *url = nil;
-        if ([dic[@"url"] length] > 0) {
-            url = dic[@"url"];
+        if ([dic[@"proUrl"] length] > 0) {
+            url = dic[@"proUrl"];
         }else {
             url = [NSString stringWithFormat:@"http://m.anjuke.com/rent/x/%@/%@-3",[LoginManager getCity_id],dic[@"id"]];
         }
