@@ -333,7 +333,10 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         self.messageInputTextViewFrame = self.messageInputView.textView.frame;
         
         [self initPrivateButtons];
-        [self initEmojiView];
+//        [self initEmojiView];
+        self.emojiScrollView = [[FaceScrollView alloc] init];
+        self.emojiScrollView.hidden = YES;
+        [self.view addSubview:self.emojiScrollView];
     }
     [self initMoreButs];
 }
@@ -541,10 +544,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 }
 
 - (void)initEmojiView {
-        self.emojiScrollView = [[FaceScrollView alloc] init];
         self.emojiScrollView.frame = CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
-        self.emojiScrollView.hidden = YES;
-        [self.view addSubview:self.emojiScrollView];
+
         
         //        NSLog(@"%d", self.messageInputView.textView.text.length);
 //        if (self.messageInputView.textView.text.length > 0) {
@@ -1924,6 +1925,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 }
 
 - (void)didEmojiButClick{
+    [self initEmojiView];
     self.moreBackView.hidden = YES;
     //禁止手势
     [RTGestureLock setDisableGestureForBack:self.navigationController disableGestureback:YES];
