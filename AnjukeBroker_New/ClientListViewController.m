@@ -55,6 +55,9 @@
 	// Do any additional setup after loading the view.
     
     [self setTitleViewWithString:@"我的客户"];
+    if (self.isForMessageList) {
+        [self setTitleViewWithString:@"选择客户"];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {

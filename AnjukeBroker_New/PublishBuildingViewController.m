@@ -1191,6 +1191,8 @@ typedef enum {
                         pf.isFiveYear = [self.property.isFullFive boolValue];
                         pf.isOnlyHouse = [self.property.isOnly boolValue];
                         [self.navigationController pushViewController:pf animated:YES];
+                        
+                        [self pickerDisappear]; //每次push进新页面，
                     }
                 }
                     break;
