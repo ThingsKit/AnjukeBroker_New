@@ -566,14 +566,14 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         self.emojiScrollView.faceView.faceClickBlock = ^(NSString* name){
             dispatch_async(dispatch_get_main_queue(), ^{
                 int location = 0;
-                if(SYSTEM_VERSION_LESS_THAN(@"6.0")){
-                    location = this.messageInputView.textView.selectedRange.location; //获取光标所在的位置
-                    if (location > 1000) {
-                        location = 0;
-                    }
-                }else{
-                    location = this.messageInputView.textView.selectedRange.location; //获取光标所在的位置
+
+                location = this.messageInputView.textView.selectedRange.location; //获取光标所在的位置
+                //returns NSNotFound when the object is not present in the array.
+                //NSNotFound is defined as NSIntegerMax (== 2147483647 on iOS 32 bit).
+                if (location > 1000) {
+                    location = 0;
                 }
+
                 NSString *content = this.messageInputView.textView.text;
                 
                 if ([@"delete" isEqualToString:name]) {
@@ -610,7 +610,6 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
                         [this.emojiScrollView.sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                     }
                     
-                    NSString* content = this.messageInputView.textView.text;
                     NSString* newStr = [NSString stringWithFormat:@"%@%@%@",[content substringToIndex:location], name, [content substringFromIndex:location]];
                     this.messageInputView.textView.text = newStr;
                 }
