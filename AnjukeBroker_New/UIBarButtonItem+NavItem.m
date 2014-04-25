@@ -24,6 +24,7 @@
     UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
     return buttonItem;
 }
+
 + (UIBarButtonItem *)getBarButtonItemWithImage:(UIImage *)normalImg highLihtedImg:(UIImage *)highLihtedImg taget:(id)taget action:(SEL)action{
     UIButton *btn = [self getButtonWithImg:normalImg highLightedImg:highLihtedImg titleStr:nil taget:taget action:action];
 
@@ -54,5 +55,19 @@
     
     return btn;
 }
-
++ (UIBarButtonItem *)getBarButtonItemWithChangeString:(NSString *)titleStr taget:(id)taget action:(SEL)action{
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(0, 0, 80, 24);
+    [btn setTitle:titleStr forState:UIControlStateNormal];
+    [btn setTitle:titleStr forState:UIControlStateHighlighted];
+    btn.backgroundColor = [UIColor clearColor];
+    btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn setTitleColor:[Util_UI colorWithHexString:@"515762"] forState:UIControlStateHighlighted];
+    [btn addTarget:taget action:action forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    return buttonItem;
+}
 @end

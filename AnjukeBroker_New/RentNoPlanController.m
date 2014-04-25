@@ -23,6 +23,7 @@
 @property (nonatomic, strong) UIBarButtonItem *seleceAllItem; //全选btnItem
 @property int singleSelectBtnRow; //记录最后打勾按钮所在indexPath.row
 @property (nonatomic, strong) UIButton *editBtn; //编辑按钮
+@property (nonatomic, strong) UIBarButtonItem *rightButtonItem;
 @end
 
 @implementation RentNoPlanController
@@ -31,7 +32,7 @@
 @synthesize singleSelectBtnRow;
 @synthesize editBtn;
 @synthesize isSeedPid;
-
+@synthesize rightButtonItem;
 #pragma mark - log
 - (void)sendAppearLog {
     [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_NO_PLAN_01 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
@@ -165,7 +166,13 @@
     [self.myArray addObjectsFromArray:result];
     if([self.myArray count] >0){
         //全选
-        [self addRightButton:@"全选" andPossibleTitle:@"取消全选"];
+        rightButtonItem = [UIBarButtonItem getBarButtonItemWithChangeString:@"全选" taget:self action:@selector(rightButtonAction:)];
+        UIBarButtonItem *space = [UIBarButtonItem getBarSpace:-5.0];
+        if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
+            self.navigationItem.rightBarButtonItem = rightButtonItem;
+        }else{
+            self.navigationItem.rightBarButtonItems = @[space,rightButtonItem];
+        }
     }
     [self.myTable reloadData];
     [self setEditBtnEnableStatus];
@@ -370,16 +377,16 @@
         return;
     }
     
-    UIBarButtonItem *tempBtn = (UIBarButtonItem *)sender;
-    
-    if ([tempBtn.title isEqualToString:SELECT_ALL_STR]){
-        [tempBtn setTitle:UNSELECT_ALL_STR];
-        
+    UIButton *btn = (UIButton *)rightButtonItem.customView;
+    if ([btn.titleLabel.text isEqualToString:SELECT_ALL_STR]){
+        [btn setTitle:UNSELECT_ALL_STR forState:UIControlStateNormal];
+        [btn setTitle:UNSELECT_ALL_STR forState:UIControlStateHighlighted];
         [self.selectedArray removeAllObjects];
         [self.selectedArray addObjectsFromArray:self.myArray];
         [self.myTable reloadData];
     }else {
-        [tempBtn setTitle:SELECT_ALL_STR];
+        [btn setTitle:SELECT_ALL_STR forState:UIControlStateNormal];
+        [btn setTitle:SELECT_ALL_STR forState:UIControlStateHighlighted];
         
         [self.selectedArray removeAllObjects];
         [self.myTable reloadData];
