@@ -61,11 +61,13 @@
     [recognizer setMinimumPressDuration:0.4f];
     [self.voiceControl addGestureRecognizer:recognizer];
 }
+
 - (void)dealloc {
-    
-    [self.timer invalidate];
-    
+    if (self.timer) {
+        [self.timer invalidate];
+    }
 }
+
 - (void)configWithData:(NSDictionary *)data
 {
     [super configWithData:data] ;

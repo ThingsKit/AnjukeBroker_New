@@ -47,6 +47,7 @@ extern CGFloat const kBubbleMargin;
 - (void)axDelete:(id)sender;
 - (void)axCopy:(id)sender;
 - (void)showMenu;
+- (void)hideMenu;
 - (void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPress;
 - (void)configBubbleView;
 @end

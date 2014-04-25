@@ -89,6 +89,7 @@ NSInteger const kRetryTag = 101;
 #pragma mark -
 - (void)configWithData:(NSDictionary *)data
 {
+    [self hideMenu];
     [self setBubbleIMGOutcomeIncome];
     self.identifyString = data[AXCellIdentifyTag];
     self.rowData = data;
@@ -210,7 +211,10 @@ NSInteger const kRetryTag = 101;
                                                object:nil];
     [menu setMenuVisible:YES animated:YES];
 }
-
+- (void)hideMenu {
+    UIMenuController *menu = [UIMenuController sharedMenuController];
+    [menu setMenuVisible:NO];
+}
 #pragma mark - Notifications
 
 - (void)handleMenuWillHideNotification:(NSNotification *)notification
