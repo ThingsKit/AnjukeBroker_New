@@ -57,7 +57,7 @@
     
     UIScrollView* emojiSet = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth-64, 42)];
 //    emojiSet.backgroundColor = [UIColor yellowColor];
-    emojiSet.contentSize = CGSizeMake(72*5, 42);
+    emojiSet.contentSize = CGSizeMake(72*1, 42);
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, 0, 72, 42);
     button.backgroundColor = [UIColor colorWithRed:204.0/255 green:204.0/255 blue:204.0/255 alpha:1];
