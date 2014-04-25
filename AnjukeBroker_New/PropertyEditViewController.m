@@ -226,11 +226,11 @@
         //set Text
         //set title and property
         NSMutableString *featureStr = [NSMutableString string];
-        if (self.property.isFullFive) {
+        if ([self.property.isFullFive boolValue] == YES) {
             [featureStr appendString:@"满五年 "];
         }
         
-        if (self.property.isOnly) {
+        if ([self.property.isOnly boolValue] == YES) {
             [featureStr appendString:@"唯一住房"];
         }
         
@@ -375,6 +375,11 @@
     if (self.isHaozu) {
         [params setObject:self.property.rentType forKey:@"shareRent"]; //租房新增出租方式
         method = @"zufang/prop/update/";
+    }
+    else { //二手房新增是否满五年、是否唯一、最低首付字段
+        [params setObject:[self.property.isOnly stringValue] forKey:@"isOnly"];
+        [params setObject:[self.property.isFullFive stringValue] forKey:@"isFullFive"];
+        [params setObject:self.property.minDownPay forKey:@"minDownPay"];
     }
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUpdatePropertyFinished:)];

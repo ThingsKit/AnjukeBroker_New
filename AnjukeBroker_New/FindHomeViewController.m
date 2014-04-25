@@ -181,6 +181,7 @@
     if(cell == nil){
         cell = [[FindPropertyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentify];
     }
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     [cell configureCell:[self.myArray objectAtIndex:indexPath.row] withIndex:indexPath.row];
     return cell;
 }
