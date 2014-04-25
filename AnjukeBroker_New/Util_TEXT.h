@@ -18,4 +18,6 @@
 
 + (NSString *)getChatNameWithPhoneFormat:(NSString *)phoneStr;
 
++ (BOOL)isNumber:(NSString *)input;
+
 @end

@@ -68,4 +68,16 @@
     return [NSString stringWithFormat:@"找房用户 %@*******", strName];
 }
 
+//字符串是否为纯数字
++ (BOOL)isNumber:(NSString *)input {
+    char *word = (char *)[input UTF8String];
+    int len = strlen(word);
+    for (int j = 0; j < len; j++) {
+        if (word[j] < 48 || word[j] > 57) {
+            return NO;
+        }
+    }
+    return YES;
+}
+
 @end

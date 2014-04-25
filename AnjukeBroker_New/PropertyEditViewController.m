@@ -214,6 +214,27 @@
         //层
         int profloorIndex = [PublishDataModel getProFloorIndexWithValue:[dic objectForKey:@"floorNum"]];
         [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FLOORS] setInputed_RowAtCom1:profloorIndex];
+        
+        //最低首付
+        self.property.minDownPay = dic[@"minDownPay"];
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_LIMIT_PAY] text_Field] setText:self.property.minDownPay];
+        
+        //是否满五年
+        self.property.isOnly = [NSNumber numberWithInt:[[dic objectForKey:@"isOnly"] intValue]];
+        self.property.isFullFive = [NSNumber numberWithInt:[[dic objectForKey:@"isFullFive"] intValue]];
+        
+        //set Text
+        //set title and property
+        NSMutableString *featureStr = [NSMutableString string];
+        if (self.property.isFullFive) {
+            [featureStr appendString:@"满五年 "];
+        }
+        
+        if (self.property.isOnly) {
+            [featureStr appendString:@"唯一住房"];
+        }
+        
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_CLICK_FEATURE] communityDetailLb] setText:featureStr];
     }
     
     DLog(@"*** 编辑房源property 【%@】", self.property);
