@@ -79,9 +79,15 @@
     self.view.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
     
     [self setTitleViewWithString:@"房型"];
-    
+
     self.navigationItem.leftBarButtonItem = nil;
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem getBarButtonItemWithString:@"保存" taget:self action:@selector(rightButtonAction:)];
+    UIBarButtonItem *leftBarItem = [UIBarButtonItem getBarButtonItemWithString:@"保存" taget:self action:@selector(rightButtonAction:)];
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
+        self.navigationItem.leftBarButtonItem = leftBarItem;
+    }else{
+        UIBarButtonItem *space = [UIBarButtonItem getBarSpace:-10.0];
+        self.navigationItem.leftBarButtonItems = @[space,leftBarItem];
+    }
     
     self.lastRooms = [NSString stringWithString:self.property.rooms];
     self.lastExposure = [NSString stringWithString:self.property.exposure];

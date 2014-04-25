@@ -116,7 +116,7 @@ typedef enum {
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [RTGestureLock setDisableGestureForBack:self.navigationController disableGestureback:NO];
+    [RTGestureLock setDisableGestureForBack:self.navigationController disableGestureback:YES];
 }
 
 - (void)didReceiveMemoryWarning
