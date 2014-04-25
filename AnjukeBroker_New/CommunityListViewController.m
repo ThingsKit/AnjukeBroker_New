@@ -91,19 +91,49 @@
 }
 
 - (void)initDisplay {
-    
+//    UITextField *searchField = [searchBar valueForKey:@"_searchField"];
+//    
+//    // Change search bar text color
+//    searchField.textColor = [UIColor blackColor];
+//    
+//    // Change the search bar placeholder text color
+//    [searchField setValue:[UIColor blackColor] forKeyPath:@"_placeholderLabel.textColor"];
     UISearchBar *sb = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 270, 30)];
     sb.delegate = self;
     sb.placeholder = @"请输入小区名或地址";
+    sb.tintColor = [UIColor whiteColor];
     sb.backgroundColor = [UIColor clearColor];//[UIColor colorWithRed:0.89 green:0.89 blue:0.9 alpha:1];
-    sb.backgroundImage = [UIImage createImageWithColor:[UIColor clearColor]];
+    sb.backgroundImage = [UIImage createImageWithColor:SYSTEM_NAVBAR_DARK_BG];
+
+    UITextField *searchField = nil;
     if ([AppManager isIOS6]) {
         sb.barStyle = UIBarStyleDefault;
+        //ios6及以下设置搜索框颜色
+        for (UIView *subview in sb.subviews) {
+            if ([subview isKindOfClass:[UITextField class]]) {
+                searchField = (UITextField *)subview;
+                searchField.textColor = [UIColor blackColor];
+                break;
+            }
+        }
     }
     else
         sb.barStyle = UIBarStyleBlackOpaque;
+        //ios7设置搜索框颜色
+        for (UIView *subView in sb.subviews){
+            for (UIView *secondLevelSubview in subView.subviews){
+                if ([secondLevelSubview isKindOfClass:[UITextField class]])
+                {
+                    UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
+                    searchBarTextField.textColor = [UIColor whiteColor];
+                    break;
+                }
+            }
+        }
+
     sb.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.navigationItem.titleView = sb;
+    
     
     UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.tvList = tv;
