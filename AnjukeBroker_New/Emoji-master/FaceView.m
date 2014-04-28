@@ -27,6 +27,7 @@
 @property (nonatomic, strong) UIImageView* magnifier;
 @property (nonatomic, strong) UIImageView* icon;
 @property (nonatomic, strong) UILabel* labelIcon;
+@property (nonatomic, strong) NSDate* pressInterval;
 
 @end
 
@@ -141,30 +142,42 @@ NSArray = [
 
 #pragma mark -
 #pragma mark UIResponder
+
+//self.date = [NSDate date];
+//double timeSpent = [[NSDate date] timeIntervalSinceDate:self.date];
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch* touch = [touches anyObject];
-    CGPoint point = [touch locationInView:self];
-    [self coordinateCaculator:point];
-    
-    [self showMagnifier];
+//    UITouch* touch = [touches anyObject];
+//    CGPoint point = [touch locationInView:self];
+    self.pressInterval = [NSDate date];
+//    [self coordinateCaculator:point];
+//    
+//    [self showMagnifier];
     
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch* touch = [touches anyObject];
-    CGPoint point = [touch locationInView:self];
-    if ([self coordinateCaculator:point]) {
-        [self showMagnifier];
-    }else{
+//    UITouch* touch = [touches anyObject];
+//    CGPoint point = [touch locationInView:self];
+    double timeSpent = [[NSDate date] timeIntervalSinceDate:self.pressInterval];
+    if (timeSpent > 0.5) {
         [self hideMagnifier];
+    }else{
+        [self showMagnifier];
     }
+//    if ([self coordinateCaculator:point]) {
+//        [self showMagnifier];
+//    }else{
+//        [self hideMagnifier];
+//    }
     
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self hideMagnifier];
+//    [self hideMagnifier];
     UITouch* touch = [touches anyObject];
     CGPoint point = [touch locationInView:self];
+
     if ([self coordinateCaculator:point]) {
         if (self.faceClickBlock != nil) {
             //        __block FaceView* this = self; //这里不需要,因为block没有引用全局变量对象,只是传入参数
@@ -173,6 +186,8 @@ NSArray = [
         //    NSLog(@"%d", _selectedItemName.retainCount);
     }
 
+    
+
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -180,7 +195,7 @@ NSArray = [
 }
 
 - (void)showMagnifier {
-    self.magnifier.hidden = NO;
+//    self.magnifier.hidden = NO;
     //移动的时候禁止scroll滑动
     if ([self.superview isKindOfClass:[UIScrollView class]]) {
         UIScrollView* scrollView = (UIScrollView*)self.superview;
@@ -189,7 +204,7 @@ NSArray = [
 }
 
 - (void)hideMagnifier {
-    self.magnifier.hidden = YES;
+//    self.magnifier.hidden = YES;
     //触摸结束开启scroll滑动
     if ([self.superview isKindOfClass:[UIScrollView class]]) {
         UIScrollView* scrollView = (UIScrollView*)self.superview;
@@ -230,8 +245,8 @@ NSArray = [
             //性能优化
             if (![name isEqualToString:_selectedItemName]) {
                 self.selectedItemName = name;
-                self.labelIcon.text = name;
-                self.magnifier.origin = CGPointMake(ScreenWidth*page + PADDING_WIDTH + FACE_WIDTH*column -8, PADDING_HEIGHT + FACE_HEIGHT*row - 50);
+//                self.labelIcon.text = name;
+//                self.magnifier.origin = CGPointMake(ScreenWidth*page + PADDING_WIDTH + FACE_WIDTH*column -8, PADDING_HEIGHT + FACE_HEIGHT*row - 50);
             }
         }
         return YES;

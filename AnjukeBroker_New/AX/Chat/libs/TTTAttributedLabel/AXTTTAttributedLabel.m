@@ -1225,7 +1225,7 @@ static inline NSRegularExpression * LinkRegularExpression() {
     if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
         // 解决6.x 下emoji后的中文变成粗体
         NSMutableAttributedString *fixAttributedString = [mutableAttributedString mutableCopy];
-        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15.99]};
+        NSDictionary *attributes = @{(NSString*)kCTFontNameAttribute:[UIFont systemFontOfSize:15.99]};
         
         @try {
             [[fixAttributedString string] enumerateSubstringsInRange:NSMakeRange(0, [text length]) options:NSStringEnumerationByComposedCharacterSequences usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
