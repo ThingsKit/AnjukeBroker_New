@@ -235,14 +235,18 @@
     
     self.person.markName = self.nameTextF.text;
     
-    //set person.markNamePinyin
-    NSMutableString *markNamePinyin = [NSMutableString stringWithString:self.person.markName];
-    if (CFStringTransform((__bridge CFMutableStringRef)markNamePinyin, 0, kCFStringTransformMandarinLatin, NO)) {
-        if (markNamePinyin.length > 0) {
-            self.person.markNamePinyin = [markNamePinyin substringToIndex:1];
+    if (self.person.markName.length > 0) {
+        //set person.markNamePinyin
+        NSMutableString *markNamePinyin = [NSMutableString stringWithString:self.person.markName];
+        if (CFStringTransform((__bridge CFMutableStringRef)markNamePinyin, 0, kCFStringTransformMandarinLatin, NO)) {
+            if (markNamePinyin.length > 0) {
+                self.person.markNamePinyin = [markNamePinyin substringToIndex:1];
+            }
+            DLog(@"mark name pinyin -- [%@] [%@]", markNamePinyin, [markNamePinyin substringToIndex:1]);
         }
-        DLog(@"mark name pinyin -- [%@] [%@]", markNamePinyin, [markNamePinyin substringToIndex:1]);
     }
+    else
+        self.person.markNamePinyin = @"";
     
     self.person.markPhone = self.telTextF.text;
     self.person.markDesc = self.messageTextV.text;

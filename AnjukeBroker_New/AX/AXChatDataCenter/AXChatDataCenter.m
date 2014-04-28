@@ -883,6 +883,10 @@
         person.uid = mappedPerson[@"user_id"];
         person.company = mappedPerson[@"corp"];
         person.userType = @([mappedPerson[@"user_type"] integerValue]);
+        //
+        if (mappedPerson[@"mark_phone"] && !person.markPhone) {
+            person.markPhone = mappedPerson[@"mark_phone"];
+        }
         if (mappedPerson[@"desc"] && !person.markDesc) {
             person.markDesc = mappedPerson[@"desc"];
         }

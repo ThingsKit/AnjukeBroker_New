@@ -38,6 +38,7 @@
 @synthesize nameLabel, companyLabel, iconImage;
 @synthesize isBlankStyle;
 @synthesize startItem;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -200,6 +201,11 @@
 - (void)refreshDataAndView {
     [self showLoadingActivity:YES];
     
+    //重新刷新信息
+    NSString *uid = self.person.uid;
+    self.person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:uid];
+    DLog(@"phone[%@]desc[%@]", self.person.markPhone, self.person.markDesc);
+    
     if (self.person.markPhone.length <= 0 && self.person.markDesc.length <= 0) {
         self.isBlankStyle = YES;
     }
@@ -207,10 +213,6 @@
         self.isBlankStyle = NO;
         
     }
-    
-    //重新刷新信息
-    NSString *uid = self.person.uid;
-    self.person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:uid];
     
     if (self.person.markName.length > 0) {
         self.nameLabel.text = self.person.markName;
