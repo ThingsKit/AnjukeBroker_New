@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AXIMGDownloader.h"
 
 @interface BrokerLuanchAdd : NSObject
 @property(nonatomic, strong) NSTimer *timer;
 @property(nonatomic, strong) UIImageView *launchAddView;
-
+@property(nonatomic, strong) AXIMGDownloader *imgDownloader;
 + (BrokerLuanchAdd *) sharedLuanchAdd;
 - (void)doRequst;
 @end

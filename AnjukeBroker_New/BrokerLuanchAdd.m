@@ -9,6 +9,7 @@
 #import "BrokerLuanchAdd.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import "RTLaunchImg.h"
+#import "RTNetworkResponse.h"
 
 #define LAUNCHIMGPATH @"brokerLaunchImg"
 
@@ -24,6 +25,12 @@ static BrokerLuanchAdd *defaultLaunchAdd;
         }
         return defaultLaunchAdd;
     }
+}
+- (AXIMGDownloader *)imgDownloader {
+    if (_imgDownloader == nil) {
+        _imgDownloader = [[AXIMGDownloader alloc] init];
+    }
+    return _imgDownloader;
 }
 - (void)doRequst{
     NSString *launchDirectory = [self getLauchImgFile];
@@ -83,24 +90,21 @@ static BrokerLuanchAdd *defaultLaunchAdd;
 }
 - (void)fetchImageWithURL:(NSString *)url saveAtPath:(NSString *)path
 {
-    UIImageView *imageView = [[UIImageView alloc] init];
-//    [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]
-//                     placeholderImage:nil
-//                              success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)
-//     {
-//         NSData *imageData = UIImagePNGRepresentation([image imageWithAspectFillStyle]);
-//         NSFileManager *fileManager = [NSFileManager defaultManager];
-//         NSString *launchDirectory = [self getLauchImgFile];
-//         // 创建目录
-//         [fileManager createDirectoryAtPath:launchDirectory withIntermediateDirectories:YES attributes:nil error:nil];
-//         
-//         NSString *launchImgPath = [launchDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@",[self strReplace:path]]];
-//         [fileManager createFileAtPath:launchImgPath contents:imageData attributes:nil];
-//         DLog(@"保存成功");
-//     }failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error)
-//     {
-//         DLog(@"保存失败");
-//     }];
+    [self.imgDownloader dowloadIMGWithURL:[NSURL URLWithString:url] resultBlock:^(RTNetworkResponse *response) {
+        if (response.status == 2) {
+            if (response.content && [response.content objectForKey:@"imagePath"]) {
+                UIImage *image = [UIImage imageWithContentsOfFile:[response.content objectForKey:@"imagePath"]];
+                 NSData *imageData = UIImagePNGRepresentation([image imageWithAspectFillStyle]);
+                 NSFileManager *fileManager = [NSFileManager defaultManager];
+                 NSString *launchDirectory = [self getLauchImgFile];
+                 // 创建目录
+                 [fileManager createDirectoryAtPath:launchDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+
+                 NSString *launchImgPath = [launchDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@",[self strReplace:path]]];
+                 [fileManager createFileAtPath:launchImgPath contents:imageData attributes:nil];
+            }
+        }
+    }];
 }
 - (NSString *)strReplace:(NSString *)str{
     str = [str stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
