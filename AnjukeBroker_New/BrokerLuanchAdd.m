@@ -84,23 +84,23 @@ static BrokerLuanchAdd *defaultLaunchAdd;
 - (void)fetchImageWithURL:(NSString *)url saveAtPath:(NSString *)path
 {
     UIImageView *imageView = [[UIImageView alloc] init];
-    [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]
-                     placeholderImage:nil
-                              success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)
-     {
-         NSData *imageData = UIImagePNGRepresentation([image imageWithAspectFillStyle]);
-         NSFileManager *fileManager = [NSFileManager defaultManager];
-         NSString *launchDirectory = [self getLauchImgFile];
-         // 创建目录
-         [fileManager createDirectoryAtPath:launchDirectory withIntermediateDirectories:YES attributes:nil error:nil];
-         
-         NSString *launchImgPath = [launchDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@",[self strReplace:path]]];
-         [fileManager createFileAtPath:launchImgPath contents:imageData attributes:nil];
-         DLog(@"保存成功");
-     }failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error)
-     {
-         DLog(@"保存失败");
-     }];
+//    [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]
+//                     placeholderImage:nil
+//                              success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)
+//     {
+//         NSData *imageData = UIImagePNGRepresentation([image imageWithAspectFillStyle]);
+//         NSFileManager *fileManager = [NSFileManager defaultManager];
+//         NSString *launchDirectory = [self getLauchImgFile];
+//         // 创建目录
+//         [fileManager createDirectoryAtPath:launchDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+//         
+//         NSString *launchImgPath = [launchDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@",[self strReplace:path]]];
+//         [fileManager createFileAtPath:launchImgPath contents:imageData attributes:nil];
+//         DLog(@"保存成功");
+//     }failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error)
+//     {
+//         DLog(@"保存失败");
+//     }];
 }
 - (NSString *)strReplace:(NSString *)str{
     str = [str stringByReplacingOccurrencesOfString:@"/" withString:@"_"];

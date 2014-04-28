@@ -100,27 +100,27 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[self componentUrl:_photo.picMessage.imgUrl]]];
             __weak AXPhotoView *mySelf = self;
             __unsafe_unretained AXPhoto *blockPhoto = _photo;
-            [_imageView setImageWithURLRequest:request placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                if (blockPhoto && mySelf) {
-                    blockPhoto.image = image;
-                    [mySelf.imageView setImage:image];
-                    [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
-                    [mySelf adjustFrame];
-                    NSString *imgName = [NSString stringWithFormat:@"%@%dx%d.jpg",blockPhoto.picMessage.identifier, (int)image.size.height, (int)image.size.width];
-                    NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:mySelf.photo.picMessage.to andIMGName:imgName];
-                    blockPhoto.picMessage.imgPath = imgpath;
-                    
-                }else {
-                    [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
-                    return ;
-                }
-                
-                [[AXChatMessageCenter defaultMessageCenter] updateMessage:blockPhoto.picMessage];
-                
-            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                NSLog(@"xiazai shibai");
-                [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
-            }];
+//            [_imageView setImageWithURLRequest:request placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+//                if (blockPhoto && mySelf) {
+//                    blockPhoto.image = image;
+//                    [mySelf.imageView setImage:image];
+//                    [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
+//                    [mySelf adjustFrame];
+//                    NSString *imgName = [NSString stringWithFormat:@"%@%dx%d.jpg",blockPhoto.picMessage.identifier, (int)image.size.height, (int)image.size.width];
+//                    NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:mySelf.photo.picMessage.to andIMGName:imgName];
+//                    blockPhoto.picMessage.imgPath = imgpath;
+//                    
+//                }else {
+//                    [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
+//                    return ;
+//                }
+//                
+//                [[AXChatMessageCenter defaultMessageCenter] updateMessage:blockPhoto.picMessage];
+//                
+//            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+//                NSLog(@"xiazai shibai");
+//                [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
+//            }];
         }
         
     } else {
@@ -149,26 +149,26 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[self componentUrl:_photo.picMessage.imgUrl]]];
         __weak AXPhotoView *mySelf = self;
         __unsafe_unretained AXPhoto *blockPhoto = _photo;
-        [_imageView setImageWithURLRequest:request placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-            if (blockPhoto && mySelf) {
-                blockPhoto.image = image;
-                [mySelf.imageView setImage:image];
-                [mySelf adjustFrame];
-                [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
-                NSString *imgName = [NSString stringWithFormat:@"%@%dx%d.jpg",blockPhoto.picMessage.identifier, (int)image.size.height, (int)image.size.width];
-                NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:mySelf.photo.picMessage.to andIMGName:imgName];
-                blockPhoto.picMessage.imgPath = imgpath;
-                
-            }else {
-                [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
-                return ;
-            }
-            
-            [[AXChatMessageCenter defaultMessageCenter] updateMessage:blockPhoto.picMessage];
-            
-        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
-        }];
+//        [_imageView setImageWithURLRequest:request placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+//            if (blockPhoto && mySelf) {
+//                blockPhoto.image = image;
+//                [mySelf.imageView setImage:image];
+//                [mySelf adjustFrame];
+//                [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
+//                NSString *imgName = [NSString stringWithFormat:@"%@%dx%d.jpg",blockPhoto.picMessage.identifier, (int)image.size.height, (int)image.size.width];
+//                NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:mySelf.photo.picMessage.to andIMGName:imgName];
+//                blockPhoto.picMessage.imgPath = imgpath;
+//                
+//            }else {
+//                [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
+//                return ;
+//            }
+//        
+//            [[AXChatMessageCenter defaultMessageCenter] updateMessage:blockPhoto.picMessage];
+//            
+//        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+//            [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
+//        }];
     }
     //     [self adjustFrame];
 }

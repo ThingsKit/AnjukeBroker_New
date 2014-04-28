@@ -81,27 +81,27 @@
     AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
     if (person.iconPath.length < 2) {
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]]];
-        [self.brokerIcon setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-            //        NSString *imgName = [NSString stringWithFormat:@"%dx%d.jpg", (int)image.size.height, (int)image.size.width];
-            //        NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:@"icon" whitChatId:[LoginManager getChatID] andIMGName:imgName];
-            NSArray*libsPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-            NSString*libPath = [libsPath objectAtIndex:0];
-            NSString *userFolder = [libPath stringByAppendingPathComponent:[LoginManager getChatID]];
-            if ([UIImageJPEGRepresentation(image, 0.96) writeToFile:userFolder atomically:YES]) {
-                
-            }else{
-                
-            }
-            
-            AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
-            person.iconUrl = [LoginManager getUse_photo_url];
-            person.iconPath = [LoginManager getChatID];
-            person.isIconDownloaded = YES;
-            [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
-            
-        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            
-        }];
+//        [self.brokerIcon setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+//            //        NSString *imgName = [NSString stringWithFormat:@"%dx%d.jpg", (int)image.size.height, (int)image.size.width];
+//            //        NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:@"icon" whitChatId:[LoginManager getChatID] andIMGName:imgName];
+//            NSArray*libsPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+//            NSString*libPath = [libsPath objectAtIndex:0];
+//            NSString *userFolder = [libPath stringByAppendingPathComponent:[LoginManager getChatID]];
+//            if ([UIImageJPEGRepresentation(image, 0.96) writeToFile:userFolder atomically:YES]) {
+//                
+//            }else{
+//                
+//            }
+//            
+//            AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
+//            person.iconUrl = [LoginManager getUse_photo_url];
+//            person.iconPath = [LoginManager getChatID];
+//            person.isIconDownloaded = YES;
+//            [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
+//            
+//        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+//            
+//        }];
     }
 }
 
