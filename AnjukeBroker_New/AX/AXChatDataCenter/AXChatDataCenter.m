@@ -887,7 +887,7 @@
         if (mappedPerson[@"mark_phone"] && !person.markPhone && mappedPerson[@"mark_phone"] != nil) {
             person.markPhone = mappedPerson[@"mark_phone"];
         }
-        if (mappedPerson[@"mark_desc"] && !person.markDesc && person.markDesc != nil) {
+        if (mappedPerson[@"mark_desc"] && !person.markDesc && mappedPerson[@"mark_desc"] != nil) {
             person.markDesc = mappedPerson[@"mark_desc"];
         }
         
