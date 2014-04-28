@@ -884,11 +884,11 @@
         person.company = mappedPerson[@"corp"];
         person.userType = @([mappedPerson[@"user_type"] integerValue]);
         //
-        if (mappedPerson[@"mark_phone"] && !person.markPhone) {
+        if (mappedPerson[@"mark_phone"] && !person.markPhone && mappedPerson[@"mark_phone"] != nil) {
             person.markPhone = mappedPerson[@"mark_phone"];
         }
-        if (mappedPerson[@"desc"] && !person.markDesc) {
-            person.markDesc = mappedPerson[@"desc"];
+        if (mappedPerson[@"mark_desc"] && !person.markDesc && person.markDesc != nil) {
+            person.markDesc = mappedPerson[@"mark_desc"];
         }
         
         [person updateFirstPinyin];
