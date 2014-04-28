@@ -15,6 +15,7 @@
 #import "AppManager.h"
 #import "AppDelegate.h"
 #import "BrokerLineView.h"
+#import "NoDataView.h"
 
 @interface MessageListViewController ()
 
@@ -25,6 +26,7 @@
 @property (strong, nonatomic) NSDate *lastReloadDate;
 
 @property (nonatomic, strong) UIView *networkErrorView;
+@property (nonatomic, strong) NoDataView *noDataView;
 
 @end
 
@@ -123,6 +125,14 @@
         self.navigationItem.rightBarButtonItem = rightItem;
     }
     [self drawNetworkView];
+    
+    NoDataView *nv = [[NoDataView alloc] initWithImgName:NoDataImg_List AndTitle:@"暂时没有新消息"];
+    nv.frame = FRAME_BETWEEN_NAV_TAB;
+    self.noDataView = nv;
+    nv.backgroundColor = [UIColor clearColor];
+    nv.show_Type = TypeWithNoData;
+    [self.view addSubview:nv];
+    [self.view bringSubviewToFront:self.tableViewList];
 }
 
 - (void)rightButtonAction:(id)sender {
@@ -211,7 +221,11 @@
     
     if ([[self.sessionFetchedResultsController fetchedObjects] count] <= 0) {
         self.tableViewList.tableHeaderView = nil;
+        [self showNodataView:YES]; //无数据，不显示无数据图
         return;
+    }
+    else {
+        [self showNodataView:NO]; //有数据，显示无数据图
     }
     
     //check network
@@ -221,6 +235,17 @@
         }
         else
             self.tableViewList.tableHeaderView = nil;
+    }
+}
+
+- (void)showNodataView:(BOOL)show {
+    if (show) {
+        [self.view bringSubviewToFront:self.noDataView];
+        self.noDataView.hidden = NO;
+    }
+    else {
+        [self.view bringSubviewToFront:self.tableViewList];
+        self.noDataView.hidden = YES;
     }
 }
 

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define NoDataImg_Tuangou @"anjuke_icon_no_message.png"
+#define NoDataImg_List @"anjuke_icon_no_message.png"
 #define NoDataImg_NetWorkError @""
 
 #define NoDataTitle_Tuangou @"很抱歉，暂无团购"

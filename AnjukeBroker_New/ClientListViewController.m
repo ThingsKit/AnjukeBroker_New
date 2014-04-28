@@ -34,11 +34,6 @@
 @end
 
 @implementation ClientListViewController
-@synthesize publicDataArr, starDataArr, allDataArr;
-@synthesize tableViewList, listDataArray;
-@synthesize contactsDictionary;
-@synthesize contactKeyArr;
-@synthesize sectionTitleArr;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

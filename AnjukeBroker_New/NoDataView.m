@@ -31,6 +31,7 @@
         //image
         UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imgName]];
         img.backgroundColor = [UIColor clearColor];
+        img.contentMode = UIViewContentModeScaleAspectFit;
         self.imageView = img;
         [self addSubview:img];
         
