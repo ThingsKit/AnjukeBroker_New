@@ -12,6 +12,7 @@
 #import "UIColor+AXChatMessage.h"
 #import "UIImage+AXChatMessage.h"
 #import "UIFont+AXChatMessage.h"
+#import "WebImageView.h"
 
 extern NSInteger const kAttributedLabelTag;
 extern NSInteger const kRetryTag;
@@ -38,7 +39,7 @@ extern CGFloat const kBubbleMargin;
 @property (nonatomic, strong) UIButton *errorButton;
 @property (nonatomic, strong) AXMappedPerson *person;
 @property (nonatomic, strong) NSString *phoneNum;
-@property (nonatomic, strong) UIImageView *avatar;
+@property (nonatomic, strong) WebImageView *avatar;
 @property (nonatomic, strong) UIButton *avatarButton;
 @property (nonatomic, strong) UIAlertView *alertView;
 - (void)initUI;

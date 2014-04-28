@@ -39,6 +39,7 @@ typedef NS_ENUM(NSUInteger, AXMessagePropertySourceType)
     AXMessagePropertySourceZuFang = 2, // 租房
     AXMessagePropertySourceCommunity = 3,//小区
     AXMessagePropertySourceJinPu = 4,//金铺
+    AXMessagePropertySourceXinFang = 5 //新房
 };
 
 typedef NS_ENUM (NSUInteger, AXMessageCenterSendMessageStatus)

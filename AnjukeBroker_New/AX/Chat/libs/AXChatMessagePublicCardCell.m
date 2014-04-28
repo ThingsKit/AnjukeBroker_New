@@ -9,6 +9,7 @@
 #import "AXChatMessagePublicCardCell.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import "RTLineView.h"
+#import "WebImageView.h"
 
 @interface AXChatMessagePublicCardCell ()
 
@@ -19,7 +20,7 @@
 @property (nonatomic, strong) UILabel *moreLable;
 @property (nonatomic, strong) UIControl *cardControl;
 @property (nonatomic, strong) UIImageView *cardBgImageView;
-@property (nonatomic, strong) UIImageView *cardImageView;
+@property (nonatomic, strong) WebImageView *cardImageView;
 @property (nonatomic, strong) NSDictionary *dataDict;
 @property (nonatomic, strong) UIImageView *iconView;
 @end
@@ -125,7 +126,7 @@ static CGFloat const AXChatPublicCardMarginLeft = 10;
 - (UIImageView *)cardImageView
 {
     if (!_cardImageView) {
-        _cardImageView = [[UIImageView alloc] initWithFrame:CGRectMake(AXChatPublicCardMarginLeft, 65, 270, 135)];
+        _cardImageView = [[WebImageView alloc] initWithFrame:CGRectMake(AXChatPublicCardMarginLeft, 65, 270, 135)];
         [self.cardBgView addSubview:_cardImageView];
     }
     return _cardImageView;
@@ -187,7 +188,7 @@ static CGFloat const AXChatPublicCardMarginLeft = 10;
     self.cardImageView.image = [UIImage imageNamed:@"no_photo_list.png"];
     //开始图片下载
     NSURL *url = [NSURL URLWithString:self.dataDict[@"img"]];
-    [self.cardImageView setImageWithURL:url placeholderImage:nil];
+    [self.cardImageView setImageUrl:self.dataDict[@"img"]];
     [self setBubbleIMGByMessageSorce];
     
     UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self

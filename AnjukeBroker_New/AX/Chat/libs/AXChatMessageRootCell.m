@@ -71,7 +71,7 @@ NSInteger const kRetryTag = 101;
     self.errorButton.hidden = YES;
     [self.contentView addSubview:self.errorButton];
     
-    _avatar = [[UIImageView alloc] init];
+    _avatar = [[WebImageView alloc] init];
     _avatar.layer.masksToBounds = YES;
     _avatar.layer.cornerRadius = 4;
 //    _avatar.contentMode = UIViewContentModeScaleToFill;
@@ -102,7 +102,8 @@ NSInteger const kRetryTag = 101;
     self.avatarButton.frame = self.avatar.frame;
     
     if (self.person.isIconDownloaded == NO) {
-        [self.avatar setImageWithURL:[NSURL URLWithString:self.person.iconUrl] placeholderImage:[UIImage axChatDefaultAvatar:NO]];
+        [self.avatar setImageUrl:self.person.iconUrl];
+//        [self.avatar setImageWithURL:[NSURL URLWithString:self.person.iconUrl] placeholderImage:[UIImage axChatDefaultAvatar:NO]];
     } else {
         NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
         self.avatar.image = [[UIImage alloc] initWithContentsOfFile:[libraryPath stringByAppendingPathComponent:self.person.iconPath]];

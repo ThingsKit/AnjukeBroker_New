@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
+#import "WebImageView.h"
 
 @class AXPhotoBrowser, AXPhoto, AXPhotoView;
 

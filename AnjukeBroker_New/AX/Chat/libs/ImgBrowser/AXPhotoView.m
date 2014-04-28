@@ -17,7 +17,7 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 @interface AXPhotoView ()
 {
     BOOL _doubleTap;
-    UIImageView *_imageView;
+     WebImageView *_imageView;
 }
 
 @property (nonatomic, strong) UIImageView *imageView;
@@ -34,7 +34,7 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
         self.clipsToBounds = YES;
         self.bounces = YES;
         // 图片
-        _imageView = [[UIImageView alloc] init];
+        _imageView = [[WebImageView alloc] init];
         _imageView.frame = CGRectZero;
         _imageView.contentMode = UIViewContentModeScaleAspectFit;
         [self addSubview:_imageView];
@@ -270,7 +270,8 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 }
 
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholderImage {
-    [_imageView setImageWithURL:url placeholderImage:placeholderImage];
+    [_imageView setImageUrl:url.absoluteString];
+//    [_imageView setImageWithURL:url placeholderImage:placeholderImage];
 }
 
 - (NSString *)componentUrl:(NSString *)path {
