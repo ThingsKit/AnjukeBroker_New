@@ -135,6 +135,9 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 @property (nonatomic, assign) BOOL hasMicrophonePermission;
 #define MAX_RECORD_TIME 60
 
+//表情相关
+@property (nonatomic, assign) NSUInteger cursorLocation; //文本输入框光标所在位置
+
 @end
 
 @implementation AXChatViewController
@@ -566,36 +569,38 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         
         self.emojiScrollView.faceView.faceClickBlock = ^(NSString* name){
             dispatch_async(dispatch_get_main_queue(), ^{
-                int location = 0;
+//                int this.cursorLocation = 0;
 
-                location = this.messageInputView.textView.selectedRange.location; //获取光标所在的位置
+                this.cursorLocation = this.messageInputView.textView.selectedRange.location; //获取光标所在的位置
                 //returns NSNotFound when the object is not present in the array.
                 //NSNotFound is defined as NSIntegerMax (== 2147483647 on iOS 32 bit).
-                if (location > 1000) {
-                    location = 0;
+                if (this.cursorLocation == NSIntegerMax) {
+                    this.cursorLocation = 0;
                 }
 
                 NSString *content = this.messageInputView.textView.text;
                 
                 if ([@"delete" isEqualToString:name]) {
                     NSString* newStr = nil;
-                    if (this.messageInputView.textView.text.length>0) {
-                        NSRange rangeEmoji = NSMakeRange(location-2, 2);
-                        NSRange rangeText = NSMakeRange(location-1, 1);
+                    if (this.messageInputView.textView.text.length>0 && this.cursorLocation > 0) {
+                        NSRange rangeEmoji = NSMakeRange(this.cursorLocation-2, 2);
+                        NSRange rangeText = NSMakeRange(this.cursorLocation-1, 1);
                         if ([[this.emojiScrollView.faceView emojis] containsObject:[this.messageInputView.textView.text substringWithRange:rangeEmoji]]) {
                             NSLog(@"删除emoji %@",[this.messageInputView.textView.text substringWithRange:rangeEmoji]);
                             
                             // 将UITextView中的内容进行调整（主要是在光标所在的位置进行字符串截取，再拼接你需要插入的文字即可）
-                            newStr = [NSString stringWithFormat:@"%@%@",[content substringToIndex:location-2],[content substringFromIndex:location]];
+                            newStr = [NSString stringWithFormat:@"%@%@",[content substringToIndex:this.cursorLocation-2],[content substringFromIndex:this.cursorLocation]];
+                            this.messageInputView.textView.text = newStr;
+                            this.messageInputView.textView.selectedRange = NSMakeRange(this.cursorLocation-2, 0);
                             
                         }else{
                             NSLog(@"删除文字%@",[this.messageInputView.textView.text substringWithRange:rangeText]);
                             
                             // 将UITextView中的内容进行调整（主要是在光标所在的位置进行字符串截取，再拼接你需要插入的文字即可）
-                            newStr = [NSString stringWithFormat:@"%@%@",[content substringToIndex:location-1],[content substringFromIndex:location]];
+                            newStr = [NSString stringWithFormat:@"%@%@",[content substringToIndex:this.cursorLocation-1],[content substringFromIndex:this.cursorLocation]];
+                            this.messageInputView.textView.text = newStr;
+                            this.messageInputView.textView.selectedRange = NSMakeRange(this.cursorLocation-1, 0);
                         }
-                        
-                        this.messageInputView.textView.text=newStr;
                         
                         if (this.messageInputView.textView.text.length == 0) {
                             this.emojiScrollView.sendButton.enabled = NO;
@@ -611,8 +616,10 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
                         [this.emojiScrollView.sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                     }
                     
-                    NSString* newStr = [NSString stringWithFormat:@"%@%@%@",[content substringToIndex:location], name, [content substringFromIndex:location]];
+                    NSString* newStr = [NSString stringWithFormat:@"%@%@%@",[content substringToIndex:this.cursorLocation], name, [content substringFromIndex:this.cursorLocation]];
                     this.messageInputView.textView.text = newStr;
+                    this.messageInputView.textView.selectedRange = NSMakeRange(this.cursorLocation+2, 0);
+
                 }
             });
             
