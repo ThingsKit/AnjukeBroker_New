@@ -56,6 +56,26 @@
     [self callBack:response];
 }
 
+- (void)dowloadIMGWithURL:(NSURL *)url target:(id)target action:(SEL)action {
+    _target = target;
+    _action = action;
+    int requestId = [[RTRequestProxy sharedInstance] fetchImage:url target:target action:action];
+    
+    AXNetWorkResponse *response = [[AXNetWorkResponse alloc] init];
+    response.requestID = requestId;
+    response.sendStatus = 1;
+    [self callBack:response];
+}
+
+- (void)dowloadIMGWithURL:(NSURL *)url resultBlock:(void(^)(RTNetworkResponse *))resultBlock{
+    self.resultBlock = resultBlock;
+    int requestId = [[RTRequestProxy sharedInstance] fetchImage:url target:self action:@selector(resultForDownloadIMG:)];
+    RTNetworkResponse *response = [[RTNetworkResponse alloc] init];
+    response.requestID = requestId;
+    response.status = 1;
+    self.resultBlock(response);
+}
+
 - (void)callBack:(AXNetWorkResponse *) response {
     if (_target && [_target respondsToSelector:_action]) {
         [_target performSelectorOnMainThread:_action withObject:response waitUntilDone:NO];
@@ -68,6 +88,11 @@
     axresponse.sendStatus = 2;
     NSLog(@"%@",response.content);
     [self callBack:axresponse];
+}
+
+- (void)resultForDownloadIMG:(RTNetworkResponse *)response {
+    response.status = 2;
+    self.resultBlock(response);
 }
 
 @end

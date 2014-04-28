@@ -28,6 +28,9 @@
 #import "AXChatMessageCenter.h"
 #import "AppDelegate.h"
 #import "BrokerWebViewController.h"
+#import "LocationManager.h"
+#import "RTNetworkResponse.h"
+#import "AXIMGDownloader.h"
 
 #define HOME_cellHeight 50
 #define Max_Account_Lb_Width 80
@@ -40,7 +43,7 @@
 @property (nonatomic, strong) NSArray *taskArray;
 @property (nonatomic, strong) UITableView *tvList;
 @property (nonatomic, strong) WebImageView *photoImg;
-
+@property (nonatomic, strong) AXIMGDownloader *imgDownloader;
 @property (nonatomic, strong) NSMutableDictionary *dataDic;
 @property (nonatomic, strong) NSMutableDictionary *ppcDataDic;
 
@@ -68,6 +71,13 @@
         // Custom initialization
     }
     return self;
+}
+
+- (AXIMGDownloader *)imgDownloader {
+    if (_imgDownloader == nil) {
+        _imgDownloader = [[AXIMGDownloader alloc] init];
+    }
+    return _imgDownloader;
 }
 
 - (void)viewDidLoad
@@ -435,25 +445,24 @@
         if ([LoginManager getUse_photo_url] && ![[LoginManager getUse_photo_url] isEqualToString:@""]) {
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]]];
             if (self.photoImg) {
-//                [self.photoImg setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-//                    NSArray*libsPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-//                    NSString*libPath = [libsPath objectAtIndex:0];
-//                    NSString *userFolder = [libPath stringByAppendingPathComponent:[LoginManager getChatID]];
-//                    if ([UIImageJPEGRepresentation(image, 0.96) writeToFile:userFolder atomically:YES]) {
-//                        
-//                    }else{
-//                        
-//                    }
-//                    
-//                    AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
-//                    person.iconUrl = [LoginManager getUse_photo_url];
-//                    person.iconPath = [LoginManager getChatID];
-//                    person.isIconDownloaded = YES;
-//                    [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
-//                    
-//                } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-//                    
-//                }];
+                [self.imgDownloader dowloadIMGWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]] resultBlock:^(RTNetworkResponse *response) {
+                    if (response.status == 2) {
+                        if (response.content && [response.content objectForKey:@"imagePath"]) {
+                            UIImage *image = [UIImage imageWithContentsOfFile:[response.content objectForKey:@"imagePath"]];
+                            NSArray*libsPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+                            NSString*libPath = [libsPath objectAtIndex:0];
+                            NSString *userFolder = [libPath stringByAppendingPathComponent:[LoginManager getChatID]];
+                            if ([UIImageJPEGRepresentation(image, 0.96) writeToFile:userFolder atomically:YES]) {
+                            }else{
+                            }
+                            AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
+                            person.iconUrl = [LoginManager getUse_photo_url];
+                            person.iconPath = [LoginManager getChatID];
+                            person.isIconDownloaded = YES;
+                            [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
+                        }
+                    }
+                }];
             }
         }
     }

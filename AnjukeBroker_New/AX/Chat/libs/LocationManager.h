@@ -12,8 +12,11 @@
 @interface LocationManager : NSObject
 @property (nonatomic, assign) id target;
 @property (nonatomic, assign) SEL action;
+@property (nonatomic, strong) void(^resultBlock)(RTNetworkResponse *);
 +(instancetype)defaultLocationManager;
+- (void)cancellRequest;
 - (void)geoWithLatAndLng:(NSString *)lat lng:(NSString *)lng target:(id)target action:(SEL)action;
 - (void)locationByMessage:(AXMappedMessage *)message target:(id)target action:(SEL)action;
-- (void)cancellRequest;
+- (void)dowloadIMGWithURL:(NSURL *)url target:(id)target action:(SEL)action;
+- (void)dowloadIMGWithURL:(NSURL *)url resultBlock:(void(^)(RTNetworkResponse *))resultBlock;
 @end

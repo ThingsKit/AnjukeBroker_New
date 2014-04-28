@@ -393,6 +393,9 @@
 		B7E1919618E2795900DA578B /* anjuke_icon_chat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E1919518E2795900DA578B /* anjuke_icon_chat@2x.png */; };
 		B7E1919818E279A600DA578B /* anjuke_icon_chat1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E1919718E279A600DA578B /* anjuke_icon_chat1@2x.png */; };
 		B7E191B018E2EBC300DA578B /* anjuke_icon_chat4_photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E191AF18E2EBC300DA578B /* anjuke_icon_chat4_photo@2x.png */; };
+		B7E1F6B7190E0705009F546B /* IMGDownloaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E1F6B6190E0705009F546B /* IMGDownloaderOperation.m */; };
+		B7E1F6BA190E1B93009F546B /* IMGDowloaderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E1F6B9190E1B93009F546B /* IMGDowloaderManager.m */; };
+		B7E1F6BD190E3BFA009F546B /* AXIMGDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E1F6BC190E3BFA009F546B /* AXIMGDownloader.m */; };
 		B7E38A00182238CF002C6E8A /* anjuke_icon06_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E389FE182238CF002C6E8A /* anjuke_icon06_select@2x.png */; };
 		B7E38A0A18225FEC002C6E8A /* anjuke_icon07_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E38A0918225FEC002C6E8A /* anjuke_icon07_arrow@2x.png */; };
 		B7E4CD1C18E11A1E00B61B58 /* wl_chat_icon_uservoice.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E4CD1A18E11A1E00B61B58 /* wl_chat_icon_uservoice.png */; };
@@ -1214,6 +1217,12 @@
 		B7E1919518E2795900DA578B /* anjuke_icon_chat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_chat@2x.png"; sourceTree = "<group>"; };
 		B7E1919718E279A600DA578B /* anjuke_icon_chat1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_chat1@2x.png"; sourceTree = "<group>"; };
 		B7E191AF18E2EBC300DA578B /* anjuke_icon_chat4_photo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_chat4_photo@2x.png"; sourceTree = "<group>"; };
+		B7E1F6B5190E0705009F546B /* IMGDownloaderOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMGDownloaderOperation.h; sourceTree = "<group>"; };
+		B7E1F6B6190E0705009F546B /* IMGDownloaderOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMGDownloaderOperation.m; sourceTree = "<group>"; };
+		B7E1F6B8190E1B93009F546B /* IMGDowloaderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMGDowloaderManager.h; sourceTree = "<group>"; };
+		B7E1F6B9190E1B93009F546B /* IMGDowloaderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMGDowloaderManager.m; sourceTree = "<group>"; };
+		B7E1F6BB190E3BFA009F546B /* AXIMGDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXIMGDownloader.h; sourceTree = "<group>"; };
+		B7E1F6BC190E3BFA009F546B /* AXIMGDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXIMGDownloader.m; sourceTree = "<group>"; };
 		B7E389FE182238CF002C6E8A /* anjuke_icon06_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon06_select@2x.png"; sourceTree = "<group>"; };
 		B7E38A0918225FEC002C6E8A /* anjuke_icon07_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon07_arrow@2x.png"; sourceTree = "<group>"; };
 		B7E4CD1A18E11A1E00B61B58 /* wl_chat_icon_uservoice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wl_chat_icon_uservoice.png; sourceTree = "<group>"; };
@@ -2874,6 +2883,8 @@
 				B723C13518E9599500584B2C /* LocationManager.m */,
 				B7F8017C18E98D7B0006A1E4 /* AXNetWorkResponse.h */,
 				B7F8017D18E98D7B0006A1E4 /* AXNetWorkResponse.m */,
+				B7E1F6BB190E3BFA009F546B /* AXIMGDownloader.h */,
+				B7E1F6BC190E3BFA009F546B /* AXIMGDownloader.m */,
 			);
 			name = LocationManager;
 			sourceTree = "<group>";
@@ -3054,6 +3065,10 @@
 		B7E1F6B3190DF73C009F546B /* DownLoadIMG */ = {
 			isa = PBXGroup;
 			children = (
+				B7E1F6B5190E0705009F546B /* IMGDownloaderOperation.h */,
+				B7E1F6B6190E0705009F546B /* IMGDownloaderOperation.m */,
+				B7E1F6B8190E1B93009F546B /* IMGDowloaderManager.h */,
+				B7E1F6B9190E1B93009F546B /* IMGDowloaderManager.m */,
 			);
 			name = DownLoadIMG;
 			sourceTree = "<group>";
@@ -3791,6 +3806,7 @@
 				B7E56D0F183DBAD600A0F7D2 /* AnjukeOnlineImgController.m in Sources */,
 				B769E46C181F76A600A2FF50 /* BaseBidPlanController.m in Sources */,
 				972DDA301826D39500263F8F /* RTPopoverTableViewController.m in Sources */,
+				B7E1F6BA190E1B93009F546B /* IMGDowloaderManager.m in Sources */,
 				B7EAD52518CD927200B28FEC /* AXChatPhotoActionSheet.m in Sources */,
 				B7E5250718D977F90048DB88 /* AXChatMessageVoiceCell.m in Sources */,
 				2056A36018EE7E7A0022B5A5 /* AXMessageAPIHeartBeatingManager.m in Sources */,
@@ -3891,6 +3907,7 @@
 				2079ADDB18B5D62E0029D493 /* ClientDetailViewController.m in Sources */,
 				97CB0C1F182BF28D00FCCBBD /* UIViewController+Loading.m in Sources */,
 				2056A38918EE7EA00022B5A5 /* AXMessageCenterAddFriendByQRCodeManager.m in Sources */,
+				B7E1F6B7190E0705009F546B /* IMGDownloaderOperation.m in Sources */,
 				B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */,
 				2056A35F18EE7E7A0022B5A5 /* AXMessageAPIBreakLinkManager.m in Sources */,
 				20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */,
@@ -4003,6 +4020,7 @@
 				B7EAD51E18CD927200B28FEC /* AXChatMessageTextCell.m in Sources */,
 				B7EAD52618CD927200B28FEC /* AXPhoto.m in Sources */,
 				273913E918DBD581003284AA /* RegexKitLite.m in Sources */,
+				B7E1F6BD190E3BFA009F546B /* AXIMGDownloader.m in Sources */,
 				9751860218320D5F00C9A40A /* PhotoManager.m in Sources */,
 				97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */,
 				979B083B18488A2800DD697E /* BigZhenzhenButton.m in Sources */,
