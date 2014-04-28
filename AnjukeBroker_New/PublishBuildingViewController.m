@@ -1075,11 +1075,11 @@ typedef enum {
             return NO;
         }
         
-        if ([self.property.minDownPay floatValue] > [self.property.minDownPay intValue] || ![Util_TEXT isNumber:self.property.minDownPay]) {
+        if ([self.property.minDownPay floatValue] > [self.property.minDownPay intValue]) {
             [self showInfo:@"最低首付必须为正整数"];
             return NO;
         }
-        
+                
     }
     
     return YES;
@@ -1099,7 +1099,7 @@ typedef enum {
         NSInteger price = [[[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_PRICE] text_Field] text] intValue] * 10000;
         self.property.price = [NSString stringWithFormat:@"%d", price];
         
-        self.property.minDownPay = [NSString stringWithFormat:@"%d", [[[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_LIMIT_PAY] text_Field] text] intValue] * 1];
+        self.property.minDownPay = [NSString stringWithFormat:@"%f", [[[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_LIMIT_PAY] text_Field] text] floatValue] * 1];
         
     }
     DLog(@"房源上传数据:[%@]", self.property);
