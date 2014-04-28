@@ -1611,6 +1611,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     self.emojiScrollView.hidden = YES;
     [self keyboardWillShowHide:notification];
     self.keyboardControl.hidden = NO;
+    [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgName] forState:UIControlStateNormal];
+    [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgNameHighlight] forState:UIControlStateHighlighted];
 }
 
 - (void)handleWillHideKeyboardNotification:(NSNotification *)notification
