@@ -640,9 +640,9 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         if (blockSelf.hasMore) {
             self.pullToRefreshView.delegate = self;
         } else {
-//            if (blockSelf.friendPerson.markName.length == 0) {
-//                [blockSelf sendSystemMessage:AXMessageTypeAddNote];
-//            }
+            if (blockSelf.friendPerson.markName.length == 0 && blockSelf.friendPerson.userType == AXPersonTypeUser) {
+                [blockSelf sendSystemMessage:AXMessageTypeAddNote];
+            }
             self.pullToRefreshView.delegate = nil;
         }
         NSArray *chatArray = chatList[@"messages"];
