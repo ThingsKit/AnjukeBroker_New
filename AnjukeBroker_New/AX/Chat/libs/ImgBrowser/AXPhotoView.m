@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "AXPhotoManager.h"
 #import "AXChatMessageCenter.h"
+#import "AXIMGDownloader.h"
 
 static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 
@@ -20,6 +21,7 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 }
 
 @property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) AXIMGDownloader *imgDownloader;
 
 @end
 
@@ -56,6 +58,13 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
         [self addGestureRecognizer:doubleTap];
     }
     return self;
+}
+
+- (AXIMGDownloader *)imgDownloader {
+    if (_imgDownloader == nil) {
+        _imgDownloader = [[AXIMGDownloader alloc] init];
+    }
+    return _imgDownloader;
 }
 
 - (void)dealloc {
@@ -97,36 +106,34 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
                 _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]];
                 [self adjustFrame];
             }
-            NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[self componentUrl:_photo.picMessage.imgUrl]]];
             __weak AXPhotoView *mySelf = self;
             __unsafe_unretained AXPhoto *blockPhoto = _photo;
-//            [_imageView setImageWithURLRequest:request placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-//                if (blockPhoto && mySelf) {
-//                    blockPhoto.image = image;
-//                    [mySelf.imageView setImage:image];
-//                    [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
-//                    [mySelf adjustFrame];
-//                    NSString *imgName = [NSString stringWithFormat:@"%@%dx%d.jpg",blockPhoto.picMessage.identifier, (int)image.size.height, (int)image.size.width];
-//                    NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:mySelf.photo.picMessage.to andIMGName:imgName];
-//                    blockPhoto.picMessage.imgPath = imgpath;
-//                    
-//                }else {
-//                    [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
-//                    return ;
-//                }
-//                
-//                [[AXChatMessageCenter defaultMessageCenter] updateMessage:blockPhoto.picMessage];
-//                
-//            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-//                NSLog(@"xiazai shibai");
-//                [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
-//            }];
+            [self.imgDownloader dowloadIMGWithURL:[NSURL URLWithString:[self componentUrl:_photo.picMessage.imgUrl]] resultBlock:^(RTNetworkResponse * response) {
+                if (response.status == 2) {
+                    if (response.content && [response.content objectForKey:@"imagePath"]) {
+                        if (blockPhoto && mySelf) {
+                            UIImage *image = [UIImage imageWithContentsOfFile:[response.content objectForKey:@"imagePath"]];
+                            blockPhoto.image = image;
+                            [mySelf.imageView setImage:image];
+                            [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
+                            [mySelf adjustFrame];
+                            NSString *imgName = [NSString stringWithFormat:@"%@%dx%d.jpg",blockPhoto.picMessage.identifier, (int)image.size.height, (int)image.size.width];
+                            NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:mySelf.photo.picMessage.to andIMGName:imgName];
+                            blockPhoto.picMessage.imgPath = imgpath;
+                            
+                        }else {
+                            [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
+                            return ;
+                        }
+                        [[AXChatMessageCenter defaultMessageCenter] updateMessage:blockPhoto.picMessage];
+                    }
+                }
+            }];
         }
         
     } else {
         [self photoStartLoad];
     }
-    //    [self adjustFrame];
 }
 
 #pragma mark 开始加载图片
@@ -146,29 +153,29 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
             _photo.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]];
             [self adjustFrame];
         }
-        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[self componentUrl:_photo.picMessage.imgUrl]]];
         __weak AXPhotoView *mySelf = self;
         __unsafe_unretained AXPhoto *blockPhoto = _photo;
-//        [_imageView setImageWithURLRequest:request placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfFile:_photo.picMessage.thumbnailImgPath]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-//            if (blockPhoto && mySelf) {
-//                blockPhoto.image = image;
-//                [mySelf.imageView setImage:image];
-//                [mySelf adjustFrame];
-//                [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
-//                NSString *imgName = [NSString stringWithFormat:@"%@%dx%d.jpg",blockPhoto.picMessage.identifier, (int)image.size.height, (int)image.size.width];
-//                NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:mySelf.photo.picMessage.to andIMGName:imgName];
-//                blockPhoto.picMessage.imgPath = imgpath;
-//                
-//            }else {
-//                [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
-//                return ;
-//            }
-//        
-//            [[AXChatMessageCenter defaultMessageCenter] updateMessage:blockPhoto.picMessage];
-//            
-//        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-//            [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
-//        }];
+        [self.imgDownloader dowloadIMGWithURL:[NSURL URLWithString:[self componentUrl:_photo.picMessage.imgUrl]] resultBlock:^(RTNetworkResponse * response) {
+            if (response.status == 2) {
+                if (response.content && [response.content objectForKey:@"imagePath"]) {
+                    if (blockPhoto && mySelf) {
+                        UIImage *image = [UIImage imageWithContentsOfFile:[response.content objectForKey:@"imagePath"]];
+                        blockPhoto.image = image;
+                        [mySelf.imageView setImage:image];
+                        [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
+                        [mySelf adjustFrame];
+                        NSString *imgName = [NSString stringWithFormat:@"%@%dx%d.jpg",blockPhoto.picMessage.identifier, (int)image.size.height, (int)image.size.width];
+                        NSString *imgpath = [AXPhotoManager saveImageFile:image toFolder:AXPhotoFolderName whitChatId:mySelf.photo.picMessage.to andIMGName:imgName];
+                        blockPhoto.picMessage.imgPath = imgpath;
+                        
+                    }else {
+                        [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
+                        return ;
+                    }
+                    [[AXChatMessageCenter defaultMessageCenter] updateMessage:blockPhoto.picMessage];
+                }
+            }
+        }];
     }
     //     [self adjustFrame];
 }

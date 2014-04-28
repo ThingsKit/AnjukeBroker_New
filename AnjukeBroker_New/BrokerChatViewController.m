@@ -90,7 +90,6 @@
     //保存头像
     AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
     if (person.iconPath.length < 2) {
-        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]]];
         [self.imgDownloader dowloadIMGWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]] resultBlock:^(RTNetworkResponse *response) {
             if (response.status == 2) {
                 if (response.content && [response.content objectForKey:@"imagePath"]) {

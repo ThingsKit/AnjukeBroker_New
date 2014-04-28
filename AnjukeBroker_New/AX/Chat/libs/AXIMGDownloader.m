@@ -13,7 +13,9 @@
 - (void)cancellRequest {
     [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
 }
-
+- (void)dealloc {
+    [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
+}
 - (void)dowloadIMGWithURL:(NSURL *)url resultBlock:(void(^)(RTNetworkResponse *))resultBlock{
     self.resultBlock = resultBlock;
     int requestId = [[RTRequestProxy sharedInstance] fetchImage:url target:self action:@selector(resultForDownloadIMG:)];
