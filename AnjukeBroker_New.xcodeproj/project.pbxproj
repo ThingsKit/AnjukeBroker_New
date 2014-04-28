@@ -2074,6 +2074,18 @@
 		6740D1AE1908E07D005ED706 /* 3.3.2Icon */ = {
 			isa = PBXGroup;
 			children = (
+				6740D1B91908E08C005ED706 /* anjuke_icon_button_red_press@2x.png */,
+				F8D449CC1908AFA900447375 /* anjuke_icon_button_red_press.png */,
+				6740D1BA1908E08C005ED706 /* anjuke_icon_button_red@2x.png */,
+				F8D449CE1908AFA900447375 /* anjuke_icon_button_red.png */,
+				6740D1BB1908E08C005ED706 /* anjuke_icon_callphone_press@2x.png */,
+				F85A31661907D0B100511022 /* anjuke_icon_callphone_press.png */,
+				F85A31681907D0B100511022 /* anjuke_icon_callphone.png */,
+				6740D1BC1908E08C005ED706 /* anjuke_icon_callphone@2x.png */,
+				F85A315B190790EF00511022 /* anjuke_icon_add_press.png */,
+				F85A315C190790EF00511022 /* anjuke_icon_add_press@2x.png */,
+				F85A315D190790EF00511022 /* anjuke_icon_person_press.png */,
+				F85A315E190790EF00511022 /* anjuke_icon_person_press@2x.png */,
 				6740D1AF1908E08C005ED706 /* anjuke_icon_add_more@2x.png */,
 				6740D1B01908E08C005ED706 /* anjuke_icon_add_more1@2x.png */,
 				6740D1B11908E08C005ED706 /* anjuke_icon_bq_delete@2x.png */,
@@ -2084,10 +2096,6 @@
 				6740D1B61908E08C005ED706 /* anjuke_icon_bq1@2x.png */,
 				6740D1B71908E08C005ED706 /* anjuke_icon_button_blue_press@2x.png */,
 				6740D1B81908E08C005ED706 /* anjuke_icon_button_blue@2x.png */,
-				6740D1B91908E08C005ED706 /* anjuke_icon_button_red_press@2x.png */,
-				6740D1BA1908E08C005ED706 /* anjuke_icon_button_red@2x.png */,
-				6740D1BB1908E08C005ED706 /* anjuke_icon_callphone_press@2x.png */,
-				6740D1BC1908E08C005ED706 /* anjuke_icon_callphone@2x.png */,
 				6740D1BD1908E08C005ED706 /* anjuke_icon_keyboard@2x.png */,
 				6740D1BE1908E08C005ED706 /* anjuke_icon_keyboard1@2x.png */,
 				6740D1BF1908E08C005ED706 /* anjuke_icon_login_button_press@2x.png */,
@@ -2333,14 +2341,6 @@
 		972C10351815053100552C9B /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				F8D449CC1908AFA900447375 /* anjuke_icon_button_red_press.png */,
-				F8D449CE1908AFA900447375 /* anjuke_icon_button_red.png */,
-				F85A31661907D0B100511022 /* anjuke_icon_callphone_press.png */,
-				F85A31681907D0B100511022 /* anjuke_icon_callphone.png */,
-				F85A315B190790EF00511022 /* anjuke_icon_add_press.png */,
-				F85A315C190790EF00511022 /* anjuke_icon_add_press@2x.png */,
-				F85A315D190790EF00511022 /* anjuke_icon_person_press.png */,
-				F85A315E190790EF00511022 /* anjuke_icon_person_press@2x.png */,
 				6740D1AE1908E07D005ED706 /* 3.3.2Icon */,
 				B7EA5B4118DBDC9500D437BB /* 3.3Icon */,
 				203EC29C18B2FEF000DD0840 /* Tab_icon */,
