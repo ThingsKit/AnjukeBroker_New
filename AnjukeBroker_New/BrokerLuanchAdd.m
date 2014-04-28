@@ -8,6 +8,7 @@
 
 #import "BrokerLuanchAdd.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
+#import "RTLaunchImg.h"
 
 #define LAUNCHIMGPATH @"brokerLaunchImg"
 
@@ -124,13 +125,7 @@ static BrokerLuanchAdd *defaultLaunchAdd;
     return fileList;
 }
 - (void)showLaunchAdd:(UIImage *)img{
-    float originY = 0;
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")){
-        originY = 20;
-    }
-    self.launchAddView = [[UIImageView alloc] initWithFrame:CGRectMake(0, originY, [BrokerLuanchAdd windowWidth], [BrokerLuanchAdd viewHeight])];
-    self.launchAddView.image = img;
-    self.launchAddView.contentMode = UIViewContentModeScaleToFill;
+    self.launchAddView = [RTLaunchImg loadLaunchAdd:img];
     
     UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
     [window addSubview:self.launchAddView];

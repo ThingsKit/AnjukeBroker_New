@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RTLaunchAdd : UIImageView
+@interface RTLaunchImg : UIImageView
 
 + (UIImageView *)loadLaunchAdd:(UIImage *)img;
 

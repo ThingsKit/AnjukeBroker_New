@@ -568,7 +568,7 @@
 		F815F94C1906508900DF9F55 /* anjuke_icon_back_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F815F94A1906508900DF9F55 /* anjuke_icon_back_press@2x.png */; };
 		F815F94F190658B200DF9F55 /* UIBarButtonItem+NavItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F815F94E190658B200DF9F55 /* UIBarButtonItem+NavItem.m */; };
 		F8575DA31900F6BE00AB662F /* BrokerCallAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = F8575DA21900F6BE00AB662F /* BrokerCallAlert.m */; };
-		F85A31531907867F00511022 /* RTLaunchAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = F85A31521907867F00511022 /* RTLaunchAdd.m */; };
+		F85A31531907867F00511022 /* RTLaunchImg.m in Sources */ = {isa = PBXBuildFile; fileRef = F85A31521907867F00511022 /* RTLaunchImg.m */; };
 		F85A315619078B3100511022 /* BrokerLuanchAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = F85A315519078B3100511022 /* BrokerLuanchAdd.m */; };
 		F85A31581907908600511022 /* anjuke_icon_setting_press.png in Resources */ = {isa = PBXBuildFile; fileRef = F85A31571907908600511022 /* anjuke_icon_setting_press.png */; };
 		F85A315A190790A000511022 /* anjuke_icon_setting_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F85A3159190790A000511022 /* anjuke_icon_setting_press@2x.png */; };
@@ -1454,8 +1454,8 @@
 		F815F94E190658B200DF9F55 /* UIBarButtonItem+NavItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+NavItem.m"; sourceTree = "<group>"; };
 		F8575DA11900F6BE00AB662F /* BrokerCallAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerCallAlert.h; sourceTree = "<group>"; };
 		F8575DA21900F6BE00AB662F /* BrokerCallAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerCallAlert.m; sourceTree = "<group>"; };
-		F85A31511907867F00511022 /* RTLaunchAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTLaunchAdd.h; sourceTree = "<group>"; };
-		F85A31521907867F00511022 /* RTLaunchAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTLaunchAdd.m; sourceTree = "<group>"; };
+		F85A31511907867F00511022 /* RTLaunchImg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTLaunchImg.h; sourceTree = "<group>"; };
+		F85A31521907867F00511022 /* RTLaunchImg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTLaunchImg.m; sourceTree = "<group>"; };
 		F85A315419078B3100511022 /* BrokerLuanchAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerLuanchAdd.h; sourceTree = "<group>"; };
 		F85A315519078B3100511022 /* BrokerLuanchAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerLuanchAdd.m; sourceTree = "<group>"; };
 		F85A31571907908600511022 /* anjuke_icon_setting_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_setting_press.png; sourceTree = "<group>"; };
@@ -3327,8 +3327,8 @@
 		F85A31501907862500511022 /* launchAdd */ = {
 			isa = PBXGroup;
 			children = (
-				F85A31511907867F00511022 /* RTLaunchAdd.h */,
-				F85A31521907867F00511022 /* RTLaunchAdd.m */,
+				F85A31511907867F00511022 /* RTLaunchImg.h */,
+				F85A31521907867F00511022 /* RTLaunchImg.m */,
 				F85A315419078B3100511022 /* BrokerLuanchAdd.h */,
 				F85A315519078B3100511022 /* BrokerLuanchAdd.m */,
 				F85A31631907A7D900511022 /* UIImage+ExtraMethod.h */,
@@ -3839,7 +3839,7 @@
 				20A2178818BF1804002CA469 /* HouseSelectViewController.m in Sources */,
 				678D2A2618DAB12E0027D945 /* wav.mm in Sources */,
 				20578B9F1898ABCC0086B93D /* PropertyEditViewController.m in Sources */,
-				F85A31531907867F00511022 /* RTLaunchAdd.m in Sources */,
+				F85A31531907867F00511022 /* RTLaunchImg.m in Sources */,
 				2079ADE118B5DB690029D493 /* ClientDetailCell.m in Sources */,
 				B769E469181F680D00A2FF50 /* PropertyDetailCell.m in Sources */,
 				97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */,

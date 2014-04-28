@@ -6,9 +6,9 @@
 //  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
 
-#import "RTLaunchAdd.h"
+#import "RTLaunchImg.h"
 
-@implementation RTLaunchAdd
+@implementation RTLaunchImg
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -26,12 +26,18 @@
     
     return launchAddView;
 }
-
-+ (NSInteger)windowWidth {
++ (float)originY{
+    float originY = 0;
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0")){
+        originY = 20;
+    }
+    return originY;
+}
++ (float)windowWidth {
     return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.width;
 }
 
-+ (NSInteger)viewHeight {
++ (float)viewHeight {
     if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
         return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height-20;
     }else{
