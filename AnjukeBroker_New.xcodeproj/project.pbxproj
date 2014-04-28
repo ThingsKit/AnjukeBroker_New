@@ -36,6 +36,7 @@
 		2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2031A48418920F83004F7E1A /* FindHomeViewController.m */; };
 		2031A48718920FF2004F7E1A /* anjuke_icon_find@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */; };
 		2039E58518C421FF003ED781 /* anjuke_icon_headpic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2039E58418C421FF003ED781 /* anjuke_icon_headpic@2x.png */; };
+		203B5534190DF8650044B790 /* NoDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 203B5533190DF8650044B790 /* NoDataView.m */; };
 		203EC29818B2F61A00DD0840 /* MessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 203EC29718B2F61A00DD0840 /* MessageListViewController.m */; };
 		203EC29B18B2F65400DD0840 /* ClientListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 203EC29A18B2F65400DD0840 /* ClientListViewController.m */; };
 		203EC2B618B34A4200DD0840 /* MessageListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 203EC2B518B34A4200DD0840 /* MessageListCell.m */; };
@@ -649,6 +650,8 @@
 		2031A48418920F83004F7E1A /* FindHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindHomeViewController.m; sourceTree = "<group>"; };
 		2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_find@2x.png"; sourceTree = "<group>"; };
 		2039E58418C421FF003ED781 /* anjuke_icon_headpic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_headpic@2x.png"; sourceTree = "<group>"; };
+		203B5532190DF8650044B790 /* NoDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoDataView.h; sourceTree = "<group>"; };
+		203B5533190DF8650044B790 /* NoDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoDataView.m; sourceTree = "<group>"; };
 		203EC29618B2F61A00DD0840 /* MessageListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListViewController.h; sourceTree = "<group>"; };
 		203EC29718B2F61A00DD0840 /* MessageListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageListViewController.m; sourceTree = "<group>"; };
 		203EC29918B2F65400DD0840 /* ClientListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientListViewController.h; sourceTree = "<group>"; };
@@ -1635,6 +1638,8 @@
 				203EC2B518B34A4200DD0840 /* MessageListCell.m */,
 				20E892D818BDBAA300D7D881 /* ChatModel.h */,
 				20E892D918BDBAA300D7D881 /* ChatModel.m */,
+				203B5532190DF8650044B790 /* NoDataView.h */,
+				203B5533190DF8650044B790 /* NoDataView.m */,
 				20E892DB18BDBAAF00D7D881 /* 消息单页 */,
 			);
 			name = "消息列表";
@@ -3967,6 +3972,7 @@
 				2056A34C18EE7E660022B5A5 /* AXMappedMessage.m in Sources */,
 				20274173186AC2A9005267FD /* SystemCellManager.m in Sources */,
 				20A09794188D2C4400D30196 /* PublishDataModel.m in Sources */,
+				203B5534190DF8650044B790 /* NoDataView.m in Sources */,
 				97958362182229AF005EA48A /* Util_TEXT.m in Sources */,
 				B73468F91904F80400EEF424 /* AXTTTAttributedLabel.m in Sources */,
 				B723C13618E9599500584B2C /* LocationManager.m in Sources */,
