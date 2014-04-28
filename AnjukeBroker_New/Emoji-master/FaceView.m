@@ -151,7 +151,6 @@ NSArray = [
 //    CGPoint point = [touch locationInView:self];
     self.pressInterval = [NSDate date];
 //    [self coordinateCaculator:point];
-//    
 //    [self showMagnifier];
     
 }
@@ -159,13 +158,8 @@ NSArray = [
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 //    UITouch* touch = [touches anyObject];
 //    CGPoint point = [touch locationInView:self];
-    double timeSpent = [[NSDate date] timeIntervalSinceDate:self.pressInterval];
-    if (timeSpent > 0.5) {
-        [self hideMagnifier];
-    }else{
-        [self showMagnifier];
-    }
-//    if ([self coordinateCaculator:point]) {
+    
+//    if ([self coordinateCaculator:point] && timeSpent < 0.5) {
 //        [self showMagnifier];
 //    }else{
 //        [self hideMagnifier];
@@ -174,17 +168,25 @@ NSArray = [
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-//    [self hideMagnifier];
-    UITouch* touch = [touches anyObject];
-    CGPoint point = [touch locationInView:self];
 
-    if ([self coordinateCaculator:point]) {
-        if (self.faceClickBlock != nil) {
-            //        __block FaceView* this = self; //这里不需要,因为block没有引用全局变量对象,只是传入参数
-            _faceClickBlock(_selectedItemName); //因为block会调用多次,所以不可以在这里释放
+    double timeSpent = [[NSDate date] timeIntervalSinceDate:self.pressInterval];
+    if (timeSpent < 0.5) {
+        [self showMagnifier];
+        
+        UITouch* touch = [touches anyObject];
+        CGPoint point = [touch locationInView:self];
+        
+        if ([self coordinateCaculator:point]) {
+            if (self.faceClickBlock != nil) {
+                //        __block FaceView* this = self; //这里不需要,因为block没有引用全局变量对象,只是传入参数
+                _faceClickBlock(_selectedItemName); //因为block会调用多次,所以不可以在这里释放
+            }
+            //    NSLog(@"%d", _selectedItemName.retainCount);
         }
-        //    NSLog(@"%d", _selectedItemName.retainCount);
+        
     }
+    
+    [self hideMagnifier];
 
     
 
