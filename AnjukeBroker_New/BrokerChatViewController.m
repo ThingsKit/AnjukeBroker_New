@@ -171,7 +171,9 @@
 }
 
 - (void)removeStorageLayoutOfKeyboard {
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:self.friendPerson.uid];
+    if (self.friendPerson.uid) {
+        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:self.friendPerson.uid];
+    }
 }
 
 - (void)pickIMG:(id)sender {
