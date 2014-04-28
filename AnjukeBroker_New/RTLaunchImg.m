@@ -20,29 +20,23 @@
 }
 
 + (UIImageView *)loadLaunchAdd:(UIImage *)img{
-    UIImageView *launchAddView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self viewHeight])];
-    launchAddView.image = img;
-    launchAddView.contentMode = UIViewContentModeScaleToFill;
-    
-    return launchAddView;
-}
-+ (float)originY{
     float originY = 0;
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")){
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
         originY = 20;
     }
-    return originY;
+ 
+    UIImageView *launchAddView = [[UIImageView alloc] initWithFrame:CGRectMake(0, originY, [self windowWidth], [self windowHeight]-originY)];
+    launchAddView.image = img;
+    launchAddView.contentMode = UIViewContentModeScaleAspectFill;
+    return launchAddView;
 }
+
 + (float)windowWidth {
     return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.width;
 }
 
-+ (float)viewHeight {
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-        return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height-20;
-    }else{
-        return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height;
-    }
++ (float)windowHeight {
+    return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.height;
 }
 /*
 // Only override drawRect: if you perform custom drawing.

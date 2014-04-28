@@ -43,6 +43,8 @@
     title.font = [UIFont systemFontOfSize:15];
     [self addSubview:title];
     
+    [self addLineViewWithOriginY:-0.5];
+    [self addLineViewWithOriginY:self.frame.size.height-0.5];
 }
 
 - (void)drawInputWithStyle:(DisplayStyle)style {

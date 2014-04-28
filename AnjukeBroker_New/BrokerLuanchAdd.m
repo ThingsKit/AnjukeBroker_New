@@ -131,7 +131,7 @@ static BrokerLuanchAdd *defaultLaunchAdd;
 - (void)showLaunchAdd:(UIImage *)img{
     self.launchAddView = [RTLaunchImg loadLaunchAdd:img];
     
-    UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
+    UIWindow *window = [UIApplication sharedApplication].windows[0];
     [window addSubview:self.launchAddView];
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(hideLaunchAdd:) userInfo:nil repeats:NO];

@@ -95,14 +95,18 @@
     for (int i = 0; i < titleArr.count; i++) {
         CGFloat inputViewH = INPUT_EDIT_VIEW_H;
         if (i != 2) {
-            Broker_InputEditView *bi = [[Broker_InputEditView alloc] initWithFrame:CGRectMake(0, INPUT_EDIT_VIEW_H*i, [self windowWidth], inputViewH)];
+            Broker_InputEditView *bi;
+            if (i == 0) {
+                bi = [[Broker_InputEditView alloc] initWithFrame:CGRectMake(0, INPUT_EDIT_VIEW_H*i, [self windowWidth], inputViewH)];
+            }else{
+                bi = [[Broker_InputEditView alloc] initWithFrame:CGRectMake(0, INPUT_EDIT_VIEW_H*i+20, [self windowWidth], inputViewH)];
+            }
             bi.backgroundColor = [UIColor whiteColor];
             bi.titleLb.text = [titleArr objectAtIndex:i];
             switch (i) {
                 case 0:
                 {
                     [bi drawInputWithStyle:DisplayStyle_ForTextField];
-                    [bi addLineViewWithOriginY:-0.5]; //top line
                     self.nameTextF = bi.textFidle_Input;
                     self.nameTextF.text = self.person.markName;
                     self.nameTextF.delegate = self;
@@ -121,7 +125,6 @@
                 default:
                     break;
             }
-            [bi addLineViewWithOriginY:inputViewH-0.5]; //bottom line
             [self.editeScroll addSubview:bi];
         }else {
             float noteDesH = [Util_UI sizeOfString:self.person.markDesc maxWidth:170 withFontSize:15].height;
