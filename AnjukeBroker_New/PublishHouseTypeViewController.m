@@ -848,10 +848,10 @@
             
             NSString *code = [NSString string];
             if (self.isHaozu) {
-                code = HZ_HOUSETYPE_004;
+                code = AJK_PROPERTY_007;
             }
             else
-                code = AJK_HOUSETYPE_004;
+                code = AJK_PROPERTY_007;
             [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
             
             //check小区、户型、朝向

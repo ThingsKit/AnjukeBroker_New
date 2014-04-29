@@ -1662,6 +1662,12 @@ typedef enum {
 }
 
 - (void)addImageDidClick { //添加按钮点击
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PROPERTY_011 note:nil];
+    }
+    else
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_011 note:nil];
+    
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从手机相册选择", nil];
     sheet.tag = IMAGE_ACTIONSHEET_TAG;
     [sheet showInView:self.view];
@@ -1923,10 +1929,10 @@ typedef enum {
                 
                 NSString *code = [NSString string];
                 if (self.isHaozu) {
-                    code = HZ_PROPERTY_005;
+                    code = HZ_PROPERTY_012;
                 }
                 else
-                    code = AJK_PROPERTY_005;
+                    code = AJK_PROPERTY_012;
                 [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
                 
                 self.isTakePhoto = YES;
@@ -1965,10 +1971,10 @@ typedef enum {
                 
                 NSString *code = [NSString string];
                 if (self.isHaozu) {
-                    code = HZ_PROPERTY_006;
+                    code = HZ_PROPERTY_013;
                 }
                 else
-                    code = AJK_PROPERTY_006;
+                    code = AJK_PROPERTY_013;
                 [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
                 
                 self.isTakePhoto = NO;

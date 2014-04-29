@@ -85,11 +85,19 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    if (self.isForMessageList) {
+        [[BrokerLogger sharedInstance] logWithActionCode:CUSTOM_CHOOSE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
+    else
+        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+    if (self.isForMessageList) {
+        [[BrokerLogger sharedInstance] logWithActionCode:CUSTOM_CHOOSE_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+    }
+    else
+        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
 }
 
 #pragma mark - init Method
@@ -306,6 +314,14 @@
     return leftUtilityButtons;
 }
 
+- (void)doBack:(id)sender {
+    if (self.isForMessageList) {
+        [[BrokerLogger sharedInstance] logWithActionCode:CUSTOM_CHOOSE_004 note:nil];
+    }
+    
+    [super doBack:self];
+}
+
 #pragma mark - Request Method
 
 - (void)requestUpdateWithPerson:(AXMappedPerson *)person {
@@ -458,7 +474,11 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_003 note:nil];
+    if (self.isForMessageList) {
+        [[BrokerLogger sharedInstance] logWithActionCode:CUSTOM_CHOOSE_003 note:nil];
+    }
+    else
+        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_003 note:nil];
     
     DLog(@"section- [%d]", indexPath.section);
     AXMappedPerson *item = nil;
