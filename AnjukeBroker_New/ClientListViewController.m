@@ -174,6 +174,8 @@
         }
     }
     
+    self.starDataArr = [[NSMutableArray alloc] initWithArray:[self arrSort:self.starDataArr]];
+    
     //add 3 arr to list data att
     [self.listDataArray addObject:self.publicDataArr];
     [self.listDataArray addObject:self.starDataArr];
@@ -242,7 +244,59 @@
     [self checkToAlert];
     [self hideLoadWithAnimated:YES];
 }
-
+- (NSArray *)arrSort:(NSArray *)arr{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    NSMutableArray *sortArr = [[NSMutableArray alloc] init];
+    if (arr.count <= 1) {
+        return arr;
+    }
+    for (int i = 0; i < arr.count; i ++) {
+        AXMappedPerson *person = [arr objectAtIndex:i];
+        unichar begin;
+        if (person.markNamePinyin.length > 0) {
+            begin = [person.markNamePinyin characterAtIndex:0];
+            
+            if (begin >= 'A' && begin <= 'Z') {
+                NSString *beginString = [person.markNamePinyin substringToIndex:1];
+                [dic setValue:person forKey:beginString];
+            } else if (begin >= 'a' && begin <= 'z') {
+                NSString *beginString = [person.markNamePinyin substringToIndex:1];
+                [dic setValue:person forKey:[beginString uppercaseString]];
+            } else {
+                [dic setValue:person forKey:@"#"];
+            }
+        }
+        else  if (person.namePinyin.length > 0) {
+            begin = [person.namePinyin characterAtIndex:0];
+            
+            if (begin >= 'A' && begin <= 'Z') {
+                NSString *beginString = [person.namePinyin substringToIndex:1];
+                [dic setValue:person forKey:beginString];
+            } else if (begin >= 'a' && begin <= 'z') {
+                NSString *beginString = [person.namePinyin substringToIndex:1];
+                [dic setValue:person forKey:[beginString uppercaseString]];
+            } else {
+                [dic setValue:person forKey:@"#"];
+            }
+        }
+        else
+            [dic setValue:person forKey:@"#"];
+    }
+    
+    NSArray *keys = [[dic allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        if ([obj1 isEqualToString:@"#"]) {
+            return NSOrderedDescending;
+        }
+        if ([obj2 isEqualToString:@"#"]) {
+            return NSOrderedAscending;
+        }
+        return [obj1 compare:obj2];
+    }];
+    for (NSString *key in keys) {
+        [sortArr addObject:dic[key]];
+    }
+    return sortArr;
+}
 - (void)insertPerson:(AXMappedPerson *)person withPinyinBeginWithLetter:(NSString *)letterStr intoDictionary:(NSMutableDictionary *)dic {
     NSMutableArray *arr = nil;
     if (!dic[letterStr]) {
