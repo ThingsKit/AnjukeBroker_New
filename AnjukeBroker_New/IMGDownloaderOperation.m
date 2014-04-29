@@ -33,8 +33,8 @@
 
 - (void)main
 {
-    if (++_lastRequestID >= RT_MAX_REQUESTID)
-        _lastRequestID = RT_MIN_REQUESTID;
+    if (++_requestID >= RT_MAX_REQUESTID)
+        _requestID = RT_MIN_REQUESTID;
     
     NSURL *url = [NSURL URLWithString:self.requestString];
     self.networkRequest = [ASIHTTPRequest requestWithURL:url];
@@ -46,21 +46,28 @@
     self.networkRequest.delegate = self;
     [self.networkRequest startAsynchronous];
     
+
 }
 
 - (void)cancel
 {
     [self.cancelLock lock];
     [self.networkRequest cancel];
+    self.delegate = nil;
     [self.cancelLock unlock];
     [super cancel];
 }
 
 #pragma mark -- ASIHttpRequestDelegate
 - (void)requestStarted:(ASIHTTPRequest *)request{
-    self.lastRequestID = [request.requestID intValue];
+    BrokerResponder *responder = [[BrokerResponder alloc] init];
+    responder.requestID = [self.networkRequest.requestID integerValue];
+    responder.statusCode = 1;
+//    responder.imgPath = self.filePath;
+    responder.request = request;
+    responder.identify = self.identify;
     if ([_delegate respondsToSelector:(@selector(requestStarted:))]) {
-        [_delegate performSelector:@selector(requestStarted:)withObject:request];
+        [_delegate performSelector:@selector(requestStarted:)withObject:responder];
     }
 }
 
@@ -73,14 +80,26 @@
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request{
+    BrokerResponder *responder = [[BrokerResponder alloc] init];
+    responder.requestID = [self.networkRequest.requestID integerValue];
+    responder.statusCode = 2;
+    responder.imgPath = self.filePath;
+    responder.request = request;
+    responder.identify = self.identify;
     if ([_delegate respondsToSelector:(@selector(requestFinished:))]) {
-        [_delegate performSelector:@selector(requestFinished:)withObject:request];
+        [_delegate performSelector:@selector(requestFinished:)withObject:responder];
     }
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request{
+    BrokerResponder *responder = [[BrokerResponder alloc] init];
+    responder.requestID = [self.networkRequest.requestID integerValue];
+    responder.statusCode = 3;
+//    responder.imgPath = self.filePath;
+    responder.request = request;
+    responder.identify = self.identify;
     if ([_delegate respondsToSelector:(@selector(requestFailed:))]) {
-        [_delegate performSelector:@selector(requestFailed:)withObject:request];
+        [_delegate performSelector:@selector(requestFailed:)withObject:responder];
     }
 }
 

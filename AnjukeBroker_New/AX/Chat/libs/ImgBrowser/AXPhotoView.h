@@ -8,6 +8,8 @@
 #import <UIKit/UIKit.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import "WebImageView.h"
+#import "IMGDowloaderManager.h"
+#import "BrokerResponder.h"
 
 @class AXPhotoBrowser, AXPhoto, AXPhotoView;
 
@@ -21,5 +23,6 @@
 @property (nonatomic, strong) AXPhoto *photo;
 @property (nonatomic, weak) id<AXPhotoViewDelegate> photoViewDelegate;
 @property BOOL isFirstIMG;
+@property (nonatomic, strong) IMGDowloaderManager *downloader;
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholderImage;
 @end

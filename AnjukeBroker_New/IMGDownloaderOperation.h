@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "ASIHTTPRequest.h"
+#import "BrokerResponder.h"
+
 @protocol IMGDownloaderOperationDelegate <NSObject>
 
 @optional
@@ -28,5 +30,6 @@
 @property (nonatomic, strong) NSString *requestString;
 @property (nonatomic, strong) NSURL *requestUrl;
 @property (nonatomic, assign) id<IMGDownloaderOperationDelegate> delegate;
-@property int lastRequestID;
+@property int requestID;
+@property (nonatomic, strong) NSString *identify;
 @end

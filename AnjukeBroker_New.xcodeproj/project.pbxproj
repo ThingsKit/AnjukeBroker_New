@@ -406,6 +406,7 @@
 		B7E4CD2718E11BB200B61B58 /* wl_chat_icon_agentvoice_play2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E4CD2318E11BB200B61B58 /* wl_chat_icon_agentvoice_play2@2x.png */; };
 		B7E4CD2E18E11BD800B61B58 /* wl_chat_icon_agentvoice_play3.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E4CD2A18E11BD800B61B58 /* wl_chat_icon_agentvoice_play3.png */; };
 		B7E4CD2F18E11BD800B61B58 /* wl_chat_icon_agentvoice_play3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E4CD2B18E11BD800B61B58 /* wl_chat_icon_agentvoice_play3@2x.png */; };
+		B7E4E4FC190F56F100077D77 /* BrokerResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E4E4FB190F56F000077D77 /* BrokerResponder.m */; };
 		B7E5250718D977F90048DB88 /* AXChatMessageVoiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E5250618D977F90048DB88 /* AXChatMessageVoiceCell.m */; };
 		B7E55B4D18BF2190007238CB /* JSDismissiveTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E55B4218BF2190007238CB /* JSDismissiveTextView.m */; };
 		B7E55B4E18BF2190007238CB /* JSMessageInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E55B4418BF2190007238CB /* JSMessageInputView.m */; };
@@ -1235,6 +1236,8 @@
 		B7E4CD2318E11BB200B61B58 /* wl_chat_icon_agentvoice_play2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wl_chat_icon_agentvoice_play2@2x.png"; sourceTree = "<group>"; };
 		B7E4CD2A18E11BD800B61B58 /* wl_chat_icon_agentvoice_play3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wl_chat_icon_agentvoice_play3.png; sourceTree = "<group>"; };
 		B7E4CD2B18E11BD800B61B58 /* wl_chat_icon_agentvoice_play3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wl_chat_icon_agentvoice_play3@2x.png"; sourceTree = "<group>"; };
+		B7E4E4FA190F56F000077D77 /* BrokerResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerResponder.h; sourceTree = "<group>"; };
+		B7E4E4FB190F56F000077D77 /* BrokerResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerResponder.m; sourceTree = "<group>"; };
 		B7E5250518D977F90048DB88 /* AXChatMessageVoiceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessageVoiceCell.h; sourceTree = "<group>"; };
 		B7E5250618D977F90048DB88 /* AXChatMessageVoiceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessageVoiceCell.m; sourceTree = "<group>"; };
 		B7E55B4118BF2190007238CB /* JSDismissiveTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSDismissiveTextView.h; sourceTree = "<group>"; };
@@ -3075,6 +3078,8 @@
 				B7E1F6B6190E0705009F546B /* IMGDownloaderOperation.m */,
 				B7E1F6B8190E1B93009F546B /* IMGDowloaderManager.h */,
 				B7E1F6B9190E1B93009F546B /* IMGDowloaderManager.m */,
+				B7E4E4FA190F56F000077D77 /* BrokerResponder.h */,
+				B7E4E4FB190F56F000077D77 /* BrokerResponder.m */,
 			);
 			name = DownLoadIMG;
 			sourceTree = "<group>";
@@ -3955,6 +3960,7 @@
 				B769E44F181F4C3E00A2FF50 /* FixedObject.m in Sources */,
 				97B422601820E38200A2E9E6 /* PropertyResultListViewController.m in Sources */,
 				2739141518DC2DC5003284AA /* LocationChange.m in Sources */,
+				B7E4E4FC190F56F100077D77 /* BrokerResponder.m in Sources */,
 				B769E484181F8F7000A2FF50 /* BasePropertyListController.m in Sources */,
 				B769E45A181F547100A2FF50 /* BasePropertyListCell.m in Sources */,
 				B7EAD51A18CD927200B28FEC /* AXChatMessagePublicCardCell.m in Sources */,

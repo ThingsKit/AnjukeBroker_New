@@ -7,10 +7,11 @@
 //
 
 #import "RTViewController.h"
+#import "IMGDowloaderManager.h"
 
 @interface HomeViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 - (void)doRequest;
 @property BOOL hasLongLinked;
-
+@property (nonatomic, strong) IMGDowloaderManager *img;
 @end

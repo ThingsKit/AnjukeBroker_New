@@ -2377,6 +2377,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
             if ([dic[@"identifier"] isEqualToString:photo.picMessage.identifier]) {
                 currentPhotoIndex = i;
             }
+            NSLog(@"====%@", photo.picMessage.imgUrl);
             [photoArray addObject:photo];
         }
         AXPhotoBrowser *controller = [[AXPhotoBrowser alloc] init];

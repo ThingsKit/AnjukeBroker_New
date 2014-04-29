@@ -274,13 +274,20 @@
     if (isCurrentPerson) {
         return;
     }else {
-            AXMappedPerson *item = self.friendPerson;
+        [self viewCustomerDetailInfo];
+//            AXMappedPerson *item = self.friendPerson;
+//        
+//        if (item.userType == AXPersonTypeUser) {
+//            ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
+//            cd.person = item;
+//            cd.backType = RTSelectorBackTypePopToRoot;
+//            [cd setHidesBottomBarWhenPushed:YES];
+//            [self.navigationController pushViewController:cd animated:YES];
+//        } else {
+//        
+//        }
             //for test
-            ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
-            cd.person = item;
-            cd.backType = RTSelectorBackTypePopToRoot;
-            [cd setHidesBottomBarWhenPushed:YES];
-            [self.navigationController pushViewController:cd animated:YES];
+
 
     }
     
@@ -377,6 +384,7 @@
         //for test
         ClientDetailPublicViewController *cd = [[ClientDetailPublicViewController alloc] init];
         cd.person = item;
+        cd.backType = RTSelectorBackTypePopToRoot;
         [cd setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:cd animated:YES];
     }else if (self.friendPerson.userType == AXPersonTypeUser){
@@ -385,11 +393,10 @@
         //for test
         ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
         cd.person = item;
+        cd.backType = RTSelectorBackTypePopToRoot;
         [cd setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:cd animated:YES];
     }
-    
-
 }
 
 

@@ -31,6 +31,7 @@
 #import "LocationManager.h"
 #import "RTNetworkResponse.h"
 #import "AXIMGDownloader.h"
+#import "IMGDowloaderManager.h"
 
 #define HOME_cellHeight 50
 #define Max_Account_Lb_Width 80
@@ -441,6 +442,7 @@
     }
     //保存头像
     AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
+    self.img = [[IMGDowloaderManager alloc] init];
     if (person.iconPath.length < 2) {
         if ([LoginManager getUse_photo_url] && ![[LoginManager getUse_photo_url] isEqualToString:@""]) {
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]]];

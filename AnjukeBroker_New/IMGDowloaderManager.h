@@ -8,14 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "IMGDownloaderOperation.h"
+#import "BrokerResponder.h"
 
 @interface IMGDowloaderManager : NSObject <IMGDownloaderOperationDelegate>
 
 @property (nonatomic, strong) NSOperationQueue *requestQueue;
-@property (nonatomic, copy) void(^successBlock)(NSString *);
-@property (nonatomic, copy) void(^faildBlock)(NSString *);
+@property (nonatomic, copy) void(^successBlock)(BrokerResponder *);
+@property (nonatomic, copy) void(^faildBlock)(BrokerResponder *);
 
 - (void)cancelAllRequest;
-- (void)dowloadIMGWithImgURL:(NSURL *)url successBlock:(void(^)(NSString *))successBlock fialedBlock:(void(^)(NSString *))failedBlock;
+- (void)dowloadIMGWithImgURL:(NSString *)url identify:(NSString *) identify successBlock:(void(^)(BrokerResponder *))successBlock fialedBlock:(void(^)(BrokerResponder *))failedBlock;
 
 @end

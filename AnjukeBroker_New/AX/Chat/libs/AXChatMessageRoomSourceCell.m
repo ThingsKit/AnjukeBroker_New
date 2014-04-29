@@ -144,11 +144,15 @@ static CGFloat const AXPropertyCardInLableMarginLeft = 81.0f;
         self.tagLable.text = @"租房";
     }else if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceCommunity)]){
         self.tagLable.text = @"小区";
-    } else if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceJinPu)]){
-        self.tagLable.text = @"商铺";
-    }else if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceXinFang)]){
-        self.tagLable.text = @"新房";
-    }else {
+    } else if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceShopRent)]){
+        self.tagLable.text = @"商铺出租";
+    } else if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceShopBuy)]){
+        self.tagLable.text = @"商铺出售";
+    } else if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceOfficeRent)]){
+        self.tagLable.text = @"写字楼出租";
+    } else if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceOfficeRent)]){
+        self.tagLable.text = @"写字楼出售";
+    } else {
         self.tagLable.text = @"---";
     }
     
