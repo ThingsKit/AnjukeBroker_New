@@ -15,7 +15,7 @@
 @property (nonatomic, copy) void(^successBlock)(NSString *);
 @property (nonatomic, copy) void(^faildBlock)(NSString *);
 
-+ (instancetype)defaultInstance;
 - (void)cancelAllRequest;
 - (void)dowloadIMGWithImgURL:(NSURL *)url successBlock:(void(^)(NSString *))successBlock fialedBlock:(void(^)(NSString *))failedBlock;
+
 @end

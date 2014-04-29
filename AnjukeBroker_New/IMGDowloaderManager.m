@@ -9,16 +9,6 @@
 #import "IMGDowloaderManager.h"
 
 @implementation IMGDowloaderManager
-+ (instancetype)defaultInstance {
-    static IMGDowloaderManager *manager = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        if (manager == nil) {
-            manager = [[IMGDowloaderManager alloc] init];
-        }
-    });
-    return manager;
-}
 
 - (NSOperationQueue *)requestQueue {
     if (_requestQueue == nil) {
@@ -33,26 +23,27 @@
         [self.requestQueue cancelAllOperations];
         self.requestQueue = nil;
     }
-    
-    
 }
 
 - (void)cancelAllRequest {
-    [self.requestQueue cancelAllOperations];
+    if (self.requestQueue) {
+        [self.requestQueue cancelAllOperations];
+        self.requestQueue = nil;
+    }
 }
 
-- (void)dowloadIMGWithImgURL:(NSURL *)url successBlock:(void(^)(NSString *))successBlock fialedBlock:(void(^)(NSString *))failedBlock{
+- (void)dowloadIMGWithImgURL:(NSString *)url successBlock:(void(^)(NSString *))successBlock fialedBlock:(void(^)(NSString *))failedBlock{
     self.successBlock = successBlock;
     self.faildBlock = failedBlock;
     IMGDownloaderOperation *requestOperation = [[IMGDownloaderOperation alloc] init];
-    requestOperation.requestUrl = url;
+    requestOperation.requestString = url;
     requestOperation.delegate = self;
-    requestOperation.filePath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"tempImgForder"];
+    requestOperation.filePath = [[[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"tempImgForder"] stringByAppendingPathExtension:[[url componentsSeparatedByString:@"/"] lastObject]];
     [self.requestQueue addOperation:requestOperation];
-
 }
 
 - (void)requestStarted:(ASIHTTPRequest *)request {
+    
 
 }
 

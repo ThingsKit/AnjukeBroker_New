@@ -924,7 +924,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
             if (since < 3600 * 24) {
                 dateFormatrer.dateFormat = @"HH:mm";
             } else {
-                dateFormatrer.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+                dateFormatrer.dateFormat = @"MM月dd日 HH:mm";
             }
             NSString *timeContent =  [dateFormatrer stringFromDate:mappedMessage.sendTime];
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeSystemTime),@"content":timeContent,@"messageSource":@(AXChatMessageSourceDestinationOutPut)}];

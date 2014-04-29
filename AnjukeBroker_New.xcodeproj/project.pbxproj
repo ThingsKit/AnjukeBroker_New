@@ -3415,9 +3415,6 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Wu sicong";
 				TargetAttributes = {
-					9741054E180CDFE0004DAE95 = {
-						DevelopmentTeam = 52KTBFLJDB;
-					};
 					9741056E180CDFE1004DAE95 = {
 						TestTargetID = 9741054E180CDFE0004DAE95;
 					};
