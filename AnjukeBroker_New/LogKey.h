@@ -25,13 +25,15 @@
 #define AJK_PROPERTY_002 @"200002" //
 #define AJK_PROPERTY_003 @"200003" //点击取消
 #define AJK_PROPERTY_004 @"200004" //点击保存
-#define AJK_PROPERTY_005 @"200005" //点击拍照
-#define AJK_PROPERTY_006 @"200006" //点击从相册选择
-#define AJK_PROPERTY_007 @"200007" //点击在线房型图
+#define AJK_PROPERTY_005 @"200005" //点击房型图-拍照
+#define AJK_PROPERTY_006 @"200006" //点击房型图-从相册选择
+#define AJK_PROPERTY_007 @"200007" //点击房型图-在线房型图
 #define AJK_PROPERTY_008 @"200008" //点击定价推广
 #define AJK_PROPERTY_009 @"200009" //点击定价且竞价推广
 #define AJK_PROPERTY_010 @"200010" //点击暂不推广
-
+#define AJK_PROPERTY_011 @"200011" //点击添加室内图
+#define AJK_PROPERTY_012 @"200012" //点击添加室内图-拍照
+#define AJK_PROPERTY_013 @"200013" //点击添加室内图-从相册选择
 //二手房小区选择页
 #define AJK_COMMUNITY @"210000"
 #define AJK_COMMUNITY_001 @"210001" //页面可见（即页面打开）
@@ -196,13 +198,15 @@
 #define HZ_PROPERTY_002 @"400002" //
 #define HZ_PROPERTY_003 @"400003" //点击取消
 #define HZ_PROPERTY_004 @"400004" //点击保存
-#define HZ_PROPERTY_005 @"400005" //点击拍照
-#define HZ_PROPERTY_006 @"400006" //点击从相册选择
-#define HZ_PROPERTY_007 @"400007" //点击在线房型图
+#define HZ_PROPERTY_005 @"400005" //点击房型图-拍照
+#define HZ_PROPERTY_006 @"400006" //点击房型图-从相册选择
+#define HZ_PROPERTY_007 @"400007" //点击房型图-在线房型图
 #define HZ_PROPERTY_008 @"400008" //点击定价推广
 #define HZ_PROPERTY_009 @"400009" //点击定价且竞价推广
 #define HZ_PROPERTY_010 @"400010" //点击暂不推广
-
+#define HZ_PROPERTY_011 @"400011" //点击添加室内图
+#define HZ_PROPERTY_012 @"400012" //点击添加室内图-拍照
+#define HZ_PROPERTY_013 @"400013" //点击添加室内图-从相册选择
 //租房小区选择页
 #define HZ_COMMUNITY @"410000"
 #define HZ_COMMUNITY_001 @"410001" //
@@ -324,6 +328,10 @@
 #define HZ_MORE_007 @"700007" //点击关于网络经纪人
 #define HZ_MORE_008 @"700008" //点击联系客户主任
 #define HZ_MORE_009 @"700009" //点击客服热线
+#define HZ_MORE_010 @"700010" //短信通知on到off
+#define HZ_MORE_011 @"700011" //短信通知off到on
+#define HZ_MORE_012 @"700012" //点击呼叫客户主任
+#define HZ_MORE_013 @"700013" //点击呼叫客服热线
 
 //发现
 #define FIND_001 @"800001" //页面可见（即页面打开）
@@ -358,6 +366,7 @@
 #define CHATVIEW_018 @"910018" //按住说话
 #define CHATVIEW_019 @"910019" //取消发送语音
 #define CHATVIEW_020 @"910020" //点击查看位置
+#define CHATVIEW_021 @"910021" //点击切换至表情
 
 //位置选择页
 #define LOCATION_CHOOSE_001 @"960001" //页面可见
@@ -419,6 +428,8 @@
 #define CLIENT_DETAIL_008 @"1100008"
 #define CLIENT_DETAIL_009 @"1100009"
 #define CLIENT_DETAIL_010 @"1100010"
+#define CLIENT_DETAIL_011 @"1100011"
+#define CLIENT_DETAIL_012 @"1100012"
 
 //备注页面
 #define CLIENT_EDIT_001 @"1200001"
@@ -427,6 +438,17 @@
 #define CLIENT_EDIT_004 @"1200004"
 #define CLIENT_EDIT_005 @"1200005"
 
+//登录页
+#define APP_LOGIN @"1300000"
+#define APP_LOGIN_001 @"1300001"
+#define APP_LOGIN_002 @"1300002"
+#define APP_LOGIN_003 @"1300003"
 
+//选择客户页
+#define CUSTOM_CHOOSE @"980000"
+#define CUSTOM_CHOOSE_001 @"980001"
+#define CUSTOM_CHOOSE_002 @"980002"
+#define CUSTOM_CHOOSE_003 @"980003"
+#define CUSTOM_CHOOSE_004 @"980004"
 
 #endif
