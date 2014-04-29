@@ -13,6 +13,7 @@
 #import "PropertyGroupListViewController.h"
 #import "BrokerLineView.h"
 #import "RTGestureLock.h"
+#import "PropertyAuctionPublishViewController.h"
 
 typedef enum {
     Property_DJ = 0, //发房_定价
@@ -42,31 +43,6 @@ typedef enum {
 @end
 
 @implementation PublishBuildingViewController
-@synthesize isHaozu;
-@synthesize tableViewList;
-@synthesize cellDataSource;
-@synthesize selectedIndex;
-@synthesize pickerView;
-@synthesize toolBar;
-@synthesize inputingTextF;
-@synthesize selectedRow, selectedSection;
-@synthesize isTBBtnPressedToShowKeyboard;
-@synthesize property;
-@synthesize lastPrice, propertyPrice;
-@synthesize needFileNO;
-@synthesize communityDic;
-@synthesize roomValue, hallValue, toiletValue;
-@synthesize photoBGView;
-@synthesize roomImageArray, houseTypeImageArray;
-@synthesize footerView;
-@synthesize inPhotoProcessing, isTakePhoto;
-@synthesize imageOverLay;
-@synthesize imagePicker;
-@synthesize uploadType;
-@synthesize uploadImageArray;
-@synthesize fileNoTextF;
-@synthesize simToolBar;
-@synthesize communityDetailLb;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -160,6 +136,8 @@ typedef enum {
     self.uploadImageArray = [NSMutableArray array];
     
     self.needFileNO = [LoginManager needFileNOWithCityID:[LoginManager getCity_id]];
+    
+    self.fixGroupArr = [NSArray array];
 }
 
 - (void)initDisplay {
@@ -423,35 +401,57 @@ typedef enum {
 }
 
 - (void)doPushPropertyID:(NSString *)propertyID {
+    self.property_ID = [NSString stringWithString:propertyID];
     
     //tabController切换
-    int tabIndex = 1;
+    int tabIndex = 3;
     if (self.isHaozu) {
-        tabIndex = 2;
+        tabIndex = 4;
     }
+    
+    self.isBid = NO;
     
     //do push
     switch (self.uploadType) {
         case Property_DJ:
         {
-            PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
-            pv.propertyID = [NSString stringWithFormat:@"%@", propertyID];
-            pv.isHaozu = self.isHaozu;
-            pv.backType = RTSelectorBackTypeDismiss;
-            pv.commID = [NSString stringWithFormat:@"%@", self.property.comm_id];
-            [self.navigationController pushViewController:pv animated:YES];
+            //非封顶城市，原路径
+            if (![LoginManager isSeedForAJK:!self.isHaozu]) {
+                PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
+                pv.propertyID = [NSString stringWithFormat:@"%@", propertyID];
+                pv.isHaozu = self.isHaozu;
+                pv.backType = RTSelectorBackTypeDismiss;
+                pv.commID = [NSString stringWithFormat:@"%@", self.property.comm_id];
+                [self.navigationController pushViewController:pv animated:YES];
+                
+                return;
+            }
             
+            //封顶城市：房源发布页-点击【保存】-选择【定价推广】-定价推广成功，转入【定价房源列表】页
+            //call 定价组API
+            [self doRequestForFixPlan];
         }
             break;
         case Property_JJ:
         {
-            PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
-            pv.propertyID = [NSString stringWithFormat:@"%@", propertyID];
-            pv.commID = [NSString stringWithFormat:@"%@", self.property.comm_id];
-            pv.isHaozu = self.isHaozu;
-            pv.backType = RTSelectorBackTypeDismiss;
-            pv.isBid = YES;
-            [self.navigationController pushViewController:pv animated:YES];
+            self.isBid = YES;
+            
+            //非封顶城市，原路径
+            if (![LoginManager isSeedForAJK:!self.isHaozu]) {
+                PropertyGroupListViewController *pv = [[PropertyGroupListViewController alloc] init];
+                pv.propertyID = [NSString stringWithFormat:@"%@", propertyID];
+                pv.commID = [NSString stringWithFormat:@"%@", self.property.comm_id];
+                pv.isHaozu = self.isHaozu;
+                pv.backType = RTSelectorBackTypeDismiss;
+                pv.isBid = YES;
+                [self.navigationController pushViewController:pv animated:YES];
+
+                return;
+            }
+            
+            //封顶城市：直接设置竞价 -->房源发布页-点击【保存】-选择【定价且竞价推广】-【设置竞价】页
+            //call 定价组API
+            [self doRequestForFixPlan];
             
         }
             break;
@@ -735,6 +735,102 @@ typedef enum {
     
     self.propertyPrice = [[[response content] objectForKey:@"data"] objectForKey:@"price"];
     [self showAlertViewWithPrice:self.propertyPrice];
+}
+
+- (void)doRequestForFixPlan { //获得定价推广组
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+    if (self.isHaozu) {
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/getplans/" params:params target:self action:@selector(getFixPlanFinished:)];
+    }
+    else {
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/getplans/" params:params target:self action:@selector(getFixPlanFinished:)];
+    }
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+    
+}
+
+- (void)getFixPlanFinished:(RTNetworkResponse *)response {
+    DLog(@"---getGroupList---response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return;
+    }
+    
+    self.fixGroupArr = [[[response content] objectForKey:@"data"] objectForKey:@"planList"];
+    if (self.fixGroupArr.count == 0) {
+        [self hideLoadWithAnimated:NO];
+        self.isLoading = NO;
+        [self showInfo:@"暂无定价组"];
+        
+        return;
+    }
+    [self addPropertyToPlanWithGroupID:self.fixGroupArr[0][@"fixPlanId"]]; //添加至定价组
+    
+}
+
+- (void)addPropertyToPlanWithGroupID:(NSString *)groupID{
+    if(![self isNetworkOkay]){
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  self.property_ID, @"propIds", groupID, @"planId", nil];
+    
+    NSString *methodStr = [NSString string];
+    if (self.isHaozu) {
+        methodStr = @"zufang/fix/addpropstoplan/";
+    }
+    else
+        methodStr = @"anjuke/fix/addpropstoplan/";
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:methodStr params:params target:self action:@selector(addToFixFinished:)];
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+}
+
+- (void)addToFixFinished:(RTNetworkResponse *)response {
+    DLog(@"---addToFix---response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return;
+    }
+    
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    
+    if (self.isBid) { //去竞价页面
+        PropertyAuctionPublishViewController *pa = [[PropertyAuctionPublishViewController alloc] init];
+        pa.propertyID = [NSString stringWithFormat:@"%@", self.property_ID];
+        pa.isHaozu = self.isHaozu;
+        pa.backType = RTSelectorBackTypeDismiss;
+        pa.commID = [NSString stringWithFormat:@"%@", self.property.comm_id];
+        [self.navigationController pushViewController:pa animated:YES];
+    }
+    else { //跳转
+        int tabIndex = 3;
+        if (self.isHaozu) {
+            tabIndex = 4;
+        }
+        
+        if (self.isHaozu) {
+            [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentFixed withPropertyDic:[self.fixGroupArr objectAtIndex:0]];
+        }
+        else
+            [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleFixed withPropertyDic:[self.fixGroupArr objectAtIndex:0]];
+    }
 }
 
 #pragma mark - Input Method

@@ -71,6 +71,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showNewMessageCountForTab) name:MessageCenterDidReceiveNewMessage object:nil];
     
     [self checkVersionForMore:NO];
+    [self requestSalePropertyConfig];
     
     return YES;
 }

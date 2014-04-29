@@ -67,6 +67,10 @@
 @property int uploadImg_houseTypeIndex; //上传图片时户型图数据所在整个图片上传队列中的位置
 @property (nonatomic, strong) UIView *photoBGView; //室内图预览底板
 
+@property (nonatomic, copy) NSString *property_ID; //房源ID
+@property (nonatomic, strong) NSArray *fixGroupArr; //定价房源定价组
+@property BOOL isBid; //是否为定价且竞价
+
 - (void)setTextFieldForProperty;
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount;
 - (void)setHouseTypeShowWithString:(NSString *)string; //设置房型文案
