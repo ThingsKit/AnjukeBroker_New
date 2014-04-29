@@ -51,8 +51,8 @@
     messageLabel.textColor = SYSTEM_BLACK;
     messageLabel.font = [UIFont systemFontOfSize:15];
     messageLabel.textAlignment = NSTextAlignmentLeft;
-    [messageLabel setNumberOfLines:0];
-    messageLabel.lineBreakMode = UILineBreakModeWordWrap;
+    [messageLabel setNumberOfLines:3];
+    messageLabel.lineBreakMode = UILineBreakModeWordWrap | UILineBreakModeTailTruncation;
     [self.contentView addSubview:messageLabel];
     
     UIImageView *phoneImgView = [[UIImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_PHONEICON, 13, 18, 18)];
@@ -113,12 +113,14 @@
     
     if (index == 1) {
         self.titleLb.frame = CGRectMake(CELL_OFFSET_TITLE, 32, 70, 20);
-        CGSize size = [Util_UI sizeOfString:item.markDesc maxWidth:DETAIL_LB_W withFontSize:15];
-        if (size.height > lbH) {
-            size.height = lbH;
-        }
-        
-        self.detailLab.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 8, DETAIL_LB_W, size.height );
+//        CGSize size = [Util_UI sizeOfString:item.markDesc maxWidth:DETAIL_LB_W withFontSize:15];
+//        if (size.height > lbH) {
+//            size.height = lbH;
+//        }
+//        
+//        self.detailLab.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 8, DETAIL_LB_W, size.height );
+        self.detailLab.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 8, DETAIL_LB_W, lbH);
+
     }
     
     if (!isBlankStyle) {
