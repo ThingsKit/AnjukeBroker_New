@@ -160,7 +160,7 @@
     for (int i = 0; i < 2; i ++) {
         //小区
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(0, i * CELL_HEIGHT, [self windowWidth], CELL_HEIGHT);
+        btn.frame = CGRectMake(0, 10+ i * CELL_HEIGHT, [self windowWidth], CELL_HEIGHT);
         btn.backgroundColor = [UIColor whiteColor];
         [btn addTarget:self action:@selector(buttonDidSelect:) forControlEvents:UIControlEventTouchUpInside];
         if (i == 0) {
@@ -170,6 +170,11 @@
             btn.tag = SELECT_BTN_TAG+1;
         }
         [self.view addSubview:btn];
+        
+        if (i == 0) {
+            BrokerLineView *line1 = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 0.5)];
+            [btn addSubview:line1];
+        }
         
         BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, btn.frame.size.height - BL_HEIGHT, btn.frame.size.width, BL_HEIGHT)];
         [btn addSubview:line];
@@ -219,7 +224,7 @@
 }
 
 - (void)drawFooter {
-    UIView *photoBGV = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*2 + PUBLISH_SECTION_HEIGHT, [self windowWidth], PUBLISH_SECTION_HEIGHT + PF_EMPTY_IMAGE_HEIGHT)];
+    UIView *photoBGV = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*2 + PUBLISH_SECTION_HEIGHT/2, [self windowWidth], PUBLISH_SECTION_HEIGHT + PF_EMPTY_IMAGE_HEIGHT)];
     photoBGV.backgroundColor = [UIColor clearColor];
     self.photoBGView = photoBGV; //预览图底板
     photoBGV.clipsToBounds = YES;

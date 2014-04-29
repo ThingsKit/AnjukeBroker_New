@@ -1097,40 +1097,41 @@ typedef enum {
 - (BOOL)checkUploadProperty {
     [self setTextFieldForProperty];
     
-    if ([self.property.rooms isEqualToString:@""]) {
-        [self showInfo:@"请选择户型，谢谢"];
+    if ([self.property.price length] == 0) {
+        [self showInfo:@"请填写价格"];
         return NO;
     }
     if ([self.property.area length] == 0) {
-        [self showInfo:@"请填写面积，谢谢"];
+        [self showInfo:@"请填写面积"];
         return NO;
     }
-    if ([self.property.price length] == 0) {
-        [self showInfo:@"请填写价格，谢谢"];
-        return NO;
-    }
-    if ([self.property.fitment isEqualToString:@""]) {
-        [self showInfo:@"请选择装修情况，谢谢"];
+    if ([self.property.rooms isEqualToString:@""]) {
+        [self showInfo:@"请选择户型（房型选项）"];
         return NO;
     }
     if ([self.property.exposure isEqualToString:@""]) {
-        [self showInfo:@"请选择朝向，谢谢"];
+        [self showInfo:@"请选择朝向（房型选项）"];
         return NO;
     }
+    
     if ([self.property.floor isEqualToString:@""]) {
-        [self showInfo:@"请选择楼层，谢谢"];
+        [self showInfo:@"请选择楼层"];
+        return NO;
+    }
+    if ([self.property.fitment isEqualToString:@""]) {
+        [self showInfo:@"请选择装修"];
         return NO;
     }
     if ([self.property.title isEqualToString:@""]) {
-        [self showInfo:@"请填写房源标题，谢谢"];
+        [self showInfo:@"请填写房源标题"];
         return NO;
     }
     if ([self.property.desc isEqualToString:@""]) {
-        [self showInfo:@"请填写房源详情，谢谢"];
+        [self showInfo:@"请填写房源描述"];
         return NO;
     }
     if ([self.property.comm_id isEqualToString:@""]) {
-        [self showInfo:@"请选择小区，谢谢"];
+        [self showInfo:@"请选择小区"];
         return NO;
     }
     
@@ -1157,7 +1158,7 @@ typedef enum {
         }
         
         if (self.property.minDownPay.length <= 0 || [self.property.minDownPay isEqualToString:@""]) {
-            [self showInfo:@"请填写最低首付，谢谢"];
+            [self showInfo:@"请填写最低首付"];
             return NO;
         }
         

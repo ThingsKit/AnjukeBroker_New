@@ -62,12 +62,16 @@
 
 - (void)initDisplay {
     UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
-    tv.backgroundColor = [UIColor clearColor];
+    tv.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
     tv.dataSource = self;
     tv.delegate = self;
     tv.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableViewList = tv;
     [self.view addSubview:tv];
+    
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 10)];
+    headView.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
+    tv.tableHeaderView = headView;
     
     [self addRightButton:@"保存" andPossibleTitle:nil];
 }
