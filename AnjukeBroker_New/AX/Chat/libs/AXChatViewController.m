@@ -255,6 +255,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [self fetchLastChatList];
     [self initBlock];
     [self initPullToRefresh];
+    self.previousTextViewContentHeight = 36;
     
 }
 
@@ -1513,18 +1514,13 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     BOOL isShrinking = textView.contentSize.height < self.previousTextViewContentHeight;
     CGFloat changeInHeight = textView.contentSize.height - self.previousTextViewContentHeight;
     
-    //ios6 下面，init文本框后初次点击文本框，textView.text.length = 1，textView.text为@" "。
-    if (!isShrinking && (self.previousTextViewContentHeight == maxHeight || textView.text.length == 0 || [textView.text isEqualToString:@" "])) {
+
+    if (!isShrinking && (self.previousTextViewContentHeight == maxHeight || textView.text.length == 0)) {
         changeInHeight = 0;
     }
     else {
-        if (textView.contentSize.height == 16) {
-            changeInHeight = 0;
-        }else{
-            changeInHeight = MIN(changeInHeight, maxHeight - self.previousTextViewContentHeight);
-        }
+        changeInHeight = MIN(changeInHeight, maxHeight - self.previousTextViewContentHeight);
     }
-    
     
     if (changeInHeight != 0.0f) {
         [UIView animateWithDuration:0.25f
