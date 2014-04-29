@@ -12,6 +12,7 @@
 #import "AXMappedPerson.h"
 #import "AXChatMessageCenter.h"
 #import "BrokerLineView.h"
+#import "Util_TEXT.h"
 
 #define INPUT_EDIT_TEXTVIEW_H 90
 #define lbH 20
@@ -331,6 +332,11 @@
     }
     if (self.messageTextV.text.length > 200) {
         [self showInfo:@"备注信息上限200个字"];
+        return NO;
+    }
+    
+    if (![Util_TEXT isNumber:self.telTextF.text]) {
+        [self showInfo:@"备注电话必须为数字"];
         return NO;
     }
     
