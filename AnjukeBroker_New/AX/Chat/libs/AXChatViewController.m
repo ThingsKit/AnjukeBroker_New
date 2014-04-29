@@ -352,7 +352,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     self.sendBut.backgroundColor = [UIColor clearColor];
     [self.sendBut addTarget:self action:@selector(didMoreBackView:) forControlEvents:UIControlEventTouchUpInside];
     [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateNormal];
-    [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more_selected.png"] forState:UIControlStateHighlighted];
+    [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more1.png"] forState:UIControlStateHighlighted];
     [self.messageInputView addSubview:self.sendBut];
     
     //最左侧的麦克风按钮
@@ -1930,6 +1930,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 }
 
 - (void)didEmojiButClick{
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_021 note:nil];
     [self initEmojiView];
     self.moreBackView.hidden = YES;
     //禁止手势
