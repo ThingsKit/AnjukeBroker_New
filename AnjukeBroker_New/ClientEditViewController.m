@@ -186,7 +186,7 @@
 
 #pragma mark -UITextViewDelegate
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-    float textConH = [Util_UI sizeOfString:textView.text maxWidth:170 withFontSize:15].height;
+    float textConH = [Util_UI sizeOfString:[textView.text stringByAppendingString:text] maxWidth:170 withFontSize:15].height;
     float TVIH = INPUT_EDIT_TEXTVIEW_H - 20;
     
     if (textConH <= TVIH) {
