@@ -33,7 +33,10 @@
     }
     return self;
 }
-
+#pragma mark - log
+- (void)sendAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:APP_LOGIN_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -164,6 +167,8 @@
 }
 
 - (void)pushToTab {
+    [[BrokerLogger sharedInstance] logWithActionCode:APP_LOGIN_003 note:nil];
+
     self.nameTF.text = @"";
     self.passwordTF.text = @"";
     
@@ -231,6 +236,8 @@
 #pragma mark - request method
 
 - (void)doRequest {
+    [[BrokerLogger sharedInstance] logWithActionCode:APP_LOGIN_002 note:nil];
+
     if (![self isNetworkOkay]) {
         return;
     }
@@ -301,6 +308,7 @@
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
     
+
     [self pushToTab];
     
     //每次重新登录请求配置数据

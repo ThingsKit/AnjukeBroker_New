@@ -12,5 +12,5 @@
 
 
 + (BrokerCallAlert *) sharedCallAlert;
-- (void)callAlert:(NSString *)alertStr callPhone:(NSString *)callPhone;
+- (void)callAlert:(NSString *)alertStr callPhone:(NSString *)callPhone appLogKey:(NSString *)appLogKey;
 @end

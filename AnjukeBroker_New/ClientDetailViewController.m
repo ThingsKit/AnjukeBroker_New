@@ -336,18 +336,21 @@
             return;
         }
         
-        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_008 note:nil];
-        
         if (self.person.markPhone.length <= 0) {
             return;
         }
+        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_008 note:nil];
         
         //make call
         NSString *markNameStr = self.person.markName ? self.person.markName : @"";
-        [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系%@：",markNameStr] callPhone:self.person.markPhone];
+        [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系%@：",markNameStr] callPhone:self.person.markPhone appLogKey:CLIENT_DETAIL_011];
     }else{
         [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_004 note:nil];
         
+        AXMappedPerson *item = (AXMappedPerson *)self.person;
+        if (item.markDesc && item.markDesc.length > 0) {
+            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_012 note:nil];
+        }
         //编辑
         ClientEditViewController *ce = [[ClientEditViewController alloc] init];
         ce.person = self.person;

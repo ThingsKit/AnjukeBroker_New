@@ -200,6 +200,11 @@
         NSString *result = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"result"]];
         if ([result isEqualToString:@"1"] || [result isEqualToString:@"0"]) {
             [self showInfo:@"修改成功"];
+            if (self.msgSw.on) {
+                [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_011 note:nil];
+            }else{
+                [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_010 note:nil];
+            }
         }else{
             self.msgSw.on = !self.msgSw.on;
             [self showInfo:@"修改失败"];
@@ -388,7 +393,7 @@
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_009 note:nil];
             
             //make call
-            [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER];
+            [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER appLogKey:HZ_MORE_013];
         }
             break;
         case CALL_CHECKVER:
@@ -405,7 +410,7 @@
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_008 note:nil];
             
             //make call
-            [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:[self.clientDic objectForKey:@"saleManagerTel"]];
+            [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:[self.clientDic objectForKey:@"saleManagerTel"]  appLogKey:HZ_MORE_012];
         }
             break;
         case ABOUT_US_ROW:
