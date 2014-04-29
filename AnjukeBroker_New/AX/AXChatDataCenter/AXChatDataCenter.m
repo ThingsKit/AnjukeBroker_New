@@ -625,6 +625,10 @@
         conversationListItem.friendUid = friendUID;
         conversationListItem.lastUpdateTime = [NSDate dateWithTimeIntervalSinceNow:0];
         conversationListItem.hasDraft = [NSNumber numberWithBool:YES];
+        //补充头像
+        AXMappedPerson *person = [self fetchPersonWithUID:friendUID];
+        conversationListItem.iconUrl = person.iconUrl;
+        conversationListItem.iconPath = person.iconPath;
     }
     conversationListItem.draftContent = content;
     [self.managedObjectContext save:NULL];
