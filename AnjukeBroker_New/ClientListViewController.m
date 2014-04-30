@@ -86,8 +86,12 @@
             [self dowloadFriendsIcon:friendList];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.testArr = [NSArray arrayWithArray:friendList];
-                [self redrawList];
+                if ([self.testArr count] == 0) {
+                    self.testArr = [NSArray arrayWithArray:friendList];
+                    [self redrawList];
+                }else {
+                    [self hideLoadWithAnimated:YES];
+                }
             });
         }
     }];
@@ -95,7 +99,7 @@
 
 - (void)dowloadFriendsIcon:(NSArray *)friendsArray {
     for (AXMappedPerson *person in friendsArray) {
-        if (person.iconUrl) {
+        if (person.iconUrl && person.isIconDownloaded == NO) {
             [self.downloader dowloadIMGWithImgURLToLibrary:person.iconUrl identify:person.uid successBlock:^(BrokerResponder *response) {
                 if (response.statusCode == 2) {
                     AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:response.identify];
