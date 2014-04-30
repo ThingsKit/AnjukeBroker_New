@@ -146,7 +146,7 @@
             self.noteLabTit.font = [UIFont systemFontOfSize:15];
             [self.noteView addSubview:self.noteLabTit];
 
-            self.messageTextV = [[UITextView alloc] initWithFrame:CGRectMake(self.noteLabTit.frame.origin.x + self.noteLabTit.frame.size.width + 15, 5, 180, inputViewH+10)];
+            self.messageTextV = [[UITextView alloc] initWithFrame:CGRectMake(self.noteLabTit.frame.origin.x + self.noteLabTit.frame.size.width + 15, 5, 185, inputViewH+10)];
             self.messageTextV.backgroundColor = [UIColor clearColor];
             self.messageTextV.font = self.noteLabTit.font;
             self.messageTextV.textColor = SYSTEM_BLACK;

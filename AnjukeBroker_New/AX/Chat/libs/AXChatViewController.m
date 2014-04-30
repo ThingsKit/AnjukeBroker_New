@@ -1515,13 +1515,22 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     CGFloat changeInHeight = textView.contentSize.height - self.previousTextViewContentHeight;
     
 
-    if (!isShrinking && (self.previousTextViewContentHeight == maxHeight || textView.text.length == 0)) {
+//    if (!isShrinking && (self.previousTextViewContentHeight == maxHeight || textView.text.length == 0)) {
+//        changeInHeight = 0;
+//    }
+//    else {
+//        changeInHeight = MIN(changeInHeight, maxHeight - self.previousTextViewContentHeight);
+//    }
+    if (!isShrinking && (self.previousTextViewContentHeight == maxHeight || textView.text.length == 0 || [textView.text isEqualToString:@" "])) {
         changeInHeight = 0;
     }
     else {
-        changeInHeight = MIN(changeInHeight, maxHeight - self.previousTextViewContentHeight);
+        if (textView.contentSize.height == 16) {
+            changeInHeight = 0;
+        }else{
+            changeInHeight = MIN(changeInHeight, maxHeight - self.previousTextViewContentHeight);
+        }
     }
-    
     if (changeInHeight != 0.0f) {
         [UIView animateWithDuration:0.25f
                          animations:^{
