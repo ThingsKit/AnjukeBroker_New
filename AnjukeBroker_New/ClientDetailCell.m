@@ -109,16 +109,11 @@
         self.detailLab.hidden = YES;
         self.phoneIcon.hidden = YES;
     }
-    self.detailLab.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 5, DETAIL_LB_W, lbH );
+    self.detailLab.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 7, DETAIL_LB_W, lbH );
     
     if (index == 1) {
         self.titleLb.frame = CGRectMake(CELL_OFFSET_TITLE, 32, 70, 20);
-//        CGSize size = [Util_UI sizeOfString:item.markDesc maxWidth:DETAIL_LB_W withFontSize:15];
-//        if (size.height > lbH) {
-//            size.height = lbH;
-//        }
-//        
-//        self.detailLab.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 8, DETAIL_LB_W, size.height );
+
         self.detailLab.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 8, DETAIL_LB_W, lbH);
 
     }
@@ -130,12 +125,16 @@
                 self.detailLab.hidden = NO;
                 self.phoneIcon.hidden = NO;
             }else{
-                self.detailLab.hidden = YES;
+                self.detailLab.text = @"暂无";
+                self.detailLab.hidden = NO;
                 self.phoneIcon.hidden = YES;
             }
         }
         else
-            self.detailLab.text = item.markDesc;
+            if (item.markDesc && item.markDesc.length > 0) {
+                self.detailLab.text = item.markDesc;
+            }else
+                self.detailLab.text = @"暂无";
     }
     
     return YES;
