@@ -123,7 +123,8 @@
     self.iconImage = icon;
     if (self.person.iconUrl.length > 0) {
         if (self.person.isIconDownloaded) {
-            icon.image = [UIImage imageWithContentsOfFile:self.person.iconPath];
+            NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+            icon.image = [[UIImage alloc] initWithContentsOfFile:[libraryPath stringByAppendingPathComponent:self.person.iconPath]];
         }
         else
             icon.imageUrl = self.person.iconUrl;
