@@ -15,6 +15,7 @@
 #import "BrokerChatViewController.h"
 #import "AccountManager.h"
 #import "AppDelegate.h"
+#import "IMGDowloaderManager.h"
 
 @interface ClientListViewController ()
 
@@ -30,6 +31,7 @@
 @property (nonatomic, strong) NSMutableArray *contactKeyArr;
 
 @property (nonatomic, strong) NSMutableArray *sectionTitleArr;
+@property (nonatomic, strong) IMGDowloaderManager *downloader;
 
 @end
 
@@ -42,6 +44,13 @@
         // Custom initialization
     }
     return self;
+}
+
+- (IMGDowloaderManager *)downloader {
+    if (_downloader == nil) {
+        _downloader = [[IMGDowloaderManager alloc] init];
+    }
+    return _downloader;
 }
 
 - (void)viewDidLoad
@@ -74,6 +83,7 @@
     [[AXChatMessageCenter defaultMessageCenter] friendListWithPersonWithCompeletionBlock:^(NSArray *friendList, BOOL whetherSuccess) {
         if (whetherSuccess) {
 //            [self hideLoadWithAnimated:YES];
+            [self dowloadFriendsIcon:friendList];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.testArr = [NSArray arrayWithArray:friendList];
@@ -81,6 +91,24 @@
             });
         }
     }];
+}
+
+- (void)dowloadFriendsIcon:(NSArray *)friendsArray {
+    for (AXMappedPerson *person in friendsArray) {
+        if (person.iconUrl) {
+            [self.downloader dowloadIMGWithImgURLToLibrary:person.iconUrl identify:person.uid successBlock:^(BrokerResponder *response) {
+                if (response.statusCode == 2) {
+                    AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:response.identify];
+                    //                person.iconUrl = [LoginManager getUse_photo_url];
+                    person.iconPath = [[response.imgPath componentsSeparatedByString:@"/"] lastObject];
+                    person.isIconDownloaded = YES;
+                    [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
+                }
+            } fialedBlock:^(BrokerResponder *response) {
+                
+            }];
+        }
+    }
 }
 
 #pragma mark - log

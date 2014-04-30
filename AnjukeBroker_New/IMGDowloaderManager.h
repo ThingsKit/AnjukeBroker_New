@@ -18,5 +18,5 @@
 
 - (void)cancelAllRequest;
 - (void)dowloadIMGWithImgURL:(NSString *)url identify:(NSString *) identify successBlock:(void(^)(BrokerResponder *))successBlock fialedBlock:(void(^)(BrokerResponder *))failedBlock;
-
+- (void)dowloadIMGWithImgURLToLibrary:(NSString *)url identify:(NSString *) identify successBlock:(void(^)(BrokerResponder *))successBlock fialedBlock:(void(^)(BrokerResponder *))failedBlock;
 @end

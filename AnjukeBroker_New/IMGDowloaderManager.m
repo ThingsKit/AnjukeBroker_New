@@ -44,6 +44,17 @@
     [self.requestQueue addOperation:requestOperation];
 }
 
+- (void)dowloadIMGWithImgURLToLibrary:(NSString *)url identify:(NSString *) identify successBlock:(void(^)(BrokerResponder *))successBlock fialedBlock:(void(^)(BrokerResponder *))failedBlock{
+    self.successBlock = successBlock;
+    self.faildBlock = failedBlock;
+    IMGDownloaderOperation *requestOperation = [[IMGDownloaderOperation alloc] init];
+    requestOperation.requestString = url;
+    requestOperation.delegate = self;
+    requestOperation.identify = identify;
+    requestOperation.filePath = [self libraryImgPath:url identify:identify];
+    [self.requestQueue addOperation:requestOperation];
+}
+
 - (NSString *)componentOfImgPath:(NSString *)urlString identify:(NSString *) identfy{
    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *tempForderArray = [urlString componentsSeparatedByString:@"/"];
@@ -54,6 +65,19 @@
     NSString *forderPath = [libraryPath stringByAppendingPathComponent:@"tempImgForder"];
     NSString *fileNamePath = [forderPath stringByAppendingPathComponent:fileNameWithoutExt];
     NSString *filePath = [fileNamePath stringByAppendingPathExtension:fileExtention];
+    if ([fileManager fileExistsAtPath:filePath]) {
+        [fileManager removeItemAtPath:filePath error:nil];
+    }else {
+        [fileManager createDirectoryAtPath:filePath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    return filePath;
+}
+
+- (NSString *)libraryImgPath:(NSString *)urlString identify:(NSString *)identify {
+     NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *forderPath = [libraryPath stringByAppendingPathComponent:identify];
+    NSString *filePath = [forderPath stringByAppendingPathExtension:[[[[urlString componentsSeparatedByString:@"/"] lastObject] componentsSeparatedByString:@"."] lastObject]];
     if ([fileManager fileExistsAtPath:filePath]) {
         [fileManager removeItemAtPath:filePath error:nil];
     }else {
