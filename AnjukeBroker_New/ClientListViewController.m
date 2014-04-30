@@ -252,12 +252,10 @@
     }
     for (int i = 0; i < arr.count; i ++) {
         AXMappedPerson *person = [arr objectAtIndex:i];
-        unichar begin;
         if (person.markNamePinyin.length > 0) {
             [dic setValue:person forKey:person.markNamePinyin];
         }
         else  if (person.namePinyin.length > 0) {
-            begin = [person.namePinyin characterAtIndex:0];
             [dic setValue:person forKey:person.namePinyin];
         }
         else
