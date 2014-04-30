@@ -267,12 +267,10 @@
                         name = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
                     }else if ([name isEqualToString:@"(null)"]) {
                         name = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
-                    }else{
-                        name = @"作作作作作作作作作作";
                     }
                 }
             }else
-                name = @"作作作作作作作作作作";
+                name = @"ZZZZZZZZZZZZ";
         }else if(person.namePinyin.length > 0){
             begin = [person.namePinyin characterAtIndex:0];
             if ((begin >= 'A' && begin <= 'Z') || (begin >= 'a' && begin <= 'z')) {
@@ -285,18 +283,16 @@
                         name = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
                     }else if ([name isEqualToString:@"(null)"]) {
                         name = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
-                    }else{
-                        name = @"作作作作作作作作作作";
                     }
                 }
             }else
-                name = @"作作作作作作作作作作";
+                name = @"ZZZZZZZZZZZZ";
         }else
-            name = @"作作作作作作作作作作";
+            name = @"ZZZZZZZZZZZZ";
 
         for (NSString *keyer in [dic allKeys]){
             if ([name isEqualToString:keyer]) {
-                name = [name stringByAppendingString:@"作"];
+                name = [name stringByAppendingString:@"Z"];
             }
         }
         [dic setValue:person forKey:name];
