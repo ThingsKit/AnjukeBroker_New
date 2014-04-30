@@ -180,8 +180,7 @@
     }];
 }
 - (void)keyboardWillHide:(NSNotification *)notification{
-    self.editeScroll.frame = CGRectMake(0, 0, [self windowWidth], [self windowHeight]);
-    self.editeScroll.contentSize = self.editeScroll.contentSize = CGSizeMake([self windowWidth], [self windowHeight]);
+    self.editeScroll.frame = CGRectMake(0, 0, [self windowWidth], [self windowHeight] -64);
 }
 
 #pragma mark -UITextViewDelegate
