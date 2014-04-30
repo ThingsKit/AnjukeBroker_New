@@ -164,22 +164,6 @@
     }
     
     //非公共账号处理
-    NSArray *star_arr = [NSArray arrayWithArray:self.testArr];
-    
-    for (int i = 0; i < star_arr.count; i ++) {
-        if ([(AXMappedPerson *)[star_arr objectAtIndex:i] userType] == AXPersonTypeUser) {
-            if ([(AXMappedPerson *)[star_arr objectAtIndex:i] isStar] == YES) {
-                [self.starDataArr addObject:[star_arr objectAtIndex:i]]; //星标用户
-            }
-        }
-    }
-    
-    self.starDataArr = [[NSMutableArray alloc] initWithArray:[self arrSort:self.starDataArr]];
-    
-    //add 3 arr to list data att
-    [self.listDataArray addObject:self.publicDataArr];
-    [self.listDataArray addObject:self.starDataArr];
-    
     //遍历并字母排序联系人数据
     self.contactsDictionary = [NSMutableDictionary dictionary];
     
@@ -230,6 +214,19 @@
     }
     DLog(@"---contactsDictionary---[%@]", self.contactKeyArr);
     
+    //标星数据排序
+    for (int i = 0; i < self.contactKeyArr.count; i++) {
+        NSArray *objectArr = [[self.contactKeyArr objectAtIndex:i] objectForKey:@"objects"];
+        for (int j = 0; j < objectArr.count; j++) {
+            if ([(AXMappedPerson *)[objectArr objectAtIndex:j] isStar] == YES) {
+                [self.starDataArr addObject:[objectArr objectAtIndex:j]];
+            }
+        }
+    }
+    //add 3 arr to list data att
+    [self.listDataArray addObject:self.publicDataArr];
+    [self.listDataArray addObject:self.starDataArr];
+
     //get section title
     [self.sectionTitleArr addObject:@""]; //公共section
     if (self.starDataArr.count > 0) {
