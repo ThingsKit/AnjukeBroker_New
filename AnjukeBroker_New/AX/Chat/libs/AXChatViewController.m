@@ -348,7 +348,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 - (void)initPrivateButtons {
     //最右侧的加号按钮
     self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.sendBut.frame = CGRectMake(ScreenWidth - 35, 10.0f, 30, 30);
+    self.sendBut.frame = CGRectMake(ScreenWidth - 35, 10.0f, 28, 29);
     self.sendBut.backgroundColor = [UIColor clearColor];
     [self.sendBut addTarget:self action:@selector(didMoreBackView:) forControlEvents:UIControlEventTouchUpInside];
     [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateNormal];
@@ -357,7 +357,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     
     //最左侧的麦克风按钮
     self.voiceBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.voiceBut.frame = CGRectMake(2.0f + 4.0f, 10.0f, 30, 30);
+    self.voiceBut.frame = CGRectMake(2.0f + 4.0f, 10.0f, 28, 29);
     [self.voiceBut addTarget:self action:@selector(speeking) forControlEvents:UIControlEventTouchDown];
     [self.voiceBut setBackgroundImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
     [self.voiceBut setBackgroundImage:[UIImage imageNamed:SpeekImgNameVoiceHighlight] forState:UIControlStateHighlighted];
@@ -394,7 +394,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     
     //表情按钮
     self.emojiBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.emojiBut.frame = CGRectMake(ScreenWidth - 36*2, 10.0f, 30, 30);
+    self.emojiBut.frame = CGRectMake(ScreenWidth - 36*2, 10.0f, 28, 29);
     [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgName] forState:UIControlStateNormal];
     [self.emojiBut setBackgroundImage:[UIImage imageNamed:EmojiImgNameHighlight] forState:UIControlStateHighlighted];
     self.emojiBut.backgroundColor = [UIColor clearColor];
