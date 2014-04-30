@@ -128,11 +128,14 @@
             }
             [self.editeScroll addSubview:bi];
         }else {
-            float noteDesH = [Util_UI sizeOfString:self.person.markDesc maxWidth:170 withFontSize:15].height;
+            float noteDesH = [Util_UI sizeOfString:self.person.markDesc maxWidth:200 withFontSize:15].height;
             if (noteDesH < INPUT_EDIT_TEXTVIEW_H - 20) {
                 inputViewH = INPUT_EDIT_TEXTVIEW_H;
             }else{
                 inputViewH = noteDesH+20;
+            }
+            if (inputViewH + INPUT_EDIT_TEXTVIEW_H + 40 > [self windowHeight]-64) {
+                self.editeScroll.contentSize = CGSizeMake([self windowWidth], inputViewH + INPUT_EDIT_TEXTVIEW_H + 40);
             }
             
             self.noteView = [[UIView alloc] initWithFrame:CGRectMake(0, INPUT_EDIT_VIEW_H*2+20, [self windowWidth], inputViewH)];
@@ -146,7 +149,7 @@
             self.noteLabTit.font = [UIFont systemFontOfSize:15];
             [self.noteView addSubview:self.noteLabTit];
 
-            self.messageTextV = [[UITextView alloc] initWithFrame:CGRectMake(self.noteLabTit.frame.origin.x + self.noteLabTit.frame.size.width + 15, 5, 185, inputViewH+10)];
+            self.messageTextV = [[UITextView alloc] initWithFrame:CGRectMake(self.noteLabTit.frame.origin.x + self.noteLabTit.frame.size.width + 12, 5, 215, inputViewH+10)];
             self.messageTextV.backgroundColor = [UIColor clearColor];
             self.messageTextV.font = self.noteLabTit.font;
             self.messageTextV.textColor = SYSTEM_BLACK;
@@ -169,7 +172,7 @@
     NSDictionary *info = [notification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     
-    float conTH = [Util_UI sizeOfString:self.messageTextV.text maxWidth:170 withFontSize:15].height + 20 + INPUT_EDIT_TEXTVIEW_H + 10;
+    float conTH = [Util_UI sizeOfString:self.messageTextV.text maxWidth:200 withFontSize:15].height + 20 + INPUT_EDIT_TEXTVIEW_H + 10;
     if (conTH < [self windowHeight]- kbSize.height - 64) {
         conTH = [self windowHeight]- kbSize.height - 64;
     }
@@ -185,7 +188,7 @@
 
 #pragma mark -UITextViewDelegate
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-    float textConH = [Util_UI sizeOfString:[textView.text stringByAppendingString:text] maxWidth:170 withFontSize:15].height;
+    float textConH = [Util_UI sizeOfString:[textView.text stringByAppendingString:text] maxWidth:200 withFontSize:15].height;
     float TVIH = INPUT_EDIT_TEXTVIEW_H - 20;
     
     if (textConH <= TVIH) {

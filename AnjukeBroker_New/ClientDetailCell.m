@@ -109,12 +109,12 @@
         self.detailLab.hidden = YES;
         self.phoneIcon.hidden = YES;
     }
-    self.detailLab.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 7, DETAIL_LB_W, lbH );
+    self.detailLab.frame = CGRectMake(92, 7, DETAIL_LB_W, lbH );
     
     if (index == 1) {
         self.titleLb.frame = CGRectMake(CELL_OFFSET_TITLE, 32, 70, 20);
 
-        self.detailLab.frame = CGRectMake(self.titleLb.frame.origin.x + 70+ CELL_OFFSET_TITLE, 8, DETAIL_LB_W, lbH);
+        self.detailLab.frame = CGRectMake(92, 8, DETAIL_LB_W, lbH);
 
     }
     

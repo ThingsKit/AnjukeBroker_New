@@ -252,26 +252,60 @@
     }
     for (int i = 0; i < arr.count; i ++) {
         AXMappedPerson *person = [arr objectAtIndex:i];
+        unichar begin;
+        NSString *name;
+        
         if (person.markNamePinyin.length > 0) {
-            [dic setValue:person forKey:person.markNamePinyin];
+            begin = [person.markNamePinyin characterAtIndex:0];
+            if ((begin >= 'A' && begin <= 'Z') || (begin >= 'a' && begin <= 'z')) {
+                if (person.markName.length > 0) {
+                    name = person.markName;
+                }
+                else {
+                    name = person.name;
+                    if ([person.name isEqualToString:person.phone] || person.name.length == 0) {
+                        name = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
+                    }else if ([name isEqualToString:@"(null)"]) {
+                        name = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
+                    }else{
+                        name = @"作作作作作作作作作作";
+                    }
+                }
+            }else
+                name = @"作作作作作作作作作作";
+        }else if(person.namePinyin.length > 0){
+            begin = [person.namePinyin characterAtIndex:0];
+            if ((begin >= 'A' && begin <= 'Z') || (begin >= 'a' && begin <= 'z')) {
+                if (person.markName.length > 0) {
+                    name = person.markName;
+                }
+                else {
+                    name = person.name;
+                    if ([person.name isEqualToString:person.phone] || person.name.length == 0) {
+                        name = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
+                    }else if ([name isEqualToString:@"(null)"]) {
+                        name = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
+                    }else{
+                        name = @"作作作作作作作作作作";
+                    }
+                }
+            }else
+                name = @"作作作作作作作作作作";
+        }else
+            name = @"作作作作作作作作作作";
+
+        for (NSString *keyer in [dic allKeys]){
+            if ([name isEqualToString:keyer]) {
+                name = [name stringByAppendingString:@"作"];
+            }
         }
-        else  if (person.namePinyin.length > 0) {
-            [dic setValue:person forKey:person.namePinyin];
-        }
-        else
-            [dic setValue:person forKey:@"#"];
+        [dic setValue:person forKey:name];
     }
     
-    NSArray *keys = [[dic allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        if ([obj1 isEqualToString:@"#"]) {
-            return NSOrderedDescending;
-        }
-        if ([obj2 isEqualToString:@"#"]) {
-            return NSOrderedAscending;
-        }
-        return [obj1 compare:obj2];
-    }];
-    for (NSString *key in keys) {
+    NSMutableArray *keyArr = [[NSMutableArray alloc] initWithArray:[dic allKeys]];
+    [keyArr sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    
+    for (NSString *key in keyArr) {
         [sortArr addObject:dic[key]];
     }
     return sortArr;

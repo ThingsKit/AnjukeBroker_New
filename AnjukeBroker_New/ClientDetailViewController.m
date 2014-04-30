@@ -66,7 +66,7 @@
     else
         [self resetButtonItemView:[UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"]];
     
-    self.navigationItem.rightBarButtonItems = @[moreItem, startItem];
+    self.navigationItem.rightBarButtonItems = @[moreItem,[UIBarButtonItem getBarSpace:10.0], startItem];
 }
 - (void)resetButtonItemView:(UIImage *)img{
     UIButton *btn = (UIButton *)self.startItem.customView;
