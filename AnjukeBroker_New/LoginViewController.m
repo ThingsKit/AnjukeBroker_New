@@ -177,8 +177,9 @@
     [self.navigationController pushViewController:tb animated:NO];
 }
 
-- (void)doLogOut { //清楚token，返回Home
+- (void)doLogOut { //清除token，返回Home
     [LoginManager doLogout];
+    [self dismissModalViewControllerAnimated:YES];
     [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
