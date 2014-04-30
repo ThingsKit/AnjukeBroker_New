@@ -254,30 +254,11 @@
         AXMappedPerson *person = [arr objectAtIndex:i];
         unichar begin;
         if (person.markNamePinyin.length > 0) {
-            begin = [person.markNamePinyin characterAtIndex:0];
-            
-            if (begin >= 'A' && begin <= 'Z') {
-                NSString *beginString = [person.markNamePinyin substringToIndex:1];
-                [dic setValue:person forKey:beginString];
-            } else if (begin >= 'a' && begin <= 'z') {
-                NSString *beginString = [person.markNamePinyin substringToIndex:1];
-                [dic setValue:person forKey:[beginString uppercaseString]];
-            } else {
-                [dic setValue:person forKey:@"#"];
-            }
+            [dic setValue:person forKey:person.markNamePinyin];
         }
         else  if (person.namePinyin.length > 0) {
             begin = [person.namePinyin characterAtIndex:0];
-            
-            if (begin >= 'A' && begin <= 'Z') {
-                NSString *beginString = [person.namePinyin substringToIndex:1];
-                [dic setValue:person forKey:beginString];
-            } else if (begin >= 'a' && begin <= 'z') {
-                NSString *beginString = [person.namePinyin substringToIndex:1];
-                [dic setValue:person forKey:[beginString uppercaseString]];
-            } else {
-                [dic setValue:person forKey:@"#"];
-            }
+            [dic setValue:person forKey:person.namePinyin];
         }
         else
             [dic setValue:person forKey:@"#"];
@@ -297,6 +278,7 @@
     }
     return sortArr;
 }
+
 - (void)insertPerson:(AXMappedPerson *)person withPinyinBeginWithLetter:(NSString *)letterStr intoDictionary:(NSMutableDictionary *)dic {
     NSMutableArray *arr = nil;
     if (!dic[letterStr]) {
