@@ -276,10 +276,8 @@
                              @"is_star":isStar,
                              @"relation_cate_id":@"0",
                              @"mark_name":self.person.markName ? self.person.markName:@"",
-                             @"mark_phone":self.person.phone ? self.person.phone:@"",
+                             @"mark_phone":self.person.markPhone ? self.person.markPhone:@"",
                              @"mark_desc":self.person.markDesc ? self.person.markDesc:@""};
-    //[NSMutableDictionary dictionaryWithObjectsAndKeys: self.person.uid ,@"to_uid" , isStar, @"is_star", @"0" ,@"relation_cate_id", self.person.markName ,@"mark_name", self.person.markPhone, @"mark_phone", self.person.markDesc, @"mark_desc",  nil];
-    
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:methodName params:params target:self action:@selector(onGetData:)];
 }
 
