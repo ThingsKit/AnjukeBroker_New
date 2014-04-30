@@ -62,7 +62,7 @@
     return filePath;
 }
 
-- (NSString *)unicString {
+- (NSString *)uniqString {
     CFUUIDRef uuidObj = CFUUIDCreate(kCFAllocatorDefault);
     CFStringRef strRef = CFUUIDCreateString(kCFAllocatorDefault, uuidObj);
     NSString *uuidString = [NSString stringWithString:(NSString*)CFBridgingRelease(strRef)];

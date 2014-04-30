@@ -8,9 +8,6 @@
 
 #import "IMGDownloaderOperation.h"
 
-#define RT_MIN_REQUESTID 1
-#define RT_MAX_REQUESTID UINT_MAX 
-
 @implementation IMGDownloaderOperation
 
 - (id)init
@@ -33,20 +30,17 @@
 
 - (void)main
 {
-    if (++_requestID >= RT_MAX_REQUESTID)
-        _requestID = RT_MIN_REQUESTID;
-    
-    NSURL *url = [NSURL URLWithString:self.requestString];
-    self.networkRequest = [ASIHTTPRequest requestWithURL:url];
-    //当request完成时，整个文件会被移动到这里
-    [self.networkRequest setDownloadDestinationPath:self.filePath];
-    //这个文件已经被下载了一部分
-    [self.networkRequest setTemporaryFileDownloadPath:[NSString stringWithFormat:@"%@.download", self.filePath]];
-    [self.networkRequest setAllowResumeForFileDownloads:YES];//yes表示支持断点续传
-    self.networkRequest.delegate = self;
-    [self.networkRequest startAsynchronous];
-    
-
+    if (!self.isCancelled) {
+        NSURL *url = [NSURL URLWithString:self.requestString];
+        self.networkRequest = [ASIHTTPRequest requestWithURL:url];
+        //当request完成时，整个文件会被移动到这里
+        [self.networkRequest setDownloadDestinationPath:self.filePath];
+        //这个文件已经被下载了一部分
+        [self.networkRequest setTemporaryFileDownloadPath:[NSString stringWithFormat:@"%@.download", self.filePath]];
+        [self.networkRequest setAllowResumeForFileDownloads:YES];//yes表示支持断点续传
+        self.networkRequest.delegate = self;
+        [self.networkRequest startAsynchronous];
+    }
 }
 
 - (void)cancel

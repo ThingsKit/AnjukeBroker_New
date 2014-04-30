@@ -102,8 +102,7 @@ NSInteger const kRetryTag = 101;
     self.avatarButton.frame = self.avatar.frame;
     
     if (self.person.isIconDownloaded == NO) {
-        [self.avatar setImageUrl:self.person.iconUrl];
-//        [self.avatar setImageWithURL:[NSURL URLWithString:self.person.iconUrl] placeholderImage:[UIImage axChatDefaultAvatar:NO]];
+        [self.avatar setImage:[UIImage axChatDefaultAvatar:NO]];
     } else {
         NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
         self.avatar.image = [[UIImage alloc] initWithContentsOfFile:[libraryPath stringByAppendingPathComponent:self.person.iconPath]];

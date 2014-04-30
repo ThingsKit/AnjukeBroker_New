@@ -227,6 +227,11 @@
     
 }
 
+- (void)dealloc {
+    [_iFlySpeechRecognizer stopListening];
+    _iFlySpeechRecognizer.delegate = nil;
+    self.textFieldModifyDelegate = nil;
+}
 - (void)initDisplay {
     wordNum = [[UILabel alloc] initWithFrame:CGRectZero];
     wordNum.backgroundColor = [UIColor clearColor];
@@ -383,7 +388,7 @@
         }
     }
     
-    if ([self.textFieldModifyDelegate respondsToSelector:@selector(textDidInput:isTitle:)]) {
+    if (self.textFieldModifyDelegate && [self.textFieldModifyDelegate respondsToSelector:@selector(textDidInput:isTitle:)]) {
         if ([self.textV.text isEqualToString:placeHolder]) {
             [self.textFieldModifyDelegate textDidInput:@"" isTitle:self.isTitle];
         }else{
