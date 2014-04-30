@@ -306,7 +306,12 @@
         [self doBack:self];
     }
     else {
-        [self showInfo:@"备注信息更新失败，请再试一次"];
+        if ([[resultFromAPI objectForKey:@"status"] isEqualToString:@"ERROR"]) {
+            [self showInfo:[response.content objectForKey:@"errorMessage"]];
+        }else {
+            [self showInfo:@"修改失败"];
+        }
+        
     }
     
 }
