@@ -63,6 +63,7 @@
     _textView.layer.borderWidth = 0.65f;
     _textView.layer.cornerRadius = 6.0f;
     _textView.returnKeyType = UIReturnKeySend;
+    _textView.contentInset = UIEdgeInsetsMake(-3.0f, 0.0f, -1.0f, 0.0f);
     
     self.lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 1)];
     self.lineView.backgroundColor = [UIColor axChatInputBorderColor:self.isBroker];
@@ -170,9 +171,9 @@
                        options:NSKeyValueObservingOptionNew
                        context:nil];
 
-    self.textView.contentInset = UIEdgeInsetsMake((numLines >= 5 ? 4.0f : 0.0f),
+    self.textView.contentInset = UIEdgeInsetsMake((numLines >= 5 ? 4.0f : -3.0f),
                                                   0.0f,
-                                                  (numLines >= 5 ? 4.0f : 0.0f),
+                                                  (numLines >= 5 ? 4.0f : -1.0f),
                                                   0.0f);
     
     // from iOS 7, the content size will be accurate only if the scrolling is enabled.
