@@ -86,12 +86,12 @@
             [self dowloadFriendsIcon:friendList];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                if ([self.testArr count] == 0) {
+//                if ([self.testArr count] == 0) {
                     self.testArr = [NSArray arrayWithArray:friendList];
                     [self redrawList];
-                }else {
-                    [self hideLoadWithAnimated:YES];
-                }
+//                }else {
+//                    [self hideLoadWithAnimated:YES];
+//                }
             });
         }
     }];
