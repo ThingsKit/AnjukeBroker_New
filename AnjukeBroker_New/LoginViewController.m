@@ -37,6 +37,11 @@
 - (void)sendAppearLog {
     [[BrokerLogger sharedInstance] logWithActionCode:APP_LOGIN_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
+-(void) sendDisAppearLog
+{
+    [[BrokerLogger sharedInstance] logWithActionCode:APP_LOGIN_004 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
