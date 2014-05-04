@@ -140,7 +140,9 @@ typedef enum {
             }
             else {
                 hideBtn.frame = CGRectMake(btnOriginX + [self getWindowWidth] * (imgArray.count - 1), [self getWindowHeight]-btnH-130, btnW, btnH);
-                [hideBtn setBackgroundColor:SYSTEM_TABBAR_SELECTCOLOR_DARK];
+//                [hideBtn setBackgroundColor:SYSTEM_TABBAR_SELECTCOLOR_DARK];
+                [hideBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
+                [hideBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button_press.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
                 hideBtn.layer.cornerRadius = 3;
                 [hideBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 [hideBtn setTitle:@"立 即 体 验" forState:UIControlStateNormal];

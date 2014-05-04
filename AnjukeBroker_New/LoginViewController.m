@@ -33,14 +33,6 @@
     }
     return self;
 }
-#pragma mark - log
-- (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:APP_LOGIN_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-}
--(void) sendDisAppearLog
-{
-    [[BrokerLogger sharedInstance] logWithActionCode:APP_LOGIN_004 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
-}
 
 - (void)viewDidLoad
 {
@@ -59,6 +51,16 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - log
+
+- (void)sendAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:APP_LOGIN_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+- (void) sendDisAppearLog
+{
+    [[BrokerLogger sharedInstance] logWithActionCode:APP_LOGIN_004 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
 }
 
 #pragma mark - private method
@@ -93,16 +95,13 @@
     UIColor *textBGColor = [Util_UI colorWithHexString:@"EFEFF4"];
     
     UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_60.png"]];
-    icon.frame = CGRectMake(iconGap, 70+70+40, iconW, iconW);
     icon.backgroundColor = [UIColor clearColor];
     icon.contentMode = UIViewContentModeScaleAspectFill;
     icon.layer.cornerRadius = 5;
-    icon.alpha = 0;
     [lv addSubview:icon];
     
     UIView *textFieldView = [[UIView alloc] initWithFrame:CGRectMake(btnGap, 150+ 10,  btnW, btnH*2+1)];
     textFieldView.backgroundColor = textBGColor;
-    textFieldView.alpha = 0;
     [lv addSubview:textFieldView];
     
     UITextField *cellTextField = nil;
@@ -150,22 +149,28 @@
     [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
     [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
     btn.layer.cornerRadius = 3;
-    btn.alpha = 0;
     [btn setTitle:@"登    录" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(doRequest) forControlEvents:UIControlEventTouchUpInside];
     [lv addSubview:btn];
     
-    [UIView animateWithDuration:1.2 animations:^{
+    icon.frame = CGRectMake(iconGap, 70+70, iconW, iconW);
+    icon.alpha = 0.5;
+    
+    textFieldView.alpha = 0.0;
+    btn.alpha = 0.0;
+    
+    [UIView animateWithDuration:0.8 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         icon.frame = CGRectMake(iconGap, 70, iconW, iconW);
         icon.alpha = 1.0;
     } completion:^(BOOL finished) {
     }];
-
-    [UIView animateWithDuration:1.2 delay:0.6 options:UIViewAnimationOptionCurveEaseIn animations:^{
+    
+    [UIView animateWithDuration:0.8 delay:0.8 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         textFieldView.alpha = 1.0;
     } completion:^(BOOL finished) {
     }];
-    [UIView animateWithDuration:1.0 delay:1.2 options:UIViewAnimationOptionCurveEaseIn animations:^{
+    
+    [UIView animateWithDuration:0.8 delay:0.9 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         btn.alpha = 1.0;
     } completion:^(BOOL finished) {
     }];
