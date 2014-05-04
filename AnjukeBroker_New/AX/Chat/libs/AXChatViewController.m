@@ -1360,13 +1360,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 #pragma mark - AXChatMessageRootCellDelegate
 - (void)deleteAXCell:(AXChatMessageRootCell *)axCell
 {
-    
-   
     if (![axCell isKindOfClass:[AXChatMessageRootCell class]]) {
         return;
-    }
-    if ([axCell isKindOfClass:[AXChatMessageVoiceCell class]]) {
-        [self cancelKKAudioPlaying];
     }
     NSIndexPath *indexPath = [self.myTableView indexPathForCell:axCell];
     NSInteger preRow = indexPath.row - 1;
@@ -1403,6 +1398,10 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     NSString *identifier = self.identifierData[indexPath.row - index];
     [self.cellDict removeObjectForKey:identifier];
     [self.identifierData removeObjectAtIndex:indexPath.row - index];
+    //此时要先取消播放，然后删除录音文件 add by jianzhong
+    if (axCell.messageType == AXMessageTypeVoice) {
+        [[KKAudioComponent sharedAudioComponent] cancelPlaying];
+    }
     
     [self.myTableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationLeft];
     [[AXChatMessageCenter defaultMessageCenter] deleteMessageByIdentifier:axCell.identifyString];
