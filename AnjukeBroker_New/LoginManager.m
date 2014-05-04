@@ -11,7 +11,7 @@
 @implementation LoginManager
 
 + (BOOL)isLogin {
-    if ([[NSUserDefaults standardUserDefaults] valueForKey:@"token"]) {
+    if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"token"] length] > 0) {
         DLog(@"getToken [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"token"]);
         return YES;
     }
@@ -59,12 +59,9 @@
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"token"];
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"username"];
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"userPhoto"];
-    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"username"];
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"id"];
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"city_id"];
-    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"token"];
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"name"];
-    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"token"];
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"phone"];
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"chatID"];
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"tokenChat"];
