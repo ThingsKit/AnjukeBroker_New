@@ -1360,8 +1360,13 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 #pragma mark - AXChatMessageRootCellDelegate
 - (void)deleteAXCell:(AXChatMessageRootCell *)axCell
 {
+    
+   
     if (![axCell isKindOfClass:[AXChatMessageRootCell class]]) {
         return;
+    }
+    if ([axCell isKindOfClass:[AXChatMessageVoiceCell class]]) {
+        [self cancelKKAudioPlaying];
     }
     NSIndexPath *indexPath = [self.myTableView indexPathForCell:axCell];
     NSInteger preRow = indexPath.row - 1;
