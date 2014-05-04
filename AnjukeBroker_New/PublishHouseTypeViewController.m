@@ -848,7 +848,7 @@
             
             NSString *code = [NSString string];
             if (self.isHaozu) {
-                code = AJK_PROPERTY_007;
+                code = HZ_PROPERTY_007;
             }
             else
                 code = AJK_PROPERTY_007;

@@ -307,7 +307,7 @@ typedef enum {
     }
     else
         code = AJK_PROPERTY_004;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"save", nil]];
     
     [self doSave];
 }
