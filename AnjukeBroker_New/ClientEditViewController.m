@@ -235,10 +235,19 @@
         return;
     }
     
+    [self showLoadingActivity:YES];
+    
     self.person.markName = self.nameTextF.text;
     
-    if (self.person.markName.length > 0) {
+    if (self.person.markName.length > 0 && self.person.markName != nil) {
         //set person.markNamePinyin
+        
+//        unichar begin;
+//        begin = [self.person.markName characterAtIndex:0];
+//        DLog(@"begin--[%hu]", begin);
+//        
+//        self.person.markNamePinyin = [NSString stringWithFormat:@"%hu", begin];
+        
         NSMutableString *markNamePinyin = [NSMutableString stringWithString:self.person.markName];
         if (CFStringTransform((__bridge CFMutableStringRef)markNamePinyin, 0, kCFStringTransformMandarinLatin, NO)) {
             if (markNamePinyin.length > 0) {
@@ -263,6 +272,8 @@
 
 - (void)requestData {
     if (![self isNetworkOkay]) {
+        [self hideLoadWithAnimated:NO];
+        
         return;
     }
     
@@ -271,7 +282,7 @@
         isStar = @"1";
     }
     
-    [self showLoadingActivity:YES];
+//    [self showLoadingActivity:YES];
     
     NSString *methodName = [NSString stringWithFormat:@"user/modifyFriendInfo/%@",[LoginManager getPhone]];
     
