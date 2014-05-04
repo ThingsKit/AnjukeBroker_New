@@ -1714,6 +1714,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         mappedMessage.isRemoved = NO;
         mappedMessage.messageType = @(AXMessageTypeVoice);
         mappedMessage.imgPath = [KKAudioComponent relativeFilePathWithFileName:dict[@"FILE_NAME"] ofType:@"wav"];
+        mappedMessage.isImgDownloaded = YES;
         if (self.friendPerson && self.friendPerson.userType == AXPersonTypePublic) {
             [[AXChatMessageCenter defaultMessageCenter] sendVoiceToPublic:mappedMessage willSendMessage:self.finishSendMessageBlock];
         }else{

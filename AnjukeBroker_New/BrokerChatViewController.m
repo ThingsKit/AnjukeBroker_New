@@ -320,6 +320,7 @@
         mappedMessage.isRemoved = NO;
         mappedMessage.messageType = [NSNumber numberWithInteger:AXMessageTypePic];
         mappedMessage.imgPath = path;
+        mappedMessage.isImgDownloaded = YES;
         if (self.friendPerson && self.friendPerson.userType == AXPersonTypePublic) {
             [[AXChatMessageCenter defaultMessageCenter] sendImageToPublic:mappedMessage willSendMessage:self.finishSendMessageBlock];
         } else {
@@ -356,7 +357,7 @@
     mappedMessage.isRemoved = NO;
     mappedMessage.messageType = @(AXMessageTypePic);
     mappedMessage.imgPath = path;
-    
+    mappedMessage.isImgDownloaded = YES;
     if (self.friendPerson && self.friendPerson.userType == AXPersonTypePublic) {
         [[AXChatMessageCenter defaultMessageCenter] sendImageToPublic:mappedMessage willSendMessage:self.finishSendMessageBlock];
     } else {
