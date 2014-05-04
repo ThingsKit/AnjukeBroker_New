@@ -99,7 +99,7 @@
     //断开长链接
     [self killLongLinkForChat];
     
-    [[BrokerLogger sharedInstance] sendCachedActions];
+    [[RTLogger sharedInstance] sendCachedActions];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
