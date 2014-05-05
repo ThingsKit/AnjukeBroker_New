@@ -65,9 +65,13 @@
     
 //    self.view.backgroundColor = [UIColor yellowColor];
 }
+
 -(void)dealloc{
     self.myTable.delegate = nil;
+    self.myTable.dataSource = nil;
+    [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
 }
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self reloadData];
@@ -75,6 +79,14 @@
 //    [self doLog];
 
 }
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self sendAppearLog];
+    [self hideLoadWithAnimated:YES];
+    
+}
+
 -(void)reloadData{
     if(self.myArray == nil){
         self.myArray = [NSMutableArray array];
@@ -83,6 +95,7 @@
         [self.myTable reloadData];
     }
 }
+
 //-(void)doLog{
 //    if(![self isNetworkOkay]){
 //        return;
