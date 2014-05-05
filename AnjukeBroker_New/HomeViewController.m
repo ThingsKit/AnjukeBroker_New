@@ -202,7 +202,14 @@
     photo.backgroundColor = [UIColor whiteColor];
     photo.contentMode = UIViewContentModeScaleAspectFill;
     photo.clipsToBounds = YES;
-    photo.imageUrl = [LoginManager getUse_photo_url];
+    //check is icon downloaded
+    AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
+    if (person && person.isIconDownloaded) {
+        NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+        photo.image = [[UIImage alloc] initWithContentsOfFile:[libraryPath stringByAppendingPathComponent:person.iconPath]];
+    }
+    else
+        photo.imageUrl = [LoginManager getUse_photo_url];
     photo.layer.cornerRadius = 8;
     photo.layer.borderColor = SYSTEM_BLACK.CGColor;
     photo.layer.borderWidth = 0.5;
@@ -445,7 +452,7 @@
     self.img = [[IMGDowloaderManager alloc] init];
     if (person.iconPath.length < 2) {
         if ([LoginManager getUse_photo_url] && ![[LoginManager getUse_photo_url] isEqualToString:@""]) {
-            NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]]];
+//            NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]]];
             if (self.photoImg) {
                 [self.imgDownloader dowloadIMGWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]] resultBlock:^(RTNetworkResponse *response) {
                     if (response.status == 2) {

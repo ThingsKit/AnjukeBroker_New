@@ -126,8 +126,10 @@
             NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
             icon.image = [[UIImage alloc] initWithContentsOfFile:[libraryPath stringByAppendingPathComponent:self.person.iconPath]];
         }
-        else
+        else {
+            icon.image = [UIImage imageNamed:@"anjuke_icon_headpic.png"];
             icon.imageUrl = self.person.iconUrl;
+        }
     }
     else
         icon.image = [UIImage imageNamed:@"anjuke_icon_headpic.png"];

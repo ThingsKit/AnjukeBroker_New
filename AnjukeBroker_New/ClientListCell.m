@@ -77,8 +77,10 @@
             self.imageIcon.image = [[UIImage alloc] initWithContentsOfFile:[libraryPath stringByAppendingPathComponent:item.iconPath]];
             //            self.imageIcon.image = [UIImage imageWithContentsOfFile:item.iconPath];
         }
-        else
+        else {
+            self.imageIcon.image = [UIImage imageNamed:@"anjuke_icon_headpic.png"];
             self.imageIcon.imageUrl = item.iconUrl;
+        }
     }
     else {
         self.imageIcon.image = [UIImage imageNamed:@"anjuke_icon_headpic.png"];
