@@ -461,19 +461,10 @@
         return;
     }
     
-    NSString *isStar = @"0";
-    if (self.friendPerson.isStar == YES) {
-        isStar = @"1";
-    }
-    
     NSString *methodName = [NSString stringWithFormat:@"user/modifyFriendInfo/%@",[LoginManager getPhone]];
     
     NSDictionary *params = @{@"to_uid":self.friendPerson.uid ? self.friendPerson.uid:@"",
-                             @"is_star":isStar,
-                             @"relation_cate_id":@"0",
-                             @"mark_name":self.friendPerson.markName ? self.friendPerson.markName:@"",
-                             @"mark_phone":self.friendPerson.markPhone ? self.friendPerson.markPhone:@"",
-                             @"mark_desc":self.friendPerson.markDesc ? self.friendPerson.markDesc:@""};
+                             @"mark_phone":self.friendPerson.markPhone ? self.friendPerson.markPhone:@""};
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:methodName params:params target:self action:@selector(onGetData:)];
 }
 - (void)onGetData:(RTNetworkResponse *) response {
@@ -481,10 +472,10 @@
     if (![self isNetworkOkay])
         return;
     
-    if ([response status] == RTNetworkResponseStatusFailed || ([[[response content] objectForKey:@"status"] isEqualToString:@"error"])){
-    
-    }else {
-    [self showInfo:@"保存成功"];
+    if ([[[response content] objectForKey:@"status"] isEqualToString:@"ERROR"]){
+        [self showInfo:[[response content] objectForKey:@"errorMessage"]];
+    }else if([[[response content] objectForKey:@"status"] isEqualToString:@"OK"]){
+        [self showInfo:@"保存成功"];
     }
     DLog(@"更新标星后:%@--msg[%@]", [response content], [response content][@"errorMessage"]);
 }

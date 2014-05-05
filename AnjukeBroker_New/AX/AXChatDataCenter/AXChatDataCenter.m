@@ -888,10 +888,10 @@
         person.company = mappedPerson[@"corp"];
         person.userType = @([mappedPerson[@"user_type"] integerValue]);
         //
-        if (mappedPerson[@"mark_phone"] && !person.markPhone && mappedPerson[@"mark_phone"] != nil) {
+        if (mappedPerson[@"mark_phone"] && mappedPerson[@"mark_phone"] != nil) {
             person.markPhone = mappedPerson[@"mark_phone"];
         }
-        if (mappedPerson[@"mark_desc"] && !person.markDesc && mappedPerson[@"mark_desc"] != nil) {
+        if (mappedPerson[@"mark_desc"] && mappedPerson[@"mark_desc"] != nil) {
             person.markDesc = mappedPerson[@"mark_desc"];
         }
         
