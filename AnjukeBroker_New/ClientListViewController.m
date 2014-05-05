@@ -67,7 +67,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    if ([LoginManager getChatID].length > 0 && [LoginManager getPhone].length > 0 && [[AppDelegate sharedAppDelegate] checkHomeVCHasLongLinked] == YES) {
+    if ([LoginManager getChatID].length > 0 && [LoginManager getPhone].length > 0) {
         [self showLoadingActivity:YES];
         [self getFriendList];
     }
