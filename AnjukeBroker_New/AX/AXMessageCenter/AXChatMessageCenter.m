@@ -1078,6 +1078,9 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 
 - (void)fetchFriendList
 {
+    if (self.currentPerson == nil || self.currentPerson.phone == nil) {
+        return;
+    }
     NSDictionary *params = @{@"phone": self.currentPerson.phone};
     
     self.friendListManager.apiParams = params;
