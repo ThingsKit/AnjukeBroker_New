@@ -177,12 +177,9 @@
     
     NSString *methodName = [NSString stringWithFormat:@"user/modifyFriendInfo/%@",[LoginManager getPhone]];
     
-    NSDictionary *params = @{@"to_uid":self.person.uid ? self.person.uid:@"",
+    NSDictionary *params = @{@"to_uid":self.person.uid,
                              @"is_star":isStar,
-                             @"relation_cate_id":@"0",
-                             @"mark_name":self.person.markName ? self.person.markName:@"",
-                             @"mark_phone":self.person.markPhone ? self.person.markPhone:@"",
-                             @"mark_desc":self.person.markDesc ? self.person.markDesc:@""};
+                             @"relation_cate_id":@"0"};
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:methodName params:params target:self action:@selector(onGetData:)];
 }
 
