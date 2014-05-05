@@ -891,8 +891,14 @@
         if (mappedPerson[@"mark_phone"] && mappedPerson[@"mark_phone"] != nil) {
             person.markPhone = mappedPerson[@"mark_phone"];
         }
-        if (mappedPerson[@"mark_desc"] && mappedPerson[@"mark_desc"] != nil) {
-            person.markDesc = mappedPerson[@"mark_desc"];
+        
+        if (person.userType == [NSNumber numberWithInt:AXPersonTypePublic]) { //公众账号保存desc，其他类型账号保存markDesc
+            person.markDesc = mappedPerson[@"desc"];
+        }
+        else {
+            if (mappedPerson[@"mark_desc"] && !person.markDesc && mappedPerson[@"mark_desc"] != nil) {
+                person.markDesc = mappedPerson[@"mark_desc"];
+            }
         }
         
         [person updateFirstPinyin];
