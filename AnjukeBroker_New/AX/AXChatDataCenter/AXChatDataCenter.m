@@ -896,7 +896,7 @@
             person.markDesc = mappedPerson[@"desc"];
         }
         else {
-            if (mappedPerson[@"mark_desc"] && !person.markDesc && mappedPerson[@"mark_desc"] != nil) {
+            if (mappedPerson[@"mark_desc"] && mappedPerson[@"mark_desc"] != nil) {
                 person.markDesc = mappedPerson[@"mark_desc"];
             }
         }
