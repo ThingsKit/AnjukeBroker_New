@@ -147,22 +147,20 @@ NSArray = [
 //double timeSpent = [[NSDate date] timeIntervalSinceDate:self.date];
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    self.pressInterval = [NSDate date];
 //    UITouch* touch = [touches anyObject];
 //    CGPoint point = [touch locationInView:self];
-    self.pressInterval = [NSDate date];
-//    [self coordinateCaculator:point];
-//    [self showMagnifier];
+//    if ([self coordinateCaculator:point]) {
+//        [self showMagnifier];
+//    }
     
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 //    UITouch* touch = [touches anyObject];
 //    CGPoint point = [touch locationInView:self];
-    
-//    if ([self coordinateCaculator:point] && timeSpent < 0.5) {
+//    if ([self coordinateCaculator:point]) {
 //        [self showMagnifier];
-//    }else{
-//        [self hideMagnifier];
 //    }
     
 }
@@ -197,7 +195,7 @@ NSArray = [
 }
 
 - (void)showMagnifier {
-//    self.magnifier.hidden = NO;
+    self.magnifier.hidden = NO;
     //移动的时候禁止scroll滑动
     if ([self.superview isKindOfClass:[UIScrollView class]]) {
         UIScrollView* scrollView = (UIScrollView*)self.superview;
@@ -206,7 +204,7 @@ NSArray = [
 }
 
 - (void)hideMagnifier {
-//    self.magnifier.hidden = YES;
+    self.magnifier.hidden = YES;
     //触摸结束开启scroll滑动
     if ([self.superview isKindOfClass:[UIScrollView class]]) {
         UIScrollView* scrollView = (UIScrollView*)self.superview;
