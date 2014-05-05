@@ -451,10 +451,42 @@
         [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_012 note:nil];
         self.friendPerson.markPhone = self.phoneNumber;
         [[AXChatMessageCenter defaultMessageCenter] updatePerson:self.friendPerson];
-        [self showInfo:@"保存成功"];
+        [self requestUpdatePerson];
     }else {
     
     }
+}
+- (void)requestUpdatePerson {
+    if (![self isNetworkOkay]) {
+        return;
+    }
+    
+    NSString *isStar = @"0";
+    if (self.friendPerson.isStar == YES) {
+        isStar = @"1";
+    }
+    
+    NSString *methodName = [NSString stringWithFormat:@"user/modifyFriendInfo/%@",[LoginManager getPhone]];
+    
+    NSDictionary *params = @{@"to_uid":self.friendPerson.uid ? self.friendPerson.uid:@"",
+                             @"is_star":isStar,
+                             @"relation_cate_id":@"0",
+                             @"mark_name":self.friendPerson.markName ? self.friendPerson.markName:@"",
+                             @"mark_phone":self.friendPerson.markPhone ? self.friendPerson.markPhone:@"",
+                             @"mark_desc":self.friendPerson.markDesc ? self.friendPerson.markDesc:@""};
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:methodName params:params target:self action:@selector(onGetData:)];
+}
+- (void)onGetData:(RTNetworkResponse *) response {
+    //check network and response
+    if (![self isNetworkOkay])
+        return;
+    
+    if ([response status] == RTNetworkResponseStatusFailed || ([[[response content] objectForKey:@"status"] isEqualToString:@"error"])){
+    
+    }else {
+    [self showInfo:@"保存成功"];
+    }
+    DLog(@"更新标星后:%@--msg[%@]", [response content], [response content][@"errorMessage"]);
 }
 #pragma mark - AXChatMessageRootCellDelegate
 - (void)didClickPropertyWithUrl:(NSString *)url withTitle:(NSString *)title;
