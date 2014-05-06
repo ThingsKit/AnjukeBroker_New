@@ -290,9 +290,9 @@
     NSDictionary *params = @{@"to_uid":self.person.uid,
                              @"is_star":isStar,
                              @"relation_cate_id":@"0",
-                             @"mark_name":self.person.markName,
-                             @"mark_phone":self.person.markPhone,
-                             @"mark_desc":self.person.markDesc};
+                             @"mark_name":self.person.markName ? self.person.markName : @"",
+                             @"mark_phone":self.person.markPhone ? self.person.markPhone : @"",
+                             @"mark_desc":self.person.markDesc ? self.person.markDesc : @"" };
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:methodName params:params target:self action:@selector(onGetData:)];
 }
 
@@ -351,10 +351,10 @@
         return NO;
     }
     
-    if (![Util_TEXT isNumber:self.telTextF.text]) {
-        [self showInfo:@"备注电话必须为数字"];
-        return NO;
-    }
+//    if (![Util_TEXT isNumber:self.telTextF.text]) {
+//        [self showInfo:@"备注电话必须为数字"];
+//        return NO;
+//    }
     
     return YES;
 }

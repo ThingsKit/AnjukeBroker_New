@@ -466,7 +466,7 @@
     
     NSDictionary *params = @{@"to_uid":self.friendPerson.uid,
                              @"relation_cate_id":@"0",
-                             @"mark_phone":self.friendPerson.markPhone};
+                             @"mark_phone":self.friendPerson.markPhone ? self.friendPerson.markPhone : @"" };
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:methodName params:params target:self action:@selector(onGetData:)];
 }
 - (void)onGetData:(RTNetworkResponse *) response {
