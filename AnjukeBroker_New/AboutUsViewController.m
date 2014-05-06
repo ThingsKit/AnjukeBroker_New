@@ -75,7 +75,7 @@
     NSString *current_version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
     NSString *device_info = [[RTLogger sharedInstance] channelID];
     NSString *umeng_key = [[[RTLogger sharedInstance] appKey] substringFromIndex:18];
-    strVer = [NSString stringWithFormat:@"%@ %@ %@",current_version,device_info,umeng_key];
+    strVer = [NSString stringWithFormat:@"当前版本:%@  渠道号:%@  友盟key:%@",current_version,device_info,umeng_key];
 
     return strVer;
 }
