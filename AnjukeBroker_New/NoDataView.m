@@ -9,8 +9,8 @@
 #import "NoDataView.h"
 #import "Util_UI.h"
 
-#define imageWidth 175
-#define imageHeight 120
+#define imageWidth 191/2
+#define imageHeight 175/2
 
 #define labTitleWidth 195
 
