@@ -387,6 +387,7 @@
     [self refreshPhotoHeader];
     
     [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 }
 
 - (void)doSave {

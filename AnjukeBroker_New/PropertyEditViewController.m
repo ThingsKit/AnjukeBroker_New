@@ -457,6 +457,8 @@
         //        self.isLoading = YES;
     }
     
+    self.isLoading = YES;
+    
     //test
     //上传图片给UFS服务器
     NSString *photoUrl = [[self.uploadImageArray objectAtIndex:self.uploadImgIndex] photoURL];
