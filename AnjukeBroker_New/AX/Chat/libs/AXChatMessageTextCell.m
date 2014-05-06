@@ -91,9 +91,9 @@
         self.attrLabel.height = self.textHeight;
         
         if (self.messageSource == AXChatMessageSourceDestinationIncoming) {
-            self.attrLabel.frame = CGRectMake(kBubbleMargin + 18, 20, self.textWidth, self.textHeight);
+            self.attrLabel.frame = CGRectMake(kBubbleMargin + 19, 20, self.textWidth, self.textHeight);
         } else {
-            self.attrLabel.frame = CGRectMake(320 - kJSAvatarSize - self.textWidth - kAvatarMargin - 24, 20, self.textWidth, self.textHeight);
+            self.attrLabel.frame = CGRectMake(320 - kJSAvatarSize - self.textWidth - kAvatarMargin - 28, 20, self.textWidth, self.textHeight);
         }
         self.content = data[@"content"];
         self.cellContentWidth = self.textWidth + 24;
