@@ -634,7 +634,7 @@
     ph.propertyID = self.propertyID;
     ph.addHouseTypeImageArray = self.addHouseTypeImageArray;
     ph.houseTypeShowedImgArray = self.houseTypeShowedImgArray; //指针指向
-    [self.navigationController pushViewController:ph animated:NO];
+    [self.navigationController pushViewController:ph animated:YES];
 }
 
 - (void)doDeleteDismiss {

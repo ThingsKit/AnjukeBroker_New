@@ -20,6 +20,7 @@
     UIView *maskCover;
     UIView *backGroundView;
     int pushNum;
+    BOOL isMoving;
 }
 @end
 
@@ -40,6 +41,7 @@
         self.captureType = CaptureTypeWithWindow;
         self.pushBackType = PushBackWithSlowMove;
         pushNum = 0;
+        isMoving = NO;
     }
     return self;
 }
@@ -70,6 +72,7 @@
 }
 #pragma mark -pushView
 -(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated{
+    isMoving = YES;
     if (pushNum != 0) {
         [capImageArr addObject:[self capture]];
         pushNum += 1;
@@ -79,13 +82,16 @@
         return [super pushViewController:viewController animated:animated];
     }
 }
+
 #pragma mark -popView
 -(UIViewController *)popViewControllerAnimated:(BOOL)animated{
+    isMoving = YES;
     if ([capImageArr count] >= 1) {
         [capImageArr removeLastObject];
     }
     return [super popViewControllerAnimated:animated];
 }
+
 #pragma mark -popToRootView
 -(NSArray *)popToRootViewControllerAnimated:(BOOL)animated{
     [capImageArr removeAllObjects];
@@ -117,14 +123,13 @@
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
     self.disableGestureForBack = NO;
 }
+- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
+    isMoving = NO;
+}
+
 #pragma -mark UIGurstureDelegate
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-    if (capImageArr.count < 1 || self.disableGestureForBack || [touch.view isKindOfClass:[UIButton class]] || self.disableGestureForBack) {
-        return NO;
-    }
-    //[NSString stringWithUTF8String:object_getClassName(a)]；
-    DLog(@"mover--->>%f/%@",self.view.frame.origin.x,[NSString stringWithUTF8String:object_getClassName(self.navigationController.viewControllers.lastObject)]);
-    if (self.view.frame.origin.x != 0) {
+    if (capImageArr.count < 1 || self.disableGestureForBack || [touch.view isKindOfClass:[UIButton class]] || self.disableGestureForBack || isMoving) {
         return NO;
     }
     return YES;
@@ -132,7 +137,7 @@
 
 
 -(void)panGesReceive:(UIPanGestureRecognizer *)panGes{
-    if (capImageArr.count < 1 || self.disableGestureForBack || self.disableGestureForBack) return;
+    if (capImageArr.count < 1 || self.disableGestureForBack || self.disableGestureForBack || isMoving) return;
     
     RTViewController *gesViewController = (RTViewController *)self.viewControllers.lastObject;
     if (gesViewController.backType == RTSelectorBackTypePopToRoot) {
