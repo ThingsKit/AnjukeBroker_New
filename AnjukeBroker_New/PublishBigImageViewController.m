@@ -43,6 +43,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.backType = RTSelectorBackTypeDismiss;
     }
     return self;
 }
@@ -58,11 +59,13 @@
     
     [self setTitleViewWithString:@"查看大图"];
     
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
-    self.navigationItem.leftBarButtonItem = leftItem;
-    
-    UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(doDelete)];
-    self.navigationItem.rightBarButtonItem = deleteItem;
+    UIBarButtonItem *deleteItem = [UIBarButtonItem getBarButtonItemWithString:@"删除" taget:self action:@selector(doDelete)];
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
+        [self.navigationItem setRightBarButtonItem:deleteItem];
+    }else{//fix ios7 10像素偏离
+        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:-10.0];
+        [self.navigationItem setRightBarButtonItems:@[spacer, deleteItem]];
+    }
 }
 
 - (void)didReceiveMemoryWarning

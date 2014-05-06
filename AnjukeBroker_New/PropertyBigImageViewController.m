@@ -23,6 +23,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.backType = RTSelectorBackTypeDismiss;
     }
     return self;
 }
@@ -50,10 +51,7 @@
 }
 
 - (void)initDisplay {
-    UIBarButtonItem *rButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(doBack)];
-    self.navigationItem.leftBarButtonItem = rButton;
-    
-    WebImageView *img = [[WebImageView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight])];
+   WebImageView *img = [[WebImageView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight])];
     img.backgroundColor = SYSTEM_BLACK;
     img.contentMode = UIViewContentModeScaleAspectFit;
 //    img.layer.borderColor = [UIColor blackColor].CGColor;
@@ -61,9 +59,16 @@
     [img setUserInteractionEnabled:YES];
     self.contentImgView = img;
     [self.view addSubview:img];
+
+    self.backType = RTSelectorBackTypeDismiss;
     
-    UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(doDelete)];
-    self.navigationItem.rightBarButtonItem = deleteItem;
+    UIBarButtonItem *deleteItem = [UIBarButtonItem getBarButtonItemWithString:@"删除" taget:self action:@selector(doDelete)];
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
+        [self.navigationItem setRightBarButtonItem:deleteItem];
+    }else{//fix ios7 10像素偏离
+        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:-10.0];
+        [self.navigationItem setRightBarButtonItems:@[spacer, deleteItem]];
+    }
 }
 
 - (void)doBack {
