@@ -496,7 +496,7 @@ typedef enum {
     ph.property = self.property; //指针指向
     ph.superViewController = self;
     ph.houseTypeImageArr = self.houseTypeImageArray; //指针指向
-    [self.navigationController pushViewController:ph animated:YES];
+    [self.navigationController pushViewController:ph animated:NO];
 }
 
 #pragma mark - Check Method

@@ -73,10 +73,10 @@
     if (pushNum != 0) {
         [capImageArr addObject:[self capture]];
         pushNum += 1;
-        return [super pushViewController:viewController animated:YES];
+        return [super pushViewController:viewController animated:animated];
     }else{
         pushNum += 1;
-        return [super pushViewController:viewController animated:YES];
+        return [super pushViewController:viewController animated:animated];
     }
 }
 #pragma mark -popView
@@ -122,8 +122,14 @@
     if (capImageArr.count < 1 || self.disableGestureForBack || [touch.view isKindOfClass:[UIButton class]] || self.disableGestureForBack) {
         return NO;
     }
+    //[NSString stringWithUTF8String:object_getClassName(a)]；
+    DLog(@"mover--->>%f/%@",self.view.frame.origin.x,[NSString stringWithUTF8String:object_getClassName(self.navigationController.viewControllers.lastObject)]);
+    if (self.view.frame.origin.x != 0) {
+        return NO;
+    }
     return YES;
 }
+
 
 -(void)panGesReceive:(UIPanGestureRecognizer *)panGes{
     if (capImageArr.count < 1 || self.disableGestureForBack || self.disableGestureForBack) return;
