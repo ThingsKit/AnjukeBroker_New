@@ -302,7 +302,7 @@
     cellTextField.backgroundColor = [UIColor clearColor];
     cellTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     if(self.isTitle){
-        placeHolder = [[NSString alloc] initWithFormat:@"简单明了的说出房源得特色，至少5个字"];
+        placeHolder = [[NSString alloc] initWithFormat:@"简单明了地说出房源得特色，至少5个字"];
     } else {
         placeHolder = [[NSString alloc] initWithFormat:@"说说小区周边生活配套、小区内部环境、房源内部装修的房源描述，至少10个字"];
     }
