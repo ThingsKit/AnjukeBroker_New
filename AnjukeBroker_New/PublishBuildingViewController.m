@@ -1164,10 +1164,10 @@ typedef enum {
         
         if (self.property.minDownPay.length > 0 && ![[[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_LIMIT_PAY] text_Field] text] isEqualToString:@""]) {
             //最低首付
-            if ([self.property.minDownPay intValue] *10000 < [self.property.price intValue] * 0.3 ) {
-                [self showInfo:@"最低首付不低于房屋价格的30%"];
-                return NO;
-            }
+//            if ([self.property.minDownPay intValue] *10000 < [self.property.price intValue] * 0.3 ) {
+//                [self showInfo:@"最低首付不低于房屋价格的30%"];
+//                return NO;
+//            }
             if ([self.property.minDownPay intValue] * 10000 > [self.property.price intValue]) {
                 [self showInfo:@"最低首付不得高于房屋价格"];
                 return NO;

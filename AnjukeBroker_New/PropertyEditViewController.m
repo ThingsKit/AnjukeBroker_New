@@ -254,6 +254,7 @@
 #pragma mark - Request Method
 //房源信息请求
 - (void)doRequestProp {
+    self.isLoading = YES;
     [self showLoadingActivity:YES];
     
     NSDictionary *params = nil;
@@ -343,6 +344,10 @@
 
 //更新房源信息
 - (void)doSave {
+    if (self.isLoading) {
+        return;
+    }
+    
     [self pickerDisappear];
     
     if (![self checkUploadProperty]) {
