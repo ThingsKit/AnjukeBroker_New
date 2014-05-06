@@ -152,8 +152,8 @@ static CGFloat const AXPropertyCardInLableMarginLeft = 81.0f;
         self.tagLable.text = @"写字楼出租";
     } else if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceOfficeRent)]){
         self.tagLable.text = @"写字楼出售";
-    } else {
-        self.tagLable.text = @"---";
+    } else if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceXinFang)]) {
+        self.tagLable.text = @"新房";
     }
     
     self.titleLable.text = self.propDict[@"name"];
@@ -162,7 +162,7 @@ static CGFloat const AXPropertyCardInLableMarginLeft = 81.0f;
     
 
     if (self.propDict[@"img"] && [self.propDict[@"img"] length] >0) {
-        NSURL *url = [NSURL URLWithString:self.propDict[@"img"]];
+//        NSURL *url = [NSURL URLWithString:self.propDict[@"img"]];
         [self.roomImage setImageUrl:self.propDict[@"img"]];
     }else {
         self.roomImage.image = [UIImage imageNamed:@"anjuke60_bg10.png"];

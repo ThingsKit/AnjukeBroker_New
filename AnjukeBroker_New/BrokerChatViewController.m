@@ -154,6 +154,7 @@
         [self.messageInputView.textView becomeFirstResponder];
     }
     if ([[[NSUserDefaults standardUserDefaults] valueForKey:self.friendPerson.uid] isEqualToString:@"4"]) {
+        [self restoreDraftContent];
         [self speeking];
     }
 }

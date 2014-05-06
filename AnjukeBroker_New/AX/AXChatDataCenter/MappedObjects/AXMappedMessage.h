@@ -41,7 +41,8 @@ typedef NS_ENUM(NSUInteger, AXMessagePropertySourceType)
     AXMessagePropertySourceShopRent = 4,//商铺出租
     AXMessagePropertySourceShopBuy = 5,//商铺出售
     AXMessagePropertySourceOfficeRent = 6,//写字楼出租
-    AXMessagePropertySourceOfficeBuy = 7//写字楼出售
+    AXMessagePropertySourceOfficeBuy = 7,//写字楼出售
+    AXMessagePropertySourceXinFang = 8 //新房
 };
 
 typedef NS_ENUM (NSUInteger, AXMessageCenterSendMessageStatus)
