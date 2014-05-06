@@ -77,6 +77,7 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 - (void)switchToTextLog;
 - (void)pressForVoiceLog;
 - (void)cancelSendingVoiceLog;
+- (void)didClickKeyboardControl;
 
 
 @end

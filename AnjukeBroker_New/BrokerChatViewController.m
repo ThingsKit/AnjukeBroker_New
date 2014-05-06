@@ -424,6 +424,8 @@
     
     [self storageLayoutOfKeyboard];
     
+    [self didClickKeyboardControl];
+    
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_013 note:nil];
     self.tabBarController.selectedIndex = 1;
     [self.navigationController popToRootViewControllerAnimated:YES];

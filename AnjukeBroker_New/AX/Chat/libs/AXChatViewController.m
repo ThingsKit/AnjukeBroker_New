@@ -1770,7 +1770,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
             if (self.isBroker) {
                 //            CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
                 [UIView beginAnimations:nil context:NULL];
-                [UIView setAnimationDuration:0.27f];
+                [UIView setAnimationDuration:0.2f];
                 [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
                 [UIView setAnimationBeginsFromCurrentState:YES];
                 CGFloat keyboardY = AXMoreBackViewHeight;
