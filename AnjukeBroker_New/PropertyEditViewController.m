@@ -344,7 +344,7 @@
 
 //更新房源信息
 - (void)doSave {
-    if (self.isLoading) {
+    if (self.isLoading == YES) {
         return;
     }
     
@@ -568,12 +568,14 @@
 
 //删除房源
 - (void)doDeleteProperty {
+    self.isLoading = YES;
+    
     if (![self isNetworkOkay]) {
+        self.isLoading = NO;
         return;
     }
     
     [self showLoadingActivity:YES];
-    self.isLoading = YES;
     
     //更新房源信息
     NSMutableDictionary *params = nil;
@@ -607,8 +609,6 @@
         return;
     }
     
-    self.isLoading = NO;
-    
     //延迟一秒再dismiss页面，已让API端更新房源删除数据
     [self performSelector:@selector(doDeleteDismiss) withObject:nil afterDelay:1];
 }
@@ -640,6 +640,7 @@
 - (void)doDeleteDismiss {
     [self hideLoadWithAnimated:YES];
     [self showInfo:@"删除房源成功"];
+    self.isLoading = NO;
     
     if ([self.propertyDelegate respondsToSelector:@selector(propertyDidDelete)]) {
         [self.propertyDelegate propertyDidDelete];
