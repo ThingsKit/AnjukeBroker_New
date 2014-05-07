@@ -386,7 +386,7 @@
         //for test
         ClientDetailPublicViewController *cd = [[ClientDetailPublicViewController alloc] init];
         cd.person = item;
-        cd.backType = RTSelectorBackTypePopToRoot;
+        cd.backType = RTSelectorBackTypePopBack;
         [cd setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:cd animated:YES];
     }else if (self.friendPerson.userType == AXPersonTypeUser){
@@ -395,7 +395,7 @@
         //for test
         ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
         cd.person = item;
-        cd.backType = RTSelectorBackTypePopToRoot;
+        cd.backType = RTSelectorBackTypePopBack;
         [cd setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:cd animated:YES];
     }

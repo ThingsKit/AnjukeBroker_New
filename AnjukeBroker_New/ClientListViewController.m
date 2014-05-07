@@ -527,6 +527,7 @@
         }
         else {
             ClientDetailPublicViewController *cd = [[ClientDetailPublicViewController alloc] init];
+            cd.backType = RTSelectorBackTypePopBack;
             cd.person = item;
             [cd setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:cd animated:YES];
@@ -548,6 +549,7 @@
         }
         else {
             ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
+            cd.backType = RTSelectorBackTypePopBack;
             cd.person = item;
             [cd setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:cd animated:YES];
