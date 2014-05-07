@@ -254,7 +254,6 @@
 #pragma mark - Request Method
 //房源信息请求
 - (void)doRequestProp {
-    self.isLoading = YES;
     [self showLoadingActivity:YES];
     
     NSDictionary *params = nil;
@@ -283,7 +282,6 @@
         [alert show];
         
         [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
         
         return;
     }
@@ -306,7 +304,6 @@
     }
     
     [self showLoadingActivity:YES];
-    self.isLoading = YES;
     
     //更新房源信息
     NSMutableDictionary *params = nil;
@@ -323,7 +320,6 @@
     
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         
@@ -339,7 +335,6 @@
     [self.footerView redrawWithEditRoomImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray] andImgUrl:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray]];
     
     [self hideLoadWithAnimated:YES];
-    self.isLoading = NO;
 }
 
 //更新房源信息
@@ -366,7 +361,6 @@
     [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
     
     [self showLoadingActivity:YES];
-    self.isLoading = YES;
     
     //更新房源信息
     NSMutableDictionary *params = nil;
@@ -395,7 +389,6 @@
     
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         
@@ -410,7 +403,6 @@
     [self prepareUploadImgArr];
     [self uploadNewImgToProperty]; //问题信息更新结束，开始新增图片上传
     //    [self hideLoadWithAnimated:YES];
-    //    self.isLoading = NO;
 }
 
 //上传新图片
@@ -423,7 +415,6 @@
         
         //无新图片和在线户型图，则返回
         [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
         
         [self showInfo:EDIT__PROPERTY_FINISH];
         [self dismissViewControllerAnimated:YES completion:nil]; //没有更新图片，直接退出
@@ -433,7 +424,6 @@
     
     if (![self isNetworkOkay]) {
         [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
         
         return;
     }
@@ -441,7 +431,6 @@
     //上传新添加的图片
     if (self.uploadImgIndex > self.uploadImageArray.count - 1) {
         //        [self hideLoadWithAnimated:YES];
-        //        self.isLoading = NO;
         
         DLog(@"图片上传服务器完毕，结束");
         
@@ -454,10 +443,7 @@
     
     if (self.uploadImgIndex == 0) { //第一张图片开始上传就显示黑框，之后不重复显示，上传流程结束后再消掉黑框
         //        [self showLoadingActivity:YES];
-        //        self.isLoading = YES;
     }
-    
-    self.isLoading = YES;
     
     //test
     //上传图片给UFS服务器
@@ -504,7 +490,6 @@
     }
     else {
         //        [self hideLoadWithAnimated:YES];
-        //        self.isLoading = NO;
         
         DLog(@"图片上传服务器完毕，结束");
         
@@ -526,12 +511,10 @@
     [self showInfo:@"图片上传失败，请重试"];
     
     [self hideLoadWithAnimated:YES];
-    self.isLoading = NO;
 }
 
 - (void)updateNewImg {
     //    [self showLoadingActivity:YES];
-    //    self.isLoading = YES;
     
     //更新图片接口，上传imgJson+房源ID
     NSMutableDictionary *params = nil;
@@ -550,7 +533,6 @@
     
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         
@@ -563,7 +545,6 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     
     [self hideLoadWithAnimated:YES];
-    self.isLoading = NO;
 }
 
 //删除房源
