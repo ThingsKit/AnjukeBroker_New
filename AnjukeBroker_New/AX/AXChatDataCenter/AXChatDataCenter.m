@@ -1009,9 +1009,12 @@
         messageTip = @"你收到一个位置";
     }
     
-    if (messageType == AXMessageTypeProperty) {
+    if (messageType == AXMessageTypeProperty || messageType == AXMessageTypeJinpuProperty) {
         NSDictionary *messageContent = [NSJSONSerialization JSONObjectWithData:[message.content dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:NULL];
         messageTip = @"你收到一个房源";
+        if (messageType == AXMessageTypeJinpuProperty) {
+            messageTip = @"[商业地产]";
+        }
         NSInteger propertyType = [messageContent[@"tradeType"] integerValue];
         if (propertyType == 1) {
             itemType = AXConversationListItemTypeESFProperty;
@@ -1021,6 +1024,9 @@
         }
         if (propertyType == 3) {
             itemType = AXConversationListItemTypeCommunity;
+        }
+        if (propertyType == 9) {
+            
         }
     }
     

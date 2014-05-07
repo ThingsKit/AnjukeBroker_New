@@ -150,10 +150,12 @@ static CGFloat const AXPropertyCardInLableMarginLeft = 81.0f;
         self.tagLable.text = @"商铺出售";
     } else if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceOfficeRent)]){
         self.tagLable.text = @"写字楼出租";
-    } else if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceOfficeRent)]){
+    } else if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceOfficeBuy)]){
         self.tagLable.text = @"写字楼出售";
     } else if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceXinFang)]) {
         self.tagLable.text = @"新房";
+    } else if ([self.propDict[@"tradeType"] isEqualToNumber:@(AXMessagePropertySourceXinPan)]) {
+        self.tagLable.text = @"新盘";
     }
     
     self.titleLable.text = self.propDict[@"name"];

@@ -33,6 +33,11 @@
                 cell = [[AXChatMessageRoomSourceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identity];
             }
                 break;
+            case AXMessageTypeJinpuProperty:
+            {
+                cell = [[AXChatMessageRoomSourceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identity];
+            }
+                break;
             case AXMessageTypeText:
             {
                 cell = [[AXChatMessageTextCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identity];

@@ -885,6 +885,16 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeProperty),@"content":mappedMessage.content,@"messageSource":messageSource}];
         }
             break;
+            
+        case AXMessageTypeJinpuProperty:
+        {
+            if (![self.contentValidator checkPropertyCard:mappedMessage.content]) {
+                return nil;
+            }
+            textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeJinpuProperty),@"content":mappedMessage.content,@"messageSource":messageSource}];
+        }
+            break;
+
         case AXMessageTypeVoice:
         {
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeVoice), @"content":mappedMessage.content, @"messageSource":messageSource, @"identifier":mappedMessage.identifier}];
@@ -1074,7 +1084,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 {
     NSString *identifier = (self.identifierData)[[indexPath row]];
     NSDictionary *dic = self.cellDict[identifier];
-    if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeProperty)]) {
+    if (dic[@"messageType"] && ([dic[@"messageType"] isEqualToNumber:@(AXMessageTypeProperty)] || [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeJinpuProperty)])) {
         // 房源
         return 105 + 20;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeText)]) {
