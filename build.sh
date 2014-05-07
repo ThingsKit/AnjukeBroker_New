@@ -6,7 +6,7 @@ Model=$1
 source ./config.sh
 
 # unlock keychain
-security unlock-keychain
+#security unlock-keychain
 
 # define PACKAGENAME
 PACKAGE_NAME=i-anjuke_${Version}'Ver'`date "+%Y%m%d"`'.a.ipa'
@@ -45,7 +45,7 @@ exit 1
 #done
 
 # switch xcode
-xcode-select -switch /Applications/Xcode.app/Contents/Developer/
+#xcode-select -switch /Applications/Xcode.app/Contents/Developer/
 
 xcodebuild -workspace ${ProjectFileName} -scheme ${Schema} -configuration $1 CODE_SIGN_IDENTITY="${SignIdentityForDailyBuild}" PROVISIONING_PROFILE="${ProvisoningProfileForDailybuild}" OBJROOT=${AnjukebuildPath} SYMROOT=${AnjukebuildPath} clean
 
@@ -62,7 +62,7 @@ zip -r $PACKAGE_NAME ./Payload
 
 echo "90%" > ../progress.log
 
-echo "scp $PACKAGE_NAME mobile@ios.dev.anjuke.com:${RemotePackagePath}"
+echo "scp $PACKAGE_NAME ${RemotePackagePath}"
 scp $PACKAGE_NAME ${RemotePackagePath}
 rm -rf $PACKAGE_NAME
 rm -rf ./Payload/
