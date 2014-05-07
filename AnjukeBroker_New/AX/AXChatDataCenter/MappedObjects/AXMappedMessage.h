@@ -16,7 +16,10 @@ typedef NS_ENUM(NSUInteger, AXMessageType)
     AXMessageTypePublicCard = 4, // 服务号消息
     AXMessageTypeVoice = 5, // 语音消息
     AXMessageTypeLocation = 6, // 地理位置
-
+    AXMessageTypePublicCard2 = 7, // 服务号消息2号类型
+    AXMessageTypePublicCard3 = 8, // 服务号消息3号类型
+    AXMessageTypeJinpuProperty = 9, // 金铺卡片
+    
     AXMessageTypeSystemTime = 100, // 时间
     AXMessageTypeSystemForbid = 101, // 提示拒绝加好友
     AXMessageTypeSettingNotifycation = 102, // 提示打开推送
@@ -29,20 +32,26 @@ typedef NS_ENUM(NSUInteger, AXMessageType)
     AXMessageTypeUIBlank = 10000 // UI效果 空一行白行 PS：只是本地使用 不会进行网络发送
 };
 #define MIN_MESSAGE_TYPE 1
-#define MAX_MESSAGE_TYPE 6
+#define MAX_MESSAGE_TYPE 9
 #define MIN_SYSTEM_MESSAGE_TYPE 100
 #define MAX_SYSTEM_MESSAGE_TYPE 107
 
 typedef NS_ENUM(NSUInteger, AXMessagePropertySourceType)
 {
     AXMessagePropertySourceErShouFang = 1, // 二手房
-    AXMessagePropertySourceZuFang = 2, // 租房
-    AXMessagePropertySourceCommunity = 3,//小区
-    AXMessagePropertySourceShopRent = 4,//商铺出租
-    AXMessagePropertySourceShopBuy = 5,//商铺出售
-    AXMessagePropertySourceOfficeRent = 6,//写字楼出租
-    AXMessagePropertySourceOfficeBuy = 7,//写字楼出售
-    AXMessagePropertySourceXinFang = 8 //新房
+    AXMessagePropertySourceZuFang = 2, // 租房经纪人
+    AXMessagePropertySourceCommunity = 3,
+    
+    AXMessagePropertySourceXinFang = 4, // 新房
+    AXMessagePropertySourceXinPan = 5,  // 新盘
+    AXMessagePropertySourceTuanGou = 6,  // 团购
+    AXMessagePropertySourceArticle = 7,  // 文章
+    
+    AXMessagePropertySourceShopRent = 8, //商铺出租
+    AXMessagePropertySourceShopBuy = 9, //商铺出售
+    AXMessagePropertySourceOfficeRent = 10, //写字楼出租
+    AXMessagePropertySourceOfficeBuy = 11, //写字楼出售
+    AXMessagePropertySourceZuFangGeRen = 12 // 租房个人
 };
 
 typedef NS_ENUM (NSUInteger, AXMessageCenterSendMessageStatus)
