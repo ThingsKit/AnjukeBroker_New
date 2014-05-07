@@ -45,7 +45,7 @@
             UILabel *titleLb = [[UILabel alloc] init];
             self.labTitle = titleLb;
             titleLb.textAlignment = UITextAlignmentCenter;
-            titleLb.font = [UIFont systemFontOfSize:16];
+            titleLb.font = [UIFont systemFontOfSize:13];
             titleLb.textColor = [Util_UI colorWithHexString:@"a2a2a2"];
             titleLb.text = title;
             [titleLb setBackgroundColor:[UIColor clearColor]];
@@ -59,7 +59,7 @@
 - (void)setFrame:(CGRect)frame {
     self.selfFrame = frame; //记录指定的自身frame
     
-    self.imageView.frame = CGRectMake((frame.size.width-imageWidth)/2, (frame.size.height - imageHeight)/2, imageWidth, imageHeight);
+    self.imageView.frame = CGRectMake((frame.size.width-imageWidth)/2, (frame.size.height - imageHeight)/2 - 30, imageWidth, imageHeight);
     self.labTitle.frame = CGRectMake((frame.size.width-labTitleWidth)/2, self.imageView.frame.origin.y+self.imageView.frame.size.height+3, labTitleWidth, 22);
 }
 
