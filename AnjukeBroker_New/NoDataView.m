@@ -60,7 +60,7 @@
     self.selfFrame = frame; //记录指定的自身frame
     
     self.imageView.frame = CGRectMake((frame.size.width-imageWidth)/2, (frame.size.height - imageHeight)/2 - 30, imageWidth, imageHeight);
-    self.labTitle.frame = CGRectMake((frame.size.width-labTitleWidth)/2, self.imageView.frame.origin.y+self.imageView.frame.size.height+3, labTitleWidth, 22);
+    self.labTitle.frame = CGRectMake((frame.size.width-labTitleWidth)/2, self.imageView.frame.origin.y+self.imageView.frame.size.height+13, labTitleWidth, 22);
 }
 
 - (void)setShowType:(ShowType)showType {

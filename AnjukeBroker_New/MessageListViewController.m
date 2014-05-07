@@ -126,7 +126,7 @@
     }
     [self drawNetworkView];
     
-    NoDataView *nv = [[NoDataView alloc] initWithImgName:NoDataImg_List AndTitle:@"暂时没有新消息"];
+    NoDataView *nv = [[NoDataView alloc] initWithImgName:NoDataImg_List AndTitle:@"暂无新消息"];
     nv.frame = FRAME_BETWEEN_NAV_TAB;
     self.noDataView = nv;
     nv.backgroundColor = [UIColor clearColor];
