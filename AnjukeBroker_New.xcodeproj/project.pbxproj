@@ -34,7 +34,7 @@
 		200DAB6318DFD4E20077E0C9 /* anjuke_icon_tab_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 200DAB6218DFD4E20077E0C9 /* anjuke_icon_tab_bg@2x.png */; };
 		2011CD8218AB1D5300EEEA5C /* SystemMessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2011CD8118AB1D5300EEEA5C /* SystemMessageDetailViewController.m */; };
 		201BC95018CEF15900565BF6 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94C18CEF15900565BF6 /* Default.png */; };
-		201BC95118CEF15900565BF6 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94D18CEF15900565BF6 /* Default~iphone.png */; };
+		201BC95118CEF15900565BF6 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94D18CEF15900565BF6 /* Default@2x.png */; };
 		201BC95318CEF15900565BF6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 201BC94F18CEF15900565BF6 /* Default-568h@2x.png */; };
 		202133C618C72CF200A0090B /* BrokerWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 202133C518C72CF200A0090B /* BrokerWebViewController.m */; };
 		2026044818B9D6CA00F75A56 /* ClientModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2026044718B9D6CA00F75A56 /* ClientModel.m */; };
@@ -833,7 +833,7 @@
 		2011CD8118AB1D5300EEEA5C /* SystemMessageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemMessageDetailViewController.m; sourceTree = "<group>"; };
 		201579011901245800188F7E /* UIComponents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIComponents.h; sourceTree = "<group>"; };
 		201BC94C18CEF15900565BF6 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		201BC94D18CEF15900565BF6 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
+		201BC94D18CEF15900565BF6 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		201BC94F18CEF15900565BF6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		202133C418C72CF200A0090B /* BrokerWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerWebViewController.h; sourceTree = "<group>"; };
 		202133C518C72CF200A0090B /* BrokerWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerWebViewController.m; sourceTree = "<group>"; };
@@ -2059,7 +2059,7 @@
 			isa = PBXGroup;
 			children = (
 				201BC94C18CEF15900565BF6 /* Default.png */,
-				201BC94D18CEF15900565BF6 /* Default~iphone.png */,
+				201BC94D18CEF15900565BF6 /* Default@2x.png */,
 				201BC94F18CEF15900565BF6 /* Default-568h@2x.png */,
 			);
 			name = "app首屏页面";
@@ -4864,7 +4864,7 @@
 				B7EF77AF183CBBD20024A5E6 /* agent_icon45@2x.png in Resources */,
 				27A42B5618E2C4D300FADED3 /* wl_map_icon_1.png in Resources */,
 				B7EF77A1183CBB100024A5E6 /* anjuke_icon_draft@2x.png in Resources */,
-				201BC95118CEF15900565BF6 /* Default~iphone.png in Resources */,
+				201BC95118CEF15900565BF6 /* Default@2x.png in Resources */,
 				2761B89C187C053C00EABF95 /* logo_57.png in Resources */,
 				B7FC9AC918C41B1300F77205 /* anjuke_icon_add_pic4@2x.png in Resources */,
 				B7FC9AED18C41B1300F77205 /* xproject_dialogue_greencard_selected@2x.png in Resources */,
