@@ -26,7 +26,8 @@ if [ ! -d ${AnjukeQudaoPath} ]; then
     mkdir -p ${AnjukeQudaoPath}
 fi
 
-RemotePackagePath='mobile@ios.dev.anjuke.com:/var/www/apps/AnjukeBroker_New_Enterprice/ipa/'
+#RemotePackagePath='mobile@ios.dev.anjuke.com:/var/www/apps/AnjukeBroker_New_Enterprice/ipa/'
+RemotePackagePath='mobile@ios.dev.anjuke.com:/var/www/apps/AnjukeBroker_New/ipa/'
 
 #denpendences
 #dependences[0]='RTApiProxy:master'
