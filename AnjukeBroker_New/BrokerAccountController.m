@@ -33,6 +33,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationController.navigationBarHidden = NO;
+    
     [self setTitleViewWithString:@"个人信息"];
 	// Do any additional setup after loading the view.
 }
@@ -42,26 +44,25 @@
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
     self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
-//    self.myTable.separatorColor = [UIColor whiteColor];
     [self.view addSubview:self.myTable];
     
-    UIView *img = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 120)];
-    img.backgroundColor = [Util_UI colorWithHexString:@"#EEEEEE"];
-    self.myTable.tableHeaderView = img;
-    CGFloat imgw = 160/2;
-    
-//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:img.frame];
-//    [self drawLine:imageView];
-//    [img addSubview:imageView];
-    WebImageView *brokerImg = [[WebImageView alloc] initWithFrame:CGRectMake(([self windowWidth] - imgw)/2, (120-imgw)/2, imgw, imgw)];
-    brokerImg.imageUrl = [LoginManager getUse_photo_url];
-    brokerImg.contentMode = UIViewContentModeScaleAspectFill;
-    brokerImg.layer.masksToBounds = YES;
-
-    [img addSubview:brokerImg];
-    brokerImg.layer.cornerRadius = 8;
-    brokerImg.layer.borderWidth = 0.5;
-    brokerImg.layer.borderColor = [[UIColor blackColor] CGColor];
+//    UIView *img = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 120)];
+//    img.backgroundColor = [Util_UI colorWithHexString:@"#EEEEEE"];
+//    self.myTable.tableHeaderView = img;
+//    CGFloat imgw = 160/2;
+//    
+////    UIImageView *imageView = [[UIImageView alloc] initWithFrame:img.frame];
+////    [self drawLine:imageView];
+////    [img addSubview:imageView];
+//    WebImageView *brokerImg = [[WebImageView alloc] initWithFrame:CGRectMake(([self windowWidth] - imgw)/2, (120-imgw)/2, imgw, imgw)];
+//    brokerImg.imageUrl = [LoginManager getUse_photo_url];
+//    brokerImg.contentMode = UIViewContentModeScaleAspectFill;
+//    brokerImg.layer.masksToBounds = YES;
+//
+//    [img addSubview:brokerImg];
+//    brokerImg.layer.cornerRadius = 8;
+//    brokerImg.layer.borderWidth = 0.5;
+//    brokerImg.layer.borderColor = [[UIColor blackColor] CGColor];
 }
 
 //- (void)drawLine:(UIImageView *) imageView{

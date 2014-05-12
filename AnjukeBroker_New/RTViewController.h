@@ -21,6 +21,8 @@
 #define FRAME_BETWEEN_NAV_TAB CGRectMake(0, 0, [self windowWidth], [self windowHeight]- STATUS_BAR_H - TAB_BAR_H - NAV_BAT_H)
 #define FRAME_WITH_NAV CGRectMake(0, 0, [self windowWidth], [self windowHeight] - STATUS_BAR_H - NAV_BAT_H)
 #define FRAME_WITH_TAB CGRectMake(0, 0, [self windowWidth], [self windowHeight] - 0 - TAB_BAR_H)
+#define FRAME_WITH CGRectMake(0, 0, [self windowWidth], [self windowHeight])
+
 
 #define ITEM_BTN_FRAME CGRectMake(0, 0, 55, 31)
 #define NONETWORK_STR @"网络不给力"

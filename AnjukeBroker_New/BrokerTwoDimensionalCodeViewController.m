@@ -37,9 +37,11 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.navigationController.navigationBarHidden = NO;
+    self.view.backgroundColor = [UIColor whiteColor];
     
     [self setTitleViewWithString:@"我的二维码"];
-    self.view.backgroundColor = SYSTEM_LIGHT_GRAY_BG2;
+//    self.view.backgroundColor = SYSTEM_LIGHT_GRAY_BG2;
     
     [self setValueForShow];
     [self doRequest];
@@ -58,9 +60,9 @@
 }
 
 - (void)initDisplay {
-    CGFloat imgGap = 20;
+    CGFloat imgGap = 35;
     
-    WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(imgGap, 35, 40, 40)];
+    WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(imgGap+20, 35, 40, 40)];
     icon.backgroundColor = [UIColor clearColor];
     icon.layer.borderWidth = 0.5;
     icon.layer.borderColor = SYSTEM_BLACK.CGColor;
@@ -83,28 +85,28 @@
     self.remarkLb = titleLb2;
     [self.view addSubview:titleLb2];
     
-    CGFloat bgW = [self windowWidth] - imgGap*2;;
-    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(icon.frame.origin.x, icon.frame.origin.y + icon.frame.size.height + 30, bgW, bgW+20)];
-    bgView.backgroundColor = [UIColor whiteColor];
-    bgView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    bgView.layer.borderWidth = 1;
-    [self.view addSubview:bgView];
+//    CGFloat bgW = [self windowWidth] - imgGap*2;;
+//    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(icon.frame.origin.x, icon.frame.origin.y + icon.frame.size.height + 30, bgW, bgW+20)];
+//    bgView.backgroundColor = [UIColor clearColor];
+////    bgView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+////    bgView.layer.borderWidth = 1;
+//    [self.view addSubview:bgView];
     
-    CGFloat imgW = (bgW - 30);
-    self.brokerGigImg = [[WebImageView alloc] initWithFrame:CGRectMake((bgW - imgW)/2, (bgW - imgW)/2 - 10, imgW, imgW)];
+    CGFloat imgW = 250;
+    self.brokerGigImg = [[WebImageView alloc] initWithFrame:CGRectMake(imgGap, icon.frame.origin.y + icon.frame.size.height + 30, imgW, imgW)];
     self.brokerGigImg.backgroundColor = [UIColor clearColor];
     self.brokerGigImg.imageUrl = [LoginManager getTwoCodeIcon];
 //    self.brokerGigImg.layer.borderColor = [UIColor blackColor].CGColor;
 //    self.brokerGigImg.layer.borderWidth = 1;
-    [bgView addSubview:self.brokerGigImg];
+    [self.view addSubview:self.brokerGigImg];
     
-    UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(0, self.brokerGigImg.frame.origin.y + imgW + 10, bgW, 20)];
+    UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(imgGap, self.brokerGigImg.frame.origin.y + imgW + 10, imgW, 20)];
     tips.backgroundColor = [UIColor clearColor];
     tips.font = [UIFont systemFontOfSize:13];
     tips.textColor = SYSTEM_LIGHT_GRAY;
     tips.textAlignment = NSTextAlignmentCenter;
     tips.text = @"扫一扫上面的二维码，加我微聊";
-    [bgView addSubview:tips];
+    [self.view addSubview:tips];
 }
 
 - (void)setValueForShow {

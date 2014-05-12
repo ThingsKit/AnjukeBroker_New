@@ -583,6 +583,12 @@
 		F85A316C1907D0B100511022 /* anjuke_icon_callphone.png in Resources */ = {isa = PBXBuildFile; fileRef = F85A31681907D0B100511022 /* anjuke_icon_callphone.png */; };
 		F87E8613190E4723005A5723 /* anjuke_icon_button_blue_press.png in Resources */ = {isa = PBXBuildFile; fileRef = F87E8611190E4723005A5723 /* anjuke_icon_button_blue_press.png */; };
 		F87E8614190E4723005A5723 /* anjuke_icon_button_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = F87E8612190E4723005A5723 /* anjuke_icon_button_blue.png */; };
+		F8A717BC192058FB004840C6 /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = F8A717B4192058FB004840C6 /* header.png */; };
+		F8A717BD192058FB004840C6 /* header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8A717B5192058FB004840C6 /* header@2x.png */; };
+		F8A717BE192058FB004840C6 /* UserCenterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717B7192058FB004840C6 /* UserCenterCell.m */; };
+		F8A717BF192058FB004840C6 /* UserCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717B9192058FB004840C6 /* UserCenterViewController.m */; };
+		F8A717C0192058FB004840C6 /* UserHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717BB192058FB004840C6 /* UserHeaderView.m */; };
+		F8A717C419205934004840C6 /* AppSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717C319205934004840C6 /* AppSettingViewController.m */; };
 		F8BFF37918FE87E8008E700D /* leftside_shadow_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37718FE87E8008E700D /* leftside_shadow_bg.png */; };
 		F8BFF37A18FE87E8008E700D /* leftside_shadow_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */; };
 		F8D449D01908AFA900447375 /* anjuke_icon_button_red_press.png in Resources */ = {isa = PBXBuildFile; fileRef = F8D449CC1908AFA900447375 /* anjuke_icon_button_red_press.png */; };
@@ -1481,6 +1487,16 @@
 		F85A31681907D0B100511022 /* anjuke_icon_callphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_callphone.png; sourceTree = "<group>"; };
 		F87E8611190E4723005A5723 /* anjuke_icon_button_blue_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_blue_press.png; sourceTree = "<group>"; };
 		F87E8612190E4723005A5723 /* anjuke_icon_button_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_blue.png; sourceTree = "<group>"; };
+		F8A717B4192058FB004840C6 /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
+		F8A717B5192058FB004840C6 /* header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header@2x.png"; sourceTree = "<group>"; };
+		F8A717B6192058FB004840C6 /* UserCenterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterCell.h; sourceTree = "<group>"; };
+		F8A717B7192058FB004840C6 /* UserCenterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCenterCell.m; sourceTree = "<group>"; };
+		F8A717B8192058FB004840C6 /* UserCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterViewController.h; sourceTree = "<group>"; };
+		F8A717B9192058FB004840C6 /* UserCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCenterViewController.m; sourceTree = "<group>"; };
+		F8A717BA192058FB004840C6 /* UserHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserHeaderView.h; sourceTree = "<group>"; };
+		F8A717BB192058FB004840C6 /* UserHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserHeaderView.m; sourceTree = "<group>"; };
+		F8A717C219205934004840C6 /* AppSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSettingViewController.h; sourceTree = "<group>"; };
+		F8A717C319205934004840C6 /* AppSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppSettingViewController.m; sourceTree = "<group>"; };
 		F8BFF37718FE87E8008E700D /* leftside_shadow_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leftside_shadow_bg.png; sourceTree = "<group>"; };
 		F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftside_shadow_bg@2x.png"; sourceTree = "<group>"; };
 		F8D449CC1908AFA900447375 /* anjuke_icon_button_red_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_red_press.png; sourceTree = "<group>"; };
@@ -2312,8 +2328,18 @@
 		972C10261814FC8800552C9B /* 更多 */ = {
 			isa = PBXGroup;
 			children = (
+				F8A717B4192058FB004840C6 /* header.png */,
+				F8A717B5192058FB004840C6 /* header@2x.png */,
+				F8A717B8192058FB004840C6 /* UserCenterViewController.h */,
+				F8A717B9192058FB004840C6 /* UserCenterViewController.m */,
+				F8A717B6192058FB004840C6 /* UserCenterCell.h */,
+				F8A717B7192058FB004840C6 /* UserCenterCell.m */,
+				F8A717BA192058FB004840C6 /* UserHeaderView.h */,
+				F8A717BB192058FB004840C6 /* UserHeaderView.m */,
 				972C10301814FDC400552C9B /* MoreViewController.h */,
 				972C10311814FDC400552C9B /* MoreViewController.m */,
+				F8A717C219205934004840C6 /* AppSettingViewController.h */,
+				F8A717C319205934004840C6 /* AppSettingViewController.m */,
 				97DED8AB18234BB100D0B82A /* MoreListCell.h */,
 				97DED8AC18234BB100D0B82A /* MoreListCell.m */,
 				970DB71B183AFFE700DEB455 /* AboutUsViewController.h */,
@@ -3504,6 +3530,7 @@
 				205790E41905246300419CA3 /* anjuke_icon06_selected@2x.png in Resources */,
 				27A42B5418E2C4D300FADED3 /* wl_map_icon_1_press.png in Resources */,
 				B7FC9AEB18C41B1300F77205 /* xproject_dialogue_greencard@2x.png in Resources */,
+				F8A717BD192058FB004840C6 /* header@2x.png in Resources */,
 				97F4D18F184E2ABD00DFC45F /* logo_40.png in Resources */,
 				B7EF779D183CBAEC0024A5E6 /* anjuke_icon04_more@2x.png in Resources */,
 				B7EA5B6618DBDCA900D437BB /* anjuke_icon_chat2_fy@2x.png in Resources */,
@@ -3535,6 +3562,7 @@
 				B7FC9AE318C41B1300F77205 /* xproject_dialogue_blackbutton@2x.png in Resources */,
 				20A44DB518697B5E008D8CB1 /* fresh1_1008@2x.png in Resources */,
 				2079ADF118B5FD610029D493 /* anjuke_icon_danye_xingbiao_@2x.png in Resources */,
+				F8A717BC192058FB004840C6 /* header.png in Resources */,
 				B7D0AB9918A9D23300A6229C /* anjuke_icon_feedback@2x.png in Resources */,
 				F8D449D01908AFA900447375 /* anjuke_icon_button_red_press.png in Resources */,
 				B7EA5B7D18DBE91900D437BB /* anjuke_icon_input_voice@2x.png in Resources */,
@@ -3846,6 +3874,7 @@
 				B7EAD52118CD927200B28FEC /* AXPhotoManager.m in Sources */,
 				B7EF77B5183CE2D90024A5E6 /* RentSelectNoPlanController.m in Sources */,
 				273913D318DBCFD9003284AA /* MapViewController.m in Sources */,
+				F8A717C0192058FB004840C6 /* UserHeaderView.m in Sources */,
 				20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */,
 				205790DB1905105400419CA3 /* AnjukeFeatureCell.m in Sources */,
 				200915E81893FC1000A13115 /* E_Photo.m in Sources */,
@@ -3969,6 +3998,7 @@
 				678083FC1904AB1F00765A18 /* EmojiMapSymbols.m in Sources */,
 				2056A34E18EE7E660022B5A5 /* XChatData.xcdatamodeld in Sources */,
 				2056A39418EE7EA00022B5A5 /* AXMessageCenterSendMessageManager.m in Sources */,
+				F8A717BE192058FB004840C6 /* UserCenterCell.m in Sources */,
 				2031A48518920F83004F7E1A /* FindHomeViewController.m in Sources */,
 				203EC29B18B2F65400DD0840 /* ClientListViewController.m in Sources */,
 				2056A39318EE7EA00022B5A5 /* AXMessageCenterSearchBrokerManager.m in Sources */,
@@ -3978,6 +4008,7 @@
 				B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */,
 				97CB0C0C182BEA3500FCCBBD /* ELCAlbumPickerController.m in Sources */,
 				B7EA1FC2183A437500438CF8 /* SaleAuctionViewController.m in Sources */,
+				F8A717BF192058FB004840C6 /* UserCenterViewController.m in Sources */,
 				976AC61118278B5C003A2B3A /* LoginViewController.m in Sources */,
 				273913D218DBCFD9003284AA /* CheckInstalledMapAPP.m in Sources */,
 				678084041904AB1F00765A18 /* FaceView.m in Sources */,
@@ -4027,6 +4058,7 @@
 				B7EA04AA1844DB3700AC8842 /* BrokerAccountCell.m in Sources */,
 				207526C118B4658A0022220C /* ClientListCell.m in Sources */,
 				B73468FE1904FB7800EEF424 /* NSArray+AXChatMessage.m in Sources */,
+				F8A717C419205934004840C6 /* AppSettingViewController.m in Sources */,
 				B7EAD51E18CD927200B28FEC /* AXChatMessageTextCell.m in Sources */,
 				B7EAD52618CD927200B28FEC /* AXPhoto.m in Sources */,
 				273913E918DBD581003284AA /* RegexKitLite.m in Sources */,

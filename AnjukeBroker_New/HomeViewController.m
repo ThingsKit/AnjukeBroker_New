@@ -32,6 +32,7 @@
 #import "RTNetworkResponse.h"
 #import "AXIMGDownloader.h"
 #import "IMGDowloaderManager.h"
+#import "UserCenterViewController.h"
 
 #define HOME_cellHeight 50
 #define Max_Account_Lb_Width 80
@@ -108,7 +109,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    self.navigationController.navigationBarHidden = NO;
     [self doRequest];
     
     if (!self.configChecked) {
@@ -326,11 +327,14 @@
 
 - (void)rightButtonAction:(id)sender {
     //设置跳转
-    MoreViewController *mv = [[MoreViewController alloc] init];
+    //    MoreViewController *mv = [[MoreViewController alloc] init];
+    //    [mv setHidesBottomBarWhenPushed:YES];
+    //    self.navigationController.navigationBarHidden = NO;
+    //    [self.navigationController pushViewController:mv animated:YES];
+    UserCenterViewController *mv = [[UserCenterViewController alloc] init];
     [mv setHidesBottomBarWhenPushed:YES];
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController pushViewController:mv animated:YES];
-
 }
 
 - (void)doPush:(id)sender {
