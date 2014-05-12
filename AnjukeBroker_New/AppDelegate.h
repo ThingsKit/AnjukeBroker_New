@@ -10,6 +10,7 @@
 #import "TabBarViewController.h"
 #import "LoginViewController.h"
 #import "AFWelcomeScrollview.h"
+#import "VersionUpdateManager.h"
 
 typedef enum {
     SwitchType_RentNoPlan = 0, //租房未推广
@@ -36,6 +37,7 @@ typedef enum {
 @property BOOL isEnforceUpdate; //是否强制更新
 @property BOOL boolNeedAlert; //没有更新是否需要弹框提示（YES为检查更新用）
 @property (nonatomic, copy) NSString *updateUrl; //升级url
+@property (nonatomic, strong) VersionUpdateManager *versionUpdate;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
@@ -54,5 +56,5 @@ typedef enum {
 
 //用于发房结束后页面跳转到计划管理房源列表页面
 - (void)dismissController:(UIViewController *)dismissController withSwitchIndex:(int)index withSwtichType:(TabSwitchType)switchType withPropertyDic:(NSDictionary *)propDic;
-- (void)checkVersionForMore:(BOOL)forMore; // 新版本更新检查
+//- (void)checkVersionForMore:(BOOL)forMore; // 新版本更新检查
 @end

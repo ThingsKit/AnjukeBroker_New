@@ -7,45 +7,62 @@
 //
 
 #import "VersionUpdateManager.h"
-#import "RTRequestProxy.h"
-#import "AppManager.h"
-#import "Reachability.h"
+
 
 @implementation VersionUpdateManager
-- (void)checkVersionForMore:(BOOL)forMore { // 新版本更新检查
+@synthesize versionDelegate,isDefaultLoad,isNeedAlert,isEnforceUpdate;
+
+- (void)checkVersion:(BOOL)isForDefaultLoad{ // 新版本更新检查
     if (![self checkNetwork]) {
+        [versionDelegate updateVersionInfo:nil];
         return;
     }
-    
-//    self.boolNeedAlert = forMore;
+    self.isDefaultLoad = isForDefaultLoad;
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"i" ,@"o" , nil];
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"checkversion/" params:params target:self action:@selector(onGetVersion:)];
 }
 
+//- (void)checkVersionForMore:(BOOL)forMore { // 新版本更新检查
+//    if (![self checkNetwork]) {
+//        return;
+//    }
+//
+//    self.boolNeedAlert = forMore;
+//
+//    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"i" ,@"o" , nil];
+//
+//    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"checkversion/" params:params target:self action:@selector(onGetVersion:)];
+//}
+
 - (void)onGetVersion:(RTNetworkResponse *) response {
     //check network and response
-    if (![self checkNetwork])
-        return;
-    
-    if ([response status] == RTNetworkResponseStatusFailed || ([[[response content] objectForKey:@"status"] isEqualToString:@"error"]))
-        return;
-    
-    NSDictionary *resultFromAPI = [[response content] objectForKey:@"data"];
-    DLog(@"%@", resultFromAPI);
-    
-    if ([resultFromAPI count] != 0) {
+//    if (![self checkNetwork])
+//        return;
+//    
+//    if ([response status] == RTNetworkResponseStatusFailed || ([[[response content] objectForKey:@"status"] isEqualToString:@"error"]))
+//        return;
+//    
+//    NSDictionary *resultFromAPI = [[response content] objectForKey:@"data"];
+//    DLog(@"%@", resultFromAPI);
+//
+//    if (!self.isDefaultLoad) {
+//        [versionDelegate updateVersionInfo:resultFromAPI];
+//    }else
+//        return;
+//    
+//    if ([resultFromAPI count] != 0) {
 //        self.updateUrl = [NSString stringWithFormat:@"%@",[resultFromAPI objectForKey:@"url"]];
-        
-        NSString *localVer = [AppManager getBundleVersion];
-        
-        if ([resultFromAPI objectForKey:@"ver"] != nil && ![[resultFromAPI objectForKey:@"ver"] isEqualToString:@""]) {
-            NSString *onlineVer = [resultFromAPI objectForKey:@"ver"];
-            
-            if ([[resultFromAPI objectForKey:@"is_enforce"] isEqualToString:@"1"]) {
+//        
+//        NSString *localVer = [AppManager getBundleVersion];
+//        
+//        if ([resultFromAPI objectForKey:@"ver"] != nil && ![[resultFromAPI objectForKey:@"ver"] isEqualToString:@""]) {
+//            NSString *onlineVer = [resultFromAPI objectForKey:@"ver"];
+//            
+//            if ([[resultFromAPI objectForKey:@"is_enforce"] isEqualToString:@"1"]) {
 //                self.isEnforceUpdate = YES;
-                
+//                
 //                if ([localVer compare:onlineVer options:NSNumericSearch] == NSOrderedAscending)  {
 //                    //强制更新(强制更新且版本号增大)
 //                    UIAlertView *av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"发现新%@版本",onlineVer]
@@ -57,9 +74,7 @@
 //                    [av show];
 //                    return;
 //                }
-            }else{ //非强制更新（非强制更新且版本号增大）
-//                self.isEnforceUpdate = NO;
-//                
+//            }else{ //非强制更新（非强制更新且版本号增大）
 //                if ([localVer compare:onlineVer options:NSNumericSearch] == NSOrderedAscending)  {
 //                    UIAlertView *av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"发现新%@版本",onlineVer]
 //                                                                 message:nil
@@ -72,16 +87,40 @@
 //                    
 //                    return;
 //                }
-                
-            }
-            DLog(@"appVer[%@] checkVer[%@]",localVer, onlineVer);
-            
-//            if (self.boolNeedAlert) {
-//                UIAlertView *av = [[UIAlertView alloc] initWithTitle:nil message:@"没有发现新版本" delegate:Nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
-//                [av show];
-//                self.boolNeedAlert = NO;
+//                
 //            }
+//            DLog(@"appVer[%@] checkVer[%@]",localVer, onlineVer);
+//        }
+//    }
+}
+
+#pragma mark - AlertView Delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(alertView.tag == 101){
+        if (buttonIndex == 0) {
+            if (self.isEnforceUpdate) { //更新
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateUrl]];
+                
+                exit(0); //强制更新后跳转且退出应用
+            }
         }
+        if (buttonIndex == 1) {
+            if (self.isEnforceUpdate) { //退出应用
+                exit(0);
+            }
+            else {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateUrl]];
+            }
+        }
+    }else if (alertView.tag == 102){
+        if (buttonIndex == 0) {
+        }
+        if (buttonIndex == 1) {
+            //更新
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateUrl]];
+            exit(0); //强制更新后跳转且退出应用
+        }
+    }else{
     }
 }
 

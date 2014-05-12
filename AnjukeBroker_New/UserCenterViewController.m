@@ -70,10 +70,15 @@
     self.tableList.tableHeaderView = self.headerView;
     [self.view addSubview:self.tableList];
 
+    [self performSelector:@selector(updateWchat) withObject:nil afterDelay:3];
     
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(1, 0, [self windowWidth], 50)];
     footView.backgroundColor = [UIColor clearColor];
     self.tableList.tableFooterView = footView;
+}
+
+- (void)updateWchat{
+    [self.headerView updateWchatData:nil];
 }
 
 #pragma mark -UITableViewDelegate

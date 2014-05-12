@@ -401,8 +401,8 @@
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_006 note:nil];
             
             //check version
-            [[AppDelegate sharedAppDelegate] setBoolNeedAlert:YES];
-            [[AppDelegate sharedAppDelegate] checkVersionForMore:YES];
+//            [[AppDelegate sharedAppDelegate] setBoolNeedAlert:YES];
+//            [[AppDelegate sharedAppDelegate] checkVersionForMore:YES];
         }
             break;
         case CALL_CLIENT_ROW:

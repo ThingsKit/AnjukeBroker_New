@@ -7,7 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RTRequestProxy.h"
+#import "AppManager.h"
+#import "Reachability.h"
+
+@protocol updateVersionDelegate <NSObject>
+- (void)updateVersionInfo:(NSDictionary *)dic;
+@end
 
 @interface VersionUpdateManager : NSObject
+@property(nonatomic, assign) BOOL isDefaultLoad;
+@property(nonatomic, assign) BOOL isNeedAlert;
+@property(nonatomic, assign) BOOL isEnforceUpdate;
+@property(nonatomic, strong) NSString *updateUrl;
+@property(nonatomic, assign) id<updateVersionDelegate> versionDelegate;
 
+- (void)checkVersion:(BOOL)isForDefaultLoad;
 @end

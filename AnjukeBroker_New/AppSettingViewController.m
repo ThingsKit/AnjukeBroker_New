@@ -11,14 +11,22 @@
 #import "AppDelegate.h"
 #import "BigZhenzhenButton.h"
 #import "AboutUsViewController.h"
+#import "VersionUpdateManager.h"
+#import "AppManager.h"
 
 #define SECTIONNUM 2
 #define NOTIFICCELL 60
 #define MORE_CELL_H 96/2
+#define UPDATEICONFRAME CGRectMake(120,9,25,30)
 
-@interface AppSettingViewController ()
+@interface AppSettingViewController ()<updateVersionDelegate>
 @property(nonatomic, strong) UITableView *tableList;
-@property (nonatomic, strong) UISwitch *msgSw;
+@property(nonatomic, strong) UISwitch *msgSw;
+@property(nonatomic, strong) NSDictionary *versionDic;
+@property(nonatomic, assign) BOOL isHasNewVersion;
+@property(nonatomic, strong) NSString *updateUrl;
+@property(nonatomic, strong) NSString *onlineVer;
+@property(nonatomic, strong) VersionUpdateManager *versionUpdate;
 @end
 
 @implementation AppSettingViewController
@@ -31,18 +39,17 @@
     }
     return self;
 }
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitleViewWithString:@"系统设置"];
-    self.navigationController.navigationBarHidden = NO;
     
     [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_006 note:nil];
     
-    //check version
-    [[AppDelegate sharedAppDelegate] setBoolNeedAlert:NO];
-    [[AppDelegate sharedAppDelegate] checkVersionForMore:YES];
+    [self setTitleViewWithString:@"系统设置"];
+    self.navigationController.navigationBarHidden = NO;
+    self.versionUpdate = [[VersionUpdateManager alloc] init];
+    self.versionUpdate.versionDelegate = self;
+    [self.versionUpdate checkVersion:NO];
     
     // Do any additional setup after loading the view.
     
@@ -65,6 +72,25 @@
     [footerView addSubview:logoutBtn];
     
     self.tableList.tableFooterView = footerView;
+}
+- (void)updateVersionInfo:(NSDictionary *)dic{
+    self.versionDic = [[NSDictionary alloc] initWithDictionary:dic];
+    if ([self.versionDic count] != 0) {
+        self.updateUrl = [NSString stringWithFormat:@"%@",[self.versionDic objectForKey:@"url"]];
+        
+        NSString *localVer = [AppManager getBundleVersion];
+        self.onlineVer = [self.versionDic objectForKey:@"ver"];
+        
+        if ([self.versionDic objectForKey:@"ver"] != nil && ![[self.versionDic objectForKey:@"ver"] isEqualToString:@""]) {
+            if ([localVer compare:self.onlineVer options:NSNumericSearch] == NSOrderedAscending) {
+                self.onlineVer = [self.versionDic objectForKey:@"ver"];
+                self.isHasNewVersion = YES;
+            }else{
+                self.isHasNewVersion = NO;
+            }
+        }
+    }
+    [self.tableList reloadData];
 }
 #pragma mark -UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -128,16 +154,21 @@
         if (indexPath.row == 0) {
             [cell showTopLine];
             [cell showBottonLineWithCellHeight:CELL_HEIGHT-1 andOffsetX:15];
-            cell.textLabel.text = @"当前已经是最新版本";
-//            if () {
-//                cell.textLabel.text = @"版本更新";
-//            }
+            if (!self.isHasNewVersion) {
+                cell.textLabel.text = @"当前已经是最新版本";
+            }else{
+                cell.textLabel.text = @"版本更新";
+                
+                UIImageView *updateImg = [[UIImageView alloc] init];
+                updateImg.frame = UPDATEICONFRAME;
+                [updateImg setImage:nil];
+                [cell.contentView addSubview:updateImg];
+            }
         }else{
             [cell showBottonLineWithCellHeight:CELL_HEIGHT-1];
             cell.textLabel.text = @"关于移动经纪人";
         }
     }
-    
     
     return cell;
 }
@@ -153,8 +184,14 @@
         AboutUsViewController *av = [[AboutUsViewController alloc] init];
         [av setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:av animated:YES];
+    }else if (indexPath.section == 1 && indexPath.row == 0){
+        if (self.isHasNewVersion && self.updateUrl.length != 0) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"发现新%@版本",self.onlineVer] delegate:self cancelButtonTitle:@"稍后再说" otherButtonTitles:@"立即更新", nil];
+            alert.delegate = self;
+            alert.tag = 100;
+            [alert show];
+        }
     }
-    
 }
 - (void)checkSw:(id)sender{
     if (!self.msgSw.on) {
@@ -280,7 +317,10 @@
     }else if (alertView.tag == 10 && buttonIndex == 0){
         self.msgSw.on = YES;
         return;
+    }else if (alertView.tag == 100 && buttonIndex == 1){
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateUrl]];
     }
+    
     switch (buttonIndex) {
         case 1:
         {

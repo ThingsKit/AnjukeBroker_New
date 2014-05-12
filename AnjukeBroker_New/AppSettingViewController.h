@@ -10,4 +10,5 @@
 
 @interface AppSettingViewController : RTViewController<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 
+- (void)updateVersionInfo:(NSDictionary *)dic;
 @end
