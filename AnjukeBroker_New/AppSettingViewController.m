@@ -47,6 +47,7 @@
     
     [self setTitleViewWithString:@"系统设置"];
     self.navigationController.navigationBarHidden = NO;
+    
     self.versionUpdate = [[VersionUpdateManager alloc] init];
     self.versionUpdate.versionDelegate = self;
     [self.versionUpdate checkVersion:NO];

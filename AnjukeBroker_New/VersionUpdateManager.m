@@ -24,74 +24,62 @@
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"checkversion/" params:params target:self action:@selector(onGetVersion:)];
 }
 
-//- (void)checkVersionForMore:(BOOL)forMore { // 新版本更新检查
-//    if (![self checkNetwork]) {
-//        return;
-//    }
-//
-//    self.boolNeedAlert = forMore;
-//
-//    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"i" ,@"o" , nil];
-//
-//    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"checkversion/" params:params target:self action:@selector(onGetVersion:)];
-//}
-
 - (void)onGetVersion:(RTNetworkResponse *) response {
     //check network and response
-//    if (![self checkNetwork])
-//        return;
-//    
-//    if ([response status] == RTNetworkResponseStatusFailed || ([[[response content] objectForKey:@"status"] isEqualToString:@"error"]))
-//        return;
-//    
-//    NSDictionary *resultFromAPI = [[response content] objectForKey:@"data"];
-//    DLog(@"%@", resultFromAPI);
-//
-//    if (!self.isDefaultLoad) {
-//        [versionDelegate updateVersionInfo:resultFromAPI];
-//    }else
-//        return;
-//    
-//    if ([resultFromAPI count] != 0) {
-//        self.updateUrl = [NSString stringWithFormat:@"%@",[resultFromAPI objectForKey:@"url"]];
-//        
-//        NSString *localVer = [AppManager getBundleVersion];
-//        
-//        if ([resultFromAPI objectForKey:@"ver"] != nil && ![[resultFromAPI objectForKey:@"ver"] isEqualToString:@""]) {
-//            NSString *onlineVer = [resultFromAPI objectForKey:@"ver"];
-//            
-//            if ([[resultFromAPI objectForKey:@"is_enforce"] isEqualToString:@"1"]) {
-//                self.isEnforceUpdate = YES;
-//                
-//                if ([localVer compare:onlineVer options:NSNumericSearch] == NSOrderedAscending)  {
-//                    //强制更新(强制更新且版本号增大)
-//                    UIAlertView *av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"发现新%@版本",onlineVer]
-//                                                                 message:nil
-//                                                                delegate:self
-//                                                       cancelButtonTitle:nil
-//                                                       otherButtonTitles:@"立即更新", @"退出应用", nil];
-//                    av.tag = 101;
-//                    [av show];
-//                    return;
-//                }
-//            }else{ //非强制更新（非强制更新且版本号增大）
-//                if ([localVer compare:onlineVer options:NSNumericSearch] == NSOrderedAscending)  {
-//                    UIAlertView *av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"发现新%@版本",onlineVer]
-//                                                                 message:nil
-//                                                                delegate:self
-//                                                       cancelButtonTitle:@"稍后再说"
-//                                                       otherButtonTitles:@"立即更新",nil];
-//                    av.cancelButtonIndex = 0;
-//                    av.tag = 102;
-//                    [av show];
-//                    
-//                    return;
-//                }
-//                
-//            }
-//            DLog(@"appVer[%@] checkVer[%@]",localVer, onlineVer);
-//        }
-//    }
+    if (![self checkNetwork])
+        return;
+    
+    if ([response status] == RTNetworkResponseStatusFailed || ([[[response content] objectForKey:@"status"] isEqualToString:@"error"]))
+        return;
+    
+    NSDictionary *resultFromAPI = [[response content] objectForKey:@"data"];
+    DLog(@"%@", resultFromAPI);
+
+    if (!self.isDefaultLoad) {
+        [versionDelegate updateVersionInfo:resultFromAPI];
+    }else
+        return;
+    
+    if ([resultFromAPI count] != 0) {
+        self.updateUrl = [NSString stringWithFormat:@"%@",[resultFromAPI objectForKey:@"url"]];
+        
+        NSString *localVer = [AppManager getBundleVersion];
+        
+        if ([resultFromAPI objectForKey:@"ver"] != nil && ![[resultFromAPI objectForKey:@"ver"] isEqualToString:@""]) {
+            NSString *onlineVer = [resultFromAPI objectForKey:@"ver"];
+            
+            if ([[resultFromAPI objectForKey:@"is_enforce"] isEqualToString:@"1"]) {
+                self.isEnforceUpdate = YES;
+                
+                if ([localVer compare:onlineVer options:NSNumericSearch] == NSOrderedAscending)  {
+                    //强制更新(强制更新且版本号增大)
+                    UIAlertView *av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"发现新%@版本",onlineVer]
+                                                                 message:nil
+                                                                delegate:self
+                                                       cancelButtonTitle:nil
+                                                       otherButtonTitles:@"立即更新", @"退出应用", nil];
+                    av.tag = 101;
+                    [av show];
+                    return;
+                }
+            }else{ //非强制更新（非强制更新且版本号增大）
+                if ([localVer compare:onlineVer options:NSNumericSearch] == NSOrderedAscending)  {
+                    UIAlertView *av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"发现新%@版本",onlineVer]
+                                                                 message:nil
+                                                                delegate:self
+                                                       cancelButtonTitle:@"稍后再说"
+                                                       otherButtonTitles:@"立即更新",nil];
+                    av.cancelButtonIndex = 0;
+                    av.tag = 102;
+                    [av show];
+                    
+                    return;
+                }
+                
+            }
+            DLog(@"appVer[%@] checkVer[%@]",localVer, onlineVer);
+        }
+    }
 }
 
 #pragma mark - AlertView Delegate
