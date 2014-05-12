@@ -606,7 +606,7 @@
 }
 
 - (void)addImageDidClick { //添加按钮点击
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"选择在线房型图", @"拍照", @"从手机相册选择", nil];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"选择在线房型图", @"从手机相册选择", nil];
     [sheet showInView:self.view];
 }
 
@@ -871,6 +871,7 @@
             [self.navigationController pushViewController:ao animated:NO];
         }
             break;
+            /*
         case 1: //拍照
         {
             if (![self canAddMoreImageWithAddCount:1]) { //到达上限后张就不能继续拍摄
@@ -912,8 +913,8 @@
             
             [self presentViewController:ipc animated:YES completion:nil];
         }
-            break;
-        case 2: //相册
+            break;*/
+        case 1: //相册
         {
             if (![self canAddMoreImageWithAddCount:1]) { //到达上限后张就不能继续拍摄
                 return; //室内图超出限制
