@@ -589,6 +589,7 @@
 		F8A717BF192058FB004840C6 /* UserCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717B9192058FB004840C6 /* UserCenterViewController.m */; };
 		F8A717C0192058FB004840C6 /* UserHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717BB192058FB004840C6 /* UserHeaderView.m */; };
 		F8A717C419205934004840C6 /* AppSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717C319205934004840C6 /* AppSettingViewController.m */; };
+		F8A717C719205C2E004840C6 /* VersionUpdateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717C619205C2E004840C6 /* VersionUpdateManager.m */; };
 		F8BFF37918FE87E8008E700D /* leftside_shadow_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37718FE87E8008E700D /* leftside_shadow_bg.png */; };
 		F8BFF37A18FE87E8008E700D /* leftside_shadow_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */; };
 		F8D449D01908AFA900447375 /* anjuke_icon_button_red_press.png in Resources */ = {isa = PBXBuildFile; fileRef = F8D449CC1908AFA900447375 /* anjuke_icon_button_red_press.png */; };
@@ -1497,6 +1498,8 @@
 		F8A717BB192058FB004840C6 /* UserHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserHeaderView.m; sourceTree = "<group>"; };
 		F8A717C219205934004840C6 /* AppSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSettingViewController.h; sourceTree = "<group>"; };
 		F8A717C319205934004840C6 /* AppSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppSettingViewController.m; sourceTree = "<group>"; };
+		F8A717C519205C2E004840C6 /* VersionUpdateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionUpdateManager.h; sourceTree = "<group>"; };
+		F8A717C619205C2E004840C6 /* VersionUpdateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionUpdateManager.m; sourceTree = "<group>"; };
 		F8BFF37718FE87E8008E700D /* leftside_shadow_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leftside_shadow_bg.png; sourceTree = "<group>"; };
 		F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftside_shadow_bg@2x.png"; sourceTree = "<group>"; };
 		F8D449CC1908AFA900447375 /* anjuke_icon_button_red_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_red_press.png; sourceTree = "<group>"; };
@@ -2352,6 +2355,8 @@
 				2026044B18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.m */,
 				F8575DA11900F6BE00AB662F /* BrokerCallAlert.h */,
 				F8575DA21900F6BE00AB662F /* BrokerCallAlert.m */,
+				F8A717C519205C2E004840C6 /* VersionUpdateManager.h */,
+				F8A717C619205C2E004840C6 /* VersionUpdateManager.m */,
 			);
 			name = "更多";
 			sourceTree = "<group>";
@@ -3837,6 +3842,7 @@
 				B7EA04A61844D40900AC8842 /* BrokerAccountController.m in Sources */,
 				970DB71D183AFFE700DEB455 /* AboutUsViewController.m in Sources */,
 				B723C11A18E9380400584B2C /* PropertyResponder.m in Sources */,
+				F8A717C719205C2E004840C6 /* VersionUpdateManager.m in Sources */,
 				97B422681821087600A2E9E6 /* PropertyBigImageViewController.m in Sources */,
 				20516BDF18F52C3F00D0637C /* AXChatDataCenter.m in Sources */,
 				207526B918B45FE10022220C /* NSMutableArray+SWUtilityButtons.m in Sources */,

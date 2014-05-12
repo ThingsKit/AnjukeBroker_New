@@ -111,7 +111,7 @@
             
             [self checkMsgOpenStatus];
         }else{
-            [cell showBottonLineWithCellHeight:NOTIFICCELL-1];
+            [cell showBottonLineWithCellHeight:NOTIFICCELL];
             UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 250, 20)];
             lab.backgroundColor = [UIColor clearColor];
             lab.text = @"消息通知";
