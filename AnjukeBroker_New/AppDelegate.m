@@ -75,6 +75,8 @@
     [self.versionUpdate checkVersion:YES];
     
     [self requestSalePropertyConfig];
+    //监听被踢出下线通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doLogOutEnforce) name:@"MessageCenterUserDidQuit" object:nil];
     
     return YES;
 }
@@ -128,7 +130,13 @@
     
     [self saveContext];
 }
-
+//强制被踢退出登录
+- (void)doLogOutEnforce {
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:nil message:@"您的账号已在其他设备上登录，请知悉" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确认", nil];
+    [av show];
+    [[AppDelegate sharedAppDelegate] doLogOut];
+    [[AppDelegate sharedAppDelegate] killLongLinkForChat];
+}
 - (void)saveContext
 {
     NSError *error = nil;

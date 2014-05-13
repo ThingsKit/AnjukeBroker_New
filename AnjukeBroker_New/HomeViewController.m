@@ -50,14 +50,19 @@
 @property (nonatomic, strong) NSMutableDictionary *dataDic;
 @property (nonatomic, strong) NSMutableDictionary *ppcDataDic;
 
-@property (nonatomic, strong) UILabel *nameLb;
-@property (nonatomic, strong) UILabel *phoneLb;
-@property (nonatomic, strong) UILabel *accountTitleLb;
-@property (nonatomic, strong) UILabel *accountLb;
-@property (nonatomic, strong) UILabel *accountYuanLb;
-@property (nonatomic, strong) UILabel *propNumLb;
-@property (nonatomic, strong) UILabel *costLb;
-@property (nonatomic, strong) UILabel *clickLb;
+//@property (nonatomic, strong) UILabel *nameLb;
+//@property (nonatomic, strong) UILabel *phoneLb;
+//@property (nonatomic, strong) UILabel *accountTitleLb;
+//@property (nonatomic, strong) UILabel *accountLb;
+//@property (nonatomic, strong) UILabel *accountYuanLb;
+//@property (nonatomic, strong) UILabel *propNumLb;
+//@property (nonatomic, strong) UILabel *costLb;
+//@property (nonatomic, strong) UILabel *clickLb;
+
+@property (nonatomic, strong) UILabel *tapName;
+@property (nonatomic, strong) UILabel *tapValue;
+@property (nonatomic, strong) UILabel *costName;
+@property (nonatomic, strong) UILabel *costValue;
 
 @property BOOL configChecked;
 @property (nonatomic, copy) NSString *loadingURL;
@@ -66,6 +71,15 @@
 @end
 
 @implementation HomeViewController
+
+#pragma mark - log
+- (void)sendAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
+- (void)sendDisAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -86,28 +100,65 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor clearColor];
+//    self.view.backgroundColor = [UIColor clearColor];
+    [self initRightBarButton];
+    [self initView];
+//    [self initDisplay];
+}
+- (void)initView {
+    [self setTitle:@"房源"];
     
-//    [self setTitleViewWithString:[LoginManager getUserName]];
+    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_TAB style:UITableViewStylePlain];
+    self.tvList = tv;
+    tv.backgroundColor = [UIColor lightGrayColor];
+    tv.delegate = self;
+    tv.dataSource = self;
+    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tv.showsHorizontalScrollIndicator = NO;
+    tv.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:tv];
     
-    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_setting_press.png"] taget:self action:@selector(rightButtonAction:)];
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {//fix ios7以下 10像素偏离
-        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:10.0];
-        [self.navigationItem setRightBarButtonItems:@[spacer, rightItem]];
-    }else{
-        self.navigationItem.rightBarButtonItem = rightItem;
+    UIView *hView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 110)];
+    tv.tableHeaderView = hView;
+    
+    self.tapName = [[UILabel alloc] init];
+    self.tapName.text = @"今日点击";
+    self.tapName.textAlignment = NSTextAlignmentCenter;
+    self.tapValue = [[UILabel alloc] init];
+    self.tapValue.textAlignment = NSTextAlignmentCenter;
+    self.tapValue.text = @"2";
+    self.costName = [[UILabel alloc] init];
+    self.costName.textAlignment = NSTextAlignmentCenter;
+    self.costName.text = @"今日花费";
+    self.costValue = [[UILabel alloc] init];
+    self.costValue.textAlignment = NSTextAlignmentCenter;
+    self.costValue.text = @"1.0";
+    
+    [hView addSubview:self.tapName];
+    [hView addSubview:self.tapValue];
+    [hView addSubview:self.costName];
+    [hView addSubview:self.costValue];
+    
+    if ([self.view respondsToSelector:@selector(addConstraint:)]) {
+        self.tapName.translatesAutoresizingMaskIntoConstraints  = NO;
+        self.tapValue.translatesAutoresizingMaskIntoConstraints = NO;
+        self.costName.translatesAutoresizingMaskIntoConstraints = NO;
+        self.costValue.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        NSDictionary *dictionary = NSDictionaryOfVariableBindings(_tapName, _tapValue, _costName, _costValue);
+        float widthIndex = [self windowWidth]/320.0f;
+        NSDictionary *metrics = @{@"leftSpace":@(60.0*widthIndex), @"centerSpace":@(40.0f*widthIndex), @"topSpace":@(30.0f*widthIndex), @"valueAndNameSpace": @(10.0f*widthIndex)};
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftSpace-[_tapName(80)]-centerSpace-[_costName(80)]" options:0 metrics:metrics views:dictionary]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftSpace-[_tapValue(80)]-centerSpace-[_costValue(80)]" options:0 metrics:metrics views:dictionary]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topSpace-[_tapValue(30)]-valueAndNameSpace-[_tapName(30)]" options:0 metrics:metrics views:dictionary]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topSpace-[_costValue(30)]-valueAndNameSpace-[_costName(30)]" options:0 metrics:metrics views:dictionary]];
+    }else {
+        self.tapValue.frame = CGRectMake(60.0f, 30.0f, 80.0f, 30.0f);
+        self.tapName.frame = CGRectMake(60.0f, 70.0f, 80.0f, 30.0f);
+        self.costValue.frame = CGRectMake(180.0f, 30.0f, 80.0f, 30.0f);
+        self.costName.frame = CGRectMake(180.0f, 70.0f, 80.0f, 30.0f);
     }
-    
-    //监听被踢出下线通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doLogOutEnforce) name:@"MessageCenterUserDidQuit" object:nil];
 }
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
@@ -119,40 +170,18 @@
 
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    
-}
-
-#pragma mark - log
-- (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-}
-
-- (void)sendDisAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
-}
-
 #pragma mark - private method
-
-//强制被踢退出登录
-- (void)doLogOutEnforce {
-    UIAlertView *av = [[UIAlertView alloc] initWithTitle:nil message:@"您的账号已在其他设备上登录，请知悉" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确认", nil];
-    [av show];
+- (void)initRightBarButton {
+    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_setting_press.png"] taget:self action:@selector(rightButtonAction:)];
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {//fix ios7以下 10像素偏离
+        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:10.0];
+        [self.navigationItem setRightBarButtonItems:@[spacer, rightItem]];
+    }else{
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
 }
-
 - (void)initModel {
-    self.taskArray = [NSArray arrayWithObjects:@"发布二手房", @"发布租房", @"市场分析", nil];
+    self.taskArray = [NSArray arrayWithObjects:@"定价房源", @"竞价房源", @"待推广房源", nil];
     
     self.dataDic = [NSMutableDictionary dictionary];
     self.ppcDataDic = [NSMutableDictionary dictionary];
@@ -170,12 +199,10 @@
     tv.showsVerticalScrollIndicator = NO;
     [self.view addSubview:tv];
     
-    UIView *hView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], HEADER_VIEW_WHOLE_HEIGHT)];
-    hView.backgroundColor = [UIColor whiteColor];
-    tv.tableHeaderView = hView;
+
     
     //暂时只显示header，无row
-    [self drawHeaderWithBG:hView];
+//    [self drawHeaderWithBG:hView];
 }
 
 - (void)drawHeaderWithBG:(UIView *)BG_View {
@@ -235,26 +262,26 @@
         numLb.textAlignment = NSTextAlignmentCenter;
         [view1 addSubview:numLb];
         
-        switch (i) {
-            case 0: {
-                titleStr = @"在线房源";
-                self.propNumLb = numLb;
-            }
-                break;
-            case 1: {
-                titleStr = @"今日花费";
-                self.costLb = numLb;
-            }
-                break;
-            case 2: {
-                titleStr = @"今日点击";
-                self.clickLb = numLb;
-            }
-                break;
-                
-            default:
-                break;
-        }
+//        switch (i) {
+//            case 0: {
+//                titleStr = @"在线房源";
+//                self.propNumLb = numLb;
+//            }
+//                break;
+//            case 1: {
+//                titleStr = @"今日花费";
+//                self.costLb = numLb;
+//            }
+//                break;
+//            case 2: {
+//                titleStr = @"今日点击";
+//                self.clickLb = numLb;
+//            }
+//                break;
+//                
+//            default:
+//                break;
+//        }
         
         UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(10+i *lbW_, numLb.frame.origin.y + numLb.frame.size.height+8, lbW_, 25)];
         titleLb.backgroundColor = [UIColor clearColor];
@@ -310,19 +337,13 @@
 }
 
 - (void)setHomeValue {
-//    self.nameLb.text = [self.dataDic objectForKey:@"brokerName"];
-//    self.phoneLb.text = [self.dataDic objectForKey:@"phone"];
     
     //账户自适应
-    self.accountLb.text = [NSString stringWithFormat:@"账户余额: %@元", [self.ppcDataDic objectForKey:@"balance"]];
-//    CGSize size = [Util_UI sizeOfString:[self.ppcDataDic objectForKey:@"balance"] maxWidth:Max_Account_Lb_Width withFontSize:15];
-//    self.accountLb.frame = CGRectMake(self.accountTitleLb.frame.origin.x+ self.accountTitleLb.frame.size.width, self.accountTitleLb.frame.origin.y, size.width, self.accountTitleLb.frame.size.height);
-//    self.accountYuanLb.frame = CGRectMake(self.accountLb.frame.origin.x+ self.accountLb.frame.size.width, self.accountTitleLb.frame.origin.y, 20, 20);
-//    self.accountYuanLb.text = @"元";
-    
-    self.propNumLb.text = [self.ppcDataDic objectForKey:@"onLinePropNum"];
-    self.costLb.text = [self.ppcDataDic objectForKey:@"todayAllCosts"];
-    self.clickLb.text = [self.ppcDataDic objectForKey:@"todayAllClicks"];
+//    self.accountLb.text = [NSString stringWithFormat:@"账户余额: %@元", [self.ppcDataDic objectForKey:@"balance"]];
+//    
+//    self.propNumLb.text = [self.ppcDataDic objectForKey:@"onLinePropNum"];
+//    self.costLb.text = [self.ppcDataDic objectForKey:@"todayAllCosts"];
+//    self.clickLb.text = [self.ppcDataDic objectForKey:@"todayAllClicks"];
     
 }
 
@@ -494,7 +515,7 @@
         }
         else {
             [self setTitleViewWithString:[LoginManager getRealName]];
-            
+            [self setTitleViewWithString:@"房源"];
             //******兼容安居客team得到userInfoDic并设置NSUserDefaults，以帮助底层通过对应路径获取相应数据******
             NSDictionary *dic = [LoginManager getFuckingChatUserDicJustForAnjukeTeamWithPhone:[LoginManager getPhone] uid:[LoginManager getChatID]];
             [[NSUserDefaults standardUserDefaults] setValue:dic forKey:USER_DEFAULT_KEY_AXCHATMC_USE];
@@ -601,11 +622,11 @@
 #pragma mark - tableView Datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;//self.taskArray.count;
+   return  self.taskArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -613,22 +634,22 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellName = @"cell";
+    static NSString *cellIdentify = @"cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellName];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentify];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellName];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentify];
+//        
+//        UILabel *labNum = [[UILabel alloc] initWithFrame:CGRectMake(260, 15, 20, 20)];
+//        labNum.tag = 101;
+//        labNum.textColor = [UIColor whiteColor];
+//        labNum.font = [UIFont systemFontOfSize:13];
+//        labNum.textAlignment = NSTextAlignmentCenter;
+//        labNum.layer.cornerRadius = 10;
+//        labNum.layer.masksToBounds = YES;
         
-        UILabel *labNum = [[UILabel alloc] initWithFrame:CGRectMake(260, 15, 20, 20)];
-        labNum.tag = 101;
-        labNum.textColor = [UIColor whiteColor];
-        labNum.font = [UIFont systemFontOfSize:13];
-        labNum.textAlignment = NSTextAlignmentCenter;
-        labNum.layer.cornerRadius = 10;
-        labNum.layer.masksToBounds = YES;
-        
-        [cell.contentView addSubview:labNum];
+//        [cell.contentView addSubview:labNum];
     }
     else {
         
@@ -694,22 +715,5 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
-#pragma mark - UIAlert View Delegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    switch (buttonIndex) {
-        case 0:
-        case 1:
-        {
-            [[AppDelegate sharedAppDelegate] doLogOut];
-            [[AppDelegate sharedAppDelegate] killLongLinkForChat];
-        }
-            break;
-            
-        default:
-            break;
-    }
-}
-
 
 @end
