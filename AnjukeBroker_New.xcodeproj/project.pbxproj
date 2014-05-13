@@ -590,6 +590,10 @@
 		F8A717C0192058FB004840C6 /* UserHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717BB192058FB004840C6 /* UserHeaderView.m */; };
 		F8A717C419205934004840C6 /* AppSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717C319205934004840C6 /* AppSettingViewController.m */; };
 		F8A717C719205C2E004840C6 /* VersionUpdateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717C619205C2E004840C6 /* VersionUpdateManager.m */; };
+		F8A717E119209E6D004840C6 /* CheckoutCommunityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717E019209E6D004840C6 /* CheckoutCommunityViewController.m */; };
+		F8A717E419209EC6004840C6 /* CheckoutCommunityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717E319209EC6004840C6 /* CheckoutCommunityCell.m */; };
+		F8A717E71920ADF7004840C6 /* BrokerTableStuct.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717E61920ADF7004840C6 /* BrokerTableStuct.m */; };
+		F8A717ED1920BC81004840C6 /* CheckoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717EC1920BC81004840C6 /* CheckoutViewController.m */; };
 		F8BFF37918FE87E8008E700D /* leftside_shadow_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37718FE87E8008E700D /* leftside_shadow_bg.png */; };
 		F8BFF37A18FE87E8008E700D /* leftside_shadow_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */; };
 		F8D449D01908AFA900447375 /* anjuke_icon_button_red_press.png in Resources */ = {isa = PBXBuildFile; fileRef = F8D449CC1908AFA900447375 /* anjuke_icon_button_red_press.png */; };
@@ -1500,6 +1504,14 @@
 		F8A717C319205934004840C6 /* AppSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppSettingViewController.m; sourceTree = "<group>"; };
 		F8A717C519205C2E004840C6 /* VersionUpdateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionUpdateManager.h; sourceTree = "<group>"; };
 		F8A717C619205C2E004840C6 /* VersionUpdateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionUpdateManager.m; sourceTree = "<group>"; };
+		F8A717DF19209E6D004840C6 /* CheckoutCommunityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutCommunityViewController.h; sourceTree = "<group>"; };
+		F8A717E019209E6D004840C6 /* CheckoutCommunityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutCommunityViewController.m; sourceTree = "<group>"; };
+		F8A717E219209EC6004840C6 /* CheckoutCommunityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutCommunityCell.h; sourceTree = "<group>"; };
+		F8A717E319209EC6004840C6 /* CheckoutCommunityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutCommunityCell.m; sourceTree = "<group>"; };
+		F8A717E51920ADF7004840C6 /* BrokerTableStuct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerTableStuct.h; sourceTree = "<group>"; };
+		F8A717E61920ADF7004840C6 /* BrokerTableStuct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerTableStuct.m; sourceTree = "<group>"; };
+		F8A717EB1920BC81004840C6 /* CheckoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutViewController.h; sourceTree = "<group>"; };
+		F8A717EC1920BC81004840C6 /* CheckoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutViewController.m; sourceTree = "<group>"; };
 		F8BFF37718FE87E8008E700D /* leftside_shadow_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leftside_shadow_bg.png; sourceTree = "<group>"; };
 		F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftside_shadow_bg@2x.png"; sourceTree = "<group>"; };
 		F8D449CC1908AFA900447375 /* anjuke_icon_button_red_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_red_press.png; sourceTree = "<group>"; };
@@ -2779,6 +2791,7 @@
 		97CD8D40180E6D0D00185C9D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				F8A717DD19209E22004840C6 /* checkout */,
 				203EC29318B2F5E400DD0840 /* 微聊 */,
 				203EC29518B2F5F200DD0840 /* 客户 */,
 				972C10231814FC3800552C9B /* 首页+发房 */,
@@ -3398,6 +3411,21 @@
 			name = launchAdd;
 			sourceTree = "<group>";
 		};
+		F8A717DD19209E22004840C6 /* checkout */ = {
+			isa = PBXGroup;
+			children = (
+				F8A717DF19209E6D004840C6 /* CheckoutCommunityViewController.h */,
+				F8A717E019209E6D004840C6 /* CheckoutCommunityViewController.m */,
+				F8A717E51920ADF7004840C6 /* BrokerTableStuct.h */,
+				F8A717E61920ADF7004840C6 /* BrokerTableStuct.m */,
+				F8A717E219209EC6004840C6 /* CheckoutCommunityCell.h */,
+				F8A717E319209EC6004840C6 /* CheckoutCommunityCell.m */,
+				F8A717EB1920BC81004840C6 /* CheckoutViewController.h */,
+				F8A717EC1920BC81004840C6 /* CheckoutViewController.m */,
+			);
+			name = checkout;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3869,6 +3897,7 @@
 				20A217DF18BF2756002CA469 /* ClientDetailPublicViewController.m in Sources */,
 				B7EAD51C18CD927200B28FEC /* AXChatMessageRootCell.m in Sources */,
 				B7E803F31820F24400775C6F /* SaleNoPlanListCell.m in Sources */,
+				F8A717E71920ADF7004840C6 /* BrokerTableStuct.m in Sources */,
 				B70323DC1832115B00DFDB1C /* BaseGroupListController.m in Sources */,
 				B7EAD52718CD927200B28FEC /* AXPhotoBrowser.m in Sources */,
 				B7FFC9DF18C8AC330020A73B /* UIImage+RoundedCorner.m in Sources */,
@@ -3914,6 +3943,7 @@
 				678084051904AB1F00765A18 /* KKPageControl.m in Sources */,
 				27A42B5318E2C4D300FADED3 /* RegionAnnotationView.m in Sources */,
 				B765B8F61907CB8A00413AAB /* AXDownLoadRequestElement.m in Sources */,
+				F8A717ED1920BC81004840C6 /* CheckoutViewController.m in Sources */,
 				206843E418890C9A007DD8C5 /* PublishBuildingViewController.m in Sources */,
 				97410565180CDFE0004DAE95 /* AppDelegate.m in Sources */,
 				B7EAD52218CD927200B28FEC /* AXPullToRefreshContentView.m in Sources */,
@@ -3997,6 +4027,7 @@
 				B7EAD51A18CD927200B28FEC /* AXChatMessagePublicCardCell.m in Sources */,
 				2056A34618EE7E660022B5A5 /* NSArray+ExtraMethods.m in Sources */,
 				2056A38D18EE7EA00022B5A5 /* AXMessageCenterDownLoadAudioManager.m in Sources */,
+				F8A717E419209EC6004840C6 /* CheckoutCommunityCell.m in Sources */,
 				207526BB18B45FE10022220C /* SWLongPressGestureRecognizer.m in Sources */,
 				B769E460181F5F1200A2FF50 /* ModifyFixedCostController.m in Sources */,
 				B7FFC9DE18C8AC330020A73B /* UIImage+Resize.m in Sources */,
@@ -4054,6 +4085,7 @@
 				B7EAD53018CD927200B28FEC /* UIColor+AXChatMessage.m in Sources */,
 				2026044818B9D6CA00F75A56 /* ClientModel.m in Sources */,
 				20A2178618BF1804002CA469 /* HouseSelectCommunityCell.m in Sources */,
+				F8A717E119209E6D004840C6 /* CheckoutCommunityViewController.m in Sources */,
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
 				2079ADDE18B5D64B0029D493 /* ClientEditViewController.m in Sources */,
 				2056A39818EE7EA00022B5A5 /* AXMessageCenterUserLoginOutManager.m in Sources */,

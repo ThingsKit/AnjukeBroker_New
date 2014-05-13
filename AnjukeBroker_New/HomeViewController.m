@@ -33,6 +33,7 @@
 #import "AXIMGDownloader.h"
 #import "IMGDowloaderManager.h"
 #import "UserCenterViewController.h"
+#import "CheckoutCommunityViewController.h"
 
 #define HOME_cellHeight 50
 #define Max_Account_Lb_Width 80
@@ -373,10 +374,15 @@
         {
             [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_005 note:nil];
             
-            FindHomeViewController *ae = [[FindHomeViewController alloc] init];
+//            FindHomeViewController *ae = [[FindHomeViewController alloc] init];
+//            [ae setHidesBottomBarWhenPushed:YES];
+//            self.navigationController.navigationBarHidden = NO;
+//            [self.navigationController pushViewController:ae animated:YES];
+            CheckoutCommunityViewController *ae = [[CheckoutCommunityViewController alloc] init];
             [ae setHidesBottomBarWhenPushed:YES];
             self.navigationController.navigationBarHidden = NO;
             [self.navigationController pushViewController:ae animated:YES];
+
         }
             break;
         

@@ -17,13 +17,13 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.selectionStyle = UITableViewCellSelectionStyleGray;
-        self.accessoryType = UITableViewCellAccessoryNone;
     }
     return self;
 }
 
 - (void)initUI{
+    self.selectionStyle = UITableViewCellSelectionStyleGray;
+    self.accessoryType = UITableViewCellAccessoryNone;
 }
 
 - (void)initLabelTitle:(NSString *)title{
