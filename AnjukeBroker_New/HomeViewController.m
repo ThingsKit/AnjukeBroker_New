@@ -55,14 +55,6 @@
 @property BOOL isAJK;
 @property (nonatomic, strong) NSString *isSeedPid;
 @property (nonatomic, strong) NSMutableArray *myArray;
-//@property (nonatomic, strong) UILabel *nameLb;
-//@property (nonatomic, strong) UILabel *phoneLb;
-//@property (nonatomic, strong) UILabel *accountTitleLb;
-//@property (nonatomic, strong) UILabel *accountLb;
-//@property (nonatomic, strong) UILabel *accountYuanLb;
-//@property (nonatomic, strong) UILabel *propNumLb;
-//@property (nonatomic, strong) UILabel *costLb;
-//@property (nonatomic, strong) UILabel *clickLb;
 
 @property (nonatomic, strong) UILabel *tapName;
 @property (nonatomic, strong) UILabel *tapValue;
@@ -105,11 +97,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    self.view.backgroundColor = [UIColor clearColor];
-//    [self initRightBarButton];
+    [self initRightBarButton];
     [self initView];
-//    [self initDisplay];
+    [self initTitleView];
 }
+
+- (void)initTitleView {
+    UISegmentedControl *segment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"二手房",@"租房", nil]];
+    segment.frame = CGRectMake(0, 0, 200, 30);
+    segment.segmentedControlStyle = UISegmentedControlStylePlain;
+    segment.selectedSegmentIndex = 0;
+    segment.backgroundColor = [UIColor grayColor];
+    segment.tintColor = [UIColor blackColor];
+    [segment addTarget:self action:@selector(pickOne:) forControlEvents:UIControlEventValueChanged];
+    self.navigationItem.titleView = segment;
+}
+
 - (void)initView {
     [self setTitle:@"房源"];
     
@@ -124,8 +127,9 @@
     [self.view addSubview:tv];
     
     UIView *hView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 110)];
+    hView.backgroundColor = [UIColor whiteColor];
     tv.tableHeaderView = hView;
-    
+
     self.tapName = [[UILabel alloc] init];
     self.tapName.text = @"今日点击";
     self.tapName.textAlignment = NSTextAlignmentCenter;
@@ -164,6 +168,7 @@
         self.costName.frame = CGRectMake(180.0f, 70.0f, 80.0f, 30.0f);
     }
 }
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
@@ -172,19 +177,19 @@
     if (!self.configChecked) {
         [self requestForConfigure];
     }
-
 }
 
 #pragma mark - private method
-//- (void)initRightBarButton {
-//    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_setting_press.png"] taget:self action:@selector(rightButtonAction:)];
-//    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {//fix ios7以下 10像素偏离
-//        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:10.0];
-//        [self.navigationItem setRightBarButtonItems:@[spacer, rightItem]];
-//    }else{
-//        self.navigationItem.rightBarButtonItem = rightItem;
-//    }
-//}
+- (void)initRightBarButton {
+    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_setting_press.png"] taget:self action:@selector(rightButtonAction:)];
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {//fix ios7以下 10像素偏离
+        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:10.0];
+        [self.navigationItem setRightBarButtonItems:@[spacer, rightItem]];
+    }else{
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
+}
+
 - (void)initModel {
     self.isAJK = YES;
     self.taskArray = [NSArray arrayWithObjects:@"定价房源", @"竞价房源", @"待推广房源", nil];
@@ -194,106 +199,34 @@
     self.myArray = [NSMutableArray array];
 }
 
-- (void)initDisplay {
-    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_TAB style:UITableViewStylePlain];
-    self.tvList = tv;
-    tv.backgroundColor = [UIColor whiteColor];
-    tv.delegate = self;
-    tv.dataSource = self;
-    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tv.showsHorizontalScrollIndicator = NO;
-    tv.showsVerticalScrollIndicator = NO;
-    [self.view addSubview:tv];
-    
-
-    
-    //暂时只显示header，无row
-//    [self drawHeaderWithBG:hView];
-}
-
 - (void)setHomeValue {
-    
     //账户自适应
-//    self.accountLb.text = [NSString stringWithFormat:@"账户余额: %@元", [self.ppcDataDic objectForKey:@"balance"]];
-//    
-//    self.propNumLb.text = [self.ppcDataDic objectForKey:@"onLinePropNum"];
-//    self.costLb.text = [self.ppcDataDic objectForKey:@"todayAllCosts"];
-//    self.clickLb.text = [self.ppcDataDic objectForKey:@"todayAllClicks"];
-    
 }
 
-//- (void)rightButtonAction:(id)sender {
-//    //设置跳转
-//    //    MoreViewController *mv = [[MoreViewController alloc] init];
-//    //    [mv setHidesBottomBarWhenPushed:YES];
-//    //    self.navigationController.navigationBarHidden = NO;
-//    //    [self.navigationController pushViewController:mv animated:YES];
-//    UserCenterViewController *mv = [[UserCenterViewController alloc] init];
-//    [mv setHidesBottomBarWhenPushed:YES];
-//    self.navigationController.navigationBarHidden = NO;
-//    [self.navigationController pushViewController:mv animated:YES];
-//}
+- (void)rightButtonAction:(id)sender {
+    UserCenterViewController *mv = [[UserCenterViewController alloc] init];
+    [mv setHidesBottomBarWhenPushed:YES];
+    self.navigationController.navigationBarHidden = NO;
+    [self.navigationController pushViewController:mv animated:YES];
+}
 
-- (void)doPush:(id)sender {
-    UIButton *btn = (UIButton *)sender;
-    int index = btn.tag;
-    
-    switch (index) {
+- (void)pickOne:(id)sender {
+    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+    switch (segmentedControl.selectedSegmentIndex) {
         case 0:
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_003 note:nil];
-            
-            //模态弹出小区--万恶的结构变动尼玛
-            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-            controller.backType = RTSelectorBackTypeDismiss;
-            controller.isFirstShow = YES;
-            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-//            nav.disableGestureForBack = YES;
-            [self presentViewController:nav animated:YES completion:nil];
+        
         }
             break;
         case 1:
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_004 note:nil];
             
-            //模态弹出小区--万恶的结构变动尼玛
-            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-            controller.backType = RTSelectorBackTypeDismiss;
-            controller.isFirstShow = YES;
-            controller.isHaouzu = YES;
-            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-//            nav.disableGestureForBack = YES;
-            [self presentViewController:nav animated:YES completion:nil];
         }
             break;
-        case 2:
-        {
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_005 note:nil];
-            
-//            FindHomeViewController *ae = [[FindHomeViewController alloc] init];
-//            [ae setHidesBottomBarWhenPushed:YES];
-//            self.navigationController.navigationBarHidden = NO;
-//            [self.navigationController pushViewController:ae animated:YES];
-            CheckoutCommunityViewController *ae = [[CheckoutCommunityViewController alloc] init];
-            [ae setHidesBottomBarWhenPushed:YES];
-            self.navigationController.navigationBarHidden = NO;
-            [self.navigationController pushViewController:ae animated:YES];
-
-        }
-            break;
-        
         default:
             break;
     }
 }
-
-//个人信息
-- (void)pushToPerson {
-    BrokerTwoDimensionalCodeViewController *ba = [[BrokerTwoDimensionalCodeViewController alloc] init];
-    [ba setHidesBottomBarWhenPushed:YES];
-    [self.navigationController pushViewController:ba animated:YES];
-}
-
 #pragma mark - Request Method
 
 - (void)doRequest {
@@ -389,8 +322,8 @@
             
         }
         else {
-            [self setTitleViewWithString:[LoginManager getRealName]];
-            [self setTitleViewWithString:@"房源"];
+//            [self setTitleViewWithString:[LoginManager getRealName]];
+//            [self setTitleViewWithString:@"房源"];
             //******兼容安居客team得到userInfoDic并设置NSUserDefaults，以帮助底层通过对应路径获取相应数据******
             NSDictionary *dic = [LoginManager getFuckingChatUserDicJustForAnjukeTeamWithPhone:[LoginManager getPhone] uid:[LoginManager getChatID]];
             [[NSUserDefaults standardUserDefaults] setValue:dic forKey:USER_DEFAULT_KEY_AXCHATMC_USE];
@@ -417,9 +350,7 @@
     
     params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
     method = @"globalconf/";
-    
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestConfigureFinished:)];
-    
 }
 
 - (void)onRequestConfigureFinished:(RTNetworkResponse *)response {
@@ -444,10 +375,10 @@
     
     NSDictionary *tipsDic = [resultFromAPI objectForKey:@"tips"]; //是否显示状态条并跳转webView
     if ([[tipsDic objectForKey:@"openFlag"] isEqualToString:@"1"]) {//开启弹窗和跳转 test
-        [self showWebViewJumpWithDic:tipsDic];
+//        [self showWebViewJumpWithDic:tipsDic];
     }
     else {
-        [self hideWebViewJumpBtn];
+//        [self hideWebViewJumpBtn];
     }
 }
 #pragma mark - 获取计划管理信息
@@ -516,49 +447,6 @@
     
 }
 
-- (void)showWebViewJumpWithDic:(NSDictionary *)tipsDic {
-    if ([[tipsDic objectForKey:@"url"] length] <= 0) {
-        return;
-    }
-    
-    self.loadingURL = [tipsDic objectForKey:@"url"];
-    
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(0, 0, [self windowWidth], 40);
-    [btn addTarget:self action:@selector(pushToWeb) forControlEvents:UIControlEventTouchUpInside];
-    [btn setBackgroundColor:[UIColor whiteColor]];
-    self.topAlertButton = btn;
-    [btn setTintColor:[UIColor whiteColor]];
-    [self.view addSubview:btn];
-    
-    UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(20, (btn.frame.size.height - 20)/2, [self windowWidth] - 20*2, 20)];
-    titleLb.backgroundColor = [UIColor clearColor];
-    titleLb.font = [UIFont systemFontOfSize:14];
-    titleLb.textColor = SYSTEM_BLACK;
-    titleLb.text = [tipsDic objectForKey:@"title"];
-    titleLb.textAlignment = NSTextAlignmentCenter;
-    [btn addSubview:titleLb];
-    
-    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake([self windowWidth] - 12-10, (btn.frame.size.height - 12)/2, 12, 12)];
-    icon.image = [UIImage imageNamed:@"anjuke_icon_next.png"];
-    [btn addSubview:icon];
-    
-    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, btn.frame.size.height - 0.5, [self windowWidth], 0.5)];
-    [btn addSubview:line];
-}
-
-- (void)pushToWeb {
-    BrokerWebViewController *bw = [[BrokerWebViewController alloc] init];
-    bw.loadingUrl = self.loadingURL;
-    [bw setHidesBottomBarWhenPushed:YES];
-    [self.navigationController pushViewController:bw animated:YES];
-}
-
-- (void)hideWebViewJumpBtn {
-    [self.topAlertButton removeFromSuperview];
-    self.topAlertButton = nil;
-}
-
 #pragma mark - tableView Datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -580,29 +468,14 @@
     
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentify];
-//        
-//        UILabel *labNum = [[UILabel alloc] initWithFrame:CGRectMake(260, 15, 20, 20)];
-//        labNum.tag = 101;
-//        labNum.textColor = [UIColor whiteColor];
-//        labNum.font = [UIFont systemFontOfSize:13];
-//        labNum.textAlignment = NSTextAlignmentCenter;
-//        labNum.layer.cornerRadius = 10;
-//        labNum.layer.masksToBounds = YES;
-        
-//        [cell.contentView addSubview:labNum];
     }
-    else {
-        
-    }
-    
     cell.textLabel.text = [self.taskArray objectAtIndex:indexPath.row];
-    
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     ((UILabel *)[cell viewWithTag:101]).text = @"";
     [(UILabel *)[cell viewWithTag:101] setBackgroundColor:[UIColor clearColor]];
     
-    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, HOME_cellHeight -1, 320 - 15, 1)];
+    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, 1, 320 - 15, 1)];
     [cell.contentView addSubview:line];
     
     return cell;
@@ -615,43 +488,6 @@
     switch (indexPath.row) {
         case 0:
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_003 note:nil];
-            
-            SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
-            controller.backType = RTSelectorBackTypePopToRoot;
-            [controller setHidesBottomBarWhenPushed:YES];
-            [self.navigationController pushViewController:controller animated:YES];
-//            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_003 note:nil];
-//            
-//            //模态弹出小区--万恶的结构变动尼玛
-//            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-//            controller.backType = RTSelectorBackTypeDismiss;
-//            controller.isFirstShow = YES;
-//            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-//            [self presentViewController:nav animated:YES completion:nil];
-        }
-            break;
-        case 1:
-        {
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_005 note:nil];
-            
-            SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
-            controller.isSeedPid = self.isSeedPid;
-            [controller setHidesBottomBarWhenPushed:YES];
-            [self.navigationController pushViewController:controller animated:YES];
-//            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_004 note:nil];
-//            
-//            //模态弹出小区--万恶的结构变动尼玛
-//            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-//            controller.backType = RTSelectorBackTypeDismiss;
-//            controller.isFirstShow = YES;
-//            controller.isHaouzu = YES;
-//            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-//            [self presentViewController:nav animated:YES completion:nil];
-        }
-            break;
-        case 2:
-        {
             [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_004 note:nil];
             
             SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
@@ -659,12 +495,28 @@
             controller.backType = RTSelectorBackTypePopToRoot;
             [controller setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:controller animated:YES];
-//            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_005 note:nil];
-//            
-//            SystemMessageViewController *ae = [[SystemMessageViewController alloc] init];
-//            [ae setHidesBottomBarWhenPushed:YES];
-//            self.navigationController.navigationBarHidden = NO;
-//            [self.navigationController pushViewController:ae animated:YES];
+        }
+            break;
+        case 1:
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_003 note:nil];
+            
+            SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
+            controller.backType = RTSelectorBackTypePopToRoot;
+            [controller setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:controller animated:YES];
+
+        }
+            break;
+        case 2:
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_005 note:nil];
+            
+            SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
+            controller.isSeedPid = self.isSeedPid;
+            [controller setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:controller animated:YES];
+
         }
             break;
             
