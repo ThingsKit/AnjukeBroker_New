@@ -8,11 +8,8 @@
 
 #import "DiscoverViewController.h"
 #import "UIViewExt.h"
-
-//#import "QiangFangYuanWeiTuoViewController.h"
 #import "CheckoutCommunityViewController.h"
 #import "FindHomeViewController.h"
-
 #import "RushPropertyViewController.h"
 
 
