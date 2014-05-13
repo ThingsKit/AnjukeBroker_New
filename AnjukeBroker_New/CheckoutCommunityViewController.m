@@ -72,6 +72,7 @@
     if (self.navigationController.view.frame.origin.x > 0) return;
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     CheckoutViewController *checkoutVC = [[CheckoutViewController alloc] init];
     [checkoutVC passCommunityDic:nil];
     [self.navigationController pushViewController:checkoutVC animated:YES];

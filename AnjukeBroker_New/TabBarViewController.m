@@ -19,6 +19,7 @@
 #import "ClientListViewController.h"
 #import "BrokerLuanchAdd.h"
 #import "DiscoverViewController.h"
+#import "UserCenterViewController.h"
 
 #define tabItemInsertsMake UIEdgeInsetsMake(0, 0, 0, 0)
 
@@ -96,12 +97,18 @@
 //        navAJK.tabBarItem = [self getTabBarItemWithTitle:@"二手房" image:[UIImage imageNamed:@"anjuke_icon_esf.png"] index:4 selectedImg:[UIImage imageNamed:@"anjuke_icon_esf1.png"]];
         
         //租房
-        HaozuHomeViewController *hhv = [[HaozuHomeViewController alloc] init];
-        self.page5 = hhv;
-        hhv.isHome = YES;
-        RTGestureBackNavigationController *navHZ = [[RTGestureBackNavigationController alloc] initWithRootViewController:hhv];
-        [self.controllerArrays addObject:navHZ];
-        navHZ.tabBarItem = [self getTabBarItemWithTitle:@"租房" image:[UIImage imageNamed:@"anjuke_icon_zf.png"] index:5 selectedImg:[UIImage imageNamed:@"anjuke_icon_zf1.png"]];
+//        HaozuHomeViewController *hhv = [[HaozuHomeViewController alloc] init];
+//        self.page5 = hhv;
+//        hhv.isHome = YES;
+//        RTGestureBackNavigationController *navHZ = [[RTGestureBackNavigationController alloc] initWithRootViewController:hhv];
+//        [self.controllerArrays addObject:navHZ];
+//        navHZ.tabBarItem = [self getTabBarItemWithTitle:@"租房" image:[UIImage imageNamed:@"anjuke_icon_zf.png"] index:5 selectedImg:[UIImage imageNamed:@"anjuke_icon_zf1.png"]];
+
+        UserCenterViewController *userVC = [[UserCenterViewController alloc] init];
+        RTGestureBackNavigationController *userNav = [[RTGestureBackNavigationController alloc] initWithRootViewController:userVC];
+        [self.controllerArrays addObject:userNav];
+        userNav.tabBarItem = [self getTabBarItemWithTitle:@"我" image:[UIImage imageNamed:@"anjuke_icon_zf.png"] index:5 selectedImg:[UIImage imageNamed:@"anjuke_icon_zf1.png"]];
+
         
         self.viewControllers = self.controllerArrays;
         

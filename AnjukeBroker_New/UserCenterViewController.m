@@ -61,7 +61,7 @@
     self.headerView = [[UserHeaderView alloc] initWithFrame:HEADERFRAME];
     [self.headerView setImageView:[UIImage imageNamed:@"header"]];
     
-    self.tableList = [[UITableView alloc] initWithFrame:FRAME_WITH style:UITableViewStylePlain];
+    self.tableList = [[UITableView alloc] initWithFrame:FRAME_WITH_TAB style:UITableViewStylePlain];
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
     self.tableList.backgroundColor = [UIColor clearColor];
@@ -183,6 +183,7 @@
         }else if (indexPath.row == 2){
             AppSettingViewController *settingVC = [[AppSettingViewController alloc] init];
             settingVC.backType = RTSelectorBackTypePopBack;
+            [settingVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:settingVC animated:YES];
         }
     }

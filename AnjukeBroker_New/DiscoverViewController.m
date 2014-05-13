@@ -9,6 +9,7 @@
 #import "DiscoverViewController.h"
 #import "UIViewExt.h"
 #import "QiangFangYuanWeiTuoViewController.h"
+#import "CheckoutCommunityViewController.h"
 
 @interface DiscoverViewController ()
 
@@ -23,7 +24,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.title = @"发现";
+        
     }
     return self;
 }
@@ -31,6 +32,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setTitleViewWithString:@"发现"];
     // Do any additional setup after loading the view.
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) style:UITableViewStyleGrouped];
     [self.view addSubview:self.tableView];
@@ -103,6 +105,9 @@
         NSLog(@"市场分析");
     }else if(indexPath.row == 1){
         NSLog(@"小区签到");
+    CheckoutCommunityViewController *communityVC = [[CheckoutCommunityViewController alloc] init];
+    [communityVC setHidesBottomBarWhenPushed:YES];
+    [self.navigationController pushViewController:communityVC animated:YES];
     }else{
         NSLog(@"抢房源委托");
         QiangFangYuanWeiTuoViewController* viewController = [[QiangFangYuanWeiTuoViewController alloc] init];

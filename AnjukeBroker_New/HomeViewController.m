@@ -32,7 +32,6 @@
 #import "RTNetworkResponse.h"
 #import "AXIMGDownloader.h"
 #import "IMGDowloaderManager.h"
-#import "UserCenterViewController.h"
 #import "CheckoutCommunityViewController.h"
 
 #import "SaleBidDetailController.h"
@@ -107,7 +106,7 @@
 {
     [super viewDidLoad];
 //    self.view.backgroundColor = [UIColor clearColor];
-    [self initRightBarButton];
+//    [self initRightBarButton];
     [self initView];
 //    [self initDisplay];
 }
@@ -177,15 +176,15 @@
 }
 
 #pragma mark - private method
-- (void)initRightBarButton {
-    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_setting_press.png"] taget:self action:@selector(rightButtonAction:)];
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {//fix ios7以下 10像素偏离
-        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:10.0];
-        [self.navigationItem setRightBarButtonItems:@[spacer, rightItem]];
-    }else{
-        self.navigationItem.rightBarButtonItem = rightItem;
-    }
-}
+//- (void)initRightBarButton {
+//    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_setting_press.png"] taget:self action:@selector(rightButtonAction:)];
+//    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {//fix ios7以下 10像素偏离
+//        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:10.0];
+//        [self.navigationItem setRightBarButtonItems:@[spacer, rightItem]];
+//    }else{
+//        self.navigationItem.rightBarButtonItem = rightItem;
+//    }
+//}
 - (void)initModel {
     self.isAJK = YES;
     self.taskArray = [NSArray arrayWithObjects:@"定价房源", @"竞价房源", @"待推广房源", nil];
@@ -223,17 +222,17 @@
     
 }
 
-- (void)rightButtonAction:(id)sender {
-    //设置跳转
-    //    MoreViewController *mv = [[MoreViewController alloc] init];
-    //    [mv setHidesBottomBarWhenPushed:YES];
-    //    self.navigationController.navigationBarHidden = NO;
-    //    [self.navigationController pushViewController:mv animated:YES];
-    UserCenterViewController *mv = [[UserCenterViewController alloc] init];
-    [mv setHidesBottomBarWhenPushed:YES];
-    self.navigationController.navigationBarHidden = NO;
-    [self.navigationController pushViewController:mv animated:YES];
-}
+//- (void)rightButtonAction:(id)sender {
+//    //设置跳转
+//    //    MoreViewController *mv = [[MoreViewController alloc] init];
+//    //    [mv setHidesBottomBarWhenPushed:YES];
+//    //    self.navigationController.navigationBarHidden = NO;
+//    //    [self.navigationController pushViewController:mv animated:YES];
+//    UserCenterViewController *mv = [[UserCenterViewController alloc] init];
+//    [mv setHidesBottomBarWhenPushed:YES];
+//    self.navigationController.navigationBarHidden = NO;
+//    [self.navigationController pushViewController:mv animated:YES];
+//}
 
 - (void)doPush:(id)sender {
     UIButton *btn = (UIButton *)sender;
