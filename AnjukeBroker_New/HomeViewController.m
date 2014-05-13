@@ -35,6 +35,10 @@
 #import "UserCenterViewController.h"
 #import "CheckoutCommunityViewController.h"
 
+#import "SaleBidDetailController.h"
+#import "SaleFixedDetailController.h"
+#import "SaleNoPlanGroupController.h"
+
 #define HOME_cellHeight 50
 #define Max_Account_Lb_Width 80
 
@@ -49,7 +53,9 @@
 @property (nonatomic, strong) AXIMGDownloader *imgDownloader;
 @property (nonatomic, strong) NSMutableDictionary *dataDic;
 @property (nonatomic, strong) NSMutableDictionary *ppcDataDic;
-
+@property BOOL isAJK;
+@property (nonatomic, strong) NSString *isSeedPid;
+@property (nonatomic, strong) NSMutableArray *myArray;
 //@property (nonatomic, strong) UILabel *nameLb;
 //@property (nonatomic, strong) UILabel *phoneLb;
 //@property (nonatomic, strong) UILabel *accountTitleLb;
@@ -163,7 +169,7 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     [self doRequest];
-    
+    [self doRequestPPC];
     if (!self.configChecked) {
         [self requestForConfigure];
     }
@@ -181,11 +187,12 @@
     }
 }
 - (void)initModel {
+    self.isAJK = YES;
     self.taskArray = [NSArray arrayWithObjects:@"定价房源", @"竞价房源", @"待推广房源", nil];
     
     self.dataDic = [NSMutableDictionary dictionary];
     self.ppcDataDic = [NSMutableDictionary dictionary];
-    
+    self.myArray = [NSMutableArray array];
 }
 
 - (void)initDisplay {
@@ -575,6 +582,70 @@
         [self hideWebViewJumpBtn];
     }
 }
+#pragma mark - 获取计划管理信息
+-(void)doRequestPPC{
+    if (self.isLoading == YES) {
+        //        return;
+    }
+    
+    if(![self isNetworkOkay]){
+        [self showInfo:NONETWORK_STR];
+        return;
+    }
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/ppc/" params:params target:self action:@selector(onGetSuccess:)];
+    
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+}
+- (void)onGetSuccess:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+    
+    if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        [self showInfo:@"操作失败"];
+        return ;
+    }
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return;
+    }
+    [self.myArray removeAllObjects];
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    if([resultFromAPI count] ==  0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        return ;
+    }
+    NSMutableDictionary *bidPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"bidPlan"]];
+    [bidPlan setValue:@"1" forKey:@"type"];
+    [self.myArray addObject:bidPlan];
+    
+    NSMutableArray *fixPlan = [NSMutableArray array];
+    [fixPlan addObjectsFromArray:[resultFromAPI objectForKey:@"fixPlan"]];
+    [self.myArray addObjectsFromArray:fixPlan];
+    if ([fixPlan count] == 1) {
+        self.isSeedPid = [[fixPlan objectAtIndex:0] objectForKey:@"fixPlanId"];
+    }
+    NSMutableDictionary *nodic = [[NSMutableDictionary alloc] init];
+    [nodic setValue:@"待推广房源" forKey:@"title"];
+    [nodic setValue:[resultFromAPI objectForKey:@"unRecommendPropNum"] forKey:@"unRecommendPropNum"];
+    [nodic setValue:@"1" forKey:@"type"];
+    [self.myArray addObject:nodic];
+    
+    [self.tvList reloadData];
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    
+}
 
 - (void)showWebViewJumpWithDic:(NSDictionary *)tipsDic {
     if ([[tipsDic objectForKey:@"url"] length] <= 0) {
@@ -675,37 +746,56 @@
     switch (indexPath.row) {
         case 0:
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_003 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_003 note:nil];
             
-            //模态弹出小区--万恶的结构变动尼玛
-            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-            controller.backType = RTSelectorBackTypeDismiss;
-            controller.isFirstShow = YES;
-            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:nav animated:YES completion:nil];
+            SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
+            controller.backType = RTSelectorBackTypePopToRoot;
+            [controller setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:controller animated:YES];
+//            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_003 note:nil];
+//            
+//            //模态弹出小区--万恶的结构变动尼玛
+//            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
+//            controller.backType = RTSelectorBackTypeDismiss;
+//            controller.isFirstShow = YES;
+//            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+//            [self presentViewController:nav animated:YES completion:nil];
         }
             break;
         case 1:
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_004 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_005 note:nil];
             
-            //模态弹出小区--万恶的结构变动尼玛
-            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-            controller.backType = RTSelectorBackTypeDismiss;
-            controller.isFirstShow = YES;
-            controller.isHaouzu = YES;
-            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:nav animated:YES completion:nil];
+            SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
+            controller.isSeedPid = self.isSeedPid;
+            [controller setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:controller animated:YES];
+//            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_004 note:nil];
+//            
+//            //模态弹出小区--万恶的结构变动尼玛
+//            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
+//            controller.backType = RTSelectorBackTypeDismiss;
+//            controller.isFirstShow = YES;
+//            controller.isHaouzu = YES;
+//            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+//            [self presentViewController:nav animated:YES completion:nil];
         }
             break;
         case 2:
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_005 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_004 note:nil];
             
-            SystemMessageViewController *ae = [[SystemMessageViewController alloc] init];
-            [ae setHidesBottomBarWhenPushed:YES];
-            self.navigationController.navigationBarHidden = NO;
-            [self.navigationController pushViewController:ae animated:YES];
+            SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
+            controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
+            controller.backType = RTSelectorBackTypePopToRoot;
+            [controller setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:controller animated:YES];
+//            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_005 note:nil];
+//            
+//            SystemMessageViewController *ae = [[SystemMessageViewController alloc] init];
+//            [ae setHidesBottomBarWhenPushed:YES];
+//            self.navigationController.navigationBarHidden = NO;
+//            [self.navigationController pushViewController:ae animated:YES];
         }
             break;
             
