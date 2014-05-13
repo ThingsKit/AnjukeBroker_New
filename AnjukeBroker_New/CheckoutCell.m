@@ -30,8 +30,9 @@
         if (index == 0) {
             self.textLabel.text = @"今日签到展示位得主：";
         }else if(index == 4){
-            self.textLabel.text = @"了解签到规则：";
+            self.textLabel.text = @"了解签到规则";
             self.textLabel.textAlignment = NSTextAlignmentCenter;
+            self.selectionStyle = UITableViewCellSelectionStyleGray;
         }
     }
     
@@ -54,14 +55,14 @@
         }
         
         for (int i = 0; i < 3; i++) {
-            WebImageView *checkAvatar = [[WebImageView alloc] initWithFrame:CGRectMake(80*i+80, 15, 60, 60)];
+            WebImageView *checkAvatar = [[WebImageView alloc] initWithFrame:CGRectMake(80*i+70, 10, 60, 60)];
             checkAvatar.imageUrl = [LoginManager getUse_photo_url];
             checkAvatar.contentMode = UIViewContentModeScaleAspectFill;
             checkAvatar.layer.masksToBounds = YES;
             checkAvatar.layer.cornerRadius = 30;
             [self.contentView addSubview:checkAvatar];
             
-            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(80*i+80, checkAvatar.frame.origin.y+checkAvatar.frame.size.height+5, 60, 20)];
+            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(80*i+70, checkAvatar.frame.origin.y+checkAvatar.frame.size.height+5, 60, 20)];
             lab.text = @"江小明";
             lab.textAlignment = NSTextAlignmentCenter;
             [self.contentView addSubview:lab];

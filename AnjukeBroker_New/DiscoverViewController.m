@@ -106,7 +106,6 @@
         NSLog(@"市场分析");
         FindHomeViewController *ae = [[FindHomeViewController alloc] init];
         [ae setHidesBottomBarWhenPushed:YES];
-        self.navigationController.navigationBarHidden = NO;
         [self.navigationController pushViewController:ae animated:YES];
     }else if(indexPath.row == 1){
         NSLog(@"小区签到");

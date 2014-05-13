@@ -48,7 +48,7 @@
 }
 #pragma mark -UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 100;
+    return 20;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -56,26 +56,25 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identify = @"cell";
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+    static NSString *identify = @"cell";    
     CheckoutCommunityCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
     if (cell == nil) {
         cell = [[CheckoutCommunityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     }
     [cell configureCell:nil withIndex:indexPath.row];
-    [cell showBottonLineWithCellHeight:CELL_HEIGHT-1 andOffsetX:15];
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
+    [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
     
     return cell;
 }
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.navigationController.view.frame.origin.x > 0) return;
 
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
     CheckoutViewController *checkoutVC = [[CheckoutViewController alloc] init];
     [checkoutVC passCommunityDic:nil];
     [self.navigationController pushViewController:checkoutVC animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 - (void)didReceiveMemoryWarning
 {

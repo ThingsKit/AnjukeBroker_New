@@ -151,9 +151,9 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (self.navigationController.view.frame.origin.x > 0) {
+    if (self.navigationController.view.frame.origin.x > 0)
         return;
-    }
+    
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             BrokerTwoDimensionalCodeViewController *ba = [[BrokerTwoDimensionalCodeViewController alloc] init];

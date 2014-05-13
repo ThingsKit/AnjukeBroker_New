@@ -24,7 +24,7 @@
 - (void)initUI {
     self.selectionStyle = UITableViewCellSelectionStyleGray;
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
+
     self.checkStatusLab = [[UILabel alloc] initWithFrame:CHECKOUTSTATEFRAME];
     self.checkStatusLab.textAlignment = NSTextAlignmentRight;
     self.checkStatusLab.textColor = [UIColor greenColor];

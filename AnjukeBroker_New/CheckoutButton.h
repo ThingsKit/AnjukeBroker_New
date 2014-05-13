@@ -1,5 +1,5 @@
 //
-//  UIButton+Checkout.h
+//  CheckoutButton.h
 //  AnjukeBroker_New
 //
 //  Created by xiazer on 14-5-13.
@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIButton (Checkout)
+@interface CheckoutButton : UIButton
 @property(nonatomic, strong) UILabel *timeCountLab;
-
+@property(nonatomic, strong) NSTimer *timer;
+@property(nonatomic, assign) NSInteger *leftTime;
 + (UIButton *)buttonWithNormalStatus;
 + (UIButton *)buttonWithUnCheck;
-- (UIButton *)buttonWithCountdown:(double)timeLeft;
+- (UIButton *)buttonWithCountdown:(NSInteger)timeLeft;
+
 @end

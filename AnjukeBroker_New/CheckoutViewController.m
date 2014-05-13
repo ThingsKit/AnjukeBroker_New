@@ -11,6 +11,7 @@
 #import "CheckoutCell.h"
 #import "CheckoutRuleViewController.h"
 #import "UIButton+Checkout.h"
+#import "CheckoutButton.h"
 
 #define HEADERFRAME CGRectMake(0, 0, [self windowWidth], 220)
 #define HEADERMAPFRAME CGRectMake(0, 0, [self windowWidth], 150)
@@ -59,6 +60,10 @@
     self.headerView = [[UIView alloc] initWithFrame:HEADERFRAME];
     self.headerView.backgroundColor = [UIColor whiteColor];
     
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 50)];
+    footView.backgroundColor = [UIColor whiteColor];
+    self.tableList.tableFooterView = footView;
+    
     MKMapView *map = [[MKMapView alloc] initWithFrame:HEADERMAPFRAME];
     map.userInteractionEnabled = NO;
     map.delegate = self;
@@ -69,14 +74,24 @@
     [map addSubview:certerIcon];
     
     CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(39.915352,116.397105);
-    float zoomLevel = 0.03;
+    float zoomLevel = 0.02;
     MKCoordinateRegion region = MKCoordinateRegionMake(coords, MKCoordinateSpanMake(zoomLevel, zoomLevel));
     region = [map regionThatFits:region];
     [map setRegion:region animated:NO];
 
-    self.checkoutBtn = [UIButton buttonWithNormalStatus];
+    //签到按钮
+    
+    CheckoutButton *cb = [[CheckoutButton alloc] init];
+    self.checkoutBtn = [cb buttonWithCountdown:2821333];
     self.checkoutBtn.frame = CGRectMake(15, map.frame.size.height + 15, 220, 40);
     [self.headerView addSubview:self.checkoutBtn];
+    
+//    self.checkoutBtn = [UIButton buttonWithCountdown:(NSTimeInterval *)];
+//    self.checkoutBtn.frame = CGRectMake(15, map.frame.size.height + 15, 220, 40);
+//    [self.headerView addSubview:self.checkoutBtn];
+//    self.checkoutBtn = [UIButton buttonWithNormalStatus];
+//    self.checkoutBtn.frame = CGRectMake(15, map.frame.size.height + 15, 220, 40);
+//    [self.headerView addSubview:self.checkoutBtn];
     
     UILabel *checkoutNumLab = [[UILabel alloc] initWithFrame:CGRectMake(self.checkoutBtn.frame.origin.x+self.checkoutBtn.frame.size.width, self.checkoutBtn.frame.origin.y, 80, 40)];
     checkoutNumLab.lineBreakMode = UILineBreakModeWordWrap;
@@ -113,27 +128,42 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identify = @"cell";
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+    static NSString *identify = @"cell";    
     CheckoutCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
     if (cell == nil) {
         cell = [[CheckoutCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     }
     
-    if (indexPath.row == 0 || indexPath.row == 4) {
+    if (indexPath.row == 0) {
+        [cell showTopLine];
         [cell configurCell:nil withIndex:indexPath.row cellType:CHECKOUTCELLWITHELSE];
     }else if (indexPath.row == 1){
+        [cell showTopLine];
         [cell configurCell:nil withIndex:indexPath.row cellType:CHECKOUTCELLWITHNOCHECK];
+        [cell showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK andOffsetX:15];
     }else if (indexPath.row == 2){
         [cell configurCell:nil withIndex:indexPath.row cellType:CHECKOUTCELLWITHCHCK];
+        [cell showBottonLineWithCellHeight:CELLHEIGHT_CHECK andOffsetX:15];
     }else if (indexPath.row == 3){
         [cell configurCell:nil withIndex:indexPath.row cellType:CHECKOUTCELLWITHNOCHECK];
+        [cell showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK];
+    }else if (indexPath.row == 4){
+        [cell configurCell:nil withIndex:indexPath.row cellType:CHECKOUTCELLWITHELSE];
+        [cell showBottonLineWithCellHeight:CELLHEIGHT_NOFMAL];
     }
     
-    [cell showTopLine];
     return cell;
 }
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.navigationController.view.frame.origin.x > 0)
+        return;
+
+    if (indexPath.row == 4) {
+        [self rightButtonAction:nil];
+    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
 - (void)passCommunityDic:(NSDictionary *)dic{
     [self setTitleViewWithString:@"签到-东方曼哈顿"];
 }
