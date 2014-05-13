@@ -37,6 +37,7 @@
 #import "SaleBidDetailController.h"
 #import "SaleFixedDetailController.h"
 #import "SaleNoPlanGroupController.h"
+#import "SelectionToolView.h"
 
 #define HOME_cellHeight 50
 #define Max_Account_Lb_Width 80
@@ -64,7 +65,7 @@
 @property BOOL configChecked;
 @property (nonatomic, copy) NSString *loadingURL;
 @property (nonatomic, strong) UIButton *topAlertButton;
-
+@property (nonatomic, strong) SelectionToolView *selectionView;
 @end
 
 @implementation HomeViewController
@@ -100,6 +101,7 @@
     [self initRightBarButton];
     [self initView];
     [self initTitleView];
+    [self initSelectionView];
 }
 
 - (void)initTitleView {
@@ -112,7 +114,13 @@
     [segment addTarget:self action:@selector(pickOne:) forControlEvents:UIControlEventValueChanged];
     self.navigationItem.titleView = segment;
 }
-
+- (void)initSelectionView {
+    SelectionToolView *selectionView = [[SelectionToolView alloc] initWithFrame:CGRectMake(200, 5, 100, 80)];
+    selectionView.delegate = self;
+    [self.view addSubview:selectionView];
+    self.selectionView = selectionView;
+    self.selectionView.hidden = YES;
+}
 - (void)initView {
     [self setTitle:@"房源"];
     
@@ -179,6 +187,10 @@
     }
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+}
 #pragma mark - private method
 - (void)initRightBarButton {
     UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_setting_press.png"] taget:self action:@selector(rightButtonAction:)];
@@ -204,10 +216,19 @@
 }
 
 - (void)rightButtonAction:(id)sender {
-//    UserCenterViewController *mv = [[UserCenterViewController alloc] init];
-//    [mv setHidesBottomBarWhenPushed:YES];
-//    self.navigationController.navigationBarHidden = NO;
-//    [self.navigationController pushViewController:mv animated:YES];
+    if (self.selectionView.isHidden) {
+        [self showSelectionView];
+    }else {
+        [self hideSelectionView];
+    }
+}
+
+- (void)showSelectionView {
+    self.selectionView.hidden = NO;
+}
+
+- (void)hideSelectionView {
+    self.selectionView.hidden = YES;
 }
 
 - (void)pickOne:(id)sender {
@@ -525,6 +546,41 @@
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark- SelectionToolViewDelegate
+
+- (void)didClickSectionAtIndex:(NSInteger) index {
+    self.selectionView.hidden = YES;
+    switch (index) {
+        case 0:
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_003 note:nil];
+            
+            //模态弹出小区--万恶的结构变动尼玛
+            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
+            controller.backType = RTSelectorBackTypeDismiss;
+            controller.isFirstShow = YES;
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:nil];
+        }
+            break;
+        case 1:
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_004 note:nil];
+            
+            //模态弹出小区--万恶的结构变动尼玛
+            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
+            controller.backType = RTSelectorBackTypeDismiss;
+            controller.isFirstShow = YES;
+            controller.isHaouzu = YES;
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:nil];
+        }
+            break;
+        default:
+            break;
+    }
 }
 
 @end

@@ -8,8 +8,9 @@
 
 #import "RTViewController.h"
 #import "IMGDowloaderManager.h"
+#import "SelectionToolView.h"
 
-@interface HomeViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
+@interface HomeViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, SelectionToolViewDelegate>
 
 - (void)doRequest;
 
