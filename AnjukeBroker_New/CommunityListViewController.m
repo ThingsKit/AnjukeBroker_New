@@ -190,28 +190,66 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cityCell];
     if (cell == nil){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cityCell];
-        
-    }
-    else {
-        
-    }
-    
-    UIFont *font = [UIFont systemFontOfSize:18];
-    
-    if (self.listType == DataTypeKeywords) { //关键词
-        cell.textLabel.text = [[self.listDataArray objectAtIndex:indexPath.row] objectForKey:@"commName"];
-        DLog(@" address --- %@", [[self.listDataArray objectAtIndex:indexPath.row] objectForKey:@"address"]);
-    }
-    else { //历史、附近
-        cell.textLabel.text = [[self.listDataArray objectAtIndex:indexPath.row] objectForKey:@"commName"];
+    }else
+    {
+        for (UIView *view in cell.contentView.subviews)
+        {
+            [view removeFromSuperview];
+        }
     }
     
-    DLog(@" address --- %@", [[self.listDataArray objectAtIndex:indexPath.row] objectForKey:@"address"]);
+    UIView *searchView = [self searchCellView:indexPath.row cellHeight:CGRectGetHeight(cell.contentView.frame)];
     
-    cell.textLabel.font = font;
+    [cell.contentView addSubview:searchView];
+    
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     
     return cell;
+}
+
+
+- (UIView *)searchCellView:(NSInteger)indexPathRow cellHeight:(CGFloat)clHeight
+{
+    NSDictionary *arrDict = [self.listDataArray objectAtIndex:indexPathRow];
+    
+    UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), clHeight)];
+    [cellView setBackgroundColor:[UIColor clearColor]];
+    
+    //小区名的label
+    UILabel *commNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, CGRectGetWidth(cellView.frame), 28)];
+    [commNameLabel setText:[arrDict objectForKey:@"commName"]];
+    [commNameLabel setBackgroundColor:[UIColor clearColor]];
+    [commNameLabel setFont:[UIFont systemFontOfSize:18]];
+    
+    
+    //小区地址的label
+    CGFloat addLabelX = commNameLabel.frame.origin.x;
+    CGFloat addLabelY = commNameLabel.frame.origin.y + CGRectGetHeight(commNameLabel.frame) - 5;
+    CGFloat addLabelWidht = CGRectGetWidth(commNameLabel.frame);
+    CGFloat addLabelHeight = 22;
+    UIFont *addLabelFont = [UIFont systemFontOfSize:12];
+    NSString *addLabelText = [arrDict objectForKey:@"address"];
+        
+    if ([addLabelText length] > 20)
+    {
+        CGSize sizeText = [[addLabelText substringToIndex:20] sizeWithFont:addLabelFont];
+        
+        addLabelWidht = sizeText.width;
+    }
+    
+    
+    
+    UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(addLabelX, addLabelY, addLabelWidht, addLabelHeight)];
+    [addressLabel setText:addLabelText];
+    [addressLabel setBackgroundColor:[UIColor clearColor]];
+    [addressLabel setFont:addLabelFont];
+    [addressLabel setTextColor:SYSTEM_NAVBAR_DARK_BG];
+    
+    [cellView addSubview:commNameLabel];
+    [cellView addSubview:addressLabel];
+    
+    return cellView;
+    
 }
 
 #pragma mark - Request Method
