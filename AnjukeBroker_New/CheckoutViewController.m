@@ -12,8 +12,12 @@
 #import "CheckoutRuleViewController.h"
 #import "UIButton+Checkout.h"
 
-#define HEADERFRAME CGRectMake(0, 0, [self windowWidth], 250)
+#define HEADERFRAME CGRectMake(0, 0, [self windowWidth], 220)
 #define HEADERMAPFRAME CGRectMake(0, 0, [self windowWidth], 150)
+#define FRAME_CENTRE_LOC CGRectMake([self windowWidth]/2-8, 150/2-25, 16, 33)
+#define CELLHEIGHT_NOFMAL 44
+#define CELLHEIGHT_NOCHECK 60
+#define CELLHEIGHT_CHECK 100
 
 @interface CheckoutViewController ()
 @property(nonatomic, strong) UITableView *tableList;
@@ -49,7 +53,7 @@
     self.tableList.delegate = self;
     self.tableList.backgroundColor = [UIColor clearColor];
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableList.showsVerticalScrollIndicator = YES;
+    self.tableList.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.tableList];
     
     self.headerView = [[UIView alloc] initWithFrame:HEADERFRAME];
@@ -60,17 +64,21 @@
     map.delegate = self;
     [self.headerView addSubview:map];
 
+    UIImageView *certerIcon = [[UIImageView alloc] initWithFrame:FRAME_CENTRE_LOC];
+    certerIcon.image = [UIImage imageNamed:@"anjuke_icon_itis_position.png"];
+    [map addSubview:certerIcon];
+    
     CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(39.915352,116.397105);
-    float zoomLevel = 0.1;
+    float zoomLevel = 0.03;
     MKCoordinateRegion region = MKCoordinateRegionMake(coords, MKCoordinateSpanMake(zoomLevel, zoomLevel));
     region = [map regionThatFits:region];
     [map setRegion:region animated:NO];
 
     self.checkoutBtn = [UIButton buttonWithNormalStatus];
-    self.checkoutBtn.frame = CGRectMake(20, map.frame.size.height + 25, 200, 60);
+    self.checkoutBtn.frame = CGRectMake(15, map.frame.size.height + 15, 220, 40);
     [self.headerView addSubview:self.checkoutBtn];
     
-    UILabel *checkoutNumLab = [[UILabel alloc] initWithFrame:CGRectMake(self.checkoutBtn.frame.origin.x+self.checkoutBtn.frame.size.width+20, self.checkoutBtn.frame.origin.y, 80, 60)];
+    UILabel *checkoutNumLab = [[UILabel alloc] initWithFrame:CGRectMake(self.checkoutBtn.frame.origin.x+self.checkoutBtn.frame.size.width, self.checkoutBtn.frame.origin.y, 80, 40)];
     checkoutNumLab.lineBreakMode = UILineBreakModeWordWrap;
     checkoutNumLab.numberOfLines = 0;
     checkoutNumLab.text = [NSString stringWithFormat:@"33人\n今日已签"];
@@ -82,20 +90,26 @@
     self.tableList.tableHeaderView = self.headerView;
 }
 
-//CLLocation *loc = [[CLLocation alloc] initWithLatitude:naviCoordsGd.latitude longitude:naviCoordsGd.longitude];
-//MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(naviCoordsGd, 500, 500);
-//self.naviRegion = [self.regionMapView regionThatFits:viewRegion];
-//
-//[self.regionMapView setRegion:self.naviRegion animated:NO];
-//[self showAnnotation:loc coord:naviCoordsGd];
-
 #pragma mark -UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
+    return 5;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 100;
+    switch (indexPath.row) {
+        case 0:
+            return CELLHEIGHT_NOFMAL;
+        case 1:
+            return CELLHEIGHT_NOCHECK;
+        case 2:
+            return CELLHEIGHT_CHECK;
+        case 3:
+            return CELLHEIGHT_NOCHECK;
+        case 4:
+            return CELLHEIGHT_NOFMAL;
+        default:
+            return CELLHEIGHT_NOFMAL;
+    }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -106,9 +120,18 @@
     if (cell == nil) {
         cell = [[CheckoutCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     }
-    [cell configureCell:nil withIndex:indexPath.row];
-    [cell showBottonLineWithCellHeight:CELL_HEIGHT-1 andOffsetX:15];
     
+    if (indexPath.row == 0 || indexPath.row == 4) {
+        [cell configurCell:nil withIndex:indexPath.row cellType:CHECKOUTCELLWITHELSE];
+    }else if (indexPath.row == 1){
+        [cell configurCell:nil withIndex:indexPath.row cellType:CHECKOUTCELLWITHNOCHECK];
+    }else if (indexPath.row == 2){
+        [cell configurCell:nil withIndex:indexPath.row cellType:CHECKOUTCELLWITHCHCK];
+    }else if (indexPath.row == 3){
+        [cell configurCell:nil withIndex:indexPath.row cellType:CHECKOUTCELLWITHNOCHECK];
+    }
+    
+    [cell showTopLine];
     return cell;
 }
 - (void)passCommunityDic:(NSDictionary *)dic{

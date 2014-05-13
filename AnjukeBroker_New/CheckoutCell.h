@@ -8,6 +8,15 @@
 
 #import "RTListCell.h"
 
-@interface CheckoutCell : RTListCell
+typedef NS_ENUM(NSInteger, CHECKOUTCELLTYPE) {
+    CHECKOUTCELLWITHNOCHECK = 0,
+    CHECKOUTCELLWITHCHCK,
+    CHECKOUTCELLWITHELSE
+};
 
+
+@interface CheckoutCell : RTListCell
+@property(nonatomic, assign) CHECKOUTCELLTYPE cellViewType;
+
+- (void)configurCell:(id)dataModel withIndex:(int)index cellType:(CHECKOUTCELLTYPE)cellType;
 @end
