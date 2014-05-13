@@ -6,16 +6,17 @@
 //  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
 
-#import "QiangFangYuanWeiTuoViewController.h"
+#import "RushPropertyViewController.h"
 #import "UIViewExt.h"
+#include "NetworkRequest.h"
 
-@interface QiangFangYuanWeiTuoViewController ()
+@interface RushPropertyViewController ()
 
-@property (nonatomic, strong) UITableView* tableView;
+@property (nonatomic, strong) PropertyTableView* tableView;
 
 @end
 
-@implementation QiangFangYuanWeiTuoViewController
+@implementation RushPropertyViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,8 +30,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self initUI];
+    [self initUI]; //初始化 self.navigationItem.titleView
     
+    self.tableView = [[PropertyTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-49-44) style:UITableViewStylePlain];
+    [self.view addSubview:self.tableView];
+    
+    self.tableView.eventDelegate = self;
+    
+    [self autoRefresh]; //自动刷新
 }
 
 
@@ -46,38 +53,41 @@
 
 
 #pragma mark -
-#pragma mark UITableViewDataSource
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
-}
+#pragma mark - BaseTableViewDelegate
 
-// Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
-// Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)pullDown:(BaseTableView *)tableView {
+    self.tableView.isPullUp = NO;
     
-    static NSString* identify = @"QiangFangYuanWeiTuoViewControllerCellIdentifier";
+//    [NetworkRequest requestWithURL:@"<#string#>" params:params httpMethod:@"GET" requestDidFinishBlock:^(id result) {
+//        
+//    }];
+    NSArray* list = @[@"1", @"2", @"3"];
     
+    self.tableView.data = list;
     
-    return nil;
+    [self.tableView reloadData];
+
+}
+
+- (void)pullUp:(BaseTableView *)tableView {
+    self.tableView.isPullUp = YES;
+    
+}
+
+- (void)tableView:(BaseTableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
 }
 
 
-#pragma mark -
-#pragma mark UITableViewDelegate
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        NSLog(@"市场分析");
-    }else if(indexPath.row == 1){
-        NSLog(@"小区签到");
-    }else{
-        NSLog(@"抢房源委托");
-    }
+
+- (void) autoRefresh {
+    
+    self.tableView.hidden = NO;
+    [self.tableView autoPullDownRefresh]; //自动下拉
+    //加载数据
+    [self pullDown:nil];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 0;
-}
 
 
 #pragma mark -

@@ -8,9 +8,13 @@
 
 #import "DiscoverViewController.h"
 #import "UIViewExt.h"
-#import "QiangFangYuanWeiTuoViewController.h"
+
+//#import "QiangFangYuanWeiTuoViewController.h"
 #import "CheckoutCommunityViewController.h"
 #import "FindHomeViewController.h"
+
+#import "RushPropertyViewController.h"
+
 
 @interface DiscoverViewController ()
 
@@ -114,7 +118,7 @@
         [self.navigationController pushViewController:communityVC animated:YES];
     }else{
         NSLog(@"抢房源委托");
-        QiangFangYuanWeiTuoViewController* viewController = [[QiangFangYuanWeiTuoViewController alloc] init];
+        RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
         [self.navigationController pushViewController:viewController animated:YES];
     }
     

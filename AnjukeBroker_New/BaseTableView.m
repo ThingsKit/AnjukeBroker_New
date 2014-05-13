@@ -68,7 +68,7 @@
 }
 
 - (void)setNeedRefreshHeader:(BOOL)needRefreshHeader {
-    self.needRefreshHeader = needRefreshHeader;
+    _needRefreshHeader = needRefreshHeader;
     
     if (self.needRefreshHeader) {
         [self addSubview:_refreshHeaderView];
@@ -80,7 +80,7 @@
 }
 
 - (void)setNeedRefreshFooter:(BOOL)needRefreshFooter {
-    self.needRefreshFooter = needRefreshFooter;
+    _needRefreshFooter = needRefreshFooter;
     
     if (self.needRefreshFooter) {
         self.tableFooterView = _refreshFooterView;
@@ -144,6 +144,7 @@
 - (void)doneLoadingTableViewData{
 	self.reloading = NO;
 	[self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;  //显示状态栏风火轮
 }
 
 
@@ -186,11 +187,12 @@
 	[self reloadTableViewDataSource];
     
     //停止加载，弹回下拉
-    //    [self doneLoadingTableViewData];
-    //	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:1.0];
-    if ([self.eventDelegate respondsToSelector:@selector(pullDown:)]) {
-        [self.eventDelegate pullDown:self]; //下拉
-    }
+    [self doneLoadingTableViewData];
+	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:1.0];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;  //显示状态栏风火轮
+//    if ([self.eventDelegate respondsToSelector:@selector(pullDown:)]) {
+//        [self.eventDelegate pullDown:self]; //下拉
+//    }
 	
 }
 

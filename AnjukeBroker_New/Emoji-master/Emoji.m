@@ -7,16 +7,9 @@
 //
 
 #import "Emoji.h"
-#import "EmojiEmoticons.h"
-#import "EmojiMapSymbols.h"
-#import "EmojiPictographs.h"
-#import "EmojiTransport.h"
 
 @implementation Emoji
-+ (NSString *)emojiWithCode:(int)code {
-    int sym = EMOJI_CODE_TO_SYMBOL(code);
-    return [[NSString alloc] initWithBytes:&sym length:sizeof(sym) encoding:NSUTF8StringEncoding];
-}
+
 + (NSArray *)allEmoji {
     NSArray* emojis = @[@"\U0001f603", @"\U0001f60a", @"\u263a", @"\U0001f609", @"\U0001f60d", @"\U0001f618", @"\U0001f61a",
                         @"\U0001f61c", @"\U0001f61d", @"\U0001f633", @"\U0001f601", @"\U0001f614", @"\U0001f60c", @"\U0001f612",
@@ -31,24 +24,6 @@
                         @"\U0001f49A", @"\u2764", @"\U0001f497", @"\U0001f4a6", @"\U0001f4a9", @"\U0001f525", @""
                         ];
     
-//    NSArray* emojis = @[@"\U0001f604", @"\U0001f60A", @"\U0001f603", @"\u263A", @"\U0001f609", @"\U0001f60D", @"\U0001f618",
-//                        @"\U0001f61A", @"\U0001f633", @"\U0001f60C", @"\U0001f601", @"\U0001f61C", @"\U0001f61D", @"\U0001f612",
-//                        @"\U0001f60F", @"\U0001f613", @"\U0001f614", @"\U0001f61E", @"\U0001f616", @"\U0001f625", @"",
-//                        
-//                        @"\U0001f630", @"\U0001f628", @"\U0001f623", @"\U0001f622", @"\U0001f62D", @"\U0001f602", @"\U0001f632",
-//                        @"\U0001f631", @"\U0001f620", @"\U0001f621", @"\U0001f62A", @"\U0001f637", @"\U0001f47F", @"\U0001f47D",
-//                        @"\U0001f49B", @"\U0001f499", @"\U0001f49C", @"\U0001f497", @"\U0001f49A", @"\u2764", @"",
-//                        
-//                        @"\U0001f494", @"\U0001f493", @"\U0001f498", @"\u2728", @"\U0001f44D", @"\U0001f44E", @"\U0001f44C",
-//                        @"\U0001f44A",@"\u270A",  @"\u270C", @"\U0001f44B", @"\u270B", @"\U0001f450", @"\U0001f446",
-//                        @"\U0001f447", @"\U0001f449", @"\U0001f448", @"\U0001f64C", @"\U0001f64F", @"\U0001f44F", @""
-//                        ];
-    
-//    NSMutableArray *emojis = [NSMutableArray new];
-//    [emojis addObjectsFromArray:[EmojiEmoticons allEmoticons]];
-//    [emojis addObjectsFromArray:[EmojiMapSymbols allMapSymbols]];
-//    [emojis addObjectsFromArray:[EmojiPictographs allPictographs]];
-//    [emojis addObjectsFromArray:[EmojiTransport allTransport]];
     
     return emojis;
 }

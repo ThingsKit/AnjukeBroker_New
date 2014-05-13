@@ -8,6 +8,6 @@
 
 #import "BaseTableView.h"
 
-@interface FangYuanTableView : BaseTableView
+@interface PropertyTableView : BaseTableView
 
 @end

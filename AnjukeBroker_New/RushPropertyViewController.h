@@ -7,7 +7,10 @@
 //
 
 #import "RTViewController.h"
+#import "PropertyTableView.h"
 
-@interface QiangFangYuanWeiTuoViewController : RTViewController <UITableViewDataSource, UITableViewDelegate>
+@interface RushPropertyViewController : RTViewController<BaseTableViewEventDelegate>
+
+- (void)autoRefresh; //自动拉下刷新
 
 @end

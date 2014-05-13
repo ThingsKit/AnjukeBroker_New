@@ -10,10 +10,6 @@
 #import "UIViewExt.h"
 
 #import "Emoji.h"
-#import "EmojiEmoticons.h"
-#import "EmojiMapSymbols.h"
-#import "EmojiPictographs.h"
-#import "EmojiTransport.h"
 
 #define FACE_WIDTH 42
 #define FACE_HEIGHT 48
