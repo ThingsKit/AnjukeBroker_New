@@ -13,7 +13,7 @@
 #import "AppManager.h"
 #import "PublishBuildingViewController.h"
 
-#define COM_CELL_HEIGHT 45
+#define COM_CELL_HEIGHT 55
 #define SEARCH_DISTANCE @"5000"
 
 @interface CommunityListViewController ()
@@ -171,7 +171,7 @@
         return 0;
     }
     
-    return 20;
+    return 25;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -200,10 +200,14 @@
     
     if (self.listType == DataTypeKeywords) { //关键词
         cell.textLabel.text = [[self.listDataArray objectAtIndex:indexPath.row] objectForKey:@"commName"];
+        DLog(@" address --- %@", [[self.listDataArray objectAtIndex:indexPath.row] objectForKey:@"address"]);
     }
     else { //历史、附近
         cell.textLabel.text = [[self.listDataArray objectAtIndex:indexPath.row] objectForKey:@"commName"];
     }
+    
+    DLog(@" address --- %@", [[self.listDataArray objectAtIndex:indexPath.row] objectForKey:@"address"]);
+    
     cell.textLabel.font = font;
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     
