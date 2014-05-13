@@ -204,10 +204,10 @@
 }
 
 - (void)rightButtonAction:(id)sender {
-    UserCenterViewController *mv = [[UserCenterViewController alloc] init];
-    [mv setHidesBottomBarWhenPushed:YES];
-    self.navigationController.navigationBarHidden = NO;
-    [self.navigationController pushViewController:mv animated:YES];
+//    UserCenterViewController *mv = [[UserCenterViewController alloc] init];
+//    [mv setHidesBottomBarWhenPushed:YES];
+//    self.navigationController.navigationBarHidden = NO;
+//    [self.navigationController pushViewController:mv animated:YES];
 }
 
 - (void)pickOne:(id)sender {
