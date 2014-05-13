@@ -10,7 +10,6 @@
 #import "BrokerTableStuct.h"
 #import "CheckoutCell.h"
 #import "CheckoutRuleViewController.h"
-#import "UIButton+Checkout.h"
 #import "CheckoutButton.h"
 
 #define HEADERFRAME CGRectMake(0, 0, [self windowWidth], 220)
@@ -24,18 +23,22 @@
 @property(nonatomic, strong) UITableView *tableList;
 @property(nonatomic, strong) UIView *headerView;
 @property(nonatomic, strong) UIButton *checkoutBtn;
+@property(nonatomic, strong) CheckoutButton *cb;
+
 @end
 
 @implementation CheckoutViewController
 @synthesize tableList;
 @synthesize headerView;
 @synthesize checkoutBtn;
+@synthesize cb;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.cb = [[CheckoutButton alloc] init];
     }
     return self;
 }
@@ -80,9 +83,7 @@
     [map setRegion:region animated:NO];
 
     //签到按钮
-    
-    CheckoutButton *cb = [[CheckoutButton alloc] init];
-    self.checkoutBtn = [cb buttonWithCountdown:2821333];
+    self.checkoutBtn = [self.cb buttonWithCountdown:28213];
     self.checkoutBtn.frame = CGRectMake(15, map.frame.size.height + 15, 220, 40);
     [self.headerView addSubview:self.checkoutBtn];
     

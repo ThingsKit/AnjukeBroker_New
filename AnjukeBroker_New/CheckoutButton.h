@@ -11,9 +11,9 @@
 @interface CheckoutButton : UIButton
 @property(nonatomic, strong) UILabel *timeCountLab;
 @property(nonatomic, strong) NSTimer *timer;
-@property(nonatomic, assign) NSInteger *leftTime;
+@property(nonatomic, assign) int leftTime;
 + (UIButton *)buttonWithNormalStatus;
 + (UIButton *)buttonWithUnCheck;
-- (UIButton *)buttonWithCountdown:(NSInteger)timeLeft;
+- (UIButton *)buttonWithCountdown:(int)timeLeft;
 
 @end

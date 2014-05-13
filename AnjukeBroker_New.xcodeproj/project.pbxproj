@@ -604,7 +604,6 @@
 		F8BFF37918FE87E8008E700D /* leftside_shadow_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37718FE87E8008E700D /* leftside_shadow_bg.png */; };
 		F8BFF37A18FE87E8008E700D /* leftside_shadow_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */; };
 		F8CD189C1921A40A0033733E /* CheckoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD189B1921A40A0033733E /* CheckoutCell.m */; };
-		F8CD18A01921A5A00033733E /* UIButton+Checkout.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD189F1921A5A00033733E /* UIButton+Checkout.m */; };
 		F8CD18A31921A9800033733E /* CheckoutRuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD18A21921A9800033733E /* CheckoutRuleViewController.m */; };
 		F8CD18A9192200960033733E /* CheckoutButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD18A8192200960033733E /* CheckoutButton.m */; };
 		F8D449D01908AFA900447375 /* anjuke_icon_button_red_press.png in Resources */ = {isa = PBXBuildFile; fileRef = F8D449CC1908AFA900447375 /* anjuke_icon_button_red_press.png */; };
@@ -1539,8 +1538,6 @@
 		F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftside_shadow_bg@2x.png"; sourceTree = "<group>"; };
 		F8CD189A1921A40A0033733E /* CheckoutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutCell.h; sourceTree = "<group>"; };
 		F8CD189B1921A40A0033733E /* CheckoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutCell.m; sourceTree = "<group>"; };
-		F8CD189E1921A5A00033733E /* UIButton+Checkout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Checkout.h"; sourceTree = "<group>"; };
-		F8CD189F1921A5A00033733E /* UIButton+Checkout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Checkout.m"; sourceTree = "<group>"; };
 		F8CD18A11921A9800033733E /* CheckoutRuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutRuleViewController.h; sourceTree = "<group>"; };
 		F8CD18A21921A9800033733E /* CheckoutRuleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutRuleViewController.m; sourceTree = "<group>"; };
 		F8CD18A7192200960033733E /* CheckoutButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutButton.h; sourceTree = "<group>"; };
@@ -3475,8 +3472,6 @@
 				F8A717EC1920BC81004840C6 /* CheckoutViewController.m */,
 				F8CD18A7192200960033733E /* CheckoutButton.h */,
 				F8CD18A8192200960033733E /* CheckoutButton.m */,
-				F8CD189E1921A5A00033733E /* UIButton+Checkout.h */,
-				F8CD189F1921A5A00033733E /* UIButton+Checkout.m */,
 				F8CD189A1921A40A0033733E /* CheckoutCell.h */,
 				F8CD189B1921A40A0033733E /* CheckoutCell.m */,
 				F8CD18A11921A9800033733E /* CheckoutRuleViewController.h */,
@@ -4117,7 +4112,6 @@
 				2056A36218EE7E7A0022B5A5 /* NSString+AppendURLCommonParams.m in Sources */,
 				20A07429188C0A080073C915 /* PublishTableViewDataSource.m in Sources */,
 				207526BA18B45FE10022220C /* SWCellScrollView.m in Sources */,
-				F8CD18A01921A5A00033733E /* UIButton+Checkout.m in Sources */,
 				972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */,
 				97B106501834E5F40064AF5F /* AppManager.m in Sources */,
 				B7EAD52018CD927200B28FEC /* AXChatWebViewController.m in Sources */,
