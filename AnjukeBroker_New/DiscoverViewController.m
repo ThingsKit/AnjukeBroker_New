@@ -10,6 +10,7 @@
 #import "UIViewExt.h"
 #import "QiangFangYuanWeiTuoViewController.h"
 #import "CheckoutCommunityViewController.h"
+#import "FindHomeViewController.h"
 
 @interface DiscoverViewController ()
 
@@ -103,11 +104,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
         NSLog(@"市场分析");
+        FindHomeViewController *ae = [[FindHomeViewController alloc] init];
+        [ae setHidesBottomBarWhenPushed:YES];
+        self.navigationController.navigationBarHidden = NO;
+        [self.navigationController pushViewController:ae animated:YES];
     }else if(indexPath.row == 1){
         NSLog(@"小区签到");
-    CheckoutCommunityViewController *communityVC = [[CheckoutCommunityViewController alloc] init];
-    [communityVC setHidesBottomBarWhenPushed:YES];
-    [self.navigationController pushViewController:communityVC animated:YES];
+        CheckoutCommunityViewController *communityVC = [[CheckoutCommunityViewController alloc] init];
+        [communityVC setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:communityVC animated:YES];
     }else{
         NSLog(@"抢房源委托");
         QiangFangYuanWeiTuoViewController* viewController = [[QiangFangYuanWeiTuoViewController alloc] init];
