@@ -18,6 +18,7 @@
 #import "MessageListViewController.h"
 #import "ClientListViewController.h"
 #import "BrokerLuanchAdd.h"
+#import "DiscoverViewController.h"
 
 #define tabItemInsertsMake UIEdgeInsetsMake(0, 0, 0, 0)
 
@@ -78,13 +79,21 @@
         [self.controllerArrays addObject:navCl];
         navCl.tabBarItem = [self getTabBarItemWithTitle:@"客户" image:[UIImage imageNamed:@"anjuke_icon_kh.png"] index:3 selectedImg:[UIImage imageNamed:@"anjuke_icon_kh1.png"]];
         
+        //发现
+        DiscoverViewController* dis = [[DiscoverViewController alloc] init];
+        self.page4 = dis;
+        dis.isHome = YES;// 作用不明???
+        RTGestureBackNavigationController* navDis = [[RTGestureBackNavigationController alloc] initWithRootViewController:dis];
+        [self.controllerArrays addObject:navDis];
+        navDis.tabBarItem = [self getTabBarItemWithTitle:@"发现" image:[UIImage imageNamed:@"anjuke_icon_esf.png"] index:4 selectedImg:[UIImage imageNamed:@"anjuke_icon_esf1.png"]];
+        
         //二手房
-        AnjukeHomeViewController *av = [[AnjukeHomeViewController alloc] init];
-        self.page4 = av;
-        av.isHome = YES;
-        RTGestureBackNavigationController *navAJK = [[RTGestureBackNavigationController alloc] initWithRootViewController:av];
-        [self.controllerArrays addObject:navAJK];
-        navAJK.tabBarItem = [self getTabBarItemWithTitle:@"二手房" image:[UIImage imageNamed:@"anjuke_icon_esf.png"] index:4 selectedImg:[UIImage imageNamed:@"anjuke_icon_esf1.png"]];
+//        AnjukeHomeViewController *av = [[AnjukeHomeViewController alloc] init];
+//        self.page4 = av;
+//        av.isHome = YES;
+//        RTGestureBackNavigationController *navAJK = [[RTGestureBackNavigationController alloc] initWithRootViewController:av];
+//        [self.controllerArrays addObject:navAJK];
+//        navAJK.tabBarItem = [self getTabBarItemWithTitle:@"二手房" image:[UIImage imageNamed:@"anjuke_icon_esf.png"] index:4 selectedImg:[UIImage imageNamed:@"anjuke_icon_esf1.png"]];
         
         //租房
         HaozuHomeViewController *hhv = [[HaozuHomeViewController alloc] init];

@@ -90,28 +90,6 @@
         
         [cell.contentView addSubview:badgeView];
         
-//        UIView* contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 45)];
-//        
-//        UIImageView* iconView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 23, 23)];
-//        iconView.image = [UIImage imageNamed:@"anjuke_icon_esf1"];
-//        [contentView addSubview:iconView];
-//        
-//        UILabel* textLabel = [[UILabel alloc] initWithFrame:CGRectMake(iconView.right + 20, 10, 200, 45)];
-//        textLabel.text = @"抢房源委托";
-//        textLabel.backgroundColor = [UIColor clearColor];
-//        [textLabel sizeToFit];
-//        [contentView addSubview:textLabel];
-//        
-//        UIImageView* badgeView = [[UIImageView alloc] initWithFrame:CGRectMake(textLabel.right + 5, 6, 30, 30)];
-//        badgeView.image = [UIImage imageNamed:@"anjuke_icon_now_position"];
-//        UILabel* badgeNumber = [[UILabel alloc] initWithFrame:CGRectMake(10, 3, 25, 25)];
-//        badgeNumber.text = @"2";
-//        badgeNumber.backgroundColor = [UIColor clearColor];
-//        [badgeView addSubview:badgeNumber];
-//        [contentView addSubview:badgeView];
-//
-//        [cell.contentView addSubview:contentView];
-        
     }
     
     return cell;
@@ -130,6 +108,8 @@
         QiangFangYuanWeiTuoViewController* viewController = [[QiangFangYuanWeiTuoViewController alloc] init];
         [self.navigationController pushViewController:viewController animated:YES];
     }
+    
+    [self.tableView reloadData];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
