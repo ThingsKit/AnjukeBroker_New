@@ -26,6 +26,9 @@
 #import "AXChatMessageCenter.h"
 #import "HomeViewController.h"
 
+#import "DiscoverViewController.h"
+#import "RTNavigationController.h"
+
 #define coreDataName @"AnjukeBroker_New"
 
 #define UMENG_KEY_OFFLINE @"529da42356240b93f001f9b4"
@@ -54,14 +57,11 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor blackColor];
     
-    //初始化底层库
-    [self initRTManager];
+//    DiscoverViewController* viewController = [[DiscoverViewController alloc] init];
+//    RTNavigationController* navi = [[RTNavigationController alloc] initWithRootViewController:viewController];
+//    self.window.rootViewController = navi;
+//    [self.window makeKeyAndVisible];
     
-    //add root viewController
-    [self checkLogin];
-    
-    [self.window makeKeyAndVisible];
-        
     [self registerRemoteNotification];
     [self cleanRemoteNotification:application];
     
@@ -77,6 +77,24 @@
     [self requestSalePropertyConfig];
     //监听被踢出下线通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doLogOutEnforce) name:@"MessageCenterUserDidQuit" object:nil];
+//    //初始化底层库
+//    [self initRTManager];
+//    
+//    //add root viewController
+//    [self checkLogin];
+//    
+//    [self.window makeKeyAndVisible];
+//        
+//    [self registerRemoteNotification];
+//    [self cleanRemoteNotification:application];
+//    
+//    //监听每次连接长链接后-->获取最新未读消息
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showNewMessageCountForTab) name:@"MessageCenterConnectionStatusNotication" object:nil];
+//    //监听每次收到新消息提醒后-->获取最新未读消息
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showNewMessageCountForTab) name:MessageCenterDidReceiveNewMessage object:nil];
+//    
+//    [self checkVersionForMore:NO];
+//    [self requestSalePropertyConfig];
     
     return YES;
 }

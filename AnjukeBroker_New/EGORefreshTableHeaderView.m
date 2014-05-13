@@ -249,6 +249,17 @@
 }
 
 
+//扩展:下拉显示加载
+- (void)autoRefreshLoading:(UIScrollView *)scrollView {
+    //    [UIView beginAnimations:nil context:nil];
+    //    [UIView setAnimationDuration:1];
+    scrollView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
+    scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -60);
+    [self setState:EGOOPullRefreshLoading];
+    //    [UIView commitAnimations];
+}
+
+
 #pragma mark -
 #pragma mark Dealloc
 
