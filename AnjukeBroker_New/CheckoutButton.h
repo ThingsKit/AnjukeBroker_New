@@ -8,7 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol checkoutButtonDelegate <NSObject>
+- (void)timeCountZero;
+@end
+
 @interface CheckoutButton : UIButton
+@property(nonatomic, assign) id<checkoutButtonDelegate> checkoutDelegate;
 @property(nonatomic, strong) UILabel *timeCountLab;
 @property(nonatomic, strong) NSTimer *timer;
 @property(nonatomic, assign) int leftTime;

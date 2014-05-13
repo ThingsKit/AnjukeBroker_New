@@ -13,5 +13,5 @@
 @interface CheckoutViewController : RTViewController<UITableViewDataSource,UITableViewDelegate,MKMapViewDelegate>
 
 - (void)passCommunityDic:(NSDictionary *)dic;
-
+- (void)timeCountZero;
 @end

@@ -14,9 +14,15 @@
 @interface CheckoutCommunityViewController ()
 @property(nonatomic, strong) BrokerTableStuct *tableList;
 @property(nonatomic, strong) NSDictionary *checkoutDic;
+//user最新2d
+@property(nonatomic,assign) CLLocationCoordinate2D nowCoords;
+
 @end
 
 @implementation CheckoutCommunityViewController
+@synthesize tableList;
+@synthesize checkoutDic;
+@synthesize nowCoords;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -82,15 +88,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark MKMapViewDelegate -user location定位变化
+-(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
+    self.nowCoords = [userLocation coordinate];
 }
-*/
 
 @end

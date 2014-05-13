@@ -39,6 +39,10 @@
     }
     return self;
 }
+- (void)dealloc{
+    self.versionUpdate.versionDelegate = nil;
+    self.versionUpdate = nil;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];

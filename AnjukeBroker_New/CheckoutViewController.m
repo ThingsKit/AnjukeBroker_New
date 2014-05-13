@@ -19,7 +19,7 @@
 #define CELLHEIGHT_NOCHECK 60
 #define CELLHEIGHT_CHECK 100
 
-@interface CheckoutViewController ()
+@interface CheckoutViewController ()<checkoutButtonDelegate>
 @property(nonatomic, strong) UITableView *tableList;
 @property(nonatomic, strong) UIView *headerView;
 @property(nonatomic, strong) UIButton *checkoutBtn;
@@ -39,10 +39,14 @@
     if (self) {
         // Custom initialization
         self.cb = [[CheckoutButton alloc] init];
+        cb.checkoutDelegate = self;
     }
     return self;
 }
-
+- (void)dealloc{
+    self.cb.checkoutDelegate = nil;
+    self.cb = nil;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -83,16 +87,14 @@
     [map setRegion:region animated:NO];
 
     //签到按钮
-    self.checkoutBtn = [self.cb buttonWithCountdown:28213];
+//    self.checkoutBtn = [self.cb buttonWithCountdown:15];
+//    self.checkoutBtn.frame = CGRectMake(15, map.frame.size.height + 15, 220, 40);
+//    [self.headerView addSubview:self.checkoutBtn];
+
+    self.checkoutBtn = [CheckoutButton buttonWithNormalStatus];
+    [self.checkoutBtn addTarget:self action:@selector(checkoutCommunity:) forControlEvents:UIControlEventTouchUpInside];
     self.checkoutBtn.frame = CGRectMake(15, map.frame.size.height + 15, 220, 40);
     [self.headerView addSubview:self.checkoutBtn];
-    
-//    self.checkoutBtn = [UIButton buttonWithCountdown:(NSTimeInterval *)];
-//    self.checkoutBtn.frame = CGRectMake(15, map.frame.size.height + 15, 220, 40);
-//    [self.headerView addSubview:self.checkoutBtn];
-//    self.checkoutBtn = [UIButton buttonWithNormalStatus];
-//    self.checkoutBtn.frame = CGRectMake(15, map.frame.size.height + 15, 220, 40);
-//    [self.headerView addSubview:self.checkoutBtn];
     
     UILabel *checkoutNumLab = [[UILabel alloc] initWithFrame:CGRectMake(self.checkoutBtn.frame.origin.x+self.checkoutBtn.frame.size.width, self.checkoutBtn.frame.origin.y, 80, 40)];
     checkoutNumLab.lineBreakMode = UILineBreakModeWordWrap;
@@ -105,7 +107,18 @@
     
     self.tableList.tableHeaderView = self.headerView;
 }
-
+- (void)checkoutCommunity:(id)sender{
+    
+}
+- (void)timeCountZero{
+    if (self.checkoutBtn) {
+        [self.checkoutBtn removeFromSuperview];
+        self.checkoutBtn = nil;
+    }
+    self.checkoutBtn = [CheckoutButton buttonWithUnCheck];
+    self.checkoutBtn.frame = CGRectMake(15, 150 + 15, 220, 40);
+    [self.headerView addSubview:self.checkoutBtn];
+}
 #pragma mark -UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 5;
@@ -172,6 +185,7 @@
     CheckoutRuleViewController *ruleVC = [[CheckoutRuleViewController alloc] init];
     [self.navigationController pushViewController:ruleVC animated:YES];
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

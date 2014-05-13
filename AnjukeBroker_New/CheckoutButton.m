@@ -9,6 +9,7 @@
 #import "CheckoutButton.h"
 
 @implementation CheckoutButton
+@synthesize checkoutDelegate;
 @synthesize timer;
 @synthesize leftTime;
 
@@ -32,9 +33,15 @@
 + (UIButton *)buttonWithUnCheck{
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.backgroundColor = [UIColor blueColor];
-    [btn setTitle:@"..." forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize:20];
-
+    [btn setTitle:@"加载中..." forState:UIControlStateNormal];
+    btn.userInteractionEnabled = NO;
+    
+//    UIActivityIndicatorView *activityView= [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//    activityView.center=CGPointMake(110, 20);
+//    [activityView startAnimating];
+//    [btn addSubview:activityView];
+    
     return btn;
 }
 
@@ -51,7 +58,7 @@
     self.timeCountLab.textAlignment = NSTextAlignmentLeft;
     self.timeCountLab.font = [UIFont systemFontOfSize:14];
     self.timeCountLab.textColor = [UIColor whiteColor];
-    self.timeCountLab.text = [NSString stringWithFormat:@"距下次签到%@",[self changeTimeToStr:timeLeft]];
+    self.timeCountLab.text = [NSString stringWithFormat:@"距下次签到:%@",[self changeTimeToStr:timeLeft]];
     [btn addSubview:self.timeCountLab];
     
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(downTime) userInfo:nil repeats:YES];
@@ -84,11 +91,12 @@
 
 - (void)downTime{
     leftTime = leftTime - 1;
-    if (leftTime == 0) {
-        
+    if (leftTime <= 0) {
+        [checkoutDelegate timeCountZero];
+        [self.timer invalidate];
     }else{
         NSString *str = [self changeTimeToStr:leftTime];
-        DLog(@"changeTime-->>%d/%@",leftTime,str);
+
         self.timeCountLab.text = [NSString stringWithFormat:@"距下次签到:%@",str];
     }
 }
