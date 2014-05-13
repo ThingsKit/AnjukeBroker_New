@@ -66,6 +66,8 @@
 @property (nonatomic, copy) NSString *loadingURL;
 @property (nonatomic, strong) UIButton *topAlertButton;
 @property (nonatomic, strong) SelectionToolView *selectionView;
+@property (nonatomic, strong) UIControl *shadeControl;
+
 @end
 
 @implementation HomeViewController
@@ -95,6 +97,18 @@
     return _imgDownloader;
 }
 
+- (UIControl *)shadeControl {
+    if (_shadeControl == nil) {
+        _shadeControl = [[UIControl alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight])];
+        _shadeControl.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+        _shadeControl.hidden = YES;
+        _shadeControl.alpha = 0;
+        UITapGestureRecognizer *recogn = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTableView)];
+        [_shadeControl addGestureRecognizer:recogn];
+    }
+    return _shadeControl;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -114,13 +128,36 @@
     [segment addTarget:self action:@selector(pickOne:) forControlEvents:UIControlEventValueChanged];
     self.navigationItem.titleView = segment;
 }
+
 - (void)initSelectionView {
     SelectionToolView *selectionView = [[SelectionToolView alloc] initWithFrame:CGRectMake(200, 5, 100, 80)];
     selectionView.delegate = self;
     [self.view addSubview:selectionView];
     self.selectionView = selectionView;
     self.selectionView.hidden = YES;
+    self.selectionView.alpha = 0.5;
+    self.selectionView.transform = CGAffineTransformMakeScale(0, 0);
 }
+
+- (void)initRightBarButton {
+    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_setting_press.png"] taget:self action:@selector(rightButtonAction:)];
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {//fix ios7以下 10像素偏离
+        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:10.0];
+        [self.navigationItem setRightBarButtonItems:@[spacer, rightItem]];
+    }else{
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
+}
+
+- (void)initModel {
+    self.isAJK = YES;
+    self.taskArray = [NSArray arrayWithObjects:@"定价房源", @"竞价房源", @"待推广房源", nil];
+    
+    self.dataDic = [NSMutableDictionary dictionary];
+    self.ppcDataDic = [NSMutableDictionary dictionary];
+    self.myArray = [NSMutableArray array];
+}
+
 - (void)initView {
     [self setTitle:@"房源"];
     
@@ -133,6 +170,8 @@
     tv.showsHorizontalScrollIndicator = NO;
     tv.showsVerticalScrollIndicator = NO;
     [self.view addSubview:tv];
+
+    [self.view addSubview:self.shadeControl];//蒙层
     
     UIView *hView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 110)];
     hView.backgroundColor = [UIColor whiteColor];
@@ -175,6 +214,7 @@
         self.costValue.frame = CGRectMake(180.0f, 30.0f, 80.0f, 30.0f);
         self.costName.frame = CGRectMake(180.0f, 70.0f, 80.0f, 30.0f);
     }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -189,27 +229,11 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
-}
-#pragma mark - private method
-- (void)initRightBarButton {
-    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_setting_press.png"] taget:self action:@selector(rightButtonAction:)];
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {//fix ios7以下 10像素偏离
-        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:10.0];
-        [self.navigationItem setRightBarButtonItems:@[spacer, rightItem]];
-    }else{
-        self.navigationItem.rightBarButtonItem = rightItem;
-    }
+    [self hideSelectionView];
 }
 
-- (void)initModel {
-    self.isAJK = YES;
-    self.taskArray = [NSArray arrayWithObjects:@"定价房源", @"竞价房源", @"待推广房源", nil];
-    
-    self.dataDic = [NSMutableDictionary dictionary];
-    self.ppcDataDic = [NSMutableDictionary dictionary];
-    self.myArray = [NSMutableArray array];
-}
+#pragma mark - private method
+
 
 - (void)setHomeValue {
     //账户自适应
@@ -223,15 +247,38 @@
     }
 }
 
+- (void)tapTableView {
+    [self hideSelectionView];
+}
+
 - (void)showSelectionView {
     self.selectionView.hidden = NO;
+    self.shadeControl.hidden = NO;
+    [UIView animateWithDuration:0.2f animations:^{
+        self.shadeControl.alpha = 0.4;
+        self.selectionView.alpha = 1;
+        self.selectionView.transform = CGAffineTransformIdentity;
+        self.selectionView.frame = CGRectMake(200, 5, 100, 80);
+    } completion:^(BOOL finished) {
+
+    }];
+
 }
 
 - (void)hideSelectionView {
-    self.selectionView.hidden = YES;
+    [UIView animateWithDuration:0.2f animations:^{
+        self.shadeControl.alpha = 0;
+        self.selectionView.alpha = 0;
+        self.selectionView.transform = CGAffineTransformMakeScale(0, 0);
+        self.selectionView.frame = CGRectMake(200, 5, 100, 80);
+    } completion:^(BOOL finished) {
+        self.selectionView.hidden = YES;
+        self.shadeControl.hidden = YES;
+    }];
 }
 
 - (void)pickOne:(id)sender {
+    [self hideSelectionView];
     UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
     switch (segmentedControl.selectedSegmentIndex) {
         case 0:
@@ -402,6 +449,7 @@
 //        [self hideWebViewJumpBtn];
     }
 }
+
 #pragma mark - 获取计划管理信息
 -(void)doRequestPPC{
     if (self.isLoading == YES) {
@@ -551,7 +599,7 @@
 #pragma mark- SelectionToolViewDelegate
 
 - (void)didClickSectionAtIndex:(NSInteger) index {
-    self.selectionView.hidden = YES;
+    [self hideSelectionView];
     switch (index) {
         case 0:
         {
