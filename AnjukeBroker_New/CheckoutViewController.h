@@ -7,8 +7,10 @@
 //
 
 #import "RTViewController.h"
+#import <MapKit/MapKit.h>
 
-@interface CheckoutViewController : RTViewController
+@interface CheckoutViewController : RTViewController<UITableViewDataSource,UITableViewDelegate,MKMapViewDelegate>
+
 - (void)passCommunityDic:(NSDictionary *)dic;
 
 @end

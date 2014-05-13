@@ -40,9 +40,9 @@
     self.tableList.showsVerticalScrollIndicator = YES;
     [self.view addSubview:self.tableList];
 
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-    view.backgroundColor = [UIColor blackColor];
-    [self.tableList setTableStatus:view status:STATUSFORNETWORKERROR];
+//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+//    view.backgroundColor = [UIColor blackColor];
+//    [self.tableList setTableStatus:view status:STATUSFORNETWORKERROR];
 
     // Do any additional setup after loading the view.
 }
@@ -69,6 +69,8 @@
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.navigationController.view.frame.origin.x > 0) return;
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     CheckoutViewController *checkoutVC = [[CheckoutViewController alloc] init];
     [checkoutVC passCommunityDic:nil];
