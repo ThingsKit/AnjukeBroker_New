@@ -7,6 +7,7 @@
 //
 
 #import "RTViewController.h"
+#import <MapKit/MapKit.h>
 
-@interface CheckoutCommunityViewController : RTViewController<UITableViewDataSource,UITableViewDelegate>
+@interface CheckoutCommunityViewController : RTViewController<UITableViewDataSource,UITableViewDelegate,MKMapViewDelegate>
 @end

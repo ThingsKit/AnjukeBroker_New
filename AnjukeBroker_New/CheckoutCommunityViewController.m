@@ -37,7 +37,18 @@
 {
     [super viewDidLoad];
     [self setTitleViewWithString:@"小区签到"];
+    // Do any additional setup after loading the view.
     
+    [self initUI];
+}
+
+- (void)initUI{
+    MKMapView *map = [[MKMapView alloc] initWithFrame:CGRectZero];
+    map.userInteractionEnabled = NO;
+    map.showsUserLocation = YES;
+    map.delegate = self;
+    [self.view addSubview:map];
+
     self.tableList = [[BrokerTableStuct alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
@@ -45,13 +56,12 @@
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableList.showsVerticalScrollIndicator = YES;
     [self.view addSubview:self.tableList];
-
-//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-//    view.backgroundColor = [UIColor blackColor];
-//    [self.tableList setTableStatus:view status:STATUSFORNETWORKERROR];
-
-    // Do any additional setup after loading the view.
+    
+    //    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    //    view.backgroundColor = [UIColor blackColor];
+    //    [self.tableList setTableStatus:view status:STATUSFORNETWORKERROR];
 }
+
 #pragma mark -UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 20;
@@ -91,6 +101,7 @@
 #pragma mark MKMapViewDelegate -user location定位变化
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     self.nowCoords = [userLocation coordinate];
+    DLog(@"updateLocation--->>%f/%f,",self.nowCoords.latitude,self.nowCoords.longitude);
 }
 
 @end

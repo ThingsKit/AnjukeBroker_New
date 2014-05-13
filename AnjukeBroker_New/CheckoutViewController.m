@@ -24,6 +24,8 @@
 @property(nonatomic, strong) UIView *headerView;
 @property(nonatomic, strong) UIButton *checkoutBtn;
 @property(nonatomic, strong) CheckoutButton *cb;
+//user最新2d
+@property(nonatomic,assign) CLLocationCoordinate2D nowCoords;
 
 @end
 
@@ -32,6 +34,7 @@
 @synthesize headerView;
 @synthesize checkoutBtn;
 @synthesize cb;
+@synthesize nowCoords;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -73,6 +76,7 @@
     
     MKMapView *map = [[MKMapView alloc] initWithFrame:HEADERMAPFRAME];
     map.userInteractionEnabled = NO;
+    map.showsUserLocation = YES;
     map.delegate = self;
     [self.headerView addSubview:map];
 
@@ -176,6 +180,13 @@
         [self rightButtonAction:nil];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark MKMapViewDelegate -user location定位变化
+-(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
+    self.nowCoords = [userLocation coordinate];
+    DLog(@"updateLocation111--->>%f/%f,",self.nowCoords.latitude,self.nowCoords.longitude);
+
 }
 
 - (void)passCommunityDic:(NSDictionary *)dic{
