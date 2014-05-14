@@ -84,8 +84,10 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    UIViewController *controller = [self returnVisibleViewControllerForController:self.window.rootViewController];
+    if ([controller respondsToSelector:@selector(enterBackground)]) {
+        [controller performSelector:@selector(enterBackground)];
+    }
     
     //icon消息数处理
     [self showAllNewMessageCountForIcon];
@@ -104,6 +106,7 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+
     [self connectLongLinkForChat];
     
     [self cleanRemoteNotification:application];
@@ -554,46 +557,18 @@
             break;
     }
 }
-//#pragma mark - AlertView Delegate
-//
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-//    if(alertView.tag == 101){
-//        if (buttonIndex == 0) {
-//            if (self.isEnforceUpdate) { //更新
-////                NSString *url = @"itms-apps://itunes.apple.com/us/app/id774718866?mt=8";
-//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateUrl]];
-//                
-//                exit(0); //强制更新后跳转且退出应用
-//            }
-//        }
-//        if (buttonIndex == 1) {
-//            if (self.isEnforceUpdate) { //退出应用
-//                exit(0);
-//            }
-//            else {
-////                NSString *url = @"itms-apps://itunes.apple.com/us/app/id774718866?mt=8";
-//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateUrl]];
-//            }
-//        }
-//
-//    }else if (alertView.tag == 102){
-//        if (buttonIndex == 0) {
-//
-//        }
-//        if (buttonIndex == 1) {
-//             //更新
-////                NSString *url = @"itms-apps://itunes.apple.com/us/app/id774718866?mt=8";
-//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateUrl]];
-//                
-//                exit(0); //强制更新后跳转且退出应用
-//            
-//        }
-//    
-//    }else{
-//    
-//    
-//    }
-//}
+
+- (UIViewController *)returnVisibleViewControllerForController:(UIViewController *)controller {
+    if ([controller presentedViewController]) {
+        return [self returnVisibleViewControllerForController:[controller presentedViewController]];
+    } else if ([controller isKindOfClass:[UITabBarController class]]) {
+        return [self returnVisibleViewControllerForController:[(UITabBarController *)controller selectedViewController]];
+    } else if ([controller isKindOfClass:[UINavigationController class]]) {
+        return [self returnVisibleViewControllerForController:[(UINavigationController *)controller topViewController]];
+    } else {
+        return controller;
+    }
+}
 
 #pragma mark - AFWelcomeScrollViewDelegate
 

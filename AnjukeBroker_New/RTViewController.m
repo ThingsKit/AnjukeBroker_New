@@ -56,6 +56,10 @@
 
 }
 
+- (void)enterBackground {
+    [RTApiRequestProxy cancelPreviousPerformRequestsWithTarget:self];
+}
+
 - (void)dealloc {
     [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
 }

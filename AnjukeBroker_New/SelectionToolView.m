@@ -15,20 +15,19 @@
     self = [super initWithFrame:frame];
     if (self) {
         UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 80)];
-        
-        [img setBackgroundColor:[UIColor grayColor]];
+        [img setImage:[UIImage imageNamed:@"wl_launchframe_bg"]];
         [self addSubview:img];
         
         UIButton *ajkBut = [UIButton buttonWithType:UIButtonTypeCustom];
         ajkBut.frame = CGRectMake(0, 10, 100, 30);
-        ajkBut.backgroundColor = [UIColor greenColor];
+        [ajkBut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [ajkBut setTitle:@"二手房" forState:UIControlStateNormal];
         [ajkBut addTarget:self action:@selector(ajkClick:) forControlEvents:UIControlEventTouchDown];
         [self addSubview:ajkBut];
         
         UIButton *haozuBut = [UIButton buttonWithType:UIButtonTypeCustom];
         haozuBut.frame = CGRectMake(0, 45, 100, 30);
-        haozuBut.backgroundColor = [UIColor greenColor];
+        [haozuBut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [haozuBut setTitle:@"租房" forState:UIControlStateNormal];
         [haozuBut addTarget:self action:@selector(haozuClick:) forControlEvents:UIControlEventTouchDown];
         [self addSubview:haozuBut];

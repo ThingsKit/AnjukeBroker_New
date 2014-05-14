@@ -53,6 +53,8 @@ typedef enum {
 -(void)sendAppearLog;
 -(void)sendDisAppearLog;
 
+- (void)enterBackground;
+
 - (void)doBack:(id)sender;
 - (void)addRightButton:(NSString *)title andPossibleTitle:(NSString *)possibleTitle;
 - (void)rightButtonAction:(id)sender;
