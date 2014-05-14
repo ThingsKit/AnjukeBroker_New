@@ -22,6 +22,9 @@
 @property (nonatomic, strong) NSMutableArray *listDataArray;
 @property (nonatomic, strong) UISearchBar *search_Bar;
 
+@property (nonatomic, strong) UIImageView *noDataImgView;//tableview没有数据显示图片
+@property (nonatomic)         BOOL         isCheckNoDataImg;//第一次进入
+
 @property BOOL requestKeywords; //是否请求关键词，用于解析数据的区分
 @end
 
@@ -33,6 +36,9 @@
 @synthesize communityDelegate;
 @synthesize isHaouzu;
 @synthesize isFirstShow;
+
+@synthesize noDataImgView = _noDataImgView;
+@synthesize isCheckNoDataImg  = _isCheckNoDataImg;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -143,6 +149,15 @@
     [self.view addSubview:tv];
     
     [self doRequestWithKeyword:sb.text];
+    
+    //noImgview
+    UIImage *noDataImg = [UIImage imageNamed:@""];
+    CGFloat noDataX = (CGRectGetWidth(tv.frame) - noDataImg.size.width) / 2;
+    CGFloat noDataY = (CGRectGetHeight(tv.frame) - noDataImg.size.height) / 2;
+    _noDataImgView = [[UIImageView alloc] initWithFrame:CGRectMake(noDataX, noDataY, noDataImg.size.width, noDataImg.size.height)];
+    [self.tvList addSubview:_noDataImgView];
+    [_noDataImgView setHidden:YES];
+    _isCheckNoDataImg = YES;
 }
 
 - (void)doCancel {
@@ -160,18 +175,20 @@
         return @"你附近的小区";
     }
     else if (self.listType == DataTypeHistory) {
-        return @"你的输入历史";
+        return @"最近发布";
     }
     
-    return @"你是否在找";
+    return @"";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (self.listDataArray.count == 0) {
-        return 0;
+    if (self.listType == DataTypeNearby ||
+        self.listType == DataTypeHistory) {
+        return 25;
     }
     
-    return 25;
+    
+    return 0;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -198,8 +215,9 @@
         }
     }
     
+    [self.tvList setHidden:NO];
     UIView *searchView = [self searchCellView:indexPath.row cellHeight:CGRectGetHeight(cell.contentView.frame)];
-    
+        
     [cell.contentView addSubview:searchView];
     
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
@@ -207,7 +225,7 @@
     return cell;
 }
 
-
+//绘画自定义搜索结果cellview
 - (UIView *)searchCellView:(NSInteger)indexPathRow cellHeight:(CGFloat)clHeight
 {
     NSDictionary *arrDict = [self.listDataArray objectAtIndex:indexPathRow];
@@ -284,6 +302,11 @@
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onGetSearch:)];
     }
     
+    if (keyword.length == 0)
+    {
+        _isCheckNoDataImg = YES;
+    }
+    
     if ([self isNetworkOkay]) {
         [self showLoadingActivity:YES];
         self.isLoading = YES;
@@ -310,8 +333,9 @@
     
     self.listDataArray = [NSMutableArray array];
     
+    NSArray *hisArr = nil;
     if (!self.requestKeywords) { //历史+附近
-        NSArray *hisArr = [[[response content] objectForKey:@"data"] objectForKey:@"history"];
+        hisArr = [[[response content] objectForKey:@"data"] objectForKey:@"history"];
         if (hisArr.count == 0 || hisArr == nil) {
             //没有历史记录，使用附近小区list
             self.listDataArray = [[[response content] objectForKey:@"data"] objectForKey:@"nearby"];
@@ -329,6 +353,18 @@
         self.listDataArray = [NSMutableArray arrayWithArray:arr];
     }
     
+    //如果arr中没有数据隐藏
+    if ([self.listDataArray count] == 0 && !_isCheckNoDataImg)
+    {
+        [self.tvList setHidden:YES];
+        [_noDataImgView setHidden:NO];//显示nodatanoticeimg
+    }else
+    {
+        [_noDataImgView setHidden:YES];//隐藏nodatanoticeimg
+    }
+    
+    _isCheckNoDataImg = NO;
+    
     [self.tvList reloadData];
     [self.tvList setContentOffset:CGPointMake(0, 0) animated:YES];
     
@@ -336,6 +372,8 @@
     self.isLoading = NO;
 
 }
+
+
 
 #pragma mark - TableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -379,6 +417,13 @@
     
     if (newStr.length > 0) {
         [self doRequestWithKeyword:newStr];
+    }else
+    {
+        [self doRequestWithKeyword:@""];
+        /*
+        [self.listDataArray removeAllObjects];
+        [self.tvList reloadData];
+         */
     }
 }
 
