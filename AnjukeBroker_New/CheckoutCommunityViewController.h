@@ -12,6 +12,4 @@
 
 @interface CheckoutCommunityViewController : BaseTableStructViewController<MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
-- (void)reloadEnd;
-- (void)reloadBegin;
 @end

@@ -437,9 +437,15 @@
     self.configChecked = YES;
     
     NSDictionary *resultFromAPI = [[response content] objectForKey:@"data"];
-    
+    NSLog(@"resultFromAPI-->>%@",resultFromAPI);
     NSArray *frendOverNumArr = [resultFromAPI objectForKey:@"frendOverNum"]; //好友上限用
     [[NSUserDefaults standardUserDefaults] setValue:frendOverNumArr forKey:@"frendOverNumArr"];
+    
+    NSArray *checkTimeArr = [[resultFromAPI objectForKey:@"sign"] objectForKey:@"signTime"]; //签到时间段
+    [[NSUserDefaults standardUserDefaults] setValue:checkTimeArr forKey:@"checkTimeArr"];
+    
+    NSString *signMile = [NSString stringWithFormat:@"%@",[[resultFromAPI objectForKey:@"sign"] objectForKey:@"signMile"]];//签到区域
+    [[NSUserDefaults standardUserDefaults] setValue:signMile forKey:@"signMile"];
     
     NSDictionary *tipsDic = [resultFromAPI objectForKey:@"tips"]; //是否显示状态条并跳转webView
     if ([[tipsDic objectForKey:@"openFlag"] isEqualToString:@"1"]) {//开启弹窗和跳转 test

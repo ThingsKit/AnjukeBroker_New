@@ -11,6 +11,7 @@
 #import "CheckoutCell.h"
 #import "CheckoutRuleViewController.h"
 #import "CheckoutButton.h"
+#import "CLLocationManager+RT.h"
 
 #define HEADERFRAME CGRectMake(0, 0, [self windowWidth], 220)
 #define HEADERMAPFRAME CGRectMake(0, 0, [self windowWidth], 150)
@@ -20,7 +21,6 @@
 #define CELLHEIGHT_CHECK 100
 
 @interface CheckoutViewController ()<checkoutButtonDelegate>
-@property(nonatomic, strong) UITableView *tableList;
 @property(nonatomic, strong) UIView *headerView;
 @property(nonatomic, strong) UIButton *checkoutBtn;
 @property(nonatomic, strong) CheckoutButton *cb;
@@ -30,7 +30,6 @@
 @end
 
 @implementation CheckoutViewController
-@synthesize tableList;
 @synthesize headerView;
 @synthesize checkoutBtn;
 @synthesize cb;
@@ -50,6 +49,12 @@
     self.cb.checkoutDelegate = nil;
     self.cb = nil;
 }
+- (void)viewWillAppear:(BOOL)animated{
+    if (![CLLocationManager isLocationServiceEnabled]) {
+        UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alet show];
+    }
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -59,13 +64,14 @@
 }
 
 - (void)initUI{
-    self.tableList = [[BrokerTableStuct alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
     self.tableList.backgroundColor = [UIColor clearColor];
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableList.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.tableList];
+    
+    [self autoPullDown];
     
     self.headerView = [[UIView alloc] initWithFrame:HEADERFRAME];
     self.headerView.backgroundColor = [UIColor whiteColor];
@@ -112,7 +118,78 @@
     self.tableList.tableHeaderView = self.headerView;
 }
 - (void)checkoutCommunity:(id)sender{
+    [self doCheckActionRequest];
+}
+
+- (void)doRequest{
+    if (!self.nowCoords.latitude) {
+        return;
+    }
     
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%f",self.nowCoords.longitude],@"lng",@"",@"commId", nil];
+    method = [NSString stringWithFormat:@"broker/commSignDetail/"];
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
+}
+
+- (void)onRequestFinished:(RTNetworkResponse *)response{
+    if([[response content] count] == 0){
+        self.isLoading = NO;
+        [self showInfo:@"操作失败"];
+        return ;
+    }
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        DLog(@"errorMsg--->>%@",errorMsg);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles: nil];
+        [alert show];
+        
+        self.isLoading = NO;
+        [self donePullDown];
+        [self.tableList reloadData];
+        return;
+    }
+    
+    NSDictionary *dic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
+}
+
+- (void)doCheckActionRequest{
+    if (!self.nowCoords.latitude) {
+        return;
+    }
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%f",self.nowCoords.longitude],@"lng",@"",@"commId", nil];
+    method = [NSString stringWithFormat:@"broker/commSign/"];
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onCheckActionRequestFinished:)];
+}
+- (void)onCheckActionRequestFinished:(RTNetworkResponse *)response{
+    if([[response content] count] == 0){
+        self.isLoading = NO;
+        [self showInfo:@"操作失败"];
+        return ;
+    }
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        DLog(@"errorMsg--->>%@",errorMsg);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles: nil];
+        [alert show];
+        
+        self.isLoading = NO;
+        [self donePullDown];
+        [self.tableList reloadData];
+        return;
+    }
+    
+    NSDictionary *dic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
+
 }
 - (void)timeCountZero{
     if (self.checkoutBtn) {

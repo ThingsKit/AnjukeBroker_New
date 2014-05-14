@@ -161,6 +161,14 @@
     return [[NSUserDefaults standardUserDefaults] objectForKey:@"frendOverNumArr"];
 }
 
++ (NSArray *)getCheckTimeArr{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"checkTimeArr"];
+}
+
++ (NSString *)getSignMile{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"signMile"];
+}
+
 //将用户端使用的NSUserDefaults的user_id置为@""，退出登录使用
 - (void)setFuckingChatUserDicForLoginOut {
     [[[[NSUserDefaults standardUserDefaults] valueForKey:USER_DEFAULT_KEY_AXCHATMC_USE] valueForKey:@"user_info"] setValue:@"" forKey:@"user_id"];

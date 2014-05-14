@@ -8,10 +8,12 @@
 
 #import "RTViewController.h"
 #import <MapKit/MapKit.h>
+#import "BaseTableStructViewController.h"
 
 
-@interface CheckoutViewController : RTViewController<UITableViewDataSource,UITableViewDelegate,MKMapViewDelegate>
+@interface CheckoutViewController : BaseTableStructViewController<UITableViewDataSource,UITableViewDelegate,MKMapViewDelegate>
 
 - (void)passCommunityDic:(NSDictionary *)dic;
 - (void)timeCountZero;
+- (void)doRequest;
 @end

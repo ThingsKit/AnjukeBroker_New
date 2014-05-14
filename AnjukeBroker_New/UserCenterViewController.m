@@ -225,6 +225,7 @@
     
     params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
     method = @"broker/getsalemanager/";
+//    method = @"broker/callAnalysis";
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
 }
@@ -237,7 +238,7 @@
     }
     
     self.clientDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
-    
+    DLog(@"self.clientDic-->>%@",self.clientDic);
     [self.tableList reloadData];
     
     [self hideLoadWithAnimated:YES];

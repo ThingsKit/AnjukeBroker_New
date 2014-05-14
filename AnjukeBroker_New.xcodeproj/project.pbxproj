@@ -613,6 +613,7 @@
 		F8CD18A9192200960033733E /* CheckoutButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD18A8192200960033733E /* CheckoutButton.m */; };
 		F8D2F0E019230E7100858BB0 /* CLLocationManager+RT.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D2F0DF19230E7100858BB0 /* CLLocationManager+RT.m */; };
 		F8D2F0EA192318BF00858BB0 /* BaseTableStructViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D2F0E9192318BF00858BB0 /* BaseTableStructViewController.m */; };
+		F8D2F0EE1923426E00858BB0 /* CheckCommunityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D2F0ED1923426E00858BB0 /* CheckCommunityModel.m */; };
 		F8D449D01908AFA900447375 /* anjuke_icon_button_red_press.png in Resources */ = {isa = PBXBuildFile; fileRef = F8D449CC1908AFA900447375 /* anjuke_icon_button_red_press.png */; };
 		F8D449D21908AFA900447375 /* anjuke_icon_button_red.png in Resources */ = {isa = PBXBuildFile; fileRef = F8D449CE1908AFA900447375 /* anjuke_icon_button_red.png */; };
 		F8FCFC2318FE8F3500A4B012 /* RTGestureLock.m in Sources */ = {isa = PBXBuildFile; fileRef = F8FCFC2218FE8F3500A4B012 /* RTGestureLock.m */; };
@@ -1563,6 +1564,8 @@
 		F8D2F0DF19230E7100858BB0 /* CLLocationManager+RT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocationManager+RT.m"; sourceTree = "<group>"; };
 		F8D2F0E8192318BF00858BB0 /* BaseTableStructViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableStructViewController.h; sourceTree = "<group>"; };
 		F8D2F0E9192318BF00858BB0 /* BaseTableStructViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableStructViewController.m; sourceTree = "<group>"; };
+		F8D2F0EC1923426E00858BB0 /* CheckCommunityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckCommunityModel.h; sourceTree = "<group>"; };
+		F8D2F0ED1923426E00858BB0 /* CheckCommunityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckCommunityModel.m; sourceTree = "<group>"; };
 		F8D449CC1908AFA900447375 /* anjuke_icon_button_red_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_red_press.png; sourceTree = "<group>"; };
 		F8D449CE1908AFA900447375 /* anjuke_icon_button_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_red.png; sourceTree = "<group>"; };
 		F8FCFC2118FE8F3500A4B012 /* RTGestureLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTGestureLock.h; sourceTree = "<group>"; };
@@ -3517,6 +3520,7 @@
 		F8A717DD19209E22004840C6 /* checkout */ = {
 			isa = PBXGroup;
 			children = (
+				F8D2F0EB1923424400858BB0 /* model */,
 				F8D2F0DE19230E7100858BB0 /* CLLocationManager+RT.h */,
 				F8D2F0DF19230E7100858BB0 /* CLLocationManager+RT.m */,
 				F8A717DF19209E6D004840C6 /* CheckoutCommunityViewController.h */,
@@ -3537,6 +3541,15 @@
 				F8CD18A21921A9800033733E /* CheckoutRuleViewController.m */,
 			);
 			name = checkout;
+			sourceTree = "<group>";
+		};
+		F8D2F0EB1923424400858BB0 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				F8D2F0EC1923426E00858BB0 /* CheckCommunityModel.h */,
+				F8D2F0ED1923426E00858BB0 /* CheckCommunityModel.m */,
+			);
+			name = model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -4054,6 +4067,7 @@
 				20578B9F1898ABCC0086B93D /* PropertyEditViewController.m in Sources */,
 				F85A31531907867F00511022 /* RTLaunchImg.m in Sources */,
 				2079ADE118B5DB690029D493 /* ClientDetailCell.m in Sources */,
+				F8D2F0EE1923426E00858BB0 /* CheckCommunityModel.m in Sources */,
 				B769E469181F680D00A2FF50 /* PropertyDetailCell.m in Sources */,
 				97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */,
 				678084051904AB1F00765A18 /* KKPageControl.m in Sources */,

@@ -32,14 +32,16 @@
     [self.contentView addSubview:self.checkStatusLab];    
 }
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index{
-    self.textLabel.text = [NSString stringWithFormat:@"东方曼哈顿%d",index];
-    
-    if (index%3 == 0) {
-        self.checkStatusLab.text = @"已经签到";
-    }else{
-        self.checkStatusLab.text = @"";
+    if ([dataModel isKindOfClass:[NSArray class]]) {
+        
+        self.textLabel.text = [NSString stringWithFormat:@"东方曼哈顿%d",index];
+        
+        if (index%3 == 0) {
+            self.checkStatusLab.text = @"已经签到";
+        }else{
+            self.checkStatusLab.text = @"";
+        }
     }
-    
     return YES;
 }
 

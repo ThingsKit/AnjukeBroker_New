@@ -30,6 +30,9 @@
 + (NSString *)getTwoCodeIcon;
 + (NSString *)getRealName;
 
++ (NSArray *)getCheckTimeArr;
++ (NSString *)getSignMile;
+
 + (BOOL)isSeedForAJK:(BOOL)isAJK; //是否是播种城市
 + (BOOL)needFileNOWithCityID:(NSString *)cityID; //发房是否需要备案号
 

@@ -12,7 +12,6 @@
 #import "CheckoutViewController.h"
 #import "CLLocationManager+RT.h"
 
-
 @interface CheckoutCommunityViewController ()
 //@property(nonatomic, strong) CheckCommunityTable *tableList;
 @property(nonatomic, strong) NSDictionary *checkoutDic;
@@ -42,7 +41,12 @@
     }
     return self;
 }
-
+- (void)viewWillAppear:(BOOL)animated{
+    if (![CLLocationManager isLocationServiceEnabled]) {
+        UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alet show];
+    }
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -74,9 +78,6 @@
     //    [self.tableList setTableStatus:view status:STATUSFORNETWORKERROR];
 }
 
-- (void)reloadBegin{
-}
-
 - (void)doRequest{
     if (!self.nowCoords.latitude) {
         return;
@@ -84,8 +85,8 @@
     self.isLoading = YES;
     NSMutableDictionary *params = nil;
     NSString *method = nil;
-    
-    params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getChatID],@"brokerId",[NSString stringWithFormat:@"%fd",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%fd",self.nowCoords.longitude],@"lng", nil];
+    DLog(@"tokenValue--->>%@",[LoginManager getToken]);
+    params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%f",self.nowCoords.longitude],@"lng", nil];
     method = [NSString stringWithFormat:@"broker/commSignList/"];
 
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
@@ -95,7 +96,6 @@
     self.loadCount += 1;
     DLog(@"。。。response [%@]", [response content]);
     if([[response content] count] == 0){
-        [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
         [self showInfo:@"操作失败"];
         return ;
@@ -108,12 +108,14 @@
         [alert show];
         self.isLoading = NO;
         [self donePullDown];
-        [self.tableList reloadData];
         return;
     }
     
-    NSDictionary *dic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
-    DLog(@"dic-->>%@",dic);
+    self.tablaData = [[response content] objectForKey:@"data"];
+    DLog(@"self.tablaData-->>%@",self.tablaData);
+    self.isLoading = NO;
+    [self donePullDown];
+    [self.tableList reloadData];
 }
 
 #pragma mark -UITableViewDelegate
@@ -131,7 +133,7 @@
     if (cell == nil) {
         cell = [[CheckoutCommunityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     }
-    [cell configureCell:nil withIndex:indexPath.row];
+    [cell configureCell:self.tablaData withIndex:indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
     
