@@ -614,6 +614,7 @@
 		F8D2F0E019230E7100858BB0 /* CLLocationManager+RT.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D2F0DF19230E7100858BB0 /* CLLocationManager+RT.m */; };
 		F8D2F0EA192318BF00858BB0 /* BaseTableStructViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D2F0E9192318BF00858BB0 /* BaseTableStructViewController.m */; };
 		F8D2F0EE1923426E00858BB0 /* CheckCommunityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D2F0ED1923426E00858BB0 /* CheckCommunityModel.m */; };
+		F8D2F0F419234A8B00858BB0 /* CheckInfoWithCommunity.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D2F0F319234A8B00858BB0 /* CheckInfoWithCommunity.m */; };
 		F8D449D01908AFA900447375 /* anjuke_icon_button_red_press.png in Resources */ = {isa = PBXBuildFile; fileRef = F8D449CC1908AFA900447375 /* anjuke_icon_button_red_press.png */; };
 		F8D449D21908AFA900447375 /* anjuke_icon_button_red.png in Resources */ = {isa = PBXBuildFile; fileRef = F8D449CE1908AFA900447375 /* anjuke_icon_button_red.png */; };
 		F8FCFC2318FE8F3500A4B012 /* RTGestureLock.m in Sources */ = {isa = PBXBuildFile; fileRef = F8FCFC2218FE8F3500A4B012 /* RTGestureLock.m */; };
@@ -1566,6 +1567,8 @@
 		F8D2F0E9192318BF00858BB0 /* BaseTableStructViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableStructViewController.m; sourceTree = "<group>"; };
 		F8D2F0EC1923426E00858BB0 /* CheckCommunityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckCommunityModel.h; sourceTree = "<group>"; };
 		F8D2F0ED1923426E00858BB0 /* CheckCommunityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckCommunityModel.m; sourceTree = "<group>"; };
+		F8D2F0F219234A8B00858BB0 /* CheckInfoWithCommunity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckInfoWithCommunity.h; sourceTree = "<group>"; };
+		F8D2F0F319234A8B00858BB0 /* CheckInfoWithCommunity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckInfoWithCommunity.m; sourceTree = "<group>"; };
 		F8D449CC1908AFA900447375 /* anjuke_icon_button_red_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_red_press.png; sourceTree = "<group>"; };
 		F8D449CE1908AFA900447375 /* anjuke_icon_button_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_red.png; sourceTree = "<group>"; };
 		F8FCFC2118FE8F3500A4B012 /* RTGestureLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTGestureLock.h; sourceTree = "<group>"; };
@@ -3548,6 +3551,8 @@
 			children = (
 				F8D2F0EC1923426E00858BB0 /* CheckCommunityModel.h */,
 				F8D2F0ED1923426E00858BB0 /* CheckCommunityModel.m */,
+				F8D2F0F219234A8B00858BB0 /* CheckInfoWithCommunity.h */,
+				F8D2F0F319234A8B00858BB0 /* CheckInfoWithCommunity.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -4071,6 +4076,7 @@
 				B769E469181F680D00A2FF50 /* PropertyDetailCell.m in Sources */,
 				97FD0B6218157BEC0072FB5E /* PropertyDataManager.m in Sources */,
 				678084051904AB1F00765A18 /* KKPageControl.m in Sources */,
+				F8D2F0F419234A8B00858BB0 /* CheckInfoWithCommunity.m in Sources */,
 				27A42B5318E2C4D300FADED3 /* RegionAnnotationView.m in Sources */,
 				B765B8F61907CB8A00413AAB /* AXDownLoadRequestElement.m in Sources */,
 				F8A717ED1920BC81004840C6 /* CheckoutViewController.m in Sources */,

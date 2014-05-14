@@ -23,7 +23,9 @@
 }
 + (UIButton *)buttonWithNormalStatus{
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.backgroundColor = [UIColor blueColor];
+//    btn.backgroundColor = [UIColor blueColor];
+    [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor blueColor]] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor grayColor]] forState:UIControlStateHighlighted];
     [btn setTitle:@"立即签到" forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize:20];
     

@@ -9,11 +9,11 @@
 #import "RTViewController.h"
 #import <MapKit/MapKit.h>
 #import "BaseTableStructViewController.h"
-
+#import "CheckCommunityModel.h"
 
 @interface CheckoutViewController : BaseTableStructViewController<UITableViewDataSource,UITableViewDelegate,MKMapViewDelegate>
 
-- (void)passCommunityDic:(NSDictionary *)dic;
+- (void)passCommunityWithModel:(CheckCommunityModel *)model;
 - (void)timeCountZero;
-- (void)doRequest;
+
 @end

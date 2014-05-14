@@ -35,9 +35,6 @@
     if (self) {
         // Custom initialization
         self.tablaData = [[NSMutableArray alloc] init];
-        for (int i = 0; i < 20; i++) {
-            [self.tablaData addObject:@""];
-        }
     }
     return self;
 }
@@ -54,7 +51,6 @@
     // Do any additional setup after loading the view.
     
     [self initUI];
-    [self doRequest];
 }
 
 - (void)initUI{
@@ -120,7 +116,7 @@
 
 #pragma mark -UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [self.tablaData count];
+    return self.tablaData.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -133,9 +129,14 @@
     if (cell == nil) {
         cell = [[CheckoutCommunityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     }
+
     [cell configureCell:self.tablaData withIndex:indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
-    [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
+    if (indexPath.row == self.tablaData.count - 1) {
+        [cell showBottonLineWithCellHeight:CELL_HEIGHT];
+    }else{
+        [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
+    }
     
     return cell;
 }
@@ -143,8 +144,9 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.navigationController.view.frame.origin.x > 0) return;
 
+    CheckCommunityModel *model = [[CheckCommunityModel alloc] convertToMappedObject:[self.tablaData objectAtIndex:indexPath.row]];
     CheckoutViewController *checkoutVC = [[CheckoutViewController alloc] init];
-    [checkoutVC passCommunityDic:nil];
+    [checkoutVC passCommunityWithModel:model];
     [self.navigationController pushViewController:checkoutVC animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

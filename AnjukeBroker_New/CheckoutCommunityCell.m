@@ -7,6 +7,7 @@
 //
 
 #import "CheckoutCommunityCell.h"
+#import "CheckCommunityModel.h"
 
 #define CHECKOUTSTATEFRAME CGRectMake(200,0,90,48)
 
@@ -33,25 +34,16 @@
 }
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index{
     if ([dataModel isKindOfClass:[NSArray class]]) {
-        
-        self.textLabel.text = [NSString stringWithFormat:@"东方曼哈顿%d",index];
-        
-        if (index%3 == 0) {
-            self.checkStatusLab.text = @"已经签到";
-        }else{
-            self.checkStatusLab.text = @"";
+        NSArray *arr = (NSArray *)dataModel;
+        if (arr.count == 0) {
+            return NO;
         }
+        CheckCommunityModel *model = [[CheckCommunityModel alloc] convertToMappedObject:[arr objectAtIndex:index]];
+        
+        self.textLabel.text = [NSString stringWithFormat:@"%@",model.commName];
+        self.checkStatusLab.text = model.signAble ? @"已经签到" : @"";
     }
     return YES;
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end

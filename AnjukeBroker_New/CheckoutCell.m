@@ -25,7 +25,23 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.accessoryType = UITableViewCellAccessoryNone;
 }
-- (void)configurCell:(id)dataModel withIndex:(int)index cellType:(CHECKOUTCELLTYPE)cellType{
+
+- (void)configurCell:(NSDictionary *)dataModel withIndex:(int)index cellType:(CHECKOUTCELLTYPE)cellType{
+    NSString *timeArea;
+    NSMutableDictionary *checkDic;
+    if (dataModel == nil) {
+        NSArray *timeAreaArr = [[NSArray alloc] initWithArray:[LoginManager getCheckTimeArr]];
+        if (index > 0 && index < 4) {
+            timeArea =  [timeAreaArr objectAtIndex:index-1];
+        }
+    }else{
+        checkDic = [[NSMutableDictionary alloc] initWithDictionary:dataModel];
+        DLog(@"checkDic--->>%@",checkDic);
+        if (index > 0 && index < 4) {
+            timeArea = [checkDic.allKeys objectAtIndex:index-1];
+        }
+    }
+
     if (cellType == CHECKOUTCELLWITHELSE) {
         if (index == 0) {
             self.textLabel.text = @"今日签到展示位得主：";
@@ -37,33 +53,21 @@
     }
     
     if (cellType == CHECKOUTCELLWITHNOCHECK) {
-        if (index == 1) {
-            self.textLabel.text = @"10:00  签到前3位有展示位哦~";
-        }else if (index == 2){
-            self.textLabel.text = @"15:00  签到前3位有展示位哦~";
-        }else if (index == 3){
-            self.textLabel.text = @"21:00  签到前3位有展示位哦~";
-        }
+        self.textLabel.text = [NSString stringWithFormat:@"%@  签到前3位有展示位哦~",timeArea];
     }
     if (cellType == CHECKOUTCELLWITHCHCK) {
-        if (index == 1) {
-            self.textLabel.text = @"10:00";
-        }else if (index == 2){
-            self.textLabel.text = @"15:00";
-        }else if (index == 3){
-            self.textLabel.text = @"21:00";
-        }
-        
-        for (int i = 0; i < 3; i++) {
+        self.textLabel.text = [NSString stringWithFormat:@"%@",timeArea];
+        NSArray *checkArr = [[NSArray alloc] initWithArray:checkDic[timeArea]];
+        for (int i = 0; i < checkArr.count; i++) {
             WebImageView *checkAvatar = [[WebImageView alloc] initWithFrame:CGRectMake(80*i+70, 10, 60, 60)];
-            checkAvatar.imageUrl = [LoginManager getUse_photo_url];
+            checkAvatar.imageUrl = [[checkArr objectAtIndex:i] objectForKey:@"brokerPhoto"];
             checkAvatar.contentMode = UIViewContentModeScaleAspectFill;
             checkAvatar.layer.masksToBounds = YES;
             checkAvatar.layer.cornerRadius = 30;
             [self.contentView addSubview:checkAvatar];
             
             UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(80*i+70, checkAvatar.frame.origin.y+checkAvatar.frame.size.height+5, 60, 20)];
-            lab.text = @"江小明";
+            lab.text = [[checkArr objectAtIndex:i] objectForKey:@"brokerTrueName"];
             lab.textAlignment = NSTextAlignmentCenter;
             [self.contentView addSubview:lab];
         }

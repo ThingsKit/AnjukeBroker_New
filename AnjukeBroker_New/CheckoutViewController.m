@@ -25,8 +25,14 @@
 @property(nonatomic, strong) UIButton *checkoutBtn;
 @property(nonatomic, strong) CheckoutButton *cb;
 //user最新2d
-@property(nonatomic,assign) CLLocationCoordinate2D nowCoords;
-
+@property(nonatomic, assign) CLLocationCoordinate2D nowCoords;
+@property(nonatomic, assign) BOOL isLoading;
+@property(nonatomic, assign) int loadCount;
+@property(nonatomic, strong) CheckCommunityModel *checkCommunitmodel;
+@property(nonatomic, strong) NSArray *checkTimeArr;//签到时间段
+@property(nonatomic, strong) NSString *signMile;
+@property(nonatomic, strong) NSMutableArray *checkCellStatusArr;
+@property(nonatomic, strong) NSMutableDictionary *checkInfoDic;
 @end
 
 @implementation CheckoutViewController
@@ -34,6 +40,13 @@
 @synthesize checkoutBtn;
 @synthesize cb;
 @synthesize nowCoords;
+@synthesize isLoading;
+@synthesize loadCount;
+@synthesize checkCommunitmodel;
+@synthesize checkTimeArr;
+@synthesize signMile;
+@synthesize checkCellStatusArr;
+@synthesize checkInfoDic;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,6 +55,10 @@
         // Custom initialization
         self.cb = [[CheckoutButton alloc] init];
         cb.checkoutDelegate = self;
+        
+        self.checkTimeArr = [[NSArray alloc] initWithArray:[LoginManager getCheckTimeArr]];
+        self.signMile = [NSString stringWithFormat:@"%@",[LoginManager getSignMile]];
+        self.checkCellStatusArr = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:CHECKOUTCELLWITHELSE],[NSNumber numberWithInt:CHECKOUTCELLWITHNOCHECK],[NSNumber numberWithInt:CHECKOUTCELLWITHNOCHECK],[NSNumber numberWithInt:CHECKOUTCELLWITHNOCHECK],[NSNumber numberWithInt:CHECKOUTCELLWITHELSE], nil];
     }
     return self;
 }
@@ -50,6 +67,9 @@
     self.cb = nil;
 }
 - (void)viewWillAppear:(BOOL)animated{
+    [self locationServiceCheck];
+}
+- (void)locationServiceCheck{
     if (![CLLocationManager isLocationServiceEnabled]) {
         UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alet show];
@@ -71,8 +91,6 @@
     self.tableList.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.tableList];
     
-    [self autoPullDown];
-    
     self.headerView = [[UIView alloc] initWithFrame:HEADERFRAME];
     self.headerView.backgroundColor = [UIColor whiteColor];
     
@@ -90,7 +108,7 @@
     certerIcon.image = [UIImage imageNamed:@"anjuke_icon_itis_position.png"];
     [map addSubview:certerIcon];
     
-    CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(39.915352,116.397105);
+    CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(self.checkCommunitmodel.lat,self.checkCommunitmodel.lng);
     float zoomLevel = 0.02;
     MKCoordinateRegion region = MKCoordinateRegionMake(coords, MKCoordinateSpanMake(zoomLevel, zoomLevel));
     region = [map regionThatFits:region];
@@ -109,7 +127,7 @@
     UILabel *checkoutNumLab = [[UILabel alloc] initWithFrame:CGRectMake(self.checkoutBtn.frame.origin.x+self.checkoutBtn.frame.size.width, self.checkoutBtn.frame.origin.y, 80, 40)];
     checkoutNumLab.lineBreakMode = UILineBreakModeWordWrap;
     checkoutNumLab.numberOfLines = 0;
-    checkoutNumLab.text = [NSString stringWithFormat:@"33人\n今日已签"];
+    checkoutNumLab.text = [NSString stringWithFormat:@"-人\n今日已签"];
     checkoutNumLab.font = [UIFont systemFontOfSize:14];
     checkoutNumLab.textAlignment = NSTextAlignmentCenter;
     checkoutNumLab.backgroundColor = [UIColor clearColor];
@@ -122,14 +140,17 @@
 }
 
 - (void)doRequest{
+    [self locationServiceCheck];
+
     if (!self.nowCoords.latitude) {
+        [self donePullDown];
         return;
     }
     
     NSMutableDictionary *params = nil;
     NSString *method = nil;
     
-    params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%f",self.nowCoords.longitude],@"lng",@"",@"commId", nil];
+    params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%f",self.nowCoords.longitude],@"lng",self.checkCommunitmodel.commId,@"commId", nil];
     method = [NSString stringWithFormat:@"broker/commSignDetail/"];
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
@@ -150,21 +171,39 @@
         
         self.isLoading = NO;
         [self donePullDown];
-        [self.tableList reloadData];
         return;
     }
+    self.loadCount += 1;
     
-    NSDictionary *dic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
+    NSDictionary *dic = [[response content] objectForKey:@"data"];
+    DLog(@"communityDic--->>%@",dic);
+    
+    self.checkInfoDic = [[NSMutableDictionary alloc] initWithDictionary:[dic objectForKey:@"signList"]];
+    for (int i = 0 ; i < checkInfoDic.allKeys.count; i++) {
+        NSString *key = [checkInfoDic.allKeys objectAtIndex:i];
+        NSArray *timeAreaArr = checkInfoDic[key];
+        if (timeAreaArr.count != 0) {
+            [self.checkCellStatusArr replaceObjectAtIndex:i+1 withObject:[NSNumber numberWithInt:CHECKOUTCELLWITHCHCK]];
+        }
+        DLog(@"self.checkCellStatusArr-->>%@",self.checkCellStatusArr);
+    }
+    [self donePullDown];
+    [self.tableList reloadData];
 }
 
 - (void)doCheckActionRequest{
     if (!self.nowCoords.latitude) {
         return;
     }
+    
+    if ([self calcDistance] > [self.signMile integerValue]) {
+        [self showInfo:@"您漂移的太远"];
+    }
+    
     NSMutableDictionary *params = nil;
     NSString *method = nil;
     
-    params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%f",self.nowCoords.longitude],@"lng",@"",@"commId", nil];
+    params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%f",self.nowCoords.longitude],@"lng",@"",@"commId", nil];
     method = [NSString stringWithFormat:@"broker/commSign/"];
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onCheckActionRequestFinished:)];
@@ -184,11 +223,19 @@
         
         self.isLoading = NO;
         [self donePullDown];
-        [self.tableList reloadData];
+
+        [self showInfo:@"签到失败"];
         return;
     }
     
-    NSDictionary *dic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
+    NSDictionary *dic = [response content];
+    if ([dic[@"status"] isEqualToString:@"ok"]) {
+        [self showInfo:@"签到成功"];
+    }else{
+        [self showInfo:@"签到失败"];
+    }
+
+    DLog(@"checkResult--->>%@",dic);
 
 }
 - (void)timeCountZero{
@@ -202,21 +249,18 @@
 }
 #pragma mark -UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 5;
+    return self.checkCellStatusArr.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    switch (indexPath.row) {
-        case 0:
+    switch ([[self.checkCellStatusArr objectAtIndex:indexPath.row] intValue]) {
+        case CHECKOUTCELLWITHELSE:
             return CELLHEIGHT_NOFMAL;
-        case 1:
+        case CHECKOUTCELLWITHNOCHECK:
             return CELLHEIGHT_NOCHECK;
-        case 2:
+        case CHECKOUTCELLWITHCHCK:
             return CELLHEIGHT_CHECK;
-        case 3:
-            return CELLHEIGHT_NOCHECK;
-        case 4:
-            return CELLHEIGHT_NOFMAL;
+            
         default:
             return CELLHEIGHT_NOFMAL;
     }
@@ -228,22 +272,25 @@
     if (cell == nil) {
         cell = [[CheckoutCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     }
+    DLog(@"self.checkInfoDic-->>%@",self.checkInfoDic);
+    [cell configurCell:self.checkInfoDic withIndex:indexPath.row cellType:[[self.checkCellStatusArr objectAtIndex:indexPath.row] intValue]];
     
     if (indexPath.row == 0) {
         [cell showTopLine];
-        [cell configurCell:nil withIndex:indexPath.row cellType:CHECKOUTCELLWITHELSE];
-    }else if (indexPath.row == 1){
+    }else if (indexPath.row == 1 || indexPath.row == 2){
         [cell showTopLine];
-        [cell configurCell:nil withIndex:indexPath.row cellType:CHECKOUTCELLWITHNOCHECK];
-        [cell showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK andOffsetX:15];
-    }else if (indexPath.row == 2){
-        [cell configurCell:nil withIndex:indexPath.row cellType:CHECKOUTCELLWITHCHCK];
-        [cell showBottonLineWithCellHeight:CELLHEIGHT_CHECK andOffsetX:15];
+        if ([[self.checkCellStatusArr objectAtIndex:indexPath.row] intValue] == CHECKOUTCELLWITHNOCHECK) {
+            [cell showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK andOffsetX:15];
+        }else{
+            [cell showBottonLineWithCellHeight:CELLHEIGHT_CHECK andOffsetX:15];
+        }
     }else if (indexPath.row == 3){
-        [cell configurCell:nil withIndex:indexPath.row cellType:CHECKOUTCELLWITHNOCHECK];
-        [cell showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK];
+        if ([[self.checkCellStatusArr objectAtIndex:indexPath.row] intValue] == CHECKOUTCELLWITHNOCHECK) {
+            [cell showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK];
+        }else{
+            [cell showBottonLineWithCellHeight:CELLHEIGHT_CHECK];
+        }
     }else if (indexPath.row == 4){
-        [cell configurCell:nil withIndex:indexPath.row cellType:CHECKOUTCELLWITHELSE];
         [cell showBottonLineWithCellHeight:CELLHEIGHT_NOFMAL];
     }
     
@@ -262,12 +309,28 @@
 #pragma mark MKMapViewDelegate -user location定位变化
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     self.nowCoords = [userLocation coordinate];
+    if (self.loadCount == 0 && self.isLoading == NO) {
+        [self doRequest];
+    }
     DLog(@"updateLocation111--->>%f/%f,",self.nowCoords.latitude,self.nowCoords.longitude);
 
 }
-
-- (void)passCommunityDic:(NSDictionary *)dic{
-    [self setTitleViewWithString:@"签到-东方曼哈顿"];
+- (CLLocationDistance)calcDistance{
+    CLLocation *communityLoc = [[CLLocation alloc] initWithLatitude:self.checkCommunitmodel.lat  longitude:self.checkCommunitmodel.lng];
+    CLLocation *nowLoc = [[CLLocation alloc] initWithLatitude:self.nowCoords.latitude longitude:self.nowCoords.longitude];
+    
+    CLLocationDistance kilometers = [communityLoc distanceFromLocation:nowLoc]/1000;
+    NSLog(@"距离:--->>%f",kilometers);
+    return kilometers;
+}
+- (void)passCommunityWithModel:(CheckCommunityModel *)model;{
+    self.checkCommunitmodel = model;
+    
+    [self setTitleViewWithString:self.checkCommunitmodel.commName];
+    
+    if (self.tableList) {
+        [self autoPullDown];
+    }
 }
 - (void)rightButtonAction:(id)sender{
     CheckoutRuleViewController *ruleVC = [[CheckoutRuleViewController alloc] init];
