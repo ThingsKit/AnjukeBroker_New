@@ -17,5 +17,6 @@
 
 
 - (CheckCommunityModel *)convertToMappedObject{
+    return nil;
 }
 @end

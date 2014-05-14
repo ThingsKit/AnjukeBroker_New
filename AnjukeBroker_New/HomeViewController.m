@@ -119,12 +119,15 @@
 }
 
 - (void)initTitleView {
-    UISegmentedControl *segment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"二手房",@"租房", nil]];
+    UISegmentedControl *segment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"二手房", @"租房", nil]];
     segment.frame = CGRectMake(0, 0, 200, 30);
-    segment.segmentedControlStyle = UISegmentedControlStylePlain;
+    segment.segmentedControlStyle = UISegmentedControlStyleBar;
     segment.selectedSegmentIndex = 0;
-    segment.backgroundColor = [UIColor grayColor];
+    [segment setWidth:100 forSegmentAtIndex:0];
+    [segment setWidth:100 forSegmentAtIndex:1];
     segment.tintColor = [UIColor blackColor];
+    [segment setBackgroundImage:[UIImage imageNamed:@"wl_map_icon_5"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [segment setBackgroundImage:[UIImage imageNamed:@"xproject_dialogue_greenbox"] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
     [segment addTarget:self action:@selector(pickOne:) forControlEvents:UIControlEventValueChanged];
     self.navigationItem.titleView = segment;
 }
