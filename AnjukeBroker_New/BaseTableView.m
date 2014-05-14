@@ -187,12 +187,12 @@
 	[self reloadTableViewDataSource];
     
     //停止加载，弹回下拉
-    [self doneLoadingTableViewData];
-	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:1.0];
+//    [self doneLoadingTableViewData];
+//	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:1.0];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;  //显示状态栏风火轮
-//    if ([self.eventDelegate respondsToSelector:@selector(pullDown:)]) {
-//        [self.eventDelegate pullDown:self]; //下拉
-//    }
+    if ([self.eventDelegate respondsToSelector:@selector(pullDown:)]) {
+        [self.eventDelegate pullDown:self]; //下拉
+    }
 	
 }
 

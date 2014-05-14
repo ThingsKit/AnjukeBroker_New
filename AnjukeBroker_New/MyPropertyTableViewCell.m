@@ -1,31 +1,33 @@
 //
-//  FangYuanTableViewCell.m
+//  MyPropertyTableViewCell.m
 //  AnjukeBroker_New
 //
-//  Created by leozhu on 14-5-13.
+//  Created by leozhu on 14-5-14.
 //  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
 
-#import "PropertyTableViewCell.h"
+#import "MyPropertyTableViewCell.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIUtils.h"
-#import "PropertyModel.h"
+#import "MyPropertyModel.h"
 #import "UIViewExt.h"
 
-@interface PropertyTableViewCell ()
+@interface MyPropertyTableViewCell ()
 
 @property (nonatomic, retain) UIImageView* icon;
 @property (nonatomic, retain) RTLabel* commName;   //小区名字
 @property (nonatomic, retain) UILabel* houseType;
 @property (nonatomic, retain) UILabel* area;
 @property (nonatomic, retain) UILabel* price;
-@property (nonatomic, retain) UILabel* publishTime; //发布时间
+@property (nonatomic, retain) UILabel* owner;      //业主
+@property (nonatomic, retain) UILabel* ownerPhone; //业主电话
+@property (nonatomic, retain) UILabel* statusInfo; //状态信息
 @property (nonatomic, retain) UIButton* button; //右侧的按钮
 
 @end
 
 
-@implementation PropertyTableViewCell
+@implementation MyPropertyTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -72,21 +74,36 @@
     self.price.font = [UIFont systemFontOfSize:15.0];
     [self.contentView addSubview:self.price];
     
-    //发布时间
-    self.publishTime = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.publishTime.backgroundColor = [UIColor clearColor];
-    self.publishTime.font = [UIFont systemFontOfSize:12.0];
-    self.publishTime.textColor = [UIColor colorWithWhite:0.7 alpha:1];
-    [self.contentView addSubview:self.publishTime];
+    //业主
+    self.owner = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.owner.backgroundColor = [UIColor clearColor];
+    self.owner.font = [UIFont systemFontOfSize:12.0];
+    self.owner.textColor = [UIColor colorWithWhite:0.7 alpha:1];
+    [self.contentView addSubview:self.owner];
     
- 
+    
+    //业主电话
+    self.ownerPhone = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.ownerPhone.backgroundColor = [UIColor clearColor];
+    self.ownerPhone.font = [UIFont systemFontOfSize:12.0];
+    self.ownerPhone.textColor = [UIColor colorWithWhite:0.7 alpha:1];
+    [self.contentView addSubview:self.ownerPhone];
+    
+    //状态信息
+    self.statusInfo = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.statusInfo.backgroundColor = [UIColor clearColor];
+    self.statusInfo.font = [UIFont systemFontOfSize:12.0];
+    self.statusInfo.textColor = [UIColor colorWithWhite:0.7 alpha:1];
+    [self.contentView addSubview:self.statusInfo];
+    
+    
     //右侧的按钮
     self.button = [UIButton buttonWithType:UIButtonTypeCustom];
     self.button.layer.cornerRadius = 2.0f;
     self.button.layer.masksToBounds = YES;
     [self.button addTarget:self action:@selector(buttonClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:self.button];
-
+    
     
     UIView* backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 0)];
     backgroundView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.9];
@@ -100,7 +117,7 @@
     
     //小区名称
     self.commName.frame = CGRectMake(10, 15, ScreenWidth/2, 25);
-    self.commName.text = self.propertyModel.commName;
+    self.commName.text = self.myPropertyModel.commName;
     [self.commName sizeToFit]; //自适应文字大小
     
     //租售icon
@@ -109,55 +126,54 @@
     
     //户型
     self.houseType.frame = CGRectMake(10, self.commName.bottom, 100, 20);
-    self.houseType.text = [NSString stringWithFormat:@"%@室%@厅%@卫", self.propertyModel.room, self.propertyModel.hall, self.propertyModel.toilet];
+    self.houseType.text = [NSString stringWithFormat:@"%@室%@厅%@卫", self.myPropertyModel.room, self.myPropertyModel.hall, self.myPropertyModel.toilet];
     [self.houseType sizeToFit];
     
     //面积
     self.area.frame = CGRectMake(self.houseType.right+10, self.commName.bottom, 60, 20);
-    self.area.text = [NSString stringWithFormat:@"%@平", self.propertyModel.area];
+    self.area.text = [NSString stringWithFormat:@"%@平", self.myPropertyModel.area];
     [self.area sizeToFit];
     
     //租金或售价
     self.price.frame = CGRectMake(self.area.right+10, self.commName.bottom, 60, 20);
-    self.price.text = [NSString stringWithFormat:@"%@%@", self.propertyModel.price, self.propertyModel.priceUnit];
+    self.price.text = [NSString stringWithFormat:@"%@%@", self.myPropertyModel.price, self.myPropertyModel.priceUnit];
     [self.price sizeToFit];
     
-    //显示发布时间
-    self.publishTime.hidden = NO;
-    self.publishTime.frame = CGRectMake(10, self.houseType.bottom, ScreenWidth/2, 20);
-    self.publishTime.text = [NSString stringWithFormat:@"%@ 发布", self.propertyModel.publishTime];
- 
-    //右侧的按钮
-    self.button.frame = CGRectMake(ScreenWidth-80, 30, 70, 30);
-    
-    if([self.propertyModel.rushable isEqual: @"1"]){ //该房源可抢
-        [self.button setBackgroundColor:[UIColor colorWithRed:79.0/255 green:164.0/255 blue:236.0/255 alpha:1]];
-        [self.button setTitle:@"抢委托" forState:UIControlStateNormal];
-        [self.button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        self.button.enabled = YES;
+    if ([self.myPropertyModel.callable isEqualToString:@"1"]) {
+        //业主
+        self.owner.frame = CGRectMake(10, self.houseType.bottom, 60, 20);
+        self.owner.text = self.myPropertyModel.ownerName;
+        [self.owner sizeToFit];
+        
+        //业主电话
+        self.ownerPhone.frame = CGRectMake(self.owner.right + 20, self.houseType.bottom, 100, 20);
+        self.ownerPhone.text = self.myPropertyModel.ownerPhone;
+        [self.ownerPhone sizeToFit];
+        
+        //右侧的电话按钮
+        self.button.frame = CGRectMake(ScreenWidth-80, 30, 30, 30);
+        [self.button setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_callphone"] forState:UIControlStateNormal];
+        [self.button setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_callphone_press"] forState:UIControlStateHighlighted];
         
     }else{
-        [self.button setBackgroundColor:[UIColor colorWithWhite:0.9 alpha:1]];
-        [self.button setTitle:@"抢完了" forState:UIControlStateNormal];
-        [self.button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-        self.button.layer.borderColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
-        self.button.layer.borderWidth = .5;
-        self.button.enabled = NO;
+        //状态信息
+        self.statusInfo.frame = CGRectMake(10, self.houseType.bottom, 100, 20);
+        self.statusInfo.text = self.myPropertyModel.statusInfo;
+        [self.statusInfo sizeToFit];
     }
-
+    
     
 }
 
 //右侧按钮点击事件
 - (void)buttonClicked{
-    NSLog(@"抢委托逻辑走起啦");
+    NSLog(@"电话打起来");
 }
 
 #pragma mark -
 #pragma mark RTLabelDelegate
 - (void)rtLabel:(id)rtLabel didSelectLinkWithURL:(NSURL*)url{
-//    NSString* urlString = [url absoluteString];
+    //    NSString* urlString = [url absoluteString];
 }
-
 
 @end

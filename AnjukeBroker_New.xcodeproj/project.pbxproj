@@ -201,6 +201,9 @@
 		6767D12A1922079A004FEFF7 /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D1291922079A004FEFF7 /* NSString+URLEncoding.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6767D13019220AE2004FEFF7 /* PropertyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D12F19220AE2004FEFF7 /* PropertyModel.m */; };
 		6767D13D19230901004FEFF7 /* MyPropertyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D13C19230901004FEFF7 /* MyPropertyModel.m */; };
+		6767D14519235174004FEFF7 /* MyPropertyTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D14419235174004FEFF7 /* MyPropertyTableView.m */; };
+		6767D1491923519B004FEFF7 /* MyPropertyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D1481923519B004FEFF7 /* MyPropertyTableViewCell.m */; };
+		6767D14B19237527004FEFF7 /* msgcome.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6767D14A19237527004FEFF7 /* msgcome.wav */; };
 		678083FA1904AB1F00765A18 /* Emoji.m in Sources */ = {isa = PBXBuildFile; fileRef = 678083E31904AB1F00765A18 /* Emoji.m */; };
 		678083FF1904AB1F00765A18 /* faceDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = 678083EC1904AB1F00765A18 /* faceDelete.png */; };
 		678084001904AB1F00765A18 /* faceDelete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 678083ED1904AB1F00765A18 /* faceDelete@2x.png */; };
@@ -944,6 +947,11 @@
 		6767D12F19220AE2004FEFF7 /* PropertyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyModel.m; sourceTree = "<group>"; };
 		6767D13B19230901004FEFF7 /* MyPropertyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPropertyModel.h; sourceTree = "<group>"; };
 		6767D13C19230901004FEFF7 /* MyPropertyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPropertyModel.m; sourceTree = "<group>"; };
+		6767D14319235174004FEFF7 /* MyPropertyTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPropertyTableView.h; sourceTree = "<group>"; };
+		6767D14419235174004FEFF7 /* MyPropertyTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPropertyTableView.m; sourceTree = "<group>"; };
+		6767D1471923519B004FEFF7 /* MyPropertyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPropertyTableViewCell.h; sourceTree = "<group>"; };
+		6767D1481923519B004FEFF7 /* MyPropertyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPropertyTableViewCell.m; sourceTree = "<group>"; };
+		6767D14A19237527004FEFF7 /* msgcome.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = msgcome.wav; sourceTree = "<group>"; };
 		678083E21904AB1F00765A18 /* Emoji.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Emoji.h; sourceTree = "<group>"; };
 		678083E31904AB1F00765A18 /* Emoji.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Emoji.m; sourceTree = "<group>"; };
 		678083EC1904AB1F00765A18 /* faceDelete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = faceDelete.png; sourceTree = "<group>"; };
@@ -2225,6 +2233,10 @@
 				6767D10C1921BF56004FEFF7 /* PropertyTableView.m */,
 				6767D11C1921FEB9004FEFF7 /* PropertyTableViewCell.h */,
 				6767D11D1921FEB9004FEFF7 /* PropertyTableViewCell.m */,
+				6767D14319235174004FEFF7 /* MyPropertyTableView.h */,
+				6767D14419235174004FEFF7 /* MyPropertyTableView.m */,
+				6767D1471923519B004FEFF7 /* MyPropertyTableViewCell.h */,
+				6767D1481923519B004FEFF7 /* MyPropertyTableViewCell.m */,
 			);
 			name = "发现模块";
 			sourceTree = "<group>";
@@ -2255,6 +2267,7 @@
 				6767D12319220292004FEFF7 /* UIUtils.m */,
 				6767D1281922079A004FEFF7 /* NSString+URLEncoding.h */,
 				6767D1291922079A004FEFF7 /* NSString+URLEncoding.m */,
+				6767D14A19237527004FEFF7 /* msgcome.wav */,
 			);
 			name = Tools;
 			sourceTree = "<group>";
@@ -3814,6 +3827,7 @@
 				B7E1919018E274D900DA578B /* anjuke_icon_chat4@2x.png in Resources */,
 				678084001904AB1F00765A18 /* faceDelete@2x.png in Resources */,
 				2039E58518C421FF003ED781 /* anjuke_icon_headpic@2x.png in Resources */,
+				6767D14B19237527004FEFF7 /* msgcome.wav in Resources */,
 				200915EE189401C800A13115 /* anjuke_icon_fxt_@2x.png in Resources */,
 				2079ADD718B59CC00029D493 /* anjuke_icon_scyx1@2x.png in Resources */,
 				B7FC9AF718C41B1300F77205 /* xproject_dialogue_greycard_selected@2x.png in Resources */,
@@ -4157,6 +4171,7 @@
 				977FCA9D1828FAD700945FB4 /* LoginManager.m in Sources */,
 				2063C2651890ADB20043C739 /* PublishHouseTypeViewController.m in Sources */,
 				2056A38F18EE7EA00022B5A5 /* AXMessageCenterGetFriendInfoManager.m in Sources */,
+				6767D14519235174004FEFF7 /* MyPropertyTableView.m in Sources */,
 				B7E55B4F18BF2190007238CB /* JSMessageTextView.m in Sources */,
 				B769E44F181F4C3E00A2FF50 /* FixedObject.m in Sources */,
 				97B422601820E38200A2E9E6 /* PropertyResultListViewController.m in Sources */,
@@ -4225,6 +4240,7 @@
 				B721095518278B4E00904FC7 /* SalePropertyListCell.m in Sources */,
 				2056A34918EE7E660022B5A5 /* AXMessage.m in Sources */,
 				2056A36318EE7E7A0022B5A5 /* AXMessageAPILongLinkManager.m in Sources */,
+				6767D1491923519B004FEFF7 /* MyPropertyTableViewCell.m in Sources */,
 				B7EAD53018CD927200B28FEC /* UIColor+AXChatMessage.m in Sources */,
 				2026044818B9D6CA00F75A56 /* ClientModel.m in Sources */,
 				20A2178618BF1804002CA469 /* HouseSelectCommunityCell.m in Sources */,

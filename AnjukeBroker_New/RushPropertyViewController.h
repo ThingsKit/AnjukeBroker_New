@@ -8,6 +8,7 @@
 
 #import "RTViewController.h"
 #import "PropertyTableView.h"
+#import "MyPropertyTableView.h"
 
 @interface RushPropertyViewController : RTViewController<BaseTableViewEventDelegate>
 
