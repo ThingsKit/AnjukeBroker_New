@@ -8,7 +8,10 @@
 
 #import "RushPropertyViewController.h"
 #import "UIViewExt.h"
-#include "NetworkRequest.h"
+#import "NetworkRequest.h"
+#import "PropertyModel.h"
+#import "MyPropertyModel.h"
+
 
 @interface RushPropertyViewController ()
 
@@ -52,6 +55,7 @@
 }
 
 
+
 #pragma mark -
 #pragma mark - BaseTableViewDelegate
 
@@ -61,8 +65,51 @@
 //    [NetworkRequest requestWithURL:@"<#string#>" params:params httpMethod:@"GET" requestDidFinishBlock:^(id result) {
 //        
 //    }];
-    NSArray* list = @[@"1", @"2", @"3"];
     
+//    "status": "ok",
+//    "data": [
+//             {
+//                 "commName": "新中苑",
+//                 "type": "2",
+//                 "room": "2",
+//                 "hall": "2",
+//                 "toilet": "2",
+//                 "area": "50",
+//                 "price": "2000",
+//                 "priceUnit": "元/月",
+//                 "publishTime": "2014-05-01 06:03:07",
+//                 "rushable": "1",
+//                 "rushed": "0"
+//             },
+    NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:
+                         @"新中源",@"commName",
+                         @"2",@"type",
+                         @"2",@"room",
+                         @"2",@"hall",
+                         @"2",@"toilet",
+                         @"50",@"area",
+                         @"2000",@"price",
+                         @"元/月",@"priceUnit",
+                         @"2014-05-01 06:03:07",@"publishTime",
+                         @"0",@"rushable",
+                         @"1",@"rushed",
+                         nil];
+    NSDictionary* dic2 = @{@"commName": @"张江汤臣豪园",
+                          @"type":@"2",
+                          @"room":@"2",
+                          @"hall":@"1",
+                          @"toilet":@"1",
+                          @"area":@"300",
+                          @"price":@"200",
+                          @"priceUnit":@"万",
+                          @"publishTime":@"2014-05-01 06:03:07",
+                          @"rushable":@"1",
+                          @"rushed":@"0"
+                          };
+    PropertyModel* property = [[PropertyModel alloc] initWithDataDic:dic];
+    PropertyModel* property2 = [[PropertyModel alloc] initWithDataDic:dic2];
+    
+    NSArray* list = @[property, property2];
     self.tableView.data = list;
     
     [self.tableView reloadData];

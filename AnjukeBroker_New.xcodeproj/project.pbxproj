@@ -197,10 +197,10 @@
 		6767D11E1921FEB9004FEFF7 /* PropertyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D11D1921FEB9004FEFF7 /* PropertyTableViewCell.m */; };
 		6767D1211921FEFE004FEFF7 /* RTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D1201921FEFE004FEFF7 /* RTLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6767D12419220292004FEFF7 /* UIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D12319220292004FEFF7 /* UIUtils.m */; };
-		6767D1271922073E004FEFF7 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D1261922073E004FEFF7 /* BaseModel.m */; };
+		6767D1271922073E004FEFF7 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D1261922073E004FEFF7 /* BaseModel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6767D12A1922079A004FEFF7 /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D1291922079A004FEFF7 /* NSString+URLEncoding.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6767D13019220AE2004FEFF7 /* PropertyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D12F19220AE2004FEFF7 /* PropertyModel.m */; };
-		6767D13319220D76004FEFF7 /* CommunityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D13219220D76004FEFF7 /* CommunityModel.m */; };
+		6767D13D19230901004FEFF7 /* MyPropertyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D13C19230901004FEFF7 /* MyPropertyModel.m */; };
 		678083FA1904AB1F00765A18 /* Emoji.m in Sources */ = {isa = PBXBuildFile; fileRef = 678083E31904AB1F00765A18 /* Emoji.m */; };
 		678083FF1904AB1F00765A18 /* faceDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = 678083EC1904AB1F00765A18 /* faceDelete.png */; };
 		678084001904AB1F00765A18 /* faceDelete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 678083ED1904AB1F00765A18 /* faceDelete@2x.png */; };
@@ -940,8 +940,8 @@
 		6767D1291922079A004FEFF7 /* NSString+URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLEncoding.m"; sourceTree = "<group>"; };
 		6767D12E19220AE2004FEFF7 /* PropertyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyModel.h; sourceTree = "<group>"; };
 		6767D12F19220AE2004FEFF7 /* PropertyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyModel.m; sourceTree = "<group>"; };
-		6767D13119220D76004FEFF7 /* CommunityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommunityModel.h; sourceTree = "<group>"; };
-		6767D13219220D76004FEFF7 /* CommunityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommunityModel.m; sourceTree = "<group>"; };
+		6767D13B19230901004FEFF7 /* MyPropertyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPropertyModel.h; sourceTree = "<group>"; };
+		6767D13C19230901004FEFF7 /* MyPropertyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPropertyModel.m; sourceTree = "<group>"; };
 		678083E21904AB1F00765A18 /* Emoji.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Emoji.h; sourceTree = "<group>"; };
 		678083E31904AB1F00765A18 /* Emoji.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Emoji.m; sourceTree = "<group>"; };
 		678083EC1904AB1F00765A18 /* faceDelete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = faceDelete.png; sourceTree = "<group>"; };
@@ -2207,6 +2207,8 @@
 		6767D1141921C949004FEFF7 /* 发现模块 */ = {
 			isa = PBXGroup;
 			children = (
+				6767D13F19230AAE004FEFF7 /* Tools */,
+				6767D13E19230A9C004FEFF7 /* Model */,
 				67C3F657191CA2CA00DFC0C0 /* DiscoverViewController.h */,
 				67C3F658191CA2CA00DFC0C0 /* DiscoverViewController.m */,
 				67C3F6F119205E6800DFC0C0 /* RushPropertyViewController.h */,
@@ -2217,6 +2219,26 @@
 				6767D10C1921BF56004FEFF7 /* PropertyTableView.m */,
 				6767D11C1921FEB9004FEFF7 /* PropertyTableViewCell.h */,
 				6767D11D1921FEB9004FEFF7 /* PropertyTableViewCell.m */,
+			);
+			name = "发现模块";
+			sourceTree = "<group>";
+		};
+		6767D13E19230A9C004FEFF7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6767D1251922073E004FEFF7 /* BaseModel.h */,
+				6767D1261922073E004FEFF7 /* BaseModel.m */,
+				6767D12E19220AE2004FEFF7 /* PropertyModel.h */,
+				6767D12F19220AE2004FEFF7 /* PropertyModel.m */,
+				6767D13B19230901004FEFF7 /* MyPropertyModel.h */,
+				6767D13C19230901004FEFF7 /* MyPropertyModel.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		6767D13F19230AAE004FEFF7 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
 				6767D1161921E9B5004FEFF7 /* NetworkRequest.h */,
 				6767D1171921E9B5004FEFF7 /* NetworkRequest.m */,
 				6767D1191921EA53004FEFF7 /* JSONKit.h */,
@@ -2227,14 +2249,8 @@
 				6767D12319220292004FEFF7 /* UIUtils.m */,
 				6767D1281922079A004FEFF7 /* NSString+URLEncoding.h */,
 				6767D1291922079A004FEFF7 /* NSString+URLEncoding.m */,
-				6767D1251922073E004FEFF7 /* BaseModel.h */,
-				6767D1261922073E004FEFF7 /* BaseModel.m */,
-				6767D12E19220AE2004FEFF7 /* PropertyModel.h */,
-				6767D12F19220AE2004FEFF7 /* PropertyModel.m */,
-				6767D13119220D76004FEFF7 /* CommunityModel.h */,
-				6767D13219220D76004FEFF7 /* CommunityModel.m */,
 			);
-			name = "发现模块";
+			name = Tools;
 			sourceTree = "<group>";
 		};
 		678083E11904AB1F00765A18 /* Emoji-master */ = {
@@ -4121,7 +4137,6 @@
 				977FCA9D1828FAD700945FB4 /* LoginManager.m in Sources */,
 				2063C2651890ADB20043C739 /* PublishHouseTypeViewController.m in Sources */,
 				2056A38F18EE7EA00022B5A5 /* AXMessageCenterGetFriendInfoManager.m in Sources */,
-				6767D13319220D76004FEFF7 /* CommunityModel.m in Sources */,
 				B7E55B4F18BF2190007238CB /* JSMessageTextView.m in Sources */,
 				B769E44F181F4C3E00A2FF50 /* FixedObject.m in Sources */,
 				97B422601820E38200A2E9E6 /* PropertyResultListViewController.m in Sources */,
@@ -4221,6 +4236,7 @@
 				2056A34818EE7E660022B5A5 /* AXConversationListItem.m in Sources */,
 				B721095818278E6000904FC7 /* RentPropertyListCell.m in Sources */,
 				970FC17E183B19C400D142D5 /* PropertyResetViewController.m in Sources */,
+				6767D13D19230901004FEFF7 /* MyPropertyModel.m in Sources */,
 				B7F8017E18E98D7B0006A1E4 /* AXNetWorkResponse.m in Sources */,
 				B721094B18277CE100904FC7 /* RentFixedDetailController.m in Sources */,
 				B7DC8079186C115800BE6AD0 /* CellHeight.m in Sources */,

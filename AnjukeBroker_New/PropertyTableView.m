@@ -7,6 +7,7 @@
 //
 
 #import "PropertyTableView.h"
+#import "PropertyTableViewCell.h"
 
 @implementation PropertyTableView
 
@@ -23,13 +24,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString* identifier = @"FangYuanTableViewCell";
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    static NSString* identifier = @"PropertyTableViewCell";
+    PropertyTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[PropertyTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    cell.textLabel.text = [self.data objectAtIndex:indexPath.row];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    PropertyModel* property = [self.data objectAtIndex:indexPath.row]; //获取self.data中的数据对象
+    cell.propertyModel = property;
     
     return cell;
 }
@@ -40,7 +41,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 50;
+    return 100;
 }
 
 @end
