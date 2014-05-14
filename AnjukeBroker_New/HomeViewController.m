@@ -214,7 +214,6 @@
         self.costValue.frame = CGRectMake(180.0f, 30.0f, 80.0f, 30.0f);
         self.costName.frame = CGRectMake(180.0f, 70.0f, 80.0f, 30.0f);
     }
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -233,7 +232,6 @@
 }
 
 #pragma mark - private method
-
 
 - (void)setHomeValue {
     //账户自适应
@@ -468,7 +466,8 @@
     }
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/ppc/" params:params target:self action:@selector(onGetSuccess:)];
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"broker/todayConsumInfo/" params:params target:self action:@selector(onGetSuccess:)];
     
     [self showLoadingActivity:YES];
     self.isLoading = YES;

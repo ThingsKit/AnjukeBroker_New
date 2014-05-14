@@ -53,39 +53,24 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor blackColor];
+    [self.window makeKeyAndVisible];
     
     [self registerRemoteNotification];
     [self cleanRemoteNotification:application];
     
+    //初始化底层库
+    [self initRTManager];
+    [self checkLogin];
     //监听每次连接长链接后-->获取最新未读消息
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showNewMessageCountForTab) name:@"MessageCenterConnectionStatusNotication" object:nil];
     //监听每次收到新消息提醒后-->获取最新未读消息
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showNewMessageCountForTab) name:MessageCenterDidReceiveNewMessage object:nil];
+    //监听被踢出下线通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doLogOutEnforce) name:@"MessageCenterUserDidQuit" object:nil];
     
-//    [self checkVersionForMore:NO];
     self.versionUpdate = [[VersionUpdateManager alloc] init];
     [self.versionUpdate checkVersion:YES];
     
-    [self requestSalePropertyConfig];
-    //监听被踢出下线通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doLogOutEnforce) name:@"MessageCenterUserDidQuit" object:nil];
-    //初始化底层库
-    [self initRTManager];
-    
-    //add root viewController
-    [self checkLogin];
-    
-    [self.window makeKeyAndVisible];
-        
-    [self registerRemoteNotification];
-    [self cleanRemoteNotification:application];
-    
-    //监听每次连接长链接后-->获取最新未读消息
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showNewMessageCountForTab) name:@"MessageCenterConnectionStatusNotication" object:nil];
-    //监听每次收到新消息提醒后-->获取最新未读消息
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showNewMessageCountForTab) name:MessageCenterDidReceiveNewMessage object:nil];
-    
-    [self checkVersionForMore:NO];
     [self requestSalePropertyConfig];
     
     return YES;
@@ -129,7 +114,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    dispatch_async(dispatch_get_current_queue(), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [CrashLogUtil writeCrashLog];
     });
 }
@@ -354,79 +339,6 @@
     }
     else {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-    }
-}
-
-- (void)checkVersionForMore:(BOOL)forMore { // 新版本更新检查
-    if (![self checkNetwork]) {
-        return;
-    }
-    
-    self.boolNeedAlert = forMore;
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"i" ,@"o" , nil];
-    
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"checkversion/" params:params target:self action:@selector(onGetVersion:)];
-}
-
-- (void)onGetVersion:(RTNetworkResponse *) response {
-    //check network and response
-    if (![self checkNetwork])
-        return;
-    
-    if ([response status] == RTNetworkResponseStatusFailed || ([[[response content] objectForKey:@"status"] isEqualToString:@"error"]))
-        return;
-    
-    NSDictionary *resultFromAPI = [[response content] objectForKey:@"data"];
-    DLog(@"%@", resultFromAPI);
-    
-    if ([resultFromAPI count] != 0) {
-        self.updateUrl = [NSString stringWithFormat:@"%@",[resultFromAPI objectForKey:@"url"]];
-        
-        NSString *localVer = [AppManager getBundleVersion];
-        
-        if ([resultFromAPI objectForKey:@"ver"] != nil && ![[resultFromAPI objectForKey:@"ver"] isEqualToString:@""]) {
-            NSString *onlineVer = [resultFromAPI objectForKey:@"ver"];
-            
-            if ([[resultFromAPI objectForKey:@"is_enforce"] isEqualToString:@"1"]) {
-                self.isEnforceUpdate = YES;
-                
-                if ([localVer compare:onlineVer options:NSNumericSearch] == NSOrderedAscending)  {
-                    //强制更新(强制更新且版本号增大)
-                    UIAlertView *av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"发现新%@版本",onlineVer]
-                                                                 message:nil
-                                                                delegate:self
-                                                       cancelButtonTitle:nil
-                                                       otherButtonTitles:@"立即更新", @"退出应用", nil];
-                    av.tag = 101;
-                    [av show];
-                    return;
-                }
-             }else{ //非强制更新（非强制更新且版本号增大）
-                 self.isEnforceUpdate = NO;
-                 
-                 if ([localVer compare:onlineVer options:NSNumericSearch] == NSOrderedAscending)  {
-                     UIAlertView *av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"发现新%@版本",onlineVer]
-                                                                  message:nil
-                                                                 delegate:self
-                                                        cancelButtonTitle:@"稍后再说"
-                                                        otherButtonTitles:@"立即更新",nil];
-                     av.cancelButtonIndex = 0;
-                     av.tag = 102;
-                     [av show];
-                     
-                     return;
-                 }
-                 
-            }
-            DLog(@"appVer[%@] checkVer[%@]",localVer, onlineVer);
-            
-            if (self.boolNeedAlert) {
-                UIAlertView *av = [[UIAlertView alloc] initWithTitle:nil message:@"没有发现新版本" delegate:Nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
-                [av show];
-                self.boolNeedAlert = NO;
-            }
-        }
     }
 }
 
