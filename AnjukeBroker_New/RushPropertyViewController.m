@@ -21,6 +21,8 @@
 
 @property (nonatomic, strong) UIButton* leftTabButton;
 @property (nonatomic, strong) UIButton* rightTabButton;
+@property (nonatomic, strong) UIView* leftEmptyBackgroundView;
+@property (nonatomic, strong) UIView* rightEmptyBackgroundView;
 
 @end
 
@@ -146,13 +148,42 @@
         
         
     }else{ //数据请求失败
+        if (self.leftEmptyBackgroundView == nil) {
+            self.leftEmptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-49-44)];
+            self.leftEmptyBackgroundView.backgroundColor = [UIColor clearColor];
+            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, ScreenHeight/2-20-49-44-79/2, 180/2, 158/2)];
+            imageView.image = [UIImage imageNamed:@"anjuke_icon_weituo_nopropery"];
+            [self.leftEmptyBackgroundView addSubview:imageView];
+            
+            UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-60/2, imageView.bottom, 60, 30)];
+            label.backgroundColor = [UIColor clearColor];
+            [label setFont:[UIFont systemFontOfSize:14.0]];
+            label.text = @"暂无委托";
+            [self.leftEmptyBackgroundView addSubview:label];
+            
+        }
+        
+        if (self.rightEmptyBackgroundView == nil) {
+            self.rightEmptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-49-44)];
+            self.rightEmptyBackgroundView.backgroundColor = [UIColor clearColor];
+            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, ScreenHeight/2-20-49-44-79/2, 180/2, 158/2)];
+            imageView.image = [UIImage imageNamed:@"anjuke_icon_weituo_nopropery"];
+            [self.rightEmptyBackgroundView addSubview:imageView];
+            
+            UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-60/2, imageView.bottom, 60, 30)];
+            label.backgroundColor = [UIColor clearColor];
+            [label setFont:[UIFont systemFontOfSize:14.0]];
+            label.text = @"暂无委托";
+            [self.rightEmptyBackgroundView addSubview:label];
+            
+        }
+        
         if (self.myTableView.hidden) { //如果位于抢委托房源列表
-            UIView* emptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-49-44)];
-            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2, ScreenHeight/2, 180/2, 158/2)];
-            
-            
+            self.tableView.tableHeaderView = self.leftEmptyBackgroundView;
+            [self.tableView reloadData];
         }else{
-            
+            self.myTableView.tableHeaderView = self.rightEmptyBackgroundView;
+            [self.myTableView reloadData];
         }
         
     }
