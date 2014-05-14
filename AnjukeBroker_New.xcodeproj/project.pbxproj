@@ -611,6 +611,8 @@
 		F8CD189C1921A40A0033733E /* CheckoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD189B1921A40A0033733E /* CheckoutCell.m */; };
 		F8CD18A31921A9800033733E /* CheckoutRuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD18A21921A9800033733E /* CheckoutRuleViewController.m */; };
 		F8CD18A9192200960033733E /* CheckoutButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD18A8192200960033733E /* CheckoutButton.m */; };
+		F8D2F0E019230E7100858BB0 /* CLLocationManager+RT.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D2F0DF19230E7100858BB0 /* CLLocationManager+RT.m */; };
+		F8D2F0EA192318BF00858BB0 /* BaseTableStructViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D2F0E9192318BF00858BB0 /* BaseTableStructViewController.m */; };
 		F8D449D01908AFA900447375 /* anjuke_icon_button_red_press.png in Resources */ = {isa = PBXBuildFile; fileRef = F8D449CC1908AFA900447375 /* anjuke_icon_button_red_press.png */; };
 		F8D449D21908AFA900447375 /* anjuke_icon_button_red.png in Resources */ = {isa = PBXBuildFile; fileRef = F8D449CE1908AFA900447375 /* anjuke_icon_button_red.png */; };
 		F8FCFC2318FE8F3500A4B012 /* RTGestureLock.m in Sources */ = {isa = PBXBuildFile; fileRef = F8FCFC2218FE8F3500A4B012 /* RTGestureLock.m */; };
@@ -1557,6 +1559,10 @@
 		F8CD18A21921A9800033733E /* CheckoutRuleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutRuleViewController.m; sourceTree = "<group>"; };
 		F8CD18A7192200960033733E /* CheckoutButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutButton.h; sourceTree = "<group>"; };
 		F8CD18A8192200960033733E /* CheckoutButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutButton.m; sourceTree = "<group>"; };
+		F8D2F0DE19230E7100858BB0 /* CLLocationManager+RT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocationManager+RT.h"; sourceTree = "<group>"; };
+		F8D2F0DF19230E7100858BB0 /* CLLocationManager+RT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocationManager+RT.m"; sourceTree = "<group>"; };
+		F8D2F0E8192318BF00858BB0 /* BaseTableStructViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableStructViewController.h; sourceTree = "<group>"; };
+		F8D2F0E9192318BF00858BB0 /* BaseTableStructViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableStructViewController.m; sourceTree = "<group>"; };
 		F8D449CC1908AFA900447375 /* anjuke_icon_button_red_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_red_press.png; sourceTree = "<group>"; };
 		F8D449CE1908AFA900447375 /* anjuke_icon_button_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_red.png; sourceTree = "<group>"; };
 		F8FCFC2118FE8F3500A4B012 /* RTGestureLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTGestureLock.h; sourceTree = "<group>"; };
@@ -3495,8 +3501,12 @@
 		F8A717DD19209E22004840C6 /* checkout */ = {
 			isa = PBXGroup;
 			children = (
+				F8D2F0DE19230E7100858BB0 /* CLLocationManager+RT.h */,
+				F8D2F0DF19230E7100858BB0 /* CLLocationManager+RT.m */,
 				F8A717DF19209E6D004840C6 /* CheckoutCommunityViewController.h */,
 				F8A717E019209E6D004840C6 /* CheckoutCommunityViewController.m */,
+				F8D2F0E8192318BF00858BB0 /* BaseTableStructViewController.h */,
+				F8D2F0E9192318BF00858BB0 /* BaseTableStructViewController.m */,
 				F8A717E51920ADF7004840C6 /* BrokerTableStuct.h */,
 				F8A717E61920ADF7004840C6 /* BrokerTableStuct.m */,
 				F8A717E219209EC6004840C6 /* CheckoutCommunityCell.h */,
@@ -4056,6 +4066,7 @@
 				20A44DA31869760B008D8CB1 /* SSPullToRefreshView.m in Sources */,
 				B7EAD52418CD927200B28FEC /* AXPullToRefreshView.m in Sources */,
 				2056A36118EE7E7A0022B5A5 /* ASIHTTPRequest+ExtraMethods.m in Sources */,
+				F8D2F0EA192318BF00858BB0 /* BaseTableStructViewController.m in Sources */,
 				B7EAD52818CD927200B28FEC /* AXPhotoView.m in Sources */,
 				B7E69BB5183B3B040097D5C3 /* RentGroupListController.m in Sources */,
 				97CD8D44180E6D6E00185C9D /* RTViewController.m in Sources */,
@@ -4122,6 +4133,7 @@
 				B7EAD51A18CD927200B28FEC /* AXChatMessagePublicCardCell.m in Sources */,
 				6767D1211921FEFE004FEFF7 /* RTLabel.m in Sources */,
 				2056A34618EE7E660022B5A5 /* NSArray+ExtraMethods.m in Sources */,
+				F8D2F0E019230E7100858BB0 /* CLLocationManager+RT.m in Sources */,
 				2056A38D18EE7EA00022B5A5 /* AXMessageCenterDownLoadAudioManager.m in Sources */,
 				F8A717E419209EC6004840C6 /* CheckoutCommunityCell.m in Sources */,
 				207526BB18B45FE10022220C /* SWLongPressGestureRecognizer.m in Sources */,

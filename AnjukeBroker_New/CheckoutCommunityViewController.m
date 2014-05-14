@@ -10,12 +10,17 @@
 #import "CheckoutCommunityCell.h"
 #import "BrokerTableStuct.h"
 #import "CheckoutViewController.h"
+#import "CLLocationManager+RT.h"
+
 
 @interface CheckoutCommunityViewController ()
-@property(nonatomic, strong) BrokerTableStuct *tableList;
+//@property(nonatomic, strong) CheckCommunityTable *tableList;
 @property(nonatomic, strong) NSDictionary *checkoutDic;
 //user最新2d
-@property(nonatomic,assign) CLLocationCoordinate2D nowCoords;
+@property(nonatomic, assign) CLLocationCoordinate2D nowCoords;
+@property(nonatomic ,strong) NSMutableArray *tablaData;
+@property(nonatomic, assign) BOOL isLoading;
+@property(nonatomic, assign) int loadCount;
 
 @end
 
@@ -23,12 +28,17 @@
 @synthesize tableList;
 @synthesize checkoutDic;
 @synthesize nowCoords;
+@synthesize tablaData;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.tablaData = [[NSMutableArray alloc] init];
+        for (int i = 0; i < 20; i++) {
+            [self.tablaData addObject:@""];
+        }
     }
     return self;
 }
@@ -40,6 +50,7 @@
     // Do any additional setup after loading the view.
     
     [self initUI];
+    [self doRequest];
 }
 
 - (void)initUI{
@@ -49,22 +60,65 @@
     map.delegate = self;
     [self.view addSubview:map];
 
-    self.tableList = [[BrokerTableStuct alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
     self.tableList.backgroundColor = [UIColor clearColor];
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableList.showsVerticalScrollIndicator = YES;
     [self.view addSubview:self.tableList];
+
+    [self autoPullDown];
     
     //    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
     //    view.backgroundColor = [UIColor blackColor];
     //    [self.tableList setTableStatus:view status:STATUSFORNETWORKERROR];
 }
 
+- (void)reloadBegin{
+}
+
+- (void)doRequest{
+    if (!self.nowCoords.latitude) {
+        return;
+    }
+    self.isLoading = YES;
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getChatID],@"brokerId",[NSString stringWithFormat:@"%fd",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%fd",self.nowCoords.longitude],@"lng", nil];
+    method = [NSString stringWithFormat:@"broker/commSignList/"];
+
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
+}
+- (void)onRequestFinished:(RTNetworkResponse *)response{
+    self.isLoading = NO;
+    self.loadCount += 1;
+    DLog(@"。。。response [%@]", [response content]);
+    if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        [self showInfo:@"操作失败"];
+        return ;
+    }
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        DLog(@"errorMsg--->>%@",errorMsg);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles: nil];
+        [alert show];
+        self.isLoading = NO;
+        [self donePullDown];
+        [self.tableList reloadData];
+        return;
+    }
+    
+    NSDictionary *dic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
+    DLog(@"dic-->>%@",dic);
+}
+
 #pragma mark -UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 20;
+    return [self.tablaData count];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -102,6 +156,10 @@
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     self.nowCoords = [userLocation coordinate];
     DLog(@"updateLocation--->>%f/%f,",self.nowCoords.latitude,self.nowCoords.longitude);
+
+    if (self.loadCount == 0) {
+        [self doRequest];
+    }
 }
 
 @end

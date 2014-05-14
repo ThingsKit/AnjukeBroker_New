@@ -8,6 +8,10 @@
 
 #import "RTViewController.h"
 #import <MapKit/MapKit.h>
+#import "BaseTableStructViewController.h"
 
-@interface CheckoutCommunityViewController : RTViewController<UITableViewDataSource,UITableViewDelegate,MKMapViewDelegate>
+@interface CheckoutCommunityViewController : BaseTableStructViewController<MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate>
+
+- (void)reloadEnd;
+- (void)reloadBegin;
 @end

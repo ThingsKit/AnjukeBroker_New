@@ -305,7 +305,7 @@
     }
     
     NSDictionary *brokerDic = [[[response content] objectForKey:@"data"] objectForKey:@"broker"];
-    
+    DLog(@"brokerDic-->>%@",brokerDic);
     //保存用户登录数据
     [[NSUserDefaults standardUserDefaults] setValue:[brokerDic objectForKey:@"id"] forKey:@"id"]; //用户id
     [[NSUserDefaults standardUserDefaults] setValue:[brokerDic objectForKey:@"username"] forKey:@"username"]; //用户登录名
