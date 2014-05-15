@@ -270,7 +270,6 @@
 		972C10291814FCD300552C9B /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10281814FCD300552C9B /* HomeViewController.m */; };
 		972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C102B1814FD4500552C9B /* AnjukeHomeViewController.m */; };
 		972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C102E1814FD5900552C9B /* HaozuHomeViewController.m */; };
-		972C10321814FDC400552C9B /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10311814FDC400552C9B /* MoreViewController.m */; };
 		972C10391815351900552C9B /* AnjukeEditPropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */; };
 		972DDA2A1826A4CA00263F8F /* RTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972DDA291826A4CA00263F8F /* RTNavigationController.m */; };
 		972DDA301826D39500263F8F /* RTPopoverTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972DDA2F1826D39500263F8F /* RTPopoverTableViewController.m */; };
@@ -357,7 +356,6 @@
 		97DED8A7182343E500D0B82A /* anjuke_icon08_attention@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97DED8A4182343E500D0B82A /* anjuke_icon08_attention@2x.png */; };
 		97DED8A8182343E500D0B82A /* anjuke_icon09_stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97DED8A5182343E500D0B82A /* anjuke_icon09_stop@2x.png */; };
 		97DED8A9182343E500D0B82A /* anjuke_icon09_woking@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97DED8A6182343E500D0B82A /* anjuke_icon09_woking@2x.png */; };
-		97DED8AD18234BB100D0B82A /* MoreListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97DED8AC18234BB100D0B82A /* MoreListCell.m */; };
 		97DED8B81823999700D0B82A /* anjuke_icon11_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97DED8B71823999700D0B82A /* anjuke_icon11_@2x.png */; };
 		97DFA98A184C7C01002D6B82 /* AnjukeEditTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97DFA989184C7C01002D6B82 /* AnjukeEditTextViewController.m */; };
 		97EF868C1841EACE00315E75 /* SimpleKeyboardToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 97EF868B1841EACE00315E75 /* SimpleKeyboardToolBar.m */; };
@@ -1081,8 +1079,6 @@
 		972C102B1814FD4500552C9B /* AnjukeHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukeHomeViewController.m; sourceTree = "<group>"; };
 		972C102D1814FD5900552C9B /* HaozuHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HaozuHomeViewController.h; sourceTree = "<group>"; };
 		972C102E1814FD5900552C9B /* HaozuHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HaozuHomeViewController.m; sourceTree = "<group>"; };
-		972C10301814FDC400552C9B /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreViewController.h; sourceTree = "<group>"; };
-		972C10311814FDC400552C9B /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreViewController.m; sourceTree = "<group>"; };
 		972C10371815351900552C9B /* AnjukeEditPropertyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukeEditPropertyViewController.h; sourceTree = "<group>"; };
 		972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukeEditPropertyViewController.m; sourceTree = "<group>"; };
 		972DDA281826A4CA00263F8F /* RTNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTNavigationController.h; sourceTree = "<group>"; };
@@ -1215,8 +1211,6 @@
 		97DED8A4182343E500D0B82A /* anjuke_icon08_attention@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon08_attention@2x.png"; sourceTree = "<group>"; };
 		97DED8A5182343E500D0B82A /* anjuke_icon09_stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon09_stop@2x.png"; sourceTree = "<group>"; };
 		97DED8A6182343E500D0B82A /* anjuke_icon09_woking@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon09_woking@2x.png"; sourceTree = "<group>"; };
-		97DED8AB18234BB100D0B82A /* MoreListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreListCell.h; sourceTree = "<group>"; };
-		97DED8AC18234BB100D0B82A /* MoreListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreListCell.m; sourceTree = "<group>"; };
 		97DED8B71823999700D0B82A /* anjuke_icon11_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon11_@2x.png"; sourceTree = "<group>"; };
 		97DFA988184C7C01002D6B82 /* AnjukeEditTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukeEditTextViewController.h; sourceTree = "<group>"; };
 		97DFA989184C7C01002D6B82 /* AnjukeEditTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukeEditTextViewController.m; sourceTree = "<group>"; };
@@ -2589,6 +2583,8 @@
 		972C10261814FC8800552C9B /* 更多 */ = {
 			isa = PBXGroup;
 			children = (
+				F8C0C0791924BECF0098D0E5 /* view */,
+				F8C0C0781924BEBA0098D0E5 /* manager */,
 				F8C0C06B19248BE20098D0E5 /* model */,
 				F8A717B4192058FB004840C6 /* header.png */,
 				F8A717B5192058FB004840C6 /* header@2x.png */,
@@ -2596,14 +2592,8 @@
 				F8A717B9192058FB004840C6 /* UserCenterViewController.m */,
 				F8A717B6192058FB004840C6 /* UserCenterCell.h */,
 				F8A717B7192058FB004840C6 /* UserCenterCell.m */,
-				F8A717BA192058FB004840C6 /* UserHeaderView.h */,
-				F8A717BB192058FB004840C6 /* UserHeaderView.m */,
-				972C10301814FDC400552C9B /* MoreViewController.h */,
-				972C10311814FDC400552C9B /* MoreViewController.m */,
 				F8A717C219205934004840C6 /* AppSettingViewController.h */,
 				F8A717C319205934004840C6 /* AppSettingViewController.m */,
-				97DED8AB18234BB100D0B82A /* MoreListCell.h */,
-				97DED8AC18234BB100D0B82A /* MoreListCell.m */,
 				970DB71B183AFFE700DEB455 /* AboutUsViewController.h */,
 				970DB71C183AFFE700DEB455 /* AboutUsViewController.m */,
 				B7EA04A41844D40900AC8842 /* BrokerAccountController.h */,
@@ -2612,10 +2602,6 @@
 				B7EA04A91844DB3700AC8842 /* BrokerAccountCell.m */,
 				2026044A18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.h */,
 				2026044B18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.m */,
-				F8575DA11900F6BE00AB662F /* BrokerCallAlert.h */,
-				F8575DA21900F6BE00AB662F /* BrokerCallAlert.m */,
-				F8A717C519205C2E004840C6 /* VersionUpdateManager.h */,
-				F8A717C619205C2E004840C6 /* VersionUpdateManager.m */,
 			);
 			name = "更多";
 			sourceTree = "<group>";
@@ -3735,6 +3721,26 @@
 			name = HUDNEWS;
 			sourceTree = "<group>";
 		};
+		F8C0C0781924BEBA0098D0E5 /* manager */ = {
+			isa = PBXGroup;
+			children = (
+				F8575DA11900F6BE00AB662F /* BrokerCallAlert.h */,
+				F8575DA21900F6BE00AB662F /* BrokerCallAlert.m */,
+				F8A717C519205C2E004840C6 /* VersionUpdateManager.h */,
+				F8A717C619205C2E004840C6 /* VersionUpdateManager.m */,
+			);
+			name = manager;
+			sourceTree = "<group>";
+		};
+		F8C0C0791924BECF0098D0E5 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				F8A717BA192058FB004840C6 /* UserHeaderView.h */,
+				F8A717BB192058FB004840C6 /* UserHeaderView.m */,
+			);
+			name = view;
+			sourceTree = "<group>";
+		};
 		F8D2F0EB1923424400858BB0 /* model */ = {
 			isa = PBXGroup;
 			children = (
@@ -4242,7 +4248,6 @@
 				B7921A2F18BBA2000021933A /* BrokerChatViewController.m in Sources */,
 				97C6870F183A2BF100F449BD /* PropertyAuctionPublishViewController.m in Sources */,
 				2056A38B18EE7EA00022B5A5 /* AXMessageCenterAppGetAllMessageManager.m in Sources */,
-				972C10321814FDC400552C9B /* MoreViewController.m in Sources */,
 				B7210952182785A400904FC7 /* RentFixedCell.m in Sources */,
 				972F70DE1844C7660010CABB /* BrokerLogger.m in Sources */,
 				B7E69BC4183B9CEE0097D5C3 /* RentBidNoPlanController.m in Sources */,
@@ -4463,7 +4468,6 @@
 				2056A39818EE7EA00022B5A5 /* AXMessageCenterUserLoginOutManager.m in Sources */,
 				97DFA98A184C7C01002D6B82 /* AnjukeEditTextViewController.m in Sources */,
 				6767D1091921BBD6004FEFF7 /* BaseTableView.m in Sources */,
-				97DED8AD18234BB100D0B82A /* MoreListCell.m in Sources */,
 				B76E5977181E5676005B6A8C /* BaseNoPlanController.m in Sources */,
 				2056A34B18EE7E660022B5A5 /* AXMappedConversationListItem.m in Sources */,
 				B7EA04AA1844DB3700AC8842 /* BrokerAccountCell.m in Sources */,

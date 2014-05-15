@@ -380,9 +380,9 @@
     
     [self setTitleViewWithString:self.checkCommunitmodel.commName];
     
-    if (self.tableList) {
-        [self autoPullDown];
-    }
+//    if (self.tableList) {
+//        [self autoPullDown];
+//    }
 }
 - (void)rightButtonAction:(id)sender{
     CheckoutRuleViewController *ruleVC = [[CheckoutRuleViewController alloc] init];

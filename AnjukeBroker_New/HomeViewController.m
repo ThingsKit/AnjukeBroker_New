@@ -19,7 +19,6 @@
 
 #import "PublishBuildingViewController.h"
 #import "CommunityListViewController.h"
-#import "MoreViewController.h"
 #import "FindHomeViewController.h"
 #import "BrokerAccountController.h"
 #import "BrokerTwoDimensionalCodeViewController.h"

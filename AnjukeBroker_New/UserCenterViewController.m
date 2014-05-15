@@ -47,11 +47,21 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.navigationBarHidden = YES;
-
-//    [self doUserInfoRequest];
+    
+    if (self.userCenterModel == nil) {
+        [self doRequest];
+    }
 }
 - (void)initModel {
     self.taskArray = [NSArray arrayWithObjects:@"我的二维码", @"我的账户", @"个人信息", @"联系客户主任", @"客服热线", @"系统设置", nil];
+}
+#pragma mark - log
+- (void)sendAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
+- (void)sendDisAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
 }
 
 - (void)viewDidLoad

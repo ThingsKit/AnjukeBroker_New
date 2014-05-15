@@ -18,7 +18,7 @@
 #define SECTIONNUM 2
 #define NOTIFICCELL 60
 #define MORE_CELL_H 96/2
-#define UPDATEICONFRAME CGRectMake(120,13,30,18)
+#define UPDATEICONFRAME CGRectMake(90,14,40,20)
 
 @interface AppSettingViewController ()<updateVersionDelegate>
 @property(nonatomic, strong) UITableView *tableList;
@@ -162,24 +162,22 @@
             [cell showBottonLineWithCellHeight:CELL_HEIGHT-2 andOffsetX:15];
             if (!self.isHasNewVersion) {
                 cell.textLabel.text = @"当前已经是最新版本";
-                
+            }else{
+                cell.textLabel.text = @"版本更新";                
+
                 UIImageView *updateImg = [[UIImageView alloc] initWithFrame:UPDATEICONFRAME];
                 [updateImg setImage:[UIImage createImageWithColor:[UIColor redColor]]];
                 updateImg.layer.masksToBounds = YES;
-                updateImg.layer.cornerRadius = 8;
+                updateImg.layer.cornerRadius = 10;
                 
                 UILabel *updateLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, updateImg.frame.size.width, updateImg.frame.size.height)];
                 updateLab.backgroundColor = [UIColor clearColor];
                 updateLab.text = @"NEW";
+                updateLab.textColor = [UIColor whiteColor];
                 updateLab.textAlignment = NSTextAlignmentCenter;
                 updateLab.font = [UIFont systemFontOfSize:12];
                 [updateImg addSubview:updateLab];
                 [cell.contentView addSubview:updateImg];
-
-            }else{
-                cell.textLabel.text = @"版本更新";
-                
-
             }
         }else{
             [cell showBottonLineWithCellHeight:CELL_HEIGHT-1];

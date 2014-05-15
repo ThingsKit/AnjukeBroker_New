@@ -52,8 +52,21 @@
     // Do any additional setup after loading the view.
     
     [self initUI];
+    [self addRightButton:@"完成" andPossibleTitle:nil];
 }
-
+- (void)rightButtonAction:(id)sender{
+    CheckCommunityModel *model = [[CheckCommunityModel alloc] init];
+    model.lat = [@"40.047669" doubleValue];
+    model.lng = [@"116.313082" doubleValue];
+    model.commId = @"12345";
+    model.signAble = YES;
+    model.commName = @"百合花公寓";
+    
+    CheckoutViewController *checkoutVC = [[CheckoutViewController alloc] init];
+    checkoutVC.forbiddenEgo = YES;
+    [checkoutVC passCommunityWithModel:model];
+    [self.navigationController pushViewController:checkoutVC animated:YES];
+}
 - (void)initUI{
     MKMapView *map = [[MKMapView alloc] initWithFrame:CGRectZero];
     map.userInteractionEnabled = NO;

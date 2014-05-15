@@ -9,7 +9,6 @@
 #import "TabBarViewController.h"
 #import "AnjukeHomeViewController.h"
 #import "HaozuHomeViewController.h"
-#import "MoreViewController.h"
 #import "RTGestureBackNavigationController.h"
 #import "AppDelegate.h"
 #import "Util_UI.h"

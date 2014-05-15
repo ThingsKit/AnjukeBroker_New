@@ -33,6 +33,10 @@
     NSArray *checkPersion;
     if (dataModel == nil) {
         NSArray *timeAreaArr = [[NSArray alloc] initWithArray:[LoginManager getCheckTimeArr]];
+        if (timeAreaArr.count == 0) {
+            timeAreaArr = @[@"10:00",@"11:00",@"12:00"];            
+        }
+        DLog(@"timeAreaArr-->>%@",timeAreaArr);
         if (index > 0 && index < 4) {
             timeSection =  [timeAreaArr objectAtIndex:index-1];
         }
