@@ -8,9 +8,9 @@
 
 #import "MyPropertyTableViewCell.h"
 #import <QuartzCore/QuartzCore.h>
-#import "UIUtils.h"
 #import "MyPropertyModel.h"
 #import "UIViewExt.h"
+#import "Util_UI.h"
 
 @interface MyPropertyTableViewCell ()
 
@@ -43,42 +43,43 @@
     //小区名称
     self.commName = [[RTLabel alloc] initWithFrame:CGRectZero];
     self.commName.backgroundColor = [UIColor clearColor];
-    self.commName.font = [UIFont boldSystemFontOfSize:20.0];
-    
+    self.commName.font = [UIFont boldSystemFontOfSize:15.0];
+    [self.commName setTextColor:[Util_UI colorWithHexString:@"#3D4245"]];
     [self.contentView addSubview:self.commName];
     
     //租售icon
     self.icon = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.icon.backgroundColor = [UIColor clearColor];
     self.icon.layer.cornerRadius = 1.0;
-    self.icon.layer.borderColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
-    self.icon.layer.borderWidth = .5;
     self.icon.layer.masksToBounds = YES;
     [self.contentView addSubview:self.icon];
     
     //户型
     self.houseType = [[UILabel alloc] initWithFrame:CGRectZero];
     self.houseType.backgroundColor = [UIColor clearColor];
-    self.houseType.font = [UIFont systemFontOfSize:15.0];
+    self.houseType.font = [UIFont systemFontOfSize:12.0];
+    [self.houseType setTextColor:[Util_UI colorWithHexString:@"#3D4245"]];
     [self.contentView addSubview:self.houseType];
     
     //面积
     self.area = [[UILabel alloc] initWithFrame:CGRectZero];
     self.area.backgroundColor = [UIColor clearColor];
-    self.area.font = [UIFont systemFontOfSize:15.0];
+    self.area.font = [UIFont systemFontOfSize:12.0];
+    [self.area setTextColor:[Util_UI colorWithHexString:@"#3D4245"]];
     [self.contentView addSubview:self.area];
     
     //租金或售价
     self.price = [[UILabel alloc] initWithFrame:CGRectZero];
     self.price.backgroundColor = [UIColor clearColor];
-    self.price.font = [UIFont systemFontOfSize:15.0];
+    self.price.font = [UIFont systemFontOfSize:12.0];
+    [self.price setTextColor:[Util_UI colorWithHexString:@"#3D4245"]];
     [self.contentView addSubview:self.price];
     
     //业主
     self.owner = [[UILabel alloc] initWithFrame:CGRectZero];
     self.owner.backgroundColor = [UIColor clearColor];
     self.owner.font = [UIFont systemFontOfSize:12.0];
-    self.owner.textColor = [UIColor colorWithWhite:0.7 alpha:1];
+    [self.owner setTextColor:[Util_UI colorWithHexString:@"#B2B2B2"]];
     [self.contentView addSubview:self.owner];
     
     
@@ -86,14 +87,14 @@
     self.ownerPhone = [[UILabel alloc] initWithFrame:CGRectZero];
     self.ownerPhone.backgroundColor = [UIColor clearColor];
     self.ownerPhone.font = [UIFont systemFontOfSize:12.0];
-    self.ownerPhone.textColor = [UIColor colorWithWhite:0.7 alpha:1];
+    [self.ownerPhone setTextColor:[Util_UI colorWithHexString:@"#B2B2B2"]];
     [self.contentView addSubview:self.ownerPhone];
     
     //状态信息
     self.statusInfo = [[UILabel alloc] initWithFrame:CGRectZero];
     self.statusInfo.backgroundColor = [UIColor clearColor];
     self.statusInfo.font = [UIFont systemFontOfSize:12.0];
-    self.statusInfo.textColor = [UIColor colorWithWhite:0.7 alpha:1];
+    [self.statusInfo setTextColor:[Util_UI colorWithHexString:@"#B2B2B2"]];
     [self.contentView addSubview:self.statusInfo];
     
     
@@ -121,8 +122,12 @@
     [self.commName sizeToFit]; //自适应文字大小
     
     //租售icon
-    self.icon.frame = CGRectMake(self.commName.right, 15, 15, 15);
-    self.icon.image = [UIImage imageNamed:@"anjuke_icon_feedback"];
+    self.icon.frame = CGRectMake(self.commName.right, 15, 16, 16);
+    if ([self.myPropertyModel.type isEqualToString:@"1"]) {
+        self.icon.image = [UIImage imageNamed:@"anjuke_icon_weituo_esf"];
+    }else{
+        self.icon.image = [UIImage imageNamed:@"anjuke_icon_weituo_zf"];
+    }
     
     //户型
     self.houseType.frame = CGRectMake(10, self.commName.bottom, 100, 20);

@@ -8,11 +8,11 @@
 
 #import "RushPropertyViewController.h"
 #import "UIViewExt.h"
-#import "NetworkRequest.h"
 #import "PropertyModel.h"
 #import "MyPropertyModel.h"
 #import "LoginManager.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import "MBProgressHUD.h"
 
 @interface RushPropertyViewController ()
 
@@ -23,6 +23,12 @@
 @property (nonatomic, strong) UIButton* rightTabButton;
 @property (nonatomic, strong) UIView* leftEmptyBackgroundView;
 @property (nonatomic, strong) UIView* rightEmptyBackgroundView;
+@property (nonatomic, strong) MBProgressHUD* hud;
+@property (nonatomic, strong) UIImageView* hudBackground;
+@property (nonatomic, strong) UIImageView* hudImageView;
+@property (nonatomic, strong) UILabel* hudText;
+@property (nonatomic, strong) UILabel* hubSubText;
+
 
 @end
 
@@ -42,11 +48,11 @@
     [super viewDidLoad];
     [self initUI]; //初始化 self.navigationItem.titleView
     
-    self.tableView = [[PropertyTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-49-44) style:UITableViewStylePlain];
+    self.tableView = [[PropertyTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44) style:UITableViewStylePlain];
     self.tableView.hidden = NO;
     [self.view addSubview:self.tableView];
     
-    self.myTableView = [[MyPropertyTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-49-44) style:UITableViewStylePlain];
+    self.myTableView = [[MyPropertyTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44) style:UITableViewStylePlain];
     self.myTableView.hidden = YES;
     [self.view addSubview:self.myTableView];
     
@@ -54,6 +60,28 @@
     self.myTableView.eventDelegate = self;  //以self.tableView.hidden 来做逻辑判断
     
     [self autoRefresh];
+    
+//    NSString *method = @"commission/rush/";
+//    NSMutableDictionary* params = [NSMutableDictionary dictionary];
+//    [params setObject:@"token" forKey:[LoginManager getToken]];
+//    [params setObject:@"brokerId" forKey:[LoginManager getUserID]];
+//    [params setObject:@"propertyId" forKey:@"123"];
+//    
+//    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestTestFinished:)];
+    
+}
+
+
+#pragma mark -
+#pragma mark Test
+- (void)onRequestTestFinished:(RTNetworkResponse*)response{
+    NSString* message = [response.content objectForKey:@"message"];
+    NSLog(@"%@", message);
+    
+//    NSArray* data = [response.content objectForKey:@"data"];
+//    for (NSDictionary* dic in data) {
+//        NSLog(@"%@", dic);
+//    }
 }
 
 
@@ -65,25 +93,32 @@
     RTNetworkResponseStatus status = response.status;
     
     //如果请求数据成功
-    if (status == RTNetworkResponseStatusSuccess) {
+    if (status == RTNetworkResponseStatusSuccess || status == RTNetworkResponseStatusJsonError) {
         NSDictionary* content = response.content;
-        NSArray* data = [content objectForKey:@"data"];
+//        NSArray* data = [content objectForKey:@"data"];
         
-        NSMutableArray* properties = nil;
-        if (self.myTableView.hidden) {
-            //获取待委托列表数据
-            properties = [[NSMutableArray alloc] initWithCapacity:data.count];
-            for (NSDictionary* temp in data) {
-                PropertyModel* property = [[PropertyModel alloc] initWithDataDic:temp];
-                [properties addObject:property];
-            }
-            
-        }else{
-            //获取我的委托列表数据
-            properties = [[NSMutableArray alloc] initWithCapacity:data.count];
-            for (NSDictionary* temp in data) {
-                MyPropertyModel* property = [[MyPropertyModel alloc] initWithDataDic:temp];
-                [properties addObject:property];
+        NSDictionary* dict = @{@"id":@"1", @"propertyId":@"123", @"commName":@"新中源", @"type":@"2", @"room":@"2", @"hall":@"2", @"toilet":@"2", @"area":@"400", @"price":@"2000", @"priceUnit":@"元/月", @"publishTime":@"2014-05-01 06:03:07", @"rushable":@"1", @"rushed":@"0",};
+        NSDictionary* dict2 = @{@"id":@"2", @"propertyId":@"456", @"commName":@"新中源实际花园", @"type":@"1", @"room":@"2", @"hall":@"2", @"toilet":@"2", @"area":@"400", @"price":@"500", @"priceUnit":@"万", @"publishTime":@"2014-05-01 06:03:07", @"rushable":@"0", @"rushed":@"1",};
+        
+        NSArray* data = @[dict, dict2];
+        
+        NSMutableArray* properties = [NSMutableArray arrayWithCapacity:1];
+        if (data.count > 0) { //请求如果有数据
+            if (self.myTableView.hidden) {
+                //获取待委托列表数据
+                properties = [[NSMutableArray alloc] initWithCapacity:data.count];
+                for (NSDictionary* temp in data) {
+                    PropertyModel* property = [[PropertyModel alloc] initWithDataDic:temp];
+                    [properties addObject:property];
+                }
+                
+            }else{
+                //获取我的委托列表数据
+                properties = [[NSMutableArray alloc] initWithCapacity:data.count];
+                for (NSDictionary* temp in data) {
+                    MyPropertyModel* property = [[MyPropertyModel alloc] initWithDataDic:temp];
+                    [properties addObject:property];
+                }
             }
         }
         
@@ -110,6 +145,8 @@
                 PropertyModel* maxProperty = self.tableView.data.firstObject; //获取最大id
                 self.tableView.maxId = maxProperty.id;
                 
+                self.tableView.tableHeaderView = nil;
+                
                 [self.tableView reloadData];
                 
             }else{ //我的委托房源列表
@@ -130,6 +167,8 @@
                 MyPropertyModel* maxProperty = self.myTableView.data.firstObject; //获取最大id
                 self.myTableView.maxId = maxProperty.id;
                 
+                self.myTableView.tableHeaderView = nil;
+                
                 [self.myTableView reloadData];
             }
             
@@ -143,58 +182,162 @@
             
             
         }else{ //没有新数据
+            [self showEmptyBackground];
             
         }
         
         
     }else{ //数据请求失败
-        if (self.leftEmptyBackgroundView == nil) {
-            self.leftEmptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-49-44)];
-            self.leftEmptyBackgroundView.backgroundColor = [UIColor clearColor];
-            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, ScreenHeight/2-20-49-44-79/2, 180/2, 158/2)];
-            imageView.image = [UIImage imageNamed:@"anjuke_icon_weituo_nopropery"];
-            [self.leftEmptyBackgroundView addSubview:imageView];
-            
-            UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-60/2, imageView.bottom, 60, 30)];
-            label.backgroundColor = [UIColor clearColor];
-            [label setFont:[UIFont systemFontOfSize:14.0]];
-            label.text = @"暂无委托";
-            [self.leftEmptyBackgroundView addSubview:label];
-            
-        }
+        [self showEmptyBackground];
+
+    }
+    
+
+}
+
+
+#pragma mark -
+#pragma mark MBProgressHUD 相关
+
+//使用 MBProgressHUD 显示抢委托结果
+- (void)displayHUDWithStatus:(NSString *)status Message:(NSString*)message ErrCode:(NSString*)errCode {
+    if (self.hudBackground == nil) {
+        self.hudBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 135, 135)];
+        self.hudBackground.image = [UIImage imageNamed:@"anjuke_icon_tips_bg"];
         
-        if (self.rightEmptyBackgroundView == nil) {
-            self.rightEmptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-49-44)];
-            self.rightEmptyBackgroundView.backgroundColor = [UIColor clearColor];
-            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, ScreenHeight/2-20-49-44-79/2, 180/2, 158/2)];
-            imageView.image = [UIImage imageNamed:@"anjuke_icon_weituo_nopropery"];
-            [self.rightEmptyBackgroundView addSubview:imageView];
-            
-            UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-60/2, imageView.bottom, 60, 30)];
-            label.backgroundColor = [UIColor clearColor];
-            [label setFont:[UIFont systemFontOfSize:14.0]];
-            label.text = @"暂无委托";
-            [self.rightEmptyBackgroundView addSubview:label];
-            
-        }
+        self.hudImageView = [[UIImageView alloc] initWithFrame:CGRectMake(135/2-70/2, 135/2-70/2 - 20, 70, 70)];
+        self.hudText = [[UILabel alloc] initWithFrame:CGRectMake(0, self.hudImageView.bottom+7, 135, 20)];
+        [self.hudText setTextColor:[UIColor colorWithWhite:0.95 alpha:1]];
+        [self.hudText setFont:[UIFont systemFontOfSize:17.0f]];
+        [self.hudText setTextAlignment:NSTextAlignmentCenter];
+        self.hudText.backgroundColor = [UIColor clearColor];
         
-        if (self.myTableView.hidden) { //如果位于抢委托房源列表
-            self.tableView.tableHeaderView = self.leftEmptyBackgroundView;
-            [self.tableView reloadData];
-        }else{
-            self.myTableView.tableHeaderView = self.rightEmptyBackgroundView;
-            [self.myTableView reloadData];
-        }
+        self.hubSubText = [[UILabel alloc] initWithFrame:CGRectMake(0, self.hudText.bottom, 135, 20)];
+        [self.hubSubText setTextColor:[UIColor colorWithWhite:0.95 alpha:1]];
+        [self.hubSubText setFont:[UIFont systemFontOfSize:12.0f]];
+        [self.hubSubText setTextAlignment:NSTextAlignmentCenter];
+        self.hubSubText.backgroundColor = [UIColor clearColor];
+        
+        [self.hudBackground addSubview:self.hudImageView];
+        [self.hudBackground addSubview:self.hudText];
+        [self.hudBackground addSubview:self.hubSubText];
         
     }
     
+    //使用 MBProgressHUD
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.color = [UIColor clearColor];
+    self.hud.customView = self.hudBackground;
+    self.hud.yOffset = -20;
+    self.hud.mode = MBProgressHUDModeCustomView;
+    self.hud.dimBackground = NO;
     
+    if ([status isEqualToString:@"ok"]) {
+        self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_laugh"];
+        self.hudText.text = @"抢成功!";
+        self.hubSubText.text = @"快去联系业主吧";
+        self.hubSubText.hidden = NO;
+    }else if([status isEqualToString:@"error"]){
+        if ([errCode isEqualToString:@"5001"]) {
+            self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
+            self.hudText.text = @"来晚啦~";
+            self.hubSubText.text = @"房源已删除";
+            self.hubSubText.hidden = NO;
+        }else if ([errCode isEqualToString:@"5002"]){
+            self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_laugh"];
+            self.hudText.text = @"抢过来!";
+            self.hubSubText.text = @"去我的委托看看吧";
+            self.hubSubText.hidden = NO;
+        }else{
+            self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
+            self.hudText.text = @"抢完了~";
+            self.hubSubText.hidden = YES;
+        }
+        
+    }else{ //这里表示网络异常
+        self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
+        self.hudText.text = @"网络异常";
+        self.hubSubText.hidden = YES;
+    }
+    
+    [self.hud hide:YES afterDelay:1]; //显示一段时间后隐藏
+}
 
-    
+
+
+- (void)hideHUD {
+    [self.hud hide:YES];
+}
+
+
+#pragma mark -
+#pragma mark 释放模态视图
+- (void)cancelAction:(UIButton*)button {
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"5.0")) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }else{
+        [self dismissModalViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark -
-#pragma mark TabButton Action
+#pragma mark 显示空白背景
+
+- (void)showEmptyBackground{
+    
+    if (self.leftEmptyBackgroundView == nil) {
+        self.leftEmptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
+        self.leftEmptyBackgroundView.backgroundColor = [UIColor clearColor];
+        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, ScreenHeight/2-20-44-79/2, 180/2, 158/2)];
+        imageView.image = [UIImage imageNamed:@"anjuke_icon_weituo_nopropery"];
+        [self.leftEmptyBackgroundView addSubview:imageView];
+        
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-60/2, imageView.bottom, 60, 30)];
+        label.backgroundColor = [UIColor clearColor];
+        [label setFont:[UIFont systemFontOfSize:14.0]];
+        label.text = @"暂无委托";
+        [self.leftEmptyBackgroundView addSubview:label];
+        
+    }
+    
+    if (self.rightEmptyBackgroundView == nil) {
+        self.rightEmptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
+        self.rightEmptyBackgroundView.backgroundColor = [UIColor clearColor];
+        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, ScreenHeight/2-20-44-79/2, 180/2, 158/2)];
+        imageView.image = [UIImage imageNamed:@"anjuke_icon_weituo_nopropery"];
+        [self.rightEmptyBackgroundView addSubview:imageView];
+        
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-60/2, imageView.bottom, 60, 30)];
+        label.backgroundColor = [UIColor clearColor];
+        [label setFont:[UIFont systemFontOfSize:14.0]];
+        label.text = @"暂无委托";
+        [self.rightEmptyBackgroundView addSubview:label];
+        
+    }
+    
+    if (self.myTableView.hidden) { //如果位于抢委托房源列表
+        if (self.tableView.data.count == 0) {
+            self.tableView.tableHeaderView = self.leftEmptyBackgroundView;
+            self.tableView.tableHeaderView.hidden = NO;
+        }else{
+            self.tableView.tableHeaderView.hidden = YES;
+        }
+        [self.tableView reloadData];
+    }else{
+        if (self.myTableView.data.count == 0) {
+            self.myTableView.tableHeaderView = self.rightEmptyBackgroundView;
+            self.myTableView.tableHeaderView.hidden = NO;
+        }else{
+            self.myTableView.tableHeaderView.hidden = YES;
+        }
+        [self.myTableView reloadData];
+    }
+}
+
+
+#pragma mark -
+#pragma mark TabButton Action 顶部左右两个tab相关
+
 - (void)leftTabButtonClicked{
     NSLog(@"left clicked");
     [self.leftTabButton setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:1]];
@@ -222,7 +365,7 @@
 
 
 #pragma mark -
-#pragma mark - BaseTableViewDelegate
+#pragma mark - BaseTableViewDelegate  上啦下拉点击相关
 
 - (void)pullDown:(BaseTableView *)tableView {
     
@@ -277,15 +420,21 @@
 
 - (void)tableView:(BaseTableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    [self.tableView.data removeObjectAtIndex:indexPath.row];
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+    
+    NSLog(@"cell click");
 }
 
 
 #pragma mark -
-#pragma mark NetworkRequest Method
+#pragma mark NetworkRequest Method 网络请求相关方法
+
 - (void)requestPropertyList:(NSMutableDictionary*)params{
     NSString *method = @"commission/propertyList/";
     if (params == nil) {
-        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"147468", @"brokerId", nil];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }else{
         [params setObject:@"token" forKey:[LoginManager getToken]];
@@ -324,7 +473,7 @@
 
 
 #pragma mark -
-#pragma mark Memory Managment
+#pragma mark Memory Managment 内存相关
 
 - (void)didReceiveMemoryWarning
 {

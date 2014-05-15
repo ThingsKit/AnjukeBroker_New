@@ -10,8 +10,16 @@
 #import "PropertyTableView.h"
 #import "MyPropertyTableView.h"
 
+@class MBProgressHUD;
 @interface RushPropertyViewController : RTViewController<BaseTableViewEventDelegate>
 
-- (void)autoRefresh; //自动拉下刷新
+//自动拉下刷新
+- (void)autoRefresh;
+
+//取消模态视图
+- (void)cancelAction:(UIButton*)button;
+
+//供外部调用的MBProgressHUD
+- (void)displayHUDWithStatus:(NSString *)status Message:(NSString*)message ErrCode:(NSString*)errCode;
 
 @end

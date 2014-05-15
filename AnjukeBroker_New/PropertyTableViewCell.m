@@ -8,9 +8,12 @@
 
 #import "PropertyTableViewCell.h"
 #import <QuartzCore/QuartzCore.h>
-#import "UIUtils.h"
 #import "PropertyModel.h"
 #import "UIViewExt.h"
+#import "LoginManager.h"
+#import "UIView+ChainViewController.h"
+#import "RushPropertyViewController.h"
+#import "Util_UI.h"
 
 @interface PropertyTableViewCell ()
 
@@ -41,42 +44,43 @@
     //小区名称
     self.commName = [[RTLabel alloc] initWithFrame:CGRectZero];
     self.commName.backgroundColor = [UIColor clearColor];
-    self.commName.font = [UIFont boldSystemFontOfSize:20.0];
-    
+    self.commName.font = [UIFont boldSystemFontOfSize:15.0];
+    [self.commName setTextColor:[Util_UI colorWithHexString:@"#3D4245"]];
     [self.contentView addSubview:self.commName];
     
     //租售icon
     self.icon = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.icon.backgroundColor = [UIColor clearColor];
     self.icon.layer.cornerRadius = 1.0;
-    self.icon.layer.borderColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
-    self.icon.layer.borderWidth = .5;
     self.icon.layer.masksToBounds = YES;
     [self.contentView addSubview:self.icon];
     
     //户型
     self.houseType = [[UILabel alloc] initWithFrame:CGRectZero];
     self.houseType.backgroundColor = [UIColor clearColor];
-    self.houseType.font = [UIFont systemFontOfSize:15.0];
+    self.houseType.font = [UIFont systemFontOfSize:12.0];
+    [self.houseType setTextColor:[Util_UI colorWithHexString:@"#3D4245"]];
     [self.contentView addSubview:self.houseType];
     
     //面积
     self.area = [[UILabel alloc] initWithFrame:CGRectZero];
     self.area.backgroundColor = [UIColor clearColor];
-    self.area.font = [UIFont systemFontOfSize:15.0];
+    self.area.font = [UIFont systemFontOfSize:12.0];
+    [self.area setTextColor:[Util_UI colorWithHexString:@"#3D4245"]];
     [self.contentView addSubview:self.area];
     
     //租金或售价
     self.price = [[UILabel alloc] initWithFrame:CGRectZero];
     self.price.backgroundColor = [UIColor clearColor];
-    self.price.font = [UIFont systemFontOfSize:15.0];
+    self.price.font = [UIFont systemFontOfSize:12.0];
+    [self.price setTextColor:[Util_UI colorWithHexString:@"#3D4245"]];
     [self.contentView addSubview:self.price];
     
     //发布时间
     self.publishTime = [[UILabel alloc] initWithFrame:CGRectZero];
     self.publishTime.backgroundColor = [UIColor clearColor];
     self.publishTime.font = [UIFont systemFontOfSize:12.0];
-    self.publishTime.textColor = [UIColor colorWithWhite:0.7 alpha:1];
+    [self.publishTime setTextColor:[Util_UI colorWithHexString:@"#B2B2B2"]];
     [self.contentView addSubview:self.publishTime];
     
  
@@ -84,7 +88,7 @@
     self.button = [UIButton buttonWithType:UIButtonTypeCustom];
     self.button.layer.cornerRadius = 2.0f;
     self.button.layer.masksToBounds = YES;
-    [self.button addTarget:self action:@selector(buttonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:self.button];
 
     
@@ -104,8 +108,12 @@
     [self.commName sizeToFit]; //自适应文字大小
     
     //租售icon
-    self.icon.frame = CGRectMake(self.commName.right, 15, 15, 15);
-    self.icon.image = [UIImage imageNamed:@"anjuke_icon_feedback"];
+    self.icon.frame = CGRectMake(self.commName.right, 15, 16, 16);
+    if ([self.propertyModel.type isEqualToString:@"1"]) {
+        self.icon.image = [UIImage imageNamed:@"anjuke_icon_weituo_esf"];
+    }else{
+        self.icon.image = [UIImage imageNamed:@"anjuke_icon_weituo_zf"];
+    }
     
     //户型
     self.houseType.frame = CGRectMake(10, self.commName.bottom, 100, 20);
@@ -134,6 +142,7 @@
         [self.button setBackgroundColor:[UIColor colorWithRed:79.0/255 green:164.0/255 blue:236.0/255 alpha:1]];
         [self.button setTitle:@"抢委托" forState:UIControlStateNormal];
         [self.button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.button.tag = [self.propertyModel.propertyId intValue]; //记录propertyId作为button的tag
         self.button.enabled = YES;
         
     }else{
@@ -149,9 +158,50 @@
 }
 
 //右侧按钮点击事件
-- (void)buttonClicked{
-    NSLog(@"抢委托逻辑走起啦");
+- (void)buttonClicked:(UIButton*)button{
+    NSLog(@"%d", button.tag);
+    button.enabled = NO;
+    
+    
+    NSString* propertyId = [NSString stringWithFormat:@"%d", button.tag];
+    NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithObject:propertyId forKey:@"propertyId"];
+    [self rushProperty:dict];
+    
 }
+
+
+- (void)rushProperty:(NSMutableDictionary*)params{
+    NSString *method = @"commission/rush/";
+    [params setObject:@"token" forKey:[LoginManager getToken]];
+    [params setObject:@"brokerId" forKey:[LoginManager getUserID]];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
+    
+}
+
+#pragma mark -
+#pragma mark Reqest Finish
+
+- (void)onRequestFinished:(RTNetworkResponse*)response{
+    
+    RTNetworkResponseStatus status = response.status;
+    RushPropertyViewController* viewController = (RushPropertyViewController*)self.viewController;
+    
+    //数据请求成功
+    if (status == RTNetworkResponseStatusSuccess) {
+        NSString* status = [response.content objectForKey:@"status"];
+        NSString* message = [response.content objectForKey:@"message"];
+        NSString* errcode = [response.content objectForKey:@"errcode"];
+        
+        [viewController displayHUDWithStatus:status Message:message ErrCode:errcode];
+        
+    }else{ //数据请求失败
+        [viewController displayHUDWithStatus:nil Message:nil ErrCode:nil];
+    }
+    
+    
+}
+
+
 
 #pragma mark -
 #pragma mark RTLabelDelegate

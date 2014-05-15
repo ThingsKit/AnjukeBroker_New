@@ -116,6 +116,7 @@
     }else{
         NSLog(@"抢房源委托");
         RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
+        [viewController setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:viewController animated:YES];
     }
     

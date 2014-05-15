@@ -23,7 +23,7 @@
 
 @property (nonatomic, assign) BOOL needRefreshHeader; //是否需要下拉刷新功能
 @property (nonatomic, assign) BOOL needRefreshFooter; //是否需要上啦刷新功能
-@property (nonatomic, retain) NSArray* data; //表视图的数据
+@property (nonatomic, retain) NSMutableArray* data; //表视图的数据
 
 @property (nonatomic, assign) id<BaseTableViewEventDelegate> eventDelegate;
 @property (nonatomic, copy) NSString* maxId; //用于下拉

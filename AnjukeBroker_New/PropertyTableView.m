@@ -29,19 +29,37 @@
     if (cell == nil) {
         cell = [[PropertyTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    PropertyModel* property = [self.data objectAtIndex:indexPath.row]; //获取self.data中的数据对象
+    PropertyModel* property = (PropertyModel*)[self.data objectAtIndex:indexPath.row]; //获取self.data中的数据对象
     cell.propertyModel = property;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone; //cell不可选中
+    
     
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    //    [self deselectRowAtIndexPath:indexPath animated:NO]; //取消选中
-}
+
+//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+//    return YES;
+//}
+//
+//- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    return UITableViewCellEditingStyleDelete;
+//}
+//
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+//    if (editingStyle == UITableViewCellEditingStyleDelete) {
+//        // 1.delete data
+//        // 2.delete cell from table
+//        NSMutableArray* list = [NSMutableArray arrayWithArray:self.data];
+//        [list removeObjectAtIndex:indexPath.row];
+//        self.data = list;
+//        
+//        [self deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+//    }
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
+    return 85;
 }
 
 @end
