@@ -14,7 +14,7 @@
 #import "CLLocationManager+RT.h"
 #import "timeArrSort.h"
 #import "CheckInfoWithCommunity.h"
-#import "MBProgressHUD.h"
+#import "HUDNews.h"
 
 #define HEADERFRAME CGRectMake(0, 0, [self windowWidth], 220)
 #define HEADERMAPFRAME CGRectMake(0, 0, [self windowWidth], 150)
@@ -37,15 +37,9 @@
 @property(nonatomic, strong) NSMutableArray *checkCellStatusArr;
 @property(nonatomic, strong) UILabel *checkoutNumLab;
 @property(nonatomic, strong) CheckInfoWithCommunity *checkInfoModel;
-@property(nonatomic, strong) MBProgressHUD *hud;
-@property(nonatomic, strong) UILabel *hudLabel;
+
 @end
 
-//self.hudLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 115, 155, 20)];
-//self.hudLabel.font = [UIFont systemFontOfSize:15];
-//self.hudLabel.backgroundColor = [UIColor clearColor];
-//self.hudLabel.textColor = [UIColor whiteColor];
-//self.hudLabel.textAlignment = NSTextAlignmentCenter;
 @implementation CheckoutViewController
 @synthesize headerView;
 @synthesize checkoutBtn;
@@ -59,8 +53,6 @@
 @synthesize checkCellStatusArr;
 @synthesize checkoutNumLab;
 @synthesize checkInfoModel;
-@synthesize hud;
-@synthesize hudLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -155,6 +147,11 @@
         [self donePullDown];
         return;
     }
+    if (![self isNetworkOkay]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
+        self.isLoading = NO;
+        return;
+    }
     
     NSMutableDictionary *params = nil;
     NSString *method = nil;
@@ -168,18 +165,19 @@
 - (void)onRequestFinished:(RTNetworkResponse *)response{
     if([[response content] count] == 0){
         self.isLoading = NO;
-        [self showInfo:@"操作失败"];
+//        [self showInfo:@"操作失败"];
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
         return ;
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         DLog(@"errorMsg--->>%@",errorMsg);
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles: nil];
-        [alert show];
-        
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles: nil];
+//        [alert show];
+        [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
         self.isLoading = NO;
-        [self donePullDown];
+//        [self donePullDown];
         return;
     }
     self.loadCount += 1;
@@ -231,9 +229,14 @@
     if (!self.nowCoords.latitude) {
         return;
     }
-    
+    if (![self isNetworkOkay]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
+        self.isLoading = NO;
+        return;
+    }
     if ([self calcDistance] > [self.signMile integerValue]) {
-        [self showInfo:@"您漂移的太远"];
+          [[HUDNews sharedHUDNEWS] createHUD:@"您漂移的太远" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:YES];
+//        [self showInfo:@"您漂移的太远"];
     }
     
     NSMutableDictionary *params = nil;
@@ -247,33 +250,35 @@
 - (void)onCheckActionRequestFinished:(RTNetworkResponse *)response{
     if([[response content] count] == 0){
         self.isLoading = NO;
-        [self showInfo:@"操作失败"];
+//        [self showInfo:@"操作失败"];
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
         return ;
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         DLog(@"errorMsg--->>%@",errorMsg);
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles: nil];
-        [alert show];
-        
-        self.isLoading = NO;
-        [self donePullDown];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles: nil];
+//        [alert show];
 
-        [self showInfo:@"签到失败"];
+        [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:@"签到失败" addView:self.view isDim:YES isHidden:YES statusOK:NO];
+        self.isLoading = NO;
+//        [self donePullDown];
+
+//        [self showInfo:@"签到失败"];
         return;
     }
     
     NSDictionary *dic = [response content];
     if ([dic[@"status"] isEqualToString:@"ok"]) {
-        [self showInfo:@"签到成功"];
+        [[HUDNews sharedHUDNEWS] createHUD:@"签到成功" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:YES];
         self.checkoutBtn = [self.cb buttonWithCountdown:[[[dic objectForKey:@"data"] objectForKey:@"countDown"] intValue]];
         self.checkoutBtn.frame = CGRectMake(15, 150 + 15, 220, 40);
         [self.headerView addSubview:self.checkoutBtn];
 
         [self doRequest];
     }else{
-        [self showInfo:@"签到失败"];
+        [[HUDNews sharedHUDNEWS] createHUD:@"签到失败" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
     }
 }
 - (void)timeCountZero{
@@ -382,29 +387,6 @@
 - (void)rightButtonAction:(id)sender{
     CheckoutRuleViewController *ruleVC = [[CheckoutRuleViewController alloc] init];
     [self.navigationController pushViewController:ruleVC animated:YES];
-}
-
-//使用 MBProgressHUD
-- (void)showHUDWithTitle:(NSString*)title CustomView:(UIView*)view IsDim:(BOOL)isDim {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.color = [UIColor clearColor];
-    self.hud.customView = view;
-    self.hud.yOffset = -20;
-    self.hud.mode = MBProgressHUDModeCustomView;
-    self.hud.dimBackground = isDim;
-    self.hudLabel.text = title;
-    
-}
-
-//使用 MBProgressHUD 显示完成提示
-- (void)showHUDWithTitle:(NSString *)title CustomView:(UIView *)view IsDim:(BOOL)isDim IsHidden:(BOOL)isHidden{
-    
-    [self showHUDWithTitle:title CustomView:view IsDim:isDim];
-    if (isHidden) {
-        [self.hud hide:YES afterDelay:1];
-    }
-    
 }
 
 - (void)didReceiveMemoryWarning

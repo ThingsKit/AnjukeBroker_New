@@ -17,5 +17,5 @@ typedef NS_ENUM(NSInteger, TableStatus) {
 @interface BrokerTableStuct : UITableView
 @property(nonatomic, assign) TableStatus stauts;
 @property(nonatomic, strong) UIView *headerView;
-- (void)setTableStatus:(UIView *)showView status:(TableStatus)status;
+- (void)setTableStatus:(TableStatus)status;
 @end

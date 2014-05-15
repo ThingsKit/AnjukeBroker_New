@@ -648,6 +648,7 @@
 		F8BFF37A18FE87E8008E700D /* leftside_shadow_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */; };
 		F8C0C06519244DB10098D0E5 /* timeArrSort.m in Sources */ = {isa = PBXBuildFile; fileRef = F8C0C06419244DB10098D0E5 /* timeArrSort.m */; };
 		F8C0C06E19248C010098D0E5 /* UserCenterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F8C0C06D19248C010098D0E5 /* UserCenterModel.m */; };
+		F8C0C0721924A0D40098D0E5 /* HUDNews.m in Sources */ = {isa = PBXBuildFile; fileRef = F8C0C0711924A0D40098D0E5 /* HUDNews.m */; };
 		F8CD189C1921A40A0033733E /* CheckoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD189B1921A40A0033733E /* CheckoutCell.m */; };
 		F8CD18A31921A9800033733E /* CheckoutRuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD18A21921A9800033733E /* CheckoutRuleViewController.m */; };
 		F8CD18A9192200960033733E /* CheckoutButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD18A8192200960033733E /* CheckoutButton.m */; };
@@ -1639,6 +1640,8 @@
 		F8C0C06419244DB10098D0E5 /* timeArrSort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = timeArrSort.m; sourceTree = "<group>"; };
 		F8C0C06C19248C010098D0E5 /* UserCenterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterModel.h; sourceTree = "<group>"; };
 		F8C0C06D19248C010098D0E5 /* UserCenterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCenterModel.m; sourceTree = "<group>"; };
+		F8C0C0701924A0D40098D0E5 /* HUDNews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDNews.h; sourceTree = "<group>"; };
+		F8C0C0711924A0D40098D0E5 /* HUDNews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDNews.m; sourceTree = "<group>"; };
 		F8CD189A1921A40A0033733E /* CheckoutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutCell.h; sourceTree = "<group>"; };
 		F8CD189B1921A40A0033733E /* CheckoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutCell.m; sourceTree = "<group>"; };
 		F8CD18A11921A9800033733E /* CheckoutRuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutRuleViewController.h; sourceTree = "<group>"; };
@@ -3672,6 +3675,7 @@
 		F8A717DD19209E22004840C6 /* checkout */ = {
 			isa = PBXGroup;
 			children = (
+				F8C0C06F1924A09E0098D0E5 /* HUDNEWS */,
 				F8C0C06919247E5C0098D0E5 /* view */,
 				F8C0C06119244D970098D0E5 /* function */,
 				F8D2F0EB1923424400858BB0 /* model */,
@@ -3720,6 +3724,15 @@
 				F8C0C06D19248C010098D0E5 /* UserCenterModel.m */,
 			);
 			name = model;
+			sourceTree = "<group>";
+		};
+		F8C0C06F1924A09E0098D0E5 /* HUDNEWS */ = {
+			isa = PBXGroup;
+			children = (
+				F8C0C0701924A0D40098D0E5 /* HUDNews.h */,
+				F8C0C0711924A0D40098D0E5 /* HUDNews.m */,
+			);
+			name = HUDNEWS;
 			sourceTree = "<group>";
 		};
 		F8D2F0EB1923424400858BB0 /* model */ = {
@@ -4492,6 +4505,7 @@
 				20D3C24C1892466B0030D7D8 /* PhotoFooterView.m in Sources */,
 				B7EAD51618CD927200B28FEC /* AXChatBaseCell.m in Sources */,
 				207526BD18B45FE10022220C /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
+				F8C0C0721924A0D40098D0E5 /* HUDNews.m in Sources */,
 				2739141B18DC371B003284AA /* LocIsBaidu.m in Sources */,
 				B7EF148E18289CB7000B6016 /* RentBidDetailController.m in Sources */,
 			);

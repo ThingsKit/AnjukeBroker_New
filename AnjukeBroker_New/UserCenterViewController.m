@@ -15,6 +15,7 @@
 #import "AppSettingViewController.h"
 #import "UserCenterModel.h"
 #import "UserCenterModel.h"
+#import "HUDNews.h"
 
 #define SECTIONNUM 2
 #define WCHATDATACELLHEIGHT 80
@@ -225,7 +226,7 @@
 
 - (void)doRequest {
     if (![self isNetworkOkay]) {
-        [self hideLoadWithAnimated:YES];
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
         self.isLoading = NO;
         return;
     }
@@ -243,11 +244,12 @@
     DLog(@"。。。response [%@]", [response content]);
     if([[response content] count] == 0){
         self.isLoading = NO;
-        [self showInfo:@"操作失败"];
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
+//        [self showInfo:@"操作失败"];
         return ;
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        
+        [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
         return;
     }
     

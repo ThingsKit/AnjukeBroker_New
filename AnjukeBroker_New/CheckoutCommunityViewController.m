@@ -11,6 +11,7 @@
 #import "BrokerTableStuct.h"
 #import "CheckoutViewController.h"
 #import "CLLocationManager+RT.h"
+#import "HUDNews.h"
 
 @interface CheckoutCommunityViewController ()
 //@property(nonatomic, strong) CheckCommunityTable *tableList;
@@ -68,14 +69,18 @@
     [self.view addSubview:self.tableList];
 
     [self autoPullDown];
-    
-    //    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-    //    view.backgroundColor = [UIColor blackColor];
-    //    [self.tableList setTableStatus:view status:STATUSFORNETWORKERROR];
 }
 
 - (void)doRequest{
     if (!self.nowCoords.latitude) {
+//        [[HUDNews sharedHUDNEWS] createHUD:@"暂未获取地理信息" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
+        self.isLoading = NO;
+        return;
+    }
+    if (![self isNetworkOkay]) {
+        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        [self.tableList reloadData];
+        self.isLoading = NO;
         return;
     }
     self.isLoading = YES;
@@ -94,21 +99,29 @@
     if([[response content] count] == 0){
         self.isLoading = NO;
         [self donePullDown];
-        [self showInfo:@"请求失败"];
+        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        [self.tableList reloadData];
+
         return ;
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         DLog(@"errorMsg--->>%@",errorMsg);
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles: nil];
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles: nil];
+//        [alert show];
+        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        [self.tableList reloadData];
+
         self.isLoading = NO;
         [self donePullDown];
         return;
     }
     
     self.tablaData = [[response content] objectForKey:@"data"];
+    if (self.tablaData.count == 0) {
+        [self.tableList setTableStatus:STATUSFORNODATA];
+    }
     DLog(@"self.tablaData-->>%@",self.tablaData);
     self.isLoading = NO;
     [self donePullDown];
