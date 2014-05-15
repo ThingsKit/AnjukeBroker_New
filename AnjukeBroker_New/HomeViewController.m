@@ -613,7 +613,6 @@
         {
             [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_003 note:nil];
             
-            //模态弹出小区--万恶的结构变动尼玛
             CommunityListViewController *controller = [[CommunityListViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.isFirstShow = YES;
@@ -625,7 +624,6 @@
         {
             [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_004 note:nil];
             
-            //模态弹出小区--万恶的结构变动尼玛
             CommunityListViewController *controller = [[CommunityListViewController alloc] init];
             controller.backType = RTSelectorBackTypeDismiss;
             controller.isFirstShow = YES;

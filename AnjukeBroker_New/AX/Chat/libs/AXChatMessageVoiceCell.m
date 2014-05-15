@@ -123,7 +123,7 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(didClickVoice:)]) {
         [self.delegate didClickVoice:self];
     }
-
+    
 }
 
 - (void)startPlay
@@ -132,15 +132,7 @@
     if (self.timer) {
         [self.timer invalidate];
     }
-//    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(playAnimation) userInfo:nil repeats:YES];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:0.0];
-        self.timer = [[NSTimer alloc] initWithFireDate:fireDate interval:0.2 target:self selector:@selector(playAnimation) userInfo:nil repeats:YES];
-        NSRunLoop *timerRunLoop = [NSRunLoop currentRunLoop];
-        [timerRunLoop addTimer:self.timer forMode:NSDefaultRunLoopMode];
-        [timerRunLoop run];
-    });
-
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(playAnimation) userInfo:nil repeats:YES];
 }
 
 - (void)endPlay
