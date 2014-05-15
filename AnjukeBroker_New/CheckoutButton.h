@@ -17,8 +17,10 @@
 @property(nonatomic, strong) UILabel *timeCountLab;
 @property(nonatomic, strong) NSTimer *timer;
 @property(nonatomic, assign) int leftTime;
-+ (UIButton *)buttonWithNormalStatus;
-+ (UIButton *)buttonWithUnCheck;
+
+
+- (UIButton *)buttonWithNormalStatus;
+- (UIButton *)buttonWithUnCheck;
 - (UIButton *)buttonWithCountdown:(int)timeLeft;
 
 @end

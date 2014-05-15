@@ -119,62 +119,67 @@
 - (void)setImageView:(UIImage *)img{
     [_bannerImg setImage:img];
 }
-- (void)updateUserHeaderInfo:(NSDictionary *)dic{
-    self.userName.text = [dic objectForKey:@"brokerName"];
+- (void)updateUserHeaderInfo:(NSString *)name{
+    self.userName.text = name;
 }
-- (void)updateWchatData:(NSDictionary *)dic{
-    self.propertyLab.text = @"60%";
-    self.responseTimeLab.text = @"6分钟";
-    self.totalCustomNumLab.text = @"22个";
-    self.totalLoginNumLab.text = @"30天";
-}
-
-- (void)scrollViewDrag:(UIScrollView *)scrollView{
-    float y = scrollView.contentOffset.y;
-    [self changeHeader:y];
-}
-
-- (void)changeHeader:(float)y{
-    UIView *headerView = _bannerView;
-    CGRect headerFrame = _bannerView.frame;
-    if (y < 0) {
-        headerFrame.origin.y = y;
-        headerFrame.size.height = -y + headerView.superview.frame.size.height;
-        headerView.frame = headerFrame;
-        
-        CGPoint center = _bannerImg.center;
-        center.y = headerView.frame.size.height/2;
-        _bannerImg.center = center;
-        
-        self.userHeaderView.center = center;
+- (void)updateWchatData:(UserCenterModel *)model{
+    self.propertyLab.text = [NSString stringWithFormat:@"%d%@",[model.replyRate intValue],@"%"];
+    self.responseTimeLab.text = [NSString stringWithFormat:@"%d分钟",[model.responseTime intValue]];
+    self.totalCustomNumLab.text = [NSString stringWithFormat:@"%d个",[model.customNum intValue]];
+    self.totalLoginNumLab.text = [NSString stringWithFormat:@"%d个",[model.loginDays intValue]];
+    if ([model.isTalent intValue] == 1) {
+        [self.userLevel setImage:[UIImage imageNamed:@"anjuke_icon_login_button"]];
     }else{
-        if (headerFrame.origin.y != 0) {
-            headerFrame.origin.y = 0;
-            headerFrame.size.height = headerView.superview.frame.size.height;
-            headerView.frame = headerFrame;
-        }
-        if (y < headerFrame.size.height) {
-            CGPoint center = _bannerImg.center;
-            center.y = headerView.frame.size.height/2 + y/2;
-            _bannerImg.center = center;
-            self.userHeaderView.center = center;
-        }
+        [self.userLevel setImage:nil];
     }
 }
-- (void)setLoading{
-    if (self.activityView) {
-        [self.activityView removeFromSuperview];
-    }
-    self.activityView= [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    self.activityView.center=CGPointMake(280, 40);
-    [self.activityView startAnimating];
-    [self.window addSubview:self.activityView];
-}
-- (void)hideLoading{
-    if (self.activityView) {
-        [self.activityView removeFromSuperview];
-    }
-}
+
+//- (void)scrollViewDrag:(UIScrollView *)scrollView{
+//    float y = scrollView.contentOffset.y;
+//    [self changeHeader:y];
+//}
+//
+//- (void)changeHeader:(float)y{
+//    UIView *headerView = _bannerView;
+//    CGRect headerFrame = _bannerView.frame;
+//    if (y < 0) {
+//        headerFrame.origin.y = y;
+//        headerFrame.size.height = -y + headerView.superview.frame.size.height;
+//        headerView.frame = headerFrame;
+//        
+//        CGPoint center = _bannerImg.center;
+//        center.y = headerView.frame.size.height/2;
+//        _bannerImg.center = center;
+//        
+//        self.userHeaderView.center = center;
+//    }else{
+//        if (headerFrame.origin.y != 0) {
+//            headerFrame.origin.y = 0;
+//            headerFrame.size.height = headerView.superview.frame.size.height;
+//            headerView.frame = headerFrame;
+//        }
+//        if (y < headerFrame.size.height) {
+//            CGPoint center = _bannerImg.center;
+//            center.y = headerView.frame.size.height/2 + y/2;
+//            _bannerImg.center = center;
+//            self.userHeaderView.center = center;
+//        }
+//    }
+//}
+//- (void)setLoading{
+//    if (self.activityView) {
+//        [self.activityView removeFromSuperview];
+//    }
+//    self.activityView= [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//    self.activityView.center=CGPointMake(280, 40);
+//    [self.activityView startAnimating];
+//    [self.window addSubview:self.activityView];
+//}
+//- (void)hideLoading{
+//    if (self.activityView) {
+//        [self.activityView removeFromSuperview];
+//    }
+//}
 - (NSInteger)windowWidth {
     return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.width;
 }

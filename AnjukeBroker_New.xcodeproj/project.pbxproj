@@ -647,6 +647,7 @@
 		F8BFF37918FE87E8008E700D /* leftside_shadow_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37718FE87E8008E700D /* leftside_shadow_bg.png */; };
 		F8BFF37A18FE87E8008E700D /* leftside_shadow_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */; };
 		F8C0C06519244DB10098D0E5 /* timeArrSort.m in Sources */ = {isa = PBXBuildFile; fileRef = F8C0C06419244DB10098D0E5 /* timeArrSort.m */; };
+		F8C0C06E19248C010098D0E5 /* UserCenterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F8C0C06D19248C010098D0E5 /* UserCenterModel.m */; };
 		F8CD189C1921A40A0033733E /* CheckoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD189B1921A40A0033733E /* CheckoutCell.m */; };
 		F8CD18A31921A9800033733E /* CheckoutRuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD18A21921A9800033733E /* CheckoutRuleViewController.m */; };
 		F8CD18A9192200960033733E /* CheckoutButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD18A8192200960033733E /* CheckoutButton.m */; };
@@ -1636,6 +1637,8 @@
 		F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftside_shadow_bg@2x.png"; sourceTree = "<group>"; };
 		F8C0C06319244DB10098D0E5 /* timeArrSort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timeArrSort.h; sourceTree = "<group>"; };
 		F8C0C06419244DB10098D0E5 /* timeArrSort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = timeArrSort.m; sourceTree = "<group>"; };
+		F8C0C06C19248C010098D0E5 /* UserCenterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterModel.h; sourceTree = "<group>"; };
+		F8C0C06D19248C010098D0E5 /* UserCenterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCenterModel.m; sourceTree = "<group>"; };
 		F8CD189A1921A40A0033733E /* CheckoutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutCell.h; sourceTree = "<group>"; };
 		F8CD189B1921A40A0033733E /* CheckoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutCell.m; sourceTree = "<group>"; };
 		F8CD18A11921A9800033733E /* CheckoutRuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutRuleViewController.h; sourceTree = "<group>"; };
@@ -2583,6 +2586,7 @@
 		972C10261814FC8800552C9B /* 更多 */ = {
 			isa = PBXGroup;
 			children = (
+				F8C0C06B19248BE20098D0E5 /* model */,
 				F8A717B4192058FB004840C6 /* header.png */,
 				F8A717B5192058FB004840C6 /* header@2x.png */,
 				F8A717B8192058FB004840C6 /* UserCenterViewController.h */,
@@ -3668,22 +3672,15 @@
 		F8A717DD19209E22004840C6 /* checkout */ = {
 			isa = PBXGroup;
 			children = (
+				F8C0C06919247E5C0098D0E5 /* view */,
 				F8C0C06119244D970098D0E5 /* function */,
 				F8D2F0EB1923424400858BB0 /* model */,
-				F8D2F0DE19230E7100858BB0 /* CLLocationManager+RT.h */,
-				F8D2F0DF19230E7100858BB0 /* CLLocationManager+RT.m */,
 				F8A717DF19209E6D004840C6 /* CheckoutCommunityViewController.h */,
 				F8A717E019209E6D004840C6 /* CheckoutCommunityViewController.m */,
-				F8D2F0E8192318BF00858BB0 /* BaseTableStructViewController.h */,
-				F8D2F0E9192318BF00858BB0 /* BaseTableStructViewController.m */,
-				F8A717E51920ADF7004840C6 /* BrokerTableStuct.h */,
-				F8A717E61920ADF7004840C6 /* BrokerTableStuct.m */,
 				F8A717E219209EC6004840C6 /* CheckoutCommunityCell.h */,
 				F8A717E319209EC6004840C6 /* CheckoutCommunityCell.m */,
 				F8A717EB1920BC81004840C6 /* CheckoutViewController.h */,
 				F8A717EC1920BC81004840C6 /* CheckoutViewController.m */,
-				F8CD18A7192200960033733E /* CheckoutButton.h */,
-				F8CD18A8192200960033733E /* CheckoutButton.m */,
 				F8CD189A1921A40A0033733E /* CheckoutCell.h */,
 				F8CD189B1921A40A0033733E /* CheckoutCell.m */,
 				F8CD18A11921A9800033733E /* CheckoutRuleViewController.h */,
@@ -3695,10 +3692,34 @@
 		F8C0C06119244D970098D0E5 /* function */ = {
 			isa = PBXGroup;
 			children = (
+				F8D2F0DE19230E7100858BB0 /* CLLocationManager+RT.h */,
+				F8D2F0DF19230E7100858BB0 /* CLLocationManager+RT.m */,
 				F8C0C06319244DB10098D0E5 /* timeArrSort.h */,
 				F8C0C06419244DB10098D0E5 /* timeArrSort.m */,
 			);
 			name = function;
+			sourceTree = "<group>";
+		};
+		F8C0C06919247E5C0098D0E5 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				F8CD18A7192200960033733E /* CheckoutButton.h */,
+				F8CD18A8192200960033733E /* CheckoutButton.m */,
+				F8D2F0E8192318BF00858BB0 /* BaseTableStructViewController.h */,
+				F8D2F0E9192318BF00858BB0 /* BaseTableStructViewController.m */,
+				F8A717E51920ADF7004840C6 /* BrokerTableStuct.h */,
+				F8A717E61920ADF7004840C6 /* BrokerTableStuct.m */,
+			);
+			name = view;
+			sourceTree = "<group>";
+		};
+		F8C0C06B19248BE20098D0E5 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				F8C0C06C19248C010098D0E5 /* UserCenterModel.h */,
+				F8C0C06D19248C010098D0E5 /* UserCenterModel.m */,
+			);
+			name = model;
 			sourceTree = "<group>";
 		};
 		F8D2F0EB1923424400858BB0 /* model */ = {
@@ -4278,6 +4299,7 @@
 				B7EAD53318CD927200B28FEC /* UIView+AXChatMessage.m in Sources */,
 				B7921A2918BB9E5A0021933A /* RTAPIBaseManager.m in Sources */,
 				20E892DA18BDBAA300D7D881 /* ChatModel.m in Sources */,
+				F8C0C06E19248C010098D0E5 /* UserCenterModel.m in Sources */,
 				B769E47B181F82B000A2FF50 /* BaseBidPropertyCell.m in Sources */,
 				977FCA8F182894F000945FB4 /* CommunityListViewController.m in Sources */,
 				979583581821FF2B005EA48A /* SystemMessageViewController.m in Sources */,

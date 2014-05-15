@@ -30,7 +30,7 @@
 
 - (void)configurCell:(id)dataModel withIndex:(int)index cellType:(CHECKOUTCELLTYPE)cellType{
     NSString *timeSection;
-    NSMutableDictionary *checkDic;
+    NSArray *checkPersion;
     if (dataModel == nil) {
         NSArray *timeAreaArr = [[NSArray alloc] initWithArray:[LoginManager getCheckTimeArr]];
         if (index > 0 && index < 4) {
@@ -38,11 +38,11 @@
         }
     }else{
         CheckInfoWithCommunity *checkInfoModel = (CheckInfoWithCommunity *)dataModel;
-        checkDic = [[NSMutableDictionary alloc] initWithDictionary:checkInfoModel.signList];
+        checkPersion = [[NSArray alloc] initWithArray:checkInfoModel.signList];
 
         if (index > 0 && index < 4) {
-            NSArray *sortKeys = [timeArrSort arrSort:checkDic.allKeys];
-            timeSection = [sortKeys objectAtIndex:index-1];
+//            NSArray *sortKeys = [timeArrSort arrSort:checkDic.allKeys];
+            timeSection = [[checkPersion objectAtIndex:index-1] objectForKey:@"hour"];
         }
     }
 
@@ -61,17 +61,17 @@
     }
     if (cellType == CHECKOUTCELLWITHCHCK) {
         self.textLabel.text = [NSString stringWithFormat:@"%@",timeSection];
-        NSArray *checkArr = [[NSArray alloc] initWithArray:checkDic[timeSection]];
-        for (int i = 0; i < checkArr.count; i++) {
+        NSArray *checkSectionArr = [[NSArray alloc] initWithArray:[[checkPersion objectAtIndex:index-1] objectForKey:@"brokers"]];
+        for (int i = 0; i < checkSectionArr.count; i++) {
             WebImageView *checkAvatar = [[WebImageView alloc] initWithFrame:CGRectMake(80*i+70, 10, 60, 60)];
-            checkAvatar.imageUrl = [[checkArr objectAtIndex:i] objectForKey:@"brokerPhoto"];
+            checkAvatar.imageUrl = [[checkSectionArr objectAtIndex:i] objectForKey:@"brokerPhoto"];
             checkAvatar.contentMode = UIViewContentModeScaleAspectFill;
             checkAvatar.layer.masksToBounds = YES;
             checkAvatar.layer.cornerRadius = 30;
             [self.contentView addSubview:checkAvatar];
             
             UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(80*i+70, checkAvatar.frame.origin.y+checkAvatar.frame.size.height+5, 60, 20)];
-            lab.text = [[checkArr objectAtIndex:i] objectForKey:@"brokerTrueName"];
+            lab.text = [[checkSectionArr objectAtIndex:i] objectForKey:@"brokerTrueName"];
             lab.textAlignment = NSTextAlignmentCenter;
             [self.contentView addSubview:lab];
         }

@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UserCenterModel.h"
 
 @interface UserHeaderView : UIView
 - (void)setImageView:(UIImage *)img;
-- (void)updateUserHeaderInfo:(NSDictionary *)dic;
-- (void)updateWchatData:(NSDictionary *)dic;
-- (void)scrollViewDrag:(UIScrollView *)scrollView;
-- (void)setLoading;
-- (void)hideLoading;
+- (void)updateUserHeaderInfo:(NSString *)name;
+- (void)updateWchatData:(UserCenterModel *)model;
+//- (void)scrollViewDrag:(UIScrollView *)scrollView;
+//- (void)setLoading;
+//- (void)hideLoading;
 @end

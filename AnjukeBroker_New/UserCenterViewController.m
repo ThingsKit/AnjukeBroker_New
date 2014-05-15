@@ -13,22 +13,28 @@
 #import "BrokerAccountController.h"
 #import "BrokerCallAlert.h"
 #import "AppSettingViewController.h"
+#import "UserCenterModel.h"
+#import "UserCenterModel.h"
 
 #define SECTIONNUM 2
 #define WCHATDATACELLHEIGHT 80
 
 #define CALL_ANJUKE_NUMBER @"400-620-9008"
 #define HEADERFRAME CGRectMake(0,0,[self windowWidth],200)
+#define HEADERADDFRAME CGRectMake(0,-200,[self windowWidth],200)
+
 
 @interface UserCenterViewController ()
 @property(nonatomic, strong) UserHeaderView *headerView;
 @property(nonatomic, strong) UITableView *tableList;
 @property(nonatomic, strong) NSArray *taskArray;
-@property (nonatomic, strong) NSDictionary *clientDic;//客户主任
+//@property (nonatomic, strong) NSDictionary *clientDic;//客户主任
 @property (strong, nonatomic) NSMutableDictionary *dataDic;//userInfo
+@property (nonatomic, strong) UserCenterModel *userCenterModel;
 @end
 
 @implementation UserCenterViewController
+@synthesize userCenterModel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,7 +47,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.navigationBarHidden = YES;
 
-    [self doUserInfoRequest];
+//    [self doUserInfoRequest];
 }
 - (void)initModel {
     self.taskArray = [NSArray arrayWithObjects:@"我的二维码", @"我的账户", @"个人信息", @"联系客户主任", @"客服热线", @"系统设置", nil];
@@ -52,7 +58,7 @@
     [super viewDidLoad];
     
     
-    if (self.clientDic.count == 0) {
+    if (self.userCenterModel == nil) {
         [self doRequest];
     }
     
@@ -70,16 +76,18 @@
     self.tableList.tableHeaderView = self.headerView;
     [self.view addSubview:self.tableList];
 
-    [self performSelector:@selector(updateWchat) withObject:nil afterDelay:1];
+    [self.headerView updateUserHeaderInfo:[LoginManager getName]];
+    
+    UIImageView *showImg = [[UIImageView alloc] initWithFrame:HEADERADDFRAME];
+    [showImg setImage:[UIImage imageNamed:@"header"]];
+    showImg.contentMode = UIViewContentModeScaleToFill;
+    [self.tableList addSubview:showImg];
     
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(1, 0, [self windowWidth], 50)];
     footView.backgroundColor = [UIColor clearColor];
     self.tableList.tableFooterView = footView;
 }
 
-- (void)updateWchat{
-    [self.headerView updateWchatData:nil];
-}
 
 #pragma mark -UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -171,9 +179,9 @@
         if (indexPath.row == 0) {
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_008 note:nil];
             
-            if ([self.clientDic objectForKey:@"saleManagerTel"]) {
+            if (self.userCenterModel.tel) {
                 //make call
-                [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:[self.clientDic objectForKey:@"saleManagerTel"]  appLogKey:HZ_MORE_012];
+                [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:self.userCenterModel.tel  appLogKey:HZ_MORE_012];
             }
         }else if (indexPath.row == 1){
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_009 note:nil];
@@ -193,12 +201,14 @@
 - (NSString *)getClientName {
     NSString *str = [NSString string];
     
-    if (self.clientDic.count == 0) {
+    if (self.userCenterModel == nil) {
         str = @"";
     }else {
-        str = [self.clientDic objectForKey:@"saleManagerName"];
+//        str = [self.clientDic objectForKey:@"saleManagerName"];
+        str = self.userCenterModel.ajkContact;
         if (str.length == 0) {
-            str = [self.clientDic objectForKey:@"saleManagerTel"];
+//            str = [self.clientDic objectForKey:@"saleManagerTel"];
+            str = self.userCenterModel.tel;
         }
     }
     return str;
@@ -224,47 +234,12 @@
     NSString *method = nil;
     
     params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
-    method = @"broker/getsalemanager/";
-//    method = @"broker/callAnalysis";
+//    method = @"broker/getsalemanager/";
+    method = @"broker/callAnalysis/";
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
 }
 - (void)onRequestFinished:(RTNetworkResponse *)response {
-    DLog(@"。。。response [%@]", [response content]);
-    
-    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        
-        return;
-    }
-    
-    self.clientDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
-    DLog(@"self.clientDic-->>%@",self.clientDic);
-    [self.tableList reloadData];
-    
-    [self hideLoadWithAnimated:YES];
-    self.isLoading = NO;
-}
-
-#pragma mark - Request Method
-
-- (void)doUserInfoRequest {
-    if (![self isNetworkOkay]) {
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-        return;
-    }
-    
-    NSMutableDictionary *params = nil;
-    NSString *method = nil;
-    
-    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"cityId", nil];
-    method = @"broker/getinfo/";
-    
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUserInfoRequestFinished:)];
-    self.isLoading = YES;
-}
-
-- (void)onUserInfoRequestFinished:(RTNetworkResponse *)response {
     DLog(@"。。。response [%@]", [response content]);
     if([[response content] count] == 0){
         self.isLoading = NO;
@@ -273,34 +248,75 @@
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
-        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles: nil];
-        [alert show];
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
         return;
     }
-    self.dataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
-    [self.tableList reloadData];
-    [self.headerView updateUserHeaderInfo:self.dataDic];
     
-    [self hideLoadWithAnimated:YES];
+    NSDictionary *clientDic = [[NSDictionary alloc] initWithDictionary:[[response content] objectForKey:@"data"]];
+    DLog(@"clientDic-->>%@",clientDic);
+    
+    self.userCenterModel = [[UserCenterModel alloc] convertToMappedObject:clientDic];
+    [self.headerView updateWchatData:self.userCenterModel];
+    
+    [self.tableList reloadData];
     self.isLoading = NO;
 }
 
+#pragma mark - Request Method
+
+//- (void)doUserInfoRequest {
+//    if (![self isNetworkOkay]) {
+//        [self hideLoadWithAnimated:YES];
+//        self.isLoading = NO;
+//        return;
+//    }
+//    
+//    NSMutableDictionary *params = nil;
+//    NSString *method = nil;
+//    
+//    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"cityId", nil];
+//    method = @"broker/getinfo/";
+//    
+//    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUserInfoRequestFinished:)];
+//    self.isLoading = YES;
+//}
+//
+//- (void)onUserInfoRequestFinished:(RTNetworkResponse *)response {
+//    DLog(@"。。。response [%@]", [response content]);
+//    if([[response content] count] == 0){
+//        self.isLoading = NO;
+//        [self showInfo:@"操作失败"];
+//        return ;
+//    }
+//    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+//        
+//        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+//        
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles: nil];
+//        [alert show];
+//        [self hideLoadWithAnimated:YES];
+//        self.isLoading = NO;
+//        return;
+//    }
+//    self.dataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
+//    [self.tableList reloadData];
+//    [self.headerView updateUserHeaderInfo:self.dataDic];
+//    
+//    [self hideLoadWithAnimated:YES];
+//    self.isLoading = NO;
+//}
+
 
 #pragma mark -UIScrollViewDelegate
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (scrollView.contentOffset.y <= -40) {
-        [self.headerView setLoading];
-    }
-    if (scrollView.contentOffset.y <= -80) {
-        [self.headerView hideLoading];
-    }
-    
-    [self.headerView scrollViewDrag:scrollView];
-}
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    if (scrollView.contentOffset.y <= -40) {
+//        [self.headerView setLoading];
+//    }
+//    if (scrollView.contentOffset.y <= -80) {
+//        [self.headerView hideLoading];
+//    }
+//    
+//    [self.headerView scrollViewDrag:scrollView];
+//}
 
 - (void)didReceiveMemoryWarning
 {

@@ -129,7 +129,7 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             [cell showTopLine];
-            [cell showBottonLineWithCellHeight:CELL_HEIGHT-1 andOffsetX:15];
+            [cell showBottonLineWithCellHeight:CELL_HEIGHT-2 andOffsetX:15];
             
             cell.textLabel.text = @"短信通知";
             
@@ -158,7 +158,7 @@
     }else{
         if (indexPath.row == 0) {
             [cell showTopLine];
-            [cell showBottonLineWithCellHeight:CELL_HEIGHT-1 andOffsetX:15];
+            [cell showBottonLineWithCellHeight:CELL_HEIGHT-2 andOffsetX:15];
             if (!self.isHasNewVersion) {
                 cell.textLabel.text = @"当前已经是最新版本";
             }else{

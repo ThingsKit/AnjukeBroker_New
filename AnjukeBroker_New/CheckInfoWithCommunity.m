@@ -20,7 +20,7 @@
     model.countDown = [NSNumber numberWithInt:[[dic objectForKey:@"countDown"] intValue]];
     model.signAble = [NSNumber numberWithInt:[[dic objectForKey:@"signAble"] intValue]];
     model.signCount = [NSNumber numberWithInt:[[dic objectForKey:@"signCount"] intValue]];
-    model.signList = [dic objectForKey:@"signList"];
+    model.signList = [[NSArray alloc] initWithArray:[dic objectForKey:@"signList"]];
     
     return model;
 }

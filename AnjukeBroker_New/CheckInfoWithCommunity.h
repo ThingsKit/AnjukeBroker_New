@@ -13,7 +13,7 @@
 @property(nonatomic, assign) NSNumber *countDown;
 @property(nonatomic, assign) NSNumber *signAble;
 @property(nonatomic, assign) NSNumber *signCount;
-@property(nonatomic, strong) NSDictionary *signList;
+@property(nonatomic, strong) NSArray *signList;
 
 - (CheckInfoWithCommunity *)convertToMappedObject:(NSDictionary *)dic;
 @end

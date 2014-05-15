@@ -45,7 +45,28 @@
 }
 
 - (void)initDisplay {
-    UILabel *about = [[UILabel alloc] initWithFrame:CGRectMake(5, 10, [self windowWidth] - 5*2, 230)];
+    
+    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(75, 30, 140, 100)];
+    [icon setImage:[UIImage imageNamed:@"anjuke_icon_login"]];
+    [self.view addSubview:icon];
+
+    UILabel *broker = [[UILabel alloc] initWithFrame:CGRectMake(0, icon.frame.origin.y + icon.frame.size.height + 10, [self windowWidth], 20)];
+    broker.font = [UIFont systemFontOfSize:18];
+    broker.textAlignment = NSTextAlignmentCenter;
+    broker.text = @"移动经纪人";
+    [self.view addSubview:broker];
+    
+    //获取版本号
+    UILabel *testLb = [[UILabel alloc] initWithFrame:CGRectMake(5, broker.frame.origin.y+broker.frame.size.height, [self windowWidth], 20)];
+    testLb.backgroundColor = [UIColor clearColor];
+    testLb.textColor = SYSTEM_BLACK;
+    testLb.textAlignment = NSTextAlignmentCenter;
+    testLb.font = [UIFont systemFontOfSize:14];
+    testLb.text = [self getAppVersion];
+    [self.view addSubview:testLb];
+
+    
+    UILabel *about = [[UILabel alloc] initWithFrame:CGRectMake(5, testLb.frame.origin.y+testLb.frame.size.height, [self windowWidth] - 5*2, 230)];
     about.backgroundColor = [UIColor clearColor];
     about.numberOfLines = 0;
     about.lineBreakMode = NSLineBreakByWordWrapping;
@@ -54,13 +75,6 @@
     about.font = [UIFont systemFontOfSize:16];
     [self.view addSubview:about];
     
-    //获取版本号
-    UILabel *testLb = [[UILabel alloc] initWithFrame:CGRectMake(5, 300, [self windowWidth] - 5*2, 30)];
-    testLb.backgroundColor = [UIColor clearColor];
-    testLb.textColor = SYSTEM_BLACK;
-    testLb.font = [UIFont systemFontOfSize:16];
-    testLb.text = [self getAppVersion];
-    [self.view addSubview:testLb];
     
     UIButton *checkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     checkBtn.frame = CGRectMake(0, 0, [self windowWidth], 30);

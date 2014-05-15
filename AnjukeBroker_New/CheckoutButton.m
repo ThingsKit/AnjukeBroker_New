@@ -21,7 +21,7 @@
     }
     return self;
 }
-+ (UIButton *)buttonWithNormalStatus{
+- (UIButton *)buttonWithNormalStatus{
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
 //    btn.backgroundColor = [UIColor blueColor];
     [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor blueColor]] forState:UIControlStateNormal];
@@ -32,7 +32,7 @@
     return btn;
 }
 
-+ (UIButton *)buttonWithUnCheck{
+- (UIButton *)buttonWithUnCheck{
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.backgroundColor = [UIColor blueColor];
     btn.titleLabel.font = [UIFont systemFontOfSize:20];

@@ -120,12 +120,7 @@
     [map setRegion:region animated:NO];
 
     //签到按钮
-//    self.checkoutBtn = [self.cb buttonWithCountdown:15];
-//    self.checkoutBtn.frame = CGRectMake(15, map.frame.size.height + 15, 220, 40);
-//    [self.headerView addSubview:self.checkoutBtn];
-
-    self.checkoutBtn = [CheckoutButton buttonWithNormalStatus];
-    [self.checkoutBtn addTarget:self action:@selector(checkoutCommunity:) forControlEvents:UIControlEventTouchUpInside];
+    self.checkoutBtn = [self.cb buttonWithUnCheck];
     self.checkoutBtn.frame = CGRectMake(15, map.frame.size.height + 15, 220, 40);
     [self.headerView addSubview:self.checkoutBtn];
     
@@ -189,16 +184,38 @@
         self.checkoutNumLab.text = [NSString stringWithFormat:@"%d人\n今日已签",[self.checkInfoModel.signCount intValue]];
     }
     
-    NSDictionary *checkInfoDic = [[NSDictionary alloc] initWithDictionary:self.checkInfoModel.signList];
-    NSArray *sortKeys = [timeArrSort arrSort:checkInfoDic.allKeys];
-    for (int i = 0 ; i < sortKeys.count; i++) {
-        NSString *key = [sortKeys objectAtIndex:i];
-        NSArray *timeAreaArr = checkInfoDic[key];
-        
-        if (timeAreaArr.count != 0) {
+//    NSDictionary *checkInfoDic = [[NSDictionary alloc] initWithDictionary:self.checkInfoModel.signList];
+//    NSArray *sortKeys = [timeArrSort arrSort:checkInfoDic.allKeys];
+//    for (int i = 0 ; i < sortKeys.count; i++) {
+//        NSString *key = [sortKeys objectAtIndex:i];
+//        NSArray *timeAreaArr = checkInfoDic[key];
+//        
+//        if (timeAreaArr.count != 0) {
+//            [self.checkCellStatusArr replaceObjectAtIndex:i+1 withObject:[NSNumber numberWithInt:CHECKOUTCELLWITHCHCK]];
+//        }
+//    }
+    NSArray *checkInfoArr = [[NSArray alloc] initWithArray:self.checkInfoModel.signList];
+    for (int i = 0; i < checkInfoArr.count; i++) {
+        NSArray *checkPerson = [[NSArray alloc] initWithArray:[[checkInfoArr objectAtIndex:i] objectForKey:@"brokers"]];
+        if (checkPerson.count != 0) {
             [self.checkCellStatusArr replaceObjectAtIndex:i+1 withObject:[NSNumber numberWithInt:CHECKOUTCELLWITHCHCK]];
         }
     }
+    //更新签到状态
+    if (self.checkoutBtn) {
+        [self.checkoutBtn removeFromSuperview];
+    }
+    if ([self.checkInfoModel.signAble intValue] == 1) {
+        self.checkoutBtn = [self.cb buttonWithCountdown:[self.checkInfoModel.signCount intValue]];
+        self.checkoutBtn.frame = CGRectMake(15, 150 + 15, 220, 40);
+        [self.headerView addSubview:self.checkoutBtn];
+    }else{
+        self.checkoutBtn = [self.cb buttonWithNormalStatus];
+        self.checkoutBtn.frame = CGRectMake(15, 150 + 15, 220, 40);
+        [self.headerView addSubview:self.checkoutBtn];
+        [self.checkoutBtn addTarget:self action:@selector(checkoutCommunity:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
     [self.tableList reloadData];
 }
 - (void)doCheckActionRequest{
@@ -241,6 +258,11 @@
     NSDictionary *dic = [response content];
     if ([dic[@"status"] isEqualToString:@"ok"]) {
         [self showInfo:@"签到成功"];
+        self.checkoutBtn = [self.cb buttonWithCountdown:[[[dic objectForKey:@"data"] objectForKey:@"countDown"] intValue]];
+        self.checkoutBtn.frame = CGRectMake(15, 150 + 15, 220, 40);
+        [self.headerView addSubview:self.checkoutBtn];
+
+        [self doRequest];
     }else{
         [self showInfo:@"签到失败"];
     }
@@ -250,8 +272,9 @@
         [self.checkoutBtn removeFromSuperview];
         self.checkoutBtn = nil;
     }
-    self.checkoutBtn = [CheckoutButton buttonWithUnCheck];
+    self.checkoutBtn = [self.cb buttonWithNormalStatus];
     self.checkoutBtn.frame = CGRectMake(15, 150 + 15, 220, 40);
+    [self.checkoutBtn addTarget:self action:@selector(checkoutCommunity:) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:self.checkoutBtn];
 }
 #pragma mark -UITableViewDelegate
