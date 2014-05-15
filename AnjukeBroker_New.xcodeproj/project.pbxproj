@@ -646,6 +646,7 @@
 		F8A717ED1920BC81004840C6 /* CheckoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717EC1920BC81004840C6 /* CheckoutViewController.m */; };
 		F8BFF37918FE87E8008E700D /* leftside_shadow_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37718FE87E8008E700D /* leftside_shadow_bg.png */; };
 		F8BFF37A18FE87E8008E700D /* leftside_shadow_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */; };
+		F8C0C06519244DB10098D0E5 /* timeArrSort.m in Sources */ = {isa = PBXBuildFile; fileRef = F8C0C06419244DB10098D0E5 /* timeArrSort.m */; };
 		F8CD189C1921A40A0033733E /* CheckoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD189B1921A40A0033733E /* CheckoutCell.m */; };
 		F8CD18A31921A9800033733E /* CheckoutRuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD18A21921A9800033733E /* CheckoutRuleViewController.m */; };
 		F8CD18A9192200960033733E /* CheckoutButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD18A8192200960033733E /* CheckoutButton.m */; };
@@ -1633,6 +1634,8 @@
 		F8A717EC1920BC81004840C6 /* CheckoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutViewController.m; sourceTree = "<group>"; };
 		F8BFF37718FE87E8008E700D /* leftside_shadow_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leftside_shadow_bg.png; sourceTree = "<group>"; };
 		F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftside_shadow_bg@2x.png"; sourceTree = "<group>"; };
+		F8C0C06319244DB10098D0E5 /* timeArrSort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timeArrSort.h; sourceTree = "<group>"; };
+		F8C0C06419244DB10098D0E5 /* timeArrSort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = timeArrSort.m; sourceTree = "<group>"; };
 		F8CD189A1921A40A0033733E /* CheckoutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutCell.h; sourceTree = "<group>"; };
 		F8CD189B1921A40A0033733E /* CheckoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutCell.m; sourceTree = "<group>"; };
 		F8CD18A11921A9800033733E /* CheckoutRuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutRuleViewController.h; sourceTree = "<group>"; };
@@ -3665,6 +3668,7 @@
 		F8A717DD19209E22004840C6 /* checkout */ = {
 			isa = PBXGroup;
 			children = (
+				F8C0C06119244D970098D0E5 /* function */,
 				F8D2F0EB1923424400858BB0 /* model */,
 				F8D2F0DE19230E7100858BB0 /* CLLocationManager+RT.h */,
 				F8D2F0DF19230E7100858BB0 /* CLLocationManager+RT.m */,
@@ -3686,6 +3690,15 @@
 				F8CD18A21921A9800033733E /* CheckoutRuleViewController.m */,
 			);
 			name = checkout;
+			sourceTree = "<group>";
+		};
+		F8C0C06119244D970098D0E5 /* function */ = {
+			isa = PBXGroup;
+			children = (
+				F8C0C06319244DB10098D0E5 /* timeArrSort.h */,
+				F8C0C06419244DB10098D0E5 /* timeArrSort.m */,
+			);
+			name = function;
 			sourceTree = "<group>";
 		};
 		F8D2F0EB1923424400858BB0 /* model */ = {
@@ -4304,6 +4317,7 @@
 				97CB0C0E182BEA3500FCCBBD /* ELCAssetCell.m in Sources */,
 				B769E472181F805F00A2FF50 /* BaseBidDetailController.m in Sources */,
 				B769E48C181FA89000A2FF50 /* PPCGroupCell.m in Sources */,
+				F8C0C06519244DB10098D0E5 /* timeArrSort.m in Sources */,
 				F815F93F1906371B00DF9F55 /* UILabel+TitleView.m in Sources */,
 				B7E69BBB183B4DDB0097D5C3 /* BaseModifyCostController.m in Sources */,
 				B765B8F71907CB8A00413AAB /* AXDownLoadRequestResponse.m in Sources */,

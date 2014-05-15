@@ -10,4 +10,18 @@
 
 @implementation CheckInfoWithCommunity
 
+@synthesize countDown;
+@synthesize signAble;
+@synthesize signCount;
+@synthesize signList;
+
+- (CheckInfoWithCommunity *)convertToMappedObject:(NSDictionary *)dic{
+    CheckInfoWithCommunity *model = [[CheckInfoWithCommunity alloc] init];
+    model.countDown = [NSNumber numberWithInt:[[dic objectForKey:@"countDown"] intValue]];
+    model.signAble = [NSNumber numberWithInt:[[dic objectForKey:@"signAble"] intValue]];
+    model.signCount = [NSNumber numberWithInt:[[dic objectForKey:@"signCount"] intValue]];
+    model.signList = [dic objectForKey:@"signList"];
+    
+    return model;
+}
 @end

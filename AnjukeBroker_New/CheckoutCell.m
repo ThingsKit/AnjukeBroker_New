@@ -10,6 +10,8 @@
 #import "WebImageView.h"
 #import "LoginManager.h"
 #import <QuartzCore/QuartzCore.h>
+#import "timeArrSort.h"
+#import "CheckInfoWithCommunity.h"
 
 @implementation CheckoutCell
 
@@ -26,19 +28,21 @@
     self.accessoryType = UITableViewCellAccessoryNone;
 }
 
-- (void)configurCell:(NSDictionary *)dataModel withIndex:(int)index cellType:(CHECKOUTCELLTYPE)cellType{
-    NSString *timeArea;
+- (void)configurCell:(id)dataModel withIndex:(int)index cellType:(CHECKOUTCELLTYPE)cellType{
+    NSString *timeSection;
     NSMutableDictionary *checkDic;
     if (dataModel == nil) {
         NSArray *timeAreaArr = [[NSArray alloc] initWithArray:[LoginManager getCheckTimeArr]];
         if (index > 0 && index < 4) {
-            timeArea =  [timeAreaArr objectAtIndex:index-1];
+            timeSection =  [timeAreaArr objectAtIndex:index-1];
         }
     }else{
-        checkDic = [[NSMutableDictionary alloc] initWithDictionary:dataModel];
-        DLog(@"checkDic--->>%@",checkDic);
+        CheckInfoWithCommunity *checkInfoModel = (CheckInfoWithCommunity *)dataModel;
+        checkDic = [[NSMutableDictionary alloc] initWithDictionary:checkInfoModel.signList];
+
         if (index > 0 && index < 4) {
-            timeArea = [checkDic.allKeys objectAtIndex:index-1];
+            NSArray *sortKeys = [timeArrSort arrSort:checkDic.allKeys];
+            timeSection = [sortKeys objectAtIndex:index-1];
         }
     }
 
@@ -53,11 +57,11 @@
     }
     
     if (cellType == CHECKOUTCELLWITHNOCHECK) {
-        self.textLabel.text = [NSString stringWithFormat:@"%@  签到前3位有展示位哦~",timeArea];
+        self.textLabel.text = [NSString stringWithFormat:@"%@  签到前3位有展示位哦~",timeSection];
     }
     if (cellType == CHECKOUTCELLWITHCHCK) {
-        self.textLabel.text = [NSString stringWithFormat:@"%@",timeArea];
-        NSArray *checkArr = [[NSArray alloc] initWithArray:checkDic[timeArea]];
+        self.textLabel.text = [NSString stringWithFormat:@"%@",timeSection];
+        NSArray *checkArr = [[NSArray alloc] initWithArray:checkDic[timeSection]];
         for (int i = 0; i < checkArr.count; i++) {
             WebImageView *checkAvatar = [[WebImageView alloc] initWithFrame:CGRectMake(80*i+70, 10, 60, 60)];
             checkAvatar.imageUrl = [[checkArr objectAtIndex:i] objectForKey:@"brokerPhoto"];

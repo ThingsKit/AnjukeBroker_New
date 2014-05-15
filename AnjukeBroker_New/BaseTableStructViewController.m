@@ -15,12 +15,14 @@
 
 @implementation BaseTableStructViewController
 @synthesize tableList;
+@synthesize forbiddenEgo;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.forbiddenEgo = NO;
     }
     return self;
 }
@@ -33,11 +35,13 @@
     self.tableList.backgroundColor = [UIColor clearColor];
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    if (self.refreshHeaderView == nil) {
-        self.refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.view.bounds.size.height, self.view.frame.size.width, self.view.bounds.size.height)];
-        self.refreshHeaderView.delegate = self;
-        self.refreshHeaderView.backgroundColor = [UIColor clearColor];
-        [self.tableList addSubview:self.refreshHeaderView];
+    if (!self.forbiddenEgo) {
+        if (self.refreshHeaderView == nil) {
+            self.refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.view.bounds.size.height, self.view.frame.size.width, self.view.bounds.size.height)];
+            self.refreshHeaderView.delegate = self;
+            self.refreshHeaderView.backgroundColor = [UIColor clearColor];
+            [self.tableList addSubview:self.refreshHeaderView];
+        }
     }
 }
 

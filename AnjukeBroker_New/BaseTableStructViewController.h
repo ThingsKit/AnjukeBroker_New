@@ -12,6 +12,7 @@
 #import "BrokerTableStuct.h"
 
 @interface BaseTableStructViewController : RTViewController<EGORefreshTableHeaderDelegate,UITableViewDelegate>
+@property(nonatomic, assign) BOOL forbiddenEgo;
 @property(nonatomic, strong) BrokerTableStuct *tableList;
 
 - (void)autoPullDown;

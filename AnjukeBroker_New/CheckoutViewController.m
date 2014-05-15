@@ -12,6 +12,8 @@
 #import "CheckoutRuleViewController.h"
 #import "CheckoutButton.h"
 #import "CLLocationManager+RT.h"
+#import "timeArrSort.h"
+#import "CheckInfoWithCommunity.h"
 
 #define HEADERFRAME CGRectMake(0, 0, [self windowWidth], 220)
 #define HEADERMAPFRAME CGRectMake(0, 0, [self windowWidth], 150)
@@ -32,7 +34,9 @@
 @property(nonatomic, strong) NSArray *checkTimeArr;//签到时间段
 @property(nonatomic, strong) NSString *signMile;
 @property(nonatomic, strong) NSMutableArray *checkCellStatusArr;
-@property(nonatomic, strong) NSMutableDictionary *checkInfoDic;
+@property(nonatomic, strong) UILabel *checkoutNumLab;
+@property(nonatomic, strong) CheckInfoWithCommunity *checkInfoModel;
+
 @end
 
 @implementation CheckoutViewController
@@ -46,7 +50,8 @@
 @synthesize checkTimeArr;
 @synthesize signMile;
 @synthesize checkCellStatusArr;
-@synthesize checkInfoDic;
+@synthesize checkoutNumLab;
+@synthesize checkInfoModel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -83,7 +88,7 @@
     [self initUI];
 }
 
-- (void)initUI{
+- (void)initUI{    
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
     self.tableList.backgroundColor = [UIColor clearColor];
@@ -124,14 +129,14 @@
     self.checkoutBtn.frame = CGRectMake(15, map.frame.size.height + 15, 220, 40);
     [self.headerView addSubview:self.checkoutBtn];
     
-    UILabel *checkoutNumLab = [[UILabel alloc] initWithFrame:CGRectMake(self.checkoutBtn.frame.origin.x+self.checkoutBtn.frame.size.width, self.checkoutBtn.frame.origin.y, 80, 40)];
-    checkoutNumLab.lineBreakMode = UILineBreakModeWordWrap;
-    checkoutNumLab.numberOfLines = 0;
-    checkoutNumLab.text = [NSString stringWithFormat:@"-人\n今日已签"];
-    checkoutNumLab.font = [UIFont systemFontOfSize:14];
-    checkoutNumLab.textAlignment = NSTextAlignmentCenter;
-    checkoutNumLab.backgroundColor = [UIColor clearColor];
-    [self.headerView addSubview:checkoutNumLab];
+    self.checkoutNumLab = [[UILabel alloc] initWithFrame:CGRectMake(self.checkoutBtn.frame.origin.x+self.checkoutBtn.frame.size.width, self.checkoutBtn.frame.origin.y, 80, 40)];
+    self.checkoutNumLab.lineBreakMode = UILineBreakModeWordWrap;
+    self.checkoutNumLab.numberOfLines = 0;
+    self.checkoutNumLab.text = [NSString stringWithFormat:@"-人\n今日已签"];
+    self.checkoutNumLab.font = [UIFont systemFontOfSize:14];
+    self.checkoutNumLab.textAlignment = NSTextAlignmentCenter;
+    self.checkoutNumLab.backgroundColor = [UIColor clearColor];
+    [self.headerView addSubview:self.checkoutNumLab];
     
     self.tableList.tableHeaderView = self.headerView;
 }
@@ -176,21 +181,26 @@
     self.loadCount += 1;
     
     NSDictionary *dic = [[response content] objectForKey:@"data"];
-    DLog(@"communityDic--->>%@",dic);
+    self.checkInfoModel = [[CheckInfoWithCommunity alloc] convertToMappedObject:dic];
+    [self updateUI];
+}
+- (void)updateUI{
+    if (self.checkInfoModel.signCount) {
+        self.checkoutNumLab.text = [NSString stringWithFormat:@"%d人\n今日已签",[self.checkInfoModel.signCount intValue]];
+    }
     
-    self.checkInfoDic = [[NSMutableDictionary alloc] initWithDictionary:[dic objectForKey:@"signList"]];
-    for (int i = 0 ; i < checkInfoDic.allKeys.count; i++) {
-        NSString *key = [checkInfoDic.allKeys objectAtIndex:i];
+    NSDictionary *checkInfoDic = [[NSDictionary alloc] initWithDictionary:self.checkInfoModel.signList];
+    NSArray *sortKeys = [timeArrSort arrSort:checkInfoDic.allKeys];
+    for (int i = 0 ; i < sortKeys.count; i++) {
+        NSString *key = [sortKeys objectAtIndex:i];
         NSArray *timeAreaArr = checkInfoDic[key];
+        
         if (timeAreaArr.count != 0) {
             [self.checkCellStatusArr replaceObjectAtIndex:i+1 withObject:[NSNumber numberWithInt:CHECKOUTCELLWITHCHCK]];
         }
-        DLog(@"self.checkCellStatusArr-->>%@",self.checkCellStatusArr);
     }
-    [self donePullDown];
     [self.tableList reloadData];
 }
-
 - (void)doCheckActionRequest{
     if (!self.nowCoords.latitude) {
         return;
@@ -234,9 +244,6 @@
     }else{
         [self showInfo:@"签到失败"];
     }
-
-    DLog(@"checkResult--->>%@",dic);
-
 }
 - (void)timeCountZero{
     if (self.checkoutBtn) {
@@ -272,13 +279,21 @@
     if (cell == nil) {
         cell = [[CheckoutCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     }
-    DLog(@"self.checkInfoDic-->>%@",self.checkInfoDic);
-    [cell configurCell:self.checkInfoDic withIndex:indexPath.row cellType:[[self.checkCellStatusArr objectAtIndex:indexPath.row] intValue]];
     
+    //创建cell
+    [cell configurCell:self.checkInfoModel withIndex:indexPath.row cellType:[[self.checkCellStatusArr objectAtIndex:indexPath.row] intValue]];
+    
+    //分割线绘制
     if (indexPath.row == 0) {
         [cell showTopLine];
-    }else if (indexPath.row == 1 || indexPath.row == 2){
+    }else if (indexPath.row == 1){
         [cell showTopLine];
+        if ([[self.checkCellStatusArr objectAtIndex:indexPath.row] intValue] == CHECKOUTCELLWITHNOCHECK) {
+            [cell showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK andOffsetX:15];
+        }else{
+            [cell showBottonLineWithCellHeight:CELLHEIGHT_CHECK andOffsetX:15];
+        }
+    }else if (indexPath.row == 2){
         if ([[self.checkCellStatusArr objectAtIndex:indexPath.row] intValue] == CHECKOUTCELLWITHNOCHECK) {
             [cell showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK andOffsetX:15];
         }else{

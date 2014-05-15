@@ -93,7 +93,8 @@
     DLog(@"。。。response [%@]", [response content]);
     if([[response content] count] == 0){
         self.isLoading = NO;
-        [self showInfo:@"操作失败"];
+        [self donePullDown];
+        [self showInfo:@"请求失败"];
         return ;
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
@@ -146,6 +147,7 @@
 
     CheckCommunityModel *model = [[CheckCommunityModel alloc] convertToMappedObject:[self.tablaData objectAtIndex:indexPath.row]];
     CheckoutViewController *checkoutVC = [[CheckoutViewController alloc] init];
+    checkoutVC.forbiddenEgo = YES;
     [checkoutVC passCommunityWithModel:model];
     [self.navigationController pushViewController:checkoutVC animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
