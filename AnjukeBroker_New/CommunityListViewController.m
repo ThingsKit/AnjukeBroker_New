@@ -22,7 +22,7 @@
 @property (nonatomic, strong) NSMutableArray *listDataArray;
 @property (nonatomic, strong) UISearchBar *search_Bar;
 
-@property (nonatomic, strong) UIImageView *noDataImgView;//tableview没有数据显示图片
+@property (nonatomic, strong) UIView *noDataView;//tableview没有数据显示图片
 @property (nonatomic)         BOOL         isCheckNoDataImg;//第一次进入
 
 @property BOOL requestKeywords; //是否请求关键词，用于解析数据的区分
@@ -37,7 +37,7 @@
 @synthesize isHaouzu;
 @synthesize isFirstShow;
 
-@synthesize noDataImgView = _noDataImgView;
+@synthesize noDataView = _noDataView;
 @synthesize isCheckNoDataImg  = _isCheckNoDataImg;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -151,12 +151,40 @@
     [self doRequestWithKeyword:sb.text];
     
     //noImgview
-    UIImage *noDataImg = [UIImage imageNamed:@""];
-    CGFloat noDataX = (CGRectGetWidth(tv.frame) - noDataImg.size.width) / 2;
-    CGFloat noDataY = (CGRectGetHeight(tv.frame) - noDataImg.size.height) / 2;
-    _noDataImgView = [[UIImageView alloc] initWithFrame:CGRectMake(noDataX, noDataY, noDataImg.size.width, noDataImg.size.height)];
-    [self.tvList addSubview:_noDataImgView];
-    [_noDataImgView setHidden:YES];
+    [self noDataViewHandle];
+}
+
+//没有数据提示view
+- (void)noDataViewHandle
+{
+    UIImage *noDataImg = [UIImage imageNamed:@"anjuke_icon_seachnocommunity"];
+    CGFloat noDataX = (CGRectGetWidth(self.tvList.frame) - noDataImg.size.width) / 2;
+    CGFloat noDataY = (CGRectGetHeight(self.tvList.frame) - noDataImg.size.height) / 2 - 100;
+    
+    DLog(@"img width == %f", noDataImg.size.width);
+    DLog(@"img heiht == %f", noDataImg.size.height);
+    _noDataView = [[UIView alloc] initWithFrame:CGRectMake(noDataX, noDataY, CGRectGetHeight(self.view.frame), noDataImg.size.height)];
+    
+    UIImageView *noDataImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, noDataImg.size.width, noDataImg.size.height)];
+    [noDataImgView setImage:noDataImg];
+    [noDataImgView setBackgroundColor:[UIColor clearColor]];
+    
+    CGFloat noDaLaX = noDataImgView.frame.origin.x;
+    CGFloat noDaLaY = noDataImgView.frame.origin.y + CGRectGetHeight(noDataImgView.frame) + 10;
+    CGFloat noDaLaWidth = CGRectGetWidth(_noDataView.frame);
+    CGFloat noDaLaHeight = 24;
+    
+    UILabel *noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(noDaLaX, noDaLaY, noDaLaWidth, noDaLaHeight)];
+    [noDataLabel setText:@"没有找到小区"];
+    [noDataLabel setBackgroundColor:[UIColor clearColor]];
+    [noDataLabel setFont:[UIFont systemFontOfSize:14]];
+    [noDataLabel setTextColor:SYSTEM_DARK_GRAY];
+    
+    [_noDataView addSubview:noDataLabel];
+    [_noDataView addSubview:noDataImgView];
+    [_noDataView setBackgroundColor:[UIColor clearColor]];
+    [self.view addSubview:_noDataView];
+    [_noDataView setHidden:YES];
     _isCheckNoDataImg = YES;
 }
 
@@ -357,10 +385,10 @@
     if ([self.listDataArray count] == 0 && !_isCheckNoDataImg)
     {
         [self.tvList setHidden:YES];
-        [_noDataImgView setHidden:NO];//显示nodatanoticeimg
+        [_noDataView setHidden:NO];//显示nodatanoticeimg
     }else
     {
-        [_noDataImgView setHidden:YES];//隐藏nodatanoticeimg
+        [_noDataView setHidden:YES];//隐藏nodatanoticeimg
     }
     
     _isCheckNoDataImg = NO;
