@@ -51,21 +51,19 @@
 }
 
 - (void)cleanNotificationForLoginOut{
-    if ([LoginManager isLogin] && self.NotificationDeviceToken.length>20) {
-        NSMutableDictionary *bodys = [NSMutableDictionary dictionary];
-        [bodys setValue:@"i-broker2" forKey:@"appName"];
-        [bodys setValue:[LoginManager getCity_id] forKey:@"cityId"];
-        [bodys setValue:@"0"forKey:@"userId"]; //重置userID为0，退出登录时使用
-        [bodys setValue:[[UIDevice currentDevice] uuid] forKey:@"uuid"];
-        [bodys setValue:[[UIDevice currentDevice] macaddress] forKey:@"macAddress"];
+    NSMutableDictionary *bodys = [NSMutableDictionary dictionary];
+    [bodys setValue:@"i-broker2" forKey:@"appName"];
+    [bodys setValue:[LoginManager getCity_id] forKey:@"cityId"];
+    [bodys setValue:@"0"forKey:@"userId"]; //重置userID为0，退出登录时使用
+    [bodys setValue:[[UIDevice currentDevice] uuid] forKey:@"uuid"];
+    [bodys setValue:[[UIDevice currentDevice] macaddress] forKey:@"macAddress"];
 #ifdef JAILBREAK
-        [bodys setValue:@"1" forKey:@"breakout"];
+    [bodys setValue:@"1" forKey:@"breakout"];
 #else
-        [bodys setValue:@"0" forKey:@"breakout"];
+    [bodys setValue:@"0" forKey:@"breakout"];
 #endif
-        DLog(@"bodys %@", bodys);
-        [[RTRequestProxy sharedInstance] asyncRESTNotificationWithBodys:bodys token:self.NotificationDeviceToken target:self action:@selector(registerNotificationFinish:)];
-    }
+    DLog(@"bodys %@", bodys);
+    [[RTRequestProxy sharedInstance] asyncRESTNotificationWithBodys:bodys token:self.NotificationDeviceToken target:self action:@selector(registerNotificationFinish:)];
 }
 
 - (void)registerNotificationFinish:(RTNetworkResponse *)response{

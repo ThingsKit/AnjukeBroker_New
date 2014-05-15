@@ -14,6 +14,7 @@
 #import "CLLocationManager+RT.h"
 #import "timeArrSort.h"
 #import "CheckInfoWithCommunity.h"
+#import "MBProgressHUD.h"
 
 #define HEADERFRAME CGRectMake(0, 0, [self windowWidth], 220)
 #define HEADERMAPFRAME CGRectMake(0, 0, [self windowWidth], 150)
@@ -36,9 +37,15 @@
 @property(nonatomic, strong) NSMutableArray *checkCellStatusArr;
 @property(nonatomic, strong) UILabel *checkoutNumLab;
 @property(nonatomic, strong) CheckInfoWithCommunity *checkInfoModel;
-
+@property(nonatomic, strong) MBProgressHUD *hud;
+@property(nonatomic, strong) UILabel *hudLabel;
 @end
 
+//self.hudLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 115, 155, 20)];
+//self.hudLabel.font = [UIFont systemFontOfSize:15];
+//self.hudLabel.backgroundColor = [UIColor clearColor];
+//self.hudLabel.textColor = [UIColor whiteColor];
+//self.hudLabel.textAlignment = NSTextAlignmentCenter;
 @implementation CheckoutViewController
 @synthesize headerView;
 @synthesize checkoutBtn;
@@ -52,6 +59,8 @@
 @synthesize checkCellStatusArr;
 @synthesize checkoutNumLab;
 @synthesize checkInfoModel;
+@synthesize hud;
+@synthesize hudLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -373,6 +382,29 @@
 - (void)rightButtonAction:(id)sender{
     CheckoutRuleViewController *ruleVC = [[CheckoutRuleViewController alloc] init];
     [self.navigationController pushViewController:ruleVC animated:YES];
+}
+
+//使用 MBProgressHUD
+- (void)showHUDWithTitle:(NSString*)title CustomView:(UIView*)view IsDim:(BOOL)isDim {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.color = [UIColor clearColor];
+    self.hud.customView = view;
+    self.hud.yOffset = -20;
+    self.hud.mode = MBProgressHUDModeCustomView;
+    self.hud.dimBackground = isDim;
+    self.hudLabel.text = title;
+    
+}
+
+//使用 MBProgressHUD 显示完成提示
+- (void)showHUDWithTitle:(NSString *)title CustomView:(UIView *)view IsDim:(BOOL)isDim IsHidden:(BOOL)isHidden{
+    
+    [self showHUDWithTitle:title CustomView:view IsDim:isDim];
+    if (isHidden) {
+        [self.hud hide:YES afterDelay:1];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning
