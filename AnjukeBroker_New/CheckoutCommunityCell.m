@@ -8,6 +8,7 @@
 
 #import "CheckoutCommunityCell.h"
 #import "CheckCommunityModel.h"
+#import "UIFont+RT.h"
 
 #define CHECKOUTSTATEFRAME CGRectMake(200,0,90,48)
 
@@ -25,12 +26,15 @@
 - (void)initUI {
     self.selectionStyle = UITableViewCellSelectionStyleGray;
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
+    
     self.checkStatusLab = [[UILabel alloc] initWithFrame:CHECKOUTSTATEFRAME];
     self.checkStatusLab.textAlignment = NSTextAlignmentRight;
-    self.checkStatusLab.textColor = [UIColor greenColor];
+    self.checkStatusLab.textColor = [UIColor ajkGreenColor];
     self.checkStatusLab.backgroundColor = [UIColor clearColor];
+    self.checkStatusLab.font = [UIFont ajkH3Font];
     [self.contentView addSubview:self.checkStatusLab];    
+
+    
 }
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index{
     if ([dataModel isKindOfClass:[NSArray class]]) {
@@ -38,10 +42,11 @@
         if (arr.count == 0) {
             return NO;
         }
-        CheckCommunityModel *model = [[CheckCommunityModel alloc] convertToMappedObject:[arr objectAtIndex:index]];
+        CheckCommunityModel *model = [CheckCommunityModel convertToMappedObject:[arr objectAtIndex:index]];
         
         self.textLabel.text = [NSString stringWithFormat:@"%@",model.commName];
-        self.checkStatusLab.text = model.signAble ? @"已经签到" : @"";
+        self.textLabel.font = [UIFont boldSystemFontOfSize:16];
+        self.checkStatusLab.text = model.signAble ? @"已签到" : @"";
     }
     return YES;
 }

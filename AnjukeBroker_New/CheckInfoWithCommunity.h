@@ -15,5 +15,5 @@
 @property(nonatomic, assign) NSNumber *signCount;
 @property(nonatomic, strong) NSArray *signList;
 
-- (CheckInfoWithCommunity *)convertToMappedObject:(NSDictionary *)dic;
++ (CheckInfoWithCommunity *)convertToMappedObject:(NSDictionary *)dic;
 @end

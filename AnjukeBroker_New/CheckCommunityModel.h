@@ -16,5 +16,5 @@
 @property(nonatomic, assign) double lng;
 @property(nonatomic, assign) BOOL signAble;
 
-- (CheckCommunityModel *)convertToMappedObject:(NSDictionary *)dic;
++ (CheckCommunityModel *)convertToMappedObject:(NSDictionary *)dic;
 @end

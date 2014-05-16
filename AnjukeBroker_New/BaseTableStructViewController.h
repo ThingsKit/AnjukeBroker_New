@@ -14,6 +14,7 @@
 @interface BaseTableStructViewController : RTViewController<EGORefreshTableHeaderDelegate,UITableViewDelegate>
 @property(nonatomic, assign) BOOL forbiddenEgo;
 @property(nonatomic, strong) BrokerTableStuct *tableList;
+@property (nonatomic, strong) EGORefreshTableHeaderView* refreshHeaderView; //下拉刷新表头
 
 - (void)autoPullDown;
 - (void)donePullDown;

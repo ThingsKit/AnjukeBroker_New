@@ -19,15 +19,15 @@
 @synthesize balance;
 @synthesize tel;
 
-- (UserCenterModel *)convertToMappedObject:(NSDictionary *)dic{
++ (UserCenterModel *)convertToMappedObject:(NSDictionary *)dic{
     UserCenterModel *model = [[UserCenterModel alloc] init];
-    model.replyRate = [NSNumber numberWithInt:[[dic objectForKey:@"replyRate"] intValue]];
-    model.responseTime = [NSNumber numberWithInt:[[dic objectForKey:@"responseTime"] intValue]];
-    model.customNum = [NSNumber numberWithInt:[[dic objectForKey:@"customNum"] intValue]];
-    model.loginDays = [NSNumber numberWithInt:[[dic objectForKey:@"loginDays"] intValue]];
-    model.isTalent = [NSNumber numberWithInt:[[dic objectForKey:@"isTalent"] intValue]];
+    model.replyRate = [dic objectForKey:@"replyRate"];
+    model.responseTime = [dic objectForKey:@"responseTime"];
+    model.customNum = [dic objectForKey:@"customNum"];
+    model.loginDays = [dic objectForKey:@"loginDays"];
+    model.isTalent = [dic objectForKey:@"isTalent"] ;
     model.ajkContact = [dic objectForKey:@"ajkContact"];
-    model.balance = [NSNumber numberWithInt:[[dic objectForKey:@"balance"] intValue]];
+    model.balance = [dic objectForKey:@"balance"];
     model.tel = [dic objectForKey:@"tel"];
 
     return model;

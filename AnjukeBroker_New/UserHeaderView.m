@@ -67,7 +67,7 @@
     userAvatar.layer.borderColor = [UIColor ajkBackgroundPageColor].CGColor;
     [self.userHeaderView addSubview:userAvatar];
     
-    self.userName = [[UILabel alloc] initWithFrame:CGRectMake(userAvatar.frame.origin.x+userAvatar.frame.size.width + 10, 0, 100, 20)];
+    self.userName = [[UILabel alloc] initWithFrame:CGRectMake(userAvatar.frame.origin.x+userAvatar.frame.size.width + 10, 8, 100, 20)];
     self.userName.backgroundColor = [UIColor clearColor];
     self.userName.text = @"";
     self.userName.layer.shadowColor = [UIColor ajkWhiteColor].CGColor;
@@ -112,7 +112,7 @@
         dataLab.textColor = [UIColor ajkWhiteColor];
         dataLab.font = [UIFont boldSystemFontOfSize:17];
         
-        UILabel *unitLab = [[UILabel alloc] initWithFrame:CGRectMake(labOriginX+originX+10, 12, 35, 15)];
+        UILabel *unitLab = [[UILabel alloc] initWithFrame:CGRectMake(labOriginX+originX+10, 10, 35, 15)];
         unitLab.backgroundColor = [UIColor clearColor];
         unitLab.font = [UIFont systemFontOfSize:12];
         unitLab.textColor = [UIColor ajkWhiteColor];
@@ -190,10 +190,10 @@
     self.totalCustomNumLab.frame = frame3;
     self.totalLoginNumLab.frame = frame4;
     
-    self.propertyUnitLab.frame = CGRectMake(self.propertyLab.frame.origin.x+self.propertyLab.frame.size.width, 12, 35, 15);
-    self.responseTimeUnitLab.frame = CGRectMake(self.responseTimeLab.frame.origin.x+self.responseTimeLab.frame.size.width, 12, 35, 15);;
-    self.totalCustomNumUnitLab.frame = CGRectMake(self.totalCustomNumLab.frame.origin.x+self.totalCustomNumLab.frame.size.width, 8, 35, 15);;
-    self.totalLoginNumUnitLab.frame = CGRectMake(self.totalLoginNumLab.frame.origin.x+self.totalLoginNumLab.frame.size.width, 12, 35, 15);;
+    self.propertyUnitLab.frame = CGRectMake(self.propertyLab.frame.origin.x+self.propertyLab.frame.size.width, 10, 35, 15);
+    self.responseTimeUnitLab.frame = CGRectMake(self.responseTimeLab.frame.origin.x+self.responseTimeLab.frame.size.width, 10, 35, 15);;
+    self.totalCustomNumUnitLab.frame = CGRectMake(self.totalCustomNumLab.frame.origin.x+self.totalCustomNumLab.frame.size.width, 10, 35, 15);;
+    self.totalLoginNumUnitLab.frame = CGRectMake(self.totalLoginNumLab.frame.origin.x+self.totalLoginNumLab.frame.size.width, 10, 35, 15);;
     
     if ([model.isTalent intValue] == 1) {
         [self.userLevel setImage:[UIImage imageNamed:@"user_talent"]];

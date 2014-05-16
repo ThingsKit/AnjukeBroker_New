@@ -12,6 +12,8 @@
 #import "CheckoutViewController.h"
 #import "CLLocationManager+RT.h"
 #import "HUDNews.h"
+#import "UIFont+RT.h"
+
 
 @interface CheckoutCommunityViewController ()
 //@property(nonatomic, strong) CheckCommunityTable *tableList;
@@ -20,7 +22,9 @@
 @property(nonatomic, assign) CLLocationCoordinate2D nowCoords;
 @property(nonatomic ,strong) NSMutableArray *tablaData;
 @property(nonatomic, assign) BOOL isLoading;
-@property(nonatomic, assign) int loadCount;
+@property(nonatomic ,strong) UIButton *refreshBtn;
+@property(nonatomic ,strong) MKMapView *map;
+@property(nonatomic, assign) double angle;
 
 @end
 
@@ -30,12 +34,14 @@
 @synthesize nowCoords;
 @synthesize tablaData;
 
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
         self.tablaData = [[NSMutableArray alloc] init];
+
     }
     return self;
 }
@@ -52,36 +58,69 @@
     // Do any additional setup after loading the view.
     
     [self initUI];
-    [self addRightButton:@"完成" andPossibleTitle:nil];
-}
-- (void)rightButtonAction:(id)sender{
-    CheckCommunityModel *model = [[CheckCommunityModel alloc] init];
-    model.lat = [@"40.047669" doubleValue];
-    model.lng = [@"116.313082" doubleValue];
-    model.commId = @"12345";
-    model.signAble = YES;
-    model.commName = @"百合花公寓";
-    
-    CheckoutViewController *checkoutVC = [[CheckoutViewController alloc] init];
-    checkoutVC.forbiddenEgo = YES;
-    [checkoutVC passCommunityWithModel:model];
-    [self.navigationController pushViewController:checkoutVC animated:YES];
 }
 - (void)initUI{
-    MKMapView *map = [[MKMapView alloc] initWithFrame:CGRectZero];
-    map.userInteractionEnabled = NO;
-    map.showsUserLocation = YES;
-    map.delegate = self;
-    [self.view addSubview:map];
+    self.map = [[MKMapView alloc] initWithFrame:CGRectZero];
+    self.map.userInteractionEnabled = NO;
+    self.map.showsUserLocation = YES;
+    self.map.delegate = self;
+    [self.view addSubview:self.map];
 
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
+    self.tableList.frame = CGRectMake(0, 0, [self windowWidth], [self windowHeight]- STATUS_BAR_H - NAV_BAT_H-30);
     self.tableList.backgroundColor = [UIColor clearColor];
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableList.showsVerticalScrollIndicator = YES;
     [self.view addSubview:self.tableList];
-
     [self autoPullDown];
+
+    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, [self windowHeight]-30- STATUS_BAR_H - NAV_BAT_H, [self windowWidth], 30)];
+    bottomView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:bottomView];
+    
+    UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 150, 30)];
+    tips.font = [UIFont ajkH5Font];
+    tips.text = @"可签到1500米内小区";
+    tips.textColor = [UIColor ajkMiddleGrayColor];
+    [bottomView addSubview:tips];
+    
+    UILabel *refreshTips = [[UILabel alloc] initWithFrame:CGRectMake(220, 0, 60, 30)];
+    refreshTips.font = [UIFont ajkH5Font];
+    refreshTips.text = @"刷新位置";
+    refreshTips.textColor = [UIColor ajkMiddleGrayColor];
+    [bottomView addSubview:refreshTips];
+    
+    self.refreshBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.refreshBtn.frame = CGRectMake(280, 5, 20, 20);
+    [self.refreshBtn addTarget:self action:@selector(refreshGeo:) forControlEvents:UIControlEventTouchUpInside];
+    [self.refreshBtn setBackgroundImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
+    [self.refreshBtn setBackgroundImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateHighlighted];
+    [bottomView addSubview:self.refreshBtn];
+    
+    [self autoPullDown];
+}
+
+- (void)refreshGeo:(id)sender{
+    if (self.isLoading) {
+        return;
+    }
+    self.isLoading = YES;
+    [self autoPullDown];
+
+    CABasicAnimation* rotationAnimation;
+    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];
+    rotationAnimation.duration = 1.0;
+    rotationAnimation.cumulative = YES;
+    rotationAnimation.repeatCount = 10000;
+    
+    [self.refreshBtn.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+    self.map.showsUserLocation = YES;
+}
+
+- (void)stopAnimation{
+    [self.refreshBtn.layer removeAnimationForKey:@"rotationAnimation"];
 }
 
 - (void)doRequest{
@@ -107,7 +146,8 @@
 }
 - (void)onRequestFinished:(RTNetworkResponse *)response{
     self.isLoading = NO;
-    self.loadCount += 1;
+    [self stopAnimation];
+    
     DLog(@"。。。response [%@]", [response content]);
     if([[response content] count] == 0){
         self.isLoading = NO;
@@ -147,7 +187,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return CELL_HEIGHT;
+    return 45;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -160,9 +200,9 @@
     [cell configureCell:self.tablaData withIndex:indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     if (indexPath.row == self.tablaData.count - 1) {
-        [cell showBottonLineWithCellHeight:CELL_HEIGHT];
+        [cell showBottonLineWithCellHeight:45];
     }else{
-        [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
+        [cell showBottonLineWithCellHeight:45 andOffsetX:15];
     }
     
     return cell;
@@ -171,7 +211,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.navigationController.view.frame.origin.x > 0) return;
 
-    CheckCommunityModel *model = [[CheckCommunityModel alloc] convertToMappedObject:[self.tablaData objectAtIndex:indexPath.row]];
+    CheckCommunityModel *model = [CheckCommunityModel convertToMappedObject:[self.tablaData objectAtIndex:indexPath.row]];
     CheckoutViewController *checkoutVC = [[CheckoutViewController alloc] init];
     checkoutVC.forbiddenEgo = YES;
     [checkoutVC passCommunityWithModel:model];
@@ -188,10 +228,8 @@
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     self.nowCoords = [userLocation coordinate];
     DLog(@"updateLocation--->>%f/%f,",self.nowCoords.latitude,self.nowCoords.longitude);
-
-    if (self.loadCount == 0) {
-        [self doRequest];
-    }
+    self.map.showsUserLocation = NO;
+    [self doRequest];
 }
 
 @end

@@ -16,7 +16,7 @@
 @property(nonatomic, assign) id<checkoutButtonDelegate> checkoutDelegate;
 @property(nonatomic, strong) UILabel *timeCountLab;
 @property(nonatomic, strong) NSTimer *timer;
-@property(nonatomic, assign) int leftTime;
+@property(nonatomic, assign) NSInteger leftTime;
 
 
 - (UIButton *)buttonWithNormalStatus;

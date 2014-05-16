@@ -280,7 +280,7 @@
     NSDictionary *clientDic = [[NSDictionary alloc] initWithDictionary:[[response content] objectForKey:@"data"]];
     DLog(@"clientDic-->>%@",clientDic);
     
-    self.userCenterModel = [[UserCenterModel alloc] convertToMappedObject:clientDic];
+    self.userCenterModel = [UserCenterModel convertToMappedObject:clientDic];
     [self.headerView updateWchatData:self.userCenterModel];
     
     [self.tableList reloadData];

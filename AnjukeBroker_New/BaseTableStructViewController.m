@@ -9,7 +9,6 @@
 #import "BaseTableStructViewController.h"
 
 @interface BaseTableStructViewController ()
-@property (nonatomic, strong) EGORefreshTableHeaderView* refreshHeaderView; //下拉刷新表头
 @property (nonatomic, assign) BOOL reloading; //是否正在载入
 @end
 
@@ -58,7 +57,7 @@
 }
 
 - (void)autoPullDown{
-    [self.tableList setContentOffset:CGPointMake(0, -70) animated:YES];
+    [self.tableList setContentOffset:CGPointMake(0, -70) animated:NO];
     [self.refreshHeaderView egoRefreshScrollViewDidEndDragging:self.tableList];
 }
 - (void)donePullDown{

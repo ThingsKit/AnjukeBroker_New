@@ -39,7 +39,7 @@
 - (void)setDetailText:(NSString *)detailStr rightSpace:(float)rightSpace{
     UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake([self windowWidth]-170-rightSpace, 1,  170, CELL_HEIGHT - 1*5)];
     lb.backgroundColor = [UIColor clearColor];
-    lb.textColor = [UIColor ajkBlackColor];
+    lb.textColor = [UIColor lightGrayColor];
     lb.textAlignment = NSTextAlignmentRight;
     lb.font = [UIFont systemFontOfSize:16];
     lb.text = detailStr;

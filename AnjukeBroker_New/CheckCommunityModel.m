@@ -16,10 +16,10 @@
 @synthesize signAble;
 
 
-- (CheckCommunityModel *)convertToMappedObject:(NSDictionary *)dic{
++ (CheckCommunityModel *)convertToMappedObject:(NSDictionary *)dic{
     DLog(@"dicdic--->>%@",dic);
     CheckCommunityModel *model = [[CheckCommunityModel alloc] init];
-    model.commId = [dic objectForKey:@"model"];
+    model.commId = [dic objectForKey:@"commId"];
     model.commName = [dic objectForKey:@"commName"];
     model.lat = [[dic objectForKey:@"lat"] doubleValue];
     model.lng = [[dic objectForKey:@"lng"] doubleValue];

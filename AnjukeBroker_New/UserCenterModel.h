@@ -19,5 +19,5 @@
 @property(nonatomic, assign) NSNumber *balance;
 @property(nonatomic, strong) NSString *tel;
 
-- (UserCenterModel *)convertToMappedObject:(NSDictionary *)dic;
++ (UserCenterModel *)convertToMappedObject:(NSDictionary *)dic;
 @end

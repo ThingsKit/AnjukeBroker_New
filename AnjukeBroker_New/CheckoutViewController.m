@@ -30,14 +30,14 @@
 //user最新2d
 @property(nonatomic, assign) CLLocationCoordinate2D nowCoords;
 @property(nonatomic, assign) BOOL isLoading;
-@property(nonatomic, assign) int loadCount;
 @property(nonatomic, strong) CheckCommunityModel *checkCommunitmodel;
 @property(nonatomic, strong) NSArray *checkTimeArr;//签到时间段
 @property(nonatomic, strong) NSString *signMile;
 @property(nonatomic, strong) NSMutableArray *checkCellStatusArr;
 @property(nonatomic, strong) UILabel *checkoutNumLab;
 @property(nonatomic, strong) CheckInfoWithCommunity *checkInfoModel;
-
+@property(nonatomic, strong) MKMapView *map;
+@property(nonatomic, assign) BOOL hideCheck;
 @end
 
 @implementation CheckoutViewController
@@ -46,13 +46,14 @@
 @synthesize cb;
 @synthesize nowCoords;
 @synthesize isLoading;
-@synthesize loadCount;
 @synthesize checkCommunitmodel;
 @synthesize checkTimeArr;
 @synthesize signMile;
 @synthesize checkCellStatusArr;
 @synthesize checkoutNumLab;
 @synthesize checkInfoModel;
+@synthesize map;
+@synthesize hideCheck;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -65,6 +66,7 @@
         self.checkTimeArr = [[NSArray alloc] initWithArray:[LoginManager getCheckTimeArr]];
         self.signMile = [NSString stringWithFormat:@"%@",[LoginManager getSignMile]];
         self.checkCellStatusArr = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:CHECKOUTCELLWITHELSE],[NSNumber numberWithInt:CHECKOUTCELLWITHNOCHECK],[NSNumber numberWithInt:CHECKOUTCELLWITHNOCHECK],[NSNumber numberWithInt:CHECKOUTCELLWITHNOCHECK],[NSNumber numberWithInt:CHECKOUTCELLWITHELSE], nil];
+        self.hideCheck = NO;
     }
     return self;
 }
@@ -104,11 +106,11 @@
     footView.backgroundColor = [UIColor whiteColor];
     self.tableList.tableFooterView = footView;
     
-    MKMapView *map = [[MKMapView alloc] initWithFrame:HEADERMAPFRAME];
-    map.userInteractionEnabled = NO;
-    map.showsUserLocation = YES;
-    map.delegate = self;
-    [self.headerView addSubview:map];
+    self.map = [[MKMapView alloc] initWithFrame:HEADERMAPFRAME];
+    self.map.userInteractionEnabled = NO;
+    self.map.showsUserLocation = YES;
+    self.map.delegate = self;
+    [self.headerView addSubview:self.map];
 
     UIImageView *certerIcon = [[UIImageView alloc] initWithFrame:FRAME_CENTRE_LOC];
     certerIcon.image = [UIImage imageNamed:@"anjuke_icon_itis_position.png"];
@@ -155,8 +157,9 @@
     
     NSMutableDictionary *params = nil;
     NSString *method = nil;
-    
+
     params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%f",self.nowCoords.longitude],@"lng",self.checkCommunitmodel.commId,@"commId", nil];
+    DLog(@"paramsparam----->>%@",params);
     method = [NSString stringWithFormat:@"broker/commSignDetail/"];
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
@@ -165,7 +168,6 @@
 - (void)onRequestFinished:(RTNetworkResponse *)response{
     if([[response content] count] == 0){
         self.isLoading = NO;
-//        [self showInfo:@"操作失败"];
         [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
         return ;
     }
@@ -173,34 +175,32 @@
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         DLog(@"errorMsg--->>%@",errorMsg);
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles: nil];
-//        [alert show];
+
         [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
         self.isLoading = NO;
-//        [self donePullDown];
+
         return;
     }
-    self.loadCount += 1;
     
     NSDictionary *dic = [[response content] objectForKey:@"data"];
-    self.checkInfoModel = [[CheckInfoWithCommunity alloc] convertToMappedObject:dic];
+    DLog(@"checkInfoDic--->>%@",dic)
+
+    self.checkInfoModel = [CheckInfoWithCommunity convertToMappedObject:dic];
+
+    if (self.checkInfoModel.signList.count == 0) {
+        self.hideCheck = YES;
+    }else{
+        self.hideCheck = NO;
+    }
+    
+    
     [self updateUI];
 }
 - (void)updateUI{
     if (self.checkInfoModel.signCount) {
         self.checkoutNumLab.text = [NSString stringWithFormat:@"%d人\n今日已签",[self.checkInfoModel.signCount intValue]];
     }
-    
-//    NSDictionary *checkInfoDic = [[NSDictionary alloc] initWithDictionary:self.checkInfoModel.signList];
-//    NSArray *sortKeys = [timeArrSort arrSort:checkInfoDic.allKeys];
-//    for (int i = 0 ; i < sortKeys.count; i++) {
-//        NSString *key = [sortKeys objectAtIndex:i];
-//        NSArray *timeAreaArr = checkInfoDic[key];
-//        
-//        if (timeAreaArr.count != 0) {
-//            [self.checkCellStatusArr replaceObjectAtIndex:i+1 withObject:[NSNumber numberWithInt:CHECKOUTCELLWITHCHCK]];
-//        }
-//    }
+
     NSArray *checkInfoArr = [[NSArray alloc] initWithArray:self.checkInfoModel.signList];
     for (int i = 0; i < checkInfoArr.count; i++) {
         NSArray *checkPerson = [[NSArray alloc] initWithArray:[[checkInfoArr objectAtIndex:i] objectForKey:@"brokers"]];
@@ -213,14 +213,18 @@
         [self.checkoutBtn removeFromSuperview];
     }
     if ([self.checkInfoModel.signAble intValue] == 1) {
-        self.checkoutBtn = [self.cb buttonWithCountdown:[self.checkInfoModel.signCount intValue]];
+        self.checkoutBtn = [self.cb buttonWithCountdown:[self.checkInfoModel.countDown intValue]];
         self.checkoutBtn.frame = CGRectMake(15, 150 + 15, 220, 40);
         [self.headerView addSubview:self.checkoutBtn];
     }else{
-        self.checkoutBtn = [self.cb buttonWithNormalStatus];
+        self.checkoutBtn = [self.cb buttonWithCountdown:[self.checkInfoModel.countDown intValue]];
         self.checkoutBtn.frame = CGRectMake(15, 150 + 15, 220, 40);
         [self.headerView addSubview:self.checkoutBtn];
-        [self.checkoutBtn addTarget:self action:@selector(checkoutCommunity:) forControlEvents:UIControlEventTouchUpInside];
+
+//        self.checkoutBtn = [self.cb buttonWithNormalStatus];
+//        self.checkoutBtn.frame = CGRectMake(15, 150 + 15, 220, 40);
+//        [self.headerView addSubview:self.checkoutBtn];
+//        [self.checkoutBtn addTarget:self action:@selector(checkoutCommunity:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     [self.tableList reloadData];
@@ -236,13 +240,12 @@
     }
     if ([self calcDistance] > [self.signMile integerValue]) {
           [[HUDNews sharedHUDNEWS] createHUD:@"您漂移的太远" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:YES];
-//        [self showInfo:@"您漂移的太远"];
     }
     
     NSMutableDictionary *params = nil;
     NSString *method = nil;
     
-    params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%f",self.nowCoords.longitude],@"lng",@"",@"commId", nil];
+    params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%f",self.nowCoords.longitude],@"lng",self.checkCommunitmodel.commId,@"commId", nil];
     method = [NSString stringWithFormat:@"broker/commSign/"];
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onCheckActionRequestFinished:)];
@@ -258,18 +261,15 @@
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         DLog(@"errorMsg--->>%@",errorMsg);
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles: nil];
-//        [alert show];
 
         [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:@"签到失败" addView:self.view isDim:YES isHidden:YES statusOK:NO];
         self.isLoading = NO;
-//        [self donePullDown];
 
-//        [self showInfo:@"签到失败"];
         return;
     }
     
     NSDictionary *dic = [response content];
+    DLog(@"checkReturnDic---->>%@",dic);
     if ([dic[@"status"] isEqualToString:@"ok"]) {
         [[HUDNews sharedHUDNEWS] createHUD:@"签到成功" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:YES];
         self.checkoutBtn = [self.cb buttonWithCountdown:[[[dic objectForKey:@"data"] objectForKey:@"countDown"] intValue]];
@@ -293,6 +293,9 @@
 }
 #pragma mark -UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (self.hideCheck) {
+        return 0;
+    }
     return self.checkCellStatusArr.count;
 }
 
@@ -361,11 +364,9 @@
 #pragma mark MKMapViewDelegate -user location定位变化
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     self.nowCoords = [userLocation coordinate];
-    if (self.loadCount == 0 && self.isLoading == NO) {
-        [self doRequest];
-    }
+    self.map.showsUserLocation = NO;
+    [self doRequest];
     DLog(@"updateLocation111--->>%f/%f,",self.nowCoords.latitude,self.nowCoords.longitude);
-
 }
 - (CLLocationDistance)calcDistance{
     CLLocation *communityLoc = [[CLLocation alloc] initWithLatitude:self.checkCommunitmodel.lat  longitude:self.checkCommunitmodel.lng];
@@ -379,14 +380,11 @@
     self.checkCommunitmodel = model;
     
     [self setTitleViewWithString:self.checkCommunitmodel.commName];
-    
-//    if (self.tableList) {
-//        [self autoPullDown];
-//    }
 }
 - (void)rightButtonAction:(id)sender{
-    CheckoutRuleViewController *ruleVC = [[CheckoutRuleViewController alloc] init];
-    [self.navigationController pushViewController:ruleVC animated:YES];
+    [self doRequest];
+//    CheckoutRuleViewController *ruleVC = [[CheckoutRuleViewController alloc] init];
+//    [self.navigationController pushViewController:ruleVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
