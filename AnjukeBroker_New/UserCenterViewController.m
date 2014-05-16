@@ -72,7 +72,9 @@
     if (self.userCenterModel == nil) {
         [self doRequest];
     }
-    
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     self.headerView = [[UserHeaderView alloc] initWithFrame:HEADERFRAME];
@@ -89,10 +91,10 @@
 
     [self.headerView updateUserHeaderInfo:[LoginManager getName]];
     
-//    UIImageView *showImg = [[UIImageView alloc] initWithFrame:HEADERADDFRAME];
-//    [showImg setImage:[UIImage imageNamed:@"userHeadMoreBg"]];
-//    showImg.contentMode = UIViewContentModeScaleToFill;
-//    [self.tableList addSubview:showImg];
+    UIImageView *showImg = [[UIImageView alloc] initWithFrame:HEADERADDFRAME];
+    [showImg setImage:[UIImage imageNamed:@"userHeadMoreBg"]];
+    showImg.contentMode = UIViewContentModeScaleToFill;
+    [self.tableList addSubview:showImg];
     
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(1, 0, [self windowWidth], 50)];
     footView.backgroundColor = [UIColor clearColor];
@@ -141,13 +143,13 @@
             [cell initLabelTitle:[self.taskArray objectAtIndex:0]];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
-            UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(260, 14, 22, 22)];
+            UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(265, 14, 22, 22)];
             [icon setImage:[UIImage imageNamed:@"user_ewm"]];
             [cell.contentView addSubview:icon];
         }else if (indexPath.row == 1){
             [cell showBottonLineWithCellHeight:CELL_HEIGHT-1 andOffsetX:15];
             [cell initLabelTitle:[self.taskArray objectAtIndex:1]];
-            [cell setDetailText:[self getAccountLeft]];
+            [cell setDetailText:[self getAccountLeft] rightSpace:15];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }else if (indexPath.row == 2){
             [cell initLabelTitle:[self.taskArray objectAtIndex:2]];
@@ -159,7 +161,7 @@
             [cell showTopLine];
             [cell showBottonLineWithCellHeight:CELL_HEIGHT-1 andOffsetX:15];
             [cell initLabelTitle:[self.taskArray objectAtIndex:3]];
-            [cell setDetailText:[self getClientName]];
+            [cell setDetailText:[self getClientName] rightSpace:35];
             
             UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(290, 17, 15, 15)];
             [icon setImage:[UIImage imageNamed:@"user_cell_phone_icon"]];
@@ -167,7 +169,7 @@
         }else if (indexPath.row == 1){
             [cell showBottonLineWithCellHeight:CELL_HEIGHT-1 andOffsetX:15];
             [cell initLabelTitle:[self.taskArray objectAtIndex:4]];
-            [cell setDetailText:CALL_ANJUKE_NUMBER];
+            [cell setDetailText:CALL_ANJUKE_NUMBER rightSpace:35];
             
             UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(290, 17, 15, 15)];
             [icon setImage:[UIImage imageNamed:@"user_cell_phone_icon"]];

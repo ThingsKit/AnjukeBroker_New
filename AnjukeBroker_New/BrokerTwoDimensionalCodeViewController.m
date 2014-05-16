@@ -10,18 +10,20 @@
 #import "Util_UI.h"
 #import "WebImageView.h"
 #import "LoginManager.h"
+#import "UIFont+RT.h"
 
 @interface BrokerTwoDimensionalCodeViewController ()
 
 @property (nonatomic, strong) UILabel *nameLb;
 @property (nonatomic, strong) UILabel *remarkLb;
+@property (nonatomic, strong) UILabel *remarkMoreLb;
 @property (nonatomic, strong) WebImageView *brokerIcon;
 @property (nonatomic, strong) WebImageView *brokerGigImg;
 
 @end
 
 @implementation BrokerTwoDimensionalCodeViewController
-@synthesize nameLb, remarkLb;
+@synthesize nameLb, remarkLb,remarkMoreLb;
 @synthesize brokerIcon;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -60,9 +62,9 @@
 }
 
 - (void)initDisplay {
-    CGFloat imgGap = 35;
+//    CGFloat imgGap = 35;
     
-    WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(imgGap+20, 35, 40, 40)];
+    WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(70, 40, 60, 60)];
     icon.backgroundColor = [UIColor clearColor];
     icon.layer.borderWidth = 0.5;
     icon.layer.borderColor = SYSTEM_BLACK.CGColor;
@@ -71,19 +73,26 @@
     icon.imageUrl = [LoginManager getUse_photo_url];
     [self.view addSubview:icon];
     
-    UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 15, icon.frame.origin.y, 200, 20)];
+    UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 15, icon.frame.origin.y+4, 200, 20)];
     titleLb.backgroundColor = [UIColor clearColor];
-    titleLb.font = [UIFont boldSystemFontOfSize:15];
-    titleLb.textColor = SYSTEM_BLACK;
+    titleLb.font = [UIFont ajkH2Font];
+    titleLb.textColor = [UIColor ajkBlackColor];
     self.nameLb = titleLb;
     [self.view addSubview:titleLb];
     
     UILabel *titleLb2 = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 15, titleLb.frame.origin.y+ titleLb.frame.size.height + 5, 200, 20)];
     titleLb2.backgroundColor = [UIColor clearColor];
-    titleLb2.font = [UIFont boldSystemFontOfSize:12];
-    titleLb2.textColor = SYSTEM_BLACK;
+    titleLb2.font = [UIFont ajkH5Font];
+    titleLb2.textColor = [UIColor ajkBlackColor];
     self.remarkLb = titleLb2;
     [self.view addSubview:titleLb2];
+
+    UILabel *titleLb3 = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 15, titleLb2.frame.origin.y+ titleLb2.frame.size.height + 5, 200, 20)];
+    titleLb3.backgroundColor = [UIColor clearColor];
+    titleLb3.font = [UIFont ajkH5Font];
+    titleLb3.textColor = [UIColor ajkBlackColor];
+    self.remarkMoreLb = titleLb3;
+    [self.view addSubview:titleLb3];
     
 //    CGFloat bgW = [self windowWidth] - imgGap*2;;
 //    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(icon.frame.origin.x, icon.frame.origin.y + icon.frame.size.height + 30, bgW, bgW+20)];
@@ -93,14 +102,14 @@
 //    [self.view addSubview:bgView];
     
     CGFloat imgW = 250;
-    self.brokerGigImg = [[WebImageView alloc] initWithFrame:CGRectMake(imgGap, icon.frame.origin.y + icon.frame.size.height + 30, imgW, imgW)];
+    self.brokerGigImg = [[WebImageView alloc] initWithFrame:CGRectMake(35, icon.frame.origin.y + icon.frame.size.height + 30, imgW, imgW)];
     self.brokerGigImg.backgroundColor = [UIColor clearColor];
     self.brokerGigImg.imageUrl = [LoginManager getTwoCodeIcon];
 //    self.brokerGigImg.layer.borderColor = [UIColor blackColor].CGColor;
 //    self.brokerGigImg.layer.borderWidth = 1;
     [self.view addSubview:self.brokerGigImg];
     
-    UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(imgGap, self.brokerGigImg.frame.origin.y + imgW + 10, imgW, 20)];
+    UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(35, self.brokerGigImg.frame.origin.y + imgW + 10, imgW, 20)];
     tips.backgroundColor = [UIColor clearColor];
     tips.font = [UIFont systemFontOfSize:13];
     tips.textColor = SYSTEM_LIGHT_GRAY;

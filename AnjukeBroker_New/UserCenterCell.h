@@ -11,7 +11,7 @@
 @interface UserCenterCell : RTListCell
 
 - (void)initLabelTitle:(NSString *)title;
-- (void)setDetailText:(NSString *)detailStr;
+- (void)setDetailText:(NSString *)detailStr rightSpace:(float)rightSpace;
 - (void)showTightIcon;
 
 @end

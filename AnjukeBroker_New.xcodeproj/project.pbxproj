@@ -643,6 +643,8 @@
 		F8BE3E3619259BE30027F9E0 /* user_talent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BE3E3019259BE30027F9E0 /* user_talent@2x.png */; };
 		F8BE3E3719259BE30027F9E0 /* userHeaderBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BE3E3119259BE30027F9E0 /* userHeaderBg@2x.png */; };
 		F8BE3E3819259BE30027F9E0 /* userHeadMoreBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BE3E3219259BE30027F9E0 /* userHeadMoreBg@2x.png */; };
+		F8BE3E3F1925E0D80027F9E0 /* UIColor+RT.m in Sources */ = {isa = PBXBuildFile; fileRef = F8BE3E3E1925E0D80027F9E0 /* UIColor+RT.m */; };
+		F8BE3E431925EF200027F9E0 /* UIFont+RT.m in Sources */ = {isa = PBXBuildFile; fileRef = F8BE3E421925EF200027F9E0 /* UIFont+RT.m */; };
 		F8BFF37918FE87E8008E700D /* leftside_shadow_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37718FE87E8008E700D /* leftside_shadow_bg.png */; };
 		F8BFF37A18FE87E8008E700D /* leftside_shadow_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */; };
 		F8C0C06519244DB10098D0E5 /* timeArrSort.m in Sources */ = {isa = PBXBuildFile; fileRef = F8C0C06419244DB10098D0E5 /* timeArrSort.m */; };
@@ -1628,6 +1630,10 @@
 		F8BE3E3019259BE30027F9E0 /* user_talent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_talent@2x.png"; sourceTree = "<group>"; };
 		F8BE3E3119259BE30027F9E0 /* userHeaderBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "userHeaderBg@2x.png"; sourceTree = "<group>"; };
 		F8BE3E3219259BE30027F9E0 /* userHeadMoreBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "userHeadMoreBg@2x.png"; sourceTree = "<group>"; };
+		F8BE3E3D1925E0D80027F9E0 /* UIColor+RT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+RT.h"; sourceTree = "<group>"; };
+		F8BE3E3E1925E0D80027F9E0 /* UIColor+RT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+RT.m"; sourceTree = "<group>"; };
+		F8BE3E411925EF200027F9E0 /* UIFont+RT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+RT.h"; sourceTree = "<group>"; };
+		F8BE3E421925EF200027F9E0 /* UIFont+RT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+RT.m"; sourceTree = "<group>"; };
 		F8BFF37718FE87E8008E700D /* leftside_shadow_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leftside_shadow_bg.png; sourceTree = "<group>"; };
 		F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftside_shadow_bg@2x.png"; sourceTree = "<group>"; };
 		F8C0C06319244DB10098D0E5 /* timeArrSort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timeArrSort.h; sourceTree = "<group>"; };
@@ -2706,6 +2712,10 @@
 		972DDA2D1826D34600263F8F /* 底层、定制ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				F8BE3E411925EF200027F9E0 /* UIFont+RT.h */,
+				F8BE3E421925EF200027F9E0 /* UIFont+RT.m */,
+				F8BE3E3D1925E0D80027F9E0 /* UIColor+RT.h */,
+				F8BE3E3E1925E0D80027F9E0 /* UIColor+RT.m */,
 				F85A31501907862500511022 /* launchAdd */,
 				F815F93C1906366500DF9F55 /* nav&&UI */,
 				20E1A1F018FD0DD500FBDA75 /* NavigationController */,
@@ -4380,6 +4390,7 @@
 				B702BA4518921752002E2DC7 /* FindPropertyCell.m in Sources */,
 				972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */,
 				974E5C82181E4210000246D1 /* AnjukeEditableCell.m in Sources */,
+				F8BE3E431925EF200027F9E0 /* UIFont+RT.m in Sources */,
 				B769E463181F629B00A2FF50 /* BasePropertyDetailController.m in Sources */,
 				20A44DA11869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m in Sources */,
 				2056A39918EE7EA00022B5A5 /* AXMessageCenterUserToPublicServiceManager.m in Sources */,
@@ -4520,6 +4531,7 @@
 				F8C0C0721924A0D40098D0E5 /* HUDNews.m in Sources */,
 				2739141B18DC371B003284AA /* LocIsBaidu.m in Sources */,
 				B7EF148E18289CB7000B6016 /* RentBidDetailController.m in Sources */,
+				F8BE3E3F1925E0D80027F9E0 /* UIColor+RT.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -36,14 +36,17 @@
     icon.backgroundColor = [UIColor grayColor];
     [self.contentView addSubview:icon];
 }
-- (void)setDetailText:(NSString *)detailStr{
-    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(250/2, 1,  170, CELL_HEIGHT - 1*5)];
+- (void)setDetailText:(NSString *)detailStr rightSpace:(float)rightSpace{
+    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake([self windowWidth]-170-rightSpace, 1,  170, CELL_HEIGHT - 1*5)];
     lb.backgroundColor = [UIColor clearColor];
-    lb.textColor = [UIColor blackColor];
+    lb.textColor = [UIColor ajkBlackColor];
     lb.textAlignment = NSTextAlignmentRight;
-    lb.font = [UIFont systemFontOfSize:14];
+    lb.font = [UIFont systemFontOfSize:16];
     lb.text = detailStr;
     [self.contentView addSubview:lb];
+}
+- (NSInteger)windowWidth {
+    return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.width;
 }
 
 @end     

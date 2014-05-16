@@ -77,7 +77,7 @@ static HUDNews *hudNews;
 - (void)showHUD:(UIImageView *)backView addView:(UIView *)addView isDim:(BOOL)isDim isHidden:(BOOL)isHidden{
     [self showHUDWithView:backView addView:addView isDim:isDim isHidden:isHidden];
     if (isHidden) {
-        [self.hud hide:YES afterDelay:2.0];
+        [self.hud hide:YES afterDelay:1.0];
     }
 }
 
