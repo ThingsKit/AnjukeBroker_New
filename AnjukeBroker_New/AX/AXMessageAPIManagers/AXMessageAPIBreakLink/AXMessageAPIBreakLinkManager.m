@@ -32,7 +32,7 @@
     self.request.delegate = self;
     self.request.shouldContinueWhenAppEntersBackground = YES;
     self.request.timeOutSeconds = kAXMessageManagerDefaultRequestTimeOutInterval;
-    [self.request startSynchronous];
+    [self.request startAsynchronous];
     DLog(@"BREAK LINK:%@", self.request.url);
 }
 
