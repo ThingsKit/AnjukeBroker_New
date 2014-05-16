@@ -22,7 +22,7 @@
 #define SOUNDBUTTONHEIGHT 57 // 键盘出来后的语音框
 #define VOICEBUTTONHEIHGT 106/2 //开始语音按钮的图片高度
 
-//#define 
+//#define
 @interface AnjukeEditTextViewController ()
 {
     float offset;
@@ -40,6 +40,7 @@
 @property (nonatomic, strong) UIButton *cancelBut;
 @property (nonatomic, strong) UIButton *voiceBtn;
 @property (nonatomic, strong) UIButton *voiceUpBut;
+@property BOOL isCanceled;
 @end
 
 @implementation AnjukeEditTextViewController
@@ -74,7 +75,7 @@
 }
 
 - (void)setHZAppearLog{
-
+    
     if (self.isTitle) {
         [[BrokerLogger sharedInstance] logWithActionCode:HZ_TITLE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }else {
@@ -175,6 +176,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.isCanceled = YES;
         // Custom initialization
     }
     return self;
@@ -189,7 +191,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
-
+    
 	// Do any additional setup after loading the view.
     
     [self addRightButton:@"完成" andPossibleTitle:nil];
@@ -204,7 +206,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-//    [self.textV becomeFirstResponder];
+    //    [self.textV becomeFirstResponder];
 }
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -237,9 +239,9 @@
     wordNum.backgroundColor = [UIColor clearColor];
     [self.textV addSubview:wordNum];
     if(self.isTitle){
-//        wordNum.text = @"30";
-//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
-//        [self setWordNumText];
+        //        wordNum.text = @"30";
+        //        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        //        [self setWordNumText];
     } else {
         wordNum.frame = CGRectZero;
     }
@@ -265,7 +267,7 @@
     [self.cancelBut setTitle:@"取消" forState:UIControlStateNormal];
     [self.cancelBut setTitleColor:[Util_UI colorWithHexString:@"FF8800"] forState:UIControlStateNormal];
     self.cancelBut.frame = CGRectZero;
-    [self.cancelBut addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchDown];
+    [self.cancelBut addTarget:self action:@selector(canceled:) forControlEvents:UIControlEventTouchDown];
     //    [voiceBack addSubview:voiceBtn];
     [self.view addSubview:self.cancelBut];
     
@@ -273,7 +275,7 @@
     [self.stopBut setTitle:@"说完了" forState:UIControlStateNormal];
     [self.stopBut setTitleColor:[Util_UI colorWithHexString:@"FF8800"] forState:UIControlStateNormal];
     self.stopBut.frame = CGRectZero;
-    [self.stopBut addTarget:self action:@selector(speechOver:) forControlEvents:UIControlEventTouchDown];
+    [self.stopBut addTarget:self action:@selector(canceled:) forControlEvents:UIControlEventTouchDown];
     //    [voiceBack addSubview:voiceBtn];
     [self.view addSubview:self.stopBut];
     
@@ -289,7 +291,7 @@
     self.beforIMG = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.beforIMG.image = corlorIMG;
     [self.view addSubview:self.beforIMG];
-
+    
 }
 
 - (void)setTextFieldDetail:(NSString *)string {
@@ -326,7 +328,7 @@
         self.textV.text = string;
         self.textV.textColor = SYSTEM_BLACK;
     }
-//    [self setWordNumText];
+    //    [self setWordNumText];
 }
 
 - (void)setWordNumText {
@@ -336,13 +338,13 @@
     if (self.textV && [self.textV.text length]>0 && ![self.textV.text isEqualToString:placeHolder]) {
         wordNum.text = [NSString stringWithFormat:@"%d", 30 - self.textV.text.length];
         [self setWordNumValue:self.textV.text];
-//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        //        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
         wordNum.text = @"30";
         [self setWordNumValue:self.textV.text];
-//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        //        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     }
-
+    
 }
 
 - (void)doBack:(id)sender {
@@ -404,7 +406,7 @@
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView {
     [self setLocationBySelectedRange];
-//    location =self.textV.selectedRange.location;
+    //    location =self.textV.selectedRange.location;
     [textView resignFirstResponder];
     return YES;
 }
@@ -412,33 +414,33 @@
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     [self setLocationBySelectedRange];
-//    location = self.textV.selectedRange.location;
+    //    location = self.textV.selectedRange.location;
     if ([self.textV.text isEqualToString:placeHolder]) {
         self.textV.text = @"";
         self.textV.textColor = SYSTEM_BLACK;
     }
-//    if (self.textV.text.intValue < 1 && range.length == 0)
+    //    if (self.textV.text.intValue < 1 && range.length == 0)
     
     
     if (self.isTitle && [text isEqualToString:@"\n"]) {
         [textView resignFirstResponder];
         return NO;
     }
-//    if(self.isTitle){
-//        NSString *temp = [textView.text stringByReplacingCharactersInRange:range withString:text];
-//        if ([temp isEqualToString:placeHolder]) {
-//            wordNum.text = [NSString stringWithFormat:@"30"];
-//            return YES;
-//        }
-//        if (temp.length > 30) {
-//            DLog(@"111222 %@======%d", temp, [temp length]);
-//            self.textV.text = [temp substringToIndex:30];
-//            return NO;
-//        }else {
-//            wordNum.text = [NSString stringWithFormat:@"%d", 30 - [temp length]];
-//        }
-//    }
-
+    //    if(self.isTitle){
+    //        NSString *temp = [textView.text stringByReplacingCharactersInRange:range withString:text];
+    //        if ([temp isEqualToString:placeHolder]) {
+    //            wordNum.text = [NSString stringWithFormat:@"30"];
+    //            return YES;
+    //        }
+    //        if (temp.length > 30) {
+    //            DLog(@"111222 %@======%d", temp, [temp length]);
+    //            self.textV.text = [temp substringToIndex:30];
+    //            return NO;
+    //        }else {
+    //            wordNum.text = [NSString stringWithFormat:@"%d", 30 - [temp length]];
+    //        }
+    //    }
+    
     return YES;
 }
 - (void)textViewDidBeginEditing:(UITextView *)textView {
@@ -447,7 +449,7 @@
     }else {
         [self setAJKInputLog];
     }
-
+    
     [self setLocationBySelectedRange];
     if ([self.textV.text isEqualToString:placeHolder]) {
         self.textV.text = @"";
@@ -457,13 +459,13 @@
 
 - (void)textViewDidChange:(UITextView *)textView {
     [self setLocationBySelectedRange];
-//    location =self.textV.selectedRange.location;
+    //    location =self.textV.selectedRange.location;
     if(self.isTitle){
         NSString *temp = self.textV.text;
         [self setWordNumValue:temp];
     }
-
-//textView.text = [textView.text substringToIndex:2];
+    
+    //textView.text = [textView.text substringToIndex:2];
 }
 
 - (void)setWordNumValue:(NSString *) temp {
@@ -490,8 +492,8 @@
         wordNum.frame = CGRectMake(self.textV.frame.size.width - 110, self.textV.frame.size.height - 40, 100, 30);
     }
     
-
-//    self.textV.text = temp;
+    
+    //    self.textV.text = temp;
 }
 
 #pragma mark - AlertView Delegate
@@ -521,7 +523,7 @@
     [self cancelSpeech];
     [self cancelFrameChange];
     [self setLocationBySelectedRange];
-//    location = self.textV.selectedRange.location;
+    //    location = self.textV.selectedRange.location;
     //static CGFloat normalKeyboardHeight = 216.0f;
     NSDictionary *info = [notification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
@@ -529,7 +531,7 @@
     self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - SOUNDBUTTONHEIGHT - 64 - offset);
     if(self.isTitle){
         [self setWordNumValue:self.textV.text];
-//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        //        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
         wordNum.frame = CGRectZero;
     }
@@ -543,7 +545,7 @@
     self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - SOUNDBUTTONHEIGHT - 64 - offset);
     if(self.isTitle){
         [self setWordNumValue:self.textV.text];
-//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        //        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
         wordNum.frame = CGRectZero;
     }
@@ -560,7 +562,7 @@
     self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64);
     if(self.isTitle){
         [self setWordNumValue:self.textV.text];
-//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        //        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
         wordNum.frame = CGRectZero;
     }
@@ -575,6 +577,7 @@
  */
 -(void)stopSpeech {
     [_iFlySpeechRecognizer stopListening];
+    _iFlySpeechRecognizer.delegate = nil;
 }
 /** 开始识别
  
@@ -593,7 +596,7 @@
 
 /** 取消本次会话 */
 -(void)cancelSpeech {
-
+    
     [_iFlySpeechRecognizer cancel];
     _iFlySpeechRecognizer.delegate = nil;
 }
@@ -608,6 +611,9 @@
  */
 - (void) onVolumeChanged: (int)volume
 {
+    if (self.isCanceled) {
+        return;
+    }
     DLog(@"==========>>>>>>>>>%d",volume);
     [self speechAnimation:volume];
 }
@@ -636,7 +642,7 @@
     self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBUTTONHEIHGT - 64 - 15*2 - 10);
     if(self.isTitle){
         [self setWordNumValue:self.textV.text];
-//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        //        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
         wordNum.frame = CGRectZero;
     }
@@ -657,11 +663,11 @@
     self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBUTTONHEIHGT - 64 - 15*2 - 10);
     if(self.isTitle){
         [self setWordNumValue:self.textV.text];
-//            wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
-        } else {
-            wordNum.frame = CGRectZero;
-        }
-
+        //            wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+    } else {
+        wordNum.frame = CGRectZero;
+    }
+    
 }
 
 /** 取消识别回调
@@ -670,6 +676,7 @@
  */
 - (void) onCancel {
     [self cancelFrameChange];
+    _iFlySpeechRecognizer.delegate = self;
 }
 /**
  * @fn      onResults
@@ -706,11 +713,12 @@
 
 #pragma mark - privateMethod
 - (void)start:(id) sender {
-//    self.beforIMG = [[UIImageView alloc] initWithFrame:CGRectMake(voiceBtn.frame.origin.x - 25, voiceBtn.frame.origin.y - 25, 82, 30)];
-//    self.backIMG = [[UIImageView alloc] initWithFrame:CGRectMake(voiceBtn.frame.origin.x - 25, voiceBtn.frame.origin.y - 25, 82, 82)];
-//    [self startSpeech];
+    self.isCanceled = NO;
+    //    self.beforIMG = [[UIImageView alloc] initWithFrame:CGRectMake(voiceBtn.frame.origin.x - 25, voiceBtn.frame.origin.y - 25, 82, 30)];
+    //    self.backIMG = [[UIImageView alloc] initWithFrame:CGRectMake(voiceBtn.frame.origin.x - 25, voiceBtn.frame.origin.y - 25, 82, 82)];
+    //    [self startSpeech];
     [self playAudioVoice];
-//    [self perfo]
+    //    [self perfo]
     [self performSelector:@selector(delayStartSpeech) withObject:Nil afterDelay:1.0f];
     [self speechAnimation:0];
     self.voiceBtn.frame = CGRectZero;
@@ -719,7 +727,7 @@
     self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEANIMATIONIMGHEIGHT - 64 - 15*2 - 10);
     if(self.isTitle){
         [self setWordNumValue:self.textV.text];
-//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        //        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
         wordNum.frame = CGRectZero;
     }
@@ -737,14 +745,15 @@
     self.beforIMG.image = corlorIMG;
 }
 
-- (void)cancel:(id) sender {
+- (void)canceled:(id) sender {
+    self.isCanceled = YES;
     [self playAudioVoice];
-    [self cancelSpeech];
+    [self stopSpeech];
     [self cancelFrameChange];
     self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64);
     if(self.isTitle){
         [self setWordNumValue:self.textV.text];
-//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        //        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
         wordNum.frame = CGRectZero;
     }
@@ -757,10 +766,11 @@
     self.beforIMG.frame = CGRectZero;
     //    self.voiceBtn.frame = CGRectMake(160 - 106/2/2, self.textV.frame.size.height + self.textV.frame.origin.y +15, 106/2, 106/2);
     self.voiceBtn.frame = CGRectMake(160 - 106/2/2, [self windowHeight] - 106/2 - 64 - 15 , 106/2, 106/2);
-
+    
 }
 
 - (void)startAgain {
+    self.isCanceled = NO;
     self.voiceUpBut.frame = CGRectZero;
     [self.textV resignFirstResponder];
     [self start:nil];
@@ -772,11 +782,11 @@
     self.textV.frame = CGRectMake(10, 10, [self windowWidth] - 20, [self windowHeight] - VOICEBACKVIEWHEIGHT - 64 - 15*2 - 10);
     if(self.isTitle){
         [self setWordNumValue:self.textV.text];
-//        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
+        //        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
     } else {
         wordNum.frame = CGRectZero;
     }
-
+    
 }
 - (void)playAudioVoice {
     static SystemSoundID soundIDTest = 0;
@@ -785,12 +795,12 @@
         AudioServicesCreateSystemSoundID( (__bridge CFURLRef)[NSURL fileURLWithPath:path], &soundIDTest );
     }
     AudioServicesPlaySystemSound(soundIDTest );
-
+    
 }
 
 - (void)delayStartSpeech{
     [self performSelectorOnMainThread:@selector(startSpeech) withObject:nil waitUntilDone:NO];
-
+    
 }
 - (void)setLocationBySelectedRange {
     location = self.textV.selectedRange.location;
