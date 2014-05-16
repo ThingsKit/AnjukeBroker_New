@@ -19,7 +19,7 @@
 @property (nonatomic, retain) UILabel* houseType;
 @property (nonatomic, retain) UILabel* area;
 @property (nonatomic, retain) UILabel* price;
-@property (nonatomic, retain) UILabel* owner;      //业主
+@property (nonatomic, retain) UILabel* ownerName;      //业主
 @property (nonatomic, retain) UILabel* ownerPhone; //业主电话
 @property (nonatomic, retain) UILabel* statusInfo; //状态信息
 @property (nonatomic, retain) UIButton* button; //右侧的按钮
@@ -76,11 +76,11 @@
     [self.contentView addSubview:self.price];
     
     //业主
-    self.owner = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.owner.backgroundColor = [UIColor clearColor];
-    self.owner.font = [UIFont systemFontOfSize:12.0];
-    [self.owner setTextColor:[Util_UI colorWithHexString:@"#B2B2B2"]];
-    [self.contentView addSubview:self.owner];
+    self.ownerName = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.ownerName.backgroundColor = [UIColor clearColor];
+    self.ownerName.font = [UIFont systemFontOfSize:12.0];
+    [self.ownerName setTextColor:[Util_UI colorWithHexString:@"#B2B2B2"]];
+    [self.contentView addSubview:self.ownerName];
     
     
     //业主电话
@@ -124,9 +124,9 @@
     //租售icon
     self.icon.frame = CGRectMake(self.commName.right, 15, 16, 16);
     if ([self.myPropertyModel.type isEqualToString:@"1"]) {
-        self.icon.image = [UIImage imageNamed:@"anjuke_icon_weituo_esf"];
+        self.icon.image = [UIImage imageNamed:@"anjuke_icon_weituo_esf"]; //售
     }else{
-        self.icon.image = [UIImage imageNamed:@"anjuke_icon_weituo_zf"];
+        self.icon.image = [UIImage imageNamed:@"anjuke_icon_weituo_zf"]; //租
     }
     
     //户型
@@ -146,25 +146,37 @@
     
     if ([self.myPropertyModel.callable isEqualToString:@"1"]) {
         //业主
-        self.owner.frame = CGRectMake(10, self.houseType.bottom, 60, 20);
-        self.owner.text = self.myPropertyModel.ownerName;
-        [self.owner sizeToFit];
+        self.ownerName.frame = CGRectMake(10, self.houseType.bottom, 60, 20);
+        self.ownerName.text = self.myPropertyModel.ownerName;
+        [self.ownerName sizeToFit];
+        self.ownerName.hidden = NO;
         
         //业主电话
-        self.ownerPhone.frame = CGRectMake(self.owner.right + 20, self.houseType.bottom, 100, 20);
+        self.ownerPhone.frame = CGRectMake(self.ownerName.right + 20, self.houseType.bottom, 100, 20);
         self.ownerPhone.text = self.myPropertyModel.ownerPhone;
         [self.ownerPhone sizeToFit];
+        self.ownerPhone.hidden = NO;
+        
+        //隐藏状态信息
+        self.statusInfo.hidden = YES;
         
         //右侧的电话按钮
-        self.button.frame = CGRectMake(ScreenWidth-80, 30, 30, 30);
-        [self.button setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_callphone"] forState:UIControlStateNormal];
-        [self.button setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_callphone_press"] forState:UIControlStateHighlighted];
+        self.button.frame = CGRectMake(ScreenWidth-56/2-15, 30, 30, 30);
+        [self.button setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_weituo_call"] forState:UIControlStateNormal];
+        [self.button setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_weituo_call_press"] forState:UIControlStateHighlighted];
+        self.button.hidden = NO;
         
     }else{
+        //隐藏其他label
+        self.ownerName.hidden = YES;
+        self.ownerPhone.hidden = YES;
+        self.button.hidden = YES;
+        
         //状态信息
         self.statusInfo.frame = CGRectMake(10, self.houseType.bottom, 100, 20);
         self.statusInfo.text = self.myPropertyModel.statusInfo;
         [self.statusInfo sizeToFit];
+        self.statusInfo.hidden = NO;
     }
     
     

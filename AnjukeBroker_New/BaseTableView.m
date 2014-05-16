@@ -63,7 +63,7 @@
     self.needRefreshHeader = YES; //默认有下拉刷新
     self.needRefreshFooter = YES; //默认有上啦刷新
     
-    //    [self setSeparatorStyle:UITableViewCellSeparatorStyleNone]; //没有分割线
+//    [self setSeparatorStyle:UITableViewCellSeparatorStyleNone]; //没有分割线
     
 }
 

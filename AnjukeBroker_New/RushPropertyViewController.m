@@ -50,24 +50,18 @@
     
     self.tableView = [[PropertyTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44) style:UITableViewStylePlain];
     self.tableView.hidden = NO;
+    self.tableView.hasMore = YES;
     [self.view addSubview:self.tableView];
     
     self.myTableView = [[MyPropertyTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44) style:UITableViewStylePlain];
     self.myTableView.hidden = YES;
+    self.myTableView.hasMore = YES;
     [self.view addSubview:self.myTableView];
     
     self.tableView.eventDelegate = self;
     self.myTableView.eventDelegate = self;  //以self.tableView.hidden 来做逻辑判断
     
-    [self autoRefresh];
-    
-//    NSString *method = @"commission/rush/";
-//    NSMutableDictionary* params = [NSMutableDictionary dictionary];
-//    [params setObject:@"token" forKey:[LoginManager getToken]];
-//    [params setObject:@"brokerId" forKey:[LoginManager getUserID]];
-//    [params setObject:@"propertyId" forKey:@"123"];
-//    
-//    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestTestFinished:)];
+    [self autoRefresh]; //自动下拉
     
 }
 
@@ -93,14 +87,13 @@
     RTNetworkResponseStatus status = response.status;
     
     //如果请求数据成功
-    if (status == RTNetworkResponseStatusSuccess || status == RTNetworkResponseStatusJsonError) {
+    if (status == RTNetworkResponseStatusSuccess) {
         NSDictionary* content = response.content;
-//        NSArray* data = [content objectForKey:@"data"];
+        NSArray* data = [content objectForKey:@"data"];
         
-        NSDictionary* dict = @{@"id":@"1", @"propertyId":@"123", @"commName":@"新中源", @"type":@"2", @"room":@"2", @"hall":@"2", @"toilet":@"2", @"area":@"400", @"price":@"2000", @"priceUnit":@"元/月", @"publishTime":@"2014-05-01 06:03:07", @"rushable":@"1", @"rushed":@"0",};
-        NSDictionary* dict2 = @{@"id":@"2", @"propertyId":@"456", @"commName":@"新中源实际花园", @"type":@"1", @"room":@"2", @"hall":@"2", @"toilet":@"2", @"area":@"400", @"price":@"500", @"priceUnit":@"万", @"publishTime":@"2014-05-01 06:03:07", @"rushable":@"0", @"rushed":@"1",};
-        
-        NSArray* data = @[dict, dict2];
+//        NSDictionary* dict = @{@"id":@"1", @"propertyId":@"123", @"commName":@"新中源", @"type":@"2", @"room":@"2", @"hall":@"2", @"toilet":@"2", @"area":@"400", @"price":@"2000", @"priceUnit":@"元/月", @"publishTime":@"2014-05-01 06:03:07",@"callable":@"1", @"rushable":@"1", @"rushed":@"0", @"ownerName":@"小明", @"ownerPhone":@"18915676299",@"status":@"1", @"statusInfo":@"委托中"};
+//        NSDictionary* dict2 = @{@"id":@"2", @"propertyId":@"456", @"commName":@"新中源实际花园", @"type":@"1", @"room":@"2", @"hall":@"2", @"toilet":@"2", @"area":@"400", @"price":@"500", @"priceUnit":@"万", @"publishTime":@"2014-05-01 06:03:07",@"callable":@"0", @"rushable":@"0", @"rushed":@"1", @"ownerName":@"AngleLa Baby", @"ownerPhone":@"1888888888", @"status":@"2", @"statusInfo":@"房源已过期"};
+//        NSArray* data = @[dict, dict2];
         
         NSMutableArray* properties = [NSMutableArray arrayWithCapacity:1];
         if (data.count > 0) { //请求如果有数据
@@ -111,6 +104,7 @@
                     PropertyModel* property = [[PropertyModel alloc] initWithDataDic:temp];
                     [properties addObject:property];
                 }
+                self.tableView.hasMore = YES; //还有更多数据可以加载(旧数据)
                 
             }else{
                 //获取我的委托列表数据
@@ -119,7 +113,10 @@
                     MyPropertyModel* property = [[MyPropertyModel alloc] initWithDataDic:temp];
                     [properties addObject:property];
                 }
+                self.myTableView.hasMore = YES; //还有更多数据可以加载(旧数据)
             }
+        }else{
+            
         }
         
         
@@ -183,7 +180,6 @@
             
         }else{ //没有新数据
             [self showEmptyBackground];
-            
         }
         
         
@@ -232,25 +228,38 @@
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.dimBackground = NO;
     
-    if ([status isEqualToString:@"ok"]) {
+    if ([status isEqualToString:@"ok"]) { //抢成功逻辑
+        
         self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_laugh"];
         self.hudText.text = @"抢成功!";
         self.hubSubText.text = @"快去联系业主吧";
         self.hubSubText.hidden = NO;
-    }else if([status isEqualToString:@"error"]){
+        
+    }else if([status isEqualToString:@"error"]){ //失败逻辑
+        
         if ([errCode isEqualToString:@"5001"]) {
+            
             self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
             self.hudText.text = @"来晚啦~";
             self.hubSubText.text = @"房源已删除";
             self.hubSubText.hidden = NO;
+            
         }else if ([errCode isEqualToString:@"5002"]){
+            
             self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_laugh"];
             self.hudText.text = @"抢过来!";
             self.hubSubText.text = @"去我的委托看看吧";
             self.hubSubText.hidden = NO;
-        }else{
+            
+        }else if([errCode isEqualToString:@"5003"]){
+            
             self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
             self.hudText.text = @"抢完了~";
+            self.hubSubText.hidden = YES;
+            
+        }else{ //其他错误浮层显示逻辑
+            self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
+            self.hudText.text = message;
             self.hubSubText.hidden = YES;
         }
         
@@ -396,7 +405,7 @@
 - (void)pullUp:(BaseTableView *)tableView {
     //如果位于抢委托页面
     if (self.myTableView.hidden) {
-        self.tableView.isPullUp = NO;
+        self.tableView.isPullUp = YES;
         if (self.tableView.sinceId != nil && self.tableView.sinceId.length != 0) {
             NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:self.tableView.sinceId forKey:@"sinceId"];
             [self requestPropertyList:params];
@@ -406,7 +415,7 @@
         
         
     }else{
-        self.myTableView.isPullUp = NO;
+        self.myTableView.isPullUp = YES;
         if (self.myTableView.sinceId != nil && self.myTableView.sinceId.length != 0) {
             NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:self.myTableView.sinceId forKey:@"sinceId"];
             [self requestMyPropertyList:params];
@@ -420,11 +429,26 @@
 
 - (void)tableView:(BaseTableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    [self.tableView.data removeObjectAtIndex:indexPath.row];
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+//    [self.tableView.data removeObjectAtIndex:indexPath.row];
+//    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
     
     NSLog(@"cell click");
 }
+
+#pragma mark -
+#pragma mark removeCellFromTableView
+- (void)removeCellFromPropertyTableViewWithIndexPath:(NSIndexPath*)indexPath{ //删除cell
+    [self.tableView.data removeObjectAtIndex:indexPath.row]; //删除数据
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+}
+
+- (void)updateCellWithIndexPath:(NSIndexPath*)indexPath PropertyModel:(PropertyModel*)propertyModel{ //更新cell状态
+    [self.tableView.data replaceObjectAtIndex:indexPath.row withObject:propertyModel]; //更新model
+}
+
+//- (void)moveCellFromPropertyTableViewToMyPropertyTableViewWith:(NSIndexPath*)indexPath{ //移动cell到我的委托列表
+//     [self.tableView.data objectAtIndex:indexPath.row];
+//}
 
 
 #pragma mark -
@@ -433,12 +457,14 @@
 - (void)requestPropertyList:(NSMutableDictionary*)params{
     NSString *method = @"commission/propertyList/";
     if (params == nil) {
-//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+        //测试用
         NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"147468", @"brokerId", nil];
+//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }else{
-        [params setObject:@"token" forKey:[LoginManager getToken]];
-        [params setObject:@"brokerId" forKey:[LoginManager getUserID]];
+        [params setObject:[LoginManager getToken] forKey:@"token"];
+//        [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
+        [params setObject:@"147468" forKey:@"brokerId"];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }
     
@@ -448,11 +474,14 @@
 - (void)requestMyPropertyList:(NSMutableDictionary*)params{
     NSString *method = @"commission/myPropertyList/";
     if (params == nil) {
-        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+        //测试用
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"147468", @"brokerId", nil];
+//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }else{
-        [params setObject:@"token" forKey:[LoginManager getToken]];
-        [params setObject:@"brokerId" forKey:[LoginManager getUserID]];
+        [params setObject:[LoginManager getToken] forKey:@"token"];
+//        [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
+        [params setObject:@"147468" forKey:@"brokerId"];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }
 }
@@ -518,11 +547,6 @@
 
     [self.leftTabButton setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:1]];
     [self.rightTabButton setBackgroundColor:[UIColor colorWithWhite:0.1 alpha:1]];
-//    [leftTabButton setBackgroundImage:nil forState:UIControlStateNormal];
-//    [leftTabButton setBackgroundImage:nil forState:UIControlStateHighlighted];
-//    
-//    [rightTabButton setBackgroundImage:nil forState:UIControlStateNormal];
-//    [rightTabButton setBackgroundImage:nil forState:UIControlStateHighlighted];
     
     self.leftTabButton.highlighted = YES; //默认左边选中
     

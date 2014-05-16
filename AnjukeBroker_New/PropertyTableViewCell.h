@@ -13,5 +13,6 @@
 @interface PropertyTableViewCell : UITableViewCell <RTLabelDelegate>
 
 @property (nonatomic, retain) PropertyModel* propertyModel; //房源数据对象
+@property (nonatomic, retain) NSIndexPath* indexPath; //用来记录每个cell对象的对应indexPath
 
 @end

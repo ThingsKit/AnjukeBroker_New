@@ -21,7 +21,13 @@
 @property (nonatomic, copy) NSString* price;  //价格或租金
 @property (nonatomic, copy) NSString* priceUnit;  //单位价格
 @property (nonatomic, copy) NSString* publishTime; //发布时间
+@property (nonatomic, copy) NSString* status;
+@property (nonatomic, copy) NSString* statusInfo;
+@property (nonatomic, copy) NSString* ownerName;
+@property (nonatomic, copy) NSString* ownerPhone;
+@property (nonatomic, copy) NSString* callable;  //该房源是否可打电话
 @property (nonatomic, copy) NSString* rushable;  //该房源是否可抢
 @property (nonatomic, copy) NSString* rushed;  //该房源是否已经抢过了
+
 
 @end

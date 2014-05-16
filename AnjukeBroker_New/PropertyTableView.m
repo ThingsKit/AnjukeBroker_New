@@ -31,32 +31,14 @@
     }
     PropertyModel* property = (PropertyModel*)[self.data objectAtIndex:indexPath.row]; //获取self.data中的数据对象
     cell.propertyModel = property;
+    cell.indexPath = indexPath;
     cell.selectionStyle = UITableViewCellSelectionStyleNone; //cell不可选中
+//    [cell setNeedsLayout];
     
     
     return cell;
 }
 
-
-//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
-//    return YES;
-//}
-//
-//- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    return UITableViewCellEditingStyleDelete;
-//}
-//
-//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-//    if (editingStyle == UITableViewCellEditingStyleDelete) {
-//        // 1.delete data
-//        // 2.delete cell from table
-//        NSMutableArray* list = [NSMutableArray arrayWithArray:self.data];
-//        [list removeObjectAtIndex:indexPath.row];
-//        self.data = list;
-//        
-//        [self deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-//    }
-//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 85;

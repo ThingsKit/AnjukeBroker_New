@@ -32,13 +32,9 @@
     }
     MyPropertyModel* property = [self.data objectAtIndex:indexPath.row]; //获取self.data中的数据对象
     cell.myPropertyModel = property;
+//    [cell setNeedsLayout];
     
     return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    //    [self deselectRowAtIndexPath:indexPath animated:NO]; //取消选中
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
