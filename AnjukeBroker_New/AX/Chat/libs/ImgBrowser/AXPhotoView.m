@@ -121,6 +121,10 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
                 if (response.statusCode == 2) {
                     if (blockPhoto && mySelf && [blockPhoto.picMessage.identifier isEqualToString:response.identify]) {
                         UIImage *image = [UIImage imageWithContentsOfFile:response.imgPath];
+                        if (image == nil){
+                            [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
+                            return ;
+                        }
                         blockPhoto.image = image;
                         [mySelf.imageView setImage:image];
                         [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
@@ -190,6 +194,10 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
             if (response.statusCode == 2) {
                 if (blockPhoto && mySelf && [blockPhoto.picMessage.identifier isEqualToString:response.identify]) {
                     UIImage *image = [UIImage imageWithContentsOfFile:response.imgPath];
+                    if (image == nil){
+                        [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];
+                        return ;
+                    }
                     blockPhoto.image = image;
                     [mySelf.imageView setImage:image];
                     [MBProgressHUD hideAllHUDsForView:mySelf animated:YES];

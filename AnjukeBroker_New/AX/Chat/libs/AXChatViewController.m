@@ -857,6 +857,9 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     switch ([mappedMessage.messageType integerValue]) {
         case AXMessageTypeText:
         {
+            if (![self.contentValidator checkText:mappedMessage.content]) {
+                return nil;
+            }
              textData = [self configTextCellData:[NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeText), @"content":mappedMessage.content, @"messageSource":messageSource}]];
         }
             break;
@@ -897,15 +900,23 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
         case AXMessageTypeVoice:
         {
+            if (![self.contentValidator checkVoice:mappedMessage.content] || !mappedMessage.imgPath || [mappedMessage.imgPath length] == 0) {
+                return nil;
+            }
+            
+            NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject];
+            NSString *voicePath = [NSString stringWithFormat:@"%@/%@", path, mappedMessage.imgPath];
+            if (![[NSFileManager defaultManager] fileExistsAtPath:voicePath]) {
+                return nil;
+            }
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeVoice), @"content":mappedMessage.content, @"messageSource":messageSource, @"identifier":mappedMessage.identifier}];
         }
             break;
         case AXMessageTypeLocation:
         {
-//            if (![self.contentValidator checkPropertyCard:mappedMessage.content]) {
-//                return nil;
-//            }
-            
+            if (![self.contentValidator checkLocation:mappedMessage.content]) {
+                return nil;
+            }
             NSDictionary *tempdic = [mappedMessage.content JSONValue];
             if ([tempdic[@"address"] length] == 0){
                 [self reloadLocation:mappedMessage];
