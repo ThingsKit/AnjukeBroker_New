@@ -39,9 +39,9 @@
 - (void)setDetailText:(NSString *)detailStr{
     UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(250/2, 1,  170, CELL_HEIGHT - 1*5)];
     lb.backgroundColor = [UIColor clearColor];
-    lb.textColor = SYSTEM_ORANGE;
+    lb.textColor = [UIColor blackColor];
     lb.textAlignment = NSTextAlignmentRight;
-    lb.font = [UIFont systemFontOfSize:17];
+    lb.font = [UIFont systemFontOfSize:14];
     lb.text = detailStr;
     [self.contentView addSubview:lb];
 }

@@ -987,7 +987,8 @@
         friendUID = message.from;
     }
     
-    AXConversationListItemType itemType;
+    AXConversationListItemType itemType = 0;
+
     AXMessageType messageType = [message.messageType integerValue];
     NSString *messageTip;
     if (messageType == AXMessageTypeSettingNotifycation || messageType == AXMessageTypeSystemForbid || messageType == AXMessageTypeSystemTime || messageType == AXMessageTypeAddNuckName || messageType == AXMessageTypeVersion) {
@@ -998,7 +999,7 @@
         itemType = AXConversationListItemTypeVoice;
         messageTip = @"你收到一句话";
     }
-    
+
     if (messageType == AXMessageTypePic) {
         itemType = AXConversationListItemTypePic;
         messageTip = @"你收到一张图片";
@@ -1012,9 +1013,7 @@
     if (messageType == AXMessageTypeProperty || messageType == AXMessageTypeJinpuProperty) {
         NSDictionary *messageContent = [NSJSONSerialization JSONObjectWithData:[message.content dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:NULL];
         messageTip = @"你收到一个房源";
-        if (messageType == AXMessageTypeJinpuProperty) {
-            messageTip = @"[商业地产]";
-        }
+
         NSInteger propertyType = [messageContent[@"tradeType"] integerValue];
         if (propertyType == 1) {
             itemType = AXConversationListItemTypeESFProperty;
@@ -1025,8 +1024,9 @@
         if (propertyType == 3) {
             itemType = AXConversationListItemTypeCommunity;
         }
+
         if (propertyType == 9) {
-            
+            itemType = AXConversationListItemTypeJinpu;
         }
     }
     
@@ -1055,6 +1055,7 @@
             presentName = friend.name;
         }
         
+        
         conversationListItem.presentName = presentName;
         conversationListItem.iconPath = friend.iconPath;
         conversationListItem.iconUrl = friend.iconUrl;
@@ -1066,7 +1067,7 @@
         conversationListItem.friendUid = friendUID;
         conversationListItem.count = [NSNumber numberWithInteger:[self countUnreadMessagesWithFriendUid:friendUID]];
         conversationListItem.messageStatus = message.sendStatus;
-        
+
         __autoreleasing NSError *error;
         [self.managedObjectContext save:&error];
     }

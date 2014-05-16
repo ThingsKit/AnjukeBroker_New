@@ -219,6 +219,9 @@
         else if ([item.messageType integerValue] == AXConversationListItemTypeCommunity) { //小区
             self.messageLb.text = @"[小区]";
         }
+        else if ([item.messageType integerValue] == AXConversationListItemTypeJinpu) { //小区
+            self.messageLb.text = @"[商业地产]";
+        }
         
         if ([item.messageStatus integerValue] == AXMessageCenterSendMessageStatusSuccessful) { //发送成功
             self.messageLb.frame = messageFrame_noIcon;

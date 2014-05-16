@@ -22,7 +22,7 @@
 
 #define CALL_ANJUKE_NUMBER @"400-620-9008"
 #define HEADERFRAME CGRectMake(0,0,[self windowWidth],200)
-#define HEADERADDFRAME CGRectMake(0,-200,[self windowWidth],200)
+#define HEADERADDFRAME CGRectMake(0,-445,[self windowWidth],445)
 
 
 @interface UserCenterViewController ()
@@ -76,7 +76,7 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     self.headerView = [[UserHeaderView alloc] initWithFrame:HEADERFRAME];
-    [self.headerView setImageView:[UIImage imageNamed:@"header"]];
+    [self.headerView setImageView:[UIImage imageNamed:@"userHeaderBg"]];
     
     self.tableList = [[UITableView alloc] initWithFrame:FRAME_WITH_TAB style:UITableViewStylePlain];
     self.tableList.dataSource = self;
@@ -89,10 +89,10 @@
 
     [self.headerView updateUserHeaderInfo:[LoginManager getName]];
     
-    UIImageView *showImg = [[UIImageView alloc] initWithFrame:HEADERADDFRAME];
-    [showImg setImage:[UIImage imageNamed:@"header"]];
-    showImg.contentMode = UIViewContentModeScaleToFill;
-    [self.tableList addSubview:showImg];
+//    UIImageView *showImg = [[UIImageView alloc] initWithFrame:HEADERADDFRAME];
+//    [showImg setImage:[UIImage imageNamed:@"userHeadMoreBg"]];
+//    showImg.contentMode = UIViewContentModeScaleToFill;
+//    [self.tableList addSubview:showImg];
     
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(1, 0, [self windowWidth], 50)];
     footView.backgroundColor = [UIColor clearColor];
@@ -140,6 +140,10 @@
             [cell showBottonLineWithCellHeight:CELL_HEIGHT-1 andOffsetX:15];
             [cell initLabelTitle:[self.taskArray objectAtIndex:0]];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+            UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(260, 14, 22, 22)];
+            [icon setImage:[UIImage imageNamed:@"user_ewm"]];
+            [cell.contentView addSubview:icon];
         }else if (indexPath.row == 1){
             [cell showBottonLineWithCellHeight:CELL_HEIGHT-1 andOffsetX:15];
             [cell initLabelTitle:[self.taskArray objectAtIndex:1]];
@@ -156,10 +160,18 @@
             [cell showBottonLineWithCellHeight:CELL_HEIGHT-1 andOffsetX:15];
             [cell initLabelTitle:[self.taskArray objectAtIndex:3]];
             [cell setDetailText:[self getClientName]];
+            
+            UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(290, 17, 15, 15)];
+            [icon setImage:[UIImage imageNamed:@"user_cell_phone_icon"]];
+            [cell.contentView addSubview:icon];
         }else if (indexPath.row == 1){
             [cell showBottonLineWithCellHeight:CELL_HEIGHT-1 andOffsetX:15];
             [cell initLabelTitle:[self.taskArray objectAtIndex:4]];
             [cell setDetailText:CALL_ANJUKE_NUMBER];
+            
+            UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(290, 17, 15, 15)];
+            [icon setImage:[UIImage imageNamed:@"user_cell_phone_icon"]];
+            [cell.contentView addSubview:icon];
         }else if (indexPath.row == 2){
             [cell showBottonLineWithCellHeight:CELL_HEIGHT ];
             [cell initLabelTitle:[self.taskArray objectAtIndex:5]];

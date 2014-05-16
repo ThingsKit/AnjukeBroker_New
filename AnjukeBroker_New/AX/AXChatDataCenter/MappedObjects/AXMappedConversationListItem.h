@@ -21,7 +21,8 @@ typedef NS_ENUM(NSUInteger, AXConversationListItemType)
     
     AXConversationListItemTypeVoice = 6,
     AXConversationListItemTypeLocation = 7,
-    AXConversationListItemTypeCommunity = 8
+    AXConversationListItemTypeCommunity = 8,
+    AXConversationListItemTypeJinpu = 9
 };
 
 @interface AXMappedConversationListItem : NSObject

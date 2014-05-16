@@ -39,36 +39,39 @@
     return self;
 }
 - (void)createView{
-    float maxStretch = 50;
-    
     _bannerView = [[UIView alloc] initWithFrame:self.bounds];
     _bannerView.clipsToBounds = YES;
     
-    _bannerImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, -maxStretch, CGRectGetWidth(_bannerView.frame), CGRectGetHeight(_bannerView.frame) + 2*maxStretch)];
+    _bannerImg = [[UIImageView alloc] initWithFrame:_bannerView.frame];
     _bannerImg.contentMode = UIViewContentModeScaleToFill;
     [_bannerView addSubview:self.bannerImg];
     
     [self addSubview:self.bannerView];
     
-    self.userHeaderView = [[UIView alloc] initWithFrame:CGRectMake(60, (CGRectGetHeight(_bannerView.frame)-80)/2, 200, 80)];
+    self.userHeaderView = [[UIView alloc] initWithFrame:CGRectMake(50, 52, 200, 80)];
     self.userHeaderView.backgroundColor = [UIColor clearColor];
     [_bannerView addSubview:self.userHeaderView];
     
-    WebImageView *userAvatar = [[WebImageView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
+    WebImageView *userAvatar = [[WebImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
     userAvatar.imageUrl = [LoginManager getUse_photo_url];
     userAvatar.contentMode = UIViewContentModeScaleAspectFill;
     userAvatar.layer.masksToBounds = YES;
+    userAvatar.layer.cornerRadius = 5;
+    userAvatar.layer.borderWidth = 2.5;
+    userAvatar.layer.borderColor = [UIColor lightGrayColor].CGColor;
     [self.userHeaderView addSubview:userAvatar];
     
     self.userName = [[UILabel alloc] initWithFrame:CGRectMake(userAvatar.frame.origin.x+userAvatar.frame.size.width + 10, 10, 100, 20)];
     self.userName.backgroundColor = [UIColor clearColor];
     self.userName.text = @"";
+    self.userName.layer.shadowColor = [UIColor whiteColor].CGColor;
+    self.userName.layer.shadowOffset = CGSizeMake(3, 3);
     self.userName.font = [UIFont systemFontOfSize:16];
     self.userName.textColor = [UIColor whiteColor];
     [self.userHeaderView addSubview:self.userName];
     
     self.userLevel = [[UIImageView alloc] initWithFrame:CGRectMake(userAvatar.frame.origin.x+userAvatar.frame.size.width + 10, self.userName.frame.origin.y + self.userName.frame.size.height + 10, 100, 25)];
-    [self.userLevel setImage:nil];
+    [self.userLevel setImage:[UIImage imageNamed:@"user_noTalent"]];
     [self.userHeaderView addSubview:self.userLevel];
     
     self.wchatView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(_bannerView.frame) - 60, [self windowWidth], 60)];
