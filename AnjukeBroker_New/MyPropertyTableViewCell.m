@@ -15,7 +15,7 @@
 @interface MyPropertyTableViewCell ()
 
 @property (nonatomic, retain) UIImageView* icon;
-@property (nonatomic, retain) RTLabel* commName;   //小区名字
+@property (nonatomic, retain) UILabel* commName;   //小区名字
 @property (nonatomic, retain) UILabel* houseType;
 @property (nonatomic, retain) UILabel* area;
 @property (nonatomic, retain) UILabel* price;
@@ -41,7 +41,7 @@
 
 - (void)initCell {
     //小区名称
-    self.commName = [[RTLabel alloc] initWithFrame:CGRectZero];
+    self.commName = [[UILabel alloc] initWithFrame:CGRectZero];
     self.commName.backgroundColor = [UIColor clearColor];
     self.commName.font = [UIFont boldSystemFontOfSize:15.0];
     [self.commName setTextColor:[Util_UI colorWithHexString:@"#3D4245"]];
@@ -102,7 +102,7 @@
     self.button = [UIButton buttonWithType:UIButtonTypeCustom];
     self.button.layer.cornerRadius = 2.0f;
     self.button.layer.masksToBounds = YES;
-    [self.button addTarget:self action:@selector(buttonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:self.button];
     
     
@@ -161,7 +161,7 @@
         self.statusInfo.hidden = YES;
         
         //右侧的电话按钮
-        self.button.frame = CGRectMake(ScreenWidth-56/2-15, 30, 30, 30);
+        self.button.frame = CGRectMake(ScreenWidth-56/2-20, 30, 30, 30);
         [self.button setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_weituo_call"] forState:UIControlStateNormal];
         [self.button setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_weituo_call_press"] forState:UIControlStateHighlighted];
         self.button.hidden = NO;
@@ -183,14 +183,42 @@
 }
 
 //右侧按钮点击事件
-- (void)buttonClicked{
-    NSLog(@"电话打起来");
+- (void)buttonClicked:(UIButton*)button{
+    
+    NSLog(@"拨打电话-->%@", self.myPropertyModel.ownerPhone);
+    
+    UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:@"拨打房东电话" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"确认" otherButtonTitles:nil];
+    [sheet showInView:self.window];
+    
+//    if (self.myPropertyModel.ownerPhone) {
+//        NSString* phoneNumber = [@"tel://" stringByAppendingString:self.myPropertyModel.ownerPhone];
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+//    }else{
+//        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"错误" message:@"该房东没有电话" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil];
+//        [alert show];
+//    }
+    
+    
 }
 
 #pragma mark -
-#pragma mark RTLabelDelegate
-- (void)rtLabel:(id)rtLabel didSelectLinkWithURL:(NSURL*)url{
-    //    NSString* urlString = [url absoluteString];
+#pragma mark UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0) {
+        NSLog(@"确认拨打电话");
+        if (self.myPropertyModel.ownerPhone) {
+            NSString* phoneNumber = [@"tel://" stringByAppendingString:self.myPropertyModel.ownerPhone];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+        }else{
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"错误" message:@"该房东没有电话" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil];
+            [alert show];
+        }
+    }else{
+        
+    }
+    
 }
+
 
 @end

@@ -10,6 +10,7 @@
 #import "PropertyTableView.h"
 #import "MyPropertyTableView.h"
 
+@class PropertyTableViewCell;
 @class MBProgressHUD;
 @class PropertyModel;
 @interface RushPropertyViewController : RTViewController<BaseTableViewEventDelegate>
@@ -24,9 +25,11 @@
 - (void)displayHUDWithStatus:(NSString *)status Message:(NSString*)message ErrCode:(NSString*)errCode;
 
 //删除某个cell
-- (void)removeCellFromPropertyTableViewWithIndexPath:(NSIndexPath*)indexPath;
+//- (void)removeCellFromPropertyTableViewWithIndexPath:(NSIndexPath*)indexPath;
+- (void)removeCellFromPropertyTableViewWithCell:(PropertyTableViewCell*)cell;
 
 //更新cell状态
-- (void)updateCellWithIndexPath:(NSIndexPath*)indexPath PropertyModel:(PropertyModel*)propertyModel;
+//- (void)updateCellWithIndexPath:(NSIndexPath*)indexPath PropertyModel:(PropertyModel*)propertyModel;
+- (void)updateCellWithCell:(PropertyTableViewCell*)cell;
 
 @end

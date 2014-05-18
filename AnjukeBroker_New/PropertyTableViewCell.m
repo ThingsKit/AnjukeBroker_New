@@ -18,7 +18,7 @@
 @interface PropertyTableViewCell ()
 
 @property (nonatomic, retain) UIImageView* icon;
-@property (nonatomic, retain) RTLabel* commName;   //小区名字
+@property (nonatomic, retain) UILabel* commName;   //小区名字
 @property (nonatomic, retain) UILabel* houseType;
 @property (nonatomic, retain) UILabel* area;
 @property (nonatomic, retain) UILabel* price;
@@ -46,7 +46,7 @@
 
 - (void)initCell {
     //小区名称
-    self.commName = [[RTLabel alloc] initWithFrame:CGRectZero];
+    self.commName = [[UILabel alloc] initWithFrame:CGRectZero];
     self.commName.backgroundColor = [UIColor clearColor];
     self.commName.font = [UIFont boldSystemFontOfSize:15.0];
     [self.commName setTextColor:[Util_UI colorWithHexString:@"#3D4245"]];
@@ -107,7 +107,6 @@
     [self.button setBackgroundColor:[UIColor colorWithRed:79.0/255 green:164.0/255 blue:236.0/255 alpha:1]];
     [self.button setTitle:@"抢委托" forState:UIControlStateNormal];
     [self.button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.button.tag = [self.propertyModel.propertyId intValue]; //记录propertyId作为button的tag
     self.button.enabled = YES;
     self.propertyModel.rushable = @"1";
 }
@@ -178,20 +177,21 @@
 
 //右侧按钮点击事件
 - (void)buttonClicked:(UIButton*)button{
-    NSLog(@"%d", button.tag);
+    
     RushPropertyViewController* viewController = (RushPropertyViewController*)self.viewController;
     
     [self setButtonDisable]; //点击之后默认按钮变成不可交互
-    [viewController updateCellWithIndexPath:self.indexPath PropertyModel:self.propertyModel]; //更新cell数据
+    [viewController updateCellWithCell:self]; //更新cell数据
     
     if ([viewController isNetworkOkay]) { //如果当前网络ok
-        NSString* propertyId = [NSString stringWithFormat:@"%d", button.tag];
-        NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithObject:propertyId forKey:@"propertyId"];
-        [self rushProperty:dict];
+        if (self.propertyModel.propertyId) { //如果房源id不空
+            NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithObject:self.propertyModel.propertyId forKey:@"propertyId"];
+            [self rushProperty:dict];
+        }
     }else{ //如果当前网络不通
 //        [viewController displayHUDWithStatus:nil Message:nil ErrCode:nil];  //使用自定义的浮层显示网络不良
         [self setButtonAble]; //因为是网络问题,所以按钮恢复可交互状态
-        [viewController updateCellWithIndexPath:self.indexPath PropertyModel:self.propertyModel]; //更新cell数据
+        [viewController updateCellWithCell:self]; //更新cell数据
     }
     
     
@@ -224,17 +224,24 @@
         
         if ([status isEqualToString:@"ok"]) {
             //删除当前cell, 将其添加到myPropertyList中, 但其实不需要添加, 因为myPropertyList每次都自动请求最新的(点击tab, 自动下拉)
-            [viewController removeCellFromPropertyTableViewWithIndexPath:self.indexPath]; //删除对应indexPath的cell
+            
+            //播放飞入动画
+            
+            
+            [viewController removeCellFromPropertyTableViewWithCell:self]; //删除对应indexPath的cell
+            
+            
+            
             
         }else{//请求失败
             NSLog(@"%@", errcode);
             
             if ([errcode isEqualToString:@"5001"]) { //已被房东删除,或已过期
                 //删除当前cell
-                [viewController removeCellFromPropertyTableViewWithIndexPath:self.indexPath];
+                [viewController removeCellFromPropertyTableViewWithCell:self];
             }else if ([errcode isEqualToString:@"5002"]){ //经纪人已经抢过
                 //删除当前cell
-                [viewController removeCellFromPropertyTableViewWithIndexPath:self.indexPath];
+                [viewController removeCellFromPropertyTableViewWithCell:self];
             }else if ([errcode isEqualToString:@"5003"]){ //改房源抢完了
                 //按钮变更为 抢完了 不可交互, cell不删除
             }else{
@@ -251,13 +258,6 @@
     
 }
 
-
-
-#pragma mark -
-#pragma mark RTLabelDelegate
-- (void)rtLabel:(id)rtLabel didSelectLinkWithURL:(NSURL*)url{
-//    NSString* urlString = [url absoluteString];
-}
 
 
 @end

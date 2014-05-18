@@ -32,7 +32,7 @@
     }
     MyPropertyModel* property = [self.data objectAtIndex:indexPath.row]; //获取self.data中的数据对象
     cell.myPropertyModel = property;
-//    [cell setNeedsLayout];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone; //默认无法选中
     
     return cell;
 }

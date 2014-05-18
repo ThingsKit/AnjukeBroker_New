@@ -205,7 +205,6 @@
 		6767D1091921BBD6004FEFF7 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D1081921BBD6004FEFF7 /* BaseTableView.m */; };
 		6767D10D1921BF56004FEFF7 /* PropertyTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D10C1921BF56004FEFF7 /* PropertyTableView.m */; };
 		6767D11E1921FEB9004FEFF7 /* PropertyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D11D1921FEB9004FEFF7 /* PropertyTableViewCell.m */; };
-		6767D1211921FEFE004FEFF7 /* RTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D1201921FEFE004FEFF7 /* RTLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6767D1271922073E004FEFF7 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D1261922073E004FEFF7 /* BaseModel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6767D12A1922079A004FEFF7 /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D1291922079A004FEFF7 /* NSString+URLEncoding.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6767D13019220AE2004FEFF7 /* PropertyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D12F19220AE2004FEFF7 /* PropertyModel.m */; };
@@ -225,6 +224,7 @@
 		6767D17D192398C2004FEFF7 /* anjuke_icon_weituo_nopropery@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6767D166192398C2004FEFF7 /* anjuke_icon_weituo_nopropery@2x.png */; };
 		6767D17E192398C2004FEFF7 /* anjuke_icon_weituo_zf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6767D167192398C2004FEFF7 /* anjuke_icon_weituo_zf@2x.png */; };
 		6767D18219246303004FEFF7 /* UIView+ChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D18119246303004FEFF7 /* UIView+ChainViewController.m */; };
+		6767D18B19275D2E004FEFF7 /* timeline_new_status_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6767D18A19275D2E004FEFF7 /* timeline_new_status_background@2x.png */; };
 		678083FA1904AB1F00765A18 /* Emoji.m in Sources */ = {isa = PBXBuildFile; fileRef = 678083E31904AB1F00765A18 /* Emoji.m */; };
 		678083FF1904AB1F00765A18 /* faceDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = 678083EC1904AB1F00765A18 /* faceDelete.png */; };
 		678084001904AB1F00765A18 /* faceDelete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 678083ED1904AB1F00765A18 /* faceDelete@2x.png */; };
@@ -972,8 +972,6 @@
 		6767D10C1921BF56004FEFF7 /* PropertyTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyTableView.m; sourceTree = "<group>"; };
 		6767D11C1921FEB9004FEFF7 /* PropertyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyTableViewCell.h; sourceTree = "<group>"; };
 		6767D11D1921FEB9004FEFF7 /* PropertyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyTableViewCell.m; sourceTree = "<group>"; };
-		6767D11F1921FEFE004FEFF7 /* RTLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTLabel.h; sourceTree = "<group>"; };
-		6767D1201921FEFE004FEFF7 /* RTLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTLabel.m; sourceTree = "<group>"; };
 		6767D1251922073E004FEFF7 /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
 		6767D1261922073E004FEFF7 /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
 		6767D1281922079A004FEFF7 /* NSString+URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLEncoding.h"; sourceTree = "<group>"; };
@@ -1000,6 +998,7 @@
 		6767D167192398C2004FEFF7 /* anjuke_icon_weituo_zf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_weituo_zf@2x.png"; sourceTree = "<group>"; };
 		6767D18019246303004FEFF7 /* UIView+ChainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ChainViewController.h"; sourceTree = "<group>"; };
 		6767D18119246303004FEFF7 /* UIView+ChainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ChainViewController.m"; sourceTree = "<group>"; };
+		6767D18A19275D2E004FEFF7 /* timeline_new_status_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_new_status_background@2x.png"; sourceTree = "<group>"; };
 		678083E21904AB1F00765A18 /* Emoji.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Emoji.h; sourceTree = "<group>"; };
 		678083E31904AB1F00765A18 /* Emoji.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Emoji.m; sourceTree = "<group>"; };
 		678083EC1904AB1F00765A18 /* faceDelete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = faceDelete.png; sourceTree = "<group>"; };
@@ -2337,8 +2336,6 @@
 			children = (
 				6767D18019246303004FEFF7 /* UIView+ChainViewController.h */,
 				6767D18119246303004FEFF7 /* UIView+ChainViewController.m */,
-				6767D11F1921FEFE004FEFF7 /* RTLabel.h */,
-				6767D1201921FEFE004FEFF7 /* RTLabel.m */,
 				6767D1281922079A004FEFF7 /* NSString+URLEncoding.h */,
 				6767D1291922079A004FEFF7 /* NSString+URLEncoding.m */,
 				6767D14A19237527004FEFF7 /* msgcome.wav */,
@@ -2360,6 +2357,7 @@
 				6767D165192398C2004FEFF7 /* anjuke_icon_weituo_esf@2x.png */,
 				6767D166192398C2004FEFF7 /* anjuke_icon_weituo_nopropery@2x.png */,
 				6767D167192398C2004FEFF7 /* anjuke_icon_weituo_zf@2x.png */,
+				6767D18A19275D2E004FEFF7 /* timeline_new_status_background@2x.png */,
 			);
 			path = weituo;
 			sourceTree = "<group>";
@@ -3902,6 +3900,7 @@
 				B7EF77AD183CBBD20024A5E6 /* agent_icon43@2x.png in Resources */,
 				6767D175192398C2004FEFF7 /* anjuke_icon_tips_laugh@2x.png in Resources */,
 				B7EF77AE183CBBD20024A5E6 /* agent_icon44@2x.png in Resources */,
+				6767D18B19275D2E004FEFF7 /* timeline_new_status_background@2x.png in Resources */,
 				B7EF77A3183CBB170024A5E6 /* anjuke_icon_mutableimg@2x.png in Resources */,
 				6740D1DC1908E08C005ED706 /* anjuke_icon_unique_yes@2x.png in Resources */,
 				97D752CA182C92690035577F /* anjuke_icon_delete@2x.png in Resources */,
@@ -4380,7 +4379,6 @@
 				B769E484181F8F7000A2FF50 /* BasePropertyListController.m in Sources */,
 				B769E45A181F547100A2FF50 /* BasePropertyListCell.m in Sources */,
 				B7EAD51A18CD927200B28FEC /* AXChatMessagePublicCardCell.m in Sources */,
-				6767D1211921FEFE004FEFF7 /* RTLabel.m in Sources */,
 				2056A34618EE7E660022B5A5 /* NSArray+ExtraMethods.m in Sources */,
 				F8D2F0E019230E7100858BB0 /* CLLocationManager+RT.m in Sources */,
 				2056A38D18EE7EA00022B5A5 /* AXMessageCenterDownLoadAudioManager.m in Sources */,

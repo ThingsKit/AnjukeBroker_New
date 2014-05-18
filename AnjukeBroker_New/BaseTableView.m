@@ -110,6 +110,7 @@
     [self.refreshFooterView setEnabled:NO];
     UIActivityIndicatorView* activity = (UIActivityIndicatorView*)[_refreshFooterView viewWithTag:2014];
     [activity startAnimating];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
 //上拉按钮恢复交互,风火轮停止
@@ -124,6 +125,7 @@
     
     UIActivityIndicatorView* activity = (UIActivityIndicatorView*)[_refreshFooterView viewWithTag:2014];
     [activity stopAnimating];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 
@@ -171,7 +173,7 @@
     float subtract = height - offset;
     float extend = scrollView.height - subtract;
     
-    if (extend > 30) {
+    if (extend > 10) {
         [self loadMore:nil];
     }
     

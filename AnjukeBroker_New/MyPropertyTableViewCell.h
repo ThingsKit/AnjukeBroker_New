@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RTLabel.h"
 
 @class MyPropertyModel;
-@interface MyPropertyTableViewCell : UITableViewCell <RTLabelDelegate>
+@interface MyPropertyTableViewCell : UITableViewCell <UIActionSheetDelegate>
 
 @property (nonatomic, retain) MyPropertyModel* myPropertyModel;
 

@@ -13,6 +13,7 @@
 #import "LoginManager.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import "MBProgressHUD.h"
+#import "PropertyTableViewCell.h"
 
 @interface RushPropertyViewController ()
 
@@ -23,12 +24,16 @@
 @property (nonatomic, strong) UIButton* rightTabButton;
 @property (nonatomic, strong) UIView* leftEmptyBackgroundView;
 @property (nonatomic, strong) UIView* rightEmptyBackgroundView;
+
+//浮层相关
 @property (nonatomic, strong) MBProgressHUD* hud;
 @property (nonatomic, strong) UIImageView* hudBackground;
 @property (nonatomic, strong) UIImageView* hudImageView;
 @property (nonatomic, strong) UILabel* hudText;
 @property (nonatomic, strong) UILabel* hubSubText;
 
+//alert相关
+@property (nonatomic, strong) UIImageView* alertBackgroundImageView;
 
 @end
 
@@ -67,19 +72,6 @@
 
 
 #pragma mark -
-#pragma mark Test
-- (void)onRequestTestFinished:(RTNetworkResponse*)response{
-    NSString* message = [response.content objectForKey:@"message"];
-    NSLog(@"%@", message);
-    
-//    NSArray* data = [response.content objectForKey:@"data"];
-//    for (NSDictionary* dic in data) {
-//        NSLog(@"%@", dic);
-//    }
-}
-
-
-#pragma mark -
 #pragma mark - 数据请求完成
 
 - (void)onRequestFinished:(RTNetworkResponse *)response {
@@ -104,7 +96,6 @@
                     PropertyModel* property = [[PropertyModel alloc] initWithDataDic:temp];
                     [properties addObject:property];
                 }
-                self.tableView.hasMore = YES; //还有更多数据可以加载(旧数据)
                 
             }else{
                 //获取我的委托列表数据
@@ -113,7 +104,7 @@
                     MyPropertyModel* property = [[MyPropertyModel alloc] initWithDataDic:temp];
                     [properties addObject:property];
                 }
-                self.myTableView.hasMore = YES; //还有更多数据可以加载(旧数据)
+                
             }
         }else{
             
@@ -144,6 +135,7 @@
                 
                 self.tableView.tableHeaderView = nil;
                 
+                [self hasMoreConfirm];
                 [self.tableView reloadData];
                 
             }else{ //我的委托房源列表
@@ -166,20 +158,28 @@
                 
                 self.myTableView.tableHeaderView = nil;
                 
+                [self hasMoreConfirm];
                 [self.myTableView reloadData];
             }
             
             
-            //播放提示音
-            SystemSoundID sounds[0];
-            NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"msgcome" ofType:@"wav"];
-            CFURLRef soundURL = (__bridge CFURLRef)[NSURL fileURLWithPath:soundPath];
-            AudioServicesCreateSystemSoundID(soundURL, &sounds[0]);
-            AudioServicesPlaySystemSound(sounds[0]);
+            [self displayUpdatePropertyAlert:properties.count];
             
             
         }else{ //没有新数据
+            if (self.myTableView.hidden) {
+                if (self.tableView.isPullUp) {
+                    self.tableView.hasMore = NO;
+                }
+            }else{
+                if (self.myTableView.isPullUp) {
+                    self.myTableView.hasMore = NO;
+                }
+                
+            }
+            
             [self showEmptyBackground];
+            
         }
         
         
@@ -189,6 +189,34 @@
     }
     
 
+}
+
+#pragma mark -
+#pragma mark 边界情况处理
+
+- (void)hasMoreConfirm{
+    int sections = 0;
+    if (ScreenHeight < 568) {
+        sections = 5;
+    }else{
+        sections = 6;
+    }
+    
+    //边界情况处理
+    if (self.myTableView.hidden) {
+        if (self.tableView.data.count < sections) {
+            self.tableView.hasMore = NO;
+        }else{
+            self.tableView.hasMore = YES;
+        }
+        
+    }else{
+        if (self.myTableView.data.count < sections) {
+            self.myTableView.hasMore = NO;
+        }else{
+            self.myTableView.hasMore = YES;
+        }
+    }
 }
 
 
@@ -428,27 +456,22 @@
 }
 
 - (void)tableView:(BaseTableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-//    [self.tableView.data removeObjectAtIndex:indexPath.row];
-//    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-    
-    NSLog(@"cell click");
+    NSLog(@"cell click %d", indexPath.row);
 }
+
 
 #pragma mark -
 #pragma mark removeCellFromTableView
-- (void)removeCellFromPropertyTableViewWithIndexPath:(NSIndexPath*)indexPath{ //删除cell
+- (void)removeCellFromPropertyTableViewWithCell:(PropertyTableViewCell*)cell{ //删除cell
+    NSIndexPath* indexPath = [self.tableView indexPathForCell:(UITableViewCell*)cell];
     [self.tableView.data removeObjectAtIndex:indexPath.row]; //删除数据
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
 
-- (void)updateCellWithIndexPath:(NSIndexPath*)indexPath PropertyModel:(PropertyModel*)propertyModel{ //更新cell状态
-    [self.tableView.data replaceObjectAtIndex:indexPath.row withObject:propertyModel]; //更新model
+- (void)updateCellWithCell:(PropertyTableViewCell*)cell{ //更新cell状态
+    NSIndexPath* indexPath = [self.tableView indexPathForCell:(UITableViewCell*)cell];
+    [self.tableView.data replaceObjectAtIndex:indexPath.row withObject:cell.propertyModel]; //更新model
 }
-
-//- (void)moveCellFromPropertyTableViewToMyPropertyTableViewWith:(NSIndexPath*)indexPath{ //移动cell到我的委托列表
-//     [self.tableView.data objectAtIndex:indexPath.row];
-//}
 
 
 #pragma mark -
@@ -580,6 +603,99 @@
     headView.backgroundColor = [UIColor clearColor];
     self.navigationItem.titleView = headView;
     
+}
+
+
+//显示刷新房源的条数
+- (void)displayUpdatePropertyAlert:(NSUInteger)count {
+    
+    if (self.alertBackgroundImageView == nil) {
+        self.alertBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, -40, ScreenWidth-10, 40)];
+        //[[:@"timeline_new_status_background"] ]; //这儿需要retain
+        UIImage* image = [[UIImage imageNamed:@"timeline_new_status_background"] stretchableImageWithLeftCapWidth:5 topCapHeight:5];
+        self.alertBackgroundImageView.image = image;
+        [self.view addSubview:self.alertBackgroundImageView];
+        
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectZero];
+        label.font = [UIFont systemFontOfSize:16.0f];
+        label.tag = 2014;
+        label.textColor = [UIColor whiteColor];
+        label.backgroundColor = [UIColor clearColor];
+        [_alertBackgroundImageView addSubview:label];
+        
+    }
+    
+    if (count > 0) {
+        
+        if (self.myTableView.hidden) { //待委托列表
+            if (self.tableView.isPullUp) {
+                [self showAlertFromBelow:count];
+            }else{
+                [self showAlertFromAbove:count];
+            }
+            
+        }else{ //我的委托列表
+            if (self.myTableView.isPullUp) {
+                [self showAlertFromBelow:count];
+            }else{
+                [self showAlertFromAbove:count];
+            }
+        }
+        
+        //------------------------------播放提示声音
+        SystemSoundID sounds[0];
+        NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"msgcome" ofType:@"wav"];
+        CFURLRef soundURL = (__bridge CFURLRef)[NSURL fileURLWithPath:soundPath];
+        AudioServicesCreateSystemSoundID(soundURL, &sounds[0]);
+        AudioServicesPlaySystemSound(sounds[0]);
+        
+    }
+    
+    
+}
+
+- (void)showAlertFromAbove:(NSUInteger)count{
+    UILabel* label = (UILabel*)[_alertBackgroundImageView viewWithTag:2014];
+    //如果是下拉
+    label.text = [NSString stringWithFormat:@"%d条房源更新", count];
+    [label sizeToFit];
+    label.origin = CGPointMake((_alertBackgroundImageView.width-label.width)/2, (_alertBackgroundImageView.height-label.height)/2);
+    _alertBackgroundImageView.frame = CGRectMake(5, -40, ScreenWidth-10, 40);
+    __weak RushPropertyViewController* this = self;
+    
+    [UIView animateWithDuration:0.6 animations:^{
+        this.alertBackgroundImageView.top = 5;
+    } completion:^(BOOL finished){
+        if (finished) {
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDelay:1];
+            [UIView setAnimationDuration:0.6];
+            this.alertBackgroundImageView.top = -40;
+            [UIView commitAnimations];
+        }
+    }];
+}
+
+- (void)showAlertFromBelow:(NSUInteger)count{
+    UILabel* label = (UILabel*)[_alertBackgroundImageView viewWithTag:2014];
+    //如果是上拉
+    label.text = [NSString stringWithFormat:@"%d条房源加载", count];
+    [label sizeToFit];
+    label.origin = CGPointMake((_alertBackgroundImageView.width-label.width)/2, (_alertBackgroundImageView.height-label.height)/2);
+    _alertBackgroundImageView.frame = CGRectMake(5, ScreenHeight, ScreenWidth-10, 40);
+    __weak RushPropertyViewController* this = self;
+    
+    [UIView animateWithDuration:0.6 animations:^{
+        this.alertBackgroundImageView.bottom = ScreenHeight - 40 - 20 -7;
+    } completion:^(BOOL finished){
+        if (finished) {
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDelay:1];
+            [UIView setAnimationDuration:0.6];
+            this.alertBackgroundImageView.top = ScreenHeight;
+            [UIView commitAnimations];
+        }
+    }];
 }
 
 @end

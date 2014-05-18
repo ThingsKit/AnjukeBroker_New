@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RTLabel.h"
 
 @class PropertyModel;
-@interface PropertyTableViewCell : UITableViewCell <RTLabelDelegate>
+@interface PropertyTableViewCell : UITableViewCell
 
 @property (nonatomic, retain) PropertyModel* propertyModel; //房源数据对象
-@property (nonatomic, retain) NSIndexPath* indexPath; //用来记录每个cell对象的对应indexPath
 
 @end
