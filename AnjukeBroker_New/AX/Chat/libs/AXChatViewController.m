@@ -1319,7 +1319,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 }
 
 #pragma mark - ELCImagePickerControllerDelegate
-- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+- (void)elcImagePickerController:(BK_ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
     if ([info count] == 0) {
         return;
     }
@@ -1348,7 +1348,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     
 }
 
-- (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
+- (void)elcImagePickerControllerDidCancel:(BK_ELCImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -1888,7 +1888,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
 - (void)pickIMG:(id)sender {
     ELCAlbumPickerController *albumPicker = [[ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
-    ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initWithRootViewController:albumPicker];
+    BK_ELCImagePickerController *elcPicker = [[BK_ELCImagePickerController alloc] initWithRootViewController:albumPicker];
     elcPicker.maximumImagesCount = 5; //(maxCount - self.roomImageArray.count);
     elcPicker.imagePickerDelegate = self;
     [self presentViewController:elcPicker animated:YES completion:nil];

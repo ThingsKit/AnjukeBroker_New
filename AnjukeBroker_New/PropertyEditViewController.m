@@ -752,7 +752,7 @@
 
 #pragma mark - ELCImagePickerControllerDelegate
 
-- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+- (void)elcImagePickerController:(BK_ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
     int count = [info count];
     if (![self canAddMoreImageWithAddCount:count]) {
         return;

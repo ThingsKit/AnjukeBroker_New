@@ -8,12 +8,12 @@
 
 #import "AXChatMessagePublicCardCell.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
-#import "RTLineView.h"
+#import "BK_RTLineView.h"
 #import "BK_WebImageView.h"
 
 @interface AXChatMessagePublicCardCell ()
 
-@property (nonatomic, strong) RTLineView *lineView;
+@property (nonatomic, strong) BK_RTLineView *lineView;
 @property (nonatomic, strong) UILabel *titleLable;
 @property (nonatomic, strong) UILabel *dateLable;
 @property (nonatomic, strong) UILabel *descLable;
@@ -66,7 +66,7 @@ static CGFloat const AXChatPublicCardMarginLeft = 10;
 - (UIView *)lineView
 {
     if (!_lineView) {
-        _lineView = [[RTLineView alloc] initWithFrame:CGRectMake(10, 253, 270, 1)];
+        _lineView = [[BK_RTLineView alloc] initWithFrame:CGRectMake(10, 253, 270, 1)];
         _lineView.backgroundColor = [UIColor axChatInputBorderColor:self.isBroker];
         [self.cardBgView addSubview:_lineView];
     }

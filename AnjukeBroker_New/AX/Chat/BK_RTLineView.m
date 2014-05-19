@@ -6,10 +6,10 @@
 //  Copyright (c) 2013年 anjuke inc. All rights reserved.
 //
 
-#import "RTLineView.h"
+#import "BK_RTLineView.h"
 #import "RTUISetting.h"
 
-@implementation RTLineView
+@implementation BK_RTLineView
 
 - (id)initWithFrame:(CGRect)frame
 {

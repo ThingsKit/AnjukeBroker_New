@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "AXChatMessageSystemTimeCell.h"
-#import "ELCImagePickerController.h"
-#import "ELCAlbumPickerController.h"
+#import "BK_ELCImagePickerController.h"
+#import "BK_ELCAlbumPickerController.h"
 #import "AXConversationListItem.h"
 #import "AXChatMessageCenter.h"
 #import "MapViewController.h"

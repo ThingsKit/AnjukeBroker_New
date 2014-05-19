@@ -6,19 +6,19 @@
 //  Copyright 2010 ELC Technologies. All rights reserved.
 //
 
-#import "ELCImagePickerController.h"
-#import "ELCAsset.h"
-#import "ELCAssetCell.h"
-#import "ELCAssetTablePicker.h"
-#import "ELCAlbumPickerController.h"
+#import "BK_ELCImagePickerController.h"
+#import "BK_ELCAsset.h"
+#import "BK_ELCAssetCell.h"
+#import "BK_ELCAssetTablePicker.h"
+#import "BK_ELCAlbumPickerController.h"
 #import <CoreLocation/CoreLocation.h>
 #import "Util_UI.h"
 
-@implementation ELCImagePickerController
+@implementation BK_ELCImagePickerController
 
 //Using auto synthesizers
 
-- (id)initWithRootViewController:(ELCAlbumPickerController *)albumPicker
+- (id)initWithRootViewController:(BK_ELCAlbumPickerController *)albumPicker
 {
 //    ELCAlbumPickerController *albumPicker = [[ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
     
@@ -37,7 +37,7 @@
 	}
 }
 
-- (BOOL)shouldSelectAsset:(ELCAsset *)asset previousCount:(NSUInteger)previousCount
+- (BOOL)shouldSelectAsset:(BK_ELCAsset *)asset previousCount:(NSUInteger)previousCount
 {
     BOOL shouldSelect = previousCount < self.maximumImagesCount;
     if (!shouldSelect) {

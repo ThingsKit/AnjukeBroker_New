@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RTLineView : UIView
+@interface BK_RTLineView : UIView
 
 @property (nonatomic, assign) CGFloat borderWidth;
 @property (nonatomic, strong) NSArray *nickLineColors;

@@ -329,11 +329,10 @@
 		97C6870F183A2BF100F449BD /* PropertyAuctionPublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C6870E183A2BF100F449BD /* PropertyAuctionPublishViewController.m */; };
 		97C97B461810DD34006E538B /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C97B451810DD34006E538B /* TabBarViewController.m */; };
 		97CB0C0C182BEA3500FCCBBD /* ELCAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C01182BEA3500FCCBBD /* ELCAlbumPickerController.m */; };
-		97CB0C0D182BEA3500FCCBBD /* ELCAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C03182BEA3500FCCBBD /* ELCAsset.m */; };
-		97CB0C0E182BEA3500FCCBBD /* ELCAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C05182BEA3500FCCBBD /* ELCAssetCell.m */; };
-		97CB0C0F182BEA3500FCCBBD /* ELCAssetTablePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C09182BEA3500FCCBBD /* ELCAssetTablePicker.m */; };
-		97CB0C10182BEA3500FCCBBD /* ELCImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C0B182BEA3500FCCBBD /* ELCImagePickerController.m */; };
-		97CB0C18182BEFFC00FCCBBD /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C17182BEFFC00FCCBBD /* MBProgressHUD.m */; };
+		97CB0C0D182BEA3500FCCBBD /* BK_ELCAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C03182BEA3500FCCBBD /* BK_ELCAsset.m */; };
+		97CB0C0E182BEA3500FCCBBD /* BK_ELCAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C05182BEA3500FCCBBD /* BK_ELCAssetCell.m */; };
+		97CB0C0F182BEA3500FCCBBD /* BK_ELCAssetTablePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C09182BEA3500FCCBBD /* BK_ELCAssetTablePicker.m */; };
+		97CB0C10182BEA3500FCCBBD /* BK_ELCImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C0B182BEA3500FCCBBD /* BK_ELCImagePickerController.m */; };
 		97CB0C1F182BF28D00FCCBBD /* UIViewController+Loading.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C1E182BF28D00FCCBBD /* UIViewController+Loading.m */; };
 		97CD8D44180E6D6E00185C9D /* RTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CD8D43180E6D6E00185C9D /* RTViewController.m */; };
 		97D752CA182C92690035577F /* anjuke_icon_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97D752C7182C92690035577F /* anjuke_icon_delete@2x.png */; };
@@ -586,7 +585,7 @@
 		B7FC9B0118C41B1300F77205 /* xproject_dialogue_more_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7FC9A8218C41B1300F77205 /* xproject_dialogue_more_selected@2x.png */; };
 		B7FC9B0218C41B1300F77205 /* xproject_dialogue_redbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = B7FC9A8318C41B1300F77205 /* xproject_dialogue_redbutton.png */; };
 		B7FC9B0318C41B1300F77205 /* xproject_dialogue_redbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7FC9A8418C41B1300F77205 /* xproject_dialogue_redbutton@2x.png */; };
-		B7FC9B2818C41F5100F77205 /* RTLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FC9B2718C41F5100F77205 /* RTLineView.m */; };
+		B7FC9B2818C41F5100F77205 /* BK_RTLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FC9B2718C41F5100F77205 /* BK_RTLineView.m */; };
 		B7FC9B2E18C41F9C00F77205 /* UIColor+RT.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FC9B2D18C41F9C00F77205 /* UIColor+RT.m */; };
 		B7FC9B3118C41FEE00F77205 /* BK_RTTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FC9B3018C41FEE00F77205 /* BK_RTTabBarItem.m */; };
 		B7FC9B3418C4204C00F77205 /* UIImage+RTStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FC9B3318C4204C00F77205 /* UIImage+RTStyle.m */; };
@@ -1152,18 +1151,16 @@
 		97C97B451810DD34006E538B /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
 		97CB0C00182BEA3500FCCBBD /* ELCAlbumPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAlbumPickerController.h; sourceTree = "<group>"; };
 		97CB0C01182BEA3500FCCBBD /* ELCAlbumPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAlbumPickerController.m; sourceTree = "<group>"; };
-		97CB0C02182BEA3500FCCBBD /* ELCAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAsset.h; sourceTree = "<group>"; };
-		97CB0C03182BEA3500FCCBBD /* ELCAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAsset.m; sourceTree = "<group>"; };
-		97CB0C04182BEA3500FCCBBD /* ELCAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAssetCell.h; sourceTree = "<group>"; };
-		97CB0C05182BEA3500FCCBBD /* ELCAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAssetCell.m; sourceTree = "<group>"; };
+		97CB0C02182BEA3500FCCBBD /* BK_ELCAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BK_ELCAsset.h; sourceTree = "<group>"; };
+		97CB0C03182BEA3500FCCBBD /* BK_ELCAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BK_ELCAsset.m; sourceTree = "<group>"; };
+		97CB0C04182BEA3500FCCBBD /* BK_ELCAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BK_ELCAssetCell.h; sourceTree = "<group>"; };
+		97CB0C05182BEA3500FCCBBD /* BK_ELCAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BK_ELCAssetCell.m; sourceTree = "<group>"; };
 		97CB0C06182BEA3500FCCBBD /* ELCAssetPickerFilterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAssetPickerFilterDelegate.h; sourceTree = "<group>"; };
 		97CB0C07182BEA3500FCCBBD /* ELCAssetSelectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAssetSelectionDelegate.h; sourceTree = "<group>"; };
-		97CB0C08182BEA3500FCCBBD /* ELCAssetTablePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAssetTablePicker.h; sourceTree = "<group>"; };
-		97CB0C09182BEA3500FCCBBD /* ELCAssetTablePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAssetTablePicker.m; sourceTree = "<group>"; };
-		97CB0C0A182BEA3500FCCBBD /* ELCImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCImagePickerController.h; sourceTree = "<group>"; };
-		97CB0C0B182BEA3500FCCBBD /* ELCImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCImagePickerController.m; sourceTree = "<group>"; };
-		97CB0C16182BEFFC00FCCBBD /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		97CB0C17182BEFFC00FCCBBD /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		97CB0C08182BEA3500FCCBBD /* BK_ELCAssetTablePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BK_ELCAssetTablePicker.h; sourceTree = "<group>"; };
+		97CB0C09182BEA3500FCCBBD /* BK_ELCAssetTablePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BK_ELCAssetTablePicker.m; sourceTree = "<group>"; };
+		97CB0C0A182BEA3500FCCBBD /* BK_ELCImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BK_ELCImagePickerController.h; sourceTree = "<group>"; };
+		97CB0C0B182BEA3500FCCBBD /* BK_ELCImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BK_ELCImagePickerController.m; sourceTree = "<group>"; };
 		97CB0C1D182BF28D00FCCBBD /* UIViewController+Loading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Loading.h"; sourceTree = "<group>"; };
 		97CB0C1E182BF28D00FCCBBD /* UIViewController+Loading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Loading.m"; sourceTree = "<group>"; };
 		97CD8D42180E6D6E00185C9D /* RTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTViewController.h; sourceTree = "<group>"; };
@@ -1525,8 +1522,8 @@
 		B7FC9A8218C41B1300F77205 /* xproject_dialogue_more_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xproject_dialogue_more_selected@2x.png"; sourceTree = "<group>"; };
 		B7FC9A8318C41B1300F77205 /* xproject_dialogue_redbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xproject_dialogue_redbutton.png; sourceTree = "<group>"; };
 		B7FC9A8418C41B1300F77205 /* xproject_dialogue_redbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xproject_dialogue_redbutton@2x.png"; sourceTree = "<group>"; };
-		B7FC9B2618C41F5100F77205 /* RTLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTLineView.h; sourceTree = "<group>"; };
-		B7FC9B2718C41F5100F77205 /* RTLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTLineView.m; sourceTree = "<group>"; };
+		B7FC9B2618C41F5100F77205 /* BK_RTLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BK_RTLineView.h; sourceTree = "<group>"; };
+		B7FC9B2718C41F5100F77205 /* BK_RTLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BK_RTLineView.m; sourceTree = "<group>"; };
 		B7FC9B2C18C41F9C00F77205 /* UIColor+RT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+RT.h"; sourceTree = "<group>"; };
 		B7FC9B2D18C41F9C00F77205 /* UIColor+RT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+RT.m"; sourceTree = "<group>"; };
 		B7FC9B2F18C41FEE00F77205 /* BK_RTTabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BK_RTTabBarItem.h; sourceTree = "<group>"; };
@@ -2931,16 +2928,16 @@
 			children = (
 				97CB0C00182BEA3500FCCBBD /* ELCAlbumPickerController.h */,
 				97CB0C01182BEA3500FCCBBD /* ELCAlbumPickerController.m */,
-				97CB0C02182BEA3500FCCBBD /* ELCAsset.h */,
-				97CB0C03182BEA3500FCCBBD /* ELCAsset.m */,
-				97CB0C04182BEA3500FCCBBD /* ELCAssetCell.h */,
-				97CB0C05182BEA3500FCCBBD /* ELCAssetCell.m */,
+				97CB0C02182BEA3500FCCBBD /* BK_ELCAsset.h */,
+				97CB0C03182BEA3500FCCBBD /* BK_ELCAsset.m */,
+				97CB0C04182BEA3500FCCBBD /* BK_ELCAssetCell.h */,
+				97CB0C05182BEA3500FCCBBD /* BK_ELCAssetCell.m */,
 				97CB0C06182BEA3500FCCBBD /* ELCAssetPickerFilterDelegate.h */,
 				97CB0C07182BEA3500FCCBBD /* ELCAssetSelectionDelegate.h */,
-				97CB0C08182BEA3500FCCBBD /* ELCAssetTablePicker.h */,
-				97CB0C09182BEA3500FCCBBD /* ELCAssetTablePicker.m */,
-				97CB0C0A182BEA3500FCCBBD /* ELCImagePickerController.h */,
-				97CB0C0B182BEA3500FCCBBD /* ELCImagePickerController.m */,
+				97CB0C08182BEA3500FCCBBD /* BK_ELCAssetTablePicker.h */,
+				97CB0C09182BEA3500FCCBBD /* BK_ELCAssetTablePicker.m */,
+				97CB0C0A182BEA3500FCCBBD /* BK_ELCImagePickerController.h */,
+				97CB0C0B182BEA3500FCCBBD /* BK_ELCImagePickerController.m */,
 			);
 			name = "相册多选pickerController";
 			sourceTree = "<group>";
@@ -2948,8 +2945,6 @@
 		97CB0C11182BEA5200FCCBBD /* 加载黑框 */ = {
 			isa = PBXGroup;
 			children = (
-				97CB0C16182BEFFC00FCCBBD /* MBProgressHUD.h */,
-				97CB0C17182BEFFC00FCCBBD /* MBProgressHUD.m */,
 			);
 			name = "加载黑框";
 			sourceTree = "<group>";
@@ -3562,8 +3557,8 @@
 				B7FC9B3018C41FEE00F77205 /* BK_RTTabBarItem.m */,
 				B7FC9B2C18C41F9C00F77205 /* UIColor+RT.h */,
 				B7FC9B2D18C41F9C00F77205 /* UIColor+RT.m */,
-				B7FC9B2618C41F5100F77205 /* RTLineView.h */,
-				B7FC9B2718C41F5100F77205 /* RTLineView.m */,
+				B7FC9B2618C41F5100F77205 /* BK_RTLineView.h */,
+				B7FC9B2718C41F5100F77205 /* BK_RTLineView.m */,
 			);
 			name = RTUIStyle;
 			path = Chat;
@@ -4153,7 +4148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7EAD51718CD927200B28FEC /* AXChatContentValidator.m in Sources */,
-				97CB0C0F182BEA3500FCCBBD /* ELCAssetTablePicker.m in Sources */,
+				97CB0C0F182BEA3500FCCBBD /* BK_ELCAssetTablePicker.m in Sources */,
 				B7EAD52318CD927200B28FEC /* AXPullToRefreshSimpleContentView.m in Sources */,
 				B769E487181F8F9300A2FF50 /* SalePropertyListController.m in Sources */,
 				B72CA8391921FBB000F8592D /* SelectionToolView.m in Sources */,
@@ -4164,7 +4159,7 @@
 				B7FC9B3418C4204C00F77205 /* UIImage+RTStyle.m in Sources */,
 				97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */,
 				6767D1271922073E004FEFF7 /* BaseModel.m in Sources */,
-				B7FC9B2818C41F5100F77205 /* RTLineView.m in Sources */,
+				B7FC9B2818C41F5100F77205 /* BK_RTLineView.m in Sources */,
 				B7E56D0B183DABD300A0F7D2 /* AnjukePropertyResultController.m in Sources */,
 				6767D10D1921BF56004FEFF7 /* PropertyTableView.m in Sources */,
 				B7E69BBE183B5B000097D5C3 /* SaleGroupListController.m in Sources */,
@@ -4237,7 +4232,7 @@
 				B721095B1827976500904FC7 /* RentNoPlanController.m in Sources */,
 				B7E69BB8183B4C300097D5C3 /* ModifyRentCostController.m in Sources */,
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,
-				97CB0C10182BEA3500FCCBBD /* ELCImagePickerController.m in Sources */,
+				97CB0C10182BEA3500FCCBBD /* BK_ELCImagePickerController.m in Sources */,
 				B7E69BAE183B15430097D5C3 /* RentPPCGroupCell.m in Sources */,
 				205790D01904C17300419CA3 /* PublishFeatureViewController.m in Sources */,
 				2056A34718EE7E660022B5A5 /* NSManagedObject+ExtraMethods.m in Sources */,
@@ -4298,7 +4293,7 @@
 				B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */,
 				2056A35F18EE7E7A0022B5A5 /* AXMessageAPIBreakLinkManager.m in Sources */,
 				20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */,
-				97CB0C0E182BEA3500FCCBBD /* ELCAssetCell.m in Sources */,
+				97CB0C0E182BEA3500FCCBBD /* BK_ELCAssetCell.m in Sources */,
 				B769E472181F805F00A2FF50 /* BaseBidDetailController.m in Sources */,
 				B769E48C181FA89000A2FF50 /* PPCGroupCell.m in Sources */,
 				F8C0C06519244DB10098D0E5 /* timeArrSort.m in Sources */,
@@ -4358,7 +4353,6 @@
 				6767D12A1922079A004FEFF7 /* NSString+URLEncoding.m in Sources */,
 				2056A39318EE7EA00022B5A5 /* AXMessageCenterSearchBrokerManager.m in Sources */,
 				B7E69BB2183B26A90097D5C3 /* RentBidPropertyCell.m in Sources */,
-				97CB0C18182BEFFC00FCCBBD /* MBProgressHUD.m in Sources */,
 				B7EAD51D18CD927200B28FEC /* AXChatMessageSystemTimeCell.m in Sources */,
 				B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */,
 				97CB0C0C182BEA3500FCCBBD /* ELCAlbumPickerController.m in Sources */,
@@ -4425,7 +4419,7 @@
 				97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */,
 				979B083B18488A2800DD697E /* BigZhenzhenButton.m in Sources */,
 				B76E5988181E5AD1005B6A8C /* BaseNoPlanListCell.m in Sources */,
-				97CB0C0D182BEA3500FCCBBD /* ELCAsset.m in Sources */,
+				97CB0C0D182BEA3500FCCBBD /* BK_ELCAsset.m in Sources */,
 				2056A39718EE7EA00022B5A5 /* AXMessageCenterUserGetPublicServiceInfoManager.m in Sources */,
 				2056A34818EE7E660022B5A5 /* AXConversationListItem.m in Sources */,
 				B721095818278E6000904FC7 /* RentPropertyListCell.m in Sources */,

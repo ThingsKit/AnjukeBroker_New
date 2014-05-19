@@ -8,17 +8,17 @@
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
-@class ELCAsset;
+@class BK_ELCAsset;
 
 @protocol ELCAssetDelegate <NSObject>
 
 @optional
-- (void)assetSelected:(ELCAsset *)asset;
-- (BOOL)shouldSelectAsset:(ELCAsset *)asset;
+- (void)assetSelected:(BK_ELCAsset *)asset;
+- (BOOL)shouldSelectAsset:(BK_ELCAsset *)asset;
 @end
 
 
-@interface ELCAsset : NSObject
+@interface BK_ELCAsset : NSObject
 
 @property (nonatomic, strong) ALAsset *asset;
 @property (nonatomic, weak) id<ELCAssetDelegate> parent;

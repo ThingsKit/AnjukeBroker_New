@@ -10,7 +10,7 @@
 #import "ELCAssetSelectionDelegate.h"
 #import "ELCAssetPickerFilterDelegate.h"
 
-@interface ELCAlbumPickerController : UITableViewController <ELCAssetSelectionDelegate>
+@interface BK_ELCAlbumPickerController : UITableViewController <ELCAssetSelectionDelegate>
 
 @property (nonatomic, weak) id<ELCAssetSelectionDelegate> parent;
 @property (nonatomic, strong) NSMutableArray *assetGroups;

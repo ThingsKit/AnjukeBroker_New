@@ -8,7 +8,7 @@
 
 #import "AXChatPhotoActionSheet.h"
 #import "UIView+AXChatMessage.h"
-#import "RTLineView.h"
+#import "BK_RTLineView.h"
 
 @interface AXChatPhotoActionSheet ()
 
@@ -56,7 +56,7 @@
     bgView.alpha = 0.9f;
     [self addSubview:bgView];
     
-    RTLineView *lineView = [[RTLineView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+    BK_RTLineView *lineView = [[BK_RTLineView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
     lineView.nickLineColors = @[[UIColor colorWithHex:0xbdbdbd alpha:1], [UIColor colorWithHex:0xbdbdbd alpha:1]];
     [self addSubview:lineView];
     

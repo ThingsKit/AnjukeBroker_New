@@ -1834,7 +1834,7 @@ typedef enum {
 
 #pragma mark - ELCImagePickerControllerDelegate
 
-- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+- (void)elcImagePickerController:(BK_ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
     int count = [info count];
     if (![self canAddMoreImageWithAddCount:count]) {
         return;
@@ -1889,7 +1889,7 @@ typedef enum {
     
 }
 
-- (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
+- (void)elcImagePickerControllerDidCancel:(BK_ELCImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -1980,8 +1980,8 @@ typedef enum {
                 
                 self.isTakePhoto = NO;
                 
-                ELCAlbumPickerController *albumPicker = [[ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
-                ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initWithRootViewController:albumPicker];
+                BK_ELCAlbumPickerController *albumPicker = [[BK_ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
+                BK_ELCImagePickerController *elcPicker = [[BK_ELCImagePickerController alloc] initWithRootViewController:albumPicker];
                 int maxCount = AJK_MAXCOUNT_ROOMIMAGE;
                 if (self.isHaozu) {
                     maxCount = HZ_MAXCOUNT_ROOMIMAGE;

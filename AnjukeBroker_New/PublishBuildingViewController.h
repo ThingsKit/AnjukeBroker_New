@@ -16,7 +16,7 @@
 #import "Property.h"
 #import "LoginManager.h"
 #import "PhotoFooterView.h"
-#import "ELCImagePickerController.h"
+#import "BK_ELCImagePickerController.h"
 #import "ELCAlbumPickerController.h"
 #import "PhotoShowView.h"
 #import "E_Photo.h"

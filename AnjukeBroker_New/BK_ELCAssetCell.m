@@ -5,10 +5,10 @@
 //  Copyright 2011 ELC Technologies. All rights reserved.
 //
 
-#import "ELCAssetCell.h"
-#import "ELCAsset.h"
+#import "BK_ELCAssetCell.h"
+#import "BK_ELCAsset.h"
 
-@interface ELCAssetCell ()
+@interface BK_ELCAssetCell ()
 
 @property (nonatomic, strong) NSArray *rowAssets;
 @property (nonatomic, strong) NSMutableArray *imageViewArray;
@@ -16,7 +16,7 @@
 
 @end
 
-@implementation ELCAssetCell
+@implementation BK_ELCAssetCell
 
 //Using auto synthesizers
 
@@ -49,7 +49,7 @@
     UIImage *overlayImage = nil;
     for (int i = 0; i < [_rowAssets count]; ++i) {
 
-        ELCAsset *asset = [_rowAssets objectAtIndex:i];
+        BK_ELCAsset *asset = [_rowAssets objectAtIndex:i];
 
         if (i < [_imageViewArray count]) {
             UIImageView *imageView = [_imageViewArray objectAtIndex:i];
@@ -83,7 +83,7 @@
 	
 	for (int i = 0; i < [_rowAssets count]; ++i) {
         if (CGRectContainsPoint(frame, point)) {
-            ELCAsset *asset = [_rowAssets objectAtIndex:i];
+            BK_ELCAsset *asset = [_rowAssets objectAtIndex:i];
             asset.selected = !asset.selected;
             UIImageView *overlayView = [_overlayViewArray objectAtIndex:i];
             overlayView.hidden = !asset.selected;

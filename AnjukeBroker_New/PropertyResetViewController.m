@@ -724,7 +724,7 @@
 
 #pragma mark - ELCImagePickerController Delegate
 
-- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+- (void)elcImagePickerController:(BK_ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
     if (![self canAddNewImgWithNewCount:info.count]) {
         [self dismissViewControllerAnimated:YES completion:nil];
         [self showInfo:MAX_PHOTO_ALERT_MESSAGE];

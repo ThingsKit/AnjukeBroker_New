@@ -8,7 +8,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface ELCAssetCell : UITableViewCell
+@interface BK_ELCAssetCell : UITableViewCell
 
 - (void)setAssets:(NSArray *)assets;
 

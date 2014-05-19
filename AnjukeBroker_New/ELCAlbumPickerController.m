@@ -5,21 +5,21 @@
 //  Copyright 2011 ELC Technologies. All rights reserved.
 //
 
-#import "ELCAlbumPickerController.h"
-#import "ELCImagePickerController.h"
-#import "ELCAssetTablePicker.h"
+#import "BK_ELCAlbumPickerController.h"
+#import "BK_ELCImagePickerController.h"
+#import "BK_ELCAssetTablePicker.h"
 #import "Util_UI.h"
 #import "AppManager.h"
 
 #define PhotoPickerTitle @"选择相册"
 
-@interface ELCAlbumPickerController ()
+@interface BK_ELCAlbumPickerController ()
 
 @property (nonatomic, strong) ALAssetsLibrary *library;
 
 @end
 
-@implementation ELCAlbumPickerController
+@implementation BK_ELCAlbumPickerController
 
 //Using auto synthesizers
 
@@ -100,7 +100,7 @@
 //    [self setTitleForNavBarWithStr:PhotoPickerTitle];
 }
 
-- (BOOL)shouldSelectAsset:(ELCAsset *)asset previousCount:(NSUInteger)previousCount
+- (BOOL)shouldSelectAsset:(BK_ELCAsset *)asset previousCount:(NSUInteger)previousCount
 {
     return [self.parent shouldSelectAsset:asset previousCount:previousCount];
 }
@@ -164,7 +164,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	ELCAssetTablePicker *picker = [[ELCAssetTablePicker alloc] initWithNibName: nil bundle: nil];
+	BK_ELCAssetTablePicker *picker = [[BK_ELCAssetTablePicker alloc] initWithNibName: nil bundle: nil];
 	picker.parent = self;
 
     picker.assetGroup = [self.assetGroups objectAtIndex:indexPath.row];

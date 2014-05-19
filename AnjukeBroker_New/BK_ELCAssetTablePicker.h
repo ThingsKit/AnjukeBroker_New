@@ -7,11 +7,11 @@
 
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
-#import "ELCAsset.h"
+#import "BK_ELCAsset.h"
 #import "ELCAssetSelectionDelegate.h"
 #import "ELCAssetPickerFilterDelegate.h"
 
-@interface ELCAssetTablePicker : UITableViewController <ELCAssetDelegate>
+@interface BK_ELCAssetTablePicker : UITableViewController <ELCAssetDelegate>
 
 @property (nonatomic, weak) id <ELCAssetSelectionDelegate> parent;
 @property (nonatomic, strong) ALAssetsGroup *assetGroup;

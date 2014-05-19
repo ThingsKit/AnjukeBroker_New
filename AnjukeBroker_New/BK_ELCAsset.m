@@ -5,10 +5,10 @@
 //  Copyright 2011 ELC Technologies. All rights reserved.
 //
 
-#import "ELCAsset.h"
-#import "ELCAssetTablePicker.h"
+#import "BK_ELCAsset.h"
+#import "BK_ELCAssetTablePicker.h"
 
-@implementation ELCAsset
+@implementation BK_ELCAsset
 
 //Using auto synthesizers
 

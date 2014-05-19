@@ -7,7 +7,7 @@
 //
 
 #import "AXChatMessageRoomSourceCell.h"
-#import "RTLineView.h"
+#import "BK_RTLineView.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import "BK_WebImageView.h"
 
@@ -28,7 +28,7 @@ static CGFloat const AXPropertyCardInLableMarginLeft = 81.0f;
 @property (nonatomic, strong) UIControl *propControl;
 @property (nonatomic, strong) BK_WebImageView *roomImage;
 @property (nonatomic, strong) UIView *whiteBackGround;
-@property (nonatomic, strong) RTLineView *tagLineView;
+@property (nonatomic, strong) BK_RTLineView *tagLineView;
 @property (nonatomic, strong) NSDictionary *propDict;
 @end
 
@@ -73,7 +73,7 @@ static CGFloat const AXPropertyCardInLableMarginLeft = 81.0f;
     self.tagLable.backgroundColor = [UIColor clearColor];
     [self.whiteBackGround addSubview:self.tagLable];
     
-    self.tagLineView = [[RTLineView alloc] initWithFrame:CGRectMake(20, 28, AXPropertyCardWidth - 30, 1)];
+    self.tagLineView = [[BK_RTLineView alloc] initWithFrame:CGRectMake(20, 28, AXPropertyCardWidth - 30, 1)];
     self.tagLineView.backgroundColor = [UIColor axChatInputBorderColor:self.isBroker];
     [self.whiteBackGround addSubview:self.tagLineView];
     

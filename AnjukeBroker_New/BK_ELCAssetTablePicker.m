@@ -5,22 +5,22 @@
 //  Copyright 2011 ELC Technologies. All rights reserved.
 //
 
-#import "ELCAssetTablePicker.h"
-#import "ELCAssetCell.h"
-#import "ELCAsset.h"
-#import "ELCAlbumPickerController.h"
+#import "BK_ELCAssetTablePicker.h"
+#import "BK_ELCAssetCell.h"
+#import "BK_ELCAsset.h"
+#import "BK_ELCAlbumPickerController.h"
 #import "Util_UI.h"
 #import "AppManager.h"
 
 #define PhotoPickerTitle @"选择相片"
 
-@interface ELCAssetTablePicker ()
+@interface BK_ELCAssetTablePicker ()
 
 @property (nonatomic, assign) int columns;
 
 @end
 
-@implementation ELCAssetTablePicker
+@implementation BK_ELCAssetTablePicker
 
 //Using auto synthesizers
 
@@ -103,14 +103,14 @@
                 return;
             }
 
-            ELCAsset *elcAsset = [[ELCAsset alloc] initWithAsset:result];
+            BK_ELCAsset *elcAsset = [[BK_ELCAsset alloc] initWithAsset:result];
             [elcAsset setParent:self];
             
             BOOL isAssetFiltered = NO;
             if (self.assetPickerFilterDelegate &&
                [self.assetPickerFilterDelegate respondsToSelector:@selector(assetTablePicker:isAssetFilteredOut:)])
             {
-                isAssetFiltered = [self.assetPickerFilterDelegate assetTablePicker:self isAssetFilteredOut:(ELCAsset*)elcAsset];
+                isAssetFiltered = [self.assetPickerFilterDelegate assetTablePicker:self isAssetFilteredOut:(BK_ELCAsset*)elcAsset];
             }
 
             if (!isAssetFiltered) {
@@ -142,7 +142,7 @@
 {	
 	NSMutableArray *selectedAssetsImages = [[NSMutableArray alloc] init];
 	    
-	for (ELCAsset *elcAsset in self.elcAssets) {
+	for (BK_ELCAsset *elcAsset in self.elcAssets) {
 		if ([elcAsset selected]) {
 			[selectedAssetsImages addObject:[elcAsset asset]];
 		}
@@ -158,10 +158,10 @@
         [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (BOOL)shouldSelectAsset:(ELCAsset *)asset
+- (BOOL)shouldSelectAsset:(BK_ELCAsset *)asset
 {
     NSUInteger selectionCount = 0;
-    for (ELCAsset *elcAsset in self.elcAssets) {
+    for (BK_ELCAsset *elcAsset in self.elcAssets) {
         if (elcAsset.selected) selectionCount++;
     }
     BOOL shouldSelect = YES;
@@ -171,11 +171,11 @@
     return shouldSelect;
 }
 
-- (void)assetSelected:(ELCAsset *)asset
+- (void)assetSelected:(BK_ELCAsset *)asset
 {
     if (self.singleSelection) {
 
-        for (ELCAsset *elcAsset in self.elcAssets) {
+        for (BK_ELCAsset *elcAsset in self.elcAssets) {
             if (asset != elcAsset) {
                 elcAsset.selected = NO;
             }
@@ -217,10 +217,10 @@
 {    
     static NSString *CellIdentifier = @"Cell";
         
-    ELCAssetCell *cell = (ELCAssetCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    BK_ELCAssetCell *cell = (BK_ELCAssetCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
     if (cell == nil) {		        
-        cell = [[ELCAssetCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[BK_ELCAssetCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
     [cell setAssets:[self assetsForIndexPath:indexPath]];
@@ -237,7 +237,7 @@
 {
     int count = 0;
     
-    for (ELCAsset *asset in self.elcAssets) {
+    for (BK_ELCAsset *asset in self.elcAssets) {
 		if (asset.selected) {
             count++;	
 		}

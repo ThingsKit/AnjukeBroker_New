@@ -1450,8 +1450,8 @@ typedef enum {
                 
                 self.isTakePhoto = NO;
                 
-                ELCAlbumPickerController *albumPicker = [[ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
-                ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initWithRootViewController:albumPicker];                elcPicker.maximumImagesCount = maxImgCount;
+                BK_ELCAlbumPickerController *albumPicker = [[BK_ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
+                BK_ELCImagePickerController *elcPicker = [[BK_ELCImagePickerController alloc] initWithRootViewController:albumPicker];                elcPicker.maximumImagesCount = maxImgCount;
                 elcPicker.imagePickerDelegate = self;
                 
                 [self presentViewController:elcPicker animated:YES completion:nil];
@@ -1685,7 +1685,7 @@ typedef enum {
 
 #pragma mark - ELCImagePickerController Delegate
 
-- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+- (void)elcImagePickerController:(BK_ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
     int count = [info count];
     if (![self canAddMoreImgWithNewCount:count]) {
         [self showInfo:MAX_PHOTO_ALERT_MESSAGE];
@@ -1738,7 +1738,7 @@ typedef enum {
     
 }
 
-- (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
+- (void)elcImagePickerControllerDidCancel:(BK_ELCImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
