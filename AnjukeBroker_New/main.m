@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "AppDelegate.h"
+#import "CrashLogUtil.h"
 
 int main(int argc, char * argv[])
 {

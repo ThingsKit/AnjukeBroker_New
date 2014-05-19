@@ -26,6 +26,8 @@
 #import "AXChatMessageCenter.h"
 #import "HomeViewController.h"
 
+#import "CrashLogUtil.h"
+
 #define coreDataName @"AnjukeBroker_New"
 
 #define UMENG_KEY_OFFLINE @"529da42356240b93f001f9b4"
@@ -101,7 +103,7 @@
     //断开长链接
     [self killLongLinkForChat];
     
-    [[RTLogger sharedInstance] sendCachedActions];
+//    [[RTLogger sharedInstance] sendCachedActions];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
