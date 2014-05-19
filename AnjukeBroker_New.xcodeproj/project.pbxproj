@@ -328,7 +328,7 @@
 		97C6870C183A27E700F449BD /* BaseAuctionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C6870B183A27E700F449BD /* BaseAuctionViewController.m */; };
 		97C6870F183A2BF100F449BD /* PropertyAuctionPublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C6870E183A2BF100F449BD /* PropertyAuctionPublishViewController.m */; };
 		97C97B461810DD34006E538B /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C97B451810DD34006E538B /* TabBarViewController.m */; };
-		97CB0C0C182BEA3500FCCBBD /* ELCAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C01182BEA3500FCCBBD /* ELCAlbumPickerController.m */; };
+		97CB0C0C182BEA3500FCCBBD /* BK_ELCAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C01182BEA3500FCCBBD /* BK_ELCAlbumPickerController.m */; };
 		97CB0C0D182BEA3500FCCBBD /* BK_ELCAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C03182BEA3500FCCBBD /* BK_ELCAsset.m */; };
 		97CB0C0E182BEA3500FCCBBD /* BK_ELCAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C05182BEA3500FCCBBD /* BK_ELCAssetCell.m */; };
 		97CB0C0F182BEA3500FCCBBD /* BK_ELCAssetTablePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0C09182BEA3500FCCBBD /* BK_ELCAssetTablePicker.m */; };
@@ -1149,8 +1149,8 @@
 		97C6870E183A2BF100F449BD /* PropertyAuctionPublishViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyAuctionPublishViewController.m; sourceTree = "<group>"; };
 		97C97B441810DD34006E538B /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
 		97C97B451810DD34006E538B /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
-		97CB0C00182BEA3500FCCBBD /* ELCAlbumPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAlbumPickerController.h; sourceTree = "<group>"; };
-		97CB0C01182BEA3500FCCBBD /* ELCAlbumPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAlbumPickerController.m; sourceTree = "<group>"; };
+		97CB0C00182BEA3500FCCBBD /* BK_ELCAlbumPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BK_ELCAlbumPickerController.h; sourceTree = "<group>"; };
+		97CB0C01182BEA3500FCCBBD /* BK_ELCAlbumPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BK_ELCAlbumPickerController.m; sourceTree = "<group>"; };
 		97CB0C02182BEA3500FCCBBD /* BK_ELCAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BK_ELCAsset.h; sourceTree = "<group>"; };
 		97CB0C03182BEA3500FCCBBD /* BK_ELCAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BK_ELCAsset.m; sourceTree = "<group>"; };
 		97CB0C04182BEA3500FCCBBD /* BK_ELCAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BK_ELCAssetCell.h; sourceTree = "<group>"; };
@@ -2926,8 +2926,8 @@
 		97CB0BFE182BE9F200FCCBBD /* 相册多选pickerController */ = {
 			isa = PBXGroup;
 			children = (
-				97CB0C00182BEA3500FCCBBD /* ELCAlbumPickerController.h */,
-				97CB0C01182BEA3500FCCBBD /* ELCAlbumPickerController.m */,
+				97CB0C00182BEA3500FCCBBD /* BK_ELCAlbumPickerController.h */,
+				97CB0C01182BEA3500FCCBBD /* BK_ELCAlbumPickerController.m */,
 				97CB0C02182BEA3500FCCBBD /* BK_ELCAsset.h */,
 				97CB0C03182BEA3500FCCBBD /* BK_ELCAsset.m */,
 				97CB0C04182BEA3500FCCBBD /* BK_ELCAssetCell.h */,
@@ -4355,7 +4355,7 @@
 				B7E69BB2183B26A90097D5C3 /* RentBidPropertyCell.m in Sources */,
 				B7EAD51D18CD927200B28FEC /* AXChatMessageSystemTimeCell.m in Sources */,
 				B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */,
-				97CB0C0C182BEA3500FCCBBD /* ELCAlbumPickerController.m in Sources */,
+				97CB0C0C182BEA3500FCCBBD /* BK_ELCAlbumPickerController.m in Sources */,
 				B7EA1FC2183A437500438CF8 /* SaleAuctionViewController.m in Sources */,
 				F8A717BF192058FB004840C6 /* UserCenterViewController.m in Sources */,
 				976AC61118278B5C003A2B3A /* LoginViewController.m in Sources */,
