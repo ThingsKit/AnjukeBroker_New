@@ -11,7 +11,7 @@
 #import "CheckoutCommunityViewController.h"
 #import "FindHomeViewController.h"
 #import "RushPropertyViewController.h"
-#import "RTNavigationController.h"
+#import "BK_RTNavigationController.h"
 
 @interface DiscoverViewController ()
 
@@ -137,7 +137,7 @@
         RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
         viewController.isModalCancelItemDisplay = YES; //设置为模态视图
         [viewController setHidesBottomBarWhenPushed:YES];
-        RTNavigationController* navi = [[RTNavigationController alloc] initWithRootViewController:viewController];
+        BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:viewController];
         [self.view.window.rootViewController presentViewController:navi animated:YES completion:nil];
         
     }
