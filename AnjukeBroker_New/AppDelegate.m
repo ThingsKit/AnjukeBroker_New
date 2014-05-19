@@ -309,7 +309,7 @@
     [[RTCoreDataManager sharedInstance] setModelName:coreDataName];
     
     //appLog初始化：app name, channelid, umeng key
-    [[RTLogger sharedInstance] setLogAppName:Code_AppName];
+    [[RTLogger sharedInstance] setConfig:RTLoggerConfigForBroker];
 #ifdef DEBUG
     [[RTLogger sharedInstance] setUmengKey:UMENG_KEY_OFFLINE channelID:@"A01"];
 #else
