@@ -15,13 +15,14 @@
 #import "timeArrSort.h"
 #import "CheckInfoWithCommunity.h"
 #import "HUDNews.h"
+#import "UIFont+RT.h"
 
-#define HEADERFRAME CGRectMake(0, 0, [self windowWidth], 220)
-#define HEADERMAPFRAME CGRectMake(0, 0, [self windowWidth], 150)
-#define FRAME_CENTRE_LOC CGRectMake([self windowWidth]/2-8, 150/2-25, 16, 33)
-#define CELLHEIGHT_NOFMAL 44
-#define CELLHEIGHT_NOCHECK 60
-#define CELLHEIGHT_CHECK 100
+#define HEADERFRAME CGRectMake(0, 0, [self windowWidth], 260)
+#define HEADERMAPFRAME CGRectMake(0, 0, [self windowWidth], 180)
+#define FRAME_CENTRE_LOC CGRectMake([self windowWidth]/2-10, 180/2-25, 20, 25)
+#define CELLHEIGHT_NOFMAL 36
+#define CELLHEIGHT_NOCHECK 55
+#define CELLHEIGHT_CHECK 105
 
 @interface CheckoutViewController ()<checkoutButtonDelegate>
 @property(nonatomic, strong) UIView *headerView;
@@ -76,6 +77,7 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     [self locationServiceCheck];
+    [self doRequest];
 }
 - (void)locationServiceCheck{
     if (![CLLocationManager isLocationServiceEnabled]) {
@@ -113,25 +115,26 @@
     [self.headerView addSubview:self.map];
 
     UIImageView *certerIcon = [[UIImageView alloc] initWithFrame:FRAME_CENTRE_LOC];
-    certerIcon.image = [UIImage imageNamed:@"anjuke_icon_itis_position.png"];
+    certerIcon.image = [UIImage imageNamed:@"checkCommunity_icon"];
     [map addSubview:certerIcon];
     
     CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(self.checkCommunitmodel.lat,self.checkCommunitmodel.lng);
-    float zoomLevel = 0.02;
+    float zoomLevel = 0.01;
     MKCoordinateRegion region = MKCoordinateRegionMake(coords, MKCoordinateSpanMake(zoomLevel, zoomLevel));
     region = [map regionThatFits:region];
     [map setRegion:region animated:NO];
 
     //签到按钮
     self.checkoutBtn = [self.cb buttonWithUnCheck];
-    self.checkoutBtn.frame = CGRectMake(15, map.frame.size.height + 15, 220, 40);
+    self.checkoutBtn.frame = CGRectMake(15, map.frame.size.height + 20, 230, 40);
     [self.headerView addSubview:self.checkoutBtn];
     
-    self.checkoutNumLab = [[UILabel alloc] initWithFrame:CGRectMake(self.checkoutBtn.frame.origin.x+self.checkoutBtn.frame.size.width, self.checkoutBtn.frame.origin.y, 80, 40)];
+    self.checkoutNumLab = [[UILabel alloc] initWithFrame:CGRectMake(self.checkoutBtn.frame.origin.x+self.checkoutBtn.frame.size.width+15, self.checkoutBtn.frame.origin.y, 50, 30)];
     self.checkoutNumLab.lineBreakMode = UILineBreakModeWordWrap;
     self.checkoutNumLab.numberOfLines = 0;
+    self.checkoutNumLab.textColor = [UIColor ajkBlackColor];
     self.checkoutNumLab.text = [NSString stringWithFormat:@"-人\n今日已签"];
-    self.checkoutNumLab.font = [UIFont systemFontOfSize:14];
+    self.checkoutNumLab.font = [UIFont ajkH5Font];
     self.checkoutNumLab.textAlignment = NSTextAlignmentCenter;
     self.checkoutNumLab.backgroundColor = [UIColor clearColor];
     [self.headerView addSubview:self.checkoutNumLab];
@@ -193,7 +196,6 @@
         self.hideCheck = NO;
     }
     
-    
     [self updateUI];
 }
 - (void)updateUI{
@@ -211,20 +213,16 @@
     //更新签到状态
     if (self.checkoutBtn) {
         [self.checkoutBtn removeFromSuperview];
+        self.checkoutBtn = nil;
     }
     if ([self.checkInfoModel.signAble intValue] == 1) {
         self.checkoutBtn = [self.cb buttonWithCountdown:[self.checkInfoModel.countDown intValue]];
-        self.checkoutBtn.frame = CGRectMake(15, 150 + 15, 220, 40);
+        self.checkoutBtn.frame = CGRectMake(15, 180 + 20, 230, 40);
         [self.headerView addSubview:self.checkoutBtn];
     }else{
         self.checkoutBtn = [self.cb buttonWithCountdown:[self.checkInfoModel.countDown intValue]];
-        self.checkoutBtn.frame = CGRectMake(15, 150 + 15, 220, 40);
+        self.checkoutBtn.frame = CGRectMake(15, 180 + 20, 230, 40);
         [self.headerView addSubview:self.checkoutBtn];
-
-//        self.checkoutBtn = [self.cb buttonWithNormalStatus];
-//        self.checkoutBtn.frame = CGRectMake(15, 150 + 15, 220, 40);
-//        [self.headerView addSubview:self.checkoutBtn];
-//        [self.checkoutBtn addTarget:self action:@selector(checkoutCommunity:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     [self.tableList reloadData];
@@ -271,9 +269,14 @@
     NSDictionary *dic = [response content];
     DLog(@"checkReturnDic---->>%@",dic);
     if ([dic[@"status"] isEqualToString:@"ok"]) {
-        [[HUDNews sharedHUDNEWS] createHUD:@"签到成功" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:YES];
+        //签到成功后UI处理
+        [[HUDNews sharedHUDNEWS] createHUD:@"签到成功" hudTitleTwo:[NSString stringWithFormat:@"第%@位签到者",[[dic objectForKey:@"data"] objectForKey:@"signRank"]] addView:self.view isDim:YES isHidden:YES statusOK:YES];
+        if (self.checkoutBtn) {
+            [self.checkoutBtn removeFromSuperview];
+            self.checkoutBtn = nil;
+        }
         self.checkoutBtn = [self.cb buttonWithCountdown:[[[dic objectForKey:@"data"] objectForKey:@"countDown"] intValue]];
-        self.checkoutBtn.frame = CGRectMake(15, 150 + 15, 220, 40);
+        self.checkoutBtn.frame = CGRectMake(15, 180 + 20, 230, 40);
         [self.headerView addSubview:self.checkoutBtn];
 
         [self doRequest];
@@ -287,7 +290,7 @@
         self.checkoutBtn = nil;
     }
     self.checkoutBtn = [self.cb buttonWithNormalStatus];
-    self.checkoutBtn.frame = CGRectMake(15, 150 + 15, 220, 40);
+    self.checkoutBtn.frame = CGRectMake(15, 180 + 20, 230, 40);
     [self.checkoutBtn addTarget:self action:@selector(checkoutCommunity:) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:self.checkoutBtn];
 }

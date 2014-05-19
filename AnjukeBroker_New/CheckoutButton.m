@@ -7,6 +7,8 @@
 //
 
 #import "CheckoutButton.h"
+#import "UIFont+RT.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation CheckoutButton
 @synthesize checkoutDelegate;
@@ -23,9 +25,11 @@
 }
 - (UIButton *)buttonWithNormalStatus{
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    btn.backgroundColor = [UIColor blueColor];
-    [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor blueColor]] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor ajkGreenColor]] forState:UIControlStateNormal];
     [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor grayColor]] forState:UIControlStateHighlighted];
+    btn.titleLabel.font = [UIFont ajkH1Font_B];
+    btn.layer.masksToBounds = YES;
+    btn.layer.cornerRadius = 5;
     [btn setTitle:@"立即签到" forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize:20];
     
@@ -34,16 +38,13 @@
 
 - (UIButton *)buttonWithUnCheck{
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.backgroundColor = [UIColor blueColor];
-    btn.titleLabel.font = [UIFont systemFontOfSize:20];
+    btn.backgroundColor = [UIColor ajkLightGrayColor];
+    btn.titleLabel.font = [UIFont ajkH1Font_B];
+    btn.layer.masksToBounds = YES;
+    btn.layer.cornerRadius = 5;
     [btn setTitle:@"加载中..." forState:UIControlStateNormal];
     btn.userInteractionEnabled = NO;
-    
-//    UIActivityIndicatorView *activityView= [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//    activityView.center=CGPointMake(110, 20);
-//    [activityView startAnimating];
-//    [btn addSubview:activityView];
-    
+  
     return btn;
 }
 
@@ -51,18 +52,28 @@
     leftTime = timeLeft;
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.backgroundColor = [UIColor blueColor];
-    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 30, 30)];
-    [icon setImage:[UIImage imageNamed:@"agent_icon43"]];
+    btn.backgroundColor = [UIColor ajkLightGrayColor];
+    btn.layer.masksToBounds = YES;
+    btn.layer.cornerRadius = 5;
+    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(25, 7, 18, 25)];
+    [icon setImage:[UIImage imageNamed:@"countTime_icon"]];
     [btn addSubview:icon];
     
-    self.timeCountLab = [[UILabel alloc] initWithFrame:CGRectMake(50, 10, 150, 20)];
+    if (self.timeCountLab) {
+        [self.timeCountLab removeFromSuperview];
+        self.timeCountLab = nil;
+    }
+    self.timeCountLab = [[UILabel alloc] initWithFrame:CGRectMake(50, 10, 185, 20)];
     self.timeCountLab.textAlignment = NSTextAlignmentLeft;
-    self.timeCountLab.font = [UIFont systemFontOfSize:14];
-    self.timeCountLab.textColor = [UIColor whiteColor];
-    self.timeCountLab.text = [NSString stringWithFormat:@"距下次签到:%@",[self changeTimeToStr:timeLeft]];
+    self.timeCountLab.font = [UIFont ajkH2Font_B];
+    self.timeCountLab.textColor = [UIColor ajkWhiteColor];
+    self.timeCountLab.text = [NSString stringWithFormat:@"距下次签到: %@",[self changeTimeToStr:timeLeft]];
     [btn addSubview:self.timeCountLab];
     
+    if (timer) {
+        [timer invalidate];
+        timer = nil;
+    }
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(downTime) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
 
@@ -74,16 +85,36 @@
     NSString *m;
     NSString *s;
     
-    h = [NSString stringWithFormat:@"%d",time/3600];
-    if ((time - [h intValue]*3600)/60 < 10) {
-        m = [NSString stringWithFormat:@"0%d",(time - [h intValue]*3600)/60];
+    int hNum;
+    int mNum;
+    int sNum;
+    
+    hNum = time/3600;
+    mNum = (time - hNum*3600)/60;
+    sNum = time - hNum*3600 - mNum*60;
+
+    if (hNum == 0) {
+        h = @"00";
+    }else if (hNum < 10){
+        h = [NSString stringWithFormat:@"0%d",hNum];
     }else{
-        m = [NSString stringWithFormat:@"%d",(time - [h intValue]*3600)/60];
+        h = [NSString stringWithFormat:@"%d",hNum];
     }
-    if (time - [h intValue]*3600 - [m intValue]*60 < 10) {
-        s = [NSString stringWithFormat:@"0%d",time - [h intValue]*3600 - [m intValue]*60];
+
+    if (mNum == 0) {
+        m = @"00";
+    }else if (mNum < 10){
+        m = [NSString stringWithFormat:@"0%d",mNum];
     }else{
-        s = [NSString stringWithFormat:@"%d",time - [h intValue]*3600 - [m intValue]*60];
+        m = [NSString stringWithFormat:@"%d",mNum];
+    }
+    
+    if (sNum == 0) {
+        s = @"00";
+    }else if (sNum < 10){
+        s = [NSString stringWithFormat:@"0%d",sNum];
+    }else{
+        s = [NSString stringWithFormat:@"%d",sNum];
     }
     
     NSString *timeStr = [NSString stringWithFormat:@"%@:%@:%@",h,m,s];
@@ -99,7 +130,7 @@
     }else{
         NSString *str = [self changeTimeToStr:leftTime];
 
-        self.timeCountLab.text = [NSString stringWithFormat:@"距下次签到:%@",str];
+        self.timeCountLab.text = [NSString stringWithFormat:@"距下次签到: %@",str];
     }
 }
 @end
