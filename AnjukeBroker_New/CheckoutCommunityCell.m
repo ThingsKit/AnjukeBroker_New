@@ -9,6 +9,7 @@
 #import "CheckoutCommunityCell.h"
 #import "CheckCommunityModel.h"
 #import "UIFont+RT.h"
+#import "UIColor+BrokerRT.h"
 
 #define CHECKOUTSTATEFRAME CGRectMake(200,0,90,48)
 
@@ -29,7 +30,7 @@
     
     self.checkStatusLab = [[UILabel alloc] initWithFrame:CHECKOUTSTATEFRAME];
     self.checkStatusLab.textAlignment = NSTextAlignmentRight;
-    self.checkStatusLab.textColor = [UIColor ajkGreenColor];
+    self.checkStatusLab.textColor = [UIColor brokerGreenColor];
     self.checkStatusLab.backgroundColor = [UIColor clearColor];
     self.checkStatusLab.font = [UIFont ajkH3Font];
     [self.contentView addSubview:self.checkStatusLab];    
@@ -40,7 +41,7 @@
     CheckCommunityModel *model = (CheckCommunityModel *)dataModel;
     if (model) {
         self.textLabel.text = [NSString stringWithFormat:@"%@",model.commName];
-        self.textLabel.textColor = [UIColor ajkBlackColor];
+        self.textLabel.textColor = [UIColor brokerBlackColor];
         self.textLabel.font = [UIFont ajkH2Font_B];
         self.checkStatusLab.text = model.signAble ? @"已签到" : @"";        
     }

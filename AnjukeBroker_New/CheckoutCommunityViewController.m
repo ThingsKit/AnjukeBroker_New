@@ -14,6 +14,7 @@
 #import "HUDNews.h"
 #import "UIFont+RT.h"
 #import "AppDelegate.h"
+#import "UIColor+BrokerRT.h"
 
 @interface CheckoutCommunityViewController ()
 //@property(nonatomic, strong) CheckCommunityTable *tableList;
@@ -81,14 +82,14 @@
     
     UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 150, 30)];
     tips.font = [UIFont ajkH5Font];
-    tips.text = @"可签到1500米内小区";
-    tips.textColor = [UIColor ajkMiddleGrayColor];
+    tips.text = [NSString stringWithFormat:@"可签到%@米内小区",[LoginManager getSignMile]];
+    tips.textColor = [UIColor brokerMiddleGrayColor];
     [bottomView addSubview:tips];
     
     UILabel *refreshTips = [[UILabel alloc] initWithFrame:CGRectMake(220, 0, 60, 30)];
     refreshTips.font = [UIFont ajkH5Font];
     refreshTips.text = @"刷新位置";
-    refreshTips.textColor = [UIColor ajkMiddleGrayColor];
+    refreshTips.textColor = [UIColor brokerMiddleGrayColor];
     [bottomView addSubview:refreshTips];
     
     self.refreshBtn = [UIButton buttonWithType:UIButtonTypeCustom];

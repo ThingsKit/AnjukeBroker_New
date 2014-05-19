@@ -13,6 +13,7 @@
 #import "timeArrSort.h"
 #import "CheckInfoWithCommunity.h"
 #import "UIFont+RT.h"
+#import "UIColor+BrokerRT.h"
 
 #define CELLHEIGHT_NOFMAL 36
 #define CELLHEIGHT_NOCHECK 55
@@ -59,7 +60,7 @@
             timeSection = [[checkPersion objectAtIndex:index-1] objectForKey:@"hour"];
         }
     }
-    self.textLabel.textColor = [UIColor ajkMiddleGrayColor];
+    self.textLabel.textColor = [UIColor brokerMiddleGrayColor];
 
     if (cellType == CHECKOUTCELLWITHELSE) {
         self.textLabel.backgroundColor = [UIColor clearColor];
@@ -80,7 +81,7 @@
         
         if (!self.detailLab) {
             self.detailLab = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, 200, 55)];
-            self.detailLab.textColor = [UIColor ajkMiddleGrayColor];
+            self.detailLab.textColor = [UIColor brokerMiddleGrayColor];
             self.detailLab.font = [UIFont ajkH3Font];
             self.detailLab.text = @"签到前3位有展示位哦~";
             self.detailLab.backgroundColor = [UIColor clearColor];
@@ -109,14 +110,14 @@
             checkAvatar.layer.masksToBounds = YES;
             checkAvatar.layer.cornerRadius = 25;
             checkAvatar.layer.borderWidth = 0.5;
-            checkAvatar.layer.borderColor = [UIColor ajkLineColor].CGColor;
+            checkAvatar.layer.borderColor = [UIColor brokerLineColor].CGColor;
             [self.checkerInfo addSubview:checkAvatar];
             
             UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(70*i, checkAvatar.frame.origin.y+checkAvatar.frame.size.height+10, 50, 20)];
             lab.text = [[checkSectionArr objectAtIndex:i] objectForKey:@"brokerTrueName"];
             lab.font = [UIFont systemFontOfSize:12];
             lab.backgroundColor = [UIColor clearColor];
-            lab.textColor = [UIColor ajkMiddleGrayColor];
+            lab.textColor = [UIColor brokerMiddleGrayColor];
             lab.textAlignment = NSTextAlignmentCenter;
             [self.checkerInfo addSubview:lab];
         }

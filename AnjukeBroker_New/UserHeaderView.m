@@ -12,6 +12,7 @@
 #import "LoginManager.h"
 #import "Util_UI.h"
 #import "UIFont+RT.h"
+#import "UIColor+BrokerRT.h"
 
 @interface UserHeaderView () {
     
@@ -64,13 +65,13 @@
     userAvatar.layer.masksToBounds = YES;
     userAvatar.layer.cornerRadius = 5;
     userAvatar.layer.borderWidth = 2.5;
-    userAvatar.layer.borderColor = [UIColor ajkBackgroundPageColor].CGColor;
+    userAvatar.layer.borderColor = [UIColor brokerBgPageColor].CGColor;
     [self.userHeaderView addSubview:userAvatar];
     
     self.userName = [[UILabel alloc] initWithFrame:CGRectMake(userAvatar.frame.origin.x+userAvatar.frame.size.width + 10, 8, 100, 20)];
     self.userName.backgroundColor = [UIColor clearColor];
     self.userName.text = @"";
-    self.userName.layer.shadowColor = [UIColor ajkWhiteColor].CGColor;
+    self.userName.layer.shadowColor = [UIColor brokerWhiteColor].CGColor;
     self.userName.layer.shadowOffset = CGSizeMake(3, 3);
     self.userName.font = [UIFont ajkH1Font];
     self.userName.textColor = [UIColor whiteColor];
@@ -109,13 +110,13 @@
 
         UILabel *dataLab = [[UILabel alloc] initWithFrame:CGRectMake(labOriginX+originX, 10, 10, 15)];
         dataLab.backgroundColor = [UIColor clearColor];
-        dataLab.textColor = [UIColor ajkWhiteColor];
+        dataLab.textColor = [UIColor brokerWhiteColor];
         dataLab.font = [UIFont boldSystemFontOfSize:17];
         
         UILabel *unitLab = [[UILabel alloc] initWithFrame:CGRectMake(labOriginX+originX+10, 10, 35, 15)];
         unitLab.backgroundColor = [UIColor clearColor];
         unitLab.font = [UIFont systemFontOfSize:12];
-        unitLab.textColor = [UIColor ajkWhiteColor];
+        unitLab.textColor = [UIColor brokerWhiteColor];
         
         if (i == 0) {
             self.propertyLab = dataLab;

@@ -16,6 +16,7 @@
 #import "CheckInfoWithCommunity.h"
 #import "HUDNews.h"
 #import "UIFont+RT.h"
+#import "UIColor+BrokerRT.h"
 
 #define HEADERFRAME CGRectMake(0, 0, [self windowWidth], 260)
 #define HEADERMAPFRAME CGRectMake(0, 0, [self windowWidth], 180)
@@ -147,7 +148,7 @@
     self.checkoutNumLab = [[UILabel alloc] initWithFrame:CGRectMake(self.checkoutBtn.frame.origin.x+self.checkoutBtn.frame.size.width+10, self.checkoutBtn.frame.origin.y+5, 50, 30)];
     self.checkoutNumLab.lineBreakMode = UILineBreakModeWordWrap;
     self.checkoutNumLab.numberOfLines = 0;
-    self.checkoutNumLab.textColor = [UIColor ajkBlackColor];
+    self.checkoutNumLab.textColor = [UIColor brokerBlackColor];
     self.checkoutNumLab.text = [NSString stringWithFormat:@"-人\n今日已签"];
     self.checkoutNumLab.font = [UIFont ajkH5Font];
     self.checkoutNumLab.textAlignment = NSTextAlignmentCenter;
