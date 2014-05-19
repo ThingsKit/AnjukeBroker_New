@@ -73,9 +73,9 @@
  */
 + (BOOL) isLogin;
 
-@property(nonatomic,copy) NSString *user;
-@property(nonatomic,copy) NSString *pwd;
-@property(nonatomic,copy) NSString *param;
+@property(nonatomic,retain) NSString *user;
+@property(nonatomic,retain) NSString *pwd;
+@property(nonatomic,retain) NSString *param;
 
 
 @end

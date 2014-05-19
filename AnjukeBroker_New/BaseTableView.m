@@ -12,7 +12,7 @@
 
 @interface BaseTableView ()
 
-@property (nonatomic, strong) EGORefreshTableHeaderView* refreshHeaderView; //下拉刷新表头
+@property (nonatomic, strong) BK_EGORefreshTableHeaderView* refreshHeaderView; //下拉刷新表头
 @property (nonatomic, strong) UIButton* refreshFooterView; //下拉刷新表头
 @property (nonatomic, assign) BOOL reloading; //是否正在载入
 
@@ -36,7 +36,7 @@
 - (void)initView {
     
     if (self.refreshHeaderView == nil) {
-        self.refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.bounds.size.height, self.frame.size.width, self.bounds.size.height)];
+        self.refreshHeaderView = [[BK_EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.bounds.size.height, self.frame.size.width, self.bounds.size.height)];
         self.refreshHeaderView.delegate = self;
         self.refreshHeaderView.backgroundColor = [UIColor clearColor];
     }
@@ -184,7 +184,7 @@
 #pragma mark -
 #pragma mark EGORefreshTableHeaderDelegate Methods
 //下拉到一定距离，手指放开时调用
-- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(BK_EGORefreshTableHeaderView*)view{
 	
 	[self reloadTableViewDataSource];
     
@@ -198,14 +198,14 @@
 	
 }
 
-- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(BK_EGORefreshTableHeaderView*)view{
 	
 	return self.reloading; // should return if data source model is reloading
 	
 }
 
 //取得下拉刷新的时间
-- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(BK_EGORefreshTableHeaderView*)view{
 	
 	return [NSDate date]; // should return date data source was last changed
 	

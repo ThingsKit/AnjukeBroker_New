@@ -20,7 +20,7 @@
  
  在录音过程中，回调音频的音量。
  
- @param volume -[out] 音量，范围从1-100
+ @param volume -[out] 音量，范围从1-30
  */
 - (void) onVolumeChanged: (int)volume;
 
@@ -61,7 +61,6 @@
 - (void) onResults:(NSArray *) results;
 
 @optional
-
 /** 取消识别回调
  
  当调用了`cancel`函数之后，会回调此函数，在调用了cancel函数和回调onError之前会有一个短暂时间，您可以在此函数中实现对这段时间的界面显示。

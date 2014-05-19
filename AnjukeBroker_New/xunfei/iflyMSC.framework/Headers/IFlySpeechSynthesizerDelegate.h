@@ -20,7 +20,7 @@
 /** 缓冲进度回调
  
  @param progress 缓冲进度，0-100
- @param message 附件信息，此版本为nil
+ @param message 附加信息，用户可以忽略此此参数
  */
 - (void) onBufferProgress:(int) progress message:(NSString *)msg;
 

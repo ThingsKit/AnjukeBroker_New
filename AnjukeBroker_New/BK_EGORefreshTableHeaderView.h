@@ -34,7 +34,7 @@ typedef enum{
 } EGOPullRefreshState;
 
 @protocol EGORefreshTableHeaderDelegate;
-@interface EGORefreshTableHeaderView : UIView {
+@interface BK_EGORefreshTableHeaderView : UIView {
 	
 	id _delegate;
 	EGOPullRefreshState _state;
@@ -61,8 +61,8 @@ typedef enum{
 
 @end
 @protocol EGORefreshTableHeaderDelegate
-- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view;
-- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view;
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(BK_EGORefreshTableHeaderView*)view;
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(BK_EGORefreshTableHeaderView*)view;
 @optional
-- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view;
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(BK_EGORefreshTableHeaderView*)view;
 @end

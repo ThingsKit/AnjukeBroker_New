@@ -73,7 +73,7 @@
     
     //refresh View
     CGRect refreshRect = CGRectMake(0.0f, 0.0f - self.myTable.bounds.size.height, self.myTable.frame.size.width, self.myTable.bounds.size.height);
-    self.refreshView = [[EGORefreshTableHeaderView alloc] initWithFrame:refreshRect arrowImageName:@"fresh1_1008.png" textColor:[UIColor colorWithRed:0.62 green:0.62 blue:0.62 alpha:1]];
+    self.refreshView = [[BK_EGORefreshTableHeaderView alloc] initWithFrame:refreshRect arrowImageName:@"fresh1_1008.png" textColor:[UIColor colorWithRed:0.62 green:0.62 blue:0.62 alpha:1]];
     self.refreshView.backgroundColor = [UIColor clearColor];//[UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.0];
     self.refreshView.delegate = self;
     [self.myTable addSubview:self.refreshView];
@@ -176,7 +176,7 @@
 
 #pragma mark - EGORefreshTableHeaderDelegate Methods
 
-- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(BK_EGORefreshTableHeaderView*)view
 {
     if ([self isNetworkOkay]) {
         [self doRequest];
@@ -187,12 +187,12 @@
     }
 }
 
-- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(BK_EGORefreshTableHeaderView*)view
 {
 	return self.isLoading;
 }
 
-- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(BK_EGORefreshTableHeaderView*)view
 {
 	return [NSDate date]; // should return date data source was last changed
 }

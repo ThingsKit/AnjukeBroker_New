@@ -34,7 +34,6 @@
     IFlySpeechUser                     *_iFlySpeechUser;
     id<IFlyDataUploaderDelegate>        _delegate;
     int                                 _error;
-    NSOperationQueue                   *_operationQueue;
 }
 
 @property(nonatomic,copy) NSString *dataName;
@@ -61,5 +60,5 @@
  @param   data        -[in] 上传的数据，以utf8编码,,不可以为nil
  */
 - (void) uploadData:(NSString *)name params:(NSString *) params data:(NSString *)data;
-- (void) setDelegate:(id<IFlyDataUploaderDelegate>) delegate;
+
 @end

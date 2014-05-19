@@ -8,13 +8,13 @@
 
 #import "RTViewController.h"
 #import "BrokerTableStuct.h"
-#import "EGORefreshTableHeaderView.h"
+#import "BK_EGORefreshTableHeaderView.h"
 #import "BrokerTableStuct.h"
 
 @interface BaseTableStructViewController : RTViewController<EGORefreshTableHeaderDelegate,UITableViewDelegate>
 @property(nonatomic, assign) BOOL forbiddenEgo;
 @property(nonatomic, strong) BrokerTableStuct *tableList;
-@property (nonatomic, strong) EGORefreshTableHeaderView* refreshHeaderView; //下拉刷新表头
+@property (nonatomic, strong) BK_EGORefreshTableHeaderView* refreshHeaderView; //下拉刷新表头
 
 - (void)autoPullDown;
 - (void)donePullDown;

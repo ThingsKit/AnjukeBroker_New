@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EGORefreshTableHeaderView.h"
+#import "BK_EGORefreshTableHeaderView.h"
 
 @class BaseTableView;
 @protocol BaseTableViewEventDelegate <NSObject>

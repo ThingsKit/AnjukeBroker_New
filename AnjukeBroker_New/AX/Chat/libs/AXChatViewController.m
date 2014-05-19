@@ -1887,7 +1887,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 }
 
 - (void)pickIMG:(id)sender {
-    ELCAlbumPickerController *albumPicker = [[ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
+    BK_ELCAlbumPickerController *albumPicker = [[BK_ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
     BK_ELCImagePickerController *elcPicker = [[BK_ELCImagePickerController alloc] initWithRootViewController:albumPicker];
     elcPicker.maximumImagesCount = 5; //(maxCount - self.roomImageArray.count);
     elcPicker.imagePickerDelegate = self;
@@ -2199,7 +2199,6 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 - (void)showHUDWithTitle:(NSString*)title CustomView:(UIView*)view IsDim:(BOOL)isDim {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.color = [UIColor clearColor];
     self.hud.customView = view;
     self.hud.yOffset = -20;
     self.hud.mode = MBProgressHUDModeCustomView;

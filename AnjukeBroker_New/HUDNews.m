@@ -85,7 +85,6 @@ static HUDNews *hudNews;
 - (void)showHUDWithView:(UIImageView *)backView addView:(UIView *)addView isDim:(BOOL)isDim isHidden:(BOOL)isHidden {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.hud = [MBProgressHUD showHUDAddedTo:addView animated:YES];
-    self.hud.color = [UIColor clearColor];
     self.hud.customView = backView;
     self.hud.yOffset = -20;
     self.hud.mode = MBProgressHUDModeCustomView;

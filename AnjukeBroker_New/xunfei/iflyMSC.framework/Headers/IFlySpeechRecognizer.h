@@ -75,6 +75,7 @@
  7. plain_result:回结果是否在内部进行 json 解析,默认值为 0,即进行解析,返回外部的内容为解析后文本。对于语义等业 务,由于服务端返回内容为 xml 或其他格式,需要应用程序自 行处理,这时候需要设置 plain_result 为 1。
  8. grammarID:识别的语法 id,只针对 domain 设置为”asr”的应用。
  9. params:扩展参数,对于一些特殊的参数可在此设置。
+ 
  @param key 识别引擎参数
  @param value 参数对应的取值
  
@@ -86,7 +87,7 @@
  
  同时只能进行一路会话,这次会话没有结束不能进行下一路会话，否则会报错
  */
-- (BOOL) startListening;
+- (void) startListening;
 
 /** 停止录音
  
@@ -96,40 +97,6 @@
 
 /** 取消本次会话 */
 - (void) cancel;
-
-@end
-
-/** 音频文件识别
- 
- 音频文件识别不需要录音，只需要一次将音频文件传入就可以。
- */
-@interface IFlySpeechRecognizer(IFlyPcmRecognizer)
-
-/** 音频文件识别
- 
- @param audioData 音频数据
- */
-- (void) recognizeAudio:(NSData *) audioData;
-
-@end
-
-
-/** 音频流识别
-
- 音频流和音频文件相似，不同的是音频流识别可以将文件分段写入不需要一次写入
- */
-@interface IFlySpeechRecognizer(IFlyStreamRecognizer)
-
-/** 音频流识别 */
-- (void) recognizeStream;
-
-/** 写入音频流
- 
- @param audioData 音频数据
- @param length 长度
- @return 写入成功返回YES，写入失败返回NO
- */
-- (BOOL) writeAudio:(NSData *) audioData length:(int) length;
 
 @end
 

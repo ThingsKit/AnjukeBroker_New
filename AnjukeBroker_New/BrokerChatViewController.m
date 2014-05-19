@@ -186,7 +186,7 @@
 - (void)pickIMG:(id)sender {
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_006 note:nil];
     
-    ELCAlbumPickerController *albumPicker = [[ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
+    BK_ELCAlbumPickerController *albumPicker = [[BK_ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
     BK_ELCImagePickerController *elcPicker = [[BK_ELCImagePickerController alloc] initWithRootViewController:albumPicker];
     elcPicker.maximumImagesCount = 5; //(maxCount - self.roomImageArray.count);
     elcPicker.imagePickerDelegate = self;
