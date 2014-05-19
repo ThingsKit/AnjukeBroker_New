@@ -11,7 +11,7 @@
 #import "BrokerChatViewController.h"
 #import "LoginManager.h"
 #import "AppManager.h"
-#import "WebImageView.h"
+#import "BK_WebImageView.h"
 #import "BrokerCallAlert.h"
 
 #define DETAIL_HEADER_H 52+40
@@ -25,7 +25,7 @@
 
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *companyLabel;
-@property (nonatomic, strong) WebImageView *iconImage;
+@property (nonatomic, strong) BK_WebImageView *iconImage;
 @property (nonatomic, strong) UIBarButtonItem *startItem;
 @property BOOL isBlankStyle; //如果标注电话和标注信息为空，则显示为空样式提示标注
 
@@ -115,7 +115,7 @@
     headerView.backgroundColor = [UIColor clearColor];
     [self.tableViewList setTableHeaderView:headerView];
     
-    WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(IMG_OFFSET_TITLE, IMG_OFFSET_TITLE, 60, 60)];
+    BK_WebImageView *icon = [[BK_WebImageView alloc] initWithFrame:CGRectMake(IMG_OFFSET_TITLE, IMG_OFFSET_TITLE, 60, 60)];
     icon.backgroundColor = [UIColor clearColor];
 //    icon.layer.borderColor = [UIColor whiteColor].CGColor;
 //    icon.layer.borderWidth = 0.5;

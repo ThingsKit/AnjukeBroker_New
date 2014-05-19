@@ -7,7 +7,7 @@
 //
 
 #import "RTListCell.h"
-#import "WebImageView.h"
+#import "BK_WebImageView.h"
 #import "AXConversationListItem.h"
 
 #define MESSAGE_LIST_HEIGHT 65
@@ -16,7 +16,7 @@
 
 @interface MessageListCell : RTListCell
 
-@property (nonatomic, strong) WebImageView *imageIcon;
+@property (nonatomic, strong) BK_WebImageView *imageIcon;
 @property (nonatomic, strong) UILabel *nameLb;
 @property (nonatomic, strong) UILabel *messageLb;
 @property (nonatomic, strong) UILabel *timeLb;

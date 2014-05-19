@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "RTNavigationController.h"
+#import "BK_RTNavigationController.h"
 #import "LoginManager.h"
 #import "ConfigPlistManager.h"
 #import "AccountManager.h"
@@ -329,7 +329,7 @@
     //test add login
     LoginViewController *lb = [[LoginViewController alloc] init];
     self.loginVC = lb;
-    RTNavigationController *nav = [[RTNavigationController alloc] initWithRootViewController:lb];
+    BK_RTNavigationController *nav = [[BK_RTNavigationController alloc] initWithRootViewController:lb];
     nav.navigationBarHidden = YES;
     self.window.rootViewController = nav;
     

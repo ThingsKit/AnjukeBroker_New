@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
-#import "WebImageView.h"
+#import "BK_WebImageView.h"
 #import "IMGDowloaderManager.h"
 #import "BrokerResponder.h"
 

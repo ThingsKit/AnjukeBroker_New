@@ -1088,7 +1088,7 @@ typedef enum {
     //模态弹出图片播放器
     PropertyBigImageViewController *pb = [[PropertyBigImageViewController alloc] init];
     pb.btnDelegate = self;
-    RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
+    BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
     if ([self onlineHouseTypeImgExit] && photoIndex == self.imgArray.count) { //选中在线房形图

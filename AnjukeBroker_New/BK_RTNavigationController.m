@@ -6,15 +6,15 @@
 //  Copyright (c) 2013年 Wu sicong. All rights reserved.
 //
 
-#import "RTNavigationController.h"
+#import "BK_RTNavigationController.h"
 #import "Util_UI.h"
 #import "AppManager.h"
 
-@interface RTNavigationController ()
+@interface BK_RTNavigationController ()
 
 @end
 
-@implementation RTNavigationController
+@implementation BK_RTNavigationController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

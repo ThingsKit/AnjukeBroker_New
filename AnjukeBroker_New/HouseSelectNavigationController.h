@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
 
-#import "RTNavigationController.h"
+#import "BK_RTNavigationController.h"
 
 @protocol SelectedHouseWithDicDelegate<NSObject>
 
@@ -14,7 +14,7 @@
 
 @end
 
-@interface HouseSelectNavigationController : RTNavigationController
+@interface HouseSelectNavigationController : BK_RTNavigationController
 
 @property(nonatomic,assign) id<SelectedHouseWithDicDelegate> selectedHouseDelgate;
 @end

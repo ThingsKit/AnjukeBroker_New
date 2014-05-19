@@ -25,7 +25,7 @@
 #import "PhotoManager.h"
 #import "Util_UI.h"
 #import "ASIFormDataRequest.h"
-#import "RTNavigationController.h"
+#import "BK_RTNavigationController.h"
 #import "AnjukeOnlineImgController.h"
 #import "SimpleKeyboardToolBar.h"
 #import "AnjukeEditTextViewController.h"

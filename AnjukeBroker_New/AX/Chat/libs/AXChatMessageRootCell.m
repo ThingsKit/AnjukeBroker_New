@@ -71,7 +71,7 @@ NSInteger const kRetryTag = 101;
     self.errorButton.hidden = YES;
     [self.contentView addSubview:self.errorButton];
     
-    _avatar = [[WebImageView alloc] init];
+    _avatar = [[BK_WebImageView alloc] init];
     _avatar.layer.masksToBounds = YES;
     _avatar.layer.cornerRadius = 4;
 //    _avatar.contentMode = UIViewContentModeScaleToFill;

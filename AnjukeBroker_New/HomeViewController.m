@@ -11,7 +11,7 @@
 #import "SystemMessageViewController.h"
 #import "Util_UI.h"
 #import "BrokerLineView.h"
-#import "WebImageView.h"
+#import "BK_WebImageView.h"
 #import "LoginManager.h"
 #import "AppManager.h"
 #import "AXPhotoManager.h"
@@ -48,7 +48,7 @@
 @interface HomeViewController ()
 @property (nonatomic, strong) NSArray *taskArray;
 @property (nonatomic, strong) UITableView *tvList;
-@property (nonatomic, strong) WebImageView *photoImg;
+@property (nonatomic, strong) BK_WebImageView *photoImg;
 @property (nonatomic, strong) AXIMGDownloader *imgDownloader;
 @property (nonatomic, strong) NSMutableDictionary *dataDic;
 @property (nonatomic, strong) NSMutableDictionary *ppcDataDic;

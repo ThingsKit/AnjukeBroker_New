@@ -7,7 +7,7 @@
 //
 
 #import "CheckoutCell.h"
-#import "WebImageView.h"
+#import "BK_WebImageView.h"
 #import "LoginManager.h"
 #import <QuartzCore/QuartzCore.h>
 #import "timeArrSort.h"
@@ -80,7 +80,7 @@
         self.textLabel.font = [UIFont ajkH3Font_B];
         NSArray *checkSectionArr = [[NSArray alloc] initWithArray:[[checkPersion objectAtIndex:index-1] objectForKey:@"brokers"]];
         for (int i = 0; i < checkSectionArr.count; i++) {
-            WebImageView *checkAvatar = [[WebImageView alloc] initWithFrame:CGRectMake(70*i+70, 15, 50, 50)];
+            BK_WebImageView *checkAvatar = [[BK_WebImageView alloc] initWithFrame:CGRectMake(70*i+70, 15, 50, 50)];
             checkAvatar.imageUrl = [[checkSectionArr objectAtIndex:i] objectForKey:@"brokerPhoto"];
             checkAvatar.contentMode = UIViewContentModeScaleAspectFill;
             checkAvatar.layer.masksToBounds = YES;

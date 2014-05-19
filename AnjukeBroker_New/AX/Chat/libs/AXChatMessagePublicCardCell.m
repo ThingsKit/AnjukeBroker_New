@@ -9,7 +9,7 @@
 #import "AXChatMessagePublicCardCell.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import "RTLineView.h"
-#import "WebImageView.h"
+#import "BK_WebImageView.h"
 
 @interface AXChatMessagePublicCardCell ()
 
@@ -20,7 +20,7 @@
 @property (nonatomic, strong) UILabel *moreLable;
 @property (nonatomic, strong) UIControl *cardControl;
 @property (nonatomic, strong) UIImageView *cardBgImageView;
-@property (nonatomic, strong) WebImageView *cardImageView;
+@property (nonatomic, strong) BK_WebImageView *cardImageView;
 @property (nonatomic, strong) NSDictionary *dataDict;
 @property (nonatomic, strong) UIImageView *iconView;
 @end
@@ -126,7 +126,7 @@ static CGFloat const AXChatPublicCardMarginLeft = 10;
 - (UIImageView *)cardImageView
 {
     if (!_cardImageView) {
-        _cardImageView = [[WebImageView alloc] initWithFrame:CGRectMake(AXChatPublicCardMarginLeft, 65, 270, 135)];
+        _cardImageView = [[BK_WebImageView alloc] initWithFrame:CGRectMake(AXChatPublicCardMarginLeft, 65, 270, 135)];
         [self.cardBgView addSubview:_cardImageView];
     }
     return _cardImageView;

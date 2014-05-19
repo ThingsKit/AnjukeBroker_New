@@ -17,7 +17,7 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 @interface AXPhotoView ()
 {
     BOOL _doubleTap;
-     WebImageView *_imageView;
+     BK_WebImageView *_imageView;
 }
 
 @property (nonatomic, strong) UIImageView *imageView;
@@ -34,7 +34,7 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
         self.clipsToBounds = YES;
         self.bounces = YES;
         // 图片
-        _imageView = [[WebImageView alloc] init];
+        _imageView = [[BK_WebImageView alloc] init];
         _imageView.frame = CGRectZero;
         _imageView.contentMode = UIViewContentModeScaleAspectFit;
         [self addSubview:_imageView];

@@ -257,7 +257,7 @@
 		972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C102B1814FD4500552C9B /* AnjukeHomeViewController.m */; };
 		972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C102E1814FD5900552C9B /* HaozuHomeViewController.m */; };
 		972C10391815351900552C9B /* AnjukeEditPropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */; };
-		972DDA2A1826A4CA00263F8F /* RTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972DDA291826A4CA00263F8F /* RTNavigationController.m */; };
+		972DDA2A1826A4CA00263F8F /* BK_RTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972DDA291826A4CA00263F8F /* BK_RTNavigationController.m */; };
 		972DDA301826D39500263F8F /* RTPopoverTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972DDA2F1826D39500263F8F /* RTPopoverTableViewController.m */; };
 		972F70DE1844C7660010CABB /* BrokerLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 972F70DD1844C7660010CABB /* BrokerLogger.m */; };
 		973727AD182FD1C8007D8501 /* PropertyFitment.plist in Resources */ = {isa = PBXBuildFile; fileRef = 973727AC182FD1C8007D8501 /* PropertyFitment.plist */; };
@@ -283,7 +283,7 @@
 		974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 974E5C8B181E4D45000246D1 /* AnjukeNormalCell.m */; };
 		9751860218320D5F00C9A40A /* PhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9751860118320D5F00C9A40A /* PhotoManager.m */; };
 		975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 975D9DE0181B69A700A421AF /* KeyboardToolBar.m */; };
-		975E7ED01829EDC7008EBC1D /* WebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 975E7ECF1829EDC7008EBC1D /* WebImageView.m */; };
+		975E7ED01829EDC7008EBC1D /* BK_WebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 975E7ECF1829EDC7008EBC1D /* BK_WebImageView.m */; };
 		976AC61118278B5C003A2B3A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 976AC61018278B5C003A2B3A /* LoginViewController.m */; };
 		976D9354183CC69100C9571B /* ConfigPlistManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 976D9353183CC69100C9571B /* ConfigPlistManager.m */; };
 		977FCA8F182894F000945FB4 /* CommunityListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 977FCA8E182894F000945FB4 /* CommunityListViewController.m */; };
@@ -587,9 +587,8 @@
 		B7FC9B0218C41B1300F77205 /* xproject_dialogue_redbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = B7FC9A8318C41B1300F77205 /* xproject_dialogue_redbutton.png */; };
 		B7FC9B0318C41B1300F77205 /* xproject_dialogue_redbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7FC9A8418C41B1300F77205 /* xproject_dialogue_redbutton@2x.png */; };
 		B7FC9B2818C41F5100F77205 /* RTLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FC9B2718C41F5100F77205 /* RTLineView.m */; };
-		B7FC9B2B18C41F6500F77205 /* RTUISetting.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FC9B2A18C41F6500F77205 /* RTUISetting.m */; };
 		B7FC9B2E18C41F9C00F77205 /* UIColor+RT.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FC9B2D18C41F9C00F77205 /* UIColor+RT.m */; };
-		B7FC9B3118C41FEE00F77205 /* RTTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FC9B3018C41FEE00F77205 /* RTTabBarItem.m */; };
+		B7FC9B3118C41FEE00F77205 /* BK_RTTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FC9B3018C41FEE00F77205 /* BK_RTTabBarItem.m */; };
 		B7FC9B3418C4204C00F77205 /* UIImage+RTStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FC9B3318C4204C00F77205 /* UIImage+RTStyle.m */; };
 		B7FC9B3718C4206600F77205 /* NSString+RTStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FC9B3618C4206600F77205 /* NSString+RTStyle.m */; };
 		B7FC9BA118C4355100F77205 /* AXCellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FC9BA018C4355100F77205 /* AXCellFactory.m */; };
@@ -1045,8 +1044,8 @@
 		972C102E1814FD5900552C9B /* HaozuHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HaozuHomeViewController.m; sourceTree = "<group>"; };
 		972C10371815351900552C9B /* AnjukeEditPropertyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnjukeEditPropertyViewController.h; sourceTree = "<group>"; };
 		972C10381815351900552C9B /* AnjukeEditPropertyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnjukeEditPropertyViewController.m; sourceTree = "<group>"; };
-		972DDA281826A4CA00263F8F /* RTNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTNavigationController.h; sourceTree = "<group>"; };
-		972DDA291826A4CA00263F8F /* RTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTNavigationController.m; sourceTree = "<group>"; };
+		972DDA281826A4CA00263F8F /* BK_RTNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BK_RTNavigationController.h; sourceTree = "<group>"; };
+		972DDA291826A4CA00263F8F /* BK_RTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BK_RTNavigationController.m; sourceTree = "<group>"; };
 		972DDA2E1826D39500263F8F /* RTPopoverTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTPopoverTableViewController.h; sourceTree = "<group>"; };
 		972DDA2F1826D39500263F8F /* RTPopoverTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTPopoverTableViewController.m; sourceTree = "<group>"; };
 		972F70DC1844C7660010CABB /* BrokerLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerLogger.h; sourceTree = "<group>"; };
@@ -1083,8 +1082,8 @@
 		9751860118320D5F00C9A40A /* PhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoManager.m; sourceTree = "<group>"; };
 		975D9DDF181B69A700A421AF /* KeyboardToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardToolBar.h; sourceTree = "<group>"; };
 		975D9DE0181B69A700A421AF /* KeyboardToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardToolBar.m; sourceTree = "<group>"; };
-		975E7ECE1829EDC7008EBC1D /* WebImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebImageView.h; sourceTree = "<group>"; };
-		975E7ECF1829EDC7008EBC1D /* WebImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebImageView.m; sourceTree = "<group>"; };
+		975E7ECE1829EDC7008EBC1D /* BK_WebImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BK_WebImageView.h; sourceTree = "<group>"; };
+		975E7ECF1829EDC7008EBC1D /* BK_WebImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BK_WebImageView.m; sourceTree = "<group>"; };
 		976AC60F18278B5C003A2B3A /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		976AC61018278B5C003A2B3A /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		976D9352183CC69100C9571B /* ConfigPlistManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigPlistManager.h; sourceTree = "<group>"; };
@@ -1528,12 +1527,10 @@
 		B7FC9A8418C41B1300F77205 /* xproject_dialogue_redbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xproject_dialogue_redbutton@2x.png"; sourceTree = "<group>"; };
 		B7FC9B2618C41F5100F77205 /* RTLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTLineView.h; sourceTree = "<group>"; };
 		B7FC9B2718C41F5100F77205 /* RTLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTLineView.m; sourceTree = "<group>"; };
-		B7FC9B2918C41F6500F77205 /* RTUISetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTUISetting.h; sourceTree = "<group>"; };
-		B7FC9B2A18C41F6500F77205 /* RTUISetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTUISetting.m; sourceTree = "<group>"; };
 		B7FC9B2C18C41F9C00F77205 /* UIColor+RT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+RT.h"; sourceTree = "<group>"; };
 		B7FC9B2D18C41F9C00F77205 /* UIColor+RT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+RT.m"; sourceTree = "<group>"; };
-		B7FC9B2F18C41FEE00F77205 /* RTTabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTTabBarItem.h; sourceTree = "<group>"; };
-		B7FC9B3018C41FEE00F77205 /* RTTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTTabBarItem.m; sourceTree = "<group>"; };
+		B7FC9B2F18C41FEE00F77205 /* BK_RTTabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BK_RTTabBarItem.h; sourceTree = "<group>"; };
+		B7FC9B3018C41FEE00F77205 /* BK_RTTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BK_RTTabBarItem.m; sourceTree = "<group>"; };
 		B7FC9B3218C4204C00F77205 /* UIImage+RTStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RTStyle.h"; sourceTree = "<group>"; };
 		B7FC9B3318C4204C00F77205 /* UIImage+RTStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RTStyle.m"; sourceTree = "<group>"; };
 		B7FC9B3518C4206600F77205 /* NSString+RTStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RTStyle.h"; sourceTree = "<group>"; };
@@ -2144,8 +2141,8 @@
 				20E1A1F318FD0DF800FBDA75 /* RTGestureBackNavigationController.m */,
 				F8FCFC2118FE8F3500A4B012 /* RTGestureLock.h */,
 				F8FCFC2218FE8F3500A4B012 /* RTGestureLock.m */,
-				972DDA281826A4CA00263F8F /* RTNavigationController.h */,
-				972DDA291826A4CA00263F8F /* RTNavigationController.m */,
+				972DDA281826A4CA00263F8F /* BK_RTNavigationController.h */,
+				972DDA291826A4CA00263F8F /* BK_RTNavigationController.m */,
 			);
 			name = NavigationController;
 			sourceTree = "<group>";
@@ -2801,8 +2798,8 @@
 		975E7ED21829EE31008EBC1D /* 图片下载器 */ = {
 			isa = PBXGroup;
 			children = (
-				975E7ECE1829EDC7008EBC1D /* WebImageView.h */,
-				975E7ECF1829EDC7008EBC1D /* WebImageView.m */,
+				975E7ECE1829EDC7008EBC1D /* BK_WebImageView.h */,
+				975E7ECF1829EDC7008EBC1D /* BK_WebImageView.m */,
 			);
 			name = "图片下载器";
 			sourceTree = "<group>";
@@ -3561,12 +3558,10 @@
 				B7FC9B3618C4206600F77205 /* NSString+RTStyle.m */,
 				B7FC9B3218C4204C00F77205 /* UIImage+RTStyle.h */,
 				B7FC9B3318C4204C00F77205 /* UIImage+RTStyle.m */,
-				B7FC9B2F18C41FEE00F77205 /* RTTabBarItem.h */,
-				B7FC9B3018C41FEE00F77205 /* RTTabBarItem.m */,
+				B7FC9B2F18C41FEE00F77205 /* BK_RTTabBarItem.h */,
+				B7FC9B3018C41FEE00F77205 /* BK_RTTabBarItem.m */,
 				B7FC9B2C18C41F9C00F77205 /* UIColor+RT.h */,
 				B7FC9B2D18C41F9C00F77205 /* UIColor+RT.m */,
-				B7FC9B2918C41F6500F77205 /* RTUISetting.h */,
-				B7FC9B2A18C41F6500F77205 /* RTUISetting.m */,
 				B7FC9B2618C41F5100F77205 /* RTLineView.h */,
 				B7FC9B2718C41F5100F77205 /* RTLineView.m */,
 			);
@@ -4215,7 +4210,7 @@
 				B7FFC9DF18C8AC330020A73B /* UIImage+RoundedCorner.m in Sources */,
 				204E66CF1894E7DB00546D51 /* PublishBigImageViewController.m in Sources */,
 				200485DB1907C33800A5A351 /* Property.m in Sources */,
-				975E7ED01829EDC7008EBC1D /* WebImageView.m in Sources */,
+				975E7ED01829EDC7008EBC1D /* BK_WebImageView.m in Sources */,
 				B765B8F51907CB8A00413AAB /* AXDownLoadModule.m in Sources */,
 				F8575DA31900F6BE00AB662F /* BrokerCallAlert.m in Sources */,
 				B7EAD52118CD927200B28FEC /* AXPhotoManager.m in Sources */,
@@ -4270,7 +4265,7 @@
 				B769E47B181F82B000A2FF50 /* BaseBidPropertyCell.m in Sources */,
 				977FCA8F182894F000945FB4 /* CommunityListViewController.m in Sources */,
 				979583581821FF2B005EA48A /* SystemMessageViewController.m in Sources */,
-				B7FC9B3118C41FEE00F77205 /* RTTabBarItem.m in Sources */,
+				B7FC9B3118C41FEE00F77205 /* BK_RTTabBarItem.m in Sources */,
 				2056A39018EE7EA00022B5A5 /* AXMessageCenterGetUserOldMessageManager.m in Sources */,
 				B77A9612182A39C1007F04E3 /* RentPropertyObject.m in Sources */,
 				2056A39118EE7EA00022B5A5 /* AXMessageCenterModifyFriendInfoManager.m in Sources */,
@@ -4325,9 +4320,8 @@
 				678083FA1904AB1F00765A18 /* Emoji.m in Sources */,
 				9795835D1822014A005EA48A /* SystemMessageCell.m in Sources */,
 				2056A38E18EE7EA00022B5A5 /* AXMessageCenterFriendListManager.m in Sources */,
-				972DDA2A1826A4CA00263F8F /* RTNavigationController.m in Sources */,
+				972DDA2A1826A4CA00263F8F /* BK_RTNavigationController.m in Sources */,
 				20A44DB01869799F008D8CB1 /* EGORefreshTableHeaderView.m in Sources */,
-				B7FC9B2B18C41F6500F77205 /* RTUISetting.m in Sources */,
 				B769E453181F4D0100A2FF50 /* SaleFixedCell.m in Sources */,
 				970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */,
 				B7EF100B18D8457000D07C9B /* AXMessageLocationCell.m in Sources */,

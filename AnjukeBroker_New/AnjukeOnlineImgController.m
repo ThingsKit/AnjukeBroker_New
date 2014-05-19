@@ -8,7 +8,7 @@
 
 #import "AnjukeOnlineImgController.h"
 #import "LoginManager.h"
-#import "WebImageView.h"
+#import "BK_WebImageView.h"
 #import "Util_UI.h"
 
 @interface AnjukeOnlineImgController ()
@@ -131,7 +131,7 @@
     
     //test
     for (int i = 0; i < self.imgArray.count; i ++) {
-        WebImageView *wv = [[WebImageView alloc] initWithFrame:CGRectMake(0+ [self windowWidth]*i, 0, [self windowWidth], [self currentViewHeight])];
+        BK_WebImageView *wv = [[BK_WebImageView alloc] initWithFrame:CGRectMake(0+ [self windowWidth]*i, 0, [self windowWidth], [self currentViewHeight])];
         wv.contentMode = UIViewContentModeScaleAspectFit;
         wv.backgroundColor = [UIColor clearColor];
         wv.imageUrl = [[self.imgArray objectAtIndex:i] objectForKey:@"url"];

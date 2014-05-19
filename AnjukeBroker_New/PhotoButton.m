@@ -23,7 +23,7 @@
 //        self.layer.borderWidth = 0.5;
         
         //用于显示照片的控件
-        WebImageView *img = [[WebImageView alloc] initWithFrame:self.bounds];
+        BK_WebImageView *img = [[BK_WebImageView alloc] initWithFrame:self.bounds];
         self.photoImg = img;
         img.clipsToBounds = NO;
         img.contentMode = UIViewContentModeScaleAspectFit;

@@ -6,10 +6,10 @@
 //  Copyright (c) 2013年 liu lh. All rights reserved.
 //
 
-#import "RTTabBarItem.h"
+#import "BK_RTTabBarItem.h"
 #import "UIImage+RTStyle.h"
 
-@implementation RTTabBarItem
+@implementation BK_RTTabBarItem
 
 @synthesize rtSelectedImage = _rtSelectedImage;
 @synthesize rtUnSelecteddImage = _rtUnSelecteddImage;

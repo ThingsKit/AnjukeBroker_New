@@ -8,7 +8,7 @@
 
 #import "ClientListCell.h"
 #import "Util_UI.h"
-#import "WebImageView.h"
+#import "BK_WebImageView.h"
 #import "RTListCell.h"
 #import "AXMappedPerson.h"
 #import "Util_TEXT.h"
@@ -46,7 +46,7 @@
  */
 
 - (void)initUI {
-    WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, (CLIENT_LIST_HEIGHT - IMG_ICON_H)/2, IMG_ICON_H, IMG_ICON_H)];
+    BK_WebImageView *icon = [[BK_WebImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, (CLIENT_LIST_HEIGHT - IMG_ICON_H)/2, IMG_ICON_H, IMG_ICON_H)];
     self.imageIcon = icon;
     icon.layer.cornerRadius = 5;
     //    icon.layer.borderColor = [UIColor whiteColor].CGColor;

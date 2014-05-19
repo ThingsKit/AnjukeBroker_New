@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RTTabBarItem : UITabBarItem
+@interface BK_RTTabBarItem : UITabBarItem
 
 @property (nonatomic, retain) UIImage *rtSelectedImage;
 @property (nonatomic, retain) UIImage *rtUnSelecteddImage;

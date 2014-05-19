@@ -8,7 +8,7 @@
 
 #import "BrokerTwoDimensionalCodeViewController.h"
 #import "Util_UI.h"
-#import "WebImageView.h"
+#import "BK_WebImageView.h"
 #import "LoginManager.h"
 #import "UIFont+RT.h"
 
@@ -17,8 +17,8 @@
 @property (nonatomic, strong) UILabel *nameLb;
 @property (nonatomic, strong) UILabel *remarkLb;
 @property (nonatomic, strong) UILabel *remarkMoreLb;
-@property (nonatomic, strong) WebImageView *brokerIcon;
-@property (nonatomic, strong) WebImageView *brokerGigImg;
+@property (nonatomic, strong) BK_WebImageView *brokerIcon;
+@property (nonatomic, strong) BK_WebImageView *brokerGigImg;
 
 @end
 
@@ -64,7 +64,7 @@
 - (void)initDisplay {
 //    CGFloat imgGap = 35;
     
-    WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(70, 40, 60, 60)];
+    BK_WebImageView *icon = [[BK_WebImageView alloc] initWithFrame:CGRectMake(70, 40, 60, 60)];
     icon.backgroundColor = [UIColor clearColor];
     icon.layer.borderWidth = 0.5;
     icon.layer.borderColor = SYSTEM_BLACK.CGColor;
@@ -102,7 +102,7 @@
 //    [self.view addSubview:bgView];
     
     CGFloat imgW = 250;
-    self.brokerGigImg = [[WebImageView alloc] initWithFrame:CGRectMake(35, icon.frame.origin.y + icon.frame.size.height + 30, imgW, imgW)];
+    self.brokerGigImg = [[BK_WebImageView alloc] initWithFrame:CGRectMake(35, icon.frame.origin.y + icon.frame.size.height + 30, imgW, imgW)];
     self.brokerGigImg.backgroundColor = [UIColor clearColor];
     self.brokerGigImg.imageUrl = [LoginManager getTwoCodeIcon];
 //    self.brokerGigImg.layer.borderColor = [UIColor blackColor].CGColor;

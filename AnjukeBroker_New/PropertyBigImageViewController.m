@@ -51,7 +51,7 @@
 }
 
 - (void)initDisplay {
-   WebImageView *img = [[WebImageView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight])];
+   BK_WebImageView *img = [[BK_WebImageView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight])];
     img.backgroundColor = SYSTEM_BLACK;
     img.contentMode = UIViewContentModeScaleAspectFit;
 //    img.layer.borderColor = [UIColor blackColor].CGColor;

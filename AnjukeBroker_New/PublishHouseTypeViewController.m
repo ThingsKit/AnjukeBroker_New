@@ -572,7 +572,7 @@
             //模态弹出图片播放器
             PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
             pb.clickDelegate = self;
-            RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
+            BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
             navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
             [self.navigationController presentViewController:navController animated:YES completion:^(void) {
                 [pb showImagesWithArray:self.houseTypeImageArr atIndex:index];
@@ -583,7 +583,7 @@
             //模态弹出图片播放器
             PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
             pb.clickDelegate = self;
-            RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
+            BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
             navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
             [self.navigationController presentViewController:navController animated:YES completion:^(void) {
                 [pb showImagesForOnlineHouseTypeWithDic:self.onlineHouseTypeDic];
@@ -597,7 +597,7 @@
         //模态弹出图片播放器
         PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
         pb.clickDelegate = self;
-        RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
+        BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
         navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         [self.navigationController presentViewController:navController animated:YES completion:^(void) {
             [pb showImagesWithArray:self.houseTypeImageArr atIndex:index];

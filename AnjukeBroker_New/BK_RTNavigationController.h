@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RTNavigationController : UINavigationController
+@interface BK_RTNavigationController : UINavigationController
 
 @end

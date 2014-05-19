@@ -671,7 +671,7 @@
     PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
     pb.clickDelegate = self;
     pb.isEditProperty = YES;
-    RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
+    BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self.navigationController presentViewController:navController animated:YES completion:^(void) {
         

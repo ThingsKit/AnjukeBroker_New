@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RTNavigationController.h"
+#import "BK_RTNavigationController.h"
 
 //使用方法：初始化使用：RTGestureBackNavigationController *navH = [[RTGestureBackNavigationController alloc] initWithRootViewController:self.xxxx];
 //手势返回效果设置: 包括背景图缩放和背景图缓慢平滑。默认背景图缓慢平滑效果，可以navH.pushBackType = PushBackWithScale;来设置背景图缩放效果
@@ -25,7 +25,7 @@ typedef enum {
     PushBackWithSlowMove
 }PushBckType; //pushback效果
 
-@interface RTGestureBackNavigationController : RTNavigationController <UIGestureRecognizerDelegate,UINavigationControllerDelegate>
+@interface RTGestureBackNavigationController : BK_RTNavigationController <UIGestureRecognizerDelegate,UINavigationControllerDelegate>
 
 @property (nonatomic, assign) BOOL disableGestureForBack;
 @property (nonatomic, assign) BOOL isPopToRoot;

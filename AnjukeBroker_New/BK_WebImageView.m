@@ -6,10 +6,10 @@
 //  Copyright (c) 2012年 anjuke. All rights reserved.
 //
 
-#import "WebImageView.h"
+#import "BK_WebImageView.h"
 #import "RTApiProxy.h"
 
-@implementation WebImageView
+@implementation BK_WebImageView
 @synthesize imageUrl = _imageUrl;
 @synthesize notificationName;
 

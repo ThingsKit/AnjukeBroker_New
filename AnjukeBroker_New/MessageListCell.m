@@ -37,7 +37,7 @@
 */
 
 - (void)initUI {
-    WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, (MESSAGE_LIST_HEIGHT - IMG_ICON_H)/2, IMG_ICON_H, IMG_ICON_H)];
+    BK_WebImageView *icon = [[BK_WebImageView alloc] initWithFrame:CGRectMake(CELL_OFFSET_TITLE, (MESSAGE_LIST_HEIGHT - IMG_ICON_H)/2, IMG_ICON_H, IMG_ICON_H)];
     self.imageIcon = icon;
     icon.layer.cornerRadius = 5;
     icon.contentMode = UIViewContentModeScaleAspectFill;

@@ -8,7 +8,7 @@
 
 #import "UserHeaderView.h"
 #import "BrokerLineView.h"
-#import "WebImageView.h"
+#import "BK_WebImageView.h"
 #import "LoginManager.h"
 #import "Util_UI.h"
 #import "UIFont+RT.h"
@@ -58,7 +58,7 @@
     self.userHeaderView.backgroundColor = [UIColor clearColor];
     [_bannerView addSubview:self.userHeaderView];
     
-    WebImageView *userAvatar = [[WebImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
+    BK_WebImageView *userAvatar = [[BK_WebImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
     userAvatar.imageUrl = [LoginManager getUse_photo_url];
     userAvatar.contentMode = UIViewContentModeScaleAspectFill;
     userAvatar.layer.masksToBounds = YES;

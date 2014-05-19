@@ -8,7 +8,7 @@
 
 #import "ClientDetailPublicViewController.h"
 #import "Util_UI.h"
-#import "WebImageView.h"
+#import "BK_WebImageView.h"
 #import "BrokerChatViewController.h"
 
 @interface ClientDetailPublicViewController ()
@@ -46,7 +46,7 @@
 
 - (void)initDisplay {
     CGFloat imgW = 60;
-    WebImageView *icon = [[WebImageView alloc] initWithFrame:CGRectMake(20, 52/2, imgW, imgW)];
+    BK_WebImageView *icon = [[BK_WebImageView alloc] initWithFrame:CGRectMake(20, 52/2, imgW, imgW)];
     icon.backgroundColor = [UIColor clearColor];
     icon.layer.borderColor = [UIColor whiteColor].CGColor;
     icon.layer.borderWidth = 0.5;

@@ -9,7 +9,7 @@
 #import "AXChatMessageRoomSourceCell.h"
 #import "RTLineView.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
-#import "WebImageView.h"
+#import "BK_WebImageView.h"
 
 static CGFloat const AXPropertyCardHeight = 105.0f;
 static CGFloat const AXPropertyCardWidth = 220.0f;
@@ -26,7 +26,7 @@ static CGFloat const AXPropertyCardInLableMarginLeft = 81.0f;
 @property (nonatomic, strong) UILabel *priceLable;
 @property (nonatomic, strong) UILabel *roomTypeLabel;
 @property (nonatomic, strong) UIControl *propControl;
-@property (nonatomic, strong) WebImageView *roomImage;
+@property (nonatomic, strong) BK_WebImageView *roomImage;
 @property (nonatomic, strong) UIView *whiteBackGround;
 @property (nonatomic, strong) RTLineView *tagLineView;
 @property (nonatomic, strong) NSDictionary *propDict;
@@ -77,7 +77,7 @@ static CGFloat const AXPropertyCardInLableMarginLeft = 81.0f;
     self.tagLineView.backgroundColor = [UIColor axChatInputBorderColor:self.isBroker];
     [self.whiteBackGround addSubview:self.tagLineView];
     
-    self.roomImage = [[WebImageView alloc] initWithFrame:CGRectMake(20, 37, 60, 60)];
+    self.roomImage = [[BK_WebImageView alloc] initWithFrame:CGRectMake(20, 37, 60, 60)];
     self.roomImage.backgroundColor = [UIColor clearColor];
 //    self.roomImage.image = ;
     self.roomImage.userInteractionEnabled = YES;

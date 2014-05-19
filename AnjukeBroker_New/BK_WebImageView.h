@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface WebImageView : UIImageView
+@interface BK_WebImageView : UIImageView
 @property (nonatomic, copy) NSString *imageUrl;
 @property (nonatomic, copy) NSString *notificationName;
 
