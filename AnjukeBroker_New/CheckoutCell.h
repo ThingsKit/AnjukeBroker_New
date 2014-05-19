@@ -17,6 +17,8 @@ typedef NS_ENUM(NSInteger, CHECKOUTCELLTYPE) {
 
 @interface CheckoutCell : RTListCell
 @property(nonatomic, assign) CHECKOUTCELLTYPE cellViewType;
+@property(nonatomic, strong) UILabel *detailLab;
+@property(nonatomic, strong) UIView *checkerInfo;
 
 - (void)configurCell:(id)dataModel withIndex:(int)index cellType:(CHECKOUTCELLTYPE)cellType;
 @end

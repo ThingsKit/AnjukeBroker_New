@@ -75,10 +75,25 @@
     self.cb.checkoutDelegate = nil;
     self.cb = nil;
 }
-- (void)viewWillAppear:(BOOL)animated{
-    [self locationServiceCheck];
-    [self doRequest];
+- (void)wakeFrameBackGound{
+    [self reloadCheckInfo];
 }
+- (void)viewWillAppear:(BOOL)animated{
+    [self reloadCheckInfo];
+}
+- (void)reloadCheckInfo{
+    [self locationServiceCheck];
+
+    self.map.showsUserLocation = YES;
+    if (self.checkoutBtn) {
+        [self.checkoutBtn removeFromSuperview];
+        self.checkoutBtn = nil;
+    }
+    self.checkoutBtn = [self.cb buttonWithUnCheck];
+    self.checkoutBtn.frame = CGRectMake(15, 180 + 20, 230, 40);
+    [self.headerView addSubview:self.checkoutBtn];
+}
+
 - (void)locationServiceCheck{
     if (![CLLocationManager isLocationServiceEnabled]) {
         UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
@@ -129,7 +144,7 @@
     self.checkoutBtn.frame = CGRectMake(15, map.frame.size.height + 20, 230, 40);
     [self.headerView addSubview:self.checkoutBtn];
     
-    self.checkoutNumLab = [[UILabel alloc] initWithFrame:CGRectMake(self.checkoutBtn.frame.origin.x+self.checkoutBtn.frame.size.width+15, self.checkoutBtn.frame.origin.y, 50, 30)];
+    self.checkoutNumLab = [[UILabel alloc] initWithFrame:CGRectMake(self.checkoutBtn.frame.origin.x+self.checkoutBtn.frame.size.width+10, self.checkoutBtn.frame.origin.y+5, 50, 30)];
     self.checkoutNumLab.lineBreakMode = UILineBreakModeWordWrap;
     self.checkoutNumLab.numberOfLines = 0;
     self.checkoutNumLab.textColor = [UIColor ajkBlackColor];
@@ -153,7 +168,7 @@
         return;
     }
     if (![self isNetworkOkay]) {
-        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         self.isLoading = NO;
         return;
     }
@@ -169,9 +184,9 @@
 }
 
 - (void)onRequestFinished:(RTNetworkResponse *)response{
+    self.isLoading = NO;
     if([[response content] count] == 0){
-        self.isLoading = NO;
-        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         return ;
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
@@ -179,15 +194,12 @@
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         DLog(@"errorMsg--->>%@",errorMsg);
 
-        [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
-        self.isLoading = NO;
+        [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
 
         return;
     }
     
     NSDictionary *dic = [[response content] objectForKey:@"data"];
-    DLog(@"checkInfoDic--->>%@",dic)
-
     self.checkInfoModel = [CheckInfoWithCommunity convertToMappedObject:dic];
 
     if (self.checkInfoModel.signList.count == 0) {
@@ -232,17 +244,20 @@
         return;
     }
     if (![self isNetworkOkay]) {
-        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         self.isLoading = NO;
         return;
     }
     if ([self calcDistance] > [self.signMile integerValue]) {
-          [[HUDNews sharedHUDNEWS] createHUD:@"您漂移的太远" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:YES];
+          [[HUDNews sharedHUDNEWS] createHUD:@"您漂移的太远" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        self.isLoading = NO;
+        return;
     }
     
     NSMutableDictionary *params = nil;
     NSString *method = nil;
-    
+    self.isLoading = YES;
+
     params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%f",self.nowCoords.longitude],@"lng",self.checkCommunitmodel.commId,@"commId", nil];
     method = [NSString stringWithFormat:@"broker/commSign/"];
     
@@ -252,7 +267,7 @@
     if([[response content] count] == 0){
         self.isLoading = NO;
 //        [self showInfo:@"操作失败"];
-        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         return ;
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
@@ -260,7 +275,7 @@
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         DLog(@"errorMsg--->>%@",errorMsg);
 
-        [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:@"签到失败" addView:self.view isDim:YES isHidden:YES statusOK:NO];
+        [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:@"签到失败" addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
         self.isLoading = NO;
 
         return;
@@ -270,7 +285,7 @@
     DLog(@"checkReturnDic---->>%@",dic);
     if ([dic[@"status"] isEqualToString:@"ok"]) {
         //签到成功后UI处理
-        [[HUDNews sharedHUDNEWS] createHUD:@"签到成功" hudTitleTwo:[NSString stringWithFormat:@"第%@位签到者",[[dic objectForKey:@"data"] objectForKey:@"signRank"]] addView:self.view isDim:YES isHidden:YES statusOK:YES];
+        [[HUDNews sharedHUDNEWS] createHUD:@"签到成功" hudTitleTwo:[NSString stringWithFormat:@"第%@位签到者",[[dic objectForKey:@"data"] objectForKey:@"signRank"]] addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHCHECKOK];
         if (self.checkoutBtn) {
             [self.checkoutBtn removeFromSuperview];
             self.checkoutBtn = nil;
@@ -281,7 +296,7 @@
 
         [self doRequest];
     }else{
-        [[HUDNews sharedHUDNEWS] createHUD:@"签到失败" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
+        [[HUDNews sharedHUDNEWS] createHUD:@"签到失败" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
     }
 }
 - (void)timeCountZero{
@@ -326,32 +341,6 @@
     //创建cell
     [cell configurCell:self.checkInfoModel withIndex:indexPath.row cellType:[[self.checkCellStatusArr objectAtIndex:indexPath.row] intValue]];
     
-    //分割线绘制
-    if (indexPath.row == 0) {
-        [cell showTopLine];
-    }else if (indexPath.row == 1){
-        [cell showTopLine];
-        if ([[self.checkCellStatusArr objectAtIndex:indexPath.row] intValue] == CHECKOUTCELLWITHNOCHECK) {
-            [cell showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK andOffsetX:15];
-        }else{
-            [cell showBottonLineWithCellHeight:CELLHEIGHT_CHECK andOffsetX:15];
-        }
-    }else if (indexPath.row == 2){
-        if ([[self.checkCellStatusArr objectAtIndex:indexPath.row] intValue] == CHECKOUTCELLWITHNOCHECK) {
-            [cell showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK andOffsetX:15];
-        }else{
-            [cell showBottonLineWithCellHeight:CELLHEIGHT_CHECK andOffsetX:15];
-        }
-    }else if (indexPath.row == 3){
-        if ([[self.checkCellStatusArr objectAtIndex:indexPath.row] intValue] == CHECKOUTCELLWITHNOCHECK) {
-            [cell showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK];
-        }else{
-            [cell showBottonLineWithCellHeight:CELLHEIGHT_CHECK];
-        }
-    }else if (indexPath.row == 4){
-        [cell showBottonLineWithCellHeight:CELLHEIGHT_NOFMAL];
-    }
-    
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -369,7 +358,6 @@
     self.nowCoords = [userLocation coordinate];
     self.map.showsUserLocation = NO;
     [self doRequest];
-    DLog(@"updateLocation111--->>%f/%f,",self.nowCoords.latitude,self.nowCoords.longitude);
 }
 - (CLLocationDistance)calcDistance{
     CLLocation *communityLoc = [[CLLocation alloc] initWithLatitude:self.checkCommunitmodel.lat  longitude:self.checkCommunitmodel.lng];
@@ -385,9 +373,8 @@
     [self setTitleViewWithString:self.checkCommunitmodel.commName];
 }
 - (void)rightButtonAction:(id)sender{
-    [self doRequest];
-//    CheckoutRuleViewController *ruleVC = [[CheckoutRuleViewController alloc] init];
-//    [self.navigationController pushViewController:ruleVC animated:YES];
+    CheckoutRuleViewController *ruleVC = [[CheckoutRuleViewController alloc] init];
+    [self.navigationController pushViewController:ruleVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

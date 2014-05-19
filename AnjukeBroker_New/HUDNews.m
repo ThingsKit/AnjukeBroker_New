@@ -15,6 +15,7 @@
 @synthesize statusView;
 @synthesize hudLabOne;
 @synthesize hudLabTwo;
+@synthesize tipsType;
 
 static HUDNews *hudNews;
 
@@ -27,7 +28,8 @@ static HUDNews *hudNews;
         return hudNews;
     }
 }
-- (void)createHUD:(NSString *)hudTitleOne hudTitleTwo:(NSString *)hudTitleTwo addView:(UIView *)addView isDim:(BOOL)isDim isHidden:(BOOL)isHidden statusOK:(BOOL)statusOK{
+- (void)createHUD:(NSString *)hudTitleOne hudTitleTwo:(NSString *)hudTitleTwo addView:(UIView *)addView isDim:(BOOL)isDim isHidden:(BOOL)isHidden hudTipsType:(HUDTIPSTYPE)hudTipsType{
+    tipsType = hudTipsType;
     if (self.hud) {
         [self.hud hide:YES];
 //        [self.HUDBackGroundView removeFromSuperview];
@@ -37,10 +39,12 @@ static HUDNews *hudNews;
     
     
     self.statusView = [[UIImageView alloc] initWithFrame:CGRectMake(32, 10, 70, 70)];
-    if (statusOK) {
+    if (hudTipsType == HUDTIPSWITHNORMALOK) {
         [self.statusView setImage:[UIImage imageNamed:@"anjuke_icon_tips_laugh"]];
-    }else{
+    }else if(hudTipsType == HUDTIPSWITHNORMALBAD){
         [self.statusView setImage:[UIImage imageNamed:@"anjuke_icon_tips_sad"]];
+    }else if(hudTipsType == HUDTIPSWITHCHECKOK){
+        [self.statusView setImage:[UIImage imageNamed:@"check_status_ok"]];
     }
     [self.HUDBackGroundView addSubview:self.statusView];
     
@@ -77,7 +81,11 @@ static HUDNews *hudNews;
 - (void)showHUD:(UIImageView *)backView addView:(UIView *)addView isDim:(BOOL)isDim isHidden:(BOOL)isHidden{
     [self showHUDWithView:backView addView:addView isDim:isDim isHidden:isHidden];
     if (isHidden) {
-        [self.hud hide:YES afterDelay:1.0];
+        if (tipsType == HUDTIPSWITHCHECKOK) {
+            [self.hud hide:YES afterDelay:2.0];
+        }else{
+            [self.hud hide:YES afterDelay:1.0];
+        }
     }
 }
 
@@ -85,6 +93,7 @@ static HUDNews *hudNews;
 - (void)showHUDWithView:(UIImageView *)backView addView:(UIView *)addView isDim:(BOOL)isDim isHidden:(BOOL)isHidden {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.hud = [MBProgressHUD showHUDAddedTo:addView animated:YES];
+//    self.hud.color = [UIColor clearColor];
     self.hud.customView = backView;
     self.hud.yOffset = -20;
     self.hud.mode = MBProgressHUDModeCustomView;

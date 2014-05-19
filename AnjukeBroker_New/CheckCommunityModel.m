@@ -23,7 +23,7 @@
     model.commName = [dic objectForKey:@"commName"];
     model.lat = [[dic objectForKey:@"lat"] doubleValue];
     model.lng = [[dic objectForKey:@"lng"] doubleValue];
-    model.signAble = [[dic objectForKey:@"signAble"] isEqualToString:@"0"] ? YES : NO;
+    model.signAble = [[dic objectForKey:@"signed"] isEqualToString:@"1"] ? YES : NO;
 
     return model;
 

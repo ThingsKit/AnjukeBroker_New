@@ -13,7 +13,7 @@
 #import "CLLocationManager+RT.h"
 #import "HUDNews.h"
 #import "UIFont+RT.h"
-
+#import "AppDelegate.h"
 
 @interface CheckoutCommunityViewController ()
 //@property(nonatomic, strong) CheckCommunityTable *tableList;
@@ -125,7 +125,6 @@
 
 - (void)doRequest{
     if (!self.nowCoords.latitude) {
-//        [[HUDNews sharedHUDNEWS] createHUD:@"暂未获取地理信息" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES statusOK:NO];
         self.isLoading = NO;
         return;
     }
@@ -138,7 +137,6 @@
     self.isLoading = YES;
     NSMutableDictionary *params = nil;
     NSString *method = nil;
-    DLog(@"tokenValue--->>%@",[LoginManager getToken]);
     params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%f",self.nowCoords.longitude],@"lng", nil];
     method = [NSString stringWithFormat:@"broker/commSignList/"];
 
@@ -148,9 +146,7 @@
     self.isLoading = NO;
     [self stopAnimation];
     
-    DLog(@"。。。response [%@]", [response content]);
     if([[response content] count] == 0){
-        self.isLoading = NO;
         [self donePullDown];
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
         [self.tableList reloadData];
@@ -161,22 +157,19 @@
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         DLog(@"errorMsg--->>%@",errorMsg);
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles: nil];
-//        [alert show];
+
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
         [self.tableList reloadData];
 
-        self.isLoading = NO;
         [self donePullDown];
         return;
     }
     
     self.tablaData = [[response content] objectForKey:@"data"];
+    DLog(@"self.tablaData-->>%@",self.tablaData);
     if (self.tablaData.count == 0) {
         [self.tableList setTableStatus:STATUSFORNODATA];
     }
-    DLog(@"self.tablaData-->>%@",self.tablaData);
-    self.isLoading = NO;
     [self donePullDown];
     [self.tableList reloadData];
 }
@@ -196,8 +189,9 @@
     if (cell == nil) {
         cell = [[CheckoutCommunityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     }
+    CheckCommunityModel *model = [CheckCommunityModel convertToMappedObject:[self.tablaData objectAtIndex:indexPath.row]];
 
-    [cell configureCell:self.tablaData withIndex:indexPath.row];
+    [cell configureCell:model withIndex:indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     if (indexPath.row == self.tablaData.count - 1) {
         [cell showBottonLineWithCellHeight:45];
@@ -213,6 +207,7 @@
 
     CheckCommunityModel *model = [CheckCommunityModel convertToMappedObject:[self.tablaData objectAtIndex:indexPath.row]];
     CheckoutViewController *checkoutVC = [[CheckoutViewController alloc] init];
+    [AppDelegate sharedAppDelegate].checkoutVC = checkoutVC;
     checkoutVC.forbiddenEgo = YES;
     [checkoutVC passCommunityWithModel:model];
     [self.navigationController pushViewController:checkoutVC animated:YES];
@@ -227,7 +222,6 @@
 #pragma mark MKMapViewDelegate -user location定位变化
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     self.nowCoords = [userLocation coordinate];
-    DLog(@"updateLocation--->>%f/%f,",self.nowCoords.latitude,self.nowCoords.longitude);
     self.map.showsUserLocation = NO;
     [self doRequest];
 }

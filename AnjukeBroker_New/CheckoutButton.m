@@ -29,7 +29,7 @@
     [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor grayColor]] forState:UIControlStateHighlighted];
     btn.titleLabel.font = [UIFont ajkH1Font_B];
     btn.layer.masksToBounds = YES;
-    btn.layer.cornerRadius = 5;
+    btn.layer.cornerRadius = 2.5;
     [btn setTitle:@"立即签到" forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize:20];
     
@@ -41,7 +41,7 @@
     btn.backgroundColor = [UIColor ajkLightGrayColor];
     btn.titleLabel.font = [UIFont ajkH1Font_B];
     btn.layer.masksToBounds = YES;
-    btn.layer.cornerRadius = 5;
+    btn.layer.cornerRadius = 2.5;
     [btn setTitle:@"加载中..." forState:UIControlStateNormal];
     btn.userInteractionEnabled = NO;
   
@@ -54,8 +54,8 @@
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.backgroundColor = [UIColor ajkLightGrayColor];
     btn.layer.masksToBounds = YES;
-    btn.layer.cornerRadius = 5;
-    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(25, 7, 18, 25)];
+    btn.layer.cornerRadius = 2.5;
+    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 7, 18, 25)];
     [icon setImage:[UIImage imageNamed:@"countTime_icon"]];
     [btn addSubview:icon];
     
@@ -67,7 +67,8 @@
     self.timeCountLab.textAlignment = NSTextAlignmentLeft;
     self.timeCountLab.font = [UIFont ajkH2Font_B];
     self.timeCountLab.textColor = [UIColor ajkWhiteColor];
-    self.timeCountLab.text = [NSString stringWithFormat:@"距下次签到: %@",[self changeTimeToStr:timeLeft]];
+    self.timeCountLab.backgroundColor = [UIColor clearColor];
+    self.timeCountLab.text = [NSString stringWithFormat:@"距下次签到:  %@",[self changeTimeToStr:timeLeft]];
     [btn addSubview:self.timeCountLab];
     
     if (timer) {
@@ -124,13 +125,13 @@
 
 - (void)downTime{
     leftTime = leftTime - 1;
-    if (leftTime <= 0) {
+    if (leftTime <= 1) {
         [checkoutDelegate timeCountZero];
         [self.timer invalidate];
     }else{
         NSString *str = [self changeTimeToStr:leftTime];
 
-        self.timeCountLab.text = [NSString stringWithFormat:@"距下次签到: %@",str];
+        self.timeCountLab.text = [NSString stringWithFormat:@"距下次签到:  %@",str];
     }
 }
 @end

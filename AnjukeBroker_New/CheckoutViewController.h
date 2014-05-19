@@ -15,5 +15,5 @@
 
 - (void)passCommunityWithModel:(CheckCommunityModel *)model;
 - (void)timeCountZero;
-
+- (void)wakeFrameBackGound;
 @end

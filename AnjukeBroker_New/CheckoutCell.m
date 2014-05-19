@@ -7,14 +7,20 @@
 //
 
 #import "CheckoutCell.h"
-#import "BK_WebImageView.h"
+#import "WebImageView.h"
 #import "LoginManager.h"
 #import <QuartzCore/QuartzCore.h>
 #import "timeArrSort.h"
 #import "CheckInfoWithCommunity.h"
 #import "UIFont+RT.h"
 
+#define CELLHEIGHT_NOFMAL 36
+#define CELLHEIGHT_NOCHECK 55
+#define CELLHEIGHT_CHECK 105
+
 @implementation CheckoutCell
+@synthesize detailLab;
+@synthesize checkerInfo;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -30,6 +36,10 @@
 }
 
 - (void)configurCell:(id)dataModel withIndex:(int)index cellType:(CHECKOUTCELLTYPE)cellType{
+//    for (UIView *view in self.contentView.subviews) {
+//        [view removeFromSuperview];
+//    }
+    
     NSString *timeSection;
     NSArray *checkPersion;
     if (dataModel == nil) {
@@ -52,6 +62,7 @@
     self.textLabel.textColor = [UIColor ajkMiddleGrayColor];
 
     if (cellType == CHECKOUTCELLWITHELSE) {
+        self.textLabel.backgroundColor = [UIColor clearColor];
         if (index == 0) {
             self.textLabel.text = @"今日签到展示位得主：";
             self.textLabel.font = [UIFont ajkH5Font];
@@ -67,35 +78,74 @@
         self.textLabel.text = [NSString stringWithFormat:@"%@",timeSection];
         self.textLabel.font = [UIFont ajkH3Font_B];
         
-        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, 200, 55)];
-        lab.textColor = [UIColor ajkMiddleGrayColor];
-        lab.font = [UIFont ajkH3Font];
-        lab.text = @"签到前3位有展示位哦~";
-        [self.contentView addSubview:lab];
-        
-        self.textLabel.font = [UIFont ajkH3Font];
+        if (!self.detailLab) {
+            self.detailLab = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, 200, 55)];
+            self.detailLab.textColor = [UIColor ajkMiddleGrayColor];
+            self.detailLab.font = [UIFont ajkH3Font];
+            self.detailLab.text = @"签到前3位有展示位哦~";
+            self.detailLab.backgroundColor = [UIColor clearColor];
+            [self.contentView addSubview:self.detailLab];
+        }
     }
     if (cellType == CHECKOUTCELLWITHCHCK) {
+        if (self.detailLab) {
+            [self.detailLab removeFromSuperview];
+        }
+
         self.textLabel.text = [NSString stringWithFormat:@"%@",timeSection];
         self.textLabel.font = [UIFont ajkH3Font_B];
         NSArray *checkSectionArr = [[NSArray alloc] initWithArray:[[checkPersion objectAtIndex:index-1] objectForKey:@"brokers"]];
+        if (self.checkerInfo) {
+            [self.checkerInfo removeFromSuperview];
+        }
+        self.checkerInfo = [[UIView alloc] initWithFrame:CGRectMake(70, 0, 250, CELLHEIGHT_CHECK)];
+        self.checkerInfo.backgroundColor = [UIColor clearColor];
+        [self.contentView addSubview:self.checkerInfo];
+        
         for (int i = 0; i < checkSectionArr.count; i++) {
-            BK_WebImageView *checkAvatar = [[BK_WebImageView alloc] initWithFrame:CGRectMake(70*i+70, 15, 50, 50)];
+            WebImageView *checkAvatar = [[WebImageView alloc] initWithFrame:CGRectMake(70*i, 15, 50, 50)];
             checkAvatar.imageUrl = [[checkSectionArr objectAtIndex:i] objectForKey:@"brokerPhoto"];
             checkAvatar.contentMode = UIViewContentModeScaleAspectFill;
             checkAvatar.layer.masksToBounds = YES;
             checkAvatar.layer.cornerRadius = 25;
             checkAvatar.layer.borderWidth = 0.5;
             checkAvatar.layer.borderColor = [UIColor ajkLineColor].CGColor;
-            [self.contentView addSubview:checkAvatar];
+            [self.checkerInfo addSubview:checkAvatar];
             
-            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(70*i+70, checkAvatar.frame.origin.y+checkAvatar.frame.size.height+10, 50, 20)];
+            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(70*i, checkAvatar.frame.origin.y+checkAvatar.frame.size.height+10, 50, 20)];
             lab.text = [[checkSectionArr objectAtIndex:i] objectForKey:@"brokerTrueName"];
             lab.font = [UIFont systemFontOfSize:12];
+            lab.backgroundColor = [UIColor clearColor];
             lab.textColor = [UIColor ajkMiddleGrayColor];
             lab.textAlignment = NSTextAlignmentCenter;
-            [self.contentView addSubview:lab];
+            [self.checkerInfo addSubview:lab];
         }
+    }
+    
+    //分割线绘制
+    if (index == 0) {
+        [self showTopLine];
+    }else if (index == 1){
+        [self showTopLine];
+        if (cellType == CHECKOUTCELLWITHNOCHECK) {
+            [self showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK andOffsetX:15];
+        }else{
+            [self showBottonLineWithCellHeight:CELLHEIGHT_CHECK andOffsetX:15];
+        }
+    }else if (index == 2){
+        if (cellType == CHECKOUTCELLWITHNOCHECK) {
+            [self showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK andOffsetX:15];
+        }else{
+            [self showBottonLineWithCellHeight:CELLHEIGHT_CHECK andOffsetX:15];
+        }
+    }else if (index == 3){
+        if (cellType == CHECKOUTCELLWITHNOCHECK) {
+            [self showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK];
+        }else{
+            [self showBottonLineWithCellHeight:CELLHEIGHT_CHECK];
+        }
+    }else if (index == 4){
+        [self showBottonLineWithCellHeight:CELLHEIGHT_NOFMAL];
     }
 }
 @end

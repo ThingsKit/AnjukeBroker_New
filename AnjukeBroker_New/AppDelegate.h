@@ -11,6 +11,7 @@
 #import "LoginViewController.h"
 #import "AFWelcomeScrollview.h"
 #import "VersionUpdateManager.h"
+#import "CheckoutViewController.h"
 
 typedef enum {
     SwitchType_RentNoPlan = 0, //租房未推广
@@ -38,6 +39,7 @@ typedef enum {
 @property BOOL boolNeedAlert; //没有更新是否需要弹框提示（YES为检查更新用）
 @property (nonatomic, copy) NSString *updateUrl; //升级url
 @property (nonatomic, strong) VersionUpdateManager *versionUpdate;
+@property (nonatomic, strong) CheckoutViewController *checkoutVC;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;

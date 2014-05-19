@@ -37,16 +37,12 @@
     
 }
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index{
-    if ([dataModel isKindOfClass:[NSArray class]]) {
-        NSArray *arr = (NSArray *)dataModel;
-        if (arr.count == 0) {
-            return NO;
-        }
-        CheckCommunityModel *model = [CheckCommunityModel convertToMappedObject:[arr objectAtIndex:index]];
-        
+    CheckCommunityModel *model = (CheckCommunityModel *)dataModel;
+    if (model) {
         self.textLabel.text = [NSString stringWithFormat:@"%@",model.commName];
-        self.textLabel.font = [UIFont boldSystemFontOfSize:16];
-        self.checkStatusLab.text = model.signAble ? @"已签到" : @"";
+        self.textLabel.textColor = [UIColor ajkBlackColor];
+        self.textLabel.font = [UIFont ajkH2Font_B];
+        self.checkStatusLab.text = model.signAble ? @"已签到" : @"";        
     }
     return YES;
 }
