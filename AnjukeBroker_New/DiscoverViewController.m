@@ -11,7 +11,7 @@
 #import "CheckoutCommunityViewController.h"
 #import "FindHomeViewController.h"
 #import "RushPropertyViewController.h"
-
+#import "RTNavigationController.h"
 
 @interface DiscoverViewController ()
 
@@ -26,7 +26,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        
+        self.propertyBadgeNumber = 2; //测试用
     }
     return self;
 }
@@ -43,7 +43,7 @@
     self.tableView.dataSource = self;
     
     UIView* headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
-//    headView.backgroundColor = [UIColor yellowColor];
+    //    headView.backgroundColor = [UIColor yellowColor];
     self.tableView.tableHeaderView = headView;
     
 }
@@ -52,7 +52,7 @@
 #pragma mark -
 #pragma mark UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
+    return 4;
 }
 
 // Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
@@ -74,26 +74,38 @@
     }else if (indexPath.row == 1){
         cell.textLabel.text = @"小区签到";
         cell.imageView.image = [UIImage imageNamed:@"anjuke_icon_esf1"];
-    }else{
+    }else if (indexPath.row == 2){
         cell.textLabel.text = @"抢房源委托";
         cell.imageView.image = [UIImage imageNamed:@"anjuke_icon_esf1"];
         
-        UIImageView* badgeView;
-        if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-            badgeView = [[UIImageView alloc] initWithFrame:CGRectMake(140, 6, 30, 30)];
-        }else{
-            badgeView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 6, 30, 30)];
+        if (self.badgeView == nil) {
+            if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
+                self.badgeView = [[UIImageView alloc] initWithFrame:CGRectMake(140, 10, 25, 25)];
+            }else{
+                self.badgeView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 10, 25, 25)];
+            }
+            //        badgeView.image = [UIImage imageNamed:@"anjuke_icon_now_position"];
+            self.badgeView.backgroundColor = [UIColor redColor];
+            self.badgeView.layer.cornerRadius = 12.5f;
+            self.badgeView.layer.masksToBounds = YES;
+            
+            self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 2, 20, 20)];
+            [self.badgeNumberLabel setTextColor:[UIColor whiteColor]];
+            self.badgeNumberLabel.backgroundColor = [UIColor clearColor];
+            [self.badgeView addSubview:self.badgeNumberLabel];
+            
+            if (self.propertyBadgeNumber == 0) {
+                self.badgeView.hidden = YES;
+            }else{
+                self.badgeNumberLabel.text = [NSString stringWithFormat:@"%d", self.propertyBadgeNumber];
+                self.badgeView.hidden = NO;
+            }
+            [cell.contentView addSubview:self.badgeView];
         }
-        badgeView.image = [UIImage imageNamed:@"anjuke_icon_now_position"];
         
-        UILabel* badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 3, 25, 25)];
-        badgeNumberLabel.text = @"2";
-        [badgeNumberLabel sizeToFit];
-        badgeNumberLabel.backgroundColor = [UIColor clearColor];
-        [badgeView addSubview:badgeNumberLabel];
         
-        [cell.contentView addSubview:badgeView];
-        
+    }else if(indexPath.row == 3){
+        cell.textLabel.text = @"模态Property";
     }
     
     return cell;
@@ -113,14 +125,25 @@
         CheckoutCommunityViewController *communityVC = [[CheckoutCommunityViewController alloc] init];
         [communityVC setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:communityVC animated:YES];
-    }else{
+    }else if(indexPath.row == 2){
         NSLog(@"抢房源委托");
+        self.badgeView.hidden = YES; //消除badge
+        
         RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
         [viewController setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:viewController animated:YES];
+    }else if(indexPath.row == 3){
+        NSLog(@"模态视图");
+        RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
+        viewController.isModalCancelItemDisplay = YES; //设置为模态视图
+        [viewController setHidesBottomBarWhenPushed:YES];
+        RTNavigationController* navi = [[RTNavigationController alloc] initWithRootViewController:viewController];
+        [self.view.window.rootViewController presentViewController:navi animated:YES completion:nil];
+        
     }
     
-    [self.tableView reloadData];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //    [self.tableView reloadData];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -140,14 +163,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+ {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

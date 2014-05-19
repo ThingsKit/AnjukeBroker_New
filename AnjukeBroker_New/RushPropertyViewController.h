@@ -15,21 +15,23 @@
 @class PropertyModel;
 @interface RushPropertyViewController : RTViewController<BaseTableViewEventDelegate>
 
+@property(nonatomic, strong) UILabel* propertyListBadgeLabel;
+@property(nonatomic, assign) NSInteger badgeNumber;
+
 //自动拉下刷新
 - (void)autoRefresh;
-
-//取消模态视图
-- (void)cancelAction:(UIButton*)button;
 
 //供外部调用的MBProgressHUD
 - (void)displayHUDWithStatus:(NSString *)status Message:(NSString*)message ErrCode:(NSString*)errCode;
 
-//删除某个cell
+//删除propertyTableView的某个cell
 //- (void)removeCellFromPropertyTableViewWithIndexPath:(NSIndexPath*)indexPath;
 - (void)removeCellFromPropertyTableViewWithCell:(PropertyTableViewCell*)cell;
 
-//更新cell状态
-//- (void)updateCellWithIndexPath:(NSIndexPath*)indexPath PropertyModel:(PropertyModel*)propertyModel;
+//更新propertyTableView的某个cell状态
 - (void)updateCellWithCell:(PropertyTableViewCell*)cell;
+
+//获取propertyTableView的某个cell
+- (NSIndexPath*)indexPathFromCell:(PropertyTableViewCell*)cell;
 
 @end

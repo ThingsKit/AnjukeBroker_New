@@ -10,4 +10,8 @@
 
 @interface DiscoverViewController : RTViewController<UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic, strong) UIImageView* badgeView;
+@property (nonatomic, strong) UILabel* badgeNumberLabel;
+@property (nonatomic, assign) NSInteger propertyBadgeNumber;
+
 @end

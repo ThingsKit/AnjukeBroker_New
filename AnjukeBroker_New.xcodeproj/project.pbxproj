@@ -226,6 +226,7 @@
 		6767D17E192398C2004FEFF7 /* anjuke_icon_weituo_zf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6767D167192398C2004FEFF7 /* anjuke_icon_weituo_zf@2x.png */; };
 		6767D18219246303004FEFF7 /* UIView+ChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D18119246303004FEFF7 /* UIView+ChainViewController.m */; };
 		6767D18B19275D2E004FEFF7 /* timeline_new_status_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6767D18A19275D2E004FEFF7 /* timeline_new_status_background@2x.png */; };
+		6767D216192A14B3004FEFF7 /* NSString+EmojiExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D215192A14B3004FEFF7 /* NSString+EmojiExtension.m */; };
 		678083FA1904AB1F00765A18 /* Emoji.m in Sources */ = {isa = PBXBuildFile; fileRef = 678083E31904AB1F00765A18 /* Emoji.m */; };
 		678083FF1904AB1F00765A18 /* faceDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = 678083EC1904AB1F00765A18 /* faceDelete.png */; };
 		678084001904AB1F00765A18 /* faceDelete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 678083ED1904AB1F00765A18 /* faceDelete@2x.png */; };
@@ -981,6 +982,8 @@
 		6767D18019246303004FEFF7 /* UIView+ChainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ChainViewController.h"; sourceTree = "<group>"; };
 		6767D18119246303004FEFF7 /* UIView+ChainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ChainViewController.m"; sourceTree = "<group>"; };
 		6767D18A19275D2E004FEFF7 /* timeline_new_status_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_new_status_background@2x.png"; sourceTree = "<group>"; };
+		6767D214192A14B3004FEFF7 /* NSString+EmojiExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+EmojiExtension.h"; sourceTree = "<group>"; };
+		6767D215192A14B3004FEFF7 /* NSString+EmojiExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+EmojiExtension.m"; sourceTree = "<group>"; };
 		678083E21904AB1F00765A18 /* Emoji.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Emoji.h; sourceTree = "<group>"; };
 		678083E31904AB1F00765A18 /* Emoji.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Emoji.m; sourceTree = "<group>"; };
 		678083EC1904AB1F00765A18 /* faceDelete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = faceDelete.png; sourceTree = "<group>"; };
@@ -2639,6 +2642,8 @@
 				F8BE3E421925EF200027F9E0 /* UIFont+RT.m */,
 				F8BE3E3D1925E0D80027F9E0 /* UIColor+RT.h */,
 				F8BE3E3E1925E0D80027F9E0 /* UIColor+RT.m */,
+				6767D214192A14B3004FEFF7 /* NSString+EmojiExtension.h */,
+				6767D215192A14B3004FEFF7 /* NSString+EmojiExtension.m */,
 				F85A31501907862500511022 /* launchAdd */,
 				F815F93C1906366500DF9F55 /* nav&&UI */,
 				20E1A1F018FD0DD500FBDA75 /* NavigationController */,
@@ -4387,6 +4392,7 @@
 				273913E918DBD581003284AA /* RegexKitLite.m in Sources */,
 				B7E1F6BD190E3BFA009F546B /* AXIMGDownloader.m in Sources */,
 				9751860218320D5F00C9A40A /* PhotoManager.m in Sources */,
+				6767D216192A14B3004FEFF7 /* NSString+EmojiExtension.m in Sources */,
 				F8CD18A31921A9800033733E /* CheckoutRuleViewController.m in Sources */,
 				97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */,
 				979B083B18488A2800DD697E /* BigZhenzhenButton.m in Sources */,

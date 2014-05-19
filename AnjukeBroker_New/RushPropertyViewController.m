@@ -66,6 +66,7 @@
     self.tableView.eventDelegate = self;
     self.myTableView.eventDelegate = self;  //以self.tableView.hidden 来做逻辑判断
     
+    
     [self autoRefresh]; //自动下拉
     
 }
@@ -83,9 +84,9 @@
         NSDictionary* content = response.content;
         NSArray* data = [content objectForKey:@"data"];
         
-//        NSDictionary* dict = @{@"id":@"1", @"propertyId":@"123", @"commName":@"新中源", @"type":@"2", @"room":@"2", @"hall":@"2", @"toilet":@"2", @"area":@"400", @"price":@"2000", @"priceUnit":@"元/月", @"publishTime":@"2014-05-01 06:03:07",@"callable":@"1", @"rushable":@"1", @"rushed":@"0", @"ownerName":@"小明", @"ownerPhone":@"18915676299",@"status":@"1", @"statusInfo":@"委托中"};
-//        NSDictionary* dict2 = @{@"id":@"2", @"propertyId":@"456", @"commName":@"新中源实际花园", @"type":@"1", @"room":@"2", @"hall":@"2", @"toilet":@"2", @"area":@"400", @"price":@"500", @"priceUnit":@"万", @"publishTime":@"2014-05-01 06:03:07",@"callable":@"0", @"rushable":@"0", @"rushed":@"1", @"ownerName":@"AngleLa Baby", @"ownerPhone":@"1888888888", @"status":@"2", @"statusInfo":@"房源已过期"};
-//        NSArray* data = @[dict, dict2];
+        //        NSDictionary* dict = @{@"id":@"1", @"propertyId":@"123", @"commName":@"新中源", @"type":@"2", @"room":@"2", @"hall":@"2", @"toilet":@"2", @"area":@"400", @"price":@"2000", @"priceUnit":@"元/月", @"publishTime":@"2014-05-01 06:03:07",@"callable":@"1", @"rushable":@"1", @"rushed":@"0", @"ownerName":@"小明", @"ownerPhone":@"18915676299",@"status":@"1", @"statusInfo":@"委托中"};
+        //        NSDictionary* dict2 = @{@"id":@"2", @"propertyId":@"456", @"commName":@"新中源实际花园", @"type":@"1", @"room":@"2", @"hall":@"2", @"toilet":@"2", @"area":@"400", @"price":@"500", @"priceUnit":@"万", @"publishTime":@"2014-05-01 06:03:07",@"callable":@"0", @"rushable":@"0", @"rushed":@"1", @"ownerName":@"AngleLa Baby", @"ownerPhone":@"1888888888", @"status":@"2", @"statusInfo":@"房源已过期"};
+        //        NSArray* data = @[dict, dict2];
         
         NSMutableArray* properties = [NSMutableArray arrayWithCapacity:1];
         if (data.count > 0) { //请求如果有数据
@@ -114,7 +115,7 @@
         //如果有新数据
         if (properties.count > 0) {
             NSMutableArray* list = nil;
-  
+            
             if (self.myTableView.hidden) { //待委托房源列表
                 
                 if (!self.tableView.isPullUp) { //待委托列表下拉
@@ -124,7 +125,7 @@
                     list = [NSMutableArray arrayWithArray:self.tableView.data];
                     [list addObjectsFromArray:properties];
                 }
-  
+                
                 self.tableView.data = list;
                 
                 PropertyModel* minProperty = self.tableView.data.lastObject;  //获取最小id
@@ -185,10 +186,10 @@
         
     }else{ //数据请求失败
         [self showEmptyBackground];
-
+        
     }
     
-
+    
 }
 
 #pragma mark -
@@ -250,6 +251,7 @@
     
     //使用 MBProgressHUD
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.color = [UIColor clearColor];
     self.hud.customView = self.hudBackground;
     self.hud.yOffset = -20;
     self.hud.mode = MBProgressHUDModeCustomView;
@@ -305,16 +307,6 @@
     [self.hud hide:YES];
 }
 
-
-#pragma mark -
-#pragma mark 释放模态视图
-- (void)cancelAction:(UIButton*)button {
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"5.0")) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }else{
-        [self dismissModalViewControllerAnimated:YES];
-    }
-}
 
 #pragma mark -
 #pragma mark 显示空白背景
@@ -395,6 +387,11 @@
     
     self.tableView.hidden = YES;
     self.myTableView.hidden = NO;
+    
+    //badge清0
+    self.propertyListBadgeLabel.hidden = YES;
+    self.badgeNumber = 0;
+    
     [self autoRefresh];
 }
 
@@ -426,7 +423,7 @@
         }
         
     }
-
+    
 }
 
 - (void)pullUp:(BaseTableView *)tableView {
@@ -472,6 +469,10 @@
     [self.tableView.data replaceObjectAtIndex:indexPath.row withObject:cell.propertyModel]; //更新model
 }
 
+- (NSIndexPath*)indexPathFromCell:(PropertyTableViewCell*)cell{
+    return [self.tableView indexPathForCell:(UITableViewCell*)cell];
+}
+
 
 #pragma mark -
 #pragma mark NetworkRequest Method 网络请求相关方法
@@ -481,11 +482,11 @@
     if (params == nil) {
         //测试用
         NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"147468", @"brokerId", nil];
-//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+        //        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }else{
         [params setObject:[LoginManager getToken] forKey:@"token"];
-//        [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
+        //        [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
         [params setObject:@"147468" forKey:@"brokerId"];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }
@@ -498,11 +499,11 @@
     if (params == nil) {
         //测试用
         NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"147468", @"brokerId", nil];
-//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+        //        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }else{
         [params setObject:[LoginManager getToken] forKey:@"token"];
-//        [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
+        //        [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
         [params setObject:@"147468" forKey:@"brokerId"];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }
@@ -533,15 +534,15 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+ {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 #pragma mark -
 #pragma mark init UI
@@ -552,7 +553,7 @@
     headView.layer.borderWidth = 2.0f;
     headView.layer.cornerRadius = 3.0f;
     headView.layer.masksToBounds = YES;
-    headView.clipsToBounds = YES; //超出部分切掉
+    headView.clipsToBounds = NO; //超出部分切掉
     
     self.leftTabButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.rightTabButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -566,7 +567,7 @@
     
     [self.rightTabButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [self.rightTabButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
-
+    
     [self.leftTabButton setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:1]];
     [self.rightTabButton setBackgroundColor:[UIColor colorWithWhite:0.1 alpha:1]];
     
@@ -577,8 +578,6 @@
     
     [headView addSubview:self.leftTabButton];
     [headView addSubview:self.rightTabButton];
-    
-    
     
     UIBezierPath* leftPath = [UIBezierPath bezierPathWithRoundedRect:self.leftTabButton.bounds
                                                    byRoundingCorners:(UIRectCornerTopLeft | UIRectCornerBottomLeft)
@@ -599,8 +598,20 @@
     self.rightTabButton.layer.mask = maskLayer2;
     
     
+    //创建badge
+    self.propertyListBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(205, 10, 20, 20)];
+    self.propertyListBadgeLabel.backgroundColor = [UIColor whiteColor];
+    self.propertyListBadgeLabel.layer.cornerRadius = 10.0f;
+    self.propertyListBadgeLabel.layer.masksToBounds = YES;
+    self.propertyListBadgeLabel.textColor = [UIColor grayColor];
+    self.propertyListBadgeLabel.textAlignment = UITextAlignmentCenter; //这里已经做过调整, 兼容ios5.0
+    self.propertyListBadgeLabel.hidden = YES;
+    self.badgeNumber = 0;
+    [headView addSubview:self.propertyListBadgeLabel];
+    
     headView.backgroundColor = [UIColor clearColor];
     self.navigationItem.titleView = headView;
+    
     
 }
 

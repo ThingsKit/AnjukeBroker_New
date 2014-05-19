@@ -87,14 +87,14 @@
     [self.publishTime setTextColor:[Util_UI colorWithHexString:@"#B2B2B2"]];
     [self.contentView addSubview:self.publishTime];
     
- 
+    
     //右侧的按钮
     self.button = [UIButton buttonWithType:UIButtonTypeCustom];
     self.button.layer.cornerRadius = 2.0f;
     self.button.layer.masksToBounds = YES;
     [self.button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:self.button];
-
+    
     //cell的背景视图
     UIView* backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 0)];
     backgroundView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.9];
@@ -158,7 +158,7 @@
     self.publishTime.hidden = NO;
     self.publishTime.frame = CGRectMake(10, self.houseType.bottom, ScreenWidth/2, 20);
     self.publishTime.text = [NSString stringWithFormat:@"%@ 发布", self.propertyModel.publishTime];
- 
+    
     //右侧的按钮
     self.button.frame = CGRectMake(ScreenWidth-80, 30, 70, 30);
     
@@ -180,8 +180,11 @@
     
     RushPropertyViewController* viewController = (RushPropertyViewController*)self.viewController;
     
-    [self setButtonDisable]; //点击之后默认按钮变成不可交互
-    [viewController updateCellWithCell:self]; //更新cell数据
+    self.button.enabled = NO;
+    [self.button setBackgroundColor:[UIColor colorWithWhite:0.9 alpha:1]];
+    [self.button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    self.button.layer.borderColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
+    self.button.layer.borderWidth = .5;
     
     if ([viewController isNetworkOkay]) { //如果当前网络ok
         if (self.propertyModel.propertyId) { //如果房源id不空
@@ -189,9 +192,11 @@
             [self rushProperty:dict];
         }
     }else{ //如果当前网络不通
-//        [viewController displayHUDWithStatus:nil Message:nil ErrCode:nil];  //使用自定义的浮层显示网络不良
-        [self setButtonAble]; //因为是网络问题,所以按钮恢复可交互状态
-        [viewController updateCellWithCell:self]; //更新cell数据
+        //        [viewController displayHUDWithStatus:nil Message:nil ErrCode:nil];  //使用自定义的浮层显示网络不良
+        [self.button setBackgroundColor:[UIColor colorWithRed:79.0/255 green:164.0/255 blue:236.0/255 alpha:1]];
+        [self.button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.button.enabled = YES;
+        
     }
     
     
@@ -202,7 +207,7 @@
 
 - (void)rushProperty:(NSMutableDictionary*)params{
     NSString *method = @"commission/rush/";
-//    [params setObject:@"pgdir" forKey:@"pgpmt20865"]; //测试用后门
+    //    [params setObject:@"pgdir" forKey:@"pgpmt20865"]; //测试用后门
     [params setObject:[LoginManager getToken] forKey:@"token"];
     [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
@@ -220,13 +225,30 @@
         NSString* status = [response.content objectForKey:@"status"];
         NSString* message = [response.content objectForKey:@"message"];
         NSString* errcode = [response.content objectForKey:@"errcode"];
-//        NSString* errcode = @"5003"; //测试用
+        //        NSString* errcode = @"5003"; //测试用
+        status = @"ok";
         
         if ([status isEqualToString:@"ok"]) {
             //删除当前cell, 将其添加到myPropertyList中, 但其实不需要添加, 因为myPropertyList每次都自动请求最新的(点击tab, 自动下拉)
             
             //播放飞入动画
+            UIImageView* snapshot = [[UIImageView alloc] initWithImage:[self capture]];
+            snapshot.frame = CGRectMake(0, self.bottom - 20, snapshot.width, snapshot.height);
+            if ([snapshot superview] == nil) {
+                [self.window addSubview:snapshot];
+                
+                [UIView animateWithDuration:1 animations:^{
+                    snapshot.frame = CGRectMake(280, 35, 1, 1);
+                }completion:^(BOOL finished) {
+                    if (finished) {
+                        [snapshot removeFromSuperview]; //动画结束后移除
+                    }
+                }];
+            }
             
+            //计数器加1
+            viewController.propertyListBadgeLabel.text = [NSString stringWithFormat:@"%d", ++viewController.badgeNumber];
+            viewController.propertyListBadgeLabel.hidden = NO;
             
             [viewController removeCellFromPropertyTableViewWithCell:self]; //删除对应indexPath的cell
             
@@ -244,6 +266,8 @@
                 [viewController removeCellFromPropertyTableViewWithCell:self];
             }else if ([errcode isEqualToString:@"5003"]){ //改房源抢完了
                 //按钮变更为 抢完了 不可交互, cell不删除
+                [self setButtonDisable];
+                [viewController updateCellWithCell:self];
             }else{
                 //其他错误处理逻辑, 还有什么其他情况在这里处理
             }
@@ -258,6 +282,24 @@
     
 }
 
+
+//获取当前屏幕视图的快照图片
+- (UIImage *)capture {
+    
+    UIView *view = self; //cell本身
+    if (view == nil) {
+        return nil;
+    }
+    
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    
+    UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
+    NSLog(@"%f,%f",img.size.height,img.size.width);
+    UIGraphicsEndImageContext();
+    
+    return img;
+}
 
 
 @end
