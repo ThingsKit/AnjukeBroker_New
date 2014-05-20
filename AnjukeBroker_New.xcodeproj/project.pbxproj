@@ -305,7 +305,6 @@
 		97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A0F027181653A600C31D83 /* RTInputPickerView.m */; };
 		97A606811816C2A50041B367 /* InputOrderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A606801816C2A50041B367 /* InputOrderManager.m */; };
 		97ACD09C1843357E00D88CB6 /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97ACD09B1843357E00D88CB6 /* AccountManager.m */; };
-		97AED106180D21BD0072611B /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED105180D21BD0072611B /* AdSupport.framework */; };
 		97AED108180D21DB0072611B /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED107180D21DB0072611B /* libicucore.dylib */; };
 		97AED10A180D21F40072611B /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED109180D21F40072611B /* libstdc++.dylib */; };
 		97AED10C180D221B0072611B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AED10B180D221B0072611B /* Security.framework */; };
@@ -1114,7 +1113,6 @@
 		97ACD0991843299F00D88CB6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		97ACD09A1843357E00D88CB6 /* AccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManager.h; sourceTree = "<group>"; };
 		97ACD09B1843357E00D88CB6 /* AccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManager.m; sourceTree = "<group>"; };
-		97AED105180D21BD0072611B /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		97AED107180D21DB0072611B /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		97AED109180D21F40072611B /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		97AED10B180D221B0072611B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -1638,7 +1636,6 @@
 				97AED10C180D221B0072611B /* Security.framework in Frameworks */,
 				97AED10A180D21F40072611B /* libstdc++.dylib in Frameworks */,
 				97AED108180D21DB0072611B /* libicucore.dylib in Frameworks */,
-				97AED106180D21BD0072611B /* AdSupport.framework in Frameworks */,
 				97410555180CDFE0004DAE95 /* CoreGraphics.framework in Frameworks */,
 				97410559180CDFE0004DAE95 /* CoreData.framework in Frameworks */,
 				97410557180CDFE0004DAE95 /* UIKit.framework in Frameworks */,
@@ -2706,7 +2703,6 @@
 				97AED10B180D221B0072611B /* Security.framework */,
 				97AED109180D21F40072611B /* libstdc++.dylib */,
 				97AED107180D21DB0072611B /* libicucore.dylib */,
-				97AED105180D21BD0072611B /* AdSupport.framework */,
 				97410552180CDFE0004DAE95 /* Foundation.framework */,
 				97410554180CDFE0004DAE95 /* CoreGraphics.framework */,
 				97410556180CDFE0004DAE95 /* UIKit.framework */,
