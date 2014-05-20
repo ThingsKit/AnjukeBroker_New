@@ -195,7 +195,7 @@
     
 	// Do any additional setup after loading the view.
     
-    [self addRightButton:@"完成" andPossibleTitle:nil];
+//    [self addRightButton:@"完成" andPossibleTitle:nil];
 }
 
 - (void)didReceiveMemoryWarning

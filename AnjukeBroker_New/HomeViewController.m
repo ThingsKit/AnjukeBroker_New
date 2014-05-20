@@ -287,7 +287,6 @@
     } completion:^(BOOL finished) {
         
     }];
-    
 }
 
 - (void)hideSelectionView {
