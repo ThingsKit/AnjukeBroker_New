@@ -158,6 +158,12 @@ typedef enum {
 
 - (void)initCellDataSource {
     PublishTableViewDataSource *pd = [[PublishTableViewDataSource alloc] init];
+    
+    if (self.needFileNO && self.isHaozu == NO)
+    {//需要备案号
+        pd.isSafeNum = YES;
+    }
+
     self.cellDataSource = pd;
     self.tableViewList.dataSource = pd;
     [pd setSuperViewController:self];
@@ -941,7 +947,7 @@ typedef enum {
         {
             switch (indexPath.row) {
                 case 0:
-                    index = 2;
+                    index = AJK_PICKER_ROOMS;
                     break;
                 case 1:
                     index = AJK_PICKER_FLOORS;
@@ -1523,46 +1529,61 @@ typedef enum {
     }
     else {
         switch (self.selectedIndex) {
-            case AJK_TEXT_PRICE:
+            case AJK_TEXT_PRICE://价格
             {
                 [self setToolBarLeftBtnDisable];
                 return; //不做处理
             }
                 break;
-            /*
-            case AJK_TEXT_LIMIT_PAY:
+            case AJK_TEXT_AREA://面积
             {
-                self.selectedIndex --;
-                self.selectedRow = 0;
-                self.selectedSection = 0;
-                
-                [self setToolBarLeftBtnDisable];
-                [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
-                return;
-            }
-                break;
-             */
-            case AJK_TEXT_AREA:
-            {
-                self.selectedIndex --;
-                self.selectedRow = 1;
+                self.selectedIndex = AJK_TEXT_PRICE;
+                self.selectedRow --;
                 self.selectedSection = 0;
                 
             }
                 break;
             case AJK_PICKER_FLOORS: //楼层
             {
-                self.selectedIndex -=2;
-                self.selectedRow = 1;
+                self.selectedIndex = AJK_PICKER_ROOMS;
+                self.selectedRow --;
+                self.selectedSection = 1;
+            }
+                break;
+            case AJK_PICKER_ORIENTATION://朝向
+            {
+                self.selectedIndex = AJK_PICKER_ROOMS;
+                self.selectedRow --;
+                self.selectedSection = 1;
+            }
+                break;
+                
+            case AJK_PICKER_FITMENT: //装修
+            {
+                self.selectedIndex = AJK_PICKER_ORIENTATION;
+                self.selectedRow --;
                 self.selectedSection = 0;
             }
                 break;
-            case AJK_PICKER_FITMENT: //装修
+            case AJK_TEXT_SAFENUM://备案号
             {
-                self.selectedIndex --;
-                isPicker = YES;
-                self.selectedRow = 1;
-                self.selectedSection = 1;
+                self.selectedIndex = AJK_TEXT_AREA;
+                self.selectedRow --;
+                self.selectedSection = 0;
+            }
+                break;
+            case AJK_PICKER_ROOMS://户型
+            {
+                self.selectedIndex = AJK_TEXT_AREA;
+                if (self.needFileNO && self.isHaozu == NO)
+                {//是否有备案号
+                    self.selectedRow = 2;
+                }else
+                {
+                    self.selectedRow = 1;
+                }
+                
+                self.selectedSection = 0;
             }
                 break;
                 
@@ -1642,8 +1663,8 @@ typedef enum {
         switch (self.selectedIndex) {
             case AJK_TEXT_PRICE:
             {
-                self.selectedIndex ++;
-                self.selectedRow = 1;
+                self.selectedIndex = AJK_TEXT_AREA;
+                self.selectedRow ++;
                 self.selectedSection = 0;
             }
                 break;
@@ -1656,24 +1677,51 @@ typedef enum {
             }
                 break;
              */
-            case AJK_TEXT_AREA:
+            case AJK_TEXT_AREA://面积
             {
-                self.selectedIndex +=2;
+                if (self.needFileNO && self.isHaozu == NO)
+                {//是否有备案号
+                    self.selectedIndex = AJK_TEXT_SAFENUM;
+                    
+                    self.selectedRow ++ ;
+                    self.selectedSection = 0;
+                }else
+                {
+                    self.selectedIndex = AJK_PICKER_ROOMS;
+                    
+                    isPicker = YES;
+                    self.selectedRow = 0;
+                    self.selectedSection = 1;
+                }
+                
+            }
+                break;
+            case AJK_PICKER_ROOMS://户型
+            {
+                self.selectedIndex = AJK_PICKER_FLOORS;
                 isPicker = YES;
-                self.selectedRow = 1;
+                self.selectedRow ++ ;
                 self.selectedSection = 1;
             }
                 break;
             case AJK_PICKER_FLOORS: //楼层
             {
-                self.selectedIndex ++;
+                self.selectedIndex = AJK_PICKER_ORIENTATION;
                 isPicker = YES;
-                self.selectedRow = 2;
+                self.selectedRow ++ ;
                 self.selectedSection = 1;
                 
-                [self setToolBarRightBtnDisable];
+//                [self setToolBarRightBtnDisable];
                 [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
                 return;
+            }
+                break;
+            case AJK_PICKER_ORIENTATION://朝向
+            {
+                self.selectedIndex = AJK_PICKER_FITMENT;
+                isPicker = YES;
+                self.selectedRow ++ ;
+                self.selectedSection = 1;
             }
                 break;
             case AJK_PICKER_FITMENT: //装修

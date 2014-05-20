@@ -20,6 +20,7 @@
 #define AJK_CLICK_FEATURE 6 //特色
 #define AJK_CLICK_TITLE 7 //标题
 #define AJK_CLICK_DESC 8 //房源详情
+#define AJK_TEXT_SAFENUM 9 //备案号
 
 //******租房
 #define HZ_TEXT_PRICE 0 //价格

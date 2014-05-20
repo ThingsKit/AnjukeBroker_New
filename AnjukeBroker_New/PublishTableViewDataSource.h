@@ -14,9 +14,10 @@
 @interface PublishTableViewDataSource : NSObject <UITableViewDataSource>
 
 @property (nonatomic, strong) NSMutableArray *cellArray;
-@property (nonatomic, assign) id superViewController;
+@property (nonatomic, assign) id             superViewController;
 @property (nonatomic, strong) NSMutableArray *inputCellArray; //直接保存输入cell的array
 @property (nonatomic, strong) NSMutableArray *indexJumpCellArray; //通过上一项、下一项切换的cell的array
+@property (nonatomic, assign) BOOL           isSafeNum;//是否需要备案号
 
 - (void)createCells:(NSArray *)dataArray isHaozu:(BOOL)isHaozu;
 

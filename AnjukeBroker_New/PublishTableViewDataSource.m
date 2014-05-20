@@ -16,6 +16,7 @@
 @synthesize cellArray, superViewController;
 @synthesize inputCellArray;
 @synthesize indexJumpCellArray;
+@synthesize isSafeNum = _isSafeNum;
 
 - (void)createCells:(NSArray *)dataArray isHaozu:(BOOL)isHaozu {
     [self initModel];
@@ -147,7 +148,20 @@
             [self.inputCellArray addObject:cell2];
             
         }
+        
+        if (_isSafeNum)
+        {//备案号
+            //area
+            AnjukeEditableCell *cell21 = [[AnjukeEditableCell alloc] init];
+            cell21.editDelegate = self.superViewController;
+            if ([cell21 configureCell:[dataArray objectAtIndex:AJK_TEXT_SAFENUM]]) {
+                [cell21 setIndexTag:AJK_TEXT_SAFENUM];
+                [section1 addObject:cell21];
+                [self.inputCellArray addObject:cell21];
+            }
+        }
         [self.cellArray addObject:section1];
+        
         
         //******房型、楼层、装修、特色
         NSMutableArray *section2 = [NSMutableArray array];
