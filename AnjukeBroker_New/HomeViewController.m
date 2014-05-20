@@ -183,7 +183,7 @@
 }
 
 - (void)initView {
-    [self setTitle:@"房源"];
+    [self setTitleViewWithString:@"房源"];
     
     UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_TAB style:UITableViewStylePlain];
     self.myTable = tv;
@@ -275,8 +275,10 @@
 }
 
 - (void)showSelectionView {
-    self.selectionView.hidden = NO;
     self.shadeControl.hidden = NO;
+    [self.view bringSubviewToFront:self.shadeControl];
+    self.selectionView.hidden = NO;
+    [self.view bringSubviewToFront:self.selectionView];
     [UIView animateWithDuration:0.2f animations:^{
         self.shadeControl.alpha = 0.4;
         self.selectionView.alpha = 1;
@@ -566,6 +568,7 @@
     //    [self setTitleViewWithString:@"房源"];
     self.isSeedPid = @"";
     self.myTable.hidden = NO;
+    [self.view bringSubviewToFront:self.myTable];
     if ([[self.ajkDataDic objectForKey:@"haveAjk"] isEqualToString:@"1"] && [[self.hzDataDic objectForKey:@"haveHz"] isEqualToString:@"1"]) {
         self.navigationItem.titleView = self.segment;
         self.segment.hidden = NO;
