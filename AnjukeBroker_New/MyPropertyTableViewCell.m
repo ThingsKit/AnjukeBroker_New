@@ -187,6 +187,12 @@
     
     NSLog(@"拨打电话-->%@", self.myPropertyModel.ownerPhone);
     
+    if (![@"iPhone" isEqualToString:[UIDevice currentDevice].model]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息" message:@"设备不支持电话功能" delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
     UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:@"拨打房东电话" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"确认" otherButtonTitles:nil];
     [sheet showInView:self.window];
     
@@ -208,8 +214,10 @@
     if (buttonIndex == 0) {
         NSLog(@"确认拨打电话");
         if (self.myPropertyModel.ownerPhone) {
-            NSString* phoneNumber = [@"tel://" stringByAppendingString:self.myPropertyModel.ownerPhone];
+            NSString* phoneNumber = [@"telprompt://" stringByAppendingString:self.myPropertyModel.ownerPhone];
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+            
+            
         }else{
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"错误" message:@"该房东没有电话" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil];
             [alert show];
