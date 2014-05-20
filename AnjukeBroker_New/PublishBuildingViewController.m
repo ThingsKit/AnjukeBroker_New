@@ -319,6 +319,14 @@ typedef enum {
         [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FLOORS] setInputed_RowAtCom0:floorIndex];
         [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FLOORS] setInputed_RowAtCom1:proFloorIndex];
         
+        //朝向
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_ORIENTATION] text_Field] setText:_DEFULT_TITLE_EXPOSURE];
+        int orientationIndex = [PublishDataModel getExposureIndexWithTitle:_DEFULT_TITLE_FITMENT];
+        NSString *orientationValue = [PublishDataModel getExposureTitleWithValue:_DEFULT_TITLE_FITMENT];
+        self.property.exposure = orientationValue;
+        
+        [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FITMENT] setInputed_RowAtCom0:orientationIndex];
+        
     }
     else {
         //fitment
@@ -328,12 +336,20 @@ typedef enum {
         self.property.fitment = value;
         
         [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FITMENT] setInputed_RowAtCom0:index];
-        
+
         //楼层-默认3楼6层
         int floorIndex = [PublishDataModel getFloorIndexWithValue:_DEFULT_VALUE_FLOOR];
         int proFloorIndex = [PublishDataModel getProFloorIndexWithValue:_DEFULT_VALUE_PROFLOOR];
         [[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_FLOORS] setInputed_RowAtCom0:floorIndex];
         [[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_FLOORS] setInputed_RowAtCom1:proFloorIndex];
+        
+        //朝向
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_ORIENTATION] text_Field] setText:_DEFULT_TITLE_EXPOSURE];
+        int orientationIndex = [PublishDataModel getFitmentIndexWithTitle:_DEFULT_TITLE_EXPOSURE forHaozu:self.isHaozu];
+        NSString *orientationValue = [PublishDataModel getFitmentVauleWithTitle:_DEFULT_TITLE_EXPOSURE forHaozu:self.isHaozu];
+        self.property.fitment = orientationValue;
+        
+        [[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_ORIENTATION] setInputed_RowAtCom0:orientationIndex];
     }
     
     self.property.exposure = _DEFULT_TITLE_EXPOSURE;
@@ -936,6 +952,9 @@ typedef enum {
                 case 3:
                     index = AJK_PICKER_FITMENT;
                     break;
+                case 4:
+                    index = HZ_PICKER_RENTTYPE;
+                    break;
                     
                 default:
                     break;
@@ -1314,8 +1333,9 @@ typedef enum {
         case 1:
         {
             switch (indexPath.row) {
-                case 0: //房型
+                case 0: //户型
                 {
+                    [self showInputWithIndex:self.selectedIndex isPicker:YES];
                     /*
                     [self doPushToHouseTypeVC];
                     [self pickerDisappear]; //每次push进新页面隐藏键盘、picker
@@ -1341,6 +1361,7 @@ typedef enum {
                         [self showInputWithIndex:self.selectedIndex isPicker:YES];
                     }
                     else { //push to 特色
+                        [self showInputWithIndex:self.selectedIndex isPicker:YES];
                         /*
                         PublishFeatureViewController *pf = [[PublishFeatureViewController alloc] init];
                         pf.featureDelegate = self;

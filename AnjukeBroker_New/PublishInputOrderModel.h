@@ -24,12 +24,13 @@
 //******租房
 #define HZ_TEXT_PRICE 0 //价格
 #define HZ_TEXT_AREA 1 //面积
-#define HZ_CLICK_ROOMS 2 //房型
+#define HZ_CLICK_ROOMS 2 //户型
 #define HZ_PICKER_FLOORS 3 //楼层
-#define HZ_PICKER_FITMENT 4 //装修
-#define HZ_PICKER_RENTTYPE 5 //出租方式
-#define HZ_CLICK_TITLE 6 //标题
-#define HZ_CLICK_DESC 7 //房源详情
+#define HZ_PICKER_ORIENTATION 4 //朝向
+#define HZ_PICKER_FITMENT 5 //装修
+#define HZ_PICKER_RENTTYPE 6 //出租方式
+#define HZ_CLICK_TITLE 7 //标题
+#define HZ_CLICK_DESC 8 //房源详情
 
 @interface PublishInputOrderModel : NSObject
 

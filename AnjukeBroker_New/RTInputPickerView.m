@@ -160,6 +160,18 @@
                 self.firstArray = [PublishDataModel getPropertyRentType];
             }
                 break;
+            case HZ_CLICK_ROOMS://户型
+            {
+                self.firstArray = [PublishDataModel getPropertyHouseTypeArray_room];
+                self.secondArray = [PublishDataModel getPropertyHouseTypeArray_hall];
+                self.thirdArray = [PublishDataModel getPropertyHouseTypeArray_toilet];
+            }
+                break;
+            case HZ_PICKER_ORIENTATION://朝向
+            {
+                self.firstArray = [PublishDataModel getPropertyExposure];
+            }
+                break;
             default:
                 break;
         }
@@ -169,7 +181,9 @@
         switch (index) { //户型
             case AJK_PICKER_ROOMS:
             {
-            
+                self.firstArray = [PublishDataModel getPropertyHouseTypeArray_room];
+                self.secondArray = [PublishDataModel getPropertyHouseTypeArray_hall];
+                self.thirdArray = [PublishDataModel getPropertyHouseTypeArray_toilet];
             }
                 break;
             case AJK_PICKER_FLOORS: //楼层
