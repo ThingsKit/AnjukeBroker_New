@@ -120,11 +120,11 @@
     if (_segment == nil) {
         _segment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"二手房", @"租房", nil]];
         //        _segment.hidden = YES;
-        _segment.frame = CGRectMake(0, 0, 200, 30);
+        _segment.frame = CGRectMake(0, 0, 120, 31);
         _segment.segmentedControlStyle = UISegmentedControlStyleBar;
         _segment.selectedSegmentIndex = 0;
-        [_segment setWidth:100 forSegmentAtIndex:0];
-        [_segment setWidth:100 forSegmentAtIndex:1];
+        [_segment setWidth:60 forSegmentAtIndex:0];
+        [_segment setWidth:60 forSegmentAtIndex:1];
         _segment.tintColor = [UIColor blackColor];
         [_segment setBackgroundImage:[UIImage imageNamed:@"wl_map_icon_5"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
         [_segment setBackgroundImage:[UIImage imageNamed:@"xproject_dialogue_greenbox"] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
@@ -162,7 +162,8 @@
 }
 
 - (void)initRightBarButton {
-    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_setting_press.png"] taget:self action:@selector(rightButtonAction:)];
+//    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_setting_press.png"] taget:self action:@selector(rightButtonAction:)];
+    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithChangeString:@"发布" taget:self action:@selector(rightButtonAction:)];
     if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {//fix ios7以下 10像素偏离
         UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:10.0];
         [self.navigationItem setRightBarButtonItems:@[spacer, rightItem]];
@@ -659,67 +660,51 @@
 #pragma mark - tableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    switch (indexPath.row) {
-        case 0:
-        {
-            if (self.isCurrentHZ) {
-                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_004 note:nil];
-                RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
-                controller.tempDic = [[self.hzDataDic objectForKey:@"hzFixHouse"] objectAtIndex:indexPath.row];
-                controller.backType = RTSelectorBackTypePopToRoot;
-                [controller setHidesBottomBarWhenPushed:YES];
-                [self.navigationController pushViewController:controller animated:YES];
-            }else {
-                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_004 note:nil];
-                SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
-                controller.tempDic = [[self.ajkDataDic objectForKey:@"ajkFixHouse"] objectAtIndex:indexPath.row];
-                //                controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
-                controller.backType = RTSelectorBackTypePopToRoot;
-                [controller setHidesBottomBarWhenPushed:YES];
-                [self.navigationController pushViewController:controller animated:YES];
-            }
+    if (self.isCurrentHZ) {
+        if (self.taskArray.count > 2 && indexPath.row == self.taskArray.count - 2) {//竞价
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_003 note:nil];
+            RentBidDetailController *controller = [[RentBidDetailController alloc] init];
+            controller.backType = RTSelectorBackTypePopToRoot;
+            [controller setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:controller animated:YES];
+        } else if (self.taskArray.count > 1 && indexPath.row == self.taskArray.count - 1) {//待推广
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_005 note:nil];
+            RentNoPlanController *controller = [[RentNoPlanController alloc] init];
+            controller.isSeedPid = self.isSeedPid;
+            [controller setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:controller animated:YES];
+        } else {
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_004 note:nil];
+            RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
+            controller.tempDic = [[self.hzDataDic objectForKey:@"hzFixHouse"] objectAtIndex:indexPath.row];
+            controller.backType = RTSelectorBackTypePopToRoot;
+            [controller setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:controller animated:YES];
         }
-            break;
-        case 1:
-        {
-            if (self.isCurrentHZ) {
-                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_003 note:nil];
-                RentBidDetailController *controller = [[RentBidDetailController alloc] init];
-                controller.backType = RTSelectorBackTypePopToRoot;
-                [controller setHidesBottomBarWhenPushed:YES];
-                [self.navigationController pushViewController:controller animated:YES];
-            }else {
-                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_003 note:nil];
-                SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
-                controller.backType = RTSelectorBackTypePopToRoot;
-                [controller setHidesBottomBarWhenPushed:YES];
-                [self.navigationController pushViewController:controller animated:YES];
-            }
+    }else {
+        if (self.taskArray.count > 2 && indexPath.row == self.taskArray.count - 2) {//竞价
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_003 note:nil];
+            SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
+            controller.backType = RTSelectorBackTypePopToRoot;
+            [controller setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:controller animated:YES];
+        } else if (self.taskArray.count > 1 && indexPath.row == self.taskArray.count - 1) {//待推广
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_005 note:nil];
+            SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
+            controller.isSeedPid = self.isSeedPid;
+            [controller setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:controller animated:YES];
+        } else {
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_004 note:nil];
+            SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
+            controller.tempDic = [[self.ajkDataDic objectForKey:@"ajkFixHouse"] objectAtIndex:indexPath.row];
+            //                controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
+            controller.backType = RTSelectorBackTypePopToRoot;
+            [controller setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:controller animated:YES];
         }
-            break;
-        case 2:
-        {
-            if (self.isCurrentHZ) {
-                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_005 note:nil];
-                RentNoPlanController *controller = [[RentNoPlanController alloc] init];
-                controller.isSeedPid = self.isSeedPid;
-                [controller setHidesBottomBarWhenPushed:YES];
-                [self.navigationController pushViewController:controller animated:YES];
-            }else {
-                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_005 note:nil];
-                SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
-                controller.isSeedPid = self.isSeedPid;
-                [controller setHidesBottomBarWhenPushed:YES];
-                [self.navigationController pushViewController:controller animated:YES];
-            }
-        }
-            break;
-            
-        default:
-            break;
     }
-    
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
