@@ -242,7 +242,7 @@
     }
 
     //未签到或者已经签到但剩余时间为0s,显示可签到按钮
-    if ([self.checkInfoModel.signAble intValue] == 0 || ([self.checkInfoModel.countDown intValue] == 0 && [self.checkInfoModel.signAble intValue] == 1) ) {
+    if ([self.checkInfoModel.signAble intValue] == 1 || ([self.checkInfoModel.countDown intValue] == 0 && [self.checkInfoModel.signAble intValue] == 0) ) {
         [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
     }else{
         [self showCheckButton:CHECKBUTTONWITHCOUNTDOWN timeLeft:[self.checkInfoModel.countDown intValue]];
