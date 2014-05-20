@@ -2144,8 +2144,8 @@ typedef enum {
                 
                 self.isTakePhoto = NO;
                 
-                ELCAlbumPickerController *albumPicker = [[ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
-                ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initWithRootViewController:albumPicker];
+                BK_ELCAlbumPickerController *albumPicker = [[BK_ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
+                BK_ELCImagePickerController *elcPicker = [[BK_ELCImagePickerController alloc] initWithRootViewController:albumPicker];
                 int maxCount = AJK_MAXCOUNT_ROOMIMAGE;
                 if (self.isHaozu) {
                     maxCount = HZ_MAXCOUNT_ROOMIMAGE;
