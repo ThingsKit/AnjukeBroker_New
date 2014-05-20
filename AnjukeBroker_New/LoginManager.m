@@ -20,7 +20,7 @@
 }
 
 + (void)doLogout {
-    double delayInSeconds = .5f;
+    double delayInSeconds = .1f;
     dispatch_time_t delayInNanoSeconds = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_after(delayInNanoSeconds, concurrentQueue, ^(void)
@@ -72,9 +72,11 @@
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"phone"];
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"chatID"];
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"tokenChat"];
-    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:USER_DEFAULT_KEY_AXCHATMC_USE]; //清空与AXMessageCenter的羁绊...
+    
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"checkTimeArr"];
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"signMile"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_DEFAULT_KEY_AXCHATMC_USE]; //清空与AXMessageCenter的羁绊...
+
     
     DLog(@"clean Token [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"token"]);
 }
