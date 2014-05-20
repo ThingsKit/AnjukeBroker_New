@@ -210,7 +210,8 @@
     NSString *method = @"commission/rush/";
     //    [params setObject:@"pgdir" forKey:@"pgpmt20865"]; //测试用后门
     [params setObject:[LoginManager getToken] forKey:@"token"];
-    [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
+//    [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
+    [params setObject:@"147468" forKey:@"brokerId"]; //测试用
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     
 }
@@ -226,8 +227,8 @@
         NSString* status = [response.content objectForKey:@"status"];
         NSString* message = [response.content objectForKey:@"message"];
         NSString* errcode = [response.content objectForKey:@"errcode"];
-        //        NSString* errcode = @"5003"; //测试用
-        status = @"ok";
+//        NSString* errcode = @"5003"; //测试用
+//        status = @"ok";
         
         if ([status isEqualToString:@"ok"]) {
             //删除当前cell, 将其添加到myPropertyList中, 但其实不需要添加, 因为myPropertyList每次都自动请求最新的(点击tab, 自动下拉)

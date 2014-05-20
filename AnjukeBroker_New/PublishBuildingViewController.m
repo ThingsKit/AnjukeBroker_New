@@ -2128,7 +2128,7 @@ typedef enum {
                 }
             }
                 break;
-            case 1: //相册
+            case 1: //从手机相册xuan'z
             {
                 if (![self canAddMoreImageWithAddCount:1]) { //到达上限后张就不能继续拍摄
                     return; //室内图超出限制
@@ -2153,7 +2153,7 @@ typedef enum {
                 elcPicker.maximumImagesCount = [self getMaxAddRoomImgCountForPhotoAlbum]; //(maxCount - self.roomImageArray.count);
                 elcPicker.imagePickerDelegate = self;
                 
-                [self presentViewController:elcPicker animated:YES completion:nil];
+                [self presentViewController:elcPicker animated:YES completion:nil]; //点击添加室内图, 户型图,加载系统UIImagePickerController
             }
                 break;
             default:
