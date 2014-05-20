@@ -157,8 +157,8 @@
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
-        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        DLog(@"errorMsg--->>%@",errorMsg);
+//        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+//        DLog(@"errorMsg--->>%@",errorMsg);
 
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
         [self.tableList reloadData];

@@ -204,15 +204,15 @@
 - (void)onRequestFinished:(RTNetworkResponse *)response{
     self.isLoading = NO;
     if([[response content] count] == 0){
-        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         return ;
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
-        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        DLog(@"errorMsg--->>%@",errorMsg);
+//        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+//        DLog(@"errorMsg--->>%@",errorMsg);
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
 
-        [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
 
         return;
     }
@@ -278,18 +278,20 @@
     if([[response content] count] == 0){
         self.isLoading = NO;
 
-        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
-        [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
-        return ;
-    }
-    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        
-        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        DLog(@"errorMsg--->>%@",errorMsg);
-
         [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:@"签到失败" addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
         self.isLoading = NO;
         [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
+
+        return ;
+    }
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
+
+//        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+//        DLog(@"errorMsg--->>%@",errorMsg);
+
         
         return;
     }

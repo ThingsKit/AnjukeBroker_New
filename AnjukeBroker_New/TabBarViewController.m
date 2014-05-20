@@ -60,7 +60,7 @@
         self.HomeVC = hv;
         RTGestureBackNavigationController *navH = [[RTGestureBackNavigationController alloc] initWithRootViewController:self.page1];
         [self.controllerArrays addObject:navH];
-        navH.tabBarItem = [self getTabBarItemWithTitle:@"首页" image:[UIImage imageNamed:@"anjuke_icon_home.png"] index:1 selectedImg:[UIImage imageNamed:@"anjuke_icon_home1.png"]];
+        navH.tabBarItem = [self getTabBarItemWithTitle:@"房源" image:[UIImage imageNamed:@"tab_icon_home_normal"] index:1 selectedImg:[UIImage imageNamed:@"tab_icon_home_select"]];
         
         //微聊
         MessageListViewController *ml = [[MessageListViewController alloc] init];
@@ -68,7 +68,7 @@
         self.page2 = ml;
         RTGestureBackNavigationController *navMl = [[RTGestureBackNavigationController alloc] initWithRootViewController:ml];
         [self.controllerArrays addObject:navMl];
-        navMl.tabBarItem = [self getTabBarItemWithTitle:@"微聊" image:[UIImage imageNamed:@"anjuke_icon_wl.png"] index:2 selectedImg:[UIImage imageNamed:@"anjuke_icon_wl1.png"]];
+        navMl.tabBarItem = [self getTabBarItemWithTitle:@"微聊" image:[UIImage imageNamed:@"tab_icon_chat_normal"] index:2 selectedImg:[UIImage imageNamed:@"tab_icon_chat_select"]];
         self.messageNavController = navMl;
         
         //客户
@@ -77,7 +77,7 @@
         self.page3 = cl;
         RTGestureBackNavigationController *navCl = [[RTGestureBackNavigationController alloc] initWithRootViewController:cl];
         [self.controllerArrays addObject:navCl];
-        navCl.tabBarItem = [self getTabBarItemWithTitle:@"客户" image:[UIImage imageNamed:@"anjuke_icon_kh.png"] index:3 selectedImg:[UIImage imageNamed:@"anjuke_icon_kh1.png"]];
+        navCl.tabBarItem = [self getTabBarItemWithTitle:@"客户" image:[UIImage imageNamed:@"tab_icon_friend_normal"] index:3 selectedImg:[UIImage imageNamed:@"tab_icon_friend_select"]];
         
         //发现
         DiscoverViewController* dis = [[DiscoverViewController alloc] init];
@@ -85,7 +85,7 @@
         dis.isHome = YES;// 作用不明???
         RTGestureBackNavigationController* navDis = [[RTGestureBackNavigationController alloc] initWithRootViewController:dis];
         [self.controllerArrays addObject:navDis];
-        navDis.tabBarItem = [self getTabBarItemWithTitle:@"发现" image:[UIImage imageNamed:@"anjuke_icon_esf.png"] index:4 selectedImg:[UIImage imageNamed:@"anjuke_icon_esf1.png"]];
+        navDis.tabBarItem = [self getTabBarItemWithTitle:@"发现" image:[UIImage imageNamed:@"tab_icon_find_normal"] index:4 selectedImg:[UIImage imageNamed:@"tab_icon_find_select"]];
         
         //二手房
 //        AnjukeHomeViewController *av = [[AnjukeHomeViewController alloc] init];
@@ -106,7 +106,7 @@
         UserCenterViewController *userVC = [[UserCenterViewController alloc] init];
         RTGestureBackNavigationController *userNav = [[RTGestureBackNavigationController alloc] initWithRootViewController:userVC];
         [self.controllerArrays addObject:userNav];
-        userNav.tabBarItem = [self getTabBarItemWithTitle:@"我" image:[UIImage imageNamed:@"anjuke_icon_zf.png"] index:5 selectedImg:[UIImage imageNamed:@"anjuke_icon_zf1.png"]];
+        userNav.tabBarItem = [self getTabBarItemWithTitle:@"我" image:[UIImage imageNamed:@"tab_icon_user_normal"] index:5 selectedImg:[UIImage imageNamed:@"tab_icon_user_select"]];
 
         
         self.viewControllers = self.controllerArrays;
