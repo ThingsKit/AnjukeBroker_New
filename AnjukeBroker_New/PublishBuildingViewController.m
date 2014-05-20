@@ -1728,7 +1728,14 @@ typedef enum {
     if (_footClickType == 1)
     {
         [self.navigationController presentViewController:navController animated:YES completion:^(void) {
-            [pb showImagesWithArray:self.roomImageArray atIndex:imageIndex];
+            NSMutableArray *roomImageDetailArr = [[NSMutableArray alloc] init];
+            for (int i = 0; i < self.roomImageArray.count; i++) {
+                NSDictionary *dic = [[NSDictionary alloc] initWithObjectsAndKeys:[self.roomImageArray objectAtIndex:i],[NSNumber numberWithInt:i],@"index",@"",@"des", nil];
+                
+                [roomImageDetailArr addObject:dic];
+            }
+            [pb showImagesWithNewArray:roomImageDetailArr atIndex:imageIndex];
+//            [pb showImagesWithArray:self.roomImageArray atIndex:imageIndex];
         }];
     }else if (_footClickType == 2)
     {

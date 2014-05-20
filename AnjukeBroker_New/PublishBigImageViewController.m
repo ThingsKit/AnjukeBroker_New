@@ -235,7 +235,9 @@
 }
 
 #pragma mark - Public Method
-
+- (void)showImagesWithNewArray:(NSArray *)imageNewArr atIndex:(int)index {
+    
+}
 - (void)showImagesWithArray:(NSArray *)imageArr atIndex:(int)index {
     [self.imgArr addObjectsFromArray:imageArr];
     if (self.isEditProperty) {

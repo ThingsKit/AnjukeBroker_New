@@ -26,6 +26,7 @@
 @property int editDeleteImgIndex; //删除房源对应的index，便于通知
 @property BOOL isNewAddImg; //编辑房源是否是新添加图片
 
+- (void)showImagesWithNewArray:(NSArray *)imageNewArr atIndex:(int)index;
 - (void)showImagesWithArray:(NSArray *)imageArr atIndex:(int)index;
 - (void)showImagesForOnlineHouseTypeWithDic:(NSDictionary *)dic;
 
