@@ -10,11 +10,12 @@
 
 #define PHOTO_SHOW_VIEW_H 160
 #define PHOTO_ALERTVIEW_HEIGHT 20
-
+@class PhotoShowView;
 @protocol PhotoViewClickDelegate <NSObject>
 
 - (void)takePhoto_Click; //拍照按钮点击
 - (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr; //关闭按钮点击
+- (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr sender:(PhotoShowView *)sender; //关闭按钮点击
 
 @end
 

@@ -572,7 +572,7 @@
             //模态弹出图片播放器
             PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
             pb.clickDelegate = self;
-            BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
+            RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
             navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
             [self.navigationController presentViewController:navController animated:YES completion:^(void) {
                 [pb showImagesWithArray:self.houseTypeImageArr atIndex:index];
@@ -583,7 +583,7 @@
             //模态弹出图片播放器
             PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
             pb.clickDelegate = self;
-            BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
+            RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
             navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
             [self.navigationController presentViewController:navController animated:YES completion:^(void) {
                 [pb showImagesForOnlineHouseTypeWithDic:self.onlineHouseTypeDic];
@@ -597,7 +597,7 @@
         //模态弹出图片播放器
         PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
         pb.clickDelegate = self;
-        BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
+        RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
         navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         [self.navigationController presentViewController:navController animated:YES completion:^(void) {
             [pb showImagesWithArray:self.houseTypeImageArr atIndex:index];
@@ -739,7 +739,7 @@
 
 #pragma mark - PublishBigImageViewClickDelegate
 
-- (void)viewDidFinishWithImageArr:(NSArray *)imageArray {
+- (void)viewDidFinishWithImageArr:(NSArray *)imageArray sender:(PublishBigImageViewController *)sender{
     self.houseTypeImageArr = [NSMutableArray arrayWithArray:imageArray];
     
     //redraw footer img view
@@ -777,7 +777,7 @@
 
 #pragma mark - ELCImagePickerControllerDelegate
 
-- (void)elcImagePickerController:(BK_ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
     int count = [info count];
     if (![self canAddMoreImageWithAddCount:count]) {
         return;
@@ -832,7 +832,7 @@
     
 }
 
-- (void)elcImagePickerControllerDidCancel:(BK_ELCImagePickerController *)picker {
+- (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -930,8 +930,8 @@
             
             self.isTakePhoto = NO;
             
-            BK_ELCAlbumPickerController *albumPicker = [[BK_ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
-            BK_ELCImagePickerController *elcPicker = [[BK_ELCImagePickerController alloc] initWithRootViewController:albumPicker];
+            ELCAlbumPickerController *albumPicker = [[ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
+            ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initWithRootViewController:albumPicker];
             int maxCount = AJK_MAXCOUNT_HOUSETYPEIMAGE;
             if (self.isHaozu) {
                 maxCount = HZ_MAXCOUNT_HOUSETYPEIMAGE;

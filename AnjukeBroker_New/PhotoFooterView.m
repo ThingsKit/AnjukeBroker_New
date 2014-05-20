@@ -10,12 +10,20 @@
 #import "PhotoButton.h"
 #import "Util_UI.h"
 
+@interface PhotoFooterView ()
+{
+}
+@property (nonatomic, assign)NSInteger addActionTag;
+
+@end
+
 @implementation PhotoFooterView
 @synthesize clickDelegate;
 @synthesize emptyImgBtn;
 @synthesize isHouseType;
 @synthesize imageBtnArray;
 @synthesize bottomLine, topLine;
+@synthesize addActionTag = _addActionTag;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -55,28 +63,34 @@
         //空白view
         self.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, PF_EMPTY_IMAGE_HEIGHT);
         
-        if (!self.emptyImgBtn) {
+        if (!self.emptyImgBtn)
+        {
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             btn.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
             btn.backgroundColor = [UIColor clearColor];
             self.emptyImgBtn = btn;
             [btn addTarget:self action:@selector(emptyBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-//            [self addSubview:btn];
-            
-            UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_photo_add.png"]];
-            icon.frame = CGRectMake((btn.frame.size.width - 80/2)/2, 10, 80/2, 60/2);
-            [btn addSubview:icon];
             
             CGFloat titleW = 120;
-            UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake((btn.frame.size.width - titleW)/2, icon.frame.origin.y+ icon.frame.size.height + 10, titleW, 20)];
-            titleLb.text = @"添加室内图";
+            UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, titleW, 20)];
+            titleLb.text = @"室内图";
             if (self.isHouseType) {
-                titleLb.text = @"添加户型图";
+                titleLb.text = @"户型图";
             }
+            [titleLb setTextAlignment:NSTextAlignmentLeft];
             titleLb.textColor = SYSTEM_LIGHT_GRAY;
-            titleLb.textAlignment = NSTextAlignmentCenter;
-            titleLb.font = [UIFont systemFontOfSize:12];
+            titleLb.font = [UIFont systemFontOfSize:20];
             [btn addSubview:titleLb];
+            
+            //cameraIcon
+            CGFloat iconX = titleLb.frame.origin.x - 2;
+            CGFloat iconY = titleLb.frame.origin.y + titleLb.frame.size.height + 10;
+            
+            UIImage *craIconImg = [UIImage imageNamed:@"anjuke_icon_add_pic"];
+            UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(iconX, iconY, craIconImg.size.width, craIconImg.size.height)];
+            [icon setImage:craIconImg];
+            [icon setTag:-1];//为了点击换图片
+            [btn addSubview:icon];
             
             [self addSubview:btn];
         }
@@ -96,21 +110,26 @@
         for (int j = 0; j < verticalRow; j ++) {
             for (int i = 0; i < 4; i ++) {
                 
+//                int realIndex = j + i;
+                
                 int all_imageIndex = j*4+i; //在3*4的矩阵中，换算的图片index（添加按钮+1）
                 if (all_imageIndex > imageArr.count) {
                     break; //数组越界前跳出双循环
                 }
                 
-                PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(5+PF_IMAGE_GAP_X +(PF_IMAGE_GAP_X + PF_IMAGE_WIDTH)*i, PF_IMAGE_GAP_Y + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*j, PF_IMAGE_WIDTH, PF_IMAGE_WIDTH)];
+                PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(
+                                                                                  5+PF_IMAGE_GAP_X +(PF_IMAGE_GAP_X + PF_IMAGE_WIDTH)*i,
+                                                                                  PF_IMAGE_GAP_Y + 35 + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*j, PF_IMAGE_WIDTH,
+                                                                                  PF_IMAGE_WIDTH)];
                 pBtn.tag = all_imageIndex;
                 DLog(@"index------[%d]", pBtn.tag);
-                
-                if (all_imageIndex == 0) {
-                    pBtn.photoImg.image = [UIImage imageNamed:@"anjuke_icon_nextphoto_.png"];
+                _addActionTag = imageArr.count;
+                if (all_imageIndex == (imageArr.count)) {
+                    pBtn.photoImg.image = [UIImage imageNamed:@"anjuke_icon_add_pic"];
                 }
                 else {
                     NSString *url = nil;
-                    url =  [imageArr objectAtIndex:all_imageIndex - 1]; //去除第一个添加按钮
+                    url =  [imageArr objectAtIndex:all_imageIndex]; //去除第一个添加按钮
                     pBtn.photoImg.image = [UIImage imageWithContentsOfFile:url];
                 }
                 [pBtn addTarget:self action:@selector(imageBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -120,7 +139,20 @@
             }
         }
         
-        self.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, PF_IMAGE_GAP_Y + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*verticalRow);
+        CGFloat titleW = 120;
+        UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, titleW, 20)];
+        titleLb.text = @"室内图";
+        if (self.isHouseType) {
+            titleLb.text = @"户型图";
+        }
+        [titleLb setTextAlignment:NSTextAlignmentLeft];
+        titleLb.textColor = SYSTEM_LIGHT_GRAY;
+        titleLb.font = [UIFont systemFontOfSize:20];
+        [self addSubview:titleLb];
+        
+        CGFloat frameHeight = titleLb.frame.origin.y + CGRectGetHeight(titleLb.frame) + PF_IMAGE_GAP_Y + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*verticalRow;
+        
+        self.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frameHeight);
     }
     
     height = self.frame.size.height;
@@ -196,9 +228,9 @@
                 if (all_imageIndex == 0) {
                     pBtn.photoImg.image = [UIImage imageNamed:@"anjuke_icon_nextfxt_.png"];
                 }
-                else if (all_imageIndex -1 < (int)(imageArr.count)) {
+                else if (all_imageIndex < (int)(imageArr.count)) {
                     NSString *url = nil;
-                    url =  [imageArr objectAtIndex:all_imageIndex - 1]; //去除第一个添加按钮
+                    url =  [imageArr objectAtIndex:all_imageIndex]; //去除第一个添加按钮
                     pBtn.photoImg.image = [UIImage imageWithContentsOfFile:url];
                 }
                 else {
@@ -429,16 +461,23 @@
     if ([self.clickDelegate respondsToSelector:@selector(addImageDidClick)]) {
         [self.clickDelegate addImageDidClick];
     }
+    if ([self.clickDelegate respondsToSelector:@selector(addImageDidClick:)])
+    {
+        [self.clickDelegate addImageDidClick:self];
+    }
 }
 
 - (void)imageBtnClick:(id)sender {
     PhotoButton *pb = (PhotoButton *)sender;
     int index = pb.tag;
     
-    if (index == 0) { //点击添加图片
+    if (index == _addActionTag) { //点击添加图片
         //将添加按钮点击时间回调给superView
         if ([self.clickDelegate respondsToSelector:@selector(addImageDidClick)]) {
             [self.clickDelegate addImageDidClick];
+        }
+        if ([self.clickDelegate respondsToSelector:@selector(addImageDidClick:)]) {
+            [self.clickDelegate addImageDidClick:self];
         }
     }
     else {

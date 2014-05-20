@@ -14,6 +14,7 @@
 #import "BrokerLineView.h"
 #import "RTGestureLock.h"
 #import "PropertyAuctionPublishViewController.h"
+#import "AJKBRadioButton.h"
 
 typedef enum {
     Property_DJ = 0, //发房_定价
@@ -29,7 +30,7 @@ typedef enum {
 @property (nonatomic, strong) UITextField *inputingTextF; //正在输入的textField，用于指向后关闭键盘
 
 @property int selectedSection;
-@property int selectedRow; //记录选中的cell所在section和row，便于更改tableview的frame和位置
+@property (nonatomic)  int selectedRow; //记录选中的cell所在section和row，便于更改tableview的frame和位置
 
 @property (nonatomic, copy) NSString *lastPrice; //记录上一次的价格输入，用于判断是否需要
 @property (nonatomic, copy) NSString *propertyPrice; //房源定价价格
@@ -40,18 +41,14 @@ typedef enum {
 
 @property (nonatomic, assign) PropertyUploadType uploadType;
 
+@property (nonatomic, assign) NSInteger footClickType;////1,室内图2,户型图
+
 @end
 
 @implementation PublishBuildingViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+@synthesize footerViewDict = _footerViewDict;//footviewdict
+@synthesize footClickType = _footClickType;//操作foot的tag
+@synthesize footerView;
 
 - (void)dealloc {
     self.tableViewList.delegate = nil;
@@ -172,19 +169,22 @@ typedef enum {
 - (void)drawHeader {
     
     UIView *headerView = [[UIView alloc] init];
+    /*
     if (self.needFileNO && self.isHaozu == NO) { //仅二手房发房（北京）需要备案号
         headerView.frame = CGRectMake(0, 0, [self windowWidth], CELL_HEIGHT+PUBLISH_SECTION_HEIGHT*3+CELL_HEIGHT);
     }
-    else
-        headerView.frame = CGRectMake(0, 0, [self windowWidth], CELL_HEIGHT+PUBLISH_SECTION_HEIGHT*2);
+    else*/
+    
+    headerView.frame = CGRectMake(0, 0, [self windowWidth], CELL_HEIGHT+PUBLISH_SECTION_HEIGHT*2);
     headerView.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
     [self.tableViewList setTableHeaderView:headerView];
     
     //小区
     UIView *comView = [[UIView alloc] initWithFrame:CGRectMake(0, PUBLISH_SECTION_HEIGHT, [self windowWidth], CELL_HEIGHT)];
-    comView.backgroundColor = [UIColor whiteColor];
+    comView.backgroundColor = [UIColor clearColor];
     [headerView addSubview:comView];
     
+    /* 删除背景图片
     BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, -BL_HEIGHT, comView.frame.size.width, BL_HEIGHT)];
     [comView addSubview:line];
     BrokerLineView *line2 = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, comView.frame.size.height -BL_HEIGHT, comView.frame.size.width, BL_HEIGHT)];
@@ -197,16 +197,38 @@ typedef enum {
     comTitleLb.textColor = SYSTEM_DARK_GRAY;
     comTitleLb.font = [UIFont systemFontOfSize:17];
     [comView addSubview:comTitleLb];
+    */
     
-    UILabel *comDetailLb = [[UILabel alloc] initWithFrame:CGRectMake(224/2, (comView.frame.size.height - 20)/2, 150, 20)];
+    //小区名 label
+    UILabel *comDetailLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 150, 20)];
     comDetailLb.backgroundColor = [UIColor clearColor];
     comDetailLb.textColor = SYSTEM_BLACK;
-    comDetailLb.font = [UIFont systemFontOfSize:17];
+    comDetailLb.font = [UIFont boldSystemFontOfSize:17];
     self.communityDetailLb = comDetailLb;
     [comView addSubview:comDetailLb];
     
     [self communityDataSet:comDetailLb];
     
+    //小区地址 label
+    CGFloat comStX = comDetailLb.frame.origin.x;
+    CGFloat comStY = comDetailLb.frame.origin.y + CGRectGetHeight(comDetailLb.frame) + 5;
+    CGFloat comStWidth = CGRectGetWidth(comDetailLb.frame);
+    CGFloat comStHeiht = 14;
+    
+    NSString *adSt = [self.communityDic objectForKey:@"address"];
+    
+    UILabel *comStateLabel = [[UILabel alloc] initWithFrame:CGRectMake(comStX, comStY, comStWidth, comStHeiht)];
+    [comStateLabel setFont:[UIFont systemFontOfSize:14]];
+    [comStateLabel setTextColor:SYSTEM_BLACK];
+    [comStateLabel setBackgroundColor:[UIColor clearColor]];
+    [comStateLabel setText:adSt];
+    [comView addSubview:comStateLabel];
+}
+
+
+/*
+- (void)draw
+{
     //草泥马的备案号。。。
     if (self.needFileNO && self.isHaozu == NO) {
         UIView *fileNoView = [[UIView alloc] initWithFrame:CGRectMake(0, comView.frame.origin.y+ comView.frame.size.height + PUBLISH_SECTION_HEIGHT, [self windowWidth], CELL_HEIGHT)];
@@ -244,21 +266,38 @@ typedef enum {
         self.fileNoTextF = cellTextField;
         [fileNoView addSubview:cellTextField];
     }
-}
+}*/
 
 - (void)drawFooter {
     UIView *photoBGV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], PUBLISH_SECTION_HEIGHT+PHOTO_FOOTER_BOTTOM_HEIGHT + PF_EMPTY_IMAGE_HEIGHT)];
     photoBGV.backgroundColor = [UIColor clearColor];
     self.photoBGView = photoBGV; //预览图底板
     
-    PhotoFooterView *pf = [[PhotoFooterView alloc] initWithFrame:CGRectMake(0, PUBLISH_SECTION_HEIGHT, [self windowWidth], PF_EMPTY_IMAGE_HEIGHT)];
-    pf.clickDelegate = self;
-    self.footerView = pf;
-    [photoBGV addSubview:pf];
+    //初始化数组
+    _footerViewDict = [[NSMutableDictionary alloc] initWithCapacity:2];
+    //室内图
+    PhotoFooterView *pfRoom = [[PhotoFooterView alloc] initWithFrame:CGRectMake(0, PUBLISH_SECTION_HEIGHT, [self windowWidth], PF_EMPTY_IMAGE_HEIGHT)];
+    pfRoom.clickDelegate = self;
+    [pfRoom setTag:1];
+    [_footerViewDict setObject:pfRoom forKey:FOOTERVIEWDICTROOM];
+    
+    [photoBGV addSubview:pfRoom];
+    
+    //房型图
+    CGFloat pfStY = pfRoom.frame.origin.y + CGRectGetHeight(pfRoom.frame) + 22;
+    PhotoFooterView *pfStyle = [[PhotoFooterView alloc] initWithFrame:CGRectMake(0, pfStY, [self windowWidth], PF_EMPTY_IMAGE_HEIGHT)];
+    pfStyle.clickDelegate = self;
+    pfStyle.isHouseType = YES;
+    [pfStyle setTag:2];
+    
+    [_footerViewDict setObject:pfStyle forKey:FOOTERVIEWDICTSTYLE];
+    
+    [photoBGV addSubview:pfStyle];
     
     [self.tableViewList setTableFooterView:photoBGV];
     
-    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.roomImageArray]];
+    [pfRoom redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.roomImageArray]];
+    [pfStyle redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArray]];
 }
 
 #pragma mark - Private Method
@@ -485,7 +524,7 @@ typedef enum {
         [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_CLICK_ROOMS] communityDetailLb] setText:string];
     }
     else {
-        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_CLICK_ROOMS] communityDetailLb] setText:string];
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_ROOMS] communityDetailLb] setText:string];
     }
 }
 
@@ -889,21 +928,23 @@ typedef enum {
                     index = 2;
                     break;
                 case 1:
-                    index = 3;
+                    index = AJK_PICKER_FLOORS;
                     break;
                 case 2:
-                    index = 4;
+                    index = AJK_PICKER_ORIENTATION;
                     break;
                 case 3:
-                    index = 5;
+                    index = AJK_PICKER_FITMENT;
                     break;
                     
                 default:
                     break;
             }
+            /*
             if (!self.isHaozu) {
                 index ++; //二手房，此index需要递增1（多最低首付）
             }
+             */
         }
             break;
         case 2:
@@ -1162,7 +1203,7 @@ typedef enum {
 //            return NO;
 //        }
         
-        if (self.property.minDownPay.length > 0 && ![[[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_LIMIT_PAY] text_Field] text] isEqualToString:@""]) {
+        if (self.property.minDownPay.length > 0) {
             //最低首付
 //            if ([self.property.minDownPay intValue] *10000 < [self.property.price intValue] * 0.3 ) {
 //                [self showInfo:@"最低首付不低于房屋价格的30%"];
@@ -1197,7 +1238,7 @@ typedef enum {
         NSInteger price = [[[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_PRICE] text_Field] text] intValue] * 10000;
         self.property.price = [NSString stringWithFormat:@"%d", price];
         
-        self.property.minDownPay = [NSString stringWithFormat:@"%f", [[[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_LIMIT_PAY] text_Field] text] floatValue] * 1];
+//        self.property.minDownPay = [NSString stringWithFormat:@"%f", [[[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_LIMIT_PAY] text_Field] text] floatValue] * 1];
         
     }
     DLog(@"房源上传数据:[%@]", self.property);
@@ -1227,12 +1268,23 @@ typedef enum {
 
 //******点击******
 
+- (NSIndexPath *)tableView:(UITableView *)tv willSelectRowAtIndexPath:(NSIndexPath *)path
+{
+    if (!self.isHaozu && path.section == 1 && path.row == 4) {
+        
+        return nil;
+    }
+    return path;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.navigationController.view.frame.origin.x > 0) return;
     
     self.selectedIndex = [self transformIndexWithIndexPath:indexPath];
     self.selectedSection = indexPath.section;
     self.selectedRow = indexPath.row;
+    
+    
     
     switch (indexPath.section) {
         case 0:
@@ -1264,8 +1316,10 @@ typedef enum {
             switch (indexPath.row) {
                 case 0: //房型
                 {
+                    /*
                     [self doPushToHouseTypeVC];
                     [self pickerDisappear]; //每次push进新页面隐藏键盘、picker
+                     */
                 }
                     break;
                 case 1: //楼层
@@ -1273,17 +1327,21 @@ typedef enum {
                     [self showInputWithIndex:self.selectedIndex isPicker:YES];
                 }
                     break;
-                case 2: //装修
+                case 2:
+                    [self showInputWithIndex:self.selectedIndex isPicker:YES];
+                    break;
+                case 3: //装修
                 {
                     [self showInputWithIndex:self.selectedIndex isPicker:YES];
                 }
                     break;
-                case 3: //出租方式（仅好租）、特色
+                case 4: //出租方式（仅好租）、特色
                 {
                     if (self.isHaozu) {
                         [self showInputWithIndex:self.selectedIndex isPicker:YES];
                     }
                     else { //push to 特色
+                        /*
                         PublishFeatureViewController *pf = [[PublishFeatureViewController alloc] init];
                         pf.featureDelegate = self;
                         pf.isFiveYear = [self.property.isFullFive boolValue];
@@ -1291,6 +1349,7 @@ typedef enum {
                         [self.navigationController pushViewController:pf animated:YES];
                         
                         [self pickerDisappear]; //每次push进新页面，
+                         */
                     }
                 }
                     break;
@@ -1307,7 +1366,7 @@ typedef enum {
                 {
                     AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
                     ae.textFieldModifyDelegate = self;
-                    [ae setTitleViewWithString:@"房源标题"];
+                    [ae setTitleViewWithString:@"标题"];
                     ae.isTitle = YES;
                     ae.isHZ = self.isHaozu;
                     [ae setTextFieldDetail:self.property.title];
@@ -1320,7 +1379,7 @@ typedef enum {
                 {
                     AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
                     ae.textFieldModifyDelegate = self;
-                    [ae setTitleViewWithString:@"房源描述"];
+                    [ae setTitleViewWithString:@"描述"];
                     ae.isTitle = NO;
                     ae.isHZ = self.isHaozu;
                     [ae setTextFieldDetail:self.property.desc];
@@ -1340,6 +1399,12 @@ typedef enum {
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+//housestyle
+- (void)houseStyleAction
+{
+
 }
 
 #pragma mark - BrokerPickerDelegate
@@ -1443,6 +1508,7 @@ typedef enum {
                 return; //不做处理
             }
                 break;
+            /*
             case AJK_TEXT_LIMIT_PAY:
             {
                 self.selectedIndex --;
@@ -1454,6 +1520,7 @@ typedef enum {
                 return;
             }
                 break;
+             */
             case AJK_TEXT_AREA:
             {
                 self.selectedIndex --;
@@ -1559,6 +1626,7 @@ typedef enum {
                 self.selectedSection = 0;
             }
                 break;
+            /*
             case AJK_TEXT_LIMIT_PAY:
             {
                 self.selectedIndex +=1;
@@ -1566,6 +1634,7 @@ typedef enum {
                 self.selectedSection = 0;
             }
                 break;
+             */
             case AJK_TEXT_AREA:
             {
                 self.selectedIndex +=2;
@@ -1654,38 +1723,89 @@ typedef enum {
     //模态弹出图片播放器
     PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
     pb.clickDelegate = self;
-    BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
+    RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    [self.navigationController presentViewController:navController animated:YES completion:^(void) {
-        [pb showImagesWithArray:self.roomImageArray atIndex:imageIndex];
-    }];
+    if (_footClickType == 1)
+    {
+        [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+            [pb showImagesWithArray:self.roomImageArray atIndex:imageIndex];
+        }];
+    }else if (_footClickType == 2)
+    {
+        [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+            [pb showImagesWithArray:self.houseTypeImageArray atIndex:imageIndex];
+        }];
+    }
+    
     
 }
 
-- (void)addImageDidClick { //添加按钮点击
+//图片预览点击
+
+- (void)addImageDidClick:(PhotoFooterView *)sender { //添加按钮点击
     if (self.isHaozu) {
         [[BrokerLogger sharedInstance] logWithActionCode:HZ_PROPERTY_011 note:nil];
     }
     else
         [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_011 note:nil];
     
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从手机相册选择", nil];
-    sheet.tag = IMAGE_ACTIONSHEET_TAG;
-    [sheet showInView:self.view];
+    DLog(@"sender.tag == %d", sender.tag);
+    
+    _footClickType = sender.tag;
+    if (sender.tag == 1)
+    {
+        self.footerView = [_footerViewDict objectForKey:FOOTERVIEWDICTROOM];
+        
+        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从手机相册选择", nil];
+        sheet.tag = IMAGE_ACTIONSHEET_TAG;
+        [sheet showInView:self.view];
+    }else if (sender.tag == 2)
+    {
+        self.footerView = [_footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
+        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"选择在线房型图", @"从手机相册选择", nil];
+        sheet.tag = IMAGE_ACTIONSHEET_TAG;
+        [sheet showInView:self.view];
+    }
+        
+    
+    
     
 }
 
 - (void)drawFinishedWithCurrentHeight:(CGFloat)height { //每次重绘后返回当前预览底图的高度
-    self.photoBGView.frame = CGRectMake(0, 0, [self windowWidth], PUBLISH_SECTION_HEIGHT+PHOTO_FOOTER_BOTTOM_HEIGHT + height);
+    
+    PhotoFooterView *styleFootView = [_footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
+    PhotoFooterView *houseFootView = [_footerViewDict objectForKey:FOOTERVIEWDICTROOM];
+    
+    CGFloat footHeight = CGRectGetHeight(styleFootView.frame) + CGRectGetHeight(houseFootView.frame) + 40;
+    
+    self.photoBGView.frame = CGRectMake(0, 0, [self windowWidth], footHeight);
     self.tableViewList.tableFooterView = self.photoBGView; //状态改变后需要重新赋值footerView
+    
+    if (_footClickType == 1)
+    {
+        
+        CGRect sFootFrame = styleFootView.frame;
+        sFootFrame.origin.y = height+22;
+        styleFootView.frame = sFootFrame;
+    }
 }
 
 #pragma mark - PublishBigImageViewClickDelegate
 
-- (void)viewDidFinishWithImageArr:(NSArray *)imageArray {
-    self.roomImageArray = [NSMutableArray arrayWithArray:imageArray];
+- (void)viewDidFinishWithImageArr:(NSArray *)imageArray sender:(PublishBigImageViewController *)sender{
     
-    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.roomImageArray]];
+    if (_footClickType == 1)
+    {
+        self.roomImageArray = [NSMutableArray arrayWithArray:imageArray];
+    }else if(_footClickType == 2)
+    {
+        self.houseTypeImageArray = [NSMutableArray arrayWithArray:imageArray];
+    }
+    
+    
+    
+    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:imageArray]];
 }
 
 - (void)onlineHouseTypeImgDelete {
@@ -1810,7 +1930,7 @@ typedef enum {
     [self.imagePicker takePicture];
 }
 
-- (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr {
+- (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr sender:(PhotoShowView *)sender{
     for (int i = 0; i < arr.count; i ++) {
         //保存原始图片、得到url
         E_Photo *ep = [PhotoManager getNewE_Photo];
@@ -1819,7 +1939,14 @@ typedef enum {
         ep.photoURL = url;
         ep.smallPhotoUrl = url;
         
-        [self.roomImageArray addObject:ep];
+        if (_footClickType == 1)
+        {
+            [self.roomImageArray addObject:ep];
+        }else if (_footClickType == 2)
+        {
+            [self.houseTypeImageArray addObject:ep];
+        }
+        
     }
     
     [self.imagePicker dismissViewControllerAnimated:YES completion:^(void){
@@ -1827,14 +1954,27 @@ typedef enum {
     }];
     
     DLog(@"拍照添加室内图:count[%d]", self.roomImageArray.count);
+    DLog(@"sender.tag == %d", sender.tag);
+    
+    NSArray *willdoArr = self.roomImageArray;
+    if (_footClickType == 1)
+    {
+        self.footerView = [_footerViewDict objectForKey:FOOTERVIEWDICTROOM];
+    }else if (_footClickType == 2)
+    {
+        willdoArr = self.houseTypeImageArray;
+        self.footerView = [_footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
+    }
+    
+    DLog(@"self.footerView.tag == %d", self.footerView.tag);
     
     //redraw footer img view
-    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.roomImageArray]];
+    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:willdoArr]];
 }
 
 #pragma mark - ELCImagePickerControllerDelegate
 
-- (void)elcImagePickerController:(BK_ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
     int count = [info count];
     if (![self canAddMoreImageWithAddCount:count]) {
         return;
@@ -1877,19 +2017,32 @@ typedef enum {
             ep.smallPhotoUrl = url;
         }
         
-        [self.roomImageArray addObject:ep];
+        if (_footClickType == 1)
+        {
+            [self.roomImageArray addObject:ep];
+        }else if (_footClickType == 2)
+        {
+            [self.houseTypeImageArray addObject:ep];
+        }
+        
 	}
+    
+    NSArray *willdoArr = self.roomImageArray;
+    if (_footClickType == 2)
+    {
+        willdoArr = self.houseTypeImageArray;
+    }
     
     DLog(@"相册添加室内图:count[%d]", self.roomImageArray.count);
     
     //redraw footer img view
-    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.roomImageArray]];
+    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:willdoArr]];
     
     [self dismissViewControllerAnimated:YES completion:nil];
     
 }
 
-- (void)elcImagePickerControllerDidCancel:(BK_ELCImagePickerController *)picker {
+- (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -1918,50 +2071,61 @@ typedef enum {
 
 #pragma mark - UIActionSheet Delegate
 
+- (void)getCrameAction
+{
+    if (![self canAddMoreImageWithAddCount:1]) { //到达上限后张就不能继续拍摄
+        return; //室内图超出限制
+    }
+    
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_PROPERTY_012;
+    }
+    else
+        code = AJK_PROPERTY_012;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    
+    self.isTakePhoto = YES;
+    
+    UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+    ipc.sourceType = UIImagePickerControllerSourceTypeCamera; //拍照
+    self.imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+    self.imagePicker = ipc;
+    ipc.delegate = self;
+    ipc.allowsEditing = NO;
+    ipc.showsCameraControls = NO;
+    self.imagePicker.cameraViewTransform = CGAffineTransformIdentity;
+    if ( [UIImagePickerController isFlashAvailableForCameraDevice:self.imagePicker.cameraDevice] ) {
+        self.imagePicker.cameraFlashMode = UIImagePickerControllerCameraFlashModeAuto;
+    }
+    //拍照预览图
+    PhotoShowView *pv = [[PhotoShowView alloc] initWithFrame:CGRectMake(0, [self windowHeight] - PHOTO_SHOW_VIEW_H, [self windowWidth], PHOTO_SHOW_VIEW_H)];
+    self.imageOverLay = pv;
+    pv.maxImgCount = AJK_MAXCOUNT_ROOMIMAGE;
+    if (self.isHaozu) {
+        pv.maxImgCount = HZ_MAXCOUNT_ROOMIMAGE;
+    }
+    pv.currentImgCount = [self getCurrentRoomImgCount]; //self.roomImageArray.count;
+    pv.clickDelegate = self;
+    
+    ipc.cameraOverlayView = self.imageOverLay;
+    
+    [self presentViewController:ipc animated:YES completion:nil];
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     if (actionSheet.tag == IMAGE_ACTIONSHEET_TAG) {
         switch (buttonIndex) {
             case 0: //拍照
             {
-                if (![self canAddMoreImageWithAddCount:1]) { //到达上限后张就不能继续拍摄
-                    return; //室内图超出限制
+                if (_footClickType == 1)
+                {
+                    [self getCrameAction];
+                }else if (_footClickType == 2)
+                {
+                
                 }
-                
-                NSString *code = [NSString string];
-                if (self.isHaozu) {
-                    code = HZ_PROPERTY_012;
-                }
-                else
-                    code = AJK_PROPERTY_012;
-                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
-                
-                self.isTakePhoto = YES;
-                
-                UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
-                ipc.sourceType = UIImagePickerControllerSourceTypeCamera; //拍照
-                self.imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
-                self.imagePicker = ipc;
-                ipc.delegate = self;
-                ipc.allowsEditing = NO;
-                ipc.showsCameraControls = NO;
-                self.imagePicker.cameraViewTransform = CGAffineTransformIdentity;
-                if ( [UIImagePickerController isFlashAvailableForCameraDevice:self.imagePicker.cameraDevice] ) {
-                    self.imagePicker.cameraFlashMode = UIImagePickerControllerCameraFlashModeAuto;
-                }
-                //拍照预览图
-                PhotoShowView *pv = [[PhotoShowView alloc] initWithFrame:CGRectMake(0, [self windowHeight] - PHOTO_SHOW_VIEW_H, [self windowWidth], PHOTO_SHOW_VIEW_H)];
-                self.imageOverLay = pv;
-                pv.maxImgCount = AJK_MAXCOUNT_ROOMIMAGE;
-                if (self.isHaozu) {
-                    pv.maxImgCount = HZ_MAXCOUNT_ROOMIMAGE;
-                }
-                pv.currentImgCount = [self getCurrentRoomImgCount]; //self.roomImageArray.count;
-                pv.clickDelegate = self;
-                
-                ipc.cameraOverlayView = self.imageOverLay;
-                
-                [self presentViewController:ipc animated:YES completion:nil];
             }
                 break;
             case 1: //相册
@@ -1980,8 +2144,8 @@ typedef enum {
                 
                 self.isTakePhoto = NO;
                 
-                BK_ELCAlbumPickerController *albumPicker = [[BK_ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
-                BK_ELCImagePickerController *elcPicker = [[BK_ELCImagePickerController alloc] initWithRootViewController:albumPicker];
+                ELCAlbumPickerController *albumPicker = [[ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
+                ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initWithRootViewController:albumPicker];
                 int maxCount = AJK_MAXCOUNT_ROOMIMAGE;
                 if (self.isHaozu) {
                     maxCount = HZ_MAXCOUNT_ROOMIMAGE;

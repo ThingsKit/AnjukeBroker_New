@@ -9,15 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "BrokerLineView.h"
 
-#define PF_EMPTY_IMAGE_HEIGHT 80
+#define PF_EMPTY_IMAGE_HEIGHT 120
 #define PF_IMAGE_WIDTH 130/2
 #define PF_IMAGE_GAP_X 20/2
 #define PF_IMAGE_GAP_Y 15/2
-
+@class PhotoFooterView;
 @protocol PhotoFooterImageClickDelegate <NSObject>
 
 - (void)imageDidClickWithIndex:(int)index;
 - (void)addImageDidClick;
+- (void)addImageDidClick:(PhotoFooterView *)sender;
 
 - (void)drawFinishedWithCurrentHeight:(CGFloat)height; //重绘结束后返回当前页面的高度
 

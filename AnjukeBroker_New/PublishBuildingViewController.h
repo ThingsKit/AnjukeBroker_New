@@ -16,7 +16,7 @@
 #import "Property.h"
 #import "LoginManager.h"
 #import "PhotoFooterView.h"
-#import "BK_ELCImagePickerController.h"
+#import "ELCImagePickerController.h"
 #import "ELCAlbumPickerController.h"
 #import "PhotoShowView.h"
 #import "E_Photo.h"
@@ -25,7 +25,7 @@
 #import "ASIFormDataRequest.h"
 #import "AppDelegate.h"
 #import "PublishBigImageViewController.h"
-#import "BK_RTNavigationController.h"
+#import "RTNavigationController.h"
 #import "SimpleKeyboardToolBar.h"
 #import "PublishInputOrderModel.h"
 #import "PublishFeatureViewController.h"
@@ -34,6 +34,10 @@
 #define PUBLISH_ACTIONSHEET_TAG 9020
 
 #define PHOTO_FOOTER_BOTTOM_HEIGHT 80
+
+#define FOOTERVIEWDICTROOM   @"pfRoom"
+#define FOOTERVIEWDICTSTYLE  @"pfStyle"
+
 
 @interface PublishBuildingViewController : RTViewController <UITableViewDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, UIActionSheetDelegate, PhotoFooterImageClickDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ELCImagePickerControllerDelegate, PhotoViewClickDelegate, TextFieldModifyDelegate ,PublishBigImageViewClickDelegate, UIAlertViewDelegate, UITextFieldDelegate, SimpleKeyboardBarClickDelegate, PublishFeatureDelegate>
 
@@ -53,6 +57,7 @@
 @property (nonatomic, strong) NSMutableArray *houseTypeImageArray; //室内图、户型图数据存放数组
 
 @property (nonatomic, strong) PhotoFooterView *footerView;
+@property (nonatomic, strong) NSMutableDictionary *footerViewDict;
 @property BOOL inPhotoProcessing;
 @property BOOL isTakePhoto; //是否拍照，区别拍照和从相册取图
 @property (nonatomic, strong) UIImagePickerController *imagePicker;

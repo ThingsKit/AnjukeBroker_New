@@ -167,10 +167,20 @@
     else { //二手房
         //get data
         switch (index) { //户型
+            case AJK_PICKER_ROOMS:
+            {
+            
+            }
+                break;
             case AJK_PICKER_FLOORS: //楼层
             {
                 self.firstArray = [PublishDataModel getPropertyFloor];
                 self.secondArray = [PublishDataModel getPropertyProFloor];
+            }
+                break;
+            case AJK_PICKER_ORIENTATION://朝向
+            {
+                self.firstArray = [PublishDataModel getPropertyExposure];
             }
                 break;
             case AJK_PICKER_FITMENT: //装修

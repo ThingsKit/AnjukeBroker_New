@@ -145,6 +145,11 @@
 - (void)closePicker:(id)sender {
     if ([self.clickDelegate respondsToSelector:@selector(closePicker_Click_WithImgArr:)]) {
         [self.clickDelegate closePicker_Click_WithImgArr:self.imgArray];
+        
+    }
+    if ([self.clickDelegate respondsToSelector:@selector(closePicker_Click_WithImgArr:sender:)]) {
+        
+        [self.clickDelegate closePicker_Click_WithImgArr:self.imgArray sender:self];
     }
 }
 

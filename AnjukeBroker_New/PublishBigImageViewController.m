@@ -151,6 +151,7 @@
     //设置...
     if ([self.clickDelegate respondsToSelector:@selector(viewDidFinishWithImageArr:)]) {
         [self.clickDelegate viewDidFinishWithImageArr:self.imgArr];
+        [self.clickDelegate viewDidFinishWithImageArr:self.imgArr sender:self];
     }
     
     //do back

@@ -216,8 +216,8 @@
         [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FLOORS] setInputed_RowAtCom1:profloorIndex];
         
         //最低首付
-        self.property.minDownPay = dic[@"minDownPay"];
-        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_LIMIT_PAY] text_Field] setText:self.property.minDownPay];
+//        self.property.minDownPay = dic[@"minDownPay"];
+//        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_LIMIT_PAY] text_Field] setText:self.property.minDownPay];
         
         //是否满五年
         self.property.isOnly = [NSNumber numberWithInt:[[dic objectForKey:@"isOnly"] intValue]];
@@ -671,7 +671,7 @@
     PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
     pb.clickDelegate = self;
     pb.isEditProperty = YES;
-    BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
+    RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self.navigationController presentViewController:navController animated:YES completion:^(void) {
         
@@ -752,7 +752,7 @@
 
 #pragma mark - ELCImagePickerControllerDelegate
 
-- (void)elcImagePickerController:(BK_ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
     int count = [info count];
     if (![self canAddMoreImageWithAddCount:count]) {
         return;

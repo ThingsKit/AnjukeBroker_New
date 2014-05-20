@@ -7,10 +7,11 @@
 //
 
 #import "RTViewController.h"
-
+@class PublishBigImageViewController;
 @protocol PublishBigImageViewClickDelegate <NSObject>
 @optional
 - (void)viewDidFinishWithImageArr:(NSArray *)imageArray;
+- (void)viewDidFinishWithImageArr:(NSArray *)imageArray sender:(PublishBigImageViewController *)sender;
 - (void)onlineHouseTypeImgDelete;
 
 - (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex;

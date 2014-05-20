@@ -142,6 +142,7 @@
 		20F011C118942ABD000264BA /* icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F011BF18942ABD000264BA /* icon_57.png */; };
 		20F011C218942ABD000264BA /* icon_57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F011C018942ABD000264BA /* icon_57@2x.png */; };
 		20F6632A1896050F00356DFD /* anjuke_icon_nextfxt_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */; };
+		2723353E192AFD6200C45460 /* AJKBRadioButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2723353D192AFD6200C45460 /* AJKBRadioButton.m */; };
 		273913D218DBCFD9003284AA /* CheckInstalledMapAPP.m in Sources */ = {isa = PBXBuildFile; fileRef = 273913CB18DBCFD9003284AA /* CheckInstalledMapAPP.m */; };
 		273913D318DBCFD9003284AA /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 273913CD18DBCFD9003284AA /* MapViewController.m */; };
 		273913D518DBCFD9003284AA /* RegionAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 273913D118DBCFD9003284AA /* RegionAnnotation.m */; };
@@ -879,6 +880,8 @@
 		20F011BF18942ABD000264BA /* icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_57.png; sourceTree = "<group>"; };
 		20F011C018942ABD000264BA /* icon_57@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_57@2x.png"; sourceTree = "<group>"; };
 		20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_nextfxt_@2x.png"; sourceTree = "<group>"; };
+		2723353C192AFD6200C45460 /* AJKBRadioButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJKBRadioButton.h; sourceTree = "<group>"; };
+		2723353D192AFD6200C45460 /* AJKBRadioButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJKBRadioButton.m; sourceTree = "<group>"; };
 		273913CA18DBCFD9003284AA /* CheckInstalledMapAPP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckInstalledMapAPP.h; path = mapView/CheckInstalledMapAPP.h; sourceTree = "<group>"; };
 		273913CB18DBCFD9003284AA /* CheckInstalledMapAPP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckInstalledMapAPP.m; path = mapView/CheckInstalledMapAPP.m; sourceTree = "<group>"; };
 		273913CC18DBCFD9003284AA /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = mapView/MapViewController.h; sourceTree = "<group>"; };
@@ -2105,6 +2108,8 @@
 		20D3C248189245840030D7D8 /* 发房View */ = {
 			isa = PBXGroup;
 			children = (
+				2723353C192AFD6200C45460 /* AJKBRadioButton.h */,
+				2723353D192AFD6200C45460 /* AJKBRadioButton.m */,
 				20D3C24A1892466B0030D7D8 /* PhotoFooterView.h */,
 				20D3C24B1892466B0030D7D8 /* PhotoFooterView.m */,
 			);
@@ -4270,6 +4275,7 @@
 				F815F93F1906371B00DF9F55 /* UILabel+TitleView.m in Sources */,
 				B7E69BBB183B4DDB0097D5C3 /* BaseModifyCostController.m in Sources */,
 				B7EAD51F18CD927200B28FEC /* AXChatViewController.m in Sources */,
+				2723353E192AFD6200C45460 /* AJKBRadioButton.m in Sources */,
 				20A2178518BF1804002CA469 /* CommunitySelectViewController.m in Sources */,
 				B77A960C182A3369007F04E3 /* SaleNoPlanListManager.m in Sources */,
 				971D60921849CEA5006B07C9 /* NoNetworkView.m in Sources */,

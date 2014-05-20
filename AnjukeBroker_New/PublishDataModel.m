@@ -14,10 +14,10 @@
 + (NSArray *)getPropertyTitleArrayForHaozu:(BOOL)isHZ {
     NSArray *arr = nil;
     if (!isHZ) { //安居客房源描述title
-        arr = [NSArray arrayWithObjects:@"价格", @"最低首付",@"产证面积",@"房型",@"楼层",@"装修", @"特色",@"房源标题",@"房源描述", nil];
+        arr = [NSArray arrayWithObjects:@"价格",@"面积",@"户型",@"楼层", @"朝向",@"装修", @"特色",@"标题",@"描述",@"备案号", nil];
     }
     else { //好租房源描述title
-        arr = [NSArray arrayWithObjects:@"出租价格",@"出租面积",@"房型",@"楼层",@"装修",@"出租方式",@"房源标题",@"房源描述", nil];
+        arr = [NSArray arrayWithObjects:@"租金",@"面积",@"户型",@"楼层", @"朝向",@"装修",@"方式",@"标题",@"描述", nil];
     }
     return arr;
 }

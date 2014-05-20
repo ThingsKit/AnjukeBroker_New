@@ -20,6 +20,8 @@
 - (void)createCells:(NSArray *)dataArray isHaozu:(BOOL)isHaozu {
     [self initModel];
     
+    DLog(@"dataArray == %@", dataArray);
+    
     if (isHaozu) { //租房
         //******价格、产证面积、出租方式
         NSMutableArray *section1 = [NSMutableArray array];
@@ -115,6 +117,7 @@
             
             [cell showTopLine]; //top line
         }
+        /*
         //limit pay
         AnjukeEditableCell *cell11 = [[AnjukeEditableCell alloc] init];
         cell11.editDelegate = self.superViewController;
@@ -124,7 +127,7 @@
             [section1 addObject:cell11];
             [self.inputCellArray addObject:cell11];
             
-        }
+        }*/
         //area
         AnjukeEditableCell *cell2 = [[AnjukeEditableCell alloc] init];
         cell2.editDelegate = self.superViewController;
@@ -140,9 +143,9 @@
         //******房型、楼层、装修、特色
         NSMutableArray *section2 = [NSMutableArray array];
         //rooms 房型
-        AnjukeNormalCell *cell3 = [[AnjukeNormalCell alloc] init];
-        if ([cell3 configureCell:[dataArray objectAtIndex:AJK_CLICK_ROOMS]]) {
-            [cell3 setIndexTag:AJK_CLICK_ROOMS];
+        AnjukeEditableCell *cell3 = [[AnjukeEditableCell alloc] init];
+        if ([cell3 configureCell:[dataArray objectAtIndex:AJK_PICKER_ROOMS]]) {
+            [cell3 setIndexTag:AJK_PICKER_ROOMS];
             [section2 addObject:cell3];
             [self.inputCellArray addObject:cell3];
             
@@ -156,6 +159,17 @@
             [section2 addObject:cell4];
             [self.inputCellArray addObject:cell4];
         }
+        
+        //朝向 orientation
+        AnjukeEditableCell *cell41 = [[AnjukeEditableCell alloc] init];
+        cell41.editDelegate = self.superViewController;
+        if ([cell41 configureCell:[dataArray objectAtIndex:AJK_PICKER_ORIENTATION]]) {
+            [cell41 setIndexTag:AJK_PICKER_ORIENTATION];
+            [section2 addObject:cell41];
+            [self.inputCellArray addObject:cell41];
+        }
+        
+        
         //fitment
         AnjukeEditableCell *cell5 = [[AnjukeEditableCell alloc] init];
         cell5.editDelegate = self.superViewController;
@@ -169,6 +183,8 @@
         AnjukeNormalCell *cell55 = [[AnjukeNormalCell alloc] init];
         if ([cell55 configureCell:[dataArray objectAtIndex:AJK_CLICK_FEATURE]]) {
             [cell55 setIndexTag:AJK_CLICK_FEATURE];
+            [cell55 setSelectionStyle:UITableViewCellSelectionStyleNone];
+            [cell55 drawSpecView];
             [section2 addObject:cell55];
             [self.inputCellArray addObject:cell55];
             
@@ -205,12 +221,13 @@
 }
 
 - (void)houseTypeCellImageIconShow:(BOOL)show isHaozu:(BOOL)isHaozu {
+    return;
     int houseTypeIndex = 0;
     if (isHaozu) {
         houseTypeIndex = HZ_CLICK_ROOMS;
     }
     else
-        houseTypeIndex = AJK_CLICK_ROOMS;
+        houseTypeIndex = AJK_PICKER_ROOMS;
     
     UIImage *icon = [UIImage imageNamed:@"anjuke_icon_fxt_mini_.png"];
     if (show) {

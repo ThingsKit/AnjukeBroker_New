@@ -8,6 +8,7 @@
 
 #import "AnjukeNormalCell.h"
 #import "Util_UI.h"
+#import "AJKBRadioButton.h"
 
 @implementation AnjukeNormalCell
 @synthesize communityDetailLb;
@@ -58,6 +59,62 @@
     [self.contentView addSubview:iv];
     
     [self showBottonLineWithCellHeight:CELL_HEIGHT];
+}
+
+//
+- (UIView *)drawSpecView
+{
+    self.accessoryType = UITableViewCellAccessoryNone;
+    UIView *specView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 45)];
+    
+    
+    CGFloat inViewY = 20;
+    CGFloat inViewX = 110;
+    CGFloat inViewWidth = 75;
+    CGFloat inViewHeight = 45;
+    
+    UIView *radioOne = [self radioButtonView:CGRectMake(inViewX, inViewY, inViewWidth, inViewHeight) title:@"满五年"];
+    [radioOne setTag:-1];
+    
+    inViewX = inViewX + CGRectGetWidth(radioOne.frame);
+    
+    UIView *radioTwo = [self radioButtonView:CGRectMake(inViewX, inViewY, inViewWidth, inViewHeight) title:@"唯一住房"];
+    [radioTwo setTag:-2];
+    
+    [specView addSubview:radioOne];
+    [specView addSubview:radioTwo];
+    
+    [self.contentView addSubview:specView];
+    
+    
+    return specView;
+}
+
+- (UIView *)radioButtonView:(CGRect)rdFrame title:(NSString *)titleS
+{
+    UIImage *img = [UIImage imageNamed:@"anjuke_icon_choosed"];
+    UIView *specView = [[UIView alloc] initWithFrame:rdFrame];
+    AJKBRadioButton *rdMoreFive = [[AJKBRadioButton alloc] initWithFrame:CGRectMake(0, 0, img.size.width, img.size.height)];
+    [rdMoreFive setTag:110];
+    [rdMoreFive setIsChoose:NO];
+    
+    //cgMoreFivela
+    CGFloat moLaX = rdMoreFive.frame.origin.x + CGRectGetWidth(rdMoreFive.frame);
+    CGFloat moLaY = rdMoreFive.frame.origin.y - 5;
+    
+    UIFont *srFont = [UIFont systemFontOfSize:16];
+    CGSize srSize = [titleS sizeWithFont:srFont];
+    UIButton *moreFiveLa = [[UIButton alloc] initWithFrame:CGRectMake(moLaX, moLaY, srSize.width, 25)];
+    [[moreFiveLa titleLabel] setTextAlignment:NSTextAlignmentLeft];
+    [moreFiveLa setTitle:titleS forState:UIControlStateNormal];
+    [moreFiveLa setTitleColor:SYSTEM_BLACK forState:UIControlStateNormal];
+    [[moreFiveLa titleLabel] setFont:srFont];
+    [moreFiveLa addTarget:rdMoreFive action:@selector(clickAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    [specView addSubview:rdMoreFive];
+    [specView addSubview:moreFiveLa];
+    
+    return specView;
 }
 
 /*

@@ -11,10 +11,11 @@
 //发房row的顺序换算
 //******二手房
 #define AJK_TEXT_PRICE 0 //价格
-#define AJK_TEXT_LIMIT_PAY 1 //最低首付
-#define AJK_TEXT_AREA 2 //面积
-#define AJK_CLICK_ROOMS 3 //房型
-#define AJK_PICKER_FLOORS 4 //楼层
+//#define AJK_TEXT_LIMIT_PAY 1 //最低首付
+#define AJK_TEXT_AREA 1 //面积
+#define AJK_PICKER_ROOMS 2 //户型
+#define AJK_PICKER_FLOORS 3 //楼层
+#define AJK_PICKER_ORIENTATION 4 //朝向
 #define AJK_PICKER_FITMENT 5 //装修
 #define AJK_CLICK_FEATURE 6 //特色
 #define AJK_CLICK_TITLE 7 //标题
