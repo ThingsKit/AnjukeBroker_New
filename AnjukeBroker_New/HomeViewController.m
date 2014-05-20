@@ -423,7 +423,7 @@
             //            [self setTitleViewWithString:[LoginManager getRealName]];
             //            [self setTitleViewWithString:@"房源"];
             //******兼容安居客team得到userInfoDic并设置NSUserDefaults，以帮助底层通过对应路径获取相应数据******
-            NSDictionary *dic = [LoginManager getFuckingChatUserDicJustForAnjukeTeamWithPhone:[LoginManager getPhone] uid:[LoginManager getChatID]];
+            NSDictionary *dic = [LoginManager getFuckingChatUserDicJustForAnjukeTeamWithPhone:[LoginManager getPhone] uid:[LoginManager getChatID] token:[LoginManager getChatToken]];
             [[NSUserDefaults standardUserDefaults] setValue:dic forKey:USER_DEFAULT_KEY_AXCHATMC_USE];
             [AXChatMessageCenter defaultMessageCenter];
             

@@ -37,7 +37,7 @@
 + (BOOL)needFileNOWithCityID:(NSString *)cityID; //发房是否需要备案号
 
 + (NSDictionary *)getFuckingChatUserDicJustForAnjukeTeam;
-+ (NSDictionary *)getFuckingChatUserDicJustForAnjukeTeamWithPhone:(NSString *)phone uid:(NSString *)uid;
++ (NSDictionary *)getFuckingChatUserDicJustForAnjukeTeamWithPhone:(NSString *)phone uid:(NSString *)uid token:(NSString *)token;
 
 + (NSArray *)getClientCountAlertArray;
 

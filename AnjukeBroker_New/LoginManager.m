@@ -20,7 +20,14 @@
 }
 
 + (void)doLogout {
-    [self cleanToken];
+    double delayInSeconds = .5f;
+    dispatch_time_t delayInNanoSeconds = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_after(delayInNanoSeconds, concurrentQueue, ^(void)
+    {
+        [self cleanToken];
+    });
+    
 }
 
 + (NSString *)getUserName {
@@ -146,7 +153,7 @@
     return dic;
 }
 
-+ (NSDictionary *)getFuckingChatUserDicJustForAnjukeTeamWithPhone:(NSString *)phone uid:(NSString *)uid {
++ (NSDictionary *)getFuckingChatUserDicJustForAnjukeTeamWithPhone:(NSString *)phone uid:(NSString *)uid token:(NSString *)token{
     NSMutableDictionary *userDic = [NSMutableDictionary dictionary];
     if (phone) {
         [userDic setObject:phone forKey:@"phone"];
@@ -154,7 +161,16 @@
     if (uid) {
         [userDic setObject:uid forKey:@"user_id"];
     }
-    NSDictionary *dic = [NSDictionary dictionaryWithObject:userDic forKey:@"user_info"];
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    
+    if (token)
+    {
+        [dic setObject:token forKey:@"auth_token"];
+    }
+    
+    [dic setObject:userDic forKey:@"user_info"];
+
     
     return dic;
 }
