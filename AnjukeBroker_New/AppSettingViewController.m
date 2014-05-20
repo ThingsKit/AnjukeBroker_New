@@ -197,7 +197,6 @@
         [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_007 note:nil];
         
         AboutUsViewController *av = [[AboutUsViewController alloc] init];
-        [av setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:av animated:YES];
     }else if (indexPath.section == 1 && indexPath.row == 0){
         if (self.isHasNewVersion && self.updateUrl.length != 0) {

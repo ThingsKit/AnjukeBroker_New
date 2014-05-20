@@ -46,7 +46,7 @@
 
 - (void)initDisplay {
     
-    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(75, 30, 140, 100)];
+    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(68, 30, 140, 100)];
     [icon setImage:[UIImage imageNamed:@"anjuke_icon_login"]];
     [self.view addSubview:icon];
 
@@ -88,8 +88,10 @@
     
     NSString *current_version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
     NSString *device_info = [[RTLogger sharedInstance] channelID];
-    NSString *umeng_key = [[[RTLogger sharedInstance] appKey] substringFromIndex:18];
-    strVer = [NSString stringWithFormat:@"当前版本：%@ %@ %@",current_version,device_info,umeng_key];
+    
+//    NSString *umeng_key = [[[RTLogger sharedInstance] appKey] substringFromIndex:18];
+//    strVer = [NSString stringWithFormat:@"当前版本：%@ %@ %@",current_version,device_info,umeng_key];
+    strVer = [NSString stringWithFormat:@"当前版本：%@ %@",current_version,device_info];
 
     return strVer;
 }
