@@ -37,8 +37,8 @@
 
     if (!self.isDefaultLoad) {
         [versionDelegate updateVersionInfo:resultFromAPI];
-    }else
         return;
+    }
     
     if ([resultFromAPI count] != 0) {
         self.updateUrl = [NSString stringWithFormat:@"%@",[resultFromAPI objectForKey:@"url"]];
