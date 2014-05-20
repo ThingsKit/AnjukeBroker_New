@@ -15,7 +15,7 @@
 - (void)onlineHouseTypeImgDelete;
 
 - (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex;
-
+- (void)viewDidFinishWithImageNewArr:(NSArray *)imageNewArray;
 @end
 
 @interface PublishBigImageViewController : RTViewController <UIScrollViewDelegate, UIAlertViewDelegate>

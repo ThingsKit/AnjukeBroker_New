@@ -10,7 +10,7 @@
 #import "Util_UI.h"
 #import "PhotoButton.h"
 
-#define TAG_PHOTO_BASE 9990
+#define TAG_PHOTO_BASE 9900
 
 #define PHOTO_BTN_H 70                              //拍照按钮高
 #define PHOTO_SV_H PHOTO_SHOW_VIEW_H - PHOTO_BTN_H  //拍照scrollView高
@@ -112,10 +112,12 @@
     int index = self.imgArray.count -1; //增加到第几个预览图，便于设置frame及contentSize
     
     PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(IMG_GAP +(IMG_GAP +IMG_H)*index, IMG_GAP, IMG_H, IMG_H)];
-    [pBtn addTarget:self action:@selector(deletePhoto:) forControlEvents:UIControlEventTouchUpInside];
+//    [pBtn addTarget:self action:@selector(deletePhoto:) forControlEvents:UIControlEventTouchUpInside];
     pBtn.tag = TAG_PHOTO_BASE + index;
     pBtn.photoImg.image = image;
     [pBtn showDeleteBtn];
+    [pBtn.deletelBtn addTarget:self action:@selector(deletePhoto:) forControlEvents:UIControlEventTouchUpInside];
+    pBtn.deletelBtn.tag = TAG_PHOTO_BASE + index + 1000;
 //    pBtn.layer.borderColor = [UIColor whiteColor].CGColor;
 //    pBtn.layer.borderWidth = 0.5;
     [self.photoSV addSubview:pBtn];
@@ -151,6 +153,16 @@
         
         [self.clickDelegate closePicker_Click_WithImgArr:self.imgArray sender:self];
     }
+    
+    if ([self.clickDelegate respondsToSelector:@selector(closePicker_Click_WithImgNewArr:sender:)]) {
+        NSMutableArray *arr = [NSMutableArray array];
+        for (int i = 0; i < self.imgArray.count; i++) {
+            NSDictionary *dic = [[NSDictionary alloc] initWithObjectsAndKeys:[self.imgArray objectAtIndex:i],@"img",[NSNumber numberWithInt:i],@"index",@"",@"des", nil];
+            [arr addObject:dic];
+        }
+
+        [self.clickDelegate closePicker_Click_WithImgNewArr:arr sender:self];
+    }
 }
 
 - (void)doCancel:(id)sender { //取消拍照及已拍图片
@@ -162,8 +174,11 @@
 
 - (void)deletePhoto:(id)sender {
     self.currentImgCount --;
-    PhotoButton *pBtn = (PhotoButton *)sender;
-    int index = pBtn.tag - TAG_PHOTO_BASE;
+
+    UIButton *btn = (UIButton *)sender;
+    int index = btn.tag - TAG_PHOTO_BASE -1000;
+
+    PhotoButton *pBtn = (PhotoButton *)btn.superview;
     
     DLog(@"click index [%d]", index);
     BOOL isLast = NO;
@@ -206,6 +221,7 @@
                                                       completion:^(BOOL finished) {
                                                           if (finished) {
                                                               pb.tag = TAG_PHOTO_BASE + i;
+                                                              pb.deletelBtn.tag = TAG_PHOTO_BASE + i + 1000;
                                                           }
                                                       }];
                                  }

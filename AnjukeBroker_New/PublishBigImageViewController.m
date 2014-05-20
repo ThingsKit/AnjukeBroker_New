@@ -25,6 +25,8 @@
 
 @property BOOL isHouseType;
 
+@property (nonatomic, strong) NSMutableArray *imgNewArr;
+
 @end
 
 @implementation PublishBigImageViewController
@@ -37,6 +39,7 @@
 @synthesize isHouseType;
 @synthesize isEditProperty;
 @synthesize isNewAddImg;
+@synthesize imgNewArr;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -77,6 +80,8 @@
 - (void)initModel {
     self.imgArr = [NSMutableArray array];
     self.buttonImgArr = [NSMutableArray array];
+    
+    self.imgNewArr = [NSMutableArray alloc];
 }
 
 - (void)initDisplay {
@@ -150,8 +155,9 @@
     
     //设置...
     if ([self.clickDelegate respondsToSelector:@selector(viewDidFinishWithImageArr:)]) {
-        [self.clickDelegate viewDidFinishWithImageArr:self.imgArr];
+//        [self.clickDelegate viewDidFinishWithImageArr:self.imgArr];
         [self.clickDelegate viewDidFinishWithImageArr:self.imgArr sender:self];
+        [self.clickDelegate viewDidFinishWithImageNewArr:self.imgNewArr];
     }
     
     //do back
@@ -236,7 +242,7 @@
 
 #pragma mark - Public Method
 - (void)showImagesWithNewArray:(NSArray *)imageNewArr atIndex:(int)index {
-    
+    self.imgNewArr = [NSMutableArray arrayWithArray:imageNewArr];
 }
 - (void)showImagesWithArray:(NSArray *)imageArr atIndex:(int)index {
     [self.imgArr addObjectsFromArray:imageArr];

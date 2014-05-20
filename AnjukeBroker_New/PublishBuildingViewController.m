@@ -42,13 +42,14 @@ typedef enum {
 @property (nonatomic, assign) PropertyUploadType uploadType;
 
 @property (nonatomic, assign) NSInteger footClickType;////1,室内图2,户型图
-
+@property (nonatomic, strong) NSMutableArray *roomImageDetailArr;
 @end
 
 @implementation PublishBuildingViewController
 @synthesize footerViewDict = _footerViewDict;//footviewdict
 @synthesize footClickType = _footClickType;//操作foot的tag
 @synthesize footerView;
+@synthesize roomImageDetailArr;
 
 - (void)dealloc {
     self.tableViewList.delegate = nil;
@@ -135,6 +136,8 @@ typedef enum {
     self.needFileNO = [LoginManager needFileNOWithCityID:[LoginManager getCity_id]];
     
     self.fixGroupArr = [NSArray array];
+    
+    self.roomImageDetailArr = [[NSMutableArray alloc] init];
 }
 
 - (void)initDisplay {
@@ -1797,14 +1800,8 @@ typedef enum {
     if (_footClickType == 1)
     {
         [self.navigationController presentViewController:navController animated:YES completion:^(void) {
-            NSMutableArray *roomImageDetailArr = [[NSMutableArray alloc] init];
-            for (int i = 0; i < self.roomImageArray.count; i++) {
-                NSDictionary *dic = [[NSDictionary alloc] initWithObjectsAndKeys:[self.roomImageArray objectAtIndex:i],@"img",[NSNumber numberWithInt:i],@"index",@"",@"des", nil];
-                
-                [roomImageDetailArr addObject:dic];
-            }
-            [pb showImagesWithNewArray:roomImageDetailArr atIndex:imageIndex];
-//            [pb showImagesWithArray:self.roomImageArray atIndex:imageIndex];
+            [pb showImagesWithNewArray:self.roomImageDetailArr atIndex:imageIndex];
+            [pb showImagesWithArray:self.roomImageArray atIndex:imageIndex];
         }];
     }else if (_footClickType == 2)
     {
@@ -1879,11 +1876,24 @@ typedef enum {
         self.houseTypeImageArray = [NSMutableArray arrayWithArray:imageArray];
     }
     
-    
-    
     [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:imageArray]];
 }
+- (void)viewDidFinishWithImageNewArr:(NSArray *)imageNewArray{
+    if (_footClickType == 1)
+    {
+        [self.roomImageDetailArr removeAllObjects];
+        self.roomImageDetailArr = [NSMutableArray arrayWithArray:imageNewArray];
+        
+    }else if(_footClickType == 2)
+    {
+//        self.houseTypeImageArray = [NSMutableArray arrayWithArray:imageNewArray];
+    }
+    
+    
+    
+    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:imageNewArray]];
 
+}
 - (void)onlineHouseTypeImgDelete {
     //do nothing
 }
@@ -1935,6 +1945,7 @@ typedef enum {
     else {
         image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     }
+
     
     //压缩图片
     if (image.size.width > IMAGE_MAXSIZE_WIDTH || image.size.height > IMAGE_MAXSIZE_WIDTH || self.isTakePhoto) {
@@ -1961,10 +1972,6 @@ typedef enum {
     [self.imageOverLay takePhotoWithImage:newSizeImage];
     
     self.inPhotoProcessing = NO;
-    
-    //    [self dismissViewControllerAnimated:YES completion:^(void){
-    //        //
-    //    }];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
@@ -2006,6 +2013,18 @@ typedef enum {
     [self.imagePicker takePicture];
 }
 
+- (void)closePicker_Click_WithImgNewArr:(NSMutableArray *)arr sender:(PhotoShowView *)sender{
+    if (arr.count == 0) {
+        return;
+    }
+    int count = self.roomImageDetailArr.count;
+    for (int i = 0; i < arr.count; i++) {
+        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[arr objectAtIndex:i]];
+        [dic setObject:[NSNumber numberWithInt:count + i] forKey:@"index"];
+        
+        [self.roomImageDetailArr addObject:dic];
+    }
+}
 - (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr sender:(PhotoShowView *)sender{
     for (int i = 0; i < arr.count; i ++) {
         //保存原始图片、得到url
