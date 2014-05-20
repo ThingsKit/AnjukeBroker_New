@@ -11,6 +11,7 @@
 #import "Util_TEXT.h"
 #import <QuartzCore/QuartzCore.h>
 #import "AudioToolbox/AudioToolbox.h"
+#import "NSString+EmojiExtension.h"
 
 #define APPID @"52d7a64b"
 #define TIMEOUT         @"20000"            // timeout      连接超时的时间，以ms为单位
@@ -372,6 +373,7 @@
 }
 
 - (void)rightButtonAction:(id)sender {
+    self.textV.text = [self.textV.text removeEmoji];
     if (self.isHZ) {
         [self rightButtonHZLog];
     }else {

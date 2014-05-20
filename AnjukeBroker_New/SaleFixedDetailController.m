@@ -84,9 +84,9 @@
 //    }else{
 //        [self.myArray removeAllObjects];
 //    }
-//    
+//
 //    [self.myTable reloadData];
-//    
+//
 //    [self doRequest];
 //}
 
@@ -104,7 +104,7 @@
         [self showInfo:NONETWORK_STR];
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.tempDic objectForKey:@"fixId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/getplandetail/" params:params target:self action:@selector(onGetFixedInfo:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
@@ -180,7 +180,7 @@
     [self reloadData];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
-//    [self doRequest];
+    //    [self doRequest];
 }
 
 #pragma mark - 停止定价组计划推广
@@ -216,7 +216,7 @@
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
     
-//    [self doRequest];
+    //    [self doRequest];
 }
 #pragma mark - 重新开始定价推广
 -(void)doRestart{
@@ -250,7 +250,7 @@
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
     
-//    [self doRequest];
+    //    [self doRequest];
 }
 
 #pragma mark - RTPOPOVER Delegate
@@ -267,8 +267,8 @@
     selectIndex = indexPath.row -1;
     
     if([indexPath row] == 0){
-    
-    }else{        
+        
+    }else{
         if([[[self.myArray objectAtIndex:indexPath.row -1] objectForKey:@"isBid"] isEqualToString:@"1"]){
             UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"取消定价推广", @"修改房源信息", nil];
             action.tag = 102;
@@ -280,7 +280,7 @@
             [self.myActionSheet showInView:self.view];
         }else{
             UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"竞价推广本房源", @"取消定价推广", @"修改房源信息", nil];
-                action.tag = 103;
+            action.tag = 103;
             if (self.myActionSheet) {
                 self.myActionSheet = nil;
                 self.myActionSheet.delegate = nil;
@@ -293,7 +293,7 @@
 
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if([indexPath row] == 0){
-    return 71.0f;
+        return 71.0f;
     }
     return [CellHeight getFixedCellHeight:[[self.myArray objectAtIndex:indexPath.row -1] objectForKey:@"title"]];
 }
@@ -301,24 +301,24 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if([indexPath row] == 0){
         static NSString *cellIdent = @"SaleFixedCell";
-//        tableView.separatorColor = [UIColor lightGrayColor];
+        //        tableView.separatorColor = [UIColor lightGrayColor];
         SaleFixedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"SaleFixedCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SaleFixedCell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
+            
         }
         [cell configureCell:self.planDic isAJK:YES];
-//        [cell configureCell:[self.myArray objectAtIndex:[indexPath row]]];
+        //        [cell configureCell:[self.myArray objectAtIndex:[indexPath row]]];
         return cell;
     }else{
         static NSString *cellIdent = @"SalePropertyListCell";
-//        tableView.separatorColor = [UIColor lightGrayColor];
+        //        tableView.separatorColor = [UIColor lightGrayColor];
         SalePropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"SalePropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SalePropertyListCell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
+            
         }
         [cell configureCell:[self.myArray objectAtIndex:[indexPath row] -1]];
         [cell showBottonLineWithCellHeight:[CellHeight getFixedCellHeight:[[self.myArray objectAtIndex:indexPath.row -1] objectForKey:@"title"]]];
@@ -388,8 +388,8 @@
             self.myActionSheet = action;
             [self.myActionSheet showInView:self.view];
         }
-
-    
+        
+        
     }else{
         if([LoginManager isSeedForAJK:YES]){
             UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"开始推广", @"添加房源", nil];
@@ -400,7 +400,7 @@
             }
             self.myActionSheet = action;
             [self.myActionSheet showInView:self.view];
-        
+            
         }else{
             UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"开始推广", @"修改限额", @"添加房源", nil];
             action.tag = 101;
@@ -410,7 +410,7 @@
             }
             self.myActionSheet = action;
             [self.myActionSheet showInView:self.view];
-        
+            
         }
     }
 }
@@ -426,7 +426,7 @@
 
 #pragma mark - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-
+    
     if(actionSheet.tag == 100){//停止推广
         if([LoginManager isSeedForAJK:YES]){//是播种城市
             if(buttonIndex == 0){
@@ -441,9 +441,9 @@
                 RTGestureBackNavigationController *navi = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:navi animated:YES completion:nil];
             }else if (buttonIndex == 2){//正在推广中定价组
-
+                
             }
-        
+            
         }else{
             if(buttonIndex == 0){
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要停止定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
@@ -480,7 +480,7 @@
                 RTGestureBackNavigationController *navi = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:navi animated:YES completion:nil];
             }else if (buttonIndex == 2){
-
+                
             }
         }else{
             if(buttonIndex == 0){//重新开始定价推广
@@ -503,8 +503,8 @@
                 [self presentViewController:navi animated:YES completion:nil];
             }
         }
-
-
+        
+        
     }else if(actionSheet.tag == 102) {
         if(buttonIndex == 0){
             [self cancelFixedProperty];
@@ -519,34 +519,34 @@
             [self presentViewController:nav animated:YES completion:nil];
         }
     }else if(actionSheet.tag == 103) {
-            if(buttonIndex == 0){
-                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_006 note:nil];
-                SaleAuctionViewController *controller = [[SaleAuctionViewController alloc] init];
+        if(buttonIndex == 0){
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_006 note:nil];
+            SaleAuctionViewController *controller = [[SaleAuctionViewController alloc] init];
+            controller.proDic = [self.myArray objectAtIndex:selectIndex];
+            controller.backType = RTSelectorBackTypeDismiss;
+            controller.delegateVC = self;
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:^(void){
                 controller.proDic = [self.myArray objectAtIndex:selectIndex];
-                controller.backType = RTSelectorBackTypeDismiss;
-                controller.delegateVC = self;
-                RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-                [self presentViewController:nav animated:YES completion:^(void){
-                    controller.proDic = [self.myArray objectAtIndex:selectIndex];
-                }];
-            }else if (buttonIndex == 1){
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要取消定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-                alert.tag = 105;
-                [alert show];
-            }else if (buttonIndex == 2){
-                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_008 note:nil];
-                                
-                //test
-                PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
-                controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
-                controller.backType = RTSelectorBackTypeDismiss;
-                RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-                [self presentViewController:nav animated:YES completion:nil];
-                
-            }
+            }];
+        }else if (buttonIndex == 1){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要取消定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            alert.tag = 105;
+            [alert show];
+        }else if (buttonIndex == 2){
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_008 note:nil];
+            
+            //test
+            PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+            controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
+            controller.backType = RTSelectorBackTypeDismiss;
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:nil];
+            
+        }
     }
 }
-#pragma mark - UIAlertViewDelegate 
+#pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(alertView.tag == 105){
         if(buttonIndex == 1){

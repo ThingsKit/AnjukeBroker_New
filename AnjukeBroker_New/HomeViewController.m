@@ -11,7 +11,7 @@
 #import "SystemMessageViewController.h"
 #import "Util_UI.h"
 #import "BrokerLineView.h"
-#import "BK_WebImageView.h"
+#import "WebImageView.h"
 #import "LoginManager.h"
 #import "AppManager.h"
 #import "AXPhotoManager.h"
@@ -37,6 +37,9 @@
 #import "SaleFixedDetailController.h"
 #import "SaleNoPlanGroupController.h"
 #import "SelectionToolView.h"
+#import "RentNoPlanController.h"
+#import "RentBidDetailController.h"
+#import "RentFixedDetailController.h"
 
 #define HOME_cellHeight 50
 #define Max_Account_Lb_Width 80
@@ -46,9 +49,9 @@
 #define HEADER_VIEW_WHOLE_HEIGHT HEADER_VIEW1_Height+HEADER_VIEW2_Height
 
 @interface HomeViewController ()
-@property (nonatomic, strong) NSArray *taskArray;
-@property (nonatomic, strong) UITableView *tvList;
-@property (nonatomic, strong) BK_WebImageView *photoImg;
+@property (nonatomic, strong) NSMutableArray *taskArray;
+@property (nonatomic, strong) UITableView *myTable;
+@property (nonatomic, strong) WebImageView *photoImg;
 @property (nonatomic, strong) AXIMGDownloader *imgDownloader;
 @property (nonatomic, strong) NSMutableDictionary *dataDic;
 @property (nonatomic, strong) NSMutableDictionary *ppcDataDic;
@@ -66,6 +69,10 @@
 @property (nonatomic, strong) UIButton *topAlertButton;
 @property (nonatomic, strong) SelectionToolView *selectionView;
 @property (nonatomic, strong) UIControl *shadeControl;
+@property (nonatomic, strong) NSMutableDictionary *hzDataDic;
+@property (nonatomic, strong) NSMutableDictionary *ajkDataDic;
+@property (nonatomic, strong) UISegmentedControl *segment;
+@property BOOL isCurrentHZ;
 
 @end
 
@@ -84,6 +91,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        _isCurrentHZ = NO;
         // Custom initialization
     }
     return self;
@@ -108,27 +116,39 @@
     return _shadeControl;
 }
 
+- (UISegmentedControl *)segment {
+    if (_segment == nil) {
+        _segment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"二手房", @"租房", nil]];
+        //        _segment.hidden = YES;
+        _segment.frame = CGRectMake(0, 0, 200, 30);
+        _segment.segmentedControlStyle = UISegmentedControlStyleBar;
+        _segment.selectedSegmentIndex = 0;
+        [_segment setWidth:100 forSegmentAtIndex:0];
+        [_segment setWidth:100 forSegmentAtIndex:1];
+        _segment.tintColor = [UIColor blackColor];
+        [_segment setBackgroundImage:[UIImage imageNamed:@"wl_map_icon_5"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        [_segment setBackgroundImage:[UIImage imageNamed:@"xproject_dialogue_greenbox"] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+        [_segment addTarget:self action:@selector(selectIndex:) forControlEvents:UIControlEventValueChanged];
+    }
+    return _segment;
+}
+
+- (void)loadNoDataBgView {
+    UIButton *nodataBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    nodataBtn.frame = self.view.frame;
+    [nodataBtn setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+//    [nodataBtn addTarget:self action:@selector(clickBG) forControlEvents:UIControlEventTouchDown];
+    [self.view addSubview:nodataBtn];
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self initRightBarButton];
     [self initView];
-    [self initTitleView];
+    [self loadNoDataBgView];
     [self initSelectionView];
-}
-
-- (void)initTitleView {
-    UISegmentedControl *segment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"二手房", @"租房", nil]];
-    segment.frame = CGRectMake(0, 0, 200, 30);
-    segment.segmentedControlStyle = UISegmentedControlStyleBar;
-    segment.selectedSegmentIndex = 0;
-    [segment setWidth:100 forSegmentAtIndex:0];
-    [segment setWidth:100 forSegmentAtIndex:1];
-    segment.tintColor = [UIColor blackColor];
-    [segment setBackgroundImage:[UIImage imageNamed:@"wl_map_icon_5"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [segment setBackgroundImage:[UIImage imageNamed:@"xproject_dialogue_greenbox"] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
-    [segment addTarget:self action:@selector(pickOne:) forControlEvents:UIControlEventValueChanged];
-    self.navigationItem.titleView = segment;
 }
 
 - (void)initSelectionView {
@@ -153,7 +173,9 @@
 
 - (void)initModel {
     self.isAJK = YES;
-    self.taskArray = [NSArray arrayWithObjects:@"定价房源", @"竞价房源", @"待推广房源", nil];
+    self.taskArray = [NSMutableArray arrayWithObjects:@"定价房源", @"竞价房源", @"待推广房源", nil];
+    self.hzDataDic = [NSMutableDictionary dictionary];
+    self.ajkDataDic = [NSMutableDictionary dictionary];
     
     self.dataDic = [NSMutableDictionary dictionary];
     self.ppcDataDic = [NSMutableDictionary dictionary];
@@ -164,7 +186,8 @@
     [self setTitle:@"房源"];
     
     UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_TAB style:UITableViewStylePlain];
-    self.tvList = tv;
+    self.myTable = tv;
+    self.myTable.hidden = YES;
     tv.backgroundColor = [UIColor lightGrayColor];
     tv.delegate = self;
     tv.dataSource = self;
@@ -172,25 +195,25 @@
     tv.showsHorizontalScrollIndicator = NO;
     tv.showsVerticalScrollIndicator = NO;
     [self.view addSubview:tv];
-
+    
     [self.view addSubview:self.shadeControl];//蒙层
     
     UIView *hView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 110)];
     hView.backgroundColor = [UIColor whiteColor];
     tv.tableHeaderView = hView;
-
+    
     self.tapName = [[UILabel alloc] init];
     self.tapName.text = @"今日点击";
     self.tapName.textAlignment = NSTextAlignmentCenter;
     self.tapValue = [[UILabel alloc] init];
     self.tapValue.textAlignment = NSTextAlignmentCenter;
-    self.tapValue.text = @"2";
+    self.tapValue.text = @"0";
     self.costName = [[UILabel alloc] init];
     self.costName.textAlignment = NSTextAlignmentCenter;
     self.costName.text = @"今日花费";
     self.costValue = [[UILabel alloc] init];
     self.costValue.textAlignment = NSTextAlignmentCenter;
-    self.costValue.text = @"1.0";
+    self.costValue.text = @"0";
     
     [hView addSubview:self.tapName];
     [hView addSubview:self.tapValue];
@@ -260,9 +283,9 @@
         self.selectionView.transform = CGAffineTransformIdentity;
         self.selectionView.frame = CGRectMake(200, 5, 100, 80);
     } completion:^(BOOL finished) {
-
+        
     }];
-
+    
 }
 
 - (void)hideSelectionView {
@@ -277,24 +300,29 @@
     }];
 }
 
-- (void)pickOne:(id)sender {
+- (void)selectIndex:(id)sender {
     [self hideSelectionView];
     UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
     switch (segmentedControl.selectedSegmentIndex) {
         case 0:
         {
-        
+            [self uploadAJKTabelData];
         }
             break;
         case 1:
         {
-            
+            [self uploadHZTabelData];
         }
             break;
         default:
             break;
     }
 }
+
+- (void)clickBG {
+    [self doRequestPPC];
+}
+
 #pragma mark - Request Method
 
 - (void)doRequest {
@@ -351,15 +379,15 @@
         [[NSUserDefaults standardUserDefaults] setValue:phone forKey:@"phone"]; //联系电话
         [[NSUserDefaults standardUserDefaults] setValue:realName forKey:@"realName"]; //真实姓名
         [[NSUserDefaults standardUserDefaults] setValue:twoCodeIcon forKey:@"twoCodeIcon"]; //二维码
-
-
+        
+        
     }
     //保存头像
     AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
     self.img = [[IMGDowloaderManager alloc] init];
     if (person.iconPath.length < 2) {
         if ([LoginManager getUse_photo_url] && ![[LoginManager getUse_photo_url] isEqualToString:@""]) {
-//            NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]]];
+            //            NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]]];
             if (self.photoImg) {
                 [self.imgDownloader dowloadIMGWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]] resultBlock:^(RTNetworkResponse *response) {
                     if (response.status == 2) {
@@ -382,7 +410,7 @@
             }
         }
     }
-
+    
     [self setHomeValue];
     
     if (!self.hasLongLinked) {
@@ -390,13 +418,13 @@
             
         }
         else {
-//            [self setTitleViewWithString:[LoginManager getRealName]];
-//            [self setTitleViewWithString:@"房源"];
+            //            [self setTitleViewWithString:[LoginManager getRealName]];
+            //            [self setTitleViewWithString:@"房源"];
             //******兼容安居客team得到userInfoDic并设置NSUserDefaults，以帮助底层通过对应路径获取相应数据******
             NSDictionary *dic = [LoginManager getFuckingChatUserDicJustForAnjukeTeamWithPhone:[LoginManager getPhone] uid:[LoginManager getChatID]];
             [[NSUserDefaults standardUserDefaults] setValue:dic forKey:USER_DEFAULT_KEY_AXCHATMC_USE];
             [AXChatMessageCenter defaultMessageCenter];
-
+            
             [[AppDelegate sharedAppDelegate] connectLongLinkForChat];
             
         }
@@ -449,10 +477,10 @@
     
     NSDictionary *tipsDic = [resultFromAPI objectForKey:@"tips"]; //是否显示状态条并跳转webView
     if ([[tipsDic objectForKey:@"openFlag"] isEqualToString:@"1"]) {//开启弹窗和跳转 test
-//        [self showWebViewJumpWithDic:tipsDic];
+        //        [self showWebViewJumpWithDic:tipsDic];
     }
     else {
-//        [self hideWebViewJumpBtn];
+        //        [self hideWebViewJumpBtn];
     }
 }
 
@@ -469,7 +497,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
     
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"broker/todayConsumInfo/" params:params target:self action:@selector(onGetSuccess:)];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"broker/todayConsumeInfo/" params:params target:self action:@selector(onGetSuccess:)];
     
     [self showLoadingActivity:YES];
     self.isLoading = YES;
@@ -498,9 +526,20 @@
     if([resultFromAPI count] ==  0){
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        
         return ;
     }
+    
+    if ([resultFromAPI objectForKey:@"ajkDataDic"]) {
+        self.ajkDataDic = nil;
+        self.ajkDataDic = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"ajkDataDic"]];
+    }
+    
+    if ([resultFromAPI objectForKey:@"hzDataDic"]) {
+        self.hzDataDic = nil;
+        self.hzDataDic = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"hzDataDic"]];
+    }
+    [self updateTitle];
+    
     NSMutableDictionary *bidPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"bidPlan"]];
     [bidPlan setValue:@"1" forKey:@"type"];
     [self.myArray addObject:bidPlan];
@@ -508,19 +547,77 @@
     NSMutableArray *fixPlan = [NSMutableArray array];
     [fixPlan addObjectsFromArray:[resultFromAPI objectForKey:@"fixPlan"]];
     [self.myArray addObjectsFromArray:fixPlan];
-    if ([fixPlan count] == 1) {
-        self.isSeedPid = [[fixPlan objectAtIndex:0] objectForKey:@"fixPlanId"];
-    }
+    //    if ([fixPlan count] == 1) {
+    //        self.isSeedPid = [[fixPlan objectAtIndex:0] objectForKey:@"fixPlanId"];
+    //    }
     NSMutableDictionary *nodic = [[NSMutableDictionary alloc] init];
     [nodic setValue:@"待推广房源" forKey:@"title"];
     [nodic setValue:[resultFromAPI objectForKey:@"unRecommendPropNum"] forKey:@"unRecommendPropNum"];
     [nodic setValue:@"1" forKey:@"type"];
     [self.myArray addObject:nodic];
     
-    [self.tvList reloadData];
+    //    [self.myTable reloadData];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
     
+}
+
+- (void)updateTitle {
+    //    [self setTitleViewWithString:@"房源"];
+    self.isSeedPid = @"";
+    self.myTable.hidden = NO;
+    if ([[self.ajkDataDic objectForKey:@"haveAjk"] isEqualToString:@"1"] && [[self.hzDataDic objectForKey:@"haveHz"] isEqualToString:@"1"]) {
+        self.navigationItem.titleView = self.segment;
+        self.segment.hidden = NO;
+        [self selectIndex:self.segment];
+    } else {
+        [self setTitleViewWithString:@"房源"];
+        if ([[self.ajkDataDic objectForKey:@"haveAjk"] isEqualToString:@"1"]) {
+            [self uploadAJKTabelData];
+        } else if ([[self.hzDataDic objectForKey:@"haveHz"] isEqualToString:@"1"]) {
+            [self uploadHZTabelData];
+        } else {
+            self.myTable.hidden = YES;
+        }
+    }
+}
+
+- (void)uploadAJKTabelData {
+    self.isCurrentHZ = NO;
+    [self.taskArray removeAllObjects];
+    for (NSDictionary *tempDic in [self.ajkDataDic objectForKey:@"ajkFixHouse"]) {
+        NSString *fixedStr = [NSString stringWithFormat:@"%@(%@)",[tempDic objectForKey:@"fixName"], [tempDic objectForKey:@"fixNum"]];
+        [self.taskArray addObject:fixedStr];
+    }
+    if ([self.taskArray count] == 1) {
+        self.isSeedPid = [[[self.ajkDataDic objectForKey:@"ajkFixHouse"] objectAtIndex:0] objectForKey:@"fixId"];
+    }
+    NSString *bidStr = [NSString stringWithFormat:@"竞价房源(%@)", [self.ajkDataDic objectForKey:@"ajkBidHouseNum"]];
+    NSString *noplanStr = [NSString stringWithFormat:@"待推广房源(%@)", [self.ajkDataDic objectForKey:@"ajkNotFixHouseNum"]];
+    [self.taskArray addObject:bidStr];
+    [self.taskArray addObject:noplanStr];
+    self.tapValue.text = [self.ajkDataDic objectForKey:@"ajkClick"];
+    self.costValue.text = [self.ajkDataDic objectForKey:@"ajkConsume"];
+    [self.myTable reloadData];
+}
+
+- (void)uploadHZTabelData {
+    self.isCurrentHZ = YES;
+    [self.taskArray removeAllObjects];
+    for (NSDictionary *tempDic in [self.hzDataDic objectForKey:@"hzFixHouse"]) {
+        NSString *fixedStr = [NSString stringWithFormat:@"%@(%@)",[tempDic objectForKey:@"fixName"], [tempDic objectForKey:@"fixNum"]];
+        [self.taskArray addObject:fixedStr];
+    }
+    if ([self.taskArray count] == 1) {
+        self.isSeedPid = [[[self.ajkDataDic objectForKey:@"ajkFixHouse"] objectAtIndex:0] objectForKey:@"fixId"];
+    }
+    NSString *bidStr = [NSString stringWithFormat:@"竞价房源(%@)", [self.hzDataDic objectForKey:@"hzBidHouseNum"]];
+    NSString *noplanStr = [NSString stringWithFormat:@"待推广房源(%@)", [self.hzDataDic objectForKey:@"hzNotFixHouseNum"]];
+    [self.taskArray addObject:bidStr];
+    [self.taskArray addObject:noplanStr];
+    self.tapValue.text = [self.hzDataDic objectForKey:@"hzClick"];
+    self.costValue.text = [self.hzDataDic objectForKey:@"hzConsume"];
+    [self.myTable reloadData];
 }
 
 #pragma mark - tableView Datasource
@@ -530,7 +627,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-   return  self.taskArray.count;
+    return  self.taskArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -564,35 +661,56 @@
     switch (indexPath.row) {
         case 0:
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_004 note:nil];
-            
-            SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
-            controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
-            controller.backType = RTSelectorBackTypePopToRoot;
-            [controller setHidesBottomBarWhenPushed:YES];
-            [self.navigationController pushViewController:controller animated:YES];
+            if (self.isCurrentHZ) {
+                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_004 note:nil];
+                RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
+                controller.tempDic = [[self.hzDataDic objectForKey:@"hzFixHouse"] objectAtIndex:indexPath.row];
+                controller.backType = RTSelectorBackTypePopToRoot;
+                [controller setHidesBottomBarWhenPushed:YES];
+                [self.navigationController pushViewController:controller animated:YES];
+            }else {
+                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_004 note:nil];
+                SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
+                controller.tempDic = [[self.ajkDataDic objectForKey:@"ajkFixHouse"] objectAtIndex:indexPath.row];
+                //                controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
+                controller.backType = RTSelectorBackTypePopToRoot;
+                [controller setHidesBottomBarWhenPushed:YES];
+                [self.navigationController pushViewController:controller animated:YES];
+            }
         }
             break;
         case 1:
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_003 note:nil];
-            
-            SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
-            controller.backType = RTSelectorBackTypePopToRoot;
-            [controller setHidesBottomBarWhenPushed:YES];
-            [self.navigationController pushViewController:controller animated:YES];
-
+            if (self.isCurrentHZ) {
+                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_003 note:nil];
+                RentBidDetailController *controller = [[RentBidDetailController alloc] init];
+                controller.backType = RTSelectorBackTypePopToRoot;
+                [controller setHidesBottomBarWhenPushed:YES];
+                [self.navigationController pushViewController:controller animated:YES];
+            }else {
+                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_003 note:nil];
+                SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
+                controller.backType = RTSelectorBackTypePopToRoot;
+                [controller setHidesBottomBarWhenPushed:YES];
+                [self.navigationController pushViewController:controller animated:YES];
+            }
         }
             break;
         case 2:
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_005 note:nil];
-            
-            SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
-            controller.isSeedPid = self.isSeedPid;
-            [controller setHidesBottomBarWhenPushed:YES];
-            [self.navigationController pushViewController:controller animated:YES];
-
+            if (self.isCurrentHZ) {
+                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_005 note:nil];
+                RentNoPlanController *controller = [[RentNoPlanController alloc] init];
+                controller.isSeedPid = self.isSeedPid;
+                [controller setHidesBottomBarWhenPushed:YES];
+                [self.navigationController pushViewController:controller animated:YES];
+            }else {
+                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_005 note:nil];
+                SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
+                controller.isSeedPid = self.isSeedPid;
+                [controller setHidesBottomBarWhenPushed:YES];
+                [self.navigationController pushViewController:controller animated:YES];
+            }
         }
             break;
             

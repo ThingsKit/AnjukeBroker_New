@@ -67,7 +67,7 @@
 }
 -(void)initModel{
     [super initModel];
-
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -80,14 +80,14 @@
 //    [self reloadData];
 //}
 //-(void)reloadData{
-//    
+//
 //    if(self.myArray == nil){
 //        self.myArray = [NSMutableArray array];
 //    }else{
 //        [self.myArray removeAllObjects];
 //        [self.myTable reloadData];
 //    }
-//    
+//
 //    [self doRequest];
 //}
 
@@ -103,7 +103,7 @@
         [self showInfo:NONETWORK_STR];
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", [self.tempDic objectForKey:@"fixId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/getplandetail/" params:params target:self action:@selector(onGetFixedInfo:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
@@ -150,7 +150,7 @@
 #pragma mark - 取消定价
 -(void)doCancelFixed{
     [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_007 note:nil];
-
+    
     if(![self isNetworkOkay]){
         [self showInfo:NONETWORK_STR];
         return;
@@ -243,7 +243,7 @@
         self.isLoading = NO;
         return;
     }
-
+    
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
     [self doRequest];
@@ -285,33 +285,33 @@
     if([indexPath row] == 0){
         return 71.0f;
     }
-//    CGSize size = CGSizeMake(260, 40);
-//    CGSize si = [[[self.myArray objectAtIndex:indexPath.row -1] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+    //    CGSize size = CGSizeMake(260, 40);
+    //    CGSize si = [[[self.myArray objectAtIndex:indexPath.row -1] objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
     return [CellHeight getFixedCellHeight:[[self.myArray objectAtIndex:indexPath.row -1] objectForKey:@"title"]];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    
     DLog(@"[LoginManager isSeedForAJK:NO]%d",[LoginManager isSeedForAJK:NO]);
     if([indexPath row] == 0){
         static NSString *cellIdent = @"RentFixedCell";
-//            tableView.separatorColor = [UIColor lightGrayColor];
+        //            tableView.separatorColor = [UIColor lightGrayColor];
         RentFixedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"RentFixedCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RentFixedCell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
+            
         }
         [cell configureCell:self.planDic isAJK:NO];
         return cell;
     }else{
         static NSString *cellIdent = @"RentPropertyListCell";
-//            tableView.separatorColor = [UIColor lightGrayColor];
+        //            tableView.separatorColor = [UIColor lightGrayColor];
         RentPropertyListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
         if(cell == nil){
             cell = [[NSClassFromString(@"RentPropertyListCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RentPropertyListCell"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
+            
             //            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         [cell configureCell:[self.myArray objectAtIndex:[indexPath row] -1]];
@@ -338,9 +338,9 @@
                 [self presentViewController:navi animated:YES completion:nil];
                 
             }else if (buttonIndex == 2){
-
+                
             }
-
+            
         }else{
             if(buttonIndex == 0){
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要停止定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
@@ -363,87 +363,87 @@
                 [self presentViewController:navi animated:YES completion:nil];
             }
         }
-            }else if(actionSheet.tag == 101){//当推广已暂停时的操作
-                if([LoginManager isSeedForAJK:NO]){
-                    if(buttonIndex == 0){//重新开始定价推广
-                        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_009 note:nil];
-                        [self doRestartFixed];
-                    }else if (buttonIndex == 1){
-                        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
-                        RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
-                        controller.fixedObj = self.planDic;
-                        controller.backType = RTSelectorBackTypeDismiss;
-                        RTGestureBackNavigationController *navi = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-                        [self presentViewController:navi animated:YES completion:nil];
-                    }else if (buttonIndex == 2){
-
-                    }
+    }else if(actionSheet.tag == 101){//当推广已暂停时的操作
+        if([LoginManager isSeedForAJK:NO]){
+            if(buttonIndex == 0){//重新开始定价推广
+                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_009 note:nil];
+                [self doRestartFixed];
+            }else if (buttonIndex == 1){
+                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
+                RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
+                controller.fixedObj = self.planDic;
+                controller.backType = RTSelectorBackTypeDismiss;
+                RTGestureBackNavigationController *navi = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+                [self presentViewController:navi animated:YES completion:nil];
+            }else if (buttonIndex == 2){
                 
-                }else{
-                    if(buttonIndex == 0){//重新开始定价推广
-                        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_009 note:nil];
-                        [self doRestartFixed];
-                    }else if (buttonIndex == 1){
-                        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_004 note:nil];
-                        ModifyRentCostController *controller = [[ModifyRentCostController alloc] init];
-                        controller.fixedObject = self.planDic;
-                        controller.backType = RTSelectorBackTypeDismiss;
-                        RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-                        [self presentViewController:nav animated:YES completion:nil];
-                    }else if (buttonIndex == 2){
-                        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
-                        RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
-                        controller.fixedObj = self.planDic;
-                        controller.backType = RTSelectorBackTypeDismiss;
-                        RTGestureBackNavigationController *navi = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-                        [self presentViewController:navi animated:YES completion:nil];
-                    }
-                }
-            }else if (actionSheet.tag == 102){
-                if(buttonIndex == 0){
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要取消定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-                    alert.tag = 105;
-                    [alert show];
-                }else if (buttonIndex == 1){
-                    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_008 note:nil];
-                    PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
-                    controller.isHaozu = YES;
-                    controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
-                    controller.backType = RTSelectorBackTypeDismiss;
-                    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-                    [self presentViewController:nav animated:YES completion:nil];
-                    //            [self.navigationController popToRootViewControllerAnimated:YES];
-                }else if (buttonIndex == 2){
-
-                }
-
-            }else if (actionSheet.tag == 103){
-                if(buttonIndex == 0){
-                    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_006 note:nil];
-                    RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
-                    controller.proDic = [self.myArray objectAtIndex:selectIndex];
-                    controller.backType = RTSelectorBackTypeDismiss;
-                    controller.delegateVC = self;
-                    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-                    [self presentViewController:nav animated:YES completion:^(void){
-                        controller.proDic = [self.myArray objectAtIndex:selectIndex];
-                    }];
-                }else if (buttonIndex == 1){
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要取消定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-                    alert.tag = 105;
-                    [alert show];
-                    //            [self.navigationController popToRootViewControllerAnimated:YES];
-                }else if (buttonIndex == 2){
-                    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_008 note:nil];
-                    PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
-                    controller.isHaozu = YES;
-                    controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
-                    controller.backType = RTSelectorBackTypeDismiss;
-                    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-                    [self presentViewController:nav animated:YES completion:nil];
-                }
-
-            }else{//对房源的操作
+            }
+            
+        }else{
+            if(buttonIndex == 0){//重新开始定价推广
+                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_009 note:nil];
+                [self doRestartFixed];
+            }else if (buttonIndex == 1){
+                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_004 note:nil];
+                ModifyRentCostController *controller = [[ModifyRentCostController alloc] init];
+                controller.fixedObject = self.planDic;
+                controller.backType = RTSelectorBackTypeDismiss;
+                RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+                [self presentViewController:nav animated:YES completion:nil];
+            }else if (buttonIndex == 2){
+                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
+                RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
+                controller.fixedObj = self.planDic;
+                controller.backType = RTSelectorBackTypeDismiss;
+                RTGestureBackNavigationController *navi = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+                [self presentViewController:navi animated:YES completion:nil];
+            }
+        }
+    }else if (actionSheet.tag == 102){
+        if(buttonIndex == 0){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要取消定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            alert.tag = 105;
+            [alert show];
+        }else if (buttonIndex == 1){
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_008 note:nil];
+            PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+            controller.isHaozu = YES;
+            controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
+            controller.backType = RTSelectorBackTypeDismiss;
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:nil];
+            //            [self.navigationController popToRootViewControllerAnimated:YES];
+        }else if (buttonIndex == 2){
+            
+        }
+        
+    }else if (actionSheet.tag == 103){
+        if(buttonIndex == 0){
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_006 note:nil];
+            RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
+            controller.proDic = [self.myArray objectAtIndex:selectIndex];
+            controller.backType = RTSelectorBackTypeDismiss;
+            controller.delegateVC = self;
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:^(void){
+                controller.proDic = [self.myArray objectAtIndex:selectIndex];
+            }];
+        }else if (buttonIndex == 1){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要取消定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            alert.tag = 105;
+            [alert show];
+            //            [self.navigationController popToRootViewControllerAnimated:YES];
+        }else if (buttonIndex == 2){
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_008 note:nil];
+            PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+            controller.isHaozu = YES;
+            controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
+            controller.backType = RTSelectorBackTypeDismiss;
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:nav animated:YES completion:nil];
+        }
+        
+    }else{//对房源的操作
     }
 }
 
@@ -479,7 +479,7 @@
             self.myActionSheet = action;
             [self.myActionSheet showInView:self.view];
         }
-
+        
         
     }else{
         if([LoginManager isSeedForAJK:NO]){
@@ -501,7 +501,7 @@
             self.myActionSheet = action;
             [self.myActionSheet showInView:self.view];
         }
-
+        
         
     }
 }
@@ -509,15 +509,15 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(alertView.tag == 105){
         if(buttonIndex == 1){
-        [self doCancelFixed];
+            [self doCancelFixed];
         }
     }else{
-    
-    if(buttonIndex == 1){
-        [self doStopFixedGroup];
-    }else{
         
-    }
+        if(buttonIndex == 1){
+            [self doStopFixedGroup];
+        }else{
+            
+        }
         
     }
 }
