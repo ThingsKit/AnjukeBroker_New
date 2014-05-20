@@ -275,7 +275,7 @@
     RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
     controller.backType = RTSelectorBackTypePopToRoot;
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setValue:self.isSeedPid forKey:@"fixPlanId"];
+    [dic setValue:self.isSeedPid forKey:@"fixId"];
     controller.tempDic = dic;
     [self.navigationController pushViewController:controller animated:YES];
 }

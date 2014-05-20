@@ -2488,8 +2488,6 @@
 		972C10231814FC3800552C9B /* 首页+发房 */ = {
 			isa = PBXGroup;
 			children = (
-				B72CA8371921FBB000F8592D /* SelectionToolView.h */,
-				B72CA8381921FBB000F8592D /* SelectionToolView.m */,
 				972C10271814FCD300552C9B /* HomeViewController.h */,
 				972C10281814FCD300552C9B /* HomeViewController.m */,
 				202133C318C72CCD00A0090B /* 活动页面 */,
@@ -2865,6 +2863,7 @@
 		97A0F01E181621AA00C31D83 /* UIView&Util */ = {
 			isa = PBXGroup;
 			children = (
+				B7E2B698192B3F09008AE703 /* SelectorTool */,
 				B7E1F6B3190DF73C009F546B /* DownLoadIMG */,
 				20A44D9118697525008D8CB1 /* 下拉刷新 */,
 				971D60931849D33E006B07C9 /* 无网络图 */,
@@ -3328,6 +3327,15 @@
 				B7E2B68E192AF7FA008AE703 /* bg_3.4_01.png */,
 			);
 			name = home;
+			sourceTree = "<group>";
+		};
+		B7E2B698192B3F09008AE703 /* SelectorTool */ = {
+			isa = PBXGroup;
+			children = (
+				B72CA8371921FBB000F8592D /* SelectionToolView.h */,
+				B72CA8381921FBB000F8592D /* SelectionToolView.m */,
+			);
+			name = SelectorTool;
 			sourceTree = "<group>";
 		};
 		B7E55B4018BF2190007238CB /* JSMessage */ = {
