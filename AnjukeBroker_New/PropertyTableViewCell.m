@@ -157,6 +157,7 @@
     //显示发布时间
     self.publishTime.hidden = NO;
     self.publishTime.frame = CGRectMake(10, self.houseType.bottom, ScreenWidth/2, 20);
+    self.propertyModel.publishTime = [self.propertyModel.publishTime substringToIndex:self.propertyModel.publishTime.length-3];
     self.publishTime.text = [NSString stringWithFormat:@"%@ 发布", self.propertyModel.publishTime];
     
     //右侧的按钮
