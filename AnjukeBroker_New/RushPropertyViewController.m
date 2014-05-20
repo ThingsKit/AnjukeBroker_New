@@ -251,7 +251,7 @@
     
     //使用 MBProgressHUD
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    self.hud.color = [UIColor clearColor];
+    self.hud.color = [UIColor clearColor];
     self.hud.customView = self.hudBackground;
     self.hud.yOffset = -20;
     self.hud.mode = MBProgressHUDModeCustomView;
