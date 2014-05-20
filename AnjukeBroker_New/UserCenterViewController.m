@@ -16,6 +16,8 @@
 #import "UserCenterModel.h"
 #import "UserCenterModel.h"
 #import "HUDNews.h"
+#import "CheckoutWebViewController.h"
+#import "LoginManager.h"
 
 #define SECTIONNUM 2
 #define WCHATDATACELLHEIGHT 80
@@ -25,7 +27,7 @@
 #define HEADERADDFRAME CGRectMake(0,-445,[self windowWidth],445)
 
 
-@interface UserCenterViewController ()
+@interface UserCenterViewController ()<goSDXDelegate>
 @property(nonatomic, strong) UserHeaderView *headerView;
 @property(nonatomic, strong) UITableView *tableList;
 @property(nonatomic, strong) NSArray *taskArray;
@@ -78,6 +80,7 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     self.headerView = [[UserHeaderView alloc] initWithFrame:HEADERFRAME];
+    self.headerView.sdxDelegate = self;
     [self.headerView setImageView:[UIImage imageNamed:@"userHeaderBg"]];
     
     self.tableList = [[UITableView alloc] initWithFrame:FRAME_WITH_TAB style:UITableViewStylePlain];
@@ -100,7 +103,14 @@
     footView.backgroundColor = [UIColor clearColor];
     self.tableList.tableFooterView = footView;
 }
-
+- (void)goSDX{
+    CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
+    webVC.webTitle = @"闪电侠介绍";
+    webVC.webUrl = [NSString stringWithFormat:@"http://api.anjuke.com/web/nearby/brokersign/shandianxia.html?city_id=%@",[LoginManager getCity_id]];
+    [webVC setHidesBottomBarWhenPushed:YES];
+    
+    [self.navigationController pushViewController:webVC animated:YES];
+}
 
 #pragma mark -UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

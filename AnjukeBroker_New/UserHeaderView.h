@@ -9,11 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "UserCenterModel.h"
 
+@protocol goSDXDelegate <NSObject>
+
+- (void)goSDX;
+
+@end
+
 @interface UserHeaderView : UIView
+@property(nonatomic, assign) id<goSDXDelegate> sdxDelegate;
 - (void)setImageView:(UIImage *)img;
 - (void)updateUserHeaderInfo:(NSString *)name;
 - (void)updateWchatData:(UserCenterModel *)model;
-//- (void)scrollViewDrag:(UIScrollView *)scrollView;
-//- (void)setLoading;
-//- (void)hideLoading;
+
 @end

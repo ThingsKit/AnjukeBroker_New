@@ -9,5 +9,5 @@
 #import "RTViewController.h"
 
 @interface UserCenterViewController : RTViewController<UITableViewDataSource,UITableViewDelegate>
-
+- (void)goSDX;
 @end

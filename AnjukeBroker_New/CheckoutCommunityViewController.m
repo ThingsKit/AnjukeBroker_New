@@ -15,6 +15,7 @@
 #import "UIFont+RT.h"
 #import "AppDelegate.h"
 #import "UIColor+BrokerRT.h"
+#import "CheckoutWebViewController.h"
 
 @interface CheckoutCommunityViewController ()
 //@property(nonatomic, strong) CheckCommunityTable *tableList;
@@ -100,7 +101,17 @@
     [self.refreshBtn setBackgroundImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateHighlighted];
     [bottomView addSubview:self.refreshBtn];
     
+    [self addRightButton:@"规则" andPossibleTitle:nil];
+    
     [self autoPullDown];
+}
+
+- (void)rightButtonAction:(id)sender{
+    CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
+    webVC.webTitle = @"签到规则";
+    webVC.webUrl = @"http://api.anjuke.com/web/nearby/brokersign/rule.html";
+    
+    [self.navigationController pushViewController:webVC animated:YES];
 }
 
 - (void)refreshGeo:(id)sender{

@@ -9,7 +9,7 @@
 #import "CheckoutViewController.h"
 #import "BrokerTableStuct.h"
 #import "CheckoutCell.h"
-#import "CheckoutRuleViewController.h"
+#import "CheckoutWebViewController.h"
 #import "CheckoutButton.h"
 #import "CLLocationManager+RT.h"
 #import "timeArrSort.h"
@@ -376,8 +376,11 @@
     [self setTitleViewWithString:self.checkCommunitmodel.commName];
 }
 - (void)rightButtonAction:(id)sender{
-    CheckoutRuleViewController *ruleVC = [[CheckoutRuleViewController alloc] init];
-    [self.navigationController pushViewController:ruleVC animated:YES];
+    CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
+    webVC.webTitle = @"签到规则";
+    webVC.webUrl = @"http://api.anjuke.com/web/nearby/brokersign/rule.html";
+    
+    [self.navigationController pushViewController:webVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

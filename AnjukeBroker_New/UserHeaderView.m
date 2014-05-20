@@ -31,11 +31,12 @@
 @property(nonatomic, strong) UILabel *totalLoginNumUnitLab;
 @property(nonatomic, strong) UIView *userHeaderView;
 @property(nonatomic ,strong) UILabel *userName;
-@property(nonatomic ,strong) UIImageView *userLevel;
+@property(nonatomic ,strong) UIButton *userLevelBtn;
+
 @end
 
 @implementation UserHeaderView
-
+@synthesize sdxDelegate;
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -77,9 +78,11 @@
     self.userName.textColor = [UIColor whiteColor];
     [self.userHeaderView addSubview:self.userName];
     
-    self.userLevel = [[UIImageView alloc] initWithFrame:CGRectMake(userAvatar.frame.origin.x+userAvatar.frame.size.width + 10, self.userName.frame.origin.y + self.userName.frame.size.height +6, 75, 20)];
-    [self.userLevel setImage:[UIImage imageNamed:@"user_noTalent"]];
-    [self.userHeaderView addSubview:self.userLevel];
+    self.userLevelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.userLevelBtn.frame = CGRectMake(userAvatar.frame.origin.x+userAvatar.frame.size.width + 10, self.userName.frame.origin.y + self.userName.frame.size.height +6, 75, 20);
+    [self.userLevelBtn setBackgroundImage:[UIImage imageNamed:@"user_noTalent"] forState:UIControlStateNormal];
+    [self.userLevelBtn addTarget:self action:@selector(goSDX:) forControlEvents:UIControlEventTouchUpInside];
+    [self.userHeaderView addSubview:self.userLevelBtn];
     
     self.wchatView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(_bannerView.frame) - 50, [self windowWidth], 50)];
     self.wchatView.backgroundColor = [UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:0.3];
@@ -160,6 +163,9 @@
         [self.wchatView addSubview:dataDesLab];
     }
 }
+- (void)goSDX:(id)sender{
+    [sdxDelegate goSDX];
+}
 - (void)setImageView:(UIImage *)img{
     [_bannerImg setImage:img];
 }
@@ -197,9 +203,9 @@
     self.totalLoginNumUnitLab.frame = CGRectMake(self.totalLoginNumLab.frame.origin.x+self.totalLoginNumLab.frame.size.width, 10, 35, 15);;
     
     if ([model.isTalent intValue] == 1) {
-        [self.userLevel setImage:[UIImage imageNamed:@"user_talent"]];
+        [self.userLevelBtn setBackgroundImage:[UIImage imageNamed:@"user_talent"] forState:UIControlStateNormal];
     }else{
-        [self.userLevel setImage:[UIImage imageNamed:@"user_noTalent"]];
+        [self.userLevelBtn setBackgroundImage:[UIImage imageNamed:@"user_noTalent"] forState:UIControlStateNormal];
     }
 }
 
