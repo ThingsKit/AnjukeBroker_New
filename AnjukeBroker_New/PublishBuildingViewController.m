@@ -1730,7 +1730,7 @@ typedef enum {
         [self.navigationController presentViewController:navController animated:YES completion:^(void) {
             NSMutableArray *roomImageDetailArr = [[NSMutableArray alloc] init];
             for (int i = 0; i < self.roomImageArray.count; i++) {
-                NSDictionary *dic = [[NSDictionary alloc] initWithObjectsAndKeys:[self.roomImageArray objectAtIndex:i],[NSNumber numberWithInt:i],@"index",@"",@"des", nil];
+                NSDictionary *dic = [[NSDictionary alloc] initWithObjectsAndKeys:[self.roomImageArray objectAtIndex:i],@"img",[NSNumber numberWithInt:i],@"index",@"",@"des", nil];
                 
                 [roomImageDetailArr addObject:dic];
             }
