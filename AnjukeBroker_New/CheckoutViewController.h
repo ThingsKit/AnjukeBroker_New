@@ -11,8 +11,15 @@
 #import "BaseTableStructViewController.h"
 #import "CheckCommunityModel.h"
 
-@interface CheckoutViewController : BaseTableStructViewController<UITableViewDataSource,UITableViewDelegate,MKMapViewDelegate>
+typedef NS_ENUM(NSInteger, CHECKBUTTONSTATUS) {
+    CHECKBUTTONWITHNORMALSTATUS = 0,
+    CHECKBUTTONWITHCHECKING,
+    CHECKBUTTONWITHLOADING,
+    CHECKBUTTONWITHCOUNTDOWN
+};
 
+@interface CheckoutViewController : BaseTableStructViewController<UITableViewDataSource,UITableViewDelegate,MKMapViewDelegate>
+@property(nonatomic, assign) CHECKBUTTONSTATUS checkStatus;
 - (void)passCommunityWithModel:(CheckCommunityModel *)model;
 - (void)timeCountZero;
 - (void)wakeFrameBackGound;

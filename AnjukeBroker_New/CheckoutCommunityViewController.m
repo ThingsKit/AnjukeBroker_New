@@ -51,6 +51,7 @@
         UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alet show];
     }
+    [self refreshGeo:nil];
 }
 - (void)viewDidLoad
 {

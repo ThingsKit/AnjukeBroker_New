@@ -36,7 +36,19 @@
     return btn;
 }
 
-- (UIButton *)buttonWithUnCheck{
+- (UIButton *)buttonWithChecking{
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.backgroundColor = [UIColor ajkLightGrayColor];
+    btn.titleLabel.font = [UIFont ajkH1Font_B];
+    btn.layer.masksToBounds = YES;
+    btn.layer.cornerRadius = 2.5;
+    [btn setTitle:@"签到中..." forState:UIControlStateNormal];
+    btn.userInteractionEnabled = NO;
+    
+    return btn;
+}
+
+- (UIButton *)buttonWithLoading{
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.backgroundColor = [UIColor ajkLightGrayColor];
     btn.titleLabel.font = [UIFont ajkH1Font_B];

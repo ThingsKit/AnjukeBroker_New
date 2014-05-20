@@ -20,7 +20,8 @@
 
 
 - (UIButton *)buttonWithNormalStatus;
-- (UIButton *)buttonWithUnCheck;
+- (UIButton *)buttonWithChecking;
+- (UIButton *)buttonWithLoading;
 - (UIButton *)buttonWithCountdown:(int)timeLeft;
 
 @end

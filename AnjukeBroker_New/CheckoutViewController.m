@@ -56,6 +56,7 @@
 @synthesize checkInfoModel;
 @synthesize map;
 @synthesize hideCheck;
+@synthesize checkStatus;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -86,13 +87,8 @@
     [self locationServiceCheck];
 
     self.map.showsUserLocation = YES;
-    if (self.checkoutBtn) {
-        [self.checkoutBtn removeFromSuperview];
-        self.checkoutBtn = nil;
-    }
-    self.checkoutBtn = [self.cb buttonWithUnCheck];
-    self.checkoutBtn.frame = CGRectMake(15, 180 + 20, 230, 40);
-    [self.headerView addSubview:self.checkoutBtn];
+
+    [self showCheckButton:CHECKBUTTONWITHLOADING timeLeft:0];
 }
 
 - (void)locationServiceCheck{
@@ -139,11 +135,9 @@
     MKCoordinateRegion region = MKCoordinateRegionMake(coords, MKCoordinateSpanMake(zoomLevel, zoomLevel));
     region = [map regionThatFits:region];
     [map setRegion:region animated:NO];
-
+    
     //签到按钮
-    self.checkoutBtn = [self.cb buttonWithUnCheck];
-    self.checkoutBtn.frame = CGRectMake(15, map.frame.size.height + 20, 230, 40);
-    [self.headerView addSubview:self.checkoutBtn];
+    [self showCheckButton:CHECKBUTTONWITHLOADING timeLeft:0];
     
     self.checkoutNumLab = [[UILabel alloc] initWithFrame:CGRectMake(self.checkoutBtn.frame.origin.x+self.checkoutBtn.frame.size.width+10, self.checkoutBtn.frame.origin.y+5, 50, 30)];
     self.checkoutNumLab.lineBreakMode = UILineBreakModeWordWrap;
@@ -158,7 +152,30 @@
     self.tableList.tableHeaderView = self.headerView;
 }
 - (void)checkoutCommunity:(id)sender{
+    //签到按钮
+    [self showCheckButton:CHECKBUTTONWITHCHECKING timeLeft:0];
+    
     [self doCheckActionRequest];
+}
+
+- (void)showCheckButton:(CHECKBUTTONSTATUS)checkButtonStatus timeLeft:(int)timeLeft{
+    if (self.checkoutBtn) {
+        [self.checkoutBtn removeFromSuperview];
+        self.checkoutBtn = nil;
+    }
+    //签到中
+    if (checkButtonStatus == CHECKBUTTONWITHCHECKING) {
+        self.checkoutBtn = [self.cb buttonWithChecking];
+    }else if (checkButtonStatus == CHECKBUTTONWITHCOUNTDOWN){
+        self.checkoutBtn = [self.cb buttonWithCountdown:timeLeft];
+    }else if (checkButtonStatus == CHECKBUTTONWITHLOADING){
+        self.checkoutBtn = [self.cb buttonWithLoading];
+    }else if (checkButtonStatus == CHECKBUTTONWITHNORMALSTATUS){
+        self.checkoutBtn = [self.cb buttonWithNormalStatus];
+        [self.checkoutBtn addTarget:self action:@selector(checkoutCommunity:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    self.checkoutBtn.frame = CGRectMake(15, 180 + 20, 230, 40);
+    [self.headerView addSubview:self.checkoutBtn];
 }
 
 - (void)doRequest{
@@ -223,19 +240,12 @@
             [self.checkCellStatusArr replaceObjectAtIndex:i+1 withObject:[NSNumber numberWithInt:CHECKOUTCELLWITHCHCK]];
         }
     }
-    //更新签到状态
-    if (self.checkoutBtn) {
-        [self.checkoutBtn removeFromSuperview];
-        self.checkoutBtn = nil;
-    }
-    if ([self.checkInfoModel.signAble intValue] == 1) {
-        self.checkoutBtn = [self.cb buttonWithCountdown:[self.checkInfoModel.countDown intValue]];
-        self.checkoutBtn.frame = CGRectMake(15, 180 + 20, 230, 40);
-        [self.headerView addSubview:self.checkoutBtn];
+
+    //未签到或者已经签到但剩余时间为0s,显示可签到按钮
+    if ([self.checkInfoModel.signAble intValue] == 0 || ([self.checkInfoModel.countDown intValue] == 0 && [self.checkInfoModel.signAble intValue] == 1) ) {
+        [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
     }else{
-        self.checkoutBtn = [self.cb buttonWithCountdown:[self.checkInfoModel.countDown intValue]];
-        self.checkoutBtn.frame = CGRectMake(15, 180 + 20, 230, 40);
-        [self.headerView addSubview:self.checkoutBtn];
+        [self showCheckButton:CHECKBUTTONWITHCOUNTDOWN timeLeft:[self.checkInfoModel.countDown intValue]];
     }
     
     [self.tableList reloadData];
@@ -267,8 +277,9 @@
 - (void)onCheckActionRequestFinished:(RTNetworkResponse *)response{
     if([[response content] count] == 0){
         self.isLoading = NO;
-//        [self showInfo:@"操作失败"];
+
         [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
         return ;
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
@@ -278,37 +289,26 @@
 
         [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:@"签到失败" addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
         self.isLoading = NO;
-
+        [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
+        
         return;
     }
     
     NSDictionary *dic = [response content];
-    DLog(@"checkReturnDic---->>%@",dic);
+
     if ([dic[@"status"] isEqualToString:@"ok"]) {
         //签到成功后UI处理
         [[HUDNews sharedHUDNEWS] createHUD:@"签到成功" hudTitleTwo:[NSString stringWithFormat:@"第%@位签到者",[[dic objectForKey:@"data"] objectForKey:@"signRank"]] addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHCHECKOK];
-        if (self.checkoutBtn) {
-            [self.checkoutBtn removeFromSuperview];
-            self.checkoutBtn = nil;
-        }
-        self.checkoutBtn = [self.cb buttonWithCountdown:[[[dic objectForKey:@"data"] objectForKey:@"countDown"] intValue]];
-        self.checkoutBtn.frame = CGRectMake(15, 180 + 20, 230, 40);
-        [self.headerView addSubview:self.checkoutBtn];
-
+        [self showCheckButton:CHECKBUTTONWITHCOUNTDOWN timeLeft:[[[dic objectForKey:@"data"] objectForKey:@"countDown"] intValue]];
+        
         [self doRequest];
     }else{
         [[HUDNews sharedHUDNEWS] createHUD:@"签到失败" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
     }
 }
 - (void)timeCountZero{
-    if (self.checkoutBtn) {
-        [self.checkoutBtn removeFromSuperview];
-        self.checkoutBtn = nil;
-    }
-    self.checkoutBtn = [self.cb buttonWithNormalStatus];
-    self.checkoutBtn.frame = CGRectMake(15, 180 + 20, 230, 40);
-    [self.checkoutBtn addTarget:self action:@selector(checkoutCommunity:) forControlEvents:UIControlEventTouchUpInside];
-    [self.headerView addSubview:self.checkoutBtn];
+    [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
 }
 #pragma mark -UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
