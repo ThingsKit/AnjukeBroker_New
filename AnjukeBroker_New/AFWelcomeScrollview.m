@@ -81,14 +81,25 @@ typedef enum {
     s.frame = self.bounds;
     s.delegate = self;
     s.pagingEnabled = YES;
-    s.backgroundColor = [UIColor clearColor];
+    s.backgroundColor = [UIColor colorWithHex:0xF6F6F6 alpha:1.0];
     s.showsHorizontalScrollIndicator = NO;
     s.showsVerticalScrollIndicator = NO;
     self.sv = s;
     [self addSubview:s];
 }
 
-- (void)addPageController {
+- (void)addPageController:(int)imgCount {
+    for (int i = 0; i < imgCount; i++) {
+        UIImageView *dot = [[UIImageView alloc] initWithFrame:CGRectMake([self getWindowWidth]/2-(20*imgCount - 10)/2+20*i, [self getWindowHeight] - 50, 10, 10)];
+        dot.tag = 1000 + i;
+        
+        if (i == 0) {
+            [dot setImage:[UIImage imageNamed:@"guild_dot_selected"]];
+        }else{
+            [dot setImage:[UIImage imageNamed:@"guild_dot_normal"]];
+        }
+        [self addSubview:dot];
+    }
 //    UIPageControl *pc = [[UIPageControl alloc] initWithFrame:CGRectMake(50, [self getWindowHeight] - 50, [self getWindowWidth]- 50*2, 20)];
 //    pc.numberOfPages = self.totalCount;
 //    pc.currentPage = 0;
@@ -109,7 +120,7 @@ typedef enum {
     self.sv.backgroundColor = [UIColor whiteColor];
     
     if (imgArray.count > 1) {
-        [self addPageController];
+        [self addPageController:imgArray.count];
     }
     
     CGFloat imgGapH = 0;
@@ -120,7 +131,8 @@ typedef enum {
     for (int i = 0; i < imgArray.count; i ++) {
         UIImageView *img = [[UIImageView alloc] initWithImage:[imgArray objectAtIndex:i]];
         img.frame = CGRectMake(0 + [self getWindowWidth] *i, imgGapH, [self getWindowWidth], [self getWindowHeight] - imgGapH);
-        img.backgroundColor = [UIColor whiteColor];
+        img.backgroundColor = [UIColor colorWithHex:0xF6F6F6 alpha:1.0];
+        
         img.contentMode = UIViewContentModeScaleAspectFit;
         img.layer.borderColor = [UIColor clearColor].CGColor;
         img.layer.borderWidth = 1;
@@ -144,8 +156,8 @@ typedef enum {
                 [hideBtn setBackgroundImage:[[UIImage imageNamed:@"guild_btn_normal"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
                 [hideBtn setBackgroundImage:[[UIImage imageNamed:@"guild_btn_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
                 hideBtn.layer.cornerRadius = 3;
-                [hideBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                [hideBtn setTitle:@"立 即 体 验" forState:UIControlStateNormal];
+//                [hideBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//                [hideBtn setTitle:@"立 即 体 验" forState:UIControlStateNormal];
             }
             
             [hideBtn addTarget:self action:@selector(hideScrollview) forControlEvents:UIControlEventTouchUpInside];
@@ -194,7 +206,7 @@ typedef enum {
     self.sv.contentSize = CGSizeMake([self getWindowWidth] *titleArray.count, [self getWindowHeight]);
     
     self.totalCount = titleArray.count;
-    [self addPageController];
+    [self addPageController:self.totalCount];
 }
 
 - (void)hideScrollview {
@@ -248,15 +260,24 @@ typedef enum {
 #pragma mark - ScrollView Delegate
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    UIPageControl *pc = (UIPageControl *)[self viewWithTag:tagOfPageController];
+//    UIPageControl *pc = (UIPageControl *)[self viewWithTag:tagOfPageController];
     
     int index = scrollView.contentOffset.x / 320;
-    pc.currentPage = index;
+//    pc.currentPage = index;
     
     [self scrollBackImgWithIndex:index];
+
+    for (int i = 0; i < scrollView.contentSize.width/320; i++) {
+        UIImageView *dot = (UIImageView *)[self viewWithTag:i+1000];
+        if (i == index) {
+            [dot setImage:[UIImage imageNamed:@"guild_dot_selected"]];
+        }else{
+            [dot setImage:[UIImage imageNamed:@"guild_dot_normal"]];
+        }
+    }
+
     
     if (index == self.totalCount -1) {
-        //
     }
 }
 

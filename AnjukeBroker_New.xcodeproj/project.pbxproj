@@ -651,6 +651,8 @@
 		F8CCEEBE192C488500192055 /* check_no_wifi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8CCEEBB192C488500192055 /* check_no_wifi@2x.png */; };
 		F8CCEEC1192C682700192055 /* guild_btn_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8CCEEBF192C682700192055 /* guild_btn_normal@2x.png */; };
 		F8CCEEC2192C682700192055 /* guild_btn_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8CCEEC0192C682700192055 /* guild_btn_press@2x.png */; };
+		F8CCEEC5192C6FD300192055 /* guild_dot_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8CCEEC3192C6FD300192055 /* guild_dot_normal@2x.png */; };
+		F8CCEEC6192C6FD300192055 /* guild_dot_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8CCEEC4192C6FD300192055 /* guild_dot_selected@2x.png */; };
 		F8CD189C1921A40A0033733E /* CheckoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD189B1921A40A0033733E /* CheckoutCell.m */; };
 		F8CD18A31921A9800033733E /* CheckoutWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD18A21921A9800033733E /* CheckoutWebViewController.m */; };
 		F8CD18A9192200960033733E /* CheckoutButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CD18A8192200960033733E /* CheckoutButton.m */; };
@@ -1626,6 +1628,8 @@
 		F8CCEEBB192C488500192055 /* check_no_wifi@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check_no_wifi@2x.png"; sourceTree = "<group>"; };
 		F8CCEEBF192C682700192055 /* guild_btn_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "guild_btn_normal@2x.png"; sourceTree = "<group>"; };
 		F8CCEEC0192C682700192055 /* guild_btn_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "guild_btn_press@2x.png"; sourceTree = "<group>"; };
+		F8CCEEC3192C6FD300192055 /* guild_dot_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "guild_dot_normal@2x.png"; sourceTree = "<group>"; };
+		F8CCEEC4192C6FD300192055 /* guild_dot_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "guild_dot_selected@2x.png"; sourceTree = "<group>"; };
 		F8CD189A1921A40A0033733E /* CheckoutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutCell.h; sourceTree = "<group>"; };
 		F8CD189B1921A40A0033733E /* CheckoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutCell.m; sourceTree = "<group>"; };
 		F8CD18A11921A9800033733E /* CheckoutWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutWebViewController.h; sourceTree = "<group>"; };
@@ -2454,6 +2458,8 @@
 		970501541845A18E00A0C181 /* 引导页 */ = {
 			isa = PBXGroup;
 			children = (
+				F8CCEEC3192C6FD300192055 /* guild_dot_normal@2x.png */,
+				F8CCEEC4192C6FD300192055 /* guild_dot_selected@2x.png */,
 				F8CCEEBF192C682700192055 /* guild_btn_normal@2x.png */,
 				F8CCEEC0192C682700192055 /* guild_btn_press@2x.png */,
 				20771E5118EA9AFE00A8449A /* anjuke_icon_ydy_1@2x.png */,
@@ -3884,6 +3890,7 @@
 				B7EA5B6A18DBDCA900D437BB /* anjuke_icon_itis_position@2x.png in Resources */,
 				6740D1C91908E08C005ED706 /* anjuke_icon_bq_delete@2x.png in Resources */,
 				B7FC9AEF18C41B1300F77205 /* xproject_dialogue_greybox@2x.png in Resources */,
+				F8CCEEC5192C6FD300192055 /* guild_dot_normal@2x.png in Resources */,
 				2079ADF318B5FD610029D493 /* anjuke_icon_xingbiao_@2x.png in Resources */,
 				B7EA5B6518DBDCA900D437BB /* anjuke_icon_chat2_fy_selected@2x.png in Resources */,
 				2079ADE718B5EEDF0029D493 /* anjuke_icon_ok@2x.png in Resources */,
@@ -4101,6 +4108,7 @@
 				B7D0AB9C18A9D23300A6229C /* anjuke_icon_hot1@2x.png in Resources */,
 				273913E518DBD0FD003284AA /* anjuke_icon_to_position1.png in Resources */,
 				B7EA5B7718DBDCA900D437BB /* wl_voice_icon_voicestatu1@2x.png in Resources */,
+				F8CCEEC6192C6FD300192055 /* guild_dot_selected@2x.png in Resources */,
 				F8BFF37A18FE87E8008E700D /* leftside_shadow_bg@2x.png in Resources */,
 				200DAB5C18DFCED90077E0C9 /* anjuke_icon_zf@2x.png in Resources */,
 				278FFCF5192453CD00B4A4A4 /* anjuke_icon_pic_teach1@2x.png in Resources */,
