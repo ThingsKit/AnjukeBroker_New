@@ -43,6 +43,16 @@
         }
     }
 }
+#pragma mark - method
+- (void)autoPullDown{
+    [self.tableList setContentOffset:CGPointMake(0, -70) animated:NO];
+    [self.refreshHeaderView egoRefreshScrollViewDidEndDragging:self.tableList];
+}
+- (void)donePullDown{
+    [self doneLoadingTableViewData];
+}
+- (void)doRequest{
+}
 
 #pragma mark -
 #pragma mark UIScrollViewDelegate Methods
@@ -54,14 +64,6 @@
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
 	
 	[self.refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
-}
-
-- (void)autoPullDown{
-    [self.tableList setContentOffset:CGPointMake(0, -70) animated:NO];
-    [self.refreshHeaderView egoRefreshScrollViewDidEndDragging:self.tableList];
-}
-- (void)donePullDown{
-    [self doneLoadingTableViewData];
 }
 
 #pragma mark -
@@ -77,8 +79,7 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;  //显示状态栏风火轮
 }
 
-- (void)doRequest{
-}
+
 
 #pragma mark -
 #pragma mark EGORefreshTableHeaderDelegate Methods

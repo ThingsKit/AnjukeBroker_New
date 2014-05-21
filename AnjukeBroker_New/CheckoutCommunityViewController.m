@@ -113,7 +113,7 @@
     
     [self.navigationController pushViewController:webVC animated:YES];
 }
-
+#pragma mark - rotation method
 - (void)refreshGeo:(id)sender{
     if (self.isLoading) {
         return;
@@ -135,7 +135,7 @@
 - (void)stopAnimation{
     [self.refreshBtn.layer removeAnimationForKey:@"rotationAnimation"];
 }
-
+#pragma mark - request method
 - (void)doRequest{
     if (!self.nowCoords.latitude) {
         self.isLoading = NO;
@@ -168,9 +168,6 @@
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
-//        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-//        DLog(@"errorMsg--->>%@",errorMsg);
-
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
         [self.tableList reloadData];
 
@@ -226,11 +223,7 @@
     [self.navigationController pushViewController:checkoutVC animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
 
 #pragma mark MKMapViewDelegate -user location定位变化
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
@@ -239,4 +232,9 @@
     [self doRequest];
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 @end

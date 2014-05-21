@@ -19,6 +19,7 @@
     }
     return self;
 }
+#pragma mark -tableview 状态设置
 - (void)setTableStatus:(TableStatus)status{
     if (status == STATUSFOROK) {
         self.tableHeaderView = nil;

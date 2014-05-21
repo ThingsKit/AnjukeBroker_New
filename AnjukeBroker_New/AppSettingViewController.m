@@ -79,25 +79,7 @@
     
     self.tableList.tableFooterView = footerView;
 }
-- (void)updateVersionInfo:(NSDictionary *)dic{
-    self.versionDic = [[NSDictionary alloc] initWithDictionary:dic];
-    if ([self.versionDic count] != 0) {
-        self.updateUrl = [NSString stringWithFormat:@"%@",[self.versionDic objectForKey:@"url"]];
-        
-        NSString *localVer = [AppManager getBundleVersion];
-        self.onlineVer = [self.versionDic objectForKey:@"ver"];
-        
-        if ([self.versionDic objectForKey:@"ver"] != nil && ![[self.versionDic objectForKey:@"ver"] isEqualToString:@""]) {
-            if ([localVer compare:self.onlineVer options:NSNumericSearch] == NSOrderedAscending) {
-                self.onlineVer = [self.versionDic objectForKey:@"ver"];
-                self.isHasNewVersion = YES;
-            }else{
-                self.isHasNewVersion = NO;
-            }
-        }
-    }
-    [self.tableList reloadData];
-}
+
 #pragma mark -UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return SECTIONNUM;
@@ -207,6 +189,59 @@
         }
     }
 }
+#pragma mark - request
+- (void)requestLoginOut {
+    if (![self isNetworkOkay]) {
+        return;
+    }
+    
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+    method = @"logout/";
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onLoginOutFinished:)];
+}
+
+- (void)onLoginOutFinished:(RTNetworkResponse *)response {
+    DLog(@"。。。response [%@]", [response content]);
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    if ([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]) {
+        //退出登录
+        [[AppDelegate sharedAppDelegate] doLogOut];
+    }
+}
+
+#pragma mark -method
+- (void)updateVersionInfo:(NSDictionary *)dic{
+    self.versionDic = [[NSDictionary alloc] initWithDictionary:dic];
+    if ([self.versionDic count] != 0) {
+        self.updateUrl = [NSString stringWithFormat:@"%@",[self.versionDic objectForKey:@"url"]];
+        
+        NSString *localVer = [AppManager getBundleVersion];
+        self.onlineVer = [self.versionDic objectForKey:@"ver"];
+        
+        if ([self.versionDic objectForKey:@"ver"] != nil && ![[self.versionDic objectForKey:@"ver"] isEqualToString:@""]) {
+            if ([localVer compare:self.onlineVer options:NSNumericSearch] == NSOrderedAscending) {
+                self.onlineVer = [self.versionDic objectForKey:@"ver"];
+                self.isHasNewVersion = YES;
+            }else{
+                self.isHasNewVersion = NO;
+            }
+        }
+    }
+    [self.tableList reloadData];
+}
 - (void)checkSw:(id)sender{
     if (!self.msgSw.on) {
         //短信提醒由开到关
@@ -290,37 +325,6 @@
     UIAlertView *av = [[UIAlertView alloc] initWithTitle:nil message:@"是否退出登录？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
     [av setCancelButtonIndex:0];
     [av show];
-}
-- (void)requestLoginOut {
-    if (![self isNetworkOkay]) {
-        return;
-    }
-    
-    NSMutableDictionary *params = nil;
-    NSString *method = nil;
-    
-    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
-    method = @"logout/";
-    
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onLoginOutFinished:)];
-}
-
-- (void)onLoginOutFinished:(RTNetworkResponse *)response {
-    DLog(@"。。。response [%@]", [response content]);
-    
-    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        
-        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
-    
-    if ([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]) {
-        //退出登录
-        [[AppDelegate sharedAppDelegate] doLogOut];
-    }
 }
 
 #pragma mark - UIAlert View Delegate

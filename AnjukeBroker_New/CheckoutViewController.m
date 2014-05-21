@@ -12,7 +12,6 @@
 #import "CheckoutWebViewController.h"
 #import "CheckoutButton.h"
 #import "CLLocationManager+RT.h"
-#import "timeArrSort.h"
 #import "CheckInfoWithCommunity.h"
 #import "HUDNews.h"
 #import "UIFont+RT.h"
@@ -77,25 +76,9 @@
     self.cb.checkoutDelegate = nil;
     self.cb = nil;
 }
-- (void)wakeFrameBackGound{
-    [self reloadCheckInfo];
-}
+
 - (void)viewWillAppear:(BOOL)animated{
     [self reloadCheckInfo];
-}
-- (void)reloadCheckInfo{
-    [self locationServiceCheck];
-
-    self.map.showsUserLocation = YES;
-
-    [self showCheckButton:CHECKBUTTONWITHLOADING timeLeft:0];
-}
-
-- (void)locationServiceCheck{
-    if (![CLLocationManager isLocationServiceEnabled]) {
-        UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alet show];
-    }
 }
 - (void)viewDidLoad
 {
@@ -151,33 +134,7 @@
     
     self.tableList.tableHeaderView = self.headerView;
 }
-- (void)checkoutCommunity:(id)sender{
-    //签到按钮
-    [self showCheckButton:CHECKBUTTONWITHCHECKING timeLeft:0];
-    
-    [self doCheckActionRequest];
-}
-
-- (void)showCheckButton:(CHECKBUTTONSTATUS)checkButtonStatus timeLeft:(int)timeLeft{
-    if (self.checkoutBtn) {
-        [self.checkoutBtn removeFromSuperview];
-        self.checkoutBtn = nil;
-    }
-    //签到中
-    if (checkButtonStatus == CHECKBUTTONWITHCHECKING) {
-        self.checkoutBtn = [self.cb buttonWithChecking];
-    }else if (checkButtonStatus == CHECKBUTTONWITHCOUNTDOWN){
-        self.checkoutBtn = [self.cb buttonWithCountdown:timeLeft];
-    }else if (checkButtonStatus == CHECKBUTTONWITHLOADING){
-        self.checkoutBtn = [self.cb buttonWithLoading];
-    }else if (checkButtonStatus == CHECKBUTTONWITHNORMALSTATUS){
-        self.checkoutBtn = [self.cb buttonWithNormalStatus];
-        [self.checkoutBtn addTarget:self action:@selector(checkoutCommunity:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    self.checkoutBtn.frame = CGRectMake(15, 180 + 20, 230, 40);
-    [self.headerView addSubview:self.checkoutBtn];
-}
-
+#pragma mark - request method
 - (void)doRequest{
     [self locationServiceCheck];
 
@@ -228,28 +185,7 @@
     
     [self updateUI];
 }
-- (void)updateUI{
-    if (self.checkInfoModel.signCount) {
-        self.checkoutNumLab.text = [NSString stringWithFormat:@"%d人\n今日已签",[self.checkInfoModel.signCount intValue]];
-    }
 
-    NSArray *checkInfoArr = [[NSArray alloc] initWithArray:self.checkInfoModel.signList];
-    for (int i = 0; i < checkInfoArr.count; i++) {
-        NSArray *checkPerson = [[NSArray alloc] initWithArray:[[checkInfoArr objectAtIndex:i] objectForKey:@"brokers"]];
-        if (checkPerson.count != 0) {
-            [self.checkCellStatusArr replaceObjectAtIndex:i+1 withObject:[NSNumber numberWithInt:CHECKOUTCELLWITHCHCK]];
-        }
-    }
-
-    //未签到或者已经签到但剩余时间为0s,显示可签到按钮
-    if ([self.checkInfoModel.signAble intValue] == 1 || ([self.checkInfoModel.countDown intValue] == 0 && [self.checkInfoModel.signAble intValue] == 0) ) {
-        [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
-    }else{
-        [self showCheckButton:CHECKBUTTONWITHCOUNTDOWN timeLeft:[self.checkInfoModel.countDown intValue]];
-    }
-    
-    [self.tableList reloadData];
-}
 - (void)doCheckActionRequest{
     if (!self.nowCoords.latitude) {
         return;
@@ -289,10 +225,6 @@
         [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
 
-//        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-//        DLog(@"errorMsg--->>%@",errorMsg);
-
-        
         return;
     }
     
@@ -309,9 +241,7 @@
         [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
     }
 }
-- (void)timeCountZero{
-    [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
-}
+
 #pragma mark -UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (self.hideCheck) {
@@ -355,21 +285,7 @@
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
-#pragma mark MKMapViewDelegate -user location定位变化
--(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
-    self.nowCoords = [userLocation coordinate];
-    self.map.showsUserLocation = NO;
-    [self doRequest];
-}
-- (CLLocationDistance)calcDistance{
-    CLLocation *communityLoc = [[CLLocation alloc] initWithLatitude:self.checkCommunitmodel.lat  longitude:self.checkCommunitmodel.lng];
-    CLLocation *nowLoc = [[CLLocation alloc] initWithLatitude:self.nowCoords.latitude longitude:self.nowCoords.longitude];
-    
-    CLLocationDistance kilometers = [communityLoc distanceFromLocation:nowLoc]/1000;
-    NSLog(@"距离:--->>%f",kilometers);
-    return kilometers;
-}
+#pragma mark - method
 - (void)passCommunityWithModel:(CheckCommunityModel *)model;{
     self.checkCommunitmodel = model;
     
@@ -381,6 +297,91 @@
     webVC.webUrl = @"http://api.anjuke.com/web/nearby/brokersign/rule.html";
     
     [self.navigationController pushViewController:webVC animated:YES];
+}
+
+- (void)checkoutCommunity:(id)sender{
+    //签到按钮
+    [self showCheckButton:CHECKBUTTONWITHCHECKING timeLeft:0];
+    
+    [self doCheckActionRequest];
+}
+
+- (void)showCheckButton:(CHECKBUTTONSTATUS)checkButtonStatus timeLeft:(int)timeLeft{
+    if (self.checkoutBtn) {
+        [self.checkoutBtn removeFromSuperview];
+        self.checkoutBtn = nil;
+    }
+    //签到中
+    if (checkButtonStatus == CHECKBUTTONWITHCHECKING) {
+        self.checkoutBtn = [self.cb buttonWithChecking];
+    }else if (checkButtonStatus == CHECKBUTTONWITHCOUNTDOWN){
+        self.checkoutBtn = [self.cb buttonWithCountdown:timeLeft];
+    }else if (checkButtonStatus == CHECKBUTTONWITHLOADING){
+        self.checkoutBtn = [self.cb buttonWithLoading];
+    }else if (checkButtonStatus == CHECKBUTTONWITHNORMALSTATUS){
+        self.checkoutBtn = [self.cb buttonWithNormalStatus];
+        [self.checkoutBtn addTarget:self action:@selector(checkoutCommunity:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    self.checkoutBtn.frame = CGRectMake(15, 180 + 20, 230, 40);
+    [self.headerView addSubview:self.checkoutBtn];
+}
+- (void)updateUI{
+    if (self.checkInfoModel.signCount) {
+        self.checkoutNumLab.text = [NSString stringWithFormat:@"%d人\n今日已签",[self.checkInfoModel.signCount intValue]];
+    }
+    
+    NSArray *checkInfoArr = [[NSArray alloc] initWithArray:self.checkInfoModel.signList];
+    for (int i = 0; i < checkInfoArr.count; i++) {
+        NSArray *checkPerson = [[NSArray alloc] initWithArray:[[checkInfoArr objectAtIndex:i] objectForKey:@"brokers"]];
+        if (checkPerson.count != 0) {
+            [self.checkCellStatusArr replaceObjectAtIndex:i+1 withObject:[NSNumber numberWithInt:CHECKOUTCELLWITHCHCK]];
+        }
+    }
+    
+    //未签到或者已经签到但剩余时间为0s,显示可签到按钮
+    if ([self.checkInfoModel.signAble intValue] == 1 || ([self.checkInfoModel.countDown intValue] == 0 && [self.checkInfoModel.signAble intValue] == 0) ) {
+        [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
+    }else{
+        [self showCheckButton:CHECKBUTTONWITHCOUNTDOWN timeLeft:[self.checkInfoModel.countDown intValue]];
+    }
+    
+    [self.tableList reloadData];
+}
+- (void)timeCountZero{
+    [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
+}
+- (void)wakeFrameBackGound{
+    [self reloadCheckInfo];
+}
+
+- (void)reloadCheckInfo{
+    [self locationServiceCheck];
+    
+    self.map.showsUserLocation = YES;
+    
+    [self showCheckButton:CHECKBUTTONWITHLOADING timeLeft:0];
+}
+
+- (void)locationServiceCheck{
+    if (![CLLocationManager isLocationServiceEnabled]) {
+        UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alet show];
+    }
+}
+#pragma mark - MKMapViewDelegate -user location定位变化
+-(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
+    self.nowCoords = [userLocation coordinate];
+    self.map.showsUserLocation = NO;
+    [self doRequest];
+}
+#pragma mark distance计算
+- (CLLocationDistance)calcDistance{
+    CLLocation *communityLoc = [[CLLocation alloc] initWithLatitude:self.checkCommunitmodel.lat  longitude:self.checkCommunitmodel.lng];
+    CLLocation *nowLoc = [[CLLocation alloc] initWithLatitude:self.nowCoords.latitude longitude:self.nowCoords.longitude];
+    
+    CLLocationDistance kilometers = [communityLoc distanceFromLocation:nowLoc]/1000;
+    NSLog(@"距离:--->>%f",kilometers);
+    return kilometers;
 }
 
 - (void)didReceiveMemoryWarning

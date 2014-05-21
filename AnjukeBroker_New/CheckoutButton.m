@@ -23,6 +23,7 @@
     }
     return self;
 }
+#pragma mark - 签到按钮-常规
 - (UIButton *)buttonWithNormalStatus{
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor ajkGreenColor]] forState:UIControlStateNormal];
@@ -35,7 +36,7 @@
     
     return btn;
 }
-
+#pragma mark - 签到按钮-签到中
 - (UIButton *)buttonWithChecking{
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.backgroundColor = [UIColor ajkLightGrayColor];
@@ -47,7 +48,7 @@
     
     return btn;
 }
-
+#pragma mark - 签到按钮-加载中
 - (UIButton *)buttonWithLoading{
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.backgroundColor = [UIColor ajkLightGrayColor];
@@ -59,7 +60,7 @@
   
     return btn;
 }
-
+#pragma mark - 签到按钮倒计时
 - (UIButton *)buttonWithCountdown:(int)timeLeft{
     leftTime = timeLeft;
     
@@ -92,7 +93,7 @@
 
     return btn;
 }
-
+//时间转换
 - (NSString *)changeTimeToStr:(int)time{
     NSString *h;
     NSString *m;

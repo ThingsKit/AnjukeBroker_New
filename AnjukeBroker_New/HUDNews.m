@@ -19,7 +19,7 @@
 
 static HUDNews *hudNews;
 
-
+//hud 才用单例实现
 + (HUDNews *) sharedHUDNEWS{
     @synchronized(self){
         if (hudNews == nil) {
@@ -28,6 +28,7 @@ static HUDNews *hudNews;
         return hudNews;
     }
 }
+#pragma mark - 外部调用创建hud method
 - (void)createHUD:(NSString *)hudTitleOne hudTitleTwo:(NSString *)hudTitleTwo addView:(UIView *)addView isDim:(BOOL)isDim isHidden:(BOOL)isHidden hudTipsType:(HUDTIPSTYPE)hudTipsType{
     tipsType = hudTipsType;
     if (self.hud) {

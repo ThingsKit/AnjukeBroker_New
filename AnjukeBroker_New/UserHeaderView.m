@@ -169,6 +169,7 @@
 - (void)setImageView:(UIImage *)img{
     [_bannerImg setImage:img];
 }
+#pragma mark - 数据更新
 - (void)updateUserHeaderInfo:(NSString *)name{
     self.userName.text = name;
 }

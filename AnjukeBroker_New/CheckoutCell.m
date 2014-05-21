@@ -10,7 +10,6 @@
 #import "WebImageView.h"
 #import "LoginManager.h"
 #import <QuartzCore/QuartzCore.h>
-#import "timeArrSort.h"
 #import "CheckInfoWithCommunity.h"
 #import "UIFont+RT.h"
 #import "UIColor+BrokerRT.h"

@@ -47,6 +47,16 @@
     }
     return self;
 }
+#pragma mark - log
+- (void)sendAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
+- (void)sendDisAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+}
+#pragma mark - view
+
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.navigationBarHidden = YES;
     
@@ -56,14 +66,6 @@
 }
 - (void)initModel {
     self.taskArray = [NSArray arrayWithObjects:@"我的二维码", @"我的账户", @"个人信息", @"联系客户主任", @"客服热线", @"系统设置", nil];
-}
-#pragma mark - log
-- (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-}
-
-- (void)sendDisAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
 }
 
 - (void)viewDidLoad
@@ -103,14 +105,7 @@
     footView.backgroundColor = [UIColor clearColor];
     self.tableList.tableFooterView = footView;
 }
-- (void)goSDX{
-    CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
-    webVC.webTitle = @"闪电侠介绍";
-    webVC.webUrl = [NSString stringWithFormat:@"http://api.anjuke.com/web/nearby/brokersign/shandianxia.html?city_id=%@",[LoginManager getCity_id]];
-    [webVC setHidesBottomBarWhenPushed:YES];
-    
-    [self.navigationController pushViewController:webVC animated:YES];
-}
+
 
 #pragma mark -UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -233,6 +228,15 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+#pragma mark - method
+- (void)goSDX{
+    CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
+    webVC.webTitle = @"闪电侠介绍";
+    webVC.webUrl = [NSString stringWithFormat:@"http://api.anjuke.com/web/nearby/brokersign/shandianxia.html?city_id=%@",[LoginManager getCity_id]];
+    [webVC setHidesBottomBarWhenPushed:YES];
+    
+    [self.navigationController pushViewController:webVC animated:YES];
+}
 - (NSString *)getClientName {
     NSString *str = [NSString string];
     
@@ -296,63 +300,6 @@
     [self.tableList reloadData];
     self.isLoading = NO;
 }
-
-#pragma mark - Request Method
-
-//- (void)doUserInfoRequest {
-//    if (![self isNetworkOkay]) {
-//        [self hideLoadWithAnimated:YES];
-//        self.isLoading = NO;
-//        return;
-//    }
-//    
-//    NSMutableDictionary *params = nil;
-//    NSString *method = nil;
-//    
-//    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"cityId", nil];
-//    method = @"broker/getinfo/";
-//    
-//    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUserInfoRequestFinished:)];
-//    self.isLoading = YES;
-//}
-//
-//- (void)onUserInfoRequestFinished:(RTNetworkResponse *)response {
-//    DLog(@"。。。response [%@]", [response content]);
-//    if([[response content] count] == 0){
-//        self.isLoading = NO;
-//        [self showInfo:@"操作失败"];
-//        return ;
-//    }
-//    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-//        
-//        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-//        
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles: nil];
-//        [alert show];
-//        [self hideLoadWithAnimated:YES];
-//        self.isLoading = NO;
-//        return;
-//    }
-//    self.dataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
-//    [self.tableList reloadData];
-//    [self.headerView updateUserHeaderInfo:self.dataDic];
-//    
-//    [self hideLoadWithAnimated:YES];
-//    self.isLoading = NO;
-//}
-
-
-#pragma mark -UIScrollViewDelegate
-//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    if (scrollView.contentOffset.y <= -40) {
-//        [self.headerView setLoading];
-//    }
-//    if (scrollView.contentOffset.y <= -80) {
-//        [self.headerView hideLoading];
-//    }
-//    
-//    [self.headerView scrollViewDrag:scrollView];
-//}
 
 - (void)didReceiveMemoryWarning
 {
