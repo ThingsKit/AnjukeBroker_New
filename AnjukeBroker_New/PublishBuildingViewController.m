@@ -318,6 +318,9 @@ typedef enum {
 - (void)setDefultValue {
     //房屋装修、朝向
     if (!self.isHaozu) {
+        
+        DLog(@"arr == %@", [self.cellDataSource inputCellArray]);
+        DLog(@"arr count == %d", [[self.cellDataSource inputCellArray] count]);
         //fitment
         [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FITMENT] text_Field] setText:_DEFULT_TITLE_FITMENT];
         int index = [PublishDataModel getFitmentIndexWithTitle:_DEFULT_TITLE_FITMENT forHaozu:self.isHaozu];
@@ -1489,15 +1492,15 @@ typedef enum {
     //向下跳转，selectIndex+1，section和row根据跳转的位置向下递增
     if (self.isHaozu) {
         switch (self.selectedIndex) {
-            case HZ_TEXT_PRICE:
+            case HZ_TEXT_PRICE://价格
             {
                 [self setToolBarLeftBtnDisable];
                 return; //不做处理
             }
                 break;
-            case HZ_TEXT_AREA:
+            case HZ_TEXT_AREA://面积
             {
-                self.selectedIndex --;
+                self.selectedIndex = HZ_TEXT_PRICE;
                 self.selectedRow = 0;
                 self.selectedSection = 0;
                 
@@ -1506,26 +1509,42 @@ typedef enum {
                 return;
             }
                 break;
-            case HZ_PICKER_FLOORS: //楼层
+            case HZ_CLICK_ROOMS://户型
             {
-                self.selectedIndex -=2;
+                self.selectedIndex = HZ_TEXT_AREA;
                 self.selectedRow = 1;
                 self.selectedSection = 0;
             }
                 break;
+            case HZ_PICKER_FLOORS: //楼层
+            {
+                self.selectedIndex = HZ_CLICK_ROOMS;
+                self.selectedRow = 0;
+                self.selectedSection = 1;
+                isPicker = YES;
+            }
+                break;
+            case HZ_PICKER_ORIENTATION://朝向
+            {
+                self.selectedIndex = HZ_PICKER_FLOORS;
+                self.selectedRow = 1;
+                self.selectedSection = 1;
+                isPicker = YES;
+            }
+                break;
             case HZ_PICKER_FITMENT: //装修
             {
-                self.selectedIndex --;
+                self.selectedIndex = HZ_PICKER_ORIENTATION;
                 isPicker = YES;
-                self.selectedRow = 1;
+                self.selectedRow = 2;
                 self.selectedSection = 1;
             }
                 break;
             case HZ_PICKER_RENTTYPE: //出租方式
             {
-                self.selectedIndex --;
+                self.selectedIndex = HZ_PICKER_FITMENT;
                 isPicker = YES;
-                self.selectedRow = 2;
+                self.selectedRow = 3;
                 self.selectedSection = 1;
             }
                 break;
@@ -1547,6 +1566,9 @@ typedef enum {
                 self.selectedIndex = AJK_TEXT_PRICE;
                 self.selectedRow --;
                 self.selectedSection = 0;
+                [self setToolBarLeftBtnDisable];
+                [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
+                return;
                 
             }
                 break;
@@ -1555,6 +1577,7 @@ typedef enum {
                 self.selectedIndex = AJK_PICKER_ROOMS;
                 self.selectedRow --;
                 self.selectedSection = 1;
+                isPicker = YES;
             }
                 break;
             case AJK_PICKER_ORIENTATION://朝向
@@ -1562,6 +1585,7 @@ typedef enum {
                 self.selectedIndex = AJK_PICKER_ROOMS;
                 self.selectedRow --;
                 self.selectedSection = 1;
+                isPicker = YES;
             }
                 break;
                 
@@ -1569,7 +1593,8 @@ typedef enum {
             {
                 self.selectedIndex = AJK_PICKER_ORIENTATION;
                 self.selectedRow --;
-                self.selectedSection = 0;
+                self.selectedSection = 1;
+                isPicker = YES;
             }
                 break;
             case AJK_TEXT_SAFENUM://备案号
@@ -1620,16 +1645,24 @@ typedef enum {
     //向下跳转，selectIndex+1，section和row根据跳转的位置向下递增
     if (self.isHaozu) {
         switch (self.selectedIndex) {
-            case HZ_TEXT_PRICE:
+            case HZ_TEXT_PRICE://价格
             {
-                self.selectedIndex ++;
+                self.selectedIndex = HZ_TEXT_AREA;
                 self.selectedRow = 1;
                 self.selectedSection = 0;
             }
                 break;
-            case HZ_TEXT_AREA:
+            case HZ_TEXT_AREA://面积
             {
-                self.selectedIndex +=2;
+                self.selectedIndex = HZ_CLICK_ROOMS;
+                isPicker = YES;
+                self.selectedRow = 0;
+                self.selectedSection = 1;
+            }
+                break;
+            case HZ_CLICK_ROOMS://户型
+            {
+                self.selectedIndex = HZ_PICKER_FLOORS;
                 isPicker = YES;
                 self.selectedRow = 1;
                 self.selectedSection = 1;
@@ -1637,15 +1670,23 @@ typedef enum {
                 break;
             case HZ_PICKER_FLOORS: //楼层
             {
-                self.selectedIndex ++;
+                self.selectedIndex = HZ_PICKER_ORIENTATION;
                 isPicker = YES;
                 self.selectedRow = 2;
                 self.selectedSection = 1;
             }
                 break;
+            case HZ_PICKER_ORIENTATION://朝向
+            {
+                self.selectedIndex = HZ_PICKER_FITMENT;
+                isPicker = YES;
+                self.selectedRow = 3;
+                self.selectedSection = 1;
+            }
+                break;
             case HZ_PICKER_FITMENT: //装修
             {
-                self.selectedIndex ++;
+                self.selectedIndex = HZ_PICKER_RENTTYPE;
                 isPicker = YES;
                 self.selectedRow = 3;
                 self.selectedSection = 1;
@@ -1729,6 +1770,11 @@ typedef enum {
                 isPicker = YES;
                 self.selectedRow ++ ;
                 self.selectedSection = 1;
+                
+                [self setToolBarRightBtnDisable];
+                [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
+                
+                return;
             }
                 break;
             case AJK_PICKER_FITMENT: //装修
