@@ -89,16 +89,16 @@ typedef enum {
 }
 
 - (void)addPageController {
-    UIPageControl *pc = [[UIPageControl alloc] initWithFrame:CGRectMake(50, [self getWindowHeight] - 90, [self getWindowWidth]- 50*2, 20)];
-    pc.numberOfPages = self.totalCount;
-    pc.currentPage = 0;
-    pc.tag = tagOfPageController;
-    pc.backgroundColor = [UIColor clearColor];
-    if ([[[UIDevice currentDevice] systemVersion] intValue] >= 6) {
-        pc.pageIndicatorTintColor = anjukeGray;
-        pc.currentPageIndicatorTintColor = SYSTEM_TABBAR_SELECTCOLOR_DARK;
-    }
-    [self addSubview:pc];
+//    UIPageControl *pc = [[UIPageControl alloc] initWithFrame:CGRectMake(50, [self getWindowHeight] - 50, [self getWindowWidth]- 50*2, 20)];
+//    pc.numberOfPages = self.totalCount;
+//    pc.currentPage = 0;
+//    pc.tag = tagOfPageController;
+//    pc.backgroundColor = [UIColor clearColor];
+//    if ([[[UIDevice currentDevice] systemVersion] intValue] >= 6) {
+//        pc.pageIndicatorTintColor = anjukeGray;
+//        pc.currentPageIndicatorTintColor = SYSTEM_TABBAR_SELECTCOLOR_DARK;
+//    }
+//    [self addSubview:pc];
 }
 
 - (void)setImgArray:(NSArray *)imgArray {
@@ -112,7 +112,7 @@ typedef enum {
         [self addPageController];
     }
     
-    CGFloat imgGapH = 20;
+    CGFloat imgGapH = 0;
     if ([AppManager isIOS6]) {
         imgGapH = 20; //iOS6去掉20像素状态栏
     }
@@ -129,9 +129,9 @@ typedef enum {
         
         //add hide btn
         if (i == imgArray.count - 1) {
-            int btnW = 200;
+            int btnW = 150;
             int btnOriginX = ([self getWindowWidth] - btnW)/2;
-            int btnH = 40;
+            int btnH = 45;
             UIButton *hideBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             
             if (imgArray.count == 1) {
@@ -139,10 +139,10 @@ typedef enum {
                 [hideBtn setBackgroundColor:[UIColor clearColor]];
             }
             else {
-                hideBtn.frame = CGRectMake(btnOriginX + [self getWindowWidth] * (imgArray.count - 1), [self getWindowHeight]-btnH-130, btnW, btnH);
+                hideBtn.frame = CGRectMake(btnOriginX + [self getWindowWidth] * (imgArray.count - 1), [self getWindowHeight]-btnH-80, btnW, btnH);
 //                [hideBtn setBackgroundColor:SYSTEM_TABBAR_SELECTCOLOR_DARK];
-                [hideBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
-                [hideBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button_press.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
+                [hideBtn setBackgroundImage:[[UIImage imageNamed:@"guild_btn_normal"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
+                [hideBtn setBackgroundImage:[[UIImage imageNamed:@"guild_btn_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
                 hideBtn.layer.cornerRadius = 3;
                 [hideBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 [hideBtn setTitle:@"立 即 体 验" forState:UIControlStateNormal];
