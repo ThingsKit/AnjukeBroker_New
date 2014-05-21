@@ -11,6 +11,7 @@
 typedef NS_ENUM(NSInteger, TableStatus) {
     STATUSFORNETWORKERROR = 0,
     STATUSFORNODATA,
+    STATUSFORNOGPS,
     STATUSFOROK
 };
 

@@ -49,8 +49,14 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     if (![CLLocationManager isLocationServiceEnabled]) {
-        UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alet show];
+//        UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//        [alet show];
+        [self.tableList setTableStatus:STATUSFORNOGPS];
+        [self.tablaData removeAllObjects];
+        [self.tableList reloadData];
+        [self donePullDown];
+        
+        return;
     }
     [self refreshGeo:nil];
 }
@@ -113,6 +119,18 @@
     
     [self.navigationController pushViewController:webVC animated:YES];
 }
+
+- (void)setStatusForNoGPS{
+    [self donePullDown];
+    
+    [self.tablaData removeAllObjects];
+    [self.tableList reloadData];
+    [self.tableList setTableStatus:STATUSFORNOGPS];
+    self.isLoading = NO;
+    self.map.showsUserLocation = NO;
+    [self stopAnimation];
+}
+
 #pragma mark - rotation method
 - (void)refreshGeo:(id)sender{
     if (self.isLoading) {
@@ -137,6 +155,15 @@
 }
 #pragma mark - request method
 - (void)doRequest{
+
+    if (![CLLocationManager isLocationServiceEnabled]) {
+        //        UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        //        [alet show];
+
+        [self performSelector:@selector(setStatusForNoGPS) withObject:nil afterDelay:0.5];
+        
+        return;
+    }
     if (!self.nowCoords.latitude) {
         self.isLoading = NO;
         return;
@@ -227,6 +254,14 @@
 
 #pragma mark MKMapViewDelegate -user location定位变化
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
+    if (![CLLocationManager isLocationServiceEnabled]) {
+        //        UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        //        [alet show];
+        [self performSelector:@selector(setStatusForNoGPS) withObject:nil afterDelay:0.5];
+        
+        return;
+    }
+
     self.nowCoords = [userLocation coordinate];
     self.map.showsUserLocation = NO;
     [self doRequest];
