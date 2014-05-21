@@ -40,6 +40,7 @@
 #import "RentNoPlanController.h"
 #import "RentBidDetailController.h"
 #import "RentFixedDetailController.h"
+#import "SegmentView.h"
 
 #define HOME_cellHeight 50
 #define Max_Account_Lb_Width 80
@@ -71,7 +72,7 @@
 @property (nonatomic, strong) UIControl *shadeControl;
 @property (nonatomic, strong) NSMutableDictionary *hzDataDic;
 @property (nonatomic, strong) NSMutableDictionary *ajkDataDic;
-@property (nonatomic, strong) UISegmentedControl *segment;
+@property (nonatomic, strong) SegmentView *segment;
 @property BOOL isCurrentHZ;
 
 @end
@@ -116,19 +117,16 @@
     return _shadeControl;
 }
 
-- (UISegmentedControl *)segment {
+- (SegmentView *)segment {
     if (_segment == nil) {
-        _segment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"二手房", @"租房", nil]];
-        //        _segment.hidden = YES;
-        _segment.frame = CGRectMake(0, 0, 120, 31);
-        _segment.segmentedControlStyle = UISegmentedControlStyleBar;
-        _segment.selectedSegmentIndex = 0;
-        [_segment setWidth:60 forSegmentAtIndex:0];
-        [_segment setWidth:60 forSegmentAtIndex:1];
-        _segment.tintColor = [UIColor blackColor];
-        [_segment setBackgroundImage:[UIImage imageNamed:@"wl_map_icon_5"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-        [_segment setBackgroundImage:[UIImage imageNamed:@"xproject_dialogue_greenbox"] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
-        [_segment addTarget:self action:@selector(selectIndex:) forControlEvents:UIControlEventValueChanged];
+        _segment = [[SegmentView alloc] initWithFrame:CGRectMake(0, 0, 140, 31)];
+        [_segment setDisSelectTitleColor:[UIColor brokerBlueGrayColor] selectedTitleColor:[UIColor colorWithHex:0x252d3a alpha:1]];
+        _segment.delegate = self;
+        _segment.backgroundColor = [UIColor brokerBlueGrayColor];
+        [_segment setLeftButTitle:@"二手房" withColor:[UIColor colorWithHex:0x252d3a alpha:1]];
+        [_segment setRightButTitle:@"租房" withColor:[UIColor colorWithHex:0x252d3a alpha:1]];
+        [_segment setSelectedBGColor:[UIColor colorWithHex:0x252d3a alpha:1]];
+        _segment.layer.cornerRadius = 3;
     }
     return _segment;
 }
@@ -189,7 +187,7 @@
     UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_TAB style:UITableViewStylePlain];
     self.myTable = tv;
     self.myTable.hidden = YES;
-    tv.backgroundColor = [UIColor lightGrayColor];
+    tv.backgroundColor = [UIColor colorWithHex:0xefeff4 alpha:1.0f];
     tv.delegate = self;
     tv.dataSource = self;
     tv.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -301,11 +299,9 @@
         self.shadeControl.hidden = YES;
     }];
 }
-
-- (void)selectIndex:(id)sender {
-    [self hideSelectionView];
-    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
-    switch (segmentedControl.selectedSegmentIndex) {
+#pragma mark - SegmentViewDelegate
+- (void)didSelectedIndex:(NSInteger)index {
+    switch (index) {
         case 0:
         {
             [self uploadAJKTabelData];
@@ -319,7 +315,26 @@
         default:
             break;
     }
+
 }
+//- (void)selectIndex:(id)sender {
+//    [self hideSelectionView];
+//    SegmentView *segmentedControl = (SegmentView *)sender;
+//    switch (segmentedControl.selectedSegmentIndex) {
+//        case 0:
+//        {
+//            [self uploadAJKTabelData];
+//        }
+//            break;
+//        case 1:
+//        {
+//            [self uploadHZTabelData];
+//        }
+//            break;
+//        default:
+//            break;
+//    }
+//}
 
 - (void)clickBG {
     [self doRequestPPC];
@@ -572,7 +587,7 @@
     if ([[self.ajkDataDic objectForKey:@"haveAjk"] isEqualToString:@"1"] && [[self.hzDataDic objectForKey:@"haveHz"] isEqualToString:@"1"]) {
         self.navigationItem.titleView = self.segment;
         self.segment.hidden = NO;
-        [self selectIndex:self.segment];
+        [self didSelectedIndex:self.segment.selectedSegmentIndex];
     } else {
         [self setTitleViewWithString:@"房源"];
         if ([[self.ajkDataDic objectForKey:@"haveAjk"] isEqualToString:@"1"]) {
@@ -644,15 +659,33 @@
     
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentify];
+        [cell setBackgroundColor:[UIColor whiteColor]];
+//        for (UIView *view in [cell subviews]) {
+//            [view setBackgroundColor:[UIColor whiteColor]];
+//        }
+//        for (UIView *view in [cell.contentView subviews]) {
+//            [view setBackgroundColor:[UIColor whiteColor]];
+//        }
     }
     cell.textLabel.text = [self.taskArray objectAtIndex:indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
-    ((UILabel *)[cell viewWithTag:101]).text = @"";
-    [(UILabel *)[cell viewWithTag:101] setBackgroundColor:[UIColor clearColor]];
-    
     BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, 1, 320 - 15, 1)];
     [cell.contentView addSubview:line];
+//
+    
+//    [cell.contentView setBackgroundColor:[UIColor whiteColor]];
+//    [cell.textLabel setBackgroundColor:[UIColor whiteColor]];
+//    [cell.detailTextLabel setBackgroundColor:[UIColor whiteColor]];
+//    [cell.accessoryView setBackgroundColor:[UIColor whiteColor]];
+//    cell.accessoryType = UITableViewCellAccessoryNone;
+//    UIView *tempView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+//    [tempView setBackgroundColor:[UIColor redColor]];
+//    cell.accessoryView = tempView;
+    
+//    ((UILabel *)[cell viewWithTag:101]).text = @"";
+//    [(UILabel *)[cell viewWithTag:101] setBackgroundColor:[UIColor clearColor]];
+    
+
     
     return cell;
 }

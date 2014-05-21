@@ -28,7 +28,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B49CEBD109444DA4AA5169A3"
+               BlueprintIdentifier = "0DBC5FAB4CA94DA09B255770"
                BuildableName = "libPods-AnjukeBroker_New.a"
                BlueprintName = "Pods-AnjukeBroker_New"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
