@@ -39,7 +39,9 @@ typedef enum {
 @property (nonatomic, assign) RTSelectorBackType backType;
 @property BOOL isHome;//判断是否是首页 是首页没有返回键
 @property (nonatomic, assign) id delegateVC;
-@property (nonatomic, assign) BOOL isModalCancelItemDisplay;
+
+// add by leo
+@property (nonatomic, assign) BOOL isModalCancelItemDisplay; //是否是模态视图
 
 @property BOOL isLoading; //网络请求锁，请求网络时锁住action sheet等动画线程操作
 

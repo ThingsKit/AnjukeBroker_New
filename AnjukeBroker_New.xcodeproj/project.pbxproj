@@ -181,6 +181,8 @@
 		27A42B5A18E2C4D300FADED3 /* wl_map_icon_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A42B5118E2C4D300FADED3 /* wl_map_icon_5.png */; };
 		27A42B5B18E2C4D300FADED3 /* wl_map_icon_5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A42B5218E2C4D300FADED3 /* wl_map_icon_5@2x.png */; };
 		27C61C68192B034B002076AE /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27C61C67192B034B002076AE /* AdSupport.framework */; };
+		670F011B192C3813004C95B2 /* AlbumDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F011A192C3813004C95B2 /* AlbumDetailViewController.m */; };
+		670F011E192C3827004C95B2 /* AlbumData.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F011D192C3827004C95B2 /* AlbumData.m */; };
 		6740D1C71908E08C005ED706 /* anjuke_icon_add_more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6740D1AF1908E08C005ED706 /* anjuke_icon_add_more@2x.png */; };
 		6740D1C81908E08C005ED706 /* anjuke_icon_add_more1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6740D1B01908E08C005ED706 /* anjuke_icon_add_more1@2x.png */; };
 		6740D1C91908E08C005ED706 /* anjuke_icon_bq_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6740D1B11908E08C005ED706 /* anjuke_icon_bq_delete@2x.png */; };
@@ -942,6 +944,10 @@
 		27A42B5118E2C4D300FADED3 /* wl_map_icon_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wl_map_icon_5.png; path = mapView/wl_map_icon_5.png; sourceTree = "<group>"; };
 		27A42B5218E2C4D300FADED3 /* wl_map_icon_5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wl_map_icon_5@2x.png"; path = "mapView/wl_map_icon_5@2x.png"; sourceTree = "<group>"; };
 		27C61C67192B034B002076AE /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		670F0119192C3813004C95B2 /* AlbumDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumDetailViewController.h; sourceTree = "<group>"; };
+		670F011A192C3813004C95B2 /* AlbumDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumDetailViewController.m; sourceTree = "<group>"; };
+		670F011C192C3827004C95B2 /* AlbumData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumData.h; sourceTree = "<group>"; };
+		670F011D192C3827004C95B2 /* AlbumData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumData.m; sourceTree = "<group>"; };
 		6740D1AF1908E08C005ED706 /* anjuke_icon_add_more@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_more@2x.png"; sourceTree = "<group>"; };
 		6740D1B01908E08C005ED706 /* anjuke_icon_add_more1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_more1@2x.png"; sourceTree = "<group>"; };
 		6740D1B11908E08C005ED706 /* anjuke_icon_bq_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_bq_delete@2x.png"; sourceTree = "<group>"; };
@@ -1999,6 +2005,10 @@
 				205790CF1904C17300419CA3 /* PublishFeatureViewController.m */,
 				204E66CD1894E7DB00546D51 /* PublishBigImageViewController.h */,
 				204E66CE1894E7DB00546D51 /* PublishBigImageViewController.m */,
+				670F0119192C3813004C95B2 /* AlbumDetailViewController.h */,
+				670F011A192C3813004C95B2 /* AlbumDetailViewController.m */,
+				670F011C192C3827004C95B2 /* AlbumData.h */,
+				670F011D192C3827004C95B2 /* AlbumData.m */,
 				977FCA8D182894F000945FB4 /* CommunityListViewController.h */,
 				977FCA8E182894F000945FB4 /* CommunityListViewController.m */,
 				B7E56D0D183DBAD600A0F7D2 /* AnjukeOnlineImgController.h */,
@@ -4451,6 +4461,7 @@
 				2011CD8218AB1D5300EEEA5C /* SystemMessageDetailViewController.m in Sources */,
 				B721095518278B4E00904FC7 /* SalePropertyListCell.m in Sources */,
 				2056A34918EE7E660022B5A5 /* AXMessage.m in Sources */,
+				670F011B192C3813004C95B2 /* AlbumDetailViewController.m in Sources */,
 				2056A36318EE7E7A0022B5A5 /* AXMessageAPILongLinkManager.m in Sources */,
 				6767D1491923519B004FEFF7 /* MyPropertyTableViewCell.m in Sources */,
 				B7EAD53018CD927200B28FEC /* UIColor+AXChatMessage.m in Sources */,
@@ -4474,6 +4485,7 @@
 				B7E1F6BD190E3BFA009F546B /* AXIMGDownloader.m in Sources */,
 				9751860218320D5F00C9A40A /* PhotoManager.m in Sources */,
 				6767D216192A14B3004FEFF7 /* NSString+EmojiExtension.m in Sources */,
+				670F011E192C3827004C95B2 /* AlbumData.m in Sources */,
 				F8CD18A31921A9800033733E /* CheckoutWebViewController.m in Sources */,
 				97F5E5E6182B38DA00B5CBCC /* PhotoShowView.m in Sources */,
 				979B083B18488A2800DD697E /* BigZhenzhenButton.m in Sources */,

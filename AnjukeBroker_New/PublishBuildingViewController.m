@@ -16,6 +16,10 @@
 #import "PropertyAuctionPublishViewController.h"
 #import "AJKBRadioButton.h"
 
+#import "AlbumData.h"
+#import "AlbumDetailViewController.h"
+#import "BK_RTNavigationController.h"
+
 typedef enum {
     Property_DJ = 0, //发房_定价
     Property_JJ, //发房_竞价
@@ -1795,15 +1799,17 @@ typedef enum {
     //模态弹出图片播放器
     PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
     pb.clickDelegate = self;
-    RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
+    
+    BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    if (_footClickType == 1)
+    if (_footClickType == 1) //室内图
     {
+//        pb.hasTextView = YES; //有照片编辑框
         [self.navigationController presentViewController:navController animated:YES completion:^(void) {
-            [pb showImagesWithNewArray:self.roomImageDetailArr atIndex:imageIndex];
+//            [pb showImagesWithNewArray:self.roomImageDetailArr atIndex:imageIndex];
             [pb showImagesWithArray:self.roomImageArray atIndex:imageIndex];
         }];
-    }else if (_footClickType == 2)
+    }else if (_footClickType == 2) //户型图
     {
         [self.navigationController presentViewController:navController animated:YES completion:^(void) {
             [pb showImagesWithArray:self.houseTypeImageArray atIndex:imageIndex];
@@ -1868,10 +1874,10 @@ typedef enum {
 
 - (void)viewDidFinishWithImageArr:(NSArray *)imageArray sender:(PublishBigImageViewController *)sender{
     
-    if (_footClickType == 1)
+    if (_footClickType == 1) //室内图
     {
         self.roomImageArray = [NSMutableArray arrayWithArray:imageArray];
-    }else if(_footClickType == 2)
+    }else if(_footClickType == 2) //户型图
     {
         self.houseTypeImageArray = [NSMutableArray arrayWithArray:imageArray];
     }
@@ -1879,12 +1885,12 @@ typedef enum {
     [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:imageArray]];
 }
 - (void)viewDidFinishWithImageNewArr:(NSArray *)imageNewArray{
-    if (_footClickType == 1)
+    if (_footClickType == 1) //室内图
     {
         [self.roomImageDetailArr removeAllObjects];
         self.roomImageDetailArr = [NSMutableArray arrayWithArray:imageNewArray];
         
-    }else if(_footClickType == 2)
+    }else if(_footClickType == 2) //户型图
     {
 //        self.houseTypeImageArray = [NSMutableArray arrayWithArray:imageNewArray];
     }
@@ -2013,6 +2019,7 @@ typedef enum {
     [self.imagePicker takePicture];
 }
 
+//拍照完成的回调
 - (void)closePicker_Click_WithImgNewArr:(NSMutableArray *)arr sender:(PhotoShowView *)sender{
     if (_footClickType == 2) {
         return;
@@ -2023,7 +2030,7 @@ typedef enum {
     int count = self.roomImageDetailArr.count;
     for (int i = 0; i < arr.count; i++) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[arr objectAtIndex:i]];
-        [dic setObject:[NSNumber numberWithInt:count + i] forKey:@"index"];
+        [dic setObject:[NSNumber numberWithInt:count + i] forKey:@"index"]; //赋值索引
         
         [self.roomImageDetailArr addObject:dic];
     }
@@ -2208,7 +2215,7 @@ typedef enum {
     
     ipc.cameraOverlayView = self.imageOverLay;
     
-    [self presentViewController:ipc animated:YES completion:nil];
+    [self presentViewController:ipc animated:YES completion:nil];//选择在线房型图
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {

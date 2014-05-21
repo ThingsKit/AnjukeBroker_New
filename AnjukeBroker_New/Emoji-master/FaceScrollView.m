@@ -38,7 +38,7 @@
     _scrollView.delegate = self;
     _scrollView.contentSize = CGSizeMake(_faceView.width, _faceView.height);
     //超出部分是否裁剪,默认是
-    _scrollView.clipsToBounds = NO;
+    _scrollView.clipsToBounds = YES;
     [_scrollView addSubview:_faceView];
     [self addSubview:_scrollView];
     

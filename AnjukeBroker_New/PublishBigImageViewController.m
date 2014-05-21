@@ -23,9 +23,9 @@
 @property (nonatomic, strong) UIImageView *leftIcon;
 @property (nonatomic, strong) UIImageView *rightIcon;
 
-@property BOOL isHouseType;
+@property (nonatomic, strong) UITextView* textView;
 
-@property (nonatomic, strong) NSMutableArray *imgNewArr;
+@property BOOL isHouseType;
 
 @end
 
@@ -39,14 +39,12 @@
 @synthesize isHouseType;
 @synthesize isEditProperty;
 @synthesize isNewAddImg;
-@synthesize imgNewArr;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.backType = RTSelectorBackTypeDismiss;
     }
     return self;
 }
@@ -62,13 +60,11 @@
     
     [self setTitleViewWithString:@"查看大图"];
     
-    UIBarButtonItem *deleteItem = [UIBarButtonItem getBarButtonItemWithString:@"删除" taget:self action:@selector(doDelete)];
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-        [self.navigationItem setRightBarButtonItem:deleteItem];
-    }else{//fix ios7 10像素偏离
-        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:-10.0];
-        [self.navigationItem setRightBarButtonItems:@[spacer, deleteItem]];
-    }
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
+    self.navigationItem.leftBarButtonItem = leftItem;
+    
+    UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(doDelete)];
+    self.navigationItem.rightBarButtonItem = deleteItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -80,18 +76,23 @@
 - (void)initModel {
     self.imgArr = [NSMutableArray array];
     self.buttonImgArr = [NSMutableArray array];
-    
-    self.imgNewArr = [NSMutableArray alloc];
 }
 
+//#define FRAME_WITH_NAV CGRectMake(0, 0, [self windowWidth], [self windowHeight] - STATUS_BAR_H - NAV_BAT_H)
+
 - (void)initDisplay {
-    UIScrollView *sv = [[UIScrollView alloc] initWithFrame:FRAME_WITH_NAV];
+    UIScrollView *sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], (568-20-44)/2)];
     sv.backgroundColor = SYSTEM_BLACK;
     sv.delegate = self;
     sv.pagingEnabled = YES;
     self.mainScroll = sv;
-    sv.contentSize = CGSizeMake([self windowWidth], [self currentViewHeight]);
+    sv.contentSize = CGSizeMake([self windowWidth], (568-20-44)/2);
     [self.view addSubview:sv];
+    
+    self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0, (568-20-44)/2, 320, (568-20-44)/2)];
+    [self.view addSubview:self.textView];
+    
+    
 }
 
 #pragma mark - Private Method
@@ -155,9 +156,7 @@
     
     //设置...
     if ([self.clickDelegate respondsToSelector:@selector(viewDidFinishWithImageArr:)]) {
-//        [self.clickDelegate viewDidFinishWithImageArr:self.imgArr];
-        [self.clickDelegate viewDidFinishWithImageArr:self.imgArr sender:self];
-        [self.clickDelegate viewDidFinishWithImageNewArr:self.imgNewArr];
+        [self.clickDelegate viewDidFinishWithImageArr:self.imgArr];
     }
     
     //do back
@@ -196,7 +195,7 @@
         }
     }
     
-    self.mainScroll.contentSize = CGSizeMake([self windowWidth] * self.imgArr.count, [self currentViewHeight]);
+    self.mainScroll.contentSize = CGSizeMake([self windowWidth] * self.imgArr.count, (568-20-44)/2);
     self.mainScroll.contentOffset = CGPointMake([self windowWidth] * self.currentIndex, 0);
     
     [self showArrowImg];
@@ -241,9 +240,7 @@
 }
 
 #pragma mark - Public Method
-- (void)showImagesWithNewArray:(NSArray *)imageNewArr atIndex:(int)index {
-    self.imgNewArr = [NSMutableArray arrayWithArray:imageNewArr];
-}
+
 - (void)showImagesWithArray:(NSArray *)imageArr atIndex:(int)index {
     [self.imgArr addObjectsFromArray:imageArr];
     if (self.isEditProperty) {
