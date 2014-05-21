@@ -46,14 +46,13 @@ typedef enum {
 @property (nonatomic, assign) PropertyUploadType uploadType;
 
 @property (nonatomic, assign) NSInteger footClickType;////1,室内图2,户型图
-@property (nonatomic, strong) NSMutableArray *roomImageDetailArr;
+
 @end
 
 @implementation PublishBuildingViewController
 @synthesize footerViewDict = _footerViewDict;//footviewdict
 @synthesize footClickType = _footClickType;//操作foot的tag
 @synthesize footerView;
-@synthesize roomImageDetailArr;
 
 - (void)dealloc {
     self.tableViewList.delegate = nil;
@@ -141,7 +140,6 @@ typedef enum {
     
     self.fixGroupArr = [NSArray array];
     
-    self.roomImageDetailArr = [[NSMutableArray alloc] init];
 }
 
 - (void)initDisplay {
@@ -658,6 +656,7 @@ typedef enum {
         }
         else //属于房型图类型
             [dic setObject:@"2" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
+        
     }
     else //二手房
     {
@@ -712,7 +711,7 @@ typedef enum {
     else { //二手房新增是否满五年、是否唯一、最低首付字段
         [params setObject:[self.property.isOnly stringValue] forKey:@"isOnly"];
         [params setObject:[self.property.isFullFive stringValue] forKey:@"isFullFive"];
-        [params setObject:self.property.minDownPay forKey:@"minDownPay"];
+//        [params setObject:self.property.minDownPay forKey:@"minDownPay"];
     }
     
     if (self.isHaozu) {
@@ -1149,6 +1148,20 @@ typedef enum {
     }
     else {
         switch (self.selectedIndex) { //二手房
+            case AJK_PICKER_ROOMS://户型
+            {
+                [idStr appendString:strValue1];
+                [idStr appendString:[NSString stringWithFormat:@",%@", strValue2]];
+                [idStr appendString:[NSString stringWithFormat:@",%@", strValue3]];
+                self.property.rooms = idStr;
+            }
+                break;
+            case AJK_PICKER_ORIENTATION://朝向
+            {
+                [idStr appendString:strValue1];
+                self.property.exposure = idStr;
+            }
+                break;
             case AJK_PICKER_FLOORS: //楼层
             {
                 [idStr appendString:strValue1];
@@ -1182,11 +1195,11 @@ typedef enum {
         return NO;
     }
     if ([self.property.rooms isEqualToString:@""]) {
-        [self showInfo:@"请选择户型（房型选项）"];
+        [self showInfo:@"请选择户型"];
         return NO;
     }
     if ([self.property.exposure isEqualToString:@""]) {
-        [self showInfo:@"请选择朝向（房型选项）"];
+        [self showInfo:@"请选择朝向"];
         return NO;
     }
     
@@ -1237,7 +1250,7 @@ typedef enum {
 //            [self showInfo:@"请填写最低首付"];
 //            return NO;
 //        }
-        
+        /*
         if (self.property.minDownPay.length > 0) {
             //最低首付
 //            if ([self.property.minDownPay intValue] *10000 < [self.property.price intValue] * 0.3 ) {
@@ -1253,7 +1266,7 @@ typedef enum {
                 [self showInfo:@"最低首付必须为正整数"];
                 return NO;
             }
-        }
+        }*/
     }
     
     return YES;
@@ -1582,7 +1595,7 @@ typedef enum {
                 break;
             case AJK_PICKER_ORIENTATION://朝向
             {
-                self.selectedIndex = AJK_PICKER_ROOMS;
+                self.selectedIndex = AJK_PICKER_FLOORS;
                 self.selectedRow --;
                 self.selectedSection = 1;
                 isPicker = YES;
@@ -1853,7 +1866,6 @@ typedef enum {
     {
         pb.hasTextView = YES; //有照片编辑框
         [self.navigationController presentViewController:navController animated:YES completion:^(void) {
-//            [pb showImagesWithNewArray:self.roomImageDetailArr atIndex:imageIndex];
             [pb showImagesWithArray:self.roomImageArray atIndex:imageIndex];
         }];
     }else if (_footClickType == 2) //户型图
@@ -1931,6 +1943,7 @@ typedef enum {
     
     [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:imageArray]];
 }
+<<<<<<< HEAD
 - (void)viewDidFinishWithImageNewArr:(NSArray *)imageNewArray{
     if (_footClickType == 1) //室内图
     {
@@ -1947,6 +1960,7 @@ typedef enum {
     [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:imageNewArray]];
 
 }
+
 - (void)onlineHouseTypeImgDelete {
     //do nothing
 }
@@ -2066,6 +2080,7 @@ typedef enum {
     [self.imagePicker takePicture];
 }
 
+
 //拍照完成的回调
 - (void)closePicker_Click_WithImgNewArr:(NSMutableArray *)arr sender:(PhotoShowView *)sender{
     if (_footClickType == 2) {
@@ -2082,6 +2097,7 @@ typedef enum {
         [self.roomImageDetailArr addObject:dic];
     }
 }
+
 - (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr sender:(PhotoShowView *)sender{
     for (int i = 0; i < arr.count; i ++) {
         //保存原始图片、得到url

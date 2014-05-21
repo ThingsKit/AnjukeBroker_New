@@ -385,7 +385,7 @@
     else { //二手房新增是否满五年、是否唯一、最低首付字段
         [params setObject:[self.property.isOnly stringValue] forKey:@"isOnly"];
         [params setObject:[self.property.isFullFive stringValue] forKey:@"isFullFive"];
-        [params setObject:self.property.minDownPay forKey:@"minDownPay"];
+//        [params setObject:self.property.minDownPay forKey:@"minDownPay"];
     }
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUpdatePropertyFinished:)];
