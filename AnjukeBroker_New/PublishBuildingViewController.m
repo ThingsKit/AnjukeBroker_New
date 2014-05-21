@@ -1798,13 +1798,14 @@ typedef enum {
     //查看大图
     //模态弹出图片播放器
     PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
+    pb.isModalCancelItemDisplay = YES;
     pb.clickDelegate = self;
     
     BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     if (_footClickType == 1) //室内图
     {
-//        pb.hasTextView = YES; //有照片编辑框
+        pb.hasTextView = YES; //有照片编辑框
         [self.navigationController presentViewController:navController animated:YES completion:^(void) {
 //            [pb showImagesWithNewArray:self.roomImageDetailArr atIndex:imageIndex];
             [pb showImagesWithArray:self.roomImageArray atIndex:imageIndex];

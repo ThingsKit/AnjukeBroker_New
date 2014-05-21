@@ -483,7 +483,7 @@
     else {
         //产看第几张图片通过数组index给到
         if ([self.clickDelegate respondsToSelector:@selector(imageDidClickWithIndex:)]) {
-            [self.clickDelegate imageDidClickWithIndex:index -1];
+            [self.clickDelegate imageDidClickWithIndex:index];
         }
     }
 }
