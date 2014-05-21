@@ -2014,6 +2014,9 @@ typedef enum {
 }
 
 - (void)closePicker_Click_WithImgNewArr:(NSMutableArray *)arr sender:(PhotoShowView *)sender{
+    if (_footClickType == 2) {
+        return;
+    }
     if (arr.count == 0) {
         return;
     }

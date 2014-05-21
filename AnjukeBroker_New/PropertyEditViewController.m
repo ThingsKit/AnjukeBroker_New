@@ -14,6 +14,7 @@
 
 @property int deleteShowedImgIndex; //需要删除的已有图片的index
 @property (nonatomic, strong) BigZhenzhenButton *deleteButton;
+@property (nonatomic, strong) NSMutableArray *roomImageDetailArr;
 
 @end
 
@@ -26,6 +27,7 @@
 @synthesize propertyDelegate;
 @synthesize deleteShowedImgIndex;
 @synthesize deleteButton;
+@synthesize roomImageDetailArr;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -73,6 +75,8 @@
     
     self.roomShowedImgArray = [NSMutableArray array];
     self.houseTypeShowedImgArray = [NSMutableArray array];
+    
+    self.roomImageDetailArr = [NSMutableArray array];
 }
 
 - (void)initDisplay {
@@ -287,6 +291,9 @@
     }
     
     NSDictionary *dic = [[[response content] objectForKey:@"data"] objectForKey:@"propInfo"];
+    
+    //处理imgNewArr信息
+//    self.roomImageDetailArr = ;
     
     //保存房源详情 //映射到房源object，并遍历得到每个数据的index
     [self setPropertyWithDic:dic];
@@ -686,6 +693,8 @@
         
         pb.isNewAddImg = [self isClickImgNewAddWithClickIndex:imageIndex];
         [pb showImagesWithArray:editImgShowArr atIndex:imageIndex];
+        [pb showImagesWithNewArray:self.roomImageDetailArr atIndex:imageIndex];
+
     }];
 }
 
@@ -708,7 +717,21 @@
 }
 
 #pragma mark - PhotoViewClickDelegate
-
+- (void)closePicker_Click_WithImgNewArr:(NSMutableArray *)arr sender:(PhotoShowView *)sender{
+//    if (_footClickType == 2) {
+//        return;
+//    }
+    if (arr.count == 0) {
+        return;
+    }
+    int count = self.roomImageDetailArr.count;
+    for (int i = 0; i < arr.count; i++) {
+        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[arr objectAtIndex:i]];
+        [dic setObject:[NSNumber numberWithInt:count + i] forKey:@"index"];
+        
+        [self.roomImageDetailArr addObject:dic];
+    }
+}
 - (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr {
     for (int i = 0; i < arr.count; i ++) {
         //保存原始图片、得到url
@@ -732,6 +755,8 @@
 #pragma mark - PublishBigImageViewClickDelegate
 
 - (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex {
+    //删除对应的图片dic
+    [self.roomImageDetailArr removeObjectAtIndex:deleteIndex];
     
     //删除对应图片
     if ([self isClickImgNewAddWithClickIndex:deleteIndex]) { //新添加图片
