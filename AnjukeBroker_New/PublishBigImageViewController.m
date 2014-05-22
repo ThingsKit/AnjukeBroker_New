@@ -229,6 +229,10 @@
     if ([self.clickDelegate respondsToSelector:@selector(viewDidFinishWithImageArr:)]) {
         [self.clickDelegate viewDidFinishWithImageArr:self.imgArr];
     }
+    if ([self.clickDelegate respondsToSelector:@selector(viewDidFinishWithImageArr:sender:)])
+    {
+        [self.clickDelegate viewDidFinishWithImageArr:self.imgArr sender:self];
+    }
     
     //do back
     [self dismissViewControllerAnimated:YES completion:nil];

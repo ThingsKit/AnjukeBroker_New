@@ -47,6 +47,8 @@ typedef enum {
 
 @property (nonatomic, assign) NSInteger footClickType;////1,室内图2,户型图
 
+@property (nonatomic, strong) NSMutableArray *imgdescArr;
+
 @end
 
 @implementation PublishBuildingViewController
@@ -662,9 +664,12 @@ typedef enum {
     {
         if (self.uploadImgIndex < self.uploadImg_houseTypeIndex) { //属于室内图类型
             [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+            [dic setObject:[_imgdescArr objectAtIndex:self.uploadImgIndex] forKey:@"description"];
         }
         else //属于房型图类型
             [dic setObject:@"3" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+        
+        
     }
     
     if (self.uploadImgIndex >= [self allImageCount]) {
@@ -1932,7 +1937,7 @@ typedef enum {
 #pragma mark - PublishBigImageViewClickDelegate
 
 - (void)viewDidFinishWithImageArr:(NSArray *)imageArray sender:(PublishBigImageViewController *)sender{
-    
+    _imgdescArr = [NSMutableArray arrayWithArray:sender.imageDescArray];
     if (_footClickType == 1) //室内图
     {
         self.roomImageArray = [NSMutableArray arrayWithArray:imageArray];
@@ -1943,12 +1948,11 @@ typedef enum {
     
     [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:imageArray]];
 }
-<<<<<<< HEAD
+
 - (void)viewDidFinishWithImageNewArr:(NSArray *)imageNewArray{
     if (_footClickType == 1) //室内图
     {
-        [self.roomImageDetailArr removeAllObjects];
-        self.roomImageDetailArr = [NSMutableArray arrayWithArray:imageNewArray];
+
         
     }else if(_footClickType == 2) //户型图
     {
@@ -2080,23 +2084,6 @@ typedef enum {
     [self.imagePicker takePicture];
 }
 
-
-//拍照完成的回调
-- (void)closePicker_Click_WithImgNewArr:(NSMutableArray *)arr sender:(PhotoShowView *)sender{
-    if (_footClickType == 2) {
-        return;
-    }
-    if (arr.count == 0) {
-        return;
-    }
-    int count = self.roomImageDetailArr.count;
-    for (int i = 0; i < arr.count; i++) {
-        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[arr objectAtIndex:i]];
-        [dic setObject:[NSNumber numberWithInt:count + i] forKey:@"index"]; //赋值索引
-        
-        [self.roomImageDetailArr addObject:dic];
-    }
-}
 
 - (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr sender:(PhotoShowView *)sender{
     for (int i = 0; i < arr.count; i ++) {
