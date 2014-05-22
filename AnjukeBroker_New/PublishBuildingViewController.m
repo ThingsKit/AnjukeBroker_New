@@ -2264,6 +2264,7 @@ typedef enum {
     if ( [UIImagePickerController isFlashAvailableForCameraDevice:self.imagePicker.cameraDevice] ) {
         self.imagePicker.cameraFlashMode = UIImagePickerControllerCameraFlashModeAuto;
     }
+    
     //拍照预览图
     PhotoShowView *pv = [[PhotoShowView alloc] initWithFrame:CGRectMake(0, [self windowHeight] - PHOTO_SHOW_VIEW_H, [self windowWidth], PHOTO_SHOW_VIEW_H)];
     self.imageOverLay = pv;

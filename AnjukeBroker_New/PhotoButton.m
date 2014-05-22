@@ -26,7 +26,8 @@
         BK_WebImageView *img = [[BK_WebImageView alloc] initWithFrame:self.bounds];
         self.photoImg = img;
         img.clipsToBounds = NO;
-        img.contentMode = UIViewContentModeScaleAspectFit;
+        img.contentMode = UIViewContentModeScaleToFill;
+        //UIViewContentModeScaleAspectFit
         img.userInteractionEnabled = NO;
         [self addSubview:img];
         
@@ -44,11 +45,11 @@
 */
 
 - (void)showDeleteBtn {
-    CGFloat dBtnW = 20;
+    CGFloat dBtnW = 18;
     
     UIButton *deleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.deletelBtn = deleBtn;
-    deleBtn.frame = CGRectMake(self.frame.size.width - dBtnW +5, -5, dBtnW, dBtnW);
+    deleBtn.frame = CGRectMake(self.frame.size.width - dBtnW/2, -dBtnW/2, dBtnW, dBtnW);
     deleBtn.backgroundColor = [UIColor clearColor];
     [deleBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_delete.png"] forState:UIControlStateNormal];
     [self addSubview:deleBtn];

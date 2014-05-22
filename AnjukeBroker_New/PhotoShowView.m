@@ -14,8 +14,8 @@
 
 #define PHOTO_BTN_H 78                              //拍照按钮高
 #define PHOTO_SV_H PHOTO_SHOW_VIEW_H - PHOTO_BTN_H  //拍照scrollView高
-#define IMG_GAP 5                                   //预览图间距
-#define IMG_H PHOTO_SV_H -IMG_GAP*2
+#define IMG_GAP 15                                   //预览图间距
+#define IMG_H 65
 
 @implementation PhotoShowView
 @synthesize clickDelegate;
@@ -28,7 +28,7 @@
     if (self) {
         // Initialization code
         
-        self.backgroundColor = SYSTEM_BLACK;//[UIColor whiteColor];
+        self.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.6];
         
         [self initModel];
         [self initDisplayWithFrame:frame];
@@ -50,7 +50,7 @@
     //photo sv
     UIScrollView *sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, PHOTO_SV_H)];
     self.photoSV = sv;
-    sv.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.6];
+    sv.backgroundColor = [UIColor blackColor];
     [self addSubview:sv];
     
     //bottom BG
@@ -59,7 +59,7 @@
     [self addSubview:bottomBG];
     
     UIButton *takeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    takeBtn.frame = CGRectMake(frame.size.width/2-BtnW/2, 0, BtnW, BtnW);
+    takeBtn.frame = CGRectMake(frame.size.width/2-BtnW/2, PHOTO_BTN_H/2-BtnW/2, BtnW, BtnW);
     takeBtn.backgroundColor = [UIColor clearColor];
 //    takeBtn.layer.borderColor = SYSTEM_BLACK.CGColor;
 //    takeBtn.layer.borderWidth = 1;
@@ -168,8 +168,8 @@
 
 - (void)doCancel:(id)sender { //取消拍照及已拍图片
     [self.imgArray removeAllObjects];
-    if ([self.clickDelegate respondsToSelector:@selector(closePicker_Click_WithImgArr:)]) {
-        [self.clickDelegate closePicker_Click_WithImgArr:self.imgArray];
+    if ([self.clickDelegate respondsToSelector:@selector(closePicker_Click_WithImgArr:sender:)]) {
+        [self.clickDelegate closePicker_Click_WithImgArr:self.imgArray sender:self];
     }
 }
 
