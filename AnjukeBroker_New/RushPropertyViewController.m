@@ -481,13 +481,13 @@
     NSString *method = @"commission/propertyList/";
     if (params == nil) {
         //测试用
-        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"147468", @"brokerId", nil];
-        //        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"147468", @"brokerId", nil];
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }else{
         [params setObject:[LoginManager getToken] forKey:@"token"];
-        //        [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
-        [params setObject:@"147468" forKey:@"brokerId"];
+//        [params setObject:@"147468" forKey:@"brokerId"];
+        [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }
     
@@ -498,13 +498,13 @@
     NSString *method = @"commission/myPropertyList/";
     if (params == nil) {
         //测试用
-        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"147468", @"brokerId", nil];
-        //        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"147468", @"brokerId", nil];
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }else{
         [params setObject:[LoginManager getToken] forKey:@"token"];
-        //        [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
-        [params setObject:@"147468" forKey:@"brokerId"];
+//        [params setObject:@"147468" forKey:@"brokerId"];
+        [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }
 }

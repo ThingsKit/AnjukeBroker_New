@@ -214,8 +214,8 @@
     NSString *method = @"commission/rush/";
     //    [params setObject:@"pgdir" forKey:@"pgpmt20865"]; //测试用后门
     [params setObject:[LoginManager getToken] forKey:@"token"];
-//    [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
-    [params setObject:@"147468" forKey:@"brokerId"]; //测试用
+    [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
+//    [params setObject:@"147468" forKey:@"brokerId"]; //测试用
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     
 }
