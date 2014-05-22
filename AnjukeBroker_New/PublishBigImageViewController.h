@@ -30,7 +30,6 @@
 
 @property (nonatomic, assign) BOOL hasTextView;
 
-- (void)showImagesWithNewArray:(NSArray *)imageArr atIndex:(int)index;
 - (void)showImagesWithArray:(NSArray *)imageArr atIndex:(int)index;
 - (void)showImagesForOnlineHouseTypeWithDic:(NSDictionary *)dic;
 

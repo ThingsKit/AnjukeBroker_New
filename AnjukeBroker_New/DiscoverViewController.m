@@ -135,7 +135,7 @@
     }else if(indexPath.row == 3){
         NSLog(@"模态视图");
         RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
-        viewController.isModalCancelItemDisplay = YES; //设置为模态视图
+        viewController.backType = RTSelectorBackTypeDismiss;
         [viewController setHidesBottomBarWhenPushed:YES];
         BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:viewController];
         [self.view.window.rootViewController presentViewController:navi animated:YES completion:nil];

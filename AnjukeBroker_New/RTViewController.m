@@ -49,20 +49,8 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    if (self.isModalCancelItemDisplay) {
-        UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(0, 0, 45, 30);
-        [button setTitle:@"取消" forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        button.titleLabel.font = [UIFont systemFontOfSize:13.0f];
-        [button addTarget:self action:@selector(cancelAction:) forControlEvents:UIControlEventTouchUpInside];
-        
-        UIBarButtonItem* left = [[UIBarButtonItem alloc] initWithCustomView:button];
-        self.navigationItem.leftBarButtonItem = left;
-        
-    }else{
-        [self addBackButton];
-    }
+    
+    [self addBackButton];
     
     [self initModel];
     [self initDisplay];
@@ -71,9 +59,6 @@
 
 #pragma mark -
 #pragma mark 模态视图的返回动作
-- (void)cancelAction:(UIButton*)button {
-    [self dismissViewControllerAnimated:YES completion:nil]; //释放模态视图
-}
 
 - (void)enterBackground {
     [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];

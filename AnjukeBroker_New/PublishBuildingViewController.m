@@ -1872,6 +1872,7 @@ typedef enum {
     //查看大图
     //模态弹出图片播放器
     PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
+    pb.backType = RTSelectorBackTypeDismiss;
     pb.imageDescArray = _imgdescArr;
     pb.isModalCancelItemDisplay = YES;
     pb.clickDelegate = self;

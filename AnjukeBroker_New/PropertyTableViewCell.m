@@ -104,7 +104,9 @@
 
 
 - (void)setButtonAble{
-    [self.button setBackgroundColor:[UIColor colorWithRed:79.0/255 green:164.0/255 blue:236.0/255 alpha:1]];
+    [self.button setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_weituo_button_on"] forState:UIControlStateNormal];
+    [self.button setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_weituo_button_on_press"] forState:UIControlStateHighlighted];
+//    [self.button setBackgroundColor:[UIColor colorWithRed:79.0/255 green:164.0/255 blue:236.0/255 alpha:1]];
     [self.button setTitle:@"抢委托" forState:UIControlStateNormal];
     [self.button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.button.enabled = YES;

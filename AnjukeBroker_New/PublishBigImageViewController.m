@@ -9,7 +9,7 @@
 #import "PublishBigImageViewController.h"
 #import "Util_UI.h"
 #import "PhotoButton.h"
-
+#import "UIViewExt.h"
 #import "E_Photo.h"
 
 @interface PublishBigImageViewController ()
@@ -24,6 +24,8 @@
 @property (nonatomic, strong) UIImageView *rightIcon;
 
 @property (nonatomic, strong) UITextView* textView;
+@property (nonatomic, strong) UIView* mainView;
+@property (nonatomic, strong) UILabel* numberOfText;
 //@property (nonatomic, strong) NSMutableArray* imageDescArray;
 
 @property BOOL isHouseType;
@@ -34,7 +36,6 @@
 @synthesize clickDelegate;
 @synthesize imgArr;
 @synthesize buttonImgArr;
-@synthesize mainScroll;
 @synthesize currentIndex;
 @synthesize leftIcon, rightIcon;
 @synthesize isHouseType;
@@ -48,6 +49,7 @@
     if (self) {
         // Custom initialization
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
         
     }
     return self;
@@ -64,11 +66,7 @@
     
     [self setTitleViewWithString:@"查看大图"];
     
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(doBack:)];
-    self.navigationItem.leftBarButtonItem = leftItem;
-    
-    UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(doDelete)];
-    self.navigationItem.rightBarButtonItem = deleteItem;
+    [self addRightButton:@"删除" andPossibleTitle:nil];
     
 }
 
@@ -83,62 +81,47 @@
     self.buttonImgArr = [NSMutableArray array];
 }
 
-#pragma mark -
-#pragma mark 键盘监听事件
-/* NSLog(@"%@", notification.userInfo);
- 
- UIKeyboardAnimationCurveUserInfoKey = 7;
- UIKeyboardAnimationDurationUserInfoKey = "0.4";
- UIKeyboardBoundsUserInfoKey = "NSRect: {{0, 0}, {320, 216}}";
- UIKeyboardCenterBeginUserInfoKey = "NSPoint: {160, 1028}";
- UIKeyboardCenterEndUserInfoKey = "NSPoint: {160, 460}";
- UIKeyboardFrameBeginUserInfoKey = "NSRect: {{0, 920}, {320, 216}}";
- UIKeyboardFrameChangedByUserInteraction = 0;
- UIKeyboardFrameEndUserInfoKey = "NSRect: {{0, 352}, {320, 216}}";
- 
- */
-
-//键盘显示之前调用
-- (void)keyboardWillShow:(NSNotification*)notification {
-    //结构体包装成NSValue对象
-    NSValue* value = [notification.userInfo objectForKey:@"UIKeyboardFrameEndUserInfoKey"];
-//    _keyboardHeight = [value CGRectValue].size.height; //键盘高度
-//    self.editorBar.bottom = ScreenHeight - _keyboardHeight - 20 - 44; //减去状态栏和导航栏
-//    self.textView.height = self.editorBar.top;
-    
-    //设置表情scrollView的位置,高度
-    //    _scrollViewEmotion.top = self.editroBar.bottom;
-    //    _scrollViewEmotion.height = height;
-    
-    //    NSLog(@"%f", self.editroBar.origin.y);
-    //    CGRect rect = [self.editroBar convertRect:self.editroBar.bounds toView:self.view.window];
-    //    NSLog(@"%f", rect.origin.y);
-    
-}
-
 //#define FRAME_WITH_NAV CGRectMake(0, 0, [self windowWidth], [self windowHeight] - STATUS_BAR_H - NAV_BAT_H)
 
 - (void)initDisplay {
-    UIScrollView *sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight])];
-    sv.backgroundColor = SYSTEM_BLACK;
-    sv.delegate = self;
-    sv.pagingEnabled = YES;
-    self.mainScroll = sv;
-    sv.contentSize = CGSizeMake([self windowWidth], [self currentViewHeight]);
-    [self.view addSubview:sv];
+    _mainScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight])];
+    _mainScroll.backgroundColor = SYSTEM_BLACK;
+    _mainScroll.delegate = self;
+    _mainScroll.pagingEnabled = YES;
+    _mainScroll.contentSize = CGSizeMake([self windowWidth], [self currentViewHeight]);
     
     if (self.hasTextView) {
-        self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0, [self currentViewHeight], 320, [self currentViewHeight])];
-        self.textView.delegate = self;
-        [self.view addSubview:self.textView];
+        _textView = [[UITextView alloc] initWithFrame:CGRectMake(10, [self currentViewHeight]+5, 300, 60)];
+        _textView.layer.borderColor = [UIColor colorWithWhite:0.7 alpha:1].CGColor;
+        _textView.layer.borderWidth = .5f;
+        _textView.layer.cornerRadius = 5;
+        [_textView setFont:[UIFont systemFontOfSize:13.0f]];
+        _textView.delegate = self;
     }
     
+    if (self.hasTextView) {
+        _mainView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, self.mainScroll.height + self.textView.height)];
+        [_mainView addSubview:_mainScroll];
+        [_mainView addSubview:_textView];
+        
+        _numberOfText = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth-45, _textView.bottom, 45, 20)];
+        _numberOfText.font = [UIFont systemFontOfSize:12.0f];
+        [_numberOfText setTextColor:[UIColor blackColor]];
+        _numberOfText.text = @"20个字";
+        [_mainView addSubview:_numberOfText];
+        
+    }else{
+        _mainView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, self.mainScroll.height)];
+        [_mainView addSubview:_mainScroll];
+    }
+    
+    [self.view addSubview:_mainView];
     
 }
 
 - (NSInteger)currentViewHeight{
     if (self.hasTextView) {
-        return (ScreenHeight-20-44)/2;
+        return (ScreenHeight-20-44) - 60 -25;
     }
     return ScreenHeight-20-44;
     
@@ -146,7 +129,7 @@
 
 #pragma mark - Private Method
 
-- (void)doDelete {
+- (void)rightButtonAction:(id)sender {
     if (self.isEditProperty) {
         if (self.isHouseType) {
             //通知删除在线户型图。。。并退出
@@ -253,6 +236,10 @@
     
     [self showArrowImg];
     
+    if (self.hasTextView && _imageDescArray) {
+        _textView.text = [_imageDescArray objectAtIndex:self.currentIndex];
+    }
+    
     [self hideLoadWithAnimated:YES];
 }
 
@@ -283,8 +270,8 @@
             self.rightIcon = rightImg;
         }
         
-        [self.view addSubview:self.leftIcon];
-        [self.view addSubview:self.rightIcon];
+        [_mainView addSubview:self.leftIcon];
+        [_mainView addSubview:self.rightIcon];
     }
     else { //hide
         [self.leftIcon removeFromSuperview];
@@ -293,18 +280,6 @@
 }
 
 #pragma mark - Public Method
-- (void)showImagesWithNewArray:(NSArray *)imageArr atIndex:(int)index{
-    [self.imgArr addObjectsFromArray:imageArr];
-    if (self.isEditProperty) {
-        self.editDeleteImgIndex = index;
-        self.currentIndex = 0;
-    }
-    else
-        self.currentIndex = index;
-    
-    [self drawImageScroll];
-}
-
 
 - (void)showImagesWithArray:(NSArray *)imageArr atIndex:(int)index {
     [self.imgArr addObjectsFromArray:imageArr];
@@ -314,17 +289,6 @@
     }
     else
         self.currentIndex = index;
-    
-    //初始化数组
-//    _imageDescArray = [[NSMutableArray alloc] initWithCapacity:self.imgArr.count];
-//    for (int i = 0; i< self.imgArr.count; i++){
-//        E_Photo* photo = (E_Photo*)[self.imgArr objectAtIndex:i];
-//        if (photo.imageDic && [photo.imageDic objectForKey:@"imageDesc"]){
-//            [_imageDescArray insertObject:[photo.imageDic objectForKey:@"imageDesc"] atIndex:self.currentIndex];
-//        }else{
-//            [_imageDescArray insertObject:@"" atIndex:self.currentIndex];
-//        }
-//    }
     
     [self drawImageScroll];
     
@@ -351,6 +315,41 @@
 }
 
 #pragma mark -
+#pragma mark 键盘监听事件
+/* NSLog(@"%@", notification.userInfo);
+ 
+ UIKeyboardAnimationCurveUserInfoKey = 7;
+ UIKeyboardAnimationDurationUserInfoKey = "0.4";
+ UIKeyboardBoundsUserInfoKey = "NSRect: {{0, 0}, {320, 216}}";
+ UIKeyboardCenterBeginUserInfoKey = "NSPoint: {160, 1028}";
+ UIKeyboardCenterEndUserInfoKey = "NSPoint: {160, 460}";
+ UIKeyboardFrameBeginUserInfoKey = "NSRect: {{0, 920}, {320, 216}}";
+ UIKeyboardFrameChangedByUserInteraction = 0;
+ UIKeyboardFrameEndUserInfoKey = "NSRect: {{0, 352}, {320, 216}}";
+ 
+ */
+
+//键盘显示之前调用
+- (void)keyboardWillShow:(NSNotification*)notification {
+    //结构体包装成NSValue对象
+    NSValue* value = [notification.userInfo objectForKey:@"UIKeyboardFrameEndUserInfoKey"];
+    CGFloat keyboardHeight = [value CGRectValue].size.height; //键盘高度
+    __block PublishBigImageViewController* this = self;
+    [UIView animateWithDuration:0.3 animations:^{
+        this.mainView.bottom = ScreenHeight - keyboardHeight - 20 - 44 -25;
+    }];
+    
+}
+
+- (void)keyboardDidHide:(NSNotification*)notification {
+    //结构体包装成NSValue对象
+    __block PublishBigImageViewController* this = self;
+    [UIView animateWithDuration:0.3 animations:^{
+        this.mainView.bottom = ScreenHeight - 20 - 44 - 25;
+    }];
+}
+
+#pragma mark -
 #pragma mark UITextViewDelegate
 - (void)textViewDidBeginEditing:(UITextView *)textView{
     
@@ -358,7 +357,11 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
     NSLog(@"%d", self.currentIndex);
-    [_imageDescArray insertObject:self.textView.text atIndex:self.currentIndex];
+    if (_imageDescArray) {
+        [_imageDescArray insertObject:self.textView.text atIndex:self.currentIndex];
+    }else{
+        NSLog(@"赋值数组为空");
+    }
     
 }
 
@@ -373,8 +376,8 @@
 
 #pragma mark - UIScrollView Delegate
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    self.currentIndex = scrollView.contentOffset.x / [self windowWidth];
-    DLog(@"index [%d]", self.currentIndex);
+//    self.currentIndex = scrollView.contentOffset.x / [self windowWidth];
+//    DLog(@"index [%d]", self.currentIndex);
     
 //    if (self.hasTextView) {
 //        [_imageDescArray insertObject:self.textView.text atIndex:self.currentIndex];
@@ -386,10 +389,9 @@
     self.currentIndex = scrollView.contentOffset.x / [self windowWidth];
     DLog(@"index [%d]", self.currentIndex);
     
-//    if (self.hasTextView) {
-//        NSString* test = [_imageDescArray objectAtIndex:self.currentIndex];
-//        self.textView.text = test;
-//    }
+    if (self.hasTextView) {
+        _textView.text = [_imageDescArray objectAtIndex:self.currentIndex];
+    }
     
 }
 

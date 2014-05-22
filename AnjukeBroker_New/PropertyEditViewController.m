@@ -693,7 +693,6 @@
         
         pb.isNewAddImg = [self isClickImgNewAddWithClickIndex:imageIndex];
         [pb showImagesWithArray:editImgShowArr atIndex:imageIndex];
-        [pb showImagesWithNewArray:self.roomImageDetailArr atIndex:imageIndex];
 
     }];
 }
