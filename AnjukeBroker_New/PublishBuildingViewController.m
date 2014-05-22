@@ -475,10 +475,12 @@ typedef enum {
     self.property_ID = [NSString stringWithString:propertyID];
     
     //tabController切换
+    /*
     int tabIndex = 3;
     if (self.isHaozu) {
         tabIndex = 4;
-    }
+    }*/
+    int tabIndex = 0;
     
     self.isBid = NO;
     
@@ -895,10 +897,13 @@ typedef enum {
         [self.navigationController pushViewController:pa animated:YES];
     }
     else { //跳转
+        /*
         int tabIndex = 3;
         if (self.isHaozu) {
             tabIndex = 4;
         }
+        */
+        int tabIndex = 0;
         
         if (self.isHaozu) {
             [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentFixed withPropertyDic:[self.fixGroupArr objectAtIndex:0]];
