@@ -436,8 +436,8 @@
             houseTypeName = [NSString stringWithFormat:@"%@", self.exposureTF.text];
         
         //设置房型文案显示
-        [(PublishBuildingViewController *)self.superViewController setHouseTypeShowWithString:houseTypeName];
-        [(PublishBuildingViewController *)self.superViewController setHouseTypeImageArray:self.houseTypeImageArr]; //设置户型图
+        //[(PublishBuildingViewController *)self.superViewController setHouseTypeShowWithString:houseTypeName];
+        //[(PublishBuildingViewController *)self.superViewController setHouseTypeImageArray:self.houseTypeImageArr]; //设置户型图
     }
     [super doBack:self];
 }

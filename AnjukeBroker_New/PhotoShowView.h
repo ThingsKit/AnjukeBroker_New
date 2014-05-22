@@ -16,7 +16,7 @@
 - (void)takePhoto_Click; //拍照按钮点击
 - (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr; //关闭按钮点击
 - (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr sender:(PhotoShowView *)sender; //关闭按钮点击
-- (void)closePicker_Click_WithImgNewArr:(NSMutableArray *)arr sender:(PhotoShowView *)sender; //关闭按钮点击，传递newarr
+//- (void)closePicker_Click_WithImgNewArr:(NSMutableArray *)arr sender:(PhotoShowView *)sender; //关闭按钮点击，传递newarr
 
 @end
 

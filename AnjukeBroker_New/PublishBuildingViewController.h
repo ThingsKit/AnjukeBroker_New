@@ -29,6 +29,7 @@
 #import "SimpleKeyboardToolBar.h"
 #import "PublishInputOrderModel.h"
 #import "PublishFeatureViewController.h"
+#import "AnjukeOnlineImgController.h"
 
 #define IMAGE_ACTIONSHEET_TAG 9010
 #define PUBLISH_ACTIONSHEET_TAG 9020
@@ -39,7 +40,7 @@
 #define FOOTERVIEWDICTSTYLE  @"pfStyle"
 
 
-@interface PublishBuildingViewController : RTViewController <UITableViewDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, UIActionSheetDelegate, PhotoFooterImageClickDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ELCImagePickerControllerDelegate, PhotoViewClickDelegate, TextFieldModifyDelegate ,PublishBigImageViewClickDelegate, UIAlertViewDelegate, UITextFieldDelegate, SimpleKeyboardBarClickDelegate, PublishFeatureDelegate>    
+@interface PublishBuildingViewController : RTViewController <UITableViewDelegate, KeyboardBarClickDelegate, CellTextFieldEditDelegate, UIActionSheetDelegate, PhotoFooterImageClickDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ELCImagePickerControllerDelegate, PhotoViewClickDelegate, TextFieldModifyDelegate ,PublishBigImageViewClickDelegate, UIAlertViewDelegate, UITextFieldDelegate, SimpleKeyboardBarClickDelegate, PublishFeatureDelegate, OnlineImgSelectDelegate>
 
 @property BOOL isHaozu; //是否是好租，页面布局不同
 @property (nonatomic, strong) UITableView *tableViewList;
@@ -55,6 +56,7 @@
 
 @property (nonatomic, strong) NSMutableArray *roomImageArray;
 @property (nonatomic, strong) NSMutableArray *houseTypeImageArray; //室内图、户型图数据存放数组
+@property (nonatomic, assign) NSInteger footClickType;////1,室内图2,户型图
 
 @property (nonatomic, strong) PhotoFooterView *footerView;
 @property (nonatomic, strong) NSMutableDictionary *footerViewDict;
@@ -62,23 +64,35 @@
 @property BOOL isTakePhoto; //是否拍照，区别拍照和从相册取图
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
 
-@property int uploadImgIndex; //上传图片的顺序，每上传一张此index+1
+@property (nonatomic, assign)NSInteger uploadImgIndex; //上传图片的顺序，每上传一张此index+1
+@property (nonatomic, assign)NSInteger uploadRoomImgDescIndex;//上传图片简介的index
 @property (nonatomic, strong) NSMutableArray *uploadImageArray; //用于上传的图片数组整集，整合室内图和房型图数组内容
 
 @property (nonatomic, strong) UITextField *fileNoTextF; //备案号输入框
 @property (nonatomic, strong) SimpleKeyboardToolBar *simToolBar;
-@property (nonatomic, strong) UILabel *communityDetailLb;
+@property (nonatomic, strong) UILabel *communityDetailLb;//小区名字
+@property (nonatomic, strong) UILabel *communityDetailAdLb;//小区地址
 
 @property int uploadImg_houseTypeIndex; //上传图片时户型图数据所在整个图片上传队列中的位置
 @property (nonatomic, strong) UIView *photoBGView; //室内图预览底板
 
 @property (nonatomic, copy) NSString *property_ID; //房源ID
 @property (nonatomic, strong) NSArray *fixGroupArr; //定价房源定价组
+
+@property (nonatomic, strong) NSMutableArray *imgdescArr;;//图片描述
 @property BOOL isBid; //是否为定价且竞价
 
 - (void)setTextFieldForProperty;
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount;
-- (void)setHouseTypeShowWithString:(NSString *)string; //设置房型文案
+- (void)setHouseTypeShowWithString:(NSString *)string vDict:(NSDictionary *)dict; //设置房型文案
+//初始化_imgdescArr
+- (void)initImgDesc;
+////isT:false是取值,true赋值
+//满5年的值
+- (BOOL)fiveRadioValue:(BOOL)bValue getV:(BOOL)isT;
+//唯一的值
+- (BOOL)onlyRadioValue:(BOOL)bValue getV:(BOOL)isT;
+
 - (BOOL)checkUploadProperty;
 
 - (int)getCurrentRoomImgCount;

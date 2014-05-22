@@ -160,7 +160,7 @@
                 self.firstArray = [PublishDataModel getPropertyRentType];
             }
                 break;
-            case HZ_CLICK_ROOMS://户型
+            case HZ_PICKER_ROOMS://户型
             {
                 self.firstArray = [PublishDataModel getPropertyHouseTypeArray_room];
                 self.secondArray = [PublishDataModel getPropertyHouseTypeArray_hall];

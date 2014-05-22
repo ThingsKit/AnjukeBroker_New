@@ -262,7 +262,7 @@
     
     int wholeCount = imageArr.count + urlImgArr.count +1;
     
-    if (wholeCount == 1) {
+    if (wholeCount == 0) {
         [self cleanImageShow]; //一定要先清空老图片数据显示
         
         //空白view
@@ -276,17 +276,26 @@
             [btn addTarget:self action:@selector(emptyBtnClick:) forControlEvents:UIControlEventTouchUpInside];
             //            [self addSubview:btn];
             
-            UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_photo_add.png"]];
-            icon.frame = CGRectMake((btn.frame.size.width - 80/2)/2, 10, 80/2, 60/2);
-            [btn addSubview:icon];
-            
             CGFloat titleW = 120;
-            UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake((btn.frame.size.width - titleW)/2, icon.frame.origin.y+ icon.frame.size.height + 10, titleW, 20)];
-            titleLb.text = @"添加户型图";
+            UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, titleW, 20)];
+            titleLb.text = @"室内图";
+            if (self.isHouseType) {
+                titleLb.text = @"户型图";
+            }
+            [titleLb setTextAlignment:NSTextAlignmentLeft];
             titleLb.textColor = SYSTEM_LIGHT_GRAY;
-            titleLb.textAlignment = NSTextAlignmentCenter;
-            titleLb.font = [UIFont systemFontOfSize:12];
+            titleLb.font = [UIFont systemFontOfSize:20];
             [btn addSubview:titleLb];
+            
+            //cameraIcon
+            CGFloat iconX = titleLb.frame.origin.x - 2;
+            CGFloat iconY = titleLb.frame.origin.y + titleLb.frame.size.height + 10;
+            
+            UIImage *craIconImg = [UIImage imageNamed:@"anjuke_icon_add_pic"];
+            UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(iconX, iconY, craIconImg.size.width, craIconImg.size.height)];
+            [icon setImage:craIconImg];
+            [icon setTag:-1];//为了点击换图片
+            [btn addSubview:icon];
             
             [self addSubview:btn];
         }
@@ -312,35 +321,55 @@
                     break; //数组越界前跳出双循环
                 }
                 
-                PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(5+PF_IMAGE_GAP_X +(PF_IMAGE_GAP_X + PF_IMAGE_WIDTH)*i, PF_IMAGE_GAP_Y + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*j, PF_IMAGE_WIDTH, PF_IMAGE_WIDTH)];
+                PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(
+                                                                                  5+PF_IMAGE_GAP_X +(PF_IMAGE_GAP_X + PF_IMAGE_WIDTH)*i,
+                                                                                  PF_IMAGE_GAP_Y + 35 + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*j,
+                                                                                  PF_IMAGE_WIDTH,
+                                                                                  PF_IMAGE_WIDTH)];
                 pBtn.tag = all_imageIndex;
                 
                 DLog(@"index------[%d]", pBtn.tag);
                 
-                if (all_imageIndex == 0) { //添加按钮
-                    pBtn.photoImg.image = [UIImage imageNamed:@"anjuke_icon_nextphoto_.png"];
+                _addActionTag = imageArr.count + urlImgArr.count;
+                if (all_imageIndex == (imageArr.count + urlImgArr.count)) {
+                    pBtn.photoImg.image = [UIImage imageNamed:@"anjuke_icon_add_pic"];
                 }
-                else if (all_imageIndex -1 < (int)(urlImgArr.count)) {
-                    pBtn.photoImg.imageUrl = [urlImgArr objectAtIndex:all_imageIndex - 1];
+                else if (all_imageIndex < (int)(urlImgArr.count))
+                {
+                    pBtn.photoImg.imageUrl = [urlImgArr objectAtIndex:all_imageIndex];
                 }
-                else {
+                else
+                {
                     NSString *url = nil;
-                    url =  [imageArr objectAtIndex:all_imageIndex- 1 - urlImgArr.count]; //去除第一个添加按钮
+                    url =  [imageArr objectAtIndex:all_imageIndex - urlImgArr.count]; //去除第一个添加按钮
                     pBtn.photoImg.image = [UIImage imageWithContentsOfFile:url];
                 }
                 [pBtn addTarget:self action:@selector(imageBtnClick:) forControlEvents:UIControlEventTouchUpInside];
                 [self addSubview:pBtn];
                 
                 [self.imageBtnArray addObject:pBtn];
+                
             }
         }
         
-        self.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, PF_IMAGE_GAP_Y + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*verticalRow);
+        CGFloat titleW = 120;
+        UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, titleW, 20)];
+        titleLb.text = @"室内图";
+        if (self.isHouseType) {
+            titleLb.text = @"户型图";
+        }
+        [titleLb setTextAlignment:NSTextAlignmentLeft];
+        titleLb.textColor = SYSTEM_LIGHT_GRAY;
+        titleLb.font = [UIFont systemFontOfSize:20];
+        [self addSubview:titleLb];
+        
+        CGFloat frameHeight = titleLb.frame.origin.y + CGRectGetHeight(titleLb.frame) + PF_IMAGE_GAP_Y + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*verticalRow;
+        
+        self.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frameHeight);
     }
     
     height = self.frame.size.height;
     DLog(@"new photo Height %f", height);
-    
     //将当前的新高度回调给superView
     if ([self.clickDelegate respondsToSelector:@selector(drawFinishedWithCurrentHeight:)]) {
         [self.clickDelegate drawFinishedWithCurrentHeight:height];
@@ -354,7 +383,7 @@
     
     int wholeCount = showedImageArr.count + addImgArr.count + onlineHouseTypeArr.count +1;
     
-    if (wholeCount == 1) {
+    if (wholeCount == 0) {
         [self cleanImageShow]; //一定要先清空老图片数据显示
         
         //空白view
@@ -368,17 +397,26 @@
             [btn addTarget:self action:@selector(emptyBtnClick:) forControlEvents:UIControlEventTouchUpInside];
             //            [self addSubview:btn];
             
-            UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_fxt_.png"]];
-            icon.frame = CGRectMake((btn.frame.size.width - 80/2)/2, 10, 80/2, 60/2);
-            [btn addSubview:icon];
-            
             CGFloat titleW = 120;
-            UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake((btn.frame.size.width - titleW)/2, icon.frame.origin.y+ icon.frame.size.height + 10, titleW, 20)];
-            titleLb.text = @"添加户型图";
+            UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, titleW, 20)];
+            titleLb.text = @"室内图";
+            if (self.isHouseType) {
+                titleLb.text = @"户型图";
+            }
+            [titleLb setTextAlignment:NSTextAlignmentLeft];
             titleLb.textColor = SYSTEM_LIGHT_GRAY;
-            titleLb.textAlignment = NSTextAlignmentCenter;
-            titleLb.font = [UIFont systemFontOfSize:12];
+            titleLb.font = [UIFont systemFontOfSize:20];
             [btn addSubview:titleLb];
+            
+            //cameraIcon
+            CGFloat iconX = titleLb.frame.origin.x - 2;
+            CGFloat iconY = titleLb.frame.origin.y + titleLb.frame.size.height + 10;
+            
+            UIImage *craIconImg = [UIImage imageNamed:@"anjuke_icon_add_pic"];
+            UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(iconX, iconY, craIconImg.size.width, craIconImg.size.height)];
+            [icon setImage:craIconImg];
+            [icon setTag:-1];//为了点击换图片
+            [btn addSubview:icon];
             
             [self addSubview:btn];
         }
@@ -404,36 +442,48 @@
                     break; //数组越界前跳出双循环
                 }
                 
-                PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(5+PF_IMAGE_GAP_X +(PF_IMAGE_GAP_X + PF_IMAGE_WIDTH)*i, PF_IMAGE_GAP_Y + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*j, PF_IMAGE_WIDTH, PF_IMAGE_WIDTH)];
+                PhotoButton *pBtn = [[PhotoButton alloc] initWithFrame:CGRectMake(5+PF_IMAGE_GAP_X +(PF_IMAGE_GAP_X + PF_IMAGE_WIDTH)*i, PF_IMAGE_GAP_Y + 35 + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*j, PF_IMAGE_WIDTH, PF_IMAGE_WIDTH)];
                 pBtn.tag = all_imageIndex;
                 DLog(@"index------[%d]", pBtn.tag);
-                
-                if (all_imageIndex == 0) {
-                    pBtn.photoImg.image = [UIImage imageNamed:@"anjuke_icon_nextfxt_.png"];
+                _addActionTag = wholeCount - 1;
+                if (all_imageIndex == (wholeCount - 1)) {
+                    pBtn.photoImg.image = [UIImage imageNamed:@"anjuke_icon_add_pic"];
                 }
-                else if (all_imageIndex -1 < (int)(showedImageArr.count)) { //已有的户型图
-                    NSString *url = nil;
-                    url =  [showedImageArr objectAtIndex:all_imageIndex - 1]; //去除第一个添加按钮
-                    pBtn.photoImg.imageUrl = url;
+                else if (all_imageIndex < (int)(showedImageArr.count))
+                {
+                    pBtn.photoImg.imageUrl = [showedImageArr objectAtIndex:all_imageIndex];
                 }
-                else if (all_imageIndex -1 >= showedImageArr.count && all_imageIndex - 1 < showedImageArr.count + addImgArr.count) {
+                else if (all_imageIndex >= showedImageArr.count && all_imageIndex  < showedImageArr.count + addImgArr.count)
+                {
                     NSString *url = nil;
-                    url =  [addImgArr objectAtIndex:all_imageIndex - 1- showedImageArr.count]; //去除第一个添加按钮
+                    url =  [addImgArr objectAtIndex:all_imageIndex - showedImageArr.count]; //去除第一个添加按钮
                     pBtn.photoImg.image = [UIImage imageWithContentsOfFile:url];
-                }
-                else { //草泥马的在线户型图。。。
+                }else { //草泥马的在线户型图。。。
                     if (onlineHouseTypeArr.count > 0) {
                         pBtn.photoImg.imageUrl = [onlineHouseTypeArr objectAtIndex:0];
                     }
                 }
                 [pBtn addTarget:self action:@selector(imageBtnClick:) forControlEvents:UIControlEventTouchUpInside];
                 [self addSubview:pBtn];
-                
+                    
                 [self.imageBtnArray addObject:pBtn];
             }
         }
         
-        self.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, PF_IMAGE_GAP_Y + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*verticalRow);
+        CGFloat titleW = 120;
+        UILabel *titleLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, titleW, 20)];
+        titleLb.text = @"室内图";
+        if (self.isHouseType) {
+            titleLb.text = @"户型图";
+        }
+        [titleLb setTextAlignment:NSTextAlignmentLeft];
+        titleLb.textColor = SYSTEM_LIGHT_GRAY;
+        titleLb.font = [UIFont systemFontOfSize:20];
+        [self addSubview:titleLb];
+        
+        CGFloat frameHeight = titleLb.frame.origin.y + CGRectGetHeight(titleLb.frame) + PF_IMAGE_GAP_Y + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*verticalRow;
+        
+        self.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frameHeight);
         
         DLog(@"new photo Height %d层高", verticalRow);
     }

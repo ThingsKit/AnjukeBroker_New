@@ -152,8 +152,8 @@
         }
         
         //通知房源编辑页面删除对应图片
-        if ([self.clickDelegate respondsToSelector:@selector(editPropertyDidDeleteImgWithDeleteIndex:)]) {
-            [self.clickDelegate editPropertyDidDeleteImgWithDeleteIndex:self.editDeleteImgIndex];
+        if ([self.clickDelegate respondsToSelector:@selector(editPropertyDidDeleteImgWithDeleteIndex:sender:)]) {
+            [self.clickDelegate editPropertyDidDeleteImgWithDeleteIndex:self.editDeleteImgIndex sender:self];
         }
         
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -249,6 +249,7 @@
     
 //    [self showArrowImg];
     
+
     if (self.hasTextView && _imageDescArray) {
         NSString* content = [_imageDescArray objectAtIndex:self.currentIndex];
         if (content.length > 0 && ![content isEqualToString:self.placeHolder]) {

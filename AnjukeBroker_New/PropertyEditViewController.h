@@ -7,6 +7,7 @@
 //
 
 #import "PublishBuildingViewController.h"
+#import "BK_RTNavigationController.h"
 
 @protocol PropertyEditDelegate <NSObject>
 

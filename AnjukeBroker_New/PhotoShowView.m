@@ -155,15 +155,6 @@
         [self.clickDelegate closePicker_Click_WithImgArr:self.imgArray sender:self];
     }
     
-    if ([self.clickDelegate respondsToSelector:@selector(closePicker_Click_WithImgNewArr:sender:)]) {
-        NSMutableArray *arr = [NSMutableArray array];
-        for (int i = 0; i < self.imgArray.count; i++) {
-            NSDictionary *dic = [[NSDictionary alloc] initWithObjectsAndKeys:[self.imgArray objectAtIndex:i],@"img",[NSNumber numberWithInt:i],@"index",@"",@"des", nil];
-            [arr addObject:dic];
-        }
-
-        [self.clickDelegate closePicker_Click_WithImgNewArr:arr sender:self];
-    }
 }
 
 - (void)doCancel:(id)sender { //取消拍照及已拍图片

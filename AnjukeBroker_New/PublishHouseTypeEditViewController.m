@@ -98,7 +98,7 @@
         NSString *houseTypeName = [NSString stringWithFormat:@"%@  %@", self.houseTypeTF.text, self.exposureTF.text];
         
         //设置房型文案显示
-        [(PropertyEditViewController *)self.superViewController setHouseTypeShowWithString:houseTypeName];
+//        [(PropertyEditViewController *)self.superViewController setHouseTypeShowWithString:houseTypeName];
         [(PropertyEditViewController *)self.superViewController setAddHouseTypeImageArray:self.addHouseTypeImageArray]; //设置户型图
         [(PropertyEditViewController *)self.superViewController setHouseTypeShowedImgArray:self.houseTypeShowedImgArray]; //设置户型图
     }
@@ -258,7 +258,7 @@
 
 #pragma mark - PublishBigImageViewClickDelegate
 
-- (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex {
+- (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex sender:(id)sender{
     
     //删除对应图片
     if ([self isClickImgNewAddWithClickIndex:deleteIndex]) { //新添加图片

@@ -53,8 +53,8 @@
         //rooms 户型
         AnjukeEditableCell *cell3 = [[AnjukeEditableCell alloc] init];
         cell3.editDelegate = self.superViewController;
-        if ([cell3 configureCell:[dataArray objectAtIndex:HZ_CLICK_ROOMS]]) {
-            [cell3 setIndexTag:HZ_CLICK_ROOMS];
+        if ([cell3 configureCell:[dataArray objectAtIndex:HZ_PICKER_ROOMS]]) {
+            [cell3 setIndexTag:HZ_PICKER_ROOMS];
             [section2 addObject:cell3];
             [self.inputCellArray addObject:cell3];
             
@@ -120,7 +120,7 @@
         AnjukeEditableCell *cell = [[AnjukeEditableCell alloc] init];
         cell.editDelegate = self.superViewController;
         if ([cell configureCell:[dataArray objectAtIndex:AJK_TEXT_PRICE]]) {
-            [cell setIndexTag:HZ_TEXT_PRICE];
+            [cell setIndexTag:AJK_TEXT_PRICE];
             [[cell unitLb] setText:@"万元"];
             [section1 addObject:cell];
             [self.inputCellArray addObject:cell];
@@ -142,7 +142,7 @@
         AnjukeEditableCell *cell2 = [[AnjukeEditableCell alloc] init];
         cell2.editDelegate = self.superViewController;
         if ([cell2 configureCell:[dataArray objectAtIndex:AJK_TEXT_AREA]]) {
-            [cell2 setIndexTag:HZ_TEXT_AREA];
+            [cell2 setIndexTag:AJK_TEXT_AREA];
             [[cell2 unitLb] setText:@"平米"];
             [section1 addObject:cell2];
             [self.inputCellArray addObject:cell2];
@@ -248,7 +248,7 @@
     return;
     int houseTypeIndex = 0;
     if (isHaozu) {
-        houseTypeIndex = HZ_CLICK_ROOMS;
+        houseTypeIndex = HZ_PICKER_ROOMS;
     }
     else
         houseTypeIndex = AJK_PICKER_ROOMS;

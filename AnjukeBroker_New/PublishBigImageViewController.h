@@ -14,7 +14,7 @@
 - (void)viewDidFinishWithImageArr:(NSArray *)imageArray sender:(id)sender;
 - (void)onlineHouseTypeImgDelete;
 
-- (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex;
+- (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex sender:(id)sender;
 
 @end
 

@@ -25,7 +25,7 @@
 //******租房
 #define HZ_TEXT_PRICE 0 //价格
 #define HZ_TEXT_AREA 1 //面积
-#define HZ_CLICK_ROOMS 2 //户型
+#define HZ_PICKER_ROOMS 2 //户型
 #define HZ_PICKER_FLOORS 3 //楼层
 #define HZ_PICKER_ORIENTATION 4 //朝向
 #define HZ_PICKER_FITMENT 5 //装修

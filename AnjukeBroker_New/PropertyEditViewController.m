@@ -28,6 +28,7 @@
 @synthesize deleteShowedImgIndex;
 @synthesize deleteButton;
 @synthesize roomImageDetailArr;
+@synthesize footClickType = _footClickType;//操作foot的tag
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -76,7 +77,6 @@
     self.roomShowedImgArray = [NSMutableArray array];
     self.houseTypeShowedImgArray = [NSMutableArray array];
     
-    self.roomImageDetailArr = [NSMutableArray array];
 }
 
 - (void)initDisplay {
@@ -131,11 +131,12 @@
     //小区
     self.property.comm_id = [dic objectForKey:@"commId"];
     self.communityDetailLb.text = [dic objectForKey:@"commName"];
+    self.communityDetailAdLb.text = [dic objectForKey:@"commAddress"];
     
     //户型、朝向
     NSString *roomStr = [NSString stringWithFormat:@"%@室%@厅%@卫",[dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"toiletNum"]];
-    NSString *houseTypeName = [NSString stringWithFormat:@"%@  %@", roomStr, self.property.exposure];
-    [self setHouseTypeShowWithString:houseTypeName];
+    NSString *houseTypeName = [NSString stringWithFormat:@"%@", roomStr];
+    [self setHouseTypeShowWithString:houseTypeName vDict:dic];
     
     //房型图是否多图的icon显示
     BOOL show = NO;
@@ -229,7 +230,7 @@
         
         //set Text
         //set title and property
-        NSMutableString *featureStr = [NSMutableString string];
+        /*NSMutableString *featureStr = [NSMutableString string];
         if ([self.property.isFullFive boolValue] == YES) {
             [featureStr appendString:@"满五年 "];
         }
@@ -238,19 +239,28 @@
             [featureStr appendString:@"唯一住房"];
         }
         
-        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_CLICK_FEATURE] communityDetailLb] setText:featureStr];
+        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_CLICK_FEATURE] communityDetailLb] setText:featureStr];*/
     }
     
     DLog(@"*** 编辑房源property 【%@】", self.property);
 }
 
 //点击的预览图片是否是新添加的图片
-- (BOOL)isClickImgNewAddWithClickIndex:(int)clickIndex {
+- (BOOL)isClickImgNewAddWithClickIndex:(int)clickIndex imgType:(int)type{
     BOOL isNewAdd = NO;
     
-    if (clickIndex >= self.roomShowedImgArray.count) {
-        isNewAdd = YES;
+    if (type == 1)
+    {//室内图
+        if (clickIndex >= self.roomShowedImgArray.count) {
+            isNewAdd = YES;
+        }
+    }else if (type == 2)
+    {//户型图
+        if (clickIndex >= self.houseTypeShowedImgArray.count) {
+            isNewAdd = YES;
+        }
     }
+    
     
     return isNewAdd;
 }
@@ -299,9 +309,57 @@
     [self setPropertyWithDic:dic];
     
     //redraw footer img view
-    [self.footerView redrawWithEditRoomImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray] andImgUrl:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray]];
+    NSArray *addImgArr = [PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray];
+    NSArray *showImgArr = [PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray];
+    
+    NSMutableArray *newArr = [NSMutableArray arrayWithArray:self.addRoomImageArray];
+    [newArr addObjectsFromArray:self.roomShowedImgArray];
+    [self addImgDesc:newArr];
+    
+    self.footerView = [self.footerViewDict objectForKey:FOOTERVIEWDICTROOM];
+    [self.footerView redrawWithEditRoomImageArray:addImgArr andImgUrl:showImgArr];
+    
+    CGFloat height = CGRectGetHeight(self.footerView.frame);
+    
+    NSArray *addHouseImgArr = [PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addHouseTypeImageArray];
+    NSArray *showHouseImgArr = [PhotoManager transformEditImageArrToFooterShowArrWithArr:self.houseTypeShowedImgArray];
+    NSDictionary *onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:self.property.onlineHouseTypeDic];
+    
+    self.footerView = [self.footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
+    
+    [self.footerView redrawWithEditHouseTypeShowedImageArray:showHouseImgArr andAddImgArr:addHouseImgArr andOnlineHouseTypeArr:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:onlineHouseTypeDic]];
+    
+    CGRect sFootFrame = self.footerView.frame;
+    sFootFrame.origin.y = height + 22;
+    self.footerView.frame = sFootFrame;
     
     [self hideLoadWithAnimated:YES];
+}
+
+//给img设置desc
+- (void)addImgDesc:(NSArray *)arr
+{
+    
+    for (int i = 0; i < arr.count; i++)
+    {
+        if([[arr objectAtIndex:i] isKindOfClass:[NSDictionary class]])
+        {
+            NSDictionary *dict = [arr objectAtIndex:i];
+            if ([[dict allKeys] containsObject:@"imgDesc"])
+            {
+                NSString *v = [dict objectForKey:@"imgDesc"];
+                if (v)
+                {
+                    [self.imgdescArr insertObject:v atIndex:i];
+                }else
+                {
+                    [self.imgdescArr insertObject:@"" atIndex:i];
+                }
+                
+            }
+        }
+        
+    }
 }
 
 //图片删除
@@ -337,9 +395,24 @@
     
 //    [self showInfo:@"图片已删除"];
     
-    [self.roomShowedImgArray removeObjectAtIndex:self.deleteShowedImgIndex];
+    
+    if (self.footClickType == 1)
+    {
+        [self.roomShowedImgArray removeObjectAtIndex:self.deleteShowedImgIndex];
+        [self.footerView redrawWithEditRoomImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray] andImgUrl:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray]];
+    }else if(self.footClickType == 2)
+    {
+        [self.houseTypeShowedImgArray removeObjectAtIndex:self.deleteShowedImgIndex];
+        NSArray *addHouseImgArr = [PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addHouseTypeImageArray];
+        NSArray *showHouseImgArr = [PhotoManager transformEditImageArrToFooterShowArrWithArr:self.houseTypeShowedImgArray];
+        NSDictionary *onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:self.property.onlineHouseTypeDic];
+        
+        self.footerView = [self.footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
+        
+        [self.footerView redrawWithEditHouseTypeShowedImageArray:showHouseImgArr andAddImgArr:addHouseImgArr andOnlineHouseTypeArr:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:onlineHouseTypeDic]];
+    }
     //redraw footer img view
-    [self.footerView redrawWithEditRoomImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray] andImgUrl:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray]];
+    
     
     [self hideLoadWithAnimated:YES];
 }
@@ -383,6 +456,9 @@
         method = @"zufang/prop/update/";
     }
     else { //二手房新增是否满五年、是否唯一、最低首付字段
+        self.property.isOnly = [NSNumber numberWithBool:[self onlyRadioValue:false getV:true]];
+        self.property.isFullFive = [NSNumber numberWithBool:[self fiveRadioValue:false getV:true]];
+        
         [params setObject:[self.property.isOnly stringValue] forKey:@"isOnly"];
         [params setObject:[self.property.isFullFive stringValue] forKey:@"isFullFive"];
 //        [params setObject:self.property.minDownPay forKey:@"minDownPay"];
@@ -475,6 +551,13 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[result objectForKey:@"image"]];
     if (self.isHaozu) {
         if (self.uploadImgIndex < self.uploadImg_houseTypeIndex) { //属于室内图类型
+            [self initImgDesc];
+            if ((self.uploadRoomImgDescIndex <= ([self.imgdescArr count] - 1)) && self.imgdescArr.count > 0)
+            {
+                DLog(@"desc === %@", [self.imgdescArr objectAtIndex:self.uploadRoomImgDescIndex]);
+                [dic setObject:[self.imgdescArr objectAtIndex:self.uploadRoomImgDescIndex] forKey:@"imageDesc"];
+                self.uploadRoomImgDescIndex++;
+            }
             [dic setObject:@"1" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
         }
         else //属于房型图类型
@@ -484,6 +567,13 @@
     {
         if (self.uploadImgIndex < self.uploadImg_houseTypeIndex) { //属于室内图类型
             [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
+            [self initImgDesc];
+            if ((self.uploadRoomImgDescIndex <= ([self.imgdescArr count] - 1)) && self.imgdescArr.count > 0)
+            {
+                DLog(@"desc === %@", [self.imgdescArr objectAtIndex:self.uploadRoomImgDescIndex]);
+                [dic setObject:[self.imgdescArr objectAtIndex:self.uploadRoomImgDescIndex] forKey:@"imageDesc"];
+                self.uploadRoomImgDescIndex++;
+            }
         }
         else //属于房型图类型
             [dic setObject:@"3" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
@@ -512,6 +602,8 @@
     NSDictionary *result = [request.responseString JSONValue];
     RTNetworkResponse *response = [[RTNetworkResponse alloc] init];
     [response setContent:result];
+    
+    self.uploadRoomImgDescIndex = 0;
     
     self.uploadImgIndex = 0;
     
@@ -668,40 +760,113 @@
 }
 
 #pragma mark - PhotoFooterImageClickDelegate
-
-- (void)imageDidClickWithIndex:(int)index { //图片预览点击
+- (void)initImgDesc
+{
+    int count = self.roomShowedImgArray.count + self.addRoomImageArray.count;
+    if (!self.imgdescArr || self.imgdescArr.count < count || count > 0)
+    {
+        int i = 0;
+        if (self.imgdescArr.count > 0)
+        {
+            i = self.imgdescArr.count;
+        }else
+        {
+            self.imgdescArr = [NSMutableArray arrayWithCapacity:5];
+        }
+        
+        for (i = 0; i < count; i++)
+        {
+            NSString *va = @"";
+            [self.imgdescArr addObject:va];
+        }
+    }
+}
+- (void)imageDidClickWithIndex:(int)index sender:(PhotoFooterView *)sender{ //图片预览点击
+    
     int imageIndex = index - 0;
     DLog(@"查看大图--index [%d]", imageIndex);
+    
+    //检查_imdescarr是否存在
+    [self initImgDesc];
     
     //查看大图
     //模态弹出图片播放器
     PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
+    pb.backType = RTSelectorBackTypeDismiss;
+    pb.imageDescArray = self.imgdescArr;
     pb.clickDelegate = self;
-    pb.isEditProperty = YES;
-    RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
+    
+    if (!sender.isHouseType)
+    {
+        self.footClickType = 1;
+    }else
+    {
+        self.footClickType = 2;
+    }
+    
+    BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    [self.navigationController presentViewController:navController animated:YES completion:^(void) {
-        
-        NSMutableArray *editImgShowArr = [NSMutableArray array];
-        if (![self isClickImgNewAddWithClickIndex:imageIndex]) {
-            //已有图片array
-            [editImgShowArr addObject:[[self.roomShowedImgArray objectAtIndex:imageIndex] objectForKey:@"imgUrl"]];
-        }
-        else { //新添加图片
-            [editImgShowArr addObject:[(E_Photo *)[self.addRoomImageArray objectAtIndex:imageIndex - self.roomShowedImgArray.count] smallPhotoUrl]];
-        }
-        
-        pb.isNewAddImg = [self isClickImgNewAddWithClickIndex:imageIndex];
-        [pb showImagesWithArray:editImgShowArr atIndex:imageIndex];
-
-    }];
+    if (self.footClickType == 1) //室内图
+    {
+        pb.hasTextView = YES; //有照片编辑框
+        pb.isEditProperty = YES;
+        [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+            
+            NSMutableArray *editImgShowArr = [NSMutableArray array];
+            if (![self isClickImgNewAddWithClickIndex:imageIndex imgType:1]) {
+                //已有图片array
+                [editImgShowArr addObject:[[self.roomShowedImgArray objectAtIndex:imageIndex] objectForKey:@"imgUrl"]];
+            }
+            else { //新添加图片
+                [editImgShowArr addObject:[(E_Photo *)[self.addRoomImageArray objectAtIndex:imageIndex - self.roomShowedImgArray.count] smallPhotoUrl]];
+            }
+            
+            pb.isNewAddImg = [self isClickImgNewAddWithClickIndex:imageIndex imgType:1];
+            [pb showImagesWithArray:editImgShowArr atIndex:imageIndex];
+            
+        }];
+    }else if (self.footClickType == 2) //户型图
+    {
+        [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+            NSMutableArray *editImgShowArr = [NSMutableArray array];
+            NSDictionary *onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:self.property.onlineHouseTypeDic];
+            if (![self isClickImgNewAddWithClickIndex:imageIndex imgType:2]) {
+                //已有图片array
+                [editImgShowArr addObject:[[self.houseTypeShowedImgArray objectAtIndex:imageIndex] objectForKey:@"imgUrl"]];
+            }
+            else { //新添加图片
+                if (onlineHouseTypeDic.count > 0 && imageIndex == self.houseTypeShowedImgArray.count + self.addHouseTypeImageArray.count) {
+                    [pb showImagesForOnlineHouseTypeWithDic:onlineHouseTypeDic];
+                    return;
+                }
+                else
+                    [editImgShowArr addObject:[(E_Photo *)[self.addHouseTypeImageArray objectAtIndex:imageIndex - self.houseTypeShowedImgArray.count] smallPhotoUrl]];
+            }
+            pb.isEditProperty = YES;
+            pb.isNewAddImg = [self isClickImgNewAddWithClickIndex:imageIndex imgType:2];
+            [pb showImagesWithArray:editImgShowArr atIndex:imageIndex];
+        }];
+    }
 }
 
 - (void)drawFinishedWithCurrentHeight:(CGFloat)height { //每次重绘后返回当前预览底图的高度
+    PhotoFooterView *styleFootView = [self.footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
+    PhotoFooterView *houseFootView = [self.footerViewDict objectForKey:FOOTERVIEWDICTROOM];
+    
     CGFloat btnW = 200;
     CGFloat btnH = CELL_HEIGHT - 15;
     
-    self.photoBGView.frame = CGRectMake(0, 0, [self windowWidth], PUBLISH_SECTION_HEIGHT+PHOTO_FOOTER_BOTTOM_HEIGHT + height +10);
+    CGFloat footHeight = CGRectGetHeight(styleFootView.frame) + CGRectGetHeight(houseFootView.frame) + btnH + 40 + 40;
+    
+    self.photoBGView.frame = CGRectMake(0, 0, [self windowWidth], footHeight);
+
+    if (self.footClickType == 1)
+    {
+        CGFloat height2 = CGRectGetHeight(houseFootView.frame);
+        CGRect sFootFrame = styleFootView.frame;
+        sFootFrame.origin.y = height2 + 22;
+        styleFootView.frame = sFootFrame;
+    }
     
     if (!self.deleteButton) {
         BigZhenzhenButton *logoutBtn = [[BigZhenzhenButton alloc] init];
@@ -710,28 +875,14 @@
         [logoutBtn addTarget:self action:@selector(doDeleteProperty) forControlEvents:UIControlEventTouchUpInside];
         [self.photoBGView addSubview:self.deleteButton];
     }
-    self.deleteButton.frame = CGRectMake(([self windowWidth] -btnW)/2, self.photoBGView.frame.size.height- btnH -40, btnW, btnH);
+    self.deleteButton.frame = CGRectMake(([self windowWidth] -btnW)/2, footHeight - btnH - 20, btnW, btnH);
     
     self.tableViewList.tableFooterView = self.photoBGView; //状态改变后需要重新赋值footerView
 }
 
 #pragma mark - PhotoViewClickDelegate
-- (void)closePicker_Click_WithImgNewArr:(NSMutableArray *)arr sender:(PhotoShowView *)sender{
-//    if (_footClickType == 2) {
-//        return;
-//    }
-    if (arr.count == 0) {
-        return;
-    }
-    int count = self.roomImageDetailArr.count;
-    for (int i = 0; i < arr.count; i++) {
-        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[arr objectAtIndex:i]];
-        [dic setObject:[NSNumber numberWithInt:count + i] forKey:@"index"];
-        
-        [self.roomImageDetailArr addObject:dic];
-    }
-}
-- (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr {
+
+- (void)closePicker_Click_WithImgArr:(NSMutableArray *)arr sender:(PhotoShowView *)sender{
     for (int i = 0; i < arr.count; i ++) {
         //保存原始图片、得到url
         E_Photo *ep = [PhotoManager getNewE_Photo];
@@ -740,37 +891,92 @@
         ep.photoURL = url;
         ep.smallPhotoUrl = url;
         
-        [self.addRoomImageArray addObject:ep];
+        
+        if (self.footClickType == 1)
+        {
+            [self.addRoomImageArray addObject:ep];
+        }else if (_footClickType == 2)
+        {
+            [self.addHouseTypeImageArray addObject:ep];
+        }
+        
     }
     
     [self.imagePicker dismissViewControllerAnimated:YES completion:^(void){
         //
     }];
     
+    DLog(@"拍照添加室内图:count[%d]", self.roomImageArray.count);
+    DLog(@"sender.tag == %d", sender.tag);
+    
+
+    self.footerView = [self.footerViewDict objectForKey:FOOTERVIEWDICTROOM];
+    DLog(@"self.footerView.tag == %d", self.footerView.tag);
+    NSArray *addImgArr = [PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray];
+    NSArray *showImgArr = [PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray];
+    
+    NSMutableArray *newArr = [NSMutableArray arrayWithArray:self.addRoomImageArray];
+    [newArr addObjectsFromArray:self.roomShowedImgArray];
+    [self addImgDesc:newArr];
+
+    [self.footerView redrawWithEditRoomImageArray:addImgArr andImgUrl:showImgArr];
+    
+    NSArray *addHouseImgArr = [PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addHouseTypeImageArray];
+    NSArray *showHouseImgArr = [PhotoManager transformEditImageArrToFooterShowArrWithArr:self.houseTypeShowedImgArray];
+    NSDictionary *onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:self.property.onlineHouseTypeDic];
+    
+    self.footerView = [self.footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
+    
+    [self.footerView redrawWithEditHouseTypeShowedImageArray:showHouseImgArr andAddImgArr:addHouseImgArr andOnlineHouseTypeArr:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:onlineHouseTypeDic]];
     //redraw footer img view
-    [self.footerView redrawWithEditRoomImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray] andImgUrl:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray]];
+//    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:willdoArr]];
 }
 
 #pragma mark - PublishBigImageViewClickDelegate
 
-- (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex {
-    //删除对应的图片dic
-    [self.roomImageDetailArr removeObjectAtIndex:deleteIndex];
-    
-    //删除对应图片
-    if ([self isClickImgNewAddWithClickIndex:deleteIndex]) { //新添加图片
-        [self.addRoomImageArray removeObjectAtIndex:deleteIndex - self.roomShowedImgArray.count];
-        //redraw footer img view
-        [self.footerView redrawWithEditRoomImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray] andImgUrl:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray]];
-    }
-    else {//已有图片删除，交互...
-        self.deleteShowedImgIndex = deleteIndex;
-        if (deleteIndex >= self.roomShowedImgArray.count) {
-            return;
+- (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex sender:(id)sender
+{
+    if (self.footClickType == 1)
+    {//室内图
+        self.footerView = [[self footerViewDict] objectForKey:FOOTERVIEWDICTROOM];
+        //删除对应图片
+        if ([self isClickImgNewAddWithClickIndex:deleteIndex imgType:1]) { //新添加图片
+            [self.addRoomImageArray removeObjectAtIndex:deleteIndex - self.roomShowedImgArray.count];
+            //redraw footer img view
+            [self.footerView redrawWithEditRoomImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray] andImgUrl:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray]];
         }
-        
-        NSString *deleteImgID = [[self.roomShowedImgArray objectAtIndex:deleteIndex] objectForKey:@"imgId"];
-        [self doDeleteImgWithImgID:deleteImgID];
+        else {//已有图片删除，交互...
+            self.deleteShowedImgIndex = deleteIndex;
+            if (deleteIndex >= self.roomShowedImgArray.count) {
+                return;
+            }
+            
+            NSString *deleteImgID = [[self.roomShowedImgArray objectAtIndex:deleteIndex] objectForKey:@"imgId"];
+            [self doDeleteImgWithImgID:deleteImgID];
+        }
+
+    }else if (self.footClickType == 2)
+    {//户型图
+        self.footerView = [[self footerViewDict] objectForKey:FOOTERVIEWDICTSTYLE];
+        //删除对应图片
+        if ([self isClickImgNewAddWithClickIndex:deleteIndex imgType:2]) { //新添加图片
+            [self.addHouseTypeImageArray removeObjectAtIndex:deleteIndex - self.houseTypeShowedImgArray.count];
+            
+            NSArray *addHouseImgArr = [PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addHouseTypeImageArray];
+            NSArray *showHouseImgArr = [PhotoManager transformEditImageArrToFooterShowArrWithArr:self.houseTypeShowedImgArray];
+            NSDictionary *onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:self.property.onlineHouseTypeDic];
+            
+            //redraw footer img view
+            [self.footerView redrawWithEditHouseTypeShowedImageArray:showHouseImgArr andAddImgArr:addHouseImgArr andOnlineHouseTypeArr:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:onlineHouseTypeDic]];
+        }else {//已有图片删除，交互...
+            self.deleteShowedImgIndex = deleteIndex;
+            if (deleteIndex >= self.houseTypeShowedImgArray.count) {
+                return;
+            }
+            
+            NSString *deleteImgID = [[self.houseTypeShowedImgArray objectAtIndex:deleteIndex] objectForKey:@"imgId"];
+            [self doDeleteImgWithImgID:deleteImgID];
+        }
     }
 }
 
@@ -819,11 +1025,33 @@
             ep.smallPhotoUrl = url;
         }
         
-        [self.addRoomImageArray addObject:ep];
+        
+        
+        if (self.footClickType == 1)
+        {
+            [self.addRoomImageArray addObject:ep];
+        }else if (self.footClickType == 2)
+        {
+            [self.addHouseTypeImageArray addObject:ep];
+//            [self.houseTypeImageArray addObject:ep];
+        }
 	}
-    
+    if (self.footClickType == 1)
+    {
+        self.footerView = [self.footerViewDict objectForKey:FOOTERVIEWDICTROOM];
+        [self.footerView redrawWithEditRoomImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray] andImgUrl:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray]];
+    }else if (self.footClickType == 2)
+    {
+        NSArray *addHouseImgArr = [PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addHouseTypeImageArray];
+        NSArray *showHouseImgArr = [PhotoManager transformEditImageArrToFooterShowArrWithArr:self.houseTypeShowedImgArray];
+        NSDictionary *onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:self.property.onlineHouseTypeDic];
+        
+        self.footerView = [self.footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
+        
+        [self.footerView redrawWithEditHouseTypeShowedImageArray:showHouseImgArr andAddImgArr:addHouseImgArr andOnlineHouseTypeArr:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:onlineHouseTypeDic]];
+    }
     //redraw footer img view
-    [self.footerView redrawWithEditRoomImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addRoomImageArray] andImgUrl:[PhotoManager transformEditImageArrToFooterShowArrWithArr:self.roomShowedImgArray]];
+    
     
     [self dismissViewControllerAnimated:YES completion:nil];
     

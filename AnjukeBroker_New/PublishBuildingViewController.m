@@ -45,16 +45,13 @@ typedef enum {
 
 @property (nonatomic, assign) PropertyUploadType uploadType;
 
-@property (nonatomic, assign) NSInteger footClickType;////1,室内图2,户型图
-
-@property (nonatomic, strong) NSMutableArray *imgdescArr;
-
 @end
 
 @implementation PublishBuildingViewController
 @synthesize footerViewDict = _footerViewDict;//footviewdict
-@synthesize footClickType = _footClickType;//操作foot的tag
+@synthesize footClickType;//操作foot的tag
 @synthesize footerView;
+@synthesize uploadRoomImgDescIndex = _uploadRoomImgDescIndex;
 
 - (void)dealloc {
     self.tableViewList.delegate = nil;
@@ -67,7 +64,7 @@ typedef enum {
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
+    _uploadRoomImgDescIndex = 0;
     NSString *titleStr = @"发布二手房";
     if (self.isHaozu) {
         titleStr = @"发布租房";
@@ -181,14 +178,14 @@ typedef enum {
 
 - (void)drawHeader {
     
-    UIView *headerView = [[UIView alloc] init];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], CELL_HEIGHT+PUBLISH_SECTION_HEIGHT*2)];
     /*
     if (self.needFileNO && self.isHaozu == NO) { //仅二手房发房（北京）需要备案号
         headerView.frame = CGRectMake(0, 0, [self windowWidth], CELL_HEIGHT+PUBLISH_SECTION_HEIGHT*3+CELL_HEIGHT);
     }
     else*/
     
-    headerView.frame = CGRectMake(0, 0, [self windowWidth], CELL_HEIGHT+PUBLISH_SECTION_HEIGHT*2);
+
     headerView.backgroundColor = SYSTEM_LIGHT_GRAY_BG;
     [self.tableViewList setTableHeaderView:headerView];
     
@@ -235,6 +232,7 @@ typedef enum {
     [comStateLabel setTextColor:SYSTEM_BLACK];
     [comStateLabel setBackgroundColor:[UIColor clearColor]];
     [comStateLabel setText:adSt];
+    self.communityDetailAdLb = comStateLabel;
     [comView addSubview:comStateLabel];
 }
 
@@ -314,6 +312,28 @@ typedef enum {
 }
 
 #pragma mark - Private Method
+//初始化_imgdescArr
+- (void)initImgDesc
+{
+    if (!_imgdescArr || _imgdescArr.count < self.roomImageArray.count || self.roomImageArray.count > 0)
+    {
+        int i = 0;
+        if (_imgdescArr == 0)
+        {
+            _imgdescArr = [NSMutableArray arrayWithCapacity:5];
+            
+        }else
+        {
+            i = _imgdescArr.count;
+        }
+        
+        for (i = 0; i < self.roomImageArray.count; i++)
+        {
+            NSString *va = @"";
+            [_imgdescArr addObject:va];
+        }
+    }
+}
 
 - (void)setDefultValue {
     //房屋装修、朝向
@@ -336,7 +356,10 @@ typedef enum {
         [[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_FLOORS] setInputed_RowAtCom1:proFloorIndex];
         
         //朝向
-        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_ORIENTATION] text_Field] setText:_DEFULT_TITLE_EXPOSURE];
+        AnjukeEditableCell *orientCell = [[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_ORIENTATION];
+        int orientIndex = [PublishDataModel getExposureIndexWithTitle:_DEFULT_TITLE_EXPOSURE];
+        [[orientCell text_Field] setText:_DEFULT_TITLE_EXPOSURE];
+        [orientCell setInputed_RowAtCom0:orientIndex];
         int orientationIndex = [PublishDataModel getExposureIndexWithTitle:_DEFULT_TITLE_FITMENT];
         NSString *orientationValue = [PublishDataModel getExposureTitleWithValue:_DEFULT_TITLE_FITMENT];
         self.property.exposure = orientationValue;
@@ -553,14 +576,97 @@ typedef enum {
     self.uploadImg_houseTypeIndex = self.roomImageArray.count; //
 }
 
-- (void)setHouseTypeShowWithString:(NSString *)string {
+- (void)setHouseTypeShowWithString:(NSString *)string vDict:(NSDictionary *)dic{
+    
+    NSString *orientSt= [dic objectForKey:@"exposure"];//朝向
+
+    NSString *roomNumSt = [dic objectForKey:@"roomNum"];//室
+    NSString *hallNumSt = [dic objectForKey:@"hallNum"];//厅
+    NSString *toiletNumSt = [dic objectForKey:@"toiletNum"];//卫
+    //户型
+    int roomNumIndex = [PublishDataModel getRoomIndexWithValue:roomNumSt];
+    int hallNumIndex = [PublishDataModel getHallIndexWithValue:hallNumSt];
+    int totileNumIndex = [PublishDataModel getToiletIndexWithValue:toiletNumSt];
+    
+    //朝向
+    int orientIndex = [PublishDataModel getExposureIndexWithTitle:orientSt];
+    
+    //是否满五年 和  唯一住房
+    NSNumber *onlyNum = [NSNumber numberWithInt:[[dic objectForKey:@"isOnly"] intValue]];
+    NSNumber *fiveNum = [NSNumber numberWithInt:[[dic objectForKey:@"isFullFive"] intValue]];
+    
     if (self.isHaozu) {
-        [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_CLICK_ROOMS] communityDetailLb] setText:string];
+        //户型
+        AnjukeEditableCell *roomsCell = [[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_ROOMS];
+        [[roomsCell text_Field] setText:string];
+        [roomsCell setInputed_RowAtCom0:roomNumIndex];
+        [roomsCell setInputed_RowAtCom1:hallNumIndex];
+        [roomsCell setInputed_RowAtCom2:totileNumIndex];
+        
+        //朝向
+        AnjukeEditableCell *orientCell = [[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_ORIENTATION];
+        [orientCell setInputed_RowAtCom0:orientIndex];
+        [[orientCell text_Field] setText:orientSt];
     }
     else {
-        [[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_ROOMS] communityDetailLb] setText:string];
+        //户型
+        AnjukeEditableCell *roomsCell = [[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_ROOMS];
+        [[roomsCell text_Field] setText:string];
+        [roomsCell setInputed_RowAtCom0:roomNumIndex];
+        [roomsCell setInputed_RowAtCom1:hallNumIndex];
+        [roomsCell setInputed_RowAtCom2:totileNumIndex];
+        
+        //朝向
+        AnjukeEditableCell *orientCell = [[self.cellDataSource inputCellArray] objectAtIndex:AJK_PICKER_ORIENTATION];
+        [orientCell setInputed_RowAtCom0:orientIndex];
+        [[orientCell text_Field] setText:orientSt];
+        
+        //唯一住房和5年
+        /*
+        AnjukeNormalCell *fullOnly = [[self.cellDataSource inputCellArray] objectAtIndex:AJK_CLICK_FEATURE];
+        UIView *fiveView = [fullOnly viewWithTag:-1];
+        UIView *onlyView = [fullOnly viewWithTag:-2];
+
+        AJKBRadioButton *fiveRadio = (AJKBRadioButton *)[fiveView viewWithTag:110];
+        AJKBRadioButton *onlyRadio = (AJKBRadioButton *)[onlyView viewWithTag:110];
+        onlyRadio.isChoose = [onlyNum boolValue];
+        fiveRadio.isChoose = [fiveNum boolValue];*/
+        [self fiveRadioValue:[fiveNum boolValue] getV:false];
+        [self onlyRadioValue:[onlyNum boolValue] getV:false];
+        
     }
 }
+
+//满5年的值
+- (BOOL)fiveRadioValue:(BOOL)bValue getV:(BOOL)isT
+{
+    AnjukeNormalCell *fullOnly = [[self.cellDataSource inputCellArray] objectAtIndex:AJK_CLICK_FEATURE];
+    UIView *fiveView = [fullOnly viewWithTag:-1];
+    AJKBRadioButton *fiveRadio = (AJKBRadioButton *)[fiveView viewWithTag:110];
+    if (isT)
+    {
+        return fiveRadio.isChoose;
+    }
+
+    fiveRadio.isChoose = bValue;
+    
+    return fiveRadio.isChoose;
+}
+//唯一的值
+- (BOOL)onlyRadioValue:(BOOL)bValue getV:(BOOL)isT
+{
+    AnjukeNormalCell *fullOnly = [[self.cellDataSource inputCellArray] objectAtIndex:AJK_CLICK_FEATURE];
+    UIView *onlyView = [fullOnly viewWithTag:-2];
+    AJKBRadioButton *onlyRadio = (AJKBRadioButton *)[onlyView viewWithTag:110];
+    if (isT)
+    {
+        return onlyRadio.isChoose;
+    }
+    onlyRadio.isChoose = bValue;
+
+    return onlyRadio.isChoose;
+}
+
 
 - (void)doPushToHouseTypeVC {
     PublishHouseTypeViewController *ph = [[PublishHouseTypeViewController alloc] init];
@@ -657,6 +763,14 @@ typedef enum {
     if (self.isHaozu) {
         if (self.uploadImgIndex < self.uploadImg_houseTypeIndex) { //属于室内图类型
             [dic setObject:@"1" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
+            //检查_imgdescArr是否存在
+            [self initImgDesc];
+            if ((_uploadRoomImgDescIndex <= ([_imgdescArr count] - 1)) && _imgdescArr.count > 0)
+            {
+                DLog(@"desc === %@", [_imgdescArr objectAtIndex:_uploadRoomImgDescIndex]);
+                [dic setObject:[_imgdescArr objectAtIndex:_uploadRoomImgDescIndex] forKey:@"imageDesc"];
+                _uploadRoomImgDescIndex++;
+            }
         }
         else //属于房型图类型
             [dic setObject:@"2" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
@@ -666,7 +780,15 @@ typedef enum {
     {
         if (self.uploadImgIndex < self.uploadImg_houseTypeIndex) { //属于室内图类型
             [dic setObject:@"2" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
-            [dic setObject:[_imgdescArr objectAtIndex:self.uploadImgIndex] forKey:@"description"];
+            //检查_imgdescArr是否存在
+            [self initImgDesc];
+            if ((_uploadRoomImgDescIndex <= ([_imgdescArr count] - 1)) && _imgdescArr.count > 0)
+            {
+                DLog(@"desc === %@", [_imgdescArr objectAtIndex:_uploadRoomImgDescIndex]);
+                [dic setObject:[_imgdescArr objectAtIndex:_uploadRoomImgDescIndex] forKey:@"imageDesc"];
+                _uploadRoomImgDescIndex++;
+            }
+            
         }
         else //属于房型图类型
             [dic setObject:@"3" forKey:@"type"]; //1:小区图;2:室内图;3:房型图"
@@ -698,6 +820,7 @@ typedef enum {
     [self showInfo:@"图片上传失败，请重试"];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
+    _uploadRoomImgDescIndex = 0;
 }
 
 //发房
@@ -716,6 +839,9 @@ typedef enum {
         method = @"zufang/prop/publish/";
     }
     else { //二手房新增是否满五年、是否唯一、最低首付字段
+        self.property.isOnly = [NSNumber numberWithBool:[self onlyRadioValue:false getV:true]];
+        self.property.isFullFive = [NSNumber numberWithBool:[self fiveRadioValue:false getV:true]];
+        
         [params setObject:[self.property.isOnly stringValue] forKey:@"isOnly"];
         [params setObject:[self.property.isFullFive stringValue] forKey:@"isFullFive"];
 //        [params setObject:self.property.minDownPay forKey:@"minDownPay"];
@@ -1133,7 +1259,7 @@ typedef enum {
     //顺便写入传参数值。。。以后优化代码
     if (self.isHaozu) {
         switch (self.selectedIndex) { //二手房
-            case HZ_CLICK_ROOMS://户型
+            case HZ_PICKER_ROOMS://户型
             {
                 [idStr appendString:strValue1];
                 [idStr appendString:[NSString stringWithFormat:@",%@", strValue2]];
@@ -1546,7 +1672,7 @@ typedef enum {
                 return;
             }
                 break;
-            case HZ_CLICK_ROOMS://户型
+            case HZ_PICKER_ROOMS://户型
             {
                 self.selectedIndex = HZ_TEXT_AREA;
                 self.selectedRow = 1;
@@ -1555,7 +1681,7 @@ typedef enum {
                 break;
             case HZ_PICKER_FLOORS: //楼层
             {
-                self.selectedIndex = HZ_CLICK_ROOMS;
+                self.selectedIndex = HZ_PICKER_ROOMS;
                 self.selectedRow = 0;
                 self.selectedSection = 1;
                 isPicker = YES;
@@ -1691,13 +1817,13 @@ typedef enum {
                 break;
             case HZ_TEXT_AREA://面积
             {
-                self.selectedIndex = HZ_CLICK_ROOMS;
+                self.selectedIndex = HZ_PICKER_ROOMS;
                 isPicker = YES;
                 self.selectedRow = 0;
                 self.selectedSection = 1;
             }
                 break;
-            case HZ_CLICK_ROOMS://户型
+            case HZ_PICKER_ROOMS://户型
             {
                 self.selectedIndex = HZ_PICKER_FLOORS;
                 isPicker = YES;
@@ -1878,15 +2004,8 @@ typedef enum {
     int imageIndex = index - 0;
     DLog(@"查看大图--index [%d]", imageIndex);
     
-    if (!_imgdescArr || _imgdescArr.count == 0)
-    {
-        _imgdescArr = [NSMutableArray arrayWithCapacity:5];
-        for (int i = 0; i < self.roomImageArray.count; i++)
-        {
-            NSString *va = @"";
-            [_imgdescArr addObject:va];
-        }
-    }
+    //检查_imdescarr是否存在
+    [self initImgDesc];
     
     //查看大图
     //模态弹出图片播放器
@@ -1897,21 +2016,21 @@ typedef enum {
     
     if (!sender.isHouseType)
     {
-        _footClickType = 1;
+        self.footClickType = 1;
     }else
     {
-        _footClickType = 2;
+        self.footClickType = 2;
     }
     
     BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    if (_footClickType == 1) //室内图
+    if (self.footClickType == 1) //室内图
     {
         pb.hasTextView = YES; //有照片编辑框
         [self.navigationController presentViewController:navController animated:YES completion:^(void) {
             [pb showImagesWithArray:self.roomImageArray atIndex:imageIndex];
         }];
-    }else if (_footClickType == 2) //户型图
+    }else if (self.footClickType == 2) //户型图
     {
         [self.navigationController presentViewController:navController animated:YES completion:^(void) {
             [pb showImagesWithArray:self.houseTypeImageArray atIndex:imageIndex];
@@ -1932,7 +2051,7 @@ typedef enum {
     
     DLog(@"sender.tag == %d", sender.tag);
     
-    _footClickType = sender.tag;
+    self.footClickType = sender.tag;
     if (sender.tag == 1)
     {
         self.footerView = [_footerViewDict objectForKey:FOOTERVIEWDICTROOM];
@@ -1963,7 +2082,7 @@ typedef enum {
     self.photoBGView.frame = CGRectMake(0, 0, [self windowWidth], footHeight);
     self.tableViewList.tableFooterView = self.photoBGView; //状态改变后需要重新赋值footerView
     
-    if (_footClickType == 1)
+    if (self.footClickType == 1)
     {
         
         CGRect sFootFrame = styleFootView.frame;
@@ -1975,11 +2094,12 @@ typedef enum {
 #pragma mark - PublishBigImageViewClickDelegate
 
 - (void)viewDidFinishWithImageArr:(NSArray *)imageArray sender:(PublishBigImageViewController *)sender{
-    _imgdescArr = [NSMutableArray arrayWithArray:sender.imageDescArray];
-    if (_footClickType == 1) //室内图
+    
+    if (self.footClickType == 1) //室内图
     {
+        _imgdescArr = [NSMutableArray arrayWithArray:sender.imageDescArray];
         self.roomImageArray = [NSMutableArray arrayWithArray:imageArray];
-    }else if(_footClickType == 2) //户型图
+    }else if(self.footClickType == 2) //户型图
     {
         self.houseTypeImageArray = [NSMutableArray arrayWithArray:imageArray];
     }
@@ -1991,7 +2111,7 @@ typedef enum {
     //do nothing
 }
 
-- (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex {
+- (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex sender:(id)sender{
     //非编辑房源 do nothing
 }
 
@@ -2116,10 +2236,10 @@ typedef enum {
         ep.photoURL = url;
         ep.smallPhotoUrl = url;
         
-        if (_footClickType == 1)
+        if (self.footClickType == 1)
         {
             [self.roomImageArray addObject:ep];
-        }else if (_footClickType == 2)
+        }else if (self.footClickType == 2)
         {
             [self.houseTypeImageArray addObject:ep];
         }
@@ -2134,10 +2254,10 @@ typedef enum {
     DLog(@"sender.tag == %d", sender.tag);
     
     NSArray *willdoArr = self.roomImageArray;
-    if (_footClickType == 1)
+    if (self.footClickType == 1)
     {
         self.footerView = [_footerViewDict objectForKey:FOOTERVIEWDICTROOM];
-    }else if (_footClickType == 2)
+    }else if (self.footClickType == 2)
     {
         willdoArr = self.houseTypeImageArray;
         self.footerView = [_footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
@@ -2194,10 +2314,10 @@ typedef enum {
             ep.smallPhotoUrl = url;
         }
         
-        if (_footClickType == 1)
+        if (self.footClickType == 1)
         {
             [self.roomImageArray addObject:ep];
-        }else if (_footClickType == 2)
+        }else if (self.footClickType == 2)
         {
             [self.houseTypeImageArray addObject:ep];
         }
@@ -2205,7 +2325,7 @@ typedef enum {
 	}
     
     NSArray *willdoArr = self.roomImageArray;
-    if (_footClickType == 2)
+    if (self.footClickType == 2)
     {
         willdoArr = self.houseTypeImageArray;
     }
@@ -2303,10 +2423,10 @@ typedef enum {
         ep.photoURL = url;
         ep.smallPhotoUrl = url;
         
-        if (_footClickType == 1)
+        if (self.footClickType == 1)
         {
             [self.roomImageArray addObject:ep];
-        }else if (_footClickType == 2)
+        }else if (self.footClickType == 2)
         {
             [self.houseTypeImageArray addObject:ep];
         }
@@ -2355,10 +2475,10 @@ typedef enum {
         switch (buttonIndex) {
             case 0: //拍照
             {
-                if (_footClickType == 1)
+                if (self.footClickType == 1)
                 {
                     [self getCrameAction];
-                }else if (_footClickType == 2)
+                }else if (self.footClickType == 2)
                 {
                     [self onlineActionSheet];
                 }
