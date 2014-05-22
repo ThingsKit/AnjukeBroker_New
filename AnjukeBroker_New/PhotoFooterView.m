@@ -485,6 +485,10 @@
         if ([self.clickDelegate respondsToSelector:@selector(imageDidClickWithIndex:)]) {
             [self.clickDelegate imageDidClickWithIndex:index];
         }
+        if ([self.clickDelegate respondsToSelector:@selector(imageDidClickWithIndex:sender:)])
+        {
+            [self.clickDelegate imageDidClickWithIndex:index sender:self];
+        }
     }
 }
 

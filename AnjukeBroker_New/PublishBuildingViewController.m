@@ -1855,7 +1855,7 @@ typedef enum {
 
 #pragma mark - PhotoFooterImageClickDelegate
 
-- (void)imageDidClickWithIndex:(int)index { //图片预览点击
+- (void)imageDidClickWithIndex:(int)index sender:(PhotoFooterView *)sender{ //图片预览点击
     int imageIndex = index - 0;
     DLog(@"查看大图--index [%d]", imageIndex);
     
@@ -1875,6 +1875,14 @@ typedef enum {
     pb.imageDescArray = _imgdescArr;
     pb.isModalCancelItemDisplay = YES;
     pb.clickDelegate = self;
+    
+    if (!sender.isHouseType)
+    {
+        _footClickType = 1;
+    }else
+    {
+        _footClickType = 2;
+    }
     
     BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;

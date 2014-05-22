@@ -17,6 +17,7 @@
 @protocol PhotoFooterImageClickDelegate <NSObject>
 
 - (void)imageDidClickWithIndex:(int)index;
+- (void)imageDidClickWithIndex:(int)index sender:(PhotoFooterView *)sender;
 - (void)addImageDidClick;
 - (void)addImageDidClick:(PhotoFooterView *)sender;
 
