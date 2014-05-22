@@ -84,28 +84,6 @@
 }
 
 #pragma mark -
-#pragma mark UITextViewDelegate
-- (void)textViewDidBeginEditing:(UITextView *)textView{
-    
-}
-
-- (void)textViewDidEndEditing:(UITextView *)textView{
-    NSLog(@"%d", self.currentIndex);
-    [_imageDescArray insertObject:textView.text atIndex:self.currentIndex];
-    
-}
-
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-    if ([text isEqualToString:@"\n"]) {
-        [textView resignFirstResponder];
-        return NO;
-    }
-    return YES;
-}
-//- (void)textViewDidChange:(UITextView *)textView;
-
-
-#pragma mark -
 #pragma mark 键盘监听事件
 /* NSLog(@"%@", notification.userInfo);
  
@@ -338,15 +316,15 @@
         self.currentIndex = index;
     
     //初始化数组
-    _imageDescArray = [[NSMutableArray alloc] initWithCapacity:self.imgArr.count];
-    for (int i = 0; i< self.imgArr.count; i++){
-        E_Photo* photo = (E_Photo*)[self.imgArr objectAtIndex:i];
-        if (photo.imageDic && [photo.imageDic objectForKey:@"imageDesc"]){
-            [_imageDescArray insertObject:[photo.imageDic objectForKey:@"imageDesc"] atIndex:self.currentIndex];
-        }else{
-            [_imageDescArray insertObject:@"" atIndex:self.currentIndex];
-        }
-    }
+//    _imageDescArray = [[NSMutableArray alloc] initWithCapacity:self.imgArr.count];
+//    for (int i = 0; i< self.imgArr.count; i++){
+//        E_Photo* photo = (E_Photo*)[self.imgArr objectAtIndex:i];
+//        if (photo.imageDic && [photo.imageDic objectForKey:@"imageDesc"]){
+//            [_imageDescArray insertObject:[photo.imageDic objectForKey:@"imageDesc"] atIndex:self.currentIndex];
+//        }else{
+//            [_imageDescArray insertObject:@"" atIndex:self.currentIndex];
+//        }
+//    }
     
     [self drawImageScroll];
     
@@ -372,11 +350,47 @@
     [self hideLoadWithAnimated:YES];
 }
 
+#pragma mark -
+#pragma mark UITextViewDelegate
+- (void)textViewDidBeginEditing:(UITextView *)textView{
+    
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    NSLog(@"%d", self.currentIndex);
+    [_imageDescArray insertObject:self.textView.text atIndex:self.currentIndex];
+    
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    if ([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    return YES;
+}
+//- (void)textViewDidChange:(UITextView *)textView;
+
 #pragma mark - UIScrollView Delegate
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    self.currentIndex = scrollView.contentOffset.x / [self windowWidth];
+    DLog(@"index [%d]", self.currentIndex);
+    
+//    if (self.hasTextView) {
+//        [_imageDescArray insertObject:self.textView.text atIndex:self.currentIndex];
+//    }
+}
+
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     self.currentIndex = scrollView.contentOffset.x / [self windowWidth];
     DLog(@"index [%d]", self.currentIndex);
+    
+//    if (self.hasTextView) {
+//        NSString* test = [_imageDescArray objectAtIndex:self.currentIndex];
+//        self.textView.text = test;
+//    }
+    
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {

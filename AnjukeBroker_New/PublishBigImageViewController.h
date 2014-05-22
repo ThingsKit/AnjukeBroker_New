@@ -26,7 +26,7 @@
 @property int editDeleteImgIndex; //删除房源对应的index，便于通知
 @property BOOL isNewAddImg; //编辑房源是否是新添加图片
 
-@property (nonatomic, readonly, strong) NSMutableArray* imageDescArray;
+@property (nonatomic, strong) NSMutableArray* imageDescArray;
 
 @property (nonatomic, assign) BOOL hasTextView;
 
