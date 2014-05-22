@@ -58,7 +58,7 @@
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
     
-    [self registerRemoteNotification];
+//    [self registerRemoteNotification];
     [self cleanRemoteNotification:application];
     
     //初始化底层库
@@ -354,6 +354,7 @@
         [nav.view addSubview:af];
     }
     else {
+        [self registerRemoteNotification];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     }
 }
@@ -586,6 +587,7 @@
 #pragma mark - AFWelcomeScrollViewDelegate
 
 - (void)welcomeViewDidHide {
+    [self registerRemoteNotification];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
 }
 
