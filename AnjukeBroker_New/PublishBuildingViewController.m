@@ -1859,9 +1859,20 @@ typedef enum {
     int imageIndex = index - 0;
     DLog(@"查看大图--index [%d]", imageIndex);
     
+    if (!_imgdescArr || _imgdescArr.count == 0)
+    {
+        _imgdescArr = [NSMutableArray arrayWithCapacity:5];
+        for (int i = 0; i < self.roomImageArray.count; i++)
+        {
+            NSString *va = @"";
+            [_imgdescArr addObject:va];
+        }
+    }
+    
     //查看大图
     //模态弹出图片播放器
     PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
+    pb.imageDescArray = _imgdescArr;
     pb.isModalCancelItemDisplay = YES;
     pb.clickDelegate = self;
     
