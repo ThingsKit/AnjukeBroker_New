@@ -134,9 +134,23 @@
             UILabel *detailLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 35, 290, 20)];
             detailLab.text = @"请在iphone的“设置”-“通知中心”中进行修改";
             detailLab.backgroundColor = [UIColor clearColor];
-            detailLab.font = [UIFont systemFontOfSize:12];
+            detailLab.font = [UIFont systemFontOfSize:10];
             detailLab.textColor = [UIColor lightGrayColor];
             [cell.contentView addSubview:detailLab];
+            
+            UILabel *notifyOpenLab = [[UILabel alloc] initWithFrame:CGRectMake(255, 0, 50, NOTIFICCELL)];
+            notifyOpenLab.backgroundColor = [UIColor clearColor];
+            notifyOpenLab.font = [UIFont ajkH2Font];
+            notifyOpenLab.textColor = [UIColor lightGrayColor];
+            notifyOpenLab.textAlignment = NSTextAlignmentCenter;
+            [cell.contentView addSubview:notifyOpenLab];
+            
+            UIRemoteNotificationType type = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
+            if (type == UIRemoteNotificationTypeNone) {
+                notifyOpenLab.text = @"未开启";
+            } else {
+                notifyOpenLab.text = @"开启";
+            }
         }
     }else{
         if (indexPath.row == 0) {
