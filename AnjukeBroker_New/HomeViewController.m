@@ -144,7 +144,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self initRightBarButton];
+    [self addRightButton:@"发布" andPossibleTitle:nil];
     [self initView];
     [self initSelectionView];
 }
@@ -160,14 +160,7 @@
 }
 
 - (void)initRightBarButton {
-//    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_setting.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_setting_press.png"] taget:self action:@selector(rightButtonAction:)];
-    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithChangeString:@"发布" taget:self action:@selector(rightButtonAction:)];
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {//fix ios7以下 10像素偏离
-        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:10.0];
-        [self.navigationItem setRightBarButtonItems:@[spacer, rightItem]];
-    }else{
-        self.navigationItem.rightBarButtonItem = rightItem;
-    }
+    [self addRightButton:@"发布" andPossibleTitle:nil];
 }
 
 - (void)initModel {
