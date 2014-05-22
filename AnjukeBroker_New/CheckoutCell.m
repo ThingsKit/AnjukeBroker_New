@@ -64,8 +64,12 @@
     if (cellType == CHECKOUTCELLWITHELSE) {
         self.textLabel.backgroundColor = [UIColor clearColor];
         if (index == 0) {
-            self.textLabel.text = @"今日签到展示位得主：";
-            self.textLabel.font = [UIFont ajkH5Font];
+            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 18, 150, 12)];
+            lab.text = @"今日签到展示位得主：";
+            lab.textColor = [UIColor brokerMiddleGrayColor];
+            lab.font = [UIFont ajkH5Font];
+            [self.contentView addSubview:lab];
+        
         }else if(index == 4){
             self.textLabel.text = @"了解签到规则";
             self.textLabel.textAlignment = NSTextAlignmentCenter;
@@ -125,7 +129,9 @@
     //分割线绘制
     if (index == 0) {
         [self showTopLine];
+        self.backgroundColor = [UIColor clearColor];
     }else if (index == 1){
+        self.backgroundColor = [UIColor whiteColor];
         [self showTopLine];
         if (cellType == CHECKOUTCELLWITHNOCHECK) {
             [self showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK andOffsetX:15];
@@ -133,19 +139,22 @@
             [self showBottonLineWithCellHeight:CELLHEIGHT_CHECK andOffsetX:15];
         }
     }else if (index == 2){
+        self.backgroundColor = [UIColor whiteColor];
         if (cellType == CHECKOUTCELLWITHNOCHECK) {
             [self showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK andOffsetX:15];
         }else{
             [self showBottonLineWithCellHeight:CELLHEIGHT_CHECK andOffsetX:15];
         }
     }else if (index == 3){
+        self.backgroundColor = [UIColor whiteColor];
         if (cellType == CHECKOUTCELLWITHNOCHECK) {
             [self showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK];
         }else{
             [self showBottonLineWithCellHeight:CELLHEIGHT_CHECK];
         }
     }else if (index == 4){
-        [self showBottonLineWithCellHeight:CELLHEIGHT_NOFMAL];
+//        [self showBottonLineWithCellHeight:CELLHEIGHT_NOFMAL];
+        self.backgroundColor = [UIColor clearColor];
     }
 }
 @end

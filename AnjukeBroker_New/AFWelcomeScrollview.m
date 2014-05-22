@@ -162,8 +162,8 @@ typedef enum {
                 
                 hideBtn.frame = CGRectMake(btnOriginX + [self getWindowWidth] * (imgArray.count - 1), [self getWindowHeight]-btnH-height, btnW, btnH);
 //                [hideBtn setBackgroundColor:SYSTEM_TABBAR_SELECTCOLOR_DARK];
-                [hideBtn setBackgroundImage:[[UIImage imageNamed:@"guild_btn_normal"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
-                [hideBtn setBackgroundImage:[[UIImage imageNamed:@"guild_btn_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
+                [hideBtn setBackgroundImage:[[UIImage imageNamed:@"guild_btn_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
+                [hideBtn setBackgroundImage:[[UIImage imageNamed:@"guild_btn_normal"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
                 hideBtn.layer.cornerRadius = 3;
 //                [hideBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 //                [hideBtn setTitle:@"立 即 体 验" forState:UIControlStateNormal];

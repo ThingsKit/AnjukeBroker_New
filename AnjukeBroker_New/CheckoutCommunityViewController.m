@@ -85,8 +85,14 @@
     [self autoPullDown];
 
     UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, [self windowHeight]-30- STATUS_BAR_H - NAV_BAT_H, [self windowWidth], 30)];
+    bottomView.backgroundColor = [UIColor brokerBgPageColor];
     bottomView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:bottomView];
+    
+    BrokerLineView *line = [[BrokerLineView alloc] init];
+    line.horizontalLine = YES;
+    line.frame = CGRectMake(0, 0, [self windowWidth], 0.5);
+    [bottomView addSubview:line];
     
     UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 150, 30)];
     tips.font = [UIFont ajkH5Font];
@@ -94,14 +100,17 @@
     tips.textColor = [UIColor brokerMiddleGrayColor];
     [bottomView addSubview:tips];
     
-    UILabel *refreshTips = [[UILabel alloc] initWithFrame:CGRectMake(220, 0, 60, 30)];
-    refreshTips.font = [UIFont ajkH5Font];
-    refreshTips.text = @"刷新位置";
-    refreshTips.textColor = [UIColor brokerMiddleGrayColor];
-    [bottomView addSubview:refreshTips];
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(235, 0, 60, 30);
+    [btn setTitle:@"刷新位置" forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont ajkH5Font];
+    btn.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [btn setTitleColor:[UIColor brokerMiddleGrayColor] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(refreshGeo:) forControlEvents:UIControlEventTouchUpInside];
+    [bottomView addSubview:btn];
     
     self.refreshBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.refreshBtn.frame = CGRectMake(280, 5, 20, 20);
+    self.refreshBtn.frame = CGRectMake(295, 7, 15, 15);
     [self.refreshBtn addTarget:self action:@selector(refreshGeo:) forControlEvents:UIControlEventTouchUpInside];
     [self.refreshBtn setBackgroundImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
     [self.refreshBtn setBackgroundImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateHighlighted];
@@ -217,7 +226,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 45;
+    return 46;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

@@ -40,9 +40,12 @@
 }
 
 - (void)initDisplay{
+    self.view.backgroundColor = [UIColor brokerBgPageColor];
+    
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
+    self.myTable.backgroundColor = [UIColor clearColor];
     self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.myTable];
     
@@ -143,12 +146,12 @@
 //}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 7;//self.groupArray.count;
+    return 6;//self.groupArray.count;
 //    return [self.dataDic count] + [self.ppcDataDic count]- 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 40.0f;
+    return 45.0f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -162,7 +165,11 @@
     
     }
     [cell configureCell:self.dataDic withIndex:indexPath.row];
-    [cell showBottonLineWithCellHeight:40];
+    if (indexPath.row == 5) {
+        [cell showBottonLineWithCellHeight:45];
+    }else{
+        [cell showBottonLineWithCellHeight:45 andOffsetX:15];
+    }
     return cell;
 }
 

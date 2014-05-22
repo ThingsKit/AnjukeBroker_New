@@ -13,8 +13,9 @@
 + (UILabel *)getTitleView:(NSString *)titleStr{
     UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
     lb.backgroundColor = [UIColor clearColor];
-    lb.font = [UIFont systemFontOfSize:19];
+    lb.font = [UIFont ajkH1Font];
     lb.text = titleStr;
+    lb.textColor = [UIColor whiteColor];
     lb.textAlignment = NSTextAlignmentCenter;
     lb.textColor = SYSTEM_NAVIBAR_COLOR;
 

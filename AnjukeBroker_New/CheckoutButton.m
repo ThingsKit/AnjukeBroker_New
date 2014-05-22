@@ -26,8 +26,8 @@
 #pragma mark - 签到按钮-常规
 - (UIButton *)buttonWithNormalStatus{
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor ajkGreenColor]] forState:UIControlStateNormal];
-    [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor grayColor]] forState:UIControlStateHighlighted];
+    [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor brokerBabyBlueColor]] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor brokerBlueColor]] forState:UIControlStateHighlighted];
     btn.titleLabel.font = [UIFont ajkH1Font_B];
     btn.layer.masksToBounds = YES;
     btn.layer.cornerRadius = 2.5;

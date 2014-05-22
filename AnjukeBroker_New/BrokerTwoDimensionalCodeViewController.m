@@ -80,14 +80,14 @@
     self.nameLb = titleLb;
     [self.view addSubview:titleLb];
     
-    UILabel *titleLb2 = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 15, titleLb.frame.origin.y+ titleLb.frame.size.height + 5, 200, 20)];
+    UILabel *titleLb2 = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 15, titleLb.frame.origin.y+ titleLb.frame.size.height + 5, 200, 12)];
     titleLb2.backgroundColor = [UIColor clearColor];
     titleLb2.font = [UIFont ajkH5Font];
     titleLb2.textColor = [UIColor ajkBlackColor];
     self.remarkLb = titleLb2;
     [self.view addSubview:titleLb2];
 
-    UILabel *titleLb3 = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 15, titleLb2.frame.origin.y+ titleLb2.frame.size.height + 5, 200, 20)];
+    UILabel *titleLb3 = [[UILabel alloc] initWithFrame:CGRectMake(icon.frame.origin.x + icon.frame.size.width + 15, titleLb2.frame.origin.y+ titleLb2.frame.size.height + 5, 200, 12)];
     titleLb3.backgroundColor = [UIColor clearColor];
     titleLb3.font = [UIFont ajkH5Font];
     titleLb3.textColor = [UIColor ajkBlackColor];
@@ -162,7 +162,8 @@
     }
     
     NSDictionary *dic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
-    self.remarkLb.text = [NSString stringWithFormat:@"%@ %@",[dic objectForKey:@"company"],[dic objectForKey:@"store"]];
+    self.remarkLb.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"company"]];
+    self.remarkMoreLb.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"store"]];
     //
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;

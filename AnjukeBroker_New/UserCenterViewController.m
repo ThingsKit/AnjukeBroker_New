@@ -72,6 +72,7 @@
 {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor brokerBgPageColor];
     
     if (self.userCenterModel == nil) {
         [self doRequest];
@@ -80,7 +81,6 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
 
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
     self.headerView = [[UserHeaderView alloc] initWithFrame:HEADERFRAME];
     self.headerView.sdxDelegate = self;
     [self.headerView setImageView:[UIImage imageNamed:@"userHeaderBg"]];
@@ -122,9 +122,6 @@
     }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
-        return 0;
-    }
     return 20;
 }
 
@@ -132,6 +129,12 @@
     return CELL_HEIGHT;
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 20)];
+    view.backgroundColor = [UIColor brokerBgPageColor];
+    
+    return view;
+}
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identify = @"cell";
@@ -255,8 +258,8 @@
 
 - (NSString *)getAccountLeft{
     NSString *str = @"";
-    if (self.dataDic) {
-        str = [NSString stringWithFormat:@"%@元", [self.dataDic objectForKey:@"balance"]];
+    if (self.userCenterModel) {
+        str = [NSString stringWithFormat:@"%d元", [self.userCenterModel.balance intValue]];
     }
     return str;
 }
@@ -264,7 +267,7 @@
 
 - (void)doRequest {
     if (![self isNetworkOkay]) {
-        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         self.isLoading = NO;
         return;
     }
@@ -283,12 +286,12 @@
     
     if([[response content] count] == 0){
         self.isLoading = NO;
-        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
 //        [self showInfo:@"操作失败"];
         return ;
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         return;
     }
     

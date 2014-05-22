@@ -11,7 +11,7 @@
 #import "UIFont+RT.h"
 #import "UIColor+BrokerRT.h"
 
-#define CHECKOUTSTATEFRAME CGRectMake(200,0,90,48)
+#define CHECKOUTSTATEFRAME CGRectMake(200,0,90,45)
 
 @implementation CheckoutCommunityCell
 @synthesize checkStatusLab;
@@ -30,7 +30,7 @@
     
     self.checkStatusLab = [[UILabel alloc] initWithFrame:CHECKOUTSTATEFRAME];
     self.checkStatusLab.textAlignment = NSTextAlignmentRight;
-    self.checkStatusLab.textColor = [UIColor brokerGreenColor];
+    self.checkStatusLab.textColor = [UIColor brokerBlueColor];
     self.checkStatusLab.backgroundColor = [UIColor clearColor];
     self.checkStatusLab.font = [UIFont ajkH3Font];
     [self.contentView addSubview:self.checkStatusLab];    

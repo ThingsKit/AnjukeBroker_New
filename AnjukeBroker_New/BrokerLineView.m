@@ -7,8 +7,9 @@
 //
 
 #import "BrokerLineView.h"
+#import "UIColor+BrokerRT.h"
 
-#define LineColor [UIColor colorWithRed:0.78 green:0.78 blue:0.8 alpha:1]
+#define LineColor [UIColor brokerLineColor]
 
 @implementation BrokerLineView
 

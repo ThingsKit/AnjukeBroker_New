@@ -19,6 +19,33 @@
 #define AJK_HOME_005 @"100005" //点击系统消息
 #define AJK_HOME_006 @"100006" //点击账户资料
 
+//房源Tab
+#define FY_TAB @"101000"
+#define FY_TAB_001 @"101001" //页面可见
+#define FY_TAB_002 @"101002" //点击二手房定价房源入口
+#define FY_TAB_003 @"101003" //点击二手房竞价房源入口
+#define FY_TAB_004 @"101004" //点击二手房待推广房源入口
+#define FY_TAB_005 @"101005" //点击租房定价房源入口
+#define FY_TAB_006 @"101006" //点击租房竞价房源入口
+#define FY_TAB_007 @"101007" //点击租房待推广房源入口
+#define FY_TAB_008 @"101008" //点击右上角+
+#define FY_TAB_010 @"101010" //点击右上角+：发布二手房
+#define FY_TAB_011 @"101011" //点击右上角+：发布租房
+#define FY_TAB_017 @"101017" //切换tab二手房—>租房
+#define FY_TAB_018 @"101018" //切换tab租房—>二手房
+
+
+//微聊数据页数
+#define WCHAT_TAB @"102000"
+#define WCHAT_TAB_001 @"102001" //页面可见
+#define WCHAT_TAB_002 @"102002" //点击【什么是闪电侠】
+#define WCHAT_TAB_003 @"102003" //点击返回
+
+//综合
+#define AJK_ZONGHE @"103000" //
+
+
+
 //二手房发布页
 #define AJK_PROPERTY @"200000"
 #define AJK_PROPERTY_001 @"200001" //
@@ -34,6 +61,27 @@
 #define AJK_PROPERTY_011 @"200011" //点击添加室内图
 #define AJK_PROPERTY_012 @"200012" //点击添加室内图-拍照
 #define AJK_PROPERTY_013 @"200013" //点击添加室内图-从相册选择
+#define AJK_PROPERTY_014 @"200014" //点击添加房型图
+#define AJK_PROPERTY_015 @"200015" //点击房型图-从相册选择
+#define AJK_PROPERTY_016 @"200016" //点击房型图-在线房型图
+
+//二手房室内图描述页
+#define AJK_PROPERTY_HOUSEIMG_DES @"201000"
+#define AJK_PROPERTY_HOUSEIMG_DES_001 @"201001" //页面可见
+#define AJK_PROPERTY_HOUSEIMG_DES_002 @"201002" //点击拍照按钮
+#define AJK_PROPERTY_HOUSEIMG_DES_003 @"201003" //点击删除
+#define AJK_PROPERTY_HOUSEIMG_DES_004 @"201004" //点击取消
+#define AJK_PROPERTY_HOUSEIMG_DES_005 @"201005" //点击确定
+
+
+//二手房从相册选择室内图
+#define AJK_PROPERTY_HOUSEIMG_CHOOSEIMG_ALBUM @"203000"
+
+//二手房房型图从手机相册选择页
+#define AJK_PROPERTY_HOUSETYPEIMG_CHOOSEIMG_ALBUM @"204000"
+
+
+
 //二手房小区选择页
 #define AJK_COMMUNITY @"210000"
 #define AJK_COMMUNITY_001 @"210001" //页面可见（即页面打开）
@@ -41,6 +89,7 @@
 #define AJK_COMMUNITY_003 @"210003" //输入小区
 #define AJK_COMMUNITY_004 @"210004" //点击附近的小区
 #define AJK_COMMUNITY_005 @"210005" //点击历史小区
+#define AJK_COMMUNITY_006 @"210006" //搜索无结果页可见
 
 //二手房在线房型图选择页
 #define AJK_ONLINE @"220000"
@@ -155,6 +204,8 @@
 #define AJK_TITLE_005 @"340005" //点击返回
 #define AJK_TITLE_006 @"340006" //点击确定
 
+
+
 //租房标题输入页面
 #define HZ_TITLE @"540000"
 #define HZ_TITLE_001 @"540001" //页面可见（即页面打开）
@@ -207,6 +258,18 @@
 #define HZ_PROPERTY_011 @"400011" //点击添加室内图
 #define HZ_PROPERTY_012 @"400012" //点击添加室内图-拍照
 #define HZ_PROPERTY_013 @"400013" //点击添加室内图-从相册选择
+
+//租房室内图描述页
+#define HZ_PROPERTY_HOUSEIMG_DES @"401000"
+
+//租房从相册选择室内图
+#define HZ_PROPERTY_HOUSEIMG_ALBUM @"403000"
+
+//租房从相册选择室内图
+#define HZ_PROPERTY_HOUSETYPEIMG_ALBUM @"404000"
+
+
+
 //租房小区选择页
 #define HZ_COMMUNITY @"410000"
 #define HZ_COMMUNITY_001 @"410001" //
@@ -333,6 +396,32 @@
 #define HZ_MORE_012 @"700012" //点击呼叫客户主任
 #define HZ_MORE_013 @"700013" //点击呼叫客服热线
 
+//我的页
+#define USER_CENTER @"701000"
+
+//系统设置页
+#define SYSTEM_SETTING @"702000"
+
+//发现页
+#define FIND_PAGE @"801000"
+
+//市场分析页
+#define MARKET_ANALYSIS @"802000"
+
+//小区签到页
+#define COMMUNITY_CHECK @"803000"
+
+//签到单页
+#define CHECK_PAGE @"804000"
+
+//业主委托-抢委托页
+#define ENTRUST_ROB_PAGE @"805000"
+
+//业主委托-我的委托
+#define ENTRUST_ME_PAGE @"805000"
+
+
+
 //发现
 #define FIND_001 @"800001" //页面可见（即页面打开）
 #define FIND_002 @"800002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
@@ -452,3 +541,4 @@
 #define CUSTOM_CHOOSE_004 @"980004"
 
 #endif
+ // //

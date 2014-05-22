@@ -49,6 +49,8 @@
 {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor brokerBgPageColor];
+    
     [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_006 note:nil];
     self.idfaFlg = false;
     
@@ -100,11 +102,16 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (section == 0) {
-        return 10;
-    } else if (section == SECTIONNUM){
-        return 0;
+        return 15;
     }
     return 20;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *view = [[UIView alloc] init];
+    view.backgroundColor = [UIColor clearColor];
+    
+    return view;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -123,7 +130,8 @@
     if (cell == nil) {
         cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     }
-    
+
+    cell.textLabel.font = [UIFont ajkH2Font];
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             [cell showTopLine];
@@ -131,7 +139,7 @@
             
             cell.textLabel.text = @"短信通知";
             
-            self.msgSw = [[UISwitch alloc] initWithFrame:CGRectMake(320 - 25 - 35, (MORE_CELL_H - 20)/2-5, 30, 20)];
+            self.msgSw = [[UISwitch alloc] initWithFrame:CGRectMake(320 - 30 - 15, (MORE_CELL_H - 20)/2-5, 30, 20)];
             [self.msgSw addTarget:self action:@selector(checkSw:) forControlEvents:UIControlEventValueChanged];
             self.msgSw.on = YES;
             [cell.contentView addSubview:self.msgSw];
@@ -141,12 +149,13 @@
             [self checkMsgOpenStatus];
         }else{
             [cell showBottonLineWithCellHeight:NOTIFICCELL];
-            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 250, 20)];
+            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 250, 16)];
             lab.backgroundColor = [UIColor clearColor];
             lab.text = @"消息通知";
+            lab.font = [UIFont ajkH2Font];
             [cell.contentView addSubview:lab];
             
-            UILabel *detailLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 35, 290, 20)];
+            UILabel *detailLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 30, 290, 20)];
             detailLab.text = @"请在iphone的“设置”-“通知中心”中进行修改";
             detailLab.backgroundColor = [UIColor clearColor];
             detailLab.font = [UIFont systemFontOfSize:10];
@@ -156,15 +165,15 @@
             UILabel *notifyOpenLab = [[UILabel alloc] initWithFrame:CGRectMake(235, 0, 70, NOTIFICCELL)];
             notifyOpenLab.backgroundColor = [UIColor clearColor];
             notifyOpenLab.font = [UIFont ajkH2Font];
-            notifyOpenLab.textColor = [UIColor lightGrayColor];
-            notifyOpenLab.textAlignment = NSTextAlignmentCenter;
+            notifyOpenLab.textColor = [UIColor brokerBlackColor];
+            notifyOpenLab.textAlignment = NSTextAlignmentRight;
             [cell.contentView addSubview:notifyOpenLab];
             
             UIRemoteNotificationType type = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
             if (type == UIRemoteNotificationTypeNone) {
                 notifyOpenLab.text = @"未开启";
             } else {
-                notifyOpenLab.text = @"开启";
+                notifyOpenLab.text = @"已开启";
             }
         }
     }else if (indexPath.section == SECTIONNUM){
@@ -180,7 +189,7 @@
             [cell showTopLine];
             [cell showBottonLineWithCellHeight:CELL_HEIGHT-2 andOffsetX:15];
             if (!self.isHasNewVersion) {
-                cell.textLabel.text = @"当前已经是最新版本";
+                cell.textLabel.text = @"版本更新                           已是最新版本";
             }else{
                 cell.textLabel.text = @"版本更新";
                 

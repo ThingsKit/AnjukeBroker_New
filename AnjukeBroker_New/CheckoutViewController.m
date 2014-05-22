@@ -88,10 +88,10 @@
     [self initUI];
 }
 
-- (void)initUI{    
+- (void)initUI{
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
-    self.tableList.backgroundColor = [UIColor clearColor];
+    self.tableList.backgroundColor = [UIColor brokerBgPageColor];;
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableList.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.tableList];
@@ -100,7 +100,7 @@
     self.headerView.backgroundColor = [UIColor whiteColor];
     
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 50)];
-    footView.backgroundColor = [UIColor whiteColor];
+    footView.backgroundColor = [UIColor clearColor];
     self.tableList.tableFooterView = footView;
     
     self.map = [[MKMapView alloc] initWithFrame:HEADERMAPFRAME];
@@ -143,7 +143,7 @@
         return;
     }
     if (![self isNetworkOkay]) {
-        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         self.isLoading = NO;
         return;
     }
@@ -161,14 +161,14 @@
 - (void)onRequestFinished:(RTNetworkResponse *)response{
     self.isLoading = NO;
     if([[response content] count] == 0){
-        [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         return ;
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
 //        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
 //        DLog(@"errorMsg--->>%@",errorMsg);
-        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
 
 
         return;
@@ -191,12 +191,12 @@
         return;
     }
     if (![self isNetworkOkay]) {
-        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         self.isLoading = NO;
         return;
     }
     if ([self calcDistance] > [self.signMile integerValue]) {
-          [[HUDNews sharedHUDNEWS] createHUD:@"您漂移的太远" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+          [[HUDNews sharedHUDNEWS] createHUD:@"您漂移的太远" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         self.isLoading = NO;
         return;
     }
@@ -214,7 +214,7 @@
     if([[response content] count] == 0){
         self.isLoading = NO;
 
-        [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:@"签到失败" addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
+        [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:@"签到失败" addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
         self.isLoading = NO;
         [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
 
@@ -222,7 +222,7 @@
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
 
-        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
 
         return;
@@ -232,12 +232,12 @@
 
     if ([dic[@"status"] isEqualToString:@"ok"]) {
         //签到成功后UI处理
-        [[HUDNews sharedHUDNEWS] createHUD:@"签到成功" hudTitleTwo:[NSString stringWithFormat:@"第%@位签到者",[[dic objectForKey:@"data"] objectForKey:@"signRank"]] addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHCHECKOK];
+        [[HUDNews sharedHUDNEWS] createHUD:@"签到成功" hudTitleTwo:[NSString stringWithFormat:@"第%@位签到者",[[dic objectForKey:@"data"] objectForKey:@"signRank"]] addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHCHECKOK];
         [self showCheckButton:CHECKBUTTONWITHCOUNTDOWN timeLeft:[[[dic objectForKey:@"data"] objectForKey:@"countDown"] intValue]];
         
         [self doRequest];
     }else{
-        [[HUDNews sharedHUDNEWS] createHUD:@"签到失败" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        [[HUDNews sharedHUDNEWS] createHUD:@"签到失败" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
     }
 }
