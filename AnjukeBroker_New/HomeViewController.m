@@ -129,6 +129,7 @@
         [_segment setLeftButTitle:@"二手房" withColor:[UIColor colorWithHex:0x252d3a alpha:1]];
         [_segment setRightButTitle:@"租房" withColor:[UIColor colorWithHex:0x252d3a alpha:1]];
         [_segment setSelectedBGColor:[UIColor colorWithHex:0x252d3a alpha:1]];
+
         _segment.layer.cornerRadius = 3;
     }
     return _segment;

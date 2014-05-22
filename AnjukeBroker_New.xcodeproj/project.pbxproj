@@ -376,6 +376,7 @@
 		B7518FB8192DA53600C02590 /* pic_3.4_02.png in Resources */ = {isa = PBXBuildFile; fileRef = B7518FB6192DA53600C02590 /* pic_3.4_02.png */; };
 		B7518FB9192DA53600C02590 /* pic_3.4_01.png in Resources */ = {isa = PBXBuildFile; fileRef = B7518FB7192DA53600C02590 /* pic_3.4_01.png */; };
 		B7518FBC192DBA0000C02590 /* UIView+AF.m in Sources */ = {isa = PBXBuildFile; fileRef = B7518FBB192DBA0000C02590 /* UIView+AF.m */; };
+		B7518FBF192DE63E00C02590 /* AJKMySettingListAdCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7518FBE192DE63E00C02590 /* AJKMySettingListAdCell.m */; };
 		B769E441181F45AF00A2FF50 /* BaseFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E440181F45AF00A2FF50 /* BaseFixedDetailController.m */; };
 		B769E445181F462C00A2FF50 /* SaleFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E444181F462C00A2FF50 /* SaleFixedDetailController.m */; };
 		B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E44B181F4C3E00A2FF50 /* CommunityObject.m */; };
@@ -1251,6 +1252,8 @@
 		B7518FB7192DA53600C02590 /* pic_3.4_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic_3.4_01.png; sourceTree = "<group>"; };
 		B7518FBA192DBA0000C02590 /* UIView+AF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AF.h"; sourceTree = "<group>"; };
 		B7518FBB192DBA0000C02590 /* UIView+AF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AF.m"; sourceTree = "<group>"; };
+		B7518FBD192DE63E00C02590 /* AJKMySettingListAdCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJKMySettingListAdCell.h; sourceTree = "<group>"; };
+		B7518FBE192DE63E00C02590 /* AJKMySettingListAdCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJKMySettingListAdCell.m; sourceTree = "<group>"; };
 		B769E43F181F45AF00A2FF50 /* BaseFixedDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseFixedDetailController.h; sourceTree = "<group>"; };
 		B769E440181F45AF00A2FF50 /* BaseFixedDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseFixedDetailController.m; sourceTree = "<group>"; };
 		B769E443181F462C00A2FF50 /* SaleFixedDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleFixedDetailController.h; sourceTree = "<group>"; };
@@ -2582,6 +2585,8 @@
 		972C10261814FC8800552C9B /* 更多 */ = {
 			isa = PBXGroup;
 			children = (
+				B7518FBD192DE63E00C02590 /* AJKMySettingListAdCell.h */,
+				B7518FBE192DE63E00C02590 /* AJKMySettingListAdCell.m */,
 				F8C0C0791924BECF0098D0E5 /* view */,
 				F8C0C0781924BEBA0098D0E5 /* manager */,
 				F8C0C06B19248BE20098D0E5 /* model */,
@@ -4278,6 +4283,7 @@
 				6767D1271922073E004FEFF7 /* BaseModel.m in Sources */,
 				B7FC9B2818C41F5100F77205 /* BK_RTLineView.m in Sources */,
 				B7E56D0B183DABD300A0F7D2 /* AnjukePropertyResultController.m in Sources */,
+				B7518FBF192DE63E00C02590 /* AJKMySettingListAdCell.m in Sources */,
 				6767D10D1921BF56004FEFF7 /* PropertyTableView.m in Sources */,
 				B7E69BBE183B5B000097D5C3 /* SaleGroupListController.m in Sources */,
 				97A606811816C2A50041B367 /* InputOrderManager.m in Sources */,

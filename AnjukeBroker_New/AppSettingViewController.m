@@ -12,6 +12,7 @@
 #import "BigZhenzhenButton.h"
 #import "AboutUsViewController.h"
 #import "VersionUpdateManager.h"
+#import "AJKMySettingListAdCell.h"
 #import "AppManager.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -49,6 +50,7 @@
     [super viewDidLoad];
     
     [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_006 note:nil];
+    self.idfaFlg = false;
     
     [self setTitleViewWithString:@"系统设置"];
     self.navigationController.navigationBarHidden = NO;
@@ -66,7 +68,7 @@
     self.tableList.showsVerticalScrollIndicator = NO;
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableList];
-
+    
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(1, 0, [self windowWidth], CELL_HEIGHT*1.5)];
     footerView.backgroundColor = [UIColor clearColor];
     
@@ -78,18 +80,29 @@
     [footerView addSubview:logoutBtn];
     
     self.tableList.tableFooterView = footerView;
+    [self requestAD];
 }
 
 #pragma mark -UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    if (self.idfaFlg) {
+        return SECTIONNUM + 1;
+    }
     return SECTIONNUM;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 2;
+    if (section == SECTIONNUM) {
+        return 1;
+    }else {
+        return 2;
+    }
 }
+
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (section == 0) {
         return 10;
+    } else if (section == SECTIONNUM){
+        return 0;
     }
     return 20;
 }
@@ -97,6 +110,8 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0 && indexPath.row == 1) {
         return NOTIFICCELL;
+    } else if(indexPath.section == SECTIONNUM){
+        return 45;
     }
     return MORE_CELL_H;
 }
@@ -108,7 +123,7 @@
     if (cell == nil) {
         cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     }
-
+    
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             [cell showTopLine];
@@ -152,6 +167,14 @@
                 notifyOpenLab.text = @"开启";
             }
         }
+    }else if (indexPath.section == SECTIONNUM){
+        NSString *adCellidentifierCell = @"adCellidentifierCell";
+        AJKMySettingListAdCell *cell = [tableView dequeueReusableCellWithIdentifier:adCellidentifierCell];
+        if (cell == nil) {
+            cell = [[AJKMySettingListAdCell alloc] init];
+            [cell setBackgroundColor:[UIColor redColor]];
+        }
+        return cell;
     }else{
         if (indexPath.row == 0) {
             [cell showTopLine];
@@ -159,8 +182,8 @@
             if (!self.isHasNewVersion) {
                 cell.textLabel.text = @"当前已经是最新版本";
             }else{
-                cell.textLabel.text = @"版本更新";                
-
+                cell.textLabel.text = @"版本更新";
+                
                 UIImageView *updateImg = [[UIImageView alloc] initWithFrame:UPDATEICONFRAME];
                 [updateImg setImage:[UIImage createImageWithColor:[UIColor redColor]]];
                 updateImg.layer.masksToBounds = YES;
@@ -203,6 +226,7 @@
         }
     }
 }
+
 #pragma mark - request
 - (void)requestLoginOut {
     if (![self isNetworkOkay]) {
@@ -235,7 +259,41 @@
         [[AppDelegate sharedAppDelegate] doLogOut];
     }
 }
+#pragma mark - requestIAD
+- (void)requestAD {
+    if (![self isNetworkOkay]) {
+        return;
+    }
+    [self.tableList reloadData];
+    
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys: nil];
+    method = @"setting/client";
+    //http://api.anjuke.com/anjuke/4.0/setting/client
+    [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTAnjukeRESTService4ID methodName:method params:params target:self action:@selector(onLoadADSuccess:)];
+}
 
+- (void)onLoadADSuccess:(RTNetworkResponse *)response {
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        
+        //        [self hideLoadWithAnimated:YES];
+        //        self.isLoading = NO;
+        
+        return;
+    }
+    if ([response content] && [[response content] objectForKey:@"results"] && [[[[response content] objectForKey:@"results"] objectForKey:@"idfa_on"] isEqualToString:@"1"]) {
+        self.idfaFlg = YES;
+        [self.tableList reloadData];
+        NSLog(@"13916241357");
+    }
+}
 #pragma mark -method
 - (void)updateVersionInfo:(NSDictionary *)dic{
     self.versionDic = [[NSDictionary alloc] initWithDictionary:dic];
@@ -371,14 +429,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+ {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

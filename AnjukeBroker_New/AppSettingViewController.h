@@ -10,5 +10,8 @@
 
 @interface AppSettingViewController : RTViewController<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 
+@property (nonatomic) BOOL idfaFlg;
+
 - (void)updateVersionInfo:(NSDictionary *)dic;
+
 @end
