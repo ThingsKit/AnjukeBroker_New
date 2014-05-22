@@ -372,6 +372,10 @@
 		B72CA8391921FBB000F8592D /* SelectionToolView.m in Sources */ = {isa = PBXBuildFile; fileRef = B72CA8381921FBB000F8592D /* SelectionToolView.m */; };
 		B73468F91904F80400EEF424 /* AXTTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B73468F81904F80400EEF424 /* AXTTTAttributedLabel.m */; };
 		B73468FE1904FB7800EEF424 /* NSArray+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B73468FD1904FB7800EEF424 /* NSArray+AXChatMessage.m */; };
+		B7518FB5192DA3A300C02590 /* NoDataAndNoNetworkView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7518FB4192DA3A300C02590 /* NoDataAndNoNetworkView.m */; };
+		B7518FB8192DA53600C02590 /* pic_3.4_02.png in Resources */ = {isa = PBXBuildFile; fileRef = B7518FB6192DA53600C02590 /* pic_3.4_02.png */; };
+		B7518FB9192DA53600C02590 /* pic_3.4_01.png in Resources */ = {isa = PBXBuildFile; fileRef = B7518FB7192DA53600C02590 /* pic_3.4_01.png */; };
+		B7518FBC192DBA0000C02590 /* UIView+AF.m in Sources */ = {isa = PBXBuildFile; fileRef = B7518FBB192DBA0000C02590 /* UIView+AF.m */; };
 		B769E441181F45AF00A2FF50 /* BaseFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E440181F45AF00A2FF50 /* BaseFixedDetailController.m */; };
 		B769E445181F462C00A2FF50 /* SaleFixedDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E444181F462C00A2FF50 /* SaleFixedDetailController.m */; };
 		B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B769E44B181F4C3E00A2FF50 /* CommunityObject.m */; };
@@ -1238,6 +1242,12 @@
 		B73468F81904F80400EEF424 /* AXTTTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXTTTAttributedLabel.m; sourceTree = "<group>"; };
 		B73468FC1904FB7800EEF424 /* NSArray+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+AXChatMessage.h"; sourceTree = "<group>"; };
 		B73468FD1904FB7800EEF424 /* NSArray+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+AXChatMessage.m"; sourceTree = "<group>"; };
+		B7518FB3192DA3A300C02590 /* NoDataAndNoNetworkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoDataAndNoNetworkView.h; sourceTree = "<group>"; };
+		B7518FB4192DA3A300C02590 /* NoDataAndNoNetworkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoDataAndNoNetworkView.m; sourceTree = "<group>"; };
+		B7518FB6192DA53600C02590 /* pic_3.4_02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic_3.4_02.png; sourceTree = "<group>"; };
+		B7518FB7192DA53600C02590 /* pic_3.4_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic_3.4_01.png; sourceTree = "<group>"; };
+		B7518FBA192DBA0000C02590 /* UIView+AF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AF.h"; sourceTree = "<group>"; };
+		B7518FBB192DBA0000C02590 /* UIView+AF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AF.m"; sourceTree = "<group>"; };
 		B769E43F181F45AF00A2FF50 /* BaseFixedDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseFixedDetailController.h; sourceTree = "<group>"; };
 		B769E440181F45AF00A2FF50 /* BaseFixedDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseFixedDetailController.m; sourceTree = "<group>"; };
 		B769E443181F462C00A2FF50 /* SaleFixedDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleFixedDetailController.h; sourceTree = "<group>"; };
@@ -2511,6 +2521,8 @@
 		972C10231814FC3800552C9B /* 首页+发房 */ = {
 			isa = PBXGroup;
 			children = (
+				B7518FB3192DA3A300C02590 /* NoDataAndNoNetworkView.h */,
+				B7518FB4192DA3A300C02590 /* NoDataAndNoNetworkView.m */,
 				972C10271814FCD300552C9B /* HomeViewController.h */,
 				972C10281814FCD300552C9B /* HomeViewController.m */,
 				202133C318C72CCD00A0090B /* 活动页面 */,
@@ -2991,6 +3003,8 @@
 		97CB0C19182BF04600FCCBBD /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				B7518FBA192DBA0000C02590 /* UIView+AF.h */,
+				B7518FBB192DBA0000C02590 /* UIView+AF.m */,
 				201579011901245800188F7E /* UIComponents.h */,
 				97CB0C1D182BF28D00FCCBBD /* UIViewController+Loading.h */,
 				97CB0C1E182BF28D00FCCBBD /* UIViewController+Loading.m */,
@@ -3356,6 +3370,8 @@
 		B7E2B68D192AF7EF008AE703 /* home */ = {
 			isa = PBXGroup;
 			children = (
+				B7518FB6192DA53600C02590 /* pic_3.4_02.png */,
+				B7518FB7192DA53600C02590 /* pic_3.4_01.png */,
 				B7E2B690192B0286008AE703 /* icon_3.4_01.png */,
 				B7E2B691192B0286008AE703 /* icon_3.4_02.png */,
 				B7E2B68E192AF7FA008AE703 /* bg_3.4_01.png */,
@@ -3985,6 +4001,7 @@
 				6740D1D51908E08C005ED706 /* anjuke_icon_keyboard@2x.png in Resources */,
 				B7D0AB9A18A9D23300A6229C /* anjuke_icon_hot_best@2x.png in Resources */,
 				B7FC9AF018C41B1300F77205 /* xproject_dialogue_greybox_selected.png in Resources */,
+				B7518FB9192DA53600C02590 /* pic_3.4_01.png in Resources */,
 				B7D0AB9718A9D23300A6229C /* anjuke_icon_bluesea@2x.png in Resources */,
 				B7ED789118891BB100E4D44C /* anjuke_icon_sound@2x.png in Resources */,
 				B7FC9ACB18C41B1300F77205 /* anjuke_icon_add_zf@2x.png in Resources */,
@@ -4070,6 +4087,7 @@
 				F8329937192B1B1D00246CD7 /* tab_icon_friend_normal@2x.png in Resources */,
 				F8110E7B1929AF59001ABC99 /* check_status_ok.png in Resources */,
 				6740D1D41908E08C005ED706 /* anjuke_icon_callphone@2x.png in Resources */,
+				B7518FB8192DA53600C02590 /* pic_3.4_02.png in Resources */,
 				9741055F180CDFE0004DAE95 /* InfoPlist.strings in Resources */,
 				979BBB66185804AE005B7D03 /* icon_29.png in Resources */,
 				F85A316C1907D0B100511022 /* anjuke_icon_callphone.png in Resources */,
@@ -4392,6 +4410,7 @@
 				9795835D1822014A005EA48A /* SystemMessageCell.m in Sources */,
 				2056A38E18EE7EA00022B5A5 /* AXMessageCenterFriendListManager.m in Sources */,
 				972DDA2A1826A4CA00263F8F /* BK_RTNavigationController.m in Sources */,
+				B7518FBC192DBA0000C02590 /* UIView+AF.m in Sources */,
 				20A44DB01869799F008D8CB1 /* BK_EGORefreshTableHeaderView.m in Sources */,
 				B769E453181F4D0100A2FF50 /* SaleFixedCell.m in Sources */,
 				970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */,
@@ -4449,6 +4468,7 @@
 				974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */,
 				97C6870C183A27E700F449BD /* BaseAuctionViewController.m in Sources */,
 				B769E475181F807500A2FF50 /* SaleBidDetailController.m in Sources */,
+				B7518FB5192DA3A300C02590 /* NoDataAndNoNetworkView.m in Sources */,
 				B7E803ED1820DD8000775C6F /* SaleSelectNoPlanController.m in Sources */,
 				B7EAD53218CD927200B28FEC /* UIImage+AXChatMessage.m in Sources */,
 				2056A34C18EE7E660022B5A5 /* AXMappedMessage.m in Sources */,

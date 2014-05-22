@@ -41,6 +41,7 @@
 #import "RentBidDetailController.h"
 #import "RentFixedDetailController.h"
 #import "SegmentView.h"
+#import "NoDataAndNoNetworkView.h"
 
 #define HOME_cellHeight 50
 #define Max_Account_Lb_Width 80
@@ -73,6 +74,8 @@
 @property (nonatomic, strong) NSMutableDictionary *hzDataDic;
 @property (nonatomic, strong) NSMutableDictionary *ajkDataDic;
 @property (nonatomic, strong) SegmentView *segment;
+@property (nonatomic, strong) NoDataAndNoNetworkView *nodataView;
+
 @property BOOL isCurrentHZ;
 
 @end
@@ -131,13 +134,11 @@
     return _segment;
 }
 
-- (void)loadNoDataBgView {
-    UIButton *nodataBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    nodataBtn.frame = self.view.frame;
-    [nodataBtn setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-//    [nodataBtn addTarget:self action:@selector(clickBG) forControlEvents:UIControlEventTouchDown];
-    [self.view addSubview:nodataBtn];
-    
+- (NoDataAndNoNetworkView *)nodataView {
+    if (_nodataView == nil) {
+        _nodataView = [[NoDataAndNoNetworkView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight])];
+    }
+    return _nodataView;
 }
 
 - (void)viewDidLoad
@@ -145,7 +146,6 @@
     [super viewDidLoad];
     [self initRightBarButton];
     [self initView];
-    [self loadNoDataBgView];
     [self initSelectionView];
 }
 
@@ -244,7 +244,6 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     [self doRequest];
-    [self doRequestPPC];
     if (!self.configChecked) {
         [self requestForConfigure];
     }
@@ -301,6 +300,7 @@
 }
 #pragma mark - SegmentViewDelegate
 - (void)didSelectedIndex:(NSInteger)index {
+    [self hideSelectionView];
     switch (index) {
         case 0:
         {
@@ -317,43 +317,25 @@
     }
 
 }
-//- (void)selectIndex:(id)sender {
-//    [self hideSelectionView];
-//    SegmentView *segmentedControl = (SegmentView *)sender;
-//    switch (segmentedControl.selectedSegmentIndex) {
-//        case 0:
-//        {
-//            [self uploadAJKTabelData];
-//        }
-//            break;
-//        case 1:
-//        {
-//            [self uploadHZTabelData];
-//        }
-//            break;
-//        default:
-//            break;
-//    }
-//}
-
-- (void)clickBG {
-    [self doRequestPPC];
-}
 
 #pragma mark - Request Method
-
 - (void)doRequest {
+    [self doRequestInfoAndPPC];
+    [self doRequestPPC];
+    [self requestForConfigure];
+}
+
+- (void)doRequestInfoAndPPC {
     if (![self isNetworkOkay]) {
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
+//        [self hideLoadWithAnimated:YES];
+//        self.isLoading = NO;
         return;
     }
     
-    [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
+//    [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
     
-    [self showLoadingActivity:YES];
-    self.isLoading = YES;
-    
+//    [self showLoadingActivity:YES];
+//    self.isLoading = YES;
     NSMutableDictionary *params = nil;
     NSString *method = nil;
     
@@ -373,8 +355,8 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
+//        [self hideLoadWithAnimated:YES];
+//        self.isLoading = NO;
         
         return;
     }
@@ -448,8 +430,8 @@
         self.hasLongLinked = YES;
     }
     
-    [self hideLoadWithAnimated:YES];
-    self.isLoading = NO;
+//    [self hideLoadWithAnimated:YES];
+//    self.isLoading = NO;
     
 }
 
@@ -508,7 +490,7 @@
     }
     
     if(![self isNetworkOkay]){
-        [self showInfo:NONETWORK_STR];
+        [self showNoNetworkView];
         return;
     }
     
@@ -526,23 +508,28 @@
     if([[response content] count] == 0){
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
+        [self showNodataVeiw];
         [self showInfo:@"操作失败"];
         return ;
     }
+    
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        
+        [self performSelector:@selector(showNodataVeiw) withObject:self afterDelay:2.0f];
         return;
     }
+    
     [self.myArray removeAllObjects];
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     if([resultFromAPI count] ==  0){
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
+//        [self hideLoadWithAnimated:YES];
+//        self.isLoading = NO;
+        [self showNodataVeiw];
+//        [self performSelector:@selector(showNodataVeiw) withObject:self afterDelay:2.0f];
         return ;
     }
     
@@ -579,8 +566,25 @@
     
 }
 
+- (void)showNodataVeiw {
+    [self.nodataView removeFromSuperview];
+    [self.view addSubview:self.nodataView];
+    [self.nodataView showNoDataView];
+}
+
+- (void)showNoNetworkView {
+    [self.nodataView removeFromSuperview];
+    [self.view addSubview:self.nodataView];
+    [self.nodataView showNoNetwork];
+}
+
+-(void)hideNodataAndNoNetworkView {
+    [self.nodataView removeFromSuperview];
+}
+
 - (void)updateTitle {
     //    [self setTitleViewWithString:@"房源"];
+    [self hideNodataAndNoNetworkView];
     self.isSeedPid = @"";
     self.myTable.hidden = NO;
     [self.view bringSubviewToFront:self.myTable];
@@ -596,6 +600,7 @@
             [self uploadHZTabelData];
         } else {
             self.myTable.hidden = YES;
+            [self showNodataVeiw];
         }
     }
 }
