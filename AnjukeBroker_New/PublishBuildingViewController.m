@@ -1874,7 +1874,6 @@ typedef enum {
     PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
     pb.backType = RTSelectorBackTypeDismiss;
     pb.imageDescArray = _imgdescArr;
-    pb.isModalCancelItemDisplay = YES;
     pb.clickDelegate = self;
     
     if (!sender.isHouseType)
