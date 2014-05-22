@@ -1968,22 +1968,6 @@ typedef enum {
     [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:imageArray]];
 }
 
-- (void)viewDidFinishWithImageNewArr:(NSArray *)imageNewArray{
-    if (_footClickType == 1) //室内图
-    {
-
-        
-    }else if(_footClickType == 2) //户型图
-    {
-//        self.houseTypeImageArray = [NSMutableArray arrayWithArray:imageNewArray];
-    }
-    
-    
-    
-    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:imageNewArray]];
-
-}
-
 - (void)onlineHouseTypeImgDelete {
     //do nothing
 }
@@ -2288,6 +2272,64 @@ typedef enum {
     [self presentViewController:ipc animated:YES completion:nil];//选择在线房型图
 }
 
+//在线房源选择回调
+- (void)onlineImgDidSelect:(NSDictionary *)imgDic
+{
+    /*
+    for (int i = 0; i < arr.count; i ++) {
+        //保存原始图片、得到url
+        E_Photo *ep = [PhotoManager getNewE_Photo];
+        NSString *path = [PhotoManager saveImageFile:(UIImage *)[arr objectAtIndex:i] toFolder:PHOTO_FOLDER_NAME];
+        NSString *url = [PhotoManager getDocumentPath:path];
+        ep.photoURL = url;
+        ep.smallPhotoUrl = url;
+        
+        if (_footClickType == 1)
+        {
+            [self.roomImageArray addObject:ep];
+        }else if (_footClickType == 2)
+        {
+            [self.houseTypeImageArray addObject:ep];
+        }
+        
+    }
+    
+    
+    self.onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:imgDic];
+    
+    //redraw footer img view
+    [self.footerView redrawWithHouseTypeImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr] andImgUrl:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.onlineHouseTypeDic]];
+     */
+}
+
+//在线选择房源
+- (void)onlineActionSheet
+{
+    NSString *code = [NSString string];
+    if (self.isHaozu) {
+        code = HZ_PROPERTY_007;
+    }
+    else
+        code = AJK_PROPERTY_007;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    
+    //check小区、户型、朝向
+    if ([self.property.rooms isEqualToString:@""] || self.property.rooms == nil) {
+        [self showInfo:@"请先择户型"];
+        return;
+    }
+    else if ([self.property.exposure isEqualToString:@""] || self.property.exposure == nil) {
+        [self showInfo:@"请选择朝向"];
+        return;
+    }
+    
+    AnjukeOnlineImgController *ao = [[AnjukeOnlineImgController alloc] init];
+    ao.imageSelectDelegate = self;
+    ao.property = self.property;
+    ao.isHaozu = self.isHaozu;
+    [self.navigationController pushViewController:ao animated:NO];
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     if (actionSheet.tag == IMAGE_ACTIONSHEET_TAG) {
@@ -2299,7 +2341,7 @@ typedef enum {
                     [self getCrameAction];
                 }else if (_footClickType == 2)
                 {
-                
+                    [self onlineActionSheet];
                 }
             }
                 break;
