@@ -25,6 +25,7 @@
 
 #import "AXChatMessageCenter.h"
 #import "HomeViewController.h"
+#import "RushPropertyViewController.h"
 
 #import "CrashLogUtil.h"
 
@@ -299,6 +300,14 @@
     if (application.applicationState == UIApplicationStateInactive) {
         DLog(@"userInfo [%@]", userInfo);
     }
+    
+//NSLog(@"弹出模态视图");
+    RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
+    viewController.backType = RTSelectorBackTypeDismiss;
+    [viewController setHidesBottomBarWhenPushed:YES];
+    BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:viewController];
+    [self.window.rootViewController presentViewController:navi animated:YES completion:nil];
+    
 }
 
 - (void)registerNotificationFinish:(RTNetworkResponse *)response{

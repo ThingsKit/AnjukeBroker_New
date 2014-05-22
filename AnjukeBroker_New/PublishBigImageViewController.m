@@ -102,6 +102,7 @@
         _textView.text = self.placeHolder;
         [_textView setTextColor:[UIColor colorWithWhite:0.6 alpha:1]];
         [_textView setFont:[UIFont systemFontOfSize:13.0f]];
+        _textView.returnKeyType = UIReturnKeyDone;
         _textView.delegate = self;
     }
     
