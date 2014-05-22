@@ -138,7 +138,7 @@
             detailLab.textColor = [UIColor lightGrayColor];
             [cell.contentView addSubview:detailLab];
             
-            UILabel *notifyOpenLab = [[UILabel alloc] initWithFrame:CGRectMake(255, 0, 50, NOTIFICCELL)];
+            UILabel *notifyOpenLab = [[UILabel alloc] initWithFrame:CGRectMake(235, 0, 70, NOTIFICCELL)];
             notifyOpenLab.backgroundColor = [UIColor clearColor];
             notifyOpenLab.font = [UIFont ajkH2Font];
             notifyOpenLab.textColor = [UIColor lightGrayColor];

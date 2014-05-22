@@ -279,7 +279,8 @@
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
 }
 - (void)onRequestFinished:(RTNetworkResponse *)response {
-    DLog(@"。。。response [%@]", [response content]);
+    DLog(@"response----->> [%@/%@]",[[response content] objectForKey:@"message"], [response content]);
+    
     if([[response content] count] == 0){
         self.isLoading = NO;
         [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:YES isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];

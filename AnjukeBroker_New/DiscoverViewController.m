@@ -12,6 +12,7 @@
 #import "FindHomeViewController.h"
 #import "RushPropertyViewController.h"
 #import "BK_RTNavigationController.h"
+#import "RTListCell.h"
 
 @interface DiscoverViewController ()
 
@@ -36,7 +37,8 @@
     [super viewDidLoad];
     [self setTitleViewWithString:@"发现"];
     // Do any additional setup after loading the view.
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) style:UITableViewStyleGrouped];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) style:UITableViewStylePlain];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
     
     self.tableView.delegate = self;
@@ -52,32 +54,41 @@
 #pragma mark -
 #pragma mark UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    return 3;
 }
 
 // Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
 // Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 46;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     static NSString* identify = @"DiscoverViewControllerCellIdentifier";
     
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:identify];
+    RTListCell* cell = [tableView dequeueReusableCellWithIdentifier:identify];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+        cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
-    
+    cell.textLabel.font = [UIFont ajkH2Font];
     if (indexPath.row == 0) {
         cell.textLabel.text = @"市场分析";
-        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon_esf1"];
+        cell.imageView.image = [UIImage imageNamed:@"discover_icon_find"];
+        
+        [cell showTopLine];
+        [cell showBottonLineWithCellHeight:46 andOffsetX:55];
     }else if (indexPath.row == 1){
         cell.textLabel.text = @"小区签到";
-        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon_esf1"];
+        cell.imageView.image = [UIImage imageNamed:@"discover_icon_check"];
+        [cell showBottonLineWithCellHeight:46 andOffsetX:55];
     }else if (indexPath.row == 2){
         cell.textLabel.text = @"抢房源委托";
-        cell.imageView.image = [UIImage imageNamed:@"anjuke_icon_esf1"];
-        
+        cell.imageView.image = [UIImage imageNamed:@"discover_icon_rab"];
+        [cell showBottonLineWithCellHeight:46];
+
         if (self.badgeView == nil) {
             if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
                 self.badgeView = [[UIImageView alloc] initWithFrame:CGRectMake(140, 10, 25, 25)];
@@ -104,9 +115,10 @@
         }
         
         
-    }else if(indexPath.row == 3){
-        cell.textLabel.text = @"模态Property";
     }
+//    else if(indexPath.row == 3){
+//        cell.textLabel.text = @"模态Property";
+//    }
     
     return cell;
 }
@@ -132,15 +144,16 @@
         RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
         [viewController setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:viewController animated:YES];
-    }else if(indexPath.row == 3){
-        NSLog(@"模态视图");
-        RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
-        viewController.backType = RTSelectorBackTypeDismiss;
-        [viewController setHidesBottomBarWhenPushed:YES];
-        BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:viewController];
-        [self.view.window.rootViewController presentViewController:navi animated:YES completion:nil];
-        
     }
+//    else if(indexPath.row == 3){
+//        NSLog(@"模态视图");
+//        RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
+//        viewController.backType = RTSelectorBackTypeDismiss;
+//        [viewController setHidesBottomBarWhenPushed:YES];
+//        BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:viewController];
+//        [self.view.window.rootViewController presentViewController:navi animated:YES completion:nil];
+//        
+//    }
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     //    [self.tableView reloadData];
