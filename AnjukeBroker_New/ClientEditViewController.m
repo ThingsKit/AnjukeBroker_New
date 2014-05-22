@@ -228,20 +228,16 @@
 
 - (void)rightButtonAction:(id)sender {
     [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_EDIT_003 note:nil];
-    
+    [self showLoadingActivity:YES];
+    [self requestData];
     [self textInputDisappear];
-    
     if (![self checkInputOK]) {
         return;
     }
-    
-    [self showLoadingActivity:YES];
-    
+//    [self showLoadingActivity:YES];
     self.person.markName = self.nameTextF.text;
-    
     if (self.person.markName.length > 0 && self.person.markName != nil) {
         //set person.markNamePinyin
-        
 //        unichar begin;
 //        begin = [self.person.markName characterAtIndex:0];
 //        DLog(@"begin--[%hu]", begin);
@@ -255,6 +251,7 @@
             }
             DLog(@"mark name pinyin -- [%@] [%@]", markNamePinyin, [markNamePinyin substringToIndex:1]);
         }
+        
     }
     else
         self.person.markNamePinyin = @"";
@@ -263,9 +260,6 @@
     self.person.markDesc = self.messageTextV.text;
     
     [[AXChatMessageCenter defaultMessageCenter] updatePerson:self.person];
-    
-    [self requestData];
-    
     DLog(@"--name[%@] ---tel[%@] ---message[%@]", self.nameTextF.text, self.telTextF.text, self.messageTextV.text);
     
 }
@@ -317,8 +311,8 @@
         if ([self.editDelegate respondsToSelector:@selector(didSaveBackWithData:)]) {
             [self.editDelegate didSaveBackWithData:self.person];
         }
-        
-        [self doBack:self];
+        [self performSelector:@selector(doBack:) withObject:self afterDelay:2.0f];
+//        [self doBack:self];
     }
     else {
         if ([[resultFromAPI objectForKey:@"status"] isEqualToString:@"ERROR"]) {
