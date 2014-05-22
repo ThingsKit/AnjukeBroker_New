@@ -189,7 +189,7 @@
             [cell showTopLine];
             [cell showBottonLineWithCellHeight:CELL_HEIGHT-2 andOffsetX:15];
             if (!self.isHasNewVersion) {
-                cell.textLabel.text = @"版本更新                           已是最新版本";
+                cell.textLabel.text = @"版本更新                         已是最新版本";
             }else{
                 cell.textLabel.text = @"版本更新";
                 
