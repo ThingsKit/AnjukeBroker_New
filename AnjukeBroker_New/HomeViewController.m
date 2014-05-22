@@ -293,12 +293,12 @@
     switch (index) {
         case 0:
         {
-            [self uploadAJKTabelData];
+            [self uploadAJKTableData];
         }
             break;
         case 1:
         {
-            [self uploadHZTabelData];
+            [self uploadHZTableData];
         }
             break;
         default:
@@ -586,9 +586,9 @@
     } else {
         [self setTitleViewWithString:@"房源"];
         if ([[self.ajkDataDic objectForKey:@"haveAjk"] isEqualToString:@"1"]) {
-            [self uploadAJKTabelData];
+            [self uploadAJKTableData];
         } else if ([[self.hzDataDic objectForKey:@"haveHz"] isEqualToString:@"1"]) {
-            [self uploadHZTabelData];
+            [self uploadHZTableData];
         } else {
             self.myTable.hidden = YES;
             [self showNodataVeiw];
@@ -596,7 +596,7 @@
     }
 }
 
-- (void)uploadAJKTabelData {
+- (void)uploadAJKTableData {
     self.isCurrentHZ = NO;
     [self.taskArray removeAllObjects];
     for (NSDictionary *tempDic in [self.ajkDataDic objectForKey:@"ajkFixHouse"]) {
@@ -615,7 +615,7 @@
     [self.myTable reloadData];
 }
 
-- (void)uploadHZTabelData {
+- (void)uploadHZTableData {
     self.isCurrentHZ = YES;
     [self.taskArray removeAllObjects];
     for (NSDictionary *tempDic in [self.hzDataDic objectForKey:@"hzFixHouse"]) {
@@ -623,7 +623,7 @@
         [self.taskArray addObject:fixedStr];
     }
     if ([self.taskArray count] == 1) {
-        self.isSeedPid = [[[self.ajkDataDic objectForKey:@"ajkFixHouse"] objectAtIndex:0] objectForKey:@"fixId"];
+        self.isSeedPid = [[[self.hzDataDic objectForKey:@"hzFixHouse"] objectAtIndex:0] objectForKey:@"fixId"];
     }
     NSString *bidStr = [NSString stringWithFormat:@"竞价房源(%@)", [self.hzDataDic objectForKey:@"hzBidHouseNum"]];
     NSString *noplanStr = [NSString stringWithFormat:@"待推广房源(%@)", [self.hzDataDic objectForKey:@"hzNotFixHouseNum"]];
