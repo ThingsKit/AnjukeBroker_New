@@ -104,6 +104,11 @@
 //    
 //    // Change the search bar placeholder text color
 //    [searchField setValue:[UIColor blackColor] forKeyPath:@"_placeholderLabel.textColor"];
+    
+//    [self.navigationItem setLeftBarButtonItem:nil];
+    
+    [self addRightButton:@"取消" andPossibleTitle:nil];
+    
     UISearchBar *sb = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 270, 30)];
     sb.delegate = self;
     sb.placeholder = @"请输入小区名或地址";
@@ -153,7 +158,9 @@
     //noImgview
     [self noDataViewHandle];
 }
-
+- (void)rightButtonAction:(id)sender{
+    [self dismissModalViewControllerAnimated:YES];
+}
 //没有数据提示view
 - (void)noDataViewHandle
 {

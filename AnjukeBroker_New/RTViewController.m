@@ -129,7 +129,9 @@
     if (self.isHome) {
         return;
     }
-    
+    if (self.backType == RTSelectorBackTypeNone) {
+        return;
+    }
     UIBarButtonItem *buttonItem;
     buttonItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_back.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_back_press.png"] taget:self action:@selector(doBack:)];
     if (self.backType == RTSelectorBackTypeDismiss) {

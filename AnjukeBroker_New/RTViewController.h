@@ -31,7 +31,8 @@
 typedef enum {
     RTSelectorBackTypePopBack = 0,
     RTSelectorBackTypeDismiss,
-    RTSelectorBackTypePopToRoot
+    RTSelectorBackTypePopToRoot,
+    RTSelectorBackTypeNone
 } RTSelectorBackType;
 
 @interface RTViewController : UIViewController <UIGestureRecognizerDelegate>

@@ -33,7 +33,7 @@
 //        ajkBut.backgroundColor = [UIColor redColor];
         ajkBut.titleLabel.textAlignment = NSTextAlignmentLeft;
         ajkBut.titleLabel.font = [UIFont systemFontOfSize:15.0f];
-        [ajkBut addTarget:self action:@selector(ajkClick:) forControlEvents:UIControlEventTouchDown];
+        [ajkBut addTarget:self action:@selector(ajkClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:ajkBut];
         
         UIButton *haozuBut = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -43,7 +43,7 @@
         haozuBut.titleLabel.textAlignment = NSTextAlignmentLeft;
         [haozuBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [haozuBut setTitle:@"发租房" forState:UIControlStateNormal];
-        [haozuBut addTarget:self action:@selector(haozuClick:) forControlEvents:UIControlEventTouchDown];
+        [haozuBut addTarget:self action:@selector(haozuClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:haozuBut];
         
     }

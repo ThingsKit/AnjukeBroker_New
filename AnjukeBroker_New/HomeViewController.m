@@ -159,10 +159,6 @@
     self.selectionView.transform = CGAffineTransformMakeScale(0, 0);
 }
 
-- (void)initRightBarButton {
-    [self addRightButton:@"发布" andPossibleTitle:nil];
-}
-
 - (void)initModel {
     self.isAJK = YES;
     self.taskArray = [NSMutableArray arrayWithObjects:@"定价房源", @"竞价房源", @"待推广房源", nil];
@@ -751,7 +747,7 @@
             [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_003 note:nil];
             
             CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-            controller.backType = RTSelectorBackTypeDismiss;
+            controller.backType = RTSelectorBackTypeNone;
             controller.isFirstShow = YES;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];
@@ -762,7 +758,7 @@
             [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_004 note:nil];
             
             CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-            controller.backType = RTSelectorBackTypeDismiss;
+            controller.backType = RTSelectorBackTypeNone;
             controller.isFirstShow = YES;
             controller.isHaouzu = YES;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
