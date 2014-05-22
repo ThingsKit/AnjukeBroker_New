@@ -567,12 +567,14 @@
 }
 
 - (void)showNodataVeiw {
+    self.myTable.hidden = YES;
     [self.nodataView removeFromSuperview];
     [self.view addSubview:self.nodataView];
     [self.nodataView showNoDataView];
 }
 
 - (void)showNoNetworkView {
+    self.myTable.hidden = YES;
     [self.nodataView removeFromSuperview];
     [self.view addSubview:self.nodataView];
     [self.nodataView showNoNetwork];
