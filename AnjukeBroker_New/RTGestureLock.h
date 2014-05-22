@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BK_RTNavigationController.h"
 
 @interface RTGestureLock : NSObject
 
-+ (void)setDisableGestureForBack:(UINavigationController *)nav disableGestureback:(BOOL)disableGestureback;
++ (void)setDisableGestureForBack:(BK_RTNavigationController *)nav disableGestureback:(BOOL)disableGestureback;
 @end

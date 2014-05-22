@@ -11,6 +11,7 @@
 #import "PhotoButton.h"
 #import "UIViewExt.h"
 #import "E_Photo.h"
+#import "RTGestureLock.h"
 
 @interface PublishBigImageViewController ()
 
@@ -26,6 +27,8 @@
 @property (nonatomic, strong) UITextView* textView;
 @property (nonatomic, strong) UIView* mainView;
 @property (nonatomic, strong) UILabel* numberOfText;
+@property (nonatomic, strong) NSString* placeHolder;
+@property (nonatomic, strong) UIImageView* pencil;
 //@property (nonatomic, strong) NSMutableArray* imageDescArray;
 
 @property BOOL isHouseType;
@@ -91,10 +94,13 @@
     _mainScroll.contentSize = CGSizeMake([self windowWidth], [self currentViewHeight]);
     
     if (self.hasTextView) {
-        _textView = [[UITextView alloc] initWithFrame:CGRectMake(10, [self currentViewHeight]+5, 300, 60)];
-        _textView.layer.borderColor = [UIColor colorWithWhite:0.7 alpha:1].CGColor;
-        _textView.layer.borderWidth = .5f;
-        _textView.layer.cornerRadius = 5;
+        self.placeHolder = @"   描述这张图片, 如装修, 采光等...";
+        _textView = [[UITextView alloc] initWithFrame:CGRectMake(15, [self currentViewHeight]+15, 290, 80)];
+        _pencil = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_write_discription"]];
+        _pencil.frame = CGRectMake(0, 5, 16, 16);
+        [_textView addSubview:_pencil];
+        _textView.text = self.placeHolder;
+        [_textView setTextColor:[UIColor colorWithWhite:0.6 alpha:1]];
         [_textView setFont:[UIFont systemFontOfSize:13.0f]];
         _textView.delegate = self;
     }
@@ -104,11 +110,14 @@
         [_mainView addSubview:_mainScroll];
         [_mainView addSubview:_textView];
         
-        _numberOfText = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth-45, _textView.bottom, 45, 20)];
+        _numberOfText = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth-30, _textView.bottom, 30, 20)];
         _numberOfText.font = [UIFont systemFontOfSize:12.0f];
-        [_numberOfText setTextColor:[UIColor blackColor]];
-        _numberOfText.text = @"20个字";
+        [_numberOfText setTextColor:[Util_UI colorWithHexString:@"#B2B2B2"]];
+        _numberOfText.text = @"20";
+        _numberOfText.hidden = YES;
         [_mainView addSubview:_numberOfText];
+        
+//        _mainView.backgroundColor = [UIColor redColor];
         
     }else{
         _mainView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, self.mainScroll.height)];
@@ -121,7 +130,7 @@
 
 - (NSInteger)currentViewHeight{
     if (self.hasTextView) {
-        return (ScreenHeight-20-44) - 60 -25;
+        return (ScreenHeight-20-44)/2;
     }
     return ScreenHeight-20-44;
     
@@ -226,6 +235,9 @@
             NSString *url = nil;
             url =  [(E_Photo *)[self.imgArr objectAtIndex:i] smallPhotoUrl];
             pb.photoImg.image = [UIImage imageWithContentsOfFile:url];
+//            pb.photoImg.contentMode = UIViewContentModeScaleAspectFit;
+            UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+            [pb addGestureRecognizer:tap];
             [self.buttonImgArr addObject:pb];
             [self.mainScroll addSubview:pb];
         }
@@ -234,11 +246,20 @@
     self.mainScroll.contentSize = CGSizeMake([self windowWidth] * self.imgArr.count, [self currentViewHeight]);
     self.mainScroll.contentOffset = CGPointMake([self windowWidth] * self.currentIndex, 0);
     
-    [self showArrowImg];
+//    [self showArrowImg];
     
     if (self.hasTextView && _imageDescArray) {
-        _textView.text = [_imageDescArray objectAtIndex:self.currentIndex];
+        NSString* content = [_imageDescArray objectAtIndex:self.currentIndex];
+        if (content.length > 0 && ![content isEqualToString:self.placeHolder]) {
+            _textView.text = [_imageDescArray objectAtIndex:self.currentIndex];
+        }else{
+            _pencil.hidden = NO;
+            _textView.text = _placeHolder;
+            [_textView setTextColor:[UIColor colorWithWhite:0.6 alpha:1]];
+        }
     }
+    
+//    NSLog(@"%f", self.mainView.bottom);
     
     [self hideLoadWithAnimated:YES];
 }
@@ -334,28 +355,71 @@
     //结构体包装成NSValue对象
     NSValue* value = [notification.userInfo objectForKey:@"UIKeyboardFrameEndUserInfoKey"];
     CGFloat keyboardHeight = [value CGRectValue].size.height; //键盘高度
+//    _textView.height = 20;
+//    CGAffineTransform transform = this.mainView.transform;
+//    view.transform = CGAffineTransformScale(transform, 0.7, 0.7);
+//    view.alpha = 0;
+//    
+//    [UIView animateWithDuration:0.3 animations:^{
+//        view.transform = CGAffineTransformScale(transform, 1.3, 1.3);
+//        view.alpha = 1;
+//    } completion:^(BOOL finished) {
+//        [UIView animateWithDuration:0.3 animations:^{
+//            view.transform = CGAffineTransformIdentity;
+//        }];
+//    }];
+    _numberOfText.hidden = NO;
     __block PublishBigImageViewController* this = self;
+//    CGAffineTransform transform = this.mainView.transform;
+    
     [UIView animateWithDuration:0.3 animations:^{
-        this.mainView.bottom = ScreenHeight - keyboardHeight - 20 - 44 -25;
+        this.mainView.bottom = ScreenHeight - keyboardHeight - 20 - 44 - 40;
+//        CGFloat bottom = ScreenHeight - 20 - 44 - 35 - this.mainView.height;
+//        CGFloat gap = keyboardHeight - bottom;
+//        this.mainView.transform = CGAffineTransformTranslate(transform, 0, -gap);
     }];
     
 }
 
 - (void)keyboardDidHide:(NSNotification*)notification {
     //结构体包装成NSValue对象
+//    _textView.height = 252;
+    _numberOfText.hidden = YES;
+    if (_imageDescArray) {
+        NSString* content = [_imageDescArray objectAtIndex:self.currentIndex];
+        if (content.length > 0 && ![content isEqualToString:self.placeHolder]) {
+            _textView.text = [_imageDescArray objectAtIndex:self.currentIndex];
+        }else{
+            _pencil.hidden = NO;
+            _textView.text = _placeHolder;
+            [_textView setTextColor:[UIColor colorWithWhite:0.6 alpha:1]];
+        }
+        
+    }
     __block PublishBigImageViewController* this = self;
     [UIView animateWithDuration:0.3 animations:^{
-        this.mainView.bottom = ScreenHeight - 20 - 44 - 25;
+        this.mainView.bottom = (ScreenHeight-20-44)/2 + 80;
+//        this.mainView.bottom = ScreenHeight - 20 - 44 - 175;
+//        this.mainView.top = 20 + 44;
+//        this.mainView.transform = CGAffineTransformIdentity;
     }];
 }
 
 #pragma mark -
 #pragma mark UITextViewDelegate
 - (void)textViewDidBeginEditing:(UITextView *)textView{
+//    _textView = [[UITextView alloc] initWithFrame:CGRectMake(15, [self currentViewHeight]+15, 290, 80)];
     
+    if ([_textView.text isEqualToString:self.placeHolder]) {
+        _pencil.hidden = YES;
+        _textView.text = @"";
+        _textView.textColor = SYSTEM_BLACK;
+    }
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
+//    _textView = [[UITextView alloc] initWithFrame:CGRectMake(15, [self currentViewHeight]+15, 290, [self currentViewHeight])];
+    
     NSLog(@"%d", self.currentIndex);
     if (_imageDescArray) {
         [_imageDescArray insertObject:self.textView.text atIndex:self.currentIndex];
@@ -372,25 +436,34 @@
     }
     return YES;
 }
-//- (void)textViewDidChange:(UITextView *)textView;
 
-#pragma mark - UIScrollView Delegate
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-//    self.currentIndex = scrollView.contentOffset.x / [self windowWidth];
-//    DLog(@"index [%d]", self.currentIndex);
-    
-//    if (self.hasTextView) {
-//        [_imageDescArray insertObject:self.textView.text atIndex:self.currentIndex];
-//    }
+- (void)textViewDidChange:(UITextView *)textView{
+    NSString* temp = [_textView.text stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    _textView.text = temp;
+    if (_textView.markedTextRange == nil && _textView.text.length > 20) {
+        _textView.text = [_textView.text substringToIndex:20];
+    }else{
+        _numberOfText.text = [NSString stringWithFormat:@"%d", (20 - _textView.text.length)];
+    }
 }
 
-
+#pragma mark - UIScrollView Delegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     self.currentIndex = scrollView.contentOffset.x / [self windowWidth];
     DLog(@"index [%d]", self.currentIndex);
     
     if (self.hasTextView) {
-        _textView.text = [_imageDescArray objectAtIndex:self.currentIndex];
+        if (_imageDescArray) {
+            NSString* content = [_imageDescArray objectAtIndex:self.currentIndex];
+            if (content.length > 0 && ![content isEqualToString:self.placeHolder]) {
+                _textView.text = [_imageDescArray objectAtIndex:self.currentIndex];
+            }else{
+                _pencil.hidden = NO;
+                _textView.text = _placeHolder;
+                [_textView setTextColor:[UIColor colorWithWhite:0.6 alpha:1]];
+            }
+            
+        }
     }
     
 }
@@ -400,5 +473,13 @@
         //
     }
 }
+
+#pragma mark -
+#pragma mark TapAction
+- (void)tap:(UITapGestureRecognizer*)gesture{
+    [_textView resignFirstResponder];
+}
+
+
 
 @end

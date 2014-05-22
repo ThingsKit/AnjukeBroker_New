@@ -11,7 +11,7 @@
 
 @implementation RTGestureLock
 
-+ (void)setDisableGestureForBack:(UINavigationController *)nav disableGestureback:(BOOL)disableGestureback{
++ (void)setDisableGestureForBack:(BK_RTNavigationController *)nav disableGestureback:(BOOL)disableGestureback{
     RTGestureBackNavigationController *passNav = (RTGestureBackNavigationController*)nav;
     passNav.disableGestureForBack = disableGestureback;
 }
