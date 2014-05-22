@@ -12,7 +12,7 @@
 
 #define TAG_PHOTO_BASE 9900
 
-#define PHOTO_BTN_H 70                              //拍照按钮高
+#define PHOTO_BTN_H 78                              //拍照按钮高
 #define PHOTO_SV_H PHOTO_SHOW_VIEW_H - PHOTO_BTN_H  //拍照scrollView高
 #define IMG_GAP 5                                   //预览图间距
 #define IMG_H PHOTO_SV_H -IMG_GAP*2
@@ -44,13 +44,13 @@
 }
 
 - (void)initDisplayWithFrame:(CGRect)frame {
-    CGFloat BtnW = 100;
+    CGFloat BtnW = 70;
     
     //Image Scroll View
     //photo sv
     UIScrollView *sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, PHOTO_SV_H)];
     self.photoSV = sv;
-    sv.backgroundColor = [UIColor clearColor];
+    sv.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.6];
     [self addSubview:sv];
     
     //bottom BG
@@ -59,23 +59,24 @@
     [self addSubview:bottomBG];
     
     UIButton *takeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    takeBtn.frame = CGRectMake(10+100, 0, BtnW, PHOTO_BTN_H);
+    takeBtn.frame = CGRectMake(frame.size.width/2-BtnW/2, 0, BtnW, BtnW);
     takeBtn.backgroundColor = [UIColor clearColor];
 //    takeBtn.layer.borderColor = SYSTEM_BLACK.CGColor;
 //    takeBtn.layer.borderWidth = 1;
 //    [takeBtn setTitle:@"拍照" forState:UIControlStateNormal];
 //    [takeBtn setTitleColor:SYSTEM_BLUE forState:UIControlStateNormal];
-//    [takeBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_takephoto.png"] forState:UIControlStateNormal];
+    [takeBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_takephoto_button"] forState:UIControlStateNormal];
+    [takeBtn setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_takephoto_button_press"] forState:UIControlStateNormal];
     [takeBtn addTarget:self action:@selector(take_Picture:) forControlEvents:UIControlEventTouchUpInside];
     [bottomBG addSubview:takeBtn];
     
-    CGFloat iconH = 98/2;
+//    CGFloat iconH = 98/2;
     CGFloat pBtnGap = 0;
     
-    UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_takephoto.png"]];
-    icon.backgroundColor = [UIColor clearColor];
-    icon.frame = CGRectMake((takeBtn.frame.size.width - iconH)/2, (takeBtn.frame.size.height - iconH)/2, iconH, iconH);
-    [takeBtn addSubview:icon];
+//    UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_takephoto.png"]];
+//    icon.backgroundColor = [UIColor clearColor];
+//    icon.frame = CGRectMake((takeBtn.frame.size.width - iconH)/2, (takeBtn.frame.size.height - iconH)/2, iconH, iconH);
+//    [takeBtn addSubview:icon];
     
     UIButton *exitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     exitBtn.frame = CGRectMake(320- BtnW+pBtnGap, takeBtn.frame.origin.y, BtnW, PHOTO_BTN_H);
