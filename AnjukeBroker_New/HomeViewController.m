@@ -502,7 +502,7 @@
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
         [self showNodataVeiw];
-        [self showInfo:@"操作失败"];
+        [self showInfo:@"请求失败"];
         return ;
     }
     
