@@ -1128,6 +1128,20 @@ typedef enum {
     //顺便写入传参数值。。。以后优化代码
     if (self.isHaozu) {
         switch (self.selectedIndex) { //二手房
+            case HZ_CLICK_ROOMS://户型
+            {
+                [idStr appendString:strValue1];
+                [idStr appendString:[NSString stringWithFormat:@",%@", strValue2]];
+                [idStr appendString:[NSString stringWithFormat:@",%@", strValue3]];
+                self.property.rooms = idStr;
+            }
+                break;
+            case HZ_PICKER_ORIENTATION://朝向
+            {
+                [idStr appendString:strValue1];
+                self.property.exposure = idStr;
+            }
+                break;
             case HZ_PICKER_FLOORS: //楼层
             {
                 [idStr appendString:strValue1];
