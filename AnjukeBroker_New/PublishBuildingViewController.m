@@ -2401,6 +2401,12 @@ typedef enum {
     if (self.isHaozu) {
         pv.maxImgCount = HZ_MAXCOUNT_ROOMIMAGE;
     }
+    if (self.footClickType == 1 && self.isHaozu) {
+        pv.takingPhoto = TAKINGPHOTOFROMHZ;
+    }else if (self.footClickType == 1 && !self.isHaozu){
+        pv.takingPhoto = TAKINGPHOTOFROMPROPERTY;
+    }
+    
     pv.currentImgCount = [self getCurrentRoomImgCount]; //self.roomImageArray.count;
     pv.clickDelegate = self;
     

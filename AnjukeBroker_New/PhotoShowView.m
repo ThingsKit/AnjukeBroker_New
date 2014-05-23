@@ -9,6 +9,8 @@
 #import "PhotoShowView.h"
 #import "Util_UI.h"
 #import "PhotoButton.h"
+#import "BrokerLogger.h"
+#import "Util_TEXT.h"
 
 #define TAG_PHOTO_BASE 9900
 
@@ -21,6 +23,7 @@
 @synthesize clickDelegate;
 @synthesize photoSV;
 @synthesize imgBtnArr;
+@synthesize takingPhoto;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -32,6 +35,17 @@
         
         [self initModel];
         [self initDisplayWithFrame:frame];
+        
+        NSString *code = [NSString string];
+        
+        if (self.takingPhoto == TAKINGPHOTOFROMHZ) {
+            code = HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_001;
+            [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot",HZ_PROPERTY,@"bp", nil]];
+        }else if (self.takingPhoto == TAKINGPHOTOFROMPROPERTY){
+            code = AJK_PROPERTY_TAKING_PHOTO_001;
+            [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot",AJK_PROPERTY,@"bp", nil]];
+        }
+
         
         DLog(@"当前【%d】", self.currentImgCount);
      }
@@ -140,12 +154,30 @@
     
 //    self.currentImgCount ++;
     
+    NSString *code = [NSString string];
+    
+    if (self.takingPhoto == TAKINGPHOTOFROMHZ) {
+        code = HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_002;
+        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }else if (self.takingPhoto == TAKINGPHOTOFROMPROPERTY){
+        code = AJK_PROPERTY_TAKING_PHOTO_002;
+        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
     if ([self.clickDelegate respondsToSelector:@selector(takePhoto_Click)]) {
         [self.clickDelegate takePhoto_Click];
     }
 }
 
 - (void)closePicker:(id)sender {
+    NSString *code = [NSString string];
+    
+    if (self.takingPhoto == TAKINGPHOTOFROMHZ) {
+        code = HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_005;
+        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }else if (self.takingPhoto == TAKINGPHOTOFROMPROPERTY){
+        code = AJK_PROPERTY_TAKING_PHOTO_005;
+        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
     if ([self.clickDelegate respondsToSelector:@selector(closePicker_Click_WithImgArr:)]) {
         [self.clickDelegate closePicker_Click_WithImgArr:self.imgArray];
         
@@ -159,12 +191,30 @@
 
 - (void)doCancel:(id)sender { //取消拍照及已拍图片
     [self.imgArray removeAllObjects];
+    NSString *code = [NSString string];
+    
+    if (self.takingPhoto == TAKINGPHOTOFROMHZ) {
+        code = HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_004;
+        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }else if (self.takingPhoto == TAKINGPHOTOFROMPROPERTY){
+        code = AJK_PROPERTY_TAKING_PHOTO_004;
+        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
     if ([self.clickDelegate respondsToSelector:@selector(closePicker_Click_WithImgArr:sender:)]) {
         [self.clickDelegate closePicker_Click_WithImgArr:self.imgArray sender:self];
     }
 }
 
 - (void)deletePhoto:(id)sender {
+    NSString *code = [NSString string];
+    
+    if (self.takingPhoto == TAKINGPHOTOFROMHZ) {
+        code = HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_003;
+        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }else if (self.takingPhoto == TAKINGPHOTOFROMPROPERTY){
+        code = AJK_PROPERTY_TAKING_PHOTO_003;
+        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
     self.currentImgCount --;
 
     UIButton *btn = (UIButton *)sender;
