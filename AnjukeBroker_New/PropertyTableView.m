@@ -33,6 +33,11 @@
     cell.propertyModel = property;
     cell.selectionStyle = UITableViewCellSelectionStyleNone; //cell不可选中
     
+    if (indexPath.row == self.data.count-1) {
+        [cell showBottonLineWithCellHeight:85];
+    }else{
+        [cell showBottonLineWithCellHeight:85 andOffsetX:15];
+    }
     
     return cell;
 }

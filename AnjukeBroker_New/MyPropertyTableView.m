@@ -33,6 +33,11 @@
     MyPropertyModel* property = [self.data objectAtIndex:indexPath.row]; //获取self.data中的数据对象
     cell.myPropertyModel = property;
     cell.selectionStyle = UITableViewCellSelectionStyleNone; //默认无法选中
+    if (indexPath.row == self.data.count-1) {
+        [cell showBottonLineWithCellHeight:85];
+    }else{
+        [cell showBottonLineWithCellHeight:85 andOffsetX:15];
+    }
     
     return cell;
 }

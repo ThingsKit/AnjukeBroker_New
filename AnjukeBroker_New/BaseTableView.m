@@ -42,10 +42,10 @@
     }
     
     if (self.refreshFooterView == nil) {
-        self.refreshFooterView = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
+        self.refreshFooterView = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 85)];
         self.refreshFooterView.backgroundColor = [UIColor clearColor];
         self.refreshFooterView.titleLabel.font = [UIFont systemFontOfSize:16.0f];
-        [self.refreshFooterView setTitle:@"上拉加载更多" forState:UIControlStateNormal];
+        [self.refreshFooterView setTitle:@"" forState:UIControlStateNormal];
         [self.refreshFooterView setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         self.refreshFooterView.showsTouchWhenHighlighted = YES;
         [self.refreshFooterView addTarget:self action:@selector(loadMore:) forControlEvents:UIControlEventTouchUpInside];
@@ -54,6 +54,7 @@
         activity.origin = CGPointMake(80, 10);
         activity.tag = 2014;
         [activity stopAnimating];
+//        [activity startAnimating];
         [self.refreshFooterView addSubview:activity];
 
     }
@@ -63,7 +64,8 @@
     self.needRefreshHeader = YES; //默认有下拉刷新
     self.needRefreshFooter = YES; //默认有上啦刷新
     
-//    [self setSeparatorStyle:UITableViewCellSeparatorStyleNone]; //没有分割线
+    [self setSeparatorStyle:UITableViewCellSeparatorStyleNone]; //没有分割线
+    [self setBackgroundColor:[UIColor brokerBgPageColor]];
     
 }
 
@@ -116,10 +118,10 @@
 //上拉按钮恢复交互,风火轮停止
 - (void)pullUpButtonRecoverAndStopActivity {
     if (self.hasMore) {
-        [self.refreshFooterView setTitle:@"上拉加载更多" forState:UIControlStateNormal];
+        [self.refreshFooterView setTitle:@"" forState:UIControlStateNormal];
         [self.refreshFooterView setEnabled:YES];
     }else{
-        [self.refreshFooterView setTitle:@"全部加载完毕" forState:UIControlStateNormal];
+        [self.refreshFooterView setTitle:@"" forState:UIControlStateNormal];
         [self.refreshFooterView setEnabled:NO];
     }
     

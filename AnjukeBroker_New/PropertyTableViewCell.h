@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RTListCell.h"
 
 @class PropertyModel;
-@interface PropertyTableViewCell : UITableViewCell
+@interface PropertyTableViewCell : RTListCell
 
 @property (nonatomic, retain) PropertyModel* propertyModel; //房源数据对象
 

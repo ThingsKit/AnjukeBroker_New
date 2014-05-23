@@ -45,6 +45,7 @@
 #pragma mark UI相关
 
 - (void)initCell {
+    
     //小区名称
     self.commName = [[UILabel alloc] initWithFrame:CGRectZero];
     self.commName.backgroundColor = [UIColor clearColor];
@@ -92,6 +93,7 @@
     self.button = [UIButton buttonWithType:UIButtonTypeCustom];
     self.button.layer.cornerRadius = 2.0f;
     self.button.layer.masksToBounds = YES;
+    [self.button.titleLabel setFont:[UIFont ajkH3Font]];
     [self.button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:self.button];
     
@@ -105,8 +107,7 @@
 
 - (void)setButtonAble{
     [self.button setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_weituo_button_on"] forState:UIControlStateNormal];
-    [self.button setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_weituo_button_on_press"] forState:UIControlStateHighlighted];
-//    [self.button setBackgroundColor:[UIColor colorWithRed:79.0/255 green:164.0/255 blue:236.0/255 alpha:1]];
+    [self.button setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_weituo_button_ on_press"] forState:UIControlStateHighlighted];
     [self.button setTitle:@"抢委托" forState:UIControlStateNormal];
     [self.button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.button.enabled = YES;
@@ -115,11 +116,10 @@
 
 
 - (void)setButtonDisable{
-    [self.button setBackgroundColor:[UIColor colorWithWhite:0.9 alpha:1]];
     [self.button setTitle:@"抢完了" forState:UIControlStateNormal];
     [self.button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     self.button.layer.borderColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
-    self.button.layer.borderWidth = .5;
+    self.button.layer.borderWidth = 1.0f;
     self.button.enabled = NO;
     self.propertyModel.rushable = @"0";
 }
@@ -129,12 +129,19 @@
     [super layoutSubviews];
     
     //小区名称
-    self.commName.frame = CGRectMake(10, 15, ScreenWidth/2, 25);
+    CGSize commNameSize = [self.propertyModel.commName sizeWithFont:self.commName.font constrainedToSize:CGSizeMake(ScreenWidth-120, 20)];
+    self.commName.frame = CGRectMake(15, 15, commNameSize.width, 17);
+//    self.commName.textAlignment = NSTextAlignmentLeft;
     self.commName.text = self.propertyModel.commName;
-    [self.commName sizeToFit]; //自适应文字大小
+//    self.commName.backgroundColor = [UIColor redColor];
+//    [self.commName sizeToFit]; //自适应文字大小
     
     //租售icon
-    self.icon.frame = CGRectMake(self.commName.right, 15, 16, 16);
+    if (commNameSize.width == ScreenWidth-120) {
+        self.icon.frame = CGRectMake(self.commName.right - 10, 16.5f, 16, 16);
+    }else{
+        self.icon.frame = CGRectMake(self.commName.right, 16.5f, 16, 16);
+    }
     if ([self.propertyModel.type isEqualToString:@"1"]) {
         self.icon.image = [UIImage imageNamed:@"anjuke_icon_weituo_esf"]; //售
     }else{
@@ -142,30 +149,30 @@
     }
     
     //户型
-    self.houseType.frame = CGRectMake(10, self.commName.bottom, 100, 20);
+    self.houseType.frame = CGRectMake(15, self.commName.bottom + 6, 100, 20);
     self.houseType.text = [NSString stringWithFormat:@"%@室%@厅%@卫", self.propertyModel.room, self.propertyModel.hall, self.propertyModel.toilet];
     [self.houseType sizeToFit];
     
     //面积
-    self.area.frame = CGRectMake(self.houseType.right+10, self.commName.bottom, 60, 20);
+    self.area.frame = CGRectMake(self.houseType.right + 6, self.commName.bottom + 6, 60, 20);
     self.area.text = [NSString stringWithFormat:@"%@平", self.propertyModel.area];
     [self.area sizeToFit];
     
     //租金或售价
-    self.price.frame = CGRectMake(self.area.right+10, self.commName.bottom, 60, 20);
+    self.price.frame = CGRectMake(self.area.right + 6, self.commName.bottom + 6, 60, 20);
     self.price.text = [NSString stringWithFormat:@"%@%@", self.propertyModel.price, self.propertyModel.priceUnit];
     [self.price sizeToFit];
     
     //显示发布时间
     self.publishTime.hidden = NO;
-    self.publishTime.frame = CGRectMake(10, self.houseType.bottom, ScreenWidth/2, 20);
+    self.publishTime.frame = CGRectMake(15, self.houseType.bottom, ScreenWidth/2, 20);
     if (self.propertyModel.publishTime.length == 19) {
         self.propertyModel.publishTime = [self.propertyModel.publishTime substringToIndex:self.propertyModel.publishTime.length-3];
     }
     self.publishTime.text = [NSString stringWithFormat:@"%@ 发布", self.propertyModel.publishTime];
     
     //右侧的按钮
-    self.button.frame = CGRectMake(ScreenWidth-80, 30, 70, 30);
+    self.button.frame = CGRectMake(ScreenWidth-85, 30, 70, 30);
     
     if([self.propertyModel.rushable isEqual: @"1"]){ //该房源可抢
         [self setButtonAble];

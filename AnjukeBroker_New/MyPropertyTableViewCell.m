@@ -100,8 +100,6 @@
     
     //右侧的按钮
     self.button = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.button.layer.cornerRadius = 2.0f;
-    self.button.layer.masksToBounds = YES;
     [self.button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:self.button];
     
@@ -117,12 +115,13 @@
     [super layoutSubviews];
     
     //小区名称
-    self.commName.frame = CGRectMake(10, 15, ScreenWidth/2, 25);
+    CGSize commNameSize = [self.myPropertyModel.commName sizeWithFont:self.commName.font constrainedToSize:CGSizeMake(ScreenWidth-100, 20)];
+    self.commName.frame = CGRectMake(15, 15, commNameSize.width, 17);
+    self.commName.textAlignment = NSTextAlignmentLeft;
     self.commName.text = self.myPropertyModel.commName;
-    [self.commName sizeToFit]; //自适应文字大小
     
     //租售icon
-    self.icon.frame = CGRectMake(self.commName.right, 15, 16, 16);
+    self.icon.frame = CGRectMake(self.commName.right, 16.5f, 16, 16);
     if ([self.myPropertyModel.type isEqualToString:@"1"]) {
         self.icon.image = [UIImage imageNamed:@"anjuke_icon_weituo_esf"]; //售
     }else{
@@ -130,29 +129,29 @@
     }
     
     //户型
-    self.houseType.frame = CGRectMake(10, self.commName.bottom, 100, 20);
+    self.houseType.frame = CGRectMake(15, self.commName.bottom + 6, 100, 20);
     self.houseType.text = [NSString stringWithFormat:@"%@室%@厅%@卫", self.myPropertyModel.room, self.myPropertyModel.hall, self.myPropertyModel.toilet];
     [self.houseType sizeToFit];
     
     //面积
-    self.area.frame = CGRectMake(self.houseType.right+10, self.commName.bottom, 60, 20);
+    self.area.frame = CGRectMake(self.houseType.right+6, self.commName.bottom + 6, 60, 20);
     self.area.text = [NSString stringWithFormat:@"%@平", self.myPropertyModel.area];
     [self.area sizeToFit];
     
     //租金或售价
-    self.price.frame = CGRectMake(self.area.right+10, self.commName.bottom, 60, 20);
+    self.price.frame = CGRectMake(self.area.right+6, self.commName.bottom + 6, 60, 20);
     self.price.text = [NSString stringWithFormat:@"%@%@", self.myPropertyModel.price, self.myPropertyModel.priceUnit];
     [self.price sizeToFit];
     
     if ([self.myPropertyModel.callable isEqualToString:@"1"]) {
         //业主
-        self.ownerName.frame = CGRectMake(10, self.houseType.bottom, 60, 20);
+        self.ownerName.frame = CGRectMake(15, self.houseType.bottom + 6, 60, 20);
         self.ownerName.text = self.myPropertyModel.ownerName;
         [self.ownerName sizeToFit];
         self.ownerName.hidden = NO;
         
         //业主电话
-        self.ownerPhone.frame = CGRectMake(self.ownerName.right + 20, self.houseType.bottom, 100, 20);
+        self.ownerPhone.frame = CGRectMake(self.ownerName.right + 6, self.houseType.bottom + 6, 100, 20);
         self.ownerPhone.text = self.myPropertyModel.ownerPhone;
         [self.ownerPhone sizeToFit];
         self.ownerPhone.hidden = NO;
@@ -161,9 +160,11 @@
         self.statusInfo.hidden = YES;
         
         //右侧的电话按钮
-        self.button.frame = CGRectMake(ScreenWidth-56/2-20, 30, 30, 30);
-        [self.button setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_weituo_call"] forState:UIControlStateNormal];
-        [self.button setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_weituo_call_press"] forState:UIControlStateHighlighted];
+        self.button.frame = CGRectMake(ScreenWidth-100, 0, 100, 85);
+//        self.button.backgroundColor = [UIColor redColor];
+        [self.button setImage:[UIImage imageNamed:@"anjuke_icon_weituo_call"] forState:UIControlStateNormal];
+        [self.button setImage:[UIImage imageNamed:@"anjuke_icon_weituo_call_press"] forState:UIControlStateHighlighted];
+        [self.button setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 25)];
         self.button.hidden = NO;
         
     }else{
@@ -173,7 +174,7 @@
         self.button.hidden = YES;
         
         //状态信息
-        self.statusInfo.frame = CGRectMake(10, self.houseType.bottom, 100, 20);
+        self.statusInfo.frame = CGRectMake(15, self.houseType.bottom + 6, 100, 20);
         self.statusInfo.text = self.myPropertyModel.statusInfo;
         [self.statusInfo sizeToFit];
         self.statusInfo.hidden = NO;
@@ -184,7 +185,6 @@
 
 //右侧按钮点击事件
 - (void)buttonClicked:(UIButton*)button{
-    
     NSLog(@"拨打电话-->%@", self.myPropertyModel.ownerPhone);
     
     if (![@"iPhone" isEqualToString:[UIDevice currentDevice].model]) {

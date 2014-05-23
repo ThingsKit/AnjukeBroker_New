@@ -164,7 +164,7 @@
             }
             
             
-            [self displayUpdatePropertyAlert:properties.count];
+//            [self displayUpdatePropertyAlert:properties.count];
             
             
         }else{ //没有新数据
@@ -320,10 +320,12 @@
         imageView.image = [UIImage imageNamed:@"anjuke_icon_weituo_nopropery"];
         [self.leftEmptyBackgroundView addSubview:imageView];
         
-        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-60/2, imageView.bottom, 60, 30)];
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, imageView.bottom, 90, 30)];
         label.backgroundColor = [UIColor clearColor];
-        [label setFont:[UIFont systemFontOfSize:14.0]];
+        label.textAlignment = NSTextAlignmentCenter;
+        [label setFont:[UIFont systemFontOfSize:16.0]];
         label.text = @"暂无委托";
+        [label setTextColor:[UIColor brokerLightGrayColor]];
         [self.leftEmptyBackgroundView addSubview:label];
         
     }
@@ -335,10 +337,12 @@
         imageView.image = [UIImage imageNamed:@"anjuke_icon_weituo_nopropery"];
         [self.rightEmptyBackgroundView addSubview:imageView];
         
-        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-60/2, imageView.bottom, 60, 30)];
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, imageView.bottom, 90, 30)];
         label.backgroundColor = [UIColor clearColor];
-        [label setFont:[UIFont systemFontOfSize:14.0]];
+        label.textAlignment = NSTextAlignmentCenter;
+        [label setFont:[UIFont systemFontOfSize:16.0]];
         label.text = @"暂无委托";
+        [label setTextColor:[UIColor brokerLightGrayColor]];
         [self.rightEmptyBackgroundView addSubview:label];
         
     }
@@ -368,10 +372,11 @@
 
 - (void)leftTabButtonClicked{
     NSLog(@"left clicked");
-    [self.leftTabButton setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:1]];
-    [self.rightTabButton setBackgroundColor:[UIColor colorWithWhite:0.1 alpha:1]];
-    self.leftTabButton.highlighted = YES; //左边选中状态
-    self.rightTabButton.highlighted = NO;
+    [self.leftTabButton setBackgroundColor:[UIColor brokerBlueGrayColor]];
+//    [self.leftTabButton setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateNormal];
+    [self.rightTabButton setBackgroundColor:[UIColor clearColor]];
+    self.leftTabButton.selected = YES; //左边选中状态
+    self.rightTabButton.selected = NO;
     
     self.tableView.hidden = NO;
     self.myTableView.hidden = YES;
@@ -380,10 +385,11 @@
 
 - (void)rightTabButtonClicked{
     NSLog(@"right clicked");
-    [self.leftTabButton setBackgroundColor:[UIColor colorWithWhite:0.1 alpha:1]];
-    [self.rightTabButton setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:1]];
-    self.leftTabButton.highlighted = NO;
-    self.rightTabButton.highlighted = YES;
+    [self.leftTabButton setBackgroundColor:[UIColor clearColor]];
+    [self.rightTabButton setBackgroundColor:[UIColor brokerBlueGrayColor]];
+//    [self.rightTabButton setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateNormal];
+    self.leftTabButton.selected = NO;
+    self.rightTabButton.selected = YES;
     
     self.tableView.hidden = YES;
     self.myTableView.hidden = NO;
@@ -548,9 +554,10 @@
 #pragma mark init UI
 - (void)initUI{
     
-    UIView* headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
-    headView.layer.borderColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
-    headView.layer.borderWidth = 2.0f;
+    UIView* headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 30)];
+//    headView.layer.borderColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
+    headView.layer.borderColor = [UIColor brokerBlueGrayColor].CGColor;
+    headView.layer.borderWidth = 1.0f;
     headView.layer.cornerRadius = 3.0f;
     headView.layer.masksToBounds = YES;
     headView.clipsToBounds = NO; //超出部分切掉
@@ -561,17 +568,23 @@
     self.rightTabButton.frame = CGRectMake(headView.width/2, 0, headView.width/2, headView.height);
     [self.leftTabButton setTitle:@"抢委托" forState:UIControlStateNormal];
     [self.rightTabButton setTitle:@"我的委托" forState:UIControlStateNormal];
+    [self.leftTabButton.titleLabel setFont:[UIFont ajkH3Font_B]];
+    [self.rightTabButton.titleLabel setFont:[UIFont ajkH3Font_B]];
     
-    [self.leftTabButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];  //未选中的文字颜色
-    [self.leftTabButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted]; //选中后的文字颜色
+    [self.leftTabButton setTitleColor:[UIColor brokerBlueGrayColor] forState:UIControlStateNormal];  //未选中的文字颜色
+//    [self.leftTabButton setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateHighlighted]; //选中后的文字颜色
+    [self.leftTabButton setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateSelected];
     
-    [self.rightTabButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [self.rightTabButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+    [self.rightTabButton setTitleColor:[UIColor brokerBlueGrayColor] forState:UIControlStateNormal];
+//    [self.rightTabButton setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateHighlighted];
+    [self.rightTabButton setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateSelected];
     
-    [self.leftTabButton setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:1]];
-    [self.rightTabButton setBackgroundColor:[UIColor colorWithWhite:0.1 alpha:1]];
+//    [self.leftTabButton setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:1]];
+    [self.leftTabButton setBackgroundColor:[UIColor brokerBlueGrayColor]];
+    [self.rightTabButton setBackgroundColor:[UIColor clearColor]];
+//    [self.rightTabButton setBackgroundColor:[UIColor colorWithWhite:0.1 alpha:1]];
     
-    self.leftTabButton.highlighted = YES; //默认左边选中
+    self.leftTabButton.selected = YES; //默认左边选中
     
     [self.leftTabButton addTarget:self action:@selector(leftTabButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.rightTabButton addTarget:self action:@selector(rightTabButtonClicked) forControlEvents:UIControlEventTouchUpInside];

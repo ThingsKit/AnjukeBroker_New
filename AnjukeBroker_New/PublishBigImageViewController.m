@@ -94,14 +94,14 @@
     _mainScroll.contentSize = CGSizeMake([self windowWidth], [self currentViewHeight]);
     
     if (self.hasTextView) {
-        self.placeHolder = @"   描述这张图片, 如装修, 采光等...";
-        _textView = [[UITextView alloc] initWithFrame:CGRectMake(15, [self currentViewHeight]+15, 290, 80)];
+        self.placeHolder = @"    描述这张图片, 如装修, 采光等...";
+        _textView = [[UITextView alloc] initWithFrame:CGRectMake(15, [self currentViewHeight]+6, 290, 80)];
         _pencil = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_write_discription"]];
-        _pencil.frame = CGRectMake(0, 5, 16, 16);
+        _pencil.frame = CGRectMake(0, 10, 16, 16);
         [_textView addSubview:_pencil];
         _textView.text = self.placeHolder;
-        [_textView setTextColor:[UIColor colorWithWhite:0.6 alpha:1]];
-        [_textView setFont:[UIFont systemFontOfSize:13.0f]];
+        [_textView setTextColor:[UIColor brokerLightGrayColor]];
+        [_textView setFont:[UIFont ajkH2Font]];
         _textView.returnKeyType = UIReturnKeyDone;
         _textView.delegate = self;
     }
@@ -131,7 +131,7 @@
 
 - (NSInteger)currentViewHeight{
     if (self.hasTextView) {
-        return (ScreenHeight-20-44)/2;
+        return 240;
     }
     return ScreenHeight-20-44;
     
@@ -220,12 +220,15 @@
     if (self.isEditProperty) {
         //直接显示url图片
         PhotoButton *pb = [[PhotoButton alloc] initWithFrame:CGRectMake(0, buttonGap, buttonW, buttonW)];
+        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+        [pb addGestureRecognizer:tap];
         NSString *url = [self.imgArr objectAtIndex:0];
         if (self.isNewAddImg) { //新添加图片显示
             pb.photoImg.image = [UIImage imageWithContentsOfFile:url];
         }
         else //已有图片进行下载显示
             pb.photoImg.imageUrl = url;
+        pb.photoImg.contentMode = UIViewContentModeScaleAspectFit;
         [self.buttonImgArr addObject:pb];
         [self.mainScroll addSubview:pb];
     }
@@ -236,7 +239,7 @@
             NSString *url = nil;
             url =  [(E_Photo *)[self.imgArr objectAtIndex:i] smallPhotoUrl];
             pb.photoImg.image = [UIImage imageWithContentsOfFile:url];
-//            pb.photoImg.contentMode = UIViewContentModeScaleAspectFit;
+            pb.photoImg.contentMode = UIViewContentModeScaleAspectFit;
             UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
             [pb addGestureRecognizer:tap];
             [self.buttonImgArr addObject:pb];
@@ -402,7 +405,7 @@
     }
     __block PublishBigImageViewController* this = self;
     [UIView animateWithDuration:0.3 animations:^{
-        this.mainView.bottom = (ScreenHeight-20-44)/2 + 80;
+        this.mainView.bottom = 240 + 80;
 //        this.mainView.bottom = ScreenHeight - 20 - 44 - 175;
 //        this.mainView.top = 20 + 44;
 //        this.mainView.transform = CGAffineTransformIdentity;
@@ -449,7 +452,14 @@
     if (_textView.markedTextRange == nil && _textView.text.length > 20) {
         _textView.text = [_textView.text substringToIndex:20];
     }else{
-        _numberOfText.text = [NSString stringWithFormat:@"%d", (20 - _textView.text.length)];
+        NSInteger length = 20 - _textView.text.length;
+        if (length < 0) {
+            length = 0;
+        }
+        _numberOfText.text = [NSString stringWithFormat:@"%d", length];
+        if (length == 0) {
+            _numberOfText.textColor = (__bridge UIColor *)([UIColor brokerRedColor].CGColor);
+        }
     }
 }
 

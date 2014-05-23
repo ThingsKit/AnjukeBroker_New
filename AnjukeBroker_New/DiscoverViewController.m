@@ -27,7 +27,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.propertyBadgeNumber = 2; //测试用
+        self.propertyBadgeNumber = 88; //测试用
     }
     return self;
 }
@@ -47,6 +47,7 @@
     UIView* headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
     //    headView.backgroundColor = [UIColor yellowColor];
     self.tableView.tableHeaderView = headView;
+    self.tableView.backgroundColor = [UIColor brokerBgPageColor];
     
 }
 
@@ -91,18 +92,23 @@
 
         if (self.badgeView == nil) {
             if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-                self.badgeView = [[UIImageView alloc] initWithFrame:CGRectMake(140, 10, 25, 25)];
+                self.badgeView = [[UIImageView alloc] initWithFrame:CGRectMake(140, 15, 18, 18)];
             }else{
-                self.badgeView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 10, 25, 25)];
+                self.badgeView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 15, 18, 18)];
             }
             //        badgeView.image = [UIImage imageNamed:@"anjuke_icon_now_position"];
             self.badgeView.backgroundColor = [UIColor redColor];
-            self.badgeView.layer.cornerRadius = 12.5f;
+            self.badgeView.layer.cornerRadius = 9.0f;
             self.badgeView.layer.masksToBounds = YES;
             
-            self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 2, 20, 20)];
+            if (self.propertyBadgeNumber > 10) {
+                self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(2.5f, -1.5f, 20, 20)];
+            }else{
+                self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.5f, -1.5f, 20, 20)];
+            }
             [self.badgeNumberLabel setTextColor:[UIColor whiteColor]];
             self.badgeNumberLabel.backgroundColor = [UIColor clearColor];
+            [self.badgeNumberLabel setFont:[UIFont ajkH5Font]];
             [self.badgeView addSubview:self.badgeNumberLabel];
             
             if (self.propertyBadgeNumber == 0) {
@@ -111,7 +117,8 @@
                 self.badgeNumberLabel.text = [NSString stringWithFormat:@"%d", self.propertyBadgeNumber];
                 self.badgeView.hidden = NO;
             }
-            [cell.contentView addSubview:self.badgeView];
+//            [cell.contentView addSubview:self.badgeView];
+            [cell.contentView insertSubview:self.badgeView atIndex:0];
         }
         
         
