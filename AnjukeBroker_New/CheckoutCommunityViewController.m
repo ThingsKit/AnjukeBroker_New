@@ -47,6 +47,12 @@
     }
     return self;
 }
+
+#pragma mark - log
+- (void)sendAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
 - (void)viewWillAppear:(BOOL)animated{
     if (![CLLocationManager isLocationServiceEnabled]) {
 //        UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
@@ -120,8 +126,12 @@
     
     [self autoPullDown];
 }
-
+- (void)doBack:(id)sender{
+    [super doBack:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_006 note:nil];
+}
 - (void)rightButtonAction:(id)sender{
+    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_007 note:nil];
     CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
     webVC.webTitle = @"签到规则";
     webVC.webUrl = @"http://api.anjuke.com/web/nearby/brokersign/rule.html";
@@ -142,6 +152,7 @@
 
 #pragma mark - rotation method
 - (void)refreshGeo:(id)sender{
+    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_004 note:nil];
     if (self.isLoading) {
         return;
     }
@@ -240,9 +251,9 @@
     [cell configureCell:model withIndex:indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     if (indexPath.row == self.tablaData.count - 1) {
-        [cell showBottonLineWithCellHeight:45];
+        [cell showBottonLineWithCellHeight:46];
     }else{
-        [cell showBottonLineWithCellHeight:45 andOffsetX:15];
+        [cell showBottonLineWithCellHeight:46 andOffsetX:15];
     }
     
     return cell;
@@ -251,6 +262,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.navigationController.view.frame.origin.x > 0) return;
 
+    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_003 note:nil];
     CheckCommunityModel *model = [CheckCommunityModel convertToMappedObject:[self.tablaData objectAtIndex:indexPath.row]];
     CheckoutViewController *checkoutVC = [[CheckoutViewController alloc] init];
     [AppDelegate sharedAppDelegate].checkoutVC = checkoutVC;

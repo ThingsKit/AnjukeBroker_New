@@ -49,12 +49,12 @@
 }
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
-- (void)sendDisAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
-}
+//- (void)sendDisAppearLog {
+//    [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+//}
 #pragma mark - view
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -147,7 +147,7 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             [cell showTopLine];
-            [cell showBottonLineWithCellHeight:CELL_HEIGHT-1 andOffsetX:15];
+            [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
             [cell initLabelTitle:[self.taskArray objectAtIndex:0]];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
@@ -155,7 +155,7 @@
             [icon setImage:[UIImage imageNamed:@"user_ewm"]];
             [cell.contentView addSubview:icon];
         }else if (indexPath.row == 1){
-            [cell showBottonLineWithCellHeight:CELL_HEIGHT-1 andOffsetX:15];
+            [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
             [cell initLabelTitle:[self.taskArray objectAtIndex:1]];
             [cell setDetailText:[self getAccountLeft] rightSpace:15];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -167,7 +167,7 @@
     }else if (indexPath.section == 1){
         if (indexPath.row == 0) {
             [cell showTopLine];
-            [cell showBottonLineWithCellHeight:CELL_HEIGHT-1 andOffsetX:15];
+            [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
             [cell initLabelTitle:[self.taskArray objectAtIndex:3]];
             [cell setDetailText:[self getClientName] rightSpace:35];
             
@@ -175,7 +175,7 @@
             [icon setImage:[UIImage imageNamed:@"user_cell_phone_icon"]];
             [cell.contentView addSubview:icon];
         }else if (indexPath.row == 1){
-            [cell showBottonLineWithCellHeight:CELL_HEIGHT-1 andOffsetX:15];
+            [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
             [cell initLabelTitle:[self.taskArray objectAtIndex:4]];
             [cell setDetailText:CALL_ANJUKE_NUMBER rightSpace:35];
             
@@ -183,7 +183,7 @@
             [icon setImage:[UIImage imageNamed:@"user_cell_phone_icon"]];
             [cell.contentView addSubview:icon];
         }else if (indexPath.row == 2){
-            [cell showBottonLineWithCellHeight:CELL_HEIGHT ];
+            [cell showBottonLineWithCellHeight:CELL_HEIGHT];
             [cell initLabelTitle:[self.taskArray objectAtIndex:5]];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
@@ -197,11 +197,13 @@
     
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
+            [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_004 note:nil];
+
             BrokerTwoDimensionalCodeViewController *ba = [[BrokerTwoDimensionalCodeViewController alloc] init];
             [ba setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:ba animated:YES];
         }else if (indexPath.row == 2){
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_003 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_005 note:nil];
 
             //broker acunt
             BrokerAccountController *controller = [[BrokerAccountController alloc] init];
@@ -210,18 +212,20 @@
         }
     }else{
         if (indexPath.row == 0) {
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_008 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_006 note:nil];
             
             if (self.userCenterModel.tel) {
                 //make call
-                [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:self.userCenterModel.tel  appLogKey:HZ_MORE_012];
+                [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:self.userCenterModel.tel  appLogKey:USER_CENTER_007];
             }
         }else if (indexPath.row == 1){
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_009 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_008 note:nil];
 
             //make call
-            [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER appLogKey:HZ_MORE_013];
+            [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER appLogKey:USER_CENTER_009];
         }else if (indexPath.row == 2){
+            [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_010 note:nil];
+            
             AppSettingViewController *settingVC = [[AppSettingViewController alloc] init];
             settingVC.backType = RTSelectorBackTypePopBack;
             [settingVC setHidesBottomBarWhenPushed:YES];
@@ -233,6 +237,8 @@
 
 #pragma mark - method
 - (void)goSDX{
+    [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_003 note:nil];
+    
     CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
     webVC.webTitle = @"闪电侠介绍";
     webVC.webUrl = [NSString stringWithFormat:@"http://api.anjuke.com/web/nearby/brokersign/shandianxia.html?city_id=%@",[LoginManager getCity_id]];

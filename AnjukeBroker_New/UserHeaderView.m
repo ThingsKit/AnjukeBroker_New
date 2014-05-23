@@ -13,6 +13,7 @@
 #import "Util_UI.h"
 #import "UIFont+RT.h"
 #import "UIColor+BrokerRT.h"
+#import "BrokerLogger.h"
 
 @interface UserHeaderView () {
     

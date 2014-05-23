@@ -76,6 +76,10 @@
     self.cb.checkoutDelegate = nil;
     self.cb = nil;
 }
+#pragma mark - log
+- (void)sendAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:CHECK_PAGE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
 
 - (void)viewWillAppear:(BOOL)animated{
     [self reloadCheckInfo];
@@ -292,6 +296,8 @@
     [self setTitleViewWithString:self.checkCommunitmodel.commName];
 }
 - (void)rightButtonAction:(id)sender{
+    [[BrokerLogger sharedInstance] logWithActionCode:CHECK_PAGE_004 note:nil];
+    
     CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
     webVC.webTitle = @"签到规则";
     webVC.webUrl = @"http://api.anjuke.com/web/nearby/brokersign/rule.html";
@@ -300,6 +306,8 @@
 }
 
 - (void)checkoutCommunity:(id)sender{
+    [[BrokerLogger sharedInstance] logWithActionCode:CHECK_PAGE_003 note:nil];
+
     //签到按钮
     [self showCheckButton:CHECKBUTTONWITHCHECKING timeLeft:0];
     

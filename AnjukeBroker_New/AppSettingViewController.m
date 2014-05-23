@@ -45,13 +45,18 @@
     self.versionUpdate.versionDelegate = nil;
     self.versionUpdate = nil;
 }
+
+#pragma mark - log
+- (void)sendAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor brokerBgPageColor];
     
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_006 note:nil];
     self.idfaFlg = false;
     
     [self setTitleViewWithString:@"系统设置"];
@@ -118,7 +123,7 @@
     if (indexPath.section == 0 && indexPath.row == 1) {
         return NOTIFICCELL;
     } else if(indexPath.section == SECTIONNUM){
-        return 45;
+        return MORE_CELL_H;
     }
     return MORE_CELL_H;
 }
@@ -135,7 +140,7 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             [cell showTopLine];
-            [cell showBottonLineWithCellHeight:CELL_HEIGHT-2 andOffsetX:15];
+            [cell showBottonLineWithCellHeight:MORE_CELL_H andOffsetX:15];
             
             cell.textLabel.text = @"短信通知";
             
@@ -187,7 +192,7 @@
     }else{
         if (indexPath.row == 0) {
             [cell showTopLine];
-            [cell showBottonLineWithCellHeight:CELL_HEIGHT-2 andOffsetX:15];
+            [cell showBottonLineWithCellHeight:MORE_CELL_H andOffsetX:15];
             if (!self.isHasNewVersion) {
                 cell.textLabel.text = @"版本更新                         已是最新版本";
             }else{
@@ -208,7 +213,7 @@
                 [cell.contentView addSubview:updateImg];
             }
         }else{
-            [cell showBottonLineWithCellHeight:CELL_HEIGHT-1];
+            [cell showBottonLineWithCellHeight:MORE_CELL_H];
             cell.textLabel.text = @"关于移动经纪人";
         }
     }
@@ -222,11 +227,12 @@
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 1 && indexPath.row == 1) {
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_007 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_007 note:nil];
         
         AboutUsViewController *av = [[AboutUsViewController alloc] init];
         [self.navigationController pushViewController:av animated:YES];
     }else if (indexPath.section == 1 && indexPath.row == 0){
+        [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_006 note:nil];
         if (self.isHasNewVersion && self.updateUrl.length != 0) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"发现新%@版本",self.onlineVer] delegate:self cancelButtonTitle:@"稍后再说" otherButtonTitles:@"立即更新", nil];
             alert.delegate = self;
@@ -374,9 +380,9 @@
         if ([result isEqualToString:@"1"] || [result isEqualToString:@"0"]) {
             [self showInfo:@"修改成功"];
             if (self.msgSw.on) {
-                [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_011 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_005 note:nil];
             }else{
-                [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_010 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_004 note:nil];
             }
         }else{
             self.msgSw.on = !self.msgSw.on;
@@ -403,6 +409,7 @@
     }
 }
 - (void)loginOut {
+    [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_012 note:nil];
     UIAlertView *av = [[UIAlertView alloc] initWithTitle:nil message:@"是否退出登录？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
     [av setCancelButtonIndex:0];
     [av show];
