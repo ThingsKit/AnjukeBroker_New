@@ -18,7 +18,7 @@
 #import "ClientDetailPublicViewController.h"
 #import "AXNotificationTutorialViewController.h"
 #import "RTGestureBackNavigationController.h"
-#import "AXIMGDownloader.h"
+//#import "AXIMGDownloader.h"
 
 @interface BrokerChatViewController ()
 {
@@ -26,7 +26,7 @@
 }
 @property (nonatomic, strong) NSString *phoneNumber;
 @property (nonatomic, strong) UIImageView *brokerIcon;
-@property (nonatomic, strong) AXIMGDownloader *imgDownloader;
+//@property (nonatomic, strong) AXIMGDownloader *imgDownloader;
 @end
 
 @implementation BrokerChatViewController
@@ -56,13 +56,6 @@
     return self;
 }
 
-- (AXIMGDownloader *)imgDownloader {
-    if (_imgDownloader == nil) {
-        _imgDownloader = [[AXIMGDownloader alloc] init];
-    }
-    return _imgDownloader;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -79,37 +72,14 @@
     [self initNavTitle];
     [self resetLayoutOfKeyboard];
     [self removeStorageLayoutOfKeyboard];
-    [self downLoadIcon];
+//    [self downLoadIcon];
 }
 
 - (void)updatePersion {
 
 }
 
-- (void)downLoadIcon {
-    //保存头像
-    AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
-    if (person.iconPath.length < 2) {
-        [self.imgDownloader dowloadIMGWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]] resultBlock:^(RTNetworkResponse *response) {
-            if (response.status == 2) {
-                if (response.content && [response.content objectForKey:@"imagePath"]) {
-                    UIImage *image = [UIImage imageWithContentsOfFile:[response.content objectForKey:@"imagePath"]];
-                    NSArray*libsPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-                    NSString*libPath = [libsPath objectAtIndex:0];
-                    NSString *userFolder = [libPath stringByAppendingPathComponent:[LoginManager getChatID]];
-                    if ([UIImageJPEGRepresentation(image, 0.96) writeToFile:userFolder atomically:YES]) {
-                    }else{
-                    }
-                    AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
-                    person.iconUrl = [LoginManager getUse_photo_url];
-                    person.iconPath = [LoginManager getChatID];
-                    person.isIconDownloaded = YES;
-                    [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
-                }
-            }
-        }];
-    }
-}
+
 
 - (void)initNavTitle {
     AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:self.friendPerson.uid];

@@ -20,6 +20,7 @@
 #import "AXChatMessageVoiceCell.h"
 #import "AXChatMessageSystemTimeCell.h"
 #import "AXPhoto.h"
+#import "AXIMGDownloader.h"
 
 #import "NSString+AXChatMessage.h"
 #import "UIColor+AXChatMessage.h"
@@ -97,7 +98,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 @property (nonatomic, strong) UIControl *keyboardControl;
 @property (nonatomic, strong) AXChatContentValidator *contentValidator;
 @property (nonatomic, copy) NSString *playingIdentifier;
-
+@property (nonatomic, strong)AXIMGDownloader *imgDownloader;
 @property (nonatomic, strong) AXMappedPerson *currentPerson;
 
 
@@ -151,6 +152,13 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     }
     return _attrLabel;
 }
+- (AXIMGDownloader *)imgDownloader {
+    if (_imgDownloader == nil) {
+        _imgDownloader = [[AXIMGDownloader alloc] init];
+    }
+    return _imgDownloader;
+}
+
 #pragma mark - lifeCyle
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -256,7 +264,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [self initBlock];
     [self initPullToRefresh];
     self.previousTextViewContentHeight = 36;
-    
+    [self downLoadIcon];
 }
 
 - (void)initData {
@@ -1040,7 +1048,36 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     }
    
 }
-
+- (void)downLoadIcon {
+    //保存头像
+    AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
+    if (person.iconPath.length < 2) {
+        __weak AXChatViewController *blockSelf = self;
+        [self.imgDownloader dowloadIMGWithURL:[NSURL URLWithString:[LoginManager getUse_photo_url]] resultBlock:^(RTNetworkResponse *response) {
+            if (response.status == 2) {
+                if (response.content && [response.content objectForKey:@"imagePath"]) {
+                    UIImage *image = [UIImage imageWithContentsOfFile:[response.content objectForKey:@"imagePath"]];
+                    NSArray*libsPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+                    NSString*libPath = [libsPath objectAtIndex:0];
+                    NSString *userFolder = [libPath stringByAppendingPathComponent:[LoginManager getChatID]];
+                    if ([UIImageJPEGRepresentation(image, 0.96) writeToFile:userFolder atomically:YES]) {
+                    }else{
+                    }
+                    AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
+                    person.iconUrl = [LoginManager getUse_photo_url];
+                    person.iconPath = [LoginManager getChatID];
+                    person.isIconDownloaded = YES;
+                    [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
+                    if (blockSelf) {
+                        [blockSelf.myTableView reloadData];
+                        AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
+                        blockSelf.currentPerson = person;
+                    }
+                }
+            }
+        }];
+    }
+}
 - (void)axAddCellData:(NSDictionary *)msgData
 {
     [self.identifierData addObject:msgData[AXCellIdentifyTag]];
