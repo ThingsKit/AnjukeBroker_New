@@ -148,7 +148,7 @@
     [self addRightButton:@"发布" andPossibleTitle:nil];
     [self initView];
     [self initSelectionView];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doRequestInfoAndPPC) name:@"LOGINSUCCESSNOTIFICATION" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doRequestInfoAndPPC) name:@"LOGINSUCCESSNOTIFICATION" object:nil];
 }
 
 - (void)initSelectionView {
@@ -359,8 +359,8 @@
         return;
     }
     
-//    self.dataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerBaseInfo"];
-//    self.ppcDataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerPPCInfo"];
+    self.dataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerBaseInfo"];
+    self.ppcDataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerPPCInfo"];
     
     if ([LoginManager getChatID].length <=0 || [LoginManager getChatID] == nil) {
         //保存聊天id和聊天token
