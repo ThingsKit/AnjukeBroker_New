@@ -61,7 +61,7 @@
 #pragma mark 模态视图的返回动作
 
 - (void)enterBackground {
-    [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
+//    [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
     [self hideLoadWithAnimated:YES];
 }
 
