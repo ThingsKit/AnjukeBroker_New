@@ -458,7 +458,7 @@
         }
         _numberOfText.text = [NSString stringWithFormat:@"%d", length];
         if (length == 0) {
-            _numberOfText.textColor = (__bridge UIColor *)([UIColor brokerRedColor].CGColor);
+            [_numberOfText setTextColor:[UIColor brokerRedColor]];
         }
     }
 }
