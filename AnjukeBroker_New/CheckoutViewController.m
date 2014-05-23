@@ -118,7 +118,7 @@
     [map addSubview:certerIcon];
     
     CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(self.checkCommunitmodel.lat,self.checkCommunitmodel.lng);
-    float zoomLevel = 0.01;
+    float zoomLevel = 0.002;
     MKCoordinateRegion region = MKCoordinateRegionMake(coords, MKCoordinateSpanMake(zoomLevel, zoomLevel));
     region = [map regionThatFits:region];
     [map setRegion:region animated:NO];
@@ -293,7 +293,7 @@
 - (void)passCommunityWithModel:(CheckCommunityModel *)model;{
     self.checkCommunitmodel = model;
     
-    [self setTitleViewWithString:self.checkCommunitmodel.commName];
+    [self setTitleViewWithString:[NSString stringWithFormat:@"签到-%@",self.checkCommunitmodel.commName]];
 }
 - (void)rightButtonAction:(id)sender{
     [[BrokerLogger sharedInstance] logWithActionCode:CHECK_PAGE_004 note:nil];
