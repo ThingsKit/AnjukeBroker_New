@@ -24,7 +24,7 @@
 
 #define CALL_ANJUKE_NUMBER @"400-620-9008"
 #define HEADERFRAME CGRectMake(0,0,[self windowWidth],200)
-#define HEADERADDFRAME CGRectMake(0,-445,[self windowWidth],445)
+#define HEADERADDFRAME CGRectMake(0,-444,[self windowWidth],445)
 
 
 @interface UserCenterViewController ()<goSDXDelegate>
@@ -88,7 +88,7 @@
     self.tableList = [[UITableView alloc] initWithFrame:FRAME_WITH_TAB style:UITableViewStylePlain];
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
-    self.tableList.backgroundColor = [UIColor clearColor];
+    self.tableList.backgroundColor = [UIColor whiteColor];
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableList.showsVerticalScrollIndicator = NO;
     self.tableList.tableHeaderView = self.headerView;
@@ -144,6 +144,7 @@
     if (cell == nil) {
         cell = [[UserCenterCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     }
+
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             [cell showTopLine];

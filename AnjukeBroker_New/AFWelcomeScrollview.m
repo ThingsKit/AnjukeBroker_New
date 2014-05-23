@@ -89,10 +89,7 @@ typedef enum {
 }
 
 - (void)addPageController:(int)imgCount {
-    float height = 50;
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-        height = 30;
-    }
+    float height = 30;
     for (int i = 0; i < imgCount; i++) {
         UIImageView *dot = [[UIImageView alloc] initWithFrame:CGRectMake([self getWindowWidth]/2-(20*imgCount - 10)/2+20*i, [self getWindowHeight] - height, 10, 10)];
         dot.tag = 1000 + i;
@@ -155,10 +152,7 @@ typedef enum {
                 [hideBtn setBackgroundColor:[UIColor clearColor]];
             }
             else {
-                float height = 80;
-                if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-                    height = 50;
-                }
+                float height = 50;
                 
                 hideBtn.frame = CGRectMake(btnOriginX + [self getWindowWidth] * (imgArray.count - 1), [self getWindowHeight]-btnH-height, btnW, btnH);
 //                [hideBtn setBackgroundColor:SYSTEM_TABBAR_SELECTCOLOR_DARK];

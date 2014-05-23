@@ -164,6 +164,8 @@
     else {
     
     }
+    cell.contentView.backgroundColor = [UIColor whiteColor];
+
     [cell configureCell:self.dataDic withIndex:indexPath.row];
     if (indexPath.row == 5) {
         [cell showBottonLineWithCellHeight:45];

@@ -109,7 +109,7 @@
 //    self.brokerGigImg.layer.borderWidth = 1;
     [self.view addSubview:self.brokerGigImg];
     
-    UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(70, self.brokerGigImg.frame.origin.y + imgW + 10, 180, 20)];
+    UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(0, self.brokerGigImg.frame.origin.y + imgW + 10, 320, 20)];
     tips.backgroundColor = [UIColor clearColor];
     tips.font = [UIFont systemFontOfSize:13];
     tips.textColor = SYSTEM_LIGHT_GRAY;

@@ -84,7 +84,7 @@
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
     self.tableList.frame = CGRectMake(0, 0, [self windowWidth], [self windowHeight]- STATUS_BAR_H - NAV_BAT_H-30);
-    self.tableList.backgroundColor = [UIColor clearColor];
+    self.tableList.backgroundColor = [UIColor whiteColor];
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableList.showsVerticalScrollIndicator = YES;
     [self.view addSubview:self.tableList];
@@ -102,6 +102,7 @@
     
     UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 150, 30)];
     tips.font = [UIFont ajkH5Font];
+    tips.backgroundColor = [UIColor clearColor];
     tips.text = [NSString stringWithFormat:@"可签到%@米内小区",[LoginManager getSignMile]];
     tips.textColor = [UIColor brokerMiddleGrayColor];
     [bottomView addSubview:tips];
@@ -247,6 +248,7 @@
         cell = [[CheckoutCommunityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     }
     CheckCommunityModel *model = [CheckCommunityModel convertToMappedObject:[self.tablaData objectAtIndex:indexPath.row]];
+    cell.contentView.backgroundColor = [UIColor whiteColor];
 
     [cell configureCell:model withIndex:indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleGray;

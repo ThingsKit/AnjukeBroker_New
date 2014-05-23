@@ -71,7 +71,7 @@
     self.tableList = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
-    self.tableList.backgroundColor = [UIColor clearColor];
+    self.tableList.backgroundColor = [UIColor whiteColor];
     self.tableList.showsVerticalScrollIndicator = NO;
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableList];
@@ -114,7 +114,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *view = [[UIView alloc] init];
-    view.backgroundColor = [UIColor clearColor];
+    view.backgroundColor = [UIColor brokerBgPageColor];
     
     return view;
 }
@@ -332,7 +332,7 @@
 - (void)checkSw:(id)sender{
     if (!self.msgSw.on) {
         //短信提醒由开到关
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"短信提醒" message:@"客户发起微聊后，将不再短信我" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"关闭提醒", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"短信提醒" message:@"客户发起微聊后，将不再短信通知我" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"关闭提醒", nil];
         alert.tag = 10;
         alert.delegate = self;
         [alert show];

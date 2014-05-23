@@ -27,6 +27,7 @@
 }
 
 - (void)initLabelTitle:(NSString *)title{
+    self.textLabel.backgroundColor = [UIColor clearColor];
     self.textLabel.text = title;
 }
 

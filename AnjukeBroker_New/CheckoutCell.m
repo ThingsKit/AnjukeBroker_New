@@ -68,6 +68,7 @@
             lab.text = @"今日签到展示位得主：";
             lab.textColor = [UIColor brokerMiddleGrayColor];
             lab.font = [UIFont ajkH5Font];
+            lab.backgroundColor = [UIColor clearColor];
             [self.contentView addSubview:lab];
         
         }else if(index == 4){
@@ -79,6 +80,9 @@
     }
     
     if (cellType == CHECKOUTCELLWITHNOCHECK) {
+        self.contentView.backgroundColor = [UIColor whiteColor];
+        self.textLabel.backgroundColor = [UIColor clearColor];
+        
         self.textLabel.text = [NSString stringWithFormat:@"%@",timeSection];
         self.textLabel.font = [UIFont ajkH3Font_B];
         
@@ -92,6 +96,9 @@
         }
     }
     if (cellType == CHECKOUTCELLWITHCHCK) {
+        self.contentView.backgroundColor = [UIColor whiteColor];
+        self.textLabel.backgroundColor = [UIColor clearColor];
+        
         if (self.detailLab) {
             [self.detailLab removeFromSuperview];
         }

@@ -11,7 +11,7 @@
 
 @implementation UILabel (TitleView)
 + (UILabel *)getTitleView:(NSString *)titleStr{
-    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 31)];
+    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, 44)];
     lb.backgroundColor = [UIColor clearColor];
     lb.font = [UIFont ajkH1Font];
     lb.text = titleStr;

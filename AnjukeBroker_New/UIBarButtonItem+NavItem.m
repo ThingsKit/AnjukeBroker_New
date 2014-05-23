@@ -48,8 +48,9 @@
         btn.frame = CGRectMake(0, 0, 48, 24);
         [btn setTitle:titleStr forState:UIControlStateNormal];
         [btn setTitle:titleStr forState:UIControlStateHighlighted];
-        [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [btn setTitleColor:[Util_UI colorWithHexString:@"515762"] forState:UIControlStateHighlighted];
+        [btn setTitleColor:[UIColor brokerBlueGrayColor] forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor brokerWhiteColor] forState:UIControlStateHighlighted];
+        btn.titleLabel.font = [UIFont ajkH2Font];
     }
     [btn addTarget:taget action:action forControlEvents:UIControlEventTouchUpInside];
     

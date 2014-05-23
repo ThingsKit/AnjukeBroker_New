@@ -9,6 +9,9 @@
 #import "AboutUsViewController.h"
 #import "Util_UI.h"
 
+#define UMENG_KEY_OFFLINE @"529da42356240b93f001f9b4"
+#define UMENG_KEY_ONLINE @"52a0368c56240ba07800b4c0"
+
 @interface AboutUsViewController ()
 
 @end
@@ -45,8 +48,12 @@
 }
 
 - (void)initDisplay {
+    float originY = 30;
+    if ([self windowHeight] < 568) {
+        originY = 20;
+    }
     
-    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(68, 30, 140, 100)];
+    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(68, originY, 140, 100)];
     [icon setImage:[UIImage imageNamed:@"anjuke_icon_login"]];
     [self.view addSubview:icon];
 
@@ -66,11 +73,11 @@
     [self.view addSubview:testLb];
 
     
-    UILabel *about = [[UILabel alloc] initWithFrame:CGRectMake(5, testLb.frame.origin.y+testLb.frame.size.height, [self windowWidth] - 5*2, 230)];
+    UILabel *about = [[UILabel alloc] initWithFrame:CGRectMake(10, testLb.frame.origin.y+testLb.frame.size.height, [self windowWidth] - 10*2, 230)];
     about.backgroundColor = [UIColor clearColor];
     about.numberOfLines = 0;
     about.lineBreakMode = NSLineBreakByWordWrapping;
-    about.text = @"安居客是国内优质房地产租售服务平台，专注于房地产租售信息服务。安居客以“帮助人们实现家的梦想”为企业愿景，全面覆盖买房、租房、商业地产三大业务，同时为开发商与经纪人提供高效的网络推广平台。安居客旗下业务网站每月独立访问用户已突破6600万。移动经纪人致力于更好的为经纪人服务，满足经纪人需求，打造经纪人的移动工作平台。";
+    about.text = @"   安居客是国内优质房地产租售服务平台，专注于房地产租售信息服务。安居客以“帮助人们实现家的梦想”为企业愿景，全面覆盖买房、租房、商业地产三大业务，同时为开发商与经纪人提供高效的网络推广平台。安居客旗下业务网站每月独立访问用户已突破6600万。移动经纪人致力于更好的为经纪人服务，满足经纪人需求，打造经纪人的移动工作平台。";
     about.textColor = SYSTEM_BLACK;
     about.font = [UIFont systemFontOfSize:16];
     [self.view addSubview:about];
@@ -89,17 +96,23 @@
     NSString *current_version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
     NSString *device_info = [[RTLogger sharedInstance] channelID];
     
-//    NSString *umeng_key = [[[RTLogger sharedInstance] appKey] substringFromIndex:18];
-//    strVer = [NSString stringWithFormat:@"当前版本：%@ %@ %@",current_version,device_info,umeng_key];
-    strVer = [NSString stringWithFormat:@"当前版本：%@ %@",current_version,device_info];
-
+    NSString *umeng_key = nil;
+    
+#ifdef DEBUG
+    umeng_key = [NSString stringWithFormat:@"%@",UMENG_KEY_OFFLINE];
+#else
+    umeng_key = [NSString stringWithFormat:@"%@",UMENG_KEY_ONLINE];
+#endif
+    
+    strVer = [NSString stringWithFormat:@"当前版本：%@ %@ %@",current_version,device_info,umeng_key];
+    
     return strVer;
 }
 
 - (void)doCheck {
     NSString *token = [[NSUserDefaults standardUserDefaults] valueForKey:USER_DEFAULT_KEY_DEVICE_TOKEN];
     if (token.length > 0 && ![token isKindOfClass:[NSNull class]]) {
-        UILabel *deviceTokenLb = [[UILabel alloc] initWithFrame:CGRectMake(5, 330+3, [self windowWidth] - 5*2, 80)];
+        UILabel *deviceTokenLb = [[UILabel alloc] initWithFrame:CGRectMake(5, [self windowHeight] - 80 -64, [self windowWidth] - 5*2, 80)];
         deviceTokenLb.backgroundColor = [UIColor clearColor];
         deviceTokenLb.textColor = SYSTEM_BLACK;
         deviceTokenLb.font = [UIFont systemFontOfSize:16];
