@@ -35,14 +35,8 @@
 #define FY_TAB_018 @"101018" //切换tab租房—>二手房
 
 
-//微聊数据页数
-#define WCHAT_TAB @"102000"
-#define WCHAT_TAB_001 @"102001" //页面可见
-#define WCHAT_TAB_002 @"102002" //点击【什么是闪电侠】
-#define WCHAT_TAB_003 @"102003" //点击返回
-
 //综合
-#define AJK_ZONGHE @"103000" //
+#define AJK_ZONGHE @"103000" // 启动APP，全新启动时发送，后台运行中打开不发送
 
 
 
@@ -67,18 +61,35 @@
 
 //二手房室内图描述页
 #define AJK_PROPERTY_HOUSEIMG_DES @"201000"
-#define AJK_PROPERTY_HOUSEIMG_DES_001 @"201001" //页面可见
-#define AJK_PROPERTY_HOUSEIMG_DES_002 @"201002" //点击拍照按钮
-#define AJK_PROPERTY_HOUSEIMG_DES_003 @"201003" //点击删除
-#define AJK_PROPERTY_HOUSEIMG_DES_004 @"201004" //点击取消
-#define AJK_PROPERTY_HOUSEIMG_DES_005 @"201005" //点击确定
+#define AJK_PROPERTY_HOUSEIMG_DES_001 @"201001" //页面可见记bp值（页面id）
+//#define AJK_PROPERTY_HOUSEIMG_DES_002 @"201002" //点击拍照按钮
+#define AJK_PROPERTY_HOUSEIMG_DES_003 @"201003" //点击返回
+#define AJK_PROPERTY_HOUSEIMG_DES_004 @"201004" //点击删除
+#define AJK_PROPERTY_HOUSEIMG_DES_005 @"201005" //滑动图片（是否滑过）
+#define AJK_PROPERTY_HOUSEIMG_DES_006 @"201006" //填写描述
+#define AJK_PROPERTY_HOUSEIMG_DES_007 @"201007" //点击保存
+
+
+//二手房室内图拍照页
+#define AJK_PROPERTY_TAKING_PHOTO @"202000"
+#define AJK_PROPERTY_TAKING_PHOTO_001 @"202001" //页面可见
+#define AJK_PROPERTY_TAKING_PHOTO_002 @"202002" //点击拍照按钮
+#define AJK_PROPERTY_TAKING_PHOTO_003 @"202003" //点击删除
+#define AJK_PROPERTY_TAKING_PHOTO_004 @"202004" //点击取消
+#define AJK_PROPERTY_TAKING_PHOTO_005 @"202005" //点击确定
 
 
 //二手房从相册选择室内图
 #define AJK_PROPERTY_HOUSEIMG_CHOOSEIMG_ALBUM @"203000"
+#define AJK_PROPERTY_HOUSEIMG_CHOOSEIMG_ALBUM_001 @"203001" //页面可见
+#define AJK_PROPERTY_HOUSEIMG_CHOOSEIMG_ALBUM_002 @"203002" //点击保存
+#define AJK_PROPERTY_HOUSEIMG_CHOOSEIMG_ALBUM_003 @"203003" //点击取消
+
 
 //二手房房型图从手机相册选择页
 #define AJK_PROPERTY_HOUSETYPEIMG_CHOOSEIMG_ALBUM @"204000"
+#define AJK_PROPERTY_HOUSETYPEIMG_CHOOSEIMG_ALBUM_001 @"204001" //页面可见
+#define AJK_PROPERTY_HOUSETYPEIMG_CHOOSEIMG_ALBUM_002 @"204002" //点击保存
 
 
 
@@ -184,6 +195,16 @@
 #define AJK_PPC_RESET_003 @"320003" //点击取消
 #define AJK_PPC_RESET_004 @"320004" //点击保存
 #define AJK_PPC_RESET_005 @"320005" //点击删除
+#define AJK_PPC_RESET_006 @"320006" //点击定价推广
+#define AJK_PPC_RESET_007 @"320007" //点击定价且竞价推广
+#define AJK_PPC_RESET_008 @"320008" //点击暂不推广
+#define AJK_PPC_RESET_009 @"320009" //点击添加室内图
+#define AJK_PPC_RESET_010 @"320010" //点击添加室内图-拍照
+#define AJK_PPC_RESET_011 @"320011" //点击添加室内图-从相册选择
+#define AJK_PPC_RESET_012 @"320012" //点击添加房型图
+#define AJK_PPC_RESET_013 @"320013" //点击房型图-从相册选择
+#define AJK_PPC_RESET_014 @"320014" //点击房型图-在线房型图
+
 
 //二手房房型页面
 #define AJK_HOUSETYPE @"330000"
@@ -258,16 +279,37 @@
 #define HZ_PROPERTY_011 @"400011" //点击添加室内图
 #define HZ_PROPERTY_012 @"400012" //点击添加室内图-拍照
 #define HZ_PROPERTY_013 @"400013" //点击添加室内图-从相册选择
+#define HZ_PROPERTY_014 @"400014" //点击添加房型图
+#define HZ_PROPERTY_015 @"400015" //点击房型图-从相册选择
+#define HZ_PROPERTY_016 @"400016" //点击房型图-在线房型图
 
 //租房室内图描述页
 #define HZ_PROPERTY_HOUSEIMG_DES @"401000"
+#define HZ_PROPERTY_HOUSEIMG_DES_001 @"401001" //页面可见,记bp值（页面id）
+#define HZ_PROPERTY_HOUSEIMG_DES_003 @"401003" //点击返回
+#define HZ_PROPERTY_HOUSEIMG_DES_004 @"401004" //点击删除
+#define HZ_PROPERTY_HOUSEIMG_DES_005 @"401005" //左右滑动切换照片
+#define HZ_PROPERTY_HOUSEIMG_DES_006 @"401006" //填写描述
+#define HZ_PROPERTY_HOUSEIMG_DES_007 @"401007" //点击保存
+
+//租房室内图拍照页
+#define HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO @"402000"
+#define HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_001 @"402001" //页面可见,记bp值（页面id）
+#define HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_002 @"402002" //点击拍照按钮
+#define HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_003 @"402003" //点击删除
+#define HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_004 @"402004" //点击取消
+#define HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_005 @"402005" //点击确定
 
 //租房从相册选择室内图
 #define HZ_PROPERTY_HOUSEIMG_ALBUM @"403000"
+#define HZ_PROPERTY_HOUSEIMG_ALBUM_001 @"403001" //页面可见
+#define HZ_PROPERTY_HOUSEIMG_ALBUM_002 @"403002" //点击保存
+#define HZ_PROPERTY_HOUSEIMG_ALBUM_003 @"403003" //点击取消
 
-//租房从相册选择室内图
+//租房房型图从手机相册选择页
 #define HZ_PROPERTY_HOUSETYPEIMG_ALBUM @"404000"
-
+#define HZ_PROPERTY_HOUSETYPEIMG_ALBUM_001 @"404001" //页面可见
+#define HZ_PROPERTY_HOUSETYPEIMG_ALBUM_002 @"404002" //点击保存
 
 
 //租房小区选择页
@@ -277,6 +319,7 @@
 #define HZ_COMMUNITY_003 @"410003" //输入小区
 #define HZ_COMMUNITY_004 @"410004" //点击附近的小区
 #define HZ_COMMUNITY_005 @"410005" //点击历史小区
+#define HZ_COMMUNITY_006 @"410006" //搜索无结果页可见
 
 //租房在线房型图选择页
 #define HZ_ONLINE @"420000"
@@ -371,6 +414,15 @@
 #define HZ_PPC_RESET_003 @"520003" //点击取消
 #define HZ_PPC_RESET_004 @"520004" //点击保存
 #define HZ_PPC_RESET_005 @"520005" //点击删除
+#define HZ_PPC_RESET_006 @"520006" //点击定价推广
+#define HZ_PPC_RESET_007 @"520007" //点击定价且竞价推广
+#define HZ_PPC_RESET_008 @"520008" //点击暂不推广
+#define HZ_PPC_RESET_009 @"520009" //点击添加室内图
+#define HZ_PPC_RESET_010 @"520010" //点击添加室内图-拍照
+#define HZ_PPC_RESET_011 @"520011" //点击添加室内图-从相册选择
+#define HZ_PPC_RESET_012 @"520012" //点击添加房型图
+#define HZ_PPC_RESET_013 @"520013" //点击房型图-从相册选择
+#define HZ_PPC_RESET_014 @"520014" //点击房型图-在线房型图
 
 //系统消息页
 #define HZ_SYSTEM @"600000"
@@ -398,27 +450,71 @@
 
 //我的页
 #define USER_CENTER @"701000"
+#define USER_CENTER_001 @"701001" //页面可见
+#define USER_CENTER_003 @"701003" //点击微聊达人icon
+#define USER_CENTER_004 @"701004" //点击我的二维码
+#define USER_CENTER_005 @"701005" //点击个人信息
+#define USER_CENTER_006 @"701006" //点击联系客户主任
+#define USER_CENTER_007 @"701007" //确定呼叫客户主任
+#define USER_CENTER_008 @"701008" //点击客服热线
+#define USER_CENTER_009 @"701009" //确定呼叫客服热线
+#define USER_CENTER_010 @"701010" //点击系统设置
 
 //系统设置页
 #define SYSTEM_SETTING @"702000"
+#define SYSTEM_SETTING_001 @"702001" //页面可见
+#define SYSTEM_SETTING_004 @"702004" //短信通知on到off
+#define SYSTEM_SETTING_005 @"702005" //短信通知off到on
+#define SYSTEM_SETTING_006 @"702006" //点击版本更新
+#define SYSTEM_SETTING_007 @"702007" //点击关于移动经纪人
+//#define SYSTEM_SETTING_008 @"702008" //点击联系客户主任
+//#define SYSTEM_SETTING_009 @"702009" //确定呼叫客户主任
+//#define SYSTEM_SETTING_010 @"702010" //点击客服热线
+//#define SYSTEM_SETTING_011 @"702011" //点击客服热线
+#define SYSTEM_SETTING_012 @"702012" //点击退出登录
 
 //发现页
 #define FIND_PAGE @"801000"
+#define FIND_PAGE_001 @"801001" //页面可见
+#define FIND_PAGE_003 @"801003" //点击市场分析
+#define FIND_PAGE_004 @"801004" //点击小区签到
+#define FIND_PAGE_005 @"801005" //点击抢委托房源
 
 //市场分析页
 #define MARKET_ANALYSIS @"802000"
+#define MARKET_ANALYSIS_001 @"802001" //页面可见
+#define MARKET_ANALYSIS_003 @"802003" //下拉刷新
 
 //小区签到页
 #define COMMUNITY_CHECK @"803000"
+#define COMMUNITY_CHECK_001 @"803001" //页面可见
+#define COMMUNITY_CHECK_003 @"803003" //点击小区
+#define COMMUNITY_CHECK_004 @"803004" //点击刷新
+#define COMMUNITY_CHECK_005 @"803005" //上拉加载更多小区
+#define COMMUNITY_CHECK_006 @"803006" //点击返回
+#define COMMUNITY_CHECK_007 @"803007" //点击右上角【规则】
 
 //签到单页
 #define CHECK_PAGE @"804000"
+#define CHECK_PAGE_001 @"804001" //页面可见
+#define CHECK_PAGE_003 @"804003" //点击立即签到
+#define CHECK_PAGE_004 @"804004" //点击右上角【规则】/【了解签到规则】
 
 //业主委托-抢委托页
 #define ENTRUST_ROB_PAGE @"805000"
+#define ENTRUST_ROB_PAGE_001 @"805001" //页面可见记录bp值（页面id）；从通知栏过来，记为push
+#define ENTRUST_ROB_PAGE_003 @"805003" //点击抢委托记房源编号（propid）
+#define ENTRUST_ROB_PAGE_004 @"805004" //下拉刷新
+#define ENTRUST_ROB_PAGE_005 @"805005" //上拉加载房源
+#define ENTRUST_ROB_PAGE_006 @"805006" //点击返回
 
 //业主委托-我的委托
 #define ENTRUST_ME_PAGE @"805000"
+#define ENTRUST_ME_PAGE_001 @"805001" //页面可见
+#define ENTRUST_ME_PAGE_003 @"805003" //点击拨打电话记房源编号（propid）
+#define ENTRUST_ME_PAGE_004 @"805004" //确定呼出电话
+#define ENTRUST_ME_PAGE_005 @"805005" //上拉加载更多
+#define ENTRUST_ME_PAGE_006 @"805006" //点击返回
 
 
 
