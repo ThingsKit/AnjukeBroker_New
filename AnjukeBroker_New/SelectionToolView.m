@@ -26,23 +26,41 @@
         [hzIcon setImage:[UIImage imageNamed:@"icon_3.4_02.png"]];
         [self addSubview:hzIcon];
         
+        UILabel *ajkLab = [[UILabel alloc] initWithFrame:CGRectMake(35, 20, 70, 30)];
+        ajkLab.font = [UIFont systemFontOfSize:15.0f];
+        [ajkLab setTextColor:[UIColor whiteColor]];
+        ajkLab.textAlignment = NSTextAlignmentCenter;
+        ajkLab.backgroundColor = [UIColor clearColor];
+        [ajkLab setText:@"发二手房"];
+        [self addSubview:ajkLab];
+        
+        
         UIButton *ajkBut = [UIButton buttonWithType:UIButtonTypeCustom];
-        ajkBut.frame = CGRectMake(35, 20, 70, 30);
-        [ajkBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [ajkBut setTitle:@"发二手房" forState:UIControlStateNormal];
+        ajkBut.frame = CGRectMake(0, 20, 70, 30);
+        [ajkBut setBackgroundColor:[UIColor clearColor]];
+//        [ajkBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//        [ajkBut setTitle:@"发二手房" forState:UIControlStateNormal];
 //        ajkBut.backgroundColor = [UIColor redColor];
-        ajkBut.titleLabel.textAlignment = NSTextAlignmentLeft;
-        ajkBut.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+//        ajkBut.titleLabel.textAlignment = NSTextAlignmentLeft;
+//        ajkBut.titleLabel.font = [UIFont systemFontOfSize:15.0f];
         [ajkBut addTarget:self action:@selector(ajkClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:ajkBut];
+        
+        UILabel *hzLab = [[UILabel alloc] initWithFrame:CGRectMake(38, 63, 50, 30)];
+        hzLab.font = [UIFont systemFontOfSize:15.0f];
+        [hzLab setBackgroundColor:[UIColor clearColor]];
+        [hzLab setTextColor:[UIColor whiteColor]];
+        hzLab.textAlignment = NSTextAlignmentCenter;
+        [hzLab setText:@"发租房"];
+        [self addSubview:hzLab];
         
         UIButton *haozuBut = [UIButton buttonWithType:UIButtonTypeCustom];
         haozuBut.frame = CGRectMake(38, 60, 50, 30);
 //        haozuBut.backgroundColor = [UIColor redColor];
-        haozuBut.titleLabel.font = [UIFont systemFontOfSize:15.0f];
-        haozuBut.titleLabel.textAlignment = NSTextAlignmentLeft;
-        [haozuBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [haozuBut setTitle:@"发租房" forState:UIControlStateNormal];
+//        haozuBut.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+//        haozuBut.titleLabel.textAlignment = NSTextAlignmentLeft;
+//        [haozuBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//        [haozuBut setTitle:@"发租房" forState:UIControlStateNormal];
         [haozuBut addTarget:self action:@selector(haozuClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:haozuBut];
         

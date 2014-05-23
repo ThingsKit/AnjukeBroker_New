@@ -111,7 +111,7 @@
 - (UIControl *)shadeControl {
     if (_shadeControl == nil) {
         _shadeControl = [[UIControl alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight])];
-        _shadeControl.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+        _shadeControl.backgroundColor = [UIColor clearColor];
         _shadeControl.hidden = YES;
         _shadeControl.alpha = 0;
         UITapGestureRecognizer *recogn = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTableView)];
@@ -122,7 +122,7 @@
 
 - (SegmentView *)segment {
     if (_segment == nil) {
-        _segment = [[SegmentView alloc] initWithFrame:CGRectMake(0, 0, 140, 31)];
+        _segment = [[SegmentView alloc] initWithFrame:CGRectMake(0, 0, 170, 30)];
         [_segment setDisSelectTitleColor:[UIColor brokerBlueGrayColor] selectedTitleColor:[UIColor colorWithHex:0x252d3a alpha:1]];
         _segment.delegate = self;
         _segment.backgroundColor = [UIColor brokerBlueGrayColor];
@@ -148,10 +148,11 @@
     [self addRightButton:@"发布" andPossibleTitle:nil];
     [self initView];
     [self initSelectionView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doRequestInfoAndPPC) name:@"LOGINSUCCESSNOTIFICATION" object:nil];
 }
 
 - (void)initSelectionView {
-    SelectionToolView *selectionView = [[SelectionToolView alloc] initWithFrame:CGRectMake(200, 5, 100, 80)];
+    SelectionToolView *selectionView = [[SelectionToolView alloc] initWithFrame:CGRectMake(210, 3, 100, 80)];
     selectionView.delegate = self;
     [self.view addSubview:selectionView];
     self.selectionView = selectionView;
@@ -187,22 +188,30 @@
     
     [self.view addSubview:self.shadeControl];//蒙层
     
-    UIView *hView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 110)];
+    UIView *hView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 100)];
     hView.backgroundColor = [UIColor whiteColor];
     tv.tableHeaderView = hView;
     
     self.tapName = [[UILabel alloc] init];
     self.tapName.text = @"今日点击";
+    self.tapName.textColor = [UIColor brokerMiddleGrayColor];
+    self.tapName.font = [UIFont systemFontOfSize:15];
     self.tapName.textAlignment = NSTextAlignmentCenter;
     self.tapValue = [[UILabel alloc] init];
     self.tapValue.textAlignment = NSTextAlignmentCenter;
     self.tapValue.text = @"0";
+    self.tapValue.textColor = [UIColor brokerBlackColor];
+    self.tapValue.font = [UIFont systemFontOfSize:25];
     self.costName = [[UILabel alloc] init];
     self.costName.textAlignment = NSTextAlignmentCenter;
     self.costName.text = @"今日花费";
+    self.costName.textColor = [UIColor brokerMiddleGrayColor];
+    self.costName.font = [UIFont systemFontOfSize:15];
     self.costValue = [[UILabel alloc] init];
     self.costValue.textAlignment = NSTextAlignmentCenter;
     self.costValue.text = @"0";
+    self.costValue.textColor = [UIColor brokerBlackColor];
+    self.costValue.font = [UIFont systemFontOfSize:25];
     
     [hView addSubview:self.tapName];
     [hView addSubview:self.tapValue];
@@ -220,8 +229,8 @@
         NSDictionary *metrics = @{@"leftSpace":@(60.0*widthIndex), @"centerSpace":@(40.0f*widthIndex), @"topSpace":@(30.0f*widthIndex), @"valueAndNameSpace": @(10.0f*widthIndex)};
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftSpace-[_tapName(80)]-centerSpace-[_costName(80)]" options:0 metrics:metrics views:dictionary]];
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftSpace-[_tapValue(80)]-centerSpace-[_costValue(80)]" options:0 metrics:metrics views:dictionary]];
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topSpace-[_tapValue(30)]-valueAndNameSpace-[_tapName(30)]" options:0 metrics:metrics views:dictionary]];
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topSpace-[_costValue(30)]-valueAndNameSpace-[_costName(30)]" options:0 metrics:metrics views:dictionary]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topSpace-[_tapValue(20)]-valueAndNameSpace-[_tapName(20)]" options:0 metrics:metrics views:dictionary]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topSpace-[_costValue(20)]-valueAndNameSpace-[_costName(20)]" options:0 metrics:metrics views:dictionary]];
     }else {
         self.tapValue.frame = CGRectMake(60.0f, 30.0f, 80.0f, 30.0f);
         self.tapName.frame = CGRectMake(60.0f, 70.0f, 80.0f, 30.0f);
@@ -312,7 +321,6 @@
 - (void)doRequest {
     [self doRequestInfoAndPPC];
     [self doRequestPPC];
-    [self requestForConfigure];
 }
 
 - (void)doRequestInfoAndPPC {
@@ -351,8 +359,8 @@
         return;
     }
     
-    self.dataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerBaseInfo"];
-    self.ppcDataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerPPCInfo"];
+//    self.dataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerBaseInfo"];
+//    self.ppcDataDic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerPPCInfo"];
     
     if ([LoginManager getChatID].length <=0 || [LoginManager getChatID] == nil) {
         //保存聊天id和聊天token
@@ -665,9 +673,20 @@
 //        }
     }
     cell.textLabel.text = [self.taskArray objectAtIndex:indexPath.row];
+    cell.textLabel.textColor = [UIColor brokerBlackColor];
+    cell.textLabel.font = [UIFont ajkH2Font_B];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, 1, 320 - 15, 1)];
-    [cell.contentView addSubview:line];
+    if (indexPath.row == self.taskArray.count - 1) {
+        BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, 0.5f, 320 - 15, 0.5f)];
+        [cell.contentView addSubview:line];
+        
+        BrokerLineView *line1 = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, HOME_cellHeight - 0.5f, 320, 0.5f)];
+        [cell.contentView addSubview:line1];
+    }else {
+        BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, 0.5f, 320 - 15, 0.5f)];
+        [cell.contentView addSubview:line];
+    }
+
 //
     
 //    [cell.contentView setBackgroundColor:[UIColor whiteColor]];

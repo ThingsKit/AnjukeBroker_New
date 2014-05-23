@@ -303,7 +303,7 @@
         [alert show];
         return;
     }
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGINSUCCESSNOTIFICATION" object:nil];
     NSDictionary *brokerDic = [[[response content] objectForKey:@"data"] objectForKey:@"broker"];
     DLog(@"resultFromAPI-->>%@",resultFromAPI);
     //保存用户登录数据

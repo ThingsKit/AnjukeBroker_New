@@ -62,9 +62,9 @@
 }
 
 - (void)showNoNetwork {
-    self.title.frame = CGRectMake(120, self.noNetworkView.bottom + 15, 80, 40);
+    self.title.frame = CGRectMake(110, self.noNetworkView.bottom + 15, 100, 40);
     self.noNetworkView.hidden = NO;
-    self.title.text = @"无网络";
+    self.title.text = @"网络连接失败";
     self.noDataCenterIMG.hidden = YES;
     self.noDataPointIMG.hidden = YES;
 }

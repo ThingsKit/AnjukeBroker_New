@@ -35,6 +35,7 @@
     self.leftBut.frame = CGRectMake(1.0f, 1.0f, self.frame.size.width / 2.0f - 1.0f, self.frame.size.height - 2.0f);
 //    [self.leftBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.leftBut.tag = 0;
+    self.leftBut.titleLabel.font = [UIFont ajkH3Font_B];
     [self.leftBut setBackgroundColor:[UIColor clearColor]];
     [self.leftBut addTarget:self action:@selector(didSelectedIndex:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.leftBut];
@@ -43,6 +44,7 @@
     self.rightBut.frame = CGRectMake(self.frame.size.width / 2.0f, 1.0f, self.frame.size.width / 2.0f - 1.0f, self.frame.size.height - 2.0f);
 //    [self.rightBut setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
     self.rightBut.tag = 1;
+    self.rightBut.titleLabel.font = [UIFont ajkH3Font_B];
     [self.rightBut addTarget:self action:@selector(didSelectedIndex:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.rightBut];
     

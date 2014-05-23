@@ -45,8 +45,8 @@
             UILabel *titleLb = [[UILabel alloc] init];
             self.labTitle = titleLb;
             titleLb.textAlignment = UITextAlignmentCenter;
-            titleLb.font = [UIFont systemFontOfSize:14];
-            titleLb.textColor = [Util_UI colorWithHexString:@"a2a2a2"];
+            titleLb.font = [UIFont systemFontOfSize:15];
+            titleLb.textColor = [UIColor brokerLightGrayColor];
             titleLb.text = title;
             [titleLb setBackgroundColor:[UIColor clearColor]];
             [self addSubview:titleLb];
