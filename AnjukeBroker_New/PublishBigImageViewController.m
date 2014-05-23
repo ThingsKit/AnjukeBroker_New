@@ -254,6 +254,8 @@
         NSString* content = [_imageDescArray objectAtIndex:self.currentIndex];
         if (content.length > 0 && ![content isEqualToString:self.placeHolder]) {
             _textView.text = [_imageDescArray objectAtIndex:self.currentIndex];
+            _pencil.hidden = YES;
+            _textView.textColor = SYSTEM_BLACK;
         }else{
             _pencil.hidden = NO;
             _textView.text = _placeHolder;
@@ -411,7 +413,7 @@
 #pragma mark UITextViewDelegate
 - (void)textViewDidBeginEditing:(UITextView *)textView{
 //    _textView = [[UITextView alloc] initWithFrame:CGRectMake(15, [self currentViewHeight]+15, 290, 80)];
-    
+    _mainScroll.scrollEnabled = NO;
     if ([_textView.text isEqualToString:self.placeHolder]) {
         _pencil.hidden = YES;
         _textView.text = @"";
@@ -421,10 +423,12 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
 //    _textView = [[UITextView alloc] initWithFrame:CGRectMake(15, [self currentViewHeight]+15, 290, [self currentViewHeight])];
-    
+    _mainScroll.scrollEnabled = YES;
     NSLog(@"%d", self.currentIndex);
     if (_imageDescArray) {
-        [_imageDescArray insertObject:self.textView.text atIndex:self.currentIndex];
+        if (_textView.text.length > 0 && ![_textView.text isEqualToString:self.placeHolder]) {
+            [_imageDescArray insertObject:self.textView.text atIndex:self.currentIndex];
+        }
     }else{
         NSLog(@"赋值数组为空");
     }
@@ -459,6 +463,8 @@
             NSString* content = [_imageDescArray objectAtIndex:self.currentIndex];
             if (content.length > 0 && ![content isEqualToString:self.placeHolder]) {
                 _textView.text = [_imageDescArray objectAtIndex:self.currentIndex];
+                _pencil.hidden = YES;
+                _textView.textColor = SYSTEM_BLACK;
             }else{
                 _pencil.hidden = NO;
                 _textView.text = _placeHolder;

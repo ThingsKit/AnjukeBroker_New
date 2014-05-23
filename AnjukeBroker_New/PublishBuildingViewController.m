@@ -16,8 +16,6 @@
 #import "PropertyAuctionPublishViewController.h"
 #import "AJKBRadioButton.h"
 
-#import "AlbumData.h"
-#import "AlbumDetailViewController.h"
 #import "BK_RTNavigationController.h"
 
 typedef enum {
