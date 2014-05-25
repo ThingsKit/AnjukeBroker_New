@@ -2024,7 +2024,11 @@ typedef enum {
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     if (self.footClickType == 1) //室内图
     {
-        pb.hasTextView = YES; //有照片编辑框
+        if(!self.isHaozu)
+        {
+            pb.hasTextView = YES; //有照片编辑框
+        }
+        
         [self.navigationController presentViewController:navController animated:YES completion:^(void) {
             [pb showImagesWithArray:self.roomImageArray atIndex:imageIndex];
         }];
