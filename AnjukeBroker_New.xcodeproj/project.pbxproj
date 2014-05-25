@@ -143,6 +143,7 @@
 		20F011C218942ABD000264BA /* icon_57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F011C018942ABD000264BA /* icon_57@2x.png */; };
 		20F6632A1896050F00356DFD /* anjuke_icon_nextfxt_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */; };
 		2723353E192AFD6200C45460 /* AJKBRadioButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2723353D192AFD6200C45460 /* AJKBRadioButton.m */; };
+		2732FDE81931D9EB0021DA25 /* AJKSaveMessModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2732FDE71931D9EB0021DA25 /* AJKSaveMessModel.m */; };
 		273913D218DBCFD9003284AA /* CheckInstalledMapAPP.m in Sources */ = {isa = PBXBuildFile; fileRef = 273913CB18DBCFD9003284AA /* CheckInstalledMapAPP.m */; };
 		273913D318DBCFD9003284AA /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 273913CD18DBCFD9003284AA /* MapViewController.m */; };
 		273913D518DBCFD9003284AA /* RegionAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 273913D118DBCFD9003284AA /* RegionAnnotation.m */; };
@@ -909,6 +910,8 @@
 		20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_nextfxt_@2x.png"; sourceTree = "<group>"; };
 		2723353C192AFD6200C45460 /* AJKBRadioButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJKBRadioButton.h; sourceTree = "<group>"; };
 		2723353D192AFD6200C45460 /* AJKBRadioButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJKBRadioButton.m; sourceTree = "<group>"; };
+		2732FDE61931D9EB0021DA25 /* AJKSaveMessModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJKSaveMessModel.h; sourceTree = "<group>"; };
+		2732FDE71931D9EB0021DA25 /* AJKSaveMessModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJKSaveMessModel.m; sourceTree = "<group>"; };
 		273913CA18DBCFD9003284AA /* CheckInstalledMapAPP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckInstalledMapAPP.h; path = mapView/CheckInstalledMapAPP.h; sourceTree = "<group>"; };
 		273913CB18DBCFD9003284AA /* CheckInstalledMapAPP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckInstalledMapAPP.m; path = mapView/CheckInstalledMapAPP.m; sourceTree = "<group>"; };
 		273913CC18DBCFD9003284AA /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = mapView/MapViewController.h; sourceTree = "<group>"; };
@@ -2099,6 +2102,8 @@
 				20A09793188D2C4400D30196 /* PublishDataModel.m */,
 				9751860018320D5F00C9A40A /* PhotoManager.h */,
 				9751860118320D5F00C9A40A /* PhotoManager.m */,
+				2732FDE61931D9EB0021DA25 /* AJKSaveMessModel.h */,
+				2732FDE71931D9EB0021DA25 /* AJKSaveMessModel.m */,
 			);
 			name = "发房Model";
 			sourceTree = "<group>";
@@ -4362,6 +4367,7 @@
 				20A2178818BF1804002CA469 /* HouseSelectViewController.m in Sources */,
 				678D2A2618DAB12E0027D945 /* wav.mm in Sources */,
 				20578B9F1898ABCC0086B93D /* PropertyEditViewController.m in Sources */,
+				2732FDE81931D9EB0021DA25 /* AJKSaveMessModel.m in Sources */,
 				F85A31531907867F00511022 /* RTLaunchImg.m in Sources */,
 				2079ADE118B5DB690029D493 /* ClientDetailCell.m in Sources */,
 				F8D2F0EE1923426E00858BB0 /* CheckCommunityModel.m in Sources */,

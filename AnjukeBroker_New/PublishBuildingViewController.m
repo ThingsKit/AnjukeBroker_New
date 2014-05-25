@@ -16,6 +16,7 @@
 #import "PropertyAuctionPublishViewController.h"
 #import "AJKBRadioButton.h"
 
+
 #import "BK_RTNavigationController.h"
 
 typedef enum {
@@ -43,6 +44,9 @@ typedef enum {
 
 @property (nonatomic, assign) PropertyUploadType uploadType;
 
+
+@property (nonatomic, strong) AJKSaveMessModel *saveMessModel;
+
 @end
 
 @implementation PublishBuildingViewController
@@ -50,6 +54,7 @@ typedef enum {
 @synthesize footClickType;//操作foot的tag
 @synthesize footerView;
 @synthesize uploadRoomImgDescIndex = _uploadRoomImgDescIndex;
+@synthesize saveMessModel;//上传接口信息
 
 - (void)dealloc {
     self.tableViewList.delegate = nil;
@@ -71,6 +76,12 @@ typedef enum {
     [self addRightButton:@"保存" andPossibleTitle:nil];
     
     [self setDefultValue];
+    
+    //上传接口信息
+    saveMessModel = [[AJKSaveMessModel alloc] init];
+    saveMessModel.stDa = [NSDate new];
+    ;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -393,14 +404,6 @@ typedef enum {
 }
 
 - (void)rightButtonAction:(id)sender {
-    NSString *code = [NSString string];
-    if (self.isHaozu) {
-        code = HZ_PROPERTY_004;
-    }
-    else
-        code = AJK_PROPERTY_004;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"save", nil]];
-    
     [self doSave];
 }
 
@@ -844,7 +847,7 @@ typedef enum {
         [params setObject:[self.property.isFullFive stringValue] forKey:@"isFullFive"];
 //        [params setObject:self.property.minDownPay forKey:@"minDownPay"];
     }
-    
+
     if (self.isHaozu) {
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUploadPropertyHZFinished:)];
     }
@@ -872,6 +875,12 @@ typedef enum {
     //保存房源id
     NSString *propertyID = [[[response content] objectForKey:@"data"] objectForKey:@"id"];
     [self doPushPropertyID:propertyID];
+    self.saveMessModel.profid = propertyID;
+    self.saveMessModel.pd = self.imgdescArr.count;
+    
+    
+    NSString *code = AJK_PROPERTY_004;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:self.saveMessModel.objectToDict];
     
     [self hideLoadWithAnimated:YES];
 }
@@ -898,7 +907,16 @@ typedef enum {
     NSString *propertyID = [[[response content] objectForKey:@"data"] objectForKey:@"id"];
     [self doPushPropertyID:propertyID];
     
+    self.saveMessModel.profid = propertyID;
+    self.saveMessModel.pd = self.imgdescArr.count;
+    
+    
+    NSString *code = HZ_PROPERTY_004;
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:self.saveMessModel.objectToDict];
+    
     [self hideLoadWithAnimated:YES];
+    
+    
 }
 
 - (void)requestWithPrice {
@@ -2024,9 +2042,11 @@ typedef enum {
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     if (self.footClickType == 1) //室内图
     {
+        pb.bp = HZ_PROPERTY_HOUSEIMG_ALBUM_001;
         if(!self.isHaozu)
         {
             pb.hasTextView = YES; //有照片编辑框
+            pb.bp = AJK_PROPERTY_HOUSEIMG_CHOOSEIMG_ALBUM_001;
         }
         
         [self.navigationController presentViewController:navController animated:YES completion:^(void) {
@@ -2045,17 +2065,22 @@ typedef enum {
 //图片预览点击
 
 - (void)addImageDidClick:(PhotoFooterView *)sender { //添加按钮点击
-    if (self.isHaozu) {
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PROPERTY_011 note:nil];
-    }
-    else
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_011 note:nil];
+    
     
     DLog(@"sender.tag == %d", sender.tag);
     
     self.footClickType = sender.tag;
     if (sender.tag == 1)
     {
+        //室内图
+        if (self.isHaozu)
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PROPERTY_011 note:nil];
+        }
+        else
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_011 note:nil];
+        }
         self.footerView = [_footerViewDict objectForKey:FOOTERVIEWDICTROOM];
         
         UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从手机相册选择", nil];
@@ -2063,6 +2088,16 @@ typedef enum {
         [sheet showInView:self.view];
     }else if (sender.tag == 2)
     {
+        //房型图
+        if (self.isHaozu)
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PROPERTY_014 note:nil];
+        }
+        else
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_014 note:nil];
+        }
+        
         self.footerView = [_footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
         UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"选择在线房型图", @"从手机相册选择", nil];
         sheet.tag = IMAGE_ACTIONSHEET_TAG;
@@ -2247,7 +2282,7 @@ typedef enum {
         }
         
     }
-    
+    self.saveMessModel.snc += arr.count;
     [self.imagePicker dismissViewControllerAnimated:YES completion:^(void){
         //
     }];
@@ -2278,6 +2313,30 @@ typedef enum {
     if (![self canAddMoreImageWithAddCount:count]) {
         return;
     }
+    
+    //室内图
+    NSString *code2 = HZ_PROPERTY_HOUSEIMG_ALBUM_002;
+    if(!self.isHaozu)
+    {
+        code2 = AJK_PROPERTY_HOUSEIMG_CHOOSEIMG_ALBUM_002;
+        
+    }
+    
+    //户型图
+    if (self.footClickType == 2)
+    {
+        code2 = HZ_PROPERTY_HOUSETYPEIMG_ALBUM_002;
+        if(!self.isHaozu)
+        {
+            code2 = AJK_PROPERTY_HOUSETYPEIMG_CHOOSEIMG_ALBUM_002;
+        }
+        saveMessModel.fxa += [info count];
+    }else if (self.footClickType == 1)
+    {
+        saveMessModel.snc += [info count];
+    }
+    
+    [[BrokerLogger sharedInstance] logWithActionCode:code2 note:NULL];
     
     for (NSDictionary *dict in info) {
         
@@ -2342,6 +2401,15 @@ typedef enum {
 }
 
 - (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
+
+    NSString *code2 = HZ_PROPERTY_HOUSEIMG_ALBUM_003;
+    if(!self.isHaozu)
+    {
+        code2 = AJK_PROPERTY_HOUSEIMG_CHOOSEIMG_ALBUM_003;
+    }
+    
+    [[BrokerLogger sharedInstance] logWithActionCode:code2 note:NULL];
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -2376,6 +2444,7 @@ typedef enum {
         return; //室内图超出限制
     }
     
+    //室内图-拍照
     NSString *code = [NSString string];
     if (self.isHaozu) {
         code = HZ_PROPERTY_012;
@@ -2422,6 +2491,7 @@ typedef enum {
 //在线房源选择回调
 - (void)onlineImgDidSelect:(NSDictionary *)imgDic
 {
+    self.saveMessModel.fxo += imgDic.count;
     /*
     for (int i = 0; i < arr.count; i ++) {
         //保存原始图片、得到url
@@ -2454,10 +2524,10 @@ typedef enum {
 {
     NSString *code = [NSString string];
     if (self.isHaozu) {
-        code = HZ_PROPERTY_007;
+        code = HZ_PROPERTY_016;
     }
     else
-        code = AJK_PROPERTY_007;
+        code = AJK_PROPERTY_016;
     [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
     
     //check小区、户型、朝向
@@ -2499,12 +2569,54 @@ typedef enum {
                 }
                 
                 NSString *code = [NSString string];
-                if (self.isHaozu) {
+                
+                //室内图-从相册选择
+                if (self.isHaozu)
+                {
                     code = HZ_PROPERTY_013;
                 }
                 else
                     code = AJK_PROPERTY_013;
+                //户型图
+                if (self.footClickType == 2)
+                {
+                    if (self.isHaozu)
+                    {
+                        code = HZ_PROPERTY_015;
+                    }
+                    else
+                    {
+                        code = AJK_PROPERTY_015;
+                    }
+                }
+                
+                
                 [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                
+                //室内图
+                NSString *pbid2 = HZ_PROPERTY_001;
+                NSString *code2 = HZ_PROPERTY_HOUSEIMG_ALBUM_001;
+                if(!self.isHaozu)
+                {
+                    code2 = AJK_PROPERTY_HOUSEIMG_CHOOSEIMG_ALBUM_001;
+                    pbid2 = AJK_PROPERTY;
+
+                }
+                
+                //户型图
+                if (self.footClickType == 2)
+                {
+                    pbid2 = HZ_PROPERTY_001;
+                    code2 = HZ_PROPERTY_HOUSETYPEIMG_ALBUM_001;
+                    if(!self.isHaozu)
+                    {
+                        code2 = AJK_PROPERTY_HOUSETYPEIMG_CHOOSEIMG_ALBUM_001;
+                        pbid2 = AJK_PROPERTY;
+                        
+                    }
+                }
+                
+                [[BrokerLogger sharedInstance] logWithActionCode:code2 note:[NSDictionary dictionaryWithObjectsAndKeys:pbid2, @"bp", nil]];
                 
                 self.isTakePhoto = NO;
                 

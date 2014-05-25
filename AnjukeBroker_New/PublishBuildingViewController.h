@@ -30,6 +30,8 @@
 #import "PublishInputOrderModel.h"
 #import "PublishFeatureViewController.h"
 #import "AnjukeOnlineImgController.h"
+#import "BrokerLogger.h"
+#import "AJKSaveMessModel.h"
 
 #define IMAGE_ACTIONSHEET_TAG 9010
 #define PUBLISH_ACTIONSHEET_TAG 9020
