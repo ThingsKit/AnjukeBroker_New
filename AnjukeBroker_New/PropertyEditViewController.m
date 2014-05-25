@@ -47,6 +47,9 @@
     [self setTitleViewWithString:@"房源编辑"];
     [self doRequestProp];
     
+    //页面可见log
+    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_RESET_001 note:[NSDictionary dictionaryWithObjectsAndKeys:self.propertyID, @"bp", nil]];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -694,6 +697,124 @@
 }
 
 #pragma mark - ******** Overwrite Method ********
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [super actionSheet:actionSheet clickedButtonAtIndex:buttonIndex];
+    
+    if (actionSheet.tag == IMAGE_ACTIONSHEET_TAG)
+    {
+        
+        
+        if (self.footClickType == 1)
+        {
+            NSString *code = AJK_PPC_RESET_009;
+            if (self.isHaozu)
+            {
+                code = HZ_PPC_RESET_009;
+            }
+            [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+        }else if (self.footClickType == 2)
+        {
+            NSString *code = AJK_PPC_RESET_012;
+            if (self.isHaozu)
+            {
+                code = HZ_PPC_RESET_012;
+            }
+            [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+        }
+        
+        switch (buttonIndex) {
+            case 0: //拍照
+            {
+                NSString *code = @"";
+                if (self.footClickType == 1)
+                {
+                    code = AJK_PPC_RESET_010;
+                    if (self.isHaozu)
+                    {
+                        code = HZ_PPC_RESET_010;
+                    }
+                    
+                }else if (self.footClickType == 2)
+                {
+                    code = AJK_PPC_RESET_014;
+                    if (self.isHaozu)
+                    {
+                        code = HZ_PPC_RESET_014;
+                    }
+                }
+                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+            }
+                break;
+            case 1: //从手机相册xuan'z
+            {
+                //室内图
+
+                NSString *code2 = HZ_PPC_RESET_011;
+                if(!self.isHaozu)
+                {
+                    code2 = AJK_PPC_RESET_011;
+                }
+                
+                //户型图
+                if (self.footClickType == 2)
+                {
+                    code2 = HZ_PPC_RESET_013;
+                    if(!self.isHaozu)
+                    {
+                        code2 = AJK_PPC_RESET_013;
+                    }
+                }
+                
+                [[BrokerLogger sharedInstance] logWithActionCode:code2 note:nil];
+                
+                
+            }
+                break;
+            default:
+                break;
+        }
+    }else if (actionSheet.tag == PUBLISH_ACTIONSHEET_TAG)
+    {
+        NSString *code = @"";
+        switch (buttonIndex) {
+            case 0: //定价
+            {
+                code = AJK_PPC_RESET_006;
+                if (self.isHaozu)
+                {
+                    code = HZ_PPC_RESET_006;
+                }
+                
+            }
+                break;
+            case 1: //定价+竞价
+            {
+                NSString *code = AJK_PPC_RESET_007;
+                if (self.isHaozu)
+                {
+                    code = HZ_PPC_RESET_007;
+                }
+
+            }
+                break;
+            case 2: //暂不推广
+            {
+                NSString *code = AJK_PPC_RESET_008;
+                if (self.isHaozu)
+                {
+                    code = HZ_PPC_RESET_008;
+                }
+            }
+                break;
+                
+            default:
+                break;
+        }
+        //页面可见log
+        [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    }
+}
 
 - (void)prepareUploadImgArr {
     [self.uploadImageArray removeAllObjects];
