@@ -83,6 +83,7 @@
 
 @property (nonatomic, strong) NSMutableArray *imgdescArr;;//图片描述
 @property BOOL isBid; //是否为定价且竞价
+@property (nonatomic, strong) AJKSaveMessModel *saveMessModel;//日志model
 
 - (void)setTextFieldForProperty;
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount;

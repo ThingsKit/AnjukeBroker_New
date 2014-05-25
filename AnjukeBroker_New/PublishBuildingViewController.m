@@ -45,8 +45,6 @@ typedef enum {
 @property (nonatomic, assign) PropertyUploadType uploadType;
 
 
-@property (nonatomic, strong) AJKSaveMessModel *saveMessModel;
-
 @end
 
 @implementation PublishBuildingViewController
@@ -880,6 +878,10 @@ typedef enum {
     
     
     NSString *code = AJK_PROPERTY_004;
+    if (self.isHaozu)
+    {
+        code = HZ_PROPERTY_004;
+    }
     [[BrokerLogger sharedInstance] logWithActionCode:code note:self.saveMessModel.objectToDict];
     
     [self hideLoadWithAnimated:YES];
@@ -2333,7 +2335,7 @@ typedef enum {
         saveMessModel.fxa += [info count];
     }else if (self.footClickType == 1)
     {
-        saveMessModel.snc += [info count];
+        saveMessModel.sna += [info count];
     }
     
     [[BrokerLogger sharedInstance] logWithActionCode:code2 note:NULL];

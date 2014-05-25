@@ -449,6 +449,17 @@
     NSMutableDictionary *params = nil;
     NSString *method = nil;
     
+    self.saveMessModel.profid = propertyID;
+    self.saveMessModel.pd = self.imgdescArr.count;
+    
+    NSString *code2 = AJK_PPC_RESET_004;
+    if (self.isHaozu)
+    {
+        code2 = HZ_PPC_RESET_004;
+    }
+    
+    [[BrokerLogger sharedInstance] logWithActionCode:code2 note:self.saveMessModel.objectToDict];
+    
     [self setTextFieldForProperty];
     
     params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"cityId", self.property.comm_id, @"commId", self.property.rooms, @"rooms", self.property.area, @"area", self.property.price, @"price", self.property.fitment, @"fitment", self.property.exposure, @"exposure", self.property.floor, @"floor", self.property.title, @"title", self.property.desc, @"description", self.propertyID, @"propId",self.property.fileNo, @"fileNo", nil];
@@ -697,6 +708,12 @@
 }
 
 #pragma mark - ******** Overwrite Method ********
+
+- (void)onlineImgDidSelect:(NSDictionary *)imgDic
+{
+    [super onlineImgDidSelect:imgDic];
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     [super actionSheet:actionSheet clickedButtonAtIndex:buttonIndex];
@@ -1034,6 +1051,7 @@
     DLog(@"拍照添加室内图:count[%d]", self.roomImageArray.count);
     DLog(@"sender.tag == %d", sender.tag);
     
+    self.saveMessModel.snc += arr.count;
 
     self.footerView = [self.footerViewDict objectForKey:FOOTERVIEWDICTROOM];
     DLog(@"self.footerView.tag == %d", self.footerView.tag);
@@ -1177,6 +1195,14 @@
     }
     //redraw footer img view
     
+    //户型图
+    if (self.footClickType == 2)
+    {
+        self.saveMessModel.fxa += [info count];
+    }else if (self.footClickType == 1)
+    {
+        self.saveMessModel.sna += [info count];
+    }
     
     [self dismissViewControllerAnimated:YES completion:nil];
     
