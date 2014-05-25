@@ -31,6 +31,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UIButton* right = [UIButton buttonWithType:UIButtonTypeCustom];
+    right.frame = CGRectMake(0, 0, 45, 45);
+    [right setTitle:@"还原" forState:UIControlStateNormal];
+    [right addTarget:self action:@selector(removeSpecificCoordinate:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem* rightItem = [[UIBarButtonItem alloc] initWithCustomView:right];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
     // Do any additional setup after loading the view.
     _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
     _mapView.showsUserLocation = YES;
@@ -53,6 +61,19 @@
     [_locationManager startUpdatingLocation];
     
 }
+
+#pragma mark -
+#pragma mark rightBarButtonItem
+- (void)removeSpecificCoordinate:(UIButton*)button{
+    //保存当前选定的坐标值
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"latitude_specify"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"longitude_specify"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"还原确认" message:@"指定坐标已经清空" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil];
+    [alert show];
+}
+
 
 #pragma mark -
 #pragma mark CLLocationManagerDelegate
@@ -134,7 +155,6 @@
     [_mapView selectAnnotation:_annotation animated:YES];
     
 }
-
 
 #pragma mark -
 #pragma mark Memory Management
