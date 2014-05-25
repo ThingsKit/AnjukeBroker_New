@@ -32,6 +32,10 @@
 @property (nonatomic, strong) UILabel* hudText;
 @property (nonatomic, strong) UILabel* hubSubText;
 
+//第一次自动下拉
+@property (nonatomic, assign) BOOL leftAutoPullDown;
+@property (nonatomic, assign) BOOL rightAutoPullDown;
+
 //alert相关
 @property (nonatomic, strong) UIImageView* alertBackgroundImageView;
 
@@ -532,14 +536,22 @@
 
 
 - (void) autoRefresh {
+    
     if (self.myTableView.hidden) {
-        [self.tableView autoPullDownRefresh];
+        if (!self.leftAutoPullDown) {
+            [self.tableView autoPullDownRefresh];
+            self.leftAutoPullDown = YES;
+            [self pullDown:nil];
+        }
     }else{
-        [self.myTableView autoPullDownRefresh]; //自动下拉
+        if (!self.rightAutoPullDown) {
+            [self.myTableView autoPullDownRefresh]; //自动下拉
+            self.rightAutoPullDown = YES;
+            [self pullDown:nil];
+        }
     }
     
     //加载数据
-    [self pullDown:nil];
 }
 
 

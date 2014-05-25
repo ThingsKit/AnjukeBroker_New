@@ -116,7 +116,7 @@
     [super layoutSubviews];
     
     //小区名称
-    CGSize commNameSize = [self.myPropertyModel.commName sizeWithFont:self.commName.font constrainedToSize:CGSizeMake(ScreenWidth-100, 20)];
+    CGSize commNameSize = [self.myPropertyModel.commName sizeWithFont:self.commName.font constrainedToSize:CGSizeMake(ScreenWidth-120, 20)];
     self.commName.frame = CGRectMake(15, 15, commNameSize.width, 17);
     self.commName.textAlignment = NSTextAlignmentLeft;
     self.commName.text = self.myPropertyModel.commName;
@@ -165,7 +165,7 @@
 //        self.button.backgroundColor = [UIColor redColor];
         [self.button setImage:[UIImage imageNamed:@"anjuke_icon_weituo_call"] forState:UIControlStateNormal];
         [self.button setImage:[UIImage imageNamed:@"anjuke_icon_weituo_call_press"] forState:UIControlStateHighlighted];
-        [self.button setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 25)];
+        [self.button setImageEdgeInsets:UIEdgeInsetsMake(0, 40, 0, 0)];
         self.button.hidden = NO;
         
     }else{

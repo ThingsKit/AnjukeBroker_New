@@ -131,14 +131,14 @@
     //小区名称
     CGSize commNameSize = [self.propertyModel.commName sizeWithFont:self.commName.font constrainedToSize:CGSizeMake(ScreenWidth-120, 20)];
     self.commName.frame = CGRectMake(15, 15, commNameSize.width, 17);
-//    self.commName.textAlignment = NSTextAlignmentLeft;
     self.commName.text = self.propertyModel.commName;
 //    self.commName.backgroundColor = [UIColor redColor];
 //    [self.commName sizeToFit]; //自适应文字大小
+//    NSLog(@"%d", (int)commNameSize.width);
     
     //租售icon
-    if (commNameSize.width == ScreenWidth-120) {
-        self.icon.frame = CGRectMake(self.commName.right - 10, 16.5f, 16, 16);
+    if ((int)commNameSize.width == 195) {
+        self.icon.frame = CGRectMake(self.commName.right - 15, 16.5f, 16, 16);
     }else{
         self.icon.frame = CGRectMake(self.commName.right, 16.5f, 16, 16);
     }
