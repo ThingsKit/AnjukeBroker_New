@@ -27,7 +27,7 @@
 @property BOOL isNewAddImg; //编辑房源是否是新添加图片
 
 @property (nonatomic, strong) NSMutableArray* imageDescArray;
-@property (nonatomic, copy) NSString* bp;
+@property (nonatomic, copy) NSString* bp; //页面id
 
 @property (nonatomic, assign) BOOL hasTextView;
 

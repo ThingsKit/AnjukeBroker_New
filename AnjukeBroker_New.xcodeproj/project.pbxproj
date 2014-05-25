@@ -180,6 +180,8 @@
 		27A42B5A18E2C4D300FADED3 /* wl_map_icon_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A42B5118E2C4D300FADED3 /* wl_map_icon_5.png */; };
 		27A42B5B18E2C4D300FADED3 /* wl_map_icon_5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A42B5218E2C4D300FADED3 /* wl_map_icon_5@2x.png */; };
 		27C61C68192B034B002076AE /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27C61C67192B034B002076AE /* AdSupport.framework */; };
+		670F016F1931C8F5004C95B2 /* LocationSpecifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F016E1931C8F5004C95B2 /* LocationSpecifyViewController.m */; };
+		670F01721931D866004C95B2 /* KKAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F01711931D866004C95B2 /* KKAnnotation.m */; };
 		6740D1C71908E08C005ED706 /* anjuke_icon_add_more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6740D1AF1908E08C005ED706 /* anjuke_icon_add_more@2x.png */; };
 		6740D1C81908E08C005ED706 /* anjuke_icon_add_more1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6740D1B01908E08C005ED706 /* anjuke_icon_add_more1@2x.png */; };
 		6740D1C91908E08C005ED706 /* anjuke_icon_bq_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6740D1B11908E08C005ED706 /* anjuke_icon_bq_delete@2x.png */; };
@@ -951,6 +953,10 @@
 		27A42B5118E2C4D300FADED3 /* wl_map_icon_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wl_map_icon_5.png; path = mapView/wl_map_icon_5.png; sourceTree = "<group>"; };
 		27A42B5218E2C4D300FADED3 /* wl_map_icon_5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wl_map_icon_5@2x.png"; path = "mapView/wl_map_icon_5@2x.png"; sourceTree = "<group>"; };
 		27C61C67192B034B002076AE /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		670F016D1931C8F5004C95B2 /* LocationSpecifyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSpecifyViewController.h; sourceTree = "<group>"; };
+		670F016E1931C8F5004C95B2 /* LocationSpecifyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationSpecifyViewController.m; sourceTree = "<group>"; };
+		670F01701931D866004C95B2 /* KKAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKAnnotation.h; sourceTree = "<group>"; };
+		670F01711931D866004C95B2 /* KKAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKAnnotation.m; sourceTree = "<group>"; };
 		6740D1AF1908E08C005ED706 /* anjuke_icon_add_more@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_more@2x.png"; sourceTree = "<group>"; };
 		6740D1B01908E08C005ED706 /* anjuke_icon_add_more1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_more1@2x.png"; sourceTree = "<group>"; };
 		6740D1B11908E08C005ED706 /* anjuke_icon_bq_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_bq_delete@2x.png"; sourceTree = "<group>"; };
@@ -2341,6 +2347,10 @@
 				6767D14419235174004FEFF7 /* MyPropertyTableView.m */,
 				6767D1471923519B004FEFF7 /* MyPropertyTableViewCell.h */,
 				6767D1481923519B004FEFF7 /* MyPropertyTableViewCell.m */,
+				670F016D1931C8F5004C95B2 /* LocationSpecifyViewController.h */,
+				670F016E1931C8F5004C95B2 /* LocationSpecifyViewController.m */,
+				670F01701931D866004C95B2 /* KKAnnotation.h */,
+				670F01711931D866004C95B2 /* KKAnnotation.m */,
 			);
 			name = "发现模块";
 			sourceTree = "<group>";
@@ -4402,6 +4412,7 @@
 				97CB0C1F182BF28D00FCCBBD /* UIViewController+Loading.m in Sources */,
 				2056A38918EE7EA00022B5A5 /* AXMessageCenterAddFriendByQRCodeManager.m in Sources */,
 				B7E1F6B7190E0705009F546B /* IMGDownloaderOperation.m in Sources */,
+				670F016F1931C8F5004C95B2 /* LocationSpecifyViewController.m in Sources */,
 				B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */,
 				2056A35F18EE7E7A0022B5A5 /* AXMessageAPIBreakLinkManager.m in Sources */,
 				20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */,
@@ -4552,6 +4563,7 @@
 				20A2178918BF1804002CA469 /* PropertySelectViewController.m in Sources */,
 				20A2178718BF1804002CA469 /* HouseSelectNavigationController.m in Sources */,
 				97C97B461810DD34006E538B /* TabBarViewController.m in Sources */,
+				670F01721931D866004C95B2 /* KKAnnotation.m in Sources */,
 				F815F94F190658B200DF9F55 /* UIBarButtonItem+NavItem.m in Sources */,
 				20D3C24C1892466B0030D7D8 /* PhotoFooterView.m in Sources */,
 				B7EAD51618CD927200B28FEC /* AXChatBaseCell.m in Sources */,

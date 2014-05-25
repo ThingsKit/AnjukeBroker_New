@@ -8,11 +8,15 @@
 
 #import "AboutUsViewController.h"
 #import "Util_UI.h"
+#import "LocationSpecifyViewController.h"
+#import "BK_RTNavigationController.h"
 
 #define UMENG_KEY_OFFLINE @"529da42356240b93f001f9b4"
 #define UMENG_KEY_ONLINE @"52a0368c56240ba07800b4c0"
 
 @interface AboutUsViewController ()
+
+@property (nonatomic, assign) NSInteger count;
 
 @end
 
@@ -31,8 +35,29 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    UIButton* hiddenButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    hiddenButton.frame = CGRectMake(0, 0, 50, 50);
+//    hiddenButton.backgroundColor = [UIColor redColor];
+    [hiddenButton addTarget:self action:@selector(onButtonClickAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:hiddenButton];
+    self.count = 0;
     
     [self setTitleViewWithString:@"关于我们"];
+}
+
+#pragma mark -
+#pragma mark onButtonClickAction
+- (void)onButtonClickAction:(UIButton*)button{
+    self.count++;
+    
+    if (self.count > 4) {
+        LocationSpecifyViewController* viewController = [[LocationSpecifyViewController alloc] init];
+        viewController.backType = RTSelectorBackTypeDismiss;
+        BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController: viewController];
+        [self.navigationController presentViewController:navi animated:YES completion:nil];
+        
+        self.count = 0;
+    }
 }
 
 - (void)didReceiveMemoryWarning
