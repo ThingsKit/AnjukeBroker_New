@@ -140,6 +140,8 @@
 #pragma mark - Private Method
 
 - (void)rightButtonAction:(id)sender {
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_HOUSEIMG_DES_004 note:nil];
+    
     if (self.isEditProperty) {
         if (self.isHouseType) {
             //通知删除在线户型图。。。并退出
@@ -186,6 +188,8 @@
 }
 
 - (void)doBack:(id)sender {
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_HOUSEIMG_DES_003 note:nil];
+    
     if (self.isEditProperty) {
         [self dismissViewControllerAnimated:YES completion:nil];
         return;
@@ -415,6 +419,7 @@
 #pragma mark -
 #pragma mark UITextViewDelegate
 - (void)textViewDidBeginEditing:(UITextView *)textView{
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_HOUSEIMG_DES_006 note:nil];
 //    _textView = [[UITextView alloc] initWithFrame:CGRectMake(15, [self currentViewHeight]+15, 290, 80)];
     _mainScroll.scrollEnabled = NO;
     if ([_textView.text isEqualToString:self.placeHolder]) {
@@ -426,6 +431,7 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
 //    _textView = [[UITextView alloc] initWithFrame:CGRectMake(15, [self currentViewHeight]+15, 290, [self currentViewHeight])];
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_HOUSEIMG_DES_007 note:nil];
     _mainScroll.scrollEnabled = YES;
     NSLog(@"%d", self.currentIndex);
     if (_imageDescArray) {
@@ -469,6 +475,8 @@
     DLog(@"index [%d]", self.currentIndex);
     
     if (self.hasTextView) {
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_HOUSEIMG_DES_005 note:nil];
+        
         if (_imageDescArray) {
             NSString* content = [_imageDescArray objectAtIndex:self.currentIndex];
             if (content.length > 0 && ![content isEqualToString:self.placeHolder]) {

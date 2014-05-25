@@ -49,8 +49,11 @@
     self.tableView.tableHeaderView = headView;
     self.tableView.backgroundColor = [UIColor brokerBgPageColor];
     
-    [[BrokerLogger sharedInstance] logWithActionCode:FIND_PAGE_001 note:nil];
-    
+}
+
+#pragma mark - log
+- (void)sendAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:FIND_PAGE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 

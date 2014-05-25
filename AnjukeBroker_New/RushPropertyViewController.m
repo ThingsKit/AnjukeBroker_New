@@ -72,6 +72,16 @@
     
 }
 
+- (void)doBack:(id)sender{
+    [super doBack:sender];
+    if (self.myTableView.hidden) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_006 note:nil];
+    }else{
+        [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ME_PAGE_006 note:nil];
+    }
+    
+}
+
 
 #pragma mark -
 #pragma mark - 数据请求完成
