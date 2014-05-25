@@ -49,6 +49,8 @@
     self.tableView.tableHeaderView = headView;
     self.tableView.backgroundColor = [UIColor brokerBgPageColor];
     
+    [[BrokerLogger sharedInstance] logWithActionCode:FIND_PAGE_001 note:nil];
+    
 }
 
 
@@ -136,18 +138,20 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
         NSLog(@"市场分析");
+        [[BrokerLogger sharedInstance] logWithActionCode:FIND_PAGE_003 note:nil];
         FindHomeViewController *ae = [[FindHomeViewController alloc] init];
         [ae setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:ae animated:YES];
     }else if(indexPath.row == 1){
         NSLog(@"小区签到");
+        [[BrokerLogger sharedInstance] logWithActionCode:FIND_PAGE_004 note:nil];
         CheckoutCommunityViewController *communityVC = [[CheckoutCommunityViewController alloc] init];
         [communityVC setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:communityVC animated:YES];
     }else if(indexPath.row == 2){
         NSLog(@"抢房源委托");
         self.badgeView.hidden = YES; //消除badge
-        
+        [[BrokerLogger sharedInstance] logWithActionCode:FIND_PAGE_005 note:nil];
         RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
         [viewController setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:viewController animated:YES];

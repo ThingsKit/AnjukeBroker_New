@@ -191,6 +191,7 @@
 - (void)buttonClicked:(UIButton*)button{
     
     RushPropertyViewController* viewController = (RushPropertyViewController*)self.viewController;
+    [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_003 note:@{@"propid":self.propertyModel.propertyId}];
     
     self.button.enabled = NO;
     [self.button setBackgroundColor:[UIColor colorWithWhite:0.9 alpha:1]];

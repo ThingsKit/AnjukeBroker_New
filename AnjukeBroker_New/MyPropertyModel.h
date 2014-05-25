@@ -11,6 +11,7 @@
 @interface MyPropertyModel : BaseModel
 
 @property (nonatomic, copy) NSString* id;
+@property (nonatomic, copy) NSString* propertyId; //房源id
 @property (nonatomic, copy) NSString* commName;  //小区名称
 @property (nonatomic, copy) NSString* type;   //出售或出租
 @property (nonatomic, copy) NSString* room;

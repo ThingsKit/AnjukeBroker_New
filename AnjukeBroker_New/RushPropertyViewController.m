@@ -48,6 +48,7 @@
     return self;
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -410,6 +411,7 @@
     
     //如果位于抢委托页面
     if (self.myTableView.hidden) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_004 note:nil];
         self.tableView.isPullUp = NO;
         if (self.tableView.maxId != nil && self.tableView.maxId.length != 0) {
             NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:self.tableView.maxId forKey:@"maxId"];
@@ -435,6 +437,7 @@
 - (void)pullUp:(BaseTableView *)tableView {
     //如果位于抢委托页面
     if (self.myTableView.hidden) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_005 note:nil];
         self.tableView.isPullUp = YES;
         if (self.tableView.sinceId != nil && self.tableView.sinceId.length != 0) {
             NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:self.tableView.sinceId forKey:@"sinceId"];
@@ -445,6 +448,7 @@
         
         
     }else{
+        [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ME_PAGE_005 note:nil];
         self.myTableView.isPullUp = YES;
         if (self.myTableView.sinceId != nil && self.myTableView.sinceId.length != 0) {
             NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:self.myTableView.sinceId forKey:@"sinceId"];
