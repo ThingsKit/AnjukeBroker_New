@@ -2512,13 +2512,16 @@ typedef enum {
         }
         
     }
+    */
     
+    self.property.onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:imgDic];
     
-    self.onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:imgDic];
+    NSArray *houseArr = [PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArray];
+    NSArray *onlineHouseArr = [PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.property.onlineHouseTypeDic];
     
     //redraw footer img view
-    [self.footerView redrawWithHouseTypeImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArr] andImgUrl:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.onlineHouseTypeDic]];
-     */
+    [self.footerView redrawWithHouseTypeImageArray:houseArr andImgUrl:onlineHouseArr];
+     
 }
 
 //在线选择房源
