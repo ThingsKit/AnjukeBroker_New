@@ -15,5 +15,6 @@
 @property (nonatomic, strong) HomeViewController *HomeVC;
 
 - (void)setMessageBadgeValueWithValue:(NSString *)value; //
+- (void)setDiscoverBadgeValueWithValue:(NSString *)value; //设置发现模块待抢房源数量
 
 @end

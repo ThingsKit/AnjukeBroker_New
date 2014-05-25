@@ -26,6 +26,7 @@
 #import "AXChatMessageCenter.h"
 #import "HomeViewController.h"
 #import "RushPropertyViewController.h"
+#import "DiscoverViewController.h"
 
 #import "CrashLogUtil.h"
 
@@ -301,7 +302,14 @@
         DLog(@"userInfo [%@]", userInfo);
     }
     
-//NSLog(@"弹出模态视图");
+    DiscoverViewController* disc = [[DiscoverViewController alloc] init];
+    disc.propertyBadgeNumber++; //badge 数字加1
+    
+    [UIApplication sharedApplication].applicationIconBadgeNumber++; //应用程序计数器自加
+    
+    [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", disc.propertyBadgeNumber]]; //tabbarItem 的badge计数器
+    
+    //NSLog(@"弹出模态视图");
     RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
     viewController.backType = RTSelectorBackTypeDismiss;
     [viewController setHidesBottomBarWhenPushed:YES];

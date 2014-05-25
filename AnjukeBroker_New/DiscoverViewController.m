@@ -27,7 +27,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.propertyBadgeNumber = 88; //测试用
+//        self.propertyBadgeNumber = 88; //测试用
     }
     return self;
 }

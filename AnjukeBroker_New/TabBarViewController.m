@@ -30,6 +30,7 @@
 @property (nonatomic, strong) UIViewController *page5;
 
 @property (nonatomic, strong) RTGestureBackNavigationController *messageNavController;
+@property (nonatomic, strong) RTGestureBackNavigationController* navDis;
 
 @end
 
@@ -83,10 +84,10 @@
         DiscoverViewController* dis = [[DiscoverViewController alloc] init];
         self.page4 = dis;
         dis.isHome = YES;// 作用不明???
-        RTGestureBackNavigationController* navDis = [[RTGestureBackNavigationController alloc] initWithRootViewController:dis];
-        [self.controllerArrays addObject:navDis];
-        navDis.tabBarItem = [self getTabBarItemWithTitle:@"发现" image:[UIImage imageNamed:@"tab_icon_find_normal"] index:4 selectedImg:[UIImage imageNamed:@"tab_icon_find_select"]];
-        
+        _navDis = [[RTGestureBackNavigationController alloc] initWithRootViewController:dis];
+        [self.controllerArrays addObject:_navDis];
+        _navDis.tabBarItem = [self getTabBarItemWithTitle:@"发现" image:[UIImage imageNamed:@"tab_icon_find_normal"] index:4 selectedImg:[UIImage imageNamed:@"tab_icon_find_select"]];
+        [self setDiscoverBadgeValueWithValue:@"10"];
         //二手房
 //        AnjukeHomeViewController *av = [[AnjukeHomeViewController alloc] init];
 //        self.page4 = av;
@@ -161,7 +162,9 @@
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    
+    if (self.selectedIndex == 3) {
+        _navDis.tabBarItem.badgeValue = nil;
+    }
     DLog(@"class ---aaa--- %@", [viewController class]);
 }
 
@@ -183,6 +186,11 @@
 - (void)setMessageBadgeValueWithValue:(NSString *)value {
     DLog(@"未读消息数量 【%@】", value);
     [self.messageNavController.tabBarItem setBadgeValue:value];
+}
+
+- (void)setDiscoverBadgeValueWithValue:(NSString *)value{
+    DLog(@"待抢委托房源数量%@", value);
+    [_navDis.tabBarItem setBadgeValue:value];
 }
 
 @end
