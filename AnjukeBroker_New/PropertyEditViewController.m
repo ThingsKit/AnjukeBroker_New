@@ -708,12 +708,12 @@
 }
 
 #pragma mark - ******** Overwrite Method ********
-
+/*
 - (void)onlineImgDidSelect:(NSDictionary *)imgDic
 {
     [super onlineImgDidSelect:imgDic];
 }
-
+*/
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     [super actionSheet:actionSheet clickedButtonAtIndex:buttonIndex];
@@ -933,7 +933,7 @@
     pb.backType = RTSelectorBackTypeDismiss;
     pb.imageDescArray = self.imgdescArr;
     pb.clickDelegate = self;
-    
+    pb.bp = AJK_PPC_RESET_001;
     if (!sender.isHouseType)
     {
         self.footClickType = 1;
@@ -948,6 +948,7 @@
     {
         if (self.isHaozu)
         {
+            pb.bp = HZ_PPC_RESET_001;
             pb.hasTextView = YES; //有照片编辑框
         }
 

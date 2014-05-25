@@ -70,7 +70,10 @@
     [self setTitleViewWithString:@"查看大图"];
     
     [self addRightButton:@"删除" andPossibleTitle:nil];
-    
+    DLog(@"self.bp === %@", self.bp);
+    if (!self.bp) {
+        self.bp = @"";
+    }
     [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_HOUSEIMG_DES_001 note:@{@"bp":self.bp}];
     
 }
