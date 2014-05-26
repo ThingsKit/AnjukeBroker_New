@@ -162,11 +162,19 @@
     }
     
     NSDictionary *dic = [[[response content] objectForKey:@"data"] objectForKey:@"brokerInfo"];
-    self.remarkLb.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"company"]];
+    self.remarkLb.text = [NSString stringWithFormat:@"%@",[self getCommpany:[dic objectForKey:@"company"]]];
     self.remarkMoreLb.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"store"]];
     //
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
 }
-
+- (NSString *)getCommpany:(NSString *)commpany {
+    NSArray *tempStr = [NSArray array];
+    tempStr = [commpany componentsSeparatedByString:@" "];
+    if ([tempStr count] == 2) {
+        return [tempStr objectAtIndex:0];
+    }else {
+        return commpany;
+    }
+}
 @end
