@@ -64,7 +64,7 @@ static BrokerCallAlert* defaultCallAlert;
     }
     else {
         //以下是拨打电话逻辑
-        NSURL *callUrl = [NSURL URLWithString:[@"tel://" stringByAppendingString:self.phoneNum]];
+        NSURL *callUrl = [NSURL URLWithString:[@"tel:" stringByAppendingString:self.phoneNum]];
         [self.webView loadRequest:[NSURLRequest requestWithURL:callUrl]];
     }
 }

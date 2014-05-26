@@ -209,6 +209,10 @@
 //            [viewController.view addSubview:_callWebView];
     
     //确定拨打电话
+    if ([self.myPropertyModel.ownerPhone rangeOfString:@"转"].location != NSNotFound) {
+        self.myPropertyModel.ownerPhone = [self.myPropertyModel.ownerPhone stringByReplacingOccurrencesOfString:@"转" withString:@","];
+    }
+    
     [[BrokerCallAlert sharedCallAlert] callAlert:nil callPhone:self.myPropertyModel.ownerPhone appLogKey:ENTRUST_ME_PAGE_004 completion:^(CFAbsoluteTime time) {
     }];
     
