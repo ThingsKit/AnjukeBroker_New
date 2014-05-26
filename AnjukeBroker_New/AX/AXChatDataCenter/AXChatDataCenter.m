@@ -1024,8 +1024,8 @@
         if (propertyType == 3) {
             itemType = AXConversationListItemTypeCommunity;
         }
-
-        if (propertyType == 9) {
+        //商铺出售（租）、写字楼出售（租）,均显示[商业地产]
+        if (propertyType == 8 || propertyType == 9 || propertyType == 10 || propertyType == 11) {
             itemType = AXConversationListItemTypeJinpu;
         }
     }
