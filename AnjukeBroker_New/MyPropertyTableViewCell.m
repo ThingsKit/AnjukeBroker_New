@@ -14,6 +14,7 @@
 #import "BrokerLogger.h"
 #import "RushPropertyViewController.h"
 #import "UIView+ChainViewController.h"
+#import "BrokerCallAlert.h"
 
 @interface MyPropertyTableViewCell ()
 
@@ -198,40 +199,7 @@
         return;
     }
     
-    UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:@"拨打房东电话" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"确认" otherButtonTitles:nil];
-    [sheet showInView:self.window];
-    
-//    if (self.myPropertyModel.ownerPhone) {
-//        NSString* phoneNumber = [@"tel://" stringByAppendingString:self.myPropertyModel.ownerPhone];
-//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
-//    }else{
-//        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"错误" message:@"该房东没有电话" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil];
-//        [alert show];
-//    }
-    
-    
-}
-
-#pragma mark -
-#pragma mark UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 0) {
-        NSLog(@"确认拨打电话");
-        [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ME_PAGE_004 note:nil];
-        if (self.myPropertyModel.ownerPhone) {
-            
-            //以下是拨打电话逻辑
-            RushPropertyViewController* viewController = (RushPropertyViewController*)self.viewController;
-            NSURL *callUrl = [NSURL URLWithString:[@"tel://" stringByAppendingString:self.myPropertyModel.ownerPhone]];
-            if( !_callWebView ) {
-                _callWebView = [[UIWebView alloc] init];
-            }
-            [_callWebView loadRequest:[NSURLRequest requestWithURL:callUrl]];
-            _callWebView.delegate = self;
-            [viewController.view addSubview:_callWebView];
-
-//            //以下是拨打电话逻辑
+//以下是拨打电话逻辑
 //            RushPropertyViewController* viewController = (RushPropertyViewController*)self.viewController;
 //            NSURL *callUrl = [NSURL URLWithString:[@"tel://" stringByAppendingString:self.myPropertyModel.ownerPhone]];
 //            if( !_callWebView ) {
@@ -239,35 +207,12 @@
 //            }
 //            [_callWebView loadRequest:[NSURLRequest requestWithURL:callUrl]];
 //            [viewController.view addSubview:_callWebView];
-            
-            
-        }else{
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"错误" message:@"该房东没有电话" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil];
-            [alert show];
-        }
-    }else{
-        
-    }
     
-}
-
-
-#pragma mark -
-#pragma mark UIViewDelegate
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-    return YES;
-}
-
-- (void)webViewDidStartLoad:(UIWebView *)webView{
-    NSLog(@"did start");
-}
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView{
-    NSLog(@"did finish");
-}
-
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
-    NSLog(@"did fail");
+    //确定拨打电话
+    [[BrokerCallAlert sharedCallAlert] callAlert:nil callPhone:self.myPropertyModel.ownerPhone appLogKey:ENTRUST_ME_PAGE_004 completion:^(CFAbsoluteTime time) {
+    }];
+    
+    
 }
 
 
