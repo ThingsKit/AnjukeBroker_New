@@ -87,7 +87,7 @@
         _navDis = [[RTGestureBackNavigationController alloc] initWithRootViewController:dis];
         [self.controllerArrays addObject:_navDis];
         _navDis.tabBarItem = [self getTabBarItemWithTitle:@"发现" image:[UIImage imageNamed:@"tab_icon_find_normal"] index:4 selectedImg:[UIImage imageNamed:@"tab_icon_find_select"]];
-        [self setDiscoverBadgeValueWithValue:@"10"];
+//        [self setDiscoverBadgeValueWithValue:@"10"];
         //二手房
 //        AnjukeHomeViewController *av = [[AnjukeHomeViewController alloc] init];
 //        self.page4 = av;
