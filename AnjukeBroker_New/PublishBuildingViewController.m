@@ -217,7 +217,7 @@ typedef enum {
     */
     
     //小区名 label
-    UILabel *comDetailLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 150, 20)];
+    UILabel *comDetailLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 290, 20)];
     comDetailLb.backgroundColor = [UIColor clearColor];
     comDetailLb.textColor = SYSTEM_BLACK;
     comDetailLb.font = [UIFont boldSystemFontOfSize:17];
@@ -2197,16 +2197,24 @@ typedef enum {
     PhotoFooterView *styleFootView = [_footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
     PhotoFooterView *houseFootView = [_footerViewDict objectForKey:FOOTERVIEWDICTROOM];
     
-    CGFloat footHeight = CGRectGetHeight(styleFootView.frame) + CGRectGetHeight(houseFootView.frame) + 40;
+    
+    CGFloat footHeight = CGRectGetHeight(styleFootView.frame) + CGRectGetHeight(houseFootView.frame) + 50;
     
     self.photoBGView.frame = CGRectMake(0, 0, [self windowWidth], footHeight);
     self.tableViewList.tableFooterView = self.photoBGView; //状态改变后需要重新赋值footerView
     
     if (self.footClickType == 1)
     {
+        CGRect sHousFrame = houseFootView.frame;
+        sHousFrame.size.height += 10;
+        houseFootView.frame = sHousFrame;
+        [houseFootView resetLineWithHeight:CGRectGetHeight(houseFootView.frame)];
+        CGRect roomBottomLine = houseFootView.bottomLine.frame;
+        roomBottomLine.origin.y += 100;
+        houseFootView.bottomLine.frame = roomBottomLine;
         
         CGRect sFootFrame = styleFootView.frame;
-        sFootFrame.origin.y = height+22;
+        sFootFrame.origin.y = height + 22 + 18 + 10;
         styleFootView.frame = sFootFrame;
     }
 }

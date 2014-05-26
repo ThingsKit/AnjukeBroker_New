@@ -99,7 +99,8 @@
     [rdMoreFive setIsChoose:NO];
     
     //cgMoreFivela
-    CGFloat moLaX = rdMoreFive.frame.origin.x + CGRectGetWidth(rdMoreFive.frame);
+    CGFloat moLaX = rdMoreFive.frame.origin.x + CGRectGetWidth(rdMoreFive.frame) + 2
+    ;
     CGFloat moLaY = rdMoreFive.frame.origin.y - 5;
     
     UIFont *srFont = [UIFont systemFontOfSize:16];

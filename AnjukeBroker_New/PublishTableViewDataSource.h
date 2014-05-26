@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "InputOrderManager.h"
 
-#define PUBLISH_SECTION_HEIGHT 10
+#define PUBLISH_SECTION_HEIGHT 20
 
 @interface PublishTableViewDataSource : NSObject <UITableViewDataSource>
 

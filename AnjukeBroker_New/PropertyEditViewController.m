@@ -999,8 +999,8 @@
     PhotoFooterView *styleFootView = [self.footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
     PhotoFooterView *houseFootView = [self.footerViewDict objectForKey:FOOTERVIEWDICTROOM];
     
-    CGFloat btnW = 200;
-    CGFloat btnH = CELL_HEIGHT - 15;
+    CGFloat btnW = 300;
+    CGFloat btnH = CELL_HEIGHT - 10;
     
     CGFloat footHeight = CGRectGetHeight(styleFootView.frame) + CGRectGetHeight(houseFootView.frame) + btnH + 40 + 40;
     

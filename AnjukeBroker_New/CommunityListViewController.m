@@ -272,7 +272,7 @@
     UILabel *commNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, CGRectGetWidth(cellView.frame), 28)];
     [commNameLabel setText:[arrDict objectForKey:@"commName"]];
     [commNameLabel setBackgroundColor:[UIColor clearColor]];
-    [commNameLabel setFont:[UIFont systemFontOfSize:18]];
+    [commNameLabel setFont:[UIFont systemFontOfSize:15]];
     
     
     //小区地址的label
@@ -296,7 +296,7 @@
     [addressLabel setText:addLabelText];
     [addressLabel setBackgroundColor:[UIColor clearColor]];
     [addressLabel setFont:addLabelFont];
-    [addressLabel setTextColor:SYSTEM_NAVBAR_DARK_BG];
+    [addressLabel setTextColor:[UIColor brokerMiddleGrayColor]];
     
     [cellView addSubview:commNameLabel];
     [cellView addSubview:addressLabel];

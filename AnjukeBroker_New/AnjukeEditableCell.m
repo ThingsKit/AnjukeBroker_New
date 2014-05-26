@@ -71,10 +71,10 @@
     [self.contentView addSubview:cellTextField];
     
     CGFloat unitLbW = 40;
-    UILabel *lb2 = [[UILabel alloc] initWithFrame:CGRectMake(320 - 25-unitLbW, (CELL_HEIGHT - 20)/2, unitLbW, 20)];
+    UILabel *lb2 = [[UILabel alloc] initWithFrame:CGRectMake(320 - 15 - unitLbW, (CELL_HEIGHT - 20)/2, unitLbW, 20)];
     lb2.backgroundColor = [UIColor clearColor];
     lb2.font = [UIFont systemFontOfSize:17];
-    lb2.textColor = SYSTEM_LIGHT_GRAY;
+    lb2.textColor = [UIColor brokerMiddleGrayColor];
     self.unitLb = lb2;
     [self.contentView addSubview:lb2];
     

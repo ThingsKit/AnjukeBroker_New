@@ -78,8 +78,8 @@
                 titleLb.text = @"户型图";
             }
             [titleLb setTextAlignment:NSTextAlignmentLeft];
-            titleLb.textColor = SYSTEM_LIGHT_GRAY;
-            titleLb.font = [UIFont systemFontOfSize:20];
+            titleLb.textColor = [UIColor brokerMiddleGrayColor];
+            titleLb.font = [UIFont systemFontOfSize:17];
             [btn addSubview:titleLb];
             
             //cameraIcon
@@ -146,8 +146,8 @@
             titleLb.text = @"户型图";
         }
         [titleLb setTextAlignment:NSTextAlignmentLeft];
-        titleLb.textColor = SYSTEM_LIGHT_GRAY;
-        titleLb.font = [UIFont systemFontOfSize:20];
+        titleLb.textColor = [UIColor brokerMiddleGrayColor];
+        titleLb.font = [UIFont systemFontOfSize:17];
         [self addSubview:titleLb];
         
         CGFloat frameHeight = titleLb.frame.origin.y + CGRectGetHeight(titleLb.frame) + PF_IMAGE_GAP_Y + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*verticalRow;
@@ -192,8 +192,8 @@
                 titleLb.text = @"户型图";
             }
             [titleLb setTextAlignment:NSTextAlignmentLeft];
-            titleLb.textColor = SYSTEM_LIGHT_GRAY;
-            titleLb.font = [UIFont systemFontOfSize:20];
+            titleLb.textColor = [UIColor brokerMiddleGrayColor];
+            titleLb.font = [UIFont systemFontOfSize:17];
             [btn addSubview:titleLb];
             
             //cameraIcon
@@ -262,8 +262,8 @@
             titleLb.text = @"户型图";
         }
         [titleLb setTextAlignment:NSTextAlignmentLeft];
-        titleLb.textColor = SYSTEM_LIGHT_GRAY;
-        titleLb.font = [UIFont systemFontOfSize:20];
+        titleLb.textColor = [UIColor brokerMiddleGrayColor];
+        titleLb.font = [UIFont systemFontOfSize:17];
         [self addSubview:titleLb];
         
         CGFloat frameHeight = titleLb.frame.origin.y + CGRectGetHeight(titleLb.frame) + PF_IMAGE_GAP_Y + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*verticalRow;
@@ -308,8 +308,8 @@
                 titleLb.text = @"户型图";
             }
             [titleLb setTextAlignment:NSTextAlignmentLeft];
-            titleLb.textColor = SYSTEM_LIGHT_GRAY;
-            titleLb.font = [UIFont systemFontOfSize:20];
+            titleLb.textColor = [UIColor brokerMiddleGrayColor];
+            titleLb.font = [UIFont systemFontOfSize:17];
             [btn addSubview:titleLb];
             
             //cameraIcon
@@ -384,8 +384,8 @@
             titleLb.text = @"户型图";
         }
         [titleLb setTextAlignment:NSTextAlignmentLeft];
-        titleLb.textColor = SYSTEM_LIGHT_GRAY;
-        titleLb.font = [UIFont systemFontOfSize:20];
+        titleLb.textColor = [UIColor brokerMiddleGrayColor];
+        titleLb.font = [UIFont systemFontOfSize:17];
         [self addSubview:titleLb];
         
         CGFloat frameHeight = titleLb.frame.origin.y + CGRectGetHeight(titleLb.frame) + PF_IMAGE_GAP_Y + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*verticalRow;
@@ -429,8 +429,8 @@
                 titleLb.text = @"户型图";
             }
             [titleLb setTextAlignment:NSTextAlignmentLeft];
-            titleLb.textColor = SYSTEM_LIGHT_GRAY;
-            titleLb.font = [UIFont systemFontOfSize:20];
+            titleLb.textColor = [UIColor brokerMiddleGrayColor];
+            titleLb.font = [UIFont systemFontOfSize:17];
             [btn addSubview:titleLb];
             
             //cameraIcon
@@ -502,8 +502,8 @@
             titleLb.text = @"户型图";
         }
         [titleLb setTextAlignment:NSTextAlignmentLeft];
-        titleLb.textColor = SYSTEM_LIGHT_GRAY;
-        titleLb.font = [UIFont systemFontOfSize:20];
+        titleLb.textColor = [UIColor brokerMiddleGrayColor];
+        titleLb.font = [UIFont systemFontOfSize:17];
         [self addSubview:titleLb];
         
         CGFloat frameHeight = titleLb.frame.origin.y + CGRectGetHeight(titleLb.frame) + PF_IMAGE_GAP_Y + (PF_IMAGE_GAP_Y + PF_IMAGE_WIDTH)*verticalRow;
