@@ -11,6 +11,7 @@
 #import "LoginViewController.h"
 #import "AFWelcomeScrollview.h"
 #import "VersionUpdateManager.h"
+#import "UpdateUserLocation.h"
 
 typedef enum {
     SwitchType_RentNoPlan = 0, //租房未推广

@@ -16,6 +16,7 @@
 #import "HUDNews.h"
 #import "UIFont+RT.h"
 #import "UIColor+BrokerRT.h"
+#import "UpdateUserLocation.h"
 
 #define HEADERFRAME CGRectMake(0, 0, [self windowWidth], 260)
 #define HEADERMAPFRAME CGRectMake(0, 0, [self windowWidth], 180)
@@ -70,6 +71,9 @@
         self.checkCellStatusArr = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:CHECKOUTCELLWITHELSE],[NSNumber numberWithInt:CHECKOUTCELLWITHNOCHECK],[NSNumber numberWithInt:CHECKOUTCELLWITHNOCHECK],[NSNumber numberWithInt:CHECKOUTCELLWITHNOCHECK],[NSNumber numberWithInt:CHECKOUTCELLWITHELSE], nil];
         self.hideCheck = NO;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wakeFromBackGound:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
+        [[UpdateUserLocation shareUpdateUserLocation] fetchUserLocationWithComeletionBlock:^(BOOL updateLocationIsOk) {
+        }];
     }
     return self;
 }

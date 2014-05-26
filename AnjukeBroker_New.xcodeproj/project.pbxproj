@@ -629,6 +629,7 @@
 		F85A31651907A7D900511022 /* UIImage+ExtraMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = F85A31641907A7D900511022 /* UIImage+ExtraMethod.m */; };
 		F85A316A1907D0B100511022 /* anjuke_icon_callphone_press.png in Resources */ = {isa = PBXBuildFile; fileRef = F85A31661907D0B100511022 /* anjuke_icon_callphone_press.png */; };
 		F85A316C1907D0B100511022 /* anjuke_icon_callphone.png in Resources */ = {isa = PBXBuildFile; fileRef = F85A31681907D0B100511022 /* anjuke_icon_callphone.png */; };
+		F8734A8C1933420E007A2552 /* UpdateUserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = F8734A8B1933420E007A2552 /* UpdateUserLocation.m */; };
 		F87E8613190E4723005A5723 /* anjuke_icon_button_blue_press.png in Resources */ = {isa = PBXBuildFile; fileRef = F87E8611190E4723005A5723 /* anjuke_icon_button_blue_press.png */; };
 		F87E8614190E4723005A5723 /* anjuke_icon_button_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = F87E8612190E4723005A5723 /* anjuke_icon_button_blue.png */; };
 		F8A717BE192058FB004840C6 /* UserCenterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717B7192058FB004840C6 /* UserCenterCell.m */; };
@@ -1608,6 +1609,8 @@
 		F85A31641907A7D900511022 /* UIImage+ExtraMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ExtraMethod.m"; sourceTree = "<group>"; };
 		F85A31661907D0B100511022 /* anjuke_icon_callphone_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_callphone_press.png; sourceTree = "<group>"; };
 		F85A31681907D0B100511022 /* anjuke_icon_callphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_callphone.png; sourceTree = "<group>"; };
+		F8734A8A1933420E007A2552 /* UpdateUserLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateUserLocation.h; sourceTree = "<group>"; };
+		F8734A8B1933420E007A2552 /* UpdateUserLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateUserLocation.m; sourceTree = "<group>"; };
 		F87E8611190E4723005A5723 /* anjuke_icon_button_blue_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_blue_press.png; sourceTree = "<group>"; };
 		F87E8612190E4723005A5723 /* anjuke_icon_button_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_blue.png; sourceTree = "<group>"; };
 		F8A717B6192058FB004840C6 /* UserCenterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterCell.h; sourceTree = "<group>"; };
@@ -2732,6 +2735,7 @@
 				97CB0C11182BEA5200FCCBBD /* 加载黑框 */,
 				97CB0BFE182BE9F200FCCBBD /* 相册多选pickerController */,
 				F8734A871933329A007A2552 /* callAlert */,
+				F8734A8919334184007A2552 /* UserLocation */,
 				F8F6DA20192A224000698C3B /* UIColor+BrokerRT.h */,
 				F8F6DA21192A224000698C3B /* UIColor+BrokerRT.m */,
 				97CD8D42180E6D6E00185C9D /* RTViewController.h */,
@@ -3697,6 +3701,15 @@
 			name = callAlert;
 			sourceTree = "<group>";
 		};
+		F8734A8919334184007A2552 /* UserLocation */ = {
+			isa = PBXGroup;
+			children = (
+				F8734A8A1933420E007A2552 /* UpdateUserLocation.h */,
+				F8734A8B1933420E007A2552 /* UpdateUserLocation.m */,
+			);
+			name = UserLocation;
+			sourceTree = "<group>";
+		};
 		F8A717DD19209E22004840C6 /* checkout */ = {
 			isa = PBXGroup;
 			children = (
@@ -4340,6 +4353,7 @@
 				B7EAD52718CD927200B28FEC /* AXPhotoBrowser.m in Sources */,
 				B7FFC9DF18C8AC330020A73B /* UIImage+RoundedCorner.m in Sources */,
 				204E66CF1894E7DB00546D51 /* PublishBigImageViewController.m in Sources */,
+				F8734A8C1933420E007A2552 /* UpdateUserLocation.m in Sources */,
 				200485DB1907C33800A5A351 /* Property.m in Sources */,
 				975E7ED01829EDC7008EBC1D /* BK_WebImageView.m in Sources */,
 				F8575DA31900F6BE00AB662F /* BrokerCallAlert.m in Sources */,
