@@ -2731,6 +2731,7 @@
 				972DDA261826A49600263F8F /* TabBarController */,
 				97CB0C11182BEA5200FCCBBD /* 加载黑框 */,
 				97CB0BFE182BE9F200FCCBBD /* 相册多选pickerController */,
+				F8734A871933329A007A2552 /* callAlert */,
 				F8F6DA20192A224000698C3B /* UIColor+BrokerRT.h */,
 				F8F6DA21192A224000698C3B /* UIColor+BrokerRT.m */,
 				97CD8D42180E6D6E00185C9D /* RTViewController.h */,
@@ -3687,6 +3688,15 @@
 			name = launchAdd;
 			sourceTree = "<group>";
 		};
+		F8734A871933329A007A2552 /* callAlert */ = {
+			isa = PBXGroup;
+			children = (
+				F8575DA11900F6BE00AB662F /* BrokerCallAlert.h */,
+				F8575DA21900F6BE00AB662F /* BrokerCallAlert.m */,
+			);
+			name = callAlert;
+			sourceTree = "<group>";
+		};
 		F8A717DD19209E22004840C6 /* checkout */ = {
 			isa = PBXGroup;
 			children = (
@@ -3788,8 +3798,6 @@
 		F8C0C0781924BEBA0098D0E5 /* manager */ = {
 			isa = PBXGroup;
 			children = (
-				F8575DA11900F6BE00AB662F /* BrokerCallAlert.h */,
-				F8575DA21900F6BE00AB662F /* BrokerCallAlert.m */,
 				F8A717C519205C2E004840C6 /* VersionUpdateManager.h */,
 				F8A717C619205C2E004840C6 /* VersionUpdateManager.m */,
 			);
