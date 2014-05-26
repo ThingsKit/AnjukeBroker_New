@@ -45,7 +45,7 @@
         self.refreshFooterView = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 85)];
         self.refreshFooterView.backgroundColor = [UIColor clearColor];
         self.refreshFooterView.titleLabel.font = [UIFont systemFontOfSize:16.0f];
-        [self.refreshFooterView setTitle:@"" forState:UIControlStateNormal];
+        [self.refreshFooterView setTitle:@"点击查看更多" forState:UIControlStateNormal];
         [self.refreshFooterView setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         self.refreshFooterView.showsTouchWhenHighlighted = YES;
         [self.refreshFooterView addTarget:self action:@selector(loadMore:) forControlEvents:UIControlEventTouchUpInside];
@@ -98,7 +98,7 @@
 #pragma mark 上拉加载更多
 - (void)loadMore:(UIButton*)button {
     
-    [self pullUpButtonFrozenAndStartActivity];
+//    [self pullUpButtonFrozenAndStartActivity];
     
     if ([self.eventDelegate respondsToSelector:@selector(pullUp:)]) { //预判断
         [self.eventDelegate pullUp:self]; //上拉
@@ -118,9 +118,10 @@
 //上拉按钮恢复交互,风火轮停止
 - (void)pullUpButtonRecoverAndStopActivity {
     if (self.hasMore) {
-        [self.refreshFooterView setTitle:@"" forState:UIControlStateNormal];
+        [self.refreshFooterView setTitle:@"点击查看更多" forState:UIControlStateNormal];
         [self.refreshFooterView setEnabled:YES];
     }else{
+//        [self.refreshFooterView setTitle:@"全部加载完毕" forState:UIControlStateNormal];
         [self.refreshFooterView setTitle:@"" forState:UIControlStateNormal];
         [self.refreshFooterView setEnabled:NO];
     }
@@ -176,7 +177,7 @@
     float extend = scrollView.height - subtract;
     
     if (extend > 10) {
-        [self loadMore:nil];
+//        [self loadMore:nil];
     }
     
 	

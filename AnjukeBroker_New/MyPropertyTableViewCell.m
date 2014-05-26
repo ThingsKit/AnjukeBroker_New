@@ -228,6 +228,7 @@
                 _callWebView = [[UIWebView alloc] init];
             }
             [_callWebView loadRequest:[NSURLRequest requestWithURL:callUrl]];
+            _callWebView.delegate = self;
             [viewController.view addSubview:_callWebView];
             
             
@@ -239,6 +240,25 @@
         
     }
     
+}
+
+
+#pragma mark -
+#pragma mark UIViewDelegate
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    return YES;
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView{
+    NSLog(@"did start");
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+    NSLog(@"did finish");
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    NSLog(@"did fail");
 }
 
 

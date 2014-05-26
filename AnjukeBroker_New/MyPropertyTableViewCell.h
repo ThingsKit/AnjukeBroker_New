@@ -10,7 +10,7 @@
 #import "RTListCell.h"
 
 @class MyPropertyModel;
-@interface MyPropertyTableViewCell : RTListCell <UIActionSheetDelegate>
+@interface MyPropertyTableViewCell : RTListCell <UIActionSheetDelegate, UIWebViewDelegate>
 
 @property (nonatomic, retain) MyPropertyModel* myPropertyModel;
 

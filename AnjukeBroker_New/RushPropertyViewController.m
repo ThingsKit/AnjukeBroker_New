@@ -151,7 +151,6 @@
                 
                 self.tableView.tableHeaderView = nil;
                 
-                [self hasMoreConfirm];
                 [self.tableView reloadData];
                 
             }else{ //我的委托房源列表
@@ -174,7 +173,6 @@
                 
                 self.myTableView.tableHeaderView = nil;
                 
-                [self hasMoreConfirm];
                 [self.myTableView reloadData];
             }
             
@@ -207,33 +205,6 @@
     
 }
 
-#pragma mark -
-#pragma mark 边界情况处理
-
-- (void)hasMoreConfirm{
-    int sections = 0;
-    if (ScreenHeight < 568) {
-        sections = 5;
-    }else{
-        sections = 6;
-    }
-    
-    //边界情况处理
-    if (self.myTableView.hidden) {
-        if (self.tableView.data.count < sections) {
-            self.tableView.hasMore = NO;
-        }else{
-            self.tableView.hasMore = YES;
-        }
-        
-    }else{
-        if (self.myTableView.data.count < sections) {
-            self.myTableView.hasMore = NO;
-        }else{
-            self.myTableView.hasMore = YES;
-        }
-    }
-}
 
 
 #pragma mark -
