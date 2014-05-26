@@ -949,6 +949,9 @@
         if (self.isHaozu)
         {
             pb.bp = HZ_PPC_RESET_001;
+            
+        }else
+        {
             pb.hasTextView = YES; //有照片编辑框
         }
 

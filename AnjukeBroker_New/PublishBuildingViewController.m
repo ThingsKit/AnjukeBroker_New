@@ -1064,7 +1064,9 @@ typedef enum {
     if (isInput) { //输入状态，tableView缩起
         [self.tableViewList setFrame:CGRectMake(0, 0, [self windowWidth], [self currentViewHeight] - self.pickerView.frame.size.height - self.toolBar.frame.size.height)];
         
-        [self.tableViewList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedRow inSection:self.selectedSection] atScrollPosition:UITableViewScrollPositionMiddle animated:NO]; //animated
+        NSIndexPath *path = [NSIndexPath indexPathForRow:_selectedRow inSection:self.selectedSection];
+        
+        [self.tableViewList scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:NO]; //animated
     }
     else { //收起键盘，tableView还原
         [self.tableViewList setFrame:FRAME_WITH_NAV];
@@ -1192,8 +1194,12 @@ typedef enum {
     return index;
 }
 
-- (void)showInputWithIndex:(int)index isPicker:(BOOL)isPicker {
-    if (![[[self.cellDataSource inputCellArray] objectAtIndex:index] isKindOfClass:[AnjukeEditableCell class]]) {
+- (void)showInputWithIndex:(int)index isPicker:(BOOL)isPicker
+{
+    id objIndexId = [[self.cellDataSource inputCellArray] objectAtIndex:index];
+    
+    if (![objIndexId isKindOfClass:[AnjukeEditableCell class]])
+    {
         return; //避免crash
     }
     self.inputingTextF = [(AnjukeEditableCell *)[[self.cellDataSource inputCellArray] objectAtIndex:index] text_Field];
@@ -1790,7 +1796,15 @@ typedef enum {
                 self.selectedIndex = AJK_TEXT_AREA;
                 if (self.needFileNO && self.isHaozu == NO)
                 {//是否有备案号
+                    self.selectedIndex = AJK_TEXT_SAFENUM;
                     self.selectedRow = 2;
+                    
+                    AnjukeEditableCell *cell = [[self.cellDataSource inputCellArray] objectAtIndex:2];
+                    if (cell.indexTag == AJK_TEXT_SAFENUM)
+                    {
+                        [[self.cellDataSource inputCellArray] addObject:cell];
+                        [[self.cellDataSource inputCellArray] removeObjectAtIndex:2];
+                    }
                 }else
                 {
                     self.selectedRow = 1;
@@ -1897,15 +1911,18 @@ typedef enum {
                 self.selectedSection = 0;
             }
                 break;
-            /*
-            case AJK_TEXT_LIMIT_PAY:
-            {
-                self.selectedIndex +=1;
-                self.selectedRow = 2;
-                self.selectedSection = 0;
+            
+            case AJK_TEXT_SAFENUM:
+            {//备案号
+                self.selectedIndex = AJK_PICKER_ROOMS;
+                
+                isPicker = YES;
+                self.selectedRow = 0;
+                self.selectedSection = 1;
+                
             }
                 break;
-             */
+             
             case AJK_TEXT_AREA://面积
             {
                 if (self.needFileNO && self.isHaozu == NO)
@@ -1914,6 +1931,13 @@ typedef enum {
                     
                     self.selectedRow ++ ;
                     self.selectedSection = 0;
+                    AnjukeEditableCell *cell = [[self.cellDataSource inputCellArray] objectAtIndex:2];
+                    if (cell.indexTag == AJK_TEXT_SAFENUM)
+                    {
+                        [[self.cellDataSource inputCellArray] addObject:cell];
+                        [[self.cellDataSource inputCellArray] removeObjectAtIndex:2];
+                    }
+                    
                 }else
                 {
                     self.selectedIndex = AJK_PICKER_ROOMS;
@@ -1971,6 +1995,7 @@ typedef enum {
     }
     
     [self setBothToolBarBtnNormal];
+
     [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
     
 }
