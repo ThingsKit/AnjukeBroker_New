@@ -69,6 +69,7 @@
         self.signMile = [NSString stringWithFormat:@"%@",[LoginManager getSignMile]];
         self.checkCellStatusArr = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:CHECKOUTCELLWITHELSE],[NSNumber numberWithInt:CHECKOUTCELLWITHNOCHECK],[NSNumber numberWithInt:CHECKOUTCELLWITHNOCHECK],[NSNumber numberWithInt:CHECKOUTCELLWITHNOCHECK],[NSNumber numberWithInt:CHECKOUTCELLWITHELSE], nil];
         self.hideCheck = NO;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wakeFromBackGound:) name:UIApplicationWillEnterForegroundNotification object:nil];
     }
     return self;
 }
@@ -80,7 +81,9 @@
 - (void)sendAppearLog {
     [[BrokerLogger sharedInstance] logWithActionCode:CHECK_PAGE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
-
+- (void)viewDidAppear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] removeObserver:UIApplicationWillEnterForegroundNotification];
+}
 - (void)viewWillAppear:(BOOL)animated{
     [self reloadCheckInfo];
 }
@@ -372,7 +375,7 @@
 - (void)timeCountZero{
     [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
 }
-- (void)wakeFrameBackGound{
+- (void)wakeFromBackGound:(NSNotification *)notification{
     [self reloadCheckInfo];
 }
 

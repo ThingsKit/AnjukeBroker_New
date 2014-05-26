@@ -47,7 +47,6 @@
 @synthesize updateUrl;
 @synthesize isEnforceUpdate;
 @synthesize boolNeedAlert;
-@synthesize checkoutVC;
 
 + (AppDelegate *)sharedAppDelegate {
     return (AppDelegate *) [UIApplication sharedApplication].delegate;
@@ -115,7 +114,6 @@
     [self connectLongLinkForChat];
     
     [self cleanRemoteNotification:application];
-    [self.checkoutVC wakeFrameBackGound];
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
