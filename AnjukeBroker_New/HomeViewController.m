@@ -84,11 +84,11 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+//    [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -260,6 +260,7 @@
 }
 
 - (void)rightButtonAction:(id)sender {
+    [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_008 note:nil];
     if (self.selectionView.isHidden) {
         [self showSelectionView];
     }else {
@@ -303,11 +304,13 @@
     switch (index) {
         case 0:
         {
+            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_017 note:nil];
             [self uploadAJKTableData];
         }
             break;
         case 1:
         {
+            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_018 note:nil];
             [self uploadHZTableData];
         }
             break;
@@ -711,19 +714,19 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.isCurrentHZ) {
         if (self.taskArray.count > 2 && indexPath.row == self.taskArray.count - 2) {//竞价
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_003 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_006 note:nil];
             RentBidDetailController *controller = [[RentBidDetailController alloc] init];
             controller.backType = RTSelectorBackTypePopToRoot;
             [controller setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:controller animated:YES];
         } else if (self.taskArray.count > 1 && indexPath.row == self.taskArray.count - 1) {//待推广
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_005 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_007 note:nil];
             RentNoPlanController *controller = [[RentNoPlanController alloc] init];
             controller.isSeedPid = self.isSeedPid;
             [controller setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:controller animated:YES];
         } else {
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_004 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_005 note:nil];
             RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
             controller.tempDic = [[self.hzDataDic objectForKey:@"hzFixHouse"] objectAtIndex:indexPath.row];
             controller.backType = RTSelectorBackTypePopToRoot;
@@ -732,19 +735,19 @@
         }
     }else {
         if (self.taskArray.count > 2 && indexPath.row == self.taskArray.count - 2) {//竞价
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_003 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_003 note:nil];
             SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
             controller.backType = RTSelectorBackTypePopToRoot;
             [controller setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:controller animated:YES];
         } else if (self.taskArray.count > 1 && indexPath.row == self.taskArray.count - 1) {//待推广
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_005 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_004 note:nil];
             SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
             controller.isSeedPid = self.isSeedPid;
             [controller setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:controller animated:YES];
         } else {
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_004 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_002 note:nil];
             SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
             controller.tempDic = [[self.ajkDataDic objectForKey:@"ajkFixHouse"] objectAtIndex:indexPath.row];
             //                controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
@@ -764,7 +767,7 @@
     switch (index) {
         case 0:
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_003 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_010 note:nil];
             
             CommunityListViewController *controller = [[CommunityListViewController alloc] init];
             controller.backType = RTSelectorBackTypeNone;
@@ -775,7 +778,7 @@
             break;
         case 1:
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_004 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_011 note:nil];
             
             CommunityListViewController *controller = [[CommunityListViewController alloc] init];
             controller.backType = RTSelectorBackTypeNone;
