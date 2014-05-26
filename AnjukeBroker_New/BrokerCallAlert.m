@@ -9,14 +9,29 @@
 #import "BrokerCallAlert.h"
 #import "AppManager.h"
 #import "BrokerLogger.h"
+#import "RTViewController.h"
 
 @interface BrokerCallAlert ()
 @property (nonatomic, strong) NSString *phoneNum;
 @property (nonatomic, strong) NSString *logKey;
+@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) void (^completion)(CFAbsoluteTime time);
 @end
 
 @implementation BrokerCallAlert
 static BrokerCallAlert* defaultCallAlert;
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        if (!self.webView) {
+            self.webView = [[UIWebView alloc] init];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+        }
+    }
+    return self;
+}
 
 + (BrokerCallAlert *) sharedCallAlert{
     @synchronized(self){
@@ -26,7 +41,15 @@ static BrokerCallAlert* defaultCallAlert;
         return defaultCallAlert;
     }
 }
-- (void)callAlert:(NSString *)alertStr callPhone:(NSString *)callPhone appLogKey:(NSString *)appLogKey{
+- (void)willEnterForeground:(NSNotification *)notification{
+    self.completion(CFAbsoluteTimeGetCurrent());
+    if (self.logKey && ![self.logKey isEqualToString:@""]) {
+        [[BrokerLogger sharedInstance] logWithActionCode:self.logKey note:nil];
+    }
+}
+- (void)callAlert:(NSString *)alertStr callPhone:(NSString *)callPhone appLogKey:(NSString *)appLogKey completion:(void (^)(CFAbsoluteTime time))completion;{
+
+    self.completion = completion;
     self.phoneNum = [NSString stringWithFormat:@"%@",callPhone];
     self.logKey = [NSString stringWithFormat:@"%@",appLogKey];
     if (!self.phoneNum || [self.phoneNum isEqualToString:@""]) {
@@ -40,21 +63,10 @@ static BrokerCallAlert* defaultCallAlert;
         return;
     }
     else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"%@%@",alertStr,self.phoneNum] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
-        alert.tag = 10;
-        [alert show];
+        //以下是拨打电话逻辑
+        NSURL *callUrl = [NSURL URLWithString:[@"tel://" stringByAppendingString:self.phoneNum]];
+        [self.webView loadRequest:[NSURLRequest requestWithURL:callUrl]];
     }
 }
 
-
-#pragma -mark UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (alertView.tag == 10 && buttonIndex == 1) {
-        if (self.logKey && ![self.logKey isEqualToString:@""]) {
-            [[BrokerLogger sharedInstance] logWithActionCode:self.logKey note:nil];
-        }
-        NSString *call_url = [[NSString alloc] initWithFormat:@"tel://%@", self.phoneNum];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:call_url]];
-    }
-}
 @end

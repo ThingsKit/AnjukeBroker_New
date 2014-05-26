@@ -230,6 +230,15 @@
             [_callWebView loadRequest:[NSURLRequest requestWithURL:callUrl]];
             _callWebView.delegate = self;
             [viewController.view addSubview:_callWebView];
+
+//            //以下是拨打电话逻辑
+//            RushPropertyViewController* viewController = (RushPropertyViewController*)self.viewController;
+//            NSURL *callUrl = [NSURL URLWithString:[@"tel://" stringByAppendingString:self.myPropertyModel.ownerPhone]];
+//            if( !_callWebView ) {
+//                _callWebView = [[UIWebView alloc] init];
+//            }
+//            [_callWebView loadRequest:[NSURLRequest requestWithURL:callUrl]];
+//            [viewController.view addSubview:_callWebView];
             
             
         }else{

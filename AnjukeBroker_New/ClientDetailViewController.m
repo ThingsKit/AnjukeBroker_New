@@ -344,7 +344,10 @@
         
         //make call
         NSString *markNameStr = self.person.markName ? self.person.markName : @"";
-        [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系%@：",markNameStr] callPhone:self.person.markPhone appLogKey:CLIENT_DETAIL_011];
+        [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系%@：",markNameStr] callPhone:self.person.markPhone appLogKey:CLIENT_DETAIL_011 completion:^(CFAbsoluteTime time) {
+            nil;
+        }];
+        //        [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系%@：",markNameStr] callPhone:self.person.markPhone appLogKey:CLIENT_DETAIL_011];
     }else{
         [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_004 note:nil];
         

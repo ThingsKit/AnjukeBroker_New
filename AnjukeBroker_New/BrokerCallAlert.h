@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BrokerCallAlert : NSObject<UIAlertViewDelegate>
+@interface BrokerCallAlert : NSObject<UIWebViewDelegate>
 
 
 + (BrokerCallAlert *) sharedCallAlert;
-- (void)callAlert:(NSString *)alertStr callPhone:(NSString *)callPhone appLogKey:(NSString *)appLogKey;
+- (void)callAlert:(NSString *)alertStr callPhone:(NSString *)callPhone appLogKey:(NSString *)appLogKey completion:(void (^)(CFAbsoluteTime time))completion;
+
 @end

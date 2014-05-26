@@ -217,13 +217,19 @@
             
             if (self.userCenterModel.tel) {
                 //make call
-                [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:self.userCenterModel.tel  appLogKey:USER_CENTER_007];
+                [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:self.userCenterModel.tel  appLogKey:USER_CENTER_007 completion:^(CFAbsoluteTime time) {
+                    nil;
+                }];
+//                [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:self.userCenterModel.tel  appLogKey:USER_CENTER_007];
             }
         }else if (indexPath.row == 1){
             [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_008 note:nil];
 
             //make call
-            [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER appLogKey:USER_CENTER_009];
+            [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER appLogKey:USER_CENTER_009 completion:^(CFAbsoluteTime time) {
+                nil;
+            }];
+//            [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER appLogKey:USER_CENTER_009];
         }else if (indexPath.row == 2){
             [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_010 note:nil];
             
