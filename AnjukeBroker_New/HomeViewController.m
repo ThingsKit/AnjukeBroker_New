@@ -218,25 +218,25 @@
     [hView addSubview:self.costName];
     [hView addSubview:self.costValue];
     
-    if ([self.view respondsToSelector:@selector(addConstraint:)]) {
-        self.tapName.translatesAutoresizingMaskIntoConstraints  = NO;
-        self.tapValue.translatesAutoresizingMaskIntoConstraints = NO;
-        self.costName.translatesAutoresizingMaskIntoConstraints = NO;
-        self.costValue.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        NSDictionary *dictionary = NSDictionaryOfVariableBindings(_tapName, _tapValue, _costName, _costValue);
-        float widthIndex = [self windowWidth]/320.0f;
-        NSDictionary *metrics = @{@"leftSpace":@(60.0*widthIndex), @"centerSpace":@(40.0f*widthIndex), @"topSpace":@(30.0f*widthIndex), @"valueAndNameSpace": @(10.0f*widthIndex)};
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftSpace-[_tapName(80)]-centerSpace-[_costName(80)]" options:0 metrics:metrics views:dictionary]];
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftSpace-[_tapValue(80)]-centerSpace-[_costValue(80)]" options:0 metrics:metrics views:dictionary]];
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topSpace-[_tapValue(20)]-valueAndNameSpace-[_tapName(20)]" options:0 metrics:metrics views:dictionary]];
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topSpace-[_costValue(20)]-valueAndNameSpace-[_costName(20)]" options:0 metrics:metrics views:dictionary]];
-    }else {
-        self.tapValue.frame = CGRectMake(60.0f, 30.0f, 80.0f, 30.0f);
-        self.tapName.frame = CGRectMake(60.0f, 70.0f, 80.0f, 30.0f);
-        self.costValue.frame = CGRectMake(180.0f, 30.0f, 80.0f, 30.0f);
-        self.costName.frame = CGRectMake(180.0f, 70.0f, 80.0f, 30.0f);
-    }
+//    if ([self.view respondsToSelector:@selector(addConstraint:)]) {
+//        self.tapName.translatesAutoresizingMaskIntoConstraints  = NO;
+//        self.tapValue.translatesAutoresizingMaskIntoConstraints = NO;
+//        self.costName.translatesAutoresizingMaskIntoConstraints = NO;
+//        self.costValue.translatesAutoresizingMaskIntoConstraints = NO;
+//        
+//        NSDictionary *dictionary = NSDictionaryOfVariableBindings(_tapName, _tapValue, _costName, _costValue);
+//        float widthIndex = [self windowWidth]/320.0f;
+//        NSDictionary *metrics = @{@"leftSpace":@(60.0*widthIndex), @"centerSpace":@(40.0f*widthIndex), @"topSpace":@(30.0f*widthIndex), @"valueAndNameSpace": @(10.0f*widthIndex)};
+//        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftSpace-[_tapName(80)]-centerSpace-[_costName(80)]" options:0 metrics:metrics views:dictionary]];
+//        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftSpace-[_tapValue(80)]-centerSpace-[_costValue(80)]" options:0 metrics:metrics views:dictionary]];
+//        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topSpace-[_tapValue(20)]-valueAndNameSpace-[_tapName(20)]" options:0 metrics:metrics views:dictionary]];
+//        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topSpace-[_costValue(20)]-valueAndNameSpace-[_costName(20)]" options:0 metrics:metrics views:dictionary]];
+//    }else {
+        self.tapValue.frame = CGRectMake(60.0f, 30.0f, 80.0f, 20.0f);
+        self.tapName.frame = CGRectMake(60.0f, 70.0f, 80.0f, 20.0f);
+        self.costValue.frame = CGRectMake(180.0f, 30.0f, 80.0f, 20.0f);
+        self.costName.frame = CGRectMake(180.0f, 70.0f, 80.0f, 20.0f);
+//    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
