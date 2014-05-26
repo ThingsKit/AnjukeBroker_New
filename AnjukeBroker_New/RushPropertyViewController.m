@@ -151,6 +151,10 @@
                 
                 self.tableView.tableHeaderView = nil;
                 
+                if (properties.count < 5) {
+                    self.tableView.hasMore = NO;
+                }
+                
                 [self.tableView reloadData];
                 
             }else{ //我的委托房源列表
@@ -172,6 +176,10 @@
                 self.myTableView.maxId = maxProperty.id;
                 
                 self.myTableView.tableHeaderView = nil;
+                
+                if (properties.count < 5) {
+                    self.myTableView.hasMore = NO;
+                }
                 
                 [self.myTableView reloadData];
             }
