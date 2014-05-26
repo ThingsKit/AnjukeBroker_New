@@ -246,7 +246,7 @@
 }
 
 #pragma mark - Register Method
-
+// 注册通知（声音、标记、弹出窗口）
 - (void)registerRemoteNotification {
     [[UIApplication sharedApplication]
      registerForRemoteNotificationTypes:
@@ -297,6 +297,9 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
     
     [self cleanRemoteNotification:application];
+    
+//    userInfo
+//    {"aps":{"alert":"爱好世界和平","badge":6,"sound":"布谷鸟.caf","newID":"4987", "other":"钓鱼岛是我们中国的",}}
     
     if (application.applicationState == UIApplicationStateInactive) {
         DLog(@"userInfo [%@]", userInfo);

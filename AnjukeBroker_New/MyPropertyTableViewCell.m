@@ -12,6 +12,8 @@
 #import "UIViewExt.h"
 #import "Util_UI.h"
 #import "BrokerLogger.h"
+#import "RushPropertyViewController.h"
+#import "UIView+ChainViewController.h"
 
 @interface MyPropertyTableViewCell ()
 
@@ -24,6 +26,7 @@
 @property (nonatomic, retain) UILabel* ownerPhone; //业主电话
 @property (nonatomic, retain) UILabel* statusInfo; //状态信息
 @property (nonatomic, retain) UIButton* button; //右侧的按钮
+@property (nonatomic, strong) UIWebView *callWebView; //拨打电话的webView
 
 @end
 
@@ -217,8 +220,15 @@
         NSLog(@"确认拨打电话");
         [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ME_PAGE_004 note:nil];
         if (self.myPropertyModel.ownerPhone) {
-            NSString* phoneNumber = [@"telprompt://" stringByAppendingString:self.myPropertyModel.ownerPhone];
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+            
+            //以下是拨打电话逻辑
+            RushPropertyViewController* viewController = (RushPropertyViewController*)self.viewController;
+            NSURL *callUrl = [NSURL URLWithString:[@"tel://" stringByAppendingString:self.myPropertyModel.ownerPhone]];
+            if( !_callWebView ) {
+                _callWebView = [[UIWebView alloc] init];
+            }
+            [_callWebView loadRequest:[NSURLRequest requestWithURL:callUrl]];
+            [viewController.view addSubview:_callWebView];
             
             
         }else{
