@@ -342,9 +342,40 @@ typedef enum {
     }
 }
 
+//初始化备案号textview
+- (void)initFileNoTextView
+{
+    //备案号
+    AnjukeEditableCell *cell = [[self.cellDataSource inputCellArray] objectAtIndex:2];
+    if (cell.indexTag == AJK_TEXT_SAFENUM)
+    {
+        self.selectedIndex = AJK_TEXT_SAFENUM;
+        /*
+        self.fileNoTextF = cell.text_Field;
+        self.fileNoTextF.returnKeyType = UIReturnKeyDone;
+        self.fileNoTextF.backgroundColor = [UIColor clearColor];
+        self.fileNoTextF.borderStyle = UITextBorderStyleNone;
+        self.fileNoTextF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        self.fileNoTextF.text = @"";
+        self.fileNoTextF.clearButtonMode = UITextFieldViewModeNever;
+        self.fileNoTextF.placeholder = @"";
+        self.fileNoTextF.delegate = self;
+        self.fileNoTextF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        self.fileNoTextF.font = [UIFont systemFontOfSize:17];
+        self.fileNoTextF.secureTextEntry = NO;
+        self.fileNoTextF.textColor = SYSTEM_BLACK;
+        self.fileNoTextF.keyboardType = UIKeyboardTypeNumberPad;*/
+        [[self.cellDataSource inputCellArray] addObject:cell];
+        [[self.cellDataSource inputCellArray] removeObjectAtIndex:2];
+    }
+}
+
 - (void)setDefultValue {
     //房屋装修、朝向
-    if (!self.isHaozu) {
+    if (!self.isHaozu)
+    {
+        
+        [self initFileNoTextView];
         
         DLog(@"arr == %@", [self.cellDataSource inputCellArray]);
         DLog(@"arr count == %d", [[self.cellDataSource inputCellArray] count]);
@@ -2031,6 +2062,31 @@ typedef enum {
         }
         else
             [self setBothToolBarBtnNormal];
+        
+        
+#warning 为了解决exing的备案号排序
+        if (self.selectedIndex == 2)
+        {
+            //备案号
+            AnjukeEditableCell *cell = [[self.cellDataSource inputCellArray] objectAtIndex:2];
+            if (cell.indexTag == AJK_TEXT_SAFENUM)
+            {
+                self.selectedIndex = AJK_TEXT_SAFENUM;
+                [[self.cellDataSource inputCellArray] addObject:cell];
+                [[self.cellDataSource inputCellArray] removeObjectAtIndex:2];
+            }else
+            {
+                int count = [[self.cellDataSource inputCellArray] count];
+                cell = [[self.cellDataSource inputCellArray] objectAtIndex:count - 1];
+                if (self.needFileNO &&
+                    self.isHaozu == NO &&
+                    cell.indexTag == AJK_TEXT_SAFENUM)
+                {//是否有备案号
+                    self.selectedIndex = AJK_TEXT_SAFENUM;
+                }
+            }
+        }
+        
         
         [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
         
