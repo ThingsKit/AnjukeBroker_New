@@ -120,6 +120,11 @@
     self.map.delegate = self;
     [self.headerView addSubview:self.map];
 
+    UIImageView *coverView = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.map.frame.size.height - 7, [self windowWidth], 7)];
+    [coverView setImage:[[UIImage imageNamed:@"check_map_cover_shadow"] stretchableImageWithLeftCapWidth:2 topCapHeight:0]];
+    coverView.contentMode = UIViewContentModeScaleAspectFill;
+    [self.map addSubview:coverView];
+    
     UIImageView *certerIcon = [[UIImageView alloc] initWithFrame:FRAME_CENTRE_LOC];
     certerIcon.image = [UIImage imageNamed:@"checkCommunity_icon"];
     [map addSubview:certerIcon];

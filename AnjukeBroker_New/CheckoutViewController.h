@@ -22,5 +22,4 @@ typedef NS_ENUM(NSInteger, CHECKBUTTONSTATUS) {
 @property(nonatomic, assign) CHECKBUTTONSTATUS checkStatus;
 - (void)passCommunityWithModel:(CheckCommunityModel *)model;
 - (void)timeCountZero;
-- (void)wakeFrameBackGound;
 @end
