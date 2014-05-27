@@ -304,13 +304,13 @@
     switch (index) {
         case 0:
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_017 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_018 note:nil];
             [self uploadAJKTableData];
         }
             break;
         case 1:
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_018 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_017 note:nil];
             [self uploadHZTableData];
         }
             break;
