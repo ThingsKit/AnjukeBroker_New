@@ -432,6 +432,20 @@
         _textView.text = @"";
         _textView.textColor = SYSTEM_BLACK;
     }
+    
+    NSString* temp = [_textView.text stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSInteger length = 20 - temp.length;
+    if (length < 0) {
+        length = 0;
+    }
+    _numberOfText.text = [NSString stringWithFormat:@"%d", length];
+    if (length == 0) {
+        [_numberOfText setTextColor:[UIColor brokerRedColor]];
+    }else{
+        [_numberOfText setTextColor:[UIColor brokerBlackColor]];
+    }
+    
+    
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
@@ -470,6 +484,8 @@
         _numberOfText.text = [NSString stringWithFormat:@"%d", length];
         if (length == 0) {
             [_numberOfText setTextColor:[UIColor brokerRedColor]];
+        }else{
+            [_numberOfText setTextColor:[UIColor brokerBlackColor]];
         }
     }
 }
