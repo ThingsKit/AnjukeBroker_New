@@ -594,7 +594,7 @@
     if ([[self.ajkDataDic objectForKey:@"haveAjk"] isEqualToString:@"1"] && [[self.hzDataDic objectForKey:@"haveHz"] isEqualToString:@"1"]) {
         self.navigationItem.titleView = self.segment;
         self.segment.hidden = NO;
-        [self didSelectedIndex:self.segment.selectedSegmentIndex];
+//        [self didSelectedIndex:self.segment.selectedSegmentIndex];
     } else {
         [self setTitleViewWithString:@"房源"];
         if ([[self.ajkDataDic objectForKey:@"haveAjk"] isEqualToString:@"1"]) {
