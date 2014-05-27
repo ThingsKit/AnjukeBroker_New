@@ -36,7 +36,7 @@
         
         
         UIButton *ajkBut = [UIButton buttonWithType:UIButtonTypeCustom];
-        ajkBut.frame = CGRectMake(0, 20, 70, 30);
+        ajkBut.frame = CGRectMake(0, 10, 110, 45);
         [ajkBut setBackgroundColor:[UIColor clearColor]];
 //        [ajkBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 //        [ajkBut setTitle:@"发二手房" forState:UIControlStateNormal];
@@ -55,8 +55,8 @@
         [self addSubview:hzLab];
         
         UIButton *haozuBut = [UIButton buttonWithType:UIButtonTypeCustom];
-        haozuBut.frame = CGRectMake(38, 60, 50, 30);
-//        haozuBut.backgroundColor = [UIColor redColor];
+        haozuBut.frame = CGRectMake(0, 55, 110, 45);
+        haozuBut.backgroundColor = [UIColor clearColor];
 //        haozuBut.titleLabel.font = [UIFont systemFontOfSize:15.0f];
 //        haozuBut.titleLabel.textAlignment = NSTextAlignmentLeft;
 //        [haozuBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
