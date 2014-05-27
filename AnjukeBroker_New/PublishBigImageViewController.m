@@ -262,7 +262,7 @@
 //    [self showArrowImg];
     
 
-    if (self.hasTextView && _imageDescArray) {
+    if (self.hasTextView && _imageDescArray && self.currentIndex >= 0) {
         NSString* content = [_imageDescArray objectAtIndex:self.currentIndex];
         if (content.length > 0 && ![content isEqualToString:self.placeHolder]) {
             _textView.text = [_imageDescArray objectAtIndex:self.currentIndex];
