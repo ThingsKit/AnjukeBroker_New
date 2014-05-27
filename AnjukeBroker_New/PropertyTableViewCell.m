@@ -194,10 +194,6 @@
     [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_003 note:@{@"propid":self.propertyModel.propertyId}];
     
     self.button.enabled = NO;
-    [self.button setBackgroundColor:[UIColor colorWithWhite:0.9 alpha:1]];
-    [self.button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    self.button.layer.borderColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
-    self.button.layer.borderWidth = .5;
     
     if ([viewController isNetworkOkay]) { //如果当前网络ok
         if (self.propertyModel.propertyId) { //如果房源id不空
@@ -206,9 +202,7 @@
         }
     }else{ //如果当前网络不通
         //        [viewController displayHUDWithStatus:nil Message:nil ErrCode:nil];  //使用自定义的浮层显示网络不良
-        [self.button setBackgroundColor:[UIColor colorWithRed:79.0/255 green:164.0/255 blue:236.0/255 alpha:1]];
-        [self.button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        self.button.enabled = YES;
+        [self setButtonAble];
         
     }
     
@@ -233,6 +227,8 @@
     
     RTNetworkResponseStatus status = response.status; //这次请求的状态
     RushPropertyViewController* viewController = (RushPropertyViewController*)self.viewController; //获取cell所属的ViewController, 以调用其方法
+    
+//    status = RTNetworkResponseStatusFailed; //测试用
     
     //数据请求成功
     if (status == RTNetworkResponseStatusSuccess) {
@@ -290,6 +286,7 @@
         [viewController displayHUDWithStatus:status Message:message ErrCode:errcode];  //最终都会显示改自动以浮层
         
     }else{ //数据请求失败
+        [self setButtonAble];
         [viewController displayHUDWithStatus:nil Message:nil ErrCode:nil]; //
     }
     
