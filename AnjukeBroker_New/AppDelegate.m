@@ -94,7 +94,7 @@
     }
     
     //icon消息数处理
-    [self showAllNewMessageCountForIcon];
+//    [self showAllNewMessageCountForIcon];
     
     //tell the service the count of unread messages if is login for chat
     if ([LoginManager isLogin] && [LoginManager getChatID].length > 0) {
@@ -295,7 +295,7 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
     
-    [self cleanRemoteNotification:application];
+//    [self cleanRemoteNotification:application];
     
 //    userInfo
 //    {"aps":{"alert":"爱好世界和平","badge":6,"sound":"布谷鸟.caf","newID":"4987", "other":"钓鱼岛是我们中国的",}}

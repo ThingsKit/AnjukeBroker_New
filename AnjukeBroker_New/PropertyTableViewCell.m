@@ -116,6 +116,8 @@
 
 
 - (void)setButtonDisable{
+    [self.button setBackgroundImage:[UIImage createImageWithColor:[UIColor clearColor]] forState:UIControlStateNormal];
+    [self.button setBackgroundImage:[UIImage createImageWithColor:[UIColor clearColor]] forState:UIControlStateHighlighted];
     [self.button setTitle:@"抢完了" forState:UIControlStateNormal];
     [self.button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     self.button.layer.borderColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
@@ -292,7 +294,6 @@
     
     
 }
-
 
 //获取当前屏幕视图的快照图片
 - (UIImage *)capture {

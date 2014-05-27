@@ -210,7 +210,7 @@
     
     //确定拨打电话
 //    self.myPropertyModel.ownerPhone = @"400 890 5959 转    454712";
-//    self.myPropertyModel.ownerPhone = @"4008905959转454712";
+//    self.myPropertyModel.ownerPhone = @"4008905959,454712";
     if ([self.myPropertyModel.ownerPhone rangeOfString:@"转"].location != NSNotFound) {
         self.myPropertyModel.ownerPhone = [self.myPropertyModel.ownerPhone stringByReplacingOccurrencesOfString:@"转" withString:@","];
     }
