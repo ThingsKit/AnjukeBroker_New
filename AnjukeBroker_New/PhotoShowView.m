@@ -23,7 +23,7 @@
 @synthesize clickDelegate;
 @synthesize photoSV;
 @synthesize imgBtnArr;
-@synthesize takingPhoto;
+@synthesize takingPhotoType;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -36,21 +36,26 @@
         [self initModel];
         [self initDisplayWithFrame:frame];
         
-        NSString *code = [NSString string];
-        
-        if (self.takingPhoto == TAKINGPHOTOFROMHZ) {
-            code = HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_001;
-            [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot",HZ_PROPERTY,@"bp", nil]];
-        }else if (self.takingPhoto == TAKINGPHOTOFROMPROPERTY){
-            code = AJK_PROPERTY_TAKING_PHOTO_001;
-            [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot",AJK_PROPERTY,@"bp", nil]];
-        }
+
 
         
         DLog(@"当前【%d】", self.currentImgCount);
      }
     return self;
 }
+- (void)setTakingPhoto:(TAKINGPHOTOFROM)takingPhoto{
+    NSString *code;
+    if (takingPhoto == TAKINGPHOTOFROMHZ) {
+        self.takingPhotoType = TAKINGPHOTOFROMHZ;
+        code = HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_001;
+        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot",HZ_PROPERTY,@"bp", nil]];
+    }else if (takingPhoto == TAKINGPHOTOFROMPROPERTY){
+        self.takingPhotoType = TAKINGPHOTOFROMPROPERTY;
+        code = AJK_PROPERTY_TAKING_PHOTO_001;
+        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot",AJK_PROPERTY,@"bp", nil]];
+    }
+}
+
 
 - (void)initModel {
     self.imgArray = [NSMutableArray array];
@@ -156,10 +161,10 @@
     
     NSString *code = [NSString string];
     
-    if (self.takingPhoto == TAKINGPHOTOFROMHZ) {
+    if (self.takingPhotoType == TAKINGPHOTOFROMHZ) {
         code = HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_002;
         [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-    }else if (self.takingPhoto == TAKINGPHOTOFROMPROPERTY){
+    }else if (self.takingPhotoType == TAKINGPHOTOFROMPROPERTY){
         code = AJK_PROPERTY_TAKING_PHOTO_002;
         [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
@@ -171,10 +176,10 @@
 - (void)closePicker:(id)sender {
     NSString *code = [NSString string];
     
-    if (self.takingPhoto == TAKINGPHOTOFROMHZ) {
+    if (self.takingPhotoType == TAKINGPHOTOFROMHZ) {
         code = HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_005;
         [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-    }else if (self.takingPhoto == TAKINGPHOTOFROMPROPERTY){
+    }else if (self.takingPhotoType == TAKINGPHOTOFROMPROPERTY){
         code = AJK_PROPERTY_TAKING_PHOTO_005;
         [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
@@ -193,10 +198,10 @@
     [self.imgArray removeAllObjects];
     NSString *code = [NSString string];
     
-    if (self.takingPhoto == TAKINGPHOTOFROMHZ) {
+    if (self.takingPhotoType == TAKINGPHOTOFROMHZ) {
         code = HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_004;
         [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-    }else if (self.takingPhoto == TAKINGPHOTOFROMPROPERTY){
+    }else if (self.takingPhotoType == TAKINGPHOTOFROMPROPERTY){
         code = AJK_PROPERTY_TAKING_PHOTO_004;
         [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
@@ -208,10 +213,10 @@
 - (void)deletePhoto:(id)sender {
     NSString *code = [NSString string];
     
-    if (self.takingPhoto == TAKINGPHOTOFROMHZ) {
+    if (self.takingPhotoType == TAKINGPHOTOFROMHZ) {
         code = HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_003;
         [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-    }else if (self.takingPhoto == TAKINGPHOTOFROMPROPERTY){
+    }else if (self.takingPhotoType == TAKINGPHOTOFROMPROPERTY){
         code = AJK_PROPERTY_TAKING_PHOTO_003;
         [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }

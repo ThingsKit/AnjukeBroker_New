@@ -103,7 +103,7 @@
         [self showInfo:NONETWORK_STR];
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", [self.tempDic objectForKey:@"fixId"], @"planId", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/getplandetail/" params:params target:self action:@selector(onGetFixedInfo:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;

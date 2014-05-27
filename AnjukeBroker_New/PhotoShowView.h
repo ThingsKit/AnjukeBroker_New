@@ -36,6 +36,7 @@ typedef NS_ENUM(NSInteger, TAKINGPHOTOFROM)
 @property (nonatomic, strong) NSMutableArray *imgBtnArr;
 @property int maxImgCount; //外部传递的最大图片数
 @property int currentImgCount; //外部已有的图片数，用以和自身的imgArray.count想加比较是否可继续拍照
-@property (nonatomic, assign) TAKINGPHOTOFROM takingPhoto;
+@property (nonatomic, assign) TAKINGPHOTOFROM takingPhotoType;
 - (void)takePhotoWithImage:(UIImage *)image; //外部拍照后传递预览图，用以此编辑框显示预览图
+- (void)setTakingPhoto:(TAKINGPHOTOFROM)takingPhoto;
 @end
