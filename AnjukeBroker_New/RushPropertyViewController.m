@@ -609,7 +609,7 @@
     
     
     //创建badge
-    self.propertyListBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(205, 10, 20, 20)];
+    self.propertyListBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(205, 6, 20, 20)];
     self.propertyListBadgeLabel.backgroundColor = [UIColor whiteColor];
     self.propertyListBadgeLabel.layer.cornerRadius = 10.0f;
     self.propertyListBadgeLabel.layer.masksToBounds = YES;
