@@ -271,12 +271,10 @@
     
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", nil];
     [params setObject:@"1" forKey:@"isNotification"];
-//    NSString *method = [@"tokenService/collectToken/" stringByAppendingString:token];
-//    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
-    
-    //    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"推送" message:token delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-    //    [alertView show];
-    //    [alertView release];
+    NSString *method = [@"tokenService/collectToken/" stringByAppendingString:token];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"推送" message:token delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+//    [alertView show];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{

@@ -178,10 +178,12 @@
     else { //非在线户型图查看，删除后重绘页面
         if (self.currentIndex == self.imgArr.count - 1) { //如果是最后一项删除，则将当前选择的index前移一位
             [self.imgArr removeLastObject];
+            [self.imageDescArray removeLastObject];
             self.currentIndex --;
-        }
-        else
+        }else{
             [self.imgArr removeObjectAtIndex:self.currentIndex];
+            [self.imageDescArray removeObjectAtIndex:self.currentIndex];
+        }
         
         if (self.imgArr.count <= 0) {
             [self doBack:self];
@@ -474,6 +476,7 @@
 - (void)textViewDidChange:(UITextView *)textView{
     NSString* temp = [_textView.text stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     _textView.text = temp;
+    
     if (_textView.markedTextRange == nil && _textView.text.length > 20) {
         _textView.text = [_textView.text substringToIndex:20];
     }else{
