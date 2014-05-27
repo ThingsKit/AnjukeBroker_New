@@ -118,14 +118,30 @@
 }
 
 //是否能添加更多室内图
-+ (BOOL)canAddMoreRoomImageForImageArr:(NSArray *)imageArr isHaozu:(BOOL)isHaozu {
++ (BOOL)canAddMoreRoomImageForImageArr:(NSArray *)imageArr isHaozu:(BOOL)isHaozu type:(NSInteger)type
+{
     BOOL canAdd = NO;
     int maxCount = 0;
     int addCount = 1; //再添加一张图片后判断
     
-    maxCount = AJK_MAXCOUNT_ROOMIMAGE;
-    if (isHaozu) {
-        maxCount = HZ_MAXCOUNT_ROOMIMAGE;
+    if (type == 1)
+    {
+        maxCount = AJK_MAXCOUNT_ROOMIMAGE;
+    }else if (type == 2)
+    {
+        maxCount = AJK_MAXCOUNT_HOUSETYPEIMAGE;
+    }
+    
+    if (isHaozu)
+    {
+        if (type == 1)
+        {
+            maxCount = HZ_MAXCOUNT_ROOMIMAGE;
+        }else if (type == 2)
+        {
+            maxCount = HZ_MAXCOUNT_HOUSETYPEIMAGE;
+        }
+        
     }
     if (addCount + imageArr.count <= maxCount) {
         canAdd = YES;

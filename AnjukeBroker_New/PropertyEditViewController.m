@@ -903,12 +903,27 @@
 
 //是否能添加更多室内图
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount{
-    NSMutableArray *arr = [NSMutableArray array];
-    [arr addObjectsFromArray:self.addRoomImageArray];
-    [arr addObjectsFromArray:self.roomShowedImgArray];
+    NSArray *willDo = nil;
+    BOOL houseType = NO;
+    if(self.footClickType == 1)
+    {
+        NSMutableArray *arr = [NSMutableArray array];
+        [arr addObjectsFromArray:self.addRoomImageArray];
+        [arr addObjectsFromArray:self.roomShowedImgArray];
+        arr = arr;
+    }else if (self.footClickType == 2)
+    {
+        NSArray *onlineArr = [PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.property.onlineHouseTypeDic];
+        NSMutableArray *arr = [NSMutableArray array];
+        [arr addObjectsFromArray:self.houseTypeShowedImgArray];
+        [arr addObjectsFromArray:self.addHouseTypeImageArray];
+        [arr addObjectsFromArray:onlineArr];
+        willDo = arr;
+        houseType = YES;
+    }
     
-    if (![PhotoManager canAddMoreRoomImageForImageArr:arr isHaozu:self.isHaozu]) {
-        [self showInfo:[PhotoManager getImageMaxAlertStringForHaozu:self.isHaozu isHouseType:NO]];
+    if (![PhotoManager canAddMoreRoomImageForImageArr:willDo isHaozu:self.isHaozu type:self.footClickType]) {
+        [self showInfo:[PhotoManager getImageMaxAlertStringForHaozu:self.isHaozu isHouseType:houseType]];
         return NO; //超出
     }
     
@@ -921,8 +936,32 @@
 }
 
 //相册还可添加的图片数量
-- (int)getMaxAddRoomImgCountForPhotoAlbum {
+- (int)getMaxAddRoomImgCountForPhotoAlbum
+{
     int maxCount = AJK_MAXCOUNT_ROOMIMAGE;
+    int arrCount = self.addRoomImageArray.count + self.roomShowedImgArray.count;
+    if (self.footClickType == 1)
+    {
+        maxCount = AJK_MAXCOUNT_ROOMIMAGE;
+    }else if (self.footClickType == 2)
+    {
+        maxCount = AJK_MAXCOUNT_HOUSETYPEIMAGE;
+        
+        arrCount = self.houseTypeShowedImgArray.count +
+        self.addHouseTypeImageArray.count +
+        [(NSDictionary *)self.property.onlineHouseTypeDic count];
+    }
+    if (self.isHaozu) {
+        if (self.footClickType == 1)
+        {
+            maxCount = HZ_MAXCOUNT_ROOMIMAGE;
+        }else if (self.footClickType == 2)
+        {
+            maxCount = HZ_MAXCOUNT_HOUSETYPEIMAGE;
+        }
+    }
+    return (maxCount - arrCount);
+//    int maxCount = AJK_MAXCOUNT_ROOMIMAGE;
     if (self.isHaozu) {
         maxCount = HZ_MAXCOUNT_ROOMIMAGE;
     }

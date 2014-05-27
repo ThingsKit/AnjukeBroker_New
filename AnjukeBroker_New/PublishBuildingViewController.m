@@ -711,9 +711,24 @@ typedef enum {
 #pragma mark - Check Method
 
 //是否能添加更多室内图
-- (BOOL)canAddMoreImageWithAddCount:(int)addCount{
-    if (![PhotoManager canAddMoreRoomImageForImageArr:self.roomImageArray isHaozu:self.isHaozu]) {
-        [self showInfo:[PhotoManager getImageMaxAlertStringForHaozu:self.isHaozu isHouseType:NO]];
+- (BOOL)canAddMoreImageWithAddCount:(int)addCount
+{
+    NSArray *willDo = nil;
+    BOOL houseType = NO;
+    if(self.footClickType == 1)
+    {
+        willDo = self.roomImageArray;
+    }else if (self.footClickType == 2)
+    {
+        NSArray *onlineArr = [PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.property.onlineHouseTypeDic];
+        NSMutableArray *arr = [NSMutableArray array];
+        [arr addObjectsFromArray:self.houseTypeImageArray];
+        [arr addObjectsFromArray:onlineArr];
+        willDo = arr;
+        houseType = YES;
+    }
+    if (![PhotoManager canAddMoreRoomImageForImageArr:willDo isHaozu:self.isHaozu type:self.footClickType]) {
+        [self showInfo:[PhotoManager getImageMaxAlertStringForHaozu:self.isHaozu isHouseType:houseType]];
         return NO; //超出
     }
     
@@ -735,11 +750,27 @@ typedef enum {
 
 //相册还可添加的图片数量
 - (int)getMaxAddRoomImgCountForPhotoAlbum {
+    //设置图片最大数
     int maxCount = AJK_MAXCOUNT_ROOMIMAGE;
-    if (self.isHaozu) {
-        maxCount = HZ_MAXCOUNT_ROOMIMAGE;
+    int arrCount = self.roomImageArray.count;
+    if (self.footClickType == 1)
+    {
+        maxCount = AJK_MAXCOUNT_ROOMIMAGE;
+    }else if (self.footClickType == 2)
+    {
+        maxCount = AJK_MAXCOUNT_HOUSETYPEIMAGE;
+        arrCount = self.houseTypeImageArray.count;
     }
-    return (maxCount - self.roomImageArray.count);
+    if (self.isHaozu) {
+        if (self.footClickType == 1)
+        {
+            maxCount = HZ_MAXCOUNT_ROOMIMAGE;
+        }else if (self.footClickType == 2)
+        {
+            maxCount = HZ_MAXCOUNT_HOUSETYPEIMAGE;
+        }
+    }
+    return (maxCount - arrCount);
 }
 
 #pragma mark - Request Method
@@ -2260,13 +2291,11 @@ typedef enum {
         sHousFrame.size.height += 10;
         houseFootView.frame = sHousFrame;
         [houseFootView resetLineWithHeight:CGRectGetHeight(houseFootView.frame)];
-        CGRect roomBottomLine = houseFootView.bottomLine.frame;
-        roomBottomLine.origin.y += 100;
-        houseFootView.bottomLine.frame = roomBottomLine;
+
         
         CGRect sFootFrame = styleFootView.frame;
         sFootFrame.origin.y = height + 22 + 18 + 5;
-        sFootFrame.size.height += 10;
+//        sFootFrame.size.height += 10;
         styleFootView.frame = sFootFrame;
     }
 }
@@ -2685,6 +2714,10 @@ typedef enum {
 //在线选择房源
 - (void)onlineActionSheet
 {
+    if (![self canAddMoreImageWithAddCount:1])
+    { //到达上限后张就不能继续拍摄
+        return; //室内图超出限制
+    }
     NSString *code = [NSString string];
     if (self.isHaozu) {
         code = HZ_PROPERTY_016;
@@ -2785,10 +2818,9 @@ typedef enum {
                 
                 BK_ELCAlbumPickerController *albumPicker = [[BK_ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
                 BK_ELCImagePickerController *elcPicker = [[BK_ELCImagePickerController alloc] initWithRootViewController:albumPicker];
-                int maxCount = AJK_MAXCOUNT_ROOMIMAGE;
-                if (self.isHaozu) {
-                    maxCount = HZ_MAXCOUNT_ROOMIMAGE;
-                }
+                
+                
+                
                 elcPicker.maximumImagesCount = [self getMaxAddRoomImgCountForPhotoAlbum]; //(maxCount - self.roomImageArray.count);
                 elcPicker.imagePickerDelegate = self;
                 

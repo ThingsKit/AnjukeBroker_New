@@ -37,7 +37,7 @@
 + (NSArray *)transformEditImageArrToFooterShowArrWithArr:(NSArray *)imageArray;
 
 //是否能添加更多室内图
-+ (BOOL)canAddMoreRoomImageForImageArr:(NSArray *)imageArr isHaozu:(BOOL)isHaozu;
++ (BOOL)canAddMoreRoomImageForImageArr:(NSArray *)imageArr isHaozu:(BOOL)isHaozu type:(NSInteger)type;
 //根据二手房、好租和室内图、房型图返回提示文案
 + (NSString *)getImageMaxAlertStringForHaozu:(BOOL)isHaozu isHouseType:(BOOL)isHouseType;
 
