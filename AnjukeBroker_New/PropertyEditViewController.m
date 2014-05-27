@@ -708,12 +708,38 @@
 }
 
 #pragma mark - ******** Overwrite Method ********
-/*
+
+- (void)onlineHouseTypeImgDelete {
+    self.property.onlineHouseTypeDic = [NSDictionary dictionary];
+    
+    NSArray *addHouseImgArr = [PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addHouseTypeImageArray];
+    NSArray *showHouseImgArr = [PhotoManager transformEditImageArrToFooterShowArrWithArr:self.houseTypeShowedImgArray];
+    NSDictionary *onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:self.property.onlineHouseTypeDic];
+    
+    self.footerView = [self.footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
+    
+    //redraw footer img view
+    [self.footerView redrawWithEditHouseTypeShowedImageArray:showHouseImgArr andAddImgArr:addHouseImgArr andOnlineHouseTypeArr:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:onlineHouseTypeDic]];
+}
+
 - (void)onlineImgDidSelect:(NSDictionary *)imgDic
 {
     [super onlineImgDidSelect:imgDic];
+    
+    
+    if (self.footClickType == 2)
+    {
+        NSArray *addHouseImgArr = [PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.addHouseTypeImageArray];
+        NSArray *showHouseImgArr = [PhotoManager transformEditImageArrToFooterShowArrWithArr:self.houseTypeShowedImgArray];
+        NSDictionary *onlineHouseTypeDic = [NSDictionary dictionaryWithDictionary:self.property.onlineHouseTypeDic];
+        
+        self.footerView = [self.footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
+        
+        //redraw footer img view
+        [self.footerView redrawWithEditHouseTypeShowedImageArray:showHouseImgArr andAddImgArr:addHouseImgArr andOnlineHouseTypeArr:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:onlineHouseTypeDic]];
+    }
 }
-*/
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     [super actionSheet:actionSheet clickedButtonAtIndex:buttonIndex];
@@ -1195,6 +1221,7 @@
         
         self.footerView = [self.footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
         
+        //redraw footer img view
         [self.footerView redrawWithEditHouseTypeShowedImageArray:showHouseImgArr andAddImgArr:addHouseImgArr andOnlineHouseTypeArr:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:onlineHouseTypeDic]];
     }
     //redraw footer img view

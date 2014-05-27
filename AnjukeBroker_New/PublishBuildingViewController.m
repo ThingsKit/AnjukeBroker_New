@@ -2063,7 +2063,7 @@ typedef enum {
         else
             [self setBothToolBarBtnNormal];
         
-        
+        int inputArrcount = [[self.cellDataSource inputCellArray] count];
 #warning 为了解决exing的备案号排序
         if (self.selectedIndex == 2)
         {
@@ -2074,10 +2074,9 @@ typedef enum {
                 self.selectedIndex = AJK_TEXT_SAFENUM;
                 [[self.cellDataSource inputCellArray] addObject:cell];
                 [[self.cellDataSource inputCellArray] removeObjectAtIndex:2];
-            }else
+            }else if(self.selectedIndex == inputArrcount - 1)
             {
-                int count = [[self.cellDataSource inputCellArray] count];
-                cell = [[self.cellDataSource inputCellArray] objectAtIndex:count - 1];
+                cell = [[self.cellDataSource inputCellArray] objectAtIndex:self.selectedIndex];
                 if (self.needFileNO &&
                     self.isHaozu == NO &&
                     cell.indexTag == AJK_TEXT_SAFENUM)
@@ -2235,7 +2234,8 @@ typedef enum {
     [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:imageArray]];
 }
 
-- (void)onlineHouseTypeImgDelete {
+- (void)onlineHouseTypeImgDelete
+{
     //do nothing
 }
 
@@ -2480,12 +2480,22 @@ typedef enum {
     if (self.footClickType == 2)
     {
         willdoArr = self.houseTypeImageArray;
+
+        
+        NSArray *houseArr = [PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArray];
+        NSArray *onlineHouseArr = [PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.property.onlineHouseTypeDic];
+        
+        //redraw footer img view
+        [self.footerView redrawWithHouseTypeImageArray:houseArr andImgUrl:onlineHouseArr];
+    }else if (self.footClickType == 1)
+    {
+        //redraw footer img view
+        [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:willdoArr]];
+
     }
     
     DLog(@"相册添加室内图:count[%d]", self.roomImageArray.count);
     
-    //redraw footer img view
-    [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:willdoArr]];
     
     [self dismissViewControllerAnimated:YES completion:nil];
     
@@ -2583,7 +2593,10 @@ typedef enum {
 - (void)onlineImgDidSelect:(NSDictionary *)imgDic
 {
     self.saveMessModel.fxo += imgDic.count;
+    
     /*
+    NSArray *arr = [PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.property.onlineHouseTypeDic];
+    
     for (int i = 0; i < arr.count; i ++) {
         //保存原始图片、得到url
         E_Photo *ep = [PhotoManager getNewE_Photo];
@@ -2607,10 +2620,10 @@ typedef enum {
     
     NSArray *houseArr = [PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArray];
     NSArray *onlineHouseArr = [PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.property.onlineHouseTypeDic];
-    
+
     //redraw footer img view
     [self.footerView redrawWithHouseTypeImageArray:houseArr andImgUrl:onlineHouseArr];
-     
+
 }
 
 //在线选择房源
