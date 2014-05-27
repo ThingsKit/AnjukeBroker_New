@@ -1130,8 +1130,16 @@ typedef enum {
                     index = 1;
                     break;
                 case 2:
-                    if (!self.isHaozu) {
-                        index = 2;
+                    if (!self.isHaozu)
+                    {
+                        if (self.needFileNO)
+                        {
+                            index = AJK_TEXT_SAFENUM;
+                        }else
+                        {
+                            index = 2;
+                        }
+                        
                     }
                     break;
                 default:
@@ -2076,7 +2084,8 @@ typedef enum {
                 [[self.cellDataSource inputCellArray] removeObjectAtIndex:2];
             }else if(self.selectedIndex == inputArrcount - 1)
             {
-                cell = [[self.cellDataSource inputCellArray] objectAtIndex:self.selectedIndex];
+                
+                cell = [[self.cellDataSource inputCellArray] objectAtIndex:inputArrcount - 1];
                 if (self.needFileNO &&
                     self.isHaozu == NO &&
                     cell.indexTag == AJK_TEXT_SAFENUM)
@@ -2102,6 +2111,28 @@ typedef enum {
     int imageIndex = index - 0;
     DLog(@"查看大图--index [%d]", imageIndex);
     
+    if (!sender.isHouseType)
+    {
+        self.footClickType = 1;
+    }else
+    {
+        self.footClickType = 2;
+    }
+    
+    if (self.footClickType == 1) //室内图
+    {
+        [self loadRoomTypeImg:imageIndex];
+    }else if (self.footClickType == 2) //户型图
+    {
+        [self loadHoustTypeImg:imageIndex];
+    }
+    
+    
+}
+
+//室内图大图浏览
+- (void)loadRoomTypeImg:(NSInteger)imageIndex
+{
     //检查_imdescarr是否存在
     [self initImgDesc];
     
@@ -2112,36 +2143,57 @@ typedef enum {
     pb.imageDescArray = _imgdescArr;
     pb.clickDelegate = self;
     
-    if (!sender.isHouseType)
-    {
-        self.footClickType = 1;
-    }else
-    {
-        self.footClickType = 2;
-    }
-    
     BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    if (self.footClickType == 1) //室内图
+    pb.bp = HZ_PROPERTY_HOUSEIMG_ALBUM_001;
+    if(!self.isHaozu)
     {
-        pb.bp = HZ_PROPERTY_HOUSEIMG_ALBUM_001;
-        if(!self.isHaozu)
-        {
-            pb.hasTextView = YES; //有照片编辑框
-            pb.bp = AJK_PROPERTY_HOUSEIMG_CHOOSEIMG_ALBUM_001;
-        }
-        
-        [self.navigationController presentViewController:navController animated:YES completion:^(void) {
-            [pb showImagesWithArray:self.roomImageArray atIndex:imageIndex];
-        }];
-    }else if (self.footClickType == 2) //户型图
-    {
-        [self.navigationController presentViewController:navController animated:YES completion:^(void) {
-            [pb showImagesWithArray:self.houseTypeImageArray atIndex:imageIndex];
-        }];
+        pb.hasTextView = YES; //有照片编辑框
+        pb.bp = AJK_PROPERTY_HOUSEIMG_CHOOSEIMG_ALBUM_001;
     }
     
+    [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+        [pb showImagesWithArray:self.roomImageArray atIndex:imageIndex];
+    }];
+}
+
+//户型图在线查看
+- (void)loadHoustTypeImg:(NSInteger)index
+{
+    NSDictionary *onlineHouseDict = self.property.onlineHouseTypeDic;
     
+    PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
+    pb.clickDelegate = self;
+    BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
+    navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    
+    if (onlineHouseDict.count > 0) { //有在线户型图
+        if (self.houseTypeImageArray.count != 0 && index <= self.houseTypeImageArray.count - 1) { //户型图
+            //查看大图
+            DLog(@"查看大图有在线户型图--index [%d]", index);
+            
+
+            [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+                [pb showImagesWithArray:self.houseTypeImageArray atIndex:index];
+            }];
+        }
+        else { //在线户型图
+            
+            [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+                [pb showImagesForOnlineHouseTypeWithDic:onlineHouseDict];
+            }];
+        }
+    }
+    else { //无在线户型图
+        DLog(@"查看大图无在线户型图--index [%d]", index);
+        
+        //查看大图
+        //模态弹出图片播放器
+        
+        [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+            [pb showImagesWithArray:self.houseTypeImageArray atIndex:index];
+        }];
+    }
 }
 
 //图片预览点击
@@ -2213,7 +2265,8 @@ typedef enum {
         houseFootView.bottomLine.frame = roomBottomLine;
         
         CGRect sFootFrame = styleFootView.frame;
-        sFootFrame.origin.y = height + 22 + 18 + 10;
+        sFootFrame.origin.y = height + 22 + 18 + 5;
+        sFootFrame.size.height += 10;
         styleFootView.frame = sFootFrame;
     }
 }
@@ -2236,7 +2289,10 @@ typedef enum {
 
 - (void)onlineHouseTypeImgDelete
 {
-    //do nothing
+    self.property.onlineHouseTypeDic = [NSDictionary dictionary];
+    
+    //redraw footer img view
+    [self.footerView redrawWithHouseTypeImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:self.houseTypeImageArray] andImgUrl:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.property.onlineHouseTypeDic]];
 }
 
 - (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex sender:(id)sender{

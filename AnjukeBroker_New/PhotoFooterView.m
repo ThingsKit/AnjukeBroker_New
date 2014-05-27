@@ -158,13 +158,17 @@
     height = self.frame.size.height;
     DLog(@"new photo Height %f", height);
     
+    [self resetLineWithHeight:height];
     //将当前的新高度回调给superView
     if ([self.clickDelegate respondsToSelector:@selector(drawFinishedWithCurrentHeight:)]) {
         [self.clickDelegate drawFinishedWithCurrentHeight:height];
     }
-    [self resetLineWithHeight:height];
+    
 }
-
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+}
 - (void)redrawWithHouseTypeImageArray:(NSArray *)imageArr andImgUrl:(NSArray *)urlImgArr {
     CGFloat height = 0;
     CGRect frame = self.frame;
@@ -274,11 +278,12 @@
     height = self.frame.size.height;
     DLog(@"new photo Height %f", height);
     
+    [self resetLineWithHeight:height];
     //将当前的新高度回调给superView
     if ([self.clickDelegate respondsToSelector:@selector(drawFinishedWithCurrentHeight:)]) {
         [self.clickDelegate drawFinishedWithCurrentHeight:height];
     }
-    [self resetLineWithHeight:height];
+    
 }
 
 - (void)redrawWithEditRoomImageArray:(NSArray *)imageArr andImgUrl:(NSArray *)urlImgArr {
@@ -395,11 +400,13 @@
     
     height = self.frame.size.height;
     DLog(@"new photo Height %f", height);
+    
+    [self resetLineWithHeight:height];
     //将当前的新高度回调给superView
     if ([self.clickDelegate respondsToSelector:@selector(drawFinishedWithCurrentHeight:)]) {
         [self.clickDelegate drawFinishedWithCurrentHeight:height];
     }
-    [self resetLineWithHeight:height];
+
 }
 
 - (void)redrawWithEditHouseTypeShowedImageArray:(NSArray *)showedImageArr andAddImgArr:(NSArray *)addImgArr andOnlineHouseTypeArr:(NSArray *)onlineHouseTypeArr {
@@ -516,11 +523,12 @@
     height = self.frame.size.height;
     DLog(@"new photo Height %f", height);
     
+    [self resetLineWithHeight:height];
     //将当前的新高度回调给superView
     if ([self.clickDelegate respondsToSelector:@selector(drawFinishedWithCurrentHeight:)]) {
         [self.clickDelegate drawFinishedWithCurrentHeight:height];
     }
-    [self resetLineWithHeight:height];
+    
 }
 
 - (void)cleanImageShow {

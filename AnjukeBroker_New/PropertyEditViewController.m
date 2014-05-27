@@ -320,7 +320,11 @@
     [self addImgDesc:newArr];
     
     self.footerView = [self.footerViewDict objectForKey:FOOTERVIEWDICTROOM];
-    [self.footerView redrawWithEditRoomImageArray:addImgArr andImgUrl:showImgArr];
+    if (addImgArr.count != 0 || showImgArr.count != 0)
+    {
+        [self.footerView redrawWithEditRoomImageArray:addImgArr andImgUrl:showImgArr];
+    }
+    
     
     CGFloat height = CGRectGetHeight(self.footerView.frame);
     
@@ -331,10 +335,12 @@
     self.footerView = [self.footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
     
     [self.footerView redrawWithEditHouseTypeShowedImageArray:showHouseImgArr andAddImgArr:addHouseImgArr andOnlineHouseTypeArr:[PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:onlineHouseTypeDic]];
-    
+#warning 计算footview frame
     CGRect sFootFrame = self.footerView.frame;
-    sFootFrame.origin.y = height + 22;
+    sFootFrame.origin.y = height + 40;
+    sFootFrame.size.height += 10;
     self.footerView.frame = sFootFrame;
+    [self.footerView resetLineWithHeight:sFootFrame.size.height];
     
     [self hideLoadWithAnimated:YES];
 }
@@ -1034,9 +1040,14 @@
 
     if (self.footClickType == 1)
     {
-        CGFloat height2 = CGRectGetHeight(houseFootView.frame);
+        CGRect sHousFrame = houseFootView.frame;
+        sHousFrame.size.height += 10;
+        houseFootView.frame = sHousFrame;
+        [houseFootView resetLineWithHeight:sHousFrame.size.height];
+        
         CGRect sFootFrame = styleFootView.frame;
-        sFootFrame.origin.y = height2 + 22;
+        CGFloat height2 = CGRectGetHeight(houseFootView.frame);
+        sFootFrame.origin.y = height2 + 22 + 18;
         styleFootView.frame = sFootFrame;
     }
     
