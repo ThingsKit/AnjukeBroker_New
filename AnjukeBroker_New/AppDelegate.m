@@ -59,7 +59,7 @@
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
     
-//    [self registerRemoteNotification];
+    [self registerRemoteNotification];
     [self cleanRemoteNotification:application];
     
     //初始化底层库
@@ -304,19 +304,19 @@
         DLog(@"userInfo [%@]", userInfo);
     }
     
-    DiscoverViewController* disc = [[DiscoverViewController alloc] init];
-    disc.propertyBadgeNumber++; //badge 数字加1
-    
-    [UIApplication sharedApplication].applicationIconBadgeNumber++; //应用程序计数器自加
-    
-    [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", disc.propertyBadgeNumber]]; //tabbarItem 的badge计数器
-    
-    //NSLog(@"弹出模态视图");
-    RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
-    viewController.backType = RTSelectorBackTypeDismiss;
-    [viewController setHidesBottomBarWhenPushed:YES];
-    BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:viewController];
-    [self.window.rootViewController presentViewController:navi animated:YES completion:nil];
+//    DiscoverViewController* disc = [[DiscoverViewController alloc] init];
+//    disc.propertyBadgeNumber++; //badge 数字加1
+//    
+//    [UIApplication sharedApplication].applicationIconBadgeNumber++; //应用程序计数器自加
+//    
+//    [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", disc.propertyBadgeNumber]]; //tabbarItem 的badge计数器
+//    
+//    //NSLog(@"弹出模态视图");
+//    RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
+//    viewController.backType = RTSelectorBackTypeDismiss;
+//    [viewController setHidesBottomBarWhenPushed:YES];
+//    BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:viewController];
+//    [self.window.rootViewController presentViewController:navi animated:YES completion:nil];
     
 }
 
