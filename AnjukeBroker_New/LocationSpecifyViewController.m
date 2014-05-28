@@ -34,12 +34,6 @@
     
     [self setTitleViewWithString:@"位置漂移"];
     [self addRightButton:@"还原" andPossibleTitle:nil];
-//    UIButton* right = [UIButton buttonWithType:UIButtonTypeCustom];
-//    right.frame = CGRectMake(0, 0, 45, 45);
-//    [right setTitle:@"还原" forState:UIControlStateNormal];
-//    [right addTarget:self action:@selector(removeSpecificCoordinate:) forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem* rightItem = [[UIBarButtonItem alloc] initWithCustomView:right];
-//    self.navigationItem.rightBarButtonItem = rightItem;
     
     // Do any additional setup after loading the view.
     _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
@@ -63,7 +57,9 @@
     [_locationManager startUpdatingLocation];
     
 }
-
+- (void)doBack:(id)sender{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 #pragma mark -
 #pragma mark rightBarButtonItem
 - (void)rightButtonAction:(id)sender{

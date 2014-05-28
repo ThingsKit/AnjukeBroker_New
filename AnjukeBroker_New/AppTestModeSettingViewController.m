@@ -99,24 +99,8 @@
         NSDictionary *dic  = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"logShowMode", nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"QACommandChangeLogShowMode" object:nil userInfo:dic];
     }
-//    if ([self returnAppLogAlertStatus]) {
-//        [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"appLogAlert"];
-//        
-//    }else{
-//        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"appLogAlert"];
-//
-//
-//    }
 }
 
-//- (BOOL)returnAppLogAlertStatus{
-//    NSUserDefaults *UD = [NSUserDefaults standardUserDefaults];
-//    if ([UD objectForKey:@"appLogAlert"] && [[UD objectForKey:@"appLogAlert"] isEqualToString:@"1"]) {
-//        return YES;
-//    }else{
-//        return NO;
-//    }
-//}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
         LocationSpecifyViewController* viewController = [[LocationSpecifyViewController alloc] init];

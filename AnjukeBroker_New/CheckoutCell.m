@@ -36,29 +36,30 @@
 }
 
 - (void)configurCell:(id)dataModel withIndex:(int)index cellType:(CHECKOUTCELLTYPE)cellType{
-//    for (UIView *view in self.contentView.subviews) {
-//        [view removeFromSuperview];
-//    }
-    
     NSString *timeSection;
     NSArray *checkPersion;
+    NSArray *timeAreaArr = [[NSArray alloc] initWithArray:[LoginManager getCheckTimeArr]];
+
     if (dataModel == nil) {
         NSArray *timeAreaArr = [[NSArray alloc] initWithArray:[LoginManager getCheckTimeArr]];
-        if (timeAreaArr.count == 0) {
-            timeAreaArr = @[@"10:00",@"11:00",@"12:00"];            
-        }
-        DLog(@"timeAreaArr-->>%@",timeAreaArr);
-        if (index > 0 && index < 4) {
+//        if (timeAreaArr.count == 0) {
+//            timeAreaArr = @[@"10:00",@"11:00",@"12:00"];            
+//        }
+//        DLog(@"timeAreaArr-->>%@",timeAreaArr);
+        if (index > 0 && index < timeAreaArr.count + 1) {
             timeSection =  [timeAreaArr objectAtIndex:index-1];
         }
     }else{
         CheckInfoWithCommunity *checkInfoModel = (CheckInfoWithCommunity *)dataModel;
         checkPersion = [[NSArray alloc] initWithArray:checkInfoModel.signList];
-
-        if (index > 0 && index < 4) {
+        
+        if (index > 0 && index <= timeAreaArr.count) {
             timeSection = [[checkPersion objectAtIndex:index-1] objectForKey:@"hour"];
         }
     }
+
+
+
     self.textLabel.textColor = [UIColor brokerMiddleGrayColor];
 
     if (cellType == CHECKOUTCELLWITHELSE) {
@@ -71,7 +72,7 @@
             lab.backgroundColor = [UIColor clearColor];
             [self.contentView addSubview:lab];
         
-        }else if(index == 4){
+        }else if(index == timeAreaArr.count+1){
             self.textLabel.text = @"了解签到规则";
             self.textLabel.textAlignment = NSTextAlignmentCenter;
             self.selectionStyle = UITableViewCellSelectionStyleGray;
@@ -137,31 +138,53 @@
     if (index == 0) {
         [self showTopLine];
         self.backgroundColor = [UIColor clearColor];
-    }else if (index == 1){
-        self.backgroundColor = [UIColor whiteColor];
-        [self showTopLine];
-        if (cellType == CHECKOUTCELLWITHNOCHECK) {
-            [self showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK andOffsetX:15];
-        }else{
-            [self showBottonLineWithCellHeight:CELLHEIGHT_CHECK andOffsetX:15];
-        }
-    }else if (index == 2){
-        self.backgroundColor = [UIColor whiteColor];
-        if (cellType == CHECKOUTCELLWITHNOCHECK) {
-            [self showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK andOffsetX:15];
-        }else{
-            [self showBottonLineWithCellHeight:CELLHEIGHT_CHECK andOffsetX:15];
-        }
-    }else if (index == 3){
-        self.backgroundColor = [UIColor whiteColor];
-        if (cellType == CHECKOUTCELLWITHNOCHECK) {
-            [self showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK];
-        }else{
-            [self showBottonLineWithCellHeight:CELLHEIGHT_CHECK];
-        }
-    }else if (index == 4){
-//        [self showBottonLineWithCellHeight:CELLHEIGHT_NOFMAL];
+    }else if (index == timeAreaArr.count + 1){
         self.backgroundColor = [UIColor clearColor];
+    }else{
+        self.backgroundColor = [UIColor whiteColor];
+        
+        if (index == 1){
+            [self showTopLine];
+            if (index != timeAreaArr.count) {
+                if (cellType == CHECKOUTCELLWITHNOCHECK) {
+                    [self showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK andOffsetX:15];
+                }else{
+                    [self showBottonLineWithCellHeight:CELLHEIGHT_CHECK andOffsetX:15];
+                }
+            }
+        }else if (index == timeAreaArr.count) {
+            if (cellType == CHECKOUTCELLWITHNOCHECK) {
+                [self showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK];
+            }else{
+                [self showBottonLineWithCellHeight:CELLHEIGHT_CHECK];
+            }
+        }else{
+            if (cellType == CHECKOUTCELLWITHNOCHECK) {
+                [self showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK andOffsetX:15];
+            }else{
+                [self showBottonLineWithCellHeight:CELLHEIGHT_CHECK andOffsetX:15];
+            }
+        }
     }
+    
+//    else if (index == 1){
+//        self.backgroundColor = [UIColor whiteColor];
+//        [self showTopLine];
+//        if (cellType == CHECKOUTCELLWITHNOCHECK) {
+//            [self showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK andOffsetX:15];
+//        }else{
+//            [self showBottonLineWithCellHeight:CELLHEIGHT_CHECK andOffsetX:15];
+//        }
+//    }else if (index == 2){
+//        self.backgroundColor = [UIColor whiteColor];
+//        if (cellType == CHECKOUTCELLWITHNOCHECK) {
+//            [self showBottonLineWithCellHeight:CELLHEIGHT_NOCHECK andOffsetX:15];
+//        }else{
+//            [self showBottonLineWithCellHeight:CELLHEIGHT_CHECK andOffsetX:15];
+//        }
+//    }else if (index == 3){
+//        self.backgroundColor = [UIColor whiteColor];
+//
+//    }
 }
 @end
