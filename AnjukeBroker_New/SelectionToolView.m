@@ -56,7 +56,7 @@
         
         UIButton *haozuBut = [UIButton buttonWithType:UIButtonTypeCustom];
         haozuBut.frame = CGRectMake(0, 55, 110, 45);
-        haozuBut.backgroundColor = [UIColor redColor];
+        haozuBut.backgroundColor = [UIColor clearColor];
 //        haozuBut.titleLabel.font = [UIFont systemFontOfSize:15.0f];
 //        haozuBut.titleLabel.textAlignment = NSTextAlignmentLeft;
 //        [haozuBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
