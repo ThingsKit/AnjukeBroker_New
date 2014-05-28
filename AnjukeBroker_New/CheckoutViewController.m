@@ -344,7 +344,7 @@
     if (self.navigationController.view.frame.origin.x > 0)
         return;
 
-    if (indexPath.row == 4) {
+    if (indexPath.row == self.checkCellStatusArr.count - 1) {
         [self rightButtonAction:nil];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

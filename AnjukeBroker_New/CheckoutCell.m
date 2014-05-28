@@ -68,10 +68,12 @@
             [self.contentView addSubview:lab];
         
         }else if(index == timeAreaArr.count+1){
-            self.textLabel.text = @"了解签到规则";
-            self.textLabel.textAlignment = NSTextAlignmentCenter;
-            self.selectionStyle = UITableViewCellSelectionStyleGray;
-            self.textLabel.font = [UIFont ajkH5Font];
+            UILabel *lab = [[UILabel alloc] initWithFrame:self.frame];
+            lab.text = @"了解签到规则";
+            lab.font = [UIFont ajkH4Font];
+            lab.textAlignment = NSTextAlignmentCenter;
+            lab.backgroundColor = [UIColor clearColor];
+            [self.contentView addSubview:lab];
         }
     }
     
