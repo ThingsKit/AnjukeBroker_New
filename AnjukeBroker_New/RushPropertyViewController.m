@@ -14,6 +14,9 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "MBProgressHUD.h"
 #import "PropertyTableViewCell.h"
+#import "DiscoverViewController.h"
+#import "AppDelegate.h"
+#import "RTGestureBackNavigationController.h"
 
 @interface RushPropertyViewController ()
 
@@ -77,13 +80,21 @@
 }
 
 - (void)doBack:(id)sender{
-    [super doBack:sender];
+    AppDelegate* delegate = [AppDelegate sharedAppDelegate];
+    delegate.propertyPushCount = 0;
+    
+    RTGestureBackNavigationController* navi = [delegate.tabController.controllerArrays objectAtIndex:3];
+    navi.tabBarItem.badgeValue = nil;
+    DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+    dis.badgeView.hidden = YES;
+    
     if (self.myTableView.hidden) {
         [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_006 note:nil];
     }else{
         [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ME_PAGE_006 note:nil];
     }
     
+    [super doBack:sender];
 }
 
 

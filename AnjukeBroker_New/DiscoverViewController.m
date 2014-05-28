@@ -198,17 +198,6 @@
     return 0;
 }
 
-- (void)doBack:(id)sender{
-    self.badgeView.hidden = YES; //消除badge
-    AppDelegate* delegate = [AppDelegate sharedAppDelegate];
-    delegate.propertyPushCount = 0;
-    RTGestureBackNavigationController* navi = [delegate.tabController.controllerArrays objectAtIndex:3];
-    navi.tabBarItem.badgeValue = nil;
-    
-    [super doBack:sender];
-    
-}
-
 
 
 #pragma mark -
