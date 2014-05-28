@@ -102,11 +102,11 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == 0) {
         LocationSpecifyViewController* viewController = [[LocationSpecifyViewController alloc] init];
-        viewController.backType = RTSelectorBackTypePopBack;
-        BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController: viewController];
-        [self.navigationController presentViewController:navi animated:YES completion:nil];
+
+        [self.navigationController pushViewController:viewController animated:YES];
     }else if (indexPath.row == 1){
     }
 }

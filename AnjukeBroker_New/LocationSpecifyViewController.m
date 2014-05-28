@@ -57,9 +57,7 @@
     [_locationManager startUpdatingLocation];
     
 }
-- (void)doBack:(id)sender{
-    [self.navigationController popViewControllerAnimated:YES];
-}
+
 #pragma mark -
 #pragma mark rightBarButtonItem
 - (void)rightButtonAction:(id)sender{

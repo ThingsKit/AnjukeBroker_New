@@ -104,7 +104,13 @@
         [self showInfo:NONETWORK_STR];
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.tempDic objectForKey:@"fixPlanId"], @"planId", nil];
+    NSString *fixId;
+    if ([self.tempDic objectForKey:@"fixPlanId"]) {
+        fixId = [self.tempDic objectForKey:@"fixPlanId"];
+    }else{
+        fixId = [self.tempDic objectForKey:@"fixId"];
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", fixId, @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/getplandetail/" params:params target:self action:@selector(onGetFixedInfo:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
