@@ -110,10 +110,9 @@
             self.badgeView.layer.cornerRadius = 9.0f;
             self.badgeView.layer.masksToBounds = YES;
             
-            AppDelegate* delegate = [UIApplication sharedApplication].delegate;
-            int unReadCount = delegate.propertyUnreadCount;
+            int count = [AppDelegate sharedAppDelegate].propertyUnreadCount;
             
-            if (unReadCount > 10) {
+            if (count > 10) {
                 self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(2.5f, -1.5f, 20, 20)];
             }else{
                 self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.5f, -1.5f, 20, 20)];
@@ -123,10 +122,10 @@
             [self.badgeNumberLabel setFont:[UIFont ajkH5Font]];
             [self.badgeView addSubview:self.badgeNumberLabel];
             
-            if (unReadCount == 0) {
+            if (count == 0) {
                 self.badgeView.hidden = YES;
             }else{
-                self.badgeNumberLabel.text = [NSString stringWithFormat:@"%d", unReadCount];
+                self.badgeNumberLabel.text = [NSString stringWithFormat:@"%d", count];
                 self.badgeView.hidden = NO;
             }
             [cell.contentView addSubview:self.badgeView];
@@ -142,9 +141,8 @@
 }
 
 - (void)setBadgeValue:(NSInteger) unReadCount{
-    AppDelegate* delegate = [UIApplication sharedApplication].delegate;
-    if (delegate.propertyUnreadCount > 0 && self.badgeNumberLabel) {
-        self.badgeNumberLabel.text = [NSString stringWithFormat:@"%d", delegate.propertyUnreadCount];
+    if (unReadCount > 0 && self.badgeNumberLabel) {
+        self.badgeNumberLabel.text = [NSString stringWithFormat:@"%d", unReadCount];
         self.badgeNumberLabel.hidden = NO;
     }
     
