@@ -148,6 +148,8 @@
 - (void)rightButtonAction:(id)sender {
     [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_HOUSEIMG_DES_004 note:nil];
     
+    [_textView resignFirstResponder];
+    
     if (self.isEditProperty) {
         if (self.isHouseType) {
             //通知删除在线户型图。。。并退出
