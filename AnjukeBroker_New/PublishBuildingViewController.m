@@ -111,10 +111,10 @@ typedef enum {
 #pragma mark - log
 - (void)sendAppearLog {
     NSString *code = [NSString string];
-    NSString *bp = ESF_PROPERTY_CHAT_001;
+    NSString *bp = AJK_COMMUNITY;
     if (self.isHaozu) {
         code = HZ_PROPERTY_001;
-        bp = ZF_PROPERTY_CHAT_001;
+        bp = HZ_PROPERTY;
     }
     else
         code = AJK_PROPERTY_001;

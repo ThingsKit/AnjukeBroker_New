@@ -57,7 +57,7 @@
 {
     [super viewDidLoad];
     [self initUI]; //初始化 self.navigationItem.titleView
-    
+    [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_001 note:nil];
     self.tableView = [[PropertyTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44) style:UITableViewStylePlain];
     self.tableView.hidden = NO;
     self.tableView.hasMore = YES;
