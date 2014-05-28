@@ -130,7 +130,6 @@
                 self.badgeView.hidden = NO;
             }
             [cell.contentView addSubview:self.badgeView];
-//            [cell.contentView insertSubview:self.badgeView atIndex:0];
         }
         
         
