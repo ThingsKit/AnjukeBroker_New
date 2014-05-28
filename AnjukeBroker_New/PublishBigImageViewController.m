@@ -74,6 +74,7 @@
     if (!self.bp) {
         self.bp = @"";
     }
+    
     [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_HOUSEIMG_DES_001 note:@{@"bp":self.bp}];
     
 }

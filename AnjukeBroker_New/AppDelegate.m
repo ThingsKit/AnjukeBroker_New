@@ -319,6 +319,7 @@
             [viewController setHidesBottomBarWhenPushed:YES];
             BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:viewController];
             [self.window.rootViewController presentViewController:navi animated:YES completion:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_001 note:@{@"push":@"push"}];
         }
     }
     

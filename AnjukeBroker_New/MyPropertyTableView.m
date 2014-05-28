@@ -9,6 +9,7 @@
 #import "MyPropertyTableView.h"
 #import "MyPropertyTableViewCell.h"
 #import "MyPropertyModel.h"
+#import "BrokerLogger.h"
 
 @implementation MyPropertyTableView
 
@@ -19,7 +20,7 @@
     if (self = [super initWithFrame:frame style:style]) {
         
     }
-    
+    [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ME_PAGE_001 note:nil];
     return self;
 }
 

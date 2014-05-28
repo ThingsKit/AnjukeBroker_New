@@ -8,6 +8,7 @@
 
 #import "PropertyTableView.h"
 #import "PropertyTableViewCell.h"
+#import "BrokerLogger.h"
 
 @implementation PropertyTableView
 
@@ -18,7 +19,6 @@
     if (self = [super initWithFrame:frame style:style]) {
         
     }
-    
     return self;
 }
 
