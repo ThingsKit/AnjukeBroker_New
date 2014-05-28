@@ -238,7 +238,7 @@
 - (void)initDisplay {
     wordNum = [[UILabel alloc] initWithFrame:CGRectZero];
     wordNum.backgroundColor = [UIColor clearColor];
-    [self.textV addSubview:wordNum];
+    [self.view addSubview:wordNum];
     if(self.isTitle){
         //        wordNum.text = @"30";
         //        wordNum.frame = CGRectMake(self.textV.frame.size.width - 40, self.textV.frame.size.height - 40, 30, 30);
@@ -360,25 +360,33 @@
     }
     
     if ([[Util_TEXT rmBlankFromString:self.textV.text] isEqualToString:@""]) {
+        if (self.textFieldModifyDelegate && [self.textFieldModifyDelegate respondsToSelector:@selector(textDidInput:isTitle:)]) {
+            if ([self.textV.text isEqualToString:placeHolder]) {
+                [self.textFieldModifyDelegate textDidInput:@"" isTitle:self.isTitle];
+            }else{
+                [self.textFieldModifyDelegate textDidInput:self.textV.text isTitle:self.isTitle];
+            }
+        }
         [self.navigationController popViewControllerAnimated:YES];
         return;
     }
-    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"提醒"
-                                                 message:@"是否保存当前输入"
-                                                delegate:self
-                                       cancelButtonTitle:nil
-                                       otherButtonTitles:@"不保存",@"保存并退出",nil];
-    av.tag = 102;
-    [av show];
+    [self rightButtonAction:self];
+//    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"提醒"
+//                                                 message:@"是否保存当前输入"
+//                                                delegate:self
+//                                       cancelButtonTitle:nil
+//                                       otherButtonTitles:@"不保存",@"保存并退出",nil];
+//    av.tag = 102;
+//    [av show];
 }
 
 - (void)rightButtonAction:(id)sender {
     self.textV.text = [self.textV.text removeEmoji];
-    if (self.isHZ) {
-        [self rightButtonHZLog];
-    }else {
-        [self rightButtonAJKLog];
-    }
+//    if (self.isHZ) {
+//        [self rightButtonHZLog];
+//    }else {
+//        [self rightButtonAJKLog];
+//    }
     if (self.isTitle) {
         if (self.textV.text.length > 30 || self.textV.text.length < 5 || [self.textV.text isEqualToString:placeHolder]) {
             [self showInfo:@"房源标题必须5到30个字符"];
@@ -428,20 +436,20 @@
         [textView resignFirstResponder];
         return NO;
     }
-    //    if(self.isTitle){
-    //        NSString *temp = [textView.text stringByReplacingCharactersInRange:range withString:text];
-    //        if ([temp isEqualToString:placeHolder]) {
-    //            wordNum.text = [NSString stringWithFormat:@"30"];
-    //            return YES;
-    //        }
-    //        if (temp.length > 30) {
-    //            DLog(@"111222 %@======%d", temp, [temp length]);
-    //            self.textV.text = [temp substringToIndex:30];
-    //            return NO;
-    //        }else {
-    //            wordNum.text = [NSString stringWithFormat:@"%d", 30 - [temp length]];
-    //        }
-    //    }
+    if(self.isTitle){
+        NSString *temp = [textView.text stringByReplacingCharactersInRange:range withString:text];
+        if ([temp isEqualToString:placeHolder]) {
+            wordNum.text = [NSString stringWithFormat:@"30"];
+            return YES;
+        }
+        if (temp.length > 30) {
+            DLog(@"111222 %@======%d", temp, [temp length]);
+            self.textV.text = [temp substringToIndex:30];
+            return NO;
+        }else {
+            wordNum.text = [NSString stringWithFormat:@"%d", 30 - [temp length]];
+        }
+    }
     
     return YES;
 }
