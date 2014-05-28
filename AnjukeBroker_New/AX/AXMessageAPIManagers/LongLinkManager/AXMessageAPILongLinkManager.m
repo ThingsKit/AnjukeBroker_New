@@ -11,8 +11,8 @@
 #import "AXMessageAPIBreakLinkManager.h"
 
 //test
-#import "AppDelegate.h"
-#import "DiscoverViewController.h"
+//#import "AppDelegate.h"
+//#import "DiscoverViewController.h"
 
 @interface AXMessageAPILongLinkManager () <AXMessageAPIHeartBeatingManagerParamSource>
 
@@ -168,19 +168,21 @@
         DLog(@"LongLinkRecevedCommand: %@", receivedCommand);
         
         //#############################################################
-        
-        NSString* type = [[receivedCommand objectForKey:@"result"] objectForKey:@"msgType"];
-        if ([@"push" isEqualToString:type]) {
-            AppDelegate* delegate = [UIApplication sharedApplication].delegate;
-            delegate.propertyUnreadCount++; //房源消息未读数自增
-
-            [delegate.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", delegate.propertyUnreadCount]]; //tabbarItem 的badge计数器
-            //设置抢房源委托后的badge
-            DiscoverViewController* disc = [[DiscoverViewController alloc] init];
-            [disc setBadgeValue:delegate.propertyUnreadCount];
-            
-        }
-        
+//        NSDictionary* dict = [receivedCommand objectForKey:@"result"];
+//        if (dict) {
+//            NSString* type = [dict objectForKey:@"msgType"];
+//            if ([@"push" isEqualToString:type]) {
+//                AppDelegate* delegate = [UIApplication sharedApplication].delegate;
+//                delegate.propertyUnreadCount++; //房源消息未读数自增
+//                
+//                [delegate.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", delegate.propertyUnreadCount]]; //tabbarItem 的badge计数器
+//                //设置抢房源委托后的badge
+//                DiscoverViewController* disc = [[DiscoverViewController alloc] init];
+//                [disc setBadgeValue:delegate.propertyUnreadCount];
+//                
+//            }
+//            
+//        }
   
         //#############################################################
         
