@@ -207,7 +207,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (self.listType == DataTypeNearby) {
-        return @"你附近的小区";
+        return @"最近发布";
     }
     else if (self.listType == DataTypeHistory) {
         return @"最近发布";
