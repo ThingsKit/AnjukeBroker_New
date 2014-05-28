@@ -673,6 +673,7 @@
 		F8D2F0F419234A8B00858BB0 /* CheckInfoWithCommunity.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D2F0F319234A8B00858BB0 /* CheckInfoWithCommunity.m */; };
 		F8D449D01908AFA900447375 /* anjuke_icon_button_red_press.png in Resources */ = {isa = PBXBuildFile; fileRef = F8D449CC1908AFA900447375 /* anjuke_icon_button_red_press.png */; };
 		F8D449D21908AFA900447375 /* anjuke_icon_button_red.png in Resources */ = {isa = PBXBuildFile; fileRef = F8D449CE1908AFA900447375 /* anjuke_icon_button_red.png */; };
+		F8D7C96819356962009DBE9E /* AppTestModeSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D7C96719356962009DBE9E /* AppTestModeSettingViewController.m */; };
 		F8F6DA22192A224000698C3B /* UIColor+BrokerRT.m in Sources */ = {isa = PBXBuildFile; fileRef = F8F6DA21192A224000698C3B /* UIColor+BrokerRT.m */; };
 		F8FCFC2318FE8F3500A4B012 /* RTGestureLock.m in Sources */ = {isa = PBXBuildFile; fileRef = F8FCFC2218FE8F3500A4B012 /* RTGestureLock.m */; };
 /* End PBXBuildFile section */
@@ -1673,6 +1674,8 @@
 		F8D2F0F319234A8B00858BB0 /* CheckInfoWithCommunity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckInfoWithCommunity.m; sourceTree = "<group>"; };
 		F8D449CC1908AFA900447375 /* anjuke_icon_button_red_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_red_press.png; sourceTree = "<group>"; };
 		F8D449CE1908AFA900447375 /* anjuke_icon_button_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_red.png; sourceTree = "<group>"; };
+		F8D7C96619356962009DBE9E /* AppTestModeSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppTestModeSettingViewController.h; sourceTree = "<group>"; };
+		F8D7C96719356962009DBE9E /* AppTestModeSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppTestModeSettingViewController.m; sourceTree = "<group>"; };
 		F8F6DA20192A224000698C3B /* UIColor+BrokerRT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+BrokerRT.h"; sourceTree = "<group>"; };
 		F8F6DA21192A224000698C3B /* UIColor+BrokerRT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BrokerRT.m"; sourceTree = "<group>"; };
 		F8FCFC2118FE8F3500A4B012 /* RTGestureLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTGestureLock.h; sourceTree = "<group>"; };
@@ -2357,10 +2360,6 @@
 				6767D14419235174004FEFF7 /* MyPropertyTableView.m */,
 				6767D1471923519B004FEFF7 /* MyPropertyTableViewCell.h */,
 				6767D1481923519B004FEFF7 /* MyPropertyTableViewCell.m */,
-				670F016D1931C8F5004C95B2 /* LocationSpecifyViewController.h */,
-				670F016E1931C8F5004C95B2 /* LocationSpecifyViewController.m */,
-				670F01701931D866004C95B2 /* KKAnnotation.h */,
-				670F01711931D866004C95B2 /* KKAnnotation.m */,
 			);
 			name = "发现模块";
 			sourceTree = "<group>";
@@ -2738,6 +2737,7 @@
 				97CB0BFE182BE9F200FCCBBD /* 相册多选pickerController */,
 				F8734A871933329A007A2552 /* callAlert */,
 				F8734A8919334184007A2552 /* UserLocation */,
+				F8D7C96419356910009DBE9E /* AppTest */,
 				F8F6DA20192A224000698C3B /* UIColor+BrokerRT.h */,
 				F8F6DA21192A224000698C3B /* UIColor+BrokerRT.m */,
 				97CD8D42180E6D6E00185C9D /* RTViewController.h */,
@@ -3840,6 +3840,27 @@
 			name = model;
 			sourceTree = "<group>";
 		};
+		F8D7C96419356910009DBE9E /* AppTest */ = {
+			isa = PBXGroup;
+			children = (
+				F8D7C9651935692E009DBE9E /* LocationSetting */,
+				F8D7C96619356962009DBE9E /* AppTestModeSettingViewController.h */,
+				F8D7C96719356962009DBE9E /* AppTestModeSettingViewController.m */,
+			);
+			name = AppTest;
+			sourceTree = "<group>";
+		};
+		F8D7C9651935692E009DBE9E /* LocationSetting */ = {
+			isa = PBXGroup;
+			children = (
+				670F016D1931C8F5004C95B2 /* LocationSpecifyViewController.h */,
+				670F016E1931C8F5004C95B2 /* LocationSpecifyViewController.m */,
+				670F01701931D866004C95B2 /* KKAnnotation.h */,
+				670F01711931D866004C95B2 /* KKAnnotation.m */,
+			);
+			name = LocationSetting;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -4460,6 +4481,7 @@
 				971D60921849CEA5006B07C9 /* NoNetworkView.m in Sources */,
 				F8CD189C1921A40A0033733E /* CheckoutCell.m in Sources */,
 				B702BA4518921752002E2DC7 /* FindPropertyCell.m in Sources */,
+				F8D7C96819356962009DBE9E /* AppTestModeSettingViewController.m in Sources */,
 				972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */,
 				974E5C82181E4210000246D1 /* AnjukeEditableCell.m in Sources */,
 				B769E463181F629B00A2FF50 /* BasePropertyDetailController.m in Sources */,

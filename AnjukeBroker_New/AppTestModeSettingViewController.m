@@ -1,0 +1,133 @@
+//
+//  AppTestModeSettingViewController.m
+//  AnjukeBroker_New
+//
+//  Created by xiazer on 14-5-28.
+//  Copyright (c) 2014年 Wu sicong. All rights reserved.
+//
+
+#import "AppTestModeSettingViewController.h"
+#import "LocationSpecifyViewController.h"
+#import "BK_RTNavigationController.h"
+
+@interface AppTestModeSettingViewController ()
+
+@end
+
+@implementation AppTestModeSettingViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self setTitleViewWithString:@"AppTest Setting"];
+    
+    // Do any additional setup after loading the view.
+    UITableView *tableList = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    tableList.dataSource = self;
+    tableList.delegate = self;
+    tableList.backgroundColor = [UIColor brokerBgPageColor];;
+    tableList.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:tableList];
+}
+
+#pragma mark - UITableViewDelegate
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 10;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 50;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *identify = @"cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+    }
+    
+    //创建cell
+    if (indexPath.row == 0) {
+        cell.textLabel.text = @"位置漂移";
+    }else if (indexPath.row == 1){
+        cell.textLabel.text = @"applog alert";
+
+        
+        UISwitch * appLogSw = [[UISwitch alloc] initWithFrame:CGRectMake(250, 15, 30, 20)];
+        [appLogSw addTarget:self action:@selector(changeSw:) forControlEvents:UIControlEventValueChanged];
+        appLogSw.on = [self returnAppLogAlertStatus];
+        appLogSw.tag = 100;
+        [cell.contentView addSubview:appLogSw];
+        
+        cell.accessoryView = appLogSw;
+
+    }
+    
+    return cell;
+
+}
+- (void)changeSw:(id)sender{
+    if ([self returnAppLogAlertStatus]) {
+        [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"appLogAlert"];
+        
+        NSDictionary *dic  = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"logShowMode", nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"QACommandChangeLogShowMode" object:nil userInfo:dic];
+    }else{
+        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"appLogAlert"];
+
+        NSDictionary *dic  = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"logShowMode", nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"QACommandChangeLogShowMode" object:nil userInfo:dic];
+    }
+}
+
+- (BOOL)returnAppLogAlertStatus{
+    NSUserDefaults *UD = [NSUserDefaults standardUserDefaults];
+    if ([UD objectForKey:@"appLogAlert"] && [[UD objectForKey:@"appLogAlert"] isEqualToString:@"1"]) {
+        return YES;
+    }else{
+        return NO;
+    }
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 0) {
+        LocationSpecifyViewController* viewController = [[LocationSpecifyViewController alloc] init];
+        viewController.backType = RTSelectorBackTypePopBack;
+        BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController: viewController];
+        [self.navigationController presentViewController:navi animated:YES completion:nil];
+    }else if (indexPath.row == 1){
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(qaLogShowModeRequest:) name:@"QACommandChangeLogShowMode" object:nil];
+//        
+//        - (void)qaLogShowModeRequest:(NSNotification *)notification{
+//            self.logModeShowAlert = [[notification.userInfo objectForKey:@"logShowMode"] boolValue];
+//        }
+
+    }
+}
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

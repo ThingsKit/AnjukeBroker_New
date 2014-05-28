@@ -8,8 +8,8 @@
 
 #import "AboutUsViewController.h"
 #import "Util_UI.h"
-#import "LocationSpecifyViewController.h"
 #import "BK_RTNavigationController.h"
+#import "AppTestModeSettingViewController.h"
 
 #define UMENG_KEY_OFFLINE @"529da42356240b93f001f9b4"
 #define UMENG_KEY_ONLINE @"52a0368c56240ba07800b4c0"
@@ -51,10 +51,10 @@
     self.count++;
     
     if (self.count > 4) {
-        LocationSpecifyViewController* viewController = [[LocationSpecifyViewController alloc] init];
-        viewController.backType = RTSelectorBackTypeDismiss;
-        BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController: viewController];
-        [self.navigationController presentViewController:navi animated:YES completion:nil];
+        AppTestModeSettingViewController * testVC = [[AppTestModeSettingViewController alloc] init];
+        testVC.backType = RTSelectorBackTypeDismiss;
+        BK_RTNavigationController * nav = [[BK_RTNavigationController alloc] initWithRootViewController:testVC];
+        [self.navigationController presentViewController:nav animated:YES completion:nil];
         
         self.count = 0;
     }
