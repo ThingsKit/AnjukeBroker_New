@@ -161,6 +161,7 @@
         //通知房源编辑页面删除对应图片
         if ([self.clickDelegate respondsToSelector:@selector(editPropertyDidDeleteImgWithDeleteIndex:sender:)]) {
             [self.clickDelegate editPropertyDidDeleteImgWithDeleteIndex:self.editDeleteImgIndex sender:self];
+            [self.imageDescArray removeObjectAtIndex:self.editDeleteImgIndex];
         }
         
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -180,9 +181,10 @@
             [self.imgArr removeLastObject];
             [self.imageDescArray removeLastObject];
             self.currentIndex --;
+            self.editDeleteImgIndex --;
         }else{
-            [self.imgArr removeObjectAtIndex:self.currentIndex];
-            [self.imageDescArray removeObjectAtIndex:self.currentIndex];
+            [self.imgArr removeObjectAtIndex:self.editDeleteImgIndex];
+            [self.imageDescArray removeObjectAtIndex:self.editDeleteImgIndex];
         }
         
         if (self.imgArr.count <= 0) {
@@ -264,10 +266,10 @@
 //    [self showArrowImg];
     
 
-    if (self.hasTextView && _imageDescArray && self.currentIndex >= 0) {
-        NSString* content = [_imageDescArray objectAtIndex:self.currentIndex];
+    if (self.hasTextView && _imageDescArray && self.editDeleteImgIndex >= 0) {
+        NSString* content = [_imageDescArray objectAtIndex:self.editDeleteImgIndex];
         if (content.length > 0 && ![content isEqualToString:self.placeHolder]) {
-            _textView.text = [_imageDescArray objectAtIndex:self.currentIndex];
+            _textView.text = [_imageDescArray objectAtIndex:self.editDeleteImgIndex];
             _pencil.hidden = YES;
             _textView.textColor = SYSTEM_BLACK;
         }else{
@@ -323,11 +325,12 @@
 - (void)showImagesWithArray:(NSArray *)imageArr atIndex:(int)index {
     [self.imgArr addObjectsFromArray:imageArr];
     if (self.isEditProperty) {
-        self.editDeleteImgIndex = index;
         self.currentIndex = 0;
     }
     else
         self.currentIndex = index;
+    
+    self.editDeleteImgIndex = index;
     
     [self drawImageScroll];
     
@@ -404,9 +407,9 @@
 //    _textView.height = 252;
     _numberOfText.hidden = YES;
     if (_imageDescArray) {
-        NSString* content = [_imageDescArray objectAtIndex:self.currentIndex];
+        NSString* content = [_imageDescArray objectAtIndex:self.editDeleteImgIndex];
         if (content.length > 0 && ![content isEqualToString:self.placeHolder]) {
-            _textView.text = [_imageDescArray objectAtIndex:self.currentIndex];
+            _textView.text = [_imageDescArray objectAtIndex:self.editDeleteImgIndex];
         }else{
             _pencil.hidden = NO;
             _textView.text = _placeHolder;
@@ -456,8 +459,9 @@
     _mainScroll.scrollEnabled = YES;
     NSLog(@"%d", self.currentIndex);
     if (_imageDescArray) {
-        if (_textView.text.length > 0 && ![_textView.text isEqualToString:self.placeHolder]) {
-            [_imageDescArray insertObject:self.textView.text atIndex:self.currentIndex];
+        if (_textView.text.length > 0 && ![_textView.text isEqualToString:self.placeHolder])
+        {
+            [_imageDescArray replaceObjectAtIndex:self.editDeleteImgIndex withObject:self.textView.text];
         }
     }else{
         NSLog(@"赋值数组为空");
@@ -496,15 +500,16 @@
 #pragma mark - UIScrollView Delegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     self.currentIndex = scrollView.contentOffset.x / [self windowWidth];
+    self.editDeleteImgIndex = self.currentIndex;
     DLog(@"index [%d]", self.currentIndex);
     
     if (self.hasTextView) {
         [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_HOUSEIMG_DES_005 note:nil];
         
         if (_imageDescArray) {
-            NSString* content = [_imageDescArray objectAtIndex:self.currentIndex];
+            NSString* content = [_imageDescArray objectAtIndex:self.editDeleteImgIndex];
             if (content.length > 0 && ![content isEqualToString:self.placeHolder]) {
-                _textView.text = [_imageDescArray objectAtIndex:self.currentIndex];
+                _textView.text = [_imageDescArray objectAtIndex:self.editDeleteImgIndex];
                 _pencil.hidden = YES;
                 _textView.textColor = SYSTEM_BLACK;
             }else{

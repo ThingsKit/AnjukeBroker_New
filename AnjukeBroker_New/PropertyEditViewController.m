@@ -129,7 +129,7 @@
     //image
     self.roomShowedImgArray = [dic objectForKey:@"roomImg"];
     self.houseTypeShowedImgArray = [dic objectForKey:@"moduleImg"];
-    
+    [self addImgDesc:self.roomShowedImgArray];
     //设置小区名字
     //小区
     self.property.comm_id = [dic objectForKey:@"commId"];
@@ -348,7 +348,13 @@
 //给img设置desc
 - (void)addImgDesc:(NSArray *)arr
 {
-    
+    if (!self.imgdescArr)
+    {
+        self.imgdescArr = [NSMutableArray array];
+    }else if (self.imgdescArr.count == arr.count)
+    {
+        [self.imgdescArr removeAllObjects];
+    }
     for (int i = 0; i < arr.count; i++)
     {
         if([[arr objectAtIndex:i] isKindOfClass:[NSDictionary class]])
@@ -485,6 +491,45 @@
     }
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUpdatePropertyFinished:)];
+    
+    //更新图片的信息
+    [self updateImgDesc];
+}
+
+//上传图片描述
+- (void)updateImgDesc
+{
+    NSMutableArray *arr = [NSMutableArray array];
+//    [arr addObjectsFromArray:self.addRoomImageArray];
+    [arr addObjectsFromArray:self.roomShowedImgArray];
+    
+    for (int i = 0; i < arr.count; i++)
+    {
+        NSString *imgId = [[arr objectAtIndex:i] objectForKey:@"imgId"];
+        NSString *imgdesc = [self.imgdescArr objectAtIndex:i];
+
+        NSString *method = @"anjuke/prop/imageDescEdit/";
+        NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:2];
+        [params setValue:imgId forKeyPath:@"aid"];
+        [params setValue:imgdesc forKeyPath:@"desc"];
+        
+        NSString *token = [LoginManager getToken];
+        if (token.length > 0 && ![token isKindOfClass:[NSNull class]]) {
+            [params setValue:token forKeyPath:@"token"];
+        }else
+        {
+            [params setValue:@"1" forKeyPath:@"is_nocheck"];
+        }
+        [params setValue:@"1" forKeyPath:@"is_nocheck"];
+        
+        [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(httpImgDesc:)];
+    }
+    
+}
+//修改图片返回
+- (void)httpImgDesc:(RTNetworkResponse *)response
+{
+    DLog(@"--更新房源信息结束。。。response [%@]", [response content]);
 }
 
 - (void)onUpdatePropertyFinished:(RTNetworkResponse *)response {
@@ -574,9 +619,13 @@
             [self initImgDesc];
             if ((self.uploadRoomImgDescIndex <= ([self.imgdescArr count] - 1)) && self.imgdescArr.count > 0)
             {
-                DLog(@"desc === %@", [self.imgdescArr objectAtIndex:self.uploadRoomImgDescIndex]);
-                [dic setObject:[self.imgdescArr objectAtIndex:self.uploadRoomImgDescIndex] forKey:@"imageDesc"];
-                self.uploadRoomImgDescIndex++;
+//                DLog(@"desc === %@", [self.imgdescArr objectAtIndex:self.uploadRoomImgDescIndex]);
+                if (self.uploadRoomImgDescIndex + self.roomShowedImgArray.count < self.imgdescArr.count)
+                {
+                    [dic setObject:[self.imgdescArr objectAtIndex:self.uploadRoomImgDescIndex + self.roomShowedImgArray.count] forKey:@"imageDesc"];
+                    self.uploadRoomImgDescIndex++;
+                }
+                
             }
             [dic setObject:@"1" forKey:@"type"]; //1:室内图;2:房型图;3:小区图"
         }
@@ -590,9 +639,13 @@
             [self initImgDesc];
             if ((self.uploadRoomImgDescIndex <= ([self.imgdescArr count] - 1)) && self.imgdescArr.count > 0)
             {
-                DLog(@"desc === %@", [self.imgdescArr objectAtIndex:self.uploadRoomImgDescIndex]);
-                [dic setObject:[self.imgdescArr objectAtIndex:self.uploadRoomImgDescIndex] forKey:@"imageDesc"];
-                self.uploadRoomImgDescIndex++;
+                DLog(@"desc === %@", [self.imgdescArr objectAtIndex:self.uploadRoomImgDescIndex + self.roomShowedImgArray.count]);
+                if (self.uploadRoomImgDescIndex + self.roomShowedImgArray.count < self.imgdescArr.count)
+                {
+                    [dic setObject:[self.imgdescArr objectAtIndex:self.uploadRoomImgDescIndex + self.roomShowedImgArray.count] forKey:@"imageDesc"];
+                    self.uploadRoomImgDescIndex++;
+                }
+                
             }
         }
         else //属于房型图类型
@@ -910,7 +963,7 @@
         NSMutableArray *arr = [NSMutableArray array];
         [arr addObjectsFromArray:self.addRoomImageArray];
         [arr addObjectsFromArray:self.roomShowedImgArray];
-        arr = arr;
+        willDo = arr;
     }else if (self.footClickType == 2)
     {
         NSArray *onlineArr = [PhotoManager transformOnlineHouseTypeImageArrToFooterShowArrWithArr:self.property.onlineHouseTypeDic];
@@ -969,9 +1022,12 @@
 }
 
 #pragma mark - PhotoFooterImageClickDelegate
+
 - (void)initImgDesc
 {
     int count = self.roomShowedImgArray.count + self.addRoomImageArray.count;
+    
+    
     if (!self.imgdescArr || self.imgdescArr.count < count || count > 0)
     {
         int i = 0;
@@ -983,7 +1039,7 @@
             self.imgdescArr = [NSMutableArray arrayWithCapacity:5];
         }
         
-        for (i = 0; i < count; i++)
+        for (; i < count; i++)
         {
             NSString *va = @"";
             [self.imgdescArr addObject:va];
