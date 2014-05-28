@@ -111,12 +111,14 @@ typedef enum {
 #pragma mark - log
 - (void)sendAppearLog {
     NSString *code = [NSString string];
+    NSString *bp = ESF_PROPERTY_CHAT_001;
     if (self.isHaozu) {
         code = HZ_PROPERTY_001;
+        bp = ZF_PROPERTY_CHAT_001;
     }
     else
         code = AJK_PROPERTY_001;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", bp , @"bp", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -932,12 +934,14 @@ typedef enum {
         return;
     }
     
+    
     //保存房源id
     NSString *propertyID = [[[response content] objectForKey:@"data"] objectForKey:@"id"];
     [self doPushPropertyID:propertyID];
     self.saveMessModel.profid = propertyID;
-    self.saveMessModel.pd = self.imgdescArr.count;
-    
+//    self.saveMessModel.pd = self.imgdescArr.count;
+    self.saveMessModel.fxo = [self.property.onlineHouseTypeDic count];
+    [self.saveMessModel setPdString:self.imgdescArr];
     
     NSString *code = AJK_PROPERTY_004;
     if (self.isHaozu)
@@ -972,7 +976,8 @@ typedef enum {
     [self doPushPropertyID:propertyID];
     
     self.saveMessModel.profid = propertyID;
-    self.saveMessModel.pd = self.imgdescArr.count;
+    self.saveMessModel.fxo = [self.property.onlineHouseTypeDic count];
+    [self.saveMessModel setPdString:self.imgdescArr];
     
     
     NSString *code = HZ_PROPERTY_004;
@@ -2180,7 +2185,7 @@ typedef enum {
     if(!self.isHaozu)
     {
         pb.hasTextView = YES; //有照片编辑框
-        pb.bp = AJK_PROPERTY_HOUSEIMG_CHOOSEIMG_ALBUM_001;
+        pb.bp = AJK_PROPERTY_HOUSEIMG_CHOOSEIMG_ALBUM;
     }
     
     [self.navigationController presentViewController:navController animated:YES completion:^(void) {
@@ -2766,13 +2771,7 @@ typedef enum {
                 
                 NSString *code = [NSString string];
                 
-                //室内图-从相册选择
-                if (self.isHaozu)
-                {
-                    code = HZ_PROPERTY_013;
-                }
-                else
-                    code = AJK_PROPERTY_013;
+                
                 //户型图
                 if (self.footClickType == 2)
                 {
@@ -2783,6 +2782,17 @@ typedef enum {
                     else
                     {
                         code = AJK_PROPERTY_015;
+                    }
+                }else if(self.footClickType == 1)
+                {
+                    //室内图-从相册选择
+                    if (self.isHaozu)
+                    {
+                        code = HZ_PROPERTY_013;
+                    }
+                    else
+                    {
+                        code = AJK_PROPERTY_013;
                     }
                 }
                 

@@ -8,7 +8,12 @@
 
 #import "AJKSaveMessModel.h"
 
+@interface AJKSaveMessModel ()
+{
+}
+@property (nonatomic, strong)NSString  *pd;//描述的文字
 
+@end
 @implementation AJKSaveMessModel
 
 @synthesize fxa,fxo,pd,profid,sna,snc,st,stDa;
@@ -36,7 +41,7 @@
     [dict setValue:[NSString stringWithFormat:@"%d",snc] forKey:@"snc"];
     [dict setValue:[NSString stringWithFormat:@"%d",fxa] forKey:@"fxa"];
     [dict setValue:[NSString stringWithFormat:@"%d",fxo] forKey:@"fxo"];
-    [dict setValue:[NSString stringWithFormat:@"%d",pd] forKey:@"pd"];
+    [dict setValue:[NSString stringWithFormat:@"%@",pd] forKey:@"pd"];
     
     return dict;
 }
@@ -51,6 +56,49 @@
     NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
     
     return jsonString;
+}
+
+- (NSString *)setPdString:(NSArray *)arr idArr:(NSArray *)idArr
+{
+    NSMutableString *stw = [[NSMutableString alloc] init];
+    int j = 0;
+    if (idArr)
+    {
+        for (int i = 0; i < idArr.count; i++)
+        {
+            NSString *s = [NSString stringWithFormat:@"%@:%@", [idArr objectAtIndex:i],[arr objectAtIndex:i]];
+            if (i == 0)
+            {
+                [stw appendString:s];
+            }else
+            {
+                
+                [stw appendFormat:@"(;;)%@", s];
+            }
+        }
+        j = idArr.count;
+    }
+    
+    for (; j < arr.count; j++)
+    {
+        NSString *s = [arr objectAtIndex:j];
+        if (j == 0)
+        {
+            [stw appendString:s];
+        }else
+        {
+            
+            [stw appendFormat:@"(;;)%@", s];
+        }
+    }
+    self.pd = stw;
+    return stw;
+}
+
+- (NSString *)setPdString:(NSArray *)arr
+{
+    NSString *stw = [self setPdString:arr idArr:nil];
+    return stw;
 }
 
 @end

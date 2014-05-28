@@ -47,8 +47,15 @@
     [self setTitleViewWithString:@"房源编辑"];
     [self doRequestProp];
     
+    
+    NSString *code = AJK_PPC_RESET_001;
+    if (self.isHaozu)
+    {
+        code = HZ_PPC_RESET_001;
+    }
+    
     //页面可见log
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_RESET_001 note:[NSDictionary dictionaryWithObjectsAndKeys:self.propertyID, @"bp", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:self.propertyID, @"bp", nil]];
     
 }
 
@@ -447,6 +454,7 @@
     if (![self isNetworkOkay]) {
         return;
     }
+    /*
     NSString *code = [NSString string];
     if (self.isHaozu) {
         code = HZ_PPC_RESET_004;
@@ -454,6 +462,7 @@
     else
         code = AJK_PPC_RESET_004;
     [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    */
     
     [self showLoadingActivity:YES];
     
@@ -462,7 +471,15 @@
     NSString *method = nil;
     
     self.saveMessModel.profid = propertyID;
-    self.saveMessModel.pd = self.imgdescArr.count;
+    //整理出imgid 为了 发 applog
+    NSArray *showImgArr = self.roomShowedImgArray;
+    NSMutableArray *idArr = [[NSMutableArray alloc] initWithCapacity:1];
+    for (int i = 0; i < showImgArr.count; i++)
+    {
+        NSString *imgId = [[showImgArr objectAtIndex:i] objectForKey:@"imgId"];
+        [idArr addObject:imgId];
+    }
+    [self.saveMessModel setPdString:self.imgdescArr idArr:idArr];
     
     NSString *code2 = AJK_PPC_RESET_004;
     if (self.isHaozu)
@@ -1075,10 +1092,11 @@
     {
         if (self.isHaozu)
         {
-            pb.bp = HZ_PPC_RESET_001;
+            pb.bp = HZ_PPC_RESET;
             
         }else
         {
+            pb.bp = AJK_PPC_RESET;
             pb.hasTextView = YES; //有照片编辑框
         }
 
