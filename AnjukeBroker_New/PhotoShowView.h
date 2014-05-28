@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, TAKINGPHOTOFROM)
 
 @end
 
-@interface PhotoShowView : UIView
+@interface PhotoShowView : UIView<UIAlertViewDelegate>
 
 @property (nonatomic, assign) id <PhotoViewClickDelegate> clickDelegate;
 @property (nonatomic, strong) NSMutableArray *imgArray;

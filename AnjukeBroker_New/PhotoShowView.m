@@ -11,6 +11,8 @@
 #import "PhotoButton.h"
 #import "BrokerLogger.h"
 #import "Util_TEXT.h"
+#import <AVFoundation/AVCaptureDevice.h>
+#import <AVFoundation/AVMediaFormat.h>
 
 #define TAG_PHOTO_BASE 9900
 
@@ -36,12 +38,22 @@
         [self initModel];
         [self initDisplayWithFrame:frame];
         
-
-
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+            AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+            if (authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您没有开启移动经纪人的相机权限,请前往设置-隐私-相机中设置" delegate:self cancelButtonTitle:nil otherButtonTitles:@"知道了", nil];
+                [alert show];
+            }            
+        }
         
         DLog(@"当前【%d】", self.currentImgCount);
      }
     return self;
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    [self doCancel:nil];
 }
 - (void)setTakingPhoto:(TAKINGPHOTOFROM)takingPhoto{
     NSString *code;
