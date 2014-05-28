@@ -502,10 +502,8 @@
     self.currentIndex = scrollView.contentOffset.x / [self windowWidth];
     self.editDeleteImgIndex = self.currentIndex;
     DLog(@"index [%d]", self.currentIndex);
-    
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_HOUSEIMG_DES_005 note:nil];
     if (self.hasTextView) {
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_HOUSEIMG_DES_005 note:nil];
-        
         if (_imageDescArray) {
             NSString* content = [_imageDescArray objectAtIndex:self.editDeleteImgIndex];
             if (content.length > 0 && ![content isEqualToString:self.placeHolder]) {
