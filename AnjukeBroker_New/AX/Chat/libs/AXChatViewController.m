@@ -2236,6 +2236,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 - (void)showHUDWithTitle:(NSString*)title CustomView:(UIView*)view IsDim:(BOOL)isDim {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.color = [UIColor clearColor];
     self.hud.customView = view;
     self.hud.yOffset = -20;
     self.hud.mode = MBProgressHUDModeCustomView;
