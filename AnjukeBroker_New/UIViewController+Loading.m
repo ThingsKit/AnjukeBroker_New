@@ -30,7 +30,10 @@
 }
 
 - (void)showInfo:(NSString *)info{
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    UIWindow *win = [[UIApplication sharedApplication].windows lastObject];
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:win animated:YES];
     hud.mode = MBProgressHUDModeText;
     hud.labelText = info;
     if ([AppManager isiPhone4Display]) {
