@@ -65,12 +65,9 @@
         
         UISwitch * appLogSw = [[UISwitch alloc] initWithFrame:CGRectMake(250, 15, 30, 20)];
         [appLogSw addTarget:self action:@selector(changeSw:) forControlEvents:UIControlEventValueChanged];
-        appLogSw.on = [self returnAppLogAlertStatus];
+        appLogSw.on = NO;
         appLogSw.tag = 100;
         [cell.contentView addSubview:appLogSw];
-        
-        NSDictionary *dic  = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:[self returnAppLogAlertStatus]],@"logShowMode", nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"QACommandChangeLogShowMode" object:nil userInfo:dic];
         
         cell.accessoryView = appLogSw;
     }else if (indexPath.row == 2){
@@ -94,27 +91,32 @@
 
 }
 - (void)changeSw:(id)sender{
-    if ([self returnAppLogAlertStatus]) {
-        [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"appLogAlert"];
-        
-        NSDictionary *dic  = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"logShowMode", nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"QACommandChangeLogShowMode" object:nil userInfo:dic];
-    }else{
-        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"appLogAlert"];
-
+    UISwitch * ws = (UISwitch *)[self.view viewWithTag:100];
+    if (ws.on) {
         NSDictionary *dic  = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"logShowMode", nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"QACommandChangeLogShowMode" object:nil userInfo:dic];
+    }else{
+        NSDictionary *dic  = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"logShowMode", nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"QACommandChangeLogShowMode" object:nil userInfo:dic];
     }
+//    if ([self returnAppLogAlertStatus]) {
+//        [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"appLogAlert"];
+//        
+//    }else{
+//        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"appLogAlert"];
+//
+//
+//    }
 }
 
-- (BOOL)returnAppLogAlertStatus{
-    NSUserDefaults *UD = [NSUserDefaults standardUserDefaults];
-    if ([UD objectForKey:@"appLogAlert"] && [[UD objectForKey:@"appLogAlert"] isEqualToString:@"1"]) {
-        return YES;
-    }else{
-        return NO;
-    }
-}
+//- (BOOL)returnAppLogAlertStatus{
+//    NSUserDefaults *UD = [NSUserDefaults standardUserDefaults];
+//    if ([UD objectForKey:@"appLogAlert"] && [[UD objectForKey:@"appLogAlert"] isEqualToString:@"1"]) {
+//        return YES;
+//    }else{
+//        return NO;
+//    }
+//}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
         LocationSpecifyViewController* viewController = [[LocationSpecifyViewController alloc] init];

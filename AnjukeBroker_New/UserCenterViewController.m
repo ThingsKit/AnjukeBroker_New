@@ -48,9 +48,9 @@
     return self;
 }
 #pragma mark - log
-- (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-}
+//- (void)sendAppearLog {
+//    [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+//}
 
 //- (void)sendDisAppearLog {
 //    [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
@@ -58,6 +58,8 @@
 #pragma mark - view
 
 - (void)viewWillAppear:(BOOL)animated{
+    [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+
     self.navigationController.navigationBarHidden = YES;
     
     if (self.userCenterModel == nil) {
