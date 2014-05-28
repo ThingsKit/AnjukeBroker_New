@@ -163,7 +163,7 @@
 
 - (void)initModel {
     self.isAJK = YES;
-    self.taskArray = [NSMutableArray arrayWithObjects:@"定价房源", @"竞价房源", @"待推广房源", nil];
+    self.taskArray = [NSMutableArray arrayWithObjects:@"推广房源", @"竞价房源", @"待推广房源", nil];
     self.hzDataDic = [NSMutableDictionary dictionary];
     self.ajkDataDic = [NSMutableDictionary dictionary];
     
@@ -617,7 +617,7 @@
     self.isCurrentHZ = NO;
     [self.taskArray removeAllObjects];
     for (NSDictionary *tempDic in [self.ajkDataDic objectForKey:@"ajkFixHouse"]) {
-        NSString *fixedStr = [NSString stringWithFormat:@"%@(%@)",[tempDic objectForKey:@"fixName"], [tempDic objectForKey:@"fixNum"]];
+        NSString *fixedStr = [NSString stringWithFormat:@"%@(%@)", @"推广房源", [tempDic objectForKey:@"fixNum"]];
         [self.taskArray addObject:fixedStr];
     }
     if ([self.taskArray count] == 1) {
@@ -636,7 +636,7 @@
     self.isCurrentHZ = YES;
     [self.taskArray removeAllObjects];
     for (NSDictionary *tempDic in [self.hzDataDic objectForKey:@"hzFixHouse"]) {
-        NSString *fixedStr = [NSString stringWithFormat:@"%@(%@)",[tempDic objectForKey:@"fixName"], [tempDic objectForKey:@"fixNum"]];
+        NSString *fixedStr = [NSString stringWithFormat:@"%@(%@)", @"推广房源", [tempDic objectForKey:@"fixNum"]];
         [self.taskArray addObject:fixedStr];
     }
     if ([self.taskArray count] == 1) {
