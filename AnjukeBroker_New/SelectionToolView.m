@@ -43,7 +43,7 @@
 //        ajkBut.backgroundColor = [UIColor redColor];
 //        ajkBut.titleLabel.textAlignment = NSTextAlignmentLeft;
 //        ajkBut.titleLabel.font = [UIFont systemFontOfSize:15.0f];
-        [ajkBut addTarget:self action:@selector(ajkClick:) forControlEvents:UIControlEventTouchUpInside];
+        [ajkBut addTarget:self action:@selector(ajkClick:) forControlEvents:UIControlEventTouchDown];
         [self addSubview:ajkBut];
         
         UILabel *hzLab = [[UILabel alloc] initWithFrame:CGRectMake(38, 63, 50, 30)];
@@ -56,12 +56,12 @@
         
         UIButton *haozuBut = [UIButton buttonWithType:UIButtonTypeCustom];
         haozuBut.frame = CGRectMake(0, 55, 110, 45);
-        haozuBut.backgroundColor = [UIColor clearColor];
+        haozuBut.backgroundColor = [UIColor redColor];
 //        haozuBut.titleLabel.font = [UIFont systemFontOfSize:15.0f];
 //        haozuBut.titleLabel.textAlignment = NSTextAlignmentLeft;
 //        [haozuBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 //        [haozuBut setTitle:@"发租房" forState:UIControlStateNormal];
-        [haozuBut addTarget:self action:@selector(haozuClick:) forControlEvents:UIControlEventTouchUpInside];
+        [haozuBut addTarget:self action:@selector(haozuClick:) forControlEvents:UIControlEventTouchDown];
         [self addSubview:haozuBut];
         
     }

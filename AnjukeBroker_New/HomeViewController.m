@@ -152,10 +152,10 @@
 }
 
 - (void)initSelectionView {
-    SelectionToolView *selectionView = [[SelectionToolView alloc] initWithFrame:CGRectMake(210, 3, 100, 80)];
-    selectionView.delegate = self;
-    [self.view addSubview:selectionView];
-    self.selectionView = selectionView;
+    SelectionToolView *_selectView = [[SelectionToolView alloc] initWithFrame:CGRectMake(200, 3, 110, 100)];
+    _selectView.delegate = self;
+    self.selectionView = _selectView;
+    [self.view addSubview:self.selectionView];
     self.selectionView.hidden = YES;
     self.selectionView.alpha = 0.5;
     self.selectionView.transform = CGAffineTransformMakeScale(0, 0);
@@ -281,7 +281,7 @@
         self.shadeControl.alpha = 0.4;
         self.selectionView.alpha = 1;
         self.selectionView.transform = CGAffineTransformIdentity;
-        self.selectionView.frame = CGRectMake(200, 5, 100, 80);
+        self.selectionView.frame = CGRectMake(200, 3, 110, 100);
     } completion:^(BOOL finished) {
         
     }];
@@ -292,7 +292,7 @@
         self.shadeControl.alpha = 0;
         self.selectionView.alpha = 0;
         self.selectionView.transform = CGAffineTransformMakeScale(0, 0);
-        self.selectionView.frame = CGRectMake(200, 5, 100, 80);
+        self.selectionView.frame = CGRectMake(200, 3, 110, 100);
     } completion:^(BOOL finished) {
         self.selectionView.hidden = YES;
         self.shadeControl.hidden = YES;

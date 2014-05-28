@@ -228,8 +228,6 @@
 
 - (void)rightButtonAction:(id)sender {
     [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_EDIT_003 note:nil];
-    [self showLoadingActivity:YES];
-    [self requestData];
     [self textInputDisappear];
     if (![self checkInputOK]) {
         return;
@@ -262,6 +260,8 @@
     [[AXChatMessageCenter defaultMessageCenter] updatePerson:self.person];
     DLog(@"--name[%@] ---tel[%@] ---message[%@]", self.nameTextF.text, self.telTextF.text, self.messageTextV.text);
     
+    [self showLoadingActivity:YES];
+    [self requestData];
 }
 
 - (void)requestData {
