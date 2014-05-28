@@ -131,7 +131,7 @@
         [CrashLogUtil writeCrashLog];
     });
     
-    [self showPushMessageCount];
+//    [self showPushMessageCount];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -329,23 +329,21 @@
 #pragma mark -
 #pragma mark Push Message Notification
 - (void)showPushMessageCount{
-    long unReadMessage = [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
-    int count = [UIApplication sharedApplication].applicationIconBadgeNumber - unReadMessage;
-    
-    if (count > 0) {
-        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", count]];
-        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-        [dis setDiscoverBadgeValue:count];
-    }
-    
-    
-//    self.propertyPushCount++;  //计数器自增1
+//    long unReadMessage = [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
+//    int count = [UIApplication sharedApplication].applicationIconBadgeNumber - unReadMessage;
 //    
-//    [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
-//    RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-//    DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-//    [dis setDiscoverBadgeValue:self.propertyPushCount];
+//    if (count > 0) {
+//        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", count]];
+//        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+//        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+//        [dis setDiscoverBadgeValue:count];
+//    }
+    self.propertyPushCount++;  //计数器自增1
+    
+    [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
+    RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+    DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+    [dis setDiscoverBadgeValue:self.propertyPushCount];
     
 }
 
