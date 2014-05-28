@@ -40,6 +40,8 @@ typedef enum {
 @property (nonatomic, copy) NSString *updateUrl; //升级url
 @property (nonatomic, strong) VersionUpdateManager *versionUpdate;
 
+@property (nonatomic, assign) NSInteger propertyUnreadCount;
+
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 

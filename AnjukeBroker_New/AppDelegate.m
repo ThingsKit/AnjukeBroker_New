@@ -307,13 +307,16 @@
     NSString* msgType = [[userInfo objectForKey:@"anjuke_custom"] objectForKey:@"msgType"];
     
     if ([@"push" isEqualToString:msgType]) {
-        DiscoverViewController* disc = [[DiscoverViewController alloc] init];
-        disc.propertyBadgeNumber++; //badge 数字加1
+        self.propertyUnreadCount++; //房源消息未读数自增
 
         [UIApplication sharedApplication].applicationIconBadgeNumber++; //应用程序计数器自加
 
-        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", disc.propertyBadgeNumber]]; //tabbarItem 的badge计数器
+        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyUnreadCount]]; //tabbarItem 的badge计数器
 
+        //设置抢房源委托后的badge
+        DiscoverViewController* disc = [[DiscoverViewController alloc] init];
+        [disc setBadgeValue:self.propertyUnreadCount];
+        
         //NSLog(@"弹出模态视图");
         RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
         viewController.backType = RTSelectorBackTypeDismiss;
