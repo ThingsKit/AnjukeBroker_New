@@ -66,23 +66,7 @@
         self.cb = [[CheckoutButton alloc] init];
         cb.checkoutDelegate = self;
         
-        self.checkTimeArr = [[NSArray alloc] initWithArray:[LoginManager getCheckTimeArr]];
-        self.signMile = [NSString stringWithFormat:@"%@",[LoginManager getSignMile]];
-
-        //获取签到cell状态
-        self.checkCellStatusArr = [[NSMutableArray alloc] init];
-        [self.checkCellStatusArr addObject:[NSNumber numberWithInt:CHECKOUTCELLWITHELSE]];
-        
-        NSArray *timeAreaArr = [[NSArray alloc] initWithArray:[LoginManager getCheckTimeArr]];
-        for (int i = 0; i < timeAreaArr.count; i++) {
-            [self.checkCellStatusArr addObject:[NSNumber numberWithInt:CHECKOUTCELLWITHNOCHECK]];
-        }
-        [self.checkCellStatusArr addObject:[NSNumber numberWithInt:CHECKOUTCELLWITHELSE]];
-        
-        //如果配置文件中，时间段信息无，则隐藏签到活动
-        if (timeAreaArr.count == 0) {
-            self.hideCheck = YES;
-        }
+        [self getCellStatus];
 
         
 //        self.checkCellStatusArr = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:CHECKOUTCELLWITHELSE],[NSNumber numberWithInt:CHECKOUTCELLWITHNOCHECK],[NSNumber numberWithInt:CHECKOUTCELLWITHNOCHECK],[NSNumber numberWithInt:CHECKOUTCELLWITHNOCHECK],[NSNumber numberWithInt:CHECKOUTCELLWITHELSE], nil];
@@ -93,6 +77,26 @@
         }];
     }
     return self;
+}
+- (void)getCellStatus{
+    self.checkTimeArr = [[NSArray alloc] initWithArray:[LoginManager getCheckTimeArr]];
+    self.signMile = [NSString stringWithFormat:@"%@",[LoginManager getSignMile]];
+    
+    //获取签到cell状态
+    self.checkCellStatusArr = [[NSMutableArray alloc] init];
+    [self.checkCellStatusArr addObject:[NSNumber numberWithInt:CHECKOUTCELLWITHELSE]];
+    
+    NSArray *timeAreaArr = [[NSArray alloc] initWithArray:[LoginManager getCheckTimeArr]];
+    for (int i = 0; i < timeAreaArr.count; i++) {
+        [self.checkCellStatusArr addObject:[NSNumber numberWithInt:CHECKOUTCELLWITHNOCHECK]];
+    }
+    [self.checkCellStatusArr addObject:[NSNumber numberWithInt:CHECKOUTCELLWITHELSE]];
+
+    
+    //如果配置文件中，时间段信息无，则隐藏签到活动
+    if (timeAreaArr.count == 0) {
+        self.hideCheck = YES;
+    }
 }
 - (void)dealloc{
     self.cb.checkoutDelegate = nil;
@@ -226,6 +230,7 @@
     }
     [[NSUserDefaults standardUserDefaults] setValue:checkTimesArr forKey:@"checkTimeArr"];
     
+    [self getCellStatus];
     
     self.checkInfoModel = [CheckInfoWithCommunity convertToMappedObject:dic];
 
