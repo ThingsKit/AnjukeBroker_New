@@ -337,6 +337,7 @@
         if (self.tableView.data.count == 0) {
             self.tableView.tableHeaderView = self.leftEmptyBackgroundView;
             self.tableView.tableHeaderView.hidden = NO;
+            self.tableView.hasMore = NO;
         }else{
             self.tableView.tableHeaderView.hidden = YES;
         }
@@ -345,6 +346,7 @@
         if (self.myTableView.data.count == 0) {
             self.myTableView.tableHeaderView = self.rightEmptyBackgroundView;
             self.myTableView.tableHeaderView.hidden = NO;
+            self.myTableView.hasMore = NO;
         }else{
             self.myTableView.tableHeaderView.hidden = YES;
         }
