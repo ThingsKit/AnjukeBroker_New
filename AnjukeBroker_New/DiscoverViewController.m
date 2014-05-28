@@ -141,9 +141,9 @@
 }
 
 - (void)setBadgeValue:(NSInteger) unReadCount{
-    if (unReadCount > 0 && self.badgeNumberLabel) {
+    if (unReadCount > 0 && self.badgeView) {
         self.badgeNumberLabel.text = [NSString stringWithFormat:@"%d", unReadCount];
-        self.badgeNumberLabel.hidden = NO;
+        self.badgeView.hidden = NO;
     }
     
 }
