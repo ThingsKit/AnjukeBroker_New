@@ -296,7 +296,7 @@
 
     if ([dic[@"status"] isEqualToString:@"ok"]) {
         //签到成功后UI处理
-        [[HUDNews sharedHUDNEWS] createHUD:@"签到成功" hudTitleTwo:[NSString stringWithFormat:@"第%@位签到者",[[dic objectForKey:@"data"] objectForKey:@"signRank"]] addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHCHECKOK];
+        [[HUDNews sharedHUDNEWS] createHUD:@"签到成功" hudTitleTwo:[NSString stringWithFormat:@"本时段第%@位签到者",[[dic objectForKey:@"data"] objectForKey:@"signRank"]] addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHCHECKOK];
         [self showCheckButton:CHECKBUTTONWITHCOUNTDOWN timeLeft:[[[dic objectForKey:@"data"] objectForKey:@"countDown"] intValue]];
         
         [self doRequest];

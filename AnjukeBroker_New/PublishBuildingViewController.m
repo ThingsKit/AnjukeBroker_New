@@ -424,7 +424,7 @@ typedef enum {
         [[[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_ORIENTATION] text_Field] setText:_DEFULT_TITLE_EXPOSURE];
         int orientationIndex = [PublishDataModel getFitmentIndexWithTitle:_DEFULT_TITLE_EXPOSURE forHaozu:self.isHaozu];
         NSString *orientationValue = [PublishDataModel getFitmentVauleWithTitle:_DEFULT_TITLE_EXPOSURE forHaozu:self.isHaozu];
-        self.property.fitment = orientationValue;
+        self.property.exposure = orientationValue;
         
         [[[self.cellDataSource inputCellArray] objectAtIndex:HZ_PICKER_ORIENTATION] setInputed_RowAtCom0:orientationIndex];
     }
