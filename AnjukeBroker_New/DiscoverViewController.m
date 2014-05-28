@@ -14,6 +14,7 @@
 #import "BK_RTNavigationController.h"
 #import "RTListCell.h"
 #import "AppDelegate.h"
+#import "RTGestureBackNavigationController.h"
 
 @interface DiscoverViewController ()
 
@@ -166,6 +167,12 @@
     }else if(indexPath.row == 2){
         NSLog(@"抢房源委托");
         self.badgeView.hidden = YES; //消除badge
+        
+        AppDelegate* delegate = [AppDelegate sharedAppDelegate];
+        delegate.propertyPushCount = 0;
+        RTGestureBackNavigationController* navi = [delegate.tabController.controllerArrays objectAtIndex:3];
+        navi.tabBarItem.badgeValue = nil;
+        
         [[BrokerLogger sharedInstance] logWithActionCode:FIND_PAGE_005 note:nil];
         RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
         [viewController setHidesBottomBarWhenPushed:YES];

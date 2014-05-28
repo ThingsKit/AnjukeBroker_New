@@ -162,10 +162,10 @@
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    if (self.selectedIndex == 3) {
-        _navDis.tabBarItem.badgeValue = nil;
-        [AppDelegate sharedAppDelegate].propertyPushCount = 0;
-    }
+//    if (self.selectedIndex == 3) {
+//        _navDis.tabBarItem.badgeValue = nil;
+//        [AppDelegate sharedAppDelegate].propertyPushCount = 0;
+//    }
     DLog(@"class ---aaa--- %@", [viewController class]);
 }
 
