@@ -204,7 +204,7 @@
         }
     }else{ //如果当前网络不通
         //        [viewController displayHUDWithStatus:nil Message:nil ErrCode:nil];  //使用自定义的浮层显示网络不良
-        [self setButtonAble];
+        self.button.enabled = YES;
         
     }
     
@@ -239,10 +239,10 @@
         NSString* errcode = [response.content objectForKey:@"errcode"];
 //        NSString* errcode = @"5003"; //测试用
 //        status = @"ok";
+        self.button.enabled = YES;
         
         if ([status isEqualToString:@"ok"]) {
             //删除当前cell, 将其添加到myPropertyList中, 但其实不需要添加, 因为myPropertyList每次都自动请求最新的(点击tab, 自动下拉)
-            
             //播放飞入动画
             UIImageView* snapshot = [[UIImageView alloc] initWithImage:[self capture]];
             snapshot.frame = CGRectMake(0, self.bottom - 20, snapshot.width, snapshot.height);
