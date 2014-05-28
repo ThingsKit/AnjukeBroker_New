@@ -38,6 +38,7 @@
     [self setTitleViewWithString:@"发现"];
     // Do any additional setup after loading the view.
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) style:UITableViewStylePlain];
+    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
     
@@ -79,6 +80,8 @@
         cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.textLabel.backgroundColor = [UIColor clearColor];
     cell.textLabel.font = [UIFont ajkH2Font];
     if (indexPath.row == 0) {
         cell.textLabel.text = @"市场分析";

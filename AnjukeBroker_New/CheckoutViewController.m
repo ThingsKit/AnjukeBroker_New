@@ -215,6 +215,18 @@
     }
     
     NSDictionary *dic = [[response content] objectForKey:@"data"];
+    
+//    NSArray *timeAreaArr = [[NSArray alloc] initWithArray:[LoginManager getCheckTimeArr]];
+//    [[NSUserDefaults standardUserDefaults] setValue:checkTimeArr forKey:@"checkTimeArr"];
+    
+    NSArray *arr = [NSArray arrayWithArray:[dic objectForKey:@"signList"]];
+    NSMutableArray *checkTimesArr = [[NSMutableArray alloc] init];
+    for (int i = 0; i < arr.count; i++) {
+        [checkTimesArr addObject:[[arr objectAtIndex:i] objectForKey:@"hour"]];
+    }
+    [[NSUserDefaults standardUserDefaults] setValue:checkTimesArr forKey:@"checkTimeArr"];
+    
+    
     self.checkInfoModel = [CheckInfoWithCommunity convertToMappedObject:dic];
 
     if (self.checkInfoModel.signList.count == 0) {

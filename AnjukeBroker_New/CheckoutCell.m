@@ -41,11 +41,6 @@
     NSArray *timeAreaArr = [[NSArray alloc] initWithArray:[LoginManager getCheckTimeArr]];
 
     if (dataModel == nil) {
-        NSArray *timeAreaArr = [[NSArray alloc] initWithArray:[LoginManager getCheckTimeArr]];
-//        if (timeAreaArr.count == 0) {
-//            timeAreaArr = @[@"10:00",@"11:00",@"12:00"];            
-//        }
-//        DLog(@"timeAreaArr-->>%@",timeAreaArr);
         if (index > 0 && index < timeAreaArr.count + 1) {
             timeSection =  [timeAreaArr objectAtIndex:index-1];
         }
