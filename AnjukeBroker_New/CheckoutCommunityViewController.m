@@ -231,6 +231,8 @@
     DLog(@"self.tablaData-->>%@",self.tablaData);
     if (self.tablaData.count == 0) {
         [self.tableList setTableStatus:STATUSFORNODATA];
+    }else{
+        [self.tableList setTableStatus:STATUSFOROK];
     }
     [self donePullDown];
     [self.tableList reloadData];
