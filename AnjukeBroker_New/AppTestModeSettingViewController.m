@@ -69,8 +69,25 @@
         appLogSw.tag = 100;
         [cell.contentView addSubview:appLogSw];
         
+        NSDictionary *dic  = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:[self returnAppLogAlertStatus]],@"logShowMode", nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"QACommandChangeLogShowMode" object:nil userInfo:dic];
+        
         cell.accessoryView = appLogSw;
-
+    }else if (indexPath.row == 2){
+        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 200, 12)];
+        lab.text = @"Device Token";
+        lab.font = [UIFont ajkH5Font];
+        [cell.contentView addSubview:lab];
+        
+        UILabel *tokenLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, 290, 30)];
+        tokenLab.font = [UIFont ajkH5Font];
+        tokenLab.numberOfLines = 0;
+        tokenLab.lineBreakMode = UILineBreakModeWordWrap;
+        NSString *token = [[NSUserDefaults standardUserDefaults] valueForKey:USER_DEFAULT_KEY_DEVICE_TOKEN];
+        if (token.length > 0 && ![token isKindOfClass:[NSNull class]]) {
+            tokenLab.text = token;
+        }
+        [cell.contentView addSubview:tokenLab];
     }
     
     return cell;
@@ -105,12 +122,6 @@
         BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController: viewController];
         [self.navigationController presentViewController:navi animated:YES completion:nil];
     }else if (indexPath.row == 1){
-//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(qaLogShowModeRequest:) name:@"QACommandChangeLogShowMode" object:nil];
-//        
-//        - (void)qaLogShowModeRequest:(NSNotification *)notification{
-//            self.logModeShowAlert = [[notification.userInfo objectForKey:@"logShowMode"] boolValue];
-//        }
-
     }
 }
 - (void)didReceiveMemoryWarning
