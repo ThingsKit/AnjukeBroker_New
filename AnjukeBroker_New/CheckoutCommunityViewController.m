@@ -72,7 +72,12 @@
     [self setTitleViewWithString:@"小区签到"];
     // Do any additional setup after loading the view.
     
-    [self initUI];
+    if ([self isNetworkOkay]) { //如果当前网络ok
+        [self initUI];
+    }else{
+        
+    }
+    
 }
 - (void)initUI{
     self.map = [[MKMapView alloc] initWithFrame:CGRectZero];
@@ -127,10 +132,13 @@
     
     [self autoPullDown];
 }
+
 - (void)doBack:(id)sender{
     [super doBack:nil];
     [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_006 note:nil];
+    
 }
+
 - (void)rightButtonAction:(id)sender{
     [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_007 note:nil];
     CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
