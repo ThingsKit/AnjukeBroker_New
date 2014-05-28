@@ -27,6 +27,7 @@
 #import "HomeViewController.h"
 #import "RushPropertyViewController.h"
 #import "DiscoverViewController.h"
+#import "RTGestureBackNavigationController.h"
 
 #import "CrashLogUtil.h"
 
@@ -71,6 +72,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showNewMessageCountForTab) name:MessageCenterDidReceiveNewMessage object:nil];
     //监听被踢出下线通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doLogOutEnforce) name:@"MessageCenterUserDidQuit" object:nil];
+    
+    //监听push
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPushMessageCount) name:kMessageCenterReceiveNewPush object:nil];
     
     self.versionUpdate = [[VersionUpdateManager alloc] init];
     [self.versionUpdate checkVersion:YES];
@@ -302,31 +306,35 @@
     
     if (application.applicationState == UIApplicationStateInactive) {
         DLog(@"userInfo [%@]", userInfo);
+        NSString* msgType = [[userInfo objectForKey:@"anjuke_custom"] objectForKey:@"msgType"];
+        if ([@"push" isEqualToString:msgType]) {
+            
+            [self showPushMessageCount];
+            
+            //NSLog(@"弹出模态视图");
+            RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
+            viewController.backType = RTSelectorBackTypeDismiss;
+            [viewController setHidesBottomBarWhenPushed:YES];
+            BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:viewController];
+            [self.window.rootViewController presentViewController:navi animated:YES completion:nil];
+        }
     }
-    
-    NSString* msgType = [[userInfo objectForKey:@"anjuke_custom"] objectForKey:@"msgType"];
-    
-    if ([@"push" isEqualToString:msgType]) {
-        self.propertyUnreadCount++; //房源消息未读数自增
-
-        [UIApplication sharedApplication].applicationIconBadgeNumber++; //应用程序计数器自加
-
-        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyUnreadCount]]; //tabbarItem 的badge计数器
-
-        //设置抢房源委托后的badge
-        DiscoverViewController* disc = [[DiscoverViewController alloc] init];
-        [disc setBadgeValue:self.propertyUnreadCount];
-        
-        //NSLog(@"弹出模态视图");
-        RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
-        viewController.backType = RTSelectorBackTypeDismiss;
-        [viewController setHidesBottomBarWhenPushed:YES];
-        BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:viewController];
-        [self.window.rootViewController presentViewController:navi animated:YES completion:nil];
-    }
-    
     
 }
+
+
+#pragma mark -
+#pragma mark Push Message Notification
+- (void)showPushMessageCount{
+    self.propertyPushCount++;  //计数器自增1
+    
+    [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
+    RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+    DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+    [dis setDiscoverBadgeValue:self.propertyPushCount];
+    
+}
+
 
 - (void)registerNotificationFinish:(RTNetworkResponse *)response{
     DLog(@"registerNotificationFinish %@", response.content);

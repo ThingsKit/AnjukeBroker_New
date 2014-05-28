@@ -12,6 +12,7 @@
 #import "AXMappedConversationListItem.h"
 
 //Notification
+static NSString * const kMessageCenterReceiveNewPush = @"kMessageCenterReceiveNewPushMessage";
 static NSString * const MessageCenterDidReceiveLastUpdataFriendList = @"MessageCenterDidReceiveFriendList";
 static NSString * const MessageCenterDidReceiveLastUpdataMyInformation = @"MessageCenterDidReceiveLastUpdataMyInformation";
 static NSString * const MessageCenterDidReceiveLastUpdataFriendInformation = @"MessageCenterDidReceiveLastUpdataFriendInformation";

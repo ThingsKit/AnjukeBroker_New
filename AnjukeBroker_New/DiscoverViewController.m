@@ -110,7 +110,7 @@
             self.badgeView.layer.cornerRadius = 9.0f;
             self.badgeView.layer.masksToBounds = YES;
             
-            int count = [AppDelegate sharedAppDelegate].propertyUnreadCount;
+            int count = [AppDelegate sharedAppDelegate].propertyPushCount;
             
             if (count > 10) {
                 self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(2.5f, -1.5f, 20, 20)];
@@ -133,17 +133,16 @@
         
         
     }
-//    else if(indexPath.row == 3){
-//        cell.textLabel.text = @"模态Property";
-//    }
     
     return cell;
 }
 
-- (void)setBadgeValue:(NSInteger) unReadCount{
+- (void)setDiscoverBadgeValue:(NSInteger) unReadCount{
     if (unReadCount > 0 && self.badgeView) {
         self.badgeNumberLabel.text = [NSString stringWithFormat:@"%d", unReadCount];
         self.badgeView.hidden = NO;
+        
+        [self.tableView reloadData];
     }
     
 }

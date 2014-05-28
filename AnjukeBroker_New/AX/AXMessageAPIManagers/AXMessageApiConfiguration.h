@@ -44,7 +44,8 @@ typedef NS_ENUM(NSUInteger, AXMessageAPILongLinkSignal)
     AXMessageAPILongLinkSignalSelfClose,
     AXMessageAPILongLinkSignalTimeOut,
     AXMessageAPILongLinkSignalQuit, //被T出
-    AXMessageAPILongLinkSignalHasNewMessage //有新消息
+    AXMessageAPILongLinkSignalHasNewMessage, //有新消息
+    AXMessageAPILongLinkSignalHasNewPush
 };
 
 typedef NS_ENUM(NSUInteger, AXMessageAPILongLinkUserType)

@@ -1356,6 +1356,9 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     if (signal == AXMessageAPILongLinkSignalInited) {
         [self longLinkDidInitedWithUserType:userType userId:userId userInfo:userInfo];
     }
+    if (signal == AXMessageAPILongLinkSignalHasNewPush) {
+        [self longLinkDidHasNewPushWithUserType:userType userId:userId userInfo:userInfo];
+    }
 }
 
 #pragma mark - long link signal response private methods
@@ -1411,6 +1414,12 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     }
 }
 
+- (void)longLinkDidHasNewPushWithUserType:(AXMessageAPILongLinkUserType)userType userId:(NSString *)userId userInfo:(NSDictionary *)userInfo
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:kMessageCenterReceiveNewPush object:nil];
+    });
+}
 - (void)postConnectionStatusNotificationWithStatus:(AXMessageCenterStatus)status
 {
     dispatch_async(dispatch_get_main_queue(), ^{

@@ -13,6 +13,6 @@
 @property (nonatomic, strong) UIImageView* badgeView;
 @property (nonatomic, strong) UILabel* badgeNumberLabel;
 
-- (void)setBadgeValue:(NSInteger) unReadCount;
+- (void)setDiscoverBadgeValue:(NSInteger) unReadCount;
 
 @end
