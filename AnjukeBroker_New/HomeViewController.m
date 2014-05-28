@@ -597,7 +597,7 @@
         if (self.segment.selectedSegmentIndex == 0) {
             [self uploadAJKTableData];
         }else {
-            [self showNodataVeiw];
+            [self uploadHZTableData];
         }
 //        [self didSelectedIndex:self.segment.selectedSegmentIndex];
     } else {

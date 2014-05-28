@@ -18,6 +18,8 @@
 #import "ClientDetailPublicViewController.h"
 #import "AXNotificationTutorialViewController.h"
 #import "RTGestureBackNavigationController.h"
+#import <AVFoundation/AVCaptureDevice.h>
+#import <AVFoundation/AVMediaFormat.h>
 //#import "AXIMGDownloader.h"
 
 @interface BrokerChatViewController ()
@@ -165,7 +167,15 @@
 
 - (void)takePic:(id)sender {
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_005 note:nil];
-    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+        if (authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您没有开启移动经纪人的相机权限,请前往设置-隐私-相机中设置" delegate:self cancelButtonTitle:nil otherButtonTitles:@"知道了", nil];
+            [alert show];
+        }
+        return;
+    }
     UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
     ipc.sourceType = UIImagePickerControllerSourceTypeCamera; //拍照
     ipc.delegate = self;
