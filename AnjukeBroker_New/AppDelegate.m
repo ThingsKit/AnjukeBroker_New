@@ -131,14 +131,14 @@
         [CrashLogUtil writeCrashLog];
     });
     
-//    int count = [UIApplication sharedApplication].applicationIconBadgeNumber - [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
-//    
-//    if (count > 0) {
-//        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", count]];
-//        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-//        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-//        [dis setDiscoverBadgeValue:count];
-//    }
+    int count = [UIApplication sharedApplication].applicationIconBadgeNumber - [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
+    
+    if (count > 0) {
+        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", count]];
+        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+        [dis setDiscoverBadgeValue:count];
+    }
     
 }
 
@@ -309,7 +309,8 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
     
-    [self cleanRemoteNotification:application];
+    self.unReadPushCount = application.applicationIconBadgeNumber; //清0前先赋值
+//    [self cleanRemoteNotification:application];
     
 //    userInfo
 //    {"aps":{"alert":"爱好世界和平","badge":6,"sound":"布谷鸟.caf","newID":"4987", "other":"钓鱼岛是我们中国的",}}
