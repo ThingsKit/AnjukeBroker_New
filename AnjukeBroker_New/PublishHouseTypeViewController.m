@@ -597,6 +597,9 @@
         //模态弹出图片播放器
         PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
         pb.clickDelegate = self;
+        
+        pb.bp = AJK_PPC_RESET;
+        
         RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
         navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         [self.navigationController presentViewController:navController animated:YES completion:^(void) {

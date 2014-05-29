@@ -54,8 +54,12 @@
         code = HZ_PPC_RESET_001;
     }
     
+    if (!self.pdId) {
+        self.pdId = @"";
+    }
+    
     //页面可见log
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:self.propertyID, @"bp", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:self.pdId, @"bp", nil]];
     
 }
 
@@ -1081,7 +1085,7 @@
     pb.backType = RTSelectorBackTypeDismiss;
     pb.imageDescArray = self.imgdescArr;
     pb.clickDelegate = self;
-    pb.bp = AJK_PPC_RESET_001;
+    pb.bp = AJK_PPC_RESET;
     if (!sender.isHouseType)
     {
         self.footClickType = 1;

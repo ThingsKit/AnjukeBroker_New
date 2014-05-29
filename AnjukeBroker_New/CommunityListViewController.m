@@ -375,6 +375,14 @@
             //没有历史记录，使用附近小区list
             self.listDataArray = [[[response content] objectForKey:@"data"] objectForKey:@"nearby"];
             self.listType = DataTypeNearby;
+            if (!self.isHaouzu)
+            {
+                [[BrokerLogger sharedInstance] logWithActionCode:AJK_COMMUNITY_006 note:nil];
+            }else
+            {
+                [[BrokerLogger sharedInstance] logWithActionCode:HZ_COMMUNITY_006 note:nil];
+            }
+            
         }
         else {
             self.listDataArray = [NSMutableArray arrayWithArray:hisArr];

@@ -18,6 +18,16 @@
 
 @synthesize fxa,fxo,pd,profid,sna,snc,st,stDa;
 
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+        stDa = [NSDate date];
+    }
+    return self;
+}
+
 - (NSString *)st
 {
     if (!st || st.length == 0)
