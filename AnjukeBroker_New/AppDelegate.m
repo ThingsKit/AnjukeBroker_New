@@ -131,14 +131,14 @@
         [CrashLogUtil writeCrashLog];
     });
     
-    int count = [UIApplication sharedApplication].applicationIconBadgeNumber - [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
+    int count = self.unReadPushCount - [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
     
-    if (count > 0) {
+//    if (count > 0) {
         [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", count]];
         RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
         DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
         [dis setDiscoverBadgeValue:count];
-    }
+//    }
     
 }
 
@@ -310,7 +310,7 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
     
     self.unReadPushCount = application.applicationIconBadgeNumber; //清0前先赋值
-//    [self cleanRemoteNotification:application];
+    [self cleanRemoteNotification:application];
     
 //    userInfo
 //    {"aps":{"alert":"爱好世界和平","badge":6,"sound":"布谷鸟.caf","newID":"4987", "other":"钓鱼岛是我们中国的",}}
@@ -321,19 +321,22 @@
         if ([@"push" isEqualToString:msgType]) {
             
             [self showPushMessageCount];
-            
-            //NSLog(@"弹出模态视图");
-            RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
-            viewController.backType = RTSelectorBackTypeDismiss;
-            [viewController setHidesBottomBarWhenPushed:YES];
-            BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:viewController];
-            if (self.tabController) {
-                [self.tabController presentViewController:navi animated:YES completion:nil];
-            }else if(self.window){
-                [self.window.rootViewController presentViewController:navi animated:YES completion:nil];
-            }
-            
-            [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_001 note:@{@"push":@"push"}];
+            __block AppDelegate* delegate = self;
+            dispatch_after(2.0, dispatch_get_main_queue(), ^{
+                //NSLog(@"弹出模态视图");
+                RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
+                viewController.backType = RTSelectorBackTypeDismiss;
+                [viewController setHidesBottomBarWhenPushed:YES];
+                BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:viewController];
+                if (delegate.tabController) {
+                    [delegate.tabController presentViewController:navi animated:YES completion:nil];
+                }else if(delegate.window){
+                    [delegate.window.rootViewController presentViewController:navi animated:YES completion:nil];
+                }
+                
+                [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_001 note:@{@"push":@"push"}];
+                
+            });
         }
     }
     
