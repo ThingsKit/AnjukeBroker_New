@@ -62,7 +62,11 @@
     [_bannerView addSubview:self.userHeaderView];
     
     BK_WebImageView *userAvatar = [[BK_WebImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
-    userAvatar.imageUrl = [LoginManager getUse_photo_url];
+    if (![LoginManager getUse_photo_url] || [LoginManager getUse_photo_url].length == 0) {
+        [userAvatar setImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
+    }else{
+        userAvatar.imageUrl = [LoginManager getUse_photo_url];
+    }
     userAvatar.contentMode = UIViewContentModeScaleAspectFill;
     userAvatar.layer.masksToBounds = YES;
     userAvatar.layer.cornerRadius = 5;

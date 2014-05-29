@@ -113,7 +113,13 @@
         
         for (int i = 0; i < checkSectionArr.count; i++) {
             WebImageView *checkAvatar = [[WebImageView alloc] initWithFrame:CGRectMake(70*i, 15, 50, 50)];
-            checkAvatar.imageUrl = [[checkSectionArr objectAtIndex:i] objectForKey:@"brokerPhoto"];
+            NSString *imgUrl = [[checkSectionArr objectAtIndex:i] objectForKey:@"brokerPhoto"];
+            
+            if (!imgUrl || imgUrl.length == 0) {
+                [checkAvatar setImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
+            }else{
+                checkAvatar.imageUrl = [[checkSectionArr objectAtIndex:i] objectForKey:@"brokerPhoto"];
+            }
             checkAvatar.contentMode = UIViewContentModeScaleAspectFill;
             checkAvatar.layer.masksToBounds = YES;
             checkAvatar.layer.cornerRadius = 25;
@@ -123,7 +129,7 @@
             
             UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(70*i, checkAvatar.frame.origin.y+checkAvatar.frame.size.height+10, 50, 20)];
             lab.text = [[checkSectionArr objectAtIndex:i] objectForKey:@"brokerTrueName"];
-            lab.font = [UIFont systemFontOfSize:12];
+            lab.font = [UIFont systemFontOfSize:10];
             lab.backgroundColor = [UIColor clearColor];
             lab.textColor = [UIColor brokerMiddleGrayColor];
             lab.textAlignment = NSTextAlignmentCenter;
