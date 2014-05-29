@@ -60,9 +60,6 @@
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
     
-    self.unReadPushCount = [UIApplication sharedApplication].applicationIconBadgeNumber;
-    self.propertyPushCount = self.unReadPushCount - [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
-    
     [self registerRemoteNotification];
     [self cleanRemoteNotification:application];
     
@@ -304,12 +301,15 @@
 }
 
 - (void)cleanRemoteNotification:(UIApplication *)application{
+    self.unReadPushCount = [UIApplication sharedApplication].applicationIconBadgeNumber;
+    self.propertyPushCount = self.unReadPushCount - [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
+    
     application.applicationIconBadgeNumber = 0;
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
     
-    [self cleanRemoteNotification:application];
+//    [self cleanRemoteNotification:application];
     
     if (application.applicationState == UIApplicationStateInactive) {
         DLog(@"userInfo [%@]", userInfo);
