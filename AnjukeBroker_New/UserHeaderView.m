@@ -63,7 +63,8 @@
     
     BK_WebImageView *userAvatar = [[BK_WebImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
     if (![LoginManager getUse_photo_url] || [LoginManager getUse_photo_url].length == 0) {
-        [userAvatar setImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
+        userAvatar.imageUrl = @"http://pages.anjukestatic.com/img/bknoimg.gif";
+//        [userAvatar setImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
     }else{
         userAvatar.imageUrl = [LoginManager getUse_photo_url];
     }
