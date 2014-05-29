@@ -27,7 +27,7 @@
 @property(nonatomic ,strong) UIButton *refreshBtn;
 @property(nonatomic ,strong) MKMapView *map;
 @property(nonatomic, assign) double angle;
-
+@property(nonatomic, assign) float offsetY;
 @end
 
 @implementation CheckoutCommunityViewController
@@ -43,7 +43,7 @@
     if (self) {
         // Custom initialization
         self.tablaData = [[NSMutableArray alloc] init];
-
+        self.offsetY = 0;
     }
     return self;
 }
@@ -248,8 +248,16 @@
     }
     [self donePullDown];
     [self.tableList reloadData];
-}
 
+    [self performSelector:@selector(resetTableY) withObject:nil afterDelay:1.0];
+}
+- (void)resetTableY{
+    if (self.offsetY && self.offsetY != 0) {
+        [self.tableList setContentOffset:CGPointMake(0, self.offsetY) animated:NO];
+        
+        self.offsetY = 0;
+    }
+}
 #pragma mark -UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.tablaData.count;
@@ -282,6 +290,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.navigationController.view.frame.origin.x > 0) return;
 
+    self.offsetY = self.tableList.contentOffset.y;
+    
     [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_003 note:nil];
     CheckCommunityModel *model = [CheckCommunityModel convertToMappedObject:[self.tablaData objectAtIndex:indexPath.row]];
     CheckoutViewController *checkoutVC = [[CheckoutViewController alloc] init];
