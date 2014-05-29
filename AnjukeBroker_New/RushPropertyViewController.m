@@ -60,7 +60,7 @@
 {
     [super viewDidLoad];
     [self initUI]; //初始化 self.navigationItem.titleView
-    [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_001 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_001 note:@{@"push":FIND_PAGE}];
     self.tableView = [[PropertyTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44) style:UITableViewStylePlain];
     self.tableView.hidden = NO;
     self.tableView.hasMore = YES;
@@ -366,6 +366,8 @@
 
 - (void)leftTabButtonClicked{
     NSLog(@"left clicked");
+    [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_001 note:@{@"bp":FIND_PAGE}];
+    
     [self.leftTabButton setBackgroundColor:[UIColor brokerBlueGrayColor]];
 //    [self.leftTabButton setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateNormal];
     [self.rightTabButton setBackgroundColor:[UIColor clearColor]];
@@ -379,6 +381,8 @@
 
 - (void)rightTabButtonClicked{
     NSLog(@"right clicked");
+    [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ME_PAGE_001 note:nil];
+    
     [self.leftTabButton setBackgroundColor:[UIColor clearColor]];
     [self.rightTabButton setBackgroundColor:[UIColor brokerBlueGrayColor]];
 //    [self.rightTabButton setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateNormal];
