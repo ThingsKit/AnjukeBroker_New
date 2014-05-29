@@ -237,6 +237,8 @@
         NSString* status = [response.content objectForKey:@"status"];
         NSString* message = [response.content objectForKey:@"message"];
         NSString* errcode = [response.content objectForKey:@"errcode"];
+//        NSString* message = @"已经抢过了,扫地附近撒豆IF撒旦阿斯顿金佛撒大家哦圣诞节佛撒娇欧迪芬教佛isj";
+//        NSString* status = @"error";
 //        NSString* errcode = @"5003"; //测试用
 //        status = @"ok";
         self.button.enabled = YES;
@@ -249,7 +251,7 @@
             if ([snapshot superview] == nil) {
                 [self.window addSubview:snapshot];
                 
-                [UIView animateWithDuration:1 animations:^{
+                [UIView animateWithDuration:0.8 animations:^{
                     snapshot.frame = CGRectMake(280, 35, 1, 1);
                 }completion:^(BOOL finished) {
                     if (finished) {

@@ -157,7 +157,7 @@
                 [self.tableView reloadData];
                 
                 
-                //减去已读数据
+                //房源未读数据至0
                 //################################################################
                 AppDelegate* delegate = [AppDelegate sharedAppDelegate];
                 delegate.propertyPushCount = 0;
@@ -274,29 +274,20 @@
             self.hubSubText.text = @"房源已删除";
             self.hubSubText.hidden = NO;
             
-        }else if ([errCode isEqualToString:@"5002"]){
-            
-            self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_laugh"];
-            self.hudText.text = @"抢过来!";
-            self.hubSubText.text = @"去我的委托看看吧";
+        }else{
+            self.hudText.hidden = YES;
+            self.hubSubText.frame = CGRectMake(135/2-120/2, 135/2 -20, 120, 70);
+            self.hubSubText.textAlignment = NSTextAlignmentCenter;
+            self.hubSubText.numberOfLines = 0;
+            self.hubSubText.text = message;
+            [self.hubSubText sizeToFit];
             self.hubSubText.hidden = NO;
-            
-        }else if([errCode isEqualToString:@"5003"]){
-            
-            self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
-            self.hudText.text = @"抢完了~";
-            self.hubSubText.hidden = YES;
-            
-        }else{ //其他错误浮层显示逻辑
-            self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
-            self.hudText.text = message;
-            self.hubSubText.hidden = YES;
         }
         
     }else{ //这里表示网络异常
-        self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
-        self.hudText.text = @"网络异常";
-        self.hubSubText.hidden = YES;
+        self.hudText.hidden = YES;
+        self.hubSubText.text = @"网络异常";
+        self.hubSubText.hidden = NO;
     }
     
     [self.hud hide:YES afterDelay:1]; //显示一段时间后隐藏
