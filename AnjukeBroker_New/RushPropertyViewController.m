@@ -154,6 +154,12 @@
                 
                 self.tableView.tableHeaderView = nil;
                 
+                if (properties.count < 20) {
+                    self.tableView.hasMore = NO;
+                }else{
+                    self.tableView.hasMore = YES;
+                }
+                
                 [self.tableView reloadData];
                 
                 
@@ -187,6 +193,12 @@
                 self.myTableView.maxId = maxProperty.id;
                 
                 self.myTableView.tableHeaderView = nil;
+                
+                if (properties.count < 20) {
+                    self.myTableView.hasMore = NO;
+                }else{
+                    self.myTableView.hasMore = YES;
+                }
                 
                 [self.myTableView reloadData];
             }
@@ -621,12 +633,12 @@
     
     
     //创建badge
-    self.propertyListBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(205, 6, 20, 20)];
-    self.propertyListBadgeLabel.backgroundColor = [UIColor whiteColor];
-    self.propertyListBadgeLabel.layer.cornerRadius = 10.0f;
+    self.propertyListBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(180, 6, 10, 10)];
+    self.propertyListBadgeLabel.backgroundColor = [UIColor redColor];
+    self.propertyListBadgeLabel.layer.cornerRadius = 5.0f;
     self.propertyListBadgeLabel.layer.masksToBounds = YES;
-    self.propertyListBadgeLabel.textColor = [UIColor grayColor];
-    self.propertyListBadgeLabel.textAlignment = UITextAlignmentCenter; //这里已经做过调整, 兼容ios5.0
+//    self.propertyListBadgeLabel.textColor = [UIColor grayColor];
+//    self.propertyListBadgeLabel.textAlignment = UITextAlignmentCenter; //这里已经做过调整, 兼容ios5.0
     self.propertyListBadgeLabel.hidden = YES;
     self.badgeNumber = 0;
     [headView addSubview:self.propertyListBadgeLabel];

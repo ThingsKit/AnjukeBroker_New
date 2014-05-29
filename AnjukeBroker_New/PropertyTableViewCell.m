@@ -252,7 +252,7 @@
                 [self.window addSubview:snapshot];
                 
                 [UIView animateWithDuration:0.8 animations:^{
-                    snapshot.frame = CGRectMake(280, 35, 1, 1);
+                    snapshot.frame = CGRectMake(242, 35, 1, 1);
                 }completion:^(BOOL finished) {
                     if (finished) {
                         [snapshot removeFromSuperview]; //动画结束后移除
@@ -261,7 +261,7 @@
             }
             
             //计数器加1
-            viewController.propertyListBadgeLabel.text = [NSString stringWithFormat:@"%d", ++viewController.badgeNumber];
+//            viewController.propertyListBadgeLabel.text = [NSString stringWithFormat:@"%d", ++viewController.badgeNumber];
             viewController.propertyListBadgeLabel.hidden = NO;
             
             [viewController removeCellFromPropertyTableViewWithCell:self]; //删除对应indexPath的cell
