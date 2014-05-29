@@ -58,13 +58,16 @@
 //        UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
 //        [alet show];
         [self.tableList setTableStatus:STATUSFORNOGPS];
+        [self stopAnimation];
         [self.tablaData removeAllObjects];
         [self.tableList reloadData];
         [self donePullDown];
         
         return;
     }
-    [self refreshGeo:nil];
+    if (self.tableList && !self.isLoading) {
+        [self refreshGeo:nil];
+    }
 }
 - (void)viewDidLoad
 {
@@ -181,21 +184,21 @@
 - (void)doRequest{
 
     if (![CLLocationManager isLocationServiceEnabled]) {
-        //        UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        //        [alet show];
-
         [self performSelector:@selector(setStatusForNoGPS) withObject:nil afterDelay:0.5];
         
         return;
     }
-    if (!self.nowCoords.latitude) {
-        self.isLoading = NO;
-        return;
-    }
-    if (![self isNetworkOkayWithNoInfo]) {
-        [self donePullDown];
-        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+
+    if (![self isNetworkOkayWithNoInfo] || !self.nowCoords.latitude) {
+        if (!self.nowCoords.latitude) {
+            self.map.userInteractionEnabled = YES;
+        }else{
+            [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        }
+        [self.tablaData removeAllObjects];
         [self.tableList reloadData];
+        [self performSelector:@selector(donePullDown) withObject:nil afterDelay:0.1];
+        [self performSelector:@selector(stopAnimation) withObject:nil afterDelay:0.1];
         
         self.isLoading = NO;
         return;
@@ -219,6 +222,7 @@
     if([[response content] count] == 0){
         [self donePullDown];
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        [self.tablaData removeAllObjects];
         [self.tableList reloadData];
 
         return ;
@@ -226,6 +230,7 @@
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        [self.tablaData removeAllObjects];
         [self.tableList reloadData];
 
         [self donePullDown];
