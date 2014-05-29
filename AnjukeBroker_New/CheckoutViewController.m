@@ -179,7 +179,7 @@
         [self donePullDown];
         return;
     }
-    if (![self isNetworkOkay]) {
+    if (![self isNetworkOkayWithNoInfo]) {
         [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         self.isLoading = NO;
         return;
@@ -247,7 +247,7 @@
     if (!self.nowCoords.latitude) {
         return;
     }
-    if (![self isNetworkOkay]) {
+    if (![self isNetworkOkayWithNoInfo]) {
         [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         self.isLoading = NO;
         return;

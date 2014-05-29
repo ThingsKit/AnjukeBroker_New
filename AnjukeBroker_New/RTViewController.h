@@ -62,4 +62,5 @@ typedef enum {
 - (void)showTopAlertWithTitle:(NSString *)title; //顶部提示条效果
 
 - (BOOL)isNetworkOkay; //***检查网络是否通畅
+- (BOOL)isNetworkOkayWithNoInfo;
 @end

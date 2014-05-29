@@ -72,12 +72,7 @@
     [self setTitleViewWithString:@"小区签到"];
     // Do any additional setup after loading the view.
     
-    if ([self isNetworkOkay]) { //如果当前网络ok
-        [self initUI];
-    }else{
-        
-    }
-    
+    [self initUI];
 }
 - (void)initUI{
     self.map = [[MKMapView alloc] initWithFrame:CGRectZero];
@@ -197,9 +192,11 @@
         self.isLoading = NO;
         return;
     }
-    if (![self isNetworkOkay]) {
+    if (![self isNetworkOkayWithNoInfo]) {
+        [self donePullDown];
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
         [self.tableList reloadData];
+        
         self.isLoading = NO;
         return;
     }

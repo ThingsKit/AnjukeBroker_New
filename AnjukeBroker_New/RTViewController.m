@@ -116,7 +116,18 @@
     
     return YES;
 }
-
+- (BOOL)isNetworkOkayWithNoInfo {
+    if (![[RTApiRequestProxy sharedInstance] isInternetAvailiable]) {
+        return NO;
+    }
+    
+    Reachability *r = [Reachability reachabilityWithHostName:@"www.baidu.com"];
+    if ([r currentReachabilityStatus] == NotReachable) {
+        return NO;
+    }
+    
+    return YES;
+}
 #pragma mark - private UI method
 
 - (void)setTitleViewWithString:(NSString *)titleStr { //设置标题栏
