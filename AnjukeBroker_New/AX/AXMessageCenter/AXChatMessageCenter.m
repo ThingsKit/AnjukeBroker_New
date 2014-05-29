@@ -1451,6 +1451,7 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 - (void)connectAsUser
 {
     [self switchDataCenterToUser];
+    [self userReceiveAlivingConnectionWithUniqId:nil];
     [self registerRemoteNotification];
     [self.longLinkManager connectAsUserWithUserid:self.currentPerson.uid];
     [self postConnectionStatusNotificationWithStatus:AXMessageCenterStatusConnecting];

@@ -253,11 +253,8 @@
 {
     request.AXLongLink_isLoading = NO;
     request.AXLongLink_isLinked = YES;
-    if (command && command[@"status"] && [command[@"status"] isEqualToString:@"OK"] && command[@"result"] && [command[@"result"] isKindOfClass:[NSDictionary class]] ) {
-        NSDictionary *dic = command[@"result"];
-        if (dic[@"msgType"] && [dic[@"msgType"] isEqualToString:@"push"]) {
-            [self.delegate manager:self didReceiveSignal:AXMessageAPILongLinkSignalHasNewPush userType:[self userTypeWithUserId:request.AXLongLink_userId] userId:request.AXLongLink_userId userInfo:command];
-        }
+    if (command && command[@"status"] && [command[@"status"] isEqualToString:@"OK"] && command[@"result"] && [command[@"result"] isKindOfClass:[NSDictionary class]] && command[@"result"][@"msgType"] && [command[@"result"][@"msgType"] isEqualToString:@"push"] ) {
+        [self.delegate manager:self didReceiveSignal:AXMessageAPILongLinkSignalHasNewPush userType:[self userTypeWithUserId:request.AXLongLink_userId] userId:request.AXLongLink_userId userInfo:command];
     }else {
         [self.delegate manager:self didReceiveSignal:AXMessageAPILongLinkSignalHasNewMessage userType:[self userTypeWithUserId:request.AXLongLink_userId] userId:request.AXLongLink_userId userInfo:command];
     }
