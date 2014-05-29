@@ -115,11 +115,7 @@
             
             int count = [AppDelegate sharedAppDelegate].propertyPushCount;
             
-            if (count > 10) {
-                self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(2.5f, -1.5f, 20, 20)];
-            }else{
-                self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.5f, -1.5f, 20, 20)];
-            }
+            self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             [self.badgeNumberLabel setTextColor:[UIColor whiteColor]];
             self.badgeNumberLabel.backgroundColor = [UIColor clearColor];
             [self.badgeNumberLabel setFont:[UIFont ajkH5Font]];
@@ -142,6 +138,12 @@
 
 - (void)setDiscoverBadgeValue:(NSInteger) unReadCount{
     if (unReadCount > 0 && self.badgeView) {
+        if (unReadCount > 9) {
+            self.badgeNumberLabel.frame = CGRectMake(2.5f, -1.5f, 20, 20);
+        }else{
+            self.badgeNumberLabel.frame = CGRectMake(5.5f, -1.5f, 20, 20);
+        }
+        
         self.badgeNumberLabel.text = [NSString stringWithFormat:@"%d", unReadCount];
         self.badgeView.hidden = NO;
         
