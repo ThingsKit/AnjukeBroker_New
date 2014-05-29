@@ -417,7 +417,8 @@
     //结构体包装成NSValue对象
 //    _textView.height = 252;
     _numberOfText.hidden = YES;
-    if (_imageDescArray) {
+    if (_imageDescArray && _imageDescArray.count > self.editDeleteImgIndex)
+    {
         NSString* content = [_imageDescArray objectAtIndex:self.editDeleteImgIndex];
         if (content.length > 0 && ![content isEqualToString:self.placeHolder]) {
             _textView.text = [_imageDescArray objectAtIndex:self.editDeleteImgIndex];
