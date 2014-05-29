@@ -274,7 +274,7 @@
 - (NSString *)getAccountLeft{
     NSString *str = @"";
     if (self.userCenterModel) {
-        str = [NSString stringWithFormat:@"%d元", [self.userCenterModel.balance intValue]];
+        str = [NSString stringWithFormat:@"%.2f元", [self.userCenterModel.balance floatValue]];
     }
     return str;
 }
