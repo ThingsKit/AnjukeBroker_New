@@ -131,12 +131,14 @@
         [CrashLogUtil writeCrashLog];
     });
     
-    if (self.propertyPushCount > 0) {
-        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
-        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-        [dis setDiscoverBadgeValue:self.propertyPushCount];
-    }
+//    int count = [UIApplication sharedApplication].applicationIconBadgeNumber - [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
+//    
+//    if (count > 0) {
+//        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", count]];
+//        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+//        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+//        [dis setDiscoverBadgeValue:count];
+//    }
     
 }
 
