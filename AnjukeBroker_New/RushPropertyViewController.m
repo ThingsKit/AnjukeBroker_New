@@ -80,14 +80,6 @@
 }
 
 - (void)doBack:(id)sender{
-    AppDelegate* delegate = [AppDelegate sharedAppDelegate];
-    delegate.propertyPushCount = 0;
-    
-    RTGestureBackNavigationController* navi = [delegate.tabController.controllerArrays objectAtIndex:3];
-    navi.tabBarItem.badgeValue = nil;
-    DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-    dis.badgeView.hidden = YES;
-    
     if (self.myTableView.hidden) {
         [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_006 note:nil];
     }else{
@@ -163,6 +155,18 @@
                 self.tableView.tableHeaderView = nil;
                 
                 [self.tableView reloadData];
+                
+                
+                //减去已读数据
+                //################################################################
+                AppDelegate* delegate = [AppDelegate sharedAppDelegate];
+                delegate.propertyPushCount = 0;
+                RTGestureBackNavigationController* navi = [delegate.tabController.controllerArrays objectAtIndex:3];
+                DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+                navi.tabBarItem.badgeValue = nil;
+                dis.badgeView.hidden = YES;
+                //################################################################
+                
                 
             }else{ //我的委托房源列表
                 
