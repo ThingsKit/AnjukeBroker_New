@@ -509,8 +509,12 @@
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onUpdatePropertyFinished:)];
     
-    //更新图片的信息
-    [self updateImgDesc];
+    if (!self.isHaozu)
+    {
+        //更新图片的信息
+        [self updateImgDesc];
+    }
+    
 }
 
 //上传图片描述

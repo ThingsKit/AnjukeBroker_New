@@ -162,8 +162,16 @@
         }
         
         //通知房源编辑页面删除对应图片
-        if ([self.clickDelegate respondsToSelector:@selector(editPropertyDidDeleteImgWithDeleteIndex:sender:)]) {
-            [self.clickDelegate editPropertyDidDeleteImgWithDeleteIndex:self.editDeleteImgIndex sender:self];
+        if ([self.clickDelegate respondsToSelector:@selector(editPropertyDidDeleteImgWithDeleteIndex:sender:)])
+        {
+            if (self.isEditProperty)
+            {
+                [self.clickDelegate editPropertyDidDeleteImgWithDeleteIndex:0 sender:self];
+            }else
+            {
+                [self.clickDelegate editPropertyDidDeleteImgWithDeleteIndex:self.editDeleteImgIndex sender:self];
+            }
+            
             [self.imageDescArray removeObjectAtIndex:self.editDeleteImgIndex];
         }
         

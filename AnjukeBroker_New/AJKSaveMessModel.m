@@ -60,6 +60,11 @@
 
 - (NSString *)setPdString:(NSArray *)arr idArr:(NSArray *)idArr
 {
+    if (!arr || arr.count < idArr.count)
+    {
+        return @"";
+    }
+    
     NSMutableString *stw = [[NSMutableString alloc] init];
     int j = 0;
     if (idArr)
