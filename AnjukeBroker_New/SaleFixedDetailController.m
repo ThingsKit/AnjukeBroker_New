@@ -519,6 +519,7 @@
             
             //test
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+            controller.pdId = AJK_PPC_FIXED_DETAIL;
             controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
@@ -545,6 +546,7 @@
             //test
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
+            controller.pdId = AJK_PPC_FIXED_DETAIL;
             controller.backType = RTSelectorBackTypeDismiss;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];

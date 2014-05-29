@@ -291,6 +291,7 @@
         }else if (buttonIndex == 2){
             [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_005 note:nil];
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+            controller.pdId = AJK_PPC_BID_DETAIL;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
@@ -315,6 +316,7 @@
         }else if (buttonIndex == 2){//手动暂停竞价
             [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_005 note:nil];
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+            controller.pdId = AJK_PPC_BID_DETAIL;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];

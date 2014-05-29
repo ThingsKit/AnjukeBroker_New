@@ -366,6 +366,7 @@
     SalePropertyObject *pro = (SalePropertyObject *)[self.selectedArray objectAtIndex:0];
     controller.propertyID = pro.propertyId;
     controller.propertyDelegate = self;
+    controller.pdId = AJK_PPC_NOPLAN_GROUP;
     controller.backType = RTSelectorBackTypeDismiss;
     RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];
