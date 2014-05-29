@@ -317,7 +317,7 @@
         NSString* msgType = [[userInfo objectForKey:@"anjuke_custom"] objectForKey:@"msgType"];
         if ([@"push" isEqualToString:msgType]) {
             
-            [self showPushMessageCount];
+//            [self showPushMessageCount];
             //NSLog(@"弹出模态视图");
             RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
             viewController.backType = RTSelectorBackTypeDismiss;
