@@ -147,10 +147,11 @@
         self.badgeNumberLabel.text = [NSString stringWithFormat:@"%d", unReadCount];
         self.badgeView.hidden = NO;
         
-        [self.tableView reloadData];
     }else if(self.badgeView){
         self.badgeView.hidden = YES;
     }
+    
+    [self.tableView reloadData];
     
 }
 
