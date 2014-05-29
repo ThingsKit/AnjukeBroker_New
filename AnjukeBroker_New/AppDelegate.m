@@ -131,7 +131,13 @@
         [CrashLogUtil writeCrashLog];
     });
     
-//    [self showPushMessageCount];
+    if (self.propertyPushCount > 0) {
+        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
+        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+        [dis setDiscoverBadgeValue:self.propertyPushCount];
+    }
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -318,8 +324,12 @@
             viewController.backType = RTSelectorBackTypeDismiss;
             [viewController setHidesBottomBarWhenPushed:YES];
             BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:viewController];
-            [self.tabController presentViewController:navi animated:YES completion:^{
-            }];
+            if (self.tabController) {
+                [self.tabController presentViewController:navi animated:YES completion:nil];
+            }else if(self.window){
+                [self.window.rootViewController presentViewController:navi animated:YES completion:nil];
+            }
+            
             [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_001 note:@{@"push":@"push"}];
         }
     }
