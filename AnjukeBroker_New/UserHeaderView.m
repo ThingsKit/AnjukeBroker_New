@@ -66,7 +66,11 @@
 //        userAvatar.imageUrl = @"http://pages.anjukestatic.com/img/bknoimg.gif";
         [userAvatar setImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
     }else{
-        userAvatar.imageUrl = [LoginManager getUse_photo_url];
+        if (![[RTApiRequestProxy sharedInstance] isInternetAvailiable]) {
+            [userAvatar setImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
+        }else{
+            userAvatar.imageUrl = [LoginManager getUse_photo_url];        
+        }
     }
     userAvatar.contentMode = UIViewContentModeScaleAspectFill;
     userAvatar.layer.masksToBounds = YES;

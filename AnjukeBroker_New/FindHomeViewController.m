@@ -22,12 +22,12 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:FIND_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:MARKET_ANALYSIS_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
-- (void)sendDisAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:FIND_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
-}
+//- (void)sendDisAppearLog {
+//    [[BrokerLogger sharedInstance] logWithActionCode:FIND_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+//}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -112,7 +112,8 @@
     if (self.isLoading == YES) {
         //        return;
     }
-    
+    [[BrokerLogger sharedInstance] logWithActionCode:MARKET_ANALYSIS_003 note:nil];
+
     if(![self isNetworkOkay]){
         [self showInfo:NONETWORK_STR];
         return;
@@ -198,6 +199,8 @@
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(BK_EGORefreshTableHeaderView*)view
 {
     if ([self isNetworkOkay]) {
+        [[BrokerLogger sharedInstance] logWithActionCode:MARKET_ANALYSIS_003 note:nil];
+        
         [self doRequest];
     }
     else {

@@ -48,7 +48,7 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)viewDidLoad

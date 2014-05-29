@@ -48,7 +48,10 @@
             self.image = [UIImage imageWithContentsOfFile:imagePath];
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:self.notificationName object:self];
+    }else{
+        
     }
+    
 }
 
 /*

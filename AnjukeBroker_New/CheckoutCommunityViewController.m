@@ -49,9 +49,9 @@
 }
 
 #pragma mark - log
-- (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-}
+//- (void)sendAppearLog {
+//    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+//}
 
 - (void)viewWillAppear:(BOOL)animated{
     if (![CLLocationManager isLocationServiceEnabled]) {
@@ -72,6 +72,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+
     [self setTitleViewWithString:@"小区签到"];
     // Do any additional setup after loading the view.
     

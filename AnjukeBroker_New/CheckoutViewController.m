@@ -103,9 +103,9 @@
     self.cb = nil;
 }
 #pragma mark - log
-- (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:CHECK_PAGE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-}
+//- (void)sendAppearLog {
+//    [[BrokerLogger sharedInstance] logWithActionCode:CHECK_PAGE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+//}
 - (void)viewDidAppear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] removeObserver:UIApplicationWillEnterForegroundNotification];
 }
@@ -115,6 +115,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHECK_PAGE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+
     [self addRightButton:@"规则" andPossibleTitle:nil];
     // Do any additional setup after loading the view.
     [self initUI];
