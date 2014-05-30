@@ -472,6 +472,21 @@
     }
     [self.tabController setMessageBadgeValueWithValue:str];
     
+    if (!self.hasResignValue) {
+        self.propertyPushCount = self.unReadPushCount - value;
+        if (self.propertyPushCount <= 0) {
+            self.propertyPushCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"propertyPushCount"] integerValue];
+        }
+        
+        if (self.propertyPushCount > 0) {
+            [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
+            RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+            DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+            [dis setDiscoverBadgeValue:self.propertyPushCount];
+        }
+        
+        self.hasResignValue = YES;
+    }
     
     
 }
