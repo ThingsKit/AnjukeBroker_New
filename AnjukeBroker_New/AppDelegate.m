@@ -148,7 +148,7 @@
         self.propertyPushCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"propertyPushCount"] integerValue];
     }
     
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"did become active" message:[NSString stringWithFormat:@"%d, %d", self.unReadPushCount, self.old] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"did become active" message:[NSString stringWithFormat:@"总数%d, 旧值%d, 房源%d", self.unReadPushCount, self.old, self.propertyPushCount] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
     [alert show];
     
     if (self.propertyPushCount > 0) {
@@ -371,6 +371,9 @@
         
     }
     
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"房源自增1" message:[NSString stringWithFormat:@"房源%d", self.propertyPushCount] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+    [alert show];
+    
 }
 
 
@@ -463,7 +466,8 @@
 
 - (void)showMessageValueWithStr:(int)value { //显示消息条数
     
-    
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"message" message:[NSString stringWithFormat:@"总数%d, 新值%d", self.unReadPushCount, value] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+    [alert show];
     
     if (self.old != value) {
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:value] forKey:@"messagePushCount"];
@@ -473,8 +477,7 @@
         if (self.appDidBecomeActive) {
             self.propertyPushCount = self.unReadPushCount - value;
             
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"message" message:[NSString stringWithFormat:@"%d, %d", self.unReadPushCount, value] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-            [alert show];
+            
             
             if (self.propertyPushCount <= 0) {
                 self.propertyPushCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"propertyPushCount"] integerValue];
