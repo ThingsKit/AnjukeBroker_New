@@ -146,10 +146,6 @@
 
 - (void)request:(ASIHTTPRequest *)request didReceiveData:(NSData *)data
 {
-    request.AXLongLink_isLoading = NO;
-    request.AXLongLink_isLinked = YES;
-    request.AXLongLink_tryCount = 0;
-    
     NSString *receivedJsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSArray *receivedJSONStringArray = [receivedJsonString componentsSeparatedByString:@"\n"];
     
@@ -165,10 +161,20 @@
         
         // command dispatch
         if ([receivedCommand[@"result"] isKindOfClass:[NSString class]]) {
+            /*
+             这三个状态量本来是放在外面的，但是当连到一个无效网络，并且这个无效网络还有返回的时候，这个时候的状态量就不对了，所以应该放在里面。
+             */
+            request.AXLongLink_isLoading = NO;
+            request.AXLongLink_isLinked = YES;
+            request.AXLongLink_tryCount = 0;
             [self handleLongLinkStatusWithReceivedCommand:receivedCommand withRequest:request];
         }
         
         if ([receivedCommand[@"result"] isKindOfClass:[NSDictionary class]]) {
+            
+            request.AXLongLink_isLoading = NO;
+            request.AXLongLink_isLinked = YES;
+            request.AXLongLink_tryCount = 0;
             [self handleLongLinkNotificationWithReceivedCommand:receivedCommand withRequest:request];
         }
     }
