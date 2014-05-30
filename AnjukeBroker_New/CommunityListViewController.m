@@ -164,12 +164,6 @@
 //没有数据提示view
 - (void)noDataViewHandle
 {
-    if (self.isHaouzu) {
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_COMMUNITY_006 note:nil];
-    }else{
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_COMMUNITY_006 note:nil];
-    }
-
     UIImage *noDataImg = [UIImage imageNamed:@"anjuke_icon_seachnocommunity"];
     CGFloat noDataX = (CGRectGetWidth(self.tvList.frame) - noDataImg.size.width) / 2;
     CGFloat noDataY = (CGRectGetHeight(self.tvList.frame) - noDataImg.size.height) / 2 - 100;
@@ -407,6 +401,11 @@
     {
         [self.tvList setHidden:YES];
         [_noDataView setHidden:NO];//显示nodatanoticeimg
+        if (self.isHaouzu) {
+            [[BrokerLogger sharedInstance] logWithActionCode:HZ_COMMUNITY_006 note:nil];
+        }else{
+            [[BrokerLogger sharedInstance] logWithActionCode:AJK_COMMUNITY_006 note:nil];
+        }
     }else
     {
         [_noDataView setHidden:YES];//隐藏nodatanoticeimg
