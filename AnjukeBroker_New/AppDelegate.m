@@ -443,22 +443,34 @@
 
 - (void)showMessageValueWithStr:(int)value { //显示消息条数
     
-    //以下赋值逻辑只要在页面出现的时候走一次, 只有页面出现才走一次
-    if (self.appDidBecomeActive) {
-        self.propertyPushCount = self.unReadPushCount - value;
-        if (self.propertyPushCount <= 0) {
-            self.propertyPushCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"propertyPushCount"] integerValue];
-        }
-        
-        if (self.propertyPushCount > 0) {
-            [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
-            RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-            DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-            [dis setDiscoverBadgeValue:self.propertyPushCount];
-        }
-        
-        self.appDidBecomeActive = NO;
+    int old = 0;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"messagePushCount"]) {
+        old = [[[NSUserDefaults standardUserDefaults] objectForKey:@"messagePushCount"] intValue];
     }
+    
+    if (old != value) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:value] forKey:@"messagePushCount"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        //以下赋值逻辑只要在页面出现的时候走一次, 只有页面出现才走一次, 如果value与原来一样, 不走设置房源值逻辑
+        if (self.appDidBecomeActive) {
+            self.propertyPushCount = self.unReadPushCount - value;
+            if (self.propertyPushCount <= 0) {
+                self.propertyPushCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"propertyPushCount"] integerValue];
+            }
+            
+            if (self.propertyPushCount > 0) {
+                [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
+                RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+                DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+                [dis setDiscoverBadgeValue:self.propertyPushCount];
+            }
+            
+            self.appDidBecomeActive = NO;
+        }
+    }
+    
+    
     
     if (value <= 0) {
         [self.tabController setMessageBadgeValueWithValue:nil];
