@@ -15,6 +15,7 @@
 #import "RTGestureLock.h"
 #import "PropertyAuctionPublishViewController.h"
 #import "AJKBRadioButton.h"
+#import "AJKLikePageView.h"
 
 
 #import "BK_RTNavigationController.h"
@@ -78,7 +79,8 @@ typedef enum {
     //上传接口信息
     saveMessModel = [[AJKSaveMessModel alloc] init];
     saveMessModel.stDa = [NSDate new];
-    ;
+    
+    [self initLinkePageView];
     
 }
 
@@ -100,6 +102,27 @@ typedef enum {
     [super viewDidAppear:animated];
     
     [RTGestureLock setDisableGestureForBack:self.navigationController disableGestureback:YES];
+}
+//初始化引导页
+- (void)initLinkePageView
+{
+//    NSString *str = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+    NSString *key = @"PublishBuildingViewController";
+    
+    NSString *value = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    if ((!value || value.length == 0) && !self.isHaozu)
+    {
+        [[NSUserDefaults standardUserDefaults] setValue:@"1" forKey:key];
+        UIImage *img = [UIImage imageNamed:@"broker_publish_pic_firstguide"];
+        
+        CGRect likeFrame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
+        
+        AJKLikePageView *linkView = [[AJKLikePageView alloc] initWithFrame:likeFrame];
+        [linkView setLinkImg:img];
+        
+        [self.view addSubview:linkView];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning

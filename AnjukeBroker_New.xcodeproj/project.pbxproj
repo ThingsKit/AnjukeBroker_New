@@ -144,6 +144,8 @@
 		20F6632A1896050F00356DFD /* anjuke_icon_nextfxt_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */; };
 		2723353E192AFD6200C45460 /* AJKBRadioButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2723353D192AFD6200C45460 /* AJKBRadioButton.m */; };
 		2732FDE81931D9EB0021DA25 /* AJKSaveMessModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2732FDE71931D9EB0021DA25 /* AJKSaveMessModel.m */; };
+		2736F81E19382869002A6CF2 /* AJKLikePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2736F81D19382869002A6CF2 /* AJKLikePageView.m */; };
+		2736F82019382BAB002A6CF2 /* broker_publish_pic_firstguide.png in Resources */ = {isa = PBXBuildFile; fileRef = 2736F81F19382BAB002A6CF2 /* broker_publish_pic_firstguide.png */; };
 		273913D218DBCFD9003284AA /* CheckInstalledMapAPP.m in Sources */ = {isa = PBXBuildFile; fileRef = 273913CB18DBCFD9003284AA /* CheckInstalledMapAPP.m */; };
 		273913D318DBCFD9003284AA /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 273913CD18DBCFD9003284AA /* MapViewController.m */; };
 		273913D518DBCFD9003284AA /* RegionAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 273913D118DBCFD9003284AA /* RegionAnnotation.m */; };
@@ -915,6 +917,9 @@
 		2723353D192AFD6200C45460 /* AJKBRadioButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJKBRadioButton.m; sourceTree = "<group>"; };
 		2732FDE61931D9EB0021DA25 /* AJKSaveMessModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJKSaveMessModel.h; sourceTree = "<group>"; };
 		2732FDE71931D9EB0021DA25 /* AJKSaveMessModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJKSaveMessModel.m; sourceTree = "<group>"; };
+		2736F81C19382869002A6CF2 /* AJKLikePageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJKLikePageView.h; sourceTree = "<group>"; };
+		2736F81D19382869002A6CF2 /* AJKLikePageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJKLikePageView.m; sourceTree = "<group>"; };
+		2736F81F19382BAB002A6CF2 /* broker_publish_pic_firstguide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = broker_publish_pic_firstguide.png; sourceTree = "<group>"; };
 		273913CA18DBCFD9003284AA /* CheckInstalledMapAPP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckInstalledMapAPP.h; path = mapView/CheckInstalledMapAPP.h; sourceTree = "<group>"; };
 		273913CB18DBCFD9003284AA /* CheckInstalledMapAPP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckInstalledMapAPP.m; path = mapView/CheckInstalledMapAPP.m; sourceTree = "<group>"; };
 		273913CC18DBCFD9003284AA /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = mapView/MapViewController.h; sourceTree = "<group>"; };
@@ -2195,6 +2200,8 @@
 				2723353D192AFD6200C45460 /* AJKBRadioButton.m */,
 				20D3C24A1892466B0030D7D8 /* PhotoFooterView.h */,
 				20D3C24B1892466B0030D7D8 /* PhotoFooterView.m */,
+				2736F81C19382869002A6CF2 /* AJKLikePageView.h */,
+				2736F81D19382869002A6CF2 /* AJKLikePageView.m */,
 			);
 			name = "发房View";
 			sourceTree = "<group>";
@@ -2392,6 +2399,7 @@
 		6767D15C192398C2004FEFF7 /* weituo */ = {
 			isa = PBXGroup;
 			children = (
+				2736F81F19382BAB002A6CF2 /* broker_publish_pic_firstguide.png */,
 				6767D15D192398C2004FEFF7 /* anjuke_icon_tips_bg@2x.png */,
 				6767D15E192398C2004FEFF7 /* anjuke_icon_tips_laugh@2x.png */,
 				6767D15F192398C2004FEFF7 /* anjuke_icon_tips_sad@2x.png */,
@@ -4194,6 +4202,7 @@
 				678084011904AB1F00765A18 /* facesBack.png in Resources */,
 				F8329939192B1B1D00246CD7 /* tab_icon_home_normal@2x.png in Resources */,
 				200DAB5318DFCED90077E0C9 /* anjuke_icon_esf@2x.png in Resources */,
+				2736F82019382BAB002A6CF2 /* broker_publish_pic_firstguide.png in Resources */,
 				9741056A180CDFE0004DAE95 /* Images.xcassets in Resources */,
 				B7E38A00182238CF002C6E8A /* anjuke_icon06_select@2x.png in Resources */,
 				201BC95018CEF15900565BF6 /* Default.png in Resources */,
@@ -4369,6 +4378,7 @@
 				6780840A1904AD2D00765A18 /* UIViewExt.m in Sources */,
 				2056A38C18EE7EA00022B5A5 /* AXMessageCenterDeleteFriendManager.m in Sources */,
 				B7E55B4D18BF2190007238CB /* JSDismissiveTextView.m in Sources */,
+				2736F81E19382869002A6CF2 /* AJKLikePageView.m in Sources */,
 				2056A39A18EE7EA00022B5A5 /* AXMessageManager.m in Sources */,
 				20A217DF18BF2756002CA469 /* ClientDetailPublicViewController.m in Sources */,
 				B7EAD51C18CD927200B28FEC /* AXChatMessageRootCell.m in Sources */,
