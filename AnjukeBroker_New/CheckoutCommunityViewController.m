@@ -27,7 +27,6 @@
 @property(nonatomic ,strong) UIButton *refreshBtn;
 @property(nonatomic ,strong) MKMapView *map;
 @property(nonatomic, assign) double angle;
-@property(nonatomic, assign) float offsetY;
 @property(nonatomic, strong) NSIndexPath *selectCell;
 @end
 
@@ -44,7 +43,6 @@
     if (self) {
         // Custom initialization
         self.tablaData = [[NSMutableArray alloc] init];
-        self.offsetY = 0;
         self.selectCell = nil;
     }
     return self;
