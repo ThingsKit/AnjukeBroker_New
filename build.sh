@@ -12,6 +12,7 @@ source ./config.sh
 PACKAGE_NAME=i-anjuke_${Version}'Ver'`date "+%Y%m%d"`'.a.ipa'
 
 # output static var
+echo "Daily Build"
 echo "Version:"${Version}
 echo "ProjectFileName:"${ProjectFileName}
 echo "XCWorkSpaceName:"${ProjectFileName}

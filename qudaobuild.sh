@@ -1,6 +1,6 @@
 #!/bin/sh
 source ./config.sh
-
+echo "Distribution Build"
 echo "Version:"${Version}
 echo "ProjectFileName:"${ProjectFileName}
 echo "XCWorkSpaceName:"${ProjectFileName}
