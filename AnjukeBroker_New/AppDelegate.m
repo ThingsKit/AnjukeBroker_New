@@ -148,6 +148,9 @@
         self.propertyPushCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"propertyPushCount"] integerValue];
     }
     
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"did become active" message:[NSString stringWithFormat:@"%d, %d", self.unReadPushCount, self.old] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+    [alert show];
+    
     if (self.propertyPushCount > 0) {
         [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
         RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
@@ -469,6 +472,10 @@
         //以下赋值逻辑只要在页面出现的时候走一次, 只有页面出现才走一次, 如果value与原来一样, 不走设置房源值逻辑
         if (self.appDidBecomeActive) {
             self.propertyPushCount = self.unReadPushCount - value;
+            
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"message" message:[NSString stringWithFormat:@"%d, %d", self.unReadPushCount, value] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+            [alert show];
+            
             if (self.propertyPushCount <= 0) {
                 self.propertyPushCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"propertyPushCount"] integerValue];
             }
