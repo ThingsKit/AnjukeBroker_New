@@ -138,6 +138,23 @@
     
     self.appDidBecomeActive = YES;
     
+    self.old = 0;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"messagePushCount"]) {
+        self.old = [[[NSUserDefaults standardUserDefaults] objectForKey:@"messagePushCount"] intValue];
+    }
+    
+    self.propertyPushCount = self.unReadPushCount - self.old;
+    if (self.propertyPushCount <= 0) {
+        self.propertyPushCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"propertyPushCount"] integerValue];
+    }
+    
+    if (self.propertyPushCount > 0) {
+        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
+        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+        [dis setDiscoverBadgeValue:self.propertyPushCount];
+    }
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -443,12 +460,9 @@
 
 - (void)showMessageValueWithStr:(int)value { //显示消息条数
     
-    int old = 0;
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"messagePushCount"]) {
-        old = [[[NSUserDefaults standardUserDefaults] objectForKey:@"messagePushCount"] intValue];
-    }
     
-    if (old != value) {
+    
+    if (self.old != value) {
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:value] forKey:@"messagePushCount"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
