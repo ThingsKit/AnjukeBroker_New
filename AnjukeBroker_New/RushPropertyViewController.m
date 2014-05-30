@@ -535,13 +535,13 @@
     if (self.myTableView.hidden) {
         if (!self.leftAutoPullDown) {
             [self.tableView autoPullDownRefresh];
-            self.leftAutoPullDown = YES;
+            self.leftAutoPullDown = NO;
             [self pullDown:nil];
         }
     }else{
         if (!self.rightAutoPullDown) {
             [self.myTableView autoPullDownRefresh]; //自动下拉
-            self.rightAutoPullDown = YES;
+            self.rightAutoPullDown = NO;
             [self pullDown:nil];
         }
     }
