@@ -28,6 +28,7 @@
 @property(nonatomic ,strong) MKMapView *map;
 @property(nonatomic, assign) double angle;
 @property(nonatomic, assign) float offsetY;
+@property(nonatomic, strong) NSIndexPath *selectCell;
 @end
 
 @implementation CheckoutCommunityViewController
@@ -44,6 +45,7 @@
         // Custom initialization
         self.tablaData = [[NSMutableArray alloc] init];
         self.offsetY = 0;
+        self.selectCell = nil;
     }
     return self;
 }
@@ -66,7 +68,8 @@
         return;
     }
     if (self.tableList && !self.isLoading) {
-        [self refreshGeo:nil];
+//        [self refreshGeo:nil];
+        [self doRequest];
     }
 }
 - (void)viewDidLoad
@@ -199,8 +202,8 @@
         }
         [self.tablaData removeAllObjects];
         [self.tableList reloadData];
-        [self performSelector:@selector(donePullDown) withObject:nil afterDelay:0.1];
-        [self performSelector:@selector(stopAnimation) withObject:nil afterDelay:0.1];
+        [self donePullDown];
+        [self stopAnimation];
         
         self.isLoading = NO;
         return;
@@ -247,17 +250,14 @@
         [self.tableList setTableStatus:STATUSFOROK];
     }
     [self donePullDown];
-    [self.tableList reloadData];
-
-    [self performSelector:@selector(resetTableY) withObject:nil afterDelay:1.0];
-}
-- (void)resetTableY{
-    if (self.offsetY && self.offsetY != 0) {
-        [self.tableList setContentOffset:CGPointMake(0, self.offsetY) animated:NO];
-        
-        self.offsetY = 0;
+    if (self.selectCell) {
+        [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.selectCell,nil] withRowAnimation:UITableViewRowAnimationNone];
+        self.selectCell = nil;
+    }else{
+        [self.tableList reloadData];
     }
 }
+
 #pragma mark -UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.tablaData.count;
@@ -290,7 +290,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.navigationController.view.frame.origin.x > 0) return;
 
-    self.offsetY = self.tableList.contentOffset.y;
+    self.selectCell = indexPath;
     
     [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_003 note:nil];
     CheckCommunityModel *model = [CheckCommunityModel convertToMappedObject:[self.tablaData objectAtIndex:indexPath.row]];
