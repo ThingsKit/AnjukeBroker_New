@@ -136,6 +136,8 @@
         [CrashLogUtil writeCrashLog];
     });
     
+    self.appDidBecomeActive = YES;
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -336,15 +338,7 @@
 #pragma mark -
 #pragma mark Push Message Notification
 - (void)showPushMessageCount{
-//    long unReadMessage = [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
-//    int count = [UIApplication sharedApplication].applicationIconBadgeNumber - unReadMessage;
-//    
-//    if (count > 0) {
-//        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", count]];
-//        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-//        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-//        [dis setDiscoverBadgeValue:count];
-//    }
+
     self.propertyPushCount++;  //计数器自增1
     if (self.propertyPushCount > 0) {
         [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
@@ -448,16 +442,22 @@
 }
 
 - (void)showMessageValueWithStr:(int)value { //显示消息条数
-    self.propertyPushCount = self.unReadPushCount - value;
-    if (self.propertyPushCount <= 0) {
-        self.propertyPushCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"propertyPushCount"] integerValue];
-    }
     
-    if (self.propertyPushCount > 0) {
-        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
-        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-        [dis setDiscoverBadgeValue:self.propertyPushCount];
+    //以下赋值逻辑只要在页面出现的时候走一次, 只有页面出现才走一次
+    if (self.appDidBecomeActive) {
+        self.propertyPushCount = self.unReadPushCount - value;
+        if (self.propertyPushCount <= 0) {
+            self.propertyPushCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"propertyPushCount"] integerValue];
+        }
+        
+        if (self.propertyPushCount > 0) {
+            [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
+            RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+            DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+            [dis setDiscoverBadgeValue:self.propertyPushCount];
+        }
+        
+        self.appDidBecomeActive = NO;
     }
     
     if (value <= 0) {
@@ -471,22 +471,6 @@
         str = [NSString stringWithFormat:@"99+"];
     }
     [self.tabController setMessageBadgeValueWithValue:str];
-    
-    if (!self.hasResignValue) {
-        self.propertyPushCount = self.unReadPushCount - value;
-        if (self.propertyPushCount <= 0) {
-            self.propertyPushCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"propertyPushCount"] integerValue];
-        }
-        
-        if (self.propertyPushCount > 0) {
-            [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
-            RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-            DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-            [dis setDiscoverBadgeValue:self.propertyPushCount];
-        }
-        
-        self.hasResignValue = YES;
-    }
     
     
 }
