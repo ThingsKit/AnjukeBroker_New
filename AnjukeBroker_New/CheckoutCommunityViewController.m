@@ -187,17 +187,18 @@
 - (void)doRequest{
 
     if (![CLLocationManager isLocationServiceEnabled]) {
-        [self performSelector:@selector(setStatusForNoGPS) withObject:nil afterDelay:0.5];
+        [self performSelector:@selector(setStatusForNoGPS) withObject:nil afterDelay:0.2];
         
         return;
     }
 
     if (![self isNetworkOkayWithNoInfo] || !self.nowCoords.latitude) {
-        if (!self.nowCoords.latitude) {
-            self.map.userInteractionEnabled = YES;
-        }else{
+        if (![self isNetworkOkayWithNoInfo]) {
             [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        }else if (!self.nowCoords.latitude){
+            self.map.userInteractionEnabled = YES;
         }
+
         [self.tablaData removeAllObjects];
         [self.tableList reloadData];
         [self performSelector:@selector(donePullDown) withObject:nil afterDelay:0.1];
@@ -304,9 +305,7 @@
 #pragma mark MKMapViewDelegate -user location定位变化
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     if (![CLLocationManager isLocationServiceEnabled]) {
-        //        UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        //        [alet show];
-        [self performSelector:@selector(setStatusForNoGPS) withObject:nil afterDelay:0.5];
+        [self performSelector:@selector(setStatusForNoGPS) withObject:nil afterDelay:0.2];
         
         return;
     }
