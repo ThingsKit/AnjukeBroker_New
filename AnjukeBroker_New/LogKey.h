@@ -39,6 +39,9 @@
 #define AJK_ZONGHE @"103000"
 #define AJK_ZONGHE_001 @"103010" // 启动APP，全新启动时发送，后台运行中打开不发送
 
+//点击公众账号【移动经纪人】
+#define AJK_PUBLIC_CLICK @"1000008" //点击公众账号【移动经纪人】
+
 //二手房发布页
 #define AJK_PROPERTY @"200000"
 #define AJK_PROPERTY_001 @"200001" //
@@ -57,6 +60,7 @@
 #define AJK_PROPERTY_014 @"200014" //点击添加房型图
 #define AJK_PROPERTY_015 @"200015" //点击房型图-从相册选择
 #define AJK_PROPERTY_016 @"200016" //点击房型图-在线房型图
+#define AJK_PROPERTY_017 @"200017" //点击已添加的室内图
 
 //二手房室内图描述页
 #define AJK_PROPERTY_HOUSEIMG_DES @"201000"
