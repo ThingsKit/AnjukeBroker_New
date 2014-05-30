@@ -55,6 +55,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.unReadPushCount = [UIApplication sharedApplication].applicationIconBadgeNumber; //记录未读消息总数
+    
     [[BrokerLogger sharedInstance] logWithActionCode:AJK_ZONGHE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -116,7 +118,8 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-
+    self.unReadPushCount = [UIApplication sharedApplication].applicationIconBadgeNumber; //记录未读消息总数
+    
     [self connectLongLinkForChat];
     
     [self cleanRemoteNotification:application];
@@ -132,13 +135,6 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [CrashLogUtil writeCrashLog];
     });
-    
-    if (self.propertyPushCount > 0) {
-        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
-        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-        [dis setDiscoverBadgeValue:self.propertyPushCount];
-    }
     
 }
 
@@ -304,8 +300,8 @@
 }
 
 - (void)cleanRemoteNotification:(UIApplication *)application{
-    self.unReadPushCount = [UIApplication sharedApplication].applicationIconBadgeNumber;
-    self.propertyPushCount = self.unReadPushCount - [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
+//    self.unReadPushCount = [UIApplication sharedApplication].applicationIconBadgeNumber;
+//    self.propertyPushCount = self.unReadPushCount - [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
     
     application.applicationIconBadgeNumber = 0;
 }
@@ -459,6 +455,15 @@
         str = [NSString stringWithFormat:@"99+"];
     }
     [self.tabController setMessageBadgeValueWithValue:str];
+    
+    self.propertyPushCount = self.unReadPushCount - [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
+    if (self.propertyPushCount > 0) {
+        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
+        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+        [dis setDiscoverBadgeValue:self.propertyPushCount];
+    }
+    
 }
 
 - (void)showAllNewMessageCountForIcon {
