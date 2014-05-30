@@ -32,7 +32,7 @@
     PropertyModel* property = (PropertyModel*)[self.data objectAtIndex:indexPath.row]; //获取self.data中的数据对象
     cell.propertyModel = property;
     cell.selectionStyle = UITableViewCellSelectionStyleNone; //cell不可选中
-    [cell setNeedsLayout];
+//    [cell setNeedsLayout];
     
     if (indexPath.row == self.data.count-1) {
         [cell showBottonLineWithCellHeight:85];

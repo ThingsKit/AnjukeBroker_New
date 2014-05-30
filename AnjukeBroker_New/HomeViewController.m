@@ -217,7 +217,7 @@
     [hView addSubview:self.tapValue];
     [hView addSubview:self.costName];
     [hView addSubview:self.costValue];
-    
+    //autolayout 
 //    if ([self.view respondsToSelector:@selector(addConstraint:)]) {
 //        self.tapName.translatesAutoresizingMaskIntoConstraints  = NO;
 //        self.tapValue.translatesAutoresizingMaskIntoConstraints = NO;
@@ -233,9 +233,10 @@
 //        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topSpace-[_costValue(20)]-valueAndNameSpace-[_costName(20)]" options:0 metrics:metrics views:dictionary]];
 //    }else {
         self.tapValue.frame = CGRectMake(60.0f, 30.0f, 80.0f, 20.0f);
-        self.tapName.frame = CGRectMake(60.0f, 70.0f, 80.0f, 20.0f);
         self.costValue.frame = CGRectMake(180.0f, 30.0f, 80.0f, 20.0f);
-        self.costName.frame = CGRectMake(180.0f, 70.0f, 80.0f, 20.0f);
+
+        self.tapName.frame = CGRectMake(60.0f, 60.0f, 80.0f, 20.0f);
+        self.costName.frame = CGRectMake(180.0f, 60.0f, 80.0f, 20.0f);
 //    }
 }
 
@@ -682,7 +683,7 @@
     }
     cell.textLabel.text = [self.taskArray objectAtIndex:indexPath.row];
     cell.textLabel.textColor = [UIColor brokerBlackColor];
-    cell.textLabel.font = [UIFont ajkH2Font_B];
+    cell.textLabel.font = [UIFont ajkH2Font];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     if (indexPath.row == self.taskArray.count - 1) {
         BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, 0.5f, 320 - 15, 0.5f)];

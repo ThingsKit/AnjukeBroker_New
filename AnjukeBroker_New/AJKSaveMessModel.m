@@ -18,6 +18,16 @@
 
 @synthesize fxa,fxo,pd,profid,sna,snc,st,stDa;
 
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+        stDa = [NSDate date];
+    }
+    return self;
+}
+
 - (NSString *)st
 {
     if (!st || st.length == 0)
@@ -60,6 +70,11 @@
 
 - (NSString *)setPdString:(NSArray *)arr idArr:(NSArray *)idArr
 {
+    if (!arr || arr.count < idArr.count)
+    {
+        return @"";
+    }
+    
     NSMutableString *stw = [[NSMutableString alloc] init];
     int j = 0;
     if (idArr)

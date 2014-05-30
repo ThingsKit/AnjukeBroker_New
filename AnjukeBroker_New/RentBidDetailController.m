@@ -267,6 +267,7 @@
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_005 note:nil];
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.isHaozu = YES;
+            controller.pdId = HZ_PPC_BID_DETAIL;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
@@ -292,6 +293,7 @@
             [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_005 note:nil];
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.isHaozu = YES;
+            controller.pdId = HZ_PPC_BID_DETAIL;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];

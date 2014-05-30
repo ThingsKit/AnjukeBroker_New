@@ -27,7 +27,7 @@
 @property(nonatomic ,strong) UIButton *refreshBtn;
 @property(nonatomic ,strong) MKMapView *map;
 @property(nonatomic, assign) double angle;
-
+@property(nonatomic, strong) NSIndexPath *selectCell;
 @end
 
 @implementation CheckoutCommunityViewController
@@ -43,15 +43,15 @@
     if (self) {
         // Custom initialization
         self.tablaData = [[NSMutableArray alloc] init];
-
+        self.selectCell = nil;
     }
     return self;
 }
 
 #pragma mark - log
-- (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-}
+//- (void)sendAppearLog {
+//    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+//}
 
 - (void)viewWillAppear:(BOOL)animated{
     if (![CLLocationManager isLocationServiceEnabled]) {
@@ -66,12 +66,15 @@
         return;
     }
     if (self.tableList && !self.isLoading) {
-        [self refreshGeo:nil];
+//        [self refreshGeo:nil];
+        [self doRequest];
     }
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+
     [self setTitleViewWithString:@"小区签到"];
     // Do any additional setup after loading the view.
     
@@ -197,8 +200,8 @@
         }
         [self.tablaData removeAllObjects];
         [self.tableList reloadData];
-        [self performSelector:@selector(donePullDown) withObject:nil afterDelay:0.1];
-        [self performSelector:@selector(stopAnimation) withObject:nil afterDelay:0.1];
+        [self donePullDown];
+        [self stopAnimation];
         
         self.isLoading = NO;
         return;
@@ -245,7 +248,12 @@
         [self.tableList setTableStatus:STATUSFOROK];
     }
     [self donePullDown];
-    [self.tableList reloadData];
+    if (self.selectCell) {
+        [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.selectCell,nil] withRowAnimation:UITableViewRowAnimationNone];
+        self.selectCell = nil;
+    }else{
+        [self.tableList reloadData];
+    }
 }
 
 #pragma mark -UITableViewDelegate
@@ -280,6 +288,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.navigationController.view.frame.origin.x > 0) return;
 
+    self.selectCell = indexPath;
+    
     [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_003 note:nil];
     CheckCommunityModel *model = [CheckCommunityModel convertToMappedObject:[self.tablaData objectAtIndex:indexPath.row]];
     CheckoutViewController *checkoutVC = [[CheckoutViewController alloc] init];

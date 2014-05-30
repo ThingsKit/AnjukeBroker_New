@@ -36,9 +36,8 @@
 
 
 //综合
-#define AJK_ZONGHE @"103000" // 启动APP，全新启动时发送，后台运行中打开不发送
-
-
+#define AJK_ZONGHE @"103000"
+#define AJK_ZONGHE_001 @"103010" // 启动APP，全新启动时发送，后台运行中打开不发送
 
 //二手房发布页
 #define AJK_PROPERTY @"200000"

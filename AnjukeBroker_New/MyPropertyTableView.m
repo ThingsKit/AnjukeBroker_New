@@ -20,7 +20,6 @@
     if (self = [super initWithFrame:frame style:style]) {
         
     }
-    [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ME_PAGE_001 note:nil];
     return self;
 }
 

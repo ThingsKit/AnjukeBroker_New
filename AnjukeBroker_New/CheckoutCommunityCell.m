@@ -33,9 +33,7 @@
     self.checkStatusLab.textColor = [UIColor brokerBlueColor];
     self.checkStatusLab.backgroundColor = [UIColor clearColor];
     self.checkStatusLab.font = [UIFont ajkH3Font];
-    [self.contentView addSubview:self.checkStatusLab];    
-
-    
+    [self.contentView addSubview:self.checkStatusLab];
 }
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index{
     CheckCommunityModel *model = (CheckCommunityModel *)dataModel;
@@ -43,7 +41,9 @@
         self.textLabel.text = [NSString stringWithFormat:@"%@",model.commName];
         self.textLabel.textColor = [UIColor brokerBlackColor];
         self.textLabel.font = [UIFont ajkH2Font_B];
-        self.checkStatusLab.text = model.signAble ? @"已签到" : @"";        
+        self.textLabel.backgroundColor = [UIColor clearColor];
+//        [self.contentView bringSubviewToFront:self.checkStatusLab];
+        self.checkStatusLab.text = model.signAble ? @"已签到" : @"";
     }
     return YES;
 }

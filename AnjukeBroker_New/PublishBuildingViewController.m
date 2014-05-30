@@ -2181,7 +2181,7 @@ typedef enum {
     
     BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    pb.bp = HZ_PROPERTY_HOUSEIMG_ALBUM_001;
+    pb.bp = HZ_PROPERTY_HOUSEIMG_ALBUM;
     if(!self.isHaozu)
     {
         pb.hasTextView = YES; //有照片编辑框
@@ -2800,7 +2800,7 @@ typedef enum {
                 [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
                 
                 //室内图
-                NSString *pbid2 = HZ_PROPERTY_001;
+                NSString *pbid2 = HZ_PROPERTY;
                 NSString *code2 = HZ_PROPERTY_HOUSEIMG_ALBUM_001;
                 if(!self.isHaozu)
                 {
@@ -2812,7 +2812,7 @@ typedef enum {
                 //户型图
                 if (self.footClickType == 2)
                 {
-                    pbid2 = HZ_PROPERTY_001;
+//                    pbid2 = HZ_PROPERTY;
                     code2 = HZ_PROPERTY_HOUSETYPEIMG_ALBUM_001;
                     if(!self.isHaozu)
                     {

@@ -362,6 +362,7 @@
     PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
     SalePropertyObject *pro = (SalePropertyObject *)[self.selectedArray objectAtIndex:0];
     controller.isHaozu = YES;
+    controller.pdId = HZ_PPC_NO_PLAN;
     controller.propertyID = pro.propertyId;
     controller.propertyDelegate = self;
     controller.backType = RTSelectorBackTypeDismiss;
@@ -482,6 +483,7 @@
     }else if (buttonIndex == 1){
         PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
         controller.isHaozu = YES;
+        controller.pdId = HZ_PPC_NO_PLAN;
         controller.propertyID = [[self.selectedArray objectAtIndex:0] objectForKey:@"id"];
         [self.navigationController pushViewController:controller animated:YES];
     }else if (buttonIndex == 2){

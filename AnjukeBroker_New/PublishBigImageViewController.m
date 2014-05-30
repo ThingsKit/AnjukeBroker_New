@@ -162,8 +162,16 @@
         }
         
         //通知房源编辑页面删除对应图片
-        if ([self.clickDelegate respondsToSelector:@selector(editPropertyDidDeleteImgWithDeleteIndex:sender:)]) {
-            [self.clickDelegate editPropertyDidDeleteImgWithDeleteIndex:self.editDeleteImgIndex sender:self];
+        if ([self.clickDelegate respondsToSelector:@selector(editPropertyDidDeleteImgWithDeleteIndex:sender:)])
+        {
+            if (self.isEditProperty)
+            {
+                [self.clickDelegate editPropertyDidDeleteImgWithDeleteIndex:0 sender:self];
+            }else
+            {
+                [self.clickDelegate editPropertyDidDeleteImgWithDeleteIndex:self.editDeleteImgIndex sender:self];
+            }
+            
             [self.imageDescArray removeObjectAtIndex:self.editDeleteImgIndex];
         }
         
@@ -409,7 +417,8 @@
     //结构体包装成NSValue对象
 //    _textView.height = 252;
     _numberOfText.hidden = YES;
-    if (_imageDescArray) {
+    if (_imageDescArray && _imageDescArray.count > self.editDeleteImgIndex)
+    {
         NSString* content = [_imageDescArray objectAtIndex:self.editDeleteImgIndex];
         if (content.length > 0 && ![content isEqualToString:self.placeHolder]) {
             _textView.text = [_imageDescArray objectAtIndex:self.editDeleteImgIndex];

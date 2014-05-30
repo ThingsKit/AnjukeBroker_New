@@ -33,7 +33,7 @@
 @property(nonatomic, strong) UIView *userHeaderView;
 @property(nonatomic ,strong) UILabel *userName;
 @property(nonatomic ,strong) UIButton *userLevelBtn;
-
+@property(nonatomic ,strong) BK_WebImageView *userAvatar;
 @end
 
 @implementation UserHeaderView
@@ -61,20 +61,25 @@
     self.userHeaderView.backgroundColor = [UIColor clearColor];
     [_bannerView addSubview:self.userHeaderView];
     
-    BK_WebImageView *userAvatar = [[BK_WebImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
+    self.userAvatar = [[BK_WebImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
     if (![LoginManager getUse_photo_url] || [LoginManager getUse_photo_url].length == 0) {
-        [userAvatar setImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
+//        userAvatar.imageUrl = @"http://pages.anjukestatic.com/img/bknoimg.gif";
+        [self.userAvatar setImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
     }else{
-        userAvatar.imageUrl = [LoginManager getUse_photo_url];
+        if (![[RTApiRequestProxy sharedInstance] isInternetAvailiable]) {
+            [self.userAvatar setImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
+        }else{
+            self.userAvatar.imageUrl = [LoginManager getUse_photo_url];
+        }
     }
-    userAvatar.contentMode = UIViewContentModeScaleAspectFill;
-    userAvatar.layer.masksToBounds = YES;
-    userAvatar.layer.cornerRadius = 5;
-    userAvatar.layer.borderWidth = 2.5;
-    userAvatar.layer.borderColor = [UIColor brokerBgPageColor].CGColor;
-    [self.userHeaderView addSubview:userAvatar];
+    self.userAvatar.contentMode = UIViewContentModeScaleAspectFill;
+    self.userAvatar.layer.masksToBounds = YES;
+    self.userAvatar.layer.cornerRadius = 5;
+    self.userAvatar.layer.borderWidth = 2.5;
+    self.userAvatar.layer.borderColor = [UIColor brokerBgPageColor].CGColor;
+    [self.userHeaderView addSubview:self.userAvatar];
     
-    self.userName = [[UILabel alloc] initWithFrame:CGRectMake(userAvatar.frame.origin.x+userAvatar.frame.size.width + 10, 8, 100, 20)];
+    self.userName = [[UILabel alloc] initWithFrame:CGRectMake(self.userAvatar.frame.origin.x+self.userAvatar.frame.size.width + 10, 8, 100, 20)];
     self.userName.backgroundColor = [UIColor clearColor];
     self.userName.text = @"";
     self.userName.layer.shadowColor = [UIColor brokerWhiteColor].CGColor;
@@ -84,7 +89,7 @@
     [self.userHeaderView addSubview:self.userName];
     
     self.userLevelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.userLevelBtn.frame = CGRectMake(userAvatar.frame.origin.x+userAvatar.frame.size.width + 10, self.userName.frame.origin.y + self.userName.frame.size.height +6, 75, 20);
+    self.userLevelBtn.frame = CGRectMake(self.userAvatar.frame.origin.x+self.userAvatar.frame.size.width + 10, self.userName.frame.origin.y + self.userName.frame.size.height +6, 75, 20);
     [self.userLevelBtn setBackgroundImage:[UIImage imageNamed:@"user_noTalent"] forState:UIControlStateNormal];
     [self.userLevelBtn addTarget:self action:@selector(goSDX:) forControlEvents:UIControlEventTouchUpInside];
     [self.userHeaderView addSubview:self.userLevelBtn];
@@ -212,6 +217,17 @@
         [self.userLevelBtn setBackgroundImage:[UIImage imageNamed:@"user_talent"] forState:UIControlStateNormal];
     }else{
         [self.userLevelBtn setBackgroundImage:[UIImage imageNamed:@"user_noTalent"] forState:UIControlStateNormal];
+    }
+    
+    if (![LoginManager getUse_photo_url] || [LoginManager getUse_photo_url].length == 0) {
+        //        userAvatar.imageUrl = @"http://pages.anjukestatic.com/img/bknoimg.gif";
+        [self.userAvatar setImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
+    }else{
+        if (![[RTApiRequestProxy sharedInstance] isInternetAvailiable]) {
+            [self.userAvatar setImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
+        }else{
+            self.userAvatar.imageUrl = [LoginManager getUse_photo_url];
+        }
     }
 }
 

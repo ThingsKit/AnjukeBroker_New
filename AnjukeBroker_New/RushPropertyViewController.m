@@ -60,7 +60,7 @@
 {
     [super viewDidLoad];
     [self initUI]; //初始化 self.navigationItem.titleView
-    [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_001 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_001 note:@{@"push":FIND_PAGE}];
     self.tableView = [[PropertyTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44) style:UITableViewStylePlain];
     self.tableView.hidden = NO;
     self.tableView.hasMore = YES;
@@ -154,10 +154,16 @@
                 
                 self.tableView.tableHeaderView = nil;
                 
+                if (properties.count < 20) {
+                    self.tableView.hasMore = NO;
+                }else{
+                    self.tableView.hasMore = YES;
+                }
+                
                 [self.tableView reloadData];
                 
                 
-                //减去已读数据
+                //房源未读数据至0
                 //################################################################
                 AppDelegate* delegate = [AppDelegate sharedAppDelegate];
                 delegate.propertyPushCount = 0;
@@ -187,6 +193,12 @@
                 self.myTableView.maxId = maxProperty.id;
                 
                 self.myTableView.tableHeaderView = nil;
+                
+                if (properties.count < 20) {
+                    self.myTableView.hasMore = NO;
+                }else{
+                    self.myTableView.hasMore = YES;
+                }
                 
                 [self.myTableView reloadData];
             }
@@ -274,29 +286,20 @@
             self.hubSubText.text = @"房源已删除";
             self.hubSubText.hidden = NO;
             
-        }else if ([errCode isEqualToString:@"5002"]){
-            
-            self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_laugh"];
-            self.hudText.text = @"抢过来!";
-            self.hubSubText.text = @"去我的委托看看吧";
+        }else{
+            self.hudText.hidden = YES;
+            self.hubSubText.frame = CGRectMake(135/2-120/2, 135/2 -20, 120, 70);
+            self.hubSubText.textAlignment = NSTextAlignmentCenter;
+            self.hubSubText.numberOfLines = 0;
+            self.hubSubText.text = message;
+            [self.hubSubText sizeToFit];
             self.hubSubText.hidden = NO;
-            
-        }else if([errCode isEqualToString:@"5003"]){
-            
-            self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
-            self.hudText.text = @"抢完了~";
-            self.hubSubText.hidden = YES;
-            
-        }else{ //其他错误浮层显示逻辑
-            self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
-            self.hudText.text = message;
-            self.hubSubText.hidden = YES;
         }
         
     }else{ //这里表示网络异常
-        self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
-        self.hudText.text = @"网络异常";
-        self.hubSubText.hidden = YES;
+        self.hudText.hidden = YES;
+        self.hubSubText.text = @"网络异常";
+        self.hubSubText.hidden = NO;
     }
     
     [self.hud hide:YES afterDelay:1]; //显示一段时间后隐藏
@@ -375,6 +378,8 @@
 
 - (void)leftTabButtonClicked{
     NSLog(@"left clicked");
+    [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_001 note:@{@"bp":FIND_PAGE}];
+    
     [self.leftTabButton setBackgroundColor:[UIColor brokerBlueGrayColor]];
 //    [self.leftTabButton setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateNormal];
     [self.rightTabButton setBackgroundColor:[UIColor clearColor]];
@@ -388,6 +393,8 @@
 
 - (void)rightTabButtonClicked{
     NSLog(@"right clicked");
+    [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ME_PAGE_001 note:nil];
+    
     [self.leftTabButton setBackgroundColor:[UIColor clearColor]];
     [self.rightTabButton setBackgroundColor:[UIColor brokerBlueGrayColor]];
 //    [self.rightTabButton setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateNormal];
@@ -626,12 +633,12 @@
     
     
     //创建badge
-    self.propertyListBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(205, 6, 20, 20)];
-    self.propertyListBadgeLabel.backgroundColor = [UIColor whiteColor];
-    self.propertyListBadgeLabel.layer.cornerRadius = 10.0f;
+    self.propertyListBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(180, 6, 10, 10)];
+    self.propertyListBadgeLabel.backgroundColor = [UIColor redColor];
+    self.propertyListBadgeLabel.layer.cornerRadius = 5.0f;
     self.propertyListBadgeLabel.layer.masksToBounds = YES;
-    self.propertyListBadgeLabel.textColor = [UIColor grayColor];
-    self.propertyListBadgeLabel.textAlignment = UITextAlignmentCenter; //这里已经做过调整, 兼容ios5.0
+//    self.propertyListBadgeLabel.textColor = [UIColor grayColor];
+//    self.propertyListBadgeLabel.textAlignment = UITextAlignmentCenter; //这里已经做过调整, 兼容ios5.0
     self.propertyListBadgeLabel.hidden = YES;
     self.badgeNumber = 0;
     [headView addSubview:self.propertyListBadgeLabel];

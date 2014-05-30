@@ -55,13 +55,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_ZONGHE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
-    
-    self.unReadPushCount = [UIApplication sharedApplication].applicationIconBadgeNumber;
-    self.propertyPushCount = self.unReadPushCount - [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
     
     [self registerRemoteNotification];
     [self cleanRemoteNotification:application];
@@ -134,11 +133,12 @@
         [CrashLogUtil writeCrashLog];
     });
     
-
-    [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
-    RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-    DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-    [dis setDiscoverBadgeValue:self.propertyPushCount];
+    if (self.propertyPushCount > 0) {
+        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
+        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+        [dis setDiscoverBadgeValue:self.propertyPushCount];
+    }
     
 }
 
@@ -304,19 +304,22 @@
 }
 
 - (void)cleanRemoteNotification:(UIApplication *)application{
+    self.unReadPushCount = [UIApplication sharedApplication].applicationIconBadgeNumber;
+    self.propertyPushCount = self.unReadPushCount - [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
+    
     application.applicationIconBadgeNumber = 0;
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
     
-    [self cleanRemoteNotification:application];
+//    [self cleanRemoteNotification:application];
     
     if (application.applicationState == UIApplicationStateInactive) {
         DLog(@"userInfo [%@]", userInfo);
         NSString* msgType = [[userInfo objectForKey:@"anjuke_custom"] objectForKey:@"msgType"];
         if ([@"push" isEqualToString:msgType]) {
             
-            [self showPushMessageCount];
+//            [self showPushMessageCount];
             //NSLog(@"弹出模态视图");
             RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
             viewController.backType = RTSelectorBackTypeDismiss;
@@ -347,11 +350,12 @@
 //        [dis setDiscoverBadgeValue:count];
 //    }
     self.propertyPushCount++;  //计数器自增1
-    
-    [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
-    RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-    DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-    [dis setDiscoverBadgeValue:self.propertyPushCount];
+    if (self.propertyPushCount > 0) {
+        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
+        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+        [dis setDiscoverBadgeValue:self.propertyPushCount];
+    }
     
 }
 
