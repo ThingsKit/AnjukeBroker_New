@@ -114,8 +114,11 @@
             self.badgeView.layer.masksToBounds = YES;
             
             int count = [AppDelegate sharedAppDelegate].propertyPushCount;
-            
-            self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+            if (count > 9) {
+                self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(2.5f, -1.5f, 20, 20)];
+            }else{
+                self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.5f, -1.5f, 20, 20)];
+            }
             [self.badgeNumberLabel setTextColor:[UIColor whiteColor]];
             self.badgeNumberLabel.backgroundColor = [UIColor clearColor];
             [self.badgeNumberLabel setFont:[UIFont ajkH5Font]];
