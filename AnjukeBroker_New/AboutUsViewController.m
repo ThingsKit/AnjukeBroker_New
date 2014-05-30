@@ -122,6 +122,8 @@
     umeng_key = [NSString stringWithFormat:@"%@",UMENG_KEY_ONLINE];
 #endif
     
+    umeng_key = [umeng_key substringFromIndex:umeng_key.length - 6];
+    
     strVer = [NSString stringWithFormat:@"当前版本：%@ %@ %@",current_version,device_info,umeng_key];
     
     return strVer;
