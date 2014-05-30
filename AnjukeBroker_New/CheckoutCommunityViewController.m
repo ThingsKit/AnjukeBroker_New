@@ -200,8 +200,8 @@
         }
         [self.tablaData removeAllObjects];
         [self.tableList reloadData];
-        [self donePullDown];
-        [self stopAnimation];
+        [self performSelector:@selector(donePullDown) withObject:nil afterDelay:0.1];
+        [self performSelector:@selector(stopAnimation) withObject:nil afterDelay:0.1];
         
         self.isLoading = NO;
         return;
