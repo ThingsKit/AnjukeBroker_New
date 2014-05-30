@@ -244,6 +244,7 @@
         self.button.enabled = YES;
         
         if ([status isEqualToString:@"ok"]) {
+            
             //删除当前cell, 将其添加到myPropertyList中, 但其实不需要添加, 因为myPropertyList每次都自动请求最新的(点击tab, 自动下拉)
             //播放飞入动画
             UIImageView* snapshot = [[UIImageView alloc] initWithImage:[self capture]];
@@ -263,6 +264,9 @@
             //计数器加1
 //            viewController.propertyListBadgeLabel.text = [NSString stringWithFormat:@"%d", ++viewController.badgeNumber];
             viewController.propertyListBadgeLabel.hidden = NO;
+            
+            //右侧自动下拉
+            viewController.rightAutoPullDown = NO;
             
             [viewController removeCellFromPropertyTableViewWithCell:self]; //删除对应indexPath的cell
             

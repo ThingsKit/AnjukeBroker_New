@@ -18,6 +18,10 @@
 @property(nonatomic, strong) UILabel* propertyListBadgeLabel;
 @property(nonatomic, assign) NSInteger badgeNumber;
 
+//设置是否自动下拉
+@property (nonatomic, assign) BOOL leftAutoPullDown;
+@property (nonatomic, assign) BOOL rightAutoPullDown;
+
 //自动拉下刷新
 - (void)autoRefresh;
 
