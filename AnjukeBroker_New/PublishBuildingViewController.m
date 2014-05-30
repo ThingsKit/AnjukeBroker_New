@@ -2664,12 +2664,16 @@ typedef enum {
     
     //室内图-拍照
     NSString *code = [NSString string];
-    if (self.isHaozu) {
-        code = HZ_PROPERTY_012;
+    if (!self.isChildClass)
+    {
+        if (self.isHaozu) {
+            code = HZ_PROPERTY_012;
+        }
+        else
+            code = AJK_PROPERTY_012;
+        [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
     }
-    else
-        code = AJK_PROPERTY_012;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    
     
     self.isTakePhoto = YES;
     
