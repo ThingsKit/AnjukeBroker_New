@@ -2181,6 +2181,10 @@ typedef enum {
     
     BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_017 note:nil];
+    //[[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", bp , @"bp", nil]];
+
     pb.bp = HZ_PROPERTY_HOUSEIMG_ALBUM;
     if(!self.isHaozu)
     {
