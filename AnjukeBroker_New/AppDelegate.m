@@ -144,18 +144,21 @@
     }
     
     self.propertyPushCount = self.unReadPushCount - self.old;
-    if (self.propertyPushCount <= 0) {
+    if (self.propertyPushCount < 0 || (self.propertyPushCount == 0 && self.unReadPushCount == 0)) {
         self.propertyPushCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"propertyPushCount"] integerValue];
     }
     
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"did become active" message:[NSString stringWithFormat:@"总数%d, 旧值%d, 房源%d", self.unReadPushCount, self.old, self.propertyPushCount] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-    [alert show];
+//    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"did become active" message:[NSString stringWithFormat:@"总数%d, 旧值%d, 房源%d", self.unReadPushCount, self.old, self.propertyPushCount] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+//    [alert show];
     
     if (self.propertyPushCount > 0) {
         [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
         RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
         DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
         [dis setDiscoverBadgeValue:self.propertyPushCount];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.propertyPushCount] forKey:@"propertyPushCount"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
 }
@@ -371,8 +374,8 @@
         
     }
     
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"房源自增1" message:[NSString stringWithFormat:@"房源%d", self.propertyPushCount] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-    [alert show];
+//    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"房源自增1" message:[NSString stringWithFormat:@"房源%d", self.propertyPushCount] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+//    [alert show];
     
 }
 
@@ -466,9 +469,6 @@
 
 - (void)showMessageValueWithStr:(int)value { //显示消息条数
     
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"message" message:[NSString stringWithFormat:@"总数%d, 新值%d", self.unReadPushCount, value] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-    [alert show];
-    
     if (self.old != value) {
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:value] forKey:@"messagePushCount"];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -477,9 +477,10 @@
         if (self.appDidBecomeActive) {
             self.propertyPushCount = self.unReadPushCount - value;
             
+//            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"message" message:[NSString stringWithFormat:@"总数%d, 新值%d", self.unReadPushCount, value] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+//            [alert show];
             
-            
-            if (self.propertyPushCount <= 0) {
+            if (self.propertyPushCount < 0) {
                 self.propertyPushCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"propertyPushCount"] integerValue];
             }
             
@@ -488,6 +489,17 @@
                 RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
                 DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
                 [dis setDiscoverBadgeValue:self.propertyPushCount];
+            }else{
+                RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+                DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+                navi.tabBarItem.badgeValue = nil;
+                dis.badgeView.hidden = YES;
+                
+                if (self.propertyPushCount == 0) {
+                    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:0] forKey:@"propertyPushCount"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                }
+
             }
             
             self.appDidBecomeActive = NO;
