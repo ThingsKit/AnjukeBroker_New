@@ -86,6 +86,8 @@
 @property BOOL isBid; //是否为定价且竞价
 @property (nonatomic, strong) AJKSaveMessModel *saveMessModel;//日志model
 
+@property (nonatomic, assign) BOOL isChildClass;//是否是子类
+
 - (void)setTextFieldForProperty;
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount;
 - (void)setHouseTypeShowWithString:(NSString *)string vDict:(NSDictionary *)dict; //设置房型文案

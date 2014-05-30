@@ -47,20 +47,6 @@
     [self setTitleViewWithString:@"房源编辑"];
     [self doRequestProp];
     
-    
-    NSString *code = AJK_PPC_RESET_001;
-    if (self.isHaozu)
-    {
-        code = HZ_PPC_RESET_001;
-    }
-    
-    if (!self.pdId) {
-        self.pdId = @"";
-    }
-    
-    //页面可见log
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:self.pdId, @"bp", nil]];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -81,6 +67,25 @@
 }
 
 #pragma mark - Private Method
+
+#pragma mark - log
+- (void)sendAppearLog
+{
+    self.isChildClass = YES;
+    NSString *code = AJK_PPC_RESET_001;
+    if (self.isHaozu)
+    {
+        code = HZ_PPC_RESET_001;
+    }
+    
+    if (!self.pdId) {
+        self.pdId = @"";
+    }
+    
+    //页面可见log
+    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:self.pdId, @"bp", nil]];
+
+}
 
 - (void)initModel {
     [super initModel];
@@ -830,8 +835,6 @@
     
     if (actionSheet.tag == IMAGE_ACTIONSHEET_TAG)
     {
-        
-        
         if (self.footClickType == 1)
         {
             NSString *code = AJK_PPC_RESET_009;

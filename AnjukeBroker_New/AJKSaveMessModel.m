@@ -33,8 +33,8 @@
     if (!st || st.length == 0)
     {
         NSDateFormatter *dateFormatrer = [[NSDateFormatter alloc] init];
-        dateFormatrer.dateFormat = @"yyyy-mm-dd HH:mm:ss";
-        
+        dateFormatrer.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+        st = [dateFormatrer stringFromDate:stDa];
         return [dateFormatrer stringFromDate:stDa];
     }
     
@@ -45,7 +45,7 @@
 {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     
-    [dict setValue:st forKey:@"st"];
+    [dict setValue:self.st forKey:@"st"];
     [dict setValue:profid forKey:@"propid"];
     [dict setValue:[NSString stringWithFormat:@"%d",sna] forKey:@"sna"];
     [dict setValue:[NSString stringWithFormat:@"%d",snc] forKey:@"snc"];

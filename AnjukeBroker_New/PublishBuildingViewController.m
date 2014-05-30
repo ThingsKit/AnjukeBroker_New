@@ -2823,8 +2823,11 @@ typedef enum {
                     }
                 }
                 
+                if (!self.isChildClass)
+                {
+                    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                }
                 
-                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
                 
                 //室内图
                 NSString *pbid2 = HZ_PROPERTY;
@@ -2849,7 +2852,10 @@ typedef enum {
                     }
                 }
                 
-                [[BrokerLogger sharedInstance] logWithActionCode:code2 note:[NSDictionary dictionaryWithObjectsAndKeys:pbid2, @"bp", nil]];
+                if (!self.isChildClass)
+                {
+                    [[BrokerLogger sharedInstance] logWithActionCode:code2 note:[NSDictionary dictionaryWithObjectsAndKeys:pbid2, @"bp", nil]];
+                }
                 
                 self.isTakePhoto = NO;
                 
@@ -2878,8 +2884,11 @@ typedef enum {
                 }
                 else
                     code = AJK_PROPERTY_008;
-                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
                 
+                if (!self.isChildClass)
+                {
+                    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                }
                 self.uploadType = Property_DJ;
                 
                 //test upload img
@@ -2896,8 +2905,11 @@ typedef enum {
                 }
                 else
                     code = AJK_PROPERTY_009;
-                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
                 
+                if (!self.isChildClass)
+                {
+                    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                }
                 self.uploadType = Property_JJ;
                 
                 //test upload img
@@ -2914,8 +2926,11 @@ typedef enum {
                 }
                 else
                     code = AJK_PROPERTY_010;
-                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
                 
+                if (!self.isChildClass)
+                {
+                    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                }
                 self.uploadType = Property_WTG;
                 
                 //test upload img
