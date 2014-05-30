@@ -114,6 +114,9 @@
             self.badgeView.layer.masksToBounds = YES;
             
             int count = [AppDelegate sharedAppDelegate].propertyPushCount;
+            if (count < 0) {
+                count = 0;
+            }
             if (count > 9) {
                 self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(2.5f, -1.5f, 20, 20)];
             }else{
