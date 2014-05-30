@@ -831,6 +831,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    self.isChildClass = YES;
     [super actionSheet:actionSheet clickedButtonAtIndex:buttonIndex];
     
     if (actionSheet.tag == IMAGE_ACTIONSHEET_TAG)
