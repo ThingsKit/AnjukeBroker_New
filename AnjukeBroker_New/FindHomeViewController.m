@@ -112,8 +112,6 @@
     if (self.isLoading == YES) {
         //        return;
     }
-    [[BrokerLogger sharedInstance] logWithActionCode:MARKET_ANALYSIS_003 note:nil];
-
     if(![self isNetworkOkay]){
         [self showInfo:NONETWORK_STR];
         return;
