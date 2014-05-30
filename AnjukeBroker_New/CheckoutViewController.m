@@ -270,7 +270,7 @@
     }else{
         params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%f",self.nowCoords.longitude],@"lng",self.checkCommunitmodel.commId,@"commId", nil];
     }
-    
+//    params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",29.323028],@"lat",[NSString stringWithFormat:@"%f",121.5612314],@"lng",self.checkCommunitmodel.commId,@"commId", nil];
     
     method = [NSString stringWithFormat:@"broker/commSign/"];
     
@@ -288,7 +288,12 @@
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
 
-        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        if ([[[response content] objectForKey:@"status"] isEqualToString:@"error"] && [[[response content] objectForKey:@"errcode"] isEqualToString:@"1009"]) {
+            [[HUDNews sharedHUDNEWS] createHUD:@"签到失败!" hudTitleTwo:@"你跑得太远了" addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        }else{
+            [[HUDNews sharedHUDNEWS] createHUD:@"签到失败!" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        }
+        
         [self showCheckButton:CHECKBUTTONWITHNORMALSTATUS timeLeft:0];
 
         return;
