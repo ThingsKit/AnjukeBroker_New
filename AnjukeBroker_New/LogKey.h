@@ -39,9 +39,6 @@
 #define AJK_ZONGHE @"103000"
 #define AJK_ZONGHE_001 @"103010" // 启动APP，全新启动时发送，后台运行中打开不发送
 
-//点击公众账号【移动经纪人】
-#define AJK_PUBLIC_CLICK @"1000008" //点击公众账号【移动经纪人】
-
 //二手房发布页
 #define AJK_PROPERTY @"200000"
 #define AJK_PROPERTY_001 @"200001" //
@@ -531,6 +528,7 @@
 #define MESSAGE_LIST_003 @"900003" //点击右上角“+”
 #define MESSAGE_LIST_004 @"900004" //点击查看对话
 #define MESSAGE_LIST_005 @"900005" //点击删除对话
+#define MESSAGE_LIST_006 @"900006" //点击【移动经纪人】
 
 //聊天单页
 #define CHATVIEW_001 @"910001" //页面可见（即页面打开）
@@ -604,6 +602,8 @@
 #define CLIENT_LIST_004 @"1000004"
 #define CLIENT_LIST_005 @"1000005"
 #define CLIENT_LIST_006 @"1000006"
+//点击公众账号【移动经纪人】
+#define CLIENT_LIST_008 @"1000008" //点击公众账号【移动经纪人】
 
 //客户单页
 #define CLIENT_DETAIL_001 @"1100001"

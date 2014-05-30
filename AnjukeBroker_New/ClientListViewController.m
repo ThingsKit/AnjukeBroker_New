@@ -509,16 +509,22 @@
     if (self.isForMessageList) {
         [[BrokerLogger sharedInstance] logWithActionCode:CUSTOM_CHOOSE_003 note:nil];
     }
-    else
-        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_003 note:nil];
+    else{
+
+    }
     
     DLog(@"section- [%d]", indexPath.section);
     AXMappedPerson *item = nil;
     
     if (indexPath.section == 0) { //公共账号显示
         item = [self.publicDataArr objectAtIndex:indexPath.row];
-        
+        if (item.userType == AXPersonTypePublic) {
+            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_008 note:nil];
+        }else {
+            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_003 note:nil];
+        }
         if (self.isForMessageList) {
+            
             BrokerChatViewController *controller = [[BrokerChatViewController alloc] init];
             controller.isBroker = YES;
             controller.uid = item.uid;

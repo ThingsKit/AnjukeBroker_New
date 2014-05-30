@@ -16,6 +16,7 @@
 #import "AppDelegate.h"
 #import "BrokerLineView.h"
 #import "NoDataView.h"
+#import "AXChatMessageCenter.h"
 
 @interface MessageListViewController ()
 
@@ -310,10 +311,16 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_004 note:nil];
-    
-    AXConversationListItem *item = [self.sessionFetchedResultsController objectAtIndexPath:indexPath];
 
+    AXConversationListItem *item = [self.sessionFetchedResultsController objectAtIndexPath:indexPath];
+  AXMappedPerson *persion = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:item.friendUid];
+    
+    if (persion.userType == AXPersonTypePublic) {
+        [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_006 note:nil];
+    }else {
+        [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_004 note:nil];
+    }
+    
     BrokerChatViewController *controller = [[BrokerChatViewController alloc] init];
     controller.isBroker = YES;
     controller.uid = item.friendUid;
