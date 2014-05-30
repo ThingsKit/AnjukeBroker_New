@@ -351,6 +351,10 @@
         RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
         DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
         [dis setDiscoverBadgeValue:self.propertyPushCount];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.propertyPushCount] forKey:@"propertyPushCount"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
     }
     
 }
@@ -456,7 +460,11 @@
     }
     [self.tabController setMessageBadgeValueWithValue:str];
     
-    self.propertyPushCount = self.unReadPushCount - [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
+    self.propertyPushCount = self.unReadPushCount - value;
+    if (self.propertyPushCount <= 0) {
+        self.propertyPushCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"propertyPushCount"] integerValue];
+    }
+    
     if (self.propertyPushCount > 0) {
         [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
         RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];

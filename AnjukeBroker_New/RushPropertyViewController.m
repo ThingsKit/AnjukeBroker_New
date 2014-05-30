@@ -167,6 +167,9 @@
                 DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
                 navi.tabBarItem.badgeValue = nil;
                 dis.badgeView.hidden = YES;
+                
+                [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:0] forKey:@"propertyPushCount"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
                 //################################################################
                 
                 
