@@ -8,7 +8,7 @@ ProvisoningProfileForDistribute="02649133-05CD-437A-8C2B-AA7A2F82D322"
 
 SignIdentityForDailyBuild="iPhone Distribution: Ruiting Network Technology (Shanghai) Co., Ltd."
 #SignIdentityForRelease="iPhone Distribution: RUITING NETWORK TECHNOLOGY(SHANGHAI)CO.,LTD."
-SignIdentityForRelease="Phone Distribution: RUITING NETWORK TECHNOLOGY(SHANGHAI)CO.,LTD (52KTBFLJDB)"
+SignIdentityForRelease="iPhone Distribution: RUITING NETWORK TECHNOLOGY(SHANGHAI)CO.,LTD (52KTBFLJDB)"
 
 ProjectFileName=`ls ./|grep 'xcworkspace'`
 ProjectName=`echo ${ProjectFileName}|awk -F'[\.]' '{print $1}'`
