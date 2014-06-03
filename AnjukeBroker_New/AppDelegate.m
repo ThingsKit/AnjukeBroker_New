@@ -480,7 +480,7 @@
 //            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"message" message:[NSString stringWithFormat:@"总数%d, 新值%d", self.unReadPushCount, value] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
 //            [alert show];
             
-            if (self.propertyPushCount < 0) {
+            if (self.propertyPushCount < 0 || (self.old > value && value == 0)) {
                 self.propertyPushCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"propertyPushCount"] integerValue];
             }
             
@@ -489,6 +489,10 @@
                 RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
                 DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
                 [dis setDiscoverBadgeValue:self.propertyPushCount];
+                
+                [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:self.propertyPushCount] forKey:@"propertyPushCount"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
             }else{
                 RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
                 DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
