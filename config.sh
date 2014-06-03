@@ -3,7 +3,8 @@ Schema="AnjukeBroker_New"
 
 ProvisoningProfileForDailybuild="E25111F6-465E-4F41-A369-262238C209D3"
 #ProvisoningProfileForDistribute="C684A69D-0F0D-4CEC-8274-C8707AA7ED38"
-ProvisoningProfileForDistribute="63AAA575-4CB8-45A7-8A37-2904E7505450"
+#ProvisoningProfileForDistribute="63AAA575-4CB8-45A7-8A37-2904E7505450"
+ProvisoningProfileForDistribute="02649133-05CD-437A-8C2B-AA7A2F82D322"
 
 SignIdentityForDailyBuild="iPhone Distribution: Ruiting Network Technology (Shanghai) Co., Ltd."
 #SignIdentityForRelease="iPhone Distribution: RUITING NETWORK TECHNOLOGY(SHANGHAI)CO.,LTD."
@@ -14,7 +15,7 @@ ProjectName=`echo ${ProjectFileName}|awk -F'[\.]' '{print $1}'`
 Version=`grep 'CFBundleVersion' -A 1 ./${ProjectName}/${MainProjectRoot}-Info.plist|grep string|awk -F'[\>\<]' '{print $3}'`
 
 #QudaoList="A00 A01 A02 A08 A17 A18"
-QudaoList="A00 A02 A08 A17 A18 A19 A20 A21 A22"
+QudaoList="A01"
 
 AnjukebuildPath="/tmp/anjukeb_broker_build"
 if [ ! -d ${AnjukeBuidPath} ] ; then
