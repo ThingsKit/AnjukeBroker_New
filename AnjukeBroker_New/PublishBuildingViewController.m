@@ -1160,7 +1160,7 @@ typedef enum {
     }
     else { //收起键盘，tableView还原
         [self.tableViewList setFrame:FRAME_WITH_NAV];
-        [self.tableViewList setContentOffset:CGPointMake(0, 0) animated:YES];
+//        [self.tableViewList setContentOffset:CGPointMake(0, 0) animated:YES];
     }
 }
 
