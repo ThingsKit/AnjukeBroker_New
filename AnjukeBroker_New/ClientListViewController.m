@@ -68,7 +68,7 @@
     [super viewWillAppear:animated];
     
     if ([LoginManager getChatID].length > 0 && [LoginManager getPhone].length > 0) {
-        [self showLoadingActivity:YES];
+//        [self showLoadingActivity:YES];
         [self getFriendList];
     }
 }
