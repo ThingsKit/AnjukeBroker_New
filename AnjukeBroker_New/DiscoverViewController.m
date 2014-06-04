@@ -101,28 +101,23 @@
         cell.textLabel.text = @"抢房源委托";
         cell.imageView.image = [UIImage imageNamed:@"discover_icon_rab"];
         [cell showBottonLineWithCellHeight:46];
-
+        
         if (self.badgeView == nil) {
             if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-                self.badgeView = [[UIImageView alloc] initWithFrame:CGRectMake(140, 15, 18, 18)];
+                _badgeView = [[UIImageView alloc] initWithFrame:CGRectMake(140, 13, 20, 20)];
             }else{
-                self.badgeView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 15, 18, 18)];
+                _badgeView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 13, 20, 20)];
             }
-            //        badgeView.image = [UIImage imageNamed:@"anjuke_icon_now_position"];
-            self.badgeView.backgroundColor = [UIColor redColor];
-            self.badgeView.layer.cornerRadius = 9.0f;
-            self.badgeView.layer.masksToBounds = YES;
+            self.badgeView.image = [[UIImage imageNamed:@"red_point"] stretchableImageWithLeftCapWidth:20 topCapHeight:0];
+            self.badgeView.backgroundColor = [UIColor clearColor];
             
             int count = [AppDelegate sharedAppDelegate].propertyPushCount;
             if (count < 0) {
                 count = 0;
             }
-            if (count > 9) {
-                self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(2.5f, -1.5f, 20, 20)];
-            }else{
-                self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.5f, -1.5f, 20, 20)];
-            }
+            self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
             [self.badgeNumberLabel setTextColor:[UIColor whiteColor]];
+            self.badgeNumberLabel.textAlignment = UITextAlignmentCenter;
             self.badgeNumberLabel.backgroundColor = [UIColor clearColor];
             [self.badgeNumberLabel setFont:[UIFont ajkH5Font]];
             [self.badgeView addSubview:self.badgeNumberLabel];
@@ -144,14 +139,8 @@
 
 - (void)setDiscoverBadgeValue:(NSInteger) unReadCount{
     if (unReadCount > 0 && self.badgeView) {
-        if (unReadCount > 9) {
-            self.badgeNumberLabel.frame = CGRectMake(2.5f, -1.5f, 20, 20);
-        }else{
-            self.badgeNumberLabel.frame = CGRectMake(5.5f, -1.5f, 20, 20);
-        }
-        
         self.badgeNumberLabel.text = [NSString stringWithFormat:@"%d", unReadCount];
-        self.badgeView.hidden = NO;
+        self.badgeView.hidden = NO;        
         
     }else if(self.badgeView){
         self.badgeView.hidden = YES;

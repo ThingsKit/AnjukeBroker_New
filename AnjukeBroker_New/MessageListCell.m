@@ -93,6 +93,13 @@
 //    [self.contentView addSubview:statusLb];
 }
 
+#pragma mark -
+#pragma mark 修复点击之后小红点消失的bug add by leo
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated{
+    [super setHighlighted:highlighted animated:animated];
+    self.iconNumLb.backgroundColor = SYSTEM_RED;
+}
+
 - (BOOL)configureCell:(id)dataModel {
     
     DLog(@"messageListCellData [%@]", dataModel);
