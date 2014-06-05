@@ -72,6 +72,9 @@
 }
 #pragma mark -pushView
 -(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated{
+    if (isMoving) {
+        return;
+    }
     isMoving = YES;
     if (pushNum != 0) {
         [capImageArr addObject:[self capture]];
@@ -85,6 +88,9 @@
 
 #pragma mark -popView
 -(UIViewController *)popViewControllerAnimated:(BOOL)animated{
+    if (isMoving) {
+        return nil;
+    }
     isMoving = YES;
     if ([capImageArr count] >= 1) {
         [capImageArr removeLastObject];
