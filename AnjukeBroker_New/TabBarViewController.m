@@ -61,7 +61,7 @@
         self.HomeVC = hv;
         RTGestureBackNavigationController *navH = [[RTGestureBackNavigationController alloc] initWithRootViewController:self.page1];
         [self.controllerArrays addObject:navH];
-        navH.tabBarItem = [self getTabBarItemWithTitle:@"房源" image:[UIImage imageNamed:@"tab_icon_home_normal"] index:1 selectedImg:[UIImage imageNamed:@"tab_icon_home_select"]];
+        navH.tabBarItem = [self getTabBarItemWithTitle:@"首页" image:[UIImage imageNamed:@"tab_icon_home_normal"] index:1 selectedImg:[UIImage imageNamed:@"tab_icon_home_select"]];
         
         //微聊
         MessageListViewController *ml = [[MessageListViewController alloc] init];
@@ -107,7 +107,7 @@
         UserCenterViewController *userVC = [[UserCenterViewController alloc] init];
         RTGestureBackNavigationController *userNav = [[RTGestureBackNavigationController alloc] initWithRootViewController:userVC];
         [self.controllerArrays addObject:userNav];
-        userNav.tabBarItem = [self getTabBarItemWithTitle:@"我" image:[UIImage imageNamed:@"tab_icon_user_normal"] index:5 selectedImg:[UIImage imageNamed:@"tab_icon_user_select"]];
+        userNav.tabBarItem = [self getTabBarItemWithTitle:@"我的" image:[UIImage imageNamed:@"tab_icon_user_normal"] index:5 selectedImg:[UIImage imageNamed:@"tab_icon_user_select"]];
 
         
         self.viewControllers = self.controllerArrays;
