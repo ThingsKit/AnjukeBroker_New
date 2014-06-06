@@ -152,13 +152,13 @@
 //    [alert show];
     
     if (self.propertyPushCount > 0) {
-        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
-        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-        [dis setDiscoverBadgeValue:self.propertyPushCount];
-        
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.propertyPushCount] forKey:@"propertyPushCount"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+//        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
+//        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+//        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+//        [dis setDiscoverBadgeValue:self.propertyPushCount];
+//        
+//        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.propertyPushCount] forKey:@"propertyPushCount"];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
 }
@@ -364,13 +364,13 @@
 
     self.propertyPushCount++;  //计数器自增1
     if (self.propertyPushCount > 0) {
-        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
-        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-        [dis setDiscoverBadgeValue:self.propertyPushCount];
-        
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.propertyPushCount] forKey:@"propertyPushCount"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+//        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
+//        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+//        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+//        [dis setDiscoverBadgeValue:self.propertyPushCount];
+//        
+//        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.propertyPushCount] forKey:@"propertyPushCount"];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
         
     }
     
@@ -485,24 +485,24 @@
             }
             
             if (self.propertyPushCount > 0) {
-                [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
-                RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-                DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-                [dis setDiscoverBadgeValue:self.propertyPushCount];
-                
-                [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:self.propertyPushCount] forKey:@"propertyPushCount"];
-                [[NSUserDefaults standardUserDefaults] synchronize];
+//                [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
+//                RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+//                DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+//                [dis setDiscoverBadgeValue:self.propertyPushCount];
+//                
+//                [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:self.propertyPushCount] forKey:@"propertyPushCount"];
+//                [[NSUserDefaults standardUserDefaults] synchronize];
                 
             }else{
-                RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-                DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-                navi.tabBarItem.badgeValue = nil;
-                dis.badgeView.hidden = YES;
-                
-                if (self.propertyPushCount == 0) {
-                    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:0] forKey:@"propertyPushCount"];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                }
+//                RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
+//                DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
+//                navi.tabBarItem.badgeValue = nil;
+//                dis.badgeView.hidden = YES;
+//                
+//                if (self.propertyPushCount == 0) {
+//                    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:0] forKey:@"propertyPushCount"];
+//                    [[NSUserDefaults standardUserDefaults] synchronize];
+//                }
 
             }
             

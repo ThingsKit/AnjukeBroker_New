@@ -18,6 +18,7 @@
 #import "HUDNews.h"
 #import "CheckoutWebViewController.h"
 #import "LoginManager.h"
+#import "ClientListViewController.h"
 
 #define SECTIONNUM 2
 #define WCHATDATACELLHEIGHT 80
@@ -44,6 +45,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.backType = RTSelectorBackTypeNone;
     }
     return self;
 }
@@ -60,22 +62,24 @@
 - (void)viewWillAppear:(BOOL)animated{
     [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 
-    self.navigationController.navigationBarHidden = YES;
+//    self.navigationController.navigationBarHidden = YES;
     
     if (self.userCenterModel == nil) {
         [self doRequest];
     }
 }
 - (void)initModel {
-    self.taskArray = [NSArray arrayWithObjects:@"我的二维码", @"我的账户", @"个人信息", @"联系客户主任", @"客服热线", @"系统设置", nil];
+    self.taskArray = [NSArray arrayWithObjects:@"微聊客户",@"我的二维码", @"我的账户", @"个人信息", @"联系客户主任", @"客服热线", @"系统设置", nil];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    [self setTitleViewWithString:@"我"];
+
     self.view.backgroundColor = [UIColor brokerBgPageColor];
-    
+//    self.title = @"我";
     if (self.userCenterModel == nil) {
         [self doRequest];
     }
@@ -87,7 +91,7 @@
     self.headerView.sdxDelegate = self;
     [self.headerView setImageView:[UIImage imageNamed:@"userHeaderBg"]];
     
-    self.tableList = [[UITableView alloc] initWithFrame:FRAME_WITH_TAB style:UITableViewStylePlain];
+    self.tableList = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
     self.tableList.backgroundColor = [UIColor whiteColor];
@@ -116,7 +120,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     switch (section) {
         case 0:
-            return 3;
+            return 4;
         case 1:
             return 3;
         default:
@@ -153,17 +157,23 @@
             [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
             [cell initLabelTitle:[self.taskArray objectAtIndex:0]];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }else if (indexPath.row == 1){
+            [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
+            [cell initLabelTitle:[self.taskArray objectAtIndex:1]];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
             UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(265, 14, 22, 22)];
             [icon setImage:[UIImage imageNamed:@"user_ewm"]];
             [cell.contentView addSubview:icon];
-        }else if (indexPath.row == 1){
-            [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
-            [cell initLabelTitle:[self.taskArray objectAtIndex:1]];
-            [cell setDetailText:[self getAccountLeft] rightSpace:15];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }else if (indexPath.row == 2){
             [cell initLabelTitle:[self.taskArray objectAtIndex:2]];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell setDetailText:[self getAccountLeft] rightSpace:15];
+
+//            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            [cell showBottonLineWithCellHeight:CELL_HEIGHT];
+        }else if (indexPath.row == 3){
+            [cell initLabelTitle:[self.taskArray objectAtIndex:3]];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             [cell showBottonLineWithCellHeight:CELL_HEIGHT];
         }
@@ -171,7 +181,7 @@
         if (indexPath.row == 0) {
             [cell showTopLine];
             [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
-            [cell initLabelTitle:[self.taskArray objectAtIndex:3]];
+            [cell initLabelTitle:[self.taskArray objectAtIndex:4]];
             [cell setDetailText:[self getClientName] rightSpace:35];
             
             UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(290, 17, 15, 15)];
@@ -179,7 +189,7 @@
             [cell.contentView addSubview:icon];
         }else if (indexPath.row == 1){
             [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
-            [cell initLabelTitle:[self.taskArray objectAtIndex:4]];
+            [cell initLabelTitle:[self.taskArray objectAtIndex:5]];
             [cell setDetailText:CALL_ANJUKE_NUMBER rightSpace:35];
             
             UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(290, 17, 15, 15)];
@@ -187,7 +197,7 @@
             [cell.contentView addSubview:icon];
         }else if (indexPath.row == 2){
             [cell showBottonLineWithCellHeight:CELL_HEIGHT];
-            [cell initLabelTitle:[self.taskArray objectAtIndex:5]];
+            [cell initLabelTitle:[self.taskArray objectAtIndex:6]];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     }
@@ -200,12 +210,16 @@
     
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
+            ClientListViewController *clientListVC = [[ClientListViewController alloc] init];
+            [clientListVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:clientListVC animated:YES];
+        }else if (indexPath.row == 2) {
             [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_004 note:nil];
 
             BrokerTwoDimensionalCodeViewController *ba = [[BrokerTwoDimensionalCodeViewController alloc] init];
             [ba setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:ba animated:YES];
-        }else if (indexPath.row == 2){
+        }else if (indexPath.row == 3){
             [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_005 note:nil];
 
             //broker acunt

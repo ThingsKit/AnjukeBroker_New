@@ -146,7 +146,7 @@
 }
 
 - (void)initDisplay {
-    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_BETWEEN_NAV_TAB style:UITableViewStylePlain];
+    UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.tableViewList = tv;
     tv.delegate = self;
     tv.dataSource = self;
