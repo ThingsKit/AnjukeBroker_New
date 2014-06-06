@@ -127,6 +127,15 @@
 }
 */
 
+- (void)removeAllSubView
+{
+    self.accessoryType = UITableViewCellAccessoryNone;
+    for (UIView *v in self.subviews)
+    {
+        [v removeFromSuperview];
+    }
+}
+
 - (BOOL)configureCell:(id)dataModel {
     if (![dataModel isKindOfClass:[NSString class]]) {
         return NO;

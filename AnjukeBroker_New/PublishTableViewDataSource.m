@@ -46,16 +46,23 @@
             [section1 addObject:cell2];
             [self.inputCellArray addObject:cell2];
         }
-        [self.cellArray addObject:section1];
+
+        UIViewController *controller = (UIViewController *)self.superViewController ;
+        
+        CGFloat vwidth = CGRectGetWidth(controller.view.frame);
+        AnjukeNormalCell *v = [[AnjukeNormalCell alloc] initWithFrame:CGRectMake(0, 0, vwidth, 20)];
+        [v removeAllSubView];
+        [v setBackgroundColor:[UIColor clearColor]];
+        [section1 addObject:v];
         
         //******房型、楼层、装修、出租方式
-        NSMutableArray *section2 = [NSMutableArray array];
+//        NSMutableArray *section2 = [NSMutableArray array];
         //rooms 户型
         AnjukeEditableCell *cell3 = [[AnjukeEditableCell alloc] init];
         cell3.editDelegate = self.superViewController;
         if ([cell3 configureCell:[dataArray objectAtIndex:HZ_PICKER_ROOMS]]) {
             [cell3 setIndexTag:HZ_PICKER_ROOMS];
-            [section2 addObject:cell3];
+            [section1 addObject:cell3];
             [self.inputCellArray addObject:cell3];
             
             [cell3 showTopLine]; //top line
@@ -65,7 +72,7 @@
         cell4.editDelegate = self.superViewController;
         if ([cell4 configureCell:[dataArray objectAtIndex:HZ_PICKER_FLOORS]]) {
             [cell4 setIndexTag:HZ_PICKER_FLOORS];
-            [section2 addObject:cell4];
+            [section1 addObject:cell4];
             [self.inputCellArray addObject:cell4];
         }
         //floors 楼层
@@ -73,7 +80,7 @@
         cell41.editDelegate = self.superViewController;
         if ([cell41 configureCell:[dataArray objectAtIndex:HZ_PICKER_ORIENTATION]]) {
             [cell41 setIndexTag:HZ_PICKER_ORIENTATION];
-            [section2 addObject:cell41];
+            [section1 addObject:cell41];
             [self.inputCellArray addObject:cell41];
         }
         //fitment 装修
@@ -81,7 +88,7 @@
         cell5.editDelegate = self.superViewController;
         if ([cell5 configureCell:[dataArray objectAtIndex:HZ_PICKER_FITMENT]]) {
             [cell5 setIndexTag:HZ_PICKER_FITMENT];
-            [section2 addObject:cell5];
+            [section1 addObject:cell5];
             [self.inputCellArray addObject:cell5];
         }
         //rent type 出租方式
@@ -89,18 +96,19 @@
         cell21.editDelegate = self.superViewController;
         if ([cell21 configureCell:[dataArray objectAtIndex:HZ_PICKER_RENTTYPE]]) {
             [cell21 setIndexTag:HZ_PICKER_RENTTYPE];
-            [section2 addObject:cell21];
+            [section1 addObject:cell21];
             [self.inputCellArray addObject:cell21];
         }
-        [self.cellArray addObject:section2];
+
+        [section1 addObject:v];
         
         //******标题、描述
-        NSMutableArray *section3 = [NSMutableArray array];
+//        NSMutableArray *section3 = [NSMutableArray array];
         //title \ desc
         AnjukeNormalCell *cell6 = [[AnjukeNormalCell alloc] init];
         if ([cell6 configureCell:[dataArray objectAtIndex:HZ_CLICK_TITLE]]) {
             [cell6 setIndexTag:HZ_CLICK_TITLE];
-            [section3 addObject:cell6];
+            [section1 addObject:cell6];
             [self.inputCellArray addObject:cell6];
             
             [cell6 showTopLine]; //top line
@@ -108,10 +116,10 @@
         AnjukeNormalCell *cell7 = [[AnjukeNormalCell alloc] init];
         if ([cell7 configureCell:[dataArray objectAtIndex:HZ_CLICK_DESC]]) {
             [cell7 setIndexTag:HZ_CLICK_DESC];
-            [section3 addObject:cell7];
+            [section1 addObject:cell7];
             [self.inputCellArray addObject:cell7];
         }
-        [self.cellArray addObject:section3];
+        [self.cellArray addObject:section1];
     }
     else { //二手房
         //******价格、最低首付、产证面积
@@ -127,17 +135,7 @@
             
             [cell showTopLine]; //top line
         }
-        /*
-        //limit pay
-        AnjukeEditableCell *cell11 = [[AnjukeEditableCell alloc] init];
-        cell11.editDelegate = self.superViewController;
-        if ([cell11 configureCell:[dataArray objectAtIndex:AJK_TEXT_LIMIT_PAY]]) {
-            [cell11 setIndexTag:HZ_TEXT_PRICE];
-            [[cell11 unitLb] setText:@"万元"];
-            [section1 addObject:cell11];
-            [self.inputCellArray addObject:cell11];
-            
-        }*/
+        
         //area
         AnjukeEditableCell *cell2 = [[AnjukeEditableCell alloc] init];
         cell2.editDelegate = self.superViewController;
@@ -160,17 +158,25 @@
                 [self.inputCellArray addObject:cell21];
             }
         }
-        [self.cellArray addObject:section1];
+//        [self.cellArray addObject:section1];
+        
+        UIViewController *controller = (UIViewController *)self.superViewController ;
+        
+        CGFloat vwidth = CGRectGetWidth(controller.view.frame);
+        AnjukeNormalCell *v = [[AnjukeNormalCell alloc] initWithFrame:CGRectMake(0, 0, vwidth, 20)];
+        [v removeAllSubView];
+        [v setBackgroundColor:[UIColor clearColor]];
+        [section1 addObject:v];
         
         
         //******房型、楼层、装修、特色
-        NSMutableArray *section2 = [NSMutableArray array];
+//        NSMutableArray *section2 = [NSMutableArray array];
         //rooms 房型
         AnjukeEditableCell *cell3 = [[AnjukeEditableCell alloc] init];
         cell3.editDelegate = self.superViewController;
         if ([cell3 configureCell:[dataArray objectAtIndex:AJK_PICKER_ROOMS]]) {
             [cell3 setIndexTag:AJK_PICKER_ROOMS];
-            [section2 addObject:cell3];
+            [section1 addObject:cell3];
             [self.inputCellArray addObject:cell3];
             
             [cell3 showTopLine]; //top line
@@ -180,7 +186,7 @@
         cell4.editDelegate = self.superViewController;
         if ([cell4 configureCell:[dataArray objectAtIndex:AJK_PICKER_FLOORS]]) {
             [cell4 setIndexTag:AJK_PICKER_FLOORS];
-            [section2 addObject:cell4];
+            [section1 addObject:cell4];
             [self.inputCellArray addObject:cell4];
         }
         
@@ -189,7 +195,7 @@
         cell41.editDelegate = self.superViewController;
         if ([cell41 configureCell:[dataArray objectAtIndex:AJK_PICKER_ORIENTATION]]) {
             [cell41 setIndexTag:AJK_PICKER_ORIENTATION];
-            [section2 addObject:cell41];
+            [section1 addObject:cell41];
             [self.inputCellArray addObject:cell41];
         }
         
@@ -199,7 +205,7 @@
         cell5.editDelegate = self.superViewController;
         if ([cell5 configureCell:[dataArray objectAtIndex:AJK_PICKER_FITMENT]]) {
             [cell5 setIndexTag:AJK_PICKER_FITMENT];
-            [section2 addObject:cell5];
+            [section1 addObject:cell5];
             [self.inputCellArray addObject:cell5];
         }
         
@@ -209,20 +215,20 @@
             [cell55 setIndexTag:AJK_CLICK_FEATURE];
             [cell55 setSelectionStyle:UITableViewCellSelectionStyleNone];
             [cell55 drawSpecView];
-            [section2 addObject:cell55];
+            [section1 addObject:cell55];
             [self.inputCellArray addObject:cell55];
             
         }
-        
-        [self.cellArray addObject:section2];
+        [section1 addObject:v];
+//        [self.cellArray addObject:section2];
         
         //******标题、描述
-        NSMutableArray *section3 = [NSMutableArray array];
+//        NSMutableArray *section3 = [NSMutableArray array];
         //title \ desc
         AnjukeNormalCell *cell6 = [[AnjukeNormalCell alloc] init];
         if ([cell6 configureCell:[dataArray objectAtIndex:AJK_CLICK_TITLE]]) {
             [cell6 setIndexTag:AJK_CLICK_TITLE];
-            [section3 addObject:cell6];
+            [section1 addObject:cell6];
             [self.inputCellArray addObject:cell6];
             
             [cell6 showTopLine]; //top line
@@ -230,10 +236,11 @@
         AnjukeNormalCell *cell7 = [[AnjukeNormalCell alloc] init];
         if ([cell7 configureCell:[dataArray objectAtIndex:AJK_CLICK_DESC]]) {
             [cell7 setIndexTag:AJK_CLICK_DESC];
-            [section3 addObject:cell7];
+            [section1 addObject:cell7];
             [self.inputCellArray addObject:cell7];
         }
-        [self.cellArray addObject:section3];
+        
+        [self.cellArray addObject:section1];
     }
     
     //将inputCellArray中的输入框cell放入inputJumpCellArray中
@@ -269,27 +276,64 @@
 
 #pragma mark - UITableView DataSource
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.cellArray.count;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [[self.cellArray objectAtIndex:section] count];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    
+    DLog(@"self.cellArray == %@", self.cellArray);
+    int count = 0;
+    for (int i = 0; i < self.cellArray.count; i++)
+    {
+        count += [[self.cellArray objectAtIndex:i] count];
+    }
+    DLog(@"count == %d", count);
+    return count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //在reloadData过程中，numberOfSectionsInTableView和numberOfRowsInSection执行完后，异步执行的cellForRowAtIndexPath可能在下一次reload循环中再被调用
-    if (indexPath.section >= self.cellArray.count || indexPath.row >= [[self.cellArray objectAtIndex:indexPath.section] count])
-        return [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+//    if (indexPath.section >= self.cellArray.count || indexPath.row >= [[self.cellArray objectAtIndex:indexPath.section] count])
+//        return [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     
-    RTListCell *cell = [[self.cellArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    DLog(@"indexPath.section == %d", indexPath.section);
+    DLog(@"indexPath.row == %d", indexPath.row);
+    
+    NSInteger section = indexPath.section;
+    NSInteger row = indexPath.row;
+    
+    RTListCell *cell = [[self.cellArray objectAtIndex:section] objectAtIndex:row];
     return cell;
 }
 
 #pragma mark - UITableView Delegate
 
-- (CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (!_isSafeNum)
+    {
+        if (indexPath.row == 2)
+        {
+            return 20;
+        }else if (indexPath.row == 8)
+        {
+            return 20;
+        }
+    }else
+    {
+        if (indexPath.row == 3)
+        {
+            return 20;
+        }else if (indexPath.row == 9)
+        {
+            return 20;
+        }
+    }
+    
     return CELL_HEIGHT;
 }
 

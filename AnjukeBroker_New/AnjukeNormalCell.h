@@ -16,5 +16,6 @@
 
 
 - (UIView *)drawSpecView;
+- (void)removeAllSubView;
 
 @end

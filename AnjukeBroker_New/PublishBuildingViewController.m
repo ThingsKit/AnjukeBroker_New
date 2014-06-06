@@ -1178,6 +1178,79 @@ typedef enum {
 
 - (int)transformIndexWithIndexPath:(NSIndexPath *)indexPath { //将indexPath转换为cellDataSource对应的cell的indexTag
     int index = 0;
+    
+    NSInteger row = indexPath.row;
+    
+    switch (row)
+    {
+        case 0://价格
+        {
+            index = AJK_TEXT_PRICE;
+        }
+            break;
+        case 1://面积
+        {
+            index = AJK_TEXT_AREA;
+        }
+            break;
+        case 2://空或者北京备案号
+        {
+            if (!self.isHaozu)
+            {
+                if (self.needFileNO)
+                {
+                    index = AJK_TEXT_SAFENUM;
+                }else
+                {
+                    index = 2;
+                }
+                
+            }
+        }
+            break;
+        case 3://户型
+        {
+            index = AJK_PICKER_ROOMS;
+        }
+            break;
+        case 4://楼层
+        {
+            index = AJK_PICKER_FLOORS;
+        }
+            break;
+        case 5://朝向
+        {
+            index = AJK_PICKER_ORIENTATION;
+        }
+            break;
+        case 6://装修
+        {
+            index = AJK_PICKER_FITMENT;
+        }
+            break;
+        case 7://特色
+        {
+            index = AJK_CLICK_FEATURE;
+        }
+            break;
+        case 9://标题
+        {
+            index = AJK_CLICK_TITLE;
+        }
+            break;
+        case 10://描述
+        {
+            index = AJK_CLICK_DESC;
+        }
+            break;
+        
+        default:
+            break;
+    }
+    DLog(@"点击TableView得到的selectIndex - [%d]", index);
+    
+    return index;
+    
     switch (indexPath.section) {
         case 0:
         {
@@ -1283,7 +1356,8 @@ typedef enum {
     //记录点击的TextField所在的cell的indexPath
     self.selectedSection = [[self.tableViewList indexPathForCell:cell] section];
     self.selectedRow = [[self.tableViewList indexPathForCell:cell] row];
-    
+    DLog(@"[tf superview] == %@", [tf superview]);
+    DLog(@"[tf superview] == %@", [[tf superview] superview]);
     //将indexPath转换为对应的index
     int index = [self transformIndexWithIndexPath:[self.tableViewList indexPathForCell:cell]];
     
@@ -1573,7 +1647,7 @@ typedef enum {
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return [self.cellDataSource heightForHeaderInSection:section];
 }
-
+/*
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return [self.cellDataSource heightForFooterInSection:section];
 }
@@ -1585,7 +1659,7 @@ typedef enum {
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     return [self.cellDataSource viewForFooterInSection:section];
 }
-
+*/
 //******点击******
 
 - (NSIndexPath *)tableView:(UITableView *)tv willSelectRowAtIndexPath:(NSIndexPath *)path
@@ -1604,121 +1678,81 @@ typedef enum {
     self.selectedSection = indexPath.section;
     self.selectedRow = indexPath.row;
     
+    DLog(@"self.selectedRow == %d", self.selectedRow);
+    DLog(@"self.selectedIndex == %d", self.selectedIndex);
     
-    
-    switch (indexPath.section) {
-        case 0:
+    switch (self.selectedIndex) {
+        case 0: //价格
         {
-            switch (indexPath.row) {
-                case 0: //价格
-                {
-                    [self showInputWithIndex:self.selectedIndex isPicker:NO];
-                }
-                    break;
-                case 1: //最低首付、面积
-                {
-                    [self showInputWithIndex:self.selectedIndex isPicker:NO];
-                }
-                    break;
-                case 2: //面积
-                {
-                    [self showInputWithIndex:self.selectedIndex isPicker:NO];
-                }
-                    break;
-                    
-                default:
-                    break;
-            }
+            [self showInputWithIndex:self.selectedIndex isPicker:NO];
         }
             break;
-        case 1:
+        case 1: //面积
         {
-            switch (indexPath.row) {
-                case 0: //户型
-                {
-                    [self showInputWithIndex:self.selectedIndex isPicker:YES];
-                    /*
-                    [self doPushToHouseTypeVC];
-                    [self pickerDisappear]; //每次push进新页面隐藏键盘、picker
-                     */
-                }
-                    break;
-                case 1: //楼层
-                {
-                    [self showInputWithIndex:self.selectedIndex isPicker:YES];
-                }
-                    break;
-                case 2:
-                    [self showInputWithIndex:self.selectedIndex isPicker:YES];
-                    break;
-                case 3: //装修
-                {
-                    [self showInputWithIndex:self.selectedIndex isPicker:YES];
-                }
-                    break;
-                case 4: //出租方式（仅好租）、特色
-                {
-                    if (self.isHaozu) {
-                        [self showInputWithIndex:self.selectedIndex isPicker:YES];
-                    }
-                    else { //push to 特色
-                        [self showInputWithIndex:self.selectedIndex isPicker:YES];
-                        /*
-                        PublishFeatureViewController *pf = [[PublishFeatureViewController alloc] init];
-                        pf.featureDelegate = self;
-                        pf.isFiveYear = [self.property.isFullFive boolValue];
-                        pf.isOnlyHouse = [self.property.isOnly boolValue];
-                        [self.navigationController pushViewController:pf animated:YES];
-                        
-                        [self pickerDisappear]; //每次push进新页面，
-                         */
-                    }
-                }
-                    break;
-                    
-                default:
-                    break;
-            }
+            [self showInputWithIndex:self.selectedIndex isPicker:NO];
         }
             break;
-        case 2:
+        case 2: //备案号或户型
         {
-            switch (indexPath.row) {
-                case 0: //title
-                {
-                    AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
-                    ae.textFieldModifyDelegate = self;
-                    [ae setTitleViewWithString:@"标题"];
-                    ae.isTitle = YES;
-                    ae.isHZ = self.isHaozu;
-                    [ae setTextFieldDetail:self.property.title];
-                    [self.navigationController pushViewController:ae animated:YES];
-                    
-                    [self pickerDisappear]; //每次push进新页面，
-                }
-                    break;
-                case 1: //desc
-                {
-                    AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
-                    ae.textFieldModifyDelegate = self;
-                    [ae setTitleViewWithString:@"描述"];
-                    ae.isTitle = NO;
-                    ae.isHZ = self.isHaozu;
-                    [ae setTextFieldDetail:self.property.desc];
-                    [self.navigationController pushViewController:ae animated:YES];
-                    
-                    [self pickerDisappear]; //每次push进新页面，
-                }
-                    break;
-                default:
-                    break;
+            if (self.needFileNO)
+            {
+                [self showInputWithIndex:self.selectedIndex isPicker:NO];
+            }else
+            {
+                [self showInputWithIndex:self.selectedIndex isPicker:YES];
             }
+            
         }
             break;
+        
+        case 3: //楼层
+        {
+            [self showInputWithIndex:self.selectedIndex isPicker:YES];
+        }
+            break;
+        case 4://朝向
+        {
+            [self showInputWithIndex:self.selectedIndex isPicker:YES];
+        }
+            break;
+        case 5://装修
+        {
+            [self showInputWithIndex:self.selectedIndex isPicker:YES];
+        }
+            break;
+        case 7://标题
+        {
+            AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
+            ae.textFieldModifyDelegate = self;
+            [ae setTitleViewWithString:@"标题"];
+            ae.isTitle = YES;
+            ae.isHZ = self.isHaozu;
+            [ae setTextFieldDetail:self.property.title];
+            [self.navigationController pushViewController:ae animated:YES];
+            
+            [self pickerDisappear]; //每次push进新页面
+        }
+            break;
+        case 8://描述
+        {
+            AnjukeEditTextViewController *ae = [[AnjukeEditTextViewController alloc] init];
+            ae.textFieldModifyDelegate = self;
+            [ae setTitleViewWithString:@"描述"];
+            ae.isTitle = NO;
+            ae.isHZ = self.isHaozu;
+            [ae setTextFieldDetail:self.property.desc];
+            [self.navigationController pushViewController:ae animated:YES];
+            
+            [self pickerDisappear]; //每次push进新页面，
+            
+        }
+            break;
+            
             
         default:
             break;
     }
+    
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -1768,7 +1802,8 @@ typedef enum {
         return;
     }
     
-    if (self.selectedSection == 1) { //滚轮输入范围
+    if ((self.selectedIndex >= 2 && !self.needFileNO) ||
+        (self.selectedIndex >= 3 && self.needFileNO)) { //滚轮输入范围
         self.inputingTextF.text = [self getInputStringAndSetProperty];
     }
     
@@ -1805,7 +1840,7 @@ typedef enum {
             {
                 self.selectedIndex = HZ_PICKER_ROOMS;
                 self.selectedRow = 0;
-                self.selectedSection = 1;
+                self.selectedSection = 0;
                 isPicker = YES;
             }
                 break;
@@ -1861,7 +1896,7 @@ typedef enum {
             {
                 self.selectedIndex = AJK_PICKER_ROOMS;
                 self.selectedRow --;
-                self.selectedSection = 1;
+                self.selectedSection = 0;
                 isPicker = YES;
             }
                 break;
@@ -1869,7 +1904,7 @@ typedef enum {
             {
                 self.selectedIndex = AJK_PICKER_FLOORS;
                 self.selectedRow --;
-                self.selectedSection = 1;
+                self.selectedSection = 0;
                 isPicker = YES;
             }
                 break;
@@ -1878,7 +1913,7 @@ typedef enum {
             {
                 self.selectedIndex = AJK_PICKER_ORIENTATION;
                 self.selectedRow --;
-                self.selectedSection = 1;
+                self.selectedSection = 0;
                 isPicker = YES;
             }
                 break;
@@ -1929,7 +1964,11 @@ typedef enum {
         return;
     }
     
-    if (self.selectedSection == 1) { //滚轮输入范围
+    if (self.selectedIndex == AJK_PICKER_ROOMS ||
+        self.selectedIndex == AJK_PICKER_FLOORS ||
+        self.selectedIndex == AJK_PICKER_ORIENTATION ||
+        self.selectedIndex == AJK_PICKER_FITMENT)
+    { //滚轮输入范围
         self.inputingTextF.text = [self getInputStringAndSetProperty];
     }
     
@@ -1950,7 +1989,7 @@ typedef enum {
                 self.selectedIndex = HZ_PICKER_ROOMS;
                 isPicker = YES;
                 self.selectedRow = 0;
-                self.selectedSection = 1;
+                self.selectedSection = 0;
             }
                 break;
             case HZ_PICKER_ROOMS://户型
@@ -1958,7 +1997,7 @@ typedef enum {
                 self.selectedIndex = HZ_PICKER_FLOORS;
                 isPicker = YES;
                 self.selectedRow = 1;
-                self.selectedSection = 1;
+                self.selectedSection = 0;
             }
                 break;
             case HZ_PICKER_FLOORS: //楼层
@@ -1966,7 +2005,7 @@ typedef enum {
                 self.selectedIndex = HZ_PICKER_ORIENTATION;
                 isPicker = YES;
                 self.selectedRow = 2;
-                self.selectedSection = 1;
+                self.selectedSection = 0;
             }
                 break;
             case HZ_PICKER_ORIENTATION://朝向
@@ -1974,7 +2013,7 @@ typedef enum {
                 self.selectedIndex = HZ_PICKER_FITMENT;
                 isPicker = YES;
                 self.selectedRow = 3;
-                self.selectedSection = 1;
+                self.selectedSection = 0;
             }
                 break;
             case HZ_PICKER_FITMENT: //装修
@@ -1982,7 +2021,7 @@ typedef enum {
                 self.selectedIndex = HZ_PICKER_RENTTYPE;
                 isPicker = YES;
                 self.selectedRow = 3;
-                self.selectedSection = 1;
+                self.selectedSection = 0;
                 
                 [self setToolBarRightBtnDisable];
                 [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
@@ -2015,8 +2054,8 @@ typedef enum {
                 self.selectedIndex = AJK_PICKER_ROOMS;
                 
                 isPicker = YES;
-                self.selectedRow = 0;
-                self.selectedSection = 1;
+                self.selectedRow ++;
+                self.selectedSection = 0;
                 
             }
                 break;
@@ -2041,8 +2080,8 @@ typedef enum {
                     self.selectedIndex = AJK_PICKER_ROOMS;
                     
                     isPicker = YES;
-                    self.selectedRow = 0;
-                    self.selectedSection = 1;
+                    self.selectedRow += 2;
+                    self.selectedSection = 0;
                 }
                 
             }
@@ -2052,7 +2091,7 @@ typedef enum {
                 self.selectedIndex = AJK_PICKER_FLOORS;
                 isPicker = YES;
                 self.selectedRow ++ ;
-                self.selectedSection = 1;
+                self.selectedSection = 0;
             }
                 break;
             case AJK_PICKER_FLOORS: //楼层
@@ -2060,7 +2099,7 @@ typedef enum {
                 self.selectedIndex = AJK_PICKER_ORIENTATION;
                 isPicker = YES;
                 self.selectedRow ++ ;
-                self.selectedSection = 1;
+                self.selectedSection = 0;
                 
 //                [self setToolBarRightBtnDisable];
                 [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
@@ -2072,7 +2111,7 @@ typedef enum {
                 self.selectedIndex = AJK_PICKER_FITMENT;
                 isPicker = YES;
                 self.selectedRow ++ ;
-                self.selectedSection = 1;
+                self.selectedSection = 0;
                 
                 [self setToolBarRightBtnDisable];
                 [self showInputWithIndex:self.selectedIndex isPicker:isPicker];
@@ -2113,8 +2152,14 @@ typedef enum {
     else {
         self.selectedIndex = [self getCellIndexWithClickTextField:textField];
         
+        DLog(@"(self.selectedSection >= 2 && !self.needFileNO)  == %d", (self.selectedSection >= 2 && !self.needFileNO) );
+        DLog(@"self.selectedSection == %d", self.selectedSection);
+        DLog(@"self.needFileNO == %d", self.needFileNO);
+        
         BOOL isPicker = NO;
-        if (self.selectedSection == 1) {
+        if ((self.selectedIndex >= 2 && !self.needFileNO) ||
+            (self.selectedIndex >= 3 && self.needFileNO))
+        {//备案号
             isPicker = YES;
         }
         
