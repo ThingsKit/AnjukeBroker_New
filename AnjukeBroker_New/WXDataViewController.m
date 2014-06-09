@@ -35,9 +35,14 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor brokerBgPageColor];
     [self setTitleViewWithString:@"微聊数据"];
-    // Do any additional setup after loading the view from its nib.
     
     [self initProgress];
+    
+    //初始化数字Label
+    self.numberLabel.text = @"0";
+    
+    
+    
     [self doRequest];
 }
 
@@ -99,17 +104,29 @@
 
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.001
                                                   target:self
-                                                selector:@selector(addProgress)
-                                                userInfo:nil
+                                                selector:@selector(addProgress:)
+                                                userInfo:@{@"test":@"1"}
                                                  repeats:YES];
 }
 
-- (void)addProgress{
-    if (self.progressView.progress >= [self.userCenterModel.replyRate doubleValue]/100) {
+- (void)addProgress:(NSTimer*) time{
+    NSLog(@"%@", time.userInfo);
+    if (self.progressView.progress >= 80.0/100) {
         [self.timer invalidate];
         return;
     }
-    self.progressView.progress = self.progressView.progress + 0.001;
+//    if (self.progressView.progress >= [self.userCenterModel.replyRate doubleValue]/100) {
+//        [self.timer invalidate];
+//        return;
+//    }
+    if (self.progressView.progress + 0.2 > 0.8) {
+         self.progressView.progress = self.progressView.progress + 0.0035;
+    }else{
+        self.progressView.progress = self.progressView.progress + 0.006;
+    }
+    
+    self.numberLabel.text = [NSString stringWithFormat:@"%.0f", self.progressView.progress * 100];
+    
     DLog(@"self.progressView.progress-->>%f",self.progressView.progress);
 }
 

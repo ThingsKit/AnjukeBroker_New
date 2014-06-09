@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *totalCustomer;
 @property (weak, nonatomic) IBOutlet UILabel *totalResponseTime;
 
+@property (weak, nonatomic) IBOutlet UILabel *numberLabel;
 
 @property (nonatomic, strong) NSTimer *timer;
 @end

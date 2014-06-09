@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WXDataViewController">
             <connections>
+                <outlet property="numberLabel" destination="fHt-cg-4sy" id="6rK-uB-OJJ"/>
                 <outlet property="progressView" destination="tOa-4n-9hY" id="oh1-ab-c8x"/>
                 <outlet property="totalCustomer" destination="vfh-FC-wLi" id="cuj-ld-4XT"/>
                 <outlet property="totalResponseTime" destination="Imv-38-JRe" id="Erf-J5-CT3"/>
@@ -27,6 +28,21 @@
                 <view contentMode="scaleToFill" id="tOa-4n-9hY" customClass="PICircularProgressView">
                     <rect key="frame" x="32" y="65" width="256" height="236"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fHt-cg-4sy">
+                            <rect key="frame" x="89" y="35" width="55" height="49"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="48"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="j1s-ud-HmS">
+                            <rect key="frame" x="147" y="54" width="20" height="23"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="YHw-C7-Pcz">
