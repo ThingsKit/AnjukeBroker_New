@@ -1787,7 +1787,9 @@ typedef enum {
         return;
     }
     
-    if (self.selectedSection == 1) { //滚轮输入范围
+    if ((self.selectedIndex >= 2 && !self.needFileNO) ||
+        (self.selectedIndex >= 3 && self.needFileNO))
+    { //滚轮输入范围
         self.inputingTextF.text = [self getInputStringAndSetProperty];
     }
     
@@ -1839,7 +1841,7 @@ typedef enum {
             case HZ_PICKER_FLOORS: //楼层
             {
                 self.selectedIndex = HZ_PICKER_ROOMS;
-                self.selectedRow = 0;
+                self.selectedRow = 3;
                 self.selectedSection = 0;
                 isPicker = YES;
             }
@@ -1847,8 +1849,8 @@ typedef enum {
             case HZ_PICKER_ORIENTATION://朝向
             {
                 self.selectedIndex = HZ_PICKER_FLOORS;
-                self.selectedRow = 1;
-                self.selectedSection = 1;
+                self.selectedRow = 4;
+                self.selectedSection = 0;
                 isPicker = YES;
             }
                 break;
@@ -1856,16 +1858,16 @@ typedef enum {
             {
                 self.selectedIndex = HZ_PICKER_ORIENTATION;
                 isPicker = YES;
-                self.selectedRow = 2;
-                self.selectedSection = 1;
+                self.selectedRow = 5;
+                self.selectedSection = 0;
             }
                 break;
             case HZ_PICKER_RENTTYPE: //出租方式
             {
                 self.selectedIndex = HZ_PICKER_FITMENT;
                 isPicker = YES;
-                self.selectedRow = 3;
-                self.selectedSection = 1;
+                self.selectedRow = 6;
+                self.selectedSection = 0;
             }
                 break;
                 
@@ -1980,7 +1982,7 @@ typedef enum {
             case HZ_TEXT_PRICE://价格
             {
                 self.selectedIndex = HZ_TEXT_AREA;
-                self.selectedRow = 1;
+                self.selectedRow = 0;
                 self.selectedSection = 0;
             }
                 break;
@@ -1988,7 +1990,7 @@ typedef enum {
             {
                 self.selectedIndex = HZ_PICKER_ROOMS;
                 isPicker = YES;
-                self.selectedRow = 0;
+                self.selectedRow ++;
                 self.selectedSection = 0;
             }
                 break;
@@ -1996,7 +1998,7 @@ typedef enum {
             {
                 self.selectedIndex = HZ_PICKER_FLOORS;
                 isPicker = YES;
-                self.selectedRow = 1;
+                self.selectedRow = 3;
                 self.selectedSection = 0;
             }
                 break;
@@ -2004,7 +2006,7 @@ typedef enum {
             {
                 self.selectedIndex = HZ_PICKER_ORIENTATION;
                 isPicker = YES;
-                self.selectedRow = 2;
+                self.selectedRow ++;
                 self.selectedSection = 0;
             }
                 break;
@@ -2012,7 +2014,7 @@ typedef enum {
             {
                 self.selectedIndex = HZ_PICKER_FITMENT;
                 isPicker = YES;
-                self.selectedRow = 3;
+                self.selectedRow ++;
                 self.selectedSection = 0;
             }
                 break;
@@ -2020,7 +2022,7 @@ typedef enum {
             {
                 self.selectedIndex = HZ_PICKER_RENTTYPE;
                 isPicker = YES;
-                self.selectedRow = 3;
+                self.selectedRow ++;
                 self.selectedSection = 0;
                 
                 [self setToolBarRightBtnDisable];
