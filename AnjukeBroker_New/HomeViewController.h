@@ -10,8 +10,10 @@
 #import "IMGDowloaderManager.h"
 #import "SelectionToolView.h"
 #import "SegmentView.h"
+#import "HomeHeaderView.h"
+#import "HomeCell.h"
 
-@interface HomeViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, SelectionToolViewDelegate, SegmentViewDelegate>
+@interface HomeViewController : RTViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, SelectionToolViewDelegate, SegmentViewDelegate, headerBtnClickDelegate>
 
 - (void)doRequest;
 
@@ -19,4 +21,5 @@
 @property (nonatomic, strong) IMGDowloaderManager *img;
 
 
+- (void)btnClickWithTag:(NSInteger)index;
 @end

@@ -636,6 +636,10 @@
 		F8734A8C1933420E007A2552 /* UpdateUserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = F8734A8B1933420E007A2552 /* UpdateUserLocation.m */; };
 		F87E8613190E4723005A5723 /* anjuke_icon_button_blue_press.png in Resources */ = {isa = PBXBuildFile; fileRef = F87E8611190E4723005A5723 /* anjuke_icon_button_blue_press.png */; };
 		F87E8614190E4723005A5723 /* anjuke_icon_button_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = F87E8612190E4723005A5723 /* anjuke_icon_button_blue.png */; };
+		F88FC2E0194541BE00DEA8A2 /* HomeHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2DF194541BE00DEA8A2 /* HomeHeaderView.m */; };
+		F88FC2E31945471100DEA8A2 /* HomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2E21945471100DEA8A2 /* HomeCell.m */; };
+		F88FC2E71945614100DEA8A2 /* FindCustomerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2E61945614100DEA8A2 /* FindCustomerViewController.m */; };
+		F88FC2EB194561B000DEA8A2 /* WXDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2EA194561B000DEA8A2 /* WXDataViewController.m */; };
 		F8A717BE192058FB004840C6 /* UserCenterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717B7192058FB004840C6 /* UserCenterCell.m */; };
 		F8A717BF192058FB004840C6 /* UserCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717B9192058FB004840C6 /* UserCenterViewController.m */; };
 		F8A717C419205934004840C6 /* AppSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717C319205934004840C6 /* AppSettingViewController.m */; };
@@ -1622,6 +1626,14 @@
 		F8734A8B1933420E007A2552 /* UpdateUserLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateUserLocation.m; sourceTree = "<group>"; };
 		F87E8611190E4723005A5723 /* anjuke_icon_button_blue_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_blue_press.png; sourceTree = "<group>"; };
 		F87E8612190E4723005A5723 /* anjuke_icon_button_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_blue.png; sourceTree = "<group>"; };
+		F88FC2DE194541BE00DEA8A2 /* HomeHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeHeaderView.h; sourceTree = "<group>"; };
+		F88FC2DF194541BE00DEA8A2 /* HomeHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeHeaderView.m; sourceTree = "<group>"; };
+		F88FC2E11945471100DEA8A2 /* HomeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeCell.h; sourceTree = "<group>"; };
+		F88FC2E21945471100DEA8A2 /* HomeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeCell.m; sourceTree = "<group>"; };
+		F88FC2E51945614100DEA8A2 /* FindCustomerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindCustomerViewController.h; sourceTree = "<group>"; };
+		F88FC2E61945614100DEA8A2 /* FindCustomerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindCustomerViewController.m; sourceTree = "<group>"; };
+		F88FC2E9194561B000DEA8A2 /* WXDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXDataViewController.h; sourceTree = "<group>"; };
+		F88FC2EA194561B000DEA8A2 /* WXDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXDataViewController.m; sourceTree = "<group>"; };
 		F8A717B6192058FB004840C6 /* UserCenterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterCell.h; sourceTree = "<group>"; };
 		F8A717B7192058FB004840C6 /* UserCenterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCenterCell.m; sourceTree = "<group>"; };
 		F8A717B8192058FB004840C6 /* UserCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterViewController.h; sourceTree = "<group>"; };
@@ -2552,6 +2564,10 @@
 				B7518FB4192DA3A300C02590 /* NoDataAndNoNetworkView.m */,
 				972C10271814FCD300552C9B /* HomeViewController.h */,
 				972C10281814FCD300552C9B /* HomeViewController.m */,
+				F88FC2DE194541BE00DEA8A2 /* HomeHeaderView.h */,
+				F88FC2DF194541BE00DEA8A2 /* HomeHeaderView.m */,
+				F88FC2E11945471100DEA8A2 /* HomeCell.h */,
+				F88FC2E21945471100DEA8A2 /* HomeCell.m */,
 				202133C318C72CCD00A0090B /* 活动页面 */,
 				972C10361815311700552C9B /* 发房 */,
 				9795835A18220045005EA48A /* 系统公告 */,
@@ -3048,6 +3064,8 @@
 		97CD8D40180E6D0D00185C9D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				F88FC2E81945619F00DEA8A2 /* WXData */,
+				F88FC2E41945611200DEA8A2 /* 抢客户 */,
 				6767D1141921C949004FEFF7 /* 发现模块 */,
 				F8A717DD19209E22004840C6 /* checkout */,
 				203EC29318B2F5E400DD0840 /* 微聊 */,
@@ -3721,6 +3739,24 @@
 			name = UserLocation;
 			sourceTree = "<group>";
 		};
+		F88FC2E41945611200DEA8A2 /* 抢客户 */ = {
+			isa = PBXGroup;
+			children = (
+				F88FC2E51945614100DEA8A2 /* FindCustomerViewController.h */,
+				F88FC2E61945614100DEA8A2 /* FindCustomerViewController.m */,
+			);
+			name = "抢客户";
+			sourceTree = "<group>";
+		};
+		F88FC2E81945619F00DEA8A2 /* WXData */ = {
+			isa = PBXGroup;
+			children = (
+				F88FC2E9194561B000DEA8A2 /* WXDataViewController.h */,
+				F88FC2EA194561B000DEA8A2 /* WXDataViewController.m */,
+			);
+			name = WXData;
+			sourceTree = "<group>";
+		};
 		F8A717DD19209E22004840C6 /* checkout */ = {
 			isa = PBXGroup;
 			children = (
@@ -4349,6 +4385,7 @@
 				B723C11A18E9380400584B2C /* PropertyResponder.m in Sources */,
 				6767D18219246303004FEFF7 /* UIView+ChainViewController.m in Sources */,
 				F8A717C719205C2E004840C6 /* VersionUpdateManager.m in Sources */,
+				F88FC2E71945614100DEA8A2 /* FindCustomerViewController.m in Sources */,
 				97B422681821087600A2E9E6 /* PropertyBigImageViewController.m in Sources */,
 				20516BDF18F52C3F00D0637C /* AXChatDataCenter.m in Sources */,
 				207526B918B45FE10022220C /* NSMutableArray+SWUtilityButtons.m in Sources */,
@@ -4358,6 +4395,7 @@
 				B7E1F6BA190E1B93009F546B /* IMGDowloaderManager.m in Sources */,
 				B7EAD52518CD927200B28FEC /* AXChatPhotoActionSheet.m in Sources */,
 				B7E5250718D977F90048DB88 /* AXChatMessageVoiceCell.m in Sources */,
+				F88FC2E0194541BE00DEA8A2 /* HomeHeaderView.m in Sources */,
 				2056A36018EE7E7A0022B5A5 /* AXMessageAPIHeartBeatingManager.m in Sources */,
 				B7921A2F18BBA2000021933A /* BrokerChatViewController.m in Sources */,
 				97C6870F183A2BF100F449BD /* PropertyAuctionPublishViewController.m in Sources */,
@@ -4468,6 +4506,7 @@
 				B7E1F6B7190E0705009F546B /* IMGDownloaderOperation.m in Sources */,
 				670F016F1931C8F5004C95B2 /* LocationSpecifyViewController.m in Sources */,
 				B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */,
+				F88FC2EB194561B000DEA8A2 /* WXDataViewController.m in Sources */,
 				2056A35F18EE7E7A0022B5A5 /* AXMessageAPIBreakLinkManager.m in Sources */,
 				20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */,
 				97CB0C0E182BEA3500FCCBBD /* BK_ELCAssetCell.m in Sources */,
@@ -4542,6 +4581,7 @@
 				97410561180CDFE0004DAE95 /* main.m in Sources */,
 				B7E55B5118BF2190007238CB /* UIColor+JSMessagesView.m in Sources */,
 				2056A36218EE7E7A0022B5A5 /* NSString+AppendURLCommonParams.m in Sources */,
+				F88FC2E31945471100DEA8A2 /* HomeCell.m in Sources */,
 				20A07429188C0A080073C915 /* PublishTableViewDataSource.m in Sources */,
 				207526BA18B45FE10022220C /* SWCellScrollView.m in Sources */,
 				972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */,
