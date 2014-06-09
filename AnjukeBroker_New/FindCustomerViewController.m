@@ -26,6 +26,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setTitleViewWithString:@"抢客户"];
     // Do any additional setup after loading the view.
 }
 

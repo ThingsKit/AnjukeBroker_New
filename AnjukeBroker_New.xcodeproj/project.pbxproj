@@ -639,7 +639,9 @@
 		F88FC2E0194541BE00DEA8A2 /* HomeHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2DF194541BE00DEA8A2 /* HomeHeaderView.m */; };
 		F88FC2E31945471100DEA8A2 /* HomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2E21945471100DEA8A2 /* HomeCell.m */; };
 		F88FC2E71945614100DEA8A2 /* FindCustomerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2E61945614100DEA8A2 /* FindCustomerViewController.m */; };
-		F88FC2EB194561B000DEA8A2 /* WXDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2EA194561B000DEA8A2 /* WXDataViewController.m */; };
+		F88FC2EF19457F8C00DEA8A2 /* PICircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2EE19457F8C00DEA8A2 /* PICircularProgressView.m */; };
+		F88FC2F3194580A200DEA8A2 /* WXDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2F1194580A200DEA8A2 /* WXDataViewController.m */; };
+		F88FC2F4194580A200DEA8A2 /* WXDataViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F88FC2F2194580A200DEA8A2 /* WXDataViewController.xib */; };
 		F8A717BE192058FB004840C6 /* UserCenterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717B7192058FB004840C6 /* UserCenterCell.m */; };
 		F8A717BF192058FB004840C6 /* UserCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717B9192058FB004840C6 /* UserCenterViewController.m */; };
 		F8A717C419205934004840C6 /* AppSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717C319205934004840C6 /* AppSettingViewController.m */; };
@@ -1632,8 +1634,11 @@
 		F88FC2E21945471100DEA8A2 /* HomeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeCell.m; sourceTree = "<group>"; };
 		F88FC2E51945614100DEA8A2 /* FindCustomerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindCustomerViewController.h; sourceTree = "<group>"; };
 		F88FC2E61945614100DEA8A2 /* FindCustomerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindCustomerViewController.m; sourceTree = "<group>"; };
-		F88FC2E9194561B000DEA8A2 /* WXDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXDataViewController.h; sourceTree = "<group>"; };
-		F88FC2EA194561B000DEA8A2 /* WXDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXDataViewController.m; sourceTree = "<group>"; };
+		F88FC2ED19457F8C00DEA8A2 /* PICircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PICircularProgressView.h; sourceTree = "<group>"; };
+		F88FC2EE19457F8C00DEA8A2 /* PICircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PICircularProgressView.m; sourceTree = "<group>"; };
+		F88FC2F0194580A200DEA8A2 /* WXDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXDataViewController.h; sourceTree = "<group>"; };
+		F88FC2F1194580A200DEA8A2 /* WXDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXDataViewController.m; sourceTree = "<group>"; };
+		F88FC2F2194580A200DEA8A2 /* WXDataViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WXDataViewController.xib; sourceTree = "<group>"; };
 		F8A717B6192058FB004840C6 /* UserCenterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterCell.h; sourceTree = "<group>"; };
 		F8A717B7192058FB004840C6 /* UserCenterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCenterCell.m; sourceTree = "<group>"; };
 		F8A717B8192058FB004840C6 /* UserCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterViewController.h; sourceTree = "<group>"; };
@@ -3751,10 +3756,21 @@
 		F88FC2E81945619F00DEA8A2 /* WXData */ = {
 			isa = PBXGroup;
 			children = (
-				F88FC2E9194561B000DEA8A2 /* WXDataViewController.h */,
-				F88FC2EA194561B000DEA8A2 /* WXDataViewController.m */,
+				F88FC2EC19457F6100DEA8A2 /* circleProgress */,
+				F88FC2F0194580A200DEA8A2 /* WXDataViewController.h */,
+				F88FC2F1194580A200DEA8A2 /* WXDataViewController.m */,
+				F88FC2F2194580A200DEA8A2 /* WXDataViewController.xib */,
 			);
 			name = WXData;
+			sourceTree = "<group>";
+		};
+		F88FC2EC19457F6100DEA8A2 /* circleProgress */ = {
+			isa = PBXGroup;
+			children = (
+				F88FC2ED19457F8C00DEA8A2 /* PICircularProgressView.h */,
+				F88FC2EE19457F8C00DEA8A2 /* PICircularProgressView.m */,
+			);
+			name = circleProgress;
 			sourceTree = "<group>";
 		};
 		F8A717DD19209E22004840C6 /* checkout */ = {
@@ -4220,6 +4236,7 @@
 				6780840D1904B2B200765A18 /* emoji_touch.png in Resources */,
 				979BBB67185804AE005B7D03 /* icon_29@2x.png in Resources */,
 				B7EA5B6918DBDCA900D437BB /* anjuke_icon_chat2@2x.png in Resources */,
+				F88FC2F4194580A200DEA8A2 /* WXDataViewController.xib in Resources */,
 				F8BE44FD192DE3CC0039D6B3 /* discover_icon_check@2x.png in Resources */,
 				F8329935192B1B1D00246CD7 /* tab_icon_find_normal@2x.png in Resources */,
 				2079ADE518B5EEDF0029D493 /* anjuke_icon_bluebutton@2x.png in Resources */,
@@ -4421,6 +4438,7 @@
 				F8734A8C1933420E007A2552 /* UpdateUserLocation.m in Sources */,
 				200485DB1907C33800A5A351 /* Property.m in Sources */,
 				975E7ED01829EDC7008EBC1D /* BK_WebImageView.m in Sources */,
+				F88FC2F3194580A200DEA8A2 /* WXDataViewController.m in Sources */,
 				F8575DA31900F6BE00AB662F /* BrokerCallAlert.m in Sources */,
 				B7EAD52118CD927200B28FEC /* AXPhotoManager.m in Sources */,
 				B7EF77B5183CE2D90024A5E6 /* RentSelectNoPlanController.m in Sources */,
@@ -4506,7 +4524,6 @@
 				B7E1F6B7190E0705009F546B /* IMGDownloaderOperation.m in Sources */,
 				670F016F1931C8F5004C95B2 /* LocationSpecifyViewController.m in Sources */,
 				B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */,
-				F88FC2EB194561B000DEA8A2 /* WXDataViewController.m in Sources */,
 				2056A35F18EE7E7A0022B5A5 /* AXMessageAPIBreakLinkManager.m in Sources */,
 				20A44DA21869760B008D8CB1 /* SSPullToRefreshSimpleContentView.m in Sources */,
 				97CB0C0E182BEA3500FCCBBD /* BK_ELCAssetCell.m in Sources */,
@@ -4522,6 +4539,7 @@
 				F8CD189C1921A40A0033733E /* CheckoutCell.m in Sources */,
 				B702BA4518921752002E2DC7 /* FindPropertyCell.m in Sources */,
 				F8D7C96819356962009DBE9E /* AppTestModeSettingViewController.m in Sources */,
+				F88FC2EF19457F8C00DEA8A2 /* PICircularProgressView.m in Sources */,
 				972C102C1814FD4500552C9B /* AnjukeHomeViewController.m in Sources */,
 				974E5C82181E4210000246D1 /* AnjukeEditableCell.m in Sources */,
 				B769E463181F629B00A2FF50 /* BasePropertyDetailController.m in Sources */,

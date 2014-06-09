@@ -7,7 +7,14 @@
 //
 
 #import "RTViewController.h"
+#import "PICircularProgressView.h"
 
 @interface WXDataViewController : RTViewController
 
+@property (weak, nonatomic) IBOutlet PICircularProgressView *progressView;
+@property (weak, nonatomic) IBOutlet UILabel *totalCustomer;
+@property (weak, nonatomic) IBOutlet UILabel *totalResponseTime;
+
+
+@property (nonatomic, strong) NSTimer *timer;
 @end
