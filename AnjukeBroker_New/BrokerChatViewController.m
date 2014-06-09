@@ -173,8 +173,8 @@
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您没有开启移动经纪人的相机权限,请前往设置-隐私-相机中设置" delegate:self cancelButtonTitle:nil otherButtonTitles:@"知道了", nil];
             [alert show];
+            return;
         }
-        return;
     }
     UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
     ipc.sourceType = UIImagePickerControllerSourceTypeCamera; //拍照
