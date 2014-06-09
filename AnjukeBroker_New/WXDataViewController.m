@@ -92,7 +92,7 @@
     self.userCenterModel = [UserCenterModel convertToMappedObject:clientDic];
     
     if (self.userCenterModel && self.userCenterModel.replyRate) {
-        [self showProgress];
+        [self performSelector:@selector(showProgress) withObject:nil afterDelay:0.5];
         self.totalCustomer.text = [NSString stringWithFormat:@"%@",self.userCenterModel.customNum];
         self.totalResponseTime.text = [NSString stringWithFormat:@"%.1f",[self.userCenterModel.responseTime floatValue]];
     }
