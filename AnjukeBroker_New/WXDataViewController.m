@@ -41,8 +41,6 @@
     //初始化数字Label
     self.numberLabel.text = @"0";
     
-    
-    
     [self doRequest];
 }
 
@@ -55,6 +53,16 @@
     self.progressView.showText = NO;
     self.progressView.roundedHead = YES;
     self.progressView.progressTopGradientColor = [UIColor brokerBlueColor];
+    
+    for (int i = 0; i < 10; i++) {
+        int j = i / 5;
+        int k = i % 5;
+        UIImageView *imgView = [[UIImageView alloc] init];
+        imgView.tag = i;
+        imgView.frame = CGRectMake(80 + k * 35, 145 + j * 50, 25, 45);
+        [imgView setImage:[UIImage imageNamed:@"tab_icon_home_normal"]];
+        [self.view addSubview:imgView];
+    }
 }
 
 #pragma mark - Request Method
@@ -100,34 +108,62 @@
     self.isLoading = NO;
 }
 - (void)showProgress{
-    self.progressView.progress = 0.0;
-
+    NSString *status;
+    if (self.progressView.progress > [self.userCenterModel.replyRate doubleValue]/100) {
+        status = @"1";
+    }else{
+        status = @"0";
+    }
+    
+    NSDictionary *dic = [NSDictionary dictionaryWithObject:status forKey:@"status"];
+    
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.001
                                                   target:self
                                                 selector:@selector(addProgress:)
-                                                userInfo:@{@"test":@"1"}
+                                                userInfo:dic
                                                  repeats:YES];
 }
 
 - (void)addProgress:(NSTimer*) time{
     NSLog(@"%@", time.userInfo);
-    if (self.progressView.progress >= 80.0/100) {
+    if (self.progressView.progress >= [self.userCenterModel.replyRate doubleValue]*0.01) {
         [self.timer invalidate];
         return;
     }
-//    if (self.progressView.progress >= [self.userCenterModel.replyRate doubleValue]/100) {
-//        [self.timer invalidate];
-//        return;
-//    }
-    if (self.progressView.progress + 0.2 > 0.8) {
-         self.progressView.progress = self.progressView.progress + 0.0035;
+    
+    BOOL status = [[timer.userInfo objectForKey:@"status"] isEqualToString:@"1"] ? YES : NO;
+    
+    float progress = self.progressView.progress/([self.userCenterModel.replyRate doubleValue]*0.01);
+    
+    DLog(@"progress--->>%0.f/%0.f/%0.f",progress,self.progressView.progress,[self.userCenterModel.replyRate doubleValue]*0.01);
+    
+    if (progress > 0.9) {
+        if (status) {
+            self.progressView.progress = self.progressView.progress - 0.003;
+        }else{
+            self.progressView.progress = self.progressView.progress + 0.003;
+        }
+    }else if (progress > 0.6){
+        if (status) {
+            self.progressView.progress = self.progressView.progress - 0.005;
+        }else{
+            self.progressView.progress = self.progressView.progress + 0.005;
+        }
+    }else if (progress > 0.2){
+        if (status) {
+            self.progressView.progress = self.progressView.progress - 0.004;
+        }else{
+            self.progressView.progress = self.progressView.progress + 0.004;
+        }
     }else{
-        self.progressView.progress = self.progressView.progress + 0.006;
+        if (status) {
+            self.progressView.progress = self.progressView.progress - 0.002;
+        }else{
+            self.progressView.progress = self.progressView.progress + 0.002;
+        }
     }
     
     self.numberLabel.text = [NSString stringWithFormat:@"%.0f", self.progressView.progress * 100];
-    
-    DLog(@"self.progressView.progress-->>%f",self.progressView.progress);
 }
 
 - (void)didReceiveMemoryWarning
