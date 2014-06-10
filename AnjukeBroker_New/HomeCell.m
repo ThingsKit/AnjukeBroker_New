@@ -7,11 +7,13 @@
 //
 
 #import "HomeCell.h"
+#import <QuartzCore/QuartzCore.h>
 
 
 @implementation HomeCell
 @synthesize cellTit;
 @synthesize cellDes;
+@synthesize dotImg;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -37,6 +39,11 @@
     self.cellDes.font = [UIFont ajkH4Font];
     self.cellDes.textColor = [UIColor brokerLightGrayColor];
     [self.contentView addSubview:self.cellDes];
+    
+    self.dotImg = [[UIImageView alloc] initWithFrame:CGRectMake(70, 8, 8, 8)];
+    self.dotImg.layer.masksToBounds = YES;
+    self.dotImg.layer.cornerRadius = 4;
+    [self.dotImg setImage:[UIImage createImageWithColor:[UIColor redColor]]];
 }
 
 - (void)configWithModel:(id)model indexPath:(NSIndexPath *)indexPath{
@@ -47,13 +54,12 @@
     self.cellTit.text = [NSString stringWithFormat:@"%@",[titAndDesArr objectAtIndex:0]];
     self.cellDes.text = [NSString stringWithFormat:@"%@",[titAndDesArr objectAtIndex:1]];
 }
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+
+- (void)showDot:(BOOL)showDot{
+    [self.dotImg removeFromSuperview];
+    if (showDot) {
+        [self.contentView addSubview:self.dotImg];
+    }
 }
-*/
 
 @end

@@ -686,7 +686,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *arr = @[@"抢房源=房东房源,一网打尽",@"抢客户=推荐房源,招揽客户",@"小区签到=刷存在感,让客户找到你",@"微聊数据=刷存在感,让客户找到你"];
+    NSArray *arr = @[@"抢房源=房东房源,一网打尽",@"抢客户=推荐房源,招揽客户",@"小区签到=刷存在感,让客户找到你",@"微聊数据=数据是成功的秘诀"];
     
     static NSString *cellIdentify = @"cell";
     
@@ -694,53 +694,19 @@
     
     if (cell == nil) {
         cell = [[HomeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentify];
-//        for (UIView *view in [cell subviews]) {
-//            [view setBackgroundColor:[UIColor whiteColor]];
-//        }
-//        for (UIView *view in [cell.contentView subviews]) {
-//            [view setBackgroundColor:[UIColor whiteColor]];
-//        }
     }
     [cell configWithModel:arr indexPath:indexPath];
     if (indexPath.row == 0) {
         [cell showTopLine];
+        [cell showDot:YES];
         [cell showBottonLineWithCellHeight:HOME_cellHeight andOffsetX:15];
     }else if (indexPath.row < 3){
+        [cell showDot:NO];
         [cell showBottonLineWithCellHeight:HOME_cellHeight andOffsetX:15];
     }else{
         [cell showBottonLineWithCellHeight:HOME_cellHeight];
     }
-//    cell.textLabel.text = [self.taskArray objectAtIndex:indexPath.row];
-//    cell.textLabel.textColor = [UIColor brokerBlackColor];
-//    cell.textLabel.font = [UIFont ajkH2Font];
-//    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-//    if (indexPath.row == self.taskArray.count - 1) {
-//        BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, 0.5f, 320 - 15, 0.5f)];
-//        [cell.contentView addSubview:line];
-//        
-//        BrokerLineView *line1 = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, HOME_cellHeight - 0.5f, 320, 0.5f)];
-//        [cell.contentView addSubview:line1];
-//    }else {
-//        BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, 0.5f, 320 - 15, 0.5f)];
-//        [cell.contentView addSubview:line];
-//    }
 
-//
-    
-//    [cell.contentView setBackgroundColor:[UIColor whiteColor]];
-//    [cell.textLabel setBackgroundColor:[UIColor whiteColor]];
-//    [cell.detailTextLabel setBackgroundColor:[UIColor whiteColor]];
-//    [cell.accessoryView setBackgroundColor:[UIColor whiteColor]];
-//    cell.accessoryType = UITableViewCellAccessoryNone;
-//    UIView *tempView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-//    [tempView setBackgroundColor:[UIColor redColor]];
-//    cell.accessoryView = tempView;
-    
-//    ((UILabel *)[cell viewWithTag:101]).text = @"";
-//    [(UILabel *)[cell viewWithTag:101] setBackgroundColor:[UIColor clearColor]];
-    
-
-    
     return cell;
 }
 
@@ -770,85 +736,7 @@
         [self.navigationController pushViewController:wxDataVC animated:YES];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-//    if (self.isCurrentHZ) {
-//        if (self.taskArray.count > 2 && indexPath.row == self.taskArray.count - 2) {//竞价
-//            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_006 note:nil];
-//            RentBidDetailController *controller = [[RentBidDetailController alloc] init];
-//            controller.backType = RTSelectorBackTypePopToRoot;
-//            [controller setHidesBottomBarWhenPushed:YES];
-//            [self.navigationController pushViewController:controller animated:YES];
-//        } else if (self.taskArray.count > 1 && indexPath.row == self.taskArray.count - 1) {//待推广
-//            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_007 note:nil];
-//            RentNoPlanController *controller = [[RentNoPlanController alloc] init];
-//            controller.isSeedPid = self.isSeedPid;
-//            [controller setHidesBottomBarWhenPushed:YES];
-//            [self.navigationController pushViewController:controller animated:YES];
-//        } else {
-//            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_005 note:nil];
-//            RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
-//            controller.tempDic = [[self.hzDataDic objectForKey:@"hzFixHouse"] objectAtIndex:indexPath.row];
-//            controller.backType = RTSelectorBackTypePopToRoot;
-//            [controller setHidesBottomBarWhenPushed:YES];
-//            [self.navigationController pushViewController:controller animated:YES];
-//        }
-//    }else {
-//        if (self.taskArray.count > 2 && indexPath.row == self.taskArray.count - 2) {//竞价
-//            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_003 note:nil];
-//            SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
-//            controller.backType = RTSelectorBackTypePopToRoot;
-//            [controller setHidesBottomBarWhenPushed:YES];
-//            [self.navigationController pushViewController:controller animated:YES];
-//        } else if (self.taskArray.count > 1 && indexPath.row == self.taskArray.count - 1) {//待推广
-//            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_004 note:nil];
-//            SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
-//            controller.isSeedPid = self.isSeedPid;
-//            [controller setHidesBottomBarWhenPushed:YES];
-//            [self.navigationController pushViewController:controller animated:YES];
-//        } else {
-//            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_002 note:nil];
-//            SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
-//            controller.tempDic = [[self.ajkDataDic objectForKey:@"ajkFixHouse"] objectAtIndex:indexPath.row];
-//            //                controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
-//            controller.backType = RTSelectorBackTypePopToRoot;
-//            [controller setHidesBottomBarWhenPushed:YES];
-//            [self.navigationController pushViewController:controller animated:YES];
-//        }
-//    }
 }
-
-//#pragma mark- SelectionToolViewDelegate
-//
-//- (void)didClickSectionAtIndex:(NSInteger) index {
-//    [self hideSelectionView];
-//    switch (index) {
-//        case 0:
-//        {
-//            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_010 note:nil];
-//            
-//            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-//            controller.backType = RTSelectorBackTypePopBack;
-//            controller.isFirstShow = YES;
-//            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-//            [self presentViewController:nav animated:YES completion:nil];
-//        }
-//            break;
-//        case 1:
-//        {
-//            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_011 note:nil];
-//            
-//            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-//            controller.backType = RTSelectorBackTypePopBack;
-//            controller.isFirstShow = YES;
-//            controller.isHaouzu = YES;
-//            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-//            [self presentViewController:nav animated:YES completion:nil];
-//        }
-//            break;
-//        default:
-//            break;
-//    }
-//}
 
 #pragma mark -- headerBtnClickDelegate
 - (void)btnClickWithTag:(NSInteger)index{
@@ -868,20 +756,5 @@
         [findHome setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:findHome animated:YES];
     }
-    //二手房
-    //        AnjukeHomeViewController *av = [[AnjukeHomeViewController alloc] init];
-    //        self.page4 = av;
-    //        av.isHome = YES;
-    //        RTGestureBackNavigationController *navAJK = [[RTGestureBackNavigationController alloc] initWithRootViewController:av];
-    //        [self.controllerArrays addObject:navAJK];
-    //        navAJK.tabBarItem = [self getTabBarItemWithTitle:@"二手房" image:[UIImage imageNamed:@"anjuke_icon_esf.png"] index:4 selectedImg:[UIImage imageNamed:@"anjuke_icon_esf1.png"]];
-    
-    //租房
-    //        HaozuHomeViewController *hhv = [[HaozuHomeViewController alloc] init];
-    //        self.page5 = hhv;
-    //        hhv.isHome = YES;
-    //        RTGestureBackNavigationController *navHZ = [[RTGestureBackNavigationController alloc] initWithRootViewController:hhv];
-    //        [self.controllerArrays addObject:navHZ];
-    //        navHZ.tabBarItem = [self getTabBarItemWithTitle:@"租房" image:[UIImage imageNamed:@"anjuke_icon_zf.png"] index:5 selectedImg:[UIImage imageNamed:@"anjuke_icon_zf1.png"]];
 }
 @end
