@@ -26,9 +26,9 @@ typedef enum {
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
-@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+//@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+//@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+//@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 @property (nonatomic, strong) UIViewController *rootViewController;
 @property (nonatomic, strong) LoginViewController *loginVC;
@@ -46,7 +46,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL appDidBecomeActive; //应用第一次进入首页
 @property (nonatomic, assign) int old;
 
-- (void)saveContext;
+//- (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 
 //private method

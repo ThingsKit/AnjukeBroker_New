@@ -172,7 +172,10 @@
                 [self.clickDelegate editPropertyDidDeleteImgWithDeleteIndex:self.editDeleteImgIndex sender:self];
             }
             
-            [self.imageDescArray removeObjectAtIndex:self.editDeleteImgIndex];
+            if ([self.imageDescArray count] > self.editDeleteImgIndex)
+            {
+                [self.imageDescArray removeObjectAtIndex:self.editDeleteImgIndex];
+            }
         }
         
         [self dismissViewControllerAnimated:YES completion:nil];
