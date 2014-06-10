@@ -125,7 +125,6 @@
             
         }
         
-        
         //如果有新数据
         if (properties.count > 0) {
             NSMutableArray* list = nil;
@@ -203,14 +202,12 @@
             }
             
             
-//            [self displayUpdatePropertyAlert:properties.count];
-            
-            
         }else{ //没有新数据
             if (self.myTableView.hidden) {
                 if (self.tableView.isPullUp) {
                     self.tableView.hasMore = NO;
                 }
+                
             }else{
                 if (self.myTableView.isPullUp) {
                     self.myTableView.hasMore = NO;
@@ -228,6 +225,9 @@
         
     }
     
+    //解除请求锁
+    self.leftIsRequesting = NO;
+    self.rightIsRequesting = NO;
     
 }
 
@@ -380,7 +380,6 @@
     [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_001 note:@{@"bp":FIND_PAGE}];
     
     [self.leftTabButton setBackgroundColor:[UIColor brokerBlueGrayColor]];
-//    [self.leftTabButton setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateNormal];
     [self.rightTabButton setBackgroundColor:[UIColor clearColor]];
     self.leftTabButton.selected = YES; //左边选中状态
     self.rightTabButton.selected = NO;
@@ -396,7 +395,6 @@
     
     [self.leftTabButton setBackgroundColor:[UIColor clearColor]];
     [self.rightTabButton setBackgroundColor:[UIColor brokerBlueGrayColor]];
-//    [self.rightTabButton setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateNormal];
     self.leftTabButton.selected = NO;
     self.rightTabButton.selected = YES;
     
@@ -496,6 +494,11 @@
 #pragma mark NetworkRequest Method 网络请求相关方法
 
 - (void)requestPropertyList:(NSMutableDictionary*)params{
+    if (self.leftIsRequesting) { //如果正在请求网络
+        return;
+    }
+    self.leftIsRequesting = YES;
+    
     NSString *method = @"commission/propertyList/";
     if (params == nil) {
         //测试用
@@ -513,6 +516,11 @@
 }
 
 - (void)requestMyPropertyList:(NSMutableDictionary*)params{
+    if (self.rightIsRequesting) { //如果正在请求网络
+        return;
+    }
+    self.rightIsRequesting = YES;
+    
     NSString *method = @"commission/myPropertyList/";
     if (params == nil) {
         //测试用
@@ -646,99 +654,6 @@
     self.navigationItem.titleView = headView;
     
     
-}
-
-
-//显示刷新房源的条数
-- (void)displayUpdatePropertyAlert:(NSUInteger)count {
-    
-    if (self.alertBackgroundImageView == nil) {
-        self.alertBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, -40, ScreenWidth-10, 40)];
-        //[[:@"timeline_new_status_background"] ]; //这儿需要retain
-        UIImage* image = [[UIImage imageNamed:@"timeline_new_status_background"] stretchableImageWithLeftCapWidth:5 topCapHeight:5];
-        self.alertBackgroundImageView.image = image;
-        [self.view addSubview:self.alertBackgroundImageView];
-        
-        UILabel* label = [[UILabel alloc] initWithFrame:CGRectZero];
-        label.font = [UIFont systemFontOfSize:16.0f];
-        label.tag = 2014;
-        label.textColor = [UIColor whiteColor];
-        label.backgroundColor = [UIColor clearColor];
-        [_alertBackgroundImageView addSubview:label];
-        
-    }
-    
-    if (count > 0) {
-        
-        if (self.myTableView.hidden) { //待委托列表
-            if (self.tableView.isPullUp) {
-                [self showAlertFromBelow:count];
-            }else{
-                [self showAlertFromAbove:count];
-            }
-            
-        }else{ //我的委托列表
-            if (self.myTableView.isPullUp) {
-                [self showAlertFromBelow:count];
-            }else{
-                [self showAlertFromAbove:count];
-            }
-        }
-        
-        //------------------------------播放提示声音
-        SystemSoundID sounds[0];
-        NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"msgcome" ofType:@"wav"];
-        CFURLRef soundURL = (__bridge CFURLRef)[NSURL fileURLWithPath:soundPath];
-        AudioServicesCreateSystemSoundID(soundURL, &sounds[0]);
-        AudioServicesPlaySystemSound(sounds[0]);
-        
-    }
-    
-    
-}
-
-- (void)showAlertFromAbove:(NSUInteger)count{
-    UILabel* label = (UILabel*)[_alertBackgroundImageView viewWithTag:2014];
-    //如果是下拉
-    label.text = [NSString stringWithFormat:@"%d条房源更新", count];
-    [label sizeToFit];
-    label.origin = CGPointMake((_alertBackgroundImageView.width-label.width)/2, (_alertBackgroundImageView.height-label.height)/2);
-    _alertBackgroundImageView.frame = CGRectMake(5, -40, ScreenWidth-10, 40);
-    __weak RushPropertyViewController* this = self;
-    
-    [UIView animateWithDuration:0.6 animations:^{
-        this.alertBackgroundImageView.top = 5;
-    } completion:^(BOOL finished){
-        if (finished) {
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationDelay:1];
-            [UIView setAnimationDuration:0.6];
-            this.alertBackgroundImageView.top = -40;
-            [UIView commitAnimations];
-        }
-    }];
-}
-
-- (void)showAlertFromBelow:(NSUInteger)count{
-    UILabel* label = (UILabel*)[_alertBackgroundImageView viewWithTag:2014];
-    //如果是上拉
-    label.text = [NSString stringWithFormat:@"%d条房源加载", count];
-    [label sizeToFit];
-    label.origin = CGPointMake((_alertBackgroundImageView.width-label.width)/2, (_alertBackgroundImageView.height-label.height)/2);
-    _alertBackgroundImageView.frame = CGRectMake(5, ScreenHeight, ScreenWidth-10, 40);
-    __weak RushPropertyViewController* this = self;
-    
-    [UIView animateWithDuration:0.6 animations:^{
-        this.alertBackgroundImageView.bottom = ScreenHeight - 40 - 20 -7;
-    } completion:^(BOOL finished){
-        if (finished) {
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationDelay:1];
-            [UIView setAnimationDuration:0.6];
-            this.alertBackgroundImageView.top = ScreenHeight;
-            [UIView commitAnimations];
-        }
-    }];
 }
 
 @end

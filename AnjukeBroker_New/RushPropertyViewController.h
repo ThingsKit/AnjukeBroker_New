@@ -22,6 +22,10 @@
 @property (nonatomic, assign) BOOL leftAutoPullDown;
 @property (nonatomic, assign) BOOL rightAutoPullDown;
 
+//每一个时刻只能有一个网络请求
+@property (nonatomic, assign) BOOL leftIsRequesting; //左边tableView正在请求
+@property (nonatomic, assign) BOOL rightIsRequesting; //右边tableView正在请求
+
 //自动拉下刷新
 - (void)autoRefresh;
 

@@ -45,16 +45,15 @@
         self.refreshFooterView = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 85)];
         self.refreshFooterView.backgroundColor = [UIColor clearColor];
         self.refreshFooterView.titleLabel.font = [UIFont systemFontOfSize:16.0f];
-        [self.refreshFooterView setTitle:@"点击查看更多" forState:UIControlStateNormal];
-        [self.refreshFooterView setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.refreshFooterView setTitle:@"" forState:UIControlStateNormal];
+        [self.refreshFooterView setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         self.refreshFooterView.showsTouchWhenHighlighted = YES;
         [self.refreshFooterView addTarget:self action:@selector(loadMore:) forControlEvents:UIControlEventTouchUpInside];
         
         UIActivityIndicatorView* activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        activity.origin = CGPointMake(80, 10);
+        activity.origin = CGPointMake(90, 30);
         activity.tag = 2014;
         [activity stopAnimating];
-//        [activity startAnimating];
         [self.refreshFooterView addSubview:activity];
 
     }
@@ -63,8 +62,9 @@
     self.delegate = self;
     self.needRefreshHeader = YES; //默认有下拉刷新
     self.needRefreshFooter = YES; //默认有上啦刷新
+    self.firstAutoPullDown = YES; //默认是第一次自动下拉
     
-    [self setSeparatorStyle:UITableViewCellSeparatorStyleNone]; //没有分割线
+//    [self setSeparatorStyle:UITableViewCellSeparatorStyleNone]; //没有分割线
     [self setBackgroundColor:[UIColor brokerBgPageColor]];
     
 }
@@ -97,8 +97,7 @@
 #pragma mark -
 #pragma mark 上拉加载更多
 - (void)loadMore:(UIButton*)button {
-    
-//    [self pullUpButtonFrozenAndStartActivity];
+    [self pullUpButtonFrozenAndStartActivity];
     
     if ([self.eventDelegate respondsToSelector:@selector(pullUp:)]) { //预判断
         [self.eventDelegate pullUp:self]; //上拉
@@ -108,7 +107,7 @@
 
 //上拉按钮禁用,风火轮开始
 - (void)pullUpButtonFrozenAndStartActivity {
-    [self.refreshFooterView setTitle:@"正在加载更多..." forState:UIControlStateNormal];
+    [self.refreshFooterView setTitle:@"正在加载..." forState:UIControlStateNormal];
     [self.refreshFooterView setEnabled:NO];
     UIActivityIndicatorView* activity = (UIActivityIndicatorView*)[_refreshFooterView viewWithTag:2014];
     [activity startAnimating];
@@ -118,17 +117,16 @@
 //上拉按钮恢复交互,风火轮停止
 - (void)pullUpButtonRecoverAndStopActivity {
     if (self.hasMore) {
-        [self.refreshFooterView setTitle:@"点击查看更多" forState:UIControlStateNormal];
         [self.refreshFooterView setEnabled:YES];
+        [self.refreshFooterView setTitle:@"上拉查看更多" forState:UIControlStateNormal];
     }else{
-//        [self.refreshFooterView setTitle:@"全部加载完毕" forState:UIControlStateNormal];
-        [self.refreshFooterView setTitle:@"" forState:UIControlStateNormal];
+        self.refreshFooterView.titleLabel.text = @"";
         [self.refreshFooterView setEnabled:NO];
     }
     
     UIActivityIndicatorView* activity = (UIActivityIndicatorView*)[_refreshFooterView viewWithTag:2014];
     [activity stopAnimating];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
 }
 
 
@@ -149,7 +147,6 @@
 - (void)doneLoadingTableViewData{
 	self.reloading = NO;
 	[self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;  //显示状态栏风火轮
 }
 
 
@@ -163,24 +160,33 @@
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-	
 	[self.refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
     
     if (!self.hasMore) {
         return;
     }
     
-    float offset = scrollView.contentOffset.y;
-    float height = scrollView.contentSize.height;
-    
-    float subtract = height - offset;
-    float extend = scrollView.height - subtract;
-    
-    if (extend > 10) {
-//        [self loadMore:nil];
+    if (_refreshFooterView && self.data && self.data.count > 6) {
+        CGRect rect = [self.refreshFooterView convertRect:_refreshFooterView.bounds toView:self.window];
+        if (rect.origin.y < 480 + 85) {
+            [self loadMore:nil];
+        }
     }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    [self.refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
     
-	
+    if (!self.hasMore) {
+        return;
+    }
+ 
+    if (_refreshFooterView && self.data && self.data.count > 6) {
+        CGRect rect = [self.refreshFooterView convertRect:_refreshFooterView.bounds toView:self.window];
+        if (rect.origin.y < 480 + 85) {
+            [self loadMore:nil];
+        }
+    }
 }
 
 
@@ -194,7 +200,6 @@
     //停止加载，弹回下拉
 //    [self doneLoadingTableViewData];
 //	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:1.0];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;  //显示状态栏风火轮
     if ([self.eventDelegate respondsToSelector:@selector(pullDown:)]) {
         [self.eventDelegate pullDown:self]; //下拉
     }
@@ -220,8 +225,15 @@
     if (!self.isPullUp) {
         [self doneLoadingTableViewData]; //weiboTableView 弹回
     }
-    [self pullUpButtonRecoverAndStopActivity]; //上拉按钮恢复交互, 文本恢复, 风火轮停止
+    if (self.firstAutoPullDown) {
+        [self.refreshFooterView setEnabled:NO];
+        [self.refreshFooterView setTitle:@"正在加载..." forState:UIControlStateNormal];
+        self.firstAutoPullDown = NO;
+    }else{
+        [self pullUpButtonRecoverAndStopActivity]; //上拉按钮恢复交互, 文本恢复, 风火轮停止
+    }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
 }
 
 

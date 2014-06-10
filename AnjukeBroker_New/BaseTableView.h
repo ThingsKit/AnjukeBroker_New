@@ -30,6 +30,7 @@
 @property (nonatomic, copy) NSString* sinceId; //用于上拉
 @property (nonatomic, assign) BOOL isPullUp; // NO 表示pull down, YES 表示pull up
 @property (nonatomic, assign) BOOL hasMore; //是否还有更多微博,评论
+@property (nonatomic, assign) BOOL firstAutoPullDown; //是否第一次自动下拉, 显示正在加载中...
 
 
 - (void)doneLoadingTableViewData; //弹回
