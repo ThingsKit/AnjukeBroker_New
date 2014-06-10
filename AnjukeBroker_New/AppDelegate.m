@@ -56,8 +56,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.unReadPushCount = [UIApplication sharedApplication].applicationIconBadgeNumber; //记录未读消息总数
-    
     [[BrokerLogger sharedInstance] logWithActionCode:AJK_ZONGHE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -79,7 +77,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doLogOutEnforce) name:@"MessageCenterUserDidQuit" object:nil];
     
     //监听push
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPushMessageCount) name:kMessageCenterReceiveNewPush object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPushMessageCount) name:kMessageCenterReceiveNewPush object:nil];
     
     self.versionUpdate = [[VersionUpdateManager alloc] init];
     [self.versionUpdate checkVersion:YES];
@@ -107,7 +105,7 @@
     
     //tell the service the count of unread messages if is login for chat
     if ([LoginManager isLogin] && [LoginManager getChatID].length > 0) {
-        NSString *methodName = [NSString stringWithFormat:@"%@/%@/%ld", @"collectUnreadMessage", [LoginManager getChatID], (long)[[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount] + self.propertyPushCount];
+        NSString *methodName = [NSString stringWithFormat:@"%@/%@/%ld", @"collectUnreadMessage", [LoginManager getChatID], (long)[[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount]];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXUnreadServiceID methodName:methodName params:@{} target:self action:@selector(collectUnreadMessageDidFinished:)];
     }
     
@@ -119,8 +117,6 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    self.unReadPushCount = [UIApplication sharedApplication].applicationIconBadgeNumber; //记录未读消息总数
-    
     [self connectLongLinkForChat];
     
     [self cleanRemoteNotification:application];
@@ -136,31 +132,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [CrashLogUtil writeCrashLog];
     });
-    
-    self.appDidBecomeActive = YES;
-    
-    self.old = 0;
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"messagePushCount"]) {
-        self.old = [[[NSUserDefaults standardUserDefaults] objectForKey:@"messagePushCount"] intValue];
-    }
-    
-    self.propertyPushCount = self.unReadPushCount - self.old;
-    if (self.propertyPushCount < 0 || (self.propertyPushCount == 0 && self.unReadPushCount == 0)) {
-        self.propertyPushCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"propertyPushCount"] integerValue];
-    }
-    
-//    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"did become active" message:[NSString stringWithFormat:@"总数%d, 旧值%d, 房源%d", self.unReadPushCount, self.old, self.propertyPushCount] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-//    [alert show];
-    
-    if (self.propertyPushCount > 0) {
-//        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
-//        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-//        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-//        [dis setDiscoverBadgeValue:self.propertyPushCount];
-//        
-//        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.propertyPushCount] forKey:@"propertyPushCount"];
-//        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
+
     
 }
 
@@ -177,6 +149,7 @@
     [[AppDelegate sharedAppDelegate] doLogOut];
     [[AppDelegate sharedAppDelegate] killLongLinkForChat];
 }
+
 //- (void)saveContext
 //{
 //    NSError *error = nil;
@@ -326,15 +299,10 @@
 }
 
 - (void)cleanRemoteNotification:(UIApplication *)application{
-//    self.unReadPushCount = [UIApplication sharedApplication].applicationIconBadgeNumber;
-//    self.propertyPushCount = self.unReadPushCount - [[AXChatMessageCenter defaultMessageCenter] totalUnreadMessageCount];
-    
     application.applicationIconBadgeNumber = 0;
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
-    
-//    [self cleanRemoteNotification:application];
     
     if (application.applicationState == UIApplicationStateInactive) {
         DLog(@"userInfo [%@]", userInfo);
@@ -355,28 +323,6 @@
 
         }
     }
-    
-}
-
-
-#pragma mark -
-#pragma mark Push Message Notification
-- (void)showPushMessageCount{
-
-    self.propertyPushCount++;  //计数器自增1
-    if (self.propertyPushCount > 0) {
-//        [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
-//        RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-//        DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-//        [dis setDiscoverBadgeValue:self.propertyPushCount];
-//        
-//        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.propertyPushCount] forKey:@"propertyPushCount"];
-//        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-    }
-    
-//    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"房源自增1" message:[NSString stringWithFormat:@"房源%d", self.propertyPushCount] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-//    [alert show];
     
 }
 
@@ -469,50 +415,6 @@
 }
 
 - (void)showMessageValueWithStr:(int)value { //显示消息条数
-    
-    if (self.old != value) {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:value] forKey:@"messagePushCount"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        //以下赋值逻辑只要在页面出现的时候走一次, 只有页面出现才走一次, 如果value与原来一样, 不走设置房源值逻辑
-        if (self.appDidBecomeActive) {
-            self.propertyPushCount = self.unReadPushCount - value;
-            
-//            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"message" message:[NSString stringWithFormat:@"总数%d, 新值%d", self.unReadPushCount, value] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-//            [alert show];
-            
-            if (self.propertyPushCount < 0 || (self.old > value && value == 0)) {
-                self.propertyPushCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"propertyPushCount"] integerValue];
-            }
-            
-            if (self.propertyPushCount > 0) {
-//                [self.tabController setDiscoverBadgeValueWithValue:[NSString stringWithFormat:@"%d", self.propertyPushCount]];
-//                RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-//                DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-//                [dis setDiscoverBadgeValue:self.propertyPushCount];
-//                
-//                [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:self.propertyPushCount] forKey:@"propertyPushCount"];
-//                [[NSUserDefaults standardUserDefaults] synchronize];
-                
-            }else{
-//                RTGestureBackNavigationController* navi = [self.tabController.controllerArrays objectAtIndex:3];
-//                DiscoverViewController* dis = (DiscoverViewController*)[navi.viewControllers objectAtIndex:0];
-//                navi.tabBarItem.badgeValue = nil;
-//                dis.badgeView.hidden = YES;
-//                
-//                if (self.propertyPushCount == 0) {
-//                    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:0] forKey:@"propertyPushCount"];
-//                    [[NSUserDefaults standardUserDefaults] synchronize];
-//                }
-
-            }
-            
-            self.appDidBecomeActive = NO;
-        }
-    }
-    
-    
-    
     if (value <= 0) {
         [self.tabController setMessageBadgeValueWithValue:nil];
         return;

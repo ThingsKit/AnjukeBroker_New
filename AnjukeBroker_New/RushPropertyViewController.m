@@ -421,9 +421,9 @@
         self.tableView.isPullUp = NO;
         if (self.tableView.maxId != nil && self.tableView.maxId.length != 0) {
             NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:self.tableView.maxId forKey:@"maxId"];
-            [self requestPropertyList:params];
+            [self requestList:params];
         }else{
-            [self requestPropertyList:nil];
+            [self requestList:nil];
         }
         
         
@@ -431,9 +431,9 @@
         self.myTableView.isPullUp = NO;
         if (self.myTableView.maxId != nil && self.myTableView.maxId.length != 0) {
             NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:self.myTableView.maxId forKey:@"maxId"];
-            [self requestMyPropertyList:params];
+            [self requestList:params];
         }else{
-            [self requestMyPropertyList:nil];
+            [self requestList:nil];
         }
         
     }
@@ -447,9 +447,9 @@
         self.tableView.isPullUp = YES;
         if (self.tableView.sinceId != nil && self.tableView.sinceId.length != 0) {
             NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:self.tableView.sinceId forKey:@"sinceId"];
-            [self requestPropertyList:params];
+            [self requestList:params];
         }else{
-            [self requestPropertyList:nil];
+            [self requestList:nil];
         }
         
         
@@ -458,9 +458,9 @@
         self.myTableView.isPullUp = YES;
         if (self.myTableView.sinceId != nil && self.myTableView.sinceId.length != 0) {
             NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:self.myTableView.sinceId forKey:@"sinceId"];
-            [self requestMyPropertyList:params];
+            [self requestList:params];
         }else{
-            [self requestMyPropertyList:nil];
+            [self requestList:nil];
         }
         
     }
@@ -492,49 +492,39 @@
 
 #pragma mark -
 #pragma mark NetworkRequest Method 网络请求相关方法
-
-- (void)requestPropertyList:(NSMutableDictionary*)params{
-    if (self.leftIsRequesting) { //如果正在请求网络
-        return;
-    }
-    self.leftIsRequesting = YES;
+- (void)requestList:(NSMutableDictionary*)params{
+    NSString* method = nil;
     
-    NSString *method = @"commission/propertyList/";
+    if (self.myTableView.hidden) {
+        
+        if (self.leftIsRequesting) { //如果正在请求网络
+            return;
+        }
+        self.leftIsRequesting = YES;
+        method = @"commission/propertyList/";
+        
+        
+    }else{
+        
+        if (self.rightIsRequesting) { //如果正在请求网络
+            return;
+        }
+        self.rightIsRequesting = YES;
+        method = @"commission/myPropertyList/";
+        
+    }
+    
     if (params == nil) {
-        //测试用
-//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"147468", @"brokerId", nil];
         NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }else{
         [params setObject:[LoginManager getToken] forKey:@"token"];
-//        [params setObject:@"147468" forKey:@"brokerId"];
         [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }
     
     
 }
-
-- (void)requestMyPropertyList:(NSMutableDictionary*)params{
-    if (self.rightIsRequesting) { //如果正在请求网络
-        return;
-    }
-    self.rightIsRequesting = YES;
-    
-    NSString *method = @"commission/myPropertyList/";
-    if (params == nil) {
-        //测试用
-//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"147468", @"brokerId", nil];
-        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
-        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
-    }else{
-        [params setObject:[LoginManager getToken] forKey:@"token"];
-//        [params setObject:@"147468" forKey:@"brokerId"];
-        [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
-        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
-    }
-}
-
 
 
 - (void) autoRefresh {

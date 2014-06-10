@@ -13,8 +13,6 @@
 #import "RushPropertyViewController.h"
 #import "BK_RTNavigationController.h"
 #import "RTListCell.h"
-#import "AppDelegate.h"
-#import "RTGestureBackNavigationController.h"
 
 @interface DiscoverViewController ()
 
@@ -111,10 +109,7 @@
             self.badgeView.image = [[UIImage imageNamed:@"red_point"] stretchableImageWithLeftCapWidth:20 topCapHeight:0];
             self.badgeView.backgroundColor = [UIColor clearColor];
             
-            int count = [AppDelegate sharedAppDelegate].propertyPushCount;
-            if (count < 0) {
-                count = 0;
-            }
+            int count = 0;
             self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
             [self.badgeNumberLabel setTextColor:[UIColor whiteColor]];
             self.badgeNumberLabel.textAlignment = UITextAlignmentCenter;
@@ -168,30 +163,14 @@
         [self.navigationController pushViewController:communityVC animated:YES];
     }else if(indexPath.row == 2){
         NSLog(@"抢房源委托");
-        
-        self.badgeView.hidden = YES; //消除badge
-        AppDelegate* delegate = [AppDelegate sharedAppDelegate];
-        delegate.propertyPushCount = 0;
-        RTGestureBackNavigationController* navi = [delegate.tabController.controllerArrays objectAtIndex:3];
-        navi.tabBarItem.badgeValue = nil;
-        
         [[BrokerLogger sharedInstance] logWithActionCode:FIND_PAGE_005 note:nil];
         RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
         [viewController setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:viewController animated:YES];
     }
-//    else if(indexPath.row == 3){
-//        NSLog(@"模态视图");
-//        RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
-//        viewController.backType = RTSelectorBackTypeDismiss;
-//        [viewController setHidesBottomBarWhenPushed:YES];
-//        BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:viewController];
-//        [self.view.window.rootViewController presentViewController:navi animated:YES completion:nil];
-//        
-//    }
-    
+
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    //    [self.tableView reloadData];
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

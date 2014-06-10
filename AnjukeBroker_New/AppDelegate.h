@@ -40,12 +40,6 @@ typedef enum {
 @property (nonatomic, copy) NSString *updateUrl; //升级url
 @property (nonatomic, strong) VersionUpdateManager *versionUpdate;
 
-//push notification
-@property (nonatomic, assign) NSInteger propertyPushCount; //未读房源推送总数
-@property (nonatomic, assign) NSInteger unReadPushCount; //未读消息总数(包括房源和微聊)
-@property (nonatomic, assign) BOOL appDidBecomeActive; //应用第一次进入首页
-@property (nonatomic, assign) int old;
-
 //- (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 
