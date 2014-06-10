@@ -34,10 +34,12 @@
 //@property (nonatomic, strong) NSDictionary *clientDic;//客户主任
 @property (strong, nonatomic) NSMutableDictionary *dataDic;//userInfo
 @property (nonatomic, strong) UserCenterModel *userCenterModel;
+@property (nonatomic, assign) BOOL isSDX;
 @end
 
 @implementation UserCenterViewController
 @synthesize userCenterModel;
+@synthesize isSDX;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,6 +47,7 @@
     if (self) {
         // Custom initialization
         self.backType = RTSelectorBackTypeNone;
+        self.isSDX = NO;
     }
     return self;
 }
@@ -86,9 +89,17 @@
     self.tableList = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
-    self.tableList.backgroundColor = [UIColor brokerBgPageColor];
+    self.tableList.backgroundColor = [UIColor whiteColor];
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableList.showsVerticalScrollIndicator = NO;
+    
+    //tableViewInsetsWithBottomValue:
+    
+//    UIEdgeInsets insets;
+//    insets.top = 20;
+//    self.tableList.contentInset = insets;
+//    self.tableList.scrollIndicatorInsets = insets;
+    
     [self.view addSubview:self.tableList];
 
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(1, 0, [self windowWidth], 50)];
@@ -98,58 +109,41 @@
 
 
 #pragma mark -UITableViewDelegate
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return SECTIONNUM;
-}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    switch (section) {
-        case 0:
-            return 1;
-        case 1:
-            return 2;
-        case 2:
-            return 3;
-        default:
-            return 0;
-    }
-}
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 20;
+    return 9;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0) {
+    if (indexPath.row == 1) {
         return 80;
+    }
+    if (indexPath.row == 0 || indexPath.row == 2 || indexPath.row == 5) {
+        return 20;
     }
     return CELL_HEIGHT;
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 20)];
-    view.backgroundColor = [UIColor brokerBgPageColor];
-    
-    return view;
-}
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identify = @"cell";
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.section == 0) {
+    if (indexPath.row == 0 || indexPath.row == 2 || indexPath.row == 5) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+        }
+        cell.contentView.backgroundColor = [UIColor brokerBgPageColor];
+        return cell;
+    }
+    
+    if (indexPath.row == 1) {
         UserCenterHeaderCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
         if (cell == nil) {
             cell = [[UserCenterHeaderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
         }
         [cell showTopLine];
         [cell showBottonLineWithCellHeight:80];
-
-        BOOL isSDX = NO;
-        
-        if (self.userCenterModel && [self.userCenterModel.isTalent intValue] == 1) {
-            isSDX = YES;
-        }else{
-            isSDX = NO;
-        }
         
         [cell updateUserHeaderInfo:isSDX leftMoney:[self getAccountLeft]];
         return cell;
@@ -158,46 +152,49 @@
         if (cell == nil) {
             cell = [[UserCenterCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
         }
-        
-        if (indexPath.section == 1) {
-            if (indexPath.row == 0) {
-                [cell showTopLine];
-                [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
-                [cell initLabelTitle:[self.taskArray objectAtIndex:0]];
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }else if (indexPath.row == 1){
-                [cell showBottonLineWithCellHeight:CELL_HEIGHT];
-                [cell initLabelTitle:[self.taskArray objectAtIndex:1]];
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                
-                UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(265, 14, 22, 22)];
-                [icon setImage:[UIImage imageNamed:@"user_ewm"]];
-                [cell.contentView addSubview:icon];
-            }
-        }else if (indexPath.section == 2){
-            if (indexPath.row == 0) {
-                [cell showTopLine];
-                [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
-                [cell initLabelTitle:[self.taskArray objectAtIndex:2]];
-                [cell setDetailText:[self getClientName] rightSpace:35];
-                
-                UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(290, 17, 15, 15)];
-                [icon setImage:[UIImage imageNamed:@"user_cell_phone_icon"]];
-                [cell.contentView addSubview:icon];
-            }else if (indexPath.row == 1){
-                [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
-                [cell initLabelTitle:[self.taskArray objectAtIndex:3]];
-                [cell setDetailText:CALL_ANJUKE_NUMBER rightSpace:35];
-                
-                UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(290, 17, 15, 15)];
-                [icon setImage:[UIImage imageNamed:@"user_cell_phone_icon"]];
-                [cell.contentView addSubview:icon];
-            }else if (indexPath.row == 2){
-                [cell showBottonLineWithCellHeight:CELL_HEIGHT];
-                [cell initLabelTitle:[self.taskArray objectAtIndex:4]];
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }
+
+        if (indexPath.row == 3) {
+            [cell showTopLine];
+            [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
+            [cell initLabelTitle:[self.taskArray objectAtIndex:0]];
+            cell.imageView.image = [UIImage imageNamed:@"tab_icon_home_normal"];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }else if (indexPath.row == 4){
+            [cell showBottonLineWithCellHeight:CELL_HEIGHT];
+            [cell initLabelTitle:[self.taskArray objectAtIndex:1]];
+            cell.imageView.image = [UIImage imageNamed:@"tab_icon_home_normal"];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+            UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(265, 14, 22, 22)];
+            [icon setImage:[UIImage imageNamed:@"user_ewm"]];
+            [cell.contentView addSubview:icon];
+        }else if (indexPath.row == 6) {
+            [cell showTopLine];
+            [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
+            [cell initLabelTitle:[self.taskArray objectAtIndex:2]];
+            [cell setDetailText:[self getClientName] rightSpace:35];
+            cell.imageView.image = [UIImage imageNamed:@"tab_icon_home_normal"];
+            
+            UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(290, 17, 15, 15)];
+            [icon setImage:[UIImage imageNamed:@"user_cell_phone_icon"]];
+            [cell.contentView addSubview:icon];
+        }else if (indexPath.row == 7){
+            [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
+            [cell initLabelTitle:[self.taskArray objectAtIndex:3]];
+            [cell setDetailText:CALL_ANJUKE_NUMBER rightSpace:35];
+            cell.imageView.image = [UIImage imageNamed:@"tab_icon_home_normal"];
+            
+            UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(290, 17, 15, 15)];
+            [icon setImage:[UIImage imageNamed:@"user_cell_phone_icon"]];
+            [cell.contentView addSubview:icon];
+        }else if (indexPath.row == 8){
+            [cell showBottonLineWithCellHeight:CELL_HEIGHT];
+            [cell initLabelTitle:[self.taskArray objectAtIndex:4]];
+            cell.imageView.image = [UIImage imageNamed:@"tab_icon_home_normal"];
+            
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
+        
         return cell;
     }
 }
@@ -206,67 +203,53 @@
     if (self.navigationController.view.frame.origin.x > 0)
         return;
     
-    if (indexPath.section == 0){
+    if (indexPath.row == 1){
         [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_005 note:nil];
         
         //broker acunt
         BrokerAccountController *controller = [[BrokerAccountController alloc] init];
+        controller.isSDX = isSDX;
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
-    }else if (indexPath.section == 1) {
-        if (indexPath.row == 0) {
-            ClientListViewController *clientListVC = [[ClientListViewController alloc] init];
-            [clientListVC setHidesBottomBarWhenPushed:YES];
-            [self.navigationController pushViewController:clientListVC animated:YES];
-        }else if (indexPath.row == 1) {
-            [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_004 note:nil];
-
-            BrokerTwoDimensionalCodeViewController *ba = [[BrokerTwoDimensionalCodeViewController alloc] init];
-            [ba setHidesBottomBarWhenPushed:YES];
-            [self.navigationController pushViewController:ba animated:YES];
-        }
-    }else{
-        if (indexPath.row == 0) {
-            [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_006 note:nil];
-            
-            if (self.userCenterModel.tel) {
-                //make call
-                [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:self.userCenterModel.tel  appLogKey:USER_CENTER_007 completion:^(CFAbsoluteTime time) {
-                    nil;
-                }];
-//                [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:self.userCenterModel.tel  appLogKey:USER_CENTER_007];
-            }
-        }else if (indexPath.row == 1){
-            [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_008 note:nil];
-
+    }else if (indexPath.row == 3) {
+        ClientListViewController *clientListVC = [[ClientListViewController alloc] init];
+        [clientListVC setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:clientListVC animated:YES];
+    }else if (indexPath.row == 4) {
+        [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_004 note:nil];
+        
+        BrokerTwoDimensionalCodeViewController *ba = [[BrokerTwoDimensionalCodeViewController alloc] init];
+        [ba setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:ba animated:YES];
+    }else if (indexPath.row == 6) {
+        [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_006 note:nil];
+        
+        if (self.userCenterModel.tel) {
             //make call
-            [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER appLogKey:USER_CENTER_009 completion:^(CFAbsoluteTime time) {
+            [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:self.userCenterModel.tel  appLogKey:USER_CENTER_007 completion:^(CFAbsoluteTime time) {
                 nil;
             }];
-//            [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER appLogKey:USER_CENTER_009];
-        }else if (indexPath.row == 2){
-            [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_010 note:nil];
-            
-            AppSettingViewController *settingVC = [[AppSettingViewController alloc] init];
-            settingVC.backType = RTSelectorBackTypePopBack;
-            [settingVC setHidesBottomBarWhenPushed:YES];
-            [self.navigationController pushViewController:settingVC animated:YES];
+            //                [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:self.userCenterModel.tel  appLogKey:USER_CENTER_007];
         }
+    }else if (indexPath.row == 7){
+        [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_008 note:nil];
+        
+        //make call
+        [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER appLogKey:USER_CENTER_009 completion:^(CFAbsoluteTime time) {
+            nil;
+        }];
+        //            [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER appLogKey:USER_CENTER_009];
+    }else if (indexPath.row == 8){
+        [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_010 note:nil];
+        
+        AppSettingViewController *settingVC = [[AppSettingViewController alloc] init];
+        settingVC.backType = RTSelectorBackTypePopBack;
+        [settingVC setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:settingVC animated:YES];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-#pragma mark - method
-- (void)goSDX{
-    [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_003 note:nil];
-    
-    CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
-    webVC.webTitle = @"闪电侠介绍";
-    webVC.webUrl = [NSString stringWithFormat:@"http://api.anjuke.com/web/nearby/brokersign/shandianxia.html?city_id=%@",[LoginManager getCity_id]];
-    [webVC setHidesBottomBarWhenPushed:YES];
-    
-    [self.navigationController pushViewController:webVC animated:YES];
-}
 - (NSString *)getClientName {
     NSString *str = [NSString string];
     
@@ -326,7 +309,13 @@
     DLog(@"clientDic-->>%@",clientDic);
     
     self.userCenterModel = [UserCenterModel convertToMappedObject:clientDic];
-    
+
+    if (self.userCenterModel && [self.userCenterModel.isTalent intValue] == 1) {
+        isSDX = YES;
+    }else{
+        isSDX = NO;
+    }
+
     [self.tableList reloadData];
     self.isLoading = NO;
 }

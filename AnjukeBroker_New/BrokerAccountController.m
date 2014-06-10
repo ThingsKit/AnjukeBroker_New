@@ -11,6 +11,7 @@
 #import "LoginManager.h"
 #import "BK_WebImageView.h"
 #import "Util_UI.h"
+#import "CheckoutWebViewController.h"
 
 @interface BrokerAccountController ()
 
@@ -20,6 +21,7 @@
 @synthesize myTable;
 @synthesize ppcDataDic;
 @synthesize dataDic;
+@synthesize isSDX;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,47 +44,53 @@
 - (void)initDisplay{
     self.view.backgroundColor = [UIColor brokerBgPageColor];
     
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 50)];
+    headerView.backgroundColor = [UIColor whiteColor];
+    
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 75, 20)];
+    if (isSDX) {
+        [imgView setImage:[UIImage imageNamed:@"user_talent"]];
+    }else{
+        [imgView setImage:[UIImage imageNamed:@"user_noTalent"]];
+    }
+    [headerView addSubview:imgView];
+    
+    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(95, 15, 100, 20)];
+    lab.text = isSDX ? @"你已经是闪电侠" : @"你还不是闪电侠";
+    lab.textColor = [UIColor brokerBlackColor];
+    lab.font = [UIFont ajkH4Font];
+    [headerView addSubview:lab];
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn addTarget:self action:@selector(goSDX) forControlEvents:UIControlEventTouchUpInside];
+    btn.frame = CGRectMake(200, 15, 100, 20);
+    [btn setTitle:@"什么是闪电侠" forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont ajkH4Font];
+    [btn setTitleColor:[UIColor brokerBlueColor] forState:UIControlStateNormal];
+    [headerView addSubview:btn];
+    
+    
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
     self.myTable.backgroundColor = [UIColor clearColor];
     self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.myTable.tableHeaderView = headerView;
     [self.view addSubview:self.myTable];
-    
-//    UIView *img = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 120)];
-//    img.backgroundColor = [Util_UI colorWithHexString:@"#EEEEEE"];
-//    self.myTable.tableHeaderView = img;
-//    CGFloat imgw = 160/2;
-//    
-////    UIImageView *imageView = [[UIImageView alloc] initWithFrame:img.frame];
-////    [self drawLine:imageView];
-////    [img addSubview:imageView];
-//    WebImageView *brokerImg = [[WebImageView alloc] initWithFrame:CGRectMake(([self windowWidth] - imgw)/2, (120-imgw)/2, imgw, imgw)];
-//    brokerImg.imageUrl = [LoginManager getUse_photo_url];
-//    brokerImg.contentMode = UIViewContentModeScaleAspectFill;
-//    brokerImg.layer.masksToBounds = YES;
-//
-//    [img addSubview:brokerImg];
-//    brokerImg.layer.cornerRadius = 8;
-//    brokerImg.layer.borderWidth = 0.5;
-//    brokerImg.layer.borderColor = [[UIColor blackColor] CGColor];
 }
 
-//- (void)drawLine:(UIImageView *) imageView{
-//    UIGraphicsBeginImageContext(imageView.frame.size);
-//    [imageView.image drawInRect:CGRectMake(0, 0, imageView.frame.size.width, imageView.frame.size.height)];
-//    CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);
-//    CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 0.1);
-//    CGContextSetAllowsAntialiasing(UIGraphicsGetCurrentContext(), YES);
-//    CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), 46.0/255, 46.0/255, 46.0/255, 1.0);
-//    CGContextBeginPath(UIGraphicsGetCurrentContext());
-//    CGContextMoveToPoint(UIGraphicsGetCurrentContext(), 17, 80);
-//    CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), 320, 80);
-//    CGContextStrokePath(UIGraphicsGetCurrentContext());
-//    imageView.image=UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//
-//}
+#pragma mark - method
+- (void)goSDX{
+    [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_003 note:nil];
+    
+    CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
+    webVC.webTitle = @"闪电侠介绍";
+    webVC.webUrl = [NSString stringWithFormat:@"http://api.anjuke.com/web/nearby/brokersign/shandianxia.html?city_id=%@",[LoginManager getCity_id]];
+    [webVC setHidesBottomBarWhenPushed:YES];
+    
+    [self.navigationController pushViewController:webVC animated:YES];
+}
+
 - (void)initModel{
     self.dataDic = [NSMutableDictionary dictionary];
     self.ppcDataDic =[NSMutableDictionary dictionary];
@@ -93,8 +101,8 @@
 
 }
 
-#pragma mark - Request Method
 
+#pragma mark - Request Method
 - (void)doRequest {
     if (![self isNetworkOkay]) {
         [self hideLoadWithAnimated:YES];
@@ -167,6 +175,9 @@
     cell.contentView.backgroundColor = [UIColor whiteColor];
 
     [cell configureCell:self.dataDic withIndex:indexPath.row];
+    if (indexPath.row == 0) {
+        [cell showTopLineWithOffsetX:15];
+    }
     if (indexPath.row == 5) {
         [cell showBottonLineWithCellHeight:45];
     }else{

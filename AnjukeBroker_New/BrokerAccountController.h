@@ -12,4 +12,5 @@
 @property (strong, nonatomic) UITableView *myTable;
 @property (strong, nonatomic) NSMutableDictionary *dataDic;
 @property (strong, nonatomic) NSMutableDictionary *ppcDataDic;
+@property (nonatomic, assign) BOOL isSDX;
 @end

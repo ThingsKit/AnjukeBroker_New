@@ -23,7 +23,6 @@
 
 - (void)initUI{
     self.selectionStyle = UITableViewCellSelectionStyleGray;
-    self.accessoryType = UITableViewCellAccessoryNone;
 }
 
 - (void)initLabelTitle:(NSString *)title{

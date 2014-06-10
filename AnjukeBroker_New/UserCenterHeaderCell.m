@@ -28,6 +28,7 @@
 }
 
 - (void)initUI{
+    self.selectionStyle = UITableViewCellSelectionStyleGray;
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     BK_WebImageView * userAvatar = [[BK_WebImageView alloc] initWithFrame:CGRectMake(15, 10, 60, 60)];
@@ -67,7 +68,8 @@
     self.userLeftMoney = [[UILabel alloc] initWithFrame:CGRectMake(userAvatar.frame.origin.x + userAvatar.frame.size.width + 10, userName.frame.origin.y + userName.frame.size.height + 10, 180, 20)];
     self.userLeftMoney.text = @"我的账户: - 元";
     self.userLeftMoney.font = [UIFont ajkH3Font];
-    self.userLeftMoney.textColor = [UIColor brokerLightGrayColor];
+    self.userLeftMoney.textColor = [UIColor brokerBlackColor];
+    self.userLeftMoney.backgroundColor = [UIColor clearColor];
     [self.contentView addSubview:self.userLeftMoney];
 }
 

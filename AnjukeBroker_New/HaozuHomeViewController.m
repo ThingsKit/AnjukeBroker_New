@@ -222,14 +222,12 @@
         
         RentBidDetailController *controller = [[RentBidDetailController alloc] init];
         controller.backType = RTSelectorBackTypePopToRoot;
-        [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     }else if ([indexPath row] == [self.myArray count] - 1){
         [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_005 note:nil];
         
         RentNoPlanController *controller = [[RentNoPlanController alloc] init];
         controller.isSeedPid = self.isSeedPid;
-        [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     }else{
         [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_004 note:nil];
@@ -237,7 +235,6 @@
         RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
         controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
         controller.backType = RTSelectorBackTypePopToRoot;
-        [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     }
     

@@ -66,6 +66,7 @@
     self.versionUpdate.versionDelegate = self;
     [self.versionUpdate checkVersion:NO];
     
+    
     // Do any additional setup after loading the view.
     
     self.tableList = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
@@ -137,6 +138,8 @@
     }
 
     cell.textLabel.font = [UIFont ajkH2Font];
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
+
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             [cell showTopLine];
