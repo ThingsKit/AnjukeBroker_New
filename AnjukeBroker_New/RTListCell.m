@@ -74,6 +74,15 @@
         self.lineView.frame = CGRectMake(offsetX, cellH -0.5, 320 - offsetX, 0.5);
     }
 }
+- (void)showTopLineWithOffsetX:(CGFloat)offsetX {
+    if (self.topLine == nil) {
+        self.topLine = [[BrokerLineView alloc] initWithFrame:CGRectMake(offsetX, -0.5, 320 - offsetX, 0.5)];
+        [self.contentView addSubview:self.topLine];
+    }
+    
+    self.topLine.frame = CGRectMake(offsetX, 0, 320 - offsetX, 0.5);
+    
+}
 
 - (void)showTopLine {
     if (self.topLine == nil) {

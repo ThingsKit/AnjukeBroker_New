@@ -665,6 +665,7 @@
 		F8BFF37A18FE87E8008E700D /* leftside_shadow_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BFF37818FE87E8008E700D /* leftside_shadow_bg@2x.png */; };
 		F8C0C06E19248C010098D0E5 /* UserCenterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F8C0C06D19248C010098D0E5 /* UserCenterModel.m */; };
 		F8C0C0721924A0D40098D0E5 /* HUDNews.m in Sources */ = {isa = PBXBuildFile; fileRef = F8C0C0711924A0D40098D0E5 /* HUDNews.m */; };
+		F8C3B4CB1946ACC000D2D0E6 /* PPCHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = F8C3B4CA1946ACC000D2D0E6 /* PPCHeaderView.m */; };
 		F8CCEEBC192C488500192055 /* check_no_community@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8CCEEB9192C488500192055 /* check_no_community@2x.png */; };
 		F8CCEEBD192C488500192055 /* check_no_gps@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8CCEEBA192C488500192055 /* check_no_gps@2x.png */; };
 		F8CCEEBE192C488500192055 /* check_no_wifi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8CCEEBB192C488500192055 /* check_no_wifi@2x.png */; };
@@ -1673,6 +1674,8 @@
 		F8C0C06D19248C010098D0E5 /* UserCenterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCenterModel.m; sourceTree = "<group>"; };
 		F8C0C0701924A0D40098D0E5 /* HUDNews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDNews.h; sourceTree = "<group>"; };
 		F8C0C0711924A0D40098D0E5 /* HUDNews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDNews.m; sourceTree = "<group>"; };
+		F8C3B4C91946ACC000D2D0E6 /* PPCHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPCHeaderView.h; sourceTree = "<group>"; };
+		F8C3B4CA1946ACC000D2D0E6 /* PPCHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPCHeaderView.m; sourceTree = "<group>"; };
 		F8CCEEB9192C488500192055 /* check_no_community@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check_no_community@2x.png"; sourceTree = "<group>"; };
 		F8CCEEBA192C488500192055 /* check_no_gps@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check_no_gps@2x.png"; sourceTree = "<group>"; };
 		F8CCEEBB192C488500192055 /* check_no_wifi@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check_no_wifi@2x.png"; sourceTree = "<group>"; };
@@ -3334,6 +3337,8 @@
 				B721095418278B4E00904FC7 /* SalePropertyListCell.m */,
 				B702BA4318921752002E2DC7 /* FindPropertyCell.h */,
 				B702BA4418921752002E2DC7 /* FindPropertyCell.m */,
+				F8C3B4C91946ACC000D2D0E6 /* PPCHeaderView.h */,
+				F8C3B4CA1946ACC000D2D0E6 /* PPCHeaderView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -4455,6 +4460,7 @@
 				2056A39618EE7EA00022B5A5 /* AXMessageCenterUpdataUserInformationManager.m in Sources */,
 				2026044C18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.m in Sources */,
 				B7FFC9DD18C8AC330020A73B /* UIImage+Alpha.m in Sources */,
+				F8C3B4CB1946ACC000D2D0E6 /* PPCHeaderView.m in Sources */,
 				2056A34D18EE7E660022B5A5 /* AXMappedPerson.m in Sources */,
 				678D2A2C18DAB9D90027D945 /* KKAudioComponent.m in Sources */,
 				975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */,

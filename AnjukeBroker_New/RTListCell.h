@@ -34,6 +34,7 @@
 
 - (void)showBottonLineWithCellHeight:(CGFloat)cellH;
 - (void)showTopLine;
+- (void)showTopLineWithOffsetX:(CGFloat)offsetX;
 - (UIView *)baseCellBackgroundView;
 - (void)showBottonLineWithCellHeight:(CGFloat)cellH andOffsetX:(CGFloat)offsetX;
 

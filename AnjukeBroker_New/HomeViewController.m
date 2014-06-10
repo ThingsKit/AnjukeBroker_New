@@ -117,32 +117,32 @@
     return _imgDownloader;
 }
 
-- (UIControl *)shadeControl {
-    if (_shadeControl == nil) {
-        _shadeControl = [[UIControl alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight])];
-        _shadeControl.backgroundColor = [UIColor clearColor];
-        _shadeControl.hidden = YES;
-        _shadeControl.alpha = 0;
-        UITapGestureRecognizer *recogn = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTableView)];
-        [_shadeControl addGestureRecognizer:recogn];
-    }
-    return _shadeControl;
-}
+//- (UIControl *)shadeControl {
+//    if (_shadeControl == nil) {
+//        _shadeControl = [[UIControl alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight])];
+//        _shadeControl.backgroundColor = [UIColor clearColor];
+//        _shadeControl.hidden = YES;
+//        _shadeControl.alpha = 0;
+//        UITapGestureRecognizer *recogn = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTableView)];
+//        [_shadeControl addGestureRecognizer:recogn];
+//    }
+//    return _shadeControl;
+//}
 
-- (SegmentView *)segment {
-    if (_segment == nil) {
-        _segment = [[SegmentView alloc] initWithFrame:CGRectMake(0, 0, 170, 30)];
-        [_segment setDisSelectTitleColor:[UIColor brokerBlueGrayColor] selectedTitleColor:[UIColor colorWithHex:0x252d3a alpha:1]];
-        _segment.delegate = self;
-        _segment.backgroundColor = [UIColor brokerBlueGrayColor];
-        [_segment setLeftButTitle:@"二手房" withColor:[UIColor colorWithHex:0x252d3a alpha:1]];
-        [_segment setRightButTitle:@"租房" withColor:[UIColor colorWithHex:0x252d3a alpha:1]];
-        [_segment setSelectedBGColor:[UIColor colorWithHex:0x252d3a alpha:1]];
-
-        _segment.layer.cornerRadius = 3;
-    }
-    return _segment;
-}
+//- (SegmentView *)segment {
+//    if (_segment == nil) {
+//        _segment = [[SegmentView alloc] initWithFrame:CGRectMake(0, 0, 170, 30)];
+//        [_segment setDisSelectTitleColor:[UIColor brokerBlueGrayColor] selectedTitleColor:[UIColor colorWithHex:0x252d3a alpha:1]];
+//        _segment.delegate = self;
+//        _segment.backgroundColor = [UIColor brokerBlueGrayColor];
+//        [_segment setLeftButTitle:@"二手房" withColor:[UIColor colorWithHex:0x252d3a alpha:1]];
+//        [_segment setRightButTitle:@"租房" withColor:[UIColor colorWithHex:0x252d3a alpha:1]];
+//        [_segment setSelectedBGColor:[UIColor colorWithHex:0x252d3a alpha:1]];
+//
+//        _segment.layer.cornerRadius = 3;
+//    }
+//    return _segment;
+//}
 
 - (HomeHeaderView *)headerView{
     if (_headerView == nil) {
@@ -152,12 +152,12 @@
     return _headerView;
 }
 
-- (NoDataAndNoNetworkView *)nodataView {
-    if (_nodataView == nil) {
-        _nodataView = [[NoDataAndNoNetworkView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight])];
-    }
-    return _nodataView;
-}
+//- (NoDataAndNoNetworkView *)nodataView {
+//    if (_nodataView == nil) {
+//        _nodataView = [[NoDataAndNoNetworkView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight])];
+//    }
+//    return _nodataView;
+//}
 
 
 
@@ -271,7 +271,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self hideSelectionView];
+//    [self hideSelectionView];
 }
 
 #pragma mark - private method
@@ -280,66 +280,66 @@
     //账户自适应
 }
 
-- (void)rightButtonAction:(id)sender {
-    [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_008 note:nil];
-    if (self.selectionView.isHidden) {
-        [self showSelectionView];
-    }else {
-        [self hideSelectionView];
-    }
-}
-
-- (void)tapTableView {
-    [self hideSelectionView];
-}
-
-- (void)showSelectionView {
-    self.shadeControl.hidden = NO;
-    [self.view bringSubviewToFront:self.shadeControl];
-    self.selectionView.hidden = NO;
-    [self.view bringSubviewToFront:self.selectionView];
-    [UIView animateWithDuration:0.2f animations:^{
-        self.shadeControl.alpha = 0.4;
-        self.selectionView.alpha = 1;
-        self.selectionView.transform = CGAffineTransformIdentity;
-        self.selectionView.frame = CGRectMake(200, 3, 110, 100);
-    } completion:^(BOOL finished) {
-        
-    }];
-}
-
-- (void)hideSelectionView {
-    [UIView animateWithDuration:0.2f animations:^{
-        self.shadeControl.alpha = 0;
-        self.selectionView.alpha = 0;
-        self.selectionView.transform = CGAffineTransformMakeScale(0, 0);
-        self.selectionView.frame = CGRectMake(200, 3, 110, 100);
-    } completion:^(BOOL finished) {
-        self.selectionView.hidden = YES;
-        self.shadeControl.hidden = YES;
-    }];
-}
-//#pragma mark - SegmentViewDelegate
-//- (void)didSelectedIndex:(NSInteger)index {
-//    [self hideSelectionView];
-//    switch (index) {
-//        case 0:
-//        {
-//            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_018 note:nil];
-//            [self uploadAJKTableData];
-//        }
-//            break;
-//        case 1:
-//        {
-//            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_017 note:nil];
-//            [self uploadHZTableData];
-//        }
-//            break;
-//        default:
-//            break;
+//- (void)rightButtonAction:(id)sender {
+//    [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_008 note:nil];
+//    if (self.selectionView.isHidden) {
+//        [self showSelectionView];
+//    }else {
+//        [self hideSelectionView];
 //    }
-//
 //}
+
+//- (void)tapTableView {
+//    [self hideSelectionView];
+//}
+
+//- (void)showSelectionView {
+//    self.shadeControl.hidden = NO;
+//    [self.view bringSubviewToFront:self.shadeControl];
+//    self.selectionView.hidden = NO;
+//    [self.view bringSubviewToFront:self.selectionView];
+//    [UIView animateWithDuration:0.2f animations:^{
+//        self.shadeControl.alpha = 0.4;
+//        self.selectionView.alpha = 1;
+//        self.selectionView.transform = CGAffineTransformIdentity;
+//        self.selectionView.frame = CGRectMake(200, 3, 110, 100);
+//    } completion:^(BOOL finished) {
+//        
+//    }];
+//}
+//
+//- (void)hideSelectionView {
+//    [UIView animateWithDuration:0.2f animations:^{
+//        self.shadeControl.alpha = 0;
+//        self.selectionView.alpha = 0;
+//        self.selectionView.transform = CGAffineTransformMakeScale(0, 0);
+//        self.selectionView.frame = CGRectMake(200, 3, 110, 100);
+//    } completion:^(BOOL finished) {
+//        self.selectionView.hidden = YES;
+//        self.shadeControl.hidden = YES;
+//    }];
+//}
+#pragma mark - SegmentViewDelegate
+- (void)didSelectedIndex:(NSInteger)index {
+//    [self hideSelectionView];
+    switch (index) {
+        case 0:
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_018 note:nil];
+            [self uploadAJKTableData];
+        }
+            break;
+        case 1:
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_017 note:nil];
+            [self uploadHZTableData];
+        }
+            break;
+        default:
+            break;
+    }
+
+}
 
 #pragma mark - Request Method
 - (void)doRequest {
@@ -505,110 +505,109 @@
     }
 }
 
-#pragma mark - 获取计划管理信息
--(void)doRequestPPC{
-    if (self.isLoading == YES) {
-        //        return;
-    }
-    
-    if(![self isNetworkOkay]){
-        [self showNoNetworkView];
-        return;
-    }
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
-    
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"broker/todayConsumeInfo/" params:params target:self action:@selector(onGetSuccess:)];
-    
-    [self showLoadingActivity:YES];
-    self.isLoading = YES;
-}
-
-- (void)onGetSuccess:(RTNetworkResponse *)response {
-    DLog(@"------response [%@]", [response content]);
-    
-    if([[response content] count] == 0){
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-        [self showNodataVeiw];
-        [self showInfo:@"请求失败"];
-        return ;
-    }
-    
-    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-        [alert show];
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-        [self performSelector:@selector(showNodataVeiw) withObject:self afterDelay:2.0f];
-        return;
-    }
-    
-    [self.myArray removeAllObjects];
-    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-    if([resultFromAPI count] ==  0){
+//#pragma mark - 获取计划管理信息
+//-(void)doRequestPPC{
+//    if (self.isLoading == YES) {
+//        //        return;
+//    }
+//    
+//    if(![self isNetworkOkay]){
+//        [self showNoNetworkView];
+//        return;
+//    }
+//    
+//    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
+//    
+//    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"broker/todayConsumeInfo/" params:params target:self action:@selector(onGetSuccess:)];
+//    
+//    [self showLoadingActivity:YES];
+//    self.isLoading = YES;
+//}
+//
+//- (void)onGetSuccess:(RTNetworkResponse *)response {
+//    DLog(@"------response [%@]", [response content]);
+//    
+//    if([[response content] count] == 0){
 //        [self hideLoadWithAnimated:YES];
 //        self.isLoading = NO;
-        [self showNodataVeiw];
+//        [self showNodataVeiw];
+//        [self showInfo:@"请求失败"];
+//        return ;
+//    }
+//    
+//    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+//        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+//        [alert show];
+//        [self hideLoadWithAnimated:YES];
+//        self.isLoading = NO;
 //        [self performSelector:@selector(showNodataVeiw) withObject:self afterDelay:2.0f];
-        return ;
-    }
-    
-    if ([resultFromAPI objectForKey:@"ajkDataDic"]) {
-        self.ajkDataDic = nil;
-        self.ajkDataDic = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"ajkDataDic"]];
-    }
-    
-    if ([resultFromAPI objectForKey:@"hzDataDic"]) {
-        self.hzDataDic = nil;
-        self.hzDataDic = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"hzDataDic"]];
-    }
-    [self updateTitle];
-    
-    NSMutableDictionary *bidPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"bidPlan"]];
-    [bidPlan setValue:@"1" forKey:@"type"];
-    [self.myArray addObject:bidPlan];
-    
-    NSMutableArray *fixPlan = [NSMutableArray array];
-    [fixPlan addObjectsFromArray:[resultFromAPI objectForKey:@"fixPlan"]];
-    [self.myArray addObjectsFromArray:fixPlan];
-    //    if ([fixPlan count] == 1) {
-    //        self.isSeedPid = [[fixPlan objectAtIndex:0] objectForKey:@"fixPlanId"];
-    //    }
-    NSMutableDictionary *nodic = [[NSMutableDictionary alloc] init];
-    [nodic setValue:@"待推广房源" forKey:@"title"];
-    [nodic setValue:[resultFromAPI objectForKey:@"unRecommendPropNum"] forKey:@"unRecommendPropNum"];
-    [nodic setValue:@"1" forKey:@"type"];
-    [self.myArray addObject:nodic];
-    
-    //    [self.myTable reloadData];
-    [self hideLoadWithAnimated:YES];
-    self.isLoading = NO;
-    
-}
+//        return;
+//    }
+//    
+//    [self.myArray removeAllObjects];
+//    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+//    if([resultFromAPI count] ==  0){
+////        [self hideLoadWithAnimated:YES];
+////        self.isLoading = NO;
+//        [self showNodataVeiw];
+////        [self performSelector:@selector(showNodataVeiw) withObject:self afterDelay:2.0f];
+//        return ;
+//    }
+//    
+//    if ([resultFromAPI objectForKey:@"ajkDataDic"]) {
+//        self.ajkDataDic = nil;
+//        self.ajkDataDic = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"ajkDataDic"]];
+//    }
+//    
+//    if ([resultFromAPI objectForKey:@"hzDataDic"]) {
+//        self.hzDataDic = nil;
+//        self.hzDataDic = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"hzDataDic"]];
+//    }
+//    [self updateTitle];
+//    
+//    NSMutableDictionary *bidPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"bidPlan"]];
+//    [bidPlan setValue:@"1" forKey:@"type"];
+//    [self.myArray addObject:bidPlan];
+//    
+//    NSMutableArray *fixPlan = [NSMutableArray array];
+//    [fixPlan addObjectsFromArray:[resultFromAPI objectForKey:@"fixPlan"]];
+//    [self.myArray addObjectsFromArray:fixPlan];
+//    //    if ([fixPlan count] == 1) {
+//    //        self.isSeedPid = [[fixPlan objectAtIndex:0] objectForKey:@"fixPlanId"];
+//    //    }
+//    NSMutableDictionary *nodic = [[NSMutableDictionary alloc] init];
+//    [nodic setValue:@"待推广房源" forKey:@"title"];
+//    [nodic setValue:[resultFromAPI objectForKey:@"unRecommendPropNum"] forKey:@"unRecommendPropNum"];
+//    [nodic setValue:@"1" forKey:@"type"];
+//    [self.myArray addObject:nodic];
+//    
+//    //    [self.myTable reloadData];
+//    [self hideLoadWithAnimated:YES];
+//    self.isLoading = NO;
+//    
+//}
 
-- (void)showNodataVeiw {
-    self.myTable.hidden = YES;
-    [self.nodataView removeFromSuperview];
-    [self.view addSubview:self.nodataView];
-    [self.nodataView showNoDataView];
-}
-
-- (void)showNoNetworkView {
-    self.myTable.hidden = YES;
-    [self.nodataView removeFromSuperview];
-    [self.view addSubview:self.nodataView];
-    [self.nodataView showNoNetwork];
-}
-
--(void)hideNodataAndNoNetworkView {
-    [self.nodataView removeFromSuperview];
-}
+//- (void)showNodataVeiw {
+//    self.myTable.hidden = YES;
+//    [self.nodataView removeFromSuperview];
+//    [self.view addSubview:self.nodataView];
+//    [self.nodataView showNoDataView];
+//}
+//
+//- (void)showNoNetworkView {
+//    self.myTable.hidden = YES;
+//    [self.nodataView removeFromSuperview];
+//    [self.view addSubview:self.nodataView];
+//    [self.nodataView showNoNetwork];
+//}
+//
+//-(void)hideNodataAndNoNetworkView {
+//    [self.nodataView removeFromSuperview];
+//}
 
 - (void)updateTitle {
-    //    [self setTitleViewWithString:@"房源"];
-    [self hideNodataAndNoNetworkView];
+//    [self hideNodataAndNoNetworkView];
     self.isSeedPid = @"";
     self.myTable.hidden = NO;
     [self.view bringSubviewToFront:self.myTable];
@@ -629,7 +628,7 @@
             [self uploadHZTableData];
         } else {
             self.myTable.hidden = YES;
-            [self showNodataVeiw];
+//            [self showNodataVeiw];
         }
     }
 }
@@ -770,7 +769,8 @@
         wxDataVC.backType = RTSelectorBackTypePopBack;
         [self.navigationController pushViewController:wxDataVC animated:YES];
     }
-    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
 //    if (self.isCurrentHZ) {
 //        if (self.taskArray.count > 2 && indexPath.row == self.taskArray.count - 2) {//竞价
 //            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_006 note:nil];
@@ -815,42 +815,40 @@
 //            [self.navigationController pushViewController:controller animated:YES];
 //        }
 //    }
-
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-#pragma mark- SelectionToolViewDelegate
-
-- (void)didClickSectionAtIndex:(NSInteger) index {
-    [self hideSelectionView];
-    switch (index) {
-        case 0:
-        {
-            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_010 note:nil];
-            
-            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-            controller.backType = RTSelectorBackTypePopBack;
-            controller.isFirstShow = YES;
-            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:nav animated:YES completion:nil];
-        }
-            break;
-        case 1:
-        {
-            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_011 note:nil];
-            
-            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-            controller.backType = RTSelectorBackTypePopBack;
-            controller.isFirstShow = YES;
-            controller.isHaouzu = YES;
-            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-            [self presentViewController:nav animated:YES completion:nil];
-        }
-            break;
-        default:
-            break;
-    }
-}
+//#pragma mark- SelectionToolViewDelegate
+//
+//- (void)didClickSectionAtIndex:(NSInteger) index {
+//    [self hideSelectionView];
+//    switch (index) {
+//        case 0:
+//        {
+//            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_010 note:nil];
+//            
+//            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
+//            controller.backType = RTSelectorBackTypePopBack;
+//            controller.isFirstShow = YES;
+//            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+//            [self presentViewController:nav animated:YES completion:nil];
+//        }
+//            break;
+//        case 1:
+//        {
+//            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_011 note:nil];
+//            
+//            CommunityListViewController *controller = [[CommunityListViewController alloc] init];
+//            controller.backType = RTSelectorBackTypePopBack;
+//            controller.isFirstShow = YES;
+//            controller.isHaouzu = YES;
+//            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+//            [self presentViewController:nav animated:YES completion:nil];
+//        }
+//            break;
+//        default:
+//            break;
+//    }
+//}
 
 #pragma mark -- headerBtnClickDelegate
 - (void)btnClickWithTag:(NSInteger)index{

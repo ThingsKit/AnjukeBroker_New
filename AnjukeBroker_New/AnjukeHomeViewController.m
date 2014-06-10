@@ -18,15 +18,17 @@
 #import "BrokerLogger.h"
 #import "CommunityListViewController.h"
 #import "RTGestureBackNavigationController.h"
+#import "PPCHeaderView.h"
 
 @interface AnjukeHomeViewController ()
-
+@property(nonatomic, strong) PPCHeaderView *ppcHeadView;
 @end
 
 @implementation AnjukeHomeViewController
 @synthesize myTable;
 @synthesize myArray;
 @synthesize isSeedPid;
+@synthesize ppcHeadView;
 
 #pragma mark - log
 - (void)sendAppearLog {
@@ -47,6 +49,15 @@
     return self;
 }
 
+- (PPCHeaderView *)ppcHeadView{
+    if (ppcHeadView == nil) {
+        ppcHeadView = [[PPCHeaderView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 100)];
+        ppcHeadView.backgroundColor = [UIColor whiteColor];
+    }
+    return ppcHeadView;
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -59,6 +70,7 @@
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
     self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.myTable.tableHeaderView = self.ppcHeadView;
     [self.view addSubview:self.myTable];
 
 	// Do any additional setup after loading the view.
@@ -76,8 +88,7 @@
     [super viewWillAppear:animated];
     [self reloadData];
     [self doRequest];
-//    [self doLog];
-
+    [self doPPCRequest];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -96,19 +107,58 @@
     }
 }
 
-//-(void)doLog{
-//    if(![self isNetworkOkay]){
-//        return;
-//    }
-//    
-//    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
-//    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"nlog/" params:params target:self action:@selector(onLogSuccess:)];
-//    [self showLoadingActivity:YES];
-//    self.isLoading = YES;
-//}
-//-(void)onLogSuccess:(RTNetworkResponse *)response {
-//    DLog(@"%@",response.content);
-//}
+#pragma mark - 获取计划管理信息
+-(void)doPPCRequest{
+    if (self.isLoading == YES) {
+        //        return;
+    }
+
+    if(![self isNetworkOkay]){
+        return;
+    }
+
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
+
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"broker/todayConsumeInfo/" params:params target:self action:@selector(onPPCGetSuccess:)];
+
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+}
+
+- (void)onPPCGetSuccess:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+
+    if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        [self showInfo:@"请求失败"];
+        return ;
+    }
+
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+
+    [self.myArray removeAllObjects];
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    if([resultFromAPI count] ==  0){
+        return ;
+    }
+
+    if ([resultFromAPI objectForKey:@"ajkDataDic"]) {
+        [self.ppcHeadView updatePPCData:[[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"ajkDataDic"]] isAJK:YES];
+    }
+
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+
+}
+
 #pragma mark - 获取计划管理信息
 -(void)doRequest{
     if (self.isLoading == YES) {
@@ -153,6 +203,8 @@
 
         return ;
     }
+    DLog(@"resultFromAPI-->>%@",resultFromAPI);
+    
     NSMutableDictionary *bidPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"bidPlan"]];
     [bidPlan setValue:@"1" forKey:@"type"];
     [self.myArray addObject:bidPlan];
@@ -220,8 +272,15 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    [cell showBottonLineWithCellHeight:66.0f];
-    [cell setValueForCellByData:self.myArray index:indexPath.row];    
+    if (indexPath.row == 0) {
+        [cell showTopLineWithOffsetX:15];
+        [cell showBottonLineWithCellHeight:66.0f andOffsetX:15];
+    }else if (indexPath.row != [self.myArray count] - 1) {
+        [cell showBottonLineWithCellHeight:66.0f andOffsetX:15];
+    }else{
+        [cell showBottonLineWithCellHeight:66.0f];
+    }
+    [cell setValueForCellByData:self.myArray index:indexPath.row];
     return cell;
 }
 

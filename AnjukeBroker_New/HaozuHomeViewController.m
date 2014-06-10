@@ -15,17 +15,19 @@
 #import "RentPPCGroupCell.h"
 #import "LoginManager.h"
 #import "RTGestureBackNavigationController.h"
+#import "PPCHeaderView.h"
 
 #define HaozuHomeCellHeight 66.0f
 
 @interface HaozuHomeViewController ()
-
+@property(nonatomic, strong) PPCHeaderView *ppcHeadView;
 @end
 
 @implementation HaozuHomeViewController
 @synthesize myTable;
 @synthesize myArray;
 @synthesize isSeedPid;
+@synthesize ppcHeadView;
 
 #pragma mark - log
 - (void)sendAppearLog {
@@ -44,6 +46,13 @@
         // Custom initialization
     }
     return self;
+}
+- (PPCHeaderView *)ppcHeadView{
+    if (ppcHeadView == nil) {
+        ppcHeadView = [[PPCHeaderView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 100)];
+        ppcHeadView.backgroundColor = [UIColor whiteColor];
+    }
+    return ppcHeadView;
 }
 
 - (void)viewDidLoad
@@ -64,6 +73,7 @@
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
     self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.myTable.tableHeaderView = self.ppcHeadView;
     [self.view addSubview:myTable];
 }
 -(void)dealloc{
@@ -73,6 +83,7 @@
     [super viewWillAppear:animated];
     [self reloadData];
     [self doRequest];
+    [self doPPCRequest];
 }
 -(void) viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
@@ -85,7 +96,59 @@
         [self.myTable reloadData];
     }
 }
+#pragma mark - 获取计划管理信息
+-(void)doPPCRequest{
+    if (self.isLoading == YES) {
+        //        return;
+    }
+    
+    if(![self isNetworkOkay]){
+        return;
+    }
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"broker/todayConsumeInfo/" params:params target:self action:@selector(onPPCGetSuccess:)];
+    
+    [self showLoadingActivity:YES];
+    self.isLoading = YES;
+}
 
+- (void)onPPCGetSuccess:(RTNetworkResponse *)response {
+    DLog(@"------response [%@]", [response content]);
+    
+    if([[response content] count] == 0){
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        [self showInfo:@"请求失败"];
+        return ;
+    }
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        return;
+    }
+    
+    [self.myArray removeAllObjects];
+    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    if([resultFromAPI count] ==  0){
+        return ;
+    }
+    
+    if ([resultFromAPI objectForKey:@"hzDataDic"]) {
+        [self.ppcHeadView updatePPCData:[[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"hzDataDic"]] isAJK:NO];
+    }
+
+    
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
+    
+}
+#pragma mark - dorequest
 -(void)doRequest{
     if (self.isLoading == YES) {
 //        return;
@@ -197,7 +260,14 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
     }
-    [cell showBottonLineWithCellHeight:HaozuHomeCellHeight];
+    if (indexPath.row == 0) {
+        [cell showTopLineWithOffsetX:15];
+        [cell showBottonLineWithCellHeight:HaozuHomeCellHeight andOffsetX:15];
+    }else if (indexPath.row != [self.myArray count] - 1) {
+        [cell showBottonLineWithCellHeight:HaozuHomeCellHeight andOffsetX:15];
+    }else{
+        [cell showBottonLineWithCellHeight:HaozuHomeCellHeight];
+    }
     [cell setValueForCellByData:self.myArray index:indexPath.row];
     return cell;
 }
