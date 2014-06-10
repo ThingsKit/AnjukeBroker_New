@@ -133,9 +133,16 @@
     isMoving = NO;
 }
 
-#pragma -mark UIGurstureDelegate
--(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-    if (capImageArr.count < 1 || self.disableGestureForBack || [touch.view isKindOfClass:[UIButton class]] || self.disableGestureForBack || isMoving) {
+#pragma -mark UIGurstureDelegate  
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if (capImageArr.count < 1 ||
+        self.disableGestureForBack ||
+        [touch.view isKindOfClass:[UIButton class]] ||
+        [touch.view isKindOfClass:[UITableViewCell class]] ||
+        [NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"] ||
+        isMoving)
+    {
         return NO;
     }
     return YES;
