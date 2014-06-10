@@ -92,45 +92,36 @@
 }
 
 #pragma mark -UITableViewDelegate
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    if (self.idfaFlg) {
-        return SECTIONNUM + 1;
-    }
-    return SECTIONNUM;
-}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (section == SECTIONNUM) {
-        return 1;
-    }else {
-        return 2;
+    if (self.idfaFlg) {
+        return 7;
     }
+    return 6;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
-        return 15;
-    }
-    return 20;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *view = [[UIView alloc] init];
-    view.backgroundColor = [UIColor brokerBgPageColor];
-    
-    return view;
-}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0 && indexPath.row == 1) {
+    if (indexPath.row == 0) {
+        return 15;
+    }else if (indexPath.row == 3){
+        return 20;
+    }else if (indexPath.row == 2) {
         return NOTIFICCELL;
-    } else if(indexPath.section == SECTIONNUM){
-        return MORE_CELL_H;
     }
     return MORE_CELL_H;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identify = @"cell";
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.row == 0 || indexPath.row == 3) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+        }
+        cell.contentView.backgroundColor = [UIColor brokerBgPageColor];
+        return cell;
+    }
     
     RTListCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
     if (cell == nil) {
@@ -140,51 +131,49 @@
     cell.textLabel.font = [UIFont ajkH2Font];
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
 
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
-            [cell showTopLine];
-            [cell showBottonLineWithCellHeight:MORE_CELL_H andOffsetX:15];
-            
-            cell.textLabel.text = @"短信通知";
-            
-            self.msgSw = [[UISwitch alloc] initWithFrame:CGRectMake(320 - 30 - 15, (MORE_CELL_H - 20)/2-5, 30, 20)];
-            [self.msgSw addTarget:self action:@selector(checkSw:) forControlEvents:UIControlEventValueChanged];
-            self.msgSw.on = YES;
-            [cell.contentView addSubview:self.msgSw];
-            
-            cell.accessoryView = self.msgSw;
-            
-            [self checkMsgOpenStatus];
-        }else{
-            [cell showBottonLineWithCellHeight:NOTIFICCELL];
-            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 250, 16)];
-            lab.backgroundColor = [UIColor clearColor];
-            lab.text = @"消息通知";
-            lab.font = [UIFont ajkH2Font];
-            [cell.contentView addSubview:lab];
-            
-            UILabel *detailLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 30, 290, 20)];
-            detailLab.text = @"请在iphone的“设置”-“通知中心”中进行修改";
-            detailLab.backgroundColor = [UIColor clearColor];
-            detailLab.font = [UIFont systemFontOfSize:10];
-            detailLab.textColor = [UIColor lightGrayColor];
-            [cell.contentView addSubview:detailLab];
-            
-            UILabel *notifyOpenLab = [[UILabel alloc] initWithFrame:CGRectMake(235, 0, 70, NOTIFICCELL)];
-            notifyOpenLab.backgroundColor = [UIColor clearColor];
-            notifyOpenLab.font = [UIFont ajkH2Font];
-            notifyOpenLab.textColor = [UIColor brokerBlackColor];
-            notifyOpenLab.textAlignment = NSTextAlignmentRight;
-            [cell.contentView addSubview:notifyOpenLab];
-            
-            UIRemoteNotificationType type = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
-            if (type == UIRemoteNotificationTypeNone) {
-                notifyOpenLab.text = @"未开启";
-            } else {
-                notifyOpenLab.text = @"已开启";
-            }
+    if (indexPath.row == 1) {
+        [cell showTopLine];
+        [cell showBottonLineWithCellHeight:MORE_CELL_H andOffsetX:15];
+        
+        cell.textLabel.text = @"短信通知";
+        
+        self.msgSw = [[UISwitch alloc] initWithFrame:CGRectMake(320 - 30 - 15, (MORE_CELL_H - 20)/2-5, 30, 20)];
+        [self.msgSw addTarget:self action:@selector(checkSw:) forControlEvents:UIControlEventValueChanged];
+        self.msgSw.on = YES;
+        [cell.contentView addSubview:self.msgSw];
+        
+        cell.accessoryView = self.msgSw;
+        
+        [self checkMsgOpenStatus];
+    }else if (indexPath.row == 2){
+        [cell showBottonLineWithCellHeight:NOTIFICCELL];
+        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 250, 16)];
+        lab.backgroundColor = [UIColor clearColor];
+        lab.text = @"消息通知";
+        lab.font = [UIFont ajkH2Font];
+        [cell.contentView addSubview:lab];
+        
+        UILabel *detailLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 30, 290, 20)];
+        detailLab.text = @"请在iphone的“设置”-“通知中心”中进行修改";
+        detailLab.backgroundColor = [UIColor clearColor];
+        detailLab.font = [UIFont systemFontOfSize:10];
+        detailLab.textColor = [UIColor lightGrayColor];
+        [cell.contentView addSubview:detailLab];
+        
+        UILabel *notifyOpenLab = [[UILabel alloc] initWithFrame:CGRectMake(235, 0, 70, NOTIFICCELL)];
+        notifyOpenLab.backgroundColor = [UIColor clearColor];
+        notifyOpenLab.font = [UIFont ajkH2Font];
+        notifyOpenLab.textColor = [UIColor brokerBlackColor];
+        notifyOpenLab.textAlignment = NSTextAlignmentRight;
+        [cell.contentView addSubview:notifyOpenLab];
+        
+        UIRemoteNotificationType type = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
+        if (type == UIRemoteNotificationTypeNone) {
+            notifyOpenLab.text = @"未开启";
+        } else {
+            notifyOpenLab.text = @"已开启";
         }
-    }else if (indexPath.section == SECTIONNUM){
+    }else if (indexPath.row == 6){
         NSString *adCellidentifierCell = @"adCellidentifierCell";
         AJKMySettingListAdCell *cell = [tableView dequeueReusableCellWithIdentifier:adCellidentifierCell];
         if (cell == nil) {
@@ -192,33 +181,31 @@
             [cell setBackgroundColor:[UIColor redColor]];
         }
         return cell;
-    }else{
-        if (indexPath.row == 0) {
-            [cell showTopLine];
-            [cell showBottonLineWithCellHeight:MORE_CELL_H andOffsetX:15];
-            if (!self.isHasNewVersion) {
-                cell.textLabel.text = @"版本更新                         已是最新版本";
-            }else{
-                cell.textLabel.text = @"版本更新";
-                
-                UIImageView *updateImg = [[UIImageView alloc] initWithFrame:UPDATEICONFRAME];
-                [updateImg setImage:[UIImage createImageWithColor:[UIColor redColor]]];
-                updateImg.layer.masksToBounds = YES;
-                updateImg.layer.cornerRadius = 10;
-                
-                UILabel *updateLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, updateImg.frame.size.width, updateImg.frame.size.height)];
-                updateLab.backgroundColor = [UIColor clearColor];
-                updateLab.text = @"NEW";
-                updateLab.textColor = [UIColor whiteColor];
-                updateLab.textAlignment = NSTextAlignmentCenter;
-                updateLab.font = [UIFont systemFontOfSize:12];
-                [updateImg addSubview:updateLab];
-                [cell.contentView addSubview:updateImg];
-            }
+    }else if (indexPath.row == 4) {
+        [cell showTopLine];
+        [cell showBottonLineWithCellHeight:MORE_CELL_H andOffsetX:15];
+        if (!self.isHasNewVersion) {
+            cell.textLabel.text = @"版本更新                         已是最新版本";
         }else{
-            [cell showBottonLineWithCellHeight:MORE_CELL_H];
-            cell.textLabel.text = @"关于移动经纪人";
+            cell.textLabel.text = @"版本更新";
+            
+            UIImageView *updateImg = [[UIImageView alloc] initWithFrame:UPDATEICONFRAME];
+            [updateImg setImage:[UIImage createImageWithColor:[UIColor redColor]]];
+            updateImg.layer.masksToBounds = YES;
+            updateImg.layer.cornerRadius = 10;
+            
+            UILabel *updateLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, updateImg.frame.size.width, updateImg.frame.size.height)];
+            updateLab.backgroundColor = [UIColor clearColor];
+            updateLab.text = @"NEW";
+            updateLab.textColor = [UIColor whiteColor];
+            updateLab.textAlignment = NSTextAlignmentCenter;
+            updateLab.font = [UIFont systemFontOfSize:12];
+            [updateImg addSubview:updateLab];
+            [cell.contentView addSubview:updateImg];
         }
+    }else if (indexPath.row == 5){
+        [cell showBottonLineWithCellHeight:MORE_CELL_H];
+        cell.textLabel.text = @"关于移动经纪人";
     }
     
     return cell;
@@ -229,12 +216,12 @@
         return;
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 1 && indexPath.row == 1) {
+    if (indexPath.row == 5) {
         [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_007 note:nil];
         
         AboutUsViewController *av = [[AboutUsViewController alloc] init];
         [self.navigationController pushViewController:av animated:YES];
-    }else if (indexPath.section == 1 && indexPath.row == 0){
+    }else if (indexPath.row == 4){
         [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_006 note:nil];
         if (self.isHasNewVersion && self.updateUrl.length != 0) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"发现新%@版本",self.onlineVer] delegate:self cancelButtonTitle:@"稍后再说" otherButtonTitles:@"立即更新", nil];
