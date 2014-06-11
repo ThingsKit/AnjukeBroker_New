@@ -100,33 +100,6 @@
         cell.imageView.image = [UIImage imageNamed:@"discover_icon_rab"];
         [cell showBottonLineWithCellHeight:46];
         
-        if (self.badgeView == nil) {
-            if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-                _badgeView = [[UIImageView alloc] initWithFrame:CGRectMake(140, 13, 20, 20)];
-            }else{
-                _badgeView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 13, 20, 20)];
-            }
-            self.badgeView.image = [[UIImage imageNamed:@"red_point"] stretchableImageWithLeftCapWidth:20 topCapHeight:0];
-            self.badgeView.backgroundColor = [UIColor clearColor];
-            
-            int count = 0;
-            self.badgeNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-            [self.badgeNumberLabel setTextColor:[UIColor whiteColor]];
-            self.badgeNumberLabel.textAlignment = UITextAlignmentCenter;
-            self.badgeNumberLabel.backgroundColor = [UIColor clearColor];
-            [self.badgeNumberLabel setFont:[UIFont ajkH5Font]];
-            [self.badgeView addSubview:self.badgeNumberLabel];
-            
-            if (count == 0) {
-                self.badgeView.hidden = YES;
-            }else{
-                self.badgeNumberLabel.text = [NSString stringWithFormat:@"%d", count];
-                self.badgeView.hidden = NO;
-            }
-            [cell.contentView addSubview:self.badgeView];
-        }
-        
-        
     }
     
     return cell;

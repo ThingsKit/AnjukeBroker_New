@@ -146,7 +146,7 @@
     
     //户型
     _houseType.frame = CGRectMake(_location.right + GAP_H, _userName.bottom + GAP_V, 100, 20);
-    _houseType.text = self.customerModel.houseType;
+    _houseType.text = [NSString stringWithFormat:@"%@室%@厅%@卫", self.customerModel.room, self.customerModel.hall, self.customerModel.toilet];
     [_houseType sizeToFit];
 //    _houseType.backgroundColor = [UIColor grayColor];
     

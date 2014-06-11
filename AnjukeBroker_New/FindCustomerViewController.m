@@ -152,8 +152,8 @@
 //        @property (nonatomic, copy) NSString* propertyCount; //浏览房源数
 //        @property (nonatomic, copy) NSString* userStatus; //当前改用户相对于经纪人的状态 (我抢了, 抢完了)
         
-        NSDictionary* dict = @{@"id":@"1", @"userIcon":@"http://tp1.sinaimg.cn/1404376560/50/0/1", @"userName":@"王女士", @"loginTime":@"10", @"location":@"地球", @"houseType":@"2室", @"price":@"2000w", @"propertyCount":@"20",@"userStatus":@"1"};
-        NSDictionary* dict2 = @{@"id":@"2", @"userIcon":@"", @"userName":@"欧阳先生", @"loginTime":@"10", @"location":@"地球", @"houseType":@"2室", @"price":@"2000w", @"propertyCount":@"20",@"userStatus":@"2"};
+        NSDictionary* dict = @{@"id":@"1", @"userIcon":@"http://tp1.sinaimg.cn/1404376560/50/0/1", @"userName":@"王女士", @"loginTime":@"10", @"location":@"地球", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"price":@"2000w", @"propertyCount":@"20",@"userStatus":@"1"};
+        NSDictionary* dict2 = @{@"id":@"2", @"userIcon":@"", @"userName":@"欧阳先生", @"loginTime":@"10", @"location":@"地球", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"price":@"2000w", @"propertyCount":@"20",@"userStatus":@"2"};
         
         NSArray* data = @[dict, dict2];
         
