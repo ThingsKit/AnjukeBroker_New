@@ -19,10 +19,22 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        [self initUI];
+        UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longGues:)];
+        longPressGestureRecognizer.cancelsTouchesInView = NO;
+        longPressGestureRecognizer.minimumPressDuration = 0.1;
+        [self addGestureRecognizer:longPressGestureRecognizer];
         
+        [self initUI];
     }
     return self;
+}
+
+- (void)longGues:(UILongPressGestureRecognizer *)gesture{
+    if (gesture.state == UIGestureRecognizerStateEnded || gesture.state == UIGestureRecognizerStateFailed || gesture.state == UIGestureRecognizerStateCancelled) {
+        [self setHighlighted:NO];
+    }else if (gesture.state == UIGestureRecognizerStateBegan){
+        [self setHighlighted:YES];
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

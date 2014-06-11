@@ -276,7 +276,7 @@
     cell.contentView.backgroundColor = [UIColor whiteColor];
 
     [cell configureCell:model withIndex:indexPath.row];
-    cell.selectionStyle = UITableViewCellSelectionStyleGray;
+//    cell.selectionStyle = UITableViewCellSelectionStyleGray;
     if (indexPath.row == self.tablaData.count - 1) {
         [cell showBottonLineWithCellHeight:46];
     }else{
@@ -288,7 +288,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.navigationController.view.frame.origin.x > 0) return;
-
+    
     self.selectCell = indexPath;
     
     [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_003 note:nil];
@@ -300,7 +300,6 @@
     [self.navigationController pushViewController:checkoutVC animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
 
 #pragma mark MKMapViewDelegate -user location定位变化
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{

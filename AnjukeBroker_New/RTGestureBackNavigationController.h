@@ -14,6 +14,7 @@
 //popToRoot设置：在当前ViewController页面继承RTViewController，并设置self.backType == RTSelectorBackTypePopToRoot
 //禁止手势返回效果：引入RTGestureLock，掉用[RTGestureLock setDisableGestureForBack:self.navgationgationController disableGestureback:YES];
 //UITableView didSelect 手势冲突，建议在didSelectRowAtIndexPath方法中添加：if (self.navigationController.view.frame.origin.x > 0) return; 
+//创建cell的时候，请一定要继承自RTListCell，否则无法顺利出现setHighlited效果
 
 typedef enum {
     CaptureTypeWithView = 0,

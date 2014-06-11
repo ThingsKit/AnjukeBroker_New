@@ -25,7 +25,7 @@
     return self;
 }
 - (void)initUI {
-    self.selectionStyle = UITableViewCellSelectionStyleGray;
+//    self.selectionStyle = UITableViewCellSelectionStyleGray;
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     self.checkStatusLab = [[UILabel alloc] initWithFrame:CHECKOUTSTATEFRAME];

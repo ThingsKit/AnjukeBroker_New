@@ -18,7 +18,7 @@
 
 #define CELL_MESSAGELIST_OFFSETX 15
 
-@interface RTListCell : UITableViewCell
+@interface RTListCell : UITableViewCell<UIGestureRecognizerDelegate>
 
 @property int selectRow; //当前此cell所在row
 @property int indexTag; //编号

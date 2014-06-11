@@ -477,7 +477,6 @@
             [cell showBottonLineWithCellHeight:CLIENT_LIST_HEIGHT andOffsetX:15];
         }
     }
-    
     return cell;
 }
 
