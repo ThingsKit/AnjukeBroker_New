@@ -42,7 +42,7 @@
     }
     
     if (self.refreshFooterView == nil) {
-        self.refreshFooterView = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 85)];
+        self.refreshFooterView = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 55)];
         self.refreshFooterView.backgroundColor = [UIColor clearColor];
         self.refreshFooterView.titleLabel.font = [UIFont systemFontOfSize:16.0f];
         [self.refreshFooterView setTitle:@"" forState:UIControlStateNormal];
@@ -51,7 +51,7 @@
         [self.refreshFooterView addTarget:self action:@selector(loadMore:) forControlEvents:UIControlEventTouchUpInside];
         
         UIActivityIndicatorView* activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        activity.origin = CGPointMake(90, 30);
+        activity.origin = CGPointMake(90, 15);
         activity.tag = 2014;
         [activity stopAnimating];
         [self.refreshFooterView addSubview:activity];
@@ -107,7 +107,7 @@
 
 //上拉按钮禁用,风火轮开始
 - (void)pullUpButtonFrozenAndStartActivity {
-    [self.refreshFooterView setTitle:@"正在加载..." forState:UIControlStateNormal];
+    [self.refreshFooterView setTitle:@"努力加载中..." forState:UIControlStateNormal];
     [self.refreshFooterView setEnabled:NO];
     UIActivityIndicatorView* activity = (UIActivityIndicatorView*)[_refreshFooterView viewWithTag:2014];
     [activity startAnimating];

@@ -7,7 +7,8 @@
 //
 
 #import "RTViewController.h"
+#import "BaseTableView.h"
 
-@interface FindCustomerViewController : RTViewController
+@interface FindCustomerViewController : RTViewController<BaseTableViewEventDelegate>
 
 @end
