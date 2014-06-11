@@ -120,7 +120,11 @@
         [self.refreshFooterView setEnabled:YES];
         [self.refreshFooterView setTitle:@"上拉查看更多" forState:UIControlStateNormal];
     }else{
-        self.refreshFooterView.titleLabel.text = @"";
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+            self.refreshFooterView.titleLabel.text = @"";
+        }else{
+            [self.refreshFooterView setTitle:@"" forState:UIControlStateNormal];
+        }
         [self.refreshFooterView setEnabled:NO];
     }
     
