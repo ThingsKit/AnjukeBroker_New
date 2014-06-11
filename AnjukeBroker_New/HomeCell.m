@@ -13,7 +13,9 @@
 @implementation HomeCell
 @synthesize cellTit;
 @synthesize cellDes;
+@synthesize dotView;
 @synthesize dotImg;
+@synthesize dotLab;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -40,10 +42,21 @@
     self.cellDes.textColor = [UIColor brokerLightGrayColor];
     [self.contentView addSubview:self.cellDes];
     
-    self.dotImg = [[UIImageView alloc] initWithFrame:CGRectMake(70, 8, 8, 8)];
+    self.dotView = [[UIView alloc] initWithFrame:CGRectMake(70, 8, 8, 8)];
+    [self.dotView setBackgroundColor:[UIColor clearColor]];
+    
+    self.dotImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.dotView.frame.size.width, self.dotView.frame.size.height)];
     self.dotImg.layer.masksToBounds = YES;
     self.dotImg.layer.cornerRadius = 4;
     [self.dotImg setImage:[UIImage createImageWithColor:[UIColor redColor]]];
+    [self.dotView addSubview:self.dotImg];
+    
+    self.dotLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.dotView.frame.size.width, self.dotView.frame.size.height)];
+    self.dotLab.textAlignment = NSTextAlignmentCenter;
+    self.dotLab.textColor = [UIColor whiteColor];
+    self.dotLab.backgroundColor = [UIColor clearColor];
+    self.dotLab.font = [UIFont systemFontOfSize:10];
+    [self.dotView addSubview:self.dotLab];
 }
 
 - (void)configWithModel:(id)model indexPath:(NSIndexPath *)indexPath{
@@ -55,11 +68,29 @@
     self.cellDes.text = [NSString stringWithFormat:@"%@",[titAndDesArr objectAtIndex:1]];
 }
 
-- (void)showDot:(BOOL)showDot{
-    [self.dotImg removeFromSuperview];
+- (void)showDot:(BOOL)showDot dotNum:(NSInteger)dotNum offsetX:(float)offsetX{
+    [self.dotView removeFromSuperview];
     if (showDot) {
-        [self.contentView addSubview:self.dotImg];
+        if (dotNum == 0) {
+            self.dotLab.text = nil;
+            self.dotView.frame = CGRectMake(offsetX, 8, 8, 8);
+            self.dotImg.layer.cornerRadius = 4;
+        }else{
+            if (dotNum < 10) {
+                self.dotView.frame = CGRectMake(offsetX, 5, 16, 16);
+                self.dotLab.text = [NSString stringWithFormat:@"%d",dotNum];
+            }else if (dotNum < 100){
+                self.dotView.frame = CGRectMake(offsetX, 5, 20, 16);
+                self.dotLab.text = [NSString stringWithFormat:@"%d",dotNum];
+            }else{
+                self.dotView.frame = CGRectMake(offsetX, 5, 24, 16);
+                self.dotLab.text = @"99+";
+            }
+            self.dotImg.layer.cornerRadius = 8;
+        }
+        self.dotImg.frame = CGRectMake(0, 0, self.dotView.frame.size.width, self.dotView.frame.size.height);
+        self.dotLab.frame = CGRectMake(0, 0, self.dotView.frame.size.width, self.dotView.frame.size.height);
+        [self.contentView addSubview:self.dotView];
     }
 }
-
 @end

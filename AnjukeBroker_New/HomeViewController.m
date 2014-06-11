@@ -698,10 +698,9 @@
     [cell configWithModel:arr indexPath:indexPath];
     if (indexPath.row == 0) {
         [cell showTopLine];
-        [cell showDot:YES];
+        [cell showDot:YES dotNum:200 offsetX:70];
         [cell showBottonLineWithCellHeight:HOME_cellHeight andOffsetX:15];
     }else if (indexPath.row < 3){
-        [cell showDot:NO];
         [cell showBottonLineWithCellHeight:HOME_cellHeight andOffsetX:15];
     }else{
         [cell showBottonLineWithCellHeight:HOME_cellHeight];

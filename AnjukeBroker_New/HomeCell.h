@@ -11,9 +11,12 @@
 @interface HomeCell : RTListCell
 @property(nonatomic, strong) UILabel *cellTit;
 @property(nonatomic, strong) UILabel *cellDes;
+@property(nonatomic, strong) UIView *dotView;
 @property(nonatomic, strong) UIImageView *dotImg;
+@property(nonatomic, strong) UILabel *dotLab;
+
 
 - (void)configWithModel:(id)model indexPath:(NSIndexPath *)indexPath;
-- (void)showDot:(BOOL)showDot;
+- (void)showDot:(BOOL)showDot dotNum:(NSInteger)dotNum offsetX:(float)offsetX;
 
 @end
