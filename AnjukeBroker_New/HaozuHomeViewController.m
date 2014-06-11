@@ -133,7 +133,6 @@
         return;
     }
     
-    [self.myArray removeAllObjects];
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     if([resultFromAPI count] ==  0){
         return ;
@@ -221,12 +220,13 @@
         [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_003 note:nil];
         
         RentBidDetailController *controller = [[RentBidDetailController alloc] init];
-        controller.backType = RTSelectorBackTypePopToRoot;
+        controller.backType = RTSelectorBackTypePopBack;
         [self.navigationController pushViewController:controller animated:YES];
     }else if ([indexPath row] == [self.myArray count] - 1){
         [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_005 note:nil];
         
         RentNoPlanController *controller = [[RentNoPlanController alloc] init];
+        controller.backType = RTSelectorBackTypePopBack;
         controller.isSeedPid = self.isSeedPid;
         [self.navigationController pushViewController:controller animated:YES];
     }else{
@@ -234,7 +234,7 @@
         
         RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
         controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
-        controller.backType = RTSelectorBackTypePopToRoot;
+        controller.backType = RTSelectorBackTypePopBack;
         [self.navigationController pushViewController:controller animated:YES];
     }
     

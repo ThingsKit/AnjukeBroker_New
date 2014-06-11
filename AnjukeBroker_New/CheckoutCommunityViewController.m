@@ -411,6 +411,7 @@
         [lastCell setCellStatus:FootCellStatusForRefresh];
 
         self.pageNum ++;
+        
         [self doRequest];
         
     }

@@ -144,7 +144,6 @@
         return;
     }
 
-    [self.myArray removeAllObjects];
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     if([resultFromAPI count] ==  0){
         return ;
@@ -235,12 +234,13 @@
         [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_003 note:nil];
         
         SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
-        controller.backType = RTSelectorBackTypePopToRoot;
+        controller.backType = RTSelectorBackTypePopBack;
         [self.navigationController pushViewController:controller animated:YES];
     }else if ([indexPath row] == [self.myArray count] - 1){
         [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_005 note:nil];
         
         SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
+        controller.backType = RTSelectorBackTypePopBack;
         controller.isSeedPid = self.isSeedPid;
         [self.navigationController pushViewController:controller animated:YES];
     }else{
@@ -248,7 +248,7 @@
         
         SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
         controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
-        controller.backType = RTSelectorBackTypePopToRoot;
+        controller.backType = RTSelectorBackTypePopBack;
         [self.navigationController pushViewController:controller animated:YES];
     }
     
