@@ -251,6 +251,32 @@
 		678D2A2818DAB12E0027D945 /* libopencore-amrwb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 678D2A1C18DAB12E0027D945 /* libopencore-amrwb.a */; };
 		678D2A2918DAB12E0027D945 /* VoiceConverter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 678D2A2418DAB12E0027D945 /* VoiceConverter.mm */; };
 		678D2A2C18DAB9D90027D945 /* KKAudioComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 678D2A2B18DAB9D90027D945 /* KKAudioComponent.m */; };
+		6794E40F1947EC2C0069F1ED /* broker_fy_noproperty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3F51947EC2C0069F1ED /* broker_fy_noproperty@2x.png */; };
+		6794E4101947EC2C0069F1ED /* broker_home_icon_esf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3F61947EC2C0069F1ED /* broker_home_icon_esf@2x.png */; };
+		6794E4111947EC2C0069F1ED /* broker_home_icon_scfx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3F71947EC2C0069F1ED /* broker_home_icon_scfx@2x.png */; };
+		6794E4121947EC2C0069F1ED /* broker_home_icon_zf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3F81947EC2C0069F1ED /* broker_home_icon_zf@2x.png */; };
+		6794E4131947EC2C0069F1ED /* broker_icon_button_gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3F91947EC2C0069F1ED /* broker_icon_button_gray@2x.png */; };
+		6794E4141947EC2C0069F1ED /* broker_my_call@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3FA1947EC2C0069F1ED /* broker_my_call@2x.png */; };
+		6794E4151947EC2C0069F1ED /* broker_my_icon_ae@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3FB1947EC2C0069F1ED /* broker_my_icon_ae@2x.png */; };
+		6794E4161947EC2C0069F1ED /* broker_my_icon_client@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3FC1947EC2C0069F1ED /* broker_my_icon_client@2x.png */; };
+		6794E4171947EC2C0069F1ED /* broker_my_icon_ewm@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3FD1947EC2C0069F1ED /* broker_my_icon_ewm@2x.png */; };
+		6794E4181947EC2C0069F1ED /* broker_my_icon_freshman@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3FE1947EC2C0069F1ED /* broker_my_icon_freshman@2x.png */; };
+		6794E4191947EC2C0069F1ED /* broker_my_icon_nofreshman@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3FF1947EC2C0069F1ED /* broker_my_icon_nofreshman@2x.png */; };
+		6794E41A1947EC2C0069F1ED /* broker_my_icon_servicecall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E4001947EC2C0069F1ED /* broker_my_icon_servicecall@2x.png */; };
+		6794E41B1947EC2C0069F1ED /* broker_my_icon_set@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E4011947EC2C0069F1ED /* broker_my_icon_set@2x.png */; };
+		6794E41C1947EC2C0069F1ED /* broker_qkh_guide@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E4021947EC2C0069F1ED /* broker_qkh_guide@2x.png */; };
+		6794E41D1947EC2C0069F1ED /* broker_qkh_noclient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E4031947EC2C0069F1ED /* broker_qkh_noclient@2x.png */; };
+		6794E41E1947EC2C0069F1ED /* broker_wl_gzh_a_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E4041947EC2C0069F1ED /* broker_wl_gzh_a_press@2x.png */; };
+		6794E41F1947EC2C0069F1ED /* broker_wl_gzh_a@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E4051947EC2C0069F1ED /* broker_wl_gzh_a@2x.png */; };
+		6794E4201947EC2C0069F1ED /* broker_wl_gzh_b_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E4061947EC2C0069F1ED /* broker_wl_gzh_b_press@2x.png */; };
+		6794E4211947EC2C0069F1ED /* broker_wl_gzh_b@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E4071947EC2C0069F1ED /* broker_wl_gzh_b@2x.png */; };
+		6794E4221947EC2C0069F1ED /* broker_wl_gzh_loadingcard_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E4081947EC2C0069F1ED /* broker_wl_gzh_loadingcard_bg@2x.png */; };
+		6794E4231947EC2C0069F1ED /* broker_wl_gzh_menu_layer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E4091947EC2C0069F1ED /* broker_wl_gzh_menu_layer@2x.png */; };
+		6794E4241947EC2C0069F1ED /* broker_wl_gzh_menu_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E40A1947EC2C0069F1ED /* broker_wl_gzh_menu_press@2x.png */; };
+		6794E4251947EC2C0069F1ED /* broker_wl_gzh_menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E40B1947EC2C0069F1ED /* broker_wl_gzh_menu@2x.png */; };
+		6794E4261947EC2C0069F1ED /* broker_wl_unused_tips@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E40C1947EC2C0069F1ED /* broker_wl_unused_tips@2x.png */; };
+		6794E4271947EC2C0069F1ED /* broker_wlsj_men@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E40D1947EC2C0069F1ED /* broker_wlsj_men@2x.png */; };
+		6794E4281947EC2C0069F1ED /* broker_wlsj_nomen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E40E1947EC2C0069F1ED /* broker_wlsj_nomen@2x.png */; };
 		67C3F659191CA2CA00DFC0C0 /* DiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C3F658191CA2CA00DFC0C0 /* DiscoverViewController.m */; };
 		67C3F6F319205E6800DFC0C0 /* RushPropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C3F6F219205E6800DFC0C0 /* RushPropertyViewController.m */; };
 		970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */ = {isa = PBXBuildFile; fileRef = 970501761845D21100A0C181 /* AFWelcomeScrollview.m */; };
@@ -1065,6 +1091,32 @@
 		678D2A2418DAB12E0027D945 /* VoiceConverter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VoiceConverter.mm; sourceTree = "<group>"; };
 		678D2A2A18DAB9D90027D945 /* KKAudioComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKAudioComponent.h; sourceTree = "<group>"; };
 		678D2A2B18DAB9D90027D945 /* KKAudioComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKAudioComponent.m; sourceTree = "<group>"; };
+		6794E3F51947EC2C0069F1ED /* broker_fy_noproperty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_fy_noproperty@2x.png"; sourceTree = "<group>"; };
+		6794E3F61947EC2C0069F1ED /* broker_home_icon_esf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_home_icon_esf@2x.png"; sourceTree = "<group>"; };
+		6794E3F71947EC2C0069F1ED /* broker_home_icon_scfx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_home_icon_scfx@2x.png"; sourceTree = "<group>"; };
+		6794E3F81947EC2C0069F1ED /* broker_home_icon_zf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_home_icon_zf@2x.png"; sourceTree = "<group>"; };
+		6794E3F91947EC2C0069F1ED /* broker_icon_button_gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_icon_button_gray@2x.png"; sourceTree = "<group>"; };
+		6794E3FA1947EC2C0069F1ED /* broker_my_call@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_my_call@2x.png"; sourceTree = "<group>"; };
+		6794E3FB1947EC2C0069F1ED /* broker_my_icon_ae@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_my_icon_ae@2x.png"; sourceTree = "<group>"; };
+		6794E3FC1947EC2C0069F1ED /* broker_my_icon_client@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_my_icon_client@2x.png"; sourceTree = "<group>"; };
+		6794E3FD1947EC2C0069F1ED /* broker_my_icon_ewm@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_my_icon_ewm@2x.png"; sourceTree = "<group>"; };
+		6794E3FE1947EC2C0069F1ED /* broker_my_icon_freshman@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_my_icon_freshman@2x.png"; sourceTree = "<group>"; };
+		6794E3FF1947EC2C0069F1ED /* broker_my_icon_nofreshman@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_my_icon_nofreshman@2x.png"; sourceTree = "<group>"; };
+		6794E4001947EC2C0069F1ED /* broker_my_icon_servicecall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_my_icon_servicecall@2x.png"; sourceTree = "<group>"; };
+		6794E4011947EC2C0069F1ED /* broker_my_icon_set@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_my_icon_set@2x.png"; sourceTree = "<group>"; };
+		6794E4021947EC2C0069F1ED /* broker_qkh_guide@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_qkh_guide@2x.png"; sourceTree = "<group>"; };
+		6794E4031947EC2C0069F1ED /* broker_qkh_noclient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_qkh_noclient@2x.png"; sourceTree = "<group>"; };
+		6794E4041947EC2C0069F1ED /* broker_wl_gzh_a_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_wl_gzh_a_press@2x.png"; sourceTree = "<group>"; };
+		6794E4051947EC2C0069F1ED /* broker_wl_gzh_a@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_wl_gzh_a@2x.png"; sourceTree = "<group>"; };
+		6794E4061947EC2C0069F1ED /* broker_wl_gzh_b_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_wl_gzh_b_press@2x.png"; sourceTree = "<group>"; };
+		6794E4071947EC2C0069F1ED /* broker_wl_gzh_b@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_wl_gzh_b@2x.png"; sourceTree = "<group>"; };
+		6794E4081947EC2C0069F1ED /* broker_wl_gzh_loadingcard_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_wl_gzh_loadingcard_bg@2x.png"; sourceTree = "<group>"; };
+		6794E4091947EC2C0069F1ED /* broker_wl_gzh_menu_layer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_wl_gzh_menu_layer@2x.png"; sourceTree = "<group>"; };
+		6794E40A1947EC2C0069F1ED /* broker_wl_gzh_menu_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_wl_gzh_menu_press@2x.png"; sourceTree = "<group>"; };
+		6794E40B1947EC2C0069F1ED /* broker_wl_gzh_menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_wl_gzh_menu@2x.png"; sourceTree = "<group>"; };
+		6794E40C1947EC2C0069F1ED /* broker_wl_unused_tips@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_wl_unused_tips@2x.png"; sourceTree = "<group>"; };
+		6794E40D1947EC2C0069F1ED /* broker_wlsj_men@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_wlsj_men@2x.png"; sourceTree = "<group>"; };
+		6794E40E1947EC2C0069F1ED /* broker_wlsj_nomen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_wlsj_nomen@2x.png"; sourceTree = "<group>"; };
 		67C3F657191CA2CA00DFC0C0 /* DiscoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverViewController.h; sourceTree = "<group>"; };
 		67C3F658191CA2CA00DFC0C0 /* DiscoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscoverViewController.m; sourceTree = "<group>"; };
 		67C3F6F119205E6800DFC0C0 /* RushPropertyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RushPropertyViewController.h; sourceTree = "<group>"; };
@@ -2511,6 +2563,39 @@
 			path = "opencore-amrwb";
 			sourceTree = "<group>";
 		};
+		6794E3F41947EBFF0069F1ED /* 3.5 */ = {
+			isa = PBXGroup;
+			children = (
+				6794E3F51947EC2C0069F1ED /* broker_fy_noproperty@2x.png */,
+				6794E3F61947EC2C0069F1ED /* broker_home_icon_esf@2x.png */,
+				6794E3F71947EC2C0069F1ED /* broker_home_icon_scfx@2x.png */,
+				6794E3F81947EC2C0069F1ED /* broker_home_icon_zf@2x.png */,
+				6794E3F91947EC2C0069F1ED /* broker_icon_button_gray@2x.png */,
+				6794E3FA1947EC2C0069F1ED /* broker_my_call@2x.png */,
+				6794E3FB1947EC2C0069F1ED /* broker_my_icon_ae@2x.png */,
+				6794E3FC1947EC2C0069F1ED /* broker_my_icon_client@2x.png */,
+				6794E3FD1947EC2C0069F1ED /* broker_my_icon_ewm@2x.png */,
+				6794E3FE1947EC2C0069F1ED /* broker_my_icon_freshman@2x.png */,
+				6794E3FF1947EC2C0069F1ED /* broker_my_icon_nofreshman@2x.png */,
+				6794E4001947EC2C0069F1ED /* broker_my_icon_servicecall@2x.png */,
+				6794E4011947EC2C0069F1ED /* broker_my_icon_set@2x.png */,
+				6794E4021947EC2C0069F1ED /* broker_qkh_guide@2x.png */,
+				6794E4031947EC2C0069F1ED /* broker_qkh_noclient@2x.png */,
+				6794E4041947EC2C0069F1ED /* broker_wl_gzh_a_press@2x.png */,
+				6794E4051947EC2C0069F1ED /* broker_wl_gzh_a@2x.png */,
+				6794E4061947EC2C0069F1ED /* broker_wl_gzh_b_press@2x.png */,
+				6794E4071947EC2C0069F1ED /* broker_wl_gzh_b@2x.png */,
+				6794E4081947EC2C0069F1ED /* broker_wl_gzh_loadingcard_bg@2x.png */,
+				6794E4091947EC2C0069F1ED /* broker_wl_gzh_menu_layer@2x.png */,
+				6794E40A1947EC2C0069F1ED /* broker_wl_gzh_menu_press@2x.png */,
+				6794E40B1947EC2C0069F1ED /* broker_wl_gzh_menu@2x.png */,
+				6794E40C1947EC2C0069F1ED /* broker_wl_unused_tips@2x.png */,
+				6794E40D1947EC2C0069F1ED /* broker_wlsj_men@2x.png */,
+				6794E40E1947EC2C0069F1ED /* broker_wlsj_nomen@2x.png */,
+			);
+			name = 3.5;
+			sourceTree = "<group>";
+		};
 		970501541845A18E00A0C181 /* 引导页 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2676,6 +2761,7 @@
 		972C10351815053100552C9B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6794E3F41947EBFF0069F1ED /* 3.5 */,
 				F8BE44F4192DE2B00039D6B3 /* discover */,
 				F8BE3E441925FCEF0027F9E0 /* checkout */,
 				F8BE3E2B19259BC40027F9E0 /* userCenter */,
@@ -4006,7 +4092,9 @@
 				F8D449D21908AFA900447375 /* anjuke_icon_button_red.png in Resources */,
 				97DED8A8182343E500D0B82A /* anjuke_icon09_stop@2x.png in Resources */,
 				97FA36A3182F318D00EF714D /* PropertyHouseType.plist in Resources */,
+				6794E4211947EC2C0069F1ED /* broker_wl_gzh_b@2x.png in Resources */,
 				20E3E782186C2B9D00D61889 /* anjuke_icon_gupaiming@2x.png in Resources */,
+				6794E4201947EC2C0069F1ED /* broker_wl_gzh_b_press@2x.png in Resources */,
 				97DED8A9182343E500D0B82A /* anjuke_icon09_woking@2x.png in Resources */,
 				6767D17D192398C2004FEFF7 /* anjuke_icon_weituo_nopropery@2x.png in Resources */,
 				9720001A1841BF25003F49A4 /* details_arrow_left@2x.png in Resources */,
@@ -4041,6 +4129,7 @@
 				B7EA5B6518DBDCA900D437BB /* anjuke_icon_chat2_fy_selected@2x.png in Resources */,
 				2079ADE718B5EEDF0029D493 /* anjuke_icon_ok@2x.png in Resources */,
 				205790E41905246300419CA3 /* anjuke_icon06_selected@2x.png in Resources */,
+				6794E4151947EC2C0069F1ED /* broker_my_icon_ae@2x.png in Resources */,
 				F8BE3E3419259BE30027F9E0 /* user_ewm@2x.png in Resources */,
 				27A42B5418E2C4D300FADED3 /* wl_map_icon_1_press.png in Resources */,
 				B7FC9AEB18C41B1300F77205 /* xproject_dialogue_greencard@2x.png in Resources */,
@@ -4062,6 +4151,8 @@
 				6740D1D11908E08C005ED706 /* anjuke_icon_button_red_press@2x.png in Resources */,
 				278FFCF9192453CD00B4A4A4 /* anjuke_icon_takephoto_button_press@2x.png in Resources */,
 				B7E2B693192B0286008AE703 /* icon_3.4_02.png in Resources */,
+				6794E4251947EC2C0069F1ED /* broker_wl_gzh_menu@2x.png in Resources */,
+				6794E4191947EC2C0069F1ED /* broker_my_icon_nofreshman@2x.png in Resources */,
 				B7E4CD2618E11BB200B61B58 /* wl_chat_icon_agentvoice_play2.png in Resources */,
 				B7EF77AD183CBBD20024A5E6 /* agent_icon43@2x.png in Resources */,
 				6767D175192398C2004FEFF7 /* anjuke_icon_tips_laugh@2x.png in Resources */,
@@ -4069,7 +4160,9 @@
 				F8BE44FA192DE2D60039D6B3 /* discover_icon_rab@2x.png in Resources */,
 				6767D18B19275D2E004FEFF7 /* timeline_new_status_background@2x.png in Resources */,
 				B7EF77A3183CBB170024A5E6 /* anjuke_icon_mutableimg@2x.png in Resources */,
+				6794E4271947EC2C0069F1ED /* broker_wlsj_men@2x.png in Resources */,
 				6740D1DC1908E08C005ED706 /* anjuke_icon_unique_yes@2x.png in Resources */,
+				6794E4231947EC2C0069F1ED /* broker_wl_gzh_menu_layer@2x.png in Resources */,
 				97D752CA182C92690035577F /* anjuke_icon_delete@2x.png in Resources */,
 				B7FC9B0118C41B1300F77205 /* xproject_dialogue_more_selected@2x.png in Resources */,
 				B7FC9AFA18C41B1300F77205 /* xproject_dialogue_messagesend1.png in Resources */,
@@ -4087,10 +4180,12 @@
 				B7EA5B7D18DBE91900D437BB /* anjuke_icon_input_voice@2x.png in Resources */,
 				278FFCF2192453CD00B4A4A4 /* anjuke_icon_choosed@2x.png in Resources */,
 				F8CCEEBE192C488500192055 /* check_no_wifi@2x.png in Resources */,
+				6794E4131947EC2C0069F1ED /* broker_icon_button_gray@2x.png in Resources */,
 				200DAB5618DFCED90077E0C9 /* anjuke_icon_home1@2x.png in Resources */,
 				278FFCFB192453CD00B4A4A4 /* anjuke_icon_write_discription_frompic@2x.png in Resources */,
 				B7FC9AE018C41B1300F77205 /* xproject_dialogue_articalcard_backicon.png in Resources */,
 				B7E4CD2018E11AA000B61B58 /* wl_chat_icon_agentvoice_play1.png in Resources */,
+				6794E4261947EC2C0069F1ED /* broker_wl_unused_tips@2x.png in Resources */,
 				2761B89D187C053C00EABF95 /* logo_57@2x.png in Resources */,
 				B7FC9B0018C41B1300F77205 /* xproject_dialogue_more_selected.png in Resources */,
 				201BC95D18CEF90500565BF6 /* anjuke_icon_setting@2x.png in Resources */,
@@ -4103,6 +4198,7 @@
 				278FFCF8192453CD00B4A4A4 /* anjuke_icon_takephoto_button@2x.png in Resources */,
 				F8329933192B1B1D00246CD7 /* tab_icon_chat_normal@2x.png in Resources */,
 				F8CCEEC2192C682700192055 /* guild_btn_press@2x.png in Resources */,
+				6794E4121947EC2C0069F1ED /* broker_home_icon_zf@2x.png in Resources */,
 				2739140418DC0B44003284AA /* wl_map_icon_position_press@2x.png in Resources */,
 				B7FC9AE118C41B1300F77205 /* xproject_dialogue_articalcard_backicon@2x.png in Resources */,
 				2084E72918F3F0EE00A7A26F /* anjuke_icon_ydy_4@2x.png in Resources */,
@@ -4113,7 +4209,9 @@
 				B7FC9AD818C41B1300F77205 /* xproject_dialogue_agentdetail.png in Resources */,
 				B7B2BF6C188CC2C30001EEB8 /* anjuke_icon_saying@2x.png in Resources */,
 				6767D17E192398C2004FEFF7 /* anjuke_icon_weituo_zf@2x.png in Resources */,
+				6794E41C1947EC2C0069F1ED /* broker_qkh_guide@2x.png in Resources */,
 				273913E618DBD0FD003284AA /* anjuke_icon_to_position1@2x.png in Resources */,
+				6794E4101947EC2C0069F1ED /* broker_home_icon_esf@2x.png in Resources */,
 				B7FC9AEA18C41B1300F77205 /* xproject_dialogue_greencard.png in Resources */,
 				B7E4CD2118E11AA000B61B58 /* wl_chat_icon_agentvoice_play1@2x.png in Resources */,
 				F8CCEEBC192C488500192055 /* check_no_community@2x.png in Resources */,
@@ -4146,6 +4244,8 @@
 				B7EA5B6218DBDCA900D437BB /* anjuke_icon_chat1_fy@2x.png in Resources */,
 				B7E1918E18E274B200DA578B /* anjuke_icon_chat3@2x.png in Resources */,
 				2739140518DC0B44003284AA /* wl_map_icon_position.png in Resources */,
+				6794E4181947EC2C0069F1ED /* broker_my_icon_freshman@2x.png in Resources */,
+				6794E4111947EC2C0069F1ED /* broker_home_icon_scfx@2x.png in Resources */,
 				B7FC9ADC18C41B1300F77205 /* xproject_dialogue_anjuketeam.png in Resources */,
 				200915EF189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png in Resources */,
 				278FFCF6192453CD00B4A4A4 /* anjuke_icon_pic_teach@2x.png in Resources */,
@@ -4176,6 +4276,7 @@
 				6740D1D01908E08C005ED706 /* anjuke_icon_button_blue@2x.png in Resources */,
 				B7FC9AF918C41B1300F77205 /* xproject_dialogue_me@2x.png in Resources */,
 				B7FC9AFE18C41B1300F77205 /* xproject_dialogue_more.png in Resources */,
+				6794E4221947EC2C0069F1ED /* broker_wl_gzh_loadingcard_bg@2x.png in Resources */,
 				B7EA5B7818DBDCA900D437BB /* wl_voice_tip_bg@2x.png in Resources */,
 				B7FC9AE218C41B1300F77205 /* xproject_dialogue_blackbutton.png in Resources */,
 				B7E4CD1C18E11A1E00B61B58 /* wl_chat_icon_uservoice.png in Resources */,
@@ -4200,11 +4301,13 @@
 				2079ADD718B59CC00029D493 /* anjuke_icon_scyx1@2x.png in Resources */,
 				B7FC9AF718C41B1300F77205 /* xproject_dialogue_greycard_selected@2x.png in Resources */,
 				B7FC9AF118C41B1300F77205 /* xproject_dialogue_greybox_selected@2x.png in Resources */,
+				6794E41E1947EC2C0069F1ED /* broker_wl_gzh_a_press@2x.png in Resources */,
 				B7EA5B7318DBDCA900D437BB /* wl_voice_icon_dustbin@2x.png in Resources */,
 				2739140318DC0B44003284AA /* wl_map_icon_position_press.png in Resources */,
 				678084021904AB1F00765A18 /* facesBack@2x.png in Resources */,
 				F8CCEEBD192C488500192055 /* check_no_gps@2x.png in Resources */,
 				6740D1CE1908E08C005ED706 /* anjuke_icon_bq1@2x.png in Resources */,
+				6794E4141947EC2C0069F1ED /* broker_my_call@2x.png in Resources */,
 				F87E8614190E4723005A5723 /* anjuke_icon_button_blue.png in Resources */,
 				B7EA5B6718DBDCA900D437BB /* anjuke_icon_chat2_photo_selected@2x.png in Resources */,
 				B7FC9ADE18C41B1300F77205 /* xproject_dialogue_articalcard.png in Resources */,
@@ -4223,6 +4326,7 @@
 				9741055F180CDFE0004DAE95 /* InfoPlist.strings in Resources */,
 				979BBB66185804AE005B7D03 /* icon_29.png in Resources */,
 				F85A316C1907D0B100511022 /* anjuke_icon_callphone.png in Resources */,
+				6794E4161947EC2C0069F1ED /* broker_my_icon_client@2x.png in Resources */,
 				B7FC9AFF18C41B1300F77205 /* xproject_dialogue_more@2x.png in Resources */,
 				B7FC9AE718C41B1300F77205 /* xproject_dialogue_greenbox@2x.png in Resources */,
 				B7A24F7E18E43AFD00EFF308 /* wl_chat_icon_uservoice_play2@2x.png in Resources */,
@@ -4250,6 +4354,7 @@
 				B7FC9AE918C41B1300F77205 /* xproject_dialogue_greenbox_selected@2x.png in Resources */,
 				20B6B1A0189392D100864EF2 /* anjuke_icon_nextphoto_@2x.png in Resources */,
 				678084011904AB1F00765A18 /* facesBack.png in Resources */,
+				6794E40F1947EC2C0069F1ED /* broker_fy_noproperty@2x.png in Resources */,
 				F8329939192B1B1D00246CD7 /* tab_icon_home_normal@2x.png in Resources */,
 				200DAB5318DFCED90077E0C9 /* anjuke_icon_esf@2x.png in Resources */,
 				2736F82019382BAB002A6CF2 /* broker_publish_pic_firstguide.png in Resources */,
@@ -4260,6 +4365,7 @@
 				B7E4CD2F18E11BD800B61B58 /* wl_chat_icon_agentvoice_play3@2x.png in Resources */,
 				B7D0AB9C18A9D23300A6229C /* anjuke_icon_hot1@2x.png in Resources */,
 				273913E518DBD0FD003284AA /* anjuke_icon_to_position1.png in Resources */,
+				6794E41F1947EC2C0069F1ED /* broker_wl_gzh_a@2x.png in Resources */,
 				B7EA5B7718DBDCA900D437BB /* wl_voice_icon_voicestatu1@2x.png in Resources */,
 				F8CCEEC6192C6FD300192055 /* guild_dot_selected@2x.png in Resources */,
 				F8BFF37A18FE87E8008E700D /* leftside_shadow_bg@2x.png in Resources */,
@@ -4270,6 +4376,7 @@
 				200DAB5718DFCED90077E0C9 /* anjuke_icon_kh@2x.png in Resources */,
 				B7EA5B6818DBDCA900D437BB /* anjuke_icon_chat2_photo@2x.png in Resources */,
 				6740D1C71908E08C005ED706 /* anjuke_icon_add_more@2x.png in Resources */,
+				6794E41A1947EC2C0069F1ED /* broker_my_icon_servicecall@2x.png in Resources */,
 				B7EF7798183CBAB80024A5E6 /* anjuke_icon_bid@2x.png in Resources */,
 				B7FC9AF418C41B1300F77205 /* xproject_dialogue_greycard.png in Resources */,
 				20F011C218942ABD000264BA /* icon_57@2x.png in Resources */,
@@ -4300,6 +4407,7 @@
 				F85A3160190790EF00511022 /* anjuke_icon_add_press@2x.png in Resources */,
 				20771E5418EA9AFE00A8449A /* anjuke_icon_ydy_1@2x.png in Resources */,
 				B7EA5B5F18DBDCA900D437BB /* anjuke_icon_add_position@2x.png in Resources */,
+				6794E4281947EC2C0069F1ED /* broker_wlsj_nomen@2x.png in Resources */,
 				9720001B1841BF25003F49A4 /* details_arrow_right@2x.png in Resources */,
 				F832993A192B1B1D00246CD7 /* tab_icon_home_select@2x.png in Resources */,
 				278FFCF1192453CD00B4A4A4 /* anjuke_icon_add_pic_press@2x.png in Resources */,
@@ -4307,11 +4415,14 @@
 				B7E4CD2718E11BB200B61B58 /* wl_chat_icon_agentvoice_play2@2x.png in Resources */,
 				6740D1D81908E08C005ED706 /* anjuke_icon_login_button@2x.png in Resources */,
 				979BBB6A185804AE005B7D03 /* icon_60.png in Resources */,
+				6794E41D1947EC2C0069F1ED /* broker_qkh_noclient@2x.png in Resources */,
 				F815F9481906493100DF9F55 /* anjuke_icon_back@2x.png in Resources */,
+				6794E4241947EC2C0069F1ED /* broker_wl_gzh_menu_press@2x.png in Resources */,
 				97F4D193184E5C6700DFC45F /* anjuke_icon_login@2x.png in Resources */,
 				F832993C192B1B1D00246CD7 /* tab_icon_user_select@2x.png in Resources */,
 				B7EA5B7E18DBE91900D437BB /* anjuke_icon_input_voice_press@2x.png in Resources */,
 				F85A3161190790EF00511022 /* anjuke_icon_person_press.png in Resources */,
+				6794E41B1947EC2C0069F1ED /* broker_my_icon_set@2x.png in Resources */,
 				B7FC9AE418C41B1300F77205 /* xproject_dialogue_failedsending.png in Resources */,
 				F8BE3E3619259BE30027F9E0 /* user_talent@2x.png in Resources */,
 				B7FC9AE618C41B1300F77205 /* xproject_dialogue_greenbox.png in Resources */,
@@ -4321,6 +4432,7 @@
 				97F4D18E184E2ABD00DFC45F /* logo_40@2x.png in Resources */,
 				2079ADF218B5FD610029D493 /* anjuke_icon_noxingbiao_@2x.png in Resources */,
 				2031A48718920FF2004F7E1A /* anjuke_icon_find@2x.png in Resources */,
+				6794E4171947EC2C0069F1ED /* broker_my_icon_ewm@2x.png in Resources */,
 				B7EAD4C818CD6DDE00B28FEC /* AXNotificationTutorialViewController.xib in Resources */,
 				F815F94C1906508900DF9F55 /* anjuke_icon_back_press@2x.png in Resources */,
 				B7EA5B7518DBDCA900D437BB /* wl_voice_icon_tip@2x.png in Resources */,
