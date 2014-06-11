@@ -136,11 +136,10 @@
 #pragma -mark UIGurstureDelegate  
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
-    DLog(@"cell，我来了");
+//    [NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"] ||
     if (capImageArr.count < 1 ||
         self.disableGestureForBack ||
         [touch.view isKindOfClass:[UIButton class]] ||
-        [NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"] ||
         isMoving)
     {
         return NO;
