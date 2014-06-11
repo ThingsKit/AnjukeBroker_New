@@ -31,7 +31,7 @@
     self.selectionStyle = UITableViewCellSelectionStyleGray;
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    BK_WebImageView * userAvatar = [[BK_WebImageView alloc] initWithFrame:CGRectMake(15, 10, 60, 60)];
+    BK_WebImageView * userAvatar = [[BK_WebImageView alloc] initWithFrame:CGRectMake(15, 12, 60, 60)];
     if (![LoginManager getUse_photo_url] || [LoginManager getUse_photo_url].length == 0) {
         [userAvatar setImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
     }else{
@@ -60,9 +60,8 @@
     [self.contentView addSubview:userName];
     
     self.userLevelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.userLevelBtn.frame = CGRectMake(userName.frame.origin.x+userName.frame.size.width + 10, 12, 75, 20);
-    [self.userLevelBtn setBackgroundImage:[UIImage imageNamed:@"user_noTalent"] forState:UIControlStateNormal];
-//    [self.userLevelBtn addTarget:self action:@selector(goSDX:) forControlEvents:UIControlEventTouchUpInside];
+    self.userLevelBtn.frame = CGRectMake(userName.frame.origin.x+userName.frame.size.width + 10, 15, 56, 18);
+    [self.userLevelBtn setBackgroundImage:[UIImage imageNamed:@"broker_my_icon_freshman"] forState:UIControlStateNormal];
     [self.contentView addSubview:self.userLevelBtn];
     
     self.userLeftMoney = [[UILabel alloc] initWithFrame:CGRectMake(userAvatar.frame.origin.x + userAvatar.frame.size.width + 10, userName.frame.origin.y + userName.frame.size.height + 10, 180, 20)];
@@ -76,9 +75,9 @@
 - (void)updateUserHeaderInfo:(BOOL)isSDX leftMoney:(NSString *)leftMoney
 {
     if (isSDX) {
-        [self.userLevelBtn setBackgroundImage:[UIImage imageNamed:@"user_Talent"] forState:UIControlStateNormal];
+        [self.userLevelBtn setBackgroundImage:[UIImage imageNamed:@"broker_my_icon_freshman"] forState:UIControlStateNormal];
     }else{
-        [self.userLevelBtn setBackgroundImage:[UIImage imageNamed:@"user_noTalent"] forState:UIControlStateNormal];
+        [self.userLevelBtn setBackgroundImage:[UIImage imageNamed:@"broker_my_icon_nofreshman"] forState:UIControlStateNormal];
     }
     
     self.userLeftMoney.text = [NSString stringWithFormat:@"我的账户: %@ 元",leftMoney];

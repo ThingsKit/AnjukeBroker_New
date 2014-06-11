@@ -64,8 +64,8 @@
         int k = i % 5;
         UIImageView *imgView = [[UIImageView alloc] init];
         imgView.tag = i;
-        imgView.frame = CGRectMake(80 + k * 35, 145 + j * 50, 25, 45);
-        [imgView setImage:[UIImage imageNamed:@"tab_icon_home_normal"]];
+        imgView.frame = CGRectMake(97 + k * 28, 160 + j * 45, 14, 35);
+        [imgView setImage:[UIImage imageNamed:@"broker_wlsj_nomen"]];
         [self.view addSubview:imgView];
     }
 }
@@ -167,6 +167,15 @@
             self.progressView.progress = self.progressView.progress + 0.002;
         }
     }
+    int i = self.progressView.progress*10;
+    if (status) {
+        UIImageView *img = (UIImageView *)[self.view viewWithTag:i+1];
+        [img setImage:[UIImage imageNamed:@"broker_wlsj_men"]];
+    }else{
+        UIImageView *img = (UIImageView *)[self.view viewWithTag:i-1];
+        [img setImage:[UIImage imageNamed:@"broker_wlsj_nomen"]];
+    }
+    
     
     self.numberLabel.text = [NSString stringWithFormat:@"%.0f", self.progressView.progress * 100];
 }

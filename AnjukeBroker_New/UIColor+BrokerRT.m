@@ -29,7 +29,7 @@
 }
 //辅助提示文字
 + (UIColor *)brokerLightGrayColor{
-    return [UIColor colorWithHex:0xB2B2B2 alpha:1.0];
+    return [UIColor colorWithHex:0x999999 alpha:1.0];
 }
 // 深色背景上文字
 + (UIColor *)brokerWhiteColor{

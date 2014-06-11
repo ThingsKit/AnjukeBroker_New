@@ -44,26 +44,26 @@
 - (void)initDisplay{
     self.view.backgroundColor = [UIColor brokerBgPageColor];
     
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 50)];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 45)];
     headerView.backgroundColor = [UIColor whiteColor];
     
-    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 75, 20)];
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 13, 56, 18)];
     if (isSDX) {
-        [imgView setImage:[UIImage imageNamed:@"user_talent"]];
+        [imgView setImage:[UIImage imageNamed:@"broker_my_icon_freshman"]];
     }else{
-        [imgView setImage:[UIImage imageNamed:@"user_noTalent"]];
+        [imgView setImage:[UIImage imageNamed:@"broker_my_icon_nofreshman"]];
     }
     [headerView addSubview:imgView];
     
-    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(95, 15, 100, 20)];
+    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(80, 15, 100, 15)];
     lab.text = isSDX ? @"你已经是闪电侠" : @"你还不是闪电侠";
-    lab.textColor = [UIColor brokerBlackColor];
+    lab.textColor = [UIColor brokerLightGrayColor];
     lab.font = [UIFont ajkH4Font];
     [headerView addSubview:lab];
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn addTarget:self action:@selector(goSDX) forControlEvents:UIControlEventTouchUpInside];
-    btn.frame = CGRectMake(200, 15, 100, 20);
+    btn.frame = CGRectMake(180, 10, 100, 25);
     [btn setTitle:@"什么是闪电侠" forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont ajkH4Font];
     [btn setTitleColor:[UIColor brokerBlueColor] forState:UIControlStateNormal];

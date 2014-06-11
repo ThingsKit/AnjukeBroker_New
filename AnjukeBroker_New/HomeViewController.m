@@ -52,7 +52,7 @@
 #import "HaozuHomeViewController.h"
 
 
-#define HOME_cellHeight 60
+#define HOME_cellHeight 70
 #define Max_Account_Lb_Width 80
 
 #define HEADER_VIEW1_Height 250
@@ -146,7 +146,7 @@
 
 - (HomeHeaderView *)headerView{
     if (_headerView == nil) {
-        _headerView = [[HomeHeaderView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 170)];
+        _headerView = [[HomeHeaderView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 140)];
         _headerView.btnClickDelegate = self;
     }
     return _headerView;
@@ -698,10 +698,10 @@
     [cell configWithModel:arr indexPath:indexPath];
     if (indexPath.row == 0) {
         [cell showTopLine];
-        [cell showDot:YES dotNum:200 offsetX:70];
-        [cell showBottonLineWithCellHeight:HOME_cellHeight andOffsetX:15];
+        [cell showDot:YES dotNum:200 offsetX:85];
+        [cell showBottonLineWithCellHeight:HOME_cellHeight andOffsetX:32];
     }else if (indexPath.row < 3){
-        [cell showBottonLineWithCellHeight:HOME_cellHeight andOffsetX:15];
+        [cell showBottonLineWithCellHeight:HOME_cellHeight andOffsetX:32];
     }else{
         [cell showBottonLineWithCellHeight:HOME_cellHeight];
     }

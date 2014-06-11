@@ -11,7 +11,7 @@
 #import "Util_UI.h"
 
 #define CELL_TITLE_FONT 15
-#define CELL_HEIGHT 50
+#define CELL_HEIGHT 45
 #define CELL_OFFSET_TITLE 15
 #define IMG_OFFSET_TITLE 17
 #define CELL_OFFSET_PHONEICON 287

@@ -30,13 +30,13 @@
 - (void)initUI{
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    self.cellTit = [[UILabel alloc] initWithFrame:CGRectMake(15, 4, 150, 30)];
+    self.cellTit = [[UILabel alloc] initWithFrame:CGRectMake(32, 15, 150, 20)];
     self.cellTit.backgroundColor = [UIColor clearColor];
     self.cellTit.font = [UIFont ajkH2Font];
     self.cellTit.textColor = [UIColor brokerBlackColor];
     [self.contentView addSubview:self.cellTit];
     
-    self.cellDes = [[UILabel alloc] initWithFrame:CGRectMake(15, 35, 200, 20)];
+    self.cellDes = [[UILabel alloc] initWithFrame:CGRectMake(32, 41, 200, 15)];
     self.cellDes.backgroundColor = [UIColor clearColor];
     self.cellDes.font = [UIFont ajkH4Font];
     self.cellDes.textColor = [UIColor brokerLightGrayColor];
@@ -77,13 +77,13 @@
             self.dotImg.layer.cornerRadius = 4;
         }else{
             if (dotNum < 10) {
-                self.dotView.frame = CGRectMake(offsetX, 5, 16, 16);
+                self.dotView.frame = CGRectMake(offsetX, 8, 16, 16);
                 self.dotLab.text = [NSString stringWithFormat:@"%d",dotNum];
             }else if (dotNum < 100){
-                self.dotView.frame = CGRectMake(offsetX, 5, 20, 16);
+                self.dotView.frame = CGRectMake(offsetX, 8, 20, 16);
                 self.dotLab.text = [NSString stringWithFormat:@"%d",dotNum];
             }else{
-                self.dotView.frame = CGRectMake(offsetX, 5, 24, 16);
+                self.dotView.frame = CGRectMake(offsetX, 8, 24, 16);
                 self.dotLab.text = @"99+";
             }
             self.dotImg.layer.cornerRadius = 8;

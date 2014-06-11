@@ -35,15 +35,24 @@
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.tag = i;
         [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-        btn.backgroundColor = [UIColor brokerLightGrayColor];
-        btn.frame = CGRectMake(i*103 + 20, 30, 80, 80);
+        btn.backgroundColor = [UIColor clearColor];
+        if (i == 0) {
+            [btn setBackgroundImage:[UIImage imageNamed:@"broker_home_icon_esf"] forState:UIControlStateNormal];
+        }else if (i == 1){
+            [btn setBackgroundImage:[UIImage imageNamed:@"broker_home_icon_zf"] forState:UIControlStateNormal];
+        }else if (i == 2){
+            [btn setBackgroundImage:[UIImage imageNamed:@"broker_home_icon_scfx"] forState:UIControlStateNormal];
+        }
+        
+        btn.frame = CGRectMake(i*98 + 35, 30, 54, 54);
         [view addSubview:btn];
         
-        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(btn.frame.origin.x, btn.frame.origin.y+btn.frame.size.height + 10, 80, 20)];
+        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(i*98 + 13, btn.frame.origin.y+btn.frame.size.height + 10, 98, 15)];
         lab.textAlignment = NSTextAlignmentCenter;
         lab.backgroundColor = [UIColor clearColor];
-        lab.font = [UIFont ajkH3Font];
+        lab.font = [UIFont ajkH5Font];
         lab.text = [titArr objectAtIndex:i];
+        lab.textColor = [UIColor ajkBlackColor];
         [view addSubview:lab];
     }
     [self addSubview:view];

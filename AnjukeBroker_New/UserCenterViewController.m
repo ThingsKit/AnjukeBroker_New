@@ -115,7 +115,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 1) {
-        return 80;
+        return 84;
     }
     if (indexPath.row == 0 || indexPath.row == 2 || indexPath.row == 5) {
         return 20;
@@ -134,6 +134,7 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
         }
         cell.contentView.backgroundColor = [UIColor brokerBgPageColor];
+        cell.selectionStyle= UITableViewCellSelectionStyleNone;
         return cell;
     }
     
@@ -143,7 +144,7 @@
             cell = [[UserCenterHeaderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
         }
         [cell showTopLine];
-        [cell showBottonLineWithCellHeight:80];
+        [cell showBottonLineWithCellHeight:84];
         
         [cell updateUserHeaderInfo:isSDX leftMoney:[self getAccountLeft]];
         return cell;
@@ -157,23 +158,19 @@
             [cell showTopLine];
             [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
             [cell initLabelTitle:[self.taskArray objectAtIndex:0]];
-            cell.imageView.image = [UIImage imageNamed:@"tab_icon_home_normal"];
+            cell.imageView.image = [UIImage imageNamed:@"broker_my_icon_client"];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }else if (indexPath.row == 4){
             [cell showBottonLineWithCellHeight:CELL_HEIGHT];
             [cell initLabelTitle:[self.taskArray objectAtIndex:1]];
-            cell.imageView.image = [UIImage imageNamed:@"tab_icon_home_normal"];
+            cell.imageView.image = [UIImage imageNamed:@"broker_my_icon_ewm"];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            
-            UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(265, 14, 22, 22)];
-            [icon setImage:[UIImage imageNamed:@"user_ewm"]];
-            [cell.contentView addSubview:icon];
         }else if (indexPath.row == 6) {
             [cell showTopLine];
             [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
             [cell initLabelTitle:[self.taskArray objectAtIndex:2]];
             [cell setDetailText:[self getClientName] rightSpace:35];
-            cell.imageView.image = [UIImage imageNamed:@"tab_icon_home_normal"];
+            cell.imageView.image = [UIImage imageNamed:@"broker_my_icon_ae"];
             
             UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(290, 17, 15, 15)];
             [icon setImage:[UIImage imageNamed:@"user_cell_phone_icon"]];
@@ -182,7 +179,7 @@
             [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
             [cell initLabelTitle:[self.taskArray objectAtIndex:3]];
             [cell setDetailText:CALL_ANJUKE_NUMBER rightSpace:35];
-            cell.imageView.image = [UIImage imageNamed:@"tab_icon_home_normal"];
+            cell.imageView.image = [UIImage imageNamed:@"broker_my_icon_servicecall"];
             
             UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(290, 17, 15, 15)];
             [icon setImage:[UIImage imageNamed:@"user_cell_phone_icon"]];
@@ -190,7 +187,7 @@
         }else if (indexPath.row == 8){
             [cell showBottonLineWithCellHeight:CELL_HEIGHT];
             [cell initLabelTitle:[self.taskArray objectAtIndex:4]];
-            cell.imageView.image = [UIImage imageNamed:@"tab_icon_home_normal"];
+            cell.imageView.image = [UIImage imageNamed:@"broker_my_icon_set"];
             
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }

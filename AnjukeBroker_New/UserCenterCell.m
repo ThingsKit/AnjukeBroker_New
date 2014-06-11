@@ -37,7 +37,7 @@
     [self.contentView addSubview:icon];
 }
 - (void)setDetailText:(NSString *)detailStr rightSpace:(float)rightSpace{
-    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake([self windowWidth]-170-rightSpace, 1,  170, CELL_HEIGHT - 1*5)];
+    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake([self windowWidth]-170-rightSpace, 1,  170, CELL_HEIGHT - 2)];
     lb.backgroundColor = [UIColor clearColor];
     lb.textColor = [UIColor brokerBlackColor];
     lb.textAlignment = NSTextAlignmentRight;

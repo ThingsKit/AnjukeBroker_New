@@ -120,6 +120,7 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
         }
         cell.contentView.backgroundColor = [UIColor brokerBgPageColor];
+        cell.selectionStyle= UITableViewCellSelectionStyleNone;
         return cell;
     }
     
