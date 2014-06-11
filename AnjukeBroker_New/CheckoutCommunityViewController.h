@@ -10,6 +10,6 @@
 #import <MapKit/MapKit.h>
 #import "BaseTableStructViewController.h"
 
-@interface CheckoutCommunityViewController : BaseTableStructViewController<MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface CheckoutCommunityViewController : BaseTableStructViewController<MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, UIScrollViewDelegate>
 
 @end

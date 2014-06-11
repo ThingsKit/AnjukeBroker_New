@@ -18,8 +18,17 @@ typedef NS_ENUM(NSInteger, CHECKBUTTONSTATUS) {
     CHECKBUTTONWITHCOUNTDOWN
 };
 
+@protocol checkoutSuccussDelegate <NSObject>
+
+- (void)checkedSuccuss;
+
+@end
+
 @interface CheckoutViewController : BaseTableStructViewController<UITableViewDataSource,UITableViewDelegate,MKMapViewDelegate>
 @property(nonatomic, assign) CHECKBUTTONSTATUS checkStatus;
+@property(nonatomic, strong) id<checkoutSuccussDelegate> checkoutDelegate;
 - (void)passCommunityWithModel:(CheckCommunityModel *)model;
 - (void)timeCountZero;
+
+
 @end

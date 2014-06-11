@@ -47,5 +47,7 @@
     }
     return YES;
 }
-
+- (void)showCheckedStatus:(BOOL)checked{
+    self.checkStatusLab.text = checked ? @"已签到" : @"";
+}
 @end

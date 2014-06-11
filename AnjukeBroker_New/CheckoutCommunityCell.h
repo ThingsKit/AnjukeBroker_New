@@ -12,4 +12,5 @@
 @property(nonatomic, strong) UILabel *checkStatusLab;
 
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index;
+- (void)showCheckedStatus:(BOOL)checked;
 @end
