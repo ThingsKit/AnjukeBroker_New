@@ -63,7 +63,7 @@
         int j = i / 5;
         int k = i % 5;
         UIImageView *imgView = [[UIImageView alloc] init];
-        imgView.tag = i;
+        imgView.tag = 100 + i;
         imgView.frame = CGRectMake(97 + k * 28, 160 + j * 45, 14, 35);
         [imgView setImage:[UIImage imageNamed:@"broker_wlsj_nomen"]];
         [self.view addSubview:imgView];
@@ -114,11 +114,13 @@
 }
 - (void)showProgress{
     NSString *status;
+    
     if (self.progressView.progress > [self.userCenterModel.replyRate doubleValue]/100) {
         status = @"1";
     }else{
         status = @"0";
     }
+    
     
     NSDictionary *dic = [NSDictionary dictionaryWithObject:status forKey:@"status"];
     
@@ -131,6 +133,8 @@
 
 - (void)addProgress:(NSTimer*) time{
     NSLog(@"%@", time.userInfo);
+    //测试部分数据
+//    if (self.progressView.progress >= 0.83) {
     if (self.progressView.progress >= [self.userCenterModel.replyRate doubleValue]*0.01) {
         [self.timer invalidate];
         return;
@@ -167,17 +171,22 @@
             self.progressView.progress = self.progressView.progress + 0.002;
         }
     }
+    self.numberLabel.text = [NSString stringWithFormat:@"%.0f", self.progressView.progress * 100];
+
     int i = self.progressView.progress*10;
     if (status) {
-        UIImageView *img = (UIImageView *)[self.view viewWithTag:i+1];
-        [img setImage:[UIImage imageNamed:@"broker_wlsj_men"]];
-    }else{
-        UIImageView *img = (UIImageView *)[self.view viewWithTag:i-1];
+        if (i == 0) {
+            i = 1;
+        }
+        UIImageView *img = (UIImageView *)[self.view viewWithTag:i - 1 + 100];
         [img setImage:[UIImage imageNamed:@"broker_wlsj_nomen"]];
+    }else{
+        if (i == 0) {
+            return;
+        }
+        UIImageView *img = (UIImageView *)[self.view viewWithTag:i - 1 + 100];
+        [img setImage:[UIImage imageNamed:@"broker_wlsj_men"]];
     }
-    
-    
-    self.numberLabel.text = [NSString stringWithFormat:@"%.0f", self.progressView.progress * 100];
 }
 
 - (void)didReceiveMemoryWarning
