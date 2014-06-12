@@ -13,6 +13,7 @@
 #import "AppManager.h"
 #import "BK_WebImageView.h"
 #import "BrokerCallAlert.h"
+#import "AppDelegate.h"
 
 #define DETAIL_HEADER_H 52+40
 
@@ -240,10 +241,20 @@
 }
 
 - (void)startChart {
+    self.navigationController.tabBarController.selectedIndex = 1;
+    
+    [self.navigationController popToRootViewControllerAnimated:NO];
+    
     BrokerChatViewController *bc = [[BrokerChatViewController alloc] init];
     bc.isBroker = YES;
     bc.uid = self.person.uid;
-    [self.navigationController pushViewController:bc animated:YES];
+    [bc setHidesBottomBarWhenPushed:YES];
+    [[[AppDelegate sharedAppDelegate].tabController viewControllers][1] pushViewController:bc animated:YES];
+
+//    BrokerChatViewController *bc = [[BrokerChatViewController alloc] init];
+//    bc.isBroker = YES;
+//    bc.uid = self.person.uid;
+//    [self.navigationController pushViewController:bc animated:YES];
 }
 
 - (void)rightButtonAction:(id)sender {

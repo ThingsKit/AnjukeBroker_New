@@ -10,6 +10,7 @@
 #import "Util_UI.h"
 #import "BK_WebImageView.h"
 #import "BrokerChatViewController.h"
+#import "AppDelegate.h"
 
 @interface ClientDetailPublicViewController ()
 
@@ -87,10 +88,15 @@
 }
 
 - (void)startChart {
+    self.navigationController.tabBarController.selectedIndex = 1;
+    
+    [self.navigationController popToRootViewControllerAnimated:NO];
+
     BrokerChatViewController *bc = [[BrokerChatViewController alloc] init];
     bc.isBroker = YES;
     bc.uid = self.person.uid;
-    [self.navigationController pushViewController:bc animated:YES];
+    [bc setHidesBottomBarWhenPushed:YES];
+    [[[AppDelegate sharedAppDelegate].tabController viewControllers][1] pushViewController:bc animated:YES];
 }
 
 
