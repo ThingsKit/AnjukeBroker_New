@@ -212,7 +212,6 @@
     
 //    [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
     
-//    [self showLoadingActivity:YES];
     self.isLoading = YES;
     NSMutableDictionary *params = nil;
     NSString *method = nil;
@@ -225,7 +224,8 @@
 
 - (void)onRequestFinished:(RTNetworkResponse *)response {
     DLog(@"。。。response [%@]", [response content]);
-    
+    [self hideLoadWithAnimated:YES];
+
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
@@ -233,7 +233,6 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
         
-        [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
         
         return;
@@ -308,7 +307,6 @@
         self.hasLongLinked = YES;
     }
     
-//    [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
     
 }
@@ -329,7 +327,8 @@
 
 - (void)onRequestConfigureFinished:(RTNetworkResponse *)response {
     DLog(@"。。。configure response [%@]", [response content]);
-    
+    [self hideLoadWithAnimated:YES];
+
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];

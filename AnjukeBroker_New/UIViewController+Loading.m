@@ -18,7 +18,7 @@
 }
 
 - (void)showLoadingActivity:(BOOL)activity{
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+//    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     if ([AppManager isiPhone4Display]) {

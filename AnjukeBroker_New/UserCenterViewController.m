@@ -290,7 +290,8 @@
 }
 - (void)onRequestFinished:(RTNetworkResponse *)response {
     DLog(@"response----->> [%@/%@]",[[response content] objectForKey:@"message"], [response content]);
-    
+    [self hideLoadWithAnimated:YES];
+
     if([[response content] count] == 0){
         self.isLoading = NO;
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];

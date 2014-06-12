@@ -198,6 +198,8 @@
     if (nowComponent.year == messageComponent.year && nowComponent.month == messageComponent.month && nowComponent.day == messageComponent.day) {
         
     } else {
+        [self hideLoadWithAnimated:YES];
+
         [self.tableViewList reloadData];
         self.lastReloadDate = [NSDate date];
     }
