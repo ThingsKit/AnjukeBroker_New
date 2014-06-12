@@ -67,6 +67,9 @@
         [label setTextColor:[UIColor brokerLightGrayColor]];
         [self.emptyBackgroundView addSubview:label];
         
+        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autoRefresh)];
+        [self.emptyBackgroundView addGestureRecognizer:tap];
+        
     }
     
     if (self.tableView.data.count == 0) {

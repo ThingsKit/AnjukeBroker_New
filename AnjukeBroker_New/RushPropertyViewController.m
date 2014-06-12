@@ -317,6 +317,9 @@
         [label setTextColor:[UIColor brokerLightGrayColor]];
         [self.leftEmptyBackgroundView addSubview:label];
         
+        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autoRefreshWithNoLimitation)];
+        [self.leftEmptyBackgroundView addGestureRecognizer:tap];
+        
     }
     
     if (self.rightEmptyBackgroundView == nil) {
@@ -333,6 +336,9 @@
         label.text = @"暂无委托";
         [label setTextColor:[UIColor brokerLightGrayColor]];
         [self.rightEmptyBackgroundView addSubview:label];
+        
+        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autoRefreshWithNoLimitation)];
+        [self.rightEmptyBackgroundView addGestureRecognizer:tap];
         
     }
     
@@ -527,6 +533,22 @@
             self.rightAutoPullDown = YES;
             [self pullDown:nil];
         }
+    }
+    
+    //加载数据
+}
+
+
+- (void) autoRefreshWithNoLimitation {
+    
+    if (self.myTableView.hidden) {
+        [self.tableView autoPullDownRefresh];
+        self.leftAutoPullDown = YES;
+        [self pullDown:nil];
+    }else{
+        [self.myTableView autoPullDownRefresh]; //自动下拉
+        self.rightAutoPullDown = YES;
+        [self pullDown:nil];
     }
     
     //加载数据
