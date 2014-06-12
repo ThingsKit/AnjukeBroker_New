@@ -1,25 +1,24 @@
 //
-//  WXDataViewController.m
+//  WXDataShowViewController.m
 //  AnjukeBroker_New
 //
-//  Created by xiazer on 14-6-9.
+//  Created by xiazer on 14-6-12.
 //  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
 
-#import "WXDataViewController.h"
-#import "UserCenterModel.h"
-#import "HUDNews.h"
+#import "WXDataShowViewController.h"
 
-@interface WXDataViewController ()
-@property(nonatomic,strong) UserCenterModel *userCenterModel;
+@interface WXDataShowViewController ()
+
 @end
 
-@implementation WXDataViewController
+@implementation WXDataShowViewController
 @synthesize progressView;
 @synthesize totalCustomer;
 @synthesize totalResponseTime;
 @synthesize userCenterModel;
 @synthesize timer;
+@synthesize numberLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,10 +26,10 @@
     if (self) {
         // Custom initialization
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wakeFromBackGound:) name:UIApplicationWillEnterForegroundNotification object:nil];
-
     }
     return self;
 }
+
 - (void)wakeFromBackGound:(NSNotification *)notification{
     [self doRequest];
 }
@@ -38,26 +37,31 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor brokerBgPageColor];
+    // Do any additional setup after loading the view.
     [self setTitleViewWithString:@"微聊数据"];
-    
-    [self initProgress];
-    
-    //初始化数字Label
-    self.numberLabel.text = @"0";
-    
+    [self initUI];
     [self doRequest];
 }
 
-- (void)initProgress{
+- (void)initUI{
+    UILabel *titLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 28, [self windowWidth], 14)];
+    titLab.textAlignment = NSTextAlignmentCenter;
+    titLab.text = @"5分钟内回复客户数占比";
+    titLab.font = [UIFont ajkH4Font];
+    titLab.textColor = [UIColor brokerMiddleGrayColor];
+    titLab.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:titLab];
+    
+    self.progressView = [[PICircularProgressView alloc] initWithFrame:CGRectMake(45, 70, 230, 230)];
     self.progressView.progress = 0.0;
     self.progressView.thicknessRatio = 0.15;
     self.progressView.showShadow = NO;
     self.progressView.innerBackgroundColor = [UIColor whiteColor];
-    self.progressView.outerBackgroundColor = [UIColor lightGrayColor];
+    self.progressView.outerBackgroundColor = [UIColor brokerLineColor];
     self.progressView.showText = NO;
     self.progressView.roundedHead = YES;
-    self.progressView.progressTopGradientColor = [UIColor brokerBlueColor];
+    self.progressView.progressTopGradientColor = [UIColor brokerBabyBlueColor];
+    [self.view addSubview:self.progressView];
     
     for (int i = 0; i < 10; i++) {
         int j = i / 5;
@@ -68,8 +72,54 @@
         [imgView setImage:[UIImage imageNamed:@"broker_wlsj_nomen"]];
         [self.view addSubview:imgView];
     }
-}
+    
+    self.numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 100, 60, 50)];
+    self.numberLabel.font = [UIFont systemFontOfSize:50];
+    self.numberLabel.textColor = [UIColor brokerMiddleGrayColor];
+    self.numberLabel.textAlignment = NSTextAlignmentRight;
+    [self.view addSubview:self.numberLabel];
+    
+    UILabel *unitLab = [[UILabel alloc] initWithFrame:CGRectMake(self.numberLabel.frame.origin.x + self.numberLabel.frame.size.width + 5, self.numberLabel.frame.origin.y + 25, 20, 20)];
+    unitLab.text = @"%";
+    unitLab.font = [UIFont ajkH4Font];
+    unitLab.textColor = [UIColor brokerMiddleGrayColor];
+    [self.view addSubview:unitLab];
+    
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 340, [self windowWidth], 200)];
+    footView.backgroundColor = [UIColor brokerBgPageColor];
+    [self.view addSubview:footView];
+    
+    UILabel *detail1Lab = [[UILabel alloc] initWithFrame:CGRectMake(30, 20, 100, 15)];
+    detail1Lab.text = @"累积客户数(个)";
+    detail1Lab.textAlignment = NSTextAlignmentCenter;
+    detail1Lab.textColor = [UIColor brokerLightGrayColor];
+    detail1Lab.backgroundColor = [UIColor clearColor];
+    detail1Lab.font = [UIFont ajkH4Font];
+    [footView addSubview:detail1Lab];
 
+    UILabel *detail2Lab = [[UILabel alloc] initWithFrame:CGRectMake(160, 20, 120, 15)];
+    detail2Lab.text = @"平均响应时长(分钟)";
+    detail2Lab.textAlignment = NSTextAlignmentCenter;
+    detail2Lab.textColor = [UIColor brokerLightGrayColor];
+    detail2Lab.backgroundColor = [UIColor clearColor];
+    detail2Lab.font = [UIFont ajkH4Font];
+    [footView addSubview:detail2Lab];
+    
+    self.totalCustomer = [[UILabel alloc] initWithFrame:CGRectMake(30, 50, 100, 25)];
+    self.totalCustomer.textColor = [UIColor brokerMiddleGrayColor];
+    self.totalCustomer.font = [UIFont systemFontOfSize:25];
+    self.totalCustomer.backgroundColor = [UIColor clearColor];
+    self.totalCustomer.textAlignment = NSTextAlignmentCenter;
+    [footView addSubview:self.totalCustomer];
+
+    self.totalResponseTime = [[UILabel alloc] initWithFrame:CGRectMake(160, 50, 120, 25)];
+    self.totalResponseTime.textColor = [UIColor brokerMiddleGrayColor];
+    self.totalResponseTime.font = [UIFont systemFontOfSize:25];
+    self.totalResponseTime.backgroundColor = [UIColor clearColor];
+    self.totalResponseTime.textAlignment = NSTextAlignmentCenter;
+    [footView addSubview:self.totalResponseTime];
+
+}
 #pragma mark - Request Method
 - (void)doRequest {
     if (![self isNetworkOkayWithNoInfo]) {
@@ -134,8 +184,8 @@
 - (void)addProgress:(NSTimer*) time{
     NSLog(@"%@", time.userInfo);
     //测试部分数据
-    if (self.progressView.progress >= 0.83) {
-//    if (self.progressView.progress >= [self.userCenterModel.replyRate doubleValue]*0.01) {
+    //    if (self.progressView.progress >= 0.83) {
+    if (self.progressView.progress >= [self.userCenterModel.replyRate doubleValue]*0.01) {
         [self.timer invalidate];
         return;
     }
@@ -148,31 +198,31 @@
     
     if (progress > 0.9) {
         if (status) {
-            self.progressView.progress = self.progressView.progress - 0.003;
+            self.progressView.progress = self.progressView.progress - 0.006;
         }else{
             self.progressView.progress = self.progressView.progress + 0.006;
         }
     }else if (progress > 0.6){
         if (status) {
-            self.progressView.progress = self.progressView.progress - 0.005;
+            self.progressView.progress = self.progressView.progress - 0.010;
         }else{
             self.progressView.progress = self.progressView.progress + 0.010;
         }
     }else if (progress > 0.2){
         if (status) {
-            self.progressView.progress = self.progressView.progress - 0.004;
+            self.progressView.progress = self.progressView.progress - 0.008;
         }else{
             self.progressView.progress = self.progressView.progress + 0.008;
         }
     }else{
         if (status) {
-            self.progressView.progress = self.progressView.progress - 0.002;
+            self.progressView.progress = self.progressView.progress - 0.004;
         }else{
             self.progressView.progress = self.progressView.progress + 0.004;
         }
     }
     self.numberLabel.text = [NSString stringWithFormat:@"%.0f", self.progressView.progress * 100];
-
+    
     int i = self.progressView.progress*10;
     if (status) {
         if (i == 0) {
@@ -188,15 +238,21 @@
         [img setImage:[UIImage imageNamed:@"broker_wlsj_men"]];
     }
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidDisappear:(BOOL)animated{
-    [self.timer invalidate];
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
 }
+*/
 
 @end

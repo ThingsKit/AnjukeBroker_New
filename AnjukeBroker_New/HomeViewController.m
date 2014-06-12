@@ -47,7 +47,7 @@
 #import "FindCustomerViewController.h"
 #import "FindHomeViewController.h"
 #import "CheckoutCommunityViewController.h"
-#import "WXDataViewController.h"
+#import "WXDataShowViewController.h"
 #import "AnjukeHomeViewController.h"
 #import "HaozuHomeViewController.h"
 
@@ -729,7 +729,7 @@
         checkoutCommunityVC.backType = RTSelectorBackTypePopBack;
         [self.navigationController pushViewController:checkoutCommunityVC animated:YES];
     }else if (indexPath.row == 3){
-        WXDataViewController *wxDataVC = [[WXDataViewController alloc] init];
+        WXDataShowViewController *wxDataVC = [[WXDataShowViewController alloc] init];
         [wxDataVC setHidesBottomBarWhenPushed:YES];
         wxDataVC.backType = RTSelectorBackTypePopBack;
         [self.navigationController pushViewController:wxDataVC animated:YES];
