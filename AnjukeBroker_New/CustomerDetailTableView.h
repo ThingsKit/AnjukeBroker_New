@@ -7,7 +7,10 @@
 //
 
 #import "BaseTableView.h"
+#import "CustomerDetailModel.h"
 
 @interface CustomerDetailTableView : BaseTableView
+
+@property (nonatomic, strong) CustomerDetailModel* customerDetailModel; //客户资料数据
 
 @end

@@ -11,6 +11,7 @@
 @interface FavoritePropertyModel : BaseModel
 
 @property (nonatomic, copy) NSString* propertyId; //房源id
+@property (nonatomic, copy) NSString* propertyIcon; //房源图片
 @property (nonatomic, copy) NSString* propertyTitle;  //房源标题
 @property (nonatomic, copy) NSString* location;   //房源所属板块
 @property (nonatomic, copy) NSString* community; //房源所属小区

@@ -267,9 +267,11 @@
 		6794E4471947FDB50069F1ED /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6794E4421947FDB50069F1ED /* UIImageView+WebCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6794E44A19485D4A0069F1ED /* CustomerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6794E44919485D4A0069F1ED /* CustomerDetailViewController.m */; };
 		6794E44D19485FA90069F1ED /* CustomerDetailTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6794E44C19485FA90069F1ED /* CustomerDetailTableView.m */; };
-		6794E45019485FC40069F1ED /* CustomerDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6794E44F19485FC40069F1ED /* CustomerDetailTableViewCell.m */; };
+		6794E45019485FC40069F1ED /* FavoritePropertyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6794E44F19485FC40069F1ED /* FavoritePropertyTableViewCell.m */; };
 		6794E45319485FD90069F1ED /* CustomerDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6794E45219485FD90069F1ED /* CustomerDetailModel.m */; };
 		6794E456194864000069F1ED /* FavoritePropertyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6794E455194864000069F1ED /* FavoritePropertyModel.m */; };
+		6794E45919498A0B0069F1ED /* CustomerDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6794E45819498A0B0069F1ED /* CustomerDetailTableViewCell.m */; };
+		6794E45C194996450069F1ED /* CustomerDetailHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6794E45B194996450069F1ED /* CustomerDetailHeaderView.m */; };
 		67C3F659191CA2CA00DFC0C0 /* DiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C3F658191CA2CA00DFC0C0 /* DiscoverViewController.m */; };
 		67C3F6F319205E6800DFC0C0 /* RushPropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C3F6F219205E6800DFC0C0 /* RushPropertyViewController.m */; };
 		970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */ = {isa = PBXBuildFile; fileRef = 970501761845D21100A0C181 /* AFWelcomeScrollview.m */; };
@@ -1103,12 +1105,16 @@
 		6794E44919485D4A0069F1ED /* CustomerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerDetailViewController.m; sourceTree = "<group>"; };
 		6794E44B19485FA90069F1ED /* CustomerDetailTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerDetailTableView.h; sourceTree = "<group>"; };
 		6794E44C19485FA90069F1ED /* CustomerDetailTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerDetailTableView.m; sourceTree = "<group>"; };
-		6794E44E19485FC40069F1ED /* CustomerDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerDetailTableViewCell.h; sourceTree = "<group>"; };
-		6794E44F19485FC40069F1ED /* CustomerDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerDetailTableViewCell.m; sourceTree = "<group>"; };
+		6794E44E19485FC40069F1ED /* FavoritePropertyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritePropertyTableViewCell.h; sourceTree = "<group>"; };
+		6794E44F19485FC40069F1ED /* FavoritePropertyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritePropertyTableViewCell.m; sourceTree = "<group>"; };
 		6794E45119485FD90069F1ED /* CustomerDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerDetailModel.h; sourceTree = "<group>"; };
 		6794E45219485FD90069F1ED /* CustomerDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerDetailModel.m; sourceTree = "<group>"; };
 		6794E454194864000069F1ED /* FavoritePropertyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritePropertyModel.h; sourceTree = "<group>"; };
 		6794E455194864000069F1ED /* FavoritePropertyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritePropertyModel.m; sourceTree = "<group>"; };
+		6794E45719498A0B0069F1ED /* CustomerDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerDetailTableViewCell.h; sourceTree = "<group>"; };
+		6794E45819498A0B0069F1ED /* CustomerDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerDetailTableViewCell.m; sourceTree = "<group>"; };
+		6794E45A194996450069F1ED /* CustomerDetailHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerDetailHeaderView.h; sourceTree = "<group>"; };
+		6794E45B194996450069F1ED /* CustomerDetailHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerDetailHeaderView.m; sourceTree = "<group>"; };
 		67C3F657191CA2CA00DFC0C0 /* DiscoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverViewController.h; sourceTree = "<group>"; };
 		67C3F658191CA2CA00DFC0C0 /* DiscoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscoverViewController.m; sourceTree = "<group>"; };
 		67C3F6F119205E6800DFC0C0 /* RushPropertyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RushPropertyViewController.h; sourceTree = "<group>"; };
@@ -3811,8 +3817,12 @@
 				6794E44919485D4A0069F1ED /* CustomerDetailViewController.m */,
 				6794E44B19485FA90069F1ED /* CustomerDetailTableView.h */,
 				6794E44C19485FA90069F1ED /* CustomerDetailTableView.m */,
-				6794E44E19485FC40069F1ED /* CustomerDetailTableViewCell.h */,
-				6794E44F19485FC40069F1ED /* CustomerDetailTableViewCell.m */,
+				6794E45A194996450069F1ED /* CustomerDetailHeaderView.h */,
+				6794E45B194996450069F1ED /* CustomerDetailHeaderView.m */,
+				6794E45719498A0B0069F1ED /* CustomerDetailTableViewCell.h */,
+				6794E45819498A0B0069F1ED /* CustomerDetailTableViewCell.m */,
+				6794E44E19485FC40069F1ED /* FavoritePropertyTableViewCell.h */,
+				6794E44F19485FC40069F1ED /* FavoritePropertyTableViewCell.m */,
 				6794E45119485FD90069F1ED /* CustomerDetailModel.h */,
 				6794E45219485FD90069F1ED /* CustomerDetailModel.m */,
 				6794E454194864000069F1ED /* FavoritePropertyModel.h */,
@@ -4460,6 +4470,7 @@
 				B7E69BBE183B5B000097D5C3 /* SaleGroupListController.m in Sources */,
 				97A606811816C2A50041B367 /* InputOrderManager.m in Sources */,
 				97ACD09C1843357E00D88CB6 /* AccountManager.m in Sources */,
+				6794E45919498A0B0069F1ED /* CustomerDetailTableViewCell.m in Sources */,
 				B7FC9B3718C4206600F77205 /* NSString+RTStyle.m in Sources */,
 				678D2A2518DAB12E0027D945 /* amrFileCodec.mm in Sources */,
 				203EC2B618B34A4200DD0840 /* MessageListCell.m in Sources */,
@@ -4530,7 +4541,7 @@
 				F8C3B4CB1946ACC000D2D0E6 /* PPCHeaderView.m in Sources */,
 				2056A34D18EE7E660022B5A5 /* AXMappedPerson.m in Sources */,
 				678D2A2C18DAB9D90027D945 /* KKAudioComponent.m in Sources */,
-				6794E45019485FC40069F1ED /* CustomerDetailTableViewCell.m in Sources */,
+				6794E45019485FC40069F1ED /* FavoritePropertyTableViewCell.m in Sources */,
 				975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */,
 				6794E42D1947F2F80069F1ED /* CustomerTableView.m in Sources */,
 				B7EAD51B18CD927200B28FEC /* AXChatMessageRoomSourceCell.m in Sources */,
@@ -4573,6 +4584,7 @@
 				B7E2B69E192B5E53008AE703 /* SegmentView.m in Sources */,
 				2056A39118EE7EA00022B5A5 /* AXMessageCenterModifyFriendInfoManager.m in Sources */,
 				B7E69BC1183B63480097D5C3 /* RentAuctionViewController.m in Sources */,
+				6794E45C194996450069F1ED /* CustomerDetailHeaderView.m in Sources */,
 				B7EAD4C718CD6DDE00B28FEC /* AXNotificationTutorialViewController.m in Sources */,
 				2056A34418EE7E660022B5A5 /* AJKHDPListManager.m in Sources */,
 				207526BE18B45FE10022220C /* SWUtilityButtonView.m in Sources */,

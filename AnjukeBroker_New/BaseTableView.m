@@ -64,7 +64,7 @@
     self.needRefreshFooter = YES; //默认有上啦刷新
     self.firstAutoPullDown = YES; //默认是第一次自动下拉
     
-//    [self setSeparatorStyle:UITableViewCellSeparatorStyleNone]; //没有分割线
+    [self setSeparatorStyle:UITableViewCellSeparatorStyleNone]; //没有分割线
     [self setBackgroundColor:[UIColor brokerBgPageColor]];
     
 }

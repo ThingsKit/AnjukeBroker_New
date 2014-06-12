@@ -10,4 +10,6 @@
 
 @interface CustomerDetailViewController : RTViewController
 
+@property (nonatomic, strong) UIButton* chatButton; //微聊按钮
+
 @end

@@ -10,6 +10,7 @@
 #import "CustomerTableView.h"
 #import "UIViewExt.h"
 #import "CustomerModel.h"
+#import "CustomerDetailViewController.h"
 
 @interface FindCustomerViewController ()
 
@@ -25,7 +26,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
         [self setTitleViewWithString:@"抢客户"];
     }
     return self;
@@ -108,6 +108,10 @@
 
 - (void)tableView:(BaseTableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    CustomerDetailViewController* detail = [[CustomerDetailViewController alloc] init];
+    [self.navigationController pushViewController:detail animated:YES];
+    
 }
 
 

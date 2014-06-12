@@ -10,6 +10,4 @@
 
 @interface CustomerTableView : BaseTableView
 
-@property (nonatomic, strong) UIView* header;
-
 @end

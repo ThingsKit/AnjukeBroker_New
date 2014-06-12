@@ -10,6 +10,12 @@
 #import "CustomerModel.h"
 #import "CustomerTableViewCell.h"
 
+@interface CustomerTableView ()
+
+@property (nonatomic, strong) UIView* header; //section头部, 用来显示多少用户正在浏览当前经纪人熟悉的小区房源
+
+@end
+
 @implementation CustomerTableView
 
 - (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {

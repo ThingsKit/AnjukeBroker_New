@@ -14,9 +14,11 @@
 @property (nonatomic, copy) NSString* userName; //用户名称
 @property (nonatomic, copy) NSString* propertyCount; //浏览房源数量
 
-@property (nonatomic, copy) NSString* favoriteCommunity; //编号小区
-@property (nonatomic, copy) NSString* favoriteHouseType; //偏好户型
-@property (nonatomic, copy) NSString* favoritePrice; //偏好价格
+@property (nonatomic, copy) NSString* community; //偏好小区
+@property (nonatomic, copy) NSString* room; //偏好户型
+@property (nonatomic, copy) NSString* hall;
+@property (nonatomic, copy) NSString* toilet;
+@property (nonatomic, copy) NSString* price; //偏好价格
 
 
 @end
