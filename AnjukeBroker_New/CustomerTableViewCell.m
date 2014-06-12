@@ -50,7 +50,6 @@
     _userIcon.backgroundColor = [UIColor clearColor];
     _userIcon.layer.cornerRadius = 4.0f;
     _userIcon.layer.masksToBounds = YES;
-    _userIcon.image = [UIImage imageNamed:@"anjuke_icon_headpic"]; //默认图片
     _userIcon.contentMode = UIViewContentModeScaleAspectFit;
     [self.contentView addSubview:_userIcon];
     
@@ -122,7 +121,7 @@
         //加载图片
         [_userIcon setImageWithURL:[NSURL URLWithString:iconPath] placeholderImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
     }else{
-        
+        _userIcon.image = [UIImage imageNamed:@"anjuke_icon_headpic"]; //默认图片
     }
     
     //用户名称

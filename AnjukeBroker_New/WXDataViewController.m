@@ -134,8 +134,8 @@
 - (void)addProgress:(NSTimer*) time{
     NSLog(@"%@", time.userInfo);
     //测试部分数据
-//    if (self.progressView.progress >= 0.83) {
-    if (self.progressView.progress >= [self.userCenterModel.replyRate doubleValue]*0.01) {
+    if (self.progressView.progress >= 0.83) {
+//    if (self.progressView.progress >= [self.userCenterModel.replyRate doubleValue]*0.01) {
         [self.timer invalidate];
         return;
     }
@@ -150,25 +150,25 @@
         if (status) {
             self.progressView.progress = self.progressView.progress - 0.003;
         }else{
-            self.progressView.progress = self.progressView.progress + 0.003;
+            self.progressView.progress = self.progressView.progress + 0.006;
         }
     }else if (progress > 0.6){
         if (status) {
             self.progressView.progress = self.progressView.progress - 0.005;
         }else{
-            self.progressView.progress = self.progressView.progress + 0.005;
+            self.progressView.progress = self.progressView.progress + 0.010;
         }
     }else if (progress > 0.2){
         if (status) {
             self.progressView.progress = self.progressView.progress - 0.004;
         }else{
-            self.progressView.progress = self.progressView.progress + 0.004;
+            self.progressView.progress = self.progressView.progress + 0.008;
         }
     }else{
         if (status) {
             self.progressView.progress = self.progressView.progress - 0.002;
         }else{
-            self.progressView.progress = self.progressView.progress + 0.002;
+            self.progressView.progress = self.progressView.progress + 0.004;
         }
     }
     self.numberLabel.text = [NSString stringWithFormat:@"%.0f", self.progressView.progress * 100];
