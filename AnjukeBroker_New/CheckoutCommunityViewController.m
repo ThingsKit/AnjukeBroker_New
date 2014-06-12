@@ -255,6 +255,9 @@
         //开始实时定位
         [self.locationManager startUpdatingLocation];
         
+        [self performSelector:@selector(donePullDown) withObject:nil afterDelay:0.1];
+        [self performSelector:@selector(stopAnimation) withObject:nil afterDelay:0.1];
+        
         [self.tablaData removeAllObjects];
         [self.tableList reloadData];
         self.isLoading = NO;
