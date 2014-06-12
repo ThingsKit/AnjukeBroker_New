@@ -395,7 +395,8 @@
         return;
     }
     
-    if (![self isNetworkOkay]) {
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
     NSString *code = [NSString string];
@@ -457,11 +458,11 @@
         
         return; //没有上传图片
     }
-    
-    if (![self isNetworkOkay]) {
+ 
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        
         return;
     }
     
@@ -578,10 +579,10 @@
 }
 
 - (void)doDeleteImgWithImgID:(NSString *)imgID {
-    if (![self isNetworkOkay]) {
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
-    
     [self showLoadingActivity:YES];
     self.isLoading = YES;
     
@@ -618,7 +619,8 @@
 
 //删除房源
 - (void)doDeleteProperty {
-    if (![self isNetworkOkay]) {
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
     

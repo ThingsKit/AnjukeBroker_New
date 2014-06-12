@@ -99,10 +99,11 @@
 }
 #pragma mark - 请求定价组详情
 -(void)doRequest{
-    if(![self isNetworkOkay]){
-        [self showInfo:NONETWORK_STR];
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
+
     //fixId
     
     NSString *fixId;
@@ -160,10 +161,11 @@
 -(void)doCancelFixed{
     [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_007 note:nil];
     
-    if(![self isNetworkOkay]){
-        [self showInfo:NONETWORK_STR];
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
+
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"], @"propId", [self.tempDic objectForKey:@"fixId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/cancelplan/" params:params target:self action:@selector(onCancelSuccess:)];
     [self showLoadingActivity:YES];
@@ -192,10 +194,11 @@
 }
 #pragma mark - 重新开始定价
 -(void)doRestartFixed{
-    if(![self isNetworkOkay]){
-        [self showInfo:NONETWORK_STR];
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
+
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.tempDic objectForKey:@"fixId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/spreadstart/" params:params target:self action:@selector(onRestartSuccess:)];
     [self showLoadingActivity:YES];
@@ -226,10 +229,11 @@
 #pragma mark - 请求定价组详情
 -(void)doStopFixedGroup{
     [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_003 note:nil];
-    if(![self isNetworkOkay]){
-        [self showInfo:NONETWORK_STR];
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
+
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.tempDic objectForKey:@"fixId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/spreadstop/" params:params target:self action:@selector(onStopSuccess:)];
     [self showLoadingActivity:YES];

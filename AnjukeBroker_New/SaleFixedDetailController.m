@@ -100,10 +100,11 @@
 
 #pragma mark - 请求定价组详情
 -(void)doRequest{
-    if(![self isNetworkOkay]){
-        [self showInfo:NONETWORK_STR];
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
+
     NSString *fixId;
     if ([self.tempDic objectForKey:@"fixPlanId"]) {
         fixId = [self.tempDic objectForKey:@"fixPlanId"];
@@ -157,10 +158,11 @@
 #pragma mark - 取消定价推广房源
 -(void)cancelFixedProperty{
     [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_007 note:nil];
-    if(![self isNetworkOkay]){
-        [self showInfo:NONETWORK_STR];
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
+
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"], @"propId", [self.tempDic objectForKey:@"fixId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/cancelplan/" params:params target:self action:@selector(onCancelSuccess:)];
     [self showLoadingActivity:YES];
@@ -192,10 +194,11 @@
 #pragma mark - 停止定价组计划推广
 -(void)cancelFixedGroup{
     [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_003 note:nil];
-    if(![self isNetworkOkay]){
-        [self showInfo:NONETWORK_STR];
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
+
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  [self.tempDic objectForKey:@"fixId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/spreadstop/" params:params target:self action:@selector(onCancelGroupSuccess:)];
     [self showLoadingActivity:YES];
@@ -226,10 +229,11 @@
 }
 #pragma mark - 重新开始定价推广
 -(void)doRestart{
-    if(![self isNetworkOkay]){
-        [self showInfo:NONETWORK_STR];
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
+
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  [self.tempDic objectForKey:@"fixId"], @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/spreadstart/" params:params target:self action:@selector(onRestartSuccess:)];
     [self showLoadingActivity:YES];

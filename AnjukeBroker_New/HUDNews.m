@@ -40,12 +40,15 @@ static HUDNews *hudNews;
     
     
     self.statusView = [[UIImageView alloc] initWithFrame:CGRectMake(32, 10, 70, 70)];
+    self.statusView.contentMode = UIViewContentModeScaleAspectFit;
     if (hudTipsType == HUDTIPSWITHNORMALOK) {
         [self.statusView setImage:[UIImage imageNamed:@"anjuke_icon_tips_laugh"]];
     }else if(hudTipsType == HUDTIPSWITHNORMALBAD){
         [self.statusView setImage:[UIImage imageNamed:@"anjuke_icon_tips_sad"]];
     }else if(hudTipsType == HUDTIPSWITHCHECKOK){
         [self.statusView setImage:[UIImage imageNamed:@"check_status_ok"]];
+    }else if (hudTipsType == HUDTIPSWITHNetWorkBad){
+        [self.statusView setImage:[UIImage imageNamed:@"check_no_wifi"]];
     }
     [self.HUDBackGroundView addSubview:self.statusView];
     

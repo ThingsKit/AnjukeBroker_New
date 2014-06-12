@@ -169,9 +169,11 @@
 #pragma mark - Request Method
 
 - (void)requestUpdatePerson {
-    if (![self isNetworkOkay]) {
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
+
     
     NSString *isStar = @"0";
     if (self.person.isStar == YES) {
@@ -188,8 +190,10 @@
 
 - (void)onGetData:(RTNetworkResponse *) response {
     //check network and response
-    if (![self isNetworkOkay])
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
+    }
     
     if ([response status] == RTNetworkResponseStatusFailed || ([[[response content] objectForKey:@"status"] isEqualToString:@"error"]))
         return;

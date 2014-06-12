@@ -112,7 +112,8 @@
 }
 
 - (void)addPropertyToPlanWithGroupID:(NSString *)groupID{
-    if(![self isNetworkOkay]){
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  self.propertyID, @"propIds", groupID, @"planId", nil];

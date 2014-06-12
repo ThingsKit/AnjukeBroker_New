@@ -45,8 +45,8 @@
 
 #pragma mark - 修改定价组限额
 -(void)modifyFixedProperty{
-    if(![self isNetworkOkay]){
-        [self showInfo:NONETWORK_STR];
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", self.fixedObject.fixedId, @"planId", [NSString stringWithFormat:@"%@", self.totalCost.text], @"ceiling", self.fixedObject.planName, @"planName", nil];

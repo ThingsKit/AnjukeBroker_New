@@ -265,12 +265,12 @@
 }
 
 - (void)requestData {
-    if (![self isNetworkOkay]) {
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         [self hideLoadWithAnimated:NO];
-        
         return;
     }
-    
+
     NSString *isStar = @"0";
     if (self.person.isStar == YES) {
         isStar = @"1";
@@ -294,8 +294,11 @@
     [self hideLoadWithAnimated:NO];
 
     //check network and response
-    if (![self isNetworkOkay])
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
+    }
+
     
     if ([response status] == RTNetworkResponseStatusFailed || ([[[response content] objectForKey:@"status"] isEqualToString:@"error"]))
         return;

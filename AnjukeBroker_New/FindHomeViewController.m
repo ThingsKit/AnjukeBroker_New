@@ -112,10 +112,11 @@
     if (self.isLoading == YES) {
         //        return;
     }
-    if(![self isNetworkOkay]){
-        [self showInfo:NONETWORK_STR];
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
+    
     CLLocationCoordinate2D userCoordinate = [[[RTLocationManager sharedInstance] mapUserLocation] coordinate];
     NSString *lat = [NSString stringWithFormat:@"%f",userCoordinate.latitude];
     NSString *lng = [NSString stringWithFormat:@"%f",userCoordinate.longitude];
@@ -123,7 +124,6 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", @"0", @"mapType", lat, @"lat", lng, @"lng", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"find/nearbycomm/" params:params target:self action:@selector(onGetSuccess:)];
     
-    [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
 
@@ -225,18 +225,20 @@
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
-    if (![self isNetworkOkay]) {
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         self.isLoading = NO;
         [self.myTable setContentOffset:CGPointMake(0, 0) animated:YES];
         return;
     }
-    
+
     [self.refreshView egoRefreshScrollViewDidEndDragging:scrollView];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    if (![self isNetworkOkay]) {
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         self.isLoading = NO;
         [self.myTable setContentOffset:CGPointMake(0, 0) animated:YES];
         return;

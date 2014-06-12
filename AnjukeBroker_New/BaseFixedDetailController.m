@@ -178,7 +178,7 @@
 
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(BK_EGORefreshTableHeaderView*)view
 {
-    if ([self isNetworkOkay]) {
+    if ([self isNetworkOkayWithNoInfo]) {
         [self doRequest];
     }
     else {
@@ -201,9 +201,10 @@
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
-    if (![self isNetworkOkay]) {
-        self.isLoading = NO;
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         [self.myTable setContentOffset:CGPointMake(0, 0) animated:YES];
+        self.isLoading = NO;
         return;
     }
     
@@ -212,9 +213,10 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    if (![self isNetworkOkay]) {
-        self.isLoading = NO;
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         [self.myTable setContentOffset:CGPointMake(0, 0) animated:YES];
+        self.isLoading = NO;
         return;
     }
     

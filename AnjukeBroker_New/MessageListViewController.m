@@ -231,11 +231,14 @@
     
     //check network
     if (self.networkErrorView) {
-        if (![self isNetworkOkay]) {
+        if (![self isNetworkOkayWithNoInfo]) {
+            [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
             self.tableViewList.tableHeaderView = self.networkErrorView;
-        }
-        else
+            return;
+        }else{
             self.tableViewList.tableHeaderView = nil;
+            return;
+        }
     }
 }
 

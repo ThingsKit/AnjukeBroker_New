@@ -801,12 +801,13 @@ typedef enum {
 #pragma mark - Request Method
 
 - (void)uploadPhoto {
-    if (![self isNetworkOkay]) {
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
         return;
     }
-    
+
     if (self.uploadImgIndex >= [self allImageCount]) {
         DLog(@"图片上传完毕，开始发房");
         
@@ -1012,8 +1013,10 @@ typedef enum {
 }
 
 - (void)requestWithPrice {
-    if(![self isNetworkOkay]){
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         [self showAlertViewWithPrice:@""];
+        self.isLoading = NO;
         return;
     }
     
@@ -1088,7 +1091,8 @@ typedef enum {
 }
 
 - (void)addPropertyToPlanWithGroupID:(NSString *)groupID{
-    if(![self isNetworkOkay]){
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  self.property_ID, @"propIds", groupID, @"planId", nil];

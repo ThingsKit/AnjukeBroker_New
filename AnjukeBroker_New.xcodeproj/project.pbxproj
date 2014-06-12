@@ -397,7 +397,6 @@
 		B72CA8391921FBB000F8592D /* SelectionToolView.m in Sources */ = {isa = PBXBuildFile; fileRef = B72CA8381921FBB000F8592D /* SelectionToolView.m */; };
 		B73468F91904F80400EEF424 /* AXTTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B73468F81904F80400EEF424 /* AXTTTAttributedLabel.m */; };
 		B73468FE1904FB7800EEF424 /* NSArray+AXChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B73468FD1904FB7800EEF424 /* NSArray+AXChatMessage.m */; };
-		B7518FB5192DA3A300C02590 /* NoDataAndNoNetworkView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7518FB4192DA3A300C02590 /* NoDataAndNoNetworkView.m */; };
 		B7518FB8192DA53600C02590 /* pic_3.4_02.png in Resources */ = {isa = PBXBuildFile; fileRef = B7518FB6192DA53600C02590 /* pic_3.4_02.png */; };
 		B7518FB9192DA53600C02590 /* pic_3.4_01.png in Resources */ = {isa = PBXBuildFile; fileRef = B7518FB7192DA53600C02590 /* pic_3.4_01.png */; };
 		B7518FBC192DBA0000C02590 /* UIView+AF.m in Sources */ = {isa = PBXBuildFile; fileRef = B7518FBB192DBA0000C02590 /* UIView+AF.m */; };
@@ -1315,8 +1314,6 @@
 		B73468F81904F80400EEF424 /* AXTTTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXTTTAttributedLabel.m; sourceTree = "<group>"; };
 		B73468FC1904FB7800EEF424 /* NSArray+AXChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+AXChatMessage.h"; sourceTree = "<group>"; };
 		B73468FD1904FB7800EEF424 /* NSArray+AXChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+AXChatMessage.m"; sourceTree = "<group>"; };
-		B7518FB3192DA3A300C02590 /* NoDataAndNoNetworkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoDataAndNoNetworkView.h; sourceTree = "<group>"; };
-		B7518FB4192DA3A300C02590 /* NoDataAndNoNetworkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoDataAndNoNetworkView.m; sourceTree = "<group>"; };
 		B7518FB6192DA53600C02590 /* pic_3.4_02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic_3.4_02.png; sourceTree = "<group>"; };
 		B7518FB7192DA53600C02590 /* pic_3.4_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic_3.4_01.png; sourceTree = "<group>"; };
 		B7518FBA192DBA0000C02590 /* UIView+AF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AF.h"; sourceTree = "<group>"; };
@@ -2629,8 +2626,6 @@
 		972C10231814FC3800552C9B /* 首页+发房 */ = {
 			isa = PBXGroup;
 			children = (
-				B7518FB3192DA3A300C02590 /* NoDataAndNoNetworkView.h */,
-				B7518FB4192DA3A300C02590 /* NoDataAndNoNetworkView.m */,
 				972C10271814FCD300552C9B /* HomeViewController.h */,
 				972C10281814FCD300552C9B /* HomeViewController.m */,
 				F88FC2DE194541BE00DEA8A2 /* HomeHeaderView.h */,
@@ -4700,7 +4695,6 @@
 				974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */,
 				97C6870C183A27E700F449BD /* BaseAuctionViewController.m in Sources */,
 				B769E475181F807500A2FF50 /* SaleBidDetailController.m in Sources */,
-				B7518FB5192DA3A300C02590 /* NoDataAndNoNetworkView.m in Sources */,
 				B7E803ED1820DD8000775C6F /* SaleSelectNoPlanController.m in Sources */,
 				B7EAD53218CD927200B28FEC /* UIImage+AXChatMessage.m in Sources */,
 				2056A34C18EE7E660022B5A5 /* AXMappedMessage.m in Sources */,

@@ -440,7 +440,8 @@
     }
 }
 - (void)requestUpdatePerson {
-    if (![self isNetworkOkay]) {
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
     
@@ -453,9 +454,10 @@
 }
 - (void)onGetData:(RTNetworkResponse *) response {
     //check network and response
-    if (![self isNetworkOkay])
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
-    
+    }
     if ([[[response content] objectForKey:@"status"] isEqualToString:@"ERROR"]){
         [self showInfo:[[response content] objectForKey:@"errorMessage"]];
     }else if([[[response content] objectForKey:@"status"] isEqualToString:@"OK"]){

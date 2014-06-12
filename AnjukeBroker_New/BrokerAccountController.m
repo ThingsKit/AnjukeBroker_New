@@ -104,7 +104,8 @@
 
 #pragma mark - Request Method
 - (void)doRequest {
-    if (![self isNetworkOkay]) {
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
         return;
