@@ -139,6 +139,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 //表情相关
 @property (nonatomic, assign) NSUInteger cursorLocation; //文本输入框光标所在位置
 
+//公众账号菜单
+@property (nonatomic, assign) BOOL isMenuFlag;
 @end
 
 @implementation AXChatViewController
@@ -175,6 +177,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         _currentText = @"";
         _messageInputViewFrame = CGRectZero;
         _messageInputTextViewFrame = CGRectZero;
+        
+        _isMenuFlag = NO;
     }
     return self;
 }
@@ -355,7 +359,31 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [self initMoreButs];
 }
 
+#pragma mark -- 是否为公众账号，显示菜单
+- (BOOL)isPublicPerson{
+    if (self.friendPerson.userType == AXPersonTypePublic || self.friendPerson.userType == AXPersonTypeSubscribe) {
+        return YES;
+    }
+    
+    return NO;
+}
+
 - (void)initPrivateButtons {
+//    NSMutableDictionary *menuConfigs;
+    //[NSMutableDictionary dictionaryWithDictionary:self.friendPerson.confis];
+    
+//    if ([self isPublicPerson] && menuConfigs[@"input_type"]) {
+//        
+//    }
+    
+//    NSMutableDictionary *acconutConfigs = [NSMutableDictionary dictionaryWithDictionary:self.friendPerson.config];
+//    
+//    self.inputSwithFlg = NO;
+//    if ([self isPublicAccount] && acconutConfigs[@"input_type"] && [acconutConfigs[@"input_type"] integerValue] != AXPublicInputTypeKeyboard) {
+//        self.inputSwithFlg = YES;
+//    }
+
+    
     //最右侧的加号按钮
     self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
     self.sendBut.frame = CGRectMake(ScreenWidth - 35, 10.0f, 28, 29);

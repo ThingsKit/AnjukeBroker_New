@@ -15,7 +15,8 @@ typedef NS_ENUM(NSUInteger, AXPersonType)
     AXPersonTypeUser = 1,
     AXPersonTypeBroker = 2,
     AXPersonTypeServer = 3,
-    AXPersonTypePublic = 4
+    AXPersonTypePublic = 4, //公众账号
+    AXPersonTypeSubscribe = 5 //订阅号
 };
 
 @interface AXMappedPerson : NSObject
@@ -40,6 +41,7 @@ typedef NS_ENUM(NSUInteger, AXPersonType)
 @property (nonatomic, strong) NSString * markDesc;
 @property (nonatomic, strong) NSString * markPhone;
 @property (nonatomic, strong) NSString * sex;
+//@property (nonatomic, strong) NSDictionary * config;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dic;
 @end

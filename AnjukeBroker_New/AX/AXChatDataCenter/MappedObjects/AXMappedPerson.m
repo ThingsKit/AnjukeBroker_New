@@ -50,6 +50,7 @@
         self.uid = dic[@"user_id"];
         self.userType = [dic[@"user_type"] integerValue];
         self.isStar = NO;
+//        self.config = dic[@"configs"];
     }
     return self;
 }

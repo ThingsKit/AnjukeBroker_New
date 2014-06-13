@@ -693,6 +693,9 @@
 		F8D449D21908AFA900447375 /* anjuke_icon_button_red.png in Resources */ = {isa = PBXBuildFile; fileRef = F8D449CE1908AFA900447375 /* anjuke_icon_button_red.png */; };
 		F8D7C96819356962009DBE9E /* AppTestModeSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D7C96719356962009DBE9E /* AppTestModeSettingViewController.m */; };
 		F8E24D8619497D1C0088C902 /* WXDataShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E24D8519497D1C0088C902 /* WXDataShowViewController.m */; };
+		F8E24D8C194A94D40088C902 /* AXPublicMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E24D8B194A94D40088C902 /* AXPublicMenu.m */; };
+		F8E24D97194A95400088C902 /* AXPublicMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E24D94194A95400088C902 /* AXPublicMenuButton.m */; };
+		F8E24D98194A95400088C902 /* AXPublicSubMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E24D96194A95400088C902 /* AXPublicSubMenu.m */; };
 		F8F6DA22192A224000698C3B /* UIColor+BrokerRT.m in Sources */ = {isa = PBXBuildFile; fileRef = F8F6DA21192A224000698C3B /* UIColor+BrokerRT.m */; };
 		F8FCFC2318FE8F3500A4B012 /* RTGestureLock.m in Sources */ = {isa = PBXBuildFile; fileRef = F8FCFC2218FE8F3500A4B012 /* RTGestureLock.m */; };
 /* End PBXBuildFile section */
@@ -1741,6 +1744,12 @@
 		F8D7C96719356962009DBE9E /* AppTestModeSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppTestModeSettingViewController.m; sourceTree = "<group>"; };
 		F8E24D8419497D1C0088C902 /* WXDataShowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXDataShowViewController.h; sourceTree = "<group>"; };
 		F8E24D8519497D1C0088C902 /* WXDataShowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXDataShowViewController.m; sourceTree = "<group>"; };
+		F8E24D8A194A94D40088C902 /* AXPublicMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AXPublicMenu.h; path = publicMenu/AXPublicMenu.h; sourceTree = "<group>"; };
+		F8E24D8B194A94D40088C902 /* AXPublicMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AXPublicMenu.m; path = publicMenu/AXPublicMenu.m; sourceTree = "<group>"; };
+		F8E24D93194A95400088C902 /* AXPublicMenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AXPublicMenuButton.h; path = publicMenu/AXPublicMenuButton.h; sourceTree = "<group>"; };
+		F8E24D94194A95400088C902 /* AXPublicMenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AXPublicMenuButton.m; path = publicMenu/AXPublicMenuButton.m; sourceTree = "<group>"; };
+		F8E24D95194A95400088C902 /* AXPublicSubMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AXPublicSubMenu.h; path = publicMenu/AXPublicSubMenu.h; sourceTree = "<group>"; };
+		F8E24D96194A95400088C902 /* AXPublicSubMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AXPublicSubMenu.m; path = publicMenu/AXPublicSubMenu.m; sourceTree = "<group>"; };
 		F8F6DA20192A224000698C3B /* UIColor+BrokerRT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+BrokerRT.h"; sourceTree = "<group>"; };
 		F8F6DA21192A224000698C3B /* UIColor+BrokerRT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BrokerRT.m"; sourceTree = "<group>"; };
 		F8FCFC2118FE8F3500A4B012 /* RTGestureLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTGestureLock.h; sourceTree = "<group>"; };
@@ -3563,6 +3572,7 @@
 		B7EAD4D218CD927200B28FEC /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				F8E24D89194A94780088C902 /* publicMenu */,
 				B73468FB1904FB6100EEF424 /* category */,
 				B73468F61904F80400EEF424 /* TTTAttributedLabel */,
 				B723C13218E9597D00584B2C /* LocationManager */,
@@ -3993,6 +4003,19 @@
 				670F01711931D866004C95B2 /* KKAnnotation.m */,
 			);
 			name = LocationSetting;
+			sourceTree = "<group>";
+		};
+		F8E24D89194A94780088C902 /* publicMenu */ = {
+			isa = PBXGroup;
+			children = (
+				F8E24D8A194A94D40088C902 /* AXPublicMenu.h */,
+				F8E24D8B194A94D40088C902 /* AXPublicMenu.m */,
+				F8E24D93194A95400088C902 /* AXPublicMenuButton.h */,
+				F8E24D94194A95400088C902 /* AXPublicMenuButton.m */,
+				F8E24D95194A95400088C902 /* AXPublicSubMenu.h */,
+				F8E24D96194A95400088C902 /* AXPublicSubMenu.m */,
+			);
+			name = publicMenu;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -4530,6 +4553,7 @@
 				200915E81893FC1000A13115 /* E_Photo.m in Sources */,
 				970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */,
 				B7FC9B2E18C41F9C00F77205 /* UIColor+RT.m in Sources */,
+				F8E24D97194A95400088C902 /* AXPublicMenuButton.m in Sources */,
 				6794E45319485FD90069F1ED /* CustomerDetailModel.m in Sources */,
 				678D2A2918DAB12E0027D945 /* VoiceConverter.mm in Sources */,
 				20516BDD18F52C0900D0637C /* AXChatMessageCenter.m in Sources */,
@@ -4697,6 +4721,7 @@
 				97B106501834E5F40064AF5F /* AppManager.m in Sources */,
 				B7EAD52018CD927200B28FEC /* AXChatWebViewController.m in Sources */,
 				B7EAD51818CD927200B28FEC /* AXChatMessageImageCell.m in Sources */,
+				F8E24D8C194A94D40088C902 /* AXPublicMenu.m in Sources */,
 				974E5C8C181E4D45000246D1 /* AnjukeNormalCell.m in Sources */,
 				97C6870C183A27E700F449BD /* BaseAuctionViewController.m in Sources */,
 				B769E475181F807500A2FF50 /* SaleBidDetailController.m in Sources */,
@@ -4738,6 +4763,7 @@
 				207526C118B4658A0022220C /* ClientListCell.m in Sources */,
 				B73468FE1904FB7800EEF424 /* NSArray+AXChatMessage.m in Sources */,
 				F8A717C419205934004840C6 /* AppSettingViewController.m in Sources */,
+				F8E24D98194A95400088C902 /* AXPublicSubMenu.m in Sources */,
 				B7EAD51E18CD927200B28FEC /* AXChatMessageTextCell.m in Sources */,
 				B7EAD52618CD927200B28FEC /* AXPhoto.m in Sources */,
 				273913E918DBD581003284AA /* RegexKitLite.m in Sources */,
