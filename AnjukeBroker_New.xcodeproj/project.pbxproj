@@ -201,7 +201,6 @@
 		6767D13D19230901004FEFF7 /* MyPropertyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D13C19230901004FEFF7 /* MyPropertyModel.m */; };
 		6767D14519235174004FEFF7 /* MyPropertyTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D14419235174004FEFF7 /* MyPropertyTableView.m */; };
 		6767D1491923519B004FEFF7 /* MyPropertyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D1481923519B004FEFF7 /* MyPropertyTableViewCell.m */; };
-		6767D14B19237527004FEFF7 /* msgcome.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6767D14A19237527004FEFF7 /* msgcome.wav */; };
 		6767D174192398C2004FEFF7 /* anjuke_icon_tips_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6767D15D192398C2004FEFF7 /* anjuke_icon_tips_bg@2x.png */; };
 		6767D175192398C2004FEFF7 /* anjuke_icon_tips_laugh@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6767D15E192398C2004FEFF7 /* anjuke_icon_tips_laugh@2x.png */; };
 		6767D176192398C2004FEFF7 /* anjuke_icon_tips_sad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6767D15F192398C2004FEFF7 /* anjuke_icon_tips_sad@2x.png */; };
@@ -1018,7 +1017,6 @@
 		6767D14419235174004FEFF7 /* MyPropertyTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPropertyTableView.m; sourceTree = "<group>"; };
 		6767D1471923519B004FEFF7 /* MyPropertyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPropertyTableViewCell.h; sourceTree = "<group>"; };
 		6767D1481923519B004FEFF7 /* MyPropertyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPropertyTableViewCell.m; sourceTree = "<group>"; };
-		6767D14A19237527004FEFF7 /* msgcome.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = msgcome.wav; sourceTree = "<group>"; };
 		6767D15D192398C2004FEFF7 /* anjuke_icon_tips_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_tips_bg@2x.png"; sourceTree = "<group>"; };
 		6767D15E192398C2004FEFF7 /* anjuke_icon_tips_laugh@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_tips_laugh@2x.png"; sourceTree = "<group>"; };
 		6767D15F192398C2004FEFF7 /* anjuke_icon_tips_sad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_tips_sad@2x.png"; sourceTree = "<group>"; };
@@ -2436,7 +2434,6 @@
 				6767D18119246303004FEFF7 /* UIView+ChainViewController.m */,
 				6767D1281922079A004FEFF7 /* NSString+URLEncoding.h */,
 				6767D1291922079A004FEFF7 /* NSString+URLEncoding.m */,
-				6767D14A19237527004FEFF7 /* msgcome.wav */,
 			);
 			name = Tools;
 			sourceTree = "<group>";
@@ -4307,7 +4304,6 @@
 				B7E2B68F192AF7FA008AE703 /* bg_3.4_01.png in Resources */,
 				678084001904AB1F00765A18 /* faceDelete@2x.png in Resources */,
 				2039E58518C421FF003ED781 /* anjuke_icon_headpic@2x.png in Resources */,
-				6767D14B19237527004FEFF7 /* msgcome.wav in Resources */,
 				200915EE189401C800A13115 /* anjuke_icon_fxt_@2x.png in Resources */,
 				6767D178192398C2004FEFF7 /* anjuke_icon_weituo_button_on@2x.png in Resources */,
 				B7FC9AF718C41B1300F77205 /* xproject_dialogue_greycard_selected@2x.png in Resources */,

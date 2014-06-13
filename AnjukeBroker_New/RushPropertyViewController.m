@@ -10,13 +10,8 @@
 #import "UIViewExt.h"
 #import "PropertyModel.h"
 #import "MyPropertyModel.h"
-#import "LoginManager.h"
-#import <AudioToolbox/AudioToolbox.h>
 #import "MBProgressHUD.h"
 #import "PropertyTableViewCell.h"
-#import "DiscoverViewController.h"
-#import "AppDelegate.h"
-#import "RTGestureBackNavigationController.h"
 
 @interface RushPropertyViewController ()
 

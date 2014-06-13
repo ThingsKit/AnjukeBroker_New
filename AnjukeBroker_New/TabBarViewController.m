@@ -7,18 +7,17 @@
 //
 
 #import "TabBarViewController.h"
-#import "AnjukeHomeViewController.h"
-#import "HaozuHomeViewController.h"
+//#import "AnjukeHomeViewController.h"
+//#import "HaozuHomeViewController.h"
 #import "RTGestureBackNavigationController.h"
-#import "AppDelegate.h"
 #import "Util_UI.h"
-#import "AppManager.h"
-#import "FindHomeViewController.h"
+//#import "AppManager.h"
+//#import "FindHomeViewController.h"
 #import "MessageListViewController.h"
-#import "ClientListViewController.h"
+//#import "ClientListViewController.h"
 #import "BrokerLuanchAdd.h"
-#import "DiscoverViewController.h"
 #import "UserCenterViewController.h"
+#import "HomeViewController.h"
 
 #define tabItemInsertsMake UIEdgeInsetsMake(0, 0, 0, 0)
 
@@ -30,7 +29,6 @@
 @property (nonatomic, strong) UIViewController *page5;
 
 @property (nonatomic, strong) RTGestureBackNavigationController *messageNavController;
-@property (nonatomic, strong) RTGestureBackNavigationController* navDis;
 
 @end
 
@@ -80,11 +78,11 @@
         
         self.viewControllers = self.controllerArrays;
         
-        if (![AppManager isIOS6]) {
+        //如果版本7.0或以上
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
             [self.tabBar setTintColor:SYSTEM_TABBAR_SELECTCOLOR_DARK];
             [self.tabBar setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_tab_bg.png"]];
         }
-//        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:SYSTEM_TABBAR_SELECTCOLOR_DARK, UITextAttributeTextColor, nil] forState:UIControlStateHighlighted];
     }
     
     return self;
@@ -104,42 +102,39 @@
 
 #pragma mark - private method
 
-- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
-{
-    UIViewController *selectedController = ((RTGestureBackNavigationController *)[tabBarController selectedViewController]).visibleViewController;
-    UIViewController *newController = ((RTGestureBackNavigationController *)viewController).visibleViewController;
-    
-    //点击tab刷新VC数据
-    if ([newController isKindOfClass:[HomeViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
-        [(HomeViewController *)newController doRequest];
-    }
-    else if ([newController isKindOfClass:[AnjukeHomeViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
-        [(AnjukeHomeViewController *)selectedController doRequest];
-    }
-    else if ([newController isKindOfClass:[HaozuHomeViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
-        [(HaozuHomeViewController *)selectedController doRequest];
-    }
-    else if ([newController isKindOfClass:[MessageListViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
-        
-    }
-    else if ([newController isKindOfClass:[ClientListViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
-        
-    }
-    
-    return YES;
-}
+//- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
+//{
+//    UIViewController *selectedController = ((RTGestureBackNavigationController *)[tabBarController selectedViewController]).visibleViewController;
+//    UIViewController *newController = ((RTGestureBackNavigationController *)viewController).visibleViewController;
+//    
+//    //点击tab刷新VC数据
+//    if ([newController isKindOfClass:[HomeViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
+//        [(HomeViewController *)newController doRequest];
+//    }
+//    else if ([newController isKindOfClass:[AnjukeHomeViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
+//        [(AnjukeHomeViewController *)selectedController doRequest];
+//    }
+//    else if ([newController isKindOfClass:[HaozuHomeViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
+//        [(HaozuHomeViewController *)selectedController doRequest];
+//    }
+//    else if ([newController isKindOfClass:[MessageListViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
+//        
+//    }
+//    else if ([newController isKindOfClass:[ClientListViewController class]]&& [selectedController isKindOfClass:[newController class]]) {
+//        
+//    }
+//    
+//    return YES;
+//}
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-//    if (self.selectedIndex == 3) {
-//        _navDis.tabBarItem.badgeValue = nil;
-//        [AppDelegate sharedAppDelegate].propertyPushCount = 0;
-//    }
     DLog(@"class ---aaa--- %@", [viewController class]);
 }
 
 - (UITabBarItem *)getTabBarItemWithTitle:(NSString *)title image:(UIImage *)image index:(int)index selectedImg:(UIImage *)selectedImg{
     
-    if (![AppManager isIOS6]) {
+    //如果版本7.0或以上
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         selectedImg = [selectedImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     }
@@ -157,9 +152,5 @@
     [self.messageNavController.tabBarItem setBadgeValue:value];
 }
 
-- (void)setDiscoverBadgeValueWithValue:(NSString *)value{
-    DLog(@"待抢委托房源数量%@", value);
-    [_navDis.tabBarItem setBadgeValue:value];
-}
 
 @end

@@ -7,14 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HomeViewController.h"
 
+@class HomeViewController;
 @interface TabBarViewController : UITabBarController <UITabBarControllerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *controllerArrays;
 @property (nonatomic, strong) HomeViewController *HomeVC;
 
-- (void)setMessageBadgeValueWithValue:(NSString *)value; //
-- (void)setDiscoverBadgeValueWithValue:(NSString *)value; //设置发现模块待抢房源数量
+- (void)setMessageBadgeValueWithValue:(NSString *)value; //设置微聊消息数量
 
 @end
