@@ -33,6 +33,7 @@
 @property (nonatomic, retain) NSString * markPhone;
 @property (nonatomic, retain) NSString * markDesc;
 @property (nonatomic, retain) NSString * sex;
+@property (nonatomic, strong) NSString * configs;
 
 - (void)assignPropertiesFromMappedObject:(AXMappedPerson *)person;
 - (AXMappedPerson *)convertToMappedPerson;

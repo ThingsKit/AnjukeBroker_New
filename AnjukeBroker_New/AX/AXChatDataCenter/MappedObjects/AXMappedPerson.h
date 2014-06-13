@@ -41,7 +41,7 @@ typedef NS_ENUM(NSUInteger, AXPersonType)
 @property (nonatomic, strong) NSString * markDesc;
 @property (nonatomic, strong) NSString * markPhone;
 @property (nonatomic, strong) NSString * sex;
-//@property (nonatomic, strong) NSDictionary * config;
+@property (nonatomic, strong) NSDictionary * configs;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dic;
 @end
