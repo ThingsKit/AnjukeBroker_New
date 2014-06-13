@@ -273,7 +273,6 @@
 		6794E456194864000069F1ED /* FavoritePropertyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6794E455194864000069F1ED /* FavoritePropertyModel.m */; };
 		6794E45919498A0B0069F1ED /* CustomerDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6794E45819498A0B0069F1ED /* CustomerDetailTableViewCell.m */; };
 		6794E45C194996450069F1ED /* CustomerDetailHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6794E45B194996450069F1ED /* CustomerDetailHeaderView.m */; };
-		67C3F659191CA2CA00DFC0C0 /* DiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C3F658191CA2CA00DFC0C0 /* DiscoverViewController.m */; };
 		67C3F6F319205E6800DFC0C0 /* RushPropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C3F6F219205E6800DFC0C0 /* RushPropertyViewController.m */; };
 		970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */ = {isa = PBXBuildFile; fileRef = 970501761845D21100A0C181 /* AFWelcomeScrollview.m */; };
 		970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */ = {isa = PBXBuildFile; fileRef = 970B78DB182010EE00C8E3C6 /* Util_UI.m */; };
@@ -1123,8 +1122,6 @@
 		6794E45819498A0B0069F1ED /* CustomerDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerDetailTableViewCell.m; sourceTree = "<group>"; };
 		6794E45A194996450069F1ED /* CustomerDetailHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerDetailHeaderView.h; sourceTree = "<group>"; };
 		6794E45B194996450069F1ED /* CustomerDetailHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerDetailHeaderView.m; sourceTree = "<group>"; };
-		67C3F657191CA2CA00DFC0C0 /* DiscoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverViewController.h; sourceTree = "<group>"; };
-		67C3F658191CA2CA00DFC0C0 /* DiscoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscoverViewController.m; sourceTree = "<group>"; };
 		67C3F6F119205E6800DFC0C0 /* RushPropertyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RushPropertyViewController.h; sourceTree = "<group>"; };
 		67C3F6F219205E6800DFC0C0 /* RushPropertyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RushPropertyViewController.m; sourceTree = "<group>"; };
 		70C958DAA438444CB26F09E0 /* libPods-AnjukeBroker_New.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AnjukeBroker_New.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2396,8 +2393,6 @@
 			children = (
 				6767D13F19230AAE004FEFF7 /* Tools */,
 				6767D13E19230A9C004FEFF7 /* Model */,
-				67C3F657191CA2CA00DFC0C0 /* DiscoverViewController.h */,
-				67C3F658191CA2CA00DFC0C0 /* DiscoverViewController.m */,
 				67C3F6F119205E6800DFC0C0 /* RushPropertyViewController.h */,
 				67C3F6F219205E6800DFC0C0 /* RushPropertyViewController.m */,
 				6767D1071921BBD6004FEFF7 /* BaseTableView.h */,
@@ -4534,7 +4529,6 @@
 				B7210952182785A400904FC7 /* RentFixedCell.m in Sources */,
 				972F70DE1844C7660010CABB /* BrokerLogger.m in Sources */,
 				B7E69BC4183B9CEE0097D5C3 /* RentBidNoPlanController.m in Sources */,
-				67C3F659191CA2CA00DFC0C0 /* DiscoverViewController.m in Sources */,
 				202133C618C72CF200A0090B /* BrokerWebViewController.m in Sources */,
 				6780840A1904AD2D00765A18 /* UIViewExt.m in Sources */,
 				2056A38C18EE7EA00022B5A5 /* AXMessageCenterDeleteFriendManager.m in Sources */,
