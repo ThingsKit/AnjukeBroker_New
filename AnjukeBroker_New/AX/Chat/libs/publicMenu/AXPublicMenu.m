@@ -9,7 +9,7 @@
 #import "AXPublicMenu.h"
 #import "BrokerLineView.h"
 
-CGFloat const axPublicMenuHeight = 44.0f;
+CGFloat const axPublicMenuHeight = 49.0f;
 
 @implementation AXPublicMenu
 @synthesize publicMenuDelegate;
@@ -30,7 +30,8 @@ CGFloat const axPublicMenuHeight = 44.0f;
     }
     float menuWidth;
     float leftX = 0;
-    NSInteger menuCount = menus.count;
+//    NSInteger menuCount = menus.count;
+    NSInteger menuCount = 3;
     if (menuCount < 1) {
         return;
     }
@@ -46,10 +47,11 @@ CGFloat const axPublicMenuHeight = 44.0f;
         [self addSubview:switchBtn];
         
         menuWidth = (ScreenWidth - 48)/menuCount;
-        leftX = 0;
+        leftX = 48;
     }
     
-    for (int i = 0; i < MIN(3, menuCount); i++) {
+//    for (int i = 0; i < MIN(3, menuCount); i++) {
+    for (int i = 0; i < 3; i++) {
         AXPublicMenuButton *btn = [AXPublicMenuButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake(leftX + menuWidth*i, 0, menuWidth, axPublicMenuHeight);
         [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor colorWithHex:0Xf6f6f6 alpha:1.0]] forState:UIControlStateNormal];
@@ -57,16 +59,24 @@ CGFloat const axPublicMenuHeight = 44.0f;
         btn.btnInfo = [menus objectAtIndex:i];
         btn.index = i;
         [btn setTitle:[menus objectAtIndex:i][@"menu_title"] forState:UIControlStateNormal];
+        [btn setTitle:[NSString stringWithFormat:@"菜单%d",i] forState:UIControlStateNormal];
         btn.titleLabel.font = [UIFont systemFontOfSize:15];
+//        btn.titleLabel.textColor = [UIColor brokerBlackColor];
+        [btn setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateHighlighted];
         [btn addTarget:self action:@selector(publicMenuClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:btn];
-        
-        if (inputType != AXPublicInputTypePublicMenu && i != 0) {
-            BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(leftX + menuWidth*i, 0, 1, axPublicMenuHeight)];
-            [self addSubview:line];
-        }
-    }
 
+        BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(leftX + menuWidth*i, 0, 1, axPublicMenuHeight)];
+        line.horizontalLine = NO;
+        [self addSubview:line];
+
+//        if (inputType != AXPublicInputTypePublicMenu && i != 0) {
+//            BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(leftX + menuWidth*i, 0, 1, axPublicMenuHeight)];
+//            line.horizontalLine = NO;
+//            [self addSubview:line];
+//        }
+    }
 }
 #pragma mark -- publicMenuClick
 - (void)publicMenuClick:(id)sender{

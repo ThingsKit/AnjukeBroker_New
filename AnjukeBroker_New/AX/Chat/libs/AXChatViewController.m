@@ -55,6 +55,12 @@
 
 #import "AppDelegate.h"
 
+#pragma mark -- 公众账号菜单
+#import "AXPublicLoading.h"
+#import "AXPublicSubMenu.h"
+#import "AXPublicMenu.h"
+#import "AXPublicMenuButton.h"
+
 
 //输入框和发送按钮栏的高度
 static CGFloat const AXInputBackViewHeight = 49;
@@ -141,6 +147,9 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
 //公众账号菜单
 @property (nonatomic, assign) BOOL isMenuFlag;
+@property (nonatomic, strong) AXPublicMenu *publicMenu;
+@property (nonatomic, strong) AXPublicSubMenu *publicSubMenu;
+@property (nonatomic, strong) NSMutableDictionary *menuConfigs;
 @end
 
 @implementation AXChatViewController
@@ -328,12 +337,28 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
                                    size.width,
                                    inputViewHeight);
     
+    self.menuConfigs = [[NSMutableDictionary alloc] initWithDictionary:self.friendPerson.configs];
+    if (!self.publicMenu) {
+        self.publicMenu = [[AXPublicMenu alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, [self windowWidth], 49)];
+//        [self.publicMenu configPublicMenuView:self.menuConfigs[@"menu_list"] inputType:[self.menuConfigs[@"input_type"] integerValue]];
+        [self.publicMenu configPublicMenuView:self.menuConfigs[@"menu_list"] inputType:2];
+
+        [self.view addSubview:self.publicMenu];
+    }
+    
+    self.isMenuFlag = NO;
+    if ([self isPublicPerson] && self.menuConfigs[@"input_type"] && [self.menuConfigs[@"input_type"] integerValue]  != AXPublicInputTypeNormal) {
+        self.isMenuFlag = YES;
+    }
+    self.isMenuFlag = YES;
+
+    
     JSMessageInputView *inputView = [[JSMessageInputView alloc] initWithFrame:inputFrame
                                                                         style:JSMessageInputViewStyleFlat
                                                                      delegate:self
                                                          panGestureRecognizer:pan
                                                                      isBroker:self.isBroker
-                                                                     isSwitch:NO
+                                                                     isSwitch:self.isMenuFlag
                                      
                                      ];
     [self.view addSubview:inputView];
@@ -375,17 +400,32 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 }
 
 - (void)initPrivateButtons {
-    NSMutableDictionary *menuConfigs = [NSMutableDictionary dictionaryWithDictionary:self.friendPerson.configs];
+    float leftX = 6.0;
     
-    if ([self isPublicPerson] && menuConfigs[@"input_type"]) {
+    //如果存在切换按钮，则显示之
+    if (self.isMenuFlag) {
+        UIButton *switchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        switchBtn.frame = CGRectMake(48/2-16, 49/2 - 16, 32, 32);
+        [switchBtn setImage:[UIImage imageNamed:@"broker_wl_gzh_a"] forState:UIControlStateNormal];
+        [switchBtn setImage:[UIImage imageNamed:@"broker_wl_gzh_a_press"] forState:UIControlStateHighlighted];
+        [switchBtn addTarget:self action:@selector(inputSwitch:) forControlEvents:UIControlEventTouchUpInside];
+        [self.messageInputView addSubview:switchBtn];
         
+        BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(48, 0, 1, 49)];
+        line.horizontalLine = NO;
+        [self.messageInputView addSubview:line];
+        
+        leftX += 48;
     }
     
-//    self.inputSwithFlg = NO;
-//    if ([self isPublicAccount] && acconutConfigs[@"input_type"] && [acconutConfigs[@"input_type"] integerValue] != AXPublicInputTypeKeyboard) {
-//        self.inputSwithFlg = YES;
-//    }
-
+    //最左侧的麦克风按钮
+    self.voiceBut = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.voiceBut.frame = CGRectMake(leftX, 10.0f, 28, 29);
+    [self.voiceBut addTarget:self action:@selector(speeking) forControlEvents:UIControlEventTouchDown];
+    [self.voiceBut setBackgroundImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
+    [self.voiceBut setBackgroundImage:[UIImage imageNamed:SpeekImgNameVoiceHighlight] forState:UIControlStateHighlighted];
+    [self.messageInputView addSubview:self.voiceBut];
+    
     
     //最右侧的加号按钮
     self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -395,14 +435,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateNormal];
     [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more1.png"] forState:UIControlStateHighlighted];
     [self.messageInputView addSubview:self.sendBut];
-    
-    //最左侧的麦克风按钮
-    self.voiceBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.voiceBut.frame = CGRectMake(2.0f + 4.0f, 10.0f, 28, 29);
-    [self.voiceBut addTarget:self action:@selector(speeking) forControlEvents:UIControlEventTouchDown];
-    [self.voiceBut setBackgroundImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
-    [self.voiceBut setBackgroundImage:[UIImage imageNamed:SpeekImgNameVoiceHighlight] forState:UIControlStateHighlighted];
-    [self.messageInputView addSubview:self.voiceBut];
+
     
     //中间的长按录音按钮
     self.pressSpeek = [[UIButton alloc] initWithFrame:CGRectZero];
@@ -755,6 +788,28 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     }
 }
 
+- (void)inputSwitch:(id)sender{
+    [self.messageInputView.textView resignFirstResponder];
+    
+    [UIView animateWithDuration:0.1 animations:^{
+        self.messageInputView.frame = CGRectMake(0, self.view.frame.size.height, [self windowWidth], 49);
+        self.publicMenu.frame = CGRectMake(0, self.view.frame.size.height - 49, [self windowWidth], 49);
+    } completion:^(BOOL finished) {
+        nil;
+    }];
+}
+
+//- (AXPublicMenu *)publicMenu{
+////    self.menuConfigs = [NSMutableDictionary dictionaryWithDictionary:self.friendPerson.configs];
+//
+//    if (!self.publicMenu) {
+//        self.publicMenu = [[AXPublicMenu alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, [self windowWidth], 49)];
+//        [self.publicMenu configPublicMenuView:self.menuConfigs[@"menu_list"] inputType:[self.menuConfigs[@"input_type"] integerValue]];
+//        [self.view addSubview:self.publicMenu];
+//    }
+//    
+//    return self.publicMenu;
+//}
 
 - (void)addMessageNotifycation
 {
