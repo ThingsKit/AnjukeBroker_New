@@ -141,11 +141,11 @@
     [_area sizeToFit];
     
     //租金或售价
-    _price.frame = CGRectMake(ScreenWidth - 72, _location.bottom + GAP_V, 60, 20);
+    _price.frame = CGRectMake(ScreenWidth - 90, _location.bottom + GAP_V - 1, 70, 20);
     _price.textAlignment = NSTextAlignmentRight;
     _price.text = self.favoritePropertyModel.price;
-    [_price sizeToFit];
-    //    _price.backgroundColor = [UIColor redColor];
+//    [_price sizeToFit];
+//    _price.backgroundColor = [UIColor redColor];
     
 }
 

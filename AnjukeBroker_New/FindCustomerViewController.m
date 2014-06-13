@@ -49,39 +49,6 @@
     [self pullDown:nil];
 }
 
-#pragma mark -
-#pragma mark UI相关
-- (void) showEmptyBackground{
-    if (self.emptyBackgroundView == nil) {
-        self.emptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
-        self.emptyBackgroundView.backgroundColor = [UIColor clearColor];
-        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, ScreenHeight/2-20-44-79/2, 180/2, 158/2)];
-        imageView.image = [UIImage imageNamed:@"broker_qkh_noclient"];
-        [self.emptyBackgroundView addSubview:imageView];
-        
-        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, imageView.bottom, 90, 30)];
-        label.backgroundColor = [UIColor clearColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        [label setFont:[UIFont ajkH3Font]];
-        label.text = @"暂无客户";
-        [label setTextColor:[UIColor brokerLightGrayColor]];
-        [self.emptyBackgroundView addSubview:label];
-        
-        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autoRefresh)];
-        [self.emptyBackgroundView addGestureRecognizer:tap];
-        
-    }
-    
-    if (self.tableView.data.count == 0) {
-        self.tableView.tableHeaderView = self.emptyBackgroundView;
-        self.tableView.tableHeaderView.hidden = NO;
-        self.tableView.hasMore = NO;
-    }else{
-        self.tableView.tableHeaderView.hidden = YES;
-    }
-    [self.tableView reloadData];
-    
-}
 
 #pragma mark -
 #pragma mark 上拉下拉点击
@@ -148,6 +115,9 @@
     if (status == RTNetworkResponseStatusSuccess) {
         NSDictionary* content = response.content;
 //        NSArray* data = [content objectForKey:@"data"];
+        
+        self.tableView.customerCount = 10;
+        self.tableView.propertyRushableCount = 3;
         
 //        @property (nonatomic, copy) NSString* id;
 //        @property (nonatomic, copy) NSString* userIcon;  //用户头像
@@ -224,6 +194,40 @@
     
     //解除请求锁
     self.networkRequesting = NO;
+    
+}
+
+#pragma mark -
+#pragma mark UI相关
+- (void) showEmptyBackground{
+    if (self.emptyBackgroundView == nil) {
+        self.emptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
+        self.emptyBackgroundView.backgroundColor = [UIColor clearColor];
+        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2-100/2, ScreenHeight/2-20-44-70/2, 200/2, 140/2)];
+        imageView.image = [UIImage imageNamed:@"check_no_wifi"];
+        [self.emptyBackgroundView addSubview:imageView];
+        
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, imageView.bottom, 90, 30)];
+        label.backgroundColor = [UIColor clearColor];
+        label.textAlignment = NSTextAlignmentCenter;
+        [label setFont:[UIFont ajkH3Font]];
+        label.text = @"无网络连接";
+        [label setTextColor:[UIColor brokerLightGrayColor]];
+        [self.emptyBackgroundView addSubview:label];
+        
+        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autoRefresh)];
+        [self.emptyBackgroundView addGestureRecognizer:tap];
+        
+    }
+    
+    if (self.tableView.data.count == 0) {
+        self.tableView.tableHeaderView = self.emptyBackgroundView;
+        self.tableView.tableHeaderView.hidden = NO;
+        self.tableView.hasMore = NO;
+    }else{
+        self.tableView.tableHeaderView.hidden = YES;
+    }
+    [self.tableView reloadData];
     
 }
 

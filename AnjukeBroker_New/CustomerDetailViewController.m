@@ -19,6 +19,8 @@
 @property (nonatomic, strong) UIView* emptyBackgroundView;
 @property (nonatomic, assign) BOOL networkRequesting; //是否正在网络请求, 加锁防止多次请求
 
+@property (nonatomic, strong) UIView* bottomView;
+
 @end
 
 @implementation CustomerDetailViewController
@@ -35,6 +37,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor brokerBgPageColor];
     
     _tableView = [[CustomerDetailTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 -44 - 70) style:UITableViewStylePlain];
     _tableView.needRefreshFooter = NO;
@@ -43,6 +46,8 @@
     
     [self initUI];
     
+    self.tableView.hidden = YES;
+    self.bottomView.hidden = YES;
     [self requestList:nil];
     
 }
@@ -52,13 +57,13 @@
 
 - (void)initUI{
     
-    UIView* bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, _tableView.bottom, ScreenWidth, 70)];
-    bottomView.backgroundColor = [UIColor brokerWhiteColor];
-    bottomView.alpha = 0.9;
-    [self.view addSubview:bottomView];
+    _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, _tableView.bottom, ScreenWidth, 70)];
+    _bottomView.backgroundColor = [UIColor brokerWhiteColor];
+    _bottomView.alpha = 0.9;
+    [self.view addSubview:_bottomView];
     
     BrokerLineView* line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, 0, 320 - 0, 0.5)];
-    [bottomView addSubview:line];
+    [_bottomView addSubview:line];
     
     _chatButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _chatButton.frame = CGRectMake(12, 14, ScreenWidth-12*2, 42);
@@ -67,18 +72,18 @@
     //根据该用户相对于经纪人的状态来决定按钮是什么(已抢到, 微聊, 抢完了)
     
     //可以点按状态
-//    [_chatButton setTitle:@"微聊" forState:UIControlStateNormal];
-//    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
-//    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
-//    _chatButton.enabled = YES;
+    [_chatButton setTitle:@"微聊" forState:UIControlStateNormal];
+    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
+    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
+    _chatButton.enabled = YES;
     
     //灰色不可按状态
-    [_chatButton setTitle:@"已抢到" forState:UIControlStateNormal];
-    [_chatButton setTitle:@"抢完了" forState:UIControlStateNormal];
-    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"broker_icon_button_gray"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
-    _chatButton.enabled = NO;
+//    [_chatButton setTitle:@"已抢到" forState:UIControlStateNormal];
+//    [_chatButton setTitle:@"抢完了" forState:UIControlStateNormal];
+//    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"broker_icon_button_gray"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
+//    _chatButton.enabled = NO;
     
-    [bottomView addSubview:_chatButton];
+    [_bottomView addSubview:_chatButton];
     
 }
 
@@ -135,7 +140,7 @@
 //        @property (nonatomic, copy) NSString* toilet;
 //        @property (nonatomic, copy) NSString* price; //偏好价格
         
-        NSDictionary* community = @{@"userIcon":@"http://tp1.sinaimg.cn/1404376560/50/0/1", @"userName":@"王女士", @"propertyCount":@"20", @"community":@"汤臣一品 汤臣一品 汤臣一品 汤臣一品 汤臣一品 汤臣一品 汤臣一品", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"area":@"90", @"price":@"2000万"};
+        NSDictionary* community = @{@"userIcon":@"http://tp1.sinaimg.cn/1404376560/50/0/1", @"userName":@"王女士", @"propertyCount":@"20", @"community":@"汤臣一品 汤臣一品 汤臣一品汤臣一品 汤臣一品 汤臣一品汤臣一品 汤臣一品 汤臣一品", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"area":@"90", @"price":@"2000万"};
         CustomerDetailModel* customer = [[CustomerDetailModel alloc] initWithDataDic:community];
         self.tableView.customerDetailModel = customer;
         
@@ -154,7 +159,7 @@
         
         
         
-        NSDictionary* dict = @{@"propertyId":@"1", @"propertyIcon":@"http://pic1.ajkimg.com/display/7c545a2869acb5c3a5522ac21af8391e/133x100c.jpg", @"propertyTitle":@"高品质小区1 户型大气 满意度超高",  @"location":@"太阳系", @"community":@"汤臣一品", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"area":@"90", @"price":@"2000万"};
+        NSDictionary* dict = @{@"propertyId":@"1", @"propertyIcon":@"http://pic1.ajkimg.com/display/7c545a2869acb5c3a5522ac21af8391e/133x100c.jpg", @"propertyTitle":@"高品质小区1 户型大气 满意度超高",  @"location":@"太阳系", @"community":@"汤臣一品", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"area":@"90", @"price":@"2万"};
         NSDictionary* dict2 = @{@"propertyId":@"2", @"propertyIcon":@"http://pic1.ajkimg.com/display/02f038614189f930cfb6012f97743230/133x100c.jpg", @"propertyTitle":@"高品质小区2 户型大气 满意度超高",  @"location":@"银河系", @"community":@"汤臣二品", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"area":@"190", @"price":@"20000万"};
         NSDictionary* dict3 = @{@"propertyId":@"3", @"propertyIcon":@"http://pic1.ajkimg.com/display/290175a966af385a91814cfaf53b1686/133x100c.jpg", @"propertyTitle":@"高品质小区3 户型大气 满意度超高",  @"location":@"银河系", @"community":@"汤臣三品", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"area":@"180", @"price":@"2000万"};
         
@@ -175,37 +180,67 @@
         if (models.count > 0) {
             
             self.tableView.data = models;
-            
             self.tableView.tableHeaderView = nil;
-            
-            if (models.count < 20) {
-                self.tableView.hasMore = NO;
-            }else{
-                self.tableView.hasMore = YES;
-            }
+            self.bottomView.hidden = NO;
             
             [self.tableView reloadData];
             
             
             
         }else{ //没有新数据
-            if (self.tableView.isPullUp) {
-                self.tableView.hasMore = NO;
-            }
-            
-//            [self showEmptyBackground];
-            
+            self.tableView.hasMore = NO;
+            [self showEmptyBackground];
         }
         
         
     }else{ //数据请求失败
-//        [self showEmptyBackground];
+        [self showEmptyBackground];
         
     }
     
     //解除请求锁
     self.networkRequesting = NO;
+    self.tableView.hidden = NO;
     
+}
+
+- (void) showEmptyBackground{
+    if (self.emptyBackgroundView == nil) {
+        self.emptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
+        self.emptyBackgroundView.backgroundColor = [UIColor clearColor];
+        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2-100/2, ScreenHeight/2-20-44-70/2, 200/2, 140/2)];
+        imageView.image = [UIImage imageNamed:@"check_no_wifi"];
+        [self.emptyBackgroundView addSubview:imageView];
+        
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, imageView.bottom, 90, 30)];
+        label.backgroundColor = [UIColor clearColor];
+        label.textAlignment = NSTextAlignmentCenter;
+        [label setFont:[UIFont ajkH3Font]];
+        label.text = @"无网络连接";
+        [label setTextColor:[UIColor brokerLightGrayColor]];
+        [self.emptyBackgroundView addSubview:label];
+        
+        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autoRefresh)];
+        [self.emptyBackgroundView addGestureRecognizer:tap];
+        
+    }
+    
+    if (self.tableView.data.count == 0) {
+        self.tableView.tableHeaderView = self.emptyBackgroundView;
+        self.tableView.tableHeaderView.hidden = NO;
+        self.tableView.hasMore = NO;
+        self.bottomView.hidden = YES;
+    }else{
+        self.tableView.tableHeaderView.hidden = YES;
+        self.bottomView.hidden = NO;
+    }
+    [self.tableView reloadData];
+    
+}
+
+- (void) autoRefresh {
+    [self requestList:nil];
+    //加载数据
 }
 
 

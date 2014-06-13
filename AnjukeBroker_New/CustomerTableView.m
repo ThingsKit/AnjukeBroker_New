@@ -9,10 +9,11 @@
 #import "CustomerTableView.h"
 #import "CustomerModel.h"
 #import "CustomerTableViewCell.h"
+#import "CustomerHeaderView.h"
 
 @interface CustomerTableView ()
 
-@property (nonatomic, strong) UIView* header; //section头部, 用来显示多少用户正在浏览当前经纪人熟悉的小区房源
+@property (nonatomic, strong) CustomerHeaderView* sectionHeader; //section头部, 用来显示多少用户正在浏览当前经纪人熟悉的小区房源
 
 @end
 
@@ -58,18 +59,14 @@
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    if (_header == nil) {
-        _header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
-        _header.backgroundColor = [UIColor brokerBgPageColor];
-        UILabel* label = [[UILabel alloc] initWithFrame:_header.bounds];
-        [_header addSubview:label];
-        label.font = [UIFont ajkH4Font];
-        label.textColor = [UIColor brokerLightGrayColor];
-        label.text = [NSString stringWithFormat:@"%d个客户正在找你熟悉的小区房源 | 可抢人数: %d", 50, 1];
-        label.textAlignment = NSTextAlignmentCenter;
+    if (_sectionHeader == nil) {
+        _sectionHeader = [[CustomerHeaderView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
     }
+    _sectionHeader.customerCount = _customerCount;
+    _sectionHeader.propertyRushableCount = _propertyRushableCount;
+    [_sectionHeader setNeedsLayout];
     
-    return _header;
+    return _sectionHeader;
 }
 
 #pragma mark -

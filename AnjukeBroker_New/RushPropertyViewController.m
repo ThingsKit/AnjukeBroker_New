@@ -297,72 +297,6 @@
 }
 
 
-#pragma mark -
-#pragma mark 显示空白背景
-
-- (void)showEmptyBackground{
-    
-    if (self.leftEmptyBackgroundView == nil) {
-        self.leftEmptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
-        self.leftEmptyBackgroundView.backgroundColor = [UIColor clearColor];
-        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, ScreenHeight/2-20-44-79/2, 180/2, 158/2)];
-        imageView.image = [UIImage imageNamed:@"anjuke_icon_weituo_nopropery"];
-        [self.leftEmptyBackgroundView addSubview:imageView];
-        
-        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, imageView.bottom, 90, 30)];
-        label.backgroundColor = [UIColor clearColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        [label setFont:[UIFont systemFontOfSize:16.0]];
-        label.text = @"暂无委托";
-        [label setTextColor:[UIColor brokerLightGrayColor]];
-        [self.leftEmptyBackgroundView addSubview:label];
-        
-        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autoRefreshWithNoLimitation)];
-        [self.leftEmptyBackgroundView addGestureRecognizer:tap];
-        
-    }
-    
-    if (self.rightEmptyBackgroundView == nil) {
-        self.rightEmptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
-        self.rightEmptyBackgroundView.backgroundColor = [UIColor clearColor];
-        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, ScreenHeight/2-20-44-79/2, 180/2, 158/2)];
-        imageView.image = [UIImage imageNamed:@"anjuke_icon_weituo_nopropery"];
-        [self.rightEmptyBackgroundView addSubview:imageView];
-        
-        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, imageView.bottom, 90, 30)];
-        label.backgroundColor = [UIColor clearColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        [label setFont:[UIFont systemFontOfSize:16.0]];
-        label.text = @"暂无委托";
-        [label setTextColor:[UIColor brokerLightGrayColor]];
-        [self.rightEmptyBackgroundView addSubview:label];
-        
-        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autoRefreshWithNoLimitation)];
-        [self.rightEmptyBackgroundView addGestureRecognizer:tap];
-        
-    }
-    
-    if (self.myTableView.hidden) { //如果位于抢委托房源列表
-        if (self.tableView.data.count == 0) {
-            self.tableView.tableHeaderView = self.leftEmptyBackgroundView;
-            self.tableView.tableHeaderView.hidden = NO;
-            self.tableView.hasMore = NO;
-        }else{
-            self.tableView.tableHeaderView.hidden = YES;
-        }
-        [self.tableView reloadData];
-    }else{
-        if (self.myTableView.data.count == 0) {
-            self.myTableView.tableHeaderView = self.rightEmptyBackgroundView;
-            self.myTableView.tableHeaderView.hidden = NO;
-            self.myTableView.hasMore = NO;
-        }else{
-            self.myTableView.tableHeaderView.hidden = YES;
-        }
-        [self.myTableView reloadData];
-    }
-}
-
 
 #pragma mark -
 #pragma mark TabButton Action 顶部左右两个tab相关
@@ -652,6 +586,73 @@
     self.navigationItem.titleView = headView;
     
     
+}
+
+
+#pragma mark -
+#pragma mark 显示空白背景
+
+- (void)showEmptyBackground{
+    
+    if (self.leftEmptyBackgroundView == nil) {
+        self.leftEmptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
+        self.leftEmptyBackgroundView.backgroundColor = [UIColor clearColor];
+        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, ScreenHeight/2-20-44-79/2, 180/2, 158/2)];
+        imageView.image = [UIImage imageNamed:@"anjuke_icon_weituo_nopropery"];
+        [self.leftEmptyBackgroundView addSubview:imageView];
+        
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, imageView.bottom, 90, 30)];
+        label.backgroundColor = [UIColor clearColor];
+        label.textAlignment = NSTextAlignmentCenter;
+        [label setFont:[UIFont systemFontOfSize:16.0]];
+        label.text = @"暂无委托";
+        [label setTextColor:[UIColor brokerLightGrayColor]];
+        [self.leftEmptyBackgroundView addSubview:label];
+        
+        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autoRefreshWithNoLimitation)];
+        [self.leftEmptyBackgroundView addGestureRecognizer:tap];
+        
+    }
+    
+    if (self.rightEmptyBackgroundView == nil) {
+        self.rightEmptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
+        self.rightEmptyBackgroundView.backgroundColor = [UIColor clearColor];
+        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, ScreenHeight/2-20-44-79/2, 180/2, 158/2)];
+        imageView.image = [UIImage imageNamed:@"anjuke_icon_weituo_nopropery"];
+        [self.rightEmptyBackgroundView addSubview:imageView];
+        
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, imageView.bottom, 90, 30)];
+        label.backgroundColor = [UIColor clearColor];
+        label.textAlignment = NSTextAlignmentCenter;
+        [label setFont:[UIFont systemFontOfSize:16.0]];
+        label.text = @"暂无委托";
+        [label setTextColor:[UIColor brokerLightGrayColor]];
+        [self.rightEmptyBackgroundView addSubview:label];
+        
+        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autoRefreshWithNoLimitation)];
+        [self.rightEmptyBackgroundView addGestureRecognizer:tap];
+        
+    }
+    
+    if (self.myTableView.hidden) { //如果位于抢委托房源列表
+        if (self.tableView.data.count == 0) {
+            self.tableView.tableHeaderView = self.leftEmptyBackgroundView;
+            self.tableView.tableHeaderView.hidden = NO;
+            self.tableView.hasMore = NO;
+        }else{
+            self.tableView.tableHeaderView.hidden = YES;
+        }
+        [self.tableView reloadData];
+    }else{
+        if (self.myTableView.data.count == 0) {
+            self.myTableView.tableHeaderView = self.rightEmptyBackgroundView;
+            self.myTableView.tableHeaderView.hidden = NO;
+            self.myTableView.hasMore = NO;
+        }else{
+            self.myTableView.tableHeaderView.hidden = YES;
+        }
+        [self.myTableView reloadData];
+    }
 }
 
 @end

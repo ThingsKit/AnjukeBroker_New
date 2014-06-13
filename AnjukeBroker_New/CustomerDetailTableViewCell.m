@@ -11,7 +11,7 @@
 #import "CustomerDetailModel.h"
 
 #define GAP_H 6
-#define GAP_V 3
+#define GAP_V 6
 
 @interface CustomerDetailTableViewCell ()
 
@@ -83,7 +83,7 @@
     //标题
     _title.frame = CGRectMake(15, 13, 100, 20);
     _title.text = @"找房偏好";
-    _title.backgroundColor = [UIColor redColor];
+//    _title.backgroundColor = [UIColor redColor];
     [_title sizeToFit];
     
     //偏爱小区
@@ -96,7 +96,7 @@
     _houseType.text = [NSString stringWithFormat:@"%@室%@厅%@卫", self.customerDetailModel.room, self.customerDetailModel.hall, self.customerDetailModel.toilet];
     [_houseType sizeToFit];
     
-    UILabel* line = [[UILabel alloc] initWithFrame:CGRectMake(_houseType.right + GAP_H, _community.bottom + 8, 1, 15)];
+    UILabel* line = [[UILabel alloc] initWithFrame:CGRectMake(_houseType.right + GAP_H, _community.bottom + GAP_V + 2, 1, 15)];
     line.layer.borderColor = [UIColor brokerLineColor].CGColor;
     line.layer.borderWidth = 0.5;
     [self.contentView addSubview:line];

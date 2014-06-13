@@ -191,6 +191,7 @@
 		6740D1DC1908E08C005ED706 /* anjuke_icon_unique_yes@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6740D1C41908E08C005ED706 /* anjuke_icon_unique_yes@2x.png */; };
 		6740D1DD1908E08C005ED706 /* anjuke_icon_voice@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6740D1C51908E08C005ED706 /* anjuke_icon_voice@2x.png */; };
 		6740D1DE1908E08C005ED706 /* anjuke_icon_voice1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6740D1C61908E08C005ED706 /* anjuke_icon_voice1@2x.png */; };
+		67639F5B1949B09200987405 /* CustomerHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67639F5A1949B09200987405 /* CustomerHeaderView.m */; };
 		6767D1091921BBD6004FEFF7 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D1081921BBD6004FEFF7 /* BaseTableView.m */; };
 		6767D10D1921BF56004FEFF7 /* PropertyTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D10C1921BF56004FEFF7 /* PropertyTableView.m */; };
 		6767D11E1921FEB9004FEFF7 /* PropertyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D11D1921FEB9004FEFF7 /* PropertyTableViewCell.m */; };
@@ -995,6 +996,8 @@
 		6740D1C41908E08C005ED706 /* anjuke_icon_unique_yes@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_unique_yes@2x.png"; sourceTree = "<group>"; };
 		6740D1C51908E08C005ED706 /* anjuke_icon_voice@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_voice@2x.png"; sourceTree = "<group>"; };
 		6740D1C61908E08C005ED706 /* anjuke_icon_voice1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_voice1@2x.png"; sourceTree = "<group>"; };
+		67639F591949B09200987405 /* CustomerHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerHeaderView.h; sourceTree = "<group>"; };
+		67639F5A1949B09200987405 /* CustomerHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerHeaderView.m; sourceTree = "<group>"; };
 		6767D1071921BBD6004FEFF7 /* BaseTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableView.h; sourceTree = "<group>"; };
 		6767D1081921BBD6004FEFF7 /* BaseTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableView.m; sourceTree = "<group>"; };
 		6767D10B1921BF56004FEFF7 /* PropertyTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyTableView.h; sourceTree = "<group>"; };
@@ -3840,6 +3843,8 @@
 				F88FC2E61945614100DEA8A2 /* FindCustomerViewController.m */,
 				6794E42B1947F2F80069F1ED /* CustomerTableView.h */,
 				6794E42C1947F2F80069F1ED /* CustomerTableView.m */,
+				67639F591949B09200987405 /* CustomerHeaderView.h */,
+				67639F5A1949B09200987405 /* CustomerHeaderView.m */,
 				6794E42E1947F3250069F1ED /* CustomerTableViewCell.h */,
 				6794E42F1947F3250069F1ED /* CustomerTableViewCell.m */,
 				6794E4311947F3580069F1ED /* CustomerModel.h */,
@@ -4559,6 +4564,7 @@
 				20516BDD18F52C0900D0637C /* AXChatMessageCenter.m in Sources */,
 				B7E55B5018BF2190007238CB /* NSString+JSMessagesView.m in Sources */,
 				2056A39618EE7EA00022B5A5 /* AXMessageCenterUpdataUserInformationManager.m in Sources */,
+				67639F5B1949B09200987405 /* CustomerHeaderView.m in Sources */,
 				2026044C18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.m in Sources */,
 				B7FFC9DD18C8AC330020A73B /* UIImage+Alpha.m in Sources */,
 				6794E4451947FDB50069F1ED /* SDWebImageManager.m in Sources */,

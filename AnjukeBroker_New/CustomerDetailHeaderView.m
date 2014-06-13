@@ -41,11 +41,13 @@
     
     _userName = [[UILabel alloc] initWithFrame:CGRectZero];
     _userName.font = [UIFont ajkH2Font];
+    _userName.backgroundColor = [UIColor clearColor];
     _userName.textColor = [UIColor brokerBlackColor];
     [self addSubview:_userName];
     
     _propertyCount = [[UILabel alloc] initWithFrame:CGRectZero];
     _propertyCount.font = [UIFont ajkH4Font];
+    _propertyCount.backgroundColor = [UIColor clearColor];
     _propertyCount.textColor = [UIColor brokerBlackColor];
     [self addSubview:_propertyCount];
    
@@ -61,12 +63,12 @@
         _userIcon.image = [UIImage imageNamed:@"anjuke_icon_headpic"];
     }
     
-    _userName.frame = CGRectMake(_userIcon.right + 15, 12, 100, 20);
+    _userName.frame = CGRectMake(_userIcon.right + 15, 15, 100, 20);
     _userName.text = self.customerDetailModel.userName;
     [_userName sizeToFit];
     
     
-    _propertyCount.frame = CGRectMake(_userIcon.right + 15, _userName.bottom + 3, 100, 20);
+    _propertyCount.frame = CGRectMake(_userIcon.right + 15, _userName.bottom + 10, 100, 20);
     _propertyCount.text = [NSString stringWithFormat:@"浏览了%@套房源", self.customerDetailModel.propertyCount];
     [_propertyCount sizeToFit];
  

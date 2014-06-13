@@ -44,7 +44,13 @@
         cell.customerDetailModel = self.customerDetailModel;
     
         [cell showTopLine];
-        [cell showBottonLineWithCellHeight:90];
+        if (self.customerDetailModel.community.length > 20) {
+            [cell showBottonLineWithCellHeight:105];
+        }else{
+            [cell showBottonLineWithCellHeight:90];
+        }
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone; //cell不可选中
         return cell;
         
     }else{
@@ -66,6 +72,8 @@
         }else{
             [cell showBottonLineWithCellHeight:90 andOffsetX:15];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone; //cell不可选中
+        
         return cell;
     }
     
@@ -74,6 +82,12 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0
+        && indexPath.section == 0
+        && self.customerDetailModel.community
+        && self.customerDetailModel.community.length > 20) {
+        return 105;
+    }
     return 90;
 }
 
@@ -117,12 +131,13 @@
         if (_secondSectionHeader == nil) {
             _secondSectionHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 36)];
             _secondSectionHeader.backgroundColor = [UIColor brokerBgPageColor];
-            UILabel* label = [[UILabel alloc] initWithFrame:_secondSectionHeader.bounds];
+            UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, ScreenWidth-15, 36)];
             [_secondSectionHeader addSubview:label];
+            label.backgroundColor = [UIColor clearColor];
             label.font = [UIFont ajkH4Font];
             label.textColor = [UIColor brokerLightGrayColor];
             label.text = [NSString stringWithFormat:@"正在浏览的房源"];
-            label.textAlignment = NSTextAlignmentLeft;
+//            [label sizeToFit];
         }
         
         return _secondSectionHeader;
