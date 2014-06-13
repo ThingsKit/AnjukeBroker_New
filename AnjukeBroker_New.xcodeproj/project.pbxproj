@@ -4015,10 +4015,10 @@
 			children = (
 				F8E24D8A194A94D40088C902 /* AXPublicMenu.h */,
 				F8E24D8B194A94D40088C902 /* AXPublicMenu.m */,
-				F8E24D93194A95400088C902 /* AXPublicMenuButton.h */,
-				F8E24D94194A95400088C902 /* AXPublicMenuButton.m */,
 				F8E24D95194A95400088C902 /* AXPublicSubMenu.h */,
 				F8E24D96194A95400088C902 /* AXPublicSubMenu.m */,
+				F8E24D93194A95400088C902 /* AXPublicMenuButton.h */,
+				F8E24D94194A95400088C902 /* AXPublicMenuButton.m */,
 			);
 			name = publicMenu;
 			sourceTree = "<group>";

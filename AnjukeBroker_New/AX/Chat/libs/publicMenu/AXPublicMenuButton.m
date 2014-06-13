@@ -9,6 +9,8 @@
 #import "AXPublicMenuButton.h"
 
 @implementation AXPublicMenuButton
+@synthesize btnInfo;
+@synthesize index;
 
 - (id)initWithFrame:(CGRect)frame
 {

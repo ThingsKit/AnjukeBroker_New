@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface AXPublicMenuButton : UIButton
+@property(nonatomic, strong) NSDictionary *btnInfo;
+@property(nonatomic, assign) NSInteger index;
 
 @end
