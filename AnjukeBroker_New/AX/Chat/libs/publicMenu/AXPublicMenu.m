@@ -56,6 +56,8 @@ CGFloat const axPublicMenuHeight = 44.0f;
         [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor brokerBgSelectColor]] forState:UIControlStateHighlighted];
         btn.btnInfo = [menus objectAtIndex:i];
         btn.index = i;
+        [btn setTitle:[menus objectAtIndex:i][@"menu_title"] forState:UIControlStateNormal];
+        btn.titleLabel.font = [UIFont systemFontOfSize:15];
         [btn addTarget:self action:@selector(publicMenuClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:btn];
         

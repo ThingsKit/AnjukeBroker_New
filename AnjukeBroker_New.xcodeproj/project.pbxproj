@@ -697,6 +697,7 @@
 		F8E24D8C194A94D40088C902 /* AXPublicMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E24D8B194A94D40088C902 /* AXPublicMenu.m */; };
 		F8E24D97194A95400088C902 /* AXPublicMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E24D94194A95400088C902 /* AXPublicMenuButton.m */; };
 		F8E24D98194A95400088C902 /* AXPublicSubMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E24D96194A95400088C902 /* AXPublicSubMenu.m */; };
+		F8E24D9E194AA80F0088C902 /* AXPublicLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E24D9D194AA80F0088C902 /* AXPublicLoading.m */; };
 		F8F6DA22192A224000698C3B /* UIColor+BrokerRT.m in Sources */ = {isa = PBXBuildFile; fileRef = F8F6DA21192A224000698C3B /* UIColor+BrokerRT.m */; };
 		F8FCFC2318FE8F3500A4B012 /* RTGestureLock.m in Sources */ = {isa = PBXBuildFile; fileRef = F8FCFC2218FE8F3500A4B012 /* RTGestureLock.m */; };
 /* End PBXBuildFile section */
@@ -1753,6 +1754,8 @@
 		F8E24D94194A95400088C902 /* AXPublicMenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AXPublicMenuButton.m; path = publicMenu/AXPublicMenuButton.m; sourceTree = "<group>"; };
 		F8E24D95194A95400088C902 /* AXPublicSubMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AXPublicSubMenu.h; path = publicMenu/AXPublicSubMenu.h; sourceTree = "<group>"; };
 		F8E24D96194A95400088C902 /* AXPublicSubMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AXPublicSubMenu.m; path = publicMenu/AXPublicSubMenu.m; sourceTree = "<group>"; };
+		F8E24D9C194AA80F0088C902 /* AXPublicLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AXPublicLoading.h; path = publicMenu/AXPublicLoading.h; sourceTree = "<group>"; };
+		F8E24D9D194AA80F0088C902 /* AXPublicLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AXPublicLoading.m; path = publicMenu/AXPublicLoading.m; sourceTree = "<group>"; };
 		F8F6DA20192A224000698C3B /* UIColor+BrokerRT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+BrokerRT.h"; sourceTree = "<group>"; };
 		F8F6DA21192A224000698C3B /* UIColor+BrokerRT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BrokerRT.m"; sourceTree = "<group>"; };
 		F8FCFC2118FE8F3500A4B012 /* RTGestureLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTGestureLock.h; sourceTree = "<group>"; };
@@ -4019,6 +4022,8 @@
 				F8E24D96194A95400088C902 /* AXPublicSubMenu.m */,
 				F8E24D93194A95400088C902 /* AXPublicMenuButton.h */,
 				F8E24D94194A95400088C902 /* AXPublicMenuButton.m */,
+				F8E24D9C194AA80F0088C902 /* AXPublicLoading.h */,
+				F8E24D9D194AA80F0088C902 /* AXPublicLoading.m */,
 			);
 			name = publicMenu;
 			sourceTree = "<group>";
@@ -4781,6 +4786,7 @@
 				979B083B18488A2800DD697E /* BigZhenzhenButton.m in Sources */,
 				B76E5988181E5AD1005B6A8C /* BaseNoPlanListCell.m in Sources */,
 				97CB0C0D182BEA3500FCCBBD /* BK_ELCAsset.m in Sources */,
+				F8E24D9E194AA80F0088C902 /* AXPublicLoading.m in Sources */,
 				2056A39718EE7EA00022B5A5 /* AXMessageCenterUserGetPublicServiceInfoManager.m in Sources */,
 				2056A34818EE7E660022B5A5 /* AXConversationListItem.m in Sources */,
 				B721095818278E6000904FC7 /* RentPropertyListCell.m in Sources */,
