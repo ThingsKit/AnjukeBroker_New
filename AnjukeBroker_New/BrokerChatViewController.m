@@ -28,6 +28,7 @@
 }
 @property (nonatomic, strong) NSString *phoneNumber;
 @property (nonatomic, strong) UIImageView *brokerIcon;
+@property (nonatomic, assign) BOOL  isAlloc;
 //@property (nonatomic, strong) AXIMGDownloader *imgDownloader;
 @end
 
@@ -66,6 +67,7 @@
     
     // 设置返回btn
     [self initRightBar];
+    _isAlloc = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -76,7 +78,11 @@
     [self removeStorageLayoutOfKeyboard];
 //    [self downLoadIcon];
     
-    [self initLearnView];
+    if (_isAlloc)
+    {
+        [self initLearnView];
+    }
+    _isAlloc = NO;
 }
 
 - (void)updatePersion {
@@ -86,6 +92,24 @@
 //引导页
 - (void)initLearnView
 {
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideLearnView:)];
+    
+    NSString *learnViewKey = @"brokerchatlearn3.5";
+    NSString *learnValue = [[NSUserDefaults standardUserDefaults] objectForKey:learnViewKey];
+    NSInteger learnValueInt = learnValue.intValue;
+    if (learnValue && learnValueInt > 3)
+    {
+        return;
+    }
+    learnValueInt ++;
+    [[NSUserDefaults standardUserDefaults] setValue:[NSString stringWithFormat:@"%d", learnValueInt] forKey:learnViewKey];
+    UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
+    UIView *learnView = [[UIView alloc] initWithFrame:window.bounds];
+    [learnView setBackgroundColor:[UIColor clearColor]];
+    [window addSubview:learnView];
+    [learnView setTag:-11];//为了隐藏自己
+    [learnView addGestureRecognizer:tap];
+    
     self.moreBackView.hidden = YES;
     [self didMoreBackView:nil];
 
@@ -94,9 +118,51 @@
     
     UIImage *img = [UIImage imageNamed:@"broker_qkh_guide_bg"];
     UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
-    [imgView setCenter:CGPointMake(ajkErbt.frame.origin.x, (ajkErbt.frame.origin.y + moreView.frame.origin.y))];
+    [imgView setCenter:CGPointMake(ajkErbt.frame.origin.x - 17, (ajkErbt.frame.origin.y + moreView.frame.origin.y) + 36 + 65)];
+    [learnView addSubview:imgView];
     
-    [self.view addSubview:imgView];
+    CGFloat imgViewX = imgView.frame.origin.x;
+    CGFloat imgViewY = imgView.frame.origin.y;
+    CGFloat imgViewWidth  = imgView.frame.size.width;
+    CGFloat imgViewHeight = imgView.frame.size.height;
+    
+    CGFloat topViewX = 0;
+    CGFloat topViewY = 0;
+    CGFloat topViewWidth = CGRectGetWidth(window.frame);
+    CGFloat topViewHeight = imgViewY;
+    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(topViewX, topViewY, topViewWidth, topViewHeight)];
+    [topView setBackgroundColor:[UIColor blackColor]];
+    [topView setAlpha:.5f];
+    [learnView addSubview:topView];
+    
+    CGFloat footViewX = 0;
+    CGFloat footViewY = imgViewY + imgViewHeight;
+    CGFloat footWidth = topViewWidth;
+    CGFloat footHeiht = CGRectGetHeight(window.frame) - footViewY;
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(footViewX, footViewY, footWidth, footHeiht)];
+    [footView setBackgroundColor:[UIColor blackColor]];
+    [footView setAlpha:.5f];
+    [learnView addSubview:footView];
+    
+    CGFloat leftViewX = 0;
+    CGFloat leftViewY = imgViewY;
+    CGFloat leftViewWidth = imgViewX;
+    CGFloat leftViewHeight = imgViewHeight;
+    UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(leftViewX, leftViewY, leftViewWidth, leftViewHeight)];
+    [leftView setBackgroundColor:[UIColor blackColor]];
+    [leftView setAlpha:.5f];
+    [learnView addSubview:leftView];
+    
+    CGFloat rightViewX = imgViewX + imgViewWidth;
+    CGFloat rightViewY = imgViewY;
+    CGFloat rightViewWidth = CGRectGetWidth(window.frame) - rightViewX;
+    CGFloat rightViewHeight = imgViewHeight;
+    UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(rightViewX, rightViewY, rightViewWidth, rightViewHeight)];
+    [rightView setBackgroundColor:[UIColor blackColor]];
+    [rightView setAlpha:.5f];
+    [learnView addSubview:rightView];
+    
+    
 }
 
 
@@ -370,6 +436,13 @@
 }
 
 #pragma mark - PrivateMethods
+- (void)hideLearnView:(id)sender
+{//隐藏引导页
+    UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
+    UIView *learnView = [window viewWithTag:-11];//获得引导页
+    [learnView removeFromSuperview];
+}
+
 - (void)rightButtonAction:(id)sender {
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_009 note:nil];
     [self viewCustomerDetailInfo];
