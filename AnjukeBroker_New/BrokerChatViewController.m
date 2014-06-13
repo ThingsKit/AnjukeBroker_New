@@ -75,12 +75,29 @@
     [self resetLayoutOfKeyboard];
     [self removeStorageLayoutOfKeyboard];
 //    [self downLoadIcon];
+    
+    [self initLearnView];
 }
 
 - (void)updatePersion {
 
 }
 
+//引导页
+- (void)initLearnView
+{
+    self.moreBackView.hidden = YES;
+    [self didMoreBackView:nil];
+
+    UIView *moreView = self.moreBackView;
+    UIButton *ajkErbt = (UIButton *)[moreView viewWithTag:-10];
+    
+    UIImage *img = [UIImage imageNamed:@"broker_qkh_guide_bg"];
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
+    [imgView setCenter:CGPointMake(ajkErbt.frame.origin.x, (ajkErbt.frame.origin.y + moreView.frame.origin.y))];
+    
+    [self.view addSubview:imgView];
+}
 
 
 - (void)initNavTitle {

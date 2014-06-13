@@ -265,6 +265,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [self initPullToRefresh];
     self.previousTextViewContentHeight = 36;
     [self downLoadIcon];
+    
+    
 }
 
 - (void)initData {
@@ -441,6 +443,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     UIButton *pickAJK = [UIButton buttonWithType:UIButtonTypeCustom];
     [pickAJK setImage:[UIImage imageNamed:@"anjuke_icon_add_esf.png"] forState:UIControlStateNormal];
     pickAJK.frame = CGRectMake(177.0f, 16.0f, 46, 46);
+    [pickAJK setTag:-10];//为了确定二手房图标按钮
     [pickAJK addTarget:self action:@selector(pickAJK:) forControlEvents:UIControlEventTouchUpInside];
     [self.moreBackView addSubview:pickAJK];
     UILabel *ajkLab = [[UILabel alloc] initWithFrame:CGRectMake(177.0f, imgRect.origin.y + imgRect.size.height + 8, imgRect.size.width, 30.0f)];

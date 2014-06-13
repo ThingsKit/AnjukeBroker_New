@@ -144,6 +144,7 @@
 		2739141B18DC371B003284AA /* LocIsBaidu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2739141A18DC371B003284AA /* LocIsBaidu.m */; };
 		2761B89C187C053C00EABF95 /* logo_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89A187C053C00EABF95 /* logo_57.png */; };
 		2761B89D187C053C00EABF95 /* logo_57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89B187C053C00EABF95 /* logo_57@2x.png */; };
+		2778147F19494B8D006951F8 /* broker_qkh_guide_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2778147E19494B8D006951F8 /* broker_qkh_guide_bg@2x.png */; };
 		278FFCF0192453CD00B4A4A4 /* anjuke_icon_add_pic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 278FFCE4192453CC00B4A4A4 /* anjuke_icon_add_pic@2x.png */; };
 		278FFCF1192453CD00B4A4A4 /* anjuke_icon_add_pic_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 278FFCE5192453CC00B4A4A4 /* anjuke_icon_add_pic_press@2x.png */; };
 		278FFCF2192453CD00B4A4A4 /* anjuke_icon_choosed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 278FFCE6192453CC00B4A4A4 /* anjuke_icon_choosed@2x.png */; };
@@ -940,6 +941,8 @@
 		2739141A18DC371B003284AA /* LocIsBaidu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocIsBaidu.m; path = mapView/LocIsBaidu.m; sourceTree = "<group>"; };
 		2761B89A187C053C00EABF95 /* logo_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_57.png; sourceTree = "<group>"; };
 		2761B89B187C053C00EABF95 /* logo_57@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_57@2x.png"; sourceTree = "<group>"; };
+		2778147E19494B8D006951F8 /* broker_qkh_guide_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_qkh_guide_bg@2x.png"; sourceTree = "<group>"; };
+		277814801949BBB8006951F8 /* XChatData 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "XChatData 3.xcdatamodel"; sourceTree = "<group>"; };
 		278FFCE4192453CC00B4A4A4 /* anjuke_icon_add_pic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_pic@2x.png"; sourceTree = "<group>"; };
 		278FFCE5192453CC00B4A4A4 /* anjuke_icon_add_pic_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_pic_press@2x.png"; sourceTree = "<group>"; };
 		278FFCE6192453CC00B4A4A4 /* anjuke_icon_choosed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_choosed@2x.png"; sourceTree = "<group>"; };
@@ -2518,6 +2521,7 @@
 		6794E3F41947EBFF0069F1ED /* 3.5 */ = {
 			isa = PBXGroup;
 			children = (
+				2778147E19494B8D006951F8 /* broker_qkh_guide_bg@2x.png */,
 				6794E3F51947EC2C0069F1ED /* broker_fy_noproperty@2x.png */,
 				6794E3F61947EC2C0069F1ED /* broker_home_icon_esf@2x.png */,
 				6794E3F71947EC2C0069F1ED /* broker_home_icon_scfx@2x.png */,
@@ -4161,6 +4165,7 @@
 				F8CCEEBE192C488500192055 /* check_no_wifi@2x.png in Resources */,
 				6794E4131947EC2C0069F1ED /* broker_icon_button_gray@2x.png in Resources */,
 				278FFCFB192453CD00B4A4A4 /* anjuke_icon_write_discription_frompic@2x.png in Resources */,
+				2778147F19494B8D006951F8 /* broker_qkh_guide_bg@2x.png in Resources */,
 				B7FC9AE018C41B1300F77205 /* xproject_dialogue_articalcard_backicon.png in Resources */,
 				B7E4CD2018E11AA000B61B58 /* wl_chat_icon_agentvoice_play1.png in Resources */,
 				6794E4261947EC2C0069F1ED /* broker_wl_unused_tips@2x.png in Resources */,
@@ -5042,10 +5047,11 @@
 		2056A34118EE7E660022B5A5 /* XChatData.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				277814801949BBB8006951F8 /* XChatData 3.xcdatamodel */,
 				2056A34218EE7E660022B5A5 /* XChatData 2.xcdatamodel */,
 				2056A34318EE7E660022B5A5 /* XChatData.xcdatamodel */,
 			);
-			currentVersion = 2056A34218EE7E660022B5A5 /* XChatData 2.xcdatamodel */;
+			currentVersion = 277814801949BBB8006951F8 /* XChatData 3.xcdatamodel */;
 			path = XChatData.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
