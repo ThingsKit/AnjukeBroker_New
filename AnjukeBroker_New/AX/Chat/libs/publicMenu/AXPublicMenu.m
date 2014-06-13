@@ -81,7 +81,7 @@ CGFloat const axPublicMenuHeight = 49.0f;
 #pragma mark -- publicMenuClick
 - (void)publicMenuClick:(id)sender{
     AXPublicMenuButton *btn = (AXPublicMenuButton *)sender;
-    
+
     if (!btn.btnInfo[@"menu_type"]) {
         return;
     }

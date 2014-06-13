@@ -60,6 +60,7 @@
 #import "AXPublicSubMenu.h"
 #import "AXPublicMenu.h"
 #import "AXPublicMenuButton.h"
+#import "BrokerLineView.h"
 
 
 //输入框和发送按钮栏的高度
@@ -86,7 +87,7 @@ static NSString * const EmojiImgName = @"anjuke_icon_bq";
 static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
 
-@interface AXChatViewController ()<UITableViewDelegate, UITableViewDataSource, OHAttributedLabelDelegate, AXPullToRefreshViewDelegate, UIAlertViewDelegate, AXChatBaseCellDelegate, JSDismissiveTextViewDelegate, MapViewControllerDelegate>
+@interface AXChatViewController ()<UITableViewDelegate, UITableViewDataSource, OHAttributedLabelDelegate, AXPullToRefreshViewDelegate, UIAlertViewDelegate, AXChatBaseCellDelegate, JSDismissiveTextViewDelegate, MapViewControllerDelegate,AXPublicMenuDelegate>
 
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) UITableViewCell *selectedCell;
@@ -340,6 +341,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     self.menuConfigs = [[NSMutableDictionary alloc] initWithDictionary:self.friendPerson.configs];
     if (!self.publicMenu) {
         self.publicMenu = [[AXPublicMenu alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, [self windowWidth], 49)];
+        self.publicMenu.publicMenuDelegate = self;
 //        [self.publicMenu configPublicMenuView:self.menuConfigs[@"menu_list"] inputType:[self.menuConfigs[@"input_type"] integerValue]];
         [self.publicMenu configPublicMenuView:self.menuConfigs[@"menu_list"] inputType:2];
 
@@ -791,7 +793,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 - (void)inputSwitch:(id)sender{
     [self.messageInputView.textView resignFirstResponder];
     
-    [UIView animateWithDuration:0.1 animations:^{
+    [UIView animateWithDuration:0.2 animations:^{
         self.messageInputView.frame = CGRectMake(0, self.view.frame.size.height, [self windowWidth], 49);
         self.publicMenu.frame = CGRectMake(0, self.view.frame.size.height - 49, [self windowWidth], 49);
     } completion:^(BOOL finished) {
@@ -799,22 +801,31 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     }];
 }
 
-//- (AXPublicMenu *)publicMenu{
-////    self.menuConfigs = [NSMutableDictionary dictionaryWithDictionary:self.friendPerson.configs];
-//
-//    if (!self.publicMenu) {
-//        self.publicMenu = [[AXPublicMenu alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, [self windowWidth], 49)];
-//        [self.publicMenu configPublicMenuView:self.menuConfigs[@"menu_list"] inputType:[self.menuConfigs[@"input_type"] integerValue]];
-//        [self.view addSubview:self.publicMenu];
-//    }
-//    
-//    return self.publicMenu;
-//}
 
 - (void)addMessageNotifycation
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewMessage:) name:MessageCenterDidReceiveNewMessage object:nil];
 }
+
+
+#pragma mark --publicMenuDelegate
+- (void)publicMenuShowSubMenu:(AXPublicMenuButton *)button menus:(NSArray *)menus{
+}
+- (void)publicMenuWithAPI:(NSString *)actionStr{
+}
+- (void)publicMenuWithURL:(NSString *)webURL{
+}
+- (void)publicMenuSwich{
+    [self.messageInputView.textView resignFirstResponder];
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        self.messageInputView.frame = CGRectMake(0, self.view.frame.size.height-49, [self windowWidth], 49);
+        self.publicMenu.frame = CGRectMake(0, self.view.frame.size.height, [self windowWidth], 49);
+    } completion:^(BOOL finished) {
+        nil;
+    }];
+}
+
 
 
 #pragma mark - Public Method
