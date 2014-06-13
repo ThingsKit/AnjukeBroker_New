@@ -98,9 +98,9 @@
         NSDictionary* content = response.content;
         NSArray* data = [content objectForKey:@"data"];
         
-        //        NSDictionary* dict = @{@"id":@"1", @"propertyId":@"123", @"commName":@"新中源", @"type":@"2", @"room":@"2", @"hall":@"2", @"toilet":@"2", @"area":@"400", @"price":@"2000", @"priceUnit":@"元/月", @"publishTime":@"2014-05-01 06:03:07",@"callable":@"1", @"rushable":@"1", @"rushed":@"0", @"ownerName":@"小明", @"ownerPhone":@"18915676299",@"status":@"1", @"statusInfo":@"委托中"};
-        //        NSDictionary* dict2 = @{@"id":@"2", @"propertyId":@"456", @"commName":@"新中源实际花园", @"type":@"1", @"room":@"2", @"hall":@"2", @"toilet":@"2", @"area":@"400", @"price":@"500", @"priceUnit":@"万", @"publishTime":@"2014-05-01 06:03:07",@"callable":@"0", @"rushable":@"0", @"rushed":@"1", @"ownerName":@"AngleLa Baby", @"ownerPhone":@"1888888888", @"status":@"2", @"statusInfo":@"房源已过期"};
-        //        NSArray* data = @[dict, dict2];
+//        NSDictionary* dict = @{@"id":@"1", @"propertyId":@"123", @"commName":@"新中源", @"type":@"2", @"room":@"2", @"hall":@"2", @"toilet":@"2", @"area":@"400", @"price":@"2000", @"priceUnit":@"元/月", @"publishTime":@"2014-05-01 06:03:07",@"callable":@"1", @"rushable":@"1", @"rushed":@"0", @"ownerName":@"小明", @"ownerPhone":@"18915676299",@"status":@"1", @"statusInfo":@"委托中"};
+//        NSDictionary* dict2 = @{@"id":@"2", @"propertyId":@"456", @"commName":@"新中源实际花园", @"type":@"1", @"room":@"2", @"hall":@"2", @"toilet":@"2", @"area":@"400", @"price":@"500", @"priceUnit":@"万", @"publishTime":@"2014-05-01 06:03:07",@"callable":@"0", @"rushable":@"0", @"rushed":@"1", @"ownerName":@"AngleLa Baby", @"ownerPhone":@"1888888888", @"status":@"2", @"statusInfo":@"房源已过期"};
+//        NSArray* data = @[dict, dict2];
         
         NSMutableArray* properties = [NSMutableArray arrayWithCapacity:1];
         if (data.count > 0) { //请求如果有数据

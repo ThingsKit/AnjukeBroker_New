@@ -248,7 +248,8 @@
             //删除当前cell, 将其添加到myPropertyList中, 但其实不需要添加, 因为myPropertyList每次都自动请求最新的(点击tab, 自动下拉)
             //播放飞入动画
             UIImageView* snapshot = [[UIImageView alloc] initWithImage:[self capture]];
-            snapshot.frame = CGRectMake(0, self.bottom - 20, snapshot.width, snapshot.height);
+            CGRect rect = [self convertRect:self.bounds toView:self.window];
+            snapshot.frame = CGRectMake(0, rect.origin.y, snapshot.width, snapshot.height);
             if ([snapshot superview] == nil) {
                 [self.window addSubview:snapshot];
                 
