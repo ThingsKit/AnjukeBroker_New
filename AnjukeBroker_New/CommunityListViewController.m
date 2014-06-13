@@ -72,13 +72,13 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    NSString *code = [NSString string];
+    NSString *code   = ESF_PUBLISH_SELECT_XIAOQU_ONVIEW;
+    NSString *pageID = ESF_PUBLISH_SELECT_XIAOQU;
     if (self.isHaouzu) {
-        code = HZ_COMMUNITY_001;
+        code   = ZF_PUBLISH_SELECT_XIAOQU_ONVIEW;
+        pageID = ZF_PUBLISH_SELECT_XIAOQU;
     }
-    else
-        code = AJK_COMMUNITY_001;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -377,10 +377,10 @@
             self.listType = DataTypeNearby;
             if (!self.isHaouzu)
             {
-                [[BrokerLogger sharedInstance] logWithActionCode:AJK_COMMUNITY_006 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_SELECT_XIAOQU_CLICK_NORESULT  page:ZF_PUBLISH_SELECT_XIAOQU note:nil];
             }else
             {
-                [[BrokerLogger sharedInstance] logWithActionCode:HZ_COMMUNITY_006 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_SELECT_XIAOQU_CLICK_NORESULT page:ESF_PUBLISH_SELECT_XIAOQU note:nil];
             }
             
         }
@@ -402,9 +402,9 @@
         [self.tvList setHidden:YES];
         [_noDataView setHidden:NO];//显示nodatanoticeimg
         if (self.isHaouzu) {
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_COMMUNITY_006 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_SELECT_XIAOQU_CLICK_NORESULT page:ZF_PUBLISH_SELECT_XIAOQU note:nil];
         }else{
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_COMMUNITY_006 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_SELECT_XIAOQU_CLICK_NORESULT page:ESF_PUBLISH_SELECT_XIAOQU note:nil];
         }
     }else
     {
@@ -452,13 +452,13 @@
 
 #pragma mark - SearchBar Delegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    NSString *code = [NSString string];
+    NSString *code   = ESF_PUBLISH_SELECT_XIAOQU_INPUT;
+    NSString *pageID = ESF_PUBLISH_SELECT_XIAOQU;
     if (self.isHaouzu) {
-        code = HZ_COMMUNITY_003;
+        code   = ZF_PUBLISH_SELECT_XIAOQU_INPUT;
+        pageID = ZF_PUBLISH_SELECT_XIAOQU;
     }
-    else
-        code = AJK_COMMUNITY_003;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID note:nil];
     
     NSString *newStr = [Util_TEXT rmBlankFromString:searchText];
     DLog(@"联想词 [%@]", newStr);

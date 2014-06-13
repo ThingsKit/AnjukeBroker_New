@@ -55,13 +55,14 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    NSString *code = [NSString string];
+    NSString *actionCode = ESF_SELECT_ONLINE_HOUSETYPEGRAPH_ONVIEW;
+    NSString *pageID     = ESF_SELECT_ONLINE_HOUSETYPEGRAPH;
     if (self.isHaozu) {
-        code = HZ_ONLINE_001;
+        actionCode = ZF_SELECT_ONLINE_HOUSETYPEGRAPH_ONVIEW;
+        pageID     = ZF_SELECT_ONLINE_HOUSETYPEGRAPH;
+    
     }
-    else
-        code = AJK_ONLINE_001;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:actionCode page:pageID note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -75,13 +76,13 @@
 }
 
 - (void)doBack:(id)sender {
-    NSString *code = [NSString string];
+    NSString *actionCode = ESF_SELECT_ONLINE_HOUSETYPEGRAPH_BACK;
+    NSString *pageID     = ESF_SELECT_ONLINE_HOUSETYPEGRAPH;
     if (self.isHaozu) {
-        code = HZ_ONLINE_003;
+        actionCode = ZF_SELECT_ONLINE_HOUSETYPEGRAPH_BACK;
+        pageID     = ZF_SELECT_ONLINE_HOUSETYPEGRAPH;
     }
-    else
-        code = AJK_ONLINE_003;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:actionCode page:pageID note:nil];
     
     [super doBack:self];
 }
@@ -104,13 +105,13 @@
 }
 
 - (void)rightButtonAction:(id)sender {
-    NSString *code = [NSString string];
+    NSString *actionCode = ESF_SELECT_ONLINE_HOUSETYPEGRAPH_SAVE;
+    NSString *pageID     = ESF_SELECT_ONLINE_HOUSETYPEGRAPH;
     if (self.isHaozu) {
-        code = HZ_ONLINE_004;
+        actionCode = ZF_SELECT_ONLINE_HOUSETYPEGRAPH_SAVE;
+        pageID     = ZF_SELECT_ONLINE_HOUSETYPEGRAPH;
     }
-    else
-        code = AJK_ONLINE_004;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:actionCode page:pageID note:nil];
     
     if (self.imgArray.count == 0) {
         [self doBack:self];

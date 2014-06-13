@@ -75,7 +75,7 @@
         self.bp = @"";
     }
     
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_HOUSEIMG_DES_001 note:@{@"bp":self.bp}];
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_INDOORGRAPH_DESCRIPTION_ONVIEW page:ESF_INDOORGRAPH_DESCRIPTION note:@{@"bp":self.bp}];
     
 }
 
@@ -146,7 +146,7 @@
 #pragma mark - Private Method
 
 - (void)rightButtonAction:(id)sender {
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_HOUSEIMG_DES_004 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_INDOORGRAPH_DESCRIPTION_CLICK_DELETE page:ESF_INDOORGRAPH_DESCRIPTION note:nil];
     
     [_textView resignFirstResponder];
     
@@ -211,7 +211,7 @@
 }
 
 - (void)doBack:(id)sender {
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_HOUSEIMG_DES_003 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_INDOORGRAPH_DESCRIPTION_CLICK_BACK page:ESF_INDOORGRAPH_DESCRIPTION note:nil];
     
     if (self.isEditProperty) {
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -444,7 +444,7 @@
 #pragma mark -
 #pragma mark UITextViewDelegate
 - (void)textViewDidBeginEditing:(UITextView *)textView{
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_HOUSEIMG_DES_006 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_INDOORGRAPH_DESCRIPTION_INPUT page:ESF_INDOORGRAPH_DESCRIPTION note:nil];
 //    _textView = [[UITextView alloc] initWithFrame:CGRectMake(15, [self currentViewHeight]+15, 290, 80)];
     _mainScroll.scrollEnabled = NO;
     if ([_textView.text isEqualToString:self.placeHolder]) {
@@ -470,7 +470,7 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
 //    _textView = [[UITextView alloc] initWithFrame:CGRectMake(15, [self currentViewHeight]+15, 290, [self currentViewHeight])];
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_HOUSEIMG_DES_007 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_INDOORGRAPH_DESCRIPTION_CLICK_SAVE page:ESF_INDOORGRAPH_DESCRIPTION note:nil];
     _mainScroll.scrollEnabled = YES;
     NSLog(@"%d", self.currentIndex);
     if (_imageDescArray) {
@@ -517,7 +517,7 @@
     self.currentIndex = scrollView.contentOffset.x / [self windowWidth];
     self.editDeleteImgIndex = self.currentIndex;
     DLog(@"index [%d]", self.currentIndex);
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_HOUSEIMG_DES_005 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_INDOORGRAPH_DESCRIPTION_SLIDE page:ESF_INDOORGRAPH_DESCRIPTION note:nil];
     if (self.hasTextView) {
         if (_imageDescArray) {
             NSString* content = [_imageDescArray objectAtIndex:self.editDeleteImgIndex];

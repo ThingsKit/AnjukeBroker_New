@@ -91,7 +91,7 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_001 page:FY_TAB note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {

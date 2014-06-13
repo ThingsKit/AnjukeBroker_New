@@ -57,15 +57,20 @@
 }
 - (void)setTakingPhoto:(TAKINGPHOTOFROM)takingPhoto{
     NSString *code;
+    NSString *pageID;
+    NSString *bp;
     if (takingPhoto == TAKINGPHOTOFROMHZ) {
         self.takingPhotoType = TAKINGPHOTOFROMHZ;
-        code = HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_001;
-        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot",HZ_PROPERTY,@"bp", nil]];
+        code   = ZF_TAKE_INDOORGRAPH_ONVIEW;
+        pageID = ZF_TAKE_INDOORGRAPH;
+        bp     = ZF_PUBLISH;
     }else if (takingPhoto == TAKINGPHOTOFROMPROPERTY){
         self.takingPhotoType = TAKINGPHOTOFROMPROPERTY;
-        code = AJK_PROPERTY_TAKING_PHOTO_001;
-        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot",AJK_PROPERTY,@"bp", nil]];
+        code   = ESF_TAKE_INDOORGRAPH_ONVIEW;
+        pageID = ESF_TAKE_INDOORGRAPH;
+        bp     = ESF_PUBLISH;
     }
+    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot",bp,@"bp", nil]];
 }
 
 
@@ -171,30 +176,33 @@
     
 //    self.currentImgCount ++;
     
-    NSString *code = [NSString string];
-    
+    NSString *code   = [NSString string];
+    NSString *pageID = [NSString string];
     if (self.takingPhotoType == TAKINGPHOTOFROMHZ) {
-        code = HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_002;
+        code   = ZF_TAKE_INDOORGRAPH_CLICK_PHOTO;
+        pageID = ZF_TAKE_INDOORGRAPH;
         [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }else if (self.takingPhotoType == TAKINGPHOTOFROMPROPERTY){
-        code = AJK_PROPERTY_TAKING_PHOTO_002;
-        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        code   = ESF_TAKE_INDOORGRAPH_CLICK_PHOTO;
+        pageID = ESF_TAKE_INDOORGRAPH;
     }
+    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     if ([self.clickDelegate respondsToSelector:@selector(takePhoto_Click)]) {
         [self.clickDelegate takePhoto_Click];
     }
 }
 
 - (void)closePicker:(id)sender {
-    NSString *code = [NSString string];
-    
+    NSString *code   = [NSString string];
+    NSString *pageID = [NSString string];
     if (self.takingPhotoType == TAKINGPHOTOFROMHZ) {
-        code = HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_005;
-        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        code   = ZF_TAKE_INDOORGRAPH_CLICK_SAVE;
+        pageID = ZF_TAKE_INDOORGRAPH;
     }else if (self.takingPhotoType == TAKINGPHOTOFROMPROPERTY){
-        code = AJK_PROPERTY_TAKING_PHOTO_005;
-        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        code   = ESF_TAKE_INDOORGRAPH_CLICK_SAVE;
+        pageID = ESF_TAKE_INDOORGRAPH;
     }
+    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     if ([self.clickDelegate respondsToSelector:@selector(closePicker_Click_WithImgArr:)]) {
         [self.clickDelegate closePicker_Click_WithImgArr:self.imgArray];
         
@@ -208,30 +216,36 @@
 
 - (void)doCancel:(id)sender { //取消拍照及已拍图片
     [self.imgArray removeAllObjects];
-    NSString *code = [NSString string];
+    NSString *actionCode = [NSString string];
+    NSString *pageID     = [NSString string];
     
     if (self.takingPhotoType == TAKINGPHOTOFROMHZ) {
-        code = HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_004;
-        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        actionCode = ZF_TAKE_INDOORGRAPH_CLICK_CANCEL;
+        pageID     = ZF_TAKE_INDOORGRAPH;
     }else if (self.takingPhotoType == TAKINGPHOTOFROMPROPERTY){
-        code = AJK_PROPERTY_TAKING_PHOTO_004;
-        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        actionCode = ESF_TAKE_INDOORGRAPH_CLICK_CANCEL;
+        pageID     = ESF_TAKE_INDOORGRAPH;
+        
     }
+    [[BrokerLogger sharedInstance] logWithActionCode:actionCode page:pageID note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     if ([self.clickDelegate respondsToSelector:@selector(closePicker_Click_WithImgArr:sender:)]) {
         [self.clickDelegate closePicker_Click_WithImgArr:self.imgArray sender:self];
     }
 }
 
 - (void)deletePhoto:(id)sender {
-    NSString *code = [NSString string];
-    
+    NSString *actionCode = [NSString string];
+    NSString *pageID     = [NSString string];
     if (self.takingPhotoType == TAKINGPHOTOFROMHZ) {
-        code = HZ_PROPERTY_HOUSEIMG_TAKINGPHOTO_003;
-        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        actionCode = ZF_TAKE_INDOORGRAPH_CLICK_DELETE;
+        pageID     = ZF_TAKE_INDOORGRAPH;
     }else if (self.takingPhotoType == TAKINGPHOTOFROMPROPERTY){
-        code = AJK_PROPERTY_TAKING_PHOTO_003;
-        [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        actionCode = ESF_TAKE_INDOORGRAPH_CLICK_DELETE;
+        pageID     = ESF_TAKE_INDOORGRAPH;
     }
+    
+    [[BrokerLogger sharedInstance] logWithActionCode:actionCode page:pageID note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    
     self.currentImgCount --;
 
     UIButton *btn = (UIButton *)sender;

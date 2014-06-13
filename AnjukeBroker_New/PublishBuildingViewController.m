@@ -133,19 +133,20 @@ typedef enum {
 
 #pragma mark - log
 - (void)sendAppearLog {
-    NSString *code = [NSString string];
-    NSString *bp = AJK_COMMUNITY;
+    NSString *code   = ESF_PUBLISH_ONVIEW;
+    NSString *pageID = ESF_PUBLISH;
+    NSString *bp     = ESF_PUBLISH_SELECT_XIAOQU;
     if (self.isHaozu) {
-        code = HZ_PROPERTY_001;
-        bp = HZ_PROPERTY;
+        code   = ZF_PUBLISH_ONVIEW;
+        pageID = ZF_PUBLISH;
+        bp     = ZF_PUBLISH;
     }
-    else
-        code = AJK_PROPERTY_001;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", bp , @"bp", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", bp , @"bp", nil]];
 }
 
 - (void)sendDisAppearLog {
     NSString *code = [NSString string];
+    
     if (self.isHaozu) {
         code = HZ_PROPERTY_002;
     }
@@ -967,10 +968,12 @@ typedef enum {
     self.saveMessModel.fxo = [self.property.onlineHouseTypeDic count];
     [self.saveMessModel setPdString:self.imgdescArr];
     
-    NSString *code = AJK_PROPERTY_004;
+    NSString *code = ESF_PUBLISH_SAVE;
+    NSString *page = ESF_PUBLISH;
     if (self.isHaozu)
     {
-        code = HZ_PROPERTY_004;
+        code = ZF_PUBLISH_SAVE;
+        page = ZF_PUBLISH;
     }
     [[BrokerLogger sharedInstance] logWithActionCode:code note:self.saveMessModel.objectToDict];
     
@@ -1004,8 +1007,10 @@ typedef enum {
     [self.saveMessModel setPdString:self.imgdescArr];
     
     
-    NSString *code = HZ_PROPERTY_004;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:self.saveMessModel.objectToDict];
+    NSString *code   = ZF_PUBLISH_SAVE;
+    NSString *pageID = ZF_PUBLISH;
+    
+    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID note:self.saveMessModel.objectToDict];
     
     [self hideLoadWithAnimated:YES];
     
@@ -2259,11 +2264,11 @@ typedef enum {
     [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_017 note:nil];
     //[[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", bp , @"bp", nil]];
 
-    pb.bp = HZ_PROPERTY_HOUSEIMG_ALBUM;
+    pb.bp = ZF_SELECT_INDOORGRAPH;
     if(!self.isHaozu)
     {
         pb.hasTextView = YES; //有照片编辑框
-        pb.bp = AJK_PROPERTY_HOUSEIMG_CHOOSEIMG_ALBUM;
+        pb.bp = ESF_SELECT_INDOORGRAPH;
     }
     
     [self.navigationController presentViewController:navController animated:YES completion:^(void) {
@@ -2574,20 +2579,24 @@ typedef enum {
     }
     
     //室内图
-    NSString *code2 = HZ_PROPERTY_HOUSEIMG_ALBUM_002;
+    NSString *actionCode  = ZF_SELECT_INDOORGRAPH_CLICK_SAVE;
+    NSString *pageID      = ZF_SELECT_INDOORGRAPH;
     if(!self.isHaozu)
     {
-        code2 = AJK_PROPERTY_HOUSEIMG_CHOOSEIMG_ALBUM_002;
+        actionCode = ESF_SELECT_INDOORGRAPH_CLICK_SAVE;
+        pageID     = ESF_SELECT_INDOORGRAPH;
         
     }
     
     //户型图
     if (self.footClickType == 2)
     {
-        code2 = HZ_PROPERTY_HOUSETYPEIMG_ALBUM_002;
+        actionCode = ZF_SELECT_INDOORGRAPH_CLICK_SAVE;
+        pageID     = ZF_SELECT_INDOORGRAPH;
         if(!self.isHaozu)
         {
-            code2 = AJK_PROPERTY_HOUSETYPEIMG_CHOOSEIMG_ALBUM_002;
+            actionCode = ESF_SELECT_HOUSETYPEGRAPH_CLICK_SAVE;
+            
         }
         saveMessModel.fxa += [info count];
     }else if (self.footClickType == 1)
@@ -2595,7 +2604,7 @@ typedef enum {
         saveMessModel.sna += [info count];
     }
     
-    [[BrokerLogger sharedInstance] logWithActionCode:code2 note:NULL];
+    [[BrokerLogger sharedInstance] logWithActionCode:actionCode page:pageID note:NULL];
     
     for (NSDictionary *dict in info) {
         
@@ -2671,13 +2680,15 @@ typedef enum {
 
 - (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
 
-    NSString *code2 = HZ_PROPERTY_HOUSEIMG_ALBUM_003;
+    NSString *actionCode = ZF_SELECT_INDOORGRAPH_CLICK_CANCEL;
+    NSString *pageID     = ZF_SELECT_INDOORGRAPH;
     if(!self.isHaozu)
     {
-        code2 = AJK_PROPERTY_HOUSEIMG_CHOOSEIMG_ALBUM_003;
+        actionCode = ESF_SELECT_INDOORGRAPH_CLICK_CANCEL;
+        pageID     = ESF_SELECT_INDOORGRAPH;
     }
     
-    [[BrokerLogger sharedInstance] logWithActionCode:code2 note:NULL];
+    [[BrokerLogger sharedInstance] logWithActionCode:actionCode page:pageID note:NULL];
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -2883,14 +2894,14 @@ typedef enum {
                     [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
                 }
                 
-                
-                //室内图
-                NSString *pbid2 = HZ_PROPERTY;
-                NSString *code2 = HZ_PROPERTY_HOUSEIMG_ALBUM_001;
+                NSString *pbid2      = ZF_PUBLISH;
+                NSString *actionCode = ZF_SELECT_INDOORGRAPH_ONVIEW;
+                NSString *pageID     = ZF_PUBLISH; //室内图  原来是：ZF_PUBLISH
                 if(!self.isHaozu)
                 {
-                    code2 = AJK_PROPERTY_HOUSEIMG_CHOOSEIMG_ALBUM_001;
-                    pbid2 = AJK_PROPERTY;
+                    actionCode = ESF_SELECT_INDOORGRAPH_ONVIEW;
+                    pageID     = ESF_SELECT_INDOORGRAPH;
+                    pbid2      = ESF_PUBLISH;
 
                 }
                 
@@ -2898,18 +2909,20 @@ typedef enum {
                 if (self.footClickType == 2)
                 {
 //                    pbid2 = HZ_PROPERTY;
-                    code2 = HZ_PROPERTY_HOUSETYPEIMG_ALBUM_001;
+                    actionCode = ZF_SELECT_HOUSETYPEGRAPH_ONVIEW;
+                    pageID     = ZF_SELECT_HOUSETYPEGRAPH;
                     if(!self.isHaozu)
                     {
-                        code2 = AJK_PROPERTY_HOUSETYPEIMG_CHOOSEIMG_ALBUM_001;
-                        pbid2 = AJK_PROPERTY;
+                        actionCode = ESF_SELECT_HOUSETYPEGRAPH_ONVIEW;
+                        pageID     = ESF_PUBLISH;
+                        pbid2      = ESF_PUBLISH;
                         
                     }
                 }
                 
                 if (!self.isChildClass)
                 {
-                    [[BrokerLogger sharedInstance] logWithActionCode:code2 note:[NSDictionary dictionaryWithObjectsAndKeys:pbid2, @"bp", nil]];
+                    [[BrokerLogger sharedInstance] logWithActionCode:actionCode page:pageID note:[NSDictionary dictionaryWithObjectsAndKeys:pbid2, @"bp", nil]];
                 }
                 
                 self.isTakePhoto = NO;
@@ -2933,16 +2946,16 @@ typedef enum {
         switch (buttonIndex) {
             case 0: //定价
             {
-                NSString *code = [NSString string];
+                NSString *code   = ESF_PUBLISH_CLICK_FIX;
+                NSString *pageID = ESF_PUBLISH;
                 if (self.isHaozu) {
-                    code = HZ_PROPERTY_008;
+                    code   = ZF_PUBLISH_CLICK_FIX;
+                    pageID = ZF_PUBLISH;
                 }
-                else
-                    code = AJK_PROPERTY_008;
                 
                 if (!self.isChildClass)
                 {
-                    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID note:nil];
                 }
                 self.uploadType = Property_DJ;
                 
@@ -2954,16 +2967,16 @@ typedef enum {
                 break;
             case 1: //定价+竞价
             {
-                NSString *code = [NSString string];
+                NSString *code   = ESF_PUBLISH_CLICK_BID;
+                NSString *pageID = ESF_PUBLISH;
                 if (self.isHaozu) {
-                    code = HZ_PROPERTY_009;
+                    code   = ZF_PUBLISH_CLICK_BID;
+                    pageID = ZF_PUBLISH;
                 }
-                else
-                    code = AJK_PROPERTY_009;
                 
                 if (!self.isChildClass)
                 {
-                    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID note:nil];
                 }
                 self.uploadType = Property_JJ;
                 
@@ -2975,16 +2988,16 @@ typedef enum {
                 break;
             case 2: //暂不推广
             {
-                NSString *code = [NSString string];
+                NSString *code   = ESF_PUBLISH_CLICK_DRAFT;
+                NSString *pageID = ESF_PUBLISH;
                 if (self.isHaozu) {
-                    code = HZ_PROPERTY_010;
+                    code   = ZF_PUBLISH_CLICK_DRAFT;
+                    pageID = ZF_PUBLISH;
                 }
-                else
-                    code = AJK_PROPERTY_010;
                 
                 if (!self.isChildClass)
                 {
-                    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID note:nil];
                 }
                 self.uploadType = Property_WTG;
                 

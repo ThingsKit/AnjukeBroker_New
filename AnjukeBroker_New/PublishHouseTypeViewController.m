@@ -598,7 +598,7 @@
         PublishBigImageViewController *pb = [[PublishBigImageViewController alloc] init];
         pb.clickDelegate = self;
         
-        pb.bp = AJK_PPC_RESET;
+        pb.bp = ESF_EDIT_PROP;
         
         RTNavigationController *navController = [[RTNavigationController alloc] initWithRootViewController:pb];
         navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;

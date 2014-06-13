@@ -111,13 +111,13 @@ typedef enum {
 
 #pragma mark - log
 - (void)sendAppearLog {
-    NSString *code = [NSString string];
+    NSString *code   = ESF_PUBLISH_ONVIEW;
+    NSString *pageID = ESF_PUBLISH;
     if (self.isHaozu) {
-        code = HZ_PROPERTY_001;
+        code   = ZF_PUBLISH_ONVIEW;
+        pageID = ZF_PUBLISH;
     }
-    else
-        code = AJK_PROPERTY_001;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -1060,13 +1060,13 @@ typedef enum {
         return;
     }
     
-    NSString *code = [NSString string];
+    NSString *code   = ESF_PUBLISH_SAVE;
+    NSString *pageID = ESF_PUBLISH;
     if (self.isHaozu) {
-        code = HZ_PROPERTY_004;
+        code   = ZF_PUBLISH_SAVE;
+        pageID = ZF_PUBLISH;
     }
-    else
-        code = AJK_PROPERTY_004;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID  note:nil];
     
     if ([self.lastPrice isEqualToString:self.property.price]) { //价格未变，无需重心请求
         [self showAlertViewWithPrice:self.propertyPrice];
@@ -1502,13 +1502,13 @@ typedef enum {
         switch (buttonIndex) {
             case 0: //定价
             {
-                NSString *code = [NSString string];
+                NSString *code   = ESF_PUBLISH_CLICK_FIX;
+                NSString *pageID = ESF_PUBLISH;
                 if (self.isHaozu) {
-                    code = HZ_PROPERTY_008;
+                    code   = ZF_PUBLISH_CLICK_FIX;
+                    pageID = ZF_PUBLISH;
                 }
-                else
-                    code = AJK_PROPERTY_008;
-                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID note:nil];
                 
                 self.uploadType = Property_DJ;
                 
@@ -1518,13 +1518,13 @@ typedef enum {
                 break;
             case 1: //定价+竞价
             {
-                NSString *code = [NSString string];
+                NSString *code   = ESF_PUBLISH_CLICK_BID;
+                NSString *pageID = ESF_PUBLISH;
                 if (self.isHaozu) {
-                    code = HZ_PROPERTY_009;
+                    code   = ZF_PUBLISH_CLICK_BID;
+                    pageID = ZF_PUBLISH;
                 }
-                else
-                    code = AJK_PROPERTY_009;
-                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID note:nil];
                 
                 self.uploadType = Property_JJ;
                 
@@ -1534,13 +1534,13 @@ typedef enum {
                 break;
             case 2: //暂不推广
             {
-                NSString *code = [NSString string];
+                NSString *code   = ESF_PUBLISH_CLICK_DRAFT;
+                NSString *pageID = ESF_PUBLISH;
                 if (self.isHaozu) {
-                    code = HZ_PROPERTY_010;
+                    code   = ZF_PUBLISH_CLICK_DRAFT;
+                    pageID = ZF_PUBLISH;
                 }
-                else
-                    code = AJK_PROPERTY_010;
-                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID note:nil];
                 
                 self.uploadType = Property_WTG;
                 

@@ -399,13 +399,13 @@
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
-    NSString *code = [NSString string];
+    NSString *actionCode = ESF_EDIT_PROP_CLICK_SAVE;
+    NSString *pageID     = ESF_EDIT_PROP;
     if (self.isHaozu) {
-        code = HZ_PPC_RESET_004;
+        actionCode = ZF_EDIT_PROP_CLICK_SAVE;
+        pageID     = ZF_EDIT_PROP;
     }
-    else
-        code = AJK_PPC_RESET_004;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:actionCode page:pageID note:nil];
     
     [self showLoadingActivity:YES];
     self.isLoading = YES;

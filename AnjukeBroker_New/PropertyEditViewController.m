@@ -72,10 +72,12 @@
 - (void)sendAppearLog
 {
     self.isChildClass = YES;
-    NSString *code = AJK_PPC_RESET_001;
+    NSString *code   = ESF_EDIT_PROP_ONVIEW;
+    NSString *pageID = ESF_EDIT_PROP;
     if (self.isHaozu)
     {
-        code = HZ_PPC_RESET_001;
+        code   = ZF_EDIT_PROP_ONVIEW;
+        pageID = ZF_EDIT_PROP;
     }
     
     if (!self.pdId) {
@@ -83,7 +85,7 @@
     }
     
     //页面可见log
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:self.pdId, @"bp", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID note:[NSDictionary dictionaryWithObjectsAndKeys:self.pdId, @"bp", nil]];
 
 }
 
@@ -492,13 +494,15 @@
     }
     [self.saveMessModel setPdString:self.imgdescArr idArr:idArr];
     
-    NSString *code2 = AJK_PPC_RESET_004;
+    NSString *code2 = ESF_EDIT_PROP_CLICK_SAVE;
+    NSString *page  = ESF_EDIT_PROP;
     if (self.isHaozu)
     {
-        code2 = HZ_PPC_RESET_004;
+        code2 = ZF_EDIT_PROP_CLICK_SAVE;
+        page  = ZF_EDIT_PROP;
     }
     
-    [[BrokerLogger sharedInstance] logWithActionCode:code2 note:self.saveMessModel.objectToDict];
+    [[BrokerLogger sharedInstance] logWithActionCode:code2 page:page note:self.saveMessModel.objectToDict];
     
     [self setTextFieldForProperty];
     
@@ -1092,7 +1096,7 @@
     pb.backType = RTSelectorBackTypeDismiss;
     pb.imageDescArray = self.imgdescArr;
     pb.clickDelegate = self;
-    pb.bp = AJK_PPC_RESET;
+    pb.bp = ESF_EDIT_PROP;
     if (!sender.isHouseType)
     {
         self.footClickType = 1;
@@ -1107,11 +1111,11 @@
     {
         if (self.isHaozu)
         {
-            pb.bp = HZ_PPC_RESET;
+            pb.bp = ZF_EDIT_PROP;
             
         }else
         {
-            pb.bp = AJK_PPC_RESET;
+            pb.bp = ESF_EDIT_PROP;
             pb.hasTextView = YES; //有照片编辑框
         }
 
