@@ -493,8 +493,8 @@
 }
 
 - (void)textViewDidChange:(UITextView *)textView{
-    NSString* temp = [_textView.text stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    _textView.text = temp;
+//    NSString* temp = [_textView.text stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    _textView.text = temp;
     
     if (_textView.markedTextRange == nil && _textView.text.length > 20) {
         _textView.text = [_textView.text substringToIndex:20];
