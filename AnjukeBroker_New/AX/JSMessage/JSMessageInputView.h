@@ -53,6 +53,7 @@ typedef NS_ENUM(NSUInteger, JSMessageInputViewStyle) {
 @property (weak, nonatomic) UIButton *sendButton;
 
 @property (nonatomic) BOOL isBroker;
+@property (nonatomic) BOOL isSwitchFlag;
 
 #pragma mark - Initialization
 
@@ -70,8 +71,9 @@ typedef NS_ENUM(NSUInteger, JSMessageInputViewStyle) {
 - (instancetype)initWithFrame:(CGRect)frame
                         style:(JSMessageInputViewStyle)style
                      delegate:(id<UITextViewDelegate, JSDismissiveTextViewDelegate>)delegate
-         panGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer isBroker:(BOOL)isBroker;
-
+         panGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer
+                     isBroker:(BOOL)isBroker
+                     isSwitch:(BOOL)isSwitch;
 #pragma mark - Message input view
 
 /**

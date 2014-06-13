@@ -331,7 +331,11 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     JSMessageInputView *inputView = [[JSMessageInputView alloc] initWithFrame:inputFrame
                                                                         style:JSMessageInputViewStyleFlat
                                                                      delegate:self
-                                                         panGestureRecognizer:pan isBroker:self.isBroker];
+                                                         panGestureRecognizer:pan
+                                                                     isBroker:self.isBroker
+                                                                     isSwitch:NO
+                                     
+                                     ];
     [self.view addSubview:inputView];
     self.messageInputView = inputView;
     [self.messageInputView.textView addObserver:self
@@ -347,7 +351,9 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
                                  action:@selector(sendPressed:)
                        forControlEvents:UIControlEventTouchUpInside];
     } else {
-        self.messageInputView.textView.frame = CGRectMake(textViewRect.origin.x + 30, textViewRect.origin.y, textViewRect.size.width - 40 -20, textViewRect.size.height);
+//        self.messageInputView.textView.frame = CGRectMake(textViewRect.origin.x + 30, textViewRect.origin.y, textViewRect.size.width - 40 -20, textViewRect.size.height);
+        self.messageInputView.textView.frame = CGRectMake(textViewRect.origin.x, textViewRect.origin.y, textViewRect.size.width - 1, textViewRect.size.height);
+
         self.messageInputTextViewFrame = self.messageInputView.textView.frame;
         
         [self initPrivateButtons];
@@ -369,15 +375,12 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 }
 
 - (void)initPrivateButtons {
-//    NSMutableDictionary *menuConfigs;
-    //[NSMutableDictionary dictionaryWithDictionary:self.friendPerson.confis];
+    NSMutableDictionary *menuConfigs = [NSMutableDictionary dictionaryWithDictionary:self.friendPerson.configs];
     
-//    if ([self isPublicPerson] && menuConfigs[@"input_type"]) {
-//        
-//    }
+    if ([self isPublicPerson] && menuConfigs[@"input_type"]) {
+        
+    }
     
-//    NSMutableDictionary *acconutConfigs = [NSMutableDictionary dictionaryWithDictionary:self.friendPerson.config];
-//    
 //    self.inputSwithFlg = NO;
 //    if ([self isPublicAccount] && acconutConfigs[@"input_type"] && [acconutConfigs[@"input_type"] integerValue] != AXPublicInputTypeKeyboard) {
 //        self.inputSwithFlg = YES;
@@ -2510,3 +2513,4 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
 }
 @end
+

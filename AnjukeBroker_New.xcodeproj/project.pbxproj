@@ -698,6 +698,7 @@
 		F8E24D97194A95400088C902 /* AXPublicMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E24D94194A95400088C902 /* AXPublicMenuButton.m */; };
 		F8E24D98194A95400088C902 /* AXPublicSubMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E24D96194A95400088C902 /* AXPublicSubMenu.m */; };
 		F8E24D9E194AA80F0088C902 /* AXPublicLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E24D9D194AA80F0088C902 /* AXPublicLoading.m */; };
+		F8E24DA0194ACE2A0088C902 /* broker_wl_gzh_menu_layer_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8E24D9F194ACE2A0088C902 /* broker_wl_gzh_menu_layer_1@2x.png */; };
 		F8F6DA22192A224000698C3B /* UIColor+BrokerRT.m in Sources */ = {isa = PBXBuildFile; fileRef = F8F6DA21192A224000698C3B /* UIColor+BrokerRT.m */; };
 		F8FCFC2318FE8F3500A4B012 /* RTGestureLock.m in Sources */ = {isa = PBXBuildFile; fileRef = F8FCFC2218FE8F3500A4B012 /* RTGestureLock.m */; };
 /* End PBXBuildFile section */
@@ -1756,6 +1757,7 @@
 		F8E24D96194A95400088C902 /* AXPublicSubMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AXPublicSubMenu.m; path = publicMenu/AXPublicSubMenu.m; sourceTree = "<group>"; };
 		F8E24D9C194AA80F0088C902 /* AXPublicLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AXPublicLoading.h; path = publicMenu/AXPublicLoading.h; sourceTree = "<group>"; };
 		F8E24D9D194AA80F0088C902 /* AXPublicLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AXPublicLoading.m; path = publicMenu/AXPublicLoading.m; sourceTree = "<group>"; };
+		F8E24D9F194ACE2A0088C902 /* broker_wl_gzh_menu_layer_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_wl_gzh_menu_layer_1@2x.png"; sourceTree = "<group>"; };
 		F8F6DA20192A224000698C3B /* UIColor+BrokerRT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+BrokerRT.h"; sourceTree = "<group>"; };
 		F8F6DA21192A224000698C3B /* UIColor+BrokerRT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BrokerRT.m"; sourceTree = "<group>"; };
 		F8FCFC2118FE8F3500A4B012 /* RTGestureLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTGestureLock.h; sourceTree = "<group>"; };
@@ -2536,6 +2538,7 @@
 		6794E3F41947EBFF0069F1ED /* 3.5 */ = {
 			isa = PBXGroup;
 			children = (
+				F8E24D9F194ACE2A0088C902 /* broker_wl_gzh_menu_layer_1@2x.png */,
 				2778147E19494B8D006951F8 /* broker_qkh_guide_bg@2x.png */,
 				6794E3F51947EC2C0069F1ED /* broker_fy_noproperty@2x.png */,
 				6794E3F61947EC2C0069F1ED /* broker_home_icon_esf@2x.png */,
@@ -4281,6 +4284,7 @@
 				B7FC9AEC18C41B1300F77205 /* xproject_dialogue_greencard_selected.png in Resources */,
 				979BBB69185804AE005B7D03 /* icon_40@2x.png in Resources */,
 				6740D1D61908E08C005ED706 /* anjuke_icon_keyboard1@2x.png in Resources */,
+				F8E24DA0194ACE2A0088C902 /* broker_wl_gzh_menu_layer_1@2x.png in Resources */,
 				B7FC9AE518C41B1300F77205 /* xproject_dialogue_failedsending@2x.png in Resources */,
 				6740D1D01908E08C005ED706 /* anjuke_icon_button_blue@2x.png in Resources */,
 				B7FC9AF918C41B1300F77205 /* xproject_dialogue_me@2x.png in Resources */,

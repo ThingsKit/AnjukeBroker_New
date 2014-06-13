@@ -45,8 +45,15 @@
 
 - (void)configureInputBarWithStyle:(JSMessageInputViewStyle)style
 {
-    CGFloat width = 260;
+    CGFloat width = 200;
     CGFloat height = 30;
+    CGFloat x = 42;
+    
+    if (_isSwitchFlag) {
+        x = 90;
+        width -= 48;
+    }
+    
     if (self.isBroker) {
     
     } else {
@@ -57,7 +64,7 @@
     [self addSubview:textView];
 	_textView = textView;
     
-    _textView.frame = CGRectMake(12.0f, 10.0f, width, height);
+    _textView.frame = CGRectMake(x, 10.0f, width, height);
     _textView.backgroundColor = [UIColor whiteColor];
     _textView.layer.borderColor = [UIColor axChatInputBorderColor:self.isBroker].CGColor;
     _textView.layer.borderWidth = 0.65f;
@@ -100,11 +107,14 @@
 - (instancetype)initWithFrame:(CGRect)frame
                         style:(JSMessageInputViewStyle)style
                      delegate:(id<UITextViewDelegate, JSDismissiveTextViewDelegate>)delegate
-         panGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer isBroker:(BOOL)isBroker
+         panGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer
+                     isBroker:(BOOL)isBroker
+                     isSwitch:(BOOL)isSwitch
 {
     self = [super initWithFrame:frame];
     if (self) {
         _isBroker = isBroker;
+        _isSwitchFlag = isSwitch;
         _style = style;
         [self setup];
         [self configureInputBarWithStyle:style];

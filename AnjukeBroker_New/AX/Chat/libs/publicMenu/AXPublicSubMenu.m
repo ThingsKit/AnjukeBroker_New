@@ -34,7 +34,7 @@ CGFloat const axPublicSubMenuHeight = 45.0f;
     CGPoint buttonPoint = CGPointMake(button.center.x, button.center.y - 45*menuCount/2);
     self.center = buttonPoint;
     
-    UIImageView *cornerView = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 4, self.frame.size.height - 1, 8, 5)];
+    UIImageView *cornerView = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 10, self.frame.size.height - 1, 19, 7)];
     [cornerView setImage:[UIImage imageNamed:@"wl_map_icon_4"]];
     [self addSubview:cornerView];
     
@@ -43,7 +43,7 @@ CGFloat const axPublicSubMenuHeight = 45.0f;
         CGPoint buttonPoint = CGPointMake(ScreenWidth - 58, button.center.y - 45*menuCount/2);
         self.center = buttonPoint;
         CGRect frame = cornerView.frame;
-        frame.origin.x = self.frame.size.width - 35;
+        frame.origin.x = self.frame.size.width - 40;
         cornerView.frame = frame;
     }
     
