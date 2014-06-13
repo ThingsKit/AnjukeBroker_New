@@ -40,8 +40,6 @@
     self.view.backgroundColor = [UIColor brokerBgPageColor];
     
     _tableView = [[CustomerDetailTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 -44 - 70) style:UITableViewStylePlain];
-    _tableView.needRefreshFooter = NO;
-    _tableView.needRefreshHeader = NO;
     [self.view addSubview:_tableView];
     
     [self initUI];
@@ -123,6 +121,8 @@
 
 - (void)onRequestFinished:(RTNetworkResponse *)response {
     
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
     RTNetworkResponseStatus status = response.status;
     
     //如果请求数据成功
@@ -188,7 +188,7 @@
             
             
         }else{ //没有新数据
-            self.tableView.hasMore = NO;
+//            self.tableView.hasMore = NO;
             [self showEmptyBackground];
         }
         
@@ -228,7 +228,7 @@
     if (self.tableView.data.count == 0) {
         self.tableView.tableHeaderView = self.emptyBackgroundView;
         self.tableView.tableHeaderView.hidden = NO;
-        self.tableView.hasMore = NO;
+//        self.tableView.hasMore = NO;
         self.bottomView.hidden = YES;
     }else{
         self.tableView.tableHeaderView.hidden = YES;

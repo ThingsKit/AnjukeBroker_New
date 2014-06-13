@@ -31,6 +31,10 @@
 - (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {
     if (self = [super initWithFrame:frame style:style]) {
         
+        self.delegate = self;
+        self.dataSource = self;
+        self.backgroundColor = [UIColor brokerBgPageColor];
+        
     }
     return self;
 }

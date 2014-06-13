@@ -50,6 +50,9 @@
     _propertyCount.backgroundColor = [UIColor clearColor];
     _propertyCount.textColor = [UIColor brokerBlackColor];
     [self addSubview:_propertyCount];
+    
+    self.backgroundColor = [UIColor brokerBgPageColor];
+//    self.backgroundColor = [UIColor redColor];
    
 }
 
