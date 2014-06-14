@@ -22,7 +22,7 @@
 }
 
 - (void)initUI{
-    UIView * loadingMessageView = [[UIView alloc] initWithFrame:CGRectMake(110, 0, 100, 32)];
+    UIView * loadingMessageView = [[UIView alloc] initWithFrame:CGRectMake(110, ScreenHeight-20-44-32-49-10, 100, 32)];
     loadingMessageView.backgroundColor = [UIColor clearColor];
     
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 32)];
@@ -32,10 +32,11 @@
     bgView.layer.cornerRadius = 4;
     [loadingMessageView addSubview:bgView];
     
-    UIActivityIndicatorView * activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    UIActivityIndicatorView * activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     activityIndicatorView.frame = CGRectMake(11, 3, 26, 26);
-    activityIndicatorView = activityIndicatorView;
     [loadingMessageView addSubview:activityIndicatorView];
+    
+    [activityIndicatorView startAnimating];
     
     UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(activityIndicatorView.frame.origin.x + activityIndicatorView.frame.size.width + 3, 4, 55, 25)];
     label.backgroundColor = [UIColor clearColor];

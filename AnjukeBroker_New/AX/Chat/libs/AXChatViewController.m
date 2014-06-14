@@ -87,7 +87,7 @@ static NSString * const EmojiImgName = @"anjuke_icon_bq";
 static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
 
-@interface AXChatViewController ()<UITableViewDelegate, UITableViewDataSource, OHAttributedLabelDelegate, AXPullToRefreshViewDelegate, UIAlertViewDelegate, AXChatBaseCellDelegate, JSDismissiveTextViewDelegate, MapViewControllerDelegate,AXPublicMenuDelegate>
+@interface AXChatViewController ()<UITableViewDelegate, UITableViewDataSource, OHAttributedLabelDelegate, AXPullToRefreshViewDelegate, UIAlertViewDelegate, AXChatBaseCellDelegate, JSDismissiveTextViewDelegate, MapViewControllerDelegate,AXPublicMenuDelegate,AXPublicSubMenuDelegate>
 
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) UITableViewCell *selectedCell;
@@ -148,12 +148,11 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
 //公众账号菜单
 @property (nonatomic, assign) BOOL isMenuFlag;
-@property (nonatomic, strong) AXPublicMenu *publicMenu;
-@property (nonatomic, strong) AXPublicSubMenu *publicSubMenu;
-@property (nonatomic, strong) NSMutableDictionary *menuConfigs;
-@property (nonatomic, strong) BrokerLineView *line;
-
-
+@property (nonatomic, strong) AXPublicMenu * publicMenu;
+@property (nonatomic, strong) AXPublicSubMenu * publicSubMenu;
+@property (nonatomic, strong) NSMutableDictionary * menuConfigs;
+@property (nonatomic, strong) BrokerLineView * line;
+@property (nonatomic, strong) AXPublicLoading * publicLoadView;
 @end
 
 @implementation AXChatViewController
@@ -394,6 +393,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     }
     [self initMoreButs];
 }
+
 
 #pragma mark -- 是否为公众账号，显示菜单
 - (BOOL)isPublicPerson{
@@ -812,13 +812,59 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewMessage:) name:MessageCenterDidReceiveNewMessage object:nil];
 }
 
-
 #pragma mark --publicMenuDelegate
 - (void)publicMenuShowSubMenu:(AXPublicMenuButton *)button menus:(NSArray *)menus{
+    if (self.publicSubMenu) {
+        CGRect frame = self.publicSubMenu.frame;
+        frame.origin.y = self.view.height;
+        //先移除submenu，再显示当前submenu
+        [UIView animateWithDuration:0.2 animations:^{
+            self.publicSubMenu.frame = frame;
+        } completion:^(BOOL finished) {
+            [self.publicSubMenu removeFromSuperview];
+            self.publicSubMenu = nil;
+            
+            self.publicSubMenu =[[AXPublicSubMenu alloc] init];
+            self.publicSubMenu.publicSubMenuDelegate = self;
+            [self.publicSubMenu configPublicSubMenu:button menu:nil];
+            [self.view addSubview:self.publicSubMenu];
+            
+            CGRect subMenuFrame = self.publicSubMenu.frame;
+            subMenuFrame.origin.y = self.publicSubMenu.frame.origin.y - self.publicSubMenu.frame.size.height - 10;
+            [UIView animateWithDuration:0.2 animations:^{
+                self.publicSubMenu.frame = subMenuFrame;
+            } completion:^(BOOL finished) {
+                nil;
+            }];
+        }];
+    }else{
+        self.publicSubMenu =[[AXPublicSubMenu alloc] init];
+        self.publicSubMenu.publicSubMenuDelegate = self;
+        [self.publicSubMenu configPublicSubMenu:button menu:nil];
+        [self.view addSubview:self.publicSubMenu];
+
+        CGRect subMenuFrame = self.publicSubMenu.frame;
+        subMenuFrame.origin.y = self.publicSubMenu.frame.origin.y - self.publicSubMenu.frame.size.height - 10;
+        [UIView animateWithDuration:0.2 animations:^{
+            self.publicSubMenu.frame = subMenuFrame;
+        } completion:^(BOOL finished) {
+            nil;
+        }];
+    }
 }
+
 - (void)publicMenuWithAPI:(NSString *)actionStr{
+
+
 }
 - (void)publicMenuWithURL:(NSString *)webURL{
+    [self showPublicLoadView];
+    
+    AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
+    webVC.webUrl = @"http://www.baidu.com";
+    [self.navigationController pushViewController:webVC animated:YES];
+
+    [self hidePublicLoadView];
 }
 - (void)publicMenuSwich{
     [self.messageInputView.textView resignFirstResponder];
@@ -831,7 +877,50 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     }];
 }
 
+#pragma mark --AXPublicSubMenuDelegate
+- (void)publicSubMenuWithAPI:(NSString *)actionStr{
+    [self hideSubmenu];
+    [self showPublicLoadView];
 
+    AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
+    webVC.webUrl = @"http://www.163.com";
+    [self.navigationController pushViewController:webVC animated:YES];
+}
+
+- (void)publicSubMenuWithURL:(NSString *)webURL{
+    [self hideSubmenu];
+    
+    AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
+    webVC.webUrl = @"http://www.baidu.com";
+    [self.navigationController pushViewController:webVC animated:YES];
+}
+
+- (void)hideSubmenu{
+    CGRect frame = self.publicSubMenu.frame;
+    frame.origin.y = self.view.frame.size.height - 49;
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        self.publicSubMenu.frame = frame;
+    } completion:^(BOOL finished) {
+        [self.publicSubMenu removeFromSuperview];
+        self.publicSubMenu = nil;
+    }];
+}
+
+- (void)showPublicLoadView{
+    if (self.publicLoadView) {
+        [self.publicLoadView removeFromSuperview];
+    }
+    self.publicLoadView = [[AXPublicLoading alloc] init];
+    [self.view addSubview:self.publicLoadView];
+
+}
+- (void)hidePublicLoadView{
+    if (self.publicLoadView) {
+        [self.publicLoadView removeFromSuperview];
+        self.publicLoadView = nil;
+    }
+}
 
 #pragma mark - Public Method
 - (BOOL)checkUserLogin
