@@ -14,6 +14,7 @@ CGFloat const axPublicSubMenuHeight = 45.0f;
 
 @implementation AXPublicSubMenu
 @synthesize publicSubMenuDelegate;
+@synthesize subMenuindex;
 
 - (id)initWithFrame:(CGRect)frame
 {

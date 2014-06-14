@@ -24,7 +24,7 @@ typedef NS_ENUM(NSInteger, AXPublicSubMenuType) {
 
 @interface AXPublicSubMenu : UIView
 @property(nonatomic, assign) id<AXPublicSubMenuDelegate> publicSubMenuDelegate;
-
+@property(nonatomic, assign) NSInteger subMenuindex;
 - (void)configPublicSubMenu:(AXPublicMenuButton *)button menu:(NSArray *)menus;
 
 @end

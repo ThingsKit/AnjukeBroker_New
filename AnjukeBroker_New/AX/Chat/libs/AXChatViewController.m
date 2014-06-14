@@ -153,6 +153,10 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 @property (nonatomic, strong) NSMutableDictionary * menuConfigs;
 @property (nonatomic, strong) BrokerLineView * line;
 @property (nonatomic, strong) AXPublicLoading * publicLoadView;
+@property (nonatomic, strong) void (^subMenuHideFinish)(BOOL isFinished);
+//@property (nonatomic, strong) void (^finishSendMessageBlock)(NSArray *messages,AXMessageCenterSendMessageStatus status,AXMessageCenterSendMessageErrorTypeCode errorCode);
+//- (void)reSendVoice:(NSString *)identify withCompeletionBlock:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+
 @end
 
 @implementation AXChatViewController
@@ -814,7 +818,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
 #pragma mark --publicMenuDelegate
 - (void)publicMenuShowSubMenu:(AXPublicMenuButton *)button menus:(NSArray *)menus{
-    if (self.publicSubMenu) {
+    if (self.publicSubMenu && self.publicSubMenu.subMenuindex == button.index){
         CGRect frame = self.publicSubMenu.frame;
         frame.origin.y = self.view.height;
         //先移除submenu，再显示当前submenu
@@ -823,11 +827,14 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         } completion:^(BOOL finished) {
             [self.publicSubMenu removeFromSuperview];
             self.publicSubMenu = nil;
-            
+        }];
+    }else if (self.publicSubMenu && self.publicSubMenu.subMenuindex != button.index){
+        [self hideSubmenu:^(BOOL isFinished) {
             self.publicSubMenu =[[AXPublicSubMenu alloc] init];
             self.publicSubMenu.publicSubMenuDelegate = self;
+            self.publicSubMenu.subMenuindex = button.index;
             [self.publicSubMenu configPublicSubMenu:button menu:nil];
-            [self.view addSubview:self.publicSubMenu];
+            [self.view insertSubview:self.publicSubMenu aboveSubview:self.messageInputView];
             
             CGRect subMenuFrame = self.publicSubMenu.frame;
             subMenuFrame.origin.y = self.publicSubMenu.frame.origin.y - self.publicSubMenu.frame.size.height - 10;
@@ -840,9 +847,10 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     }else{
         self.publicSubMenu =[[AXPublicSubMenu alloc] init];
         self.publicSubMenu.publicSubMenuDelegate = self;
+        self.publicSubMenu.subMenuindex = button.index;
         [self.publicSubMenu configPublicSubMenu:button menu:nil];
-        [self.view addSubview:self.publicSubMenu];
-
+        [self.view insertSubview:self.publicSubMenu aboveSubview:self.messageInputView];
+        
         CGRect subMenuFrame = self.publicSubMenu.frame;
         subMenuFrame.origin.y = self.publicSubMenu.frame.origin.y - self.publicSubMenu.frame.size.height - 10;
         [UIView animateWithDuration:0.2 animations:^{
@@ -854,10 +862,15 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 }
 
 - (void)publicMenuWithAPI:(NSString *)actionStr{
-
+    [self hideSubmenu:^(BOOL isFinished) {
+        
+    }];
 
 }
 - (void)publicMenuWithURL:(NSString *)webURL{
+    [self hideSubmenu:^(BOOL isFinished) {
+        
+    }];
     [self showPublicLoadView];
     
     AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
@@ -879,23 +892,25 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
 #pragma mark --AXPublicSubMenuDelegate
 - (void)publicSubMenuWithAPI:(NSString *)actionStr{
-    [self hideSubmenu];
+    [self hideSubmenu:^(BOOL isFinished) {
+        AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
+        webVC.webUrl = @"http://www.baidu.com";
+        [self.navigationController pushViewController:webVC animated:YES];
+    }];
     [self showPublicLoadView];
-
-    AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
-    webVC.webUrl = @"http://www.163.com";
-    [self.navigationController pushViewController:webVC animated:YES];
 }
 
 - (void)publicSubMenuWithURL:(NSString *)webURL{
-    [self hideSubmenu];
-    
-    AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
-    webVC.webUrl = @"http://www.baidu.com";
-    [self.navigationController pushViewController:webVC animated:YES];
+    [self hideSubmenu:^(BOOL isFinished) {
+        AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
+        webVC.webUrl = @"http://www.baidu.com";
+        [self.navigationController pushViewController:webVC animated:YES];
+    }];
 }
 
-- (void)hideSubmenu{
+- (void)hideSubmenu:(void(^)(BOOL isFinished))hideSubMenuFinished{
+    self.subMenuHideFinish = hideSubMenuFinished;
+
     CGRect frame = self.publicSubMenu.frame;
     frame.origin.y = self.view.frame.size.height - 49;
     
@@ -904,6 +919,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     } completion:^(BOOL finished) {
         [self.publicSubMenu removeFromSuperview];
         self.publicSubMenu = nil;
+        
+        self.subMenuHideFinish(YES);
     }];
 }
 

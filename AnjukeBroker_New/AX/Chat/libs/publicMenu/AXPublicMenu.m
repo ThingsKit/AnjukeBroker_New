@@ -81,13 +81,14 @@ CGFloat const axPublicMenuHeight = 49.0f;
     AXPublicMenuButton *btn = (AXPublicMenuButton *)sender;
 
     if (btn.index == 0) {
-        if (self.publicMenuDelegate && [self.publicMenuDelegate respondsToSelector:@selector(publicMenuWithAPI:)]) {
-            [self.publicMenuDelegate publicMenuWithAPI:btn.btnInfo[@"action_id"]];
-        }
-    }else if (btn.index == 1){
         if (self.publicMenuDelegate && [self.publicMenuDelegate respondsToSelector:@selector(publicMenuWithURL:)]) {
             [self.publicMenuDelegate publicMenuWithURL:btn.btnInfo[@"webview_url"]];
         }
+    }else if (btn.index == 1){
+        if (self.publicMenuDelegate && [self.publicMenuDelegate respondsToSelector:@selector(publicMenuShowSubMenu:menus:)]) {
+            [self.publicMenuDelegate publicMenuShowSubMenu:btn menus:[NSArray arrayWithArray:btn.btnInfo[@"sub_menu_list"]]];
+        }
+
     }else if (btn.index == 2){
         if (self.publicMenuDelegate && [self.publicMenuDelegate respondsToSelector:@selector(publicMenuShowSubMenu:menus:)]) {
             [self.publicMenuDelegate publicMenuShowSubMenu:btn menus:[NSArray arrayWithArray:btn.btnInfo[@"sub_menu_list"]]];
