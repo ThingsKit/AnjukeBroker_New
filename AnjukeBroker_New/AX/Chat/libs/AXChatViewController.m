@@ -151,6 +151,9 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 @property (nonatomic, strong) AXPublicMenu *publicMenu;
 @property (nonatomic, strong) AXPublicSubMenu *publicSubMenu;
 @property (nonatomic, strong) NSMutableDictionary *menuConfigs;
+@property (nonatomic, strong) BrokerLineView *line;
+
+
 @end
 
 @implementation AXChatViewController
@@ -413,9 +416,9 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         [switchBtn addTarget:self action:@selector(inputSwitch:) forControlEvents:UIControlEventTouchUpInside];
         [self.messageInputView addSubview:switchBtn];
         
-        BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(48, 0, 1, 49)];
-        line.horizontalLine = NO;
-        [self.messageInputView addSubview:line];
+        self.line = [[BrokerLineView alloc] initWithFrame:CGRectMake(48, 0, 1, 49)];
+        self.line.horizontalLine = NO;
+        [self.messageInputView addSubview:self.line];
         
         leftX += 48;
     }
@@ -791,10 +794,12 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 }
 
 - (void)inputSwitch:(id)sender{
+    [self didClickKeyboardControl];
+
     [self.messageInputView.textView resignFirstResponder];
     
     [UIView animateWithDuration:0.2 animations:^{
-        self.messageInputView.frame = CGRectMake(0, self.view.frame.size.height, [self windowWidth], 49);
+        self.messageInputView.frame = CGRectMake(0, self.view.frame.size.height, [self windowWidth], self.messageInputView.frame.size.height);
         self.publicMenu.frame = CGRectMake(0, self.view.frame.size.height - 49, [self windowWidth], 49);
     } completion:^(BOOL finished) {
         nil;
@@ -819,7 +824,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [self.messageInputView.textView resignFirstResponder];
     
     [UIView animateWithDuration:0.2 animations:^{
-        self.messageInputView.frame = CGRectMake(0, self.view.frame.size.height-49, [self windowWidth], 49);
+        self.messageInputView.frame = CGRectMake(0, self.view.frame.size.height-self.messageInputView.frame.size.height, [self windowWidth], self.messageInputView.frame.size.height);
         self.publicMenu.frame = CGRectMake(0, self.view.frame.size.height, [self windowWidth], 49);
     } completion:^(BOOL finished) {
         nil;
@@ -1676,13 +1681,6 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     BOOL isShrinking = textView.contentSize.height < self.previousTextViewContentHeight;
     CGFloat changeInHeight = textView.contentSize.height - self.previousTextViewContentHeight;
     
-
-//    if (!isShrinking && (self.previousTextViewContentHeight == maxHeight || textView.text.length == 0)) {
-//        changeInHeight = 0;
-//    }
-//    else {
-//        changeInHeight = MIN(changeInHeight, maxHeight - self.previousTextViewContentHeight);
-//    }
     if (!isShrinking && (self.previousTextViewContentHeight == maxHeight || textView.text.length == 0 || [textView.text isEqualToString:@" "])) {
         changeInHeight = 0;
     }
@@ -1733,6 +1731,13 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
                            CGPoint bottomOffset = CGPointMake(0.0f, textView.contentSize.height - textView.bounds.size.height);
                            [textView setContentOffset:bottomOffset animated:YES];
                        });
+    }
+
+    //动态调整切换
+    if (self.isMenuFlag) {
+        CGRect frame = self.line.frame;
+        frame.size.height = self.previousTextViewContentHeight + 13;
+        self.line.frame = frame;
     }
 }
 
