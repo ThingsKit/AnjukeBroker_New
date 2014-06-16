@@ -10,7 +10,6 @@
 
 @implementation BrokerTableStuct
 @synthesize headerView;
-@synthesize noNetWorkViewdelegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
