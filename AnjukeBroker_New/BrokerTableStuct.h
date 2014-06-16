@@ -15,15 +15,8 @@ typedef NS_ENUM(NSInteger, TableStatus) {
     STATUSFOROK
 };
 
-@protocol NoNetWorkDelegate <NSObject>
-
-- (void)requestData;
-
-@end
-
 
 @interface BrokerTableStuct : UITableView<UIGestureRecognizerDelegate>
-@property(nonatomic, assign) id<NoNetWorkDelegate> noNetWorkViewdelegate;
 @property(nonatomic, assign) TableStatus stauts;
 @property(nonatomic, strong) UIView *headerView;
 - (void)setTableStatus:(TableStatus)status;

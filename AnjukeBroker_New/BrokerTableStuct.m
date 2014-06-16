@@ -7,7 +7,6 @@
 //
 
 #import "BrokerTableStuct.h"
-#import "StatusImageView.h"
 
 @implementation BrokerTableStuct
 @synthesize headerView;
@@ -35,7 +34,7 @@
     backGroundView.frame = CGRectMake(0, 0, 320, 200);
     backGroundView.backgroundColor = [UIColor clearColor];
 
-    StatusImageView *statusView = [[StatusImageView alloc] init];
+    UIImageView *statusView = [[UIImageView alloc] init];
     [backGroundView addSubview:statusView];
     UILabel *tipsLab = [[UILabel alloc] init];
     tipsLab.backgroundColor = [UIColor clearColor];
@@ -47,14 +46,6 @@
         statusView.frame = CGRectMake(110, 50, 100, 70);
         tipsLab.frame = CGRectMake(0, 130, 320, 20);
         [statusView setImage:[UIImage imageNamed:@"check_no_wifi"]];
-        
-//        self.tableHeaderView.userInteractionEnabled = YES;
-//        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
-//        tapGes.delegate                = self;
-//        tapGes.numberOfTouchesRequired = 1;
-//        tapGes.numberOfTapsRequired    = 1;
-//        [statusView addGestureRecognizer:tapGes];
-
         
         tipsLab.text = @"网络连接失败";
         [backGroundView addSubview:tipsLab];
@@ -94,9 +85,4 @@
     self.tableHeaderView = self.headerView;
 }
 
-//- (void)tapGus:(UITapGestureRecognizer *)gesture{
-//    if (self.noNetWorkViewdelegate && [self.noNetWorkViewdelegate respondsToSelector:@selector(requestData)]) {
-//        [self.noNetWorkViewdelegate requestData];
-//    }
-//}
 @end

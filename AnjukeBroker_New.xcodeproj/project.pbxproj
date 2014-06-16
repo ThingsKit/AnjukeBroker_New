@@ -649,7 +649,6 @@
 		F85A316C1907D0B100511022 /* anjuke_icon_callphone.png in Resources */ = {isa = PBXBuildFile; fileRef = F85A31681907D0B100511022 /* anjuke_icon_callphone.png */; };
 		F8734A8C1933420E007A2552 /* UpdateUserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = F8734A8B1933420E007A2552 /* UpdateUserLocation.m */; };
 		F87A8C1B194ECED20052C181 /* AuctionForbidView.m in Sources */ = {isa = PBXBuildFile; fileRef = F87A8C1A194ECED20052C181 /* AuctionForbidView.m */; };
-		F87A8C1E194EE3C90052C181 /* StatusImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F87A8C1D194EE3C90052C181 /* StatusImageView.m */; };
 		F87E8613190E4723005A5723 /* anjuke_icon_button_blue_press.png in Resources */ = {isa = PBXBuildFile; fileRef = F87E8611190E4723005A5723 /* anjuke_icon_button_blue_press.png */; };
 		F87E8614190E4723005A5723 /* anjuke_icon_button_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = F87E8612190E4723005A5723 /* anjuke_icon_button_blue.png */; };
 		F88FC2E0194541BE00DEA8A2 /* HomeHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2DF194541BE00DEA8A2 /* HomeHeaderView.m */; };
@@ -1677,8 +1676,6 @@
 		F8734A8B1933420E007A2552 /* UpdateUserLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateUserLocation.m; sourceTree = "<group>"; };
 		F87A8C19194ECED20052C181 /* AuctionForbidView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuctionForbidView.h; sourceTree = "<group>"; };
 		F87A8C1A194ECED20052C181 /* AuctionForbidView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuctionForbidView.m; sourceTree = "<group>"; };
-		F87A8C1C194EE3C90052C181 /* StatusImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusImageView.h; sourceTree = "<group>"; };
-		F87A8C1D194EE3C90052C181 /* StatusImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusImageView.m; sourceTree = "<group>"; };
 		F87E8611190E4723005A5723 /* anjuke_icon_button_blue_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_blue_press.png; sourceTree = "<group>"; };
 		F87E8612190E4723005A5723 /* anjuke_icon_button_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_blue.png; sourceTree = "<group>"; };
 		F88FC2DE194541BE00DEA8A2 /* HomeHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeHeaderView.h; sourceTree = "<group>"; };
@@ -3948,8 +3945,6 @@
 				F8D2F0E9192318BF00858BB0 /* BaseTableStructViewController.m */,
 				F8A717E51920ADF7004840C6 /* BrokerTableStuct.h */,
 				F8A717E61920ADF7004840C6 /* BrokerTableStuct.m */,
-				F87A8C1C194EE3C90052C181 /* StatusImageView.h */,
-				F87A8C1D194EE3C90052C181 /* StatusImageView.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -4638,7 +4633,6 @@
 				273913D518DBCFD9003284AA /* RegionAnnotation.m in Sources */,
 				972C10391815351900552C9B /* AnjukeEditPropertyViewController.m in Sources */,
 				207526BC18B45FE10022220C /* SWTableViewCell.m in Sources */,
-				F87A8C1E194EE3C90052C181 /* StatusImageView.m in Sources */,
 				B769E47E181F864200A2FF50 /* BaseBidPropertyController.m in Sources */,
 				2079ADDB18B5D62E0029D493 /* ClientDetailViewController.m in Sources */,
 				97CB0C1F182BF28D00FCCBBD /* UIViewController+Loading.m in Sources */,
