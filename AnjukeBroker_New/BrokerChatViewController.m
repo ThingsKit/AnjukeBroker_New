@@ -78,7 +78,7 @@
     [self removeStorageLayoutOfKeyboard];
 //    [self downLoadIcon];
     
-    if (_isAlloc)
+    if (_isAlloc && _needLearnView)
     {
         [self initLearnView];
     }

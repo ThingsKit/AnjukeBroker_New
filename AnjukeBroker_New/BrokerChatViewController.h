@@ -14,4 +14,6 @@
 
 @interface BrokerChatViewController : AXChatViewController <SelectedHouseWithDicDelegate, UIActionSheetDelegate>
 
+@property (nonatomic, assign)BOOL needLearnView;
+
 @end
