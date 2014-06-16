@@ -101,7 +101,7 @@
     bc.isBroker = YES;
     bc.uid = self.person.uid;
     [bc setHidesBottomBarWhenPushed:YES];
-    [[[AppDelegate sharedAppDelegate].tabController viewControllers][1] pushViewController:bc animated:YES];
+    [[[AppDelegate sharedAppDelegate].tabController viewControllers][1] pushViewController:bc animated:NO];
 }
 
 

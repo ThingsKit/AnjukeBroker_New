@@ -61,7 +61,6 @@
         [self stopAnimation];
         [self.tablaData removeAllObjects];
         [self.tableList reloadData];
-        [self donePullDown];
         
         return;
     }
@@ -308,13 +307,8 @@
     }else{
         [self.tableList setTableStatus:STATUSFOROK];
     }
+    [self.tableList reloadData];
     [self donePullDown];
-    if (self.selectCell) {
-        [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.selectCell,nil] withRowAnimation:UITableViewRowAnimationNone];
-        self.selectCell = nil;
-    }else{
-        [self.tableList reloadData];
-    }
 }
 
 #pragma mark -UITableViewDelegate
