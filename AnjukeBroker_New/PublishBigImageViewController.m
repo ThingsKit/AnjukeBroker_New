@@ -280,8 +280,14 @@
 //    [self showArrowImg];
     
 
-    if (self.hasTextView && _imageDescArray && self.editDeleteImgIndex >= 0) {
-        NSString* content = [_imageDescArray objectAtIndex:self.editDeleteImgIndex];
+    if (self.hasTextView && _imageDescArray && self.editDeleteImgIndex >= 0)
+    {
+        NSString* content = @"";
+        if ([_imageDescArray count] > self.editDeleteImgIndex)
+        {
+            content = [_imageDescArray objectAtIndex:self.editDeleteImgIndex];
+        }
+        [_imageDescArray objectAtIndex:self.editDeleteImgIndex];
         if (content.length > 0 && ![content isEqualToString:self.placeHolder]) {
             _textView.text = [_imageDescArray objectAtIndex:self.editDeleteImgIndex];
             _pencil.hidden = YES;
