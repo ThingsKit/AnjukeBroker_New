@@ -89,7 +89,7 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_ONVIEW page:CLIENT_DETAIL note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -268,7 +268,7 @@
 }
 
 - (void)rightButtonAction:(id)sender {
-    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_003 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_MORE page:CLIENT_DETAIL note:nil];
     
     UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"编辑备注", @"删除客户", nil];
     as.delegate = self;
@@ -285,13 +285,13 @@
     
 
     if (!self.person.isStar) {
-        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_007 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_CLICK_CANCEL_STORE page:CLIENT_DETAIL note:nil];
         
         [self resetButtonItemView:[UIImage imageNamed:@"anjuke_icon_danye_noxingbiao_.png"]];
         
         [self showInfo:@"取消标星成功"];
     }else{
-        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_006 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_CLICK_STORE page:CLIENT_DETAIL note:nil];
         
         [self resetButtonItemView:[UIImage imageNamed:@"anjuke_icon_danye_xingbiao_.png"]];
         [self showInfo:@"添加标星成功"];
@@ -361,20 +361,20 @@
         if (self.person.markPhone.length <= 0) {
             return;
         }
-        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_008 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_PHONE_NUMBER page:CLIENT_DETAIL note:nil];
         
         //make call
         NSString *markNameStr = self.person.markName ? self.person.markName : @"";
-        [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系%@：",markNameStr] callPhone:self.person.markPhone appLogKey:CLIENT_DETAIL_011 completion:^(CFAbsoluteTime time) {
+        [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系%@：",markNameStr] callPhone:self.person.markPhone appLogKey:CLIENT_DETAIL_ADD_TIPS completion:^(CFAbsoluteTime time) {
             nil;
         }];
         //        [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系%@：",markNameStr] callPhone:self.person.markPhone appLogKey:CLIENT_DETAIL_011];
     }else{
-        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_004 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_MORE_EDIT_TIPS page:CLIENT_DETAIL note:nil];
         
         AXMappedPerson *item = (AXMappedPerson *)self.person;
         if (item.markDesc && item.markDesc.length > 0) {
-            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_012 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_EDIT_TIPS page:CLIENT_DETAIL note:nil];
         }
         //编辑
         ClientEditViewController *ce = [[ClientEditViewController alloc] init];
@@ -391,7 +391,7 @@
         switch (buttonIndex) {
             case 0:
             {
-                [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_004 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_MORE_EDIT_TIPS page:CLIENT_DETAIL note:nil];
                 
                 //编辑
                 ClientEditViewController *ce = [[ClientEditViewController alloc] init];
@@ -402,7 +402,7 @@
                 break;
             case 1:
             {
-                [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_005 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_MORE_DELETE_CLIENT page:CLIENT_DETAIL note:nil];
                 
                 //删除
                 UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"是否删除" message:@"删除客户，将同时删除备注和聊天记录" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];

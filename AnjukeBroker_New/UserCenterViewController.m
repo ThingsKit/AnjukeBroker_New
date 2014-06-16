@@ -62,7 +62,7 @@
 #pragma mark - view
 
 - (void)viewWillAppear:(BOOL)animated{
-    [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_ONVIEW page:PERSONAL note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 
 //    self.navigationController.navigationBarHidden = YES;
     
@@ -201,7 +201,7 @@
         return;
     
     if (indexPath.row == 1){
-        [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_005 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_INFORMATION page:PERSONAL note:nil];
         
         //broker acunt
         BrokerAccountController *controller = [[BrokerAccountController alloc] init];
@@ -213,31 +213,31 @@
         [clientListVC setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:clientListVC animated:YES];
     }else if (indexPath.row == 4) {
-        [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_004 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_QRCODE page:PERSONAL note:nil];
         
         BrokerTwoDimensionalCodeViewController *ba = [[BrokerTwoDimensionalCodeViewController alloc] init];
         [ba setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:ba animated:YES];
     }else if (indexPath.row == 6) {
-        [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_006 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_CLICK_SALESCALL page:PERSONAL note:nil];
         
         if (self.userCenterModel.tel) {
             //make call
-            [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:self.userCenterModel.tel  appLogKey:USER_CENTER_007 completion:^(CFAbsoluteTime time) {
+            [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:self.userCenterModel.tel  appLogKey:PERSONAL_CLICK_CONFIRM_SALESCALL completion:^(CFAbsoluteTime time) {
                 nil;
             }];
             //                [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:self.userCenterModel.tel  appLogKey:USER_CENTER_007];
         }
     }else if (indexPath.row == 7){
-        [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_008 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_CLICK_CSCALL page:PERSONAL note:nil];
         
         //make call
-        [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER appLogKey:USER_CENTER_009 completion:^(CFAbsoluteTime time) {
+        [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER appLogKey:PERSONAL_CLICK_CONFIRM_CSCALL completion:^(CFAbsoluteTime time) {
             nil;
         }];
         //            [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER appLogKey:USER_CENTER_009];
     }else if (indexPath.row == 8){
-        [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_010 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_CLICK_SYSSET page:PERSONAL note:nil];
         
         AppSettingViewController *settingVC = [[AppSettingViewController alloc] init];
         settingVC.backType = RTSelectorBackTypePopBack;

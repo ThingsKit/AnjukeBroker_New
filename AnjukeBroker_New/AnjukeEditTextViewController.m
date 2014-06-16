@@ -78,17 +78,17 @@
 - (void)setHZAppearLog{
     
     if (self.isTitle) {
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_TITLE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_TITLE_ONVIEW page:ZF_PUBLISH_TITLE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_DESC_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_DESCRIPTION_ONVIEW page:ZF_PUBLISH_DESCRIPTION note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
 }
 - (void)setAJKAppearLog{
     
     if (self.isTitle) {
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_TITLE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_TITLE_ONVIEW page:ESF_PUBLISH_TITLE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_DESC_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_DESCRIPTION_ONVIEW page:ESF_PUBLISH_DESCRIPTION note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
 }
 - (void)setHZDisappearLog{
@@ -110,46 +110,46 @@
 #pragma mark - InputLog
 - (void)setHZInputLog {
     if (self.isTitle) {
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_TITLE_003 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_TITLE_SPEAK page:ZF_PUBLISH_TITLE note:nil];
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_DESC_003 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_DESCRIPTION_SPEAK page:ZF_PUBLISH_DESCRIPTION note:nil];
     }
 }
 - (void)setAJKInputLog {
     if (self.isTitle) {
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_TITLE_003 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_TITLE_SPEAK page:ESF_PUBLISH_TITLE note:nil];
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_DESC_003 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_DESCRIPTION_SPEAK page:ESF_PUBLISH_DESCRIPTION note:nil];
     }
 }
 #pragma mark - RightButtonLog
 - (void)rightButtonHZLog {
     if (self.isTitle) {
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_TITLE_006 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_TITLE_SAVE page:ZF_PUBLISH_TITLE note:nil];
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_DESC_006 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_DESCRIPTION_SAVE page:ZF_PUBLISH_DESCRIPTION note:nil];
     }
 }
 - (void)rightButtonAJKLog {
     if (self.isTitle) {
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_TITLE_006 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_TITLE_SAVE page:ESF_PUBLISH_TITLE note:nil];
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_DESC_006 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_DESCRIPTION_SAVE page:ESF_PUBLISH_DESCRIPTION note:nil];
     }
 }
 #pragma mark - FlyInputLog
 - (void)setHZFlyInput {
     if (self.isTitle) {
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_TITLE_003 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_TITLE_SPEAK page:ZF_PUBLISH_TITLE note:nil];
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_DESC_003 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_DESCRIPTION_SPEAK page:ZF_PUBLISH_DESCRIPTION note:nil];
     }
 }
 - (void)setAJKInput {
     if (self.isTitle) {
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_TITLE_003 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_TITLE_SPEAK page:ESF_PUBLISH_TITLE note:nil];
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_DESC_003 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_DESCRIPTION_SPEAK page:ESF_PUBLISH_DESCRIPTION note:nil];
     }
     
 }
@@ -157,17 +157,17 @@
 #pragma mark - BackButtonLog
 - (void)setHZBackLog{
     if (self.isTitle) {
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_TITLE_005 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_TITLE_BACK page:ZF_PUBLISH_TITLE note:nil];
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_DESC_005 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_DESCRIPTION_BACK page:ZF_PUBLISH_DESCRIPTION note:nil];
     }
     
 }
 - (void)setAJKBackLog{
     if (self.isTitle) {
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_TITLE_005 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_TITLE_BACK page:ESF_PUBLISH_TITLE note:nil];
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_DESC_005 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_DESCRIPTION_BACK page:ESF_PUBLISH_DESCRIPTION note:nil];
     }
     
 }

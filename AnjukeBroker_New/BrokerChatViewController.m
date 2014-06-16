@@ -35,7 +35,7 @@
 @implementation BrokerChatViewController
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ONVIEW page:CHAT note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -44,7 +44,7 @@
 
 - (void)didMoreBackView:(UIButton *)sender {
     [super didMoreBackView:sender];
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_004 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ADD page:CHAT note:nil];
 }
 
 #pragma mark - lifeCycle
@@ -239,7 +239,7 @@
 }
 
 - (void)pickIMG:(id)sender {
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_006 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ALBUM page:CHAT note:nil];
     
     BK_ELCAlbumPickerController *albumPicker = [[BK_ELCAlbumPickerController alloc] initWithStyle:UITableViewStylePlain];
     BK_ELCImagePickerController *elcPicker = [[BK_ELCImagePickerController alloc] initWithRootViewController:albumPicker];
@@ -249,7 +249,7 @@
 }
 
 - (void)takePic:(id)sender {
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_005 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_SHOOT page:CHAT note:nil];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
         if (authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied)
@@ -266,7 +266,7 @@
     
 }
 - (void)pickAJK:(id)sender {
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_007 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF page:CHAT note:nil];
     
     CommunitySelectViewController *controller = [[CommunitySelectViewController alloc] init];
     controller.pageTypeFrom = secondHandHouse;
@@ -277,7 +277,7 @@
 }
 
 - (void)pickHZ:(id)sender {
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_008 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ZF page:CHAT note:nil];
     
     CommunitySelectViewController *controller = [[CommunitySelectViewController alloc] init];
     controller.pageTypeFrom = rentHouse;
@@ -444,14 +444,14 @@
 }
 
 - (void)rightButtonAction:(id)sender {
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_009 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_CLICK_CLIENT page:CHAT note:nil];
     [self viewCustomerDetailInfo];
 }
 
 - (void)viewCustomerDetailInfo {
     if (self.friendPerson.userType == AXPersonTypePublic) {
         
-        [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_009 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_CLICK_CLIENT page:CHAT note:nil];
         AXMappedPerson *item = self.friendPerson;
         //for test
         ClientDetailPublicViewController *cd = [[ClientDetailPublicViewController alloc] init];
@@ -461,7 +461,7 @@
         [cd setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:cd animated:YES];
     }else if (self.friendPerson.userType == AXPersonTypeUser){
-        [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_009 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_CLICK_CLIENT page:CHAT note:nil];
         AXMappedPerson *item = self.friendPerson;
         //for test
         ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
@@ -477,19 +477,19 @@
 #pragma mark -
 #pragma mark LOG Method
 - (void)clickLocationLog{
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_015 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_CLICK_LOCATION page:CHAT note:nil];
 }
 - (void)switchToVoiceLog{
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_016 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_TRANSTOSPEAK page:CHAT note:nil];
 }
 - (void)switchToTextLog{
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_017 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_TRANSTOWORD page:CHAT note:nil];
 }
 - (void)pressForVoiceLog{
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_018 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_SPEAKING page:CHAT note:nil];
 }
 - (void)cancelSendingVoiceLog{
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_019 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_CANCEL_SPEAKING page:CHAT note:nil];
 }
 
 - (void)doBack:(id)sender {
@@ -498,13 +498,13 @@
     
     [self didClickKeyboardControl];
     
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_013 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_BACK page:CHAT note:nil];
     self.tabBarController.selectedIndex = 1;
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)didClickTelNumber:(NSString *)telNumber {
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_010 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_PHONE_NUMBER page:CHAT note:nil];
     
     NSArray *phone = [NSArray arrayWithArray:[telNumber componentsSeparatedByString:@":"]];
     
@@ -520,10 +520,10 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
-        [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_011 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_CALL page:CHAT note:nil];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",self.phoneNumber]]];
     }else if (buttonIndex == 1){
-        [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_012 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_SAVE_PHONE_NUMBER page:CHAT note:nil];
         self.friendPerson.markPhone = self.phoneNumber;
         [[AXChatMessageCenter defaultMessageCenter] updatePerson:self.friendPerson];
         [self requestUpdatePerson];
@@ -655,7 +655,7 @@
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController pushViewController:mv animated:YES];
     
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_020 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_OPEN_LOCATION page:CHAT note:nil];
 }
 
 #pragma mark -

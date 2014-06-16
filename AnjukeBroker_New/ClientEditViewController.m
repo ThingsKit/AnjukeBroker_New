@@ -61,7 +61,7 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_EDIT_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:TIPS_ONVIEW page:TIPS note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -227,7 +227,7 @@
 #pragma mark - Private Method
 
 - (void)rightButtonAction:(id)sender {
-    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_EDIT_003 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:TIPS_CLICK_SAVE page:TIPS note:nil];
     [self textInputDisappear];
     if (![self checkInputOK]) {
         return;
@@ -307,7 +307,7 @@
     DLog(@"编辑客户---%@", resultFromAPI);
     
     if ([[resultFromAPI objectForKey:@"status"] isEqualToString:@"OK"]) {
-        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_EDIT_005 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:TIPS_SAVE page:TIPS note:nil];
         
         [self showInfo:@"备注信息更新成功"];
         

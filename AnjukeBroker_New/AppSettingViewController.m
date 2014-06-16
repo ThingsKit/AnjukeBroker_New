@@ -48,7 +48,7 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_ONVIEW page:SYSTEM_SETTING note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)viewDidLoad
@@ -218,12 +218,12 @@
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == 5) {
-        [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_007 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_ABOUT_US page:SYSTEM_SETTING note:nil];
         
         AboutUsViewController *av = [[AboutUsViewController alloc] init];
         [self.navigationController pushViewController:av animated:YES];
     }else if (indexPath.row == 4){
-        [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_006 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_CLICK_NEW page:SYSTEM_SETTING note:nil];
         if (self.isHasNewVersion && self.updateUrl.length != 0) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"发现新%@版本",self.onlineVer] delegate:self cancelButtonTitle:@"稍后再说" otherButtonTitles:@"立即更新", nil];
             alert.delegate = self;
@@ -374,9 +374,9 @@
         if ([result isEqualToString:@"1"] || [result isEqualToString:@"0"]) {
             [self showInfo:@"修改成功"];
             if (self.msgSw.on) {
-                [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_005 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_MESSAGE_ON page:SYSTEM_SETTING note:nil];
             }else{
-                [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_004 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_MESSAGE_OFF page:SYSTEM_SETTING note:nil];
             }
         }else{
             self.msgSw.on = !self.msgSw.on;
@@ -403,7 +403,7 @@
     }
 }
 - (void)loginOut {
-    [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_012 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:SYSTEM_SETTING_QUIT page:SYSTEM_SETTING note:nil];
     UIAlertView *av = [[UIAlertView alloc] initWithTitle:nil message:@"是否退出登录？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
     [av setCancelButtonIndex:0];
     [av show];

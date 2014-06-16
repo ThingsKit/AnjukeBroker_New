@@ -1560,13 +1560,13 @@ typedef enum {
     switch (buttonIndex) {
         case 1:
         {
-            NSString *code = [NSString string];
+            NSString *actionCode = ESF_PUBLISH_BACK;
+            NSString *pageID     = ESF_PUBLISH;
             if (self.isHaozu) {
-                code = HZ_PROPERTY_003;
+                actionCode = ZF_PUBLISH_BACK;
+                pageID     = ZF_PUBLISH;
             }
-            else
-                code = AJK_PROPERTY_003;
-            [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:actionCode page:pageID note:nil];
             
             [super doBack:self];
         }

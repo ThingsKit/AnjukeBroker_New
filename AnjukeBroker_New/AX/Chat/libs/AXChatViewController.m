@@ -2235,7 +2235,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 }
 
 - (void)didEmojiButClick{
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_021 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_TRANSTO_EMOTICON page:CHAT note:nil];
     [self initEmojiView];
     self.moreBackView.hidden = YES;
     //禁止手势

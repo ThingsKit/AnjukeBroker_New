@@ -20,9 +20,9 @@
 #pragma mark - log
 - (void)sendAppearLog {
     if (self.pageTypePropertyFrom == secondHandPropertyHouse){
-        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PROPERTY_CHAT_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_PROP_ONVIEW page:CHAT_ESF_PROP note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PROPERTY_CHAT_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ZF_PROP_ONVIEW page:CHAT_ZF_PROP note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
 }
 
@@ -133,9 +133,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.pageTypePropertyFrom == secondHandPropertyHouse){
-        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PROPERTY_CHAT_003 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_PROP_SELECT page:CHAT_ESF_PROP note:nil];
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PROPERTY_CHAT_003 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ZF_PROP_SELECT page:CHAT_ZF_PROP note:nil];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [[(HouseSelectNavigationController *)self.navigationController selectedHouseDelgate] returnSelectedHouseDic:[self.arr objectAtIndex:indexPath.row] houseType:self.pageTypePropertyFrom == secondHandPropertyHouse ? YES : NO];
@@ -152,10 +152,10 @@
 }
 - (void)doBack:(id)sender {
     if (self.pageTypePropertyFrom == secondHandPropertyHouse){
-        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PROPERTY_CHAT_004 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_PROP_BACK page:CHAT_ESF_PROP note:nil];
     
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PROPERTY_CHAT_004 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ZF_PROP_BACK page:CHAT_ZF_PROP note:nil];
     }
     [super doBack:self];
 }

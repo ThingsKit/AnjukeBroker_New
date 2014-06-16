@@ -116,7 +116,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[BrokerLogger sharedInstance] logWithActionCode:CHECK_PAGE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:SIGNIN_DETAILPAGE_ONVIEW page:SIGNIN_DETAILPAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 
     [self addRightButton:@"规则" andPossibleTitle:nil];
     // Do any additional setup after loading the view.
@@ -365,7 +365,7 @@
     [self setTitleViewWithString:[NSString stringWithFormat:@"签到-%@",self.checkCommunitmodel.commName]];
 }
 - (void)rightButtonAction:(id)sender{
-    [[BrokerLogger sharedInstance] logWithActionCode:CHECK_PAGE_004 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:SIGNIN_DETAILPAGE_CLICK_RULE page:SIGNIN_DETAILPAGE note:nil];
     
     CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
     webVC.webTitle = @"签到规则";
@@ -375,7 +375,7 @@
 }
 
 - (void)checkoutCommunity:(id)sender{
-    [[BrokerLogger sharedInstance] logWithActionCode:CHECK_PAGE_003 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:SIGNIN_DETAILPAGE_CLICK_SIGN page:SIGNIN_DETAILPAGE note:nil];
 
     //签到按钮
     [self showCheckButton:CHECKBUTTONWITHCHECKING timeLeft:0];

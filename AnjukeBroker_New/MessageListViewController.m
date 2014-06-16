@@ -72,7 +72,7 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_ONVIEW page:MESSAGE_LIST note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -138,7 +138,7 @@
 
 - (void)rightButtonAction:(id)sender {
     if ([LoginManager getChatID].length > 0 && [LoginManager getPhone].length > 0) {
-        [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_003 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_ADD page:MESSAGE_LIST note:nil];
         
         ClientListViewController *ml = [[ClientListViewController alloc] init];
         ml.isForMessageList = YES;
@@ -306,7 +306,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_005 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_DELETE_MESSAGE page:MESSAGE_LIST note:nil];
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [[AXChatMessageCenter defaultMessageCenter] deleteConversationItem:[self.sessionFetchedResultsController fetchedObjects][indexPath.row]];
@@ -321,9 +321,9 @@
   AXMappedPerson *persion = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:item.friendUid];
     
     if (persion.userType == AXPersonTypePublic) {
-        [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_006 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_CLICK_MOBILEBROKER page:MESSAGE_LIST note:nil];
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_004 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_CLICK_MESSAGE page:MESSAGE_LIST note:nil];
     }
     
     BrokerChatViewController *controller = [[BrokerChatViewController alloc] init];

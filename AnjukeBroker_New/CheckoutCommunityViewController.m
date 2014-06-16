@@ -99,8 +99,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-    
+    [[BrokerLogger sharedInstance] logWithActionCode:SIGNIN_LIST_ONVIEW page:SIGNIN_LIST note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+
     [self setTitleViewWithString:@"小区签到"];
     // Do any additional setup after loading the view.
     
@@ -161,12 +161,12 @@
 
 - (void)doBack:(id)sender{
     [super doBack:nil];
-    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_006 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:SIGNIN_LIST_CLICK_BACK page:SIGNIN_LIST note:nil];
     
 }
 
 - (void)rightButtonAction:(id)sender{
-    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_007 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:SIGNIN_LIST_CLICK_RULE page:SIGNIN_LIST note:nil];
     CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
     webVC.webTitle = @"签到规则";
     webVC.webUrl = @"http://api.anjuke.com/web/nearby/brokersign/rule.html";
@@ -186,7 +186,7 @@
 
 #pragma mark - rotation method
 - (void)refreshGeo:(id)sender{
-    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_004 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:SIGNIN_LIST_CLICK_REFRESH page:SIGNIN_LIST note:nil];
     if (self.isLoading) {
         return;
     }
@@ -351,7 +351,7 @@
     
     self.selectCell = indexPath;
     
-    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_003 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:SIGNIN_LIST_CLICK_XIAOQU page:SIGNIN_LIST note:nil];
     CheckCommunityModel *model = [CheckCommunityModel convertToMappedObject:[self.tablaData objectAtIndex:indexPath.row]];
     CheckoutViewController *checkoutVC = [[CheckoutViewController alloc] init];
     checkoutVC.checkoutDelegate = self;

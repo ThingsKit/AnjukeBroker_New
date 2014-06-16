@@ -56,7 +56,7 @@
 #pragma mark - log
 
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:APP_LOGIN_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:LOGIN_ONVIEW page:LOGIN note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 - (void) sendDisAppearLog
 {
@@ -202,7 +202,7 @@
 
 
 - (void)pushToTab {
-    [[BrokerLogger sharedInstance] logWithActionCode:APP_LOGIN_003 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:LOGIN_SUCCESS page:LOGIN note:nil];
 
     self.nameTF.text = @"";
     self.passwordTF.text = @"";
@@ -272,7 +272,7 @@
 #pragma mark - request method
 
 - (void)doRequest {
-    [[BrokerLogger sharedInstance] logWithActionCode:APP_LOGIN_002 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:LOGIN_CLICK_LOGIN page:LOGIN_CLICK_LOGIN note:nil];
 
     if (![self isNetworkOkayWithNoInfo]) {
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];

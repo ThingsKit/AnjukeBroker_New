@@ -193,7 +193,7 @@
 //右侧按钮点击事件
 - (void)buttonClicked:(UIButton*)button{
     NSLog(@"拨打电话-->%@", self.myPropertyModel.ownerPhone);
-    [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ME_PAGE_003 note:@{@"propid":self.myPropertyModel.propertyId}];
+    [[BrokerLogger sharedInstance] logWithActionCode:COMMISSION_MINE_CLICK_CALL page:COMMISSION_MINE note:@{@"propid":self.myPropertyModel.propertyId}];
     
     if (![@"iPhone" isEqualToString:[UIDevice currentDevice].model]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息" message:@"设备不支持电话功能" delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
@@ -221,7 +221,7 @@
     }
     
     
-    [[BrokerCallAlert sharedCallAlert] callAlert:nil callPhone:self.myPropertyModel.ownerPhone appLogKey:ENTRUST_ME_PAGE_004 completion:^(CFAbsoluteTime time) {
+    [[BrokerCallAlert sharedCallAlert] callAlert:nil callPhone:self.myPropertyModel.ownerPhone appLogKey:COMMISSION_MINE_CONFIRM_CALL completion:^(CFAbsoluteTime time) {
     }];
     
     

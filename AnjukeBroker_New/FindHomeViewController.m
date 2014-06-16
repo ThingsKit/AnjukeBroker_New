@@ -22,7 +22,7 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:MARKET_ANALYSIS_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:MARKET_ONVIEW page:MARKET note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 //- (void)sendDisAppearLog {
@@ -197,7 +197,7 @@
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(BK_EGORefreshTableHeaderView*)view
 {
     if ([self isNetworkOkay]) {
-        [[BrokerLogger sharedInstance] logWithActionCode:MARKET_ANALYSIS_003 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:MARKET_PULL_REFRESH page:MARKET note:nil];
         
         [self doRequest];
     }

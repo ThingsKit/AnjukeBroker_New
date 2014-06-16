@@ -194,7 +194,7 @@
 - (void)buttonClicked:(UIButton*)button{
     
     RushPropertyViewController* viewController = (RushPropertyViewController*)self.viewController;
-    [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_003 note:@{@"propid":self.propertyModel.propertyId}];
+    [[BrokerLogger sharedInstance] logWithActionCode:COMMISSION_LIST_CLICK_QIANG page:COMMISSION_LIST note:@{@"propid":self.propertyModel.propertyId}];
     
     self.button.enabled = NO;
     

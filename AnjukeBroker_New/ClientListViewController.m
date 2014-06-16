@@ -118,10 +118,10 @@
 #pragma mark - log
 - (void)sendAppearLog {
     if (self.isForMessageList) {
-        [[BrokerLogger sharedInstance] logWithActionCode:CUSTOM_CHOOSE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_SELECT_CLIENT_ONVIEW page:CHAT_SELECT_CLIENT note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
     else
-        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_ONVIEW page:CLIENT_LIST note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -347,7 +347,7 @@
 
 - (void)doBack:(id)sender {
     if (self.isForMessageList) {
-        [[BrokerLogger sharedInstance] logWithActionCode:CUSTOM_CHOOSE_004 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_SELECT_CLIENT_CANCEL page:CHAT_SELECT_CLIENT note:nil];
     }
     
     [super doBack:self];
@@ -510,7 +510,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.isForMessageList) {
-        [[BrokerLogger sharedInstance] logWithActionCode:CUSTOM_CHOOSE_003 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_SELECT_CLIENT_CLICK page:CHAT_SELECT_CLIENT note:nil];
     }
     else{
 
@@ -522,9 +522,9 @@
     if (indexPath.section == 0) { //公共账号显示
         item = [self.publicDataArr objectAtIndex:indexPath.row];
         if (item.userType == AXPersonTypePublic) {
-            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_008 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_CLICK_MOBILEBROKER page:CLIENT_LIST note:nil];
         }else {
-            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_003 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_CLICK_CLIENT page:CLIENT_LIST note:nil];
         }
         if (self.isForMessageList) {
             
@@ -590,7 +590,7 @@
     switch (index) {
         case 0:
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_004 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_STORE page:CLIENT_LIST note:nil];
             
             DLog(@"isStar--section[%d],row-[%d]", cellIndexPath.section, cellIndexPath.row);
             
@@ -605,7 +605,7 @@
         }
         case 1:
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_006 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_DELETE page:CLIENT_LIST note:nil];
             
             DLog(@"delete--section[%d],row-[%d]", cellIndexPath.section, cellIndexPath.row);
             

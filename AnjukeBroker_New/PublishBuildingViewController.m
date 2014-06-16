@@ -492,13 +492,13 @@ typedef enum {
 }
 
 - (void)doBack:(id)sender {
-    NSString *code = [NSString string];
+    NSString *actionCode = ESF_PUBLISH_BACK;
+    NSString *pageID     = ESF_PUBLISH;
     if (self.isHaozu) {
-        code = HZ_PROPERTY_003;
+        actionCode = ZF_PUBLISH_BACK;
+        pageID     = ZF_PUBLISH;
     }
-    else
-        code = AJK_PROPERTY_003;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:actionCode page:pageID note:nil];
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"确认不保存当前内容?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
     alert.cancelButtonIndex = 0;

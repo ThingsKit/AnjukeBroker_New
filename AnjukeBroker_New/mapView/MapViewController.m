@@ -96,9 +96,9 @@
 #pragma mark -- Log
 - (void)sendAppearLog{
     if (self.mapType == RegionChoose) {
-        [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_CHOOSE_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime],@"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_LOCATION_ONVIEW page:CHAT_LOCATION note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime],@"ot", nil]];
     }else{
-        [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_VIEW_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime],@"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_OPEN_LOCATION_ONVIEW page:CHAT_OPEN_LOCATION note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime],@"ot", nil]];
     }
 }
 - (void)sendDisAppearLog{
@@ -206,9 +206,9 @@
 
 -(void)doBack:(id)sender{
     if (self.mapType == RegionChoose) {
-        [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_CHOOSE_004 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_LOCATION_BACK page:CHAT_LOCATION note:nil];
     }else{
-        [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_VIEW_004 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_OPEN_LOCATION_BACK page:CHAT_OPEN_LOCATION note:nil];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -224,7 +224,7 @@
             [locationDic setValue:@"google" forKey:@"from_map_type"];
             
             
-            [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_CHOOSE_003 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:CHAT_LOCATION_SEND page:CHAT_LOCATION note:nil];
            [self.siteDelegate loadMapSiteMessage:locationDic];
         }
         [self.navigationController popViewControllerAnimated:YES];
@@ -236,7 +236,7 @@
 }
 
 -(void)doAcSheet{
-    [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_VIEW_003 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_OPEN_LOCATION_CLICK_GUIDE page:CHAT_OPEN_LOCATION note:nil];
     
     NSArray *appListArr = [CheckInstalledMapAPP checkHasOwnApp];
     NSString *sheetTitle = [NSString stringWithFormat:@"导航到 %@",[self.navDic objectForKey:@"address"]];
@@ -297,11 +297,11 @@
     }else{
         return;
     }
-    [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_VIEW_006 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_OPEN_LOCATION_THIRDPARTY_MAP page:CHAT_OPEN_LOCATION note:nil];
 
 }
 -(void)drawRout{
-    [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_VIEW_005 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_OPEN_LOCATION_CLICK_PATH page:CHAT_OPEN_LOCATION note:nil];
 
     MKPlacemark *fromPlacemark = [[MKPlacemark alloc] initWithCoordinate:nowCoords addressDictionary:nil];
     MKPlacemark *toPlacemark   = [[MKPlacemark alloc] initWithCoordinate:naviCoordsGd addressDictionary:nil];
@@ -485,7 +485,7 @@
         return;
     }
     
-    [[BrokerLogger sharedInstance] logWithActionCode:LOCATION_CHOOSE_005 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_LOCATION_MOVE page:CHAT_LOCATION note:nil];
     
     if (ISIOS7) {
         if ([mapView.annotations count]) {

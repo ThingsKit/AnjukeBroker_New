@@ -319,7 +319,7 @@
                 [self.tabController presentViewController:navi animated:YES completion:nil];
             }
             
-            [[BrokerLogger sharedInstance] logWithActionCode:ENTRUST_ROB_PAGE_001 note:@{@"push":@"push"}];
+            [[BrokerLogger sharedInstance] logWithActionCode:COMMISSION_LIST_ONVIEW page:COMMISSION_LIST note:@{@"push":@"push"}];
 
         }
     }

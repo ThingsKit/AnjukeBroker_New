@@ -31,7 +31,7 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_ONVIEW page:ZF_MANAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -217,20 +217,20 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if([indexPath row] == 0)
     {
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_003 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_BIDLIST page:ZF_MANAGE note:nil];
         
         RentBidDetailController *controller = [[RentBidDetailController alloc] init];
         controller.backType = RTSelectorBackTypePopBack;
         [self.navigationController pushViewController:controller animated:YES];
     }else if ([indexPath row] == [self.myArray count] - 1){
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_005 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_DRAFTLIST page:ZF_MANAGE note:nil];
         
         RentNoPlanController *controller = [[RentNoPlanController alloc] init];
         controller.backType = RTSelectorBackTypePopBack;
         controller.isSeedPid = self.isSeedPid;
         [self.navigationController pushViewController:controller animated:YES];
     }else{
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_004 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_FIXLIST page:ZF_MANAGE note:nil];
         
         RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
         controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
@@ -276,7 +276,7 @@
 }
 
 - (void)rightButtonAction:(id)sender{
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_HOME_006 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_CLICK_PUBLISH page:ZF_MANAGE note:nil];
     
     //模态弹出小区--万恶的结构变动尼玛
     CommunityListViewController *controller = [[CommunityListViewController alloc] init];

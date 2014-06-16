@@ -18,9 +18,9 @@
 #pragma mark - log
 - (void)sendAppearLog {
     if (self.pageTypeFrom == secondHandHouse) {
-        [[BrokerLogger sharedInstance] logWithActionCode:ESF_COMMUNITY_CHAT_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_XIAOQU_ONVIEW page:CHAT_ESF_XIAOQU note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:ZF_COMMUNITY_CHAT_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ZF_XIAOQU_ONVIEW page:CHAT_ZF_XIAOQU note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
 }
 
@@ -132,9 +132,9 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.pageTypeFrom == secondHandHouse) {
-    [[BrokerLogger sharedInstance] logWithActionCode:ESF_COMMUNITY_CHAT_003 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_XIAOQU_SELECT page:CHAT_ESF_XIAOQU note:nil];
     }else {
-    [[BrokerLogger sharedInstance] logWithActionCode:ZF_COMMUNITY_CHAT_003 note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ZF_XIAOQU_SELECT page:CHAT_ZF_XIAOQU note:nil];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
@@ -152,9 +152,9 @@
 
 - (void)doBack:(id)sender {
      if (self.pageTypeFrom == secondHandHouse) {
-    [[BrokerLogger sharedInstance] logWithActionCode:ESF_COMMUNITY_CHAT_004 note:nil];
+         [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_XIAOQU_BACK page:CHAT_ESF_XIAOQU note:nil];
      }else {
-     [[BrokerLogger sharedInstance] logWithActionCode:ZF_COMMUNITY_CHAT_004 note:nil];
+         [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ZF_XIAOQU_BACK page:CHAT_ZF_XIAOQU note:nil];
      }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
