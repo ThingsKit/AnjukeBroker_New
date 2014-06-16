@@ -22,6 +22,7 @@
     if (self) {
         [self initUI];
         self.backgroundColor = [UIColor brokerBgPageColor];
+//        self.backgroundColor = [UIColor redColor];
     }
     return self;
 }

@@ -91,10 +91,12 @@
     [_price setTextColor:[UIColor brokerBlackColor]];
     [self.contentView addSubview:_price];
     
-//cell的背景视图
+    //cell的背景视图, 默认选中是蓝色
 //    UIView* backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 0)];
 //    backgroundView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.9];
 //    self.selectedBackgroundView = backgroundView;
+    
+    self.contentView.backgroundColor = [UIColor brokerWhiteColor];
     
 }
 

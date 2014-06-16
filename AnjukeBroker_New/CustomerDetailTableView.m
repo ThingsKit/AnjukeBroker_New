@@ -89,7 +89,7 @@
     if (indexPath.row == 0
         && indexPath.section == 0
         && self.customerDetailModel.community
-        && self.customerDetailModel.community.length > 20) {
+        && self.customerDetailModel.community.length > 20) { //偏好房源字段的长度如果超过20,需要二行显示,对应的此cell高度增加
         return 105;
     }
     return 90;

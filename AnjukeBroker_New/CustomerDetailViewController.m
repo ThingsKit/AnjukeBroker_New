@@ -16,10 +16,24 @@
 @interface CustomerDetailViewController ()
 
 @property (nonatomic, strong) CustomerDetailTableView* tableView;
+
+//无数据或无网络提示相关
 @property (nonatomic, strong) UIView* emptyBackgroundView;
+@property (nonatomic, strong) UIImageView* emptyBackgroundImageView;
+@property (nonatomic, strong) UILabel* emptyBackgroundLabel;
+
+//网络请求锁
 @property (nonatomic, assign) BOOL networkRequesting; //是否正在网络请求, 加锁防止多次请求
 
+//底部微聊button的父视图
 @property (nonatomic, strong) UIView* bottomView;
+
+//浮层相关
+@property (nonatomic, strong) MBProgressHUD* hud;
+@property (nonatomic, strong) UIImageView* hudBackground;
+@property (nonatomic, strong) UIImageView* hudImageView;
+@property (nonatomic, strong) UILabel* hudText;
+@property (nonatomic, strong) UILabel* hubSubText;
 
 @end
 
@@ -128,7 +142,7 @@
     //如果请求数据成功
     if (status == RTNetworkResponseStatusSuccess) {
         NSDictionary* content = response.content;
-        //        NSArray* data = [content objectForKey:@"data"];
+//        NSArray* data = [content objectForKey:@"data"];
         
 //        @property (nonatomic, copy) NSString* userIcon; //用户头像路径
 //        @property (nonatomic, copy) NSString* userName; //用户名称
@@ -188,13 +202,11 @@
             
             
         }else{ //没有新数据
-//            self.tableView.hasMore = NO;
-            [self showEmptyBackground];
+            [self showTipViewWithImageViewFrame:CGRectMake(ScreenWidth/2-100/2, ScreenHeight/2-20-44-70/2, 200/2, 140/2) ImageName:@"check_no_wifi" LabelText:@"无网络连接"];
         }
         
-        
     }else{ //数据请求失败
-        [self showEmptyBackground];
+        [self showTipViewWithImageViewFrame:CGRectMake(ScreenWidth/2-100/2, ScreenHeight/2-20-44-70/2, 200/2, 140/2) ImageName:@"check_no_wifi" LabelText:@"无网络连接"];
         
     }
     
@@ -204,31 +216,35 @@
     
 }
 
-- (void) showEmptyBackground{
+
+- (void) showTipViewWithImageViewFrame:(CGRect)imageViewFrame ImageName:(NSString*)imageName LabelText:(NSString*)labelText{
     if (self.emptyBackgroundView == nil) {
-        self.emptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
-        self.emptyBackgroundView.backgroundColor = [UIColor clearColor];
-        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2-100/2, ScreenHeight/2-20-44-70/2, 200/2, 140/2)];
-        imageView.image = [UIImage imageNamed:@"check_no_wifi"];
-        [self.emptyBackgroundView addSubview:imageView];
+        _emptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
+        _emptyBackgroundView.backgroundColor = [UIColor clearColor];
+        _emptyBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [self.emptyBackgroundView addSubview:_emptyBackgroundImageView];
         
-        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, imageView.bottom, 90, 30)];
-        label.backgroundColor = [UIColor clearColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        [label setFont:[UIFont ajkH3Font]];
-        label.text = @"无网络连接";
-        [label setTextColor:[UIColor brokerLightGrayColor]];
-        [self.emptyBackgroundView addSubview:label];
+        _emptyBackgroundLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _emptyBackgroundLabel.backgroundColor = [UIColor clearColor];
+        _emptyBackgroundLabel.textAlignment = NSTextAlignmentCenter;
+        [_emptyBackgroundLabel setFont:[UIFont ajkH3Font]];
+        [_emptyBackgroundLabel setTextColor:[UIColor brokerLightGrayColor]];
+        [self.emptyBackgroundView addSubview:_emptyBackgroundLabel];
         
         UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autoRefresh)];
         [self.emptyBackgroundView addGestureRecognizer:tap];
         
     }
     
+    _emptyBackgroundImageView.frame = imageViewFrame;
+    _emptyBackgroundImageView.image = [UIImage imageNamed:imageName];
+    
+    _emptyBackgroundLabel.frame = CGRectMake(ScreenWidth/2-90/2, _emptyBackgroundImageView.bottom, 90, 30);
+    _emptyBackgroundLabel.text = labelText;
+    
     if (self.tableView.data.count == 0) {
         self.tableView.tableHeaderView = self.emptyBackgroundView;
         self.tableView.tableHeaderView.hidden = NO;
-//        self.tableView.hasMore = NO;
         self.bottomView.hidden = YES;
     }else{
         self.tableView.tableHeaderView.hidden = YES;
@@ -241,6 +257,78 @@
 - (void) autoRefresh {
     [self requestList:nil];
     //加载数据
+}
+
+
+
+#pragma mark -
+#pragma mark MBProgressHUD 相关
+//使用 MBProgressHUD 显示微聊按钮的状态
+- (void)displayHUDWithStatus:(NSString *)status Message:(NSString*)message ErrCode:(NSString*)errCode {
+    if (self.hudBackground == nil) {
+        self.hudBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 135, 135)];
+        self.hudBackground.image = [UIImage imageNamed:@"anjuke_icon_tips_bg"];
+        
+        self.hudImageView = [[UIImageView alloc] initWithFrame:CGRectMake(135/2-70/2, 135/2-70/2 - 20, 70, 70)];
+        self.hudText = [[UILabel alloc] initWithFrame:CGRectMake(0, self.hudImageView.bottom+7, 135, 20)];
+        [self.hudText setTextColor:[UIColor colorWithWhite:0.95 alpha:1]];
+        [self.hudText setFont:[UIFont systemFontOfSize:17.0f]];
+        [self.hudText setTextAlignment:NSTextAlignmentCenter];
+        self.hudText.backgroundColor = [UIColor clearColor];
+        
+        self.hubSubText = [[UILabel alloc] initWithFrame:CGRectMake(0, self.hudText.bottom, 135, 20)];
+        [self.hubSubText setTextColor:[UIColor colorWithWhite:0.95 alpha:1]];
+        [self.hubSubText setFont:[UIFont systemFontOfSize:12.0f]];
+        [self.hubSubText setTextAlignment:NSTextAlignmentCenter];
+        self.hubSubText.backgroundColor = [UIColor clearColor];
+        
+        [self.hudBackground addSubview:self.hudImageView];
+        [self.hudBackground addSubview:self.hudText];
+        [self.hudBackground addSubview:self.hubSubText];
+        
+    }
+    
+    //使用 MBProgressHUD
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.color = [UIColor clearColor];
+    self.hud.customView = self.hudBackground;
+    self.hud.yOffset = -20;
+    self.hud.mode = MBProgressHUDModeCustomView;
+    self.hud.dimBackground = NO;
+    
+    if ([status isEqualToString:@"ok"]) { //抢成功逻辑
+        
+        self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_laugh"];
+        self.hudText.text = @"抢成功!";
+        self.hubSubText.text = @"快去联系业主吧";
+        self.hubSubText.hidden = NO;
+        
+    }else if([status isEqualToString:@"error"]){ //失败逻辑
+        
+        if ([errCode isEqualToString:@"5001"]) {
+            
+            self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
+            self.hudText.text = @"来晚啦~";
+            self.hubSubText.text = @"房源已删除";
+            self.hubSubText.hidden = NO;
+            
+        }else{
+            self.hudText.hidden = YES;
+            self.hubSubText.frame = CGRectMake(135/2-120/2, 135/2 -20, 120, 70);
+            self.hubSubText.textAlignment = NSTextAlignmentCenter;
+            self.hubSubText.numberOfLines = 0;
+            self.hubSubText.text = message;
+            [self.hubSubText sizeToFit];
+            self.hubSubText.hidden = NO;
+        }
+        
+    }else{ //这里表示网络异常
+        self.hudText.hidden = YES;
+        self.hubSubText.text = @"网络异常";
+        self.hubSubText.hidden = NO;
+    }
+    
+    [self.hud hide:YES afterDelay:1]; //显示一段时间后隐藏
 }
 
 

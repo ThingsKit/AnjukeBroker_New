@@ -109,9 +109,11 @@
     [self.contentView addSubview:self.button];
     
     
-    UIView* backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 0)];
-    backgroundView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.9];
-    self.selectedBackgroundView = backgroundView;
+//    UIView* backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 0)];
+//    backgroundView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.9];
+//    self.selectedBackgroundView = backgroundView;
+    
+    self.contentView.backgroundColor = [UIColor brokerWhiteColor];
     
 }
 
