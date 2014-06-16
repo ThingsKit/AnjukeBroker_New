@@ -8,6 +8,7 @@
 
 #import "AXPublicMenu.h"
 #import "BrokerLineView.h"
+#import "Util_UI.h"
 
 CGFloat const axPublicMenuHeight = 49.0f;
 
@@ -60,8 +61,8 @@ CGFloat const axPublicMenuHeight = 49.0f;
         [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor brokerBgSelectColor]] forState:UIControlStateHighlighted];
         btn.btnInfo = [menus objectAtIndex:i];
         btn.index = i;
-        [btn setTitle:[menus objectAtIndex:i][@"menu_title"] forState:UIControlStateNormal];
-        [btn setTitle:[NSString stringWithFormat:@"菜单%d",i] forState:UIControlStateNormal];
+//        [btn setTitle:[menus objectAtIndex:i][@"menu_title"] forState:UIControlStateNormal];
+//        [btn setTitle:[NSString stringWithFormat:@"菜单%d",i] forState:UIControlStateNormal];
         btn.titleLabel.font = [UIFont systemFontOfSize:15];
 //        btn.titleLabel.textColor = [UIColor brokerBlackColor];
         [btn setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateNormal];
@@ -69,6 +70,27 @@ CGFloat const axPublicMenuHeight = 49.0f;
         [btn addTarget:self action:@selector(publicMenuClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:btn];
 
+//        CGRect frame = [Util_UI sizeOfString:[menus objectAtIndex:i][@"menu_title"] maxWidth:menuWidth withFontSize:15];
+        CGSize size = [Util_UI sizeOfString:[NSString stringWithFormat:@"菜单%d",i] maxWidth:menuWidth withFontSize:15];
+        
+        if (size.width >= menuWidth - 9*2) {
+            size.width = menuWidth - 9*2;
+        }
+        
+        UILabel *lab = [[UILabel alloc] init];
+        lab.frame = CGRectMake(menuWidth/2 - size.width/2, 0, size.width, axPublicMenuHeight);
+        lab.text = [NSString stringWithFormat:@"菜单%d",i];
+        lab.textColor = [UIColor brokerBlackColor];
+        lab.font = [UIFont ajkH3Font];
+        lab.textAlignment = NSTextAlignmentCenter;
+        [btn addSubview:lab];
+        
+        if ([btn.btnInfo[@"menu_type"] integerValue] == AXPublicMenuTypeSubMenu) {
+            UIImageView *menuIcon = [[UIImageView alloc] initWithFrame:CGRectMake(menuWidth/2-size.width/2-9, 20, 9, 9)];
+            [menuIcon setImage:[UIImage imageNamed:@"broker_wl_gzh_menu"]];
+            [btn addSubview:menuIcon];
+        }
+        
         if (inputType == AXPublicInputTypePublicMenu && i == 0) {
             return;
         }else{

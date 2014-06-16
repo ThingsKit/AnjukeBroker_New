@@ -26,7 +26,8 @@ CGFloat const axPublicSubMenuHeight = 45.0f;
 }
 - (void)configPublicSubMenu:(AXPublicMenuButton *)button menu:(NSArray *)menus{
 //    NSInteger menuCount = menus.count;
-    NSInteger menuCount = 4;
+    NSInteger menuCount = MIN(5, menus.count);
+    menuCount = 5;
     
     CGRect rect = CGRectMake(0, 0, 100, 45*menuCount);
     self.frame = rect;
@@ -58,6 +59,7 @@ CGFloat const axPublicSubMenuHeight = 45.0f;
         [btn setTitle:[menus objectAtIndex:i][@"menu_title"] forState:UIControlStateNormal];
         [btn setTitle:[NSString stringWithFormat:@"子菜单%d",i] forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateNormal];
+        btn.titleLabel.font = [UIFont ajkH3Font];
         btn.index = i;
         btn.titleLabel.font = [UIFont systemFontOfSize:15];
         [self addSubview:btn];
