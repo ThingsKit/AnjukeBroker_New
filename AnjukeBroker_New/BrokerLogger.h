@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BrokerLogger : NSObject
+@interface BrokerLogger : RTLogger
 
 - (void)logWithActionCode:(NSString *)actionCode note:(NSDictionary *)note;
+
 + (id)sharedInstance;
 
 @end
