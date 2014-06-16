@@ -16,7 +16,6 @@
 #import "AppDelegate.h"
 #import "UIColor+BrokerRT.h"
 #import "CheckoutWebViewController.h"
-#import "FootCell.h"
 
 @interface CheckoutCommunityViewController ()<checkoutSuccussDelegate>
 //@property(nonatomic, strong) CheckCommunityTable *tableList;
@@ -29,8 +28,6 @@
 @property(nonatomic ,strong) MKMapView *map;
 @property(nonatomic, assign) double angle;
 @property(nonatomic, strong) NSIndexPath *selectCell;
-@property(nonatomic, assign) BOOL isHaveNextPage;
-@property(nonatomic, assign) NSInteger pageNum;
 @property(nonatomic, strong) CLLocationManager *locationManager;
 @end
 
@@ -39,9 +36,8 @@
 @synthesize checkoutDic;
 @synthesize nowCoords;
 @synthesize tablaData;
-@synthesize isHaveNextPage;
-@synthesize pageNum;
 @synthesize locationManager;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -50,13 +46,14 @@
         // Custom initialization
         self.tablaData = [[NSMutableArray alloc] init];
         self.selectCell = nil;
-        self.isHaveNextPage = NO;
-        self.pageNum = 1;
     }
     return self;
 }
 
 #pragma mark - log
+//- (void)sendAppearLog {
+//    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+//}
 
 - (void)viewWillAppear:(BOOL)animated{
     if (![CLLocationManager isLocationServiceEnabled]) {
@@ -80,24 +77,41 @@
     return locationManager;
 }
 
+#pragma mark -
+#pragma mark CLLocationManagerDelegate
+- (void)locationManager:(CLLocationManager *)manager
+	 didUpdateLocations:(NSArray *)locations{
+    [manager stopUpdatingLocation];
+    
+    if (![CLLocationManager isLocationServiceEnabled]) {
+        [self performSelector:@selector(setStatusForNoGPS) withObject:nil afterDelay:0.2];
+        
+        return;
+    }
+    
+    CLLocation * location = [locations lastObject];
+    self.nowCoords = location.coordinate;
+    DLog(@"self.nowCoords.latitude--->>%f",self.nowCoords.latitude);
+    [self doRequest];
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-
+    
     [self setTitleViewWithString:@"小区签到"];
     // Do any additional setup after loading the view.
     
     [self initUI];
 }
-
 - (void)initUI{
     self.map = [[MKMapView alloc] initWithFrame:CGRectZero];
     self.map.userInteractionEnabled = NO;
-//    self.map.showsUserLocation = YES;
     self.map.delegate = self;
     [self.view addSubview:self.map];
-
+    
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
     self.tableList.frame = CGRectMake(0, 0, [self windowWidth], [self windowHeight]- STATUS_BAR_H - NAV_BAT_H-30);
@@ -106,7 +120,7 @@
     self.tableList.showsVerticalScrollIndicator = YES;
     [self.view addSubview:self.tableList];
     [self autoPullDown];
-
+    
     UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, [self windowHeight]-30- STATUS_BAR_H - NAV_BAT_H, [self windowWidth], 30)];
     bottomView.backgroundColor = [UIColor brokerBgPageColor];
     bottomView.backgroundColor = [UIColor whiteColor];
@@ -167,8 +181,6 @@
     [self.tableList reloadData];
     [self.tableList setTableStatus:STATUSFORNOGPS];
     self.isLoading = NO;
-
-    self.map.showsUserLocation = NO;
     [self stopAnimation];
 }
 
@@ -180,7 +192,7 @@
     }
     self.isLoading = YES;
     [self autoPullDown];
-
+    
     CABasicAnimation* rotationAnimation;
     rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];
@@ -189,61 +201,25 @@
     rotationAnimation.repeatCount = 10000;
     
     [self.refreshBtn.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
-
-    //开始实时定位
     [self.locationManager startUpdatingLocation];
-//    self.map.showsUserLocation = YES;
 }
 
 - (void)stopAnimation{
     [self.refreshBtn.layer removeAnimationForKey:@"rotationAnimation"];
 }
-
-#pragma mark -
-#pragma mark CLLocationManagerDelegate
-- (void)locationManager:(CLLocationManager *)manager
-	 didUpdateLocations:(NSArray *)locations{
-    [manager stopUpdatingLocation];
-    
-    if (![CLLocationManager isLocationServiceEnabled]) {
-        [self performSelector:@selector(setStatusForNoGPS) withObject:nil afterDelay:0.2];
-        
-        return;
-    }
-    
-    CLLocation * location = [locations lastObject];
-    self.nowCoords = location.coordinate;
-    DLog(@"self.nowCoords.latitude--->>%f",self.nowCoords.latitude);
-    [self doRequest];
-}
-
 #pragma mark - request method
 - (void)doRequest{
     if (![CLLocationManager isLocationServiceEnabled] && !self.nowCoords.latitude) {
         [self performSelector:@selector(setStatusForNoGPS) withObject:nil afterDelay:0.1];
-        
-        if (self.pageNum > 1) {
-            self.pageNum =- 1;
-        }
+
         return;
     }
-
+    
     if (![self isNetworkOkayWithNoInfo]) {
         
-        if (self.pageNum <= 1) {
-            [self.tableList setTableStatus:STATUSFORNETWORKERROR];
-            
-            [self.tablaData removeAllObjects];
-            [self.tableList reloadData];
-        }
-        
-        if (self.pageNum > 1) {
-            self.pageNum --;
-
-            NSIndexPath * path = [NSIndexPath indexPathForRow:self.tablaData.count inSection:0];
-            FootCell *lastCell = (FootCell *)[self.tableList cellForRowAtIndexPath:path];
-            [lastCell setCellStatus:FootCellStatusForNetWorkError];
-        }
+        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        [self.tablaData removeAllObjects];
+        [self.tableList reloadData];
         
         [self performSelector:@selector(donePullDown) withObject:nil afterDelay:0.1];
         [self performSelector:@selector(stopAnimation) withObject:nil afterDelay:0.1];
@@ -265,15 +241,16 @@
     }
     
     self.isLoading = YES;
+    
     NSMutableDictionary *params = nil;
     NSString *method = nil;
-   if ([[NSUserDefaults standardUserDefaults] objectForKey:@"latitude_specify"]) {
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"latitude_specify"]) {
         params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",[[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude_specify"] doubleValue]],@"lat",[NSString stringWithFormat:@"%f",[[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude_specify"] doubleValue]],@"lng", nil];
     }else{
         params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%f",self.nowCoords.longitude],@"lng", nil];
     }
     method = [NSString stringWithFormat:@"broker/commSignList/"];
-
+    
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
 }
 - (void)onRequestFinished:(RTNetworkResponse *)response{
@@ -285,11 +262,7 @@
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
         [self.tablaData removeAllObjects];
         [self.tableList reloadData];
-
-        if (self.pageNum > 1) {
-            self.pageNum --;
-        }
-
+        
         return ;
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
@@ -297,79 +270,47 @@
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
         [self.tablaData removeAllObjects];
         [self.tableList reloadData];
-
+        
         [self donePullDown];
-
-        if (self.pageNum > 1) {
-            self.pageNum =- 1;
-        }
-
         return;
     }
     
-    NSMutableArray *receiveData = [[NSMutableArray alloc] initWithArray:[[response content] objectForKey:@"data"]];
-
-    [self.tablaData addObjectsFromArray:receiveData];
-
-    self.isHaveNextPage = YES;
-    
+    self.tablaData = [[response content] objectForKey:@"data"];
+    DLog(@"self.tablaData-->>%@",self.tablaData);
     if (self.tablaData.count == 0) {
         [self.tableList setTableStatus:STATUSFORNODATA];
     }else{
         [self.tableList setTableStatus:STATUSFOROK];
     }
     [self donePullDown];
-    [self.tableList reloadData];
-}
-
-- (void)checkedSuccuss{
     if (self.selectCell) {
-        CheckoutCommunityCell *cell = (CheckoutCommunityCell *)[self.tableList cellForRowAtIndexPath:self.selectCell];
-        [cell showCheckedStatus:YES];
+        [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.selectCell,nil] withRowAnimation:UITableViewRowAnimationNone];
         self.selectCell = nil;
+    }else{
+        [self.tableList reloadData];
     }
 }
 
 #pragma mark -UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (isHaveNextPage) {
-        return self.tablaData.count+1;
-    }else{
-        return self.tablaData.count;
-    }
+    return self.tablaData.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (isHaveNextPage && indexPath.row == self.tablaData.count) {
-        return 60;
-    }
     return 46;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (isHaveNextPage && indexPath.row == self.tablaData.count) {
-        static NSString *identify = @"cell1";
-
-        FootCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
-        if (cell == nil) {
-            cell = [[FootCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
-        }
-        cell.cellStatus = FootCellStatusForNormal;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        return cell;
-    }
-
-    static NSString *identify = @"cell2";
+    static NSString *identify = @"cell";
     CheckoutCommunityCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
     if (cell == nil) {
         cell = [[CheckoutCommunityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     }
     CheckCommunityModel *model = [CheckCommunityModel convertToMappedObject:[self.tablaData objectAtIndex:indexPath.row]];
     cell.contentView.backgroundColor = [UIColor whiteColor];
-
+    
     [cell configureCell:model withIndex:indexPath.row];
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
     if (indexPath.row == self.tablaData.count - 1) {
         [cell showBottonLineWithCellHeight:46];
     }else{
@@ -381,11 +322,6 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.navigationController.view.frame.origin.x > 0) return;
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-    if (indexPath.row == self.tablaData.count) {
-        return;
-    }
     
     self.selectCell = indexPath;
     
@@ -397,29 +333,17 @@
     checkoutVC.forbiddenEgo = YES;
     [checkoutVC passCommunityWithModel:model];
     [self.navigationController pushViewController:checkoutVC animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-
-#pragma mark - UIScrollViewDelegate
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    DLog(@"scrollView---->>%f/%f",scrollView.contentOffset.y,scrollView.contentSize.height);
-    if (self.isLoading || scrollView.contentSize.height == 0.0) {
-        return;
-    }
-    if (scrollView.contentSize.height - scrollView.contentOffset.y < self.tableList.frame.size.height) {
-        DLog(@"可以加载下一页了");
-        self.isLoading = YES;
-        NSIndexPath * path = [NSIndexPath indexPathForRow:self.tablaData.count inSection:0];
-        FootCell *lastCell = (FootCell *)[self.tableList cellForRowAtIndexPath:path];
-        [lastCell setCellStatus:FootCellStatusForRefresh];
-
-        self.pageNum ++;
-        
-        [self doRequest];
-        
+#pragma mark --- checkedSuccuss
+- (void)checkedSuccuss{
+    if (self.selectCell) {
+        CheckoutCommunityCell *cell = (CheckoutCommunityCell *)[self.tableList cellForRowAtIndexPath:self.selectCell];
+        [cell showCheckedStatus:YES];
+        self.selectCell = nil;
     }
 }
-
 
 - (void)didReceiveMemoryWarning
 {
