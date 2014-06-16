@@ -543,7 +543,7 @@
 #define PERSONAL_ONVIEW                  @"1-701001" //页面可见
 #define USER_CENTER_003                  @"1-701003" //点击微聊达人icon
 #define PERSONAL_QRCODE                  @"1-701004" //点击我的二维码
-#define PERSONAL_INFORMATION             @"1-701005" //点击个人信息
+#define PERSONAL_CLICK_INFORMATION       @"1-701005" //点击个人信息
 #define PERSONAL_CLICK_SALESCALL         @"1-701006" //点击联系客户主任
 #define PERSONAL_CLICK_CONFIRM_SALESCALL @"1-701007" //确定呼叫客户主任
 #define PERSONAL_CLICK_CSCALL            @"1-701008" //点击客服热线
@@ -746,28 +746,28 @@
 /*
  所有模块: 聊天单页
  */
-#define CHAT                   @"1-910000" //PageID
-#define CHAT_ONVIEW            @"1-910001" //页面可见（即页面打开）
-#define CHATVIEW_002           @"1-910002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
-#define CHATVIEW_CHAT_INPUT    @"1-910003" //点击输入框
-#define CHAT_ADD               @"1-910004" //点击“+”
-#define CHAT_SHOOT             @"1-910005" //点击拍照
-#define CHAT_ALBUM             @"1-910006" //点击从相册选择
-#define CHAT_ESF               @"1-910007" //点击发二手房
-#define CHAT_ZF                @"1-910008" //点击发租房
-#define CHAT_CLICK_CLIENT      @"1-910009" //点击右上角ICON进入客户单页
-#define CHAT_PHONE_NUMBER      @"1-910010" //点击电话号码
-#define CHAT_CALL              @"1-910011" //点击拨打电话
-#define CHAT_SAVE_PHONE_NUMBER @"1-910012" //点击保存电话至客户资料
-#define CHAT_BACK              @"1-910013" //点击返回
-#define CHAT_SEND_FAIL         @"1-910014" //消息发送失败
-#define CHAT_CLICK_LOCATION    @"1-910015" //点击发位置
-#define CHAT_TRANSTOSPEAK      @"1-910016" //点击切换至语音
-#define CHAT_TRANSTOWORD       @"1-910017" //点击切换至文字
-#define CHAT_SPEAKING          @"1-910018" //按住说话
-#define CHAT_CANCEL_SPEAKING   @"1-910019" //取消发送语音
-#define CHAT_OPEN_LOCATION     @"1-910020" //点击查看位置
-#define CHAT_TRANSTO_EMOTICON  @"1-910021" //点击切换至表情
+#define CHAT                     @"1-910000" //PageID
+#define CHAT_ONVIEW              @"1-910001" //页面可见（即页面打开）
+#define CHATVIEW_002             @"1-910002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
+#define CHATVIEW_CHAT_INPUT      @"1-910003" //点击输入框
+#define CHAT_ADD                 @"1-910004" //点击“+”
+#define CHAT_SHOOT               @"1-910005" //点击拍照
+#define CHAT_ALBUM               @"1-910006" //点击从相册选择
+#define CHAT_ESF                 @"1-910007" //点击发二手房
+#define CHAT_ZF                  @"1-910008" //点击发租房
+#define CHAT_CLICK_CLIENT        @"1-910009" //点击右上角ICON进入客户单页
+#define CHAT_PHONE_NUMBER        @"1-910010" //点击电话号码
+#define CHAT_CALL                @"1-910011" //点击拨打电话
+#define CHAT_SAVE_PHONE_NUMBER   @"1-910012" //点击保存电话至客户资料
+#define CHAT_BACK                @"1-910013" //点击返回
+#define CHAT_SEND_FAIL           @"1-910014" //消息发送失败
+#define CHAT_CLICK_LOCATION      @"1-910015" //点击发位置
+#define CHAT_TRANSTOSPEAK        @"1-910016" //点击切换至语音
+#define CHAT_TRANSTOWORD         @"1-910017" //点击切换至文字
+#define CHAT_SPEAKING            @"1-910018" //按住说话
+#define CHAT_CANCEL_SPEAKING     @"1-910019" //取消发送语音
+#define CHAT_CLICK_OPEN_LOCATION @"1-910020" //点击查看位置
+#define CHAT_TRANSTO_EMOTICON    @"1-910021" //点击切换至表情
 
 
 

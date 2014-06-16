@@ -201,7 +201,7 @@
         return;
     
     if (indexPath.row == 1){
-        [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_INFORMATION page:PERSONAL note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_CLICK_INFORMATION page:PERSONAL note:nil];
         
         //broker acunt
         BrokerAccountController *controller = [[BrokerAccountController alloc] init];

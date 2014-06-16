@@ -655,7 +655,7 @@
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController pushViewController:mv animated:YES];
     
-    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_OPEN_LOCATION page:CHAT note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_CLICK_OPEN_LOCATION page:CHAT note:nil];
 }
 
 #pragma mark -
