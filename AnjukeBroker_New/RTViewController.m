@@ -267,18 +267,18 @@
     }];
 }
 
-#pragma mark - UIGesture Delegate
-
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    if (self.backType == RTSelectorBackTypePopToRoot) {
-        //首页不做doBack
-        return NO;
-    }
-    else {
-        [self doBack:self];
-    }
-    
-    return YES;
-}
+//#pragma mark - UIGesture Delegate
+//
+//- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+//    if (self.backType == RTSelectorBackTypePopToRoot) {
+//        //首页不做doBack
+//        return NO;
+//    }
+//    else {
+//        [self doBack:self];
+//    }
+//    
+//    return YES;
+//}
 
 @end

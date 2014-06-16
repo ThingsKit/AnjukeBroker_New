@@ -207,6 +207,11 @@
 - (void)stopAnimation{
     [self.refreshBtn.layer removeAnimationForKey:@"rotationAnimation"];
 }
+
+- (void)tapGus:(UITapGestureRecognizer *)gesture{
+    [self autoPullDown];
+}
+
 #pragma mark - request method
 - (void)doRequest{
     if (![CLLocationManager isLocationServiceEnabled] && !self.nowCoords.latitude) {
@@ -218,6 +223,13 @@
     if (![self isNetworkOkayWithNoInfo]) {
         
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        
+        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
+        tapGes.delegate                = self;
+        tapGes.numberOfTouchesRequired = 1;
+        tapGes.numberOfTapsRequired    = 1;
+        [self.tableList.headerView addGestureRecognizer:tapGes];
+
         [self.tablaData removeAllObjects];
         [self.tableList reloadData];
         
@@ -260,6 +272,13 @@
     if([[response content] count] == 0){
         [self donePullDown];
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
+        tapGes.delegate                = self;
+        tapGes.numberOfTouchesRequired = 1;
+        tapGes.numberOfTapsRequired    = 1;
+        [self.tableList.headerView addGestureRecognizer:tapGes];
+
+        
         [self.tablaData removeAllObjects];
         [self.tableList reloadData];
         
@@ -268,6 +287,13 @@
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
+        tapGes.delegate                = self;
+        tapGes.numberOfTouchesRequired = 1;
+        tapGes.numberOfTapsRequired    = 1;
+        [self.tableList.headerView addGestureRecognizer:tapGes];
+
+        
         [self.tablaData removeAllObjects];
         [self.tableList reloadData];
         

@@ -140,7 +140,7 @@
     if (capImageArr.count < 1 ||
         self.disableGestureForBack ||
         [touch.view isKindOfClass:[UIButton class]] ||
-        isMoving)
+        isMoving )
     {
         return NO;
     }

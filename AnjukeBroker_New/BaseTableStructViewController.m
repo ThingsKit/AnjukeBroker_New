@@ -32,6 +32,7 @@
     // Do any additional setup after loading the view.
     self.tableList = [[BrokerTableStuct alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.tableList.backgroundColor = [UIColor clearColor];
+    self.tableList.noNetWorkViewdelegate = self;
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     if (!self.forbiddenEgo) {
@@ -52,6 +53,11 @@
     [self doneLoadingTableViewData];
 }
 - (void)doRequest{
+}
+
+#pragma mark --NoNetWorkDelegate
+- (void)requestData{
+    [self autoPullDown];
 }
 
 #pragma mark -

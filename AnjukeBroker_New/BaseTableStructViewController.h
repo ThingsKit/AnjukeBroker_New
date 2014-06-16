@@ -11,7 +11,8 @@
 #import "BK_EGORefreshTableHeaderView.h"
 #import "BrokerTableStuct.h"
 
-@interface BaseTableStructViewController : RTViewController<EGORefreshTableHeaderDelegate,UITableViewDelegate>
+
+@interface BaseTableStructViewController : RTViewController<EGORefreshTableHeaderDelegate,UITableViewDelegate,NoNetWorkDelegate>
 
 @property(nonatomic, assign) BOOL forbiddenEgo;
 @property(nonatomic, strong) BrokerTableStuct *tableList;
