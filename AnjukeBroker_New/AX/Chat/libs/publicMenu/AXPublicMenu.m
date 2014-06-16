@@ -40,9 +40,11 @@ CGFloat const axPublicMenuHeight = 49.0f;
         leftX = 0;
     }else if (inputType == AXPublicInputTypeNormalAndPublicMenu){
         UIButton *switchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        switchBtn.frame = CGRectMake(48/2-16, axPublicMenuHeight/2 - 16, 32, 32);
-        [switchBtn setImage:[UIImage imageNamed:@"broker_wl_gzh_a"] forState:UIControlStateNormal];
-        [switchBtn setImage:[UIImage imageNamed:@"broker_wl_gzh_a_press"] forState:UIControlStateHighlighted];
+//        switchBtn.frame = CGRectMake(48/2-16, axPublicMenuHeight/2 - 16, 32, 32);
+        switchBtn.frame = CGRectMake(0, 0, 48, 49);
+        switchBtn.contentEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8);
+        [switchBtn setImage:[UIImage imageNamed:@"broker_wl_gzh_b"] forState:UIControlStateNormal];
+        [switchBtn setImage:[UIImage imageNamed:@"broker_wl_gzh_b_press"] forState:UIControlStateHighlighted];
         [switchBtn addTarget:self action:@selector(publicMenuSwitch:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:switchBtn];
         

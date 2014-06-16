@@ -29,7 +29,6 @@
 @property (nonatomic, strong) BK_WebImageView *iconImage;
 @property (nonatomic, strong) UIBarButtonItem *startItem;
 @property BOOL isBlankStyle; //如果标注电话和标注信息为空，则显示为空样式提示标注
-
 @end
 
 @implementation ClientDetailViewController
@@ -39,6 +38,7 @@
 @synthesize nameLabel, companyLabel, iconImage;
 @synthesize isBlankStyle;
 @synthesize startItem;
+@synthesize comeFromeType;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -245,6 +245,12 @@
 }
 
 - (void)startChart {
+    
+    if (comeFromeType == AXPersonComeFromeTypeChatView) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    
     self.navigationController.tabBarController.selectedIndex = 1;
     
     [self.navigationController popToRootViewControllerAnimated:NO];

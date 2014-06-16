@@ -18,6 +18,7 @@
 
 @implementation ClientDetailPublicViewController
 @synthesize person;
+@synthesize publicComeFromeType;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -88,6 +89,10 @@
 }
 
 - (void)startChart {
+    if (publicComeFromeType == AXPersonPublicComeFromeTypeChatView) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
     self.navigationController.tabBarController.selectedIndex = 1;
     
     [self.navigationController popToRootViewControllerAnimated:NO];

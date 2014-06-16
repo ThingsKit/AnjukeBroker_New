@@ -455,6 +455,7 @@
         AXMappedPerson *item = self.friendPerson;
         //for test
         ClientDetailPublicViewController *cd = [[ClientDetailPublicViewController alloc] init];
+        cd.publicComeFromeType = AXPersonPublicComeFromeTypeChatView;
         cd.person = item;
         cd.backType = RTSelectorBackTypePopBack;
         [cd setHidesBottomBarWhenPushed:YES];
@@ -464,6 +465,7 @@
         AXMappedPerson *item = self.friendPerson;
         //for test
         ClientDetailViewController *cd = [[ClientDetailViewController alloc] init];
+        cd.comeFromeType = AXPersonComeFromeTypeChatView;
         cd.person = item;
         cd.backType = RTSelectorBackTypePopBack;
         [cd setHidesBottomBarWhenPushed:YES];

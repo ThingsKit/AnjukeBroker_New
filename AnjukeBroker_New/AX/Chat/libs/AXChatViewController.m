@@ -359,7 +359,6 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         self.isMenuFlag = YES;
     }
     self.isMenuFlag = YES;
-
     
     JSMessageInputView *inputView = [[JSMessageInputView alloc] initWithFrame:inputFrame
                                                                         style:JSMessageInputViewStyleFlat
@@ -369,8 +368,9 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
                                                                      isSwitch:self.isMenuFlag
                                      
                                      ];
-    [self.view addSubview:inputView];
     self.messageInputView = inputView;
+
+    [self.view addSubview:self.messageInputView];
     [self.messageInputView.textView addObserver:self
                                      forKeyPath:@"contentSize"
                                         options:NSKeyValueObservingOptionNew
@@ -414,7 +414,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     //如果存在切换按钮，则显示之
     if (self.isMenuFlag) {
         UIButton *switchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        switchBtn.frame = CGRectMake(48/2-16, 49/2 - 16, 32, 32);
+        switchBtn.frame = CGRectMake(0, 0, 48, 49);
+        switchBtn.contentEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8);
         [switchBtn setImage:[UIImage imageNamed:@"broker_wl_gzh_a"] forState:UIControlStateNormal];
         [switchBtn setImage:[UIImage imageNamed:@"broker_wl_gzh_a_press"] forState:UIControlStateHighlighted];
         [switchBtn addTarget:self action:@selector(inputSwitch:) forControlEvents:UIControlEventTouchUpInside];
@@ -797,9 +798,15 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     }
 }
 
+- (void)addMessageNotifycation
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewMessage:) name:MessageCenterDidReceiveNewMessage object:nil];
+}
+
+
 - (void)inputSwitch:(id)sender{
     [self didClickKeyboardControl];
-
+    
     [self.messageInputView.textView resignFirstResponder];
     
     [UIView animateWithDuration:0.2 animations:^{
@@ -810,66 +817,67 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     }];
 }
 
-
-- (void)addMessageNotifycation
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewMessage:) name:MessageCenterDidReceiveNewMessage object:nil];
-}
-
 #pragma mark --publicMenuDelegate
 - (void)publicMenuShowSubMenu:(AXPublicMenuButton *)button menus:(NSArray *)menus{
+    self.keyboardControl.hidden = NO;
+
     if (self.publicSubMenu && self.publicSubMenu.subMenuindex == button.index){
         CGRect frame = self.publicSubMenu.frame;
         frame.origin.y = self.view.height;
         //先移除submenu，再显示当前submenu
-        [UIView animateWithDuration:0.2 animations:^{
+        [UIView animateWithDuration:.2 animations:^{
             self.publicSubMenu.frame = frame;
         } completion:^(BOOL finished) {
             [self.publicSubMenu removeFromSuperview];
             self.publicSubMenu = nil;
+            self.keyboardControl.hidden = YES;
         }];
     }else if (self.publicSubMenu && self.publicSubMenu.subMenuindex != button.index){
         [self hideSubmenu:^(BOOL isFinished) {
+            
+            self.keyboardControl.hidden = NO;
+            self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 49);
+            
             self.publicSubMenu =[[AXPublicSubMenu alloc] init];
             self.publicSubMenu.publicSubMenuDelegate = self;
             self.publicSubMenu.subMenuindex = button.index;
             [self.publicSubMenu configPublicSubMenu:button menu:nil];
-            [self.view insertSubview:self.publicSubMenu aboveSubview:self.messageInputView];
+            [self.view insertSubview:self.publicSubMenu belowSubview:self.publicMenu];
             
             CGRect subMenuFrame = self.publicSubMenu.frame;
             subMenuFrame.origin.y = self.publicSubMenu.frame.origin.y - self.publicSubMenu.frame.size.height - 10;
-            [UIView animateWithDuration:0.2 animations:^{
+            DLog(@"1hidden--->>%d",self.keyboardControl.hidden);
+            [UIView animateWithDuration:.2 animations:^{
                 self.publicSubMenu.frame = subMenuFrame;
             } completion:^(BOOL finished) {
-                nil;
             }];
         }];
     }else{
+        self.keyboardControl.hidden = NO;
+        self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 49);
+        
         self.publicSubMenu =[[AXPublicSubMenu alloc] init];
         self.publicSubMenu.publicSubMenuDelegate = self;
         self.publicSubMenu.subMenuindex = button.index;
         [self.publicSubMenu configPublicSubMenu:button menu:nil];
-        [self.view insertSubview:self.publicSubMenu aboveSubview:self.messageInputView];
+        [self.view insertSubview:self.publicSubMenu belowSubview:self.publicMenu];
         
         CGRect subMenuFrame = self.publicSubMenu.frame;
         subMenuFrame.origin.y = self.publicSubMenu.frame.origin.y - self.publicSubMenu.frame.size.height - 10;
-        [UIView animateWithDuration:0.2 animations:^{
+        DLog(@"2hidden--->>%d",self.keyboardControl.hidden);
+        [UIView animateWithDuration:.2 animations:^{
             self.publicSubMenu.frame = subMenuFrame;
         } completion:^(BOOL finished) {
-            nil;
         }];
     }
 }
 
 - (void)publicMenuWithAPI:(NSString *)actionStr{
     [self hideSubmenu:^(BOOL isFinished) {
-        
     }];
-
 }
 - (void)publicMenuWithURL:(NSString *)webURL{
     [self hideSubmenu:^(BOOL isFinished) {
-        
     }];
     [self showPublicLoadView];
     
@@ -880,6 +888,9 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [self hidePublicLoadView];
 }
 - (void)publicMenuSwich{
+    [self hideSubmenu:^(BOOL isFinished) {
+        nil;
+    }];
     [self.messageInputView.textView resignFirstResponder];
     
     [UIView animateWithDuration:0.2 animations:^{
@@ -892,25 +903,31 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
 #pragma mark --AXPublicSubMenuDelegate
 - (void)publicSubMenuWithAPI:(NSString *)actionStr{
+    [self showPublicLoadView];
     [self hideSubmenu:^(BOOL isFinished) {
         AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
         webVC.webUrl = @"http://www.baidu.com";
         [self.navigationController pushViewController:webVC animated:YES];
+        [self hidePublicLoadView];
     }];
-    [self showPublicLoadView];
 }
 
 - (void)publicSubMenuWithURL:(NSString *)webURL{
+    [self showPublicLoadView];
     [self hideSubmenu:^(BOOL isFinished) {
         AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
         webVC.webUrl = @"http://www.baidu.com";
         [self.navigationController pushViewController:webVC animated:YES];
+        [self hidePublicLoadView];
     }];
 }
 
 - (void)hideSubmenu:(void(^)(BOOL isFinished))hideSubMenuFinished{
     self.subMenuHideFinish = hideSubMenuFinished;
 
+    if (!self.publicSubMenu) {
+        return;
+    }
     CGRect frame = self.publicSubMenu.frame;
     frame.origin.y = self.view.frame.size.height - 49;
     
@@ -919,6 +936,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     } completion:^(BOOL finished) {
         [self.publicSubMenu removeFromSuperview];
         self.publicSubMenu = nil;
+        
+        self.keyboardControl.hidden = YES;
         
         self.subMenuHideFinish(YES);
     }];
@@ -2023,8 +2042,11 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 {
     
     [self.messageInputView.textView resignFirstResponder];
+    [self hideSubmenu:^(BOOL isFinished) {
+        nil;
+    }];
     //允许手势
-    [RTGestureLock setDisableGestureForBack:self.navigationController disableGestureback:NO];
+    [RTGestureLock setDisableGestureForBack:(BK_RTNavigationController *)self.navigationController disableGestureback:NO];
     
     if (!self.moreBackView.hidden || !self.emojiScrollView.hidden) {
         self.moreBackView.hidden = YES;
