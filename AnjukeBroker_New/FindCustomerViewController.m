@@ -16,6 +16,9 @@
 
 @property (nonatomic, strong) CustomerTableView* tableView;
 @property (nonatomic, strong) UIView* emptyBackgroundView;
+@property (nonatomic, strong) UIImageView* emptyBackgroundImageView;
+@property (nonatomic, strong) UILabel* emptyBackgroundLabel;
+
 @property (nonatomic, assign) BOOL networkRequesting; //是否正在网络请求, 加锁防止多次请求
 
 @end
@@ -182,13 +185,13 @@
                 self.tableView.hasMore = NO;
             }
             
-            [self showEmptyBackground];
+            [self showTipViewWithImageViewFrame:CGRectMake(ScreenWidth/2-85/2, ScreenHeight/2-20-44-75/2, 170/2, 149/2) ImageName:@"broker_qkh_noclient" LabelText:@"暂无客户"];
             
         }
         
         
     }else{ //数据请求失败
-        [self showEmptyBackground];
+        [self showTipViewWithImageViewFrame:CGRectMake(ScreenWidth/2-100/2, ScreenHeight/2-20-44-70/2, 200/2, 140/2) ImageName:@"check_no_wifi" LabelText:@"无网络连接"];
         
     }
     
@@ -199,26 +202,30 @@
 
 #pragma mark -
 #pragma mark UI相关
-- (void) showEmptyBackground{
+- (void) showTipViewWithImageViewFrame:(CGRect)imageViewFrame ImageName:(NSString*)imageName LabelText:(NSString*)labelText{
     if (self.emptyBackgroundView == nil) {
-        self.emptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
-        self.emptyBackgroundView.backgroundColor = [UIColor clearColor];
-        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2-100/2, ScreenHeight/2-20-44-70/2, 200/2, 140/2)];
-        imageView.image = [UIImage imageNamed:@"check_no_wifi"];
-        [self.emptyBackgroundView addSubview:imageView];
+        _emptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
+        _emptyBackgroundView.backgroundColor = [UIColor clearColor];
+        _emptyBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [self.emptyBackgroundView addSubview:_emptyBackgroundImageView];
         
-        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, imageView.bottom, 90, 30)];
-        label.backgroundColor = [UIColor clearColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        [label setFont:[UIFont ajkH3Font]];
-        label.text = @"无网络连接";
-        [label setTextColor:[UIColor brokerLightGrayColor]];
-        [self.emptyBackgroundView addSubview:label];
+        _emptyBackgroundLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _emptyBackgroundLabel.backgroundColor = [UIColor clearColor];
+        _emptyBackgroundLabel.textAlignment = NSTextAlignmentCenter;
+        [_emptyBackgroundLabel setFont:[UIFont ajkH3Font]];
+        [_emptyBackgroundLabel setTextColor:[UIColor brokerLightGrayColor]];
+        [self.emptyBackgroundView addSubview:_emptyBackgroundLabel];
         
         UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autoRefresh)];
         [self.emptyBackgroundView addGestureRecognizer:tap];
         
     }
+    
+    _emptyBackgroundImageView.frame = imageViewFrame;
+    _emptyBackgroundImageView.image = [UIImage imageNamed:imageName];
+    
+    _emptyBackgroundLabel.frame = CGRectMake(ScreenWidth/2-90/2, _emptyBackgroundImageView.bottom, 90, 30);
+    _emptyBackgroundLabel.text = labelText;
     
     if (self.tableView.data.count == 0) {
         self.tableView.tableHeaderView = self.emptyBackgroundView;

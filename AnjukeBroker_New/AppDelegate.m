@@ -77,7 +77,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doLogOutEnforce) name:@"MessageCenterUserDidQuit" object:nil];
     
     //监听push
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPushMessageCount) name:kMessageCenterReceiveNewPush object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveLongLinkPush) name:kMessageCenterReceiveNewPush object:nil];
     
     self.versionUpdate = [[VersionUpdateManager alloc] init];
     [self.versionUpdate checkVersion:YES];
@@ -326,9 +326,12 @@
     
 }
 
-
 - (void)registerNotificationFinish:(RTNetworkResponse *)response{
     DLog(@"registerNotificationFinish %@", response.content);
+}
+
+- (void)didReceiveLongLinkPush{
+    NSLog(@"收到长连接push推送");
 }
 
 #pragma mark - Application's Documents directory

@@ -153,12 +153,14 @@
     [btn addTarget:self action:@selector(doRequest) forControlEvents:UIControlEventTouchUpInside];
     [lv addSubview:btn];
     
+#ifdef DEBUG
     //###########################################################
     //定义长按自动填充手势
     UILongPressGestureRecognizer* longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(autoSetUserNameAndPassword:)];
-    longPressGesture.minimumPressDuration = 2;
+    longPressGesture.minimumPressDuration = 1;
     [btn addGestureRecognizer:longPressGesture];
     //###########################################################
+#endif
     
     
     icon.frame = CGRectMake(iconGap, 70+70, iconW, iconW);
@@ -186,6 +188,8 @@
 
 #pragma mark -
 #pragma mark 长按登录按钮自动填充用户名和密码 add by leo
+
+#ifdef DEBUG
 - (void)autoSetUserNameAndPassword:(UILongPressGestureRecognizer*)longPress{
     if (longPress.state == UIGestureRecognizerStateBegan) {
         NSLog(@"长按自动填充");
@@ -193,6 +197,7 @@
         self.passwordTF.text = @"anjukeqa";
     }
 }
+#endif
 
 
 
