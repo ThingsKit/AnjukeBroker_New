@@ -2528,8 +2528,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 - (void)sendMessage:(id)sender {
     
     if ([self.messageInputView.textView.text isEqualToString:@""]) {
-        UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"提示" message:@"不能发空消息" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil];
-        [view show];
+//        UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"提示" message:@"不能发空消息" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil];
+//        [view show];
         return;
     }
     
