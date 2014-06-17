@@ -7,6 +7,7 @@
 //
 
 #import "CustomerHeaderView.h"
+#import "CustomerListModel.h"
 
 @interface CustomerHeaderView ()
 
@@ -43,7 +44,7 @@
     [super layoutSubviews];
     
     _sectionHeaderLabel.frame = self.bounds;
-    _sectionHeaderLabel.text = [NSString stringWithFormat:@"%d个客户正在找你熟悉的小区房源 | 可抢人数: %d", _customerCount, _propertyRushableCount];
+    _sectionHeaderLabel.text = [NSString stringWithFormat:@"%@个客户正在找你熟悉的小区房源 | 可抢人数: %@", self.customerListModel.count, self.customerListModel.broker_rush_count];
     
 }
 

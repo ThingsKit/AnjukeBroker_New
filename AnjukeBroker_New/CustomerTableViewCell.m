@@ -118,7 +118,7 @@
     
     //用户头像
     _userIcon.frame = CGRectMake(10, 12, 60, 60);
-    NSString* iconPath = self.customerModel.userIcon;
+    NSString* iconPath = self.customerModel.user_photo;
     if (iconPath != nil && ![@"" isEqualToString:iconPath]) {
         //加载图片
         [_userIcon setImageWithURL:[NSURL URLWithString:iconPath] placeholderImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
@@ -130,46 +130,47 @@
 //    CGSize commNameSize = [self.customerModel.commName sizeWithFont:self.commName.font constrainedToSize:CGSizeMake(ScreenWidth-120, 20)];
     
     _userName.frame = CGRectMake(_userIcon.right + 10, 12, 170, 20);
-    _userName.text = self.customerModel.userName;
+    _userName.text = self.customerModel.user_name;
 //    _userName.backgroundColor = [UIColor redColor];
     
     //用户上次登录时间
     _loginTime.frame = CGRectMake(ScreenWidth - 72, 12, 60, 20);
     _loginTime.textAlignment = NSTextAlignmentRight;
-    _loginTime.text = [NSString stringWithFormat:@"%@分钟前", self.customerModel.loginTime];
+    _loginTime.text = self.customerModel.last_operate_time;
 //    _loginTime.backgroundColor = [UIColor yellowColor];
     
     //地点
     _location.frame = CGRectMake(_userIcon.right + 10, _userName.bottom + GAP_V, 100, 20);
-    _location.text = self.customerModel.location;
+    _location.text = self.customerModel.blcok_name;
     [_location sizeToFit]; //大小自适应
 //    _location.backgroundColor = [UIColor purpleColor];
     
     //户型
     _houseType.frame = CGRectMake(_location.right + GAP_H, _userName.bottom + GAP_V, 100, 20);
-    _houseType.text = [NSString stringWithFormat:@"%@室%@厅%@卫", self.customerModel.room, self.customerModel.hall, self.customerModel.toilet];
+    _houseType.text = self.customerModel.house_type_preference;
     [_houseType sizeToFit];
 //    _houseType.backgroundColor = [UIColor grayColor];
     
     //租金或售价
     _price.frame = CGRectMake(_houseType.right + GAP_H, _userName.bottom + GAP_V, 100, 20);
-    _price.text = self.customerModel.price;
+    _price.text = self.customerModel.price_preference;
     [_price sizeToFit];
 //    _price.backgroundColor = [UIColor redColor];
     
     //浏览房源数
     _propertyCount.frame = CGRectMake(_userIcon.right + 10, _location.bottom + GAP_V, 100, 20);
-    _propertyCount.text = [NSString stringWithFormat:@"浏览了%@套房源", self.customerModel.propertyCount];
+    _propertyCount.text = [NSString stringWithFormat:@"浏览了%@套房源", self.customerModel.view_prop_num];
 //    _propertyCount.backgroundColor = [UIColor yellowColor];
     
     //用户相对于经纪人的状态, 0, 1, 2
     _userStatus.frame = CGRectMake(ScreenWidth - 72, _location.bottom + GAP_V, 60, 20);
     _userStatus.textAlignment = NSTextAlignmentRight;
-    if ([@"1" isEqualToString:self.customerModel.userStatus]) {
+//    _userStatus.text = self.customerModel.status_msg;
+    if ([@"1" isEqualToString:self.customerModel.status]) {
         _userStatus.text = @"我抢了";
         [_userStatus setTextColor:[UIColor brokerBabyBlueColor]];
         _userStatus.hidden = NO;
-    }else if([@"2" isEqualToString:self.customerModel.userStatus]){
+    }else if([@"2" isEqualToString:self.customerModel.status]){
         _userStatus.text = @"抢完了";
         [_userStatus setTextColor:[Util_UI colorWithHexString:@"#CE100B"]];
         _userStatus.hidden = NO;

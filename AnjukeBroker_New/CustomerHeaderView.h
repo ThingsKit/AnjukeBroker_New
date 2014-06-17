@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class CustomerListModel;
 @interface CustomerHeaderView : UIView
 
-@property (nonatomic, assign) NSUInteger customerCount;  //一共有多少客户人数
-@property (nonatomic, assign) NSUInteger propertyRushableCount; //可抢房源数
+@property (nonatomic, strong) CustomerListModel* customerListModel;
 
 @end

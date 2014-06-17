@@ -107,7 +107,7 @@
     
     //房源图片
     _propertyIcon.frame = CGRectMake(15, 15, 80, 60);
-    NSString* iconPath = self.favoritePropertyModel.propertyIcon;
+    NSString* iconPath = self.favoritePropertyModel.pic;
     if (iconPath != nil && ![@"" isEqualToString:iconPath]) {
         //加载图片
         [_propertyIcon setImageWithURL:[NSURL URLWithString:iconPath] placeholderImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
@@ -117,12 +117,12 @@
     
     //房源标题
     _propertyTitle.frame = CGRectMake(_propertyIcon.right + 12, 15, 190, 20);
-    _propertyTitle.text = self.favoritePropertyModel.propertyTitle;
+    _propertyTitle.text = self.favoritePropertyModel.title;
     //    _userName.backgroundColor = [UIColor redColor];
     
     //地点
     _location.frame = CGRectMake(_propertyIcon.right + 12, _propertyTitle.bottom + GAP_V, 100, 20);
-    _location.text = self.favoritePropertyModel.location;
+    _location.text = self.favoritePropertyModel.block;
     [_location sizeToFit]; //大小自适应
     //    _location.backgroundColor = [UIColor purpleColor];
     
@@ -133,13 +133,13 @@
     
     //户型
     _houseType.frame = CGRectMake(_propertyIcon.right + 12, _location.bottom + GAP_V, 100, 20);
-    _houseType.text = [NSString stringWithFormat:@"%@室%@厅%@卫", self.favoritePropertyModel.room, self.favoritePropertyModel.hall, self.favoritePropertyModel.toilet];
+    _houseType.text = self.favoritePropertyModel.type;
     [_houseType sizeToFit];
     //    _houseType.backgroundColor = [UIColor grayColor];
     
     //面积
     _area.frame = CGRectMake(_houseType.right + GAP_H, _location.bottom + GAP_V, 100, 20);
-    _area.text = [NSString stringWithFormat:@"%@平米", self.favoritePropertyModel.area];
+    _area.text = self.favoritePropertyModel.area;
     [_area sizeToFit];
     
     //租金或售价

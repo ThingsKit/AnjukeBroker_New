@@ -60,19 +60,19 @@
     [super layoutSubviews];
     
     _userIcon.frame = CGRectMake(15, 12, 56, 56);
-    if (self.customerDetailModel.userIcon) {
-        [_userIcon setImageWithURL:[NSURL URLWithString:self.customerDetailModel.userIcon] placeholderImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
+    if (self.customerDetailModel.user_portrait && self.customerDetailModel.user_portrait.length > 0) {
+        [_userIcon setImageWithURL:[NSURL URLWithString:self.customerDetailModel.user_portrait] placeholderImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
     }else{
         _userIcon.image = [UIImage imageNamed:@"anjuke_icon_headpic"];
     }
     
     _userName.frame = CGRectMake(_userIcon.right + 15, 15, 100, 20);
-    _userName.text = self.customerDetailModel.userName;
+    _userName.text = self.customerDetailModel.user_name;
     [_userName sizeToFit];
     
     
     _propertyCount.frame = CGRectMake(_userIcon.right + 15, _userName.bottom + 10, 100, 20);
-    _propertyCount.text = [NSString stringWithFormat:@"浏览了%@套房源", self.customerDetailModel.propertyCount];
+    _propertyCount.text = [NSString stringWithFormat:@"浏览了%@套房源", self.customerDetailModel.view_prop_num];
     [_propertyCount sizeToFit];
  
 }

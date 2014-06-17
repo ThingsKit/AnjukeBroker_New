@@ -8,9 +8,9 @@
 
 #import "BaseTableView.h"
 
+@class CustomerListModel;
 @interface CustomerTableView : BaseTableView
 
-@property (nonatomic, assign) int customerCount;  //一共有多少客户人数
-@property (nonatomic, assign) int propertyRushableCount; //可抢房源数
+@property (nonatomic, strong) CustomerListModel* customerListModel;
 
 @end

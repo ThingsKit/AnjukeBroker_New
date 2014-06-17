@@ -192,6 +192,7 @@
 		6740D1DD1908E08C005ED706 /* anjuke_icon_voice@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6740D1C51908E08C005ED706 /* anjuke_icon_voice@2x.png */; };
 		6740D1DE1908E08C005ED706 /* anjuke_icon_voice1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6740D1C61908E08C005ED706 /* anjuke_icon_voice1@2x.png */; };
 		67639F5B1949B09200987405 /* CustomerHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67639F5A1949B09200987405 /* CustomerHeaderView.m */; };
+		67639F621950355400987405 /* CustomerListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 67639F611950355400987405 /* CustomerListModel.m */; };
 		6767D1091921BBD6004FEFF7 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D1081921BBD6004FEFF7 /* BaseTableView.m */; };
 		6767D10D1921BF56004FEFF7 /* PropertyTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D10C1921BF56004FEFF7 /* PropertyTableView.m */; };
 		6767D11E1921FEB9004FEFF7 /* PropertyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D11D1921FEB9004FEFF7 /* PropertyTableViewCell.m */; };
@@ -1001,6 +1002,8 @@
 		6740D1C61908E08C005ED706 /* anjuke_icon_voice1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_voice1@2x.png"; sourceTree = "<group>"; };
 		67639F591949B09200987405 /* CustomerHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerHeaderView.h; sourceTree = "<group>"; };
 		67639F5A1949B09200987405 /* CustomerHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerHeaderView.m; sourceTree = "<group>"; };
+		67639F601950355400987405 /* CustomerListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerListModel.h; sourceTree = "<group>"; };
+		67639F611950355400987405 /* CustomerListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerListModel.m; sourceTree = "<group>"; };
 		6767D1071921BBD6004FEFF7 /* BaseTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableView.h; sourceTree = "<group>"; };
 		6767D1081921BBD6004FEFF7 /* BaseTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableView.m; sourceTree = "<group>"; };
 		6767D10B1921BF56004FEFF7 /* PropertyTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyTableView.h; sourceTree = "<group>"; };
@@ -3872,6 +3875,8 @@
 				6794E42F1947F3250069F1ED /* CustomerTableViewCell.m */,
 				6794E4311947F3580069F1ED /* CustomerModel.h */,
 				6794E4321947F3580069F1ED /* CustomerModel.m */,
+				67639F601950355400987405 /* CustomerListModel.h */,
+				67639F611950355400987405 /* CustomerListModel.m */,
 				6794E4341947FDB50069F1ED /* SDWebImage */,
 			);
 			name = "抢客户";
@@ -4747,6 +4752,7 @@
 				F88FC2E31945471100DEA8A2 /* HomeCell.m in Sources */,
 				20A07429188C0A080073C915 /* PublishTableViewDataSource.m in Sources */,
 				207526BA18B45FE10022220C /* SWCellScrollView.m in Sources */,
+				67639F621950355400987405 /* CustomerListModel.m in Sources */,
 				972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */,
 				97B106501834E5F40064AF5F /* AppManager.m in Sources */,
 				B7EAD52018CD927200B28FEC /* AXChatWebViewController.m in Sources */,

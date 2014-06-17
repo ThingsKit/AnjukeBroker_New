@@ -90,12 +90,16 @@
     
     //偏爱小区
     _community.frame = CGRectMake(15, _title.bottom + GAP_V, ScreenWidth - 15*2, 40);
-    _community.text = self.customerDetailModel.community;
+    NSMutableString* favorite_community = [NSMutableString stringWithString:@""];
+    for (NSString* comm in self.customerDetailModel.comm_preference) {
+        [favorite_community appendString:comm];
+    }
+    _community.text = favorite_community;
     [_community sizeToFit];
     
     //户型
     _houseType.frame = CGRectMake(15, _community.bottom + GAP_V, 100, 20);
-    _houseType.text = [NSString stringWithFormat:@"%@室%@厅%@卫", self.customerDetailModel.room, self.customerDetailModel.hall, self.customerDetailModel.toilet];
+    _houseType.text = self.customerDetailModel.house_type_preference;
     [_houseType sizeToFit];
     
     UILabel* line = [[UILabel alloc] initWithFrame:CGRectMake(_houseType.right + GAP_H, _community.bottom + GAP_V + 2, 1, 15)];
@@ -105,7 +109,7 @@
     
     //售价
     _price.frame = CGRectMake(line.right + GAP_H, _community.bottom + GAP_V, 100, 20);
-    _price.text = self.customerDetailModel.price;
+    _price.text = self.customerDetailModel.price_preference;
     [_price sizeToFit];
     
 }

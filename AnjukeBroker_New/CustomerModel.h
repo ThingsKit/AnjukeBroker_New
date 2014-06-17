@@ -10,18 +10,25 @@
 
 @interface CustomerModel : BaseModel
 
-@property (nonatomic, copy) NSString* id;
-@property (nonatomic, copy) NSString* userIcon;  //用户头像
-@property (nonatomic, copy) NSString* userName;   //用户名
-@property (nonatomic, copy) NSString* loginTime;  //用户上次登录时间
-@property (nonatomic, copy) NSString* location; //地点
-@property (nonatomic, copy) NSString* room; //室
-@property (nonatomic, copy) NSString* hall; //厅
-@property (nonatomic, copy) NSString* toilet; //卫
-@property (nonatomic, copy) NSString* area;   //面积
-@property (nonatomic, copy) NSString* price;  //价格或租金
-@property (nonatomic, copy) NSString* priceUnit;  //单位价格
-@property (nonatomic, copy) NSString* propertyCount; //浏览房源数
-@property (nonatomic, copy) NSString* userStatus; //当前改用户相对于经纪人的状态 (我抢了, 抢完了)
+//device_id: "123",
+//user_name: "王女士",
+//blcok_name: "塘桥",
+//house_type_preference: "2室",
+//price_preference: "150-200万",
+//view_prop_num: "20",
+//last_operate_time: "10分钟前",
+//status: "1",
+//status_msg: "抢完了"
+
+@property (nonatomic, copy) NSString* device_id; //设备id
+@property (nonatomic, copy) NSString* user_name;   //用户名
+@property (nonatomic, copy) NSString* user_photo;  //用户头像
+@property (nonatomic, copy) NSString* blcok_name; //地点
+@property (nonatomic, copy) NSString* house_type_preference; //室
+@property (nonatomic, copy) NSString* price_preference;  //价格或租金
+@property (nonatomic, copy) NSString* view_prop_num; //浏览房源数
+@property (nonatomic, copy) NSString* last_operate_time;  //用户上次登录时间
+@property (nonatomic, copy) NSString* status; //当前改用户相对于经纪人的状态 (我抢了, 抢完了)
+@property (nonatomic, copy) NSString* status_msg; //状态消息
 
 @end

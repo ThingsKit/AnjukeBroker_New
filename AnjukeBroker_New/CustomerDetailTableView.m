@@ -34,7 +34,7 @@
         self.delegate = self;
         self.dataSource = self;
         self.backgroundColor = [UIColor brokerBgPageColor];
-        
+        self.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return self;
 }
@@ -48,7 +48,11 @@
         cell.customerDetailModel = self.customerDetailModel;
     
         [cell showTopLine];
-        if (self.customerDetailModel.community.length > 20) {
+        NSMutableString* favoriteCommunity = [NSMutableString stringWithString:@""];
+        for (NSString* comm in self.customerDetailModel.comm_preference) {
+            [favoriteCommunity appendString:comm];
+        }
+        if (favoriteCommunity.length > 20) {
             [cell showBottonLineWithCellHeight:105];
         }else{
             [cell showBottonLineWithCellHeight:90];
@@ -78,18 +82,25 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone; //cell不可选中
         
+        
         return cell;
     }
-    
     
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSMutableString* favoriteCommunity = [NSMutableString stringWithString:@""];
+    if (self.customerDetailModel.comm_preference) {
+        for (NSString* comm in self.customerDetailModel.comm_preference) {
+            [favoriteCommunity appendString:comm];
+        }
+    }
+    
     if (indexPath.row == 0
         && indexPath.section == 0
-        && self.customerDetailModel.community
-        && self.customerDetailModel.community.length > 20) { //偏好房源字段的长度如果超过20,需要二行显示,对应的此cell高度增加
+        && self.customerDetailModel.comm_preference
+        && favoriteCommunity.length > 20) { //偏好房源字段的长度如果超过20,需要二行显示,对应的此cell高度增加
         return 105;
     }
     return 90;
@@ -99,7 +110,7 @@
     if (section == 0) {
         return 1;
     }else{
-        return 3;
+        return self.customerDetailModel.view_prop_info.count;
     }
 }
 

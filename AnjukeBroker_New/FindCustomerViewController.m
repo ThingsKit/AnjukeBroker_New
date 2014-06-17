@@ -10,6 +10,7 @@
 #import "CustomerTableView.h"
 #import "UIViewExt.h"
 #import "CustomerModel.h"
+#import "CustomerListModel.h"
 #import "CustomerDetailViewController.h"
 
 @interface FindCustomerViewController ()
@@ -20,6 +21,7 @@
 @property (nonatomic, strong) UILabel* emptyBackgroundLabel;
 
 @property (nonatomic, assign) BOOL networkRequesting; //是否正在网络请求, 加锁防止多次请求
+@property (nonatomic, assign) int pageNum; //第几页
 
 @end
 
@@ -58,7 +60,7 @@
 - (void)pullUp:(BaseTableView *)tableView{
     self.tableView.isPullUp = YES;
     if (self.tableView.sinceId != nil && self.tableView.sinceId.length != 0) {
-        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:self.tableView.sinceId forKey:@"sinceId"];
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:self.pageNum] forKey:@"page_num"];
         [self requestList:params];
     }else{
         [self requestList:nil];
@@ -68,12 +70,12 @@
 
 - (void)pullDown:(BaseTableView *)tableView{
     self.tableView.isPullUp = NO;
-    if (self.tableView.maxId != nil && self.tableView.maxId.length != 0) {
-        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:self.tableView.maxId forKey:@"maxId"];
-        [self requestList:params];
-    }else{
+//    if (self.tableView.maxId != nil && self.tableView.maxId.length != 0) {
+//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:self.tableView.maxId forKey:@"maxId"];
+//        [self requestList:params];
+//    }else{
         [self requestList:nil];
-    }
+//    }
 }
 
 - (void)tableView:(BaseTableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -97,7 +99,7 @@
     self.networkRequesting = YES; //网络请求加锁, 每次只有一个网络请求
     
     if (params == nil) {
-        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"broker_id", nil];
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"broker_id", @"1", @"is_nocheck", nil];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }else{
         [params setObject:[LoginManager getToken] forKey:@"token"];
@@ -118,29 +120,18 @@
     if (status == RTNetworkResponseStatusSuccess) {
         NSDictionary* content = response.content;
 //        NSArray* data = [content objectForKey:@"data"];
+        CustomerListModel* data = [[CustomerListModel alloc] initWithDataDic:[content objectForKey:@"data"]];
+        self.tableView.customerListModel = data;
         
-        self.tableView.customerCount = 10;
-        self.tableView.propertyRushableCount = 3;
-        
-//        @property (nonatomic, copy) NSString* id;
-//        @property (nonatomic, copy) NSString* userIcon;  //用户头像
-//        @property (nonatomic, copy) NSString* userName;   //用户名
-//        @property (nonatomic, copy) NSString* loginTime;  //用户上次登录时间
-//        @property (nonatomic, copy) NSString* location; //地点
-//        @property (nonatomic, copy) NSString* houseType; //户型
-//        @property (nonatomic, copy) NSString* price; //售价
-//        @property (nonatomic, copy) NSString* propertyCount; //浏览房源数
-//        @property (nonatomic, copy) NSString* userStatus; //当前改用户相对于经纪人的状态 (我抢了, 抢完了)
-        
-        NSDictionary* dict = @{@"id":@"1", @"userIcon":@"http://tp1.sinaimg.cn/1404376560/50/0/1", @"userName":@"王女士", @"loginTime":@"10", @"location":@"地球", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"price":@"2000w", @"propertyCount":@"20",@"userStatus":@"1"};
-        NSDictionary* dict2 = @{@"id":@"2", @"userIcon":@"", @"userName":@"欧阳先生", @"loginTime":@"10", @"location":@"地球", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"price":@"2000w", @"propertyCount":@"20",@"userStatus":@"2"};
-        
-        NSArray* data = @[dict, dict2];
+//        NSDictionary* dict = @{@"id":@"1", @"userIcon":@"http://tp1.sinaimg.cn/1404376560/50/0/1", @"userName":@"王女士", @"loginTime":@"10", @"location":@"地球", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"price":@"2000w", @"propertyCount":@"20",@"userStatus":@"1"};
+//        NSDictionary* dict2 = @{@"id":@"2", @"userIcon":@"", @"userName":@"欧阳先生", @"loginTime":@"10", @"location":@"地球", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"price":@"2000w", @"propertyCount":@"20",@"userStatus":@"2"};
+//        
+//        NSArray* data = @[dict, dict2];
         
         NSMutableArray* models = [NSMutableArray arrayWithCapacity:1];
-        if (data.count > 0) { //请求如果有数据
+        if (data.list.count > 0) { //请求如果有数据
             //获取列表数据
-            for (NSDictionary* temp in data) {
+            for (NSDictionary* temp in data.list) {
                 CustomerModel* customer = [[CustomerModel alloc] initWithDataDic:temp];
                 [models addObject:customer];
             }
@@ -154,26 +145,21 @@
             
             if (!self.tableView.isPullUp) {
                 list = [NSMutableArray arrayWithArray:models];
-                [list addObjectsFromArray:self.tableView.data];
+                self.pageNum = 1;
+//                [list addObjectsFromArray:self.tableView.data];
             }else{ //待委托列表上啦
                 list = [NSMutableArray arrayWithArray:self.tableView.data];
                 [list addObjectsFromArray:models];
+                self.pageNum++;
             }
             
             self.tableView.data = list;
-            
-            CustomerModel* minModel = self.tableView.data.lastObject;  //获取最小id
-            self.tableView.sinceId = minModel.id;
-            
-            CustomerModel* maxModel = self.tableView.data.firstObject; //获取最大id
-            self.tableView.maxId = maxModel.id;
-            
             self.tableView.tableHeaderView = nil;
             
-            if (models.count < 20) {
-                self.tableView.hasMore = NO;
-            }else{
+            if ([@"1" isEqualToString:data.is_next_page]) { //如果有下一页
                 self.tableView.hasMore = YES;
+            }else{
+                self.tableView.hasMore = NO;
             }
             
             [self.tableView reloadData];

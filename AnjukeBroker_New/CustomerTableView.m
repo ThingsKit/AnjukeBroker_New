@@ -10,6 +10,7 @@
 #import "CustomerModel.h"
 #import "CustomerTableViewCell.h"
 #import "CustomerHeaderView.h"
+#import "CustomerListModel.h"
 
 @interface CustomerTableView ()
 
@@ -62,8 +63,7 @@
     if (_sectionHeader == nil) {
         _sectionHeader = [[CustomerHeaderView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
     }
-    _sectionHeader.customerCount = _customerCount;
-    _sectionHeader.propertyRushableCount = _propertyRushableCount;
+    _sectionHeader.customerListModel = self.customerListModel;
     [_sectionHeader setNeedsLayout];
     
     return _sectionHeader;
