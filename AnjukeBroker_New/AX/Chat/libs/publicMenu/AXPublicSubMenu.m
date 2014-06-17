@@ -25,9 +25,7 @@ CGFloat const axPublicSubMenuHeight = 45.0f;
     return self;
 }
 - (void)configPublicSubMenu:(AXPublicMenuButton *)button menu:(NSArray *)menus{
-//    NSInteger menuCount = menus.count;
     NSInteger menuCount = MIN(5, menus.count);
-    menuCount = 5;
     
     CGRect rect = CGRectMake(0, 0, 100, 45*menuCount);
     self.frame = rect;
@@ -57,17 +55,16 @@ CGFloat const axPublicSubMenuHeight = 45.0f;
         [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor brokerBgPageColor]] forState:UIControlStateNormal];
         [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor brokerBgSelectColor  ]] forState:UIControlStateHighlighted];
         [btn setTitle:[menus objectAtIndex:i][@"menu_title"] forState:UIControlStateNormal];
-        [btn setTitle:[NSString stringWithFormat:@"子菜单%d",i] forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateNormal];
         btn.titleLabel.font = [UIFont ajkH3Font];
         btn.index = i;
+        btn.btnInfo = menus[i];
         btn.titleLabel.font = [UIFont systemFontOfSize:15];
         [self addSubview:btn];
     }
     
     for (int i = 0; i < menuCount; i++) {
         if (menuCount == 1 || i == menuCount -1 ) {
-            return;
         }else{
             BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(8, (i+1)*axPublicSubMenuHeight, 84, 1)];
             line.horizontalLine = YES;
@@ -78,16 +75,6 @@ CGFloat const axPublicSubMenuHeight = 45.0f;
 
 - (void)subMenuBtnClick:(id)sender{
     AXPublicMenuButton *btn = (AXPublicMenuButton *)sender;
-    
-    if (btn.index == 0) {
-        if (self.publicSubMenuDelegate && [self.publicSubMenuDelegate respondsToSelector:@selector(publicSubMenuWithAPI:)]) {
-            [self.publicSubMenuDelegate publicSubMenuWithAPI:btn.btnInfo[@"action_id"]];
-        }
-    }else{
-        if (self.publicSubMenuDelegate && [self.publicSubMenuDelegate respondsToSelector:@selector(publicSubMenuWithURL:)]) {
-            [self.publicSubMenuDelegate publicSubMenuWithURL:btn.btnInfo[@"webview_url"]];
-        }
-    }
     
     if (!btn.btnInfo[@"menu_type"]) {
         return;

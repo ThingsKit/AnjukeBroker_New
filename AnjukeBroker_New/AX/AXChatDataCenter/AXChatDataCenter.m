@@ -903,6 +903,10 @@
         
         [person updateFirstPinyin];
         
+        if (mappedPerson[@"configs"]) {
+            person.configs = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:mappedPerson[@"configs"] options:0 error:NULL] encoding:NSUTF8StringEncoding];
+        }
+        
         if (![person.isPendingForRemove boolValue]) {
             [friendList addObject:[person convertToMappedPerson]];
         }

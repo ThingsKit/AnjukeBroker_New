@@ -17,9 +17,9 @@ typedef NS_ENUM(NSInteger, AXPublicInputType) {
 
 
 typedef NS_ENUM(NSInteger, AXPublicMenuType) {
-    AXPublicMenuTypeSubMenu = 0,
-    AXPublicMenuTypeAPI = 1,
-    AXPublicMenuTypeWebView = 2
+    AXPublicMenuTypeSubMenu = 1,
+    AXPublicMenuTypeAPI = 2,
+    AXPublicMenuTypeWebView = 3
 };
 
 @protocol AXPublicMenuDelegate <NSObject>

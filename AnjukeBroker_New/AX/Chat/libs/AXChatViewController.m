@@ -147,7 +147,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 @property (nonatomic, assign) NSUInteger cursorLocation; //文本输入框光标所在位置
 
 //公众账号菜单
-@property (nonatomic, assign) BOOL isMenuFlag;
+@property (nonatomic, assign) BOOL isHavPublicMenu; //是否有菜单
+@property (nonatomic, assign) BOOL isMenuFlag; //是否有输入框和菜单开关
 @property (nonatomic, strong) AXPublicMenu * publicMenu;
 @property (nonatomic, strong) AXPublicSubMenu * publicSubMenu;
 @property (nonatomic, strong) NSMutableDictionary * menuConfigs;
@@ -193,6 +194,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         _messageInputViewFrame = CGRectZero;
         _messageInputTextViewFrame = CGRectZero;
         
+        _isHavPublicMenu = NO;
         _isMenuFlag = NO;
     }
     return self;
@@ -341,21 +343,17 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
                                    size.width,
                                    inputViewHeight);
     
+    //判断是否需要开启publicMenu
     self.menuConfigs = [[NSMutableDictionary alloc] initWithDictionary:self.friendPerson.configs];
-    if (!self.publicMenu) {
-        self.publicMenu = [[AXPublicMenu alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, [self windowWidth], 49)];
-        self.publicMenu.publicMenuDelegate = self;
-//        [self.publicMenu configPublicMenuView:self.menuConfigs[@"menu_list"] inputType:[self.menuConfigs[@"input_type"] integerValue]];
-        [self.publicMenu configPublicMenuView:self.menuConfigs[@"menu_list"] inputType:2];
-
-        [self.view addSubview:self.publicMenu];
-    }
-    
     self.isMenuFlag = NO;
-    if ([self isPublicPerson] && self.menuConfigs[@"input_type"] && [self.menuConfigs[@"input_type"] integerValue]  != AXPublicInputTypeNormal) {
+    self.isHavPublicMenu = NO;
+    if ([self isPublicPerson] && self.menuConfigs[@"input_type"] && [self.menuConfigs[@"input_type"] integerValue]  == AXPublicInputTypeNormalAndPublicMenu) {
         self.isMenuFlag = YES;
     }
-    self.isMenuFlag = YES;
+    if ([self isPublicPerson]) {
+        self.isHavPublicMenu = YES;
+    }
+
     
     JSMessageInputView *inputView = [[JSMessageInputView alloc] initWithFrame:inputFrame
                                                                         style:JSMessageInputViewStyleFlat
@@ -374,6 +372,24 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
                                         context:nil];
     CGRect textViewRect = self.messageInputView.textView.frame;
     self.messageInputViewFrame = inputView.frame;
+    
+    //加载publicMenus
+    if (self.isHavPublicMenu) {
+        if (!self.publicMenu) {
+            self.publicMenu = [[AXPublicMenu alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, [self windowWidth], 49)];
+            self.publicMenu.publicMenuDelegate = self;
+            [self.publicMenu configPublicMenuView:self.menuConfigs[@"menu_list"] inputType:[self.menuConfigs[@"input_type"] integerValue]];
+            //        [self.publicMenu configPublicMenuView:self.menuConfigs[@"menu_list"] inputType:2];
+            
+            [self.view addSubview:self.publicMenu];
+            //如果只有public菜单，隐藏输入键盘
+            if (self.menuConfigs[@"input_type"] && [self.menuConfigs[@"input_type"] integerValue]  == AXPublicInputTypePublicMenu) {
+                self.publicMenu.frame = CGRectMake(0, self.view.frame.size.height - inputViewHeight - 44 - 20, [self windowWidth], 49);
+                DLog(@"height--->>%f",self.view.frame.size.height);
+                self.messageInputView.hidden = YES;
+            }
+        }
+    }
     
     if (!self.isBroker) {
         inputView.sendButton.enabled = NO;
@@ -838,7 +854,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
             self.publicSubMenu =[[AXPublicSubMenu alloc] init];
             self.publicSubMenu.publicSubMenuDelegate = self;
             self.publicSubMenu.subMenuindex = button.index;
-            [self.publicSubMenu configPublicSubMenu:button menu:nil];
+            [self.publicSubMenu configPublicSubMenu:button menu:menus];
             [self.view insertSubview:self.publicSubMenu belowSubview:self.publicMenu];
             
             CGRect subMenuFrame = self.publicSubMenu.frame;
@@ -856,7 +872,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         self.publicSubMenu =[[AXPublicSubMenu alloc] init];
         self.publicSubMenu.publicSubMenuDelegate = self;
         self.publicSubMenu.subMenuindex = button.index;
-        [self.publicSubMenu configPublicSubMenu:button menu:nil];
+        [self.publicSubMenu configPublicSubMenu:button menu:menus];
         [self.view insertSubview:self.publicSubMenu belowSubview:self.publicMenu];
         
         CGRect subMenuFrame = self.publicSubMenu.frame;
@@ -879,7 +895,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [self showPublicLoadView];
     
     AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
-    webVC.webUrl = @"http://www.baidu.com";
+    webVC.webUrl = webURL;
     [self.navigationController pushViewController:webVC animated:YES];
 
     [self hidePublicLoadView];
@@ -903,7 +919,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [self showPublicLoadView];
     [self hideSubmenu:^(BOOL isFinished) {
         AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
-        webVC.webUrl = @"http://www.baidu.com";
+        webVC.webUrl = actionStr;
         [self.navigationController pushViewController:webVC animated:YES];
         [self hidePublicLoadView];
     }];

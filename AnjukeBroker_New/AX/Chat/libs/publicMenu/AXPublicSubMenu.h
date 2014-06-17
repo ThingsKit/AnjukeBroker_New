@@ -11,8 +11,8 @@
 
 typedef NS_ENUM(NSInteger, AXPublicSubMenuType) {
 //    AXPublicSubMenuTypeSubMenu = 0,
-    AXPublicSubMenuTypeAPI = 0,
-    AXPublicSubMenuTypeWebView = 1
+    AXPublicSubMenuTypeAPI = 2,
+    AXPublicSubMenuTypeWebView = 3
 };
 
 @protocol AXPublicSubMenuDelegate <NSObject>

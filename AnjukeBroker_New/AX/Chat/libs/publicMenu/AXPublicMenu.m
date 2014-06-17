@@ -31,8 +31,8 @@ CGFloat const axPublicMenuHeight = 49.0f;
     }
     float menuWidth;
     float leftX = 0;
-//    NSInteger menuCount = menus.count;
-    NSInteger menuCount = 3;
+    NSInteger menuCount = menus.count;
+//    NSInteger menuCount = 3;
     if (menuCount < 1) {
         return;
     }
@@ -41,7 +41,6 @@ CGFloat const axPublicMenuHeight = 49.0f;
         leftX = 0;
     }else if (inputType == AXPublicInputTypeNormalAndPublicMenu){
         UIButton *switchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        switchBtn.frame = CGRectMake(48/2-16, axPublicMenuHeight/2 - 16, 32, 32);
         switchBtn.frame = CGRectMake(0, 0, 48, 49);
         switchBtn.contentEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8);
         [switchBtn setImage:[UIImage imageNamed:@"broker_wl_gzh_b"] forState:UIControlStateNormal];
@@ -53,25 +52,20 @@ CGFloat const axPublicMenuHeight = 49.0f;
         leftX = 48;
     }
     
-//    for (int i = 0; i < MIN(3, menuCount); i++) {
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < MIN(3, menuCount); i++) {
         AXPublicMenuButton *btn = [AXPublicMenuButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake(leftX + menuWidth*i, 0, menuWidth, axPublicMenuHeight);
         [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor colorWithHex:0Xf6f6f6 alpha:1.0]] forState:UIControlStateNormal];
         [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor brokerBgSelectColor]] forState:UIControlStateHighlighted];
         btn.btnInfo = [menus objectAtIndex:i];
         btn.index = i;
-//        [btn setTitle:[menus objectAtIndex:i][@"menu_title"] forState:UIControlStateNormal];
-//        [btn setTitle:[NSString stringWithFormat:@"菜单%d",i] forState:UIControlStateNormal];
         btn.titleLabel.font = [UIFont systemFontOfSize:15];
-//        btn.titleLabel.textColor = [UIColor brokerBlackColor];
         [btn setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor brokerBlackColor] forState:UIControlStateHighlighted];
         [btn addTarget:self action:@selector(publicMenuClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:btn];
 
-//        CGRect frame = [Util_UI sizeOfString:[menus objectAtIndex:i][@"menu_title"] maxWidth:menuWidth withFontSize:15];
-        CGSize size = [Util_UI sizeOfString:[NSString stringWithFormat:@"菜单%d",i] maxWidth:menuWidth withFontSize:15];
+        CGSize size = [Util_UI sizeOfString:[menus objectAtIndex:i][@"menu_title"] maxWidth:menuWidth withFontSize:15];
         
         if (size.width >= menuWidth - 9*2) {
             size.width = menuWidth - 9*2;
@@ -79,7 +73,7 @@ CGFloat const axPublicMenuHeight = 49.0f;
         
         UILabel *lab = [[UILabel alloc] init];
         lab.frame = CGRectMake(menuWidth/2 - size.width/2, 0, size.width, axPublicMenuHeight);
-        lab.text = [NSString stringWithFormat:@"菜单%d",i];
+        lab.text = [menus objectAtIndex:i][@"menu_title"];
         lab.textColor = [UIColor brokerBlackColor];
         lab.font = [UIFont ajkH3Font];
         lab.textAlignment = NSTextAlignmentCenter;
@@ -92,7 +86,6 @@ CGFloat const axPublicMenuHeight = 49.0f;
         }
         
         if (inputType == AXPublicInputTypePublicMenu && i == 0) {
-            return;
         }else{
             BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(leftX + menuWidth*i, 0, 1, axPublicMenuHeight)];
             line.horizontalLine = NO;
@@ -103,21 +96,6 @@ CGFloat const axPublicMenuHeight = 49.0f;
 #pragma mark -- publicMenuClick
 - (void)publicMenuClick:(id)sender{
     AXPublicMenuButton *btn = (AXPublicMenuButton *)sender;
-
-    if (btn.index == 0) {
-        if (self.publicMenuDelegate && [self.publicMenuDelegate respondsToSelector:@selector(publicMenuWithURL:)]) {
-            [self.publicMenuDelegate publicMenuWithURL:btn.btnInfo[@"webview_url"]];
-        }
-    }else if (btn.index == 1){
-        if (self.publicMenuDelegate && [self.publicMenuDelegate respondsToSelector:@selector(publicMenuShowSubMenu:menus:)]) {
-            [self.publicMenuDelegate publicMenuShowSubMenu:btn menus:[NSArray arrayWithArray:btn.btnInfo[@"sub_menu_list"]]];
-        }
-
-    }else if (btn.index == 2){
-        if (self.publicMenuDelegate && [self.publicMenuDelegate respondsToSelector:@selector(publicMenuShowSubMenu:menus:)]) {
-            [self.publicMenuDelegate publicMenuShowSubMenu:btn menus:[NSArray arrayWithArray:btn.btnInfo[@"sub_menu_list"]]];
-        }
-    }
     
     if (!btn.btnInfo[@"menu_type"]) {
         return;
