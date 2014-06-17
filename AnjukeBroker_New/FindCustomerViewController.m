@@ -89,7 +89,7 @@
 #pragma mark -
 #pragma mark NetworkRequest Method 网络请求相关方法
 - (void)requestList:(NSMutableDictionary*)params{
-    NSString* method = @"commission/propertyList/";
+    NSString* method = @"customer/userlist/";
     if (self.networkRequesting) {
         return;
     }
@@ -97,11 +97,11 @@
     self.networkRequesting = YES; //网络请求加锁, 每次只有一个网络请求
     
     if (params == nil) {
-        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", nil];
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"broker_id", nil];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }else{
         [params setObject:[LoginManager getToken] forKey:@"token"];
-        [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
+        [params setObject:[LoginManager getUserID] forKey:@"broker_id"];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }
     

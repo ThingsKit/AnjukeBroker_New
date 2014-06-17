@@ -22,6 +22,10 @@
 @property (nonatomic, strong) UIButton* rightTabButton;
 @property (nonatomic, strong) UIView* leftEmptyBackgroundView;
 @property (nonatomic, strong) UIView* rightEmptyBackgroundView;
+@property (nonatomic, strong) UIImageView* leftImageView;
+@property (nonatomic, strong) UIImageView* rightImageView;
+@property (nonatomic, strong) UILabel* leftLabel;
+@property (nonatomic, strong) UILabel* rightLabel;
 
 //浮层相关
 @property (nonatomic, strong) MBProgressHUD* hud;
@@ -196,13 +200,13 @@
                 
             }
             
-            [self showEmptyBackground];
+            [self showTipViewWithImageViewFrame:CGRectMake(ScreenWidth/2-90/2, ScreenHeight/2-20-44-79/2, 180/2, 158/2) ImageName:@"anjuke_icon_weituo_nopropery" LabelText:@"暂无委托"];
             
         }
         
         
     }else{ //数据请求失败
-        [self showEmptyBackground];
+        [self showTipViewWithImageViewFrame:CGRectMake(ScreenWidth/2-100/2, ScreenHeight/2-20-44-70/2, 200/2, 140/2) ImageName:@"check_no_wifi" LabelText:@"无网络连接"];
         
     }
     
@@ -586,48 +590,56 @@
 
 #pragma mark -
 #pragma mark 显示空白背景
-
-- (void)showEmptyBackground{
+- (void) showTipViewWithImageViewFrame:(CGRect)imageViewFrame ImageName:(NSString*)imageName LabelText:(NSString*)labelText{
     
     if (self.leftEmptyBackgroundView == nil) {
-        self.leftEmptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
-        self.leftEmptyBackgroundView.backgroundColor = [UIColor clearColor];
-        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, ScreenHeight/2-20-44-79/2, 180/2, 158/2)];
-        imageView.image = [UIImage imageNamed:@"anjuke_icon_weituo_nopropery"];
-        [self.leftEmptyBackgroundView addSubview:imageView];
+        _leftEmptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
+        _leftEmptyBackgroundView.backgroundColor = [UIColor clearColor];
+        _leftImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [_leftEmptyBackgroundView addSubview:_leftImageView];
         
-        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, imageView.bottom, 90, 30)];
-        label.backgroundColor = [UIColor clearColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        [label setFont:[UIFont systemFontOfSize:16.0]];
-        label.text = @"暂无委托";
-        [label setTextColor:[UIColor brokerLightGrayColor]];
-        [self.leftEmptyBackgroundView addSubview:label];
+        _leftLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _leftLabel.backgroundColor = [UIColor clearColor];
+        _leftLabel.textAlignment = NSTextAlignmentCenter;
+        [_leftLabel setFont:[UIFont systemFontOfSize:16.0]];
+        [_leftLabel setTextColor:[UIColor brokerLightGrayColor]];
+        [self.leftEmptyBackgroundView addSubview:_leftLabel];
         
         UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autoRefreshWithNoLimitation)];
         [self.leftEmptyBackgroundView addGestureRecognizer:tap];
         
     }
     
+    _leftImageView.frame = imageViewFrame;
+    _leftImageView.image = [UIImage imageNamed:imageName];
+    
+    _leftLabel.frame = CGRectMake(ScreenWidth/2-90/2, _leftImageView.bottom, 90, 30);
+    _leftLabel.text = labelText;
+    
+    
     if (self.rightEmptyBackgroundView == nil) {
-        self.rightEmptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
-        self.rightEmptyBackgroundView.backgroundColor = [UIColor clearColor];
-        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, ScreenHeight/2-20-44-79/2, 180/2, 158/2)];
-        imageView.image = [UIImage imageNamed:@"anjuke_icon_weituo_nopropery"];
-        [self.rightEmptyBackgroundView addSubview:imageView];
+        _rightEmptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
+        _rightEmptyBackgroundView.backgroundColor = [UIColor clearColor];
+        _rightImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [self.rightEmptyBackgroundView addSubview:_rightImageView];
         
-        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2-90/2, imageView.bottom, 90, 30)];
-        label.backgroundColor = [UIColor clearColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        [label setFont:[UIFont systemFontOfSize:16.0]];
-        label.text = @"暂无委托";
-        [label setTextColor:[UIColor brokerLightGrayColor]];
-        [self.rightEmptyBackgroundView addSubview:label];
+        _rightLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _rightLabel.backgroundColor = [UIColor clearColor];
+        _rightLabel.textAlignment = NSTextAlignmentCenter;
+        [_rightLabel setFont:[UIFont systemFontOfSize:16.0]];
+        [_rightLabel setTextColor:[UIColor brokerLightGrayColor]];
+        [self.rightEmptyBackgroundView addSubview:_rightLabel];
         
         UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autoRefreshWithNoLimitation)];
         [self.rightEmptyBackgroundView addGestureRecognizer:tap];
         
     }
+    
+    _rightImageView.frame = imageViewFrame;
+    _rightImageView.image = [UIImage imageNamed:imageName];
+    
+    _rightLabel.frame = CGRectMake(ScreenWidth/2-90/2, _leftImageView.bottom, 90, 30);
+    _rightLabel.text = labelText;
     
     if (self.myTableView.hidden) { //如果位于抢委托房源列表
         if (self.tableView.data.count == 0) {
@@ -648,6 +660,7 @@
         }
         [self.myTableView reloadData];
     }
+
 }
 
 @end
