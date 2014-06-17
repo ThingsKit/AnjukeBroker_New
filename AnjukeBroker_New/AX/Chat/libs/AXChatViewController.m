@@ -154,8 +154,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 @property (nonatomic, strong) BrokerLineView * line;
 @property (nonatomic, strong) AXPublicLoading * publicLoadView;
 @property (nonatomic, strong) void (^subMenuHideFinish)(BOOL isFinished);
-//@property (nonatomic, strong) void (^finishSendMessageBlock)(NSArray *messages,AXMessageCenterSendMessageStatus status,AXMessageCenterSendMessageErrorTypeCode errorCode);
-//- (void)reSendVoice:(NSString *)identify withCompeletionBlock:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+
 
 @end
 
@@ -285,8 +284,6 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [self initPullToRefresh];
     self.previousTextViewContentHeight = 36;
     [self downLoadIcon];
-    
-    
 }
 
 - (void)initData {

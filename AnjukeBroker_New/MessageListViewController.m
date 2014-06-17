@@ -318,7 +318,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     AXConversationListItem *item = [self.sessionFetchedResultsController objectAtIndexPath:indexPath];
-  AXMappedPerson *persion = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:item.friendUid];
+    AXMappedPerson *persion = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:item.friendUid];
     
     if (persion.userType == AXPersonTypePublic) {
         [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_CLICK_MOBILEBROKER page:MESSAGE_LIST note:nil];
