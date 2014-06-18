@@ -225,6 +225,7 @@
 - (void)onCheckFinished:(RTNetworkResponse *)response {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.networkRequesting = NO;//解除请求锁
+    _chatButton.enabled = YES;
     
     RTNetworkResponseStatus status = response.status;
 
@@ -255,12 +256,9 @@
             }
             
         }else{ //数据请求失败
-            _chatButton.enabled = YES;
         }
         
     }else{ //网络不畅
-        _chatButton.enabled = YES;
-        
     }
 
 }
@@ -268,6 +266,7 @@
 - (void)onLockFinished:(RTNetworkResponse *)response {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.networkRequesting = NO;//解除请求锁
+    _chatButton.enabled = YES;
     
     RTNetworkResponseStatus status = response.status;
     if (status == RTNetworkResponseStatusSuccess) { //如果请求数据成功
@@ -277,17 +276,14 @@
             NSDictionary* data = [content objectForKey:@"data"];
             if ([@"1" isEqualToString:[data objectForKey:@"success"]]) {
                 //锁定成功, 跳转相应页面
-                _chatButton.enabled = YES;
                 [self pushToBrokerChatViewController];
             }
             
         }else{//请求锁定失败
-            _chatButton.enabled = YES; //解锁按钮
-            
+
         }
         
     }else{ //网络不畅
-        _chatButton.enabled = YES;
     }
     
 }
