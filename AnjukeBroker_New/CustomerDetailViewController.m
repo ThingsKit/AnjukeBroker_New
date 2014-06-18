@@ -81,14 +81,17 @@
 - (void)pushToBrokerChatViewController{
     
     BrokerChatViewController *bc = [[BrokerChatViewController alloc] init];
+    bc.backType = RTSelectorBackTypePopBack;
     bc.isBroker = YES;
     bc.isSayHello = YES;
     bc.userNickName = self.tableView.customerDetailModel.user_name;
     [bc setHidesBottomBarWhenPushed:YES];
     
-    self.navigationController.tabBarController.selectedIndex = 1;
-    [self.navigationController popToRootViewControllerAnimated:NO];
-    [[[AppDelegate sharedAppDelegate].tabController viewControllers][1] pushViewController:bc animated:NO];
+    [self.navigationController pushViewController:bc animated:YES];
+    
+//    self.navigationController.tabBarController.selectedIndex = 1;
+//    [self.navigationController popToRootViewControllerAnimated:NO];
+//    [[[AppDelegate sharedAppDelegate].tabController viewControllers][1] pushViewController:bc animated:NO];
     
 }
 

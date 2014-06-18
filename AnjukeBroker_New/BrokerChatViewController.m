@@ -63,7 +63,7 @@
 {
     [super viewDidLoad];
     
-    self.backType = RTSelectorBackTypePopToRoot;
+//    self.backType = RTSelectorBackTypePopToRoot;
     
     // 设置返回btn
     [self initRightBar];
@@ -499,8 +499,12 @@
     [self didClickKeyboardControl];
     
     [[BrokerLogger sharedInstance] logWithActionCode:CHAT_BACK page:CHAT note:nil];
-    self.tabBarController.selectedIndex = 1;
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    if (self.backType == RTSelectorBackTypePopBack) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        self.tabBarController.selectedIndex = 1;
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
 }
 
 - (void)didClickTelNumber:(NSString *)telNumber {
