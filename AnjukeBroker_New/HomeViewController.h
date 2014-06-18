@@ -21,6 +21,8 @@
 @property (nonatomic, strong) IMGDowloaderManager *img;
 @property (nonatomic, strong) UITableView *myTable;
 
+- (void)requestPropertyCount; //请求可抢房源数
+- (void)requestCustomerCount; //请求可抢客户数
 
 - (void)btnClickWithTag:(NSInteger)index;
 @end

@@ -336,16 +336,11 @@
     NSString* type = @"commission";
     
     HomeViewController* viewController = (HomeViewController*)[[self.tabController.viewControllers objectAtIndex:0] objectAtIndex:0];
-    UITableView* tableView = viewController.myTable;
-    NSIndexPath* propertyIndex = [NSIndexPath indexPathForRow:0 inSection:0];
-    NSIndexPath* customerIndex = [NSIndexPath indexPathForRow:1 inSection:0];
     
     if ([@"commission" isEqualToString:type]) {
-        HomeCell* propertyCell = (HomeCell*)[tableView cellForRowAtIndexPath:propertyIndex];
-        [propertyCell showDot:YES dotNum:20 offsetX:85];
+        [viewController requestPropertyCount];
     }else if ([@"customer" isEqualToString:type]){
-        HomeCell* customerCell = (HomeCell*)[tableView cellForRowAtIndexPath:customerIndex];
-        [customerCell showDot:YES dotNum:10 offsetX:85];
+        [viewController requestCustomerCount];
     }
     
 }

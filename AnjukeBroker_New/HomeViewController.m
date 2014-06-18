@@ -213,12 +213,16 @@
             //cell设置badge
             NSIndexPath* indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
             HomeCell* cell = (HomeCell*)[self.myTable cellForRowAtIndexPath:indexPath];
-            [cell showDot:YES dotNum:[count integerValue] offsetX:85];
+            if (self.propertyCount == 0) {
+                [cell showDot:NO dotNum:[count integerValue] offsetX:85];
+            }else{
+                [cell showDot:YES dotNum:[count integerValue] offsetX:85];
+            }
             
             if ((self.propertyCount + self.customerCount) == 0) {
-                self.tabBarItem.badgeValue = nil;
+                self.navigationController.tabBarItem.badgeValue = nil;
             }else{
-                self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", self.propertyCount + self.customerCount];
+                self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", self.propertyCount + self.customerCount];
             }
             
         }else{
@@ -245,12 +249,16 @@
             //cell设置badge
             NSIndexPath* indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
             HomeCell* cell = (HomeCell*)[self.myTable cellForRowAtIndexPath:indexPath];
-            [cell showDot:YES dotNum:[count integerValue] offsetX:85];
+            if (self.customerCount == 0) {
+                [cell showDot:NO dotNum:[count integerValue] offsetX:85];
+            }else{
+                [cell showDot:YES dotNum:[count integerValue] offsetX:85];
+            }
             
             if ((self.propertyCount + self.customerCount) == 0) {
-                self.tabBarItem.badgeValue = nil;
+                self.navigationController.tabBarItem.badgeValue = nil;
             }else{
-                self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", self.propertyCount + self.customerCount];
+                self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", self.propertyCount + self.customerCount];
             }
             
         }else{
