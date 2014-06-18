@@ -34,6 +34,7 @@
 @property (nonatomic, retain) NSString * markDesc;
 @property (nonatomic, retain) NSString * sex;
 @property (nonatomic, strong) NSString * configs;
+@property (nonatomic, retain) NSNumber * isStranger;//是否是陌生人
 
 - (void)assignPropertiesFromMappedObject:(AXMappedPerson *)person;
 - (AXMappedPerson *)convertToMappedPerson;

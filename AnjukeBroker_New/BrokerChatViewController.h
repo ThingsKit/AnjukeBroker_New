@@ -14,6 +14,7 @@
 
 @interface BrokerChatViewController : AXChatViewController <SelectedHouseWithDicDelegate, UIActionSheetDelegate>
 
-@property (nonatomic, assign)BOOL isSayHello;
+@property (nonatomic, assign)BOOL     isSayHello;//是否是打招呼页面
+@property (nonatomic, strong)NSString *userNickName;//用户名字
 
 @end

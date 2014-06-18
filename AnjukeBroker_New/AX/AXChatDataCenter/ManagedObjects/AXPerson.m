@@ -32,6 +32,7 @@
 @dynamic markDesc;
 @dynamic markPhone;
 @dynamic configs;
+@dynamic isStranger;
 
 - (AXMappedPerson *)convertToMappedPerson
 {
@@ -56,6 +57,7 @@
     person.markPhone = self.markPhone;
     person.markDesc = self.markDesc;
     person.sex = person.sex;
+    person.isStranger = [self.isStranger boolValue];
     if (self.configs && ![self.configs isEqualToString:@""]) {
         person.configs = [NSJSONSerialization JSONObjectWithData:[self.configs dataUsingEncoding:NSUTF8StringEncoding] options:0 error:NULL];
     }
@@ -85,6 +87,7 @@
     self.markPhone = person.markPhone;
     self.markDesc = person.markDesc;
     self.sex = person.sex;
+    self.isStranger = [NSNumber numberWithBool:person.isStranger];
     if (person.configs) {
         self.configs = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:person.configs options:0 error:NULL] encoding:NSUTF8StringEncoding];
     }
