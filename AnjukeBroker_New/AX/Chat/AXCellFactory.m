@@ -11,7 +11,7 @@
 #import "AXChatMessageRoomSourceCell.h"
 #import "AXChatMessageTextCell.h"
 #import "AXChatMessagePublicCardCell.h"
-#import "AXChatMessagePublicCardCell.h"
+#import "AXChatMessagePublicCard3Cell.h"
 #import "AXChatMessageImageCell.h"
 #import "AXChatMessageSystemTimeCell.h"
 #import "AXChatMessageVoiceCell.h"
@@ -46,6 +46,11 @@
             case AXMessageTypePublicCard:
             {
                 cell = [[AXChatMessagePublicCardCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identity];
+            }
+                break;
+            case AXMessageTypePublicCard3:
+            {
+                cell = [[AXChatMessagePublicCard3Cell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identity];
             }
                 break;
             case AXMessageTypePic:

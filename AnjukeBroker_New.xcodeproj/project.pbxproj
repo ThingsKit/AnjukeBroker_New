@@ -639,7 +639,7 @@
 		F832993B192B1B1D00246CD7 /* tab_icon_user_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8329931192B1B1D00246CD7 /* tab_icon_user_normal@2x.png */; };
 		F832993C192B1B1D00246CD7 /* tab_icon_user_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8329932192B1B1D00246CD7 /* tab_icon_user_select@2x.png */; };
 		F8522FF019344EC300E1CFB8 /* check_map_cover_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8522FEF19344EC300E1CFB8 /* check_map_cover_shadow@2x.png */; };
-		F853330E194FD8700025B914 /* AXChatMessagePublicCard2Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = F853330D194FD8700025B914 /* AXChatMessagePublicCard2Cell.m */; };
+		F853330E194FD8700025B914 /* AXChatMessagePublicCard3Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = F853330D194FD8700025B914 /* AXChatMessagePublicCard3Cell.m */; };
 		F8533312194FDE670025B914 /* AXChatMessagePublicCellButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F8533311194FDE670025B914 /* AXChatMessagePublicCellButton.m */; };
 		F8533315194FE0810025B914 /* AXChatMessagePublicCellTopButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F8533314194FE0810025B914 /* AXChatMessagePublicCellTopButton.m */; };
 		F85333181951607F0025B914 /* AXMessageCenterPublicServiceActionEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F85333171951607F0025B914 /* AXMessageCenterPublicServiceActionEventManager.m */; };
@@ -1666,8 +1666,8 @@
 		F8329931192B1B1D00246CD7 /* tab_icon_user_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_icon_user_normal@2x.png"; sourceTree = "<group>"; };
 		F8329932192B1B1D00246CD7 /* tab_icon_user_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_icon_user_select@2x.png"; sourceTree = "<group>"; };
 		F8522FEF19344EC300E1CFB8 /* check_map_cover_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check_map_cover_shadow@2x.png"; sourceTree = "<group>"; };
-		F853330C194FD8700025B914 /* AXChatMessagePublicCard2Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessagePublicCard2Cell.h; sourceTree = "<group>"; };
-		F853330D194FD8700025B914 /* AXChatMessagePublicCard2Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessagePublicCard2Cell.m; sourceTree = "<group>"; };
+		F853330C194FD8700025B914 /* AXChatMessagePublicCard3Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessagePublicCard3Cell.h; sourceTree = "<group>"; };
+		F853330D194FD8700025B914 /* AXChatMessagePublicCard3Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessagePublicCard3Cell.m; sourceTree = "<group>"; };
 		F8533310194FDE670025B914 /* AXChatMessagePublicCellButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessagePublicCellButton.h; sourceTree = "<group>"; };
 		F8533311194FDE670025B914 /* AXChatMessagePublicCellButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessagePublicCellButton.m; sourceTree = "<group>"; };
 		F8533313194FE0810025B914 /* AXChatMessagePublicCellTopButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessagePublicCellTopButton.h; sourceTree = "<group>"; };
@@ -3651,8 +3651,8 @@
 				B7EAD4DA18CD927200B28FEC /* AXChatMessageImageCell.m */,
 				B7EAD4DD18CD927200B28FEC /* AXChatMessagePublicCardCell.h */,
 				B7EAD4DE18CD927200B28FEC /* AXChatMessagePublicCardCell.m */,
-				F853330C194FD8700025B914 /* AXChatMessagePublicCard2Cell.h */,
-				F853330D194FD8700025B914 /* AXChatMessagePublicCard2Cell.m */,
+				F853330C194FD8700025B914 /* AXChatMessagePublicCard3Cell.h */,
+				F853330D194FD8700025B914 /* AXChatMessagePublicCard3Cell.m */,
 				B7EAD4DF18CD927200B28FEC /* AXChatMessageRoomSourceCell.h */,
 				B7EAD4E018CD927200B28FEC /* AXChatMessageRoomSourceCell.m */,
 				B7EAD4E118CD927200B28FEC /* AXChatMessageRootCell.h */,
@@ -4790,7 +4790,7 @@
 				2056A34918EE7E660022B5A5 /* AXMessage.m in Sources */,
 				2056A36318EE7E7A0022B5A5 /* AXMessageAPILongLinkManager.m in Sources */,
 				6767D1491923519B004FEFF7 /* MyPropertyTableViewCell.m in Sources */,
-				F853330E194FD8700025B914 /* AXChatMessagePublicCard2Cell.m in Sources */,
+				F853330E194FD8700025B914 /* AXChatMessagePublicCard3Cell.m in Sources */,
 				B7EAD53018CD927200B28FEC /* UIColor+AXChatMessage.m in Sources */,
 				2026044818B9D6CA00F75A56 /* ClientModel.m in Sources */,
 				20A2178618BF1804002CA469 /* HouseSelectCommunityCell.m in Sources */,

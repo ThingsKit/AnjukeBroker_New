@@ -16,8 +16,8 @@ typedef NS_ENUM(NSUInteger, AXMessageType)
     AXMessageTypePublicCard = 4, // 服务号消息,常规单条消息
     AXMessageTypeVoice = 5, // 语音消息
     AXMessageTypeLocation = 6, // 地理位置
-    AXMessageTypePublicCard2 = 7, // 服务号消息2号类型，多条消息，1拖5
-    AXMessageTypePublicCard3 = 8, // 服务号消息3号类型
+    AXMessageTypePublicCard2 = 7, // 服务号消息2号类型
+    AXMessageTypePublicCard3 = 8, // 服务号消息3号类型,多条消息，1拖5
     AXMessageTypeJinpuProperty = 9, // 金铺卡片
     
     AXMessageTypeSystemTime = 100, // 时间

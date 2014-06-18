@@ -6,16 +6,16 @@
 //  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
 
-#import "AXChatMessagePublicCard2Cell.h"
+#import "AXChatMessagePublicCard3Cell.h"
 #import "AXChatMessagePublicCellTopButton.h"
 #import "AXChatMessagePublicCellButton.h"
 
-@interface AXChatMessagePublicCard2Cell ()
+@interface AXChatMessagePublicCard3Cell ()
 @property(nonatomic, strong) UIImageView *backgoundView;
 
 @end
 
-@implementation AXChatMessagePublicCard2Cell
+@implementation AXChatMessagePublicCard3Cell
 @synthesize pcCardCell2Delegate;
 
 - (UIImageView *)backgoundView{
