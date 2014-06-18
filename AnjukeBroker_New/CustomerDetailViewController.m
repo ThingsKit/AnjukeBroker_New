@@ -12,6 +12,8 @@
 #import "BrokerLineView.h"
 #import "FavoritePropertyModel.h"
 #import "CustomerDetailModel.h"
+#import "BrokerChatViewController.h"
+#import "AppDelegate.h"
 
 @interface CustomerDetailViewController ()
 
@@ -25,8 +27,8 @@
 //网络请求锁
 @property (nonatomic, assign) BOOL networkRequesting; //是否正在网络请求, 加锁防止多次请求
 
-//底部微聊button的父视图
-@property (nonatomic, strong) UIView* bottomView;
+@property (nonatomic, strong) UIView* bottomView; //底部微聊button的父视图
+@property (nonatomic, strong) UIButton* chatButton; //微聊按钮
 
 //浮层相关
 @property (nonatomic, strong) MBProgressHUD* hud;
@@ -60,9 +62,233 @@
     
     self.tableView.hidden = YES;
     self.bottomView.hidden = YES;
-    [self requestList:nil];
+    
+    [self userDetailRequest:nil];
     
 }
+
+
+#pragma mark -
+#pragma mark 按钮处理事件
+- (void)startChat:(UIButton*)button{
+    NSLog(@"发起网络强求, 判断是否可以微聊");
+    
+    _chatButton.enabled = NO; //锁定按钮
+    [self checkStatusRequest:nil];
+
+}
+
+- (void)pushToBrokerChatViewController{
+    
+    BrokerChatViewController *bc = [[BrokerChatViewController alloc] init];
+    bc.isBroker = YES;
+    bc.isSayHello = YES;
+    bc.userNickName = self.tableView.customerDetailModel.user_name;
+    [bc setHidesBottomBarWhenPushed:YES];
+    
+    self.navigationController.tabBarController.selectedIndex = 1;
+    [self.navigationController popToRootViewControllerAnimated:NO];
+    [[[AppDelegate sharedAppDelegate].tabController viewControllers][1] pushViewController:bc animated:NO];
+    
+}
+
+
+#pragma mark -
+#pragma mark NetworkRequest Method 网络请求相关方法
+
+- (void)userDetailRequest:(NSMutableDictionary*)params{
+    if (self.networkRequesting) {
+        return;
+    }
+    
+    self.networkRequesting = YES; //网络请求加锁, 每次只有一个网络请求
+    NSString* method = @"customer/userdetail/";
+    
+    if (params == nil) {
+//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"broker_id", @"1", @"is_nocheck", self.device_id, @"device_id", nil];
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"234", @"broker_id", @"1", @"is_nocheck", self.device_id, @"device_id", nil];
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
+    }else{
+        
+    }
+    
+    
+}
+
+- (void)checkStatusRequest:(NSMutableDictionary*)params{
+    if (self.networkRequesting) {
+        return;
+    }
+    
+    self.networkRequesting = YES; //网络请求加锁, 每次只有一个网络请求
+    NSString* method = @"customer/checkstatus/";
+    
+    if (params == nil) {
+        //        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"broker_id", @"1", @"is_nocheck", self.device_id, @"device_id", nil];
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"234", @"broker_id", @"1", @"is_nocheck", self.device_id, @"device_id", nil];
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onCheckFinished:)];
+    }else{
+
+    }
+    
+}
+
+- (void)lockRequest:(NSMutableDictionary*)params{
+    if (self.networkRequesting) {
+        return;
+    }
+    
+    self.networkRequesting = YES; //网络请求加锁, 每次只有一个网络请求
+    NSString* method = @"customer/lock/";
+    
+    if (params == nil) {
+        //        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"broker_id", @"1", @"is_nocheck", self.device_id, @"device_id", nil];
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"234", @"broker_id", @"1", @"is_nocheck", self.device_id, @"device_id", nil];
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onLockFinished:)];
+    }else{
+        
+    }
+}
+
+#pragma mark -
+#pragma mark  数据请求完成
+
+- (void)onRequestFinished:(RTNetworkResponse *)response {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    self.networkRequesting = NO; //解除请求锁
+    
+    RTNetworkResponseStatus status = response.status;
+    
+    //如果请求数据成功
+    if (status == RTNetworkResponseStatusSuccess) {
+        NSDictionary* content = response.content;
+        
+        if ([@"ok" isEqualToString:[content objectForKey:@"status"]]) {
+            
+            CustomerDetailModel* data = [[CustomerDetailModel alloc] initWithDataDic:[content objectForKey:@"data"]];
+            self.tableView.customerDetailModel = data;
+            //        self.tableView.customerDetailModel.status = @"0";
+            //        self.tableView.customerDetailModel.comm_preference = @"汤臣一品 汤臣一品 汤臣一品汤臣一品 汤臣一品 汤臣一品汤臣一品 汤臣一品 汤臣一品";
+            
+            NSMutableArray* models = [NSMutableArray arrayWithCapacity:1];
+            if (data.view_prop_info.count > 0) { //如果有房源数据
+                for (NSDictionary* temp in data.view_prop_info) {
+                    FavoritePropertyModel* property = [[FavoritePropertyModel alloc] initWithDataDic:temp];
+                    [models addObject:property];
+                }
+            }else{ //没有数据
+                
+            }
+            
+            //如果有新数据
+            if (models.count > 0) {
+                self.tableView.data = models;
+            }else{ //没有房源数据
+                
+            }
+            
+            //根据该用户相对于经纪人的状态来决定按钮是什么(已抢到, 微聊, 抢完了)
+            if ([@"0" isEqualToString:data.status]) {
+                //可抢
+                [self setChatButtonEnable];
+                
+            }else if ([@"1" isEqualToString:data.status]){
+                //已抢到
+                [self setChatButtonRushSucceed];
+                
+            }else if([@"2" isEqualToString:data.status]){
+                //抢完了
+                [self setChatButtonRushFail];
+            }else if([@"3" isEqualToString:data.status]){
+                [self setChatButtonEnable];
+            }
+            
+            self.tableView.tableHeaderView = nil;
+            self.bottomView.hidden = NO;
+            [self.tableView reloadData];
+            
+        }else{ //数据请求失败
+            
+        }
+        
+    }else{ //网络不畅
+        [self showTipViewWithImageViewFrame:CGRectMake(ScreenWidth/2-100/2, ScreenHeight/2-20-44-70/2, 200/2, 140/2) ImageName:@"check_no_wifi" LabelText:@"无网络连接"];
+    }
+    
+    self.tableView.hidden = NO;
+    
+}
+
+- (void)onCheckFinished:(RTNetworkResponse *)response {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    self.networkRequesting = NO;//解除请求锁
+    
+    RTNetworkResponseStatus status = response.status;
+
+    //如果请求数据成功
+    if (status == RTNetworkResponseStatusSuccess) {
+        NSDictionary* content = response.content;
+        
+        if ([@"ok" isEqualToString:[content objectForKey:@"status"]]) {
+            //这里有五种状态, 分别对应不同的处理
+            NSDictionary* data = [content objectForKey:@"data"];
+            NSString* status = [data objectForKey:@"status"];
+            
+            if ([@"0" isEqualToString:status]) {
+                //可以抢, 发起锁定请求,如果请求成功, 则进入相应页面
+                [self lockRequest:nil];
+                
+            }else if ([@"1" isEqualToString:status]){
+                //已抢到, 按钮变灰
+                [self setChatButtonRushSucceed];
+                
+            }else if ([@"2" isEqualToString:status]){
+                //已抢完, 按钮变灰
+                [self setChatButtonRushFail];
+                
+            }else if ([@"3" isEqualToString:status]){
+                //用户被临时锁定, 显示微聊(可以抢), 不再锁定, 直接跳转相应页面
+                [self pushToBrokerChatViewController];
+            }
+            
+        }else{ //数据请求失败
+            _chatButton.enabled = YES;
+        }
+        
+    }else{ //网络不畅
+        _chatButton.enabled = YES;
+        
+    }
+
+}
+
+- (void)onLockFinished:(RTNetworkResponse *)response {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    self.networkRequesting = NO;//解除请求锁
+    
+    RTNetworkResponseStatus status = response.status;
+    if (status == RTNetworkResponseStatusSuccess) { //如果请求数据成功
+        NSDictionary* content = response.content;
+        
+        if ([@"ok" isEqualToString:[content objectForKey:@"status"]]) {
+            NSDictionary* data = [content objectForKey:@"data"];
+            if ([@"1" isEqualToString:[data objectForKey:@"success"]]) {
+                //锁定成功, 跳转相应页面
+                _chatButton.enabled = YES;
+                [self pushToBrokerChatViewController];
+            }
+            
+        }else{//请求锁定失败
+            _chatButton.enabled = YES; //解锁按钮
+            
+        }
+        
+    }else{ //网络不畅
+        _chatButton.enabled = YES;
+    }
+    
+}
+
 
 #pragma mark -
 #pragma mark UI相关
@@ -85,118 +311,24 @@
 }
 
 
-#pragma mark -
-#pragma mark 按钮处理事件
-- (void)startChat:(UIButton*)button{
-    NSLog(@"发起网络强求, 判断是否可以微聊");
-    
-    
+- (void)setChatButtonEnable{
+    [_chatButton setTitle:@"微聊" forState:UIControlStateNormal];
+    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
+    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
+    _chatButton.enabled = YES;
 }
 
-
-#pragma mark -
-#pragma mark NetworkRequest Method 网络请求相关方法
-- (void)requestList:(NSMutableDictionary*)params{
-    NSString* method = @"customer/userdetail/";
-    if (self.networkRequesting) {
-        return;
-    }
-    
-    self.networkRequesting = YES; //网络请求加锁, 每次只有一个网络请求
-    
-    if (params == nil) {
-        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"broker_id", @"1", @"is_nocheck", @"123", @"device_id", nil];
-        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
-    }else{
-        [params setObject:[LoginManager getToken] forKey:@"token"];
-        [params setObject:[LoginManager getUserID] forKey:@"broker_id"];
-        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
-    }
-    
-    
+- (void)setChatButtonRushSucceed{
+    [_chatButton setTitle:@"已抢到" forState:UIControlStateNormal];
+    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"broker_icon_button_gray"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
+    _chatButton.enabled = NO;
 }
 
-#pragma mark  数据请求完成
-
-- (void)onRequestFinished:(RTNetworkResponse *)response {
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-    RTNetworkResponseStatus status = response.status;
-    
-    //如果请求数据成功
-    if (status == RTNetworkResponseStatusSuccess) {
-        NSDictionary* content = response.content;
-        
-        CustomerDetailModel* data = [[CustomerDetailModel alloc] initWithDataDic:[content objectForKey:@"data"]];
-        self.tableView.customerDetailModel = data;
-        
-//        NSDictionary* community = @{@"userIcon":@"http://tp1.sinaimg.cn/1404376560/50/0/1", @"userName":@"王女士", @"propertyCount":@"20", @"community":@"汤臣一品 汤臣一品 汤臣一品汤臣一品 汤臣一品 汤臣一品汤臣一品 汤臣一品 汤臣一品", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"area":@"90", @"price":@"2000万"};
-//        CustomerDetailModel* customer = [[CustomerDetailModel alloc] initWithDataDic:community];
-//        self.tableView.customerDetailModel = customer;
-   
-//        NSDictionary* dict = @{@"propertyId":@"1", @"propertyIcon":@"http://pic1.ajkimg.com/display/7c545a2869acb5c3a5522ac21af8391e/133x100c.jpg", @"propertyTitle":@"高品质小区1 户型大气 满意度超高",  @"location":@"太阳系", @"community":@"汤臣一品", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"area":@"90", @"price":@"2万"};
-//        NSDictionary* dict2 = @{@"propertyId":@"2", @"propertyIcon":@"http://pic1.ajkimg.com/display/02f038614189f930cfb6012f97743230/133x100c.jpg", @"propertyTitle":@"高品质小区2 户型大气 满意度超高",  @"location":@"银河系", @"community":@"汤臣二品", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"area":@"190", @"price":@"20000万"};
-//        NSDictionary* dict3 = @{@"propertyId":@"3", @"propertyIcon":@"http://pic1.ajkimg.com/display/290175a966af385a91814cfaf53b1686/133x100c.jpg", @"propertyTitle":@"高品质小区3 户型大气 满意度超高",  @"location":@"银河系", @"community":@"汤臣三品", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"area":@"180", @"price":@"2000万"};
-//        
-//        NSArray* data = @[dict, dict2, dict3];
-        
-        NSMutableArray* models = [NSMutableArray arrayWithCapacity:1];
-        if (data.view_prop_info.count > 0) { //请求如果有数据
-            //获取列表数据
-            for (NSDictionary* temp in data.view_prop_info) {
-                FavoritePropertyModel* property = [[FavoritePropertyModel alloc] initWithDataDic:temp];
-                [models addObject:property];
-            }
-        }else{ //没有数据
-            
-        }
-        
-        //如果有新数据
-        if (models.count > 0) {
-            
-            self.tableView.data = models;
-            self.tableView.tableHeaderView = nil;
-            
-            //根据该用户相对于经纪人的状态来决定按钮是什么(已抢到, 微聊, 抢完了)
-            if ([@"0" isEqualToString:data.status]) {
-                //可以点按状态
-                [_chatButton setTitle:@"微聊" forState:UIControlStateNormal];
-                [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
-                [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
-                _chatButton.enabled = YES;
-            }else if ([@"1" isEqualToString:data.status]){
-//                灰色不可按状态
-                [_chatButton setTitle:@"已抢到" forState:UIControlStateNormal];
-                [_chatButton setTitle:@"抢完了" forState:UIControlStateNormal];
-                [_chatButton setBackgroundImage:[[UIImage imageNamed:@"broker_icon_button_gray"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
-                _chatButton.enabled = NO;
-                
-            }else if ([@"2" isEqualToString:data.status]){
-                
-            }
-            
-            
-            self.bottomView.hidden = NO;
-            [self.tableView reloadData];
-            
-            
-            
-        }else{ //没有新数据
-            
-        }
-        
-    }else{ //数据请求失败
-        [self showTipViewWithImageViewFrame:CGRectMake(ScreenWidth/2-100/2, ScreenHeight/2-20-44-70/2, 200/2, 140/2) ImageName:@"check_no_wifi" LabelText:@"无网络连接"];
-        
-    }
-    
-    //解除请求锁
-    self.networkRequesting = NO;
-    self.tableView.hidden = NO;
-    
+- (void)setChatButtonRushFail{
+    [_chatButton setTitle:@"抢完了" forState:UIControlStateNormal];
+    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"broker_icon_button_gray"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
+    _chatButton.enabled = NO;
 }
-
 
 - (void) showTipViewWithImageViewFrame:(CGRect)imageViewFrame ImageName:(NSString*)imageName LabelText:(NSString*)labelText{
     if (self.emptyBackgroundView == nil) {
@@ -236,7 +368,7 @@
 }
 
 - (void) autoRefresh {
-    [self requestList:nil];
+    [self userDetailRequest:nil];
     //加载数据
 }
 

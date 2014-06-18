@@ -166,16 +166,20 @@
     _userStatus.frame = CGRectMake(ScreenWidth - 72, _location.bottom + GAP_V, 60, 20);
     _userStatus.textAlignment = NSTextAlignmentRight;
 //    _userStatus.text = self.customerModel.status_msg;
-    if ([@"1" isEqualToString:self.customerModel.status]) {
+    if ([@"0" isEqualToString:self.customerModel.status]) { //可以抢
+        _userStatus.hidden = YES;
+    }else if([@"1" isEqualToString:self.customerModel.status]){ //已抢到
         _userStatus.text = @"我抢了";
         [_userStatus setTextColor:[UIColor brokerBabyBlueColor]];
         _userStatus.hidden = NO;
-    }else if([@"2" isEqualToString:self.customerModel.status]){
+    }else if([@"2" isEqualToString:self.customerModel.status]){ //抢完了
         _userStatus.text = @"抢完了";
         [_userStatus setTextColor:[Util_UI colorWithHexString:@"#CE100B"]];
         _userStatus.hidden = NO;
-    }else{
-        _userStatus.hidden = YES;
+    }else if([@"3" isEqualToString:self.customerModel.status]){ //锁定状态
+        _userStatus.text = @"我抢了";
+        [_userStatus setTextColor:[UIColor brokerBabyBlueColor]];
+        _userStatus.hidden = NO;
     }
     
 

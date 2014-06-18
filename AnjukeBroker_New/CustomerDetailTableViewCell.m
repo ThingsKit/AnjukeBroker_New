@@ -89,12 +89,11 @@
     [_title sizeToFit];
     
     //偏爱小区
-    _community.frame = CGRectMake(15, _title.bottom + GAP_V, ScreenWidth - 15*2, 40);
-    NSMutableString* favorite_community = [NSMutableString stringWithString:@""];
-    for (NSString* comm in self.customerDetailModel.comm_preference) {
-        [favorite_community appendString:comm];
-    }
-    _community.text = favorite_community;
+    CGSize communitySize = [self.customerDetailModel.comm_preference sizeWithFont:_community.font constrainedToSize:CGSizeMake(ScreenWidth - 15*2, 40)];
+//    NSLog(@"%@", NSStringFromCGSize(communitySize));
+    self.customerDetailModel.lineHeight = communitySize.height;
+    _community.frame = CGRectMake(15, _title.bottom + GAP_V, communitySize.width, communitySize.height);
+    _community.text = self.customerDetailModel.comm_preference;
     [_community sizeToFit];
     
     //户型

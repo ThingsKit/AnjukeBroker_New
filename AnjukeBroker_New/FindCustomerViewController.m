@@ -82,7 +82,10 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     CustomerDetailViewController* detail = [[CustomerDetailViewController alloc] init];
-    [self.navigationController pushViewController:detail animated:YES];
+    if (self.tableView.customerListModel.list.count > 0) {
+        detail.device_id = [[self.tableView.customerListModel.list objectAtIndex:indexPath.row] objectForKey:@"device_id"];
+        [self.navigationController pushViewController:detail animated:YES];
+    }
     
 }
 
@@ -99,12 +102,13 @@
     self.networkRequesting = YES; //网络请求加锁, 每次只有一个网络请求
     
     if (params == nil) {
-        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"broker_id", @"1", @"is_nocheck", nil];
-        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
+//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"broker_id", @"1", @"is_nocheck", nil];
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"234", @"broker_id", @"1", @"is_nocheck", nil];
+        [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }else{
         [params setObject:[LoginManager getToken] forKey:@"token"];
         [params setObject:[LoginManager getUserID] forKey:@"broker_id"];
-        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
+        [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }
     
     
@@ -122,11 +126,6 @@
 //        NSArray* data = [content objectForKey:@"data"];
         CustomerListModel* data = [[CustomerListModel alloc] initWithDataDic:[content objectForKey:@"data"]];
         self.tableView.customerListModel = data;
-        
-//        NSDictionary* dict = @{@"id":@"1", @"userIcon":@"http://tp1.sinaimg.cn/1404376560/50/0/1", @"userName":@"王女士", @"loginTime":@"10", @"location":@"地球", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"price":@"2000w", @"propertyCount":@"20",@"userStatus":@"1"};
-//        NSDictionary* dict2 = @{@"id":@"2", @"userIcon":@"", @"userName":@"欧阳先生", @"loginTime":@"10", @"location":@"地球", @"room":@"2",@"hall":@"1",@"toilet":@"1", @"price":@"2000w", @"propertyCount":@"20",@"userStatus":@"2"};
-//        
-//        NSArray* data = @[dict, dict2];
         
         NSMutableArray* models = [NSMutableArray arrayWithCapacity:1];
         if (data.list.count > 0) { //请求如果有数据
