@@ -252,7 +252,6 @@
     }
     
     self.navigationController.tabBarController.selectedIndex = 1;
-    
     [self.navigationController popToRootViewControllerAnimated:NO];
     
     BrokerChatViewController *bc = [[BrokerChatViewController alloc] init];

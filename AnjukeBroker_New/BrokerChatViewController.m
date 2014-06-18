@@ -502,7 +502,7 @@
     if (self.backType == RTSelectorBackTypePopBack) {
         [self.navigationController popViewControllerAnimated:YES];
     }else{
-        self.tabBarController.selectedIndex = 1;
+        self.navigationController.tabBarController.selectedIndex = 1;
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }

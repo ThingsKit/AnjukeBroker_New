@@ -93,8 +93,8 @@
         [self.navigationController popViewControllerAnimated:YES];
         return;
     }
-    self.navigationController.tabBarController.selectedIndex = 1;
     
+    self.navigationController.tabBarController.selectedIndex = 1;
     [self.navigationController popToRootViewControllerAnimated:NO];
 
     BrokerChatViewController *bc = [[BrokerChatViewController alloc] init];

@@ -2718,18 +2718,18 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     }
 }
 
-- (void)doBack:(id)sender {
-    [super doBack:sender];
-    if (self.backType == RTSelectorBackTypeDismiss) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
-    else if (self.backType == RTSelectorBackTypePopBack) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    else if (self.backType == RTSelectorBackTypePopToRoot) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }
-}
+//- (void)doBack:(id)sender {
+//    [super doBack:sender];
+//    if (self.backType == RTSelectorBackTypeDismiss) {
+//        [self dismissViewControllerAnimated:YES completion:nil];
+//    }
+//    else if (self.backType == RTSelectorBackTypePopBack) {
+//        [self.navigationController popViewControllerAnimated:YES];
+//    }
+//    else if (self.backType == RTSelectorBackTypePopToRoot) {
+//        [self.navigationController popToRootViewControllerAnimated:YES];
+//    }
+//}
 
 -(void)loadMapSiteMessage:(NSDictionary *)mapSiteDic {
 

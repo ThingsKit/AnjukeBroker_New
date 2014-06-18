@@ -88,13 +88,7 @@
     [bc setHidesBottomBarWhenPushed:YES];
     
     [self.navigationController pushViewController:bc animated:YES];
-    
-//    self.navigationController.tabBarController.selectedIndex = 1;
-//    [self.navigationController popToRootViewControllerAnimated:NO];
-//    [[[AppDelegate sharedAppDelegate].tabController viewControllers][1] pushViewController:bc animated:NO];
-    
 }
-
 
 #pragma mark -
 #pragma mark NetworkRequest Method 网络请求相关方法

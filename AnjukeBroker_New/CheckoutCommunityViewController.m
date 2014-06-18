@@ -270,7 +270,7 @@
     
     if([[response content] count] == 0){
         [self donePullDown];
-        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        [self.tableList setTableStatus:STATUSFORNODATA];
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
         tapGes.delegate                = self;
         tapGes.numberOfTouchesRequired = 1;
