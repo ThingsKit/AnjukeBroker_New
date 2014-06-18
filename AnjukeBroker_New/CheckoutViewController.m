@@ -291,6 +291,8 @@
 
         if ([[[response content] objectForKey:@"status"] isEqualToString:@"error"] && [[[response content] objectForKey:@"errcode"] isEqualToString:@"1009"]) {
             [[HUDNews sharedHUDNEWS] createHUD:@"签到失败!" hudTitleTwo:@"你跑得太远了" addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+        }else if ([[[response content] objectForKey:@"status"] isEqualToString:@"error"] && [[[response content] objectForKey:@"errcode"] isEqualToString:@"6002"]){
+            [[HUDNews sharedHUDNEWS] createHUD:@"签到失败!" hudTitleTwo:@"请在所在城市签到" addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         }else{
             [[HUDNews sharedHUDNEWS] createHUD:@"签到失败!" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
         }
@@ -299,6 +301,7 @@
 
         return;
     }
+    
     
     NSDictionary *dic = [response content];
 
