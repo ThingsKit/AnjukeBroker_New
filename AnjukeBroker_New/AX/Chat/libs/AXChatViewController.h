@@ -47,6 +47,7 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 @property (nonatomic, copy) NSString *brokerName;
 @property (nonatomic, strong) AXMappedPerson *friendPerson;
 @property (nonatomic, strong) NSMutableArray *locationArray;
+@property (nonatomic, strong) NSMutableArray *buttonArrary;//微聊单页buttonarr
 @property BOOL isVoiceInput;
 //表情相关
 @property (nonatomic, strong) FaceScrollView* emojiScrollView;

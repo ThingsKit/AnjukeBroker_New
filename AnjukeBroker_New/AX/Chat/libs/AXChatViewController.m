@@ -295,6 +295,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     self.cellDict = [NSMutableDictionary dictionary];
     self.identifierData = [NSMutableArray array];
     self.locationArray = [NSMutableArray array];
+    
+    _buttonArrary = [[NSMutableArray alloc] initWithCapacity:8];
 }
 
 #pragma mark - InitUI Method
