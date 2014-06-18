@@ -202,7 +202,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
 - (void)dealloc
 {
-    [[[AppDelegate sharedAppDelegate] tabController] setSelectedIndex:1];
+//    [[[AppDelegate sharedAppDelegate] tabController] setSelectedIndex:1];
     
     DLog(@"AXChatViewController dealloc");
     [self.messageInputView.textView removeObserver:self forKeyPath:@"contentSize"];
