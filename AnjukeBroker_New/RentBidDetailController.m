@@ -17,12 +17,15 @@
 #import "RentBidPropertyCell.h"
 #import "CellHeight.h"
 #import "RTGestureBackNavigationController.h"
+#import "AuctionForbidView.h"
 
 @interface RentBidDetailController ()
 {
     int selectedIndex;
 }
 @property (nonatomic, strong) UIActionSheet *myActionSheet;
+@property (nonatomic, strong) AuctionForbidView *forbidView;
+
 @end
 
 @implementation RentBidDetailController
@@ -77,7 +80,13 @@
 //    [super viewWillAppear:animated];
 //    [self doRequest];
 //}
-
+- (AuctionForbidView *)forbidView{
+    if (!_forbidView) {
+        _forbidView = [[AuctionForbidView alloc] init];
+    }
+    
+    return _forbidView;
+}
 #pragma mark - 请求竞价房源列表
 
 -(void)doRequest{
@@ -110,6 +119,15 @@
         return;
     }
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    
+    if ([[resultFromAPI objectForKey:@"codeNum"] isEqualToString:@"133"]) {
+        [self.myArray removeAllObjects];
+        [self.myTable reloadData];
+        [self hideLoadWithAnimated:YES];
+        
+        [self.view addSubview:self.forbidView];
+        return;
+    }
     
     if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
 //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到房源" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];

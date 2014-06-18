@@ -3109,8 +3109,6 @@
 				97C6870B183A27E700F449BD /* BaseAuctionViewController.m */,
 				97C6870D183A2BF100F449BD /* PropertyAuctionPublishViewController.h */,
 				97C6870E183A2BF100F449BD /* PropertyAuctionPublishViewController.m */,
-				F87A8C19194ECED20052C181 /* AuctionForbidView.h */,
-				F87A8C1A194ECED20052C181 /* AuctionForbidView.m */,
 			);
 			name = "竞价ViewController组";
 			sourceTree = "<group>";
@@ -3269,6 +3267,8 @@
 		B72109451827761800904FC7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F87A8C19194ECED20052C181 /* AuctionForbidView.h */,
+				F87A8C1A194ECED20052C181 /* AuctionForbidView.m */,
 				B7210950182785A400904FC7 /* RentFixedCell.h */,
 				B7210951182785A400904FC7 /* RentFixedCell.m */,
 				B721095618278E6000904FC7 /* RentPropertyListCell.h */,

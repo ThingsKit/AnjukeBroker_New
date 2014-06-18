@@ -156,8 +156,8 @@
     
     if (self.userCenterModel && self.userCenterModel.replyRate) {
         [self performSelector:@selector(showProgress) withObject:nil afterDelay:0.5];
-        self.totalCustomer.text = [NSString stringWithFormat:@"%@",self.userCenterModel.customNum];
-        self.totalResponseTime.text = [NSString stringWithFormat:@"%.1f",[self.userCenterModel.responseTime floatValue]];
+        self.totalCustomer.text = [[NSString stringWithFormat:@"%@",self.userCenterModel.customNum] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@",self.userCenterModel.customNum];
+        self.totalResponseTime.text = [self.userCenterModel.responseTime floatValue] == 0.0 ? @"-" : [NSString stringWithFormat:@"%.1f",[self.userCenterModel.responseTime floatValue]];
     }
     
     self.isLoading = NO;
@@ -187,6 +187,12 @@
     //    if (self.progressView.progress >= 0.83) {
     if (self.progressView.progress >= [self.userCenterModel.replyRate doubleValue]*0.01) {
         [self.timer invalidate];
+        
+        if ([self.userCenterModel.replyRate doubleValue] == 0.0) {
+            self.numberLabel.text = @"-";
+            return;
+        }
+        
         return;
     }
     
@@ -243,16 +249,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

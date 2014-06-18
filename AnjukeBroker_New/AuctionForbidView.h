@@ -10,6 +10,4 @@
 
 @interface AuctionForbidView : UIView
 
-- (instancetype)createForbidAuctionView;
-
 @end

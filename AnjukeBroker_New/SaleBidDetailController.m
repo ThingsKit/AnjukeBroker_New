@@ -16,13 +16,14 @@
 #import "LoginManager.h"
 #import "SaleFixedManager.h"
 #import "CellHeight.h"
+#import "AuctionForbidView.h"
 
 @interface SaleBidDetailController ()
 {
     int selectedIndex;
 }
 @property (nonatomic, strong) UIActionSheet *myActionSheet;
-
+@property (nonatomic, strong) AuctionForbidView *forbidView;
 @end
 
 @implementation SaleBidDetailController
@@ -80,6 +81,15 @@
     selectedIndex = 0;
     self.myArray = [NSMutableArray array];
 }
+
+- (AuctionForbidView *)forbidView{
+    if (!_forbidView) {
+        _forbidView = [[AuctionForbidView alloc] init];
+    }
+    
+    return _forbidView;
+}
+
 #pragma mark - 请求竞价房源列表
 -(void)doRequest{
     if (![self isNetworkOkayWithNoInfo]) {
@@ -115,10 +125,17 @@
         self.isLoading = NO;
         return ;
     }
-    if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到房源" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-//        [alert show];
+    
+    if ([[resultFromAPI objectForKey:@"codeNum"] isEqualToString:@"133"]) {
+        [self.myArray removeAllObjects];
+        [self.myTable reloadData];
+        [self hideLoadWithAnimated:YES];
 
+        [self.view addSubview:self.forbidView];
+        return;
+    }
+    
+    if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
         [self.myArray removeAllObjects];
         [self.myTable reloadData];
         [self hideLoadWithAnimated:YES];
@@ -129,10 +146,8 @@
     [self.myArray removeAllObjects];
     [self.myArray addObjectsFromArray:[resultFromAPI objectForKey:@"propertyList"]];
     [self.myTable reloadData];
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-
-
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
 }
 #pragma mark - 取消竞价推广
 -(void)doStopBid{

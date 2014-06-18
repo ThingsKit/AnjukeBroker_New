@@ -119,7 +119,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
 
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"broker/todayConsumeInfo/" params:params target:self action:@selector(onPPCGetSuccess:)];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/todayConsumeInfo/" params:params target:self action:@selector(onPPCGetSuccess:)];
 
     [self showLoadingActivity:YES];
     self.isLoading = YES;
@@ -152,7 +152,7 @@
     if ([resultFromAPI objectForKey:@"ajkDataDic"]) {
         [self.ppcHeadView updatePPCData:[[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"ajkDataDic"]] isAJK:YES];
     }
-
+    
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
 

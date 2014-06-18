@@ -108,7 +108,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
     
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"broker/todayConsumeInfo/" params:params target:self action:@selector(onPPCGetSuccess:)];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/prop/todayConsumeInfo/" params:params target:self action:@selector(onPPCGetSuccess:)];
     
     [self showLoadingActivity:YES];
     self.isLoading = YES;
@@ -141,7 +141,6 @@
     if ([resultFromAPI objectForKey:@"hzDataDic"]) {
         [self.ppcHeadView updatePPCData:[[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"hzDataDic"]] isAJK:NO];
     }
-
     
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;

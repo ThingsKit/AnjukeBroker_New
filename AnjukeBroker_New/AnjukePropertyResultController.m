@@ -14,9 +14,10 @@
 #import "RentBidPropertyCell.h"
 #import "RentPropertyListCell.h"
 #import "SalePropertyListCell.h"
+#import "AuctionForbidView.h"
 
 @interface AnjukePropertyResultController ()
-
+@property (nonatomic, strong) AuctionForbidView *forbidView;
 @end
 
 @implementation AnjukePropertyResultController
@@ -252,6 +253,14 @@
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
 }
+
+- (AuctionForbidView *)forbidView{
+    if (!_forbidView) {
+        _forbidView = [[AuctionForbidView alloc] init];
+    }
+    
+    return _forbidView;
+}
 #pragma mark - Request 请求二手房竞价房源列表
 -(void)doSaleBidRequest{
     if (![self isNetworkOkayWithNoInfo]) {
@@ -280,12 +289,23 @@
         self.isLoading = NO;
         return ;
     }
-    if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-        [alert show];
+    
+    if ([[resultFromAPI objectForKey:@"codeNum"] isEqualToString:@"133"]) {
         [self.myArray removeAllObjects];
         [self.myTable reloadData];
         [self hideLoadWithAnimated:YES];
+        
+        [self.view addSubview:self.forbidView];
+        return;
+    }
+    
+    if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到数据" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+//        [alert show];
+        [self.myArray removeAllObjects];
+        [self.myTable reloadData];
+        [self hideLoadWithAnimated:YES];
+        [self showInfo:@"没有竞价房源"];
         self.isLoading = NO;
         
         return;
