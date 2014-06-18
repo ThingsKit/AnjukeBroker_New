@@ -60,7 +60,7 @@
 
 @interface HomeViewController ()
 @property (nonatomic, strong) NSMutableArray *taskArray;
-@property (nonatomic, strong) UITableView *myTable;
+
 @property (nonatomic, strong) WebImageView *photoImg;
 @property (nonatomic, strong) AXIMGDownloader *imgDownloader;
 @property (nonatomic, strong) NSMutableDictionary *dataDic;
@@ -84,6 +84,10 @@
 @property (nonatomic, strong) SegmentView *segment;
 @property (nonatomic, strong) HomeHeaderView *headerView;
 @property BOOL isCurrentHZ;
+
+
+@property (nonatomic, assign) NSInteger propertyCount; //可抢房源数
+@property (nonatomic, assign) NSInteger customerCount; //可抢客户数
 
 @end
 
@@ -166,11 +170,99 @@
     if (!self.configChecked) {
         [self requestForConfigure];
     }
+    
+    [self requestPropertyCount]; //请求可抢房源数
+    [self requestCustomerCount]; //请求可抢用户数
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 }
+
+#pragma mark -
+#pragma mark 请求可抢房源数 以及 可抢客户数
+- (void)requestPropertyCount{
+    NSString* method = @"commission/count/";
+//    NSDictionary* params = @{@"brokerId":[LoginManager getUserID], @"token":[LoginManager getToken]};
+    NSDictionary* params = @{@"brokerId":@"234", @"token":[LoginManager getToken]};
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onPropertyCountFinished:)];
+}
+
+- (void)requestCustomerCount{
+    NSString* method = @"customer/usercount/";
+//    NSDictionary* params = @{@"broker_id":[LoginManager getUserID], @"token":[LoginManager getToken]};
+    NSDictionary* params = @{@"broker_id":@"234", @"token":[LoginManager getToken]};
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onCustomerCountFinished:)];
+}
+
+#pragma mark -
+#pragma mark 请求回调方法
+
+- (void)onPropertyCountFinished:(RTNetworkResponse *)response {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    RTNetworkResponseStatus status = response.status;
+    
+
+    if (status == RTNetworkResponseStatusSuccess) { //请求数据成功
+        NSDictionary* content = response.content;
+        
+        if ([@"ok" isEqualToString:[content objectForKey:@"status"]]) {
+            NSString* count = [[content objectForKey:@"data"] objectForKey:@"count"];
+            self.propertyCount = [count integerValue];
+            //cell设置badge
+            NSIndexPath* indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+            HomeCell* cell = (HomeCell*)[self.myTable cellForRowAtIndexPath:indexPath];
+            [cell showDot:YES dotNum:[count integerValue] offsetX:85];
+            
+            if ((self.propertyCount + self.customerCount) == 0) {
+                self.tabBarItem.badgeValue = nil;
+            }else{
+                self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", self.propertyCount + self.customerCount];
+            }
+            
+        }else{
+            
+        }
+        
+    }else{
+        
+    }
+}
+
+
+- (void)onCustomerCountFinished:(RTNetworkResponse *)response {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    RTNetworkResponseStatus status = response.status;
+    
+
+    if (status == RTNetworkResponseStatusSuccess) { //请求数据成功
+        NSDictionary* content = response.content;
+        
+        if ([@"ok" isEqualToString:[content objectForKey:@"status"]]) {
+            NSString* count = [[content objectForKey:@"data"] objectForKey:@"count"];
+            self.customerCount = [count integerValue];
+            //cell设置badge
+            NSIndexPath* indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
+            HomeCell* cell = (HomeCell*)[self.myTable cellForRowAtIndexPath:indexPath];
+            [cell showDot:YES dotNum:[count integerValue] offsetX:85];
+            
+            if ((self.propertyCount + self.customerCount) == 0) {
+                self.tabBarItem.badgeValue = nil;
+            }else{
+                self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", self.propertyCount + self.customerCount];
+            }
+            
+        }else{
+            
+        }
+        
+    }else{
+        
+    }
+}
+
+
 
 #pragma mark - private method
 
@@ -435,6 +527,10 @@
         [cell showBottonLineWithCellHeight:HOME_cellHeight andOffsetX:32];
     }else{
         [cell showBottonLineWithCellHeight:HOME_cellHeight];
+    }
+    
+    if (indexPath.row == 1) {
+        [cell showDot:NO dotNum:0 offsetX:85];
     }
 
     return cell;

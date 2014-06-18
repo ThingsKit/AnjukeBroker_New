@@ -306,8 +306,8 @@
     
     if (application.applicationState == UIApplicationStateInactive) {
         DLog(@"userInfo [%@]", userInfo);
-        NSString* msgType = [[userInfo objectForKey:@"anjuke_custom"] objectForKey:@"msgType"];
-        if ([@"push" isEqualToString:msgType]) {
+        NSString* type = [[userInfo objectForKey:@"anjuke_custom"] objectForKey:@"type"];
+        if ([@"commission" isEqualToString:type]) {
             
 //            [self showPushMessageCount];
             //NSLog(@"弹出模态视图");
@@ -332,6 +332,22 @@
 
 - (void)didReceiveLongLinkPush{
     NSLog(@"收到长连接push推送");
+    
+    NSString* type = @"commission";
+    
+    HomeViewController* viewController = (HomeViewController*)[[self.tabController.viewControllers objectAtIndex:0] objectAtIndex:0];
+    UITableView* tableView = viewController.myTable;
+    NSIndexPath* propertyIndex = [NSIndexPath indexPathForRow:0 inSection:0];
+    NSIndexPath* customerIndex = [NSIndexPath indexPathForRow:1 inSection:0];
+    
+    if ([@"commission" isEqualToString:type]) {
+        HomeCell* propertyCell = (HomeCell*)[tableView cellForRowAtIndexPath:propertyIndex];
+        [propertyCell showDot:YES dotNum:20 offsetX:85];
+    }else if ([@"customer" isEqualToString:type]){
+        HomeCell* customerCell = (HomeCell*)[tableView cellForRowAtIndexPath:customerIndex];
+        [customerCell showDot:YES dotNum:10 offsetX:85];
+    }
+    
 }
 
 #pragma mark - Application's Documents directory

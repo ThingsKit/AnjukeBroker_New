@@ -19,6 +19,7 @@
 
 @property BOOL hasLongLinked;
 @property (nonatomic, strong) IMGDowloaderManager *img;
+@property (nonatomic, strong) UITableView *myTable;
 
 
 - (void)btnClickWithTag:(NSInteger)index;
