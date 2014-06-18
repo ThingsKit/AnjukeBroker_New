@@ -93,13 +93,6 @@
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableList.showsVerticalScrollIndicator = NO;
     
-    //tableViewInsetsWithBottomValue:
-    
-//    UIEdgeInsets insets;
-//    insets.top = 20;
-//    self.tableList.contentInset = insets;
-//    self.tableList.scrollIndicatorInsets = insets;
-    
     [self.view addSubview:self.tableList];
 
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(1, 0, [self windowWidth], 50)];
@@ -145,8 +138,9 @@
         }
         [cell showTopLine];
         [cell showBottonLineWithCellHeight:84];
-        
         [cell updateUserHeaderInfo:isSDX leftMoney:[self getAccountLeft]];
+        
+//        [cell updateUserHeaderInfo:isSDX leftMoney:[self getAccountLeft]];
         return cell;
     }else{
         UserCenterCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];

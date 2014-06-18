@@ -48,11 +48,11 @@
     userAvatar.layer.borderColor = [UIColor brokerBgPageColor].CGColor;
     [self.contentView addSubview:userAvatar];
 
-    CGSize size = [Util_UI sizeOfString:[LoginManager getUserName] maxWidth:150 withFontSize:19];
+    CGSize size = [Util_UI sizeOfString:[LoginManager getRealName] maxWidth:150 withFontSize:19];
     
     UILabel * userName = [[UILabel alloc] initWithFrame:CGRectMake(userAvatar.frame.origin.x+userAvatar.frame.size.width + 15, 12, size.width, 20)];
     userName.backgroundColor = [UIColor clearColor];
-    userName.text = [LoginManager getUserName];
+    userName.text = [LoginManager getRealName];
     userName.layer.shadowColor = [UIColor brokerWhiteColor].CGColor;
     userName.layer.shadowOffset = CGSizeMake(3, 3);
     userName.font = [UIFont ajkH1Font];
