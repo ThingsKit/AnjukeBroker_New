@@ -26,9 +26,13 @@ CGFloat const axPublicMenuHeight = 49.0f;
 }
 
 - (void)configPublicMenuView:(NSArray *)menus inputType:(AXPublicInputType)inputType{
-    if (inputType == AXPublicInputTypeNormal) {
+    if (inputType == AXPublicInputTypePublicMenu) {
         return;
     }
+
+//    if (inputType == AXPublicInputTypeNormal) {
+//        return;
+//    }
     float menuWidth;
     float leftX = 0;
     NSInteger menuCount = menus.count;
@@ -36,10 +40,11 @@ CGFloat const axPublicMenuHeight = 49.0f;
     if (menuCount < 1) {
         return;
     }
-    if (inputType == AXPublicInputTypePublicMenu){
+//    if (inputType == AXPublicInputTypePublicMenu){
+    if (inputType == AXPublicInputTypeNormalAndPublicMenu){
         menuWidth = ScreenWidth/menuCount;
         leftX = 0;
-    }else if (inputType == AXPublicInputTypeNormalAndPublicMenu){
+    }else if (inputType == AXPublicInputTypeNormal){
         UIButton *switchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         switchBtn.frame = CGRectMake(0, 0, 48, 49);
         switchBtn.contentEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8);

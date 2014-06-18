@@ -133,4 +133,8 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 
 - (void)removeFriendBydeleteUid:(NSArray *)deleteUid compeletionBlock:(void(^)(BOOL isSuccess))deleteFriendBlock;
 - (BOOL)isFriendWithFriendUid:(NSString *)friendUid;
+
+//publicMenuApiEvent 事件请求
+- (void)publicServiceSendActionByServiceId:(NSString *)serviceID actionID:(NSString *)actionID cityID:(NSString *)cityID userID:(NSString *)userID;
+
 @end

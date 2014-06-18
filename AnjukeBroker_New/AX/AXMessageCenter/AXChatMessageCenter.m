@@ -27,6 +27,7 @@
 #import "AXMessageCenterAppGetAllMessageManager.h"
 #import "AXMessageCenterUserGetPublicServiceInfoManager.h"
 #import "AXMessageCenterAddFriendByQRCodeManager.h"
+#import "AXMessageCenterPublicServiceActionEventManager.h"
 
 //record
 #import "KKAudioComponent.h"
@@ -64,6 +65,7 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 @property (nonatomic, strong) AXMessageCenterAppGetAllMessageManager *appGetAllNewMessage;
 @property (nonatomic, strong) AXMessageCenterUserGetPublicServiceInfoManager *userGetServiceInfo;
 @property (nonatomic, strong) AXMessageCenterAddFriendByQRCodeManager *addFriendByQRCodeManager;
+@property (nonatomic, strong) AXMessageCenterPublicServiceActionEventManager *publickServiiceEventManager;
 
 @property (nonatomic ,strong) void (^fetchedChatList)(NSDictionary *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend);
 @property (nonatomic, strong) void (^finishSendMessageBlock)(NSArray *array,AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType);
@@ -232,6 +234,17 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     return _addFriendByQRCodeManager;
 }
 
+- (AXMessageCenterPublicServiceActionEventManager *)publickServiiceEventManager
+{
+    if (_publickServiiceEventManager) {
+        _publickServiiceEventManager = [[AXMessageCenterPublicServiceActionEventManager alloc] init];
+        _publickServiiceEventManager.delegate = self;
+        _publickServiiceEventManager.validator = _publickServiiceEventManager;
+        _publickServiiceEventManager.paramSource = _publickServiiceEventManager;
+    }
+    return _publickServiiceEventManager;
+}
+
 - (AXMappedPerson *)currentPerson
 {
     if (_currentPerson == nil) {
@@ -299,6 +312,7 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     }
     return _dataCenter;
 }
+
 
 #pragma mark - life cycle
 + (instancetype)defaultMessageCenter
@@ -516,6 +530,11 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
             _addFriendByQRCode(nil);
         }
     }
+    
+    //公众号获取actionEvent
+    if ([manager isKindOfClass:[AXMessageCenterPublicServiceActionEventManager class]]) {
+        
+    }
 }
 
 - (void)managerCallAPIDidFailed:(RTAPIBaseManager *)manager
@@ -548,6 +567,10 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     }
     if ([manager isKindOfClass:[AXMessageCenterAddFriendByQRCodeManager class]]) {
         _addFriendByQRCode(nil);
+    }
+    //公众号获取actionEvent
+    if ([manager isKindOfClass:[AXMessageCenterPublicServiceActionEventManager class]]) {
+        DLog(@"fail");
     }
 }
 
@@ -1085,6 +1108,17 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     
     self.friendListManager.apiParams = params;
     [self.friendListManager loadData];
+}
+
+//publicMenuApiEvent 事件请求
+- (void)publicServiceSendActionByServiceId:(NSString *)serviceID actionID:(NSString *)actionID cityID:(NSString *)cityID userID:(NSString *)userID
+{
+    if (!(serviceID && actionID && cityID && userID)) {
+        return;
+    }
+    NSDictionary *dic = @{@"city_id":cityID,@"user_id":userID};
+    self.publickServiiceEventManager.apiParams = @{@"servive_id":serviceID,@"action_id":actionID};
+    [self.publickServiiceEventManager loadDataWithParams:dic];
 }
 
 #pragma mark - save image in app method

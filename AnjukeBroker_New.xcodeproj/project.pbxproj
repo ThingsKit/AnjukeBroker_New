@@ -642,6 +642,7 @@
 		F853330E194FD8700025B914 /* AXChatMessagePublicCard2Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = F853330D194FD8700025B914 /* AXChatMessagePublicCard2Cell.m */; };
 		F8533312194FDE670025B914 /* AXChatMessagePublicCellButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F8533311194FDE670025B914 /* AXChatMessagePublicCellButton.m */; };
 		F8533315194FE0810025B914 /* AXChatMessagePublicCellTopButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F8533314194FE0810025B914 /* AXChatMessagePublicCellTopButton.m */; };
+		F85333181951607F0025B914 /* AXMessageCenterPublicServiceActionEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F85333171951607F0025B914 /* AXMessageCenterPublicServiceActionEventManager.m */; };
 		F8575DA31900F6BE00AB662F /* BrokerCallAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = F8575DA21900F6BE00AB662F /* BrokerCallAlert.m */; };
 		F85A31531907867F00511022 /* RTLaunchImg.m in Sources */ = {isa = PBXBuildFile; fileRef = F85A31521907867F00511022 /* RTLaunchImg.m */; };
 		F85A315619078B3100511022 /* BrokerLuanchAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = F85A315519078B3100511022 /* BrokerLuanchAdd.m */; };
@@ -1671,6 +1672,8 @@
 		F8533311194FDE670025B914 /* AXChatMessagePublicCellButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessagePublicCellButton.m; sourceTree = "<group>"; };
 		F8533313194FE0810025B914 /* AXChatMessagePublicCellTopButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXChatMessagePublicCellTopButton.h; sourceTree = "<group>"; };
 		F8533314194FE0810025B914 /* AXChatMessagePublicCellTopButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXChatMessagePublicCellTopButton.m; sourceTree = "<group>"; };
+		F85333161951607F0025B914 /* AXMessageCenterPublicServiceActionEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterPublicServiceActionEventManager.h; sourceTree = "<group>"; };
+		F85333171951607F0025B914 /* AXMessageCenterPublicServiceActionEventManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterPublicServiceActionEventManager.m; sourceTree = "<group>"; };
 		F8575DA11900F6BE00AB662F /* BrokerCallAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerCallAlert.h; sourceTree = "<group>"; };
 		F8575DA21900F6BE00AB662F /* BrokerCallAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerCallAlert.m; sourceTree = "<group>"; };
 		F85A31511907867F00511022 /* RTLaunchImg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTLaunchImg.h; sourceTree = "<group>"; };
@@ -2074,6 +2077,8 @@
 				2056A38418EE7EA00022B5A5 /* AXMessageCenterUserLoginOutManager.m */,
 				2056A38518EE7EA00022B5A5 /* AXMessageCenterUserToPublicServiceManager.h */,
 				2056A38618EE7EA00022B5A5 /* AXMessageCenterUserToPublicServiceManager.m */,
+				F85333161951607F0025B914 /* AXMessageCenterPublicServiceActionEventManager.h */,
+				F85333171951607F0025B914 /* AXMessageCenterPublicServiceActionEventManager.m */,
 			);
 			path = AXApiManagers;
 			sourceTree = "<group>";
@@ -4544,6 +4549,7 @@
 				207526B918B45FE10022220C /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				B7E56D0F183DBAD600A0F7D2 /* AnjukeOnlineImgController.m in Sources */,
 				B769E46C181F76A600A2FF50 /* BaseBidPlanController.m in Sources */,
+				F85333181951607F0025B914 /* AXMessageCenterPublicServiceActionEventManager.m in Sources */,
 				972DDA301826D39500263F8F /* RTPopoverTableViewController.m in Sources */,
 				B7E1F6BA190E1B93009F546B /* IMGDowloaderManager.m in Sources */,
 				B7EAD52518CD927200B28FEC /* AXChatPhotoActionSheet.m in Sources */,

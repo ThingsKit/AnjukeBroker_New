@@ -10,9 +10,9 @@
 #import "AXPublicMenuButton.h"
 
 typedef NS_ENUM(NSInteger, AXPublicInputType) {
-    AXPublicInputTypeNormal = 0,
-    AXPublicInputTypePublicMenu = 1,
-    AXPublicInputTypeNormalAndPublicMenu = 2
+    AXPublicInputTypeNormal = 1,
+    AXPublicInputTypePublicMenu = 2,
+    AXPublicInputTypeNormalAndPublicMenu = 3
 };
 
 
@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, AXPublicMenuType) {
     AXPublicMenuTypeAPI = 2,
     AXPublicMenuTypeWebView = 3
 };
+
 
 @protocol AXPublicMenuDelegate <NSObject>
 @optional
