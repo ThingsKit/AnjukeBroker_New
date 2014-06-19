@@ -530,7 +530,6 @@
     [cell configWithModel:arr indexPath:indexPath];
     if (indexPath.row == 0) {
         [cell showTopLine];
-        [cell showDot:YES dotNum:200 offsetX:85];
         [cell showBottonLineWithCellHeight:HOME_cellHeight andOffsetX:32];
     }else if (indexPath.row < 3){
         [cell showBottonLineWithCellHeight:HOME_cellHeight andOffsetX:32];

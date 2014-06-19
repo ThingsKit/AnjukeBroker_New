@@ -290,6 +290,7 @@
     
     _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, _tableView.bottom, ScreenWidth, 70)];
     _bottomView.backgroundColor = [UIColor brokerWhiteColor];
+//    _bottomView.backgroundColor = [UIColor redColor];
     _bottomView.alpha = 0.9;
     [self.view addSubview:_bottomView];
     
@@ -306,20 +307,20 @@
 
 - (void)setChatButtonEnable{
     [_chatButton setTitle:@"微聊" forState:UIControlStateNormal];
-    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
-    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
+    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateNormal];
+    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_press"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateHighlighted];
     _chatButton.enabled = YES;
 }
 
 - (void)setChatButtonRushSucceed{
     [_chatButton setTitle:@"已抢到" forState:UIControlStateNormal];
-    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"broker_icon_button_gray"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
+    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_gray"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateNormal];
     _chatButton.enabled = NO;
 }
 
 - (void)setChatButtonRushFail{
     [_chatButton setTitle:@"抢完了" forState:UIControlStateNormal];
-    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"broker_icon_button_gray"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
+    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_gray"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateNormal];
     _chatButton.enabled = NO;
 }
 
