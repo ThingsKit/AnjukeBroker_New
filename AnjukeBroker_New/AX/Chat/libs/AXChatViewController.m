@@ -62,7 +62,6 @@
 #import "AXPublicMenuButton.h"
 #import "BrokerLineView.h"
 
-
 //输入框和发送按钮栏的高度
 static CGFloat const AXInputBackViewHeight = 49;
 //键盘高度
@@ -1398,7 +1397,11 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         return [AXChatMessageImageCell sizeOFImg:dic[@"content"]].size.height + 20.0f;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeSystemTime)]) {
         return 25;
-    } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypePublicCard)]) {
+    }else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypePublicCard)]) {
+        NSArray *arr = [[NSArray alloc] initWithArray:[[dic[@"content"] JSONValue] objectForKey:@"articles"]];
+        return (arr.count - 1)*66 + 155;
+    }
+    else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypePublicCard3)]) {
         return 290 + 40;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeSystemForbid)]) {
         return 45;

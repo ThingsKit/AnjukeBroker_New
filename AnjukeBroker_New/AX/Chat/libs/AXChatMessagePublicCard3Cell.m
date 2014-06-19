@@ -48,8 +48,9 @@
 
 - (void)configWithData:(NSDictionary *)data{
     NSDictionary *dic = [data[@"content"] JSONValue];
+    NSArray *arr = [NSArray arrayWithArray:dic[@"props"]];
     
-    NSInteger subEventCount = [dic[@"props"] count];
+    NSInteger subEventCount = arr.count;
     
     self.backgoundView.frame = CGRectMake(15, 0, ScreenWidth - 15*2, 155 + (subEventCount -1)*66);
     
@@ -65,7 +66,6 @@
         [self addSubview:button];
     }
 }
-
 - (void)buttonClick:(id)sender{
     NSDictionary *dic = [[NSDictionary alloc] init];
     if ([sender isKindOfClass:[AXChatMessagePublicCellTopButton class]]) {
