@@ -2392,13 +2392,16 @@ typedef enum {
 
 - (void)viewDidFinishWithImageArr:(NSArray *)imageArray sender:(PublishBigImageViewController *)sender{
     
+    
     if (self.footClickType == 1) //室内图
     {
         _imgdescArr = [NSMutableArray arrayWithArray:sender.imageDescArray];
         self.roomImageArray = [NSMutableArray arrayWithArray:imageArray];
+        self.footerView = [_footerViewDict objectForKey:FOOTERVIEWDICTROOM];
     }else if(self.footClickType == 2) //户型图
     {
         self.houseTypeImageArray = [NSMutableArray arrayWithArray:imageArray];
+        self.footerView = [_footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
     }
     
     [self.footerView redrawWithImageArray:[PhotoManager transformRoomImageArrToFooterShowArrWithArr:imageArray]];

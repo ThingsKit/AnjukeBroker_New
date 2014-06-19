@@ -166,7 +166,7 @@
         {
             if (self.isEditProperty)
             {
-                [self.clickDelegate editPropertyDidDeleteImgWithDeleteIndex:0 sender:self];
+                [self.clickDelegate editPropertyDidDeleteImgWithDeleteIndex:self.editDeleteImgIndex sender:self];
             }else
             {
                 [self.clickDelegate editPropertyDidDeleteImgWithDeleteIndex:self.editDeleteImgIndex sender:self];

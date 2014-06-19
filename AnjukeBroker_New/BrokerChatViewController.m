@@ -569,7 +569,7 @@
         
         UIImage *imgFoot = [UIImage imageNamed:@"broker_wl_unused_tips_arrow"];
         CGFloat fX = CGRectGetWidth(alertHead.frame) / 2;
-        CGFloat fY = CGRectGetHeight(alertHead.frame) + imgFoot.size.height / 2;
+        CGFloat fY = CGRectGetHeight(alertHead.frame) + imgFoot.size.height / 2 - .5f;
         UIImageView *alertFoot = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, imgFoot.size.width, imgFoot.size.height)];
         [alertFoot setImage:imgFoot];
         [alertFoot setCenter:CGPointMake(fX, fY)];
