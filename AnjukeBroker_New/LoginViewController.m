@@ -193,7 +193,7 @@
 - (void)autoSetUserNameAndPassword:(UILongPressGestureRecognizer*)longPress{
     if (longPress.state == UIGestureRecognizerStateBegan) {
         NSLog(@"长按自动填充");
-        self.nameTF.text = @"ajk_sh";
+        self.nameTF.text = @"ajk_nj";
         self.passwordTF.text = @"anjukeqa";
     }
 }

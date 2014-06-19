@@ -25,6 +25,18 @@ static NSInteger const AXNavBarHeight = 44.0f;
 static NSInteger const AXStatuBarHeight = 20.0f;
 static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 
+//微聊单页buttonkey（存在buttonDict）
+static NSString *AXBTKEYPIC      = @"AxbtkeyPic";       //照片
+static NSString *AXBTKEYTAKE     = @"AxbtkeyTake";      //拍照
+static NSString *AXBTKEYER       = @"Axbtkeyer";        //二手房
+static NSString *AXBTKEYZU       = @"Axbtkeyzu";        //租房
+static NSString *AXBTKEYLOCAL    = @"Axbtkeylocal";     //位置
+static NSString *AXBTKEYTALL     = @"Axbtkeytall";      //语音
+static NSString *AXBTKEYEMIJE    = @"Axbtkeyemije";     //表情
+static NSString *AXBTKEYMORE     = @"Axbtkeymore";      //更多
+static NSString *AXBTKEYPEOPLE   = @"Axbtkeypeople";    //个人资料
+static NSString *AXUITEXVIEWEDIT = @"AxuitextviewEdit"; //输入框
+
 @interface AXChatViewController : RTViewController <UITextViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, AXChatMessageSystemCellDelegate, ELCImagePickerControllerDelegate, UIImagePickerControllerDelegate>
 
 // 禁止直接修改celldata和identifierData
@@ -47,7 +59,7 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 @property (nonatomic, copy) NSString *brokerName;
 @property (nonatomic, strong) AXMappedPerson *friendPerson;
 @property (nonatomic, strong) NSMutableArray *locationArray;
-@property (nonatomic, strong) NSMutableArray *buttonArrary;//微聊单页buttonarr
+@property (nonatomic, strong) NSMutableDictionary *buttonDict;//微聊单页buttonarr
 @property BOOL isVoiceInput;
 //表情相关
 @property (nonatomic, strong) FaceScrollView* emojiScrollView;
@@ -80,5 +92,10 @@ static NSString * const AXPhotoFolderName = @"AXCaht_AJK_Broker";
 - (void)cancelSendingVoiceLog;
 - (void)didClickKeyboardControl;
 
+//初始化learnview的bt
+- (void)initButtonInLearnView;
+
+//uitableviewdelegate
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end

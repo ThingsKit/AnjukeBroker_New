@@ -295,7 +295,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     self.identifierData = [NSMutableArray array];
     self.locationArray = [NSMutableArray array];
     
-    _buttonArrary = [[NSMutableArray alloc] initWithCapacity:8];
+    _buttonDict = [[NSMutableDictionary alloc] initWithCapacity:8];
 }
 
 #pragma mark - InitUI Method
@@ -379,6 +379,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
                                      
                                      ];
     self.messageInputView = inputView;
+    
+    [_buttonDict setValue:self.messageInputView forKey:AXUITEXVIEWEDIT];
 
     [self.view addSubview:self.messageInputView];
     [self.messageInputView.textView addObserver:self
@@ -463,7 +465,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [self.voiceBut setBackgroundImage:[UIImage imageNamed:SpeekImgNameVoice] forState:UIControlStateNormal];
     [self.voiceBut setBackgroundImage:[UIImage imageNamed:SpeekImgNameVoiceHighlight] forState:UIControlStateHighlighted];
     [self.messageInputView addSubview:self.voiceBut];
-    
+    [_buttonDict setValue:self.voiceBut forKey:AXBTKEYTALL];
     
     //最右侧的加号按钮
     self.sendBut = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -473,7 +475,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more.png"] forState:UIControlStateNormal];
     [self.sendBut setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_add_more1.png"] forState:UIControlStateHighlighted];
     [self.messageInputView addSubview:self.sendBut];
-
+    [_buttonDict setValue:self.sendBut forKey:AXBTKEYMORE];
     
     //中间的长按录音按钮
     self.pressSpeek = [[UIButton alloc] initWithFrame:CGRectZero];
@@ -512,6 +514,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     self.emojiBut.backgroundColor = [UIColor clearColor];
     [self.emojiBut addTarget:self action:@selector(didEmojiButClick) forControlEvents:UIControlEventTouchUpInside];
     [self.messageInputView addSubview:self.emojiBut];
+    [_buttonDict setValue:self.emojiBut forKey:AXBTKEYEMIJE];
 }
 
 - (void)initMoreButs {
@@ -520,6 +523,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [pickIMG setImage:[UIImage imageNamed:@"anjuke_icon_add_pic4.png"] forState:UIControlStateNormal];
     [pickIMG addTarget:self action:@selector(pickIMG:) forControlEvents:UIControlEventTouchUpInside];
     [self.moreBackView addSubview:pickIMG];
+    [_buttonDict setValue:pickIMG forKey:AXBTKEYPIC];
+    
     CGRect imgRect = pickIMG.frame;
     UILabel *imgLab = [[UILabel alloc] initWithFrame:CGRectMake(17.0f, imgRect.origin.y + imgRect.size.height + 8, imgRect.size.width, 30.0f)];
     imgLab.backgroundColor = [UIColor clearColor];
@@ -534,6 +539,9 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     takePic.frame = CGRectMake(97.0f, 16.0f, 46, 46);
     [takePic addTarget:self action:@selector(takePic:) forControlEvents:UIControlEventTouchUpInside];
     [self.moreBackView addSubview:takePic];
+    
+    [_buttonDict setValue:takePic forKey:AXBTKEYTAKE];
+    
     UILabel *picLab = [[UILabel alloc] initWithFrame:CGRectMake(97.0f, imgRect.origin.y + imgRect.size.height + 8, imgRect.size.width, 30.0f)];
     picLab.backgroundColor = [UIColor clearColor];
     picLab.font = [UIFont systemFontOfSize:14];
@@ -542,12 +550,16 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     picLab.textColor = [UIColor axChatPropDescColor:self.isBroker];
     [self.moreBackView addSubview:picLab];
     
+    
     UIButton *pickAJK = [UIButton buttonWithType:UIButtonTypeCustom];
     [pickAJK setImage:[UIImage imageNamed:@"anjuke_icon_add_esf.png"] forState:UIControlStateNormal];
     pickAJK.frame = CGRectMake(177.0f, 16.0f, 46, 46);
     [pickAJK setTag:-10];//为了确定二手房图标按钮
     [pickAJK addTarget:self action:@selector(pickAJK:) forControlEvents:UIControlEventTouchUpInside];
     [self.moreBackView addSubview:pickAJK];
+
+    [_buttonDict setValue:pickIMG forKey:AXBTKEYER];
+    
     UILabel *ajkLab = [[UILabel alloc] initWithFrame:CGRectMake(177.0f, imgRect.origin.y + imgRect.size.height + 8, imgRect.size.width, 30.0f)];
     ajkLab.backgroundColor = [UIColor clearColor];
     ajkLab.font = [UIFont systemFontOfSize:14];
@@ -556,11 +568,16 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     ajkLab.textColor = [UIColor axChatPropDescColor:self.isBroker];
     [self.moreBackView addSubview:ajkLab];
     
+    
+    
     UIButton *pickHZ = [UIButton buttonWithType:UIButtonTypeCustom];
     [pickHZ setImage:[UIImage imageNamed:@"anjuke_icon_add_zf.png"] forState:UIControlStateNormal];
     pickHZ.frame = CGRectMake(257.0f, 16.0f, 46, 46);
     [pickHZ addTarget:self action:@selector(pickHZ:) forControlEvents:UIControlEventTouchUpInside];
     [self.moreBackView addSubview:pickHZ];
+    
+    [_buttonDict setValue:pickHZ forKey:AXBTKEYZU];
+    
     UILabel *hzLab = [[UILabel alloc] initWithFrame:CGRectMake(257.0f, imgRect.origin.y + imgRect.size.height + 8, imgRect.size.width, 30.0f)];
     hzLab.backgroundColor = [UIColor clearColor];
     hzLab.font = [UIFont systemFontOfSize:14];
@@ -574,6 +591,9 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [location setImage:[UIImage imageNamed:@"anjuke_icon_add_position.png"] forState:UIControlStateNormal];
     [location addTarget:self action:@selector(locationClick) forControlEvents:UIControlEventTouchUpInside];
     [self.moreBackView addSubview:location];
+    
+    [_buttonDict setValue:location forKey:AXBTKEYLOCAL];
+    
     CGRect locationRect = location.frame;
     UILabel *locationLab = [[UILabel alloc] initWithFrame:CGRectMake(17.0f, locationRect.origin.y + locationRect.size.height + 8, locationRect.size.width, 30.0f)];
     locationLab.backgroundColor = [UIColor clearColor];
@@ -985,6 +1005,30 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 }
 
 #pragma mark - Public Method
+//初始化learnview的bt
+- (void)initButtonInLearnView
+{
+    NSDictionary *btDict = self.buttonDict;
+    
+    UIButton *getPic = [btDict objectForKey:AXBTKEYPIC];
+    UIButton *takePic = [btDict objectForKey:AXBTKEYTAKE];
+    DLog(@"takePic == %@", takePic);
+    //    UIButton *erShou = [btDict objectForKey:AXBTKEYER];
+    UIButton *zuFang = [btDict objectForKey:AXBTKEYZU];
+    UIButton *local = [btDict objectForKey:AXBTKEYLOCAL];
+    UIButton *speak = [btDict objectForKey:AXBTKEYTALL];
+    UIButton *emjle = [btDict objectForKey:AXBTKEYEMIJE];
+//    UIButton *more = [btDict objectForKey:AXBTKEYMORE];
+    
+    [getPic removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [takePic removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [zuFang removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [local removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [speak removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [emjle removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+//    [more removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+}
+
 - (BOOL)checkUserLogin
 {
     return YES;

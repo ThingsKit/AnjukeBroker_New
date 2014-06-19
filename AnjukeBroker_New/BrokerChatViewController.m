@@ -29,6 +29,7 @@
 @property (nonatomic, strong) NSString *phoneNumber;
 @property (nonatomic, strong) UIImageView *brokerIcon;
 @property (nonatomic, assign) BOOL  isAlloc;
+@property (nonatomic, strong) UIImageView *sayHelloAlertView;
 //@property (nonatomic, strong) AXIMGDownloader *imgDownloader;
 @end
 
@@ -42,7 +43,12 @@
     [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
 }
 
-- (void)didMoreBackView:(UIButton *)sender {
+- (void)didMoreBackView:(UIButton *)sender
+{
+    if (_isSayHello)
+    {
+        self.moreBackView.hidden = YES;
+    }
     [super didMoreBackView:sender];
     [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ADD page:CHAT note:nil];
 }
@@ -81,6 +87,7 @@
     if (_isAlloc && _isSayHello)
     {
         [self initLearnView];
+        [self initButtonInLearnView];
     }
     _isAlloc = NO;
 }
@@ -97,7 +104,11 @@
     NSString *learnViewKey = @"brokerchatlearn3.5";
     NSString *learnValue = [[NSUserDefaults standardUserDefaults] objectForKey:learnViewKey];
     NSInteger learnValueInt = learnValue.intValue;
-    if (learnValue && learnValueInt > 3)
+    
+    self.moreBackView.hidden = YES;
+    [self didMoreBackView:nil];
+    //判断学习页面出现次数
+    if (learnValue && learnValueInt > 13)
     {
         return;
     }
@@ -109,13 +120,18 @@
     [window addSubview:learnView];
     [learnView setTag:-11];//为了隐藏自己
     [learnView addGestureRecognizer:tap];
-    
-    self.moreBackView.hidden = YES;
-    [self didMoreBackView:nil];
 
     UIView *moreView = self.moreBackView;
     UIButton *ajkErbt = (UIButton *)[moreView viewWithTag:-10];
     
+    //提示文字
+    UIImage *titleImg = [UIImage imageNamed:@"broker_qkh_guide"];
+    UIImageView *titleImgVIew = [[UIImageView alloc] initWithImage:titleImg];
+    [titleImgVIew setCenter:CGPointMake(CGRectGetWidth(window.frame) / 2, CGRectGetHeight(window.frame) / 2 + 40)];
+    [titleImgVIew setTag:-12];
+    [window addSubview:titleImgVIew];
+    
+    //镂空icon
     UIImage *img = [UIImage imageNamed:@"broker_qkh_guide_bg"];
     UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
     [imgView setCenter:CGPointMake(ajkErbt.frame.origin.x - 17, (ajkErbt.frame.origin.y + moreView.frame.origin.y) + 36 + 65)];
@@ -165,6 +181,74 @@
     
 }
 
+//初始化learnview的bt
+- (void)initButtonInLearnView
+{
+    [super initButtonInLearnView];
+    NSDictionary *btDict = self.buttonDict;
+    
+    UIButton *getPic = [btDict objectForKey:AXBTKEYPIC];
+    UIButton *takePic = [btDict objectForKey:AXBTKEYTAKE];
+    UIButton *zuFang = [btDict objectForKey:AXBTKEYZU];
+    UIButton *local = [btDict objectForKey:AXBTKEYLOCAL];
+    UIButton *speak = [btDict objectForKey:AXBTKEYTALL];
+    UIButton *emjle = [btDict objectForKey:AXBTKEYEMIJE];
+    UIBarButtonItem *people = [btDict objectForKey:AXBTKEYPEOPLE];
+    JSMessageInputView *messInputView = [btDict objectForKey:AXUITEXVIEWEDIT];
+    
+    UIImage *getPicImg = [getPic imageForState:UIControlStateNormal];
+    
+    CGFloat radius = 5.f;
+    
+    CGFloat w = getPicImg.size.width;
+    CGFloat h = getPicImg.size.height;
+    UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, w, h)];
+    [v setBackgroundColor:[UIColor blackColor]];
+    v.layer.masksToBounds = YES;
+    v.layer.cornerRadius = radius;
+    [v setUserInteractionEnabled:NO];
+    [v setAlpha:.15f];
+    
+    UIView *v1 = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:v]];
+    v1.layer.masksToBounds = YES;
+    v1.layer.cornerRadius = radius;
+    UIView *v2 = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:v]];
+    v2.layer.masksToBounds = YES;
+    v2.layer.cornerRadius = radius;
+    UIView *v3 = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:v]];
+    v3.layer.masksToBounds = YES;
+    v3.layer.cornerRadius = radius;
+    
+    [getPic addSubview:v1];
+    [takePic addSubview:v2];
+    [zuFang addSubview:v3];
+    [local addSubview:v];
+    
+    UIImage *speakImg = [speak backgroundImageForState:UIControlStateHighlighted];
+    [speak setBackgroundImage:speakImg forState:UIControlStateNormal];
+    UIImage *emjleImg = [emjle backgroundImageForState:UIControlStateHighlighted];
+    [emjle setBackgroundImage:emjleImg forState:UIControlStateNormal];
+    
+    [getPic addTarget:self action:@selector(learnViewBtAction:) forControlEvents:UIControlEventTouchUpInside];
+    [takePic addTarget:self action:@selector(learnViewBtAction:) forControlEvents:UIControlEventTouchUpInside];
+    [zuFang addTarget:self action:@selector(learnViewBtAction:) forControlEvents:UIControlEventTouchUpInside];
+    [local addTarget:self action:@selector(learnViewBtAction:) forControlEvents:UIControlEventTouchUpInside];
+    [speak addTarget:self action:@selector(learnViewBtAction:) forControlEvents:UIControlEventTouchDown];
+    [emjle addTarget:self action:@selector(learnViewBtAction:) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *cuBt = (UIButton *)[people customView];
+    [cuBt removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [cuBt addTarget:self action:@selector(learnViewBtAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    CGFloat inputHeight = CGRectGetHeight(messInputView.textView.frame);
+    CGFloat inputWidth = CGRectGetWidth(messInputView.textView.frame);
+    
+    UIButton *textView = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, inputWidth, inputHeight + 4)];
+    [textView setBackgroundColor:[UIColor blackColor]];
+    [textView setAlpha:.15f];
+    [textView addTarget:self action:@selector(learnViewBtAction:) forControlEvents:UIControlEventTouchUpInside];
+    [messInputView.textView addSubview:textView];
+}
+
 
 - (void)initNavTitle {
     AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:self.friendPerson.uid];
@@ -193,6 +277,7 @@
     }else{
         self.navigationItem.rightBarButtonItem = rightItem;
     }
+    [self.buttonDict setValue:self.navigationItem.rightBarButtonItem forKey:AXBTKEYPEOPLE];
 }
 
 - (void)resetLayoutOfKeyboard {
@@ -324,6 +409,28 @@
         [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
     }
 }
+
+#pragma mark - UITableview delegate
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    AXChatBaseCell *cell = (AXChatBaseCell *)[super tableView:tableView cellForRowAtIndexPath:indexPath];
+
+    NSString *identifier = (self.identifierData)[[indexPath row]];
+    NSDictionary *dic = self.cellDict[identifier];
+    
+    if (_isSayHello)
+    {
+        if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeSettingNotifycation)])
+        {
+            AXChatMessageSystemTimeCell *sysCell = (AXChatMessageSystemTimeCell *)cell;
+            sysCell.systemLab.text = @"推荐1套客户喜欢的房源，越精准越好";
+            [sysCell.systemBut setTitle:@"" forState:UIControlStateNormal];
+        }
+    }
+
+    return cell;
+}
+
 #pragma mark - DataSouce Method
 - (NSString *)checkFriendUid
 {
@@ -436,11 +543,62 @@
 }
 
 #pragma mark - PrivateMethods
+
+- (void)learnViewBtAction:(id)sender
+{
+    NSDictionary *btDict = self.buttonDict;
+    JSMessageInputView *messInputView = [btDict objectForKey:AXUITEXVIEWEDIT];
+    if (!_sayHelloAlertView)
+    {
+        NSString *alertText = @"用户回复你以后才能使用这功能:)";
+        UIFont *aFont = [UIFont systemFontOfSize:14];
+        CGSize aSize = [alertText sizeWithFont:aFont];
+        
+        UIImage *img = [UIImage imageNamed:@"broker_wl_unused_tips"];
+        _sayHelloAlertView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, aSize.width + 6, aSize.height*2)];
+        [_sayHelloAlertView setImage:[img stretchableImageWithLeftCapWidth:3 topCapHeight:3]];
+        
+        //提示文字
+        UILabel *la = [[UILabel alloc] initWithFrame:CGRectMake(3, 3, aSize.width, aSize.height)];
+        [la setBackgroundColor:[UIColor clearColor]];
+        [la setText:alertText];
+        [la setFont:aFont];
+        [la setTextColor:[UIColor ajkWhiteColor]];
+        [_sayHelloAlertView addSubview:la];
+        
+        [self.view addSubview:_sayHelloAlertView];
+    }
+    
+    CGFloat alertX = CGRectGetWidth(self.view.frame) / 2;
+    CGFloat alertY = messInputView.frame.origin.y - 20;
+    [_sayHelloAlertView setCenter:CGPointMake(alertX, alertY)];
+    
+    if (_sayHelloAlertView.hidden)
+    {
+        [_sayHelloAlertView setHidden:NO];
+        [_sayHelloAlertView setAlpha:1];
+    }
+    
+    return;
+    if (!_sayHelloAlertView.hidden)
+    {
+        [UIView animateWithDuration:1.f animations:
+         ^{
+            [_sayHelloAlertView setAlpha:0];
+        } completion:^(BOOL finished)
+        {
+            [_sayHelloAlertView setHidden:YES];
+        }];
+    }
+}
+
 - (void)hideLearnView:(id)sender
 {//隐藏引导页
     UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
     UIView *learnView = [window viewWithTag:-11];//获得引导页
+    UIImageView *titleLearn = (UIImageView *)[window viewWithTag:-12];
     [learnView removeFromSuperview];
+    [titleLearn removeFromSuperview];
 }
 
 - (void)rightButtonAction:(id)sender {
