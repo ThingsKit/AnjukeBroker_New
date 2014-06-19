@@ -71,10 +71,12 @@
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
     //其实根本不care这个，不过先写在这儿了
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     //其实根本不care这个，不过先写在这儿了
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 @end

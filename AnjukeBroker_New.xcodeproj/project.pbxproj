@@ -2409,13 +2409,45 @@
 			name = 3.3.2Icon;
 			sourceTree = "<group>";
 		};
-		6767D1141921C949004FEFF7 /* 发现模块 */ = {
+		67639F631952D15400987405 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				6767D13F19230AAE004FEFF7 /* Tools */,
-				6767D13E19230A9C004FEFF7 /* Model */,
-				67C3F6F119205E6800DFC0C0 /* RushPropertyViewController.h */,
-				67C3F6F219205E6800DFC0C0 /* RushPropertyViewController.m */,
+				6794E4311947F3580069F1ED /* CustomerModel.h */,
+				6794E4321947F3580069F1ED /* CustomerModel.m */,
+				67639F601950355400987405 /* CustomerListModel.h */,
+				67639F611950355400987405 /* CustomerListModel.m */,
+				6794E45119485FD90069F1ED /* CustomerDetailModel.h */,
+				6794E45219485FD90069F1ED /* CustomerDetailModel.m */,
+				6794E454194864000069F1ED /* FavoritePropertyModel.h */,
+				6794E455194864000069F1ED /* FavoritePropertyModel.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		67639F641952D18000987405 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				6794E44B19485FA90069F1ED /* CustomerDetailTableView.h */,
+				6794E44C19485FA90069F1ED /* CustomerDetailTableView.m */,
+				6794E45A194996450069F1ED /* CustomerDetailHeaderView.h */,
+				6794E45B194996450069F1ED /* CustomerDetailHeaderView.m */,
+				6794E45719498A0B0069F1ED /* CustomerDetailTableViewCell.h */,
+				6794E45819498A0B0069F1ED /* CustomerDetailTableViewCell.m */,
+				6794E44E19485FC40069F1ED /* FavoritePropertyTableViewCell.h */,
+				6794E44F19485FC40069F1ED /* FavoritePropertyTableViewCell.m */,
+				6794E42B1947F2F80069F1ED /* CustomerTableView.h */,
+				6794E42C1947F2F80069F1ED /* CustomerTableView.m */,
+				67639F591949B09200987405 /* CustomerHeaderView.h */,
+				67639F5A1949B09200987405 /* CustomerHeaderView.m */,
+				6794E42E1947F3250069F1ED /* CustomerTableViewCell.h */,
+				6794E42F1947F3250069F1ED /* CustomerTableViewCell.m */,
+			);
+			name = Component;
+			sourceTree = "<group>";
+		};
+		67639F651952D61000987405 /* Component */ = {
+			isa = PBXGroup;
+			children = (
 				6767D1071921BBD6004FEFF7 /* BaseTableView.h */,
 				6767D1081921BBD6004FEFF7 /* BaseTableView.m */,
 				6767D10B1921BF56004FEFF7 /* PropertyTableView.h */,
@@ -2426,6 +2458,18 @@
 				6767D14419235174004FEFF7 /* MyPropertyTableView.m */,
 				6767D1471923519B004FEFF7 /* MyPropertyTableViewCell.h */,
 				6767D1481923519B004FEFF7 /* MyPropertyTableViewCell.m */,
+			);
+			name = Component;
+			sourceTree = "<group>";
+		};
+		6767D1141921C949004FEFF7 /* 发现模块 */ = {
+			isa = PBXGroup;
+			children = (
+				67639F651952D61000987405 /* Component */,
+				6767D13F19230AAE004FEFF7 /* Tools */,
+				6767D13E19230A9C004FEFF7 /* Model */,
+				67C3F6F119205E6800DFC0C0 /* RushPropertyViewController.h */,
+				67C3F6F219205E6800DFC0C0 /* RushPropertyViewController.m */,
 			);
 			name = "发现模块";
 			sourceTree = "<group>";
@@ -3862,32 +3906,12 @@
 		F88FC2E41945611200DEA8A2 /* 抢客户 */ = {
 			isa = PBXGroup;
 			children = (
+				67639F641952D18000987405 /* Component */,
+				67639F631952D15400987405 /* Model */,
 				6794E44819485D4A0069F1ED /* CustomerDetailViewController.h */,
 				6794E44919485D4A0069F1ED /* CustomerDetailViewController.m */,
-				6794E44B19485FA90069F1ED /* CustomerDetailTableView.h */,
-				6794E44C19485FA90069F1ED /* CustomerDetailTableView.m */,
-				6794E45A194996450069F1ED /* CustomerDetailHeaderView.h */,
-				6794E45B194996450069F1ED /* CustomerDetailHeaderView.m */,
-				6794E45719498A0B0069F1ED /* CustomerDetailTableViewCell.h */,
-				6794E45819498A0B0069F1ED /* CustomerDetailTableViewCell.m */,
-				6794E44E19485FC40069F1ED /* FavoritePropertyTableViewCell.h */,
-				6794E44F19485FC40069F1ED /* FavoritePropertyTableViewCell.m */,
-				6794E45119485FD90069F1ED /* CustomerDetailModel.h */,
-				6794E45219485FD90069F1ED /* CustomerDetailModel.m */,
-				6794E454194864000069F1ED /* FavoritePropertyModel.h */,
-				6794E455194864000069F1ED /* FavoritePropertyModel.m */,
 				F88FC2E51945614100DEA8A2 /* FindCustomerViewController.h */,
 				F88FC2E61945614100DEA8A2 /* FindCustomerViewController.m */,
-				6794E42B1947F2F80069F1ED /* CustomerTableView.h */,
-				6794E42C1947F2F80069F1ED /* CustomerTableView.m */,
-				67639F591949B09200987405 /* CustomerHeaderView.h */,
-				67639F5A1949B09200987405 /* CustomerHeaderView.m */,
-				6794E42E1947F3250069F1ED /* CustomerTableViewCell.h */,
-				6794E42F1947F3250069F1ED /* CustomerTableViewCell.m */,
-				6794E4311947F3580069F1ED /* CustomerModel.h */,
-				6794E4321947F3580069F1ED /* CustomerModel.m */,
-				67639F601950355400987405 /* CustomerListModel.h */,
-				67639F611950355400987405 /* CustomerListModel.m */,
 				6794E4341947FDB50069F1ED /* SDWebImage */,
 			);
 			name = "抢客户";
