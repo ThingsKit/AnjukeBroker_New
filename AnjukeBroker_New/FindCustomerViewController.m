@@ -59,7 +59,7 @@
 #pragma mark 上拉下拉点击
 - (void)pullUp:(BaseTableView *)tableView{
     self.tableView.isPullUp = YES;
-    if (self.tableView.sinceId != nil && self.tableView.sinceId.length != 0) {
+    if (self.pageNum > 0) {
         NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:self.pageNum] forKey:@"page_num"];
         [self requestList:params];
     }else{
