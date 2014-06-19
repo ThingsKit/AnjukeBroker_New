@@ -22,14 +22,20 @@
     return self;
 }
 -(void)initUI{
-    communityNameLab = [[UILabel alloc] initWithFrame:CGRectMake(25, 16, 270, 17)];
-    communityNameLab.textColor = [Util_UI colorWithHexString:@"#000000"];
+    
+    CGFloat cxZhou = 20;
+    CGFloat cyZhou = 16;
+    CGFloat cWidth = 270;
+    CGFloat cHeight = 17;
+    
+    communityNameLab = [[UILabel alloc] initWithFrame:CGRectMake(cxZhou, cyZhou, cWidth, cHeight)];
+    communityNameLab.textColor = [UIColor ajkBlackColor];
     communityNameLab.font = [UIFont systemFontOfSize:17];
     [self.contentView addSubview:communityNameLab];
     
-    detailLab = [[UILabel alloc] initWithFrame:CGRectMake(25, 42, 270, 12)];
-    detailLab.textColor = [Util_UI colorWithHexString:@"#999999"];
-    detailLab.font = [UIFont systemFontOfSize:12];
+    detailLab = [[UILabel alloc] initWithFrame:CGRectMake(cxZhou, cyZhou + cHeight + 6, cWidth, 12)];
+    detailLab.textColor = [UIColor ajkLightGrayColor];
+    detailLab.font = [UIFont systemFontOfSize:14];
     [self.contentView addSubview:detailLab];
 }
 -(void)insertCellWithDic:(NSDictionary *)dic{

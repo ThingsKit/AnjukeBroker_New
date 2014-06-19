@@ -12,7 +12,7 @@
 #import "LoginManager.h"
 #import "PropertySelectViewController.h"
 
-#define COMMUNITYSELECTCELLHEIGHT 65.0
+#define COMMUNITYSELECTCELLHEIGHT 66.0
 
 
 typedef enum {

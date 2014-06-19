@@ -25,7 +25,8 @@
     return si.height+50.0f;
 }
 
-+ (CGFloat)getNoPlanCellHeight:(NSString *) title{
++ (CGFloat)getNoPlanCellHeight:(NSString *) title
+{
 //    CGSize size = CGSizeMake(250, 40);
     CGSize si = [Util_UI sizeOfString:title maxWidth:250 withFontSize:14];//[title sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
     return si.height+40.0f;

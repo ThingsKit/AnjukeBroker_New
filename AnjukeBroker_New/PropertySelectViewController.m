@@ -113,7 +113,7 @@
     return [self.arr count];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [CellHeight getNoPlanCellHeight:[[self.arr objectAtIndex:indexPath.row] objectForKey:@"title"]];
+    return 86.f;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -127,7 +127,7 @@
     
     [cell setValueForCellByDictionar:[self.arr objectAtIndex:indexPath.row]];
     
-    [cell showBottonLineWithCellHeight:[CellHeight getNoPlanCellHeight:[[self.arr objectAtIndex:indexPath.row] objectForKey:@"title"]]];
+    [cell showBottonLineWithCellHeight:86.f andOffsetX:15];
     return cell;
 }
 
