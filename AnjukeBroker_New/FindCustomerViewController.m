@@ -60,6 +60,7 @@
 - (void)pullUp:(BaseTableView *)tableView{
     self.tableView.isPullUp = YES;
     if (self.pageNum > 0) {
+        self.pageNum++;
         NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:self.pageNum] forKey:@"page_num"];
         [self requestList:params];
     }else{
@@ -149,7 +150,6 @@
             }else{ //待委托列表上啦
                 list = [NSMutableArray arrayWithArray:self.tableView.data];
                 [list addObjectsFromArray:models];
-                self.pageNum++;
             }
             
             self.tableView.data = list;
