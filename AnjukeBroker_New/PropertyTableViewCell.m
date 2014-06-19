@@ -193,22 +193,14 @@
 //右侧按钮点击事件
 - (void)buttonClicked:(UIButton*)button{
     
-    RushPropertyViewController* viewController = (RushPropertyViewController*)self.viewController;
     [[BrokerLogger sharedInstance] logWithActionCode:COMMISSION_LIST_CLICK_QIANG page:COMMISSION_LIST note:@{@"propid":self.propertyModel.propertyId}];
     
     self.button.enabled = NO;
     
-    if ([viewController isNetworkOkay]) { //如果当前网络ok
-        if (self.propertyModel.propertyId) { //如果房源id不空
-            NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithObject:self.propertyModel.propertyId forKey:@"propertyId"];
-            [self rushProperty:dict];
-        }
-    }else{ //如果当前网络不通
-        //        [viewController displayHUDWithStatus:nil Message:nil ErrCode:nil];  //使用自定义的浮层显示网络不良
-        self.button.enabled = YES;
-        
+    if (self.propertyModel.propertyId) { //如果房源id不空
+        NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithObject:self.propertyModel.propertyId forKey:@"propertyId"];
+        [self rushProperty:dict];
     }
-    
     
 }
 
@@ -217,10 +209,8 @@
 
 - (void)rushProperty:(NSMutableDictionary*)params{
     NSString *method = @"commission/rush/";
-    //    [params setObject:@"pgdir" forKey:@"pgpmt20865"]; //测试用后门
     [params setObject:[LoginManager getToken] forKey:@"token"];
     [params setObject:[LoginManager getUserID] forKey:@"brokerId"];
-//    [params setObject:@"147468" forKey:@"brokerId"]; //测试用
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     
 }
@@ -228,6 +218,7 @@
 //请求完毕,回调
 - (void)onRequestFinished:(RTNetworkResponse*)response{
     
+    self.button.enabled = YES;
     RTNetworkResponseStatus status = response.status; //这次请求的状态
     RushPropertyViewController* viewController = (RushPropertyViewController*)self.viewController; //获取cell所属的ViewController, 以调用其方法
     
@@ -242,7 +233,6 @@
 //        NSString* status = @"error";
 //        NSString* errcode = @"5003"; //测试用
 //        status = @"ok";
-        self.button.enabled = YES;
         
         if ([status isEqualToString:@"ok"]) {
             
@@ -263,16 +253,13 @@
                 }];
             }
             
-            //计数器加1
-//            viewController.propertyListBadgeLabel.text = [NSString stringWithFormat:@"%d", ++viewController.badgeNumber];
+            //小红点显示
             viewController.propertyListBadgeLabel.hidden = NO;
             
             //右侧自动下拉
             viewController.rightAutoPullDown = NO;
             
             [viewController removeCellFromPropertyTableViewWithCell:self]; //删除对应indexPath的cell
-            
-            
             
             
         }else{//请求失败
@@ -297,7 +284,7 @@
         
     }else{ //数据请求失败
         [self setButtonAble];
-        [viewController displayHUDWithStatus:nil Message:nil ErrCode:nil]; //
+        [viewController displayHUDWithStatus:nil Message:nil ErrCode:nil];
     }
     
     

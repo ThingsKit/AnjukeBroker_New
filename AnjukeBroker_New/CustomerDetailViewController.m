@@ -239,10 +239,12 @@
             }else if ([@"1" isEqualToString:status]){
                 //已抢到, 按钮变灰
                 [self setChatButtonRushSucceed];
+                [self displayHUDWithStatus:@"error" Message:nil ErrCode:@"1"];
                 
             }else if ([@"2" isEqualToString:status]){
                 //已抢完, 按钮变灰
                 [self setChatButtonRushFail];
+                [self displayHUDWithStatus:@"error" Message:nil ErrCode:@"2"];
                 
             }else if ([@"3" isEqualToString:status]){
                 //用户被临时锁定, 显示微聊(可以抢), 不再锁定, 直接跳转相应页面
@@ -250,9 +252,11 @@
             }
             
         }else{ //数据请求失败
+            
         }
         
     }else{ //网络不畅
+        [self displayHUDWithStatus:@"error" Message:nil ErrCode:nil];
     }
 
 }
@@ -278,6 +282,7 @@
         }
         
     }else{ //网络不畅
+        [self displayHUDWithStatus:@"error" Message:nil ErrCode:nil];
     }
     
 }
@@ -314,13 +319,13 @@
 
 - (void)setChatButtonRushSucceed{
     [_chatButton setTitle:@"已抢到" forState:UIControlStateNormal];
-    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_gray"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateNormal];
+    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"broker_icon_button_gray"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateNormal];
     _chatButton.enabled = NO;
 }
 
 - (void)setChatButtonRushFail{
     [_chatButton setTitle:@"抢完了" forState:UIControlStateNormal];
-    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_gray"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateNormal];
+    [_chatButton setBackgroundImage:[[UIImage imageNamed:@"broker_icon_button_gray"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateDisabled];
     _chatButton.enabled = NO;
 }
 
@@ -403,36 +408,29 @@
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.dimBackground = NO;
     
-    if ([status isEqualToString:@"ok"]) { //抢成功逻辑
+    if([status isEqualToString:@"error"]){ //失败逻辑
         
-        self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_laugh"];
-        self.hudText.text = @"抢成功!";
-        self.hubSubText.text = @"快去联系业主吧";
-        self.hubSubText.hidden = NO;
-        
-    }else if([status isEqualToString:@"error"]){ //失败逻辑
-        
-        if ([errCode isEqualToString:@"5001"]) {
+        if ([@"1" isEqualToString:errCode]) {
+            
+            self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_laugh"];
+            self.hudText.text = @"客户已抢到";
+            self.hubSubText.text = @"去微聊吧";
+            self.hubSubText.hidden = NO;
+            
+        }else if ([@"2" isEqualToString:errCode]){
             
             self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
-            self.hudText.text = @"来晚啦~";
-            self.hubSubText.text = @"房源已删除";
+            self.hudText.text = @"客户被抢了";
+            self.hubSubText.text = @"你太慢了";
             self.hubSubText.hidden = NO;
             
         }else{
-            self.hudText.hidden = YES;
-            self.hubSubText.frame = CGRectMake(135/2-120/2, 135/2 -20, 120, 70);
-            self.hubSubText.textAlignment = NSTextAlignmentCenter;
-            self.hubSubText.numberOfLines = 0;
-            self.hubSubText.text = message;
-            [self.hubSubText sizeToFit];
-            self.hubSubText.hidden = NO;
+            self.hudImageView.image = [UIImage imageNamed:@"check_no_wifi"];
+            self.hudImageView.contentMode = UIViewContentModeScaleAspectFit;
+            self.hudText.text = @"无网络连接";
+            self.hubSubText.hidden = YES;
+            self.hudText.hidden = NO;
         }
-        
-    }else{ //这里表示网络异常
-        self.hudText.hidden = YES;
-        self.hubSubText.text = @"网络异常";
-        self.hubSubText.hidden = NO;
     }
     
     [self.hud hide:YES afterDelay:1]; //显示一段时间后隐藏

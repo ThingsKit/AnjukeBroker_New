@@ -97,10 +97,6 @@
         NSDictionary* content = response.content;
         NSArray* data = [content objectForKey:@"data"];
         
-//        NSDictionary* dict = @{@"id":@"1", @"propertyId":@"123", @"commName":@"新中源", @"type":@"2", @"room":@"2", @"hall":@"2", @"toilet":@"2", @"area":@"400", @"price":@"2000", @"priceUnit":@"元/月", @"publishTime":@"2014-05-01 06:03:07",@"callable":@"1", @"rushable":@"1", @"rushed":@"0", @"ownerName":@"小明", @"ownerPhone":@"18915676299",@"status":@"1", @"statusInfo":@"委托中"};
-//        NSDictionary* dict2 = @{@"id":@"2", @"propertyId":@"456", @"commName":@"新中源实际花园", @"type":@"1", @"room":@"2", @"hall":@"2", @"toilet":@"2", @"area":@"400", @"price":@"500", @"priceUnit":@"万", @"publishTime":@"2014-05-01 06:03:07",@"callable":@"0", @"rushable":@"0", @"rushed":@"1", @"ownerName":@"AngleLa Baby", @"ownerPhone":@"1888888888", @"status":@"2", @"statusInfo":@"房源已过期"};
-//        NSArray* data = @[dict, dict2];
-        
         NSMutableArray* properties = [NSMutableArray arrayWithCapacity:1];
         if (data.count > 0) { //请求如果有数据
             if (self.myTableView.hidden) {
@@ -132,7 +128,7 @@
                 
                 if (!self.tableView.isPullUp) { //待委托列表下拉
                     list = [NSMutableArray arrayWithArray:properties];
-                    [list addObjectsFromArray:self.tableView.data];
+//                    [list addObjectsFromArray:self.tableView.data];
                 }else{ //待委托列表上啦
                     list = [NSMutableArray arrayWithArray:self.tableView.data];
                     [list addObjectsFromArray:properties];
@@ -161,7 +157,7 @@
                 
                 if (!self.myTableView.isPullUp) { //我的委托列表下拉
                     list = [NSMutableArray arrayWithArray:properties];
-                    [list addObjectsFromArray:self.myTableView.data];
+//                    [list addObjectsFromArray:self.myTableView.data];
                 }else{ //我的委托上啦
                     list = [NSMutableArray arrayWithArray:self.myTableView.data];
                     [list addObjectsFromArray:properties];
@@ -257,6 +253,7 @@
     if ([status isEqualToString:@"ok"]) { //抢成功逻辑
         
         self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_laugh"];
+        self.hudImageView.hidden = NO;
         self.hudText.text = @"抢成功!";
         self.hubSubText.text = @"快去联系业主吧";
         self.hubSubText.hidden = NO;
@@ -266,24 +263,27 @@
         if ([errCode isEqualToString:@"5001"]) {
             
             self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
+            self.hudImageView.hidden = NO;
             self.hudText.text = @"来晚啦~";
             self.hubSubText.text = @"房源已删除";
             self.hubSubText.hidden = NO;
             
         }else{
-            self.hudText.hidden = YES;
-            self.hubSubText.frame = CGRectMake(135/2-120/2, 135/2 -20, 120, 70);
-            self.hubSubText.textAlignment = NSTextAlignmentCenter;
-            self.hubSubText.numberOfLines = 0;
-            self.hubSubText.text = message;
-            [self.hubSubText sizeToFit];
-            self.hubSubText.hidden = NO;
+            self.hudImageView.hidden = YES;
+            self.hudText.frame = CGRectMake(135/2-120/2, 135/2 -20, 120, 70);
+            self.hudText.numberOfLines = 0;
+            self.hudText.text = message;
+            self.hudText.hidden = NO;
+            self.hubSubText.hidden = YES;
         }
         
     }else{ //这里表示网络异常
-        self.hudText.hidden = YES;
-        self.hubSubText.text = @"网络异常";
-        self.hubSubText.hidden = NO;
+        self.hudImageView.image = [UIImage imageNamed:@"check_no_wifi"];
+        self.hudImageView.hidden = NO;
+        self.hudImageView.contentMode = UIViewContentModeScaleAspectFit;
+        self.hudText.text = @"无网络连接";
+        self.hudText.hidden = NO;
+        self.hubSubText.hidden = YES;
     }
     
     [self.hud hide:YES afterDelay:1]; //显示一段时间后隐藏
@@ -344,22 +344,22 @@
     if (self.myTableView.hidden) {
         [[BrokerLogger sharedInstance] logWithActionCode:COMMISSION_LIST_PULL_REFRESH page:COMMISSION_LIST note:nil];
         self.tableView.isPullUp = NO;
-        if (self.tableView.maxId != nil && self.tableView.maxId.length != 0) {
-            NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:self.tableView.maxId forKey:@"maxId"];
-            [self requestList:params];
-        }else{
+//        if (self.tableView.maxId != nil && self.tableView.maxId.length != 0) {
+//            NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:self.tableView.maxId forKey:@"maxId"];
+//            [self requestList:params];
+//        }else{
             [self requestList:nil];
-        }
+//        }
         
         
     }else{
         self.myTableView.isPullUp = NO;
-        if (self.myTableView.maxId != nil && self.myTableView.maxId.length != 0) {
-            NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:self.myTableView.maxId forKey:@"maxId"];
-            [self requestList:params];
-        }else{
+//        if (self.myTableView.maxId != nil && self.myTableView.maxId.length != 0) {
+//            NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:self.myTableView.maxId forKey:@"maxId"];
+//            [self requestList:params];
+//        }else{
             [self requestList:nil];
-        }
+//        }
         
     }
     
