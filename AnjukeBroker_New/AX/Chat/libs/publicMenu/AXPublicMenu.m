@@ -85,7 +85,7 @@ CGFloat const axPublicMenuHeight = 49.0f;
         [btn addSubview:lab];
         
         if ([btn.btnInfo[@"menu_type"] integerValue] == AXPublicMenuTypeSubMenu) {
-            UIImageView *menuIcon = [[UIImageView alloc] initWithFrame:CGRectMake(menuWidth/2-size.width/2-9, 20, 9, 9)];
+            UIImageView *menuIcon = [[UIImageView alloc] initWithFrame:CGRectMake(menuWidth/2-size.width/2-9, 22, 9, 9)];
             [menuIcon setImage:[UIImage imageNamed:@"broker_wl_gzh_menu"]];
             [btn addSubview:menuIcon];
         }

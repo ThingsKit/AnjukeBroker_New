@@ -38,7 +38,7 @@ CGFloat const axPublicSubMenuHeight = 45.0f;
     [self addSubview:cornerView];
     
     //最后一项子菜单,定位调整
-    if (button.center.x + button.frame.size.width/2 >= ScreenWidth) {
+    if (button.center.x + self.frame.size.width/2 >= ScreenWidth) {
         CGPoint buttonPoint = CGPointMake(ScreenWidth - 58, ScreenHeight - 20 -44 - 49 + 45*menuCount/2);
         self.center = buttonPoint;
     }
