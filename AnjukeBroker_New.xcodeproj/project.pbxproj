@@ -124,6 +124,8 @@
 		20F011C118942ABD000264BA /* icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F011BF18942ABD000264BA /* icon_57.png */; };
 		20F011C218942ABD000264BA /* icon_57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F011C018942ABD000264BA /* icon_57@2x.png */; };
 		20F6632A1896050F00356DFD /* anjuke_icon_nextfxt_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */; };
+		271DB9FE1952C02E00EE5573 /* broker_wl_unused_tips_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 271DB9FC1952C02E00EE5573 /* broker_wl_unused_tips_arrow@2x.png */; };
+		271DB9FF1952C02E00EE5573 /* broker_wl_unused_tips_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 271DB9FD1952C02E00EE5573 /* broker_wl_unused_tips_bg@2x.png */; };
 		2723353E192AFD6200C45460 /* AJKBRadioButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2723353D192AFD6200C45460 /* AJKBRadioButton.m */; };
 		2732FDE81931D9EB0021DA25 /* AJKSaveMessModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2732FDE71931D9EB0021DA25 /* AJKSaveMessModel.m */; };
 		2736F81E19382869002A6CF2 /* AJKLikePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2736F81D19382869002A6CF2 /* AJKLikePageView.m */; };
@@ -921,6 +923,8 @@
 		20F011BF18942ABD000264BA /* icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_57.png; sourceTree = "<group>"; };
 		20F011C018942ABD000264BA /* icon_57@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_57@2x.png"; sourceTree = "<group>"; };
 		20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_nextfxt_@2x.png"; sourceTree = "<group>"; };
+		271DB9FC1952C02E00EE5573 /* broker_wl_unused_tips_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_wl_unused_tips_arrow@2x.png"; sourceTree = "<group>"; };
+		271DB9FD1952C02E00EE5573 /* broker_wl_unused_tips_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_wl_unused_tips_bg@2x.png"; sourceTree = "<group>"; };
 		2723353C192AFD6200C45460 /* AJKBRadioButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJKBRadioButton.h; sourceTree = "<group>"; };
 		2723353D192AFD6200C45460 /* AJKBRadioButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJKBRadioButton.m; sourceTree = "<group>"; };
 		2732FDE61931D9EB0021DA25 /* AJKSaveMessModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJKSaveMessModel.h; sourceTree = "<group>"; };
@@ -2547,6 +2551,8 @@
 		6794E3F41947EBFF0069F1ED /* 3.5 */ = {
 			isa = PBXGroup;
 			children = (
+				271DB9FC1952C02E00EE5573 /* broker_wl_unused_tips_arrow@2x.png */,
+				271DB9FD1952C02E00EE5573 /* broker_wl_unused_tips_bg@2x.png */,
 				F8E24D9F194ACE2A0088C902 /* broker_wl_gzh_menu_layer_1@2x.png */,
 				2778147E19494B8D006951F8 /* broker_qkh_guide_bg@2x.png */,
 				6794E3F51947EC2C0069F1ED /* broker_fy_noproperty@2x.png */,
@@ -4225,6 +4231,7 @@
 				278FFCF2192453CD00B4A4A4 /* anjuke_icon_choosed@2x.png in Resources */,
 				F8CCEEBE192C488500192055 /* check_no_wifi@2x.png in Resources */,
 				6794E4131947EC2C0069F1ED /* broker_icon_button_gray@2x.png in Resources */,
+				271DB9FF1952C02E00EE5573 /* broker_wl_unused_tips_bg@2x.png in Resources */,
 				278FFCFB192453CD00B4A4A4 /* anjuke_icon_write_discription_frompic@2x.png in Resources */,
 				2778147F19494B8D006951F8 /* broker_qkh_guide_bg@2x.png in Resources */,
 				B7FC9AE018C41B1300F77205 /* xproject_dialogue_articalcard_backicon.png in Resources */,
@@ -4285,6 +4292,7 @@
 				B7E1918E18E274B200DA578B /* anjuke_icon_chat3@2x.png in Resources */,
 				2739140518DC0B44003284AA /* wl_map_icon_position.png in Resources */,
 				6794E4181947EC2C0069F1ED /* broker_my_icon_freshman@2x.png in Resources */,
+				271DB9FE1952C02E00EE5573 /* broker_wl_unused_tips_arrow@2x.png in Resources */,
 				6794E4111947EC2C0069F1ED /* broker_home_icon_scfx@2x.png in Resources */,
 				B7FC9ADC18C41B1300F77205 /* xproject_dialogue_anjuketeam.png in Resources */,
 				200915EF189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png in Resources */,

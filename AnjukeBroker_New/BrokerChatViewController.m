@@ -29,7 +29,7 @@
 @property (nonatomic, strong) NSString *phoneNumber;
 @property (nonatomic, strong) UIImageView *brokerIcon;
 @property (nonatomic, assign) BOOL  isAlloc;
-@property (nonatomic, strong) UIImageView *sayHelloAlertView;
+@property (nonatomic, strong) UIView *sayHelloAlertView;
 //@property (nonatomic, strong) AXIMGDownloader *imgDownloader;
 @end
 
@@ -554,9 +554,25 @@
         UIFont *aFont = [UIFont systemFontOfSize:14];
         CGSize aSize = [alertText sizeWithFont:aFont];
         
-        UIImage *img = [UIImage imageNamed:@"broker_wl_unused_tips"];
-        _sayHelloAlertView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, aSize.width + 6, aSize.height*2)];
-        [_sayHelloAlertView setImage:[img stretchableImageWithLeftCapWidth:3 topCapHeight:3]];
+        
+        _sayHelloAlertView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, aSize.width + 6, aSize.height + 6)];
+        
+        CGFloat hWidth = CGRectGetWidth(_sayHelloAlertView.frame);
+        CGFloat hHeight = CGRectGetHeight(_sayHelloAlertView.frame);
+        
+        //文字背景
+        UIImage *img = [UIImage imageNamed:@"broker_wl_unused_tips_bg"];
+        UIImageView *alertHead = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, hWidth, hHeight)];
+        [alertHead setImage:[img stretchableImageWithLeftCapWidth:3 topCapHeight:3]];
+        
+        //箭头
+        
+        UIImage *imgFoot = [UIImage imageNamed:@"broker_wl_unused_tips_arrow"];
+        CGFloat fX = CGRectGetWidth(alertHead.frame) / 2;
+        CGFloat fY = CGRectGetHeight(alertHead.frame) + imgFoot.size.height / 2;
+        UIImageView *alertFoot = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, imgFoot.size.width, imgFoot.size.height)];
+        [alertFoot setImage:imgFoot];
+        [alertFoot setCenter:CGPointMake(fX, fY)];
         
         //提示文字
         UILabel *la = [[UILabel alloc] initWithFrame:CGRectMake(3, 3, aSize.width, aSize.height)];
@@ -564,9 +580,16 @@
         [la setText:alertText];
         [la setFont:aFont];
         [la setTextColor:[UIColor ajkWhiteColor]];
-        [_sayHelloAlertView addSubview:la];
+        [alertHead addSubview:la];
         
+        
+        [_sayHelloAlertView addSubview:alertHead];
+        [_sayHelloAlertView addSubview:alertFoot];
+        [_sayHelloAlertView bringSubviewToFront:alertHead];
         [self.view addSubview:_sayHelloAlertView];
+        
+        CGFloat sHeight = CGRectGetHeight(alertHead.frame) + CGRectGetHeight(alertFoot.frame);
+        [_sayHelloAlertView setFrame:CGRectMake(0, 0, CGRectGetWidth(alertHead.frame), sHeight)];
     }
     
     CGFloat alertX = CGRectGetWidth(self.view.frame) / 2;
@@ -579,7 +602,6 @@
         [_sayHelloAlertView setAlpha:1];
     }
     
-    return;
     if (!_sayHelloAlertView.hidden)
     {
         [UIView animateWithDuration:1.f animations:
