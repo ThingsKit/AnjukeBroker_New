@@ -121,7 +121,7 @@
 
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/todayConsumeInfo/" params:params target:self action:@selector(onPPCGetSuccess:)];
 
-    [self showLoadingActivity:YES];
+//    [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
 
@@ -172,7 +172,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/ppc/" params:params target:self action:@selector(onGetSuccess:)];
     
-    [self showLoadingActivity:YES];
+//    [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
 

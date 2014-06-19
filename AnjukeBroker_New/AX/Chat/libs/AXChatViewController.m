@@ -344,14 +344,12 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     self.menuConfigs = [[NSMutableDictionary alloc] initWithDictionary:self.friendPerson.configs];
     self.isMenuFlag = NO;
     self.isHavPublicMenu = NO;
-//    if ([self isPublicPerson] && self.menuConfigs[@"input_type"] && [self.menuConfigs[@"input_type"] integerValue]  == AXPublicInputTypeNormalAndPublicMenu) {
-//        self.isMenuFlag = YES;
-//    }
-    if ([self isPublicPerson] && self.menuConfigs[@"input_type"] && [self.menuConfigs[@"input_type"] integerValue]  == AXPublicInputTypeNormal) {
+
+    if ([self isPublicPerson] && self.menuConfigs[@"input_type"] && [self.menuConfigs[@"input_type"] integerValue]  == AXPublicInputTypeNormalAndPublicMenu) {
         self.isMenuFlag = YES;
     }
     
-    if ([self isPublicPerson] && self.menuConfigs[@"input_type"] && ([self.menuConfigs[@"input_type"] integerValue]  == AXPublicInputTypeNormal || [self.menuConfigs[@"input_type"] integerValue]  == AXPublicInputTypeNormalAndPublicMenu)) {
+    if ([self isPublicPerson] && self.menuConfigs[@"input_type"] && ([self.menuConfigs[@"input_type"] integerValue]  == AXPublicInputTypePublicMenu || [self.menuConfigs[@"input_type"] integerValue]  == AXPublicInputTypeNormalAndPublicMenu)) {
         self.isHavPublicMenu = YES;
     }
 
@@ -414,7 +412,6 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
                                  action:@selector(sendPressed:)
                        forControlEvents:UIControlEventTouchUpInside];
     } else {
-//        self.messageInputView.textView.frame = CGRectMake(textViewRect.origin.x + 30, textViewRect.origin.y, textViewRect.size.width - 40 -20, textViewRect.size.height);
         self.messageInputView.textView.frame = CGRectMake(textViewRect.origin.x, textViewRect.origin.y, textViewRect.size.width - 1, textViewRect.size.height);
 
         self.messageInputTextViewFrame = self.messageInputView.textView.frame;
@@ -861,7 +858,9 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         self.messageInputView.frame = CGRectMake(0, self.view.frame.size.height, [self windowWidth], self.messageInputView.frame.size.height);
         self.publicMenu.frame = CGRectMake(0, self.view.frame.size.height - 49, [self windowWidth], 49);
     } completion:^(BOOL finished) {
-        nil;
+        [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
+         - self.publicMenu.top - AXNavBarHeight];
+        [self scrollToBottomAnimated:YES];
     }];
 }
 
@@ -942,8 +941,11 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [UIView animateWithDuration:0.2 animations:^{
         self.messageInputView.frame = CGRectMake(0, self.view.frame.size.height-self.messageInputView.frame.size.height, [self windowWidth], self.messageInputView.frame.size.height);
         self.publicMenu.frame = CGRectMake(0, self.view.frame.size.height, [self windowWidth], 49);
+        [self setTableViewInsetsWithBottomValue:self.myTableView.contentInset.bottom];
     } completion:^(BOOL finished) {
-        nil;
+        [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
+         - self.messageInputView.top - AXNavBarHeight];
+        [self scrollToBottomAnimated:YES];
     }];
 }
 
@@ -1893,7 +1895,11 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     if (changeInHeight != 0.0f) {
         [UIView animateWithDuration:0.25f
                          animations:^{
-                             [self setTableViewInsetsWithBottomValue:self.myTableView.contentInset.bottom + changeInHeight];
+                             if (self.publicMenu.frame.origin.y == ScreenHeight - 20 - 44 - 49) {
+//                                 [self setTableViewInsetsWithBottomValue:self.myTableView.contentInset.bottom];
+                             }else{
+                                 [self setTableViewInsetsWithBottomValue:self.myTableView.contentInset.bottom + changeInHeight];
+                             }
                              
                              [self scrollToBottomAnimated:NO];
                              
@@ -1901,12 +1907,22 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
                                  // if shrinking the view, animate text view frame BEFORE input view frame
                                  [self.messageInputView adjustTextViewHeightBy:changeInHeight];
                              }
-                             
                              CGRect inputViewFrame = self.messageInputView.frame;
-                             self.messageInputView.frame = CGRectMake(0.0f,
-                                                                      inputViewFrame.origin.y - changeInHeight,
-                                                                      inputViewFrame.size.width,
-                                                                      inputViewFrame.size.height + changeInHeight);
+
+                             if (self.publicMenu.frame.origin.y == ScreenHeight - 20 -44 - 49) {
+                                 inputViewFrame = self.messageInputView.frame;
+
+                                 self.messageInputView.frame = CGRectMake(0.0f,
+                                                                          ScreenHeight - 20 - 44,
+                                                                          inputViewFrame.size.width,
+                                                                          inputViewFrame.size.height + changeInHeight);
+                             }else{
+                                 inputViewFrame = self.messageInputView.frame;
+                                 self.messageInputView.frame = CGRectMake(0.0f,
+                                                                          inputViewFrame.origin.y - changeInHeight,
+                                                                          inputViewFrame.size.width,
+                                                                          inputViewFrame.size.height + changeInHeight);
+                             }
                              
                              if (!isShrinking) {
                                  // growing the view, animate the text view frame AFTER input view frame
@@ -2134,6 +2150,10 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         }else {
             if (self.isBroker) {
                 //            CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+                
+//                if (self.publicMenu.frame.origin.y == AXWINDOWHEIGHT -AXNavBarHeight -AXStatuBarHeight - 49) {
+//                    return;
+//                }
                 [UIView beginAnimations:nil context:NULL];
                 [UIView setAnimationDuration:0.2f];
                 [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -2280,7 +2300,6 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         [self.messageInputView.textView resignFirstResponder];
         self.messageInputView.textView.editable = NO;
         self.pressSpeek.frame = self.messageInputTextViewFrame;
-        
         [self setTableViewInsetsWithBottomValue:self.view.frame.size.height
          - self.messageInputView.top - AXNavBarHeight];
         self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height

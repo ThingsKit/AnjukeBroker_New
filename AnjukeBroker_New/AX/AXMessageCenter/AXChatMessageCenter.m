@@ -436,7 +436,9 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
         if (dic[@"status"] && [dic[@"status"] isEqualToString:@"OK"]) {
             NSArray *friendList = dic[@"result"];
             if ([friendList count] > 0) {
-                NSArray *friendListFromDataCenter = [self.dataCenter saveFriendListWithPersonArray:friendList[0][@"friends"]];
+                NSArray *arr = [NSArray arrayWithArray:friendList[0][@"friends"]];
+                DLog(@"arr--->>%d/%@",arr.count,arr);
+                NSArray *friendListFromDataCenter = [self.dataCenter saveFriendListWithPersonArray:arr];
                 if (_friendListBlock) {
                     _friendListBlock(friendListFromDataCenter,YES);
                 }
@@ -1101,6 +1103,7 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 
 - (void)fetchFriendList
 {
+//    return;
     if (self.currentPerson == nil || self.currentPerson.phone == nil) {
         return;
     }

@@ -18,4 +18,5 @@
 
 @property(nonatomic, assign) id<AXChatMessagePublicCard3CellDelegate> pcCardCell2Delegate;
 
+- (void)configWithData:(NSDictionary *)data;
 @end

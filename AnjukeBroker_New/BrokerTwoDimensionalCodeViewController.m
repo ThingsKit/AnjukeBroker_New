@@ -139,7 +139,7 @@
     method = @"broker/getinfo/";
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
-    [self showLoadingActivity:YES];
+//    [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
 

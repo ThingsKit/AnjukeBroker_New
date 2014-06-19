@@ -390,7 +390,6 @@
         }
     }
     
-    [self setHomeValue];
     
     if (!self.hasLongLinked) {
         if (![LoginManager getChatID] || [[LoginManager getChatID] isEqualToString:@""] || [LoginManager getChatID] == nil) {

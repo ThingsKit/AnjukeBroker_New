@@ -110,7 +110,7 @@
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/prop/todayConsumeInfo/" params:params target:self action:@selector(onPPCGetSuccess:)];
     
-    [self showLoadingActivity:YES];
+//    [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
 
@@ -159,7 +159,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/prop/ppc/" params:params target:self action:@selector(onGetLogin:)];
-    [self showLoadingActivity:YES];
+//    [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
 
