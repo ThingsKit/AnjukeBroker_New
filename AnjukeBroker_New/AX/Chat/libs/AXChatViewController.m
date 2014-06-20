@@ -61,6 +61,7 @@
 #import "AXPublicMenu.h"
 #import "AXPublicMenuButton.h"
 #import "BrokerLineView.h"
+#import "AXChatMessagePublicCard3Cell.h"
 
 //输入框和发送按钮栏的高度
 static CGFloat const AXInputBackViewHeight = 49;
@@ -1243,7 +1244,14 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypePublicCard),@"content":mappedMessage.content,@"messageSource":messageSource}];
         }
             break;
-            
+        case AXMessageTypePublicCard3:
+        {
+            if (![self.contentValidator checkPublicCard3:mappedMessage.content]) {
+                return nil;
+            }
+            textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypePublicCard3),@"content":mappedMessage.content,@"messageSource":messageSource}];
+        }
+            break;
         case AXMessageTypeSystemTime:
         {
             if (!mappedMessage.sendTime) {
@@ -1448,11 +1456,11 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeSystemTime)]) {
         return 25;
     }else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypePublicCard)]) {
-        NSArray *arr = [[NSArray alloc] initWithArray:[[dic[@"content"] JSONValue] objectForKey:@"articles"]];
-        return (arr.count - 1)*66 + 155;
+        return 290 + 40;
     }
     else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypePublicCard3)]) {
-        return 290 + 40;
+        NSArray *arr = [[NSArray alloc] initWithArray:[[dic[@"content"] JSONValue] objectForKey:@"articles"]];
+        return (arr.count - 1)*66 + 156 + 10;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeSystemForbid)]) {
         return 45;
     } else if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeAddNuckName)]) {
@@ -1512,6 +1520,15 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [UIView setAnimationsEnabled:YES];
 
     return cell;
+}
+
+#pragma mark -- AXChatMessagePublicCard3CellDelegate
+- (void)didOpenPublicCard3:(AXChatMessagePublicCard3Cell *)cell senderInfo:(NSDictionary *)senderInfo{
+    AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
+    webVC.webUrl = senderInfo[@"url"];
+    webVC.webTitle = senderInfo[@"title"];
+    
+    [self.navigationController pushViewController:webVC animated:YES];
 }
 
 #pragma mark - AJKChatMessageTextCell

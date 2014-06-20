@@ -136,7 +136,6 @@
 #pragma -mark UIGurstureDelegate  
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
-//    [NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"] ||
     if (capImageArr.count < 1 ||
         self.disableGestureForBack ||
         [touch.view isKindOfClass:[UIButton class]] ||
@@ -144,7 +143,7 @@
     {
         return NO;
     }
-    return YES;
+    return NO;
 }
 
 

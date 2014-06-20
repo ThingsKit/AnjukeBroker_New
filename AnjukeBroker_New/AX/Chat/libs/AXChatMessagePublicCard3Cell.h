@@ -6,17 +6,17 @@
 //  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
 
-#import "AXChatMessageRootCell.h"
+#import "AXChatBaseCell.h"
 
 @class AXChatMessagePublicCard3Cell;
-@protocol AXChatMessagePublicCard3CellDelegate <NSObject>
+@protocol AXChatMessagePublicCard3CellDelegate <AXChatBaseCellDelegate>
 @optional
-- (void)didOpenPublicCard2:(AXChatMessagePublicCard3Cell *)cell senderInfo:(NSDictionary *)senderInfo;
+- (void)didOpenPublicCard3:(AXChatMessagePublicCard3Cell *)cell senderInfo:(NSDictionary *)senderInfo;
 @end
 
-@interface AXChatMessagePublicCard3Cell : AXChatMessageRootCell
+@interface AXChatMessagePublicCard3Cell : AXChatBaseCell
 
-@property(nonatomic, assign) id<AXChatMessagePublicCard3CellDelegate> pcCardCell2Delegate;
+@property(nonatomic, assign) id<AXChatMessagePublicCard3CellDelegate> pcCardCell3Delegate;
 
 - (void)configWithData:(NSDictionary *)data;
 @end

@@ -21,7 +21,7 @@
     self = [AXChatMessagePublicCellTopButton buttonWithType:UIButtonTypeCustom];
     
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
         _data = dic;
         [self initUI];
     }
@@ -30,23 +30,26 @@
 }
 
 - (void)initUI{
-    self.frame = CGRectMake(0, 0, 290, 156);
+    self.frame = CGRectMake(1, 0, 290, 155);
     BK_WebImageView *img = [[BK_WebImageView alloc] initWithFrame:CGRectMake(10, 10, self.frame.size.width-20, 135)];
     [img setImageUrl:_data[@"img"]];
     [self addSubview:img];
 
-    UIView *titBgView = [[UIView alloc] initWithFrame:CGRectMake(10, self.frame.size.width-20, 95, 50)];
+    UIView *titBgView = [[UIView alloc] initWithFrame:CGRectMake(10, self.frame.size.height-10 - 50, self.frame.size.width - 20, 50)];
     titBgView.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5];
-    [self addSubview:titBgView];
     
     UILabel *tit = [[UILabel alloc] init];
     tit.lineBreakMode = UILineBreakModeWordWrap;
-    tit.numberOfLines = 1;
+    tit.backgroundColor = [UIColor clearColor];
+    tit.numberOfLines = 0;
+    tit.frame = CGRectMake(10, 5, titBgView.frame.size.width-20, 40);
     tit.textColor = [UIColor brokerWhiteColor];
     tit.font = [UIFont ajkH3Font];
+    tit.text = _data[@"title"];
     tit.textAlignment = NSTextAlignmentLeft;
     [titBgView addSubview:tit];
-    
+
+    [self addSubview:titBgView];
     
     CGSize size = [Util_UI sizeOfString:_data[@"title"] maxWidth:self.frame.size.width-20 withFontSize:15];
     if (size.height > 15) {

@@ -37,19 +37,20 @@
 }
 
 - (void)initUI{
-    self.frame = CGRectMake(0, 0, 290, 66);
+    self.frame = CGRectMake(1, 0, 290 - 2, 66);
     
-    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 1)];
+    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(1, 0, self.frame.size.width-2, 1)];
     line.horizontalLine = YES;
     [self addSubview:line];
     
-    UILabel *titLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 13, self.frame.size.width - 80, 40)];
+    UILabel *titLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 13, self.frame.size.width - 90, 40)];
     titLab.backgroundColor = [UIColor clearColor];
     titLab.textColor = [UIColor brokerBlackColor];
     titLab.lineBreakMode = UILineBreakModeWordWrap;
     titLab.numberOfLines = 0;
     titLab.textAlignment = NSTextAlignmentLeft;
     titLab.font = [UIFont ajkH3Font];
+    titLab.text = _data[@"title"];
     [self addSubview:titLab];
     
     BK_WebImageView *img = [[BK_WebImageView alloc] initWithFrame:CGRectMake(self.frame.size.width - 60, 10, 50, 50)];
