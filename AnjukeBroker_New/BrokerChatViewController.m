@@ -284,6 +284,9 @@
     if (self.friendPerson.uid == nil) {
         return;
     }
+    if (self.isHavPublicMenu) {
+        return;
+    }
     if ([[[NSUserDefaults standardUserDefaults] valueForKey:self.friendPerson.uid] isEqualToString:@"1"]) {
         [self didMoreBackView:nil];
     }

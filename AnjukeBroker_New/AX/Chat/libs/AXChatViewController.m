@@ -146,8 +146,6 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 //表情相关
 @property (nonatomic, assign) NSUInteger cursorLocation; //文本输入框光标所在位置
 
-//公众账号菜单
-@property (nonatomic, assign) BOOL isHavPublicMenu; //是否有菜单
 @property (nonatomic, assign) BOOL isMenuFlag; //是否有输入框和菜单开关
 @property (nonatomic, strong) AXPublicMenu * publicMenu;
 @property (nonatomic, strong) AXPublicSubMenu * publicSubMenu;
@@ -2804,19 +2802,6 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         [self.navigationController pushViewController:controller animated:YES];
     }
 }
-
-//- (void)doBack:(id)sender {
-//    [super doBack:sender];
-//    if (self.backType == RTSelectorBackTypeDismiss) {
-//        [self dismissViewControllerAnimated:YES completion:nil];
-//    }
-//    else if (self.backType == RTSelectorBackTypePopBack) {
-//        [self.navigationController popViewControllerAnimated:YES];
-//    }
-//    else if (self.backType == RTSelectorBackTypePopToRoot) {
-//        [self.navigationController popToRootViewControllerAnimated:YES];
-//    }
-//}
 
 -(void)loadMapSiteMessage:(NSDictionary *)mapSiteDic {
 

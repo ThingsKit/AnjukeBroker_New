@@ -65,6 +65,9 @@ static NSString *AXUITEXVIEWEDIT = @"AxuitextviewEdit"; //输入框
 @property (nonatomic, strong) FaceScrollView* emojiScrollView;
 @property (nonatomic, strong) UIButton* emojiBut;
 
+//公众账号菜单
+@property (nonatomic, assign) BOOL isHavPublicMenu; //是否有菜单
+
 - (BOOL)checkUserLogin;
 - (NSString *)checkFriendUid;
 - (void)didClickSystemButton:(AXMessageType)messageType;

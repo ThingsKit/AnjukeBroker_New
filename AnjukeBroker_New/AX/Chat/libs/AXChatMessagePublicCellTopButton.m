@@ -22,7 +22,7 @@
     self = [AXChatMessagePublicCellTopButton buttonWithType:UIButtonTypeCustom];
     
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor whiteColor];
         _data = dic;
         [self initUI];
     }
@@ -65,9 +65,9 @@
     [super setHighlighted:highlighted];
     
     if (highlighted) {
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor brokerBgSelectColor];
     }else{
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor whiteColor];
     }
 }
 
