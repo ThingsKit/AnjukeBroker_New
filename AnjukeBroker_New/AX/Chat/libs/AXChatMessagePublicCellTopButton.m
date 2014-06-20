@@ -9,6 +9,7 @@
 #import "AXChatMessagePublicCellTopButton.h"
 #import "BK_WebImageView.h"
 #import "Util_UI.h"
+#import "UIImage+RTStyle.h"
 
 @interface AXChatMessagePublicCellTopButton ()
 //@property(nonatomic, strong) NSDictionary *data;
@@ -35,9 +36,10 @@
     [img setImageUrl:_data[@"img"]];
     [self addSubview:img];
 
-    UIView *titBgView = [[UIView alloc] initWithFrame:CGRectMake(10, self.frame.size.height -10 - 50, self.frame.size.width - 20, 50)];
-    titBgView.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5];
-    
+
+    UIImageView *titBgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.frame.size.height -10 - 50, self.frame.size.width - 20, 50)];
+    [titBgView setImage:[UIImage createImageWithColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]]];
+   
     UILabel *tit = [[UILabel alloc] init];
     tit.lineBreakMode = UILineBreakModeWordWrap;
     tit.backgroundColor = [UIColor clearColor];
