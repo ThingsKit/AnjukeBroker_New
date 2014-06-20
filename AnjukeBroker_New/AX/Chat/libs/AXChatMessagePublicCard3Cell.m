@@ -16,7 +16,7 @@
 @end
 
 @implementation AXChatMessagePublicCard3Cell
-@synthesize pcCardCell3Delegate;
+@synthesize delegate;
 
 - (UIImageView *)backgoundView{
     if (!_backgoundView) {
@@ -49,18 +49,18 @@
     
     NSInteger subEventCount = arr.count;
     
-    self.backgoundView.frame = CGRectMake(15, 10, ScreenWidth - 15*2, 155 + (subEventCount -1)*66 +2);
+    self.backgoundView.frame = CGRectMake(15, 10, ScreenWidth - 15*2, 156 + (subEventCount -1)*66);
     
     AXChatMessagePublicCellTopButton *topButton = [[AXChatMessagePublicCellTopButton alloc] initWithData:dic[@"articles"][0]];
     topButton.tag = 0;
     [topButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.backgoundView addSubview:topButton];
+    [self addSubview:topButton];
 
     for (int i = 1; i < subEventCount; i++) {
         AXChatMessagePublicCellButton *button = [[AXChatMessagePublicCellButton alloc] initWithData:dic[@"articles"][i]];
-        button.frame = CGRectMake(5, 155+66*(i-1), button.frame.size.width - 10, button.frame.size.height);
+        button.frame = CGRectMake(16, 155 + 10 +66*(i-1), 290 - 2, button.frame.size.height);
         [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-        [self.backgoundView addSubview:button];
+        [self addSubview:button];
     }
 }
 - (void)buttonClick:(id)sender{
@@ -70,8 +70,8 @@
     }else{
         dic = [(AXChatMessagePublicCellButton *)sender data];
     }
-    if (self.pcCardCell3Delegate && [self.pcCardCell3Delegate respondsToSelector:@selector(didOpenPublicCard3:senderInfo:)]) {
-        [self.pcCardCell3Delegate didOpenPublicCard3:self senderInfo:dic];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didOpenPublicCard3:senderInfo:)]) {
+        [self.delegate didOpenPublicCard3:self senderInfo:dic];
     }
 }
 

@@ -28,7 +28,7 @@
 - (instancetype)initWithData:(NSDictionary *)dic{
     self = [AXChatMessagePublicCellButton buttonWithType:UIButtonTypeCustom];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
         _data = dic;
         
         [self initUI];
@@ -37,9 +37,9 @@
 }
 
 - (void)initUI{
-    self.frame = CGRectMake(5, 0, 290 - 10, 66);
+    self.frame = CGRectMake(16, 0, 290 - 2, 66);
     
-    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(1, 0, self.frame.size.width-2, 1)];
+    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 1)];
     line.horizontalLine = YES;
     [self addSubview:line];
     
@@ -63,7 +63,7 @@
     if (highlighted) {
         self.backgroundColor = [UIColor brokerBgSelectColor];
     }else{
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
     }
 }
 

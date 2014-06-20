@@ -16,7 +16,7 @@
 
 @interface AXChatMessagePublicCard3Cell : AXChatBaseCell
 
-@property(nonatomic, assign) id<AXChatMessagePublicCard3CellDelegate> pcCardCell3Delegate;
+@property(nonatomic, assign) id<AXChatMessagePublicCard3CellDelegate> delegate;
 
 - (void)configWithData:(NSDictionary *)data;
 @end
