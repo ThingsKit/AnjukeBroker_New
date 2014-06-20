@@ -31,11 +31,10 @@
 }
 
 - (void)initUI{
-    self.frame = CGRectMake(16, 11, 290, 156);
+    self.frame = CGRectMake(1, 1, 290, 156);
     BK_WebImageView *img = [[BK_WebImageView alloc] initWithFrame:CGRectMake(10, 10, self.frame.size.width-20, 135)];
     [img setImageUrl:_data[@"img"]];
     [self addSubview:img];
-
 
     UIImageView *titBgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.frame.size.height -10 - 50, self.frame.size.width - 20, 50)];
     [titBgView setImage:[UIImage createImageWithColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]]];

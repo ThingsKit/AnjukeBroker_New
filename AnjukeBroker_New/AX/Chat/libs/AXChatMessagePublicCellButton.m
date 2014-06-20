@@ -37,13 +37,13 @@
 }
 
 - (void)initUI{
-    self.frame = CGRectMake(16, 0, 290 - 2, 66);
+    self.frame = CGRectMake(1, 0, 290 - 2, 66);
     
     BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 1)];
     line.horizontalLine = YES;
     [self addSubview:line];
     
-    UILabel *titLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 13, self.frame.size.width - 90, 40)];
+    UILabel *titLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 13, self.frame.size.width - 80, 40)];
     titLab.backgroundColor = [UIColor clearColor];
     titLab.textColor = [UIColor brokerBlackColor];
     titLab.lineBreakMode = UILineBreakModeWordWrap;

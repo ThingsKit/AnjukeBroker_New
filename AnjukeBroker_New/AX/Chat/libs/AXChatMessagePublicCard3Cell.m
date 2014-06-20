@@ -9,6 +9,7 @@
 #import "AXChatMessagePublicCard3Cell.h"
 #import "AXChatMessagePublicCellTopButton.h"
 #import "AXChatMessagePublicCellButton.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface AXChatMessagePublicCard3Cell ()
 @property(nonatomic, strong) UIImageView *backgoundView;
@@ -51,16 +52,21 @@
     
     self.backgoundView.frame = CGRectMake(15, 10, ScreenWidth - 15*2, 156 + (subEventCount -1)*66);
     
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(15, 10, 290, 156 + (subEventCount -1)*66)];
+    view.layer.masksToBounds = YES;
+    view.layer.cornerRadius = 8;
+    [self addSubview:view];
+    
     AXChatMessagePublicCellTopButton *topButton = [[AXChatMessagePublicCellTopButton alloc] initWithData:dic[@"articles"][0]];
     topButton.tag = 0;
     [topButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:topButton];
+    [view addSubview:topButton];
 
     for (int i = 1; i < subEventCount; i++) {
         AXChatMessagePublicCellButton *button = [[AXChatMessagePublicCellButton alloc] initWithData:dic[@"articles"][i]];
-        button.frame = CGRectMake(16, 155 + 10 +66*(i-1), 290 - 2, button.frame.size.height);
+        button.frame = CGRectMake(1, 155 +66*(i-1), 290 - 2, button.frame.size.height);
         [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:button];
+        [view addSubview:button];
     }
 }
 - (void)buttonClick:(id)sender{

@@ -9,6 +9,7 @@
 #import "AXPublicSubMenu.h"
 #import <QuartzCore/QuartzCore.h>
 #import "BrokerLineView.h"
+#import <QuartzCore/QuartzCore.h>
 
 CGFloat const axPublicSubMenuHeight = 45.0f;
 
@@ -29,7 +30,16 @@ CGFloat const axPublicSubMenuHeight = 45.0f;
     
     CGRect rect = CGRectMake(0, 0, 100, 45*menuCount);
     self.frame = rect;
-
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    view.backgroundColor = [UIColor brokerBgPageColor];
+    view.layer.masksToBounds = YES;
+    view.layer.cornerRadius = 4;
+    view.layer.borderWidth = 1;
+    view.layer.borderColor = [UIColor brokerLineColor].CGColor;
+    view.frame = rect;
+    [self addSubview:view];
+    
     CGPoint buttonPoint = CGPointMake(button.center.x, ScreenHeight - 20 -44 - 49 + 45*menuCount/2);
     self.center = buttonPoint;
     
@@ -43,10 +53,6 @@ CGFloat const axPublicSubMenuHeight = 45.0f;
         self.center = buttonPoint;
     }
     
-    self.layer.masksToBounds = NO;
-    self.layer.cornerRadius = 4;
-    self.layer.borderWidth = 1;
-    self.layer.borderColor = [UIColor brokerLineColor].CGColor;
     
     for (int i = 0; i < menuCount; i++) {
         AXPublicMenuButton *btn = [AXPublicMenuButton buttonWithType:UIButtonTypeCustom];
@@ -60,7 +66,7 @@ CGFloat const axPublicSubMenuHeight = 45.0f;
         btn.index = i;
         btn.btnInfo = menus[i];
         btn.titleLabel.font = [UIFont systemFontOfSize:15];
-        [self addSubview:btn];
+        [view addSubview:btn];
     }
     
     for (int i = 0; i < menuCount; i++) {
@@ -68,7 +74,7 @@ CGFloat const axPublicSubMenuHeight = 45.0f;
         }else{
             BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(8, (i+1)*axPublicSubMenuHeight, 84, 1)];
             line.horizontalLine = YES;
-            [self addSubview:line];
+            [view addSubview:line];
         }
     }
 }
