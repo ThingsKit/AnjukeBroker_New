@@ -89,7 +89,7 @@
     [_title sizeToFit];
     
     //偏爱小区
-    CGSize communitySize = [self.customerDetailModel.comm_preference sizeWithFont:_community.font constrainedToSize:CGSizeMake(ScreenWidth - 15*2, 40)];
+    CGSize communitySize = [self.customerDetailModel.comm_preference sizeWithFont:_community.font constrainedToSize:CGSizeMake(ScreenWidth - 15*2, 60)];
 //    NSLog(@"%@", NSStringFromCGSize(communitySize));
     self.customerDetailModel.lineHeight = communitySize.height;
     _community.frame = CGRectMake(15, _title.bottom + GAP_V, communitySize.width, communitySize.height);

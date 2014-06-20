@@ -48,7 +48,7 @@
         cell.customerDetailModel = self.customerDetailModel;
     
         [cell showTopLine];
-        if (self.customerDetailModel.comm_preference && self.customerDetailModel.comm_preference.length > 20) {
+        if (self.customerDetailModel.comm_preference && self.customerDetailModel.lineHeight > 20) {
             [cell showBottonLineWithCellHeight:105];
         }else{
             [cell showBottonLineWithCellHeight:90];

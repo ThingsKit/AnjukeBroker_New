@@ -102,8 +102,8 @@
     NSString* method = @"customer/userdetail/";
     
     if (params == nil) {
-//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"broker_id", @"1", @"is_nocheck", self.device_id, @"device_id", nil];
-        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"234", @"broker_id", @"1", @"is_nocheck", self.device_id, @"device_id", nil];
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"broker_id", self.device_id, @"device_id", nil];
+//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"147468", @"broker_id", @"1", @"is_nocheck", self.device_id, @"device_id", nil];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
     }else{
         
@@ -121,8 +121,8 @@
     NSString* method = @"customer/checkstatus/";
     
     if (params == nil) {
-        //        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"broker_id", @"1", @"is_nocheck", self.device_id, @"device_id", nil];
-        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"234", @"broker_id", @"1", @"is_nocheck", self.device_id, @"device_id", nil];
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"broker_id", self.device_id, @"device_id", nil];
+//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"147468", @"broker_id", self.device_id, @"device_id", nil];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onCheckFinished:)];
     }else{
 
@@ -139,8 +139,8 @@
     NSString* method = @"customer/lock/";
     
     if (params == nil) {
-        //        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"broker_id", @"1", @"is_nocheck", self.device_id, @"device_id", nil];
-        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"234", @"broker_id", @"1", @"is_nocheck", self.device_id, @"device_id", nil];
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"broker_id", self.device_id, @"device_id", nil];
+//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", @"147468", @"broker_id", @"1", @"is_nocheck", self.device_id, @"device_id", nil];
         [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onLockFinished:)];
     }else{
         

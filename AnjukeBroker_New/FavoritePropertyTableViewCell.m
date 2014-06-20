@@ -127,15 +127,15 @@
     //    _location.backgroundColor = [UIColor purpleColor];
     
     //小区
-    _community.frame = CGRectMake(_location.right + GAP_H, _propertyTitle.bottom + GAP_V, 100, 20);
+    _community.frame = CGRectMake(_location.right + GAP_H, _propertyTitle.bottom + GAP_V, 100, 16);
     _community.text = self.favoritePropertyModel.community;
-    [_community sizeToFit];
+//    _community.backgroundColor = [UIColor redColor];
+//    [_community sizeToFit];
     
     //户型
     _houseType.frame = CGRectMake(_propertyIcon.right + 12, _location.bottom + GAP_V, 100, 20);
     _houseType.text = self.favoritePropertyModel.type;
     [_houseType sizeToFit];
-    //    _houseType.backgroundColor = [UIColor grayColor];
     
     //面积
     _area.frame = CGRectMake(_houseType.right + GAP_H, _location.bottom + GAP_V, 100, 20);
