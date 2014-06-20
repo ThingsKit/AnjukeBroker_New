@@ -184,15 +184,15 @@
 #pragma mark 请求可抢房源数 以及 可抢客户数
 - (void)requestPropertyCount{
     NSString* method = @"commission/count/";
-//    NSDictionary* params = @{@"brokerId":[LoginManager getUserID], @"token":[LoginManager getToken]};
-    NSDictionary* params = @{@"brokerId":@"234", @"token":[LoginManager getToken]};
+    NSDictionary* params = @{@"brokerId":[LoginManager getUserID], @"token":[LoginManager getToken]};
+//    NSDictionary* params = @{@"brokerId":@"234", @"token":[LoginManager getToken]};
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onPropertyCountFinished:)];
 }
 
 - (void)requestCustomerCount{
     NSString* method = @"customer/usercount/";
-//    NSDictionary* params = @{@"broker_id":[LoginManager getUserID], @"token":[LoginManager getToken]};
-    NSDictionary* params = @{@"broker_id":@"234", @"token":[LoginManager getToken]};
+    NSDictionary* params = @{@"broker_id":[LoginManager getUserID], @"token":[LoginManager getToken]};
+//    NSDictionary* params = @{@"broker_id":@"234", @"token":[LoginManager getToken]};
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onCustomerCountFinished:)];
 }
 
