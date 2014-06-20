@@ -77,7 +77,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doLogOutEnforce) name:@"MessageCenterUserDidQuit" object:nil];
     
     //监听push
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveLongLinkPush) name:kMessageCenterReceiveNewPush object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveLongLinkPush:) name:kMessageCenterReceiveNewPush object:nil];
     
     self.versionUpdate = [[VersionUpdateManager alloc] init];
     [self.versionUpdate checkVersion:YES];
@@ -330,17 +330,23 @@
     DLog(@"registerNotificationFinish %@", response.content);
 }
 
-- (void)didReceiveLongLinkPush{
+- (void)didReceiveLongLinkPush:(NSNotification*)notification{
     NSLog(@"收到长连接push推送");
-    
-    NSString* type = @"commission";
-    
-    HomeViewController* viewController = (HomeViewController*)[[self.tabController.viewControllers objectAtIndex:0] objectAtIndex:0];
-    
-    if ([@"commission" isEqualToString:type]) {
-        [viewController requestPropertyCount];
-    }else if ([@"customer" isEqualToString:type]){
-        [viewController requestCustomerCount];
+    if (notification.userInfo) {
+        NSDictionary* result = [notification.userInfo objectForKey:@"result"];
+        if (result) {
+            NSString* type = [result objectForKey:@"type"];
+            
+            RTGestureBackNavigationController* navi = (RTGestureBackNavigationController*)self.tabController.viewControllers[0];
+            HomeViewController* viewController = (HomeViewController*)[navi.viewControllers objectAtIndex:0];
+            
+            if ([@"commission" isEqualToString:type]) {
+                [viewController requestPropertyCount];
+            }else if ([@"customer" isEqualToString:type]){
+                [viewController requestCustomerCount];
+            }
+            
+        }
     }
     
 }

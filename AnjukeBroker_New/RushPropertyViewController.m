@@ -144,7 +144,8 @@
                 
                 self.tableView.tableHeaderView = nil;
                 
-                if (properties.count < 20) {
+                NSString* nextPage = [content objectForKey:@"nextPage"];
+                if ([@"0" isEqualToString:nextPage]) {
                     self.tableView.hasMore = NO;
                 }else{
                     self.tableView.hasMore = YES;
@@ -173,7 +174,8 @@
                 
                 self.myTableView.tableHeaderView = nil;
                 
-                if (properties.count < 20) {
+                NSString* nextPage = [content objectForKey:@"nextPage"];
+                if ([@"0" isEqualToString:nextPage]) {
                     self.myTableView.hasMore = NO;
                 }else{
                     self.myTableView.hasMore = YES;

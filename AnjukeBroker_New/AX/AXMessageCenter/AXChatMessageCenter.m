@@ -1457,7 +1457,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 - (void)longLinkDidHasNewPushWithUserType:(AXMessageAPILongLinkUserType)userType userId:(NSString *)userId userInfo:(NSDictionary *)userInfo
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:kMessageCenterReceiveNewPush object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kMessageCenterReceiveNewPush object:nil userInfo:userInfo];
     });
 }
 - (void)postConnectionStatusNotificationWithStatus:(AXMessageCenterStatus)status
