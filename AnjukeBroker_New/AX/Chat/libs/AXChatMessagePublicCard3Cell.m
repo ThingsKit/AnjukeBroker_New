@@ -49,7 +49,7 @@
     
     NSInteger subEventCount = arr.count;
     
-    self.backgoundView.frame = CGRectMake(15, 10, ScreenWidth - 15*2, 155 + (subEventCount -1)*66);
+    self.backgoundView.frame = CGRectMake(15, 10, ScreenWidth - 15*2, 155 + (subEventCount -1)*66 +2);
     
     AXChatMessagePublicCellTopButton *topButton = [[AXChatMessagePublicCellTopButton alloc] initWithData:dic[@"articles"][0]];
     topButton.tag = 0;
@@ -58,7 +58,7 @@
 
     for (int i = 1; i < subEventCount; i++) {
         AXChatMessagePublicCellButton *button = [[AXChatMessagePublicCellButton alloc] initWithData:dic[@"articles"][i]];
-        button.frame = CGRectMake(0, 156+66*(i-1), button.frame.size.width, button.frame.size.height);
+        button.frame = CGRectMake(5, 155+66*(i-1), button.frame.size.width - 10, button.frame.size.height);
         [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.backgoundView addSubview:button];
     }

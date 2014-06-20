@@ -37,7 +37,7 @@
 }
 
 - (void)initUI{
-    self.frame = CGRectMake(1, 0, 290 - 2, 66);
+    self.frame = CGRectMake(5, 0, 290 - 10, 66);
     
     BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(1, 0, self.frame.size.width-2, 1)];
     line.horizontalLine = YES;

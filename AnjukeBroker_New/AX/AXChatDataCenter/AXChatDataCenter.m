@@ -1044,7 +1044,11 @@
         NSDictionary *messageContent = [NSJSONSerialization JSONObjectWithData:[message.content dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:NULL];
         messageTip = messageContent[@"title"];
     }
-    
+    if (messageType == AXMessageTypePublicCard3) {
+        itemType = AXConversationListItemTypeCard;
+        NSDictionary *messageContent = [NSJSONSerialization JSONObjectWithData:[message.content dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:NULL];
+        messageTip = messageContent[@"articles"][0][@"title"];
+    }
     if (shouldUpdateConversationListItem) {
         AXConversationListItem *conversationListItem = [self findConversationListItemWithFriendUID:friendUID];
         if (!conversationListItem) {
