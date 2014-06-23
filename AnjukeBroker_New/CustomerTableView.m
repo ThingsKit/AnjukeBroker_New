@@ -35,18 +35,26 @@
         cell = [[CustomerTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     
-    if (indexPath.row == 0) {
-        [cell showTopLine];
-    }
-    
     CustomerModel* customer = (CustomerModel*)[self.data objectAtIndex:indexPath.row];
     cell.customerModel = customer;
     
-    if (indexPath.row == self.data.count-1) {
+    if (self.data.count == 1) { //如果只有一条数据
+        [cell showTopLine];
         [cell showBottonLineWithCellHeight:84];
-    }else{
-        [cell showBottonLineWithCellHeight:84 andOffsetX:15];
+    }else if(self.data.count > 1){ //如果有两条以上数据
+        
+        if (indexPath.row == 0) {
+            [cell showTopLine];
+            [cell showBottonLineWithCellHeight:84 andOffsetX:15];
+        }else if (indexPath.row == self.data.count-1) {
+            [cell hideTopLine];
+            [cell showBottonLineWithCellHeight:84];
+        }else{
+            [cell hideTopLine];
+            [cell showBottonLineWithCellHeight:84 andOffsetX:15];
+        }
     }
+    
     
     return cell;
 }

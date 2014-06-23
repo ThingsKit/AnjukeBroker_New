@@ -100,9 +100,13 @@
         self.topLine = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, -0.5, 320 - 0, 0.5)];
         [self.contentView addSubview:self.topLine];
     }
-    
+    self.topLine.hidden = NO;
     self.topLine.frame = CGRectMake(0, 0, 320 - 0, 0.5);
     
+}
+
+- (void)hideTopLine {
+    self.topLine.hidden = YES;
 }
 
 - (UIView *)baseCellBackgroundView {
