@@ -34,6 +34,11 @@
     if (cell == nil) {
         cell = [[CustomerTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
+    
+    if (indexPath.row == 0) {
+        [cell showTopLine];
+    }
+    
     CustomerModel* customer = (CustomerModel*)[self.data objectAtIndex:indexPath.row];
     cell.customerModel = customer;
     
