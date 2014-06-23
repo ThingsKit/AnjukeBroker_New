@@ -39,7 +39,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_ONVIE page:POTENTIAL_CLIENT note:nil]; //页面可见
     self.tableView = [[CustomerTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44) style:UITableViewStylePlain];
     [self.view addSubview:_tableView];
     
@@ -62,6 +62,7 @@
     if (self.pageNum > 0) {
         self.pageNum++;
         NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"%d", self.pageNum] forKey:@"page_num"];
+        [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_PULL_LOAD page:POTENTIAL_CLIENT note:nil]; //上拉加载更多
         [self requestList:params];
     }else{
         [self requestList:nil];
@@ -71,12 +72,8 @@
 
 - (void)pullDown:(BaseTableView *)tableView{
     self.tableView.isPullUp = NO;
-//    if (self.tableView.maxId != nil && self.tableView.maxId.length != 0) {
-//        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:self.tableView.maxId forKey:@"maxId"];
-//        [self requestList:params];
-//    }else{
-        [self requestList:nil];
-//    }
+    [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_PULL_REFRESH page:POTENTIAL_CLIENT note:nil]; //下拉刷新
+    [self requestList:nil];
 }
 
 - (void)tableView:(BaseTableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -85,12 +82,17 @@
     CustomerDetailViewController* detail = [[CustomerDetailViewController alloc] init];
     if (self.tableView.data > 0) {
         CustomerModel* customer = [self.tableView.data objectAtIndex:indexPath.row];
+        [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_CLICK_CLIENT page:POTENTIAL_CLIENT note:@{@"clientid":customer.device_id}]; //点击客户
         detail.device_id = customer.device_id;
         [self.navigationController pushViewController:detail animated:YES];
     }
     
 }
 
+- (void)doBack:(id)sender{
+    [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_BACK page:POTENTIAL_CLIENT note:nil]; //点击返回
+    [super doBack:sender];
+}
 
 
 #pragma mark -

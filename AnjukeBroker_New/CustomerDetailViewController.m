@@ -53,6 +53,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_DETAIL_ONVIEW page:POTENTIAL_CLIENT_DETAIL note:nil]; //页面可见
+    
     self.view.backgroundColor = [UIColor brokerBgPageColor];
     
     _tableView = [[CustomerDetailTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 -44 - 70) style:UITableViewStylePlain];
@@ -67,12 +69,17 @@
     
 }
 
+- (void)doBack:(id)sender{
+    [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_DETAIL_BACK page:POTENTIAL_CLIENT_DETAIL note:nil]; //点击返回
+    [super doBack:sender];
+}
+
 
 #pragma mark -
 #pragma mark 按钮处理事件
 - (void)startChat:(UIButton*)button{
     NSLog(@"发起网络强求, 判断是否可以微聊");
-    
+    [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_DETAIL_CHAT page:POTENTIAL_CLIENT_DETAIL note:@{@"clientid":self.tableView.customerDetailModel.device_id}]; //页面可见
     _chatButton.enabled = NO; //锁定按钮
     [self checkStatusRequest:nil];
 

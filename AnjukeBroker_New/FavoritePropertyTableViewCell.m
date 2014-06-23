@@ -110,9 +110,9 @@
     NSString* iconPath = self.favoritePropertyModel.pic;
     if (iconPath != nil && ![@"" isEqualToString:iconPath]) {
         //加载图片
-        [_propertyIcon setImageWithURL:[NSURL URLWithString:iconPath] placeholderImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];
+        [_propertyIcon setImageWithURL:[NSURL URLWithString:iconPath] placeholderImage:[UIImage imageNamed:@"anjuke61_bg4"]];
     }else{
-        _propertyIcon.image = [UIImage imageNamed:@"anjuke_icon_headpic"]; //默认图片
+        _propertyIcon.image = [UIImage imageNamed:@"anjuke61_bg4"]; //默认图片
     }
     
     //房源标题
