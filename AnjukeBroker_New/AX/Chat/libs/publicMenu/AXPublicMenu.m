@@ -33,6 +33,11 @@ CGFloat const axPublicMenuHeight = 49.0f;
     if (inputType == AXPublicInputTypeNormal) {
         return;
     }
+    
+    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 1)];
+    line.horizontalLine = YES;
+    [self addSubview:line];
+    
     float menuWidth;
     float leftX = 0;
     NSInteger menuCount = menus.count;
@@ -57,7 +62,7 @@ CGFloat const axPublicMenuHeight = 49.0f;
     
     for (int i = 0; i < MIN(3, menuCount); i++) {
         AXPublicMenuButton *btn = [AXPublicMenuButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(leftX + menuWidth*i, 0, menuWidth, axPublicMenuHeight);
+        btn.frame = CGRectMake(leftX + menuWidth*i, 1, menuWidth, axPublicMenuHeight-1);
         [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor colorWithHex:0Xf6f6f6 alpha:1.0]] forState:UIControlStateNormal];
         [btn setBackgroundImage:[UIImage createImageWithColor:[UIColor brokerBgSelectColor]] forState:UIControlStateHighlighted];
         btn.btnInfo = [menus objectAtIndex:i];
@@ -75,7 +80,7 @@ CGFloat const axPublicMenuHeight = 49.0f;
         }
         
         UILabel *lab = [[UILabel alloc] init];
-        lab.frame = CGRectMake(menuWidth/2 - size.width/2, 0, size.width, axPublicMenuHeight);
+        lab.frame = CGRectMake(menuWidth/2 - size.width/2, 0, size.width, axPublicMenuHeight-1);
         lab.text = [menus objectAtIndex:i][@"menu_title"];
         lab.textColor = [UIColor brokerBlackColor];
         lab.font = [UIFont ajkH3Font];
