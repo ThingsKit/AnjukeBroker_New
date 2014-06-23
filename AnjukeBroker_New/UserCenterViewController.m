@@ -67,7 +67,7 @@
     [super viewDidLoad];
     [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_ONVIEW page:PERSONAL note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot" ,nil]];
     
-    
+    self.view.backgroundColor = [UIColor brokerBgPageColor];
     [self setTitleViewWithString:@"我的"];
     self.view.backgroundColor = [UIColor brokerBgPageColor];
     if (self.userCenterModel == nil) {
@@ -79,7 +79,7 @@
     self.tableList = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
-    self.tableList.backgroundColor = [UIColor whiteColor];
+    self.tableList.backgroundColor = [UIColor brokerBgPageColor];
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableList.showsVerticalScrollIndicator = NO;
     

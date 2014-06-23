@@ -72,7 +72,7 @@
     self.tableList = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
-    self.tableList.backgroundColor = [UIColor whiteColor];
+    self.tableList.backgroundColor = [UIColor brokerBgPageColor];
     self.tableList.showsVerticalScrollIndicator = NO;
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableList];
@@ -129,10 +129,15 @@
         cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     }
 
-    cell.textLabel.font = [UIFont ajkH2Font];
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
 
+    cell.contentView.backgroundColor = [UIColor whiteColor];
+
     if (indexPath.row == 1) {
+        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(220, 1, 100, MORE_CELL_H - 2)];
+        view.backgroundColor = [UIColor whiteColor];
+        [cell.contentView addSubview:view];
+
         [cell showTopLine];
         [cell showBottonLineWithCellHeight:MORE_CELL_H andOffsetX:15];
         
@@ -152,6 +157,7 @@
         lab.backgroundColor = [UIColor clearColor];
         lab.text = @"消息通知";
         lab.font = [UIFont ajkH2Font];
+        lab.textColor = [UIColor brokerBlackColor];
         [cell.contentView addSubview:lab];
         
         UILabel *detailLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 30, 290, 20)];
@@ -208,6 +214,9 @@
         [cell showBottonLineWithCellHeight:MORE_CELL_H];
         cell.textLabel.text = @"关于移动经纪人";
     }
+    cell.textLabel.textColor = [UIColor brokerBlackColor];
+    cell.textLabel.font = [UIFont ajkH2Font];
+    cell.textLabel.backgroundColor = [UIColor clearColor];
     
     return cell;
 }

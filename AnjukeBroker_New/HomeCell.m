@@ -30,9 +30,13 @@
 - (void)initUI{
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 70)];
+    view.backgroundColor = [UIColor whiteColor];
+    [self.contentView addSubview:view];
+    
     self.cellTit = [[UILabel alloc] initWithFrame:CGRectMake(32, 15, 150, 20)];
     self.cellTit.backgroundColor = [UIColor clearColor];
-    self.cellTit.font = [UIFont ajkH2Font];
+    self.cellTit.font = [UIFont ajkH2Font_B];
     self.cellTit.textColor = [UIColor brokerBlackColor];
     [self.contentView addSubview:self.cellTit];
     

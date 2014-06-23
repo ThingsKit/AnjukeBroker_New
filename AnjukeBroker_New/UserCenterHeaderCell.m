@@ -31,6 +31,10 @@
     self.selectionStyle = UITableViewCellSelectionStyleGray;
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 84)];
+    view.backgroundColor = [UIColor whiteColor];
+    [self.contentView addSubview:view];
+    
     BK_WebImageView * userAvatar = [[BK_WebImageView alloc] initWithFrame:CGRectMake(15, 12, 60, 60)];
     if (![LoginManager getUse_photo_url] || [LoginManager getUse_photo_url].length == 0) {
         [userAvatar setImage:[UIImage imageNamed:@"anjuke_icon_headpic"]];

@@ -23,11 +23,17 @@
 
 - (void)initUI{
     self.selectionStyle = UITableViewCellSelectionStyleGray;
+
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 45)];
+    view.backgroundColor = [UIColor whiteColor];
+    [self.contentView addSubview:view];
 }
 
 - (void)initLabelTitle:(NSString *)title{
     self.textLabel.backgroundColor = [UIColor clearColor];
     self.textLabel.text = title;
+    self.textLabel.textColor = [UIColor brokerBlackColor];
+    self.textLabel.font = [UIFont ajkH2Font];
 }
 
 - (void)showTightIcon{
@@ -41,7 +47,7 @@
     lb.backgroundColor = [UIColor clearColor];
     lb.textColor = [UIColor brokerBlackColor];
     lb.textAlignment = NSTextAlignmentRight;
-    lb.font = [UIFont systemFontOfSize:16];
+    lb.font = [UIFont ajkH2Font];
     lb.text = detailStr;
     [self.contentView addSubview:lb];
 }

@@ -144,7 +144,7 @@
     
     UITableView *tv = [[UITableView alloc] initWithFrame:FRAME_BETWEEN_NAV_TAB style:UITableViewStylePlain];
     self.myTable = tv;
-    tv.backgroundColor = [UIColor whiteColor];
+    tv.backgroundColor = [UIColor brokerBgPageColor];
     tv.delegate = self;
     tv.dataSource = self;
     tv.separatorStyle = UITableViewCellSeparatorStyleNone;
