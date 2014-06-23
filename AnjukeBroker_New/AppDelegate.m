@@ -430,6 +430,8 @@
     //退出登录：1.清空用户数据、2.断开长链接、3.推送API重新call（chatID为0传递）
     [self.loginVC doLogOut];
 //    [self killLongLinkForChat];
+    
+    
     [[AXChatMessageCenter defaultMessageCenter] breakLink];
     [[AccountManager sharedInstance] cleanNotificationForLoginOut]; //退出登录（微聊）时，告之服务端
 }

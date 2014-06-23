@@ -333,10 +333,13 @@
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         
         DLog(@"errorMsg--->>%@",errorMsg);
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-//        [alert show];
         
         self.isLoading = NO;
+        
+        if ([[LoginManager getChatID] isEqualToString:@""] || ![LoginManager getChatID]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请求有误，请重新登录" delegate:self cancelButtonTitle:@"重新登录" otherButtonTitles:nil, nil];
+            [alert show];
+        }
         
         return;
     }
@@ -347,6 +350,7 @@
     if ([LoginManager getChatID].length <=0 || [LoginManager getChatID] == nil) {
         //保存聊天id和聊天token
         NSString *chatID = [[[response content] objectForKey:@"data"] objectForKey:@"chatId"];
+        
         NSString *tokenChat = [[[response content] objectForKey:@"data"] objectForKey:@"tokenChat"];
         NSString *phone = [self.dataDic objectForKey:@"phone"];
         NSString *realName = [self.dataDic objectForKey:@"brokerName"]; //真实姓名保存
@@ -361,6 +365,11 @@
         
         
     }
+    if ([[LoginManager getChatID] isEqualToString:@""] || ![LoginManager getChatID]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"chatID为空，请求有误，请重新登录" delegate:self cancelButtonTitle:@"退出重新登录" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+
     //保存头像
     AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
     self.img = [[IMGDowloaderManager alloc] init];
@@ -413,6 +422,11 @@
     
 }
 
+#pragma mark UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    [[AppDelegate sharedAppDelegate] doLogOut];
+}
+
 - (void)requestForConfigure {
     if (![self isNetworkOkayWithNoInfo]) {
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
@@ -435,8 +449,6 @@
         
         NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         DLog(@"errorMsg--->>%@",errorMsg);
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-//        [alert show];
         
         return;
     }
