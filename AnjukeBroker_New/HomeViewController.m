@@ -548,6 +548,7 @@
 
 #pragma mark -- headerBtnClickDelegate
 - (void)btnClickWithTag:(NSInteger)index{
+    if (index == 0) {
         [[BrokerLogger sharedInstance] logWithActionCode:HOME_ESF page:HOME note:nil]; //点击二手房管理
         
         AnjukeHomeViewController *ajkHomeVC = [[AnjukeHomeViewController alloc] init];
