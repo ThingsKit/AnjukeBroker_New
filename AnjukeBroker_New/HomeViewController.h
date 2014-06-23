@@ -21,6 +21,9 @@
 @property (nonatomic, strong) IMGDowloaderManager *img;
 @property (nonatomic, strong) UITableView *myTable;
 
+@property (nonatomic, assign) NSInteger propertyCount; //可抢房源数
+@property (nonatomic, assign) NSInteger customerCount; //可抢客户数
+
 - (void)requestPropertyCount; //请求可抢房源数
 - (void)requestCustomerCount; //请求可抢客户数
 

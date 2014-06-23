@@ -86,9 +86,6 @@
 @property BOOL isCurrentHZ;
 
 
-@property (nonatomic, assign) NSInteger propertyCount; //可抢房源数
-@property (nonatomic, assign) NSInteger customerCount; //可抢客户数
-
 @end
 
 @implementation HomeViewController
