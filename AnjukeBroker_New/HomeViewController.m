@@ -336,11 +336,6 @@
         
         self.isLoading = NO;
         
-        if ([[LoginManager getChatID] isEqualToString:@""] || ![LoginManager getChatID]) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请求有误，请重新登录" delegate:self cancelButtonTitle:@"重新登录" otherButtonTitles:nil, nil];
-            [alert show];
-        }
-        
         return;
     }
     
