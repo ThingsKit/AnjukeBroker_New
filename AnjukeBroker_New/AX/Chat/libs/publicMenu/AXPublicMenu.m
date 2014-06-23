@@ -85,6 +85,7 @@ CGFloat const axPublicMenuHeight = 49.0f;
         lab.textColor = [UIColor brokerBlackColor];
         lab.font = [UIFont ajkH3Font];
         lab.textAlignment = NSTextAlignmentCenter;
+        lab.backgroundColor = [UIColor clearColor];
         [btn addSubview:lab];
         
         if ([btn.btnInfo[@"menu_type"] integerValue] == AXPublicMenuTypeSubMenu) {

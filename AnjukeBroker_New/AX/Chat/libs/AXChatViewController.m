@@ -390,7 +390,11 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     //加载publicMenus
     if (self.isHavPublicMenu) {
         if (!self.publicMenu) {
-            self.publicMenu = [[AXPublicMenu alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 44- 20 - inputViewHeight , [self windowWidth], 49)];
+            float y = 20;
+            if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
+                y = 0;
+            }
+            self.publicMenu = [[AXPublicMenu alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 44- y - inputViewHeight , [self windowWidth], 49)];
             self.publicMenu.publicMenuDelegate = self;
             [self.publicMenu configPublicMenuView:self.menuConfigs[@"menu_list"] inputType:[self.menuConfigs[@"input_type"] integerValue]];
             //        [self.publicMenu configPublicMenuView:self.menuConfigs[@"menu_list"] inputType:2];
