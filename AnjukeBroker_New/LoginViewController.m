@@ -53,15 +53,14 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - log
-
-- (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:LOGIN_ONVIEW page:LOGIN note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-}
-- (void) sendDisAppearLog
-{
-    [[BrokerLogger sharedInstance] logWithActionCode:APP_LOGIN_004 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
-}
+//#pragma mark - log
+//
+//- (void)sendAppearLog {
+//}
+//- (void) sendDisAppearLog
+//{
+//    [[BrokerLogger sharedInstance] logWithActionCode:APP_LOGIN_004 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+//}
 
 #pragma mark - private method
 - (void)initModel {
@@ -219,11 +218,10 @@
 }
 
 - (void)checkLoginStatus {
-//    [self pushToTab]; //test in Home
-//    return;
-    
     if ([LoginManager isLogin]) {
         [self pushToTab];
+    }else{
+        [[BrokerLogger sharedInstance] logWithActionCode:LOGIN_ONVIEW page:LOGIN note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
 }
 

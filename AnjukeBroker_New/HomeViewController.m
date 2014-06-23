@@ -90,14 +90,6 @@
 
 @implementation HomeViewController
 
-#pragma mark - log
-- (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_001 page:FY_TAB note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-}
-
-- (void)sendDisAppearLog {
-//    [[BrokerLogger sharedInstance] logWithActionCode:AJK_HOME_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -128,8 +120,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[BrokerLogger sharedInstance] logWithActionCode:HOME_ONVIEW page:HOME note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+
     [self initView];
-//    [self initSelectionView];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doRequestInfoAndPPC) name:@"LOGINSUCCESSNOTIFICATION" object:nil];
 }
 
@@ -268,34 +262,6 @@
 }
 
 
-
-#pragma mark - private method
-
-- (void)setHomeValue {
-    //账户自适应
-}
-#pragma mark - SegmentViewDelegate
-- (void)didSelectedIndex:(NSInteger)index {
-//    [self hideSelectionView];
-    switch (index) {
-        case 0:
-        {
-            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_018 note:nil];
-            [self uploadAJKTableData];
-        }
-            break;
-        case 1:
-        {
-            [[BrokerLogger sharedInstance] logWithActionCode:FY_TAB_017 note:nil];
-            [self uploadHZTableData];
-        }
-            break;
-        default:
-            break;
-    }
-
-}
-
 #pragma mark - Request Method
 - (void)doRequest {
     [self doRequestInfoAndPPC];
@@ -306,8 +272,6 @@
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
-    
-//    [[RTRequestProxy sharedInstance] cancelRequestsWithTarget:self];
     
     self.isLoading = YES;
     NSMutableDictionary *params = nil;
@@ -559,18 +523,21 @@
         [self.navigationController pushViewController:rushPropertyVC animated:YES];
     }else if (indexPath.row == 1){
         [[BrokerLogger sharedInstance] logWithActionCode:HOME_POTENTIAL_CLIENT page:HOME note:nil]; //点击抢客户
+
         FindCustomerViewController *findCustomerVC = [[FindCustomerViewController alloc] init];
         [findCustomerVC setHidesBottomBarWhenPushed:YES];
         findCustomerVC.backType = RTSelectorBackTypePopBack;
         [self.navigationController pushViewController:findCustomerVC animated:YES];
     }else if (indexPath.row == 2){
         [[BrokerLogger sharedInstance] logWithActionCode:HOME_SIGNIN page:HOME note:nil]; //点击小区签到
+
         CheckoutCommunityViewController *checkoutCommunityVC = [[CheckoutCommunityViewController alloc] init];
         [checkoutCommunityVC setHidesBottomBarWhenPushed:YES];
         checkoutCommunityVC.backType = RTSelectorBackTypePopBack;
         [self.navigationController pushViewController:checkoutCommunityVC animated:YES];
     }else if (indexPath.row == 3){
-        [[BrokerLogger sharedInstance] logWithActionCode:HOME_DATA page:HOME note:nil]; //点击小区签到
+        [[BrokerLogger sharedInstance] logWithActionCode:HOME_DATA page:HOME note:nil];
+
         WXDataShowViewController *wxDataVC = [[WXDataShowViewController alloc] init];
         [wxDataVC setHidesBottomBarWhenPushed:YES];
         wxDataVC.backType = RTSelectorBackTypePopBack;
@@ -581,20 +548,22 @@
 
 #pragma mark -- headerBtnClickDelegate
 - (void)btnClickWithTag:(NSInteger)index{
-    if (index == 0) {
         [[BrokerLogger sharedInstance] logWithActionCode:HOME_ESF page:HOME note:nil]; //点击二手房管理
+        
         AnjukeHomeViewController *ajkHomeVC = [[AnjukeHomeViewController alloc] init];
         ajkHomeVC.backType = RTSelectorBackTypePopBack;
         [ajkHomeVC setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:ajkHomeVC animated:YES];
     }else if (index == 1){
         [[BrokerLogger sharedInstance] logWithActionCode:HOME_ZF page:HOME note:nil]; //点击租房管理
+        
         HaozuHomeViewController *HaozuHomeVC = [[HaozuHomeViewController alloc] init];
         HaozuHomeVC.backType = RTSelectorBackTypePopBack;
         [HaozuHomeVC setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:HaozuHomeVC animated:YES];
     }else if (index == 2){
         [[BrokerLogger sharedInstance] logWithActionCode:HOME_MARKET page:HOME note:nil]; //点击市场分析
+        
         FindHomeViewController *findHome = [[FindHomeViewController alloc] init];
         findHome.backType = RTSelectorBackTypePopBack;
         [findHome setHidesBottomBarWhenPushed:YES];

@@ -32,6 +32,14 @@
     return self;
 }
 
+- (void)sendAppearLog{
+    [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_INFORMATION_onview page:PERSONAL_INFORMATION note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime] , @"ot" ,nil]];
+}
+- (void)doBack:(id)sender{
+    [super doBack:sender];
+    
+    [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_INFORMATION_BACK page:PERSONAL_INFORMATION note:nil];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -81,7 +89,7 @@
 
 #pragma mark - method
 - (void)goSDX{
-    [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_003 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_INFORMATION_RULE_FLASHMAN page:PERSONAL_INFORMATION note:nil];
     
     CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
     webVC.webTitle = @"闪电侠介绍";

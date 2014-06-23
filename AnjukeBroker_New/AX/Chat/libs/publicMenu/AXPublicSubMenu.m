@@ -87,14 +87,14 @@ CGFloat const axPublicSubMenuHeight = 45.0f;
     }
     //api查询
     if ([btn.btnInfo[@"menu_type"] integerValue] == AXPublicSubMenuTypeAPI) {
-        if (self.publicSubMenuDelegate && [self.publicSubMenuDelegate respondsToSelector:@selector(publicSubMenuWithAPI:)]) {
-            [self.publicSubMenuDelegate publicSubMenuWithAPI:btn.btnInfo[@"action_id"]];
+        if (self.publicSubMenuDelegate && [self.publicSubMenuDelegate respondsToSelector:@selector(publicSubMenuWithAPI:actionStr:)]) {
+            [self.publicSubMenuDelegate publicSubMenuWithAPI:btn actionStr:btn.btnInfo[@"action_id"]];
         }
     }
     //打开webView
     if ([btn.btnInfo[@"menu_type"] integerValue] == AXPublicSubMenuTypeWebView) {
-        if (self.publicSubMenuDelegate && [self.publicSubMenuDelegate respondsToSelector:@selector(publicSubMenuWithURL:)]) {
-            [self.publicSubMenuDelegate publicSubMenuWithURL:btn.btnInfo[@"webview_url"]];
+        if (self.publicSubMenuDelegate && [self.publicSubMenuDelegate respondsToSelector:@selector(publicSubMenuWithURL:webURL:)]) {
+            [self.publicSubMenuDelegate publicSubMenuWithURL:btn webURL:btn.btnInfo[@"webview_url"]];
         }
     }
     return;

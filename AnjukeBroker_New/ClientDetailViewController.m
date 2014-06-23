@@ -259,11 +259,6 @@
     bc.uid = self.person.uid;
     [bc setHidesBottomBarWhenPushed:YES];
     [[[AppDelegate sharedAppDelegate].tabController viewControllers][1] pushViewController:bc animated:NO];
-
-//    BrokerChatViewController *bc = [[BrokerChatViewController alloc] init];
-//    bc.isBroker = YES;
-//    bc.uid = self.person.uid;
-//    [self.navigationController pushViewController:bc animated:YES];
 }
 
 - (void)rightButtonAction:(id)sender {

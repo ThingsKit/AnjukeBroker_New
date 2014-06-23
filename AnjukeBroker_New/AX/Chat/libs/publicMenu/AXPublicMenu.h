@@ -26,8 +26,8 @@ typedef NS_ENUM(NSInteger, AXPublicMenuType) {
 @protocol AXPublicMenuDelegate <NSObject>
 @optional
 - (void)publicMenuShowSubMenu:(AXPublicMenuButton *)button menus:(NSArray *)menus;
-- (void)publicMenuWithAPI:(NSString *)actionStr;
-- (void)publicMenuWithURL:(NSString *)webURL;
+- (void)publicMenuWithAPI:(AXPublicMenuButton *)button actionStr:(NSString *)actionStr;
+- (void)publicMenuWithURL:(AXPublicMenuButton *)button webURL:(NSString *)webURL;
 - (void)publicMenuSwich;
 @end
 

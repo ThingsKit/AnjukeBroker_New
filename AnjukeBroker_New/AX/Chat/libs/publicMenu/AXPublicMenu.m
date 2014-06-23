@@ -75,8 +75,8 @@ CGFloat const axPublicMenuHeight = 49.0f;
 
         CGSize size = [Util_UI sizeOfString:[menus objectAtIndex:i][@"menu_title"] maxWidth:menuWidth withFontSize:15];
         
-        if (size.width >= menuWidth - 9*2) {
-            size.width = menuWidth - 9*2;
+        if (size.width >= menuWidth - 12*2) {
+            size.width = menuWidth - 12*2;
         }
         
         UILabel *lab = [[UILabel alloc] init];
@@ -88,7 +88,7 @@ CGFloat const axPublicMenuHeight = 49.0f;
         [btn addSubview:lab];
         
         if ([btn.btnInfo[@"menu_type"] integerValue] == AXPublicMenuTypeSubMenu) {
-            UIImageView *menuIcon = [[UIImageView alloc] initWithFrame:CGRectMake(menuWidth/2-size.width/2-9, 22, 9, 9)];
+            UIImageView *menuIcon = [[UIImageView alloc] initWithFrame:CGRectMake(menuWidth/2-size.width/2-12, 20, 9, 9)];
             [menuIcon setImage:[UIImage imageNamed:@"broker_wl_gzh_menu"]];
             [btn addSubview:menuIcon];
         }
@@ -110,14 +110,14 @@ CGFloat const axPublicMenuHeight = 49.0f;
     }
     //api查询
     if ([btn.btnInfo[@"menu_type"] integerValue] == AXPublicMenuTypeAPI) {
-        if (self.publicMenuDelegate && [self.publicMenuDelegate respondsToSelector:@selector(publicMenuWithAPI:)]) {
-            [self.publicMenuDelegate publicMenuWithAPI:btn.btnInfo[@"action_id"]];
+        if (self.publicMenuDelegate && [self.publicMenuDelegate respondsToSelector:@selector(publicMenuWithAPI:actionStr:)]) {
+            [self.publicMenuDelegate publicMenuWithAPI:btn actionStr:btn.btnInfo[@"action_id"]];
         }
     }
     //打开webView
     if ([btn.btnInfo[@"menu_type"] integerValue] == AXPublicMenuTypeWebView) {
-        if (self.publicMenuDelegate && [self.publicMenuDelegate respondsToSelector:@selector(publicMenuWithURL:)]) {
-            [self.publicMenuDelegate publicMenuWithURL:btn.btnInfo[@"webview_url"]];
+        if (self.publicMenuDelegate && [self.publicMenuDelegate respondsToSelector:@selector(publicMenuWithURL:webURL:)]) {
+            [self.publicMenuDelegate publicMenuWithURL:btn webURL:btn.btnInfo[@"webview_url"]];
         }
     }
     //打开子菜单

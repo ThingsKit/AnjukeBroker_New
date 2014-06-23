@@ -51,21 +51,9 @@
     }
     return self;
 }
-#pragma mark - log
-//- (void)sendAppearLog {
-//    [[BrokerLogger sharedInstance] logWithActionCode:USER_CENTER_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-//}
 
-//- (void)sendDisAppearLog {
-//    [[BrokerLogger sharedInstance] logWithActionCode:HZ_MORE_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
-//}
 #pragma mark - view
-
 - (void)viewWillAppear:(BOOL)animated{
-    [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_ONVIEW page:PERSONAL note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-
-//    self.navigationController.navigationBarHidden = YES;
-    
     if (self.userCenterModel == nil) {
         [self doRequest];
     }
@@ -77,6 +65,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_ONVIEW page:PERSONAL note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot" ,nil]];
+    
     
     [self setTitleViewWithString:@"我的"];
     self.view.backgroundColor = [UIColor brokerBgPageColor];
@@ -203,6 +193,8 @@
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     }else if (indexPath.row == 3) {
+        [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_CLICK_CLIENT_LIST page:PERSONAL note:nil];
+
         ClientListViewController *clientListVC = [[ClientListViewController alloc] init];
         [clientListVC setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:clientListVC animated:YES];

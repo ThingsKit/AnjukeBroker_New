@@ -30,6 +30,17 @@
     return self;
 }
 
+#pragma mark - log
+- (void)sendAppearLog {
+    [[BrokerLogger sharedInstance] logWithActionCode:WLDATA_ONVIEW page:DATA note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
+- (void)doBack:(id)sender{
+    [super doBack:sender];
+    
+    [[BrokerLogger sharedInstance] logWithActionCode:WLDATA_BACK page:DATA note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
 - (void)wakeFromBackGound:(NSNotification *)notification{
     [self doRequest];
 }

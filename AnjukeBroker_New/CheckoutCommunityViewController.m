@@ -159,7 +159,7 @@
 }
 
 - (void)doBack:(id)sender{
-    [super doBack:nil];
+    [super doBack:sender];
     [[BrokerLogger sharedInstance] logWithActionCode:SIGNIN_LIST_CLICK_BACK page:SIGNIN_LIST note:nil];
     
 }

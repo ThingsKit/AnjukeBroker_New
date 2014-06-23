@@ -594,6 +594,12 @@
             
             DLog(@"isStar--section[%d],row-[%d]", cellIndexPath.section, cellIndexPath.row);
             
+            if (item.isStar) {
+                [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_CANCEL_STORE page:CLIENT_LIST note:nil];
+            }else{
+                [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_STORE page:CLIENT_LIST note:nil];
+            }
+            
             item.isStar = !item.isStar;
             [[AXChatMessageCenter defaultMessageCenter] updatePerson:item];
             [[[cell rightUtilityButtons] objectAtIndex:0] setImage:[self getImageIsStar:!item.isStar] forState:UIControlStateNormal];
@@ -612,6 +618,8 @@
             //delete from database
             [[AXChatMessageCenter defaultMessageCenter] removeFriendBydeleteUid:[NSArray arrayWithObject:item.uid] compeletionBlock:^(BOOL isSuccess){
                 if (isSuccess) {
+                    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_DELETE page:CLIENT_LIST note:nil];
+
                     [self getFriendList];
                     [self hideLoadWithAnimated:YES];
                 }

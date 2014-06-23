@@ -428,6 +428,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 #pragma mark -- 是否为公众账号，显示菜单
 - (BOOL)isPublicPerson{
     if (self.friendPerson.userType == AXPersonTypePublic || self.friendPerson.userType == AXPersonTypeSubscribe) {
+        [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER_ONVIEW page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot" ,nil]];
+        
         return YES;
     }
     
@@ -884,6 +886,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
             self.keyboardControl.hidden = NO;
             self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 49);
             
+            [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
+            
             self.publicSubMenu =[[AXPublicSubMenu alloc] init];
             self.publicSubMenu.publicSubMenuDelegate = self;
             self.publicSubMenu.subMenuindex = button.index;
@@ -901,6 +905,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     }else{
         self.keyboardControl.hidden = NO;
         self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 49);
+
+        [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
         
         self.publicSubMenu =[[AXPublicSubMenu alloc] init];
         self.publicSubMenu.publicSubMenuDelegate = self;
@@ -918,12 +924,15 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     }
 }
 
-- (void)publicMenuWithAPI:(NSString *)actionStr{
+
+- (void)publicMenuWithAPI:(AXPublicMenuButton *)button actionStr:(NSString *)actionStr{
     [self publicEventWithApi:actionStr];
+    [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
 }
-- (void)publicMenuWithURL:(NSString *)webURL{
+- (void)publicMenuWithURL:(AXPublicMenuButton *)button webURL:(NSString *)webURL{
     [self hideSubmenu:^(BOOL isFinished) {
     }];
+    [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
     
     AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
     webVC.webUrl = [NSString stringWithFormat:@"%@?city_id=%@",webURL,[LoginManager getCity_id]];
@@ -949,12 +958,16 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 }
 
 #pragma mark --AXPublicSubMenuDelegate
-- (void)publicSubMenuWithAPI:(NSString *)actionStr{
+- (void)publicSubMenuWithAPI:(AXPublicMenuButton *)button actionStr:(NSString *)actionStr{
+    [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
+
     [self publicEventWithApi:actionStr];
 }
 
-- (void)publicSubMenuWithURL:(NSString *)webURL{
+- (void)publicSubMenuWithURL:(AXPublicMenuButton *)button webURL:(NSString *)webURL{
     [self hideSubmenu:^(BOOL isFinished) {
+        [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
+
         AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
         webVC.webUrl = [NSString stringWithFormat:@"%@?city_id=%@",webURL,[LoginManager getCity_id]];
         [self.navigationController pushViewController:webVC animated:YES];
