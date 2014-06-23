@@ -16,5 +16,6 @@
 
 @property (nonatomic, assign)BOOL     isSayHello;//是否是打招呼页面
 @property (nonatomic, strong)NSString *userNickName;//用户名字
+@property (nonatomic, strong)NSString *deviceID;//设备的id
 
 @end
