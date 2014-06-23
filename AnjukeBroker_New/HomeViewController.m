@@ -552,21 +552,25 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     if (indexPath.row == 0) {
+        [[BrokerLogger sharedInstance] logWithActionCode:HOME_COMMISSION page:HOME note:nil]; //点击抢房源
         RushPropertyViewController *rushPropertyVC = [[RushPropertyViewController alloc] init];
         [rushPropertyVC setHidesBottomBarWhenPushed:YES];
         rushPropertyVC.backType = RTSelectorBackTypePopBack;
         [self.navigationController pushViewController:rushPropertyVC animated:YES];
     }else if (indexPath.row == 1){
+        [[BrokerLogger sharedInstance] logWithActionCode:HOME_POTENTIAL_CLIENT page:HOME note:nil]; //点击抢客户
         FindCustomerViewController *findCustomerVC = [[FindCustomerViewController alloc] init];
         [findCustomerVC setHidesBottomBarWhenPushed:YES];
         findCustomerVC.backType = RTSelectorBackTypePopBack;
         [self.navigationController pushViewController:findCustomerVC animated:YES];
     }else if (indexPath.row == 2){
+        [[BrokerLogger sharedInstance] logWithActionCode:HOME_SIGNIN page:HOME note:nil]; //点击小区签到
         CheckoutCommunityViewController *checkoutCommunityVC = [[CheckoutCommunityViewController alloc] init];
         [checkoutCommunityVC setHidesBottomBarWhenPushed:YES];
         checkoutCommunityVC.backType = RTSelectorBackTypePopBack;
         [self.navigationController pushViewController:checkoutCommunityVC animated:YES];
     }else if (indexPath.row == 3){
+        [[BrokerLogger sharedInstance] logWithActionCode:HOME_DATA page:HOME note:nil]; //点击小区签到
         WXDataShowViewController *wxDataVC = [[WXDataShowViewController alloc] init];
         [wxDataVC setHidesBottomBarWhenPushed:YES];
         wxDataVC.backType = RTSelectorBackTypePopBack;
@@ -578,16 +582,19 @@
 #pragma mark -- headerBtnClickDelegate
 - (void)btnClickWithTag:(NSInteger)index{
     if (index == 0) {
+        [[BrokerLogger sharedInstance] logWithActionCode:HOME_ESF page:HOME note:nil]; //点击二手房管理
         AnjukeHomeViewController *ajkHomeVC = [[AnjukeHomeViewController alloc] init];
         ajkHomeVC.backType = RTSelectorBackTypePopBack;
         [ajkHomeVC setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:ajkHomeVC animated:YES];
     }else if (index == 1){
+        [[BrokerLogger sharedInstance] logWithActionCode:HOME_ZF page:HOME note:nil]; //点击租房管理
         HaozuHomeViewController *HaozuHomeVC = [[HaozuHomeViewController alloc] init];
         HaozuHomeVC.backType = RTSelectorBackTypePopBack;
         [HaozuHomeVC setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:HaozuHomeVC animated:YES];
     }else if (index == 2){
+        [[BrokerLogger sharedInstance] logWithActionCode:HOME_MARKET page:HOME note:nil]; //点击市场分析
         FindHomeViewController *findHome = [[FindHomeViewController alloc] init];
         findHome.backType = RTSelectorBackTypePopBack;
         [findHome setHidesBottomBarWhenPushed:YES];
