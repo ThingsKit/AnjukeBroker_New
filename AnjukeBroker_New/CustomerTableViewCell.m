@@ -158,12 +158,12 @@
 //    _price.backgroundColor = [UIColor redColor];
     
     //浏览房源数
-    _propertyCount.frame = CGRectMake(_userIcon.right + 10, _location.bottom + GAP_V, 100, 20);
+    _propertyCount.frame = CGRectMake(_userIcon.right + 10, 55, 100, 20);
     _propertyCount.text = [NSString stringWithFormat:@"浏览了%@套房源", self.customerModel.view_prop_num];
 //    _propertyCount.backgroundColor = [UIColor yellowColor];
     
     //用户相对于经纪人的状态, 0, 1, 2
-    _userStatus.frame = CGRectMake(ScreenWidth - 72, _location.bottom + GAP_V, 60, 20);
+    _userStatus.frame = CGRectMake(ScreenWidth - 72, 55, 60, 20);
     _userStatus.textAlignment = NSTextAlignmentRight;
 //    _userStatus.text = self.customerModel.status_msg;
     if ([@"0" isEqualToString:self.customerModel.status]) { //可以抢

@@ -61,7 +61,7 @@
     self.tableView.isPullUp = YES;
     if (self.pageNum > 0) {
         self.pageNum++;
-        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:self.pageNum] forKey:@"page_num"];
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"%d", self.pageNum] forKey:@"page_num"];
         [self requestList:params];
     }else{
         [self requestList:nil];
@@ -83,8 +83,9 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     CustomerDetailViewController* detail = [[CustomerDetailViewController alloc] init];
-    if (self.tableView.customerListModel.list.count > 0) {
-        detail.device_id = [[self.tableView.customerListModel.list objectAtIndex:indexPath.row] objectForKey:@"device_id"];
+    if (self.tableView.data > 0) {
+        CustomerModel* customer = [self.tableView.data objectAtIndex:indexPath.row];
+        detail.device_id = customer.device_id;
         [self.navigationController pushViewController:detail animated:YES];
     }
     
