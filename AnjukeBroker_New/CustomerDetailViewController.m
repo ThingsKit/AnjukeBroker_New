@@ -84,6 +84,7 @@
     bc.backType = RTSelectorBackTypePopBack;
     bc.isBroker = YES;
     bc.isSayHello = YES;
+    bc.deviceID = self.tableView.customerDetailModel.device_id;
     bc.userNickName = self.tableView.customerDetailModel.user_name;
     [bc setHidesBottomBarWhenPushed:YES];
     
