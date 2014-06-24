@@ -18,4 +18,9 @@
 @property (nonatomic, strong)NSString *userNickName;//用户名字
 @property (nonatomic, strong)NSString *deviceID;//设备的id
 
+- (void)sayHelloHttpRequest:(NSDictionary *)reponseDict;
+
++ (void)setBrokerSelf:(BrokerChatViewController *)sender;
++ (BrokerChatViewController *)getBrokerSelf;
+
 @end

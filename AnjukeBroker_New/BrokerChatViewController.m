@@ -36,6 +36,16 @@
 @end
 
 @implementation BrokerChatViewController
+static BrokerChatViewController *brokerSender = nil;
++ (void)setBrokerSelf:(BrokerChatViewController *)sender
+{
+    brokerSender = sender;
+}
++ (BrokerChatViewController *)getBrokerSelf
+{
+    return brokerSender;
+}
+
 #pragma mark - log
 - (void)sendAppearLog {
     [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ONVIEW page:CHAT note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
@@ -82,6 +92,7 @@
         self.brokerName = _userNickName;
         [self setTitleViewWithString:_userNickName];
     }
+    [BrokerChatViewController setBrokerSelf:self];
     
 }
 
@@ -451,10 +462,14 @@
     } else
     {
 
-        NSDictionary *houseDict = [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp sayHello:_isSayHello  willSendMessage:self.finishSendMessageBlock];
+        [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp sayHello:_isSayHello  willSendMessage:self.finishSendMessageBlock];
     }
 }
 
+- (void)sayHelloHttpRequest:(NSDictionary *)reponseDict
+{
+
+}
 
 
 #pragma mark - UITableview delegate

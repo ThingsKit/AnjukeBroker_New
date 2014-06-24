@@ -12,6 +12,7 @@
 //#import "MemberUtil.h"
 #import "Reachability.h"
 #import "LoginManager.h"
+#import "BrokerChatViewController.h"
 
 
 //managerCenter manager
@@ -444,13 +445,24 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     {
         NSDictionary *dic = [manager  fetchDataWithReformer:nil];
         NSDictionary *dic2 = [dic[@"data"] objectForKey:@"data"];
-//        if ([[dic2 objectForKey:@"status"] isEqualToString:@"1"])
+        
+        int me = [[[dic2 objectForKey:@"house"] objectForKey:@"msg_id"] intValue];
+        NSNumber *messID = [NSNumber numberWithInt:me];
+        AXMappedMessage *mappedMessage = [self.dataCenter fetchMessageWithIdentifier:_messageIdentify];
+        
+        NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithDictionary:dic];
+        [newDict setValue:_messageIdentify forKeyPath:@"unid"];
+        [[BrokerChatViewController getBrokerSelf] sayHelloHttpRequest:newDict];
+        
+        AXMessageCenterSendMessageStatus sendStatus = AXMessageCenterSendMessageStatusSuccessful;
+        if ([[dic2 objectForKey:@"status"] isEqualToString:@"1"])
         {
-            int me = [[[dic2 objectForKey:@"house"] objectForKey:@"msg_id"] intValue];
-            NSNumber *messID = [NSNumber numberWithInt:me];
-            AXMappedMessage *mappedMessage = [self.dataCenter fetchMessageWithIdentifier:_messageIdentify];
-            [self finishSendMessageWithSendStatus:AXMessageCenterSendMessageStatusSuccessful messageID:messID failOrSuccess:YES message:mappedMessage errorCodeType:AXMessageCenterSendMessageErrorTypeCodeNone];
+            sendStatus = AXMessageCenterSendMessageStatusSuccessful;
+        }else
+        {
+            sendStatus = AXMessageCenterSendMessageStatusFailed;
         }
+        [self finishSendMessageWithSendStatus:sendStatus messageID:messID failOrSuccess:YES message:mappedMessage errorCodeType:AXMessageCenterSendMessageErrorTypeCodeNone];
         
     }
     if ([manager isKindOfClass:[AXMessageCenterReceiveMessageManager class]]) {
