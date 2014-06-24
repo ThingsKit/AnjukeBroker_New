@@ -448,6 +448,7 @@
         }else if([@"3" isEqualToString:errCode]){
             self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
             self.hudText.hidden = YES;
+            self.hudText.text = message;
             self.hubSubText.text = message;
             self.hubSubText.hidden = NO;
             
@@ -461,7 +462,7 @@
         }
     }
     
-    [self.hud hide:YES afterDelay:1]; //显示一段时间后隐藏
+    [self.hud hide:YES afterDelay:2]; //显示一段时间后隐藏
 }
 
 
