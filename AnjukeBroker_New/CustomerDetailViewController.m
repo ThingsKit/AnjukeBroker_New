@@ -210,6 +210,10 @@
                 //抢完了
                 [self setChatButtonRushFail];
             }else if([@"3" isEqualToString:data.status]){
+                //已经锁定
+                [self setChatButtonEnable];
+            }else if([@"4" isEqualToString:data.status]){
+                //人数达到上限
                 [self setChatButtonEnable];
             }
             
@@ -262,6 +266,9 @@
             }else if ([@"3" isEqualToString:status]){
                 //用户被临时锁定, 显示微聊(可以抢), 不再锁定, 直接跳转相应页面
                 [self pushToBrokerChatViewController];
+            }else if ([@"4" isEqualToString:status]){
+                //经纪人每天只能抢3个, 达到上限
+                [self displayHUDWithStatus:@"error" Message:nil ErrCode:@"3"];
             }
             
         }else{ //数据请求失败
@@ -437,12 +444,18 @@
             self.hubSubText.text = @"你太慢了";
             self.hubSubText.hidden = NO;
             
+        }else if([@"3" isEqualToString:errCode]){
+            self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
+            self.hudText.text = message;
+            self.hubSubText.hidden = YES;
+            
         }else{
             self.hudImageView.image = [UIImage imageNamed:@"check_no_wifi"];
             self.hudImageView.contentMode = UIViewContentModeScaleAspectFit;
             self.hudText.text = @"无网络连接";
             self.hubSubText.hidden = YES;
             self.hudText.hidden = NO;
+            
         }
     }
     
