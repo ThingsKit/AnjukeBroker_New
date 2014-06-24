@@ -98,7 +98,14 @@ static BrokerChatViewController *brokerSender = nil;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.friendPerson = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:self.friendPerson.uid];
+    
+    NSString *uid = self.friendPerson.uid;
+    if (_isSayHello)
+    {
+        uid = _deviceID;
+    }
+    
+    self.friendPerson = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:uid];
     [self initNavTitle];
     [self resetLayoutOfKeyboard];
     [self removeStorageLayoutOfKeyboard];
@@ -496,6 +503,10 @@ static BrokerChatViewController *brokerSender = nil;
 #pragma mark - DataSouce Method
 - (NSString *)checkFriendUid
 {
+    if (_isSayHello)
+    {
+        return _deviceID;
+    }
     if (self.uid) {
         return self.uid;
     }
