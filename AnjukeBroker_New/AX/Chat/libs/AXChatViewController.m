@@ -331,9 +331,13 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     
     self.moreBackView = [[UIView alloc] init];
     self.moreBackView.frame = CGRectMake(0, AXWINDOWHEIGHT - AXNavBarHeight - AXStatuBarHeight - AXMoreBackViewHeight, AXWINDOWWHIDTH, AXMoreBackViewHeight);
-    self.moreBackView.backgroundColor = [UIColor axChatBGColor:self.isBroker];
+    self.moreBackView.backgroundColor = [UIColor colorWithHex:0Xf6f6f6 alpha:1.0];
     self.moreBackView.hidden = YES;
     [self.view addSubview:self.moreBackView];
+    
+    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 1)];
+    line.horizontalLine = YES;
+    [self.moreBackView addSubview:line];
     
     CGSize size = self.view.frame.size;
     CGFloat inputViewHeight = 49;

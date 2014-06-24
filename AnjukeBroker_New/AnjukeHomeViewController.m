@@ -61,6 +61,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor brokerBgPageColor];
     
     [self setTitleViewWithString:@"二手房"];
 
@@ -71,11 +72,10 @@
     self.myTable.dataSource = self;
     self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.myTable.tableHeaderView = self.ppcHeadView;
+    self.myTable.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.myTable];
 
 	// Do any additional setup after loading the view.
-    
-//    self.view.backgroundColor = [UIColor yellowColor];
 }
 
 -(void)dealloc{
@@ -269,6 +269,7 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    cell.contentView.backgroundColor = [UIColor whiteColor];
     if (indexPath.row == 0) {
         [cell showTopLineWithOffsetX:15];
         [cell showBottonLineWithCellHeight:66.0f andOffsetX:15];
@@ -292,7 +293,7 @@
     
     //模态弹出小区--万恶的结构变动尼玛
     CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-    controller.backType = RTSelectorBackTypeDismiss;
+    controller.backType = RTSelectorBackTypeNone;
     controller.isFirstShow = YES;
     RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];

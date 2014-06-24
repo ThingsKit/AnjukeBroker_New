@@ -7,6 +7,7 @@
 //
 
 #import "HomeHeaderView.h"
+#import "BrokerLineView.h"
 
 @implementation HomeHeaderView
 @synthesize btnClickDelegate;
@@ -26,8 +27,13 @@
 
 - (void)initUI{
     self.backgroundColor = [UIColor brokerBgPageColor];
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height-10)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height-10.5)];
     view.backgroundColor = [UIColor whiteColor];
+    
+    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 10, self.frame.size.width, 1)];
+    line.horizontalLine = YES;
+    [self addSubview:line];
+
     
     NSArray *titArr = @[@"二手房管理",@"租房管理",@"市场分析"];
     
@@ -55,6 +61,7 @@
         lab.textColor = [UIColor ajkBlackColor];
         [view addSubview:lab];
     }
+    
     [self addSubview:view];
 }
 

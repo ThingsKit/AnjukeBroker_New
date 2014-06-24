@@ -176,7 +176,7 @@
         buttonItem = [UIBarButtonItem getBarButtonItemWithString:title taget:self action:@selector(rightButtonAction:)];
         if (!SYSTEM_VERSION_LESS_THAN(@"7.0")) {
 //            buttonItem.tintColor = SYSTEM_NAVIBAR_COLOR;
-            buttonItem.tintColor = [UIColor brokerBlueGrayColor];
+//            buttonItem.tintColor = [UIColor whiteColor];
         }
         buttonItem.possibleTitles = [NSSet setWithObject:possibleTitle];
         [self.navigationItem setRightBarButtonItem:buttonItem];

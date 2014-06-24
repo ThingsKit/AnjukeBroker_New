@@ -52,23 +52,9 @@
 {
     [super viewDidLoad];
     [self setTitleViewWithString:@"竞价房源"];
-    [self addRightButton:@"新增" andPossibleTitle:nil];
 	// Do any additional setup after loading the view.
 }
 
-//-(void)viewWillAppear:(BOOL)animated{
-//    [super viewWillAppear:animated];
-//    [self reloadData];
-//    [self doRequest];
-//}
-//-(void)reloadData{
-//    if(self.myArray == nil){
-//        self.myArray = [NSMutableArray array];
-//    }else{
-//        [self.myArray removeAllObjects];
-//        [self.myTable reloadData];
-//    }
-//}
 
 -(void)dealloc{
     self.myTable.delegate = nil;
@@ -135,6 +121,8 @@
         return;
     }
     
+    [self addRightButton:@"新增" andPossibleTitle:nil];
+
     if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
         [self.myArray removeAllObjects];
         [self.myTable reloadData];

@@ -49,18 +49,19 @@
     userAvatar.layer.masksToBounds = YES;
     userAvatar.layer.cornerRadius = 5;
     userAvatar.layer.borderWidth = 2.5;
-    userAvatar.layer.borderColor = [UIColor brokerBgPageColor].CGColor;
+    userAvatar.layer.borderColor = [UIColor clearColor].CGColor;
     [self.contentView addSubview:userAvatar];
 
     CGSize size = [Util_UI sizeOfString:[LoginManager getRealName] maxWidth:150 withFontSize:19];
     
-    UILabel * userName = [[UILabel alloc] initWithFrame:CGRectMake(userAvatar.frame.origin.x+userAvatar.frame.size.width + 15, 12, size.width, 20)];
+    UILabel * userName = [[UILabel alloc] initWithFrame:CGRectMake(userAvatar.frame.origin.x+userAvatar.frame.size.width + 10, 12, size.width, 20)];
     userName.backgroundColor = [UIColor clearColor];
     userName.text = [LoginManager getRealName];
     userName.layer.shadowColor = [UIColor brokerWhiteColor].CGColor;
     userName.layer.shadowOffset = CGSizeMake(3, 3);
     userName.font = [UIFont ajkH1Font];
     userName.textColor = [UIColor brokerBlackColor];
+    userName.textAlignment = NSTextAlignmentLeft;
     [self.contentView addSubview:userName];
     
     self.userLevelBtn = [UIButton buttonWithType:UIButtonTypeCustom];

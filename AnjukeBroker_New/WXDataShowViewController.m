@@ -7,6 +7,7 @@
 //
 
 #import "WXDataShowViewController.h"
+#import "BrokerLineView.h"
 
 @interface WXDataShowViewController ()
 
@@ -99,6 +100,10 @@
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 340, [self windowWidth], 200)];
     footView.backgroundColor = [UIColor brokerBgPageColor];
     [self.view addSubview:footView];
+    
+    BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], 1)];
+    line.horizontalLine = YES;
+    [footView addSubview:line];
     
     UILabel *detail1Lab = [[UILabel alloc] initWithFrame:CGRectMake(30, 20, 100, 15)];
     detail1Lab.text = @"累积客户数(个)";

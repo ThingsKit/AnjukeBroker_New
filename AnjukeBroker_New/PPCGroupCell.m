@@ -62,10 +62,10 @@
             statueImg.image = nil;
         }else{
             if([[dic objectForKey:@"fixPlanState"] intValue] == 1){
-                statueImg.frame = CGRectMake(260, 25, 24, 12);
+                statueImg.frame = CGRectMake(260, 27, 30, 13);
                 [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_woking.png"]];
             }else{
-                statueImg.frame = CGRectMake(260, 25, 24, 12);
+                statueImg.frame = CGRectMake(260, 27, 30, 13);
                 [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_stop.png"]];
             }
         }
@@ -80,10 +80,10 @@
         detail.text = [NSString stringWithFormat:@"%@ 房源数:%@套 日限额:%@元", [dic objectForKey:@"fixPlanName"], [dic objectForKey:@"fixPlanPropNum"], [dic objectForKey:@"fixPlanPropCeiling"]];
 
         if([[dic objectForKey:@"fixPlanState"] intValue] == 1){
-            statueImg.frame = CGRectMake(260, 25, 24, 12);
+            statueImg.frame = CGRectMake(260, 27, 30, 13);
             [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_woking.png"]];
         }else{
-            statueImg.frame = CGRectMake(260, 25, 24, 12);
+            statueImg.frame = CGRectMake(260, 27, 30, 13);
             [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_stop.png"]];
         }
     }
@@ -100,10 +100,10 @@
         }
         
         if([[dic objectForKey:@"fixPlanState"] intValue] == 1){
-            statueImg.frame = CGRectMake(260, 25, 24, 12);
+            statueImg.frame = CGRectMake(260, 27, 30, 13);
             [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_woking.png"]];
         }else{
-            statueImg.frame = CGRectMake(260, 25, 24, 12);
+            statueImg.frame = CGRectMake(260, 27, 30, 13);
             [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_stop.png"]];
         }
     }

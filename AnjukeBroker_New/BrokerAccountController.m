@@ -72,7 +72,7 @@
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn addTarget:self action:@selector(goSDX) forControlEvents:UIControlEventTouchUpInside];
     btn.frame = CGRectMake(180, 10, 100, 25);
-    [btn setTitle:@"什么是闪电侠" forState:UIControlStateNormal];
+    [btn setTitle:@"什么是闪电侠?" forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont ajkH4Font];
     [btn setTitleColor:[UIColor brokerBlueColor] forState:UIControlStateNormal];
     [headerView addSubview:btn];
@@ -185,7 +185,7 @@
 
     [cell configureCell:self.dataDic withIndex:indexPath.row];
     if (indexPath.row == 0) {
-        [cell showTopLineWithOffsetX:15];
+        [cell showTopLine];
     }
     if (indexPath.row == 5) {
         [cell showBottonLineWithCellHeight:45];

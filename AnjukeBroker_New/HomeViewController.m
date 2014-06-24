@@ -485,7 +485,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *arr = @[@"抢房源=房东房源,一网打尽",@"抢客户=推荐房源,招揽客户",@"小区签到=刷存在感,让客户找到你",@"微聊数据=数据是成功的秘诀"];
+    NSArray *arr = @[@"抢房源=房东房源，一网打尽",@"抢客户=推荐房源，招揽客户",@"小区签到=刷存在感，让客户找到你",@"微聊数据=数据是成功的秘诀"];
     
     static NSString *cellIdentify = @"cell";
     

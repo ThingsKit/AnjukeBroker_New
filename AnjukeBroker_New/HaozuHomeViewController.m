@@ -58,11 +58,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor brokerBgPageColor];
+    
     [self setTitleViewWithString:@"租房"];
 
-	// Do any additional setup after loading the view.
-    
-    self.view.backgroundColor = [UIColor clearColor];
+	// Do any additional setup after loading the view.    
 }
 -(void)initModel{
     myArray = [NSMutableArray array];
@@ -72,6 +72,7 @@
     self.myTable = [[UITableView alloc] initWithFrame:FRAME_WITH_NAV style:UITableViewStylePlain];
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
+    self.myTable.backgroundColor = [UIColor clearColor];
     self.myTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.myTable.tableHeaderView = self.ppcHeadView;
     [self.view addSubview:myTable];
@@ -248,7 +249,7 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdent = @"RentPPCGroupCell";
-//    tableView.separatorColor = [UIColor lightGrayColor];
+
     RentPPCGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
     if(cell == nil){
         cell = [[NSClassFromString(@"RentPPCGroupCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
@@ -256,6 +257,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
     }
+    cell.contentView.backgroundColor = [UIColor whiteColor];
     if (indexPath.row == 0) {
         [cell showTopLineWithOffsetX:15];
         [cell showBottonLineWithCellHeight:HaozuHomeCellHeight andOffsetX:15];
@@ -279,7 +281,7 @@
     
     //模态弹出小区--万恶的结构变动尼玛
     CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-    controller.backType = RTSelectorBackTypeDismiss;
+    controller.backType = RTSelectorBackTypeNone;
     controller.isFirstShow = YES;
     controller.isHaouzu = YES;
     RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];

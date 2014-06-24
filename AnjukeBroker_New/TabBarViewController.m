@@ -19,7 +19,7 @@
 #import "UserCenterViewController.h"
 #import "HomeViewController.h"
 
-#define tabItemInsertsMake UIEdgeInsetsMake(0, 0, 0, 0)
+#define tabItemInsertsMake UIEdgeInsetsMake(2, 0, -2, 0)
 
 @interface TabBarViewController ()
 @property (nonatomic, strong) UIViewController *page1;
@@ -60,6 +60,7 @@
         RTGestureBackNavigationController *navH = [[RTGestureBackNavigationController alloc] initWithRootViewController:self.page1];
         [self.controllerArrays addObject:navH];
         navH.tabBarItem = [self getTabBarItemWithTitle:@"首页" image:[UIImage imageNamed:@"tab_icon_home_normal"] index:1 selectedImg:[UIImage imageNamed:@"tab_icon_home_select"]];
+        navH.tabBarItem.imageInsets = tabItemInsertsMake;
         
         //微聊
         MessageListViewController *ml = [[MessageListViewController alloc] init];
@@ -68,13 +69,14 @@
         RTGestureBackNavigationController *navMl = [[RTGestureBackNavigationController alloc] initWithRootViewController:ml];
         [self.controllerArrays addObject:navMl];
         navMl.tabBarItem = [self getTabBarItemWithTitle:@"微聊" image:[UIImage imageNamed:@"tab_icon_chat_normal"] index:2 selectedImg:[UIImage imageNamed:@"tab_icon_chat_select"]];
+        navMl.tabBarItem.imageInsets = tabItemInsertsMake;
         self.messageNavController = navMl;
 
         UserCenterViewController *userVC = [[UserCenterViewController alloc] init];
         RTGestureBackNavigationController *userNav = [[RTGestureBackNavigationController alloc] initWithRootViewController:userVC];
         [self.controllerArrays addObject:userNav];
-        userNav.tabBarItem = [self getTabBarItemWithTitle:@"我的" image:[UIImage imageNamed:@"tab_icon_user_normal"] index:5 selectedImg:[UIImage imageNamed:@"tab_icon_user_select"]];
-
+        userNav.tabBarItem = [self getTabBarItemWithTitle:@"我的" image:[UIImage imageNamed:@"tab_icon_user_normal"] index:3 selectedImg:[UIImage imageNamed:@"tab_icon_user_select"]];
+        userNav.tabBarItem.imageInsets = tabItemInsertsMake;
         
         self.viewControllers = self.controllerArrays;
         
