@@ -48,7 +48,7 @@
 -(void)setValueForCellByDictionar:(NSDictionary *) dic{
     self.backView.frame = CGRectMake(10, 0, 320, self.contentView.frame.size.height);
     self.title.text = [dic objectForKey:@"title"];
-    self.title.text = @"中文中温中文中文他咋的张杰打开费拉达斯放大镜看了";
+//    self.title.text = @"中文中温中文中文他咋的张杰打开费拉达斯放大镜看了";
 
     CGSize si = [Util_UI sizeOfString:self.title.text maxWidth:260 withFontSize:15];
     self.title.frame = CGRectMake(5, 13, si.width, si.height);

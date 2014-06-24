@@ -11,6 +11,7 @@
 #import "AXChatDataCenter.h"
 //#import "MemberUtil.h"
 #import "Reachability.h"
+#import "LoginManager.h"
 
 
 //managerCenter manager
@@ -28,6 +29,7 @@
 #import "AXMessageCenterUserGetPublicServiceInfoManager.h"
 #import "AXMessageCenterAddFriendByQRCodeManager.h"
 #import "AXMessageCenterPublicServiceActionEventManager.h"
+#import "AXMessageCenterSendPropManager.h"
 
 //record
 #import "KKAudioComponent.h"
@@ -54,6 +56,8 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 @property (nonatomic, strong) NSDate *currentTime;
 @property (nonatomic, strong) NSTimer *downLoadFailedMessageTimer;
 
+@property (nonatomic, strong) NSString *messageIdentify;
+
 //manager
 @property (nonatomic, strong) AXMessageCenterSendMessageManager *sendMessageManager;
 @property (nonatomic, strong) AXMessageCenterReceiveMessageManager *receiveMessageManager;
@@ -69,6 +73,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 @property (nonatomic, strong) AXMessageCenterUserGetPublicServiceInfoManager *userGetServiceInfo;
 @property (nonatomic, strong) AXMessageCenterAddFriendByQRCodeManager *addFriendByQRCodeManager;
 @property (nonatomic, strong) AXMessageCenterPublicServiceActionEventManager *publickServiiceEventManager;
+@property (nonatomic, strong) AXMessageCenterSendPropManager *sendPropManager;
 
 @property (nonatomic ,strong) void (^fetchedChatList)(NSDictionary *chatList, AXMappedMessage *lastMessage, AXMappedPerson *chattingFriend);
 @property (nonatomic, strong) void (^finishSendMessageBlock)(NSArray *array,AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType);
@@ -239,7 +244,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 
 - (AXMessageCenterPublicServiceActionEventManager *)publickServiiceEventManager
 {
-    if (_publickServiiceEventManager) {
+    if (!_publickServiiceEventManager) {
         _publickServiiceEventManager = [[AXMessageCenterPublicServiceActionEventManager alloc] init];
         _publickServiiceEventManager.delegate = self;
         _publickServiiceEventManager.validator = _publickServiiceEventManager;
@@ -248,6 +253,16 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     return _publickServiiceEventManager;
 }
 
+-(AXMessageCenterSendPropManager *)sendPropManager
+{
+    if (!_sendPropManager) {
+        _sendPropManager = [[AXMessageCenterSendPropManager alloc] init];
+        _sendPropManager.delegate = self;
+        _sendPropManager.validator = _sendPropManager;
+        _sendPropManager.paramSource = _sendPropManager;
+    }
+    return _sendPropManager;
+}
 - (AXMappedPerson *)currentPerson
 {
     if (_currentPerson == nil) {
@@ -425,6 +440,19 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 #pragma mark - API Call back
 - (void)managerCallAPIDidSuccess:(RTAPIBaseManager *)manager
 {
+    if ([manager isKindOfClass:[AXMessageCenterSendPropManager class]])
+    {
+        NSDictionary *dic = [manager  fetchDataWithReformer:nil];
+        NSDictionary *dic2 = [dic[@"data"] objectForKey:@"data"];
+//        if ([[dic2 objectForKey:@"status"] isEqualToString:@"1"])
+        {
+            int me = [[[dic2 objectForKey:@"house"] objectForKey:@"msg_id"] intValue];
+            NSNumber *messID = [NSNumber numberWithInt:me];
+            AXMappedMessage *mappedMessage = [self.dataCenter fetchMessageWithIdentifier:_messageIdentify];
+            [self finishSendMessageWithSendStatus:AXMessageCenterSendMessageStatusSuccessful messageID:messID failOrSuccess:YES message:mappedMessage errorCodeType:AXMessageCenterSendMessageErrorTypeCodeNone];
+        }
+        
+    }
     if ([manager isKindOfClass:[AXMessageCenterReceiveMessageManager class]]) {
         NSDictionary *dic = [manager fetchDataWithReformer:nil];
         [self.dataCenter didReceiveWithMessageDataArray:dic[@"result"]];
@@ -694,7 +722,12 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     self.blockDictionary[dataMessage.identifier] = sendMessageBlock;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"msg_type"] = dataMessage.messageType;
-    params[@"phone"] = self.currentPerson.phone;
+    if (!sayHello)
+    {
+        params[@"phone"] = self.currentPerson.phone;
+    }
+    _messageIdentify = dataMessage.identifier;
+
     params[@"to_uid"] = dataMessage.to;
     params[@"uniqid"] = dataMessage.identifier;
     if ([dataMessage.messageType integerValue] == AXMessageTypePic) {
@@ -705,7 +738,31 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         params[@"body"] = dataMessage.content;
     }
     
-    self.sendMessageManager.apiParams = params;
+    if (sayHello)
+    {
+        
+        [params setValue:@"1" forKey:@"force_send"];
+        
+        NSDictionary *loginResult = [[NSUserDefaults standardUserDefaults] objectForKey:@"anjuke_chat_login_info"];
+        NSDictionary *modelDict = [params mutableCopy];
+        [modelDict setValue:@"1" forKey:@"msg_type"];
+        [modelDict setValue:@"推荐的房源成功，请等待客户联系你" forKey:@"body"];
+        
+        NSMutableDictionary *postDict = [[NSMutableDictionary alloc] initWithCapacity:5];
+        [postDict setValue:dataMessage.to forKey:@"device_id"];
+        [postDict setValue:dataMessage.from forKey:@"broker_id"];
+        [postDict setValue:modelDict forKey:@"model_body" ];
+        [postDict setValue:params forKey:@"house_body"];
+        [postDict setValue:loginResult[@"auth_token"] forKey:@"auth_token"];
+        [postDict setValue:[LoginManager getToken] forKey:@"token"];
+
+        self.sendPropManager.apiParams = postDict;
+        [self.sendPropManager loadData];
+    }else
+    {
+        self.sendMessageManager.apiParams = params;
+    }
+    
     NSMutableDictionary *sendDict = NULL;
     if (sayHello)
     {

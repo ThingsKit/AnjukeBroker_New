@@ -38,7 +38,7 @@ static NSString *AXBTKEYPEOPLE   = @"Axbtkeypeople";    //个人资料
 static NSString *AXUITEXVIEWEDIT = @"AxuitextviewEdit"; //输入框
 
 @interface AXChatViewController : RTViewController <UITextViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, AXChatMessageSystemCellDelegate, ELCImagePickerControllerDelegate, UIImagePickerControllerDelegate>
-
+@property (nonatomic, strong) UITableView *myTableView;
 // 禁止直接修改celldata和identifierData
 @property (nonatomic, strong) NSMutableDictionary *cellDict;
 @property (nonatomic, strong) NSMutableArray *identifierData;

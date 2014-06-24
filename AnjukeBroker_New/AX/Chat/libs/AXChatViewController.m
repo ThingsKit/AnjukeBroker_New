@@ -89,7 +89,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
 @interface AXChatViewController ()<UITableViewDelegate, UITableViewDataSource, OHAttributedLabelDelegate, AXPullToRefreshViewDelegate, UIAlertViewDelegate, AXChatBaseCellDelegate, JSDismissiveTextViewDelegate, MapViewControllerDelegate,AXPublicMenuDelegate,AXPublicSubMenuDelegate>
 
-@property (nonatomic, strong) UITableView *myTableView;
+
 @property (nonatomic, strong) UITableViewCell *selectedCell;
 @property (nonatomic) BOOL isMenuVisible;
 @property (nonatomic) BOOL isFinished;
@@ -564,7 +564,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [pickAJK addTarget:self action:@selector(pickAJK:) forControlEvents:UIControlEventTouchUpInside];
     [self.moreBackView addSubview:pickAJK];
 
-    [_buttonDict setValue:pickIMG forKey:AXBTKEYER];
+    [_buttonDict setValue:pickAJK forKey:AXBTKEYER];
     
     UILabel *ajkLab = [[UILabel alloc] initWithFrame:CGRectMake(177.0f, imgRect.origin.y + imgRect.size.height + 8, imgRect.size.width, 30.0f)];
     ajkLab.backgroundColor = [UIColor clearColor];

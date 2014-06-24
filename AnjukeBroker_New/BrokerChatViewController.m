@@ -452,44 +452,11 @@
     {
 
         NSDictionary *houseDict = [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp sayHello:_isSayHello  willSendMessage:self.finishSendMessageBlock];
-        if (_isSayHello)
-        {
-            [houseDict setValue:@"1" forKey:@"force_send"];
-            [self sendHouseAction:houseDict brokerId:brokerId];
-        }
     }
 }
-- (void)sendHouseMessageHTTP:(RTNetworkResponse *) response
-{
-    
-    
-    DLog(@"response == %@", response);
-    
-}
 
-- (void)sendHouseAction:(NSDictionary *)houseDict brokerId:(NSString *)brokerId
-{
-    [self initButtonInLearnView:YES];
 
-    [[AXChatMessageCenter defaultMessageCenter] addFriendWithStangerPerson:_deviceID];
-    NSDictionary *loginResult = [[NSUserDefaults standardUserDefaults] objectForKey:@"anjuke_chat_login_info"];
-    
-    NSString *method = @"customer/sendprop/";
-    
-    NSDictionary *modelDict = [houseDict mutableCopy];
-    [modelDict setValue:@"1" forKey:@"msg_type"];
-    [modelDict setValue:@"推荐的房源成功，请等待客户联系你" forKey:@"body"];
-    
-    NSMutableDictionary *postDict = [[NSMutableDictionary alloc] initWithCapacity:5];
-    [postDict setValue:_deviceID forKey:@"device_id"];
-    [postDict setValue:brokerId forKey:@"broker_id"];
-    [postDict setValue:modelDict forKey:@"model_body" ];
-    [postDict setValue:houseDict forKey:@"house_body"];
-    [postDict setValue:loginResult[@"auth_token"] forKey:@"auth_token"];
-    [postDict setValue:[LoginManager getToken] forKey:@"token"];
-    
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:postDict target:self action:@selector(sendHouseMessageHTTP:)];
-}
+
 #pragma mark - UITableview delegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
