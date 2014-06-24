@@ -706,10 +706,11 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     }
     
     self.sendMessageManager.apiParams = params;
-    NSDictionary *sendDict = NULL;
+    NSMutableDictionary *sendDict = NULL;
     if (sayHello)
     {
-        sendDict = [self.sendMessageManager loadData:sayHello];
+        sendDict = [NSMutableDictionary dictionaryWithDictionary:params];
+        [sendDict removeObjectForKey:@"phone"];
     }else
     {
         [self.sendMessageManager loadData];

@@ -76,6 +76,13 @@
     // 设置返回btn
     [self initRightBar];
     _isAlloc = YES;
+    
+    if (_isSayHello)
+    {
+        self.brokerName = _userNickName;
+        [self setTitleViewWithString:_userNickName];
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -89,7 +96,7 @@
     if (_isAlloc && _isSayHello)
     {
         [self initLearnView];
-        [self initButtonInLearnView];
+        [self initButtonInLearnView:NO];
     }
     _isAlloc = NO;
 }
@@ -191,7 +198,7 @@
 }
 
 //初始化learnview的bt
-- (void)initButtonInLearnView
+- (void)initButtonInLearnView:(BOOL)needEr
 {
     [super initButtonInLearnView];
     NSDictionary *btDict = self.buttonDict;
@@ -227,6 +234,17 @@
     UIView *v3 = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:v]];
     v3.layer.masksToBounds = YES;
     v3.layer.cornerRadius = radius;
+    
+    if (needEr)
+    {
+        UIButton *erShou = [btDict objectForKey:AXBTKEYER];
+        UIView *v4 = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:v]];
+        v4.layer.masksToBounds = YES;
+        v4.layer.cornerRadius = radius;
+        [erShou addSubview:v4];
+        [getPic addTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+        [getPic addTarget:self action:@selector(learnViewBtAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
     
     [getPic addSubview:v1];
     [takePic addSubview:v2];
@@ -275,7 +293,14 @@
         titleString = [Util_TEXT getChatNameWithPhoneFormat:person.phone];
         
     }
-    [self setTitleViewWithString:titleString];
+    if (_isSayHello)
+    {
+        [self setTitleViewWithString:_userNickName];
+    }else
+    {
+        [self setTitleViewWithString:titleString];
+    }
+    
  }
 
 - (void)initRightBar {
@@ -434,8 +459,9 @@
         }
     }
 }
-- (void)sendHouseMessage:(RTNetworkResponse *) response
+- (void)sendHouseMessageHTTP:(RTNetworkResponse *) response
 {
+    
     
     DLog(@"response == %@", response);
     
@@ -443,6 +469,8 @@
 
 - (void)sendHouseAction:(NSDictionary *)houseDict brokerId:(NSString *)brokerId
 {
+    [self initButtonInLearnView:YES];
+
     [[AXChatMessageCenter defaultMessageCenter] addFriendWithStangerPerson:_deviceID];
     NSDictionary *loginResult = [[NSUserDefaults standardUserDefaults] objectForKey:@"anjuke_chat_login_info"];
     
@@ -460,7 +488,7 @@
     [postDict setValue:loginResult[@"auth_token"] forKey:@"auth_token"];
     [postDict setValue:[LoginManager getToken] forKey:@"token"];
     
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:postDict target:self action:@selector(sendHouseMessage:)];
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:postDict target:self action:@selector(sendHouseMessageHTTP:)];
 }
 #pragma mark - UITableview delegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
