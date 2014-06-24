@@ -83,6 +83,10 @@
         return;
     }
     
+    if(self.navigationController.view.frame.origin.x > 0){ //侧滑的时候禁止push
+        return;
+    }
+
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     CustomerDetailViewController* detail = [[CustomerDetailViewController alloc] init];
