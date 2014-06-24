@@ -8,9 +8,11 @@
 
 #import "WXDataShowViewController.h"
 #import "BrokerLineView.h"
+#import "Util_UI.h"
 
 @interface WXDataShowViewController ()
-
+@property(nonatomic, strong) NSMutableDictionary *clientDic;
+@property(nonatomic, strong) UILabel *unitLab;
 @end
 
 @implementation WXDataShowViewController
@@ -20,6 +22,8 @@
 @synthesize userCenterModel;
 @synthesize timer;
 @synthesize numberLabel;
+@synthesize clientDic;
+@synthesize unitLab;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -83,15 +87,23 @@
         imgView.frame = CGRectMake(97 + k * 28, 160 + j * 45, 14, 35);
         [imgView setImage:[UIImage imageNamed:@"broker_wlsj_nomen"]];
         [self.view addSubview:imgView];
+
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        btn.tag = 1000 + i;
+        btn.frame = CGRectMake(97 + k * 28, 160 + j * 45, 14, 35);
+        btn.backgroundColor = [UIColor clearColor];
+        [btn addTarget:self action:@selector(changeRate:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:btn];
     }
     
-    self.numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 100, 60, 50)];
+    self.numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 100, 100, 50)];
     self.numberLabel.font = [UIFont systemFontOfSize:50];
     self.numberLabel.textColor = [UIColor brokerMiddleGrayColor];
-    self.numberLabel.textAlignment = NSTextAlignmentRight;
+    self.numberLabel.textAlignment = NSTextAlignmentCenter;
+    self.numberLabel.text = @"0";
     [self.view addSubview:self.numberLabel];
     
-    UILabel *unitLab = [[UILabel alloc] initWithFrame:CGRectMake(self.numberLabel.frame.origin.x + self.numberLabel.frame.size.width + 5, self.numberLabel.frame.origin.y + 25, 20, 20)];
+    unitLab = [[UILabel alloc] initWithFrame:CGRectMake(160+20, self.numberLabel.frame.origin.y + 25, 20, 20)];
     unitLab.text = @"%";
     unitLab.font = [UIFont ajkH4Font];
     unitLab.textColor = [UIColor brokerMiddleGrayColor];
@@ -136,6 +148,15 @@
     [footView addSubview:self.totalResponseTime];
 
 }
+
+- (void)changeRate:(id)sender{
+    UIButton *btn = (UIButton *)sender;
+    
+    clientDic[@"replyRate"] = [NSString stringWithFormat:@"%d",(btn.tag - 1000 + 1)*10];
+    self.userCenterModel = [UserCenterModel convertToMappedObject:clientDic];
+    
+    [self performSelector:@selector(showProgress) withObject:nil afterDelay:0.5];
+}
 #pragma mark - Request Method
 - (void)doRequest {
     if (![self isNetworkOkayWithNoInfo]) {
@@ -167,13 +188,13 @@
         return;
     }
     
-    NSDictionary *clientDic = [[NSDictionary alloc] initWithDictionary:[[response content] objectForKey:@"data"]];
+    clientDic = [[NSMutableDictionary alloc] initWithDictionary:[[response content] objectForKey:@"data"]];
     self.userCenterModel = [UserCenterModel convertToMappedObject:clientDic];
     
     if (self.userCenterModel && self.userCenterModel.replyRate) {
         [self performSelector:@selector(showProgress) withObject:nil afterDelay:0.5];
-        self.totalCustomer.text = [[NSString stringWithFormat:@"%@",self.userCenterModel.customNum] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@",self.userCenterModel.customNum];
-        self.totalResponseTime.text = [self.userCenterModel.responseTime floatValue] == 0.0 ? @"-" : [NSString stringWithFormat:@"%.1f",[self.userCenterModel.responseTime floatValue]];
+        self.totalCustomer.text = [NSString stringWithFormat:@"%@",self.userCenterModel.customNum];
+        self.totalResponseTime.text = [NSString stringWithFormat:@"%.1f",[self.userCenterModel.responseTime floatValue]];
     }
     
     self.isLoading = NO;
@@ -187,6 +208,11 @@
         status = @"0";
     }
     
+    if ([self.userCenterModel.replyRate doubleValue] == 0.0 && self.progressView.progress == 0.0) {
+        self.numberLabel.text = @"0";
+        return;
+    }
+    
     
     NSDictionary *dic = [NSDictionary dictionaryWithObject:status forKey:@"status"];
     
@@ -198,21 +224,21 @@
 }
 
 - (void)addProgress:(NSTimer*) time{
-    NSLog(@"%@", time.userInfo);
+    NSLog(@"timeInfo--->>%@", time.userInfo);
     //测试部分数据
-    //    if (self.progressView.progress >= 0.83) {
-    if (self.progressView.progress >= [self.userCenterModel.replyRate doubleValue]*0.01) {
-        [self.timer invalidate];
-        
-        if ([self.userCenterModel.replyRate doubleValue] == 0.0) {
-            self.numberLabel.text = @"-";
+    BOOL status = [[timer.userInfo objectForKey:@"status"] isEqualToString:@"1"] ? YES : NO;
+
+    if (status) {
+        if (self.progressView.progress <= [self.userCenterModel.replyRate doubleValue]*0.01) {
+            [self.timer invalidate];
             return;
         }
-        
-        return;
+    }else{
+        if (self.progressView.progress >= [self.userCenterModel.replyRate doubleValue]*0.01) {
+            [self.timer invalidate];
+            return;
+        }
     }
-    
-    BOOL status = [[timer.userInfo objectForKey:@"status"] isEqualToString:@"1"] ? YES : NO;
     
     float progress = self.progressView.progress/([self.userCenterModel.replyRate doubleValue]*0.01);
     
@@ -243,14 +269,30 @@
             self.progressView.progress = self.progressView.progress + 0.004;
         }
     }
-    self.numberLabel.text = [NSString stringWithFormat:@"%.0f", self.progressView.progress * 100];
+    NSString *str;
+    if (self.progressView.progress == 1.0){
+        str = @"100";
+    }else{
+        str = [NSString stringWithFormat:@"%.0f", self.progressView.progress * 100];
+    }
+    DLog(@"str---->>%@",str);
+    CGSize size = [Util_UI sizeOfString:str maxWidth:100 withFontSize:50];
+    
+    self.numberLabel.text = str;
+    CGRect frame = unitLab.frame;
+    frame.origin.x = 160 + size.width/2;
+    unitLab.frame = frame;
     
     int i = self.progressView.progress*10;
     if (status) {
         if (i == 0) {
             i = 1;
         }
-        UIImageView *img = (UIImageView *)[self.view viewWithTag:i - 1 + 100];
+        DLog(@"minus---->>%d/%d",i,[self.userCenterModel.replyRate integerValue])
+        if ((i+1)*10 == [self.userCenterModel.replyRate integerValue]) {
+            return;
+        }
+        UIImageView *img = (UIImageView *)[self.view viewWithTag:i + 100];
         [img setImage:[UIImage imageNamed:@"broker_wlsj_nomen"]];
     }else{
         if (i == 0) {
