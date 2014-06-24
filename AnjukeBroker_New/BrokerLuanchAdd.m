@@ -16,7 +16,7 @@
 static BrokerLuanchAdd *defaultLaunchAdd;
 
 @implementation BrokerLuanchAdd
-@synthesize timer,launchAddView;
+@synthesize timer,launchAddView,lauchAddDic,lauchConfig;
 
 + (BrokerLuanchAdd *) sharedLuanchAdd{
     @synchronized(self){
@@ -32,21 +32,46 @@ static BrokerLuanchAdd *defaultLaunchAdd;
     }
     return _imgDownloader;
 }
+
+#pragma mark -- apiRequest
 - (void)doRequst{
-    NSString *launchDirectory = [self getLauchImgFile];
-    NSArray *fileList = [self getAllLaunchFileName];
-    
-    NSString *imgPath = nil;
-    if (fileList && fileList.count > 0) {
-        imgPath = [NSString stringWithFormat:@"%@/%@",launchDirectory,fileList.firstObject];
+    self.lauchAddDic = [NSDictionary dictionaryWithContentsOfFile:[self filePath:@"lauchAdd.plist"]];
+    BOOL isNeedCheck = YES;
+    double currentTime = [[NSDate date] timeIntervalSince1970];
+
+    if (self.lauchAddDic) {
+        if (currentTime - [self.lauchAddDic[@"lastRequestTime"] doubleValue] < 24*3600) {
+            isNeedCheck = NO;
+        }else{
+            isNeedCheck = YES;
+        }
+        
+        if (self.lauchAddDic[@"results"]) {
+            if (self.lauchAddDic[@"results"][@"welcome"]) {
+                NSArray *dataArr = [self.lauchAddDic[@"results"][@"welcome"] objectForKey:@"items"];
+                if (dataArr && dataArr.count > 0) {
+                    self.lauchConfig = dataArr[0];
+                    
+                    NSString *launchDirectory = [self getLauchImgFile];
+                    NSString *imgPath = [NSString stringWithFormat:@"%@/%@",launchDirectory,[self strReplace:[dataArr[0] objectForKey:@"image"]]];
+                    UIImage *launchImg = [[UIImage alloc] initWithContentsOfFile:imgPath];
+                    
+                    if (launchImg) {
+                        if (currentTime > [[self.lauchConfig objectForKey:@"begin"] doubleValue] && currentTime < [[self.lauchConfig objectForKey:@"end"] doubleValue]) {
+                            [self showLaunchAdd:launchImg];
+                        }
+                    }
+                }
+            }
+        }
     }
-    UIImage *launchImg = [[UIImage alloc] initWithContentsOfFile:imgPath];
-    if (launchImg) {
-        [self showLaunchAdd:launchImg];
-    }
     
-    [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTAnjukeRESTService4ID methodName:@"setting/client" params:nil target:self action:@selector(onGetFixedInfo:)];
+    if (isNeedCheck) {
+        [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTAnjukeRESTService4ID methodName:@"setting/client" params:nil target:self action:@selector(onGetFixedInfo:)];
+    }
 }
+
+
 -(void)onGetFixedInfo:(RTNetworkResponse *)response{
     if([[response content] count] == 0){
         return ;
@@ -54,7 +79,14 @@ static BrokerLuanchAdd *defaultLaunchAdd;
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         return;
     }
-    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[response content]];
+    NSMutableDictionary *resultFromAPI = [NSMutableDictionary dictionaryWithDictionary:[response content]];
+    double currentTime = [[NSDate date] timeIntervalSince1970];
+    resultFromAPI[@"lastRequestTime"] = @(currentTime);
+    
+    //将配置文件写入lauchAdd.plist
+    NSString *lauchAddFilePath = [self filePath:@"lauchAdd.plist"];
+    [resultFromAPI writeToFile:lauchAddFilePath atomically:YES];
+    
     
     NSString *imgUrl = nil;
     NSArray *itemsArr = [[[resultFromAPI objectForKey:@"results"] objectForKey:@"welcome"] objectForKey:@"items"];
@@ -62,8 +94,6 @@ static BrokerLuanchAdd *defaultLaunchAdd;
         imgUrl = [[[[itemsArr objectAtIndex:0] objectForKey:@"data"] objectAtIndex:0] objectForKey:@"image"];
     }
 
-//    imgUrl = @"http://pic1.ajkimg.com/m/3d401b7f8f426c4742a392fb65d67237/640x1136.jpg";
-    
     NSArray *fileList = [self getAllLaunchFileName];
     if (imgUrl && fileList.count > 0) {
         for (int i = 0; i < fileList.count; i++) {
@@ -73,10 +103,12 @@ static BrokerLuanchAdd *defaultLaunchAdd;
         }
     }
     
-    if (imgUrl) {
+    if (imgUrl)
+    {
         //删除文件
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        if (fileList.count > 0) {
+        if (fileList.count > 0)
+        {
             BOOL deleteSuc = [fileManager removeItemAtPath:[NSString stringWithFormat:@"%@",[fileList objectAtIndex:0]] error:nil];
             if (deleteSuc) {
                 [self fetchImageWithURL:imgUrl saveAtPath:imgUrl];
@@ -134,7 +166,7 @@ static BrokerLuanchAdd *defaultLaunchAdd;
     UIWindow *window = [UIApplication sharedApplication].windows[0];
     [window addSubview:self.launchAddView];
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(hideLaunchAdd:) userInfo:nil repeats:NO];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:[[self.lauchConfig[@"data"] objectForKey:@"duration"] floatValue] target:self selector:@selector(hideLaunchAdd:) userInfo:nil repeats:NO];
 }
 - (void)hideLaunchAdd:(NSTimer *)timer{
     [UIView animateWithDuration:1.0 animations:^{
@@ -145,6 +177,21 @@ static BrokerLuanchAdd *defaultLaunchAdd;
         [self.timer invalidate];
     }];
 }
+#pragma mark -- filePath
+- (NSString *)filePath:(NSString *)fileName {
+    NSArray *myPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *myDocPath = [myPaths objectAtIndex:0];
+    
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if (![fm fileExistsAtPath:[myDocPath stringByAppendingString:@"/lauchAdd"]]) {
+        [fm createDirectoryAtPath:[myDocPath stringByAppendingString:@"/lauchAdd"] withIntermediateDirectories:NO attributes:nil error:nil];
+    }
+    
+    NSString *filePath = [NSString stringWithFormat:@"%@/lauchAdd%@",myDocPath,fileName];
+    DLog(@"file--->>%@",fileName);
+    return filePath;
+}
+
 + (NSInteger)windowWidth {
     return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.width;
 }

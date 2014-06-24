@@ -13,6 +13,9 @@
 @property(nonatomic, strong) NSTimer *timer;
 @property(nonatomic, strong) UIImageView *launchAddView;
 @property(nonatomic, strong) AXIMGDownloader *imgDownloader;
+@property(nonatomic, strong) NSDictionary *lauchAddDic;
+@property(nonatomic, strong) NSDictionary *lauchConfig;
+
 + (BrokerLuanchAdd *) sharedLuanchAdd;
 - (void)doRequst;
 @end
