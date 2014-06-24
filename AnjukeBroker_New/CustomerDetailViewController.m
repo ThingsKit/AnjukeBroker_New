@@ -65,13 +65,18 @@
     self.tableView.hidden = YES;
     self.bottomView.hidden = YES;
     
-    [self userDetailRequest:nil];
+//    [self userDetailRequest:nil];
     
 }
 
 - (void)doBack:(id)sender{
     [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_DETAIL_BACK page:POTENTIAL_CLIENT_DETAIL note:nil]; //点击返回
     [super doBack:sender];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self userDetailRequest:nil];
 }
 
 

@@ -316,6 +316,7 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     AXConversationListItem *item = [self.sessionFetchedResultsController objectAtIndexPath:indexPath];
     AXMappedPerson *persion = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:item.friendUid];
@@ -332,7 +333,6 @@
     [controller setHidesBottomBarWhenPushed:YES];
     [self.navigationController pushViewController:controller animated:YES];
     
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {

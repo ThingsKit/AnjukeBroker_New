@@ -45,7 +45,7 @@
     
     self.tableView.eventDelegate = self;
     
-    [self autoRefresh];
+//    [self autoRefresh];
     
 }
 
@@ -77,6 +77,12 @@
 }
 
 - (void)tableView:(BaseTableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.networkRequesting) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"老板稍等,努力刷新中..." delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     CustomerDetailViewController* detail = [[CustomerDetailViewController alloc] init];
@@ -92,6 +98,11 @@
 - (void)doBack:(id)sender{
     [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_BACK page:POTENTIAL_CLIENT note:nil]; //点击返回
     [super doBack:sender];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self autoRefresh];
 }
 
 
@@ -121,7 +132,6 @@
 #pragma mark - 数据请求完成
 
 - (void)onRequestFinished:(RTNetworkResponse *)response {
-    
     RTNetworkResponseStatus status = response.status;
     
     //如果请求数据成功
