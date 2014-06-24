@@ -676,15 +676,20 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     }
 }
 
-- (void)sendMessage:(AXMappedMessage *)message willSendMessage:(void (^)(NSArray *, AXMessageCenterSendMessageStatus ,AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
+- (NSDictionary *)sendMessage:(AXMappedMessage *)message sayHello:(BOOL)sayHello willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock
 {
+    if(sayHello)
+    {
+        [self.dataCenter willAddFriendWithUid:message.to isSayHello:YES];
+    }
+    
     NSArray *messageList = [self.dataCenter willSendMessage:message];
     AXMappedMessage *dataMessage = [messageList lastObject];
     sendMessageBlock(messageList, AXMessageCenterSendMessageStatusSending,AXMessageCenterSendMessageErrorTypeCodeNone);
     if (![self.sendMessageManager isReachable]) {
         sendMessageBlock(messageList, AXMessageCenterSendMessageStatusFailed, AXMessageCenterSendMessageErrorTypeCodeNone);
         [self.dataCenter didFailSendMessageWithIdentifier:dataMessage.identifier];
-        return ;
+        return NULL;
     }
     self.blockDictionary[dataMessage.identifier] = sendMessageBlock;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -701,7 +706,22 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     }
     
     self.sendMessageManager.apiParams = params;
-    [self.sendMessageManager loadData];
+    NSDictionary *sendDict = NULL;
+    if (sayHello)
+    {
+        sendDict = [self.sendMessageManager loadData:sayHello];
+    }else
+    {
+        [self.sendMessageManager loadData];
+    }
+    
+    return sendDict;
+
+}
+
+- (void)sendMessage:(AXMappedMessage *)message willSendMessage:(void (^)(NSArray *, AXMessageCenterSendMessageStatus ,AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
+{
+    [self sendMessage:message sayHello:NO willSendMessage:sendMessageBlock];
 }
 
 - (void)sendMessageToPublic:(AXMappedMessage *)message willSendMessage:(void (^)(NSArray *, AXMessageCenterSendMessageStatus, AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
@@ -1015,6 +1035,12 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         return nil;
     }
 }
+
+- (void)addFriendWithStangerPerson:(NSString *)deviceID
+{
+    [self.dataCenter willAddFriendWithUid:deviceID isSayHello:YES];
+}
+
 - (void)addFriendWithMyPhone:(AXMappedPerson *)person block:(void (^)(BOOL))addFriendBlock
 {
     _addFriendBlock = addFriendBlock;

@@ -78,6 +78,7 @@
 // add friends
 - (BOOL)isFriendWithFriendUid:(NSString *)friendUid;
 - (void)willAddFriendWithUid:(NSString *)friendUid;
+- (void)willAddFriendWithUid:(NSString *)friendUid isSayHello:(BOOL)isSayHello;
 - (void)didAddFriendWithFriendData:(NSDictionary *)friendData;
 - (NSArray *)friendUidListToAdd;
 - (BOOL)hasFriendPendingForAdd;

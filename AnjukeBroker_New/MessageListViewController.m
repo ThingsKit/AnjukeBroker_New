@@ -83,7 +83,8 @@
 
 - (NSFetchedResultsController *)sessionFetchedResultsController
 {
-    if (!_sessionFetchedResultsController) {
+    if (!_sessionFetchedResultsController)
+    {
         _sessionFetchedResultsController = [[AXChatMessageCenter defaultMessageCenter] conversationListFetchedResultController];
         _sessionFetchedResultsController.delegate = self;
         
@@ -275,8 +276,21 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return self.listDataArray.count; //for test
-    return [[self.sessionFetchedResultsController fetchedObjects] count];
+
+    NSMutableArray *arr = [NSMutableArray arrayWithArray:[_sessionFetchedResultsController fetchedObjects]];
+    for (int i = 0; i < [arr count]; i++)
+    {
+        AXConversationListItem *item = arr[i];
+        NSString *userId = item.friendUid;
+        AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:userId];
+        if (person.isStranger)
+        {
+            [arr removeObjectAtIndex:i];
+        }
+    }
+
+    
+    return [arr count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

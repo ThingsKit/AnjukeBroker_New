@@ -775,15 +775,28 @@
     }
 }
 
-- (void)willAddFriendWithUid:(NSString *)friendUid
+- (void)willAddFriendWithUid:(NSString *)friendUid isSayHello:(BOOL)isSayHello
 {
     AXPerson *person = [self findPersonWithUID:friendUid];
     if (!person) {
         person = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+        if (isSayHello)
+        {
+            person.uid = friendUid;
+        }
+        
     }
     person.isPendingForAdd = [NSNumber numberWithBool:YES];
     person.isPendingForRemove = [NSNumber numberWithBool:NO];
-    [self.managedObjectContext save:NULL];
+    person.isStranger = [NSNumber numberWithBool:isSayHello];
+    NSError *err;
+    [self.managedObjectContext save:&err];
+    
+}
+
+- (void)willAddFriendWithUid:(NSString *)friendUid
+{
+    [self willAddFriendWithUid:friendUid isSayHello:NO];
 }
 
 - (void)didAddFriendWithFriendData:(NSDictionary *)friendData
@@ -952,7 +965,9 @@
     AXPerson *person = nil;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+    
     fetchRequest.entity = entity;
+    //NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"uid = %@", uid];
     NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
     if ([result count] > 0) {
@@ -1222,7 +1237,7 @@
             }
         }
         
-        if (!isExist) {
+        if (!isExist && !friend.isStranger) {
             [self.managedObjectContext deleteObject:friend];
         }
     }

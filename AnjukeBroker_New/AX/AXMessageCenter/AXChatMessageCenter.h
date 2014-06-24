@@ -71,6 +71,7 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 
 #pragma mark - sending Message
 - (void)sendMessage:(AXMappedMessage *)message willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+- (NSDictionary *)sendMessage:(AXMappedMessage *)message sayHello:(BOOL)sayHello willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
 - (void)sendMessageToPublic:(AXMappedMessage *)message willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
 - (void)sendImageToPublic:(AXMappedMessage *)message willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
 - (void)sendVoiceToPublic:(AXMappedMessage *)message willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
@@ -127,6 +128,8 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 - (void)updataUserInformation:(AXMappedPerson *)newInformation compeletionBlock:(void (^)(BOOL))updateUserInfo;
 
 // add firend
+- (void)addFriendWithStangerPerson:(NSString *)deviceID;
+
 - (void)addFriendWithMyPhone:(AXMappedPerson *)person block:(void(^)(BOOL isSuccess))addFriendBlock;
 - (void)addFriendByQRCode:(NSString *)urlString compeletionBlock:(void(^)(AXMappedPerson *broker))addFriendByQRCompeletionBlock;
 - (void)searchBrokerByBrokerPhone:(NSString *)brokerPhone compeletionBlock:(void(^)(AXMappedPerson *brokerInfo,BOOL success))searchBrokerBlock;
