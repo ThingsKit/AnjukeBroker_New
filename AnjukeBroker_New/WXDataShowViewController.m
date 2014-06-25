@@ -237,20 +237,21 @@
 }
 
 - (void)resetLastPerson:(float)progress{
-    int i = 0;
-    if ((progress >= 0.01 && progress < 0.1)
-        || (progress >= 0.11 && progress < 0.2)
-        || (progress >= 0.21 && progress < 0.3)
-        || (progress >= 0.31 && progress < 0.4)
-        || (progress >= 0.41 && progress < 0.5)
-        || (progress >= 0.51 && progress < 0.6)
-        || (progress >= 0.61 && progress < 0.7)
-        || (progress >= 0.71 && progress < 0.8)
-        || (progress >= 0.81 && progress < 0.9)
-        || (progress >= 0.91 && progress < 1.0))
+    if ((progress >= 0.005 && progress < 0.1)
+        || (progress >= 0.105 && progress < 0.2)
+        || (progress >= 0.205 && progress < 0.3)
+        || (progress >= 0.305 && progress < 0.4)
+        || (progress >= 0.405 && progress < 0.5)
+        || (progress >= 0.505 && progress < 0.6)
+        || (progress >= 0.605 && progress < 0.7)
+        || (progress >= 0.705 && progress < 0.8)
+        || (progress >= 0.805 && progress < 0.9)
+        || (progress >= 0.905 && progress < 1.0))
     {
-        i = progress * 10;
-        UIImageView *img = (UIImageView *)[self.view viewWithTag:i + 100];
+        int i = (int)ceilf(progress * 10);
+        DLog(@"i-------->>>%d",i);
+        
+        UIImageView *img = (UIImageView *)[self.view viewWithTag:i - 1 + 100];
         [img setImage:[UIImage imageNamed:@"broker_wlsj_men"]];
     }
 }
@@ -268,9 +269,9 @@
         }
     }else{
         if (self.progressView.progress >= [self.userCenterModel.replyRate doubleValue]*0.01) {
-            [self resetLastPerson:[self.userCenterModel.replyRate doubleValue]*0.01];
             [self.timer invalidate];
             isScrollIng = NO;
+            [self resetLastPerson:[self.userCenterModel.replyRate doubleValue]*0.01];
             return;
         }
     }
@@ -319,21 +320,15 @@
     unitLab.frame = frame;
     
     int i;
-    i = self.progressView.progress*10;
-
+    
+    i = (int)roundf(self.progressView.progress*10);
     if (status) {
         if (i == 0) {
             i = 1;
         }
-        if ((i+1)*10 == [self.userCenterModel.replyRate integerValue]) {
-            return;
-        }
         UIImageView *img = (UIImageView *)[self.view viewWithTag:i + 100];
         [img setImage:[UIImage imageNamed:@"broker_wlsj_nomen"]];
     }else{
-        if (i == 0) {
-            return;
-        }
         UIImageView *img = (UIImageView *)[self.view viewWithTag:i - 1 + 100];
         [img setImage:[UIImage imageNamed:@"broker_wlsj_men"]];
     }
