@@ -87,7 +87,6 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self reloadData];
-    [self doRequest];
     [self doPPCRequest];
 }
 
@@ -148,57 +147,6 @@
         [self.ppcHeadView updatePPCData:[[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"ajkDataDic"]] isAJK:YES];
     }
     
-    [self hideLoadWithAnimated:YES];
-    self.isLoading = NO;
-
-}
-
-#pragma mark - 获取计划管理信息
--(void)doRequest{
-    if (self.isLoading == YES) {
-//        return;
-    }
-   
-    if (![self isNetworkOkayWithNoInfo]) {
-        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
-        return;
-    }
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [LoginManager getCity_id], @"cityId", nil];
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/ppc/" params:params target:self action:@selector(onGetSuccess:)];
-    
-//    [self showLoadingActivity:YES];
-    self.isLoading = YES;
-}
-
-- (void)onGetSuccess:(RTNetworkResponse *)response {
-    DLog(@"------response [%@]", [response content]);
-    
-    if([[response content] count] == 0){
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-        [self showInfo:@"操作失败"];
-        return ;
-    }
-    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-        [alert show];
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-        
-        return;
-    }
-    [self.myArray removeAllObjects];
-    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
-    if([resultFromAPI count] ==  0){
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-
-        return ;
-    }
-    DLog(@"resultFromAPI-->>%@",resultFromAPI);
-    
     NSMutableDictionary *bidPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"bidPlan"]];
     [bidPlan setValue:@"1" forKey:@"type"];
     [self.myArray addObject:bidPlan];
@@ -218,7 +166,6 @@
     [self.myTable reloadData];
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
-
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
