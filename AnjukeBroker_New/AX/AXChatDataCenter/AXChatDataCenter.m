@@ -702,8 +702,45 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
     fetchRequest.entity = entity;
+    
+    NSString *st = [self getStangerUidList];
+    if (st && st.length > 0)
+    {
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:st];
+    }
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"lastUpdateTime" ascending:NO]];
     return [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+}
+
+//获得
+- (NSString *)getStangerUidList
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.entity = entity;
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"uid != %@ AND isPendingForRemove = %@", self.uid, [NSNumber numberWithBool:NO], [NSNumber numberWithBool:YES]];
+    NSArray *fetchedResult = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    
+    NSString *str = @"";
+
+    int i = 0;
+    for (AXPerson *p in fetchedResult)
+    {
+        if (p.isStranger)
+        {
+            if (i == 0) {
+                str = [str stringByAppendingFormat:@"friendUid!='%@'", p.uid];
+            }else
+            {
+                str = [str stringByAppendingFormat:@" AND friendUid!='%@'", p.uid];
+            }
+            i++;
+            
+        }
+    }
+    
+    
+    return str;
 }
 
 - (void)deleteConversationItem:(AXConversationListItem *)conversationItem
@@ -768,7 +805,8 @@
 - (BOOL)isFriendWithFriendUid:(NSString *)friendUid
 {
     AXPerson *person = [self findPersonWithUID:friendUid];
-    if (person && ![person.isPendingForRemove boolValue] && [person.isPendingForAdd integerValue] == 0) {
+    if (person && ![person.isPendingForRemove boolValue] && [person.isPendingForAdd integerValue] == 0)
+    {
         return YES;
     } else {
         return NO;
@@ -780,13 +818,18 @@
     AXPerson *person = [self findPersonWithUID:friendUid];
     if (!person) {
         person = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
-        if (isSayHello)
-        {
-            person.uid = friendUid;
-        }
+        
         
     }
-    person.isPendingForAdd = [NSNumber numberWithBool:YES];
+    if (isSayHello)
+    {
+        person.uid = friendUid;
+        person.isPendingForAdd = [NSNumber numberWithBool:NO];
+    }else
+    {
+        person.isPendingForAdd = [NSNumber numberWithBool:YES];
+    }
+    
     person.isPendingForRemove = [NSNumber numberWithBool:NO];
     person.isStranger = [NSNumber numberWithBool:isSayHello];
     NSError *err;
@@ -967,7 +1010,6 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
     
     fetchRequest.entity = entity;
-    //NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"uid = %@", uid];
     NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
     if ([result count] > 0) {
@@ -985,7 +1027,7 @@
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AXPerson"];
     
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"uid != %@ AND isPendingForRemove = %@", self.uid,[NSNumber numberWithBool:NO]];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"uid != %@ AND isPendingForRemove = %@ AND isStranger != %@", self.uid, [NSNumber numberWithBool:NO], [NSNumber numberWithBool:YES]];
     
     NSSortDescriptor *sectionSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"firstPinYin" ascending:YES];
     NSSortDescriptor *uidSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"uid" ascending:YES];
