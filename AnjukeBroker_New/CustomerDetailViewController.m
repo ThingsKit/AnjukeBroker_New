@@ -96,10 +96,17 @@
     bc.backType = RTSelectorBackTypePopBack;
     bc.isBroker = YES;
     bc.isSayHello = YES;
-    bc.deviceID = self.tableView.customerDetailModel.device_id;
-    bc.userNickName = self.tableView.customerDetailModel.user_name;
-    [bc setHidesBottomBarWhenPushed:YES];
     
+    if ([@"i-ajk" isEqualToString:self.tableView.customerDetailModel.app]) {
+        bc.deviceID = self.tableView.customerDetailModel.udid2;
+    }else if([@"a-ajk" isEqualToString:self.tableView.customerDetailModel.app]){
+        bc.deviceID = [self.tableView.customerDetailModel.i stringByAppendingString:self.tableView.customerDetailModel.macid];
+    }
+    
+    bc.userNickName = self.tableView.customerDetailModel.user_name;
+    
+    
+    [bc setHidesBottomBarWhenPushed:YES];
     [self.navigationController pushViewController:bc animated:YES];
 }
 
@@ -172,7 +179,7 @@
     //如果请求数据成功
     if (status == RTNetworkResponseStatusSuccess) {
         NSDictionary* content = response.content;
-//        NSLog(@"%@", content);
+        NSLog(@"%@", content);
         
         if ([@"ok" isEqualToString:[content objectForKey:@"status"]]) {
             

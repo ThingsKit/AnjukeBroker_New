@@ -10,6 +10,10 @@
 
 @interface CustomerDetailModel : BaseModel
 
+@property (nonatomic, copy) NSString* app;
+@property (nonatomic, copy) NSString* i;
+@property (nonatomic, copy) NSString* macid;
+@property (nonatomic, copy) NSString* udid2;
 @property (nonatomic, copy) NSString* device_id; //设备号
 @property (nonatomic, copy) NSString* user_name; //用户名称
 @property (nonatomic, copy) NSString* user_portrait; //用户头像路径
