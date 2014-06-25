@@ -13,6 +13,7 @@
 @interface WXDataShowViewController ()
 @property(nonatomic, strong) NSMutableDictionary *clientDic;
 @property(nonatomic, strong) UILabel *unitLab;
+@property(nonatomic, assign) BOOL isScrollIng;
 @end
 
 @implementation WXDataShowViewController
@@ -24,6 +25,7 @@
 @synthesize numberLabel;
 @synthesize clientDic;
 @synthesize unitLab;
+@synthesize isScrollIng;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -150,6 +152,9 @@
 }
 
 - (void)changeRate:(id)sender{
+    if (isScrollIng) {
+        return;
+    }
     UIButton *btn = (UIButton *)sender;
     
     clientDic[@"replyRate"] = [NSString stringWithFormat:@"%d",(btn.tag - 1000 + 1)*10];
@@ -193,13 +198,19 @@
     
     if (self.userCenterModel && self.userCenterModel.replyRate) {
         [self performSelector:@selector(showProgress) withObject:nil afterDelay:0.5];
-        self.totalCustomer.text = [NSString stringWithFormat:@"%@",self.userCenterModel.customNum];
+        NSString *str = [NSString stringWithFormat:@"%@",self.userCenterModel.customNum];
+        if (str.length == 0) {
+            str = @"0";
+        }
+        self.totalCustomer.text = str;
         self.totalResponseTime.text = [NSString stringWithFormat:@"%.1f",[self.userCenterModel.responseTime floatValue]];
     }
     
     self.isLoading = NO;
 }
 - (void)showProgress{
+    isScrollIng = YES;
+    
     NSString *status;
     
     if (self.progressView.progress > [self.userCenterModel.replyRate doubleValue]/100) {
@@ -210,6 +221,8 @@
     
     if ([self.userCenterModel.replyRate doubleValue] == 0.0 && self.progressView.progress == 0.0) {
         self.numberLabel.text = @"0";
+        isScrollIng = NO;
+
         return;
     }
     
@@ -223,19 +236,41 @@
                                                  repeats:YES];
 }
 
+- (void)resetLastPerson:(float)progress{
+    int i = 0;
+    if ((progress >= 0.01 && progress < 0.1)
+        || (progress >= 0.11 && progress < 0.2)
+        || (progress >= 0.21 && progress < 0.3)
+        || (progress >= 0.31 && progress < 0.4)
+        || (progress >= 0.41 && progress < 0.5)
+        || (progress >= 0.51 && progress < 0.6)
+        || (progress >= 0.61 && progress < 0.7)
+        || (progress >= 0.71 && progress < 0.8)
+        || (progress >= 0.81 && progress < 0.9)
+        || (progress >= 0.91 && progress < 1.0))
+    {
+        i = progress * 10;
+        UIImageView *img = (UIImageView *)[self.view viewWithTag:i + 100];
+        [img setImage:[UIImage imageNamed:@"broker_wlsj_men"]];
+    }
+}
+
 - (void)addProgress:(NSTimer*) time{
-    NSLog(@"timeInfo--->>%@", time.userInfo);
     //测试部分数据
     BOOL status = [[timer.userInfo objectForKey:@"status"] isEqualToString:@"1"] ? YES : NO;
 
     if (status) {
         if (self.progressView.progress <= [self.userCenterModel.replyRate doubleValue]*0.01) {
             [self.timer invalidate];
+            isScrollIng = NO;
+            [self resetLastPerson:[self.userCenterModel.replyRate doubleValue]*0.01];
             return;
         }
     }else{
         if (self.progressView.progress >= [self.userCenterModel.replyRate doubleValue]*0.01) {
+            [self resetLastPerson:[self.userCenterModel.replyRate doubleValue]*0.01];
             [self.timer invalidate];
+            isScrollIng = NO;
             return;
         }
     }
@@ -283,12 +318,13 @@
     frame.origin.x = 160 + size.width/2;
     unitLab.frame = frame;
     
-    int i = self.progressView.progress*10;
+    int i;
+    i = self.progressView.progress*10;
+
     if (status) {
         if (i == 0) {
             i = 1;
         }
-        DLog(@"minus---->>%d/%d",i,[self.userCenterModel.replyRate integerValue])
         if ((i+1)*10 == [self.userCenterModel.replyRate integerValue]) {
             return;
         }

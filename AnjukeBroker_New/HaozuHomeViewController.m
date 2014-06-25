@@ -121,7 +121,6 @@
     if([[response content] count] == 0){
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        [self showInfo:@"请求失败"];
         return ;
     }
     

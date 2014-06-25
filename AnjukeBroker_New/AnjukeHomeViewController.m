@@ -109,9 +109,6 @@
 
 #pragma mark - 获取计划管理信息
 -(void)doPPCRequest{
-    if (self.isLoading == YES) {
-        //        return;
-    }
     if (![self isNetworkOkayWithNoInfo]) {
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
@@ -121,7 +118,6 @@
 
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/prop/todayConsumeInfo/" params:params target:self action:@selector(onPPCGetSuccess:)];
 
-//    [self showLoadingActivity:YES];
     self.isLoading = YES;
 }
 
@@ -131,7 +127,6 @@
     if([[response content] count] == 0){
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        [self showInfo:@"请求失败"];
         return ;
     }
 
