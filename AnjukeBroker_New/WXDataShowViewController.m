@@ -254,6 +254,11 @@
         UIImageView *img = (UIImageView *)[self.view viewWithTag:i - 1 + 100];
         [img setImage:[UIImage imageNamed:@"broker_wlsj_men"]];
     }
+    
+    if(progress == 0.0){
+        UIImageView *img = (UIImageView *)[self.view viewWithTag:1 - 1 + 100];
+        [img setImage:[UIImage imageNamed:@"broker_wlsj_nomen"]];
+    }
 }
 
 - (void)addProgress:(NSTimer*) time{

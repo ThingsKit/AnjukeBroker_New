@@ -42,7 +42,6 @@
     else
         hud.yOffset = -40;
     
-    [win addSubview:hud];
     [hud hide:YES afterDelay:2];
 }
 
