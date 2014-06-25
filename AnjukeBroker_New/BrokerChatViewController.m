@@ -469,13 +469,20 @@ static BrokerChatViewController *brokerSender = nil;
     } else
     {
 
-        [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp sayHello:_isSayHello  willSendMessage:self.finishSendMessageBlock];
+        [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp sayHello:_isSayHello willSendProp:_willSendProp willSendMessage:self.finishSendMessageBlock];
     }
 }
 
 - (void)sayHelloHttpRequest:(NSDictionary *)reponseDict
 {
-
+    NSDictionary *dic2 = reponseDict[@"data"];
+    NSString *unid = reponseDict[@"unid"];
+    NSString *status = dic2[@"status"];
+    if (![status isEqualToString:@"1"])
+    {
+        [[AXChatMessageCenter defaultMessageCenter] deleteMessageByIdentifier:unid];
+    }
+    
 }
 
 

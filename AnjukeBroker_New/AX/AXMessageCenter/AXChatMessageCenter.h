@@ -10,6 +10,8 @@
 #import "AXMappedMessage.h"
 #import "AXMappedPerson.h"
 #import "AXMappedConversationListItem.h"
+#import "WillSendPropModel.h"
+#import "HouseSendModel.h"
 
 //Notification
 static NSString * const kMessageCenterReceiveNewPush = @"kMessageCenterReceiveNewPushMessage";
@@ -71,7 +73,7 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 
 #pragma mark - sending Message
 - (void)sendMessage:(AXMappedMessage *)message willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
-- (NSDictionary *)sendMessage:(AXMappedMessage *)message sayHello:(BOOL)sayHello willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
+- (NSDictionary *)sendMessage:(AXMappedMessage *)message sayHello:(BOOL)sayHello willSendProp:(WillSendPropModel *)sendProp willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
 - (void)sendMessageToPublic:(AXMappedMessage *)message willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
 - (void)sendImageToPublic:(AXMappedMessage *)message willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;
 - (void)sendVoiceToPublic:(AXMappedMessage *)message willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock;

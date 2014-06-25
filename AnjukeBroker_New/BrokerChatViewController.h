@@ -11,12 +11,14 @@
 #import "HouseSelectNavigationController.h"
 
 #import "MapViewController.h"
+#import "WillSendPropModel.h"
 
 @interface BrokerChatViewController : AXChatViewController <SelectedHouseWithDicDelegate, UIActionSheetDelegate, UITableViewDelegate>
 
 @property (nonatomic, assign)BOOL     isSayHello;//是否是打招呼页面
 @property (nonatomic, strong)NSString *userNickName;//用户名字
 @property (nonatomic, strong)NSString *deviceID;//设备的id
+@property (nonatomic, strong)WillSendPropModel *willSendProp;
 
 - (void)sayHelloHttpRequest:(NSDictionary *)reponseDict;
 

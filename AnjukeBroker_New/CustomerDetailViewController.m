@@ -14,6 +14,7 @@
 #import "CustomerDetailModel.h"
 #import "BrokerChatViewController.h"
 #import "AppDelegate.h"
+#import "WillSendPropModel.h"
 
 @interface CustomerDetailViewController ()
 
@@ -92,11 +93,20 @@
 
 - (void)pushToBrokerChatViewController{
     
+    WillSendPropModel *sendProp = [[WillSendPropModel alloc] init];
+    
     BrokerChatViewController *bc = [[BrokerChatViewController alloc] init];
     bc.backType = RTSelectorBackTypePopBack;
     bc.isBroker = YES;
     bc.isSayHello = YES;
     
+    [sendProp setI:self.tableView.customerDetailModel.i];
+    [sendProp setMacid:self.tableView.customerDetailModel.macid];
+    [sendProp setUdid2:self.tableView.customerDetailModel.udid2];
+    [sendProp setDevice_id:self.tableView.customerDetailModel.device_id];
+    [sendProp setApp:self.tableView.customerDetailModel.app];
+    
+    bc.willSendProp = sendProp;
     if ([@"i-ajk" isEqualToString:self.tableView.customerDetailModel.app]) {
         bc.deviceID = self.tableView.customerDetailModel.udid2;
     }else if([@"a-ajk" isEqualToString:self.tableView.customerDetailModel.app]){

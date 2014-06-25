@@ -444,7 +444,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     if ([manager isKindOfClass:[AXMessageCenterSendPropManager class]])
     {
         NSDictionary *dic = [manager  fetchDataWithReformer:nil];
-        NSDictionary *dic2 = [dic[@"data"] objectForKey:@"data"];
+        NSDictionary *dic2 = dic[@"data"];
         
         int me = [[[dic2 objectForKey:@"house"] objectForKey:@"msg_id"] intValue];
         NSNumber *messID = [NSNumber numberWithInt:me];
@@ -452,6 +452,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
         
         NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithDictionary:dic];
         [newDict setValue:_messageIdentify forKeyPath:@"unid"];
+        
         [[BrokerChatViewController getBrokerSelf] sayHelloHttpRequest:newDict];
         
         AXMessageCenterSendMessageStatus sendStatus = AXMessageCenterSendMessageStatusSuccessful;
@@ -716,7 +717,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     }
 }
 
-- (NSDictionary *)sendMessage:(AXMappedMessage *)message sayHello:(BOOL)sayHello willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock
+- (NSDictionary *)sendMessage:(AXMappedMessage *)message sayHello:(BOOL)sayHello willSendProp:(WillSendPropModel *)sendProp willSendMessage:(void(^)(NSArray *message, AXMessageCenterSendMessageStatus status ,AXMessageCenterSendMessageErrorTypeCode errorType))sendMessageBlock
 {
     if(sayHello)
     {
@@ -734,10 +735,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     self.blockDictionary[dataMessage.identifier] = sendMessageBlock;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"msg_type"] = dataMessage.messageType;
-    if (!sayHello)
-    {
-        params[@"phone"] = self.currentPerson.phone;
-    }
+    params[@"phone"] = self.currentPerson.phone;
     _messageIdentify = dataMessage.identifier;
 
     params[@"to_uid"] = dataMessage.to;
@@ -752,19 +750,33 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
     
     if (sayHello)
     {
-        
         [params setValue:@"1" forKey:@"force_send"];
+        [params setValue:sendProp.app forKey:@"app"];
+        [params setValue:dataMessage.identifier forKey:@"udid2"];
+        [params setValue:sendProp.i forKey:@"i"];
+        [params setValue:sendProp.macid forKey:@"macid"];
+        
+        NSMutableDictionary *mutabParams = [NSMutableDictionary dictionaryWithDictionary:params];
+        [mutabParams removeObjectForKey:@"uniqid"];
+        [mutabParams removeObjectForKey:@"to_uid"];
+        [mutabParams removeObjectForKey:@"phone"];
         
         NSDictionary *loginResult = [[NSUserDefaults standardUserDefaults] objectForKey:@"anjuke_chat_login_info"];
-        NSDictionary *modelDict = [params mutableCopy];
+        NSDictionary *modelDict = [mutabParams mutableCopy];
         [modelDict setValue:@"1" forKey:@"msg_type"];
         [modelDict setValue:@"推荐的房源成功，请等待客户联系你" forKey:@"body"];
         
+        NSString *body = dataMessage.content;
+        NSDictionary *bodyDict = [body JSONValue];
+        [mutabParams setValue:bodyDict forKey:@"body"];
+        
+//        HouseSendModel *house = [[HouseSendModel alloc] initWithDataDic:<#(NSDictionary *)#>]
+        
         NSMutableDictionary *postDict = [[NSMutableDictionary alloc] initWithCapacity:5];
         [postDict setValue:dataMessage.to forKey:@"device_id"];
-        [postDict setValue:dataMessage.from forKey:@"broker_id"];
-        [postDict setValue:modelDict forKey:@"model_body" ];
-        [postDict setValue:params forKey:@"house_body"];
+        [postDict setValue:[LoginManager getUserID] forKey:@"broker_id"];
+        [postDict setValue:[modelDict RTJSONRepresentation] forKey:@"model_body" ];
+        [postDict setValue:[mutabParams RTJSONRepresentation] forKey:@"house_body"];
         [postDict setValue:loginResult[@"auth_token"] forKey:@"auth_token"];
         [postDict setValue:[LoginManager getToken] forKey:@"token"];
 
@@ -791,7 +803,7 @@ static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 
 - (void)sendMessage:(AXMappedMessage *)message willSendMessage:(void (^)(NSArray *, AXMessageCenterSendMessageStatus ,AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock
 {
-    [self sendMessage:message sayHello:NO willSendMessage:sendMessageBlock];
+    [self sendMessage:message sayHello:NO willSendProp:nil willSendMessage:sendMessageBlock];
 }
 
 - (void)sendMessageToPublic:(AXMappedMessage *)message willSendMessage:(void (^)(NSArray *, AXMessageCenterSendMessageStatus, AXMessageCenterSendMessageErrorTypeCode))sendMessageBlock

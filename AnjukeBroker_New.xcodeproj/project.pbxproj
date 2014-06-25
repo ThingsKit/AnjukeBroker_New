@@ -148,6 +148,9 @@
 		2761B89C187C053C00EABF95 /* logo_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89A187C053C00EABF95 /* logo_57.png */; };
 		2761B89D187C053C00EABF95 /* logo_57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89B187C053C00EABF95 /* logo_57@2x.png */; };
 		2778147F19494B8D006951F8 /* broker_qkh_guide_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2778147E19494B8D006951F8 /* broker_qkh_guide_bg@2x.png */; };
+		27868D72195AB224000DD781 /* SendPropModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 27868D71195AB224000DD781 /* SendPropModel.m */; };
+		27868D75195AC0F9000DD781 /* WillSendPropModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 27868D74195AC0F9000DD781 /* WillSendPropModel.m */; };
+		27868D78195AD9D7000DD781 /* HouseSendModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 27868D77195AD9D7000DD781 /* HouseSendModel.m */; };
 		278FFCF0192453CD00B4A4A4 /* anjuke_icon_add_pic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 278FFCE4192453CC00B4A4A4 /* anjuke_icon_add_pic@2x.png */; };
 		278FFCF1192453CD00B4A4A4 /* anjuke_icon_add_pic_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 278FFCE5192453CC00B4A4A4 /* anjuke_icon_add_pic_press@2x.png */; };
 		278FFCF2192453CD00B4A4A4 /* anjuke_icon_choosed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 278FFCE6192453CC00B4A4A4 /* anjuke_icon_choosed@2x.png */; };
@@ -960,6 +963,12 @@
 		2761B89B187C053C00EABF95 /* logo_57@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_57@2x.png"; sourceTree = "<group>"; };
 		2778147E19494B8D006951F8 /* broker_qkh_guide_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_qkh_guide_bg@2x.png"; sourceTree = "<group>"; };
 		277814801949BBB8006951F8 /* XChatData 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "XChatData 3.xcdatamodel"; sourceTree = "<group>"; };
+		27868D70195AB224000DD781 /* SendPropModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SendPropModel.h; path = AnjukeBroker_New/SendPropModel.h; sourceTree = SOURCE_ROOT; };
+		27868D71195AB224000DD781 /* SendPropModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SendPropModel.m; path = AnjukeBroker_New/SendPropModel.m; sourceTree = SOURCE_ROOT; };
+		27868D73195AC0F9000DD781 /* WillSendPropModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WillSendPropModel.h; sourceTree = "<group>"; };
+		27868D74195AC0F9000DD781 /* WillSendPropModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WillSendPropModel.m; sourceTree = "<group>"; };
+		27868D76195AD9D7000DD781 /* HouseSendModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HouseSendModel.h; sourceTree = "<group>"; };
+		27868D77195AD9D7000DD781 /* HouseSendModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HouseSendModel.m; sourceTree = "<group>"; };
 		278FFCE4192453CC00B4A4A4 /* anjuke_icon_add_pic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_pic@2x.png"; sourceTree = "<group>"; };
 		278FFCE5192453CC00B4A4A4 /* anjuke_icon_add_pic_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_pic_press@2x.png"; sourceTree = "<group>"; };
 		278FFCE6192453CC00B4A4A4 /* anjuke_icon_choosed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_choosed@2x.png"; sourceTree = "<group>"; };
@@ -1976,6 +1985,8 @@
 		2056A33318EE7E660022B5A5 /* ManagedObjects */ = {
 			isa = PBXGroup;
 			children = (
+				27868D70195AB224000DD781 /* SendPropModel.h */,
+				27868D71195AB224000DD781 /* SendPropModel.m */,
 				2056A33418EE7E660022B5A5 /* AXConversationListItem.h */,
 				2056A33518EE7E660022B5A5 /* AXConversationListItem.m */,
 				2056A33618EE7E660022B5A5 /* AXMessage.h */,
@@ -2303,6 +2314,8 @@
 				678D2A2B18DAB9D90027D945 /* KKAudioComponent.m */,
 				678083E11904AB1F00765A18 /* Emoji-master */,
 				678D2A1418DAB12E0027D945 /* VoiceConvert */,
+				27868D76195AD9D7000DD781 /* HouseSendModel.h */,
+				27868D77195AD9D7000DD781 /* HouseSendModel.m */,
 			);
 			name = "消息单页";
 			sourceTree = "<group>";
@@ -2427,6 +2440,8 @@
 				6794E45219485FD90069F1ED /* CustomerDetailModel.m */,
 				6794E454194864000069F1ED /* FavoritePropertyModel.h */,
 				6794E455194864000069F1ED /* FavoritePropertyModel.m */,
+				27868D73195AC0F9000DD781 /* WillSendPropModel.h */,
+				27868D74195AC0F9000DD781 /* WillSendPropModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -4595,6 +4610,7 @@
 				B7E1F6BA190E1B93009F546B /* IMGDowloaderManager.m in Sources */,
 				B7EAD52518CD927200B28FEC /* AXChatPhotoActionSheet.m in Sources */,
 				B7E5250718D977F90048DB88 /* AXChatMessageVoiceCell.m in Sources */,
+				27868D75195AC0F9000DD781 /* WillSendPropModel.m in Sources */,
 				F88FC2E0194541BE00DEA8A2 /* HomeHeaderView.m in Sources */,
 				2056A36018EE7E7A0022B5A5 /* AXMessageAPIHeartBeatingManager.m in Sources */,
 				B7921A2F18BBA2000021933A /* BrokerChatViewController.m in Sources */,
@@ -4659,6 +4675,7 @@
 				B7E69BAE183B15430097D5C3 /* RentPPCGroupCell.m in Sources */,
 				205790D01904C17300419CA3 /* PublishFeatureViewController.m in Sources */,
 				2056A34718EE7E660022B5A5 /* NSManagedObject+ExtraMethods.m in Sources */,
+				27868D72195AB224000DD781 /* SendPropModel.m in Sources */,
 				20A2178818BF1804002CA469 /* HouseSelectViewController.m in Sources */,
 				678D2A2618DAB12E0027D945 /* wav.mm in Sources */,
 				20578B9F1898ABCC0086B93D /* PropertyEditViewController.m in Sources */,
@@ -4673,6 +4690,7 @@
 				27A42B5318E2C4D300FADED3 /* RegionAnnotationView.m in Sources */,
 				F8A717ED1920BC81004840C6 /* CheckoutViewController.m in Sources */,
 				206843E418890C9A007DD8C5 /* PublishBuildingViewController.m in Sources */,
+				27868D78195AD9D7000DD781 /* HouseSendModel.m in Sources */,
 				6767D13019220AE2004FEFF7 /* PropertyModel.m in Sources */,
 				97410565180CDFE0004DAE95 /* AppDelegate.m in Sources */,
 				B7EAD52218CD927200B28FEC /* AXPullToRefreshContentView.m in Sources */,

@@ -816,19 +816,24 @@
 - (void)willAddFriendWithUid:(NSString *)friendUid isSayHello:(BOOL)isSayHello
 {
     AXPerson *person = [self findPersonWithUID:friendUid];
-    if (!person) {
-        person = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
-        
-        
-    }
-    if (isSayHello)
+    BOOL isAlloc = false;
+    if (!person)
     {
-        person.uid = friendUid;
-        person.isPendingForAdd = [NSNumber numberWithBool:NO];
-    }else
+        isAlloc = true;
+        person = [NSEntityDescription insertNewObjectForEntityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+        if (isSayHello)
+        {
+            person.uid = friendUid;
+            person.isPendingForAdd = [NSNumber numberWithBool:NO];
+        }
+    }
+    
+    if (!isAlloc && !isSayHello)
     {
         person.isPendingForAdd = [NSNumber numberWithBool:YES];
+
     }
+
     
     person.isPendingForRemove = [NSNumber numberWithBool:NO];
     person.isStranger = [NSNumber numberWithBool:isSayHello];
