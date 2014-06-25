@@ -172,6 +172,7 @@
     //如果请求数据成功
     if (status == RTNetworkResponseStatusSuccess) {
         NSDictionary* content = response.content;
+//        NSLog(@"%@", content);
         
         if ([@"ok" isEqualToString:[content objectForKey:@"status"]]) {
             
@@ -215,6 +216,8 @@
             }else if([@"4" isEqualToString:data.status]){
                 //人数达到上限
                 [self setChatButtonEnable];
+            }else{
+                _bottomView.hidden = YES;
             }
             
             self.tableView.tableHeaderView = nil;
@@ -222,7 +225,12 @@
             [self.tableView reloadData];
             
         }else{ //数据请求失败
-            
+            NSDictionary* content = response.content;
+            NSString* message = [content objectForKey:@"message"];
+            if (message) {
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+            }
         }
         
     }else{ //网络不畅
@@ -273,7 +281,12 @@
             }
             
         }else{ //数据请求失败
-            
+            NSDictionary* content = response.content;
+            NSString* message = [content objectForKey:@"message"];
+            if (message) {
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+            }
         }
         
     }else{ //网络不畅
@@ -332,6 +345,7 @@
 
 
 - (void)setChatButtonEnable{
+    _bottomView.hidden = NO;
     [_chatButton setTitle:@"微聊" forState:UIControlStateNormal];
     [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateNormal];
     [_chatButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_press"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateHighlighted];
@@ -339,12 +353,14 @@
 }
 
 - (void)setChatButtonRushSucceed{
+    _bottomView.hidden = NO;
     [_chatButton setTitle:@"已抢到" forState:UIControlStateNormal];
     [_chatButton setBackgroundImage:[[UIImage imageNamed:@"broker_icon_button_gray"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateNormal];
     _chatButton.enabled = NO;
 }
 
 - (void)setChatButtonRushFail{
+    _bottomView.hidden = NO;
     [_chatButton setTitle:@"抢完了" forState:UIControlStateNormal];
     [_chatButton setBackgroundImage:[[UIImage imageNamed:@"broker_icon_button_gray"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateDisabled];
     _chatButton.enabled = NO;
