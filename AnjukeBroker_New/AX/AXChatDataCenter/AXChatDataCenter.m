@@ -726,7 +726,7 @@
     int i = 0;
     for (AXPerson *p in fetchedResult)
     {
-        if (p.isStranger)
+        if ([p.isStranger boolValue])
         {
             if (i == 0) {
                 str = [str stringByAppendingFormat:@"friendUid!='%@'", p.uid];
