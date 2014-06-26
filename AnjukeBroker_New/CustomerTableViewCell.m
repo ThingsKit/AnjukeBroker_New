@@ -140,7 +140,7 @@
 //    _loginTime.backgroundColor = [UIColor yellowColor];
     
     //地点
-    if (self.customerModel.blcok_name) {
+    if (self.customerModel.blcok_name && self.customerModel.blcok_name.length > 0) {
         _location.frame = CGRectMake(_userIcon.right + 10, _userName.bottom + GAP_V, 100, 20);
         _location.text = self.customerModel.blcok_name;
         [_location sizeToFit]; //大小自适应
@@ -151,8 +151,8 @@
 //    _location.backgroundColor = [UIColor purpleColor];
     
     //户型
-    if (self.customerModel.house_type_preference) {
-        if (self.customerModel.blcok_name) {
+    if (self.customerModel.house_type_preference && self.customerModel.house_type_preference.length > 0) {
+        if (self.customerModel.blcok_name && self.customerModel.blcok_name.length > 0) {
             _houseType.frame = CGRectMake(_location.right + GAP_H, _userName.bottom + GAP_V, 100, 20);
             _houseType.text = self.customerModel.house_type_preference;
             [_houseType sizeToFit];
@@ -169,13 +169,13 @@
 //    _houseType.backgroundColor = [UIColor grayColor];
     
     //租金或售价
-    if (self.customerModel.price_preference) {
-        if (self.customerModel.house_type_preference) {
+    if (self.customerModel.price_preference && self.customerModel.price_preference.length > 0) {
+        if (self.customerModel.house_type_preference && self.customerModel.house_type_preference.length > 0) {
             _price.frame = CGRectMake(_houseType.right + GAP_H, _userName.bottom + GAP_V, 100, 20);
             _price.text = self.customerModel.price_preference;
             [_price sizeToFit];
             _price.hidden = NO;
-        }else if(self.customerModel.blcok_name){
+        }else if(self.customerModel.blcok_name && self.customerModel.blcok_name.length > 0){
             _price.frame = CGRectMake(_location.right + GAP_H, _userName.bottom + GAP_V, 100, 20);
             _price.text = self.customerModel.price_preference;
             [_price sizeToFit];
