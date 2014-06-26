@@ -96,6 +96,11 @@
         btn.backgroundColor = [UIColor clearColor];
         [btn addTarget:self action:@selector(changeRate:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:btn];
+    
+#ifdef DEBUG
+#else
+#endif
+
     }
     
     self.numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 100, 100, 50)];

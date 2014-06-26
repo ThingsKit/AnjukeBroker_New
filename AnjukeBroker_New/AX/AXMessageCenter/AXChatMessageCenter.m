@@ -40,8 +40,14 @@ static NSString * const kMessageCenterReceiveMessageTypeText = @"1";
 static NSString * const kMessageCenterReceiveMessageTypeProperty = @"2";
 static NSString * const ImageServeAddress = @"http://upd1.ajkimg.com/upload";
 
-static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 //static NSString * const kLastVersionApiSite = @"http://chatapi.dev.anjuke.com";
+//#ifdef DEBUG
+//    static NSString * const kLastVersionApiSite = @"http://chatapi.dev.anjuke.com";
+//#else
+//    static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
+//#endif
+
+static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 
 @interface AXChatMessageCenter ()<AXMessageAPILongLinkDelegate,RTAPIManagerApiCallBackDelegate,RTAPIManagerInterceptorProtocal, AXChatDataCenterDelegate>
 @property (nonatomic, strong) AXMessageAPILongLinkManager *longLinkManager;
