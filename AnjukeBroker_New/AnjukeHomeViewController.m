@@ -19,12 +19,15 @@
 #import "CommunityListViewController.h"
 #import "RTGestureBackNavigationController.h"
 #import "PPCHeaderView.h"
+#import "NoDataViewForESF.h"
 
 #define HOME_cellHeight 50
 
 @interface AnjukeHomeViewController ()
 @property(nonatomic, strong) PPCHeaderView *ppcHeadView;
 @property(nonatomic, strong) NSDictionary *dataDic;
+@property(nonatomic, strong) NoDataViewForESF *nodataView;
+
 @end
 
 @implementation AnjukeHomeViewController
@@ -61,6 +64,19 @@
     return ppcHeadView;
 }
 
+- (NoDataViewForESF *)nodataView {
+    if (_nodataView == nil) {
+        _nodataView = [[NoDataViewForESF alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+    }
+    return _nodataView;
+}
+
+- (void)showNodataVeiw {
+    self.myTable.hidden = YES;
+    [self.nodataView removeFromSuperview];
+    [self.view addSubview:self.nodataView];
+    [self.nodataView showNoDataView];
+}
 
 - (void)viewDidLoad
 {
@@ -130,13 +146,15 @@
     if([[response content] count] == 0){
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
+        
+        [self showNodataVeiw];
         return ;
     }
 
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-        [alert show];
+//        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请求失败" message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+//        [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
         return;

@@ -663,6 +663,7 @@
 		F87A8C1B194ECED20052C181 /* AuctionForbidView.m in Sources */ = {isa = PBXBuildFile; fileRef = F87A8C1A194ECED20052C181 /* AuctionForbidView.m */; };
 		F87E8613190E4723005A5723 /* anjuke_icon_button_blue_press.png in Resources */ = {isa = PBXBuildFile; fileRef = F87E8611190E4723005A5723 /* anjuke_icon_button_blue_press.png */; };
 		F87E8614190E4723005A5723 /* anjuke_icon_button_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = F87E8612190E4723005A5723 /* anjuke_icon_button_blue.png */; };
+		F88AE26E195C2DAE009E3F5E /* NoDataViewForESF.m in Sources */ = {isa = PBXBuildFile; fileRef = F88AE26D195C2DAE009E3F5E /* NoDataViewForESF.m */; };
 		F88FC2E0194541BE00DEA8A2 /* HomeHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2DF194541BE00DEA8A2 /* HomeHeaderView.m */; };
 		F88FC2E31945471100DEA8A2 /* HomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2E21945471100DEA8A2 /* HomeCell.m */; };
 		F88FC2E71945614100DEA8A2 /* FindCustomerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2E61945614100DEA8A2 /* FindCustomerViewController.m */; };
@@ -1711,6 +1712,8 @@
 		F87A8C1A194ECED20052C181 /* AuctionForbidView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuctionForbidView.m; sourceTree = "<group>"; };
 		F87E8611190E4723005A5723 /* anjuke_icon_button_blue_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_blue_press.png; sourceTree = "<group>"; };
 		F87E8612190E4723005A5723 /* anjuke_icon_button_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjuke_icon_button_blue.png; sourceTree = "<group>"; };
+		F88AE26C195C2DAE009E3F5E /* NoDataViewForESF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoDataViewForESF.h; sourceTree = "<group>"; };
+		F88AE26D195C2DAE009E3F5E /* NoDataViewForESF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoDataViewForESF.m; sourceTree = "<group>"; };
 		F88FC2DE194541BE00DEA8A2 /* HomeHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeHeaderView.h; sourceTree = "<group>"; };
 		F88FC2DF194541BE00DEA8A2 /* HomeHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeHeaderView.m; sourceTree = "<group>"; };
 		F88FC2E11945471100DEA8A2 /* HomeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeCell.h; sourceTree = "<group>"; };
@@ -2746,6 +2749,7 @@
 		972C10241814FC4C00552C9B /* 二手房业务管理 */ = {
 			isa = PBXGroup;
 			children = (
+				F88AE26B195C2D77009E3F5E /* NoData */,
 				B77A9608182A3331007F04E3 /* Manager */,
 				B769E488181F968900A2FF50 /* Controllers */,
 				B769E450181F4CCB00A2FF50 /* View */,
@@ -3926,6 +3930,15 @@
 			name = UserLocation;
 			sourceTree = "<group>";
 		};
+		F88AE26B195C2D77009E3F5E /* NoData */ = {
+			isa = PBXGroup;
+			children = (
+				F88AE26C195C2DAE009E3F5E /* NoDataViewForESF.h */,
+				F88AE26D195C2DAE009E3F5E /* NoDataViewForESF.m */,
+			);
+			name = NoData;
+			sourceTree = "<group>";
+		};
 		F88FC2E41945611200DEA8A2 /* 抢客户 */ = {
 			isa = PBXGroup;
 			children = (
@@ -4805,6 +4818,7 @@
 				B7E69BB2183B26A90097D5C3 /* RentBidPropertyCell.m in Sources */,
 				B7EAD51D18CD927200B28FEC /* AXChatMessageSystemTimeCell.m in Sources */,
 				6794E4301947F3250069F1ED /* CustomerTableViewCell.m in Sources */,
+				F88AE26E195C2DAE009E3F5E /* NoDataViewForESF.m in Sources */,
 				B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */,
 				97CB0C0C182BEA3500FCCBBD /* BK_ELCAlbumPickerController.m in Sources */,
 				B7EA1FC2183A437500438CF8 /* SaleAuctionViewController.m in Sources */,
