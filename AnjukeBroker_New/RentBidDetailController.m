@@ -62,7 +62,6 @@
 {
     [super viewDidLoad];
     [self setTitleViewWithString:@"竞价房源"];
-    [self addRightButton:@"新增" andPossibleTitle:nil];
 	// Do any additional setup after loading the view.
 }
 -(void)initModel{
@@ -128,7 +127,9 @@
         [self.view addSubview:self.forbidView];
         return;
     }
-    
+
+    [self addRightButton:@"新增" andPossibleTitle:nil];
+
     if (([[resultFromAPI objectForKey:@"propertyList"] count] == 0 || resultFromAPI == nil)) {
 //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有找到房源" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
 //        [alert show];

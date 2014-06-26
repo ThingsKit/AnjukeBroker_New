@@ -22,10 +22,11 @@
         [img setImage:[UIImage imageNamed:@"broker_fy_noproperty"]];
         [self addSubview:img];
         
-        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(100, img.frame.origin.y + img.frame.size.height + 12, 120, 36)];
+        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(60, img.frame.origin.y + img.frame.size.height + 12, 180, 36)];
         lab.numberOfLines = 0;
         lab.font = [UIFont ajkH3Font];
         lab.lineBreakMode = UILineBreakModeWordWrap;
+        lab.textAlignment = NSTextAlignmentCenter;
         lab.textColor = [UIColor brokerLightGrayColor];
         lab.text = @"竞价产品已下架\n 全新精选推广敬请期待！";
         [self addSubview:lab];
