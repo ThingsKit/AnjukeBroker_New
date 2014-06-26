@@ -16,6 +16,7 @@
 #import "NSArray+ExtraMethods.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import "NSManagedObject+ExtraMethods.h"
+#import "AXChatMessageCenter.h"
 
 @interface AXChatDataCenter ()
 
@@ -229,6 +230,27 @@
     return [message convertToMappedObject];
 }
 
+- (void)checkAndUploadAxperson:(NSString *)pUid realUid:(NSString *)realUID
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.entity = entity;
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"uid == %@", pUid];
+    NSArray *fetchedResult = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    
+    if ([fetchedResult count] > 0)
+    {
+        AXPerson *p = [fetchedResult firstObject];
+        [p setUid:realUID];
+        [p setIsStranger:[NSNumber numberWithBool:NO]];
+        [[AXChatMessageCenter defaultMessageCenter] getFriendInfoWithFriendUid:@[realUID]];
+    }
+    
+    [self.managedObjectContext save:NULL];
+    
+    
+}
+
 - (void)didReceiveWithMessageDataArray:(NSArray *)receivedArray
 {
     if (![receivedArray isKindOfClass:[NSArray class]]) {
@@ -243,9 +265,27 @@
     NSMutableArray *messageArray = [[NSMutableArray alloc] initWithCapacity:0];
     NSMutableArray *managedMessageArray = [[NSMutableArray alloc] initWithCapacity:0];
     
-    for (NSDictionary *item in receivedArray) {
-        count++;
+    for (NSDictionary *item in receivedArray)
+    {
+        
         NSString *friendUID = item[@"from_uid"];
+        NSDictionary *devInfo = item[@"from_device_info"];
+        if (devInfo)
+        {
+            NSString *app = [devInfo objectForKey:@"app"];
+            NSString *result = @"";
+            if ([app isEqualToString:@"i-ajk"])
+            {
+                result = devInfo[@"udid2"];
+            }else if ([app isEqualToString:@"a-ajk"])
+            {
+                result = [NSString stringWithFormat:@"%@%@",devInfo[@"i"], devInfo[@"macid"]];
+            }
+            [self checkAndUploadAxperson:result realUid:friendUID];
+        }
+        
+        count++;
+        
         if (![self.friendUid isEqualToString:friendUID]) {
             shouldAlert = YES;
         }

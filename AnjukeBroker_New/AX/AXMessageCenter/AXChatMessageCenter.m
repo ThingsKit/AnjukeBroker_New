@@ -762,12 +762,12 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     {
         [params setValue:@"1" forKey:@"force_send"];
         [params setValue:sendProp.app forKey:@"app"];
-        [params setValue:dataMessage.identifier forKey:@"udid2"];
+        [params setValue:dataMessage.to forKey:@"udid2"];
         [params setValue:sendProp.i forKey:@"i"];
         [params setValue:sendProp.macid forKey:@"macid"];
-        
+
         NSMutableDictionary *mutabParams = [NSMutableDictionary dictionaryWithDictionary:params];
-        [mutabParams removeObjectForKey:@"uniqid"];
+
         [mutabParams removeObjectForKey:@"to_uid"];
         [mutabParams removeObjectForKey:@"phone"];
         
@@ -778,7 +778,8 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
         
         NSString *body = dataMessage.content;
         NSDictionary *bodyDict = [body JSONValue];
-        [mutabParams setValue:bodyDict forKey:@"body"];
+        [bodyDict setValue:@"1" forKey:@"jsonVersion"];
+        [mutabParams setValue:[bodyDict RTJSONRepresentation] forKey:@"body"];
         
 //        HouseSendModel *house = [[HouseSendModel alloc] initWithDataDic:<#(NSDictionary *)#>]
         

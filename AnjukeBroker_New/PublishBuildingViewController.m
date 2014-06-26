@@ -1190,6 +1190,11 @@ typedef enum {
     
     NSInteger row = indexPath.row;
     
+    if (self.needFileNO && row > 2)
+    {
+        row--;
+    }
+    
     switch (row)
     {
         case 0://价格
@@ -1703,7 +1708,7 @@ typedef enum {
             break;
         case 2: //备案号或户型
         {
-            if (self.needFileNO)
+            if (self.needFileNO && self.selectedIndex == AJK_TEXT_SAFENUM)
             {
                 [self showInputWithIndex:self.selectedIndex isPicker:NO];
             }else
@@ -1814,7 +1819,7 @@ typedef enum {
     }
     
     if ((self.selectedIndex >= 2 && !self.needFileNO) ||
-        (self.selectedIndex >= 3 && self.needFileNO)) { //滚轮输入范围
+        (self.selectedIndex >= 3 && self.selectedIndex != AJK_TEXT_SAFENUM && self.needFileNO)) { //滚轮输入范围
         self.inputingTextF.text = [self getInputStringAndSetProperty];
     }
     
@@ -2163,13 +2168,13 @@ typedef enum {
     else {
         self.selectedIndex = [self getCellIndexWithClickTextField:textField];
         
-        DLog(@"(self.selectedSection >= 2 && !self.needFileNO)  == %d", (self.selectedSection >= 2 && !self.needFileNO) );
+        DLog(@"(self.selectedSection >= 2 && !self.needFileNO)  == %d", self.selectedIndex );
         DLog(@"self.selectedSection == %d", self.selectedSection);
         DLog(@"self.needFileNO == %d", self.needFileNO);
         
         BOOL isPicker = NO;
         if ((self.selectedIndex >= 2 && !self.needFileNO) ||
-            (self.selectedIndex >= 3 && self.selectedIndex != AJK_TEXT_SAFENUM && self.needFileNO))
+            (self.selectedIndex >= 2 && (self.needFileNO && self.selectedIndex != 9)))
         {//备案号
             isPicker = YES;
         }

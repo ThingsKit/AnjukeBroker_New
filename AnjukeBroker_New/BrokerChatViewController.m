@@ -56,8 +56,16 @@ static BrokerChatViewController *brokerSender = nil;
 }
 
 #pragma mark - log
-- (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ONVIEW page:CHAT note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+- (void)sendAppearLog
+{
+    if (_isSayHello)
+    {
+        [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_CHAT page:POTENTIAL_CLIENT_CHAT_ONVIEW note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }else
+    {
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ONVIEW page:CHAT note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
+    
 }
 
 - (void)sendDisAppearLog {
@@ -480,7 +488,7 @@ static BrokerChatViewController *brokerSender = nil;
         [[AXChatMessageCenter defaultMessageCenter] sendMessageToPublic:mappedMessageProp willSendMessage:self.finishSendMessageBlock];
     } else
     {
-
+        [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_CHAT_ESF page:POTENTIAL_CLIENT_CHAT note:nil];
         [[AXChatMessageCenter defaultMessageCenter] sendMessage:mappedMessageProp sayHello:_isSayHello willSendProp:_willSendProp willSendMessage:self.finishSendMessageBlock];
     }
 }
@@ -824,8 +832,18 @@ static BrokerChatViewController *brokerSender = nil;
     [self storageLayoutOfKeyboard];
     
     [self didClickKeyboardControl];
+    if (_isSayHello)
+    {
+        if ([BrokerChatViewController getBrokerSelf])
+        {
+            [BrokerChatViewController setBrokerSelf:nil];
+        }
+        [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_CHAT_BACK page:POTENTIAL_CLIENT_CHAT note:nil];
+    }else
+    {
+        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_BACK page:CHAT note:nil];
+    }
     
-    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_BACK page:CHAT note:nil];
     if (self.backType == RTSelectorBackTypePopBack) {
         [self.navigationController popViewControllerAnimated:YES];
     }else{

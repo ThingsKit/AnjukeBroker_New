@@ -42,7 +42,7 @@
 
 - (NSDictionary *)paramsForApi:(RTAPIBaseManager *)manager
 {
-     return @{@"_guid":self.uniqLongLinkId};
+     return @{@"_guid":self.uniqLongLinkId,@"with_from_device":@"1"};
 }
 - (BOOL)manager:(RTAPIBaseManager *)manager isCorrectWithParamsData:(NSDictionary *)data
 {
