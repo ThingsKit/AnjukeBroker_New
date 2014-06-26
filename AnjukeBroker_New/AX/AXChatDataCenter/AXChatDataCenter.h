@@ -56,6 +56,7 @@
 - (NSArray *)messageToUploadWithMessageType:(AXMessageType)messageType;
 - (NSDictionary *)messageToDownload;
 - (NSDictionary *)messageToUpload;
+- (void)saveMessageWithMsgAXmessageObj:(AXMappedMessage *)mappMess;
 
 // message related methods
 - (NSInteger)totalUnreadMessageCount;

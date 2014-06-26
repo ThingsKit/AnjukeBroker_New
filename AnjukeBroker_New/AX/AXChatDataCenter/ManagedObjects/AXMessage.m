@@ -7,7 +7,7 @@
 //
 
 #import "AXMessage.h"
-
+#import "AXMappedMessage.h"
 
 @implementation AXMessage
 

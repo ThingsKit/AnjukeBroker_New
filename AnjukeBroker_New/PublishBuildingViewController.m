@@ -2169,7 +2169,7 @@ typedef enum {
         
         BOOL isPicker = NO;
         if ((self.selectedIndex >= 2 && !self.needFileNO) ||
-            (self.selectedIndex >= 3 && self.needFileNO))
+            (self.selectedIndex >= 3 && self.selectedIndex != AJK_TEXT_SAFENUM && self.needFileNO))
         {//备案号
             isPicker = YES;
         }
@@ -2194,12 +2194,13 @@ typedef enum {
             AnjukeEditableCell *cell = [[self.cellDataSource inputCellArray] objectAtIndex:2];
             if (cell.indexTag == AJK_TEXT_SAFENUM)
             {
+                isPicker = NO;
                 self.selectedIndex = AJK_TEXT_SAFENUM;
                 [[self.cellDataSource inputCellArray] addObject:cell];
                 [[self.cellDataSource inputCellArray] removeObjectAtIndex:2];
             }else if(self.selectedIndex == inputArrcount - 1)
             {
-                
+                isPicker = NO;
                 cell = [[self.cellDataSource inputCellArray] objectAtIndex:inputArrcount - 1];
                 if (self.needFileNO &&
                     self.isHaozu == NO &&

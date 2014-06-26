@@ -24,6 +24,8 @@
 #import "LoginManager.h"
 //#import "AXIMGDownloader.h"
 
+
+
 @interface BrokerChatViewController ()
 {
     
@@ -33,6 +35,13 @@
 @property (nonatomic, assign) BOOL  isAlloc;
 @property (nonatomic, strong) UIView *sayHelloAlertView;
 //@property (nonatomic, strong) AXIMGDownloader *imgDownloader;
+
+//浮层相关
+@property (nonatomic, strong) MBProgressHUD* hud;
+@property (nonatomic, strong) UIImageView* hudBackground;
+@property (nonatomic, strong) UIImageView* hudImageView;
+@property (nonatomic, strong) UILabel* hudText;
+@property (nonatomic, strong) UILabel* hubSubText;
 @end
 
 @implementation BrokerChatViewController
@@ -481,12 +490,67 @@ static BrokerChatViewController *brokerSender = nil;
     NSDictionary *dic2 = reponseDict[@"data"];
     NSString *unid = reponseDict[@"unid"];
     NSString *status = dic2[@"status"];
+    
+    NSString *modeStatus = [[dic2 objectForKey:@"model"] objectForKey:@"status"];
     if (![status isEqualToString:@"1"])
     {
+        [self displayHUDWithStatus:@"" Message:@"" ErrCode:@""];
         [[AXChatMessageCenter defaultMessageCenter] deleteMessageByIdentifier:unid];
+    }else
+    {
+        if ([modeStatus isEqualToString:@"ok"])
+        {
+            NSDictionary *postParams = [reponseDict objectForKey:@"propdict"];
+            NSString *body = [[[postParams objectForKey:@"model_body"] JSONValue] objectForKey:@"body"];
+            NSString *messId = [[dic2 objectForKey:@"model"] objectForKey:@"msg_id"];
+            
+            AXMappedMessage * mappMess = [self sendSystemMessage:AXMessageTypeSenpropSuccess content:body messageId:messId];
+            [[AXChatMessageCenter defaultMessageCenter] saveMessageWithSystemType:mappMess];
+        }
+    }
+}
+
+
+- (void)displayHUDWithStatus:(NSString *)status Message:(NSString*)message ErrCode:(NSString*)errCode {
+    if (self.hudBackground == nil) {
+        self.hudBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 135, 135)];
+        self.hudBackground.image = [UIImage imageNamed:@"anjuke_icon_tips_bg"];
+        
+        self.hudImageView = [[UIImageView alloc] initWithFrame:CGRectMake(135/2-70/2, 135/2-70/2 - 20, 70, 70)];
+        self.hudText = [[UILabel alloc] initWithFrame:CGRectMake(0, self.hudImageView.bottom+7, 135, 20)];
+        [self.hudText setTextColor:[UIColor colorWithWhite:0.95 alpha:1]];
+        [self.hudText setFont:[UIFont systemFontOfSize:17.0f]];
+        [self.hudText setTextAlignment:NSTextAlignmentCenter];
+        self.hudText.backgroundColor = [UIColor clearColor];
+        
+        self.hubSubText = [[UILabel alloc] initWithFrame:CGRectMake(0, self.hudText.bottom, 135, 20)];
+        [self.hubSubText setTextColor:[UIColor colorWithWhite:0.95 alpha:1]];
+        [self.hubSubText setFont:[UIFont systemFontOfSize:12.0f]];
+        [self.hubSubText setTextAlignment:NSTextAlignmentCenter];
+        self.hubSubText.backgroundColor = [UIColor clearColor];
+        
+        [self.hudBackground addSubview:self.hudImageView];
+        [self.hudBackground addSubview:self.hudText];
+        [self.hudBackground addSubview:self.hubSubText];
+        
     }
     
+    //使用 MBProgressHUD
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.color = [UIColor clearColor];
+    self.hud.customView = self.hudBackground;
+    self.hud.yOffset = -20;
+    self.hud.mode = MBProgressHUDModeCustomView;
+    self.hud.dimBackground = NO;
+    
+    self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
+    self.hudText.text = @"客户被抢了";
+    self.hubSubText.text = @"你太慢了";
+    self.hubSubText.hidden = NO;
+    
+    [self.hud hide:YES afterDelay:2]; //显示一段时间后隐藏
 }
+
 
 
 #pragma mark - UITableview delegate

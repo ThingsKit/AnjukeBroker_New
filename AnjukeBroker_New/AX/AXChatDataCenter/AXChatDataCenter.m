@@ -469,6 +469,15 @@
     }
 }
 
+- (void)saveMessageWithMsgAXmessageObj:(AXMappedMessage *)mappMess
+{
+    AXMessage *mess = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    [mess assignPropertiesFromMappedObject:mappMess];
+    
+    [self.managedObjectContext save:NULL];
+    
+}
+
 - (NSArray *)messageToUploadWithMessageType:(AXMessageType)messageType
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];

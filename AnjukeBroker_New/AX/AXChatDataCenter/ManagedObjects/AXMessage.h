@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "AXMappedMessage.h"
+@class AXMappedMessage;
 
 @interface AXMessage : NSManagedObject
 

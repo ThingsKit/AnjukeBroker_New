@@ -60,7 +60,8 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 @property (nonatomic, strong) NSDate *currentTime;
 @property (nonatomic, strong) NSTimer *downLoadFailedMessageTimer;
 
-@property (nonatomic, strong) NSString *messageIdentify;
+@property (nonatomic, strong) NSString     *messageIdentify;
+@property (nonatomic, strong) NSDictionary *postHelloParams;
 
 //manager
 @property (nonatomic, strong) AXMessageCenterSendMessageManager *sendMessageManager;
@@ -455,6 +456,7 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
         
         NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithDictionary:dic];
         [newDict setValue:_messageIdentify forKeyPath:@"unid"];
+        [newDict setValue:self.sendPropManager.apiParams forKey:@"propdict"];
         
         [[BrokerChatViewController getBrokerSelf] sayHelloHttpRequest:newDict];
         
@@ -624,6 +626,11 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 }
 
 #pragma mark - CoreData Method
+- (void)saveMessageWithSystemType:(AXMappedMessage *)mappMess
+{
+    [self.dataCenter saveMessageWithMsgAXmessageObj:mappMess];
+}
+
 - (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID
 {
     return [self.dataCenter fetchConversationListItemWithFriendUID:friendUID];

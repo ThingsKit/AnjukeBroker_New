@@ -1057,17 +1057,21 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     return YES;
 }
 
-- (void)sendSystemMessage:(AXMessageType)type
+- (AXMappedMessage *)sendSystemMessage:(AXMessageType)type content:(NSString *)con messageId:(NSString *)messId
 {
     self.needSendProp = YES;
     AXMappedMessage *mappedMessageProp = [[AXMappedMessage alloc] init];
     mappedMessageProp.accountType = [self checkAccountType];
-    mappedMessageProp.content = @"";
+    mappedMessageProp.content = con;
     mappedMessageProp.to = [self checkFriendUid];
     mappedMessageProp.from = [[AXChatMessageCenter defaultMessageCenter] fetchCurrentPerson].uid;
     mappedMessageProp.isRead = YES;
     mappedMessageProp.isRemoved = NO;
     mappedMessageProp.messageType = @(type);
+    if (messId)
+    {
+        mappedMessageProp.messageId = [NSNumber numberWithInt:[messId integerValue]];
+    }
     
     NSMutableDictionary *textData = [NSMutableDictionary dictionary];
     textData = [self mapAXMappedMessage:mappedMessageProp];
@@ -1078,6 +1082,13 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         [self appendCellData:textData];
         [self scrollToBottomAnimated:YES];
     }
+    
+    return mappedMessageProp;
+}
+
+- (void)sendSystemMessage:(AXMessageType)type
+{
+    [self sendSystemMessage:type content:@"" messageId:nil];
 }
 
 - (NSMutableAttributedString *)configAttributedString:(NSString *)text
@@ -1299,6 +1310,11 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         case AXMessageTypeSettingNotifycation:
         {
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeSettingNotifycation),@"content":mappedMessage.content,@"messageSource":@(AXChatMessageSourceDestinationIncoming)}];
+        }
+            break;
+        case AXMessageTypeSenpropSuccess:
+        {
+            textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeSenpropSuccess),@"content":mappedMessage.content,@"messageSource":@(AXChatMessageSourceDestinationOutPut)}];
         }
             break;
             

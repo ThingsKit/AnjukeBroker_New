@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AXMessage.h"
 
 typedef NS_ENUM(NSUInteger, AXMessageType)
 {
@@ -28,6 +29,7 @@ typedef NS_ENUM(NSUInteger, AXMessageType)
     AXMessageTypeSendProperty = 105, // 提示发送房源
     AXMessageTypeSafeMessage = 106, // 安全提示
     AXMessageTypeVersion = 107, //对方使用的版本太低
+    AXMessageTypeSenpropSuccess = 108,//打招呼成功
     
     AXMessageTypeUIBlank = 10000 // UI效果 空一行白行 PS：只是本地使用 不会进行网络发送
 };
@@ -81,5 +83,7 @@ typedef NS_ENUM (NSUInteger, AXMessageCenterSendMessageStatus)
 @property (nonatomic, strong) NSString * to;
 @property (nonatomic, assign) BOOL isUploaded;
 @property (nonatomic, assign) NSInteger orderNumber;
+
+- (AXMessage *)mappedMeessageToAxMessage;
 
 @end

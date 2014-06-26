@@ -74,6 +74,7 @@ static NSString *AXUITEXVIEWEDIT = @"AxuitextviewEdit"; //输入框
 - (void)afterSendMessage;
 - (void)sendPropMessage;
 - (void)goBrokerPage:(id)sender;
+- (AXMappedMessage *)sendSystemMessage:(AXMessageType)type content:(NSString *)con messageId:(NSString *)messId;
 - (void)sendSystemMessage:(AXMessageType)type;
 - (void)reloadUnReadNum:(NSInteger)num;
 - (NSDate *)formatterDate:(NSDate *)date;
