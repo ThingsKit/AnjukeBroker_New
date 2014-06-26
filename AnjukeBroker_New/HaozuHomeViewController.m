@@ -138,6 +138,8 @@
     if([[response content] count] == 0){
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
+        
+        [self showNodataVeiw];
         return ;
     }
     
@@ -147,8 +149,6 @@
 //        [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-
-        [self showNodataVeiw];
         return;
     }
     
