@@ -140,6 +140,10 @@
     }
     
     dataDic = [[NSDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"hzDataDic"]];
+
+    if ([resultFromAPI objectForKey:@"hzDataDic"]) {
+        [self.ppcHeadView updatePPCData:[[NSMutableDictionary alloc] initWithDictionary:dataDic] isAJK:NO];
+    }
     
     for (NSDictionary *tempDic in [dataDic objectForKey:@"hzFixHouse"]) {
         NSString *fixedStr = [NSString stringWithFormat:@"%@(%@)", @"定价房源", [tempDic objectForKey:@"fixNum"]];
