@@ -210,6 +210,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     self.myTableView.delegate = nil;
     self.myTableView.dataSource = nil;
     self.myTableView = nil;
+    self.subMenuHideFinish = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[LocationManager defaultLocationManager] cancellRequest];
     
