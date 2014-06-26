@@ -54,7 +54,7 @@
 - (void)doRequest{
 }
 
-#pragma mark --NoNetWorkDelegate
+#pragma mark --NoNetWorkDelegat
 - (void)requestData{
     [self autoPullDown];
 }

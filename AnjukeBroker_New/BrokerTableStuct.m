@@ -9,7 +9,7 @@
 #import "BrokerTableStuct.h"
 
 @implementation BrokerTableStuct
-@synthesize headerView;
+@synthesize headerViews;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -25,9 +25,9 @@
         self.tableHeaderView = nil;
         return;
     }
-    if (!self.headerView) {
-        [self.headerView removeFromSuperview];
-        self.headerView = nil;
+    if (!self.headerViews) {
+        [self.headerViews removeFromSuperview];
+        self.headerViews = nil;
     }
     UIImageView *backGroundView = [[UIImageView alloc] init];
     backGroundView.frame = CGRectMake(0, 0, 320, 200);
@@ -75,13 +75,13 @@
     }
     
     
-    self.headerView = [[UIView alloc] initWithFrame:self.frame];
-    self.headerView.backgroundColor = [UIColor whiteColor];
+    self.headerViews = [[UIView alloc] initWithFrame:self.frame];
+    self.headerViews.backgroundColor = [UIColor whiteColor];
     
     backGroundView.center = self.center;
-    [self.headerView addSubview:backGroundView];
+    [self.headerViews addSubview:backGroundView];
     
-    self.tableHeaderView = self.headerView;
+    self.tableHeaderView = self.headerViews;
 }
 
 @end

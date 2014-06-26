@@ -17,7 +17,7 @@
 #import "UIColor+BrokerRT.h"
 #import "CheckoutWebViewController.h"
 
-@interface CheckoutCommunityViewController ()<checkoutSuccussDelegate>
+@interface CheckoutCommunityViewController ()
 //@property(nonatomic, strong) CheckCommunityTable *tableList;
 @property(nonatomic, strong) NSDictionary *checkoutDic;
 //user最新2d
@@ -28,7 +28,6 @@
 @property(nonatomic ,strong) MKMapView *map;
 @property(nonatomic, assign) double angle;
 @property(nonatomic, strong) NSIndexPath *selectCell;
-@property(nonatomic, strong) CLLocationManager *locationManager;
 @end
 
 @implementation CheckoutCommunityViewController
@@ -36,7 +35,6 @@
 @synthesize checkoutDic;
 @synthesize nowCoords;
 @synthesize tablaData;
-@synthesize locationManager;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -51,55 +49,29 @@
 }
 
 #pragma mark - log
-//- (void)sendAppearLog {
-//    [[BrokerLogger sharedInstance] logWithActionCode:COMMUNITY_CHECK_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-//}
 
 - (void)viewWillAppear:(BOOL)animated{
     if (![CLLocationManager isLocationServiceEnabled]) {
+        //        UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        //        [alet show];
         [self.tableList setTableStatus:STATUSFORNOGPS];
         [self stopAnimation];
         [self.tablaData removeAllObjects];
         [self.tableList reloadData];
+        [self donePullDown];
         
         return;
     }
-}
-
-- (CLLocationManager *)locationManager{
-    if (locationManager == nil) {
-        locationManager = [[CLLocationManager alloc] init];
-        [locationManager setDistanceFilter:kCLDistanceFilterNone];
-        [locationManager setDesiredAccuracy:kCLLocationAccuracyBestForNavigation];
-        locationManager.delegate = self;
+    if (self.tableList && !self.isLoading) {
+        //        [self refreshGeo:nil];
+        [self doRequest];
     }
-    return locationManager;
 }
-
-#pragma mark -
-#pragma mark CLLocationManagerDelegate
-- (void)locationManager:(CLLocationManager *)manager
-	 didUpdateLocations:(NSArray *)locations{
-    [manager stopUpdatingLocation];
-    
-    if (![CLLocationManager isLocationServiceEnabled]) {
-        [self performSelector:@selector(setStatusForNoGPS) withObject:nil afterDelay:0.2];
-        
-        return;
-    }
-    
-    CLLocation * location = [locations lastObject];
-    self.nowCoords = location.coordinate;
-    DLog(@"self.nowCoords.latitude--->>%f",self.nowCoords.latitude);
-    [self doRequest];
-}
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[BrokerLogger sharedInstance] logWithActionCode:SIGNIN_LIST_ONVIEW page:SIGNIN_LIST note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
-
+     [[BrokerLogger sharedInstance] logWithActionCode:SIGNIN_LIST_ONVIEW page:SIGNIN_LIST note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    
     [self setTitleViewWithString:@"小区签到"];
     // Do any additional setup after loading the view.
     
@@ -108,6 +80,7 @@
 - (void)initUI{
     self.map = [[MKMapView alloc] initWithFrame:CGRectZero];
     self.map.userInteractionEnabled = NO;
+    self.map.showsUserLocation = YES;
     self.map.delegate = self;
     [self.view addSubview:self.map];
     
@@ -159,13 +132,14 @@
 }
 
 - (void)doBack:(id)sender{
-    [super doBack:sender];
+    [super doBack:nil];
     [[BrokerLogger sharedInstance] logWithActionCode:SIGNIN_LIST_CLICK_BACK page:SIGNIN_LIST note:nil];
     
 }
 
 - (void)rightButtonAction:(id)sender{
     [[BrokerLogger sharedInstance] logWithActionCode:SIGNIN_LIST_CLICK_RULE page:SIGNIN_LIST note:nil];
+    
     CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
     webVC.webTitle = @"签到规则";
     webVC.webUrl = @"http://api.anjuke.com/web/nearby/brokersign/rule.html";
@@ -180,12 +154,13 @@
     [self.tableList reloadData];
     [self.tableList setTableStatus:STATUSFORNOGPS];
     self.isLoading = NO;
+    self.map.showsUserLocation = NO;
     [self stopAnimation];
 }
 
 #pragma mark - rotation method
 - (void)refreshGeo:(id)sender{
-    [[BrokerLogger sharedInstance] logWithActionCode:SIGNIN_LIST_CLICK_REFRESH page:SIGNIN_LIST note:nil];
+     [[BrokerLogger sharedInstance] logWithActionCode:SIGNIN_LIST_CLICK_REFRESH page:SIGNIN_LIST note:nil];
     if (self.isLoading) {
         return;
     }
@@ -200,59 +175,51 @@
     rotationAnimation.repeatCount = 10000;
     
     [self.refreshBtn.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
-    [self.locationManager startUpdatingLocation];
+    self.map.showsUserLocation = YES;
 }
 
 - (void)stopAnimation{
     [self.refreshBtn.layer removeAnimationForKey:@"rotationAnimation"];
 }
-
-- (void)tapGus:(UITapGestureRecognizer *)gesture{
-    [self autoPullDown];
-}
-
 #pragma mark - request method
 - (void)doRequest{
-    if (![CLLocationManager isLocationServiceEnabled] && !self.nowCoords.latitude) {
-        [self performSelector:@selector(setStatusForNoGPS) withObject:nil afterDelay:0.1];
-
+    if (![CLLocationManager isLocationServiceEnabled]) {
+        [self performSelector:@selector(setStatusForNoGPS) withObject:nil afterDelay:0.2];
         return;
     }
-    
     if (![self isNetworkOkayWithNoInfo]) {
-        
+
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
-        
+
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
         tapGes.delegate                = self;
         tapGes.numberOfTouchesRequired = 1;
         tapGes.numberOfTapsRequired    = 1;
-        [self.tableList.headerView addGestureRecognizer:tapGes];
+        [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
 
         [self.tablaData removeAllObjects];
         [self.tableList reloadData];
-        
+
         [self performSelector:@selector(donePullDown) withObject:nil afterDelay:0.1];
         [self performSelector:@selector(stopAnimation) withObject:nil afterDelay:0.1];
-        
+
         self.isLoading = NO;
         return;
     }
     if ([CLLocationManager isLocationServiceEnabled] && !self.nowCoords.latitude) {
         //开始实时定位
-        [self.locationManager startUpdatingLocation];
-        
+        self.map.userInteractionEnabled = YES;
+
         [self performSelector:@selector(donePullDown) withObject:nil afterDelay:0.1];
         [self performSelector:@selector(stopAnimation) withObject:nil afterDelay:0.1];
-        
+
         [self.tablaData removeAllObjects];
         [self.tableList reloadData];
         self.isLoading = NO;
         return;
     }
-    
+
     self.isLoading = YES;
-    
     NSMutableDictionary *params = nil;
     NSString *method = nil;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"latitude_specify"]) {
@@ -264,6 +231,51 @@
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
 }
+//    if (![self isNetworkOkayWithNoInfo]) {
+//        
+//        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+//        
+//        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
+//        tapGes.delegate                = self;
+//        tapGes.numberOfTouchesRequired = 1;
+//        tapGes.numberOfTapsRequired    = 1;
+//        [self.tableList.headerView addGestureRecognizer:tapGes];
+//        
+//        [self.tablaData removeAllObjects];
+//        [self.tableList reloadData];
+//        
+//        [self performSelector:@selector(donePullDown) withObject:nil afterDelay:0.1];
+//        [self performSelector:@selector(stopAnimation) withObject:nil afterDelay:0.1];
+//        
+//        self.isLoading = NO;
+//        return;
+//    }
+//    if ([CLLocationManager isLocationServiceEnabled] && !self.nowCoords.latitude) {
+//        //开始实时定位
+//        [self.locationManager startUpdatingLocation];
+//        
+//        [self performSelector:@selector(donePullDown) withObject:nil afterDelay:0.1];
+//        [self performSelector:@selector(stopAnimation) withObject:nil afterDelay:0.1];
+//        
+//        [self.tablaData removeAllObjects];
+//        [self.tableList reloadData];
+//        self.isLoading = NO;
+//        return;
+//    }
+//    
+//    self.isLoading = YES;
+//    
+//    NSMutableDictionary *params = nil;
+//    NSString *method = nil;
+//    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"latitude_specify"]) {
+//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",[[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude_specify"] doubleValue]],@"lat",[NSString stringWithFormat:@"%f",[[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude_specify"] doubleValue]],@"lng", nil];
+//    }else{
+//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%f",self.nowCoords.longitude],@"lng", nil];
+//    }
+//    method = [NSString stringWithFormat:@"broker/commSignList/"];
+//    
+//    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
+//}
 - (void)onRequestFinished:(RTNetworkResponse *)response{
     self.isLoading = NO;
     [self stopAnimation];
@@ -271,11 +283,12 @@
     if([[response content] count] == 0){
         [self donePullDown];
         [self.tableList setTableStatus:STATUSFORNODATA];
+       
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
         tapGes.delegate                = self;
         tapGes.numberOfTouchesRequired = 1;
         tapGes.numberOfTapsRequired    = 1;
-        [self.tableList.headerView addGestureRecognizer:tapGes];
+        [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
 
         
         [self.tablaData removeAllObjects];
@@ -286,12 +299,13 @@
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
         tapGes.delegate                = self;
         tapGes.numberOfTouchesRequired = 1;
         tapGes.numberOfTapsRequired    = 1;
-        [self.tableList.headerView addGestureRecognizer:tapGes];
-
+        [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
+        
         
         [self.tablaData removeAllObjects];
         [self.tableList reloadData];
@@ -301,7 +315,7 @@
     }
     
     self.tablaData = [[response content] objectForKey:@"data"];
-    DLog(@"self.tablaData-->>%@",self.tablaData);
+
     if (self.tablaData.count == 0) {
         [self.tableList setTableStatus:STATUSFORNODATA];
     }else{
@@ -345,10 +359,10 @@
     
     self.selectCell = indexPath;
     
-    [[BrokerLogger sharedInstance] logWithActionCode:SIGNIN_LIST_CLICK_XIAOQU page:SIGNIN_LIST note:nil];
+     [[BrokerLogger sharedInstance] logWithActionCode:SIGNIN_LIST_CLICK_XIAOQU page:SIGNIN_LIST note:nil];
+    
     CheckCommunityModel *model = [CheckCommunityModel convertToMappedObject:[self.tablaData objectAtIndex:indexPath.row]];
     CheckoutViewController *checkoutVC = [[CheckoutViewController alloc] init];
-    checkoutVC.checkoutDelegate = self;
     
     checkoutVC.forbiddenEgo = YES;
     [checkoutVC passCommunityWithModel:model];
@@ -356,13 +370,21 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-#pragma mark --- checkedSuccuss
-- (void)checkedSuccuss{
-    if (self.selectCell) {
-        CheckoutCommunityCell *cell = (CheckoutCommunityCell *)[self.tableList cellForRowAtIndexPath:self.selectCell];
-        [cell showCheckedStatus:YES];
-        self.selectCell = nil;
+- (void)tapGus:(UITapGestureRecognizer *)gesture{
+    [self autoPullDown];
+}
+
+#pragma mark MKMapViewDelegate -user location定位变化
+-(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
+    if (![CLLocationManager isLocationServiceEnabled]) {
+        [self performSelector:@selector(setStatusForNoGPS) withObject:nil afterDelay:0.2];
+        
+        return;
     }
+    
+    self.nowCoords = [userLocation coordinate];
+    self.map.showsUserLocation = NO;
+    [self doRequest];
 }
 
 - (void)didReceiveMemoryWarning

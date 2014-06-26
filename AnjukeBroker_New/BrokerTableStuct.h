@@ -18,6 +18,6 @@ typedef NS_ENUM(NSInteger, TableStatus) {
 
 @interface BrokerTableStuct : UITableView<UIGestureRecognizerDelegate>
 @property(nonatomic, assign) TableStatus stauts;
-@property(nonatomic, strong) UIView *headerView;
+@property(nonatomic, strong) UIView *headerViews;
 - (void)setTableStatus:(TableStatus)status;
 @end
