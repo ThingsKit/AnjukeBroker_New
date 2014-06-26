@@ -189,7 +189,7 @@
     //如果请求数据成功
     if (status == RTNetworkResponseStatusSuccess) {
         NSDictionary* content = response.content;
-        NSLog(@"%@", content);
+//        NSLog(@"%@", content);
         
         if ([@"ok" isEqualToString:[content objectForKey:@"status"]]) {
             

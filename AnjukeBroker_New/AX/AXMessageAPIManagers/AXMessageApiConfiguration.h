@@ -14,11 +14,8 @@
 #import "NSString+AppendURLCommonParams.h"
 
 /*  ===== Public Configuration Start ===== */
-#ifdef DEBUG
-    static NSString * const kAXConnectManagerLinkParamHost = @"https://dev.aifang.com:8043";
-#else
-    static NSString * const kAXConnectManagerLinkParamHost = @"https://push10.anjuke.com:443";
-#endif
+//static NSString * const kAXConnectManagerLinkParamHost = @"https://dev.aifang.com:8043";
+static NSString * const kAXConnectManagerLinkParamHost = @"https://push10.anjuke.com:443";
 
 static NSString * const kAXConnectManagerLinkAppName = @"i-broker2";
 
