@@ -22,8 +22,8 @@
     return self;
 }
 
--(void)setValueForCellByData:(id ) data index:(int) index{
-    [super setValueForCellByData:data index:index];
+-(void)setValueForCellByData:(id ) data index:(int) index isHz:(BOOL)isHz{
+    [super setValueForCellByData:data index:index isHz:isHz];
 }
 
 -(void)setFixedGroupValueForCellByData:(id ) data index:(int) index{

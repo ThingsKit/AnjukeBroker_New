@@ -137,25 +137,30 @@
         return ;
     }
     
+    NSDictionary *dataDic = [resultFromAPI objectForKey:@"hzDataDic"];
+    
     if ([resultFromAPI objectForKey:@"hzDataDic"]) {
-        [self.ppcHeadView updatePPCData:[[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"hzDataDic"]] isAJK:NO];
+        [self.ppcHeadView updatePPCData:dataDic isAJK:NO];
     }
     
-    NSMutableDictionary *bidPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"bidPlan"]];
+    NSMutableDictionary *bidPlan = [[NSMutableDictionary alloc] init];
+    [bidPlan setValue:@"定价房源" forKey:@"title"];
+    [bidPlan setValue:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"hzBidHouseNum"]] forKey:@"hzBidHouseNum"];
     [bidPlan setValue:@"1" forKey:@"type"];
     [self.myArray addObject:bidPlan];
+
     
     NSMutableArray *fixPlan = [NSMutableArray array];
-    [fixPlan addObjectsFromArray:[resultFromAPI objectForKey:@"fixPlan"]];
+    [fixPlan addObjectsFromArray:[dataDic objectForKey:@"hzFixHouse"]];
     [self.myArray addObjectsFromArray:fixPlan];
     
     if([fixPlan count] == 1){
-        self.isSeedPid = [[fixPlan objectAtIndex:0] objectForKey:@"fixPlanId"];
+        self.isSeedPid = [[fixPlan objectAtIndex:0] objectForKey:@"fixId"];
     }
     
     NSMutableDictionary *nodic = [[NSMutableDictionary alloc] init];
     [nodic setValue:@"待推广房源" forKey:@"title"];
-    [nodic setValue:[resultFromAPI objectForKey:@"unRecommendPropNum"] forKey:@"unRecommendPropNum"];
+    [nodic setValue:[dataDic objectForKey:@"hzNotFixHouseNum"] forKey:@"hzNotFixHouseNum"];
     [nodic setValue:@"1" forKey:@"type"];
     [self.myArray addObject:nodic];
     
@@ -163,7 +168,6 @@
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
 }
-
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if([indexPath row] == 0)
@@ -217,7 +221,7 @@
     }else{
         [cell showBottonLineWithCellHeight:HaozuHomeCellHeight];
     }
-    [cell setValueForCellByData:self.myArray index:indexPath.row];
+    [cell setValueForCellByData:self.myArray index:indexPath.row isHz:YES];
     return cell;
 }
 

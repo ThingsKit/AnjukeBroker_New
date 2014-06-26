@@ -143,23 +143,30 @@
         return ;
     }
 
+    NSDictionary *dataDic = [resultFromAPI objectForKey:@"ajkDataDic"];
+
     if ([resultFromAPI objectForKey:@"ajkDataDic"]) {
-        [self.ppcHeadView updatePPCData:[[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"ajkDataDic"]] isAJK:YES];
+        [self.ppcHeadView updatePPCData:[[NSMutableDictionary alloc] initWithDictionary:dataDic] isAJK:YES];
     }
     
-    NSMutableDictionary *bidPlan = [[NSMutableDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"bidPlan"]];
+    
+    NSMutableDictionary *bidPlan = [[NSMutableDictionary alloc] init];
+    [bidPlan setValue:@"定价房源" forKey:@"title"];
+    [bidPlan setValue:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"ajkBidHouseNum"]] forKey:@"ajkBidHouseNum"];
     [bidPlan setValue:@"1" forKey:@"type"];
     [self.myArray addObject:bidPlan];
     
     NSMutableArray *fixPlan = [NSMutableArray array];
-    [fixPlan addObjectsFromArray:[resultFromAPI objectForKey:@"fixPlan"]];
+    [fixPlan addObjectsFromArray:[dataDic objectForKey:@"ajkFixHouse"]];
     [self.myArray addObjectsFromArray:fixPlan];
+    
     if ([fixPlan count] == 1) {
-        self.isSeedPid = [[fixPlan objectAtIndex:0] objectForKey:@"fixPlanId"];
+        self.isSeedPid = [[fixPlan objectAtIndex:0] objectForKey:@"fixId"];
     }
+    
     NSMutableDictionary *nodic = [[NSMutableDictionary alloc] init];
     [nodic setValue:@"待推广房源" forKey:@"title"];
-    [nodic setValue:[resultFromAPI objectForKey:@"unRecommendPropNum"] forKey:@"unRecommendPropNum"];
+    [nodic setValue:[dataDic objectForKey:@"ajkNotFixHouseNum"] forKey:@"ajkNotFixHouseNum"];
     [nodic setValue:@"1" forKey:@"type"];
     [self.myArray addObject:nodic];
     
@@ -220,7 +227,7 @@
     }else{
         [cell showBottonLineWithCellHeight:66.0f];
     }
-    [cell setValueForCellByData:self.myArray index:indexPath.row];
+    [cell setValueForCellByData:self.myArray index:indexPath.row isHz:NO];
     return cell;
 }
 
