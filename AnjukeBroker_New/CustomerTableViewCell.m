@@ -140,21 +140,55 @@
 //    _loginTime.backgroundColor = [UIColor yellowColor];
     
     //地点
-    _location.frame = CGRectMake(_userIcon.right + 10, _userName.bottom + GAP_V, 100, 20);
-    _location.text = self.customerModel.blcok_name;
-    [_location sizeToFit]; //大小自适应
+    if (self.customerModel.blcok_name) {
+        _location.frame = CGRectMake(_userIcon.right + 10, _userName.bottom + GAP_V, 100, 20);
+        _location.text = self.customerModel.blcok_name;
+        [_location sizeToFit]; //大小自适应
+        _location.hidden = NO;
+    }else{
+        _location.hidden = YES;
+    }
 //    _location.backgroundColor = [UIColor purpleColor];
     
     //户型
-    _houseType.frame = CGRectMake(_location.right + GAP_H, _userName.bottom + GAP_V, 100, 20);
-    _houseType.text = self.customerModel.house_type_preference;
-    [_houseType sizeToFit];
+    if (self.customerModel.house_type_preference) {
+        if (self.customerModel.blcok_name) {
+            _houseType.frame = CGRectMake(_location.right + GAP_H, _userName.bottom + GAP_V, 100, 20);
+            _houseType.text = self.customerModel.house_type_preference;
+            [_houseType sizeToFit];
+            _houseType.hidden = NO;
+        }else{
+            _houseType.frame = CGRectMake(_userIcon.right + 10, _userName.bottom + GAP_V, 100, 20);
+            _houseType.text = self.customerModel.house_type_preference;
+            [_houseType sizeToFit];
+            _houseType.hidden = NO;
+        }
+    }else{
+        _houseType.hidden = YES;
+    }
 //    _houseType.backgroundColor = [UIColor grayColor];
     
     //租金或售价
-    _price.frame = CGRectMake(_houseType.right + GAP_H, _userName.bottom + GAP_V, 100, 20);
-    _price.text = self.customerModel.price_preference;
-    [_price sizeToFit];
+    if (self.customerModel.price_preference) {
+        if (self.customerModel.house_type_preference) {
+            _price.frame = CGRectMake(_houseType.right + GAP_H, _userName.bottom + GAP_V, 100, 20);
+            _price.text = self.customerModel.price_preference;
+            [_price sizeToFit];
+            _price.hidden = NO;
+        }else if(self.customerModel.blcok_name){
+            _price.frame = CGRectMake(_location.right + GAP_H, _userName.bottom + GAP_V, 100, 20);
+            _price.text = self.customerModel.price_preference;
+            [_price sizeToFit];
+            _price.hidden = NO;
+        }else{
+            _price.frame = CGRectMake(_userIcon.right + 10, _userName.bottom + GAP_V, 100, 20);
+            _price.text = self.customerModel.price_preference;
+            [_price sizeToFit];
+            _price.hidden = NO;
+        }
+    }else{
+        _price.hidden = YES;
+    }
 //    _price.backgroundColor = [UIColor redColor];
     
     //浏览房源数
