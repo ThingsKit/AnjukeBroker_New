@@ -17,10 +17,11 @@
 #import "RTGestureBackNavigationController.h"
 #import "PPCHeaderView.h"
 
-#define HaozuHomeCellHeight 66.0f
+#define HOME_cellHeight 50
 
 @interface HaozuHomeViewController ()
 @property(nonatomic, strong) PPCHeaderView *ppcHeadView;
+@property(nonatomic, strong) NSDictionary *dataDic;
 @end
 
 @implementation HaozuHomeViewController
@@ -28,6 +29,7 @@
 @synthesize myArray;
 @synthesize isSeedPid;
 @synthesize ppcHeadView;
+@synthesize dataDic;
 
 #pragma mark - log
 - (void)sendAppearLog {
@@ -137,61 +139,48 @@
         return ;
     }
     
-    NSDictionary *dataDic = [resultFromAPI objectForKey:@"hzDataDic"];
+    dataDic = [[NSDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"hzDataDic"]];
     
-    if ([resultFromAPI objectForKey:@"hzDataDic"]) {
-        [self.ppcHeadView updatePPCData:dataDic isAJK:NO];
+    for (NSDictionary *tempDic in [dataDic objectForKey:@"hzFixHouse"]) {
+        NSString *fixedStr = [NSString stringWithFormat:@"%@(%@)", @"定价房源", [tempDic objectForKey:@"fixNum"]];
+        [self.myArray addObject:fixedStr];
     }
-    
-    NSMutableDictionary *bidPlan = [[NSMutableDictionary alloc] init];
-    [bidPlan setValue:@"定价房源" forKey:@"title"];
-    [bidPlan setValue:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"hzBidHouseNum"]] forKey:@"hzBidHouseNum"];
-    [bidPlan setValue:@"1" forKey:@"type"];
-    [self.myArray addObject:bidPlan];
-
-    
-    NSMutableArray *fixPlan = [NSMutableArray array];
-    [fixPlan addObjectsFromArray:[dataDic objectForKey:@"hzFixHouse"]];
-    [self.myArray addObjectsFromArray:fixPlan];
-    
-    if([fixPlan count] == 1){
-        self.isSeedPid = [[fixPlan objectAtIndex:0] objectForKey:@"fixId"];
+    if ([self.myArray count] == 1) {
+        self.isSeedPid = [[[dataDic objectForKey:@"hzFixHouse"] objectAtIndex:0] objectForKey:@"fixId"];
     }
-    
-    NSMutableDictionary *nodic = [[NSMutableDictionary alloc] init];
-    [nodic setValue:@"待推广房源" forKey:@"title"];
-    [nodic setValue:[dataDic objectForKey:@"hzNotFixHouseNum"] forKey:@"hzNotFixHouseNum"];
-    [nodic setValue:@"1" forKey:@"type"];
-    [self.myArray addObject:nodic];
-    
+    NSString *bidStr = [NSString stringWithFormat:@"竞价房源(%@)", [dataDic objectForKey:@"hzBidHouseNum"]];
+    NSString *noplanStr = [NSString stringWithFormat:@"待推广房源(%@)", [dataDic objectForKey:@"hzNotFixHouseNum"]];
+    [self.myArray addObject:bidStr];
+    [self.myArray addObject:noplanStr];
     [self.myTable reloadData];
+    
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if([indexPath row] == 0)
-    {
+    if (self.myArray.count > 2 && indexPath.row == self.myArray.count - 2) {//竞价
         [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_BIDLIST page:ZF_MANAGE note:nil];
         
         RentBidDetailController *controller = [[RentBidDetailController alloc] init];
-        controller.backType = RTSelectorBackTypePopBack;
+        [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
-    }else if ([indexPath row] == [self.myArray count] - 1){
+    } else if (self.myArray.count > 1 && indexPath.row == self.myArray.count - 1) {//待推广
         [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_DRAFTLIST page:ZF_MANAGE note:nil];
-        
+
         RentNoPlanController *controller = [[RentNoPlanController alloc] init];
-        controller.backType = RTSelectorBackTypePopBack;
         controller.isSeedPid = self.isSeedPid;
+        [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
-    }else{
+    } else {
         [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_FIXLIST page:ZF_MANAGE note:nil];
         
         RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
-        controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
-        controller.backType = RTSelectorBackTypePopBack;
+        controller.tempDic = [[dataDic objectForKey:@"hzFixHouse"] objectAtIndex:indexPath.row];
+        [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     }
+
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -200,28 +189,42 @@
     return [myArray count];
 }
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return HaozuHomeCellHeight;
+    return HOME_cellHeight;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *cellIdent = @"RentPPCGroupCell";
-
-    RentPPCGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
-    if(cell == nil){
-        cell = [[NSClassFromString(@"RentPPCGroupCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    static NSString *cellIdentify = @"cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentify];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentify];
+        [cell setBackgroundColor:[UIColor whiteColor]];
+    }
+    cell.textLabel.text = [self.myArray objectAtIndex:indexPath.row];
+    cell.textLabel.textColor = [UIColor brokerBlackColor];
+    cell.textLabel.font = [UIFont ajkH2Font];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    if (indexPath.row == self.myArray.count - 1) {
+        BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, 0.5f, 320 - 15, 0.5f)];
+        [cell.contentView addSubview:line];
         
+        BrokerLineView *line1 = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, HOME_cellHeight - 0.5f, 320, 0.5f)];
+        [cell.contentView addSubview:line1];
+    }else {
+        BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, 0.5f, 320 - 15, 0.5f)];
+        [cell.contentView addSubview:line];
     }
-    cell.contentView.backgroundColor = [UIColor whiteColor];
+    
     if (indexPath.row == 0) {
-        [cell showTopLineWithOffsetX:15];
-        [cell showBottonLineWithCellHeight:HaozuHomeCellHeight andOffsetX:15];
-    }else if (indexPath.row != [self.myArray count] - 1) {
-        [cell showBottonLineWithCellHeight:HaozuHomeCellHeight andOffsetX:15];
-    }else{
-        [cell showBottonLineWithCellHeight:HaozuHomeCellHeight];
+        UIImageView *statueImg = [[UIImageView alloc] initWithFrame:CGRectMake(260, 18, 30, 13)];
+        if([[dataDic objectForKey:@"fixStatus"] intValue] == 1){
+            [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_woking.png"]];
+        }else{
+            [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_stop.png"]];
+        }
+        [cell.contentView addSubview:statueImg];
     }
-    [cell setValueForCellByData:self.myArray index:indexPath.row isHz:YES];
+    
     return cell;
 }
 

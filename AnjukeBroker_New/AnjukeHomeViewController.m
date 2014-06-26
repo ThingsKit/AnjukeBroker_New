@@ -20,8 +20,11 @@
 #import "RTGestureBackNavigationController.h"
 #import "PPCHeaderView.h"
 
+#define HOME_cellHeight 50
+
 @interface AnjukeHomeViewController ()
 @property(nonatomic, strong) PPCHeaderView *ppcHeadView;
+@property(nonatomic, strong) NSDictionary *dataDic;
 @end
 
 @implementation AnjukeHomeViewController
@@ -29,6 +32,7 @@
 @synthesize myArray;
 @synthesize isSeedPid;
 @synthesize ppcHeadView;
+@synthesize dataDic;
 
 #pragma mark - log
 - (void)sendAppearLog {
@@ -143,63 +147,52 @@
         return ;
     }
 
-    NSDictionary *dataDic = [resultFromAPI objectForKey:@"ajkDataDic"];
+    dataDic = [[NSDictionary alloc] initWithDictionary:[resultFromAPI objectForKey:@"ajkDataDic"]];
 
     if ([resultFromAPI objectForKey:@"ajkDataDic"]) {
         [self.ppcHeadView updatePPCData:[[NSMutableDictionary alloc] initWithDictionary:dataDic] isAJK:YES];
     }
     
-    
-    NSMutableDictionary *bidPlan = [[NSMutableDictionary alloc] init];
-    [bidPlan setValue:@"定价房源" forKey:@"title"];
-    [bidPlan setValue:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"ajkBidHouseNum"]] forKey:@"ajkBidHouseNum"];
-    [bidPlan setValue:@"1" forKey:@"type"];
-    [self.myArray addObject:bidPlan];
-    
-    NSMutableArray *fixPlan = [NSMutableArray array];
-    [fixPlan addObjectsFromArray:[dataDic objectForKey:@"ajkFixHouse"]];
-    [self.myArray addObjectsFromArray:fixPlan];
-    
-    if ([fixPlan count] == 1) {
-        self.isSeedPid = [[fixPlan objectAtIndex:0] objectForKey:@"fixId"];
+
+    for (NSDictionary *tempDic in [dataDic objectForKey:@"ajkFixHouse"]) {
+        NSString *fixedStr = [NSString stringWithFormat:@"%@(%@)", @"定价房源", [tempDic objectForKey:@"fixNum"]];
+        [self.myArray addObject:fixedStr];
     }
-    
-    NSMutableDictionary *nodic = [[NSMutableDictionary alloc] init];
-    [nodic setValue:@"待推广房源" forKey:@"title"];
-    [nodic setValue:[dataDic objectForKey:@"ajkNotFixHouseNum"] forKey:@"ajkNotFixHouseNum"];
-    [nodic setValue:@"1" forKey:@"type"];
-    [self.myArray addObject:nodic];
-    
+    if ([self.myArray count] == 1) {
+        self.isSeedPid = [[[dataDic objectForKey:@"ajkFixHouse"] objectAtIndex:0] objectForKey:@"fixId"];
+    }
+    NSString *bidStr = [NSString stringWithFormat:@"竞价房源(%@)", [dataDic objectForKey:@"ajkBidHouseNum"]];
+    NSString *noplanStr = [NSString stringWithFormat:@"待推广房源(%@)", [dataDic objectForKey:@"ajkNotFixHouseNum"]];
+    [self.myArray addObject:bidStr];
+    [self.myArray addObject:noplanStr];
+
     [self.myTable reloadData];
-    [self hideLoadWithAnimated:YES];
-    self.isLoading = NO;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    if([indexPath row] == 0)
-    {
+    if (self.myArray.count > 2 && indexPath.row == self.myArray.count - 2) {//竞价
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_FIXLIST page:ESF_MANAGE note:nil];
 
-        [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_BIDLIST page:ESF_MANAGE note:nil];
-        
         SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
-        controller.backType = RTSelectorBackTypePopBack;
+        [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
-    }else if ([indexPath row] == [self.myArray count] - 1){
+    } else if (self.myArray.count > 1 && indexPath.row == self.myArray.count - 1) {//待推广
         [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_DRAFTLIST page:ESF_MANAGE note:nil];
         
         SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
-        controller.backType = RTSelectorBackTypePopBack;
         controller.isSeedPid = self.isSeedPid;
+        [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
-    }else{
-        [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_FIXLIST page:ESF_MANAGE note:nil];
-        
+    } else {
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_DRAFTLIST page:ESF_MANAGE note:nil];
+
         SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
-        controller.tempDic = [self.myArray objectAtIndex:indexPath.row];
-        controller.backType = RTSelectorBackTypePopBack;
+        controller.tempDic = [[dataDic objectForKey:@"ajkFixHouse"] objectAtIndex:indexPath.row];
+        [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     }
+    
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -207,27 +200,44 @@
     return [self.myArray count];
 }
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 66.0f;
+    return HOME_cellHeight;
 }
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *cellIdent = @"PPCGroupCell";
-//    tableView.separatorColor = [UIColor lightGrayColor];
-    PPCGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdent];
-    if(cell == nil){
-        cell = [[NSClassFromString(@"PPCGroupCell") alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdent];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *cellIdentify = @"cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentify];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentify];
+        [cell setBackgroundColor:[UIColor whiteColor]];
+
     }
-    cell.contentView.backgroundColor = [UIColor whiteColor];
+    cell.textLabel.text = [self.myArray objectAtIndex:indexPath.row];
+    cell.textLabel.textColor = [UIColor brokerBlackColor];
+    cell.textLabel.font = [UIFont ajkH2Font];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    if (indexPath.row == self.myArray.count - 1) {
+        BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, 0.5f, 320 - 15, 0.5f)];
+        [cell.contentView addSubview:line];
+        
+        BrokerLineView *line1 = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, HOME_cellHeight - 0.5f, 320, 0.5f)];
+        [cell.contentView addSubview:line1];
+    }else {
+        BrokerLineView *line = [[BrokerLineView alloc] initWithFrame:CGRectMake(15, 0.5f, 320 - 15, 0.5f)];
+        [cell.contentView addSubview:line];
+    }
+    
     if (indexPath.row == 0) {
-        [cell showTopLineWithOffsetX:15];
-        [cell showBottonLineWithCellHeight:66.0f andOffsetX:15];
-    }else if (indexPath.row != [self.myArray count] - 1) {
-        [cell showBottonLineWithCellHeight:66.0f andOffsetX:15];
-    }else{
-        [cell showBottonLineWithCellHeight:66.0f];
+        UIImageView *statueImg = [[UIImageView alloc] initWithFrame:CGRectMake(260, 18, 30, 13)];
+        if([[dataDic objectForKey:@"fixStatus"] intValue] == 1){
+            [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_woking.png"]];
+        }else{
+            [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_stop.png"]];
+        }
+        [cell.contentView addSubview:statueImg];
     }
-    [cell setValueForCellByData:self.myArray index:indexPath.row isHz:NO];
+    
     return cell;
 }
 
