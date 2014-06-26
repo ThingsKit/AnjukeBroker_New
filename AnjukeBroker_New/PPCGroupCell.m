@@ -25,6 +25,10 @@
     return self;
 }
 -(void)initUI{
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 66.0)];
+    view.backgroundColor = [UIColor whiteColor];
+    [self.contentView addSubview:view];
+    
     title = [[UILabel alloc] initWithFrame:CGRectMake(26, 10, 310, 20)];
     title.font = [UIFont systemFontOfSize:18];
     [self.contentView addSubview:title];

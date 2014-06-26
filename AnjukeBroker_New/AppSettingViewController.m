@@ -169,7 +169,7 @@
         
         UILabel *notifyOpenLab = [[UILabel alloc] initWithFrame:CGRectMake(235, 0, 70, NOTIFICCELL)];
         notifyOpenLab.backgroundColor = [UIColor clearColor];
-        notifyOpenLab.font = [UIFont ajkH2Font];
+        notifyOpenLab.font = [UIFont ajkH3Font];
         notifyOpenLab.textColor = [UIColor brokerBlackColor];
         notifyOpenLab.textAlignment = NSTextAlignmentRight;
         [cell.contentView addSubview:notifyOpenLab];

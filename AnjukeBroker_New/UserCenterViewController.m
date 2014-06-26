@@ -59,7 +59,7 @@
     }
 }
 - (void)initModel {
-    self.taskArray = [NSArray arrayWithObjects:@"微聊客户",@"我的二维码", @"联系客户主任", @"客服热线", @"系统设置", nil];
+    self.taskArray = [NSArray arrayWithObjects:@"微聊客户",@"我的二维码", @"客户主任", @"客服热线", @"系统设置", nil];
 }
 
 - (void)viewDidLoad
