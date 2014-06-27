@@ -18,7 +18,14 @@
 #pragma mark - log
 - (void)sendAppearLog {
     if (self.pageTypeFrom == secondHandHouse) {
-        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_XIAOQU_ONVIEW page:CHAT_ESF_XIAOQU note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        if (_isSayHello)
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_XIAOQU_ONVIEW page:potential_client_xiaoqu note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        }else
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_XIAOQU_ONVIEW page:CHAT_ESF_XIAOQU note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        }
+        
     }else {
         [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ZF_XIAOQU_ONVIEW page:CHAT_ZF_XIAOQU note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
@@ -132,7 +139,14 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.pageTypeFrom == secondHandHouse) {
-        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_XIAOQU_SELECT page:CHAT_ESF_XIAOQU note:nil];
+        if (_isSayHello)
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_XIAOQU_SELECT page:potential_client_xiaoqu note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        }else
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_XIAOQU_SELECT page:CHAT_ESF_XIAOQU note:nil];
+        }
+        
     }else {
         [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ZF_XIAOQU_SELECT page:CHAT_ZF_XIAOQU note:nil];
     }
@@ -142,6 +156,8 @@
     proLVC.backType = RTSelectorBackTypePopBack;
     if (self.pageTypeFrom == secondHandHouse) {
         proLVC.pageTypePropertyFrom = secondHandPropertyHouse;
+        proLVC.isSayHello = _isSayHello;
+        proLVC.willsendProp = _willSendProp;
     }else{
         proLVC.pageTypePropertyFrom = rentPropertyHouse;
     }
@@ -152,7 +168,14 @@
 
 - (void)doBack:(id)sender {
      if (self.pageTypeFrom == secondHandHouse) {
-         [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_XIAOQU_BACK page:CHAT_ESF_XIAOQU note:nil];
+         if (_isSayHello)
+         {
+             [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_XIAOQU_BACK page:potential_client_xiaoqu note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+         }else
+         {
+             [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_XIAOQU_BACK page:CHAT_ESF_XIAOQU note:nil];
+         }
+         
      }else {
          [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ZF_XIAOQU_BACK page:CHAT_ZF_XIAOQU note:nil];
      }

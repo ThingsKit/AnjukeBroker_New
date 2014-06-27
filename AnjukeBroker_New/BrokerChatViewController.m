@@ -430,6 +430,8 @@ static BrokerChatViewController *brokerSender = nil;
     
     CommunitySelectViewController *controller = [[CommunitySelectViewController alloc] init];
     controller.pageTypeFrom = secondHandHouse;
+    controller.isSayHello = _isSayHello;
+    _willSendProp.propid = POTENTIAL_CLIENT_PROP_SELECT;
     HouseSelectNavigationController *nav = [[HouseSelectNavigationController alloc] initWithRootViewController:controller];
     nav.selectedHouseDelgate = self;
     [self presentViewController:nav animated:YES completion:nil];

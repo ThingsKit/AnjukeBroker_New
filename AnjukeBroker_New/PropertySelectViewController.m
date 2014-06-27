@@ -20,7 +20,14 @@
 #pragma mark - log
 - (void)sendAppearLog {
     if (self.pageTypePropertyFrom == secondHandPropertyHouse){
-        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_PROP_ONVIEW page:CHAT_ESF_PROP note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        if (_isSayHello)
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_PROP_ONVIEW page:POTENTIAL_CLIENT_PROP note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        }else
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_PROP_ONVIEW page:CHAT_ESF_PROP note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        }
+        
     }else {
         [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ZF_PROP_ONVIEW page:CHAT_ZF_PROP note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
@@ -133,7 +140,14 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.pageTypePropertyFrom == secondHandPropertyHouse){
-        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_PROP_SELECT page:CHAT_ESF_PROP note:nil];
+        if (_isSayHello)
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_PROP_SELECT page:POTENTIAL_CLIENT_PROP note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        }else
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_PROP_SELECT page:CHAT_ESF_PROP note:nil];;
+        }
+        
     }else {
         [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ZF_PROP_SELECT page:CHAT_ZF_PROP note:nil];
     }
@@ -152,8 +166,15 @@
 }
 - (void)doBack:(id)sender {
     if (self.pageTypePropertyFrom == secondHandPropertyHouse){
-        [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_PROP_BACK page:CHAT_ESF_PROP note:nil];
-    
+        if (_isSayHello)
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_PROP_BACK page:POTENTIAL_CLIENT_PROP note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", _willsendProp.propid, @"propid", _willsendProp.udid2, @"udid2", _willsendProp.macid, @"macid", _willsendProp.i, @"i", _willsendProp.app, @"app", nil]];
+        }else
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_PROP_BACK page:CHAT_ESF_PROP note:nil];
+
+        }
+        
     }else {
         [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ZF_PROP_BACK page:CHAT_ZF_PROP note:nil];
     }

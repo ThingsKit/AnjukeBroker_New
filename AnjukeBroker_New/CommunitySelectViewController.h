@@ -11,6 +11,7 @@
 #import "AppManager.h"
 #import "LoginManager.h"
 #import "PropertySelectViewController.h"
+#import "WillSendPropModel.h"
 
 #define COMMUNITYSELECTCELLHEIGHT 66.0
 
@@ -25,4 +26,6 @@ typedef enum {
 @property (nonatomic,strong) NSMutableArray *arr;
 @property (nonatomic, assign) id target;
 @property (nonatomic, assign) SEL selector;
+@property (nonatomic, assign)BOOL isSayHello;
+@property (nonatomic, strong)WillSendPropModel *willSendProp;
 @end

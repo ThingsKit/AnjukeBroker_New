@@ -14,4 +14,5 @@
 @property (nonatomic, copy) NSString* macid;
 @property (nonatomic, copy) NSString* udid2;
 @property (nonatomic, copy) NSString* device_id; //设备号
+@property (nonatomic, copy) NSString* propid;
 @end

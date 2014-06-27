@@ -12,6 +12,7 @@
 #import "PropertyDetailCell.h"
 #import "HouseSelectNavigationController.h"
 #import "PropertyResponder.h"
+#import "WillSendPropModel.h"
 
 typedef enum {
     secondHandPropertyHouse = 0,
@@ -22,6 +23,8 @@ typedef enum {
 @property(nonatomic,assign) pageTypePropertyFrom  pageTypePropertyFrom;
 @property(nonatomic,strong) NSDictionary *commDic;
 @property(nonatomic,strong) NSMutableArray *arr;
+@property(nonatomic, assign)BOOL isSayHello;
+@property (nonatomic, strong)WillSendPropModel *willsendProp;
 
 -(void)passDataWithDic:(NSDictionary *)dic;
 @end
