@@ -473,8 +473,11 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
         [newDict setValue:_messageIdentify forKeyPath:@"unid"];
         [newDict setValue:self.sendPropManager.apiParams forKey:@"propdict"];
         
-        [[BrokerChatViewController getBrokerSelf] sayHelloHttpRequest:newDict];
-        
+        if ([BrokerChatViewController getBrokerSelf])
+        {
+            [[BrokerChatViewController getBrokerSelf] sayHelloHttpRequest:newDict];
+        }
+                
         AXMessageCenterSendMessageStatus sendStatus = AXMessageCenterSendMessageStatusSuccessful;
         if ([[dic2 objectForKey:@"status"] isEqualToString:@"1"])
         {
