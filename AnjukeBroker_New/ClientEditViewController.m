@@ -227,7 +227,7 @@
 #pragma mark - Private Method
 
 - (void)rightButtonAction:(id)sender {
-    [[BrokerLogger sharedInstance] logWithActionCode:TIPS_CLICK_SAVE page:TIPS note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:TIPS_CLICK_SAVE page:TIPS note:[NSDictionary dictionaryWithObjectsAndKeys:self.person.uid,@"customer_id", nil]];
     [self textInputDisappear];
     if (![self checkInputOK]) {
         return;
@@ -307,7 +307,7 @@
     DLog(@"编辑客户---%@", resultFromAPI);
     
     if ([[resultFromAPI objectForKey:@"status"] isEqualToString:@"OK"]) {
-        [[BrokerLogger sharedInstance] logWithActionCode:TIPS_SAVE page:TIPS note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:TIPS_SAVE page:TIPS note:[NSDictionary dictionaryWithObjectsAndKeys:self.person.uid,@"customer_id", nil]];
         
         [self showInfo:@"备注信息更新成功"];
         

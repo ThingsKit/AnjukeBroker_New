@@ -153,6 +153,8 @@ static BrokerChatViewController *brokerSender = nil;
     [super viewDidDisappear:animated];
     
     [self hideLearnView:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PopActionIsOver" object:nil];
 }
 
 - (void)updatePersion {
