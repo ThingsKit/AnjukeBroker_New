@@ -834,12 +834,14 @@ static BrokerChatViewController *brokerSender = nil;
     [self storageLayoutOfKeyboard];
     
     [self didClickKeyboardControl];
+    
+    if ([BrokerChatViewController getBrokerSelf])
+    {
+        [BrokerChatViewController setBrokerSelf:nil];
+    }
+    
     if (_isSayHello)
     {
-        if ([BrokerChatViewController getBrokerSelf])
-        {
-            [BrokerChatViewController setBrokerSelf:nil];
-        }
         [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_CHAT_BACK page:POTENTIAL_CLIENT_CHAT note:nil];
     }else
     {
