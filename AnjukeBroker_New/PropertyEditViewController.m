@@ -114,7 +114,27 @@
     
     if ([LoginManager needFileNOWithCityID:[LoginManager getCity_id]] && !self.isHaozu) { //仅二手房发房需要备案号
         self.property.fileNo = [dic objectForKey:@"fileNo"];
-        self.fileNoTextF.text = [dic objectForKey:@"fileNo"];
+        AnjukeEditableCell *fileObj = [[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_SAFENUM];
+        
+        BOOL isHas = false;
+        if (fileObj.indexTag == AJK_TEXT_SAFENUM)
+        {
+            isHas = true;
+        }else
+        {
+            fileObj = [[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_SAFENUM];
+            if (fileObj.indexTag == AJK_TEXT_SAFENUM)
+            {
+                isHas = true;
+            }
+        }
+        if (isHas)
+        {
+            
+            [[fileObj text_Field] setText:[dic objectForKey:@"fileNo"]];
+            
+
+        }
     }
     
     //数据赋值，映射，得到显示值
@@ -143,7 +163,7 @@
     
     //desc
     self.property.desc = [dic objectForKey:@"description"];
-    
+    self.property.fileNo = [dic objectForKey:@"fileNo"];
     //image
     self.roomShowedImgArray = [dic objectForKey:@"roomImg"];
     self.houseTypeShowedImgArray = [dic objectForKey:@"moduleImg"];
@@ -248,6 +268,7 @@
         //是否满五年
         self.property.isOnly = [NSNumber numberWithInt:[[dic objectForKey:@"isOnly"] intValue]];
         self.property.isFullFive = [NSNumber numberWithInt:[[dic objectForKey:@"isFullFive"] intValue]];
+        
         
         //set Text
         //set title and property

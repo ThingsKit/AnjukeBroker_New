@@ -87,6 +87,7 @@
 @property (nonatomic, strong) AJKSaveMessModel *saveMessModel;//日志model
 
 @property (nonatomic, assign) BOOL isChildClass;//是否是子类
+@property BOOL needFileNO; //是否需要备案号，部分城市需要备案号（北京）
 
 - (void)setTextFieldForProperty;
 - (BOOL)canAddMoreImageWithAddCount:(int)addCount;

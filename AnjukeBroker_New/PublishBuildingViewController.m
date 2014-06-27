@@ -39,7 +39,7 @@ typedef enum {
 @property (nonatomic, copy) NSString *lastPrice; //记录上一次的价格输入，用于判断是否需要
 @property (nonatomic, copy) NSString *propertyPrice; //房源定价价格
 
-@property BOOL needFileNO; //是否需要备案号，部分城市需要备案号（北京）
+
 
 @property (nonatomic, strong) PhotoShowView *imageOverLay;
 
@@ -1182,7 +1182,7 @@ typedef enum {
 
 - (void)textFieldAllResign { //全部收起键盘
     [self.inputingTextF resignFirstResponder];
-    //    [self.fileNoTextF resignFirstResponder];
+//    [self.fileNoTextF resignFirstResponder];
 }
 
 - (int)transformIndexWithIndexPath:(NSIndexPath *)indexPath { //将indexPath转换为cellDataSource对应的cell的indexTag
@@ -1190,7 +1190,7 @@ typedef enum {
     
     NSInteger row = indexPath.row;
     
-    if (self.needFileNO && row > 2)
+    if (self.needFileNO && row > 2 && !self.isHaozu)
     {
         row--;
     }
@@ -1646,6 +1646,13 @@ typedef enum {
         NSInteger price = [[[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_PRICE] text_Field] text] intValue] * 10000;
         self.property.price = [NSString stringWithFormat:@"%d", price];
         
+        
+        id fileObj = [[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_SAFENUM];
+        if (fileObj)
+        {
+            self.property.fileNo = [[fileObj text_Field] text];
+        }
+        
 //        self.property.minDownPay = [NSString stringWithFormat:@"%f", [[[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_LIMIT_PAY] text_Field] text] floatValue] * 1];
         
     }
@@ -1801,8 +1808,10 @@ typedef enum {
         return;
     }
     
-    if ((self.selectedIndex >= 2 && !self.needFileNO) ||
-        (self.selectedIndex >= 3 && self.needFileNO))
+    if (self.selectedIndex == AJK_PICKER_ROOMS ||
+        self.selectedIndex == AJK_PICKER_FLOORS ||
+        self.selectedIndex == AJK_PICKER_ORIENTATION ||
+        self.selectedIndex == AJK_PICKER_FITMENT)
     { //滚轮输入范围
         self.inputingTextF.text = [self getInputStringAndSetProperty];
     }
@@ -1818,8 +1827,10 @@ typedef enum {
         return;
     }
     
-    if ((self.selectedIndex >= 2 && !self.needFileNO) ||
-        (self.selectedIndex >= 3 && self.selectedIndex != AJK_TEXT_SAFENUM && self.needFileNO)) { //滚轮输入范围
+    if (self.selectedIndex == AJK_PICKER_ROOMS ||
+        self.selectedIndex == AJK_PICKER_FLOORS ||
+        self.selectedIndex == AJK_PICKER_ORIENTATION ||
+        self.selectedIndex == AJK_PICKER_FITMENT) { //滚轮输入范围
         self.inputingTextF.text = [self getInputStringAndSetProperty];
     }
     

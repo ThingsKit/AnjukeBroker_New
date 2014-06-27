@@ -63,6 +63,7 @@
 @property (nonatomic, strong) UITextField *fileNoTextF; //备案号输入框
 @property (nonatomic, strong) SimpleKeyboardToolBar *simToolBar;
 @property (nonatomic, strong) UITableView *tvList;
+@property BOOL                             needFileNO; //是否需要备案号，部分城市需要备案号（北京）
 
 @property BOOL inPhotoProcessing;
 @property BOOL isTBBtnPressedToShowKeyboard; //是否是通过上一项、下一项点按控制键盘、滚轮显示，是则屏蔽textField的delegate方法

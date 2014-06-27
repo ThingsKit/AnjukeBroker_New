@@ -237,13 +237,42 @@
     fetchRequest.entity = entity;
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"uid == %@", pUid];
     NSArray *fetchedResult = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
-    
+
     if ([fetchedResult count] > 0)
     {
         AXPerson *p = [fetchedResult firstObject];
-        [p setUid:realUID];
-        [p setIsStranger:[NSNumber numberWithBool:NO]];
+        [self.managedObjectContext deleteObject:p];
         [[AXChatMessageCenter defaultMessageCenter] getFriendInfoWithFriendUid:@[realUID]];
+    }
+    
+    [self.managedObjectContext save:NULL];
+    
+    NSFetchRequest *fetchRequestList = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityList = [NSEntityDescription entityForName:@"AXConversationListItem" inManagedObjectContext:self.managedObjectContext];
+    fetchRequestList.entity = entityList;
+    fetchRequestList.predicate = [NSPredicate predicateWithFormat:@"friendUid == %@", pUid];
+    NSArray *fetchedResultList = [self.managedObjectContext executeFetchRequest:fetchRequestList error:NULL];
+    
+    for (int i = 0; i < [fetchedResultList count]; i++)
+    {
+        AXConversationListItem *list = [fetchedResultList objectAtIndex:i];
+        [list setFriendUid:realUID];
+
+    }
+    
+    [self.managedObjectContext save:NULL];
+    
+    NSFetchRequest *fetchRequestListMess = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityListMess = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchRequestListMess.entity = entityListMess;
+    fetchRequestListMess.predicate = [NSPredicate predicateWithFormat:@"to == %@", pUid];
+    NSArray *fetchedResultMess = [self.managedObjectContext executeFetchRequest:fetchRequestListMess error:NULL];
+    
+    for (int i = 0; i < [fetchedResultMess count]; i++)
+    {
+        AXMessage *list = [fetchedResultMess objectAtIndex:i];
+        [list setTo:realUID];
+        
     }
     
     [self.managedObjectContext save:NULL];
@@ -269,20 +298,7 @@
     {
         
         NSString *friendUID = item[@"from_uid"];
-        NSDictionary *devInfo = item[@"from_device_info"];
-        if (devInfo)
-        {
-            NSString *app = [devInfo objectForKey:@"app"];
-            NSString *result = @"";
-            if ([app isEqualToString:@"i-ajk"])
-            {
-                result = devInfo[@"udid2"];
-            }else if ([app isEqualToString:@"a-ajk"])
-            {
-                result = [NSString stringWithFormat:@"%@%@",devInfo[@"i"], devInfo[@"macid"]];
-            }
-            [self checkAndUploadAxperson:result realUid:friendUID];
-        }
+        
         
         count++;
         
@@ -354,6 +370,24 @@
             managedMessage.sendStatus = @(messageSendStatus);
             managedMessage.sendTime = [NSDate dateWithTimeIntervalSinceNow:0];
             managedMessage.to = message[@"to_uid"];
+            
+            ////
+            NSDictionary *devInfo = item[@"from_device_info"];
+            if (devInfo)
+            {
+                NSString *app = [devInfo objectForKey:@"app"];
+                NSString *result = @"";
+                if ([app isEqualToString:@"i-ajk"])
+                {
+                    result = devInfo[@"udid2"];
+                }else if ([app isEqualToString:@"a-ajk"])
+                {
+                    result = [NSString stringWithFormat:@"%@%@",devInfo[@"i"], devInfo[@"macid"]];
+                }
+                [self checkAndUploadAxperson:result realUid:friendUID];
+            }
+            
+            ///
             
             if ([self.friendUid isEqualToString:friendUID]) {
                 managedMessage.isRead = [NSNumber numberWithBool:YES];

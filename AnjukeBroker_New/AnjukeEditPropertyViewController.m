@@ -33,7 +33,7 @@ typedef enum {
 
 @interface AnjukeEditPropertyViewController ()
 @property (nonatomic, strong) NSArray *titleArray;
-@property BOOL needFileNO; //是否需要备案号，部分城市需要备案号（北京）
+
 @property (nonatomic, strong) RTInputPickerView *pickerView; //定制的输入框
 @property (nonatomic, strong) KeyboardToolBar *toolBar;
 @property (nonatomic, strong) UITextField *inputingTextF; //正在输入的textField，用于指向后关闭键盘
