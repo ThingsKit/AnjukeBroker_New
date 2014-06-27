@@ -141,7 +141,7 @@
     //如果请求数据成功
     if (status == RTNetworkResponseStatusSuccess) {
         NSDictionary* content = response.content;
-        NSLog(@"%@", content);
+//        NSLog(@"%@", content);
 //        NSArray* data = [content objectForKey:@"data"];
         CustomerListModel* data = [[CustomerListModel alloc] initWithDataDic:[content objectForKey:@"data"]];
         self.tableView.customerListModel = data;
