@@ -585,19 +585,18 @@
         item = [[self.contactKeyArr[cellIndexPath.section -2] objectForKey:@"objects"] objectAtIndex:cellIndexPath.row];
     }
     
+    
     [self showLoadingActivity:YES];
     
     switch (index) {
         case 0:
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_STORE page:CLIENT_LIST note:nil];
-            
             DLog(@"isStar--section[%d],row-[%d]", cellIndexPath.section, cellIndexPath.row);
             
             if (item.isStar) {
-                [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_CANCEL_STORE page:CLIENT_LIST note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_CANCEL_STORE page:CLIENT_LIST note:[NSDictionary dictionaryWithObjectsAndKeys:item.uid,@"customer_id", nil]];
             }else{
-                [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_STORE page:CLIENT_LIST note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_STORE page:CLIENT_LIST note:[NSDictionary dictionaryWithObjectsAndKeys:item.uid,@"customer_id", nil]];
             }
             
             item.isStar = !item.isStar;
@@ -611,14 +610,14 @@
         }
         case 1:
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_DELETE page:CLIENT_LIST note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_DELETE page:CLIENT_LIST note:[NSDictionary dictionaryWithObjectsAndKeys:item.uid,@"customer_id", nil]];
             
             DLog(@"delete--section[%d],row-[%d]", cellIndexPath.section, cellIndexPath.row);
             
             //delete from database
             [[AXChatMessageCenter defaultMessageCenter] removeFriendBydeleteUid:[NSArray arrayWithObject:item.uid] compeletionBlock:^(BOOL isSuccess){
                 if (isSuccess) {
-                    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_DELETE page:CLIENT_LIST note:nil];
+                    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_LIST_DELETE page:CLIENT_LIST note:[NSDictionary dictionaryWithObjectsAndKeys:item.uid,@"customer_id", nil]];
 
                     [self getFriendList];
                     [self hideLoadWithAnimated:YES];
