@@ -633,10 +633,11 @@ typedef enum {
 - (void)doPushPropertyID:(NSString *)propertyID {
     
     //tabController切换
-    int tabIndex = 1;
-    if (self.isHaozu) {
-        tabIndex = 2;
-    }
+//    int tabIndex = 1;
+//    if (self.isHaozu) {
+//        tabIndex = 2;
+//    }
+    int tabIndex = 0;
     
     //do push
     switch (self.uploadType) {

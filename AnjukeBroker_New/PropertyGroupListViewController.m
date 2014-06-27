@@ -168,10 +168,11 @@
 //        ap.planId = self.selectPlanID;
 //        [self.navigationController pushViewController:ap animated:YES];
         
-        int tabIndex = 1;
-        if (self.isHaozu) {
-            tabIndex = 2;
-        }
+//        int tabIndex = 1;
+//        if (self.isHaozu) {
+//            tabIndex = 2;
+//        }
+        int tabIndex = 0;
         
         if (self.isHaozu) {
             [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentFixed withPropertyDic:[self.groupArray objectAtIndex:self.selectedIndex]];
