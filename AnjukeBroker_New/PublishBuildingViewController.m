@@ -1647,11 +1647,15 @@ typedef enum {
         self.property.price = [NSString stringWithFormat:@"%d", price];
         
         
-        id fileObj = [[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_SAFENUM];
-        if (fileObj)
+        if ([[self.cellDataSource inputCellArray] count] > AJK_TEXT_SAFENUM)
         {
-            self.property.fileNo = [[fileObj text_Field] text];
+            id fileObj = [[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_SAFENUM];
+            if (fileObj)
+            {
+                self.property.fileNo = [[fileObj text_Field] text];
+            }
         }
+        
         
 //        self.property.minDownPay = [NSString stringWithFormat:@"%f", [[[[[self.cellDataSource inputCellArray] objectAtIndex:AJK_TEXT_LIMIT_PAY] text_Field] text] floatValue] * 1];
         
