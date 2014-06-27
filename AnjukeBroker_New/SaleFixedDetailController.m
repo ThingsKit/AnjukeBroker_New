@@ -203,7 +203,9 @@
         return;
     }
 
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  [self.tempDic objectForKey:@"fixId"], @"planId", nil];
+    NSString *planID = [self.tempDic objectForKey:@"fixId"] ? [self.tempDic objectForKey:@"fixId"] : [self.tempDic objectForKey:@"fixPlanId"];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  planID, @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/spreadstop/" params:params target:self action:@selector(onCancelGroupSuccess:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
@@ -238,7 +240,9 @@
         return;
     }
 
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  [self.tempDic objectForKey:@"fixId"], @"planId", nil];
+    NSString *planID = [self.tempDic objectForKey:@"fixId"] ? [self.tempDic objectForKey:@"fixId"] : [self.tempDic objectForKey:@"fixPlanId"];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  planID, @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/spreadstart/" params:params target:self action:@selector(onRestartSuccess:)];
     [self showLoadingActivity:YES];
     self.isLoading = YES;
