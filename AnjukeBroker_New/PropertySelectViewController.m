@@ -168,7 +168,14 @@
     if (self.pageTypePropertyFrom == secondHandPropertyHouse){
         if (_isSayHello)
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_PROP_BACK page:POTENTIAL_CLIENT_PROP note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", _willsendProp.propid, @"propid", _willsendProp.udid2, @"customer_udid2", _willsendProp.macid, @"customer_macid", _willsendProp.i, @"customer_i", _willsendProp.app, @"customer_app", nil]];
+            
+            NSDictionary *dict = @{ @"propid", _willsendProp.propid,
+                                    @"customer_udid2", _willsendProp.udid2,
+                                    @"customer_macid" , _willsendProp.macid,
+                                    @"customer_i", _willsendProp.i,
+                                    @"customer_app", _willsendProp.app,
+                                    nil};
+            [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_PROP_BACK page:POTENTIAL_CLIENT_PROP note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", dict, @"cst_param", nil]];
         }else
         {
             [[BrokerLogger sharedInstance] logWithActionCode:CHAT_ESF_PROP_BACK page:CHAT_ESF_PROP note:nil];
