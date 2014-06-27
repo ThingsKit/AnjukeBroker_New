@@ -336,6 +336,21 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     return _dataCenter;
 }
 
+- (NSString *)getSendMessage
+
+{
+    NSArray *arrStr = @[@"很高兴为你推荐房源，如果有兴趣，可以联系我~", @"我还有很多同类型的房源，想了解更多请联系我。", @"如果想看同类型房源，可以联系我。我将竭诚为你服务~", @"我手里还有很多真实房源，欢迎咨询~", @"如果喜欢这套房，可以找我，随时带看~", @"给你推荐一套房源，不知道你喜不喜欢？欢迎随时带看~",@"给你推荐一套房源，如果你有找房、卖房相关问题，欢迎随时咨询~"];
+    
+    int from = 0;
+    int to = arrStr.count - 1;
+    NSString *result = @"";
+    int num = (int)(from + (arc4random() % (to - from + 1)));
+    
+    result = [arrStr objectAtIndex:num];
+    
+    return result;
+}
+
 
 #pragma mark - life cycle
 + (instancetype)defaultMessageCenter
@@ -774,14 +789,12 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
         NSDictionary *loginResult = [[NSUserDefaults standardUserDefaults] objectForKey:@"anjuke_chat_login_info"];
         NSDictionary *modelDict = [mutabParams mutableCopy];
         [modelDict setValue:@"1" forKey:@"msg_type"];
-        [modelDict setValue:@"推荐的房源成功，请等待客户联系你" forKey:@"body"];
+        [modelDict setValue:[self getSendMessage] forKey:@"body"];
         
         NSString *body = dataMessage.content;
         NSDictionary *bodyDict = [body JSONValue];
         [bodyDict setValue:@"1" forKey:@"jsonVersion"];
         [mutabParams setValue:[bodyDict RTJSONRepresentation] forKey:@"body"];
-        
-//        HouseSendModel *house = [[HouseSendModel alloc] initWithDataDic:<#(NSDictionary *)#>]
         
         NSMutableDictionary *postDict = [[NSMutableDictionary alloc] initWithCapacity:5];
         [postDict setValue:dataMessage.to forKey:@"device_id"];
