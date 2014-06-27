@@ -57,42 +57,42 @@
     _userName = [[UILabel alloc] initWithFrame:CGRectZero];
     _userName.backgroundColor = [UIColor clearColor];
     _userName.font = [UIFont ajkH2Font];
-    [_userName setTextColor:[UIColor ajkBlackColor]];
+    [_userName setTextColor:[UIColor brokerBlackColor]];
     [self.contentView addSubview:_userName];
     
     //用户上次登录时间
     _loginTime = [[UILabel alloc] initWithFrame:CGRectZero];
     _loginTime.backgroundColor = [UIColor clearColor];
     _loginTime.font = [UIFont ajkH5Font];
-    [_loginTime setTextColor:[UIColor ajkLightGrayColor]];
+    [_loginTime setTextColor:[UIColor brokerLightGrayColor]];
     [self.contentView addSubview:_loginTime];
     
     //地点
     _location = [[UILabel alloc] initWithFrame:CGRectZero];
     _location.backgroundColor = [UIColor clearColor];
     _location.font = [UIFont ajkH4Font];
-    [_location setTextColor:[UIColor ajkLightGrayColor]];
+    [_location setTextColor:[UIColor brokerLightGrayColor]];
     [self.contentView addSubview:_location];
     
     //户型
     _houseType = [[UILabel alloc] initWithFrame:CGRectZero];
     _houseType.backgroundColor = [UIColor clearColor];
     _houseType.font = [UIFont ajkH4Font];
-    [_houseType setTextColor:[UIColor ajkLightGrayColor]];
+    [_houseType setTextColor:[UIColor brokerLightGrayColor]];
     [self.contentView addSubview:_houseType];
     
     //租金或售价
     _price = [[UILabel alloc] initWithFrame:CGRectZero];
     _price.backgroundColor = [UIColor clearColor];
     _price.font = [UIFont ajkH4Font];
-    [_price setTextColor:[UIColor ajkLightGrayColor]];
+    [_price setTextColor:[UIColor brokerLightGrayColor]];
     [self.contentView addSubview:_price];
     
     //浏览房源数
     _propertyCount = [[UILabel alloc] initWithFrame:CGRectZero];
     _propertyCount.backgroundColor = [UIColor clearColor];
     _propertyCount.font = [UIFont ajkH4Font];
-    [_propertyCount setTextColor:[UIColor ajkLightGrayColor]];
+    [_propertyCount setTextColor:[UIColor brokerLightGrayColor]];
     [self.contentView addSubview:_propertyCount];
     
     //用户相对于经纪人的状态
