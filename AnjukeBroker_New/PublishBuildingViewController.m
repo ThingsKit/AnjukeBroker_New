@@ -1815,7 +1815,8 @@ typedef enum {
     if (self.selectedIndex == AJK_PICKER_ROOMS ||
         self.selectedIndex == AJK_PICKER_FLOORS ||
         self.selectedIndex == AJK_PICKER_ORIENTATION ||
-        self.selectedIndex == AJK_PICKER_FITMENT)
+        self.selectedIndex == AJK_PICKER_FITMENT ||
+        (self.isHaozu && self.selectedIndex == HZ_PICKER_RENTTYPE))
     { //滚轮输入范围
         self.inputingTextF.text = [self getInputStringAndSetProperty];
     }
@@ -1834,7 +1835,9 @@ typedef enum {
     if (self.selectedIndex == AJK_PICKER_ROOMS ||
         self.selectedIndex == AJK_PICKER_FLOORS ||
         self.selectedIndex == AJK_PICKER_ORIENTATION ||
-        self.selectedIndex == AJK_PICKER_FITMENT) { //滚轮输入范围
+        self.selectedIndex == AJK_PICKER_FITMENT ||
+        (self.isHaozu && self.selectedIndex == HZ_PICKER_RENTTYPE))
+    { //滚轮输入范围
         self.inputingTextF.text = [self getInputStringAndSetProperty];
     }
     
@@ -1998,7 +2001,8 @@ typedef enum {
     if (self.selectedIndex == AJK_PICKER_ROOMS ||
         self.selectedIndex == AJK_PICKER_FLOORS ||
         self.selectedIndex == AJK_PICKER_ORIENTATION ||
-        self.selectedIndex == AJK_PICKER_FITMENT)
+        self.selectedIndex == AJK_PICKER_FITMENT ||
+        (self.isHaozu && self.selectedIndex == HZ_PICKER_RENTTYPE))
     { //滚轮输入范围
         self.inputingTextF.text = [self getInputStringAndSetProperty];
     }
