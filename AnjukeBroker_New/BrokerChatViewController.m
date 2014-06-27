@@ -137,6 +137,8 @@ static BrokerChatViewController *brokerSender = nil;
     
     //修复回到 MessageListViewController 小红点上数字不消失的问题 add by leo
     [[AXChatMessageCenter defaultMessageCenter] chatListWillAppearWithFriendUid:self.friendPerson.uid];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doBack:) name:@"PopActionIsOver" object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated

@@ -199,9 +199,11 @@
                 }
 
                 if (self.isPopToRoot) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"PopActionIsOver" object:nil userInfo:nil];
                     [self popToRootViewControllerAnimated:NO];
                 }else{
                     [self popViewControllerAnimated:NO];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"PopActionIsOver" object:nil userInfo:nil];
                 }
                 CGRect frame = self.view.frame;
                 frame.origin.x = 0;
