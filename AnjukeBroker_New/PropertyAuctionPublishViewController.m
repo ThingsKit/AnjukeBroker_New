@@ -139,15 +139,17 @@
 //        ap.resultType = PropertyResultOfSaleBid;
 //    [self.navigationController pushViewController:ap animated:YES];
     
-    int tabIndex = 1;
-    if (self.isHaozu) {
-        tabIndex = 2;
-    }
+    int tabIndex = 0;
+//    if (self.isHaozu) {
+//        tabIndex = 2;
+//    }
     
     if (self.isHaozu) {
         [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentBid withPropertyDic:[NSDictionary dictionary]];
     }
     else
+        
+        
         [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleBid withPropertyDic:[NSDictionary dictionary]];
 }
 

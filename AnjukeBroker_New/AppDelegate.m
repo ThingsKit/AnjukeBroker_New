@@ -596,7 +596,7 @@
         {
             RentBidDetailController *controller = [[RentBidDetailController alloc] init];
             [controller setHidesBottomBarWhenPushed:YES];
-            [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:YES];
+            [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:NO];
             [controller showTopAlertWithTitle:message];
         }
             break;
@@ -604,7 +604,7 @@
         {
             SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
             [controller setHidesBottomBarWhenPushed:YES];
-            [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:YES];
+            [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:NO];
             [controller showTopAlertWithTitle:message];
         }
             break;
