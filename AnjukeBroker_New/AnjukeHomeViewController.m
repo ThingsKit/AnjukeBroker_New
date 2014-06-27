@@ -249,7 +249,7 @@
     
     if (indexPath.row == 0) {
         UIImageView *statueImg = [[UIImageView alloc] initWithFrame:CGRectMake(260, 18, 30, 13)];
-        if([[dataDic objectForKey:@"fixStatus"] intValue] == 1){
+        if([[[[dataDic objectForKey:@"ajkFixHouse"] objectAtIndex:0] objectForKey:@"fixStatus"] intValue] == 1){
             [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_woking.png"]];
         }else{
             [statueImg setImage:[UIImage imageNamed:@"anjuke_icon09_stop.png"]];
