@@ -60,6 +60,7 @@
 
 - (void)dealloc {
     DLog(@"dealloc PublishBigImageViewController");
+    NSLog(@"%s", __FUNCTION__);
 }
 
 - (void)viewDidLoad
@@ -396,35 +397,15 @@
     //结构体包装成NSValue对象
     NSValue* value = [notification.userInfo objectForKey:@"UIKeyboardFrameEndUserInfoKey"];
     CGFloat keyboardHeight = [value CGRectValue].size.height; //键盘高度
-//    _textView.height = 20;
-//    CGAffineTransform transform = this.mainView.transform;
-//    view.transform = CGAffineTransformScale(transform, 0.7, 0.7);
-//    view.alpha = 0;
-//    
-//    [UIView animateWithDuration:0.3 animations:^{
-//        view.transform = CGAffineTransformScale(transform, 1.3, 1.3);
-//        view.alpha = 1;
-//    } completion:^(BOOL finished) {
-//        [UIView animateWithDuration:0.3 animations:^{
-//            view.transform = CGAffineTransformIdentity;
-//        }];
-//    }];
     _numberOfText.hidden = NO;
-    __block PublishBigImageViewController* this = self;
-//    CGAffineTransform transform = this.mainView.transform;
-    
     [UIView animateWithDuration:0.3 animations:^{
-        this.mainView.bottom = ScreenHeight - keyboardHeight - 20 - 44 - 40;
-//        CGFloat bottom = ScreenHeight - 20 - 44 - 35 - this.mainView.height;
-//        CGFloat gap = keyboardHeight - bottom;
-//        this.mainView.transform = CGAffineTransformTranslate(transform, 0, -gap);
+        self.mainView.bottom = ScreenHeight - keyboardHeight - 20 - 44 - 40;
     }];
     
 }
 
 - (void)keyboardDidHide:(NSNotification*)notification {
     //结构体包装成NSValue对象
-//    _textView.height = 252;
     _numberOfText.hidden = YES;
     if (_imageDescArray && _imageDescArray.count > self.editDeleteImgIndex)
     {
@@ -438,12 +419,8 @@
         }
         
     }
-    __block PublishBigImageViewController* this = self;
     [UIView animateWithDuration:0.3 animations:^{
-        this.mainView.bottom = 240 + 80;
-//        this.mainView.bottom = ScreenHeight - 20 - 44 - 175;
-//        this.mainView.top = 20 + 44;
-//        this.mainView.transform = CGAffineTransformIdentity;
+        self.mainView.bottom = 240 + 80;
     }];
 }
 
@@ -451,7 +428,6 @@
 #pragma mark UITextViewDelegate
 - (void)textViewDidBeginEditing:(UITextView *)textView{
     [[BrokerLogger sharedInstance] logWithActionCode:ESF_INDOORGRAPH_DESCRIPTION_INPUT page:ESF_INDOORGRAPH_DESCRIPTION note:nil];
-//    _textView = [[UITextView alloc] initWithFrame:CGRectMake(15, [self currentViewHeight]+15, 290, 80)];
     _mainScroll.scrollEnabled = NO;
     if ([_textView.text isEqualToString:self.placeHolder]) {
         _pencil.hidden = YES;
@@ -475,7 +451,6 @@
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
-//    _textView = [[UITextView alloc] initWithFrame:CGRectMake(15, [self currentViewHeight]+15, 290, [self currentViewHeight])];
     [[BrokerLogger sharedInstance] logWithActionCode:ESF_INDOORGRAPH_DESCRIPTION_CLICK_SAVE page:ESF_INDOORGRAPH_DESCRIPTION note:nil];
     _mainScroll.scrollEnabled = YES;
     NSLog(@"%d", self.currentIndex);
@@ -499,8 +474,6 @@
 }
 
 - (void)textViewDidChange:(UITextView *)textView{
-//    NSString* temp = [_textView.text stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//    _textView.text = temp;
     
     if (_textView.markedTextRange == nil && _textView.text.length > 20) {
         _textView.text = [_textView.text substringToIndex:20];

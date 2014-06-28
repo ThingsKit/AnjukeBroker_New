@@ -360,7 +360,8 @@ typedef enum {
             i = _imgdescArr.count;
         }
         
-        for (i = 0; i < self.roomImageArray.count; i++)
+//        for (i = 0; i < self.roomImageArray.count; i++)
+        for (; i < self.roomImageArray.count; i++)
         {
             NSString *va = @"";
             [_imgdescArr addObject:va];
