@@ -416,6 +416,14 @@
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView {
     [self setLocationBySelectedRange];
+    if (isHZ)
+    {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_DESCRIPTION_WORDS page:ZF_PUBLISH_DESCRIPTION note:nil];
+    }else
+    {
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_TITLE_WORDS page:ESF_PUBLISH_TITLE note:nil];
+    }
+    
     //    location =self.textV.selectedRange.location;
     [textView resignFirstResponder];
     return YES;

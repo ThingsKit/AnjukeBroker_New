@@ -866,7 +866,7 @@
     {
         if (self.footClickType == 1)
         {
-            NSString *code = AJK_PPC_RESET_009;
+            NSString *code = ESF_EDIT_PROP_CLICK_ADD_INDOORGRAPH;//AJK_PPC_RESET_009
             if (self.isHaozu)
             {
                 code = HZ_PPC_RESET_009;
@@ -874,7 +874,8 @@
             [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
         }else if (self.footClickType == 2)
         {
-            NSString *code = AJK_PPC_RESET_012;
+            //AJK_PPC_RESET_012
+            NSString *code = ESF_EDIT_PROP_CLICK_ADD_HOUSETYPEGRAPH;
             if (self.isHaozu)
             {
                 code = HZ_PPC_RESET_012;
@@ -888,7 +889,8 @@
                 NSString *code = @"";
                 if (self.footClickType == 1)
                 {
-                    code = AJK_PPC_RESET_010;
+//                    code = AJK_PPC_RESET_010;
+                    code = ESF_EDIT_PROP_CLICK_TAKE_INDOORGRAPH;
                     if (self.isHaozu)
                     {
                         code = HZ_PPC_RESET_010;
@@ -896,7 +898,8 @@
                     
                 }else if (self.footClickType == 2)
                 {
-                    code = AJK_PPC_RESET_014;
+//                    code = AJK_PPC_RESET_014;
+                    code = ESF_EDIT_PROP_CLICK_ONLINE_HOUSETYPEGRAPH;
                     if (self.isHaozu)
                     {
                         code = HZ_PPC_RESET_014;
@@ -912,7 +915,8 @@
                 NSString *code2 = HZ_PPC_RESET_011;
                 if(!self.isHaozu)
                 {
-                    code2 = AJK_PPC_RESET_011;
+//                    code2 = AJK_PPC_RESET_011;
+                    code2 = ESF_EDIT_PROP_CLICK_SELECT_INDOORGRAPH;
                 }
                 
                 //户型图
@@ -921,7 +925,8 @@
                     code2 = HZ_PPC_RESET_013;
                     if(!self.isHaozu)
                     {
-                        code2 = AJK_PPC_RESET_013;
+//                        code2 = AJK_PPC_RESET_013;
+                        code2 = ESF_EDIT_PROP_CLICK_SELECT_HOUSETYPEGRAPH;
                     }
                 }
                 
@@ -1152,6 +1157,18 @@
                 [editImgShowArr addObject:[(E_Photo *)[self.addRoomImageArray objectAtIndex:imageIndex - self.roomShowedImgArray.count] smallPhotoUrl]];
             }
             
+            //室内图
+            if (self.isHaozu)
+            {
+                //HZ_PROPERTY_011
+                [[BrokerLogger sharedInstance] logWithActionCode:ZF_EDIT_PROP_CLICK_INDOORGRAPH page:ZF_PUBLISH note:nil];
+            }
+            else
+            {
+                //AJK_PROPERTY_011
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_EDIT_PROP_CLICK_INDOORGRAPH page:ESF_PUBLISH note:nil];
+            }
+            
             pb.isNewAddImg = [self isClickImgNewAddWithClickIndex:imageIndex imgType:1];
             [pb showImagesWithArray:editImgShowArr atIndex:imageIndex];
             
@@ -1273,6 +1290,18 @@
 
 - (void)editPropertyDidDeleteImgWithDeleteIndex:(int)deleteIndex sender:(id)sender
 {
+    
+    if (self.isHaozu)
+    {
+        //HZ_PROPERTY_011
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_EDIT_PROP_CLICK_DELETE page:ZF_EDIT_PROP note:nil];
+    }
+    else
+    {
+        //AJK_PROPERTY_011
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_EDIT_PROP_CLICK_DELETE page:ESF_EDIT_PROP note:nil];
+    }
+    
     if (self.footClickType == 1)
     {//室内图
         self.footerView = [[self footerViewDict] objectForKey:FOOTERVIEWDICTROOM];

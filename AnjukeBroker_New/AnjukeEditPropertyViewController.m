@@ -1561,8 +1561,8 @@ typedef enum {
     switch (buttonIndex) {
         case 1:
         {
-            NSString *actionCode = ESF_PUBLISH_BACK;
-            NSString *pageID     = ESF_PUBLISH;
+            NSString *actionCode = ESF_EDIT_PROP_CLICK_CANCEL;
+            NSString *pageID     = ESF_EDIT_PROP;
             if (self.isHaozu) {
                 actionCode = ZF_PUBLISH_BACK;
                 pageID     = ZF_PUBLISH;

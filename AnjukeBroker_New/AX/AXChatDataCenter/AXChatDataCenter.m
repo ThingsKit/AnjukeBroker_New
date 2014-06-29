@@ -989,11 +989,18 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"AXPerson" inManagedObjectContext:self.managedObjectContext];
     fetchRequest.entity = entity;
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"uid != %@ AND isPendingForRemove = %@ AND isStranger != %@", self.uid, [NSNumber numberWithBool:NO], [NSNumber numberWithBool:YES]];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"uid != %@ AND isPendingForRemove = %@", self.uid, [NSNumber numberWithBool:NO]];
     NSArray *fetchedResult = [self.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
     NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:0];
-    for (AXPerson *person in fetchedResult) {
-        [result addObject:[person convertToMappedPerson]];
+    for (AXPerson *person in fetchedResult)
+    {
+        DLog(@"person.isStranger == %@", person.isStranger);
+        BOOL isSt = [person.isStranger boolValue];
+        if (!isSt)
+        {
+            [result addObject:[person convertToMappedPerson]];
+        }
+        
     }
     return result;
 }

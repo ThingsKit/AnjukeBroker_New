@@ -2287,7 +2287,8 @@ typedef enum {
     BK_RTNavigationController *navController = [[BK_RTNavigationController alloc] initWithRootViewController:pb];
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_017 note:nil];
+    //AJK_PROPERTY_017
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_CLICK_INDOORGRAPH note:nil];
     //[[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", bp , @"bp", nil]];
 
     pb.bp = ZF_SELECT_INDOORGRAPH;
@@ -2298,6 +2299,17 @@ typedef enum {
     }
     
     [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+        //室内图
+        if (self.isHaozu)
+        {
+            //HZ_PROPERTY_011
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_CLICK_INDOORGRAPH note:nil];
+        }
+        else
+        {
+            //AJK_PROPERTY_011
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_CLICK_INDOORGRAPH note:nil];
+        }
         [pb showImagesWithArray:self.roomImageArray atIndex:imageIndex];
     }];
 }
@@ -2319,6 +2331,17 @@ typedef enum {
             
 
             [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+                //室内图
+                if (self.isHaozu)
+                {
+                    //HZ_PROPERTY_011
+                    [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_CLICK_INDOORGRAPH note:nil];
+                }
+                else
+                {
+                    //AJK_PROPERTY_011
+                    [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_CLICK_INDOORGRAPH note:nil];
+                }
                 [pb showImagesWithArray:self.houseTypeImageArray atIndex:index];
             }];
         }
@@ -2336,6 +2359,17 @@ typedef enum {
         //模态弹出图片播放器
         
         [self.navigationController presentViewController:navController animated:YES completion:^(void) {
+            //室内图
+            if (self.isHaozu)
+            {
+                //HZ_PROPERTY_011
+                [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_CLICK_INDOORGRAPH page:ZF_PUBLISH note:nil];
+            }
+            else
+            {
+                //AJK_PROPERTY_011
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_CLICK_INDOORGRAPH page:ESF_PUBLISH note:nil];
+            }
             [pb showImagesWithArray:self.houseTypeImageArray atIndex:index];
         }];
     }
@@ -2354,11 +2388,13 @@ typedef enum {
         //室内图
         if (self.isHaozu)
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PROPERTY_011 note:nil];
+            //HZ_PROPERTY_011
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_CLICK_ADD_INDOORGRAPH note:nil];
         }
         else
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_011 note:nil];
+            //AJK_PROPERTY_011
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_CLICK_ADD_INDOORGRAPH note:nil];
         }
         self.footerView = [_footerViewDict objectForKey:FOOTERVIEWDICTROOM];
         
@@ -2370,11 +2406,13 @@ typedef enum {
         //房型图
         if (self.isHaozu)
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PROPERTY_014 note:nil];
+            //HZ_PROPERTY_014
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_CLICK_ADD_HOUSETYPEGRAPH note:nil];
         }
         else
         {
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PROPERTY_014 note:nil];
+            //AJK_PROPERTY_014
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_CLICK_ADD_HOUSETYPEGRAPH note:nil];
         }
         
         self.footerView = [_footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
@@ -2758,10 +2796,14 @@ typedef enum {
     if (!self.isChildClass)
     {
         if (self.isHaozu) {
-            code = HZ_PROPERTY_012;
+//            code = HZ_PROPERTY_012;
+            code = ZF_PUBLISH_CLICK_TAKE_INDOORGRAPH;
         }
         else
-            code = AJK_PROPERTY_012;
+        {
+            code = ESF_PUBLISH_CLICK_TAKE_INDOORGRAPH;
+        }
+//            code = AJK_PROPERTY_012;
         [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
     }
     
@@ -2847,10 +2889,15 @@ typedef enum {
     }
     NSString *code = [NSString string];
     if (self.isHaozu) {
-        code = HZ_PROPERTY_016;
+//        code = HZ_PROPERTY_016;
+        code = ZF_PUBLISH_CLICK_ONLINE_HOUSETYPEGRAPH;
     }
     else
-        code = AJK_PROPERTY_016;
+    {
+//        code = AJK_PROPERTY_016;
+        code = ESF_PUBLISH_CLICK_ONLINE_HOUSETYPEGRAPH;
+    }
+    
     [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
     
     //check小区、户型、朝向
@@ -2899,22 +2946,26 @@ typedef enum {
                 {
                     if (self.isHaozu)
                     {
-                        code = HZ_PROPERTY_015;
+//                        code = HZ_PROPERTY_015;
+                        code = ZF_PUBLISH_CLICK_SELECT_HOUSETYPEGRAPH;
                     }
                     else
                     {
-                        code = AJK_PROPERTY_015;
+//                        code = AJK_PROPERTY_015;
+                        code = ESF_PUBLISH_CLICK_ADD_INDOORGRAPH;
                     }
                 }else if(self.footClickType == 1)
                 {
                     //室内图-从相册选择
                     if (self.isHaozu)
                     {
-                        code = HZ_PROPERTY_013;
+//                        code = HZ_PROPERTY_013;
+                        code = ZF_PUBLISH_CLICK_SELECT_INDOORGARPH;
                     }
                     else
                     {
-                        code = AJK_PROPERTY_013;
+//                        code = AJK_PROPERTY_013;
+                        code = ESF_PUBLISH_CLICK_SELECT_INDOORGRAPH;
                     }
                 }
                 

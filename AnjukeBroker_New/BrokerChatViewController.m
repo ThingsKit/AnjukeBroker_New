@@ -521,6 +521,7 @@ static BrokerChatViewController *brokerSender = nil;
     {
         if ([modeStatus isEqualToString:@"ok"])
         {
+            [self initButtonInLearnView:YES];
             NSDictionary *postParams = [reponseDict objectForKey:@"propdict"];
             NSString *body = [[[postParams objectForKey:@"model_body"] JSONValue] objectForKey:@"body"];
             NSString *messId = [[dic2 objectForKey:@"model"] objectForKey:@"msg_id"];
@@ -718,6 +719,7 @@ static BrokerChatViewController *brokerSender = nil;
     JSMessageInputView *messInputView = [btDict objectForKey:AXUITEXVIEWEDIT];
     if (!_sayHelloAlertView)
     {
+        [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_CHAT_OTHER page:POTENTIAL_CLIENT_CHAT note:nil];
         NSString *alertText = @"用户回复你以后才能使用这功能:)";
         UIFont *aFont = [UIFont systemFontOfSize:14];
         CGSize aSize = [alertText sizeWithFont:aFont];
