@@ -2666,12 +2666,19 @@ typedef enum {
             
         }
         saveMessModel.fxa += [info count];
+        
+        if (self.isHaozu)
+        {
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_SELECT_HOUSETYPEGRAPH_CLICK_SAVE page:ZF_SELECT_HOUSETYPEGRAPH note:NULL];
+        }
+        
     }else if (self.footClickType == 1)
     {
         saveMessModel.sna += [info count];
     }
     
     [[BrokerLogger sharedInstance] logWithActionCode:actionCode page:pageID note:NULL];
+    
     
     for (NSDictionary *dict in info) {
         
