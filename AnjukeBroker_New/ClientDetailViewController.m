@@ -246,6 +246,8 @@
 
 - (void)startChart {
     
+    [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_CLICK_CHAT page:CLIENT_DETAIL note:nil];
+    
     if (comeFromeType == AXPersonComeFromeTypeChatView) {
         [self.navigationController popViewControllerAnimated:YES];
         return;
@@ -359,10 +361,9 @@
         
         //make call
         NSString *markNameStr = self.person.markName ? self.person.markName : @"";
-        [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系%@：",markNameStr] callPhone:self.person.markPhone appLogKey:CLIENT_DETAIL_ADD_TIPS completion:^(CFAbsoluteTime time) {
+        [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系%@：",markNameStr] callPhone:self.person.markPhone appLogKey:CLIENT_DETAIL_CALL page:CLIENT_DETAIL completion:^(CFAbsoluteTime time) {
             nil;
         }];
-        //        [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系%@：",markNameStr] callPhone:self.person.markPhone appLogKey:CLIENT_DETAIL_011];
     }else{
         [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_MORE_EDIT_TIPS page:CLIENT_DETAIL note:[NSDictionary dictionaryWithObjectsAndKeys:self.person.uid,@"customer_id", nil]];
         

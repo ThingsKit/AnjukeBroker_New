@@ -197,7 +197,7 @@
         [controller setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:controller animated:YES];
     } else if (self.myArray.count > 1 && indexPath.row == self.myArray.count - 1) {//待推广
-        [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_DRAFTLIST page:ESF_MANAGE note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_BIDLIST page:ESF_MANAGE note:nil];
         
         SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
         controller.isSeedPid = self.isSeedPid;

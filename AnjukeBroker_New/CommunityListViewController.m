@@ -375,7 +375,7 @@
             //没有历史记录，使用附近小区list
             self.listDataArray = [[[response content] objectForKey:@"data"] objectForKey:@"nearby"];
             self.listType = DataTypeNearby;
-            if (!self.isHaouzu)
+            if (self.isHaouzu)
             {
                 [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_SELECT_XIAOQU_CLICK_NORESULT  page:ZF_PUBLISH_SELECT_XIAOQU note:nil];
             }else
@@ -426,6 +426,17 @@
 #pragma mark - TableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSString *pageID = ESF_PUBLISH_SELECT_XIAOQU;
+    if (self.isHaouzu) {
+        pageID = ZF_PUBLISH_SELECT_XIAOQU;
+    }
+
+    if (self.listType == DataTypeNearby) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_SELECT_XIAOQU_CLICK_FUJIN page:pageID note:nil];
+    }else if (self.listType == DataTypeHistory){
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_SELECT_XIAOQU_CLICK_HISTORY page:pageID note:nil];
+    }
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (self.isFirstShow) { //首次发房push出的小区列表页，点击小区后push进发房页面

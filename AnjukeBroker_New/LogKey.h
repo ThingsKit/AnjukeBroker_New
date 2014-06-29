@@ -796,10 +796,10 @@
 
 //二手房小区选择页
 #define CHAT_ESF_XIAOQU        @"1-920000"//PageID
-#define CHAT_ESF_XIAOQU_ONVIEW @"920001" //页面可见（即页面打开）
-#define ESF_COMMUNITY_CHAT_002 @"920002"
-#define CHAT_ESF_XIAOQU_SELECT @"920003" //点击小区
-#define CHAT_ESF_XIAOQU_BACK   @"920004" //点击返回
+#define CHAT_ESF_XIAOQU_ONVIEW @"1-920001" //页面可见（即页面打开）
+#define ESF_COMMUNITY_CHAT_002 @"1-920002"
+#define CHAT_ESF_XIAOQU_SELECT @"1-920003" //点击小区
+#define CHAT_ESF_XIAOQU_BACK   @"1-920004" //点击返回
 
 
 /*

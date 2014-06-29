@@ -12,6 +12,6 @@
 
 
 + (BrokerCallAlert *) sharedCallAlert;
-- (void)callAlert:(NSString *)alertStr callPhone:(NSString *)callPhone appLogKey:(NSString *)appLogKey completion:(void (^)(CFAbsoluteTime time))completion;
+- (void)callAlert:(NSString *)alertStr callPhone:(NSString *)callPhone appLogKey:(NSString *)appLogKey page:(NSString *)page completion:(void (^)(CFAbsoluteTime time))completion;
 
 @end

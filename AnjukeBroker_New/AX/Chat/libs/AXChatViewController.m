@@ -635,6 +635,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
                 [blockSelf appendCellData:textData];
                 [blockSelf scrollToBottomAnimated:YES];
             } else if (status == AXMessageCenterSendMessageStatusFailed) {
+                [[BrokerLogger sharedInstance] logWithActionCode:CHAT_SEND_FAIL page:CHAT note:nil];
+                
                 NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
                 blockSelf.cellDict[message.identifier][@"status"] = @(AXMessageCenterSendMessageStatusFailed);
                 [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
@@ -895,7 +897,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
             self.keyboardControl.hidden = NO;
             self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 49);
             
-            [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
+            [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER_MENU page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
             
             self.publicSubMenu =[[AXPublicSubMenu alloc] init];
             self.publicSubMenu.publicSubMenuDelegate = self;
@@ -915,7 +917,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         self.keyboardControl.hidden = NO;
         self.keyboardControl.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 49);
 
-        [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER_MENU page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
         
         self.publicSubMenu =[[AXPublicSubMenu alloc] init];
         self.publicSubMenu.publicSubMenuDelegate = self;
@@ -935,13 +937,14 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
 
 - (void)publicMenuWithAPI:(AXPublicMenuButton *)button actionStr:(NSString *)actionStr{
+    [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER_MENU page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
+
     [self publicEventWithApi:actionStr];
-    [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
 }
 - (void)publicMenuWithURL:(AXPublicMenuButton *)button webURL:(NSString *)webURL{
     [self hideSubmenu:^(BOOL isFinished) {
     }];
-    [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER_MENU page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
     
     AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
     webVC.webUrl = [NSString stringWithFormat:@"%@?city_id=%@",webURL,[LoginManager getCity_id]];
@@ -968,14 +971,14 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
 #pragma mark --AXPublicSubMenuDelegate
 - (void)publicSubMenuWithAPI:(AXPublicMenuButton *)button actionStr:(NSString *)actionStr{
-    [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER_MENU page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
 
     [self publicEventWithApi:actionStr];
 }
 
 - (void)publicSubMenuWithURL:(AXPublicMenuButton *)button webURL:(NSString *)webURL{
     [self hideSubmenu:^(BOOL isFinished) {
-        [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER_MENU page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
 
         AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
         webVC.webUrl = [NSString stringWithFormat:@"%@?city_id=%@",webURL,[LoginManager getCity_id]];
@@ -1023,6 +1026,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 - (void)publicEventWithApi:(NSString *)actionStr{
     [self showPublicLoadView];
     [self hideSubmenu:^(BOOL isFinished) {
+
         [[AXChatMessageCenter defaultMessageCenter] publicServiceSendActionByServiceId:[self checkFriendUid] actionID:actionStr cityID:[LoginManager getCity_id] userID:self.currentPerson.uid];
     }];
 }
@@ -1560,6 +1564,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
 #pragma mark -- AXChatMessagePublicCard3CellDelegate
 - (void)didOpenPublicCard3:(AXChatMessagePublicCard3Cell *)cell senderInfo:(NSDictionary *)senderInfo{
+    [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER_CLICK_ARTICLE page:CHAT note:nil];
+    
     AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
     webVC.webUrl = senderInfo[@"url"];
     webVC.webTitle = senderInfo[@"title"];
@@ -2047,6 +2053,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
 - (void)handleWillShowKeyboardNotification:(NSNotification *)notification
 {
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_CHAT_INPUT page:CHAT note:nil];
+
     self.moreBackView.hidden = YES;
     self.emojiScrollView.hidden = YES;
     [self keyboardWillShowHide:notification];

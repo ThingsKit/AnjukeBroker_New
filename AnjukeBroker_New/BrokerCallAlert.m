@@ -14,6 +14,7 @@
 @interface BrokerCallAlert ()
 @property (nonatomic, strong) NSString *phoneNum;
 @property (nonatomic, strong) NSString *logKey;
+@property (nonatomic, strong) NSString *page;
 @property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) void (^completion)(CFAbsoluteTime time);
 @end
@@ -44,14 +45,15 @@ static BrokerCallAlert* defaultCallAlert;
 - (void)willEnterForeground:(NSNotification *)notification{
     self.completion(CFAbsoluteTimeGetCurrent());
     if (self.logKey && ![self.logKey isEqualToString:@""]) {
-        [[BrokerLogger sharedInstance] logWithActionCode:self.logKey note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:self.logKey page:self.page note:nil];
     }
 }
-- (void)callAlert:(NSString *)alertStr callPhone:(NSString *)callPhone appLogKey:(NSString *)appLogKey completion:(void (^)(CFAbsoluteTime time))completion;{
+- (void)callAlert:(NSString *)alertStr callPhone:(NSString *)callPhone appLogKey:(NSString *)appLogKey page:(NSString *)page completion:(void (^)(CFAbsoluteTime))completion{
 
     self.completion = completion;
     self.phoneNum = [NSString stringWithFormat:@"%@",callPhone];
     self.logKey = [NSString stringWithFormat:@"%@",appLogKey];
+    self.page = [NSString stringWithFormat:@"%@",page];
     if (!self.phoneNum || [self.phoneNum isEqualToString:@""]) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"暂无号码，无法拨打" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确认", nil];
         [alertView show];

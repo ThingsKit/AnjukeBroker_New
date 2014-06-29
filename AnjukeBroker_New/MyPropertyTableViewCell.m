@@ -221,7 +221,7 @@
     }
     
     
-    [[BrokerCallAlert sharedCallAlert] callAlert:nil callPhone:self.myPropertyModel.ownerPhone appLogKey:COMMISSION_MINE_CONFIRM_CALL completion:^(CFAbsoluteTime time) {
+    [[BrokerCallAlert sharedCallAlert] callAlert:nil callPhone:self.myPropertyModel.ownerPhone appLogKey:COMMISSION_MINE_CONFIRM_CALL page:COMMISSION_MINE completion:^(CFAbsoluteTime time) {
     }];
     
     

@@ -209,19 +209,17 @@
         
         if (self.userCenterModel.tel) {
             //make call
-            [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:self.userCenterModel.tel  appLogKey:PERSONAL_CLICK_CONFIRM_SALESCALL completion:^(CFAbsoluteTime time) {
+            [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:self.userCenterModel.tel  appLogKey:PERSONAL_CLICK_CONFIRM_SALESCALL page:PERSONAL completion:^(CFAbsoluteTime time) {
                 nil;
             }];
-            //                [[BrokerCallAlert sharedCallAlert] callAlert:[NSString stringWithFormat:@"您是否要联系客户主任%@：",[self getClientName]] callPhone:self.userCenterModel.tel  appLogKey:USER_CENTER_007];
         }
     }else if (indexPath.row == 7){
         [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_CLICK_CSCALL page:PERSONAL note:nil];
         
         //make call
-        [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER appLogKey:PERSONAL_CLICK_CONFIRM_CSCALL completion:^(CFAbsoluteTime time) {
+        [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER appLogKey:PERSONAL_CLICK_CONFIRM_CSCALL page:PERSONAL completion:^(CFAbsoluteTime time) {
             nil;
         }];
-        //            [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER appLogKey:USER_CENTER_009];
     }else if (indexPath.row == 8){
         [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_CLICK_SYSSET page:PERSONAL note:nil];
         
