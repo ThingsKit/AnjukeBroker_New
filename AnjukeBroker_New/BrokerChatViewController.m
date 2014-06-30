@@ -551,7 +551,6 @@ static BrokerChatViewController *brokerSender = nil;
     {
         if ([modeStatus isEqualToString:@"ok"])
         {
-            self.isSayHelloSuccessed = true;
             [self sayHelloSuccessButton];
             [self didClickKeyboardControl];
             NSDictionary *postParams = [reponseDict objectForKey:@"propdict"];
