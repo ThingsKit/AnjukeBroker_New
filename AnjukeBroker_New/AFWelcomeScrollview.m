@@ -134,7 +134,8 @@ typedef enum {
         img.frame = CGRectMake(0 + [self getWindowWidth] *i, imgGapH, [self getWindowWidth], [self getWindowHeight] - imgGapH);
         img.backgroundColor = [UIColor colorWithHex:0xF6F6F6 alpha:1.0];
         
-        img.contentMode = UIViewContentModeScaleAspectFit;
+        img.contentMode = UIViewContentModeScaleAspectFill;
+        //UIViewContentModeScaleAspectFit
         img.layer.borderColor = [UIColor clearColor].CGColor;
         img.layer.borderWidth = 1;
         img.clipsToBounds = YES;

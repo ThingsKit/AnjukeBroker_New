@@ -78,9 +78,6 @@
 		207526BD18B45FE10022220C /* SWUtilityButtonTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 207526B618B45FE10022220C /* SWUtilityButtonTapGestureRecognizer.m */; };
 		207526BE18B45FE10022220C /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 207526B818B45FE10022220C /* SWUtilityButtonView.m */; };
 		207526C118B4658A0022220C /* ClientListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 207526C018B4658A0022220C /* ClientListCell.m */; };
-		20771E5418EA9AFE00A8449A /* anjuke_icon_ydy_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20771E5118EA9AFE00A8449A /* anjuke_icon_ydy_1@2x.png */; };
-		20771E5518EA9AFE00A8449A /* anjuke_icon_ydy_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20771E5218EA9AFE00A8449A /* anjuke_icon_ydy_2@2x.png */; };
-		20771E5618EA9AFE00A8449A /* anjuke_icon_ydy_3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20771E5318EA9AFE00A8449A /* anjuke_icon_ydy_3@2x.png */; };
 		2079ADDB18B5D62E0029D493 /* ClientDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2079ADDA18B5D62E0029D493 /* ClientDetailViewController.m */; };
 		2079ADDE18B5D64B0029D493 /* ClientEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2079ADDD18B5D64B0029D493 /* ClientEditViewController.m */; };
 		2079ADE118B5DB690029D493 /* ClientDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2079ADE018B5DB690029D493 /* ClientDetailCell.m */; };
@@ -94,7 +91,6 @@
 		2079ADF318B5FD610029D493 /* anjuke_icon_xingbiao_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2079ADEC18B5FD610029D493 /* anjuke_icon_xingbiao_@2x.png */; };
 		2079ADF418B5FD610029D493 /* anjuke_icon_xingbiao_minileft_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2079ADED18B5FD610029D493 /* anjuke_icon_xingbiao_minileft_@2x.png */; };
 		2079ADF518B5FD610029D493 /* anjuke_icon_xingbiao_miniright_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2079ADEE18B5FD610029D493 /* anjuke_icon_xingbiao_miniright_@2x.png */; };
-		2084E72918F3F0EE00A7A26F /* anjuke_icon_ydy_4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2084E72818F3F0EE00A7A26F /* anjuke_icon_ydy_4@2x.png */; };
 		208A05EA18A413620053D885 /* PublishHouseTypeEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 208A05E918A413620053D885 /* PublishHouseTypeEditViewController.m */; };
 		20A07429188C0A080073C915 /* PublishTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A07428188C0A080073C915 /* PublishTableViewDataSource.m */; };
 		20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A09790188D0A4E00D30196 /* PublishInputOrderModel.m */; };
@@ -668,6 +664,7 @@
 		F88FC2E31945471100DEA8A2 /* HomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2E21945471100DEA8A2 /* HomeCell.m */; };
 		F88FC2E71945614100DEA8A2 /* FindCustomerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2E61945614100DEA8A2 /* FindCustomerViewController.m */; };
 		F88FC2EF19457F8C00DEA8A2 /* PICircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2EE19457F8C00DEA8A2 /* PICircularProgressView.m */; };
+		F89FF58619616C8200AC7256 /* broker_guild@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F89FF58519616C8200AC7256 /* broker_guild@2x.png */; };
 		F8A717BE192058FB004840C6 /* UserCenterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717B7192058FB004840C6 /* UserCenterCell.m */; };
 		F8A717BF192058FB004840C6 /* UserCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717B9192058FB004840C6 /* UserCenterViewController.m */; };
 		F8A717C419205934004840C6 /* AppSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717C319205934004840C6 /* AppSettingViewController.m */; };
@@ -861,9 +858,6 @@
 		207526B818B45FE10022220C /* SWUtilityButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonView.m; sourceTree = "<group>"; };
 		207526BF18B4658A0022220C /* ClientListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientListCell.h; sourceTree = "<group>"; };
 		207526C018B4658A0022220C /* ClientListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientListCell.m; sourceTree = "<group>"; };
-		20771E5118EA9AFE00A8449A /* anjuke_icon_ydy_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_ydy_1@2x.png"; sourceTree = "<group>"; };
-		20771E5218EA9AFE00A8449A /* anjuke_icon_ydy_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_ydy_2@2x.png"; sourceTree = "<group>"; };
-		20771E5318EA9AFE00A8449A /* anjuke_icon_ydy_3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_ydy_3@2x.png"; sourceTree = "<group>"; };
 		2079ADD918B5D62E0029D493 /* ClientDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientDetailViewController.h; sourceTree = "<group>"; };
 		2079ADDA18B5D62E0029D493 /* ClientDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientDetailViewController.m; sourceTree = "<group>"; };
 		2079ADDC18B5D64B0029D493 /* ClientEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientEditViewController.h; sourceTree = "<group>"; };
@@ -880,7 +874,6 @@
 		2079ADEC18B5FD610029D493 /* anjuke_icon_xingbiao_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_xingbiao_@2x.png"; sourceTree = "<group>"; };
 		2079ADED18B5FD610029D493 /* anjuke_icon_xingbiao_minileft_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_xingbiao_minileft_@2x.png"; sourceTree = "<group>"; };
 		2079ADEE18B5FD610029D493 /* anjuke_icon_xingbiao_miniright_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_xingbiao_miniright_@2x.png"; sourceTree = "<group>"; };
-		2084E72818F3F0EE00A7A26F /* anjuke_icon_ydy_4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_ydy_4@2x.png"; sourceTree = "<group>"; };
 		208A05E818A413620053D885 /* PublishHouseTypeEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishHouseTypeEditViewController.h; sourceTree = "<group>"; };
 		208A05E918A413620053D885 /* PublishHouseTypeEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishHouseTypeEditViewController.m; sourceTree = "<group>"; };
 		20A07427188C0A080073C915 /* PublishTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishTableViewDataSource.h; sourceTree = "<group>"; };
@@ -1722,6 +1715,7 @@
 		F88FC2E61945614100DEA8A2 /* FindCustomerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindCustomerViewController.m; sourceTree = "<group>"; };
 		F88FC2ED19457F8C00DEA8A2 /* PICircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PICircularProgressView.h; sourceTree = "<group>"; };
 		F88FC2EE19457F8C00DEA8A2 /* PICircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PICircularProgressView.m; sourceTree = "<group>"; };
+		F89FF58519616C8200AC7256 /* broker_guild@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_guild@2x.png"; sourceTree = "<group>"; };
 		F8A717B6192058FB004840C6 /* UserCenterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterCell.h; sourceTree = "<group>"; };
 		F8A717B7192058FB004840C6 /* UserCenterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCenterCell.m; sourceTree = "<group>"; };
 		F8A717B8192058FB004840C6 /* UserCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterViewController.h; sourceTree = "<group>"; };
@@ -2679,14 +2673,11 @@
 		970501541845A18E00A0C181 /* 引导页 */ = {
 			isa = PBXGroup;
 			children = (
+				F89FF58519616C8200AC7256 /* broker_guild@2x.png */,
 				F8CCEEC3192C6FD300192055 /* guild_dot_normal@2x.png */,
 				F8CCEEC4192C6FD300192055 /* guild_dot_selected@2x.png */,
 				F8CCEEBF192C682700192055 /* guild_btn_normal@2x.png */,
 				F8CCEEC0192C682700192055 /* guild_btn_press@2x.png */,
-				20771E5118EA9AFE00A8449A /* anjuke_icon_ydy_1@2x.png */,
-				20771E5218EA9AFE00A8449A /* anjuke_icon_ydy_2@2x.png */,
-				20771E5318EA9AFE00A8449A /* anjuke_icon_ydy_3@2x.png */,
-				2084E72818F3F0EE00A7A26F /* anjuke_icon_ydy_4@2x.png */,
 			);
 			name = "引导页";
 			sourceTree = "<group>";
@@ -4228,7 +4219,6 @@
 				B704D76D1894EB4A00728848 /* news.mp3 in Resources */,
 				B7E1919218E2753300DA578B /* anjuke_icon_chat_fy@2x.png in Resources */,
 				6767D17C192398C2004FEFF7 /* anjuke_icon_weituo_esf@2x.png in Resources */,
-				20771E5518EA9AFE00A8449A /* anjuke_icon_ydy_2@2x.png in Resources */,
 				27A42B5918E2C4D300FADED3 /* wl_map_icon_4@2x.png in Resources */,
 				6740D1D71908E08C005ED706 /* anjuke_icon_login_button_press@2x.png in Resources */,
 				273913E418DBD0FD003284AA /* anjuke_icon_to_position@2x.png in Resources */,
@@ -4305,14 +4295,12 @@
 				B7EF77A7183CBB580024A5E6 /* anjuke_icon_violat@2x.png in Resources */,
 				979BBB6B185804AE005B7D03 /* icon_60@2x.png in Resources */,
 				27A42B5518E2C4D300FADED3 /* wl_map_icon_1_press@2x.png in Resources */,
-				20771E5618EA9AFE00A8449A /* anjuke_icon_ydy_3@2x.png in Resources */,
 				278FFCF8192453CD00B4A4A4 /* anjuke_icon_takephoto_button@2x.png in Resources */,
 				F8329933192B1B1D00246CD7 /* tab_icon_chat_normal@2x.png in Resources */,
 				F8CCEEC2192C682700192055 /* guild_btn_press@2x.png in Resources */,
 				6794E4121947EC2C0069F1ED /* broker_home_icon_zf@2x.png in Resources */,
 				2739140418DC0B44003284AA /* wl_map_icon_position_press@2x.png in Resources */,
 				B7FC9AE118C41B1300F77205 /* xproject_dialogue_articalcard_backicon@2x.png in Resources */,
-				2084E72918F3F0EE00A7A26F /* anjuke_icon_ydy_4@2x.png in Resources */,
 				B7E2B692192B0286008AE703 /* icon_3.4_01.png in Resources */,
 				27A42B5718E2C4D300FADED3 /* wl_map_icon_1@2x.png in Resources */,
 				B7B2BF6E188CC2C30001EEB8 /* anjuke_icon_sound_button_icon@2x.png in Resources */,
@@ -4398,6 +4386,7 @@
 				27A42B5818E2C4D300FADED3 /* wl_map_icon_4.png in Resources */,
 				2079ADEF18B5FD610029D493 /* anjuke_icon_danye_more_@2x.png in Resources */,
 				B7E1919018E274D900DA578B /* anjuke_icon_chat4@2x.png in Resources */,
+				F89FF58619616C8200AC7256 /* broker_guild@2x.png in Resources */,
 				B7E2B68F192AF7FA008AE703 /* bg_3.4_01.png in Resources */,
 				678084001904AB1F00765A18 /* faceDelete@2x.png in Resources */,
 				2039E58518C421FF003ED781 /* anjuke_icon_headpic@2x.png in Resources */,
@@ -4498,7 +4487,6 @@
 				B7FC9B0318C41B1300F77205 /* xproject_dialogue_redbutton@2x.png in Resources */,
 				6740D1D91908E08C005ED706 /* anjuke_icon_no_message@2x.png in Resources */,
 				F85A3160190790EF00511022 /* anjuke_icon_add_press@2x.png in Resources */,
-				20771E5418EA9AFE00A8449A /* anjuke_icon_ydy_1@2x.png in Resources */,
 				B7EA5B5F18DBDCA900D437BB /* anjuke_icon_add_position@2x.png in Resources */,
 				6794E4281947EC2C0069F1ED /* broker_wlsj_nomen@2x.png in Resources */,
 				9720001B1841BF25003F49A4 /* details_arrow_right@2x.png in Resources */,
