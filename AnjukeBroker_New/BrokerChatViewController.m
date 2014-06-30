@@ -36,6 +36,7 @@
 @property (nonatomic, strong) UIView *sayHelloAlertView;
 //@property (nonatomic, strong) AXIMGDownloader *imgDownloader;
 
+
 //浮层相关
 @property (nonatomic, strong) MBProgressHUD* hud;
 @property (nonatomic, strong) UIImageView* hudBackground;
@@ -131,7 +132,7 @@ static BrokerChatViewController *brokerSender = nil;
     if (_isAlloc && _isSayHello)
     {
         [self initLearnView];
-        [self initButtonInLearnView:NO];
+        [self initButtonInLearnView];
     }
     _isAlloc = NO;
     
@@ -247,7 +248,35 @@ static BrokerChatViewController *brokerSender = nil;
 }
 
 //初始化learnview的bt
-- (void)initButtonInLearnView:(BOOL)needEr
+
+- (void)sayHelloSuccessButton
+{
+    NSDictionary *btDict = self.buttonDict;
+    
+    UIButton *erShou = [btDict objectForKey:AXBTKEYER];
+    UIView *v4 = [[UIView alloc] initWithFrame:erShou.bounds];
+    v4.layer.masksToBounds = YES;
+    v4.layer.cornerRadius = .5f;
+    [v4 setUserInteractionEnabled:NO];
+    [v4 setAlpha:.15f];
+    [erShou addSubview:v4];
+    [erShou removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [erShou addTarget:self action:@selector(learnViewBtAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *moreBt = [btDict objectForKey:AXBTKEYMORE];
+    UIView *v5 = [[UIView alloc] initWithFrame:moreBt.bounds];
+    [v5 setBackgroundColor:[UIColor blackColor]];
+    [v5 setAlpha:.15f];
+    [v5.layer setMasksToBounds:YES];
+    [v5.layer setCornerRadius:CGRectGetHeight(v5.frame)/2];
+    [v5 setUserInteractionEnabled:NO];
+    
+    [moreBt addSubview:v5];
+    [moreBt removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [moreBt addTarget:self action:@selector(learnViewBtAction:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)initButtonInLearnView
 {
     [super initButtonInLearnView];
     NSDictionary *btDict = self.buttonDict;
@@ -284,26 +313,26 @@ static BrokerChatViewController *brokerSender = nil;
     v3.layer.masksToBounds = YES;
     v3.layer.cornerRadius = radius;
     
-    if (needEr)
-    {
-        UIButton *erShou = [btDict objectForKey:AXBTKEYER];
-        UIView *v4 = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:v]];
-        v4.layer.masksToBounds = YES;
-        v4.layer.cornerRadius = radius;
-        [erShou addSubview:v4];
-        [getPic addTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
-        [getPic addTarget:self action:@selector(learnViewBtAction:) forControlEvents:UIControlEventTouchUpInside];
-    }
     
     [getPic addSubview:v1];
     [takePic addSubview:v2];
     [zuFang addSubview:v3];
     [local addSubview:v];
     
-    UIImage *speakImg = [speak backgroundImageForState:UIControlStateHighlighted];
-    [speak setBackgroundImage:speakImg forState:UIControlStateNormal];
-    UIImage *emjleImg = [emjle backgroundImageForState:UIControlStateHighlighted];
-    [emjle setBackgroundImage:emjleImg forState:UIControlStateNormal];
+    UIView *v6 = [[UIView alloc] initWithFrame:emjle.bounds];
+    [v6 setBackgroundColor:[UIColor blackColor]];
+    [v6 setAlpha:.15f];
+    [v6.layer setMasksToBounds:YES];
+    [v6.layer setCornerRadius:CGRectGetHeight(v6.frame)/2];
+    [v6 setUserInteractionEnabled:NO];
+    
+    UIView *v7 = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:v6]];
+    [v7.layer setCornerRadius:CGRectGetHeight(v7.frame)/2];
+    v7.layer.masksToBounds = YES;
+
+    
+    [speak addSubview:v7];
+    [emjle addSubview:v6];
     
     [getPic addTarget:self action:@selector(learnViewBtAction:) forControlEvents:UIControlEventTouchUpInside];
     [takePic addTarget:self action:@selector(learnViewBtAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -506,6 +535,7 @@ static BrokerChatViewController *brokerSender = nil;
     }
 }
 
+//打招呼成功之后的回调
 - (void)sayHelloHttpRequest:(NSDictionary *)reponseDict
 {
     NSDictionary *dic2 = reponseDict[@"data"];
@@ -521,12 +551,17 @@ static BrokerChatViewController *brokerSender = nil;
     {
         if ([modeStatus isEqualToString:@"ok"])
         {
-            [self initButtonInLearnView:YES];
+            self.isSayHelloSuccessed = true;
+            [self sayHelloSuccessButton];
+            [self didClickKeyboardControl];
             NSDictionary *postParams = [reponseDict objectForKey:@"propdict"];
             NSString *body = [[[postParams objectForKey:@"model_body"] JSONValue] objectForKey:@"body"];
+            NSString *sayHelloSuccess = @"推荐房源成功，请等待客户联系你";
             NSString *messId = [[dic2 objectForKey:@"model"] objectForKey:@"msg_id"];
             
-            AXMappedMessage * mappMess = [self sendSystemMessage:AXMessageTypeSenpropSuccess content:body messageId:messId];
+            AXMappedMessage *Mess = [self sendSystemMessage:AXMessageTypeText content:body messageId:messId];
+            [[AXChatMessageCenter defaultMessageCenter] saveMessageWithSystemType:Mess];
+            AXMappedMessage * mappMess = [self sendSystemMessage:AXMessageTypeSenpropSuccess content:sayHelloSuccess messageId:NULL];
             [[AXChatMessageCenter defaultMessageCenter] saveMessageWithSystemType:mappMess];
         }
     }

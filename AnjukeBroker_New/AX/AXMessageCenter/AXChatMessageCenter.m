@@ -812,17 +812,10 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     }else
     {
         self.sendMessageManager.apiParams = params;
+        [self.sendMessageManager loadData];
     }
     
     NSMutableDictionary *sendDict = NULL;
-    if (sayHello)
-    {
-        sendDict = [NSMutableDictionary dictionaryWithDictionary:params];
-        [sendDict removeObjectForKey:@"phone"];
-    }else
-    {
-        [self.sendMessageManager loadData];
-    }
     
     return sendDict;
 
