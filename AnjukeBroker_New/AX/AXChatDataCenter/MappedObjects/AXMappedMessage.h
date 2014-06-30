@@ -30,6 +30,7 @@ typedef NS_ENUM(NSUInteger, AXMessageType)
     AXMessageTypeSafeMessage = 106, // 安全提示
     AXMessageTypeVersion = 107, //对方使用的版本太低
     AXMessageTypeSenpropSuccess = 108,//打招呼成功
+    AXMessageTypeWillSenprop = 109,//将要去打招呼
     
     AXMessageTypeUIBlank = 10000 // UI效果 空一行白行 PS：只是本地使用 不会进行网络发送
 };

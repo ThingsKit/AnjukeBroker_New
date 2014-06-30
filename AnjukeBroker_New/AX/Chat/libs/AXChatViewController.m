@@ -1321,6 +1321,11 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
             textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeSenpropSuccess),@"content":mappedMessage.content,@"messageSource":@(AXChatMessageSourceDestinationOutPut)}];
         }
             break;
+        case AXMessageTypeWillSenprop:
+        {
+            textData = [NSMutableDictionary dictionaryWithDictionary:@{@"messageType":@(AXMessageTypeSenpropSuccess),@"content":mappedMessage.content,@"messageSource":@(AXChatMessageSourceDestinationOutPut)}];
+        }
+            break;
             
         case AXMessageTypeAddNuckName:
         {

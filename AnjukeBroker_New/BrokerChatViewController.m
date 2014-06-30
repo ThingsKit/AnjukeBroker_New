@@ -109,9 +109,10 @@ static BrokerChatViewController *brokerSender = nil;
     {
         self.brokerName = _userNickName;
         [self setTitleViewWithString:_userNickName];
+        
+        [self sendSystemMessage:AXMessageTypeWillSenprop content:@"推荐1套客户喜欢的房源，越精准越好" messageId:NULL];
     }
     [BrokerChatViewController setBrokerSelf:self];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -614,19 +615,6 @@ static BrokerChatViewController *brokerSender = nil;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AXChatBaseCell *cell = (AXChatBaseCell *)[super tableView:tableView cellForRowAtIndexPath:indexPath];
-
-    NSString *identifier = (self.identifierData)[[indexPath row]];
-    NSDictionary *dic = self.cellDict[identifier];
-    
-    if (_isSayHello)
-    {
-        if (dic[@"messageType"] && [dic[@"messageType"] isEqualToNumber:@(AXMessageTypeSettingNotifycation)])
-        {
-            AXChatMessageSystemTimeCell *sysCell = (AXChatMessageSystemTimeCell *)cell;
-            sysCell.systemLab.text = @"推荐1套客户喜欢的房源，越精准越好";
-            [sysCell.systemBut setTitle:@"" forState:UIControlStateNormal];
-        }
-    }
 
     return cell;
 }

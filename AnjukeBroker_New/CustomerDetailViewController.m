@@ -214,6 +214,7 @@
             }else{ //没有房源数据
                 
             }
+//            data.status = @"0";
             //根据该用户相对于经纪人的状态来决定按钮是什么(已抢到, 微聊, 抢完了)
             if ([@"0" isEqualToString:data.status]) {
                 //可抢
@@ -272,6 +273,10 @@
             //这里有五种状态, 分别对应不同的处理
             NSDictionary* data = [content objectForKey:@"data"];
             NSString* status = [data objectForKey:@"status"];
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 修改微聊crash，修改微聊ui
             if ([@"0" isEqualToString:status]) {
                 //可以抢, 发起锁定请求,如果请求成功, 则进入相应页面
                 [self lockRequest:nil];
