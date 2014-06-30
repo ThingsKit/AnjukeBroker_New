@@ -22,6 +22,8 @@
 #import <AVFoundation/AVMediaFormat.h>
 #import "AXChatDataCenter.h"
 #import "LoginManager.h"
+
+#import "RTDeviceInfo.h"
 //#import "AXIMGDownloader.h"
 
 
@@ -194,7 +196,16 @@ static BrokerChatViewController *brokerSender = nil;
     //提示文字
     UIImage *titleImg = [UIImage imageNamed:@"broker_qkh_guide"];
     UIImageView *titleImgVIew = [[UIImageView alloc] initWithImage:titleImg];
-    [titleImgVIew setCenter:CGPointMake(CGRectGetWidth(window.frame) / 2, CGRectGetHeight(window.frame) / 2 + 40)];
+    
+    NSString *iosType = [RTDeviceInfo iosType];
+    
+    NSRange range = [iosType rangeOfString:@"5"];
+    CGFloat xHeight = -10;
+    if (range.length > 0)
+    {
+        xHeight = 40;
+    }
+    [titleImgVIew setCenter:CGPointMake(CGRectGetWidth(window.frame) / 2, CGRectGetHeight(window.frame) / 2 + xHeight)];
     [titleImgVIew setTag:-12];
     [window addSubview:titleImgVIew];
     

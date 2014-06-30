@@ -157,8 +157,8 @@ CGFloat const AXChatMessageSystemTimeCellMarginTop = 4.0f;
         self.systemLab.font = [UIFont axChatSystemFont:self.isBroker];
         self.systemLab.textColor = [UIColor axChatSystemTextColor:self.isBroker];
         CGSize size = [self sizeOfString:self.systemLab.text maxWidth:250.0f withFontSize:self.systemLab.font];
-        self.systemLab.frame = CGRectMake(25 + 15, 17 + (45-25) / 2, size.width, size.height);
-        self.systemBgView.frame = CGRectMake( (self.width - 270) / 2, 12, size.width + 35, size.height + self.systemLab.frame.origin.y);
+        self.systemLab.frame = CGRectMake(25 + 15 + 15, 17, size.width, size.height);
+        self.systemBgView.frame = CGRectMake( (self.width - 230) / 2, 12, 230, 28);
         self.systemBgView.hidden = NO;
 
     }else if ([data[@"messageType"] isEqualToNumber:@(AXMessageTypeWillSenprop)])
@@ -167,8 +167,8 @@ CGFloat const AXChatMessageSystemTimeCellMarginTop = 4.0f;
         self.systemLab.font = [UIFont axChatSystemFont:self.isBroker];
         self.systemLab.textColor = [UIColor axChatSystemTextColor:self.isBroker];
         CGSize size = [self sizeOfString:self.systemLab.text maxWidth:250.0f withFontSize:self.systemLab.font];
-        self.systemLab.frame = CGRectMake(25 + 15, 17 + (45-25) / 2, size.width, size.height);
-        self.systemBgView.frame = CGRectMake( (self.width - 270) / 2, 12, size.width + 35, size.height + self.systemLab.frame.origin.y);
+        self.systemLab.frame = CGRectMake(25 + 15, 17, size.width, size.height);
+        self.systemBgView.frame = CGRectMake( (self.width - 270) / 2, 12, 270, size.height + self.systemLab.frame.origin.y);
         self.systemBgView.hidden = NO;
     }
     self.messageType = [data[@"messageType"] integerValue];
