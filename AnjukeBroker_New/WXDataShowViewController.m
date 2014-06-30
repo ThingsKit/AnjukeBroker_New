@@ -89,15 +89,14 @@
         imgView.frame = CGRectMake(97 + k * 28, 160 + j * 45, 14, 35);
         [imgView setImage:[UIImage imageNamed:@"broker_wlsj_nomen"]];
         [self.view addSubview:imgView];
-
+    
+#ifdef DEBUG
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.tag = 1000 + i;
         btn.frame = CGRectMake(97 + k * 28, 160 + j * 45, 14, 35);
         btn.backgroundColor = [UIColor clearColor];
         [btn addTarget:self action:@selector(changeRate:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:btn];
-    
-#ifdef DEBUG
 #else
 #endif
 
