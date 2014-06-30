@@ -542,6 +542,9 @@ static BrokerChatViewController *brokerSender = nil;
     NSString *unid = reponseDict[@"unid"];
     NSString *status = dic2[@"status"];
     
+    [self sayHelloSuccessButton];
+    [self didClickKeyboardControl];
+    
     NSString *modeStatus = [[dic2 objectForKey:@"model"] objectForKey:@"status"];
     if (![status isEqualToString:@"1"])
     {
@@ -551,8 +554,6 @@ static BrokerChatViewController *brokerSender = nil;
     {
         if ([modeStatus isEqualToString:@"ok"])
         {
-            [self sayHelloSuccessButton];
-            [self didClickKeyboardControl];
             NSDictionary *postParams = [reponseDict objectForKey:@"propdict"];
             NSString *body = [[[postParams objectForKey:@"model_body"] JSONValue] objectForKey:@"body"];
             NSString *sayHelloSuccess = @"推荐房源成功，请等待客户联系你";
