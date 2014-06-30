@@ -198,7 +198,11 @@
     }
     
     clientDic = [[NSMutableDictionary alloc] initWithDictionary:[[response content] objectForKey:@"data"]];
+    if ([[clientDic objectForKey:@"replyRate"] integerValue] == [self.userCenterModel.replyRate integerValue] && self.progressView.progress != 0.0) {
+        return;
+    }
     self.userCenterModel = [UserCenterModel convertToMappedObject:clientDic];
+
     
     if (self.userCenterModel && self.userCenterModel.replyRate) {
         [self performSelector:@selector(showProgress) withObject:nil afterDelay:0.5];
