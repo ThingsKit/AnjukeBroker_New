@@ -26,6 +26,7 @@
 #import "AXChatMessageCenter.h"
 #import "HomeViewController.h"
 #import "RushPropertyViewController.h"
+#import "FindCustomerViewController.h"
 #import "DiscoverViewController.h"
 #import "RTGestureBackNavigationController.h"
 
@@ -311,20 +312,30 @@
     if (application.applicationState == UIApplicationStateInactive) {
         DLog(@"userInfo [%@]", userInfo);
         NSString* type = [[userInfo objectForKey:@"anjuke_custom"] objectForKey:@"type"];
-        if ([@"commission" isEqualToString:type]) {
-            
-//            [self showPushMessageCount];
-            //NSLog(@"弹出模态视图");
-            RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
-            viewController.backType = RTSelectorBackTypeDismiss;
-            [viewController setHidesBottomBarWhenPushed:YES];
-            BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:viewController];
-            if (self.tabController) {
-                [self.tabController presentViewController:navi animated:YES completion:nil];
+        if (type && type.length > 0) {
+            if ([@"commission" isEqualToString:type]) {
+                //NSLog(@"弹出模态视图");
+                RushPropertyViewController* viewController = [[RushPropertyViewController alloc] init];
+                viewController.backType = RTSelectorBackTypeDismiss;
+                [viewController setHidesBottomBarWhenPushed:YES];
+                BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:viewController];
+                if (self.tabController) {
+                    [self.tabController presentViewController:navi animated:YES completion:nil];
+                }
+                
+                [[BrokerLogger sharedInstance] logWithActionCode:COMMISSION_LIST_ONVIEW page:COMMISSION_LIST note:@{@"push":@"push"}];
+                
+            }else if([@"customer" isEqualToString:type]){
+                
+                //NSLog(@"弹出模态视图");
+                FindCustomerViewController* viewController = [[FindCustomerViewController alloc] init];
+                viewController.backType = RTSelectorBackTypeDismiss;
+                [viewController setHidesBottomBarWhenPushed:YES];
+                BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:viewController];
+                if (self.tabController) {
+                    [self.tabController presentViewController:navi animated:YES completion:nil];
+                }
             }
-            
-            [[BrokerLogger sharedInstance] logWithActionCode:COMMISSION_LIST_ONVIEW page:COMMISSION_LIST note:@{@"push":@"push"}];
-
         }
     }
     
