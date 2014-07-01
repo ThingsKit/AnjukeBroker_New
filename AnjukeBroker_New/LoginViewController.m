@@ -28,6 +28,8 @@
 @property (nonatomic) UILabel *registerLabel;
 @property (nonatomic) UIView  *textFieldViewTF;
 @property (nonatomic) CGFloat logoW;
+@property (nonatomic) CGFloat logoGap;
+@property (nonatomic) CGFloat logoY;
 @end
 
 @implementation LoginViewController
@@ -87,6 +89,8 @@
     [self.view addSubview:self.loginView];
     
     self.logoW     = 95 ;
+    self.logoGap   = ([self windowWidth] - self.logoW)/2;
+    self.logoY     = 95;
     
     CGFloat btnW   = 530/2;
     CGFloat btnGap = ([self windowWidth] - btnW)/2;
@@ -97,14 +101,22 @@
     CGFloat tfW    = btnW - tfGap*2;
     CGFloat tfH    = btnH - tfGapH*2;
     
+    CGFloat textFieldViewTF_Y = 212 ;
+    
+    if (self.windowHeight != 568) {
+        self.logoY = 60;
+        textFieldViewTF_Y = self.logoY + 110;
+    }
     
     self.logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_60.png"]];
+    self.logo.frame = CGRectMake(self.logoGap, 140,  self.logoW,  self.logoW);
     self.logo.backgroundColor = [UIColor clearColor];
     self.logo.contentMode = UIViewContentModeScaleAspectFill;
     self.logo.layer.cornerRadius = 5;
     [self.loginView addSubview:self.logo];
     
-    self.textFieldViewTF = [[UIView alloc] initWithFrame:CGRectMake(btnGap, 212,  btnW, btnH*2+1)];
+    
+    self.textFieldViewTF = [[UIView alloc] initWithFrame:CGRectMake(btnGap, textFieldViewTF_Y,  btnW, btnH*2+1)];
     self.textFieldViewTF.backgroundColor = [UIColor whiteColor];
     [self.loginView addSubview:self.textFieldViewTF];
     
@@ -120,8 +132,8 @@
     
     CGRect frame     = self.textFieldViewTF.frame;
     self.loginBtn    = [self loginBtnWithFrame:CGRectMake(btnGap, frame.origin.y + frame.size.height+ 20, btnW, btnH) title:@"登录" action:@selector(doRequest)];
-    self.registerBtn = [self registerBtnWithFrame:CGRectMake(115,self.view.bottom - 35 - 30, 90, 33) title:@"注册" action:@selector(doRegister)];
-    self.registerLabel  = [[UILabel alloc] initWithFrame:CGRectMake(103, self.view.bottom - 35 - 30 - 20 - 13 , 140, 20)];
+    self.registerBtn = [self registerBtnWithFrame:CGRectMake(115,self.view.bottom - 85, 90, 33) title:@"注册" action:@selector(doRegister)];
+    self.registerLabel  = [[UILabel alloc] initWithFrame:CGRectMake(103, self.view.bottom - 118 , 140, 20)];
     self.registerLabel.text      = @"房源客户，一网打尽";
     self.registerLabel.textColor = [UIColor brokerLightGrayColor];
     self.registerLabel.font      = [UIFont systemFontOfSize:14];
@@ -183,17 +195,16 @@
 - (void)viewLoadAnimation
 {
     
-    CGFloat logoGap = ([self windowWidth] - self.logoW)/2;
-    self.logo.frame = CGRectMake(logoGap, 140,  self.logoW,  self.logoW);
-    self.logo.alpha = 0.5;
     
+    
+    self.logo.alpha = 0.5;
     self.textFieldViewTF.alpha = 0.0;
     self.loginBtn.alpha        = 0.0;
     self.registerBtn.alpha     = 0.0;
     self.registerLabel.alpha   = 0.0;
     
     [UIView animateWithDuration:0.8 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.logo.frame = CGRectMake(logoGap, 95,  self.logoW,  self.logoW);
+        self.logo.frame = CGRectMake(self.logoGap, self.logoY,  self.logoW,  self.logoW);
         self.logo.alpha = 1.0;
         self.textFieldViewTF.alpha = 1.0;
     } completion:^(BOOL finished) {

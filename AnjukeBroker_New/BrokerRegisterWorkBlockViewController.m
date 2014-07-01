@@ -77,12 +77,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSString *identifier = @"identifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-        RTLineView *lineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, 44, 305, 1)];
-        [cell addSubview:lineView];
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+    RTLineView *lineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, 44, 305, 1)];
+    if (indexPath.row == (self.dataArray.count - 1 )) {
+        lineView.frame = CGRectMake(0, 44, 320, 1);
     }
+    [cell addSubview:lineView];
     
     cell.textLabel.text = [[self.dataArray objectAtIndex:indexPath.row] objectForKey:@"blockName"];
     
