@@ -21,11 +21,15 @@
 
 - (void)loadDistrictDataWithCityId:(NSString *)cityId
 {
+<<<<<<< HEAD
     if (cityId == nil || [cityId isEqualToString:@""]) {
         return;
         
     }
 #warning no check
+=======
+    
+>>>>>>> add register model
     NSString     *method = @"common/districts/";
     NSDictionary *params  = @{@"cityId":cityId,@"is_nocheck":@"1"};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleAreaData:)];
@@ -78,6 +82,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     NSString *identifier = @"identifier";
+<<<<<<< HEAD
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
     
     cell.accessoryType   = UITableViewCellAccessoryDisclosureIndicator;
@@ -87,6 +92,18 @@
         lineView.frame = CGRectMake(0, 44, 320, 1);
     }
     [cell addSubview:lineView];
+=======
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+        cell.accessoryType   = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle  = UITableViewCellSelectionStyleGray;
+        
+        RTLineView *lineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, 44, 305, 1)];
+        
+        [cell addSubview:lineView];
+    }
+>>>>>>> add register model
     cell.textLabel.text = [[self.dataArray objectAtIndex:indexPath.row] objectForKey:@"districtName"];
     
     return cell;
@@ -95,6 +112,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+<<<<<<< HEAD
+=======
+#warning 测试数据
+>>>>>>> add register model
     BrokerRegisterWorkBlockViewController *workBlockViewController = [[BrokerRegisterWorkBlockViewController alloc] init];
     [workBlockViewController loadBlockDataWithDistrict:[self.dataArray objectAtIndex:indexPath.row]];
     workBlockViewController.delegate = self.delegate;

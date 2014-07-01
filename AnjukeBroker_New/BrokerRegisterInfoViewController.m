@@ -18,9 +18,12 @@
 #import <RTLineView.h>
 #import "MainBusinessViewController.h"
 #import "WorkPropertyViewController.h"
+<<<<<<< HEAD
 #import "AppDelegate.h"
 #import "AccountManager.h"
 
+=======
+>>>>>>> add register model
 
 @interface BrokerRegisterInfoViewController () <UITableViewDataSource, UITableViewDelegate,BrokerRegisterWorkCityDelegate,BrokerRegisterWorkRangeDelegate, MainBusinessDelegate, WorkPropertyDelegate, companyDelegate,UITextFieldDelegate,storeDelegate>
 @property (nonatomic, strong) UITableView *tableView;
@@ -98,7 +101,13 @@
         [self.nameTextField resignFirstResponder];
     }
     if (self.beforeDic && self.brokerName && self.cityDic && self.businessDic && self.companyDic && self.workRangeDic) {
+<<<<<<< HEAD
         NSDictionary *param = @{@"is_nocheck":@"1",@"mobile":self.beforeDic[@"mobile"], @"password":self.beforeDic[@"password"],@"checkPassword":self.beforeDic[@"password"], @"truename":self.brokerName, @"cityId":self.cityDic[@"cityId"], @"mainBusiness":self.businessDic[@"businessId"],@"companyId":self.companyDic[@"companyId"], @"storeId":self.storeDic[@"storeId"],@"blockId":self.workRangeDic[@"block"][@"blockId"],@"districtId":self.workRangeDic[@"district"][@"districtId"]};
+=======
+//          NSString *string = [NSString stringWithFormat:@"%@-%@",workRangeDic[@"block"][@"blockName"],workRangeDic[@"district"][@"districtName"]];
+        
+        NSDictionary *param = @{@"is_nocheck":@"1",@"mobile":self.beforeDic[@"mobile"], @"password":self.beforeDic[@"password"], @"truename":self.brokerName, @"cityId":self.cityDic[@"cityId"], @"mainBusiness":self.businessDic[@"businessId"],@"companyId":self.companyDic[@"companyId"], @"storeId":self.storeDic[@"storeId"],@"blockId":self.workRangeDic[@"block"][@"blockId"],@"districtId":self.workRangeDic[@"district"][@"districtId"]};
+>>>>>>> add register model
         
         [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:@"broker/register/" params:param target:self action:@selector(onRegisterAction:)];
         
@@ -110,6 +119,7 @@
 - (void)onRegisterAction:(RTNetworkResponse *)response {
     DLog(@"response [%@]", [response content]);
     [self hideLoadWithAnimated:YES];
+<<<<<<< HEAD
     if ([response.content[@"status"] isEqualToString:@"ok"]) {
         //保存用户登录数据
         [[NSUserDefaults standardUserDefaults] setValue:response.content[@"data"][@"brokerId"] forKey:@"id"]; //用户id
@@ -129,6 +139,16 @@
         if (response.content[@"message"]) {
             [self showInfo:response.content[@"message"]];
         }
+=======
+//    response [{
+//        data =     {
+//            brokerId = 7790059;
+//        };
+//        status = ok;
+//    }]
+    if ([response.content[@"status"] isEqualToString:@"ok"]) {
+        NSString *brokerId = response.content[@"data"][@"brokerId"];
+>>>>>>> add register model
     }
 
 }
@@ -141,6 +161,7 @@
 
 #pragma mark - MainBusinessDelegate
 - (void)processMainBusinessNameWithDic:(NSDictionary *)dic {
+<<<<<<< HEAD
     if (!dic || (self.businessDic && [dic[@"businessId"] isEqualToString:self.businessDic[@"businessId"]])) {
         return;
     }
@@ -155,6 +176,11 @@
     [self.detailDataArray replaceObjectAtIndex:5 withObject:@""];
     [self.detailDataArray replaceObjectAtIndex:6 withObject:@""];
     
+=======
+    if (!dic) {
+        return;
+    }
+>>>>>>> add register model
     self.businessDic = dic;
     NSString *businessName = dic[@"businessName"];
     [self.detailDataArray replaceObjectAtIndex:2 withObject:businessName];
@@ -163,6 +189,7 @@
 
 #pragma mark - WorkPropertyDelegate
 - (void)processWorkPropertyNameWithDic:(NSDictionary *)dic {
+<<<<<<< HEAD
     if (!dic || (self.natureDic && [dic[@"natureId"] isEqualToString:self.natureDic[@"natureId"]])) {
         return;
     }
@@ -175,6 +202,11 @@
     [self.detailDataArray replaceObjectAtIndex:5 withObject:@""];
     [self.detailDataArray replaceObjectAtIndex:6 withObject:@""];
     
+=======
+    if (!dic) {
+        return;
+    }
+>>>>>>> add register model
     self.natureDic = dic;
     NSString *natureName = dic[@"natureName"];
     [self.detailDataArray replaceObjectAtIndex:3 withObject:natureName];
@@ -183,6 +215,7 @@
 
 #pragma mark - companyDelegate
 - (void)processCompanyNameWithDic:(NSDictionary *)dic {
+<<<<<<< HEAD
     if (!dic || (self.companyDic && [self.companyDic[@"companyId"] isEqualToString:dic[@"companyId"]])) {
         return;
     }
@@ -192,6 +225,8 @@
     [self.detailDataArray replaceObjectAtIndex:5 withObject:@""];
     [self.detailDataArray replaceObjectAtIndex:6 withObject:@""];
     
+=======
+>>>>>>> add register model
     self.companyDic = dic;
     [self.detailDataArray replaceObjectAtIndex:4 withObject:dic[@"companyName"]];
     [self.tableView reloadData];
@@ -199,6 +234,7 @@
 
 #pragma mark - storeDelegate
 - (void)processStoreNameWithDic:(NSDictionary *)dic {
+<<<<<<< HEAD
     if (!dic || (self.storeDic && [self.storeDic[@"storeId"] isEqualToString:dic[@"storeId"]])) {
         return;
     }
@@ -231,6 +267,8 @@
     //        };
     //    }
     
+=======
+>>>>>>> add register model
     self.storeDic = dic;
     [self.detailDataArray replaceObjectAtIndex:5 withObject:dic[@"storeName"]];
     [self.tableView reloadData];
@@ -248,6 +286,7 @@
     }
 }
 
+<<<<<<< HEAD
 #pragma mark - others
 - (void)checkEnableCell:(UITableViewCell *) cell withIndex:(NSIndexPath *)indexPath {
     if (!self.cityDic) {
@@ -412,6 +451,8 @@
 //    @property (nonatomic, strong) NSDictionary *workRangeDic;
 }
 
+=======
+>>>>>>> add register model
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.dataArray.count;
@@ -444,7 +485,11 @@
         return cell;
     }
     NSString *identifier = @"identifier";
+<<<<<<< HEAD
     UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:nil];
+=======
+    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
+>>>>>>> add register model
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
         cell.backgroundColor = [UIColor clearColor];
@@ -453,9 +498,12 @@
         RTLineView *lineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, 44, 305, 1)];
         [cell addSubview:lineView];
     }
+<<<<<<< HEAD
 //    cell.userInteractionEnabled = NO;
     [self checkEnableCell:cell withIndex:indexPath];
     
+=======
+>>>>>>> add register model
     cell.textLabel.text = self.dataArray[indexPath.row];
     cell.textLabel.font = [UIFont systemFontOfSize:15];
     cell.detailTextLabel.text = self.detailDataArray[indexPath.row];
@@ -525,6 +573,10 @@
             break;
         case 6:
         {
+<<<<<<< HEAD
+=======
+#warning  自测数据
+>>>>>>> add register model
             BrokerRegisterWorkDistrictViewController *workDistrictViewController = [[BrokerRegisterWorkDistrictViewController alloc] init];
             workDistrictViewController.delegate = self;
             [workDistrictViewController loadDistrictDataWithCityId:self.cityDic[@"cityId"]];
@@ -542,6 +594,7 @@
 
 #pragma mark - BrokerRegisterWorkCityDelegate
 - (void)didSelectCity:(NSDictionary *)city {
+<<<<<<< HEAD
     DLog(@"city:%@",city);
     if (!city || (self.cityDic && [city[@"cityId"] isEqualToString:self.cityDic[@"cityId"]])) {
         return;
@@ -558,6 +611,10 @@
     [self.detailDataArray replaceObjectAtIndex:6 withObject:@""];
     
     
+=======
+    
+    DLog(@"city:%@",city);
+>>>>>>> add register model
     self.cityDic = city;
     [self.detailDataArray replaceObjectAtIndex:1 withObject:city[@"cityName"]];
     [self.tableView reloadData];

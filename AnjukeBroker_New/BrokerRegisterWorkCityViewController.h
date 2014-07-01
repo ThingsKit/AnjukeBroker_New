@@ -12,8 +12,11 @@
 
 - (void)didSelectCity:(NSDictionary *)city;
 
+<<<<<<< HEAD
 - (void)canceledCitySelection;
 
+=======
+>>>>>>> add register model
 @end
 
 @interface BrokerRegisterWorkCityViewController : RTViewController

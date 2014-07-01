@@ -77,12 +77,21 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSString *identifier = @"identifier";
+<<<<<<< HEAD
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
     RTLineView *lineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, 44, 305, 1)];
     if (indexPath.row == (self.dataArray.count - 1 )) {
         lineView.frame = CGRectMake(0, 44, 320, 1);
     }
     [cell addSubview:lineView];
+=======
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+        RTLineView *lineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, 44, 305, 1)];
+        [cell addSubview:lineView];
+    }
+>>>>>>> add register model
     
     cell.textLabel.text = [[self.dataArray objectAtIndex:indexPath.row] objectForKey:@"blockName"];
     
@@ -95,9 +104,13 @@
     NSDictionary *dic = @{@"district":self.district,@"block":[self.dataArray objectAtIndex:indexPath.row]};
     BrokerRegisterInfoViewController *viewController = [self.navigationController.viewControllers objectAtIndex:1];
     [self.navigationController popToViewController:viewController animated:YES];
+<<<<<<< HEAD
     if ([self.delegate respondsToSelector:@selector(didSelectWorkRange:)]) {
         [self.delegate didSelectWorkRange:dic];
     }
+=======
+    [self.delegate didSelectWorkRange:dic];
+>>>>>>> add register model
     
 }
 

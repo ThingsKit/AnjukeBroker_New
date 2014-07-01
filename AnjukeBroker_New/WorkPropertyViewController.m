@@ -34,7 +34,10 @@
     [super viewDidLoad];
     [self setTitleViewWithString:@"公司属性"];
     self.cellTitleArray = [[NSArray alloc] init];
+<<<<<<< HEAD
     self.tag = 2;
+=======
+>>>>>>> add register model
     
 	// Do any additional setup after loading the view, typically from a nib.
 }
@@ -161,8 +164,11 @@
     AJKListTableViewCell *newCell = (AJKListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     [newCell didSelected:YES];
     self.currentIndex = indexPath;
+<<<<<<< HEAD
     self.tag = 1;
     [self doBack:self];
+=======
+>>>>>>> add register model
 }
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -173,6 +179,7 @@
 
 - (void)doBack:(id)sender{
     [super doBack:sender];
+<<<<<<< HEAD
     if (self.tag == 1) {
         NSDictionary * selectedCellInfo = [[NSDictionary alloc] init];
         selectedCellInfo = [self.cellTitleArray objectAtIndex:self.currentIndex.row];
@@ -182,6 +189,14 @@
         }
     }
     DLog(@"tag %i", self.tag);
+=======
+    NSDictionary * selectedCellInfo = [[NSDictionary alloc] init];
+    selectedCellInfo = [self.cellTitleArray objectAtIndex:self.currentIndex.row];
+    NSLog(@"business%@",selectedCellInfo);
+    if ([self.delegate respondsToSelector:@selector(processWorkPropertyNameWithDic:)]) {
+        [self.delegate processWorkPropertyNameWithDic:selectedCellInfo];
+    }
+>>>>>>> add register model
 }
 
 - (void)didReceiveMemoryWarning
