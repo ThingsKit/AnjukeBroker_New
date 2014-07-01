@@ -5,8 +5,11 @@
 //  Created by leozhu on 14-7-1.
 //  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
+#define GAP_HORIZONTAL 6
+#define GAP_VERTICAL 6
 
 #import "ChoicePromotionCell.h"
+#import "ChoicePromotionCellModel.h"
 
 @interface ChoicePromotionCell ()
 
@@ -15,8 +18,10 @@
 @property (nonatomic, strong) UILabel* unitNumber; //点击单价
 @property (nonatomic, strong) UILabel* promotionVacancy; //推广位
 @property (nonatomic, strong) UILabel* queueVacancy; //排队位
-
-
+@property (nonatomic, strong) NSMutableArray* buckets; //坑位数组
+@property (nonatomic, strong) UIImageView* cursor; //游标
+@property (nonatomic, strong) UIView* bucketContentView; //坑位内容视图
+@property (nonatomic, strong) UIButton* promotionButton; //推广按钮
 
 @end
 
@@ -36,47 +41,58 @@
 
 - (void)initCell {
     
-    //房源图像
-//    _propertyIcon = [[UIImageView alloc] initWithFrame:CGRectZero];
-//    _propertyIcon.backgroundColor = [UIColor clearColor];
-//    _propertyIcon.contentMode = UIViewContentModeScaleAspectFit;
-//    [self.contentView addSubview:_propertyIcon];
-//    
-//    //房源标题
-//    _propertyTitle = [[UILabel alloc] initWithFrame:CGRectZero];
-//    _propertyTitle.backgroundColor = [UIColor clearColor];
-//    _propertyTitle.font = [UIFont ajkH2Font];
-//    [_propertyTitle setTextColor:[UIColor brokerBlackColor]];
-//    [self.contentView addSubview:_propertyTitle];
-//    
-//    //小区名称
-//    _community = [[UILabel alloc] initWithFrame:CGRectZero];
-//    _community.backgroundColor = [UIColor clearColor];
-//    _community.font = [UIFont ajkH4Font];
-//    _community.textColor = [UIColor brokerLightGrayColor];
-//    [self.contentView addSubview:_community];
-//    
-//    //户型
-//    _houseType = [[UILabel alloc] initWithFrame:CGRectZero];
-//    _houseType.backgroundColor = [UIColor clearColor];
-//    _houseType.font = [UIFont ajkH4Font];
-//    [_houseType setTextColor:[UIColor brokerLightGrayColor]];
-//    [self.contentView addSubview:_houseType];
-//    
-//    //面积
-//    _area = [[UILabel alloc] initWithFrame:CGRectZero];
-//    _area.backgroundColor = [UIColor clearColor];
-//    _area.font = [UIFont ajkH4Font];
-//    _area.textColor = [UIColor brokerLightGrayColor];
-//    [self.contentView addSubview:_area];
-//    
-//    //租金或售价
-//    _price = [[UILabel alloc] initWithFrame:CGRectZero];
-//    _price.backgroundColor = [UIColor clearColor];
-//    _price.font = [UIFont ajkH2Font];
-//    [_price setTextColor:[UIColor brokerBlackColor]];
-//    [self.contentView addSubview:_price];
+    //标题
+    _title = [[UILabel alloc] initWithFrame:CGRectZero];
+    _title.backgroundColor = [UIColor clearColor];
+    _title.font = [UIFont ajkH2Font];
+    _title.textColor = [UIColor brokerBlackColor];
+    [self.contentView addSubview:_title];
     
+    //当前推广状态
+    _promotionStatus = [[UILabel alloc] initWithFrame:CGRectZero];
+    _promotionStatus.backgroundColor = [UIColor clearColor];
+    _promotionStatus.font = [UIFont ajkH3Font];
+    _promotionStatus.textColor = [UIColor brokerMiddleGrayColor];
+    [self.contentView addSubview:_promotionStatus];
+    
+    //点击单价
+    _unitNumber = [[UILabel alloc] initWithFrame:CGRectZero];
+    _unitNumber.backgroundColor = [UIColor clearColor];
+    _unitNumber.font = [UIFont ajkH3Font];
+    _unitNumber.textColor = [UIColor brokerMiddleGrayColor];
+    [self.contentView addSubview:_unitNumber];
+    
+    //推广位
+    _promotionVacancy = [[UILabel alloc] initWithFrame:CGRectZero];
+    _promotionVacancy.backgroundColor = [UIColor clearColor];
+    _promotionVacancy.font = [UIFont ajkH3Font];
+    _promotionVacancy.textColor = [UIColor brokerMiddleGrayColor];
+    [self.contentView addSubview:_promotionVacancy];
+    
+    //排队位
+    _queueVacancy = [[UILabel alloc] initWithFrame:CGRectZero];
+    _queueVacancy.backgroundColor = [UIColor clearColor];
+    _queueVacancy.font = [UIFont ajkH3Font];
+    _queueVacancy.textColor = [UIColor brokerMiddleGrayColor];
+    [self.contentView addSubview:_queueVacancy];
+    
+    //坑位图
+    _bucketContentView = [[UIView alloc] initWithFrame:CGRectZero];
+    _bucketContentView.backgroundColor = [UIColor clearColor];
+    [self.contentView addSubview:_bucketContentView];
+    
+    //坑位数组
+    _buckets = [NSMutableArray arrayWithCapacity:12];
+    
+    //推广按钮
+    _promotionButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_promotionButton setTitle:@"立即推广" forState:UIControlStateNormal];
+    [_promotionButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateNormal];
+    [_promotionButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_press"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateHighlighted];
+    _promotionButton.frame = CGRectMake(15, 14, ScreenWidth-15*2, 42);
+    [_promotionButton addTarget:self action:@selector(startPromotion:) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:_promotionButton];
+
     //cell的背景视图, 默认选中是蓝色
     //    UIView* backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 0)];
     //    backgroundView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.9];
@@ -91,46 +107,85 @@
 - (void)layoutSubviews{
     [super layoutSubviews];
     
-    //房源图片
-//    _propertyIcon.frame = CGRectMake(15, 15, 80, 60);
-//    NSString* iconPath = self.propertyDetailTableViewCellModel.imgURL;
-//    if (iconPath != nil && ![@"" isEqualToString:iconPath]) {
-//        //加载图片
-//        [_propertyIcon setImageWithURL:[NSURL URLWithString:iconPath] placeholderImage:[UIImage imageNamed:@"anjuke61_bg4"]];
-//    }else{
-//        _propertyIcon.image = [UIImage imageNamed:@"anjuke61_bg4"]; //默认图片
-//    }
-//    
-//    //房源标题
-//    _propertyTitle.frame = CGRectMake(_propertyIcon.right + 12, 15, 190, 20);
-//    _propertyTitle.text = self.propertyDetailTableViewCellModel.title;
-//    //    _userName.backgroundColor = [UIColor redColor];
-//    
-//    
-//    //小区名称
-//    _community.frame = CGRectMake(_propertyIcon.right + 12, _propertyTitle.bottom + GAP_V, 100, 16);
-//    _community.text = self.propertyDetailTableViewCellModel.commName;
-//    //    _community.backgroundColor = [UIColor redColor];
-//    //    [_community sizeToFit];
-//    
-//    //户型
-//    _houseType.frame = CGRectMake(_propertyIcon.right + 12, _community.bottom + GAP_V, 100, 20);
-//    _houseType.text = [NSString stringWithFormat:@"%@室%@厅%@卫", self.propertyDetailTableViewCellModel.roomNum, self.propertyDetailTableViewCellModel.hallNum, self.propertyDetailTableViewCellModel.toiletNum];
-//    [_houseType sizeToFit];
-//    
-//    //面积
-//    _area.frame = CGRectMake(_houseType.right + GAP_H, _community.bottom + GAP_V, 100, 20);
-//    _area.text = self.propertyDetailTableViewCellModel.area;
-//    [_area sizeToFit];
-//    
-//    //租金或售价
-//    _price.frame = CGRectMake(_area.right + GAP_H, _community.bottom + GAP_V - 1, 70, 20);
-//    _price.textAlignment = NSTextAlignmentRight;
-//    _price.text = self.propertyDetailTableViewCellModel.price;
-    //    [_price sizeToFit];
-    //    _price.backgroundColor = [UIColor redColor];
+    //标题
+    _title.frame = CGRectMake(20, 15, 100, 20);
+    _title.text = @"精选推广";
+    [_title sizeToFit];
+    
+    //推广状态
+    _promotionStatus.frame = CGRectMake(20, _title.bottom + GAP_VERTICAL, 100, 20);
+    if ([@"3" isEqualToString:self.choicePromotionModel.actionType]) { //可推广
+        _promotionStatus.text = @"可立即推广";
+        [_promotionStatus sizeToFit];
+    }
+    
+    //点击单价
+    _unitNumber.frame = CGRectMake(_promotionStatus.right + GAP_HORIZONTAL, _title.bottom + GAP_VERTICAL, 100, 20);
+    _unitNumber.text = [NSString stringWithFormat:@"点击单价: %@%@", self.choicePromotionModel.clickPrice, self.choicePromotionModel.clickPriceUnit];
+    [_unitNumber sizeToFit];
+    
+    //推广位
+    _promotionVacancy.frame = CGRectMake(20, _unitNumber.bottom + GAP_VERTICAL, 100, 20);
+    _promotionVacancy.text = @"推广位";
+    [_promotionVacancy sizeToFit];
+    
+    //排队位
+    _queueVacancy.frame = CGRectMake(20, _promotionVacancy.bottom + GAP_VERTICAL, 100, 20);
+    _queueVacancy.text = @"排队位";
+    [_queueVacancy sizeToFit];
+    
+    //坑位内容
+    _bucketContentView.frame = CGRectMake(_promotionVacancy.right + GAP_HORIZONTAL, _unitNumber.bottom + GAP_VERTICAL, 200, 60);
+    
+    int total = [self.choicePromotionModel.maxBucketNum intValue];
+    int used = [self.choicePromotionModel.useNum intValue];
+    int column = 6;
+    int row = (total + column -1)/column;
+    
+    for (int i = 0; i < total; i++) {
+        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 21)];
+        [_buckets addObject:imageView];
+    }
+    
+    
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < column; j++) {
+            if ((i*column + j) < used) {
+                UIImageView* imageView = [_buckets objectAtIndex:(i*column + j)];
+                imageView.frame = CGRectMake(j*30, i*30, 25, 21);
+                imageView.image = [UIImage imageNamed:@"broker_property_house_blue"];
+                [_bucketContentView addSubview:imageView];
+                
+            }else if((i*column + j) == used){
+                UIImageView* imageView = [_buckets objectAtIndex:(i*column + j)];
+                imageView.frame = CGRectMake(j*30, i*30, 25, 21);
+                imageView.image = [UIImage imageNamed:@"broker_property_house_now"];
+                [_bucketContentView addSubview:imageView];
+                
+                _cursor = [[UIImageView alloc] initWithFrame:CGRectMake(j*30, i*30 + 10, 10, 5)];
+                _cursor.image = [UIImage imageNamed:@"broker_property_house_arrow"];
+                [_bucketContentView addSubview:_cursor];
+                
+            }else{
+                UIImageView* imageView = [_buckets objectAtIndex:(i*column + j)];
+                imageView.frame = CGRectMake(j*30, i*30, 25, 21);
+                imageView.image = [UIImage imageNamed:@"broker_property_house_no"];
+                [_bucketContentView addSubview:imageView];
+            }
+        }
+    }
+    
+    //推广按钮
     
 }
 
+
+- (void)startPromotion:(UIButton*)button{
+    NSLog(@"立即推广");
+    if (self.block != nil) {
+        _block();
+    }
+    
+}
 
 @end
