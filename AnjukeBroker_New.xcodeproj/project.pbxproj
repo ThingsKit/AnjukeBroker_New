@@ -3381,9 +3381,6 @@
 		97CD8D40180E6D0D00185C9D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				67203D4C1962832600A32B60 /* 精选推广房源单页 */,
-				67203D4B196282FA00A32B60 /* 定价推广房源单页 */,
-				67203D41196281E200A32B60 /* PropertyComponent */,
 				010AFB001962535300ADB9C1 /* Register */,
 				F88FC2E81945619F00DEA8A2 /* WXData */,
 				F88FC2E41945611200DEA8A2 /* 抢客户 */,
@@ -4128,6 +4125,9 @@
 			isa = PBXGroup;
 			children = (
 				F89FF59A19625B3000AC7256 /* PPCDataShow */,
+				67203D4C1962832600A32B60 /* 精选推广房源单页 */,
+				67203D4B196282FA00A32B60 /* 定价推广房源单页 */,
+				67203D41196281E200A32B60 /* PropertyComponent */,
 			);
 			name = PPC_NewVersion;
 			sourceTree = "<group>";
