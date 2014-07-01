@@ -72,7 +72,7 @@ static BrokerChatViewController *brokerSender = nil;
 }
 
 - (void)sendDisAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:CHATVIEW_002 page:CHAT note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
 }
 
 - (void)didMoreBackView:(UIButton *)sender

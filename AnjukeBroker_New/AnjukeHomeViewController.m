@@ -43,7 +43,7 @@
 }
 
 - (void)sendDisAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_HOME_002 page:ESF_MANAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
 }
 
 #pragma mark - View lifecycle

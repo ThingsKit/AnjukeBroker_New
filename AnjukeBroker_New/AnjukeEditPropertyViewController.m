@@ -122,12 +122,18 @@ typedef enum {
 
 - (void)sendDisAppearLog {
     NSString *code = [NSString string];
+    NSString *pageId = @"";
     if (self.isHaozu) {
         code = HZ_PROPERTY_002;
+        pageId = ZF_PUBLISH;
     }
     else
+    {
         code = AJK_PROPERTY_002;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+        pageId = ESF_PUBLISH;
+    }
+    
+    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageId note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
 }
 
 - (void)doBack:(id)sender {
@@ -1409,12 +1415,18 @@ typedef enum {
             case 0: //拍照
             {
                 NSString *code = [NSString string];
+                NSString *pageId = @"";
                 if (self.isHaozu) {
                     code = HZ_PROPERTY_005;
+                    pageId = ZF_PUBLISH;
                 }
                 else
+                {
                     code = AJK_PROPERTY_005;
-                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                    pageId = ESF_PUBLISH;
+                }
+                
+                [[BrokerLogger sharedInstance] logWithActionCode:code page:pageId note:nil];
                 
                 self.isTakePhoto = YES;
                 
@@ -1444,12 +1456,18 @@ typedef enum {
             case 1: //手机相册
             {
                 NSString *code = [NSString string];
+                NSString *pageId = @"";
                 if (self.isHaozu) {
                     code = HZ_PROPERTY_006;
+                    pageId = ZF_PUBLISH;
                 }
                 else
+                {
                     code = AJK_PROPERTY_006;
-                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                    pageId = ESF_PUBLISH;
+                }
+                
+                [[BrokerLogger sharedInstance] logWithActionCode:code page:pageId note:nil];
                 
                 self.isTakePhoto = NO;
                 
@@ -1463,12 +1481,17 @@ typedef enum {
             case 2: //在线房形图
             {
                 NSString *code = [NSString string];
+                NSString *pageId = ZF_PUBLISH;
                 if (self.isHaozu) {
                     code = HZ_PROPERTY_007;
                 }
                 else
+                {
                     code = AJK_PROPERTY_007;
-                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                    pageId = ESF_PUBLISH;
+                }
+                
+                [[BrokerLogger sharedInstance] logWithActionCode:code page:pageId note:nil];
                 
                 if (!self.hideOnlineImg) {
                     //check小区、户型、朝向

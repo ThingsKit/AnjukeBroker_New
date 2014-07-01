@@ -492,13 +492,24 @@ typedef enum {
     [sheet showInView:self.view];
 }
 
-- (void)doBack:(id)sender {
+- (void)doBack:(id)sender
+{
     NSString *actionCode = ESF_PUBLISH_BACK;
     NSString *pageID     = ESF_PUBLISH;
     if (self.isHaozu) {
         actionCode = ZF_PUBLISH_BACK;
         pageID     = ZF_PUBLISH;
     }
+    if (_isChildClass)
+    {
+        actionCode = ESF_EDIT_PROP_CLICK_CANCEL;
+        pageID     = ESF_EDIT_PROP;
+        if (self.isHaozu) {
+            actionCode = ZF_EDIT_PROP_CLICK_CANCEL;
+            pageID     = ZF_EDIT_PROP;
+        }
+    }
+    
     [[BrokerLogger sharedInstance] logWithActionCode:actionCode page:pageID note:nil];
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"确认不保存当前内容?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
@@ -2408,12 +2419,12 @@ typedef enum {
         if (self.isHaozu)
         {
             //HZ_PROPERTY_014
-            [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_CLICK_ADD_HOUSETYPEGRAPH note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_CLICK_ADD_HOUSETYPEGRAPH page:ZF_PUBLISH note:nil];
         }
         else
         {
             //AJK_PROPERTY_014
-            [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_CLICK_ADD_HOUSETYPEGRAPH note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_CLICK_ADD_HOUSETYPEGRAPH page:ESF_PUBLISH note:nil];
         }
         
         self.footerView = [_footerViewDict objectForKey:FOOTERVIEWDICTSTYLE];
@@ -2801,6 +2812,7 @@ typedef enum {
     
     //室内图-拍照
     NSString *code = [NSString string];
+    NSString *pageid = ZF_PUBLISH;
     if (!self.isChildClass)
     {
         if (self.isHaozu) {
@@ -2809,10 +2821,11 @@ typedef enum {
         }
         else
         {
+            pageid = ESF_PUBLISH;
             code = ESF_PUBLISH_CLICK_TAKE_INDOORGRAPH;
         }
 //            code = AJK_PROPERTY_012;
-        [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:code page:pageid note:nil];
     }
     
     
@@ -2896,17 +2909,20 @@ typedef enum {
         return; //室内图超出限制
     }
     NSString *code = [NSString string];
+    NSString *pageId = @"";
     if (self.isHaozu) {
 //        code = HZ_PROPERTY_016;
         code = ZF_PUBLISH_CLICK_ONLINE_HOUSETYPEGRAPH;
+        pageId = ZF_PUBLISH;
     }
     else
     {
 //        code = AJK_PROPERTY_016;
         code = ESF_PUBLISH_CLICK_ONLINE_HOUSETYPEGRAPH;
+        pageId = ESF_PUBLISH;
     }
     
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageId note:nil];
     
     //check小区、户型、朝向
     if ([self.property.rooms isEqualToString:@""] || self.property.rooms == nil) {
@@ -2948,18 +2964,20 @@ typedef enum {
                 
                 NSString *code = [NSString string];
                 
-                
+                NSString *pageId = @"";
                 //户型图
                 if (self.footClickType == 2)
                 {
                     if (self.isHaozu)
                     {
 //                        code = HZ_PROPERTY_015;
+                        pageId = ZF_PUBLISH;
                         code = ZF_PUBLISH_CLICK_SELECT_HOUSETYPEGRAPH;
                     }
                     else
                     {
 //                        code = AJK_PROPERTY_015;
+                        pageId = ESF_PUBLISH;
                         code = ESF_PUBLISH_CLICK_ADD_INDOORGRAPH;
                     }
                 }else if(self.footClickType == 1)
@@ -2968,18 +2986,20 @@ typedef enum {
                     if (self.isHaozu)
                     {
 //                        code = HZ_PROPERTY_013;
+                        pageId = ZF_PUBLISH;
                         code = ZF_PUBLISH_CLICK_SELECT_INDOORGARPH;
                     }
                     else
                     {
 //                        code = AJK_PROPERTY_013;
+                        pageId = ESF_PUBLISH;
                         code = ESF_PUBLISH_CLICK_SELECT_INDOORGRAPH;
                     }
                 }
                 
                 if (!self.isChildClass)
                 {
-                    [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageId note:nil];
                 }
                 
                 NSString *pbid2      = ZF_PUBLISH;

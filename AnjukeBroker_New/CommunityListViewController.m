@@ -83,12 +83,14 @@
 
 - (void)sendDisAppearLog {
     NSString *code = [NSString string];
+    NSString *pageId = ESF_PUBLISH_SELECT_XIAOQU;
     if (self.isHaouzu) {
         code = HZ_COMMUNITY_002;
+        pageId = ZF_PUBLISH_SELECT_XIAOQU;
     }
     else
         code = AJK_COMMUNITY_002;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageId note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
 }
 
 #pragma mark - private method

@@ -67,12 +67,14 @@
 
 - (void)sendDisAppearLog {
     NSString *code = [NSString string];
+    NSString *pageId = ESF_SELECT_ONLINE_HOUSETYPEGRAPH;
     if (self.isHaozu) {
         code = HZ_ONLINE_002;
+        pageId = ZF_SELECT_ONLINE_HOUSETYPEGRAPH;
     }
     else
         code = AJK_ONLINE_002;
-    [[BrokerLogger sharedInstance] logWithActionCode:code note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageId note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
 }
 
 - (void)doBack:(id)sender {

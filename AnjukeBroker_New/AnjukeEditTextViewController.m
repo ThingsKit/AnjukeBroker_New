@@ -94,17 +94,17 @@
 - (void)setHZDisappearLog{
     
     if (self.isTitle) {
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_TITLE_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_TITLE_002 page:ZF_PUBLISH_TITLE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_DESC_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:HZ_DESC_002 page:ZF_PUBLISH_DESCRIPTION note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
     }
 }
 - (void)setAJKDisappearLog{
     
     if (self.isTitle) {
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_TITLE_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_TITLE_002 page:ESF_PUBLISH_TITLE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }else {
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_DESC_002 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:AJK_DESC_002 page:ESF_PUBLISH_DESCRIPTION note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
     }
 }
 #pragma mark - InputLog

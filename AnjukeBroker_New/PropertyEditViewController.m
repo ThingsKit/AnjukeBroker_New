@@ -855,6 +855,12 @@
     }
 }
 
+- (void)doBack:(id)sender
+{
+    self.isChildClass = YES;
+    [super doBack:sender];
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     self.isChildClass = YES;
@@ -865,70 +871,83 @@
         if (self.footClickType == 1)
         {
             NSString *code = ESF_EDIT_PROP_CLICK_ADD_INDOORGRAPH;//AJK_PPC_RESET_009
+            NSString *pageId = ESF_EDIT_PROP;
             if (self.isHaozu)
             {
-                code = HZ_PPC_RESET_009;
+                pageId = ZF_EDIT_PROP;
+                code = ZF_EDIT_PROP_CLICK_ADD_INDOORGRAPH;//HZ_PPC_RESET_009;
             }
-            [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:code page:pageId note:nil];
         }else if (self.footClickType == 2)
         {
             //AJK_PPC_RESET_012
             NSString *code = ESF_EDIT_PROP_CLICK_ADD_HOUSETYPEGRAPH;
+            NSString *pageId = ESF_EDIT_PROP;
             if (self.isHaozu)
             {
-                code = HZ_PPC_RESET_012;
+                code = ZF_EDIT_PROP_CLICK_TAKE_INDOORGRAPH;//HZ_PPC_RESET_012;
+                pageId = ZF_EDIT_PROP;
             }
-            [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:code page:pageId note:nil];
         }
         
         switch (buttonIndex) {
             case 0: //拍照
             {
                 NSString *code = @"";
+                NSString *pageId = @"";
                 if (self.footClickType == 1)
                 {
 //                    code = AJK_PPC_RESET_010;
                     code = ESF_EDIT_PROP_CLICK_TAKE_INDOORGRAPH;
+                    pageId = ESF_EDIT_PROP;
                     if (self.isHaozu)
                     {
-                        code = HZ_PPC_RESET_010;
+                        code = ZF_EDIT_PROP_CLICK_TAKE_INDOORGRAPH;//HZ_PPC_RESET_010;
+                        pageId = ZF_EDIT_PROP;
                     }
                     
                 }else if (self.footClickType == 2)
                 {
 //                    code = AJK_PPC_RESET_014;
                     code = ESF_EDIT_PROP_CLICK_ONLINE_HOUSETYPEGRAPH;
+                    pageId = ESF_EDIT_PROP;
                     if (self.isHaozu)
                     {
-                        code = HZ_PPC_RESET_014;
+                        code = ZF_EDIT_PROP_CLICK_ONLINE_HOUSETYPEGRAPH;//HZ_PPC_RESET_014;
+                        pageId = ZF_EDIT_PROP;
                     }
                 }
-                [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:code page:pageId note:nil];
             }
                 break;
             case 1: //从手机相册xuan'z
             {
                 //室内图
 
-                NSString *code2 = HZ_PPC_RESET_011;
+                NSString *code2 = ZF_EDIT_PROP_CLICK_SELECT_INDOORGRAPH;//HZ_PPC_RESET_011;
+                NSString *pageId = ZF_EDIT_PROP;
                 if(!self.isHaozu)
                 {
 //                    code2 = AJK_PPC_RESET_011;
                     code2 = ESF_EDIT_PROP_CLICK_SELECT_INDOORGRAPH;
+                    pageId = ESF_EDIT_PROP;
                 }
                 
                 //户型图
                 if (self.footClickType == 2)
                 {
-                    code2 = HZ_PPC_RESET_013;
+                    code2 = ZF_EDIT_PROP_CLICK_SELECT_HOUSETYPEGRAPH;
+                    pageId = ZF_EDIT_PROP;
                     if(!self.isHaozu)
                     {
 //                        code2 = AJK_PPC_RESET_013;
                         code2 = ESF_EDIT_PROP_CLICK_SELECT_HOUSETYPEGRAPH;
+                        pageId = ESF_EDIT_PROP;
                     }
                 }
                 
-                [[BrokerLogger sharedInstance] logWithActionCode:code2 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:code2 page:pageId note:nil];
                 
                 
             }
@@ -939,13 +958,16 @@
     }else if (actionSheet.tag == PUBLISH_ACTIONSHEET_TAG)
     {
         NSString *code = @"";
+        NSString *pageId = @"";
         switch (buttonIndex) {
             case 0: //定价
             {
                 code = AJK_PPC_RESET_006;
+                pageId = ESF_EDIT_PROP;
                 if (self.isHaozu)
                 {
                     code = HZ_PPC_RESET_006;
+                    pageId = ZF_EDIT_PROP;
                 }
                 
             }
@@ -953,9 +975,11 @@
             case 1: //定价+竞价
             {
                 NSString *code = AJK_PPC_RESET_007;
+                pageId = ESF_EDIT_PROP;
                 if (self.isHaozu)
                 {
                     code = HZ_PPC_RESET_007;
+                    pageId = ZF_EDIT_PROP;
                 }
 
             }
@@ -963,9 +987,11 @@
             case 2: //暂不推广
             {
                 NSString *code = AJK_PPC_RESET_008;
+                pageId = ESF_EDIT_PROP;
                 if (self.isHaozu)
                 {
                     code = HZ_PPC_RESET_008;
+                    pageId = ZF_EDIT_PROP;
                 }
             }
                 break;
@@ -974,7 +1000,7 @@
                 break;
         }
         //页面可见log
-        [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:code page:pageId note:nil];
     }
 }
 
