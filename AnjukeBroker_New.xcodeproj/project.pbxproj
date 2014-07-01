@@ -193,6 +193,34 @@
 		67203D4F196283AB00A32B60 /* ChoicePromotionPropertySingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67203D4E196283AB00A32B60 /* ChoicePromotionPropertySingleViewController.m */; };
 		67203D521962848000A32B60 /* PricePromotionPropertySingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67203D511962848000A32B60 /* PricePromotionPropertySingleViewController.m */; };
 		67203D581962881400A32B60 /* PropertyDetailTableViewCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 67203D571962881400A32B60 /* PropertyDetailTableViewCellModel.m */; };
+		67203D5B19628FEF00A32B60 /* PropertyDetailButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 67203D5A19628FEF00A32B60 /* PropertyDetailButton.m */; };
+		67203D5F196291AE00A32B60 /* 房子.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D5E196291AE00A32B60 /* 房子.png */; };
+		67203D7A196291E200A32B60 /* anjuke_icon_button_blue_hollow_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D60196291E200A32B60 /* anjuke_icon_button_blue_hollow_press@2x.png */; };
+		67203D7B196291E200A32B60 /* anjuke_icon_button_blue_hollow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D61196291E200A32B60 /* anjuke_icon_button_blue_hollow@2x.png */; };
+		67203D7C196291E200A32B60 /* anjuke_icon_button_blue_lost@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D62196291E200A32B60 /* anjuke_icon_button_blue_lost@2x.png */; };
+		67203D7D196291E200A32B60 /* anjuke_icon_button_gray_hollow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D63196291E200A32B60 /* anjuke_icon_button_gray_hollow@2x.png */; };
+		67203D7E196291E200A32B60 /* anjuke_icon_button_little_blue_hollow_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D64196291E200A32B60 /* anjuke_icon_button_little_blue_hollow_press@2x.png */; };
+		67203D7F196291E200A32B60 /* anjuke_icon_button_little_blue_hollow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D65196291E200A32B60 /* anjuke_icon_button_little_blue_hollow@2x.png */; };
+		67203D80196291E200A32B60 /* anjuke_icon_button_little_blue_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D66196291E200A32B60 /* anjuke_icon_button_little_blue_press@2x.png */; };
+		67203D81196291E200A32B60 /* anjuke_icon_button_little_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D67196291E200A32B60 /* anjuke_icon_button_little_blue@2x.png */; };
+		67203D82196291E200A32B60 /* anjuke_icon_choosed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D68196291E200A32B60 /* anjuke_icon_choosed@2x.png */; };
+		67203D83196291E200A32B60 /* broker_my_icon_djswitch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D69196291E200A32B60 /* broker_my_icon_djswitch@2x.png */; };
+		67203D84196291E200A32B60 /* broker_property_control_select_gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D6A196291E200A32B60 /* broker_property_control_select_gray@2x.png */; };
+		67203D85196291E200A32B60 /* broker_property_control_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D6B196291E200A32B60 /* broker_property_control_select@2x.png */; };
+		67203D86196291E200A32B60 /* broker_property_control_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D6C196291E200A32B60 /* broker_property_control_selected@2x.png */; };
+		67203D87196291E200A32B60 /* broker_property_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D6D196291E200A32B60 /* broker_property_delete@2x.png */; };
+		67203D88196291E200A32B60 /* broker_property_edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D6E196291E200A32B60 /* broker_property_edit@2x.png */; };
+		67203D89196291E200A32B60 /* broker_property_house_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D6F196291E200A32B60 /* broker_property_house_arrow@2x.png */; };
+		67203D8A196291E200A32B60 /* broker_property_house_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D70196291E200A32B60 /* broker_property_house_blue@2x.png */; };
+		67203D8B196291E200A32B60 /* broker_property_house_no@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D71196291E200A32B60 /* broker_property_house_no@2x.png */; };
+		67203D8C196291E200A32B60 /* broker_property_house_now@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D72196291E200A32B60 /* broker_property_house_now@2x.png */; };
+		67203D8D196291E200A32B60 /* broker_property_icon_jx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D73196291E200A32B60 /* broker_property_icon_jx@2x.png */; };
+		67203D8E196291E200A32B60 /* broker_property_icon_pic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D74196291E200A32B60 /* broker_property_icon_pic@2x.png */; };
+		67203D8F196291E200A32B60 /* broker_property_icon_tel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D75196291E200A32B60 /* broker_property_icon_tel@2x.png */; };
+		67203D90196291E200A32B60 /* broker_property_icon_wg.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D76196291E200A32B60 /* broker_property_icon_wg.png */; };
+		67203D91196291E200A32B60 /* broker_property_no_jx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D77196291E200A32B60 /* broker_property_no_jx@2x.png */; };
+		67203D92196291E200A32B60 /* broker_property_sad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D78196291E200A32B60 /* broker_property_sad@2x.png */; };
+		67203D93196291E200A32B60 /* broker_wl_jubao_solution@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D79196291E200A32B60 /* broker_wl_jubao_solution@2x.png */; };
 		6740D1C71908E08C005ED706 /* anjuke_icon_add_more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6740D1AF1908E08C005ED706 /* anjuke_icon_add_more@2x.png */; };
 		6740D1C81908E08C005ED706 /* anjuke_icon_add_more1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6740D1B01908E08C005ED706 /* anjuke_icon_add_more1@2x.png */; };
 		6740D1C91908E08C005ED706 /* anjuke_icon_bq_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6740D1B11908E08C005ED706 /* anjuke_icon_bq_delete@2x.png */; };
@@ -1055,6 +1083,35 @@
 		67203D511962848000A32B60 /* PricePromotionPropertySingleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PricePromotionPropertySingleViewController.m; sourceTree = "<group>"; };
 		67203D561962881400A32B60 /* PropertyDetailTableViewCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDetailTableViewCellModel.h; sourceTree = "<group>"; };
 		67203D571962881400A32B60 /* PropertyDetailTableViewCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDetailTableViewCellModel.m; sourceTree = "<group>"; };
+		67203D5919628FEF00A32B60 /* PropertyDetailButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDetailButton.h; sourceTree = "<group>"; };
+		67203D5A19628FEF00A32B60 /* PropertyDetailButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDetailButton.m; sourceTree = "<group>"; };
+		67203D5E196291AE00A32B60 /* 房子.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "房子.png"; sourceTree = "<group>"; };
+		67203D60196291E200A32B60 /* anjuke_icon_button_blue_hollow_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_button_blue_hollow_press@2x.png"; sourceTree = "<group>"; };
+		67203D61196291E200A32B60 /* anjuke_icon_button_blue_hollow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_button_blue_hollow@2x.png"; sourceTree = "<group>"; };
+		67203D62196291E200A32B60 /* anjuke_icon_button_blue_lost@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_button_blue_lost@2x.png"; sourceTree = "<group>"; };
+		67203D63196291E200A32B60 /* anjuke_icon_button_gray_hollow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_button_gray_hollow@2x.png"; sourceTree = "<group>"; };
+		67203D64196291E200A32B60 /* anjuke_icon_button_little_blue_hollow_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_button_little_blue_hollow_press@2x.png"; sourceTree = "<group>"; };
+		67203D65196291E200A32B60 /* anjuke_icon_button_little_blue_hollow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_button_little_blue_hollow@2x.png"; sourceTree = "<group>"; };
+		67203D66196291E200A32B60 /* anjuke_icon_button_little_blue_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_button_little_blue_press@2x.png"; sourceTree = "<group>"; };
+		67203D67196291E200A32B60 /* anjuke_icon_button_little_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_button_little_blue@2x.png"; sourceTree = "<group>"; };
+		67203D68196291E200A32B60 /* anjuke_icon_choosed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_choosed@2x.png"; sourceTree = "<group>"; };
+		67203D69196291E200A32B60 /* broker_my_icon_djswitch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_my_icon_djswitch@2x.png"; sourceTree = "<group>"; };
+		67203D6A196291E200A32B60 /* broker_property_control_select_gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_property_control_select_gray@2x.png"; sourceTree = "<group>"; };
+		67203D6B196291E200A32B60 /* broker_property_control_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_property_control_select@2x.png"; sourceTree = "<group>"; };
+		67203D6C196291E200A32B60 /* broker_property_control_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_property_control_selected@2x.png"; sourceTree = "<group>"; };
+		67203D6D196291E200A32B60 /* broker_property_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_property_delete@2x.png"; sourceTree = "<group>"; };
+		67203D6E196291E200A32B60 /* broker_property_edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_property_edit@2x.png"; sourceTree = "<group>"; };
+		67203D6F196291E200A32B60 /* broker_property_house_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_property_house_arrow@2x.png"; sourceTree = "<group>"; };
+		67203D70196291E200A32B60 /* broker_property_house_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_property_house_blue@2x.png"; sourceTree = "<group>"; };
+		67203D71196291E200A32B60 /* broker_property_house_no@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_property_house_no@2x.png"; sourceTree = "<group>"; };
+		67203D72196291E200A32B60 /* broker_property_house_now@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_property_house_now@2x.png"; sourceTree = "<group>"; };
+		67203D73196291E200A32B60 /* broker_property_icon_jx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_property_icon_jx@2x.png"; sourceTree = "<group>"; };
+		67203D74196291E200A32B60 /* broker_property_icon_pic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_property_icon_pic@2x.png"; sourceTree = "<group>"; };
+		67203D75196291E200A32B60 /* broker_property_icon_tel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_property_icon_tel@2x.png"; sourceTree = "<group>"; };
+		67203D76196291E200A32B60 /* broker_property_icon_wg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = broker_property_icon_wg.png; sourceTree = "<group>"; };
+		67203D77196291E200A32B60 /* broker_property_no_jx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_property_no_jx@2x.png"; sourceTree = "<group>"; };
+		67203D78196291E200A32B60 /* broker_property_sad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_property_sad@2x.png"; sourceTree = "<group>"; };
+		67203D79196291E200A32B60 /* broker_wl_jubao_solution@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_wl_jubao_solution@2x.png"; sourceTree = "<group>"; };
 		6740D1AF1908E08C005ED706 /* anjuke_icon_add_more@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_more@2x.png"; sourceTree = "<group>"; };
 		6740D1B01908E08C005ED706 /* anjuke_icon_add_more1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_more1@2x.png"; sourceTree = "<group>"; };
 		6740D1B11908E08C005ED706 /* anjuke_icon_bq_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_bq_delete@2x.png"; sourceTree = "<group>"; };
@@ -2517,6 +2574,8 @@
 				67203D431962827F00A32B60 /* PropertyDetailTableViewCell.m */,
 				67203D561962881400A32B60 /* PropertyDetailTableViewCellModel.h */,
 				67203D571962881400A32B60 /* PropertyDetailTableViewCellModel.m */,
+				67203D5919628FEF00A32B60 /* PropertyDetailButton.h */,
+				67203D5A19628FEF00A32B60 /* PropertyDetailButton.m */,
 				67203D48196282EC00A32B60 /* PropertyDetailTableViewFooter.h */,
 				67203D49196282EC00A32B60 /* PropertyDetailTableViewFooter.m */,
 			);
@@ -2539,6 +2598,93 @@
 				67203D4E196283AB00A32B60 /* ChoicePromotionPropertySingleViewController.m */,
 			);
 			name = "精选推广房源单页";
+			sourceTree = "<group>";
+		};
+		67203D5C196290C200A32B60 /* other */ = {
+			isa = PBXGroup;
+			children = (
+				20DACCEF18C97C6200061F9C /* anjuke_icon_add_@2x.png */,
+				200DAB4418DFCB050077E0C9 /* Overlay@2x.png */,
+				2039E58418C421FF003ED781 /* anjuke_icon_headpic@2x.png */,
+				20A2177718BF118E002CA469 /* anjuke_icon_fasonging@2x.png */,
+				2079ADE818B5FD610029D493 /* anjuke_icon_danye_more_@2x.png */,
+				2079ADE918B5FD610029D493 /* anjuke_icon_danye_noxingbiao_@2x.png */,
+				2079ADEA18B5FD610029D493 /* anjuke_icon_danye_xingbiao_@2x.png */,
+				2079ADEB18B5FD610029D493 /* anjuke_icon_noxingbiao_@2x.png */,
+				2079ADEC18B5FD610029D493 /* anjuke_icon_xingbiao_@2x.png */,
+				2079ADED18B5FD610029D493 /* anjuke_icon_xingbiao_minileft_@2x.png */,
+				2079ADEE18B5FD610029D493 /* anjuke_icon_xingbiao_miniright_@2x.png */,
+				2079ADE218B5EEDF0029D493 /* anjuke_icon_bluebutton@2x.png */,
+				2079ADE318B5EEDF0029D493 /* anjuke_icon_bluebutton1@2x.png */,
+				2079ADE418B5EEDF0029D493 /* anjuke_icon_ok@2x.png */,
+				20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */,
+				200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */,
+				200915ED189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png */,
+				20B6B19F189392D100864EF2 /* anjuke_icon_nextphoto_@2x.png */,
+				20D3C24D18925D800030D7D8 /* anjuke_icon_photo_add@2x.png */,
+				2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */,
+				20E3E780186C2B9D00D61889 /* anjuke_icon_gupaiming@2x.png */,
+				20E3E781186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png */,
+				20AD081A1887DBE3005462CC /* anjuke_icon_next@2x.png */,
+				20A44DB418697B5E008D8CB1 /* fresh1_1008@2x.png */,
+				B7EF77A8183CBBD10024A5E6 /* agent_icon42@2x.png */,
+				B7EF77A9183CBBD20024A5E6 /* agent_icon43@2x.png */,
+				B7EF77AA183CBBD20024A5E6 /* agent_icon44@2x.png */,
+				B7EF77AB183CBBD20024A5E6 /* agent_icon45@2x.png */,
+				97DED8A5182343E500D0B82A /* anjuke_icon09_stop@2x.png */,
+				97DED8A6182343E500D0B82A /* anjuke_icon09_woking@2x.png */,
+				B7EF77A0183CBB100024A5E6 /* anjuke_icon_draft@2x.png */,
+				B7EF7797183CBAB80024A5E6 /* anjuke_icon_bid@2x.png */,
+				B7EF77A6183CBB580024A5E6 /* anjuke_icon_violat@2x.png */,
+				B7EF77A2183CBB170024A5E6 /* anjuke_icon_mutableimg@2x.png */,
+				B7EF779B183CBAEC0024A5E6 /* anjuke_icon04_more@2x.png */,
+				97D752C7182C92690035577F /* anjuke_icon_delete@2x.png */,
+				97D752C8182C92690035577F /* anjuke_icon_takephoto@2x.png */,
+				97DED8B71823999700D0B82A /* anjuke_icon11_@2x.png */,
+				97DED8A4182343E500D0B82A /* anjuke_icon08_attention@2x.png */,
+				B7E38A0918225FEC002C6E8A /* anjuke_icon07_arrow@2x.png */,
+				B7E389FE182238CF002C6E8A /* anjuke_icon06_select@2x.png */,
+				205790E31905246300419CA3 /* anjuke_icon06_selected@2x.png */,
+				9795838B18225B93005EA48A /* anjuke_icon05_photo_selected@2x.png */,
+				9795838C18225B93005EA48A /* anjuke_icon05_photo@2x.png */,
+				972000181841BF25003F49A4 /* details_arrow_left@2x.png */,
+				972000191841BF25003F49A4 /* details_arrow_right@2x.png */,
+			);
+			name = other;
+			sourceTree = "<group>";
+		};
+		67203D5D196290F200A32B60 /* 3.6 */ = {
+			isa = PBXGroup;
+			children = (
+				67203D60196291E200A32B60 /* anjuke_icon_button_blue_hollow_press@2x.png */,
+				67203D61196291E200A32B60 /* anjuke_icon_button_blue_hollow@2x.png */,
+				67203D62196291E200A32B60 /* anjuke_icon_button_blue_lost@2x.png */,
+				67203D63196291E200A32B60 /* anjuke_icon_button_gray_hollow@2x.png */,
+				67203D64196291E200A32B60 /* anjuke_icon_button_little_blue_hollow_press@2x.png */,
+				67203D65196291E200A32B60 /* anjuke_icon_button_little_blue_hollow@2x.png */,
+				67203D66196291E200A32B60 /* anjuke_icon_button_little_blue_press@2x.png */,
+				67203D67196291E200A32B60 /* anjuke_icon_button_little_blue@2x.png */,
+				67203D68196291E200A32B60 /* anjuke_icon_choosed@2x.png */,
+				67203D69196291E200A32B60 /* broker_my_icon_djswitch@2x.png */,
+				67203D6A196291E200A32B60 /* broker_property_control_select_gray@2x.png */,
+				67203D6B196291E200A32B60 /* broker_property_control_select@2x.png */,
+				67203D6C196291E200A32B60 /* broker_property_control_selected@2x.png */,
+				67203D6D196291E200A32B60 /* broker_property_delete@2x.png */,
+				67203D6E196291E200A32B60 /* broker_property_edit@2x.png */,
+				67203D6F196291E200A32B60 /* broker_property_house_arrow@2x.png */,
+				67203D70196291E200A32B60 /* broker_property_house_blue@2x.png */,
+				67203D71196291E200A32B60 /* broker_property_house_no@2x.png */,
+				67203D72196291E200A32B60 /* broker_property_house_now@2x.png */,
+				67203D73196291E200A32B60 /* broker_property_icon_jx@2x.png */,
+				67203D74196291E200A32B60 /* broker_property_icon_pic@2x.png */,
+				67203D75196291E200A32B60 /* broker_property_icon_tel@2x.png */,
+				67203D76196291E200A32B60 /* broker_property_icon_wg.png */,
+				67203D77196291E200A32B60 /* broker_property_no_jx@2x.png */,
+				67203D78196291E200A32B60 /* broker_property_sad@2x.png */,
+				67203D79196291E200A32B60 /* broker_wl_jubao_solution@2x.png */,
+				67203D5E196291AE00A32B60 /* 房子.png */,
+			);
+			name = 3.6;
 			sourceTree = "<group>";
 		};
 		6740D1AE1908E07D005ED706 /* 3.3.2Icon */ = {
@@ -2969,6 +3115,8 @@
 		972C10351815053100552C9B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				67203D5D196290F200A32B60 /* 3.6 */,
+				67203D5C196290C200A32B60 /* other */,
 				6794E3F41947EBFF0069F1ED /* 3.5 */,
 				F8BE44F4192DE2B00039D6B3 /* discover */,
 				F8BE3E441925FCEF0027F9E0 /* checkout */,
@@ -2980,52 +3128,6 @@
 				970501541845A18E00A0C181 /* 引导页 */,
 				970FC17F183B6E8100D142D5 /* icon+lanchImg */,
 				206F7FCE18A87E97001EEC16 /* speechIcon */,
-				20DACCEF18C97C6200061F9C /* anjuke_icon_add_@2x.png */,
-				200DAB4418DFCB050077E0C9 /* Overlay@2x.png */,
-				2039E58418C421FF003ED781 /* anjuke_icon_headpic@2x.png */,
-				20A2177718BF118E002CA469 /* anjuke_icon_fasonging@2x.png */,
-				2079ADE818B5FD610029D493 /* anjuke_icon_danye_more_@2x.png */,
-				2079ADE918B5FD610029D493 /* anjuke_icon_danye_noxingbiao_@2x.png */,
-				2079ADEA18B5FD610029D493 /* anjuke_icon_danye_xingbiao_@2x.png */,
-				2079ADEB18B5FD610029D493 /* anjuke_icon_noxingbiao_@2x.png */,
-				2079ADEC18B5FD610029D493 /* anjuke_icon_xingbiao_@2x.png */,
-				2079ADED18B5FD610029D493 /* anjuke_icon_xingbiao_minileft_@2x.png */,
-				2079ADEE18B5FD610029D493 /* anjuke_icon_xingbiao_miniright_@2x.png */,
-				2079ADE218B5EEDF0029D493 /* anjuke_icon_bluebutton@2x.png */,
-				2079ADE318B5EEDF0029D493 /* anjuke_icon_bluebutton1@2x.png */,
-				2079ADE418B5EEDF0029D493 /* anjuke_icon_ok@2x.png */,
-				20F663291896050F00356DFD /* anjuke_icon_nextfxt_@2x.png */,
-				200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */,
-				200915ED189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png */,
-				20B6B19F189392D100864EF2 /* anjuke_icon_nextphoto_@2x.png */,
-				20D3C24D18925D800030D7D8 /* anjuke_icon_photo_add@2x.png */,
-				2031A48618920FF2004F7E1A /* anjuke_icon_find@2x.png */,
-				20E3E780186C2B9D00D61889 /* anjuke_icon_gupaiming@2x.png */,
-				20E3E781186C2B9D00D61889 /* anjuke_icon_nomessage@2x.png */,
-				20AD081A1887DBE3005462CC /* anjuke_icon_next@2x.png */,
-				20A44DB418697B5E008D8CB1 /* fresh1_1008@2x.png */,
-				B7EF77A8183CBBD10024A5E6 /* agent_icon42@2x.png */,
-				B7EF77A9183CBBD20024A5E6 /* agent_icon43@2x.png */,
-				B7EF77AA183CBBD20024A5E6 /* agent_icon44@2x.png */,
-				B7EF77AB183CBBD20024A5E6 /* agent_icon45@2x.png */,
-				97DED8A5182343E500D0B82A /* anjuke_icon09_stop@2x.png */,
-				97DED8A6182343E500D0B82A /* anjuke_icon09_woking@2x.png */,
-				B7EF77A0183CBB100024A5E6 /* anjuke_icon_draft@2x.png */,
-				B7EF7797183CBAB80024A5E6 /* anjuke_icon_bid@2x.png */,
-				B7EF77A6183CBB580024A5E6 /* anjuke_icon_violat@2x.png */,
-				B7EF77A2183CBB170024A5E6 /* anjuke_icon_mutableimg@2x.png */,
-				B7EF779B183CBAEC0024A5E6 /* anjuke_icon04_more@2x.png */,
-				97D752C7182C92690035577F /* anjuke_icon_delete@2x.png */,
-				97D752C8182C92690035577F /* anjuke_icon_takephoto@2x.png */,
-				97DED8B71823999700D0B82A /* anjuke_icon11_@2x.png */,
-				97DED8A4182343E500D0B82A /* anjuke_icon08_attention@2x.png */,
-				B7E38A0918225FEC002C6E8A /* anjuke_icon07_arrow@2x.png */,
-				B7E389FE182238CF002C6E8A /* anjuke_icon06_select@2x.png */,
-				205790E31905246300419CA3 /* anjuke_icon06_selected@2x.png */,
-				9795838B18225B93005EA48A /* anjuke_icon05_photo_selected@2x.png */,
-				9795838C18225B93005EA48A /* anjuke_icon05_photo@2x.png */,
-				972000181841BF25003F49A4 /* details_arrow_left@2x.png */,
-				972000191841BF25003F49A4 /* details_arrow_right@2x.png */,
 				B76E597D181E5A27005B6A8C /* Temp */,
 			);
 			name = Images;
@@ -4394,6 +4496,7 @@
 				6794E4211947EC2C0069F1ED /* broker_wl_gzh_b@2x.png in Resources */,
 				20E3E782186C2B9D00D61889 /* anjuke_icon_gupaiming@2x.png in Resources */,
 				6794E4201947EC2C0069F1ED /* broker_wl_gzh_b_press@2x.png in Resources */,
+				67203D7D196291E200A32B60 /* anjuke_icon_button_gray_hollow@2x.png in Resources */,
 				97DED8A9182343E500D0B82A /* anjuke_icon09_woking@2x.png in Resources */,
 				6767D17D192398C2004FEFF7 /* anjuke_icon_weituo_nopropery@2x.png in Resources */,
 				9720001A1841BF25003F49A4 /* details_arrow_left@2x.png in Resources */,
@@ -4409,10 +4512,14 @@
 				B704D76D1894EB4A00728848 /* news.mp3 in Resources */,
 				B7E1919218E2753300DA578B /* anjuke_icon_chat_fy@2x.png in Resources */,
 				6767D17C192398C2004FEFF7 /* anjuke_icon_weituo_esf@2x.png in Resources */,
+				67203D88196291E200A32B60 /* broker_property_edit@2x.png in Resources */,
 				27A42B5918E2C4D300FADED3 /* wl_map_icon_4@2x.png in Resources */,
 				6740D1D71908E08C005ED706 /* anjuke_icon_login_button_press@2x.png in Resources */,
 				010AFB31196253E400ADB9C1 /* AJKCityInfo.plist in Resources */,
 				273913E418DBD0FD003284AA /* anjuke_icon_to_position@2x.png in Resources */,
+				67203D7E196291E200A32B60 /* anjuke_icon_button_little_blue_hollow_press@2x.png in Resources */,
+				67203D89196291E200A32B60 /* broker_property_house_arrow@2x.png in Resources */,
+				67203D8B196291E200A32B60 /* broker_property_house_no@2x.png in Resources */,
 				F8522FF019344EC300E1CFB8 /* check_map_cover_shadow@2x.png in Resources */,
 				6740D1CF1908E08C005ED706 /* anjuke_icon_button_blue_press@2x.png in Resources */,
 				B7EA5B7918DBDCA900D437BB /* wl_voice_tip_bg2@2x.png in Resources */,
@@ -4425,6 +4532,7 @@
 				B7EA5B6518DBDCA900D437BB /* anjuke_icon_chat2_fy_selected@2x.png in Resources */,
 				2079ADE718B5EEDF0029D493 /* anjuke_icon_ok@2x.png in Resources */,
 				205790E41905246300419CA3 /* anjuke_icon06_selected@2x.png in Resources */,
+				67203D80196291E200A32B60 /* anjuke_icon_button_little_blue_press@2x.png in Resources */,
 				6794E4151947EC2C0069F1ED /* broker_my_icon_ae@2x.png in Resources */,
 				27A42B5418E2C4D300FADED3 /* wl_map_icon_1_press.png in Resources */,
 				B7FC9AEB18C41B1300F77205 /* xproject_dialogue_greencard@2x.png in Resources */,
@@ -4438,6 +4546,7 @@
 				6740D1CD1908E08C005ED706 /* anjuke_icon_bq@2x.png in Resources */,
 				200DAB6318DFD4E20077E0C9 /* anjuke_icon_tab_bg@2x.png in Resources */,
 				010AFB28196253B300ADB9C1 /* noResult.jpg in Resources */,
+				67203D85196291E200A32B60 /* broker_property_control_select@2x.png in Resources */,
 				010AFB32196253E400ADB9C1 /* CombinedCityInfo.plist in Resources */,
 				B7FC9AC718C41B1300F77205 /* anjuke_icon_add_esf@2x.png in Resources */,
 				B7EA5B6118DBDCA900D437BB /* anjuke_icon_chat1_fy_selected@2x.png in Resources */,
@@ -4447,6 +4556,7 @@
 				278FFCF9192453CD00B4A4A4 /* anjuke_icon_takephoto_button_press@2x.png in Resources */,
 				B7E2B693192B0286008AE703 /* icon_3.4_02.png in Resources */,
 				6794E4251947EC2C0069F1ED /* broker_wl_gzh_menu@2x.png in Resources */,
+				67203D90196291E200A32B60 /* broker_property_icon_wg.png in Resources */,
 				6794E4191947EC2C0069F1ED /* broker_my_icon_nofreshman@2x.png in Resources */,
 				B7E4CD2618E11BB200B61B58 /* wl_chat_icon_agentvoice_play2.png in Resources */,
 				B7EF77AD183CBBD20024A5E6 /* agent_icon43@2x.png in Resources */,
@@ -4498,6 +4608,7 @@
 				B7E2B692192B0286008AE703 /* icon_3.4_01.png in Resources */,
 				27A42B5718E2C4D300FADED3 /* wl_map_icon_1@2x.png in Resources */,
 				B7B2BF6E188CC2C30001EEB8 /* anjuke_icon_sound_button_icon@2x.png in Resources */,
+				67203D84196291E200A32B60 /* broker_property_control_select_gray@2x.png in Resources */,
 				B7FC9AD818C41B1300F77205 /* xproject_dialogue_agentdetail.png in Resources */,
 				B7B2BF6C188CC2C30001EEB8 /* anjuke_icon_saying@2x.png in Resources */,
 				6767D17E192398C2004FEFF7 /* anjuke_icon_weituo_zf@2x.png in Resources */,
@@ -4523,6 +4634,7 @@
 				6740D1D51908E08C005ED706 /* anjuke_icon_keyboard@2x.png in Resources */,
 				B7D0AB9A18A9D23300A6229C /* anjuke_icon_hot_best@2x.png in Resources */,
 				B7FC9AF018C41B1300F77205 /* xproject_dialogue_greybox_selected.png in Resources */,
+				67203D7B196291E200A32B60 /* anjuke_icon_button_blue_hollow@2x.png in Resources */,
 				B7518FB9192DA53600C02590 /* pic_3.4_01.png in Resources */,
 				B7D0AB9718A9D23300A6229C /* anjuke_icon_bluesea@2x.png in Resources */,
 				B7ED789118891BB100E4D44C /* anjuke_icon_sound@2x.png in Resources */,
@@ -4532,6 +4644,7 @@
 				973727AF182FD2CE007D8501 /* PropertyDirection.plist in Resources */,
 				B7E1919418E2755100DA578B /* anjuke_icon_chat_fy1@2x.png in Resources */,
 				B7EA5B6218DBDCA900D437BB /* anjuke_icon_chat1_fy@2x.png in Resources */,
+				67203D82196291E200A32B60 /* anjuke_icon_choosed@2x.png in Resources */,
 				B7E1918E18E274B200DA578B /* anjuke_icon_chat3@2x.png in Resources */,
 				2739140518DC0B44003284AA /* wl_map_icon_position.png in Resources */,
 				6794E4181947EC2C0069F1ED /* broker_my_icon_freshman@2x.png in Resources */,
@@ -4541,12 +4654,15 @@
 				200915EF189401C800A13115 /* anjuke_icon_fxt_mini_@2x.png in Resources */,
 				278FFCF6192453CD00B4A4A4 /* anjuke_icon_pic_teach@2x.png in Resources */,
 				B77B1D17188FB353009E0D0C /* anjuke_icon_sound_button@2x.png in Resources */,
+				67203D8E196291E200A32B60 /* broker_property_icon_pic@2x.png in Resources */,
 				B7FC9AF318C41B1300F77205 /* xproject_dialogue_greybutton@2x.png in Resources */,
+				67203D8D196291E200A32B60 /* broker_property_icon_jx@2x.png in Resources */,
 				F8BE3E461925FD060027F9E0 /* refresh@2x.png in Resources */,
 				B7FC9AFC18C41B1300F77205 /* xproject_dialogue_messagesend2.png in Resources */,
 				F87E8613190E4723005A5723 /* anjuke_icon_button_blue_press.png in Resources */,
 				B7FC9AC618C41B1300F77205 /* anjuke_icon_add@2x.png in Resources */,
 				2079ADE618B5EEDF0029D493 /* anjuke_icon_bluebutton1@2x.png in Resources */,
+				67203D86196291E200A32B60 /* broker_property_control_selected@2x.png in Resources */,
 				6740D1DD1908E08C005ED706 /* anjuke_icon_voice@2x.png in Resources */,
 				9795838E18225B93005EA48A /* anjuke_icon05_photo@2x.png in Resources */,
 				F8110E7D1929AF6D001ABC99 /* countTime_icon.png in Resources */,
@@ -4556,9 +4672,11 @@
 				B7FC9AE818C41B1300F77205 /* xproject_dialogue_greenbox_selected.png in Resources */,
 				B7FC9ACD18C41B1300F77205 /* anjuke_icon_attention_mini@2x.png in Resources */,
 				6767D179192398C2004FEFF7 /* anjuke_icon_weituo_button_on_press@2x.png in Resources */,
+				67203D8C196291E200A32B60 /* broker_property_house_now@2x.png in Resources */,
 				20AD081F1887DBE3005462CC /* anjuke_icon_next@2x.png in Resources */,
 				B7FC9AEC18C41B1300F77205 /* xproject_dialogue_greencard_selected.png in Resources */,
 				979BBB69185804AE005B7D03 /* icon_40@2x.png in Resources */,
+				67203D8A196291E200A32B60 /* broker_property_house_blue@2x.png in Resources */,
 				6740D1D61908E08C005ED706 /* anjuke_icon_keyboard1@2x.png in Resources */,
 				F8E24DA0194ACE2A0088C902 /* broker_wl_gzh_menu_layer_1@2x.png in Resources */,
 				B7FC9AE518C41B1300F77205 /* xproject_dialogue_failedsending@2x.png in Resources */,
@@ -4598,6 +4716,7 @@
 				6794E4141947EC2C0069F1ED /* broker_my_call@2x.png in Resources */,
 				F87E8614190E4723005A5723 /* anjuke_icon_button_blue.png in Resources */,
 				B7EA5B6718DBDCA900D437BB /* anjuke_icon_chat2_photo_selected@2x.png in Resources */,
+				67203D81196291E200A32B60 /* anjuke_icon_button_little_blue@2x.png in Resources */,
 				B7FC9ADE18C41B1300F77205 /* xproject_dialogue_articalcard.png in Resources */,
 				B7D0AB9618A9D23300A6229C /* anjuke_icon_bluesea_best@2x.png in Resources */,
 				273913E318DBD0FD003284AA /* anjuke_icon_to_position.png in Resources */,
@@ -4634,6 +4753,7 @@
 				F8BE44FD192DE3CC0039D6B3 /* discover_icon_check@2x.png in Resources */,
 				2079ADE518B5EEDF0029D493 /* anjuke_icon_bluebutton@2x.png in Resources */,
 				97DED8B81823999700D0B82A /* anjuke_icon11_@2x.png in Resources */,
+				67203D8F196291E200A32B60 /* broker_property_icon_tel@2x.png in Resources */,
 				6740D1CB1908E08C005ED706 /* anjuke_icon_bq_nextpage@2x.png in Resources */,
 				B7FC9AE918C41B1300F77205 /* xproject_dialogue_greenbox_selected@2x.png in Resources */,
 				20B6B1A0189392D100864EF2 /* anjuke_icon_nextphoto_@2x.png in Resources */,
@@ -4641,14 +4761,17 @@
 				6794E40F1947EC2C0069F1ED /* broker_fy_noproperty@2x.png in Resources */,
 				F8329939192B1B1D00246CD7 /* tab_icon_home_normal@2x.png in Resources */,
 				2736F82019382BAB002A6CF2 /* broker_publish_pic_firstguide.png in Resources */,
+				67203D7A196291E200A32B60 /* anjuke_icon_button_blue_hollow_press@2x.png in Resources */,
 				9741056A180CDFE0004DAE95 /* Images.xcassets in Resources */,
 				B7E38A00182238CF002C6E8A /* anjuke_icon06_select@2x.png in Resources */,
 				201BC95018CEF15900565BF6 /* Default.png in Resources */,
 				B727AB7418F7C2B8004B50F7 /* anjuke60_bg10.png in Resources */,
 				B7E4CD2F18E11BD800B61B58 /* wl_chat_icon_agentvoice_play3@2x.png in Resources */,
+				67203D7C196291E200A32B60 /* anjuke_icon_button_blue_lost@2x.png in Resources */,
 				B7D0AB9C18A9D23300A6229C /* anjuke_icon_hot1@2x.png in Resources */,
 				273913E518DBD0FD003284AA /* anjuke_icon_to_position1.png in Resources */,
 				6794E41F1947EC2C0069F1ED /* broker_wl_gzh_a@2x.png in Resources */,
+				67203D92196291E200A32B60 /* broker_property_sad@2x.png in Resources */,
 				B7EA5B7718DBDCA900D437BB /* wl_voice_icon_voicestatu1@2x.png in Resources */,
 				F8CCEEC6192C6FD300192055 /* guild_dot_selected@2x.png in Resources */,
 				F8BFF37A18FE87E8008E700D /* leftside_shadow_bg@2x.png in Resources */,
@@ -4658,12 +4781,15 @@
 				B7EA5B6818DBDCA900D437BB /* anjuke_icon_chat2_photo@2x.png in Resources */,
 				6740D1C71908E08C005ED706 /* anjuke_icon_add_more@2x.png in Resources */,
 				6794E41A1947EC2C0069F1ED /* broker_my_icon_servicecall@2x.png in Resources */,
+				67203D7F196291E200A32B60 /* anjuke_icon_button_little_blue_hollow@2x.png in Resources */,
+				67203D87196291E200A32B60 /* broker_property_delete@2x.png in Resources */,
 				B7EF7798183CBAB80024A5E6 /* anjuke_icon_bid@2x.png in Resources */,
 				B7FC9AF418C41B1300F77205 /* xproject_dialogue_greycard.png in Resources */,
 				20F011C218942ABD000264BA /* icon_57@2x.png in Resources */,
 				B7EA5B6418DBDCA900D437BB /* anjuke_icon_chat2__selected@2x.png in Resources */,
 				B77B1D18188FB353009E0D0C /* anjuke_icon_sound_button1@2x.png in Resources */,
 				97F43CE61835F56300B8813C /* PropertyRentTypeList.plist in Resources */,
+				67203D83196291E200A32B60 /* broker_my_icon_djswitch@2x.png in Resources */,
 				97F4D18D184E2ABD00DFC45F /* logo_60.png in Resources */,
 				20F011C118942ABD000264BA /* icon_57.png in Resources */,
 				B7FC9AFD18C41B1300F77205 /* xproject_dialogue_messagesend2@2x.png in Resources */,
@@ -4699,6 +4825,7 @@
 				F832993C192B1B1D00246CD7 /* tab_icon_user_select@2x.png in Resources */,
 				B7EA5B7E18DBE91900D437BB /* anjuke_icon_input_voice_press@2x.png in Resources */,
 				F85A3161190790EF00511022 /* anjuke_icon_person_press.png in Resources */,
+				67203D91196291E200A32B60 /* broker_property_no_jx@2x.png in Resources */,
 				6794E41B1947EC2C0069F1ED /* broker_my_icon_set@2x.png in Resources */,
 				B7FC9AE418C41B1300F77205 /* xproject_dialogue_failedsending.png in Resources */,
 				B7FC9AE618C41B1300F77205 /* xproject_dialogue_greenbox.png in Resources */,
@@ -4713,7 +4840,9 @@
 				B7EA5B7518DBDCA900D437BB /* wl_voice_icon_tip@2x.png in Resources */,
 				200DAB4518DFCB050077E0C9 /* Overlay@2x.png in Resources */,
 				B7FC9AF618C41B1300F77205 /* xproject_dialogue_greycard_selected.png in Resources */,
+				67203D5F196291AE00A32B60 /* 房子.png in Resources */,
 				973727AD182FD1C8007D8501 /* PropertyFitment.plist in Resources */,
+				67203D93196291E200A32B60 /* broker_wl_jubao_solution@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4860,6 +4989,7 @@
 				2026044C18B9EC2700F75A56 /* BrokerTwoDimensionalCodeViewController.m in Sources */,
 				B7FFC9DD18C8AC330020A73B /* UIImage+Alpha.m in Sources */,
 				2752667A19597983004F3A68 /* AXMessageCenterSendPropManager.m in Sources */,
+				67203D5B19628FEF00A32B60 /* PropertyDetailButton.m in Sources */,
 				6794E4451947FDB50069F1ED /* SDWebImageManager.m in Sources */,
 				F8C3B4CB1946ACC000D2D0E6 /* PPCHeaderView.m in Sources */,
 				2056A34D18EE7E660022B5A5 /* AXMappedPerson.m in Sources */,

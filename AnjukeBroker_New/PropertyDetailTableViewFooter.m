@@ -7,6 +7,15 @@
 //
 
 #import "PropertyDetailTableViewFooter.h"
+#import "PropertyDetailButton.h"
+
+@interface PropertyDetailTableViewFooter ()
+
+@property (nonatomic, strong) PropertyDetailButton* buttonEdit;  //编辑按钮
+@property (nonatomic, strong) PropertyDetailButton* buttonDelete;  //删除按钮
+
+@end
+
 
 @implementation PropertyDetailTableViewFooter
 
@@ -14,18 +23,16 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        [self initUI];
     }
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+- (void)initUI{
+    
+    self.frame = CGRectMake(0, 0, ScreenWidth, <#CGFloat height#>)
+    
+    
 }
-*/
 
 @end
