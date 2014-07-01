@@ -8,6 +8,7 @@
 
 #import "PPCDataShowViewController.h"
 #import "PPCDataShowCell.h"
+#import "PPCPriceingListViewController.h"
 
 @interface PPCDataShowViewController ()
 //@property(nonatomic, strong) UITableView *tableList;
@@ -134,10 +135,16 @@
 #pragma mark -- UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (!self.tableData || self.navigationController.view.frame.origin.x > 0) {
+    if (self.navigationController.view.frame.origin.x > 0) {
         return;
     }
     
+    if (indexPath.row == 1) {
+        PPCPriceingListViewController *pricingListVc = [[PPCPriceingListViewController alloc] init];
+        pricingListVc.isHaozu = self.isHaozu;
+        pricingListVc.planId = @"648793";
+        [self.navigationController pushViewController:pricingListVc animated:YES];
+    }
     
 }
 

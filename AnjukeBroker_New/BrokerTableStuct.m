@@ -55,6 +55,13 @@
         
         tipsLab.text = @"没有可以签到的小区";
         [backGroundView addSubview:tipsLab];
+    }else if (status == STATUSFORNODATAFORPRICINGLIST){
+        statusView.frame = CGRectMake(115, 50, 90, 78);
+        tipsLab.frame = CGRectMake(0, 130, 320, 20);
+        [statusView setImage:[UIImage imageNamed:@"check_no_community"]];
+        
+        tipsLab.text = @"暂无定价计划";
+        [backGroundView addSubview:tipsLab];
     }else if (status == STATUSFORNOGPS){
         statusView.frame = CGRectMake(115, 10, 90, 90);
         tipsLab.frame = CGRectMake(0, 110, 320, 20);

@@ -95,10 +95,14 @@
     NSString *method = nil;
 
     if (self.isHaozu) {
-        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",self.planId,@"planId", nil];
+        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId",self.planId,@"planId",[LoginManager getCity_id],@"cityId", nil];
+//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"3759",@"brokerId",@"164558",@"planId",@"11",@"cityId", nil];
+       
         method = [NSString stringWithFormat:@"zufang/fix/props/"];
     }else{
         params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",self.planId,@"planId",[LoginManager getCity_id],@"cityId", nil];
+//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",@"3759",@"brokerId",@"164558",@"planId",@"11",@"cityId", nil];
+ 
         method = [NSString stringWithFormat:@"anjuke/fix/props/"];
     }
 
@@ -107,10 +111,10 @@
 }
 - (void)onRequestFinished:(RTNetworkResponse *)response{
     self.isLoading = NO;
-    
+    DLog(@"response---->>%@",[response content]);
     if([[response content] count] == 0){
         [self donePullDown];
-        [self.tableList setTableStatus:STATUSFORNODATA];
+        [self.tableList setTableStatus:STATUSFORNODATAFORPRICINGLIST];
         
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
         tapGes.delegate                = self;
@@ -142,9 +146,19 @@
         return;
     }
     
-    self.tableData = [NSArray arrayWithArray:[response content][@"data"][@"propertyList"]];
+    NSArray *arr = [NSArray arrayWithArray:[response content][@"data"]];
+    if (arr.count >= 1) {
+        self.tableData = [NSArray arrayWithArray:[response content][@"data"][@"propertyList"]];
+    }else{
+        [self donePullDown];
+        
+        self.tableData = nil;
+        [self.tableList reloadData];
+        [self.tableList setTableStatus:STATUSFORNODATAFORPRICINGLIST];
+    }
+    
     if (self.tableData.count == 0) {
-        [self.tableList setTableStatus:STATUSFORNODATA];
+        [self.tableList setTableStatus:STATUSFORNODATAFORPRICINGLIST];
     }else{
         [self.tableList setTableStatus:STATUSFOROK];
     }
@@ -182,3 +196,4 @@
 
 
 @end
+
