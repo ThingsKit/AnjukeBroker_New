@@ -14,18 +14,42 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        // 设置按钮文字颜色
+        [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        // 设置按钮文字居中
+        self.titleLabel.textAlignment = NSTextAlignmentCenter;
+        // 让图片按照原来的宽高比显示出来
+        self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        // 设置按钮文字的字体
+        self.titleLabel.font = [UIFont systemFontOfSize:15];
+        // 设置按钮里面的内容（UILabel、UIImageView）居中
+        // btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     }
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+#pragma mark - 重写了UIButton的方法
+#pragma mark 控制UILabel的位置和尺寸
+// contentRect其实就是按钮的位置和尺寸
+- (CGRect)titleRectForContentRect:(CGRect)contentRect
 {
-    // Drawing code
+    CGFloat titleX = 0;
+    CGFloat titleY = contentRect.size.height * 100;
+    CGFloat titleWidth = contentRect.size.width;
+    CGFloat titleHeight = contentRect.size.height - titleY;
+    
+    return CGRectMake(titleX, titleY, titleWidth, titleHeight);
 }
-*/
+
+#pragma mark 控制UIImageView的位置和尺寸
+- (CGRect)imageRectForContentRect:(CGRect)contentRect
+{
+    CGFloat imageX = 0;
+    CGFloat imageY = 0;
+    CGFloat imageWidth = contentRect.size.width;
+    CGFloat imageHeight = contentRect.size.height * 100;
+    
+    return CGRectMake(imageX, imageY, imageWidth, imageHeight);
+}
 
 @end
