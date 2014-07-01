@@ -50,6 +50,7 @@
 #import "AnjukeHomeViewController.h"
 #import "HaozuHomeViewController.h"
 
+#import "PPCDataShowViewController.h"
 
 #define HOME_cellHeight 70
 #define Max_Account_Lb_Width 80
@@ -549,19 +550,31 @@
 #pragma mark -- headerBtnClickDelegate
 - (void)btnClickWithTag:(NSInteger)index{
     if (index == 0) {
-        [[BrokerLogger sharedInstance] logWithActionCode:HOME_ESF page:HOME note:nil]; //点击二手房管理
+//        [[BrokerLogger sharedInstance] logWithActionCode:HOME_ESF page:HOME note:nil]; //点击二手房管理
+//        
+//        AnjukeHomeViewController *ajkHomeVC = [[AnjukeHomeViewController alloc] init];
+//        ajkHomeVC.backType = RTSelectorBackTypePopBack;
+//        [ajkHomeVC setHidesBottomBarWhenPushed:YES];
+//        [self.navigationController pushViewController:ajkHomeVC animated:YES];
         
-        AnjukeHomeViewController *ajkHomeVC = [[AnjukeHomeViewController alloc] init];
-        ajkHomeVC.backType = RTSelectorBackTypePopBack;
-        [ajkHomeVC setHidesBottomBarWhenPushed:YES];
-        [self.navigationController pushViewController:ajkHomeVC animated:YES];
+        PPCDataShowViewController *ppcDataShowVC = [[PPCDataShowViewController alloc] init];
+        ppcDataShowVC.isHaozu = NO;
+        ppcDataShowVC.backType = RTSelectorBackTypePopBack;
+        [ppcDataShowVC setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:ppcDataShowVC animated:YES];
     }else if (index == 1){
-        [[BrokerLogger sharedInstance] logWithActionCode:HOME_ZF page:HOME note:nil]; //点击租房管理
-        
-        HaozuHomeViewController *HaozuHomeVC = [[HaozuHomeViewController alloc] init];
-        HaozuHomeVC.backType = RTSelectorBackTypePopBack;
-        [HaozuHomeVC setHidesBottomBarWhenPushed:YES];
-        [self.navigationController pushViewController:HaozuHomeVC animated:YES];
+//        [[BrokerLogger sharedInstance] logWithActionCode:HOME_ZF page:HOME note:nil]; //点击租房管理
+//        
+//        HaozuHomeViewController *HaozuHomeVC = [[HaozuHomeViewController alloc] init];
+//        HaozuHomeVC.backType = RTSelectorBackTypePopBack;
+//        [HaozuHomeVC setHidesBottomBarWhenPushed:YES];
+//        [self.navigationController pushViewController:HaozuHomeVC animated:YES];
+
+        PPCDataShowViewController *ppcDataShowVC = [[PPCDataShowViewController alloc] init];
+        ppcDataShowVC.isHaozu = YES;
+        ppcDataShowVC.backType = RTSelectorBackTypePopBack;
+        [ppcDataShowVC setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:ppcDataShowVC animated:YES];
     }else if (index == 2){
         [[BrokerLogger sharedInstance] logWithActionCode:HOME_MARKET page:HOME note:nil]; //点击市场分析
         

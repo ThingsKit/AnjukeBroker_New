@@ -231,51 +231,7 @@
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
 }
-//    if (![self isNetworkOkayWithNoInfo]) {
-//        
-//        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
-//        
-//        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
-//        tapGes.delegate                = self;
-//        tapGes.numberOfTouchesRequired = 1;
-//        tapGes.numberOfTapsRequired    = 1;
-//        [self.tableList.headerView addGestureRecognizer:tapGes];
-//        
-//        [self.tablaData removeAllObjects];
-//        [self.tableList reloadData];
-//        
-//        [self performSelector:@selector(donePullDown) withObject:nil afterDelay:0.1];
-//        [self performSelector:@selector(stopAnimation) withObject:nil afterDelay:0.1];
-//        
-//        self.isLoading = NO;
-//        return;
-//    }
-//    if ([CLLocationManager isLocationServiceEnabled] && !self.nowCoords.latitude) {
-//        //开始实时定位
-//        [self.locationManager startUpdatingLocation];
-//        
-//        [self performSelector:@selector(donePullDown) withObject:nil afterDelay:0.1];
-//        [self performSelector:@selector(stopAnimation) withObject:nil afterDelay:0.1];
-//        
-//        [self.tablaData removeAllObjects];
-//        [self.tableList reloadData];
-//        self.isLoading = NO;
-//        return;
-//    }
-//    
-//    self.isLoading = YES;
-//    
-//    NSMutableDictionary *params = nil;
-//    NSString *method = nil;
-//    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"latitude_specify"]) {
-//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",[[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude_specify"] doubleValue]],@"lat",[NSString stringWithFormat:@"%f",[[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude_specify"] doubleValue]],@"lng", nil];
-//    }else{
-//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%f",self.nowCoords.longitude],@"lng", nil];
-//    }
-//    method = [NSString stringWithFormat:@"broker/commSignList/"];
-//    
-//    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
-//}
+
 - (void)onRequestFinished:(RTNetworkResponse *)response{
     self.isLoading = NO;
     [self stopAnimation];

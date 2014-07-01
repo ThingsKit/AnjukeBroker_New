@@ -683,6 +683,9 @@
 		F88FC2E71945614100DEA8A2 /* FindCustomerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2E61945614100DEA8A2 /* FindCustomerViewController.m */; };
 		F88FC2EF19457F8C00DEA8A2 /* PICircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F88FC2EE19457F8C00DEA8A2 /* PICircularProgressView.m */; };
 		F89FF58619616C8200AC7256 /* broker_guild@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F89FF58519616C8200AC7256 /* broker_guild@2x.png */; };
+		F89FF5A119625B7900AC7256 /* PPCDataShowModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5A019625B7900AC7256 /* PPCDataShowModel.m */; };
+		F89FF5A519625B9700AC7256 /* PPCDataShowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5A419625B9700AC7256 /* PPCDataShowCell.m */; };
+		F89FF5A819625BA500AC7256 /* PPCDataShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5A719625BA500AC7256 /* PPCDataShowViewController.m */; };
 		F8A717BE192058FB004840C6 /* UserCenterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717B7192058FB004840C6 /* UserCenterCell.m */; };
 		F8A717BF192058FB004840C6 /* UserCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717B9192058FB004840C6 /* UserCenterViewController.m */; };
 		F8A717C419205934004840C6 /* AppSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717C319205934004840C6 /* AppSettingViewController.m */; };
@@ -1764,6 +1767,12 @@
 		F88FC2ED19457F8C00DEA8A2 /* PICircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PICircularProgressView.h; sourceTree = "<group>"; };
 		F88FC2EE19457F8C00DEA8A2 /* PICircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PICircularProgressView.m; sourceTree = "<group>"; };
 		F89FF58519616C8200AC7256 /* broker_guild@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_guild@2x.png"; sourceTree = "<group>"; };
+		F89FF59F19625B7900AC7256 /* PPCDataShowModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPCDataShowModel.h; sourceTree = "<group>"; };
+		F89FF5A019625B7900AC7256 /* PPCDataShowModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPCDataShowModel.m; sourceTree = "<group>"; };
+		F89FF5A319625B9700AC7256 /* PPCDataShowCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPCDataShowCell.h; sourceTree = "<group>"; };
+		F89FF5A419625B9700AC7256 /* PPCDataShowCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPCDataShowCell.m; sourceTree = "<group>"; };
+		F89FF5A619625BA500AC7256 /* PPCDataShowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPCDataShowViewController.h; sourceTree = "<group>"; };
+		F89FF5A719625BA500AC7256 /* PPCDataShowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPCDataShowViewController.m; sourceTree = "<group>"; };
 		F8A717B6192058FB004840C6 /* UserCenterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterCell.h; sourceTree = "<group>"; };
 		F8A717B7192058FB004840C6 /* UserCenterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCenterCell.m; sourceTree = "<group>"; };
 		F8A717B8192058FB004840C6 /* UserCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterViewController.h; sourceTree = "<group>"; };
@@ -3336,6 +3345,7 @@
 				972C10231814FC3800552C9B /* 首页+发房 */,
 				972C10251814FC7500552C9B /* 租房业务管理 */,
 				972C10241814FC4C00552C9B /* 二手房业务管理 */,
+				F89FF59919625B1400AC7256 /* PPC_NewVersion */,
 				972C10261814FC8800552C9B /* 更多 */,
 				2031A48218920F6A004F7E1A /* 市场分析 */,
 				972DDA2D1826D34600263F8F /* 底层、定制ViewController */,
@@ -4065,6 +4075,43 @@
 			name = circleProgress;
 			sourceTree = "<group>";
 		};
+		F89FF59919625B1400AC7256 /* PPC_NewVersion */ = {
+			isa = PBXGroup;
+			children = (
+				F89FF59A19625B3000AC7256 /* PPCDataShow */,
+			);
+			name = PPC_NewVersion;
+			sourceTree = "<group>";
+		};
+		F89FF59A19625B3000AC7256 /* PPCDataShow */ = {
+			isa = PBXGroup;
+			children = (
+				F89FF5A619625BA500AC7256 /* PPCDataShowViewController.h */,
+				F89FF5A719625BA500AC7256 /* PPCDataShowViewController.m */,
+				F89FF5A219625B8100AC7256 /* PPCDataShowCell */,
+				F89FF59B19625B4200AC7256 /* PPCDataShowMode */,
+			);
+			name = PPCDataShow;
+			sourceTree = "<group>";
+		};
+		F89FF59B19625B4200AC7256 /* PPCDataShowMode */ = {
+			isa = PBXGroup;
+			children = (
+				F89FF59F19625B7900AC7256 /* PPCDataShowModel.h */,
+				F89FF5A019625B7900AC7256 /* PPCDataShowModel.m */,
+			);
+			name = PPCDataShowMode;
+			sourceTree = "<group>";
+		};
+		F89FF5A219625B8100AC7256 /* PPCDataShowCell */ = {
+			isa = PBXGroup;
+			children = (
+				F89FF5A319625B9700AC7256 /* PPCDataShowCell.h */,
+				F89FF5A419625B9700AC7256 /* PPCDataShowCell.m */,
+			);
+			name = PPCDataShowCell;
+			sourceTree = "<group>";
+		};
 		F8A717DD19209E22004840C6 /* checkout */ = {
 			isa = PBXGroup;
 			children = (
@@ -4700,6 +4747,7 @@
 				6794E45919498A0B0069F1ED /* CustomerDetailTableViewCell.m in Sources */,
 				B7FC9B3718C4206600F77205 /* NSString+RTStyle.m in Sources */,
 				678D2A2518DAB12E0027D945 /* amrFileCodec.mm in Sources */,
+				F89FF5A119625B7900AC7256 /* PPCDataShowModel.m in Sources */,
 				203EC2B618B34A4200DD0840 /* MessageListCell.m in Sources */,
 				6794E44A19485D4A0069F1ED /* CustomerDetailViewController.m in Sources */,
 				97B4225A1820DB8300A2E9E6 /* AnjukePropertyGroupCell.m in Sources */,
@@ -4824,6 +4872,7 @@
 				B7E69BC1183B63480097D5C3 /* RentAuctionViewController.m in Sources */,
 				6794E45C194996450069F1ED /* CustomerDetailHeaderView.m in Sources */,
 				B7EAD4C718CD6DDE00B28FEC /* AXNotificationTutorialViewController.m in Sources */,
+				F89FF5A819625BA500AC7256 /* PPCDataShowViewController.m in Sources */,
 				2056A34418EE7E660022B5A5 /* AJKHDPListManager.m in Sources */,
 				207526BE18B45FE10022220C /* SWUtilityButtonView.m in Sources */,
 				B769E45D181F54DE00A2FF50 /* BasePropertyObject.m in Sources */,
@@ -5014,6 +5063,7 @@
 				B7E55B4E18BF2190007238CB /* JSMessageInputView.m in Sources */,
 				97EF868C1841EACE00315E75 /* SimpleKeyboardToolBar.m in Sources */,
 				010AFB1F1962538000ADB9C1 /* BrokerRegisterWorkDistrictViewController.m in Sources */,
+				F89FF5A519625B9700AC7256 /* PPCDataShowCell.m in Sources */,
 				203EC29818B2F61A00DD0840 /* MessageListViewController.m in Sources */,
 				97192EE71818FEF7007971BA /* PhotoButton.m in Sources */,
 				B7E55B5218BF2190007238CB /* UIImage+JSMessagesView.m in Sources */,
