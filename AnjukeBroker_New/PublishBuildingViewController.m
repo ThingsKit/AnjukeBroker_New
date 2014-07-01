@@ -2390,12 +2390,12 @@ typedef enum {
         if (self.isHaozu)
         {
             //HZ_PROPERTY_011
-            [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_CLICK_ADD_INDOORGRAPH note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_PUBLISH_CLICK_ADD_INDOORGRAPH page:ZF_PUBLISH note:nil];
         }
         else
         {
             //AJK_PROPERTY_011
-            [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_CLICK_ADD_INDOORGRAPH note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_PUBLISH_CLICK_ADD_INDOORGRAPH page:ESF_PUBLISH note:nil];
         }
         self.footerView = [_footerViewDict objectForKey:FOOTERVIEWDICTROOM];
         

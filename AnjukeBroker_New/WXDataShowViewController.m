@@ -45,7 +45,7 @@
 - (void)doBack:(id)sender{
     [super doBack:sender];
     
-    [[BrokerLogger sharedInstance] logWithActionCode:WLDATA_BACK page:DATA note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:WLDATA_BACK page:DATA note:nil];
 }
 
 - (void)wakeFromBackGound:(NSNotification *)notification{
