@@ -14,14 +14,13 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // 设置按钮文字颜色
-        [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self setTitleColor:[UIColor brokerWhiteColor] forState:UIControlStateNormal];
         // 设置按钮文字居中
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         // 让图片按照原来的宽高比显示出来
         self.imageView.contentMode = UIViewContentModeScaleAspectFit;
         // 设置按钮文字的字体
-        self.titleLabel.font = [UIFont systemFontOfSize:15];
+        self.titleLabel.font = [UIFont ajkH2Font];
         // 设置按钮里面的内容（UILabel、UIImageView）居中
         // btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     }

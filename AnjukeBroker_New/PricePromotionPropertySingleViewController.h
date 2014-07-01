@@ -8,6 +8,6 @@
 
 #import "RTViewController.h"
 
-@interface PricePromotionPropertySingleViewController : RTViewController
+@interface PricePromotionPropertySingleViewController : RTViewController<UITableViewDataSource, UITableViewDelegate>
 
 @end
