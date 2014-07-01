@@ -13,12 +13,21 @@
 #import "AppDelegate.h"
 #import "ConfigPlistManager.h"
 #import "AccountManager.h"
+#import "BrokerRegisterViewController.h"
+//RTGestureBackNavigationController
+#import "RTGestureBackNavigationController.h"
 
 @interface LoginViewController ()
 
 @property (nonatomic, strong) UITextField *nameTF;
 @property (nonatomic, strong) UITextField *passwordTF;
+@property (nonatomic, strong) UIButton *loginBtn;
+@property (nonatomic, strong) UIButton *registerBtn;
 @property (nonatomic, strong) UIView *loginView;
+@property (nonatomic, strong) UIImageView *logo;
+@property (nonatomic) UILabel *registerLabel;
+@property (nonatomic) UIView  *textFieldViewTF;
+@property (nonatomic) CGFloat logoW;
 @end
 
 @implementation LoginViewController
@@ -39,8 +48,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    self.view.backgroundColor = [UIColor colorWithRed:0.89 green:0.89 blue:0.89 alpha:1];
-    
+    self.view.backgroundColor = [Util_UI colorWithHexString:@"312A32"];
 }
 
 - (void)dealloc {
@@ -74,115 +82,64 @@
     
     [self checkLoginStatus];
     
-    UIView *lv = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight])];
-    lv.backgroundColor = [UIColor clearColor];
-    self.loginView = lv;
+    self.loginView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, [self windowWidth], [self windowHeight] - 20)];
+    self.loginView.backgroundColor = [Util_UI colorWithHexString:@"EFEFF4"];
     [self.view addSubview:self.loginView];
     
-    CGFloat btnW = 530/2;
+    self.logoW     = 95 ;
+    
+    CGFloat btnW   = 530/2;
     CGFloat btnGap = ([self windowWidth] - btnW)/2;
-    CGFloat btnH = 85/2;
+    CGFloat btnH   = 85/2;
     
-    CGFloat iconW = 140 /2;
-    CGFloat iconGap = ([self windowWidth] -iconW)/2;
-    
-    CGFloat tfGap = 10;
+    CGFloat tfGap  = 10;
     CGFloat tfGapH = 5;
-    CGFloat tfW = btnW - tfGap*2;
-    CGFloat tfH = btnH - tfGapH*2;
+    CGFloat tfW    = btnW - tfGap*2;
+    CGFloat tfH    = btnH - tfGapH*2;
     
-    UIColor *textBGColor = [Util_UI colorWithHexString:@"EFEFF4"];
     
-    UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_60.png"]];
-    icon.backgroundColor = [UIColor clearColor];
-    icon.contentMode = UIViewContentModeScaleAspectFill;
-    icon.layer.cornerRadius = 5;
-    [lv addSubview:icon];
+    self.logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_60.png"]];
+    self.logo.backgroundColor = [UIColor clearColor];
+    self.logo.contentMode = UIViewContentModeScaleAspectFill;
+    self.logo.layer.cornerRadius = 5;
+    [self.loginView addSubview:self.logo];
     
-    UIView *textFieldView = [[UIView alloc] initWithFrame:CGRectMake(btnGap, 150+ 10,  btnW, btnH*2+1)];
-    textFieldView.backgroundColor = textBGColor;
-    [lv addSubview:textFieldView];
+    self.textFieldViewTF = [[UIView alloc] initWithFrame:CGRectMake(btnGap, 212,  btnW, btnH*2+1)];
+    self.textFieldViewTF.backgroundColor = [UIColor whiteColor];
+    [self.loginView addSubview:self.textFieldViewTF];
     
-    UITextField *cellTextField = nil;
-    cellTextField = [[UITextField alloc] initWithFrame:CGRectMake(tfGap, tfGapH, tfW, tfH)];
-    cellTextField.returnKeyType = UIReturnKeyDone;
-    cellTextField.backgroundColor = [UIColor clearColor];
-    cellTextField.borderStyle = UITextBorderStyleNone;
-    cellTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    cellTextField.text = @"";
-    cellTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    cellTextField.placeholder = @"手机号";
-    cellTextField.delegate = self;
-    cellTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    cellTextField.font = [UIFont systemFontOfSize:17];
-    cellTextField.textAlignment = NSTextAlignmentLeft;
-    cellTextField.secureTextEntry = NO;
-    cellTextField.textColor = SYSTEM_BLACK;
-    self.nameTF = cellTextField;
-    [textFieldView addSubview:cellTextField];
-
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, btnH, btnW, 1)];
+    self.nameTF = [self textFieldWithFrame:CGRectMake(tfGap, tfGapH, tfW, tfH) PlaceHolder:@"手机号" secureTextEntry:NO];
+    [self.textFieldViewTF addSubview:self.nameTF];
+    
+    UIView *line         = [[UIView alloc] initWithFrame:CGRectMake(0, btnH, btnW, 1)];
     line.backgroundColor = [UIColor colorWithRed:0.89 green:0.89 blue:0.89 alpha:1];
-    [textFieldView addSubview:line];
+    [self.textFieldViewTF addSubview:line];
     
-    UITextField *cellTextField2 = nil;
-    cellTextField2 = [[UITextField alloc] initWithFrame:CGRectMake(tfGap, btnH+tfGapH+1, tfW, tfH)];
-    cellTextField2.returnKeyType = UIReturnKeyDone;
-    cellTextField2.backgroundColor = [UIColor clearColor];
-    cellTextField2.borderStyle = UITextBorderStyleNone;
-    cellTextField2.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    cellTextField2.text = @"";
-    cellTextField2.clearButtonMode = UITextFieldViewModeWhileEditing;
-    cellTextField2.placeholder = @"密  码";
-    cellTextField2.delegate = self;
-    cellTextField2.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    cellTextField2.font = [UIFont systemFontOfSize:17];
-    cellTextField2.textAlignment = NSTextAlignmentLeft;
-    cellTextField2.secureTextEntry = YES;
-    cellTextField2.textColor = SYSTEM_BLACK;
-    self.passwordTF = cellTextField2;
-    [textFieldView addSubview:cellTextField2];
-
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(btnGap, textFieldView.frame.origin.y + textFieldView.frame.size.height+ 20, btnW, btnH);
-    [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
-    [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
-    btn.layer.cornerRadius = 3;
-    [btn setTitle:@"登    录" forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(doRequest) forControlEvents:UIControlEventTouchUpInside];
-    [lv addSubview:btn];
+    self.passwordTF = [self textFieldWithFrame:CGRectMake(tfGap, btnH+tfGapH+1, tfW, tfH) PlaceHolder:@"密码" secureTextEntry:YES];
+    [self.textFieldViewTF addSubview:self.passwordTF];
+    
+    CGRect frame     = self.textFieldViewTF.frame;
+    self.loginBtn    = [self loginBtnWithFrame:CGRectMake(btnGap, frame.origin.y + frame.size.height+ 20, btnW, btnH) title:@"登录" action:@selector(doRequest)];
+    self.registerBtn = [self registerBtnWithFrame:CGRectMake(115,self.view.bottom - 35 - 30, 90, 33) title:@"注册" action:@selector(doRegister)];
+    self.registerLabel  = [[UILabel alloc] initWithFrame:CGRectMake(103, self.view.bottom - 35 - 30 - 20 - 13 , 140, 20)];
+    self.registerLabel.text      = @"房源客户，一网打尽";
+    self.registerLabel.textColor = [UIColor brokerLightGrayColor];
+    self.registerLabel.font      = [UIFont systemFontOfSize:14];
+    
+    [self.loginView addSubview:self.loginBtn];
+    [self.loginView addSubview:self.registerBtn];
+    [self.loginView addSubview:self.registerLabel];
     
 #ifdef DEBUG
     //###########################################################
     //定义长按自动填充手势
     UILongPressGestureRecognizer* longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(autoSetUserNameAndPassword:)];
     longPressGesture.minimumPressDuration = 1;
-    [btn addGestureRecognizer:longPressGesture];
+    [self.loginBtn addGestureRecognizer:longPressGesture];
     //###########################################################
 #endif
     
-    
-    icon.frame = CGRectMake(iconGap, 70+70, iconW, iconW);
-    icon.alpha = 0.5;
-    
-    textFieldView.alpha = 0.0;
-    btn.alpha = 0.0;
-    
-    [UIView animateWithDuration:0.8 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        icon.frame = CGRectMake(iconGap, 70, iconW, iconW);
-        icon.alpha = 1.0;
-    } completion:^(BOOL finished) {
-    }];
-    
-    [UIView animateWithDuration:0.8 delay:0.8 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        textFieldView.alpha = 1.0;
-    } completion:^(BOOL finished) {
-    }];
-    
-    [UIView animateWithDuration:0.8 delay:0.9 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        btn.alpha = 1.0;
-    } completion:^(BOOL finished) {
-    }];
+    [self viewLoadAnimation];
 }
 
 #pragma mark -
@@ -198,11 +155,105 @@
 }
 #endif
 
+// 创建loginBtn 对象
+- (UIButton *)loginBtnWithFrame:(CGRect)frame title:(NSString*)title action:(SEL)action
+{
+    UIButton *loginBtn = [self buttonWithFrame:frame title:title action:action];
+    [loginBtn  setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
+    [loginBtn  setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
+    return loginBtn;
+}
 
+// 创建registerBtn 对象
+- (UIButton *)registerBtnWithFrame:(CGRect)frame title:(NSString*)title action:(SEL)action
+{
+    UIColor *registerBtnColor      = [UIColor brokerBabyBlueColor];
+    UIButton *registerBtn          = [self buttonWithFrame:frame title:title action:action];
+    //    registerBtn.layer.borderColor  = registerBtnColor.CGColor;
+    //    registerBtn.layer.borderWidth  = 1;
+    //    registerBtn.layer.cornerRadius = 2;
+    registerBtn.titleLabel.font    = [UIFont systemFontOfSize:17];
+    [registerBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue_hollow"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
+    [registerBtn setTitleColor:registerBtnColor forState:UIControlStateNormal];
+    
+    return registerBtn;
+}
+
+// 在view加载完后，显示动画
+- (void)viewLoadAnimation
+{
+    
+    CGFloat logoGap = ([self windowWidth] - self.logoW)/2;
+    self.logo.frame = CGRectMake(logoGap, 140,  self.logoW,  self.logoW);
+    self.logo.alpha = 0.5;
+    
+    self.textFieldViewTF.alpha = 0.0;
+    self.loginBtn.alpha        = 0.0;
+    self.registerBtn.alpha     = 0.0;
+    self.registerLabel.alpha   = 0.0;
+    
+    [UIView animateWithDuration:0.8 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.logo.frame = CGRectMake(logoGap, 95,  self.logoW,  self.logoW);
+        self.logo.alpha = 1.0;
+        self.textFieldViewTF.alpha = 1.0;
+    } completion:^(BOOL finished) {
+    }];
+    
+    [UIView animateWithDuration:0.8 delay:0.8 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.textFieldViewTF.alpha = 1.0;
+    } completion:^(BOOL finished) {
+    }];
+    
+    [UIView animateWithDuration:0.8 delay:0.2 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.loginBtn.alpha = 1.0;
+    } completion:^(BOOL finished) {
+    }];
+    
+    [UIView animateWithDuration:0.8 delay:0.3 options:UIViewAnimationOptionCurveEaseInOut animations:^(){
+        self.registerBtn.alpha   = 1.0;
+        self.registerLabel.alpha = 1.0;
+    }completion:^(BOOL finished){
+        
+    }];
+}
+
+//生成Login界面中统一的UIButton
+- (UIButton *)buttonWithFrame:(CGRect)frame title:(NSString *)title action:(SEL)action
+{
+    UIButton *button          = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame              = frame;
+    [button setTitle:title forState:UIControlStateNormal];
+    [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    
+    return button;
+    
+}
+
+//生成Login界面中统一的textField
+- (UITextField *)textFieldWithFrame:(CGRect)frame PlaceHolder:(NSString *)placeHolder secureTextEntry:(BOOL)secureTextEntry
+{
+    UITextField * textField = [[UITextField alloc] initWithFrame:frame];
+    
+    textField.returnKeyType = UIReturnKeyDone;
+    textField.backgroundColor = [UIColor clearColor];
+    textField.borderStyle = UITextBorderStyleNone;
+    textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    textField.text = @"";
+    textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    textField.placeholder = placeHolder;
+    textField.delegate = self;
+    textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    textField.font = [UIFont systemFontOfSize:17];
+    textField.textAlignment = NSTextAlignmentLeft;
+    textField.secureTextEntry = secureTextEntry;
+    textField.textColor = SYSTEM_BLACK;
+    
+    return textField;
+}
 
 - (void)pushToTab {
     [[BrokerLogger sharedInstance] logWithActionCode:LOGIN_SUCCESS page:LOGIN note:nil];
-
+    
     self.nameTF.text = @"";
     self.passwordTF.text = @"";
     
@@ -230,7 +281,7 @@
     if ([self windowHeight] <= 960/2) {
         offsetY = 80;
     }
-
+    
     if (self.loginView.frame.origin.y == -offsetY) {
         return;
     }
@@ -267,11 +318,16 @@
     return YES;
 }
 
+- (void)doRegister {
+    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:[BrokerRegisterViewController new]];
+    [self presentModalViewController:nav animated:YES];
+}
+
 #pragma mark - request method
 
 - (void)doRequest {
-    [[BrokerLogger sharedInstance] logWithActionCode:LOGIN_CLICK_LOGIN page:LOGIN_CLICK_LOGIN note:nil];
-
+    [[BrokerLogger sharedInstance] logWithActionCode:LOGIN_CLICK_LOGIN page:LOGIN note:nil];
+    
     if (![self isNetworkOkayWithNoInfo]) {
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
@@ -301,7 +357,7 @@
 }
 
 - (void)onGetLogin:(RTNetworkResponse *)response {
-
+    
     DLog(@"------response [%@]", [response content]);
     
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
@@ -343,7 +399,7 @@
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
     
-
+    
     [self pushToTab];
     
     //每次重新登录请求配置数据

@@ -38,6 +38,7 @@
 #import "UIComponents.h"
 #import "UIColor+BrokerRT.h"
 #import "UIFont+RT.h"
+#import "UIView+RTLayout.h"
 
 #ifdef DEBUG
 #	define DLog(fmt, ...) NSLog((@"%s #%d " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);

@@ -7,6 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		010AFB031962537400ADB9C1 /* RTArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 010AFB021962537400ADB9C1 /* RTArray.m */; };
+		010AFB181962538000ADB9C1 /* SearchCompanyController.m in Sources */ = {isa = PBXBuildFile; fileRef = 010AFB051962538000ADB9C1 /* SearchCompanyController.m */; };
+		010AFB191962538000ADB9C1 /* SearchStoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = 010AFB071962538000ADB9C1 /* SearchStoreController.m */; };
+		010AFB1A1962538000ADB9C1 /* MainBusinessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 010AFB0A1962538000ADB9C1 /* MainBusinessViewController.m */; };
+		010AFB1B1962538000ADB9C1 /* WorkPropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 010AFB0B1962538000ADB9C1 /* WorkPropertyViewController.m */; };
+		010AFB1C1962538000ADB9C1 /* AJKListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 010AFB0D1962538000ADB9C1 /* AJKListTableViewCell.m */; };
+		010AFB1D1962538000ADB9C1 /* BrokerRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 010AFB0F1962538000ADB9C1 /* BrokerRegisterViewController.m */; };
+		010AFB1E1962538000ADB9C1 /* BrokerRegisterInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 010AFB111962538000ADB9C1 /* BrokerRegisterInfoViewController.m */; };
+		010AFB1F1962538000ADB9C1 /* BrokerRegisterWorkDistrictViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 010AFB131962538000ADB9C1 /* BrokerRegisterWorkDistrictViewController.m */; };
+		010AFB201962538000ADB9C1 /* BrokerRegisterWorkBlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 010AFB151962538000ADB9C1 /* BrokerRegisterWorkBlockViewController.m */; };
+		010AFB211962538000ADB9C1 /* BrokerRegisterWorkCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 010AFB171962538000ADB9C1 /* BrokerRegisterWorkCityViewController.m */; };
+		010AFB28196253B300ADB9C1 /* noResult.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 010AFB24196253B300ADB9C1 /* noResult.jpg */; };
+		010AFB29196253B300ADB9C1 /* searchbar_write.png in Resources */ = {isa = PBXBuildFile; fileRef = 010AFB25196253B300ADB9C1 /* searchbar_write.png */; };
+		010AFB2A196253B300ADB9C1 /* searchbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 010AFB26196253B300ADB9C1 /* searchbar.png */; };
+		010AFB2B196253B300ADB9C1 /* accessory_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 010AFB27196253B300ADB9C1 /* accessory_image.png */; };
+		010AFB2E196253BB00ADB9C1 /* CityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 010AFB2D196253BB00ADB9C1 /* CityModel.m */; };
+		010AFB31196253E400ADB9C1 /* AJKCityInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 010AFB2F196253E400ADB9C1 /* AJKCityInfo.plist */; };
+		010AFB32196253E400ADB9C1 /* CombinedCityInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 010AFB30196253E400ADB9C1 /* CombinedCityInfo.plist */; };
 		200485DB1907C33800A5A351 /* Property.m in Sources */ = {isa = PBXBuildFile; fileRef = 200485DA1907C33800A5A351 /* Property.m */; };
 		200915E81893FC1000A13115 /* E_Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 200915E71893FC1000A13115 /* E_Photo.m */; };
 		200915EE189401C800A13115 /* anjuke_icon_fxt_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */; };
@@ -722,6 +740,36 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		010AFB011962537400ADB9C1 /* RTArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTArray.h; sourceTree = "<group>"; };
+		010AFB021962537400ADB9C1 /* RTArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTArray.m; sourceTree = "<group>"; };
+		010AFB041962538000ADB9C1 /* SearchCompanyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchCompanyController.h; sourceTree = "<group>"; };
+		010AFB051962538000ADB9C1 /* SearchCompanyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchCompanyController.m; sourceTree = "<group>"; };
+		010AFB061962538000ADB9C1 /* SearchStoreController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchStoreController.h; sourceTree = "<group>"; };
+		010AFB071962538000ADB9C1 /* SearchStoreController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchStoreController.m; sourceTree = "<group>"; };
+		010AFB081962538000ADB9C1 /* MainBusinessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainBusinessViewController.h; sourceTree = "<group>"; };
+		010AFB091962538000ADB9C1 /* WorkPropertyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkPropertyViewController.h; sourceTree = "<group>"; };
+		010AFB0A1962538000ADB9C1 /* MainBusinessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainBusinessViewController.m; sourceTree = "<group>"; };
+		010AFB0B1962538000ADB9C1 /* WorkPropertyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkPropertyViewController.m; sourceTree = "<group>"; };
+		010AFB0C1962538000ADB9C1 /* AJKListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJKListTableViewCell.h; sourceTree = "<group>"; };
+		010AFB0D1962538000ADB9C1 /* AJKListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJKListTableViewCell.m; sourceTree = "<group>"; };
+		010AFB0E1962538000ADB9C1 /* BrokerRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerRegisterViewController.h; sourceTree = "<group>"; };
+		010AFB0F1962538000ADB9C1 /* BrokerRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerRegisterViewController.m; sourceTree = "<group>"; };
+		010AFB101962538000ADB9C1 /* BrokerRegisterInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerRegisterInfoViewController.h; sourceTree = "<group>"; };
+		010AFB111962538000ADB9C1 /* BrokerRegisterInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerRegisterInfoViewController.m; sourceTree = "<group>"; };
+		010AFB121962538000ADB9C1 /* BrokerRegisterWorkDistrictViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerRegisterWorkDistrictViewController.h; sourceTree = "<group>"; };
+		010AFB131962538000ADB9C1 /* BrokerRegisterWorkDistrictViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerRegisterWorkDistrictViewController.m; sourceTree = "<group>"; };
+		010AFB141962538000ADB9C1 /* BrokerRegisterWorkBlockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerRegisterWorkBlockViewController.h; sourceTree = "<group>"; };
+		010AFB151962538000ADB9C1 /* BrokerRegisterWorkBlockViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerRegisterWorkBlockViewController.m; sourceTree = "<group>"; };
+		010AFB161962538000ADB9C1 /* BrokerRegisterWorkCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerRegisterWorkCityViewController.h; sourceTree = "<group>"; };
+		010AFB171962538000ADB9C1 /* BrokerRegisterWorkCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerRegisterWorkCityViewController.m; sourceTree = "<group>"; };
+		010AFB24196253B300ADB9C1 /* noResult.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = noResult.jpg; sourceTree = "<group>"; };
+		010AFB25196253B300ADB9C1 /* searchbar_write.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchbar_write.png; sourceTree = "<group>"; };
+		010AFB26196253B300ADB9C1 /* searchbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchbar.png; sourceTree = "<group>"; };
+		010AFB27196253B300ADB9C1 /* accessory_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = accessory_image.png; sourceTree = "<group>"; };
+		010AFB2C196253BB00ADB9C1 /* CityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityModel.h; sourceTree = "<group>"; };
+		010AFB2D196253BB00ADB9C1 /* CityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityModel.m; sourceTree = "<group>"; };
+		010AFB2F196253E400ADB9C1 /* AJKCityInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = AJKCityInfo.plist; sourceTree = "<group>"; };
+		010AFB30196253E400ADB9C1 /* CombinedCityInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = CombinedCityInfo.plist; sourceTree = "<group>"; };
 		200485D91907C33800A5A351 /* Property.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Property.h; sourceTree = "<group>"; };
 		200485DA1907C33800A5A351 /* Property.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Property.m; sourceTree = "<group>"; };
 		200915D31893FA3000A13115 /* AnjukeBroker_New3.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AnjukeBroker_New3.1.xcdatamodel; sourceTree = "<group>"; };
@@ -1839,6 +1887,57 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		010AFB001962535300ADB9C1 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				010AFB23196253A100ADB9C1 /* Model */,
+				010AFB221962538C00ADB9C1 /* Pictures */,
+				010AFB041962538000ADB9C1 /* SearchCompanyController.h */,
+				010AFB051962538000ADB9C1 /* SearchCompanyController.m */,
+				010AFB061962538000ADB9C1 /* SearchStoreController.h */,
+				010AFB071962538000ADB9C1 /* SearchStoreController.m */,
+				010AFB081962538000ADB9C1 /* MainBusinessViewController.h */,
+				010AFB091962538000ADB9C1 /* WorkPropertyViewController.h */,
+				010AFB0A1962538000ADB9C1 /* MainBusinessViewController.m */,
+				010AFB0B1962538000ADB9C1 /* WorkPropertyViewController.m */,
+				010AFB0C1962538000ADB9C1 /* AJKListTableViewCell.h */,
+				010AFB0D1962538000ADB9C1 /* AJKListTableViewCell.m */,
+				010AFB0E1962538000ADB9C1 /* BrokerRegisterViewController.h */,
+				010AFB0F1962538000ADB9C1 /* BrokerRegisterViewController.m */,
+				010AFB101962538000ADB9C1 /* BrokerRegisterInfoViewController.h */,
+				010AFB111962538000ADB9C1 /* BrokerRegisterInfoViewController.m */,
+				010AFB121962538000ADB9C1 /* BrokerRegisterWorkDistrictViewController.h */,
+				010AFB131962538000ADB9C1 /* BrokerRegisterWorkDistrictViewController.m */,
+				010AFB141962538000ADB9C1 /* BrokerRegisterWorkBlockViewController.h */,
+				010AFB151962538000ADB9C1 /* BrokerRegisterWorkBlockViewController.m */,
+				010AFB161962538000ADB9C1 /* BrokerRegisterWorkCityViewController.h */,
+				010AFB171962538000ADB9C1 /* BrokerRegisterWorkCityViewController.m */,
+				010AFB011962537400ADB9C1 /* RTArray.h */,
+				010AFB021962537400ADB9C1 /* RTArray.m */,
+			);
+			name = Register;
+			sourceTree = "<group>";
+		};
+		010AFB221962538C00ADB9C1 /* Pictures */ = {
+			isa = PBXGroup;
+			children = (
+				010AFB24196253B300ADB9C1 /* noResult.jpg */,
+				010AFB25196253B300ADB9C1 /* searchbar_write.png */,
+				010AFB26196253B300ADB9C1 /* searchbar.png */,
+				010AFB27196253B300ADB9C1 /* accessory_image.png */,
+			);
+			name = Pictures;
+			sourceTree = "<group>";
+		};
+		010AFB23196253A100ADB9C1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				010AFB2C196253BB00ADB9C1 /* CityModel.h */,
+				010AFB2D196253BB00ADB9C1 /* CityModel.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		201BC94718CEEFEC00565BF6 /* app首屏页面 */ = {
 			isa = PBXGroup;
 			children = (
@@ -3227,6 +3326,7 @@
 		97CD8D40180E6D0D00185C9D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				010AFB001962535300ADB9C1 /* Register */,
 				F88FC2E81945619F00DEA8A2 /* WXData */,
 				F88FC2E41945611200DEA8A2 /* 抢客户 */,
 				6767D1141921C949004FEFF7 /* 发现模块 */,
@@ -3306,6 +3406,8 @@
 		97FA369E182F30E500EF714D /* Plist */ = {
 			isa = PBXGroup;
 			children = (
+				010AFB2F196253E400ADB9C1 /* AJKCityInfo.plist */,
+				010AFB30196253E400ADB9C1 /* CombinedCityInfo.plist */,
 				97FA36A2182F318D00EF714D /* PropertyHouseType.plist */,
 				973727AC182FD1C8007D8501 /* PropertyFitment.plist */,
 				973727AE182FD2CE007D8501 /* PropertyDirection.plist */,
@@ -4221,6 +4323,7 @@
 				6767D17C192398C2004FEFF7 /* anjuke_icon_weituo_esf@2x.png in Resources */,
 				27A42B5918E2C4D300FADED3 /* wl_map_icon_4@2x.png in Resources */,
 				6740D1D71908E08C005ED706 /* anjuke_icon_login_button_press@2x.png in Resources */,
+				010AFB31196253E400ADB9C1 /* AJKCityInfo.plist in Resources */,
 				273913E418DBD0FD003284AA /* anjuke_icon_to_position@2x.png in Resources */,
 				F8522FF019344EC300E1CFB8 /* check_map_cover_shadow@2x.png in Resources */,
 				6740D1CF1908E08C005ED706 /* anjuke_icon_button_blue_press@2x.png in Resources */,
@@ -4246,6 +4349,8 @@
 				B7EA5B7A18DBDCA900D437BB /* wl_voice_tip_warn@2x.png in Resources */,
 				6740D1CD1908E08C005ED706 /* anjuke_icon_bq@2x.png in Resources */,
 				200DAB6318DFD4E20077E0C9 /* anjuke_icon_tab_bg@2x.png in Resources */,
+				010AFB28196253B300ADB9C1 /* noResult.jpg in Resources */,
+				010AFB32196253E400ADB9C1 /* CombinedCityInfo.plist in Resources */,
 				B7FC9AC718C41B1300F77205 /* anjuke_icon_add_esf@2x.png in Resources */,
 				B7EA5B6118DBDCA900D437BB /* anjuke_icon_chat1_fy_selected@2x.png in Resources */,
 				2079ADF518B5FD610029D493 /* anjuke_icon_xingbiao_miniright_@2x.png in Resources */,
@@ -4261,6 +4366,7 @@
 				B7EF77AE183CBBD20024A5E6 /* agent_icon44@2x.png in Resources */,
 				F8BE44FA192DE2D60039D6B3 /* discover_icon_rab@2x.png in Resources */,
 				6767D18B19275D2E004FEFF7 /* timeline_new_status_background@2x.png in Resources */,
+				010AFB2B196253B300ADB9C1 /* accessory_image.png in Resources */,
 				B7EF77A3183CBB170024A5E6 /* anjuke_icon_mutableimg@2x.png in Resources */,
 				6794E4271947EC2C0069F1ED /* broker_wlsj_men@2x.png in Resources */,
 				6740D1DC1908E08C005ED706 /* anjuke_icon_unique_yes@2x.png in Resources */,
@@ -4369,6 +4475,7 @@
 				F8E24DA0194ACE2A0088C902 /* broker_wl_gzh_menu_layer_1@2x.png in Resources */,
 				B7FC9AE518C41B1300F77205 /* xproject_dialogue_failedsending@2x.png in Resources */,
 				6740D1D01908E08C005ED706 /* anjuke_icon_button_blue@2x.png in Resources */,
+				010AFB29196253B300ADB9C1 /* searchbar_write.png in Resources */,
 				B7FC9AF918C41B1300F77205 /* xproject_dialogue_me@2x.png in Resources */,
 				B7FC9AFE18C41B1300F77205 /* xproject_dialogue_more.png in Resources */,
 				6794E4221947EC2C0069F1ED /* broker_wl_gzh_loadingcard_bg@2x.png in Resources */,
@@ -4414,6 +4521,7 @@
 				6740D1D41908E08C005ED706 /* anjuke_icon_callphone@2x.png in Resources */,
 				B7518FB8192DA53600C02590 /* pic_3.4_02.png in Resources */,
 				9741055F180CDFE0004DAE95 /* InfoPlist.strings in Resources */,
+				010AFB2A196253B300ADB9C1 /* searchbar.png in Resources */,
 				979BBB66185804AE005B7D03 /* icon_29.png in Resources */,
 				F85A316C1907D0B100511022 /* anjuke_icon_callphone.png in Resources */,
 				6794E4161947EC2C0069F1ED /* broker_my_icon_client@2x.png in Resources */,
@@ -4575,6 +4683,7 @@
 				B769E487181F8F9300A2FF50 /* SalePropertyListController.m in Sources */,
 				B72CA8391921FBB000F8592D /* SelectionToolView.m in Sources */,
 				2056A34A18EE7E660022B5A5 /* AXPerson.m in Sources */,
+				010AFB211962538000ADB9C1 /* BrokerRegisterWorkCityViewController.m in Sources */,
 				B7FC9BA118C4355100F77205 /* AXCellFactory.m in Sources */,
 				B769E441181F45AF00A2FF50 /* BaseFixedDetailController.m in Sources */,
 				B769E445181F462C00A2FF50 /* SaleFixedDetailController.m in Sources */,
@@ -4605,11 +4714,13 @@
 				20516BDF18F52C3F00D0637C /* AXChatDataCenter.m in Sources */,
 				207526B918B45FE10022220C /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				B7E56D0F183DBAD600A0F7D2 /* AnjukeOnlineImgController.m in Sources */,
+				010AFB1A1962538000ADB9C1 /* MainBusinessViewController.m in Sources */,
 				B769E46C181F76A600A2FF50 /* BaseBidPlanController.m in Sources */,
 				F85333181951607F0025B914 /* AXMessageCenterPublicServiceActionEventManager.m in Sources */,
 				972DDA301826D39500263F8F /* RTPopoverTableViewController.m in Sources */,
 				B7E1F6BA190E1B93009F546B /* IMGDowloaderManager.m in Sources */,
 				B7EAD52518CD927200B28FEC /* AXChatPhotoActionSheet.m in Sources */,
+				010AFB201962538000ADB9C1 /* BrokerRegisterWorkBlockViewController.m in Sources */,
 				B7E5250718D977F90048DB88 /* AXChatMessageVoiceCell.m in Sources */,
 				27868D75195AC0F9000DD781 /* WillSendPropModel.m in Sources */,
 				F88FC2E0194541BE00DEA8A2 /* HomeHeaderView.m in Sources */,
@@ -4622,6 +4733,7 @@
 				972F70DE1844C7660010CABB /* BrokerLogger.m in Sources */,
 				B7E69BC4183B9CEE0097D5C3 /* RentBidNoPlanController.m in Sources */,
 				202133C618C72CF200A0090B /* BrokerWebViewController.m in Sources */,
+				010AFB031962537400ADB9C1 /* RTArray.m in Sources */,
 				6780840A1904AD2D00765A18 /* UIViewExt.m in Sources */,
 				2056A38C18EE7EA00022B5A5 /* AXMessageCenterDeleteFriendManager.m in Sources */,
 				B7E55B4D18BF2190007238CB /* JSDismissiveTextView.m in Sources */,
@@ -4645,6 +4757,7 @@
 				20A09791188D0A4E00D30196 /* PublishInputOrderModel.m in Sources */,
 				6767D11E1921FEB9004FEFF7 /* PropertyTableViewCell.m in Sources */,
 				205790DB1905105400419CA3 /* AnjukeFeatureCell.m in Sources */,
+				010AFB1D1962538000ADB9C1 /* BrokerRegisterViewController.m in Sources */,
 				200915E81893FC1000A13115 /* E_Photo.m in Sources */,
 				970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */,
 				B7FC9B2E18C41F9C00F77205 /* UIColor+RT.m in Sources */,
@@ -4664,6 +4777,7 @@
 				678D2A2C18DAB9D90027D945 /* KKAudioComponent.m in Sources */,
 				6794E45019485FC40069F1ED /* FavoritePropertyTableViewCell.m in Sources */,
 				975D9DE1181B69A700A421AF /* KeyboardToolBar.m in Sources */,
+				010AFB181962538000ADB9C1 /* SearchCompanyController.m in Sources */,
 				6794E42D1947F2F80069F1ED /* CustomerTableView.m in Sources */,
 				B7EAD51B18CD927200B28FEC /* AXChatMessageRoomSourceCell.m in Sources */,
 				6794E4431947FDB50069F1ED /* SDImageCache.m in Sources */,
@@ -4706,6 +4820,7 @@
 				B77A9612182A39C1007F04E3 /* RentPropertyObject.m in Sources */,
 				B7E2B69E192B5E53008AE703 /* SegmentView.m in Sources */,
 				2056A39118EE7EA00022B5A5 /* AXMessageCenterModifyFriendInfoManager.m in Sources */,
+				010AFB2E196253BB00ADB9C1 /* CityModel.m in Sources */,
 				B7E69BC1183B63480097D5C3 /* RentAuctionViewController.m in Sources */,
 				6794E45C194996450069F1ED /* CustomerDetailHeaderView.m in Sources */,
 				B7EAD4C718CD6DDE00B28FEC /* AXNotificationTutorialViewController.m in Sources */,
@@ -4783,6 +4898,7 @@
 				F87A8C1B194ECED20052C181 /* AuctionForbidView.m in Sources */,
 				B7E4E4FC190F56F100077D77 /* BrokerResponder.m in Sources */,
 				B769E484181F8F7000A2FF50 /* BasePropertyListController.m in Sources */,
+				010AFB1E1962538000ADB9C1 /* BrokerRegisterInfoViewController.m in Sources */,
 				B769E45A181F547100A2FF50 /* BasePropertyListCell.m in Sources */,
 				B7EAD51A18CD927200B28FEC /* AXChatMessagePublicCardCell.m in Sources */,
 				6794E4461947FDB50069F1ED /* UIButton+WebCache.m in Sources */,
@@ -4792,6 +4908,7 @@
 				F8533312194FDE670025B914 /* AXChatMessagePublicCellButton.m in Sources */,
 				F8A717E419209EC6004840C6 /* CheckoutCommunityCell.m in Sources */,
 				207526BB18B45FE10022220C /* SWLongPressGestureRecognizer.m in Sources */,
+				010AFB191962538000ADB9C1 /* SearchStoreController.m in Sources */,
 				B769E460181F5F1200A2FF50 /* ModifyFixedCostController.m in Sources */,
 				B7FFC9DE18C8AC330020A73B /* UIImage+Resize.m in Sources */,
 				2056A39518EE7EA00022B5A5 /* AXMessageCenterUpdataPasswordManager.m in Sources */,
@@ -4821,6 +4938,7 @@
 				20A07429188C0A080073C915 /* PublishTableViewDataSource.m in Sources */,
 				207526BA18B45FE10022220C /* SWCellScrollView.m in Sources */,
 				67639F621950355400987405 /* CustomerListModel.m in Sources */,
+				010AFB1B1962538000ADB9C1 /* WorkPropertyViewController.m in Sources */,
 				972C102F1814FD5900552C9B /* HaozuHomeViewController.m in Sources */,
 				97B106501834E5F40064AF5F /* AppManager.m in Sources */,
 				B7EAD52018CD927200B28FEC /* AXChatWebViewController.m in Sources */,
@@ -4866,6 +4984,7 @@
 				2056A34B18EE7E660022B5A5 /* AXMappedConversationListItem.m in Sources */,
 				B7EA04AA1844DB3700AC8842 /* BrokerAccountCell.m in Sources */,
 				207526C118B4658A0022220C /* ClientListCell.m in Sources */,
+				010AFB1C1962538000ADB9C1 /* AJKListTableViewCell.m in Sources */,
 				B73468FE1904FB7800EEF424 /* NSArray+AXChatMessage.m in Sources */,
 				F8A717C419205934004840C6 /* AppSettingViewController.m in Sources */,
 				F8E24D98194A95400088C902 /* AXPublicSubMenu.m in Sources */,
@@ -4894,6 +5013,7 @@
 				678084031904AB1F00765A18 /* FaceScrollView.m in Sources */,
 				B7E55B4E18BF2190007238CB /* JSMessageInputView.m in Sources */,
 				97EF868C1841EACE00315E75 /* SimpleKeyboardToolBar.m in Sources */,
+				010AFB1F1962538000ADB9C1 /* BrokerRegisterWorkDistrictViewController.m in Sources */,
 				203EC29818B2F61A00DD0840 /* MessageListViewController.m in Sources */,
 				97192EE71818FEF7007971BA /* PhotoButton.m in Sources */,
 				B7E55B5218BF2190007238CB /* UIImage+JSMessagesView.m in Sources */,
