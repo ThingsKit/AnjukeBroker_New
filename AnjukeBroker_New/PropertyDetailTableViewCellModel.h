@@ -22,7 +22,8 @@
 @property (nonatomic, copy) NSString* isMoreImg; //是否多图
 @property (nonatomic, copy) NSString* isPhonePub; //是否手机发房
 @property (nonatomic, copy) NSString* isVisible; //是否可见
-@property (nonatomic, copy) NSString* publishMsg; //发布时间
+@property (nonatomic, copy) NSString* isChoice; //是否可见
+@property (nonatomic, copy) NSString* publishDaysMsg; //发布时间
 @property (nonatomic, copy) NSString* imgURL;  //房源图片
 
 

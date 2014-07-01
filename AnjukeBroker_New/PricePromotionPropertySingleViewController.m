@@ -8,7 +8,12 @@
 
 #import "PricePromotionPropertySingleViewController.h"
 
+#import "PropertyDetailTableViewFooter.h"
+#import "PropertyDetailTableViewCell.h"
+
 @interface PricePromotionPropertySingleViewController ()
+
+@property (nonatomic, strong) UITableView* tableView;
 
 @end
 
@@ -26,14 +31,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44 - 49) style:UITableViewStylePlain];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    
+    [self.view addSubview:_tableView];
+    
+    PropertyDetailTableViewFooter* footer = [[PropertyDetailTableViewFooter alloc] init];
+    [self.view addSubview:footer];
 }
 
 #pragma mark -
 #pragma mark UITableViewDataSource
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
-}
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+//    return 3;
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
@@ -41,16 +54,21 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    return nil;
+    PropertyDetailTableViewCell* cell;
+//    if (indexPath.section == 0) {
+        cell = [[PropertyDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+//        
+//    }
+    return cell;
     
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section{
-    if (section == 2) {
-        return @"30天前发布";
-    }
-    return nil;
-}
+//- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section{
+//    if (section == 2) {
+//        return @"30天前发布";
+//    }
+//    return nil;
+//}
 
 
 #pragma mark -

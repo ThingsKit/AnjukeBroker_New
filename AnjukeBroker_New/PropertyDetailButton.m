@@ -28,27 +28,30 @@
 }
 
 #pragma mark - 重写了UIButton的方法
+
+#pragma mark 控制UIImageView的位置和尺寸
+- (CGRect)imageRectForContentRect:(CGRect)contentRect
+{
+    CGFloat imageX = 60;
+    CGFloat imageY = 11;
+    CGFloat imageWidth = 25;
+    CGFloat imageHeight = 25;
+    
+    return CGRectMake(imageX, imageY, imageWidth, imageHeight);
+}
+
 #pragma mark 控制UILabel的位置和尺寸
 // contentRect其实就是按钮的位置和尺寸
 - (CGRect)titleRectForContentRect:(CGRect)contentRect
 {
-    CGFloat titleX = 0;
-    CGFloat titleY = contentRect.size.height * 100;
+    CGFloat titleX = 25;
+    CGFloat titleY = 0;
     CGFloat titleWidth = contentRect.size.width;
     CGFloat titleHeight = contentRect.size.height - titleY;
     
     return CGRectMake(titleX, titleY, titleWidth, titleHeight);
 }
 
-#pragma mark 控制UIImageView的位置和尺寸
-- (CGRect)imageRectForContentRect:(CGRect)contentRect
-{
-    CGFloat imageX = 0;
-    CGFloat imageY = 0;
-    CGFloat imageWidth = contentRect.size.width;
-    CGFloat imageHeight = contentRect.size.height * 100;
-    
-    return CGRectMake(imageX, imageY, imageWidth, imageHeight);
-}
+
 
 @end

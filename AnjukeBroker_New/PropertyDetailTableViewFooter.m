@@ -30,25 +30,43 @@
 
 - (void)initUI{
     
-    self.frame = CGRectMake(0, 0, ScreenWidth, 49);
-    self.backgroundColor = [UIColor brokerBlackColor];
+    self.frame = CGRectMake(0, ScreenHeight - 20 - 44 - 49, ScreenWidth, 49);
+    self.backgroundColor = [UIColor blackColor];
     self.alpha = 0.7;
     
     _buttonEdit = [PropertyDetailButton buttonWithType:UIButtonTypeCustom];
     _buttonEdit.frame = CGRectMake(0, 0, ScreenWidth*0.5, 49);
     [_buttonEdit setImage:[UIImage imageNamed:@"broker_property_edit"] forState:UIControlStateNormal];
     [_buttonEdit setTitle:@"编辑" forState:UIControlStateNormal];
+    [_buttonEdit addTarget:self action:@selector(editPropertyButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     
     _buttonDelete = [PropertyDetailButton buttonWithType:UIButtonTypeCustom];
     _buttonDelete.frame = CGRectMake(ScreenWidth*0.5, 0, ScreenWidth*0.5, 49);
     [_buttonDelete setImage:[UIImage imageNamed:@"broker_property_delete"] forState:UIControlStateNormal];
     [_buttonDelete setTitle:@"删除" forState:UIControlStateNormal];
+    [_buttonDelete addTarget:self action:@selector(deletePropertyButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     
     [self addSubview:_buttonEdit];
     [self addSubview:_buttonDelete];
     
+}
+
+#pragma mark -
+#pragma Button Action
+- (void)editPropertyButtonClicked:(UIButton*)button{
+    NSLog(@"编辑房源");
+    if (self.editBlock != nil) {
+        _editBlock();
+    }
+}
+
+- (void)deletePropertyButtonClicked:(UIButton*)button{
+    NSLog(@"删除房源");
+    if (self.deleteBlock != nil) {
+        _deleteBlock();
+    }
 }
 
 @end

@@ -52,6 +52,8 @@
 
 #import "PPCDataShowViewController.h"
 
+#import "PricePromotionPropertySingleViewController.h"
+
 #define HOME_cellHeight 70
 #define Max_Account_Lb_Width 80
 
@@ -517,11 +519,22 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     if (indexPath.row == 0) {
-        [[BrokerLogger sharedInstance] logWithActionCode:HOME_COMMISSION page:HOME note:nil]; //点击抢房源
-        RushPropertyViewController *rushPropertyVC = [[RushPropertyViewController alloc] init];
-        [rushPropertyVC setHidesBottomBarWhenPushed:YES];
-        rushPropertyVC.backType = RTSelectorBackTypePopBack;
-        [self.navigationController pushViewController:rushPropertyVC animated:YES];
+        
+        //########################################################
+        //测试房源单页
+        PricePromotionPropertySingleViewController* viewController = [[PricePromotionPropertySingleViewController alloc] init];
+        [viewController setHidesBottomBarWhenPushed:YES];
+        viewController.backType = RTSelectorBackTypePopBack;
+        [self.navigationController pushViewController:viewController animated:YES];
+        //#########################################################
+        
+        
+        
+//        [[BrokerLogger sharedInstance] logWithActionCode:HOME_COMMISSION page:HOME note:nil]; //点击抢房源
+//        RushPropertyViewController *rushPropertyVC = [[RushPropertyViewController alloc] init];
+//        [rushPropertyVC setHidesBottomBarWhenPushed:YES];
+//        rushPropertyVC.backType = RTSelectorBackTypePopBack;
+//        [self.navigationController pushViewController:rushPropertyVC animated:YES];
     }else if (indexPath.row == 1){
         [[BrokerLogger sharedInstance] logWithActionCode:HOME_POTENTIAL_CLIENT page:HOME note:nil]; //点击抢客户
 
