@@ -336,6 +336,7 @@
 		96A3D38D1962909300E6A8B9 /* PromotionSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A3D38C1962909300E6A8B9 /* PromotionSettingsViewController.m */; };
 		96A3D38F1962921500E6A8B9 /* broker_my_icon_djswitch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A3D38E1962921500E6A8B9 /* broker_my_icon_djswitch@2x.png */; };
 		96A3D3921962925E00E6A8B9 /* anjuke_icon_button_little_blue_hollow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A3D3911962925E00E6A8B9 /* anjuke_icon_button_little_blue_hollow@2x.png */; };
+		96A3D3951962991B00E6A8B9 /* NoPlanPromotionPropertySingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A3D3941962991B00E6A8B9 /* NoPlanPromotionPropertySingleViewController.m */; };
 		970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */ = {isa = PBXBuildFile; fileRef = 970501761845D21100A0C181 /* AFWelcomeScrollview.m */; };
 		970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */ = {isa = PBXBuildFile; fileRef = 970B78DB182010EE00C8E3C6 /* Util_UI.m */; };
 		970DB71D183AFFE700DEB455 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 970DB71C183AFFE700DEB455 /* AboutUsViewController.m */; };
@@ -1289,6 +1290,8 @@
 		96A3D38C1962909300E6A8B9 /* PromotionSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PromotionSettingsViewController.m; sourceTree = "<group>"; };
 		96A3D38E1962921500E6A8B9 /* broker_my_icon_djswitch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_my_icon_djswitch@2x.png"; sourceTree = "<group>"; };
 		96A3D3911962925E00E6A8B9 /* anjuke_icon_button_little_blue_hollow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_button_little_blue_hollow@2x.png"; sourceTree = "<group>"; };
+		96A3D3931962991B00E6A8B9 /* NoPlanPromotionPropertySingleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoPlanPromotionPropertySingleViewController.h; sourceTree = "<group>"; };
+		96A3D3941962991B00E6A8B9 /* NoPlanPromotionPropertySingleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoPlanPromotionPropertySingleViewController.m; sourceTree = "<group>"; };
 		970501751845D21100A0C181 /* AFWelcomeScrollview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFWelcomeScrollview.h; sourceTree = "<group>"; };
 		970501761845D21100A0C181 /* AFWelcomeScrollview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFWelcomeScrollview.m; sourceTree = "<group>"; };
 		970B78DA182010EE00C8E3C6 /* Util_UI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util_UI.h; sourceTree = "<group>"; };
@@ -4279,6 +4282,8 @@
 				67203D4B196282FA00A32B60 /* 定价推广房源单页 */,
 				67203D41196281E200A32B60 /* PropertyComponent */,
 				F89FF5A91962856900AC7256 /* PPCPricingList */,
+				96A3D3931962991B00E6A8B9 /* NoPlanPromotionPropertySingleViewController.h */,
+				96A3D3941962991B00E6A8B9 /* NoPlanPromotionPropertySingleViewController.m */,
 			);
 			name = PPC_NewVersion;
 			sourceTree = "<group>";
@@ -5186,6 +5191,7 @@
 				20A44DA11869760B008D8CB1 /* SSPullToRefreshDefaultContentView.m in Sources */,
 				67203D441962827F00A32B60 /* PropertyDetailTableViewCell.m in Sources */,
 				2056A39918EE7EA00022B5A5 /* AXMessageCenterUserToPublicServiceManager.m in Sources */,
+				96A3D3951962991B00E6A8B9 /* NoPlanPromotionPropertySingleViewController.m in Sources */,
 				678083FA1904AB1F00765A18 /* Emoji.m in Sources */,
 				9795835D1822014A005EA48A /* SystemMessageCell.m in Sources */,
 				2056A38E18EE7EA00022B5A5 /* AXMessageCenterFriendListManager.m in Sources */,
