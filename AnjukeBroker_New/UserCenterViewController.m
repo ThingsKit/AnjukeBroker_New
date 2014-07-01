@@ -19,6 +19,7 @@
 #import "LoginManager.h"
 #import "ClientListViewController.h"
 #import "UserCenterHeaderCell.h"
+#import "PromotionSettingsViewController.h"
 
 #define SECTIONNUM 3
 #define WCHATDATACELLHEIGHT 80
@@ -59,7 +60,7 @@
     }
 }
 - (void)initModel {
-    self.taskArray = [NSArray arrayWithObjects:@"微聊客户",@"我的二维码", @"客户主任", @"客服热线", @"系统设置", nil];
+    self.taskArray = [NSArray arrayWithObjects:@"微聊客户",@"我的二维码", @"客户主任", @"客服热线", @"推广设置", @"系统设置", nil];
 }
 
 - (void)viewDidLoad
@@ -93,7 +94,7 @@
 
 #pragma mark -UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 9;
+    return 10;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -171,6 +172,12 @@
         }else if (indexPath.row == 8){
             [cell showBottonLineWithCellHeight:CELL_HEIGHT];
             [cell initLabelTitle:[self.taskArray objectAtIndex:4]];
+            cell.imageView.image = [UIImage imageNamed:@"broker_my_icon_djswitch"];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        }else if (indexPath.row == 9){
+            [cell showBottonLineWithCellHeight:CELL_HEIGHT];
+            [cell initLabelTitle:[self.taskArray objectAtIndex:5]];
             cell.imageView.image = [UIImage imageNamed:@"broker_my_icon_set"];
             
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -220,7 +227,14 @@
         [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:CALL_ANJUKE_NUMBER appLogKey:PERSONAL_CLICK_CONFIRM_CSCALL page:PERSONAL completion:^(CFAbsoluteTime time) {
             nil;
         }];
-    }else if (indexPath.row == 8){
+    }else if(indexPath.row == 8){
+        
+        PromotionSettingsViewController *promotionSettings = [PromotionSettingsViewController new];
+        promotionSettings.backType = RTSelectorBackTypePopBack;
+        [promotionSettings setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:promotionSettings animated:YES];
+        
+    }else if (indexPath.row == 9){
         [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_CLICK_SYSSET page:PERSONAL note:nil];
         
         AppSettingViewController *settingVC = [[AppSettingViewController alloc] init];

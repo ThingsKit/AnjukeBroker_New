@@ -329,6 +329,9 @@
 		6794E45919498A0B0069F1ED /* CustomerDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6794E45819498A0B0069F1ED /* CustomerDetailTableViewCell.m */; };
 		6794E45C194996450069F1ED /* CustomerDetailHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6794E45B194996450069F1ED /* CustomerDetailHeaderView.m */; };
 		67C3F6F319205E6800DFC0C0 /* RushPropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C3F6F219205E6800DFC0C0 /* RushPropertyViewController.m */; };
+		96A3D38D1962909300E6A8B9 /* PromotionSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A3D38C1962909300E6A8B9 /* PromotionSettingsViewController.m */; };
+		96A3D38F1962921500E6A8B9 /* broker_my_icon_djswitch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A3D38E1962921500E6A8B9 /* broker_my_icon_djswitch@2x.png */; };
+		96A3D3921962925E00E6A8B9 /* anjuke_icon_button_little_blue_hollow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A3D3911962925E00E6A8B9 /* anjuke_icon_button_little_blue_hollow@2x.png */; };
 		970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */ = {isa = PBXBuildFile; fileRef = 970501761845D21100A0C181 /* AFWelcomeScrollview.m */; };
 		970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */ = {isa = PBXBuildFile; fileRef = 970B78DB182010EE00C8E3C6 /* Util_UI.m */; };
 		970DB71D183AFFE700DEB455 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 970DB71C183AFFE700DEB455 /* AboutUsViewController.m */; };
@@ -1267,6 +1270,10 @@
 		67C3F6F119205E6800DFC0C0 /* RushPropertyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RushPropertyViewController.h; sourceTree = "<group>"; };
 		67C3F6F219205E6800DFC0C0 /* RushPropertyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RushPropertyViewController.m; sourceTree = "<group>"; };
 		70C958DAA438444CB26F09E0 /* libPods-AnjukeBroker_New.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AnjukeBroker_New.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		96A3D38B1962909300E6A8B9 /* PromotionSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PromotionSettingsViewController.h; sourceTree = "<group>"; };
+		96A3D38C1962909300E6A8B9 /* PromotionSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PromotionSettingsViewController.m; sourceTree = "<group>"; };
+		96A3D38E1962921500E6A8B9 /* broker_my_icon_djswitch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_my_icon_djswitch@2x.png"; sourceTree = "<group>"; };
+		96A3D3911962925E00E6A8B9 /* anjuke_icon_button_little_blue_hollow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_button_little_blue_hollow@2x.png"; sourceTree = "<group>"; };
 		970501751845D21100A0C181 /* AFWelcomeScrollview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFWelcomeScrollview.h; sourceTree = "<group>"; };
 		970501761845D21100A0C181 /* AFWelcomeScrollview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFWelcomeScrollview.m; sourceTree = "<group>"; };
 		970B78DA182010EE00C8E3C6 /* Util_UI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util_UI.h; sourceTree = "<group>"; };
@@ -2954,6 +2961,15 @@
 			path = SDWebImage;
 			sourceTree = "<group>";
 		};
+		96A3D3901962921E00E6A8B9 /* 3.6 */ = {
+			isa = PBXGroup;
+			children = (
+				96A3D3911962925E00E6A8B9 /* anjuke_icon_button_little_blue_hollow@2x.png */,
+				96A3D38E1962921500E6A8B9 /* broker_my_icon_djswitch@2x.png */,
+			);
+			name = 3.6;
+			sourceTree = "<group>";
+		};
 		970501541845A18E00A0C181 /* 引导页 */ = {
 			isa = PBXGroup;
 			children = (
@@ -3066,6 +3082,8 @@
 		972C10261814FC8800552C9B /* 更多 */ = {
 			isa = PBXGroup;
 			children = (
+				96A3D38B1962909300E6A8B9 /* PromotionSettingsViewController.h */,
+				96A3D38C1962909300E6A8B9 /* PromotionSettingsViewController.m */,
 				B7518FBD192DE63E00C02590 /* AJKMySettingListAdCell.h */,
 				B7518FBE192DE63E00C02590 /* AJKMySettingListAdCell.m */,
 				F8C0C0781924BEBA0098D0E5 /* manager */,
@@ -3117,6 +3135,7 @@
 			children = (
 				67203D5D196290F200A32B60 /* 3.6 */,
 				67203D5C196290C200A32B60 /* other */,
+				96A3D3901962921E00E6A8B9 /* 3.6 */,
 				6794E3F41947EBFF0069F1ED /* 3.5 */,
 				F8BE44F4192DE2B00039D6B3 /* discover */,
 				F8BE3E441925FCEF0027F9E0 /* checkout */,
@@ -4609,6 +4628,7 @@
 				27A42B5718E2C4D300FADED3 /* wl_map_icon_1@2x.png in Resources */,
 				B7B2BF6E188CC2C30001EEB8 /* anjuke_icon_sound_button_icon@2x.png in Resources */,
 				67203D84196291E200A32B60 /* broker_property_control_select_gray@2x.png in Resources */,
+				96A3D3921962925E00E6A8B9 /* anjuke_icon_button_little_blue_hollow@2x.png in Resources */,
 				B7FC9AD818C41B1300F77205 /* xproject_dialogue_agentdetail.png in Resources */,
 				B7B2BF6C188CC2C30001EEB8 /* anjuke_icon_saying@2x.png in Resources */,
 				6767D17E192398C2004FEFF7 /* anjuke_icon_weituo_zf@2x.png in Resources */,
@@ -4630,6 +4650,7 @@
 				F8BE44FE192DE3CC0039D6B3 /* discover_icon_find@2x.png in Resources */,
 				6767D17A192398C2004FEFF7 /* anjuke_icon_weituo_call@2x.png in Resources */,
 				6767D174192398C2004FEFF7 /* anjuke_icon_tips_bg@2x.png in Resources */,
+				96A3D38F1962921500E6A8B9 /* broker_my_icon_djswitch@2x.png in Resources */,
 				B7FC9ADD18C41B1300F77205 /* xproject_dialogue_anjuketeam@2x.png in Resources */,
 				6740D1D51908E08C005ED706 /* anjuke_icon_keyboard@2x.png in Resources */,
 				B7D0AB9A18A9D23300A6229C /* anjuke_icon_hot_best@2x.png in Resources */,
@@ -5050,6 +5071,7 @@
 				20A44DA31869760B008D8CB1 /* SSPullToRefreshView.m in Sources */,
 				B7EAD52418CD927200B28FEC /* AXPullToRefreshView.m in Sources */,
 				2056A36118EE7E7A0022B5A5 /* ASIHTTPRequest+ExtraMethods.m in Sources */,
+				96A3D38D1962909300E6A8B9 /* PromotionSettingsViewController.m in Sources */,
 				F8D2F0EA192318BF00858BB0 /* BaseTableStructViewController.m in Sources */,
 				B7EAD52818CD927200B28FEC /* AXPhotoView.m in Sources */,
 				B7E69BB5183B3B040097D5C3 /* RentGroupListController.m in Sources */,
