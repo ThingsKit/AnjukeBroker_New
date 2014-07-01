@@ -4,7 +4,7 @@ Schema="AnjukeBroker_New"
 ProvisoningProfileForDailybuild="E25111F6-465E-4F41-A369-262238C209D3"
 #ProvisoningProfileForDistribute="C684A69D-0F0D-4CEC-8274-C8707AA7ED38"
 #ProvisoningProfileForDistribute="63AAA575-4CB8-45A7-8A37-2904E7505450"
-ProvisoningProfileForDistribute="02649133-05CD-437A-8C2B-AA7A2F82D322"
+ProvisoningProfileForDistribute="910D6389-2B1F-460A-A29B-9479AC56078C"
 
 SignIdentityForDailyBuild="iPhone Distribution: Ruiting Network Technology (Shanghai) Co., Ltd."
 #SignIdentityForRelease="iPhone Distribution: RUITING NETWORK TECHNOLOGY(SHANGHAI)CO.,LTD."
