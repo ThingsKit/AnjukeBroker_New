@@ -12,6 +12,8 @@
 
 - (void)didSelectCity:(NSDictionary *)city;
 
+- (void)canceledCitySelection;
+
 @end
 
 @interface BrokerRegisterWorkCityViewController : RTViewController

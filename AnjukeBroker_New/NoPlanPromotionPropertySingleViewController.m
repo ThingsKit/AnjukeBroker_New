@@ -10,6 +10,7 @@
 #import "PropertyDetailTableViewCell.h"
 #import "PropertyDetailTableViewCellModel.h"
 #import "PropertyDetailTableViewFooter.h"
+#import "ImmediatePromotionCell.h"
 
 
 @interface NoPlanPromotionPropertySingleViewController ()
@@ -199,27 +200,10 @@
         
     } else if (indexPath.row == 3) {
         
-        UITableViewCell *cell     = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        UILabel *promotionLable   = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 305, 20)];
-        promotionLable.text       = @"定价推广";
-        promotionLable.font       = [UIFont systemFontOfSize:17];
-        
-        UILabel *priceLable       = [[UILabel alloc] initWithFrame:CGRectMake(15, 40, 305, 15)];
-        priceLable.text           = [NSString stringWithFormat:@"点击单价：%@%@",self.price,self.priceUnit];
-        priceLable.textColor      = [UIColor brokerLightGrayColor];
-        priceLable.font           = [UIFont systemFontOfSize:15];
-        
-        UIButton *promotionButton = [[UIButton alloc] initWithFrame:CGRectMake(15, 65, 290, 42)];
-        [promotionButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
-        [promotionButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_press"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateHighlighted];
-        [promotionButton setTitle:@"立即推广" forState:UIControlStateNormal];
-        [promotionButton addTarget:self action:@selector(promoteImmediately:) forControlEvents:UIControlEventTouchUpInside];
-        
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [cell addSubview:promotionLable];
-        [cell addSubview:priceLable];
-        [cell addSubview:promotionButton];
-        
+        ImmediatePromotionCell *cell = [[ImmediatePromotionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell.price = @"1.2";
+        cell.priceUnit = @"元";
+        [cell addImediatePromotionButtonTarget:self action:@selector(promoteImmediately:) forControlEvents:UIControlEventTouchUpInside];
         return cell;
     } else if (indexPath.row == 5) {
         
@@ -230,7 +214,6 @@
         publishDataLabel.font          = [UIFont systemFontOfSize:14];
         publishDataLabel.textAlignment = UITextAlignmentRight;
         
-        cell.selectionStyle  = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = [UIColor clearColor];
         [cell addSubview:publishDataLabel];
         return cell;
@@ -238,6 +221,7 @@
     }
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     cell.backgroundColor  = [UIColor clearColor];
+    cell.selectionStyle  = UITableViewCellSelectionStyleNone;
     
     return cell;
 }

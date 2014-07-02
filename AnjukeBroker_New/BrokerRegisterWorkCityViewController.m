@@ -215,6 +215,14 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)doBack:(id)sender {
+    
+    if ([self.delegate respondsToSelector:@selector(canceledCitySelection)]) {
+        [self.delegate canceledCitySelection];
+    }
+    
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
