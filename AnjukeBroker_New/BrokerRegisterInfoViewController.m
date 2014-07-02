@@ -18,6 +18,9 @@
 #import <RTLineView.h>
 #import "MainBusinessViewController.h"
 #import "WorkPropertyViewController.h"
+#import "AppDelegate.h"
+#import "AccountManager.h"
+
 
 @interface BrokerRegisterInfoViewController () <UITableViewDataSource, UITableViewDelegate,BrokerRegisterWorkCityDelegate,BrokerRegisterWorkRangeDelegate, MainBusinessDelegate, WorkPropertyDelegate, companyDelegate,UITextFieldDelegate,storeDelegate>
 @property (nonatomic, strong) UITableView *tableView;
@@ -95,9 +98,7 @@
         [self.nameTextField resignFirstResponder];
     }
     if (self.beforeDic && self.brokerName && self.cityDic && self.businessDic && self.companyDic && self.workRangeDic) {
-//          NSString *string = [NSString stringWithFormat:@"%@-%@",workRangeDic[@"block"][@"blockName"],workRangeDic[@"district"][@"districtName"]];
-        
-        NSDictionary *param = @{@"is_nocheck":@"1",@"mobile":self.beforeDic[@"mobile"], @"password":self.beforeDic[@"password"], @"truename":self.brokerName, @"cityId":self.cityDic[@"cityId"], @"mainBusiness":self.businessDic[@"businessId"],@"companyId":self.companyDic[@"companyId"], @"storeId":self.storeDic[@"storeId"],@"blockId":self.workRangeDic[@"block"][@"blockId"],@"districtId":self.workRangeDic[@"district"][@"districtId"]};
+        NSDictionary *param = @{@"is_nocheck":@"1",@"mobile":self.beforeDic[@"mobile"], @"password":self.beforeDic[@"password"],@"checkPassword":self.beforeDic[@"password"], @"truename":self.brokerName, @"cityId":self.cityDic[@"cityId"], @"mainBusiness":self.businessDic[@"businessId"],@"companyId":self.companyDic[@"companyId"], @"storeId":self.storeDic[@"storeId"],@"blockId":self.workRangeDic[@"block"][@"blockId"],@"districtId":self.workRangeDic[@"district"][@"districtId"]};
         
         [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:@"broker/register/" params:param target:self action:@selector(onRegisterAction:)];
         
@@ -109,14 +110,25 @@
 - (void)onRegisterAction:(RTNetworkResponse *)response {
     DLog(@"response [%@]", [response content]);
     [self hideLoadWithAnimated:YES];
-//    response [{
-//        data =     {
-//            brokerId = 7790059;
-//        };
-//        status = ok;
-//    }]
     if ([response.content[@"status"] isEqualToString:@"ok"]) {
-        NSString *brokerId = response.content[@"data"][@"brokerId"];
+        //保存用户登录数据
+        [[NSUserDefaults standardUserDefaults] setValue:response.content[@"data"][@"brokerId"] forKey:@"id"]; //用户id
+        [[NSUserDefaults standardUserDefaults] setValue:response.content[@"data"][@"userName"] forKey:@"username"]; //用户登录名
+//        [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"userPhoto"]; //用户头像
+        [[NSUserDefaults standardUserDefaults] setValue:response.content[@"data"][@"cityId"] forKey:@"city_id"]; //city_id
+        [[NSUserDefaults standardUserDefaults] setValue:response.content[@"data"][@"mobile"] forKey:@"phone"]; //联系电话
+        [[NSUserDefaults standardUserDefaults] setValue:response.content[@"data"][@"trueName"] forKey:@"name"]; //用户名
+        [[NSUserDefaults standardUserDefaults] setValue:response.content[@"data"][@"token"] forKey:@"token"]; //**token
+        //每次重新登录请求配置数据
+        [[AppDelegate sharedAppDelegate] requestSalePropertyConfig];
+        [[AccountManager sharedInstance] registerNotification];
+        
+        TabBarViewController *tb = [[TabBarViewController alloc] init];
+        [AppDelegate sharedAppDelegate].window.rootViewController = tb;
+    } else if ([response.content[@"status"] isEqualToString:@"error"]) {
+        if (response.content[@"message"]) {
+            [self showInfo:response.content[@"message"]];
+        }
     }
 
 }
@@ -129,9 +141,20 @@
 
 #pragma mark - MainBusinessDelegate
 - (void)processMainBusinessNameWithDic:(NSDictionary *)dic {
-    if (!dic) {
+    if (!dic || (self.businessDic && [dic[@"businessId"] isEqualToString:self.businessDic[@"businessId"]])) {
         return;
     }
+    
+    self.natureDic = nil;
+    self.companyDic = nil;
+    self.storeDic = nil;
+    self.workRangeDic = nil;
+    
+    [self.detailDataArray replaceObjectAtIndex:3 withObject:@""];
+    [self.detailDataArray replaceObjectAtIndex:4 withObject:@""];
+    [self.detailDataArray replaceObjectAtIndex:5 withObject:@""];
+    [self.detailDataArray replaceObjectAtIndex:6 withObject:@""];
+    
     self.businessDic = dic;
     NSString *businessName = dic[@"businessName"];
     [self.detailDataArray replaceObjectAtIndex:2 withObject:businessName];
@@ -140,9 +163,18 @@
 
 #pragma mark - WorkPropertyDelegate
 - (void)processWorkPropertyNameWithDic:(NSDictionary *)dic {
-    if (!dic) {
+    if (!dic || (self.natureDic && [dic[@"natureId"] isEqualToString:self.natureDic[@"natureId"]])) {
         return;
     }
+    
+    self.companyDic = nil;
+    self.storeDic = nil;
+    self.workRangeDic = nil;
+    
+    [self.detailDataArray replaceObjectAtIndex:4 withObject:@""];
+    [self.detailDataArray replaceObjectAtIndex:5 withObject:@""];
+    [self.detailDataArray replaceObjectAtIndex:6 withObject:@""];
+    
     self.natureDic = dic;
     NSString *natureName = dic[@"natureName"];
     [self.detailDataArray replaceObjectAtIndex:3 withObject:natureName];
@@ -151,6 +183,15 @@
 
 #pragma mark - companyDelegate
 - (void)processCompanyNameWithDic:(NSDictionary *)dic {
+    if (!dic || (self.companyDic && [self.companyDic[@"companyId"] isEqualToString:dic[@"companyId"]])) {
+        return;
+    }
+    self.storeDic = nil;
+    self.workRangeDic = nil;
+    
+    [self.detailDataArray replaceObjectAtIndex:5 withObject:@""];
+    [self.detailDataArray replaceObjectAtIndex:6 withObject:@""];
+    
     self.companyDic = dic;
     [self.detailDataArray replaceObjectAtIndex:4 withObject:dic[@"companyName"]];
     [self.tableView reloadData];
@@ -158,6 +199,38 @@
 
 #pragma mark - storeDelegate
 - (void)processStoreNameWithDic:(NSDictionary *)dic {
+    if (!dic || (self.storeDic && [self.storeDic[@"storeId"] isEqualToString:dic[@"storeId"]])) {
+        return;
+    }
+    self.workRangeDic = nil;
+    [self.detailDataArray replaceObjectAtIndex:6 withObject:@""];
+//    {
+//    storeId: "98023",
+//    storeName: "中原soho店",
+//    districtId: "876",
+//    districtName: "王府井",
+//    blockId: "677",
+//    blockName: "京西"
+//    },
+    if (![dic[@"districtId"] isEqualToString:@""] && ![dic[@"blockId"] isEqualToString:@""]) {
+        NSDictionary *workRangeDic = @{@"district":@{@"districtId":dic[@"districtId"],@"districtName":dic[@"districtName"]}, @"block":@{@"blockId": dic[@"blockId"], @"blockName":dic[@"blockName"]}};
+        NSString *string = [NSString stringWithFormat:@"%@-%@",workRangeDic[@"block"][@"blockName"],workRangeDic[@"district"][@"districtName"]];
+        self.workRangeDic = workRangeDic;
+        
+        [self.detailDataArray replaceObjectAtIndex:6 withObject:string];
+    }
+    
+    //    {
+    //        block =     {
+    //            blockId = 85;
+    //            blockName = "\U51c9\U57ce";
+    //        };
+    //        district =     {
+    //            districtId = 8;
+    //            districtName = "\U8679\U53e3";
+    //        };
+    //    }
+    
     self.storeDic = dic;
     [self.detailDataArray replaceObjectAtIndex:5 withObject:dic[@"storeName"]];
     [self.tableView reloadData];
@@ -173,6 +246,170 @@
     if ([self.nameTextField isFirstResponder]) {
         [self.nameTextField resignFirstResponder];
     }
+}
+
+#pragma mark - others
+- (void)checkEnableCell:(UITableViewCell *) cell withIndex:(NSIndexPath *)indexPath {
+    if (!self.cityDic) {
+        switch (indexPath.row) {
+            case 1:
+                cell.userInteractionEnabled = YES;
+                break;
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+                cell.userInteractionEnabled = NO;
+                break;
+                
+            default:
+                break;
+        }
+    } else if (!self.businessDic) {
+        switch (indexPath.row) {
+            case 1:
+            case 2:
+                cell.userInteractionEnabled = YES;
+                break;
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+                cell.userInteractionEnabled = NO;
+                break;
+                
+            default:
+                break;
+        }
+    } else if (!self.natureDic) {
+        switch (indexPath.row) {
+            case 1:
+            case 2:
+            case 3:
+                cell.userInteractionEnabled = YES;
+                break;
+            case 4:
+            case 5:
+            case 6:
+                cell.userInteractionEnabled = NO;
+                break;
+            default:
+                break;
+        }
+    } else {
+        NSString *natureId = self.natureDic[@"natureId"];
+        //        {
+        //        natureId: "1",
+        //        natureName: "有所属公司",
+        //        companyId: ""
+        //        },
+        //        {
+        //        natureId: "2",
+        //        natureName: "无所属公司/独立经纪人",
+        //        companyId: "11"
+        //        }
+        
+        if ([natureId isEqualToString:@"2"]) {
+            switch (indexPath.row) {
+                case 1:
+                case 2:
+                case 3:
+                    cell.userInteractionEnabled = YES;
+                    break;
+                case 4:
+                case 5:
+                    cell.userInteractionEnabled = NO;
+                    break;
+                case 6:
+                    cell.userInteractionEnabled = YES;
+                    break;
+                    
+                default:
+                    break;
+            }
+        } else {
+            if (!self.companyDic) {
+                switch (indexPath.row) {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                        cell.userInteractionEnabled = YES;
+                        break;
+                    case 5:
+                    case 6:
+                        cell.userInteractionEnabled = NO;
+                        break;
+                        
+                    default:
+                        break;
+                }
+            } else {
+                if (!self.storeDic) {
+                    //公司ID（0：其他公司；11：独立经纪人/其他公司
+                    if ([self.companyDic[@"companyId"] isEqualToString:@"0"]) {
+                        switch (indexPath.row) {
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                                cell.userInteractionEnabled = YES;
+                                break;
+                            case 5:
+                                cell.userInteractionEnabled = NO;
+                                break;
+                            case 6:
+                                cell.userInteractionEnabled = YES;
+                                break;
+                                
+                            default:
+                                break;
+                        }
+                    } else {
+                        switch (indexPath.row) {
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                                cell.userInteractionEnabled = YES;
+                                break;
+                            case 6:
+                                cell.userInteractionEnabled = NO;
+                                break;
+                                
+                            default:
+                                break;
+                        }
+                    }
+                    
+                } else {
+                    switch (indexPath.row) {
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                        case 6:
+                            cell.userInteractionEnabled = YES;
+                            break;
+                            
+                        default:
+                            break;
+                    }
+                }
+                
+            }
+            
+        }
+    }
+//    @property (nonatomic, strong) NSDictionary *natureDic;
+//    @property (nonatomic, strong) NSDictionary *businessDic;
+//    @property (nonatomic, strong) NSDictionary *companyDic;
+//    @property (nonatomic, strong) NSDictionary *storeDic;
+//    @property (nonatomic, strong) NSDictionary *cityDic;
+//    @property (nonatomic, strong) NSDictionary *workRangeDic;
 }
 
 #pragma mark - UITableViewDataSource
@@ -207,7 +444,7 @@
         return cell;
     }
     NSString *identifier = @"identifier";
-    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
+    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:nil];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
         cell.backgroundColor = [UIColor clearColor];
@@ -216,6 +453,9 @@
         RTLineView *lineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, 44, 305, 1)];
         [cell addSubview:lineView];
     }
+//    cell.userInteractionEnabled = NO;
+    [self checkEnableCell:cell withIndex:indexPath];
+    
     cell.textLabel.text = self.dataArray[indexPath.row];
     cell.textLabel.font = [UIFont systemFontOfSize:15];
     cell.detailTextLabel.text = self.detailDataArray[indexPath.row];
@@ -285,7 +525,6 @@
             break;
         case 6:
         {
-#warning  自测数据
             BrokerRegisterWorkDistrictViewController *workDistrictViewController = [[BrokerRegisterWorkDistrictViewController alloc] init];
             workDistrictViewController.delegate = self;
             [workDistrictViewController loadDistrictDataWithCityId:self.cityDic[@"cityId"]];
@@ -303,8 +542,22 @@
 
 #pragma mark - BrokerRegisterWorkCityDelegate
 - (void)didSelectCity:(NSDictionary *)city {
-    
     DLog(@"city:%@",city);
+    if (!city || (self.cityDic && [city[@"cityId"] isEqualToString:self.cityDic[@"cityId"]])) {
+        return;
+    }
+    self.businessDic = nil;
+    self.natureDic = nil;
+    self.companyDic = nil;
+    self.storeDic = nil;
+    self.workRangeDic = nil;
+    [self.detailDataArray replaceObjectAtIndex:2 withObject:@""];
+    [self.detailDataArray replaceObjectAtIndex:3 withObject:@""];
+    [self.detailDataArray replaceObjectAtIndex:4 withObject:@""];
+    [self.detailDataArray replaceObjectAtIndex:5 withObject:@""];
+    [self.detailDataArray replaceObjectAtIndex:6 withObject:@""];
+    
+    
     self.cityDic = city;
     [self.detailDataArray replaceObjectAtIndex:1 withObject:city[@"cityName"]];
     [self.tableView reloadData];
