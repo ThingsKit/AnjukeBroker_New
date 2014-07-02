@@ -5,8 +5,8 @@
 //  Created by leozhu on 14-7-1.
 //  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
-#define GAP_HORIZONTAL 6
-#define GAP_VERTICAL 6
+#define GAP_HORIZONTAL 15
+#define GAP_VERTICAL 14
 
 #import "ChoicePromotionCell.h"
 #import "ChoicePromotionCellModel.h"
@@ -89,7 +89,6 @@
     [_promotionButton setTitle:@"立即推广" forState:UIControlStateNormal];
     [_promotionButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateNormal];
     [_promotionButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_press"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateHighlighted];
-    _promotionButton.frame = CGRectMake(15, 14, ScreenWidth-15*2, 42);
     [_promotionButton addTarget:self action:@selector(startPromotion:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_promotionButton];
 
@@ -113,14 +112,14 @@
     [_title sizeToFit];
     
     //推广状态
-    _promotionStatus.frame = CGRectMake(20, _title.bottom + GAP_VERTICAL, 100, 20);
+    _promotionStatus.frame = CGRectMake(20, _title.bottom + GAP_VERTICAL - 5, 100, 20);
     if ([@"3" isEqualToString:self.choicePromotionModel.actionType]) { //可推广
         _promotionStatus.text = @"可立即推广";
         [_promotionStatus sizeToFit];
     }
     
     //点击单价
-    _unitNumber.frame = CGRectMake(_promotionStatus.right + GAP_HORIZONTAL, _title.bottom + GAP_VERTICAL, 100, 20);
+    _unitNumber.frame = CGRectMake(_promotionStatus.right + GAP_HORIZONTAL, _title.bottom + GAP_VERTICAL -5, 100, 20);
     _unitNumber.text = [NSString stringWithFormat:@"点击单价: %@%@", self.choicePromotionModel.clickPrice, self.choicePromotionModel.clickPriceUnit];
     [_unitNumber sizeToFit];
     
@@ -135,15 +134,35 @@
     [_queueVacancy sizeToFit];
     
     //坑位内容
-    _bucketContentView.frame = CGRectMake(_promotionVacancy.right + GAP_HORIZONTAL, _unitNumber.bottom + GAP_VERTICAL, 200, 60);
-    
     int total = [self.choicePromotionModel.maxBucketNum intValue];
     int used = [self.choicePromotionModel.useNum intValue];
-    int column = 6;
-    int row = (total + column -1)/column;
+    int row = 2;
+    int column = 0;
+    int houseGapHorizontal = 0;
+    int houseGapVertical = 0;
+    int houseWidth = 0;
+    int houseHeight = 0;
+    
+    if (total == 12) { //如果是 6 列
+        column = 6;
+        houseGapHorizontal = 30*1.2;
+        houseGapVertical = 32;
+        houseWidth = 25;
+        houseHeight = 21;
+        _bucketContentView.frame = CGRectMake(_promotionVacancy.right + GAP_HORIZONTAL, _unitNumber.bottom + GAP_VERTICAL - 4, 200, 60);
+    }else{  //如果是 10 列
+        column = 10;
+        houseGapHorizontal = 30*0.76;
+        houseGapVertical = 30*1.1;
+        houseWidth = 19;
+        houseHeight = 16;
+        _bucketContentView.frame = CGRectMake(_promotionVacancy.right + GAP_HORIZONTAL, _unitNumber.bottom + GAP_VERTICAL, 200, 60);
+    }
+    
+    
     
     for (int i = 0; i < total; i++) {
-        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 21)];
+        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, houseWidth, houseHeight)];
         [_buckets addObject:imageView];
     }
     
@@ -152,23 +171,27 @@
         for (int j = 0; j < column; j++) {
             if ((i*column + j) < used) {
                 UIImageView* imageView = [_buckets objectAtIndex:(i*column + j)];
-                imageView.frame = CGRectMake(j*30, i*30, 25, 21);
+                imageView.frame = CGRectMake(j*houseGapHorizontal, i*houseGapVertical, houseWidth, houseHeight);
                 imageView.image = [UIImage imageNamed:@"broker_property_house_blue"];
                 [_bucketContentView addSubview:imageView];
                 
             }else if((i*column + j) == used){
                 UIImageView* imageView = [_buckets objectAtIndex:(i*column + j)];
-                imageView.frame = CGRectMake(j*30, i*30, 25, 21);
+                imageView.frame = CGRectMake(j*houseGapHorizontal, i*houseGapVertical, houseWidth, houseHeight);
                 imageView.image = [UIImage imageNamed:@"broker_property_house_now"];
                 [_bucketContentView addSubview:imageView];
                 
-                _cursor = [[UIImageView alloc] initWithFrame:CGRectMake(j*30, i*30 + 10, 10, 5)];
+                if (column == 6) {
+                    _cursor = [[UIImageView alloc] initWithFrame:CGRectMake(j*houseGapHorizontal + 8, i*houseGapVertical + 23, 10, 5)];
+                }else{
+                    _cursor = [[UIImageView alloc] initWithFrame:CGRectMake(j*houseGapHorizontal + 5, i*houseGapVertical + 18, 10, 5)];
+                }
                 _cursor.image = [UIImage imageNamed:@"broker_property_house_arrow"];
                 [_bucketContentView addSubview:_cursor];
                 
             }else{
                 UIImageView* imageView = [_buckets objectAtIndex:(i*column + j)];
-                imageView.frame = CGRectMake(j*30, i*30, 25, 21);
+                imageView.frame = CGRectMake(j*houseGapHorizontal, i*houseGapVertical, houseWidth, houseHeight);
                 imageView.image = [UIImage imageNamed:@"broker_property_house_no"];
                 [_bucketContentView addSubview:imageView];
             }
@@ -176,6 +199,8 @@
     }
     
     //推广按钮
+    _promotionButton.frame = CGRectMake(15, _queueVacancy.bottom + GAP_VERTICAL + 2, ScreenWidth-15*2, 42);
+    
     
 }
 

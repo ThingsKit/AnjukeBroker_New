@@ -12,7 +12,7 @@
 #import "UIViewExt.h"
 
 #define GAP_H 6
-#define GAP_V 3
+#define GAP_V 8
 
 @interface PropertyDetailTableViewCell ()
 
@@ -49,6 +49,8 @@
     _propertyIcon = [[UIImageView alloc] initWithFrame:CGRectZero];
     _propertyIcon.backgroundColor = [UIColor clearColor];
     _propertyIcon.contentMode = UIViewContentModeScaleAspectFit;
+    _propertyIcon.layer.cornerRadius = 4.0f;
+    _propertyIcon.layer.masksToBounds = YES;
     [self.contentView addSubview:_propertyIcon];
     
     //房源标题
@@ -92,8 +94,8 @@
     //租金或售价
     _price = [[UILabel alloc] initWithFrame:CGRectZero];
     _price.backgroundColor = [UIColor clearColor];
-    _price.font = [UIFont ajkH2Font];
-    [_price setTextColor:[UIColor brokerBlackColor]];
+    _price.font = [UIFont ajkH4Font];
+    [_price setTextColor:[UIColor brokerLightGrayColor]];
     [self.contentView addSubview:_price];
     
     //cell的背景视图, 默认选中是蓝色
@@ -121,7 +123,7 @@
     }
     
     //房源标题
-    _propertyTitle.frame = CGRectMake(_propertyIcon.right + 12, 15, 100, 20);
+    _propertyTitle.frame = CGRectMake(_propertyIcon.right + 12, 15, 130, 20);
     _propertyTitle.text = self.propertyDetailTableViewCellModel.title;
     //    _userName.backgroundColor = [UIColor redColor];
     
@@ -137,7 +139,7 @@
     //精选
     if ([@"1" isEqualToString:self.propertyDetailTableViewCellModel.isChoice]) {
         if (self.propertyDetailTableViewCellModel.isMoreImg && self.propertyDetailTableViewCellModel.isMoreImg.length > 0) {
-            _choiceIcon.frame = CGRectMake(_multiPictureIcon.right + 3, 15, 17, 17);
+            _choiceIcon.frame = CGRectMake(_multiPictureIcon.right + 2, 15, 17, 17);
             _choiceIcon.image = [UIImage imageNamed:@"broker_property_icon_jx"];
             _choiceIcon.hidden = NO;
         }else{
@@ -152,11 +154,11 @@
     //手机
     if ([@"1" isEqualToString:self.propertyDetailTableViewCellModel.isPhonePub]) {
         if (self.propertyDetailTableViewCellModel.isChoice && self.propertyDetailTableViewCellModel.isChoice.length > 0) {
-            _mobileIcon.frame = CGRectMake(_choiceIcon.right + 3, 15, 17, 17);
+            _mobileIcon.frame = CGRectMake(_choiceIcon.right + 2, 15, 17, 17);
             _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
             _mobileIcon.hidden = NO;
         }else if(self.propertyDetailTableViewCellModel.isMoreImg && self.propertyDetailTableViewCellModel.isMoreImg.length > 0){
-            _mobileIcon.frame = CGRectMake(_multiPictureIcon.right + 3, 15, 17, 17);
+            _mobileIcon.frame = CGRectMake(_multiPictureIcon.right + 2, 15, 17, 17);
             _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
             _mobileIcon.hidden = NO;
         }else{
@@ -168,7 +170,6 @@
     }else{
         _mobileIcon.hidden = YES;
     }
-    
     
     
     //小区名称
@@ -184,14 +185,13 @@
     
     //面积
     _area.frame = CGRectMake(_houseType.right + GAP_H, _community.bottom + GAP_V, 100, 20);
-    _area.text = self.propertyDetailTableViewCellModel.area;
+    _area.text = [NSString stringWithFormat:@"%@平", self.propertyDetailTableViewCellModel.area];
     [_area sizeToFit];
     
     //租金或售价
-    _price.frame = CGRectMake(_area.right + GAP_H, _community.bottom + GAP_V - 1, 70, 20);
-    _price.textAlignment = NSTextAlignmentRight;
-    _price.text = self.propertyDetailTableViewCellModel.price;
-    //    [_price sizeToFit];
+    _price.frame = CGRectMake(_area.right + GAP_H, _community.bottom + GAP_V, 100, 20);
+    _price.text = [NSString stringWithFormat:@"%@%@", self.propertyDetailTableViewCellModel.price, self.propertyDetailTableViewCellModel.priceUnit];
+    [_price sizeToFit];
     //    _price.backgroundColor = [UIColor redColor];
     
 }
