@@ -569,7 +569,6 @@
 }
 
 #pragma mark - SWTableViewDelegate
-
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
     
 }

@@ -18,7 +18,7 @@
 
 @class PropertyDetailTableViewCellModel;
 
-@interface MultipleChoiceAndEditListCell : RTListCell
+@interface MultipleChoiceAndEditListCell : SWTableViewCell
 
 @property (nonatomic, strong) PropertyDetailTableViewCellModel* propertyDetailTableViewCellModel;
 @property (nonatomic, strong) id<CellSelectStatus> delegate;

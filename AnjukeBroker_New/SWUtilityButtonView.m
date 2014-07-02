@@ -10,6 +10,7 @@
 #import "SWUtilityButtonTapGestureRecognizer.h"
 #import "SWConstants.h"
 
+
 @implementation SWUtilityButtonView
 
 #pragma mark - SWUtilityButonView initializers
@@ -27,6 +28,21 @@
     
     return self;
 }
+
+- (id)initUtilityButtons:(NSArray *)utilityButtons parentCell:(MutipleEditTableViewCell *)parentCell utilityButtonSelector:(SEL)utilityButtonSelector
+{
+    self = [super init];
+    
+    if (self) {
+        self.utilityButtons = utilityButtons;
+        self.utilityButtonWidth = [self calculateUtilityButtonWidth];
+        self.mutipleCell = parentCell;
+        self.utilityButtonSelector = utilityButtonSelector;
+    }
+    
+    return self;
+}
+
 
 - (id)initWithFrame:(CGRect)frame utilityButtons:(NSArray *)utilityButtons parentCell:(SWTableViewCell *)parentCell utilityButtonSelector:(SEL)utilityButtonSelector
 {

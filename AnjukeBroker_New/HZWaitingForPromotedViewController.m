@@ -9,7 +9,8 @@
 #import "HZWaitingForPromotedViewController.h"
 #import "PropSelectStatusModel.h"
 #import "PropertyDetailTableViewCellModel.h"
-#import "MutipleEditTableViewCell.h"
+#import "MultipleChoiceAndEditListCell.h"
+
 
 @interface HZWaitingForPromotedViewController ()
 
@@ -34,6 +35,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
+    self.tableView.rowHeight = 90;
     [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
     self.MutipleEditView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 49 -64, ScreenWidth, 49)];
     
@@ -176,21 +178,28 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier = @"identifierCell";
-    MutipleEditTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    MultipleChoiceAndEditListCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    
+    NSArray *rightBtnarr = [NSArray array];
+    rightBtnarr = [self rightButtons];
     if (cell == nil) {
-        cell = [[MutipleEditTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"identifierCell"];
+        cell = [[MultipleChoiceAndEditListCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                    reuseIdentifier:@"identifierCell"
+                                                containingTableView:tableView
+                                                 leftUtilityButtons:nil
+                                                rightUtilityButtons:rightBtnarr];
+    
+    cell.delegate = self;
     }
     PropSelectStatusModel *selectStatusModel = [self.cellSelectStatus valueForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
     [cell changeCellSelectStatus:selectStatusModel.selectStatus];
     PropertyDetailTableViewCellModel *model = [[PropertyDetailTableViewCellModel alloc] initWithDataDic:[self.dataSource objectAtIndex:indexPath.row]];
     cell.propertyDetailTableViewCellModel   = model;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    cell.delegate       = self;
     cell.rowIndex       = indexPath.row;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    cell.textLabel.text = @"test";
-    cell.rightUtilityButtons = [self rightButtons];
     cell.delegate = self;
+    tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     
     return cell;
 }
@@ -199,100 +208,46 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 //    MultipleChoiceAndEditListCell *oldCell = (MultipleChoiceAndEditListCell *)[tableView cellForRowAtIndexPath:indexPath];
-    
-
+    if (!tableView.isEditing) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
 }
-
 
 - (NSArray *)rightButtons
 {
-    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
-                                                title:@"More"];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
-                                                title:@"Delete"];
-    
+    NSMutableArray *rightUtilityButtons = [NSMutableArray array];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:SYSTEM_NAVBAR_DARK_BG title:@"编辑"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:SYSTEM_RED title:@"删除"];
     return rightUtilityButtons;
 }
 
-- (void)sw_addUtilityButtonWithColor:(UIColor *)color title:(NSString *)title
-{
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.backgroundColor = color;
-    [button setTitle:title forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    [self addObject:button];
-}
-
-
-#pragma mark - SWTableViewDelegate
-
-- (void)swipeableTableViewCell:(MutipleEditTableViewCell *)cell scrollingToState:(SWCellState)state
-{
-    switch (state) {
-        case 0:
-            NSLog(@"utility buttons closed");
-            break;
-        case 1:
-            NSLog(@"left utility buttons open");
-            break;
-        case 2:
-            NSLog(@"right utility buttons open");
-            break;
-        default:
-            break;
-    }
-}
-
-- (void)swipeableTableViewCell:(MutipleEditTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
-{
+#pragma mark - SWTableViewCellDelegate
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+//    NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
+    
+    [self showLoadingActivity:YES];
+    
     switch (index) {
         case 0:
         {
-            NSLog(@"More button was pressed");
-            UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"Hello" message:@"More more more" delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles: nil];
-            [alertTest show];
-            
-            [cell hideUtilityButtonsAnimated:YES];
+            //编辑房源
+            [self hideLoadWithAnimated:YES];
             break;
         }
         case 1:
         {
-            // Delete button was pressed
-            NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
+            //删除房源
+            [self hideLoadWithAnimated:YES];
+            [self showInfo:@"删除客户失败，请再试一次"];
+            break;
+        };
             
-//            [_testArray[cellIndexPath.section] removeObjectAtIndex:cellIndexPath.row];
-            [self.tableView deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
-            break;
-        }
         default:
             break;
     }
 }
 
-- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(MutipleEditTableViewCell *)cell
-{
-    // allow just one cell's utility button to be open at once
-    return YES;
-}
-
-- (BOOL)swipeableTableViewCell:(MutipleEditTableViewCell *)cell canSwipeToState:(SWCellState)state
-{
-    switch (state) {
-        case 1:
-            // set to NO to disable all left utility buttons appearing
-            return NO;
-            break;
-        case 2:
-            // set to NO to disable all right utility buttons appearing
-            return YES;
-            break;
-        default:
-            break;
-    }
-    
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
     return YES;
 }
 
