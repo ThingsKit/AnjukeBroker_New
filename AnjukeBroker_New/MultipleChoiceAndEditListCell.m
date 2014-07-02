@@ -99,9 +99,9 @@
     //租金或售价
     _price = [[UILabel alloc] initWithFrame:CGRectZero];
     _price.backgroundColor = [UIColor clearColor];
-    _price.font = [UIFont ajkH2Font];
-    [_price setTextColor:[UIColor brokerBlackColor]];
-    [self.contentView addSubview:_price];
+    _price.font = [UIFont ajkH4Font];
+    [_price setTextColor:[UIColor brokerLightGrayColor]];
+    [self addSubview:_price];
     
     //cell的背景视图, 默认选中是蓝色
     //    UIView* backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 0)];
@@ -114,12 +114,33 @@
 - (void)propChoiceTap:(id)tapGR
 {
     if (!self.isSelected) {
-        self.isSelected = true;
-        [self.selectStylebutton setBackgroundImage:[UIImage imageNamed:@"broker_property_control_selected"] forState:UIControlStateNormal];
+        [self cellSelected];
     } else {
-        self.isSelected = false;
-        [self.selectStylebutton setBackgroundImage:[UIImage imageNamed:@"broker_property_control_select_gray"] forState:UIControlStateNormal];
+        [self cellUnSelected];
     }
+    [self.delegate cellStatusChanged:self.isSelected atRowIndex:self.rowIndex];
+    
+}
+
+- (void)changeCellSelectStatus:(BOOL)isSelected
+{
+    if (isSelected) {
+        [self cellSelected];
+    } else {
+        [self cellUnSelected];
+    }
+
+}
+- (void)cellSelected
+{
+    self.isSelected = true;
+    [self.selectStylebutton setBackgroundImage:[UIImage imageNamed:@"broker_property_control_selected"] forState:UIControlStateNormal];
+}
+
+- (void)cellUnSelected
+{
+    self.isSelected = false;
+    [self.selectStylebutton setBackgroundImage:[UIImage imageNamed:@"broker_property_control_select_gray"] forState:UIControlStateNormal];
 }
 
 //加载数据
@@ -154,15 +175,17 @@
     [_houseType sizeToFit];
     
     //面积
-    _area.frame = CGRectMake(_houseType.right + GAP_H, _community.bottom + GAP_V, 100, 20);
-    _area.text = self.propertyDetailTableViewCellModel.area;
+    NSString *area = self.propertyDetailTableViewCellModel.area;
+    _area.frame = CGRectMake(_houseType.right + GAP_H, _community.bottom + GAP_V, 50, 20);
+    _area.text = [NSString stringWithFormat:@"%@平",[area substringToIndex:(area.length - 3)]];
     [_area sizeToFit];
     
     //租金或售价
+    NSString *price = self.propertyDetailTableViewCellModel.price;
     _price.frame = CGRectMake(_area.right + GAP_H, _community.bottom + GAP_V - 1, 70, 20);
     _price.textAlignment = NSTextAlignmentRight;
-    _price.text = self.propertyDetailTableViewCellModel.price;
-    //    [_price sizeToFit];
+    _price.text = [NSString stringWithFormat:@"%@%@",[price substringToIndex:(price.length - 3)],self.propertyDetailTableViewCellModel.priceUnit];
+    [_price sizeToFit];
     //    _price.backgroundColor = [UIColor redColor];
     
 }

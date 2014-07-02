@@ -339,6 +339,7 @@
 		67C3F6F319205E6800DFC0C0 /* RushPropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C3F6F219205E6800DFC0C0 /* RushPropertyViewController.m */; };
 		9619F5331963DE42008C3A26 /* ImmediatePromotionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9619F5321963DE42008C3A26 /* ImmediatePromotionCell.m */; };
 		9619F5361963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9619F5351963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.m */; };
+		9619F53A19640EA0008C3A26 /* PropSelectStatusModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9619F53919640EA0008C3A26 /* PropSelectStatusModel.m */; };
 		96A3D38D1962909300E6A8B9 /* PromotionSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A3D38C1962909300E6A8B9 /* PromotionSettingsViewController.m */; };
 		970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */ = {isa = PBXBuildFile; fileRef = 970501761845D21100A0C181 /* AFWelcomeScrollview.m */; };
 		970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */ = {isa = PBXBuildFile; fileRef = 970B78DB182010EE00C8E3C6 /* Util_UI.m */; };
@@ -1304,6 +1305,8 @@
 		9619F5321963DE42008C3A26 /* ImmediatePromotionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImmediatePromotionCell.m; sourceTree = "<group>"; };
 		9619F5341963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoPlanPromotionPropertySingleViewController.h; sourceTree = "<group>"; };
 		9619F5351963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoPlanPromotionPropertySingleViewController.m; sourceTree = "<group>"; };
+		9619F53819640EA0008C3A26 /* PropSelectStatusModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropSelectStatusModel.h; sourceTree = "<group>"; };
+		9619F53919640EA0008C3A26 /* PropSelectStatusModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropSelectStatusModel.m; sourceTree = "<group>"; };
 		96A3D38B1962909300E6A8B9 /* PromotionSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PromotionSettingsViewController.h; sourceTree = "<group>"; };
 		96A3D38C1962909300E6A8B9 /* PromotionSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PromotionSettingsViewController.m; sourceTree = "<group>"; };
 		970501751845D21100A0C181 /* AFWelcomeScrollview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFWelcomeScrollview.h; sourceTree = "<group>"; };
@@ -3054,6 +3057,15 @@
 			name = "待推广";
 			sourceTree = "<group>";
 		};
+		9619F53719640E68008C3A26 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9619F53819640EA0008C3A26 /* PropSelectStatusModel.h */,
+				9619F53919640EA0008C3A26 /* PropSelectStatusModel.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		970501541845A18E00A0C181 /* 引导页 */ = {
 			isa = PBXGroup;
 			children = (
@@ -3156,6 +3168,7 @@
 		972C10251814FC7500552C9B /* 租房业务管理 */ = {
 			isa = PBXGroup;
 			children = (
+				9619F53719640E68008C3A26 /* Model */,
 				49C188591963E6CC000B5C5B /* MutipleToBePromoted */,
 				B72109431827761000904FC7 /* Controllers */,
 				B72109451827761800904FC7 /* View */,
@@ -5064,7 +5077,6 @@
 				B769E445181F462C00A2FF50 /* SaleFixedDetailController.m in Sources */,
 				B7FC9B3418C4204C00F77205 /* UIImage+RTStyle.m in Sources */,
 				97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */,
-				6767D1271922073E004FEFF7 /* BaseModel.m in Sources */,
 				9619F5361963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.m in Sources */,
 				B7FC9B2818C41F5100F77205 /* BK_RTLineView.m in Sources */,
 				B7E56D0B183DABD300A0F7D2 /* AnjukePropertyResultController.m in Sources */,
@@ -5245,6 +5257,7 @@
 				B7E69BBB183B4DDB0097D5C3 /* BaseModifyCostController.m in Sources */,
 				B7EAD51F18CD927200B28FEC /* AXChatViewController.m in Sources */,
 				2723353E192AFD6200C45460 /* AJKBRadioButton.m in Sources */,
+				9619F53A19640EA0008C3A26 /* PropSelectStatusModel.m in Sources */,
 				20A2178518BF1804002CA469 /* CommunitySelectViewController.m in Sources */,
 				B77A960C182A3369007F04E3 /* SaleNoPlanListManager.m in Sources */,
 				971D60921849CEA5006B07C9 /* NoNetworkView.m in Sources */,

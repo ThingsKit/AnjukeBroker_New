@@ -9,9 +9,12 @@
 #import "RTViewController.h"
 #import "MultipleChoiceAndEditListCell.h"
 
-@interface HZWaitingForPromotedViewController : RTViewController<UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
+
+
+@interface HZWaitingForPromotedViewController : RTViewController<UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate,CellSelectStatus>
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, strong) UIView *MutipleEditView;
+
 
 @end
