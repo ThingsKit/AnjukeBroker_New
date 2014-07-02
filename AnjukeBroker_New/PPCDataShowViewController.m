@@ -10,6 +10,8 @@
 #import "PPCDataShowCell.h"
 #import "PPCPriceingListViewController.h"
 #import "PPCSelectedListViewController.h"
+#import "HZWaitingForPromotedViewController.h"
+#import "ESFWaitingForPromotedViewController.h"
 
 @interface PPCDataShowViewController ()
 //@property(nonatomic, strong) UITableView *tableList;
@@ -139,6 +141,14 @@
         selecedListVC.isHaozu = self.isHaozu;
         selecedListVC.planId = @"";
         [self.navigationController pushViewController:selecedListVC animated:YES];
+    } else if (indexPath.row == 4) {
+        if (self.isHaozu) {
+            HZWaitingForPromotedViewController *hzToBePromoted = [[HZWaitingForPromotedViewController alloc] init];
+            [self.navigationController pushViewController:hzToBePromoted animated:YES];
+        } else {
+            ESFWaitingForPromotedViewController *esfToBePromoted = [[ESFWaitingForPromotedViewController alloc] init];
+            [self.navigationController pushViewController:esfToBePromoted animated:YES];
+        }
     }
 }
 
