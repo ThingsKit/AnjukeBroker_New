@@ -9,6 +9,7 @@
 #import "PPCDataShowViewController.h"
 #import "PPCDataShowCell.h"
 #import "PPCPriceingListViewController.h"
+#import "PPCSelectedListViewController.h"
 
 @interface PPCDataShowViewController ()
 //@property(nonatomic, strong) UITableView *tableList;
@@ -144,6 +145,11 @@
         pricingListVc.isHaozu = self.isHaozu;
         pricingListVc.planId = @"648793";
         [self.navigationController pushViewController:pricingListVc animated:YES];
+    }else if (indexPath.row == 2){
+        PPCSelectedListViewController *selecedListVC = [[PPCSelectedListViewController alloc] init];
+        selecedListVC.isHaozu = self.isHaozu;
+        selecedListVC.planId = @"";
+        [self.navigationController pushViewController:selecedListVC animated:YES];
     }
     
 }

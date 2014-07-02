@@ -55,7 +55,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identify = @"cell";
-    PPCHouseCell *cell = (PPCHouseCell *)[tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
+    PPCHouseCell *cell = (PPCHouseCell *)[tableView dequeueReusableCellWithIdentifier:identify];
     if (!cell) {
         cell = [[PPCHouseCell alloc] initWithStyle:UITableViewCellStyleDefault
                                    reuseIdentifier:identify

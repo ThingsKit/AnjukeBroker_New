@@ -728,6 +728,9 @@
 		F89FF5AC1962875A00AC7256 /* PPCPriceingListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5AB1962875A00AC7256 /* PPCPriceingListViewController.m */; };
 		F89FF5B1196287F300AC7256 /* PPCHouseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5B0196287F300AC7256 /* PPCHouseCell.m */; };
 		F89FF5B41962881700AC7256 /* PPCPriceingListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5B31962881700AC7256 /* PPCPriceingListModel.m */; };
+		F89FF5BE196394B900AC7256 /* PPCSelectedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5BD196394B900AC7256 /* PPCSelectedListViewController.m */; };
+		F89FF5C11963979B00AC7256 /* HouseCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5C01963979B00AC7256 /* HouseCellView.m */; };
+		F89FF5C519639B3200AC7256 /* PPCSelectedListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5C419639B3200AC7256 /* PPCSelectedListCell.m */; };
 		F8A717BE192058FB004840C6 /* UserCenterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717B7192058FB004840C6 /* UserCenterCell.m */; };
 		F8A717BF192058FB004840C6 /* UserCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717B9192058FB004840C6 /* UserCenterViewController.m */; };
 		F8A717C419205934004840C6 /* AppSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717C319205934004840C6 /* AppSettingViewController.m */; };
@@ -1872,6 +1875,12 @@
 		F89FF5B0196287F300AC7256 /* PPCHouseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPCHouseCell.m; sourceTree = "<group>"; };
 		F89FF5B21962881700AC7256 /* PPCPriceingListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPCPriceingListModel.h; sourceTree = "<group>"; };
 		F89FF5B31962881700AC7256 /* PPCPriceingListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPCPriceingListModel.m; sourceTree = "<group>"; };
+		F89FF5BC196394B900AC7256 /* PPCSelectedListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPCSelectedListViewController.h; sourceTree = "<group>"; };
+		F89FF5BD196394B900AC7256 /* PPCSelectedListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPCSelectedListViewController.m; sourceTree = "<group>"; };
+		F89FF5BF1963979B00AC7256 /* HouseCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HouseCellView.h; sourceTree = "<group>"; };
+		F89FF5C01963979B00AC7256 /* HouseCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HouseCellView.m; sourceTree = "<group>"; };
+		F89FF5C319639B3200AC7256 /* PPCSelectedListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPCSelectedListCell.h; sourceTree = "<group>"; };
+		F89FF5C419639B3200AC7256 /* PPCSelectedListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPCSelectedListCell.m; sourceTree = "<group>"; };
 		F8A717B6192058FB004840C6 /* UserCenterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterCell.h; sourceTree = "<group>"; };
 		F8A717B7192058FB004840C6 /* UserCenterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCenterCell.m; sourceTree = "<group>"; };
 		F8A717B8192058FB004840C6 /* UserCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterViewController.h; sourceTree = "<group>"; };
@@ -4268,6 +4277,7 @@
 				67203D4B196282FA00A32B60 /* 定价推广房源单页 */,
 				67203D41196281E200A32B60 /* PropertyComponent */,
 				F89FF5A91962856900AC7256 /* PPCPricingList */,
+				F89FF5B81963943100AC7256 /* PPCSelectedHouseList */,
 				96A3D3931962991B00E6A8B9 /* NoPlanPromotionPropertySingleViewController.h */,
 				96A3D3941962991B00E6A8B9 /* NoPlanPromotionPropertySingleViewController.m */,
 			);
@@ -4319,6 +4329,8 @@
 			children = (
 				F89FF5AF196287F300AC7256 /* PPCHouseCell.h */,
 				F89FF5B0196287F300AC7256 /* PPCHouseCell.m */,
+				F89FF5BF1963979B00AC7256 /* HouseCellView.h */,
+				F89FF5C01963979B00AC7256 /* HouseCellView.m */,
 			);
 			name = PPCPricingListCell;
 			sourceTree = "<group>";
@@ -4330,6 +4342,25 @@
 				F89FF5B31962881700AC7256 /* PPCPriceingListModel.m */,
 			);
 			name = PPCPricingListModel;
+			sourceTree = "<group>";
+		};
+		F89FF5B81963943100AC7256 /* PPCSelectedHouseList */ = {
+			isa = PBXGroup;
+			children = (
+				F89FF5BC196394B900AC7256 /* PPCSelectedListViewController.h */,
+				F89FF5BD196394B900AC7256 /* PPCSelectedListViewController.m */,
+				F89FF5C219639B1400AC7256 /* PPCSelectedListCell */,
+			);
+			name = PPCSelectedHouseList;
+			sourceTree = "<group>";
+		};
+		F89FF5C219639B1400AC7256 /* PPCSelectedListCell */ = {
+			isa = PBXGroup;
+			children = (
+				F89FF5C319639B3200AC7256 /* PPCSelectedListCell.h */,
+				F89FF5C419639B3200AC7256 /* PPCSelectedListCell.m */,
+			);
+			name = PPCSelectedListCell;
 			sourceTree = "<group>";
 		};
 		F8A717DD19209E22004840C6 /* checkout */ = {
@@ -5079,6 +5110,7 @@
 				6794E42D1947F2F80069F1ED /* CustomerTableView.m in Sources */,
 				B7EAD51B18CD927200B28FEC /* AXChatMessageRoomSourceCell.m in Sources */,
 				6794E4431947FDB50069F1ED /* SDImageCache.m in Sources */,
+				F89FF5C11963979B00AC7256 /* HouseCellView.m in Sources */,
 				200ACA4718B6F77000FAC740 /* Broker_InputEditView.m in Sources */,
 				B721095B1827976500904FC7 /* RentNoPlanController.m in Sources */,
 				B7E69BB8183B4C300097D5C3 /* ModifyRentCostController.m in Sources */,
@@ -5184,6 +5216,7 @@
 				20A44DB01869799F008D8CB1 /* BK_EGORefreshTableHeaderView.m in Sources */,
 				B769E453181F4D0100A2FF50 /* SaleFixedCell.m in Sources */,
 				970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */,
+				F89FF5BE196394B900AC7256 /* PPCSelectedListViewController.m in Sources */,
 				B7EF100B18D8457000D07C9B /* AXMessageLocationCell.m in Sources */,
 				67C3F6F319205E6800DFC0C0 /* RushPropertyViewController.m in Sources */,
 				B7EAD53118CD927200B28FEC /* UIFont+AXChatMessage.m in Sources */,
@@ -5267,6 +5300,7 @@
 				B723C13618E9599500584B2C /* LocationManager.m in Sources */,
 				B7EF77B9183CE82D0024A5E6 /* RentNoPlanListCell.m in Sources */,
 				B77A960F182A389D007F04E3 /* SalePropertyObject.m in Sources */,
+				F89FF5C519639B3200AC7256 /* PPCSelectedListCell.m in Sources */,
 				2056A38A18EE7EA00022B5A5 /* AXMessageCenterAddFriendManager.m in Sources */,
 				6794E4441947FDB50069F1ED /* SDWebImageDownloader.m in Sources */,
 				97B422571820D9A600A2E9E6 /* PropertyGroupListViewController.m in Sources */,
