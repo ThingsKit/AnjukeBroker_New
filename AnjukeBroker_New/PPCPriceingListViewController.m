@@ -129,7 +129,8 @@
         return ;
     }
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        
+        DLog(@"message--->>%@",[[response content] objectForKey:@"message"]);
+
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
         
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];

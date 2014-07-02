@@ -151,7 +151,21 @@
     //###########################################################
 #endif
     
+#ifdef DEBUG
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(0, 20, 320, 40);
+    [btn addTarget:self action:@selector(hit:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
+#else
+#endif
+
+    
     [self viewLoadAnimation];
+}
+
+- (void)hit:(id)sender{
+    self.nameTF.text = @"13681983677";
+    self.passwordTF.text = @"anjukeqa";
 }
 
 #pragma mark -

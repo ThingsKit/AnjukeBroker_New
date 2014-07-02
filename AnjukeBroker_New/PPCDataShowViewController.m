@@ -14,6 +14,7 @@
 @interface PPCDataShowViewController ()
 //@property(nonatomic, strong) UITableView *tableList;
 @property(nonatomic, strong) NSDictionary *tableData;
+@property(nonatomic, assign) BOOL isLoading;
 @end
 
 @implementation PPCDataShowViewController
@@ -47,21 +48,9 @@
     self.tableList.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.tableList];
 
-//    [self autoPullDown];
+    [self autoPullDown];
 }
 
-- (void)doRequest{
-//    NSMutableDictionary *params = nil;
-//    NSString *method = nil;
-//    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"latitude_specify"]) {
-//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",[[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude_specify"] doubleValue]],@"lat",[NSString stringWithFormat:@"%f",[[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude_specify"] doubleValue]],@"lng", nil];
-//    }else{
-//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",[NSString stringWithFormat:@"%f",self.nowCoords.latitude],@"lat",[NSString stringWithFormat:@"%f",self.nowCoords.longitude],@"lng", nil];
-//    }
-//    method = [NSString stringWithFormat:@"broker/commSignList/"];
-//    
-//    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
-}
 
 #pragma mark - UITableViewDatasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -151,9 +140,78 @@
         selecedListVC.planId = @"";
         [self.navigationController pushViewController:selecedListVC animated:YES];
     }
-    
 }
 
+- (void)doRequest{
+    self.isLoading = YES;
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+//    //定价计划
+//    if (self.isHaozu) {
+//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId", [LoginManager getCity_id], @"cityId", nil];
+//        
+//        method = [NSString stringWithFormat:@"zufang/fix/summary/"];
+//    }else{
+//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId", nil];
+//        method = [NSString stringWithFormat:@"anjuke/fix/summary/"];
+//    }
+
+    //精选计划
+    if (self.isHaozu) {
+        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId", nil];
+        method = [NSString stringWithFormat:@"zufang/choice/summary/"];
+    }else{
+        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId", @"1", @"demon", nil];
+        
+        method = [NSString stringWithFormat:@"anjuke/choice/summary/"];
+    }
+    
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
+}
+- (void)onRequestFinished:(RTNetworkResponse *)response{
+    self.isLoading = NO;
+    DLog(@"response---->>%@",[response content]);
+    if([[response content] count] == 0){
+        [self donePullDown];
+        [self.tableList setTableStatus:STATUSFORNODATAFORPRICINGLIST];
+        
+        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
+        tapGes.delegate                = self;
+        tapGes.numberOfTouchesRequired = 1;
+        tapGes.numberOfTapsRequired    = 1;
+        [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
+        
+        
+        self.tableData = nil;
+        [self.tableList reloadData];
+        
+        return ;
+    }
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        DLog(@"message--->>%@",[[response content] objectForKey:@"message"]);
+        
+        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        
+        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
+        tapGes.delegate                = self;
+        tapGes.numberOfTouchesRequired = 1;
+        tapGes.numberOfTapsRequired    = 1;
+        [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
+        
+        
+        self.tableData = nil;
+        [self.tableList reloadData];
+        
+        [self donePullDown];
+        return;
+    }
+    [self donePullDown];
+}
+- (void)tapGus:(UITapGestureRecognizer *)gesture{
+    [self autoPullDown];
+}
 #pragma mark -- rightButton
 - (void)rightButtonAction:(id)sender{
     if (self.isHaozu) {

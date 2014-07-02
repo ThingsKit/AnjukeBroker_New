@@ -12,6 +12,7 @@
 
 @interface PPCSelectedListViewController ()
 @property(nonatomic, strong) NSArray *tableData;
+@property(nonatomic, assign) BOOL isLoading;
 @end
 
 @implementation PPCSelectedListViewController
@@ -43,6 +44,9 @@
 
 #pragma mark - UITableViewDatasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (self.tableData.count == 0) {
+        return 0;
+    }
     return self.tableData.count + 3;
 }
 
@@ -131,7 +135,69 @@
     return nil;
 }
 
+- (void)doRequest{
+    self.isLoading = YES;
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    if (self.isHaozu) {
+//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId", nil];
 
+        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"858573",@"brokerId", nil];
+
+        method = [NSString stringWithFormat:@"zufang/choice/props/"];
+    }else{
+        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId",@"1",@"demon", nil];
+        
+        method = [NSString stringWithFormat:@"anjuke/choice/summary/"];
+    }
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
+}
+- (void)onRequestFinished:(RTNetworkResponse *)response{
+    self.isLoading = NO;
+    DLog(@"response---->>%@",[response content]);
+    if([[response content] count] == 0){
+        [self donePullDown];
+        [self.tableList setTableStatus:STATUSFORNODATAFORPRICINGLIST];
+        
+        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
+        tapGes.delegate                = self;
+        tapGes.numberOfTouchesRequired = 1;
+        tapGes.numberOfTapsRequired    = 1;
+        [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
+        
+        
+        self.tableData = nil;
+        [self.tableList reloadData];
+        
+        return ;
+    }
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        DLog(@"message--->>%@",[[response content] objectForKey:@"message"]);
+        
+        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        
+        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
+        tapGes.delegate                = self;
+        tapGes.numberOfTouchesRequired = 1;
+        tapGes.numberOfTapsRequired    = 1;
+        [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
+        
+        
+        self.tableData = nil;
+        [self.tableList reloadData];
+        
+        [self donePullDown];
+        return;
+    }
+    
+    
+}
+
+- (void)tapGus:(UITapGestureRecognizer *)tap{
+    [self autoPullDown];
+}
 #pragma mark -- UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
