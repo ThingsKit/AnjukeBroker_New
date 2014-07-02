@@ -12,6 +12,8 @@
 
 @property (nonatomic, strong) UIButton *buttonSelect;  //编辑按钮
 @property (nonatomic, strong) UIButton *buttonPromote;  //删除按钮
+@property (nonatomic, strong) UIImageView *selectImage;
+@property (nonatomic) BOOL isSelectAll;
 
 @end
 
@@ -30,13 +32,17 @@
     self.MutipleEditView.backgroundColor = [UIColor brokerBlackColor];
     self.MutipleEditView.alpha = 0.7;
     
+    self.isSelectAll = false;
+    
     _buttonSelect = [UIButton buttonWithType:UIButtonTypeCustom];
     _buttonSelect.frame = CGRectMake(0, 0, ScreenWidth * 0.48, 49);
+    [_buttonSelect addTarget:self action:@selector(selectAllProps:) forControlEvents:UIControlEventTouchUpInside];
     
     
     UIImageView *selectImage = [[UIImageView alloc] initWithFrame:CGRectMake((56 - 22)/2, (50 - 22)/2, 22, 22)];
     [selectImage setImage:[UIImage imageNamed:@"broker_property_control_select_gray@2x.png"]];
     [_buttonSelect addSubview:selectImage];
+    self.selectImage = selectImage;
     
     UILabel *allSelectLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 10, 80, 40)];
     allSelectLabel.font = [UIFont ajkH2Font];
@@ -60,6 +66,19 @@
 
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.MutipleEditView];
+}
+
+- (void)selectAllProps:(id)sender
+{
+    if (self.isSelectAll) {
+        
+        
+        
+    } else {
+        
+        
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -93,6 +112,7 @@
         cell = [[MultipleChoiceAndEditListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"identifierCell"];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
 //    cell.rightUtilityButtons = [self rightButtons];
@@ -105,6 +125,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 //    MultipleChoiceAndEditListCell *oldCell = (MultipleChoiceAndEditListCell *)[tableView cellForRowAtIndexPath:indexPath];
     
 

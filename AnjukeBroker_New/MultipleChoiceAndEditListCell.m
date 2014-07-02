@@ -16,12 +16,14 @@
 
 @interface MultipleChoiceAndEditListCell ()
 
+@property (nonatomic, strong) UIButton* selectStylebutton;
 @property (nonatomic, strong) UIImageView* propertyIcon; //房源图片
 @property (nonatomic, strong) UILabel* propertyTitle; //房源标题
 @property (nonatomic, strong) UILabel* community; //小区名称
 @property (nonatomic, strong) UILabel* houseType; //户型
 @property (nonatomic, strong) UILabel* area; //面积
 @property (nonatomic, strong) UILabel* price; //售价
+@property (nonatomic)BOOL isSelected;
 
 @end
 
@@ -31,7 +33,9 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        
         [self initCell];
+        self.isSelected = false;
     }
     return self;
 }
@@ -41,10 +45,18 @@
 - (void)initCell {
     
     //选中状态图像
-    UIImageView *selectStyleImage = [[UIImageView alloc] initWithFrame:CGRectMake((56 - 22)/2, (90 - 22)/2, 22, 22)];
-    [selectStyleImage setImage:[UIImage imageNamed:@"broker_property_control_select_gray@2x.png"]];
-    [self.contentView addSubview:selectStyleImage];
-    
+//    UIImageView *selectStyleImage = [[UIImageView alloc] initWithFrame:CGRectMake((56 - 22)/2, (90 - 22)/2, 22, 22)];
+//    [selectStyleImage setImage:[UIImage imageNamed:@"broker_property_control_select_gray@2x.png"]];
+//    [self.contentView addSubview:selectStyleImage];
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(propChoiceTap:)];
+//    tap.numberOfTapsRequired = 1;
+//    [selectStyleImage addGestureRecognizer:tap];
+//    self.selectStyleImage = selectStyleImage;
+    UIButton *selectStylebutton = [[UIButton alloc] initWithFrame:CGRectMake((56 - 22)/2, (90 - 22)/2, 22, 22)];
+    [selectStylebutton setBackgroundImage:[UIImage imageNamed:@"broker_property_control_select_gray"] forState:UIControlStateNormal];
+    [selectStylebutton addTarget:self action:@selector(propChoiceTap:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:selectStylebutton];
+    self.selectStylebutton = selectStylebutton;
     //cell下划线
     UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(56, 89.5, ScreenWidth - 56, 0.5)];
     bottomLine.backgroundColor = [UIColor lightGrayColor];
@@ -99,6 +111,16 @@
     self.contentView.backgroundColor = [UIColor brokerWhiteColor];
 }
 
+- (void)propChoiceTap:(id)tapGR
+{
+    if (!self.isSelected) {
+        self.isSelected = true;
+        [self.selectStylebutton setBackgroundImage:[UIImage imageNamed:@"broker_property_control_selected"] forState:UIControlStateNormal];
+    } else {
+        self.isSelected = false;
+        [self.selectStylebutton setBackgroundImage:[UIImage imageNamed:@"broker_property_control_select_gray"] forState:UIControlStateNormal];
+    }
+}
 
 //加载数据
 - (void)layoutSubviews{
