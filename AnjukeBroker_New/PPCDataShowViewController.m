@@ -14,8 +14,8 @@
 #import "ESFWaitingForPromotedViewController.h"
 
 @interface PPCDataShowViewController ()
-//@property(nonatomic, strong) UITableView *tableList;
-@property(nonatomic, strong) NSDictionary *tableData;
+@property(nonatomic, strong) NSDictionary *pricingDic;
+@property(nonatomic, strong) NSDictionary *selectedDic;
 @property(nonatomic, assign) BOOL isLoading;
 @end
 
@@ -56,6 +56,9 @@
 
 #pragma mark - UITableViewDatasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (!self.pricingDic) {
+        0;
+    }
     return 6;
 }
 
@@ -154,29 +157,8 @@
 
 - (void)doRequest{
     self.isLoading = YES;
-    
-//    //定价计划
-//    if (self.isHaozu) {
-//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
-//        
-//        method = [NSString stringWithFormat:@"zufang/fix/summary/"];
-//    }else{
-//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
-//        method = [NSString stringWithFormat:@"anjuke/fix/summary/"];
-//    }
-
-    //精选计划
-//    if (self.isHaozu) {
-//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
-//        method = [NSString stringWithFormat:@"zufang/choice/summary/"];
-//    }else{
-//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
-//        method = [NSString stringWithFormat:@"anjuke/choice/summary/"];
-//    }
-    
     NSMutableDictionary *params = nil;
     NSString *method = @"batch/";
-
     if (self.isHaozu) {
         NSMutableDictionary *requeseParams1 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
         
@@ -235,8 +217,8 @@
         tapGes.numberOfTapsRequired    = 1;
         [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
         
-        
-        self.tableData = nil;
+        self.pricingDic = nil;
+        self.selectedDic = nil;
         [self.tableList reloadData];
         
         return ;
@@ -253,13 +235,21 @@
         [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
         
         
-        self.tableData = nil;
+        self.pricingDic = nil;
+        self.selectedDic = nil;
         [self.tableList reloadData];
         
         [self donePullDown];
         return;
     }
+    
     [self donePullDown];
+    
+    NSData *pricingData = [response content][@"fix"][@"body"];
+    NSData *selectData = [response content][@"choice"][@"body"];
+    
+    self.pricingDic = [NSJSONSerialization JSONObjectWithData:pricingData options:NSJSONReadingAllowFragments error:nil];
+    self.selectedDic = [NSJSONSerialization JSONObjectWithData:selectData options:NSJSONReadingAllowFragments error:nil];
 }
 - (void)tapGus:(UITapGestureRecognizer *)gesture{
     [self autoPullDown];
