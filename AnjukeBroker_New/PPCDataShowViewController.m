@@ -144,30 +144,72 @@
 
 - (void)doRequest{
     self.isLoading = YES;
-    NSMutableDictionary *params = nil;
-    NSString *method = nil;
     
 //    //定价计划
 //    if (self.isHaozu) {
-//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId", [LoginManager getCity_id], @"cityId", nil];
+//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
 //        
 //        method = [NSString stringWithFormat:@"zufang/fix/summary/"];
 //    }else{
-//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId", nil];
+//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
 //        method = [NSString stringWithFormat:@"anjuke/fix/summary/"];
 //    }
 
     //精选计划
+//    if (self.isHaozu) {
+//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
+//        method = [NSString stringWithFormat:@"zufang/choice/summary/"];
+//    }else{
+//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
+//        method = [NSString stringWithFormat:@"anjuke/choice/summary/"];
+//    }
+    
+    NSMutableDictionary *params = nil;
+    NSString *method = @"batch/";
+
     if (self.isHaozu) {
-        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId", nil];
-        method = [NSString stringWithFormat:@"zufang/choice/summary/"];
-    }else{
-        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId", @"1", @"demon", nil];
+        NSMutableDictionary *requeseParams1 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
         
-        method = [NSString stringWithFormat:@"anjuke/choice/summary/"];
+        NSMutableDictionary *dic1 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                              @"GET",@"method",
+                              @"zufang/fix/summary/",@"relative_url",
+                              requeseParams1,@"query_params",nil];
+        
+        NSMutableDictionary *requeseParams2 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
+
+        NSMutableDictionary *dic2 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                     @"GET",@"method",
+                                     @"zufang/choice/summary/",@"relative_url",
+                                     requeseParams2,@"query_params",nil];
+        
+        NSMutableDictionary *dics = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                     dic1, @"fix",
+                                     dic2, @"choice", nil];
+        
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                  dics, @"requests", nil];
+    }else{
+        NSMutableDictionary *requeseParams1 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
+        
+        NSMutableDictionary *dic1 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                     @"GET",@"method",
+                                     @"anjuke/fix/summary/",@"relative_url",
+                                     requeseParams1,@"query_params",nil];
+        
+        NSMutableDictionary *requeseParams2 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
+        
+        NSMutableDictionary *dic2 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                     @"GET",@"method",
+                                     @"anjuke/choice/summary/",@"relative_url",
+                                     requeseParams2,@"query_params",nil];
+        
+        NSMutableDictionary *dics = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                     dic1, @"fix",
+                                     dic2, @"choice", nil];
+        
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                  dics, @"requests", nil];
     }
-    
-    
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
 }
 - (void)onRequestFinished:(RTNetworkResponse *)response{
