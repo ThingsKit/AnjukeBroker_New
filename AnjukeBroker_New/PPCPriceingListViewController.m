@@ -12,7 +12,10 @@
 #import "PPCPriceingListModel.h"
 
 @interface PPCPriceingListViewController ()
-@property(nonatomic, strong) NSArray *tableData;
+@property(nonatomic, strong) NSMutableArray *tableData;
+@property(nonatomic, strong) NSArray *lastedListData;
+@property(nonatomic, strong) NSArray *oldListData;
+
 @property(nonatomic, assign) BOOL isLoading;
 @end
 
@@ -39,12 +42,51 @@
     self.tableList.delegate = self;
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableList.backgroundColor = [UIColor clearColor];
+    self.tableList.rowHeight = 95;
     [self.view addSubview:self.tableList];
 
     [self autoPullDown];
 }
 
 #pragma mark - UITableViewDatasource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    if (self.lastedListData.count == 0 && self.oldListData.count == 0) {
+        return 0;
+    }
+    if (self.lastedListData.count > 0 && self.oldListData.count > 0) {
+        return 2;
+    }
+    return 1;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    if (self.lastedListData.count == 0 && self.oldListData.count == 0) {
+        return nil;
+    }
+    if (self.lastedListData.count > 0 && self.oldListData.count > 0) {
+        if (section == 0) {
+            return nil;
+        }else if (section == 1){
+            return @"30天前发布房源";
+        }
+    }
+    return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (self.lastedListData.count == 0 && self.oldListData.count == 0) {
+        return 0.0;
+    }
+    if (self.lastedListData.count > 0 && self.oldListData.count > 0) {
+        if (section == 0) {
+            return 0.0;
+        }else if (section == 1){
+            return 45.0;
+        }
+    }
+    return 0;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.tableData.count;
 }
@@ -69,6 +111,11 @@
     PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.tableData objectAtIndex:indexPath.row]];
     
     [cell configureCell:model withIndex:indexPath.row];
+    if (indexPath.row != self.tableData.count - 1) {
+        [cell showBottonLineWithCellHeight:95 andOffsetX:15];
+    }else{
+        [cell showBottonLineWithCellHeight:95 andOffsetX:0];
+    }
     return cell;
 }
 
@@ -95,14 +142,10 @@
     NSString *method = nil;
 
     if (self.isHaozu) {
-        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId",self.planId,@"planId",[LoginManager getCity_id],@"cityId", nil];
-//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"3759",@"brokerId",@"164558",@"planId",@"11",@"cityId", nil];
-       
+        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",self.planId,@"planId",[LoginManager getCity_id],@"cityId", nil];
         method = [NSString stringWithFormat:@"zufang/fix/props/"];
     }else{
-        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",self.planId,@"planId",[LoginManager getCity_id],@"cityId", nil];
-//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",@"3759",@"brokerId",@"164558",@"planId",@"11",@"cityId", nil];
- 
+        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",self.planId,@"planId",[LoginManager getCity_id],@"cityId", nil]; 
         method = [NSString stringWithFormat:@"anjuke/fix/props/"];
     }
 
@@ -122,8 +165,7 @@
         tapGes.numberOfTapsRequired    = 1;
         [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
         
-        
-        self.tableData = nil;
+        [self.tableData removeAllObjects];
         [self.tableList reloadData];
         
         return ;
@@ -140,22 +182,31 @@
         [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
         
         
-        self.tableData = nil;
+        [self.tableData removeAllObjects];
         [self.tableList reloadData];
         
         [self donePullDown];
         return;
     }
+    self.isLoading = NO;
+    [self donePullDown];
     
-    NSArray *arr = [NSArray arrayWithArray:[response content][@"data"]];
-    if (arr.count >= 1) {
-        self.tableData = [NSArray arrayWithArray:[response content][@"data"][@"propertyList"]];
-    }else{
-        [self donePullDown];
-        
-        self.tableData = nil;
-        [self.tableList reloadData];
-        [self.tableList setTableStatus:STATUSFORNODATAFORPRICINGLIST];
+    NSDictionary *resultData = [NSDictionary dictionaryWithDictionary:[response content][@"data"]];
+    self.tableData = nil;
+    
+    self.lastedListData = [NSArray arrayWithArray:resultData[@"newList"]];
+    self.oldListData = [NSArray arrayWithArray:resultData[@"oldList"]];
+    self.tableData = [[NSMutableArray alloc] init];
+    
+    if (self.lastedListData.count > 0) {
+        for (int i = 0; i < self.lastedListData.count; i++) {
+            [self.tableData addObject:[self.lastedListData objectAtIndex:i]];
+        }
+    }
+    if (self.oldListData.count > 0) {
+        for (int i = 0; i < self.oldListData.count; i++) {
+            [self.tableData addObject:[self.oldListData objectAtIndex:i]];
+        }
     }
     
     if (self.tableData.count == 0) {
@@ -163,7 +214,6 @@
     }else{
         [self.tableList setTableStatus:STATUSFOROK];
     }
-    
     [self.tableList reloadData];
 }
 - (void)rightButtonAction:(id)sender{
@@ -177,11 +227,11 @@
 #pragma mark - SWTableViewDelegate
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
-    
+    DLog(@"didTriggerLeftUtilityButtonWithIndex-->>%d",index);
 }
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
-
+    DLog(@"didTriggerRightUtilityButtonWithIndex-->>%d",index);
 }
 
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {

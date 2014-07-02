@@ -91,7 +91,7 @@
             cell.isPricing = YES;
             [cell showBottonLineWithCellHeight:150 andOffsetX:15];
             
-            if (self.pricingDic[@"data"]) {
+            if (self.pricingDic && self.pricingDic[@"data"]) {
                 PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.pricingDic[@"data"]];
                 [cell configureCell:model withIndex:indexPath.row];
             }else{
@@ -101,7 +101,7 @@
             cell.isPricing = NO;
             [cell showBottonLineWithCellHeight:150];
 
-            if (self.selectedDic[@"data"]) {
+            if (self.selectedDic && self.selectedDic[@"data"]) {
                 PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.selectedDic[@"data"]];
                 [cell configureCell:model withIndex:indexPath.row];
             }else{
@@ -151,15 +151,29 @@
     }
     
     if (indexPath.row == 1) {
-        PPCPriceingListViewController *pricingListVc = [[PPCPriceingListViewController alloc] init];
-        pricingListVc.isHaozu = self.isHaozu;
-        pricingListVc.planId = @"648793";
-        [self.navigationController pushViewController:pricingListVc animated:YES];
+
+        if (self.pricingDic[@"data"] && self.pricingDic[@"data"][@"planId"]) {
+            PPCPriceingListViewController *pricingListVC = [[PPCPriceingListViewController alloc] init];
+            pricingListVC.isHaozu = self.isHaozu;
+            pricingListVC.planId = self.pricingDic[@"data"][@"planId"];
+            [self.navigationController pushViewController:pricingListVC animated:YES];
+        }else{
+            return;
+        }
     }else if (indexPath.row == 2){
-        PPCSelectedListViewController *selecedListVC = [[PPCSelectedListViewController alloc] init];
-        selecedListVC.isHaozu = self.isHaozu;
-        selecedListVC.planId = @"";
-        [self.navigationController pushViewController:selecedListVC animated:YES];
+//        if (self.selectedDic[@"data"] && self.selectedDic[@"data"][@"planId"]) {
+//            PPCSelectedListViewController *selectedListVC = [[PPCSelectedListViewController alloc] init];
+//            selectedListVC.isHaozu = self.isHaozu;
+//            [self.navigationController pushViewController:selectedListVC animated:YES];
+//            selectedListVC.planId = self.selectedDic[@"data"][@"planId"];
+//        }else{
+//            return;
+//        }
+        PPCSelectedListViewController *selectedListVC = [[PPCSelectedListViewController alloc] init];
+        selectedListVC.isHaozu = self.isHaozu;
+        [self.navigationController pushViewController:selectedListVC animated:YES];
+        selectedListVC.planId = self.selectedDic[@"data"][@"planId"];
+
     } else if (indexPath.row == 4) {
         if (self.isHaozu) {
             HZWaitingForPromotedViewController *hzToBePromoted = [[HZWaitingForPromotedViewController alloc] init];
@@ -215,8 +229,16 @@
                                      dic1, @"fix",
                                      dic2, @"choice", nil];
         
+        
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics
+                                                           options:NSJSONWritingPrettyPrinted
+                                                             error:nil];
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData
+                                                     encoding:NSUTF8StringEncoding];
+
+        
         params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                  dics, @"requests", nil];
+                  jsonString, @"requests", nil];
     }
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
 }

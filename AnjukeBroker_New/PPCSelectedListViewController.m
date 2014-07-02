@@ -141,13 +141,11 @@
     NSString *method = nil;
     
     if (self.isHaozu) {
-//        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId", nil];
-
-        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"858573",@"brokerId", nil];
+        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId", nil];
 
         method = [NSString stringWithFormat:@"zufang/choice/props/"];
     }else{
-        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getUserID],@"brokerId",@"1",@"demon", nil];
+        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",@"1",@"demon", nil];
         
         method = [NSString stringWithFormat:@"anjuke/choice/summary/"];
     }
@@ -191,8 +189,6 @@
         [self donePullDown];
         return;
     }
-    
-    
 }
 
 - (void)tapGus:(UITapGestureRecognizer *)tap{
