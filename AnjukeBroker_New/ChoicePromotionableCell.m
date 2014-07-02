@@ -8,10 +8,10 @@
 #define GAP_HORIZONTAL 15
 #define GAP_VERTICAL 14
 
-#import "ChoicePromotionCell.h"
+#import "ChoicePromotionableCell.h"
 #import "ChoicePromotionCellModel.h"
 
-@interface ChoicePromotionCell ()
+@interface ChoicePromotionableCell ()
 
 @property (nonatomic, strong) UILabel* title;
 @property (nonatomic, strong) UILabel* promotionStatus; //当前推广状态
@@ -25,7 +25,7 @@
 
 @end
 
-@implementation ChoicePromotionCell
+@implementation ChoicePromotionableCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -87,6 +87,7 @@
     //推广按钮
     _promotionButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_promotionButton setTitle:@"立即推广" forState:UIControlStateNormal];
+    _promotionButton.titleLabel.font = [UIFont ajkH2Font];
     [_promotionButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateNormal];
     [_promotionButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_press"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateHighlighted];
     [_promotionButton addTarget:self action:@selector(startPromotion:) forControlEvents:UIControlEventTouchUpInside];

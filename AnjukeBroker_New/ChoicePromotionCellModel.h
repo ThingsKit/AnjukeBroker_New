@@ -10,7 +10,7 @@
 
 @interface ChoicePromotionCellModel : BaseModel
 
-@property (nonatomic, copy) NSString* totalClikcs; //总点击
+@property (nonatomic, copy) NSString* totalClicks; //总点击
 @property (nonatomic, copy) NSString* balance;  //预算余额
 @property (nonatomic, copy) NSString* balanceUnit; //预算余额单位
 @property (nonatomic, copy) NSString* todayClicks; //今日点击

@@ -11,8 +11,8 @@
 #import "UIImageView+WebCache.h"
 #import "UIViewExt.h"
 
-#define GAP_H 6
-#define GAP_V 8
+#define GAP_H 4
+#define GAP_V 5
 
 @interface PropertyDetailTableViewCell ()
 
@@ -49,14 +49,14 @@
     _propertyIcon = [[UIImageView alloc] initWithFrame:CGRectZero];
     _propertyIcon.backgroundColor = [UIColor clearColor];
     _propertyIcon.contentMode = UIViewContentModeScaleAspectFit;
-    _propertyIcon.layer.cornerRadius = 4.0f;
+    _propertyIcon.layer.cornerRadius = 3.0f;
     _propertyIcon.layer.masksToBounds = YES;
     [self.contentView addSubview:_propertyIcon];
     
     //房源标题
     _propertyTitle = [[UILabel alloc] initWithFrame:CGRectZero];
     _propertyTitle.backgroundColor = [UIColor clearColor];
-    _propertyTitle.font = [UIFont ajkH2Font];
+    _propertyTitle.font = [UIFont ajkH3Font];
     [_propertyTitle setTextColor:[UIColor brokerBlackColor]];
     [self.contentView addSubview:_propertyTitle];
     
@@ -113,7 +113,7 @@
     [super layoutSubviews];
     
     //房源图片
-    _propertyIcon.frame = CGRectMake(15, 15, 80, 60);
+    _propertyIcon.frame = CGRectMake(15, 15, 80, 65);
     NSString* iconPath = self.propertyDetailTableViewCellModel.imgURL;
     if (iconPath != nil && ![@"" isEqualToString:iconPath]) {
         //加载图片
@@ -123,13 +123,13 @@
     }
     
     //房源标题
-    _propertyTitle.frame = CGRectMake(_propertyIcon.right + 12, 15, 130, 20);
+    _propertyTitle.frame = CGRectMake(_propertyIcon.right + 11, 16, 130, 20);
     _propertyTitle.text = self.propertyDetailTableViewCellModel.title;
     //    _userName.backgroundColor = [UIColor redColor];
     
     //多图
     if ([@"1" isEqualToString:self.propertyDetailTableViewCellModel.isMoreImg]) {
-        _multiPictureIcon.frame = CGRectMake(_propertyTitle.right, 15, 17, 17);
+        _multiPictureIcon.frame = CGRectMake(_propertyTitle.right, 16, 17, 17);
         _multiPictureIcon.image = [UIImage imageNamed:@"broker_property_icon_pic"];
         _multiPictureIcon.hidden = NO;
     }else{
@@ -139,11 +139,11 @@
     //精选
     if ([@"1" isEqualToString:self.propertyDetailTableViewCellModel.isChoice]) {
         if (self.propertyDetailTableViewCellModel.isMoreImg && self.propertyDetailTableViewCellModel.isMoreImg.length > 0) {
-            _choiceIcon.frame = CGRectMake(_multiPictureIcon.right + 2, 15, 17, 17);
+            _choiceIcon.frame = CGRectMake(_multiPictureIcon.right + 2, 16, 17, 17);
             _choiceIcon.image = [UIImage imageNamed:@"broker_property_icon_jx"];
             _choiceIcon.hidden = NO;
         }else{
-            _choiceIcon.frame = CGRectMake(_propertyTitle.right, 15, 17, 17);
+            _choiceIcon.frame = CGRectMake(_propertyTitle.right, 16, 17, 17);
             _choiceIcon.image = [UIImage imageNamed:@"broker_property_icon_jx"];
             _choiceIcon.hidden = NO;
         }
@@ -154,15 +154,15 @@
     //手机
     if ([@"1" isEqualToString:self.propertyDetailTableViewCellModel.isPhonePub]) {
         if (self.propertyDetailTableViewCellModel.isChoice && self.propertyDetailTableViewCellModel.isChoice.length > 0) {
-            _mobileIcon.frame = CGRectMake(_choiceIcon.right + 2, 15, 17, 17);
+            _mobileIcon.frame = CGRectMake(_choiceIcon.right + 2, 16, 17, 17);
             _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
             _mobileIcon.hidden = NO;
         }else if(self.propertyDetailTableViewCellModel.isMoreImg && self.propertyDetailTableViewCellModel.isMoreImg.length > 0){
-            _mobileIcon.frame = CGRectMake(_multiPictureIcon.right + 2, 15, 17, 17);
+            _mobileIcon.frame = CGRectMake(_multiPictureIcon.right + 2, 16, 17, 17);
             _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
             _mobileIcon.hidden = NO;
         }else{
-            _mobileIcon.frame = CGRectMake(_propertyTitle.right, 15, 17, 17);
+            _mobileIcon.frame = CGRectMake(_propertyTitle.right, 16, 17, 17);
             _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
             _mobileIcon.hidden = NO;
         }

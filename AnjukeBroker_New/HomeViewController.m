@@ -528,8 +528,6 @@
         [self.navigationController pushViewController:viewController animated:YES];
         //#########################################################
         
-        
-        
 //        [[BrokerLogger sharedInstance] logWithActionCode:HOME_COMMISSION page:HOME note:nil]; //点击抢房源
 //        RushPropertyViewController *rushPropertyVC = [[RushPropertyViewController alloc] init];
 //        [rushPropertyVC setHidesBottomBarWhenPushed:YES];

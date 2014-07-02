@@ -11,7 +11,7 @@
 typedef void(^PromotionButtonBlock) (void); //返回类型void,  参数列表(void)
 
 @class ChoicePromotionCellModel;
-@interface ChoicePromotionCell : RTListCell
+@interface ChoicePromotionableCell : RTListCell
 
 @property (nonatomic, strong) ChoicePromotionCellModel* choicePromotionModel;
 @property (nonatomic, copy) PromotionButtonBlock block;
