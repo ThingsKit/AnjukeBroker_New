@@ -9,6 +9,7 @@
 #import "NoPlanPromotionPropertySingleViewController.h"
 #import "PropertyDetailTableViewCell.h"
 #import "PropertyDetailTableViewCellModel.h"
+#import "PropertyDetailTableViewFooter.h"
 
 @interface NoPlanPromotionPropertySingleViewController ()
 
@@ -16,6 +17,7 @@
 @property (nonatomic,strong) NSDictionary *dic;
 @property (nonatomic,strong) NSString *price;
 @property (nonatomic,strong) NSString *priceUnit;
+@property (nonatomic,strong) NSString *publishDay;
 @property (nonatomic,strong) PropertyDetailTableViewCellModel  *model;
 
 
@@ -36,27 +38,31 @@
 {
     [super viewDidLoad];
     [self setTitleViewWithString:@"房源详情"];
-    self.tableView                     = [[UITableView alloc] initWithFrame:[UIView navigationControllerBound] style:UITableViewStyleGrouped];
+    self.tableView                     = [[UITableView alloc] initWithFrame:[UIView navigationControllerBound] style:UITableViewStylePlain];
     self.tableView.sectionFooterHeight = 0;
     self.tableView.delegate            = self;
     self.tableView.dataSource          = self;
+    self.tableView.separatorStyle      = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor     = [UIColor groupTableViewBackgroundColor];
     [self.view addSubview:self.tableView];
     
-#warning hardCode测试数据
-    self.price     = @"1.2";
-    self.priceUnit = @"元";
     
-    [self requestData];
+    PropertyDetailTableViewFooter *footer = [[PropertyDetailTableViewFooter alloc] initWithFrame:self.view.frame];
+    [self.view addSubview:footer];
+#warning hardCode测试数据
+    self.price      = @"1.2";
+    self.priceUnit  = @"元";
+    self.publishDay = @"30";
+    [self loadDataWithPropId:@"168783092" brokerId:@"858573"];
     // Do any additional setup after loading the view.
 }
 
-- (void)requestData
+
+- (void)loadDataWithPropId:(NSString *)propId brokerId:(NSString *)brokerId
 {
 #warning 含有hardCode测试数据
     NSString     *method = @"anjuke/prop/summary/";
-//    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":@"858573",@"cityId":@"11",@"is_nocheck":@"1"};
-    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":@"858573",@"propId":@"168783092",@"is_nocheck":@"1"};
-//    NSDictionary *params = @{@"brokerId":@"858573",@"is_nocheck":@"1"};
+    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":brokerId,@"propId":propId,@"is_nocheck":@"1"};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleRequestData:)];
 }
 
@@ -71,27 +77,30 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return 6;
 }
+
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 15;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat cellHeight = 0;
-    if (indexPath.section == 0) {
+    
+    CGFloat cellHeight = 0.0;
+    if (indexPath.row == 0 || indexPath.row == 2) {
+        cellHeight = 15;
+    } else if (indexPath.row == 1) {
         cellHeight = 99;
-    } else if (indexPath.section == 1){
+    } else if (indexPath.row == 3){
         cellHeight = 121;
-        
+    } else if (indexPath.row == 4) {
+        cellHeight = 10;
+    } else if (indexPath.row == 5) {
+        cellHeight = 15;
     }
     
     return cellHeight;
@@ -100,7 +109,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *identifier = @"identifier";
-    if (indexPath.section == 0) {
+    if (indexPath.row == 1) {
         
         PropertyDetailTableViewCell *cell     = [[PropertyDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.propertyDetailTableViewCellModel = self.model;
@@ -108,13 +117,13 @@
         
         return cell;
         
-    } else if (indexPath.section == 1) {
+    } else if (indexPath.row == 3) {
         
         UITableViewCell *cell     = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        UILabel *promotionLable   = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 80, 20)];
+        UILabel *promotionLable   = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 305, 20)];
         promotionLable.text       = @"定价推广";
         promotionLable.font       = [UIFont systemFontOfSize:17];
-        UILabel *priceLable       = [[UILabel alloc] initWithFrame:CGRectMake(15, 40, 200, 15)];
+        UILabel *priceLable       = [[UILabel alloc] initWithFrame:CGRectMake(15, 40, 305, 15)];
         priceLable.text           = [NSString stringWithFormat:@"点击单价：%@%@",self.price,self.priceUnit];
         priceLable.textColor      = [UIColor brokerLightGrayColor];
         priceLable.font           = [UIFont systemFontOfSize:15];
@@ -131,9 +140,25 @@
         [cell addSubview:promotionButton];
         
         return cell;
+    } else if (indexPath.row == 5) {
+        
+        UITableViewCell *cell          = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        UILabel *publishDataLabel      = [[UILabel alloc] initWithFrame:CGRectMake(0, 0 , 305, 15)];
+        publishDataLabel.text          = [NSString stringWithFormat:@"%@天前发布",self.publishDay];
+        publishDataLabel.textColor     = [UIColor brokerLightGrayColor];
+        publishDataLabel.font          = [UIFont systemFontOfSize:14];
+        publishDataLabel.textAlignment = UITextAlignmentRight;
+        
+        cell.selectionStyle  = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = [UIColor clearColor];
+        [cell addSubview:publishDataLabel];
+        return cell;
+        
     }
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    cell.backgroundColor  = [UIColor clearColor];
     
-    return nil;
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

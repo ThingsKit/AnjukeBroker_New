@@ -14,8 +14,12 @@
 #import "ConfigPlistManager.h"
 #import "AccountManager.h"
 #import "BrokerRegisterViewController.h"
+#import "NoPlanPromotionPropertySingleViewController.h"
 //RTGestureBackNavigationController
 #import "RTGestureBackNavigationController.h"
+
+#define IPHONE_5_HEIGHT  568
+#define IPHONE_4S_HEIGHT 480
 
 @interface LoginViewController ()
 
@@ -103,7 +107,7 @@
     
     CGFloat textFieldViewTF_Y = 212 ;
     
-    if (self.windowHeight != 568) {
+    if (self.windowHeight != IPHONE_5_HEIGHT) {
         self.logoY = 60;
         textFieldViewTF_Y = self.logoY + 110;
     }
