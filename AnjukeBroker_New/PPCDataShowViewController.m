@@ -28,6 +28,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.pricingDic = [[NSDictionary alloc] init];
+        self.selectedDic = [[NSDictionary alloc] init];
     }
     return self;
 }
@@ -58,7 +60,7 @@
 #pragma mark - UITableViewDatasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (!self.pricingDic) {
-        0;
+        return 0;
     }
     return 6;
 }
@@ -88,15 +90,23 @@
             [cell showTopLine];
             cell.isPricing = YES;
             [cell showBottonLineWithCellHeight:150 andOffsetX:15];
-
-            PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.pricingDic];
-            [cell configureCell:model withIndex:indexPath.row];
+            
+            if (self.pricingDic[@"data"]) {
+                PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.pricingDic[@"data"]];
+                [cell configureCell:model withIndex:indexPath.row];
+            }else{
+                [cell configureCell:nil withIndex:indexPath.row];
+            }
         }else{
             cell.isPricing = NO;
             [cell showBottonLineWithCellHeight:150];
 
-            PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.selectedDic];
-            [cell configureCell:model withIndex:indexPath.row];
+            if (self.selectedDic[@"data"]) {
+                PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.selectedDic[@"data"]];
+                [cell configureCell:model withIndex:indexPath.row];
+            }else{
+                [cell configureCell:nil withIndex:indexPath.row];
+            }
         }
         return cell;
     }else{
@@ -240,7 +250,6 @@
         tapGes.numberOfTapsRequired    = 1;
         [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
         
-        
         self.pricingDic = nil;
         self.selectedDic = nil;
         [self.tableList reloadData];
@@ -259,10 +268,6 @@
     
     [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path1, nil] withRowAnimation:UITableViewRowAnimationNone];
     [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path2, nil] withRowAnimation:UITableViewRowAnimationNone];
-
-    
-//    PPCDataShowCell *pricingCell = (PPCDataShowCell *)[self.tableList cellForRowAtIndexPath:path1];
-//    PPCDataShowCell *selectCell = (PPCDataShowCell *)[self.tableList cellForRowAtIndexPath:path2];
 }
 - (void)tapGus:(UITapGestureRecognizer *)gesture{
     [self autoPullDown];

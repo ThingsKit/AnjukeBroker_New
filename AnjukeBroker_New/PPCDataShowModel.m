@@ -16,10 +16,11 @@
     model.todayClickNum = [NSNumber numberWithInteger:[dic[@"todayClicks"] intValue]];
     model.todayCostFee = [NSNumber numberWithInt:[dic[@"todayConsume"] intValue]];
     
-    NSString *str = dic[@"props"] ? dic[@"props"] : dic[@"propNum"];
+    NSString *str = dic[@"totalProps"] ? dic[@"totalProps"] : dic[@"propNum"];
     model.houseNum = [NSNumber numberWithInt:[str intValue]];
     
     return model;
 }
 
 @end
+

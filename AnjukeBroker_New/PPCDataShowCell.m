@@ -65,16 +65,19 @@
     
     self.todayClickLab = [[UILabel alloc] initWithFrame:CGRectMake(30, 45, 80, 80)];
     self.todayClickLab.font = [UIFont boldSystemFontOfSize:80];
+    self.todayClickLab.text = @"0";
     [self.contentView addSubview:self.todayClickLab];
 
     self.todayCostLab = [[UILabel alloc] initWithFrame:CGRectMake(145, 90, 60, 30)];
     self.todayCostLab.textColor = [UIColor brokerMiddleGrayColor];
     self.todayCostLab.font = [UIFont boldSystemFontOfSize:30];
+    self.todayCostLab.text = @"0";
     [self.contentView addSubview:self.todayCostLab];
 
     self.houseNumLab = [[UILabel alloc] initWithFrame:CGRectMake(225, 90, 60, 30)];
     self.houseNumLab.textColor = [UIColor brokerMiddleGrayColor];
     self.houseNumLab.font = [UIFont boldSystemFontOfSize:30];
+    self.houseNumLab.text = @"0";
     [self.contentView addSubview:self.houseNumLab];
 }
 
