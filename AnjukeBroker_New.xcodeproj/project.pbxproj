@@ -186,6 +186,9 @@
 		27A42B5A18E2C4D300FADED3 /* wl_map_icon_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A42B5118E2C4D300FADED3 /* wl_map_icon_5.png */; };
 		27A42B5B18E2C4D300FADED3 /* wl_map_icon_5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A42B5218E2C4D300FADED3 /* wl_map_icon_5@2x.png */; };
 		27C61C68192B034B002076AE /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27C61C67192B034B002076AE /* AdSupport.framework */; };
+		49C1885C1963E6FA000B5C5B /* HZWaitingForPromotedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C1885B1963E6FA000B5C5B /* HZWaitingForPromotedViewController.m */; };
+		49C188601963E792000B5C5B /* ESFWaitingForPromotedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C1885F1963E792000B5C5B /* ESFWaitingForPromotedViewController.m */; };
+		49C188631963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C188621963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m */; };
 		670F016F1931C8F5004C95B2 /* LocationSpecifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F016E1931C8F5004C95B2 /* LocationSpecifyViewController.m */; };
 		670F01721931D866004C95B2 /* KKAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F01711931D866004C95B2 /* KKAnnotation.m */; };
 		67203D441962827F00A32B60 /* PropertyDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 67203D431962827F00A32B60 /* PropertyDetailTableViewCell.m */; };
@@ -254,7 +257,6 @@
 		6767D1091921BBD6004FEFF7 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D1081921BBD6004FEFF7 /* BaseTableView.m */; };
 		6767D10D1921BF56004FEFF7 /* PropertyTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D10C1921BF56004FEFF7 /* PropertyTableView.m */; };
 		6767D11E1921FEB9004FEFF7 /* PropertyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D11D1921FEB9004FEFF7 /* PropertyTableViewCell.m */; };
-		6767D1271922073E004FEFF7 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D1261922073E004FEFF7 /* BaseModel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6767D12A1922079A004FEFF7 /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D1291922079A004FEFF7 /* NSString+URLEncoding.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6767D13019220AE2004FEFF7 /* PropertyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D12F19220AE2004FEFF7 /* PropertyModel.m */; };
 		6767D13D19230901004FEFF7 /* MyPropertyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6767D13C19230901004FEFF7 /* MyPropertyModel.m */; };
@@ -1081,6 +1083,12 @@
 		27A42B5118E2C4D300FADED3 /* wl_map_icon_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wl_map_icon_5.png; path = mapView/wl_map_icon_5.png; sourceTree = "<group>"; };
 		27A42B5218E2C4D300FADED3 /* wl_map_icon_5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wl_map_icon_5@2x.png"; path = "mapView/wl_map_icon_5@2x.png"; sourceTree = "<group>"; };
 		27C61C67192B034B002076AE /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		49C1885A1963E6FA000B5C5B /* HZWaitingForPromotedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HZWaitingForPromotedViewController.h; sourceTree = "<group>"; };
+		49C1885B1963E6FA000B5C5B /* HZWaitingForPromotedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HZWaitingForPromotedViewController.m; sourceTree = "<group>"; };
+		49C1885E1963E792000B5C5B /* ESFWaitingForPromotedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESFWaitingForPromotedViewController.h; sourceTree = "<group>"; };
+		49C1885F1963E792000B5C5B /* ESFWaitingForPromotedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESFWaitingForPromotedViewController.m; sourceTree = "<group>"; };
+		49C188611963E7A6000B5C5B /* MultipleChoiceAndEditListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipleChoiceAndEditListCell.h; sourceTree = "<group>"; };
+		49C188621963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipleChoiceAndEditListCell.m; sourceTree = "<group>"; };
 		670F016D1931C8F5004C95B2 /* LocationSpecifyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSpecifyViewController.h; sourceTree = "<group>"; };
 		670F016E1931C8F5004C95B2 /* LocationSpecifyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationSpecifyViewController.m; sourceTree = "<group>"; };
 		670F01701931D866004C95B2 /* KKAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKAnnotation.h; sourceTree = "<group>"; };
@@ -1166,8 +1174,6 @@
 		6767D10C1921BF56004FEFF7 /* PropertyTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyTableView.m; sourceTree = "<group>"; };
 		6767D11C1921FEB9004FEFF7 /* PropertyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyTableViewCell.h; sourceTree = "<group>"; };
 		6767D11D1921FEB9004FEFF7 /* PropertyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyTableViewCell.m; sourceTree = "<group>"; };
-		6767D1251922073E004FEFF7 /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
-		6767D1261922073E004FEFF7 /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
 		6767D1281922079A004FEFF7 /* NSString+URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLEncoding.h"; sourceTree = "<group>"; };
 		6767D1291922079A004FEFF7 /* NSString+URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLEncoding.m"; sourceTree = "<group>"; };
 		6767D12E19220AE2004FEFF7 /* PropertyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyModel.h; sourceTree = "<group>"; };
@@ -2596,6 +2602,26 @@
 			name = "地址选择&导航";
 			sourceTree = "<group>";
 		};
+		49C188591963E6CC000B5C5B /* MutipleToBePromoted */ = {
+			isa = PBXGroup;
+			children = (
+				49C188611963E7A6000B5C5B /* MultipleChoiceAndEditListCell.h */,
+				49C188621963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m */,
+				49C1885A1963E6FA000B5C5B /* HZWaitingForPromotedViewController.h */,
+				49C1885B1963E6FA000B5C5B /* HZWaitingForPromotedViewController.m */,
+			);
+			name = MutipleToBePromoted;
+			sourceTree = "<group>";
+		};
+		49C1885D1963E71C000B5C5B /* MutipleToBePromoted */ = {
+			isa = PBXGroup;
+			children = (
+				49C1885E1963E792000B5C5B /* ESFWaitingForPromotedViewController.h */,
+				49C1885F1963E792000B5C5B /* ESFWaitingForPromotedViewController.m */,
+			);
+			name = MutipleToBePromoted;
+			sourceTree = "<group>";
+		};
 		4BE066E019064B6200EA2309 /* AXDownLoadModule */ = {
 			isa = PBXGroup;
 			children = (
@@ -3093,6 +3119,7 @@
 		972C10241814FC4C00552C9B /* 二手房业务管理 */ = {
 			isa = PBXGroup;
 			children = (
+				49C1885D1963E71C000B5C5B /* MutipleToBePromoted */,
 				F88AE26B195C2D77009E3F5E /* NoData */,
 				B77A9608182A3331007F04E3 /* Manager */,
 				B769E488181F968900A2FF50 /* Controllers */,
@@ -3124,6 +3151,7 @@
 		972C10251814FC7500552C9B /* 租房业务管理 */ = {
 			isa = PBXGroup;
 			children = (
+				49C188591963E6CC000B5C5B /* MutipleToBePromoted */,
 				B72109431827761000904FC7 /* Controllers */,
 				B72109451827761800904FC7 /* View */,
 				972C102D1814FD5900552C9B /* HaozuHomeViewController.h */,
@@ -3232,8 +3260,6 @@
 				6767D18119246303004FEFF7 /* UIView+ChainViewController.m */,
 				6767D1281922079A004FEFF7 /* NSString+URLEncoding.h */,
 				6767D1291922079A004FEFF7 /* NSString+URLEncoding.m */,
-				6767D1251922073E004FEFF7 /* BaseModel.h */,
-				6767D1261922073E004FEFF7 /* BaseModel.m */,
 				6767D214192A14B3004FEFF7 /* NSString+EmojiExtension.h */,
 				6767D215192A14B3004FEFF7 /* NSString+EmojiExtension.m */,
 				F85A31501907862500511022 /* launchAdd */,
@@ -5033,7 +5059,6 @@
 				B769E445181F462C00A2FF50 /* SaleFixedDetailController.m in Sources */,
 				B7FC9B3418C4204C00F77205 /* UIImage+RTStyle.m in Sources */,
 				97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */,
-				6767D1271922073E004FEFF7 /* BaseModel.m in Sources */,
 				B7FC9B2818C41F5100F77205 /* BK_RTLineView.m in Sources */,
 				B7E56D0B183DABD300A0F7D2 /* AnjukePropertyResultController.m in Sources */,
 				B7518FBF192DE63E00C02590 /* AJKMySettingListAdCell.m in Sources */,
@@ -5243,6 +5268,7 @@
 				972C10291814FCD300552C9B /* HomeViewController.m in Sources */,
 				977FCA9D1828FAD700945FB4 /* LoginManager.m in Sources */,
 				2063C2651890ADB20043C739 /* PublishHouseTypeViewController.m in Sources */,
+				49C188631963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m in Sources */,
 				2056A38F18EE7EA00022B5A5 /* AXMessageCenterGetFriendInfoManager.m in Sources */,
 				6767D14519235174004FEFF7 /* MyPropertyTableView.m in Sources */,
 				B7E55B4F18BF2190007238CB /* JSMessageTextView.m in Sources */,
@@ -5253,6 +5279,7 @@
 				B7E4E4FC190F56F100077D77 /* BrokerResponder.m in Sources */,
 				67203D4F196283AB00A32B60 /* ChoicePromotionPropertySingleViewController.m in Sources */,
 				B769E484181F8F7000A2FF50 /* BasePropertyListController.m in Sources */,
+				49C1885C1963E6FA000B5C5B /* HZWaitingForPromotedViewController.m in Sources */,
 				010AFB1E1962538000ADB9C1 /* BrokerRegisterInfoViewController.m in Sources */,
 				B769E45A181F547100A2FF50 /* BasePropertyListCell.m in Sources */,
 				B7EAD51A18CD927200B28FEC /* AXChatMessagePublicCardCell.m in Sources */,
@@ -5322,6 +5349,7 @@
 				2056A38A18EE7EA00022B5A5 /* AXMessageCenterAddFriendManager.m in Sources */,
 				6794E4441947FDB50069F1ED /* SDWebImageDownloader.m in Sources */,
 				97B422571820D9A600A2E9E6 /* PropertyGroupListViewController.m in Sources */,
+				49C188601963E792000B5C5B /* ESFWaitingForPromotedViewController.m in Sources */,
 				B721094F18277F8A00904FC7 /* BaseFixedCell.m in Sources */,
 				F8FCFC2318FE8F3500A4B012 /* RTGestureLock.m in Sources */,
 				20E1A1F418FD0DF800FBDA75 /* RTGestureBackNavigationController.m in Sources */,
