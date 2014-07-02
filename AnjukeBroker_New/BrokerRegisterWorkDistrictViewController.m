@@ -25,6 +25,7 @@
         return;
         
     }
+#warning no check
     NSString     *method = @"common/districts/";
     NSDictionary *params  = @{@"cityId":cityId,@"is_nocheck":@"1"};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleAreaData:)];
@@ -94,7 +95,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-#warning 测试数据
     BrokerRegisterWorkBlockViewController *workBlockViewController = [[BrokerRegisterWorkBlockViewController alloc] init];
     [workBlockViewController loadBlockDataWithDistrict:[self.dataArray objectAtIndex:indexPath.row]];
     workBlockViewController.delegate = self.delegate;

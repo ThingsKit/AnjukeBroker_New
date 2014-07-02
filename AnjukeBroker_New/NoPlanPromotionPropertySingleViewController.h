@@ -7,7 +7,10 @@
 //
 
 #import "RTViewController.h"
+#import "PropertyEditViewController.h"
 
-@interface NoPlanPromotionPropertySingleViewController : RTViewController <UITableViewDataSource,UITableViewDelegate>
+@interface NoPlanPromotionPropertySingleViewController : RTViewController <UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
+
+@property (nonatomic, assign) id <PropertyEditDelegate> propertyDelegate;
 
 @end

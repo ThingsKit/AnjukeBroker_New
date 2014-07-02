@@ -11,6 +11,7 @@
 #import "PropertyDetailTableViewCellModel.h"
 #import "PropertyDetailTableViewFooter.h"
 
+
 @interface NoPlanPromotionPropertySingleViewController ()
 
 @property (nonatomic,strong) UITableView *tableView;
@@ -18,9 +19,10 @@
 @property (nonatomic,strong) NSString *price;
 @property (nonatomic,strong) NSString *priceUnit;
 @property (nonatomic,strong) NSString *publishDay;
-@property (nonatomic,strong) PropertyDetailTableViewCellModel  *model;
-
-
+@property (nonatomic,strong) NSString *propId;    //房源ID
+@property (nonatomic,strong) NSString *brokerId;
+@property (nonatomic,strong) PropertyDetailTableViewCellModel  *dataModel;
+@property (nonatomic) BOOL isZF;
 @end
 
 @implementation NoPlanPromotionPropertySingleViewController
@@ -46,9 +48,24 @@
     self.tableView.backgroundColor     = [UIColor groupTableViewBackgroundColor];
     [self.view addSubview:self.tableView];
     
-    
-    PropertyDetailTableViewFooter *footer = [[PropertyDetailTableViewFooter alloc] initWithFrame:self.view.frame];
+    __weak NoPlanPromotionPropertySingleViewController *this = self;
+    PropertyDetailTableViewFooter *footer = [[PropertyDetailTableViewFooter alloc] init];
+    footer.editBlock   = ^(){
+        
+        PropertyEditViewController *propertyEditViewController = [[PropertyEditViewController alloc] init];
+        propertyEditViewController.propertyID = this.propId;
+        propertyEditViewController.backType   = RTSelectorBackTypePopBack;
+        [this.navigationController pushViewController:propertyEditViewController animated:YES];
+        
+    };
+    footer.deleteBlock = ^(){
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"是否要删除该房源" message:@"" delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
+        [alertView show];
+        
+    };
     [self.view addSubview:footer];
+    
 #warning hardCode测试数据
     self.price      = @"1.2";
     self.priceUnit  = @"元";
@@ -57,10 +74,74 @@
     // Do any additional setup after loading the view.
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        self.isLoading = YES;
+        // 删除房源信息
+        if (![self isNetworkOkayWithNoInfo]) {
+            [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+            self.isLoading = NO;
+            return;
+        }
+        [self showLoadingActivity:YES];
+        NSDictionary *params = nil;
+        NSString     *method = nil;
+        if (self.isZF) {
+            params = @{@"cityId":[LoginManager getCity_id], @"token":[LoginManager getToken], @"brokerId": [LoginManager getUserID], @"propIds":self.propId};
+            method = @"zufang/prop/delprops/";
+        }
+        else {
+            params = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID],@"propIds":self.propId};
+            method = @"anjuke/prop/delprops/";
+        }
+        [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onDeletePropFinished:)];
+ 
+    }
+}
 
+- (void)onDeletePropFinished:(RTNetworkResponse *)response
+{
+    DLog(@"--delete Prop。。。response [%@]", [response content]);
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        [self hideLoadWithAnimated:YES];
+        return;
+    }
+    //延迟一秒再dismiss页面，已让API端更新房源删除数据
+    [self performSelector:@selector(doDeletePop) withObject:nil afterDelay:1];
+    
+}
+
+- (void)doDeletePop {
+    [self hideLoadWithAnimated:YES];
+    [self showInfo:@"删除房源成功"];
+    self.isLoading = NO;
+    if ([self.propertyDelegate respondsToSelector:@selector(propertyDidDelete)]) {
+        [self.propertyDelegate propertyDidDelete];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - button action
+
+- (void)promoteImmediately:(id)sender
+{
+    
+    DLog(@"ImmediatePromotionButton click");
+    
+}
+
+#pragma mark - requestData
 - (void)loadDataWithPropId:(NSString *)propId brokerId:(NSString *)brokerId
 {
 #warning 含有hardCode测试数据
+    self.propId   = propId;
+    self.brokerId = brokerId;
     NSString     *method = @"anjuke/prop/summary/";
     NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":brokerId,@"propId":propId,@"is_nocheck":@"1"};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleRequestData:)];
@@ -70,7 +151,7 @@
 {
     
     NSDictionary *dic = [response.content objectForKey:@"data"];
-    self.model        = [[PropertyDetailTableViewCellModel alloc] initWithDataDic:dic];
+    self.dataModel    = [[PropertyDetailTableViewCellModel alloc] initWithDataDic:dic];
     [self.tableView reloadData];
     
 }
@@ -79,7 +160,6 @@
 {
     return 6;
 }
-
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -112,7 +192,7 @@
     if (indexPath.row == 1) {
         
         PropertyDetailTableViewCell *cell     = [[PropertyDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        cell.propertyDetailTableViewCellModel = self.model;
+        cell.propertyDetailTableViewCellModel = self.dataModel;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         return cell;
@@ -123,16 +203,17 @@
         UILabel *promotionLable   = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 305, 20)];
         promotionLable.text       = @"定价推广";
         promotionLable.font       = [UIFont systemFontOfSize:17];
+        
         UILabel *priceLable       = [[UILabel alloc] initWithFrame:CGRectMake(15, 40, 305, 15)];
         priceLable.text           = [NSString stringWithFormat:@"点击单价：%@%@",self.price,self.priceUnit];
         priceLable.textColor      = [UIColor brokerLightGrayColor];
         priceLable.font           = [UIFont systemFontOfSize:15];
+        
         UIButton *promotionButton = [[UIButton alloc] initWithFrame:CGRectMake(15, 65, 290, 42)];
-        promotionButton.backgroundColor    = [UIColor brokerBabyBlueColor];
-        promotionButton.layer.borderColor  = [UIColor brokerBabyBlueColor].CGColor;
-        promotionButton.layer.borderWidth  = 1;
-        promotionButton.layer.cornerRadius = 3;
+        [promotionButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
+        [promotionButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_press"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateHighlighted];
         [promotionButton setTitle:@"立即推广" forState:UIControlStateNormal];
+        [promotionButton addTarget:self action:@selector(promoteImmediately:) forControlEvents:UIControlEventTouchUpInside];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell addSubview:promotionLable];

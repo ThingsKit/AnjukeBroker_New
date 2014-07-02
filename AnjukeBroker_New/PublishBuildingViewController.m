@@ -506,6 +506,7 @@ typedef enum {
     [alert show];
 }
 
+
 - (void)communityDataSet:(UILabel *)comLabel {
     
     NSString *name = [NSString string];
@@ -3107,7 +3108,11 @@ typedef enum {
         case 1:
         {
             //test
-            [self dismissViewControllerAnimated:YES completion:nil];
+            if (self.backType == RTSelectorBackTypePopBack) {
+                [self.navigationController popViewControllerAnimated:YES];
+            } else {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
         }
             break;
             

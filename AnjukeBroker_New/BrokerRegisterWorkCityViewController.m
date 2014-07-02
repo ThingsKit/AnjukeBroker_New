@@ -209,7 +209,9 @@
     if (indexPath.section == 0 && !self.isLocatedSuccess) {
         return;
     }
-    [self.delegate didSelectCity:[city.cityArray objectAtIndex:indexPath.row]];
+    if ([self.delegate respondsToSelector:@selector(didSelectCity:)]) {
+       [self.delegate didSelectCity:[city.cityArray objectAtIndex:indexPath.row]];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 

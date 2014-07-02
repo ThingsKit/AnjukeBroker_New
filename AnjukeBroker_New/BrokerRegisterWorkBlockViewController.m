@@ -95,7 +95,9 @@
     NSDictionary *dic = @{@"district":self.district,@"block":[self.dataArray objectAtIndex:indexPath.row]};
     BrokerRegisterInfoViewController *viewController = [self.navigationController.viewControllers objectAtIndex:1];
     [self.navigationController popToViewController:viewController animated:YES];
-    [self.delegate didSelectWorkRange:dic];
+    if ([self.delegate respondsToSelector:@selector(didSelectWorkRange:)]) {
+        [self.delegate didSelectWorkRange:dic];
+    }
     
 }
 

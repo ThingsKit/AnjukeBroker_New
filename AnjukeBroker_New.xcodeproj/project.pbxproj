@@ -3006,6 +3006,23 @@
 			path = SDWebImage;
 			sourceTree = "<group>";
 		};
+		9619F52B1963AFAD008C3A26 /* 待推广 */ = {
+			isa = PBXGroup;
+			children = (
+				9619F52D1963C0BD008C3A26 /* manager */,
+				96A3D3931962991B00E6A8B9 /* NoPlanPromotionPropertySingleViewController.h */,
+				96A3D3941962991B00E6A8B9 /* NoPlanPromotionPropertySingleViewController.m */,
+			);
+			name = "待推广";
+			sourceTree = "<group>";
+		};
+		9619F52D1963C0BD008C3A26 /* manager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = manager;
+			sourceTree = "<group>";
+		};
 		970501541845A18E00A0C181 /* 引导页 */ = {
 			isa = PBXGroup;
 			children = (
@@ -4272,6 +4289,7 @@
 		F89FF59919625B1400AC7256 /* PPC_NewVersion */ = {
 			isa = PBXGroup;
 			children = (
+				9619F52B1963AFAD008C3A26 /* 待推广 */,
 				F89FF59A19625B3000AC7256 /* PPCDataShow */,
 				67203D4C1962832600A32B60 /* 精选推广房源单页 */,
 				67203D4B196282FA00A32B60 /* 定价推广房源单页 */,

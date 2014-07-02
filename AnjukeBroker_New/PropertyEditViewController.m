@@ -785,9 +785,7 @@
         self.isLoading = NO;
         return;
     }
-    
     [self showLoadingActivity:YES];
-    
     //更新房源信息
     NSMutableDictionary *params = nil;
     NSString *method = nil;
@@ -1010,8 +1008,12 @@
     if ([self.propertyDelegate respondsToSelector:@selector(propertyDidDelete)]) {
         [self.propertyDelegate propertyDidDelete];
     }
+    if (self.backType == RTSelectorBackTypePopBack) {
+       [self.navigationController popViewControllerAnimated:YES];
+    } else {
+       [self dismissViewControllerAnimated:YES completion:nil];
+    }
     
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Check Method
