@@ -227,7 +227,6 @@
 		67203D9619629D3B00A32B60 /* PricePromotionCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 67203D9519629D3B00A32B60 /* PricePromotionCellModel.m */; };
 		67203D9919629DE100A32B60 /* ChoicePromotionCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 67203D9819629DE100A32B60 /* ChoicePromotionCellModel.m */; };
 		67203D9D1962A02100A32B60 /* PricePromotioningCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 67203D9C1962A02100A32B60 /* PricePromotioningCell.m */; };
-		67203DA01962A03600A32B60 /* ChoicePromotionableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 67203D9F1962A03600A32B60 /* ChoicePromotionableCell.m */; };
 		6740D1C71908E08C005ED706 /* anjuke_icon_add_more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6740D1AF1908E08C005ED706 /* anjuke_icon_add_more@2x.png */; };
 		6740D1C81908E08C005ED706 /* anjuke_icon_add_more1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6740D1B01908E08C005ED706 /* anjuke_icon_add_more1@2x.png */; };
 		6740D1C91908E08C005ED706 /* anjuke_icon_bq_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6740D1B11908E08C005ED706 /* anjuke_icon_bq_delete@2x.png */; };
@@ -297,6 +296,7 @@
 		678D38F41963F6DF00E9E155 /* ChoicePromotionDisableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 678D38F31963F6DF00E9E155 /* ChoicePromotionDisableCell.m */; };
 		678D38F71964148100E9E155 /* PricePromotionableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 678D38F61964148100E9E155 /* PricePromotionableCell.m */; };
 		678D38FA1964200B00E9E155 /* ChoicePromotionQueuingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 678D38F91964200B00E9E155 /* ChoicePromotionQueuingCell.m */; };
+		678D38FD1964330600E9E155 /* ChoicePromotionableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 678D38FC1964330600E9E155 /* ChoicePromotionableCell.m */; };
 		6794E40F1947EC2C0069F1ED /* broker_fy_noproperty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3F51947EC2C0069F1ED /* broker_fy_noproperty@2x.png */; };
 		6794E4101947EC2C0069F1ED /* broker_home_icon_esf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3F61947EC2C0069F1ED /* broker_home_icon_esf@2x.png */; };
 		6794E4111947EC2C0069F1ED /* broker_home_icon_scfx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3F71947EC2C0069F1ED /* broker_home_icon_scfx@2x.png */; };
@@ -1144,8 +1144,6 @@
 		67203D9819629DE100A32B60 /* ChoicePromotionCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoicePromotionCellModel.m; sourceTree = "<group>"; };
 		67203D9B1962A02100A32B60 /* PricePromotioningCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PricePromotioningCell.h; sourceTree = "<group>"; };
 		67203D9C1962A02100A32B60 /* PricePromotioningCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PricePromotioningCell.m; sourceTree = "<group>"; };
-		67203D9E1962A03600A32B60 /* ChoicePromotionableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoicePromotionableCell.h; sourceTree = "<group>"; };
-		67203D9F1962A03600A32B60 /* ChoicePromotionableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoicePromotionableCell.m; sourceTree = "<group>"; };
 		6740D1AF1908E08C005ED706 /* anjuke_icon_add_more@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_more@2x.png"; sourceTree = "<group>"; };
 		6740D1B01908E08C005ED706 /* anjuke_icon_add_more1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_add_more1@2x.png"; sourceTree = "<group>"; };
 		6740D1B11908E08C005ED706 /* anjuke_icon_bq_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_bq_delete@2x.png"; sourceTree = "<group>"; };
@@ -1244,6 +1242,8 @@
 		678D38F61964148100E9E155 /* PricePromotionableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PricePromotionableCell.m; sourceTree = "<group>"; };
 		678D38F81964200B00E9E155 /* ChoicePromotionQueuingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoicePromotionQueuingCell.h; sourceTree = "<group>"; };
 		678D38F91964200B00E9E155 /* ChoicePromotionQueuingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoicePromotionQueuingCell.m; sourceTree = "<group>"; };
+		678D38FB1964330600E9E155 /* ChoicePromotionableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoicePromotionableCell.h; sourceTree = "<group>"; };
+		678D38FC1964330600E9E155 /* ChoicePromotionableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoicePromotionableCell.m; sourceTree = "<group>"; };
 		6794E3F51947EC2C0069F1ED /* broker_fy_noproperty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_fy_noproperty@2x.png"; sourceTree = "<group>"; };
 		6794E3F61947EC2C0069F1ED /* broker_home_icon_esf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_home_icon_esf@2x.png"; sourceTree = "<group>"; };
 		6794E3F71947EC2C0069F1ED /* broker_home_icon_scfx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_home_icon_scfx@2x.png"; sourceTree = "<group>"; };
@@ -2657,10 +2657,10 @@
 				678D38F61964148100E9E155 /* PricePromotionableCell.m */,
 				67203D9B1962A02100A32B60 /* PricePromotioningCell.h */,
 				67203D9C1962A02100A32B60 /* PricePromotioningCell.m */,
-				67203D9E1962A03600A32B60 /* ChoicePromotionableCell.h */,
-				67203D9F1962A03600A32B60 /* ChoicePromotionableCell.m */,
 				678D38EF1963EBB200E9E155 /* ChoicePromotioningCell.h */,
 				678D38F01963EBB200E9E155 /* ChoicePromotioningCell.m */,
+				678D38FB1964330600E9E155 /* ChoicePromotionableCell.h */,
+				678D38FC1964330600E9E155 /* ChoicePromotionableCell.m */,
 				678D38F21963F6DF00E9E155 /* ChoicePromotionDisableCell.h */,
 				678D38F31963F6DF00E9E155 /* ChoicePromotionDisableCell.m */,
 				678D38F81964200B00E9E155 /* ChoicePromotionQueuingCell.h */,
@@ -5077,8 +5077,6 @@
 				B7EAD51718CD927200B28FEC /* AXChatContentValidator.m in Sources */,
 				97CB0C0F182BEA3500FCCBBD /* BK_ELCAssetTablePicker.m in Sources */,
 				B7EAD52318CD927200B28FEC /* AXPullToRefreshSimpleContentView.m in Sources */,
-				67203DA01962A03600A32B60 /* ChoicePromotionableCell.m in Sources */,
-				67203DA01962A03600A32B60 /* ChoicePromotionCell.m in Sources */,
 				B769E487181F8F9300A2FF50 /* SalePropertyListController.m in Sources */,
 				B72CA8391921FBB000F8592D /* SelectionToolView.m in Sources */,
 				2056A34A18EE7E660022B5A5 /* AXPerson.m in Sources */,
@@ -5254,6 +5252,7 @@
 				2079ADDB18B5D62E0029D493 /* ClientDetailViewController.m in Sources */,
 				97CB0C1F182BF28D00FCCBBD /* UIViewController+Loading.m in Sources */,
 				2056A38918EE7EA00022B5A5 /* AXMessageCenterAddFriendByQRCodeManager.m in Sources */,
+				678D38FD1964330600E9E155 /* ChoicePromotionableCell.m in Sources */,
 				B7E1F6B7190E0705009F546B /* IMGDownloaderOperation.m in Sources */,
 				670F016F1931C8F5004C95B2 /* LocationSpecifyViewController.m in Sources */,
 				B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */,
