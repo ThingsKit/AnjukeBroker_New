@@ -10,10 +10,12 @@
 
 #import "PropertyDetailTableViewFooter.h"
 #import "PropertyDetailTableViewCell.h"
-#import "PricePromotionCell.h"
+#import "PricePromotioningCell.h"
 #import "ChoicePromotionableCell.h"
 #import "ChoicePromotioningCell.h"
 #import "ChoicePromotionDisableCell.h"
+#import "PricePromotionableCell.h"
+#import "ChoicePromotionQueuingCell.h"
 
 
 
@@ -57,7 +59,7 @@
 #pragma mark -
 #pragma mark UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 5;
+    return 7;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -73,9 +75,39 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         [cell showTopLine];
         [cell showBottonLineWithCellHeight:95];
-        
         return cell;
+        
     }else if (indexPath.section == 1){
+        
+        PricePromotioningCell* cell = [[PricePromotioningCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        NSDictionary* dict = @{@"todayClicks":@"11", @"totalClicks":@"12", @"clickPrice":@"10", @"clickPriceUnit":@"元"};
+        cell.pricePromotionCellModel = [[PricePromotionCellModel alloc] initWithDataDic:dict];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell showTopLine];
+        [cell showBottonLineWithCellHeight:90];
+        return cell;
+        
+    }else if(indexPath.section == 2){
+        
+        ChoicePromotioningCell* cell = [[ChoicePromotioningCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        NSDictionary* dict = @{@"totalClicks":@"10", @"balance":@"10", @"balanceUnit":@"元", @"todayClicks":@"1", @"todayConsume":@"1230", @"todayConsumeUnit":@"元", @"clickPrice":@"123", @"clickPriceUnit":@"元", @"maxBucketNum":@"12", @"useNum":@"12", @"actionType":@"3"};
+        cell.choicePromotionModel = [[ChoicePromotionCellModel alloc] initWithDataDic:dict];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell showTopLine];
+        [cell showBottonLineWithCellHeight:150];
+        return cell;
+        
+    }else if(indexPath.section == 3){
+        
+        ChoicePromotionableCell* cell = [[ChoicePromotionableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        NSDictionary* dict = @{@"totalClicks":@"10", @"balance":@"10", @"balanceUnit":@"元", @"todayClicks":@"1", @"todayConsume":@"1230", @"todayConsumeUnit":@"元", @"clickPrice":@"123", @"clickPriceUnit":@"元", @"maxBucketNum":@"12", @"useNum":@"6", @"actionType":@"3"};
+        cell.choicePromotionModel = [[ChoicePromotionCellModel alloc] initWithDataDic:dict];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell showTopLine];
+        [cell showBottonLineWithCellHeight:200];
+        return cell;
+        
+    }else if(indexPath.section == 4){
         
         ChoicePromotionDisableCell* cell = [[ChoicePromotionDisableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         cell.choiceConditionText = @"精选推广条件: 多图+新发15天";
@@ -84,30 +116,27 @@
         [cell showBottonLineWithCellHeight:125];
         return cell;
         
-//        PricePromotionCell* cell = [[PricePromotionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-//        NSDictionary* dict = @{@"todayClicks":@"11", @"totalClicks":@"12", @"clickPrice":@"10", @"clickPriceUnit":@"元"};
-//        cell.pricePromotionCellModel = [[PricePromotionCellModel alloc] initWithDataDic:dict];
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        [cell showTopLine];
-//        [cell showBottonLineWithCellHeight:90];
-//        return cell;
+    }else if(indexPath.section == 5){
         
-    }else if(indexPath.section == 2){
-        ChoicePromotioningCell* cell = [[ChoicePromotioningCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-        NSDictionary* dict = @{@"totalClicks":@"10", @"balance":@"10", @"balanceUnit":@"元", @"todayClicks":@"1", @"todayConsume":@"1230", @"todayConsumeUnit":@"元", @"clickPrice":@"123", @"clickPriceUnit":@"元", @"maxBucketNum":@"12", @"useNum":@"6", @"actionType":@"3"};
-        cell.choicePromotionModel = [[ChoicePromotionCellModel alloc] initWithDataDic:dict];
+        PricePromotionableCell* cell = [[PricePromotionableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        NSDictionary* dict = @{@"todayClicks":@"11", @"totalClicks":@"12", @"clickPrice":@"10", @"clickPriceUnit":@"元"};
+        cell.pricePromotionCellModel = [[PricePromotionCellModel alloc] initWithDataDic:dict];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell showTopLine];
+        [cell showBottonLineWithCellHeight:120];
+        return cell;
+    
+    }else if(indexPath.section == 6){
+        
+        ChoicePromotionQueuingCell* cell = [[ChoicePromotionQueuingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        cell.queuePosition = @"2";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell showTopLine];
         [cell showBottonLineWithCellHeight:150];
         return cell;
+        
     }else{
-        ChoicePromotionableCell* cell = [[ChoicePromotionableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-        NSDictionary* dict = @{@"totalClicks":@"10", @"balance":@"10", @"balanceUnit":@"元", @"todayClicks":@"1", @"todayConsume":@"1230", @"todayConsumeUnit":@"元", @"clickPrice":@"123", @"clickPriceUnit":@"元", @"maxBucketNum":@"12", @"useNum":@"6", @"actionType":@"3"};
-        cell.choicePromotionModel = [[ChoicePromotionCellModel alloc] initWithDataDic:dict];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [cell showTopLine];
-        [cell showBottonLineWithCellHeight:200];
-        return cell;
+        return nil;
     }
     
 }
@@ -120,9 +149,19 @@
     if (indexPath.section == 0) {
         return 95;
     }else if (indexPath.section == 1){
-        return 125;
-    }else{
+        return 90;
+    }else if (indexPath.section == 2){
+        return 150;
+    }else if (indexPath.section == 3){
         return 200;
+    }else if (indexPath.section == 4){
+        return 125;
+    }else if (indexPath.section == 5){
+        return 120;
+    }else if (indexPath.section == 6){
+        return 150;
+    }else{
+        return 0;
     }
 }
 

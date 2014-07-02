@@ -8,11 +8,11 @@
 #define GAP_HORIZONTAL 15
 #define GAP_VERTICAL 6
 
-#import "PricePromotionCell.h"
+#import "PricePromotioningCell.h"
 #import "PricePromotionCellModel.h"
 #import "UIViewExt.h"
 
-@interface PricePromotionCell ()
+@interface PricePromotioningCell ()
 
 @property (nonatomic, strong) UILabel* title;
 @property (nonatomic, strong) UILabel* todayClickNumber; //今日点击
@@ -25,7 +25,7 @@
 @end
 
 
-@implementation PricePromotionCell
+@implementation PricePromotioningCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

@@ -86,10 +86,6 @@
     
     //推广按钮
     _promotionButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_promotionButton setTitle:@"立即推广" forState:UIControlStateNormal];
-    _promotionButton.titleLabel.font = [UIFont ajkH2Font];
-    [_promotionButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateNormal];
-    [_promotionButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_press"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateHighlighted];
     [_promotionButton addTarget:self action:@selector(startPromotion:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_promotionButton];
 
@@ -201,7 +197,31 @@
     
     //推广按钮
     _promotionButton.frame = CGRectMake(15, _queueVacancy.bottom + GAP_VERTICAL + 2, ScreenWidth-15*2, 42);
-    
+    if (used == total) {
+        [_promotionButton setTitle:@"推广位已满" forState:UIControlStateNormal];
+        [_promotionButton setTitleColor:[UIColor brokerLightGrayColor] forState:UIControlStateNormal];
+        _promotionButton.titleLabel.font = [UIFont ajkH2Font];
+        
+        [_promotionButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_gray_hollow"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateNormal];
+        _promotionButton.enabled = NO;
+        
+    }else if(used >= total*0.5){
+        
+        [_promotionButton setTitle:@"立即排队" forState:UIControlStateNormal];
+        _promotionButton.titleLabel.font = [UIFont ajkH2Font];
+        [_promotionButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateNormal];
+        [_promotionButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_press"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateHighlighted];
+        _promotionButton.tag = 10;
+        _promotionButton.enabled = YES;
+        
+    }else{
+        [_promotionButton setTitle:@"立即推广" forState:UIControlStateNormal];
+        _promotionButton.titleLabel.font = [UIFont ajkH2Font];
+        [_promotionButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateNormal];
+        [_promotionButton setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_press"] stretchableImageWithLeftCapWidth:20 topCapHeight:21] forState:UIControlStateHighlighted];
+        _promotionButton.tag = 20;
+        _promotionButton.enabled = YES;
+    }
     
 }
 
@@ -209,7 +229,7 @@
 - (void)startPromotion:(UIButton*)button{
     NSLog(@"立即推广");
     if (self.block != nil) {
-        _block();
+        _block(); //这个tag用来标示是立即排队 还是 立即推广
     }
     
 }

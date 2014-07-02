@@ -9,7 +9,7 @@
 #import "RTListCell.h"
 
 @class PricePromotionCellModel;
-@interface PricePromotionCell : RTListCell
+@interface PricePromotioningCell : RTListCell
 
 @property (nonatomic, strong) PricePromotionCellModel* pricePromotionCellModel;
 
