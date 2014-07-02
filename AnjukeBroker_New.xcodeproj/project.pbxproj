@@ -189,6 +189,7 @@
 		49C1885C1963E6FA000B5C5B /* HZWaitingForPromotedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C1885B1963E6FA000B5C5B /* HZWaitingForPromotedViewController.m */; };
 		49C188601963E792000B5C5B /* ESFWaitingForPromotedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C1885F1963E792000B5C5B /* ESFWaitingForPromotedViewController.m */; };
 		49C188631963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C188621963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m */; };
+		49C188661963F030000B5C5B /* MutipleEditTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C188651963F030000B5C5B /* MutipleEditTableViewCell.m */; };
 		670F016F1931C8F5004C95B2 /* LocationSpecifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F016E1931C8F5004C95B2 /* LocationSpecifyViewController.m */; };
 		670F01721931D866004C95B2 /* KKAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F01711931D866004C95B2 /* KKAnnotation.m */; };
 		67203D441962827F00A32B60 /* PropertyDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 67203D431962827F00A32B60 /* PropertyDetailTableViewCell.m */; };
@@ -1095,6 +1096,8 @@
 		49C1885F1963E792000B5C5B /* ESFWaitingForPromotedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESFWaitingForPromotedViewController.m; sourceTree = "<group>"; };
 		49C188611963E7A6000B5C5B /* MultipleChoiceAndEditListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipleChoiceAndEditListCell.h; sourceTree = "<group>"; };
 		49C188621963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipleChoiceAndEditListCell.m; sourceTree = "<group>"; };
+		49C188641963F030000B5C5B /* MutipleEditTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutipleEditTableViewCell.h; sourceTree = "<group>"; };
+		49C188651963F030000B5C5B /* MutipleEditTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutipleEditTableViewCell.m; sourceTree = "<group>"; };
 		670F016D1931C8F5004C95B2 /* LocationSpecifyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSpecifyViewController.h; sourceTree = "<group>"; };
 		670F016E1931C8F5004C95B2 /* LocationSpecifyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationSpecifyViewController.m; sourceTree = "<group>"; };
 		670F01701931D866004C95B2 /* KKAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKAnnotation.h; sourceTree = "<group>"; };
@@ -2623,6 +2626,8 @@
 		49C188591963E6CC000B5C5B /* MutipleToBePromoted */ = {
 			isa = PBXGroup;
 			children = (
+				49C188641963F030000B5C5B /* MutipleEditTableViewCell.h */,
+				49C188651963F030000B5C5B /* MutipleEditTableViewCell.m */,
 				49C188611963E7A6000B5C5B /* MultipleChoiceAndEditListCell.h */,
 				49C188621963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m */,
 				49C1885A1963E6FA000B5C5B /* HZWaitingForPromotedViewController.h */,
@@ -5078,6 +5083,8 @@
 				97CB0C0F182BEA3500FCCBBD /* BK_ELCAssetTablePicker.m in Sources */,
 				B7EAD52318CD927200B28FEC /* AXPullToRefreshSimpleContentView.m in Sources */,
 				67203DA01962A03600A32B60 /* ChoicePromotionableCell.m in Sources */,
+				67203DA01962A03600A32B60 /* ChoicePromotionCell.m in Sources */,
+				49C188661963F030000B5C5B /* MutipleEditTableViewCell.m in Sources */,
 				B769E487181F8F9300A2FF50 /* SalePropertyListController.m in Sources */,
 				B72CA8391921FBB000F8592D /* SelectionToolView.m in Sources */,
 				2056A34A18EE7E660022B5A5 /* AXPerson.m in Sources */,

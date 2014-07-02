@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+
+#define kUtilityButtonWidthDefault 90
 @class SWTableViewCell;
+@class MutipleEditTableViewCell;
+
 
 @interface SWUtilityButtonView : UIView
 
