@@ -12,6 +12,7 @@
 #import "PPCSelectedListViewController.h"
 #import "HZWaitingForPromotedViewController.h"
 #import "ESFWaitingForPromotedViewController.h"
+#import "PPCDataShowModel.h"
 
 @interface PPCDataShowViewController ()
 @property(nonatomic, strong) NSDictionary *pricingDic;
@@ -87,11 +88,16 @@
             [cell showTopLine];
             cell.isPricing = YES;
             [cell showBottonLineWithCellHeight:150 andOffsetX:15];
+
+            PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.pricingDic];
+            [cell configureCell:model withIndex:indexPath.row];
         }else{
             cell.isPricing = NO;
             [cell showBottonLineWithCellHeight:150];
+
+            PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.selectedDic];
+            [cell configureCell:model withIndex:indexPath.row];
         }
-        [cell configureCell:nil withIndex:indexPath.row];
         return cell;
     }else{
         RTListCell *cell = [tableView dequeueReusableCellWithIdentifier:identify2];
@@ -245,11 +251,18 @@
     
     [self donePullDown];
     
-    NSData *pricingData = [response content][@"fix"][@"body"];
-    NSData *selectData = [response content][@"choice"][@"body"];
+    self.pricingDic = [[response content][@"fix"][@"body"] JSONValue];
+    self.selectedDic = [[response content][@"choice"][@"body"] JSONValue];
     
-    self.pricingDic = [NSJSONSerialization JSONObjectWithData:pricingData options:NSJSONReadingAllowFragments error:nil];
-    self.selectedDic = [NSJSONSerialization JSONObjectWithData:selectData options:NSJSONReadingAllowFragments error:nil];
+    NSIndexPath *path1 = [NSIndexPath indexPathForItem:1 inSection:0];
+    NSIndexPath *path2 = [NSIndexPath indexPathForItem:2 inSection:0];
+    
+    [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path1, nil] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path2, nil] withRowAnimation:UITableViewRowAnimationNone];
+
+    
+//    PPCDataShowCell *pricingCell = (PPCDataShowCell *)[self.tableList cellForRowAtIndexPath:path1];
+//    PPCDataShowCell *selectCell = (PPCDataShowCell *)[self.tableList cellForRowAtIndexPath:path2];
 }
 - (void)tapGus:(UITapGestureRecognizer *)gesture{
     [self autoPullDown];
