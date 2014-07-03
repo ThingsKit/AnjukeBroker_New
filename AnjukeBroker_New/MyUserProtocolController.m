@@ -64,6 +64,10 @@
 //    [self backButtonClick];
 //}
 
+- (void)doBack:(id)sender {
+    [self backButtonClick];
+}
+
 - (void)backButtonClick {
     if (self.presentingViewController) {
 //        [self sendReturnLog];
