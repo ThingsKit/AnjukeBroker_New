@@ -13,6 +13,8 @@
 #import "HZWaitingForPromotedViewController.h"
 #import "ESFWaitingForPromotedViewController.h"
 #import "PPCDataShowModel.h"
+#import "CommunityListViewController.h"
+#import "RTGestureBackNavigationController.h"
 
 @interface PPCDataShowViewController ()
 @property(nonatomic, strong) NSMutableDictionary *pricingDic;
@@ -32,6 +34,12 @@
         self.selectedDic = [[NSMutableDictionary alloc] init];
     }
     return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    if (self.tableList && !self.isLoading) {
+        [self autoPullDown];
+    }
 }
 
 - (void)viewDidLoad
@@ -59,6 +67,9 @@
 
 #pragma mark - UITableViewDatasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (!self.pricingDic && !self.selectedDic) {
+        return 0;
+    }
     return 6;
 }
 
@@ -140,7 +151,6 @@
     }
     
     if (indexPath.row == 1) {
-
         if (self.pricingDic && self.pricingDic[@"planId"]) {
             PPCPriceingListViewController *pricingListVC = [[PPCPriceingListViewController alloc] init];
             pricingListVC.isHaozu = self.isHaozu;
@@ -150,18 +160,10 @@
             return;
         }
     }else if (indexPath.row == 2){
-//        if (self.selectedDic[@"data"] && self.selectedDic[@"data"][@"planId"]) {
-//            PPCSelectedListViewController *selectedListVC = [[PPCSelectedListViewController alloc] init];
-//            selectedListVC.isHaozu = self.isHaozu;
-//            [self.navigationController pushViewController:selectedListVC animated:YES];
-//            selectedListVC.planId = self.selectedDic[@"data"][@"planId"];
-//        }else{
-//            return;
-//        }
         PPCSelectedListViewController *selectedListVC = [[PPCSelectedListViewController alloc] init];
         selectedListVC.isHaozu = self.isHaozu;
+        selectedListVC.planId = self.selectedDic[@"planId"];
         [self.navigationController pushViewController:selectedListVC animated:YES];
-        selectedListVC.planId = self.selectedDic[@"data"][@"planId"];
 
     } else if (indexPath.row == 4) {
         if (self.isHaozu) {
@@ -244,8 +246,8 @@
         tapGes.numberOfTapsRequired    = 1;
         [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
         
-        [self.pricingDic removeAllObjects];
-        [self.selectedDic removeAllObjects];
+        self.pricingDic = nil;
+        self.selectedDic = nil;
         [self.tableList reloadData];
         
         return ;
@@ -261,8 +263,8 @@
         tapGes.numberOfTapsRequired    = 1;
         [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
         
-        [self.pricingDic removeAllObjects];
-        [self.selectedDic removeAllObjects];
+        self.pricingDic = nil;
+        self.selectedDic = nil;
         [self.tableList reloadData];
         
         [self donePullDown];
@@ -285,22 +287,38 @@
     }else{
         self.selectedDic = nil;
     }
-    
-    NSIndexPath *path1 = [NSIndexPath indexPathForItem:1 inSection:0];
-    NSIndexPath *path2 = [NSIndexPath indexPathForItem:2 inSection:0];
-    
-    [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path1, nil] withRowAnimation:UITableViewRowAnimationNone];
-    [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path2, nil] withRowAnimation:UITableViewRowAnimationNone];
+    if (!self.pricingDic && !self.selectedDic) {
+        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+
+        [self.tableList reloadData];
+    }else{
+        NSIndexPath *path1 = [NSIndexPath indexPathForItem:1 inSection:0];
+        NSIndexPath *path2 = [NSIndexPath indexPathForItem:2 inSection:0];
+        
+        [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path1, nil] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path2, nil] withRowAnimation:UITableViewRowAnimationNone];
+    }
 }
+
+
 - (void)tapGus:(UITapGestureRecognizer *)gesture{
     [self autoPullDown];
 }
 #pragma mark -- rightButton
 - (void)rightButtonAction:(id)sender{
     if (self.isHaozu) {
-        
+        CommunityListViewController *controller = [[CommunityListViewController alloc] init];
+        controller.backType = RTSelectorBackTypeNone;
+        controller.isFirstShow = YES;
+        controller.isHaouzu = YES;
+        RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+        [self presentViewController:nav animated:YES completion:nil]; 
     }else{
-        
+        CommunityListViewController *controller = [[CommunityListViewController alloc] init];
+        controller.backType = RTSelectorBackTypeNone;
+        controller.isFirstShow = YES;
+        RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+        [self presentViewController:nav animated:YES completion:nil];
     }
 }
 

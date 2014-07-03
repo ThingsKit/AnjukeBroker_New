@@ -10,6 +10,9 @@
 #import "PPCHouseCell.h"
 #import "NSMutableArray+SWUtilityButtons.h"
 #import "PPCPriceingListModel.h"
+#import "PropertyEditViewController.h"
+#import "RTGestureBackNavigationController.h"
+#import "CommunityListViewController.h"
 
 @interface PPCPriceingListViewController ()
 @property(nonatomic, strong) NSMutableArray *tableData;
@@ -28,6 +31,12 @@
         // Custom initialization
     }
     return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    if (self.tableList && !self.isLoading) {
+        [self autoPullDown];
+    }
 }
 
 - (void)viewDidLoad
@@ -81,7 +90,7 @@
         if (section == 0) {
             return 0.0;
         }else if (section == 1){
-            return 45.0;
+            return 40.0;
         }
     }
     return 0;
@@ -145,7 +154,7 @@
         params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",self.planId,@"planId",[LoginManager getCity_id],@"cityId", nil];
         method = [NSString stringWithFormat:@"zufang/fix/props/"];
     }else{
-        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",self.planId,@"planId",[LoginManager getCity_id],@"cityId", nil]; 
+        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",self.planId,@"planId",[LoginManager getCity_id],@"cityId", nil];
         method = [NSString stringWithFormat:@"anjuke/fix/props/"];
     }
 
@@ -198,17 +207,10 @@
     self.oldListData = [NSArray arrayWithArray:resultData[@"oldList"]];
     self.tableData = [[NSMutableArray alloc] init];
     
-    if (self.lastedListData.count > 0) {
-        for (int i = 0; i < self.lastedListData.count; i++) {
-            [self.tableData addObject:[self.lastedListData objectAtIndex:i]];
-        }
-    }
-    if (self.oldListData.count > 0) {
-        for (int i = 0; i < self.oldListData.count; i++) {
-            [self.tableData addObject:[self.oldListData objectAtIndex:i]];
-        }
-    }
     
+    [self.tableData addObjectsFromArray:self.lastedListData];
+    [self.tableData addObjectsFromArray:self.oldListData];
+
     if (self.tableData.count == 0) {
         [self.tableList setTableStatus:STATUSFORNODATAFORPRICINGLIST];
     }else{
@@ -216,9 +218,69 @@
     }
     [self.tableList reloadData];
 }
-- (void)rightButtonAction:(id)sender{
+
+//删除房源
+- (void)doDeleteProperty:(NSString *)propertyID{
+    self.isLoading = YES;
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+        self.isLoading = NO;
+        return;
+    }
+    //更新房源信息
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
     
+    if (self.isHaozu) {
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propertyID, @"propIds", nil];
+        method = @"zufang/prop/delprops/";
+    }
+    else {
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propertyID, @"propIds", nil];
+        method = @"anjuke/prop/delprops/";
+    }
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onDeletePropFinished:)];
 }
+
+- (void)onDeletePropFinished:(RTNetworkResponse *)response {
+    DLog(@"--delete Prop。。。response [%@]", [response content]);
+    
+    if([[response content] count] == 0){
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+    }
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+        
+        //        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        return;
+    }
+    
+    [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
+    
+    [self autoPullDown];
+}
+
+
+- (void)rightButtonAction:(id)sender{
+    if (self.isHaozu) {
+        CommunityListViewController *controller = [[CommunityListViewController alloc] init];
+        controller.backType = RTSelectorBackTypeNone;
+        controller.isFirstShow = YES;
+        controller.isHaouzu = YES;
+        RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+        [self presentViewController:nav animated:YES completion:nil];
+    }else{
+        CommunityListViewController *controller = [[CommunityListViewController alloc] init];
+        controller.backType = RTSelectorBackTypeNone;
+        controller.isFirstShow = YES;
+        RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+        [self presentViewController:nav animated:YES completion:nil];
+    }}
 
 - (void)tapGus:(UITapGestureRecognizer *)tap{
     [self autoPullDown];
@@ -232,6 +294,19 @@
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     DLog(@"didTriggerRightUtilityButtonWithIndex-->>%d",index);
+    
+    NSIndexPath *indexPath = [self.tableList indexPathForCell:cell];
+    if (index == 1) {
+        [self doDeleteProperty:[self.tableData objectAtIndex:indexPath.row][@"propId"]];
+    }else{
+        PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+        controller.isHaozu = self.isHaozu;
+//        controller.pdId = HZ_PPC_BID_DETAIL;
+        controller.propertyID = [self.tableData objectAtIndex:indexPath.row][@"propId"];
+        controller.backType = RTSelectorBackTypeDismiss;
+        RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+        [self presentViewController:nav animated:YES completion:nil];
+    }
 }
 
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {

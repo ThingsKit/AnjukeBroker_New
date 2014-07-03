@@ -103,19 +103,19 @@
         i++;
         
         UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 15 - 17*i - 3*(i-1), 15 , 17, 17)];
-        imgView.backgroundColor = [UIColor lightGrayColor];
+        [imgView setImage:[UIImage imageNamed:@"broker_property_icon_tel"]];
         [self addSubview:imgView];
     }else if (![model.isChoice isEqualToString:@"1"]){
         i++;
         
-        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 15 + 17*(i-1), 15 , 17, 17)];
-        imgView.backgroundColor = [UIColor lightGrayColor];
+        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 15 - 17*i - 3*(i-1), 15 , 17, 17)];
+        [imgView setImage:[UIImage imageNamed:@"broker_property_icon_jx"]];
         [self addSubview:imgView];
     }else if (![model.isMoreImg isEqualToString:@"1"]){
         i++;
         
-        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 15 + 17*(i-1), 15 , 17, 17)];
-        imgView.backgroundColor = [UIColor lightGrayColor];
+        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 15 - 17*i - 3*(i-1), 15 , 17, 17)];
+        [imgView setImage:[UIImage imageNamed:@"broker_property_icon_pic"]];
         [self addSubview:imgView];
     }
     self.titLab.frame = CGRectMake(80+15+11, 15, 200 - i*20, 20);
