@@ -18,6 +18,10 @@
 @property(nonatomic,strong) UISwitch *ZFPricePromotionSwitch;
 @property(nonatomic,strong) UILabel  *ESFPlanceilingLabel;
 @property(nonatomic,strong) UILabel  *ZFPlanceilingLabel;
+@property(nonatomic,strong) NSString *ESFPrice;
+@property(nonatomic,strong) NSString *ESFPriceUnit;
+@property(nonatomic,strong) NSString *ZFPrice;
+@property(nonatomic,strong) NSString *ZFPriceUnit;
 
 @end
 
@@ -38,6 +42,19 @@
     // Do any additional setup after loading the view.
     self.dataSrouce = @[@[@"二手房定价推广",@"二手房每日限额"],@[@"租房定价推广",@"租房每日限额"]];
     [self setTitleViewWithString:@"推广设置"];
+    self.ESFPricePromotionSwitch = [self commonSwitch];
+    self.ZFPricePromotionSwitch  = [self commonSwitch];
+    [self.ESFPricePromotionSwitch addTarget:self action:@selector(checkESFPricePromotionSwitch:) forControlEvents:UIControlEventValueChanged];
+    [self.ZFPricePromotionSwitch  addTarget:self action:@selector(checkZFPricePromotionSwitch:) forControlEvents:UIControlEventValueChanged];
+    
+    self.ESFPlanceilingLabel = [self commonPriceLabel];
+    self.ZFPlanceilingLabel  = [self commonPriceLabel];
+    
+#warning 测试text
+    self.ESFPrice = @"";
+    self.ESFPlanceilingLabel.text = @"100元";
+    self.ZFPlanceilingLabel.text  = @"100元";
+    
     UITableView *tableView = [[UITableView alloc] initWithFrame:[UIView navigationControllerBound] style:UITableViewStyleGrouped];
     tableView.dataSource   = self;
     tableView.delegate     = self;
@@ -47,6 +64,8 @@
     [self.view addSubview:tableView];
     
 }
+
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -64,24 +83,17 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-        cell.accessoryType  = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (indexPath.row == 0) {
             cell.accessoryType = UITableViewCellAccessoryNone;
             switch (indexPath.section) {
                 case 0:
                 {
-                    self.ESFPricePromotionSwitch    = [[UISwitch alloc] initWithFrame:CGRectMake(255, (MORE_CELL_H - 20)/2 - 5, 30, 20)];
-                    self.ESFPricePromotionSwitch.on = YES;
-                    [self.ESFPricePromotionSwitch addTarget:self action:@selector(checkESFPricePromotionSwitch:) forControlEvents:UIControlEventValueChanged];
                     [cell addSubview:self.ESFPricePromotionSwitch];
                 }
                     break;
                 case 1:
                 {
-                    self.ZFPricePromotionSwitch    = [[UISwitch alloc] initWithFrame:CGRectMake(255, (MORE_CELL_H - 20)/2 - 5, 30, 20)];
-                    self.ZFPricePromotionSwitch.on = YES;
-                    [self.ZFPricePromotionSwitch addTarget:self action:@selector(checkZFPricePromotionSwitch:) forControlEvents:UIControlEventValueChanged];
                     [cell addSubview:self.ZFPricePromotionSwitch];
                 }
                     break;
@@ -93,17 +105,11 @@
             switch (indexPath.section) {
                 case 0:
                 {
-                    self.ESFPlanceilingLabel      = [[UILabel alloc] initWithFrame:CGRectMake(240, 15, 60, 15)];
-                    self.ESFPlanceilingLabel.text = @"100元";
-                    self.ESFPlanceilingLabel.font = [UIFont systemFontOfSize:17];
                     [cell addSubview:self.ESFPlanceilingLabel];
                 }
                     break;
                 case 1:
                 {
-                    self.ZFPlanceilingLabel      = [[UILabel alloc] initWithFrame:CGRectMake(240, 15, 60, 15)];
-                    self.ZFPlanceilingLabel.text = @"100元";
-                    self.ZFPlanceilingLabel.font = [UIFont systemFontOfSize:17];
                     [cell addSubview:self.ZFPlanceilingLabel];
                 }
                     break;
@@ -118,6 +124,21 @@
     cell.textLabel.text = [[self.dataSrouce objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
    
     return cell;
+}
+
+- (UISwitch *)commonSwitch
+{
+    UISwitch *sw = [[UISwitch alloc] initWithFrame:CGRectMake(255, (MORE_CELL_H - 20)/2 - 5, 30, 20)];
+    sw.on        = YES;
+    return sw;
+}
+
+- (UILabel *)commonPriceLabel
+{
+    UILabel *label  = [[UILabel alloc] initWithFrame:CGRectMake(260, 0, 60, 44)];
+    label.textColor = [UIColor brokerLightGrayColor];
+    label.font      = [UIFont systemFontOfSize:16];
+    return label;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -162,8 +183,6 @@
     } else {
         
         
-        
-        
     }
 }
 
@@ -177,8 +196,6 @@
         [alert show];
         
     } else {
-        
-        
         
     }
     
