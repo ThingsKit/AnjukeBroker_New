@@ -12,6 +12,7 @@
 
 @protocol MainBusinessDelegate <NSObject>
 - (void)processMainBusinessNameWithDic:(NSDictionary *)dic;
+- (void)processMainBusinessNameDirectBackWithDic:(NSDictionary *)dic;
 @end
 
 @interface MainBusinessViewController : RTViewController<UITableViewDataSource,UITableViewDelegate>
@@ -20,5 +21,6 @@
 @property (nonatomic, strong) id <MainBusinessDelegate> delegate;
 @property (nonatomic, strong) NSDictionary *selectCellInfo;
 @property (nonatomic, strong) NSString *cityId;
+@property (nonatomic) int tag;
 
 @end

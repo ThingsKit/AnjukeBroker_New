@@ -168,6 +168,8 @@
     AJKListTableViewCell *newCell = (AJKListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     [newCell didSelected:YES];
     self.currentIndex = indexPath;
+    self.tag = 1;
+    [self doBack:self];
 }
 
 - (void)doBack:(id)sender{
@@ -175,9 +177,17 @@
     NSDictionary * selectedCellInfo = [[NSDictionary alloc] init];
     selectedCellInfo = [self.cellTitleArray objectAtIndex:self.currentIndex.row];
     NSLog(@"business%@",selectedCellInfo);
-    if ([self.delegate respondsToSelector:@selector(processMainBusinessNameWithDic:)]) {
-        [self.delegate processMainBusinessNameWithDic:selectedCellInfo];
+    if (self.tag == 2) {
+        if ([self.delegate respondsToSelector:@selector(processMainBusinessNameWithDic:)]) {
+            [self.delegate processMainBusinessNameWithDic:selectedCellInfo];
+        }
+    } else if (self.tag == 1){
+        if ([self.delegate respondsToSelector:@selector(processMainBusinessNameDirectBackWithDic:)]) {
+            [self.delegate processMainBusinessNameDirectBackWithDic:selectedCellInfo];
+        }
+
     }
+    
 }
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
