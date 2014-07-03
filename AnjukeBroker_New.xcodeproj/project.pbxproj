@@ -29,6 +29,8 @@
 		01F8A7821965672800D892D4 /* protocol.html in Resources */ = {isa = PBXBuildFile; fileRef = 01F8A7811965672800D892D4 /* protocol.html */; };
 		01F8A7851965673300D892D4 /* anjukelogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F8A7831965673300D892D4 /* anjukelogo.png */; };
 		01F8A7861965673300D892D4 /* anjukelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F8A7841965673300D892D4 /* anjukelogo@2x.png */; };
+		01F8A78D19656F2E00D892D4 /* SaleAuctionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EA1FC1183A437500438CF8 /* SaleAuctionViewController.m */; };
+		01F8A78E19656F7400D892D4 /* PPCHouseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5B0196287F300AC7256 /* PPCHouseCell.m */; };
 		200485DB1907C33800A5A351 /* Property.m in Sources */ = {isa = PBXBuildFile; fileRef = 200485DA1907C33800A5A351 /* Property.m */; };
 		200915E81893FC1000A13115 /* E_Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 200915E71893FC1000A13115 /* E_Photo.m */; };
 		200915EE189401C800A13115 /* anjuke_icon_fxt_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */; };
@@ -565,7 +567,6 @@
 		B7E803F31820F24400775C6F /* SaleNoPlanListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E803F21820F24400775C6F /* SaleNoPlanListCell.m */; };
 		B7EA04A61844D40900AC8842 /* BrokerAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EA04A51844D40900AC8842 /* BrokerAccountController.m */; };
 		B7EA04AA1844DB3700AC8842 /* BrokerAccountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EA04A91844DB3700AC8842 /* BrokerAccountCell.m */; };
-		B7EA1FC2183A437500438CF8 /* SaleAuctionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EA1FC1183A437500438CF8 /* SaleAuctionViewController.m */; };
 		B7EA5B5F18DBDCA900D437BB /* anjuke_icon_add_position@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EA5B4318DBDCA900D437BB /* anjuke_icon_add_position@2x.png */; };
 		B7EA5B6018DBDCA900D437BB /* anjuke_icon_chat1__selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EA5B4418DBDCA900D437BB /* anjuke_icon_chat1__selected@2x.png */; };
 		B7EA5B6118DBDCA900D437BB /* anjuke_icon_chat1_fy_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EA5B4518DBDCA900D437BB /* anjuke_icon_chat1_fy_selected@2x.png */; };
@@ -739,12 +740,10 @@
 		F89FF5A519625B9700AC7256 /* PPCDataShowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5A419625B9700AC7256 /* PPCDataShowCell.m */; };
 		F89FF5A819625BA500AC7256 /* PPCDataShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5A719625BA500AC7256 /* PPCDataShowViewController.m */; };
 		F89FF5AC1962875A00AC7256 /* PPCPriceingListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5AB1962875A00AC7256 /* PPCPriceingListViewController.m */; };
-		F89FF5B1196287F300AC7256 /* PPCHouseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5B0196287F300AC7256 /* PPCHouseCell.m */; };
 		F89FF5B41962881700AC7256 /* PPCPriceingListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5B31962881700AC7256 /* PPCPriceingListModel.m */; };
 		F89FF5BE196394B900AC7256 /* PPCSelectedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5BD196394B900AC7256 /* PPCSelectedListViewController.m */; };
 		F89FF5C11963979B00AC7256 /* HouseCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5C01963979B00AC7256 /* HouseCellView.m */; };
 		F89FF5C519639B3200AC7256 /* PPCSelectedListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5C419639B3200AC7256 /* PPCSelectedListCell.m */; };
-		F8A136C119654DF3007FC4E1 /* PropertyDetailCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A136C019654DF3007FC4E1 /* PropertyDetailCellModel.m */; };
 		F8A136C7196560B1007FC4E1 /* PPCPromoteCompletListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A136C6196560B1007FC4E1 /* PPCPromoteCompletListViewController.m */; };
 		F8A717BE192058FB004840C6 /* UserCenterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717B7192058FB004840C6 /* UserCenterCell.m */; };
 		F8A717BF192058FB004840C6 /* UserCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717B9192058FB004840C6 /* UserCenterViewController.m */; };
@@ -1919,8 +1918,6 @@
 		F89FF5C01963979B00AC7256 /* HouseCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HouseCellView.m; sourceTree = "<group>"; };
 		F89FF5C319639B3200AC7256 /* PPCSelectedListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPCSelectedListCell.h; sourceTree = "<group>"; };
 		F89FF5C419639B3200AC7256 /* PPCSelectedListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPCSelectedListCell.m; sourceTree = "<group>"; };
-		F8A136BF19654DF3007FC4E1 /* PropertyDetailCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDetailCellModel.h; sourceTree = "<group>"; };
-		F8A136C019654DF3007FC4E1 /* PropertyDetailCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDetailCellModel.m; sourceTree = "<group>"; };
 		F8A136C5196560B1007FC4E1 /* PPCPromoteCompletListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPCPromoteCompletListViewController.h; sourceTree = "<group>"; };
 		F8A136C6196560B1007FC4E1 /* PPCPromoteCompletListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPCPromoteCompletListViewController.m; sourceTree = "<group>"; };
 		F8A717B6192058FB004840C6 /* UserCenterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterCell.h; sourceTree = "<group>"; };
@@ -5104,6 +5101,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01F8A78E19656F7400D892D4 /* PPCHouseCell.m in Sources */,
+				01F8A78D19656F2E00D892D4 /* SaleAuctionViewController.m in Sources */,
 				B7EAD51718CD927200B28FEC /* AXChatContentValidator.m in Sources */,
 				97CB0C0F182BEA3500FCCBBD /* BK_ELCAssetTablePicker.m in Sources */,
 				B7EAD52318CD927200B28FEC /* AXPullToRefreshSimpleContentView.m in Sources */,
@@ -5373,11 +5372,6 @@
 				F88AE26E195C2DAE009E3F5E /* NoDataViewForESF.m in Sources */,
 				B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */,
 				97CB0C0C182BEA3500FCCBBD /* BK_ELCAlbumPickerController.m in Sources */,
-				B7EA1FC2183A437500438CF8 /* SaleAuctionViewController.m in Sources */,
-				F89FF5B1196287F300AC7256 /* PPCHouseCell.m in Sources */,
-				67203D581962881400A32B60 /* PropertyDetailTableViewCellModel.m in Sources */,
-				B7EA1FC2183A437500438CF8 /* SaleAuctionViewController.m in Sources */,
-				F89FF5B1196287F300AC7256 /* PPCHouseCell.m in Sources */,
 				01F8A7801965655500D892D4 /* MyUserProtocolController.m in Sources */,
 				F8A717BF192058FB004840C6 /* UserCenterViewController.m in Sources */,
 				976AC61118278B5C003A2B3A /* LoginViewController.m in Sources */,
