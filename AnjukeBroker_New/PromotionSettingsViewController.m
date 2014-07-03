@@ -18,10 +18,8 @@
 @property(nonatomic,strong) UISwitch *ZFPricePromotionSwitch;
 @property(nonatomic,strong) UILabel  *ESFPlanceilingLabel;
 @property(nonatomic,strong) UILabel  *ZFPlanceilingLabel;
-@property(nonatomic,strong) NSString *ESFPrice;
-@property(nonatomic,strong) NSString *ESFPriceUnit;
-@property(nonatomic,strong) NSString *ZFPrice;
-@property(nonatomic,strong) NSString *ZFPriceUnit;
+@property(nonatomic,strong) NSString *ZFPlanId;
+@property(nonatomic,strong) NSString *ESFPlanId;
 
 @end
 
@@ -50,14 +48,6 @@
     self.ESFPlanceilingLabel = [self commonPriceLabel];
     self.ZFPlanceilingLabel  = [self commonPriceLabel];
     
-#warning 测试text
-    self.ESFPrice     = @"100";
-    self.ESFPriceUnit = @"元";
-    self.ZFPrice      = @"100";
-    self.ZFPriceUnit  = @"元";
-    self.ESFPlanceilingLabel.text = @"100元";
-    self.ZFPlanceilingLabel.text  = @"100元";
-    
     UITableView *tableView = [[UITableView alloc] initWithFrame:[UIView navigationControllerBound] style:UITableViewStyleGrouped];
     tableView.dataSource   = self;
     tableView.delegate     = self;
@@ -67,6 +57,7 @@
     [self.view addSubview:tableView];
     
     DLog(@"view did load");
+#warning 测试brokerId
     [self requestPromotionSettingsDataWithBrokerId:@"147468"];
     
 }
@@ -74,65 +65,66 @@
 - (void)requestPromotionSettingsDataWithBrokerId:(NSString *)brokerId
 {
     
-    NSString *method     = @"anjuke/fix/summary/";// 二手房
-//    NSString *method = @"batch/";
-#warning 测试
-    NSDictionary *params = @{@"brokerId":brokerId,@"is_nocheck":@"1"};
-#warning 一次请求两个接口
-//    NSMutableDictionary *requeseParams1 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId", @"1",@"is_nocheck",nil];
-//    
-//    NSMutableDictionary *dic1 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                                 @"GET",@"method",
-//                                 @"anjuke/fix/summary/",@"relative_url",
-//                                 requeseParams1,@"query_params",nil];
-//    
-//    NSMutableDictionary *requeseParams2 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId",@"1",@"is_nocheck", nil];
-//    
-//    NSMutableDictionary *dic2 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                                 @"GET",@"method",
-//                                 @"zufang/fix/summary/",@"relative_url",
-//                                 requeseParams2,@"query_params",nil];
-//    
-//    NSMutableDictionary *dics = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                                 dic1, @"fix",
-//                                 dic2, @"choice", nil];
-//    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics
-//                                                       options:NSJSONWritingPrettyPrinted
-//                                                         error:nil];
-//    NSString *jsonString = [[NSString alloc] initWithData:jsonData
-//                                                 encoding:NSUTF8StringEncoding];
-//    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//              jsonString, @"requests", nil];
-    [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleESFRequestData:)];
+//    NSString *method     = @"anjuke/fix/summary/";// 二手房
+    NSString *method = @"batch/";
+#warning 一次请求两个接口, no check
+    NSDictionary *params = nil;
+    NSDictionary *requeseParams1 = @{@"token":[LoginManager getToken],@"brokerId":[LoginManager getUserID],@"is_nocheck":@"1"};
+    NSDictionary *dic1 =  @{ @"method":@"GET",@"relative_url":@"anjuke/fix/summary/",@"query_params":requeseParams1};
     
-    method = @"zufang/fix/summary/";
-    params = @{@"brokerId":brokerId,@"cityId":@"11",@"is_nocheck":@"1"};
-    [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleZFRequestData:)];
+    NSDictionary *requeseParams2 = @{@"token":[LoginManager getToken],@"brokerId":[LoginManager getUserID],@"cityId":@"11",@"is_nocheck":@"1"};
+    NSDictionary *dic2 = @{@"method":@"GET",@"relative_url":@"zufang/fix/summary/",@"query_params":requeseParams2};
+    
+    NSDictionary *dics = @{@"esf":dic1,@"zf":dic2};
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:nil];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData
+                                                 encoding:NSUTF8StringEncoding];
+    params = @{@"requests":jsonString};
+    
+    [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleRequestData:)];
     
 }
 
-- (void)handleESFRequestData:(RTNetworkResponse *)response
+- (void)handleRequestData:(RTNetworkResponse *)response
 {
     if (response.status == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         DLog(@"message--->>%@",[[response content] objectForKey:@"message"]);
-        
-        
+        return;
     }
-    NSDictionary *dic = [response.content valueForKey:@"data"];
-    self.ESFPlanceilingLabel.text = [NSString stringWithFormat:@"%@%@",[dic valueForKey:@"budget"],[dic valueForKey:@"budgetUnit"]];
-    self.ESFPricePromotionSwitch.on = [[dic valueForKey:@"planStatus"] intValue];
+    
+    NSDictionary *responsesData = response.content[@"data"][@"responses"];
+    NSDictionary *esfDic = [self dictionaryWithDataDic:responsesData apiType:@"esf"];
+    NSDictionary *zfDic  = [self dictionaryWithDataDic:responsesData apiType:@"zf"];
+    if ([[esfDic valueForKey:@"status"] isEqualToString:@"error"]) {
+        DLog(@"ESF Data request error --->> %@",esfDic[@"message"]);
+        return;
+    }
+    
+    NSDictionary *esfData = esfDic[@"data"];
+    self.ESFPlanceilingLabel.text   = [NSString stringWithFormat:@"%@%@",esfData[@"budget"],esfData[@"budgetUnit"]];
+    self.ESFPricePromotionSwitch.on = [esfData[@"planStatus"] intValue];
+    self.ESFPlanId                  = esfData[@"planId"];
+    
+    if ([[zfDic valueForKey:@"status"] isEqualToString:@"error"]) {
+        DLog(@"ZF Data request error --->> %@",[esfDic valueForKey:@"message"]);
+        return;
+    }
+    NSDictionary *zfData = [zfDic valueForKey:@"data"];
+    self.ZFPlanceilingLabel.text   = [NSString stringWithFormat:@"%@%@",zfData[@"budget"],zfData[@"budgetUnit"]];
+    self.ZFPricePromotionSwitch.on = [zfData[@"planStatus"] intValue];
+    self.ZFPlanId                  = zfData[@"planId"];
+    
 }
 
-- (void)handleZFRequestData:(RTNetworkResponse *)response
+- (NSDictionary *)dictionaryWithDataDic:(NSDictionary *)dataDic apiType:(NSString *)apiType
 {
-    if (response.status == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        DLog(@"message--->>%@",[[response content] objectForKey:@"message"]);
-        
-        
-    }
-    NSDictionary *dic = [response.content valueForKey:@"data"];
-    self.ZFPlanceilingLabel.text   = [NSString stringWithFormat:@"%@%@",[dic valueForKey:@"budget"],[dic valueForKey:@"budgetUnit"]];
-    self.ZFPricePromotionSwitch.on = [[dic valueForKey:@"planStatus"] intValue];
+    NSString *jsonString = [[dataDic valueForKey:apiType] valueForKey:@"body"];
+    NSData *data         = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *dic    = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+   
+    return dic;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -219,22 +211,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (indexPath.row == 1) {
-        
-        switch (indexPath.section) {
-                
-            case 0:
-                
-                break;
-            case 1:
-                
-                break;
-            default:
-                break;
-        }
-        
-    }
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -252,7 +228,7 @@
     if (!self.ESFPricePromotionSwitch.on) {
         
        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"二手房定价推广" message:@"关闭后，所有定价房源将暂停推广" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"关闭", nil];
-       alert.tag      = 10;
+       alert.tag = 10;
        [alert show];
         
     } else {
@@ -263,17 +239,15 @@
 
 - (void)checkZFPricePromotionSwitch:(id)sender
 {
-    
     if (!self.ZFPricePromotionSwitch.on) {
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"租房定价推广" message:@"关闭后，所有定价房源将暂停推广" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"关闭", nil];
-        alert.tag      = 20;
+        alert.tag = 20;
         [alert show];
         
     } else {
         
     }
-    
 }
 
 #pragma mark - UIAlertView delegate
@@ -281,32 +255,64 @@
 {
     
     if (alertView.tag == 10 && buttonIndex == 0) {
-        
-        self.ESFPricePromotionSwitch.on = YES;
+
+        [self esfSpreadRequestWithMethod:@"anjuke/fix/spreadstart/" switchStatus:YES];
         
     } else if (alertView.tag == 10 && buttonIndex == 1){
         
-        self.ESFPricePromotionSwitch.on = NO;
+        [self esfSpreadRequestWithMethod:@"anjuke/fix/spreadstop/" switchStatus:NO];
         
     } else if (alertView.tag == 20 && buttonIndex == 0) {
         
-        self.ZFPricePromotionSwitch.on = YES;
+        [self zfSpreadRequestWithMethod:@"zufang/fix/spreadstart/" switchStatus:YES];
         
     } else if (alertView.tag == 20 && buttonIndex == 1) {
         
-        self.ZFPricePromotionSwitch.on = NO;
+        [self zfSpreadRequestWithMethod:@"zufang/fix/spreadstop" switchStatus:NO];
         
     }
     
 }
 
+- (void)esfSpreadRequestWithMethod:(NSString *)method switchStatus:(BOOL)switchStatus
+{
+#warning 含有测试的brokerId
+    NSDictionary *params = @{@"brokerId":@"147468",@"token":[LoginManager getToken],@"planId":self.ESFPlanId};
+    [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleESFRequestData:)];
+    self.ESFPricePromotionSwitch.on = switchStatus;
+    
+}
+
+- (void)zfSpreadRequestWithMethod:(NSString *)method switchStatus:(BOOL)switchStatus
+{
+#warning 含有测试的brokerId
+    NSDictionary *params = @{@"brokerId":@"147468",@"token":[LoginManager getToken],@"planId":self.ZFPlanId};
+   [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(  handleZFRequestData:)];
+    [self showLoadingActivity:YES];
+    self.ZFPricePromotionSwitch.on = switchStatus;
+    
+}
+
+- (void)handleESFRequestData:(RTNetworkResponse *)response
+{
+    [self hideLoadWithAnimated:YES];
+    if (response.status == RTNetworkResponseStatusFailed) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络链接失败" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+    }
+}
+
+- (void)handleZFRequestData:(RTNetworkResponse *)response
+{
+    if (response.status == RTNetworkResponseStatusFailed) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"网路链接失败" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+    }
+}
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 
 /*

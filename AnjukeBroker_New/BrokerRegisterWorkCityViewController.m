@@ -38,7 +38,7 @@
     
 
     [self initCityDataArray];
-    [self requestCityData];
+//    [self requestCityData];
     [self setTitleViewWithString:@"所在城市"];
     UITableView *tableView = [[UITableView alloc] initWithFrame:[UIView navigationControllerBound] style:UITableViewStyleGrouped];
     tableView.dataSource   = self;
@@ -220,6 +220,7 @@
     if ([self.delegate respondsToSelector:@selector(canceledCitySelection)]) {
         [self.delegate canceledCitySelection];
     }
+    [self.navigationController popViewControllerAnimated:YES];
     
 }
 

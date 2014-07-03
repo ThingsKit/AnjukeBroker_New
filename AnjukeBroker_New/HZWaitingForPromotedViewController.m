@@ -71,7 +71,7 @@
     _buttonPromote.centerY = 50/2;
     _buttonPromote.titleLabel.font = [UIFont ajkH3Font];
     [_buttonPromote setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_button_little_blue@2x.png"] forState:UIControlStateNormal];
-    [_buttonPromote setTitle:[NSString stringWithFormat:@"定价推广(%@)", @"6"]  forState:UIControlStateNormal];
+    [_buttonPromote setTitle:[NSString stringWithFormat:@"定价推广(%d)", self.selectedCellCount]  forState:UIControlStateNormal];
     
     [self.MutipleEditView addSubview:_buttonSelect];
     [self.MutipleEditView addSubview:_buttonPromote];
