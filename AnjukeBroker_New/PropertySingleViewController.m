@@ -29,14 +29,11 @@
 @property (nonatomic, strong) UITableView* tableView;
 @property (nonatomic, assign) BOOL networkRequesting; //网络请求锁
 @property (nonatomic, strong) PropertyDetailTableViewFooter* footer; //页脚
-@property (nonatomic, strong) UIView* loadingView; //正在加载中的View;
-@property (nonatomic, strong) NSMutableArray* data; //数组用来存储5个请求回来的对象
+@property (nonatomic, strong) UIView* loadingView; //正在加载中的UIView;
+@property (nonatomic, strong) UILabel* loadingTipLabel; //正在加载中的UILabel
+@property (nonatomic, strong) UIActivityIndicatorView* activity; //风火轮
 
-@property (nonatomic, assign) BOOL isHaozu; //区分是二手房还是租房, 1 表示租房, 0表示二手房, 默认二手房
-@property (nonatomic, assign) PageType pageType; //用来标记从那种类型的列表过来
-@property (nonatomic, copy) NSString* brokerId;
-@property (nonatomic, copy) NSString* propId;
-@property (nonatomic, copy) NSString* cityId;
+@property (nonatomic, strong) NSMutableArray* data; //数组用来存储5个请求回来的对象
 
 @end
 
@@ -47,12 +44,19 @@
 {
     [super viewDidLoad];
     
+    self.title = @"房源单页";
+    
     //取出参数
 //    @"brokerId":@"858573", @"propId":@"168783092"   for test
-    _isHaozu = [self.params[@"isHaozu"] boolValue];
-    _pageType = [self.params[@"pageType"] intValue];
-    _propId = self.params[@"propId"];
-    _cityId = self.params[@"cityId"];
+    if (self.params != nil) {
+        _isHaozu = [self.params[@"isHaozu"] boolValue];
+        _pageType = [self.params[@"pageType"] intValue];
+        _propId = self.params[@"propId"];
+        _cityId = self.params[@"cityId"];
+    }else{
+        _propId = @"168783092"; //测试
+        _cityId = @"11"; //上海
+    }
     
     
     //表
@@ -72,19 +76,24 @@
     
     //正在加载中的view
     _loadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44)];
-    UIActivityIndicatorView* activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    activity.bounds = CGRectMake(0, 0, 200, 200);
-    activity.center = CGPointMake(ScreenWidth*0.5, (ScreenHeight-20-44)*0.5);
-    [activity startAnimating];
-    [_loadingView addSubview:activity];
     
-    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
-    label.center = CGPointMake(ScreenWidth*0.5, (ScreenHeight-20-44)*0.5 - 30);
-    label.font = [UIFont ajkH3Font];
-    label.textColor = [UIColor brokerLightGrayColor];
-    label.text = @"努力加载中...";
-    label.textAlignment = NSTextAlignmentCenter;
-    [_loadingView addSubview:label];
+    _loadingView.userInteractionEnabled = NO;
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(refresh:)];
+    [_loadingView addGestureRecognizer:tap];
+    
+    _activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    _activity.bounds = CGRectMake(0, 0, 200, 200);
+    _activity.center = CGPointMake(ScreenWidth*0.5 - 60, (ScreenHeight-20-44)*0.5);
+    [_activity startAnimating];
+    [_loadingView addSubview:_activity];
+    
+    _loadingTipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
+    _loadingTipLabel.center = CGPointMake(ScreenWidth*0.5, (ScreenHeight-20-44)*0.5);
+    _loadingTipLabel.font = [UIFont ajkH3Font];
+    _loadingTipLabel.textColor = [UIColor brokerLightGrayColor];
+    _loadingTipLabel.text = @"努力加载中...";
+    _loadingTipLabel.textAlignment = NSTextAlignmentCenter;
+    [_loadingView addSubview:_loadingTipLabel];
     
     [self.view addSubview:_loadingView];
     
@@ -380,19 +389,19 @@
     }
     
 //    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
-    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getChatID], @"propId":_propId};
+    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":_propId};
     NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/summary/"], @"query_params":param1}; //房源概况
     
-    NSDictionary* param2 = @{@"token":[LoginManager getToken], @"cityId":@"11", @"propId":_propId}; //11表示上海
+    NSDictionary* param2 = @{@"token":[LoginManager getToken], @"cityId":_cityId, @"propId":_propId}; //11表示上海
     NSDictionary* dic2 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/fix/summary/"], @"query_params":param2}; //房源定价概况
     
-    NSDictionary* param3 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getChatID], @"propId":_propId};
+    NSDictionary* param3 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":_propId};
     NSDictionary* dic3 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/choice/summary/"], @"query_params":param3}; //房源精选概况
     
-    NSDictionary* param4 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getChatID], @"propId":_propId};
+    NSDictionary* param4 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":_propId};
     NSDictionary* dic4 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/choice/summary/"], @"query_params":param4}; //最大最小预算余额
     
-    NSDictionary* param5 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getChatID]};
+    NSDictionary* param5 = @{@"token":[LoginManager getToken], @"brokerId":@"858573"};
     NSDictionary* dic5 = @{@"method":@"GET", @"relative_url":@"broker/account/balance/", @"query_params":param5}; //经纪人可用余额
     
     NSDictionary* param = @{@"requests":@{@"prop_summary":dic1,
@@ -423,26 +432,32 @@
             self.data = [NSMutableArray arrayWithCapacity:5]; //清空
             
             if (propSum != nil && propFixSum != nil && propChoiceSum != nil) { //前三个不为空
-                if ([@"ok" isEqualToString:[propSum objectForKey:@"status"]]) {
+                if ([@"ok" isEqualToString:[propSum objectForKey:@"status"]] && [@"ok" isEqualToString:[propFixSum objectForKey:@"status"]] && [@"ok" isEqualToString:[propChoiceSum objectForKey:@"status"]]) {
                     PropertyDetailCellModel* property = [[PropertyDetailCellModel alloc] initWithDataDic:[propSum objectForKey:@"data"]]; //房源概况
                     [self.data addObject:property];
-                }
-                if ([@"ok" isEqualToString:[propFixSum objectForKey:@"status"]]) {
+                    
                     PricePromotionCellModel* fix = [[PricePromotionCellModel alloc] initWithDataDic:[propFixSum objectForKey:@"data"]]; //房源定价概况
                     [self.data addObject:fix];
-                }
-                if ([@"ok" isEqualToString:[propChoiceSum objectForKey:@"status"]]) {
+                    
                     ChoicePromotionCellModel* propChoice = [[ChoicePromotionCellModel alloc] initWithDataDic:[propChoiceSum objectForKey:@"data"]]; //房源精选概况
                     //######################################### for test
                     propChoice.maxBucketNum = @"20";
                     propChoice.useNum = @"10";
-                    propChoice.actionType = @"1";
+                    propChoice.actionType = @"3"; //1-已推广 2-已排队 3-可推广 4-坑位已满
                     //#########################################
                     [self.data addObject:propChoice];
+                    
+                    _tableView.hidden = NO;
+                    _footer.hidden = NO;
+                    _loadingView.hidden = YES;
+                    [_tableView reloadData];
+                    
+                }else{ //前三个中任意一个失败, 页面等待, 重新请求, 请求超时
+                    [_activity stopAnimating];
+                    _loadingTipLabel.text = @"加载超时, 点击重新加载";
+                    _loadingView.userInteractionEnabled = YES;
+                    
                 }
-                
-            }else{ //前三个中任意一个失败, 页面等待, 重新请求
-                
             }
             
             if (choiceSum != nil && brokerBalance != nil) {
@@ -458,10 +473,7 @@
                 
             }
             
-            _tableView.hidden = NO;
-            _footer.hidden = NO;
-            _loadingView.hidden = YES;
-            [_tableView reloadData];
+            
             
         }else{  //匹请求失败
             
@@ -476,5 +488,14 @@
     self.networkRequesting = NO;
 }
 
+#pragma mark -
+#pragma mark 手势重新加载
+- (void)refresh:(UITapGestureRecognizer*)gesture{
+    NSLog(@"tap");
+    _loadingView.userInteractionEnabled = NO;
+    _loadingTipLabel.text = @"努力加载中...";
+    [_activity startAnimating];
+    [self requestPropFixChoice];
+}
 
 @end

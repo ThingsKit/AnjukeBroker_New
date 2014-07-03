@@ -7,7 +7,9 @@
 //
 
 #import "PropertyDetailCellModel.h"
+#include <sys/socket.h>
 
 @implementation PropertyDetailCellModel
+
 
 @end

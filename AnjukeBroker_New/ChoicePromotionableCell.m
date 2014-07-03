@@ -110,10 +110,20 @@
     
     //推广状态
     _promotionStatus.frame = CGRectMake(20, _title.bottom + GAP_VERTICAL - 5, 100, 20);
-    if ([@"3" isEqualToString:self.choicePromotionModel.actionType]) { //可推广
+    int total = [self.choicePromotionModel.maxBucketNum intValue];
+    int used = [self.choicePromotionModel.useNum intValue];
+    
+    if (used < total*0.5) {
         _promotionStatus.text = @"可立即推广";
-        [_promotionStatus sizeToFit];
+    }else if (used >= total*0.5){
+        _promotionStatus.text = @"可立即排队";
+    }else if (used == total){
+        _promotionStatus.text = @"坑位已满";
+    }else{
+        _promotionStatus.text = @"推广状态未知";
     }
+    
+    [_promotionStatus sizeToFit];
     
     //点击单价
     _unitNumber.frame = CGRectMake(_promotionStatus.right + GAP_HORIZONTAL, _title.bottom + GAP_VERTICAL -5, 100, 20);
@@ -131,8 +141,6 @@
     [_queueVacancy sizeToFit];
     
     //坑位内容
-    int total = [self.choicePromotionModel.maxBucketNum intValue];
-    int used = [self.choicePromotionModel.useNum intValue];
     int row = 2;
     int column = 0;
     int houseGapHorizontal = 0;

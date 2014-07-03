@@ -72,7 +72,7 @@
     [_title sizeToFit];
     
     //点击单价数字
-    _unitNumber.frame = CGRectMake(20, _title.bottom, 100, 20);
+    _unitNumber.frame = CGRectMake(20, _title.bottom + 3, 100, 20);
     _unitNumber.text = [NSString stringWithFormat:@"点击单价: %@%@", self.pricePromotionCellModel.clickPrice, self.pricePromotionCellModel.clickPriceUnit];
     [_unitNumber sizeToFit];
     
