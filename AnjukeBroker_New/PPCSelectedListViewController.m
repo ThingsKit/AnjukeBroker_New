@@ -11,7 +11,10 @@
 #import "PPCSelectedListCell.h"
 
 @interface PPCSelectedListViewController ()
-@property(nonatomic, strong) NSArray *tableData;
+@property(nonatomic, strong) NSMutableArray *tableData;
+@property(nonatomic, strong) NSMutableArray *onSpreadListData;
+@property(nonatomic, strong) NSMutableArray *onQueueListData;
+@property(nonatomic, assign) NSInteger overNum;
 @property(nonatomic, assign) BOOL isLoading;
 @end
 
@@ -22,6 +25,10 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.tableData = [[NSMutableArray alloc] init];
+        self.onSpreadListData = [[NSMutableArray alloc] init];
+        self.onQueueListData = [[NSMutableArray alloc] init];
+        self.overNum = 0;
     }
     return self;
 }
@@ -189,6 +196,11 @@
         [self donePullDown];
         return;
     }
+    [self donePullDown];
+
+    
+    
+    
 }
 
 - (void)tapGus:(UITapGestureRecognizer *)tap{

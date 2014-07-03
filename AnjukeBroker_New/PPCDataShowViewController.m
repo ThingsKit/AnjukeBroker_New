@@ -36,12 +36,6 @@
     return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    if (self.tableList && !self.isLoading) {
-        [self autoPullDown];
-    }
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -151,6 +145,7 @@
     }
     
     if (indexPath.row == 1) {
+
         if (self.pricingDic && self.pricingDic[@"planId"]) {
             PPCPriceingListViewController *pricingListVC = [[PPCPriceingListViewController alloc] init];
             pricingListVC.isHaozu = self.isHaozu;
@@ -160,10 +155,18 @@
             return;
         }
     }else if (indexPath.row == 2){
+//        if (self.selectedDic[@"data"] && self.selectedDic[@"data"][@"planId"]) {
+//            PPCSelectedListViewController *selectedListVC = [[PPCSelectedListViewController alloc] init];
+//            selectedListVC.isHaozu = self.isHaozu;
+//            [self.navigationController pushViewController:selectedListVC animated:YES];
+//            selectedListVC.planId = self.selectedDic[@"data"][@"planId"];
+//        }else{
+//            return;
+//        }
         PPCSelectedListViewController *selectedListVC = [[PPCSelectedListViewController alloc] init];
         selectedListVC.isHaozu = self.isHaozu;
-        selectedListVC.planId = self.selectedDic[@"planId"];
         [self.navigationController pushViewController:selectedListVC animated:YES];
+        selectedListVC.planId = self.selectedDic[@"data"][@"planId"];
 
     } else if (indexPath.row == 4) {
         if (self.isHaozu) {
@@ -246,8 +249,8 @@
         tapGes.numberOfTapsRequired    = 1;
         [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
         
-        self.pricingDic = nil;
-        self.selectedDic = nil;
+        [self.pricingDic removeAllObjects];
+        [self.selectedDic removeAllObjects];
         [self.tableList reloadData];
         
         return ;
@@ -263,8 +266,8 @@
         tapGes.numberOfTapsRequired    = 1;
         [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
         
-        self.pricingDic = nil;
-        self.selectedDic = nil;
+        [self.pricingDic removeAllObjects];
+        [self.selectedDic removeAllObjects];
         [self.tableList reloadData];
         
         [self donePullDown];
@@ -287,8 +290,14 @@
     }else{
         self.selectedDic = nil;
     }
+    
     if (!self.pricingDic && !self.selectedDic) {
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
+        tapGes.delegate                = self;
+        tapGes.numberOfTouchesRequired = 1;
+        tapGes.numberOfTapsRequired    = 1;
+        [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
 
         [self.tableList reloadData];
     }else{
@@ -299,27 +308,17 @@
         [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path2, nil] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
-
-
 - (void)tapGus:(UITapGestureRecognizer *)gesture{
     [self autoPullDown];
 }
 #pragma mark -- rightButton
 - (void)rightButtonAction:(id)sender{
-    if (self.isHaozu) {
-        CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-        controller.backType = RTSelectorBackTypeNone;
-        controller.isFirstShow = YES;
-        controller.isHaouzu = YES;
-        RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-        [self presentViewController:nav animated:YES completion:nil]; 
-    }else{
-        CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-        controller.backType = RTSelectorBackTypeNone;
-        controller.isFirstShow = YES;
-        RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-        [self presentViewController:nav animated:YES completion:nil];
-    }
+    CommunityListViewController *controller = [[CommunityListViewController alloc] init];
+    controller.backType = RTSelectorBackTypeNone;
+    controller.isFirstShow = YES;
+    controller.isHaouzu = self.isHaozu;
+    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning

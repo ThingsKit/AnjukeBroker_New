@@ -201,12 +201,15 @@
     [self donePullDown];
     
     NSDictionary *resultData = [NSDictionary dictionaryWithDictionary:[response content][@"data"]];
-    self.tableData = nil;
-    
-    self.lastedListData = [NSArray arrayWithArray:resultData[@"newList"]];
-    self.oldListData = [NSArray arrayWithArray:resultData[@"oldList"]];
+    [self.tableData removeAllObjects];
     self.tableData = [[NSMutableArray alloc] init];
     
+    if (resultData[@"newList"]) {
+        self.lastedListData = [NSArray arrayWithArray:resultData[@"newList"]];
+    }
+    if (resultData[@"oldList"]) {
+        self.oldListData = [NSArray arrayWithArray:resultData[@"oldList"]];
+    }
     
     [self.tableData addObjectsFromArray:self.lastedListData];
     [self.tableData addObjectsFromArray:self.oldListData];
@@ -267,20 +270,13 @@
 
 
 - (void)rightButtonAction:(id)sender{
-    if (self.isHaozu) {
-        CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-        controller.backType = RTSelectorBackTypeNone;
-        controller.isFirstShow = YES;
-        controller.isHaouzu = YES;
-        RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-        [self presentViewController:nav animated:YES completion:nil];
-    }else{
-        CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-        controller.backType = RTSelectorBackTypeNone;
-        controller.isFirstShow = YES;
-        RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-        [self presentViewController:nav animated:YES completion:nil];
-    }}
+    CommunityListViewController *controller = [[CommunityListViewController alloc] init];
+    controller.backType = RTSelectorBackTypeNone;
+    controller.isFirstShow = YES;
+    controller.isHaouzu = self.isHaozu;
+    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+    [self presentViewController:nav animated:YES completion:nil];
+}
 
 - (void)tapGus:(UITapGestureRecognizer *)tap{
     [self autoPullDown];
