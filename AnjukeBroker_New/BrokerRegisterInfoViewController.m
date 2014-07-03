@@ -20,6 +20,9 @@
 #import "WorkPropertyViewController.h"
 #import "AppDelegate.h"
 #import "AccountManager.h"
+#import "MyUserProtocolController.h"
+#import "RTGestureBackNavigationController.h"
+#import "BrokerCallAlert.h"
 
 @interface BrokerRegisterInfoViewController () <UITableViewDataSource, UITableViewDelegate,BrokerRegisterWorkCityDelegate,BrokerRegisterWorkRangeDelegate, MainBusinessDelegate, WorkPropertyDelegate, companyDelegate,UITextFieldDelegate,storeDelegate>
 @property (nonatomic, strong) UITableView *tableView;
@@ -33,6 +36,7 @@
 @property (nonatomic, strong) NSDictionary *cityDic;
 @property (nonatomic, strong) NSDictionary *workRangeDic;
 @property (nonatomic, strong) NSString *brokerName;
+@property (nonatomic, strong) UIButton *registerBtn;
 
 @end
 
@@ -63,13 +67,30 @@
     [self.detailDataArray addObject:@""];
     [self.detailDataArray addObject:@""];
     
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.bottom) style:UITableViewStylePlain];
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.bottom-41-64) style:UITableViewStylePlain];
     tableView.delegate = self;
     tableView.dataSource = self;
     tableView.rowHeight = 45;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.backgroundColor = [UIColor clearColor];
     tableView.tableFooterView = [self setupTableViewFootView];
+    
+    
+    UILabel *problemLbl = [[UILabel alloc] initWithFrame:CGRectMake(37, self.view.height-41-64, 150, 21)];
+    problemLbl.font = [UIFont ajkH5Font];
+    problemLbl.textColor = [UIColor brokerMiddleGrayColor];
+    problemLbl.text = @"如注册遇到问题，请拨打：";
+    
+    UIButton *dailPhoneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    dailPhoneBtn.frame = CGRectMake(problemLbl.right, problemLbl.top, 80, problemLbl.height);
+    [dailPhoneBtn setTitle:@"400-620-9008" forState:UIControlStateNormal];
+    [dailPhoneBtn setTitleColor:[UIColor brokerBabyBlueColor] forState:UIControlStateNormal];
+    dailPhoneBtn.titleLabel.font = [UIFont ajkH5Font];
+    [dailPhoneBtn addTarget:self action:@selector(dialPhone) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:problemLbl];
+    [self.view addSubview:dailPhoneBtn];
+    
     [self.view addSubview:tableView];
     self.tableView = tableView;
 }
@@ -79,17 +100,53 @@
     [self setTitleViewWithString:@"注册"];
 }
 
+- (void)dialPhone {
+    //make call
+    [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:@"4006209008" appLogKey:PERSONAL_CLICK_CONFIRM_CSCALL page:PERSONAL completion:^(CFAbsoluteTime time) {
+        nil;
+    }];
+}
+
 - (UIView *)setupTableViewFootView {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 190)];
     UIButton *finishRegisterBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     finishRegisterBtn.frame = CGRectMake(15, 20, 290, 44);
-    [finishRegisterBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
-    [finishRegisterBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
+    [finishRegisterBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
+    [finishRegisterBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
+    
+    [finishRegisterBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_lost"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateDisabled];
     [finishRegisterBtn setTitle:@"注册" forState:UIControlStateNormal];
     [finishRegisterBtn addTarget:self action:@selector(registerAction) forControlEvents:UIControlEventTouchUpInside];
+    [finishRegisterBtn setEnabled:NO];
+    
+    self.registerBtn = finishRegisterBtn;
     
     [view addSubview:finishRegisterBtn];
+    
+    UILabel *agreeLbl = [[UILabel alloc] init];
+    agreeLbl.frame = CGRectMake(40, finishRegisterBtn.bottom+15, 145, 21);
+    agreeLbl.font = [UIFont ajkH5Font];
+    agreeLbl.textColor = [UIColor brokerMiddleGrayColor];
+    agreeLbl.text = @"点击“注册”即表示你同意";
+    
+    UIButton *agreeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    agreeBtn.frame = CGRectMake(agreeLbl.right-20, agreeLbl.top, 120, agreeLbl.height);
+    [agreeBtn setTitle:@"《用户服务协议》" forState:UIControlStateNormal];
+    [agreeBtn setTitleColor:[UIColor brokerBabyBlueColor] forState:UIControlStateNormal];
+    agreeBtn.titleLabel.font = [UIFont ajkH5Font];
+    [agreeBtn addTarget:self action:@selector(agreeAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    [view addSubview:agreeLbl];
+    [view addSubview:agreeBtn];
+    
     return view;
+}
+
+- (void)agreeAction {
+    MyUserProtocolController *userProtocolController = [[MyUserProtocolController alloc] init];
+    RTGestureBackNavigationController *navController = [[RTGestureBackNavigationController alloc ] initWithRootViewController:userProtocolController];
+    self.hidesBottomBarWhenPushed = YES;
+    [self.navigationController presentViewController:navController animated:YES completion:nil];
 }
 
 - (void)registerAction {
@@ -164,6 +221,7 @@
     self.businessDic = dic;
     NSString *businessName = dic[@"businessName"];
     [self.detailDataArray replaceObjectAtIndex:2 withObject:businessName];
+    [self checkRegisterIsEnable];
     [self.tableView reloadData];
 }
 
@@ -188,6 +246,7 @@
     self.natureDic = dic;
     NSString *natureName = dic[@"natureName"];
     [self.detailDataArray replaceObjectAtIndex:3 withObject:natureName];
+    [self checkRegisterIsEnable];
     [self.tableView reloadData];
 }
 
@@ -205,6 +264,7 @@
     
     self.companyDic = dic;
     [self.detailDataArray replaceObjectAtIndex:4 withObject:dic[@"companyName"]];
+    [self checkRegisterIsEnable];
     [self.tableView reloadData];
 }
 
@@ -245,6 +305,7 @@
 
     self.storeDic = dic;
     [self.detailDataArray replaceObjectAtIndex:5 withObject:dic[@"storeName"]];
+    [self checkRegisterIsEnable];
     [self.tableView reloadData];
 }
 
@@ -435,14 +496,17 @@
         cell.backgroundColor = [UIColor clearColor];
         UILabel *nameLbl = [UILabel new];
         nameLbl.frame = CGRectMake(15, 0, 100, 44);
-        nameLbl.font = [UIFont systemFontOfSize:15];
+        nameLbl.font =  [UIFont ajkH2Font];
         nameLbl.text = @"真实姓名";
+        nameLbl.textColor = [UIColor brokerMiddleGrayColor];
         
         UITextField *nameTextField = [UITextField new];
         nameTextField.borderStyle = UITextBorderStyleNone;
         nameTextField.frame = CGRectMake(160, 0, 120, 44);
-        nameTextField.textAlignment = NSTextAlignmentCenter;
+        nameTextField.textAlignment = NSTextAlignmentRight;
         nameTextField.delegate = self;
+        nameTextField.font = [UIFont ajkH2Font];
+        nameTextField.textColor = [UIColor brokerBlackColor];
         if (self.brokerName) {
             nameTextField.text = self.brokerName;
         }
@@ -457,7 +521,7 @@
     }
     NSString *identifier = @"identifier";
 
-    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
+    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:nil];
 
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
@@ -472,9 +536,14 @@
     [self checkEnableCell:cell withIndex:indexPath];
 
     cell.textLabel.text = self.dataArray[indexPath.row];
-    cell.textLabel.font = [UIFont systemFontOfSize:15];
+    cell.textLabel.font = [UIFont ajkH2Font];
+    cell.textLabel.textColor = [UIColor brokerMiddleGrayColor];
     cell.detailTextLabel.text = self.detailDataArray[indexPath.row];
+    cell.detailTextLabel.font = [UIFont ajkH2Font];
+    cell.detailTextLabel.textColor = [UIColor brokerBlackColor];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    //
+    
     return cell;
 }
 
@@ -575,6 +644,7 @@
     
     self.cityDic = city;
     [self.detailDataArray replaceObjectAtIndex:1 withObject:city[@"cityName"]];
+    [self checkRegisterIsEnable];
     [self.tableView reloadData];
     
 }
@@ -596,8 +666,17 @@
 //    }
      NSString *string = [NSString stringWithFormat:@"%@-%@",workRangeDic[@"block"][@"blockName"],workRangeDic[@"district"][@"districtName"]];
     [self.detailDataArray replaceObjectAtIndex:6 withObject:string];
+    [self checkRegisterIsEnable];
     [self.tableView reloadData];
     
+}
+
+- (void)checkRegisterIsEnable {
+    if (self.workRangeDic && self.nameTextField.text.length > 0) {
+        [self.registerBtn setEnabled:YES];
+    } else {
+        [self.registerBtn setEnabled:NO];
+    }
 }
 
 /*

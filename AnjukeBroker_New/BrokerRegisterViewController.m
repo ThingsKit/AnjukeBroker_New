@@ -9,8 +9,9 @@
 #import "BrokerRegisterViewController.h"
 #import <RTLineView.h>
 #import "BrokerRegisterInfoViewController.h"
+#import "BrokerCallAlert.h"
 
-@interface BrokerRegisterViewController ()
+@interface BrokerRegisterViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIButton *verifyBtn;
 @property (nonatomic, strong) UIButton *nextBtn;
@@ -38,12 +39,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor brokerBgPageColor];
-    UIFont *lblFont = [UIFont systemFontOfSize:15];
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.height)];
+    scrollView.delegate = self;
+    
+    CGSize newSize = CGSizeMake(320, self.view.height+100);
+    
+    [scrollView setContentSize:newSize];
+    
+    
+    UIFont *lblFont = [UIFont ajkH2Font];
+    UIColor *lblColor = [UIColor brokerMiddleGrayColor];
+    UIColor *textFieldColor = [UIColor brokerBlackColor];
     
     RTLineView *topLineView = [[RTLineView alloc] initWithFrame:CGRectMake(0, 20, 320, 1)];
     UILabel *phoneLbl = [UILabel new];
     phoneLbl.frame = CGRectMake(15, topLineView.bottom, 65, 44);
     phoneLbl.font = lblFont;
+    phoneLbl.textColor = lblColor;
     phoneLbl.text = @"手机号";
     
     UITextField *phoneTextField = [UITextField new];
@@ -51,6 +63,7 @@
     phoneTextField.borderStyle = UITextBorderStyleNone;
     phoneTextField.font = lblFont;
     phoneTextField.keyboardType =UIKeyboardTypeNumberPad;
+    phoneTextField.textColor = textFieldColor;
     
     RTLineView *verticalLineView = [[RTLineView alloc] initWithFrame:CGRectMake(225, topLineView.bottom, 1, 44)];
     verticalLineView.horizontalLine = NO;
@@ -58,9 +71,9 @@
     
     UIButton *verifyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     verifyBtn.frame = CGRectMake(225, topLineView.bottom, 95, 44);
-    verifyBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    verifyBtn.titleLabel.font = [UIFont ajkH4Font];
     [verifyBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
-    [verifyBtn setTitleColor:[UIColor colorWithHex:0x375aa2 alpha:1.0] forState:UIControlStateNormal];
+    [verifyBtn setTitleColor:[UIColor brokerBabyBlueColor] forState:UIControlStateNormal];
     [verifyBtn addTarget:self action:@selector(requestVerifyCode) forControlEvents:UIControlEventTouchUpInside];
     
     RTLineView *phoneLineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, topLineView.bottom+45, 305, 1)];
@@ -69,12 +82,14 @@
     verifyLbl.frame = CGRectMake(15, phoneLineView.bottom, 65, 44);
     verifyLbl.font = lblFont;
     verifyLbl.text = @"验证码";
+    verifyLbl.textColor = lblColor;
     
     UITextField *verifyTextField = [UITextField new];
     verifyTextField.frame = CGRectMake(82, phoneLineView.bottom, 200, 44);
     verifyTextField.borderStyle = UITextBorderStyleNone;
     verifyTextField.font = lblFont;
     verifyTextField.keyboardType =UIKeyboardTypeNumberPad;
+    verifyTextField.textColor = textFieldColor;
     
     RTLineView *verifyLineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, phoneLineView.bottom+45, 305, 1)];
     
@@ -82,41 +97,82 @@
     passwordLbl.frame = CGRectMake(15, verifyLineView.bottom, 65, 44);
     passwordLbl.font = lblFont;
     passwordLbl.text = @"密码";
+    passwordLbl.textColor = lblColor;
     
     UITextField *passwordTextField = [UITextField new];
     passwordTextField.frame = CGRectMake(82, verifyLineView.bottom, 200, 44);
     passwordTextField.borderStyle = UITextBorderStyleNone;
     passwordTextField.font = lblFont;
     passwordTextField.secureTextEntry = YES;
+    passwordTextField.textColor = textFieldColor;
     
     RTLineView *bottomLineView = [[RTLineView alloc] initWithFrame:CGRectMake(0, verifyLineView.bottom+45, 320, 1)];
     
     UIButton *nextBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     nextBtn.frame = CGRectMake(15, bottomLineView.bottom+20, 290, 40);
-    [nextBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
-    [nextBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
+    [nextBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
+    [nextBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
+    
+    [nextBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue_lost"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateDisabled];
+    
     [nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
     [nextBtn addTarget:self action:@selector(nextAction) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.view addSubview:topLineView];
-    [self.view addSubview:phoneLbl];
-    [self.view addSubview:phoneTextField];
-    [self.view addSubview:verticalLineView];
-    [self.view addSubview:verifyBtn];
-    [self.view addSubview:phoneLineView];
-    [self.view addSubview:verifyLbl];
-    [self.view addSubview:verifyTextField];
-    [self.view addSubview:verifyLineView];
-    [self.view addSubview:passwordLbl];
-    [self.view addSubview:passwordTextField];
-    [self.view addSubview:bottomLineView];
-    [self.view addSubview:nextBtn];
+    UILabel *problemLbl = [[UILabel alloc] initWithFrame:CGRectMake(37, self.view.height-41-64, 150, 21)];
+    problemLbl.font = [UIFont ajkH5Font];
+    problemLbl.textColor = [UIColor brokerMiddleGrayColor];
+    problemLbl.text = @"如注册遇到问题，请拨打：";
+    
+    UIButton *dailPhoneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    dailPhoneBtn.frame = CGRectMake(problemLbl.right, problemLbl.top, 80, problemLbl.height);
+    [dailPhoneBtn setTitle:@"400-620-9008" forState:UIControlStateNormal];
+    [dailPhoneBtn setTitleColor:[UIColor brokerBabyBlueColor] forState:UIControlStateNormal];
+    dailPhoneBtn.titleLabel.font = [UIFont ajkH5Font];
+    [dailPhoneBtn addTarget:self action:@selector(dialPhone) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    [scrollView addSubview:topLineView];
+    [scrollView addSubview:phoneLbl];
+    [scrollView addSubview:phoneTextField];
+    [scrollView addSubview:verticalLineView];
+    [scrollView addSubview:verifyBtn];
+    [scrollView addSubview:phoneLineView];
+    [scrollView addSubview:verifyLbl];
+    [scrollView addSubview:verifyTextField];
+    [scrollView addSubview:verifyLineView];
+    [scrollView addSubview:passwordLbl];
+    [scrollView addSubview:passwordTextField];
+    [scrollView addSubview:bottomLineView];
+    [scrollView addSubview:nextBtn];
+    
+    [scrollView addSubview:problemLbl];
+    [scrollView addSubview:dailPhoneBtn];
+    
+    
+    [self.view addSubview:scrollView];
     
     self.phoneTextField = phoneTextField;
     self.verifyTextField = verifyTextField;
     self.verifyBtn = verifyBtn;
     self.passwordTextField = passwordTextField;
     self.nextBtn = nextBtn;
+    
+    [self.nextBtn setEnabled:NO];
+    
+    //add observer
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(textDidChange)
+                                                 name:UITextFieldTextDidChangeNotification
+                                               object:self.phoneTextField];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(textDidChange)
+                                                 name:UITextFieldTextDidChangeNotification
+                                               object:self.verifyTextField];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(textDidChange)
+                                                 name:UITextFieldTextDidChangeNotification
+                                               object:self.passwordTextField];
+
     
 }
 
@@ -127,6 +183,31 @@
 
 - (void)doBack:(id)sender {
     [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if ([self.phoneTextField isFirstResponder]) {
+        [self.phoneTextField resignFirstResponder];
+    } else if ([self.verifyTextField isFirstResponder]) {
+        [self.verifyTextField resignFirstResponder];
+    } else if ([self.passwordTextField isFirstResponder]) {
+        [self.passwordTextField resignFirstResponder];
+    }
+}
+
+- (void)dialPhone {
+    //make call
+    [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:@"4006209008" appLogKey:PERSONAL_CLICK_CONFIRM_CSCALL page:PERSONAL completion:^(CFAbsoluteTime time) {
+        nil;
+    }];
+}
+
+- (void)textDidChange {
+    if (self.phoneTextField.text.length >= 11 && self.verifyTextField.text.length > 0 &&  self.passwordTextField.text.length >= 6) {
+        [self.nextBtn setEnabled:YES];
+    } else {
+        [self.nextBtn setEnabled:NO];
+    }
 }
 
 #pragma mark - validate the imput mobile phone number
@@ -190,7 +271,7 @@
     if (![self validatePhoneNum:self.phoneTextField.text]) {
         return;
     }
-    [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:@"common/captcha/sms/" params:@{@"mobile":self.phoneTextField.text,@"is_nocheck":@"1"} target:self action:@selector(onReceiveVerifyCode:)];
+    [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:@"common/captcha/sms/" params:@{@"mobile":self.phoneTextField.text} target:self action:@selector(onReceiveVerifyCode:)];
     
     self.secondsCountDown = 5;
     self.countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1
@@ -202,6 +283,11 @@
 
 - (void)onReceiveVerifyCode:(RTNetworkResponse *)response {
     DLog(@"response [%@]", [response content]);
+    if ([response.content[@"status"] isEqualToString:@"error"]) {
+        if (response.content[@"message"]) {
+            [self showInfo:response.content[@"message"]];
+        }
+    }
 }
 
 
@@ -209,12 +295,12 @@
     self.secondsCountDown--;
     [self.verifyBtn setEnabled:NO];
     [self.verifyBtn setTitle:[NSString stringWithFormat:@"重新获取(%d)",self.secondsCountDown] forState:UIControlStateDisabled];
-    [self.verifyBtn setTitleColor:[UIColor colorWithHex:0x8d8c92 alpha:1.0f] forState:UIControlStateDisabled];
+    [self.verifyBtn setTitleColor:[UIColor brokerLightGrayColor] forState:UIControlStateDisabled];
     
     if(self.secondsCountDown == 0){
         [self.countDownTimer invalidate];
         [self.verifyBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
-        [self.verifyBtn setTitleColor:[UIColor colorWithHex:0x375aa2 alpha:1.0] forState:UIControlStateNormal];
+        [self.verifyBtn setTitleColor:[UIColor brokerBabyBlueColor] forState:UIControlStateNormal];
         [self.verifyBtn setEnabled:YES];
     }
 }
@@ -232,7 +318,7 @@
         return;
     }
     
-    [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:@"common/captcha/verify/" params:@{@"mobile":self.phoneTextField.text,@"authCode":self.verifyTextField.text,@"is_nocheck":@"1"} target:self action:@selector(onCheckVerifyCode:)];
+    [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:@"common/captcha/verify/" params:@{@"mobile":self.phoneTextField.text,@"authCode":self.verifyTextField.text} target:self action:@selector(onCheckVerifyCode:)];
     
     [self showLoadingActivity:YES];
 }

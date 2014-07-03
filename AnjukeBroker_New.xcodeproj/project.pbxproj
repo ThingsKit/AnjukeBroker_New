@@ -25,6 +25,10 @@
 		010AFB2E196253BB00ADB9C1 /* CityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 010AFB2D196253BB00ADB9C1 /* CityModel.m */; };
 		010AFB31196253E400ADB9C1 /* AJKCityInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 010AFB2F196253E400ADB9C1 /* AJKCityInfo.plist */; };
 		010AFB32196253E400ADB9C1 /* CombinedCityInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 010AFB30196253E400ADB9C1 /* CombinedCityInfo.plist */; };
+		01F8A7801965655500D892D4 /* MyUserProtocolController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F8A77F1965655500D892D4 /* MyUserProtocolController.m */; };
+		01F8A7821965672800D892D4 /* protocol.html in Resources */ = {isa = PBXBuildFile; fileRef = 01F8A7811965672800D892D4 /* protocol.html */; };
+		01F8A7851965673300D892D4 /* anjukelogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F8A7831965673300D892D4 /* anjukelogo.png */; };
+		01F8A7861965673300D892D4 /* anjukelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F8A7841965673300D892D4 /* anjukelogo@2x.png */; };
 		200485DB1907C33800A5A351 /* Property.m in Sources */ = {isa = PBXBuildFile; fileRef = 200485DA1907C33800A5A351 /* Property.m */; };
 		200915E81893FC1000A13115 /* E_Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 200915E71893FC1000A13115 /* E_Photo.m */; };
 		200915EE189401C800A13115 /* anjuke_icon_fxt_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */; };
@@ -828,6 +832,11 @@
 		010AFB2D196253BB00ADB9C1 /* CityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityModel.m; sourceTree = "<group>"; };
 		010AFB2F196253E400ADB9C1 /* AJKCityInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = AJKCityInfo.plist; sourceTree = "<group>"; };
 		010AFB30196253E400ADB9C1 /* CombinedCityInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = CombinedCityInfo.plist; sourceTree = "<group>"; };
+		01F8A77E1965655500D892D4 /* MyUserProtocolController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyUserProtocolController.h; sourceTree = "<group>"; };
+		01F8A77F1965655500D892D4 /* MyUserProtocolController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyUserProtocolController.m; sourceTree = "<group>"; };
+		01F8A7811965672800D892D4 /* protocol.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = protocol.html; sourceTree = "<group>"; };
+		01F8A7831965673300D892D4 /* anjukelogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anjukelogo.png; sourceTree = "<group>"; };
+		01F8A7841965673300D892D4 /* anjukelogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjukelogo@2x.png"; sourceTree = "<group>"; };
 		200485D91907C33800A5A351 /* Property.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Property.h; sourceTree = "<group>"; };
 		200485DA1907C33800A5A351 /* Property.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Property.m; sourceTree = "<group>"; };
 		200915D31893FA3000A13115 /* AnjukeBroker_New3.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AnjukeBroker_New3.1.xcdatamodel; sourceTree = "<group>"; };
@@ -2037,10 +2046,15 @@
 		010AFB001962535300ADB9C1 /* Register */ = {
 			isa = PBXGroup;
 			children = (
+				01F8A7811965672800D892D4 /* protocol.html */,
+				01F8A7831965673300D892D4 /* anjukelogo.png */,
+				01F8A7841965673300D892D4 /* anjukelogo@2x.png */,
 				010AFB23196253A100ADB9C1 /* Model */,
 				010AFB221962538C00ADB9C1 /* Pictures */,
 				010AFB041962538000ADB9C1 /* SearchCompanyController.h */,
 				010AFB051962538000ADB9C1 /* SearchCompanyController.m */,
+				01F8A77E1965655500D892D4 /* MyUserProtocolController.h */,
+				01F8A77F1965655500D892D4 /* MyUserProtocolController.m */,
 				010AFB061962538000ADB9C1 /* SearchStoreController.h */,
 				010AFB071962538000ADB9C1 /* SearchStoreController.m */,
 				010AFB081962538000ADB9C1 /* MainBusinessViewController.h */,
@@ -4733,6 +4747,7 @@
 				B7EA5B7A18DBDCA900D437BB /* wl_voice_tip_warn@2x.png in Resources */,
 				6740D1CD1908E08C005ED706 /* anjuke_icon_bq@2x.png in Resources */,
 				200DAB6318DFD4E20077E0C9 /* anjuke_icon_tab_bg@2x.png in Resources */,
+				01F8A7851965673300D892D4 /* anjukelogo.png in Resources */,
 				010AFB28196253B300ADB9C1 /* noResult.jpg in Resources */,
 				67203D85196291E200A32B60 /* broker_property_control_select@2x.png in Resources */,
 				010AFB32196253E400ADB9C1 /* CombinedCityInfo.plist in Resources */,
@@ -4830,6 +4845,7 @@
 				678083FF1904AB1F00765A18 /* faceDelete.png in Resources */,
 				6780840E1904B2B200765A18 /* emoji_touch@2x.png in Resources */,
 				973727AF182FD2CE007D8501 /* PropertyDirection.plist in Resources */,
+				01F8A7861965673300D892D4 /* anjukelogo@2x.png in Resources */,
 				B7E1919418E2755100DA578B /* anjuke_icon_chat_fy1@2x.png in Resources */,
 				B7EA5B6218DBDCA900D437BB /* anjuke_icon_chat1_fy@2x.png in Resources */,
 				67203D82196291E200A32B60 /* anjuke_icon_choosed@2x.png in Resources */,
@@ -4891,6 +4907,7 @@
 				B7E2B68F192AF7FA008AE703 /* bg_3.4_01.png in Resources */,
 				678084001904AB1F00765A18 /* faceDelete@2x.png in Resources */,
 				2039E58518C421FF003ED781 /* anjuke_icon_headpic@2x.png in Resources */,
+				01F8A7821965672800D892D4 /* protocol.html in Resources */,
 				200915EE189401C800A13115 /* anjuke_icon_fxt_@2x.png in Resources */,
 				6767D178192398C2004FEFF7 /* anjuke_icon_weituo_button_on@2x.png in Resources */,
 				B7FC9AF718C41B1300F77205 /* xproject_dialogue_greycard_selected@2x.png in Resources */,
@@ -5352,6 +5369,10 @@
 				97CB0C0C182BEA3500FCCBBD /* BK_ELCAlbumPickerController.m in Sources */,
 				B7EA1FC2183A437500438CF8 /* SaleAuctionViewController.m in Sources */,
 				F89FF5B1196287F300AC7256 /* PPCHouseCell.m in Sources */,
+				67203D581962881400A32B60 /* PropertyDetailTableViewCellModel.m in Sources */,
+				B7EA1FC2183A437500438CF8 /* SaleAuctionViewController.m in Sources */,
+				F89FF5B1196287F300AC7256 /* PPCHouseCell.m in Sources */,
+				01F8A7801965655500D892D4 /* MyUserProtocolController.m in Sources */,
 				F8A717BF192058FB004840C6 /* UserCenterViewController.m in Sources */,
 				976AC61118278B5C003A2B3A /* LoginViewController.m in Sources */,
 				273913D218DBCFD9003284AA /* CheckInstalledMapAPP.m in Sources */,
