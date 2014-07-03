@@ -29,7 +29,7 @@
     model.isVisible = dic[@"isVisible"] ? dic[@"isVisible"] : @"";
     model.isPhonePub = dic[@"isPhonePub"] ? dic[@"isPhonePub"] : [NSString stringWithFormat:@"%@",dic[@"isFromMobile"] ? dic[@"isFromMobile"] : @""];
     model.createTime = dic[@"createTime"] ? dic[@"createTime"] : @"";
-    model.imgURL = dic[@"imgURL"] ? dic[@"imgURL"] : @"";
+    model.imgURL = dic[@"imgURL"] ? dic[@"imgURL"] : [NSString stringWithFormat:@"%@",dic[@"imgUrl"] ? dic[@"imgUrl"] : @""];
 
     return model;
 }

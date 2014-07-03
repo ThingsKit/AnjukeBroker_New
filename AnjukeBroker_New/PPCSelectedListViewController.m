@@ -9,6 +9,7 @@
 #import "PPCSelectedListViewController.h"
 #import "RTListCell.h"
 #import "PPCSelectedListCell.h"
+#import "PPCPriceingListModel.h"
 
 @interface PPCSelectedListViewController ()
 @property(nonatomic, strong) NSMutableArray *tableData;
@@ -63,20 +64,27 @@
         return 0;
     }else {
         if (section == 0) {
-            return 0;
+            return 1;
         }else if (section == 1){
             return self.onSpreadListData.count;
         }else if (section == 2){
             return self.onQueueListData.count;
-        }else{
-            return 2;
+        }else if (section == 3){
+            if (self.onOfflineListData.count == 0) {
+                return 0;
+            }else{
+                return 2;
+            }
         }
     }
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        return 40;
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            return 40;
+        }
     }
     
     if (self.onOfflineListData.count > 0) {
@@ -110,7 +118,7 @@
         }
     }else if (self.onSpreadListData.count > 0){
         if (section == 1) {
-            return 40;
+            return 30;
         }
     }
 
@@ -120,7 +128,7 @@
         }
     }else if (self.onSpreadListData.count > 0){
         if (section == 1) {
-            return 40;
+            return 30;
         }
     }
     
@@ -135,17 +143,17 @@
     static NSString *identify1 = @"cell1";
     static NSString *identify2 = @"cell1";
     
-    if (indexPath.row == 0 || indexPath.row == self.tableData.count + 1 || indexPath.row == self.tableData.count + 2) {
+    if (indexPath.section == 0) {
         RTListCell *cell = (RTListCell *)[tableView dequeueReusableCellWithIdentifier:identify1];
         if (!cell) {
             cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify1];
         }
-        if (indexPath.row == 0 && indexPath.section == 0) {
+        if (indexPath.row == 0) {
             cell.backgroundColor = [UIColor clearColor];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.accessoryType = UITableViewCellAccessoryNone;
             
-            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 120, 40)];
+            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 150, 40)];
             lab.textAlignment = NSTextAlignmentLeft;
             lab.textColor = [UIColor brokerMiddleGrayColor];
             lab.font = [UIFont ajkH4Font];
@@ -156,11 +164,21 @@
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             btn.frame = CGRectMake(185, 0, 120, 40);
             btn.titleLabel.font = [UIFont ajkH4Font];
+            [btn addTarget:self action:@selector(goSelectIntro:) forControlEvents:UIControlEventTouchUpInside];
             [btn setTitle:@"什么是精选房源?" forState:UIControlStateNormal];
             [btn setTitleColor:[UIColor brokerBlueColor] forState:UIControlStateNormal];
             [btn setTitleColor:[UIColor brokerBlueGrayColor] forState:UIControlStateHighlighted];
             [cell.contentView addSubview:btn];
-        }else if (indexPath.row == self.tableData.count + 1){
+        }
+        return cell;
+    }
+    
+    if (self.onOfflineListData.count > 0) {
+        RTListCell *cell = (RTListCell *)[tableView dequeueReusableCellWithIdentifier:identify1];
+        if (!cell) {
+            cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify1];
+        }
+        if (indexPath.row == self.tableData.count + 1){
             cell.backgroundColor = [UIColor clearColor];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -168,7 +186,7 @@
             cell.backgroundColor = [UIColor whiteColor];
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
+            
             [cell showTopLine];
             
             NSString *str;
@@ -183,18 +201,21 @@
             [cell showBottonLineWithCellHeight:45];
         }
         return cell;
-    }else{
-        PPCSelectedListCell *cell = (PPCSelectedListCell *)[tableView dequeueReusableCellWithIdentifier:identify2];
-        if (!cell) {
-            cell = [[PPCSelectedListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify2];
-        }
-        
-        [cell configureCell:nil withIndex:indexPath.row];
-        
-        return cell;
     }
+
+    PPCSelectedListCell *cell = (PPCSelectedListCell *)[tableView dequeueReusableCellWithIdentifier:identify2];
+    if (!cell) {
+        cell = [[PPCSelectedListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify2];
+    }
+    PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.tableData objectAtIndex:indexPath.row]];
+    [cell configureCell:model withIndex:indexPath.row];
+    [cell showBottonLineWithCellHeight:95 andOffsetX:15];
     
-    return nil;
+    return cell;
+}
+
+- (void)goSelectIntro:(id)sender{
+    
 }
 
 - (void)doRequest{
@@ -257,26 +278,14 @@
     self.tableData = nil;
     self.tableData = [[NSMutableArray alloc] init];
     
-    if (self.isHaozu) {
-        if (resultApi[@"OnlinePropertyList"]) {
-            self.onSpreadListData = resultApi[@"OnlinePropertyList"];
-        }
-        if (resultApi[@"QueuedPropertyList"]) {
-            self.onQueueListData = resultApi[@"QueuedPropertyList"];
-        }
-        if (resultApi[@"OfflinePropertyList"]) {
-            self.onOfflineListData = resultApi[@"OfflinePropertyList"];
-        }
-    }else{
-        if (resultApi[@"onSpreadList"]) {
-            self.onSpreadListData = resultApi[@"onSpreadList"];
-        }
-        if (resultApi[@"onQueueList"]) {
-            self.onQueueListData = resultApi[@"onQueueList"];
-        }
-        if (resultApi[@"historyList"]) {
-            self.onOfflineListData = resultApi[@"historyList"];
-        }
+    if (resultApi[@"OnlinePropertyList"]) {
+        self.onSpreadListData = resultApi[@"OnlinePropertyList"];
+    }
+    if (resultApi[@"QueuedPropertyList"]) {
+        self.onQueueListData = resultApi[@"QueuedPropertyList"];
+    }
+    if (resultApi[@"OfflinePropertyList"]) {
+        self.onOfflineListData = resultApi[@"OfflinePropertyList"];
     }
     
     

@@ -84,8 +84,9 @@
 - (BOOL)configureView:(id)dataModel{
     PPCPriceingListModel *model = (PPCPriceingListModel *)dataModel;
     
-    
+    DLog(@"imgUrl==>>%@",model.imgURL);
     [self.mainImgView setImageUrl:model.imgURL];
+    
     self.titLab.text = model.title;
     self.commNameLab.text = model.commName;
     self.houseDetailLab.text = [NSString stringWithFormat:@"%@室%@厅 %.0f平 %.0f%@",model.roomNum,model.hallNum,[model.area floatValue],[model.price floatValue],model.priceUnit];
