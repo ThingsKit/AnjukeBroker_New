@@ -525,7 +525,7 @@
         PropertySingleViewController* viewController = [[PropertySingleViewController alloc] init];
         [viewController setHidesBottomBarWhenPushed:YES];
         viewController.backType = RTSelectorBackTypePopBack;
-        viewController.pageType = PAGE_TYPE_CHOICE;
+        viewController.pageType = PAGE_TYPE_NO_PLAN;
         [self.navigationController pushViewController:viewController animated:YES];
         //#########################################################
         

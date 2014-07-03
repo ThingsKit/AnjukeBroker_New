@@ -28,8 +28,15 @@
 
 @property (nonatomic, strong) UITableView* tableView;
 @property (nonatomic, assign) BOOL networkRequesting; //网络请求锁
-
+@property (nonatomic, strong) PropertyDetailTableViewFooter* footer; //页脚
+@property (nonatomic, strong) UIView* loadingView; //正在加载中的View;
 @property (nonatomic, strong) NSMutableArray* data; //数组用来存储5个请求回来的对象
+
+@property (nonatomic, assign) BOOL isHaozu; //区分是二手房还是租房, 1 表示租房, 0表示二手房, 默认二手房
+@property (nonatomic, assign) PageType pageType; //用来标记从那种类型的列表过来
+@property (nonatomic, copy) NSString* brokerId;
+@property (nonatomic, copy) NSString* propId;
+@property (nonatomic, copy) NSString* cityId;
 
 @end
 
@@ -40,7 +47,16 @@
 {
     [super viewDidLoad];
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44 - 49) style:UITableViewStylePlain];
+    //取出参数
+//    @"brokerId":@"858573", @"propId":@"168783092"   for test
+    _isHaozu = [self.params[@"isHaozu"] boolValue];
+    _pageType = [self.params[@"pageType"] intValue];
+    _propId = self.params[@"propId"];
+    _cityId = self.params[@"cityId"];
+    
+    
+    //表
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44 - 49) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -49,8 +65,28 @@
     _tableView.hidden = YES;
     [self.view addSubview:_tableView];
     
-    PropertyDetailTableViewFooter* footer = [[PropertyDetailTableViewFooter alloc] init]; //页尾
-    [self.view addSubview:footer];
+    //页脚
+    _footer = [[PropertyDetailTableViewFooter alloc] init]; //页尾
+    _footer.hidden = YES;
+    [self.view addSubview:_footer];
+    
+    //正在加载中的view
+    _loadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44)];
+    UIActivityIndicatorView* activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    activity.bounds = CGRectMake(0, 0, 200, 200);
+    activity.center = CGPointMake(ScreenWidth*0.5, (ScreenHeight-20-44)*0.5);
+    [activity startAnimating];
+    [_loadingView addSubview:activity];
+    
+    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
+    label.center = CGPointMake(ScreenWidth*0.5, (ScreenHeight-20-44)*0.5 - 30);
+    label.font = [UIFont ajkH3Font];
+    label.textColor = [UIColor brokerLightGrayColor];
+    label.text = @"努力加载中...";
+    label.textAlignment = NSTextAlignmentCenter;
+    [_loadingView addSubview:label];
+    
+    [self.view addSubview:_loadingView];
     
     [self requestPropFixChoice];
 }
@@ -202,6 +238,20 @@
 
 #pragma mark -
 #pragma mark UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"行%d 组%d", indexPath.row, indexPath.section);
+    [tableView deselectRowAtIndexPath:indexPath animated:YES]; //取消高亮
+    
+    if (indexPath.section == 0) {
+        
+        //push 到 webview
+        
+    }
+    
+}
+
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
     if (indexPath.section == 0) { //房源详情
@@ -329,19 +379,20 @@
         prefix = @"zufang";
     }
     
-    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
+//    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
+    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getChatID], @"propId":_propId};
     NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/summary/"], @"query_params":param1}; //房源概况
     
-    NSDictionary* param2 = @{@"token":[LoginManager getToken], @"cityId":@"11", @"propId":@"168783092"}; //11表示上海
+    NSDictionary* param2 = @{@"token":[LoginManager getToken], @"cityId":@"11", @"propId":_propId}; //11表示上海
     NSDictionary* dic2 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/fix/summary/"], @"query_params":param2}; //房源定价概况
     
-    NSDictionary* param3 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
+    NSDictionary* param3 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getChatID], @"propId":_propId};
     NSDictionary* dic3 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/choice/summary/"], @"query_params":param3}; //房源精选概况
     
-    NSDictionary* param4 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
+    NSDictionary* param4 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getChatID], @"propId":_propId};
     NSDictionary* dic4 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/choice/summary/"], @"query_params":param4}; //最大最小预算余额
     
-    NSDictionary* param5 = @{@"token":[LoginManager getToken], @"brokerId":@"858573"};
+    NSDictionary* param5 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getChatID]};
     NSDictionary* dic5 = @{@"method":@"GET", @"relative_url":@"broker/account/balance/", @"query_params":param5}; //经纪人可用余额
     
     NSDictionary* param = @{@"requests":@{@"prop_summary":dic1,
@@ -408,6 +459,8 @@
             }
             
             _tableView.hidden = NO;
+            _footer.hidden = NO;
+            _loadingView.hidden = YES;
             [_tableView reloadData];
             
         }else{  //匹请求失败
