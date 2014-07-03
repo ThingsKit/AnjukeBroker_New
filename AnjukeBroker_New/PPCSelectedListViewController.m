@@ -10,6 +10,7 @@
 #import "RTListCell.h"
 #import "PPCSelectedListCell.h"
 #import "PPCPriceingListModel.h"
+#import "PPCPromoteCompletListViewController.h"
 
 @interface PPCSelectedListViewController ()
 @property(nonatomic, strong) NSMutableArray *tableData;
@@ -55,7 +56,6 @@
     if (self.tableData.count == 0 && self.onOfflineListData.count == 0) {
         return 0;
     }
-    
     return 4;
 }
 
@@ -70,11 +70,12 @@
         }else if (section == 2){
             return self.onQueueListData.count;
         }else if (section == 3){
-            if (self.onOfflineListData.count == 0) {
-                return 0;
-            }else{
-                return 2;
-            }
+//            if (self.onOfflineListData.count == 0) {
+//                return 0;
+//            }else{
+//                return 2;
+//            }
+            return 2;
         }
     }
     return 0;
@@ -87,10 +88,11 @@
         }
     }
     
-    if (self.onOfflineListData.count > 0) {
-        if (indexPath.row == self.tableData.count + 2){
+//    if (self.onOfflineListData.count > 0) {
+    if (self.onOfflineListData.count == 0 && indexPath.section == 3) {
+        if (indexPath.row == 1){
             return 45;
-        }else if (indexPath.row == self.tableData.count + 1){
+        }else if (indexPath.row == 0){
             return 15;
         }
     }
@@ -173,21 +175,21 @@
         return cell;
     }
     
-    if (self.onOfflineListData.count > 0) {
+//    if (self.onOfflineListData.count > 0) {
+    if (self.onOfflineListData.count == 0 && indexPath.section == 3) {
         RTListCell *cell = (RTListCell *)[tableView dequeueReusableCellWithIdentifier:identify1];
         if (!cell) {
             cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify1];
         }
-        if (indexPath.row == self.tableData.count + 1){
+        if (indexPath.row == 0){
             cell.backgroundColor = [UIColor clearColor];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.accessoryType = UITableViewCellAccessoryNone;
-        }else if (indexPath.row == self.tableData.count + 2){
+        }else if (indexPath.row == 1){
             cell.backgroundColor = [UIColor whiteColor];
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
-            [cell showTopLine];
             
             NSString *str;
             if (!self.onOfflineListData || self.onOfflineListData.count == 0) {
@@ -198,6 +200,7 @@
             
             cell.textLabel.text = str;
             cell.textLabel.textColor = [UIColor brokerBlackColor];
+            [cell showTopLine];
             [cell showBottonLineWithCellHeight:45];
         }
         return cell;
@@ -209,7 +212,25 @@
     }
     PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.tableData objectAtIndex:indexPath.row]];
     [cell configureCell:model withIndex:indexPath.row];
-    [cell showBottonLineWithCellHeight:95 andOffsetX:15];
+    
+    if (indexPath.row == 0) {
+        [cell showTopLine];
+    }
+    
+    if (self.onSpreadListData.count > 0) {
+        if (indexPath.row == self.onSpreadListData.count - 1) {
+            [cell showBottonLineWithCellHeight:95 andOffsetX:0];
+        }else{
+            [cell showBottonLineWithCellHeight:95 andOffsetX:15];
+        }
+    }
+    if (self.onQueueListData.count > 0) {
+        if (indexPath.row == self.onQueueListData.count - 1) {
+            [cell showBottonLineWithCellHeight:95 andOffsetX:0];
+        }else{
+            [cell showBottonLineWithCellHeight:95 andOffsetX:15];
+        }
+    }
     
     return cell;
 }
@@ -315,6 +336,14 @@
     if (!self.tableData || self.navigationController.view.frame.origin.x > 0) {
         return;
     }
+    
+//    if (self.onOfflineListData.count > 0 && indexPath.section == 3 && indexPath.row == 1) {
+    if (self.onOfflineListData.count == 0 && indexPath.section == 3 && indexPath.row == 1) {
+        PPCPromoteCompletListViewController *promoteCompletListVC = [[PPCPromoteCompletListViewController alloc] init];
+        promoteCompletListVC.isHaozu = self.isHaozu;
+        promoteCompletListVC.tableData = self.onSpreadListData;
+        [self.navigationController pushViewController:promoteCompletListVC animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -323,15 +352,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
+

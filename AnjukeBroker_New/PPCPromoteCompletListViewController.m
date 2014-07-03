@@ -1,0 +1,146 @@
+//
+//  PPCPromoteCompletListViewController.m
+//  AnjukeBroker_New
+//
+//  Created by xiazer on 14-7-3.
+//  Copyright (c) 2014年 Wu sicong. All rights reserved.
+//
+
+#import "PPCPromoteCompletListViewController.h"
+#import "PPCPriceingListModel.h"
+
+@interface PPCPromoteCompletListViewController ()
+@property(nonatomic, assign) NSInteger deleCellNum;
+@end
+
+@implementation PPCPromoteCompletListViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    [self setTitleViewWithString:@"推广结束"];
+    
+    self.tableList.dataSource = self;
+    self.tableList.delegate = self;
+    self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableList.backgroundColor = [UIColor clearColor];
+    self.tableList.rowHeight = 95;
+    [self.view addSubview:self.tableList];
+    
+    self.forbiddenEgo = YES;
+}
+
+#pragma mark - UITableViewDatasource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.tableData.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 95;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *identify = @"cell";
+    PPCHouseCell *cell = (PPCHouseCell *)[tableView dequeueReusableCellWithIdentifier:identify];
+    if (!cell) {
+        cell = [[PPCHouseCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                   reuseIdentifier:identify
+                               containingTableView:tableView
+                                leftUtilityButtons:nil
+                               rightUtilityButtons:[self getMenuButton]];
+        cell.delegate = self;
+    }
+    
+    
+    PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.tableData objectAtIndex:indexPath.row]];
+    
+    [cell configureCell:model withIndex:indexPath.row];
+    if (indexPath.row != self.tableData.count - 1) {
+        [cell showBottonLineWithCellHeight:95 andOffsetX:15];
+    }else{
+        [cell showBottonLineWithCellHeight:95 andOffsetX:0];
+    }
+    return cell;
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
+    DLog(@"didTriggerLeftUtilityButtonWithIndex-->>%d",index);
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+    DLog(@"didTriggerRightUtilityButtonWithIndex-->>%d",index);
+    
+    NSIndexPath *indexPath = [self.tableList indexPathForCell:cell];
+    self.deleCellNum = indexPath.row;
+    [self doDeleteProperty:[self.tableData objectAtIndex:indexPath.row][@"propId"]];
+}
+
+//删除房源
+- (void)doDeleteProperty:(NSString *)propertyID{
+    self.isLoading = YES;
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+        self.isLoading = NO;
+        return;
+    }
+    //更新房源信息
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    if (self.isHaozu) {
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propertyID, @"propIds", nil];
+        method = @"zufang/prop/delprops/";
+    }
+    else {
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propertyID, @"propIds", nil];
+        method = @"anjuke/prop/delprops/";
+    }
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onDeletePropFinished:)];
+}
+
+- (void)onDeletePropFinished:(RTNetworkResponse *)response {
+    DLog(@"--delete Prop。。。response [%@]", [response content]);
+    
+    if([[response content] count] == 0){
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+    }
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+        
+        //        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        return;
+    }
+    
+    [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
+
+    [self.tableData removeObjectAtIndex:self.deleCellNum];
+    
+//    [self.tableList];
+}
+
+
+- (NSMutableArray *)getMenuButton{
+    NSMutableArray *btnArr = [NSMutableArray array];
+    
+    [btnArr sw_addUtilityButtonWithColor:[UIColor brokerRedColor] title:@"删除"];
+    
+    return btnArr;
+}
+
+@end
