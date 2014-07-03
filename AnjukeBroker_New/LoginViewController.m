@@ -14,17 +14,13 @@
 #import "ConfigPlistManager.h"
 #import "AccountManager.h"
 #import "BrokerRegisterViewController.h"
-<<<<<<< HEAD
 #import "NoPlanPromotionPropertySingleViewController.h"
 //RTGestureBackNavigationController
 #import "RTGestureBackNavigationController.h"
 
 #define IPHONE_5_HEIGHT  568
 #define IPHONE_4S_HEIGHT 480
-=======
-//RTGestureBackNavigationController
-#import "RTGestureBackNavigationController.h"
->>>>>>> add register model
+
 
 @interface LoginViewController ()
 
@@ -37,11 +33,8 @@
 @property (nonatomic) UILabel *registerLabel;
 @property (nonatomic) UIView  *textFieldViewTF;
 @property (nonatomic) CGFloat logoW;
-<<<<<<< HEAD
 @property (nonatomic) CGFloat logoGap;
 @property (nonatomic) CGFloat logoY;
-=======
->>>>>>> add register model
 @end
 
 @implementation LoginViewController
@@ -101,12 +94,8 @@
     [self.view addSubview:self.loginView];
     
     self.logoW     = 95 ;
-<<<<<<< HEAD
     self.logoGap   = ([self windowWidth] - self.logoW)/2;
     self.logoY     = 95;
-=======
->>>>>>> add register model
-    
     CGFloat btnW   = 530/2;
     CGFloat btnGap = ([self windowWidth] - btnW)/2;
     CGFloat btnH   = 85/2;
@@ -116,7 +105,6 @@
     CGFloat tfW    = btnW - tfGap*2;
     CGFloat tfH    = btnH - tfGapH*2;
     
-<<<<<<< HEAD
     CGFloat textFieldViewTF_Y = 212 ;
     
     if (self.windowHeight != IPHONE_5_HEIGHT) {
@@ -126,21 +114,14 @@
     
     self.logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_60.png"]];
     self.logo.frame = CGRectMake(self.logoGap, 140,  self.logoW,  self.logoW);
-=======
-    
-    self.logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_60.png"]];
->>>>>>> add register model
+
     self.logo.backgroundColor = [UIColor clearColor];
     self.logo.contentMode = UIViewContentModeScaleAspectFill;
     self.logo.layer.cornerRadius = 5;
     [self.loginView addSubview:self.logo];
     
-<<<<<<< HEAD
-    
     self.textFieldViewTF = [[UIView alloc] initWithFrame:CGRectMake(btnGap, textFieldViewTF_Y,  btnW, btnH*2+1)];
-=======
-    self.textFieldViewTF = [[UIView alloc] initWithFrame:CGRectMake(btnGap, 212,  btnW, btnH*2+1)];
->>>>>>> add register model
+
     self.textFieldViewTF.backgroundColor = [UIColor whiteColor];
     [self.loginView addSubview:self.textFieldViewTF];
     
@@ -156,13 +137,10 @@
     
     CGRect frame     = self.textFieldViewTF.frame;
     self.loginBtn    = [self loginBtnWithFrame:CGRectMake(btnGap, frame.origin.y + frame.size.height+ 20, btnW, btnH) title:@"登录" action:@selector(doRequest)];
-<<<<<<< HEAD
+
     self.registerBtn = [self registerBtnWithFrame:CGRectMake(115,self.view.bottom - 85, 90, 33) title:@"注册" action:@selector(doRegister)];
     self.registerLabel  = [[UILabel alloc] initWithFrame:CGRectMake(103, self.view.bottom - 118 , 140, 20)];
-=======
-    self.registerBtn = [self registerBtnWithFrame:CGRectMake(115,self.view.bottom - 35 - 30, 90, 33) title:@"注册" action:@selector(doRegister)];
-    self.registerLabel  = [[UILabel alloc] initWithFrame:CGRectMake(103, self.view.bottom - 35 - 30 - 20 - 13 , 140, 20)];
->>>>>>> add register model
+
     self.registerLabel.text      = @"房源客户，一网打尽";
     self.registerLabel.textColor = [UIColor brokerLightGrayColor];
     self.registerLabel.font      = [UIFont systemFontOfSize:14];
@@ -180,7 +158,7 @@
     //###########################################################
 #endif
     
-<<<<<<< HEAD
+
 #ifdef DEBUG
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(0, 20, 320, 40);
@@ -196,7 +174,7 @@
 - (void)hit:(id)sender{
     self.nameTF.text = @"13681983677";
     self.passwordTF.text = @"anjukeqa";
-=======
+
     [self viewLoadAnimation];
 }
 
@@ -273,82 +251,7 @@
     }completion:^(BOOL finished){
         
     }];
->>>>>>> add register model
-}
 
-//生成Login界面中统一的UIButton
-- (UIButton *)buttonWithFrame:(CGRect)frame title:(NSString *)title action:(SEL)action
-{
-    UIButton *button          = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame              = frame;
-    [button setTitle:title forState:UIControlStateNormal];
-    [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
-    
-    return button;
-    
-}
-<<<<<<< HEAD
-#endif
-
-// 创建loginBtn 对象
-- (UIButton *)loginBtnWithFrame:(CGRect)frame title:(NSString*)title action:(SEL)action
-{
-    UIButton *loginBtn = [self buttonWithFrame:frame title:title action:action];
-    [loginBtn  setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
-    [loginBtn  setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_login_button_press"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateHighlighted];
-    return loginBtn;
-}
-
-// 创建registerBtn 对象
-- (UIButton *)registerBtnWithFrame:(CGRect)frame title:(NSString*)title action:(SEL)action
-{
-    UIColor *registerBtnColor      = [UIColor brokerBabyBlueColor];
-    UIButton *registerBtn          = [self buttonWithFrame:frame title:title action:action];
-    //    registerBtn.layer.borderColor  = registerBtnColor.CGColor;
-    //    registerBtn.layer.borderWidth  = 1;
-    //    registerBtn.layer.cornerRadius = 2;
-    registerBtn.titleLabel.font    = [UIFont systemFontOfSize:17];
-    [registerBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue_hollow"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
-    [registerBtn setTitleColor:registerBtnColor forState:UIControlStateNormal];
-    
-    return registerBtn;
-}
-
-// 在view加载完后，显示动画
-- (void)viewLoadAnimation
-{
-    
-    
-    
-    self.logo.alpha = 0.5;
-    self.textFieldViewTF.alpha = 0.0;
-    self.loginBtn.alpha        = 0.0;
-    self.registerBtn.alpha     = 0.0;
-    self.registerLabel.alpha   = 0.0;
-    
-    [UIView animateWithDuration:0.8 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.logo.frame = CGRectMake(self.logoGap, self.logoY,  self.logoW,  self.logoW);
-        self.logo.alpha = 1.0;
-        self.textFieldViewTF.alpha = 1.0;
-    } completion:^(BOOL finished) {
-    }];
-    
-    [UIView animateWithDuration:0.8 delay:0.8 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.textFieldViewTF.alpha = 1.0;
-    } completion:^(BOOL finished) {
-    }];
-    
-    [UIView animateWithDuration:0.8 delay:0.2 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.loginBtn.alpha = 1.0;
-    } completion:^(BOOL finished) {
-    }];
-    
-    [UIView animateWithDuration:0.8 delay:0.3 options:UIViewAnimationOptionCurveEaseInOut animations:^(){
-        self.registerBtn.alpha   = 1.0;
-        self.registerLabel.alpha = 1.0;
-    }completion:^(BOOL finished){
-        
-    }];
 }
 
 //生成Login界面中统一的UIButton
@@ -363,9 +266,7 @@
     
 }
 
-=======
 
->>>>>>> add register model
 //生成Login界面中统一的textField
 - (UITextField *)textFieldWithFrame:(CGRect)frame PlaceHolder:(NSString *)placeHolder secureTextEntry:(BOOL)secureTextEntry
 {
@@ -389,7 +290,7 @@
 }
 
 - (void)pushToTab {
-    [[BrokerLogger sharedInstance] logWithActionCode:LOGIN_SUCCESS page:LOGIN note:nil];
+//    [[BrokerLogger sharedInstance] logWithActionCode:LOGIN_SUCCESS page:LOGIN note:nil];
     
     self.nameTF.text = @"";
     self.passwordTF.text = @"";

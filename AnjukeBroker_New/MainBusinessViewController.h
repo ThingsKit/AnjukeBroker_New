@@ -20,9 +20,6 @@
 @property (nonatomic, strong) id <MainBusinessDelegate> delegate;
 @property (nonatomic, strong) NSDictionary *selectCellInfo;
 @property (nonatomic, strong) NSString *cityId;
-<<<<<<< HEAD
 @property (nonatomic) int tag;
-=======
->>>>>>> add register model
 
 @end

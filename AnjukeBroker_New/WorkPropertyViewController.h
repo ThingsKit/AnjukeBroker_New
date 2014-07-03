@@ -19,9 +19,6 @@
 @property (nonatomic, strong) NSIndexPath *currentIndex;
 @property (nonatomic, strong) id <WorkPropertyDelegate> delegate;
 @property (nonatomic, strong) NSDictionary *selectCellInfo;
-<<<<<<< HEAD
 @property (nonatomic) int tag;
-=======
->>>>>>> add register model
 
 @end

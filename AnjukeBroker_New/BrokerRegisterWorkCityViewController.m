@@ -209,7 +209,6 @@
     if (indexPath.section == 0 && !self.isLocatedSuccess) {
         return;
     }
-<<<<<<< HEAD
     if ([self.delegate respondsToSelector:@selector(didSelectCity:)]) {
        [self.delegate didSelectCity:[city.cityArray objectAtIndex:indexPath.row]];
     }
@@ -224,12 +223,7 @@
     
 }
 
-=======
-    [self.delegate didSelectCity:[city.cityArray objectAtIndex:indexPath.row]];
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
->>>>>>> add register model
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
