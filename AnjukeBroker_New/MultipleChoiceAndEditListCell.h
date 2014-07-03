@@ -16,11 +16,11 @@
 
 @end
 
-@class PropertyDetailTableViewCellModel;
+@class PropertyDetailCellModel;
 
 @interface MultipleChoiceAndEditListCell : SWTableViewCell
 
-@property (nonatomic, strong) PropertyDetailTableViewCellModel* propertyDetailTableViewCellModel;
+@property (nonatomic, strong) PropertyDetailCellModel* propertyDetailTableViewCellModel;
 @property (nonatomic, strong) id<CellSelectStatus> delegate;
 @property (nonatomic) NSInteger rowIndex;
 

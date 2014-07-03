@@ -6,8 +6,8 @@
 //  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
 
-#import "PropertyDetailTableViewCellModel.h"
+#import "PropertyDetailCellModel.h"
 
-@implementation PropertyDetailTableViewCellModel
+@implementation PropertyDetailCellModel
 
 @end

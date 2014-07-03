@@ -19,7 +19,7 @@
 
 
 
-#import "PropertyDetailTableViewCellModel.h"
+#import "PropertyDetailCellModel.h"
 #import "PricePromotionCellModel.h"
 #import "ChoicePromotionCellModel.h"
 
@@ -68,7 +68,7 @@
     if (indexPath.section == 0) {
         PropertyDetailTableViewCell* cell = [[PropertyDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         NSDictionary* dict = @{@"title":@"耀江花园30楼景观房", @"commName":@"耀江花园", @"roomNum":@"3", @"hallNum":@"2", @"toiletNum":@"1", @"area":@"120", @"price":@"400", @"priceUnit":@"万", @"isMoreImg":@"1", @"isPhonePub":@"1", @"isChoice":@"1", @"imgURL":@"http://pic1.ajkimg.com/display/fd36c5144dc2e7ef1f44d26ea6866be7/133x100c.jpg", @"publishDaysMsg":@"30天前发布"};
-        cell.propertyDetailTableViewCellModel = [[PropertyDetailTableViewCellModel alloc] initWithDataDic:dict];
+        cell.propertyDetailTableViewCellModel = [[PropertyDetailCellModel alloc] initWithDataDic:dict];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         [cell showTopLine];
         [cell showBottonLineWithCellHeight:95];

@@ -8,9 +8,9 @@
 
 #import "RTListCell.h"
 
-@class PropertyDetailTableViewCellModel;
+@class PropertyDetailCellModel;
 @interface PropertyDetailTableViewCell : RTListCell
 
-@property (nonatomic, strong) PropertyDetailTableViewCellModel* propertyDetailTableViewCellModel;
+@property (nonatomic, strong) PropertyDetailCellModel* propertyDetailTableViewCellModel;
 
 @end

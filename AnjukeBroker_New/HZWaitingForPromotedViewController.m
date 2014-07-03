@@ -8,7 +8,7 @@
 
 #import "HZWaitingForPromotedViewController.h"
 #import "PropSelectStatusModel.h"
-#import "PropertyDetailTableViewCellModel.h"
+#import "PropertyDetailCellModel.h"
 #import "MultipleChoiceAndEditListCell.h"
 
 
@@ -193,7 +193,7 @@
     }
     PropSelectStatusModel *selectStatusModel = [self.cellSelectStatus valueForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
     [cell changeCellSelectStatus:selectStatusModel.selectStatus];
-    PropertyDetailTableViewCellModel *model = [[PropertyDetailTableViewCellModel alloc] initWithDataDic:[self.dataSource objectAtIndex:indexPath.row]];
+    PropertyDetailCellModel *model = [[PropertyDetailCellModel alloc] initWithDataDic:[self.dataSource objectAtIndex:indexPath.row]];
     cell.propertyDetailTableViewCellModel   = model;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.rowIndex       = indexPath.row;

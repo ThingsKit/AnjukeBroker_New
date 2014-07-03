@@ -8,7 +8,7 @@
 
 #import "NoPlanPromotionPropertySingleViewController.h"
 #import "PropertyDetailTableViewCell.h"
-#import "PropertyDetailTableViewCellModel.h"
+#import "PropertyDetailCellModel.h"
 #import "PropertyDetailTableViewFooter.h"
 #import "ImmediatePromotionCell.h"
 
@@ -22,7 +22,7 @@
 @property (nonatomic,strong) NSString *publishDay;
 @property (nonatomic,strong) NSString *propId;    //房源ID
 @property (nonatomic,strong) NSString *brokerId;
-@property (nonatomic,strong) PropertyDetailTableViewCellModel  *dataModel;
+@property (nonatomic,strong) PropertyDetailCellModel  *dataModel;
 @property (nonatomic) BOOL isZF;
 @end
 
@@ -152,7 +152,7 @@
 {
     
     NSDictionary *dic = [response.content objectForKey:@"data"];
-    self.dataModel    = [[PropertyDetailTableViewCellModel alloc] initWithDataDic:dic];
+    self.dataModel    = [[PropertyDetailCellModel alloc] initWithDataDic:dic];
     [self.tableView reloadData];
     
 }

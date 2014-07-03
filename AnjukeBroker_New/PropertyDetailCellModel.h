@@ -8,7 +8,7 @@
 
 #import "BaseModel.h"
 
-@interface PropertyDetailTableViewCellModel : BaseModel
+@interface PropertyDetailCellModel : BaseModel
 
 @property (nonatomic, copy) NSString* propertyId; //房源Id
 @property (nonatomic, copy) NSString* title; //房源标题

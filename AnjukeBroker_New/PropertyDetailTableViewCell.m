@@ -7,7 +7,7 @@
 //
 
 #import "PropertyDetailTableViewCell.h"
-#import "PropertyDetailTableViewCellModel.h"
+#import "PropertyDetailCellModel.h"
 #import "UIImageView+WebCache.h"
 #import "UIViewExt.h"
 
