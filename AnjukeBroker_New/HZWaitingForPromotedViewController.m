@@ -12,6 +12,7 @@
 #import "PropertyEditViewController.h"
 #import "MultipleChoiceAndEditListCell.h"
 #import "RTGestureBackNavigationController.h"
+#import "PropertySingleViewController.h"
 
 
 @interface HZWaitingForPromotedViewController ()
@@ -220,7 +221,6 @@
     cell.rowIndex       = indexPath.row;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     cell.delegate = self;
-//    tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     
     return cell;
 }
@@ -228,10 +228,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    MultipleChoiceAndEditListCell *oldCell = (MultipleChoiceAndEditListCell *)[tableView cellForRowAtIndexPath:indexPath];
-    if (!tableView.isEditing) {
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    }
+//    PropertySingleViewController *propZF = [[PropertySingleViewController alloc] init];
+    
+    //@"isHaozu", @"pageType", @"propId", @"cityId"
+//    propZF.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", YES, @"isHaozu", [LoginManager getUserID], @"brokerId", self.editPropertyId, @"propId", nil];
+//    [self.navigationController pushViewController:propZF animated:YES];
 }
 
 - (NSArray *)rightButtons
