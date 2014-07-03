@@ -10,6 +10,7 @@
 
 @interface PropertyDetailTableViewCellModel : BaseModel
 
+@property (nonatomic, copy) NSString* propertyId; //房源Id
 @property (nonatomic, copy) NSString* title; //房源标题
 @property (nonatomic, copy) NSString* commId; //小区id
 @property (nonatomic, copy) NSString* commName; //小区名称
@@ -25,8 +26,5 @@
 @property (nonatomic, copy) NSString* isChoice; //是否可见
 @property (nonatomic, copy) NSString* publishDaysMsg; //发布时间
 @property (nonatomic, copy) NSString* imgURL;  //房源图片
-
-
-
 
 @end

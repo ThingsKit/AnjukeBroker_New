@@ -23,20 +23,12 @@
 @property (nonatomic, strong) UILabel* houseType; //户型
 @property (nonatomic, strong) UILabel* area; //面积
 @property (nonatomic, strong) UILabel* price; //售价
+@property (nonatomic, strong) NSString *propertyId;//房源Id
 @property (nonatomic)BOOL isSelected;
 
 @end
 
 @implementation MultipleChoiceAndEditListCell
-
-//- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-//{
-//    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-//    if (self) {
-//        [self initCell];
-//    }
-//    return self;
-//}
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier containingTableView:(UITableView *)containingTableView leftUtilityButtons:(NSArray *)leftUtilityButtons rightUtilityButtons:(NSArray *)rightUtilityButtons {
     
@@ -49,19 +41,9 @@
     return self;
 }
 
-
-
 #pragma mark UI相关
 - (void)initCell {
     
-    //选中状态图像
-//    UIImageView *selectStyleImage = [[UIImageView alloc] initWithFrame:CGRectMake((56 - 22)/2, (90 - 22)/2, 22, 22)];
-//    [selectStyleImage setImage:[UIImage imageNamed:@"broker_property_control_select_gray@2x.png"]];
-//    [self.contentView addSubview:selectStyleImage];
-//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(propChoiceTap:)];
-//    tap.numberOfTapsRequired = 1;
-//    [selectStyleImage addGestureRecognizer:tap];
-//    self.selectStyleImage = selectStyleImage;
     UIButton *selectStylebutton = [[UIButton alloc] initWithFrame:CGRectMake((56 - 22)/2, (90 - 22)/2, 22, 22)];
     [selectStylebutton setBackgroundImage:[UIImage imageNamed:@"broker_property_control_select_gray"] forState:UIControlStateNormal];
     [selectStylebutton addTarget:self action:@selector(propChoiceTap:) forControlEvents:UIControlEventTouchUpInside];
@@ -121,6 +103,7 @@
     self.contentView.backgroundColor = [UIColor brokerWhiteColor];
 }
 
+#pragma mark - selectCellStyle
 - (void)propChoiceTap:(id)tapGR
 {
     if (!self.isSelected) {
@@ -153,6 +136,7 @@
     [self.selectStylebutton setBackgroundImage:[UIImage imageNamed:@"broker_property_control_select_gray"] forState:UIControlStateNormal];
 }
 
+#pragma mark - layout
 //加载数据
 - (void)layoutSubviews{
     [super layoutSubviews];
@@ -178,6 +162,10 @@
     _community.text = self.propertyDetailTableViewCellModel.commName;
     //    _community.backgroundColor = [UIColor redColor];
     //    [_community sizeToFit];
+    
+    
+    //房源ID
+    _propertyId = self.propertyDetailTableViewCellModel.propertyId;
     
     //户型
     _houseType.frame = CGRectMake(_propertyIcon.right + 12, _community.bottom + GAP_V, 100, 20);

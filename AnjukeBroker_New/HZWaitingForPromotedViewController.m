@@ -223,7 +223,7 @@
 
 #pragma mark - SWTableViewCellDelegate
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
-//    NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
+    self.editAndDeleteCellIndexPath = [self.tableView indexPathForCell:cell];
     
     [self showLoadingActivity:YES];
     
