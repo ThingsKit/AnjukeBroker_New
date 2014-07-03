@@ -15,8 +15,8 @@
 #import "PPCDataShowModel.h"
 
 @interface PPCDataShowViewController ()
-@property(nonatomic, strong) NSDictionary *pricingDic;
-@property(nonatomic, strong) NSDictionary *selectedDic;
+@property(nonatomic, strong) NSMutableDictionary *pricingDic;
+@property(nonatomic, strong) NSMutableDictionary *selectedDic;
 @property(nonatomic, assign) BOOL isLoading;
 @end
 
@@ -28,8 +28,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.pricingDic = [[NSDictionary alloc] init];
-        self.selectedDic = [[NSDictionary alloc] init];
+        self.pricingDic = [[NSMutableDictionary alloc] init];
+        self.selectedDic = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -59,9 +59,6 @@
 
 #pragma mark - UITableViewDatasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (!self.pricingDic) {
-        return 0;
-    }
     return 6;
 }
 
@@ -91,22 +88,14 @@
             cell.isPricing = YES;
             [cell showBottonLineWithCellHeight:150 andOffsetX:15];
             
-            if (self.pricingDic) {
-                PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.pricingDic];
-                [cell configureCell:model withIndex:indexPath.row];
-            }else{
-                [cell configureCell:nil withIndex:indexPath.row];
-            }
+            PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.pricingDic];
+            [cell configureCell:model withIndex:indexPath.row];
         }else{
             cell.isPricing = NO;
             [cell showBottonLineWithCellHeight:150];
 
-            if (self.selectedDic) {
-                PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.selectedDic];
-                [cell configureCell:model withIndex:indexPath.row];
-            }else{
-                [cell configureCell:nil withIndex:indexPath.row];
-            }
+            PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.selectedDic];
+            [cell configureCell:model withIndex:indexPath.row];
         }
         return cell;
     }else{
@@ -255,8 +244,8 @@
         tapGes.numberOfTapsRequired    = 1;
         [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
         
-        self.pricingDic = nil;
-        self.selectedDic = nil;
+        [self.pricingDic removeAllObjects];
+        [self.selectedDic removeAllObjects];
         [self.tableList reloadData];
         
         return ;
@@ -272,8 +261,8 @@
         tapGes.numberOfTapsRequired    = 1;
         [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
         
-        self.pricingDic = nil;
-        self.selectedDic = nil;
+        [self.pricingDic removeAllObjects];
+        [self.selectedDic removeAllObjects];
         [self.tableList reloadData];
         
         [self donePullDown];
