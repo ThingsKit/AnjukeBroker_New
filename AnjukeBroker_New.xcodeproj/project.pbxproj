@@ -186,6 +186,7 @@
 		27A42B5A18E2C4D300FADED3 /* wl_map_icon_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A42B5118E2C4D300FADED3 /* wl_map_icon_5.png */; };
 		27A42B5B18E2C4D300FADED3 /* wl_map_icon_5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A42B5218E2C4D300FADED3 /* wl_map_icon_5@2x.png */; };
 		27C61C68192B034B002076AE /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27C61C67192B034B002076AE /* AdSupport.framework */; };
+		490E17E719655C6200E93F58 /* PropertyDetailCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 490E17E619655C6200E93F58 /* PropertyDetailCellModel.m */; };
 		49C1885C1963E6FA000B5C5B /* HZWaitingForPromotedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C1885B1963E6FA000B5C5B /* HZWaitingForPromotedViewController.m */; };
 		49C188601963E792000B5C5B /* ESFWaitingForPromotedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C1885F1963E792000B5C5B /* ESFWaitingForPromotedViewController.m */; };
 		49C188631963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C188621963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m */; };
@@ -1090,6 +1091,8 @@
 		27A42B5118E2C4D300FADED3 /* wl_map_icon_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wl_map_icon_5.png; path = mapView/wl_map_icon_5.png; sourceTree = "<group>"; };
 		27A42B5218E2C4D300FADED3 /* wl_map_icon_5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wl_map_icon_5@2x.png"; path = "mapView/wl_map_icon_5@2x.png"; sourceTree = "<group>"; };
 		27C61C67192B034B002076AE /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		490E17E519655C6200E93F58 /* PropertyDetailCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDetailCellModel.h; sourceTree = "<group>"; };
+		490E17E619655C6200E93F58 /* PropertyDetailCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDetailCellModel.m; sourceTree = "<group>"; };
 		49C1885A1963E6FA000B5C5B /* HZWaitingForPromotedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HZWaitingForPromotedViewController.h; sourceTree = "<group>"; };
 		49C1885B1963E6FA000B5C5B /* HZWaitingForPromotedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HZWaitingForPromotedViewController.m; sourceTree = "<group>"; };
 		49C1885E1963E792000B5C5B /* ESFWaitingForPromotedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESFWaitingForPromotedViewController.h; sourceTree = "<group>"; };
@@ -2775,8 +2778,8 @@
 		67203D9A19629DE700A32B60 /* PropertyModel */ = {
 			isa = PBXGroup;
 			children = (
-				F8A136BF19654DF3007FC4E1 /* PropertyDetailCellModel.h */,
-				F8A136C019654DF3007FC4E1 /* PropertyDetailCellModel.m */,
+				490E17E519655C6200E93F58 /* PropertyDetailCellModel.h */,
+				490E17E619655C6200E93F58 /* PropertyDetailCellModel.m */,
 				67203D9419629D3B00A32B60 /* PricePromotionCellModel.h */,
 				67203D9519629D3B00A32B60 /* PricePromotionCellModel.m */,
 				67203D9719629DE100A32B60 /* ChoicePromotionCellModel.h */,
@@ -5308,7 +5311,7 @@
 				49C188631963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m in Sources */,
 				2056A38F18EE7EA00022B5A5 /* AXMessageCenterGetFriendInfoManager.m in Sources */,
 				6767D14519235174004FEFF7 /* MyPropertyTableView.m in Sources */,
-				F8A136C119654DF3007FC4E1 /* PropertyDetailCellModel.m in Sources */,
+				490E17E719655C6200E93F58 /* PropertyDetailCellModel.m in Sources */,
 				B7E55B4F18BF2190007238CB /* JSMessageTextView.m in Sources */,
 				B769E44F181F4C3E00A2FF50 /* FixedObject.m in Sources */,
 				97B422601820E38200A2E9E6 /* PropertyResultListViewController.m in Sources */,

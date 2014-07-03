@@ -9,7 +9,9 @@
 #import "HZWaitingForPromotedViewController.h"
 #import "PropSelectStatusModel.h"
 #import "PropertyDetailCellModel.h"
+#import "PropertyEditViewController.h"
 #import "MultipleChoiceAndEditListCell.h"
+#import "RTGestureBackNavigationController.h"
 
 
 @interface HZWaitingForPromotedViewController ()
@@ -23,6 +25,7 @@
 @property (nonatomic) NSInteger selectedCellCount;
 
 @property (nonatomic) BOOL isSelectAll;
+@property (nonatomic) BOOL isHaozu;
 
 @end
 
@@ -78,10 +81,14 @@
 
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.MutipleEditView];
-    [self requestDataWithBrokerId:@"858573" cityId:@"11"];
-    
     
     self.selectCells = [[NSMutableArray alloc] initWithCapacity:5];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self requestDataWithBrokerId:@"858573" cityId:@"11"];
+//    [self.tableView reloadData];
 }
 
 - (void)requestDataWithBrokerId:(NSString *)brokerId cityId:(NSString *)cityId
@@ -240,6 +247,7 @@
         {
             //编辑房源
             [self hideLoadWithAnimated:YES];
+            [self editProperty];
             break;
         }
         case 1:
@@ -264,6 +272,19 @@
 
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
     return YES;
+}
+
+//编辑房源
+- (void)editProperty
+{
+    PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+    controller.isHaozu = self.isHaozu;
+    //        controller.pdId = HZ_PPC_BID_DETAIL;
+    controller.propertyID = [self.dataSource objectAtIndex:self.editAndDeleteCellIndexPath.row][@"propId"];
+    controller.backType = RTSelectorBackTypeDismiss;
+    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+    [self presentViewController:nav animated:YES completion:nil];
+    
 }
 
 
@@ -313,9 +334,7 @@
         return;
     }
     
-    [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
-    
-//    [self autoPullDown];
+//    [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
 }
 
 
