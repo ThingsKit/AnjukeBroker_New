@@ -15,5 +15,6 @@
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, strong) UIView *MutipleEditView;
 @property (nonatomic, strong) NSIndexPath *editAndDeleteCellIndexPath;
+@property (nonatomic, strong) NSMutableArray *selectCells;
 
 @end

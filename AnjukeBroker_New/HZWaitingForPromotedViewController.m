@@ -18,7 +18,8 @@
 @property (nonatomic, strong) UIButton *buttonPromote;  //删除按钮
 @property (nonatomic, strong) UIImageView *selectImage;
 @property (nonatomic, strong) NSMutableDictionary *cellSelectStatus;
-@property (nonatomic, strong) NSArray *dataSource;
+@property (nonatomic, strong) NSMutableArray *dataSource;
+@property (nonatomic, strong) NSString *editPropertyId;//编辑和删除cell的房源Id
 @property (nonatomic) NSInteger selectedCellCount;
 
 @property (nonatomic) BOOL isSelectAll;
@@ -78,6 +79,9 @@
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.MutipleEditView];
     [self requestDataWithBrokerId:@"858573" cityId:@"11"];
+    
+    
+    self.selectCells = [[NSMutableArray alloc] initWithCapacity:5];
 }
 
 - (void)requestDataWithBrokerId:(NSString *)brokerId cityId:(NSString *)cityId
@@ -222,8 +226,12 @@
 }
 
 #pragma mark - SWTableViewCellDelegate
-- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+- (void)swipeableTableViewCell:(MultipleChoiceAndEditListCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     self.editAndDeleteCellIndexPath = [self.tableView indexPathForCell:cell];
+    [self.selectCells addObject:self.editAndDeleteCellIndexPath];//delete cells
+    int i = self.editAndDeleteCellIndexPath.row;
+    NSDictionary *editCell = self.dataSource[i];
+    self.editPropertyId = [editCell objectForKey:@"propId"];
     
     [self showLoadingActivity:YES];
     
@@ -262,9 +270,11 @@
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 0) {
-        [self doDeleteProperty:@"%"];
-        //[self showInfo:@"删除客户失败，请再试一次"];
+    if (buttonIndex == 1) {
+        [self doDeleteProperty:self.editPropertyId];
+        [self.dataSource removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:@[self.editAndDeleteCellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
+//        [self showInfo:@"删除房源信息成功"];
     }
 }
 
