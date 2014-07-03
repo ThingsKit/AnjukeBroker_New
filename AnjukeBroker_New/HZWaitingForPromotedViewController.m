@@ -35,7 +35,12 @@
 {
     [super viewDidLoad];
     [self setTitleViewWithString:@"租房待推广房源"];
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50) style:UITableViewStylePlain];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50) style:UITableViewStylePlain];
+    } else {
+        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50 - 20) style:UITableViewStylePlain];
+    }
+    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
@@ -60,6 +65,7 @@
     self.selectImage = selectImage;
     
     UILabel *allSelectLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 10, 80, 40)];
+    allSelectLabel.backgroundColor = [UIColor clearColor];
     allSelectLabel.font = [UIFont ajkH2Font];
     allSelectLabel.text = @"全选";
     allSelectLabel.textColor = [UIColor whiteColor];
@@ -89,7 +95,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self requestDataWithBrokerId:@"858573" cityId:@"11"];
-//    [self.tableView reloadData];
+    [self.tableView reloadData];
 }
 
 - (void)requestDataWithBrokerId:(NSString *)brokerId cityId:(NSString *)cityId
@@ -214,7 +220,7 @@
     cell.rowIndex       = indexPath.row;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     cell.delegate = self;
-    tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+//    tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     
     return cell;
 }
@@ -251,6 +257,7 @@
         {
             //编辑房源
             [self hideLoadWithAnimated:YES];
+            [cell hideUtilityButtonsAnimated:YES];
             [self editProperty];
             break;
         }
@@ -347,7 +354,5 @@
     
 //    [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
 }
-
-
 
 @end
