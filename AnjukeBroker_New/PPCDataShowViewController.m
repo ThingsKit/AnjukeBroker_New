@@ -282,8 +282,20 @@
     
     [self donePullDown];
     
-    self.pricingDic = [[response content][@"fix"][@"body"] JSONValue];
-    self.selectedDic = [[response content][@"choice"][@"body"] JSONValue];
+    NSDictionary *bodyDic1 = [[response content][@"fix"][@"body"] JSONValue];
+    NSDictionary *bodyDic2 = [[response content][@"choice"][@"body"] JSONValue];
+    
+    if (bodyDic1[@"status"] && [bodyDic1[@"status"] isEqualToString:@"ok"]) {
+        self.pricingDic = [[response content][@"fix"][@"body"] JSONValue];
+    }else{
+        self.pricingDic = nil;
+    }
+    
+    if (bodyDic2[@"status"] && [bodyDic2[@"status"] isEqualToString:@"ok"]) {
+        self.selectedDic = [[response content][@"choice"][@"body"] JSONValue];
+    }else{
+        self.selectedDic = nil;
+    }
     
     NSIndexPath *path1 = [NSIndexPath indexPathForItem:1 inSection:0];
     NSIndexPath *path2 = [NSIndexPath indexPathForItem:2 inSection:0];
