@@ -55,7 +55,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    self.view.backgroundColor = [Util_UI colorWithHexString:@"312A32"];
+    self.view.backgroundColor = [Util_UI colorWithHexString:@"EFEFF4"];
 }
 
 - (void)dealloc {
@@ -89,9 +89,13 @@
     
     [self checkLoginStatus];
     
-    self.loginView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, [self windowWidth], [self windowHeight] - 20)];
-    self.loginView.backgroundColor = [Util_UI colorWithHexString:@"EFEFF4"];
+    self.loginView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self windowWidth], [self windowHeight])];
+    self.loginView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.loginView];
+    
+    UIView *statusBarBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+    statusBarBackground.backgroundColor = [Util_UI colorWithHexString:@"312A32"];
+    [self.view addSubview:statusBarBackground];
     
     self.logoW     = 95 ;
     self.logoGap   = ([self windowWidth] - self.logoW)/2;

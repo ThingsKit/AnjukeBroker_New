@@ -9,7 +9,7 @@
 #import "PromotionSettingsViewController.h"
 #import "RTListCell.h"
 
-#define MORE_CELL_H 96/2
+#define MORE_CELL_H 44
 @interface PromotionSettingsViewController ()
 
 @property(nonatomic,strong) UITableView *tableView;
@@ -51,7 +51,10 @@
     self.ZFPlanceilingLabel  = [self commonPriceLabel];
     
 #warning 测试text
-    self.ESFPrice = @"";
+    self.ESFPrice     = @"100";
+    self.ESFPriceUnit = @"元";
+    self.ZFPrice      = @"100";
+    self.ZFPriceUnit  = @"元";
     self.ESFPlanceilingLabel.text = @"100元";
     self.ZFPlanceilingLabel.text  = @"100元";
     
@@ -63,9 +66,79 @@
     self.tableView         = tableView;
     [self.view addSubview:tableView];
     
+    DLog(@"view did load");
+    [self requestPromotionSettingsDataWithBrokerId:@"147468"];
+    
 }
 
+- (void)requestPromotionSettingsDataWithBrokerId:(NSString *)brokerId
+{
+    
+    NSString *method     = @"anjuke/fix/summary/";// 二手房
+//    NSString *method = @"batch/";
+#warning 测试
+    NSDictionary *params = @{@"brokerId":brokerId,@"is_nocheck":@"1"};
+#warning 一次请求两个接口
+//    NSMutableDictionary *requeseParams1 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId", @"1",@"is_nocheck",nil];
+//    
+//    NSMutableDictionary *dic1 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+//                                 @"GET",@"method",
+//                                 @"anjuke/fix/summary/",@"relative_url",
+//                                 requeseParams1,@"query_params",nil];
+//    
+//    NSMutableDictionary *requeseParams2 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId",@"1",@"is_nocheck", nil];
+//    
+//    NSMutableDictionary *dic2 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+//                                 @"GET",@"method",
+//                                 @"zufang/fix/summary/",@"relative_url",
+//                                 requeseParams2,@"query_params",nil];
+//    
+//    NSMutableDictionary *dics = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+//                                 dic1, @"fix",
+//                                 dic2, @"choice", nil];
+//    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics
+//                                                       options:NSJSONWritingPrettyPrinted
+//                                                         error:nil];
+//    NSString *jsonString = [[NSString alloc] initWithData:jsonData
+//                                                 encoding:NSUTF8StringEncoding];
+//    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+//              jsonString, @"requests", nil];
+    [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleESFRequestData:)];
+    
+    method = @"zufang/fix/summary/";
+    params = @{@"brokerId":brokerId,@"cityId":@"11",@"is_nocheck":@"1"};
+    [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleZFRequestData:)];
+    
+}
 
+- (void)handleESFRequestData:(RTNetworkResponse *)response
+{
+    if (response.status == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        DLog(@"message--->>%@",[[response content] objectForKey:@"message"]);
+        
+        
+    }
+    NSDictionary *dic = [response.content valueForKey:@"data"];
+    self.ESFPlanceilingLabel.text = [NSString stringWithFormat:@"%@%@",[dic valueForKey:@"budget"],[dic valueForKey:@"budgetUnit"]];
+    self.ESFPricePromotionSwitch.on = [[dic valueForKey:@"planStatus"] intValue];
+}
+
+- (void)handleZFRequestData:(RTNetworkResponse *)response
+{
+    if (response.status == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        DLog(@"message--->>%@",[[response content] objectForKey:@"message"]);
+        
+        
+    }
+    NSDictionary *dic = [response.content valueForKey:@"data"];
+    self.ZFPlanceilingLabel.text   = [NSString stringWithFormat:@"%@%@",[dic valueForKey:@"budget"],[dic valueForKey:@"budgetUnit"]];
+    self.ZFPricePromotionSwitch.on = [[dic valueForKey:@"planStatus"] intValue];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    DLog(@"view will appear");
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -122,14 +195,15 @@
         
     }
     cell.textLabel.text = [[self.dataSrouce objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    cell.textLabel.font = [UIFont systemFontOfSize:15];
    
     return cell;
 }
 
 - (UISwitch *)commonSwitch
 {
-    UISwitch *sw = [[UISwitch alloc] initWithFrame:CGRectMake(255, (MORE_CELL_H - 20)/2 - 5, 30, 20)];
-    sw.on        = YES;
+    UISwitch *sw = [[UISwitch alloc] initWithFrame:CGRectMake(255, 7, 30, 20)];
+    sw.on        = NO;
     return sw;
 }
 
@@ -137,7 +211,8 @@
 {
     UILabel *label  = [[UILabel alloc] initWithFrame:CGRectMake(260, 0, 60, 44)];
     label.textColor = [UIColor brokerLightGrayColor];
-    label.font      = [UIFont systemFontOfSize:16];
+    label.font      = [UIFont systemFontOfSize:15];
+    
     return label;
 }
 
@@ -177,8 +252,8 @@
     if (!self.ESFPricePromotionSwitch.on) {
         
        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"二手房定价推广" message:@"关闭后，所有定价房源将暂停推广" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"关闭", nil];
-        alert.tag      = 10;
-        [alert show];
+       alert.tag      = 10;
+       [alert show];
         
     } else {
         
