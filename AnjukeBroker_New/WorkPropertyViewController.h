@@ -12,7 +12,6 @@
 
 @protocol WorkPropertyDelegate <NSObject>
 - (void)processWorkPropertyNameWithDic:(NSDictionary *)dic;
-- (void)processWorkPropertyNameDirectBackWithDic:(NSDictionary *)dic;
 @end
 
 @interface WorkPropertyViewController : RTViewController<UITableViewDataSource, UITableViewDelegate>

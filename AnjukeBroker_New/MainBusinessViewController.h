@@ -12,7 +12,6 @@
 
 @protocol MainBusinessDelegate <NSObject>
 - (void)processMainBusinessNameWithDic:(NSDictionary *)dic;
-- (void)processMainBusinessNameDirectBackWithDic:(NSDictionary *)dic;
 @end
 
 @interface MainBusinessViewController : RTViewController<UITableViewDataSource,UITableViewDelegate>

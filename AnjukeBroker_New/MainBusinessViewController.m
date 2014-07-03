@@ -175,17 +175,12 @@
 
 - (void)doBack:(id)sender{
     [super doBack:sender];
-    NSDictionary * selectedCellInfo = [[NSDictionary alloc] init];
-    selectedCellInfo = [self.cellTitleArray objectAtIndex:self.currentIndex.row];
-    NSLog(@"business%@",selectedCellInfo);
-    if (self.tag == 2) {
+    if (self.tag == 1){
+        NSDictionary * selectedCellInfo = [[NSDictionary alloc] init];
+        selectedCellInfo = [self.cellTitleArray objectAtIndex:self.currentIndex.row];
+        NSLog(@"business%@",selectedCellInfo);
         if ([self.delegate respondsToSelector:@selector(processMainBusinessNameWithDic:)]) {
             [self.delegate processMainBusinessNameWithDic:selectedCellInfo];
-            
-        }
-    } else if (self.tag == 1){
-        if ([self.delegate respondsToSelector:@selector(processMainBusinessNameDirectBackWithDic:)]) {
-            [self.delegate processMainBusinessNameDirectBackWithDic:selectedCellInfo];
         }
     }
     DLog(@"tag %i", self.tag);

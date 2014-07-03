@@ -34,6 +34,7 @@
     [super viewDidLoad];
     [self setTitleViewWithString:@"公司属性"];
     self.cellTitleArray = [[NSArray alloc] init];
+    self.tag = 2;
     
 	// Do any additional setup after loading the view, typically from a nib.
 }
@@ -161,6 +162,7 @@
     [newCell didSelected:YES];
     self.currentIndex = indexPath;
     self.tag = 1;
+    [self doBack:self];
 }
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -171,12 +173,15 @@
 
 - (void)doBack:(id)sender{
     [super doBack:sender];
-    NSDictionary * selectedCellInfo = [[NSDictionary alloc] init];
-    selectedCellInfo = [self.cellTitleArray objectAtIndex:self.currentIndex.row];
-    NSLog(@"business%@",selectedCellInfo);
-    if ([self.delegate respondsToSelector:@selector(processWorkPropertyNameWithDic:)]) {
-        [self.delegate processWorkPropertyNameWithDic:selectedCellInfo];
+    if (self.tag == 1) {
+        NSDictionary * selectedCellInfo = [[NSDictionary alloc] init];
+        selectedCellInfo = [self.cellTitleArray objectAtIndex:self.currentIndex.row];
+        NSLog(@"business%@",selectedCellInfo);
+        if ([self.delegate respondsToSelector:@selector(processWorkPropertyNameWithDic:)]) {
+            [self.delegate processWorkPropertyNameWithDic:selectedCellInfo];
+        }
     }
+    DLog(@"tag %i", self.tag);
 }
 
 - (void)didReceiveMemoryWarning
