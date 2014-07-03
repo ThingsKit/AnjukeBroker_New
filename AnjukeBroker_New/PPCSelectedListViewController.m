@@ -14,7 +14,7 @@
 @property(nonatomic, strong) NSMutableArray *tableData;
 @property(nonatomic, strong) NSMutableArray *onSpreadListData;
 @property(nonatomic, strong) NSMutableArray *onQueueListData;
-@property(nonatomic, assign) NSInteger overNum;
+@property(nonatomic, strong) NSMutableArray *onOfflineListData;
 @property(nonatomic, assign) BOOL isLoading;
 @end
 
@@ -28,7 +28,7 @@
         self.tableData = [[NSMutableArray alloc] init];
         self.onSpreadListData = [[NSMutableArray alloc] init];
         self.onQueueListData = [[NSMutableArray alloc] init];
-        self.overNum = 0;
+        self.onOfflineListData = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -50,39 +50,85 @@
 }
 
 #pragma mark - UITableViewDatasource
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (self.tableData.count == 0) {
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    if (self.tableData.count == 0 && self.onOfflineListData.count == 0) {
         return 0;
     }
-    return self.tableData.count + 3;
+    
+    return 4;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (self.tableData.count == 0 && self.onOfflineListData.count == 0) {
+        return 0;
+    }else {
+        if (section == 0) {
+            return 0;
+        }else if (section == 1){
+            return self.onSpreadListData.count;
+        }else if (section == 2){
+            return self.onQueueListData.count;
+        }else{
+            return 2;
+        }
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
         return 40;
-    }else if (indexPath.row == self.tableData.count + 2){
-        return 45;
-    }else if (indexPath.row == self.tableData.count + 1){
-        return 15;
+    }
+    
+    if (self.onOfflineListData.count > 0) {
+        if (indexPath.row == self.tableData.count + 2){
+            return 45;
+        }else if (indexPath.row == self.tableData.count + 1){
+            return 15;
+        }
     }
     return 95;
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 4;
-}
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    if (self.tableData.count == 0) {
+        return nil;
+    }
     if (section == 0) {
         return nil;
     }else if (section == 1){
         return @"推广中";
-    }else if (section == 1){
+    }else if (section == 2){
         return @"排队中";
-    }else if (section == 1){
-        return @"推广结束";
     }
     return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (self.onSpreadListData.count == 0) {
+        if (section == 1) {
+            return 0;
+        }
+    }else if (self.onSpreadListData.count > 0){
+        if (section == 1) {
+            return 40;
+        }
+    }
+
+    if (self.onSpreadListData.count == 0) {
+        if (section == 1) {
+            return 0;
+        }
+    }else if (self.onSpreadListData.count > 0){
+        if (section == 1) {
+            return 40;
+        }
+    }
+    
+    if (section == 3) {
+        return 0;
+    }
+    
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -94,7 +140,7 @@
         if (!cell) {
             cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify1];
         }
-        if (indexPath.row == 0) {
+        if (indexPath.row == 0 && indexPath.section == 0) {
             cell.backgroundColor = [UIColor clearColor];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -102,13 +148,14 @@
             UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 120, 40)];
             lab.textAlignment = NSTextAlignmentLeft;
             lab.textColor = [UIColor brokerMiddleGrayColor];
-            lab.font = [UIFont ajkH3Font];
-            lab.text = @"精选房源提升8被效果";
+            lab.font = [UIFont ajkH4Font];
+            lab.text = @"精选房源提升8倍效果";
             lab.backgroundColor = [UIColor clearColor];
             [cell.contentView addSubview:lab];
             
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             btn.frame = CGRectMake(185, 0, 120, 40);
+            btn.titleLabel.font = [UIFont ajkH4Font];
             [btn setTitle:@"什么是精选房源?" forState:UIControlStateNormal];
             [btn setTitleColor:[UIColor brokerBlueColor] forState:UIControlStateNormal];
             [btn setTitleColor:[UIColor brokerBlueGrayColor] forState:UIControlStateHighlighted];
@@ -123,7 +170,15 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
             [cell showTopLine];
-            cell.textLabel.text = [NSString stringWithFormat:@"推广结束(%@)",@"3"];
+            
+            NSString *str;
+            if (!self.onOfflineListData || self.onOfflineListData.count == 0) {
+                str = @"推广结束";
+            }else{
+                str = [NSString stringWithFormat:@"推广结束(%d)",self.onOfflineListData.count];
+            }
+            
+            cell.textLabel.text = str;
             cell.textLabel.textColor = [UIColor brokerBlackColor];
             [cell showBottonLineWithCellHeight:45];
         }
@@ -152,9 +207,9 @@
 
         method = [NSString stringWithFormat:@"zufang/choice/props/"];
     }else{
-        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",@"1",@"demon", nil];
+        params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",@"0",@"demon", nil];
         
-        method = [NSString stringWithFormat:@"anjuke/choice/summary/"];
+        method = [NSString stringWithFormat:@"anjuke/choice/props/"];
     }
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
@@ -171,7 +226,6 @@
         tapGes.numberOfTouchesRequired = 1;
         tapGes.numberOfTapsRequired    = 1;
         [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
-        
         
         self.tableData = nil;
         [self.tableList reloadData];
@@ -197,10 +251,50 @@
         return;
     }
     [self donePullDown];
+    self.isLoading = NO;
+    
+    NSDictionary *resultApi = [NSDictionary dictionaryWithDictionary:[response content][@"data"]];
+    self.tableData = nil;
+    self.tableData = [[NSMutableArray alloc] init];
+    
+    if (self.isHaozu) {
+        if (resultApi[@"OnlinePropertyList"]) {
+            self.onSpreadListData = resultApi[@"OnlinePropertyList"];
+        }
+        if (resultApi[@"QueuedPropertyList"]) {
+            self.onQueueListData = resultApi[@"QueuedPropertyList"];
+        }
+        if (resultApi[@"OfflinePropertyList"]) {
+            self.onOfflineListData = resultApi[@"OfflinePropertyList"];
+        }
+    }else{
+        if (resultApi[@"onSpreadList"]) {
+            self.onSpreadListData = resultApi[@"onSpreadList"];
+        }
+        if (resultApi[@"onQueueList"]) {
+            self.onQueueListData = resultApi[@"onQueueList"];
+        }
+        if (resultApi[@"historyList"]) {
+            self.onOfflineListData = resultApi[@"historyList"];
+        }
+    }
+    
+    
+    [self.tableData addObjectsFromArray:self.onSpreadListData];
+    [self.tableData addObjectsFromArray:self.onQueueListData];
 
     
+    if (self.tableData.count == 0) {
+        [self.tableList setTableStatus:STATUSFORNODATAFORPRICINGLIST];
+        
+        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
+        tapGes.delegate                = self;
+        tapGes.numberOfTouchesRequired = 1;
+        tapGes.numberOfTapsRequired    = 1;
+        [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
+    }
     
-    
+    [self.tableList reloadData];
 }
 
 - (void)tapGus:(UITapGestureRecognizer *)tap{

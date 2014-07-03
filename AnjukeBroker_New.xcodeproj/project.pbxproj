@@ -4337,6 +4337,7 @@
 				67203D41196281E200A32B60 /* PropertyComponent */,
 				F89FF5A91962856900AC7256 /* PPCPricingList */,
 				F89FF5B81963943100AC7256 /* PPCSelectedHouseList */,
+				F8A136BE19651BB9007FC4E1 /* PPCPromoteCompletList */,
 				9619F5311963DE42008C3A26 /* ImmediatePromotionCell.h */,
 				9619F5321963DE42008C3A26 /* ImmediatePromotionCell.m */,
 			);
@@ -4420,6 +4421,13 @@
 				F89FF5C419639B3200AC7256 /* PPCSelectedListCell.m */,
 			);
 			name = PPCSelectedListCell;
+			sourceTree = "<group>";
+		};
+		F8A136BE19651BB9007FC4E1 /* PPCPromoteCompletList */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = PPCPromoteCompletList;
 			sourceTree = "<group>";
 		};
 		F8A717DD19209E22004840C6 /* checkout */ = {
@@ -5327,6 +5335,7 @@
 				B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */,
 				97CB0C0C182BEA3500FCCBBD /* BK_ELCAlbumPickerController.m in Sources */,
 				67203D581962881400A32B60 /* PropertyDetailCellModel.m in Sources */,
+				67203D581962881400A32B60 /* PropertyDetailTableViewCellModel.m in Sources */,
 				B7EA1FC2183A437500438CF8 /* SaleAuctionViewController.m in Sources */,
 				F89FF5B1196287F300AC7256 /* PPCHouseCell.m in Sources */,
 				F8A717BF192058FB004840C6 /* UserCenterViewController.m in Sources */,

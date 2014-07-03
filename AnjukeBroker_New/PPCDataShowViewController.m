@@ -276,8 +276,8 @@
     
     [self donePullDown];
     
-    NSDictionary *bodyDic1 = [[response content][@"fix"][@"body"] JSONValue];
-    NSDictionary *bodyDic2 = [[response content][@"choice"][@"body"] JSONValue];
+    NSDictionary *bodyDic1 = [[response content][@"data"][@"responses"][@"fix"][@"body"] JSONValue];
+    NSDictionary *bodyDic2 = [[response content][@"data"][@"responses"][@"choice"][@"body"] JSONValue];
     
     if (bodyDic1[@"status"] && [bodyDic1[@"status"] isEqualToString:@"ok"]) {
         self.pricingDic = [bodyDic1 objectForKey:@"data"];
