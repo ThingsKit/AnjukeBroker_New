@@ -147,13 +147,16 @@
         houseWidth = 25;
         houseHeight = 21;
         _bucketContentView.frame = CGRectMake(_promotionVacancy.right + GAP_HORIZONTAL, _unitNumber.bottom + GAP_VERTICAL - 4, 200, 60);
-    }else{  //如果是 10 列
+    }else if(total == 20){  //如果是 10 列
         column = 10;
         houseGapHorizontal = 30*0.76;
         houseGapVertical = 30*1.1;
         houseWidth = 19;
         houseHeight = 16;
         _bucketContentView.frame = CGRectMake(_promotionVacancy.right + GAP_HORIZONTAL, _unitNumber.bottom + GAP_VERTICAL, 200, 60);
+    }else{
+        NSLog(@"---------------  %d 坑位总数异常", total);
+        return;
     }
     
     

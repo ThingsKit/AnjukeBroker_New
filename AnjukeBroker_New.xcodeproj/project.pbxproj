@@ -295,6 +295,8 @@
 		678D38F71964148100E9E155 /* PricePromotionableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 678D38F61964148100E9E155 /* PricePromotionableCell.m */; };
 		678D38FA1964200B00E9E155 /* ChoicePromotionQueuingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 678D38F91964200B00E9E155 /* ChoicePromotionQueuingCell.m */; };
 		678D38FD1964330600E9E155 /* ChoicePromotionableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 678D38FC1964330600E9E155 /* ChoicePromotionableCell.m */; };
+		678D39001965370A00E9E155 /* ChoiceSummaryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 678D38FF1965370A00E9E155 /* ChoiceSummaryModel.m */; };
+		678D39031965372600E9E155 /* BrokerBalanceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 678D39021965372600E9E155 /* BrokerBalanceModel.m */; };
 		6794E40F1947EC2C0069F1ED /* broker_fy_noproperty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3F51947EC2C0069F1ED /* broker_fy_noproperty@2x.png */; };
 		6794E4101947EC2C0069F1ED /* broker_home_icon_esf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3F61947EC2C0069F1ED /* broker_home_icon_esf@2x.png */; };
 		6794E4111947EC2C0069F1ED /* broker_home_icon_scfx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3F71947EC2C0069F1ED /* broker_home_icon_scfx@2x.png */; };
@@ -1239,6 +1241,10 @@
 		678D38F91964200B00E9E155 /* ChoicePromotionQueuingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoicePromotionQueuingCell.m; sourceTree = "<group>"; };
 		678D38FB1964330600E9E155 /* ChoicePromotionableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoicePromotionableCell.h; sourceTree = "<group>"; };
 		678D38FC1964330600E9E155 /* ChoicePromotionableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoicePromotionableCell.m; sourceTree = "<group>"; };
+		678D38FE1965370A00E9E155 /* ChoiceSummaryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoiceSummaryModel.h; sourceTree = "<group>"; };
+		678D38FF1965370A00E9E155 /* ChoiceSummaryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoiceSummaryModel.m; sourceTree = "<group>"; };
+		678D39011965372600E9E155 /* BrokerBalanceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerBalanceModel.h; sourceTree = "<group>"; };
+		678D39021965372600E9E155 /* BrokerBalanceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerBalanceModel.m; sourceTree = "<group>"; };
 		6794E3F51947EC2C0069F1ED /* broker_fy_noproperty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_fy_noproperty@2x.png"; sourceTree = "<group>"; };
 		6794E3F61947EC2C0069F1ED /* broker_home_icon_esf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_home_icon_esf@2x.png"; sourceTree = "<group>"; };
 		6794E3F71947EC2C0069F1ED /* broker_home_icon_scfx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_home_icon_scfx@2x.png"; sourceTree = "<group>"; };
@@ -2775,6 +2781,10 @@
 				67203D9519629D3B00A32B60 /* PricePromotionCellModel.m */,
 				67203D9719629DE100A32B60 /* ChoicePromotionCellModel.h */,
 				67203D9819629DE100A32B60 /* ChoicePromotionCellModel.m */,
+				678D38FE1965370A00E9E155 /* ChoiceSummaryModel.h */,
+				678D38FF1965370A00E9E155 /* ChoiceSummaryModel.m */,
+				678D39011965372600E9E155 /* BrokerBalanceModel.h */,
+				678D39021965372600E9E155 /* BrokerBalanceModel.m */,
 			);
 			name = PropertyModel;
 			sourceTree = "<group>";
@@ -5182,6 +5192,7 @@
 				B721095B1827976500904FC7 /* RentNoPlanController.m in Sources */,
 				B7E69BB8183B4C300097D5C3 /* ModifyRentCostController.m in Sources */,
 				97410568180CDFE0004DAE95 /* AnjukeBroker_New.xcdatamodeld in Sources */,
+				678D39001965370A00E9E155 /* ChoiceSummaryModel.m in Sources */,
 				97CB0C10182BEA3500FCCBBD /* BK_ELCImagePickerController.m in Sources */,
 				F8F6DA22192A224000698C3B /* UIColor+BrokerRT.m in Sources */,
 				B7E69BAE183B15430097D5C3 /* RentPPCGroupCell.m in Sources */,
@@ -5249,6 +5260,7 @@
 				2056A38918EE7EA00022B5A5 /* AXMessageCenterAddFriendByQRCodeManager.m in Sources */,
 				678D38FD1964330600E9E155 /* ChoicePromotionableCell.m in Sources */,
 				B7E1F6B7190E0705009F546B /* IMGDownloaderOperation.m in Sources */,
+				678D39031965372600E9E155 /* BrokerBalanceModel.m in Sources */,
 				670F016F1931C8F5004C95B2 /* LocationSpecifyViewController.m in Sources */,
 				B7E803F01820E14000775C6F /* SaleNoPlanGroupController.m in Sources */,
 				F8533315194FE0810025B914 /* AXChatMessagePublicCellTopButton.m in Sources */,

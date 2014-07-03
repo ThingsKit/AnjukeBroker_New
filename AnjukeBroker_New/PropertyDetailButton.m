@@ -32,7 +32,7 @@
 #pragma mark 控制UIImageView的位置和尺寸
 - (CGRect)imageRectForContentRect:(CGRect)contentRect
 {
-    CGFloat imageX = 60;
+    CGFloat imageX = 50;
     CGFloat imageY = 11;
     CGFloat imageWidth = 25;
     CGFloat imageHeight = 25;
@@ -44,7 +44,7 @@
 // contentRect其实就是按钮的位置和尺寸
 - (CGRect)titleRectForContentRect:(CGRect)contentRect
 {
-    CGFloat titleX = 25;
+    CGFloat titleX = 15;
     CGFloat titleY = 0;
     CGFloat titleWidth = contentRect.size.width;
     CGFloat titleHeight = contentRect.size.height - titleY;
