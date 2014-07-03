@@ -160,6 +160,7 @@
     AJKListTableViewCell *newCell = (AJKListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     [newCell didSelected:YES];
     self.currentIndex = indexPath;
+    self.tag = 1;
 }
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -33,6 +33,7 @@
     [super viewDidLoad];
     [self setTitleViewWithString:@"主营业务"];
     self.cellTitleArray = [[NSArray alloc] init];
+    self.tag = 2;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -180,14 +181,14 @@
     if (self.tag == 2) {
         if ([self.delegate respondsToSelector:@selector(processMainBusinessNameWithDic:)]) {
             [self.delegate processMainBusinessNameWithDic:selectedCellInfo];
+            
         }
     } else if (self.tag == 1){
         if ([self.delegate respondsToSelector:@selector(processMainBusinessNameDirectBackWithDic:)]) {
             [self.delegate processMainBusinessNameDirectBackWithDic:selectedCellInfo];
         }
-
     }
-    
+    DLog(@"tag %i", self.tag);
 }
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath

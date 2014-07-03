@@ -12,6 +12,7 @@
 
 @protocol WorkPropertyDelegate <NSObject>
 - (void)processWorkPropertyNameWithDic:(NSDictionary *)dic;
+- (void)processWorkPropertyNameDirectBackWithDic:(NSDictionary *)dic;
 @end
 
 @interface WorkPropertyViewController : RTViewController<UITableViewDataSource, UITableViewDelegate>
@@ -19,5 +20,6 @@
 @property (nonatomic, strong) NSIndexPath *currentIndex;
 @property (nonatomic, strong) id <WorkPropertyDelegate> delegate;
 @property (nonatomic, strong) NSDictionary *selectCellInfo;
+@property (nonatomic) int tag;
 
 @end

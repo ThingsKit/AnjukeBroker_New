@@ -65,7 +65,7 @@
     UIButton *selectStylebutton = [[UIButton alloc] initWithFrame:CGRectMake((56 - 22)/2, (90 - 22)/2, 22, 22)];
     [selectStylebutton setBackgroundImage:[UIImage imageNamed:@"broker_property_control_select_gray"] forState:UIControlStateNormal];
     [selectStylebutton addTarget:self action:@selector(propChoiceTap:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:selectStylebutton];
+    [self.contentView addSubview:selectStylebutton];
     self.selectStylebutton = selectStylebutton;
     //cell下划线
     UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(56, 89.5, ScreenWidth - 56, 0.5)];
@@ -111,7 +111,7 @@
     _price.backgroundColor = [UIColor clearColor];
     _price.font = [UIFont ajkH4Font];
     [_price setTextColor:[UIColor brokerLightGrayColor]];
-    [self addSubview:_price];
+    [self.contentView addSubview:_price];
     
     //cell的背景视图, 默认选中是蓝色
     //    UIView* backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 0)];
