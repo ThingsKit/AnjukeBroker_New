@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
 
-#import "PricePromotionPropertySingleViewController.h"
+#import "PropertySingleViewController.h"
 
 #import "PropertyDetailTableViewFooter.h"
 #import "PropertyDetailTableViewCell.h"
@@ -23,13 +23,13 @@
 #import "PricePromotionCellModel.h"
 #import "ChoicePromotionCellModel.h"
 
-@interface PricePromotionPropertySingleViewController ()
+@interface PropertySingleViewController ()
 
 @property (nonatomic, strong) UITableView* tableView;
 
 @end
 
-@implementation PricePromotionPropertySingleViewController
+@implementation PropertySingleViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

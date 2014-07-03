@@ -52,7 +52,7 @@
 
 #import "PPCDataShowViewController.h"
 
-#import "PricePromotionPropertySingleViewController.h"
+#import "PropertySingleViewController.h"
 
 #define HOME_cellHeight 70
 #define Max_Account_Lb_Width 80
@@ -522,7 +522,7 @@
         
         //########################################################
         //测试房源单页
-        PricePromotionPropertySingleViewController* viewController = [[PricePromotionPropertySingleViewController alloc] init];
+        PropertySingleViewController* viewController = [[PropertySingleViewController alloc] init];
         [viewController setHidesBottomBarWhenPushed:YES];
         viewController.backType = RTSelectorBackTypePopBack;
         [self.navigationController pushViewController:viewController animated:YES];

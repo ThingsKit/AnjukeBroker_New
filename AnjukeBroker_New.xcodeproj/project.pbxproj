@@ -193,8 +193,7 @@
 		670F01721931D866004C95B2 /* KKAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F01711931D866004C95B2 /* KKAnnotation.m */; };
 		67203D441962827F00A32B60 /* PropertyDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 67203D431962827F00A32B60 /* PropertyDetailTableViewCell.m */; };
 		67203D4A196282EC00A32B60 /* PropertyDetailTableViewFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 67203D49196282EC00A32B60 /* PropertyDetailTableViewFooter.m */; };
-		67203D4F196283AB00A32B60 /* ChoicePromotionPropertySingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67203D4E196283AB00A32B60 /* ChoicePromotionPropertySingleViewController.m */; };
-		67203D521962848000A32B60 /* PricePromotionPropertySingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67203D511962848000A32B60 /* PricePromotionPropertySingleViewController.m */; };
+		67203D521962848000A32B60 /* PropertySingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67203D511962848000A32B60 /* PropertySingleViewController.m */; };
 		67203D581962881400A32B60 /* PropertyDetailTableViewCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 67203D571962881400A32B60 /* PropertyDetailTableViewCellModel.m */; };
 		67203D5B19628FEF00A32B60 /* PropertyDetailButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 67203D5A19628FEF00A32B60 /* PropertyDetailButton.m */; };
 		67203D5F196291AE00A32B60 /* 房子.png in Resources */ = {isa = PBXBuildFile; fileRef = 67203D5E196291AE00A32B60 /* 房子.png */; };
@@ -1103,10 +1102,8 @@
 		67203D431962827F00A32B60 /* PropertyDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDetailTableViewCell.m; sourceTree = "<group>"; };
 		67203D48196282EC00A32B60 /* PropertyDetailTableViewFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDetailTableViewFooter.h; sourceTree = "<group>"; };
 		67203D49196282EC00A32B60 /* PropertyDetailTableViewFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDetailTableViewFooter.m; sourceTree = "<group>"; };
-		67203D4D196283AB00A32B60 /* ChoicePromotionPropertySingleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoicePromotionPropertySingleViewController.h; sourceTree = "<group>"; };
-		67203D4E196283AB00A32B60 /* ChoicePromotionPropertySingleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoicePromotionPropertySingleViewController.m; sourceTree = "<group>"; };
-		67203D501962848000A32B60 /* PricePromotionPropertySingleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PricePromotionPropertySingleViewController.h; sourceTree = "<group>"; };
-		67203D511962848000A32B60 /* PricePromotionPropertySingleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PricePromotionPropertySingleViewController.m; sourceTree = "<group>"; };
+		67203D501962848000A32B60 /* PropertySingleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertySingleViewController.h; sourceTree = "<group>"; };
+		67203D511962848000A32B60 /* PropertySingleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertySingleViewController.m; sourceTree = "<group>"; };
 		67203D561962881400A32B60 /* PropertyDetailTableViewCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDetailTableViewCellModel.h; sourceTree = "<group>"; };
 		67203D571962881400A32B60 /* PropertyDetailTableViewCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDetailTableViewCellModel.m; sourceTree = "<group>"; };
 		67203D5919628FEF00A32B60 /* PropertyDetailButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDetailButton.h; sourceTree = "<group>"; };
@@ -2673,22 +2670,13 @@
 			name = PropertyComponent;
 			sourceTree = "<group>";
 		};
-		67203D4B196282FA00A32B60 /* 定价推广房源单页 */ = {
+		67203D4B196282FA00A32B60 /* 房源单页 */ = {
 			isa = PBXGroup;
 			children = (
-				67203D501962848000A32B60 /* PricePromotionPropertySingleViewController.h */,
-				67203D511962848000A32B60 /* PricePromotionPropertySingleViewController.m */,
+				67203D501962848000A32B60 /* PropertySingleViewController.h */,
+				67203D511962848000A32B60 /* PropertySingleViewController.m */,
 			);
-			name = "定价推广房源单页";
-			sourceTree = "<group>";
-		};
-		67203D4C1962832600A32B60 /* 精选推广房源单页 */ = {
-			isa = PBXGroup;
-			children = (
-				67203D4D196283AB00A32B60 /* ChoicePromotionPropertySingleViewController.h */,
-				67203D4E196283AB00A32B60 /* ChoicePromotionPropertySingleViewController.m */,
-			);
-			name = "精选推广房源单页";
+			name = "房源单页";
 			sourceTree = "<group>";
 		};
 		67203D5C196290C200A32B60 /* other */ = {
@@ -4345,8 +4333,7 @@
 			children = (
 				9619F52B1963AFAD008C3A26 /* 待推广 */,
 				F89FF59A19625B3000AC7256 /* PPCDataShow */,
-				67203D4C1962832600A32B60 /* 精选推广房源单页 */,
-				67203D4B196282FA00A32B60 /* 定价推广房源单页 */,
+				67203D4B196282FA00A32B60 /* 房源单页 */,
 				67203D41196281E200A32B60 /* PropertyComponent */,
 				F89FF5A91962856900AC7256 /* PPCPricingList */,
 				F89FF5B81963943100AC7256 /* PPCSelectedHouseList */,
@@ -5307,7 +5294,6 @@
 				2739141518DC2DC5003284AA /* LocationChange.m in Sources */,
 				F87A8C1B194ECED20052C181 /* AuctionForbidView.m in Sources */,
 				B7E4E4FC190F56F100077D77 /* BrokerResponder.m in Sources */,
-				67203D4F196283AB00A32B60 /* ChoicePromotionPropertySingleViewController.m in Sources */,
 				B769E484181F8F7000A2FF50 /* BasePropertyListController.m in Sources */,
 				49C1885C1963E6FA000B5C5B /* HZWaitingForPromotedViewController.m in Sources */,
 				010AFB1E1962538000ADB9C1 /* BrokerRegisterInfoViewController.m in Sources */,
@@ -5335,7 +5321,7 @@
 				2056A39318EE7EA00022B5A5 /* AXMessageCenterSearchBrokerManager.m in Sources */,
 				B7E69BB2183B26A90097D5C3 /* RentBidPropertyCell.m in Sources */,
 				B7EAD51D18CD927200B28FEC /* AXChatMessageSystemTimeCell.m in Sources */,
-				67203D521962848000A32B60 /* PricePromotionPropertySingleViewController.m in Sources */,
+				67203D521962848000A32B60 /* PropertySingleViewController.m in Sources */,
 				6794E4301947F3250069F1ED /* CustomerTableViewCell.m in Sources */,
 				F88AE26E195C2DAE009E3F5E /* NoDataViewForESF.m in Sources */,
 				B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */,
