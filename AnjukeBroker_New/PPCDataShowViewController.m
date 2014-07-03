@@ -91,8 +91,8 @@
             cell.isPricing = YES;
             [cell showBottonLineWithCellHeight:150 andOffsetX:15];
             
-            if (self.pricingDic && self.pricingDic[@"data"]) {
-                PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.pricingDic[@"data"]];
+            if (self.pricingDic) {
+                PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.pricingDic];
                 [cell configureCell:model withIndex:indexPath.row];
             }else{
                 [cell configureCell:nil withIndex:indexPath.row];
@@ -101,8 +101,8 @@
             cell.isPricing = NO;
             [cell showBottonLineWithCellHeight:150];
 
-            if (self.selectedDic && self.selectedDic[@"data"]) {
-                PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.selectedDic[@"data"]];
+            if (self.selectedDic) {
+                PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.selectedDic];
                 [cell configureCell:model withIndex:indexPath.row];
             }else{
                 [cell configureCell:nil withIndex:indexPath.row];
@@ -152,10 +152,10 @@
     
     if (indexPath.row == 1) {
 
-        if (self.pricingDic[@"data"] && self.pricingDic[@"data"][@"planId"]) {
+        if (self.pricingDic && self.pricingDic[@"planId"]) {
             PPCPriceingListViewController *pricingListVC = [[PPCPriceingListViewController alloc] init];
             pricingListVC.isHaozu = self.isHaozu;
-            pricingListVC.planId = self.pricingDic[@"data"][@"planId"];
+            pricingListVC.planId = self.pricingDic[@"planId"];
             [self.navigationController pushViewController:pricingListVC animated:YES];
         }else{
             return;
@@ -286,13 +286,13 @@
     NSDictionary *bodyDic2 = [[response content][@"choice"][@"body"] JSONValue];
     
     if (bodyDic1[@"status"] && [bodyDic1[@"status"] isEqualToString:@"ok"]) {
-        self.pricingDic = [[response content][@"fix"][@"body"] JSONValue];
+        self.pricingDic = [bodyDic1 objectForKey:@"data"];
     }else{
         self.pricingDic = nil;
     }
     
     if (bodyDic2[@"status"] && [bodyDic2[@"status"] isEqualToString:@"ok"]) {
-        self.selectedDic = [[response content][@"choice"][@"body"] JSONValue];
+        self.selectedDic = [bodyDic2 objectForKey:@"data"];
     }else{
         self.selectedDic = nil;
     }
