@@ -11,6 +11,7 @@
 #import "PPCSelectedListCell.h"
 #import "PPCPriceingListModel.h"
 #import "PPCPromoteCompletListViewController.h"
+#import "CheckoutWebViewController.h"
 
 @interface PPCSelectedListViewController ()
 @property(nonatomic, strong) NSMutableArray *tableData;
@@ -33,6 +34,12 @@
         self.onOfflineListData = [[NSMutableArray alloc] init];
     }
     return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    if (self.tableList && !self.isLoading) {
+        [self autoPullDown];
+    }
 }
 
 - (void)viewDidLoad
@@ -235,8 +242,13 @@
     return cell;
 }
 
+#pragma mark - method
 - (void)goSelectIntro:(id)sender{
+    CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
+    webVC.webTitle = @"精选房源";
+    webVC.webUrl = [NSString stringWithFormat:@"http://api.anjuke.com/web/nearby/brokersign/shandianxia.html?city_id=%@",[LoginManager getCity_id]];
     
+    [self.navigationController pushViewController:webVC animated:YES];
 }
 
 - (void)doRequest{

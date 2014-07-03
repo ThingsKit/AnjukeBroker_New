@@ -11,6 +11,7 @@
 
 @interface PPCPromoteCompletListViewController ()
 @property(nonatomic, assign) NSInteger deleCellNum;
+@property(nonatomic, assign) BOOL isLoading;
 @end
 
 @implementation PPCPromoteCompletListViewController
@@ -38,11 +39,102 @@
     self.tableList.rowHeight = 95;
     [self.view addSubview:self.tableList];
     
+    UIEdgeInsets insets = [self tableViewInsetsWithBottomValue:50];
+    self.tableList.contentInset = insets;
+    
     self.forbiddenEgo = YES;
+
+
+    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 50 - 20 -44, ScreenWidth, 50)];
+    [buttonView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]];
+    [self.view addSubview:buttonView];
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(ScreenWidth/2 - 45, 8, 90, 33);
+    [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue_press"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
+    [btn setTitle:@"清空" forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor brokerWhiteColor] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(cleanAll:) forControlEvents:UIControlEventTouchUpInside];
+    [buttonView addSubview:btn];
+}
+
+- (void)cleanAll:(id)sender{
+    
+    if (self.tableData.count == 0) {
+        return;
+    }
+    
+    self.isLoading = YES;
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+        self.isLoading = NO;
+        return;
+    }
+    //更新房源信息
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    NSString *propIDS;
+    for (int i = 0; i < self.tableData.count; i++) {
+        [propIDS stringByAppendingString:[self.tableData objectAtIndex:i][@"propId"]];
+    }
+    
+    if (self.isHaozu) {
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys: [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propIDS, @"propId", nil];
+        method = @"zufang/prop/delprops/";
+    }
+    else {
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getUserID], @"brokerId", propIDS, @"propId", nil];
+        method = @"anjuke/prop/choice/stop/";
+    }
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onCleanFinished:)];
+}
+
+- (void)onCleanFinished:(RTNetworkResponse *)response {
+    DLog(@"--delete Prop。。。response [%@]", [response content]);
+    
+    if([[response content] count] == 0){
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+    }
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+        
+        //        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        return;
+    }
+    
+    [[HUDNews sharedHUDNEWS] createHUD:@"清空房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
+
+    [self.tableData removeAllObjects];
+    [self.tableList reloadData];
+}
+
+- (UIEdgeInsets)tableViewInsetsWithBottomValue:(CGFloat)bottom
+{
+    UIEdgeInsets insets = UIEdgeInsetsZero;
+    
+    if ([self respondsToSelector:@selector(topLayoutGuide)]) {
+        insets.top = self.topLayoutGuide.length;
+    }else {
+        insets.top = 0;
+    }
+    
+    insets.bottom = bottom;
+    
+    return insets;
 }
 
 #pragma mark - UITableViewDatasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (!self.tableData) {
+        return 0;
+    }
     return self.tableData.count;
 }
 
@@ -130,8 +222,9 @@
     [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
 
     [self.tableData removeObjectAtIndex:self.deleCellNum];
+    NSIndexPath *path = [NSIndexPath indexPathForItem:self.deleCellNum inSection:0];
     
-//    [self.tableList];
+    [self.tableList deleteRowsAtIndexPaths:[NSArray arrayWithObjects:path, nil] withRowAnimation:UITableViewRowAnimationLeft];
 }
 
 
