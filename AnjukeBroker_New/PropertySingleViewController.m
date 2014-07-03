@@ -26,19 +26,14 @@
 @interface PropertySingleViewController ()
 
 @property (nonatomic, strong) UITableView* tableView;
+@property (nonatomic, assign) BOOL networkRequesting; //网络请求锁
+
+@property (nonatomic, strong) NSMutableArray* data; //数组用来存储5个请求回来的对象
 
 @end
 
 @implementation PropertySingleViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -54,6 +49,8 @@
     
     PropertyDetailTableViewFooter* footer = [[PropertyDetailTableViewFooter alloc] init];
     [self.view addSubview:footer];
+    
+    [self requestPropFixChoice];
 }
 
 #pragma mark -
@@ -203,8 +200,6 @@
 }
 
 
-
-
 #pragma mark -
 #pragma mark 解决section不跟随tableView移动的问题
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -217,5 +212,137 @@
     
 
 }
+
+
+#pragma mark -
+#pragma mark 请求房源详情 + 定价推广
+
+//- (void)requestPropFix{
+//    if (self.networkRequesting) {
+//        return;
+//    }
+//    
+//    self.networkRequesting = YES;
+//    
+//    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
+//    NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":@"anjuke/prop/summary/", @"query_params":param1};
+//    
+//    NSDictionary* param2 = @{@"token":[LoginManager getToken], @"cityId":@"11", @"propId":@"168783092"};
+//    NSDictionary* dic2 = @{@"method":@"GET", @"relative_url":@"anjuke/prop/fix/summary/", @"query_params":param2};
+//    
+//    NSDictionary* param = @{@"requests":@{@"prop_summary":dic1, @"fix_summary":dic2}};
+//    
+//    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"batch/" params:param target:self action:@selector(onRequestPropFixFinished:)];
+//    
+//}
+//
+//- (void)onRequestPropFixFinished:(RTNetworkResponse *)response{
+//    RTNetworkResponseStatus status = response.status;
+//    
+//    //如果请求数据成功
+//    if (status == RTNetworkResponseStatusSuccess) {
+//        
+//        NSDictionary* content = [response.content[@"prop_summary"][@"body"] JSONValue];
+//        NSString* status = [content objectForKey:@"status"];
+//        
+//        if ([@"ok" isEqualToString:status]) { //请求成功
+//            NSDictionary* data = [content objectForKey:@"data"];
+//            
+//            
+//        }else{ //请求失败
+//            
+//        }
+//        
+//    }else{ //数据请求失败
+//        
+//    }
+//    
+//    //解除请求锁
+//    self.networkRequesting = NO;
+//}
+
+#pragma mark 请求房源详情 + 定价推广 + 精选推广  - 可推广, 推广中, 可排队(坑会超过一半), 排队中, 推广位已满, 不符合推广条件
+- (void)requestPropFixChoice{
+    if (self.networkRequesting) {
+        return;
+    }
+    
+    self.networkRequesting = YES;
+    
+    NSString* prefix = @"anjuke";
+    if (self.isHaozu) { //如果是租房 (默认是二手房)
+        prefix = @"zufang";
+    }
+    
+    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
+    NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/summary/"], @"query_params":param1}; //房源概况
+    
+    NSDictionary* param2 = @{@"token":[LoginManager getToken], @"cityId":@"11", @"propId":@"168783092"}; //11表示上海
+    NSDictionary* dic2 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/fix/summary/"], @"query_params":param2}; //房源定价概况
+    
+    NSDictionary* param3 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
+    NSDictionary* dic3 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/choice/summary/"], @"query_params":param3}; //房源精选概况
+    
+    NSDictionary* param4 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
+    NSDictionary* dic4 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/choice/summary/"], @"query_params":param4}; //最大最小预算余额
+    
+    NSDictionary* param5 = @{@"token":[LoginManager getToken], @"brokerId":@"858573"};
+    NSDictionary* dic5 = @{@"method":@"GET", @"relative_url":@"broker/account/balance/", @"query_params":param5}; //经纪人可用余额
+    
+//totalClikcs: 10, //总点击
+//balance: 10, //预算余额
+//balanceUnit: 元, //预算余额单位
+//todayClicks: 1, //今日点击
+//    todayConsume：1230, //今日花费
+//todayConsumeUnit: 元, //今日花费单位
+//    clickPrice : 123, //点击单价
+//    clickPriceUnit : 元, //点击单价单位
+//    maxBucketNum : 12, //总共拥有坑位数
+//    useNum : 6,//已经使用坑位数
+//actionType: => 1 //排队还是推广 1-已推广 2-已排队 3-可推广 4-坑位已满
+    
+    NSDictionary* param = @{@"requests":@{@"prop_summary":dic1,
+                                          @"prop_fix_summary":dic2,
+                                          @"prop_choice_summary":dic3,
+                                          @"choice_summary":dic4,
+                                          @"broker_balance":dic5
+                                        }};
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"batch/" params:param target:self action:@selector(onRequestPropFixChoiceFinished:)];
+    
+}
+
+- (void)onRequestPropFixChoiceFinished:(RTNetworkResponse *)response{
+    RTNetworkResponseStatus status = response.status;
+    
+    //如果请求数据成功
+    if (status == RTNetworkResponseStatusSuccess) {
+        
+        NSDictionary* propSum = [response.content[@"prop_summary"][@"body"] JSONValue];
+        NSDictionary* propFixSum = [response.content[@"prop_fix_summary"][@"body"] JSONValue];
+        NSDictionary* propChoiceSum = [response.content[@"prop_choice_summary"][@"body"] JSONValue];
+        NSDictionary* choiceSum = [response.content[@"choice_summary"][@"body"] JSONValue];
+        NSDictionary* brokerBalance = [response.content[@"broker_balance"][@"body"] JSONValue];
+        
+        if (propSum != nil && propFixSum != nil && propChoiceSum != nil) { //前三个不为空
+            if ([@"ok" isEqualToString:[propSum objectForKey:@"status"]]) {
+            }
+        }
+//        NSString* status = [content objectForKey:@"status"];
+        
+//        if ([@"ok" isEqualToString:status]) { //请求成功
+//            NSDictionary* data = [content objectForKey:@"data"];
+//        }else{ //请求失败
+//            
+//        }
+        
+    }else{ //数据请求失败
+        
+    }
+    
+    //解除请求锁
+    self.networkRequesting = NO;
+}
+
 
 @end

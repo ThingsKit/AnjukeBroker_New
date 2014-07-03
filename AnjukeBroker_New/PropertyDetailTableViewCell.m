@@ -49,7 +49,7 @@
     _propertyIcon = [[UIImageView alloc] initWithFrame:CGRectZero];
     _propertyIcon.backgroundColor = [UIColor clearColor];
     _propertyIcon.contentMode = UIViewContentModeScaleAspectFit;
-    _propertyIcon.layer.cornerRadius = 3.0f;
+    _propertyIcon.layer.cornerRadius = 4.0f;
     _propertyIcon.layer.masksToBounds = YES;
     [self.contentView addSubview:_propertyIcon];
     

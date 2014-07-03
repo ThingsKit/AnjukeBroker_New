@@ -8,6 +8,16 @@
 
 #import "RTViewController.h"
 
+typedef enum {
+    PAGE_TYPE_NOT_DEFINED = 0, //未定义
+    PAGE_TYPE_FIX,     //从定价列表过来
+    PAGE_TYPE_CHOICE,  //从精选列表过来
+    PAGE_TYPE_NO_PLAN  //从待推广列表过来
+} PageType;
+
 @interface PropertySingleViewController : RTViewController<UITableViewDataSource, UITableViewDelegate>
+
+@property(nonatomic, assign) BOOL isHaozu; //区分是二手房还是租房, 1 表示租房, 0表示二手房, 默认二手房
+@property(nonatomic, assign) PageType pageType; //用来标记从那种类型的列表过来
 
 @end
