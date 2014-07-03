@@ -12,9 +12,8 @@
 
 @interface HZWaitingForPromotedViewController : RTViewController<UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, SWTableViewCellDelegate, CellSelectStatus>
 
-
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, strong) UIView *MutipleEditView;
-
+@property (nonatomic, strong) NSIndexPath *editAndDeleteCellIndexPath;
 
 @end

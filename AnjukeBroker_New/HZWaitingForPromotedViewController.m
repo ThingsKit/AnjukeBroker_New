@@ -238,7 +238,14 @@
         {
             //删除房源
             [self hideLoadWithAnimated:YES];
-            [self showInfo:@"删除客户失败，请再试一次"];
+            UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"sure to delete?"
+                                                                message:nil
+                                                               delegate:self
+                                                      cancelButtonTitle:@"取消"
+                                                      otherButtonTitles:@"确认", nil];
+            [alertTest show];
+
+
             break;
         };
             
@@ -250,6 +257,57 @@
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
     return YES;
 }
+
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [self doDeleteProperty:@"%"];
+        //[self showInfo:@"删除客户失败，请再试一次"];
+    }
+}
+
+//删除房源
+- (void)doDeleteProperty:(NSString *)propertyID{
+    self.isLoading = YES;
+    if (![self isNetworkOkayWithNoInfo]) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+        self.isLoading = NO;
+        return;
+    }
+    //更新房源信息
+    NSMutableDictionary *params = nil;
+    NSString *method = nil;
+    
+    params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propertyID, @"propIds", nil];
+        method = @"zufang/prop/delprops/";
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onDeletePropFinished:)];
+}
+
+- (void)onDeletePropFinished:(RTNetworkResponse *)response {
+    DLog(@"--delete Prop。。。response [%@]", [response content]);
+    
+    if([[response content] count] == 0){
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+    }
+    
+    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        [self hideLoadWithAnimated:YES];
+        self.isLoading = NO;
+        
+        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+        
+        //        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        return;
+    }
+    
+    [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+    
+//    [self autoPullDown];
+}
+
 
 
 @end
