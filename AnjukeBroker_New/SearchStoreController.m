@@ -232,6 +232,7 @@
             [view setImage:[UIImage imageNamed:@"accessory_image.png"]];
             cell.accessoryView = view;
             cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"area_chooseclick"]];
+            tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         }
         if (self.cellTitleArray != nil) {
             NSDictionary *store = [self.cellTitleArray objectAtIndex:indexPath.row];
@@ -243,8 +244,9 @@
         UIImageView *noResult = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noResult.jpg"]];
         noResult.frame = CGRectMake(0, 10, 150, 150);
         noResult.centerX = cell.centerX;
-        UILabel *noR = [[UILabel alloc] initWithFrame:CGRectMake(0, 240, 200, 50)];
+        UILabel *noR = [[UILabel alloc] initWithFrame:CGRectMake(0, 180, 200, 50)];
         noR.text = @"没有找到门店";
+        noR.textColor = [UIColor grayColor];
         [noR sizeToFit];
         noR.centerX = cell.centerX;
         UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(15, 0, ScreenWidth - 15, 0.5)];

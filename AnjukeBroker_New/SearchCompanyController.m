@@ -31,7 +31,7 @@
     
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
     [self.searchBar setDelegate:self];
-    [self.searchBar setPlaceholder:@"请输入所属的公司名称"];
+    [self.searchBar setPlaceholder:@"输入所属的公司名称"];
     [self.searchBar setBackgroundColor:[UIColor clearColor]];
     [self.searchBar setShowsCancelButton:NO animated:NO];
     for (UITextField *text in [self.searchBar subviews]) {
@@ -233,6 +233,7 @@
         [view setImage:[UIImage imageNamed:@"accessory_image.png"]];
         cell.accessoryView = view;
         cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"area_chooseclick"]];
+        tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         if (self.cellTitleArray != nil) {
                 NSDictionary *company = [self.cellTitleArray objectAtIndex:indexPath.row];
                 NSString *companyName = [company valueForKey:@"companyName"];
@@ -243,8 +244,9 @@
         UIImageView *noResult = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noResult.jpg"]];
         noResult.frame = CGRectMake(0, 10, 150, 150);
         noResult.centerX = cell.centerX;
-        UILabel *noR = [[UILabel alloc] initWithFrame:CGRectMake(0, 240, 200, 50)];
+        UILabel *noR = [[UILabel alloc] initWithFrame:CGRectMake(0, 180, 200, 50)];
         noR.text = @"没有找到公司";
+        noR.textColor = [UIColor grayColor];
         [noR sizeToFit];
         noR.centerX = cell.centerX;
         UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(15, 0, ScreenWidth - 15, 0.5)];

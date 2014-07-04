@@ -10,6 +10,7 @@
 #import "PropertyDetailCellModel.h"
 #import "UIImageView+WebCache.h"
 #import "UIViewExt.h"
+#import "UIFont+RT.h"
 
 #define GAP_H 4
 #define GAP_V 5

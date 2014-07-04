@@ -13,6 +13,8 @@
 #import "MultipleChoiceAndEditListCell.h"
 #import "RTGestureBackNavigationController.h"
 #import "PropertySingleViewController.h"
+#import "UIView+AXChatMessage.h"
+#import "UIFont+RT.h"
 
 @interface ESFWaitingForPromotedViewController ()
 
