@@ -237,8 +237,8 @@
 - (NSArray *)rightButtons
 {
     NSMutableArray *rightUtilityButtons = [NSMutableArray array];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:SYSTEM_NAVBAR_DARK_BG title:@"编辑"];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:SYSTEM_RED title:@"删除"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor brokerLineColor] title:@"编辑"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor brokerRedColor] title:@"删除"];
     return rightUtilityButtons;
 }
 
