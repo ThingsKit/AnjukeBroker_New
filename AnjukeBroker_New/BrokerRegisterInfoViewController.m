@@ -108,7 +108,7 @@
 }
 
 - (UIView *)setupTableViewFootView {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 190)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 110)];
     UIButton *finishRegisterBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     finishRegisterBtn.frame = CGRectMake(15, 20, 290, 44);
     [finishRegisterBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
@@ -500,7 +500,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
         UITableViewCell  *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-        cell.backgroundColor = [UIColor clearColor];
+//        cell.backgroundColor = [UIColor clearColor];
         UILabel *nameLbl = [UILabel new];
         nameLbl.frame = CGRectMake(15, 0, 100, 44);
         nameLbl.font =  [UIFont ajkH2Font];
@@ -532,10 +532,13 @@
 
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-        cell.backgroundColor = [UIColor clearColor];
+//        cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
         
         RTLineView *lineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, 44, 305, 1)];
+        if (indexPath.row == 6) {
+            lineView.frame = CGRectMake(0, 44, 320, 1);
+        }
         [cell addSubview:lineView];
     }
 

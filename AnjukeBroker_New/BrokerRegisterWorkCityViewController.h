@@ -12,7 +12,7 @@
 
 - (void)didSelectCity:(NSDictionary *)city;
 
-- (void)canceledCitySelection;
+//- (void)canceledCitySelection;
 
 @end
 

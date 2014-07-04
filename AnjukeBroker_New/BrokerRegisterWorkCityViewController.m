@@ -217,9 +217,9 @@
 
 - (void)doBack:(id)sender {
     
-    if ([self.delegate respondsToSelector:@selector(canceledCitySelection)]) {
-        [self.delegate canceledCitySelection];
-    }
+//    if ([self.delegate respondsToSelector:@selector(canceledCitySelection)]) {
+//        [self.delegate canceledCitySelection];
+//    }
     [self.navigationController popViewControllerAnimated:YES];
     
 }

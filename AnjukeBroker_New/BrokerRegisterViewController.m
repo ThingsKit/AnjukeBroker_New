@@ -42,7 +42,7 @@
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.height)];
     scrollView.delegate = self;
     
-    CGSize newSize = CGSizeMake(320, self.view.height+100);
+    CGSize newSize = CGSizeMake(320, self.view.height);
     
     [scrollView setContentSize:newSize];
     
@@ -130,6 +130,23 @@
     dailPhoneBtn.titleLabel.font = [UIFont ajkH5Font];
     [dailPhoneBtn addTarget:self action:@selector(dialPhone) forControlEvents:UIControlEventTouchUpInside];
     
+    UIView *phoneView = [[UIView alloc] init];
+    phoneView.frame = CGRectMake(0, topLineView.top, 320, 46);
+    phoneView.backgroundColor = [UIColor whiteColor];
+    
+    
+    UIView *verifyView = [[UIView alloc] init];
+    verifyView.frame = CGRectMake(0, phoneLineView.top, 320, 46);
+    verifyView.backgroundColor = [UIColor whiteColor];
+    
+    UIView *passwordView = [[UIView alloc] init];
+    passwordView.frame = CGRectMake(0, verifyLineView.top, 320, 45);
+    passwordView.backgroundColor = [UIColor whiteColor];
+    
+    
+    [scrollView addSubview:phoneView];
+    [scrollView addSubview:verifyView];
+    [scrollView addSubview:passwordView];
     
     [scrollView addSubview:topLineView];
     [scrollView addSubview:phoneLbl];
