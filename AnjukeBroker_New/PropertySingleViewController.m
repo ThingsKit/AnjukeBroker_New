@@ -8,6 +8,7 @@
 
 #import "PropertySingleViewController.h"
 #import "AXChatWebViewController.h"
+#import "PropertyEditViewController.h"
 
 #import "PropertyDetailTableViewFooter.h"
 
@@ -122,13 +123,19 @@
 #pragma mark -
 #pragma mark 页脚block定义
 - (void)initFooterBlock{
-//    __weak PropertySingleViewController* this = self;
+    __weak PropertySingleViewController* this = self;
     _footer.editBlock = ^{
-//        [this requestFix];
+        PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+        controller.isHaozu = this.isHaozu;
+        controller.propertyID = this.propId;
+        controller.backType = RTSelectorBackTypePopBack;
+        [this.navigationController pushViewController:controller animated:YES];
     };
     
     _footer.deleteBlock = ^{
-//        [this requestChoice];
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定删除当前房源" delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alert.tag = 2;
+        [alert show]; //一定要放设置键盘之后
     };
     
 }
@@ -266,6 +273,7 @@
                         //立即排队
                         NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
                         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                        alert.tag = 1;
                         alert.alertViewStyle = UIAlertViewStylePlainTextInput;
                         NSString* budget = [NSString stringWithFormat:@"输入预算, %@~%@", this.minBudget, this.maxBudget];
                         [alert textFieldAtIndex:0].placeholder = budget;
@@ -287,6 +295,7 @@
                         //立即推广
                         NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
                         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                        alert.tag = 1;
                         alert.alertViewStyle = UIAlertViewStylePlainTextInput;
                         NSString* budget = [NSString stringWithFormat:@"输入预算, %@~%@", this.minBudget, this.maxBudget];
                         [alert textFieldAtIndex:0].placeholder = budget;
@@ -474,10 +483,10 @@
         prefix = @"zufang";
     }
     
-//    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
+//    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":self.propId};
     NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":_propId};
     NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/summary/"], @"query_params":param1}; //房源概况
-    
+
     NSDictionary* param2 = @{@"token":[LoginManager getToken], @"cityId":[LoginManager getCity_id], @"propId":_propId}; //11表示上海
     NSDictionary* dic2 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/fix/summary/"], @"query_params":param2}; //房源定价概况
     
@@ -554,7 +563,7 @@
                     _loadingView.hidden = YES;
                     [_tableView reloadData];
                     
-                }else{ //前三个中任意一个失败, 页面等待, 重新请求, 请求超时
+                }else{ //五个中任意一个失败, 页面等待, 重新请求, 请求超时
                     [_activity stopAnimating];
                     _loadingTipLabel.text = @"加载超时, 点击重新加载";
                     _loadingView.userInteractionEnabled = YES;
@@ -589,7 +598,7 @@
     if (self.isHaozu) { //如果是租房 (默认是二手房)
         prefix = @"zufang";
     }
-    //    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
+//    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"planId":planId};
     NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"planId":planId};
     NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/fix/spreadstart/"], @"query_params":param1}; //房源概况
     NSDictionary* param = @{@"requests":@{@"result":dic1}};
@@ -644,7 +653,7 @@
     if (self.isHaozu) { //如果是租房 (默认是二手房)
         prefix = @"zufang";
     }
-    //    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
+//    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":self.propId, @"budget":budget};
     NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092", @"budget":budget};
     NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/choice/start/"], @"query_params":param1}; //房源概况
     NSDictionary* param = @{@"requests":@{@"result":dic1}};
@@ -700,7 +709,7 @@
     if (self.isHaozu) { //如果是租房 (默认是二手房)
         prefix = @"zufang";
     }
-    //    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
+//    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":self.propId};
     NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
     NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/choice/stop/"], @"query_params":param1}; //房源概况
     NSDictionary* param = @{@"requests":@{@"result":dic1}};
@@ -743,16 +752,73 @@
     
 }
 
+
+#pragma mark 删除房源API
+- (void)requestPropertyDelete{
+    if (self.networkRequesting) {
+        return;
+    }
+    
+    self.networkRequesting = YES;
+    
+    NSString* prefix = @"anjuke";
+    if (self.isHaozu) { //如果是租房 (默认是二手房)
+        prefix = @"zufang";
+    }
+
+//    NSDictionary* params = @{@"token":[LoginManager getToken], @"cityId":[LoginManager getCity_id], @"brokerId":[LoginManager getUserID], @"propIds":self.propId};
+    NSDictionary* params = @{@"token":[LoginManager getToken], @"cityId":[LoginManager getCity_id], @"brokerId":@"858573", @"propIds":@"168783092"};
+    NSString* method = [prefix stringByAppendingString:@"/prop/delprops/"];
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestPropertyDeleteFinished:)];
+}
+
+- (void)onRequestPropertyDeleteFinished:(RTNetworkResponse *)response {
+    //解除请求锁
+    self.networkRequesting = NO;
+    RTNetworkResponseStatus status = response.status;
+    if (status == RTNetworkResponseStatusSuccess) {
+        NSString* result = [response.content objectForKey:@"status"];
+        if ([@"ok" isEqualToString:result]) {
+            [self displayHUDWithStatus:@"ok" Message:@"删除房源成功" ErrCode:nil];
+//            //这里要跳转到对应列表
+            double delayInSeconds = 1.f;
+            dispatch_time_t delayInNanoSeconds = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+            dispatch_after(delayInNanoSeconds, dispatch_get_main_queue(), ^(void)
+            {
+                [self.navigationController popViewControllerAnimated:YES];
+            });
+            
+            
+        }else{
+            [self displayHUDWithStatus:@"error" Message:@"删除房源失败" ErrCode:@"1"];
+        }
+        
+    }else{ //数据请求失败
+        [self displayHUDWithStatus:@"error" Message:nil ErrCode:nil];
+    }
+    
+    
+}
+
+
 #pragma mark -
 #pragma mark UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    NSLog(@"%@", [alertView textFieldAtIndex:0].text);
-    
-    if (buttonIndex == 1) { //确定按钮
-        [self requestChoiceWithBudget:[alertView textFieldAtIndex:0].text];
-    }else{
+    if (alertView.tag == 1) {
+        NSLog(@"%@", [alertView textFieldAtIndex:0].text);
+        
+        if (buttonIndex == 1) { //确定按钮
+            [self requestChoiceWithBudget:[alertView textFieldAtIndex:0].text];
+        }else{
+            
+        }
+    }else if (alertView.tag == 2){
+        //删除当前房源
+        [self requestPropertyDelete];
         
     }
+    
     
     
 }

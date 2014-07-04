@@ -525,6 +525,7 @@
         PropertySingleViewController* viewController = [[PropertySingleViewController alloc] init];
         [viewController setHidesBottomBarWhenPushed:YES];
         viewController.backType = RTSelectorBackTypePopBack;
+//        viewController.propId = @"123";
 //        PAGE_TYPE_FIX,     //从定价列表过来
 //        PAGE_TYPE_CHOICE,  //从精选列表过来
 //        PAGE_TYPE_NO_PLAN  //从待推广列表过来
