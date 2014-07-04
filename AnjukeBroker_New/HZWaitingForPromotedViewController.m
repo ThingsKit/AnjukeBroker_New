@@ -95,15 +95,18 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self requestDataWithBrokerId:@"858573" cityId:@"11"];
+    
     [self.tableView reloadData];
+}
+
+- (void)loadData
+{
+   [self requestDataWithBrokerId:@"858573" cityId:@"11"];
 }
 
 - (void)requestDataWithBrokerId:(NSString *)brokerId cityId:(NSString *)cityId
 {
-//    NSString     *method = @"anjuke/prop/noplanprops/";
     NSString *method = @"zufang/prop/noplanprops/";
-//    NSString *method = @"zufang/prop/noplanprops/";
     NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":brokerId,@"cityId":cityId,@"is_nocheck":@"1"};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleRequestData:)];
 }

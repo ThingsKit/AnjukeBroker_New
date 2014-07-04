@@ -139,7 +139,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self requestDataWithBrokerId:@"858573" cityId:@"11"];
+    
     [self.tableView reloadData];
 }
 
@@ -147,6 +147,11 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)loadData
+{
+   [self requestDataWithBrokerId:@"858573" cityId:@"11"];
 }
 
 - (void)requestDataWithBrokerId:(NSString *)brokerId cityId:(NSString *)cityId
