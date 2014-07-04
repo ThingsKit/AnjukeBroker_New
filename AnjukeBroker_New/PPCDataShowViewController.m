@@ -170,14 +170,16 @@
             return;
         }
     } else if (indexPath.row == 4) {
-        if (self.isHaozu) {
-            HZWaitingForPromotedViewController *hzToBePromoted = [[HZWaitingForPromotedViewController alloc] init];
-            hzToBePromoted.planId = self.pricingDic[@"planId"];
-            [self.navigationController pushViewController:hzToBePromoted animated:YES];
-        } else {
-            ESFWaitingForPromotedViewController *esfToBePromoted = [[ESFWaitingForPromotedViewController alloc] init];
-            esfToBePromoted.planId = self.pricingDic[@"planId"];
-            [self.navigationController pushViewController:esfToBePromoted animated:YES];
+        if (self.pricingDic && self.pricingDic[@"planId"]) {
+            if (self.isHaozu) {
+                HZWaitingForPromotedViewController *hzToBePromoted = [[HZWaitingForPromotedViewController alloc] init];
+                hzToBePromoted.planId = self.pricingDic[@"planId"];
+                [self.navigationController pushViewController:hzToBePromoted animated:YES];
+            } else {
+                ESFWaitingForPromotedViewController *esfToBePromoted = [[ESFWaitingForPromotedViewController alloc] init];
+                esfToBePromoted.planId = self.pricingDic[@"planId"];
+                [self.navigationController pushViewController:esfToBePromoted animated:YES];
+            }
         }
     }
 }
