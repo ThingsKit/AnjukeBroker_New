@@ -19,8 +19,9 @@
 @property (nonatomic, copy) NSString* clickPrice; //点击单价
 @property (nonatomic, copy) NSString* clickPriceUnit; //点击单价单位
 @property (nonatomic, copy) NSString* maxBucketNum; //总共拥有坑位数
-@property (nonatomic, copy) NSString* useNum; //已经使用坑位数
-@property (nonatomic, copy) NSString* actionType; //排队还是推广 1-已推广 2-已排队 3-可推广 4-坑位已满
+@property (nonatomic, copy) NSString* usedBucketNum; //已经使用坑位数
+@property (nonatomic, copy) NSString* status; //排队还是推广 //1-1 推广中 1-2排队中 2-1推广位已满 2-2可立即排队 2-3可立即推广 3-2不符合精选推广条件
+@property (nonatomic, copy) NSString* statusMsg; //状态对应的消息描述
 
 
 @end

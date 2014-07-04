@@ -25,6 +25,6 @@ typedef enum {
 @property (nonatomic, assign) PageType pageType; //用来标记从那种类型的列表过来
 @property (nonatomic, copy) NSString* propId;
 
-@property(nonatomic, strong) NSMutableDictionary* params; //@"isHaozu", @"pageType", @"propId"
+//@property(nonatomic, strong) NSMutableDictionary* params; //@"isHaozu", @"pageType", @"propId"
 
 @end

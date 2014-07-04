@@ -49,16 +49,9 @@
     
     //取出参数
 //    @"brokerId":@"858573", @"propId":@"168783092"   for test
-    if (self.params != nil) {
-        _isHaozu = [self.params[@"isHaozu"] boolValue];
-        _pageType = [self.params[@"pageType"] intValue];
-        _propId = self.params[@"propId"];
-//        _cityId = self.params[@"cityId"];
-    }else{
-        _propId = @"168783092"; //测试
-//        _cityId = @"11"; //上海
+    if (_propId == nil) {
+        _propId = @"168783092";
     }
-    
     
     //表
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44 - 49) style:UITableViewStylePlain];
@@ -182,8 +175,8 @@
         }else{
             if (self.data.count > 2) {
                 ChoicePromotionCellModel* propChoice = self.data[2]; //第三个是精选推广概况
-                NSString* actionType = propChoice.actionType;
-                if ([@"1" isEqualToString:actionType]) { //已推广
+                NSString* actionType = propChoice.status;
+                if ([@"1-1" isEqualToString:actionType]) { //推广中
                     ChoicePromotioningCell* cell = [[ChoicePromotioningCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
                     cell.choicePromotionModel = propChoice;
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -191,16 +184,16 @@
                     [cell showBottonLineWithCellHeight:150];
                     return cell;
                     
-                }else if ([@"2" isEqualToString:actionType]){ //已排队
+                }else if ([@"1-2" isEqualToString:actionType]){ //排队中
                     
                     ChoicePromotionQueuingCell* cell = [[ChoicePromotionQueuingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-                    cell.queuePosition = @"2";
+                    cell.queuePosition = propChoice.statusMsg; //这里应该是个数字
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
                     [cell showTopLine];
                     [cell showBottonLineWithCellHeight:150];
                     return cell;
-                    
-                }else if ([@"3" isEqualToString:actionType]){ //可推广
+                
+                }else if ([@"2-1" isEqualToString:actionType]){ //推广位已满
                     
                     ChoicePromotionableCell* cell = [[ChoicePromotionableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
                     cell.choicePromotionModel = self.data[2];
@@ -209,26 +202,38 @@
                     [cell showBottonLineWithCellHeight:200];
                     return cell;
                     
-                }else if ([@"4" isEqualToString:actionType]){ //坑位已满
+                }else if ([@"2-2" isEqualToString:actionType]){ //可排队
+                    
+                    ChoicePromotionableCell* cell = [[ChoicePromotionableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+                    cell.choicePromotionModel = self.data[2];
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    [cell showTopLine];
+                    [cell showBottonLineWithCellHeight:200];
+                    return cell;
+                
+                    
+                }else if ([@"2-3" isEqualToString:actionType]){ //可推广
+                    
+                    ChoicePromotionableCell* cell = [[ChoicePromotionableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+                    cell.choicePromotionModel = self.data[2];
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    [cell showTopLine];
+                    [cell showBottonLineWithCellHeight:200];
+                    return cell;
+                
+                }else if ([@"3-2" isEqualToString:actionType]){ //不符合精选推广条件
                     
                     ChoicePromotionDisableCell* cell = [[ChoicePromotionDisableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-                    cell.choiceConditionText = @"精选推广条件: 多图+新发15天";
+                    cell.choiceConditionText = propChoice.statusMsg; //
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
                     [cell showTopLine];
                     [cell showBottonLineWithCellHeight:125];
                     return cell;
                     
-                    
                 }else{
                     
-                    ChoicePromotionableCell* cell = [[ChoicePromotionableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-                    cell.choicePromotionModel = self.data[2];
-                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                    [cell showTopLine];
-                    [cell showBottonLineWithCellHeight:200];
-                    return cell;
-                    
-//                    return nil;
+                    NSLog(@"返回状态异常 ------ %@", actionType);
+                    return nil;
                 }
                 
                 
@@ -255,11 +260,14 @@
     
     if (indexPath.section == 0) {
         
-        //push 到 webview
-        AXChatWebViewController *webViewController = [[AXChatWebViewController alloc] init];
-//        webViewController.webUrl = url;
-//        webViewController.webTitle = title;
-        [self.navigationController pushViewController:webViewController animated:YES];
+        if (self.data.count > 0) {
+            //push 到 webview
+            AXChatWebViewController *webViewController = [[AXChatWebViewController alloc] init];
+            PropertyDetailCellModel* property = self.data[0];
+            webViewController.webUrl = property.url;
+            webViewController.webTitle = property.title;
+            [self.navigationController pushViewController:webViewController animated:YES];
+        }
         
     }
     
@@ -286,19 +294,26 @@
                 
                 if (self.data.count > 2) {
                     ChoicePromotionCellModel* propChoice = self.data[2]; //第三个是精选推广概况
-                    NSString* actionType = propChoice.actionType;
-                    if ([@"1" isEqualToString:actionType]) {   //已推广
+                    NSString* actionType = propChoice.status;
+                    
+                    //1-1 推广中 1-2排队中 2-1推广位已满 2-2可立即排队 2-3可立即推广 3-2不符合精选推广条件
+                    
+                    if ([@"1-1" isEqualToString:actionType]) {   //推广中
                         return 150;
-                    }else if ([@"2" isEqualToString:actionType]){  //已排队
+                    }else if ([@"1-2" isEqualToString:actionType]){  //排队中
                         return 150;
-                    }else if ([@"3" isEqualToString:actionType]){  //可推广
+                    }else if ([@"2-1" isEqualToString:actionType]){  //坑位已满
                         return 200;
-                    }else if ([@"4" isEqualToString:actionType]){  //坑位已满
+                    }else if ([@"2-2" isEqualToString:actionType]){  //可排队
                         return 200;
-                    }else if ([@"5" isEqualToString:actionType]){  //不符合推广条件
+                    }else if ([@"2-3" isEqualToString:actionType]){  //可推广
+                        return 200;
+                    }else if ([@"3-2" isEqualToString:actionType]){  //不符合推广条件
                         return 125;
                     }else{
-                        return 200;
+                        
+                        NSLog(@"返回状态异常 ------ %@", actionType);
+                        return 0;
                     }
                 }else{
                     return 0;
@@ -375,18 +390,6 @@
     }
     
     self.networkRequesting = YES;
-
-    //totalClikcs: 10, //总点击
-    //balance: 10, //预算余额
-    //balanceUnit: 元, //预算余额单位
-    //todayClicks: 1, //今日点击
-    //    todayConsume：1230, //今日花费
-    //todayConsumeUnit: 元, //今日花费单位
-    //    clickPrice : 123, //点击单价
-    //    clickPriceUnit : 元, //点击单价单位
-    //    maxBucketNum : 12, //总共拥有坑位数
-    //    useNum : 6,//已经使用坑位数
-    //actionType: => 1 //排队还是推广 1-已推广 2-已排队 3-可推广 4-坑位已满
     
     NSString* prefix = @"anjuke";
     if (self.isHaozu) { //如果是租房 (默认是二手房)
@@ -447,8 +450,8 @@
                     ChoicePromotionCellModel* propChoice = [[ChoicePromotionCellModel alloc] initWithDataDic:[propChoiceSum objectForKey:@"data"]]; //房源精选概况
                     //######################################### for test
                     propChoice.maxBucketNum = @"20";
-                    propChoice.useNum = @"10";
-                    propChoice.actionType = @"3"; //1-已推广 2-已排队 3-可推广 4-坑位已满
+                    propChoice.usedBucketNum = @"15";
+                    propChoice.status = @"2-2"; //1-1 推广中 1-2排队中 2-1推广位已满 2-2可立即排队 2-3可立即推广 3-2不符合精选推广条件
                     //#########################################
                     [self.data addObject:propChoice];
                     

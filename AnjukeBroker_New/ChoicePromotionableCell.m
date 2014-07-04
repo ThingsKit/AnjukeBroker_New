@@ -111,14 +111,14 @@
     //推广状态
     _promotionStatus.frame = CGRectMake(20, _title.bottom + GAP_VERTICAL - 5, 100, 20);
     int total = [self.choicePromotionModel.maxBucketNum intValue];
-    int used = [self.choicePromotionModel.useNum intValue];
+    int used = [self.choicePromotionModel.usedBucketNum intValue];
     
-    if (used < total*0.5) {
+    if (used == total){
+        _promotionStatus.text = @"推广位已满";
+    }else if (used < total*0.5) {
         _promotionStatus.text = @"可立即推广";
     }else if (used >= total*0.5){
         _promotionStatus.text = @"可立即排队";
-    }else if (used == total){
-        _promotionStatus.text = @"坑位已满";
     }else{
         _promotionStatus.text = @"推广状态未知";
     }
@@ -238,7 +238,7 @@
 
 
 - (void)startPromotion:(UIButton*)button{
-    NSLog(@"立即推广");
+    NSLog(@"%@", [button titleForState:UIControlStateNormal]);
     if (self.block != nil) {
         _block([button titleForState:UIControlStateNormal]); //这个tag用来标示是立即排队 还是 立即推广
     }
