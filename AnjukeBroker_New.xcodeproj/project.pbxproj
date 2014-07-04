@@ -349,7 +349,6 @@
 		9619F5361963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9619F5351963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.m */; };
 		9619F53A19640EA0008C3A26 /* PropSelectStatusModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9619F53919640EA0008C3A26 /* PropSelectStatusModel.m */; };
 		96A3D38D1962909300E6A8B9 /* PromotionSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A3D38C1962909300E6A8B9 /* PromotionSettingsViewController.m */; };
-		96E7974719655A8B000DCE7E /* PropertyDetailCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E7974619655A8B000DCE7E /* PropertyDetailCellModel.m */; };
 		970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */ = {isa = PBXBuildFile; fileRef = 970501761845D21100A0C181 /* AFWelcomeScrollview.m */; };
 		970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */ = {isa = PBXBuildFile; fileRef = 970B78DB182010EE00C8E3C6 /* Util_UI.m */; };
 		970DB71D183AFFE700DEB455 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 970DB71C183AFFE700DEB455 /* AboutUsViewController.m */; };
@@ -1329,8 +1328,6 @@
 		9619F53919640EA0008C3A26 /* PropSelectStatusModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropSelectStatusModel.m; sourceTree = "<group>"; };
 		96A3D38B1962909300E6A8B9 /* PromotionSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PromotionSettingsViewController.h; sourceTree = "<group>"; };
 		96A3D38C1962909300E6A8B9 /* PromotionSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PromotionSettingsViewController.m; sourceTree = "<group>"; };
-		96E7974519655A8B000DCE7E /* PropertyDetailCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDetailCellModel.h; sourceTree = "<group>"; };
-		96E7974619655A8B000DCE7E /* PropertyDetailCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDetailCellModel.m; sourceTree = "<group>"; };
 		970501751845D21100A0C181 /* AFWelcomeScrollview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFWelcomeScrollview.h; sourceTree = "<group>"; };
 		970501761845D21100A0C181 /* AFWelcomeScrollview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFWelcomeScrollview.m; sourceTree = "<group>"; };
 		970B78DA182010EE00C8E3C6 /* Util_UI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util_UI.h; sourceTree = "<group>"; };
@@ -2801,8 +2798,6 @@
 				F8A136C919656C25007FC4E1 /* PropertyDetailCellModel.m */,
 				67203D9419629D3B00A32B60 /* PricePromotionCellModel.h */,
 				67203D9519629D3B00A32B60 /* PricePromotionCellModel.m */,
-				96E7974519655A8B000DCE7E /* PropertyDetailCellModel.h */,
-				96E7974619655A8B000DCE7E /* PropertyDetailCellModel.m */,
 				67203D9719629DE100A32B60 /* ChoicePromotionCellModel.h */,
 				67203D9819629DE100A32B60 /* ChoicePromotionCellModel.m */,
 				678D38FE1965370A00E9E155 /* ChoiceSummaryModel.h */,
@@ -5341,7 +5336,6 @@
 				49C188631963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m in Sources */,
 				2056A38F18EE7EA00022B5A5 /* AXMessageCenterGetFriendInfoManager.m in Sources */,
 				6767D14519235174004FEFF7 /* MyPropertyTableView.m in Sources */,
-				96E7974719655A8B000DCE7E /* PropertyDetailCellModel.m in Sources */,
 				B7E55B4F18BF2190007238CB /* JSMessageTextView.m in Sources */,
 				B769E44F181F4C3E00A2FF50 /* FixedObject.m in Sources */,
 				97B422601820E38200A2E9E6 /* PropertyResultListViewController.m in Sources */,
@@ -5381,8 +5375,6 @@
 				B769E44E181F4C3E00A2FF50 /* CommunityObject.m in Sources */,
 				97CB0C0C182BEA3500FCCBBD /* BK_ELCAlbumPickerController.m in Sources */,
 				01F8A7801965655500D892D4 /* MyUserProtocolController.m in Sources */,
-				B7EA1FC2183A437500438CF8 /* SaleAuctionViewController.m in Sources */,
-				F89FF5B1196287F300AC7256 /* PPCHouseCell.m in Sources */,
 				F8A717BF192058FB004840C6 /* UserCenterViewController.m in Sources */,
 				976AC61118278B5C003A2B3A /* LoginViewController.m in Sources */,
 				273913D218DBCFD9003284AA /* CheckInstalledMapAPP.m in Sources */,
