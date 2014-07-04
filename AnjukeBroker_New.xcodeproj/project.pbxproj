@@ -5426,11 +5426,7 @@
 				F853330E194FD8700025B914 /* AXChatMessagePublicCard3Cell.m in Sources */,
 				B7EAD53018CD927200B28FEC /* UIColor+AXChatMessage.m in Sources */,
 				2026044818B9D6CA00F75A56 /* ClientModel.m in Sources */,
-<<<<<<< HEAD
 				678D390C196658DD00E9E155 /* PropertyDetailCellModel.m in Sources */,
-=======
-				4900610F19664FB300D493D6 /* PropertyDetailCellModel.m in Sources */,
->>>>>>> fix
 				20A2178618BF1804002CA469 /* HouseSelectCommunityCell.m in Sources */,
 				F8A717E119209E6D004840C6 /* CheckoutCommunityViewController.m in Sources */,
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
