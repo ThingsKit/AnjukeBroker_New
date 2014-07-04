@@ -511,6 +511,7 @@
 }
 
 - (void)onRequestPropFixChoiceFinished:(RTNetworkResponse *)response{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     //解除请求锁
     self.networkRequesting = NO;
     
@@ -607,6 +608,7 @@
 }
 
 - (void)onRequestFixFinished:(RTNetworkResponse *)response{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     //解除请求锁
     self.networkRequesting = NO;
     
@@ -662,6 +664,7 @@
 }
 
 - (void)onRequestChoiceFinished:(RTNetworkResponse *)response{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     //解除请求锁
     self.networkRequesting = NO;
     
@@ -718,6 +721,7 @@
 }
 
 - (void)onRequestChoiceStopFinished:(RTNetworkResponse *)response{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     //解除请求锁
     self.networkRequesting = NO;
     
@@ -774,6 +778,7 @@
 }
 
 - (void)onRequestPropertyDeleteFinished:(RTNetworkResponse *)response {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     //解除请求锁
     self.networkRequesting = NO;
     RTNetworkResponseStatus status = response.status;
