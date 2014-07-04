@@ -96,7 +96,7 @@
     
     NSString *method     = @"anjuke/fix/addpropstoplan/";
 #warning 测试brokerId
-    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":[]};
+//    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":[]};
     
 }
 

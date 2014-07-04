@@ -103,7 +103,6 @@
 {
 //    NSString     *method = @"anjuke/prop/noplanprops/";
     NSString *method = @"zufang/prop/noplanprops/";
-    NSString     *method = @"zufang/prop/noplanprops/";
 //    NSString *method = @"zufang/prop/noplanprops/";
     NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":brokerId,@"cityId":cityId,@"is_nocheck":@"1"};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleRequestData:)];
