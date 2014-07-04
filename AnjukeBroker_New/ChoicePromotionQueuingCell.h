@@ -8,7 +8,7 @@
 
 #import "RTListCell.h"
 
-typedef void(^PromotionButtonBlock) (void); //返回类型void,  参数列表(void)
+typedef void(^PromotionButtonBlock) (NSString*); //返回类型void,  参数列表(void)
 
 @interface ChoicePromotionQueuingCell : RTListCell
 

@@ -7,6 +7,7 @@
 //
 
 #import "PropertySingleViewController.h"
+#import "AXChatWebViewController.h"
 
 #import "PropertyDetailTableViewFooter.h"
 
@@ -44,7 +45,7 @@
 {
     [super viewDidLoad];
     
-    self.title = @"房源单页";
+    [self setTitleViewWithString:@"房源单页"];
     
     //取出参数
 //    @"brokerId":@"858573", @"propId":@"168783092"   for test
@@ -52,10 +53,10 @@
         _isHaozu = [self.params[@"isHaozu"] boolValue];
         _pageType = [self.params[@"pageType"] intValue];
         _propId = self.params[@"propId"];
-        _cityId = self.params[@"cityId"];
+//        _cityId = self.params[@"cityId"];
     }else{
         _propId = @"168783092"; //测试
-        _cityId = @"11"; //上海
+//        _cityId = @"11"; //上海
     }
     
     
@@ -255,6 +256,10 @@
     if (indexPath.section == 0) {
         
         //push 到 webview
+        AXChatWebViewController *webViewController = [[AXChatWebViewController alloc] init];
+//        webViewController.webUrl = url;
+//        webViewController.webTitle = title;
+        [self.navigationController pushViewController:webViewController animated:YES];
         
     }
     
@@ -392,7 +397,7 @@
     NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":_propId};
     NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/summary/"], @"query_params":param1}; //房源概况
     
-    NSDictionary* param2 = @{@"token":[LoginManager getToken], @"cityId":_cityId, @"propId":_propId}; //11表示上海
+    NSDictionary* param2 = @{@"token":[LoginManager getToken], @"cityId":[LoginManager getCity_id], @"propId":_propId}; //11表示上海
     NSDictionary* dic2 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/fix/summary/"], @"query_params":param2}; //房源定价概况
     
     NSDictionary* param3 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":_propId};

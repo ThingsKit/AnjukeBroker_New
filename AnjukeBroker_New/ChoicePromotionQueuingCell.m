@@ -116,7 +116,7 @@
 - (void)startPromotion:(UIButton*)button{
     NSLog(@"取消排队");
     if (self.block != nil) {
-        _block();
+        _block([button titleForState:UIControlStateNormal]);
     }
     
 }

@@ -240,7 +240,7 @@
 - (void)startPromotion:(UIButton*)button{
     NSLog(@"立即推广");
     if (self.block != nil) {
-        _block(); //这个tag用来标示是立即排队 还是 立即推广
+        _block([button titleForState:UIControlStateNormal]); //这个tag用来标示是立即排队 还是 立即推广
     }
     
 }
