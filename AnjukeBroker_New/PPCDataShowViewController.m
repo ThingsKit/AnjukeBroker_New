@@ -161,25 +161,22 @@
             return;
         }
     }else if (indexPath.row == 2){
-//        if (self.selectedDic[@"data"] && self.selectedDic[@"data"][@"planId"]) {
-//            PPCSelectedListViewController *selectedListVC = [[PPCSelectedListViewController alloc] init];
-//            selectedListVC.isHaozu = self.isHaozu;
-//            [self.navigationController pushViewController:selectedListVC animated:YES];
-//            selectedListVC.planId = self.selectedDic[@"data"][@"planId"];
-//        }else{
-//            return;
-//        }
-        PPCSelectedListViewController *selectedListVC = [[PPCSelectedListViewController alloc] init];
-        selectedListVC.isHaozu = self.isHaozu;
-        [self.navigationController pushViewController:selectedListVC animated:YES];
-        selectedListVC.planId = self.selectedDic[@"data"][@"planId"];
-
+        if (self.selectedDic[@"data"] && self.selectedDic[@"data"][@"planId"]) {
+            PPCSelectedListViewController *selectedListVC = [[PPCSelectedListViewController alloc] init];
+            selectedListVC.isHaozu = self.isHaozu;
+            selectedListVC.planId = self.selectedDic[@"data"][@"planId"];
+            [self.navigationController pushViewController:selectedListVC animated:YES];
+        }else{
+            return;
+        }
     } else if (indexPath.row == 4) {
         if (self.isHaozu) {
             HZWaitingForPromotedViewController *hzToBePromoted = [[HZWaitingForPromotedViewController alloc] init];
+            hzToBePromoted.planId = self.pricingDic[@"planId"];
             [self.navigationController pushViewController:hzToBePromoted animated:YES];
         } else {
             ESFWaitingForPromotedViewController *esfToBePromoted = [[ESFWaitingForPromotedViewController alloc] init];
+            esfToBePromoted.planId = self.pricingDic[@"planId"];
             [self.navigationController pushViewController:esfToBePromoted animated:YES];
         }
     }
