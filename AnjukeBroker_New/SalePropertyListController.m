@@ -105,7 +105,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_PROPERTY_003 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_ADD_LIST_CLICK_CANCEL page:ESF_JJ_ADD_LIST_PAGE note:nil];
     SaleAuctionViewController *controller = [[SaleAuctionViewController alloc] init];
     controller.proDic = [self.myArray objectAtIndex:[indexPath row]];
     controller.backType = RTSelectorBackTypeDismiss;
@@ -142,6 +142,6 @@
 #pragma mark --PrivateMethod
 - (void)doBack:(id)sender{
     [super doBack:self];
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_PROPERTY_004 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_ADD_LIST_CLICK_FY page:ESF_JJ_ADD_LIST_PAGE note:nil];
 }
 @end
