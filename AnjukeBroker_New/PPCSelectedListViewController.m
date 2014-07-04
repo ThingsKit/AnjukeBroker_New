@@ -354,7 +354,9 @@
     if (!self.tableData || self.navigationController.view.frame.origin.x > 0) {
         return;
     }
-    
+    if (self.isLoading) {
+        return;
+    }
     if (self.onOfflineListData.count > 0 && indexPath.section == 3 && indexPath.row == 1) {
 //    if (self.onOfflineListData.count == 0 && indexPath.section == 3 && indexPath.row == 1) {
         PPCPromoteCompletListViewController *promoteCompletListVC = [[PPCPromoteCompletListViewController alloc] init];

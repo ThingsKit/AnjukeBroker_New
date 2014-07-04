@@ -153,6 +153,11 @@
     if (!self.tableData || self.navigationController.view.frame.origin.x > 0) {
         return;
     }
+    
+    if (self.isLoading) {
+        return;
+    }
+    
     PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
     singleVC.isHaozu = self.isHaozu;
     if (indexPath.section == 1) {

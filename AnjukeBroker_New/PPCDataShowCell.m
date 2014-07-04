@@ -82,11 +82,14 @@
 }
 
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index {
-    if (self.isPricing) {
+    if (self.cellType == CELLTYPEFORPRICING) {
         self.titLab.text = @"定价推广";
         self.todayClickLab.textColor = [UIColor brokerBlueColor];
-    }else{
+    }else if (self.cellType == CELLTYPEFORSELECTING){
         self.titLab.text = @"精选推广";
+        self.todayClickLab.textColor = [UIColor colorWithHex:0xFFB75B alpha:1.0];
+    }else if (self.cellType == CELLTYPEFORBIT){
+        self.titLab.text = @"竞价推广";
         self.todayClickLab.textColor = [UIColor colorWithHex:0xFFB75B alpha:1.0];
     }
 

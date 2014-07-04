@@ -8,6 +8,12 @@
 
 #import "RTListCell.h"
 
+typedef enum : NSUInteger {
+    CELLTYPEFORPRICING,
+    CELLTYPEFORSELECTING,
+    CELLTYPEFORBIT,
+} CELLTYPE;
+
 @interface PPCDataShowCell : RTListCell
-@property(nonatomic, assign) BOOL isPricing;
+@property(nonatomic, assign) CELLTYPE cellType;
 @end

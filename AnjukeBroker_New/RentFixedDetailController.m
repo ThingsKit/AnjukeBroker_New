@@ -109,6 +109,8 @@
     NSString *fixId;
     if ([self.tempDic objectForKey:@"fixPlanId"]) {
         fixId = [self.tempDic objectForKey:@"fixPlanId"];
+    }else if ([self.tempDic objectForKey:@"planId"]){
+        fixId = [self.tempDic objectForKey:@"planId"];
     }else{
         fixId = [self.tempDic objectForKey:@"fixId"];
     }
@@ -165,8 +167,15 @@
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
-    NSString *planID = [self.tempDic objectForKey:@"fixId"] ? [self.tempDic objectForKey:@"fixId"] : [self.tempDic objectForKey:@"fixPlanId"];
-
+    NSString *planID;
+    if ([self.tempDic objectForKey:@"fixPlanId"]) {
+        planID = [self.tempDic objectForKey:@"fixPlanId"];
+    }else if ([self.tempDic objectForKey:@"planId"]){
+        planID = [self.tempDic objectForKey:@"planId"];
+    }else{
+        planID = [self.tempDic objectForKey:@"fixId"];
+    }
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"], @"propId", planID, @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"zufang/fix/cancelplan/" params:params target:self action:@selector(onCancelSuccess:)];
     [self showLoadingActivity:YES];

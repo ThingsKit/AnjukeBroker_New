@@ -15,10 +15,16 @@
 #import "PPCDataShowModel.h"
 #import "CommunityListViewController.h"
 #import "RTGestureBackNavigationController.h"
+#import "SaleBidDetailController.h"
+#import "SaleFixedDetailController.h"
+#import "SaleNoPlanGroupController.h"
+#import "RentBidDetailController.h"
+#import "RentFixedDetailController.h"
+#import "RentNoPlanController.h"
 
 @interface PPCDataShowViewController ()
 @property(nonatomic, strong) NSMutableDictionary *pricingDic;
-@property(nonatomic, strong) NSMutableDictionary *selectedDic;
+@property(nonatomic, strong) NSMutableDictionary *secondCellDic;
 @property(nonatomic, assign) BOOL isLoading;
 @end
 
@@ -31,7 +37,7 @@
     if (self) {
         // Custom initialization
         self.pricingDic = [[NSMutableDictionary alloc] init];
-        self.selectedDic = [[NSMutableDictionary alloc] init];
+        self.secondCellDic = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -67,7 +73,7 @@
 
 #pragma mark - UITableViewDatasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (!self.pricingDic && !self.selectedDic) {
+    if (!self.pricingDic && !self.secondCellDic) {
         return 0;
     }
     return 6;
@@ -96,16 +102,22 @@
         }
         if (indexPath.row == 1) {
             [cell showTopLine];
-            cell.isPricing = YES;
+            cell.cellType = CELLTYPEFORPRICING;
+//            cell.isPricing = YES;
             [cell showBottonLineWithCellHeight:150 andOffsetX:15];
             
             PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.pricingDic];
             [cell configureCell:model withIndex:indexPath.row];
         }else{
-            cell.isPricing = NO;
+//            cell.isPricing = NO;
+            if ([[LoginManager getBusinessType] isEqualToString:@"1"]) {
+                cell.cellType = CELLTYPEFORBIT;
+            }else{
+                cell.cellType = CELLTYPEFORSELECTING;
+            }
             [cell showBottonLineWithCellHeight:150];
 
-            PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.selectedDic];
+            PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.secondCellDic];
             [cell configureCell:model withIndex:indexPath.row];
         }
         return cell;
@@ -150,37 +162,87 @@
         return;
     }
     
+    if (self.isLoading) {
+        return;
+    }
+    
     if (indexPath.row == 1) {
-
         if (self.pricingDic && self.pricingDic[@"planId"]) {
-            PPCPriceingListViewController *pricingListVC = [[PPCPriceingListViewController alloc] init];
-            pricingListVC.isHaozu = self.isHaozu;
-            pricingListVC.planId = self.pricingDic[@"planId"];
-            [self.navigationController pushViewController:pricingListVC animated:YES];
+            if ([[LoginManager getBusinessType] isEqualToString:@"1"]){
+                if (self.isHaozu) {
+                    [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_FIXLIST page:ZF_MANAGE note:nil];
+                    
+                    RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
+                    controller.tempDic = self.pricingDic;
+                    [controller setHidesBottomBarWhenPushed:YES];
+                    [self.navigationController pushViewController:controller animated:YES];
+                }else{
+                    [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_DRAFTLIST page:ESF_MANAGE note:nil];
+                    
+                    SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
+                    controller.tempDic = self.pricingDic;
+                    [controller setHidesBottomBarWhenPushed:YES];
+                    [self.navigationController pushViewController:controller animated:YES];
+                }
+            }else{
+                PPCPriceingListViewController *pricingListVC = [[PPCPriceingListViewController alloc] init];
+                pricingListVC.isHaozu = self.isHaozu;
+                pricingListVC.planId = self.pricingDic[@"planId"];
+                [self.navigationController pushViewController:pricingListVC animated:YES];
+            }
         }else{
             return;
         }
     }else if (indexPath.row == 2){
-        if (self.selectedDic[@"data"] && self.selectedDic[@"data"][@"planId"]) {
+        if ([[LoginManager getBusinessType] isEqualToString:@"1"]) {
+            if (self.isHaozu) {
+                [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_BIDLIST page:ZF_MANAGE note:nil];
+                
+                RentBidDetailController *controller = [[RentBidDetailController alloc] init];
+                [controller setHidesBottomBarWhenPushed:YES];
+                [self.navigationController pushViewController:controller animated:YES];
+            }else{
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_FIXLIST page:ESF_MANAGE note:nil];
+                
+                SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
+                [controller setHidesBottomBarWhenPushed:YES];
+                [self.navigationController pushViewController:controller animated:YES];
+            }
+        }else{
             PPCSelectedListViewController *selectedListVC = [[PPCSelectedListViewController alloc] init];
             selectedListVC.isHaozu = self.isHaozu;
-            selectedListVC.planId = self.selectedDic[@"data"][@"planId"];
             [self.navigationController pushViewController:selectedListVC animated:YES];
-        }else{
-            return;
         }
+        
     } else if (indexPath.row == 4) {
         if (self.pricingDic && self.pricingDic[@"planId"]) {
             if (self.isHaozu) {
-                HZWaitingForPromotedViewController *hzToBePromoted = [[HZWaitingForPromotedViewController alloc] init];
-                hzToBePromoted.planId = self.pricingDic[@"planId"];
-                [hzToBePromoted loadData];
-                [self.navigationController pushViewController:hzToBePromoted animated:YES];
+                if ([[LoginManager getBusinessType] isEqualToString:@"1"]) {
+                    [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_BIDLIST page:ESF_MANAGE note:nil];
+                    
+                    SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
+                    controller.isSeedPid = self.pricingDic[@"planId"];
+                    [controller setHidesBottomBarWhenPushed:YES];
+                    [self.navigationController pushViewController:controller animated:YES];
+                }else{
+                    HZWaitingForPromotedViewController *hzToBePromoted = [[HZWaitingForPromotedViewController alloc] init];
+                    hzToBePromoted.planId = self.pricingDic[@"planId"];
+                    [self.navigationController pushViewController:hzToBePromoted animated:YES];
+                }
             } else {
-                ESFWaitingForPromotedViewController *esfToBePromoted = [[ESFWaitingForPromotedViewController alloc] init];
-                esfToBePromoted.planId = self.pricingDic[@"planId"];
-                [esfToBePromoted loadData];
-                [self.navigationController pushViewController:esfToBePromoted animated:YES];
+                if ([[LoginManager getBusinessType] isEqualToString:@"1"]) {
+                    [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_DRAFTLIST page:ZF_MANAGE note:nil];
+                    
+                    RentNoPlanController *controller = [[RentNoPlanController alloc] init];
+                    controller.isSeedPid = self.pricingDic[@"planId"];
+                    [controller setHidesBottomBarWhenPushed:YES];
+                    [self.navigationController pushViewController:controller animated:YES];
+
+                }else{
+                    ESFWaitingForPromotedViewController *esfToBePromoted = [[ESFWaitingForPromotedViewController alloc] init];
+                    esfToBePromoted.planId = self.pricingDic[@"planId"];
+                    [self.navigationController pushViewController:esfToBePromoted animated:YES];
+                }
             }
         }
     }
@@ -191,7 +253,7 @@
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
         
         self.pricingDic = nil;
-        self.selectedDic = nil;
+        self.secondCellDic = nil;
         [self.tableList reloadData];
         
         return;
@@ -208,19 +270,35 @@
                               @"zufang/fix/summary/",@"relative_url",
                               requeseParams1,@"query_params",nil];
         
-        NSMutableDictionary *requeseParams2 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
-
-        NSMutableDictionary *dic2 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     @"GET",@"method",
-                                     @"zufang/choice/summary/",@"relative_url",
-                                     requeseParams2,@"query_params",nil];
-        
-        NSMutableDictionary *dics = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     dic1, @"fix",
-                                     dic2, @"choice", nil];
-        
-        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                  dics, @"requests", nil];
+        if ([[LoginManager getBusinessType] isEqualToString:@"1"]){
+            NSMutableDictionary *requeseParams2 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId",  nil];
+            
+            NSMutableDictionary *dic2 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                         @"GET",@"method",
+                                         @"zufang/bid/summary/",@"relative_url",
+                                         requeseParams2,@"query_params",nil];
+            
+            NSMutableDictionary *dics = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                         dic1, @"fix",
+                                         dic2, @"secondApi", nil];
+            
+            params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                      dics, @"requests", nil];
+        }else{
+            NSMutableDictionary *requeseParams2 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
+            
+            NSMutableDictionary *dic2 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                         @"GET",@"method",
+                                         @"zufang/choice/summary/",@"relative_url",
+                                         requeseParams2,@"query_params",nil];
+            
+            NSMutableDictionary *dics = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                         dic1, @"fix",
+                                         dic2, @"secondApi", nil];
+            
+            params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                      dics, @"requests", nil];
+        }
     }else{
         NSMutableDictionary *requeseParams1 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
         
@@ -229,30 +307,55 @@
                                      @"anjuke/fix/summary/",@"relative_url",
                                      requeseParams1,@"query_params",nil];
         
-        NSMutableDictionary *requeseParams2 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
         
-        NSMutableDictionary *dic2 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     @"GET",@"method",
-                                     @"anjuke/choice/summary/",@"relative_url",
-                                     requeseParams2,@"query_params",nil];
-        
-        NSMutableDictionary *dics = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     dic1, @"fix",
-                                     dic2, @"choice", nil];
-        
-        
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics
-                                                           options:NSJSONWritingPrettyPrinted
-                                                             error:nil];
-        NSString *jsonString = [[NSString alloc] initWithData:jsonData
-                                                     encoding:NSUTF8StringEncoding];
+        if ([[LoginManager getBusinessType] isEqualToString:@"1"]) {
+            NSMutableDictionary *requeseParams2 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId", nil];
+            NSMutableDictionary *dic2 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                         @"GET",@"method",
+                                         @"anjuke/bid/summary/",@"relative_url",
+                                         requeseParams2,@"query_params",nil];
+            
+            NSMutableDictionary *dics = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                         dic1, @"fix",
+                                         dic2, @"secondApi", nil];
+            
+            
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics
+                                                               options:NSJSONWritingPrettyPrinted
+                                                                 error:nil];
+            NSString *jsonString = [[NSString alloc] initWithData:jsonData
+                                                         encoding:NSUTF8StringEncoding];
+            
+            
+            params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                      jsonString, @"requests", nil];
+        }else{
+            NSMutableDictionary *requeseParams2 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
 
-        
-        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                  jsonString, @"requests", nil];
+            NSMutableDictionary *dic2 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                         @"GET",@"method",
+                                         @"anjuke/choice/summary/",@"relative_url",
+                                         requeseParams2,@"query_params",nil];
+            
+            NSMutableDictionary *dics = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                         dic1, @"fix",
+                                         dic2, @"secondApi", nil];
+            
+            
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics
+                                                               options:NSJSONWritingPrettyPrinted
+                                                                 error:nil];
+            NSString *jsonString = [[NSString alloc] initWithData:jsonData
+                                                         encoding:NSUTF8StringEncoding];
+            
+            
+            params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                      jsonString, @"requests", nil];
+        }
     }
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
 }
+
 - (void)onRequestFinished:(RTNetworkResponse *)response{
     self.isLoading = NO;
     DLog(@"response---->>%@",[response content]);
@@ -267,7 +370,7 @@
         [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
         
         [self.pricingDic removeAllObjects];
-        [self.selectedDic removeAllObjects];
+        [self.secondCellDic removeAllObjects];
         [self.tableList reloadData];
         
         return ;
@@ -276,7 +379,7 @@
     [self donePullDown];
     
     NSDictionary *bodyDic1 = [[response content][@"data"][@"responses"][@"fix"][@"body"] JSONValue];
-    NSDictionary *bodyDic2 = [[response content][@"data"][@"responses"][@"choice"][@"body"] JSONValue];
+    NSDictionary *bodyDic2 = [[response content][@"data"][@"responses"][@"secondApi"][@"body"] JSONValue];
     
     if (bodyDic1[@"status"] && [bodyDic1[@"status"] isEqualToString:@"ok"]) {
         self.pricingDic = [bodyDic1 objectForKey:@"data"];
@@ -285,12 +388,14 @@
     }
     
     if (bodyDic2[@"status"] && [bodyDic2[@"status"] isEqualToString:@"ok"]) {
-        self.selectedDic = [bodyDic2 objectForKey:@"data"];
+        self.secondCellDic = [bodyDic2 objectForKey:@"data"];
     }else{
-        self.selectedDic = nil;
+        DLog(@"errorMsg--->>%@",bodyDic2[@"message"]);
+
+        self.secondCellDic = nil;
     }
     
-    if (!self.pricingDic && !self.selectedDic) {
+    if (!self.pricingDic && !self.secondCellDic) {
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
         tapGes.delegate                = self;
@@ -300,7 +405,7 @@
 
         [self.tableList reloadData];
     }else{
-        if ([[self.pricingDic objectForKey:@"totalProps"] intValue] == 0 && [[self.selectedDic objectForKey:@"totalProps"] intValue] == 0) {
+        if ([[self.pricingDic objectForKey:@"totalProps"] intValue] == 0 && [[self.secondCellDic objectForKey:@"totalProps"] intValue] == 0) {
             [self.tableList setTableStatus:STATUSFORNODATAFORNOHOUSE];
             UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
             tapGes.delegate                = self;
@@ -309,7 +414,7 @@
             [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
             
             self.pricingDic = nil;
-            self.selectedDic = nil;
+            self.secondCellDic = nil;
             
             [self.tableList reloadData];
         }else{
