@@ -9,6 +9,17 @@
 #import "LoginManager.h"
 
 @implementation LoginManager
+static NSString *businessType = @"";
+
++ (void)setBusinessType:(NSString *)bT
+{
+    LoginManager.businessType = bT;
+}
+
++ (NSString *)getBusinessType
+{
+    return businessType;
+}
 
 + (BOOL)isLogin {
     if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"token"] length] > 0) {

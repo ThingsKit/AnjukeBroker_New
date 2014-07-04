@@ -11,6 +11,7 @@
 @interface BrokerLogger : RTLogger
 
 - (void)logWithActionCode:(NSString *)actionCode note:(NSDictionary *)note;
+- (void)logWithActionCode:(NSString *)actionCode page:(NSString *)page note:(NSDictionary *)note;
 
 + (id)sharedInstance;
 

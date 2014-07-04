@@ -13,6 +13,9 @@
 
 @interface LoginManager : NSObject
 
++ (void)setBusinessType:(NSString *)bT;
++ (NSString *)getBusinessType;//获得商业模式｛1:竞选2，精选｝
+
 + (BOOL)isLogin; //登录状态判断
 + (void)doLogout;
 

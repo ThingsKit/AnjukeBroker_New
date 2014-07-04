@@ -17,6 +17,7 @@
 #import "NoPlanPromotionPropertySingleViewController.h"
 //RTGestureBackNavigationController
 #import "RTGestureBackNavigationController.h"
+#import "UIView+RTLayout.h"
 
 #define IPHONE_5_HEIGHT  568
 #define IPHONE_4S_HEIGHT 480
@@ -294,7 +295,7 @@
 }
 
 - (void)pushToTab {
-//    [[BrokerLogger sharedInstance] logWithActionCode:LOGIN_SUCCESS page:LOGIN note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:LOGIN_SUCCESS page:LOGIN note:nil];
     
     self.nameTF.text = @"";
     self.passwordTF.text = @"";

@@ -58,6 +58,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [[BrokerLogger sharedInstance] logWithActionCode:TOTAL_START page:TOTAL note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    
+    [self getBuinessType];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
@@ -497,6 +499,26 @@
 }
 
 #pragma mark - Request Method
+
+//获得当地商业状态
+- (void)getBuinessType
+{
+    NSString *method = @"business-type/";
+    NSString *cityId = [LoginManager getCity_id];
+    NSString *token = [LoginManager getToken];
+    cityId = @"11";
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:cityId, @"cityId", @"1", @"is_nocheck", nil];
+    
+    [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestGetBusinessFinished:)];
+}
+
+- (void)onRequestGetBusinessFinished:(RTNetworkResponse *)response
+{
+    DLog(@"[response content] == %@", [response content]);
+    
+    DLog(@"123");
+}
 
 //获取房源配置信息
 - (void)requestSalePropertyConfig{

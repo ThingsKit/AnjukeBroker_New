@@ -266,10 +266,10 @@
 - (void)rightButtonAction:(id)sender {
     [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_MORE page:CLIENT_DETAIL note:[NSDictionary dictionaryWithObjectsAndKeys:self.person.uid,@"customer_id", nil]];
     
-    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"编辑备注", @"删除客户", nil];
+    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"编辑备注", @"举报", @"删除客户", nil];
     as.delegate = self;
     as.tag = TagOfMoreActionSheet;
-    as.destructiveButtonIndex = 1;
+    as.destructiveButtonIndex = 2;
     [as showInView:self.view];
 }
 
@@ -397,6 +397,15 @@
                 break;
             case 1:
             {
+                //举报
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"举报" message:@"删除客户，将同时删除备注和聊天记录" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                av.delegate = self;
+                [av show];
+            }
+            
+                break;
+            case 2:
+            {
                 [[BrokerLogger sharedInstance] logWithActionCode:CLIENT_DETAIL_MORE_DELETE_CLIENT page:CLIENT_DETAIL note:[NSDictionary dictionaryWithObjectsAndKeys:self.person.uid,@"customer_id", nil]];
                 
                 //删除
@@ -404,11 +413,6 @@
                 av.delegate = self;
                 [av show];
                 
-            }
-                break;
-            case 2:
-            {
-                //取消
             }
                 break;
                 
