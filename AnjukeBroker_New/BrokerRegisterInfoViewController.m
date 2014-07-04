@@ -153,7 +153,13 @@
     if ([self.nameTextField isFirstResponder]) {
         [self.nameTextField resignFirstResponder];
     }
-    if (self.beforeDic && self.brokerName && self.cityDic && self.businessDic && self.companyDic && self.workRangeDic) {
+    if (self.beforeDic && self.brokerName && self.cityDic && self.businessDic &&self.workRangeDic) {
+        if (!self.companyDic) {
+            self.companyDic = @{@"companyId":@"11"};
+        }
+        if (!self.storeDic) {
+            self.storeDic = @{@"storeId":@"0"};
+        }
         NSDictionary *param = @{@"mobile":self.beforeDic[@"mobile"], @"password":self.beforeDic[@"password"],@"checkPassword":self.beforeDic[@"password"], @"truename":self.brokerName, @"cityId":self.cityDic[@"cityId"], @"mainBusiness":self.businessDic[@"businessId"],@"companyId":self.companyDic[@"companyId"], @"storeId":self.storeDic[@"storeId"],@"blockId":self.workRangeDic[@"block"][@"blockId"],@"districtId":self.workRangeDic[@"district"][@"districtId"]};
 
         
