@@ -147,11 +147,11 @@
     self.cellSelectStatus  = arr;
     self.dataSource        = [NSMutableArray arrayWithArray:dataArray];
     if ([self.dataSource count] == 0) {
-        UIImageView *noResult = [[UIImageView alloc] initWithFrame:CGRectMake(104.0f, ScreenHeight/2 - 180, 112.0f, 80.0f)];
+        UIImageView *noResult = [[UIImageView alloc] initWithFrame:CGRectMake(104.0f, 210 - 80, 112.0f, 80.0f)];
         [noResult setImage:[UIImage imageNamed:@"pic_3.4_01.png"]];
         [self.view addSubview:noResult];
         
-        UILabel *noR = [[UILabel alloc] initWithFrame:CGRectMake(0, 210, 200, 50)];
+        UILabel *noR = [[UILabel alloc] initWithFrame:CGRectMake(0, 210 + 15, 200, 50)];
         noR.text = @"暂无待推广房源";
         noR.textColor = [UIColor grayColor];
         [noR sizeToFit];
