@@ -16,7 +16,7 @@
 
 @interface MultipleChoiceAndEditListCell ()
 
-@property (nonatomic, strong) UIButton* selectStylebutton;
+@property (nonatomic, strong) UIImageView* selectImage;
 @property (nonatomic, strong) UIImageView* propertyIcon; //房源图片
 @property (nonatomic, strong) UILabel* propertyTitle; //房源标题
 @property (nonatomic, strong) UILabel* community; //小区名称
@@ -44,11 +44,13 @@
 #pragma mark UI相关
 - (void)initCell {
     
-    UIButton *selectStylebutton = [[UIButton alloc] initWithFrame:CGRectMake((56 - 22)/2, (90 - 22)/2, 22, 22)];
-    [selectStylebutton setBackgroundImage:[UIImage imageNamed:@"broker_property_control_select_gray"] forState:UIControlStateNormal];
+    UIButton *selectStylebutton = [[UIButton alloc] initWithFrame:CGRectMake(15, 20, 25, 50)];
+    UIImageView *imageView      = [[UIImageView alloc] initWithFrame:CGRectMake((56 - 22)/2 - 15, (90 - 22)/2 - 20, 22, 22)];
+    imageView.image             = [UIImage imageNamed:@"broker_property_control_select_gray"];
     [selectStylebutton addTarget:self action:@selector(propChoiceTap:) forControlEvents:UIControlEventTouchUpInside];
+    [selectStylebutton addSubview:imageView];
     [self.contentView addSubview:selectStylebutton];
-    self.selectStylebutton = selectStylebutton;
+    self.selectImage       = imageView;
     
     //cell下划线
     UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(56, 89.5, ScreenWidth - 56, 0.5)];
@@ -104,13 +106,22 @@
     self.contentView.backgroundColor = [UIColor brokerWhiteColor];
 }
 
-- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
-{
-    UIView *view = [super hitTest:point withEvent:event];
-    DLog(@"hit:view:%@",view);
+//- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+//{
+//    UIView *view = [super hitTest:point withEvent:event];
+//    DLog(@"hit:view:%@",view);
+//        return view;
+//    }
+//    
+//    return nil;
+//}
 
-    return view;
+- (void)select:(id)sender
+{
+//    [super select:sender];
+    DLog(@"select:%@`",sender);
 }
+
 
 #pragma mark - selectCellStyle
 - (void)propChoiceTap:(id)tapGR
@@ -136,13 +147,15 @@
 - (void)cellSelected
 {
     self.isSelected = true;
-    [self.selectStylebutton setBackgroundImage:[UIImage imageNamed:@"broker_property_control_selected"] forState:UIControlStateNormal];
+    [self.selectImage setImage:[UIImage imageNamed:@"broker_property_control_selected"]];
+//    [self.selectImage setImage:[UIImage imageNamed:@"broker_property_control_selected"] forState:UIControlStateNormal];
 }
 
 - (void)cellUnSelected
 {
     self.isSelected = false;
-    [self.selectStylebutton setBackgroundImage:[UIImage imageNamed:@"broker_property_control_select_gray"] forState:UIControlStateNormal];
+    [self.selectImage setImage:[UIImage imageNamed:@"broker_property_control_select_gray"]];
+//    [self.selectImage setBackgroundImage:[UIImage imageNamed:@"broker_property_control_select_gray"] forState:UIControlStateNormal];
 }
 
 #pragma mark - layout

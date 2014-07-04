@@ -235,7 +235,7 @@
     propZF.pageType = PAGE_TYPE_NO_PLAN;
     propZF.propId = self.editPropertyId;
 
-    [self.navigationController pushViewController:propZF animated:YES];
+//    [self.navigationController pushViewController:propZF animated:YES];
 }
 
 - (NSArray *)rightButtons
