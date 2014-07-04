@@ -108,10 +108,8 @@
 {
     UIView *view = [super hitTest:point withEvent:event];
     DLog(@"hit:view:%@",view);
-    if (view == self.selectStylebutton) {
-        return view;
-    }
-    return nil;
+
+    return view;
 }
 
 #pragma mark - selectCellStyle

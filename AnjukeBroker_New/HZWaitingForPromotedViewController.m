@@ -14,7 +14,6 @@
 #import "RTGestureBackNavigationController.h"
 #import "PropertySingleViewController.h"
 
-
 @interface HZWaitingForPromotedViewController ()
 
 @property (nonatomic, strong) UIButton *buttonSelect;  //编辑按钮
@@ -226,12 +225,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    int i = indexPath.row;
+    NSDictionary *editCell = self.dataSource[i];
+    self.editPropertyId = [editCell objectForKey:@"propId"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    PropertySingleViewController *propZF = [[PropertySingleViewController alloc] init];
+   PropertySingleViewController *propZF = [[PropertySingleViewController alloc] init];
+    propZF.isHaozu = YES;
+    propZF.pageType = PAGE_TYPE_NO_PLAN;
+    propZF.propId = self.editPropertyId;
 
-    //@"isHaozu", @"pageType", @"propId", @"cityId"
-//    propZF.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", YES, @"isHaozu", [LoginManager getUserID], @"brokerId", self.editPropertyId, @"propId", nil];
-//    [self.navigationController pushViewController:propZF animated:YES];
+    [self.navigationController pushViewController:propZF animated:YES];
 }
 
 - (NSArray *)rightButtons
@@ -351,7 +354,7 @@
         return;
     }
 
-//    [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+    [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
 }
 
 @end
