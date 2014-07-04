@@ -241,10 +241,10 @@
         }
     } else if (indexPath.section == 1){
         cell =[[UITableViewCell alloc] init];
-        UIImageView *noResult = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noResult.jpg"]];
-        noResult.frame = CGRectMake(0, 10, 150, 150);
+        UIImageView *noResult = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_seachnocommunity@2x.png"]];
+        noResult.frame = CGRectMake(0, 30, 160, 160);
         noResult.centerX = cell.centerX;
-        UILabel *noR = [[UILabel alloc] initWithFrame:CGRectMake(0, 180, 200, 50)];
+        UILabel *noR = [[UILabel alloc] initWithFrame:CGRectMake(0, 210, 200, 50)];
         noR.text = @"没有找到门店";
         noR.textColor = [UIColor grayColor];
         [noR sizeToFit];

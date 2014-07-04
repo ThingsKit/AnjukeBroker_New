@@ -110,7 +110,7 @@
 
 - (void)handleRequestData:(RTNetworkResponse *)response
 {
-    NSArray *dataArray       = [[response.content objectForKey:@"data"] objectForKey:@"propertyList"];
+    NSArray *dataArray       = (NSArray *)[[response.content objectForKey:@"data"] objectForKey:@"propertyList"];
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:dataArray.count];
     self.isSelectAll = false;
     self.selectedCellCount = 0;
@@ -124,8 +124,19 @@
     }
     self.cellSelectStatus  = arr;
     self.dataSource        = [NSMutableArray arrayWithArray:dataArray];
+    if ([self.dataSource count] == 0) {
+        UIImageView *noResult = [[UIImageView alloc] initWithFrame:CGRectMake(104.0f, ScreenHeight/2 - 180, 112.0f, 80.0f)];
+        [noResult setImage:[UIImage imageNamed:@"pic_3.4_01.png"]];
+        [self.view addSubview:noResult];
+        
+        UILabel *noR = [[UILabel alloc] initWithFrame:CGRectMake(0, 210, 200, 50)];
+        noR.text = @"暂无待推广房源";
+        noR.textColor = [UIColor grayColor];
+        [noR sizeToFit];
+        noR.centerX = self.view.centerX;
+        [self.view addSubview:noR];
+    }
     [self.tableView reloadData];
-
 }
 
 - (void)clickFixPromotionButton:(id)sender
@@ -279,8 +290,7 @@
     propZF.isHaozu = YES;
     propZF.pageType = PAGE_TYPE_NO_PLAN;
     propZF.propId = self.editPropertyId;
-
-//    [self.navigationController pushViewController:propZF animated:YES];
+    [self.navigationController pushViewController:propZF animated:YES];
 }
 
 - (NSArray *)rightButtons
@@ -355,10 +365,6 @@
             self.selectedCellCount --;
         }
         [self doDeleteProperty:self.editPropertyId];
-        [self.dataSource removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
-        [self.cellSelectStatus removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
-        [self.tableView deleteRowsAtIndexPaths:@[self.editAndDeleteCellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
-//        [self showInfo:@"删除房源信息成功"];
         [self updatePromotionButtonText];
 
     }
@@ -398,6 +404,10 @@
         //        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         return;
     }
+    
+    [self.dataSource removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
+    [self.cellSelectStatus removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
+    [self.tableView deleteRowsAtIndexPaths:@[self.editAndDeleteCellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
 
     [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
 }
