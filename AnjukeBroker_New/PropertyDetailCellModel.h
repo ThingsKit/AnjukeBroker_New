@@ -26,5 +26,6 @@
 @property (nonatomic, copy) NSString* isChoice; //是否可见
 @property (nonatomic, copy) NSString* publishDaysMsg; //发布时间
 @property (nonatomic, copy) NSString* imgURL;  //房源图片
+@property (nonatomic, copy) NSString* url; //房源详情web页面url
 
 @end
