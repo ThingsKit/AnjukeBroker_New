@@ -25,7 +25,7 @@
 {
     self.district        = district;
     NSString     *method = @"common/blocks/";
-    NSDictionary *params = @{@"districtId":[district objectForKey:@"districtId"],@"is_nocheck":@"1"};
+    NSDictionary *params = @{@"districtId":[district objectForKey:@"districtId"]};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleBlockResponseData:)];
  
 }

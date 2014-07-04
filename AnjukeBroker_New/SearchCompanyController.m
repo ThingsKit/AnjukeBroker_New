@@ -104,7 +104,7 @@
 - (void)loadAutocompleteV2WithKeywords:(NSString *)keywords
 {
     NSString *cityId = self.cityId;
-    [[RTRequestProxy sharedInstance] asyncGetWithServiceID:RTBrokerRESTServiceID methodName:@"common/companies/" params:@{@"cityId":cityId, @"is_nocheck":@"1", @"keyword":keywords} target:self action:@selector(keywordsFinish:)];
+    [[RTRequestProxy sharedInstance] asyncGetWithServiceID:RTBrokerRESTServiceID methodName:@"common/companies/" params:@{@"cityId":cityId, @"keyword":keywords} target:self action:@selector(keywordsFinish:)];
 }
 
 - (void)cancelAutocompleteRequest

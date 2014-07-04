@@ -105,7 +105,7 @@
 #pragma mark - autoCompleteMethods
 - (void)loadAutocompleteV2WithKeywords:(NSString *)keywords
 {
-    [[RTRequestProxy sharedInstance] asyncGetWithServiceID:RTBrokerRESTServiceID methodName:@"common/stores/" params:@{@"companyId":self.companyId, @"cityId":self.cityId, @"is_nocheck":@"1", @"keyword":keywords} target:self action:@selector(keywordsFinish:)];
+    [[RTRequestProxy sharedInstance] asyncGetWithServiceID:RTBrokerRESTServiceID methodName:@"common/stores/" params:@{@"companyId":self.companyId, @"cityId":self.cityId, @"keyword":keywords} target:self action:@selector(keywordsFinish:)];
 }
 
 - (void)cancelAutocompleteRequest

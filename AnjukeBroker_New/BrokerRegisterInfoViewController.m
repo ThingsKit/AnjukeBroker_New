@@ -154,7 +154,7 @@
         [self.nameTextField resignFirstResponder];
     }
     if (self.beforeDic && self.brokerName && self.cityDic && self.businessDic && self.companyDic && self.workRangeDic) {
-        NSDictionary *param = @{@"is_nocheck":@"1",@"mobile":self.beforeDic[@"mobile"], @"password":self.beforeDic[@"password"],@"checkPassword":self.beforeDic[@"password"], @"truename":self.brokerName, @"cityId":self.cityDic[@"cityId"], @"mainBusiness":self.businessDic[@"businessId"],@"companyId":self.companyDic[@"companyId"], @"storeId":self.storeDic[@"storeId"],@"blockId":self.workRangeDic[@"block"][@"blockId"],@"districtId":self.workRangeDic[@"district"][@"districtId"]};
+        NSDictionary *param = @{@"mobile":self.beforeDic[@"mobile"], @"password":self.beforeDic[@"password"],@"checkPassword":self.beforeDic[@"password"], @"truename":self.brokerName, @"cityId":self.cityDic[@"cityId"], @"mainBusiness":self.businessDic[@"businessId"],@"companyId":self.companyDic[@"companyId"], @"storeId":self.storeDic[@"storeId"],@"blockId":self.workRangeDic[@"block"][@"blockId"],@"districtId":self.workRangeDic[@"district"][@"districtId"]};
 
         
         [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:@"broker/register/" params:param target:self action:@selector(onRegisterAction:)];
@@ -312,6 +312,7 @@
 #pragma mark - UITextFieldDelegate
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     self.brokerName = textField.text;
+    [self checkRegisterIsEnable];
 }
 
 #pragma mark - UIScrollViewDelegate

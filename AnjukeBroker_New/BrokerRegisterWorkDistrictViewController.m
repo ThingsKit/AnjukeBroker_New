@@ -28,7 +28,7 @@
     }
 
     NSString     *method = @"common/districts/";
-    NSDictionary *params  = @{@"cityId":cityId,@"is_nocheck":@"1"};
+    NSDictionary *params  = @{@"cityId":cityId};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleAreaData:)];
     
 }

@@ -38,7 +38,7 @@
     
 
     [self initCityDataArray];
-//    [self requestCityData];
+    [self requestCityData];
     [self setTitleViewWithString:@"所在城市"];
     UITableView *tableView = [[UITableView alloc] initWithFrame:[UIView navigationControllerBound] style:UITableViewStyleGrouped];
     tableView.dataSource   = self;
@@ -95,7 +95,7 @@
 - (void)requestCityData
 {
     NSString     *method = @"common/cities/";
-    NSDictionary *params  = @{@"is_nocheck":@"1"};
+    NSDictionary *params  = nil;//@{@"is_nocheck":@"1"};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleCityData:)];
 }
 

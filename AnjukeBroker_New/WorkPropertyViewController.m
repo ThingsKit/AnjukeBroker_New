@@ -58,7 +58,7 @@
         return;
     }
     
-    [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:@"common/work-nature/" params:@{@"is_nocheck":@"1"} target:self action:@selector(onGetCellInfo:)];
+    [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:@"common/work-nature/" params:nil target:self action:@selector(onGetCellInfo:)];
 }
 
 - (void)onGetCellInfo:(RTNetworkResponse *)response {
