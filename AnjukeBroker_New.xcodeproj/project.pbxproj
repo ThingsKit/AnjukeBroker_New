@@ -744,7 +744,6 @@
 		F89FF5C11963979B00AC7256 /* HouseCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5C01963979B00AC7256 /* HouseCellView.m */; };
 		F89FF5C519639B3200AC7256 /* PPCSelectedListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5C419639B3200AC7256 /* PPCSelectedListCell.m */; };
 		F8A136C7196560B1007FC4E1 /* PPCPromoteCompletListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A136C6196560B1007FC4E1 /* PPCPromoteCompletListViewController.m */; };
-		F8A136CA19656C25007FC4E1 /* PropertyDetailCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A136C919656C25007FC4E1 /* PropertyDetailCellModel.m */; };
 		F8A136CD19656D8D007FC4E1 /* SaleAuctionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A136CC19656D8D007FC4E1 /* SaleAuctionViewController.m */; };
 		F8A136D019656E1E007FC4E1 /* PPCHouseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A136CF19656E1E007FC4E1 /* PPCHouseCell.m */; };
 		F8A717BE192058FB004840C6 /* UserCenterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A717B7192058FB004840C6 /* UserCenterCell.m */; };
@@ -1916,8 +1915,6 @@
 		F89FF5C419639B3200AC7256 /* PPCSelectedListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPCSelectedListCell.m; sourceTree = "<group>"; };
 		F8A136C5196560B1007FC4E1 /* PPCPromoteCompletListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPCPromoteCompletListViewController.h; sourceTree = "<group>"; };
 		F8A136C6196560B1007FC4E1 /* PPCPromoteCompletListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPCPromoteCompletListViewController.m; sourceTree = "<group>"; };
-		F8A136C819656C25007FC4E1 /* PropertyDetailCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDetailCellModel.h; sourceTree = "<group>"; };
-		F8A136C919656C25007FC4E1 /* PropertyDetailCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDetailCellModel.m; sourceTree = "<group>"; };
 		F8A136CB19656D8D007FC4E1 /* SaleAuctionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleAuctionViewController.h; sourceTree = "<group>"; };
 		F8A136CC19656D8D007FC4E1 /* SaleAuctionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaleAuctionViewController.m; sourceTree = "<group>"; };
 		F8A136CE19656E1E007FC4E1 /* PPCHouseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPCHouseCell.h; sourceTree = "<group>"; };
@@ -2794,8 +2791,6 @@
 		67203D9A19629DE700A32B60 /* PropertyModel */ = {
 			isa = PBXGroup;
 			children = (
-				F8A136C819656C25007FC4E1 /* PropertyDetailCellModel.h */,
-				F8A136C919656C25007FC4E1 /* PropertyDetailCellModel.m */,
 				67203D9419629D3B00A32B60 /* PricePromotionCellModel.h */,
 				67203D9519629D3B00A32B60 /* PricePromotionCellModel.m */,
 				67203D9719629DE100A32B60 /* ChoicePromotionCellModel.h */,
@@ -5422,7 +5417,6 @@
 				6767D1491923519B004FEFF7 /* MyPropertyTableViewCell.m in Sources */,
 				F853330E194FD8700025B914 /* AXChatMessagePublicCard3Cell.m in Sources */,
 				B7EAD53018CD927200B28FEC /* UIColor+AXChatMessage.m in Sources */,
-				F8A136CA19656C25007FC4E1 /* PropertyDetailCellModel.m in Sources */,
 				2026044818B9D6CA00F75A56 /* ClientModel.m in Sources */,
 				20A2178618BF1804002CA469 /* HouseSelectCommunityCell.m in Sources */,
 				F8A717E119209E6D004840C6 /* CheckoutCommunityViewController.m in Sources */,

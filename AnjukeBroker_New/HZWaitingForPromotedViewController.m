@@ -18,7 +18,7 @@
 @interface HZWaitingForPromotedViewController ()
 
 @property (nonatomic, strong) UIButton *buttonSelect;  //编辑按钮
-@property (nonatomic, strong) UIButton *buttonPromote;  //删除按钮
+@property (nonatomic, strong) UIButton *buttonPromote;  //推广按钮
 @property (nonatomic, strong) UIImageView *selectImage;
 @property (nonatomic, strong) NSMutableArray *cellSelectStatus;
 @property (nonatomic, strong) NSMutableArray *dataSource;
@@ -41,30 +41,30 @@
     } else {
         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50 - 20) style:UITableViewStylePlain];
     }
-    
+
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     self.tableView.rowHeight = 90;
     [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
     self.MutipleEditView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 49 -64, ScreenWidth, 49)];
-    
+
     self.MutipleEditView.backgroundColor = [UIColor brokerBlackColor];
     self.MutipleEditView.alpha = 0.7;
-    
+
     self.isSelectAll = false;
     self.selectedCellCount = 0;
-    
+
     _buttonSelect = [UIButton buttonWithType:UIButtonTypeCustom];
     _buttonSelect.frame = CGRectMake(0, 0, ScreenWidth * 0.48, 49);
     [_buttonSelect addTarget:self action:@selector(selectAllProps:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
+
+
     UIImageView *selectImage = [[UIImageView alloc] initWithFrame:CGRectMake((56 - 22)/2, (50 - 22)/2, 22, 22)];
     [selectImage setImage:[UIImage imageNamed:@"broker_property_control_select_gray@2x.png"]];
     [_buttonSelect addSubview:selectImage];
     self.selectImage = selectImage;
-    
+
     UILabel *allSelectLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 10, 80, 40)];
     allSelectLabel.backgroundColor = [UIColor clearColor];
     allSelectLabel.font = [UIFont ajkH2Font];
@@ -73,8 +73,8 @@
     allSelectLabel.centerY = 50/2;
     allSelectLabel.left = selectImage.right + 5;
     [_buttonSelect addSubview:allSelectLabel];
-    
-    
+
+
     _buttonPromote = [UIButton buttonWithType:UIButtonTypeCustom];
     _buttonPromote.frame = CGRectMake(0, 12, 120, 33);
     _buttonPromote.right = ScreenWidth - 10;
@@ -83,14 +83,13 @@
     [_buttonPromote setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_button_little_blue@2x.png"] forState:UIControlStateNormal];
     [_buttonPromote setTitle:[NSString stringWithFormat:@"定价推广(%d)", self.selectedCellCount]  forState:UIControlStateNormal];
     [_buttonPromote addTarget:self action:@selector(clickFixPromotionButton:) forControlEvents:UIControlEventTouchUpInside];
-    
+
     [self.MutipleEditView addSubview:_buttonSelect];
     [self.MutipleEditView addSubview:_buttonPromote];
 
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.MutipleEditView];
-    
-    self.selectCells = [[NSMutableArray alloc] initWithCapacity:5];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -119,12 +118,12 @@
     self.cellSelectStatus  = arr;
     self.dataSource        = [NSMutableArray arrayWithArray:dataArray];
     [self.tableView reloadData];
-    
+
 }
 
 - (void)clickFixPromotionButton:(id)sender
 {
-    
+
 }
 
 #pragma mark - cell选择处理
@@ -139,7 +138,7 @@
             statusModel.selectStatus = true;
             self.selectedCellCount ++;
         }
-        
+
     } else {
         self.isSelectAll = false;
         self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray"];
@@ -166,7 +165,7 @@
     statusModel.selectStatus = isSelect;
     [self updatePromotionButtonText];
     DLog(@"%@----%@",statusModel.propId,[self.dataSource[rowIndex] valueForKey:@"propId"]);
-    
+
 }
 
 - (void)updatePromotionButtonText
@@ -201,7 +200,7 @@
 {
     static NSString *identifier = @"identifierCell";
     MultipleChoiceAndEditListCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    
+
     NSArray *rightBtnarr = [NSArray array];
     rightBtnarr = [self rightButtons];
     if (cell == nil) {
@@ -210,7 +209,7 @@
                                                 containingTableView:tableView
                                                  leftUtilityButtons:nil
                                                 rightUtilityButtons:rightBtnarr];
-    
+
     cell.delegate = self;
     }
     PropSelectStatusModel *selectStatusModel = self.cellSelectStatus[indexPath.row];
@@ -221,7 +220,7 @@
     cell.rowIndex       = indexPath.row;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     cell.delegate = self;
-    
+
     return cell;
 }
 
@@ -229,7 +228,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 //    PropertySingleViewController *propZF = [[PropertySingleViewController alloc] init];
-    
+
     //@"isHaozu", @"pageType", @"propId", @"cityId"
 //    propZF.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", YES, @"isHaozu", [LoginManager getUserID], @"brokerId", self.editPropertyId, @"propId", nil];
 //    [self.navigationController pushViewController:propZF animated:YES];
@@ -246,13 +245,12 @@
 #pragma mark - SWTableViewCellDelegate
 - (void)swipeableTableViewCell:(MultipleChoiceAndEditListCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     self.editAndDeleteCellIndexPath = [self.tableView indexPathForCell:cell];
-    [self.selectCells addObject:self.editAndDeleteCellIndexPath];//delete cells
     int i = self.editAndDeleteCellIndexPath.row;
     NSDictionary *editCell = self.dataSource[i];
     self.editPropertyId = [editCell objectForKey:@"propId"];
-    
+
     [self showLoadingActivity:YES];
-    
+
     switch (index) {
         case 0:
         {
@@ -276,7 +274,7 @@
 
             break;
         };
-            
+
         default:
             break;
     }
@@ -296,7 +294,7 @@
     controller.backType = RTSelectorBackTypeDismiss;
     RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];
-    
+
 }
 
 
@@ -314,7 +312,7 @@
         [self.tableView deleteRowsAtIndexPaths:@[self.editAndDeleteCellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
 //        [self showInfo:@"删除房源信息成功"];
         [self updatePromotionButtonText];
-        
+
     }
 }
 
@@ -329,30 +327,30 @@
     //更新房源信息
     NSMutableDictionary *params = nil;
     NSString *method = nil;
-    
+
     params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propertyID, @"propIds", nil];
         method = @"zufang/prop/delprops/";
-    
+
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onDeletePropFinished:)];
 }
 
 - (void)onDeletePropFinished:(RTNetworkResponse *)response {
     DLog(@"--delete Prop。。。response [%@]", [response content]);
-    
+
     if([[response content] count] == 0){
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
     }
-    
+
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        
+
         [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
-        
+
         //        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
         return;
     }
-    
+
 //    [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
 }
 
