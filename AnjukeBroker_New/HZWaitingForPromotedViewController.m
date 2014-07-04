@@ -130,9 +130,47 @@
 
 - (void)clickFixPromotionButton:(id)sender
 {
-    
+#warning 测试planId
+    self.planId = @"10";
+    if (self.planId == nil || [self.planId isEqualToString:@""]) {
+        DLog(@"planId is nil or empty");
+        return;
+    }
+    if (self.selectedCellCount == 0) {
+        [self showAlertViewWithTitle:@"请选择要推广的房源"];
+        return;
+    }
+    NSString *propIds    = @"";
+    for (PropSelectStatusModel *selectStatusModel in self.cellSelectStatus) {
+        if (selectStatusModel.selectStatus) {
+            propIds = [propIds stringByAppendingFormat:@"%@,",selectStatusModel.propId];
+        }
+    }
+    propIds = [propIds substringToIndex:propIds.length - 1];
+    NSString *method     = @"zufang/fix/addpropstoplan/";
+#warning 测试brokerId
+    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":@"147468",@"planId":self.planId,@"proIds":propIds,@"is_nocheck":@"1"};
+    [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onFixPromotionRequestFinished:)];
+}
+- (void)showAlertViewWithTitle:(NSString *)title
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:@"" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    [alertView show];
 }
 
+- (void)onFixPromotionRequestFinished:(RTNetworkResponse *)response
+{
+    
+    if ([[response.content valueForKey:@"status"] isEqualToString:@"ok"]) {
+        
+        
+    } else if ([[response.content valueForKey:@"status"] isEqualToString:@"error"]) {
+        
+        DLog(@"message:--->%@",[response.content valueForKey:@"message"]);
+        
+    }
+    
+}
 #pragma mark - cell选择处理
 
 - (void)selectAllProps:(id)sender

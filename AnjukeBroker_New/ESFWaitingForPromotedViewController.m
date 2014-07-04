@@ -21,7 +21,7 @@
 @property (nonatomic, strong) UIButton *buttonSelect;  //编辑按钮
 @property (nonatomic, strong) UIButton *buttonPromote;  //推广按钮
 @property (nonatomic, strong) UIImageView *selectImage;
-@property (nonatomic, strong) NSMutableDictionary *cellSelectStatus;
+@property (nonatomic, strong) NSMutableArray *cellSelectStatus;
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) NSString *editPropertyId;//编辑和删除cell的房源Id
 @property (nonatomic) NSInteger selectedCellCount;
@@ -93,10 +93,47 @@
 
 - (void)clickFixPromotionButton:(id)sender
 {
-    
+#warning 测试planId
+    self.planId = @"10";
+    if (self.planId == nil || [self.planId isEqualToString:@""]) {
+        DLog(@"planId is nil or empty");
+        return;
+    }
+    if (self.selectedCellCount == 0) {
+        [self showAlertViewWithTitle:@"请选择要推广的房源"];
+        return;
+    }
+    NSString *propIds    = @"";
+    for (PropSelectStatusModel *selectStatusModel in self.cellSelectStatus) {
+        if (selectStatusModel.selectStatus) {
+            propIds = [propIds stringByAppendingFormat:@"%@,",selectStatusModel.propId];
+        }
+    }
+    propIds = [propIds substringToIndex:propIds.length - 1];
     NSString *method     = @"anjuke/fix/addpropstoplan/";
 #warning 测试brokerId
-//    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":[]};
+    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":@"147468",@"planId":self.planId,@"propIds":propIds,@"is_nocheck":@"1"};
+    [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onFixPromotionRequestFinished:)];
+    
+}
+
+- (void)showAlertViewWithTitle:(NSString *)title
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:@"" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    [alertView show];
+}
+
+- (void)onFixPromotionRequestFinished:(RTNetworkResponse *)response
+{
+    
+    if ([[response.content valueForKey:@"status"] isEqualToString:@"ok"]) {
+        
+        
+    } else if ([[response.content valueForKey:@"status"] isEqualToString:@"error"]) {
+        
+        DLog(@"message:--->%@",[response.content valueForKey:@"message"]);
+        
+    }
     
 }
 
@@ -121,8 +158,8 @@
 
 - (void)handleRequestData:(RTNetworkResponse *)response
 {
-    NSMutableArray *dataArray       = [[response.content objectForKey:@"data"] objectForKey:@"propertyList"];
-    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    NSArray *dataArray       = [[response.content objectForKey:@"data"] objectForKey:@"propertyList"];
+    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:dataArray.count];
     self.isSelectAll = false;
     self.selectedCellCount = 0;
     self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray@2x.png"];
@@ -131,10 +168,10 @@
         PropSelectStatusModel *selectStatusModel = [PropSelectStatusModel new];
         selectStatusModel.selectStatus = false;
         selectStatusModel.propId       = [dataArray[i] objectForKey:@"propId"];
-        [dic setValue:selectStatusModel forKey:[NSString stringWithFormat:@"%d",i]];
+        [arr addObject:selectStatusModel];
     }
-    self.cellSelectStatus = dic;
-    self.dataSource        = dataArray;
+    self.cellSelectStatus  = arr;
+    self.dataSource        = [NSMutableArray arrayWithArray:dataArray];
     [self.tableView reloadData];
     
 }
@@ -147,16 +184,16 @@
     if (!self.isSelectAll) {
         self.isSelectAll = true;
         self.selectImage.image = [UIImage imageNamed:@"broker_property_control_selected"];
-        for (NSString * key in self.cellSelectStatus.allKeys) {
-            [self changeCellStatusForCellSelectStatusKey:key selectStatus:true];
+        for (PropSelectStatusModel *statusModel in self.cellSelectStatus) {
+            statusModel.selectStatus = true;
             self.selectedCellCount ++;
         }
         
     } else {
         self.isSelectAll = false;
         self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray"];
-        for (NSString * key in self.cellSelectStatus.allKeys) {
-            [self changeCellStatusForCellSelectStatusKey:key selectStatus:false];
+        for (PropSelectStatusModel *statusModel in self.cellSelectStatus) {
+            statusModel.selectStatus = false;
         }
     }
     [self.tableView reloadData];
@@ -173,14 +210,11 @@
             self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray"];
         }
     }
-    [self changeCellStatusForCellSelectStatusKey:[NSString stringWithFormat:@"%d",rowIndex] selectStatus:isSelect];
+    PropSelectStatusModel *statusModel = self.cellSelectStatus[rowIndex];
+    statusModel.selectStatus = isSelect;
     [self updatePromotionButtonText];
-}
-
-- (void)changeCellStatusForCellSelectStatusKey:(NSString *)key selectStatus:(BOOL)selectStatus
-{
-    PropSelectStatusModel *selectStatusModel = [self.cellSelectStatus valueForKey:key];
-    selectStatusModel.selectStatus = selectStatus;
+    DLog(@"%@----%@",statusModel.propId,[self.dataSource[rowIndex] valueForKey:@"propId"]);
+    
 }
 
 - (void)updatePromotionButtonText
@@ -220,7 +254,7 @@
         
         cell.delegate = self;
     }
-    PropSelectStatusModel *selectStatusModel = [self.cellSelectStatus valueForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
+    PropSelectStatusModel *selectStatusModel = self.cellSelectStatus[indexPath.row];
     [cell changeCellSelectStatus:selectStatusModel.selectStatus];
     PropertyDetailCellModel *model = [[PropertyDetailCellModel alloc] initWithDataDic:[self.dataSource objectAtIndex:indexPath.row]];
     cell.propertyDetailTableViewCellModel   = model;
@@ -314,6 +348,7 @@
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    
     if (buttonIndex == 1) {
         [self doDeleteProperty:self.editPropertyId];
         [self.dataSource removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
