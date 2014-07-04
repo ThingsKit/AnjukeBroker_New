@@ -49,6 +49,7 @@
     [selectStylebutton addTarget:self action:@selector(propChoiceTap:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:selectStylebutton];
     self.selectStylebutton = selectStylebutton;
+    
     //cell下划线
     UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(56, 89.5, ScreenWidth - 56, 0.5)];
     bottomLine.backgroundColor = [UIColor lightGrayColor];
@@ -101,6 +102,16 @@
     //    self.selectedBackgroundView = backgroundView;
     
     self.contentView.backgroundColor = [UIColor brokerWhiteColor];
+}
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+{
+    UIView *view = [super hitTest:point withEvent:event];
+    DLog(@"hit:view:%@",view);
+    if (view == self.selectStylebutton) {
+        return view;
+    }
+    return nil;
 }
 
 #pragma mark - selectCellStyle

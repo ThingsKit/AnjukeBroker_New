@@ -10,7 +10,7 @@
 #import "RTListCell.h"
 #import "SWTableViewCell.h"
 
-@protocol CellSelectStatus <NSObject>
+@protocol CellSelectStatusDelegate <NSObject>
 
 - (void)cellStatusChanged:(BOOL)isSelect atRowIndex:(NSInteger)rowIndex;
 
@@ -21,7 +21,7 @@
 @interface MultipleChoiceAndEditListCell : SWTableViewCell
 
 @property (nonatomic, strong) PropertyDetailCellModel* propertyDetailTableViewCellModel;
-@property (nonatomic, strong) id<CellSelectStatus> delegate;
+@property (nonatomic, strong) id<CellSelectStatusDelegate> delegate;
 @property (nonatomic) NSInteger rowIndex;
 
 - (void)changeCellSelectStatus:(BOOL)isSelected;

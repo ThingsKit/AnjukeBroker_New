@@ -19,7 +19,7 @@
 @property (nonatomic, strong) UIButton *buttonSelect;  //编辑按钮
 @property (nonatomic, strong) UIButton *buttonPromote;  //删除按钮
 @property (nonatomic, strong) UIImageView *selectImage;
-@property (nonatomic, strong) NSMutableDictionary *cellSelectStatus;
+@property (nonatomic, strong) NSMutableArray *cellSelectStatus;
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) NSString *editPropertyId;//编辑和删除cell的房源Id
 @property (nonatomic) NSInteger selectedCellCount;
@@ -75,6 +75,7 @@
     _buttonPromote.titleLabel.font = [UIFont ajkH3Font];
     [_buttonPromote setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_button_little_blue@2x.png"] forState:UIControlStateNormal];
     [_buttonPromote setTitle:[NSString stringWithFormat:@"定价推广(%d)", self.selectedCellCount]  forState:UIControlStateNormal];
+    [_buttonPromote addTarget:self action:@selector(clickFixPromotionButton:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.MutipleEditView addSubview:_buttonSelect];
     [self.MutipleEditView addSubview:_buttonPromote];
@@ -101,16 +102,21 @@
 - (void)handleRequestData:(RTNetworkResponse *)response
 {
     NSArray *dataArray       = [[response.content objectForKey:@"data"] objectForKey:@"propertyList"];
-    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:dataArray.count];
     for (int i = 0; i < dataArray.count; i++) {
         PropSelectStatusModel *selectStatusModel = [PropSelectStatusModel new];
         selectStatusModel.selectStatus = false;
         selectStatusModel.propId       = [dataArray[i] objectForKey:@"propId"];
-        [dic setValue:selectStatusModel forKey:[NSString stringWithFormat:@"%d",i]];
+        [arr addObject:selectStatusModel];
     }
-    self.cellSelectStatus = dic;
-    self.dataSource        = dataArray;
+    self.cellSelectStatus  = arr;
+    self.dataSource        = [NSMutableArray arrayWithArray:dataArray];
     [self.tableView reloadData];
+    
+}
+
+- (void)clickFixPromotionButton:(id)sender
+{
     
 }
 
@@ -122,22 +128,23 @@
     if (!self.isSelectAll) {
         self.isSelectAll = true;
         self.selectImage.image = [UIImage imageNamed:@"broker_property_control_selected"];
-        for (NSString * key in self.cellSelectStatus.allKeys) {
-            [self changeCellStatusForCellSelectStatusKey:key selectStatus:true];
+        for (PropSelectStatusModel *statusModel in self.cellSelectStatus) {
+            statusModel.selectStatus = true;
             self.selectedCellCount ++;
         }
         
     } else {
         self.isSelectAll = false;
         self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray"];
-        for (NSString * key in self.cellSelectStatus.allKeys) {
-            [self changeCellStatusForCellSelectStatusKey:key selectStatus:false];
+        for (PropSelectStatusModel *statusModel in self.cellSelectStatus) {
+            statusModel.selectStatus = false;
         }
     }
     [self.tableView reloadData];
     [self updatePromotionButtonText];
 }
 
+#pragma mark - CellSelectStatusDelegate
 - (void)cellStatusChanged:(BOOL)isSelect atRowIndex:(NSInteger)rowIndex
 {
     if (isSelect) {
@@ -148,14 +155,11 @@
            self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray"];
         }
     }
-    [self changeCellStatusForCellSelectStatusKey:[NSString stringWithFormat:@"%d",rowIndex] selectStatus:isSelect];
+    PropSelectStatusModel *statusModel = self.cellSelectStatus[rowIndex];
+    statusModel.selectStatus = isSelect;
     [self updatePromotionButtonText];
-}
-
-- (void)changeCellStatusForCellSelectStatusKey:(NSString *)key selectStatus:(BOOL)selectStatus
-{
-    PropSelectStatusModel *selectStatusModel = [self.cellSelectStatus valueForKey:key];
-    selectStatusModel.selectStatus = selectStatus;
+    DLog(@"%@----%@",statusModel.propId,[self.dataSource[rowIndex] valueForKey:@"propId"]);
+    
 }
 
 - (void)updatePromotionButtonText
@@ -202,7 +206,7 @@
     
     cell.delegate = self;
     }
-    PropSelectStatusModel *selectStatusModel = [self.cellSelectStatus valueForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
+    PropSelectStatusModel *selectStatusModel = self.cellSelectStatus[indexPath.row];
     [cell changeCellSelectStatus:selectStatusModel.selectStatus];
     PropertyDetailCellModel *model = [[PropertyDetailCellModel alloc] initWithDataDic:[self.dataSource objectAtIndex:indexPath.row]];
     cell.propertyDetailTableViewCellModel   = model;
@@ -292,10 +296,17 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) {
+        PropSelectStatusModel *model = self.cellSelectStatus[self.editAndDeleteCellIndexPath.row];
+        if (model.selectStatus == true) {
+            self.selectedCellCount --;
+        }
         [self doDeleteProperty:self.editPropertyId];
         [self.dataSource removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
+        [self.cellSelectStatus removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
         [self.tableView deleteRowsAtIndexPaths:@[self.editAndDeleteCellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
 //        [self showInfo:@"删除房源信息成功"];
+        [self updatePromotionButtonText];
+        
     }
 }
 
