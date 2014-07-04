@@ -11,8 +11,8 @@
 #import "UIImageView+WebCache.h"
 #import "UIViewExt.h"
 
-#define GAP_H 6
-#define GAP_V 3
+#define GAP_H 4
+#define GAP_V 5
 
 @interface MultipleChoiceAndEditListCell ()
 
