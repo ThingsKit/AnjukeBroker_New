@@ -36,6 +36,12 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    if (self.tableList && !self.isLoading) {
+        [self autoPullDown];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -180,6 +186,16 @@
 }
 
 - (void)doRequest{
+    if (![self isNetworkOkayWithNoInfo]) {
+        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        
+        self.pricingDic = nil;
+        self.selectedDic = nil;
+        [self.tableList reloadData];
+        
+        return;
+    }
+    
     self.isLoading = YES;
     NSMutableDictionary *params = nil;
     NSString *method = @"batch/";
@@ -239,9 +255,9 @@
 - (void)onRequestFinished:(RTNetworkResponse *)response{
     self.isLoading = NO;
     DLog(@"response---->>%@",[response content]);
-    if([[response content] count] == 0){
+    if(([[response content] count] == 0) || ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"])){
         [self donePullDown];
-        [self.tableList setTableStatus:STATUSFORNODATAFORPRICINGLIST];
+        [self.tableList setTableStatus:STATUSFORREMOTESERVERERROR];
         
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
         tapGes.delegate                = self;
@@ -254,24 +270,6 @@
         [self.tableList reloadData];
         
         return ;
-    }
-    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        DLog(@"message--->>%@",[[response content] objectForKey:@"message"]);
-        
-        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
-        
-        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
-        tapGes.delegate                = self;
-        tapGes.numberOfTouchesRequired = 1;
-        tapGes.numberOfTapsRequired    = 1;
-        [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
-        
-        [self.pricingDic removeAllObjects];
-        [self.selectedDic removeAllObjects];
-        [self.tableList reloadData];
-        
-        [self donePullDown];
-        return;
     }
     
     [self donePullDown];
@@ -301,11 +299,26 @@
 
         [self.tableList reloadData];
     }else{
-        NSIndexPath *path1 = [NSIndexPath indexPathForItem:1 inSection:0];
-        NSIndexPath *path2 = [NSIndexPath indexPathForItem:2 inSection:0];
-        
-        [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path1, nil] withRowAnimation:UITableViewRowAnimationNone];
-        [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path2, nil] withRowAnimation:UITableViewRowAnimationNone];
+        if ([[self.pricingDic objectForKey:@"totalProps"] intValue] == 0 && [[self.selectedDic objectForKey:@"totalProps"] intValue] == 0) {
+            [self.tableList setTableStatus:STATUSFORNODATAFORNOHOUSE];
+            UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
+            tapGes.delegate                = self;
+            tapGes.numberOfTouchesRequired = 1;
+            tapGes.numberOfTapsRequired    = 1;
+            [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
+            
+            self.pricingDic = nil;
+            self.selectedDic = nil;
+            
+            [self.tableList reloadData];
+        }else{
+            [self.tableList setTableStatus:STATUSFOROK];
+            NSIndexPath *path1 = [NSIndexPath indexPathForItem:1 inSection:0];
+            NSIndexPath *path2 = [NSIndexPath indexPathForItem:2 inSection:0];
+            
+            [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path1, nil] withRowAnimation:UITableViewRowAnimationNone];
+            [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path2, nil] withRowAnimation:UITableViewRowAnimationNone];
+        }
     }
 }
 - (void)tapGus:(UITapGestureRecognizer *)gesture{

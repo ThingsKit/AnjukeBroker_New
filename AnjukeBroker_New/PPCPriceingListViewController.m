@@ -159,6 +159,16 @@
 }
 #pragma mark -- method
 - (void)doRequest{
+    if (![self isNetworkOkayWithNoInfo]) {
+        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        
+        self.lastedListData = nil;
+        self.oldListData = nil;
+        [self.tableList reloadData];
+        
+        return;
+    }
+    
     self.isLoading = YES;
     NSMutableDictionary *params = nil;
     NSString *method = nil;
@@ -177,9 +187,9 @@
 - (void)onRequestFinished:(RTNetworkResponse *)response{
     self.isLoading = NO;
     DLog(@"response---->>%@",[response content]);
-    if([[response content] count] == 0){
+    if(([[response content] count] == 0) || ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"])){
         [self donePullDown];
-        [self.tableList setTableStatus:STATUSFORNODATAFORPRICINGLIST];
+        [self.tableList setTableStatus:STATUSFORREMOTESERVERERROR];
         
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
         tapGes.delegate                = self;
@@ -192,24 +202,7 @@
         
         return ;
     }
-    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        DLog(@"message--->>%@",[[response content] objectForKey:@"message"]);
 
-        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
-        
-        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
-        tapGes.delegate                = self;
-        tapGes.numberOfTouchesRequired = 1;
-        tapGes.numberOfTapsRequired    = 1;
-        [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
-        
-        
-        [self.tableData removeAllObjects];
-        [self.tableList reloadData];
-        
-        [self donePullDown];
-        return;
-    }
     self.isLoading = NO;
     [self donePullDown];
     
