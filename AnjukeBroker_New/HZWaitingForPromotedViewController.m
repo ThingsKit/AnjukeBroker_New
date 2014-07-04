@@ -290,7 +290,7 @@
     self.editPropertyId = [editCell objectForKey:@"propId"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
    PropertySingleViewController *propZF = [[PropertySingleViewController alloc] init];
-    propZF.isHaozu = YES;
+//    propZF.isHaozu = YES;
     propZF.pageType = PAGE_TYPE_NO_PLAN;
     propZF.propId = self.editPropertyId;
     [self.navigationController pushViewController:propZF animated:YES];

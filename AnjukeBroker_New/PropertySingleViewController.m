@@ -623,6 +623,7 @@
             if ([@"ok" isEqualToString:[result objectForKey:@"status"]]) { //定价推广成功
                 [self displayHUDWithStatus:@"ok" Message:@"定价推广成功" ErrCode:nil];
                 
+                self.pageType = PAGE_TYPE_FIX;
                 //最简单的做法就是重新加载, 虽然效率不高
                 [self requestPropFixChoice];
                 
