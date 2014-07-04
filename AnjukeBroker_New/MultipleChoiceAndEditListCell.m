@@ -24,6 +24,10 @@
 @property (nonatomic, strong) UILabel* area; //面积
 @property (nonatomic, strong) UILabel* price; //售价
 @property (nonatomic, strong) NSString *propertyId;//房源Id
+@property (nonatomic, strong) UIImageView* multiPictureIcon; //多图图标
+@property (nonatomic, strong) UIImageView* choiceIcon; //精选推广图标
+@property (nonatomic, strong) UIImageView* mobileIcon; //手机发图图标
+
 @property (nonatomic)BOOL isSelected;
 
 @end
@@ -69,6 +73,17 @@
     _propertyTitle.font = [UIFont ajkH2Font];
     [_propertyTitle setTextColor:[UIColor brokerBlackColor]];
     [self.contentView addSubview:_propertyTitle];
+    
+    
+    //多图, 精选, 手机
+    _multiPictureIcon = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [self.contentView addSubview:_multiPictureIcon];
+    
+    _choiceIcon = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [self.contentView addSubview:_choiceIcon];
+    
+    _mobileIcon = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [self.contentView addSubview:_mobileIcon];
     
     //小区名称
     _community = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -178,6 +193,50 @@
     _propertyTitle.text = self.propertyDetailTableViewCellModel.title;
     //    _userName.backgroundColor = [UIColor redColor];
     
+    //多图
+    if ([@"1" isEqualToString:self.propertyDetailTableViewCellModel.isMoreImg]) {
+        _multiPictureIcon.frame = CGRectMake(_propertyTitle.right, 16, 17, 17);
+        _multiPictureIcon.image = [UIImage imageNamed:@"broker_property_icon_pic"];
+        _multiPictureIcon.hidden = NO;
+    }else{
+        _multiPictureIcon.hidden = YES;
+    }
+    
+    //精选
+    if ([@"1" isEqualToString:self.propertyDetailTableViewCellModel.isChoice]) {
+        if (self.propertyDetailTableViewCellModel.isMoreImg && [@"1" isEqualToString:self.propertyDetailTableViewCellModel.isMoreImg]) {
+            _choiceIcon.frame = CGRectMake(_multiPictureIcon.right + 2, 16, 17, 17);
+            _choiceIcon.image = [UIImage imageNamed:@"broker_property_icon_jx"];
+            _choiceIcon.hidden = NO;
+        }else{
+            _choiceIcon.frame = CGRectMake(_propertyTitle.right, 16, 17, 17);
+            _choiceIcon.image = [UIImage imageNamed:@"broker_property_icon_jx"];
+            _choiceIcon.hidden = NO;
+        }
+    }else{
+        _choiceIcon.hidden = YES;
+    }
+    
+    //手机
+    if ([@"1" isEqualToString:self.propertyDetailTableViewCellModel.isPhonePub]) {
+        if (self.propertyDetailTableViewCellModel.isChoice && [@"1" isEqualToString:self.propertyDetailTableViewCellModel.isChoice]) {
+            _mobileIcon.frame = CGRectMake(_choiceIcon.right + 2, 16, 17, 17);
+            _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
+            _mobileIcon.hidden = NO;
+        }else if(self.propertyDetailTableViewCellModel.isMoreImg && [@"1" isEqualToString:self.propertyDetailTableViewCellModel.isMoreImg]){
+            _mobileIcon.frame = CGRectMake(_multiPictureIcon.right + 2, 16, 17, 17);
+            _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
+            _mobileIcon.hidden = NO;
+        }else{
+            _mobileIcon.frame = CGRectMake(_propertyTitle.right, 16, 17, 17);
+            _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
+            _mobileIcon.hidden = NO;
+        }
+        
+    }else{
+        _mobileIcon.hidden = YES;
+    }
+
     
     //小区名称
     _community.frame = CGRectMake(_propertyIcon.right + 12, _propertyTitle.bottom + GAP_V, 100, 16);
