@@ -503,12 +503,16 @@
 //获得当地商业状态
 - (void)getBuinessType
 {
-    NSString *method = @"business-type/";
+    NSString *method = @"common/business-type/";
     NSString *cityId = [LoginManager getCity_id];
     NSString *token = [LoginManager getToken];
-    cityId = @"11";
     
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:cityId, @"cityId", @"1", @"is_nocheck", nil];
+    if (!cityId || cityId.length == 0)
+    {
+        return;
+    }
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:cityId, @"cityId", token, @"token", nil];
     
     [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestGetBusinessFinished:)];
 }
@@ -516,6 +520,27 @@
 - (void)onRequestGetBusinessFinished:(RTNetworkResponse *)response
 {
     DLog(@"[response content] == %@", [response content]);
+    
+    NSDictionary *dataDict = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
+    
+    NSString *status = [[response content] objectForKey:@"status"];
+    
+    if (status && [status isEqualToString:@"ok"])
+    {
+        id businessDict = [dataDict objectForKey:@"businessType"];
+        
+        if ([businessDict isKindOfClass:[NSDictionary class]])
+        {
+            businessDict = [NSDictionary dictionaryWithDictionary:businessDict];
+        }else if ([businessDict isKindOfClass:[NSArray class]])
+        {
+            businessDict = [NSDictionary dictionaryWithDictionary:[businessDict objectAtIndex:0]];
+        }
+        DLog(@"businessDict == %@", businessDict);
+        
+        NSString *businessId = [businessDict objectForKey:@"businessTypeId"];
+        [LoginManager setBusinessType:businessId];
+    }
     
     DLog(@"123");
 }

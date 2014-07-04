@@ -13,7 +13,7 @@ static NSString *businessType = @"";
 
 + (void)setBusinessType:(NSString *)bT
 {
-    LoginManager.businessType = bT;
+    businessType = bT;
 }
 
 + (NSString *)getBusinessType
@@ -88,6 +88,7 @@ static NSString *businessType = @"";
     [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"signMile"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_DEFAULT_KEY_AXCHATMC_USE]; //清空与AXMessageCenter的羁绊...
 
+    businessType = @"";
     
     DLog(@"clean Token [%@]", [[NSUserDefaults standardUserDefaults] valueForKey:@"token"]);
 }

@@ -442,6 +442,8 @@
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
     
+    //获得城市商业模式
+    [[AppDelegate sharedAppDelegate] getBuinessType];
     
     [self pushToTab];
     
