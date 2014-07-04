@@ -29,8 +29,8 @@
 		01F8A7821965672800D892D4 /* protocol.html in Resources */ = {isa = PBXBuildFile; fileRef = 01F8A7811965672800D892D4 /* protocol.html */; };
 		01F8A7851965673300D892D4 /* anjukelogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F8A7831965673300D892D4 /* anjukelogo.png */; };
 		01F8A7861965673300D892D4 /* anjukelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F8A7841965673300D892D4 /* anjukelogo@2x.png */; };
-		01F8A78D19656F2E00D892D4 /* SaleAuctionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EA1FC1183A437500438CF8 /* SaleAuctionViewController.m */; };
-		01F8A78E19656F7400D892D4 /* PPCHouseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F89FF5B0196287F300AC7256 /* PPCHouseCell.m */; };
+		01F8A78D19656F2E00D892D4 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		01F8A78E19656F7400D892D4 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		200485DB1907C33800A5A351 /* Property.m in Sources */ = {isa = PBXBuildFile; fileRef = 200485DA1907C33800A5A351 /* Property.m */; };
 		200915E81893FC1000A13115 /* E_Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 200915E71893FC1000A13115 /* E_Photo.m */; };
 		200915EE189401C800A13115 /* anjuke_icon_fxt_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 200915EC189401C800A13115 /* anjuke_icon_fxt_@2x.png */; };
@@ -3078,6 +3078,8 @@
 		9619F52B1963AFAD008C3A26 /* 待推广 */ = {
 			isa = PBXGroup;
 			children = (
+				9619F5311963DE42008C3A26 /* ImmediatePromotionCell.h */,
+				9619F5321963DE42008C3A26 /* ImmediatePromotionCell.m */,
 				9619F5341963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.h */,
 				9619F5351963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.m */,
 			);
@@ -4367,8 +4369,6 @@
 				F89FF5A91962856900AC7256 /* PPCPricingList */,
 				F89FF5B81963943100AC7256 /* PPCSelectedHouseList */,
 				F8A136BE19651BB9007FC4E1 /* PPCPromoteCompletList */,
-				9619F5311963DE42008C3A26 /* ImmediatePromotionCell.h */,
-				9619F5321963DE42008C3A26 /* ImmediatePromotionCell.m */,
 			);
 			name = PPC_NewVersion;
 			sourceTree = "<group>";
@@ -5103,8 +5103,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01F8A78E19656F7400D892D4 /* PPCHouseCell.m in Sources */,
-				01F8A78D19656F2E00D892D4 /* SaleAuctionViewController.m in Sources */,
+				01F8A78E19656F7400D892D4 /* (null) in Sources */,
+				01F8A78D19656F2E00D892D4 /* (null) in Sources */,
 				B7EAD51718CD927200B28FEC /* AXChatContentValidator.m in Sources */,
 				97CB0C0F182BEA3500FCCBBD /* BK_ELCAssetTablePicker.m in Sources */,
 				B7EAD52318CD927200B28FEC /* AXPullToRefreshSimpleContentView.m in Sources */,
