@@ -483,20 +483,20 @@
         prefix = @"zufang";
     }
     
-//    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":self.propId};
-    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":_propId};
+    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":self.propId};
+//    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":_propId};
     NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/summary/"], @"query_params":param1}; //房源概况
 
     NSDictionary* param2 = @{@"token":[LoginManager getToken], @"cityId":[LoginManager getCity_id], @"propId":_propId}; //11表示上海
     NSDictionary* dic2 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/fix/summary/"], @"query_params":param2}; //房源定价概况
     
-    NSDictionary* param3 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":_propId};
+    NSDictionary* param3 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":_propId};
     NSDictionary* dic3 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/choice/summary/"], @"query_params":param3}; //房源精选概况
     
-    NSDictionary* param4 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":_propId};
+    NSDictionary* param4 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":_propId};
     NSDictionary* dic4 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/choice/summary/"], @"query_params":param4}; //最大最小预算余额
     
-    NSDictionary* param5 = @{@"token":[LoginManager getToken], @"brokerId":@"858573"};
+    NSDictionary* param5 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID]};
     NSDictionary* dic5 = @{@"method":@"GET", @"relative_url":@"broker/account/balance/", @"query_params":param5}; //经纪人可用余额
     
     NSDictionary* param = @{@"requests":@{@"prop_summary":dic1,
@@ -600,7 +600,7 @@
         prefix = @"zufang";
     }
 //    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"planId":planId};
-    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"planId":planId};
+    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"planId":planId};
     NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/fix/spreadstart/"], @"query_params":param1}; //房源概况
     NSDictionary* param = @{@"requests":@{@"result":dic1}};
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"batch/" params:param target:self action:@selector(onRequestFixFinished:)];
@@ -656,7 +656,7 @@
         prefix = @"zufang";
     }
 //    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":self.propId, @"budget":budget};
-    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092", @"budget":budget};
+    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":self.propId, @"budget":budget};
     NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/choice/start/"], @"query_params":param1}; //房源概况
     NSDictionary* param = @{@"requests":@{@"result":dic1}};
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"batch/" params:param target:self action:@selector(onRequestChoiceFinished:)];
@@ -713,7 +713,7 @@
         prefix = @"zufang";
     }
 //    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":self.propId};
-    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
+    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":self.propId};
     NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/choice/stop/"], @"query_params":param1}; //房源概况
     NSDictionary* param = @{@"requests":@{@"result":dic1}};
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"batch/" params:param target:self action:@selector(onRequestChoiceStopFinished:)];
@@ -771,7 +771,7 @@
     }
 
 //    NSDictionary* params = @{@"token":[LoginManager getToken], @"cityId":[LoginManager getCity_id], @"brokerId":[LoginManager getUserID], @"propIds":self.propId};
-    NSDictionary* params = @{@"token":[LoginManager getToken], @"cityId":[LoginManager getCity_id], @"brokerId":@"858573", @"propIds":@"168783092"};
+    NSDictionary* params = @{@"token":[LoginManager getToken], @"cityId":[LoginManager getCity_id], @"brokerId":[LoginManager getUserID], @"propIds":self.propId};
     NSString* method = [prefix stringByAppendingString:@"/prop/delprops/"];
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestPropertyDeleteFinished:)];
