@@ -64,12 +64,18 @@
         tipsLab.text = @"暂无定价计划";
         [backGroundView addSubview:tipsLab];
     }else if (status == STATUSFORNODATAFOSELECTLIST){
-        statusView.frame = CGRectMake(115, backGroundView.frame.size.height/2 - 160/2, 90, 78);
-        [statusView setImage:[UIImage imageNamed:@"check_no_community"]];
+        statusView.frame = CGRectMake(115, backGroundView.frame.size.height/2 - 300/2, 100, 111);
+        [statusView setImage:[UIImage imageNamed:@"broker_property_no_jx@2x.png"]];
         
-        tipsLab.frame = CGRectMake(0, backGroundView.frame.size.height/2 + 15, 320, 20);
-        tipsLab.text = @"暂无精选计划";
-        [backGroundView addSubview:tipsLab];
+        UILabel *tipsDetailLab = [[UILabel alloc] initWithFrame:CGRectMake(0, backGroundView.frame.size.height/2-25, 320, 50)];
+        tipsDetailLab.backgroundColor = [UIColor clearColor];
+        tipsDetailLab.font = [UIFont ajkH3Font];
+        tipsDetailLab.numberOfLines = 0;
+        tipsDetailLab.lineBreakMode = UILineBreakModeWordWrap;
+        tipsDetailLab.textAlignment = NSTextAlignmentCenter;
+        tipsDetailLab.textColor = [UIColor brokerLightGrayColor];
+        tipsDetailLab.text = @"精选推广提升8倍效果\n选一套定价房源,做精选推广吧";
+        [backGroundView addSubview:tipsDetailLab];
     }else if (status == STATUSFORREMOTESERVERERROR){
         statusView.frame = CGRectMake(110, backGroundView.frame.size.height/2 - 160/2, 100, 70);
         [statusView setImage:[UIImage imageNamed:@"check_no_wifi"]];

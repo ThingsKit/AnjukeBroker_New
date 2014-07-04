@@ -12,6 +12,7 @@
 #import "PPCPriceingListModel.h"
 #import "PPCPromoteCompletListViewController.h"
 #import "CheckoutWebViewController.h"
+#import "PropertySingleViewController.h"
 
 @interface PPCSelectedListViewController ()
 @property(nonatomic, strong) NSMutableArray *tableData;
@@ -339,7 +340,7 @@
         tapGes.numberOfTapsRequired    = 1;
         [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
     }
-    
+
     [self.tableList reloadData];
 }
 
@@ -359,7 +360,22 @@
         PPCPromoteCompletListViewController *promoteCompletListVC = [[PPCPromoteCompletListViewController alloc] init];
         promoteCompletListVC.isHaozu = self.isHaozu;
         promoteCompletListVC.tableData = self.onOfflineListData;
+        promoteCompletListVC.forbiddenEgo = YES;
         [self.navigationController pushViewController:promoteCompletListVC animated:YES];
+    }
+    
+    if (indexPath.section == 1) {
+        PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
+        singleVC.isHaozu = self.isHaozu;
+        singleVC.propId = [self.onSpreadListData objectAtIndex:indexPath.row][@"propId"];
+        singleVC.pageType = PAGE_TYPE_CHOICE;
+        [self.navigationController pushViewController:singleVC animated:YES];
+    }else if (indexPath.section == 2) {
+        PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
+        singleVC.isHaozu = self.isHaozu;
+        singleVC.propId = [self.onQueueListData objectAtIndex:indexPath.row][@"propId"];
+        singleVC.pageType = PAGE_TYPE_CHOICE;
+        [self.navigationController pushViewController:singleVC animated:YES];
     }
 }
 

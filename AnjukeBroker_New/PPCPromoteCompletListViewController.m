@@ -46,9 +46,6 @@
     UIEdgeInsets insets = [self tableViewInsetsWithBottomValue:50];
     self.tableList.contentInset = insets;
 
-    self.forbiddenEgo = NO;
-
-
     UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 50 - 20 -44, ScreenWidth, 50)];
     [buttonView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]];
     [self.view addSubview:buttonView];

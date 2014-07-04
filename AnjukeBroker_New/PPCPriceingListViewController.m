@@ -153,9 +153,15 @@
     if (!self.tableData || self.navigationController.view.frame.origin.x > 0) {
         return;
     }
-    
     PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
-//    singleVC.propId = [];
+    singleVC.isHaozu = self.isHaozu;
+    if (indexPath.section == 1) {
+        singleVC.propId = [self.lastedListData objectAtIndex:indexPath.row][@"propId"];
+    }else if (indexPath.section == 2) {
+        singleVC.propId = [self.oldListData objectAtIndex:indexPath.row][@"propId"];
+    }
+    singleVC.pageType = PAGE_TYPE_FIX;
+    [self.navigationController pushViewController:singleVC animated:YES];
 }
 #pragma mark -- method
 - (void)doRequest{
