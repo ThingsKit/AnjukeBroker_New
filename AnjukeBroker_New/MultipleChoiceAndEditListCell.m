@@ -173,6 +173,15 @@
 //    [self.selectImage setBackgroundImage:[UIImage imageNamed:@"broker_property_control_select_gray"] forState:UIControlStateNormal];
 }
 
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+{
+    UIView *view = [super hitTest:point withEvent:event];
+    if (view == self) {
+        return nil;
+    }
+    return view;
+}
+
 #pragma mark - layout
 //加载数据
 - (void)layoutSubviews{
