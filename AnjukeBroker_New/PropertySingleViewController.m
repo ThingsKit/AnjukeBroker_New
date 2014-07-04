@@ -35,6 +35,21 @@
 @property (nonatomic, strong) UIActivityIndicatorView* activity; //风火轮
 
 @property (nonatomic, strong) NSMutableArray* data; //数组用来存储5个请求回来的对象
+@property (nonatomic, copy) NSString* balance; //经纪人可用余额(带单位)
+@property (nonatomic, copy) NSString* minBudget; //最小预算(不带单位)
+@property (nonatomic, copy) NSString* maxBudget; //最大预算(带单位)
+@property (nonatomic, copy) NSString* budget; //经纪人输入的预算
+
+//浮层相关
+@property (nonatomic, strong) MBProgressHUD* hud;
+@property (nonatomic, strong) UIImageView* hudBackground;
+@property (nonatomic, strong) UIImageView* hudImageView;
+@property (nonatomic, strong) UILabel* hudText;
+
+//无网络UI
+@property (nonatomic, strong) UIView* emptyBackgroundView;
+@property (nonatomic, strong) UIImageView* emptyBackgroundImageView;
+@property (nonatomic, strong) UILabel* emptyBackgroundLabel;
 
 @end
 
@@ -66,6 +81,7 @@
     //页脚
     _footer = [[PropertyDetailTableViewFooter alloc] init]; //页尾
     _footer.hidden = YES;
+    [self initFooterBlock];
     [self.view addSubview:_footer];
     
     //正在加载中的view
@@ -90,9 +106,33 @@
     [_loadingView addSubview:_loadingTipLabel];
     
     [self.view addSubview:_loadingView];
+    self.view.backgroundColor = [UIColor brokerBgPageColor];
+
+}
+
+#pragma mark -
+#pragma mark view出现
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     
     [self requestPropFixChoice];
+    
 }
+
+#pragma mark -
+#pragma mark 页脚block定义
+- (void)initFooterBlock{
+//    __weak PropertySingleViewController* this = self;
+    _footer.editBlock = ^{
+//        [this requestFix];
+    };
+    
+    _footer.deleteBlock = ^{
+//        [this requestChoice];
+    };
+    
+}
+
 
 #pragma mark -
 #pragma mark UITableViewDataSource
@@ -142,6 +182,12 @@
             }
             if (self.data.count > 1) {
                 cell.pricePromotionCellModel = self.data[1]; //第二个是定价推广概况
+                NSString* planId = cell.pricePromotionCellModel.planId;
+                __weak PropertySingleViewController* this = self;
+                cell.block = ^(NSString* string){
+                    //开始定价推广
+                    [this requestFixWithPlanId:planId];
+                };
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 [cell showTopLine];
                 [cell showBottonLineWithCellHeight:120];
@@ -176,9 +222,14 @@
             if (self.data.count > 2) {
                 ChoicePromotionCellModel* propChoice = self.data[2]; //第三个是精选推广概况
                 NSString* actionType = propChoice.status;
+                __weak PropertySingleViewController* this = self;
                 if ([@"1-1" isEqualToString:actionType]) { //推广中
                     ChoicePromotioningCell* cell = [[ChoicePromotioningCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
                     cell.choicePromotionModel = propChoice;
+                    cell.block = ^(NSString* string){
+                        //取消精选推广
+                        [this requestChoiceStop];
+                    };
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
                     [cell showTopLine];
                     [cell showBottonLineWithCellHeight:150];
@@ -188,6 +239,10 @@
                     
                     ChoicePromotionQueuingCell* cell = [[ChoicePromotionQueuingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
                     cell.queuePosition = propChoice.statusMsg; //这里应该是个数字
+                    cell.block = ^(NSString* string){
+                        //取消排队
+                        [this requestChoiceStop];
+                    };
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
                     [cell showTopLine];
                     [cell showBottonLineWithCellHeight:150];
@@ -206,6 +261,18 @@
                     
                     ChoicePromotionableCell* cell = [[ChoicePromotionableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
                     cell.choicePromotionModel = self.data[2];
+                    
+                    cell.block = ^(NSString* string){
+                        //立即排队
+                        NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
+                        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+                        NSString* budget = [NSString stringWithFormat:@"输入预算, %@~%@", this.minBudget, this.maxBudget];
+                        [alert textFieldAtIndex:0].placeholder = budget;
+                        [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeNumberPad;
+                        [alert show]; //一定要放设置键盘之后
+                        
+                    };
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
                     [cell showTopLine];
                     [cell showBottonLineWithCellHeight:200];
@@ -216,6 +283,17 @@
                     
                     ChoicePromotionableCell* cell = [[ChoicePromotionableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
                     cell.choicePromotionModel = self.data[2];
+                    cell.block = ^(NSString* string){
+                        //立即推广
+                        NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
+                        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+                        NSString* budget = [NSString stringWithFormat:@"输入预算, %@~%@", this.minBudget, this.maxBudget];
+                        [alert textFieldAtIndex:0].placeholder = budget;
+                        [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeNumberPad;
+                        [alert show]; //一定要放设置键盘之后
+                        
+                    };
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
                     [cell showTopLine];
                     [cell showBottonLineWithCellHeight:200];
@@ -424,6 +502,9 @@
 }
 
 - (void)onRequestPropFixChoiceFinished:(RTNetworkResponse *)response{
+    //解除请求锁
+    self.networkRequesting = NO;
+    
     RTNetworkResponseStatus status = response.status;
     
     //如果请求数据成功
@@ -440,7 +521,11 @@
             self.data = [NSMutableArray arrayWithCapacity:5]; //清空
             
             if (propSum != nil && propFixSum != nil && propChoiceSum != nil) { //前三个不为空
-                if ([@"ok" isEqualToString:[propSum objectForKey:@"status"]] && [@"ok" isEqualToString:[propFixSum objectForKey:@"status"]] && [@"ok" isEqualToString:[propChoiceSum objectForKey:@"status"]]) {
+                if ([@"ok" isEqualToString:[propSum objectForKey:@"status"]] &&
+                    [@"ok" isEqualToString:[propFixSum objectForKey:@"status"]] &&
+                    [@"ok" isEqualToString:[propChoiceSum objectForKey:@"status"]] &&
+                    [@"ok" isEqualToString:[choiceSum objectForKey:@"status"]] &&
+                    [@"ok" isEqualToString:[brokerBalance objectForKey:@"status"]]) {
                     PropertyDetailCellModel* property = [[PropertyDetailCellModel alloc] initWithDataDic:[propSum objectForKey:@"data"]]; //房源概况
                     [self.data addObject:property];
                     
@@ -455,6 +540,15 @@
                     //#########################################
                     [self.data addObject:propChoice];
                     
+                    ChoiceSummaryModel* choice = [[ChoiceSummaryModel alloc] initWithDataDic:[choiceSum objectForKey:@"data"]];
+                    self.minBudget = choice.minChoicePrice;
+                    self.maxBudget = [choice.maxChoicePrice stringByAppendingString:choice.maxChoicePriceUnit];
+                    [self.data addObject:choice];
+                    
+                    BrokerBalanceModel* balance = [[BrokerBalanceModel alloc] initWithDataDic:[brokerBalance objectForKey:@"data"]];
+                    self.balance = [balance.balance stringByAppendingString:balance.balanceUnit];
+                    [self.data addObject:balance];
+                    
                     _tableView.hidden = NO;
                     _footer.hidden = NO;
                     _loadingView.hidden = YES;
@@ -468,33 +562,201 @@
                 }
             }
             
-            if (choiceSum != nil && brokerBalance != nil) {
-                if ([@"ok" isEqualToString:[choiceSum objectForKey:@"status"]]) {
-                    ChoiceSummaryModel* choice = [[ChoiceSummaryModel alloc] initWithDataDic:[choiceSum objectForKey:@"data"]];
-                    [self.data addObject:choice];
-                }
-                if ([@"ok" isEqualToString:[brokerBalance objectForKey:@"status"]]) {
-                    BrokerBalanceModel* balance = [[BrokerBalanceModel alloc] initWithDataDic:[brokerBalance objectForKey:@"data"]];
-                    [self.data addObject:balance];
-                }
-            }else{ //这两者的数据用于UIAlertView, 如果为空, 弹框前再次请求
-                
-            }
-            
-            
-            
         }else{  //匹请求失败
-            
+            [self displayHUDWithStatus:@"error" Message:@"请求超时" ErrCode:@"1"];
         }
         
         
+    }else{ //网络不畅
+        _loadingView.hidden = YES;
+        _tableView.hidden = NO;
+        [self showTipViewWithImageViewFrame:CGRectMake(ScreenWidth/2-100/2, ScreenHeight/2-20-44-70/2, 200/2, 140/2) ImageName:@"check_no_wifi" LabelText:@"无网络连接"];
+    }
+    
+    
+}
+
+
+#pragma mark 定价推广请求
+- (void)requestFixWithPlanId:(NSString*)planId{
+    if (self.networkRequesting) {
+        return;
+    }
+    
+    self.networkRequesting = YES;
+    
+    NSString* prefix = @"anjuke";
+    if (self.isHaozu) { //如果是租房 (默认是二手房)
+        prefix = @"zufang";
+    }
+    //    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
+    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"planId":planId};
+    NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/fix/spreadstart/"], @"query_params":param1}; //房源概况
+    NSDictionary* param = @{@"requests":@{@"result":dic1}};
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"batch/" params:param target:self action:@selector(onRequestFixFinished:)];
+    
+}
+
+- (void)onRequestFixFinished:(RTNetworkResponse *)response{
+    //解除请求锁
+    self.networkRequesting = NO;
+    
+    RTNetworkResponseStatus status = response.status;
+    
+    //如果请求数据成功
+    if (status == RTNetworkResponseStatusSuccess) {
+        
+        if ([@"ok" isEqualToString:response.content[@"status"]]) { //匹请求成功
+            
+            NSDictionary* result = [response.content[@"data"][@"responses"][@"result"][@"body"] JSONValue];
+            if ([@"ok" isEqualToString:[result objectForKey:@"status"]]) { //定价推广成功
+                [self displayHUDWithStatus:@"ok" Message:@"定价推广成功" ErrCode:nil];
+                
+                //最简单的做法就是重新加载, 虽然效率不高
+                [self requestPropFixChoice];
+                
+            }else{ //定价推广失败
+                NSString* message = [result objectForKey:@"message"];
+                [self displayHUDWithStatus:@"error" Message:message ErrCode:@"1"];
+            }
+
+        }else{  //匹请求失败
+            [self displayHUDWithStatus:@"error" Message:@"请求超时" ErrCode:@"1"];
+        }
+        
     }else{ //数据请求失败
+        [self displayHUDWithStatus:@"error" Message:nil ErrCode:nil];
+    }
+    
+    
+}
+
+
+#pragma mark 精选推广/排队 开始请求
+- (void)requestChoiceWithBudget:(NSString*)budget{
+    if (self.networkRequesting) {
+        return;
+    }
+    
+    self.networkRequesting = YES;
+    
+    NSString* prefix = @"anjuke";
+    if (self.isHaozu) { //如果是租房 (默认是二手房)
+        prefix = @"zufang";
+    }
+    //    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
+    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092", @"budget":budget};
+    NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/choice/start/"], @"query_params":param1}; //房源概况
+    NSDictionary* param = @{@"requests":@{@"result":dic1}};
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"batch/" params:param target:self action:@selector(onRequestChoiceFinished:)];
+    
+}
+
+- (void)onRequestChoiceFinished:(RTNetworkResponse *)response{
+    //解除请求锁
+    self.networkRequesting = NO;
+    
+    RTNetworkResponseStatus status = response.status;
+    
+    //如果请求数据成功
+    if (status == RTNetworkResponseStatusSuccess) {
+        
+        if ([@"ok" isEqualToString:response.content[@"status"]]) { //匹请求成功
+            
+            NSDictionary* result = [response.content[@"data"][@"responses"][@"result"][@"body"] JSONValue];
+            if ([@"ok" isEqualToString:[result objectForKey:@"status"]]) { //精选推广成功
+                NSString* message = [[result objectForKey:@"data"] objectForKey:@"statusMsg"];
+                [self displayHUDWithStatus:@"ok" Message:message ErrCode:nil];
+                
+                //最简单的做法就是重新加载, 虽然效率不高
+                [self requestPropFixChoice];
+                
+            }else{ //精选推广失败
+                NSString* message = [result objectForKey:@"message"];
+                [self displayHUDWithStatus:@"error" Message:message ErrCode:@"1"];
+            }
+            
+        }else{  //匹请求失败
+            [self displayHUDWithStatus:@"error" Message:@"请求超时" ErrCode:@"1"];
+        }
+        
+    }else{ //数据请求失败
+        [self displayHUDWithStatus:@"error" Message:nil ErrCode:nil];
+    }
+    
+
+}
+
+
+#pragma mark 精选推广/排队 停止请求
+- (void)requestChoiceStop{
+    if (self.networkRequesting) {
+        return;
+    }
+    
+    self.networkRequesting = YES;
+    
+    NSString* prefix = @"anjuke";
+    if (self.isHaozu) { //如果是租房 (默认是二手房)
+        prefix = @"zufang";
+    }
+    //    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
+    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":@"168783092"};
+    NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/choice/stop/"], @"query_params":param1}; //房源概况
+    NSDictionary* param = @{@"requests":@{@"result":dic1}};
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"batch/" params:param target:self action:@selector(onRequestChoiceStopFinished:)];
+    
+}
+
+- (void)onRequestChoiceStopFinished:(RTNetworkResponse *)response{
+    //解除请求锁
+    self.networkRequesting = NO;
+    
+    RTNetworkResponseStatus status = response.status;
+    
+    //如果请求数据成功
+    if (status == RTNetworkResponseStatusSuccess) {
+        
+        if ([@"ok" isEqualToString:response.content[@"status"]]) { //匹请求成功
+            
+            NSDictionary* result = [response.content[@"data"][@"responses"][@"result"][@"body"] JSONValue];
+            if ([@"ok" isEqualToString:[result objectForKey:@"status"]]) { //精选推广停止成功
+                NSString* message = [[result objectForKey:@"data"] objectForKey:@"msg"];
+                [self displayHUDWithStatus:@"ok" Message:message ErrCode:nil];
+                
+                //最简单的做法就是重新加载, 虽然效率不高
+                [self requestPropFixChoice];
+                
+            }else{ //精选推广停止失败
+                NSString* message = [result objectForKey:@"message"];
+                [self displayHUDWithStatus:@"error" Message:message ErrCode:@"1"];
+            }
+            
+        }else{  //匹请求失败
+            [self displayHUDWithStatus:@"error" Message:@"请求超时" ErrCode:@"1"];
+        }
+        
+    }else{ //数据请求失败
+        [self displayHUDWithStatus:@"error" Message:nil ErrCode:nil];
+    }
+    
+    
+}
+
+#pragma mark -
+#pragma mark UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    NSLog(@"%@", [alertView textFieldAtIndex:0].text);
+    
+    if (buttonIndex == 1) { //确定按钮
+        [self requestChoiceWithBudget:[alertView textFieldAtIndex:0].text];
+    }else{
         
     }
     
-    //解除请求锁
-    self.networkRequesting = NO;
+    
 }
+
 
 #pragma mark -
 #pragma mark 手势重新加载
@@ -504,6 +766,95 @@
     _loadingTipLabel.text = @"努力加载中...";
     [_activity startAnimating];
     [self requestPropFixChoice];
+}
+
+
+#pragma mark -
+#pragma mark MBProgressHUD 相关
+//使用 MBProgressHUD 显示房源推广状态
+- (void)displayHUDWithStatus:(NSString *)status Message:(NSString*)message ErrCode:(NSString*)errCode {
+    if (self.hudBackground == nil) {
+        self.hudBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 135, 135)];
+        self.hudBackground.image = [UIImage imageNamed:@"anjuke_icon_tips_bg"];
+        
+        self.hudImageView = [[UIImageView alloc] initWithFrame:CGRectMake(135/2-70/2, 135/2-70/2 - 20, 70, 70)];
+        self.hudText = [[UILabel alloc] initWithFrame:CGRectMake(10, self.hudImageView.bottom - 5, 115, 60)];
+        [self.hudText setTextColor:[UIColor colorWithWhite:0.95 alpha:1]];
+        [self.hudText setFont:[UIFont systemFontOfSize:13.0f]];
+        self.hudText.numberOfLines = 0;
+        [self.hudText setTextAlignment:NSTextAlignmentCenter];
+        self.hudText.backgroundColor = [UIColor clearColor];
+        
+        [self.hudBackground addSubview:self.hudImageView];
+        [self.hudBackground addSubview:self.hudText];
+        
+    }
+    
+    //使用 MBProgressHUD
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.color = [UIColor clearColor];
+    self.hud.customView = self.hudBackground;
+    self.hud.yOffset = -20;
+    self.hud.mode = MBProgressHUDModeCustomView;
+    self.hud.dimBackground = NO;
+    
+    if ([@"ok" isEqualToString:status]) { //成功的状态提示
+        self.hudImageView.image = [UIImage imageNamed:@"check_status_ok"];
+        self.hudText.text = message;
+    }else{ //失败的状态提示
+        if ([@"1" isEqualToString:errCode]) {
+            self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
+            self.hudText.text = message;
+            
+        }else{
+            self.hudImageView.image = [UIImage imageNamed:@"check_no_wifi"];
+            self.hudImageView.contentMode = UIViewContentModeScaleAspectFit;
+            self.hudText.text = @"无网络连接";
+            self.hudText.hidden = NO;
+            
+        }
+    }
+    
+    
+    [self.hud hide:YES afterDelay:2]; //显示一段时间后隐藏
+}
+
+
+#pragma mark -
+#pragma mark UI相关
+- (void) showTipViewWithImageViewFrame:(CGRect)imageViewFrame ImageName:(NSString*)imageName LabelText:(NSString*)labelText{
+    if (self.emptyBackgroundView == nil) {
+        _emptyBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-20-44)];
+        _emptyBackgroundView.backgroundColor = [UIColor clearColor];
+        _emptyBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [self.emptyBackgroundView addSubview:_emptyBackgroundImageView];
+        
+        _emptyBackgroundLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _emptyBackgroundLabel.backgroundColor = [UIColor clearColor];
+        _emptyBackgroundLabel.textAlignment = NSTextAlignmentCenter;
+        [_emptyBackgroundLabel setFont:[UIFont ajkH3Font]];
+        [_emptyBackgroundLabel setTextColor:[UIColor brokerLightGrayColor]];
+        [self.emptyBackgroundView addSubview:_emptyBackgroundLabel];
+        
+        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(refresh:)];
+        [self.emptyBackgroundView addGestureRecognizer:tap];
+        
+    }
+    
+    _emptyBackgroundImageView.frame = imageViewFrame;
+    _emptyBackgroundImageView.image = [UIImage imageNamed:imageName];
+    
+    _emptyBackgroundLabel.frame = CGRectMake(ScreenWidth/2-90/2, _emptyBackgroundImageView.bottom, 90, 30);
+    _emptyBackgroundLabel.text = labelText;
+    
+    if (self.data.count == 0) {
+        self.tableView.tableHeaderView = self.emptyBackgroundView;
+        self.tableView.tableHeaderView.hidden = NO;
+    }else{
+        self.tableView.tableHeaderView.hidden = YES;
+    }
+    [self.tableView reloadData];
+    
 }
 
 @end
