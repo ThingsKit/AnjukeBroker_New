@@ -41,7 +41,7 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJ_LIST_ONVIEW page:ESF_DJ_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -157,7 +157,7 @@
 }
 #pragma mark - 取消定价推广房源
 -(void)cancelFixedProperty{
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_007 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJ_LIST_CANCEL_JJTG page:ESF_DJ_LIST_PAGE note:nil];
     if (![self isNetworkOkayWithNoInfo]) {
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
@@ -197,7 +197,7 @@
 
 #pragma mark - 停止定价组计划推广
 -(void)cancelFixedGroup{
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_003 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJ_LIST_STOP_TG page:ESF_DJ_LIST_PAGE note:nil];
     if (![self isNetworkOkayWithNoInfo]) {
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
@@ -451,7 +451,7 @@
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要停止定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                 [alert show];
             }else if (buttonIndex == 1){//正在推广中定价组
-                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_005 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJ_LIST_CLICK_ZJFY page:ESF_DJ_LIST_PAGE note:nil];
                 
                 SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
                 controller.fixedObj = self.planDic;
@@ -475,7 +475,7 @@
                 [self presentViewController:nav animated:YES completion:nil];
                 //            [self.navigationController pushViewController:controller animated:YES];
             }else if (buttonIndex == 2){//正在推广中定价组
-                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_005 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJ_LIST_CLICK_ZJFY page:ESF_DJ_LIST_PAGE note:nil];
                 SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
                 controller.fixedObj = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
@@ -487,11 +487,11 @@
     }else if(actionSheet.tag == 101){//当推广已暂停时的操作
         if ([LoginManager isSeedForAJK:YES]) {
             if(buttonIndex == 0){//重新开始定价推广
-                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_005 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJ_LIST_CLICK_ZJFY page:ESF_DJ_LIST_PAGE note:nil];
                 [self doRestart];
                 //            [self.navigationController pushViewController:controller animated:YES];
             }else if (buttonIndex == 1){
-                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_005 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJ_LIST_CLICK_ZJFY page:ESF_DJ_LIST_PAGE note:nil];
                 SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
                 controller.fixedObj = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
@@ -502,18 +502,18 @@
             }
         }else{
             if(buttonIndex == 0){//重新开始定价推广
-                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_009 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJ_LIST_START_TG page:ESF_DJ_LIST_PAGE note:nil];
                 [self doRestart];
                 //            [self.navigationController pushViewController:controller animated:YES];
             }else if (buttonIndex == 1){
-                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_009 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJ_LIST_START_TG page:ESF_DJ_LIST_PAGE note:nil];
                 ModifyFixedCostController *controller = [[ModifyFixedCostController alloc] init];
                 controller.fixedObject = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
                 RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:nav animated:YES completion:nil];
             }else if (buttonIndex == 2){
-                [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_005 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJ_LIST_CLICK_ZJFY page:ESF_DJ_LIST_PAGE note:nil];
                 SaleSelectNoPlanController *controller = [[SaleSelectNoPlanController alloc] init];
                 controller.fixedObj = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
@@ -527,11 +527,11 @@
         if(buttonIndex == 0){
             [self cancelFixedProperty];
         }else if (buttonIndex == 1){
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_008 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJ_LIST_EDIT_FYXX page:ESF_DJ_LIST_PAGE note:nil];
             
             //test
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
-            controller.pdId = AJK_PPC_FIXED_DETAIL;
+            controller.pdId = ESF_DJ_LIST_PAGE;
             controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
@@ -539,7 +539,7 @@
         }
     }else if(actionSheet.tag == 103) {
         if(buttonIndex == 0){
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_006 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJ_LIST_CLICK_JJTG page:ESF_DJ_LIST_PAGE note:nil];
             SaleAuctionViewController *controller = [[SaleAuctionViewController alloc] init];
             controller.proDic = [self.myArray objectAtIndex:selectIndex];
             controller.backType = RTSelectorBackTypeDismiss;
@@ -553,12 +553,12 @@
             alert.tag = 105;
             [alert show];
         }else if (buttonIndex == 2){
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_FIXED_DETAIL_008 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJ_LIST_EDIT_FYXX page:ESF_DJ_LIST_PAGE note:nil];
             
             //test
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
-            controller.pdId = AJK_PPC_FIXED_DETAIL;
+            controller.pdId = ESF_DJ_LIST_PAGE;
             controller.backType = RTSelectorBackTypeDismiss;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
             [self presentViewController:nav animated:YES completion:nil];

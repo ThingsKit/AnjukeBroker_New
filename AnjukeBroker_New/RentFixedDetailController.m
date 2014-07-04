@@ -40,7 +40,7 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJ_LIST_ONVIEW page:ZF_DJ_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -159,7 +159,7 @@
 }
 #pragma mark - 取消定价
 -(void)doCancelFixed{
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_007 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJ_LIST_CANCEL_DJTG page:ZF_DJ_LIST_PAGE note:nil];
     
     if (![self isNetworkOkayWithNoInfo]) {
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
@@ -230,7 +230,7 @@
 
 #pragma mark - 请求定价组详情
 -(void)doStopFixedGroup{
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_003 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJ_LIST_STOP_TG page:ZF_DJ_LIST_PAGE note:nil];
     if (![self isNetworkOkayWithNoInfo]) {
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
@@ -345,7 +345,7 @@
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要停止定价推广？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                 [alert show];
             }else if (buttonIndex == 1){//停止推广
-                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJ_LIST_ADD_FY page:ZF_DJ_LIST_PAGE note:nil];
                 
                 RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
                 controller.fixedObj = self.planDic;
@@ -370,7 +370,7 @@
                 [self presentViewController:nav animated:YES completion:nil];
                 
             }else if (buttonIndex == 2){
-                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJ_LIST_ADD_FY page:ZF_DJ_LIST_PAGE note:nil];
                 
                 RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
                 controller.fixedObj = self.planDic;
@@ -382,10 +382,10 @@
     }else if(actionSheet.tag == 101){//当推广已暂停时的操作
         if([LoginManager isSeedForAJK:NO]){
             if(buttonIndex == 0){//重新开始定价推广
-                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_009 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJ_LIST_START_TG page:ZF_DJ_LIST_PAGE note:nil];
                 [self doRestartFixed];
             }else if (buttonIndex == 1){
-                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJ_LIST_ADD_FY page:ZF_DJ_LIST_PAGE note:nil];
                 RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
                 controller.fixedObj = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
@@ -397,7 +397,7 @@
             
         }else{
             if(buttonIndex == 0){//重新开始定价推广
-                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_009 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJ_LIST_START_TG page:ZF_DJ_LIST_PAGE note:nil];
                 [self doRestartFixed];
             }else if (buttonIndex == 1){
                 [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_004 note:nil];
@@ -407,7 +407,7 @@
                 RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
                 [self presentViewController:nav animated:YES completion:nil];
             }else if (buttonIndex == 2){
-                [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_005 note:nil];
+                [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJ_LIST_ADD_FY page:ZF_DJ_LIST_PAGE note:nil];
                 RentSelectNoPlanController *controller = [[RentSelectNoPlanController alloc] init];
                 controller.fixedObj = self.planDic;
                 controller.backType = RTSelectorBackTypeDismiss;
@@ -421,10 +421,10 @@
             alert.tag = 105;
             [alert show];
         }else if (buttonIndex == 1){
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_008 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJ_LIST_EDIT_FYXX page:ZF_DJ_LIST_PAGE note:nil];
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.isHaozu = YES;
-            controller.pdId = HZ_PPC_FIXED_DETAIL;
+            controller.pdId = ZF_DJ_LIST_PAGE;
             controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
@@ -436,7 +436,7 @@
         
     }else if (actionSheet.tag == 103){
         if(buttonIndex == 0){
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_006 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJ_LIST_CLICK_TGFY page:ZF_DJ_LIST_PAGE note:nil];
             RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
             controller.proDic = [self.myArray objectAtIndex:selectIndex];
             controller.backType = RTSelectorBackTypeDismiss;
@@ -451,10 +451,10 @@
             [alert show];
             //            [self.navigationController popToRootViewControllerAnimated:YES];
         }else if (buttonIndex == 2){
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_FIXED_DETAIL_008 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJ_LIST_EDIT_FYXX page:ZF_DJ_LIST_PAGE note:nil];
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.isHaozu = YES;
-            controller.pdId = HZ_PPC_FIXED_DETAIL;
+            controller.pdId = ZF_DJ_LIST_PAGE;
             controller.propertyID = [[self.myArray objectAtIndex:selectIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];

@@ -23,7 +23,7 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_SELECT_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJ_ADD_LIST_ONVIEW page:ZF_DJ_ADD_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -206,7 +206,7 @@
 
 #pragma mark - PrivateMethod
 -(void)rightButtonAction:(id)sender{
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_SELECT_003 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJ_ADD_LIST_CLICK_OK page:ZF_DJ_ADD_LIST_PAGE note:nil];
     if(self.isLoading){
         return ;
     }
@@ -227,6 +227,6 @@
 }
 - (void)doBack:(id)sender{
     [super doBack:self];
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_SELECT_004 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJ_ADD_LIST_CLICK_CANCEL page:ZF_DJ_ADD_LIST_PAGE note:nil];
 }
 @end

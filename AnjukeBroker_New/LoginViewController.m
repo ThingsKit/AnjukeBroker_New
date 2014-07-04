@@ -69,14 +69,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-//#pragma mark - log
-//
-//- (void)sendAppearLog {
-//}
-//- (void) sendDisAppearLog
-//{
-//    [[BrokerLogger sharedInstance] logWithActionCode:APP_LOGIN_004 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"dt", nil]];
-//}
 
 #pragma mark - private method
 - (void)initModel {

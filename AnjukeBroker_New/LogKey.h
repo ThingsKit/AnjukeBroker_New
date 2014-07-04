@@ -157,47 +157,56 @@
 #define ESF_MANAGE_DRAFTLIST     @"1-230005" //点击未推广房源
 #define ESF_MANAGE_CLICK_PUBLISH @"1-230006" //发布房源
 
-//二手房竞价房源列表页
-#define AJK_PPC_BID_DETAIL     @"1-240000"
-#define AJK_PPC_BID_DETAIL_001 @"1-240001" //页面可见（即页面打开）
+/*
+ 所有模块: 二手房竞价房源列表页
+ */
+#define ESF_JJ_LIST_PAGE     @"1-240000"
+#define ESF_JJ_LIST_ONVIEW @"1-240001" //页面可见（即页面打开）
 #define AJK_PPC_BID_DETAIL_002 @"1-240002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
-#define AJK_PPC_BID_DETAIL_003 @"1-240003" //点击返回
-#define AJK_PPC_BID_DETAIL_004 @"1-240004" //点击新增
-#define AJK_PPC_BID_DETAIL_005 @"1-240005" //点击修改房源信息
-#define AJK_PPC_BID_DETAIL_006 @"1-240006" //点击竞价出价&预算
-#define AJK_PPC_BID_DETAIL_007 @"1-240007" //点击暂停竞价推广
-#define AJK_PPC_BID_DETAIL_008 @"1-240008" //点击重新开始竞价
-#define AJK_PPC_BID_DETAIL_009 @"1-240009" //点击取消竞价推广
+#define ESF_JJ_LIST_BACK @"1-240003" //点击返回
+#define ESF_JJ_LIST_NEW @"1-240004" //点击新增
+#define ESF_JJ_LIST_EDIT_PROP @"1-240005" //点击修改房源信息
+#define ESF_JJ_LIST_CLICK_CJJJ @"1-240006" //点击竞价出价&预算
+#define ESF_JJ_LIST_CLICK_STOPJJ @"1-240007" //点击暂停竞价推广
+#define ESF_JJ_LIST_CLICK_RESTART_JJ @"1-240008" //点击重新开始竞价
+#define ESF_JJ_LIST_CLICK_CANCEL_JJ @"1-240009" //点击取消竞价推广
 
-//二手房定价组房源列表页
-#define AJK_PPC_FIXED_DETAIL     @"1-250000"
-#define AJK_PPC_FIXED_DETAIL_001 @"1-250001" //页面可见（即页面打开）
+
+/*
+ 所有模块: 二手房定价组房源列表页
+ */
+#define ESF_DJ_LIST_PAGE     @"1-250000"// PageID
+#define ESF_DJ_LIST_ONVIEW @"1-250001" //页面可见（即页面打开）
 #define AJK_PPC_FIXED_DETAIL_002 @"1-250002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
-#define AJK_PPC_FIXED_DETAIL_003 @"1-250003" //点击停止推广
+#define ESF_DJ_LIST_STOP_TG @"1-250003" //点击停止推广
 #define AJK_PPC_FIXED_DETAIL_004 @"1-250004" //点击修改限额
-#define AJK_PPC_FIXED_DETAIL_005 @"1-250005" //点击添加房源
-#define AJK_PPC_FIXED_DETAIL_006 @"1-250006" //点击竞价推广本房源
-#define AJK_PPC_FIXED_DETAIL_007 @"1-250007" //点击取消定价推广
-#define AJK_PPC_FIXED_DETAIL_008 @"1-250008" //点击修改房源信息
-#define AJK_PPC_FIXED_DETAIL_009 @"1-250009" //点击开始推广
+#define ESF_DJ_LIST_CLICK_ZJFY @"1-250005" //点击添加房源
+#define ESF_DJ_LIST_CLICK_JJTG @"1-250006" //点击竞价推广本房源
+#define ESF_DJ_LIST_CANCEL_JJTG @"1-250007" //点击取消定价推广
+#define ESF_DJ_LIST_EDIT_FYXX @"1-250008" //点击修改房源信息
+#define ESF_DJ_LIST_START_TG @"1-250009" //点击开始推广
 
-//二手房未推广房源列表页
-#define AJK_PPC_NOPLAN_GROUP     @"1-260000"
-#define AJK_PPC_NOPLAN_GROUP_001 @"1-260001" //页面可见（即页面打开）
+/*
+ 所有模块: 二手房未推广房源列表页
+ */
+#define ESF_WTG_LIST_PAGE     @"1-260000"
+#define ESF_WTG_LIST_ONVIEW @"1-260001" //页面可见（即页面打开）
 #define AJK_PPC_NOPLAN_GROUP_002 @"1-260002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
-#define AJK_PPC_NOPLAN_GROUP_003 @"1-260003" //点击返回
-#define AJK_PPC_NOPLAN_GROUP_004 @"1-260004" //点击全选
-#define AJK_PPC_NOPLAN_GROUP_005 @"1-260005" //点击定价推广
-#define AJK_PPC_NOPLAN_GROUP_006 @"1-260006" //点击编辑
-#define AJK_PPC_NOPLAN_GROUP_007 @"1-260007" //点击删除
+#define ESF_WTG_LIST_BACK @"1-260003" //点击返回
+#define ESF_WTG_LIST_CLICK_SELECTALL @"1-260004" //点击全选
+#define ESF_WTG_LIST_CLICK_DJTG @"1-260005" //点击定价推广
+#define ESF_WTG_LIST_CLICK_EDIT @"1-260006" //点击编辑
+#define ESF_WTG_LIST_CLICK_DELETE @"1-260007" //点击删除
 
-//二手房竞价设置页
-#define AJK_PPC_AUCTION     @"1-270000"
-#define AJK_PPC_AUCTION_001 @"1-270001" //页面可见（即页面打开）
+/*
+ 所有模块: 二手房竞价设置页
+ */
+#define ESF_JJ_SETTING_PAGE     @"1-270000"
+#define ESF_JJ_SETTING_ONVIEW @"1-270001" //页面可见（即页面打开）
 #define AJK_PPC_AUCTION_002 @"1-270002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
-#define AJK_PPC_AUCTION_003 @"1-270003" //点击取消
-#define AJK_PPC_AUCTION_004 @"1-270004" //点击确定
-#define AJK_PPC_AUCTION_005 @"1-270005" //点击估排名
+#define ESF_JJ_SETTING_CLICK_CANCEL @"1-270003" //点击取消
+#define ESF_JJ_SETTING_CLICK_OK @"1-270004" //点击确定
+#define ESF_JJ_SETTING_CLICK_GPM @"1-270005" //点击估排名
 
 //二手房选定价推广组页
 #define AJK_PPC_GROUP_LIST     @"1-280000"
@@ -213,16 +222,20 @@
 #define AJK_PPC_MODIFY_003 @"1-290003" //点击确定
 #define AJK_PPC_MODIFY_004 @"1-290004" //点击取消
 
-//二手房定价添加房源页
-#define AJK_PPC_SELECT     @"1-300000"
-#define AJK_PPC_SELECT_001 @"1-300001" //页面可见（即页面打开）
+/*
+ 所有模块: 二手房定价添加房源页
+ */
+#define ESF_DJ_ADD_LIST_PAGE     @"1-300000"
+#define ESF_DJ_ADD_LIST_ONVIEW @"1-300001" //页面可见（即页面打开）
 #define AJK_PPC_SELECT_002 @"1-300002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
-#define AJK_PPC_SELECT_003 @"1-300003" //点击确定
-#define AJK_PPC_SELECT_004 @"1-300004" //点击取消
+#define ESF_DJ_ADD_LIST_CLICK_OK @"1-300003" //点击确定
+#define ESF_DJ_ADD_LIST_CLICK_CANCEL @"1-300004" //点击取消
 
-//二手房竞价添加房源页
-#define AJK_PPC_PROPERTY     @"1-310000"
-#define AJK_PPC_PROPERTY_001 @"1-310001" //页面可见（即页面打开）
+/*
+ 所有模块: 二手房竞价添加房源页
+ */
+#define ESF_JJ_ADD_LIST_PAGE     @"1-310000"
+#define ESF_JJ_ADD_LIST_ONVIEW @"1-310001" //页面可见（即页面打开）
 #define AJK_PPC_PROPERTY_002 @"1-310002" //页面不可见(按home，锁屏，应用切换,打电话不包括按返回键)
 #define AJK_PPC_PROPERTY_003 @"1-310003" //点击取消
 #define AJK_PPC_PROPERTY_004 @"1-310004" //点击房源
@@ -414,47 +427,55 @@
 #define ZF_MANAGE_DRAFTLIST     @"1-430005" //点击未推广房源
 #define ZF_MANAGE_CLICK_PUBLISH @"1-430006" //发布房源
 
-//租房竞价房源列表页
-#define HZ_PPC_BID_DETAIL     @"1-440000"
-#define HZ_PPC_BID_DETAIL_001 @"1-440001" //
+/*
+ 所有模块: 租房竞价房源列表页
+ */
+#define ZF_JS_LIST_PAGE     @"1-440000" //PageID
+#define ZF_JS_LIST_ONVIEW @"1-440001" //页面可见（即页面打开）
 #define HZ_PPC_BID_DETAIL_002 @"1-440002" //
-#define HZ_PPC_BID_DETAIL_003 @"1-440003" //点击返回
-#define HZ_PPC_BID_DETAIL_004 @"1-440004" //点击新增
-#define HZ_PPC_BID_DETAIL_005 @"1-440005" //点击修改房源信息
-#define HZ_PPC_BID_DETAIL_006 @"1-440006" //点击竞价出价&预算
-#define HZ_PPC_BID_DETAIL_007 @"1-440007" //点击暂停竞价推广
-#define HZ_PPC_BID_DETAIL_008 @"1-440008" //点击重新开始竞价
-#define HZ_PPC_BID_DETAIL_009 @"1-440009" //点击取消竞价推广
+#define ZF_JS_LIST_BACK @"1-440003" //点击返回
+#define ZF_JS_LIST_NEW @"1-440004" //点击新增
+#define ZF_JS_LIST_EDIT_FY @"1-440005" //点击修改房源信息
+#define ZF_JS_LIST_CLICK_CJJJ @"1-440006" //点击竞价出价&预算
+#define ZF_JS_LIST_STOP_JJ @"1-440007" //点击暂停竞价推广
+#define ZF_JS_LIST_RESTART_JJ @"1-440008" //点击重新开始竞价
+#define ZF_JS_LIST_CANCEL_JJ @"1-440009" //点击取消竞价推广
 
-//租房定价组房源列表页
-#define HZ_PPC_FIXED_DETAIL     @"1-450000"
-#define HZ_PPC_FIXED_DETAIL_001 @"1-450001" //
+/*
+ 所有模块: 租房定价组房源列表页
+ */
+#define ZF_DJ_LIST_PAGE     @"1-450000" //PageId
+#define ZF_DJ_LIST_ONVIEW @"1-450001" //页面可见(即页面打开)
 #define HZ_PPC_FIXED_DETAIL_002 @"1-450002" //
-#define HZ_PPC_FIXED_DETAIL_003 @"1-450003" //点击停止推广
+#define ZF_DJ_LIST_STOP_TG @"1-450003" //点击停止推广
 #define HZ_PPC_FIXED_DETAIL_004 @"1-450004" //点击修改限额
-#define HZ_PPC_FIXED_DETAIL_005 @"1-450005" //点击添加房源
-#define HZ_PPC_FIXED_DETAIL_006 @"1-450006" //点击竞价推广本房源
-#define HZ_PPC_FIXED_DETAIL_007 @"1-450007" //点击取消定价推广
-#define HZ_PPC_FIXED_DETAIL_008 @"1-450008" //点击修改房源信息
-#define HZ_PPC_FIXED_DETAIL_009 @"1-450009" //开始定价推广
+#define ZF_DJ_LIST_ADD_FY @"1-450005" //点击添加房源
+#define ZF_DJ_LIST_CLICK_TGFY @"1-450006" //点击竞价推广本房源
+#define ZF_DJ_LIST_CANCEL_DJTG @"1-450007" //点击取消定价推广
+#define ZF_DJ_LIST_EDIT_FYXX @"1-450008" //点击修改房源信息
+#define ZF_DJ_LIST_START_TG @"1-450009" //开始定价推广
 
-//租房未推广房源列表页
-#define HZ_PPC_NO_PLAN    @"1-460000"
-#define HZ_PPC_NO_PLAN_01 @"1-460001" //
+/*
+ 所有模块: 租房未推广房源列表页
+ */
+#define ZF_WTG_LIST_PAGE    @"1-460000"
+#define ZF_WTG_LIST_ONVIEW @"1-460001" //
 #define HZ_PPC_NO_PLAN_02 @"1-460002" //
-#define HZ_PPC_NO_PLAN_03 @"1-460003" //点击返回
-#define HZ_PPC_NO_PLAN_04 @"1-460004" //点击全选
-#define HZ_PPC_NO_PLAN_05 @"1-460005" //点击定价推广
-#define HZ_PPC_NO_PLAN_06 @"1-460006" //点击编辑
-#define HZ_PPC_NO_PLAN_07 @"1-460007" //点击删除
+#define ZF_WTG_LIST_BCK @"1-460003" //点击返回
+#define ZF_WTG_LIST_CLICK_SELECTALL @"1-460004" //点击全选
+#define ZF_WTG_LIST_CLICK_DJTG @"1-460005" //点击定价推广
+#define ZF_WTG_LIST_CLICK_EDIT @"1-460006" //点击编辑
+#define ZF_WTG_LIST_CLICK_DELETE @"1-460007" //点击删除
 
-//租房竞价设置页
-#define HZ_PPC_AUCTION     @"1-470000"
-#define HZ_PPC_AUCTION_001 @"1-470001" //
+/*
+ 所有模块: 租房竞价设置页
+ */
+#define ZF_JJ_SETTING_PAGE     @"1-470000"
+#define ZF_JJ_SETTING_ONVIEW @"1-470001" //
 #define HZ_PPC_AUCTION_002 @"1-470002" //
-#define HZ_PPC_AUCTION_003 @"1-470003" //点击取消
-#define HZ_PPC_AUCTION_004 @"1-470004" //点击确定
-#define HZ_PPC_AUCTION_005 @"1-470005" //点击估排名
+#define ZF_JJ_SETTING_CLICK_CANCEL @"1-470003" //点击取消
+#define ZF_JJ_SETTING_CLICK_OK @"1-470004" //点击确定
+#define ZF_JJ_SETTING_CLICK_GPP @"1-470005" //点击估排名
 
 //租房选定价推广组页
 #define HZ_PPC_GROUP_LIST     @"1-480000"
@@ -470,12 +491,14 @@
 #define HZ_PPC_MODIFY_003 @"1-490003" //点击确定
 #define HZ_PPC_MODIFY_004 @"1-490004" //点击取消
 
-//租房定价添加房源页
-#define HZ_PPC_SELECT     @"1-500000"
-#define HZ_PPC_SELECT_001 @"1-500001" //
+/*
+ 所有模块: 租房定价添加房源页
+ */
+#define ZF_DJ_ADD_LIST_PAGE     @"1-500000"
+#define ZF_DJ_ADD_LIST_ONVIEW @"1-500001" //
 #define HZ_PPC_SELECT_002 @"1-500002" //
-#define HZ_PPC_SELECT_003 @"1-500003" //点击确定
-#define HZ_PPC_SELECT_004 @"1-500004" //点击取消
+#define ZF_DJ_ADD_LIST_CLICK_OK @"1-500003" //点击确定
+#define ZF_DJ_ADD_LIST_CLICK_CANCEL @"1-500004" //点击取消
 
 //租房竞价添加房源页
 #define HZ_PPC_BID_NOPLAN     @"1-510000"

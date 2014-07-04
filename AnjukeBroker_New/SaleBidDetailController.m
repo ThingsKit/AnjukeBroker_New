@@ -30,7 +30,7 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_LIST_ONVIEW page:ESF_JJ_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -202,11 +202,11 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_009 note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_LIST_CLICK_CANCEL_JJ page:ESF_JJ_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
         return;
     }
     if([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]){
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_009 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_LIST_CLICK_CANCEL_JJ page:ESF_JJ_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
     }
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
@@ -295,9 +295,9 @@
         }else if (buttonIndex == 1){//取消竞价
             [self doCancelBid];
         }else if (buttonIndex == 2){
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_005 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_LIST_EDIT_PROP page:ESF_JJ_LIST_PAGE note:nil];
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
-            controller.pdId = AJK_PPC_BID_DETAIL;
+            controller.pdId = ESF_JJ_LIST_PAGE;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
@@ -308,7 +308,7 @@
     
     }else{
         if (buttonIndex == 0){//修改房源
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_006 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_LIST_CLICK_CJJJ page:ESF_JJ_LIST_PAGE note:nil];
             SaleAuctionViewController *controller = [[SaleAuctionViewController alloc] init];
             controller.proDic = [self.myArray objectAtIndex:selectedIndex];
             controller.backType = RTSelectorBackTypeDismiss;
@@ -317,12 +317,12 @@
             [self presentViewController:nav animated:YES completion:^{
             }];
         }else if (buttonIndex == 1){//调整预算
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_007 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_LIST_CLICK_STOPJJ page:ESF_JJ_LIST_PAGE note:nil];
             [self doStopBid];
         }else if (buttonIndex == 2){//手动暂停竞价
-            [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_005 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_LIST_EDIT_PROP page:ESF_JJ_LIST_PAGE note:nil];
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
-            controller.pdId = AJK_PPC_BID_DETAIL;
+            controller.pdId = ESF_JJ_LIST_PAGE;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
@@ -335,7 +335,7 @@
 
 #pragma mark -- PrivateMethod
 -(void)rightButtonAction:(id)sender{
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_004 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_LIST_NEW page:ESF_JJ_LIST_PAGE note:nil];
 
     if(self.isLoading){
         return ;
@@ -347,6 +347,6 @@
 }
 - (void)doBack:(id)sender{
     [super doBack:self];
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_003 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_LIST_BACK page:ESF_JJ_LIST_PAGE note:nil];
 }
 @end

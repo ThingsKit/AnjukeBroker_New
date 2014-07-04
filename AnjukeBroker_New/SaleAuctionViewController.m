@@ -21,7 +21,7 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_AUCTION_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_SETTING_ONVIEW page:ESF_JJ_SETTING_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -99,11 +99,11 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_008 note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_LIST_CLICK_RESTART_JJ page:ESF_JJ_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
         return;
     }
     if([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]){
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_008 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_LIST_CLICK_RESTART_JJ page:ESF_JJ_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
     }
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
@@ -174,11 +174,11 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_AUCTION_004 note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_SETTING_CLICK_OK page:ESF_JJ_SETTING_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
         return;
     }
     if([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]){
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_AUCTION_004 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_SETTING_CLICK_OK page:ESF_JJ_SETTING_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
     }
     
     [self hideLoadWithAnimated:YES];
@@ -225,11 +225,11 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_008 note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_LIST_CLICK_RESTART_JJ page:ESF_JJ_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
         return;
     }
     if([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]){
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_BID_DETAIL_008 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_LIST_CLICK_RESTART_JJ page:ESF_JJ_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
     }
     //    NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[[response content] objectForKey:@"data"]];
     
@@ -299,7 +299,7 @@
 }
 
 - (void)checkRank {
-        [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_AUCTION_005 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_SETTING_CLICK_GPM page:ESF_JJ_SETTING_PAGE note:nil];
     if([self.textField_2.text floatValue] < [self.bottomOffer floatValue]){
         [self showInfo:[NSString stringWithFormat:@"出价不得低于底价%@元", self.bottomOffer]];
         return ;
@@ -308,6 +308,6 @@
 }
 - (void)doBack:(id)sender{
     [super doBack:self];
-    [[BrokerLogger sharedInstance] logWithActionCode:AJK_PPC_AUCTION_003 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_JJ_SETTING_CLICK_CANCEL page:ESF_JJ_SETTING_PAGE note:nil];
 }
 @end

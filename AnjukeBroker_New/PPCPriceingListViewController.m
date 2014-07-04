@@ -312,7 +312,6 @@
     }else{
         PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
         controller.isHaozu = self.isHaozu;
-//        controller.pdId = HZ_PPC_BID_DETAIL;
         controller.propertyID = [self.tableData objectAtIndex:indexPath.row][@"propId"];
         controller.backType = RTSelectorBackTypeDismiss;
         RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];

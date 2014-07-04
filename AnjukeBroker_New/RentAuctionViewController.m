@@ -22,7 +22,7 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_AUCTION_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_JJ_SETTING_ONVIEW page:ZF_JJ_SETTING_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -95,11 +95,11 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_AUCTION_004 note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_JJ_SETTING_CLICK_OK page:ZF_JJ_SETTING_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
         return;
     }
     if([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]){
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_AUCTION_004 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_JJ_SETTING_CLICK_OK page:ZF_JJ_SETTING_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
     }
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
@@ -131,11 +131,11 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_008 note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_JS_LIST_RESTART_JJ page:ZF_JS_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
         return;
     }
     if([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]){
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_008 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_JS_LIST_RESTART_JJ page:ZF_JS_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
     }
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
@@ -201,11 +201,11 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_006 note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_JS_LIST_CLICK_CJJJ page:ZF_JS_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
         return;
     }
     if([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]){
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_006 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_JS_LIST_CLICK_CJJJ page:ZF_JS_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
     }
     self.textField_2.placeholder = [NSString stringWithFormat:@"底价%@元",[[response content] objectForKey:@"data"]];
     [self hideLoadWithAnimated:YES];
@@ -298,7 +298,7 @@
     [UIView commitAnimations];
 }
 - (void)checkRank {
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_AUCTION_005 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_JJ_SETTING_CLICK_GPP page:ZF_JJ_SETTING_PAGE note:nil];
     if([self.textField_2.text floatValue] < [self.bottomOffer floatValue]){
         [self showInfo:[NSString stringWithFormat:@"出价不得低于底价%@元", self.bottomOffer]];
         return ;
@@ -306,7 +306,7 @@
     [self doCheckRank];
 }
 - (void)rightButtonAction:(id)sender {
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_AUCTION_004 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_JJ_SETTING_CLICK_OK page:ZF_JJ_SETTING_PAGE note:nil];
     if(self.textField_1.text == nil){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请填写预算" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alert show];
@@ -389,6 +389,6 @@
 
 - (void)doBack:(id)sender{
     [super doBack:self];
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_AUCTION_003 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_JJ_SETTING_CLICK_CANCEL page:ZF_JJ_SETTING_PAGE note:nil];
 }
 @end

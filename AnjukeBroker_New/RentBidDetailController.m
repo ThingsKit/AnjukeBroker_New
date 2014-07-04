@@ -33,7 +33,7 @@
 
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_001 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_JS_LIST_ONVIEW page:ZF_JS_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -173,11 +173,11 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_009 note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_JS_LIST_CANCEL_JJ page:ZF_JS_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"jj_s", nil]];
         return;
     }
     if([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]){
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_009 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_JS_LIST_CANCEL_JJ page:ZF_JS_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"jj_s", nil]];
     }
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
@@ -286,10 +286,10 @@
         }else if (buttonIndex == 1){//重新开始竞价
             [self doCancelBid];
         }else if (buttonIndex == 2){//取消竞价
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_005 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_JS_LIST_EDIT_FY page:ZF_JS_LIST_PAGE note:nil];
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.isHaozu = YES;
-            controller.pdId = HZ_PPC_BID_DETAIL;
+            controller.pdId = ZF_JS_LIST_PAGE;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
@@ -300,7 +300,7 @@
         
     }else{
         if (buttonIndex == 0){//调整预算
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_006 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_JS_LIST_CLICK_CJJJ page:ZF_JS_LIST_PAGE note:nil];
             RentAuctionViewController *controller = [[RentAuctionViewController alloc] init];
             controller.proDic = [self.myArray objectAtIndex:selectedIndex];
             controller.backType = RTSelectorBackTypeDismiss;
@@ -309,13 +309,13 @@
             [self presentViewController:nav animated:YES completion:^{
             }];
         }else if (buttonIndex == 1){//手动暂停竞价
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_007 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_JS_LIST_STOP_JJ page:ZF_JS_LIST_PAGE note:nil];
             [self doStopBid];
         }else if (buttonIndex == 2){//修改房源
-            [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_BID_DETAIL_005 note:nil];
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_JS_LIST_EDIT_FY page:ZF_JS_LIST_PAGE note:nil];
             PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
             controller.isHaozu = YES;
-            controller.pdId = HZ_PPC_BID_DETAIL;
+            controller.pdId = ZF_JS_LIST_PAGE;
             controller.propertyID = [[self.myArray objectAtIndex:selectedIndex] objectForKey:@"id"];
             controller.backType = RTSelectorBackTypeDismiss;
             RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];

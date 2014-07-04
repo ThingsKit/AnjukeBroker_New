@@ -35,7 +35,7 @@
 @synthesize rightButtonItem;
 #pragma mark - log
 - (void)sendAppearLog {
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_NO_PLAN_01 note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_ONVIEW  page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (void)sendDisAppearLog {
@@ -266,11 +266,11 @@
         [alert show];
         [self hideLoadWithAnimated:YES];
         self.isLoading = NO;
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_NO_PLAN_05 note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"dj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_DJTG page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"false", @"dj_s", nil]];
         return;
     }
     if([[[response content] objectForKey:@"status"] isEqualToString:@"ok"]){
-        [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_NO_PLAN_05 note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"dj_s", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_DJTG page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"dj_s", nil]];
     }
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
@@ -357,7 +357,7 @@
 }
 
 - (void)doEdit {
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_NO_PLAN_06 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_EDIT page:ZF_WTG_LIST_PAGE note:nil];
     //只有单独勾选可对房源进行编辑
     if (self.selectedArray.count != 1) {
         return;
@@ -365,7 +365,7 @@
     PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
     SalePropertyObject *pro = (SalePropertyObject *)[self.selectedArray objectAtIndex:0];
     controller.isHaozu = YES;
-    controller.pdId = HZ_PPC_NO_PLAN;
+    controller.pdId = ZF_WTG_LIST_PAGE;
     controller.propertyID = pro.propertyId;
     controller.propertyDelegate = self;
     controller.backType = RTSelectorBackTypeDismiss;
@@ -373,7 +373,7 @@
     [self presentViewController:nav animated:YES completion:nil];
 }
 -(void)rightButtonAction:(id)sender{
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_NO_PLAN_04 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_SELECTALL page:ZF_WTG_LIST_PAGE note:nil];
     if(self.isLoading){
         return ;
     }
@@ -400,7 +400,7 @@
 }
 
 -(void)delete{
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_NO_PLAN_07 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_DELETE page:ZF_WTG_LIST_PAGE note:nil];
     
     if ([self.selectedArray count] == 0) {
         UIAlertView *tempView = [[UIAlertView alloc] initWithTitle:@"友情提示" message:@"请选择房源" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -414,7 +414,7 @@
 }
 
 -(void)mutableFixed{
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_NO_PLAN_05 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_DJTG page:ZF_WTG_LIST_PAGE note:nil];
     
     if ([self.selectedArray count] == 0) {
         UIAlertView *tempView = [[UIAlertView alloc] initWithTitle:@"友情提示" message:@"请选择房源" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -486,7 +486,7 @@
     }else if (buttonIndex == 1){
         PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
         controller.isHaozu = YES;
-        controller.pdId = HZ_PPC_NO_PLAN;
+        controller.pdId = ZF_WTG_LIST_PAGE;
         controller.propertyID = [[self.selectedArray objectAtIndex:0] objectForKey:@"id"];
         [self.navigationController pushViewController:controller animated:YES];
     }else if (buttonIndex == 2){
@@ -504,7 +504,7 @@
 }
 - (void)doBack:(id)sender{
     [super doBack:self];
-    [[BrokerLogger sharedInstance] logWithActionCode:HZ_PPC_NO_PLAN_03 note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_BCK page:ZF_WTG_LIST_PAGE note:nil];
 }
 #pragma mark --UIAlertViewDelegate
 
