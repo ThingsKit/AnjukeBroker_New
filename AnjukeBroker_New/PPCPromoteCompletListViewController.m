@@ -99,11 +99,11 @@
 
 
     if (self.isHaozu) {
-        params = [NSMutableDictionary dictionaryWithObjectsAndKeys: [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propIDS, @"propId", nil];
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys: [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propIDS, @"propIds", nil];
         method = @"zufang/prop/choice/stop/";
     }
     else {
-        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID], @"brokerId", propIDS, @"propId", nil];
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID], @"brokerId", propIDS, @"propIds", nil];
         method = @"anjuke/prop/choice/stop/";
     }
 

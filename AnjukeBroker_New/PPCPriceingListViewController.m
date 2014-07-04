@@ -13,11 +13,12 @@
 #import "PropertyEditViewController.h"
 #import "RTGestureBackNavigationController.h"
 #import "CommunityListViewController.h"
+#import "PropertySingleViewController.h"
 
 @interface PPCPriceingListViewController ()
 @property(nonatomic, strong) NSMutableArray *tableData;
-@property(nonatomic, strong) NSArray *lastedListData;
-@property(nonatomic, strong) NSArray *oldListData;
+@property(nonatomic, strong) NSMutableArray *lastedListData;
+@property(nonatomic, strong) NSMutableArray *oldListData;
 
 @property(nonatomic, assign) BOOL isLoading;
 @end
@@ -67,9 +68,6 @@
     if (self.lastedListData.count == 0 && self.oldListData.count == 0) {
         return 0;
     }
-    if (self.lastedListData.count > 0 && self.oldListData.count > 0) {
-        return 2;
-    }
     return 1;
 }
 
@@ -102,7 +100,11 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.tableData.count;
+    if (section == 0) {
+        return self.lastedListData.count;
+    }else{
+        return self.oldListData.count;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -121,6 +123,9 @@
         cell.delegate = self;
     }
     
+    if (indexPath.section == 0) {
+        
+    }
     
     PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.tableData objectAtIndex:indexPath.row]];
     
@@ -148,8 +153,11 @@
     if (!self.tableData || self.navigationController.view.frame.origin.x > 0) {
         return;
     }
+    
+    PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
+//    singleVC.propId = [];
 }
-
+#pragma mark -- method
 - (void)doRequest{
     self.isLoading = YES;
     NSMutableDictionary *params = nil;
@@ -210,10 +218,12 @@
     self.tableData = [[NSMutableArray alloc] init];
     
     if (resultData[@"newList"]) {
-        self.lastedListData = [NSArray arrayWithArray:resultData[@"newList"]];
+        [self.lastedListData removeAllObjects];
+        self.lastedListData = [NSMutableArray arrayWithArray:resultData[@"newList"]];
     }
     if (resultData[@"oldList"]) {
-        self.oldListData = [NSArray arrayWithArray:resultData[@"oldList"]];
+        [self.oldListData removeAllObjects];
+        self.oldListData = [NSMutableArray arrayWithArray:resultData[@"oldList"]];
     }
     
     [self.tableData addObjectsFromArray:self.lastedListData];

@@ -154,7 +154,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identify1 = @"cell1";
-    static NSString *identify2 = @"cell1";
+    static NSString *identify2 = @"cell2";
     
     if (indexPath.section == 0) {
         RTListCell *cell = (RTListCell *)[tableView dequeueReusableCellWithIdentifier:identify1];
@@ -221,8 +221,14 @@
     if (!cell) {
         cell = [[PPCSelectedListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify2];
     }
-    PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.tableData objectAtIndex:indexPath.row]];
-    [cell configureCell:model withIndex:indexPath.row];
+    
+    if (indexPath.section == 1) {
+        PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.onSpreadListData objectAtIndex:indexPath.row]];
+        [cell configureCell:model withIndex:indexPath.row];
+    }else if (indexPath.section == 2){
+        PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.onQueueListData objectAtIndex:indexPath.row]];
+        [cell configureCell:model withIndex:indexPath.row];
+    }
     
     if (indexPath.row == 0) {
         [cell showTopLine];
@@ -348,6 +354,7 @@
 }
 #pragma mark -- UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    DLog(@"click---->>%d",indexPath.row);
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (!self.tableData || self.navigationController.view.frame.origin.x > 0) {
         return;
