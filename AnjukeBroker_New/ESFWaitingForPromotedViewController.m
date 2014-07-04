@@ -53,8 +53,7 @@
     self.MutipleEditView.backgroundColor = [UIColor brokerBlackColor];
     self.MutipleEditView.alpha = 0.7;
     
-    self.isSelectAll = false;
-    self.selectedCellCount = 0;
+
     
     _buttonSelect = [UIButton buttonWithType:UIButtonTypeCustom];
     _buttonSelect.frame = CGRectMake(0, 0, ScreenWidth * 0.48, 49);
@@ -62,7 +61,7 @@
     
     
     UIImageView *selectImage = [[UIImageView alloc] initWithFrame:CGRectMake((56 - 22)/2, (50 - 22)/2, 22, 22)];
-    [selectImage setImage:[UIImage imageNamed:@"broker_property_control_select_gray@2x.png"]];
+    selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray@2x.png"];
     [_buttonSelect addSubview:selectImage];
     self.selectImage = selectImage;
     
@@ -75,20 +74,29 @@
     allSelectLabel.left = selectImage.right + 5;
     [_buttonSelect addSubview:allSelectLabel];
     
-    
     _buttonPromote = [UIButton buttonWithType:UIButtonTypeCustom];
     _buttonPromote.frame = CGRectMake(0, 12, 120, 33);
     _buttonPromote.right = ScreenWidth - 10;
     _buttonPromote.centerY = 50/2;
     _buttonPromote.titleLabel.font = [UIFont ajkH3Font];
-    [_buttonPromote setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_button_little_blue@2x.png"] forState:UIControlStateNormal];
+    [_buttonPromote setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
     [_buttonPromote setTitle:[NSString stringWithFormat:@"定价推广(%d)", self.selectedCellCount]  forState:UIControlStateNormal];
+    [_buttonPromote addTarget:self action:@selector(clickFixPromotionButton:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.MutipleEditView addSubview:_buttonSelect];
     [self.MutipleEditView addSubview:_buttonPromote];
     
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.MutipleEditView];
+    
+}
+
+- (void)clickFixPromotionButton:(id)sender
+{
+    
+    NSString *method     = @"anjuke/fix/addpropstoplan/";
+#warning 测试brokerId
+    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":[]};
     
 }
 
@@ -115,6 +123,10 @@
 {
     NSMutableArray *dataArray       = [[response.content objectForKey:@"data"] objectForKey:@"propertyList"];
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    self.isSelectAll = false;
+    self.selectedCellCount = 0;
+    self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray@2x.png"];
+    [self updatePromotionButtonText];
     for (int i = 0; i < dataArray.count; i++) {
         PropSelectStatusModel *selectStatusModel = [PropSelectStatusModel new];
         selectStatusModel.selectStatus = false;
@@ -292,6 +304,12 @@
     
 }
 
+
+//房源选择数清零
+- (void)clearSelectStatus
+{
+    
+}
 
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

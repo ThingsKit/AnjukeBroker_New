@@ -81,7 +81,7 @@
     _buttonPromote.right = ScreenWidth - 10;
     _buttonPromote.centerY = 50/2;
     _buttonPromote.titleLabel.font = [UIFont ajkH3Font];
-    [_buttonPromote setBackgroundImage:[UIImage imageNamed:@"anjuke_icon_button_little_blue@2x.png"] forState:UIControlStateNormal];
+    [_buttonPromote setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue@2x.png"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
     [_buttonPromote setTitle:[NSString stringWithFormat:@"定价推广(%d)", self.selectedCellCount]  forState:UIControlStateNormal];
     [_buttonPromote addTarget:self action:@selector(clickFixPromotionButton:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -103,6 +103,8 @@
 {
 //    NSString     *method = @"anjuke/prop/noplanprops/";
     NSString *method = @"zufang/prop/noplanprops/";
+    NSString     *method = @"zufang/prop/noplanprops/";
+//    NSString *method = @"zufang/prop/noplanprops/";
     NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":brokerId,@"cityId":cityId,@"is_nocheck":@"1"};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleRequestData:)];
 }
@@ -111,6 +113,10 @@
 {
     NSArray *dataArray       = [[response.content objectForKey:@"data"] objectForKey:@"propertyList"];
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:dataArray.count];
+    self.isSelectAll = false;
+    self.selectedCellCount = 0;
+    self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray@2x.png"];
+    [self updatePromotionButtonText];
     for (int i = 0; i < dataArray.count; i++) {
         PropSelectStatusModel *selectStatusModel = [PropSelectStatusModel new];
         selectStatusModel.selectStatus = false;
@@ -125,7 +131,7 @@
 
 - (void)clickFixPromotionButton:(id)sender
 {
-
+    
 }
 
 #pragma mark - cell选择处理
