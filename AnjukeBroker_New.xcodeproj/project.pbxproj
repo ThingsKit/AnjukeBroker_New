@@ -303,6 +303,7 @@
 		678D38FD1964330600E9E155 /* ChoicePromotionableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 678D38FC1964330600E9E155 /* ChoicePromotionableCell.m */; };
 		678D39001965370A00E9E155 /* ChoiceSummaryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 678D38FF1965370A00E9E155 /* ChoiceSummaryModel.m */; };
 		678D39031965372600E9E155 /* BrokerBalanceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 678D39021965372600E9E155 /* BrokerBalanceModel.m */; };
+		678D390C196658DD00E9E155 /* PropertyDetailCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 678D390B196658DD00E9E155 /* PropertyDetailCellModel.m */; };
 		6794E40F1947EC2C0069F1ED /* broker_fy_noproperty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3F51947EC2C0069F1ED /* broker_fy_noproperty@2x.png */; };
 		6794E4101947EC2C0069F1ED /* broker_home_icon_esf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3F61947EC2C0069F1ED /* broker_home_icon_esf@2x.png */; };
 		6794E4111947EC2C0069F1ED /* broker_home_icon_scfx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6794E3F71947EC2C0069F1ED /* broker_home_icon_scfx@2x.png */; };
@@ -1256,6 +1257,8 @@
 		678D38FF1965370A00E9E155 /* ChoiceSummaryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoiceSummaryModel.m; sourceTree = "<group>"; };
 		678D39011965372600E9E155 /* BrokerBalanceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerBalanceModel.h; sourceTree = "<group>"; };
 		678D39021965372600E9E155 /* BrokerBalanceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerBalanceModel.m; sourceTree = "<group>"; };
+		678D390A196658DD00E9E155 /* PropertyDetailCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyDetailCellModel.h; sourceTree = "<group>"; };
+		678D390B196658DD00E9E155 /* PropertyDetailCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyDetailCellModel.m; sourceTree = "<group>"; };
 		6794E3F51947EC2C0069F1ED /* broker_fy_noproperty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_fy_noproperty@2x.png"; sourceTree = "<group>"; };
 		6794E3F61947EC2C0069F1ED /* broker_home_icon_esf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_home_icon_esf@2x.png"; sourceTree = "<group>"; };
 		6794E3F71947EC2C0069F1ED /* broker_home_icon_scfx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker_home_icon_scfx@2x.png"; sourceTree = "<group>"; };
@@ -2791,6 +2794,8 @@
 		67203D9A19629DE700A32B60 /* PropertyModel */ = {
 			isa = PBXGroup;
 			children = (
+				678D390A196658DD00E9E155 /* PropertyDetailCellModel.h */,
+				678D390B196658DD00E9E155 /* PropertyDetailCellModel.m */,
 				67203D9419629D3B00A32B60 /* PricePromotionCellModel.h */,
 				67203D9519629D3B00A32B60 /* PricePromotionCellModel.m */,
 				67203D9719629DE100A32B60 /* ChoicePromotionCellModel.h */,
@@ -5418,6 +5423,7 @@
 				F853330E194FD8700025B914 /* AXChatMessagePublicCard3Cell.m in Sources */,
 				B7EAD53018CD927200B28FEC /* UIColor+AXChatMessage.m in Sources */,
 				2026044818B9D6CA00F75A56 /* ClientModel.m in Sources */,
+				678D390C196658DD00E9E155 /* PropertyDetailCellModel.m in Sources */,
 				20A2178618BF1804002CA469 /* HouseSelectCommunityCell.m in Sources */,
 				F8A717E119209E6D004840C6 /* CheckoutCommunityViewController.m in Sources */,
 				97A0F0221816227A00C31D83 /* BrokerLineView.m in Sources */,
