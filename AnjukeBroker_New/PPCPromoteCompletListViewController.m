@@ -30,7 +30,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self setTitleViewWithString:@"推广结束"];
+    if (self.isHaozu) {
+        [self setTitleViewWithString:@"租房精选-推广结束"];
+    }else{
+        [self setTitleViewWithString:@"二手房精选-推广结束"];
+    }
     
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
@@ -42,7 +46,7 @@
     UIEdgeInsets insets = [self tableViewInsetsWithBottomValue:50];
     self.tableList.contentInset = insets;
     
-    self.forbiddenEgo = YES;
+    self.forbiddenEgo = NO;
 
 
     UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 50 - 20 -44, ScreenWidth, 50)];
@@ -60,6 +64,10 @@
 }
 
 - (void)cleanAll:(id)sender{
+    [self cleanPromoteCompletHouse:nil];
+}
+
+- (void)cleanPromoteCompletHouse:(NSString *)propertyID{
     
     if (self.tableData.count == 0) {
         return;
@@ -76,16 +84,26 @@
     NSString *method = nil;
     
     NSString *propIDS;
-    for (int i = 0; i < self.tableData.count; i++) {
-        [propIDS stringByAppendingString:[self.tableData objectAtIndex:i][@"propId"]];
+    
+    if (!propertyID) {
+        for (int i = 0; i < self.tableData.count; i++) {
+            if (i == 0) {
+                propIDS = [self.tableData objectAtIndex:0][@"propId"];
+            }else{
+                [propIDS stringByAppendingString:[NSString stringWithFormat:@",%@",[[self.tableData objectAtIndex:i] objectForKey:@"propId"]]];
+            }
+        }
+    }else{
+        propIDS = propertyID;
     }
+    
     
     if (self.isHaozu) {
         params = [NSMutableDictionary dictionaryWithObjectsAndKeys: [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propIDS, @"propId", nil];
-        method = @"zufang/prop/delprops/";
+        method = @"zufang/prop/choice/stop/";
     }
     else {
-        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getUserID], @"brokerId", propIDS, @"propId", nil];
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID], @"brokerId", propIDS, @"propId", nil];
         method = @"anjuke/prop/choice/stop/";
     }
     
@@ -105,7 +123,8 @@
         
         [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         
-        //        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        DLog(@"errorMsg--->>%@",errorMsg);
         return;
     }
     
@@ -175,58 +194,8 @@
     
     NSIndexPath *indexPath = [self.tableList indexPathForCell:cell];
     self.deleCellNum = indexPath.row;
-    [self doDeleteProperty:[self.tableData objectAtIndex:indexPath.row][@"propId"]];
+    [self cleanPromoteCompletHouse:[self.tableData objectAtIndex:indexPath.row][@"propId"]];
 }
-
-//删除房源
-- (void)doDeleteProperty:(NSString *)propertyID{
-    self.isLoading = YES;
-    if (![self isNetworkOkayWithNoInfo]) {
-        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
-        self.isLoading = NO;
-        return;
-    }
-    //更新房源信息
-    NSMutableDictionary *params = nil;
-    NSString *method = nil;
-    
-    if (self.isHaozu) {
-        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propertyID, @"propIds", nil];
-        method = @"zufang/prop/delprops/";
-    }
-    else {
-        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propertyID, @"propIds", nil];
-        method = @"anjuke/prop/delprops/";
-    }
-    
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onDeletePropFinished:)];
-}
-
-- (void)onDeletePropFinished:(RTNetworkResponse *)response {
-    DLog(@"--delete Prop。。。response [%@]", [response content]);
-    
-    if([[response content] count] == 0){
-        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
-    }
-    
-    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-        
-        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
-        
-        //        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        return;
-    }
-    
-    [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
-
-    [self.tableData removeObjectAtIndex:self.deleCellNum];
-    NSIndexPath *path = [NSIndexPath indexPathForItem:self.deleCellNum inSection:0];
-    
-    [self.tableList deleteRowsAtIndexPaths:[NSArray arrayWithObjects:path, nil] withRowAnimation:UITableViewRowAnimationLeft];
-}
-
 
 - (NSMutableArray *)getMenuButton{
     NSMutableArray *btnArr = [NSMutableArray array];

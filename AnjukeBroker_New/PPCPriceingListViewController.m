@@ -43,8 +43,13 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    [self setTitleViewWithString:@"定价推广"];
+
+    if (self.isHaozu) {
+        [self setTitleViewWithString:@"租房-定价推广"];
+    }else{
+        [self setTitleViewWithString:@"二手房-定价推广"];
+    }
+
     [self addRightButton:@"发布" andPossibleTitle:nil];
 
     self.tableList.dataSource = self;

@@ -47,8 +47,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self setTitleViewWithString:@"精选推广"];
-
+    if (self.isHaozu) {
+        [self setTitleViewWithString:@"租房-精选推广"];
+    }else{
+        [self setTitleViewWithString:@"二手房-精选推广"];
+    }
+    
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -77,12 +81,12 @@
         }else if (section == 2){
             return self.onQueueListData.count;
         }else if (section == 3){
-//            if (self.onOfflineListData.count == 0) {
-//                return 0;
-//            }else{
-//                return 2;
-//            }
-            return 2;
+            if (self.onOfflineListData.count == 0) {
+                return 0;
+            }else{
+                return 2;
+            }
+//            return 2;
         }
     }
     return 0;
@@ -95,8 +99,8 @@
         }
     }
     
-//    if (self.onOfflineListData.count > 0) {
-    if (self.onOfflineListData.count == 0 && indexPath.section == 3) {
+    if (self.onOfflineListData.count > 0 && indexPath.section == 3) {
+//    if (self.onOfflineListData.count == 0 && indexPath.section == 3) {
         if (indexPath.row == 1){
             return 45;
         }else if (indexPath.row == 0){
@@ -182,8 +186,8 @@
         return cell;
     }
     
-//    if (self.onOfflineListData.count > 0) {
-    if (self.onOfflineListData.count == 0 && indexPath.section == 3) {
+    if (self.onOfflineListData.count > 0 && indexPath.section == 3) {
+//    if (self.onOfflineListData.count == 0 && indexPath.section == 3) {
         RTListCell *cell = (RTListCell *)[tableView dequeueReusableCellWithIdentifier:identify1];
         if (!cell) {
             cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify1];
@@ -246,7 +250,7 @@
 - (void)goSelectIntro:(id)sender{
     CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
     webVC.webTitle = @"精选房源";
-    webVC.webUrl = [NSString stringWithFormat:@"http://api.anjuke.com/web/nearby/brokersign/shandianxia.html?city_id=%@",[LoginManager getCity_id]];
+    webVC.webUrl = [NSString stringWithFormat:@"http://pages.anjuke.com/choice/ajkindex.html?city_id=%@",[LoginManager getCity_id]];
     
     [self.navigationController pushViewController:webVC animated:YES];
 }
@@ -349,11 +353,11 @@
         return;
     }
     
-//    if (self.onOfflineListData.count > 0 && indexPath.section == 3 && indexPath.row == 1) {
-    if (self.onOfflineListData.count == 0 && indexPath.section == 3 && indexPath.row == 1) {
+    if (self.onOfflineListData.count > 0 && indexPath.section == 3 && indexPath.row == 1) {
+//    if (self.onOfflineListData.count == 0 && indexPath.section == 3 && indexPath.row == 1) {
         PPCPromoteCompletListViewController *promoteCompletListVC = [[PPCPromoteCompletListViewController alloc] init];
         promoteCompletListVC.isHaozu = self.isHaozu;
-        promoteCompletListVC.tableData = self.onSpreadListData;
+        promoteCompletListVC.tableData = self.onOfflineListData;
         [self.navigationController pushViewController:promoteCompletListVC animated:YES];
     }
 }
