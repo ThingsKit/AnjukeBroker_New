@@ -28,6 +28,7 @@
 @property (nonatomic, strong) UIImageView* multiPictureIcon; //多图图标
 @property (nonatomic, strong) UIImageView* choiceIcon; //精选推广图标
 @property (nonatomic, strong) UIImageView* mobileIcon; //手机发图图标
+@property (nonatomic) int picDistance;
 
 @property (nonatomic)BOOL isSelected;
 
@@ -183,55 +184,68 @@
         _propertyIcon.image = [UIImage imageNamed:@"anjuke61_bg4"]; //默认图片
     }
     
-    //房源标题
-    _propertyTitle.frame = CGRectMake(_propertyIcon.right + 12, 15, 190, 20);
-    _propertyTitle.text = self.propertyDetailTableViewCellModel.title;
-    //    _userName.backgroundColor = [UIColor redColor];
-    
     //多图
     if ([@"1" isEqualToString:self.propertyDetailTableViewCellModel.isMoreImg]) {
-        _multiPictureIcon.frame = CGRectMake(_propertyTitle.right, 16, 17, 17);
-        _multiPictureIcon.image = [UIImage imageNamed:@"broker_property_icon_pic"];
+        DLog(@"多图存在");
+        
+        _multiPictureIcon.frame = CGRectMake(0, 16, 17, 17);
+        _multiPictureIcon.right = 320 - 15;
+        _multiPictureIcon.left = _multiPictureIcon.right -17;
         _multiPictureIcon.hidden = NO;
-    }else{
+        
+        _multiPictureIcon.image = [UIImage imageNamed:@"broker_property_icon_pic"];
+    } else {
+        _multiPictureIcon.width = 0;
         _multiPictureIcon.hidden = YES;
     }
     
     //精选
     if ([@"1" isEqualToString:self.propertyDetailTableViewCellModel.isChoice]) {
-        if (self.propertyDetailTableViewCellModel.isMoreImg && [@"1" isEqualToString:self.propertyDetailTableViewCellModel.isMoreImg]) {
-            _choiceIcon.frame = CGRectMake(_multiPictureIcon.right + 2, 16, 17, 17);
-            _choiceIcon.image = [UIImage imageNamed:@"broker_property_icon_jx"];
-            _choiceIcon.hidden = NO;
-        }else{
-            _choiceIcon.frame = CGRectMake(_propertyTitle.right, 16, 17, 17);
-            _choiceIcon.image = [UIImage imageNamed:@"broker_property_icon_jx"];
-            _choiceIcon.hidden = NO;
+        DLog(@"精选存在");
+        
+        _choiceIcon.frame = CGRectMake(0, 16, 17, 17);
+        if (_multiPictureIcon.hidden == YES) {
+            _choiceIcon.right = 320 - 15;
+        } else {
+            _choiceIcon.right = 320 - 15 -17 - 2;
         }
-    }else{
+        _choiceIcon.left = _choiceIcon.right - 17;
+        _choiceIcon.image = [UIImage imageNamed:@"broker_property_icon_jx"];
+        _choiceIcon.hidden = NO;
+        
+    } else {
+        _choiceIcon.width = 0;
         _choiceIcon.hidden = YES;
     }
     
     //手机
     if ([@"1" isEqualToString:self.propertyDetailTableViewCellModel.isPhonePub]) {
-        if (self.propertyDetailTableViewCellModel.isChoice && [@"1" isEqualToString:self.propertyDetailTableViewCellModel.isChoice]) {
-            _mobileIcon.frame = CGRectMake(_choiceIcon.right + 2, 16, 17, 17);
-            _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
-            _mobileIcon.hidden = NO;
-        }else if(self.propertyDetailTableViewCellModel.isMoreImg && [@"1" isEqualToString:self.propertyDetailTableViewCellModel.isMoreImg]){
-            _mobileIcon.frame = CGRectMake(_multiPictureIcon.right + 2, 16, 17, 17);
-            _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
-            _mobileIcon.hidden = NO;
-        }else{
-            _mobileIcon.frame = CGRectMake(_propertyTitle.right, 16, 17, 17);
-            _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
-            _mobileIcon.hidden = NO;
-        }
+        DLog(@"手机存在");
         
-    }else{
+        _mobileIcon.frame = CGRectMake(0, 16, 17, 17);
+        if (_multiPictureIcon.hidden && _choiceIcon.hidden) {
+            _mobileIcon.right = 320 - 15;
+        } else if (_multiPictureIcon.hidden || _choiceIcon.hidden){
+            _mobileIcon.right = 320 - 15 - (17 + 2) * 1;
+        } else {
+            _mobileIcon.right = 320 - 15 - (17 + 2) * 2;
+        }
+        _mobileIcon.left = _mobileIcon.right - 17;
+        _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
+        _mobileIcon.hidden = NO;
+        
+    } else {
+        _mobileIcon.width = 0;
         _mobileIcon.hidden = YES;
     }
-
+    
+//    //房源标题
+    _propertyTitle.frame = CGRectMake(56 + 80 + 12, 15,100, 20);
+    _propertyTitle.right = _mobileIcon.left - 2;
+    _propertyTitle.left =_propertyIcon.right + 12;
+    _propertyTitle.text = self.propertyDetailTableViewCellModel.title;
+//    _propertyTitle.backgroundColor = [UIColor redColor];
+    
     
     //小区名称
     _community.frame = CGRectMake(_propertyIcon.right + 12, _propertyTitle.bottom + GAP_V, 100, 16);
