@@ -8,6 +8,7 @@
 
 #import "PromotionSettingsViewController.h"
 #import "RTListCell.h"
+#import "HudTipsUtils.h"
 
 #define MORE_CELL_H 44
 @interface PromotionSettingsViewController ()
@@ -119,6 +120,7 @@
     }
     if ([[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         DLog(@"error message--->>%@",[[response content] objectForKey:@"message"]);
+       [self displayHUDWithStatus:response.content[@"status"] Message:response.content[@"message"] ErrCode:@"1"];
         return false;
     }
     return true;
@@ -133,6 +135,10 @@
     return true;
 }
 
+- (void)displayHUDWithStatus:(NSString *)status Message:(NSString*)message ErrCode:(NSString*)errCode {
+    [[HudTipsUtils sharedInstance] displayHUDWithStatus:status Message:message ErrCode:errCode toView:self.view];
+}
+
 - (NSDictionary *)dictionaryWithDataDic:(NSDictionary *)dataDic apiType:(NSString *)apiType
 {
     NSString *jsonString = [[dataDic valueForKey:apiType] valueForKey:@"body"];
@@ -140,11 +146,6 @@
     NSDictionary *dic    = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
    
     return dic;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    DLog(@"view will appear");
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -332,6 +333,7 @@
         
     } else if ([response.content[@"status"] isEqualToString:@"ok"]) {
         
+        [self displayHUDWithStatus:@"ok" Message:@"操作成功" ErrCode:nil];
     }
 }
 
@@ -344,6 +346,12 @@
     } else if ([response.content[@"status"] isEqualToString:@"ok"]) {
         
     }
+}
+
+#pragma mark - log
+- (void)sendAppearLog
+{
+   [[BrokerLogger sharedInstance] logWithActionCode:TG_SETTING_ONVIEW page:TG_SETTING_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
 }
 
 - (BOOL)isEmpty:(NSString *)str

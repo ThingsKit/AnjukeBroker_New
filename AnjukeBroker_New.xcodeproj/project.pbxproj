@@ -350,6 +350,7 @@
 		9619F5361963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9619F5351963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.m */; };
 		9619F53A19640EA0008C3A26 /* PropSelectStatusModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9619F53919640EA0008C3A26 /* PropSelectStatusModel.m */; };
 		96A3D38D1962909300E6A8B9 /* PromotionSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A3D38C1962909300E6A8B9 /* PromotionSettingsViewController.m */; };
+		96F6F2A41967F5D900C15EE9 /* HudTipsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F6F2A31967F5D900C15EE9 /* HudTipsUtils.m */; };
 		970501771845D21100A0C181 /* AFWelcomeScrollview.m in Sources */ = {isa = PBXBuildFile; fileRef = 970501761845D21100A0C181 /* AFWelcomeScrollview.m */; };
 		970B78DC182010EE00C8E3C6 /* Util_UI.m in Sources */ = {isa = PBXBuildFile; fileRef = 970B78DB182010EE00C8E3C6 /* Util_UI.m */; };
 		970DB71D183AFFE700DEB455 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 970DB71C183AFFE700DEB455 /* AboutUsViewController.m */; };
@@ -1330,6 +1331,8 @@
 		9619F53919640EA0008C3A26 /* PropSelectStatusModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropSelectStatusModel.m; sourceTree = "<group>"; };
 		96A3D38B1962909300E6A8B9 /* PromotionSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PromotionSettingsViewController.h; sourceTree = "<group>"; };
 		96A3D38C1962909300E6A8B9 /* PromotionSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PromotionSettingsViewController.m; sourceTree = "<group>"; };
+		96F6F2A21967F5D900C15EE9 /* HudTipsUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudTipsUtils.h; sourceTree = "<group>"; };
+		96F6F2A31967F5D900C15EE9 /* HudTipsUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HudTipsUtils.m; sourceTree = "<group>"; };
 		970501751845D21100A0C181 /* AFWelcomeScrollview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFWelcomeScrollview.h; sourceTree = "<group>"; };
 		970501761845D21100A0C181 /* AFWelcomeScrollview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFWelcomeScrollview.m; sourceTree = "<group>"; };
 		970B78DA182010EE00C8E3C6 /* Util_UI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util_UI.h; sourceTree = "<group>"; };
@@ -3095,6 +3098,15 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		96F6F2A11967F58700C15EE9 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				96F6F2A21967F5D900C15EE9 /* HudTipsUtils.h */,
+				96F6F2A31967F5D900C15EE9 /* HudTipsUtils.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
 		970501541845A18E00A0C181 /* 引导页 */ = {
 			isa = PBXGroup;
 			children = (
@@ -3619,6 +3631,7 @@
 		97CD8D40180E6D0D00185C9D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				96F6F2A11967F58700C15EE9 /* Utils */,
 				010AFB001962535300ADB9C1 /* Register */,
 				F88FC2E81945619F00DEA8A2 /* WXData */,
 				F88FC2E41945611200DEA8A2 /* 抢客户 */,
@@ -5330,6 +5343,7 @@
 				B7EAD53118CD927200B28FEC /* UIFont+AXChatMessage.m in Sources */,
 				208A05EA18A413620053D885 /* PublishHouseTypeEditViewController.m in Sources */,
 				2056A39218EE7EA00022B5A5 /* AXMessageCenterReceiveMessageManager.m in Sources */,
+				96F6F2A41967F5D900C15EE9 /* HudTipsUtils.m in Sources */,
 				972C10291814FCD300552C9B /* HomeViewController.m in Sources */,
 				977FCA9D1828FAD700945FB4 /* LoginManager.m in Sources */,
 				2063C2651890ADB20043C739 /* PublishHouseTypeViewController.m in Sources */,
