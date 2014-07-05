@@ -250,8 +250,10 @@
     
     //面积
     NSString *area = self.propertyDetailTableViewCellModel.area;
+    NSRange range = [area rangeOfString:@".00"];
+    area = range.location == INT32_MAX ? area : [area substringToIndex:range.location];
     _area.frame = CGRectMake(_houseType.right + GAP_H, _community.bottom + GAP_V, 50, 20);
-    _area.text = [NSString stringWithFormat:@"%@平",[area substringToIndex:(area.length - 3)]];
+    _area.text = [NSString stringWithFormat:@"%@平",area];
     [_area sizeToFit];
     
     //租金或售价

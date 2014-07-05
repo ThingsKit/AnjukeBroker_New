@@ -29,6 +29,17 @@
 @property (nonatomic) BOOL isSelectAll;
 @property (nonatomic) BOOL isHaozu;
 
+//浮层相关
+@property (nonatomic, strong) MBProgressHUD* hud;
+@property (nonatomic, strong) UIImageView* hudBackground;
+@property (nonatomic, strong) UIImageView* hudImageView;
+@property (nonatomic, strong) UILabel* hudText;
+
+//无网络UI
+@property (nonatomic, strong) UIView* emptyBackgroundView;
+@property (nonatomic, strong) UIImageView* emptyBackgroundImageView;
+@property (nonatomic, strong) UILabel* emptyBackgroundLabel;
+
 @end
 
 @implementation HZWaitingForPromotedViewController
@@ -101,7 +112,7 @@
 - (void)loadData
 {
    [self clearStatus];
-   [self requestDataWithBrokerId:@"858573" cityId:@"11"];
+   [self requestDataWithBrokerId:[LoginManager getUserID] cityId:[LoginManager getCity_id]];
 }
 
 - (void)clearStatus
@@ -152,8 +163,6 @@
 
 - (void)clickFixPromotionButton:(id)sender
 {
-#warning 测试planId
-    self.planId = @"10";
     if (self.planId == nil || [self.planId isEqualToString:@""]) {
         DLog(@"planId is nil or empty");
         return;
@@ -170,9 +179,11 @@
     }
     propIds = [propIds substringToIndex:propIds.length - 1];
     NSString *method     = @"zufang/fix/addpropstoplan/";
-#warning 测试brokerId
-    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":@"147468",@"planId":self.planId,@"proIds":propIds,@"is_nocheck":@"1"};
+#warning nocheck
+    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":[LoginManager getUserID],@"planId":self.planId,@"propIds":propIds,@"is_nocheck":@"1"};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onFixPromotionRequestFinished:)];
+    self.isLoading = YES;
+    [self showLoadingActivity:YES];
 }
 - (void)showAlertViewWithTitle:(NSString *)title
 {
@@ -182,17 +193,72 @@
 
 - (void)onFixPromotionRequestFinished:(RTNetworkResponse *)response
 {
-    
+    self.isLoading = NO;
+    [self hideLoadWithAnimated:YES];
+    if (response.status == RTNetworkResponseStatusFailed) {
+        [self displayHUDWithStatus:@"error" Message:@"无网络连接" ErrCode:response.content[@"errcode"]];
+    }
     if ([[response.content valueForKey:@"status"] isEqualToString:@"ok"]) {
         
+        [self displayHUDWithStatus:@"ok" Message:@"推广成功" ErrCode:nil];
+        [self loadData];
         
     } else if ([[response.content valueForKey:@"status"] isEqualToString:@"error"]) {
         
         DLog(@"message:--->%@",[response.content valueForKey:@"message"]);
+        [self displayHUDWithStatus:response.content[@"status"] Message:response.content[@"message"] ErrCode:@"1"];
         
     }
     
 }
+
+- (void)displayHUDWithStatus:(NSString *)status Message:(NSString*)message ErrCode:(NSString*)errCode {
+    if (self.hudBackground == nil) {
+        self.hudBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 135, 135)];
+        self.hudBackground.image = [UIImage imageNamed:@"anjuke_icon_tips_bg"];
+        
+        self.hudImageView = [[UIImageView alloc] initWithFrame:CGRectMake(135/2-70/2, 135/2-70/2 - 20, 70, 70)];
+        self.hudText = [[UILabel alloc] initWithFrame:CGRectMake(10, self.hudImageView.bottom - 5, 115, 60)];
+        [self.hudText setTextColor:[UIColor colorWithWhite:0.95 alpha:1]];
+        [self.hudText setFont:[UIFont systemFontOfSize:13.0f]];
+        self.hudText.numberOfLines = 0;
+        [self.hudText setTextAlignment:NSTextAlignmentCenter];
+        self.hudText.backgroundColor = [UIColor clearColor];
+        
+        [self.hudBackground addSubview:self.hudImageView];
+        [self.hudBackground addSubview:self.hudText];
+        
+    }
+    
+    //使用 MBProgressHUD
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.color = [UIColor clearColor];
+    self.hud.customView = self.hudBackground;
+    self.hud.yOffset = -20;
+    self.hud.mode = MBProgressHUDModeCustomView;
+    self.hud.dimBackground = NO;
+    
+    if ([@"ok" isEqualToString:status]) { //成功的状态提示
+        self.hudImageView.image = [UIImage imageNamed:@"check_status_ok"];
+        self.hudText.text = message;
+    }else{ //失败的状态提示
+        if ([@"1" isEqualToString:errCode]) {
+            self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
+            self.hudText.text = message;
+            
+        }else{
+            self.hudImageView.image = [UIImage imageNamed:@"check_no_wifi"];
+            self.hudImageView.contentMode = UIViewContentModeScaleAspectFit;
+            self.hudText.text = @"无网络连接";
+            self.hudText.hidden = NO;
+            
+        }
+    }
+    [self.hud show:YES];
+    
+    [self.hud hide:YES afterDelay:1]; //显示一段时间后隐藏
+}
+
 #pragma mark - cell选择处理
 
 - (void)selectAllProps:(id)sender
@@ -222,10 +288,15 @@
 {
     if (isSelect) {
         self.selectedCellCount ++;
+        if (self.selectedCellCount == [self.cellSelectStatus count]) {
+            self.selectImage.image = [UIImage imageNamed:@"broker_property_control_selected"];
+            self.isSelectAll = YES;
+        }
     } else {
         self.selectedCellCount --;
         if (self.isSelectAll) {
-           self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray"];
+            self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray"];
+            self.isSelectAll = NO;
         }
     }
     PropSelectStatusModel *statusModel = self.cellSelectStatus[rowIndex];
