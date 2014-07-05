@@ -17,6 +17,7 @@
 @interface MultipleChoiceAndEditListCell ()
 
 @property (nonatomic, strong) UIImageView* selectImage;
+@property (nonatomic, strong) UIButton *selectStylebutton;
 @property (nonatomic, strong) UIImageView* propertyIcon; //房源图片
 @property (nonatomic, strong) UILabel* propertyTitle; //房源标题
 @property (nonatomic, strong) UILabel* community; //小区名称
@@ -48,13 +49,14 @@
 #pragma mark UI相关
 - (void)initCell {
     
-    UIButton *selectStylebutton = [[UIButton alloc] initWithFrame:CGRectMake(15, 20, 25, 50)];
+    UIButton *selectStylebutton = [[UIButton alloc] initWithFrame:CGRectMake(15, 20, 30, 70)];
     UIImageView *imageView      = [[UIImageView alloc] initWithFrame:CGRectMake((56 - 22)/2 - 15, (90 - 22)/2 - 20, 22, 22)];
     imageView.image             = [UIImage imageNamed:@"broker_property_control_select_gray"];
     [selectStylebutton addTarget:self action:@selector(propChoiceTap:) forControlEvents:UIControlEventTouchUpInside];
     [selectStylebutton addSubview:imageView];
-    [self.contentView addSubview:selectStylebutton];
+    [self addSubview:selectStylebutton];
     self.selectImage       = imageView;
+    self.selectStylebutton = selectStylebutton;
     
     //cell下划线
     UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(56, 89.5, ScreenWidth - 56, 0.5)];
@@ -66,6 +68,7 @@
     _propertyIcon.backgroundColor = [UIColor clearColor];
     _propertyIcon.contentMode = UIViewContentModeScaleAspectFit;
     [self.contentView addSubview:_propertyIcon];
+//    [self.contentView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:nil];
     
     //房源标题
     _propertyTitle = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -119,24 +122,16 @@
     //    self.selectedBackgroundView = backgroundView;
     
     self.contentView.backgroundColor = [UIColor brokerWhiteColor];
+    
+    [self.cellScrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+    
 }
 
-//- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
-//{
-//    UIView *view = [super hitTest:point withEvent:event];
-//    DLog(@"hit:view:%@",view);
-//        return view;
-//    }
-//    
-//    return nil;
-//}
-
-- (void)select:(id)sender
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-//    [super select:sender];
-    DLog(@"select:%@`",sender);
+    CGRect frame = self.selectStylebutton.frame;
+    self.selectStylebutton.frame = CGRectMake(- self.cellScrollView.contentOffset.x + 15, 20, frame.size.width, frame.size.height);
 }
-
 
 #pragma mark - selectCellStyle
 - (void)propChoiceTap:(id)tapGR
@@ -159,28 +154,19 @@
     }
 
 }
+
 - (void)cellSelected
 {
     self.isSelected = true;
     [self.selectImage setImage:[UIImage imageNamed:@"broker_property_control_selected"]];
-//    [self.selectImage setImage:[UIImage imageNamed:@"broker_property_control_selected"] forState:UIControlStateNormal];
 }
 
 - (void)cellUnSelected
 {
     self.isSelected = false;
     [self.selectImage setImage:[UIImage imageNamed:@"broker_property_control_select_gray"]];
-//    [self.selectImage setBackgroundImage:[UIImage imageNamed:@"broker_property_control_select_gray"] forState:UIControlStateNormal];
 }
 
-- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
-{
-    UIView *view = [super hitTest:point withEvent:event];
-    if (view == self) {
-        return nil;
-    }
-    return view;
-}
 
 #pragma mark - layout
 //加载数据

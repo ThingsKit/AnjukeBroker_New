@@ -52,9 +52,7 @@
     self.tableView = tableView;
     [self.view addSubview:tableView];
     
-    
     NSLog(@"%d",[tableView subviews].count);
-    
 }
 
 - (void)initCityDataArray
@@ -74,7 +72,6 @@
     //  初始化tableView的索引
     NSMutableArray *indexArray = [NSMutableArray arrayWithArray:[[UILocalizedIndexedCollation currentCollation] sectionIndexTitles]];
     [indexArray removeLastObject];
-    
     // 初始化tableView的数据源
     NSMutableArray *cityArray  = [NSMutableArray array];
     for (NSString *index in indexArray) {
@@ -127,8 +124,6 @@
     return nil;
     
 }
-
-
 
 #pragma mark - UITableViewDataSource
 

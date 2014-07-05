@@ -14,7 +14,6 @@
 #import "ConfigPlistManager.h"
 #import "AccountManager.h"
 #import "BrokerRegisterViewController.h"
-#import "NoPlanPromotionPropertySingleViewController.h"
 //RTGestureBackNavigationController
 #import "RTGestureBackNavigationController.h"
 #import "UIView+RTLayout.h"
@@ -202,9 +201,6 @@
 {
     UIColor *registerBtnColor      = [UIColor brokerBabyBlueColor];
     UIButton *registerBtn          = [self buttonWithFrame:frame title:title action:action];
-    //    registerBtn.layer.borderColor  = registerBtnColor.CGColor;
-    //    registerBtn.layer.borderWidth  = 1;
-    //    registerBtn.layer.cornerRadius = 2;
     registerBtn.titleLabel.font    = [UIFont systemFontOfSize:17];
     [registerBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue_hollow"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
     [registerBtn setTitleColor:registerBtnColor forState:UIControlStateNormal];

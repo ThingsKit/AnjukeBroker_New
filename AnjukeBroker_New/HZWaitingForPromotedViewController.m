@@ -100,7 +100,16 @@
 
 - (void)loadData
 {
+   [self clearStatus];
    [self requestDataWithBrokerId:@"858573" cityId:@"11"];
+}
+
+- (void)clearStatus
+{
+    self.isSelectAll = false;
+    self.selectedCellCount = 0;
+    self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray@2x.png"];
+    [self updatePromotionButtonText];
 }
 
 - (void)requestDataWithBrokerId:(NSString *)brokerId cityId:(NSString *)cityId

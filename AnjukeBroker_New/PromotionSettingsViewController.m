@@ -57,15 +57,12 @@
     [self.view addSubview:tableView];
     
     DLog(@"view did load");
-#warning 测试brokerId
-    [self requestPromotionSettingsDataWithBrokerId:@"147468"];
-    
+    [self requestPromotionSettingsDataWithBrokerId:[LoginManager getUserID]];
 }
 
 - (void)requestPromotionSettingsDataWithBrokerId:(NSString *)brokerId
 {
     
-//    NSString *method     = @"anjuke/fix/summary/";// 二手房
     NSString *method = @"batch/";
 #warning 一次请求两个接口, no check
     NSDictionary *params = nil;
@@ -89,33 +86,51 @@
 
 - (void)handleRequestData:(RTNetworkResponse *)response
 {
-    if (response.status == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        DLog(@"message--->>%@",[[response content] objectForKey:@"message"]);
+
+    if (![self checkWithResponse:response]) {
         return;
     }
     
     NSDictionary *responsesData = response.content[@"data"][@"responses"];
     NSDictionary *esfDic = [self dictionaryWithDataDic:responsesData apiType:@"esf"];
     NSDictionary *zfDic  = [self dictionaryWithDataDic:responsesData apiType:@"zf"];
-    if ([[esfDic valueForKey:@"status"] isEqualToString:@"error"]) {
-        DLog(@"ESF Data request error --->> %@",esfDic[@"message"]);
+    if (![self checkWithDictionaryData:esfDic]) {
         return;
     }
-    
     NSDictionary *esfData = esfDic[@"data"];
     self.ESFPlanceilingLabel.text   = [NSString stringWithFormat:@"%@%@",esfData[@"budget"],esfData[@"budgetUnit"]];
     self.ESFPricePromotionSwitch.on = [esfData[@"planStatus"] intValue];
     self.ESFPlanId                  = esfData[@"planId"];
-    
-    if ([[zfDic valueForKey:@"status"] isEqualToString:@"error"]) {
-        DLog(@"ZF Data request error --->> %@",[esfDic valueForKey:@"message"]);
+    if (![self checkWithDictionaryData:zfDic]) {
         return;
     }
-    NSDictionary *zfData = [zfDic valueForKey:@"data"];
+    NSDictionary *zfData = zfDic[@"data"];
     self.ZFPlanceilingLabel.text   = [NSString stringWithFormat:@"%@%@",zfData[@"budget"],zfData[@"budgetUnit"]];
     self.ZFPricePromotionSwitch.on = [zfData[@"planStatus"] intValue];
     self.ZFPlanId                  = zfData[@"planId"];
     
+}
+
+- (BOOL)checkWithResponse:(RTNetworkResponse *)response
+{
+    if (response.status == RTNetworkResponseStatusFailed) {
+        [[HUDNews sharedHUDNEWS] createHUD:@"无网络链接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+        return false;
+    }
+    if ([[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+        DLog(@"error message--->>%@",[[response content] objectForKey:@"message"]);
+        return false;
+    }
+    return true;
+}
+
+- (BOOL)checkWithDictionaryData:(NSDictionary *)dic
+{
+    if ([dic[@"status"] isEqualToString:@"error"]) {
+        DLog(@"data request error ---->>%@",dic[@"message"]);
+        return false;
+    }
+    return true;
 }
 
 - (NSDictionary *)dictionaryWithDataDic:(NSDictionary *)dataDic apiType:(NSString *)apiType
@@ -227,13 +242,16 @@
 {
     if (!self.ESFPricePromotionSwitch.on) {
         
-       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"二手房定价推广" message:@"关闭后，所有定价房源将暂停推广" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"关闭", nil];
+       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"二手房定价推广"
+                                                       message:@"关闭后，所有定价房源将暂停推广"
+                                                      delegate:self
+                                             cancelButtonTitle:@"取消"
+                                             otherButtonTitles:@"关闭", nil];
        alert.tag = 10;
        [alert show];
         
     } else {
-        
-        
+        [self esfSpreadRequestWithMethod:@"anjuke/fix/spreadstart/" switchStatus:YES];
     }
 }
 
@@ -241,12 +259,16 @@
 {
     if (!self.ZFPricePromotionSwitch.on) {
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"租房定价推广" message:@"关闭后，所有定价房源将暂停推广" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"关闭", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"租房定价推广"
+                                                        message:@"关闭后，所有定价房源将暂停推广"
+                                                       delegate:self
+                                              cancelButtonTitle:@"取消"
+                                              otherButtonTitles:@"关闭", nil];
         alert.tag = 20;
         [alert show];
         
     } else {
-        
+         [self zfSpreadRequestWithMethod:@"zufang/fix/spreadstart/" switchStatus:YES];
     }
 }
 
@@ -256,7 +278,7 @@
     
     if (alertView.tag == 10 && buttonIndex == 0) {
 
-        [self esfSpreadRequestWithMethod:@"anjuke/fix/spreadstart/" switchStatus:YES];
+        self.ESFPricePromotionSwitch.on = YES;
         
     } else if (alertView.tag == 10 && buttonIndex == 1){
         
@@ -264,7 +286,7 @@
         
     } else if (alertView.tag == 20 && buttonIndex == 0) {
         
-        [self zfSpreadRequestWithMethod:@"zufang/fix/spreadstart/" switchStatus:YES];
+        self.ZFPricePromotionSwitch.on = YES;
         
     } else if (alertView.tag == 20 && buttonIndex == 1) {
         
@@ -276,36 +298,60 @@
 
 - (void)esfSpreadRequestWithMethod:(NSString *)method switchStatus:(BOOL)switchStatus
 {
-#warning 含有测试的brokerId
-    NSDictionary *params = @{@"brokerId":@"147468",@"token":[LoginManager getToken],@"planId":self.ESFPlanId};
+#warning  no check
+    if ([self isEmpty:self.ESFPlanId]) {
+        return;
+    }
+    NSDictionary *params = @{@"brokerId":[LoginManager getUserID],@"token":[LoginManager getToken],@"planId":self.ESFPlanId,@"is_nocheck":@"1"};
     [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleESFRequestData:)];
+    [self showLoadingActivity:YES];
+    self.isLoading = true;
     self.ESFPricePromotionSwitch.on = switchStatus;
     
 }
 
 - (void)zfSpreadRequestWithMethod:(NSString *)method switchStatus:(BOOL)switchStatus
 {
-#warning 含有测试的brokerId
-    NSDictionary *params = @{@"brokerId":@"147468",@"token":[LoginManager getToken],@"planId":self.ZFPlanId};
+#warning no check
+    if ([self isEmpty:self.ZFPlanId]) {
+        return;
+    }
+    NSDictionary *params = @{@"brokerId":[LoginManager getUserID],@"token":[LoginManager getToken],@"planId":self.ZFPlanId,@"is_nocheck":@"1"};
    [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(  handleZFRequestData:)];
     [self showLoadingActivity:YES];
+    self.isLoading = true;
     self.ZFPricePromotionSwitch.on = switchStatus;
     
 }
 
 - (void)handleESFRequestData:(RTNetworkResponse *)response
 {
+    self.isLoading = NO;
     [self hideLoadWithAnimated:YES];
-    if (response.status == RTNetworkResponseStatusFailed) {
-        [[HUDNews sharedHUDNEWS] createHUD:@"网络链接失败" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+    if (![self checkWithResponse:response]) {
+        
+    } else if ([response.content[@"status"] isEqualToString:@"ok"]) {
+        
     }
 }
 
 - (void)handleZFRequestData:(RTNetworkResponse *)response
 {
-    if (response.status == RTNetworkResponseStatusFailed) {
-        [[HUDNews sharedHUDNEWS] createHUD:@"网路链接失败" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
+    self.isLoading = NO;
+    [self hideLoadWithAnimated:YES];
+    if (![self checkWithResponse:response]) {
+        
+    } else if ([response.content[@"status"] isEqualToString:@"ok"]) {
+        
     }
+}
+
+- (BOOL)isEmpty:(NSString *)str
+{
+    if (str == nil || [str isEqualToString:@""]) {
+        return true;
+    }
+    return false;
 }
 
 - (void)didReceiveMemoryWarning

@@ -118,6 +118,7 @@
 }
 
 
+
 - (void)showAlertViewWithTitle:(NSString *)title
 {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:@"" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
@@ -140,7 +141,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    
     [self.tableView reloadData];
 }
 
@@ -152,6 +152,7 @@
 
 - (void)loadData
 {
+   [self clearStatus];
    [self requestDataWithBrokerId:@"858573" cityId:@"11"];
 }
 
@@ -166,10 +167,6 @@
 {
     NSArray *dataArray       = [[response.content objectForKey:@"data"] objectForKey:@"propertyList"];
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:dataArray.count];
-    self.isSelectAll = false;
-    self.selectedCellCount = 0;
-    self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray@2x.png"];
-    [self updatePromotionButtonText];
     for (int i = 0; i < dataArray.count; i++) {
         PropSelectStatusModel *selectStatusModel = [PropSelectStatusModel new];
         selectStatusModel.selectStatus = false;
@@ -193,6 +190,13 @@
     [self.tableView reloadData];
 }
 
+- (void)clearStatus
+{
+    self.isSelectAll = false;
+    self.selectedCellCount = 0;
+    self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray@2x.png"];
+    [self updatePromotionButtonText];
+}
 #pragma mark - cell选择处理
 
 - (void)selectAllProps:(id)sender
@@ -230,8 +234,6 @@
     PropSelectStatusModel *statusModel = self.cellSelectStatus[rowIndex];
     statusModel.selectStatus = isSelect;
     [self updatePromotionButtonText];
-    DLog(@"%@----%@",statusModel.propId,[self.dataSource[rowIndex] valueForKey:@"propId"]);
-    
 }
 
 - (void)updatePromotionButtonText
@@ -268,7 +270,6 @@
                                                 containingTableView:tableView
                                                  leftUtilityButtons:nil
                                                 rightUtilityButtons:rightBtnarr];
-        
         cell.delegate = self;
     }
     PropSelectStatusModel *selectStatusModel = self.cellSelectStatus[indexPath.row];
@@ -344,6 +345,7 @@
 }
 
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
+    
     return YES;
 }
 
@@ -356,13 +358,6 @@
     controller.backType = RTSelectorBackTypeDismiss;
     RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];
-    
-}
-
-
-//房源选择数清零
-- (void)clearSelectStatus
-{
     
 }
 
