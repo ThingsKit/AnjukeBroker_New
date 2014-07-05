@@ -28,7 +28,7 @@
 @property (nonatomic, strong) UIImageView* multiPictureIcon; //多图图标
 @property (nonatomic, strong) UIImageView* choiceIcon; //精选推广图标
 @property (nonatomic, strong) UIImageView* mobileIcon; //手机发图图标
-@property (nonatomic) int picDistance;
+@property (nonatomic) int propTitleLength;
 
 @property (nonatomic)BOOL isSelected;
 
@@ -239,12 +239,33 @@
         _mobileIcon.hidden = YES;
     }
     
-//    //房源标题
-    _propertyTitle.frame = CGRectMake(56 + 80 + 12, 15,100, 20);
-    _propertyTitle.right = _mobileIcon.left - 2;
-    _propertyTitle.left =_propertyIcon.right + 12;
+    //房源标题
+    
+    if (_mobileIcon.hidden == NO) {
+        self.propTitleLength = _mobileIcon.left - 2 - (_propertyIcon.right + 12);
+    } else if (_choiceIcon.hidden == NO){
+        self.propTitleLength = _choiceIcon.left - 2 - (_propertyIcon.right + 12);
+    } else if (_multiPictureIcon.hidden == NO){
+        self.propTitleLength = _multiPictureIcon.left - 2  - (_propertyIcon.right + 12);
+    } else {
+        self.propTitleLength = 320 - 15 - (_propertyIcon.right + 12);
+    }
+    
+    _propertyTitle.frame = CGRectMake(56 + 80 + 12, 15, self.propTitleLength, 20);
     _propertyTitle.text = self.propertyDetailTableViewCellModel.title;
-//    _propertyTitle.backgroundColor = [UIColor redColor];
+    
+    if (_mobileIcon.hidden == NO) {
+        _propertyTitle.right = _mobileIcon.left - 2;
+    } else if (_choiceIcon.hidden == NO){
+        _propertyTitle.right = _choiceIcon.left - 2;
+    } else if (_multiPictureIcon == NO){
+        _propertyTitle.right = _multiPictureIcon.left - 2;
+    } else {
+        _propertyTitle.right = 320 - 15;
+    }
+    
+    _propertyTitle.left =_propertyIcon.right + 12;
+    _propertyTitle.backgroundColor = [UIColor redColor];
     
     
     //小区名称

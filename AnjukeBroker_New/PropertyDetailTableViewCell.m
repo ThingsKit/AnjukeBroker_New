@@ -119,7 +119,7 @@
     if (iconPath != nil && ![@"" isEqualToString:iconPath]) {
         //加载图片
         [_propertyIcon setImageWithURL:[NSURL URLWithString:iconPath] placeholderImage:[UIImage imageNamed:@"anjuke61_bg4"]];
-    }else{
+    } else {
         _propertyIcon.image = [UIImage imageNamed:@"anjuke61_bg4"]; //默认图片
     }
     
@@ -143,12 +143,12 @@
             _choiceIcon.frame = CGRectMake(_multiPictureIcon.right + 2, 16, 17, 17);
             _choiceIcon.image = [UIImage imageNamed:@"broker_property_icon_jx"];
             _choiceIcon.hidden = NO;
-        }else{
+        } else {
             _choiceIcon.frame = CGRectMake(_propertyTitle.right, 16, 17, 17);
             _choiceIcon.image = [UIImage imageNamed:@"broker_property_icon_jx"];
             _choiceIcon.hidden = NO;
         }
-    }else{
+    } else {
         _choiceIcon.hidden = YES;
     }
     
@@ -158,17 +158,17 @@
             _mobileIcon.frame = CGRectMake(_choiceIcon.right + 2, 16, 17, 17);
             _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
             _mobileIcon.hidden = NO;
-        }else if(self.propertyDetailTableViewCellModel.isMoreImg && [@"1" isEqualToString:self.propertyDetailTableViewCellModel.isMoreImg]){
+        } else if(self.propertyDetailTableViewCellModel.isMoreImg && [@"1" isEqualToString:self.propertyDetailTableViewCellModel.isMoreImg]){
             _mobileIcon.frame = CGRectMake(_multiPictureIcon.right + 2, 16, 17, 17);
             _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
             _mobileIcon.hidden = NO;
-        }else{
+        } else {
             _mobileIcon.frame = CGRectMake(_propertyTitle.right, 16, 17, 17);
             _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
             _mobileIcon.hidden = NO;
         }
         
-    }else{
+    } else {
         _mobileIcon.hidden = YES;
     }
     
