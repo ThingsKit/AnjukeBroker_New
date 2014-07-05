@@ -253,6 +253,7 @@
         
     } else {
         [self esfSpreadRequestWithMethod:@"anjuke/fix/spreadstart/" switchStatus:YES];
+        [self esfLogWithSwitchStatus:YES];
     }
 }
 
@@ -270,6 +271,7 @@
         
     } else {
          [self zfSpreadRequestWithMethod:@"zufang/fix/spreadstart/" switchStatus:YES];
+         [self zfLogWithSwitchStatus:YES];
     }
 }
 
@@ -284,6 +286,7 @@
     } else if (alertView.tag == 10 && buttonIndex == 1){
         
         [self esfSpreadRequestWithMethod:@"anjuke/fix/spreadstop/" switchStatus:NO];
+        [self esfLogWithSwitchStatus:NO];
         
     } else if (alertView.tag == 20 && buttonIndex == 0) {
         
@@ -292,6 +295,7 @@
     } else if (alertView.tag == 20 && buttonIndex == 1) {
         
         [self zfSpreadRequestWithMethod:@"zufang/fix/spreadstop" switchStatus:NO];
+        [self zfLogWithSwitchStatus:NO];
         
     }
     
@@ -349,9 +353,38 @@
 }
 
 #pragma mark - log
+/**
+ *  页面可见，二手房定价推广on-off,二手房定价推广off-on,租房定价推广on-off,租房定价推广off-on,点击返回
+ */
 - (void)sendAppearLog
 {
    [[BrokerLogger sharedInstance] logWithActionCode:TG_SETTING_ONVIEW page:TG_SETTING_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
+- (void)esfLogWithSwitchStatus:(BOOL)switchStatus
+{
+    if (switchStatus == YES) {
+        
+        [[BrokerLogger sharedInstance] logWithActionCode:TG_SETTING_DJ_OFFON page:TG_SETTING_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    } else {
+        
+        [[BrokerLogger sharedInstance] logWithActionCode:TG_SETTING_DJ_ONOFF page:TG_SETTING_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
+}
+
+- (void)zfLogWithSwitchStatus:(BOOL)switchStatus
+{
+    if (switchStatus == YES) {
+        [[BrokerLogger sharedInstance] logWithActionCode:TG_SETTING_ZFDJ_OFFON page:TG_SETTING_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    } else {
+        [[BrokerLogger sharedInstance] logWithActionCode:TG_SETTING_ZFDJ_ONOFF page:TG_SETTING_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
+}
+
+- (void)doBack:(id)sender
+{
+    [[BrokerLogger sharedInstance] logWithActionCode:TG_SETTING_BACK page:TG_SETTING_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (BOOL)isEmpty:(NSString *)str

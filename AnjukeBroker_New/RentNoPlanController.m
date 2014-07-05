@@ -504,7 +504,7 @@
 }
 - (void)doBack:(id)sender{
     [super doBack:self];
-    [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_BCK page:ZF_WTG_LIST_PAGE note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_BACK page:ZF_WTG_LIST_PAGE note:nil];
 }
 #pragma mark --UIAlertViewDelegate
 

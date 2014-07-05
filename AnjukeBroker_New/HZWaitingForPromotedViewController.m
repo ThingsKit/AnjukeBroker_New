@@ -153,6 +153,7 @@
 
 - (void)clickFixPromotionButton:(id)sender
 {
+    [self sendClickFixPromotionButtonLog];
     if (self.planId == nil || [self.planId isEqualToString:@""]) {
         DLog(@"planId is nil or empty");
         return;
@@ -211,6 +212,7 @@
 
 - (void)selectAllProps:(id)sender
 {
+    [self sendClickSelectAllButtonLog];
     self.selectedCellCount = 0;
     if (!self.isSelectAll) {
         self.isSelectAll = true;
@@ -440,6 +442,26 @@
     [self.tableView deleteRowsAtIndexPaths:@[self.editAndDeleteCellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
 
     [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
+}
+
+#pragma mark - Log
+-(void)sendAppearLog
+{
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_ONVIEW page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+-(void)sendClickSelectAllButtonLog
+{
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_SELECTALL page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+- (void)sendClickFixPromotionButtonLog
+{
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_DJTG page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+}
+
+- (void)doBack:(id)sender
+{
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_BACK page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

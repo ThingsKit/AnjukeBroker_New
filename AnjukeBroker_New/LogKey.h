@@ -461,7 +461,7 @@
 #define ZF_WTG_LIST_PAGE    @"1-460000"
 #define ZF_WTG_LIST_ONVIEW @"1-460001" //
 #define HZ_PPC_NO_PLAN_02 @"1-460002" //
-#define ZF_WTG_LIST_BCK @"1-460003" //点击返回
+#define ZF_WTG_LIST_BACK @"1-460003" //点击返回
 #define ZF_WTG_LIST_CLICK_SELECTALL @"1-460004" //点击全选
 #define ZF_WTG_LIST_CLICK_DJTG @"1-460005" //点击定价推广
 #define ZF_WTG_LIST_CLICK_EDIT @"1-460006" //点击编辑
