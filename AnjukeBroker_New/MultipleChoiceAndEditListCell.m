@@ -265,7 +265,7 @@
     }
     
     _propertyTitle.left =_propertyIcon.right + 12;
-    _propertyTitle.backgroundColor = [UIColor redColor];
+//    _propertyTitle.backgroundColor = [UIColor redColor];
     
     
     //小区名称
