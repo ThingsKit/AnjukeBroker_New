@@ -22,6 +22,10 @@
 @property (nonatomic, copy) NSString* usedBucketNum; //已经使用坑位数
 @property (nonatomic, copy) NSString* status; //排队还是推广 //1-1 推广中 1-2排队中 2-1推广位已满 2-2可立即排队 2-3可立即推广 3-2不符合精选推广条件
 @property (nonatomic, copy) NSString* statusMsg; //状态对应的消息描述
+@property (nonatomic, copy) NSString* minChoicePrice;  //最小预算
+@property (nonatomic, copy) NSString* minChoicePriceUnit; //最小预算单位
+@property (nonatomic, copy) NSString* maxChoicePrice; //最大预算
+@property (nonatomic, copy) NSString* maxChoicePriceUnit; //最大预算单位
 
 
 @end

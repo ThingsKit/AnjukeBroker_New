@@ -493,8 +493,8 @@
     NSDictionary* param3 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":_propId};
     NSDictionary* dic3 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/choice/summary/"], @"query_params":param3}; //房源精选概况
     
-    NSDictionary* param4 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":_propId};
-    NSDictionary* dic4 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/choice/summary/"], @"query_params":param4}; //最大最小预算余额
+//    NSDictionary* param4 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":_propId};
+//    NSDictionary* dic4 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/choice/summary/"], @"query_params":param4}; //最大最小预算余额
     
     NSDictionary* param5 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID]};
     NSDictionary* dic5 = @{@"method":@"GET", @"relative_url":@"broker/account/balance/", @"query_params":param5}; //经纪人可用余额
@@ -502,7 +502,7 @@
     NSDictionary* param = @{@"requests":@{@"prop_summary":dic1,
                                           @"prop_fix_summary":dic2,
                                           @"prop_choice_summary":dic3,
-                                          @"choice_summary":dic4,
+//                                          @"choice_summary":dic4,
                                           @"broker_balance":dic5
                                         }};
     
@@ -525,7 +525,7 @@
             NSDictionary* propSum = [response.content[@"data"][@"responses"][@"prop_summary"][@"body"] JSONValue];
             NSDictionary* propFixSum = [response.content[@"data"][@"responses"][@"prop_fix_summary"][@"body"] JSONValue];
             NSDictionary* propChoiceSum = [response.content[@"data"][@"responses"][@"prop_choice_summary"][@"body"] JSONValue];
-            NSDictionary* choiceSum = [response.content[@"data"][@"responses"][@"choice_summary"][@"body"] JSONValue];
+//            NSDictionary* choiceSum = [response.content[@"data"][@"responses"][@"choice_summary"][@"body"] JSONValue];
             NSDictionary* brokerBalance = [response.content[@"data"][@"responses"][@"broker_balance"][@"body"] JSONValue];
             
             self.data = [NSMutableArray arrayWithCapacity:5]; //清空
@@ -534,7 +534,7 @@
                 if ([@"ok" isEqualToString:[propSum objectForKey:@"status"]] &&
                     [@"ok" isEqualToString:[propFixSum objectForKey:@"status"]] &&
                     [@"ok" isEqualToString:[propChoiceSum objectForKey:@"status"]] &&
-                    [@"ok" isEqualToString:[choiceSum objectForKey:@"status"]] &&
+//                    [@"ok" isEqualToString:[choiceSum objectForKey:@"status"]] &&
                     [@"ok" isEqualToString:[brokerBalance objectForKey:@"status"]]) {
                     PropertyDetailCellModel* property = [[PropertyDetailCellModel alloc] initWithDataDic:[propSum objectForKey:@"data"]]; //房源概况
                     [self.data addObject:property];
@@ -548,12 +548,14 @@
                     propChoice.usedBucketNum = @"15";
                     propChoice.status = @"2-2"; //1-1 推广中 1-2排队中 2-1推广位已满 2-2可立即排队 2-3可立即推广 3-2不符合精选推广条件
                     //#########################################
+                    self.minBudget = propChoice.minChoicePrice;
+                    self.maxBudget = [propChoice.maxChoicePrice stringByAppendingString:propChoice.maxChoicePriceUnit];
                     [self.data addObject:propChoice];
                     
-                    ChoiceSummaryModel* choice = [[ChoiceSummaryModel alloc] initWithDataDic:[choiceSum objectForKey:@"data"]];
-                    self.minBudget = choice.minChoicePrice;
-                    self.maxBudget = [choice.maxChoicePrice stringByAppendingString:choice.maxChoicePriceUnit];
-                    [self.data addObject:choice];
+//                    ChoiceSummaryModel* choice = [[ChoiceSummaryModel alloc] initWithDataDic:[choiceSum objectForKey:@"data"]];
+//                    self.minBudget = choice.minChoicePrice;
+//                    self.maxBudget = [choice.maxChoicePrice stringByAppendingString:choice.maxChoicePriceUnit];
+//                    [self.data addObject:choice];
                     
                     BrokerBalanceModel* balance = [[BrokerBalanceModel alloc] initWithDataDic:[brokerBalance objectForKey:@"data"]];
                     self.balance = [balance.balance stringByAppendingString:balance.balanceUnit];

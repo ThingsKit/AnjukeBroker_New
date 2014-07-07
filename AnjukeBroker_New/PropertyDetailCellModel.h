@@ -22,8 +22,8 @@
 @property (nonatomic, copy) NSString* priceUnit; //价格单位
 @property (nonatomic, copy) NSString* isMoreImg; //是否多图
 @property (nonatomic, copy) NSString* isPhonePub; //是否手机发房
-@property (nonatomic, copy) NSString* isVisible; //是否可见
-@property (nonatomic, copy) NSString* isChoice; //是否可见
+@property (nonatomic, copy) NSString* isVisible; //是否违规
+@property (nonatomic, copy) NSString* isChoice; //是否精选
 @property (nonatomic, copy) NSString* publishDaysMsg; //发布时间
 @property (nonatomic, copy) NSString* imgURL;  //房源图片
 @property (nonatomic, copy) NSString* url; //房源详情web页面url
