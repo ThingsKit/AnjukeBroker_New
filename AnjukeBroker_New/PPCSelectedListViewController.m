@@ -56,7 +56,14 @@
         [self setTitleViewWithString:@"二手房-精选推广"];
     }
     
-    [self addRightButton:@"+" andPossibleTitle:nil];
+    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_add_.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_add_press"] taget:self action:@selector(rightButtonAction:)];
+    
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {//fix ios7以下 10像素偏离
+        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:10.0];
+        [self.navigationItem setRightBarButtonItems:@[spacer, rightItem]];
+    }else{
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
     
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
