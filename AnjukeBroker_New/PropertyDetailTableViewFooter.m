@@ -58,14 +58,14 @@
 - (void)editPropertyButtonClicked:(UIButton*)button{
     NSLog(@"编辑房源");
     if (self.editBlock != nil) {
-        _editBlock();
+        _editBlock(button);
     }
 }
 
 - (void)deletePropertyButtonClicked:(UIButton*)button{
     NSLog(@"删除房源");
     if (self.deleteBlock != nil) {
-        _deleteBlock();
+        _deleteBlock(button);
     }
 }
 

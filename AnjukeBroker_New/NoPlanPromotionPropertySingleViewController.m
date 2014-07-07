@@ -51,7 +51,7 @@
     
     __weak NoPlanPromotionPropertySingleViewController *this = self;
     PropertyDetailTableViewFooter *footer = [[PropertyDetailTableViewFooter alloc] init];
-    footer.editBlock   = ^(){
+    footer.editBlock   = ^(UIButton* button){
         
         PropertyEditViewController *propertyEditViewController = [[PropertyEditViewController alloc] init];
         propertyEditViewController.propertyID = this.propId;
@@ -59,7 +59,7 @@
         [this.navigationController pushViewController:propertyEditViewController animated:YES];
         
     };
-    footer.deleteBlock = ^(){
+    footer.deleteBlock = ^(UIButton* button){
         
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"是否要删除该房源" message:@"" delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
         [alertView show];

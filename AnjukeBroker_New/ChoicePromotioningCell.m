@@ -187,7 +187,7 @@
 - (void)startPromotion:(UIButton*)button{
     NSLog(@"结束推广");
     if (self.block != nil) {
-        _block([button titleForState:UIControlStateNormal]);
+        _block(button);
     }
     
 }

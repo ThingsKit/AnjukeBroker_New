@@ -26,6 +26,7 @@
 @property (nonatomic, strong) UIImageView* multiPictureIcon; //多图图标
 @property (nonatomic, strong) UIImageView* choiceIcon; //精选推广图标
 @property (nonatomic, strong) UIImageView* mobileIcon; //手机发图图标
+@property (nonatomic, strong) UIImageView* visibleIcon; //违规图标
 
 @end
 
@@ -61,7 +62,7 @@
     [_propertyTitle setTextColor:[UIColor brokerBlackColor]];
     [self.contentView addSubview:_propertyTitle];
     
-    //多图, 精选, 手机
+    //多图, 精选, 手机, 违规
     _multiPictureIcon = [[UIImageView alloc] initWithFrame:CGRectZero];
     [self.contentView addSubview:_multiPictureIcon];
     
@@ -70,6 +71,9 @@
     
     _mobileIcon = [[UIImageView alloc] initWithFrame:CGRectZero];
     [self.contentView addSubview:_mobileIcon];
+    
+    _visibleIcon = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [self.contentView addSubview:_visibleIcon];
     
     //小区名称
     _community = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -128,49 +132,73 @@
     _propertyTitle.text = self.propertyDetailTableViewCellModel.title;
     //    _userName.backgroundColor = [UIColor redColor];
     
-    //多图
-    if ([@"1" isEqualToString:self.propertyDetailTableViewCellModel.isMoreImg]) {
-        _multiPictureIcon.frame = CGRectMake(_propertyTitle.right, 16, 17, 17);
-        _multiPictureIcon.image = [UIImage imageNamed:@"broker_property_icon_pic"];
-        _multiPictureIcon.hidden = NO;
-    }else{
+    //如果是违规, 那么只显示违规, 否则显示其他, 一律紧靠右边
+    if ([@"0" isEqualToString:self.propertyDetailTableViewCellModel.isVisible]) {  //如果是违规
+        _visibleIcon.frame = CGRectMake(ScreenWidth - 17*3, 16, 17, 17);
+        _visibleIcon.image = [UIImage imageNamed:@"broker_property_icon_wg"];
+        _visibleIcon.hidden = NO;
+        
         _multiPictureIcon.hidden = YES;
-    }
-    
-    //精选
-    if ([@"1" isEqualToString:self.propertyDetailTableViewCellModel.isChoice]) {
-        if (self.propertyDetailTableViewCellModel.isMoreImg && [@"1" isEqualToString:self.propertyDetailTableViewCellModel.isMoreImg]) {
-            _choiceIcon.frame = CGRectMake(_multiPictureIcon.right + 2, 16, 17, 17);
-            _choiceIcon.image = [UIImage imageNamed:@"broker_property_icon_jx"];
-            _choiceIcon.hidden = NO;
-        } else {
-            _choiceIcon.frame = CGRectMake(_propertyTitle.right, 16, 17, 17);
-            _choiceIcon.image = [UIImage imageNamed:@"broker_property_icon_jx"];
-            _choiceIcon.hidden = NO;
-        }
-    } else {
         _choiceIcon.hidden = YES;
-    }
-    
-    //手机
-    if ([@"1" isEqualToString:self.propertyDetailTableViewCellModel.isPhonePub]) {
-        if (self.propertyDetailTableViewCellModel.isChoice && [@"1" isEqualToString:self.propertyDetailTableViewCellModel.isChoice]) {
-            _mobileIcon.frame = CGRectMake(_choiceIcon.right + 2, 16, 17, 17);
-            _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
-            _mobileIcon.hidden = NO;
-        } else if(self.propertyDetailTableViewCellModel.isMoreImg && [@"1" isEqualToString:self.propertyDetailTableViewCellModel.isMoreImg]){
-            _mobileIcon.frame = CGRectMake(_multiPictureIcon.right + 2, 16, 17, 17);
-            _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
-            _mobileIcon.hidden = NO;
+        _mobileIcon.hidden = YES;
+        
+    }else{ //正常情况
+        _visibleIcon.hidden = YES;
+        
+        //手机
+        if ([@"1" isEqualToString:self.propertyDetailTableViewCellModel.isPhonePub]) {
+                _mobileIcon.frame = CGRectMake(ScreenWidth - 17*3, 16, 17, 17);
+                _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
+                _mobileIcon.hidden = NO;
         } else {
-            _mobileIcon.frame = CGRectMake(_propertyTitle.right, 16, 17, 17);
-            _mobileIcon.image = [UIImage imageNamed:@"broker_property_icon_tel"];
-            _mobileIcon.hidden = NO;
+            _mobileIcon.hidden = YES;
         }
         
-    } else {
-        _mobileIcon.hidden = YES;
+        //精选
+        if ([@"1" isEqualToString:self.propertyDetailTableViewCellModel.isChoice]) {
+            if (self.propertyDetailTableViewCellModel.isPhonePub && [@"1" isEqualToString:self.propertyDetailTableViewCellModel.isPhonePub]) {
+                _choiceIcon.frame = CGRectMake(ScreenWidth - 17*4, 16, 17, 17);
+                _choiceIcon.image = [UIImage imageNamed:@"broker_property_icon_jx"];
+                _choiceIcon.hidden = NO;
+            } else {
+                _choiceIcon.frame = CGRectMake(ScreenWidth - 17*3, 16, 17, 17);
+                _choiceIcon.image = [UIImage imageNamed:@"broker_property_icon_jx"];
+                _choiceIcon.hidden = NO;
+            }
+        } else {
+            _choiceIcon.hidden = YES;
+        }
+        
+        //多图
+        if ([@"1" isEqualToString:self.propertyDetailTableViewCellModel.isMoreImg]) {
+            if (self.propertyDetailTableViewCellModel.isChoice && [@"1" isEqualToString:self.propertyDetailTableViewCellModel.isChoice] &&
+                self.propertyDetailTableViewCellModel.isPhonePub && [@"1" isEqualToString:self.propertyDetailTableViewCellModel.isPhonePub]) {
+                _multiPictureIcon.frame = CGRectMake(ScreenWidth - 17*5, 16, 17, 17);
+                _multiPictureIcon.image = [UIImage imageNamed:@"broker_property_icon_pic"];
+                _multiPictureIcon.hidden = NO;
+            }else if (self.propertyDetailTableViewCellModel.isChoice && [@"1" isEqualToString:self.propertyDetailTableViewCellModel.isChoice] &&
+                      self.propertyDetailTableViewCellModel.isPhonePub && [@"0" isEqualToString:self.propertyDetailTableViewCellModel.isPhonePub]){
+                _multiPictureIcon.frame = CGRectMake(ScreenWidth - 17*4, 16, 17, 17);
+                _multiPictureIcon.image = [UIImage imageNamed:@"broker_property_icon_pic"];
+                _multiPictureIcon.hidden = NO;
+            }else if (self.propertyDetailTableViewCellModel.isChoice && [@"0" isEqualToString:self.propertyDetailTableViewCellModel.isChoice] &&
+                      self.propertyDetailTableViewCellModel.isPhonePub && [@"1" isEqualToString:self.propertyDetailTableViewCellModel.isPhonePub]){
+                _multiPictureIcon.frame = CGRectMake(ScreenWidth - 17*4, 16, 17, 17);
+                _multiPictureIcon.image = [UIImage imageNamed:@"broker_property_icon_pic"];
+                _multiPictureIcon.hidden = NO;
+            }else{
+                _multiPictureIcon.frame = CGRectMake(ScreenWidth - 17*3, 16, 17, 17);
+                _multiPictureIcon.image = [UIImage imageNamed:@"broker_property_icon_pic"];
+                _multiPictureIcon.hidden = NO;
+            }
+            
+        }else{
+            _multiPictureIcon.hidden = YES;
+        }
+        
+        
     }
+    
     
     
     //小区名称

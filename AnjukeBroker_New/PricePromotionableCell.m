@@ -90,7 +90,7 @@
 - (void)startPromotion:(UIButton*)button{
     NSLog(@"立即推广");
     if (self.block != nil) {
-        _block([button titleForState:UIControlStateNormal]);
+        _block(button);
     }
     
 }

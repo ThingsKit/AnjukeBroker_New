@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^EditButtonBlock) (void); //返回类型void,  参数列表(void)
-typedef void(^DeleteButtonBlock) (void); //返回类型void,  参数列表(void)
+typedef void(^EditButtonBlock) (UIButton*); //返回类型void,  参数列表(void)
+typedef void(^DeleteButtonBlock) (UIButton*); //返回类型void,  参数列表(void)
 
 @interface PropertyDetailTableViewFooter : UIView
 

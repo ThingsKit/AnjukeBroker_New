@@ -34,12 +34,12 @@
 @property (nonatomic, strong) UIView* loadingView; //正在加载中的UIView;
 @property (nonatomic, strong) UILabel* loadingTipLabel; //正在加载中的UILabel
 @property (nonatomic, strong) UIActivityIndicatorView* activity; //风火轮
+@property (nonatomic, strong) UIButton* button; //用来引用cell里的button
 
 @property (nonatomic, strong) NSMutableArray* data; //数组用来存储5个请求回来的对象
 @property (nonatomic, copy) NSString* balance; //经纪人可用余额(带单位)
 @property (nonatomic, copy) NSString* minBudget; //最小预算(不带单位)
 @property (nonatomic, copy) NSString* maxBudget; //最大预算(带单位)
-@property (nonatomic, copy) NSString* budget; //经纪人输入的预算
 
 //浮层相关
 @property (nonatomic, strong) MBProgressHUD* hud;
@@ -61,7 +61,7 @@
 {
     [super viewDidLoad];
     
-    [self setTitleViewWithString:@"房源单页"];
+    [self setTitleViewWithString:@"房源详情"];
     
     //取出参数
 //    @"brokerId":@"858573", @"propId":@"168783092"   for test
@@ -124,7 +124,7 @@
 #pragma mark 页脚block定义
 - (void)initFooterBlock{
     __weak PropertySingleViewController* this = self;
-    _footer.editBlock = ^{
+    _footer.editBlock = ^(UIButton* button){
         PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
         controller.isHaozu = this.isHaozu;
         controller.propertyID = this.propId;
@@ -132,7 +132,7 @@
         [this.navigationController pushViewController:controller animated:YES];
     };
     
-    _footer.deleteBlock = ^{
+    _footer.deleteBlock = ^(UIButton* button){
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定删除当前房源" delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         alert.tag = 2;
         [alert show]; //一定要放设置键盘之后
@@ -191,7 +191,11 @@
                 cell.pricePromotionCellModel = self.data[1]; //第二个是定价推广概况
                 NSString* planId = cell.pricePromotionCellModel.planId;
                 __weak PropertySingleViewController* this = self;
-                cell.block = ^(NSString* string){
+                cell.block = ^(UIButton* button){
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        button.enabled = NO;
+                    });
+                    this.button = button;
                     //开始定价推广
                     [this requestFixWithPlanId:planId];
                 };
@@ -233,7 +237,11 @@
                 if ([@"1-1" isEqualToString:actionType]) { //推广中
                     ChoicePromotioningCell* cell = [[ChoicePromotioningCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
                     cell.choicePromotionModel = propChoice;
-                    cell.block = ^(NSString* string){
+                    cell.block = ^(UIButton* button){
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            button.enabled = NO;
+                        });
+                        this.button = button;
                         //取消精选推广
                         [this requestChoiceStop];
                     };
@@ -246,7 +254,11 @@
                     
                     ChoicePromotionQueuingCell* cell = [[ChoicePromotionQueuingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
                     cell.queuePosition = propChoice.statusMsg; //这里应该是个数字
-                    cell.block = ^(NSString* string){
+                    cell.block = ^(UIButton* button){
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            button.enabled = NO;
+                        });
+                        this.button = button;
                         //取消排队
                         [this requestChoiceStop];
                     };
@@ -269,14 +281,17 @@
                     ChoicePromotionableCell* cell = [[ChoicePromotionableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
                     cell.choicePromotionModel = self.data[2];
                     
-                    cell.block = ^(NSString* string){
+                    cell.block = ^(UIButton* button){
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            button.enabled = NO;
+                        });
+                        this.button = button;
                         //立即排队
                         NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
                         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                         alert.tag = 1;
                         alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-                        NSString* budget = [NSString stringWithFormat:@"输入预算, %@~%@", this.minBudget, this.maxBudget];
-                        [alert textFieldAtIndex:0].placeholder = budget;
+                        [alert textFieldAtIndex:0].placeholder = [NSString stringWithFormat:@"输入预算, %@~%@", this.minBudget, this.maxBudget];
                         [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeNumberPad;
                         [alert show]; //一定要放设置键盘之后
                         
@@ -291,14 +306,17 @@
                     
                     ChoicePromotionableCell* cell = [[ChoicePromotionableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
                     cell.choicePromotionModel = self.data[2];
-                    cell.block = ^(NSString* string){
+                    cell.block = ^(UIButton* button){
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            button.enabled = NO;
+                        });
+                        this.button = button;
                         //立即推广
                         NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
                         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                         alert.tag = 1;
                         alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-                        NSString* budget = [NSString stringWithFormat:@"输入预算, %@~%@", this.minBudget, this.maxBudget];
-                        [alert textFieldAtIndex:0].placeholder = budget;
+                        [alert textFieldAtIndex:0].placeholder = [NSString stringWithFormat:@"输入预算, %@~%@", this.minBudget, this.maxBudget];
                         [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeNumberPad;
                         [alert show]; //一定要放设置键盘之后
                         
@@ -483,11 +501,13 @@
         prefix = @"zufang";
     }
     
-    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":self.propId};
-//    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":@"858573", @"propId":_propId};
+    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":_propId};
     NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/summary/"], @"query_params":param1}; //房源概况
 
     NSDictionary* param2 = @{@"token":[LoginManager getToken], @"cityId":[LoginManager getCity_id], @"propId":_propId}; //11表示上海
+    if (self.isHaozu) {
+        param2 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":_propId}; //11表示上海
+    }
     NSDictionary* dic2 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/fix/summary/"], @"query_params":param2}; //房源定价概况
     
     NSDictionary* param3 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":_propId};
@@ -543,11 +563,6 @@
                     [self.data addObject:fix];
                     
                     ChoicePromotionCellModel* propChoice = [[ChoicePromotionCellModel alloc] initWithDataDic:[propChoiceSum objectForKey:@"data"]]; //房源精选概况
-                    //######################################### for test
-                    propChoice.maxBucketNum = @"20";
-                    propChoice.usedBucketNum = @"15";
-                    propChoice.status = @"2-2"; //1-1 推广中 1-2排队中 2-1推广位已满 2-2可立即排队 2-3可立即推广 3-2不符合精选推广条件
-                    //#########################################
                     self.minBudget = propChoice.minChoicePrice;
                     self.maxBudget = [propChoice.maxChoicePrice stringByAppendingString:propChoice.maxChoicePriceUnit];
                     [self.data addObject:propChoice];
@@ -611,6 +626,9 @@
 
 - (void)onRequestFixFinished:(RTNetworkResponse *)response{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    self.button.enabled = YES;
+    
     //解除请求锁
     self.networkRequesting = NO;
     
@@ -668,6 +686,9 @@
 
 - (void)onRequestChoiceFinished:(RTNetworkResponse *)response{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    self.button.enabled = YES;
+    
     //解除请求锁
     self.networkRequesting = NO;
     
@@ -725,6 +746,9 @@
 
 - (void)onRequestChoiceStopFinished:(RTNetworkResponse *)response{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    self.button.enabled = YES;
+    
     //解除请求锁
     self.networkRequesting = NO;
     
@@ -814,16 +838,29 @@
 #pragma mark UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (alertView.tag == 1) {
-        NSLog(@"%@", [alertView textFieldAtIndex:0].text);
+        
+        NSString* budget = [alertView textFieldAtIndex:0].text;
+        NSLog(@"%@", budget);
+        
+        if ([budget intValue] < [self.minBudget intValue] || [budget intValue] > [self.maxBudget intValue]) {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"输入预算不符合规定" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [alert show];
+            self.button.enabled = YES;
+            return;
+        }
         
         if (buttonIndex == 1) { //确定按钮
-            [self requestChoiceWithBudget:[alertView textFieldAtIndex:0].text];
+            [self requestChoiceWithBudget:budget];
+        }else{
+            self.button.enabled = YES;
+        }
+    }else if (alertView.tag == 2){
+        if (buttonIndex == 1) { //确定按钮
+            //删除当前房源
+            [self requestPropertyDelete];
         }else{
             
         }
-    }else if (alertView.tag == 2){
-        //删除当前房源
-        [self requestPropertyDelete];
         
     }
     
