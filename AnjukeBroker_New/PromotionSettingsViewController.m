@@ -65,12 +65,11 @@
 {
     
     NSString *method = @"batch/";
-#warning 一次请求两个接口, no check
     NSDictionary *params = nil;
-    NSDictionary *requeseParams1 = @{@"token":[LoginManager getToken],@"brokerId":[LoginManager getUserID],@"is_nocheck":@"1"};
+    NSDictionary *requeseParams1 = @{@"token":[LoginManager getToken],@"brokerId":[LoginManager getUserID]};
     NSDictionary *dic1 =  @{ @"method":@"GET",@"relative_url":@"anjuke/fix/summary/",@"query_params":requeseParams1};
     
-    NSDictionary *requeseParams2 = @{@"token":[LoginManager getToken],@"brokerId":[LoginManager getUserID],@"cityId":@"11",@"is_nocheck":@"1"};
+    NSDictionary *requeseParams2 = @{@"token":[LoginManager getToken],@"brokerId":[LoginManager getUserID],@"cityId":@"11"};
     NSDictionary *dic2 = @{@"method":@"GET",@"relative_url":@"zufang/fix/summary/",@"query_params":requeseParams2};
     
     NSDictionary *dics = @{@"esf":dic1,@"zf":dic2};
@@ -307,7 +306,7 @@
     if ([self isEmpty:self.ESFPlanId]) {
         return;
     }
-    NSDictionary *params = @{@"brokerId":[LoginManager getUserID],@"token":[LoginManager getToken],@"planId":self.ESFPlanId,@"is_nocheck":@"1"};
+    NSDictionary *params = @{@"brokerId":[LoginManager getUserID],@"token":[LoginManager getToken],@"planId":self.ESFPlanId};
     [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleESFRequestData:)];
     [self showLoadingActivity:YES];
     self.isLoading = true;
@@ -321,7 +320,7 @@
     if ([self isEmpty:self.ZFPlanId]) {
         return;
     }
-    NSDictionary *params = @{@"brokerId":[LoginManager getUserID],@"token":[LoginManager getToken],@"planId":self.ZFPlanId,@"is_nocheck":@"1"};
+    NSDictionary *params = @{@"brokerId":[LoginManager getUserID],@"token":[LoginManager getToken],@"planId":self.ZFPlanId};
    [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(  handleZFRequestData:)];
     [self showLoadingActivity:YES];
     self.isLoading = true;
