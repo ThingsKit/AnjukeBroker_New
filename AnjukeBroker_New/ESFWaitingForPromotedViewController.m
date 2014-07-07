@@ -406,6 +406,7 @@
 //编辑房源
 - (void)editProperty
 {
+    [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_CLICK_EDIT page:ESF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
     controller.isHaozu = self.isHaozu;
     controller.propertyID = [self.dataSource objectAtIndex:self.editAndDeleteCellIndexPath.row][@"propId"];
