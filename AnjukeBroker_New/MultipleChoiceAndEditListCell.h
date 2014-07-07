@@ -23,6 +23,7 @@
 @property (nonatomic, strong) PropertyDetailCellModel* propertyDetailTableViewCellModel;
 @property (nonatomic, strong) id<CellSelectStatusDelegate> delegate;
 @property (nonatomic) NSInteger rowIndex;
+@property (nonatomic) BOOL isHaozu;
 
 - (void)changeCellSelectStatus:(BOOL)isSelected;
 

@@ -104,11 +104,13 @@
     [self.contentView addSubview:_houseType];
     
     //面积
-    _area = [[UILabel alloc] initWithFrame:CGRectZero];
-    _area.backgroundColor = [UIColor clearColor];
-    _area.font = [UIFont ajkH4Font];
-    _area.textColor = [UIColor brokerLightGrayColor];
-    [self.contentView addSubview:_area];
+    if (!self.isHaozu) {
+        _area = [[UILabel alloc] initWithFrame:CGRectZero];
+        _area.backgroundColor = [UIColor clearColor];
+        _area.font = [UIFont ajkH4Font];
+        _area.textColor = [UIColor brokerLightGrayColor];
+        [self.contentView addSubview:_area];
+    }
     
     //租金或售价
     _price = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -278,20 +280,30 @@
     
     //户型
     _houseType.frame = CGRectMake(_propertyIcon.right + 12, _community.bottom + GAP_V, 100, 20);
-    _houseType.text = [NSString stringWithFormat:@"%@室%@厅%@卫", self.propertyDetailTableViewCellModel.roomNum, self.propertyDetailTableViewCellModel.hallNum, self.propertyDetailTableViewCellModel.toiletNum];
+    _houseType.text = [NSString stringWithFormat:@"%@室%@厅", self.propertyDetailTableViewCellModel.roomNum, self.propertyDetailTableViewCellModel.hallNum];
     [_houseType sizeToFit];
     
+    
     //面积
-    NSString *area = self.propertyDetailTableViewCellModel.area;
-    NSRange range = [area rangeOfString:@".00"];
-    area = range.location == INT32_MAX ? area : [area substringToIndex:range.location];
-    _area.frame = CGRectMake(_houseType.right + GAP_H, _community.bottom + GAP_V, 50, 20);
-    _area.text = [NSString stringWithFormat:@"%@平",area];
-    [_area sizeToFit];
+    if (!self.isHaozu) {
+        NSString *area = self.propertyDetailTableViewCellModel.area;
+        NSRange range = [area rangeOfString:@".00"];
+        area = range.location == INT32_MAX ? area : [area substringToIndex:range.location];
+        _area.frame = CGRectMake(_houseType.right + GAP_H, _community.bottom + GAP_V, 50, 20);
+        _area.text = [NSString stringWithFormat:@"%@平",area];
+        [_area sizeToFit];
+    } else {
+        _area.width = 0;
+    }
     
     //租金或售价
     NSString *price = self.propertyDetailTableViewCellModel.price;
-    _price.frame = CGRectMake(_area.right + GAP_H, _community.bottom + GAP_V - 1, 70, 20);
+    if (!self.isHaozu) {
+        _price.frame = CGRectMake(_area.right + GAP_H, _community.bottom + GAP_V - 1, 70, 20);
+    } else {
+        _price.frame = CGRectMake(_houseType.right + GAP_H, _community.bottom + GAP_V - 1, 70, 20);
+    }
+    
     _price.textAlignment = NSTextAlignmentRight;
     _price.text = [NSString stringWithFormat:@"%@%@",price,self.propertyDetailTableViewCellModel.priceUnit];
     [_price sizeToFit];

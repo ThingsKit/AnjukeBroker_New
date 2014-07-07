@@ -402,7 +402,7 @@
     cell.rowIndex       = indexPath.row;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     cell.delegate = self;
-
+    cell.isHaozu = self.isHaozu;
     return cell;
 }
 
