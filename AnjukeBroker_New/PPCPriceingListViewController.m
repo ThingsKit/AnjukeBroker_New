@@ -14,6 +14,7 @@
 #import "RTGestureBackNavigationController.h"
 #import "CommunityListViewController.h"
 #import "PropertySingleViewController.h"
+#import "PPCPlanIdRequest.h"
 
 @interface PPCPriceingListViewController ()
 @property(nonatomic, strong) NSMutableArray *tableData;
@@ -189,9 +190,40 @@
         return;
     }
     
+    if (!self.planId || [self.planId isEqualToString:@""]) {
+        [[PPCPlanIdRequest sharePlanIdRequest] getPricingPlanId:self.isHaozu returnInfo:^(NSString *planId, RequestStatus status) {
+            if (status == RequestStatusForOk) {
+                self.planId = planId;
+                [self doPricingRequest];
+            }else{
+                [self donePullDown];
+                self.isLoading = NO;
+                
+                UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
+                tapGes.delegate                = self;
+                tapGes.numberOfTouchesRequired = 1;
+                tapGes.numberOfTapsRequired    = 1;
+                [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
+                
+                if (status == RequestStatusForNetRemoteServerError){
+                    [self.tableList setTableStatus:STATUSFORREMOTESERVERERROR];
+                }else if (status == RequestStatusForNetWorkError){
+                    [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+                }
+                
+                [self.tableData removeAllObjects];
+                [self.tableList reloadData];
+            }
+        }];
+    }else{
+        [self doPricingRequest];
+    }
+}
+
+- (void)doPricingRequest{
     NSMutableDictionary *params = nil;
     NSString *method = nil;
-
+    
     if (self.isHaozu) {
         params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",self.planId,@"planId",[LoginManager getCity_id],@"cityId", nil];
         method = [NSString stringWithFormat:@"zufang/fix/props/"];
@@ -199,10 +231,10 @@
         params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID],@"brokerId",self.planId,@"planId",[LoginManager getCity_id],@"cityId", nil];
         method = [NSString stringWithFormat:@"anjuke/fix/props/"];
     }
-
+    
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
-
 }
+
 - (void)onRequestFinished:(RTNetworkResponse *)response{
     self.isLoading = NO;
     DLog(@"response---->>%@",[response content]);

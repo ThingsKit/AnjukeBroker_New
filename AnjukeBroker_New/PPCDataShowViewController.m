@@ -175,8 +175,8 @@
     }
     
     if (indexPath.row == 1) {
-        if (self.pricingDic && self.pricingDic[@"planId"]) {
-            if ([[LoginManager getBusinessType] isEqualToString:@"1"]){
+        if ([[LoginManager getBusinessType] isEqualToString:@"1"]){
+            if (self.pricingDic && self.pricingDic[@"planId"]) {
                 if (self.isHaozu) {
                     [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_FIXLIST page:ZF_MANAGE note:nil];
                     
@@ -192,14 +192,15 @@
                     [controller setHidesBottomBarWhenPushed:YES];
                     [self.navigationController pushViewController:controller animated:YES];
                 }
-            }else{
-                PPCPriceingListViewController *pricingListVC = [[PPCPriceingListViewController alloc] init];
-                pricingListVC.isHaozu = self.isHaozu;
-                pricingListVC.planId = self.pricingDic[@"planId"];
-                [self.navigationController pushViewController:pricingListVC animated:YES];
             }
         }else{
-            return;
+            if ([[LoginManager getBusinessType] isEqualToString:@"2"]){
+                PPCPriceingListViewController *pricingListVC = [[PPCPriceingListViewController alloc] init];
+                pricingListVC.isHaozu = self.isHaozu;
+                NSString *planId = self.pricingDic[@"planId"] ? self.pricingDic[@"planId"] : @"";
+                pricingListVC.planId = planId;
+                [self.navigationController pushViewController:pricingListVC animated:YES];
+            }
         }
     }else if (indexPath.row == 2){
         if ([[LoginManager getBusinessType] isEqualToString:@"1"]) {
@@ -263,6 +264,12 @@
         
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
         self.isLoading = NO;
+
+        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
+        tapGes.delegate                = self;
+        tapGes.numberOfTouchesRequired = 1;
+        tapGes.numberOfTapsRequired    = 1;
+        [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
 
         self.pricingDic = nil;
         self.secondCellDic = nil;
