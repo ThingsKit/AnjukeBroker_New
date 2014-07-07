@@ -227,7 +227,6 @@
                 }else{
                     HZWaitingForPromotedViewController *hzToBePromoted = [[HZWaitingForPromotedViewController alloc] init];
                     hzToBePromoted.planId = self.pricingDic[@"planId"];
-                    [hzToBePromoted loadData];
                     [self.navigationController pushViewController:hzToBePromoted animated:YES];
                 }
             } else {
@@ -242,7 +241,6 @@
                 }else{
                     ESFWaitingForPromotedViewController *esfToBePromoted = [[ESFWaitingForPromotedViewController alloc] init];
                     esfToBePromoted.planId = self.pricingDic[@"planId"];
-                    [esfToBePromoted loadData];
                     [self.navigationController pushViewController:esfToBePromoted animated:YES];
                 }
             }

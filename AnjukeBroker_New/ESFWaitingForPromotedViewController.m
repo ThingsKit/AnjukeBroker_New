@@ -197,21 +197,19 @@
 {
     NSArray *dataArray = [[response.content objectForKey:@"data"] objectForKey:@"propertyList"];
     if (dataArray == nil || [dataArray count] == 0) {
-        UIImageView *noResult = [[UIImageView alloc] initWithFrame:CGRectMake(104.0f, 210 - 80, 112.0f, 80.0f)];
-        [noResult setImage:[UIImage imageNamed:@"pic_3.4_01.png"]];
-        [self.view addSubview:noResult];
-        
-        UILabel *noR = [[UILabel alloc] initWithFrame:CGRectMake(0, 210 + 15, 200, 50)];
-        noR.text = @"暂无待推广房源";
-        noR.textColor = [UIColor grayColor];
-        [noR sizeToFit];
-        noR.centerX = self.view.centerX;
-        [self.view addSubview:noR];
-        [self.mutipleEditView removeFromSuperview];
+        [self showEmptyView];
     } else {
         [self showBottomView];
     }
+    
     return dataArray;
+}
+
+- (void)checkDataSourceOnDelete
+{
+    if (self.dataSource == nil || [self.dataSource count] == 0) {
+        [self showEmptyView];
+    }
 }
 
 - (BOOL)checkWithPlanIdandSelectCount
@@ -228,6 +226,20 @@
     return true;
 }
 
+- (void)showEmptyView
+{
+    UIImageView *noResult = [[UIImageView alloc] initWithFrame:CGRectMake(104.0f, 210 - 80, 112.0f, 80.0f)];
+    [noResult setImage:[UIImage imageNamed:@"pic_3.4_01.png"]];
+    [self.view addSubview:noResult];
+    
+    UILabel *noR = [[UILabel alloc] initWithFrame:CGRectMake(0, 210 + 15, 200, 50)];
+    noR.text = @"暂无待推广房源";
+    noR.textColor = [UIColor grayColor];
+    [noR sizeToFit];
+    noR.centerX = self.view.centerX;
+    [self.view addSubview:noR];
+    [self.mutipleEditView removeFromSuperview];
+}
 #pragma mark - cell选择处理
 
 - (void)selectAllProps:(id)sender
@@ -458,7 +470,7 @@
     
     [self.dataSource removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
     [self.tableView deleteRowsAtIndexPaths:@[self.editAndDeleteCellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
-    [self loadData];
+    [self checkDataSourceOnDelete];
     [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
 }
 #pragma mark - Log
