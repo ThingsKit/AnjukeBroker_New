@@ -232,8 +232,9 @@
                     controller.isSeedPid = self.pricingDic[@"planId"];
                     [controller setHidesBottomBarWhenPushed:YES];
                     [self.navigationController pushViewController:controller animated:YES];
-                }else{
+                } else {
                     WaitingForPromotedViewController *hzToBePromoted = [[WaitingForPromotedViewController alloc] init];
+                    hzToBePromoted.isHaozu = YES;
                     hzToBePromoted.planId = self.pricingDic[@"planId"];
                     [self.navigationController pushViewController:hzToBePromoted animated:YES];
                 }
@@ -246,9 +247,10 @@
                     [controller setHidesBottomBarWhenPushed:YES];
                     [self.navigationController pushViewController:controller animated:YES];
 
-                }else{
+                } else {
                     WaitingForPromotedViewController *esfToBePromoted = [[WaitingForPromotedViewController alloc] init];
                     esfToBePromoted.planId = self.pricingDic[@"planId"];
+                    esfToBePromoted.isHaozu = NO;
                     [self.navigationController pushViewController:esfToBePromoted animated:YES];
                 }
             }

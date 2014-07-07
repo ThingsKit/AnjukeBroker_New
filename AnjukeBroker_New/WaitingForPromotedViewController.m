@@ -538,7 +538,6 @@
     } else {
         [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_CLICK_DJTG page:ESF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
-    
 }
 
 - (void)doBack:(id)sender
