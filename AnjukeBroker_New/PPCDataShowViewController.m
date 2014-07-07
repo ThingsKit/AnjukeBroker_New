@@ -387,14 +387,33 @@
         self.pricingDic = [bodyDic1 objectForKey:@"data"];
     }else{
         self.pricingDic = nil;
+
+        if (!bodyDic1[@"status"]) {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"定价计划请求失败" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"重新请求", nil];
+            [alert show];
+            
+            return;
+        }
     }
     
     if (bodyDic2[@"status"] && [bodyDic2[@"status"] isEqualToString:@"ok"]) {
         self.secondCellDic = [bodyDic2 objectForKey:@"data"];
     }else{
-        DLog(@"errorMsg--->>%@",bodyDic2[@"message"]);
-
         self.secondCellDic = nil;
+
+        if (!bodyDic2[@"status"]) {
+            if ([[LoginManager getBusinessType] isEqualToString:@"1"]) {
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"竞价计划请求失败" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"重新请求", nil];
+                [alert show];
+                
+                return;
+            }else{
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"精选计划请求失败" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"重新请求", nil];
+                [alert show];
+                
+                return;
+            }
+        }
     }
     
     if (!self.pricingDic && !self.secondCellDic) {
@@ -440,6 +459,13 @@
     controller.isHaouzu = self.isHaozu;
     RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];
+}
+
+#pragma mark -- UIAlertDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 1) {
+        [self autoPullDown];
+    }
 }
 
 - (void)didReceiveMemoryWarning

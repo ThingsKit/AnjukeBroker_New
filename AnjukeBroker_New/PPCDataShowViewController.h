@@ -10,7 +10,7 @@
 #import "BaseTableStructViewController.h"
 #import "RTViewController.h"
 
-@interface PPCDataShowViewController : BaseTableStructViewController<UITableViewDataSource,UITableViewDelegate>
+@interface PPCDataShowViewController : BaseTableStructViewController<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 
 @property(nonatomic, assign) BOOL isHaozu;
 

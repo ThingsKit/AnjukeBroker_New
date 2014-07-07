@@ -48,6 +48,8 @@
     NSDictionary *dic = [data[@"content"] JSONValue];
     NSArray *arr = [NSArray arrayWithArray:dic[@"articles"]];
     
+    self.identifyString = data[@"identifier"];
+    
     NSInteger subEventCount = arr.count;
     
     self.backgoundView.frame = CGRectMake(15, 10, ScreenWidth - 15*2, 156 + (subEventCount -1)*66);
@@ -68,7 +70,14 @@
         [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:button];
     }
+    
+    
+    UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(handleLongPressGesture:)];
+    [recognizer setMinimumPressDuration:0.4f];
+    [self addGestureRecognizer:recognizer];
 }
+
 - (void)buttonClick:(id)sender{
     NSDictionary *dic = [[NSDictionary alloc] init];
     if ([sender isKindOfClass:[AXChatMessagePublicCellTopButton class]]) {
