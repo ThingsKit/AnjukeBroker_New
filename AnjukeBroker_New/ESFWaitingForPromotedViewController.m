@@ -139,11 +139,6 @@
     
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self.tableView reloadData];
-}
-
 #pragma mark - Request Data
 - (void)loadDataWithActivityShow:(BOOL)isShowActivity
 {
