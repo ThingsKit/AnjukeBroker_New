@@ -13,6 +13,10 @@
 
 + (void)setDisableGestureForBack:(BK_RTNavigationController *)nav disableGestureback:(BOOL)disableGestureback{
     RTGestureBackNavigationController *passNav = (RTGestureBackNavigationController*)nav;
-    passNav.disableGestureForBack = disableGestureback;
+    if ([passNav isKindOfClass:[RTGestureBackNavigationController class]])
+    {
+        passNav.disableGestureForBack = disableGestureback;
+    }
+    
 }
 @end

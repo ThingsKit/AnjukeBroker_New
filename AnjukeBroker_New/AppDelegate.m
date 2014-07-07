@@ -29,6 +29,7 @@
 #import "FindCustomerViewController.h"
 #import "DiscoverViewController.h"
 #import "RTGestureBackNavigationController.h"
+#import "BrokerChatViewController.h"
 
 #import "CrashLogUtil.h"
 
@@ -338,6 +339,20 @@
                     [self.tabController presentViewController:navi animated:YES completion:nil];
                 }
             }
+        }else
+        {
+            NSString *fromUid = [[userInfo objectForKey:@"anjuke_custom"] objectForKey:@"from_uid"];
+            BrokerChatViewController *controller = [[BrokerChatViewController alloc] init];
+            controller.isBroker = YES;
+            controller.uid = fromUid;
+            [controller setHidesBottomBarWhenPushed:YES];
+            controller.backType = RTSelectorBackTypeDismiss;
+            
+            BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:controller];
+            if (self.tabController) {
+                [self.tabController presentViewController:navi animated:YES completion:nil];
+            }
+
         }
     }
     

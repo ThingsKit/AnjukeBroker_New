@@ -895,9 +895,14 @@ static BrokerChatViewController *brokerSender = nil;
         [[BrokerLogger sharedInstance] logWithActionCode:CHAT_BACK page:CHAT note:nil];
     }
     
-    if (self.backType == RTSelectorBackTypePopBack) {
+    if (self.backType == RTSelectorBackTypePopBack)
+    {
         [self.navigationController popViewControllerAnimated:YES];
-    }else{
+    }else if(self.backType == RTSelectorBackTypeDismiss)
+    {
+        [self.navigationController dismissModalViewControllerAnimated:YES];
+    }else
+    {
         self.navigationController.tabBarController.selectedIndex = 1;
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
