@@ -106,15 +106,9 @@
 - (void)clickFixPromotionButton:(id)sender
 {
     [self sendClickFixPromotionButtonLog];
-    if (self.planId == nil || [self.planId isEqualToString:@""]) {
-        DLog(@"planId is nil or empty");
-        [self showAlertViewWithTitle:@"没有房源计划"];
+    if (![self checkWithPlanIdandSelectCount]) {
         return;
-    }
-    if (self.selectedCellCount == 0) {
-        [self showAlertViewWithTitle:@"请选择要推广的房源"];
-        return;
-    }
+    };
     NSString *propIds    = @"";
     for (PropSelectStatusModel *selectStatusModel in self.cellSelectStatus) {
         if (selectStatusModel.selectStatus) {
@@ -130,13 +124,6 @@
 }
 
 
-
-- (void)showAlertViewWithTitle:(NSString *)title
-{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:@"" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-    [alertView show];
-}
-
 - (void)onFixPromotionRequestFinished:(RTNetworkResponse *)response
 {
     self.isLoading = NO;
@@ -151,19 +138,9 @@
     
 }
 
-- (void)displayHUDWithStatus:(NSString *)status Message:(NSString*)message ErrCode:(NSString*)errCode {
-    [[HudTipsUtils sharedInstance] displayHUDWithStatus:status Message:message ErrCode:errCode toView:self.view];
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.tableView reloadData];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Request Data
@@ -237,6 +214,19 @@
     return dataArray;
 }
 
+- (BOOL)checkWithPlanIdandSelectCount
+{
+    if (self.planId == nil || [self.planId isEqualToString:@""]) {
+        DLog(@"planId is nil or empty");
+        [self showAlertViewWithTitle:@"没有房源计划"];
+        return false;
+    }
+    if (self.selectedCellCount == 0) {
+        [self showAlertViewWithTitle:@"请选择要推广的房源"];
+        return false;
+    }
+    return true;
+}
 
 #pragma mark - cell选择处理
 
@@ -491,5 +481,22 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark - utils
+
+- (void)displayHUDWithStatus:(NSString *)status Message:(NSString*)message ErrCode:(NSString*)errCode {
+    [[HudTipsUtils sharedInstance] displayHUDWithStatus:status Message:message ErrCode:errCode toView:self.view];
+}
+
+- (void)showAlertViewWithTitle:(NSString *)title
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:@"" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    [alertView show];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 @end
 

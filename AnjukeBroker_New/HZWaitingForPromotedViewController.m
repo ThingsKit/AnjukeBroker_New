@@ -156,15 +156,9 @@
 - (void)clickFixPromotionButton:(id)sender
 {
     [self sendClickFixPromotionButtonLog];
-    if (self.planId == nil || [self.planId isEqualToString:@""]) {
-        DLog(@"planId is nil or empty");
-        [self showAlertViewWithTitle:@"没有房源计划"];
+    if (![self checkWithPlanIdandSelectCount]) {
         return;
-    }
-    if (self.selectedCellCount == 0) {
-        [self showAlertViewWithTitle:@"请选择要推广的房源"];
-        return;
-    }
+    };
     NSString *propIds    = @"";
     for (PropSelectStatusModel *selectStatusModel in self.cellSelectStatus) {
         if (selectStatusModel.selectStatus) {
@@ -237,6 +231,21 @@
     
     return dataArray;
 }
+
+- (BOOL)checkWithPlanIdandSelectCount
+{
+    if (self.planId == nil || [self.planId isEqualToString:@""]) {
+        DLog(@"planId is nil or empty");
+        [self showAlertViewWithTitle:@"没有房源计划"];
+        return false;
+    }
+    if (self.selectedCellCount == 0) {
+        [self showAlertViewWithTitle:@"请选择要推广的房源"];
+        return false;
+    }
+    return true;
+}
+
 #pragma mark - cell选择处理
 
 - (void)selectAllProps:(id)sender
