@@ -43,23 +43,31 @@
     } else {
         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50 - 20) style:UITableViewStylePlain];
     }
-    
+
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     self.tableView.rowHeight = 90;
     [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
-    self.MutipleEditView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 49 -64, ScreenWidth, 49)];
+    self.isSelectAll = false;
+    self.selectedCellCount = 0;
+    [self.view addSubview:self.tableView];
     
-    self.MutipleEditView.backgroundColor = [UIColor brokerBlackColor];
-    self.MutipleEditView.alpha = 0.7;
-    
+}
 
+- (void)showBottomView
+{
+    if (self.mutipleEditView) {
+        [self.view addSubview:self.mutipleEditView];
+    }
+    
+    self.MutipleEditView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 49 -64, ScreenWidth, 49)];
+    self.mutipleEditView.backgroundColor = [UIColor brokerBlackColor];
+    self.mutipleEditView.alpha = 0.7;
     
     _buttonSelect = [UIButton buttonWithType:UIButtonTypeCustom];
     _buttonSelect.frame = CGRectMake(0, 0, ScreenWidth * 0.48, 49);
     [_buttonSelect addTarget:self action:@selector(selectAllProps:) forControlEvents:UIControlEventTouchUpInside];
-    
     
     UIImageView *selectImage = [[UIImageView alloc] initWithFrame:CGRectMake((56 - 22)/2, (50 - 22)/2, 22, 22)];
     selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray@2x.png"];
@@ -84,12 +92,10 @@
     [_buttonPromote setTitle:[NSString stringWithFormat:@"定价推广(%d)", self.selectedCellCount]  forState:UIControlStateNormal];
     [_buttonPromote addTarget:self action:@selector(clickFixPromotionButton:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.MutipleEditView addSubview:_buttonSelect];
-    [self.MutipleEditView addSubview:_buttonPromote];
+    [self.mutipleEditView addSubview:_buttonSelect];
+    [self.mutipleEditView addSubview:_buttonPromote];
     
-    [self.view addSubview:self.tableView];
-    [self.view addSubview:self.MutipleEditView];
-    
+    [self.view addSubview:self.mutipleEditView];
 }
 
 - (void)clickFixPromotionButton:(id)sender
@@ -97,6 +103,7 @@
     [self sendClickFixPromotionButtonLog];
     if (self.planId == nil || [self.planId isEqualToString:@""]) {
         DLog(@"planId is nil or empty");
+        [self showAlertViewWithTitle:@"没有房源计划"];
         return;
     }
     if (self.selectedCellCount == 0) {
@@ -111,8 +118,7 @@
     }
     propIds = [propIds substringToIndex:propIds.length - 1];
     NSString *method     = @"anjuke/fix/addpropstoplan/";
-#warning no_check
-    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":[LoginManager getUserID],@"planId":self.planId,@"propIds":propIds,@"is_nocheck":@"1"};
+    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":[LoginManager getUserID],@"planId":self.planId,@"propIds":propIds};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onFixPromotionRequestFinished:)];
     self.isLoading = YES;
     [self showLoadingActivity:YES];
@@ -130,19 +136,12 @@
 {
     self.isLoading = NO;
     [self hideLoadWithAnimated:YES];
-    if (response.status == RTNetworkResponseStatusFailed) {
-        [self displayHUDWithStatus:@"error" Message:@"无网络连接" ErrCode:response.content[@"errcode"]];
-    }
+    if (![self checkNetworkAndErrorWithResponse:response]) {
+        return;
+    };
     if ([[response.content valueForKey:@"status"] isEqualToString:@"ok"]) {
-        
-        [self displayHUDWithStatus:@"ok" Message:@"推广成功" ErrCode:nil];
         [self loadData];
-        
-    } else if ([[response.content valueForKey:@"status"] isEqualToString:@"error"]) {
-        
-        DLog(@"message:--->%@",[response.content valueForKey:@"message"]);
-        [self displayHUDWithStatus:response.content[@"status"] Message:response.content[@"message"] ErrCode:@"1"];
-        
+        [self displayHUDWithStatus:@"ok" Message:@"推广成功" ErrCode:nil];
     }
     
 }
@@ -162,22 +161,30 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Request Data
 - (void)loadData
 {
-   [self clearStatus];
+   [self clearSelectStatus];
    [self requestDataWithBrokerId:[LoginManager getUserID] cityId:[LoginManager getCity_id]];
 }
 
 - (void)requestDataWithBrokerId:(NSString *)brokerId cityId:(NSString *)cityId
 {
     NSString     *method = @"anjuke/prop/noplanprops/";
-    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":brokerId,@"cityId":cityId,@"is_nocheck":@"1"};
+    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":brokerId,@"cityId":cityId};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleRequestData:)];
+    self.isLoading = YES;
+    [self showLoadingActivity:YES];
 }
 
 - (void)handleRequestData:(RTNetworkResponse *)response
 {
-    NSArray *dataArray       = [[response.content objectForKey:@"data"] objectForKey:@"propertyList"];
+    self.isLoading = NO;
+    [self hideLoadWithAnimated:YES];
+    if (![self checkNetworkAndErrorWithResponse:response]) {
+        return;
+    };
+    NSArray *dataArray  = [self checkDataWithResponse:response];
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:dataArray.count];
     for (int i = 0; i < dataArray.count; i++) {
         PropSelectStatusModel *selectStatusModel = [PropSelectStatusModel new];
@@ -187,7 +194,27 @@
     }
     self.cellSelectStatus  = arr;
     self.dataSource        = [NSMutableArray arrayWithArray:dataArray];
-    if ([self.dataSource count] == 0) {
+    [self.tableView reloadData];
+}
+
+#pragma mark - response check
+- (BOOL)checkNetworkAndErrorWithResponse:(RTNetworkResponse *)response
+{
+    if (response.status == RTNetworkResponseStatusFailed) {
+        [self displayHUDWithStatus:@"error" Message:@"无网络连接" ErrCode:response.content[@"errcode"]];
+        return false;
+    } else if ([[response.content valueForKey:@"status"] isEqualToString:@"error"]) {
+        DLog(@"message:--->%@",[response.content valueForKey:@"message"]);
+        [self displayHUDWithStatus:response.content[@"status"] Message:response.content[@"message"] ErrCode:@"1"];
+        return false;
+    }
+    return true;
+}
+
+- (NSArray *)checkDataWithResponse:(RTNetworkResponse *)response
+{
+    NSArray *dataArray = [[response.content objectForKey:@"data"] objectForKey:@"propertyList"];
+    if (dataArray == nil || [dataArray count] == 0) {
         UIImageView *noResult = [[UIImageView alloc] initWithFrame:CGRectMake(104.0f, 210 - 80, 112.0f, 80.0f)];
         [noResult setImage:[UIImage imageNamed:@"pic_3.4_01.png"]];
         [self.view addSubview:noResult];
@@ -198,17 +225,14 @@
         [noR sizeToFit];
         noR.centerX = self.view.centerX;
         [self.view addSubview:noR];
+        [self.mutipleEditView removeFromSuperview];
+    } else {
+        [self showBottomView];
     }
-    [self.tableView reloadData];
+    return dataArray;
 }
 
-- (void)clearStatus
-{
-    self.isSelectAll = false;
-    self.selectedCellCount = 0;
-    self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray@2x.png"];
-    [self updatePromotionButtonText];
-}
+
 #pragma mark - cell选择处理
 
 - (void)selectAllProps:(id)sender
@@ -230,6 +254,7 @@
             statusModel.selectStatus = false;
         }
     }
+    self.isSelectAll = !self.isSelectAll;
     [self.tableView reloadData];
     [self updatePromotionButtonText];
     
@@ -255,6 +280,14 @@
     [self updatePromotionButtonText];
     DLog(@"%@----%@",statusModel.propId,[self.dataSource[rowIndex] valueForKey:@"propId"]);
     
+}
+
+- (void)clearSelectStatus
+{
+    self.isSelectAll = false;
+    self.selectedCellCount = 0;
+    self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray@2x.png"];
+    [self updatePromotionButtonText];
 }
 
 - (void)updatePromotionButtonText
@@ -409,19 +442,19 @@
     method = @"zufang/prop/delprops/";
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onDeletePropFinished:)];
+    self.isLoading = YES;
+    [self showLoadingActivity:YES];
 }
 
 - (void)onDeletePropFinished:(RTNetworkResponse *)response {
     DLog(@"--delete Prop。。。response [%@]", [response content]);
-    
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
     if([[response content] count] == 0){
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
     }
     
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-        
         [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         
         //        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];

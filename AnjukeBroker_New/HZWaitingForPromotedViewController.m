@@ -50,23 +50,31 @@
     self.tableView.rowHeight = 90;
     [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
     self.MutipleEditView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 49 -64, ScreenWidth, 49)];
-
-    self.MutipleEditView.backgroundColor = [UIColor brokerBlackColor];
-    self.MutipleEditView.alpha = 0.7;
-
     self.isSelectAll = false;
     self.selectedCellCount = 0;
+    [self.view addSubview:self.tableView];
 
+}
+
+- (void)showBottomView
+{
+    if (self.mutipleEditView) {
+        [self.view addSubview:self.mutipleEditView];
+    }
+    
+    self.MutipleEditView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 49 -64, ScreenWidth, 49)];
+    self.mutipleEditView.backgroundColor = [UIColor brokerBlackColor];
+    self.mutipleEditView.alpha = 0.7;
+    
     _buttonSelect = [UIButton buttonWithType:UIButtonTypeCustom];
     _buttonSelect.frame = CGRectMake(0, 0, ScreenWidth * 0.48, 49);
     [_buttonSelect addTarget:self action:@selector(selectAllProps:) forControlEvents:UIControlEventTouchUpInside];
-
-
+    
     UIImageView *selectImage = [[UIImageView alloc] initWithFrame:CGRectMake((56 - 22)/2, (50 - 22)/2, 22, 22)];
-    [selectImage setImage:[UIImage imageNamed:@"broker_property_control_select_gray@2x.png"]];
+    selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray@2x.png"];
     [_buttonSelect addSubview:selectImage];
     self.selectImage = selectImage;
-
+    
     UILabel *allSelectLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 10, 80, 40)];
     allSelectLabel.backgroundColor = [UIColor clearColor];
     allSelectLabel.font = [UIFont ajkH2Font];
@@ -75,23 +83,20 @@
     allSelectLabel.centerY = 50/2;
     allSelectLabel.left = selectImage.right + 5;
     [_buttonSelect addSubview:allSelectLabel];
-
-
+    
     _buttonPromote = [UIButton buttonWithType:UIButtonTypeCustom];
     _buttonPromote.frame = CGRectMake(0, 12, 120, 33);
     _buttonPromote.right = ScreenWidth - 10;
     _buttonPromote.centerY = 50/2;
     _buttonPromote.titleLabel.font = [UIFont ajkH3Font];
-    [_buttonPromote setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue@2x.png"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
+    [_buttonPromote setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
     [_buttonPromote setTitle:[NSString stringWithFormat:@"定价推广(%d)", self.selectedCellCount]  forState:UIControlStateNormal];
     [_buttonPromote addTarget:self action:@selector(clickFixPromotionButton:) forControlEvents:UIControlEventTouchUpInside];
-
-    [self.MutipleEditView addSubview:_buttonSelect];
-    [self.MutipleEditView addSubview:_buttonPromote];
-
-    [self.view addSubview:self.tableView];
-    [self.view addSubview:self.MutipleEditView];
-
+    
+    [self.mutipleEditView addSubview:_buttonSelect];
+    [self.mutipleEditView addSubview:_buttonPromote];
+    
+    [self.view addSubview:self.mutipleEditView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -116,18 +121,21 @@
 - (void)requestDataWithBrokerId:(NSString *)brokerId cityId:(NSString *)cityId
 {
     NSString *method = @"zufang/prop/noplanprops/";
-    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":brokerId,@"cityId":cityId,@"is_nocheck":@"1"};
+    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":brokerId,@"cityId":cityId};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleRequestData:)];
+    self.isLoading = YES;
+    [self showLoadingActivity:YES];
 }
 
 - (void)handleRequestData:(RTNetworkResponse *)response
 {
-    NSArray *dataArray       = (NSArray *)[[response.content objectForKey:@"data"] objectForKey:@"propertyList"];
+    self.isLoading = NO;
+    [self hideLoadWithAnimated:YES];
+    if (![self checkNetworkAndErrorWithResponse:response]) {
+        return;
+    };
+    NSArray *dataArray  = [self checkDataWithResponse:response];
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:dataArray.count];
-    self.isSelectAll = false;
-    self.selectedCellCount = 0;
-    self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray@2x.png"];
-    [self updatePromotionButtonText];
     for (int i = 0; i < dataArray.count; i++) {
         PropSelectStatusModel *selectStatusModel = [PropSelectStatusModel new];
         selectStatusModel.selectStatus = false;
@@ -136,19 +144,8 @@
     }
     self.cellSelectStatus  = arr;
     self.dataSource        = [NSMutableArray arrayWithArray:dataArray];
-    if ([self.dataSource count] == 0) {
-        UIImageView *noResult = [[UIImageView alloc] initWithFrame:CGRectMake(104.0f, 210 - 80, 112.0f, 80.0f)];
-        [noResult setImage:[UIImage imageNamed:@"pic_3.4_01.png"]];
-        [self.view addSubview:noResult];
-        
-        UILabel *noR = [[UILabel alloc] initWithFrame:CGRectMake(0, 210 + 15, 200, 50)];
-        noR.text = @"暂无待推广房源";
-        noR.textColor = [UIColor grayColor];
-        [noR sizeToFit];
-        noR.centerX = self.view.centerX;
-        [self.view addSubview:noR];
-    }
     [self.tableView reloadData];
+    
 }
 
 - (void)clickFixPromotionButton:(id)sender
@@ -156,6 +153,7 @@
     [self sendClickFixPromotionButtonLog];
     if (self.planId == nil || [self.planId isEqualToString:@""]) {
         DLog(@"planId is nil or empty");
+        [self showAlertViewWithTitle:@"没有房源计划"];
         return;
     }
     if (self.selectedCellCount == 0) {
@@ -170,44 +168,70 @@
     }
     propIds = [propIds substringToIndex:propIds.length - 1];
     NSString *method     = @"zufang/fix/addpropstoplan/";
-#warning nocheck
-    NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":[LoginManager getUserID],@"planId":self.planId,@"propIds":propIds,@"is_nocheck":@"1"};
+    NSDictionary *params = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager  getUserID], @"planId":self.planId,@"propIds":propIds};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onFixPromotionRequestFinished:)];
     self.isLoading = YES;
     [self showLoadingActivity:YES];
+}
+
+
+- (void)onFixPromotionRequestFinished:(RTNetworkResponse *)response
+{
+    self.isLoading = NO;
+    [self hideLoadWithAnimated:YES];
+    if (![self checkNetworkAndErrorWithResponse:response]) {
+        return;
+    };
+    if ([[response.content valueForKey:@"status"] isEqualToString:@"ok"]) {
+        [self loadData];
+        [self displayHUDWithStatus:@"ok" Message:@"推广成功" ErrCode:nil];
+    }
+    
 }
 - (void)showAlertViewWithTitle:(NSString *)title
 {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:@"" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
     [alertView show];
 }
-
-- (void)onFixPromotionRequestFinished:(RTNetworkResponse *)response
-{
-    self.isLoading = NO;
-    [self hideLoadWithAnimated:YES];
-    if (response.status == RTNetworkResponseStatusFailed) {
-        [self displayHUDWithStatus:@"error" Message:@"无网络连接" ErrCode:response.content[@"errcode"]];
-    }
-    if ([[response.content valueForKey:@"status"] isEqualToString:@"ok"]) {
-        
-        [self displayHUDWithStatus:@"ok" Message:@"推广成功" ErrCode:nil];
-        [self loadData];
-        
-    } else if ([[response.content valueForKey:@"status"] isEqualToString:@"error"]) {
-        
-        DLog(@"message:--->%@",[response.content valueForKey:@"message"]);
-        [self displayHUDWithStatus:response.content[@"status"] Message:response.content[@"message"] ErrCode:@"1"];
-        
-    }
-    
-}
-
 - (void)displayHUDWithStatus:(NSString *)status Message:(NSString*)message ErrCode:(NSString*)errCode
 {
     [[HudTipsUtils sharedInstance] displayHUDWithStatus:status Message:message ErrCode:errCode toView:self.view];
 }
+#pragma mark - response check
+- (BOOL)checkNetworkAndErrorWithResponse:(RTNetworkResponse *)response
+{
+    if (response.status == RTNetworkResponseStatusFailed) {
+        [self displayHUDWithStatus:@"error" Message:@"无网络连接" ErrCode:response.content[@"errcode"]];
+        return false;
+    } else if ([[response.content valueForKey:@"status"] isEqualToString:@"error"]) {
+        DLog(@"message:--->%@",[response.content valueForKey:@"message"]);
+        [self displayHUDWithStatus:response.content[@"status"] Message:response.content[@"message"] ErrCode:@"1"];
+        return false;
+    }
+    return true;
+}
 
+- (NSArray *)checkDataWithResponse:(RTNetworkResponse *)response
+{
+    NSArray *dataArray = [[response.content objectForKey:@"data"] objectForKey:@"propertyList"];
+    if (dataArray == nil || [dataArray count] == 0) {
+        UIImageView *noResult = [[UIImageView alloc] initWithFrame:CGRectMake(104.0f, 210 - 80, 112.0f, 80.0f)];
+        [noResult setImage:[UIImage imageNamed:@"pic_3.4_01.png"]];
+        [self.view addSubview:noResult];
+        
+        UILabel *noR = [[UILabel alloc] initWithFrame:CGRectMake(0, 210 + 15, 200, 50)];
+        noR.text = @"暂无待推广房源";
+        noR.textColor = [UIColor grayColor];
+        [noR sizeToFit];
+        noR.centerX = self.view.centerX;
+        [self.view addSubview:noR];
+        [self.mutipleEditView removeFromSuperview];
+    } else {
+        [self showBottomView];
+    }
+    
+    return dataArray;
+}
 #pragma mark - cell选择处理
 
 - (void)selectAllProps:(id)sender
@@ -215,22 +239,21 @@
     [self sendClickSelectAllButtonLog];
     self.selectedCellCount = 0;
     if (!self.isSelectAll) {
-        self.isSelectAll = true;
         self.selectImage.image = [UIImage imageNamed:@"broker_property_control_selected"];
         for (PropSelectStatusModel *statusModel in self.cellSelectStatus) {
             statusModel.selectStatus = true;
             self.selectedCellCount ++;
         }
-
     } else {
-        self.isSelectAll = false;
         self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray"];
         for (PropSelectStatusModel *statusModel in self.cellSelectStatus) {
             statusModel.selectStatus = false;
         }
     }
+    self.isSelectAll = !self.isSelectAll;
     [self.tableView reloadData];
     [self updatePromotionButtonText];
+    
 }
 
 #pragma mark - CellSelectStatusDelegate
@@ -418,19 +441,19 @@
         method = @"zufang/prop/delprops/";
 
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onDeletePropFinished:)];
+    self.isLoading = YES;
+    [self showLoadingActivity:YES];
 }
 
 - (void)onDeletePropFinished:(RTNetworkResponse *)response {
     DLog(@"--delete Prop。。。response [%@]", [response content]);
-
+    [self hideLoadWithAnimated:YES];
+    self.isLoading = NO;
     if([[response content] count] == 0){
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
     }
 
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        [self hideLoadWithAnimated:YES];
-        self.isLoading = NO;
-
         [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
 
         //        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
