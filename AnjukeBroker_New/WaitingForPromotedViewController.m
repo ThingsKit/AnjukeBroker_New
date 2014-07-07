@@ -16,6 +16,7 @@
 #import "UIView+AXChatMessage.h"
 #import "UIFont+RT.h"
 #import "HudTipsUtils.h"
+#import "PPCPlanIdRequest.h"
 
 @interface WaitingForPromotedViewController ()
 
@@ -50,7 +51,6 @@
     [self.tableView setDataSource:self];
     self.tableView.rowHeight = 90;
     [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
-    self.MutipleEditView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 49 -64, ScreenWidth, 49)];
     self.isSelectAll = false;
     self.selectedCellCount = 0;
     [self.view addSubview:self.tableView];
@@ -59,8 +59,12 @@
 
 - (void)showBottomView
 {
-    if (self.mutipleEditView) {
-        [self.view addSubview:self.mutipleEditView];
+ 
+    if (self.mutipleEditView != nil) {
+        if (![self.view.subviews containsObject:self.mutipleEditView]) {
+            [self.view addSubview:self.mutipleEditView];
+        }
+        return;
     }
     
     self.MutipleEditView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 49 -64, ScreenWidth, 49)];
@@ -163,9 +167,42 @@
 - (void)clickFixPromotionButton:(id)sender
 {
     [self sendClickFixPromotionButtonLog];
+    if (self.planId == nil || [self.planId isEqualToString:@""]) {
+        
+        [[PPCPlanIdRequest sharePlanIdRequest] getPricingPlanId:self.isHaozu returnInfo:^(NSString *planId, RequestStatus status) {
+            
+            if (status == RequestStatusForOk) {
+                if (self.planId !=nil && ![self.planId isEqualToString:@""]) {
+                    self.planId = planId;
+                    [self fixPromotionRequestWithPlanId:planId];
+                    DLog(@"get planId:%@",self.planId);
+                } else {
+                    [self displayHUDWithStatus:@"error" Message:@"定价计划不存在" ErrCode:@"1"];
+                }
+                
+            } else if (status == RequestStatusForNetRemoteServerError){
+                
+                
+            } else if (status == RequestStatusForNetWorkError) {
+                
+            }
+            
+        }];
+        return ;
+    }
     if (![self checkWithPlanIdandSelectCount]) {
         return;
     };
+    [self fixPromotionRequestWithPlanId:self.planId];
+
+}
+
+- (void)fixPromotionRequestWithPlanId:(NSString *)planId
+{
+    if (self.selectedCellCount == 0) {
+        [self showAlertViewWithTitle:@"请选择要推广的房源"];
+        return ;
+    }
     NSString *propIds    = @"";
     for (PropSelectStatusModel *selectStatusModel in self.cellSelectStatus) {
         if (selectStatusModel.selectStatus) {
@@ -179,13 +216,11 @@
     } else {
         method = @"anjuke/fix/addpropstoplan/";
     }
-    
-    NSDictionary *params = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager  getUserID], @"planId":self.planId,@"propIds":propIds};
+    NSDictionary *params = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager  getUserID], @"planId":planId,@"propIds":propIds};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onFixPromotionRequestFinished:)];
     self.isLoading = YES;
     [self showLoadingActivity:YES];
 }
-
 
 - (void)onFixPromotionRequestFinished:(RTNetworkResponse *)response
 {
@@ -261,11 +296,6 @@
 
 - (BOOL)checkWithPlanIdandSelectCount
 {
-    if (self.planId == nil || [self.planId isEqualToString:@""]) {
-        DLog(@"planId is nil or empty");
-        [self showAlertViewWithTitle:@"没有房源计划"];
-        return false;
-    }
     if (self.selectedCellCount == 0) {
         [self showAlertViewWithTitle:@"请选择要推广的房源"];
         return false;

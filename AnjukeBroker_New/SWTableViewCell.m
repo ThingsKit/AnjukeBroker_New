@@ -149,7 +149,7 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
 
     [super layoutSubviews];
     
-    self.cellScrollView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), self.height);
+    self.cellScrollView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), self.height);
     self.cellScrollView.contentSize = CGSizeMake(CGRectGetWidth(self.bounds) + [self utilityButtonsPadding], self.height);
     self.cellScrollView.contentOffset = CGPointMake([self leftUtilityButtonsWidth], 0);
     self.scrollViewButtonViewLeft.frame = CGRectMake([self leftUtilityButtonsWidth], 0, 0, self.height);
