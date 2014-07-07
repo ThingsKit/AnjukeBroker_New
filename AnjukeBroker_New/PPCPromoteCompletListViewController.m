@@ -97,31 +97,21 @@
 
     if (self.isHaozu) {
         params = [NSMutableDictionary dictionaryWithObjectsAndKeys: [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propIDS, @"propIds", nil];
-        method = @"zufang/prop/choice/stop/";
-    }
-    else {
+        method = @"zufang/choice/delete/";
+    }else {
         params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token",[LoginManager getUserID], @"brokerId", propIDS, @"propIds", nil];
-        method = @"anjuke/prop/choice/stop/";
+        method = @"anjuke/choice/delete/";
     }
 
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onCleanFinished:)];
 }
 
 - (void)onCleanFinished:(RTNetworkResponse *)response {
-    DLog(@"--delete Prop。。。response [%@]", [response content]);
-
-    if([[response content] count] == 0){
-        [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
-    }
-
-    if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
-        [self hideLoadWithAnimated:YES];
+    DLog(@"--delete Prop。。。response [%@]/[%@]", [response content],[response content][@"message"]);
+    if([[response content] count] == 0 || ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"])){
         self.isLoading = NO;
 
-        [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
-
-        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
-        DLog(@"errorMsg--->>%@",errorMsg);
+        [[HUDNews sharedHUDNEWS] createHUD:@"服务器开溜了" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         return;
     }
 
