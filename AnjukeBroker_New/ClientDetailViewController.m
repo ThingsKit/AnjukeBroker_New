@@ -14,6 +14,7 @@
 #import "BK_WebImageView.h"
 #import "BrokerCallAlert.h"
 #import "AppDelegate.h"
+#import "AJKThankToBlackListViewController.h"
 
 #define DETAIL_HEADER_H 52+40
 
@@ -199,6 +200,23 @@
         return;
     
     DLog(@"更新标星后:%@--msg[%@]", [response content], [response content][@"errorMessage"]);
+}
+
+- (void)msgBlackRequestFinished:(RTNetworkResponse *)response
+{
+    NSDictionary *dict = [response content];
+    
+    NSString *status = [dict objectForKey:@"status"];
+    NSString *message = [dict objectForKey:@"errorMessage"];
+    NSString *errorCode = [dict objectForKey:@"errorCode"];
+    if ([status.lowercaseString isEqualToString:@"ok"] && [errorCode isEqualToString:@"0"])
+    {
+        AJKThankToBlackListViewController *tank = [[AJKThankToBlackListViewController alloc] init];
+        [self.navigationController pushViewController:tank animated:YES];
+    }else
+    {
+        [[HUDNews sharedHUDNEWS] createHUD:message hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALBAD];
+    }
 }
 
 #pragma mark - Private Method
@@ -397,9 +415,11 @@
                 break;
             case 1:
             {
+                NSString *message = [NSString stringWithFormat:@"确定要举报%@吗？", self.person.markName];
                 //举报
-                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"举报" message:@"删除客户，将同时删除备注和聊天记录" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"举报" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                 av.delegate = self;
+                av.tag = -10;
                 [av show];
             }
             
@@ -424,7 +444,25 @@
 
 #pragma mark - UIAlertViewDelegate
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == -10)
+    {
+        if (buttonIndex == 1)
+        {
+            NSString *method = @"message/setMsgBlackList";
+            NSString *token = [LoginManager getToken];
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:@"1", @"is_valid", self.person.uid, @"from_uid", token, @"token", nil];
+            
+            [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:method params:params target:self action:@selector(msgBlackRequestFinished:)];
+            
+        }else
+        {
+            
+        }
+        
+        return;
+    }
     switch (buttonIndex) {
         case 0:
         {

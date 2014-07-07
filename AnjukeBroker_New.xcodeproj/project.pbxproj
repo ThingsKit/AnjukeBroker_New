@@ -164,6 +164,7 @@
 		2739140618DC0B44003284AA /* wl_map_icon_position@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2739140218DC0B44003284AA /* wl_map_icon_position@2x.png */; };
 		2739141518DC2DC5003284AA /* LocationChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 2739141418DC2DC5003284AA /* LocationChange.m */; };
 		2739141B18DC371B003284AA /* LocIsBaidu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2739141A18DC371B003284AA /* LocIsBaidu.m */; };
+		273FC336196A42DC0008DAE9 /* AJKThankToBlackListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 273FC335196A42DC0008DAE9 /* AJKThankToBlackListViewController.m */; };
 		2752667A19597983004F3A68 /* AXMessageCenterSendPropManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2752667919597983004F3A68 /* AXMessageCenterSendPropManager.m */; };
 		2761B89C187C053C00EABF95 /* logo_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89A187C053C00EABF95 /* logo_57.png */; };
 		2761B89D187C053C00EABF95 /* logo_57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2761B89B187C053C00EABF95 /* logo_57@2x.png */; };
@@ -1069,6 +1070,8 @@
 		2739141418DC2DC5003284AA /* LocationChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationChange.m; path = mapView/LocationChange.m; sourceTree = "<group>"; };
 		2739141918DC371B003284AA /* LocIsBaidu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocIsBaidu.h; path = mapView/LocIsBaidu.h; sourceTree = "<group>"; };
 		2739141A18DC371B003284AA /* LocIsBaidu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocIsBaidu.m; path = mapView/LocIsBaidu.m; sourceTree = "<group>"; };
+		273FC334196A42DC0008DAE9 /* AJKThankToBlackListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJKThankToBlackListViewController.h; sourceTree = "<group>"; };
+		273FC335196A42DC0008DAE9 /* AJKThankToBlackListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJKThankToBlackListViewController.m; sourceTree = "<group>"; };
 		2752667819597983004F3A68 /* AXMessageCenterSendPropManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMessageCenterSendPropManager.h; sourceTree = "<group>"; };
 		2752667919597983004F3A68 /* AXMessageCenterSendPropManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMessageCenterSendPropManager.m; sourceTree = "<group>"; };
 		2761B89A187C053C00EABF95 /* logo_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_57.png; sourceTree = "<group>"; };
@@ -2130,6 +2133,8 @@
 				203EC29A18B2F65400DD0840 /* ClientListViewController.m */,
 				207526BF18B4658A0022220C /* ClientListCell.h */,
 				207526C018B4658A0022220C /* ClientListCell.m */,
+				273FC334196A42DC0008DAE9 /* AJKThankToBlackListViewController.h */,
+				273FC335196A42DC0008DAE9 /* AJKThankToBlackListViewController.m */,
 			);
 			name = "客户列表";
 			sourceTree = "<group>";
@@ -5216,6 +5221,7 @@
 				B7FFC9DD18C8AC330020A73B /* UIImage+Alpha.m in Sources */,
 				2752667A19597983004F3A68 /* AXMessageCenterSendPropManager.m in Sources */,
 				67203D5B19628FEF00A32B60 /* PropertyDetailButton.m in Sources */,
+				273FC336196A42DC0008DAE9 /* AJKThankToBlackListViewController.m in Sources */,
 				6794E4451947FDB50069F1ED /* SDWebImageManager.m in Sources */,
 				F8C3B4CB1946ACC000D2D0E6 /* PPCHeaderView.m in Sources */,
 				2056A34D18EE7E660022B5A5 /* AXMappedPerson.m in Sources */,
