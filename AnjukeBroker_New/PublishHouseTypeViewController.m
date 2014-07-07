@@ -99,7 +99,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [RTGestureLock setDisableGestureForBack:self.navigationController disableGestureback:YES];
+    [RTGestureLock setDisableGestureForBack:(BK_RTNavigationController *)self.navigationController disableGestureback:YES];
     
     if (self.houseTypeTF && self.isFirstShow) {
         [self.houseTypeTF becomeFirstResponder];

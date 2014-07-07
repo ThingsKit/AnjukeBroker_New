@@ -101,7 +101,7 @@ typedef enum {
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [RTGestureLock setDisableGestureForBack:self.navigationController disableGestureback:YES];
+    [RTGestureLock setDisableGestureForBack:(BK_RTNavigationController *)self.navigationController disableGestureback:YES];
 }
 //初始化引导页
 - (void)initLinkePageView

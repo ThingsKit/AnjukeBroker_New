@@ -2398,7 +2398,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [self initEmojiView];
     self.moreBackView.hidden = YES;
     //禁止手势
-    [RTGestureLock setDisableGestureForBack:self.navigationController disableGestureback:YES];
+    [RTGestureLock setDisableGestureForBack:(BK_RTNavigationController *)self.navigationController disableGestureback:YES];
     
     if (self.currentText.length > 0) {
         self.messageInputView.textView.text = self.currentText;
