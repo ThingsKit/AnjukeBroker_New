@@ -389,7 +389,7 @@
         
         return ;
     }
-    
+
     [self donePullDown];
     
     NSDictionary *bodyDic1 = [[response content][@"data"][@"responses"][@"fix"][@"body"] JSONValue];

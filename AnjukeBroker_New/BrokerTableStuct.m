@@ -77,8 +77,8 @@
         tipsDetailLab.text = @"精选推广提升8倍效果\n选一套定价房源,做精选推广吧";
         [backGroundView addSubview:tipsDetailLab];
     }else if (status == STATUSFORREMOTESERVERERROR){
-        statusView.frame = CGRectMake(110, backGroundView.frame.size.height/2 - 160/2, 100, 70);
-        [statusView setImage:[UIImage imageNamed:@"check_no_wifi"]];
+        statusView.frame = CGRectMake(100, backGroundView.frame.size.height/2 - 170/2, 120, 79);
+        [statusView setImage:[UIImage imageNamed:@"broker_icon_no_fuwuqi"]];
         
         tipsLab.frame = CGRectMake(0, backGroundView.frame.size.height/2 + 15, 320, 20);
         tipsLab.text = @"服务器开溜了";
