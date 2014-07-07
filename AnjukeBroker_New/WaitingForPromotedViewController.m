@@ -392,7 +392,7 @@
                                                  leftUtilityButtons:nil
                                                 rightUtilityButtons:rightBtnarr];
 
-    cell.delegate = self;
+        cell.cellSelectstatusDelegate = self;
     }
     PropSelectStatusModel *selectStatusModel = self.cellSelectStatus[indexPath.row];
     [cell changeCellSelectStatus:selectStatusModel.selectStatus];

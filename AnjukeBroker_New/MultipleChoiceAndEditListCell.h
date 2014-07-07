@@ -21,7 +21,7 @@
 @interface MultipleChoiceAndEditListCell : SWTableViewCell
 
 @property (nonatomic, strong) PropertyDetailCellModel* propertyDetailTableViewCellModel;
-@property (nonatomic, strong) id<CellSelectStatusDelegate> delegate;
+@property (nonatomic, weak) id<CellSelectStatusDelegate> cellSelectstatusDelegate;
 @property (nonatomic) NSInteger rowIndex;
 @property (nonatomic) BOOL isHaozu;
 

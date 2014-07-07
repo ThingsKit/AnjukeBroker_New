@@ -144,7 +144,7 @@
     } else {
         [self cellUnSelected];
     }
-    [self.delegate cellStatusChanged:self.isSelected atRowIndex:self.rowIndex];
+    [self.cellSelectstatusDelegate cellStatusChanged:self.isSelected atRowIndex:self.rowIndex];
     
 }
 

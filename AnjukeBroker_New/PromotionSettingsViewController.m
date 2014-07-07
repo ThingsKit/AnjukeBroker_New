@@ -293,7 +293,7 @@
         
     } else if (alertView.tag == 20 && buttonIndex == 1) {
         
-        [self zfSpreadRequestWithMethod:@"zufang/fix/spreadstop" switchStatus:NO];
+        [self zfSpreadRequestWithMethod:@"zufang/fix/spreadstop/" switchStatus:NO];
         [self zfLogWithSwitchStatus:NO];
         
     }
@@ -321,7 +321,7 @@
         return;
     }
     NSDictionary *params = @{@"brokerId":[LoginManager getUserID],@"token":[LoginManager getToken],@"planId":self.ZFPlanId};
-   [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(  handleZFRequestData:)];
+   [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleZFRequestData:)];
     [self showLoadingActivity:YES];
     self.isLoading = true;
     self.ZFPricePromotionSwitch.on = switchStatus;
@@ -347,7 +347,7 @@
     if (![self checkWithResponse:response]) {
         
     } else if ([response.content[@"status"] isEqualToString:@"ok"]) {
-        
+        [self displayHUDWithStatus:@"ok" Message:@"操作成功" ErrCode:nil];
     }
 }
 
