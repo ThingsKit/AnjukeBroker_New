@@ -13,6 +13,8 @@
 #import "PPCPromoteCompletListViewController.h"
 #import "CheckoutWebViewController.h"
 #import "PropertySingleViewController.h"
+#import "CommunityListViewController.h"
+#import "RTGestureBackNavigationController.h"
 
 @interface PPCSelectedListViewController ()
 @property(nonatomic, strong) NSMutableArray *tableData;
@@ -53,6 +55,8 @@
     }else{
         [self setTitleViewWithString:@"二手房-精选推广"];
     }
+    
+    [self addRightButton:@"+" andPossibleTitle:nil];
     
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
@@ -379,6 +383,15 @@
         singleVC.pageType = PAGE_TYPE_CHOICE;
         [self.navigationController pushViewController:singleVC animated:YES];
     }
+}
+
+- (void)rightButtonAction:(id)sender{
+    CommunityListViewController *controller = [[CommunityListViewController alloc] init];
+    controller.backType = RTSelectorBackTypeNone;
+    controller.isFirstShow = YES;
+    controller.isHaouzu = self.isHaozu;
+    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning

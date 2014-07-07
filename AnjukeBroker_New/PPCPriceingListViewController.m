@@ -51,7 +51,7 @@
         [self setTitleViewWithString:@"二手房-定价推广"];
     }
 
-    [self addRightButton:@"发布" andPossibleTitle:nil];
+    [self addRightButton:@"+" andPossibleTitle:nil];
 
     self.tableList.dataSource = self;
     self.tableList.delegate = self;

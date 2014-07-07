@@ -371,8 +371,8 @@
         tapGes.numberOfTapsRequired    = 1;
         [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
         
-        [self.pricingDic removeAllObjects];
-        [self.secondCellDic removeAllObjects];
+        self.pricingDic = nil;
+        self.secondCellDic = nil;
         [self.tableList reloadData];
         
         return ;
