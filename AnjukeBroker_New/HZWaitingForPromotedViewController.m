@@ -484,8 +484,11 @@
     [self.dataSource removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
     [self.cellSelectStatus removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
     [self.tableView deleteRowsAtIndexPaths:@[self.editAndDeleteCellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
+
     [self checkDataSourceOnDelete];
+
     [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
+//    [self loadData];
     
 }
 

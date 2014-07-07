@@ -428,8 +428,6 @@
     
     if (buttonIndex == 1) {
         [self doDeleteProperty:self.editPropertyId];
-        
-        //        [self showInfo:@"删除房源信息成功"];
     }
 }
 
@@ -470,7 +468,9 @@
     
     [self.dataSource removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
     [self.tableView deleteRowsAtIndexPaths:@[self.editAndDeleteCellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
+
     [self checkDataSourceOnDelete];
+    
     [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
 }
 #pragma mark - Log
