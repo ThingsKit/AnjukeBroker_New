@@ -87,6 +87,7 @@
     
     //正在加载中的view
     _loadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44)];
+    _loadingView.backgroundColor = [UIColor clearColor];
     
     _loadingView.userInteractionEnabled = NO;
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(refresh:)];
@@ -104,6 +105,7 @@
     _loadingTipLabel.textColor = [UIColor brokerLightGrayColor];
     _loadingTipLabel.text = @"努力加载中...";
     _loadingTipLabel.textAlignment = NSTextAlignmentCenter;
+    _loadingTipLabel.backgroundColor = [UIColor clearColor];
     [_loadingView addSubview:_loadingTipLabel];
     
     [self.view addSubview:_loadingView];
@@ -171,7 +173,6 @@
         }
         if (self.data.count > 0) {
             cell.propertyDetailTableViewCellModel = self.data[0]; //第一个是房源数据模型
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             [cell showTopLine];
             [cell showBottonLineWithCellHeight:95];
             return cell;
@@ -616,7 +617,7 @@
     if (self.isHaozu) { //如果是租房 (默认是二手房)
         prefix = @"zufang";
     }
-//    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"planId":planId};
+
     NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"planId":planId};
     NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/fix/spreadstart/"], @"query_params":param1}; //房源概况
     NSDictionary* param = @{@"requests":@{@"result":dic1}};

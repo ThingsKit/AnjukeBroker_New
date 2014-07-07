@@ -519,25 +519,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     if (indexPath.row == 0) {
-        
-        //########################################################
-        //测试房源单页
-        PropertySingleViewController* viewController = [[PropertySingleViewController alloc] init];
-        [viewController setHidesBottomBarWhenPushed:YES];
-        viewController.backType = RTSelectorBackTypePopBack;
-        viewController.propId = @"123";
-//        PAGE_TYPE_FIX,     //从定价列表过来
-//        PAGE_TYPE_CHOICE,  //从精选列表过来
-//        PAGE_TYPE_NO_PLAN  //从待推广列表过来
-        viewController.pageType = PAGE_TYPE_FIX;
-        [self.navigationController pushViewController:viewController animated:YES];
-        //#########################################################
-        
-//        [[BrokerLogger sharedInstance] logWithActionCode:HOME_COMMISSION page:HOME note:nil]; //点击抢房源
-//        RushPropertyViewController *rushPropertyVC = [[RushPropertyViewController alloc] init];
-//        [rushPropertyVC setHidesBottomBarWhenPushed:YES];
-//        rushPropertyVC.backType = RTSelectorBackTypePopBack;
-//        [self.navigationController pushViewController:rushPropertyVC animated:YES];
+        [[BrokerLogger sharedInstance] logWithActionCode:HOME_COMMISSION page:HOME note:nil]; //点击抢房源
+        RushPropertyViewController *rushPropertyVC = [[RushPropertyViewController alloc] init];
+        [rushPropertyVC setHidesBottomBarWhenPushed:YES];
+        rushPropertyVC.backType = RTSelectorBackTypePopBack;
+        [self.navigationController pushViewController:rushPropertyVC animated:YES];
     }else if (indexPath.row == 1){
         [[BrokerLogger sharedInstance] logWithActionCode:HOME_POTENTIAL_CLIENT page:HOME note:nil]; //点击抢客户
 
