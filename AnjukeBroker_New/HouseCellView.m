@@ -21,6 +21,9 @@
 @property(nonatomic, strong) UILabel *houseDetailLab;
 @property(nonatomic, strong) UILabel *totalClickTitLab;
 @property(nonatomic, strong) UILabel *totalClickLab;
+@property(nonatomic, strong) UIImageView *imgView1;
+@property(nonatomic, strong) UIImageView *imgView2;
+@property(nonatomic, strong) UIImageView *imgView3;
 @end
 
 @implementation HouseCellView
@@ -105,24 +108,40 @@
     self.totalClickTitLab.frame = CGRectMake(ScreenWidth-15-50-8-size.width, 65, 60, 15);
     
     int i = 0;
-    if (![model.isPhonePub isEqualToString:@"1"]) {
+    if ([model.isPhonePub isEqualToString:@"1"]) {
         i++;
         
-        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 15 - 17*i - 3*(i-1), 15 , 17, 17)];
-        [imgView setImage:[UIImage imageNamed:@"broker_property_icon_tel"]];
-        [self addSubview:imgView];
-    }else if (![model.isChoice isEqualToString:@"1"]){
+        if (self.imgView1) {
+            [self.imgView1 removeFromSuperview];
+        }
+        
+        self.imgView1 = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 15 - 17*i - 3*(i-1), 15 , 17, 17)];
+        [self.imgView1 setImage:[UIImage imageNamed:@"broker_property_icon_tel"]];
+        [self addSubview:self.imgView1];
+    }
+    
+    if ([model.isChoice isEqualToString:@"1"]){
         i++;
         
-        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 15 - 17*i - 3*(i-1), 15 , 17, 17)];
-        [imgView setImage:[UIImage imageNamed:@"broker_property_icon_jx"]];
-        [self addSubview:imgView];
-    }else if (![model.isMoreImg isEqualToString:@"1"]){
+        if (self.imgView2) {
+            [self.imgView2 removeFromSuperview];
+        }
+
+        self.imgView2 = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 15 - 17*i - 3*(i-1), 15 , 17, 17)];
+        [self.imgView2 setImage:[UIImage imageNamed:@"broker_property_icon_jx"]];
+        [self addSubview:self.imgView2];
+    }
+    
+    if ([model.isMoreImg isEqualToString:@"1"]){
         i++;
         
-        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 15 - 17*i - 3*(i-1), 15 , 17, 17)];
-        [imgView setImage:[UIImage imageNamed:@"broker_property_icon_pic"]];
-        [self addSubview:imgView];
+        if (self.imgView3) {
+            [self.imgView3 removeFromSuperview];
+        }
+        
+        self.imgView3 = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 15 - 17*i - 3*(i-1), 15 , 17, 17)];
+        [self.imgView3 setImage:[UIImage imageNamed:@"broker_property_icon_pic"]];
+        [self addSubview:self.imgView3];
     }
     self.titLab.frame = CGRectMake(80+15+11, 15, 200 - i*20, 20);
     
