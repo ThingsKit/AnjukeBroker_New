@@ -104,6 +104,11 @@
     [self.tableView reloadData];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self loadData];
+}
+
 - (void)loadData
 {
    [self clearStatus];
@@ -407,7 +412,7 @@
     controller.backType = RTSelectorBackTypeDismiss;
     RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];
-    [self loadData];
+    
 }
 
 
@@ -464,8 +469,9 @@
     [self.cellSelectStatus removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
     [self.tableView deleteRowsAtIndexPaths:@[self.editAndDeleteCellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
 
-    [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
     [self loadData];
+    [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
+    
 }
 
 #pragma mark - Log
