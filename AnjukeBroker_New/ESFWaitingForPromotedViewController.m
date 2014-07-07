@@ -27,6 +27,7 @@
 @property (nonatomic, strong) NSString *editPropertyId;//编辑和删除cell的房源Id
 @property (nonatomic) NSInteger selectedCellCount;
 
+@property (nonatomic) BOOL isShowActivity;
 @property (nonatomic) BOOL isSelectAll;
 @property (nonatomic) BOOL isHaozu;
 
@@ -57,7 +58,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self loadData];
+    [self loadDataWithActivityShow:YES];
 }
 
 - (void)showBottomView
@@ -132,7 +133,7 @@
         return;
     };
     if ([[response.content valueForKey:@"status"] isEqualToString:@"ok"]) {
-        [self loadData];
+        [self loadDataWithActivityShow:NO];
         [self displayHUDWithStatus:@"ok" Message:@"推广成功" ErrCode:nil];
     }
     
@@ -144,8 +145,9 @@
 }
 
 #pragma mark - Request Data
-- (void)loadData
+- (void)loadDataWithActivityShow:(BOOL)isShowActivity
 {
+    self.isShowActivity = isShowActivity;
    [self clearSelectStatus];
    [self requestDataWithBrokerId:[LoginManager getUserID] cityId:[LoginManager getCity_id]];
 }
@@ -155,14 +157,18 @@
     NSString     *method = @"anjuke/prop/noplanprops/";
     NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":brokerId,@"cityId":cityId};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleRequestData:)];
-    self.isLoading = YES;
-    [self showLoadingActivity:YES];
+    if (self.isShowActivity) {
+        self.isLoading = YES;
+        [self showLoadingActivity:YES];
+    }
 }
 
 - (void)handleRequestData:(RTNetworkResponse *)response
 {
-    self.isLoading = NO;
-    [self hideLoadWithAnimated:YES];
+    if (self.isShowActivity) {
+        self.isLoading = NO;
+        [self hideLoadWithAnimated:YES];
+    }
     if (![self checkNetworkAndErrorWithResponse:response]) {
         return;
     };
@@ -261,7 +267,6 @@
             statusModel.selectStatus = false;
         }
     }
-    self.isSelectAll = !self.isSelectAll;
     [self.tableView reloadData];
     [self updatePromotionButtonText];
     
@@ -277,7 +282,7 @@
         }
     } else {
         self.selectedCellCount --;
-        if (self.isSelectAll) {
+        if (self.selectedCellCount != [self.cellSelectStatus count]) {
             self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray"];
             self.isSelectAll = NO;
         }
@@ -468,9 +473,11 @@
     
     [self.dataSource removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
     [self.tableView deleteRowsAtIndexPaths:@[self.editAndDeleteCellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
-
+    [self.cellSelectStatus removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
     [self checkDataSourceOnDelete];
-    
+    self.selectedCellCount --;
+    [self updatePromotionButtonText];
+    [self.tableView reloadData];
     [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
 }
 #pragma mark - Log

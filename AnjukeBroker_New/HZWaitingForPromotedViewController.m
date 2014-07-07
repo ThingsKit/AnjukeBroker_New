@@ -27,6 +27,7 @@
 @property (nonatomic, strong) NSString *editPropertyId;//编辑和删除cell的房源Id
 @property (nonatomic) NSInteger selectedCellCount;
 
+@property (nonatomic) BOOL isShowActivity;
 @property (nonatomic) BOOL isSelectAll;
 @property (nonatomic) BOOL isHaozu;
 
@@ -101,11 +102,12 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self loadData];
+     [self loadDataWithActivityShow:YES];
 }
 
-- (void)loadData
+- (void)loadDataWithActivityShow:(BOOL)isShowActivity
 {
+   self.isShowActivity = isShowActivity;
    [self clearStatus];
    [self requestDataWithBrokerId:[LoginManager getUserID] cityId:[LoginManager getCity_id]];
 }
@@ -123,14 +125,19 @@
     NSString *method = @"zufang/prop/noplanprops/";
     NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":brokerId,@"cityId":cityId};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleRequestData:)];
-    self.isLoading = YES;
-    [self showLoadingActivity:YES];
+    if (self.isShowActivity) {
+        self.isLoading = YES;
+        [self showLoadingActivity:YES];
+    }
+
 }
 
 - (void)handleRequestData:(RTNetworkResponse *)response
 {
-    self.isLoading = NO;
-    [self hideLoadWithAnimated:YES];
+    if (self.isShowActivity) {
+        self.isLoading = NO;
+        [self hideLoadWithAnimated:YES];
+    }
     if (![self checkNetworkAndErrorWithResponse:response]) {
         return;
     };
@@ -177,7 +184,7 @@
         return;
     };
     if ([[response.content valueForKey:@"status"] isEqualToString:@"ok"]) {
-        [self loadData];
+         [self loadDataWithActivityShow:NO];
         [self displayHUDWithStatus:@"ok" Message:@"推广成功" ErrCode:nil];
     }
     
@@ -229,7 +236,6 @@
     UIImageView *noResult = [[UIImageView alloc] initWithFrame:CGRectMake(104.0f, 210 - 80, 112.0f, 80.0f)];
     [noResult setImage:[UIImage imageNamed:@"pic_3.4_01.png"]];
     [self.view addSubview:noResult];
-    
     UILabel *noR = [[UILabel alloc] initWithFrame:CGRectMake(0, 210 + 15, 200, 50)];
     noR.text = @"暂无待推广房源";
     noR.textColor = [UIColor grayColor];
@@ -288,7 +294,7 @@
         }
     } else {
         self.selectedCellCount --;
-        if (self.isSelectAll) {
+        if (self.selectedCellCount != [self.cellSelectStatus count]) {
             self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray"];
             self.isSelectAll = NO;
         }
@@ -436,13 +442,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) {
-        PropSelectStatusModel *model = self.cellSelectStatus[self.editAndDeleteCellIndexPath.row];
-        if (model.selectStatus == true) {
-            self.selectedCellCount --;
-        }
         [self doDeleteProperty:self.editPropertyId];
-        [self updatePromotionButtonText];
-
     }
 }
 
@@ -484,9 +484,10 @@
     [self.dataSource removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
     [self.cellSelectStatus removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
     [self.tableView deleteRowsAtIndexPaths:@[self.editAndDeleteCellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
-
     [self checkDataSourceOnDelete];
-
+    self.selectedCellCount --;
+    [self updatePromotionButtonText];
+    [self.tableView reloadData];
     [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
 //    [self loadData];
     

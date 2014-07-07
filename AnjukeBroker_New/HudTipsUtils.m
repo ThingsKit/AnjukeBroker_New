@@ -69,6 +69,7 @@
             
         }
     }
+    [view bringSubviewToFront:self.hud];
     [self.hud show:YES];
     
     [self.hud hide:YES afterDelay:2]; //显示一段时间后隐藏
