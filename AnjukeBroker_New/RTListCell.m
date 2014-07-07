@@ -48,7 +48,7 @@
     return NO;
 }
 
-- (BOOL)configureCell:(id)dataModel withIndex:(int)index {
+- (BOOL)configureCell:(id)dataModel withIndex:(int)index{
     self.selectRow = index;
     return NO;
 }

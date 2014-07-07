@@ -35,15 +35,16 @@
     return self;
 }
 
-- (void)configCellViewWithData:(id)dataModel{
-    [self configureView:dataModel];
+- (void)configCellViewWithData:(id)dataModel isHaoZu:(BOOL)isHaoZu{
+    [self configureView:dataModel isHaoZu:isHaoZu];
 }
 
 - (void)initUI{
     self.mainImgView = [[BK_WebImageView alloc] initWithFrame:CGRectMake(15, 15, 80, 60)];
+    self.mainImgView.image = [UIImage imageNamed:@"anjuke61_bg4"];
     self.mainImgView.layer.masksToBounds = YES;
     self.mainImgView.layer.cornerRadius = 4;
-    self.mainImgView.backgroundColor = [UIColor brokerLineColor];
+    self.mainImgView.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.mainImgView];
     
     self.titLab = [[UILabel alloc] initWithFrame:CGRectMake(80+15+11, 15, 200, 20)];
@@ -81,7 +82,7 @@
     [self addSubview:self.totalClickLab];
 }
 
-- (BOOL)configureView:(id)dataModel{
+- (BOOL)configureView:(id)dataModel isHaoZu:(BOOL)isHaoZu{
     PPCPriceingListModel *model = (PPCPriceingListModel *)dataModel;
     
     DLog(@"imgUrl==>>%@",model.imgURL);
@@ -89,7 +90,11 @@
     
     self.titLab.text = model.title;
     self.commNameLab.text = model.commName;
-    self.houseDetailLab.text = [NSString stringWithFormat:@"%@室%@厅 %.0f平 %.0f%@",model.roomNum,model.hallNum,[model.area floatValue],[model.price floatValue],model.priceUnit];
+    if (isHaoZu) {
+        self.houseDetailLab.text = [NSString stringWithFormat:@"%@室%@厅 %.0f%@",model.roomNum,model.hallNum,[model.price floatValue],model.priceUnit];
+    }else{
+        self.houseDetailLab.text = [NSString stringWithFormat:@"%@室%@厅 %.0f平 %.0f%@",model.roomNum,model.hallNum,[model.area floatValue],[model.price floatValue],model.priceUnit];
+    }
     NSString *clickStr;
     if (!model.fixClickNum || model.fixClickNum.length == 0) {
         clickStr = @"0";

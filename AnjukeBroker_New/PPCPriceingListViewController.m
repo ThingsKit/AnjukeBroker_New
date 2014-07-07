@@ -142,7 +142,7 @@
     if (self.lastedListData.count > 0) {
         PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.lastedListData objectAtIndex:indexPath.row]];
         
-        [cell configureCell:model withIndex:indexPath.row];
+        [cell configureCell:model withIndex:indexPath.row isHaoZu:self.isHaozu];
         
         if (indexPath.row != self.lastedListData.count - 1) {
             [cell showBottonLineWithCellHeight:95 andOffsetX:15];
@@ -152,7 +152,7 @@
     }else if (self.oldListData.count > 0){
         PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.oldListData objectAtIndex:indexPath.row]];
         
-        [cell configureCell:model withIndex:indexPath.row];
+        [cell configureCell:model withIndex:indexPath.row isHaoZu:self.isHaozu];
 
         if (indexPath.row != self.oldListData.count - 1) {
             [cell showBottonLineWithCellHeight:95 andOffsetX:15];

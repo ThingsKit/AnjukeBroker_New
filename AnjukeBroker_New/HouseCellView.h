@@ -10,6 +10,6 @@
 
 @interface HouseCellView : UIView
 
-- (void)configCellViewWithData:(id)dataModel;
+- (void)configCellViewWithData:(id)dataModel isHaoZu:(BOOL)isHaoZu;
 
 @end

@@ -9,5 +9,5 @@
 #import "RTListCell.h"
 
 @interface PPCSelectedListCell : RTListCell
-
+- (BOOL)configureCell:(id)dataModel withIndex:(int)index isHaoZu:(BOOL)isHaoZu;
 @end

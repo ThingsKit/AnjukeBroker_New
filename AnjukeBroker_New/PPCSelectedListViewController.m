@@ -186,14 +186,14 @@
             lab.backgroundColor = [UIColor clearColor];
             [cell.contentView addSubview:lab];
             
-            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-            btn.frame = CGRectMake(185, 0, 120, 40);
-            btn.titleLabel.font = [UIFont ajkH4Font];
-            [btn addTarget:self action:@selector(goSelectIntro:) forControlEvents:UIControlEventTouchUpInside];
-            [btn setTitle:@"什么是精选房源?" forState:UIControlStateNormal];
-            [btn setTitleColor:[UIColor brokerBlueColor] forState:UIControlStateNormal];
-            [btn setTitleColor:[UIColor brokerBlueGrayColor] forState:UIControlStateHighlighted];
-            [cell.contentView addSubview:btn];
+//            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//            btn.frame = CGRectMake(185, 0, 120, 40);
+//            btn.titleLabel.font = [UIFont ajkH4Font];
+//            [btn addTarget:self action:@selector(goSelectIntro:) forControlEvents:UIControlEventTouchUpInside];
+//            [btn setTitle:@"什么是精选房源?" forState:UIControlStateNormal];
+//            [btn setTitleColor:[UIColor brokerBlueColor] forState:UIControlStateNormal];
+//            [btn setTitleColor:[UIColor brokerBlueGrayColor] forState:UIControlStateHighlighted];
+//            [cell.contentView addSubview:btn];
         }
         return cell;
     }
@@ -236,10 +236,10 @@
     
     if (indexPath.section == 1) {
         PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.onSpreadListData objectAtIndex:indexPath.row]];
-        [cell configureCell:model withIndex:indexPath.row];
+        [cell configureCell:model withIndex:indexPath.row isHaoZu:self.isHaozu];
     }else if (indexPath.section == 2){
         PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.onQueueListData objectAtIndex:indexPath.row]];
-        [cell configureCell:model withIndex:indexPath.row];
+        [cell configureCell:model withIndex:indexPath.row isHaoZu:self.isHaozu];
     }
     
     if (indexPath.row == 0) {

@@ -15,7 +15,7 @@
 @property (strong, nonatomic) BrokerLineView *lineView;
 
 
-- (BOOL)configureCell:(id)dataModel withIndex:(int)index;
+- (BOOL)configureCell:(id)dataModel withIndex:(int)index isHaoZu:(BOOL)isHaoZu;
 - (void)showBottonLineWithCellHeight:(CGFloat)cellH andOffsetX:(CGFloat)offsetX;
 
 @end

@@ -163,7 +163,7 @@
 
     PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.tableData objectAtIndex:indexPath.row]];
 
-    [cell configureCell:model withIndex:indexPath.row];
+    [cell configureCell:model withIndex:indexPath.row isHaoZu:self.isHaozu];
     if (indexPath.row != self.tableData.count - 1) {
         [cell showBottonLineWithCellHeight:95 andOffsetX:15];
     }else{

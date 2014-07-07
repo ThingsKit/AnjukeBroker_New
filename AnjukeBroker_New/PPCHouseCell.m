@@ -39,8 +39,8 @@
     return self;
 }
 
-- (BOOL)configureCell:(id)dataModel withIndex:(int)index{
-    [self.cellView configCellViewWithData:dataModel];
+- (BOOL)configureCell:(id)dataModel withIndex:(int)index isHaoZu:(BOOL)isHaoZu{
+    [self.cellView configCellViewWithData:dataModel isHaoZu:isHaoZu];
     
     return YES;
 }
