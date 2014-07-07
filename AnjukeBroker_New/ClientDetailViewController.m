@@ -415,6 +415,7 @@
                 break;
             case 1:
             {
+                [[BrokerLogger sharedInstance] logWithActionCode:client_detail_more_report page:CLIENT_DETAIL note:[NSDictionary dictionaryWithObjectsAndKeys:self.person.uid,@"customer_id", nil]];
                 NSString *message = [NSString stringWithFormat:@"确定要举报%@吗？", self.person.markName];
                 //举报
                 UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"举报" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
@@ -450,6 +451,7 @@
     {
         if (buttonIndex == 1)
         {
+            [[BrokerLogger sharedInstance] logWithActionCode:client_detail_more_report_confirm page:CLIENT_DETAIL note:[NSDictionary dictionaryWithObjectsAndKeys:self.person.uid,@"customer_id", nil]];
             NSString *method = @"message/setMsgBlackList";
             NSString *token = [LoginManager getToken];
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:@"1", @"is_valid", self.person.uid, @"from_uid", token, @"token", nil];

@@ -736,18 +736,20 @@
 /*
  所有模块: 客户单页
  */
-#define CLIENT_DETAIL                    @"1-904000" //PageID
-#define CLIENT_DETAIL_ONVIEW             @"1-904001" //页面可见（即页面打开）
-#define CLIENT_DETAIL_MORE               @"1-904003" //点击右上角选项
-#define CLIENT_DETAIL_MORE_EDIT_TIPS     @"1-904004" //点击右上角选项-编辑备注
-#define CLIENT_DETAIL_MORE_DELETE_CLIENT @"1-904005" //点击右上角选项-删除客户 删除成功时发送
-#define CLIENT_DETAIL_CLICK_STORE        @"1-904006" //点击标星
-#define CLIENT_DETAIL_CLICK_CANCEL_STORE @"1-904007" //点击取消标星
-#define CLIENT_DETAIL_PHONE_NUMBER       @"1-904008" //点击打电话
-#define CLIENT_DETAIL_CALL               @"1-904009" //点击呼叫
-#define CLIENT_DETAIL_CLICK_CHAT         @"1-904010" //点击发消息
-#define CLIENT_DETAIL_ADD_TIPS           @"1-904011" //点击添加备注（无电话和备注信息时）
-#define CLIENT_DETAIL_EDIT_TIPS          @"1-904012" //点击编辑备注信息（有备注信息时）
+#define CLIENT_DETAIL                       @"1-904000" //PageID
+#define CLIENT_DETAIL_ONVIEW                @"1-904001" //页面可见（即页面打开）
+#define CLIENT_DETAIL_MORE                  @"1-904003" //点击右上角选项
+#define CLIENT_DETAIL_MORE_EDIT_TIPS        @"1-904004" //点击右上角选项-编辑备注
+#define CLIENT_DETAIL_MORE_DELETE_CLIENT    @"1-904005" //点击右上角选项-删除客户 删除成功时发送
+#define CLIENT_DETAIL_CLICK_STORE           @"1-904006" //点击标星
+#define CLIENT_DETAIL_CLICK_CANCEL_STORE    @"1-904007" //点击取消标星
+#define CLIENT_DETAIL_PHONE_NUMBER          @"1-904008" //点击打电话
+#define CLIENT_DETAIL_CALL                  @"1-904009" //点击呼叫
+#define CLIENT_DETAIL_CLICK_CHAT            @"1-904010" //点击发消息
+#define CLIENT_DETAIL_ADD_TIPS              @"1-904011" //点击添加备注（无电话和备注信息时）
+#define CLIENT_DETAIL_EDIT_TIPS             @"1-904012" //点击编辑备注信息（有备注信息时）
+#define client_detail_more_report           @"1-904013" //点击右上角选项-举报
+#define client_detail_more_report_confirm   @"1-904014" //弹层确定举报
 
 /*
  所有模块: 备注页面
