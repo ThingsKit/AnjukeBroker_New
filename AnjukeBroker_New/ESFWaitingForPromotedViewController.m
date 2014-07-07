@@ -136,7 +136,6 @@
         [self loadDataWithActivityShow:NO];
         [self displayHUDWithStatus:@"ok" Message:@"推广成功" ErrCode:nil];
     }
-    
 }
 
 #pragma mark - Request Data

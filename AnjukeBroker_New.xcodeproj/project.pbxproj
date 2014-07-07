@@ -193,7 +193,7 @@
 		27A42B5A18E2C4D300FADED3 /* wl_map_icon_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A42B5118E2C4D300FADED3 /* wl_map_icon_5.png */; };
 		27A42B5B18E2C4D300FADED3 /* wl_map_icon_5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A42B5218E2C4D300FADED3 /* wl_map_icon_5@2x.png */; };
 		27C61C68192B034B002076AE /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27C61C67192B034B002076AE /* AdSupport.framework */; };
-		49C1885C1963E6FA000B5C5B /* HZWaitingForPromotedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C1885B1963E6FA000B5C5B /* HZWaitingForPromotedViewController.m */; };
+		49C1885C1963E6FA000B5C5B /* WaitingForPromotedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C1885B1963E6FA000B5C5B /* WaitingForPromotedViewController.m */; };
 		49C188601963E792000B5C5B /* ESFWaitingForPromotedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C1885F1963E792000B5C5B /* ESFWaitingForPromotedViewController.m */; };
 		49C188631963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C188621963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m */; };
 		670F016F1931C8F5004C95B2 /* LocationSpecifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F016E1931C8F5004C95B2 /* LocationSpecifyViewController.m */; };
@@ -1106,8 +1106,8 @@
 		27A42B5118E2C4D300FADED3 /* wl_map_icon_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wl_map_icon_5.png; path = mapView/wl_map_icon_5.png; sourceTree = "<group>"; };
 		27A42B5218E2C4D300FADED3 /* wl_map_icon_5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wl_map_icon_5@2x.png"; path = "mapView/wl_map_icon_5@2x.png"; sourceTree = "<group>"; };
 		27C61C67192B034B002076AE /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
-		49C1885A1963E6FA000B5C5B /* HZWaitingForPromotedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HZWaitingForPromotedViewController.h; sourceTree = "<group>"; };
-		49C1885B1963E6FA000B5C5B /* HZWaitingForPromotedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HZWaitingForPromotedViewController.m; sourceTree = "<group>"; };
+		49C1885A1963E6FA000B5C5B /* WaitingForPromotedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingForPromotedViewController.h; sourceTree = "<group>"; };
+		49C1885B1963E6FA000B5C5B /* WaitingForPromotedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitingForPromotedViewController.m; sourceTree = "<group>"; };
 		49C1885E1963E792000B5C5B /* ESFWaitingForPromotedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESFWaitingForPromotedViewController.h; sourceTree = "<group>"; };
 		49C1885F1963E792000B5C5B /* ESFWaitingForPromotedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESFWaitingForPromotedViewController.m; sourceTree = "<group>"; };
 		49C188611963E7A6000B5C5B /* MultipleChoiceAndEditListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipleChoiceAndEditListCell.h; sourceTree = "<group>"; };
@@ -2655,8 +2655,8 @@
 			children = (
 				49C188611963E7A6000B5C5B /* MultipleChoiceAndEditListCell.h */,
 				49C188621963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m */,
-				49C1885A1963E6FA000B5C5B /* HZWaitingForPromotedViewController.h */,
-				49C1885B1963E6FA000B5C5B /* HZWaitingForPromotedViewController.m */,
+				49C1885A1963E6FA000B5C5B /* WaitingForPromotedViewController.h */,
+				49C1885B1963E6FA000B5C5B /* WaitingForPromotedViewController.m */,
 			);
 			name = MutipleToBePromoted;
 			sourceTree = "<group>";
@@ -5363,7 +5363,7 @@
 				F87A8C1B194ECED20052C181 /* AuctionForbidView.m in Sources */,
 				B7E4E4FC190F56F100077D77 /* BrokerResponder.m in Sources */,
 				B769E484181F8F7000A2FF50 /* BasePropertyListController.m in Sources */,
-				49C1885C1963E6FA000B5C5B /* HZWaitingForPromotedViewController.m in Sources */,
+				49C1885C1963E6FA000B5C5B /* WaitingForPromotedViewController.m in Sources */,
 				010AFB1E1962538000ADB9C1 /* BrokerRegisterInfoViewController.m in Sources */,
 				B769E45A181F547100A2FF50 /* BasePropertyListCell.m in Sources */,
 				B7EAD51A18CD927200B28FEC /* AXChatMessagePublicCardCell.m in Sources */,

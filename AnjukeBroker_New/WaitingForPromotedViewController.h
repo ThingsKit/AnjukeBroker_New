@@ -10,11 +10,12 @@
 #import "MultipleChoiceAndEditListCell.h"
 
 
-@interface HZWaitingForPromotedViewController : RTViewController<UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, SWTableViewCellDelegate, CellSelectStatusDelegate>
+@interface WaitingForPromotedViewController : RTViewController<UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, SWTableViewCellDelegate, CellSelectStatusDelegate>
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, strong) UIView *mutipleEditView;
 @property (nonatomic, strong) NSIndexPath *editAndDeleteCellIndexPath;
 @property (nonatomic, strong) NSString *planId;
+@property (nonatomic) BOOL isHaozu;
 
 @end

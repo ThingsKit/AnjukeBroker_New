@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Wu sicong. All rights reserved.
 //
 
-#import "HZWaitingForPromotedViewController.h"
+#import "WaitingForPromotedViewController.h"
 #import "PropSelectStatusModel.h"
 #import "PropertyDetailCellModel.h"
 #import "PropertyEditViewController.h"
@@ -17,7 +17,7 @@
 #import "UIFont+RT.h"
 #import "HudTipsUtils.h"
 
-@interface HZWaitingForPromotedViewController ()
+@interface WaitingForPromotedViewController ()
 
 @property (nonatomic, strong) UIButton *buttonSelect;  //编辑按钮
 @property (nonatomic, strong) UIButton *buttonPromote;  //推广按钮
@@ -30,11 +30,11 @@
 
 @property (nonatomic) BOOL isShowActivity;
 @property (nonatomic) BOOL isSelectAll;
-@property (nonatomic) BOOL isHaozu;
+//@property (nonatomic) BOOL isHaozu;
 
 @end
 
-@implementation HZWaitingForPromotedViewController
+@implementation WaitingForPromotedViewController
 
 - (void)viewDidLoad
 {
@@ -123,7 +123,13 @@
 
 - (void)requestDataWithBrokerId:(NSString *)brokerId cityId:(NSString *)cityId
 {
-    NSString *method = @"zufang/prop/noplanprops/";
+    NSString *method = [[NSString alloc] init];
+    if (self.isHaozu) {
+        method = @"zufang/prop/noplanprops/";
+    } else {
+        method = @"anjuke/prop/noplanprops/";
+    }
+    
     NSDictionary *params = @{@"token":[LoginManager getToken],@"brokerId":brokerId,@"cityId":cityId};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleRequestData:)];
     if (self.isShowActivity) {
@@ -168,7 +174,13 @@
         }
     }
     propIds = [propIds substringToIndex:propIds.length - 1];
-    NSString *method     = @"zufang/fix/addpropstoplan/";
+    NSString *method = [[NSString alloc] init];
+    if (self.isHaozu) {
+        method = @"zufang/fix/addpropstoplan/";
+    } else {
+        method = @"anjuke/fix/addpropstoplan/";
+    }
+    
     NSDictionary *params = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager  getUserID], @"planId":self.planId,@"propIds":propIds};
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onFixPromotionRequestFinished:)];
     self.isLoading = YES;
@@ -245,6 +257,7 @@
     [self.view addSubview:noR];
     [self.view bringSubviewToFront:[[HudTipsUtils sharedInstance] hud]];
     [self.mutipleEditView removeFromSuperview];
+    self.mutipleEditView.hidden = YES;
 }
 
 - (BOOL)checkWithPlanIdandSelectCount
@@ -371,7 +384,7 @@
     self.editPropertyId = [editCell objectForKey:@"propId"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
    PropertySingleViewController *propZF = [[PropertySingleViewController alloc] init];
-//    propZF.isHaozu = YES;
+    propZF.isHaozu = self.isHaozu;
     propZF.pageType = PAGE_TYPE_NO_PLAN;
     propZF.propId = self.editPropertyId;
     [self.navigationController pushViewController:propZF animated:YES];
@@ -391,9 +404,9 @@
     int i = self.editAndDeleteCellIndexPath.row;
     NSDictionary *editCell = self.dataSource[i];
     self.editPropertyId = [editCell objectForKey:@"propId"];
-
+    
     [self showLoadingActivity:YES];
-
+    
     switch (index) {
         case 0:
         {
@@ -461,8 +474,12 @@
     NSString *method = nil;
 
     params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propertyID, @"propIds", nil];
+    if (self.isHaozu) {
         method = @"zufang/prop/delprops/";
-
+    } else {
+        method = @"anjuke/prop/delprops/";
+    }
+    
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onDeletePropFinished:)];
     self.isLoading = YES;
     [self showLoadingActivity:YES];
@@ -498,20 +515,40 @@
 #pragma mark - Log
 -(void)sendAppearLog
 {
-    [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_ONVIEW page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_ONVIEW page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    } else {
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_ONVIEW page:ESF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
+    
 }
 -(void)sendClickSelectAllButtonLog
 {
-    [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_SELECTALL page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_SELECTALL page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    } else {
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_CLICK_SELECTALL page:ESF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
+    
 }
 - (void)sendClickFixPromotionButtonLog
 {
-    [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_DJTG page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_DJTG page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    } else {
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_CLICK_DJTG page:ESF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
+    
 }
 
 - (void)doBack:(id)sender
 {
-    [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_BACK page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_BACK page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    } else {
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_BACK page:ESF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -10,8 +10,7 @@
 #import "PPCDataShowCell.h"
 #import "PPCPriceingListViewController.h"
 #import "PPCSelectedListViewController.h"
-#import "HZWaitingForPromotedViewController.h"
-#import "ESFWaitingForPromotedViewController.h"
+#import "WaitingForPromotedViewController.h"
 #import "PPCDataShowModel.h"
 #import "CommunityListViewController.h"
 #import "RTGestureBackNavigationController.h"
@@ -234,7 +233,7 @@
                     [controller setHidesBottomBarWhenPushed:YES];
                     [self.navigationController pushViewController:controller animated:YES];
                 }else{
-                    HZWaitingForPromotedViewController *hzToBePromoted = [[HZWaitingForPromotedViewController alloc] init];
+                    WaitingForPromotedViewController *hzToBePromoted = [[WaitingForPromotedViewController alloc] init];
                     hzToBePromoted.planId = self.pricingDic[@"planId"];
                     [self.navigationController pushViewController:hzToBePromoted animated:YES];
                 }
@@ -248,7 +247,7 @@
                     [self.navigationController pushViewController:controller animated:YES];
 
                 }else{
-                    ESFWaitingForPromotedViewController *esfToBePromoted = [[ESFWaitingForPromotedViewController alloc] init];
+                    WaitingForPromotedViewController *esfToBePromoted = [[WaitingForPromotedViewController alloc] init];
                     esfToBePromoted.planId = self.pricingDic[@"planId"];
                     [self.navigationController pushViewController:esfToBePromoted animated:YES];
                 }
