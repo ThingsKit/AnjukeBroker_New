@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface HudTipsUtils : UIView
-
+@property (nonatomic, strong) MBProgressHUD* hud;
 + (id)sharedInstance;
 
 - (void)displayHUDWithStatus:(NSString *)status Message:(NSString*)message ErrCode:(NSString*)errCode toView:(UIView *)view;

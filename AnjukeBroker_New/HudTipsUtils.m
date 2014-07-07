@@ -11,7 +11,7 @@
 @interface HudTipsUtils ()
 
 //浮层相关
-@property (nonatomic, strong) MBProgressHUD* hud;
+
 @property (nonatomic, strong) UIImageView* hudBackground;
 @property (nonatomic, strong) UIImageView* hudImageView;
 @property (nonatomic, strong) UILabel* hudText;
@@ -69,7 +69,6 @@
             
         }
     }
-    [view bringSubviewToFront:self.hud];
     [self.hud show:YES];
     
     [self.hud hide:YES afterDelay:2]; //显示一段时间后隐藏

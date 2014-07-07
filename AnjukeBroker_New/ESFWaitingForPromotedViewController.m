@@ -244,6 +244,7 @@
     [noR sizeToFit];
     noR.centerX = self.view.centerX;
     [self.view addSubview:noR];
+    [self.view bringSubviewToFront:[[HudTipsUtils sharedInstance] hud]];
     [self.mutipleEditView removeFromSuperview];
 }
 #pragma mark - cell选择处理
