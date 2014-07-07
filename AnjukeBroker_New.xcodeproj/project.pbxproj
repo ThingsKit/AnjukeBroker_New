@@ -3221,7 +3221,6 @@
 			isa = PBXGroup;
 			children = (
 				9619F53719640E68008C3A26 /* Model */,
-				49C188591963E6CC000B5C5B /* MutipleToBePromoted */,
 				B72109431827761000904FC7 /* Controllers */,
 				B72109451827761800904FC7 /* View */,
 				972C102D1814FD5900552C9B /* HaozuHomeViewController.h */,
@@ -4392,6 +4391,7 @@
 				67203D41196281E200A32B60 /* PropertyComponent */,
 				F89FF5A91962856900AC7256 /* PPCPricingList */,
 				F89FF5B81963943100AC7256 /* PPCSelectedHouseList */,
+				49C188591963E6CC000B5C5B /* MutipleToBePromoted */,
 				F8A136BE19651BB9007FC4E1 /* PPCPromoteCompletList */,
 			);
 			name = PPC_NewVersion;

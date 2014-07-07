@@ -248,7 +248,7 @@
             WaitingForPromotedViewController *esfToBePromoted = [[WaitingForPromotedViewController alloc] init];
             NSString *planId = self.pricingDic[@"planId"] ? self.pricingDic[@"planId"] : @"";
             esfToBePromoted.planId = planId;
-            esfToBePromoted.isHaozu = NO;
+            esfToBePromoted.isHaozu = self.isHaozu;
             [self.navigationController pushViewController:esfToBePromoted animated:YES];
         }
     }

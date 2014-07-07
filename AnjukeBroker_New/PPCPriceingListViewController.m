@@ -195,7 +195,7 @@
             if (status == RequestStatusForOk) {
                 self.planId = planId;
                 [self doPricingRequest];
-            }else{
+            } else {
                 [self donePullDown];
                 self.isLoading = NO;
                 

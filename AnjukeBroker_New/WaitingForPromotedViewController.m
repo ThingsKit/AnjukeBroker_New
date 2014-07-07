@@ -30,7 +30,6 @@
 
 @property (nonatomic) BOOL isShowActivity;
 @property (nonatomic) BOOL isSelectAll;
-//@property (nonatomic) BOOL isHaozu;
 
 @end
 

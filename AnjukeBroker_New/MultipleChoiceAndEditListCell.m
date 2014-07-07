@@ -293,7 +293,7 @@
     NSString *price = self.propertyDetailTableViewCellModel.price;
     _price.frame = CGRectMake(_area.right + GAP_H, _community.bottom + GAP_V - 1, 70, 20);
     _price.textAlignment = NSTextAlignmentRight;
-    _price.text = [NSString stringWithFormat:@"%@%@",[price substringToIndex:(price.length - 3)],self.propertyDetailTableViewCellModel.priceUnit];
+    _price.text = [NSString stringWithFormat:@"%@%@",price,self.propertyDetailTableViewCellModel.priceUnit];
     [_price sizeToFit];
     //    _price.backgroundColor = [UIColor redColor];
     
