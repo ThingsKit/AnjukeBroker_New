@@ -393,6 +393,7 @@
                                                 rightUtilityButtons:rightBtnarr];
 
         cell.cellSelectstatusDelegate = self;
+
     }
     PropSelectStatusModel *selectStatusModel = self.cellSelectStatus[indexPath.row];
     [cell changeCellSelectStatus:selectStatusModel.selectStatus];
@@ -412,7 +413,7 @@
     NSDictionary *editCell = self.dataSource[i];
     self.editPropertyId = [editCell objectForKey:@"propId"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-   PropertySingleViewController *propZF = [[PropertySingleViewController alloc] init];
+    PropertySingleViewController *propZF = [[PropertySingleViewController alloc] init];
     propZF.isHaozu = self.isHaozu;
     propZF.pageType = PAGE_TYPE_NO_PLAN;
     propZF.propId = self.editPropertyId;
