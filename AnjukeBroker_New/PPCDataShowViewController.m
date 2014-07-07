@@ -438,26 +438,33 @@
 
         [self.tableList reloadData];
     }else{
-        if ([[self.pricingDic objectForKey:@"totalProps"] intValue] == 0 && [[self.secondCellDic objectForKey:@"totalProps"] intValue] == 0) {
-            [self.tableList setTableStatus:STATUSFORNODATAFORNOHOUSE];
-            UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
-            tapGes.delegate                = self;
-            tapGes.numberOfTouchesRequired = 1;
-            tapGes.numberOfTapsRequired    = 1;
-            [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
-            
-            self.pricingDic = nil;
-            self.secondCellDic = nil;
-            
-            [self.tableList reloadData];
-        }else{
-            [self.tableList setTableStatus:STATUSFOROK];
-            NSIndexPath *path1 = [NSIndexPath indexPathForItem:1 inSection:0];
-            NSIndexPath *path2 = [NSIndexPath indexPathForItem:2 inSection:0];
-            
-            [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path1, nil] withRowAnimation:UITableViewRowAnimationNone];
-            [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path2, nil] withRowAnimation:UITableViewRowAnimationNone];
-        }
+        [self.tableList setTableStatus:STATUSFOROK];
+        NSIndexPath *path1 = [NSIndexPath indexPathForItem:1 inSection:0];
+        NSIndexPath *path2 = [NSIndexPath indexPathForItem:2 inSection:0];
+        
+        [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path1, nil] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path2, nil] withRowAnimation:UITableViewRowAnimationNone];
+
+//        if ([[self.pricingDic objectForKey:@"totalProps"] intValue] == 0 && [[self.secondCellDic objectForKey:@"totalProps"] intValue] == 0) {
+//            [self.tableList setTableStatus:STATUSFORNODATAFORNOHOUSE];
+//            UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
+//            tapGes.delegate                = self;
+//            tapGes.numberOfTouchesRequired = 1;
+//            tapGes.numberOfTapsRequired    = 1;
+//            [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
+//            
+//            self.pricingDic = nil;
+//            self.secondCellDic = nil;
+//            
+//            [self.tableList reloadData];
+//        }else{
+//            [self.tableList setTableStatus:STATUSFOROK];
+//            NSIndexPath *path1 = [NSIndexPath indexPathForItem:1 inSection:0];
+//            NSIndexPath *path2 = [NSIndexPath indexPathForItem:2 inSection:0];
+//            
+//            [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path1, nil] withRowAnimation:UITableViewRowAnimationNone];
+//            [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path2, nil] withRowAnimation:UITableViewRowAnimationNone];
+//        }
     }
 }
 - (void)tapGus:(UITapGestureRecognizer *)gesture{

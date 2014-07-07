@@ -76,6 +76,9 @@
     if (self.lastedListData.count == 0 && self.oldListData.count == 0) {
         return 0;
     }
+    if (self.lastedListData.count > 0 && self.oldListData.count > 0) {
+        return 2;
+    }
     return 1;
 }
 
@@ -96,14 +99,19 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (self.lastedListData.count == 0 && self.oldListData.count == 0) {
         return 0.0;
-    }
-    if (self.lastedListData.count > 0 && self.oldListData.count > 0) {
+    }else{
         if (section == 0) {
-            return 0.0;
-        }else if (section == 1){
-            return 40.0;
+            return 0;
+        }
+        if (section == 1) {
+            if (self.oldListData.count > 0) {
+                return 40;
+            }else{
+                return 0;
+            }
         }
     }
+
     return 0;
 }
 
@@ -131,18 +139,28 @@
         cell.delegate = self;
     }
     
-    if (indexPath.section == 0) {
+    if (self.lastedListData.count > 0) {
+        PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.lastedListData objectAtIndex:indexPath.row]];
         
+        [cell configureCell:model withIndex:indexPath.row];
+        
+        if (indexPath.row != self.lastedListData.count - 1) {
+            [cell showBottonLineWithCellHeight:95 andOffsetX:15];
+        }else{
+            [cell showBottonLineWithCellHeight:95 andOffsetX:0];
+        }
+    }else if (self.oldListData.count > 0){
+        PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.oldListData objectAtIndex:indexPath.row]];
+        
+        [cell configureCell:model withIndex:indexPath.row];
+
+        if (indexPath.row != self.oldListData.count - 1) {
+            [cell showBottonLineWithCellHeight:95 andOffsetX:15];
+        }else{
+            [cell showBottonLineWithCellHeight:95 andOffsetX:0];
+        }
     }
     
-    PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.tableData objectAtIndex:indexPath.row]];
-    
-    [cell configureCell:model withIndex:indexPath.row];
-    if (indexPath.row != self.tableData.count - 1) {
-        [cell showBottonLineWithCellHeight:95 andOffsetX:15];
-    }else{
-        [cell showBottonLineWithCellHeight:95 andOffsetX:0];
-    }
     return cell;
 }
 
@@ -168,9 +186,9 @@
     
     PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
     singleVC.isHaozu = self.isHaozu;
-    if (indexPath.section == 1) {
+    if (indexPath.section == 0) {
         singleVC.propId = [self.lastedListData objectAtIndex:indexPath.row][@"propId"];
-    }else if (indexPath.section == 2) {
+    }else if (indexPath.section == 1) {
         singleVC.propId = [self.oldListData objectAtIndex:indexPath.row][@"propId"];
     }
     singleVC.pageType = PAGE_TYPE_FIX;
