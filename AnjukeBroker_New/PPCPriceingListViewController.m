@@ -170,6 +170,8 @@
 }
 #pragma mark -- method
 - (void)doRequest{
+    self.isLoading = YES;
+
     if (![self isNetworkOkayWithNoInfo]) {
         [self.tableList setTableStatus:STATUSFORNETWORKERROR];
         
@@ -180,7 +182,6 @@
         return;
     }
     
-    self.isLoading = YES;
     NSMutableDictionary *params = nil;
     NSString *method = nil;
 

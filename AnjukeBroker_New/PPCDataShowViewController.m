@@ -252,8 +252,10 @@
 
 - (void)doRequest{
     if (![self isNetworkOkayWithNoInfo]) {
-        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
         
+        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        self.isLoading = NO;
+
         self.pricingDic = nil;
         self.secondCellDic = nil;
         [self.tableList reloadData];
