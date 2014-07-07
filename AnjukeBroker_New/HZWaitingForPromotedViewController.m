@@ -37,13 +37,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitleViewWithString:@"租房待推广房源"];
+    [self setTitleViewWithString:@"待推广房源"];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50) style:UITableViewStylePlain];
     } else {
         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50 - 20) style:UITableViewStylePlain];
     }
-
+    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
@@ -378,7 +378,7 @@
         {
             //删除房源
             [self hideLoadWithAnimated:YES];
-            UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"sure to delete?"
+            UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"您确认删除吗?"
                                                                 message:nil
                                                                delegate:self
                                                       cancelButtonTitle:@"取消"
@@ -407,7 +407,7 @@
     controller.backType = RTSelectorBackTypeDismiss;
     RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav animated:YES completion:nil];
-
+    [self loadData];
 }
 
 
@@ -465,6 +465,7 @@
     [self.tableView deleteRowsAtIndexPaths:@[self.editAndDeleteCellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
 
     [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
+    [self loadData];
 }
 
 #pragma mark - Log

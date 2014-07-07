@@ -37,7 +37,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitleViewWithString:@"二手房待推广房源"];
+    [self setTitleViewWithString:@"待推广房源"];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50) style:UITableViewStylePlain];
     } else {
@@ -382,7 +382,7 @@
         {
             //删除房源
             [self hideLoadWithAnimated:YES];
-            UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"sure to delete?"
+            UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"您确认删除吗?"
                                                                 message:nil
                                                                delegate:self
                                                       cancelButtonTitle:@"取消"
