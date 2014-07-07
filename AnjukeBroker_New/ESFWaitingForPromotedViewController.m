@@ -445,7 +445,7 @@
     NSString *method = nil;
     
     params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propertyID, @"propIds", nil];
-    method = @"zufang/prop/delprops/";
+    method = @"anjuke/prop/delprops/";
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onDeletePropFinished:)];
     self.isLoading = YES;
