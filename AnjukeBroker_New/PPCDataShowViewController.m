@@ -224,37 +224,32 @@
         }
         
     } else if (indexPath.row == 4) {
-        if (self.pricingDic && self.pricingDic[@"planId"]) {
-            if (self.isHaozu) {
-                if ([[LoginManager getBusinessType] isEqualToString:@"1"]) {
-                    [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_BIDLIST page:ESF_MANAGE note:nil];
-                    
-                    SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
-                    controller.isSeedPid = self.pricingDic[@"planId"];
-                    [controller setHidesBottomBarWhenPushed:YES];
-                    [self.navigationController pushViewController:controller animated:YES];
-                } else {
-                    WaitingForPromotedViewController *hzToBePromoted = [[WaitingForPromotedViewController alloc] init];
-                    hzToBePromoted.isHaozu = YES;
-                    hzToBePromoted.planId = self.pricingDic[@"planId"];
-                    [self.navigationController pushViewController:hzToBePromoted animated:YES];
-                }
-            } else {
-                if ([[LoginManager getBusinessType] isEqualToString:@"1"]) {
+        if ([[LoginManager getBusinessType] isEqualToString:@"1"]) {
+            if (self.pricingDic && self.pricingDic[@"planId"]) {
+                if (self.isHaozu) {
                     [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_DRAFTLIST page:ZF_MANAGE note:nil];
                     
                     RentNoPlanController *controller = [[RentNoPlanController alloc] init];
                     controller.isSeedPid = self.pricingDic[@"planId"];
                     [controller setHidesBottomBarWhenPushed:YES];
                     [self.navigationController pushViewController:controller animated:YES];
-
                 } else {
-                    WaitingForPromotedViewController *esfToBePromoted = [[WaitingForPromotedViewController alloc] init];
-                    esfToBePromoted.planId = self.pricingDic[@"planId"];
-                    esfToBePromoted.isHaozu = NO;
-                    [self.navigationController pushViewController:esfToBePromoted animated:YES];
+                    [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_BIDLIST page:ESF_MANAGE note:nil];
+                    
+                    SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
+                    controller.isSeedPid = self.pricingDic[@"planId"];
+                    [controller setHidesBottomBarWhenPushed:YES];
+                    [self.navigationController pushViewController:controller animated:YES];
                 }
+            }else{
+                return;
             }
+        }else if ([[LoginManager getBusinessType] isEqualToString:@"2"]){
+            WaitingForPromotedViewController *esfToBePromoted = [[WaitingForPromotedViewController alloc] init];
+            NSString *planId = self.pricingDic[@"planId"] ? self.pricingDic[@"planId"] : @"";
+            esfToBePromoted.planId = planId;
+            esfToBePromoted.isHaozu = NO;
+            [self.navigationController pushViewController:esfToBePromoted animated:YES];
         }
     }
 }
