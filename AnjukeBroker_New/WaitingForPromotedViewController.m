@@ -538,11 +538,14 @@
     }
     
     [self.dataSource removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
-    [self.cellSelectStatus removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
     [self.tableView deleteRowsAtIndexPaths:@[self.editAndDeleteCellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
+    PropSelectStatusModel *model = [self.cellSelectStatus objectAtIndex:self.editAndDeleteCellIndexPath.row];
+    if (model.selectStatus) {
+        self.selectedCellCount --;
+        [self updatePromotionButtonText];
+    }
+    [self.cellSelectStatus removeObjectAtIndex:self.editAndDeleteCellIndexPath.row];
     [self checkDataSourceOnDelete];
-    self.selectedCellCount --;
-    [self updatePromotionButtonText];
     [self.tableView reloadData];
     [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
 //    [self loadData];
