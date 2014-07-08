@@ -804,6 +804,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
                 blockSelf.cellDict[mappedMessage.identifier] = dict;
             }
             [blockSelf.myTableView reloadData];
+            [blockSelf reloadDataFinish];
             [blockSelf scrollToBottomAnimated:NO];
         } else {
             if (blockSelf.propDict && [blockSelf.identifierData count] == 0) {
@@ -1450,6 +1451,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
                     [[AXChatMessageCenter defaultMessageCenter] updatePerson:person];
                     if (blockSelf) {
                         [blockSelf.myTableView reloadData];
+                        [blockSelf reloadDataFinish];
                         AXMappedPerson *person = [[AXChatMessageCenter defaultMessageCenter] fetchPersonWithUID:[LoginManager getChatID]];
                         blockSelf.currentPerson = person;
                     }
@@ -1463,6 +1465,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [self.identifierData addObject:msgData[AXCellIdentifyTag]];
     self.cellDict[msgData[AXCellIdentifyTag]] = msgData;
     [self.myTableView reloadData];
+    [self reloadDataFinish];
     [self scrollToBottomAnimated:YES];
 }
 
@@ -1483,6 +1486,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     NSIndexPath *newPath =  [NSIndexPath indexPathForRow:[self.identifierData count] - 1 inSection:0];
     [insertIndexPaths addObject:newPath];
     [self.myTableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:insertAnimation];
+    [self reloadDataFinish];
 }
 
 - (void)insertCellData:(NSDictionary *)msgData atIndex:(NSUInteger)index
@@ -1494,6 +1498,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [insertIndexPaths addObject:newPath];
     [self.myTableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationBottom];
     [self.myTableView setContentOffset:CGPointMake(0, CGFLOAT_MAX)];
+    [self reloadDataFinish];
 }
 
 #pragma mark - SSPullToRefresh
@@ -1740,6 +1745,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
                 }
             }
             [blockSelf.myTableView reloadData];
+            [blockSelf reloadDataFinish];
             for (NSIndexPath *indexPath in newIndexPaths) {
                 newContentOffset.y += [blockSelf tableView:blockSelf.myTableView heightForRowAtIndexPath:indexPath];
             }
@@ -2334,9 +2340,16 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     self.messageInputView.textView.text = @"";
     [self textViewDidChange:self.messageInputView.textView];
     [self.myTableView reloadData];
+    [self reloadDataFinish];
 }
 
 - (void)goBrokerPage:(id)sender
+{
+    
+}
+
+//tableviwe加载完毕
+- (void)reloadDataFinish
 {
     
 }

@@ -392,6 +392,24 @@
 
 #pragma mark - Private Method
 
+//发送最大msgID
+- (void)sendMsgMaxId:(NSString *)fromUid maxMsgId:(NSString *)maxMsgId
+{
+    if (maxMsgId && [maxMsgId isEqualToString:@"0"])
+    {
+        return;
+    }
+    NSString *method = @"message/readMessages";
+    NSString *token = [LoginManager getToken];
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:maxMsgId, @"last_max_msg_id", fromUid, @"from_uid", token, @"token", nil];
+    
+    NSArray *paramsArr = [NSArray arrayWithObjects:params, nil];
+    params = @{@"list": paramsArr};
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:method params:params target:self action:@selector(sendMsgRequestFinished:)];
+}
+
 - (void)initRTManager {
     //数据库初始化
     [[RTCoreDataManager sharedInstance] setModelName:coreDataName];
@@ -513,6 +531,11 @@
 }
 
 #pragma mark - Request Method
+
+- (void)sendMsgRequestFinished:(RTNetworkResponse *)response
+{//设置聊天回执
+    
+}
 
 //获得当地商业状态
 - (void)getBuinessType

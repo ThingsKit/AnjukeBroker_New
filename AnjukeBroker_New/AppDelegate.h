@@ -55,6 +55,9 @@ typedef enum {
 - (void)killLongLinkForChat;
 - (BOOL)checkHomeVCHasLongLinked;
 
+//发送最大msgID
+- (void)sendMsgMaxId:(NSString *)fromUid maxMsgId:(NSString *)maxMsgId;
+
 //获得当地商业状态
 - (void)getBuinessType;
 

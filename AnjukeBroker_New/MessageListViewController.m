@@ -310,8 +310,17 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     [[BrokerLogger sharedInstance] logWithActionCode:MESSAGE_LIST_DELETE_MESSAGE page:MESSAGE_LIST note:nil];
     
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [[AXChatMessageCenter defaultMessageCenter] deleteConversationItem:[self.sessionFetchedResultsController fetchedObjects][indexPath.row]];
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        AXConversationListItem *messageList =[self.sessionFetchedResultsController fetchedObjects][indexPath.row];
+        NSString *msgIdentify = messageList.lastMsgIdentifier;
+        AXMessage *message = [[AXChatMessageCenter defaultMessageCenter] getFindMessageWithIdentifier:msgIdentify];
+        
+        NSString *msgId = [NSString stringWithFormat:@"%@", message.messageId];
+        //删除之前同步一下readMaxid
+        [[AXChatMessageCenter defaultMessageCenter] updatePersonMsgId:message.from maxMsgId:msgId];
+        //删除这条消息
+        [[AXChatMessageCenter defaultMessageCenter] deleteConversationItem:messageList];
     }
 }
 

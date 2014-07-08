@@ -101,5 +101,7 @@ static NSString *AXUITEXVIEWEDIT = @"AxuitextviewEdit"; //输入框
 
 //uitableviewdelegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
+//tableviwe加载完毕
+- (void)reloadDataFinish;
 
 @end

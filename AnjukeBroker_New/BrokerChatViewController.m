@@ -653,20 +653,6 @@ static BrokerChatViewController *brokerSender = nil;
     return @"";
 }
 
-//发送最大msgID
-- (void)sendMsgMaxId:(NSString *)fromUid maxMsgId:(NSString *)maxMsgId
-{
-    if (maxMsgId && [maxMsgId isEqualToString:@"0"])
-    {
-        return;
-    }
-    NSString *method = @"message/readMessages";
-    NSString *token = [LoginManager getToken];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:maxMsgId, @"last_max_msg_id", fromUid, @"from_uid", token, @"token", nil];
-    
-    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:method params:params target:self action:@selector(sendMsgRequestFinished:)];
-}
-
 //保存最大msgId
 - (void)doSaveMaxMsgId:(NSDictionary *)dic row:(NSInteger)row
 {
@@ -700,10 +686,15 @@ static BrokerChatViewController *brokerSender = nil;
             _friendUId = fromUid;
         }
     }
+    
+}
+//tableviwe加载完毕
+- (void)reloadDataFinish
+{
     //发送消息回执
-    if ([self.identifierData count] == (row + 1))
+    if (_maxMsgId && _friendUId)
     {
-        [self sendMsgMaxId:_friendUId maxMsgId:_maxMsgId];
+        [[AppDelegate sharedAppDelegate] sendMsgMaxId:_friendUId maxMsgId:_maxMsgId];
     }
 }
 
@@ -1126,13 +1117,6 @@ static BrokerChatViewController *brokerSender = nil;
     [self.navigationController pushViewController:mv animated:YES];
     
     [[BrokerLogger sharedInstance] logWithActionCode:CHAT_CLICK_OPEN_LOCATION page:CHAT note:nil];
-}
-
-#pragma mark -
-#pragma mark http
-- (void)sendMsgRequestFinished:(RTNetworkResponse *)response
-{//设置聊天回执
-
 }
 
 #pragma mark -

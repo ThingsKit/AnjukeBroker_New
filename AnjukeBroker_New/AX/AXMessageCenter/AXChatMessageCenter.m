@@ -1183,6 +1183,12 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     [self.getOldMessageManager loadData];
 }
 
+//根据identifier查找AXMessage
+- (AXMessage *)getFindMessageWithIdentifier:(NSString *)identifier
+{
+    return [self.dataCenter findMessageWithIdentifier:identifier];
+}
+
 - (void)getFriendInfoWithFriendUid:(NSArray *)personUids compeletionBlock:(void (^)(NSArray *))getFriendInfoBlock
 {
     self.getFriendInfoManager.apiParams = @{

@@ -1239,7 +1239,8 @@
         conversationListItem.friendUid = friendUID;
         conversationListItem.count = [NSNumber numberWithInteger:[self countUnreadMessagesWithFriendUid:friendUID]];
         conversationListItem.messageStatus = message.sendStatus;
-
+        conversationListItem.lastMsgIdentifier = message.identifier;
+        
         __autoreleasing NSError *error;
         [self.managedObjectContext save:&error];
     }
