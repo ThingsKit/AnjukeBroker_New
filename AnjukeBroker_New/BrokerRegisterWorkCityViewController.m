@@ -66,11 +66,13 @@
     if (![cityID isEqual:@"-1"]) {
         [[RTCityInfoManager sharedInstance] setServiceType:RTAnjukeServiceID];
         RTCityInfo *cityInfo  = [[RTCityInfoManager sharedInstance] cityInfoWithCityID:cityID];
-        self.cityData         = @[[[CityModel alloc] initWithTitle:@"GPS定位城市" cityArray:@[@{@"cityId":cityID,@"cityName":cityInfo.cityName}]]];
-        self.isLocatedSuccess = true;
+        if (cityInfo == nil) {
+            [self addGPSCityWithCityName:@"未知" cityID:cityID];
+        } else {
+            [self addGPSCityWithCityName:cityInfo.cityName cityID:cityID];
+        }
     } else {
-        self.cityData         = @[[[CityModel alloc] initWithTitle:@"GPS定位城市" cityArray:@[@{@"cityId":cityID,@"cityName":@"未知"}]]];
-        self.isLocatedSuccess = false;
+        [self addGPSCityWithCityName:@"未知" cityID:cityID];
     }
     
     //  初始化tableView的索引
@@ -85,6 +87,12 @@
     self.cityData   = [self.cityData arrayByAddingObjectsFromArray:cityArray];
     self.indexArray = [@[@"#"] arrayByAddingObjectsFromArray:indexArray];
     
+}
+
+- (void)addGPSCityWithCityName:(NSString *)cityName cityID:(NSString *)cityID
+{
+    self.cityData         = @[[[CityModel alloc] initWithTitle:@"GPS定位城市" cityArray:@[@{@"cityId":cityID,@"cityName":cityName}]]];
+    self.isLocatedSuccess = false;
 }
 
 - (void)viewWillAppear:(BOOL)animated
