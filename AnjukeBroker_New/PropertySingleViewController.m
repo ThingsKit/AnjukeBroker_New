@@ -682,7 +682,7 @@
         prefix = @"zufang";
     }
 
-    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"planId":planId, @"propIds":_propId};
+    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propIds":_propId};
     NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/fix/addpropstoplan/"], @"query_params":param1}; //房源概况
     NSDictionary* param = @{@"requests":@{@"result":dic1}};
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"batch/" params:param target:self action:@selector(onRequestFixFinished:)];
