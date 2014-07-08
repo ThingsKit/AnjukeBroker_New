@@ -69,8 +69,8 @@
     }
     
     self.MutipleEditView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 49 -64, ScreenWidth, 49)];
-    self.mutipleEditView.backgroundColor = [UIColor brokerBlackColor];
-    self.mutipleEditView.alpha = 0.7;
+    self.mutipleEditView.backgroundColor = [UIColor blackColor];
+    self.mutipleEditView.alpha = 0.9;
     
     _buttonSelect = [UIButton buttonWithType:UIButtonTypeCustom];
     _buttonSelect.frame = CGRectMake(0, 0, ScreenWidth * 0.48, 49);
@@ -95,7 +95,7 @@
     _buttonPromote.right = ScreenWidth - 10;
     _buttonPromote.centerY = 50/2;
     _buttonPromote.titleLabel.font = [UIFont ajkH3Font];
-    [_buttonPromote setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
+    [self promotionButtonBackImage];
     [_buttonPromote setTitle:[NSString stringWithFormat:@"定价推广(%d)", self.selectedCellCount]  forState:UIControlStateNormal];
     [_buttonPromote addTarget:self action:@selector(clickFixPromotionButton:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -355,6 +355,16 @@
 - (void)updatePromotionButtonText
 {
     [self.buttonPromote setTitle:[NSString stringWithFormat:@"定价推广(%d)",self.selectedCellCount] forState:UIControlStateNormal];
+    [self promotionButtonBackImage];
+}
+
+- (void)promotionButtonBackImage
+{
+    if (self.selectedCellCount == 0) {
+        [_buttonPromote setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue_lost@2x.png"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
+    } else {
+        [_buttonPromote setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
+    }
 }
 
 - (void)didReceiveMemoryWarning
