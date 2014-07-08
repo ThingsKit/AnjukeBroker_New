@@ -71,7 +71,7 @@
     //房源图像
     _propertyIcon = [[UIImageView alloc] initWithFrame:CGRectZero];
     _propertyIcon.backgroundColor = [UIColor clearColor];
-    _propertyIcon.contentMode = UIViewContentModeScaleAspectFit;
+//    _propertyIcon.contentMode = UIViewContentModeScaleAspectFit;
     [self.contentView addSubview:_propertyIcon];
 //    [self.contentView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:nil];
     
