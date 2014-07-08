@@ -404,6 +404,11 @@
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     cell.delegate = self;
     cell.isHaozu = self.isHaozu;
+    int sectionTotalRow = [self.dataSource count] -1;
+    if (indexPath.row == sectionTotalRow) {
+        [cell showBottonLineWithCellHeight:90 andOffsetX:0];
+    }
+    
     return cell;
 }
 

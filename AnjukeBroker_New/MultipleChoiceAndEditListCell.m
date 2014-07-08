@@ -16,6 +16,7 @@
 
 @interface MultipleChoiceAndEditListCell ()
 
+//cell配置
 @property (nonatomic, strong) UIImageView* selectImage;
 @property (nonatomic, strong) UIButton *selectStylebutton;
 @property (nonatomic, strong) UIImageView* propertyIcon; //房源图片
@@ -29,6 +30,10 @@
 @property (nonatomic, strong) UIImageView* violationIcon; //违规图标
 @property (nonatomic, strong) UIImageView* mobileIcon; //手机发图图标
 @property (nonatomic) int propTitleLength;
+
+//cell画线
+@property (strong, nonatomic) UIView *shortLineView;
+@property (strong, nonatomic) BrokerLineView *lineView;
 
 @property (nonatomic)BOOL isSelected;
 
@@ -59,10 +64,9 @@
     self.selectImage       = imageView;
     self.selectStylebutton = selectStylebutton;
     
-    //cell下划线
-    UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(56, 89.5, ScreenWidth - 56, 0.5)];
-    bottomLine.backgroundColor = [UIColor lightGrayColor];
-    [self.contentView addSubview:bottomLine];
+    self.shortLineView = [[UIView alloc] initWithFrame:CGRectMake(56, 89.5, ScreenWidth - 56, 0.5)];
+    self.shortLineView.backgroundColor = [UIColor lightGrayColor];
+    [self.contentView addSubview:self.shortLineView];
     
     //房源图像
     _propertyIcon = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -127,8 +131,19 @@
     self.contentView.backgroundColor = [UIColor brokerWhiteColor];
     
     [self.cellScrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
-    
 }
+
+//cell下划线
+- (void)showBottonLineWithCellHeight:(CGFloat)cellH andOffsetX:(CGFloat)offsetX {
+    if (self.lineView == nil) {
+        self.lineView = [[BrokerLineView alloc] initWithFrame:CGRectMake(offsetX, cellH -0.5, 320 - offsetX, 0.5)];
+        [self.contentView addSubview:self.lineView];
+    }
+    else {
+        self.lineView.frame = CGRectMake(offsetX, cellH -0.5, 320 - offsetX, 0.5);
+    }
+}
+
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -173,10 +188,10 @@
 
 #pragma mark - layout
 //加载数据
-- (void)layoutSubviews{
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     
-
     //注意：图标显示逻辑
     //如果“违规”存在，则不显示“多图”和“手机”图标
     //如果违规不存在，多图存在，则多图靠最右边显示；手机存在，则手机在多图的左边，靠近房源标题显示

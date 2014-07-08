@@ -26,6 +26,6 @@
 @property (nonatomic) BOOL isHaozu;
 
 - (void)changeCellSelectStatus:(BOOL)isSelected;
-
+- (void)showBottonLineWithCellHeight:(CGFloat)cellH andOffsetX:(CGFloat)offsetX;
 
 @end
