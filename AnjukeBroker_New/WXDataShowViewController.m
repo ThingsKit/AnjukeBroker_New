@@ -115,7 +115,15 @@
     unitLab.textColor = [UIColor brokerMiddleGrayColor];
     [self.view addSubview:unitLab];
     
-    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 340, [self windowWidth], 200)];
+    float y = 0;
+    
+    if (ScreenHeight > 480) {
+        y = 0;
+    }else{
+        y = -25;
+    }
+    
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 340+y, [self windowWidth], 200)];
     footView.backgroundColor = [UIColor brokerBgPageColor];
     [self.view addSubview:footView];
     
@@ -264,6 +272,7 @@
     }
     
     if(progress == 0.0){
+        isScrollIng = NO;
         UIImageView *img = (UIImageView *)[self.view viewWithTag:1 - 1 + 100];
         [img setImage:[UIImage imageNamed:@"broker_wlsj_nomen"]];
     }
