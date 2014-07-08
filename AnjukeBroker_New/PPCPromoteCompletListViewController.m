@@ -68,8 +68,6 @@
 }
 
 - (void)cleanAll:(id)sender{
-    [[BrokerLogger sharedInstance] logWithActionCode:JJTG_LIST_CLICK_EMPTY page:JJTG_LIST_PAGE note:nil];
-
     [self cleanPromoteCompletHouse:nil];
 }
 
@@ -103,7 +101,8 @@
         propIDS = propertyID;
     }
 
-
+    [[BrokerLogger sharedInstance] logWithActionCode:JJTG_LIST_CLICK_EMPTY page:JJTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:propIDS,@"PROP_IDS", nil]];
+    
     if (self.isHaozu) {
         params = [NSMutableDictionary dictionaryWithObjectsAndKeys: [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propIDS, @"propIds", nil];
         method = @"zufang/choice/delete/";
@@ -187,9 +186,10 @@
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     DLog(@"didTriggerRightUtilityButtonWithIndex-->>%d",index);
-    [[BrokerLogger sharedInstance] logWithActionCode:JJTG_LIST_LEFT_DELETE page:JJTG_LIST_PAGE note:nil];
-    
     NSIndexPath *indexPath = [self.tableList indexPathForCell:cell];
+
+    [[BrokerLogger sharedInstance] logWithActionCode:JJTG_LIST_LEFT_DELETE page:JJTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[self.tableData objectAtIndex:indexPath.row][@"propId"],@"PROP_ID", nil]];
+    
     self.deleCellNum = indexPath.row;
     [self cleanPromoteCompletHouse:[self.tableData objectAtIndex:indexPath.row][@"propId"]];
 }
