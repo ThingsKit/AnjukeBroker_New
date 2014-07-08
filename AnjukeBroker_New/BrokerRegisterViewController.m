@@ -64,6 +64,7 @@
     phoneTextField.font = lblFont;
     phoneTextField.keyboardType =UIKeyboardTypeNumberPad;
     phoneTextField.textColor = textFieldColor;
+    phoneTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     
     RTLineView *verticalLineView = [[RTLineView alloc] initWithFrame:CGRectMake(225, topLineView.bottom, 1, 44)];
     verticalLineView.horizontalLine = NO;
@@ -90,6 +91,7 @@
     verifyTextField.font = lblFont;
     verifyTextField.keyboardType =UIKeyboardTypeNumberPad;
     verifyTextField.textColor = textFieldColor;
+    verifyTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     
     RTLineView *verifyLineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, phoneLineView.bottom+45, 305, 1)];
     
@@ -105,6 +107,7 @@
     passwordTextField.font = lblFont;
     passwordTextField.secureTextEntry = YES;
     passwordTextField.textColor = textFieldColor;
+    passwordTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     
     RTLineView *bottomLineView = [[RTLineView alloc] initWithFrame:CGRectMake(0, verifyLineView.bottom+45, 320, 1)];
     
@@ -122,6 +125,7 @@
     problemLbl.font = [UIFont ajkH5Font];
     problemLbl.textColor = [UIColor brokerMiddleGrayColor];
     problemLbl.text = @"如注册遇到问题，请拨打：";
+    problemLbl.backgroundColor = [UIColor clearColor];
     
     UIButton *dailPhoneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     dailPhoneBtn.frame = CGRectMake(problemLbl.right, problemLbl.top, 80, problemLbl.height);
@@ -196,9 +200,11 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self setTitleViewWithString:@"注册"];
+    [[BrokerLogger sharedInstance] logWithActionCode:REGISTER_PROP_1_ONVIEW page:REGISTER_PROP_1_PAGE note:nil];
 }
 
 - (void)doBack:(id)sender {
+    [[BrokerLogger sharedInstance] logWithActionCode:REGISTER_PROP_1_CLICK_BACK page:REGISTER_PROP_1_GET_CODE note:nil];
     [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -288,6 +294,8 @@
     if (![self validatePhoneNum:self.phoneTextField.text]) {
         return;
     }
+    [[BrokerLogger sharedInstance] logWithActionCode:REGISTER_PROP_1_GET_CODE page:REGISTER_PROP_1_PAGE note:@{@"phone":self.phoneTextField.text}];
+    
     [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:@"common/captcha/sms/" params:@{@"mobile":self.phoneTextField.text} target:self action:@selector(onReceiveVerifyCode:)];
     
     self.secondsCountDown = 60;
@@ -336,7 +344,7 @@
     if (![self validatePhoneNum:self.phoneTextField.text] || ![self validateVerifyCode:self.verifyTextField.text] || ![self validatePassword:self.passwordTextField.text]) {
         return;
     }
-    
+    [[BrokerLogger sharedInstance] logWithActionCode:REGISTER_PROP_1_CLICK_NEXT page:REGISTER_PROP_1_PAGE note:@{@"phone":self.phoneTextField.text}];
     [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:@"common/captcha/verify/" params:@{@"mobile":self.phoneTextField.text,@"authCode":self.verifyTextField.text} target:self action:@selector(onCheckVerifyCode:)];
     
     [self showLoadingActivity:YES];

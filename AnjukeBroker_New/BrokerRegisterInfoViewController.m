@@ -24,7 +24,9 @@
 #import "RTGestureBackNavigationController.h"
 #import "BrokerCallAlert.h"
 
-@interface BrokerRegisterInfoViewController () <UITableViewDataSource, UITableViewDelegate,BrokerRegisterWorkCityDelegate,BrokerRegisterWorkRangeDelegate, MainBusinessDelegate, WorkPropertyDelegate, companyDelegate,UITextFieldDelegate,storeDelegate>
+@interface BrokerRegisterInfoViewController () <UITableViewDataSource, UITableViewDelegate,BrokerRegisterWorkCityDelegate,BrokerRegisterWorkRangeDelegate, MainBusinessDelegate, WorkPropertyDelegate, companyDelegate,UITextFieldDelegate,storeDelegate> {
+    BOOL _nameLog;
+}
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UITextField *nameTextField;
 @property (nonatomic, strong) NSArray *dataArray;
@@ -80,6 +82,7 @@
     problemLbl.font = [UIFont ajkH5Font];
     problemLbl.textColor = [UIColor brokerMiddleGrayColor];
     problemLbl.text = @"如注册遇到问题，请拨打：";
+    problemLbl.backgroundColor = [UIColor clearColor];
     
     UIButton *dailPhoneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     dailPhoneBtn.frame = CGRectMake(problemLbl.right, problemLbl.top, 80, problemLbl.height);
@@ -98,9 +101,17 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self setTitleViewWithString:@"注册"];
+    
+    [[BrokerLogger sharedInstance] logWithActionCode:REGISTER_PROP_2_ONVIEW page:REGISTER_PROP_2_PAGE note:@{@"phone":self.beforeDic[@"mobile"]}];
+}
+
+- (void)doBack:(id)sender {
+    [[BrokerLogger sharedInstance] logWithActionCode:REGISTER_PROP_2_CLICK_BACK page:REGISTER_PROP_2_PAGE note:nil];
+    [super doBack:sender];
 }
 
 - (void)dialPhone {
+    [[BrokerLogger sharedInstance] logWithActionCode:REGISTER_PROP_2_CLICK_SERVICE page:REGISTER_PROP_2_PAGE note:nil];
     //make call
     [[BrokerCallAlert sharedCallAlert] callAlert:@"您是否要拨打客服热线：" callPhone:@"4006209008" appLogKey:PERSONAL_CLICK_CONFIRM_CSCALL page:PERSONAL completion:^(CFAbsoluteTime time) {
         nil;
@@ -128,6 +139,7 @@
     agreeLbl.font = [UIFont ajkH5Font];
     agreeLbl.textColor = [UIColor brokerMiddleGrayColor];
     agreeLbl.text = @"点击“注册”即表示你同意";
+    agreeLbl.backgroundColor = [UIColor clearColor];
     
     UIButton *agreeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     agreeBtn.frame = CGRectMake(agreeLbl.right-20, agreeLbl.top, 120, agreeLbl.height);
@@ -154,6 +166,8 @@
         [self.nameTextField resignFirstResponder];
     }
     if (self.beforeDic && self.brokerName && self.cityDic && self.businessDic &&self.workRangeDic) {
+        [[BrokerLogger sharedInstance] logWithActionCode:REGISTER_PROP_2_CLICK_REGISTER page:REGISTER_PROP_2_PAGE note:@{@"phone":self.beforeDic[@"mobile"]}];
+        
         if (!self.companyDic) {
             self.companyDic = @{@"companyId":@"11"};
         }
@@ -319,6 +333,13 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     self.brokerName = textField.text;
     [self checkRegisterIsEnable];
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (textField.text.length > 0 && !_nameLog) {
+        _nameLog = YES;
+        [[BrokerLogger sharedInstance] logWithActionCode:REGISTER_PROP_2_SIGN_NAME page:REGISTER_PROP_2_PAGE note:@{@"phone":self.beforeDic[@"mobile"]}];
+    }
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -506,6 +527,7 @@
         nameLbl.font =  [UIFont ajkH2Font];
         nameLbl.text = @"真实姓名";
         nameLbl.textColor = [UIColor brokerMiddleGrayColor];
+        nameLbl.backgroundColor = [UIColor clearColor];
         
         UITextField *nameTextField = [UITextField new];
         nameTextField.borderStyle = UITextBorderStyleNone;
@@ -514,6 +536,7 @@
         nameTextField.delegate = self;
         nameTextField.font = [UIFont ajkH2Font];
         nameTextField.textColor = [UIColor brokerBlackColor];
+        nameTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         if (self.brokerName) {
             nameTextField.text = self.brokerName;
         }
