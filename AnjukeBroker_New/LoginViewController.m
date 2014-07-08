@@ -87,8 +87,10 @@
     
     UIView *statusBarBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
     statusBarBackground.backgroundColor = [Util_UI colorWithHexString:@"312A32"];
-    [self.view addSubview:statusBarBackground];
-    
+
+    if ([[UIDevice currentDevice].systemVersion compare:@"7.0"] > 0) {
+        [self.view addSubview:statusBarBackground];
+    }
     self.logoW     = 95 ;
     self.logoGap   = ([self windowWidth] - self.logoW)/2;
     self.logoY     = 95;
@@ -140,6 +142,7 @@
     self.registerLabel.text      = @"房源客户，一网打尽";
     self.registerLabel.textColor = [UIColor brokerLightGrayColor];
     self.registerLabel.font      = [UIFont systemFontOfSize:14];
+    self.registerLabel.backgroundColor = [UIColor clearColor];
     
     [self.loginView addSubview:self.loginBtn];
     [self.loginView addSubview:self.registerBtn];
