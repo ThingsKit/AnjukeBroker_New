@@ -64,7 +64,7 @@
     self.selectImage       = imageView;
     self.selectStylebutton = selectStylebutton;
     
-    self.shortLineView = [[UIView alloc] initWithFrame:CGRectMake(56, 89.5, ScreenWidth - 56, 0.5)];
+    self.shortLineView = [[BrokerLineView alloc] initWithFrame:CGRectMake(56, 89.5, ScreenWidth - 56, 0.5)];
     self.shortLineView.backgroundColor = [UIColor lightGrayColor];
     [self.contentView addSubview:self.shortLineView];
     
