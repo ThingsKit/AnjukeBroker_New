@@ -61,7 +61,11 @@
 {
     [super viewDidLoad];
     
-//    [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_CLICK_CLIENT page:POTENTIAL_CLIENT note:@{@"clientid":customer.device_id}]; //页面可见
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_ONVIEW page:ZF_FY_PROP_PAGE note:nil]; //租房页面可见
+    }else{
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_ONVIEW page:ESF_FY_PROP_PAGE note:nil]; //二手房页面可见
+    }
     
     [self setTitleViewWithString:@"房源详情"];
     
@@ -129,6 +133,11 @@
 - (void)initFooterBlock{
     __weak PropertySingleViewController* this = self;
     _footer.editBlock = ^(UIButton* button){
+        if (this.isHaozu) {
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_EDIT page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击编辑
+        }else{
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_EDIT page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击编辑
+        }
         PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
         controller.isHaozu = this.isHaozu;
         controller.propertyID = this.propId;
@@ -137,6 +146,11 @@
     };
     
     _footer.deleteBlock = ^(UIButton* button){
+        if (this.isHaozu) {
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_DELETE page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击删除
+        }else{
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_DELETE page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击删除
+        }
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定删除当前房源" delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         alert.tag = 2;
         [alert show]; //一定要放设置键盘之后
@@ -199,6 +213,11 @@
                         button.enabled = NO;
                     });
                     this.button = button;
+                    if (this.isHaozu) {
+                        [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_DJ_TG page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //开始定价推广
+                    }else{
+                        [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_DDTG page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //开始定价推广
+                    }
                     //开始定价推广
                     [this requestFixWithPlanId:planId];
                 };
@@ -245,7 +264,12 @@
                             button.enabled = NO;
                         });
                         this.button = button;
-                        //取消精选推广
+                        if (this.isHaozu) {
+                            [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_JX_ENDTG page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": self.propId}]; //结束精选推广
+                        }else{
+                            [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_JCTG page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": self.propId}]; //结束精选推广
+                        }
+                        //结束精选推广
                         [this requestChoiceStop];
                     };
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -263,6 +287,11 @@
                         });
                         this.button = button;
                         //取消排队
+                        if (this.isHaozu) {
+                            [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_JX_QXPD page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": self.propId}]; //取消排队
+                        }else{
+                            [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_JCQXPD page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": self.propId}]; //取消排队
+                        }
                         [this requestChoiceStop];
                     };
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -289,6 +318,11 @@
                             button.enabled = NO;
                         });
                         this.button = button;
+                        if (this.isHaozu) {
+                            [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_JX_LJPD page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击立即排队
+                        }else{
+                            [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_JXPD page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击立即排队
+                        }
                         //立即排队
                         NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
                         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
@@ -314,6 +348,11 @@
                             button.enabled = NO;
                         });
                         this.button = button;
+                        if (this.isHaozu) {
+                            [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_JX_LJTG page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击立即推广
+                        }else{
+                            [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_JXTG page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击立即推广
+                        }
                         //立即推广
                         NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
                         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
@@ -357,7 +396,14 @@
     
 }
 
-
+- (void)doBack:(id)sender{
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_BACK page:ZF_FY_PROP_PAGE note:nil]; //点击返回
+    }else{
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_BACK page:ESF_FY_PROP_PAGE note:nil]; //点击返回
+    }
+    [super doBack:sender];
+}
 
 #pragma mark -
 #pragma mark UITableViewDelegate
@@ -369,6 +415,11 @@
     if (indexPath.section == 0) {
         
         if (self.data.count > 0) {
+            if (self.isHaozu) {
+                [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_FY_VIEW page:ZF_FY_PROP_PAGE note:@{@"PROP_ID":_propId}]; //房源预览
+            }else{
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_FY_VIEW page:ESF_FY_PROP_PAGE note:@{@"PROP_ID":_propId}]; //房源预览
+            }
             //push 到 webview
             AXChatWebViewController *webViewController = [[AXChatWebViewController alloc] init];
             PropertyDetailCellModel* property = self.data[0];
@@ -853,6 +904,11 @@
         }
         
         if (buttonIndex == 1) { //确定按钮
+            if (self.isHaozu) {
+                [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_JX_QDYS page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": self.propId}]; //弹层点击确定
+            }else{
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_JXTC page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": self.propId}]; //弹层点击确定
+            }
             [self requestChoiceWithBudget:budget];
         }else{
             self.button.enabled = YES;
@@ -860,6 +916,11 @@
     }else if (alertView.tag == 2){
         if (buttonIndex == 1) { //确定按钮
             //删除当前房源
+            if (self.isHaozu) {
+                [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_TC_QRDELETE page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": self.propId}]; //确认删除
+            }else{
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_QQ_DELETE page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": self.propId}]; //确认删除
+            }
             [self requestPropertyDelete];
         }else{
             

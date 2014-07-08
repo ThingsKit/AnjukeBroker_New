@@ -183,7 +183,7 @@
     //房源标题的长短：首先判断是否违规，然后判断手机是否存在
     //房源图片
     _propertyIcon.frame = CGRectMake(56, 15, 80, 60);
-    NSString* iconPath = self.propertyDetailTableViewCellModel.imgURL;
+    NSString* iconPath = self.propertyDetailTableViewCellModel.imgUrl;
     if (iconPath != nil && ![@"" isEqualToString:iconPath]) {
         //加载图片
         [_propertyIcon setImageWithURL:[NSURL URLWithString:iconPath] placeholderImage:[UIImage imageNamed:@"anjuke61_bg4"]];

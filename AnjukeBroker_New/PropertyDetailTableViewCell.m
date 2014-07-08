@@ -51,7 +51,7 @@
     //房源图像
     _propertyIcon = [[UIImageView alloc] initWithFrame:CGRectZero];
     _propertyIcon.backgroundColor = [UIColor clearColor];
-    _propertyIcon.contentMode = UIViewContentModeScaleAspectFit;
+//    _propertyIcon.contentMode = UIViewContentModeScaleAspectFit;
     _propertyIcon.layer.cornerRadius = 4.0f;
     _propertyIcon.layer.masksToBounds = YES;
     [self.contentView addSubview:_propertyIcon];
@@ -124,7 +124,7 @@
     
     //房源图片
     _propertyIcon.frame = CGRectMake(15, 15, 80, 65);
-    NSString* iconPath = self.propertyDetailTableViewCellModel.imgURL;
+    NSString* iconPath = self.propertyDetailTableViewCellModel.imgUrl;
     if (iconPath != nil && ![@"" isEqualToString:iconPath]) {
         //加载图片
         [_propertyIcon setImageWithURL:[NSURL URLWithString:iconPath] placeholderImage:[UIImage imageNamed:@"anjuke61_bg4"]];
