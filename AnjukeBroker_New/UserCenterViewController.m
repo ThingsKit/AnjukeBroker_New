@@ -228,8 +228,7 @@
             nil;
         }];
     }else if(indexPath.row == 8){
-        [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_CLICK_SYSSET page:PERSONAL note:nil];
-        
+        [[BrokerLogger sharedInstance] logWithActionCode:PERSONAL_CLICK_PROMOTION_SET page:PERSONAL note:nil];
         PromotionSettingsViewController *promotionSettings = [PromotionSettingsViewController new];
         promotionSettings.backType = RTSelectorBackTypePopBack;
         [promotionSettings setHidesBottomBarWhenPushed:YES];

@@ -573,6 +573,7 @@
 #define PERSONAL_CLICK_CONFIRM_CSCALL    @"1-701009" //确定呼叫客服热线
 #define PERSONAL_CLICK_SYSSET            @"1-701010" //点击系统设置
 #define PERSONAL_CLICK_CLIENT_LIST       @"1-701011" //点击微聊客户
+#define PERSONAL_CLICK_PROMOTION_SET     @"1-701012" //推广设置
 
 /*
  所有模块: 系统设置页
