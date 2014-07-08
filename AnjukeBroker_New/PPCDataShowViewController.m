@@ -46,7 +46,9 @@
         [self autoPullDown];
     }
 }
-
+- (void)viewWillDisappear:(BOOL)animated{
+    [self donePullDown];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
