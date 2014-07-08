@@ -50,8 +50,8 @@
 #pragma mark UI相关
 - (void)initCell {
     
-    UIButton *selectStylebutton = [[UIButton alloc] initWithFrame:CGRectMake(15, 20, 30, 70)];
-    UIImageView *imageView      = [[UIImageView alloc] initWithFrame:CGRectMake((56 - 22)/2 - 15, (90 - 22)/2 - 20, 22, 22)];
+    UIButton *selectStylebutton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 56, 90)];
+    UIImageView *imageView      = [[UIImageView alloc] initWithFrame:CGRectMake((56 - 22)/2 , (90 - 22)/2 , 22, 22)];
     imageView.image             = [UIImage imageNamed:@"broker_property_control_select_gray"];
     [selectStylebutton addTarget:self action:@selector(propChoiceTap:) forControlEvents:UIControlEventTouchUpInside];
     [selectStylebutton addSubview:imageView];
@@ -133,7 +133,7 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     CGRect frame = self.selectStylebutton.frame;
-    self.selectStylebutton.frame = CGRectMake(- self.cellScrollView.contentOffset.x + 15, 20, frame.size.width, frame.size.height);
+    self.selectStylebutton.frame = CGRectMake(- self.cellScrollView.contentOffset.x , 0, frame.size.width, frame.size.height);
 }
 
 #pragma mark - selectCellStyle
