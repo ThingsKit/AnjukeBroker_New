@@ -302,7 +302,6 @@
 
 - (void)esfSpreadRequestWithMethod:(NSString *)method switchStatus:(BOOL)switchStatus
 {
-#warning  no check
     if ([self isEmpty:self.ESFPlanId]) {
         return;
     }
@@ -316,8 +315,7 @@
 
 - (void)zfSpreadRequestWithMethod:(NSString *)method switchStatus:(BOOL)switchStatus
 {
-#warning no check
-    if ([self isEmpty:self.ZFPlanId]) {
+    t if ([self isEmpty:self.ZFPlanId]) {
         return;
     }
     NSDictionary *params = @{@"brokerId":[LoginManager getUserID],@"token":[LoginManager getToken],@"planId":self.ZFPlanId};
