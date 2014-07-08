@@ -10,6 +10,8 @@
 #import "AXChatWebViewController.h"
 #import "PropertyEditViewController.h"
 
+#import "RTGestureBackNavigationController.h"
+
 #import "PropertyDetailTableViewFooter.h"
 
 #import "PropertyDetailTableViewCell.h"
@@ -143,17 +145,31 @@
         if (this.data.count > 0) {
             PropertyDetailCellModel* property = this.data[0];
             if ([@"0" isEqualToString:property.isVisible]) { //如果是违规房源
-                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"违规房源只能删除" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                [alert show];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"违规房源只能删除" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                    [alert show];
+                });
+                
                 return;
             }
         }
         
-        PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
-        controller.isHaozu = this.isHaozu;
-        controller.propertyID = this.propId;
-        controller.backType = RTSelectorBackTypePopBack;
-        [this.navigationController pushViewController:controller animated:YES];
+//        PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+//        controller.isHaozu = this.isHaozu;
+//        controller.propertyID = this.propId;
+//        controller.backType = RTSelectorBackTypeDismiss;
+//        [this.navigationController pushViewController:controller animated:YES];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+            controller.isHaozu = this.isHaozu;
+            controller.propertyID = this.propId;
+            controller.backType = RTSelectorBackTypeDismiss;
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+            [this presentViewController:nav animated:YES completion:nil];
+        });
+        
     };
     
     _footer.deleteBlock = ^(UIButton* button){
@@ -162,9 +178,12 @@
         }else{
             [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_DELETE page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击删除
         }
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定删除当前房源" delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        alert.tag = 2;
-        [alert show]; //一定要放设置键盘之后
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定删除当前房源" delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            alert.tag = 2;
+            [alert show]; //一定要放设置键盘之后
+        });
     };
     
 }
@@ -325,9 +344,6 @@
                     cell.choicePromotionModel = self.data[2];
                     
                     cell.block = ^(UIButton* button){
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            button.enabled = NO;
-                        });
                         this.button = button;
                         if (this.isHaozu) {
                             [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_JX_LJPD page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击立即排队
@@ -335,13 +351,16 @@
                             [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_JXPD page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击立即排队
                         }
                         //立即排队
-                        NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
-                        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-                        alert.tag = 1;
-                        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-                        [alert textFieldAtIndex:0].placeholder = [NSString stringWithFormat:@"输入预算, %@~%@", this.minBudget, this.maxBudget];
-                        [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeNumberPad;
-                        [alert show]; //一定要放设置键盘之后
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            button.enabled = NO;
+                            NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
+                            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                            alert.tag = 1;
+                            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+                            [alert textFieldAtIndex:0].placeholder = [NSString stringWithFormat:@"输入预算, %@~%@", this.minBudget, this.maxBudget];
+                            [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeNumberPad;
+                            [alert show]; //一定要放设置键盘之后
+                        });
                         
                     };
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -355,9 +374,7 @@
                     ChoicePromotionableCell* cell = [[ChoicePromotionableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
                     cell.choicePromotionModel = self.data[2];
                     cell.block = ^(UIButton* button){
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            button.enabled = NO;
-                        });
+
                         this.button = button;
                         if (this.isHaozu) {
                             [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_JX_LJTG page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击立即推广
@@ -365,13 +382,16 @@
                             [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_JXTG page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击立即推广
                         }
                         //立即推广
-                        NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
-                        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-                        alert.tag = 1;
-                        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-                        [alert textFieldAtIndex:0].placeholder = [NSString stringWithFormat:@"输入预算, %@~%@", this.minBudget, this.maxBudget];
-                        [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeNumberPad;
-                        [alert show]; //一定要放设置键盘之后
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            button.enabled = NO;
+                            NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
+                            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                            alert.tag = 1;
+                            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+                            [alert textFieldAtIndex:0].placeholder = [NSString stringWithFormat:@"输入预算, %@~%@", this.minBudget, this.maxBudget];
+                            [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeNumberPad;
+                            [alert show]; //一定要放设置键盘之后
+                        });
                         
                     };
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -897,11 +917,12 @@
         if ([@"ok" isEqualToString:result]) {
             [self displayHUDWithStatus:@"ok" Message:@"删除房源成功" ErrCode:nil];
 //            //这里要跳转到对应列表
+            __weak PropertySingleViewController* this = self;
             double delayInSeconds = 1.f;
             dispatch_time_t delayInNanoSeconds = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
             dispatch_after(delayInNanoSeconds, dispatch_get_main_queue(), ^(void)
             {
-                [self.navigationController popViewControllerAnimated:YES];
+                [this.navigationController popViewControllerAnimated:YES];
             });
             
             
@@ -953,6 +974,7 @@
             }else{
                 [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_QQ_DELETE page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": self.propId}]; //确认删除
             }
+            
             [self requestPropertyDelete];
             
         }else{
