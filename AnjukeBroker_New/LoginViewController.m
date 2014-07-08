@@ -35,6 +35,7 @@
 @property (nonatomic) CGFloat logoW;
 @property (nonatomic) CGFloat logoGap;
 @property (nonatomic) CGFloat logoY;
+
 @end
 
 @implementation LoginViewController
@@ -110,7 +111,7 @@
         textFieldViewTF_Y = self.logoY + 110;
     }
     
-    self.logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_60.png"]];
+    self.logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_60"]];
     self.logo.frame = CGRectMake(self.logoGap, 140,  self.logoW,  self.logoW);
 
     self.logo.backgroundColor = [UIColor clearColor];
@@ -225,7 +226,7 @@
     self.registerLabel.alpha   = 0.0;
     
     [UIView animateWithDuration:0.8 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.logo.frame = CGRectMake(logoGap, 95,  self.logoW,  self.logoW);
+        self.logo.frame = CGRectMake(logoGap, self.logoY,  self.logoW,  self.logoW);
         self.logo.alpha = 1.0;
         self.textFieldViewTF.alpha = 1.0;
     } completion:^(BOOL finished) {

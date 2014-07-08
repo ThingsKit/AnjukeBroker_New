@@ -46,7 +46,9 @@
     tableView.rowHeight    = 45;
     tableView.sectionHeaderHeight = 0;
     tableView.sectionFooterHeight = 0;
-    tableView.sectionIndexBackgroundColor = [UIColor clearColor];
+    if ([[UIDevice currentDevice].systemVersion compare:@"7.0"] >= 0) {
+        tableView.sectionIndexBackgroundColor = [UIColor clearColor];
+    }
     tableView.sectionIndexColor           = [UIColor brokerBabyBlueColor];
     
     self.tableView = tableView;
@@ -165,6 +167,8 @@
     label.text           = cityModel.title;
     label.font           = [UIFont systemFontOfSize:14];
     label.textColor      = [UIColor brokerLightGrayColor];
+    label.backgroundColor = [UIColor clearColor];
+    view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     [view addSubview:label];
     
     return view;
