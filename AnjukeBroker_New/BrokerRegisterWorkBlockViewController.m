@@ -79,7 +79,6 @@
     
     NSString *identifier = @"identifier";
     RTListCell *cell     = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-    cell.accessoryType   = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle  = UITableViewCellSelectionStyleGray;
     UILabel *textLabel   = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 320, 45)];
     textLabel.textColor  = [UIColor darkGrayColor];

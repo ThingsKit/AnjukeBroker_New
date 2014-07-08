@@ -68,12 +68,12 @@
         [[RTCityInfoManager sharedInstance] setServiceType:RTAnjukeServiceID];
         RTCityInfo *cityInfo  = [[RTCityInfoManager sharedInstance] cityInfoWithCityID:cityID];
         if (cityInfo == nil) {
-            [self addGPSCityWithCityName:@"未知" cityID:cityID];
+            [self addGPSCityWithCityName:@"未知" cityID:cityID isLocatedSuccess:NO];
         } else {
-            [self addGPSCityWithCityName:cityInfo.cityName cityID:cityID];
+            [self addGPSCityWithCityName:cityInfo.cityName cityID:cityID isLocatedSuccess:YES];
         }
     } else {
-        [self addGPSCityWithCityName:@"未知" cityID:cityID];
+        [self addGPSCityWithCityName:@"未知" cityID:cityID isLocatedSuccess:NO];
     }
     
     //  初始化tableView的索引
@@ -90,10 +90,10 @@
     
 }
 
-- (void)addGPSCityWithCityName:(NSString *)cityName cityID:(NSString *)cityID
+- (void)addGPSCityWithCityName:(NSString *)cityName cityID:(NSString *)cityID isLocatedSuccess:(BOOL)isLocatedSuccess
 {
     self.cityData         = @[[[CityModel alloc] initWithTitle:@"GPS定位城市" cityArray:@[@{@"cityId":cityID,@"cityName":cityName}]]];
-    self.isLocatedSuccess = false;
+    self.isLocatedSuccess = isLocatedSuccess;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -200,7 +200,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSString *identifier  = @"identifier";
-    RTListCell *cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    RTListCell *cell     = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    cell.selectionStyle  = UITableViewCellSelectionStyleGray;
     if (indexPath.section == 0 && !self.isLocatedSuccess) {
        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
