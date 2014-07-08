@@ -1126,8 +1126,8 @@ typedef enum {
     }
     else
         title = [NSString stringWithFormat:@"定价：%@元/次",price];
-    
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"定价且竞价推广", @"暂不推广", nil];
+//    , @"定价且竞价推广"
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"暂不推广", nil];
     sheet.tag = TagOfActionSheet_Save;
     [sheet showInView:self.view];
 }
@@ -1540,7 +1540,7 @@ typedef enum {
                 [self uploadPhoto];
             }
                 break;
-            case 1: //定价+竞价
+            /*case 1: //定价+竞价
             {
                 NSString *code   = ESF_PUBLISH_CLICK_BID;
                 NSString *pageID = ESF_PUBLISH;
@@ -1555,8 +1555,8 @@ typedef enum {
                 //test upload img
                 [self uploadPhoto];
             }
-                break;
-            case 2: //暂不推广
+                break;*/
+            case 1: //暂不推广
             {
                 NSString *code   = ESF_PUBLISH_CLICK_DRAFT;
                 NSString *pageID = ESF_PUBLISH;
