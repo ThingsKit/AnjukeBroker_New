@@ -815,8 +815,17 @@
             
             NSDictionary* result = [response.content[@"data"][@"responses"][@"result"][@"body"] JSONValue];
             if ([@"ok" isEqualToString:[result objectForKey:@"status"]]) { //精选推广停止成功
-                NSString* message = [[result objectForKey:@"data"] objectForKey:@"msg"];
-                [self displayHUDWithStatus:@"ok" Message:message ErrCode:nil];
+                NSDictionary* data = [result objectForKey:@"data"];
+                if (data != nil) {
+                    NSString* message = [[result objectForKey:@"data"] objectForKey:@"msg"];
+                    if (message != nil) {
+                        [self displayHUDWithStatus:@"ok" Message:message ErrCode:nil];
+                    }else{
+                        [self displayHUDWithStatus:@"ok" Message:@"结束精选成功" ErrCode:nil];
+                    }
+                }else{
+                    [self displayHUDWithStatus:@"ok" Message:@"结束精选成功" ErrCode:nil];
+                }
                 
                 //最简单的做法就是重新加载, 虽然效率不高
                 [self requestPropFixChoice];
