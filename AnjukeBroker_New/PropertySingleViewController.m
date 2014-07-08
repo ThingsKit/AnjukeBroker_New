@@ -138,6 +138,16 @@
         }else{
             [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_EDIT page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击编辑
         }
+        
+        //如果是违规房源, 则弹层提示只能删除, 不能修改
+        if (this.data.count > 0) {
+            PropertyDetailCellModel* property = this.data[0];
+            if ([@"0" isEqualToString:property.isVisible]) { //如果是违规房源
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"违规房源只能删除" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+            }
+        }
+        
         PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
         controller.isHaozu = this.isHaozu;
         controller.propertyID = this.propId;
@@ -755,8 +765,17 @@
             
             NSDictionary* result = [response.content[@"data"][@"responses"][@"result"][@"body"] JSONValue];
             if ([@"ok" isEqualToString:[result objectForKey:@"status"]]) { //精选推广成功
-                NSString* message = [[result objectForKey:@"data"] objectForKey:@"statusMsg"];
-                [self displayHUDWithStatus:@"ok" Message:message ErrCode:nil];
+                NSDictionary* data = [result objectForKey:@"data"];
+                if (data != nil) {
+                    NSString* message = [data objectForKey:@"statusMsg"];
+                    if (message != nil) {
+                        [self displayHUDWithStatus:@"ok" Message:message ErrCode:nil];
+                    }else{
+                        [self displayHUDWithStatus:@"ok" Message:@"精选推广成功" ErrCode:nil];
+                    }
+                }else{
+                    [self displayHUDWithStatus:@"ok" Message:@"精选推广成功" ErrCode:nil];
+                }
                 
                 //最简单的做法就是重新加载, 虽然效率不高
                 [self requestPropFixChoice];
@@ -817,7 +836,7 @@
             if ([@"ok" isEqualToString:[result objectForKey:@"status"]]) { //精选推广停止成功
                 NSDictionary* data = [result objectForKey:@"data"];
                 if (data != nil) {
-                    NSString* message = [[result objectForKey:@"data"] objectForKey:@"msg"];
+                    NSString* message = [data objectForKey:@"msg"]; //这里的data是一个数组
                     if (message != nil) {
                         [self displayHUDWithStatus:@"ok" Message:message ErrCode:nil];
                     }else{
