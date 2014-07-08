@@ -145,6 +145,7 @@
             if ([@"0" isEqualToString:property.isVisible]) { //如果是违规房源
                 UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"违规房源只能删除" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                 [alert show];
+                return;
             }
         }
         
