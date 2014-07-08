@@ -20,7 +20,7 @@
 
 @interface WaitingForPromotedViewController ()
 
-@property (nonatomic, strong) UIButton *buttonSelect;  //编辑按钮
+@property (nonatomic, strong) UIButton *buttonSelect;  //选择按钮
 @property (nonatomic, strong) UIButton *buttonPromote;  //推广按钮
 @property (nonatomic, strong) UIImageView *selectImage;
 @property (nonatomic, strong) NSMutableArray *cellSelectStatus;
@@ -473,6 +473,7 @@
 //编辑房源
 - (void)editProperty
 {
+    [self sendEditLog];
     PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
     controller.isHaozu = self.isHaozu;
     controller.propertyID = [self.dataSource objectAtIndex:self.editAndDeleteCellIndexPath.row][@"propId"];
@@ -481,7 +482,6 @@
     [self presentViewController:nav animated:YES completion:nil];
     
 }
-
 
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -492,7 +492,9 @@
 }
 
 //删除房源
-- (void)doDeleteProperty:(NSString *)propertyID{
+- (void)doDeleteProperty:(NSString *)propertyID
+{
+    [self sendDeleteLog];
     self.isLoading = YES;
     if (![self isNetworkOkayWithNoInfo]) {
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
@@ -552,6 +554,7 @@
     }
     
 }
+
 -(void)sendClickSelectAllButtonLog
 {
     if (self.isHaozu) {
@@ -561,12 +564,31 @@
     }
     
 }
+
 - (void)sendClickFixPromotionButtonLog
 {
     if (self.isHaozu) {
         [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_DJTG page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     } else {
         [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_CLICK_DJTG page:ESF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
+}
+
+- (void)sendEditLog
+{
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_EDIT page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    } else {
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_CLICK_EDIT page:ESF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    }
+}
+
+- (void)sendDeleteLog
+{
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_DELETE page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+    } else {
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_CLICK_DELETE page:ESF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
 }
 
