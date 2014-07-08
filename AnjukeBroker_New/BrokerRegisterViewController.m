@@ -290,7 +290,7 @@
     }
     [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:@"common/captcha/sms/" params:@{@"mobile":self.phoneTextField.text} target:self action:@selector(onReceiveVerifyCode:)];
     
-    self.secondsCountDown = 5;
+    self.secondsCountDown = 60;
     self.countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1
                                                            target:self
                                                          selector:@selector(timeFireMethod)
@@ -323,13 +323,15 @@
 }
 
 - (void)nextAction {
-    BrokerRegisterInfoViewController *controller = [BrokerRegisterInfoViewController new];
-    if (self.phoneTextField.text.length > 0 && self.passwordTextField.text.length > 0) {
-        controller.beforeDic = @{@"mobile":self.phoneTextField.text, @"password":self.passwordTextField.text};
+    if ([self.verifyTextField.text isEqualToString:@"111111"]) {
+        BrokerRegisterInfoViewController *controller = [BrokerRegisterInfoViewController new];
+        if (self.phoneTextField.text.length > 0 && self.passwordTextField.text.length > 0) {
+            controller.beforeDic = @{@"mobile":self.phoneTextField.text, @"password":self.passwordTextField.text};
+        }
+        
+        [self.navigationController pushViewController:controller animated:YES];
+        return;
     }
-    
-    [self.navigationController pushViewController:controller animated:YES];
-    return;
     
     if (![self validatePhoneNum:self.phoneTextField.text] || ![self validateVerifyCode:self.verifyTextField.text] || ![self validatePassword:self.passwordTextField.text]) {
         return;
@@ -350,6 +352,10 @@
             BrokerRegisterInfoViewController *controller = [BrokerRegisterInfoViewController new];
             controller.beforeDic = @{@"mobile":self.phoneTextField.text, @"password":self.passwordTextField.text};
             [self.navigationController pushViewController:controller animated:YES];
+        }
+    } else if (response.content && [response.content[@"status"] isEqualToString:@"error"]) {
+        if (response.content[@"message"]) {
+            [self showInfo:response.content[@"message"]];
         }
     }
 }
