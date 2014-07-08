@@ -30,6 +30,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [[BrokerLogger sharedInstance] logWithActionCode:JJTG_LIST_ONVIEW page:JJTG_LIST_PAGE note:nil];
+    
     if (self.isHaozu) {
         [self setTitleViewWithString:@"租房精选-推广结束"];
     }else{
@@ -60,7 +62,14 @@
     [buttonView addSubview:btn];
 }
 
+- (void)doBack:(id)sender{
+    [super doBack:sender];
+    [[BrokerLogger sharedInstance] logWithActionCode:JJTG_LIST_CLICK_BACK page:JJTG_LIST_PAGE note:nil];
+}
+
 - (void)cleanAll:(id)sender{
+    [[BrokerLogger sharedInstance] logWithActionCode:JJTG_LIST_CLICK_EMPTY page:JJTG_LIST_PAGE note:nil];
+
     [self cleanPromoteCompletHouse:nil];
 }
 
@@ -178,7 +187,8 @@
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     DLog(@"didTriggerRightUtilityButtonWithIndex-->>%d",index);
-
+    [[BrokerLogger sharedInstance] logWithActionCode:JJTG_LIST_LEFT_DELETE page:JJTG_LIST_PAGE note:nil];
+    
     NSIndexPath *indexPath = [self.tableList indexPathForCell:cell];
     self.deleCellNum = indexPath.row;
     [self cleanPromoteCompletHouse:[self.tableData objectAtIndex:indexPath.row][@"propId"]];
