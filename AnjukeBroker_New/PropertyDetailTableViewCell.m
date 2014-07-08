@@ -207,9 +207,9 @@
     
     
     //小区名称
-    _community.frame = CGRectMake(_propertyIcon.right + 12, _propertyTitle.bottom + GAP_V, 100, 16);
+    _community.frame = CGRectMake(_propertyIcon.right + 12, _propertyTitle.bottom + GAP_V, 160, 16);
     _community.text = self.propertyDetailTableViewCellModel.commName;
-    [_community sizeToFit];
+//    [_community sizeToFit];
     //    _community.backgroundColor = [UIColor redColor];
     
     //右推图标
