@@ -209,7 +209,10 @@
 
 - (UISwitch *)commonSwitch
 {
-    UISwitch *sw = [[UISwitch alloc] initWithFrame:CGRectMake(255, 9, 10, 20)];
+    UISwitch *sw = [[UISwitch alloc] initWithFrame:CGRectMake(255, 9, 7, 20)];
+    if ([[UIDevice currentDevice].systemVersion compare:@"7.0"] < 0) {
+        sw.frame = CGRectMake(225, 9, 7, 20);
+    }
     sw.on        = NO;
     return sw;
 }
