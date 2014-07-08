@@ -3,18 +3,14 @@
 platform :ios, "5.0"
 target "AnjukeBroker_New" do
     
-    pod 'Core', :git => 'git@git.corp.anjuke.com:_iOS/Core'
-    pod 'ASIHTTPRequest', :git => 'git@git.corp.anjuke.com:_iOS/ThirdParty_ASIHTTPRequest'
-    #pod 'ZXingObjC', :git => 'git@git.corp.anjuke.com:zhenyanzhang/ZXingObjC'
-    pod 'AIFLogTrackCenter', :git => 'git@git.corp.anjuke.com:_iOS/Component_AIFLogTrackCenter'
-    pod 'AIFShare', :git => 'git@git.corp.anjuke.com:_iOS/Component_AIFShare'
-    pod 'Service', :git => 'git@git.corp.anjuke.com:_iOS/Service'
+    pod 'Core', :git => 'git@gitlab.corp.anjuke.com:_ios/Core.git'
+    pod 'ASIHTTPRequest', :git => 'git@gitlab.corp.anjuke.com:_ios/ThirdParty_ASIHTTPRequest.git'
+    pod 'AIFLogTrackCenter', :git => 'git@gitlab.corp.anjuke.com:_ios/Component_AIFLogTrackCenter.git'
+    pod 'AIFShare', :git => 'git@gitlab.corp.anjuke.com:_ios/Component_AIFShare.git'
+    pod 'Service', :git => 'git@gitlab.corp.anjuke.com:_ios/Service.git'
     pod 'AFNetworking', '~> 1.0'
-    #pod 'RTLongLink', :git => 'git@git.corp.anjuke.com:_iOS/longlink'
-    #pod 'AXChatDataCenter', :git => 'git@git.corp.anjuke.com:_iOS/AXChatDataCenter'
-    
-    pod 'AXDownLoadModule', :git => 'git@git.corp.anjuke.com:williamyang/AXDownLoadModule'
-    #pod 'AIFStreetMap', :git => 'git@git.corp.anjuke.com:_iOS/Component_AIFMapStreet'
-    pod 'OHAttributedLabel', :git => 'git@git.corp.anjuke.com:_iOS/ThirdParty_OHAttributedLabel', :commit => '1bd875b360'
+
+    pod 'AXDownLoadModule', :git => 'git@gitlab.corp.anjuke.com:_ios/Component_AXDownLoadModule.git'
+    pod 'OHAttributedLabel', :git => 'git@gitlab.corp.anjuke.com:_ios/ThirdParty_OHAttributedLabel.git', :commit => '1bd875b360'
     
 end
