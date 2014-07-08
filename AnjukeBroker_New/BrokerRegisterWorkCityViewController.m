@@ -10,6 +10,7 @@
 #import "CityModel.h"
 #import "LocationManager.h"
 #import "AXNetWorkResponse.h"
+#import "RTListCell.h"
 #import <RTLineView.h>
 
 @interface BrokerRegisterWorkCityViewController () <UITableViewDataSource, UITableViewDelegate>
@@ -40,16 +41,17 @@
     [self initCityDataArray];
     [self requestCityData];
     [self setTitleViewWithString:@"所在城市"];
-    UITableView *tableView = [[UITableView alloc] initWithFrame:[UIView navigationControllerBound] style:UITableViewStyleGrouped];
+    UITableView *tableView = [[UITableView alloc] initWithFrame:[UIView navigationControllerBound] style:UITableViewStylePlain];
     tableView.dataSource   = self;
     tableView.delegate     = self;
     tableView.rowHeight    = 45;
     tableView.sectionHeaderHeight = 0;
     tableView.sectionFooterHeight = 0;
+    tableView.separatorStyle      = UITableViewCellSeparatorStyleNone;
     if ([[UIDevice currentDevice].systemVersion compare:@"7.0"] >= 0) {
         tableView.sectionIndexBackgroundColor = [UIColor clearColor];
     }
-    tableView.sectionIndexColor           = [UIColor brokerBabyBlueColor];
+    tableView.sectionIndexColor = [UIColor brokerBabyBlueColor];
     
     self.tableView = tableView;
     [self.view addSubview:tableView];
@@ -168,11 +170,13 @@
     label.font           = [UIFont systemFontOfSize:14];
     label.textColor      = [UIColor brokerLightGrayColor];
     label.backgroundColor = [UIColor clearColor];
-    view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    view.backgroundColor = [UIColor brokerBgPageColor];
     [view addSubview:label];
     
     return view;
 }
+
+
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
     
@@ -187,16 +191,28 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSString *identifier  = @"identifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-        if (indexPath.section == 0 && !self.isLocatedSuccess) {
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
+    RTListCell *cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+    if (indexPath.section == 0 && !self.isLocatedSuccess) {
+       cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+
     CityModel *city     = [self.cityData objectAtIndex:indexPath.section];
-    cell.textLabel.text = [[city.cityArray objectAtIndex:indexPath.row] objectForKey:@"cityName"];
-    cell.textLabel.font = [UIFont systemFontOfSize:17];
+    UILabel *textLabel  = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 305, 45)];
+    textLabel.text      = [[city.cityArray objectAtIndex:indexPath.row] objectForKey:@"cityName"];
+    textLabel.font      = [UIFont ajkH2Font];
+    [cell.contentView addSubview:textLabel];
+    if (indexPath.row == 0) {
+        [cell showTopLine];
+        if (city.cityArray.count == 1) {
+            [cell showBottonLineWithCellHeight:45];
+        } else {
+            [cell showBottonLineWithCellHeight:45 andOffsetX:15];
+        }
+    } else if (indexPath.row == ([city.cityArray count] - 1)) {
+        [cell showBottonLineWithCellHeight:45];
+    } else  {
+        [cell showBottonLineWithCellHeight:45 andOffsetX:15];
+    }
     
     return cell;
     

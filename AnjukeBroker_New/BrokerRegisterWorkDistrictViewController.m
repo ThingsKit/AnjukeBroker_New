@@ -49,13 +49,12 @@
     
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor brokerBgPageColor];
-    
     UITableView *tableView    = [[UITableView alloc] initWithFrame:[UIView navigationControllerBound] style:UITableViewStylePlain];
     tableView.delegate        = self;
     tableView.dataSource      = self;
     tableView.rowHeight       = 45;
     tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
-    tableView.backgroundColor = [UIColor whiteColor];
+    tableView.backgroundColor = [UIColor clearColor];
     
     [self.view addSubview:tableView];
     self.tableView = tableView;
@@ -83,14 +82,17 @@
     
     cell.accessoryType   = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle  = UITableViewCellSelectionStyleGray;
-    RTLineView *lineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, 44, 305, 1)];
+    RTLineView *lineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, 45, 305, 1)];
     if (indexPath.row == (self.dataArray.count - 1)) {
-        lineView.frame = CGRectMake(0, 44, 320, 1);
+        lineView.frame = CGRectMake(0, 45, 320, 1);
     }
     [cell addSubview:lineView];
-    cell.textLabel.textColor = [UIColor darkGrayColor];
-    cell.textLabel.font = [UIFont systemFontOfSize:17];
-    cell.textLabel.text = [[self.dataArray objectAtIndex:indexPath.row] objectForKey:@"districtName"];
+    UILabel *textLabel  = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 305, 45)];
+    textLabel.textColor = [UIColor darkGrayColor];
+    textLabel.font      = [UIFont ajkH2Font];
+    textLabel.text      = [[self.dataArray objectAtIndex:indexPath.row] objectForKey:@"districtName"];
+    cell.contentView.backgroundColor = [UIColor whiteColor];
+    [cell.contentView addSubview:textLabel];
     
     return cell;
 
