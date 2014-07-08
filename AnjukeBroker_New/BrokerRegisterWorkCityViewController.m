@@ -41,6 +41,7 @@
     [self initCityDataArray];
     [self requestCityData];
     [self setTitleViewWithString:@"所在城市"];
+    self.view.backgroundColor = [UIColor brokerBgPageColor];
     UITableView *tableView = [[UITableView alloc] initWithFrame:[UIView navigationControllerBound] style:UITableViewStylePlain];
     tableView.dataSource   = self;
     tableView.delegate     = self;
@@ -52,7 +53,7 @@
         tableView.sectionIndexBackgroundColor = [UIColor clearColor];
     }
     tableView.sectionIndexColor = [UIColor brokerBabyBlueColor];
-    
+    tableView.backgroundColor   = [UIColor clearColor];
     self.tableView = tableView;
     [self.view addSubview:tableView];
     
@@ -170,15 +171,15 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
-    CGFloat height       = section ? 30:35;
-    UIView *view         = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, height)];
-    UILabel *label       = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 320, height)];
-    CityModel *cityModel = [self.cityData objectAtIndex:section];
-    label.text           = cityModel.title;
-    label.font           = [UIFont systemFontOfSize:14];
-    label.textColor      = [UIColor brokerLightGrayColor];
+    CGFloat height        = section ? 30:35;
+    UIView *view          = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, height)];
+    UILabel *label        = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 320, height)];
+    CityModel *cityModel  = [self.cityData objectAtIndex:section];
+    label.text            = cityModel.title;
+    label.font            = [UIFont systemFontOfSize:14];
+    label.textColor       = [UIColor brokerLightGrayColor];
     label.backgroundColor = [UIColor clearColor];
-    view.backgroundColor = [UIColor brokerBgPageColor];
+    view.backgroundColor  = [UIColor brokerBgPageColor];
     [view addSubview:label];
     
     return view;
@@ -199,7 +200,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSString *identifier  = @"identifier";
-    RTListCell *cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+    RTListCell *cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     if (indexPath.section == 0 && !self.isLocatedSuccess) {
        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
@@ -208,6 +209,7 @@
     UILabel *textLabel  = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 305, 45)];
     textLabel.text      = [[city.cityArray objectAtIndex:indexPath.row] objectForKey:@"cityName"];
     textLabel.font      = [UIFont ajkH2Font];
+    cell.contentView.backgroundColor = [UIColor whiteColor];
     [cell.contentView addSubview:textLabel];
     if (indexPath.row == 0) {
         [cell showTopLine];

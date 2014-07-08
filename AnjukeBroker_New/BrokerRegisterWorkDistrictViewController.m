@@ -7,6 +7,7 @@
 //
 
 #import "BrokerRegisterWorkDistrictViewController.h"
+#import "RTListCell.h"
 #import <RTLineView.h>
 #import "UIView+RTLayout.h"
 
@@ -48,13 +49,12 @@
 -(void) viewDidLoad {
     
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor brokerBgPageColor];
     UITableView *tableView    = [[UITableView alloc] initWithFrame:[UIView navigationControllerBound] style:UITableViewStylePlain];
     tableView.delegate        = self;
     tableView.dataSource      = self;
     tableView.rowHeight       = 45;
     tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
-    tableView.backgroundColor = [UIColor clearColor];
+    tableView.backgroundColor = [UIColor brokerBgPageColor];
     
     [self.view addSubview:tableView];
     self.tableView = tableView;
@@ -70,6 +70,14 @@
     
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 0;
+}
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.dataArray.count;
@@ -78,22 +86,23 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     NSString *identifier = @"identifier";
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-    
+    RTListCell *cell     = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     cell.accessoryType   = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle  = UITableViewCellSelectionStyleGray;
-    RTLineView *lineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, 45, 305, 1)];
-    if (indexPath.row == (self.dataArray.count - 1)) {
-        lineView.frame = CGRectMake(0, 45, 320, 1);
-    }
-    [cell addSubview:lineView];
-    UILabel *textLabel  = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 305, 45)];
-    textLabel.textColor = [UIColor darkGrayColor];
-    textLabel.font      = [UIFont ajkH2Font];
-    textLabel.text      = [[self.dataArray objectAtIndex:indexPath.row] objectForKey:@"districtName"];
-    cell.contentView.backgroundColor = [UIColor whiteColor];
+    UILabel *textLabel   = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 320, 45)];
+    textLabel.textColor  = [UIColor darkGrayColor];
+    textLabel.font       = [UIFont ajkH2Font];
+    textLabel.text       = [[self.dataArray objectAtIndex:indexPath.row] objectForKey:@"districtName"];
+    cell.contentView.backgroundColor   = [UIColor whiteColor];
     [cell.contentView addSubview:textLabel];
-    
+    if (indexPath.row == 0) {
+        [cell showTopLine];
+        [cell showBottonLineWithCellHeight:45 andOffsetX:15];
+    } else if (indexPath.row == ([self.dataArray count] - 1)) {
+        [cell showBottonLineWithCellHeight:45];
+    } else {
+        [cell showBottonLineWithCellHeight:45 andOffsetX:15];
+    }
     return cell;
 
 }

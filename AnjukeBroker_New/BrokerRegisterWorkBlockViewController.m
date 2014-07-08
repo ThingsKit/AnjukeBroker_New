@@ -8,6 +8,7 @@
 
 #import "BrokerRegisterWorkBlockViewController.h"
 #import "BrokerRegisterInfoViewController.h"
+#import "RTListCell.h"
 #import <RTLineView.h>
 
 
@@ -77,21 +78,26 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSString *identifier = @"identifier";
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-    RTLineView *lineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, 45, 305, 1)];
-    if (indexPath.row == (self.dataArray.count - 1 )) {
-        lineView.frame = CGRectMake(0, 45, 320, 1);
+    RTListCell *cell     = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    cell.accessoryType   = UITableViewCellAccessoryDisclosureIndicator;
+    cell.selectionStyle  = UITableViewCellSelectionStyleGray;
+    UILabel *textLabel   = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 320, 45)];
+    textLabel.textColor  = [UIColor darkGrayColor];
+    textLabel.font       = [UIFont ajkH2Font];
+    textLabel.text       = [[self.dataArray objectAtIndex:indexPath.row] objectForKey:@"blockName"];
+    cell.contentView.backgroundColor   = [UIColor whiteColor];
+    [cell.contentView addSubview:textLabel];
+    if (indexPath.row == 0) {
+        [cell showTopLine];
+        [cell showBottonLineWithCellHeight:45 andOffsetX:15];
+    } else if (indexPath.row == ([self.dataArray count] - 1)) {
+        [cell showBottonLineWithCellHeight:45];
+    } else {
+        [cell showBottonLineWithCellHeight:45 andOffsetX:15];
     }
-    [cell addSubview:lineView];
-    UILabel *textLabel  = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 305, 45)];
-    textLabel.textColor = [UIColor darkGrayColor];
-    textLabel.font      = [UIFont ajkH2Font];
-    textLabel.text      = [[self.dataArray objectAtIndex:indexPath.row] objectForKey:@"blockName"];
-    cell.contentView.backgroundColor = [UIColor whiteColor];
-    [cell addSubview:textLabel];
+
     
     return cell;
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
