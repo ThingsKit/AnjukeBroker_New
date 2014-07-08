@@ -13,9 +13,9 @@
 
 @interface AJKListTableViewCell ()
 
-@property (strong, nonatomic) UIView *topLineView;
-@property (strong, nonatomic) UIView *bottomLineView;
-@property (strong, nonatomic) UIView *shortLineView;
+@property (strong, nonatomic) BrokerLineView *topLineView;
+@property (strong, nonatomic) BrokerLineView *bottomLineView;
+@property (strong, nonatomic) BrokerLineView *shortLineView;
 
 @property (strong, nonatomic) UILabel *cellName;
 @property (nonatomic, assign) NSInteger totalRow;
@@ -31,7 +31,7 @@
     if (self) {
         self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.bounds];
         self.selectedBackgroundView.backgroundColor = [UIColor lightGrayColor];
-        self.cellName = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 200, 30)];
+        self.cellName = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 200, 30)];
         [self.contentView addSubview:self.cellName];
     }
     return self;
@@ -41,14 +41,14 @@
 - (void)configWithData:(NSDictionary *)dic
 {
     self.cellName.text = dic[@"title"];
-    self.cellName.font = [UIFont systemFontOfSize:15];
+    self.cellName.font = [UIFont ajkH2Font];
 }
 
 #pragma mark - 划cell线
 - (UIView *)topLineView
 {
     if (!_topLineView) {
-        _topLineView = [[UIView alloc] init];
+        _topLineView = [[BrokerLineView alloc] init];
         _topLineView.backgroundColor = [UIColor lightGrayColor];
     }
     return _topLineView;
@@ -57,7 +57,7 @@
 - (UIView *)bottomLineView
 {
     if (!_bottomLineView) {
-        _bottomLineView = [[UIView alloc] init];
+        _bottomLineView = [[BrokerLineView alloc] init];
         _bottomLineView.backgroundColor = [UIColor lightGrayColor];
     }
     return _bottomLineView;
@@ -66,7 +66,7 @@
 - (UIView *)shortLineView
 {
     if (!_shortLineView) {
-        _shortLineView = [[UIView alloc] init];
+        _shortLineView = [[BrokerLineView alloc] init];
         _shortLineView.backgroundColor = [UIColor lightGrayColor];
     }
     return _shortLineView;
@@ -110,7 +110,7 @@
         self.bottomLineView.frame = CGRectMake(0, 44, 320, 0.5);    }
     
     if (self.shortLineView.superview) {
-        self.shortLineView.frame = CGRectMake(0, 0, 320, 0.5);    }
+        self.shortLineView.frame = CGRectMake(15, 0, ScreenWidth - 15, 0.5);    }
     
 }
 

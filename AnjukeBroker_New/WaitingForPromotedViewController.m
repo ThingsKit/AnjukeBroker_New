@@ -382,14 +382,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identifier = @"identifierCell";
-    MultipleChoiceAndEditListCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+//    static NSString *identifier = @"identifierCell";
+    MultipleChoiceAndEditListCell *cell = [tableView dequeueReusableCellWithIdentifier:nil];
 
     NSArray *rightBtnarr = [NSArray array];
     rightBtnarr = [self rightButtons];
     if (cell == nil) {
         cell = [[MultipleChoiceAndEditListCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                    reuseIdentifier:@"identifierCell"
+                                                    reuseIdentifier:nil
                                                 containingTableView:tableView
                                                  leftUtilityButtons:nil
                                                 rightUtilityButtons:rightBtnarr];
@@ -449,6 +449,7 @@
         {
             //编辑房源
             [self hideLoadWithAnimated:YES];
+            [self sendLeftEditLogAndPropId:self.editPropertyId];
             [cell hideUtilityButtonsAnimated:YES];
             [self editProperty];
             break;
@@ -480,7 +481,6 @@
 //编辑房源
 - (void)editProperty
 {
-    [self sendEditLog];
     PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
     controller.isHaozu = self.isHaozu;
     controller.propertyID = [self.dataSource objectAtIndex:self.editAndDeleteCellIndexPath.row][@"propId"];
@@ -495,13 +495,13 @@
 {
     if (buttonIndex == 1) {
         [self doDeleteProperty:self.editPropertyId];
+        [self sendLeftDeleteLogAndPropId:self.editPropertyId];
     }
 }
 
 //删除房源
 - (void)doDeleteProperty:(NSString *)propertyID
 {
-    [self sendDeleteLog];
     self.isLoading = YES;
     if (![self isNetworkOkayWithNoInfo]) {
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
@@ -584,23 +584,25 @@
     }
 }
 
-- (void)sendEditLog
+- (void)sendLeftEditLogAndPropId:(NSString *)propId
 {
     if (self.isHaozu) {
-        [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_EDIT page:ZF_DT_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_DT_LIST_LEFT_EDIT page:ZF_DT_LIST_PAGE note:@{@"ot":[Util_TEXT logTime], @"propId":propId}];
     } else {
-        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_CLICK_EDIT page:ESF_DT_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_DT_LIST_LEFT_EDIT page:ESF_DT_LIST_PAGE note:@{@"ot":[Util_TEXT logTime], @"propId":propId}];
     }
 }
 
-- (void)sendDeleteLog
+- (void)sendLeftDeleteLogAndPropId:(NSString *)propId
 {
     if (self.isHaozu) {
-        [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_DELETE page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_DT_LIST_LEFT_DELETE page:ZF_DT_LIST_PAGE note:@{@"ot":[Util_TEXT logTime], @"propId":propId}];
     } else {
-        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_CLICK_DELETE page:ESF_DT_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_DT_LIST_LEFT_DELETE page:ESF_DT_LIST_PAGE note:@{@"ot":[Util_TEXT logTime], @"propId":propId}];
     }
 }
+
+
 
 - (void)doBack:(id)sender
 {

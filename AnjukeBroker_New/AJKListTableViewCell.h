@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BrokerLineView.h"
 
 @interface AJKListTableViewCell : UITableViewCell
 @property (nonatomic)NSInteger shortLineViewIndentation;

@@ -10,7 +10,7 @@
 #import "AppDelegate.h"
 #import "BrokerRegisterInfoViewController.h"
 #import "RTArray.h"
-
+#import "RTListCell.h"
 @interface SearchCompanyController ()
 
 @property (nonatomic, strong) NSArray *cellTitleArray;
@@ -24,6 +24,7 @@
     [super viewDidLoad];
     [self setTitleViewWithString:@"所属公司"];
     self.cellTitleArray = [[NSArray alloc] init];
+    self.view.backgroundColor = [UIColor brokerBgPageColor];
     
     UIView *barWrapper = [[UIView alloc]initWithFrame:CGRectMake(0.0, 0.0, ScreenWidth, ScreenHeight - 44)];
     [self.view addSubview:barWrapper];
@@ -62,6 +63,7 @@
 
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0.0, 45.0, ScreenWidth, ScreenHeight - 44 - 64) style:UITableViewStylePlain];
     self.tableView.backgroundColor = [UIColor whiteColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
@@ -174,6 +176,7 @@
     if ([searchBar.text length] > 0) {
         [self cancelAutocompleteRequest];
         [self loadAutocompleteV2WithKeywords:searchBar.text];
+        [self.tableView reloadData];
     } else {
         [self cancelAutocompleteRequest];
         self.cellTitleArray = nil;
@@ -192,8 +195,10 @@
 {
     if ([self.cellTitleArray count] == 1) {
         return 2;
-    } else {
+    } else if ([self.cellTitleArray count] > 1){
         return 1;
+    } else {
+        return 0;
     }
 }
 
@@ -221,41 +226,34 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = nil;
+    RTListCell *cell = nil;
     if (indexPath.section == 0)
     {
         static NSString *Identifer = @"Cell";
         cell = [tableView dequeueReusableCellWithIdentifier:Identifer];
         if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:Identifer];
+            cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:Identifer];
         }
-        UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(280.0, 0.0, 7.0, 10.0)];
-        [view setImage:[UIImage imageNamed:@"accessory_image.png"]];
-        cell.accessoryView = view;
-        cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"area_chooseclick"]];
-        tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        [cell showBottonLineWithCellHeight:45 andOffsetX:15];
         if (self.cellTitleArray != nil) {
                 NSDictionary *company = [self.cellTitleArray objectAtIndex:indexPath.row];
                 NSString *companyName = [company valueForKey:@"companyName"];
                 cell.textLabel.text = companyName;
         }
-    } else if (indexPath.section == 1){
-        cell =[[UITableViewCell alloc] init];
+    } else if (indexPath.section == 1) {
+        cell =[[RTListCell alloc] init];
         UIImageView *noResult = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"anjuke_icon_seachnocommunity@2x.png"]];
-        noResult.frame = CGRectMake(0, 30, 160, 160);
+        noResult.frame = CGRectMake(0, 30, 80, 80);
         noResult.centerX = cell.centerX;
-        UILabel *noR = [[UILabel alloc] initWithFrame:CGRectMake(0, 210, 200, 50)];
+        UILabel *noR = [[UILabel alloc] initWithFrame:CGRectMake(0, 130, 200, 50)];
         noR.text = @"没有找到公司";
-        noR.textColor = [UIColor grayColor];
+        noR.textColor = [UIColor brokerLightGrayColor];
         [noR sizeToFit];
         noR.centerX = cell.centerX;
-        UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(15, 0, ScreenWidth - 15, 0.5)];
-        topLine.backgroundColor = [UIColor lightGrayColor];
         [cell.contentView addSubview:noResult];
         [cell.contentView addSubview:noR];
-        [cell.contentView addSubview:topLine];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return cell;
 }

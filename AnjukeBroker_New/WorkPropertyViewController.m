@@ -34,7 +34,7 @@
     [super viewDidLoad];
     [self setTitleViewWithString:@"公司属性"];
     self.cellTitleArray = [[NSArray alloc] init];
-
+    self.view.backgroundColor = [UIColor brokerBgPageColor];
     self.tag = 2;
     
 	// Do any additional setup after loading the view, typically from a nib.
@@ -117,11 +117,12 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
-    view.backgroundColor = [UIColor lightTextColor];
-    if ([self.cellTitleArray count] != 1) {
-        UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 0.5)];
-        bottomLineView.backgroundColor = [UIColor lightGrayColor];
+    UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 0.5)];
+    view.backgroundColor = [UIColor whiteColor];
+    
+    if ([self.cellTitleArray count] != 1 ) {
+        BrokerLineView *bottomLineView = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, 0, 320, 0.5)];
+        bottomLineView.backgroundColor = [UIColor brokerLineColor];
         [view addSubview:bottomLineView];
     }
     

@@ -34,6 +34,7 @@
     [self setTitleViewWithString:@"主营业务"];
     self.cellTitleArray = [[NSArray alloc] init];
     self.tag = 2;
+    self.view.backgroundColor = [UIColor brokerBgPageColor];
 
 }
 
@@ -116,12 +117,12 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
-    view.backgroundColor = [UIColor lightTextColor];
-
+    UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 0.5)];
+    view.backgroundColor = [UIColor whiteColor];
+    
     if ([self.cellTitleArray count] != 1 ) {
-        UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 0.5)];
-        bottomLineView.backgroundColor = [UIColor lightGrayColor];
+        BrokerLineView *bottomLineView = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, 0, 320, 0.5)];
+        bottomLineView.backgroundColor = [UIColor brokerLineColor];
         [view addSubview:bottomLineView];
     }
     
