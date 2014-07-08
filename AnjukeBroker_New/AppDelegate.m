@@ -14,6 +14,7 @@
 #import "AppManager.h"
 #import "Reachability.h"
 #import "AppManager.h"
+#import "AXPerson.h"
 #import "Util_UI.h"
 
 #import "SaleNoPlanGroupController.h"
@@ -88,6 +89,10 @@
     
     [self requestSalePropertyConfig];
     
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self sendAllPersonMaxMsgId];
+    });
     return YES;
 }
 
@@ -392,10 +397,57 @@
 
 #pragma mark - Private Method
 
+- (void)sendAllPersonMaxMsgId
+{
+    if ([LoginManager isLogin])
+    {
+        NSMutableArray *arr = [[NSMutableArray alloc] initWithCapacity:3];
+        NSArray *friendList = [[AXChatMessageCenter defaultMessageCenter] fetchFiriendList];
+        for (AXPerson *person in friendList)
+        {
+            NSString *friendUid = person.uid;
+            NSString *maxId = person.readMaxMsgId;
+            NSString *ownUid = [LoginManager getChatID];
+            if (![ownUid isEqualToString:friendUid])
+            {
+                
+                NSDictionary *param = [self paramString:friendUid maxMsgId:maxId];
+                if (param)
+                {
+                    [arr addObject:param];
+                }
+                
+            }
+            
+        }
+        
+        [self sendMsgMaxId:nil maxMsgId:nil paramArr:arr];
+    }
+    
+    
+}
+
+- (NSDictionary *)paramString:(NSString *)fromUid maxMsgId:(NSString *)maxMsgId
+{
+    if (!maxMsgId || [maxMsgId isEqualToString:@"0"])
+    {
+        return nil;
+    }
+    NSString *token = [LoginManager getToken];
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:maxMsgId, @"last_max_msg_id", fromUid, @"from_uid", token, @"token", nil];
+    
+    return params;
+}
+
 //发送最大msgID
 - (void)sendMsgMaxId:(NSString *)fromUid maxMsgId:(NSString *)maxMsgId
 {
-    if (maxMsgId && [maxMsgId isEqualToString:@"0"])
+    [self sendMsgMaxId:fromUid maxMsgId:maxMsgId paramArr:nil];
+}
+- (void)sendMsgMaxId:(NSString *)fromUid maxMsgId:(NSString *)maxMsgId paramArr:(NSArray *)arr
+{
+    if ((!maxMsgId || [maxMsgId isEqualToString:@"0"]) && !arr)
     {
         return;
     }
@@ -405,7 +457,14 @@
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:maxMsgId, @"last_max_msg_id", fromUid, @"from_uid", token, @"token", nil];
     
     NSArray *paramsArr = [NSArray arrayWithObjects:params, nil];
-    params = @{@"list": paramsArr};
+    if (arr)
+    {
+        params = @{@"list": arr};
+    }else
+    {
+        params = @{@"list": paramsArr};
+    }
+    
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:method params:params target:self action:@selector(sendMsgRequestFinished:)];
 }

@@ -95,6 +95,9 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 - (NSArray *)picMessageArrayWithFriendUid:(NSString *)friendUid;
 - (void)getUserOldMessageWithFriendUid:(NSString *)friendUid TopMinMsgId:(NSString *)TopMinMsgId messageIdArray:(NSArray *)messageIdArray compeletionBlock:(void(^)(NSArray *messageArray))getUserOldMessageBlock;
 
+//获得全部好友
+- (NSArray *)fetchFiriendList;
+
 //根据identifier查找AXMessage
 - (AXMessage *)getFindMessageWithIdentifier:(NSString *)identifier;
 

@@ -1244,6 +1244,11 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     }
 }
 
+- (NSArray *)fetchFiriendList
+{
+    return [self.dataCenter fetchFriendList];
+}
+
 - (void)fetchFriendList
 {
 //    return;
