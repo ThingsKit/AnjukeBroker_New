@@ -27,6 +27,7 @@
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) NSString *editPropertyId;//编辑和删除cell的房源Id
 @property (nonatomic) NSInteger selectedCellCount;
+@property (nonatomic) MBProgressHUD *loadingHud;
 
 
 @property (nonatomic) BOOL isShowActivity;
@@ -137,7 +138,7 @@
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(handleRequestData:)];
     if (self.isShowActivity) {
         self.isLoading = YES;
-        [self showLoadingActivity:YES];
+        self.loadingHud = [self showLoadingActivity:YES];
     }
 }
 
@@ -289,6 +290,7 @@
     [noR sizeToFit];
     noR.centerX   = self.view.centerX;
     [self.view addSubview:noR];
+    [self.view bringSubviewToFront:self.loadingHud];
     [self.view bringSubviewToFront:[[HudTipsUtils sharedInstance] hud]];
     [self.mutipleEditView removeFromSuperview];
     self.mutipleEditView.hidden = YES;

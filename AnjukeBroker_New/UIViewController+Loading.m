@@ -17,7 +17,7 @@
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
-- (void)showLoadingActivity:(BOOL)activity{
+- (MBProgressHUD *)showLoadingActivity:(BOOL)activity{
 //    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -27,6 +27,7 @@
     else
         hud.yOffset = -20;
     hud.labelText = @"加载中...";
+    return hud;
 }
 
 - (void)showInfo:(NSString *)info{

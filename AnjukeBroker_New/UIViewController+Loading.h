@@ -12,7 +12,7 @@
 @interface UIViewController (Loading)
 
 - (void)hideLoadWithAnimated:(BOOL)animated;
-- (void)showLoadingActivity:(BOOL)activity;
+- (MBProgressHUD *)showLoadingActivity:(BOOL)activity;
 - (void)showInfo:(NSString *)info;
 
 @end
