@@ -357,9 +357,8 @@
     
     [self.tableData addObjectsFromArray:self.onSpreadListData];
     [self.tableData addObjectsFromArray:self.onQueueListData];
-
     
-    if (self.tableData.count == 0) {
+    if (self.tableData.count == 0 && self.onOfflineListData.count == 0) {
         [self.tableList setTableStatus:STATUSFORNODATAFOSELECTLIST];
         
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];

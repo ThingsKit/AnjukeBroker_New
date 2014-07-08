@@ -947,7 +947,8 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER_MENU page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
     
     AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
-    webVC.webUrl = [NSString stringWithFormat:@"%@?city_id=%@",webURL,[LoginManager getCity_id]];
+    webVC.webUrl = [NSString stringWithFormat:@"%@",webURL];
+    [webVC setTitleViewWithString:button.btnInfo[@"menu_title"]];
     [self.navigationController pushViewController:webVC animated:YES];
 
     [self hidePublicLoadView];
@@ -981,9 +982,33 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
         [[BrokerLogger sharedInstance] logWithActionCode:PUBLIC_ACCOUNT_MOBILEBROKER_MENU page:PUBLIC_ACCOUNT_MOBILEBROKER note:[NSDictionary dictionaryWithObjectsAndKeys:@"menuid",button.btnInfo[@"menu_id"], nil]];
 
         AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
-        webVC.webUrl = [NSString stringWithFormat:@"%@?city_id=%@",webURL,[LoginManager getCity_id]];
+        webVC.webUrl = [NSString stringWithFormat:@"%@",webURL];
+        [webVC setTitleViewWithString:button.btnInfo[@"menu_title"]];
         [self.navigationController pushViewController:webVC animated:YES];
         [self hidePublicLoadView];
+
+        
+//        NSError *error;
+//        //http+:[^\\s]* 这是检测网址的正则表达式
+//        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"http://([w-]+.)+[w-]+(/[w[/url]- ./?%&=]*)?" options:0 error:&error];
+//        
+//        DLog(@"webURL--->>%@",webURL);
+//        if (regex != nil) {
+//            NSTextCheckingResult *firstMatch = [regex firstMatchInString:webURL options:0 range:NSMakeRange(0, [webURL length])];
+//            if (firstMatch) {
+//                AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
+//                webVC.webUrl = [NSString stringWithFormat:@"%@&city_id=%@",webURL,[LoginManager getCity_id]];
+//                webVC.title = button.btnInfo[@"menu_title"];
+//                [self.navigationController pushViewController:webVC animated:YES];
+//                [self hidePublicLoadView];
+//            }else{
+//                AXChatWebViewController *webVC = [[AXChatWebViewController alloc] init];
+//                webVC.webUrl = [NSString stringWithFormat:@"%@?city_id=%@",webURL,[LoginManager getCity_id]];
+//                webVC.title = button.btnInfo[@"menu_title"];
+//                [self.navigationController pushViewController:webVC animated:YES];
+//                [self hidePublicLoadView];
+//            }
+//        }
     }];
 }
 
