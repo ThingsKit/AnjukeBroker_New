@@ -39,7 +39,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.dataSrouce = @[@[@"二手房定价推广",@"二手房每日限额"],@[@"租房定价推广",@"租房每日限额"]];
+    self.dataSrouce = @[@"",@"二手房定价推广",@"二手房每日限额",@"",@"租房定价推广",@"租房每日限额"];
     [self setTitleViewWithString:@"推广设置"];
     self.ESFPricePromotionSwitch = [self commonSwitch];
     self.ZFPricePromotionSwitch  = [self commonSwitch];
@@ -49,11 +49,13 @@
     self.ESFPlanceilingLabel = [self commonPriceLabel];
     self.ZFPlanceilingLabel  = [self commonPriceLabel];
     
-    UITableView *tableView = [[UITableView alloc] initWithFrame:[UIView navigationControllerBound] style:UITableViewStyleGrouped];
+    UITableView *tableView = [[UITableView alloc] initWithFrame:[UIView navigationControllerBound] style:UITableViewStylePlain];
     tableView.dataSource   = self;
     tableView.delegate     = self;
-    tableView.rowHeight    = 44;
     tableView.sectionFooterHeight = 0;
+    tableView.backgroundColor = [UIColor brokerBgPageColor];
+    tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
+    
     self.tableView         = tableView;
     [self.view addSubview:tableView];
     
@@ -146,63 +148,86 @@
    
     return dic;
 }
-
+#pragma mark - tableview
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [self.dataSrouce count];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[self.dataSrouce objectAtIndex:section] count];
+    return 6;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 0 || indexPath.row == 3) {
+        return 20;
+    }
+    return 45;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *identifier = @"idenfifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    RTListCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+        cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if (indexPath.row == 0) {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            switch (indexPath.section) {
-                case 0:
-                {
-                    [cell addSubview:self.ESFPricePromotionSwitch];
-                }
-                    break;
-                case 1:
-                {
-                    [cell addSubview:self.ZFPricePromotionSwitch];
-                }
-                    break;
-                default:
-                    break;
-            }
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        if (indexPath.row == 0 || indexPath.row == 3) {
             
-        } else if (indexPath.row == 1) {
-            switch (indexPath.section) {
-                case 0:
-                {
-                    [cell addSubview:self.ESFPlanceilingLabel];
-                }
-                    break;
-                case 1:
-                {
-                    [cell addSubview:self.ZFPlanceilingLabel];
-                }
-                    break;
-                    
-                default:
-                    break;
-            }
+            cell.height = 20;
+            cell.backgroundColor = [UIColor clearColor];
             
+            return cell;
+        } else {
+            
+             cell.contentView.backgroundColor = [UIColor whiteColor];
+        }
+        
+        if (indexPath.row == 1) {
+            
+            [cell addSubview:self.ESFPricePromotionSwitch];
+            [cell showTopLine];
+            [cell showBottonLineWithCellHeight:45 andOffsetX:15];
+            
+        }else if (indexPath.row == 2){
+            
+            [cell addSubview:self.ESFPlanceilingLabel];
+            [cell showBottonLineWithCellHeight:45];
+            
+        }else if (indexPath.row == 4) {
+            
+            [cell addSubview:self.ZFPricePromotionSwitch];
+            [cell showTopLine];
+            [cell showBottonLineWithCellHeight:45 andOffsetX:15];
+ 
+        }else if (indexPath.row == 5){
+            
+            [cell addSubview:self.ZFPlanceilingLabel];
+            [cell showBottonLineWithCellHeight:45];
         }
         
     }
-    cell.textLabel.text = [[self.dataSrouce objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    cell.textLabel.text = [self.dataSrouce objectAtIndex:indexPath.row];
     cell.textLabel.font = [UIFont systemFontOfSize:15];
+    cell.textLabel.backgroundColor = [UIColor clearColor];
    
     return cell;
 }
@@ -227,21 +252,7 @@
     return label;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 20;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 0;
-}
-
+#pragma mark - check
 - (void)checkESFPricePromotionSwitch:(id)sender
 {
     if (!self.ESFPricePromotionSwitch.on) {
