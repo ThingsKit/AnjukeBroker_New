@@ -925,14 +925,15 @@
         NSString* budget = [alertView textFieldAtIndex:0].text;
         NSLog(@"%@", budget);
         
-        if ([budget intValue] < [self.minBudget intValue] || [budget intValue] > [self.maxBudget intValue]) {
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"输入预算不符合规定" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alert show];
-            self.button.enabled = YES;
-            return;
-        }
-        
         if (buttonIndex == 1) { //确定按钮
+            
+            if ([budget intValue] < [self.minBudget intValue] || [budget intValue] > [self.maxBudget intValue]) {
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"输入预算不符合规定" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+                self.button.enabled = YES;
+                return;
+            }
+            
             if (self.isHaozu) {
                 [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_JX_QDYS page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": self.propId}]; //弹层点击确定
             }else{
@@ -942,7 +943,9 @@
         }else{
             self.button.enabled = YES;
         }
+        
     }else if (alertView.tag == 2){
+        
         if (buttonIndex == 1) { //确定按钮
             //删除当前房源
             if (self.isHaozu) {
@@ -951,6 +954,7 @@
                 [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_QQ_DELETE page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": self.propId}]; //确认删除
             }
             [self requestPropertyDelete];
+            
         }else{
             
         }

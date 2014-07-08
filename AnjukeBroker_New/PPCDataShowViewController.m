@@ -482,8 +482,11 @@
         [self.tableList reloadData];
     }else{
         [self.tableList setTableStatus:STATUSFOROK];
-        NSIndexPath *path1 = [NSIndexPath indexPathForItem:1 inSection:0];
-        NSIndexPath *path2 = [NSIndexPath indexPathForItem:2 inSection:0];
+        
+        NSIndexPath* path1 = [NSIndexPath indexPathForRow:1 inSection:0];
+        NSIndexPath* path2 = [NSIndexPath indexPathForRow:2 inSection:0];
+//        NSIndexPath *path1 = [NSIndexPath indexPathForItem:1 inSection:0];
+//        NSIndexPath *path2 = [NSIndexPath indexPathForItem:2 inSection:0];
         
         [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path1, nil] withRowAnimation:UITableViewRowAnimationNone];
         [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path2, nil] withRowAnimation:UITableViewRowAnimationNone];
