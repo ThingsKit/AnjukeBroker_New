@@ -85,7 +85,7 @@
         CGSize si = [Util_UI sizeOfString:self.title.text maxWidth:260 withFontSize:14];
         self.title.frame = CGRectMake(27, 5, si.width, si.height);
         self.bidStatue.frame = CGRectMake(10, self.title.frame.origin.y+2, 14, 14);
-        self.comName.frame = CGRectMake(27, self.title.frame.size.height + 5, 250, 20);
+        self.comName.frame = CGRectMake(27, self.title.frame.size.height + 5, 160, 20);
         self.detail.frame = CGRectMake(27, self.comName.frame.size.height + self.title.frame.size.height + 5, 270, 20);
         
         self.detail.text = [NSString stringWithFormat:@"%@室%@厅 %@平 %d%@", [dic objectForKey:@"roomNum"], [dic objectForKey:@"hallNum"], [dic objectForKey:@"area"], [[dic objectForKey:@"price"] intValue], [dic objectForKey:@"priceUnit"]];
