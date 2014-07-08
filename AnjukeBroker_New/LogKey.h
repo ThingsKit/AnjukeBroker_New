@@ -971,7 +971,7 @@
 #define ESF_DT_LIST_PAGE @"1-261000" //PageId
 #define ESF_DT_LIST_ONVIEW @"1-261001" //页面可见
 #define ESF_DT_LIST_CLICK_BACK @"1-261002" //点击返回
-#define ESF_DT_LIST_CLICK_BACK @"1-261003" //点击全选
+#define ESF_DT_LIST_CLICK_SELECTALL @"1-261003" //点击全选
 #define ESF_DT_LIST_CLICK_DJTG @"1-261004" //点击定价推广 记房源们的ID（prop_ids）
 #define ESF_DT_LIST_CLICK_FY @"1-261005" //点击房源（进入单页） 记房源ID（prop_id）
 #define ESF_DT_LIST_LEFT @"1-261006" //左滑操作 记房源ID（prop_id）

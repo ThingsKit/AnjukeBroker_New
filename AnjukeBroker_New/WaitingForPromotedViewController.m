@@ -166,7 +166,6 @@
 
 - (void)clickFixPromotionButton:(id)sender
 {
-    [self sendClickFixPromotionButtonLog];
     if (self.planId == nil || [self.planId isEqualToString:@""]) {
         
         [[PPCPlanIdRequest sharePlanIdRequest] getPricingPlanId:self.isHaozu returnInfo:^(NSString *planId, RequestStatus status) {
@@ -220,6 +219,7 @@
     [[RTRequestProxy sharedInstance]asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onFixPromotionRequestFinished:)];
     self.isLoading = YES;
     [self showLoadingActivity:YES];
+    [self sendClickFixPromotionButtonLogWithPropIds:propIds];
 }
 
 - (void)onFixPromotionRequestFinished:(RTNetworkResponse *)response
@@ -556,9 +556,9 @@
 -(void)sendAppearLog
 {
     if (self.isHaozu) {
-        [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_ONVIEW page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_DT_LIST_ONVIEW page:ZF_DT_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     } else {
-        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_ONVIEW page:ESF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_DT_LIST_ONVIEW page:ESF_DT_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
     
 }
@@ -566,28 +566,28 @@
 -(void)sendClickSelectAllButtonLog
 {
     if (self.isHaozu) {
-        [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_SELECTALL page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_DT_LIST_CLICK_SELECTALL page:ZF_DT_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     } else {
-        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_CLICK_SELECTALL page:ESF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_DT_LIST_CLICK_SELECTALL page:ESF_DT_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
     
 }
 
-- (void)sendClickFixPromotionButtonLog
+- (void)sendClickFixPromotionButtonLogWithPropIds:(NSString *)propIds
 {
     if (self.isHaozu) {
-        [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_DJTG page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_DT_LIST_CLICK_DJTG page:ZF_DT_LIST_PAGE note:@{@"ot":[Util_TEXT logTime],@"prop_ids":propIds}];
     } else {
-        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_CLICK_DJTG page:ESF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_DT_LIST_CLICK_DJTG page:ESF_DT_LIST_PAGE note:@{@"ot":[Util_TEXT logTime],@"prop_ids":propIds}];
     }
 }
 
 - (void)sendEditLog
 {
     if (self.isHaozu) {
-        [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_EDIT page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_EDIT page:ZF_DT_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     } else {
-        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_CLICK_EDIT page:ESF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_CLICK_EDIT page:ESF_DT_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
 }
 
@@ -596,7 +596,7 @@
     if (self.isHaozu) {
         [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_CLICK_DELETE page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     } else {
-        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_CLICK_DELETE page:ESF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_CLICK_DELETE page:ESF_DT_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
 }
 
@@ -605,7 +605,7 @@
     if (self.isHaozu) {
         [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_BACK page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     } else {
-        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_BACK page:ESF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_BACK page:ESF_DT_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
     
     [self.navigationController popViewControllerAnimated:YES];
