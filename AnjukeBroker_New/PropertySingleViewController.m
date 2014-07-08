@@ -108,7 +108,7 @@
     [_loadingView addSubview:_activity];
     
     _loadingTipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
-    _loadingTipLabel.center = CGPointMake(ScreenWidth*0.5, (ScreenHeight-20-44)*0.5);
+    _loadingTipLabel.center = CGPointMake(ScreenWidth*0.5, 20 + 44 + 20);
     _loadingTipLabel.font = [UIFont ajkH3Font];
     _loadingTipLabel.textColor = [UIColor brokerLightGrayColor];
     _loadingTipLabel.text = @"努力加载中...";
@@ -239,9 +239,7 @@
                 NSString* planId = cell.pricePromotionCellModel.planId;
                 __weak PropertySingleViewController* this = self;
                 cell.block = ^(UIButton* button){
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        button.enabled = NO;
-                    });
+                    button.enabled = NO;
                     this.button = button;
                     if (this.isHaozu) {
                         [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_DJ_TG page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //开始定价推广
@@ -290,9 +288,7 @@
                     ChoicePromotioningCell* cell = [[ChoicePromotioningCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
                     cell.choicePromotionModel = propChoice;
                     cell.block = ^(UIButton* button){
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            button.enabled = NO;
-                        });
+                        button.enabled = NO;
                         this.button = button;
                         if (this.isHaozu) {
                             [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_JX_ENDTG page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": self.propId}]; //结束精选推广
@@ -312,9 +308,7 @@
                     ChoicePromotionQueuingCell* cell = [[ChoicePromotionQueuingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
                     cell.queuePosition = propChoice.statusMsg; //这里应该是个数字
                     cell.block = ^(UIButton* button){
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            button.enabled = NO;
-                        });
+                        button.enabled = NO;
                         this.button = button;
                         //取消排队
                         if (this.isHaozu) {
@@ -344,6 +338,7 @@
                     cell.choicePromotionModel = self.data[2];
                     
                     cell.block = ^(UIButton* button){
+                        button.enabled = NO;
                         this.button = button;
                         if (this.isHaozu) {
                             [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_JX_LJPD page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击立即排队
@@ -352,7 +347,6 @@
                         }
                         //立即排队
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            button.enabled = NO;
                             NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
                             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                             alert.tag = 1;
@@ -374,7 +368,7 @@
                     ChoicePromotionableCell* cell = [[ChoicePromotionableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
                     cell.choicePromotionModel = self.data[2];
                     cell.block = ^(UIButton* button){
-
+                        button.enabled = NO;
                         this.button = button;
                         if (this.isHaozu) {
                             [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_JX_LJTG page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击立即推广
@@ -383,7 +377,6 @@
                         }
                         //立即推广
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            button.enabled = NO;
                             NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
                             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                             alert.tag = 1;
@@ -761,7 +754,6 @@
     if (self.isHaozu) { //如果是租房 (默认是二手房)
         prefix = @"zufang";
     }
-//    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":self.propId, @"budget":budget};
     NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":self.propId, @"budget":budget};
     NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/choice/start/"], @"query_params":param1}; //房源概况
     NSDictionary* param = @{@"requests":@{@"result":dic1}};
