@@ -103,12 +103,12 @@
     
     _activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     _activity.bounds = CGRectMake(0, 0, 200, 200);
-    _activity.center = CGPointMake(ScreenWidth*0.5 - 60, (ScreenHeight-20-44)*0.5);
+    _activity.center = CGPointMake(ScreenWidth*0.5 - 60, 20);
     [_activity startAnimating];
     [_loadingView addSubview:_activity];
     
     _loadingTipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
-    _loadingTipLabel.center = CGPointMake(ScreenWidth*0.5, 20 + 44 + 20);
+    _loadingTipLabel.center = CGPointMake(ScreenWidth*0.5, 20);
     _loadingTipLabel.font = [UIFont ajkH3Font];
     _loadingTipLabel.textColor = [UIColor brokerLightGrayColor];
     _loadingTipLabel.text = @"努力加载中...";
