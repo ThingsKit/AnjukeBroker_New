@@ -9,7 +9,7 @@ target "AnjukeBroker_New" do
     pod 'AIFLogTrackCenter', :git => 'git@git.corp.anjuke.com:_iOS/Component_AIFLogTrackCenter'
     pod 'AIFShare', :git => 'git@git.corp.anjuke.com:_iOS/Component_AIFShare'
     pod 'Service', :git => 'git@git.corp.anjuke.com:_iOS/Service'
-    pod 'AFNetworking', "~> 1.0"
+    pod 'AFNetworking', '~> 1.0'
     #pod 'RTLongLink', :git => 'git@git.corp.anjuke.com:_iOS/longlink'
     #pod 'AXChatDataCenter', :git => 'git@git.corp.anjuke.com:_iOS/AXChatDataCenter'
     
@@ -18,4 +18,3 @@ target "AnjukeBroker_New" do
     pod 'OHAttributedLabel', :git => 'git@git.corp.anjuke.com:_iOS/ThirdParty_OHAttributedLabel', :commit => '1bd875b360'
     
 end
-
