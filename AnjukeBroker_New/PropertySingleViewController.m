@@ -250,7 +250,7 @@
                 cell.pricePromotionCellModel = self.data[1]; //第二个是定价推广概况
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 [cell showTopLine];
-                [cell showBottonLineWithCellHeight:90];
+                [cell showBottonLineWithCellHeight:95];
                 return cell;
             }else{
                 return nil;
@@ -459,7 +459,7 @@
         }else{
             
             if (indexPath.section == 1) {
-                return 90;
+                return 95;
             }else{
                 
                 if (self.data.count > 2) {
@@ -683,7 +683,7 @@
     }
 
     NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propIds":_propId};
-    NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/fix/addpropstoplan/"], @"query_params":param1}; //房源概况
+    NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/fix/addpropstoplan/"], @"query_params":param1}; //添加房源到定价计划中
     NSDictionary* param = @{@"requests":@{@"result":dic1}};
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"batch/" params:param target:self action:@selector(onRequestFixFinished:)];
     
