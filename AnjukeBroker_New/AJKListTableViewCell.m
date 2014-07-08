@@ -31,7 +31,7 @@
     if (self) {
         self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.bounds];
         self.selectedBackgroundView.backgroundColor = [UIColor lightGrayColor];
-        self.cellName = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 200, 30)];
+        self.cellName = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, ScreenWidth - 15, 44)];
         [self.contentView addSubview:self.cellName];
     }
     return self;

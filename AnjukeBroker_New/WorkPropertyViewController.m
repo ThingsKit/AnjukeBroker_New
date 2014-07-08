@@ -143,7 +143,7 @@
     if (cell == nil) {
         cell = [[AJKListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"identifierCell"];
     }
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.contentView.backgroundColor = [UIColor whiteColor];
     NSDictionary *work = [self.cellTitleArray objectAtIndex:indexPath.row];
     NSString *cellString = [work valueForKey:@"natureName"];
     NSDictionary *celldata = @{@"title":cellString};

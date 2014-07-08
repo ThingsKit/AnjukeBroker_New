@@ -145,7 +145,7 @@
     if (cell == nil) {
         cell = [[AJKListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"identifierCell"];
     }
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.contentView.backgroundColor = [UIColor whiteColor];
     
     NSDictionary *business = [self.cellTitleArray objectAtIndex:indexPath.row];
     NSString *cellString = [business valueForKey:@"businessName"];
