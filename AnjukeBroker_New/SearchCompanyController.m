@@ -149,13 +149,13 @@
 #pragma mark UISearchBarDelegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    [textField setBackground:[[UIImage imageNamed:@"searchbar_write.png"] stretchableImageWithLeftCapWidth:18 topCapHeight:15]];
+//    [textField setBackground:[[UIImage imageNamed:@"searchbar_write.png"] stretchableImageWithLeftCapWidth:18 topCapHeight:15]];
     return YES;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    [textField setBackground:[[UIImage imageNamed:@"searchbar.png"] stretchableImageWithLeftCapWidth:18 topCapHeight:15]];
+//    [textField setBackground:[[UIImage imageNamed:@"searchbar.png"] stretchableImageWithLeftCapWidth:18 topCapHeight:15]];
 }
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
