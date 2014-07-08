@@ -88,7 +88,7 @@
     UIView *statusBarBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
     statusBarBackground.backgroundColor = [Util_UI colorWithHexString:@"312A32"];
 
-    if ([[UIDevice currentDevice].systemVersion compare:@"7.0"] > 0) {
+    if ([[UIDevice currentDevice].systemVersion compare:@"7.0"] >= 0) {
         [self.view addSubview:statusBarBackground];
     }
     self.logoW     = 95 ;
