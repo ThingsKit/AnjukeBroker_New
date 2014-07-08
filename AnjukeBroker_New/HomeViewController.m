@@ -562,6 +562,8 @@
 //            [self.navigationController pushViewController:ajkHomeVC animated:YES];
 //        }else{
 //        }
+        [[BrokerLogger sharedInstance] logWithActionCode:HOME_ESF page:HOME note:nil]; //点击二手房管理
+        
         PPCDataShowViewController *ppcDataShowVC = [[PPCDataShowViewController alloc] init];
         ppcDataShowVC.isHaozu = NO;
         ppcDataShowVC.backType = RTSelectorBackTypePopBack;
@@ -578,6 +580,8 @@
 //            [self.navigationController pushViewController:HaozuHomeVC animated:YES];
 //        }else{
 //        }
+        [[BrokerLogger sharedInstance] logWithActionCode:HOME_ZF page:HOME note:nil]; //点击租房管理
+        
         PPCDataShowViewController *ppcDataShowVC = [[PPCDataShowViewController alloc] init];
         ppcDataShowVC.isHaozu = YES;
         ppcDataShowVC.backType = RTSelectorBackTypePopBack;

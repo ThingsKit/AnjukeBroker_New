@@ -48,6 +48,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_JXTG_LIST_ONVIEW page:ZF_JXTG_LIST_PAGE note:nil];
+    }else{
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_JX_LIST_ONVIEW page:ESF_JX_LIST_PAGE note:nil];
+    }
+    
     // Do any additional setup after loading the view.
     
     if (self.isHaozu) {
@@ -265,6 +272,16 @@
 }
 
 #pragma mark - method
+- (void)doBack:(id)sender{
+    [super doBack:sender];
+    
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_JXTG_LIST_ONVIEW page:ZF_JXTG_LIST_PAGE note:nil];
+    }else{
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_JX_LIST_CLICK_BACK page:ESF_JX_LIST_PAGE note:nil];
+    }
+}
+
 - (void)goSelectIntro:(id)sender{
     CheckoutWebViewController *webVC = [[CheckoutWebViewController alloc] init];
     webVC.webTitle = @"精选房源";
@@ -369,7 +386,12 @@
         return;
     }
     if (self.onOfflineListData.count > 0 && indexPath.section == 3 && indexPath.row == 1) {
-//    if (self.onOfflineListData.count == 0 && indexPath.section == 3 && indexPath.row == 1) {
+        if (self.isHaozu) {
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_JXTG_LIST_END_TGFY page:ZF_JXTG_LIST_PAGE note:nil];
+        }else{
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_JX_LIST_END_JFYID page:ESF_JX_LIST_PAGE note:nil];
+        }
+        
         PPCPromoteCompletListViewController *promoteCompletListVC = [[PPCPromoteCompletListViewController alloc] init];
         promoteCompletListVC.isHaozu = self.isHaozu;
         promoteCompletListVC.tableData = self.onOfflineListData;
@@ -377,19 +399,18 @@
         [self.navigationController pushViewController:promoteCompletListVC animated:YES];
     }
     
+    NSString *properID;
     if (indexPath.section == 1) {
-        PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
-        singleVC.isHaozu = self.isHaozu;
-        singleVC.propId = [self.onSpreadListData objectAtIndex:indexPath.row][@"propId"];
-        singleVC.pageType = PAGE_TYPE_CHOICE;
-        [self.navigationController pushViewController:singleVC animated:YES];
-    }else if (indexPath.section == 2) {
-        PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
-        singleVC.isHaozu = self.isHaozu;
-        singleVC.propId = [self.onQueueListData objectAtIndex:indexPath.row][@"propId"];
-        singleVC.pageType = PAGE_TYPE_CHOICE;
-        [self.navigationController pushViewController:singleVC animated:YES];
+        properID = [self.onSpreadListData objectAtIndex:indexPath.row][@"propId"];
+    }else if (indexPath.section == 2){
+        properID = [self.onQueueListData objectAtIndex:indexPath.row][@"propId"];
     }
+
+    PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
+    singleVC.isHaozu = self.isHaozu;
+    singleVC.propId = properID;
+    singleVC.pageType = PAGE_TYPE_CHOICE;
+    [self.navigationController pushViewController:singleVC animated:YES];
 }
 
 - (void)rightButtonAction:(id)sender{

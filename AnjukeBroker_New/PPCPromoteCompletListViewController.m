@@ -29,7 +29,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    
     if (self.isHaozu) {
         [self setTitleViewWithString:@"租房精选-推广结束"];
     }else{

@@ -9,7 +9,7 @@
 #import "BaseTableStructViewController.h"
 #import "PPCHouseCell.h"
 
-@interface PPCPriceingListViewController : BaseTableStructViewController<UITableViewDataSource,UITableViewDelegate,SWTableViewCellDelegate>
+@interface PPCPriceingListViewController : BaseTableStructViewController<UITableViewDataSource,UITableViewDelegate,SWTableViewCellDelegate,UIAlertViewDelegate>
 
 @property(nonatomic, assign) BOOL isHaozu;
 @property(nonatomic, strong) NSString *planId;

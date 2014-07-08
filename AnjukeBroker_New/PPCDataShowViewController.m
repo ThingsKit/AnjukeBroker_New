@@ -163,6 +163,10 @@
     }
 }
 
+
+
+
+
 #pragma mark -- UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -177,6 +181,13 @@
     if (indexPath.row == 1) {
         if ([[LoginManager getBusinessType] isEqualToString:@"1"]){
             if (self.pricingDic && self.pricingDic[@"planId"]) {
+                
+                if (self.isHaozu) {//定价
+                    [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_FIXLIST page:ZF_MANAGE note:nil];
+                }else{
+                    [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_FIXLIST page:ESF_MANAGE note:nil];
+                }
+                
                 if (self.isHaozu) {
                     [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_FIXLIST page:ZF_MANAGE note:nil];
                     
@@ -194,6 +205,12 @@
                 }
             }
         }else{
+            if (self.isHaozu) {//定价
+                [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_FIXLIST page:ZF_MANAGE note:nil];
+            }else{
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_FIXLIST page:ESF_MANAGE note:nil];
+            }
+
             if ([[LoginManager getBusinessType] isEqualToString:@"2"]){
                 PPCPriceingListViewController *pricingListVC = [[PPCPriceingListViewController alloc] init];
                 pricingListVC.isHaozu = self.isHaozu;
@@ -204,6 +221,12 @@
         }
     }else if (indexPath.row == 2){
         if ([[LoginManager getBusinessType] isEqualToString:@"1"]) {
+            if (self.isHaozu) {//竞价
+                [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_BIDLIST page:ZF_MANAGE note:nil];
+            }else{
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_BIDLIST page:ESF_MANAGE note:nil];
+            }
+            
             if (self.isHaozu) {
                 [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_BIDLIST page:ZF_MANAGE note:nil];
                 
@@ -218,6 +241,12 @@
                 [self.navigationController pushViewController:controller animated:YES];
             }
         }else{
+            if (self.isHaozu) {//精选
+                [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_BIDLIST page:ZF_MANAGE note:nil];
+            }else{
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_BIDLIST page:ESF_MANAGE note:nil];
+            }
+            
             PPCSelectedListViewController *selectedListVC = [[PPCSelectedListViewController alloc] init];
             selectedListVC.isHaozu = self.isHaozu;
             [self.navigationController pushViewController:selectedListVC animated:YES];
@@ -226,6 +255,12 @@
     } else if (indexPath.row == 4) {
         if ([[LoginManager getBusinessType] isEqualToString:@"1"]) {
             if (self.pricingDic && self.pricingDic[@"planId"]) {
+                if (self.isHaozu) {//待推广
+                    [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_DRAFTLIST page:ZF_MANAGE note:nil];
+                }else{
+                    [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_DRAFTLIST page:ESF_MANAGE note:nil];
+                }
+                
                 if (self.isHaozu) {
                     [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_DRAFTLIST page:ZF_MANAGE note:nil];
                     
@@ -245,6 +280,12 @@
                 return;
             }
         }else if ([[LoginManager getBusinessType] isEqualToString:@"2"]){
+            if (self.isHaozu) {//待推广
+                [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_DRAFTLIST page:ZF_MANAGE note:nil];
+            }else{
+                [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_DRAFTLIST page:ESF_MANAGE note:nil];
+            }
+            
             WaitingForPromotedViewController *esfToBePromoted = [[WaitingForPromotedViewController alloc] init];
             NSString *planId = self.pricingDic[@"planId"] ? self.pricingDic[@"planId"] : @"";
             esfToBePromoted.planId = planId;
@@ -429,7 +470,7 @@
     }
     
     if (!self.pricingDic && !self.secondCellDic) {
-        [self.tableList setTableStatus:STATUSFORNETWORKERROR];
+        [self.tableList setTableStatus:STATUSFORREMOTESERVERERROR];
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
         tapGes.delegate                = self;
         tapGes.numberOfTouchesRequired = 1;
@@ -472,6 +513,12 @@
 }
 #pragma mark -- rightButton
 - (void)rightButtonAction:(id)sender{
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_MANAGE_CLICK_PUBLISH page:ZF_MANAGE note:nil];
+    }else{
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_MANAGE_CLICK_PUBLISH page:ESF_MANAGE note:nil];
+    }
+    
     CommunityListViewController *controller = [[CommunityListViewController alloc] init];
     controller.backType = RTSelectorBackTypeNone;
     controller.isFirstShow = YES;

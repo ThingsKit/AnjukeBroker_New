@@ -15,13 +15,14 @@
 #import "CommunityListViewController.h"
 #import "PropertySingleViewController.h"
 #import "PPCPlanIdRequest.h"
+#import "BrokerLogger.h"
 
 @interface PPCPriceingListViewController ()
 @property(nonatomic, strong) NSMutableArray *tableData;
 @property(nonatomic, strong) NSMutableArray *lastedListData;
 @property(nonatomic, strong) NSMutableArray *oldListData;
-
 @property(nonatomic, assign) BOOL isLoading;
+@property(nonatomic, strong) NSString *propIDStr;
 @end
 
 @implementation PPCPriceingListViewController
@@ -44,6 +45,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJTG_LIST_ONVIEW page:ZF_DJTG_LIST_PAGE note:nil];
+    }else{
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJTG_LIST_ONVIEW page:ESF_DJTG_LIST_PAGE note:nil];
+    }
+    
     // Do any additional setup after loading the view.
 
     if (self.isHaozu) {
@@ -184,13 +192,22 @@
         return;
     }
     
+    NSString *properId;
+    if (indexPath.section == 0) {
+        properId = [self.lastedListData objectAtIndex:indexPath.row][@"propId"];
+    }else if (indexPath.section == 1) {
+        properId = [self.oldListData objectAtIndex:indexPath.row][@"propId"];
+    }
+    
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJTG_LIST_CLICK_FY page:ZF_DJTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:properId,@"PROP_ID", nil]];
+    }else{
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJTG_LIST_CLICK_FYDY page:ESF_DJTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:properId,@"PROP_ID", nil]];
+    }
+    
     PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
     singleVC.isHaozu = self.isHaozu;
-    if (indexPath.section == 0) {
-        singleVC.propId = [self.lastedListData objectAtIndex:indexPath.row][@"propId"];
-    }else if (indexPath.section == 1) {
-        singleVC.propId = [self.oldListData objectAtIndex:indexPath.row][@"propId"];
-    }
+    singleVC.propId = properId;
     singleVC.pageType = PAGE_TYPE_FIX;
     [self.navigationController pushViewController:singleVC animated:YES];
 }
@@ -347,6 +364,12 @@
 
 
 - (void)rightButtonAction:(id)sender{
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJTG_LIST_CLICK_PUBLISH page:ZF_DJTG_LIST_PAGE note:nil];
+    }else{
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJTG_LIST_CLICK_PUBLISH page:ESF_DJTG_LIST_PAGE note:nil];
+    }
+    
     CommunityListViewController *controller = [[CommunityListViewController alloc] init];
     controller.backType = RTSelectorBackTypeNone;
     controller.isFirstShow = YES;
@@ -368,13 +391,36 @@
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     DLog(@"didTriggerRightUtilityButtonWithIndex-->>%d",index);
     
-    NSIndexPath *indexPath = [self.tableList indexPathForCell:cell];
+    NSIndexPath *path = [self.tableList indexPathForCell:cell];
+    
+    NSString *properId;
+    if (path.section == 0) {
+        properId = [self.lastedListData objectAtIndex:path.row][@"propId"];
+    }else if (path.section == 1) {
+        properId = [self.oldListData objectAtIndex:path.row][@"propId"];
+    }
+    
     if (index == 1) {
-        [self doDeleteProperty:[self.tableData objectAtIndex:indexPath.row][@"propId"]];
+        if (self.isHaozu) {
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJTG_LIST_LEFT_CLICK_DELETE page:ZF_DJTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:properId,@"PROP_ID", nil]];
+        }else{
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJTG_LIST_LEFT_DELETE page:ESF_DJTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:properId,@"PROP_ID", nil]];
+        }
+        self.propIDStr = properId;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"确定删除房源?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
+        [alert show];
+        
+
     }else{
+        if (self.isHaozu) {
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJTG_LIST_LEFT_CLICK page:ZF_DJTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:properId,@"PROP_ID", nil]];
+        }else{
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJTG_LIST_LEFT_EDIT page:ESF_DJTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:properId,@"PROP_ID", nil]];
+        }
         PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
         controller.isHaozu = self.isHaozu;
-        controller.propertyID = [self.tableData objectAtIndex:indexPath.row][@"propId"];
+        controller.propertyID = properId;
         controller.backType = RTSelectorBackTypeDismiss;
         RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
         [self presentViewController:nav animated:YES completion:nil];
@@ -383,6 +429,18 @@
 
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
     return YES;
+}
+
+#pragma mark --UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 1) {
+        if (self.isHaozu) {
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJTG_LIST_QQ_DELETE page:ZF_DJTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:self.propIDStr,@"PROP_ID", nil]];
+        }else{
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJTG_LIST_CLICK_DELETE page:ESF_DJTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:self.propIDStr,@"PROP_ID", nil]];
+        }
+        [self doDeleteProperty:self.propIDStr];
+    }
 }
 
 - (void)didReceiveMemoryWarning
