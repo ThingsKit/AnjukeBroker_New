@@ -412,7 +412,6 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
 }
 
 #pragma mark UIScrollView helpers
-
 - (void)scrollToRight:(inout CGPoint *)targetContentOffset
 {
     targetContentOffset->x = [self utilityButtonsPadding];
