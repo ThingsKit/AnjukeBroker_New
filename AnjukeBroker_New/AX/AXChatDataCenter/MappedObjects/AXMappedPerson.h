@@ -43,6 +43,7 @@ typedef NS_ENUM(NSUInteger, AXPersonType)
 @property (nonatomic, strong) NSString * sex;
 @property (nonatomic, strong) NSDictionary * configs;
 @property (nonatomic) BOOL isStranger;//是否陌生人
+@property (nonatomic, strong) NSString *readMaxMsgId;//
 
 - (instancetype)initWithDictionary:(NSDictionary *)dic;
 - (instancetype)initWithDictionary:(NSDictionary *)dic isStranger:(BOOL)isSt;

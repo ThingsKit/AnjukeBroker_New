@@ -35,6 +35,7 @@
 @property (nonatomic, retain) NSString * sex;
 @property (nonatomic, strong) NSString * configs;
 @property (nonatomic, retain) NSNumber * isStranger;//是否是陌生人
+@property (nonatomic, strong) NSString * readMaxMsgId;//最大读取消息
 
 - (void)assignPropertiesFromMappedObject:(AXMappedPerson *)person;
 - (AXMappedPerson *)convertToMappedPerson;

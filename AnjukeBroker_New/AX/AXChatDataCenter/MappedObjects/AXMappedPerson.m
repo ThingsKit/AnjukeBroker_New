@@ -37,6 +37,7 @@
             self.phone = dic[@"phone"];
             self.userType = [dic[@"user_type"] integerValue];
             self.configs = dic[@"configs"];
+            self.readMaxMsgId = @"0";
         }
         
         

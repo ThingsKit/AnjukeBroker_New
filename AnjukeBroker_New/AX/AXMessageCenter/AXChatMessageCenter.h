@@ -101,6 +101,8 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 - (void)updateMessageWithIdentifier:(NSString *)identifier keyValues:(NSDictionary *)keyValues;
 - (NSInteger)totalUnreadMessageCount;
 - (void)saveMessageWithSystemType:(AXMappedMessage *)mappMess;
+//更新用户的readmaxmsgid
+- (void)updatePersonMsgId:(NSString *)friendUid maxMsgId:(NSString *)maxMsgId;
 // UI life cycle
 - (void)didLeaveChattingListWithFriendUID:(NSString *)friendUID;
 - (void)chatListWillAppearWithFriendUid:(NSString *)friendUid;

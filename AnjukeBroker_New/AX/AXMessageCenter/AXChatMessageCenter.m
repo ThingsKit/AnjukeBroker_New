@@ -709,6 +709,12 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     [self.dataCenter updatePerson:person];
 }
 
+//更新用户的readmaxmsgid
+- (void)updatePersonMsgId:(NSString *)friendUid maxMsgId:(NSString *)maxMsgId
+{
+    [self.dataCenter updatePersonMsgId:friendUid maxMsgId:maxMsgId];
+}
+
 - (NSArray *)picMessageArrayWithFriendUid:(NSString *)friendUid
 {
     return [self.dataCenter picMessageArrayWithFriendUid:friendUid];

@@ -513,6 +513,15 @@
     }
 }
 
+//更新用户的readmaxmsgid
+- (void)updatePersonMsgId:(NSString *)friendUid maxMsgId:(NSString *)maxMsgId
+{
+    AXPerson *friend = [self findPersonWithUID:friendUid];
+    friend.readMaxMsgId = maxMsgId;
+    
+    [self updatePerson:[friend convertToMappedPerson]];
+}
+
 #pragma mark - message for upload or download
 - (NSArray *)messageToDownloadWithMessageType:(AXMessageType)messageType
 {

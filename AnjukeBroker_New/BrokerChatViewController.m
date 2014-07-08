@@ -36,6 +36,8 @@
 @property (nonatomic, strong) UIImageView *brokerIcon;
 @property (nonatomic, assign) BOOL  isAlloc;
 @property (nonatomic, strong) UIView *sayHelloAlertView;
+@property (nonatomic, strong) NSString *maxMsgId;
+@property (nonatomic, strong) NSString *friendUId;
 //@property (nonatomic, strong) AXIMGDownloader *imgDownloader;
 
 
@@ -626,6 +628,14 @@ static BrokerChatViewController *brokerSender = nil;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AXChatBaseCell *cell = (AXChatBaseCell *)[super tableView:tableView cellForRowAtIndexPath:indexPath];
+    
+    if (self.isBroker && !_isSayHello)
+    {//是经纪人和在聊天状况下  保存最大msgID
+        NSString *identifier = (self.identifierData)[[indexPath row]];
+        NSDictionary *dic = self.cellDict[identifier];
+
+        [self doSaveMaxMsgId:dic row:[indexPath row]];
+    }
 
     return cell;
 }
@@ -642,6 +652,61 @@ static BrokerChatViewController *brokerSender = nil;
     }
     return @"";
 }
+
+//发送最大msgID
+- (void)sendMsgMaxId:(NSString *)fromUid maxMsgId:(NSString *)maxMsgId
+{
+    if (maxMsgId && [maxMsgId isEqualToString:@"0"])
+    {
+        return;
+    }
+    NSString *method = @"message/readMessages";
+    NSString *token = [LoginManager getToken];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:maxMsgId, @"last_max_msg_id", fromUid, @"from_uid", token, @"token", nil];
+    
+    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTAnjukeXRESTServiceID methodName:method params:params target:self action:@selector(sendMsgRequestFinished:)];
+}
+
+//保存最大msgId
+- (void)doSaveMaxMsgId:(NSDictionary *)dic row:(NSInteger)row
+{
+    /*
+     AXMessageTypeText = 1, // 文本聊天
+     AXMessageTypePic = 2,  // 图片
+     AXMessageTypeProperty = 3, // 房子
+     AXMessageTypePublicCard = 4, // 服务号消息,常规单条消息
+     AXMessageTypeVoice = 5, // 语音消息
+     AXMessageTypeLocation = 6, // 地理位置
+     */
+    NSInteger type = [dic[@"messageType"] integerValue];
+    if (type == AXMessageTypeText ||
+        type == AXMessageTypePic ||
+        type == AXMessageTypeProperty ||
+        type == AXMessageTypePublicCard ||
+        type == AXMessageTypeVoice ||
+        type == AXMessageTypeLocation)
+    {
+        
+        AXMappedMessage *mappMsg = dic[@"mappedMessage"];
+        
+        NSString *fromUid = mappMsg.from;
+        NSString *ownUid = [LoginManager getChatID];
+        if (![fromUid isEqualToString:ownUid])
+        {
+            NSString *maxMsgId = [NSString stringWithFormat:@"%@", mappMsg.messageId];
+            DLog(@"maxMsgId == %@", mappMsg.messageId);
+            [[AXChatMessageCenter defaultMessageCenter] updatePersonMsgId:fromUid maxMsgId:maxMsgId];
+            _maxMsgId = maxMsgId;
+            _friendUId = fromUid;
+        }
+    }
+    //发送消息回执
+    if ([self.identifierData count] == (row + 1))
+    {
+        [self sendMsgMaxId:_friendUId maxMsgId:_maxMsgId];
+    }
+}
+
 #pragma mark - AXChatMessageRootCellDelegate
 
 - (void)didClickAvatar:(BOOL)isCurrentPerson {
@@ -1061,6 +1126,13 @@ static BrokerChatViewController *brokerSender = nil;
     [self.navigationController pushViewController:mv animated:YES];
     
     [[BrokerLogger sharedInstance] logWithActionCode:CHAT_CLICK_OPEN_LOCATION page:CHAT note:nil];
+}
+
+#pragma mark -
+#pragma mark http
+- (void)sendMsgRequestFinished:(RTNetworkResponse *)response
+{//设置聊天回执
+
 }
 
 #pragma mark -

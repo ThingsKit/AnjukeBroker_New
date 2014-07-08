@@ -49,6 +49,8 @@
 - (void)didReceiveWithMessageDataArray:(NSArray *)receivedArray;
 - (void)deleteMessageByIdentifier:(NSString *)identifier;
 - (void)updateMessage:(AXMappedMessage *)message;
+//更新用户的readmaxmsgid
+- (void)updatePersonMsgId:(NSString *)friendUid maxMsgId:(NSString *)maxMsgId;
 - (void)updateMessageWithIdentifier:(NSString *)identifier keyValues:(NSDictionary *)keyValues;
 
 // methods for upload and download
