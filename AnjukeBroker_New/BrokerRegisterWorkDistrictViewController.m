@@ -55,7 +55,7 @@
     tableView.dataSource      = self;
     tableView.rowHeight       = 45;
     tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
-    tableView.backgroundColor = [UIColor clearColor];
+    tableView.backgroundColor = [UIColor whiteColor];
     
     [self.view addSubview:tableView];
     self.tableView = tableView;
@@ -88,7 +88,8 @@
         lineView.frame = CGRectMake(0, 44, 320, 1);
     }
     [cell addSubview:lineView];
-
+    cell.textLabel.textColor = [UIColor darkGrayColor];
+    cell.textLabel.font = [UIFont systemFontOfSize:17];
     cell.textLabel.text = [[self.dataArray objectAtIndex:indexPath.row] objectForKey:@"districtName"];
     
     return cell;

@@ -52,7 +52,7 @@
     tableView.dataSource      = self;
     tableView.rowHeight       = 45;
     tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
-    tableView.backgroundColor = [UIColor clearColor];
+    tableView.backgroundColor = [UIColor whiteColor];
     
     [self.view addSubview:tableView];
     self.tableView = tableView;
@@ -86,6 +86,8 @@
 
     
     cell.textLabel.text = [[self.dataArray objectAtIndex:indexPath.row] objectForKey:@"blockName"];
+    cell.textLabel.textColor = [UIColor darkGrayColor];
+    cell.textLabel.font = [UIFont systemFontOfSize:17];
     
     return cell;
     
