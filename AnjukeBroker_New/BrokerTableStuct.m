@@ -61,7 +61,7 @@
         [statusView setImage:[UIImage imageNamed:@"check_no_community"]];
 
         tipsLab.frame = CGRectMake(0, backGroundView.frame.size.height/2 + 15, 320, 20);
-        tipsLab.text = @"暂无定价计划";
+        tipsLab.text = @"暂无定价房源";
         [backGroundView addSubview:tipsLab];
     }else if (status == STATUSFORNODATAFOSELECTLIST){
         statusView.frame = CGRectMake(115, backGroundView.frame.size.height/2 - 300/2, 100, 111);

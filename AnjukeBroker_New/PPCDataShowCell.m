@@ -28,6 +28,10 @@
 }
 
 - (void)initUI{
+    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 150)];
+    bgView.backgroundColor = [UIColor whiteColor];
+    [self.contentView addSubview:bgView];
+
     self.backgroundColor = [UIColor brokerWhiteColor];
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     self.selectionStyle = UITableViewCellSelectionStyleGray;

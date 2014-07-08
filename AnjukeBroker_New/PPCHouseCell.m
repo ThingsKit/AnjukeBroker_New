@@ -33,13 +33,14 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier containingTableView:containingTableView leftUtilityButtons:leftUtilityButtons rightUtilityButtons:rightUtilityButtons];
     
     if (self) {
-        self.cellView = [[HouseCellView alloc] initWithFrame:self.bounds];
+        self.cellView = [[HouseCellView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 95)];
         [self.contentView addSubview:self.cellView];
     }
     return self;
 }
 
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index isHaoZu:(BOOL)isHaoZu{
+    
     [self.cellView configCellViewWithData:dataModel isHaoZu:isHaoZu];
     
     return YES;

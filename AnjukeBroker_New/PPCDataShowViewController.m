@@ -110,16 +110,14 @@
         if (!cell) {
             cell = [[PPCDataShowCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify1];
         }
+        
         if (indexPath.row == 1) {
-            [cell showTopLine];
             cell.cellType = CELLTYPEFORPRICING;
-//            cell.isPricing = YES;
             [cell showBottonLineWithCellHeight:150 andOffsetX:15];
             
             PPCDataShowModel *model = [PPCDataShowModel convertToMappedObject:self.pricingDic];
             [cell configureCell:model withIndex:indexPath.row];
-        }else{
-//            cell.isPricing = NO;
+        }else if (indexPath.row == 2){
             if ([[LoginManager getBusinessType] isEqualToString:@"1"]) {
                 cell.cellType = CELLTYPEFORBIT;
             }else{
@@ -136,14 +134,23 @@
         if (!cell) {
             cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify2];
         }
-        if ((indexPath.row == 0 || indexPath.row == 3)) {
+        if (indexPath.row == 0 || indexPath.row == 3) {
+            if (indexPath.row == 0) {
+                [cell showBottonLineWithCellHeight:15];
+            }
             cell.backgroundColor = [UIColor clearColor];
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }else if (indexPath.row == 4){
+            UIView *bgView = [[UIView alloc] initWithFrame:cell.bounds];
+            bgView.backgroundColor = [UIColor whiteColor];
+            [cell.contentView addSubview:bgView];
+
             [cell showTopLine];
             [cell showBottonLineWithCellHeight:45];
+            
             cell.textLabel.text = @"待推广房源";
+            cell.textLabel.font = [UIFont ajkH3Font];
             cell.textLabel.textColor = [UIColor brokerBlackColor];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.selectionStyle = UITableViewCellSelectionStyleGray;

@@ -48,7 +48,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.view.backgroundColor = [UIColor brokerBgPageColor];
+
     if (self.isHaozu) {
         [[BrokerLogger sharedInstance] logWithActionCode:ZF_JXTG_LIST_ONVIEW page:ZF_JXTG_LIST_PAGE note:nil];
     }else{
@@ -119,7 +120,6 @@
     }
     
     if (self.onOfflineListData.count > 0 && indexPath.section == 3) {
-//    if (self.onOfflineListData.count == 0 && indexPath.section == 3) {
         if (indexPath.row == 1){
             return 45;
         }else if (indexPath.row == 0){
@@ -141,6 +141,58 @@
         return @"排队中";
     }
     return nil;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    float height;
+    NSString *tit;
+    if (self.onSpreadListData.count == 0) {
+        if (section == 1) {
+            height =  0;
+        }
+    }else if (self.onSpreadListData.count > 0){
+        if (section == 1) {
+            height = 30;
+        }
+    }
+    
+    if (self.onSpreadListData.count == 0) {
+        if (section == 1) {
+            height =  0;
+        }
+    }else if (self.onSpreadListData.count > 0){
+        if (section == 1) {
+            height = 30;
+        }
+    }
+    
+    if (section == 3) {
+        height = 0;
+    }
+    
+    if (self.tableData.count == 0) {
+        tit = @"";
+    }
+    if (section == 0) {
+        tit = @"";
+    }else if (section == 1){
+        tit = @"推广中";
+    }else if (section == 2){
+        tit = @"排队中";
+    }
+
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, height)];
+    view.backgroundColor = [UIColor whiteColor];
+    
+    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 200, height)];
+    lab.backgroundColor = [UIColor clearColor];
+    lab.textColor = [UIColor brokerLightGrayColor];
+    lab.font = [UIFont ajkH3Font];
+    lab.text = tit;
+    [view addSubview:lab];
+    
+    return view;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -185,6 +237,8 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.accessoryType = UITableViewCellAccessoryNone;
             
+            [cell showBottonLineWithCellHeight:40];
+            
             UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 150, 40)];
             lab.textAlignment = NSTextAlignmentLeft;
             lab.textColor = [UIColor brokerMiddleGrayColor];
@@ -216,10 +270,16 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.accessoryType = UITableViewCellAccessoryNone;
         }else if (indexPath.row == 1){
+            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 45)];
+            view.backgroundColor = [UIColor whiteColor];
+            [cell.contentView addSubview:view];
+            
             cell.backgroundColor = [UIColor whiteColor];
-            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            cell.selectionStyle = UITableViewCellSelectionStyleGray;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
+            UILabel *lab =[[UILabel alloc] initWithFrame:CGRectMake(15, 0, 200, 45)];
+            lab.backgroundColor = [UIColor clearColor];
             
             NSString *str;
             if (!self.onOfflineListData || self.onOfflineListData.count == 0) {
@@ -228,8 +288,11 @@
                 str = [NSString stringWithFormat:@"推广结束(%d)",self.onOfflineListData.count];
             }
             
-            cell.textLabel.text = str;
-            cell.textLabel.textColor = [UIColor brokerBlackColor];
+            lab.text = str;
+            lab.textColor = [UIColor brokerMiddleGrayColor];
+            lab.font = [UIFont ajkH3Font];
+            [cell.contentView addSubview:lab];
+            
             [cell showTopLine];
             [cell showBottonLineWithCellHeight:45];
         }
@@ -398,18 +461,20 @@
         [self.navigationController pushViewController:promoteCompletListVC animated:YES];
     }
     
-    NSString *properID;
-    if (indexPath.section == 1) {
-        properID = [self.onSpreadListData objectAtIndex:indexPath.row][@"propId"];
-    }else if (indexPath.section == 2){
-        properID = [self.onQueueListData objectAtIndex:indexPath.row][@"propId"];
+    if (indexPath.section == 1 || indexPath.section == 2) {
+        NSString *properID;
+        if (indexPath.section == 1) {
+            properID = [self.onSpreadListData objectAtIndex:indexPath.row][@"propId"];
+        }else if (indexPath.section == 2){
+            properID = [self.onQueueListData objectAtIndex:indexPath.row][@"propId"];
+        }
+        
+        PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
+        singleVC.isHaozu = self.isHaozu;
+        singleVC.propId = properID;
+        singleVC.pageType = PAGE_TYPE_CHOICE;
+        [self.navigationController pushViewController:singleVC animated:YES];
     }
-
-    PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
-    singleVC.isHaozu = self.isHaozu;
-    singleVC.propId = properID;
-    singleVC.pageType = PAGE_TYPE_CHOICE;
-    [self.navigationController pushViewController:singleVC animated:YES];
 }
 
 - (void)rightButtonAction:(id)sender{

@@ -45,6 +45,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor brokerBgPageColor];
     
     if (self.isHaozu) {
         [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJTG_LIST_ONVIEW page:ZF_DJTG_LIST_PAGE note:nil];
@@ -71,6 +72,7 @@
 
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
+    self.tableList.backgroundColor = [UIColor whiteColor];
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableList.backgroundColor = [UIColor clearColor];
     self.tableList.rowHeight = 95;
@@ -136,18 +138,17 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identify = @"cell";
-    PPCHouseCell *cell = (PPCHouseCell *)[tableView dequeueReusableCellWithIdentifier:identify];
+    PPCHouseCell *cell = (PPCHouseCell *)[tableView dequeueReusableCellWithIdentifier:nil];
     if (!cell) {
         cell = [[PPCHouseCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                   reuseIdentifier:identify
+                                   reuseIdentifier:nil
                                containingTableView:tableView
                                 leftUtilityButtons:nil
                                rightUtilityButtons:[self getMenuButton]];
         cell.delegate = self;
     }
     
-    if (self.lastedListData.count > 0) {
+    if (indexPath.section == 0) {
         PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.lastedListData objectAtIndex:indexPath.row]];
         
         [cell configureCell:model withIndex:indexPath.row isHaoZu:self.isHaozu];
@@ -157,7 +158,7 @@
         }else{
             [cell showBottonLineWithCellHeight:95 andOffsetX:0];
         }
-    }else if (self.oldListData.count > 0){
+    }else if (indexPath.section == 1){
         PPCPriceingListModel *model = [PPCPriceingListModel convertToMappedObject:[self.oldListData objectAtIndex:indexPath.row]];
         
         [cell configureCell:model withIndex:indexPath.row isHaoZu:self.isHaozu];

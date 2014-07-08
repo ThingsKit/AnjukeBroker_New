@@ -26,7 +26,7 @@
 }
 
 - (void)initUI{
-    self.cellView = [[HouseCellView alloc] initWithFrame:self.bounds];
+    self.cellView = [[HouseCellView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 95)];
     [self.contentView addSubview:self.cellView];
 }
 

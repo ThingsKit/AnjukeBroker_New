@@ -29,7 +29,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.view.backgroundColor = [UIColor brokerBgPageColor];
+
     [[BrokerLogger sharedInstance] logWithActionCode:JJTG_LIST_ONVIEW page:JJTG_LIST_PAGE note:nil];
     
     if (self.isHaozu) {
@@ -157,11 +158,11 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identify = @"cell";
-    PPCHouseCell *cell = (PPCHouseCell *)[tableView dequeueReusableCellWithIdentifier:identify];
+//    static NSString *identify = @"cell";
+    PPCHouseCell *cell = (PPCHouseCell *)[tableView dequeueReusableCellWithIdentifier:nil];
     if (!cell) {
         cell = [[PPCHouseCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                   reuseIdentifier:identify
+                                   reuseIdentifier:nil
                                containingTableView:tableView
                                 leftUtilityButtons:nil
                                rightUtilityButtons:[self getMenuButton]];
