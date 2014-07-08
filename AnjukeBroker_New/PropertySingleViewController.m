@@ -61,6 +61,8 @@
 {
     [super viewDidLoad];
     
+//    [[BrokerLogger sharedInstance] logWithActionCode:POTENTIAL_CLIENT_CLICK_CLIENT page:POTENTIAL_CLIENT note:@{@"clientid":customer.device_id}]; //页面可见
+    
     [self setTitleViewWithString:@"房源详情"];
     
     //取出参数
@@ -507,7 +509,7 @@
 
     NSDictionary* param2 = @{@"token":[LoginManager getToken], @"cityId":[LoginManager getCity_id], @"propId":_propId}; //11表示上海
     if (self.isHaozu) {
-        param2 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":_propId}; //11表示上海
+        param2 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":_propId};
     }
     NSDictionary* dic2 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/fix/summary/"], @"query_params":param2}; //房源定价概况
     
@@ -618,8 +620,8 @@
         prefix = @"zufang";
     }
 
-    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"planId":planId};
-    NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/fix/spreadstart/"], @"query_params":param1}; //房源概况
+    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"planId":planId, @"propIds":_propId};
+    NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/fix/addpropstoplan/"], @"query_params":param1}; //房源概况
     NSDictionary* param = @{@"requests":@{@"result":dic1}};
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"batch/" params:param target:self action:@selector(onRequestFixFinished:)];
     
