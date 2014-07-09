@@ -351,7 +351,10 @@
 }
 
 - (void)doRegister {
-    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:[BrokerRegisterViewController new]];
+    BrokerRegisterViewController *brokerRegister = [[BrokerRegisterViewController alloc] init];
+    brokerRegister.backType = RTSelectorBackTypeDismiss;
+    
+    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:brokerRegister];
     [self presentModalViewController:nav animated:YES];
 }
 

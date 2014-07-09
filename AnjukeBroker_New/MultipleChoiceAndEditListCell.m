@@ -142,18 +142,16 @@
     if (self.lineView == nil) {
         self.lineView = [[BrokerLineView alloc] initWithFrame:CGRectMake(offsetX, cellH -0.5, 320 - offsetX, 0.5)];
         [self.contentView addSubview:self.lineView];
-    }
-    else {
+    } else {
         self.lineView.frame = CGRectMake(offsetX, cellH -0.5, 320 - offsetX, 0.5);
     }
 }
 
-
+//监测位移
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     CGRect frame = self.selectStylebutton.frame;
     self.selectStylebutton.frame = CGRectMake(- self.cellScrollView.contentOffset.x , 0, frame.size.width, frame.size.height);
-    
 }
 
 #pragma mark - selectCellStyle
