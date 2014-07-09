@@ -61,6 +61,7 @@
         [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
         [btn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue_press"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
         [btn setTitle:@"清空" forState:UIControlStateNormal];
+        btn.titleLabel.font = [UIFont ajkH3Font];
         [btn setTitleColor:[UIColor brokerWhiteColor] forState:UIControlStateNormal];
         [btn addTarget:self action:@selector(cleanAll:) forControlEvents:UIControlEventTouchUpInside];
         [buttonView addSubview:btn];

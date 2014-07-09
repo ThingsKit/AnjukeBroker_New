@@ -149,7 +149,7 @@
             [cell showBottonLineWithCellHeight:45];
             
             cell.textLabel.text = @"待推广房源";
-            cell.textLabel.font = [UIFont ajkH3Font];
+            cell.textLabel.font = [UIFont ajkH2Font_B];
             cell.textLabel.textColor = [UIColor brokerBlackColor];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.selectionStyle = UITableViewCellSelectionStyleGray;

@@ -223,7 +223,7 @@
         
         UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 150, 40)];
         lab.textAlignment = NSTextAlignmentLeft;
-        lab.textColor = [UIColor brokerMiddleGrayColor];
+        lab.textColor = [UIColor brokerLightGrayColor];
         lab.font = [UIFont ajkH4Font];
         lab.text = @"精选房源提升8倍效果";
         lab.backgroundColor = [UIColor clearColor];
@@ -269,7 +269,7 @@
             }
             
             lab.text = str;
-            lab.textColor = [UIColor brokerMiddleGrayColor];
+            lab.textColor = [UIColor brokerBlackColor];
             lab.font = [UIFont ajkH3Font];
             [cell.contentView addSubview:lab];
             

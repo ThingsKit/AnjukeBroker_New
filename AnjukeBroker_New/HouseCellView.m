@@ -59,7 +59,7 @@
     self.titLab.font = [UIFont ajkH3Font];
     [self addSubview:self.titLab];
     
-    self.commNameLab = [[UILabel alloc] initWithFrame:CGRectMake(80+15+11, 35, 200, 15)];
+    self.commNameLab = [[UILabel alloc] initWithFrame:CGRectMake(80+15+11, 38, 200, 15)];
     self.commNameLab.textColor = [UIColor brokerLightGrayColor];
     self.commNameLab.backgroundColor = [UIColor clearColor];
     self.commNameLab.font = [UIFont ajkH4Font];

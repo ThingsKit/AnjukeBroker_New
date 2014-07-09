@@ -39,7 +39,7 @@
     self.titLab = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 120, 20)];
     self.titLab.backgroundColor = [UIColor clearColor];
     self.titLab.textAlignment = NSTextAlignmentLeft;
-    self.titLab.font = [UIFont ajkH2Font];
+    self.titLab.font = [UIFont ajkH2Font_B];
     self.titLab.textColor = [UIColor brokerBlackColor];
     [self.contentView addSubview:self.titLab];
 
@@ -47,7 +47,7 @@
     clickTitLab.backgroundColor = [UIColor clearColor];
     clickTitLab.textAlignment = NSTextAlignmentLeft;
     clickTitLab.font = [UIFont ajkH5Font];
-    clickTitLab.textColor = [UIColor brokerLightGrayColor];
+    clickTitLab.textColor = [UIColor brokerMiddleGrayColor];
     clickTitLab.text = @"今日点击";
     [self.contentView addSubview:clickTitLab];
     
@@ -55,7 +55,7 @@
     costTitLab.backgroundColor = [UIColor clearColor];
     costTitLab.textAlignment = NSTextAlignmentLeft;
     costTitLab.font = [UIFont ajkH5Font];
-    costTitLab.textColor = [UIColor brokerLightGrayColor];
+    costTitLab.textColor = [UIColor brokerMiddleGrayColor];
     costTitLab.text = @"今日花费";
     [self.contentView addSubview:costTitLab];
 
@@ -63,7 +63,7 @@
     houseNumTitLab.backgroundColor = [UIColor clearColor];
     houseNumTitLab.textAlignment = NSTextAlignmentLeft;
     houseNumTitLab.font = [UIFont ajkH5Font];
-    houseNumTitLab.textColor = [UIColor brokerLightGrayColor];
+    houseNumTitLab.textColor = [UIColor brokerMiddleGrayColor];
     houseNumTitLab.text = @"房源量";
     [self.contentView addSubview:houseNumTitLab];
     
