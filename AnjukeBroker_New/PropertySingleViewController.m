@@ -43,6 +43,9 @@
 @property (nonatomic, copy) NSString* minBudget; //最小预算(不带单位)
 @property (nonatomic, copy) NSString* maxBudget; //最大预算(带单位)
 
+//计算那个NSInset的高度
+@property (nonatomic, assign) CGFloat heightForInset;
+
 //浮层相关
 @property (nonatomic, strong) MBProgressHUD* hud;
 @property (nonatomic, strong) UIImageView* hudBackground;
@@ -151,12 +154,8 @@
             }
         }
         
-//        PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
-//        controller.isHaozu = this.isHaozu;
-//        controller.propertyID = this.propId;
-//        controller.backType = RTSelectorBackTypeDismiss;
-//        [this.navigationController pushViewController:controller animated:YES];
         PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+        controller.propertyDelegate = this;
         controller.isHaozu = this.isHaozu;
         controller.propertyID = this.propId;
         controller.backType = RTSelectorBackTypeDismiss;
@@ -470,16 +469,22 @@
                     //1-1 推广中 1-2排队中 2-1推广位已满 2-2可立即排队 2-3可立即推广 3-2不符合精选推广条件
                     
                     if ([@"1-1" isEqualToString:actionType]) {   //推广中
+                        self.heightForInset = 150;
                         return 150;
                     }else if ([@"1-2" isEqualToString:actionType]){  //排队中
+                        self.heightForInset = 150;
                         return 150;
                     }else if ([@"2-1" isEqualToString:actionType]){  //坑位已满
+                        self.heightForInset = 200;
                         return 200;
                     }else if ([@"2-2" isEqualToString:actionType]){  //可排队
+                        self.heightForInset = 200;
                         return 200;
                     }else if ([@"2-3" isEqualToString:actionType]){  //可推广
+                        self.heightForInset = 200;
                         return 200;
                     }else if ([@"3-2" isEqualToString:actionType]){  //不符合推广条件
+                        self.heightForInset = 125;
                         return 125;
                     }else{
                         
@@ -502,10 +507,18 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    if (section == 2) {
-        return 30;
+    if (self.pageType == PAGE_TYPE_NO_PLAN) {
+        if (section == 1) {
+            return 30;
+        }else{
+            return 0;
+        }
     }else{
-        return 0;
+        if (section == 2) {
+            return 30;
+        }else{
+            return 0;
+        }
     }
 }
 
@@ -516,40 +529,75 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    if (section == 2) {
-        
-        if (self.data.count > 0) {
-            UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 30)];
-            view.backgroundColor = [UIColor clearColor];
-            
-            UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth-15, 30)];
-            label.backgroundColor = [UIColor brokerBgPageColor];
-            label.textAlignment = NSTextAlignmentRight;
-            label.font = [UIFont ajkH5Font];
-            label.textColor = [UIColor brokerLightGrayColor];
-            PropertyDetailCellModel* property = self.data[0];
-            label.text = property.publishDaysMsg;
-            [view addSubview:label];
-            return view;
+    if (self.pageType == PAGE_TYPE_NO_PLAN) { //如果是待推广房源
+        if (section == 1) {
+            if (self.data.count > 0) {
+                UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 30)];
+                view.backgroundColor = [UIColor clearColor];
+                
+                UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth-15, 30)];
+                label.backgroundColor = [UIColor brokerBgPageColor];
+                label.textAlignment = NSTextAlignmentRight;
+                label.font = [UIFont ajkH5Font];
+                label.textColor = [UIColor brokerLightGrayColor];
+                PropertyDetailCellModel* property = self.data[0];
+                label.text = property.publishDaysMsg;
+                [view addSubview:label];
+                return view;
+            }else{
+                return nil;
+            }
         }else{
             return nil;
         }
+        
     }else{
-        return nil;
+        
+        if (section == 2) {
+            
+            if (self.data.count > 0) {
+                UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 30)];
+                view.backgroundColor = [UIColor clearColor];
+                
+                UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth-15, 30)];
+                label.backgroundColor = [UIColor brokerBgPageColor];
+                label.textAlignment = NSTextAlignmentRight;
+                label.font = [UIFont ajkH5Font];
+                label.textColor = [UIColor brokerLightGrayColor];
+                PropertyDetailCellModel* property = self.data[0];
+                label.text = property.publishDaysMsg;
+                [view addSubview:label];
+                return view;
+            }else{
+                return nil;
+            }
+        }else{
+            return nil;
+        }
     }
+    
 }
 
 
 #pragma mark -
 #pragma mark 解决section不跟随tableView移动的问题
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat sectionHeaderHeight = 15;
+    CGFloat sectionHeaderHeight = 0;
+    if (ScreenHeight == 480) {
+        if (self.heightForInset == 200) {
+            sectionHeaderHeight = 100;
+        }else{
+            sectionHeaderHeight = 30;
+        }
+    }else{
+        sectionHeaderHeight = 15;
+    }
+    
     if (scrollView.contentOffset.y <= sectionHeaderHeight && scrollView.contentOffset.y >= 0) {
         scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, -30, 0);
     } else if (scrollView.contentOffset.y >= sectionHeaderHeight) {
         scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, -30, 0);
     }
-    
 
 }
 
@@ -927,6 +975,13 @@
         
         if (buttonIndex == 1) { //确定按钮
             
+            if (([self.balance intValue] - [budget intValue]) < 0) {
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"老板, 您的余额不足" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+                self.button.enabled = YES;
+                return;
+            }
+            
             if ([budget intValue] < [self.minBudget intValue] || [budget intValue] > [self.maxBudget intValue]) {
                 UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"输入预算不符合规定" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                 [alert show];
@@ -982,7 +1037,11 @@
 #pragma mark 删除房源回调
 - (void)propertyDidDelete{
     NSLog(@"删除房源");
-    [self.navigationController popViewControllerAnimated:YES];
+    double delayInSeconds = 2.f;
+    dispatch_time_t delayInNanoSeconds = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(delayInNanoSeconds, dispatch_get_main_queue(), ^(void){
+        [self.navigationController popViewControllerAnimated:YES];
+    });
     
 }
 
