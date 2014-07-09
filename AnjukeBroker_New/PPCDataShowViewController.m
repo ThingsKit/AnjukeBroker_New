@@ -103,7 +103,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identify1 = @"cell1";
-    static NSString *identify2 = @"cell2";
     
     if (indexPath.row == 1 || indexPath.row == 2) {
         PPCDataShowCell *cell = [tableView dequeueReusableCellWithIdentifier:identify1];
@@ -130,9 +129,9 @@
         }
         return cell;
     }else{
-        RTListCell *cell = [tableView dequeueReusableCellWithIdentifier:identify2];
+        RTListCell *cell = [tableView dequeueReusableCellWithIdentifier:nil];
         if (!cell) {
-            cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify2];
+            cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         }
         if (indexPath.row == 0 || indexPath.row == 3) {
             if (indexPath.row == 0) {
@@ -418,6 +417,17 @@
         }
     }
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onRequestFinished:)];
+
+//    NSMutableDictionary *requeseParams1 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[LoginManager getToken],@"token",[LoginManager getUserID],@"brokerId",[LoginManager getCity_id],@"cityId", nil];
+//    
+//    NSString *str = @"anjuke/bid/summary/";
+////    NSMutableDictionary *dic1 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+////                                 @"GET",@"method",
+////                                 @"anjuke/fix/summary/",@"relative_url",
+////                                 requeseParams1,@"query_params",nil];
+//
+//    [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:str params:requeseParams1 target:self action:@selector(onRequestFinished:)];
+
 }
 
 - (void)onRequestFinished:(RTNetworkResponse *)response{
