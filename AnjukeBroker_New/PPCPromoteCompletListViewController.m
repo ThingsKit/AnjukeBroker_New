@@ -8,6 +8,7 @@
 
 #import "PPCPromoteCompletListViewController.h"
 #import "PPCPriceingListModel.h"
+#import "PropertySingleViewController.h"
 
 @interface PPCPromoteCompletListViewController ()
 @property(nonatomic, assign) NSInteger deleCellNum;
@@ -179,6 +180,16 @@
         [cell showBottonLineWithCellHeight:95 andOffsetX:0];
     }
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
+    singleVC.isHaozu = self.isHaozu;
+    singleVC.propId = [self.tableData objectAtIndex:indexPath.row][@"propId"];
+    singleVC.pageType = PAGE_TYPE_FIX;
+    [self.navigationController pushViewController:singleVC animated:YES];
 }
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {

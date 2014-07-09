@@ -64,15 +64,6 @@
         [self setTitleViewWithString:@"二手房-精选推广"];
     }
     
-//    UIBarButtonItem *rightItem = [UIBarButtonItem getBarButtonItemWithImage:[UIImage imageNamed:@"anjuke_icon_add_.png"] highLihtedImg:[UIImage imageNamed:@"anjuke_icon_add_press"] taget:self action:@selector(rightButtonAction:)];
-//    
-//    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {//fix ios7以下 10像素偏离
-//        UIBarButtonItem *spacer = [UIBarButtonItem getBarSpace:10.0];
-//        [self.navigationItem setRightBarButtonItems:@[spacer, rightItem]];
-//    }else{
-//        self.navigationItem.rightBarButtonItem = rightItem;
-//    }
-    
     self.tableList.dataSource = self;
     self.tableList.delegate = self;
     self.tableList.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -101,25 +92,18 @@
         }else if (section == 2){
             return self.onQueueListData.count;
         }else if (section == 3){
-            if (self.onOfflineListData.count == 0) {
-                return 0;
-            }else{
-                return 2;
-            }
-//            return 2;
+            return 2;
         }
     }
     return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
-            return 40;
-        }
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        return 40;
     }
     
-    if (self.onOfflineListData.count > 0 && indexPath.section == 3) {
+    if (indexPath.section == 3) {
         if (indexPath.row == 1){
             return 45;
         }else if (indexPath.row == 0){
@@ -130,16 +114,6 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if (self.tableData.count == 0) {
-        return nil;
-    }
-    if (section == 0) {
-        return nil;
-    }else if (section == 1){
-        return @"推广中";
-    }else if (section == 2){
-        return @"排队中";
-    }
     return nil;
 }
 
@@ -156,12 +130,12 @@
         }
     }
     
-    if (self.onSpreadListData.count == 0) {
-        if (section == 1) {
+    if (self.onQueueListData.count == 0) {
+        if (section == 2) {
             height =  0;
         }
-    }else if (self.onSpreadListData.count > 0){
-        if (section == 1) {
+    }else if (self.onQueueListData.count > 0){
+        if (section == 2) {
             height = 30;
         }
     }
@@ -172,13 +146,16 @@
     
     if (self.tableData.count == 0) {
         tit = @"";
-    }
-    if (section == 0) {
-        tit = @"";
-    }else if (section == 1){
-        tit = @"推广中";
-    }else if (section == 2){
-        tit = @"排队中";
+    }else{
+        if (section == 0) {
+            tit = @"";
+        }else if (section == 1){
+            tit = @"推广中";
+        }else if (section == 2){
+            tit = @"排队中";
+        }else{
+            tit = @"";
+        }
     }
 
     
@@ -196,6 +173,9 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (self.tableData.count == 0 && self.onOfflineListData.count == 0) {
+        return 0;
+    }
     if (self.onSpreadListData.count == 0) {
         if (section == 1) {
             return 0;
@@ -206,12 +186,12 @@
         }
     }
 
-    if (self.onSpreadListData.count == 0) {
-        if (section == 1) {
+    if (self.onQueueListData.count == 0) {
+        if (section == 2) {
             return 0;
         }
-    }else if (self.onSpreadListData.count > 0){
-        if (section == 1) {
+    }else if (self.onQueueListData.count > 0){
+        if (section == 2) {
             return 30;
         }
     }
@@ -224,43 +204,43 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identify1 = @"cell1";
-    static NSString *identify2 = @"cell2";
-    
-    if (indexPath.section == 0) {
+//    static NSString *identify1 = @"cell1";
+//    static NSString *identify2 = @"cell2";
+
+    static NSString *identify1 = nil;
+    static NSString *identify2 = nil;
+
+    if (indexPath.section == 0 && indexPath.row == 0) {
         RTListCell *cell = (RTListCell *)[tableView dequeueReusableCellWithIdentifier:identify1];
         if (!cell) {
             cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify1];
         }
-        if (indexPath.row == 0) {
-            cell.backgroundColor = [UIColor clearColor];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            
-            [cell showBottonLineWithCellHeight:40];
-            
-            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 150, 40)];
-            lab.textAlignment = NSTextAlignmentLeft;
-            lab.textColor = [UIColor brokerMiddleGrayColor];
-            lab.font = [UIFont ajkH4Font];
-            lab.text = @"精选房源提升8倍效果";
-            lab.backgroundColor = [UIColor clearColor];
-            [cell.contentView addSubview:lab];
-            
-//            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-//            btn.frame = CGRectMake(185, 0, 120, 40);
-//            btn.titleLabel.font = [UIFont ajkH4Font];
-//            [btn addTarget:self action:@selector(goSelectIntro:) forControlEvents:UIControlEventTouchUpInside];
-//            [btn setTitle:@"什么是精选房源?" forState:UIControlStateNormal];
-//            [btn setTitleColor:[UIColor brokerBlueColor] forState:UIControlStateNormal];
-//            [btn setTitleColor:[UIColor brokerBlueGrayColor] forState:UIControlStateHighlighted];
-//            [cell.contentView addSubview:btn];
-        }
+        cell.backgroundColor = [UIColor clearColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        
+        [cell showBottonLineWithCellHeight:40];
+        
+        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 150, 40)];
+        lab.textAlignment = NSTextAlignmentLeft;
+        lab.textColor = [UIColor brokerMiddleGrayColor];
+        lab.font = [UIFont ajkH4Font];
+        lab.text = @"精选房源提升8倍效果";
+        lab.backgroundColor = [UIColor clearColor];
+        [cell.contentView addSubview:lab];
+        
+        //            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        //            btn.frame = CGRectMake(185, 0, 120, 40);
+        //            btn.titleLabel.font = [UIFont ajkH4Font];
+        //            [btn addTarget:self action:@selector(goSelectIntro:) forControlEvents:UIControlEventTouchUpInside];
+        //            [btn setTitle:@"什么是精选房源?" forState:UIControlStateNormal];
+        //            [btn setTitleColor:[UIColor brokerBlueColor] forState:UIControlStateNormal];
+        //            [btn setTitleColor:[UIColor brokerBlueGrayColor] forState:UIControlStateHighlighted];
+        //            [cell.contentView addSubview:btn];
         return cell;
     }
     
-    if (self.onOfflineListData.count > 0 && indexPath.section == 3) {
-//    if (self.onOfflineListData.count == 0 && indexPath.section == 3) {
+    if (indexPath.section == 3) {
         RTListCell *cell = (RTListCell *)[tableView dequeueReusableCellWithIdentifier:identify1];
         if (!cell) {
             cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify1];
@@ -441,13 +421,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     DLog(@"click---->>%d",indexPath.row);
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (!self.tableData || self.navigationController.view.frame.origin.x > 0) {
+    if (self.navigationController.view.frame.origin.x > 0) {
         return;
     }
     if (self.isLoading) {
         return;
     }
-    if (self.onOfflineListData.count > 0 && indexPath.section == 3 && indexPath.row == 1) {
+    if (indexPath.section == 3 && indexPath.row == 1) {
         if (self.isHaozu) {
             [[BrokerLogger sharedInstance] logWithActionCode:ZF_JXTG_LIST_END_TGFY page:ZF_JXTG_LIST_PAGE note:nil];
         }else{
@@ -476,15 +456,6 @@
         [self.navigationController pushViewController:singleVC animated:YES];
     }
 }
-
-//- (void)rightButtonAction:(id)sender{
-//    CommunityListViewController *controller = [[CommunityListViewController alloc] init];
-//    controller.backType = RTSelectorBackTypeNone;
-//    controller.isFirstShow = YES;
-//    controller.isHaouzu = self.isHaozu;
-//    RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-//    [self presentViewController:nav animated:YES completion:nil];
-//}
 
 - (void)didReceiveMemoryWarning
 {
