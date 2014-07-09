@@ -512,18 +512,36 @@
                     }
                     
                 } else {
-                    switch (indexPath.row) {
-                        case 1:
-                        case 2:
-                        case 3:
-                        case 4:
-                        case 5:
-                        case 6:
-                            cell.userInteractionEnabled = YES;
-                            break;
-                            
-                        default:
-                            break;
+                    if (![self.storeDic[@"storeId"] isEqualToString:@"0"]) {
+                        switch (indexPath.row) {
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                                cell.userInteractionEnabled = YES;
+                                break;
+                            case 6:
+                                cell.userInteractionEnabled = NO;
+                                break;
+                                
+                            default:
+                                break;
+                        }
+                    } else {
+                        switch (indexPath.row) {
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                            case 6:
+                                cell.userInteractionEnabled = YES;
+                                break;
+                                
+                            default:
+                                break;
+                        }
                     }
                 }
                 
@@ -557,7 +575,7 @@
         
         UITextField *nameTextField = [UITextField new];
         nameTextField.borderStyle = UITextBorderStyleNone;
-        nameTextField.frame = CGRectMake(160, 0, 120, 44);
+        nameTextField.frame = CGRectMake(165, 0, 120, 44);
         nameTextField.textAlignment = NSTextAlignmentRight;
         nameTextField.delegate = self;
         nameTextField.font = [UIFont ajkH2Font];
