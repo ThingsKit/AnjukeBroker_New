@@ -23,6 +23,7 @@
 #import "MyUserProtocolController.h"
 #import "RTGestureBackNavigationController.h"
 #import "BrokerCallAlert.h"
+#import "RTListCell.h"
 
 @interface BrokerRegisterInfoViewController () <UITableViewDataSource, UITableViewDelegate,BrokerRegisterWorkCityDelegate,BrokerRegisterWorkRangeDelegate, MainBusinessDelegate, WorkPropertyDelegate, companyDelegate,UITextFieldDelegate,storeDelegate> {
     BOOL _nameLog;
@@ -68,6 +69,15 @@
     [self.detailDataArray addObject:@""];
     [self.detailDataArray addObject:@""];
     [self.detailDataArray addObject:@""];
+    //有定位城市的时候的默认值
+    if (self.cityInfo) {
+        self.cityDic = @{@"cityId":self.cityInfo.cityID,@"cityName":self.cityInfo.cityName};
+        self.natureDic = @{@"natureId":@"1",@"natureName":@"有所属公司"};
+        self.businessDic = @{@"businessId":@"1",@"businessName":@"住宅"};
+        [self.detailDataArray replaceObjectAtIndex:1 withObject:self.cityDic[@"cityName"]];
+        [self.detailDataArray replaceObjectAtIndex:2 withObject:self.businessDic[@"businessName"]];
+        [self.detailDataArray replaceObjectAtIndex:3 withObject:self.natureDic[@"natureName"]];
+    }
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.bottom-41-64) style:UITableViewStylePlain];
     tableView.delegate = self;
@@ -342,6 +352,11 @@
     }
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if ([self.nameTextField isFirstResponder]) {
@@ -537,6 +552,7 @@
         nameTextField.font = [UIFont ajkH2Font];
         nameTextField.textColor = [UIColor brokerBlackColor];
         nameTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        nameTextField.returnKeyType = UIReturnKeyDone;
         if (self.brokerName) {
             nameTextField.text = self.brokerName;
         }
@@ -551,18 +567,21 @@
     }
     NSString *identifier = @"identifier";
 
-    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:nil];
+    RTListCell *cell = (RTListCell *)[tableView dequeueReusableCellWithIdentifier:nil];
 
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+        cell = [[RTListCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
 //        cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
         
-        RTLineView *lineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, 44, 305, 1)];
+//        RTLineView *lineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, 44, 305, 1)];
         if (indexPath.row == 6) {
-            lineView.frame = CGRectMake(0, 44, 320, 1);
+//            lineView.frame = CGRectMake(0, 44, 320, 1);
+            [cell showBottonLineWithCellHeight:45 andOffsetX:0];
+        } else {
+            [cell showBottonLineWithCellHeight:45 andOffsetX:15];
         }
-        [cell addSubview:lineView];
+//        [cell addSubview:lineView];
     }
 
 //    cell.userInteractionEnabled = NO;

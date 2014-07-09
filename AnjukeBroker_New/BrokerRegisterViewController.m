@@ -201,6 +201,7 @@
     [super viewWillAppear:animated];
     [self setTitleViewWithString:@"注册"];
     [[BrokerLogger sharedInstance] logWithActionCode:REGISTER_PROP_1_ONVIEW page:REGISTER_PROP_1_PAGE note:nil];
+    [[RTLocationManager sharedInstance] updateLocatedCityID];
 }
 
 - (void)doBack:(id)sender {
@@ -331,10 +332,25 @@
 }
 
 - (void)nextAction {
+    NSString *cityID= [[RTLocationManager sharedInstance] locatedCityID];
+    if (![cityID isEqual:@"-1"]) {
+        [[RTCityInfoManager sharedInstance] setServiceType:RTAnjukeServiceID];
+        RTCityInfo *cityInfo  = [[RTCityInfoManager sharedInstance] cityInfoWithCityID:cityID];
+    }
+    
+    
     if ([self.verifyTextField.text isEqualToString:@"111111"]) {
         BrokerRegisterInfoViewController *controller = [BrokerRegisterInfoViewController new];
         if (self.phoneTextField.text.length > 0 && self.passwordTextField.text.length > 0) {
             controller.beforeDic = @{@"mobile":self.phoneTextField.text, @"password":self.passwordTextField.text};
+            NSString *cityID= [[RTLocationManager sharedInstance] locatedCityID];
+            if (![cityID isEqual:@"-1"]) {
+                [[RTCityInfoManager sharedInstance] setServiceType:RTAnjukeServiceID];
+                RTCityInfo *cityInfo  = [[RTCityInfoManager sharedInstance] cityInfoWithCityID:cityID];
+                if (cityInfo) {
+                    controller.cityInfo = cityInfo;
+                }
+            }
         }
         
         [self.navigationController pushViewController:controller animated:YES];
@@ -359,6 +375,14 @@
         if ([dic[@"checkStatus"] isEqualToString:@"true"]) {
             BrokerRegisterInfoViewController *controller = [BrokerRegisterInfoViewController new];
             controller.beforeDic = @{@"mobile":self.phoneTextField.text, @"password":self.passwordTextField.text};
+            NSString *cityID= [[RTLocationManager sharedInstance] locatedCityID];
+            if (![cityID isEqual:@"-1"]) {
+                [[RTCityInfoManager sharedInstance] setServiceType:RTAnjukeServiceID];
+                RTCityInfo *cityInfo  = [[RTCityInfoManager sharedInstance] cityInfoWithCityID:cityID];
+                if (cityInfo) {
+                    controller.cityInfo = cityInfo;
+                }
+            }
             [self.navigationController pushViewController:controller animated:YES];
         }
     } else if (response.content && [response.content[@"status"] isEqualToString:@"error"]) {

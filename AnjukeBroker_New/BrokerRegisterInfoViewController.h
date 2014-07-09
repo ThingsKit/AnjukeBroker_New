@@ -12,5 +12,6 @@
 @interface BrokerRegisterInfoViewController : RTViewController
 
 @property (nonatomic, strong) NSDictionary *beforeDic;
+@property (nonatomic, strong) RTCityInfo *cityInfo;
 
 @end
