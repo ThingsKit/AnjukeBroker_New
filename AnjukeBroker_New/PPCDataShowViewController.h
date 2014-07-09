@@ -14,4 +14,5 @@
 
 @property(nonatomic, assign) BOOL isHaozu;
 
+- (void)dismissController:(UIViewController *)dismissController withPropertyDic:(NSDictionary *)withPropertyDic;
 @end

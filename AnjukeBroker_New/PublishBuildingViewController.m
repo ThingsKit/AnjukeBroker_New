@@ -16,14 +16,15 @@
 #import "PropertyAuctionPublishViewController.h"
 #import "AJKBRadioButton.h"
 #import "AJKLikePageView.h"
-
+#import "PropertySingleViewController.h"
 
 #import "BK_RTNavigationController.h"
 
 typedef enum {
     Property_DJ = 0, //发房_定价
     Property_JJ, //发房_竞价
-    Property_WTG //为推广
+    Property_WTG, //为推广
+    Property_SELECT //进入新的精选单页
 }PropertyUploadType;
 
 @interface PublishBuildingViewController ()
@@ -480,16 +481,23 @@ typedef enum {
 }
 
 - (void)showAlertViewWithPrice:(NSString *)price {
-    NSString *title = nil;
-    if (price.length == 0 || price == nil) {
-        title = [NSString stringWithFormat:@"定价：暂无"];
+    if ([[LoginManager getBusinessType] isEqualToString:@"2"]) {
+        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"精选推广", nil];
+        sheet.tag = PUBLISH_ACTIONSHEETFORSELECT_TAG;
+        [sheet showInView:self.view];
+        return;
+    }else{
+        NSString *title = nil;
+        if (price.length == 0 || price == nil) {
+            title = [NSString stringWithFormat:@"定价：暂无"];
+        }
+        else
+            title = [NSString stringWithFormat:@"定价：%@元/次",price];
+        //, @"定价且竞价推广"
+        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"暂不推广", nil];
+        sheet.tag = PUBLISH_ACTIONSHEET_TAG;
+        [sheet showInView:self.view];
     }
-    else
-        title = [NSString stringWithFormat:@"定价：%@元/次",price];
-    //, @"定价且竞价推广"
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广", @"暂不推广", nil];
-    sheet.tag = PUBLISH_ACTIONSHEET_TAG;
-    [sheet showInView:self.view];
 }
 
 - (void)doBack:(id)sender
@@ -629,7 +637,18 @@ typedef enum {
                 [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleNoPlan withPropertyDic:[NSDictionary dictionary]];
         }
             break;
+        case Property_SELECT: {
+            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithBool:self.isHaozu],@"isHaozu",
+                                 self.property_ID,@"propId",
+                                 [NSNumber numberWithInt:PAGE_TYPE_NO_PLAN],@"pageType",
+                                 nil];
             
+            [self hideLoadWithAnimated:YES];
+            [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withPropertyDic:dic];
+        }
+            break;
+        
         default:
             break;
     }
@@ -3073,27 +3092,27 @@ typedef enum {
                 [self uploadPhoto];
             }
                 break;
-            /*case 1: //定价+竞价
-            {
-                NSString *code   = ESF_PUBLISH_CLICK_BID;
-                NSString *pageID = ESF_PUBLISH;
-                if (self.isHaozu) {
-                    code   = ZF_PUBLISH_CLICK_BID;
-                    pageID = ZF_PUBLISH;
-                }
-                
-                if (!self.isChildClass)
-                {
-                    [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID note:nil];
-                }
-                self.uploadType = Property_JJ;
-                
-                //test upload img
-                [self prepareUploadImgArr];
-                
-                [self uploadPhoto];
-            }
-                break;*/
+                /*case 1: //定价+竞价
+                 {
+                 NSString *code   = ESF_PUBLISH_CLICK_BID;
+                 NSString *pageID = ESF_PUBLISH;
+                 if (self.isHaozu) {
+                 code   = ZF_PUBLISH_CLICK_BID;
+                 pageID = ZF_PUBLISH;
+                 }
+                 
+                 if (!self.isChildClass)
+                 {
+                 [[BrokerLogger sharedInstance] logWithActionCode:code page:pageID note:nil];
+                 }
+                 self.uploadType = Property_JJ;
+                 
+                 //test upload img
+                 [self prepareUploadImgArr];
+                 
+                 [self uploadPhoto];
+                 }
+                 break;*/
             case 1: //暂不推广
             {
                 NSString *code   = ESF_PUBLISH_CLICK_DRAFT;
@@ -3119,7 +3138,19 @@ typedef enum {
             default:
                 break;
         }
+    }else if (actionSheet.tag == PUBLISH_ACTIONSHEETFORSELECT_TAG)
+    {
+        if ([[LoginManager getBusinessType] isEqualToString:@"2"]) {
+            self.uploadType = Property_SELECT;
+        }
+        
+        [self prepareUploadImgArr];
+        
+        [self uploadPhoto];
+        
+        [self showLoadingActivity:YES];
     }
+
 }
 
 #pragma mark - UIAlert View Delegate

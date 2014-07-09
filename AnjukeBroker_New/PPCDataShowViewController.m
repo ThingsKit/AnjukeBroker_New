@@ -20,6 +20,8 @@
 #import "RentBidDetailController.h"
 #import "RentFixedDetailController.h"
 #import "RentNoPlanController.h"
+#import "AppDelegate.h"
+#import "PropertySingleViewController.h"
 
 @interface PPCDataShowViewController ()
 @property(nonatomic, strong) NSMutableDictionary *pricingDic;
@@ -52,6 +54,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [AppDelegate sharedAppDelegate].ppcDataShowVC = self;
+    
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor brokerBgPageColor];
     
@@ -80,6 +85,15 @@
     [self autoPullDown];
 }
 
+- (void)dismissController:(UIViewController *)dismissController withPropertyDic:(NSDictionary *)withPropertyDic{
+    [dismissController dismissViewControllerAnimated:NO completion:^{
+        PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
+        singleVC.isHaozu = [[withPropertyDic objectForKey:@"isHaozu"] boolValue];
+        singleVC.propId = [withPropertyDic objectForKey:@"propId"];
+        singleVC.pageType = [[withPropertyDic objectForKey:@"pageType"] intValue];
+        [self.navigationController pushViewController:singleVC animated:YES];
+    }];
+}
 
 #pragma mark - UITableViewDatasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
