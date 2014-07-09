@@ -145,12 +145,8 @@
         if (this.data.count > 0) {
             PropertyDetailCellModel* property = this.data[0];
             if ([@"0" isEqualToString:property.isVisible]) { //如果是违规房源
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"违规房源只能删除" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                    [alert show];
-                });
-                
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"违规房源只能删除" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
                 return;
             }
         }
@@ -161,14 +157,12 @@
 //        controller.backType = RTSelectorBackTypeDismiss;
 //        [this.navigationController pushViewController:controller animated:YES];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
-            controller.isHaozu = this.isHaozu;
-            controller.propertyID = this.propId;
-            controller.backType = RTSelectorBackTypeDismiss;
-            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-            [this presentViewController:nav animated:YES completion:nil];
-        });
+        PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+        controller.isHaozu = this.isHaozu;
+        controller.propertyID = this.propId;
+        controller.backType = RTSelectorBackTypeDismiss;
+        RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+        [this presentViewController:nav animated:YES completion:nil];
         
     };
     
@@ -179,11 +173,9 @@
             [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_DELETE page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击删除
         }
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定删除当前房源" delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            alert.tag = 2;
-            [alert show]; //一定要放设置键盘之后
-        });
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定删除当前房源" delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alert.tag = 2;
+        [alert show]; //一定要放设置键盘之后
     };
     
 }
@@ -346,15 +338,13 @@
                             [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_JXPD page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击立即排队
                         }
                         //立即排队
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
-                            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-                            alert.tag = 1;
-                            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-                            [alert textFieldAtIndex:0].placeholder = [NSString stringWithFormat:@"输入预算, %@~%@", this.minBudget, this.maxBudget];
-                            [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeNumberPad;
-                            [alert show]; //一定要放设置键盘之后
-                        });
+                        NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
+                        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                        alert.tag = 1;
+                        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+                        [alert textFieldAtIndex:0].placeholder = [NSString stringWithFormat:@"输入预算, %@~%@", this.minBudget, this.maxBudget];
+                        [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeNumberPad;
+                        [alert show]; //一定要放设置键盘之后
                         
                     };
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -376,15 +366,13 @@
                             [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_JXTG page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击立即推广
                         }
                         //立即推广
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
-                            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-                            alert.tag = 1;
-                            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-                            [alert textFieldAtIndex:0].placeholder = [NSString stringWithFormat:@"输入预算, %@~%@", this.minBudget, this.maxBudget];
-                            [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeNumberPad;
-                            [alert show]; //一定要放设置键盘之后
-                        });
+                        NSString* text = [NSString stringWithFormat:@"可用余额为%@", this.balance];
+                        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"设置预算" message:text delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                        alert.tag = 1;
+                        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+                        [alert textFieldAtIndex:0].placeholder = [NSString stringWithFormat:@"输入预算, %@~%@", this.minBudget, this.maxBudget];
+                        [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeNumberPad;
+                        [alert show]; //一定要放设置键盘之后
                         
                     };
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -822,7 +810,7 @@
     if (self.isHaozu) { //如果是租房 (默认是二手房)
         prefix = @"zufang";
     }
-//    NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":self.propId};
+    
     NSDictionary* param1 = @{@"token":[LoginManager getToken], @"brokerId":[LoginManager getUserID], @"propId":self.propId};
     NSDictionary* dic1 = @{@"method":@"GET", @"relative_url":[prefix stringByAppendingString:@"/prop/choice/stop/"], @"query_params":param1}; //房源概况
     NSDictionary* param = @{@"requests":@{@"result":dic1}};
@@ -892,7 +880,6 @@
         prefix = @"zufang";
     }
 
-//    NSDictionary* params = @{@"token":[LoginManager getToken], @"cityId":[LoginManager getCity_id], @"brokerId":[LoginManager getUserID], @"propIds":self.propId};
     NSDictionary* params = @{@"token":[LoginManager getToken], @"cityId":[LoginManager getCity_id], @"brokerId":[LoginManager getUserID], @"propIds":self.propId};
     NSString* method = [prefix stringByAppendingString:@"/prop/delprops/"];
     
