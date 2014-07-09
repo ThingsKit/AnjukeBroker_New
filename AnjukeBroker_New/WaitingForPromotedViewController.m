@@ -411,7 +411,7 @@
     [cell changeCellSelectStatus:selectStatusModel.selectStatus];
     PropertyDetailCellModel *model = [[PropertyDetailCellModel alloc] initWithDataDic:[self.dataSource objectAtIndex:indexPath.row]];
     cell.propertyDetailTableViewCellModel   = model;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
     cell.rowIndex       = indexPath.row;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     cell.delegate = self;

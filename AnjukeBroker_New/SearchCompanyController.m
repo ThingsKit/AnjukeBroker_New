@@ -40,6 +40,7 @@
             [text setDelegate:self];
         }
     }
+    
     self.searchBar.keyboardType = UIKeyboardTypeDefault;
     UIView *searchViews = self.searchBar;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {

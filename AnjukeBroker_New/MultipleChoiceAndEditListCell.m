@@ -159,17 +159,6 @@
     
 }
 
-////send log
-//- (void)sendLeftDeleteLogAndPropId:(NSString *)propId
-//{
-//    if (self.isHaozu) {
-//        [[BrokerLogger sharedInstance] logWithActionCode:ZF_DT_LIST_LEFT_DELETE page:ZF_DT_LIST_PAGE note:@{@"ot":[Util_TEXT logTime], @"propId":propId}];
-//    } else {
-//        [[BrokerLogger sharedInstance] logWithActionCode:ESF_DT_LIST_LEFT_DELETE page:ESF_DT_LIST_PAGE note:@{@"ot":[Util_TEXT logTime], @"propId":propId}];
-//    }
-//}
-
-
 #pragma mark - selectCellStyle
 - (void)propChoiceTap:(id)tapGR
 {
