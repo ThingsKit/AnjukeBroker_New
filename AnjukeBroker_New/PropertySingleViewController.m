@@ -77,6 +77,8 @@
         _propId = @"168783092";
     }
     
+    self.propertyDelegate = self; //设置编辑房源页删除房源的回调
+    
     //表
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44 - 49) style:UITableViewStylePlain];
     _tableView.delegate = self;
@@ -156,7 +158,6 @@
 //        controller.propertyID = this.propId;
 //        controller.backType = RTSelectorBackTypeDismiss;
 //        [this.navigationController pushViewController:controller animated:YES];
-        
         PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
         controller.isHaozu = this.isHaozu;
         controller.propertyID = this.propId;
@@ -975,6 +976,15 @@
     _loadingTipLabel.text = @"努力加载中...";
     [_activity startAnimating];
     [self requestPropFixChoice];
+}
+
+
+#pragma mark -
+#pragma mark 删除房源回调
+- (void)propertyDidDelete{
+    NSLog(@"删除房源");
+    [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 
