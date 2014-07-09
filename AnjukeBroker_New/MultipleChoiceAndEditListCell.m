@@ -147,7 +147,7 @@
     }
 }
 
-//监测位移
+//监测cell位移
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     CGRect frame = self.selectStylebutton.frame;
@@ -173,7 +173,6 @@
     } else {
         [self cellUnSelected];
     }
-
 }
 
 - (void)cellSelected
@@ -205,7 +204,7 @@
     if (iconPath != nil && ![@"" isEqualToString:iconPath]) {
         //加载图片
         [_propertyIcon setImageWithURL:[NSURL URLWithString:iconPath] placeholderImage:[UIImage imageNamed:@"anjuke61_bg4"]];
-    }else{
+    } else {
         _propertyIcon.image = [UIImage imageNamed:@"anjuke61_bg4"]; //默认图片
     }
     
