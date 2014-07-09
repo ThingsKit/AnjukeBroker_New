@@ -128,14 +128,14 @@
     
     self.contentView.backgroundColor = [UIColor brokerWhiteColor];
     
-    [self.cellScrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+//    [self.cellScrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
     
 }
 
-- (void)dealloc
-{
-    [self.cellScrollView removeObserver:self forKeyPath:@"contentOffset"];
-}
+//- (void)dealloc
+//{
+//    [self.cellScrollView removeObserver:self forKeyPath:@"contentOffset"];
+//}
 
 //cell下划线
 - (void)showBottonLineWithCellHeight:(CGFloat)cellH andOffsetX:(CGFloat)offsetX {
@@ -147,12 +147,17 @@
     }
 }
 
-//监测cell位移
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+- (void)getOffsetX:(float)x
 {
     CGRect frame = self.selectStylebutton.frame;
-    self.selectStylebutton.frame = CGRectMake(- self.cellScrollView.contentOffset.x , 0, frame.size.width, frame.size.height);
+    self.selectStylebutton.frame = CGRectMake(- x , 0, frame.size.width, frame.size.height);
 }
+////监测cell位移
+//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+//{
+//    CGRect frame = self.selectStylebutton.frame;
+//    self.selectStylebutton.frame = CGRectMake(- self.cellScrollView.contentOffset.x , 0, frame.size.width, frame.size.height);
+//}
 
 #pragma mark - selectCellStyle
 - (void)propChoiceTap:(id)tapGR

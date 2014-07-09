@@ -17,6 +17,7 @@
 #import "UIFont+RT.h"
 #import "HudTipsUtils.h"
 #import "PPCPlanIdRequest.h"
+#import "RTGestureLock.h"
 
 @interface WaitingForPromotedViewController ()
 
@@ -405,7 +406,7 @@
                                                 rightUtilityButtons:rightBtnarr];
 
         cell.cellSelectstatusDelegate = self;
-
+        cell.delegate = self;
     }
     PropSelectStatusModel *selectStatusModel = self.cellSelectStatus[indexPath.row];
     [cell changeCellSelectStatus:selectStatusModel.selectStatus];
@@ -414,7 +415,6 @@
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     cell.rowIndex       = indexPath.row;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    cell.delegate = self;
     cell.isHaozu = self.isHaozu;
     int sectionTotalRow = [self.dataSource count] -1;
     if (indexPath.row == sectionTotalRow) {
@@ -561,7 +561,6 @@
     [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
 }
 
-
 #pragma mark - SWTableViewDelegate
 - (void)swipeableTableViewCell:(MultipleChoiceAndEditListCell *)cell scrollingToState:(SWCellState)state
 {
@@ -582,6 +581,17 @@
             break;
     }
 }
+
+//监测滑动
+- (void)swipeableTableViewCell:(MultipleChoiceAndEditListCell *)cell nowStatus:(CellState)status{
+    if (status == CellStateLeft) {
+        [RTGestureLock setDisableGestureForBack:(BK_RTNavigationController *)self.navigationController disableGestureback:YES];
+    }
+    if (status == CellStateCenter) {
+        [RTGestureLock setDisableGestureForBack:(BK_RTNavigationController *)self.navigationController disableGestureback:NO];
+    }
+}
+
 
 #pragma mark - Log
 - (void)sendLeftSwipLogAndPropId:(NSString *)propId

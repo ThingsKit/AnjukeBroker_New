@@ -86,11 +86,16 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
     
     return self;
 }
+- (void)getOffsetX:(float)x
+{
+}
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     
     CGPoint point = self.cellScrollView.contentOffset;
+    [self getOffsetX:point.x];
+    
     DLog("pointX--->>%f",point.x);
     if (point.x > 0 ) {
         if (self.cellStatus == CellStateLeft) {
