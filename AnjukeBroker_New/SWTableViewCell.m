@@ -202,6 +202,11 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
     
 }
 
+- (void)dealloc
+{
+    [self.cellScrollView removeObserver:self forKeyPath:@"contentOffset"];
+}
+
 #pragma mark - Properties
 
 - (void)setLeftUtilityButtons:(NSArray *)leftUtilityButtons

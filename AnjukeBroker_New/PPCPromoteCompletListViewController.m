@@ -238,6 +238,30 @@
     }
 }
 
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state
+{
+    switch (state) {
+        case 0:
+            NSLog(@"utility buttons closed");
+            break;
+        case 2:{
+            NSLog(@"right utility buttons open");
+            NSIndexPath *path = [self.tableList indexPathForCell:cell];
+            NSString *propID;
+            propID = [self.tableData objectAtIndex:path.row][@"propId"];
+            [self sendLeftSwipLogAndPropId:propID];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)sendLeftSwipLogAndPropId:(NSString *)propId
+{
+    [[BrokerLogger sharedInstance] logWithActionCode:JJTG_LIST_LEFT_LA page:JJTG_LIST_PAGE note:@{@"propId":propId}];
+}
+
 - (NSMutableArray *)getMenuButton{
     NSMutableArray *btnArr = [NSMutableArray array];
 

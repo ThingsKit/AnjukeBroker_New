@@ -496,6 +496,38 @@
     }
 }
 
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state
+{
+    switch (state) {
+        case 0:
+            NSLog(@"utility buttons closed");
+            break;
+        case 2:{
+            NSLog(@"right utility buttons open");
+            NSIndexPath *path = [self.tableList indexPathForCell:cell];
+            NSString *propID;
+            if (path.section == 0) {
+                propID = [self.lastedListData objectAtIndex:path.row][@"propId"];
+            }else if (path.section == 1){
+                propID = [self.oldListData objectAtIndex:path.row][@"propId"];
+            }
+            [self sendLeftSwipLogAndPropId:propID];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)sendLeftSwipLogAndPropId:(NSString *)propId
+{
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJTG_LIST_LEFT page:ZF_DJTG_LIST_PAGE note:@{@"propId":propId}];
+    } else {
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJTG_LIST_LEFT_HD page:ESF_DJTG_LIST_PAGE note:@{@"propId":propId}];
+    }
+}
+
 #pragma mark --UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 1) {
