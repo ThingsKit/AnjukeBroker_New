@@ -11,6 +11,7 @@
 #import "BrokerRegisterInfoViewController.h"
 #import "BrokerCallAlert.h"
 #import <TPKeyboardAvoidingScrollView.h>
+#import "BrokerLineView.h"
 
 @interface BrokerRegisterViewController ()<UIScrollViewDelegate, UITextFieldDelegate>
 
@@ -116,7 +117,8 @@
     passwordTextField.placeholder = @"6-16位密码";
     passwordTextField.delegate = self;
     
-    RTLineView *bottomLineView = [[RTLineView alloc] initWithFrame:CGRectMake(0, verifyLineView.bottom+45, 320, 1)];
+    BrokerLineView *bottomLineView = [[BrokerLineView alloc] initWithFrame:CGRectMake(0, verifyLineView.bottom+44.5, 320, 0.5)];
+    
     
     UIButton *nextBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     nextBtn.frame = CGRectMake(15, bottomLineView.bottom+20, 290, 40);
