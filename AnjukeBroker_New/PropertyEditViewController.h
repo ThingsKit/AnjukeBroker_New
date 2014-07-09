@@ -10,9 +10,7 @@
 #import "BK_RTNavigationController.h"
 
 @protocol PropertyEditDelegate <NSObject>
-
 - (void)propertyDidDelete;
-
 @end
 
 @interface PropertyEditViewController : PublishBuildingViewController

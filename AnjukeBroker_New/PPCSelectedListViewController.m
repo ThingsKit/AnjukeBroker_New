@@ -263,7 +263,7 @@
             
             NSString *str;
             if (!self.onOfflineListData || self.onOfflineListData.count == 0) {
-                str = @"推广结束";
+                str = @"推广结束(0)";
             }else{
                 str = [NSString stringWithFormat:@"推广结束(%d)",self.onOfflineListData.count];
             }

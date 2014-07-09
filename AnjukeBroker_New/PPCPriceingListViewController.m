@@ -10,7 +10,6 @@
 #import "PPCHouseCell.h"
 #import "NSMutableArray+SWUtilityButtons.h"
 #import "PPCPriceingListModel.h"
-#import "PropertyEditViewController.h"
 #import "RTGestureBackNavigationController.h"
 #import "CommunityListViewController.h"
 #import "PropertySingleViewController.h"
@@ -320,6 +319,7 @@
 //删除房源
 - (void)doDeleteProperty:(NSString *)propertyID{
     self.isLoading = YES;
+    [self showLoadingActivity:YES];
     if (![self isNetworkOkayWithNoInfo]) {
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         self.isLoading = NO;
@@ -343,7 +343,7 @@
 
 - (void)onDeletePropFinished:(RTNetworkResponse *)response {
     DLog(@"--delete Prop。。。response [%@]", [response content]);
-    
+    [self hideLoadWithAnimated:YES];
     if([[response content] count] == 0){
         [[HUDNews sharedHUDNEWS] createHUD:@"无网络连接" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
     }
@@ -420,12 +420,24 @@
             [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJTG_LIST_LEFT_EDIT page:ESF_DJTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:properId,@"PROP_ID", nil]];
         }
         PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+        controller.propertyDelegate = self;
         controller.isHaozu = self.isHaozu;
         controller.propertyID = properId;
         controller.backType = RTSelectorBackTypeDismiss;
         RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
         [self presentViewController:nav animated:YES completion:nil];
     }
+}
+
+- (void)propertyDidDelete{
+    DLog(@"删除成功");
+    [self showLoadingActivity:YES];
+    [self performSelector:@selector(popBack) withObject:nil afterDelay:3.0];
+}
+
+- (void)popBack{
+    [self hideLoadWithAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {

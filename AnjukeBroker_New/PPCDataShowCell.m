@@ -67,7 +67,7 @@
     houseNumTitLab.text = @"房源量";
     [self.contentView addSubview:houseNumTitLab];
     
-    self.todayClickLab = [[UILabel alloc] initWithFrame:CGRectMake(30, 45, 80, 80)];
+    self.todayClickLab = [[UILabel alloc] initWithFrame:CGRectMake(30, 45, 110, 80)];
     self.todayClickLab.backgroundColor = [UIColor clearColor];
     self.todayClickLab.font = [UIFont boldSystemFontOfSize:80];
     self.todayClickLab.text = @"0";
@@ -109,7 +109,7 @@
     if (clickStr.length == 3) {
         self.todayClickLab.font = [UIFont systemFontOfSize:60];
     }else if (clickStr.length == 4){
-        self.todayClickLab.font = [UIFont systemFontOfSize:40];
+        self.todayClickLab.font = [UIFont systemFontOfSize:50];
     }
     
     self.todayCostLab.text = [NSString stringWithFormat:@"%d",[model.todayCostFee intValue]];
