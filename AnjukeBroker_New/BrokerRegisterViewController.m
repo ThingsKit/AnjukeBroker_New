@@ -65,6 +65,7 @@
     phoneTextField.keyboardType =UIKeyboardTypeNumberPad;
     phoneTextField.textColor = textFieldColor;
     phoneTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    phoneTextField.placeholder = @"11位手机号";
     
     RTLineView *verticalLineView = [[RTLineView alloc] initWithFrame:CGRectMake(225, topLineView.bottom, 1, 44)];
     verticalLineView.horizontalLine = NO;
@@ -92,6 +93,7 @@
     verifyTextField.keyboardType =UIKeyboardTypeNumberPad;
     verifyTextField.textColor = textFieldColor;
     verifyTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    verifyTextField.placeholder = @"手机验证码";
     
     RTLineView *verifyLineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, phoneLineView.bottom+45, 305, 1)];
     
@@ -108,6 +110,7 @@
     passwordTextField.secureTextEntry = YES;
     passwordTextField.textColor = textFieldColor;
     passwordTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    passwordTextField.placeholder = @"6-16位密码";
     
     RTLineView *bottomLineView = [[RTLineView alloc] initWithFrame:CGRectMake(0, verifyLineView.bottom+45, 320, 1)];
     

@@ -553,6 +553,7 @@
         nameTextField.textColor = [UIColor brokerBlackColor];
         nameTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         nameTextField.returnKeyType = UIReturnKeyDone;
+        nameTextField.placeholder = @"输入真实姓名";
         if (self.brokerName) {
             nameTextField.text = self.brokerName;
         }
