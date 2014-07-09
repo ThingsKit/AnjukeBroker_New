@@ -46,6 +46,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier containingTableView:containingTableView leftUtilityButtons:leftUtilityButtons rightUtilityButtons:rightUtilityButtons];
     
     if (self) {
+//        self.frame = CGRectMake(0, 0, ScreenWidth, 90);
         [self initCell];
         self.isSelected = false;
     }
@@ -131,6 +132,12 @@
     self.contentView.backgroundColor = [UIColor brokerWhiteColor];
     
     [self.cellScrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+    
+}
+
+- (void)dealloc
+{
+    [self.cellScrollView removeObserver:self forKeyPath:@"contentOffset"];
 }
 
 //cell下划线
