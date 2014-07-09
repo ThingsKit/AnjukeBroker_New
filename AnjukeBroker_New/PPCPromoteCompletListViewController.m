@@ -9,6 +9,7 @@
 #import "PPCPromoteCompletListViewController.h"
 #import "PPCPriceingListModel.h"
 #import "PropertySingleViewController.h"
+#import "RTGestureLock.h"
 
 @interface PPCPromoteCompletListViewController ()
 @property(nonatomic, assign) NSInteger deleCellNum;
@@ -226,6 +227,15 @@
     
     self.deleCellNum = indexPath.row;
     [self cleanPromoteCompletHouse:[self.tableData objectAtIndex:indexPath.row][@"propId"]];
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell nowStatus:(CellState)status{
+    if (status == CellStateLeft || status == CellStateRight) {
+        [RTGestureLock setDisableGestureForBack:(BK_RTNavigationController *)self.navigationController disableGestureback:YES];
+    }
+    if (status == CellStateCenter) {
+        [RTGestureLock setDisableGestureForBack:(BK_RTNavigationController *)self.navigationController disableGestureback:NO];
+    }
 }
 
 - (NSMutableArray *)getMenuButton{

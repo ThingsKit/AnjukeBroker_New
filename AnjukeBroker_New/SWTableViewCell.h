@@ -22,6 +22,12 @@ typedef enum {
     kCellStateRight
 } SWCellState;
 
+typedef enum {
+    CellStateCenter,
+    CellStateLeft,
+    CellStateRight
+} CellState;
+
 @protocol SWTableViewCellDelegate <NSObject>
 
 @optional
@@ -30,11 +36,11 @@ typedef enum {
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state;
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell;
 - (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state;
-
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell nowStatus:(CellState)status;
 @end
 
 @interface SWTableViewCell : UITableViewCell
-
+@property (nonatomic, assign) CellState cellStatus;
 @property (nonatomic, strong) NSArray *leftUtilityButtons;
 @property (nonatomic, strong) NSArray *rightUtilityButtons;
 @property (nonatomic, weak) id <SWTableViewCellDelegate> delegate;

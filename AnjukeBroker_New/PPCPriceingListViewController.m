@@ -15,6 +15,7 @@
 #import "PropertySingleViewController.h"
 #import "PPCPlanIdRequest.h"
 #import "BrokerLogger.h"
+#import "RTGestureLock.h"
 
 @interface PPCPriceingListViewController ()
 @property(nonatomic, strong) NSMutableArray *tableData;
@@ -341,7 +342,7 @@
     [self.tableData addObjectsFromArray:self.oldListData];
 
     if (self.tableData.count == 0) {
-        [self.tableList setTableStatus:STATUSFORNODATAFORPRICINGLIST];
+        [self.tableList setTableStatus:STATUSFORNODATAFORNOHOUSE];
         
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
         tapGes.delegate                = self;
@@ -484,6 +485,15 @@
 
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
     return YES;
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell nowStatus:(CellState)status{
+    if (status == CellStateLeft || status == CellStateRight) {
+        [RTGestureLock setDisableGestureForBack:(BK_RTNavigationController *)self.navigationController disableGestureback:YES];
+    }
+    if (status == CellStateCenter) {
+        [RTGestureLock setDisableGestureForBack:(BK_RTNavigationController *)self.navigationController disableGestureback:NO];
+    }
 }
 
 #pragma mark --UIAlertViewDelegate

@@ -29,7 +29,6 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
 
 @property (nonatomic, strong) SWLongPressGestureRecognizer *longPressGestureRecognizer;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
-
 @end
 
 @implementation SWTableViewCell
@@ -88,6 +87,39 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
     return self;
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    
+    CGPoint point = self.cellScrollView.contentOffset;
+    DLog("pointX--->>%f",point.x);
+    if (point.x > 0 ) {
+        if (self.cellStatus == CellStateLeft) {
+            return;
+        }
+        self.cellStatus = CellStateLeft;
+        if ([self.delegate respondsToSelector:@selector(swipeableTableViewCell:nowStatus:)]) {
+            [self.delegate swipeableTableViewCell:self nowStatus:CellStateLeft];
+        }
+    }else if (point.x == 0){
+        if (self.cellStatus == CellStateCenter) {
+            return;
+        }
+        self.cellStatus = CellStateCenter;
+        if ([self.delegate respondsToSelector:@selector(swipeableTableViewCell:nowStatus:)]) {
+            [self.delegate swipeableTableViewCell:self nowStatus:CellStateCenter];
+        }
+    }else if (point.x == -90*self.leftUtilityButtons.count){
+        if (self.cellStatus == CellStateRight) {
+            return;
+        }
+        self.cellStatus = CellStateRight;
+        if ([self.delegate respondsToSelector:@selector(swipeableTableViewCell:nowStatus:)]) {
+            [self.delegate swipeableTableViewCell:self nowStatus:CellStateRight];
+        }
+    }
+}
+
+
 - (void)initializer
 {
     // Check if the UITableView will display Indices on the right. If that's the case, add a padding
@@ -98,16 +130,19 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
     }
     
     // Set up scroll view that will host our cell content
-    SWCellScrollView *cellScrollView = [[SWCellScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), self.height)];
-    cellScrollView.delegate = self;
-    cellScrollView.showsHorizontalScrollIndicator = NO;
-    cellScrollView.scrollsToTop = NO;
-    cellScrollView.scrollEnabled = YES;
+    //    SWCellScrollView *cellScrollView = [[SWCellScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), self.height)];
+    self.cellScrollView = [[SWCellScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), self.height)];
+    self.cellScrollView.delegate = self;
+    self.cellScrollView.showsHorizontalScrollIndicator = NO;
+    self.cellScrollView.scrollsToTop = NO;
+    self.cellScrollView.scrollEnabled = YES;
+    
+    [self.cellScrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                            action:@selector(scrollViewUp:)];
     tapGestureRecognizer.cancelsTouchesInView = NO;
-    [cellScrollView addGestureRecognizer:tapGestureRecognizer];
+    [self.cellScrollView addGestureRecognizer:tapGestureRecognizer];
     
     self.tapGestureRecognizer = tapGestureRecognizer;
     
@@ -115,11 +150,11 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
                                                                                                              action:@selector(scrollViewPressed:)];
     longPressGestureRecognizer.cancelsTouchesInView = NO;
     longPressGestureRecognizer.minimumPressDuration = 0.1;
-    [cellScrollView addGestureRecognizer:longPressGestureRecognizer];
+    [self.cellScrollView addGestureRecognizer:longPressGestureRecognizer];
     
     self.longPressGestureRecognizer = longPressGestureRecognizer;
     
-    self.cellScrollView = cellScrollView;
+    //    self.cellScrollView = cellScrollView;
     
     // Create the content view that will live in our scroll view
     UIView *scrollViewContentView = [[UIView alloc] initWithFrame:CGRectMake([self leftUtilityButtonsWidth], 0, CGRectGetWidth(self.bounds), self.height)];
@@ -135,7 +170,7 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
         contentViewParent = [self.subviews objectAtIndex:0];
     }
     NSArray *cellSubviews = [contentViewParent subviews];
-    [self insertSubview:cellScrollView atIndex:0];
+    [self insertSubview:self.cellScrollView atIndex:0];
     for (UIView *subview in cellSubviews)
     {
         [self.scrollViewContentView addSubview:subview];
@@ -146,7 +181,7 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
 
 - (void)layoutSubviews
 {
-
+    
     [super layoutSubviews];
     
     self.cellScrollView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), self.height);
@@ -176,7 +211,7 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
     [scrollViewButtonViewLeft setFrame:CGRectMake([self leftUtilityButtonsWidth], 0, [self leftUtilityButtonsWidth], self.height)];
     
     [self.cellScrollView insertSubview:scrollViewButtonViewLeft belowSubview:self.scrollViewContentView];
-
+    
     [departingLeftButtons removeFromSuperview];
     [scrollViewButtonViewLeft populateUtilityButtons];
     
@@ -190,7 +225,7 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
     SWUtilityButtonView *scrollViewButtonViewRight = [[SWUtilityButtonView alloc] initWithUtilityButtons:rightUtilityButtons
                                                                                               parentCell:self
                                                                                    utilityButtonSelector:@selector(rightUtilityButtonHandler:)];
-
+    
     self.scrollViewButtonViewRight = scrollViewButtonViewRight;
     [scrollViewButtonViewRight setFrame:CGRectMake(CGRectGetWidth(self.bounds), 0, [self rightUtilityButtonsWidth], self.height)];
     
@@ -424,7 +459,7 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
     {
         [self.delegate swipeableTableViewCell:self scrollingToState:kCellStateRight];
     }
-
+    
     if ([self.delegate respondsToSelector:@selector(swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:)])
     {
         for (SWTableViewCell *cell in [self.containingTableView visibleCells]) {
@@ -442,7 +477,7 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
     
     self.longPressGestureRecognizer.enabled = YES;
     self.tapGestureRecognizer.enabled = NO;
-
+    
     if ([self.delegate respondsToSelector:@selector(swipeableTableViewCell:scrollingToState:)])
     {
         [self.delegate swipeableTableViewCell:self scrollingToState:kCellStateCenter];
