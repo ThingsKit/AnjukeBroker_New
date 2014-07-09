@@ -346,17 +346,41 @@
             }
         }else
         {
+            /*
             NSString *fromUid = [[userInfo objectForKey:@"anjuke_custom"] objectForKey:@"from_uid"];
             BrokerChatViewController *controller = [[BrokerChatViewController alloc] init];
             controller.isBroker = YES;
             controller.uid = fromUid;
             [controller setHidesBottomBarWhenPushed:YES];
             controller.backType = RTSelectorBackTypeDismiss;
-            
             BK_RTNavigationController* navi = [[BK_RTNavigationController alloc] initWithRootViewController:controller];
             if (self.tabController) {
                 [self.tabController presentViewController:navi animated:YES completion:nil];
+            }*/
+            
+            NSArray *arrController = [(UINavigationController *)self.window.rootViewController viewControllers];
+            
+            TabBarViewController *nowcontroller = nil;
+            if (![[arrController lastObject] isKindOfClass:[TabBarViewController class]])
+            {
+                
+                for (int i = 0; i < [arrController count]; i++)
+                {
+                    if ([[arrController lastObject] isKindOfClass:[TabBarViewController class]])
+                    {
+                        nowcontroller = [arrController objectAtIndex:i];
+                        break;
+                    }
+                }
+            }else
+            {
+                nowcontroller = [arrController lastObject];
             }
+
+            RTGestureBackNavigationController *tabNavi = [[nowcontroller controllerArrays] objectAtIndex:[nowcontroller selectedIndex]];
+            [nowcontroller setSelectedIndex:1];
+            [tabNavi popToRootViewControllerAnimated:YES];
+
         }
     }
     
