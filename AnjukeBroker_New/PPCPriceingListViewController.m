@@ -274,6 +274,10 @@
     self.isLoading = NO;
     DLog(@"response---->>%@",[response content]);
     if(([[response content] count] == 0) || ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"])){
+        if ([[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
+            
+            DLog(@"error---->>%@",[response content][@"message"]);
+        }
         [self donePullDown];
         [self.tableList setTableStatus:STATUSFORREMOTESERVERERROR];
         
@@ -354,15 +358,23 @@
         
         [[HUDNews sharedHUDNEWS] createHUD:@"网络不畅" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNetWorkBad];
         
-        //        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        NSString *errorMsg = [NSString stringWithFormat:@"%@",[[response content] objectForKey:@"message"]];
+        DLog(@"errorMsg--->>%@",errorMsg);
         return;
     }
     
     [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
     
     [self autoPullDown];
+    
+    [self showLoadingActivity:YES];
+    [self performSelector:@selector(popBack) withObject:nil afterDelay:3.0];
 }
 
+- (void)popBack{
+    [self hideLoadWithAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (void)rightButtonAction:(id)sender{
     if (self.isHaozu) {
@@ -435,10 +447,6 @@
     [self performSelector:@selector(popBack) withObject:nil afterDelay:3.0];
 }
 
-- (void)popBack{
-    [self hideLoadWithAnimated:YES];
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
     return YES;

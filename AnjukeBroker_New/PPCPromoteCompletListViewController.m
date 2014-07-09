@@ -141,11 +141,17 @@
         [self.tableList deleteRowsAtIndexPaths:[NSArray arrayWithObjects:path, nil] withRowAnimation:UITableViewRowAnimationLeft];
     }
     
-    if (!self.tableData || self.tableData.count == 0) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+//    if (!self.tableData || self.tableData.count == 0) {
+//        [self.navigationController popViewControllerAnimated:YES];
+//    }
+    [self showLoadingActivity:YES];
+    [self performSelector:@selector(popBack) withObject:nil afterDelay:3.0];
 }
 
+- (void)popBack{
+    [self hideLoadWithAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (UIEdgeInsets)tableViewInsetsWithBottomValue:(CGFloat)bottom
 {
     UIEdgeInsets insets = UIEdgeInsetsZero;
