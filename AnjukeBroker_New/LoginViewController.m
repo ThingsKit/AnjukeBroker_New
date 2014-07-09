@@ -112,17 +112,12 @@
     }
     
     self.logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_60"]];
-    self.logo.frame = CGRectMake(self.logoGap, 140,  self.logoW,  self.logoW);
-
-    self.logo.backgroundColor = [UIColor clearColor];
-    self.logo.contentMode = UIViewContentModeScaleAspectFill;
-    self.logo.layer.cornerRadius = 5;
-    [self.loginView addSubview:self.logo];
+    self.logo.frame              = CGRectMake(self.logoGap, 140,  self.logoW,  self.logoW);
+    self.logo.backgroundColor    = [UIColor clearColor];
+    self.logo.contentMode        = UIViewContentModeScaleAspectFill;
     
     self.textFieldViewTF = [[UIView alloc] initWithFrame:CGRectMake(btnGap, textFieldViewTF_Y,  btnW, btnH*2+1)];
-
     self.textFieldViewTF.backgroundColor = [UIColor whiteColor];
-    [self.loginView addSubview:self.textFieldViewTF];
     
     self.nameTF = [self textFieldWithFrame:CGRectMake(tfGap, tfGapH, tfW, tfH) PlaceHolder:@"手机号" secureTextEntry:NO];
     [self.textFieldViewTF addSubview:self.nameTF];
@@ -145,6 +140,8 @@
     self.registerLabel.font      = [UIFont systemFontOfSize:14];
     self.registerLabel.backgroundColor = [UIColor clearColor];
     
+    [self.loginView addSubview:self.textFieldViewTF];
+    [self.loginView addSubview:self.logo];
     [self.loginView addSubview:self.loginBtn];
     [self.loginView addSubview:self.registerBtn];
     [self.loginView addSubview:self.registerLabel];
