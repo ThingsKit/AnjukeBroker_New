@@ -393,7 +393,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 //    static NSString *identifier = @"identifierCell";
-    MultipleChoiceAndEditListCell *cell = [tableView dequeueReusableCellWithIdentifier:nil];
+    MultipleChoiceAndEditListCell *cell = (MultipleChoiceAndEditListCell *)[tableView dequeueReusableCellWithIdentifier:nil];
 
     NSArray *rightBtnarr = [NSArray array];
     rightBtnarr = [self rightButtons];
