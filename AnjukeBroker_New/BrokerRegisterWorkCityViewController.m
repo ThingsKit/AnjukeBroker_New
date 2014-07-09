@@ -64,32 +64,31 @@
 
 - (void)initCityDataArray
 {
-    //  获取GPS定位城市
-    NSString *cityID     = [[RTLocationManager sharedInstance] locatedCityID];
-    if (![cityID isEqual:@"-1"]) {
-        [[RTCityInfoManager sharedInstance] setServiceType:RTAnjukeServiceID];
-        RTCityInfo *cityInfo  = [[RTCityInfoManager sharedInstance] cityInfoWithCityID:cityID];
-        if (cityInfo == nil) {
-            [self addGPSCityWithCityName:@"未知" cityID:cityID isLocatedSuccess:NO];
-        } else {
-            [self addGPSCityWithCityName:cityInfo.cityName cityID:cityID isLocatedSuccess:YES];
-        }
-    } else {
-        [self addGPSCityWithCityName:@"未知" cityID:cityID isLocatedSuccess:NO];
-    }
+    self.cityData = [NSArray array];
     
     //  初始化tableView的索引
     NSMutableArray *indexArray = [NSMutableArray arrayWithArray:[[UILocalizedIndexedCollation currentCollation] sectionIndexTitles]];
     [indexArray removeLastObject];
+    
     // 初始化tableView的数据源
     NSMutableArray *cityArray  = [NSMutableArray array];
     for (NSString *index in indexArray) {
         CityModel *city  = [[CityModel alloc] initWithTitle:index cityArray:[NSArray array]];
         [cityArray addObject:city];
     }
-    self.cityData   = [self.cityData arrayByAddingObjectsFromArray:cityArray];
-    self.indexArray = [@[@"#"] arrayByAddingObjectsFromArray:indexArray];
+    self.indexArray = indexArray;
     
+    //  获取GPS定位城市
+    NSString *cityID     = [[RTLocationManager sharedInstance] locatedCityID];
+    if (![cityID isEqual:@"-1"]) {
+        [[RTCityInfoManager sharedInstance] setServiceType:RTAnjukeServiceID];
+        RTCityInfo *cityInfo  = [[RTCityInfoManager sharedInstance] cityInfoWithCityID:cityID];
+        if (cityInfo != nil) {
+            self.indexArray = [@[@"#"] arrayByAddingObjectsFromArray:indexArray];
+            [self addGPSCityWithCityName:cityInfo.cityName cityID:cityID isLocatedSuccess:YES];
+        }
+    }
+    self.cityData   = [self.cityData arrayByAddingObjectsFromArray:cityArray];
 }
 
 - (void)addGPSCityWithCityName:(NSString *)cityName cityID:(NSString *)cityID isLocatedSuccess:(BOOL)isLocatedSuccess
@@ -146,7 +145,7 @@
     
     CityModel *cityModel = [self.cityData objectAtIndex:section];
     CGFloat height = [cityModel.cityArray count] ? 30 : 0;
-    if (section == 0) {
+    if (section == 0 && height == 30) {
         height = 35 ;
     }
     return height;

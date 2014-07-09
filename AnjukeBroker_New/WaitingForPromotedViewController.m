@@ -96,7 +96,6 @@
     _buttonPromote.centerY = 50/2;
     _buttonPromote.titleLabel.font = [UIFont ajkH3Font];
     [self promotionButtonBackImage];
-    [_buttonPromote setTitle:[NSString stringWithFormat:@"定价推广(%d)", self.selectedCellCount]  forState:UIControlStateNormal];
     [_buttonPromote addTarget:self action:@selector(clickFixPromotionButton:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.mutipleEditView addSubview:_buttonSelect];
@@ -354,15 +353,16 @@
 
 - (void)updatePromotionButtonText
 {
-    [self.buttonPromote setTitle:[NSString stringWithFormat:@"定价推广(%d)",self.selectedCellCount] forState:UIControlStateNormal];
     [self promotionButtonBackImage];
 }
 
 - (void)promotionButtonBackImage
 {
     if (self.selectedCellCount == 0) {
+        [self.buttonPromote setTitle:[NSString stringWithFormat:@"定价推广"] forState:UIControlStateNormal];
         [_buttonPromote setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue_lost"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
     } else {
+        [self.buttonPromote setTitle:[NSString stringWithFormat:@"定价推广(%d)",self.selectedCellCount] forState:UIControlStateNormal];
         [_buttonPromote setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
     }
 }
@@ -561,7 +561,6 @@
     [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
 }
 
-#pragma mark - Log
 
 #pragma mark - SWTableViewDelegate
 - (void)swipeableTableViewCell:(MultipleChoiceAndEditListCell *)cell scrollingToState:(SWCellState)state
@@ -584,6 +583,7 @@
     }
 }
 
+#pragma mark - Log
 - (void)sendLeftSwipLogAndPropId:(NSString *)propId
 {
     if (self.isHaozu) {
