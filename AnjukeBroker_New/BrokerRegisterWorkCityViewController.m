@@ -52,7 +52,9 @@
     if ([[UIDevice currentDevice].systemVersion compare:@"7.0"] >= 0) {
         tableView.sectionIndexBackgroundColor = [UIColor clearColor];
     }
-    tableView.sectionIndexColor = [UIColor brokerBabyBlueColor];
+    if ([[UIDevice currentDevice].systemVersion compare:@"6.0"] >= 0) {
+        tableView.sectionIndexColor = [UIColor brokerBabyBlueColor];
+    }
     tableView.backgroundColor   = [UIColor clearColor];
     self.tableView = tableView;
     [self.view addSubview:tableView];
