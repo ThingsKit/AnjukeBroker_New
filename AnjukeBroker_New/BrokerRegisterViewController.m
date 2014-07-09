@@ -323,7 +323,7 @@
     [self.verifyBtn setTitle:[NSString stringWithFormat:@"重新获取(%d)",self.secondsCountDown] forState:UIControlStateDisabled];
     [self.verifyBtn setTitleColor:[UIColor brokerLightGrayColor] forState:UIControlStateDisabled];
     
-    if(self.secondsCountDown == 0){
+    if(self.secondsCountDown <= 0){
         [self.countDownTimer invalidate];
         [self.verifyBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
         [self.verifyBtn setTitleColor:[UIColor brokerBabyBlueColor] forState:UIControlStateNormal];
