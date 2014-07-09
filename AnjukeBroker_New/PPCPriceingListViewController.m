@@ -85,24 +85,48 @@
     if (self.lastedListData.count == 0 && self.oldListData.count == 0) {
         return 0;
     }
-    if (self.lastedListData.count > 0 && self.oldListData.count > 0) {
-        return 2;
-    }
-    return 1;
+    return 2;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+//    if (self.lastedListData.count == 0 && self.oldListData.count == 0) {
+//        return nil;
+//    }
+//    if (section == 0) {
+//        return nil;
+//    }else if (section == 1){
+//        return @"30天前发布房源";
+//    }
+//    return nil;
+//}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    NSString *tit;
+    float height;
+    
     if (self.lastedListData.count == 0 && self.oldListData.count == 0) {
-        return nil;
+        tit = @"";
+        height = 0;
     }
-    if (self.lastedListData.count > 0 && self.oldListData.count > 0) {
-        if (section == 0) {
-            return nil;
-        }else if (section == 1){
-            return @"30天前发布房源";
-        }
+    if (section == 0) {
+        tit = @"";
+        height = 0;
+    }else if (section == 1){
+        tit = @"30天前发布房源";
+        height = 40;
     }
-    return nil;
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, height)];
+    view.backgroundColor = [UIColor whiteColor];
+    
+    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 200, height)];
+    lab.backgroundColor = [UIColor clearColor];
+    lab.textColor = [UIColor brokerLightGrayColor];
+    lab.font = [UIFont ajkH3Font];
+    lab.text = tit;
+    [view addSubview:lab];
+
+    return view;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -162,6 +186,10 @@
         
         [cell configureCell:model withIndex:indexPath.row isHaoZu:self.isHaozu];
 
+        if (indexPath.row == 0) {
+            [cell showTopLine];
+        }
+        
         if (indexPath.row != self.oldListData.count - 1) {
             [cell showBottonLineWithCellHeight:95 andOffsetX:15];
         }else{
@@ -314,6 +342,12 @@
 
     if (self.tableData.count == 0) {
         [self.tableList setTableStatus:STATUSFORNODATAFORPRICINGLIST];
+        
+        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
+        tapGes.delegate                = self;
+        tapGes.numberOfTouchesRequired = 1;
+        tapGes.numberOfTapsRequired    = 1;
+        [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
     }else{
         [self.tableList setTableStatus:STATUSFOROK];
     }

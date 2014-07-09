@@ -13,9 +13,9 @@
 @interface PPCHouseCell : SWTableViewCell
 
 @property (strong, nonatomic) BrokerLineView *lineView;
-
+@property (strong, nonatomic) BrokerLineView *topLine;
 
 - (BOOL)configureCell:(id)dataModel withIndex:(int)index isHaoZu:(BOOL)isHaoZu;
 - (void)showBottonLineWithCellHeight:(CGFloat)cellH andOffsetX:(CGFloat)offsetX;
-
+- (void)showTopLine;
 @end
