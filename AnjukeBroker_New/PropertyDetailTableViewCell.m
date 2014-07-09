@@ -218,18 +218,30 @@
     
     //户型
     _houseType.frame = CGRectMake(_propertyIcon.right + 12, _community.bottom + GAP_V, 100, 20);
-    _houseType.text = [NSString stringWithFormat:@"%@室%@厅%@卫", self.propertyDetailTableViewCellModel.roomNum, self.propertyDetailTableViewCellModel.hallNum, self.propertyDetailTableViewCellModel.toiletNum];
+    if (_isHaozu) {
+        _houseType.text = [NSString stringWithFormat:@"%@室%@厅", self.propertyDetailTableViewCellModel.roomNum, self.propertyDetailTableViewCellModel.hallNum];
+    }else{
+        _houseType.text = [NSString stringWithFormat:@"%@室%@厅%@卫", self.propertyDetailTableViewCellModel.roomNum, self.propertyDetailTableViewCellModel.hallNum, self.propertyDetailTableViewCellModel.toiletNum];
+    }
     [_houseType sizeToFit];
     
     //面积
-    _area.frame = CGRectMake(_houseType.right + GAP_H, _community.bottom + GAP_V, 100, 20);
-    _area.text = [NSString stringWithFormat:@"%@平", self.propertyDetailTableViewCellModel.area];
-    [_area sizeToFit];
-    
-    //租金或售价
-    _price.frame = CGRectMake(_area.right + GAP_H, _community.bottom + GAP_V, 100, 20);
-    _price.text = [NSString stringWithFormat:@"%@%@", self.propertyDetailTableViewCellModel.price, self.propertyDetailTableViewCellModel.priceUnit];
-    [_price sizeToFit];
+    if (_isHaozu) {
+        //租金或售价
+        _price.frame = CGRectMake(_houseType.right + GAP_H, _community.bottom + GAP_V, 100, 20);
+        _price.text = [NSString stringWithFormat:@"%@%@", self.propertyDetailTableViewCellModel.price, self.propertyDetailTableViewCellModel.priceUnit];
+        [_price sizeToFit];
+        
+    }else{
+        _area.frame = CGRectMake(_houseType.right + GAP_H, _community.bottom + GAP_V, 100, 20);
+        _area.text = [NSString stringWithFormat:@"%@平", self.propertyDetailTableViewCellModel.area];
+        [_area sizeToFit];
+        
+        //租金或售价
+        _price.frame = CGRectMake(_area.right + GAP_H, _community.bottom + GAP_V, 100, 20);
+        _price.text = [NSString stringWithFormat:@"%@%@", self.propertyDetailTableViewCellModel.price, self.propertyDetailTableViewCellModel.priceUnit];
+        [_price sizeToFit];
+    }
     //    _price.backgroundColor = [UIColor redColor];
     
 }

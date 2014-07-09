@@ -77,8 +77,6 @@
         _propId = @"168783092";
     }
     
-    self.propertyDelegate = self; //设置编辑房源页删除房源的回调
-    
     //表
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44 - 49) style:UITableViewStylePlain];
     _tableView.delegate = self;
@@ -212,6 +210,7 @@
         }
         if (self.data.count > 0) {
             cell.propertyDetailTableViewCellModel = self.data[0]; //第一个是房源数据模型
+            cell.isHaozu = self.isHaozu;
             [cell showTopLine];
             [cell showBottonLineWithCellHeight:95];
             return cell;

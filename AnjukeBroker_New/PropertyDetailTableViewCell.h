@@ -12,5 +12,6 @@
 @interface PropertyDetailTableViewCell : RTListCell
 
 @property (nonatomic, strong) PropertyDetailCellModel* propertyDetailTableViewCellModel;
+@property (nonatomic, assign) BOOL isHaozu;
 
 @end

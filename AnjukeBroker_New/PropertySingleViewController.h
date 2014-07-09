@@ -27,7 +27,6 @@ typedef enum {
 @property (nonatomic, copy) NSString* propId;
 @property (nonatomic, assign) NSString* pageId;
 
-@property (nonatomic, assign) id <PropertyEditDelegate> propertyDelegate;
 //@property(nonatomic, strong) NSMutableDictionary* params; //@"isHaozu", @"pageType", @"propId"
 
 @end
