@@ -195,7 +195,6 @@
 		27C61C68192B034B002076AE /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27C61C67192B034B002076AE /* AdSupport.framework */; };
 		498F2815196C095D009ED4B8 /* anjuke_icon_button_little_blue_lost@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 498F2814196C095D009ED4B8 /* anjuke_icon_button_little_blue_lost@2x.png */; };
 		49C1885C1963E6FA000B5C5B /* WaitingForPromotedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C1885B1963E6FA000B5C5B /* WaitingForPromotedViewController.m */; };
-		49C188601963E792000B5C5B /* ESFWaitingForPromotedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C1885F1963E792000B5C5B /* ESFWaitingForPromotedViewController.m */; };
 		49C188631963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C188621963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m */; };
 		670F016F1931C8F5004C95B2 /* LocationSpecifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F016E1931C8F5004C95B2 /* LocationSpecifyViewController.m */; };
 		670F01721931D866004C95B2 /* KKAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F01711931D866004C95B2 /* KKAnnotation.m */; };
@@ -1113,8 +1112,6 @@
 		498F2814196C095D009ED4B8 /* anjuke_icon_button_little_blue_lost@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "anjuke_icon_button_little_blue_lost@2x.png"; sourceTree = "<group>"; };
 		49C1885A1963E6FA000B5C5B /* WaitingForPromotedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingForPromotedViewController.h; sourceTree = "<group>"; };
 		49C1885B1963E6FA000B5C5B /* WaitingForPromotedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitingForPromotedViewController.m; sourceTree = "<group>"; };
-		49C1885E1963E792000B5C5B /* ESFWaitingForPromotedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESFWaitingForPromotedViewController.h; sourceTree = "<group>"; };
-		49C1885F1963E792000B5C5B /* ESFWaitingForPromotedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESFWaitingForPromotedViewController.m; sourceTree = "<group>"; };
 		49C188611963E7A6000B5C5B /* MultipleChoiceAndEditListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipleChoiceAndEditListCell.h; sourceTree = "<group>"; };
 		49C188621963E7A6000B5C5B /* MultipleChoiceAndEditListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipleChoiceAndEditListCell.m; sourceTree = "<group>"; };
 		670F016D1931C8F5004C95B2 /* LocationSpecifyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSpecifyViewController.h; sourceTree = "<group>"; };
@@ -2669,15 +2666,6 @@
 			name = MutipleToBePromoted;
 			sourceTree = "<group>";
 		};
-		49C1885D1963E71C000B5C5B /* MutipleToBePromoted */ = {
-			isa = PBXGroup;
-			children = (
-				49C1885E1963E792000B5C5B /* ESFWaitingForPromotedViewController.h */,
-				49C1885F1963E792000B5C5B /* ESFWaitingForPromotedViewController.m */,
-			);
-			name = MutipleToBePromoted;
-			sourceTree = "<group>";
-		};
 		4BE066E019064B6200EA2309 /* AXDownLoadModule */ = {
 			isa = PBXGroup;
 			children = (
@@ -3192,7 +3180,6 @@
 		972C10241814FC4C00552C9B /* 二手房业务管理 */ = {
 			isa = PBXGroup;
 			children = (
-				49C1885D1963E71C000B5C5B /* MutipleToBePromoted */,
 				F88AE26B195C2D77009E3F5E /* NoData */,
 				B77A9608182A3331007F04E3 /* Manager */,
 				B769E488181F968900A2FF50 /* Controllers */,
@@ -5456,7 +5443,6 @@
 				2056A38A18EE7EA00022B5A5 /* AXMessageCenterAddFriendManager.m in Sources */,
 				6794E4441947FDB50069F1ED /* SDWebImageDownloader.m in Sources */,
 				97B422571820D9A600A2E9E6 /* PropertyGroupListViewController.m in Sources */,
-				49C188601963E792000B5C5B /* ESFWaitingForPromotedViewController.m in Sources */,
 				B721094F18277F8A00904FC7 /* BaseFixedCell.m in Sources */,
 				F8FCFC2318FE8F3500A4B012 /* RTGestureLock.m in Sources */,
 				20E1A1F418FD0DF800FBDA75 /* RTGestureBackNavigationController.m in Sources */,
