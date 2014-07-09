@@ -474,8 +474,6 @@
                                                       cancelButtonTitle:@"取消"
                                                       otherButtonTitles:@"确认", nil];
             [alertTest show];
-
-
             break;
         };
 
@@ -504,8 +502,8 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) {
-        [self doDeleteProperty:self.editPropertyId];
         [self sendLeftDeleteLogAndPropId:self.editPropertyId];
+        [self doDeleteProperty:self.editPropertyId];
     }
 }
 
@@ -532,6 +530,7 @@
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onDeletePropFinished:)];
     self.isLoading = YES;
     [self showLoadingActivity:YES];
+    [self performSelector:@selector(doBack:) withObject:nil afterDelay:3.0];
 }
 
 - (void)onDeletePropFinished:(RTNetworkResponse *)response {
@@ -560,8 +559,6 @@
     [self checkDataSourceOnDelete];
     [self.tableView reloadData];
     [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
-//    [self loadData];
-    
 }
 
 #pragma mark - Log
@@ -645,13 +642,15 @@
 
 - (void)doBack:(id)sender
 {
+    [super doBack:sender];
+    [self hideLoadWithAnimated:YES];
     if (self.isHaozu) {
         [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_BACK page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     } else {
         [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_BACK page:ESF_DT_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
     
-    [self.navigationController popViewControllerAnimated:YES];
+//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
