@@ -10,8 +10,9 @@
 #import <RTLineView.h>
 #import "BrokerRegisterInfoViewController.h"
 #import "BrokerCallAlert.h"
+#import <TPKeyboardAvoidingScrollView.h>
 
-@interface BrokerRegisterViewController ()<UIScrollViewDelegate>
+@interface BrokerRegisterViewController ()<UIScrollViewDelegate, UITextFieldDelegate>
 
 @property (nonatomic, strong) UIButton *verifyBtn;
 @property (nonatomic, strong) UIButton *nextBtn;
@@ -39,7 +40,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor brokerBgPageColor];
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.height)];
+    TPKeyboardAvoidingScrollView *scrollView = [[TPKeyboardAvoidingScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.height)];
     scrollView.delegate = self;
     
     CGSize newSize = CGSizeMake(320, self.view.height);
@@ -66,6 +67,7 @@
     phoneTextField.textColor = textFieldColor;
     phoneTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     phoneTextField.placeholder = @"11位手机号";
+    phoneTextField.delegate = self;
     
     RTLineView *verticalLineView = [[RTLineView alloc] initWithFrame:CGRectMake(225, topLineView.bottom, 1, 44)];
     verticalLineView.horizontalLine = NO;
@@ -94,6 +96,7 @@
     verifyTextField.textColor = textFieldColor;
     verifyTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     verifyTextField.placeholder = @"手机验证码";
+    verifyTextField.delegate = self;
     
     RTLineView *verifyLineView = [[RTLineView alloc] initWithFrame:CGRectMake(15, phoneLineView.bottom+45, 305, 1)];
     
@@ -111,6 +114,7 @@
     passwordTextField.textColor = textFieldColor;
     passwordTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     passwordTextField.placeholder = @"6-16位密码";
+    passwordTextField.delegate = self;
     
     RTLineView *bottomLineView = [[RTLineView alloc] initWithFrame:CGRectMake(0, verifyLineView.bottom+45, 320, 1)];
     
@@ -125,6 +129,9 @@
     [nextBtn addTarget:self action:@selector(nextAction) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *problemLbl = [[UILabel alloc] initWithFrame:CGRectMake(37, self.view.height-41-64, 150, 21)];
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
+        problemLbl.top = self.view.height-41-44;
+    }
     problemLbl.font = [UIFont ajkH5Font];
     problemLbl.textColor = [UIColor brokerMiddleGrayColor];
     problemLbl.text = @"如注册遇到问题，请拨打：";
@@ -335,13 +342,6 @@
 }
 
 - (void)nextAction {
-    NSString *cityID= [[RTLocationManager sharedInstance] locatedCityID];
-    if (![cityID isEqual:@"-1"]) {
-        [[RTCityInfoManager sharedInstance] setServiceType:RTAnjukeServiceID];
-        RTCityInfo *cityInfo  = [[RTCityInfoManager sharedInstance] cityInfoWithCityID:cityID];
-    }
-    
-    
     if ([self.verifyTextField.text isEqualToString:@"111111"]) {
         BrokerRegisterInfoViewController *controller = [BrokerRegisterInfoViewController new];
         if (self.phoneTextField.text.length > 0 && self.passwordTextField.text.length > 0) {
@@ -406,6 +406,12 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - UITextFieldDelete
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
 }
 
 /*

@@ -24,6 +24,7 @@
 #import "RTGestureBackNavigationController.h"
 #import "BrokerCallAlert.h"
 #import "RTListCell.h"
+#import "HudTipsUtils.h"
 
 @interface BrokerRegisterInfoViewController () <UITableViewDataSource, UITableViewDelegate,BrokerRegisterWorkCityDelegate,BrokerRegisterWorkRangeDelegate, MainBusinessDelegate, WorkPropertyDelegate, companyDelegate,UITextFieldDelegate,storeDelegate> {
     BOOL _nameLog;
@@ -79,30 +80,13 @@
         [self.detailDataArray replaceObjectAtIndex:3 withObject:self.natureDic[@"natureName"]];
     }
     
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.bottom-41-64) style:UITableViewStylePlain];
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.bottom-64) style:UITableViewStylePlain];
     tableView.delegate = self;
     tableView.dataSource = self;
     tableView.rowHeight = 45;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.backgroundColor = [UIColor clearColor];
     tableView.tableFooterView = [self setupTableViewFootView];
-    
-    
-    UILabel *problemLbl = [[UILabel alloc] initWithFrame:CGRectMake(37, self.view.height-41-64, 150, 21)];
-    problemLbl.font = [UIFont ajkH5Font];
-    problemLbl.textColor = [UIColor brokerMiddleGrayColor];
-    problemLbl.text = @"如注册遇到问题，请拨打：";
-    problemLbl.backgroundColor = [UIColor clearColor];
-    
-    UIButton *dailPhoneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    dailPhoneBtn.frame = CGRectMake(problemLbl.right, problemLbl.top, 80, problemLbl.height);
-    [dailPhoneBtn setTitle:@"400-620-9008" forState:UIControlStateNormal];
-    [dailPhoneBtn setTitleColor:[UIColor brokerBabyBlueColor] forState:UIControlStateNormal];
-    dailPhoneBtn.titleLabel.font = [UIFont ajkH5Font];
-    [dailPhoneBtn addTarget:self action:@selector(dialPhone) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.view addSubview:problemLbl];
-    [self.view addSubview:dailPhoneBtn];
     
     [self.view addSubview:tableView];
     self.tableView = tableView;
@@ -129,7 +113,10 @@
 }
 
 - (UIView *)setupTableViewFootView {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 110)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.height-64-45*6)];
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
+        view.height = self.view.height-44-45*6;
+    }
     UIButton *finishRegisterBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     finishRegisterBtn.frame = CGRectMake(15, 20, 290, 44);
     [finishRegisterBtn setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_blue"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 20, 30, 20)] forState:UIControlStateNormal];
@@ -160,6 +147,25 @@
     
     [view addSubview:agreeLbl];
     [view addSubview:agreeBtn];
+    
+    UILabel *problemLbl = [[UILabel alloc] initWithFrame:CGRectMake(37, view.height-41-44, 150, 21)];
+    if (!is4Inch) {
+        problemLbl.top = agreeBtn.bottom+20;
+    }
+    problemLbl.font = [UIFont ajkH5Font];
+    problemLbl.textColor = [UIColor brokerMiddleGrayColor];
+    problemLbl.text = @"如注册遇到问题，请拨打：";
+    problemLbl.backgroundColor = [UIColor clearColor];
+    
+    UIButton *dailPhoneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    dailPhoneBtn.frame = CGRectMake(problemLbl.right, problemLbl.top, 80, problemLbl.height);
+    [dailPhoneBtn setTitle:@"400-620-9008" forState:UIControlStateNormal];
+    [dailPhoneBtn setTitleColor:[UIColor brokerBabyBlueColor] forState:UIControlStateNormal];
+    dailPhoneBtn.titleLabel.font = [UIFont ajkH5Font];
+    [dailPhoneBtn addTarget:self action:@selector(dialPhone) forControlEvents:UIControlEventTouchUpInside];
+    
+    [view addSubview:problemLbl];
+    [view addSubview:dailPhoneBtn];
     
     return view;
 }
@@ -213,9 +219,14 @@
         
         TabBarViewController *tb = [[TabBarViewController alloc] init];
         [AppDelegate sharedAppDelegate].window.rootViewController = tb;
+//        [AppDelegate sharedAppDelegate].window.rootViewController
+        
+        [[HudTipsUtils sharedInstance] displayHUDWithStatus:@"ok" Message:@"注册成功" ErrCode:nil toView:tb.view];
     } else if ([response.content[@"status"] isEqualToString:@"error"]) {
         if (response.content[@"message"]) {
-            [self showInfo:response.content[@"message"]];
+            [[HudTipsUtils sharedInstance] displayHUDWithStatus:@"error" Message:response.content[@"message"] ErrCode:@"1" toView:self.view];
+//            [self showInfo:response.content[@"message"]];
+//            [self displayHUDWithStatus:@"error" Message:message ErrCode:@"1"];
         }
     }
 
