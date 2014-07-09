@@ -361,7 +361,7 @@
 - (void)promotionButtonBackImage
 {
     if (self.selectedCellCount == 0) {
-        [_buttonPromote setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue_lost@2x.png"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
+        [_buttonPromote setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue_lost"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
     } else {
         [_buttonPromote setBackgroundImage:[[UIImage imageNamed:@"anjuke_icon_button_little_blue"] stretchableImageWithLeftCapWidth:5 topCapHeight:5] forState:UIControlStateNormal];
     }

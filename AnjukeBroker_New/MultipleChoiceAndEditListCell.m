@@ -46,7 +46,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier containingTableView:containingTableView leftUtilityButtons:leftUtilityButtons rightUtilityButtons:rightUtilityButtons];
     
     if (self) {
-//        self.frame = CGRectMake(0, 0, ScreenWidth, 90);
         [self initCell];
         self.isSelected = false;
     }
@@ -66,7 +65,6 @@
     self.selectStylebutton = selectStylebutton;
     
     self.shortLineView = [[BrokerLineView alloc] initWithFrame:CGRectMake(56, 89.5, ScreenWidth - 56, 0.5)];
-    self.shortLineView.backgroundColor = [UIColor lightGrayColor];
     [self.contentView addSubview:self.shortLineView];
     
     //房源图像
@@ -74,7 +72,6 @@
     _propertyIcon.backgroundColor = [UIColor clearColor];
 //    _propertyIcon.contentMode = UIViewContentModeScaleAspectFit;
     [self.contentView addSubview:_propertyIcon];
-//    [self.contentView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:nil];
     
     //房源标题
     _propertyTitle = [[UILabel alloc] initWithFrame:CGRectZero];
