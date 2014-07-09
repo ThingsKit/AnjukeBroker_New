@@ -18,6 +18,7 @@
 #import "BrokerLuanchAdd.h"
 #import "UserCenterViewController.h"
 #import "HomeViewController.h"
+#import "AppDelegate.h"
 
 #define tabItemInsertsMake UIEdgeInsetsMake(2, 0, -2, 0)
 
@@ -48,6 +49,8 @@
     if (self) {
         self.delegate = self;
         self.controllerArrays = [NSMutableArray array]; //保留4个首页
+        
+        [[AppDelegate sharedAppDelegate] getBuinessType];
         
         [[BrokerLuanchAdd sharedLuanchAdd] doRequst];
         
