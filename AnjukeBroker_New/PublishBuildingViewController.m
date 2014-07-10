@@ -24,8 +24,8 @@ typedef enum {
     Property_DJ = 0, //发房_定价
     Property_JJ, //发房_竞价
     Property_WTG, //为推广
-    Property_SELECT, //进入新的单页
-    Property_NOSINGINPAGE //不进入新的精选单页
+    Property_NEWSINGINPAGE, //进入新的单页
+    Property_NONEWSINGINPAGE //不进入新的单页
 }PropertyUploadType;
 
 @interface PublishBuildingViewController ()
@@ -638,7 +638,7 @@ typedef enum {
                 [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleNoPlan withPropertyDic:[NSDictionary dictionary]];
         }
             break;
-        case Property_SELECT: {
+        case Property_NEWSINGINPAGE: {
             NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
                                  [NSNumber numberWithBool:self.isHaozu],@"isHaozu",
                                  self.property_ID,@"propId",
@@ -649,7 +649,7 @@ typedef enum {
             [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_NEWSINGINPAGE withPropertyDic:dic];
         }
             break;
-        case Property_NOSINGINPAGE:
+        case Property_NONEWSINGINPAGE:
         {
             NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
                                  [NSNumber numberWithBool:self.isHaozu],@"isHaozu",
@@ -3156,9 +3156,9 @@ typedef enum {
         if (buttonIndex != 2) {
             if ([[LoginManager getBusinessType] isEqualToString:@"2"]) {
                 if (buttonIndex == 0) {
-                    self.uploadType = Property_SELECT;
+                    self.uploadType = Property_NEWSINGINPAGE;
                 }else{
-                    self.uploadType = Property_NOSINGINPAGE;
+                    self.uploadType = Property_NONEWSINGINPAGE;
                 }
             }
             

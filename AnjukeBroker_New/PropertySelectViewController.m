@@ -10,7 +10,7 @@
 #import "HouseSelectNavigationController.h"
 
 @interface PropertySelectViewController ()
-
+@property(nonatomic, strong) UIView *noDataView;
 @end
 
 @implementation PropertySelectViewController
@@ -98,8 +98,9 @@
     NSDictionary *resultFromAPI = [NSDictionary dictionaryWithDictionary:[response content]];
     
     if (![[resultFromAPI objectForKey:@"data"] objectForKey:@"propertyList"] || [[[resultFromAPI objectForKey:@"data"]  objectForKey:@"propertyList"] count] == 0) {
-        [self showInfo:@"暂无推广中房源"];
         [self hideLoadWithAnimated:YES];
+
+        [self.view addSubview:self.noDataView];
         return;
     }else{
         if (self.arr) {
@@ -112,6 +113,26 @@
 
     [self hideLoadWithAnimated:YES];
 }
+
+- (UIView *)noDataView{
+    UIView *view = [[UIView alloc] initWithFrame:FRAME_WITH_NAV];
+    view.backgroundColor = [UIColor clearColor];
+    
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth-90)/2, (ScreenHeight - 20 - 44)/2 - 100, 90, 79)];
+    [imgView setImage:[UIImage imageNamed:@"check_no_community"]];
+    [view addSubview:imgView];
+    
+    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(0, (ScreenHeight - 20 - 44)/2 - 15, ScreenWidth, 30)];
+    lab.backgroundColor = [UIColor clearColor];
+    lab.text = @"暂无房源";
+    lab.textAlignment = NSTextAlignmentCenter;
+    lab.textColor = [UIColor lightGrayColor];
+    [view addSubview:lab];
+    
+    return view;
+}
+
+
 -(void)passDataWithDic:(NSDictionary *)dic{
     self.commDic = [[NSDictionary alloc] initWithDictionary:dic];
 }

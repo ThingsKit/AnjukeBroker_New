@@ -9,7 +9,7 @@
 #import "CommunitySelectViewController.h"
 
 @interface CommunitySelectViewController ()
-
+@property(nonatomic, strong) UIView *noDataView;
 @end
 
 @implementation CommunitySelectViewController
@@ -105,7 +105,10 @@
     
     if (![resultFromAPI objectForKey:@"data"] || [[resultFromAPI objectForKey:@"data"] count] == 0) {
         [self hideLoadWithAnimated:YES];
-        [self showInfo:@"暂无数据"];
+
+        self.tableList.hidden = YES;
+        [self.view addSubview:self.noDataView];
+
         return;
     }else{
         if (self.arr) {
@@ -117,6 +120,24 @@
     }
     
     [self hideLoadWithAnimated:YES];
+}
+
+- (UIView *)noDataView{
+    UIView *view = [[UIView alloc] initWithFrame:FRAME_WITH_NAV];
+    view.backgroundColor = [UIColor clearColor];
+    
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth-90)/2, (ScreenHeight - 20 - 44)/2 - 100, 90, 79)];
+    [imgView setImage:[UIImage imageNamed:@"check_no_community"]];
+    [view addSubview:imgView];
+    
+    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(0, (ScreenHeight - 20 - 44)/2 - 15, ScreenWidth, 30)];
+    lab.backgroundColor = [UIColor clearColor];
+    lab.text = @"暂无房源";
+    lab.textAlignment = NSTextAlignmentCenter;
+    lab.textColor = [UIColor lightGrayColor];
+    [view addSubview:lab];
+    
+    return view;
 }
 
 #pragma UITableView Delegate
