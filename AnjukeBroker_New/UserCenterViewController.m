@@ -170,7 +170,7 @@
             [icon setImage:[UIImage imageNamed:@"user_cell_phone_icon"]];
             [cell.contentView addSubview:icon];
         }else if (indexPath.row == 8){
-            [cell showBottonLineWithCellHeight:CELL_HEIGHT];
+            [cell showBottonLineWithCellHeight:CELL_HEIGHT andOffsetX:15];
             [cell initLabelTitle:[self.taskArray objectAtIndex:4]];
             cell.imageView.image = [UIImage imageNamed:@"broker_my_icon_djswitch"];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
