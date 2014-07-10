@@ -174,7 +174,8 @@
     }
     
     AXPerson *person = [self findPersonWithUID:friendID];
-    if (!person) {
+    if (!person && friendID)
+    {
         dispatch_queue_t queue = dispatch_queue_create("get_info", NULL);
         dispatch_async(queue, ^{
             [self.delegate dataCenter:self fetchPersonInfoWithUid:@[friendID]];
@@ -1444,6 +1445,10 @@
     AXMessage *timeMessage = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
     AXMessage *lastObj = [result lastObject];
     
+    if (![lastObj.messageType isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeSystemTime]])
+    {
+        return;
+    }
     if ([result count] > 0)
     {
         if ([result count] == 0 && [[lastObj messageType] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeSystemTime]])
@@ -1474,6 +1479,7 @@
             timeMessage.thumbnailImgUrl = lastObj.thumbnailImgUrl;
             timeMessage.to = lastObj.to;
             timeMessage.isUploaded = lastObj.isUploaded;
+            [self.managedObjectContext save:NULL];
             timeMessage.orderNumber = [NSNumber numberWithInteger:timeMessage.autoIncreamentPK];
             
             [self.managedObjectContext save:NULL];
@@ -1486,9 +1492,13 @@
             [self.managedObjectContext deleteObject:[messages firstObject]];
             [self.managedObjectContext save:NULL];
             
+            AXMessage *lastMessage = [result lastObject];
+            if ([lastMessage.messageType isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeSystemTime]])
+            {
+                [self.managedObjectContext deleteObject:lastMessage];
+                [self.managedObjectContext save:NULL];
+            }
             
-            [self.managedObjectContext deleteObject:[result lastObject]];
-            [self.managedObjectContext save:NULL];
         }
         
     }
