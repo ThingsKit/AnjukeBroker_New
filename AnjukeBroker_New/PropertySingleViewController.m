@@ -819,7 +819,7 @@
                     NSString* message = [data objectForKey:@"statusMsg"];
                     if (message != nil) {
                         
-                        [self displayHUD:@"付款中..." isDim:NO];
+                        [self displayHUD:@"加载中..." isDim:NO];
                         
                         //最简单的做法就是重新加载, 虽然效率不高
                         double delayInSeconds = 3.f;

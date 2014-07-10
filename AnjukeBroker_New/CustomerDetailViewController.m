@@ -195,7 +195,9 @@
             
             CustomerDetailModel* data = [[CustomerDetailModel alloc] initWithDataDic:[content objectForKey:@"data"]];
             self.tableView.customerDetailModel = data;
-            self.tableView.customerDetailModel.comm_preference = @"江山如画(一至三期) 东辉花园 葛洲坝国际广场";
+//            self.tableView.customerDetailModel.comm_preference = @"江山如画(一至三期) 东辉花园 葛洲坝国际广场";
+            CGSize communitySize = [self.tableView.customerDetailModel.comm_preference sizeWithFont:[UIFont ajkH3Font] constrainedToSize:CGSizeMake(ScreenWidth - 15*2, 40)];
+            self.tableView.customerDetailModel.lineHeight = communitySize.height;
             //        self.tableView.customerDetailModel.status = @"0";
             //        self.tableView.customerDetailModel.comm_preference = @"汤臣一品 汤臣一品 汤臣一品汤臣一品 汤臣一品 汤臣一品汤臣一品 汤臣一品 汤臣一品";
             
