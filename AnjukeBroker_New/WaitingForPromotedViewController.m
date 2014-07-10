@@ -29,6 +29,7 @@
 @property (nonatomic, strong) NSString *editPropertyId;//编辑和删除cell的房源Id
 @property (nonatomic) NSInteger selectedCellCount;
 @property (nonatomic) MBProgressHUD *loadingHud;
+@property (nonatomic) int alertTag;
 
 
 @property (nonatomic) BOOL isShowActivity;
@@ -457,17 +458,30 @@
     switch (index) {
         case 0:
         {
+            if (cell.isViolation == YES) {
+                self.alertTag = 1;
+                UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                                    message:@"违规房源只能删除"
+                                                                   delegate:self
+                                                          cancelButtonTitle:nil
+                                                          otherButtonTitles:@"确认", nil];
+                [alertTest show];
+                [self hideLoadWithAnimated:YES];
+                [cell hideUtilityButtonsAnimated:YES];
+            } else if (cell.isViolation == NO){
             //编辑房源
             [self hideLoadWithAnimated:YES];
             [self sendLeftEditLogAndPropId:self.editPropertyId];
             [cell hideUtilityButtonsAnimated:YES];
             [self editProperty];
+            }
             break;
         }
         case 1:
         {
             //删除房源
             [self hideLoadWithAnimated:YES];
+            self.alertTag = 2;
             UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"您确认删除吗?"
                                                                 message:nil
                                                                delegate:self
@@ -501,9 +515,16 @@
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    if (self.alertTag == 1) {
+        if (buttonIndex == 0) {
+            //违规房源 编辑操作
+        }
+    } else if (self.alertTag == 2) {
     if (buttonIndex == 1) {
-        [self sendLeftDeleteLogAndPropId:self.editPropertyId];
-        [self doDeleteProperty:self.editPropertyId];
+            //房源删除操作
+            [self sendLeftDeleteLogAndPropId:self.editPropertyId];
+            [self doDeleteProperty:self.editPropertyId];
+        }
     }
 }
 

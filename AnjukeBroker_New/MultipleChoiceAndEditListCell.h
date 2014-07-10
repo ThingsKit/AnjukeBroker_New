@@ -24,6 +24,7 @@
 @property (nonatomic, weak) id<CellSelectStatusDelegate> cellSelectstatusDelegate;
 @property (nonatomic) NSInteger rowIndex;
 @property (nonatomic) BOOL isHaozu;
+@property (nonatomic) BOOL isViolation;
 
 - (void)changeCellSelectStatus:(BOOL)isSelected;
 - (void)showBottonLineWithCellHeight:(CGFloat)cellH andOffsetX:(CGFloat)offsetX;
