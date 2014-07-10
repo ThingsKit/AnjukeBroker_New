@@ -99,7 +99,7 @@
     _buttonPromote.right = ScreenWidth - 10;
     _buttonPromote.centerY = 50/2;
     _buttonPromote.titleLabel.font = [UIFont ajkH3Font];
-    [self promotionButtonBackImage];
+    [self promotionButtonBackImage];//设置推广按钮背景图片
     [_buttonPromote addTarget:self action:@selector(clickFixPromotionButton:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.mutipleEditView addSubview:_buttonSelect];
@@ -113,21 +113,7 @@
      [self loadDataWithActivityShow:YES];
 }
 
-- (void)loadDataWithActivityShow:(BOOL)isShowActivity
-{
-   self.isShowActivity = isShowActivity;
-   [self clearStatus];
-   [self requestDataWithBrokerId:[LoginManager getUserID] cityId:[LoginManager getCity_id]];
-}
-
-- (void)clearStatus
-{
-    self.isSelectAll = false;
-    self.selectedCellCount = 0;
-    self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray@2x.png"];
-    [self updatePromotionButtonText];
-}
-
+#pragma mark - requestData
 - (void)requestDataWithBrokerId:(NSString *)brokerId cityId:(NSString *)cityId
 {
     NSString *method = [[NSString alloc] init];
@@ -168,6 +154,24 @@
     
 }
 
+// 获取数据
+- (void)loadDataWithActivityShow:(BOOL)isShowActivity
+{
+    self.isShowActivity = isShowActivity;
+    [self clearStatus];
+    [self requestDataWithBrokerId:[LoginManager getUserID] cityId:[LoginManager getCity_id]];
+}
+
+//清空选中状态
+- (void)clearStatus
+{
+    self.isSelectAll = false;
+    self.selectedCellCount = 0;
+    self.selectImage.image = [UIImage imageNamed:@"broker_property_control_select_gray@2x.png"];
+    [self updatePromotionButtonText];
+}
+
+//点击推广按钮，首先获取planId
 - (void)clickFixPromotionButton:(id)sender
 {
     if (self.planId == nil || [self.planId isEqualToString:@""]) {
@@ -177,7 +181,7 @@
             if (status == RequestStatusForOk) {
                 if (self.planId !=nil && ![self.planId isEqualToString:@""]) {
                     self.planId = planId;
-                    [self fixPromotionRequestWithPlanId:planId];
+                    [self fixPromotionRequestWithPlanId:planId];//推广房源
                     DLog(@"get planId:%@",self.planId);
                 } else {
                     [self displayHUDWithStatus:@"error" Message:@"定价计划不存在" ErrCode:@"1"];
