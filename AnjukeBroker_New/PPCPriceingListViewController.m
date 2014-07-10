@@ -361,7 +361,7 @@
 }
 
 //删除房源
-- (void)doDeleteProperty:(NSString *)propertyID{
+- (void)doCancleProperty:(NSString *)propertyID{
     self.isLoading = YES;
     [self showLoadingActivity:YES];
     if (![self isNetworkOkayWithNoInfo]) {
@@ -461,10 +461,8 @@
         }
         self.propIDStr = properId;
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"确定移除房源?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"确定移除房源?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"移除", nil];
         [alert show];
-        
-
     }else{
         if (self.isHaozu) {
             [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJTG_LIST_LEFT_CLICK page:ZF_DJTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:properId,@"PROP_ID", nil]];
@@ -541,7 +539,7 @@
         }else{
             [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJTG_LIST_CLICK_DELETE page:ESF_DJTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:self.propIDStr,@"PROP_ID", nil]];
         }
-        [self doDeleteProperty:self.propIDStr];
+        [self doCancleProperty:self.propIDStr];
     }
 }
 
