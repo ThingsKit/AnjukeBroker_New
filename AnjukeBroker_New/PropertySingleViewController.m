@@ -152,15 +152,21 @@
                 [alert show];
                 return;
             }
+            
+            PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
+            controller.propertyDelegate = this;
+            controller.isHaozu = this.isHaozu;
+            if ([@"1" isEqualToString:property.isChoice]) {
+                controller.isHandpick = YES;
+            }else{
+                controller.isHandpick = NO;
+            }
+            controller.propertyID = this.propId;
+            controller.backType = RTSelectorBackTypeDismiss;
+            RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
+            [this presentViewController:nav animated:YES completion:nil];
         }
         
-        PropertyEditViewController *controller = [[PropertyEditViewController alloc] init];
-        controller.propertyDelegate = this;
-        controller.isHaozu = this.isHaozu;
-        controller.propertyID = this.propId;
-        controller.backType = RTSelectorBackTypeDismiss;
-        RTGestureBackNavigationController *nav = [[RTGestureBackNavigationController alloc] initWithRootViewController:controller];
-        [this presentViewController:nav animated:YES completion:nil];
         
     };
     
