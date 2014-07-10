@@ -331,6 +331,8 @@
     //badge清0
     self.propertyListBadgeLabel.hidden = YES;
     self.badgeNumber = 0;
+    [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"propertyListBadgeLabelHidden"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     [self autoRefresh];
 }
@@ -579,8 +581,13 @@
     self.propertyListBadgeLabel.layer.masksToBounds = YES;
 //    self.propertyListBadgeLabel.textColor = [UIColor grayColor];
 //    self.propertyListBadgeLabel.textAlignment = UITextAlignmentCenter; //这里已经做过调整, 兼容ios5.0
-    self.propertyListBadgeLabel.hidden = YES;
-    self.badgeNumber = 0;
+    NSString* isHidden = [[NSUserDefaults standardUserDefaults] objectForKey:@"propertyListBadgeLabelHidden"];
+    if ([@"1" isEqualToString:isHidden]) {
+        self.propertyListBadgeLabel.hidden = NO;
+    }else{
+        self.propertyListBadgeLabel.hidden = YES;
+        self.badgeNumber = 0;
+    }
     [headView addSubview:self.propertyListBadgeLabel];
     
     headView.backgroundColor = [UIColor clearColor];

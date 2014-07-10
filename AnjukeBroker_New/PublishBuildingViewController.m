@@ -654,7 +654,7 @@ typedef enum {
             NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
                                  [NSNumber numberWithBool:self.isHaozu],@"isHaozu",
                                  self.property_ID,@"propId",
-                                 [NSNumber numberWithInt:PAGE_TYPE_FIX],@"pageType",
+                                 [NSNumber numberWithInt:PAGE_TYPE_NO_PLAN],@"pageType",
                                  nil];
             
             [self hideLoadWithAnimated:YES];

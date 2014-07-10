@@ -2906,7 +2906,7 @@
 			name = Component;
 			sourceTree = "<group>";
 		};
-		6767D1141921C949004FEFF7 /* 发现模块 */ = {
+		6767D1141921C949004FEFF7 /* 抢房源 */ = {
 			isa = PBXGroup;
 			children = (
 				67639F651952D61000987405 /* Component */,
@@ -2914,7 +2914,7 @@
 				67C3F6F119205E6800DFC0C0 /* RushPropertyViewController.h */,
 				67C3F6F219205E6800DFC0C0 /* RushPropertyViewController.m */,
 			);
-			name = "发现模块";
+			name = "抢房源";
 			sourceTree = "<group>";
 		};
 		6767D13E19230A9C004FEFF7 /* Model */ = {
@@ -3636,7 +3636,7 @@
 				010AFB001962535300ADB9C1 /* Register */,
 				F88FC2E81945619F00DEA8A2 /* WXData */,
 				F88FC2E41945611200DEA8A2 /* 抢客户 */,
-				6767D1141921C949004FEFF7 /* 发现模块 */,
+				6767D1141921C949004FEFF7 /* 抢房源 */,
 				F8A717DD19209E22004840C6 /* checkout */,
 				203EC29318B2F5E400DD0840 /* 微聊 */,
 				203EC29518B2F5F200DD0840 /* 客户 */,

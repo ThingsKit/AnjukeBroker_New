@@ -1043,9 +1043,11 @@
 #pragma mark 删除房源回调
 - (void)propertyDidDelete{
     NSLog(@"删除房源");
-    double delayInSeconds = 2.f;
-    dispatch_time_t delayInNanoSeconds = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-    dispatch_after(delayInNanoSeconds, dispatch_get_main_queue(), ^(void){
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.f * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+        [self displayHUD:@"更新中..." isDim:NO];
+    });
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.f * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
         [self.navigationController popViewControllerAnimated:YES];
     });
     

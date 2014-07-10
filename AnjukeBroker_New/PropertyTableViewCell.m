@@ -253,8 +253,10 @@
                 }];
             }
             
-            //小红点显示
+            //小红点显示, 并且记录这个状态
             viewController.propertyListBadgeLabel.hidden = NO;
+            [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"propertyListBadgeLabelHidden"];
+            [[NSUserDefaults standardUserDefaults] synchronize]; //立即更新
             
             //右侧自动下拉
             viewController.rightAutoPullDown = NO;
