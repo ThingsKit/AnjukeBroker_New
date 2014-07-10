@@ -287,6 +287,7 @@
 //    [self.view sendSubviewToBack:noResult];
     UILabel *noR  = [[UILabel alloc] initWithFrame:CGRectMake(0, 210 + 15, 200, 50)];
     noR.text      = @"暂无待推广房源";
+    noR.font = [UIFont ajkH3Font];
     noR.textColor = [UIColor grayColor];
     [noR sizeToFit];
     noR.centerX   = self.view.centerX;

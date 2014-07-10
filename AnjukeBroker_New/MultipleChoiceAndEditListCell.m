@@ -70,7 +70,6 @@
     //房源图像
     _propertyIcon = [[UIImageView alloc] initWithFrame:CGRectZero];
     _propertyIcon.backgroundColor = [UIColor clearColor];
-//    _propertyIcon.contentMode = UIViewContentModeScaleAspectFit;
     [self.contentView addSubview:_propertyIcon];
     
     //房源标题
@@ -121,21 +120,9 @@
     [_price setTextColor:[UIColor brokerLightGrayColor]];
     [self.contentView addSubview:_price];
     
-    //cell的背景视图, 默认选中是蓝色
-    //    UIView* backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 0)];
-    //    backgroundView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.9];
-    //    self.selectedBackgroundView = backgroundView;
-    
     self.contentView.backgroundColor = [UIColor brokerWhiteColor];
     
-//    [self.cellScrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
-    
 }
-
-//- (void)dealloc
-//{
-//    [self.cellScrollView removeObserver:self forKeyPath:@"contentOffset"];
-//}
 
 //cell下划线
 - (void)showBottonLineWithCellHeight:(CGFloat)cellH andOffsetX:(CGFloat)offsetX {
@@ -152,13 +139,6 @@
     CGRect frame = self.selectStylebutton.frame;
     self.selectStylebutton.frame = CGRectMake(- x , 0, frame.size.width, frame.size.height);
 }
-
-////监测cell位移
-//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-//{
-//    CGRect frame = self.selectStylebutton.frame;
-//    self.selectStylebutton.frame = CGRectMake(- self.cellScrollView.contentOffset.x , 0, frame.size.width, frame.size.height);
-//}
 
 #pragma mark - selectCellStyle
 - (void)propChoiceTap:(id)tapGR
@@ -206,7 +186,8 @@
     //房源标题的长短：首先判断是否违规，然后判断手机是否存在
     //房源图片
     _propertyIcon.frame = CGRectMake(56, 15, 80, 60);
-    NSString* iconPath = self.propertyDetailTableViewCellModel.imgURL;
+    NSString* iconPath = self.propertyDetailTableViewCellModel.imgUrl;
+    
     if (iconPath != nil && ![@"" isEqualToString:iconPath]) {
         //加载图片
         [_propertyIcon setImageWithURL:[NSURL URLWithString:iconPath] placeholderImage:[UIImage imageNamed:@"anjuke61_bg4"]];
