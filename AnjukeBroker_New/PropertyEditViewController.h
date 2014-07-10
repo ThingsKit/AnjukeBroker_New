@@ -17,6 +17,7 @@
 
 @property (nonatomic, copy) NSString *propertyID;
 @property (nonatomic, assign) id <PropertyEditDelegate> propertyDelegate;
+@property (nonatomic, assign) BOOL isHandpick;//是否是精选
 
 @property (nonatomic, strong) NSMutableArray *addHouseTypeImageArray;
 @property (nonatomic, strong) NSMutableArray *addRoomImageArray; //新添加的图片数组
