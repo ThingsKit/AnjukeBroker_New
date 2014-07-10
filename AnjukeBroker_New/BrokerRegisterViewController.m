@@ -12,6 +12,7 @@
 #import "BrokerCallAlert.h"
 #import <TPKeyboardAvoidingScrollView.h>
 #import "BrokerLineView.h"
+#import "HudTipsUtils.h"
 
 @interface BrokerRegisterViewController ()<UIScrollViewDelegate, UITextFieldDelegate>
 
@@ -61,7 +62,7 @@
     phoneLbl.text = @"手机号";
     
     UITextField *phoneTextField = [UITextField new];
-    phoneTextField.frame = CGRectMake(82, topLineView.bottom, 200, 44);
+    phoneTextField.frame = CGRectMake(82, topLineView.bottom, 150, 44);
     phoneTextField.borderStyle = UITextBorderStyleNone;
     phoneTextField.font = lblFont;
     phoneTextField.keyboardType =UIKeyboardTypeNumberPad;
@@ -90,7 +91,7 @@
     verifyLbl.textColor = lblColor;
     
     UITextField *verifyTextField = [UITextField new];
-    verifyTextField.frame = CGRectMake(82, phoneLineView.bottom, 200, 44);
+    verifyTextField.frame = CGRectMake(82, phoneLineView.bottom, 100, 44);
     verifyTextField.borderStyle = UITextBorderStyleNone;
     verifyTextField.font = lblFont;
     verifyTextField.keyboardType =UIKeyboardTypeNumberPad;
@@ -108,7 +109,7 @@
     passwordLbl.textColor = lblColor;
     
     UITextField *passwordTextField = [UITextField new];
-    passwordTextField.frame = CGRectMake(82, verifyLineView.bottom, 200, 44);
+    passwordTextField.frame = CGRectMake(82, verifyLineView.bottom, 175, 44);
     passwordTextField.borderStyle = UITextBorderStyleNone;
     passwordTextField.font = lblFont;
     passwordTextField.secureTextEntry = YES;
@@ -323,7 +324,15 @@
     DLog(@"response [%@]", [response content]);
     if ([response.content[@"status"] isEqualToString:@"error"]) {
         if (response.content[@"message"]) {
-            [self showInfo:response.content[@"message"]];
+//            [self showInfo:response.content[@"message"]];
+            if ([self.phoneTextField isFirstResponder]) {
+                [self.phoneTextField resignFirstResponder];
+            } else if ([self.verifyTextField isFirstResponder]) {
+                [self.verifyTextField resignFirstResponder];
+            } else if ([self.passwordTextField isFirstResponder]) {
+                [self.passwordTextField resignFirstResponder];
+            }
+             [[HudTipsUtils sharedInstance] displayHUDWithStatus:@"error" Message:response.content[@"message"] ErrCode:@"1" toView:self.view];
         }
     }
 }
@@ -336,6 +345,7 @@
     [self.verifyBtn setTitleColor:[UIColor brokerLightGrayColor] forState:UIControlStateDisabled];
     
     if(self.secondsCountDown <= 0){
+        self.secondsCountDown = 0;
         [self.countDownTimer invalidate];
         [self.verifyBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
         [self.verifyBtn setTitleColor:[UIColor brokerBabyBlueColor] forState:UIControlStateNormal];
@@ -392,7 +402,15 @@
         }
     } else if (response.content && [response.content[@"status"] isEqualToString:@"error"]) {
         if (response.content[@"message"]) {
-            [self showInfo:response.content[@"message"]];
+            if ([self.phoneTextField isFirstResponder]) {
+                [self.phoneTextField resignFirstResponder];
+            } else if ([self.verifyTextField isFirstResponder]) {
+                [self.verifyTextField resignFirstResponder];
+            } else if ([self.passwordTextField isFirstResponder]) {
+                [self.passwordTextField resignFirstResponder];
+            }
+//            [self showInfo:response.content[@"message"]];
+             [[HudTipsUtils sharedInstance] displayHUDWithStatus:@"error" Message:response.content[@"message"] ErrCode:@"1" toView:self.view];
         }
     }
 }
