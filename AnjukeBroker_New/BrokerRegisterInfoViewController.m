@@ -25,6 +25,7 @@
 #import "BrokerCallAlert.h"
 #import "RTListCell.h"
 #import "HudTipsUtils.h"
+#import "BK_RTNavigationController.h"
 
 @interface BrokerRegisterInfoViewController () <UITableViewDataSource, UITableViewDelegate,BrokerRegisterWorkCityDelegate,BrokerRegisterWorkRangeDelegate, MainBusinessDelegate, WorkPropertyDelegate, companyDelegate,UITextFieldDelegate,storeDelegate> {
     BOOL _nameLog;
@@ -217,11 +218,12 @@
         [[AppDelegate sharedAppDelegate] requestSalePropertyConfig];
         [[AccountManager sharedInstance] registerNotification];
         
-        TabBarViewController *tb = [[TabBarViewController alloc] init];
-        [AppDelegate sharedAppDelegate].window.rootViewController = tb;
-//        [AppDelegate sharedAppDelegate].window.rootViewController
+        [self dismissModalViewControllerAnimated:NO];
         
-        [[HudTipsUtils sharedInstance] displayHUDWithStatus:@"ok" Message:@"注册成功" ErrCode:nil toView:tb.view];
+        TabBarViewController *tb = [[TabBarViewController alloc] init];
+        BK_RTNavigationController *navController = (BK_RTNavigationController *)[AppDelegate sharedAppDelegate].window.rootViewController;
+        [navController pushViewController:tb animated:YES];
+        [[HudTipsUtils sharedInstance] displayHUDWithStatus:@"ok" Message:@"注册成功" ErrCode:nil toView:navController.view];
     } else if ([response.content[@"status"] isEqualToString:@"error"]) {
         if (response.content[@"message"]) {
             [[HudTipsUtils sharedInstance] displayHUDWithStatus:@"error" Message:response.content[@"message"] ErrCode:@"1" toView:self.view];
