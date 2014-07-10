@@ -425,6 +425,14 @@
         return ;
     }
     if(self.isSeedPid.length >0){
+        for (int i = 0; i < [self.selectedArray count]; i++) {
+            SalePropertyObject *property = (SalePropertyObject *)[self.selectedArray objectAtIndex:i];
+            if([property.isVisible isEqualToString:@"0"]){
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"房源包含违规房源" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alert show];
+                return ;
+            }
+        }
         [self doFixed];
     }else{
         for (int i = 0; i < [self.selectedArray count]; i++) {
