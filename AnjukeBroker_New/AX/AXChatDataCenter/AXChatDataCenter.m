@@ -176,10 +176,7 @@
     AXPerson *person = [self findPersonWithUID:friendID];
     if (!person && friendID)
     {
-        dispatch_queue_t queue = dispatch_queue_create("get_info", NULL);
-        dispatch_async(queue, ^{
-            [self.delegate dataCenter:self fetchPersonInfoWithUid:@[friendID]];
-        });
+        [self.delegate dataCenter:self fetchPersonInfoWithUid:@[friendID]];
     }
 
     message.sendStatus = @(AXMessageCenterSendMessageStatusSending);
