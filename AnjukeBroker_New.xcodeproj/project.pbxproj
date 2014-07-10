@@ -347,8 +347,6 @@
 		6794E45919498A0B0069F1ED /* CustomerDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6794E45819498A0B0069F1ED /* CustomerDetailTableViewCell.m */; };
 		6794E45C194996450069F1ED /* CustomerDetailHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6794E45B194996450069F1ED /* CustomerDetailHeaderView.m */; };
 		67C3F6F319205E6800DFC0C0 /* RushPropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C3F6F219205E6800DFC0C0 /* RushPropertyViewController.m */; };
-		9619F5331963DE42008C3A26 /* ImmediatePromotionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9619F5321963DE42008C3A26 /* ImmediatePromotionCell.m */; };
-		9619F5361963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9619F5351963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.m */; };
 		9619F53A19640EA0008C3A26 /* PropSelectStatusModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9619F53919640EA0008C3A26 /* PropSelectStatusModel.m */; };
 		96A3D38D1962909300E6A8B9 /* PromotionSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A3D38C1962909300E6A8B9 /* PromotionSettingsViewController.m */; };
 		96F6F2A41967F5D900C15EE9 /* HudTipsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F6F2A31967F5D900C15EE9 /* HudTipsUtils.m */; };
@@ -1328,10 +1326,6 @@
 		67C3F6F119205E6800DFC0C0 /* RushPropertyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RushPropertyViewController.h; sourceTree = "<group>"; };
 		67C3F6F219205E6800DFC0C0 /* RushPropertyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RushPropertyViewController.m; sourceTree = "<group>"; };
 		70C958DAA438444CB26F09E0 /* libPods-AnjukeBroker_New.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AnjukeBroker_New.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9619F5311963DE42008C3A26 /* ImmediatePromotionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImmediatePromotionCell.h; sourceTree = "<group>"; };
-		9619F5321963DE42008C3A26 /* ImmediatePromotionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImmediatePromotionCell.m; sourceTree = "<group>"; };
-		9619F5341963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoPlanPromotionPropertySingleViewController.h; sourceTree = "<group>"; };
-		9619F5351963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoPlanPromotionPropertySingleViewController.m; sourceTree = "<group>"; };
 		9619F53819640EA0008C3A26 /* PropSelectStatusModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropSelectStatusModel.h; sourceTree = "<group>"; };
 		9619F53919640EA0008C3A26 /* PropSelectStatusModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropSelectStatusModel.m; sourceTree = "<group>"; };
 		96A3D38B1962909300E6A8B9 /* PromotionSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PromotionSettingsViewController.h; sourceTree = "<group>"; };
@@ -3081,17 +3075,6 @@
 			path = SDWebImage;
 			sourceTree = "<group>";
 		};
-		9619F52B1963AFAD008C3A26 /* 待推广 */ = {
-			isa = PBXGroup;
-			children = (
-				9619F5311963DE42008C3A26 /* ImmediatePromotionCell.h */,
-				9619F5321963DE42008C3A26 /* ImmediatePromotionCell.m */,
-				9619F5341963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.h */,
-				9619F5351963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.m */,
-			);
-			name = "待推广";
-			sourceTree = "<group>";
-		};
 		9619F53719640E68008C3A26 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -4376,7 +4359,6 @@
 		F89FF59919625B1400AC7256 /* PPC_NewVersion */ = {
 			isa = PBXGroup;
 			children = (
-				9619F52B1963AFAD008C3A26 /* 待推广 */,
 				F89FF59A19625B3000AC7256 /* PPCDataShow */,
 				67203D4B196282FA00A32B60 /* 房源单页 */,
 				67203D41196281E200A32B60 /* PropertyComponent */,
@@ -4683,7 +4665,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0510;
-				ORGANIZATIONNAME = "Anjuke";
+				ORGANIZATIONNAME = Anjuke;
 				TargetAttributes = {
 					9741054E180CDFE0004DAE95 = {
 						DevelopmentTeam = 52KTBFLJDB;
@@ -5147,7 +5129,6 @@
 				B769E445181F462C00A2FF50 /* SaleFixedDetailController.m in Sources */,
 				B7FC9B3418C4204C00F77205 /* UIImage+RTStyle.m in Sources */,
 				97A0F028181653A600C31D83 /* RTInputPickerView.m in Sources */,
-				9619F5361963E2EE008C3A26 /* NoPlanPromotionPropertySingleViewController.m in Sources */,
 				B7FC9B2818C41F5100F77205 /* BK_RTLineView.m in Sources */,
 				B7E56D0B183DABD300A0F7D2 /* AnjukePropertyResultController.m in Sources */,
 				B7518FBF192DE63E00C02590 /* AJKMySettingListAdCell.m in Sources */,
@@ -5504,7 +5485,6 @@
 				F89FF5A519625B9700AC7256 /* PPCDataShowCell.m in Sources */,
 				203EC29818B2F61A00DD0840 /* MessageListViewController.m in Sources */,
 				97192EE71818FEF7007971BA /* PhotoButton.m in Sources */,
-				9619F5331963DE42008C3A26 /* ImmediatePromotionCell.m in Sources */,
 				B7E55B5218BF2190007238CB /* UIImage+JSMessagesView.m in Sources */,
 				F85A315619078B3100511022 /* BrokerLuanchAdd.m in Sources */,
 				20A2178918BF1804002CA469 /* PropertySelectViewController.m in Sources */,
