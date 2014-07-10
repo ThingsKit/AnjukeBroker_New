@@ -70,6 +70,8 @@
     //房源图像
     _propertyIcon = [[UIImageView alloc] initWithFrame:CGRectZero];
     _propertyIcon.backgroundColor = [UIColor clearColor];
+    _propertyIcon.layer.cornerRadius = 4.0f;
+    _propertyIcon.layer.masksToBounds = YES;
     [self.contentView addSubview:_propertyIcon];
     
     //房源标题
