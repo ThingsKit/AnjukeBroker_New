@@ -181,6 +181,7 @@
 
     message.sendStatus = @(AXMessageCenterSendMessageStatusSending);
     message.sendTime = [NSDate dateWithTimeIntervalSinceNow:0];
+    message.isRead = YES;
 
     AXMessage *messageToInsert = [self findMessageWithIdentifier:message.identifier];
     if (!messageToInsert) {
@@ -223,6 +224,7 @@
     AXMessage *message = [self findMessageWithIdentifier:identifier];
     if (message) {
         message.sendStatus = @(AXMessageCenterSendMessageStatusFailed);
+        message.isRead = [NSNumber numberWithBool:YES];
         [self updateConversationListItemWithMessage:[message convertToMappedObject]];
     }
     [self.managedObjectContext save:NULL];
@@ -728,9 +730,23 @@
 
 - (NSInteger)totalUnreadMessageCount
 {
+    NSFetchRequest *fetchMessage = [[NSFetchRequest alloc] init];
+    fetchMessage.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchMessage.predicate = [NSPredicate predicateWithFormat:@"from = %@", [NSNull null]];
+    NSArray *arr = [self.managedObjectContext executeFetchRequest:fetchMessage error:NULL];
+    
+    for (AXMessage *m in arr)
+    {
+        [self.managedObjectContext deleteObject:m];
+    }
+    [self.managedObjectContext save:NULL];
+    
+    
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"isRead = %@", [NSNumber numberWithBool:NO]];
+    
+    
     return [self.managedObjectContext countForFetchRequest:fetchRequest error:NULL];
 }
 
@@ -1466,7 +1482,7 @@
             timeMessage.imgPath = lastObj.imgPath;
             timeMessage.imgUrl = lastObj.imgUrl;
             timeMessage.isImgDownloaded = lastObj.isImgDownloaded;
-            timeMessage.isRead = lastObj.isRead;
+            timeMessage.isRead = [NSNumber numberWithBool:YES];
             timeMessage.isRemoved = lastObj.isRemoved;
             timeMessage.messageId = lastObj.messageId;
             timeMessage.messageType = lastObj.messageType;
