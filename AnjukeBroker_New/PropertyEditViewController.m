@@ -573,11 +573,7 @@
         NSString *token = [LoginManager getToken];
         if (token.length > 0 && ![token isKindOfClass:[NSNull class]]) {
             [params setValue:token forKeyPath:@"token"];
-        }else
-        {
-            [params setValue:@"1" forKeyPath:@"is_nocheck"];
         }
-        [params setValue:@"1" forKeyPath:@"is_nocheck"];
         
         [[RTRequestProxy sharedInstance] asyncRESTGetWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(httpImgDesc:)];
     }
