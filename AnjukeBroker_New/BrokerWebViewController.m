@@ -3,7 +3,7 @@
 //  AnjukeBroker_New
 //
 //  Created by paper on 14-3-5.
-//  Copyright (c) 2014年 Wu sicong. All rights reserved.
+//  Copyright (c) 2014年 Anjuke. All rights reserved.
 //
 
 #import "BrokerWebViewController.h"
