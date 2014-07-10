@@ -3153,20 +3153,21 @@ typedef enum {
         }
     }else if (actionSheet.tag == PUBLISH_ACTIONSHEETFORSELECT_TAG)
     {
-        
-        if ([[LoginManager getBusinessType] isEqualToString:@"2"]) {
-            if (buttonIndex == 0) {
-                self.uploadType = Property_SELECT;
-            }else{
-                self.uploadType = Property_NOSINGINPAGE;
+        if (buttonIndex != 2) {
+            if ([[LoginManager getBusinessType] isEqualToString:@"2"]) {
+                if (buttonIndex == 0) {
+                    self.uploadType = Property_SELECT;
+                }else{
+                    self.uploadType = Property_NOSINGINPAGE;
+                }
             }
+            
+            [self prepareUploadImgArr];
+            
+            [self uploadPhoto];
+            
+            [self showLoadingActivity:YES];
         }
-        
-        [self prepareUploadImgArr];
-        
-        [self uploadPhoto];
-        
-        [self showLoadingActivity:YES];
     }
 
 }
