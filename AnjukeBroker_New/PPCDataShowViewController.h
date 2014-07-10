@@ -10,9 +10,21 @@
 #import "BaseTableStructViewController.h"
 #import "RTViewController.h"
 
+typedef enum {
+    SwitchType_RentNoPlan = 0, //租房未推广
+    SwitchType_RentFixed, //定价
+    SwitchType_RentBid, //竞价
+    SwitchType_SaleNoPlan, //二手房未推广
+    SwitchType_SaleFixed,
+    SwitchType_SaleBid,
+    SwitchType_SELECT //精选城市发房
+} TabSwitchType; //发房结束后tab0跳tab1、2的结果PPC管理请求类型
+
 @interface PPCDataShowViewController : BaseTableStructViewController<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 
 @property(nonatomic, assign) BOOL isHaozu;
 
-- (void)dismissController:(UIViewController *)dismissController withPropertyDic:(NSDictionary *)withPropertyDic;
+//用于非精选/精选 发房结束后页面跳转到计划管理房源列表页面
+- (void)dismissController:(UIViewController *)dismissController withSwitchIndex:(int)index withSwtichType:(TabSwitchType)switchType withPropertyDic:(NSDictionary *)propDic;
+
 @end

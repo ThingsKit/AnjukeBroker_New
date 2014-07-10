@@ -175,10 +175,10 @@
         int tabIndex = 0;
         
         if (self.isHaozu) {
-            [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentFixed withPropertyDic:[self.groupArray objectAtIndex:self.selectedIndex]];
+            [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentFixed withPropertyDic:[self.groupArray objectAtIndex:self.selectedIndex]];
         }
         else
-            [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleFixed withPropertyDic:[self.groupArray objectAtIndex:self.selectedIndex]];
+            [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleFixed withPropertyDic:[self.groupArray objectAtIndex:self.selectedIndex]];
     }
 }
 

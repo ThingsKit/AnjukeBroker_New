@@ -85,16 +85,6 @@
     [self autoPullDown];
 }
 
-- (void)dismissController:(UIViewController *)dismissController withPropertyDic:(NSDictionary *)withPropertyDic{
-    [dismissController dismissViewControllerAnimated:NO completion:^{
-        PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
-        singleVC.isHaozu = [[withPropertyDic objectForKey:@"isHaozu"] boolValue];
-        singleVC.propId = [withPropertyDic objectForKey:@"propId"];
-        singleVC.pageType = [[withPropertyDic objectForKey:@"pageType"] intValue];
-        [self.navigationController pushViewController:singleVC animated:YES];
-    }];
-}
-
 #pragma mark - UITableViewDatasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (!self.pricingDic && !self.secondCellDic) {
@@ -521,29 +511,95 @@
         
         [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path1, nil] withRowAnimation:UITableViewRowAnimationNone];
         [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path2, nil] withRowAnimation:UITableViewRowAnimationNone];
-
-//        if ([[self.pricingDic objectForKey:@"totalProps"] intValue] == 0 && [[self.secondCellDic objectForKey:@"totalProps"] intValue] == 0) {
-//            [self.tableList setTableStatus:STATUSFORNODATAFORNOHOUSE];
-//            UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGus:)];
-//            tapGes.delegate                = self;
-//            tapGes.numberOfTouchesRequired = 1;
-//            tapGes.numberOfTapsRequired    = 1;
-//            [self.tableList.tableHeaderView addGestureRecognizer:tapGes];
-//            
-//            self.pricingDic = nil;
-//            self.secondCellDic = nil;
-//            
-//            [self.tableList reloadData];
-//        }else{
-//            [self.tableList setTableStatus:STATUSFOROK];
-//            NSIndexPath *path1 = [NSIndexPath indexPathForItem:1 inSection:0];
-//            NSIndexPath *path2 = [NSIndexPath indexPathForItem:2 inSection:0];
-//            
-//            [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path1, nil] withRowAnimation:UITableViewRowAnimationNone];
-//            [self.tableList reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path2, nil] withRowAnimation:UITableViewRowAnimationNone];
-//        }
     }
 }
+
+#pragma mark --method
+- (void)dismissController:(UIViewController *)dismissController withSwitchIndex:(int)index withSwtichType:(TabSwitchType)switchType withPropertyDic:(NSDictionary *)propDic{
+    [dismissController dismissViewControllerAnimated:NO completion:^{
+        [self doNavPushWithSwitchIndex:index withSwtichType:switchType withPropertyDic:propDic];
+    }];
+}
+- (void)doNavPushWithSwitchIndex:(int)index withSwtichType:(TabSwitchType)switchType withPropertyDic:(NSDictionary *)propDic {
+    NSString *message = @"发布成功！";
+    
+    switch (switchType) {
+        case SwitchType_RentFixed: //租房定价
+        {
+            RentFixedDetailController *controller = [[RentFixedDetailController alloc] init];
+            controller.tempDic = propDic;
+            controller.backType = RTSelectorBackTypePopBack;
+//            [controller setHidesBottomBarWhenPushed:YES];
+//            [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:YES];
+            [self.navigationController pushViewController:controller animated:YES];
+
+            [controller showTopAlertWithTitle:message];
+        }
+            break;
+        case SwitchType_SaleFixed: //二手房定价
+        {
+            SaleFixedDetailController *controller = [[SaleFixedDetailController alloc] init];
+            controller.tempDic = [NSMutableDictionary dictionaryWithDictionary:propDic];
+            controller.backType = RTSelectorBackTypePopBack;
+//            [controller setHidesBottomBarWhenPushed:YES];
+//            [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:YES];
+            [self.navigationController pushViewController:controller animated:YES];
+            [controller showTopAlertWithTitle:message];
+        }
+            break;
+        case SwitchType_RentBid: //租房竞价
+        {
+            RentBidDetailController *controller = [[RentBidDetailController alloc] init];
+//            [controller setHidesBottomBarWhenPushed:YES];
+//            [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:NO];
+            controller.backType = RTSelectorBackTypePopBack;
+            [self.navigationController pushViewController:controller animated:YES];
+            [controller showTopAlertWithTitle:message];
+        }
+            break;
+        case SwitchType_SaleBid: //二手房竞价
+        {
+            SaleBidDetailController *controller = [[SaleBidDetailController alloc] init];
+//            [controller setHidesBottomBarWhenPushed:YES];
+//            [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:NO];
+            controller.backType = RTSelectorBackTypePopBack;
+            [self.navigationController pushViewController:controller animated:YES];
+            [controller showTopAlertWithTitle:message];
+        }
+            break;
+        case SwitchType_RentNoPlan: //租房未推广
+        {
+            RentNoPlanController *controller = [[RentNoPlanController alloc] init];
+//            [controller setHidesBottomBarWhenPushed:YES];
+//            [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:YES];
+            [self.navigationController pushViewController:controller animated:YES];
+            [controller showTopAlertWithTitle:message];
+        }
+            break;
+        case SwitchType_SaleNoPlan: //二手房未推广
+        {
+            SaleNoPlanGroupController *controller = [[SaleNoPlanGroupController alloc] init];
+            [controller setHidesBottomBarWhenPushed:YES];
+//            [[[self.tabController controllerArrays] objectAtIndex:index] pushViewController:controller animated:YES];
+            [self.navigationController pushViewController:controller animated:YES];
+            [controller showTopAlertWithTitle:message];
+        }
+            break;
+        case SwitchType_SELECT://精选城市发房
+        {
+            PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
+            singleVC.backType = RTSelectorBackTypePopBack;
+            singleVC.isHaozu = [[propDic objectForKey:@"isHaozu"] boolValue];
+            singleVC.propId = [propDic objectForKey:@"propId"];
+            singleVC.pageType = [[propDic objectForKey:@"pageType"] intValue];
+            [self.navigationController pushViewController:singleVC animated:YES];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
 - (void)tapGus:(UITapGestureRecognizer *)gesture{
     [self autoPullDown];
 }

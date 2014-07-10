@@ -673,10 +673,10 @@ typedef enum {
         case Property_WTG: {
             //为推广，直接去到房源结果页
             if (self.isHaozu) {
-                [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentNoPlan withPropertyDic:[NSDictionary dictionary]];
+                [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentNoPlan withPropertyDic:[NSDictionary dictionary]];
             }
             else
-                [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleNoPlan withPropertyDic:[NSDictionary dictionary]];
+                [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleNoPlan withPropertyDic:[NSDictionary dictionary]];
         }
             break;
             

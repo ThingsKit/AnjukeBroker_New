@@ -145,12 +145,12 @@
 //    }
     
     if (self.isHaozu) {
-        [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentBid withPropertyDic:[NSDictionary dictionary]];
+        [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentBid withPropertyDic:[NSDictionary dictionary]];
     }
     else
         
         
-        [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleBid withPropertyDic:[NSDictionary dictionary]];
+        [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleBid withPropertyDic:[NSDictionary dictionary]];
 }
 
 @end

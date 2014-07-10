@@ -631,10 +631,10 @@ typedef enum {
         case Property_WTG: {
             //为推广，直接去到房源结果页
             if (self.isHaozu) {
-                [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentNoPlan withPropertyDic:[NSDictionary dictionary]];
+                [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentNoPlan withPropertyDic:[NSDictionary dictionary]];
             }
             else
-                [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleNoPlan withPropertyDic:[NSDictionary dictionary]];
+                [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleNoPlan withPropertyDic:[NSDictionary dictionary]];
         }
             break;
         case Property_SELECT: {
@@ -645,7 +645,7 @@ typedef enum {
                                  nil];
             
             [self hideLoadWithAnimated:YES];
-            [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withPropertyDic:dic];
+            [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SELECT withPropertyDic:dic];
         }
             break;
         
@@ -1181,10 +1181,10 @@ typedef enum {
         int tabIndex = 0;
         
         if (self.isHaozu) {
-            [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentFixed withPropertyDic:[self.fixGroupArr objectAtIndex:0]];
+            [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_RentFixed withPropertyDic:[self.fixGroupArr objectAtIndex:0]];
         }
         else
-            [[AppDelegate sharedAppDelegate] dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleFixed withPropertyDic:[self.fixGroupArr objectAtIndex:0]];
+            [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleFixed withPropertyDic:[self.fixGroupArr objectAtIndex:0]];
     }
 }
 
