@@ -346,9 +346,8 @@
     self.isLoading = NO;
     [self hideLoadWithAnimated:YES];
     if (![self checkWithResponse:response]) {
-        
+        self.ESFPricePromotionSwitch.on = self.ESFPricePromotionSwitch.on ? NO : YES;
     } else if ([response.content[@"status"] isEqualToString:@"ok"]) {
-        
         [self displayHUDWithStatus:@"ok" Message:@"操作成功" ErrCode:nil];
     }
 }
@@ -358,7 +357,7 @@
     self.isLoading = NO;
     [self hideLoadWithAnimated:YES];
     if (![self checkWithResponse:response]) {
-        
+        self.ZFPricePromotionSwitch.on = self.ZFPricePromotionSwitch.on ? NO : YES;
     } else if ([response.content[@"status"] isEqualToString:@"ok"]) {
         [self displayHUDWithStatus:@"ok" Message:@"操作成功" ErrCode:nil];
     }
