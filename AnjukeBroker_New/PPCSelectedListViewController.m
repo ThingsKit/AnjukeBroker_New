@@ -108,6 +108,9 @@
     
     if (indexPath.section == 3) {
         if (indexPath.row == 1){
+            if (!self.onOfflineListData || self.onOfflineListData.count == 0) {
+                return 0;
+            }
             return 45;
         }else if (indexPath.row == 0){
             return 15;
@@ -253,6 +256,9 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.accessoryType = UITableViewCellAccessoryNone;
         }else if (indexPath.row == 1){
+            if (!self.onOfflineListData || self.onOfflineListData.count == 0) {
+                return cell;
+            }
             UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 45)];
             view.backgroundColor = [UIColor whiteColor];
             [cell.contentView addSubview:view];
@@ -266,7 +272,7 @@
             
             NSString *str;
             if (!self.onOfflineListData || self.onOfflineListData.count == 0) {
-                str = @"推广结束(0)";
+                str = @"推广结束";
             }else{
                 str = [NSString stringWithFormat:@"推广结束(%d)",self.onOfflineListData.count];
             }

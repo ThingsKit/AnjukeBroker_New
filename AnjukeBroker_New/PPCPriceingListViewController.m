@@ -94,18 +94,6 @@
     return 2;
 }
 
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-//    if (self.lastedListData.count == 0 && self.oldListData.count == 0) {
-//        return nil;
-//    }
-//    if (section == 0) {
-//        return nil;
-//    }else if (section == 1){
-//        return @"30天前发布房源";
-//    }
-//    return nil;
-//}
-
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     NSString *tit;
     float height;
