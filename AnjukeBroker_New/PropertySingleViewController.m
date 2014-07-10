@@ -818,16 +818,22 @@
                 if (data != nil) {
                     NSString* message = [data objectForKey:@"statusMsg"];
                     if (message != nil) {
-                        [self displayHUDWithStatus:@"ok" Message:message ErrCode:nil];
+                        
+                        [self displayHUD:@"付款中..." isDim:NO];
+                        
+                        //最简单的做法就是重新加载, 虽然效率不高
+                        double delayInSeconds = 3.f;
+                        dispatch_time_t delayInNanoSeconds = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                        dispatch_after(delayInNanoSeconds, dispatch_get_main_queue(), ^(void){
+                            [self requestPropFixChoice];
+                            [self displayHUDWithStatus:@"ok" Message:message ErrCode:nil];
+                        });
+                        
                     }else{
-                        [self displayHUDWithStatus:@"ok" Message:@"精选推广成功" ErrCode:nil];
                     }
                 }else{
-                    [self displayHUDWithStatus:@"ok" Message:@"精选推广成功" ErrCode:nil];
                 }
                 
-                //最简单的做法就是重新加载, 虽然效率不高
-                [self requestPropFixChoice];
                 
             }else{ //精选推广失败
                 NSString* message = [result objectForKey:@"message"];
@@ -889,10 +895,10 @@
                     if (message != nil) {
                         [self displayHUDWithStatus:@"ok" Message:message ErrCode:nil];
                     }else{
-                        [self displayHUDWithStatus:@"ok" Message:@"结束精选成功" ErrCode:nil];
+                        
                     }
                 }else{
-                    [self displayHUDWithStatus:@"ok" Message:@"结束精选成功" ErrCode:nil];
+                    
                 }
                 
                 //最简单的做法就是重新加载, 虽然效率不高
@@ -1078,7 +1084,9 @@
     if ([@"ok" isEqualToString:status]) { //成功的状态提示
         self.hudImageView.image = [UIImage imageNamed:@"check_status_ok"];
         self.hudText.text = message;
+        self.hudText.font = [UIFont systemFontOfSize:17.f];
     }else{ //失败的状态提示
+        self.hudText.font = [UIFont systemFontOfSize:13.f];
         if ([@"1" isEqualToString:errCode]) {
             self.hudImageView.image = [UIImage imageNamed:@"anjuke_icon_tips_sad"];
             self.hudText.text = message;
@@ -1096,6 +1104,13 @@
     [self.hud hide:YES afterDelay:2]; //显示一段时间后隐藏
 }
 
+
+- (void)displayHUD:(NSString*)title isDim:(BOOL)isDim {
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.dimBackground = isDim; //是否需要灰色背景
+    self.hud.labelText = title;
+    [self.hud hide:YES afterDelay:3];
+}
 
 #pragma mark -
 #pragma mark UI相关
