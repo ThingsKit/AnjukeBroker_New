@@ -3174,21 +3174,26 @@ typedef enum {
 
 #pragma mark - UIAlert View Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    switch (buttonIndex) {
-        case 1:
+    if (alertView.tag != -10)
+    {
+        switch (buttonIndex)
         {
-            //test
-            if (self.backType == RTSelectorBackTypePopBack) {
-                [self.navigationController popViewControllerAnimated:YES];
-            } else {
-                [self dismissViewControllerAnimated:YES completion:nil];
+            case 1:
+            {
+                //test
+                if (self.backType == RTSelectorBackTypePopBack) {
+                    [self.navigationController popViewControllerAnimated:YES];
+                } else {
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                }
             }
+                break;
+                
+            default:
+                break;
         }
-            break;
-            
-        default:
-            break;
     }
+    
 }
 
 #pragma mark - UITextField Delegate

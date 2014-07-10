@@ -16,6 +16,8 @@
 @property (nonatomic, strong) BigZhenzhenButton *deleteButton;
 @property (nonatomic, strong) NSMutableArray *roomImageDetailArr;
 
+@property (nonatomic, assign) NSInteger housePrice;
+
 @end
 
 #define EDIT__PROPERTY_FINISH @"房源信息已更新"
@@ -148,6 +150,7 @@
     self.property.area = [dic objectForKey:@"area"];
     //价格
     self.property.price = [dic objectForKey:@"price"];
+    _housePrice = [self.property.price integerValue];
     //装修
     self.property.fitment = [dic objectForKey:@"fitment"];
     if (!self.isHaozu) {
@@ -473,7 +476,8 @@
 }
 
 //更新房源信息
-- (void)doSave {
+- (void)doSave
+{
     if (self.isLoading == YES) {
         return;
     }
@@ -498,8 +502,6 @@
     [[BrokerLogger sharedInstance] logWithActionCode:code note:nil];
     */
     
-    [self showLoadingActivity:YES];
-    
     //更新房源信息
     NSMutableDictionary *params = nil;
     NSString *method = nil;
@@ -515,6 +517,19 @@
     }
     [self.saveMessModel setPdString:self.imgdescArr idArr:idArr];
     
+    [self setTextFieldForProperty];
+    
+    if (_isHandpick && _housePrice != [self.property.price integerValue])
+    {
+        NSString *errorMsg = @"若跨价格段修改价格，可能会结束精选推广，是否确认修改？";
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:errorMsg delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alert.tag = -10;
+        [alert show];
+        return;
+    }
+    
+    [self showLoadingActivity:YES];
+    
     NSString *code2 = ESF_EDIT_PROP_CLICK_SAVE;
     NSString *page  = ESF_EDIT_PROP;
     if (self.isHaozu)
@@ -525,7 +540,7 @@
     
     [[BrokerLogger sharedInstance] logWithActionCode:code2 page:page note:self.saveMessModel.objectToDict];
     
-    [self setTextFieldForProperty];
+    
     
     params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",[LoginManager getCity_id], @"cityId", self.property.comm_id, @"commId", self.property.rooms, @"rooms", self.property.area, @"area", self.property.price, @"price", self.property.fitment, @"fitment", self.property.exposure, @"exposure", self.property.floor, @"floor", self.property.title, @"title", self.property.desc, @"description", self.propertyID, @"propId",self.property.fileNo, @"fileNo", nil];
     method = @"anjuke/prop/update/";
@@ -587,6 +602,11 @@
 
 - (void)onUpdatePropertyFinished:(RTNetworkResponse *)response {
     DLog(@"--更新房源信息结束。。。response [%@]", [response content]);
+    
+    if (_housePrice)
+    {//如果精选保存阻塞线程
+        sleep(3);
+    }
     
     if ([response status] == RTNetworkResponseStatusFailed || [[[response content] objectForKey:@"status"] isEqualToString:@"error"]) {
         [self hideLoadWithAnimated:YES];
@@ -1366,6 +1386,21 @@
             
             NSString *deleteImgID = [[self.houseTypeShowedImgArray objectAtIndex:deleteIndex] objectForKey:@"imgId"];
             [self doDeleteImgWithImgID:deleteImgID];
+        }
+    }
+}
+
+#pragma mark -
+#pragma mark - alertviewdelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [super alertView:alertView clickedButtonAtIndex:buttonIndex];
+    if (alertView.tag == -10)
+    {
+        if (buttonIndex == 1)
+        {
+            _housePrice = [self.property.price integerValue];
+            [self doSave];
         }
     }
 }
