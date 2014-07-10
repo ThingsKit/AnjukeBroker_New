@@ -585,7 +585,7 @@
             [controller showTopAlertWithTitle:message];
         }
             break;
-        case SwitchType_SELECT://精选城市发房
+        case SwitchType_NEWSINGINPAGE://精选城市发房
         {
             PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
             singleVC.backType = RTSelectorBackTypePopBack;
@@ -595,6 +595,11 @@
             [self.navigationController pushViewController:singleVC animated:YES];
         }
             break;
+            
+        case SwitchType_NONEWSINGINPAGE:
+        {
+            DLog(@"do nothing");
+        }
         default:
             break;
     }

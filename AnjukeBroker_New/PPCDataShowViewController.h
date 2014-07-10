@@ -17,7 +17,8 @@ typedef enum {
     SwitchType_SaleNoPlan, //二手房未推广
     SwitchType_SaleFixed,
     SwitchType_SaleBid,
-    SwitchType_SELECT //精选城市发房
+    SwitchType_NEWSINGINPAGE, //精选城市发房
+    SwitchType_NONEWSINGINPAGE //精选城市发房后不操作
 } TabSwitchType; //发房结束后tab0跳tab1、2的结果PPC管理请求类型
 
 @interface PPCDataShowViewController : BaseTableStructViewController<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>

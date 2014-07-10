@@ -24,7 +24,8 @@ typedef enum {
     Property_DJ = 0, //发房_定价
     Property_JJ, //发房_竞价
     Property_WTG, //为推广
-    Property_SELECT //进入新的精选单页
+    Property_SELECT, //进入新的单页
+    Property_NOSINGINPAGE //不进入新的精选单页
 }PropertyUploadType;
 
 @interface PublishBuildingViewController ()
@@ -482,7 +483,7 @@ typedef enum {
 
 - (void)showAlertViewWithPrice:(NSString *)price {
     if ([[LoginManager getBusinessType] isEqualToString:@"2"]) {
-        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"精选推广", nil];
+        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广",@"暂不推广", nil];
         sheet.tag = PUBLISH_ACTIONSHEETFORSELECT_TAG;
         [sheet showInView:self.view];
         return;
@@ -645,10 +646,22 @@ typedef enum {
                                  nil];
             
             [self hideLoadWithAnimated:YES];
-            [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SELECT withPropertyDic:dic];
+            [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_NEWSINGINPAGE withPropertyDic:dic];
         }
             break;
-        
+        case Property_NOSINGINPAGE:
+        {
+            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithBool:self.isHaozu],@"isHaozu",
+                                 self.property_ID,@"propId",
+                                 [NSNumber numberWithInt:PAGE_TYPE_FIX],@"pageType",
+                                 nil];
+            
+            [self hideLoadWithAnimated:YES];
+            [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_NONEWSINGINPAGE withPropertyDic:dic];
+        }
+            break;
+            
         default:
             break;
     }
@@ -3140,8 +3153,13 @@ typedef enum {
         }
     }else if (actionSheet.tag == PUBLISH_ACTIONSHEETFORSELECT_TAG)
     {
+        
         if ([[LoginManager getBusinessType] isEqualToString:@"2"]) {
-            self.uploadType = Property_SELECT;
+            if (buttonIndex == 0) {
+                self.uploadType = Property_SELECT;
+            }else{
+                self.uploadType = Property_NOSINGINPAGE;
+            }
         }
         
         [self prepareUploadImgArr];
