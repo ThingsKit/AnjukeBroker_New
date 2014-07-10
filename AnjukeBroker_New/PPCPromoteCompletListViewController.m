@@ -142,12 +142,15 @@
         
         [self.tableList deleteRowsAtIndexPaths:[NSArray arrayWithObjects:path, nil] withRowAnimation:UITableViewRowAnimationLeft];
     }
-    
-//    if (!self.tableData || self.tableData.count == 0) {
-//        [self.navigationController popViewControllerAnimated:YES];
-//    }
+
+    if (!self.tableData || self.tableData.count == 0) {
+        [self performSelector:@selector(showAC) withObject:nil afterDelay:1.0];
+        [self performSelector:@selector(popBack) withObject:nil afterDelay:3.0];
+    }
+}
+
+- (void)showAC{
     [self showLoadingActivity:YES];
-    [self performSelector:@selector(popBack) withObject:nil afterDelay:3.0];
 }
 
 - (void)popBack{

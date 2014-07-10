@@ -169,8 +169,8 @@
 }
 
 - (void)hit:(id)sender{
-    self.nameTF.text = @"13612340006";
-    self.passwordTF.text = @"mobileqa";
+    self.nameTF.text = @"15618528010";
+    self.passwordTF.text = @"123456";
 
     [self viewLoadAnimation];
 }
