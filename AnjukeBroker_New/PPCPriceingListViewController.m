@@ -42,6 +42,9 @@
     }
 }
 
+- (void)viewDidDisappear:(BOOL)animated{
+    [self donePullDown];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
