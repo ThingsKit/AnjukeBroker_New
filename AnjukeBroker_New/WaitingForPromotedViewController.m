@@ -26,7 +26,7 @@
 @property (nonatomic, strong) UIImageView *selectImage;
 @property (nonatomic, strong) NSMutableArray *cellSelectStatus;
 @property (nonatomic, strong) NSMutableArray *dataSource;
-@property (nonatomic, strong) NSString *editPropertyId;//编辑和删除cell的房源Id
+@property (nonatomic, strong) NSString *editPropertyId;//编辑、删除和选中（所有操作当前点击cell）cell的房源Id
 @property (nonatomic) NSInteger selectedCellCount;
 @property (nonatomic) MBProgressHUD *loadingHud;
 @property (nonatomic) int alertTag;
@@ -42,6 +42,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor brokerBgPageColor];
     [self setTitleViewWithString:@"待推广房源"];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50) style:UITableViewStylePlain];
@@ -52,6 +53,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
+    self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.rowHeight = 90;
     [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
     self.isSelectAll = false;

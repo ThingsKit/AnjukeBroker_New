@@ -54,6 +54,7 @@
 
 #pragma mark UI相关
 - (void)initCell {
+    self.contentView.backgroundColor = [UIColor whiteColor];
     
     UIButton *selectStylebutton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 56, 90)];
     UIImageView *imageView      = [[UIImageView alloc] initWithFrame:CGRectMake((56 - 22)/2 , (90 - 22)/2 , 22, 22)];
