@@ -617,38 +617,66 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
     // 重发消息的block
     self.finishReSendMessageBlock = ^ (NSArray *messages, AXMessageCenterSendMessageStatus status, AXMessageCenterSendMessageErrorTypeCode errorCode) {
         for (AXMappedMessage *message in messages) {
-        
-        NSMutableDictionary *textData = [NSMutableDictionary dictionary];
-        textData = [blockSelf mapAXMappedMessage:message];
-        if (textData) {
-            if ([message.messageType isEqualToNumber:@(AXMessageTypeSystemTime)]) {
+            NSMutableDictionary *textData = [NSMutableDictionary dictionary];
+            textData = [blockSelf mapAXMappedMessage:message];
+            if (textData) {
+                if ([message.messageType isEqualToNumber:@(AXMessageTypeSystemTime)]) {
+                    if (status == AXMessageCenterSendMessageStatusSending) {
+                        textData[@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
+                        textData[AXCellIdentifyTag] = message.identifier;
+                        [blockSelf appendCellData:textData];
+                    }
+                    continue;
+                }
                 if (status == AXMessageCenterSendMessageStatusSending) {
-                    textData[@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
+                    textData[@"status"] = @(AXMessageCenterSendMessageStatusSending);
                     textData[AXCellIdentifyTag] = message.identifier;
                     [blockSelf appendCellData:textData];
+                    [blockSelf scrollToBottomAnimated:YES];
+                } else if (status == AXMessageCenterSendMessageStatusFailed) {
+                    [[BrokerLogger sharedInstance] logWithActionCode:CHAT_SEND_FAIL page:CHAT note:nil];
+                    
+                    NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
+                    blockSelf.cellDict[message.identifier][@"status"] = @(AXMessageCenterSendMessageStatusFailed);
+                    [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                } else {
+                    NSUInteger index = -1;
+                    
+                    NSArray *arr = [[AXChatMessageCenter defaultMessageCenter] fetchFriendMessageListWithFriendUid:message.to];
+                    
+                    
+                    for (int i = 0; i < arr.count; i++)
+                    {
+                        AXMessage *m = [arr objectAtIndex:i];
+                        if ([m.orderNumber integerValue] == message.orderNumber)
+                        {
+                            index = i - 1;
+                            break;
+                        }
+                    }
+
+                    if (index > ([arr count] - 1))
+                    {
+                        index = 0;
+                    }
+                    NSString *identifer = [(AXMessage *)[arr objectAtIndex:index] identifier];
+                    
+                    AXMessage *lastMessage = [[AXChatMessageCenter defaultMessageCenter] getFindMessageWithIdentifier:identifer];
+                    if ([lastMessage.messageType isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeSystemTime]])
+                    {
+                        [blockSelf.identifierData removeObject:lastMessage.identifier];
+                    }
+                    
+                    blockSelf.cellDict[message.identifier][@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
+                    [blockSelf.myTableView reloadData];
+                    
+                    [[AXChatMessageCenter defaultMessageCenter] reloadTableAXMessageDataWith:message.to];
                 }
-                continue;
+                if (errorCode == AXMessageCenterSendMessageErrorTypeCodeNotFriend && blockSelf.isBroker) {
+                    [blockSelf sendSystemMessage:AXMessageTypeSystemForbid];
+                }
             }
-            if (status == AXMessageCenterSendMessageStatusSending) {
-                textData[@"status"] = @(AXMessageCenterSendMessageStatusSending);
-                textData[AXCellIdentifyTag] = message.identifier;
-                [blockSelf appendCellData:textData];
-                [blockSelf scrollToBottomAnimated:YES];
-            } else if (status == AXMessageCenterSendMessageStatusFailed) {
-                [[BrokerLogger sharedInstance] logWithActionCode:CHAT_SEND_FAIL page:CHAT note:nil];
-                
-                NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
-                blockSelf.cellDict[message.identifier][@"status"] = @(AXMessageCenterSendMessageStatusFailed);
-                [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            } else {
-                NSUInteger index = [blockSelf.identifierData indexOfObject:message.identifier];
-                blockSelf.cellDict[message.identifier][@"status"] = @(AXMessageCenterSendMessageStatusSuccessful);
-                [blockSelf.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            }
-            if (errorCode == AXMessageCenterSendMessageErrorTypeCodeNotFriend && blockSelf.isBroker) {
-                [blockSelf sendSystemMessage:AXMessageTypeSystemForbid];
-            }
-        }
+        
             
         }
     };

@@ -73,6 +73,8 @@
 - (AXMappedConversationListItem *)fetchConversationListItemWithFriendUID:(NSString *)friendUID;
 - (NSFetchedResultsController *)conversationListFetchedResultController;
 - (void)deleteConversationItem:(AXConversationListItem *)conversationItem;
+- (void)reloadTableAXMessageDataWith:(NSString *)to;
+- (NSArray *)fetchFriendMessageListWithFriendUid:(NSString *)to;
 
 // delete friends
 - (void)willDeleteFriendWithUidList:(NSArray *)uidList;

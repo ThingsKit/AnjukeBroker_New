@@ -113,6 +113,9 @@ typedef NS_ENUM(NSUInteger, AXMessageCenterApiRequestType)
 - (void)didLeaveChattingListWithFriendUID:(NSString *)friendUID;
 - (void)chatListWillAppearWithFriendUid:(NSString *)friendUid;
 
+- (NSArray *)fetchFriendMessageListWithFriendUid:(NSString *)friendUid;
+- (void)reloadTableAXMessageDataWith:(NSString *)to;
+
 #pragma mark - friend list related methods
 - (void)friendListWithPersonWithCompeletionBlock:(void(^)(NSArray *friendList,BOOL whetherSuccess))friendListBlock;
 - (NSFetchedResultsController *)friendListFetchedResultController;

@@ -166,10 +166,11 @@
     AXMessage *lastMessage = [self findLastMessageWithFriendUid:friendID];
     
     AXMessage *timeMessage = [self checkAndReturnTimeMessageWithCurrentDate:[NSDate dateWithTimeIntervalSinceNow:0] andLastDate:lastMessage.sendTime from:message.from to:message.to];
-    if (timeMessage) {
-        [self.managedObjectContext save:NULL];
+    if (timeMessage)
+    {
+//        [self.managedObjectContext save:NULL];
         timeMessage.orderNumber = [NSNumber numberWithInteger:timeMessage.autoIncreamentPK];
-        [self.managedObjectContext save:NULL];
+//        [self.managedObjectContext save:NULL];
     }
     
     AXPerson *person = [self findPersonWithUID:friendID];
@@ -1399,7 +1400,9 @@
     AXMessage *timeMessage = nil;
     
     NSTimeInterval timeInterval = [currentDate timeIntervalSinceDate:lastDate];
-    if (timeInterval > 300) {
+    
+    if (timeInterval > 300)
+    {
         timeMessage = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
         timeMessage.accountType = [NSString stringWithFormat:@"%lu", (unsigned long)AXPersonTypeServer];
         NSDateFormatter *dateFormatrer = [[NSDateFormatter alloc] init];
@@ -1418,6 +1421,78 @@
     }
     
     return timeMessage;
+}
+
+- (NSArray *)fetchFriendMessageListWithFriendUid:(NSString *)to
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"from = %@ OR to = %@", to, to];
+    
+    __autoreleasing NSError *error = nil;
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    return result;
+}
+
+//重发微聊更新时间
+- (void)reloadTableAXMessageDataWith:(NSString *)to
+{
+
+    NSArray *result = [self fetchFriendMessageListWithFriendUid:to];
+    
+    AXMessage *timeMessage = [NSEntityDescription insertNewObjectForEntityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+    AXMessage *lastObj = [result lastObject];
+    
+    if ([result count] > 0)
+    {
+        if ([result count] == 0 && [[lastObj messageType] isEqualToNumber:[NSNumber numberWithInteger:AXMessageTypeSystemTime]])
+        {
+            [self.managedObjectContext deleteObject:lastObj];
+        }else
+        {
+            NSInteger tag = [result count] - 2;
+            if (tag < 0)
+            {
+                tag = 0;
+            }
+            lastObj = [result objectAtIndex:tag];
+            timeMessage.accountType = lastObj.accountType;
+            timeMessage.content = lastObj.content;
+            timeMessage.from = lastObj.from;
+            timeMessage.identifier = lastObj.identifier;
+            timeMessage.imgPath = lastObj.imgPath;
+            timeMessage.imgUrl = lastObj.imgUrl;
+            timeMessage.isImgDownloaded = lastObj.isImgDownloaded;
+            timeMessage.isRead = lastObj.isRead;
+            timeMessage.isRemoved = lastObj.isRemoved;
+            timeMessage.messageId = lastObj.messageId;
+            timeMessage.messageType = lastObj.messageType;
+            timeMessage.sendStatus = lastObj.sendStatus;
+            timeMessage.sendTime = lastObj.sendTime;
+            timeMessage.thumbnailImgPath = lastObj.thumbnailImgPath;
+            timeMessage.thumbnailImgUrl = lastObj.thumbnailImgUrl;
+            timeMessage.to = lastObj.to;
+            timeMessage.isUploaded = lastObj.isUploaded;
+            timeMessage.orderNumber = [NSNumber numberWithInteger:timeMessage.autoIncreamentPK];
+            
+            [self.managedObjectContext save:NULL];
+            
+            
+            NSFetchRequest *fetchRequst = [[NSFetchRequest alloc] init];
+            fetchRequst.entity = [NSEntityDescription entityForName:@"AXMessage" inManagedObjectContext:self.managedObjectContext];
+            fetchRequst.predicate = [NSPredicate predicateWithFormat:@"identifier = %@", lastObj.identifier];
+            NSArray *messages = [self.managedObjectContext executeFetchRequest:fetchRequst error:NULL];
+            [self.managedObjectContext deleteObject:[messages firstObject]];
+            [self.managedObjectContext save:NULL];
+            
+            
+            [self.managedObjectContext deleteObject:[result lastObject]];
+            [self.managedObjectContext save:NULL];
+        }
+        
+    }
+
 }
 
 - (void)deleteConversationItemWithFriendUid:(NSString *)friendUid

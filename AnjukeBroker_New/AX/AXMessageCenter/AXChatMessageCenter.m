@@ -447,6 +447,7 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     _finishSendMessageBlock = self.blockDictionary[message.identifier];
     if (_finishSendMessageBlock) {
         _finishSendMessageBlock(@[message],status,errorCodeType);
+        
         [self.blockDictionary removeObjectForKey:message.identifier];
     }
     
@@ -674,6 +675,11 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
     return [self.dataCenter lastMsgId];
 }
 
+- (NSArray *)fetchFriendMessageListWithFriendUid:(NSString *)friendUid
+{
+    return [self.dataCenter fetchFriendMessageListWithFriendUid:friendUid];
+}
+
 - (AXMappedPerson *)fetchPersonWithUID:(NSString *)uid
 {
     return  [self.dataCenter fetchPersonWithUID:uid];
@@ -738,6 +744,11 @@ static NSString * const kLastVersionApiSite = @"http://api.anjuke.com/weiliao";
 - (void)chatListWillAppearWithFriendUid:(NSString *)friendUid
 {
     [self.dataCenter chatListWillAppearWithFriendUid:friendUid];
+}
+
+- (void)reloadTableAXMessageDataWith:(NSString *)to
+{
+    [self.dataCenter reloadTableAXMessageDataWith:to];
 }
 
 #pragma mark - selfMethod
