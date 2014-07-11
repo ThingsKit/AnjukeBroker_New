@@ -62,7 +62,7 @@
     phoneLbl.text = @"手机号";
     
     UITextField *phoneTextField = [UITextField new];
-    phoneTextField.frame = CGRectMake(82, topLineView.bottom, 150, 44);
+    phoneTextField.frame = CGRectMake(82, topLineView.bottom, 130, 44);
     phoneTextField.borderStyle = UITextBorderStyleNone;
     phoneTextField.font = lblFont;
     phoneTextField.keyboardType =UIKeyboardTypeNumberPad;
@@ -315,7 +315,7 @@
     self.secondsCountDown = 60;
     self.countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1
                                                            target:self
-                                                         selector:@selector(timeFireMethod)
+                                                         selector:@selector(timeFireMethodAction)
                                                          userInfo:nil
                                                           repeats:YES];
 }
@@ -338,7 +338,7 @@
 }
 
 
-- (void)timeFireMethod{
+- (void)timeFireMethodAction{
     self.secondsCountDown--;
     [self.verifyBtn setEnabled:NO];
     [self.verifyBtn setTitle:[NSString stringWithFormat:@"重新获取(%d)",self.secondsCountDown] forState:UIControlStateDisabled];
