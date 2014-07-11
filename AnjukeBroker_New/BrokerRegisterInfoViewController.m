@@ -232,7 +232,6 @@
 //            [self displayHUDWithStatus:@"error" Message:message ErrCode:@"1"];
         }
     }
-
 }
 
 - (void)didReceiveMemoryWarning
