@@ -10,6 +10,10 @@
 
 #define ICONFRAME CGRectMake(270,10,30,30)
 
+@interface UserCenterCell ()
+@property(nonatomic, strong) UILabel *lb;
+@end
+
 @implementation UserCenterCell
 
 - (id)initWithFrame:(CGRect)frame
@@ -43,13 +47,17 @@
     [self.contentView addSubview:icon];
 }
 - (void)setDetailText:(NSString *)detailStr rightSpace:(float)rightSpace{
-    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake([self windowWidth]-170-rightSpace, 1,  170, CELL_HEIGHT - 2)];
-    lb.backgroundColor = [UIColor clearColor];
-    lb.textColor = [UIColor brokerBlackColor];
-    lb.textAlignment = NSTextAlignmentRight;
-    lb.font = [UIFont ajkH2Font];
-    lb.text = detailStr;
-    [self.contentView addSubview:lb];
+    if (self.lb) {
+        [self.lb removeFromSuperview];
+        self.lb = nil;
+    }
+    self.lb = [[UILabel alloc] initWithFrame:CGRectMake([self windowWidth]-170-rightSpace, 1,  170, CELL_HEIGHT - 2)];
+    self.lb.backgroundColor = [UIColor clearColor];
+    self.lb.textColor = [UIColor brokerBlackColor];
+    self.lb.textAlignment = NSTextAlignmentRight;
+    self.lb.font = [UIFont ajkH2Font];
+    self.lb.text = detailStr;
+    [self.contentView addSubview:self.lb];
 }
 - (NSInteger)windowWidth {
     return [[[[UIApplication sharedApplication] windows] objectAtIndex:0] frame].size.width;
