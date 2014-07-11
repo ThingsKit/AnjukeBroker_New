@@ -177,7 +177,7 @@
             [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_DELETE page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //点击删除
         }
         
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定删除当前房源" delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"删除后不可恢复,确定要删除吗?" delegate:this cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
         alert.tag = 2;
         [alert show]; //一定要放设置键盘之后
     };
