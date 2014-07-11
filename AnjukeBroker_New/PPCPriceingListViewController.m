@@ -198,7 +198,7 @@
     NSMutableArray *btnArr = [NSMutableArray array];
     
     [btnArr sw_addUtilityButtonWithColor:[UIColor brokerLineColor] title:@"编辑"];
-    [btnArr sw_addUtilityButtonWithColor:[UIColor brokerRedColor] title:@"移除"];
+    [btnArr sw_addUtilityButtonWithColor:[UIColor brokerRedColor] title:@"删除"];
     
     return btnArr;
 }
@@ -361,13 +361,21 @@
     NSMutableDictionary *params = nil;
     NSString *method = nil;
     
+//    if (self.isHaozu) {
+//        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propertyID, @"propId",self.planId,@"planId", nil];
+//        method = @"zufang/fix/cancelplan/";
+//    }
+//    else {
+//        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propertyID, @"propId",self.planId,@"planId", nil];
+//        method = @"anjuke/fix/cancelplan/";
+//    }
     if (self.isHaozu) {
-        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propertyID, @"propId",self.planId,@"planId", nil];
-        method = @"zufang/fix/cancelplan/";
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getCity_id], @"cityId", [LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propertyID, @"propIds", nil];
+        method = @"zufang/prop/delprops/";
     }
     else {
-        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propertyID, @"propId",self.planId,@"planId", nil];
-        method = @"anjuke/fix/cancelplan/";
+        params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", propertyID, @"propIds", nil];
+        method = @"anjuke/prop/delprops/";
     }
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:method params:params target:self action:@selector(onCanclePropFinished:)];
@@ -391,7 +399,7 @@
         return;
     }
     
-    [[HUDNews sharedHUDNEWS] createHUD:@"移除定价房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
+    [[HUDNews sharedHUDNEWS] createHUD:@"删除定价房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
     
     [self autoPullDown];
     
@@ -449,7 +457,7 @@
         }
         self.propIDStr = properId;
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"确定移除房源?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"移除", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"确定删除房源?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
         [alert show];
     }else{
         if (self.isHaozu) {
