@@ -78,7 +78,7 @@
 
     //    NSString *tempstr = [NSString stringWithFormat:@"%@",[self.proDic objectForKey:@"propId"]];
     
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.proDic objectForKey:@"id"], @"propId", self.textField_1.text, @"budget", self.textField_2.text, @"offer", nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId", [self.proDic objectForKey:@"id"], @"propId", [NSString stringWithFormat:@"%@",self.textField_1.text], @"budget", [NSString stringWithFormat:@"%@",self.textField_2.text], @"offer", nil];
     
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/bid/editplan/" params:params target:self action:@selector(onBidResetSuccess:)];
     [self showLoadingActivity:YES];

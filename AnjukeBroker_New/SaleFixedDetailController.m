@@ -213,7 +213,14 @@
         return;
     }
 
-    NSString *planID = [self.tempDic objectForKey:@"fixId"] ? [self.tempDic objectForKey:@"fixId"] : [self.tempDic objectForKey:@"fixPlanId"];
+    NSString *planID;
+    if ([self.tempDic objectForKey:@"fixId"]) {
+        planID = [self.tempDic objectForKey:@"fixId"];
+    }else if ([self.tempDic objectForKey:@"fixPlanId"]) {
+        planID = [self.tempDic objectForKey:@"fixPlanId"];
+    }else if ([self.tempDic objectForKey:@"planId"]) {
+        planID = [self.tempDic objectForKey:@"planId"];
+    }
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  planID, @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/spreadstop/" params:params target:self action:@selector(onCancelGroupSuccess:)];
@@ -250,7 +257,14 @@
         return;
     }
 
-    NSString *planID = [self.tempDic objectForKey:@"fixId"] ? [self.tempDic objectForKey:@"fixId"] : [self.tempDic objectForKey:@"fixPlanId"];
+    NSString *planID;
+    if ([self.tempDic objectForKey:@"fixId"]) {
+        planID = [self.tempDic objectForKey:@"fixId"];
+    }else if ([self.tempDic objectForKey:@"fixPlanId"]) {
+        planID = [self.tempDic objectForKey:@"fixPlanId"];
+    }else if ([self.tempDic objectForKey:@"planId"]) {
+        planID = [self.tempDic objectForKey:@"planId"];
+    }
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[LoginManager getToken], @"token", [LoginManager getUserID], @"brokerId",  planID, @"planId", nil];
     [[RTRequestProxy sharedInstance] asyncRESTPostWithServiceID:RTBrokerRESTServiceID methodName:@"anjuke/fix/spreadstart/" params:params target:self action:@selector(onRestartSuccess:)];
