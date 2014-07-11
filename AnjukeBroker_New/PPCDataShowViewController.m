@@ -49,6 +49,7 @@
     }
 }
 - (void)viewWillDisappear:(BOOL)animated{
+    self.isLoading = NO;
     [self donePullDown];
 }
 - (void)viewDidLoad

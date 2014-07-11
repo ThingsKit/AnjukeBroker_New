@@ -43,8 +43,10 @@
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
+    self.isLoading = NO;
     [self donePullDown];
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -243,6 +245,7 @@
         self.lastedListData = nil;
         self.oldListData = nil;
         [self.tableList reloadData];
+        [RTGestureLock setDisableGestureForBack:(BK_RTNavigationController *)self.navigationController disableGestureback:NO];
         
         return;
     }
@@ -270,6 +273,9 @@
                 
                 [self.tableData removeAllObjects];
                 [self.tableList reloadData];
+                
+                [RTGestureLock setDisableGestureForBack:(BK_RTNavigationController *)self.navigationController disableGestureback:NO];
+
             }
         }];
     }else{
@@ -312,6 +318,8 @@
         [self.tableData removeAllObjects];
         [self.tableList reloadData];
         
+        [RTGestureLock setDisableGestureForBack:(BK_RTNavigationController *)self.navigationController disableGestureback:NO];
+
         return ;
     }
 
@@ -346,10 +354,11 @@
         [self.tableList setTableStatus:STATUSFOROK];
     }
     [self.tableList reloadData];
+    [RTGestureLock setDisableGestureForBack:(BK_RTNavigationController *)self.navigationController disableGestureback:NO];
 }
 
 //删除房源
-- (void)doCancleProperty:(NSString *)propertyID{
+- (void)doDELETEProperty:(NSString *)propertyID{
     self.isLoading = YES;
     [self showLoadingActivity:YES];
     if (![self isNetworkOkayWithNoInfo]) {
@@ -457,7 +466,7 @@
         }
         self.propIDStr = properId;
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"确定删除房源?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"删除后不可恢复，确定要删除吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
         [alert show];
     }else{
         if (self.isHaozu) {
@@ -535,7 +544,7 @@
         }else{
             [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJTG_LIST_CLICK_DELETE page:ESF_DJTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:self.propIDStr,@"PROP_ID", nil]];
         }
-        [self doCancleProperty:self.propIDStr];
+        [self doDELETEProperty:self.propIDStr];
     }
 }
 

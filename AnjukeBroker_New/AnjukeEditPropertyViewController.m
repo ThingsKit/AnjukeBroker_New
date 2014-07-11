@@ -137,6 +137,11 @@ typedef enum {
 }
 
 - (void)doBack:(id)sender {
+    [super doBack:sender];
+    if (self.isLoading) {
+        return;
+    }
+    
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"确认不保存当前内容?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
     alert.cancelButtonIndex = 0;
     [alert show];

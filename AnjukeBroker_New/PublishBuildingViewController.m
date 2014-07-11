@@ -510,6 +510,9 @@ typedef enum {
 
 - (void)doBack:(id)sender
 {
+    if (self.isLoading) {
+        return;
+    }
     NSString *actionCode = ESF_PUBLISH_BACK;
     NSString *pageID     = ESF_PUBLISH;
     if (self.isHaozu) {
