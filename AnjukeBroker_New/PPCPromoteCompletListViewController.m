@@ -131,7 +131,7 @@
         return;
     }
 
-    [[HUDNews sharedHUDNEWS] createHUD:@"删除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
+    [[HUDNews sharedHUDNEWS] createHUD:@"移除房源成功" hudTitleTwo:nil addView:self.view isDim:NO isHidden:YES hudTipsType:HUDTIPSWITHNORMALOK];
 
     if (self.isCleanAll) {
         [self.tableData removeAllObjects];
@@ -268,7 +268,7 @@
 - (NSMutableArray *)getMenuButton{
     NSMutableArray *btnArr = [NSMutableArray array];
 
-    [btnArr sw_addUtilityButtonWithColor:[UIColor brokerRedColor] title:@"删除"];
+    [btnArr sw_addUtilityButtonWithColor:[UIColor brokerRedColor] title:@"移除"];
 
     return btnArr;
 }

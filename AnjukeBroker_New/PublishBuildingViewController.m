@@ -3158,7 +3158,8 @@ typedef enum {
                 if (buttonIndex == 0) {
                     self.uploadType = Property_NEWSINGINPAGE;
                 }else{
-                    self.uploadType = Property_NONEWSINGINPAGE;
+//                    self.uploadType = Property_NONEWSINGINPAGE;
+                    self.uploadType = Property_NEWSINGINPAGE;
                 }
             }
             
