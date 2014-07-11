@@ -548,6 +548,14 @@
     }
 }
 
+- (void)doBack:(id)sender{
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJTG_LIST_CLICK_BACK page:ZF_DJTG_LIST_PAGE note:nil];
+    }else{
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_DJTG_LIST_CLICK_BACK page:ESF_DJTG_LIST_PAGE note:nil];
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

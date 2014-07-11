@@ -328,7 +328,7 @@
     [super doBack:sender];
     
     if (self.isHaozu) {
-        [[BrokerLogger sharedInstance] logWithActionCode:ZF_JXTG_LIST_ONVIEW page:ZF_JXTG_LIST_PAGE note:nil];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_JXTG_LIST_CLICK_BACK page:ZF_JXTG_LIST_PAGE note:nil];
     }else{
         [[BrokerLogger sharedInstance] logWithActionCode:ESF_JX_LIST_CLICK_BACK page:ESF_JX_LIST_PAGE note:nil];
     }
@@ -457,6 +457,12 @@
         }else if (indexPath.section == 2){
             properID = [self.onQueueListData objectAtIndex:indexPath.row][@"propId"];
         }
+
+        if (self.isHaozu) {
+            [[BrokerLogger sharedInstance] logWithActionCode:ZF_JXTG_LIST_CLICK_FY page:ZF_JXTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:properID,@"prop_id", nil]];
+        }else{
+            [[BrokerLogger sharedInstance] logWithActionCode:ESF_JX_LIST_JFYID page:ESF_JX_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:properID,@"prop_id", nil]];
+        }
         
         PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
         singleVC.isHaozu = self.isHaozu;
@@ -465,6 +471,8 @@
         [self.navigationController pushViewController:singleVC animated:YES];
     }
 }
+
+
 
 - (void)didReceiveMemoryWarning
 {

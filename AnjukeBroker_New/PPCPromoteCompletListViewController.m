@@ -8,14 +8,13 @@
 
 #import "PPCPromoteCompletListViewController.h"
 #import "PPCPriceingListModel.h"
+#import "PropertySingleViewController.h"
 #import "RTGestureLock.h"
 
 @interface PPCPromoteCompletListViewController ()
 @property(nonatomic, assign) NSInteger deleCellNum;
 @property(nonatomic, assign) BOOL isLoading;
 @property(nonatomic, assign) BOOL isCleanAll;
-@property(nonatomic, assign) int indexNum;
-
 @end
 
 @implementation PPCPromoteCompletListViewController
@@ -27,14 +26,6 @@
         // Custom initialization
     }
     return self;
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-    if (self.tableList && self.tableData.count == 0) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.navigationController popViewControllerAnimated:YES];
-        });
-    }
 }
 
 - (void)viewDidLoad
@@ -80,7 +71,6 @@
 
 - (void)doBack:(id)sender{
     [super doBack:sender];
-    [[BrokerLogger sharedInstance] logWithActionCode:JJTG_LIST_CLICK_BACK page:JJTG_LIST_PAGE note:nil];
 }
 
 - (void)cleanAll:(id)sender{
@@ -219,25 +209,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (self.navigationController.view.frame.origin.x > 0) {
-        return;
-    }
-    self.indexNum = indexPath.row;
     
     PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
-    singleVC.choiceDelegate = self;
     singleVC.isHaozu = self.isHaozu;
     singleVC.propId = [self.tableData objectAtIndex:indexPath.row][@"propId"];
     singleVC.pageType = PAGE_TYPE_FIX;
     [self.navigationController pushViewController:singleVC animated:YES];
 }
 
-- (void)doChoiceSuccuss{
-    [self.tableData removeObjectAtIndex:self.indexNum];
-    [self.tableList reloadData];
-}
-
-#pragma mark --SWDelegate
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
     DLog(@"didTriggerLeftUtilityButtonWithIndex-->>%d",index);
 }

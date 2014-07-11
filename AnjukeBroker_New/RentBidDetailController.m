@@ -328,7 +328,7 @@
 }
 #pragma mark -- PrivateMethod
 -(void)rightButtonAction:(id)sender{
-    [[BrokerLogger sharedInstance] logWithActionCode:ZF_JJ_ADD_LIST_CLICK_CANCEL page:ZF_JJ_ADD_LIST_PAGE note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_JS_LIST_NEW page:ZF_JS_LIST_PAGE note:nil];
     
     if(self.isLoading){
         return ;
@@ -340,6 +340,6 @@
 }
 - (void)doBack:(id)sender{
     [super doBack:self];
-    [[BrokerLogger sharedInstance] logWithActionCode:ZF_JJ_ADD_LIST_CLICK_FY page:ZF_JJ_ADD_LIST_PAGE note:nil];
+    [[BrokerLogger sharedInstance] logWithActionCode:ZF_JS_LIST_BACK page:ZF_JS_LIST_PAGE note:nil];
 }
 @end
