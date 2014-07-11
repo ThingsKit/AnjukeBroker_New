@@ -218,7 +218,8 @@
         [[AppDelegate sharedAppDelegate] requestSalePropertyConfig];
         [[AccountManager sharedInstance] registerNotification];
         
-        [self dismissModalViewControllerAnimated:NO];
+//        [self dismissModalViewControllerAnimated:NO];
+        [self dismissViewControllerAnimated:YES completion:nil];
         
         TabBarViewController *tb = [[TabBarViewController alloc] init];
         BK_RTNavigationController *navController = (BK_RTNavigationController *)[AppDelegate sharedAppDelegate].window.rootViewController;
