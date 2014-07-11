@@ -549,6 +549,7 @@
 }
 
 - (void)doBack:(id)sender{
+    [super doBack:sender];
     if (self.isHaozu) {
         [[BrokerLogger sharedInstance] logWithActionCode:ZF_DJTG_LIST_CLICK_BACK page:ZF_DJTG_LIST_PAGE note:nil];
     }else{
