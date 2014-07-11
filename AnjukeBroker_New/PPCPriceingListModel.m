@@ -22,7 +22,7 @@
     model.area = dic[@"area"] ? dic[@"area"] : @"";
     model.price = dic[@"price"] ? dic[@"price"] : @"";
     model.priceUnit = dic[@"priceUnit"] ? dic[@"priceUnit"] : @"";
-    model.fixClickNum = dic[@"fixClickNum"] ? dic[@"fixClickNum"] : @"";
+    model.totalClicks = dic[@"totalClicks"] ? dic[@"totalClicks"] : @"";
     model.isBid = dic[@"isBid"] ? dic[@"isBid"] : @"";
     model.isChoice = dic[@"isChoice"] ? dic[@"isChoice"] : @"";
     model.isMoreImg = dic[@"isMoreImg"] ? dic[@"isMoreImg"] : @"";
