@@ -4667,9 +4667,6 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Anjuke;
 				TargetAttributes = {
-					9741054E180CDFE0004DAE95 = {
-						DevelopmentTeam = 52KTBFLJDB;
-					};
 					9741056E180CDFE1004DAE95 = {
 						TestTargetID = 9741054E180CDFE0004DAE95;
 					};
@@ -5652,7 +5649,7 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "A040E056-7456-46B0-9179-F5C9C94E0873";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -5688,7 +5685,7 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "A040E056-7456-46B0-9179-F5C9C94E0873";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;

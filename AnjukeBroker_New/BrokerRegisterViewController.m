@@ -222,15 +222,15 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if ([self.phoneTextField isFirstResponder]) {
-        [self.phoneTextField resignFirstResponder];
-    } else if ([self.verifyTextField isFirstResponder]) {
-        [self.verifyTextField resignFirstResponder];
-    } else if ([self.passwordTextField isFirstResponder]) {
-        [self.passwordTextField resignFirstResponder];
-    }
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    if ([self.phoneTextField isFirstResponder]) {
+//        [self.phoneTextField resignFirstResponder];
+//    } else if ([self.verifyTextField isFirstResponder]) {
+//        [self.verifyTextField resignFirstResponder];
+//    } else if ([self.passwordTextField isFirstResponder]) {
+//        [self.passwordTextField resignFirstResponder];
+//    }
+//}
 
 - (void)dialPhone {
     //make call
