@@ -16,6 +16,10 @@ typedef enum {
     PAGE_TYPE_NO_PLAN  //从待推广列表过来
 } PageType;
 
+@protocol CHOICESUCCUSSDELEGATE <NSObject>
+- (void)doChoiceSuccuss;
+@end
+
 @interface PropertySingleViewController : RTViewController<UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, PropertyEditDelegate>
 
 //BOOL isHaozu  区分是二手房还是租房, 1 表示租房, 0表示二手房, 默认二手房
@@ -24,6 +28,6 @@ typedef enum {
 @property (nonatomic, assign) BOOL isHaozu; //区分是二手房还是租房, 1 表示租房, 0表示二手房, 默认二手房
 @property (nonatomic, assign) PageType pageType; //用来标记从那种类型的列表过来
 @property (nonatomic, copy) NSString* propId;
-
+@property (nonatomic, assign) id<CHOICESUCCUSSDELEGATE> choiceDelegate;
 
 @end

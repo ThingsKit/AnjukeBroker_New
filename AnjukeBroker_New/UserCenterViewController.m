@@ -55,9 +55,7 @@
 
 #pragma mark - view
 - (void)viewWillAppear:(BOOL)animated{
-    if (self.userCenterModel == nil) {
-        [self doRequest];
-    }
+    [self doRequest];
 }
 - (void)initModel {
     self.taskArray = [NSArray arrayWithObjects:@"微聊客户",@"我的二维码", @"客户主任", @"客服热线", @"推广设置", @"系统设置", nil];
@@ -71,9 +69,7 @@
     self.view.backgroundColor = [UIColor brokerBgPageColor];
     [self setTitleViewWithString:@"我的"];
     self.view.backgroundColor = [UIColor brokerBgPageColor];
-    if (self.userCenterModel == nil) {
-        [self doRequest];
-    }
+
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
     

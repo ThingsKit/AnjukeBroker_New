@@ -830,6 +830,10 @@
                         double delayInSeconds = 3.f;
                         dispatch_time_t delayInNanoSeconds = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
                         dispatch_after(delayInNanoSeconds, dispatch_get_main_queue(), ^(void){
+                            if (self.choiceDelegate && [self.choiceDelegate respondsToSelector:@selector(doChoiceSuccuss)]) {
+                                [self.choiceDelegate doChoiceSuccuss];
+                            }
+
                             [self requestPropFixChoice];
                             [self displayHUDWithStatus:@"ok" Message:message ErrCode:nil];
                         });

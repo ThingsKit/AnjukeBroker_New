@@ -8,8 +8,9 @@
 
 #import "BaseTableStructViewController.h"
 #import "PPCHouseCell.h"
+#import "PropertySingleViewController.h"
 
-@interface PPCPromoteCompletListViewController : BaseTableStructViewController<UITableViewDataSource,UITableViewDelegate,SWTableViewCellDelegate>
+@interface PPCPromoteCompletListViewController : BaseTableStructViewController<UITableViewDataSource,UITableViewDelegate,SWTableViewCellDelegate,CHOICESUCCUSSDELEGATE>
 @property(nonatomic, assign) BOOL isHaozu;
 @property(nonatomic, strong) NSMutableArray *tableData;
 @end
