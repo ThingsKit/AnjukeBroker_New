@@ -272,7 +272,7 @@
             
         }
       
-    }else if(indexPath.section == 2){ //精选
+    } else if(indexPath.section == 2){ //精选
         
         if (self.pageType == PAGE_TYPE_NO_PLAN) { //如果是从待推广过来, 不显示第三个cell
             return nil;
@@ -444,7 +444,6 @@
             webViewController.webTitle = property.title;
             [self.navigationController pushViewController:webViewController animated:YES];
         }
-        
     }
     
 }

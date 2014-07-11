@@ -204,6 +204,7 @@
 
 }
 
+//推广选中房源
 - (void)fixPromotionRequestWithPlanId:(NSString *)planId
 {
     if (self.selectedCellCount == 0) {
@@ -211,6 +212,7 @@
         return ;
     }
     NSString *propIds    = @"";
+    //若为选中状态，则取出propId
     for (PropSelectStatusModel *selectStatusModel in self.cellSelectStatus) {
         if (selectStatusModel.selectStatus) {
             propIds = [propIds stringByAppendingFormat:@"%@,",selectStatusModel.propId];
@@ -243,15 +245,18 @@
     }
     
 }
+
 - (void)showAlertViewWithTitle:(NSString *)title
 {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:@"" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
     [alertView show];
 }
+
 - (void)displayHUDWithStatus:(NSString *)status Message:(NSString*)message ErrCode:(NSString*)errCode
 {
     [[HudTipsUtils sharedInstance] displayHUDWithStatus:status Message:message ErrCode:errCode toView:self.view];
 }
+
 #pragma mark - response check
 - (BOOL)checkNetworkAndErrorWithResponse:(RTNetworkResponse *)response
 {
@@ -266,6 +271,7 @@
     return true;
 }
 
+//根据返回值确认是否显示底部选择推广视图和无房源图片
 - (NSArray *)checkDataWithResponse:(RTNetworkResponse *)response
 {
     NSArray *dataArray = [[response.content objectForKey:@"data"] objectForKey:@"propertyList"];
@@ -278,6 +284,7 @@
     return dataArray;
 }
 
+//删除待推广房源时检测是否房源数已经为0
 - (void)checkDataSourceOnDelete
 {
     if (self.dataSource == nil || [self.dataSource count] == 0) {
@@ -314,7 +321,6 @@
 }
 
 #pragma mark - cell选择处理
-
 - (void)selectAllProps:(id)sender
 {
     [self sendClickSelectAllButtonLog];
@@ -489,11 +495,11 @@
             //删除房源
             [self hideLoadWithAnimated:YES];
             self.alertTag = 2;
-            UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"您确认删除吗?"
-                                                                message:nil
+            UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:nil
+                                                                message:@"删除后不可恢复，确定要删除吗？"
                                                                delegate:self
                                                       cancelButtonTitle:@"取消"
-                                                      otherButtonTitles:@"确认", nil];
+                                                      otherButtonTitles:@"删除", nil];
             [alertTest show];
             break;
         };
