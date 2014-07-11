@@ -405,7 +405,7 @@
     return 90.0;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (MultipleChoiceAndEditListCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 //    static NSString *identifier = @"identifierCell";
     MultipleChoiceAndEditListCell *cell = (MultipleChoiceAndEditListCell *)[tableView dequeueReusableCellWithIdentifier:nil];
@@ -443,6 +443,7 @@
     int i = indexPath.row;
     NSDictionary *editCell = self.dataSource[i];
     self.editPropertyId = [editCell objectForKey:@"propId"];
+    [self sendDetailAndPropId:self.editPropertyId];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     PropertySingleViewController *propZF = [[PropertySingleViewController alloc] init];
     propZF.isHaozu = self.isHaozu;
@@ -684,17 +685,24 @@
     }
 }
 
+- (void)sendDetailAndPropId:(NSString *)propId
+{
+    if (self.isHaozu) {
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_DT_LIST_CLICK_FY page:ZF_DT_LIST_PAGE note:@{@"ot":[Util_TEXT logTime], @"propId":propId}];
+    } else {
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_DT_LIST_CLICK_FY page:ESF_DT_LIST_PAGE note:@{@"ot":[Util_TEXT logTime], @"propId":propId}];
+    }
+}
+
 - (void)doBack:(id)sender
 {
     [super doBack:sender];
     [self hideLoadWithAnimated:YES];
     if (self.isHaozu) {
-        [[BrokerLogger sharedInstance] logWithActionCode:ZF_WTG_LIST_BACK page:ZF_WTG_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ZF_DT_LIST_CLICK_BACK page:ZF_DT_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     } else {
-        [[BrokerLogger sharedInstance] logWithActionCode:ESF_WTG_LIST_BACK page:ESF_DT_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
+        [[BrokerLogger sharedInstance] logWithActionCode:ESF_DT_LIST_CLICK_BACK page:ESF_DT_LIST_PAGE note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     }
-    
-//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

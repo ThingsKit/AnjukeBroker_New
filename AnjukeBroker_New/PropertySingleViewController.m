@@ -445,9 +445,7 @@
             [self.navigationController pushViewController:webViewController animated:YES];
         }
     }
-    
 }
-
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
