@@ -585,7 +585,7 @@
             [controller showTopAlertWithTitle:message];
         }
             break;
-        case SwitchType_NEWSINGINPAGE://精选城市发房
+        case SwitchType_NEWSINGINPAGEFORPRICING://精选城市发房
         {
             PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
             singleVC.backType = RTSelectorBackTypePopBack;
@@ -595,11 +595,17 @@
             [self.navigationController pushViewController:singleVC animated:YES];
         }
             break;
-            
-        case SwitchType_NONEWSINGINPAGE:
+        case SwitchType_NONEWSINGINPAGEFORNOACTION://精选城市发房
         {
-            DLog(@"do nothing");
+            PropertySingleViewController *singleVC = [[PropertySingleViewController alloc] init];
+            singleVC.backType = RTSelectorBackTypePopBack;
+            singleVC.isHaozu = [[propDic objectForKey:@"isHaozu"] boolValue];
+            singleVC.propId = [propDic objectForKey:@"propId"];
+            singleVC.pageType = [[propDic objectForKey:@"pageType"] intValue];
+            [self.navigationController pushViewController:singleVC animated:YES];
         }
+            break;
+
         default:
             break;
     }

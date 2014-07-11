@@ -24,8 +24,8 @@ typedef enum {
     Property_DJ = 0, //发房_定价
     Property_JJ, //发房_竞价
     Property_WTG, //为推广
-    Property_NEWSINGINPAGE, //进入新的单页
-    Property_NONEWSINGINPAGE //不进入新的单页
+    Property_NEWSINGINPAGEFORPRICING, //进入新的单页
+    Property_NONEWSINGINPAGEFORNOACTION //不进入新的单页
 }PropertyUploadType;
 
 @interface PublishBuildingViewController ()
@@ -483,7 +483,14 @@ typedef enum {
 
 - (void)showAlertViewWithPrice:(NSString *)price {
     if ([[LoginManager getBusinessType] isEqualToString:@"2"]) {
-        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广",@"暂不推广", nil];
+        NSString *title = nil;
+        if (price.length == 0 || price == nil) {
+            title = [NSString stringWithFormat:@"定价：暂无"];
+        }
+        else
+            title = [NSString stringWithFormat:@"定价：%@元/次",price];
+
+        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"定价推广",@"暂不推广", nil];
         sheet.tag = PUBLISH_ACTIONSHEETFORSELECT_TAG;
         [sheet showInView:self.view];
         return;
@@ -638,18 +645,11 @@ typedef enum {
                 [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_SaleNoPlan withPropertyDic:[NSDictionary dictionary]];
         }
             break;
-        case Property_NEWSINGINPAGE: {
-            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
-                                 [NSNumber numberWithBool:self.isHaozu],@"isHaozu",
-                                 self.property_ID,@"propId",
-                                 [NSNumber numberWithInt:PAGE_TYPE_NO_PLAN],@"pageType",
-                                 nil];
-            
-            [self hideLoadWithAnimated:YES];
-            [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_NEWSINGINPAGE withPropertyDic:dic];
+        case Property_NEWSINGINPAGEFORPRICING: {
+            [self doRequestForFixPlan];
         }
             break;
-        case Property_NONEWSINGINPAGE:
+        case Property_NONEWSINGINPAGEFORNOACTION:
         {
             NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
                                  [NSNumber numberWithBool:self.isHaozu],@"isHaozu",
@@ -658,7 +658,7 @@ typedef enum {
                                  nil];
             
             [self hideLoadWithAnimated:YES];
-            [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_NONEWSINGINPAGE withPropertyDic:dic];
+            [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_NONEWSINGINPAGEFORNOACTION withPropertyDic:dic];
         }
             break;
             
@@ -1175,6 +1175,21 @@ typedef enum {
     
     [self hideLoadWithAnimated:YES];
     self.isLoading = NO;
+    
+    
+    if ([[LoginManager getBusinessType] isEqualToString:@"2"]) {
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithBool:self.isHaozu],@"isHaozu",
+                             self.property_ID,@"propId",
+                             [NSNumber numberWithInt:PAGE_TYPE_FIX],@"pageType",
+                             nil];
+        
+        [self hideLoadWithAnimated:YES];
+        NSInteger tabIndex = 0;
+        
+        [[AppDelegate sharedAppDelegate].ppcDataShowVC dismissController:self withSwitchIndex:tabIndex withSwtichType:SwitchType_NEWSINGINPAGEFORPRICING withPropertyDic:dic];
+        return;
+    }
     
     if (self.isBid) { //去竞价页面
         PropertyAuctionPublishViewController *pa = [[PropertyAuctionPublishViewController alloc] init];
@@ -3156,10 +3171,10 @@ typedef enum {
         if (buttonIndex != 2) {
             if ([[LoginManager getBusinessType] isEqualToString:@"2"]) {
                 if (buttonIndex == 0) {
-                    self.uploadType = Property_NEWSINGINPAGE;
+                    self.uploadType = Property_NEWSINGINPAGEFORPRICING;
                 }else{
-//                    self.uploadType = Property_NONEWSINGINPAGE;
-                    self.uploadType = Property_NEWSINGINPAGE;
+                    self.uploadType = Property_NONEWSINGINPAGEFORNOACTION;
+//                    self.uploadType = Property_NEWSINGINPAGEFORPRICING;
                 }
             }
             
