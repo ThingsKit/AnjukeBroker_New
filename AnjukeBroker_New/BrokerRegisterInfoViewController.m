@@ -206,6 +206,8 @@
     [self hideLoadWithAnimated:YES];
 
     if ([response.content[@"status"] isEqualToString:@"ok"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGINSUCCESSNOTIFICATION" object:nil];
+        
         //保存用户登录数据
         [[NSUserDefaults standardUserDefaults] setValue:response.content[@"data"][@"brokerId"] forKey:@"id"]; //用户id
         [[NSUserDefaults standardUserDefaults] setValue:response.content[@"data"][@"userName"] forKey:@"username"]; //用户登录名
@@ -214,6 +216,8 @@
         [[NSUserDefaults standardUserDefaults] setValue:response.content[@"data"][@"mobile"] forKey:@"phone"]; //联系电话
         [[NSUserDefaults standardUserDefaults] setValue:response.content[@"data"][@"trueName"] forKey:@"name"]; //用户名
         [[NSUserDefaults standardUserDefaults] setValue:response.content[@"data"][@"token"] forKey:@"token"]; //**token
+        //获得城市商业模式
+        [[AppDelegate sharedAppDelegate] getBuinessType];
         //每次重新登录请求配置数据
         [[AppDelegate sharedAppDelegate] requestSalePropertyConfig];
         [[AccountManager sharedInstance] registerNotification];
@@ -356,13 +360,25 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     self.brokerName = textField.text;
     [self checkRegisterIsEnable];
+
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
+//- (void)textFieldDidBeginEditing:(UITextField *)textField {
+//    if (textField.text.length > 0 && !_nameLog) {
+//        _nameLog = YES;
+//        [[BrokerLogger sharedInstance] logWithActionCode:REGISTER_PROP_2_SIGN_NAME page:REGISTER_PROP_2_PAGE note:@{@"phone":self.beforeDic[@"mobile"]}];
+//    }
+//}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if (textField.text.length > 0 && !_nameLog) {
         _nameLog = YES;
         [[BrokerLogger sharedInstance] logWithActionCode:REGISTER_PROP_2_SIGN_NAME page:REGISTER_PROP_2_PAGE note:@{@"phone":self.beforeDic[@"mobile"]}];
     }
+    if (range.location >= 5) {
+        return NO;
+    }
+    return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
