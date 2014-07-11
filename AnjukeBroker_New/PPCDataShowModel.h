@@ -10,7 +10,7 @@
 
 @interface PPCDataShowModel : NSObject
 @property(nonatomic, strong) NSNumber *todayClickNum;
-@property(nonatomic, strong) NSNumber *todayCostFee;
+@property(nonatomic, strong) NSString *todayCostFee;
 @property(nonatomic, strong) NSNumber *houseNum;
 
 + (PPCDataShowModel *)convertToMappedObject:(NSDictionary *)dic;

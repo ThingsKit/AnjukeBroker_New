@@ -112,7 +112,7 @@
         self.todayClickLab.font = [UIFont systemFontOfSize:50];
     }
     
-    self.todayCostLab.text = [NSString stringWithFormat:@"%d",[model.todayCostFee intValue]];
+    self.todayCostLab.text = model.todayCostFee;
     self.houseNumLab.text = [NSString stringWithFormat:@"%d",[model.houseNum intValue]];
     
     return YES;

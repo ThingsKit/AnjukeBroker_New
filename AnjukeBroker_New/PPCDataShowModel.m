@@ -14,7 +14,7 @@
     PPCDataShowModel *model = [[PPCDataShowModel alloc] init];
     
     model.todayClickNum = [NSNumber numberWithInteger:[dic[@"todayClicks"] intValue]];
-    model.todayCostFee = [NSNumber numberWithInt:[dic[@"todayConsume"] intValue]];
+    model.todayCostFee = dic[@"todayConsume"];
     
     NSString *str = dic[@"totalProps"] ? dic[@"totalProps"] : dic[@"propNum"];
     model.houseNum = [NSNumber numberWithInt:[str intValue]];
