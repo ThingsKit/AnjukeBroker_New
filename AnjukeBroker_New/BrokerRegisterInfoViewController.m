@@ -225,7 +225,7 @@
 //        [self dismissModalViewControllerAnimated:NO];
         [self dismissViewControllerAnimated:YES completion:nil];
         
-        TabBarViewController *tb = [[TabBarViewController alloc] init];
+        TabBarViewController *tb = [AppDelegate sharedAppDelegate].tabController;
         BK_RTNavigationController *navController = (BK_RTNavigationController *)[AppDelegate sharedAppDelegate].window.rootViewController;
         [navController pushViewController:tb animated:YES];
         [[HudTipsUtils sharedInstance] displayHUDWithStatus:@"ok" Message:@"注册成功" ErrCode:nil toView:navController.view];

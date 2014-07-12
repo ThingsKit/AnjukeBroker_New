@@ -61,6 +61,8 @@
 {
     [[BrokerLogger sharedInstance] logWithActionCode:TOTAL_START page:TOTAL note:[NSDictionary dictionaryWithObjectsAndKeys:[Util_TEXT logTime], @"ot", nil]];
     
+    self.tabController = [[TabBarViewController alloc] init]; //唯一创建一次
+    
     [self getBuinessType];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
