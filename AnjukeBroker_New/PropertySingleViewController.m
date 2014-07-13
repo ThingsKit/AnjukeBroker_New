@@ -1060,6 +1060,11 @@
     
 }
 
+- (void)dealloc
+{
+    NSLog(@"%s", __FUNCTION__);
+}
+
 
 #pragma mark -
 #pragma mark MBProgressHUD 相关

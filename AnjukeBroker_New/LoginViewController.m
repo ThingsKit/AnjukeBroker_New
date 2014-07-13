@@ -289,9 +289,8 @@
     self.nameTF.text = @"";
     self.passwordTF.text = @"";
     
-//    TabBarViewController *tb = [[TabBarViewController alloc] init];
-//    [[AppDelegate sharedAppDelegate] setTabController:tb];
-//    [self.navigationController pushViewController:tb animated:NO];
+    TabBarViewController *tb = [AppDelegate sharedAppDelegate].tabController;
+    [self.navigationController pushViewController:tb animated:NO];
 }
 
 - (void)doLogOut { //清除token，返回Home

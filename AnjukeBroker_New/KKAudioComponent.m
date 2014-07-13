@@ -220,7 +220,7 @@ static KKAudioComponent* defaultAudioComponent;
         [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];  //扬声器
         self.playTipView.hidden = NO;
         self.playTipView.alpha = 1;
-        __block KKAudioComponent* this = self;
+        __weak KKAudioComponent* this = self;
         [UIView animateWithDuration:3 animations:^{
             this.playTipView.alpha = 0;
         }];

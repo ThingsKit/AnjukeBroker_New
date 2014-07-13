@@ -2515,7 +2515,7 @@ static NSString * const EmojiImgNameHighlight  = @"anjuke_icon_bq1";
 
 - (void)didClickRecored:(id)sender
 {
-    __block AXChatViewController *blockSelf = self;
+    __weak AXChatViewController *blockSelf = self;
     PermissionBlock permissionBlock = ^(BOOL granted) {
             if (!granted) {
                 blockSelf.hasMicrophonePermission = NO;
