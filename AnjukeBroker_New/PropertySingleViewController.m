@@ -288,9 +288,9 @@
                         button.enabled = NO;
                         this.button = button;
                         if (this.isHaozu) {
-                            [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_JX_ENDTG page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": self.propId}]; //结束精选推广
+                            [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_JX_ENDTG page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //结束精选推广
                         }else{
-                            [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_JCTG page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": self.propId}]; //结束精选推广
+                            [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_JCTG page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //结束精选推广
                         }
                         //结束精选推广
                         [this requestChoiceStop];
@@ -309,9 +309,9 @@
                         this.button = button;
                         //取消排队
                         if (this.isHaozu) {
-                            [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_JX_QXPD page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": self.propId}]; //取消排队
+                            [[BrokerLogger sharedInstance] logWithActionCode:ZF_FY_PROP_CLICK_JX_QXPD page:ZF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //取消排队
                         }else{
-                            [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_JCQXPD page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": self.propId}]; //取消排队
+                            [[BrokerLogger sharedInstance] logWithActionCode:ESF_FY_PROP_CLICK_JCQXPD page:ESF_FY_PROP_PAGE note:@{@"PROP_ID": this.propId}]; //取消排队
                         }
                         [this requestChoiceStop];
                     };
