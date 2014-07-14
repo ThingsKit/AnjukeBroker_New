@@ -183,7 +183,7 @@
     if (longPress.state == UIGestureRecognizerStateBegan) {
         NSLog(@"长按自动填充");
         self.nameTF.text = @"ajk_sh";
-        self.passwordTF.text = @"123456";
+        self.passwordTF.text = @"anjukeqa";
     }
 }
 #endif
