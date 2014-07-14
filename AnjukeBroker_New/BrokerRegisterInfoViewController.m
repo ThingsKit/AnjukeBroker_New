@@ -736,13 +736,17 @@
     if (!city || (self.cityDic && [city[@"cityId"] isEqualToString:self.cityDic[@"cityId"]])) {
         return;
     }
-    self.businessDic = nil;
-    self.natureDic = nil;
+//    self.businessDic = nil;
+//    self.natureDic = nil;
+    self.natureDic = @{@"natureId":@"1",@"natureName":@"有所属公司"};
+    self.businessDic = @{@"businessId":@"1",@"businessName":@"住宅"};
     self.companyDic = nil;
     self.storeDic = nil;
     self.workRangeDic = nil;
-    [self.detailDataArray replaceObjectAtIndex:2 withObject:@""];
-    [self.detailDataArray replaceObjectAtIndex:3 withObject:@""];
+    
+
+    [self.detailDataArray replaceObjectAtIndex:2 withObject:self.businessDic[@"businessName"]];
+    [self.detailDataArray replaceObjectAtIndex:3 withObject:self.natureDic[@"natureName"]];
     [self.detailDataArray replaceObjectAtIndex:4 withObject:@""];
     [self.detailDataArray replaceObjectAtIndex:5 withObject:@""];
     [self.detailDataArray replaceObjectAtIndex:6 withObject:@""];
