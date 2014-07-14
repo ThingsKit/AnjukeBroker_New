@@ -900,16 +900,22 @@
                 if (data != nil) {
                     NSString* message = [data objectForKey:@"msg"]; //这里的data是一个数组
                     if (message != nil) {
-                        [self displayHUDWithStatus:@"ok" Message:message ErrCode:nil];
+                        
+                        [self displayHUD:@"加载中..." isDim:NO];
+                        
+                        double delayInSeconds = 3.f;
+                        dispatch_time_t delayInNanoSeconds = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                        dispatch_after(delayInNanoSeconds, dispatch_get_main_queue(), ^(void){
+                            [self requestPropFixChoice];
+                            [self displayHUDWithStatus:@"ok" Message:message ErrCode:nil];
+                        });
+                        
                     }else{
                         
                     }
                 }else{
                     
                 }
-                
-                //最简单的做法就是重新加载, 虽然效率不高
-                [self requestPropFixChoice];
                 
             }else{ //精选推广停止失败
                 NSString* message = [result objectForKey:@"message"];
