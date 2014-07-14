@@ -289,7 +289,10 @@
     self.nameTF.text = @"";
     self.passwordTF.text = @"";
     
-    TabBarViewController *tb = [AppDelegate sharedAppDelegate].tabController;
+    [AppDelegate sharedAppDelegate].tabController = nil;
+    TabBarViewController *tb = [[TabBarViewController alloc] init];
+    
+    [AppDelegate sharedAppDelegate].tabController = tb;
     [self.navigationController pushViewController:tb animated:NO];
 }
 
