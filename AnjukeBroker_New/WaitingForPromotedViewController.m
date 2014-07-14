@@ -296,8 +296,8 @@
 {
     UIImageView *noResult = [[UIImageView alloc] initWithFrame:CGRectMake(104.0f, 210 - 80, 112.0f, 80.0f)];
     [noResult setImage:[UIImage imageNamed:@"pic_3.4_01.png"]];
-    [self.view addSubview:noResult];
-//    [self.view sendSubviewToBack:noResult];
+    [self.tableView addSubview:noResult];
+    [self.tableView sendSubviewToBack:noResult];
     UILabel *noR  = [[UILabel alloc] initWithFrame:CGRectMake(0, 210 + 15, 200, 50)];
     noR.text      = @"暂无待推广房源";
     noR.font = [UIFont ajkH3Font];
