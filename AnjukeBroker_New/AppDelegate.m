@@ -473,7 +473,7 @@
 }
 - (void)sendMsgMaxId:(NSString *)fromUid maxMsgId:(NSString *)maxMsgId paramArr:(NSArray *)arr
 {
-    if ((!maxMsgId || [maxMsgId isEqualToString:@"0"]) && !arr)
+    if ((!maxMsgId || [maxMsgId isEqualToString:@"0"]) && !arr && ![LoginManager isLogin])
     {
         return;
     }
@@ -483,6 +483,12 @@
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:maxMsgId, @"last_max_msg_id", fromUid, @"from_uid", token, @"token", nil];
     
     NSArray *paramsArr = [NSArray arrayWithObjects:params, nil];
+    
+    if (([arr count] == 0 && [paramsArr count] == 0))
+    {
+        return;
+    }
+    
     if (arr)
     {
         params = @{@"list": arr};
